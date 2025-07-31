@@ -72,16 +72,26 @@ const formConfig = {
   },
   ...minimalHeaderFormConfigOptions({
     breadcrumbList: [
-      { href: '/', label: 'VA.gov home' },
+      { href: '/', label: 'Home' },
       {
-        href: '/ivc-champva',
-        label: 'Ivc champva',
+        href: `/family-and-caregiver-benefits`,
+        label: `Family and caregiver benefits`,
       },
       {
-        href: '/ivc-champva/10-10d-extended',
-        label: '10 10d extended',
+        href: `/family-and-caregiver-benefits/health-and-disability/`,
+        label: `Health and disability benefits for family and caregivers`,
+      },
+      {
+        href: `/family-and-caregiver-benefits/health-and-disability/champva`,
+        label: `CHAMPVA benefits`,
+      },
+      {
+        href: `#content`,
+        label: `Apply for CHAMPVA benefits`,
       },
     ],
+    homeVeteransAffairs: false,
+    wrapping: true,
   }),
   formId: VA_FORM_IDS.FORM_10_10D_EXTENDED,
   saveInProgress: {
@@ -148,7 +158,7 @@ const formConfig = {
         },
         page6: {
           path: 'sponsor-info',
-          title: 'Sponsor’s name and date of birth',
+          title: "Sponsor's name and date of birth",
           ...sponsorNameDobSchema,
         },
         page7: {
@@ -158,13 +168,13 @@ const formConfig = {
         },
         page8: {
           path: 'sponsor-status',
-          title: 'Sponsor’s status',
+          title: "Sponsor's status",
           depends: formData => get('certifierRole', formData) !== 'sponsor',
           ...sponsorStatus,
         },
         page9: {
           path: 'sponsor-status-details',
-          title: 'Sponsor’s status details',
+          title: "Sponsor's status details",
           depends: formData =>
             get('certifierRole', formData) !== 'sponsor' &&
             get('sponsorIsDeceased', formData),
@@ -201,13 +211,13 @@ const formConfig = {
         },
         page10: {
           path: 'sponsor-mailing-address',
-          title: 'Sponsor’s mailing address',
+          title: "Sponsor's mailing address",
           depends: formData => !get('sponsorIsDeceased', formData),
           ...sponsorAddress,
         },
         page11: {
           path: 'sponsor-contact-information',
-          title: 'Sponsor’s contact information',
+          title: "Sponsor's contact information",
           depends: formData => !get('sponsorIsDeceased', formData),
           ...sponsorContactInfo,
         },

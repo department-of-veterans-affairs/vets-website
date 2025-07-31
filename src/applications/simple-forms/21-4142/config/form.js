@@ -164,16 +164,7 @@ const formConfig = {
     },
     recordsRequested: {
       title: 'Treatment records',
-      pages: environment.isProduction()
-        ? {
-            recordsRequested: {
-              path: 'records-requested',
-              title: 'Records requested',
-              uiSchema: recordsRequested.uiSchema,
-              schema: recordsRequested.schema,
-            },
-          }
-        : recordsRequested,
+      pages: recordsRequested,
     },
     limitations: {
       title: 'Limitations',

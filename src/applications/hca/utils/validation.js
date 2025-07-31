@@ -6,7 +6,11 @@ import {
 } from 'platform/forms-system/src/js/validation';
 import { isValidDateRange } from 'platform/forms/validations';
 import content from '../locales/en/content.json';
-import { replaceStrValues } from './helpers';
+import { canHaveEducationExpenses, replaceStrValues } from './helpers';
+
+// declare shared regex patterns
+const CURRENCY_PATTERN = /^\$?(\d{1,3}(,\d{3})*|\d+)(\.\d{1,2})?$/;
+const SSN_PATTERN = /^[0-9]{9}$/;
 
 /**
  * Validates Veteran service dates
@@ -121,15 +125,14 @@ export const validateDependentDate = (errors, fieldData, { dateOfBirth }) => {
 };
 
 /**
- * Validates if insurance policy number or group code is present
+ * Validates if currency value is of valid format
  * HACK: Due to us-forms-system issue 269 (https://github.com/usds/us-forms-system/issues/269)
  * Source: https://stackoverflow.com/a/16242575
  * @param {Object} errors - object holding the error message content
  * @param {String} fieldData - field data from the text input
  */
 export const validateCurrency = (errors, currencyAmount) => {
-  const pattern = /^\$?(\d{1,3}(,\d{3})*|\d+)(\.\d{1,2})?$/;
-  if (!pattern.test(currencyAmount)) {
+  if (!CURRENCY_PATTERN.test(currencyAmount)) {
     errors.addError(content['validation-error--currency-format']);
   }
 };
@@ -172,11 +175,11 @@ export const validateInsurancePolicy = ({
   (!insurancePolicyNumber && !insuranceGroupCode);
 
 /**
- * Validates Veteran date of birth value for accepted range and valid date format
+ * Validates date of birth value for accepted range and valid date format
  * @param {String} dateOfBirth - date string for the Veteran date of birth
  * @returns {String|null} - the valid dates string or null if value is invalid
  */
-export const validateVeteranDob = dateOfBirth => {
+export const validateDateOfBirth = dateOfBirth => {
   if (!dateOfBirth) return null;
 
   const birthdate = new Date(dateOfBirth);
@@ -191,4 +194,63 @@ export const validateVeteranDob = dateOfBirth => {
     return null;
 
   return dateOfBirth;
+};
+
+/**
+ * Validates if dependent array item data is valid
+ * @param {Object} item - field data for individual array item
+ * @returns {Boolean} - false if the item missing any required data
+ */
+export const validateDependent = (formData = {}) => {
+  const {
+    fullName,
+    dependentRelation,
+    socialSecurityNumber,
+    dateOfBirth,
+    becameDependent,
+    disabledBefore18,
+    cohabitedLastYear,
+    dependentEducationExpenses,
+    'view:dependentIncome': dependentIncome,
+    'view:grossIncome': { grossIncome } = {},
+    'view:netIncome': { netIncome } = {},
+    'view:otherIncome': { otherIncome } = {},
+  } = formData;
+
+  const isValidCurrency = val => {
+    if (val === undefined || val === '') return false;
+    return typeof val === 'string' && CURRENCY_PATTERN.test(val);
+  };
+  const isValidSsn = val => typeof val === 'string' && SSN_PATTERN.test(val);
+
+  if (!fullName?.firstName || !fullName?.lastName) return true;
+  if (!dependentRelation) return true;
+  if (!isValidSsn(socialSecurityNumber)) return true;
+  if (!validateDateOfBirth(dateOfBirth)) return true;
+
+  const birthDate = new Date(dateOfBirth);
+  const dependentDate = new Date(becameDependent);
+  if (isAfter(birthDate, dependentDate)) return true;
+
+  if (disabledBefore18 === undefined) return true;
+  if (cohabitedLastYear === undefined) return true;
+
+  if (dependentIncome) {
+    const incomeFields = [grossIncome, netIncome, otherIncome];
+    const allFieldsHaveValues = incomeFields.every(val => {
+      if (!isValidCurrency(val)) return false;
+      const numericValue = parseFloat(val.replace(/[$,]/g, ''));
+      // eslint-disable-next-line no-restricted-globals
+      return !isNaN(numericValue) && numericValue >= 0;
+    });
+
+    if (!allFieldsHaveValues) return true;
+  }
+
+  const needsEducationExpenses = canHaveEducationExpenses({
+    dateOfBirth,
+    'view:grossIncome': { grossIncome },
+  });
+
+  return needsEducationExpenses && !isValidCurrency(dependentEducationExpenses);
 };

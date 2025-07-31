@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { Provider } from 'react-redux';
@@ -52,6 +52,7 @@ const defaultProfile = ({
 
 const defaultData = {
   email: 'vet@example.com',
+  electronicCorrespondence: false,
   phone: '5551234567',
   address: {
     street: '123 Main St',
@@ -98,30 +99,32 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
   it('renders all sections with prefilled data', () => {
     const { container } = renderPage();
 
-    expect(container.querySelector('va-card')).to.not.be.null;
-    expect(container.textContent).to.include('Mailing address');
-    expect(container.textContent).to.include('Email address');
-    expect(container.textContent).to.include('phone number');
-    expect(container.textContent).to.include('International phone number');
-    expect(container.textContent).to.include('123 Main St');
-    expect(container.textContent).to.include('vet@example.com');
-    expect(container.textContent).to.include('12345');
+    expect($('va-card', container)).to.not.be.null;
+    const text = container.textContent;
+    expect(text).to.include('Mailing address');
+    expect(text).to.include('Email address');
+    expect(text).to.include(
+      'I do not agree to receive electronic correspondence',
+    );
+    expect(text).to.include('phone number');
+    expect(text).to.include('International phone number');
+    expect(text).to.include('123 Main St');
+    expect(text).to.include('vet@example.com');
+    expect(text).to.include('12345');
   });
 
   it('covers international home phone ojbect', () => {
     const { container } = renderPage({
       profile: defaultProfile({ isInternationalHome: true }),
     });
-
-    expect(container.querySelector('va-card')).to.not.be.null;
+    expect($('va-card', container)).to.not.be.null;
   });
 
   it('covers international home phone ojbect', () => {
     const { container } = renderPage({
       profile: defaultProfile({ isInternationalMobile: true }),
     });
-
-    expect(container.querySelector('va-card')).to.not.be.null;
+    expect($('va-card', container)).to.not.be.null;
   });
 
   it('shows add links and "None provided" if info is missing', () => {
@@ -137,7 +140,7 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
       },
     });
 
-    const addLinks = Array.from(container.querySelectorAll('va-link')).filter(
+    const addLinks = Array.from($$('va-link', container)).filter(
       link =>
         (link.getAttribute('text') || '').match(/Add/i) ||
         (link.textContent || '').match(/Add/i),
@@ -158,7 +161,7 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
     expect($$('va-alert', container)).to.have.lengthOf(0);
   });
 
-  it('shows prefill & error alert on submit if email is missing', () => {
+  it('shows prefill & error alert on submit if email is missing', async () => {
     const goToPath = sinon.spy();
     const { container } = renderPage({
       data: {
@@ -180,18 +183,19 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
       'We could not prefill this form with your email address.',
     );
 
-    const continueBtn = $('button[type="submit"]', container);
+    const continueBtn = $('va-button[continue]', container);
     expect(continueBtn).to.not.be.null;
-    fireEvent.click(continueBtn);
 
-    expect(container.textContent).to.include(
-      'Your email address is required before you continue.',
-    );
-
-    expect(goToPath.called).to.be.false;
+    await waitFor(() => {
+      fireEvent.click(continueBtn);
+      expect(container.textContent).to.include(
+        'Your email address is required before you continue.',
+      );
+      expect(goToPath.called).to.be.false;
+    });
   });
 
-  it('shows prefill & error alert on submit if mailing address is missing', () => {
+  it('shows prefill & error alert on submit if mailing address is missing', async () => {
     const goToPath = sinon.spy();
     const { container } = renderPage({
       data: {
@@ -207,18 +211,19 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
       'We could not prefill this form with your mailing address.',
     );
 
-    const continueBtn = $('button[type="submit"]', container);
+    const continueBtn = $('va-button[continue]', container);
     expect(continueBtn).to.not.be.null;
-    fireEvent.click(continueBtn);
 
-    expect(container.textContent).to.include(
-      'Your mailing address is required before you continue.',
-    );
-
-    expect(goToPath.called).to.be.false;
+    await waitFor(() => {
+      fireEvent.click(continueBtn);
+      expect(container.textContent).to.include(
+        'Your mailing address is required before you continue.',
+      );
+      expect(goToPath.called).to.be.false;
+    });
   });
 
-  it('shows prefill & error alert on submit if email & mailing address are missing', () => {
+  it('shows prefill & error alert on submit if email & mailing address are missing', async () => {
     const goToPath = sinon.spy();
     const { container } = renderPage({
       data: {
@@ -234,66 +239,76 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
       'We could not prefill this form with your email and mailing address.',
     );
 
-    const continueBtn = $('button[type="submit"]', container);
+    const continueBtn = $('va-button[continue]', container);
     expect(continueBtn).to.not.be.null;
-    fireEvent.click(continueBtn);
 
-    expect(container.textContent).to.include(
-      'Your email and mailing address are required before you continue.',
-    );
-
-    expect(goToPath.called).to.be.false;
+    await waitFor(() => {
+      fireEvent.click(continueBtn);
+      expect(container.textContent).to.include(
+        'Your email and mailing address are required before you continue.',
+      );
+      expect(goToPath.called).to.be.false;
+    });
   });
 
-  it('shows error alert on submit if address is missing', () => {
+  it('shows error alert on submit if address is missing', async () => {
     const goToPath = sinon.spy();
     const { container } = renderPage({
       data: {
         email: 'vet@example.com',
+        electronicCorrespondence: true,
         phone: '5551234567',
         address: {},
       },
       goToPath,
     });
 
-    const continueBtn = Array.from(container.querySelectorAll('button')).find(
-      btn => (btn.textContent || '').match(/Continue/i),
-    );
+    const continueBtn = $('va-button[continue]', container);
     expect(continueBtn).to.not.be.null;
-    fireEvent.click(continueBtn);
-    expect(container.textContent).to.include('mailing address is required');
-    expect(goToPath.called).to.be.false;
+    expect(container.textContent).to.include(
+      'I agree to receive electronic correspondence',
+    );
+
+    await waitFor(() => {
+      fireEvent.click(continueBtn);
+      expect(container.textContent).to.include('mailing address is required');
+      expect(goToPath.called).to.be.false;
+    });
   });
 
-  it('navigates to dependents page when all info is provided and Continue is clicked', () => {
+  it('navigates to dependents page when all info is provided and Continue is clicked', async () => {
     const goToPath = sinon.spy();
     const { container } = renderPage({
       data: defaultData,
       goToPath,
     });
-    const continueBtn = Array.from(container.querySelectorAll('button')).find(
-      btn => (btn.textContent || '').match(/Continue/i),
-    );
+    const continueBtn = $('va-button[continue]', container);
     expect(continueBtn).to.not.be.null;
-    fireEvent.click(continueBtn);
-    expect(goToPath.calledWith('/dependents', { force: true })).to.be.true;
+
+    await waitFor(() => {
+      fireEvent.click(continueBtn);
+      expect(goToPath.calledWith('/dependents', { force: true })).to.be.true;
+    });
   });
 
-  it('calls goToPath with correct args when edit/add is clicked', () => {
+  it('calls goToPath with correct args when edit/add is clicked', async () => {
     const goToPath = sinon.spy();
     const { container } = renderPage({
       goToPath,
       data: defaultData,
     });
 
-    const editAddLink = Array.from(container.querySelectorAll('va-link')).find(
+    const editAddLink = $$('va-link', container).find(
       link =>
         (link.getAttribute('text') || '').match(/Edit|Add/i) ||
         (link.textContent || '').match(/Edit|Add/i),
     );
     expect(editAddLink).to.not.be.null;
-    fireEvent.click(editAddLink);
-    expect(goToPath.called).to.be.true;
+
+    await waitFor(() => {
+      fireEvent.click(editAddLink);
+      expect(goToPath.called).to.be.true;
+    });
   });
 
   it('shows prefill warning alert if profile is missing info', () => {
@@ -309,5 +324,70 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
       },
     });
     expect(container.textContent).to.include('We could not prefill this form');
+  });
+
+  it('should go to mailing address edit page on edit link click', async () => {
+    const goToPath = sinon.spy();
+    const { container } = renderPage({ goToPath, data: defaultData });
+
+    const editLink = $('va-link[label="Edit mailing address"]', container);
+    expect(editLink).to.not.be.null;
+
+    fireEvent.click(editLink);
+
+    await waitFor(() => {
+      expect(
+        goToPath.calledWith('/veteran-contact-information/mailing-address'),
+      ).to.be.true;
+    });
+  });
+
+  it('should go to email address edit page on edit link click', async () => {
+    const goToPath = sinon.spy();
+    const { container } = renderPage({ goToPath, data: defaultData });
+
+    const editLink = $('va-link[label="Edit email address"]', container);
+    expect(editLink).to.not.be.null;
+
+    fireEvent.click(editLink);
+
+    await waitFor(() => {
+      expect(goToPath.calledWith('/veteran-contact-information/email')).to.be
+        .true;
+    });
+  });
+
+  it('should go to phone number edit page on edit link click', async () => {
+    const goToPath = sinon.spy();
+    const { container } = renderPage({ goToPath, data: defaultData });
+
+    const editLink = $('va-link[label="Edit phone number"]', container);
+    expect(editLink).to.not.be.null;
+
+    fireEvent.click(editLink);
+
+    await waitFor(() => {
+      expect(goToPath.calledWith('/veteran-contact-information/phone')).to.be
+        .true;
+    });
+  });
+
+  it('should go to international phone add page on add link click', async () => {
+    const goToPath = sinon.spy();
+    const { container } = renderPage({ goToPath, data: defaultData });
+
+    const addLink = $(
+      'va-link[label="Add international phone number"]',
+      container,
+    );
+    expect(addLink).to.not.be.null;
+
+    fireEvent.click(addLink);
+
+    await waitFor(() => {
+      expect(
+        goToPath.calledWith('/veteran-contact-information/international-phone'),
+      ).to.be.true;
+    });
   });
 });

@@ -2,9 +2,9 @@ import { expect } from 'chai';
 import prefillTransformer from '../../prefill-transformer';
 
 describe('DV prefill transformer', () => {
-  const prefillData = (ssnLastFour = '') => ({
+  const prefillData = (ssnLastFour = '', ssn = '', vaFileNumber = '') => ({
     metadata: { test: 'Test Metadata' },
-    formData: { veteranInformation: { ssnLastFour } },
+    formData: { veteranInformation: { ssnLastFour, ssn, vaFileNumber } },
     pages: { testPage: 'Page 1' },
   });
 
@@ -22,6 +22,21 @@ describe('DV prefill transformer', () => {
         .formData;
 
       expect(transformedData).to.deep.equal(formData);
+    });
+
+    it('should transform contact info when not present', () => {
+      const { pages, metadata } = prefillData('6789');
+      const expectedFormData = { veteranInformation: { ssnLastFour: '' } };
+      const prefillEmptyVetInfo = prefillTransformer(
+        pages,
+        { veteranInformation: {} },
+        metadata,
+      ).formData;
+      const prefillNoFormData = prefillTransformer(pages, {}, metadata)
+        .formData;
+
+      expect(prefillEmptyVetInfo).to.deep.equal(expectedFormData);
+      expect(prefillNoFormData).to.deep.equal(expectedFormData);
     });
   });
 });

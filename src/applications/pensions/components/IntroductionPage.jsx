@@ -23,7 +23,7 @@ const IntroductionPage = props => {
         title="Apply for Veterans Pension benefits"
         subTitle="Application for Veterans Pension (VA Form 21P-527EZ)"
       />
-      <p>
+      <p className="va-introtext">
         Use our online tool to fill out and submit your application for Veterans
         Pension benefits. If you’re a wartime Veteran and you’re at least 65
         years old, or if you have a permanent and total disability, you may be
@@ -171,6 +171,7 @@ const IntroductionPage = props => {
         </va-process-list-item>
       </va-process-list>
       <SaveInProgressIntro
+        formConfig={formConfig}
         prefillEnabled={formConfig.prefillEnabled}
         pageList={pageList}
         downtime={route.formConfig.downtime}

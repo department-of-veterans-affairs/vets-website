@@ -5,7 +5,7 @@
  */
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { addDays, differenceInDays, parseISO } from 'date-fns';
+import { addDays, differenceInDays } from 'date-fns';
 import {
   TYPES_OF_EYE_CARE,
   TYPES_OF_SLEEP_CARE,
@@ -92,7 +92,7 @@ export function getProviderName(appointment) {
 
 export function getDaysRemainingToFileClaim(appointmentStart) {
   const today = new Date();
-  const deadline = addDays(parseISO(appointmentStart), 30);
+  const deadline = addDays(appointmentStart, 30);
   const days = differenceInDays(deadline, today);
   if (days < 0) {
     return 0;

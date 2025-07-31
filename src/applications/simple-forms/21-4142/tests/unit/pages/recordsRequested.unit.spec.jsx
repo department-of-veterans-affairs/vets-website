@@ -1,7 +1,6 @@
-import environment from 'platform/utilities/environment';
 import {
-  testNumberOfErrorsOnSubmit,
-  testNumberOfFields,
+  testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfWebComponentFields,
 } from '../../../../shared/tests/pages/pageTests.spec';
 import { patientIdentificationFields } from '../../../definitions/constants';
 import formConfig from '../../../config/form';
@@ -19,24 +18,22 @@ const mockDataForVeteranIsSelf = {
   },
 };
 
-if (environment.isProduction()) {
-  const expectedNumberOfFields = 14;
-  testNumberOfFields(
-    formConfig,
-    schema,
-    uiSchema,
-    expectedNumberOfFields,
-    pageTitle,
-    mockDataForVeteranIsSelf,
-  );
+const expectedNumberOfFields = 0;
+testNumberOfWebComponentFields(
+  formConfig,
+  schema,
+  uiSchema,
+  expectedNumberOfFields,
+  pageTitle,
+  mockDataForVeteranIsSelf,
+);
 
-  const expectedNumberOfErrors = 8;
-  testNumberOfErrorsOnSubmit(
-    formConfig,
-    schema,
-    uiSchema,
-    expectedNumberOfErrors,
-    pageTitle,
-    mockDataForVeteranIsSelf,
-  );
-}
+const expectedNumberOfErrors = 0;
+testNumberOfErrorsOnSubmitForWebComponents(
+  formConfig,
+  schema,
+  uiSchema,
+  expectedNumberOfErrors,
+  pageTitle,
+  mockDataForVeteranIsSelf,
+);

@@ -7,22 +7,24 @@ import {
   YOUR_INFORMATION_CHAPTER_CONSTANTS,
   CONTACT_INFORMATION_CHAPTER_CONSTANTS,
 } from '../constants';
+
 import manifest from '../manifest.json';
+
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import getHelp from '../components/GetFormHelp';
+import preSubmitInfo from '../components/PreSubmitInfo';
 
 import educationPage from '../pages/education';
 import movingYesNoPage from '../pages/movingYesNo';
 import newAddressPage from '../pages/newAddress';
 import personalInformationPage from '../pages/personalInformation';
 import phoneAndEmailPage from '../pages/phoneAndEmail';
-
-import PreSubmit from '../components/PreSubmit';
-
 import veteranAddressPage from '../pages/veteranAddress';
+
 import transformForSubmit from './submit-transformer';
+import { prefillTransformer } from '../utils/prefill-transformer';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -34,7 +36,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
-  stepLabels: 'Your Information;Contact Information;Review',
+  stepLabels: 'Your information;Contact information;Review',
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
@@ -51,6 +53,7 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   savedFormMessages: {
     notFound: 'Start over to apply for Veteran Readiness and Employment.',
     noAuth:
@@ -59,7 +62,7 @@ const formConfig = {
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},
-  preSubmitInfo: PreSubmit,
+  preSubmitInfo,
   chapters: {
     yourInformationChapter: {
       title: 'Your information',

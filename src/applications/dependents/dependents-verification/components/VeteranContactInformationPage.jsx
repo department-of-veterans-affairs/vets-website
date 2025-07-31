@@ -19,7 +19,13 @@ const VeteranContactInformationPage = ({
 }) => {
   const alertRef = useRef(null);
   const { profile } = useSelector(selectUser);
-  const { email, phone, address, internationalPhone } = data;
+  const {
+    email,
+    phone,
+    address,
+    internationalPhone,
+    electronicCorrespondence,
+  } = data;
 
   const { vapContactInfo } = profile || {};
   const {
@@ -165,6 +171,10 @@ const VeteranContactInformationPage = ({
     .join(' and ');
   const article = !email ? 'an' : 'a';
 
+  const agreementMessage = electronicCorrespondence
+    ? 'I agree to receive electronic correspondence from the VA about my claim at this email address'
+    : 'I do not agree to receive electronic correspondence from the VA about my claim at this email address';
+
   return (
     <>
       <h3 className="vads-u-margin-y--2">
@@ -185,15 +195,12 @@ const VeteranContactInformationPage = ({
       ) : null}
       <p>
         If you notice any errors, correct them now.{' '}
-        <strong>
-          Any updates you make will change the information on this application
-          only
-        </strong>
-        . If you need to update your address with VA, go to your profile to make
-        any changes.
+        <strong>Changes made here apply only to this application.</strong> If
+        you want to update your contact information in our system, go to your VA
+        profile.
       </p>
       <va-link
-        text="Update your contact information in your profile"
+        text="Update your contact information in your VA profile"
         external
         href="/profile/contact-information"
       />
@@ -277,7 +284,18 @@ const VeteranContactInformationPage = ({
                 className="dd-privacy-hidden"
                 data-dd-action-name="Veteran's email"
               >
-                {email}
+                <div
+                  className="dd-privacy-hidden"
+                  data-dd-action-name="Veteran's email"
+                >
+                  {email}
+                </div>
+                <div
+                  className="dd-privacy-hidden"
+                  data-dd-action-name="Electronic correspondence"
+                >
+                  {agreementMessage}
+                </div>
               </span>
             ) : (
               <>
@@ -367,6 +385,7 @@ const VeteranContactInformationPage = ({
         goBack={goBack}
         goForward={handlers.onSubmit}
         submitToContinue
+        useWebComponents
       />
       {contentAfterButtons}
     </>
@@ -396,6 +415,7 @@ VeteranContactInformationPage.propTypes = {
       country: PropTypes.string,
     }),
     internationalPhone: PropTypes.string,
+    electronicCorrespondence: PropTypes.bool,
   }),
 };
 

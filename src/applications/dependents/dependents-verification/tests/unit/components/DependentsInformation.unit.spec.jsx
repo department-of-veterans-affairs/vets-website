@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { Provider } from 'react-redux';
@@ -20,7 +20,7 @@ function renderPage({
 } = {}) {
   const mockStore = {
     getState: () => ({
-      dependents: { data: defaultData.dependents },
+      dependents: { data: data.dependents },
     }),
     dispatch: () => {},
     subscribe: () => {},
@@ -41,6 +41,13 @@ function renderPage({
 }
 
 describe('DependentsInformation', () => {
+  it('should render no dependents found message', () => {
+    // You shouldn't be able to see this because we don't allow starting the
+    // form without
+    const { getByText } = renderPage({ data: { dependents: [] } });
+    expect(getByText('No dependents found')).to.exist;
+  });
+
   it('renders all sections with prefilled data', () => {
     const { container } = renderPage();
 
@@ -67,28 +74,33 @@ describe('DependentsInformation', () => {
     ).to.have.lengthOf(11);
   });
 
-  it('should set form data with radio choice', () => {
+  it('should set form data with radio choice', async () => {
     const setFormDataSpy = sinon.spy();
-    const { container } = renderPage({ data: {}, setFormData: setFormDataSpy });
-
-    $('va-radio', container).__events.vaValueChange({
-      detail: { value: defaultData.hasDependentsStatusChanged },
+    const { container } = renderPage({
+      data: { dependents: defaultData.dependents },
+      setFormData: setFormDataSpy,
     });
 
-    expect(setFormDataSpy.calledWith(defaultData)).to.be.true;
+    await waitFor(() => {
+      $('va-radio', container).__events.vaValueChange({
+        detail: { value: defaultData.hasDependentsStatusChanged },
+      });
+      expect(setFormDataSpy.calledWith(defaultData)).to.be.true;
+    });
   });
 
-  it('shows error if no selection is made', () => {
+  it('shows error if no selection is made', async () => {
     const { container } = renderPage({ data: {} });
 
-    fireEvent.click($('button[type="submit"]', container));
-
-    expect($('va-radio', container).getAttribute('error')).to.eq(
-      'Select an option',
-    );
+    await waitFor(() => {
+      fireEvent.click($('va-button[continue]', container));
+      expect($('va-radio', container).getAttribute('error')).to.eq(
+        'Select an option',
+      );
+    });
   });
 
-  it('navigates forward when "No" is selected', () => {
+  it('navigates forward to review page when "No" is selected', async () => {
     const goToPathSpy = sinon.spy();
     const goForwardSpy = sinon.spy();
     const { container } = renderPage({
@@ -97,13 +109,14 @@ describe('DependentsInformation', () => {
       goForward: goForwardSpy,
     });
 
-    fireEvent.click($('button[type="submit"]', container));
-
-    expect(goToPathSpy.notCalled).to.be.true;
-    expect(goForwardSpy.called).to.be.true;
+    fireEvent.click($('va-button[continue]', container));
+    await waitFor(() => {
+      expect(goToPathSpy.notCalled).to.be.true;
+      expect(goForwardSpy.called).to.be.true;
+    });
   });
 
-  it('navigates forward when "Yes" is selected', () => {
+  it('navigates to exit page when "Yes" is selected', async () => {
     const goToPathSpy = sinon.spy();
     const goForwardSpy = sinon.spy();
     const { container } = renderPage({
@@ -112,18 +125,21 @@ describe('DependentsInformation', () => {
       goForward: goForwardSpy,
     });
 
-    fireEvent.click($('button[type="submit"]', container));
+    fireEvent.click($('va-button[continue]', container));
 
-    expect(goToPathSpy.notCalled).to.be.true;
-    expect(goForwardSpy.called).to.be.true;
+    await waitFor(() => {
+      expect(goToPathSpy.called).to.be.true;
+      expect(goForwardSpy.notCalled).to.be.true;
+    });
   });
 
-  it('navigates back to Veteran info page', () => {
+  it('navigates back to Veteran info page', async () => {
     const goToPathSpy = sinon.spy();
     const { container } = renderPage({ data: {}, goToPath: goToPathSpy });
 
-    fireEvent.click($('button.usa-button-secondary', container));
-
-    expect(goToPathSpy.calledWith('/veteran-contact-information')).to.be.true;
+    await waitFor(() => {
+      fireEvent.click($('va-button[secondary]', container));
+      expect(goToPathSpy.calledWith('/veteran-contact-information')).to.be.true;
+    });
   });
 });

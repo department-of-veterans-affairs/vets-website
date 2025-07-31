@@ -42,7 +42,8 @@ const ProcessDescription = () => (
     <ul>
       <li>
         <strong>Your personal information.</strong> This includes your phone
-        number, email address, and mailing address.
+        number, email address, mailing address, emergency contact and next of
+        kin information.
       </li>
       <li>
         <strong>

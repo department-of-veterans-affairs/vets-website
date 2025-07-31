@@ -30,7 +30,7 @@ import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import SubmissionError from '../../shared/components/SubmissionError';
 import CustomPrefillMessage from '../components/CustomPrefillAlert';
-import { CustomApplicantSSNPage } from '../pages/CustomApplicantSSNPage';
+import { CustomApplicantSSNPage } from '../../shared/components/CustomApplicantSSNPage';
 import {
   flattenApplicantSSN,
   flattenSponsorSSN,
@@ -54,13 +54,13 @@ import {
 import {
   certifierNameValidation,
   certifierAddressValidation,
-  validateSponsorSsnIsUnique,
-  validateApplicantSsnIsUnique,
 } from '../helpers/validations';
 import {
   sponsorAddressCleanValidation,
   certifierAddressCleanValidation,
   applicantAddressCleanValidation,
+  validateSponsorSsnIsUnique,
+  validateApplicantSsnIsUnique,
 } from '../../shared/validations';
 import { ADDITIONAL_FILES_HINT } from '../../shared/constants';
 import { applicantWording, getAgeInYears } from '../../shared/utilities';

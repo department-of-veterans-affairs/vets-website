@@ -1,9 +1,7 @@
 import React from 'react';
 import { parse, isValid, differenceInYears, format } from 'date-fns';
 
-export const hasSession = () => {
-  return localStorage.getItem('hasSession') === 'true';
-};
+export const hasSession = () => localStorage.getItem('hasSession') === 'true';
 
 /**
  * @typedef DependentsArrayFromAPI

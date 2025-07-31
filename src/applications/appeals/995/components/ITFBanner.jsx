@@ -90,7 +90,6 @@ const ITFBanner = props => {
           continue
           onPrimaryClick={dismissMessage}
           onSecondaryClick={goHome}
-          uswds
         />
       </div>
     </div>

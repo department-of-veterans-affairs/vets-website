@@ -1,15 +1,11 @@
 import { expect } from 'chai';
 import reducer from './reducers';
-import { FETCH_STATUS } from '../../utils/constants';
 import {
   SET_FORM_CURRENT_PAGE,
-  CREATE_REFERRAL_APPOINTMENT,
-  CREATE_REFERRAL_APPOINTMENT_FAILED,
-  CREATE_REFERRAL_APPOINTMENT_SUCCEEDED,
   FETCH_REFERRAL_APPOINTMENT_INFO,
   FETCH_REFERRAL_APPOINTMENT_INFO_FAILED,
   FETCH_REFERRAL_APPOINTMENT_INFO_SUCCEEDED,
-  SET_SELECTED_SLOT,
+  SET_SELECTED_SLOT_START_TIME,
   SET_INIT_REFERRAL_FLOW,
 } from './actions';
 
@@ -20,25 +16,6 @@ describe('ccAppointmentReducer', () => {
       payload: 'review',
     });
     expect(state.currentPage).to.equal('review');
-  });
-
-  it('should handle CREATE_REFERRAL_APPOINTMENT', () => {
-    const state = reducer(undefined, { type: CREATE_REFERRAL_APPOINTMENT });
-    expect(state.appointmentCreateStatus).to.equal(FETCH_STATUS.loading);
-  });
-
-  it('should handle CREATE_REFERRAL_APPOINTMENT_SUCCEEDED', () => {
-    const state = reducer(undefined, {
-      type: CREATE_REFERRAL_APPOINTMENT_SUCCEEDED,
-    });
-    expect(state.appointmentCreateStatus).to.equal(FETCH_STATUS.succeeded);
-  });
-
-  it('should handle CREATE_REFERRAL_APPOINTMENT_FAILED', () => {
-    const state = reducer(undefined, {
-      type: CREATE_REFERRAL_APPOINTMENT_FAILED,
-    });
-    expect(state.appointmentCreateStatus).to.equal(FETCH_STATUS.failed);
   });
 
   it('should handle FETCH_REFERRAL_APPOINTMENT_INFO', () => {
@@ -70,12 +47,12 @@ describe('ccAppointmentReducer', () => {
     expect(state.appointmentInfoTimeout).to.be.true;
   });
 
-  it('should handle SET_SELECTED_SLOT', () => {
+  it('should handle SET_SELECTED_SLOT_START_TIME', () => {
     const state = reducer(undefined, {
-      type: SET_SELECTED_SLOT,
+      type: SET_SELECTED_SLOT_START_TIME,
       payload: 'slot-123',
     });
-    expect(state.selectedSlot).to.equal('slot-123');
+    expect(state.selectedSlotStartTime).to.equal('slot-123');
   });
 
   it('should handle SET_INIT_REFERRAL_FLOW and reset part of the state', () => {
@@ -85,7 +62,7 @@ describe('ccAppointmentReducer', () => {
       appointmentInfoError: true,
       appointmentInfoLoading: true,
       referralAppointmentInfo: { foo: 'bar' },
-      selectedSlot: 'something',
+      selectedSlotStartTime: 'something',
     };
 
     const state = reducer(modifiedState, { type: SET_INIT_REFERRAL_FLOW });
@@ -94,6 +71,6 @@ describe('ccAppointmentReducer', () => {
     expect(state.appointmentInfoError).to.be.false;
     expect(state.appointmentInfoLoading).to.be.false;
     expect(state.referralAppointmentInfo).to.deep.equal({});
-    expect(state.selectedSlot).to.equal('');
+    expect(state.selectedSlotStartTime).to.equal('');
   });
 });

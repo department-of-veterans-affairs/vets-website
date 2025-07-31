@@ -62,6 +62,9 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application to dispute your VA debt.',
   },
+  customText: {
+    reviewTitle: 'Review and submit',
+  },
   title: TITLE,
   downtime: {
     dependencies: [

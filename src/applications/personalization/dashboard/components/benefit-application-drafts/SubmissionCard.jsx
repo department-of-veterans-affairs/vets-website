@@ -68,10 +68,12 @@ const SavePdfDownload = ({
       window.open(result.url, '_blank');
       recordEvent({
         event: 'file_download',
-        clickText: 'Download your completed form (PDF)',
-        clickUrl: undefined, // URL contains PII
-        fileName: `${formId}.pdf`,
-        fileExtension: 'pdf',
+        /* eslint-disable camelcase */
+        click_text: 'Download your completed form (PDF)',
+        click_url: undefined, // URL contains PII
+        file_name: `${formId}.pdf`,
+        file_extension: 'pdf',
+        /* eslint-enable camelcase */
       });
       setShowSuccess(true);
     }

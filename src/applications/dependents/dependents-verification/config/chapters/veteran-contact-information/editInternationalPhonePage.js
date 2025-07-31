@@ -1,20 +1,35 @@
+import { phoneUI } from 'platform/forms-system/src/js/web-component-patterns';
 import EditInternationalPhonePage from '../../../components/EditInternationalPhonePage';
+
+const intPhoneSchema = {
+  type: 'string',
+  pattern: '^$|^\\d{11}$', // needs to allow empty string OR 11 digits for downstream services
+};
 
 /** @type {PageSchema} */
 export default {
-  title: 'Edit phone number',
+  title: 'Edit international phone number',
   path: 'veteran-contact-information/international-phone',
-  depends: () => false,
   hideNavButtons: true,
   CustomPage: EditInternationalPhonePage,
   CustomPageReview: null,
   uiSchema: {
-    'ui:options': {
-      hideOnReview: true,
+    internationalPhone: {
+      ...phoneUI({
+        title: 'International phone number',
+        errorMessages: {
+          pattern: 'Enter an international phone number up to 11 digits',
+        },
+      }),
+      'ui:options': {
+        hideOnReview: true,
+      },
     },
   },
   schema: {
     type: 'object',
-    properties: {},
+    properties: {
+      internationalPhone: intPhoneSchema,
+    },
   },
 };

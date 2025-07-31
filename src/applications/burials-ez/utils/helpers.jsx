@@ -122,3 +122,23 @@ export const showHomeHospiceCarePage = form => {
 export const showHomeHospiceCareAfterDischargePage = form =>
   get('locationOfDeath.location', form) === 'atHome' &&
   get('homeHospiceCare', form);
+
+export const DateReviewField = ({ children, title = '' }) => (
+  <div className="review-row">
+    <dt>{title}</dt>
+    <dd className="dd-privacy-hidden" data-dd-action-name={title}>
+      {children.props.formData && (
+        <>
+          {new Date(`${children.props.formData}T00:00:00`).toLocaleDateString(
+            'en-us',
+            {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            },
+          )}
+        </>
+      )}
+    </dd>
+  </div>
+);

@@ -1,7 +1,7 @@
 import React from 'react';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
-import { cloneDeep } from 'lodash';
+import { cloneDeep, capitalize } from 'lodash';
 import {
   addressUI,
   addressSchema,
@@ -28,6 +28,8 @@ import {
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
+import { CustomApplicantSSNPage } from '../../shared/components/CustomApplicantSSNPage';
+import { validateApplicantSsnIsUnique } from '../../shared/validations';
 
 import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
 import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
@@ -58,6 +60,7 @@ import { ApplicantDependentStatusPage } from '../../10-10D/pages/ApplicantDepend
 
 import CustomPrefillMessage from '../components/CustomPrefillAlert';
 
+import { validateMarriageAfterDob } from '../helpers/validations';
 /*
 // TODO: re-add this custom validation + the same for normal text fields
 import { applicantAddressCleanValidation } from '../../shared/validations';
@@ -78,7 +81,7 @@ fullNameMiddleInitialUI.middle['ui:title'] = 'Middle initial';
 function editTitleWrapper(title) {
   // Array builder helper `withEditTitle` returns a function, which we
   // always want to call, so just do that:
-  return withEditTitle(title)(title);
+  return withEditTitle(title, false)(title);
 }
 
 export const applicantOptions = {
@@ -115,10 +118,13 @@ export const applicantOptions = {
         </li>
         <li>
           <b>Relationship to sponsor:</b>{' '}
-          {item?.applicantRelationshipToSponsor?.relationshipToVeteran !==
-          'other'
-            ? item?.applicantRelationshipToSponsor?.relationshipToVeteran
-            : item?.applicantRelationshipToSponsor?.otherRelationshipToVeteran}
+          {capitalize(
+            item?.applicantRelationshipToSponsor?.relationshipToVeteran !==
+            'other'
+              ? item?.applicantRelationshipToSponsor?.relationshipToVeteran
+              : item?.applicantRelationshipToSponsor
+                  ?.otherRelationshipToVeteran,
+          )}
         </li>
       </ul>
     ),
@@ -163,8 +169,11 @@ const applicantIdentificationPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) => `${applicantWording(formData)} identification`,
+      '',
+      false,
     ),
     applicantSSN: ssnUI(),
+    'ui:validations': [validateApplicantSsnIsUnique],
   },
   schema: {
     type: 'object',
@@ -574,8 +583,10 @@ const applicantMarriageDatesPage = {
       ({ formData }) =>
         `${applicantWording(formData)} date of marriage to the sponsor`,
       'If you don’t know the exact date, enter your best guess. We won’t need the marriage certificate unless we can’t find a record of the marriage in our system.',
+      false,
     ),
     dateOfMarriageToSponsor: currentOrPastDateUI('Date of marriage'),
+    'ui:validations': [validateMarriageAfterDob],
   },
   schema: {
     type: 'object',
@@ -590,9 +601,12 @@ const applicantRemarriedPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) => `${applicantWording(formData)} marriage status`,
+      '',
+      false,
     ),
     applicantRemarried: {
       ...yesNoUI({
+        title: 'Has this applicant remarried?',
         updateUiSchema: formData => {
           return {
             'ui:title': `Has ${applicantWording(formData, false)} remarried?`,
@@ -729,15 +743,15 @@ export const applicantPages = arrayBuilderPages(
     page14: pageBuilder.itemPage({
       path: 'applicant-identification/:index',
       title: 'Identification',
+      CustomPage: CustomApplicantSSNPage,
+      CustomPageReview: null,
       ...applicantIdentificationPage,
     }),
     page15a: pageBuilder.itemPage({
       path: 'applicant-address-selection/:index',
       title: 'Address selection',
       ...applicantAddressSelectionPage,
-      CustomPage: props => {
-        return ApplicantAddressCopyPage(props);
-      },
+      CustomPage: ApplicantAddressCopyPage,
       depends: (formData, index) => page15aDepends(formData, index),
     }),
     page15: pageBuilder.itemPage({

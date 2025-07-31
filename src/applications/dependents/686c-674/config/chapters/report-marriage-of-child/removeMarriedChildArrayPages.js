@@ -112,6 +112,7 @@ export const marriedChildInformationPage = {
   },
   schema: {
     type: 'object',
+    required: ['fullName', 'ssn', 'birthDate'],
     properties: {
       fullName: fullNameNoSuffixSchema,
       ssn: ssnSchema,
@@ -131,6 +132,7 @@ export const dateChildMarriedPage = {
   },
   schema: {
     type: 'object',
+    required: ['dateMarried'],
     properties: {
       dateMarried: currentOrPastDateSchema,
     },

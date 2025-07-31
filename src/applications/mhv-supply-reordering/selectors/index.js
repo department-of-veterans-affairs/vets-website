@@ -35,7 +35,7 @@ const showAlertReorderAccessExpired = state =>
   state?.mdotInProgressForm?.error?.code ===
     MDOT_ERROR_CODES.SUPPLIES_NOT_FOUND || false;
 
-const showAlertSomethingWentWrong = state =>
+const showAlertServerError = state =>
   Math.trunc(+state?.mdotInProgressForm?.error?.status / 500) === 1;
 
 const isAlerting = state =>
@@ -43,7 +43,7 @@ const isAlerting = state =>
   showAlertNoRecordForUser(state) ||
   showAlertNoSuppliesForReorder(state) ||
   showAlertReorderAccessExpired(state) ||
-  showAlertSomethingWentWrong(state);
+  showAlertServerError(state);
 
 export {
   canReorderOn,
@@ -58,5 +58,5 @@ export {
   showAlertNoRecordForUser,
   showAlertNoSuppliesForReorder,
   showAlertReorderAccessExpired,
-  showAlertSomethingWentWrong,
+  showAlertServerError,
 };

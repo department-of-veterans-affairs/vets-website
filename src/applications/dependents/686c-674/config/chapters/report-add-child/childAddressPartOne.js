@@ -12,6 +12,17 @@ export const childAddressPartOne = {
     address: {
       ...addressUI(),
     },
+    'ui:options': {
+      updateSchema: (formData, formSchema, _uiSchema, index) => {
+        if (formData?.childrenToAdd?.[index]?.doesChildLiveWithYou === false) {
+          return {
+            ...formSchema,
+            required: ['address'],
+          };
+        }
+        return formSchema;
+      },
+    },
   },
   schema: {
     type: 'object',

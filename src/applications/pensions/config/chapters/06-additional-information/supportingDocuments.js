@@ -6,22 +6,16 @@ export const childAttendsCollege = child => child.attendingCollege;
 export const childIsDisabled = child => child.disabled;
 export const childIsAdopted = child => child.childRelationship === 'ADOPTED';
 
-const SupportingDocument = ({ formId, formName }) => {
-  const linkText = `Get VA Form ${formId} to download (opens in new tab)`;
-  return (
-    <li>
-      A completed {formName} (VA Form {formId})<br />
-      <a
-        rel="noopener noreferrer"
-        target="_blank"
-        href={`https://www.va.gov/find-forms/about-form-${formId.toLowerCase()}`}
-        aria-label={linkText}
-      >
-        {linkText}
-      </a>
-    </li>
-  );
-};
+const SupportingDocument = ({ formId, formName }) => (
+  <li>
+    A completed {formName} (VA Form {formId})<br />
+    <va-link
+      href={`https://www.va.gov/find-forms/about-form-${formId.toLowerCase()}`}
+      external
+      text={`Get VA Form ${formId} to download`}
+    />
+  </li>
+);
 
 SupportingDocument.propTypes = {
   formId: PropTypes.string.isRequired,

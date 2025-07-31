@@ -315,10 +315,9 @@ export const fromToNumbs = (page, total, listLength, maxPerPage) => {
  *
  * @param {Object} location - The location object from React Router, containing the current pathname.
  * @param {Number} currentPage - The current page number.
- * @param {Boolean} removeLandingPage - mhvMedicationsRemoveLandingPage feature flag value (to be removed once turned on in prod)
  * @returns {Array<Object>} An array of breadcrumb objects with `url` and `label` properties.
  */
-export const createBreadcrumbs = (location, currentPage, removeLandingPage) => {
+export const createBreadcrumbs = (location, currentPage) => {
   const { pathname } = location;
   const defaultBreadcrumbs = [
     {
@@ -332,24 +331,12 @@ export const createBreadcrumbs = (location, currentPage, removeLandingPage) => {
   ];
   const {
     subdirectories,
-    // TODO: remove once mhvMedicationsRemoveLandingPage is turned on in prod
-    MEDICATIONS_ABOUT,
     MEDICATIONS_URL,
     MEDICATIONS_REFILL,
   } = medicationsUrls;
 
-  // TODO: remove once mhvMedicationsRemoveLandingPage is turned on in prod
-  if (pathname.includes(subdirectories.ABOUT)) {
-    return [
-      ...defaultBreadcrumbs,
-      { href: MEDICATIONS_ABOUT, label: 'About medications' },
-    ];
-  }
   if (pathname === subdirectories.BASE) {
     return defaultBreadcrumbs.concat([
-      ...(!removeLandingPage
-        ? [{ href: MEDICATIONS_ABOUT, label: 'About medications' }]
-        : []),
       {
         href: `${MEDICATIONS_URL}?page=${currentPage || 1}`,
         label: 'Medications',
@@ -358,9 +345,7 @@ export const createBreadcrumbs = (location, currentPage, removeLandingPage) => {
   }
   if (pathname.includes(subdirectories.REFILL)) {
     return defaultBreadcrumbs.concat([
-      ...(!removeLandingPage
-        ? [{ href: MEDICATIONS_ABOUT, label: 'About medications' }]
-        : [{ href: MEDICATIONS_URL, label: 'Medications' }]),
+      { href: MEDICATIONS_URL, label: 'Medications' },
       { href: MEDICATIONS_REFILL, label: 'Refill prescriptions' },
     ]);
   }
@@ -631,15 +616,26 @@ export const isRefillTakingLongerThanExpected = rx => {
     return false;
   }
 
-  const refillDate = rx.refillDate || rx.rxRfRecords[0]?.refillDate;
-  const refillSubmitDate =
-    rx.refillSubmitDate || rx.rxRfRecords[0]?.refillSubmitDate;
+  let { refillDate } = rx;
+  let { refillSubmitDate } = rx;
+
+  if (Array.isArray(rx.rxRfRecords) && rx.rxRfRecords.length > 0) {
+    refillDate = refillDate || rx.rxRfRecords[0]?.refillDate;
+    refillSubmitDate = refillSubmitDate || rx.rxRfRecords[0]?.refillSubmitDate;
+  }
+
+  if (!refillDate && !refillSubmitDate) {
+    return false;
+  }
+
   const sevenDaysAgoDate = new Date().setDate(new Date().getDate() - 7);
 
   return (
     (rx.dispStatus === dispStatusObj.refillinprocess &&
+      refillDate &&
       Date.now() > Date.parse(refillDate)) ||
     (rx.dispStatus === dispStatusObj.submitted &&
+      refillSubmitDate &&
       Date.parse(refillSubmitDate) < sevenDaysAgoDate)
   );
 };

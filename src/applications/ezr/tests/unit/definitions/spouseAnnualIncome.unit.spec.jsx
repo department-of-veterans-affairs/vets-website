@@ -15,9 +15,13 @@ describe('ezr SpouseAnnualIncomePage config', () => {
     ...formConfig.defaultDefinitions,
   };
   const mockStoreData = {
-    'view:householdEnabled': true,
-    'view:isProvidersAndDependentsPrefillEnabled': true,
-    nonPrefill: mockPrefillWithNonPrefillData.formData.nonPrefill,
+    form: {
+      data: {
+        'view:householdEnabled': true,
+        'view:isProvidersAndDependentsPrefillEnabled': true,
+        nonPrefill: mockPrefillWithNonPrefillData.formData.nonPrefill,
+      },
+    },
   };
 
   it('should render', () => {

@@ -62,7 +62,7 @@ const ProgressButton = props => {
     }
   } else {
     // Remove class names that may interfere with the web component
-    const vaButtonClass = buttonClass
+    const vaButtonClass = (buttonClass || '')
       .replace('usa-button-primary', '')
       .replace('usa-button-secondary', '')
       .replace('vads-u-width--auto', '')
@@ -83,7 +83,7 @@ const ProgressButton = props => {
       onClick: handleClick,
       // The web component does not support onMouseDown
       // onMouseDown: preventOnBlur,
-      secondary: buttonClass.includes('usa-button-secondary') || null,
+      secondary: (buttonClass || '').includes('usa-button-secondary') || null,
       submit: submitButton ? 'prevent' : null,
       text: buttonText,
     };
@@ -98,7 +98,9 @@ const ProgressButton = props => {
     <button
       type={submitButton ? 'submit' : 'button'}
       disabled={disabled}
-      className={`${buttonClass}${disabled ? ' usa-button-disabled' : ''}`}
+      className={`${buttonClass || ''}${
+        disabled ? ' usa-button-disabled' : ''
+      }`}
       id={`${id}-continueButton`}
       onClick={handleClick}
       onMouseDown={preventOnBlur}

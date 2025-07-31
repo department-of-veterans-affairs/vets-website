@@ -28,7 +28,6 @@ const App = props => {
     loading: isLoadingFeatures,
     isProdEnabled,
     isEmergencyContactsEnabled,
-    isNextOfKinEnabled,
     isProvidersAndDependentsPrefillEnabled,
     isDownloadPdfEnabled,
   } = features;
@@ -69,7 +68,6 @@ const App = props => {
           'view:userDob': parseVeteranDob(veteranDateOfBirth),
           'view:householdEnabled': !!canSubmitFinancialInfo,
           'view:isEmergencyContactsEnabled': !!isEmergencyContactsEnabled,
-          'view:isNextOfKinEnabled': !!isNextOfKinEnabled,
           'view:isProvidersAndDependentsPrefillEnabled': !!isProvidersAndDependentsPrefillEnabled,
           'view:isDownloadPdfEnabled': !!isDownloadPdfEnabled,
         };
@@ -124,7 +122,6 @@ const mapStateToProps = state => ({
     isProdEnabled: state.featureToggles.ezrProdEnabled,
     isEmergencyContactsEnabled:
       state.featureToggles.ezrEmergencyContactsEnabled,
-    isNextOfKinEnabled: state.featureToggles.ezrNextOfKinEnabled,
     isProvidersAndDependentsPrefillEnabled:
       state.featureToggles.ezrProvidersAndDependentsPrefillEnabled,
     isDownloadPdfEnabled: state.featureToggles.ezrDownloadPdfEnabled,

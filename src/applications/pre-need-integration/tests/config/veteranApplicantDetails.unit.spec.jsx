@@ -24,8 +24,10 @@ describe('Pre-need applicant veteran applicant details', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(8);
-    expect(form.find('select').length).to.equal(3);
+    expect(form.find('input').length).to.equal(7);
+
+    // expect(form.find('select').length).to.equal(1);
+    expect(form.find('VaMemorableDate').length).to.equal(1);
     form.unmount();
   });
 
@@ -42,7 +44,13 @@ describe('Pre-need applicant veteran applicant details', () => {
 
     form.find('form').simulate('submit');
 
-    expect(form.find('.usa-input-error').length).to.equal(6);
+    // There are now 5 standard input errors, and 1 error on the va-memorable-date component
+    expect(form.find('.usa-input-error').length).to.equal(5);
+
+    // Check for error on va-memorable-date
+    const memorableDate = form.find('va-memorable-date');
+    expect(memorableDate.prop('error')).to.exist;
+    expect(memorableDate.prop('error')).to.not.equal('');
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });

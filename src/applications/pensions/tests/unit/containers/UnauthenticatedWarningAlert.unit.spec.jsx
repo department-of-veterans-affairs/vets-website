@@ -39,8 +39,9 @@ describe('Unauthenticated warning alert', () => {
     );
     const selector = container.querySelector('va-alert');
     expect(selector).to.exist;
-    expect(selector).to.contain.text(
-      'This application is 7 steps long and it contains several substeps per step. We advise you sign in to save your progress.Note: You can sign in after you start your application. But you’ll lose any information you already filled in.',
+    // text content doesn't include the va-link text
+    expect(selector.textContent).to.contain(
+      'This application is 7 steps long and it contains several substeps per step. We advise you .Note: You can sign in after you start your application. But you’ll lose any information you already filled in.',
     );
   });
 
@@ -50,9 +51,11 @@ describe('Unauthenticated warning alert', () => {
         <UnauthenticatedWarningAlert />
       </Provider>,
     );
-    const link = container.querySelector('a');
+    const link = container.querySelector('va-link');
     expect(link).to.exist;
-    expect(link).to.contain.text('sign in to save your progress');
+    expect(link.getAttribute('text')).to.contain(
+      'sign in to save your progress',
+    );
   });
   it('should call toggleLoginModal when the "sign in" link is clicked', async () => {
     const toggleLoginModal = sinon.spy();
@@ -61,7 +64,7 @@ describe('Unauthenticated warning alert', () => {
         <UnauthenticatedWarningAlert toggleLoginModal={toggleLoginModal} />
       </Provider>,
     );
-    const link = container.querySelector('a');
+    const link = container.querySelector('va-link');
     fireEvent.click(link);
     await waitFor(() => {
       expect(toggleLoginModal.called).to.be.true;

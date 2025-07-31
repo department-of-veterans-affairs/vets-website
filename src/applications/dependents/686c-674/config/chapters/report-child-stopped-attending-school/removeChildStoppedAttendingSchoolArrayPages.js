@@ -114,6 +114,7 @@ export const childInformationPage = {
   },
   schema: {
     type: 'object',
+    required: ['fullName', 'ssn', 'birthDate'],
     properties: {
       fullName: fullNameNoSuffixSchema,
       ssn: ssnSchema,
@@ -135,6 +136,7 @@ export const dateChildLeftSchoolPage = {
   },
   schema: {
     type: 'object',
+    required: ['dateChildLeftSchool'],
     properties: {
       dateChildLeftSchool: currentOrPastDateSchema,
     },

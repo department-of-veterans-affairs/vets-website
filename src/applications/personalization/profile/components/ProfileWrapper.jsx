@@ -50,15 +50,13 @@ const ProfileWrapper = ({
   const location = useLocation();
 
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const vetStatusCardToggle = useToggleValue(TOGGLE_NAMES.vetStatusStage1);
+  const paperlessDeliveryToggle = useToggleValue(
+    TOGGLE_NAMES.profileShowPaperlessDelivery,
+  );
 
-  let routesForNav = getRoutesForNav();
-
-  if (!vetStatusCardToggle) {
-    routesForNav = routesForNav.filter(
-      route => route.name !== 'Veteran Status Card',
-    );
-  }
+  const routesForNav = getRoutesForNav({
+    profileShowPaperlessDelivery: paperlessDeliveryToggle,
+  });
 
   const layout = useMemo(
     () => {

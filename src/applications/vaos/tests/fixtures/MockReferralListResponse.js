@@ -35,6 +35,7 @@ class MockReferralListResponse {
       id,
       type: 'referrals',
       attributes: {
+        stationId: '659BY',
         categoryOfCare,
         referralNumber,
         uuid: id,

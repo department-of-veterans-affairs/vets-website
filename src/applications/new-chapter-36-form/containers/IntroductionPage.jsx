@@ -76,11 +76,13 @@ export const IntroductionPage = props => {
         <div>{/* add verify identity alert if applicable */}</div>
       ) : (
         <SaveInProgressIntro
+          formConfig={formConfig}
+          formId={formConfig.formId}
           headingLevel={2}
           prefillEnabled={formConfig.prefillEnabled}
           messages={formConfig.savedFormMessages}
           pageList={pageList}
-          startText="Start the application"
+          startText="Apply for Personalized Career Planning and Guidance"
           devOnly={{
             forceShowFormControls: true,
           }}
@@ -99,6 +101,7 @@ export const IntroductionPage = props => {
 IntroductionPage.propTypes = {
   route: PropTypes.shape({
     formConfig: PropTypes.shape({
+      formId: PropTypes.string.isRequired,
       prefillEnabled: PropTypes.bool.isRequired,
       savedFormMessages: PropTypes.object.isRequired,
     }).isRequired,

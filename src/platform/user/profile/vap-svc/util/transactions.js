@@ -55,6 +55,12 @@ export const LOW_CONFIDENCE_ADDRESS_ERROR_CODES = new Set([
   'ADDR307',
 ]);
 
+export const ADDRESS_VALIDATION_SERVICE_FAILURE_CODES = new Set([
+  'ADDRVAL101',
+  'ADDRVAL103',
+  'ADDRVAL114',
+]);
+
 export const DECEASED_ERROR_CODES = new Set(['MVI300']);
 
 export const INVALID_EMAIL_ADDRESS_ERROR_CODES = new Set([

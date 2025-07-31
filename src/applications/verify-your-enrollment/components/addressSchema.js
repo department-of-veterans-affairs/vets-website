@@ -1,7 +1,6 @@
 import React from 'react';
 import constants from 'vets-json-schema/dist/constants.json';
 import ADDRESS_DATA from 'platform/forms/address/data';
-import countries from 'platform/user/profile/vap-svc/constants/countries.json';
 import { validateAsciiCharacters } from 'platform/user/profile/vap-svc/util';
 import {
   VaSelectField,
@@ -19,16 +18,16 @@ const MILITARY_STATES = new Set(ADDRESS_DATA.militaryStates);
 
 const ADDRESS_FORM_VALUES = {
   STATES: constants.states.USA.map(state => state.value),
-  COUNTRIES: countries.map(country => country.countryName),
-  COUNTRY_ISO3_CODES: countries.map(country => country.countryCodeISO3),
+  COUNTRIES: constants.countries.map(country => country.label),
+  COUNTRY_ISO3_CODES: constants.countries.map(country => country.value),
   MILITARY_STATES,
 };
 const STREET_LINE_MAX_LENGTH = 20;
 
 export const getFormSchema = (formData = {}) => {
   const defaultCountry =
-    countries.find(
-      country => country.countryCodeISO3 === formData?.countryCodeIso3,
+    constants.countries.find(
+      country => country.value === formData?.countryCodeIso3,
     )?.countryCodeISO3 || 'USA';
   return {
     type: 'object',

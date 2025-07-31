@@ -8,6 +8,8 @@ import {
 } from 'platform/forms-system/src/js/components/PersonalInformation/PersonalInformation';
 import { selectProfile } from '~/platform/user/selectors';
 
+import formConfig from '../config/form';
+
 const CustomPersonalInfo = props => {
   const { formData, setFormData } = props;
 
@@ -44,6 +46,7 @@ const CustomPersonalInfo = props => {
         ssnPath: 'veteranSsnLastFour',
         vaFileNumberPath: 'vaFileNumberLastFour',
       }}
+      formOptions={formConfig.formOptions}
     >
       <PersonalInformationHeader>
         <h1 className="vads-u-margin-bottom--3 vads-u-font-size--h2">

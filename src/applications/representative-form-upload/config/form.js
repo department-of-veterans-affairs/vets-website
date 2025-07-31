@@ -54,6 +54,9 @@ const formConfig = {
   subTitle,
   defaultDefinitions: {},
   v3SegmentedProgressBar: { useDiv: false },
+  formOptions: {
+    useWebComponentForNavigation: true,
+  },
   chapters: {
     isVeteranChapter: {
       title: 'Claimant background',
@@ -63,6 +66,7 @@ const formConfig = {
           title: "Claimant's background",
           uiSchema: isVeteranPage.uiSchema,
           schema: isVeteranPage.schema,
+          scrollAndFocusTarget,
         },
       },
     },

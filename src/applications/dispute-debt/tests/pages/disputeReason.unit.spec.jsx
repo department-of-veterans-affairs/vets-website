@@ -2,11 +2,9 @@ import { expect } from 'chai';
 import VaRadioField from 'platform/forms-system/src/js/web-component-fields/VaRadioField';
 import disputeReason from '../../pages/disputeReason';
 import DebtTitle from '../../components/DebtTitle';
+import { DISPUTE_REASONS } from '../../constants';
 
 describe('disputeReason page', () => {
-  const EXISTENCE = `I don't think I owe this debt to VA`;
-  const AMOUNT = `I don't think the amount is correct on this debt`;
-
   it('exports a valid page configuration', () => {
     expect(disputeReason).to.be.an('object');
     expect(disputeReason.uiSchema).to.exist;
@@ -46,8 +44,8 @@ describe('disputeReason page', () => {
         'ui:options'
       ];
       expect(labels).to.exist;
-      expect(labels.EXISTENCE).to.equal(EXISTENCE);
-      expect(labels.AMOUNT).to.equal(AMOUNT);
+      expect(labels.EXISTENCE).to.equal(DISPUTE_REASONS.EXISTENCE);
+      expect(labels.AMOUNT).to.equal(DISPUTE_REASONS.AMOUNT);
     });
 
     it('has error messages configured', () => {
@@ -88,8 +86,8 @@ describe('disputeReason page', () => {
         disputeReason.schema.properties.selectedDebts.items.properties
           .disputeReason;
       expect(disputeReasonField.enum).to.be.an('array');
-      expect(disputeReasonField.enum).to.include(EXISTENCE);
-      expect(disputeReasonField.enum).to.include(AMOUNT);
+      expect(disputeReasonField.enum).to.include(DISPUTE_REASONS.EXISTENCE);
+      expect(disputeReasonField.enum).to.include(DISPUTE_REASONS.AMOUNT);
       expect(disputeReasonField.enum).to.have.length(2);
     });
 
@@ -105,10 +103,8 @@ describe('disputeReason page', () => {
       const enumValues =
         disputeReason.schema.properties.selectedDebts.items.properties
           .disputeReason.enum;
-      expect(enumValues[0]).to.equal(`I don't think I owe this debt to VA`);
-      expect(enumValues[1]).to.equal(
-        `I don't think the amount is correct on this debt`,
-      );
+      expect(enumValues[0]).to.equal(DISPUTE_REASONS.EXISTENCE);
+      expect(enumValues[1]).to.equal(DISPUTE_REASONS.AMOUNT);
     });
   });
 });

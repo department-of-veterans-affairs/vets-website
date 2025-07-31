@@ -14,6 +14,7 @@ import {
   teSubtitle,
 } from '../../content/toxicExposure';
 import { GULF_WAR_1990_LOCATIONS, TE_URL_PREFIX } from '../../constants';
+import { validateToxicExposureGulfWar1990Dates } from '../../utils/validations';
 
 /**
  * Make the uiSchema for each gulf war 1990 details page
@@ -34,12 +35,17 @@ function makeUiSchema(locationId) {
     toxicExposure: {
       gulfWar1990Details: {
         [locationId]: {
-          startDate: currentOrPastDateUI({
-            title: startDateApproximate,
-          }),
-          endDate: currentOrPastDateUI({
-            title: endDateApproximate,
-          }),
+          startDate: {
+            ...currentOrPastDateUI({
+              title: startDateApproximate,
+            }),
+          },
+          endDate: {
+            ...currentOrPastDateUI({
+              title: endDateApproximate,
+            }),
+          },
+          'ui:validations': [validateToxicExposureGulfWar1990Dates],
           'view:notSure': {
             'ui:title': notSureDatesDetails,
             'ui:webComponentField': VaCheckboxField,

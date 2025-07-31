@@ -8,7 +8,7 @@ import {
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import { VaCheckboxField } from 'platform/forms-system/src/js/web-component-fields';
 import {
-  testNumberOfErrorsOnSubmitForWebComponents,
+  testComponentFieldsMarkedAsRequired,
   testNumberOfFieldsByType,
   testNumberOfWebComponentFields,
   testSubmitsWithoutErrors,
@@ -29,12 +29,11 @@ describe('dependents summary page', () => {
     pageTitle,
   );
 
-  const expectedNumberOfErrors = 1;
-  testNumberOfErrorsOnSubmitForWebComponents(
+  testComponentFieldsMarkedAsRequired(
     formConfig,
     dependentChildrenSummary.schema,
     dependentChildrenSummary.uiSchema,
-    expectedNumberOfErrors,
+    [`va-radio[label="Do you have any dependent children?"]`],
     pageTitle,
   );
 
@@ -83,12 +82,14 @@ describe('dependents full name page', () => {
     pageTitle,
   );
 
-  const expectedNumberOfErrors = 2;
-  testNumberOfErrorsOnSubmitForWebComponents(
+  testComponentFieldsMarkedAsRequired(
     formConfig,
     dependentChildFullNamePage.schema,
     dependentChildFullNamePage.uiSchema,
-    expectedNumberOfErrors,
+    [
+      `va-text-input[name="root_fullName_first"]`,
+      `va-text-input[name="root_fullName_last"]`,
+    ],
     pageTitle,
   );
 
@@ -151,12 +152,11 @@ describe('dependents ssn page', () => {
     pageTitle,
   );
 
-  const expectedNumberOfErrors = 1;
-  testNumberOfErrorsOnSubmitForWebComponents(
+  testComponentFieldsMarkedAsRequired(
     formConfig,
     dependentChildSocialSecurityNumberPage.schema,
     dependentChildSocialSecurityNumberPage.uiSchema,
-    expectedNumberOfErrors,
+    [`va-text-input[label="Social Security number"]`],
     pageTitle,
   );
 

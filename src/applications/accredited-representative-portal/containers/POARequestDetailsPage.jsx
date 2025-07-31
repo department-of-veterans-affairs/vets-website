@@ -79,12 +79,12 @@ const PROCESSING_BANNER = {
   HEADER: 'We’re processing the accepted POA request',
   ACCEPTED: 'You accepted the POA request on',
   COPY:
-    'We’re processing your decision. This normally takes 1-2 minutes, but can sometimes take longer. We’ll update the status on the request once it finishes processing. You can refresh the page to check for updates.',
+    'We’re processing your decision. This normally takes 1-2 minutes, but can sometimes take longer. We’ll update the status of the request once it finishes processing. You can refresh the page to check for updates.',
 };
 const ERROR_BANNER = {
   HEADER: 'We couldn’t process the accepted POA request',
   COPY:
-    'We’re sorry, there was a problem with our system. We weren’t able to process your decision and update the status on the request. To try again, contact the claimant and ask them to resubmit VA Form 21-22.',
+    'We’re sorry, there was a problem with our system. We weren’t able to process your decision and update the status of the request. To try again, contact the claimant and ask them to resubmit VA Form 21-22.',
 };
 
 const POARequestDetailsPage = title => {

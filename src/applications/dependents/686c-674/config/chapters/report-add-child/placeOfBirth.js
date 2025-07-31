@@ -89,6 +89,7 @@ export const placeOfBirth = {
   },
   schema: {
     type: 'object',
+    required: ['birthLocation'],
     properties: {
       birthLocation: customLocationSchemaStatePostal,
       'view:note': {

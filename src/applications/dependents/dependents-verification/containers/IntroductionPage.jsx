@@ -45,17 +45,17 @@ const ProcessList = () => {
           When you submit your verification form, you’ll get a confirmation
           message. You can print this message for your records.
         </p>
-        <va-additional-info trigger="What happens after I submit the form?">
-          <p>
-            You’re all set! Make it a habit to verify your disability benefits
-            dependents information once a year to help us capture any life
-            changes that may affect your eligibility.
-          </p>
-          <p>
-            This is the best way to make sure you receive your full benefits and
-            avoid overpayments, which you’d be required to pay back.
-          </p>
-        </va-additional-info>
+      </va-process-list-item>
+      <va-process-list-item header="After you submit">
+        <p>
+          You don’t need to do anything else. But you’ll need to verify your
+          dependents' information on your disability benefits each year.
+        </p>
+        <p>
+          Verifying your dependents each year makes sure you get your full
+          benefits. It also helps avoid benefit overpayments, which you’d need
+          to repay.
+        </p>
       </va-process-list-item>
     </va-process-list>
   );
@@ -72,6 +72,10 @@ export const IntroductionPage = props => {
   return (
     <article className="schemaform-intro">
       <FormTitle title={TITLE} subTitle={SUBTITLE} />
+      <p>
+        Use our online tool to submit your dependent verification form for VA
+        disability benefits.
+      </p>
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
         Follow the steps below to get started:
       </h2>

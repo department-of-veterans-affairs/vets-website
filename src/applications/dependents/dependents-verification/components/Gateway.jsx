@@ -39,6 +39,8 @@ const Gateway = ({ route, top = false }) => {
           // verification alert or redirect them to a verification page.
           // This is a placeholder for any additional logic needed.
           dispatch(fetchDependents());
+        } else if (dependents.error) {
+          setApiState('error');
         } else if (!dependents.loading && dependents?.data) {
           if (dependents.data.length > 0) {
             setApiState('loaded');
@@ -54,8 +56,6 @@ const Gateway = ({ route, top = false }) => {
           } else {
             setApiState('no-dependents');
           }
-        } else if (dependents.error) {
-          setApiState('error');
         }
       }
     },

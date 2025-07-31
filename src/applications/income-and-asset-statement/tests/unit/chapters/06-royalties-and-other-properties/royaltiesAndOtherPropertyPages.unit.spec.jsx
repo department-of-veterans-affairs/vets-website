@@ -20,7 +20,7 @@ import {
 } from '../multiPageTests.spec';
 import {
   testNumberOfFieldsByType,
-  testNumberOfErrorsOnSubmitForWebComponents,
+  testComponentFieldsMarkedAsRequired,
   testSelectAndValidateField,
   testSubmitsWithoutErrors,
 } from '../pageTests.spec';
@@ -40,7 +40,9 @@ describe('royalties list and loop pages', () => {
 
   describe('text getItemName function', () => {
     const mockFormData = {
+      isLoggedIn: true,
       veteranFullName: { first: 'John', last: 'Doe' },
+      otherVeteranFullName: { first: 'Alex', last: 'Smith' },
     };
     it('should return "John Doe’s income" if recipient is Veteran', () => {
       const item = {
@@ -50,7 +52,18 @@ describe('royalties list and loop pages', () => {
         'John Doe’s income',
       );
     });
-    it('should return "John Doe’s income', () => {
+    it('should return "Alex Smith’s income" if recipient is Veteran and not logged in', () => {
+      const item = {
+        recipientRelationship: 'VETERAN',
+      };
+      expect(
+        options.text.getItemName(item, 0, {
+          ...mockFormData,
+          isLoggedIn: false,
+        }),
+      ).to.equal('Alex Smith’s income');
+    });
+    it('should return "Jane Doe’s income', () => {
       const recipientName = { first: 'Jane', middle: 'A', last: 'Doe' };
       const formattedName = formatFullNameNoSuffix(recipientName);
 
@@ -111,11 +124,13 @@ describe('royalties list and loop pages', () => {
       { 'va-radio': 1 },
       'summary page',
     );
-    testNumberOfErrorsOnSubmitForWebComponents(
+    testComponentFieldsMarkedAsRequired(
       formConfig,
       schema,
       uiSchema,
-      1,
+      [
+        'va-radio[label="Are you or your dependents receiving or expecting to receive any income and intellectual property royalties, mineral royalties, land use, or other royalties/properties?"]',
+      ],
       'summary page',
     );
     testSubmitsWithoutErrors(
@@ -143,11 +158,11 @@ describe('royalties list and loop pages', () => {
       { 'va-radio': 1 },
       'recipient',
     );
-    testNumberOfErrorsOnSubmitForWebComponents(
+    testComponentFieldsMarkedAsRequired(
       formConfig,
       schema,
       uiSchema,
-      1,
+      ['va-radio[label="Who receives the income?"]'],
       'recipient',
     );
     testSubmitsWithoutErrors(
@@ -182,11 +197,14 @@ describe('royalties list and loop pages', () => {
       { 'va-text-input': 3 },
       'recipient',
     );
-    testNumberOfErrorsOnSubmitForWebComponents(
+    testComponentFieldsMarkedAsRequired(
       formConfig,
       schema,
       uiSchema,
-      2,
+      [
+        'va-text-input[label="Income recipient’s first name"]',
+        'va-text-input[label="Income recipient’s last name"]',
+      ],
       'recipient',
     );
     testSubmitsWithoutErrors(
@@ -214,11 +232,16 @@ describe('royalties list and loop pages', () => {
       { 'va-radio': 2, 'va-text-input': 2, 'va-textarea': 1 },
       'income type',
     );
-    testNumberOfErrorsOnSubmitForWebComponents(
+    testComponentFieldsMarkedAsRequired(
       formConfig,
       schema,
       uiSchema,
-      4,
+      [
+        'va-radio[label="How is the income generated from this asset?"]',
+        'va-text-input[label="Gross monthly income"]',
+        'va-text-input[label="Fair market value of this asset"]',
+        'va-radio[label="Can the asset be sold?"]',
+      ],
       'income type',
     );
     testSubmitsWithoutErrors(

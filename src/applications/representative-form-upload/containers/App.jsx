@@ -32,6 +32,7 @@ const App = ({ children }) => {
   const userLoggedIn = useSelector(state => isLoggedIn(state));
 
   useEffect(() => {
+    document.title = 'Submit VA Form 21-686c  | Veterans Affairs';
     // Insert CSS to hide 'For example: January 19 2000' hint on memorable dates
     // (can't be overridden by passing 'hint' to uiOptions):
     addStyleToShadowDomOnPages(
@@ -43,6 +44,23 @@ const App = ({ children }) => {
 
   const dispatch = useDispatch();
   useEffect(() => dispatch(fetchUser()), [dispatch]);
+
+  useEffect(() => {
+    const handleBeforeUnload = e => {
+      const event = e || window.event;
+      const isIncomplete =
+        sessionStorage.getItem('formIncompleteARP') === 'true';
+      if (isIncomplete) {
+        event.preventDefault();
+        event.returnValue = ''; // Required for most browsers
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, []);
 
   if (isAppToggleLoading) {
     return (

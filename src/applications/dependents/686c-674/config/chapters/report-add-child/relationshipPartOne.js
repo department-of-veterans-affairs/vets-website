@@ -19,6 +19,7 @@ export const relationshipPartOne = {
   },
   schema: {
     type: 'object',
+    required: ['isBiologicalChild'],
     properties: {
       isBiologicalChild: yesNoSchema,
     },

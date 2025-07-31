@@ -166,4 +166,263 @@ export const evidenceDictionary = {
       </>
     ),
   },
+  'PMR Pending': {
+    longDescription: (
+      <>
+        <p>
+          For your benefits claim, we’ve requested your non-VA medical records
+          from your medical provider.
+        </p>
+        <p>Your health records may include:</p>
+        <ul className="bullet-disc">
+          <li>Treatment records</li>
+          <li>Hospital summaries</li>
+          <li>Findings or diagnoses</li>
+        </ul>
+        <p>
+          We limited our request based on any restrictions you listed on your
+          Authorization to Disclose Information (VA Form 21-4142).
+        </p>
+      </>
+    ),
+  },
+  'Employer (21-4192)': {
+    longDescription: (
+      <p>
+        For your benefits claim, we sent a letter to your last employer to ask
+        about your job and why you left. This information will help us
+        understand if you left your job because of a service-connected
+        disability.
+      </p>
+    ),
+    noActionNeeded: true,
+  },
+  'General Records Request (Medical)': {
+    longDescription: (
+      <>
+        <p>
+          For your benefits claim, we’ve requested your non-VA medical records
+          from your medical provider.
+        </p>
+        <p>Your health records may include:</p>
+        <ul className="bullet-disc">
+          <li>Treatment records</li>
+          <li>Hospital summaries</li>
+          <li>Findings or diagnoses</li>
+        </ul>
+      </>
+    ),
+  },
+  'Unemployability - 21-8940 needed and 4192(s) requested': {
+    longDescription: (
+      <>
+        <p>
+          For your benefits claim, we need more information about how your
+          service-connected disabilities prevent you from working.
+        </p>
+        <p>
+          We also need information from your most recent employer to tell us
+          what your role was and the reasons why your employment ended.
+        </p>
+      </>
+    ),
+    nextSteps: (
+      <>
+        <p>
+          Use <strong>VA Form 21-8940</strong> to let us know what
+          service-connected disabilities prevent you from working. You can
+          complete and sign this form online, or use a PDF version and upload or
+          mail it.
+          <br />
+          <va-link
+            active
+            data-testid="VA Form 21-8940"
+            text="VA Form 21-8940"
+            href="/find-forms/about-form-21-8940/"
+          />
+        </p>
+        <p>
+          Give <strong>VA Form 21-4192</strong> to your most recent employer and
+          ask them to mail us your employment information.
+          <br />
+          <va-link
+            active
+            data-testid="VA Form 21-4192"
+            text="VA Form 21-4192"
+            href="/find-forms/about-form-21-4192/"
+          />
+        </p>
+      </>
+    ),
+    isProperNoun: false,
+  },
+  'Request Service Treatment Records from Veteran': {
+    longDescription: (
+      <>
+        <p>
+          For your benefits claim, we need certified copies of your service
+          treatment records if you have them. Uploading your copies may speed up
+          the claim review process.
+        </p>
+        <p>
+          In case you don’t have them, we also requested your service treatment
+          records from the Department of Defense, reserve unit, or national
+          guard unit. You don’t need to request your service treatment records
+          yourself.
+        </p>
+        <p>
+          Once we have your service treatment records we can schedule an exam.
+        </p>
+      </>
+    ),
+    nextSteps: (
+      <>
+        <p>
+          Upload certified copies of your service treatment records, if you have
+          them. This can help speed up the claim review process.
+        </p>
+        <p>
+          If you don’t have certified copies of your service treatment records,
+          no action is needed. We are requesting them for you.
+        </p>
+      </>
+    ),
+    isProperNoun: false,
+  },
+  '21-4142 incomplete - need provider address': {
+    longDescription: (
+      <>
+        <p>
+          We need your non-VA medical provider’s address to request information
+          for your claim. Your Authorization and Consent to Release Information
+          to the VA did not include an address or it included a wrong address.
+        </p>
+        <p>Your claim letter includes the provider address that we need.</p>
+      </>
+    ),
+    nextSteps: (
+      <>
+        <p>
+          Use VA Form 21-4142a to provide the address of your non-VA medical
+          provider.
+        </p>
+        <p>
+          You can complete this form online, or use a PDF version and upload or
+          mail it.
+          <br />
+          <va-link
+            active
+            data-testid="VA Form 21-4142a"
+            text="VA Form 21-4142a"
+            href="/find-forms/about-form-21-4142a/"
+          />
+        </p>
+      </>
+    ),
+    isProperNoun: false,
+  },
+  'Submit buddy statement(s)': {
+    longDescription: (
+      <>
+        <p>
+          For your disability benefits claim, we need statements from people who
+          know about your condition. These are often called “buddy statements.”
+        </p>
+        <p>These people should:</p>
+        <ul className="bullet-disc">
+          <li>Describe what they saw or know about your condition</li>
+          <li>
+            Include when and where they observed it, and what was happening at
+            the time
+          </li>
+          <li>
+            Say clearly if they witnessed the event that caused your condition
+          </li>
+          <li>
+            If they served with you, include their name, rank, and unit at the
+            time
+          </li>
+        </ul>
+        <p>
+          Each person must include the following sentence at the end of their
+          statement:
+        </p>
+        <p>
+          “I hereby certify that this information is true and correct to the
+          best of my knowledge and belief.”
+        </p>
+      </>
+    ),
+    nextSteps: (
+      <>
+        <p>
+          Use VA Form 21-10210 to submit a Lay/Witness Statement (also known as
+          "buddy statement") from someone who knows about your condition and can
+          support your claim.
+        </p>
+        <p>
+          You can submit the completed form online, or you can upload or mail
+          it.
+          <br />
+          <va-link
+            active
+            data-testid="VA Form 21-10210"
+            text="VA Form 21-10210"
+            href="/find-forms/about-form-21-10210/"
+          />
+        </p>
+      </>
+    ),
+    isProperNoun: false,
+  },
+  'ASB - tell us where, when, how exposed': {
+    longDescription: (
+      <>
+        <p>
+          To process your disability claim for asbestos exposure, we need a bit
+          more information from you.
+        </p>
+        <p>Please answer the following questions:</p>
+        <ol>
+          <li>
+            Where were you exposed to asbestos? (Include your unit, rank, and
+            location if you remember.)
+          </li>
+          <li>When did the exposure happen?</li>
+          <li>How did the exposure happen?</li>
+          <li>
+            Were any other service members with you? Please share their names if
+            you can.
+          </li>
+          <li>
+            Were you exposed to anything else that may cause cancer (like
+            cigarettes or chemicals) during or after your service?
+          </li>
+          <li>
+            What jobs did you have before and after your military service? How
+            long did you work at each one?
+          </li>
+        </ol>
+      </>
+    ),
+    nextSteps: (
+      <>
+        <p>
+          Use Statement in Support of Claim (VA Form 21-4138) to answer the
+          questions listed under "what we need from you."
+        </p>
+        <p>
+          After completing and signing the form, you can upload or mail it.
+          <br />
+          <va-link
+            active
+            data-testid="VA Form 21-4138"
+            text="VA Form 21-4138"
+            href="/find-forms/about-form-21-4138/"
+          />
+        </p>
+      </>
+    ),
+    isSensitive: true,
+  },
 };

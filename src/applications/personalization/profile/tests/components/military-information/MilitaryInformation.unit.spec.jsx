@@ -237,14 +237,6 @@ describe('MilitaryInformation', () => {
       expect(entries[1]).to.contain.text('April 11, 2009');
     });
   });
-  describe('when proof of veteran status exists', () => {
-    it('should show proof of veteran status component', () => {
-      view = renderWithProfileReducers(<MilitaryInformation />, {
-        initialState,
-      });
-      expect(view.getByText(/Proof of Veteran status/)).to.exist;
-    });
-  });
 
   describe('when the veteranStatus is null and militaryInformation is empty', () => {
     it('should show the correct error', () => {

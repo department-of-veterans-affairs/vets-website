@@ -20,7 +20,7 @@ import {
 import React from 'react';
 import PropTypes from 'prop-types';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
-import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+import { CustomPageNavButtons } from '../../shared/components/CustomPageNavButtons';
 import { populateFirstApplicant } from '../helpers/utilities';
 import manifest from '../manifest.json';
 
@@ -174,6 +174,11 @@ export function SignerContactInfoPage(props) {
     </button>
   );
 
+  const navButtons = CustomPageNavButtons({
+    ...props,
+    onContinue: () => signerContactOnGoForward(props),
+  });
+
   return (
     <SchemaForm
       name={props.name}
@@ -191,15 +196,7 @@ export function SignerContactInfoPage(props) {
       <>
         {/* contentBeforeButtons = save-in-progress links */}
         {props.contentBeforeButtons}
-        {props.onReviewPage ? (
-          updateButton
-        ) : (
-          <FormNavButtons
-            goBack={props.goBack}
-            goForward={() => signerContactOnGoForward(props)}
-            submitToContinue
-          />
-        )}
+        {props.onReviewPage ? updateButton : navButtons}
         {props.contentAfterButtons}
       </>
     </SchemaForm>

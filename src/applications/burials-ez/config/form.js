@@ -76,6 +76,9 @@ const formConfig = {
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
   formId: VA_FORM_IDS.FORM_21P_530EZ,
+  formOptions: {
+    useWebComponentForNavigation: true,
+  },
   saveInProgress: {
     messages: {
       inProgress:

@@ -34,7 +34,7 @@ describe('Edit page', () => {
         }?fieldName=mobilePhone&returnPath=%2Fprofile%2Fnotifications`,
       );
 
-      cy.findByText('Cancel').click();
+      cy.findByTestId('cancel-edit-button').click();
 
       cy.url().should('contain', '/profile/notifications');
 
@@ -79,7 +79,7 @@ describe('Edit page', () => {
 
       cy.fillVaTextInput('root_inputPhoneNumber', '970-867-5309');
 
-      cy.findByText('Cancel').click();
+      cy.findByTestId('cancel-edit-button').click();
 
       cy.injectAxeThenAxeCheck();
 
@@ -107,7 +107,7 @@ describe('Edit page', () => {
       cy.fillVaTextInput('root_inputPhoneNumber', ' ');
       cy.realPress('Tab');
 
-      cy.findByText('Cancel').click();
+      cy.findByTestId('cancel-edit-button').click();
 
       cy.injectAxeThenAxeCheck();
 

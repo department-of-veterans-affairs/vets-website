@@ -12,7 +12,7 @@ describe('When feature toggle cst_5103_update_enabled disabled', () => {
         trackClaimsPage.verifyPrimaryAlertforSubmitBuddyStatement();
         trackClaimsPage.verifyDocRequestforDefaultPage();
         trackClaimsPage.verifyDocRequestBreadcrumbs();
-        trackClaimsPage.submitFilesForReview(false);
+        trackClaimsPage.submitFilesForReview();
         cy.axeCheck();
       });
     });
@@ -25,7 +25,7 @@ describe('When feature toggle cst_5103_update_enabled disabled', () => {
         trackClaimsPage.verifyPrimaryAlertfor5103Notice(false, false);
         trackClaimsPage.verifyDocRequestforDefaultPage(true, true);
         trackClaimsPage.verifyDocRequestBreadcrumbs(false, true);
-        trackClaimsPage.submitFilesForReview(false);
+        trackClaimsPage.submitFilesForReview();
         cy.axeCheck();
       });
     });
@@ -40,7 +40,7 @@ describe('When feature toggle cst_5103_update_enabled disabled', () => {
         trackClaimsPage.verifyPrimaryAlertforSubmitBuddyStatement();
         trackClaimsPage.verifyDocRequestforDefaultPage();
         trackClaimsPage.verifyDocRequestBreadcrumbs(true);
-        trackClaimsPage.submitFilesForReview(false);
+        trackClaimsPage.submitFilesForReview();
         cy.axeCheck();
       });
     });
@@ -54,7 +54,7 @@ describe('When feature toggle cst_5103_update_enabled disabled', () => {
         trackClaimsPage.verifyPrimaryAlertfor5103Notice(false, false);
         trackClaimsPage.verifyDocRequestforDefaultPage(true, true);
         trackClaimsPage.verifyDocRequestBreadcrumbs(true, true);
-        trackClaimsPage.submitFilesForReview(false);
+        trackClaimsPage.submitFilesForReview();
         cy.axeCheck();
       });
     });
@@ -78,7 +78,7 @@ describe('When feature toggle cst_5103_update_enabled enabled', () => {
         trackClaimsPage.verifyPrimaryAlertforSubmitBuddyStatement();
         trackClaimsPage.verifyDocRequestforDefaultPage();
         trackClaimsPage.verifyDocRequestBreadcrumbs();
-        trackClaimsPage.submitFilesForReview(false);
+        trackClaimsPage.submitFilesForReview();
         cy.axeCheck();
       });
     });
@@ -120,7 +120,7 @@ describe('When feature toggle cst_5103_update_enabled enabled', () => {
         trackClaimsPage.verifyPrimaryAlertforSubmitBuddyStatement();
         trackClaimsPage.verifyDocRequestforDefaultPage();
         trackClaimsPage.verifyDocRequestBreadcrumbs(true);
-        trackClaimsPage.submitFilesForReview(false);
+        trackClaimsPage.submitFilesForReview();
         cy.axeCheck();
       });
     });

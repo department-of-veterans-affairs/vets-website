@@ -19,8 +19,8 @@ export const errorFragment = (
   </>
 );
 
-export const infoFragment = (
-  <>
+export const noDependentsAlert = (
+  <va-alert status="info">
     <h2 slot="headline" className="vads-u-margin-top--0 vads-u-font-size--h3">
       We don’t have dependents information on file for you
     </h2>
@@ -30,27 +30,36 @@ export const infoFragment = (
       of 30%, you may be eligible for additional disability compensation for a
       spouse, child, and/or parent.
     </p>
-    <a
-      className="vads-u-font-size--base"
+    <va-link
+      class="vads-u-font-size--base"
       href="/disability/add-remove-dependent/"
-    >
-      Find out how to add a dependent to your disability claim
-    </a>
-  </>
+      text="Find out how to add a dependent to your disability claim"
+    />
+  </va-alert>
+);
+
+export const noDependentsAlertV2 = (
+  <va-alert status="info">
+    <h3 slot="headline" className="vads-u-margin-top--0">
+      We don’t have dependents information on file for you
+    </h3>
+    <p className="vads-u-font-size--base">
+      We can’t find any dependents added to your disability award.
+    </p>
+  </va-alert>
 );
 
 export const breadcrumbLinks = [
-  <a href="/" aria-label="Back to VA Home page" key="1">
-    Home
-  </a>,
-  <a
+  <va-link href="/" label="Back to VA Home page" text="Home" key="1" />,
+  <va-link
     href="/view-change-dependents/"
-    aria-label="Back to the Add or remove dependents page"
+    label="Back to the Add or remove dependents page"
+    text="Add or remove dependents"
     key="3"
-  >
-    Add or remove dependents
-  </a>,
-  <a href="/view-change-dependents/view" key="4">
-    Your Dependents
-  </a>,
+  />,
+  <va-link
+    href="/view-change-dependents/view"
+    text="Your Dependents"
+    key="4"
+  />,
 ];

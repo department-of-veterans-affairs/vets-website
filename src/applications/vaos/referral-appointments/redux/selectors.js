@@ -1,5 +1,6 @@
 export const selectCurrentPage = state => state.referral.currentPage;
-export const getSelectedSlot = state => state.referral.selectedSlot;
+export const getSelectedSlotStartTime = state =>
+  state.referral.selectedSlotStartTime;
 
 export function getProviderInfo(state) {
   return {

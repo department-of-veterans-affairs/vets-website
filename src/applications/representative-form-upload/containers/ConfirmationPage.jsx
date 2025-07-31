@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { ConfirmationPageView } from '../components/ConfirmationPageView';
@@ -18,6 +18,10 @@ const ConfirmationPage = () => {
   const confirmationNumber = submission.response?.confirmationNumber;
 
   const { formNumber } = getFormContent();
+
+  useEffect(() => {
+    sessionStorage.removeItem('formIncompleteARP');
+  }, []);
 
   return (
     <ConfirmationPageView

@@ -38,17 +38,28 @@ const SubmissionError = () => {
     >
       <h3 slot="headline">The form can’t be submitted</h3>
       <p>
-        Confirm that you or your Veterans Service Organization (VSO) has
-        established POA with the claimant. If not, ask the claimant to appoint
-        you as their representative using online{' '}
-        <a href="https://www.va.gov/get-help-from-accredited-representative/appoint-rep/introduction/">
-          VA Form 21-22.
-        </a>{' '}
-        Once POA is established, you can restart the submission of this form.
+        There was a problem submitting the form. Here are some possible reasons
+        why it couldn’t be submitted:
       </p>
+      <ul>
+        <li>
+          You or your Veterans Service Organization (VSO) don’t represent this
+          claimant
+        </li>
+        <li>
+          You only have limited representation for this claimant, which the
+          portal doesn’t currently support
+        </li>
+        <li>There is a temporary system outage</li>
+      </ul>
       <p>
-        If you’re sure that POA is established, come back tomorrow and try
-        again.
+        If you need to establish representation, ask the claimant to appoint you
+        as their representative using online{' '}
+        <a href="https://www.va.gov/get-help-from-accredited-representative/appoint-rep/introduction/">
+          VA Form 21-22
+        </a>
+        . If you’re sure that representation is already established, try
+        submitting the form again later.
       </p>
       <p>
         <a

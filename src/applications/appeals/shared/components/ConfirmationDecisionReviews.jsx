@@ -55,12 +55,12 @@ export const ConfirmationDecisionReviews = ({
         <h2 className="vads-u-margin-top--0">{pageTitle}</h2>
       </div>
 
-      <va-alert status="success" ref={alertRef} uswds>
+      <va-alert status="success" ref={alertRef}>
         <h2 slot="headline">{alertTitle}</h2>
         <p>{alertContent}</p>
       </va-alert>
 
-      <va-summary-box uswds class="vads-u-margin-top--2">
+      <va-summary-box class="vads-u-margin-top--2">
         <h3 slot="headline" className="vads-u-margin-top--0">
           Your information for this {appType}
         </h3>

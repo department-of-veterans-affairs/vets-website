@@ -4,7 +4,14 @@ import transformForSubmit from '../../../config/submit-transformer';
 const mockFormData = {
   mainPhone: '2125551234',
   cellPhone: '2125551234',
-  internationalPhone: '+12125551234',
+  internationalPhone: {
+    callingCode: 1,
+    countryCode: 'US',
+    contact: '2125551234',
+    _isValid: true,
+    _touched: true,
+    _required: false,
+  },
   email: 'email@test.com',
   newAddress: {
     country: 'USA',
@@ -49,6 +56,10 @@ describe('28-1900 submit-transformer', () => {
       fullName: mockFormData.fullName,
       dob: mockFormData.dob,
     });
+
+    // International phone should be a string with calling code and contact number concatenated
+    expect(result).to.have.property('internationalPhone');
+    expect(result.internationalPhone).to.equal('12125551234');
   });
 
   it('removes dashes from all phone fields', () => {
@@ -57,7 +68,6 @@ describe('28-1900 submit-transformer', () => {
         ...mockFormData,
         mainPhone: '212-555-1234',
         cellPhone: '212-555-5678',
-        internationalPhone: '+1-212-555-9999',
       },
     };
 
@@ -68,6 +78,5 @@ describe('28-1900 submit-transformer', () => {
 
     expect(result.mainPhone).to.equal('2125551234');
     expect(result.cellPhone).to.equal('2125555678');
-    expect(result.internationalPhone).to.equal('+12125559999');
   });
 });

@@ -328,6 +328,34 @@ describe('getLetterPdf', () => {
     },
   };
 
+  it('handles msSaveOrOpenBlob for IE', done => {
+    // Simulate IE support
+    Object.defineProperty(window.navigator, 'msSaveOrOpenBlob', {
+      value: sinon.stub(),
+      configurable: true,
+    });
+
+    setFetchBlobResponse(
+      global.fetch.onCall(0),
+      new Blob(['IE blob content'], { type: 'application/pdf' }),
+    );
+
+    const { letterType, letterName, letterOptions } = civilSLetter;
+    const thunk = getLetterPdf(
+      letterType,
+      letterName,
+      letterOptions,
+      migrationOptions,
+    );
+
+    const dispatch = sinon.spy();
+    thunk(dispatch, getState)
+      .then(() => {
+        expect(window.navigator.msSaveOrOpenBlob.calledOnce).to.be.true;
+      })
+      .then(done, done);
+  });
+
   it('dispatches download pending action first', done => {
     const { letterType, letterName, letterOptions } = benefitSLetter;
     const thunk = getLetterPdf(

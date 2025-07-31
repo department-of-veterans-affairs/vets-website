@@ -129,7 +129,9 @@ export const setup = (cy, testOptions = {}) => {
   // because fixtures don't evaluate JS.
   cy.intercept('GET', '/v0/intent_to_file', mockItf);
 
-  cy.intercept('PUT', `${MOCK_SIPS_API}*`, mockInProgress);
+  cy.intercept('PUT', `${MOCK_SIPS_API}*`, mockInProgress).as(
+    'saveInProgressForm',
+  );
 
   cy.intercept(
     'GET',
@@ -139,7 +141,9 @@ export const setup = (cy, testOptions = {}) => {
 
   cy.intercept('GET', '/v0/ppiu/payment_information', mockPayment);
 
-  cy.intercept('POST', '/v0/upload_supporting_evidence', mockUpload);
+  cy.intercept('POST', '/v0/upload_supporting_evidence', mockUpload).as(
+    'uploadFile',
+  );
 
   cy.intercept(
     'POST',
@@ -261,16 +265,16 @@ export const pageHooks = (cy, testOptions) => ({
           'view:isTitle10Activated'
         ]
       ) {
-        const todayPlus120 = format(
-          add(new Date(), { days: 120 }),
-          'yyyy-M-d',
-        ).split('-');
+        const futureDate = add(new Date(), { days: 120 });
+        const year = format(futureDate, 'yyyy');
+        const month = format(futureDate, 'M'); // Single digit month (1-12)
+        const day = format(futureDate, 'd'); // Single digit day (1-31)
+
         // active title 10 activation puts this into BDD flow
-        cy.get('select[name$="SeparationDateMonth"]').select(todayPlus120[1]);
-        cy.get('select[name$="SeparationDateDay"]').select(todayPlus120[2]);
-        cy.get('input[name$="SeparationDateYear"]')
-          .clear()
-          .type(todayPlus120[0]);
+        cy.get('select[name$="SeparationDateMonth"]').select(month);
+        cy.get('select[name$="SeparationDateDay"]').select(day);
+        cy.get('input[name$="SeparationDateYear"]').clear();
+        cy.get('input[name$="SeparationDateYear"]').type(year);
       }
     });
   },
@@ -347,6 +351,83 @@ export const pageHooks = (cy, testOptions) => ({
         cy.get('va-button[text="Save"]').click();
       });
     });
+  },
+
+  'supporting-evidence/evidence-types': () => {
+    cy.get('@testData').then(data => {
+      data.privateMedicalRecordAttachments?.forEach(attachment => {
+        if (attachment.name.endsWith('.PDF')) {
+          cy.get(
+            '[type="radio"][id="root_view:hasEvidenceYesinput"][value="Y"]',
+          ).check({ force: true });
+          cy.get(
+            'input[type="checkbox"][name="root_view:selectableEvidenceTypes_view:hasPrivateMedicalRecords"]',
+          ).check({
+            force: true,
+          });
+          cy.findByText(/continue/i, { selector: 'button' }).click();
+        }
+      });
+      cy.fillPage();
+    });
+  },
+
+  'supporting-evidence/private-medical-records': () => {
+    cy.get('[type="radio"][value="Y"]').check({ force: true });
+    cy.findByText(/continue/i, { selector: 'button' }).click();
+  },
+
+  'supporting-evidence/private-medical-records-upload': () => {
+    cy.get('input[type="file"]').selectFile(
+      'src/applications/disability-benefits/all-claims/tests/fixtures/data/foo_protected.PDF',
+      { force: true },
+    );
+    cy.findByText(/foo_protected.PDF/i).should('exist');
+
+    cy.get('.schemaform-file-uploading').should('not.exist');
+
+    cy.findByText(
+      /This is an encrypted PDF document. In order for us to be able to view the document, we will need the password to decrypt it./,
+    ).should('exist');
+    cy.get('input[name="get_password_0"]').focus();
+    cy.get('input[name="get_password_0"]').should('exist');
+    cy.get('input[name="get_password_0"]').blur();
+
+    cy.get('input[name="get_password_0"]').should('be.visible');
+    cy.get('va-button[text="Add password"]').should('be.visible');
+
+    // Enter password
+    cy.get('input[name="get_password_0"]').clear();
+    cy.get('input[name="get_password_0"]').type('dancing');
+
+    cy.get('va-button[text="Add password"]').then($btn => {
+      const webComponent = $btn[0];
+      const shadowButton = webComponent.shadowRoot.querySelector('button');
+      cy.get(shadowButton).should('be.visible');
+      cy.get(shadowButton).focus();
+      shadowButton.click({ force: true });
+      cy.log('shadow button');
+    });
+
+    cy.wait('@uploadFile').then(({ _request, response }) => {
+      expect(response.statusCode).to.eq(200);
+      cy.log('File upload successful');
+    });
+    cy.get('strong')
+      .contains('The PDF password has been added.')
+      .should('be.visible');
+
+    cy.get('select')
+      .contains('option', 'Medical Treatment Record - Non-Government Facility')
+      .parent()
+      .select('L049');
+
+    cy.wait('@saveInProgressForm').then(({ _request, response }) => {
+      expect(response.statusCode).to.eq(200);
+      cy.log('File Type selection successful');
+    });
+
+    cy.findByText(/continue/i, { selector: 'button' }).click();
   },
 
   'disabilities/rated-disabilities': () => {

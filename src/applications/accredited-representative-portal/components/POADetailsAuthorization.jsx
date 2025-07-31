@@ -10,8 +10,7 @@ const POADetailsAuthorization = ({
     return (
       <span>
         <va-icon
-          height={20}
-          maxWidth={20}
+          size="3"
           icon="check_circle"
           class="vads-u-color--success-dark poa-request__card-icon"
         />
@@ -24,8 +23,7 @@ const POADetailsAuthorization = ({
     return (
       <span>
         <va-icon
-          height={20}
-          maxWidth={20}
+          size="3"
           icon="warning"
           class="vads-u-color--warning-dark poa-request__card-icon"
         />
