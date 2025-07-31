@@ -111,6 +111,44 @@ export function FileFieldCustom(props) {
   );
 }
 
+// Stripped down verision of FileFieldCustom that doesn't include the
+// missing file overview logic + related customizations. This is useful
+// for accessing full form data in sub components on upload pages like
+// description components (such as is done in LLM_UPLOAD_WARNING)
+export function FileFieldCustomSimple(props) {
+  const updateButton = (
+    // eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component
+    <button type="submit" onClick={props.updatePage}>
+      Update page
+    </button>
+  );
+
+  const navButtons = CustomPageNavButtons(props);
+
+  return (
+    <>
+      <SchemaForm
+        schema={props.schema}
+        uiSchema={props.uiSchema}
+        name={props.name}
+        title={props.title}
+        pagePerItemIndex={props.pagePerItemIndex}
+        data={props.data}
+        formContext={props}
+        trackingPrefix={props.trackingPrefix}
+        onChange={props.onReviewPage ? props.setFormData : props.onChange}
+        onSubmit={props.goForward}
+      >
+        <div className="vads-u-margin-top--4">
+          {props.contentBeforeButtons}
+          {props.onReviewPage ? updateButton : navButtons}
+          {props.contentAfterButtons}
+        </div>
+      </SchemaForm>
+    </>
+  );
+}
+
 FileFieldCustom.propTypes = {
   contentAfterButtons: PropTypes.any,
   contentBeforeButtons: PropTypes.any,
@@ -133,4 +171,7 @@ FileFieldCustom.propTypes = {
   onChange: PropTypes.func,
   onReviewPage: PropTypes.bool,
 };
+
+FileFieldCustomSimple.propTypes = FileFieldCustom.propTypes;
+
 export default FileFieldCustom;
