@@ -131,42 +131,57 @@ const DebtDetailsCard = ({ debt, showOTPP }) => {
 
             {!showOTPP &&
               debtCardContent.showLinks && (
-                <>
-                  {debtCardContent.showMakePayment && (
-                    <p>
-                      <a
-                        aria-label="Make a payment"
-                        className="vads-c-action-link--blue"
-                        data-testid="link-make-payment"
-                        href="https://www.pay.va.gov/"
-                        onClick={() => {
-                          recordEvent({
-                            event: 'cta-link-click-debt-make-payment',
-                          });
-                        }}
-                      >
-                        Make a payment
-                      </a>
-                    </p>
+                <va-alert
+                  class="vads-u-margin-bottom--1"
+                  disable-analytics="false"
+                  full-width="false"
+                  show-icon={debtCardContent.showIcon}
+                  status={debtCardContent.status}
+                  visible="true"
+                >
+                  <h2 slot="headline">{debtCardContent.headerText}</h2>
+
+                  {debtCardContent.bodyText}
+
+                  {debtCardContent.showLinks && (
+                    <>
+                      {debtCardContent.showMakePayment && (
+                        <p>
+                          <a
+                            aria-label="Make a payment"
+                            className="vads-c-action-link--blue"
+                            data-testid="link-make-payment"
+                            href="https://www.pay.va.gov/"
+                            onClick={() => {
+                              recordEvent({
+                                event: 'cta-link-click-debt-make-payment',
+                              });
+                            }}
+                          >
+                            Make a payment
+                          </a>
+                        </p>
+                      )}
+                      {debtCardContent.showRequestHelp && (
+                        <p>
+                          <a
+                            aria-label="Request help with your debt"
+                            className="vads-c-action-link--blue"
+                            data-testid="link-request-help"
+                            href="/manage-va-debt/request-debt-help-form-5655"
+                            onClick={() => {
+                              recordEvent({
+                                event: 'cta-link-click-debt-request-help',
+                              });
+                            }}
+                          >
+                            Request help with your debt
+                          </a>
+                        </p>
+                      )}
+                    </>
                   )}
-                  {debtCardContent.showRequestHelp && (
-                    <p>
-                      <a
-                        aria-label="Request help with your debt"
-                        className="vads-c-action-link--blue"
-                        data-testid="link-request-help"
-                        href="/manage-va-debt/request-debt-help-form-5655"
-                        onClick={() => {
-                          recordEvent({
-                            event: 'cta-link-click-debt-request-help',
-                          });
-                        }}
-                      >
-                        Request help with your debt
-                      </a>
-                    </p>
-                  )}
-                </>
+                </va-alert>
               )}
           </va-alert>
         )}
