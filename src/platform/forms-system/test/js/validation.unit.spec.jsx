@@ -800,6 +800,9 @@ describe('Schemaform validations', () => {
       ];
 
       const result = isValidForm(form, pageList, true);
+      // NB: this test is a little misleading because the isValidForm function curries in index to the itemFilter functionality
+      // Platform code is being updated in this PR (https://github.com/department-of-veterans-affairs/vets-website/pull/37482) to assign data as itemFilter's second parameter
+      // At this time, only disability-benefits is using itemFilter's second parameter argument so this will have no other impact
 
       expect(result.isValid).to.be.true;
       expect(result.formData.testArray).to.deep.equal(['test', 'test2']);

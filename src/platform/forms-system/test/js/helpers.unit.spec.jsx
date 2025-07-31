@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 import {
   parseISODate,
   formatISOPartialDate,
@@ -1190,6 +1191,33 @@ describe('Schemaform helpers:', () => {
       expect(newPageList[1].path).to.equal('path/1');
       expect(newPageList[2].path).to.equal('other-path/1');
     });
+
+    it('should accept data as a second itemFilter parameter', () => {
+      const data = {
+        arbitraryFlag: true,
+        test: ['item1', 'item2', 'item3', 'item4'],
+      };
+      const spy = sinon.spy(data.test, 'filter');
+      const pageList = [
+        {
+          showPagePerItem: true,
+          arrayPath: 'test',
+          path: 'path/:index',
+          itemFilter: () => data.arbitraryFlag,
+        },
+      ];
+
+      const newPageList = expandArrayPages(pageList, data);
+      expect(spy.calledOnce);
+      expect(spy.calledWith({}, data)); // this demonstrates itemFilter being called with item (as object), and data
+      expect(spy.returned(newPageList));
+      expect(newPageList.length).to.equal(4);
+      expect(newPageList[0].path).to.equal('path/0');
+      expect(newPageList[1].path).to.equal('path/1');
+      expect(newPageList[2].path).to.equal('path/2');
+      expect(newPageList[3].path).to.equal('path/3');
+    });
+
     it('should pass through list with no array pages', () => {
       const pageList = [
         {
@@ -1226,6 +1254,7 @@ describe('Schemaform helpers:', () => {
       expect(newPageList[0].path).to.equal('test');
     });
   });
+
   describe('formatReviewDate', () => {
     it('should format full date', () => {
       expect(formatReviewDate('2010-01-01')).to.equal('01/01/2010');
