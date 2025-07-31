@@ -1,4 +1,5 @@
 import * as applicantFullname from './applicantFullname';
+import * as mailingAddress from './mailingAddress';
 import * as phoneAndEmail from './phoneAndEmail';
 import identificationInformation from './identificationInformation';
 import * as employmentStatus from './employmentStatus';
@@ -11,6 +12,7 @@ import * as trainingProviderDetails from './trainingProviderDetails';
 
 export {
   applicantFullname,
+  mailingAddress,
   phoneAndEmail,
   identificationInformation,
   employmentStatus,

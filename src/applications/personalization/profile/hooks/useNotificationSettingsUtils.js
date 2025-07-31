@@ -156,7 +156,8 @@ export const useNotificationSettingsUtils = () => {
       // will always hide general and quick submit
       return (
         id !== NOTIFICATION_GROUPS.QUICK_SUBMIT &&
-        id !== NOTIFICATION_GROUPS.GENERAL
+        id !== NOTIFICATION_GROUPS.GENERAL &&
+        id !== NOTIFICATION_GROUPS.PAPERLESS_DELIVERY
       );
     });
   };
