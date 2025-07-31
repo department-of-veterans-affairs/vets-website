@@ -1,7 +1,7 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { expect, fireEvent, waitFor } from 'chai';
+import { expect } from 'chai';
 import createCommonStore from '@department-of-veterans-affairs/platform-startup/store';
 import {
   DefinitionTester,
