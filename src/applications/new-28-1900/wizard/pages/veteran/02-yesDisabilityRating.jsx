@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router';
 import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
-import { WIZARD_STATUS } from 'applications/vre/28-1900/constants';
+import { WIZARD_STATUS } from 'applications/new-28-1900/constants';
 import recordEvent from 'platform/monitoring/record-event';
-import { serviceMemberPathPageNames } from '../pageList';
+import { veteranPathPageNames } from '../pageList';
 
-const YesIDES = props => {
+const YesDisabilityRating = props => {
   const { setWizardStatus } = props;
   useEffect(
     () => {
@@ -15,7 +15,7 @@ const YesIDES = props => {
   );
   return (
     <div
-      id={serviceMemberPathPageNames.yesIDES}
+      id={veteranPathPageNames.yesDisabilityRating}
       className="vads-u-margin-top--2 vads-u-padding--3 vads-u-background-color--gray-lightest"
       aria-live="polite"
       aria-atomic="true"
@@ -47,6 +47,6 @@ const YesIDES = props => {
 };
 
 export default {
-  name: serviceMemberPathPageNames.yesIDES,
-  component: YesIDES,
+  name: veteranPathPageNames.yesDisabilityRating,
+  component: YesDisabilityRating,
 };
