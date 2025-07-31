@@ -15,7 +15,7 @@ const TIMEZONE_LABELS = {
 };
 
 const GMT_TABLE_MAPPING = {
-  'GMT+8': 'PT', // Asia/Manila
+  'GMT+8': 'PHT', // Asia/Manila
   'GMT-11': 'ST', // Pacific/Pago_Pago
   'GMT+10': 'ChT', // Pacific/Guam, Pacific/Saipan
 };

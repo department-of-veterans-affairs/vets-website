@@ -79,6 +79,9 @@ describe('VAOS Utils: timezone', () => {
 
   describe('getTimezoneDescByFacilityId', () => {
     it('should return the correct description', () => {
+      expect(getTimezoneDescByFacilityId('358')).to.equal(
+        'Philippine time (PHT)',
+      );
       expect(getTimezoneDescByFacilityId('402')).to.equal('Eastern time (ET)');
       expect(getTimezoneDescByFacilityId('436')).to.equal('Mountain time (MT)');
       expect(getTimezoneDescByFacilityId('437')).to.equal('Central time (CT)');
@@ -155,7 +158,7 @@ describe('VAOS Utils: timezone', () => {
           start: new Date(),
           timezone: 'Asia/Manila',
         }),
-      ).to.equal('PT');
+      ).to.equal('PHT');
       expect(
         getTimezoneAbbrFromApi({
           start: new Date(),
