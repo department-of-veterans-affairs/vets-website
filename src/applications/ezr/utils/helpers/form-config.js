@@ -256,7 +256,7 @@ export function spouseAddressDoesNotMatchVeterans(formData) {
  * @returns {Boolean} - true if viewfield is set to `false`
  */
 export function includeDependentInformation(formData) {
-  const hasMaxDependents = formData.dependents.length >= MAX_DEPENDENTS;
+  const hasMaxDependents = formData.dependents?.length >= MAX_DEPENDENTS;
   return (
     includeHouseholdInformation(formData) &&
     !hasMaxDependents &&
