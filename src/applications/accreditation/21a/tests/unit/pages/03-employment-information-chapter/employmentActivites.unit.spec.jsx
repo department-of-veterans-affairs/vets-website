@@ -16,8 +16,9 @@ describe('Employment Activities Page', () => {
       />,
     );
     const { container, getByText } = form;
-
-    expect(getByText(/Check all that apply\./i)).to.exist;
+    getByText(
+      /Check all that apply. Failure to identify relevant activities may result in a delay in processing your application./,
+    );
 
     Object.values(employmentActivitiesOptions).forEach(option => {
       const checkbox = $(`va-checkbox[label="${option}"]`, container);
