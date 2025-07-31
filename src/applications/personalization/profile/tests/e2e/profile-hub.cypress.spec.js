@@ -11,7 +11,6 @@ describe('Profile - Hub page', () => {
     mockProfileLOA3(
       generateFeatureToggles({
         profileShowPaperlessDelivery: false,
-        vetStatusStage1: true,
       }),
     );
   });

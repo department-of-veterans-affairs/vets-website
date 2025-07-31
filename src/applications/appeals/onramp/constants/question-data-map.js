@@ -7,5 +7,12 @@ export const QUESTION_MAP = Object.freeze({
 // Left side must match routes in constants/index.js (ROUTES)
 export const SHORT_NAME_MAP = Object.freeze({
   HOME: 'HOME',
-  CLAIM_DECISION_1_1: 'CLAIM_DECISION_1_1',
+  Q_1_1_CLAIM_DECISION: 'Q_1_1_CLAIM_DECISION',
+});
+
+export const RESPONSES = Object.freeze({
+  HLR: 'Higher-Level Review Claim',
+  IS: 'Initial/Supplemental Claim',
+  NO: 'No',
+  YES: 'Yes',
 });

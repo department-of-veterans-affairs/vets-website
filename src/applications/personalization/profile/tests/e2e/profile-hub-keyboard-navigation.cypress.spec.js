@@ -25,7 +25,6 @@ describe('Profile - Hub page, Keyboard navigation', () => {
 
     mockProfileLOA3(
       generateFeatureToggles({
-        vetStatusStage1: true,
         profileShowPaperlessDelivery: true,
       }),
     );
