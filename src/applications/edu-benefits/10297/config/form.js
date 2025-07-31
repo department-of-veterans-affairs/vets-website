@@ -23,6 +23,7 @@ import {
   educationDetails,
   trainingProviderSummary,
   trainingProviderDetails,
+  trainingProviderStartDate,
 } from '../pages';
 
 import { trainingProviderArrayOptions } from '../helpers';
@@ -139,6 +140,13 @@ const formConfig = {
             schema: trainingProviderDetails.schema,
           }),
         })),
+        trainingProviderStartDate: {
+          path: 'training-provider-start-date',
+          title:
+            'Do you have a start date for the program you wish to enroll in?',
+          uiSchema: trainingProviderStartDate.uiSchema,
+          schema: trainingProviderStartDate.schema,
+        },
       },
     },
     backgroundInformationChapter: {

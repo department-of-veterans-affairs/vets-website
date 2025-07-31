@@ -12,6 +12,7 @@ import {
   trainingProviderArrayOptions,
   getCardDescription,
   validateWithin180Days,
+  validateTrainingProviderStartDate,
 } from '../helpers';
 
 describe('10297 Helpers', () => {
@@ -148,8 +149,8 @@ describe('10297 Helpers', () => {
   describe('trainingProvierArrayOptions', () => {
     it('should return correct isItemComplete', () => {
       const item = {
-        name: 'Training Provider Example',
-        address: {
+        providerName: 'Training Provider Example',
+        providerAddress: {
           country: 'USA',
           street: '123 Main St',
           city: 'Anytown',
@@ -168,7 +169,7 @@ describe('10297 Helpers', () => {
 
     it('should return correct card title using getItemName', () => {
       const item = {
-        name: 'Training Provider Example',
+        providerName: 'Training Provider Example',
       };
       const emptyItem = {};
       expect(trainingProviderArrayOptions.text.getItemName(item)).to.equal(
@@ -197,7 +198,7 @@ describe('10297 Helpers', () => {
   describe('getCardDescription', () => {
     it('should return a full description of details from the given card details', () => {
       const card = {
-        address: {
+        providerAddress: {
           country: 'USA',
           street: '123 Main St',
           city: 'Anytown',
@@ -269,6 +270,29 @@ describe('10297 Helpers', () => {
     it('does nothing when no date string is provided', () => {
       const errors = { addError: sinon.spy() };
       validateWithin180Days(errors, undefined);
+      expect(errors.addError.called).to.be.false;
+    });
+  });
+
+  describe('validateTrainingProviderStartDate()', () => {
+    it('does nothing (passes) when given a date after the program start date', () => {
+      const errors = { addError: sinon.spy() };
+      validateTrainingProviderStartDate(errors, '2025-01-03');
+      expect(errors.addError.called).to.be.false;
+    });
+
+    it('adds an error when given a date before the program start date', () => {
+      const errors = { addError: sinon.spy() };
+      validateTrainingProviderStartDate(errors, '2025-01-01');
+      expect(errors.addError.calledOnce).to.be.true;
+      expect(errors.addError.firstCall.args[0]).to.match(
+        /Training must start/i,
+      );
+    });
+
+    it('does nothing when no date string is provided', () => {
+      const errors = { addError: sinon.spy() };
+      validateTrainingProviderStartDate(errors, undefined);
       expect(errors.addError.called).to.be.false;
     });
   });
