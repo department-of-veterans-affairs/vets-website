@@ -311,7 +311,7 @@ export const validatePhone = (content, phoneObject) => {
   if (!processedPhoneString) {
     return content.missingPhoneError;
   }
-  if (!isValidPhone(processedPhoneString)) {
+  if (!phoneObject.isInternational && !isValidPhone(processedPhoneString)) {
     return content.invalidPhone;
   }
   return '';
@@ -371,10 +371,15 @@ export const getMissingInfo = ({ data, keys, content, requiredKeys = [] }) => {
     requiredKeys.includes(phones.join('')) ||
     requiredKeys.includes(phones.reverse().join(''));
 
-  const isValidHomePhone = isValidPhone(getPhoneString(data[keys.homePhone]));
-  const isValidMobilePhone = isValidPhone(
-    getPhoneString(data[keys.mobilePhone]),
-  );
+  const homePhoneObj = data[keys.homePhone] || {};
+  const mobilePhoneObj = data[keys.mobilePhone] || {};
+
+  const isValidHomePhone =
+    homePhoneObj.isInternational || isValidPhone(getPhoneString(homePhoneObj));
+
+  const isValidMobilePhone =
+    mobilePhoneObj.isInternational ||
+    isValidPhone(getPhoneString(mobilePhoneObj));
 
   if (keys.homePhone && keys.mobilePhone && eitherPhone) {
     missingInfo.push(
