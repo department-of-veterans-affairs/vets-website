@@ -313,14 +313,13 @@ export const studentEducationBenefitsPage = {
       },
     },
     'ui:options': {
-      updateSchema: (formData, formSchema) => {
-        if (formData?.typeOfProgramOrBenefit?.other) {
-          return formSchema;
-        }
-        return {
-          ...formSchema,
-          required: ['tuitionIsPaidByGovAgency', 'otherProgramOrBenefit'],
-        };
+      updateSchema: (formData, formSchema, _uiSchema, index) => {
+        const isOtherChecked =
+          !!formData?.studentInformation?.[index]?.typeOfProgramOrBenefit
+            ?.other || !!formData?.typeOfProgramOrBenefit?.other;
+        const required = ['tuitionIsPaidByGovAgency'];
+        if (isOtherChecked) required.push('otherProgramOrBenefit');
+        return { ...formSchema, required };
       },
     },
   },

@@ -13,7 +13,6 @@ import appendQuery from 'append-query';
 import { browserHistory } from 'react-router';
 import { displayResults as displayResultsAction } from '../reducers/actions';
 import GetFormHelp from '../components/GetFormHelp';
-import CopyResultsModal from '../components/CopyResultsModal';
 import { BENEFITS_LIST } from '../constants/benefits';
 import Benefits from './components/Benefits';
 
@@ -334,6 +333,35 @@ export class ConfirmationPage extends React.Component {
     focusElement('#filter-text');
   }
 
+  titleParagraph = () => {
+    return (
+      <>
+        {window.history.length > 2 ? (
+          <>
+            <p>
+              Based on your answers, we've suggested some benefits for you to
+              explore. If you need to, you can&nbsp;
+              <va-link
+                data-testid="back-link"
+                href="#"
+                onClick={this.handleBackClick}
+                text="go back and review your entries"
+              />
+              . Remember to check your eligibility before you apply.
+            </p>
+          </>
+        ) : (
+          <>
+            <p>
+              Based on your answers, we've suggested some benefits for you to
+              explore. Remember to check your eligibility before you apply.
+            </p>
+          </>
+        )}
+      </>
+    );
+  };
+
   render() {
     return (
       <div>
@@ -356,13 +384,7 @@ export class ConfirmationPage extends React.Component {
                 </p>
               </>
             ) : (
-              <>
-                <p>
-                  Based on your answers, we’ve suggested some benefits for you
-                  to explore. Remember to check your eligibility before you
-                  apply.
-                </p>
-              </>
+              this.titleParagraph()
             )}
           </div>
         </article>
@@ -389,11 +411,6 @@ export class ConfirmationPage extends React.Component {
 
         <div id="results-container" className="vads-l-grid-container">
           <div className="vads-l-row vads-u-margin-y--2 vads-u-margin-x--neg2p5">
-            {!this.props.location.query.allBenefits && (
-              <div className="vads-l-col--12">
-                <CopyResultsModal />
-              </div>
-            )}
             <div
               id="filters-section-desktop"
               className={classNames({
@@ -412,13 +429,13 @@ export class ConfirmationPage extends React.Component {
                 <div className="all-benefits">
                   <span>
                     If you'd like to explore all of the benefits that this tool
-                    can recommend, select the link below.
+                    can recommend, select the link below.&nbsp;
                   </span>
                   <va-link
                     href="/discover-your-benefits/confirmation?allBenefits=true"
                     external
                     message-aria-describedby="Show every benefit in this tool"
-                    text="Show every benefit&#10;in this tool"
+                    text="Show every benefit in this tool"
                     data-testid="show-all-benefits"
                     type="secondary"
                     className=""
@@ -457,27 +474,6 @@ export class ConfirmationPage extends React.Component {
               {this.state.filterText && (
                 <div id="filter-text">{this.state.filterText}</div>
               )}
-              {!this.props.location.query.allBenefits &&
-                window.history.length > 2 && (
-                  <>
-                    <p>
-                      <va-link
-                        data-testid="back-link"
-                        href="#"
-                        onClick={this.handleBackClick}
-                        text="Go back and review your entries"
-                      />
-                    </p>
-                    <p className="start-over-link-container">
-                      <va-link
-                        data-testid="start-over-link"
-                        href="/discover-your-benefits/goals"
-                        text="Start over"
-                      />
-                    </p>
-                  </>
-                )}
-
               <Benefits
                 results={this.props.results}
                 benefits={this.state.benefits}
