@@ -9,14 +9,14 @@ import { deleteInProgressForm } from '../util';
 
 export const form686Url = getAppUrl('686C-674');
 
-export const ExitForm = ({ router }) => {
+export const ExitForm = ({ goBack }) => {
   useEffect(() => {
     scrollAndFocus('h1');
   }, []);
 
   const handlers = {
     goBack: () => {
-      router.push('/dependents');
+      goBack();
     },
     goTo686: async () => {
       await deleteInProgressForm(VA_FORM_IDS.FORM_21_0538);
