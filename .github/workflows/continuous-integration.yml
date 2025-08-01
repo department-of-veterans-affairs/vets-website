@@ -231,6 +231,7 @@ jobs:
         if: ${{ always() }}
         id: unit-tests-changed
         run: echo "tests=$UNIT_TESTS_CHANGED" >> $GITHUB_OUTPUT
+
       - name: Upload artifact of Unit Tests to Stress Test
         if: ${{ steps.unit-tests-to-stress-test.outputs.tests == 'true' }}
         uses: ./.github/workflows/upload-artifact
@@ -238,7 +239,7 @@ jobs:
           name: unit-tests-to-stress-test
           path: unit_tests_to_stress_test.json
 
-      - name: Upload artifact of Unit Tests to Stress Test
+      - name: Upload artifact of Unit Tests Changed
         if: ${{ steps.unit-tests-changed.outputs.changed-tests == 'true' }}
         uses: ./.github/workflows/upload-artifact
         with:
