@@ -1474,3 +1474,17 @@ export const addressConfirmationRenderLine = content => {
     </>
   ) : null;
 };
+
+// This function ensures the `depends` function of each page is called with the correct form data
+// in the burialBenefits section of the form
+export const addConditionalDependency = (pages, condition) => {
+  return Object.fromEntries(
+    Object.entries(pages).map(([key, page]) => [
+      key,
+      {
+        ...page,
+        depends: formData => page.depends?.(formData) && condition(formData),
+      },
+    ]),
+  );
+};
