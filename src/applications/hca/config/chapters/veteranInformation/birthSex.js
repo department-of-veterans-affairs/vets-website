@@ -19,12 +19,6 @@ export default {
   schema: {
     type: 'object',
     required: ['gender'],
-    properties: {
-      'view:birthSex': {
-        type: 'object',
-        properties: {},
-      },
-      gender,
-    },
+    properties: { gender },
   },
 };

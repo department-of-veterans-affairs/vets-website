@@ -40,10 +40,6 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      'view:lastServicePeriod': {
-        type: 'object',
-        properties: {},
-      },
       lastServiceBranch,
       lastEntryDate,
       lastDischargeDate,

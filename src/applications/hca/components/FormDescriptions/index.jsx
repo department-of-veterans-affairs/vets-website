@@ -330,12 +330,10 @@ export const SpouseAdditionalInformationDescription = () => (
     trigger="Why we ask for this information"
     class="vads-u-margin-top--1 vads-u-margin-bottom--4"
   >
-    <div>
-      <p className="vads-u-margin-top--0">
-        This information helps us determine if your spouse was your dependent in{' '}
-        {LAST_YEAR}.
-      </p>
-    </div>
+    <p>
+      This information helps us determine if your spouse was your dependent in{' '}
+      {LAST_YEAR}.
+    </p>
   </va-additional-info>
 );
 
@@ -404,14 +402,14 @@ export const GroupCodeDescription = (
 
 export const MedicaidDescription = (
   <>
-    <p>
+    <span className="vads-u-display--block vads-u-margin-y--2">
       Medicaid is a federal health insurance program for adults and families
       with low income levels and people with disabilities.
-    </p>
-    <p>
+    </span>
+    <span className="vads-u-display--block vads-u-margin-y--2">
       <strong>Note:</strong> Some states use different names for their Medicaid
       programs.
-    </p>
+    </span>
   </>
 );
 
