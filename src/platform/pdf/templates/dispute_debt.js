@@ -1,4 +1,6 @@
 import { format } from 'date-fns';
+import { formatDateLong } from 'platform/utilities/date';
+import { MissingFieldsException } from '../utils/exceptions/MissingFieldsException';
 import {
   createAccessibleDoc,
   createHeading,
@@ -39,6 +41,105 @@ const defaultConfig = {
   },
 };
 
+const validate = data => {
+  const missingFields = [];
+
+  // Validate top-level data fields
+  const requiredFieldsData = ['selectedDebts', 'submissionDetails', 'veteran'];
+  const missingDataFields = requiredFieldsData.filter(field => !data[field]);
+  missingFields.push(...missingDataFields.map(field => `data.${field}`));
+
+  // Early return if critical fields are missing
+  if (missingDataFields.length > 0) {
+    throw new MissingFieldsException(missingFields);
+  }
+
+  const { selectedDebts, submissionDetails, veteran } = data;
+
+  // Validate submissionDetails
+  const requiredFieldsSubmissionDetails = ['submissionDateTime'];
+  const missingSubmissionFields = requiredFieldsSubmissionDetails.filter(
+    field => !submissionDetails[field],
+  );
+  missingFields.push(
+    ...missingSubmissionFields.map(field => `submissionDetails.${field}`),
+  );
+
+  // Validate veteran fields
+  const requiredFieldsVeteran = [
+    'dob',
+    'veteranFullName',
+    'ssnLastFour',
+    'mailingAddress',
+    'email',
+    'mobilePhone',
+  ];
+  const missingVeteranFields = requiredFieldsVeteran.filter(
+    field => !veteran[field],
+  );
+  missingFields.push(...missingVeteranFields.map(field => `veteran.${field}`));
+
+  // Only validate nested objects if parent objects exist
+  if (veteran.mailingAddress) {
+    const requiredFieldsMailingAddress = [
+      'addressLine1',
+      'city',
+      'countryName',
+      'zipCode',
+      'stateCode',
+    ];
+    const missingAddressFields = requiredFieldsMailingAddress.filter(
+      field => !veteran.mailingAddress[field],
+    );
+    missingFields.push(
+      ...missingAddressFields.map(field => `veteran.mailingAddress.${field}`),
+    );
+  }
+
+  if (veteran.mobilePhone) {
+    const requiredFieldsMobilePhone = [
+      'phoneNumber',
+      'countryCode',
+      'areaCode',
+    ];
+    const missingPhoneFields = requiredFieldsMobilePhone.filter(
+      field => !veteran.mobilePhone[field],
+    );
+    missingFields.push(
+      ...missingPhoneFields.map(field => `veteran.mobilePhone.${field}`),
+    );
+  }
+
+  if (veteran.veteranFullName) {
+    const requiredFieldsVeteranFullName = ['first', 'last'];
+    const missingNameFields = requiredFieldsVeteranFullName.filter(
+      field => !veteran.veteranFullName[field],
+    );
+    missingFields.push(
+      ...missingNameFields.map(field => `veteran.veteranFullName.${field}`),
+    );
+  }
+
+  // Validate selectedDebts
+  if (!Array.isArray(selectedDebts) || selectedDebts.length === 0) {
+    missingFields.push('selectedDebts (must be a non-empty array)');
+  } else {
+    selectedDebts.forEach((debt, index) => {
+      const requiredFieldsDebt = ['label', 'disputeReason', 'supportStatement'];
+      const missingDebtFields = requiredFieldsDebt.filter(
+        field => !debt[field],
+      );
+      missingFields.push(
+        ...missingDebtFields.map(field => `selectedDebts[${index}].${field}`),
+      );
+    });
+  }
+
+  if (missingFields.length > 0) {
+    throw new MissingFieldsException(missingFields);
+  }
+};
+
 // TODO:
 // handle page breaks, so H3 sections don't break across pages
 
@@ -48,6 +149,7 @@ const defaultConfig = {
 // bullets - indent is the prop used to move the bullet point over, bulletIndent is just for nested lists
 
 const generate = async (data = {}, config = defaultConfig) => {
+  validate(data);
   const doc = createAccessibleDoc(
     {
       author: 'U.S. Department of Veterans Affairs',
@@ -158,25 +260,28 @@ const generate = async (data = {}, config = defaultConfig) => {
   // =====================================
   // * VA Logo Fetch logo as base64 *
   // =====================================
-  const response = await fetch('/img/design/logo/logo-black-and-white.png');
-  const arrayBuffer = await response.arrayBuffer();
-  const base64Image = `data:image/png;base64,${Buffer.from(
-    arrayBuffer,
-  ).toString('base64')}`;
+  const { logoUrl } = submissionDetails;
+  if (logoUrl) {
+    const response = await fetch(logoUrl);
+    const arrayBuffer = await response.arrayBuffer();
+    const base64Image = `data:image/png;base64,${Buffer.from(
+      arrayBuffer,
+    ).toString('base64')}`;
 
-  // right align logo
-  const logoWidth = 150;
-  const logoX = config.margins.left;
-  wrapper.add(
-    doc.struct(
-      'Figure',
-      { alt: 'VA U.S Department of Veteran Affairs' },
-      () => {
-        doc.image(base64Image, logoX, doc.y, { width: logoWidth });
-      },
-    ),
-  );
-  doc.moveDown();
+    // right align logo
+    const logoWidth = 150;
+    const logoX = config.margins.left;
+    wrapper.add(
+      doc.struct(
+        'Figure',
+        { alt: 'VA U.S Department of Veteran Affairs' },
+        () => {
+          doc.image(base64Image, logoX, doc.y, { width: logoWidth });
+        },
+      ),
+    );
+    doc.moveDown();
+  }
 
   // =====================================
   // * Submission details *
@@ -267,9 +372,8 @@ const generate = async (data = {}, config = defaultConfig) => {
   });
 
   // veteran dob
-  const formattedDob = dob
-    ? format(new Date(dob), 'MMMM d, yyyy')
-    : 'Not provided';
+  const formattedDob = dob ? formatDateLong(dob) : 'Not provided';
+
   veteranPersonalInformation.add(
     doc.struct('P', () => {
       doc
@@ -511,4 +615,4 @@ const generate = async (data = {}, config = defaultConfig) => {
   return doc;
 };
 
-export { generate };
+export { generate, validate };

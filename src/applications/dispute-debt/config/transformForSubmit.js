@@ -36,6 +36,7 @@ const transformForSubmit = (formConfig, form) => {
     },
     submissionDetails: {
       submissionDateTime: submissionTime,
+      logoUrl: '/img/design/logo/logo-black-and-white.png',
     },
   };
 

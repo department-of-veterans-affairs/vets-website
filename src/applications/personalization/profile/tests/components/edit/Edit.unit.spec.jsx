@@ -70,4 +70,26 @@ describe('<Edit>', () => {
     expect(await viewWithData.findByText('Update your mobile phone number')).to
       .exist;
   });
+
+  it('renders path name in breadcrumb', () => {
+    const { getByRole } = renderWithStoreAndRouter(<Edit />, {
+      initialState: {},
+      reducers: { vapService },
+      path:
+        '/profile/edit?fieldName=email&returnPath=%2Fprofile%2Fpaperless-delivery',
+    });
+
+    expect(getByRole('link', { name: 'Back to Paperless delivery' })).to.exist;
+  });
+
+  it('renders path name in body', () => {
+    const { getByText } = renderWithStoreAndRouter(<Edit />, {
+      initialState: {},
+      reducers: { vapService },
+      path:
+        '/profile/edit?fieldName=email&returnPath=%2Fprofile%2Fpaperless-delivery',
+    });
+
+    expect(getByText('PAPERLESS DELIVERY', { exact: true })).to.exist;
+  });
 });
