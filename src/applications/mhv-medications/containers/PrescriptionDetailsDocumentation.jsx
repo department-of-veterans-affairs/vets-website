@@ -1,11 +1,7 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom-v5-compat';
 import { useSelector } from 'react-redux';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import {
-  MhvPageNotFound,
-  updatePageTitle,
-} from '@department-of-veterans-affairs/mhv/exports';
+import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import {
@@ -34,11 +30,7 @@ const PrescriptionDetailsDocumentation = () => {
   const { prescriptionId } = useParams();
   const contentRef = useRef();
 
-  const { isDisplayingDocumentation, dob, userName } = useSelector(state => ({
-    isDisplayingDocumentation:
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvMedicationsDisplayDocumentationContent
-      ],
+  const { dob, userName } = useSelector(state => ({
     userName: state.user.profile.userFullName,
     dob: state.user.profile.dob,
   }));
@@ -175,9 +167,6 @@ const PrescriptionDetailsDocumentation = () => {
     [isLoadingDoc, isLoadingRx, hasDocApiError, htmlContent],
   );
 
-  if (!isDisplayingDocumentation) {
-    return <MhvPageNotFound />;
-  }
   if (hasDocApiError || prescriptionApiError) {
     return (
       <div>

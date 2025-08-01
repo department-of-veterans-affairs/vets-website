@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { useLocation, useParams } from 'react-router-dom-v5-compat';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { createBreadcrumbs } from '../util/helpers';
 import { medicationsUrls } from '../util/constants';
 
@@ -10,12 +9,6 @@ const RxBreadcrumbs = () => {
   const location = useLocation();
   const { prescriptionId } = useParams();
   const currentPage = useSelector(state => state.rx.preferences.pageNumber);
-  const isDisplayingDocumentation = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvMedicationsDisplayDocumentationContent
-      ],
-  );
   const [breadcrumbs, setBreadcrumbs] = useState([]);
 
   useEffect(
@@ -26,13 +19,6 @@ const RxBreadcrumbs = () => {
   );
 
   let content = null;
-
-  if (
-    !isDisplayingDocumentation &&
-    location.pathname.includes(medicationsUrls.subdirectories.DOCUMENTATION)
-  ) {
-    return null;
-  }
 
   if (
     location.pathname.includes(medicationsUrls.subdirectories.DOCUMENTATION)
