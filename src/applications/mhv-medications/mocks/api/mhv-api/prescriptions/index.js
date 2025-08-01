@@ -287,10 +287,11 @@ function generateMockPrescriptions(n = 20) {
   return {
     data: [
       ...mockPrescriptionArray(n),
-      mockPrescription(0, {
+      mockPrescription(99, {
         dispStatus: dispStatusObj.NON_VA,
-        prescriptionName: 'Test Active Non-Va',
+        prescriptionName: 'TACROLIMUS 1MG CAP',
         prescriptionSource: 'NV',
+        trackingList: [],
       }),
     ],
     meta: {

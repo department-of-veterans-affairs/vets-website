@@ -4,8 +4,13 @@ import { dateFormat } from '../../util/helpers';
 import { dispStatusObj } from '../../util/constants';
 
 const LastFilledInfo = rx => {
-  const { dispStatus, orderedDate, sortedDispensedDate } = rx;
-  let nonVA = false;
+  const {
+    dispStatus,
+    orderedDate,
+    prescriptionSource,
+    sortedDispensedDate,
+  } = rx;
+  let nonVA = prescriptionSource === 'NV';
   let showLastFilledDate = false;
   if (dispStatus === dispStatusObj.nonVA) {
     nonVA = true;
@@ -14,17 +19,16 @@ const LastFilledInfo = rx => {
   }
   return (
     <>
-      {nonVA &&
-        orderedDate && (
-          <p data-testid="rx-last-filled-info" data-dd-privacy="mask">
-            {dateFormat(
-              orderedDate,
-              'MMMM D, YYYY',
-              'Documented date not available',
-              'Documented on ',
-            )}
-          </p>
-        )}
+      {nonVA && (
+        <p data-testid="rx-last-filled-info" data-dd-privacy="mask">
+          {dateFormat(
+            orderedDate,
+            'MMMM D, YYYY',
+            'Documented on: Date not available',
+            'Documented on ',
+          )}
+        </p>
+      )}
       {showLastFilledDate && (
         <p data-testid="rx-last-filled-date" data-dd-privacy="mask">
           {dateFormat(

@@ -95,4 +95,49 @@ describe('Medication card component', () => {
       ),
     );
   });
+
+  it('renders a Non-VA Prescription with an orderedDate', () => {
+    const rx = {
+      ...prescriptionsListItem,
+      prescriptionSource: 'NV',
+      dispStatus: 'Active: Non-VA',
+      orderedDate: '2024-06-16T04:39:11Z',
+    };
+    const { getByTestId } = setup(rx);
+    /* eslint-disable prettier/prettier */
+    expect(getByTestId('rx-last-filled-info')).to.have.text('Documented on June 16, 2024');
+    expect(getByTestId('rxStatus')).to.have.text('Active: Non-VA');
+    expect(getByTestId('non-VA-prescription')).to.have.text('You can’t manage this medication in this online tool.');
+    /* eslint-enable prettier/prettier */
+  });
+
+  it('renders a Non-VA Prescription without an orderedDate', () => {
+    const rx = {
+      ...prescriptionsListItem,
+      prescriptionSource: 'NV',
+      dispStatus: 'Active: Non-VA',
+      orderedDate: '',
+    };
+    const { getByTestId } = setup(rx);
+    /* eslint-disable prettier/prettier */
+    expect(getByTestId('rx-last-filled-info')).to.have.text('Documented on: Date not available');
+    expect(getByTestId('rxStatus')).to.have.text('Active: Non-VA');
+    expect(getByTestId('non-VA-prescription')).to.have.text('You can’t manage this medication in this online tool.');
+    /* eslint-enable prettier/prettier */
+  });
+
+  it('renders a Non-VA Prescription when dispStatus is null', () => {
+    const rx = {
+      ...prescriptionsListItem,
+      prescriptionSource: 'NV',
+      dispStatus: null,
+      orderedDate: '',
+    };
+    const { getByTestId } = setup(rx);
+    /* eslint-disable prettier/prettier */
+    expect(getByTestId('rx-last-filled-info')).to.have.text('Documented on: Date not available');
+    expect(getByTestId('rxStatus')).to.have.text('Active: Non-VA');
+    expect(getByTestId('non-VA-prescription')).to.have.text('You can’t manage this medication in this online tool.');
+    /* eslint-enable prettier/prettier */
+  });
 });
