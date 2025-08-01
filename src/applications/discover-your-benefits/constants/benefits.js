@@ -249,8 +249,10 @@ export const BENEFITS_LIST = [
         goalTypes.UNDERSTAND,
       ],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
+      [mappingTypes.BRANCH_COMPONENT]: [
+        militaryBranchComponentTypes.ACTIVE_DUTY,
+      ],
       [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [yesNoType.YES],
-      [mappingTypes.BRANCH_COMPONENT]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [
         expectedSeparationTypes.UP_TO_3_MONTHS,
@@ -258,7 +260,6 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
       [mappingTypes.SEPARATION]: [
-        separationTypes.UP_TO_3_MONTHS,
         separationTypes.UP_TO_6_MONTHS,
         separationTypes.UP_TO_1_YEAR,
       ],
@@ -474,7 +475,9 @@ export const BENEFITS_LIST = [
         timeServedTypes.OVER_3_YEARS,
       ],
       [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [yesNoType.YES],
-      [mappingTypes.BRANCH_COMPONENT]: [anyType.ANY],
+      [mappingTypes.BRANCH_COMPONENT]: [
+        militaryBranchComponentTypes.ACTIVE_DUTY,
+      ],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
@@ -519,7 +522,6 @@ export const BENEFITS_LIST = [
       [mappingTypes.CHARACTER_OF_DISCHARGE]: [
         characterOfDischargeTypes.HONORABLE,
         characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
-        characterOfDischargeTypes.UNDER_OTHER_THAN_HONORABLE_CONDITIONS,
         characterOfDischargeTypes.BAD_CONDUCT,
         characterOfDischargeTypes.UNCHARACTERIZED,
         characterOfDischargeTypes.NOT_SURE,
@@ -548,7 +550,6 @@ export const BENEFITS_LIST = [
       [mappingTypes.CHARACTER_OF_DISCHARGE]: [
         characterOfDischargeTypes.HONORABLE,
         characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
-        characterOfDischargeTypes.UNDER_OTHER_THAN_HONORABLE_CONDITIONS,
         characterOfDischargeTypes.BAD_CONDUCT,
         characterOfDischargeTypes.UNCHARACTERIZED,
         characterOfDischargeTypes.NOT_SURE,
@@ -644,7 +645,6 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
       [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [anyType.ANY],
-      [mappingTypes.BRANCH_COMPONENT]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
@@ -733,7 +733,9 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
       [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [yesNoType.YES],
-      [mappingTypes.BRANCH_COMPONENT]: [anyType.ANY],
+      [mappingTypes.BRANCH_COMPONENT]: [
+        militaryBranchComponentTypes.ACTIVE_DUTY,
+      ],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
@@ -768,56 +770,12 @@ export const BENEFITS_LIST = [
       'Veterans, service members, and some family members may be eligible for burial in a VA national cemetery. Find out if you, or a person you’re planning a burial for, can get this benefit.',
     isTimeSensitive: false,
     mappings: {
-      [mappingTypes.GOALS]: [goalTypes.UNDERSTAND, goalTypes.PLAN],
+      [mappingTypes.GOALS]: [goalTypes.UNDERSTAND],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
       [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [yesNoType.YES],
       [mappingTypes.BRANCH_COMPONENT]: [
         militaryBranchComponentTypes.ACTIVE_DUTY,
-        militaryBranchComponentTypes.NATIONAL_GUARD_SERVICE,
-        militaryBranchComponentTypes.RESERVE_SERVICE,
       ],
-      [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
-      [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
-      [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
-      [mappingTypes.SEPARATION]: [anyType.ANY],
-      [mappingTypes.CHARACTER_OF_DISCHARGE]: [
-        characterOfDischargeTypes.HONORABLE,
-        characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
-        characterOfDischargeTypes.UNDER_OTHER_THAN_HONORABLE_CONDITIONS,
-        characterOfDischargeTypes.UNCHARACTERIZED,
-        characterOfDischargeTypes.BAD_CONDUCT,
-        characterOfDischargeTypes.NOT_SURE,
-        characterOfDischargeTypes.STILL_SERVING,
-      ],
-      [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
-    },
-    isQualified: responses => {
-      return (
-        responses[mappingTypes.GOALS] &&
-        (responses[mappingTypes.TITLE_TEN_ACTIVE_DUTY] ||
-          responses[mappingTypes.BRANCH_COMPONENT]) &&
-        responses[mappingTypes.CHARACTER_OF_DISCHARGE]
-      );
-    },
-    learnMoreURL: URLS.BUR_LEARN,
-    applyNowURL: URLS.BUR_APPLY,
-  },
-  {
-    name: 'VA national cemetery burial',
-    category: categories.BURIALS,
-    id: 'BRG',
-    description:
-      'Reserves or National Guard members that became disabled or dies from an injury or certain cardiovascular disorders caused - or made worse - by their service during a period of inactive-duty training may qualify for burial in a VA National Cemetery. Click the learn more link below for more information.',
-    isTimeSensitive: false,
-    mappings: {
-      [mappingTypes.GOALS]: [goalTypes.UNDERSTAND, goalTypes.PLAN],
-      [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
-      [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [yesNoType.NO],
-      [mappingTypes.BRANCH_COMPONENT]: [
-        militaryBranchComponentTypes.NATIONAL_GUARD_SERVICE,
-        militaryBranchComponentTypes.RESERVE_SERVICE,
-      ],
-      [mappingTypes.LENGTH_OF_TITLE_TEN_SERVICE]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
