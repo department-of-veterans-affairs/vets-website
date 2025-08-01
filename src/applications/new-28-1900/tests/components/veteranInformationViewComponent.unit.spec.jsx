@@ -1,7 +1,7 @@
 import React from 'react';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { expect } from 'chai';
-import VeteranInformationViewComponent from 'applications/new-28-1900/components/VeteranInformationViewComponent';
+import VeteranInformationViewComponent from '../../components/VeteranInformationViewComponent';
 
 describe.skip('Static Veteran Information', () => {
   it('should render veteran information', async () => {
