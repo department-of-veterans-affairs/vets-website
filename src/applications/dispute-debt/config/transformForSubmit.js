@@ -36,7 +36,22 @@ const transformForSubmit = (formConfig, form) => {
     },
     submissionDetails: {
       submissionDateTime: submissionTime,
+      logoUrl: '/img/design/logo/logo-black-and-white.png',
     },
+  };
+
+  // Extract metadata for submission tracking
+  const metadata = {
+    disputes: data.selectedDebts.map(debt => ({
+      /* eslint-disable camelcase */
+      composite_debt_id: debt.compositeDebtId,
+      deduction_code: debt.deductionCode,
+      original_ar: debt.originalAr,
+      current_ar: debt.currentAr,
+      benefit_type: debt.benefitType,
+      dispute_reason: debt.disputeReason,
+      /* eslint-enable camelcase */
+    })),
   };
 
   // Keeping both education and comp & pen debts in the final object to
@@ -48,6 +63,7 @@ const transformForSubmit = (formConfig, form) => {
     compAndPen: compAndPenDebts.length
       ? { ...pdfData, selectedDebts: compAndPenDebts }
       : null,
+    metadata,
   };
 };
 

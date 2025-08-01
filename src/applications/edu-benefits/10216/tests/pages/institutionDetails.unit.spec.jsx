@@ -107,10 +107,10 @@ describe('Form Configuration', () => {
       formConfig.chapters.institutionDetailsChapter.pages.institutionDetails
         .uiSchema.institutionDetails.termStartDate['ui:validations'][0];
     const today = new Date();
-    const futureDate = today.getDate() + 1;
-    const day = String(futureDate).padStart(2, '0');
-    const month = String(today.getMonth() + 1).padStart(2, '0');
-    const year = today.getFullYear();
+    const futureDate = new Date(today.getTime() + 24 * 60 * 60 * 1000);
+    const day = futureDate.getDate();
+    const month = futureDate.getMonth() + 1;
+    const year = futureDate.getFullYear();
 
     validateTermStartDate(errors, `${year}-${month}-${day}`);
     expect(errors.messages).to.include(

@@ -11,7 +11,7 @@ const routes = {
   },
   childRoutes: [
     { path: ROUTES.HOME, component: HomePage },
-    { path: ROUTES.CLAIM_DECISION_1_1, component: HomePage }, // Placeholder
+    { path: ROUTES.Q_1_1_CLAIM_DECISION, component: HomePage }, // Placeholder
   ],
 };
 
