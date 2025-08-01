@@ -24,6 +24,7 @@ import phoneAndEmailPage from '../pages/phoneAndEmail';
 import veteranAddressPage from '../pages/veteranAddress';
 
 import transformForSubmit from './submit-transformer';
+import { prefillTransformer } from '../utils/prefill-transformer';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -52,6 +53,7 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   savedFormMessages: {
     notFound: 'Start over to apply for Veteran Readiness and Employment.',
     noAuth:

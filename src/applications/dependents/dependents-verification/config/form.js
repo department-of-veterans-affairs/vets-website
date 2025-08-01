@@ -77,14 +77,6 @@ const formConfig = {
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},
-  additionalRoutes: [
-    {
-      path: 'exit-form',
-      component: ExitForm,
-      pageKey: 'exitForm',
-      depends: () => false,
-    },
-  ],
   chapters: {
     veteranInformation: {
       title: 'Review your personal information',
@@ -129,6 +121,14 @@ const formConfig = {
           CustomPageReview: DependentsInformationReview,
           uiSchema: dependents.uiSchema,
           schema: dependents.schema,
+        },
+        exitForm: {
+          path: 'exit-form',
+          CustomPage: ExitForm,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: data => data.hasDependentsStatusChanged === 'Y',
         },
       },
     },

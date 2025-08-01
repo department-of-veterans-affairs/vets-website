@@ -13,8 +13,8 @@ const responses = {
 
   'GET /v0/maintenance_windows': { data: [] },
   'GET /v0/feature_toggles': mockFeatureToggles,
-  'GET /v0/in_progress_forms/28-1900_V2': mockSipGet,
-  'PUT /v0/in_progress_forms/28-1900_V2': mockSipPut,
+  'GET /v0/in_progress_forms/28-1900-V2': mockSipGet,
+  'PUT /v0/in_progress_forms/28-1900-V2': mockSipPut,
 
   // // Mock responses for the profile page
   'GET /v0/profile/full_name': {

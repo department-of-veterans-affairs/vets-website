@@ -20,8 +20,7 @@ describe('Pre-need sponsor date of death', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(1);
-    expect(form.find('select').length).to.equal(2);
+    expect(form.find('VaMemorableDate').length).to.equal(1);
     form.unmount();
   });
 });

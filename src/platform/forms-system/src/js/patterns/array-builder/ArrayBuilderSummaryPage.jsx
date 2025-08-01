@@ -628,6 +628,21 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
       );
     }
 
+    const onNavForward = () => {
+      const isValid = validateIncompleteItems({
+        arrayData: get(arrayPath, props.data),
+        isItemIncomplete,
+        nounSingular,
+        errors: { addError: () => {} },
+        arrayPath,
+      });
+
+      if (isValid) {
+        props.onContinue();
+        props.onSubmit(props.data);
+      }
+    };
+
     return (
       <SchemaForm
         name={props.name}
@@ -640,7 +655,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
         formContext={props.formContext}
         trackingPrefix={props.trackingPrefix}
         onChange={props.onChange}
-        onSubmit={props.onSubmit}
+        onSubmit={onNavForward}
       >
         <>
           {/* contentBeforeButtons = save-in-progress links */}
@@ -648,7 +663,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
           {props.contentBeforeButtons}
           <NavButtons
             goBack={props.goBack}
-            goForward={props.onContinue}
+            goForward={onNavForward}
             submitToContinue
             useWebComponents={props.formOptions?.useWebComponentForNavigation}
           />

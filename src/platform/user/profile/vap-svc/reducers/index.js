@@ -48,6 +48,7 @@ const initialAddressValidationState = {
     countryCodeIso3: '',
   },
   addressValidationError: false,
+  addressValidationErrorCode: null,
   validationKey: null,
   selectedAddress: {},
   selectedAddressId: null,
@@ -396,6 +397,7 @@ export default function vapService(state = initialState, action) {
           selectedAddressId: action.selectedAddressId,
           confirmedSuggestions: action.confirmedSuggestions,
           addressValidationError: false,
+          addressValidationErrorCode: null,
         },
         modal: 'addressValidation',
       };
@@ -418,6 +420,7 @@ export default function vapService(state = initialState, action) {
           addressValidationType: action.fieldName,
           validationKey: action.validationKey || null,
           addressFromUser: action.addressFromUser,
+          addressValidationErrorCode: action.addressValidationErrorCode,
         },
         modal: action.fieldName,
       };

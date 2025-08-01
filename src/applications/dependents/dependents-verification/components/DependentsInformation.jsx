@@ -155,7 +155,7 @@ export const DependentsInformation = ({
           );
         })
       ) : (
-        <strong>No dependents found</strong>
+        <h4>No dependents found</h4>
       )}
       <h4>Check if someone is missing on your VA benefits</h4>
       <p>You may be able to add a dependent if these changes occurred:</p>
@@ -224,11 +224,7 @@ DependentsInformation.propTypes = {
   data: PropTypes.shape({
     dependents: PropTypes.arrayOf(
       PropTypes.shape({
-        fullName: PropTypes.shape({
-          first: PropTypes.string,
-          middle: PropTypes.string,
-          last: PropTypes.string,
-        }),
+        fullName: PropTypes.string,
         relationship: PropTypes.string,
         dob: PropTypes.string,
         age: PropTypes.number,

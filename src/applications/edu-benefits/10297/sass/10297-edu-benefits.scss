@@ -20,6 +20,22 @@
   width: 642px;
   @media (max-width: $small-screen) {
     width: 100%;
-     padding-inline: 8px !important;
+    padding-inline: 8px !important;
   }
+}
+
+.eligibility-summary .icon-li {
+  left: -2em;
+  position: absolute;
+  text-align: center;
+  width: 2em;
+  line-height: inherit;
+}
+
+.eligibility-summary .duty-ul {
+  list-style-type: disc;
+}
+
+.eligibility-summary .eligibility-ul {
+  list-style-type: none;
 }

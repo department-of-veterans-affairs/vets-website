@@ -13,21 +13,21 @@ const uiSchema = {
     title: 'Training provider name and mailing address',
     nounSingular: trainingProviderArrayOptions.nounSingular,
   }),
-  name: textUI({
+  providerName: textUI({
     title: 'Name of training provider',
     errorMessages: {
       required: 'You must provide a response',
     },
   }),
-  address: addressNoMilitaryUI({}),
+  providerAddress: addressNoMilitaryUI({}),
 };
 
 const schema = {
   type: 'object',
-  required: ['name', 'address'],
+  required: ['providerName', 'providerAddress'],
   properties: {
-    name: textSchema,
-    address: addressNoMilitarySchema({}),
+    providerName: textSchema,
+    providerAddress: addressNoMilitarySchema({}),
   },
 };
 

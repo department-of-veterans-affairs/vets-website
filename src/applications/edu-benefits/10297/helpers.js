@@ -88,20 +88,66 @@ export const ConfirmationGoBackLink = () => (
   </div>
 );
 
+export const EligibleIcon = ({ isEligible }) => {
+  const icon = isEligible ? 'check' : 'close';
+  const classes = classNames('icon-li', {
+    'vads-u-color--green': isEligible,
+    'vads-u-color--gray-medium': !isEligible,
+  });
+
+  return (
+    <span className={classes}>
+      <va-icon icon={icon} size={3} />
+    </span>
+  );
+};
+
+EligibleIcon.propTypes = {
+  isEligible: PropTypes.bool,
+};
+
+// Expects a birthDate as a string in YYYY-MM-DD format
+export const getAgeInYears = birthDate =>
+  Math.floor((new Date() - new Date(birthDate).getTime()) / 3.15576e10);
+
+export const getEligibilityStatus = formData => {
+  const validDutyRequirements = ['atLeast3Years', 'byDischarge'];
+
+  const isDutyEligible = validDutyRequirements.includes(
+    formData?.dutyRequirement,
+  );
+  const isDobEligible = !!(
+    formData?.dateOfBirth && getAgeInYears(formData?.dateOfBirth) < 62
+  );
+  const isDischargeEligible = formData?.otherThanDishonorableDischarge === true;
+  const isFullyEligible =
+    isDutyEligible && isDobEligible && isDischargeEligible;
+
+  return {
+    isDutyEligible,
+    isDobEligible,
+    isDischargeEligible,
+    isFullyEligible,
+  };
+};
+
 export const getCardDescription = item => {
   return item ? (
     <>
       <div className=" vads-u-margin-y--2" data-testid="card-street">
-        <p>{item?.address?.street}</p>
+        <p>{item?.providerAddress?.street}</p>
         <p data-testid="card-address">
-          {`${item?.address?.city}${
-            item?.address?.state || item?.address?.postalCode !== 'NA'
+          {`${item?.providerAddress?.city}${
+            item?.providerAddress?.state ||
+            item?.providerAddress?.postalCode !== 'NA'
               ? ','
               : ''
           }`}
-          {item?.address?.state ? ` ${item?.address?.state}` : ''}
-          {item?.address?.postalCode !== 'NA'
-            ? ` ${item?.address?.postalCode}`
+          {item?.providerAddress?.state
+            ? ` ${item?.providerAddress?.state}`
+            : ''}
+          {item?.providerAddress?.postalCode !== 'NA'
+            ? ` ${item?.providerAddress?.postalCode}`
             : ''}
         </p>
       </div>
@@ -110,23 +156,23 @@ export const getCardDescription = item => {
 };
 
 export const trainingProviderArrayOptions = {
-  arrayPath: 'trainingProvider',
+  arrayPath: 'trainingProviders',
   nounSingular: 'training provider',
   nounPlural: 'training providers',
   required: false,
   isItemIncomplete: item => {
     return (
-      !item?.name ||
-      !item?.address?.street ||
-      !item?.address?.city ||
-      !item?.address?.country ||
-      !item?.address?.postalCode
+      !item?.providerName ||
+      !item?.providerAddress?.street ||
+      !item?.providerAddress?.city ||
+      !item?.providerAddress?.country ||
+      !item?.providerAddress?.postalCode
     );
   },
   maxItems: 4,
   text: {
     getItemName: item =>
-      item?.name ? `${item?.name}`.trim() : 'training provider',
+      item?.providerName ? `${item?.providerName}`.trim() : 'training provider',
     cardDescription: item => getCardDescription(item),
     cancelAddYes: 'Yes, cancel',
     cancelAddNo: 'No, continue adding information',
@@ -149,5 +195,16 @@ export const validateWithin180Days = (errors, dateString) => {
   if (picked - today > MAX_FUTURE_DAYS * MS_IN_DAY)
     errors.addError(
       'This date is more than 180 days away. You must be within 180 days of discharge to be eligible for the program.',
+    );
+};
+
+export const validateTrainingProviderStartDate = (errors, dateString) => {
+  if (!dateString) return;
+  const picked = new Date(`${dateString}T00:00:00`);
+  const startDate = new Date('2025-01-02T00:00:00');
+
+  if (picked < startDate)
+    errors.addError(
+      'Training must start on or after 1/2/2025 to qualify for VET TEC 2.0',
     );
 };

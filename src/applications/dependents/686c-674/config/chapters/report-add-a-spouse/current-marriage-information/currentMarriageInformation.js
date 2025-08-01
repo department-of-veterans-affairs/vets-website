@@ -21,11 +21,29 @@ export const uiSchema = {
   doesLiveWithSpouse: {
     address: {
       ...addressUI({
+        title: '',
         labels: {
           militaryCheckbox:
             'Spouse receives mail outside of the United States on a U.S. military base.',
         },
       }),
+      city: {
+        ...addressUI().city,
+        'ui:validations': [
+          (errors, city, formData) => {
+            const address = formData?.doesLiveWithSpouse?.address;
+            const cityStr = city?.trim().toUpperCase();
+
+            if (
+              address &&
+              ['APO', 'FPO', 'DPO'].includes(cityStr) &&
+              address.isMilitary !== true
+            ) {
+              errors.addError('Enter a valid city name');
+            }
+          },
+        ],
+      },
     },
   },
 };
