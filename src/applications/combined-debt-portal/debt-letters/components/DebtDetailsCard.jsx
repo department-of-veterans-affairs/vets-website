@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import { format, isValid } from 'date-fns';
 import recordEvent from '~/platform/monitoring/record-event';
 import last from 'lodash/last';
-import { Link } from 'react-router-dom';
 import { getDebtDetailsCardContent } from '../const/diary-codes/debtDetailsCardContent';
 import { currency } from '../utils/page';
 
@@ -89,32 +88,18 @@ const DebtDetailsCard = ({ debt, showOTPP }) => {
                 To avoid late fees or collection action on your bill, you must
                 pay your full balance or request financial help before
                 <span className="vads-u-margin-left--0p5">
-                  {formattedDueDate}
+                  <strong>{formattedDueDate}</strong>
                 </span>
                 .
               </p>
               <p>
-                <va-link
-                  href="/manage-va-debt/summary/debt-balances/"
-                  icon-name="chevron_right"
-                  icon-size={3}
-                  text="Back to current debts"
-                  class="vads-u-font-weight--bold vads-u-margin-left--neg0p5 vads-u-margin-top--2"
+                <va-link-action
+                  href={`/manage-va-debt/summary/debt-balances/details/${
+                    debt.compositeDebtId
+                  }/resolve`}
+                  text="Pay your balance, request financial help, or dispute this bill"
+                  type="primary"
                 />
-
-                <Link
-                  className="vads-u-font-weight--bold"
-                  to={`/debt-balances/details/${debt.compositeDebtId}/resolve`}
-                  data-testid={`resolve-link-${debt.compositeDebtId}`}
-                  onClick={() => {
-                    recordEvent({
-                      event: 'cta-link-click-debt-details-card',
-                    });
-                  }}
-                >
-                  Pay your balance, request financial help, or dispute this bill
-                  <va-icon icon="chevron_right" size={3} aria-hidden="true" />
-                </Link>
               </p>
             </va-alert>
           </>
