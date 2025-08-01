@@ -910,7 +910,7 @@ jobs:
           name: cypress-stress-test-results-${{ matrix.ci_node_index }}
           path: cypress/results
           retention-days: 1
-          
+
   warm-node22-cache:
     name: “Warm Node 22 Yarn Cache”
     runs-on: ubuntu-22.04
@@ -920,6 +920,9 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
+
+      - name: Force Node-22
+        run: echo "22.11.0" > .nvmrc
 
       - name: Pre-seed Node 22 cache
         uses: ./.github/workflows/install
