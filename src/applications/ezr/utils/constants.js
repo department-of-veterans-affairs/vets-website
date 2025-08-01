@@ -131,6 +131,7 @@ export const APP_URLS = {
   facilities: getAppUrl('facilities'),
 };
 
+export const MAX_DEPENDENTS = 6;
 export const MAX_NEXT_OF_KINS = 2;
 export const MAX_EMERGENCY_CONTACTS = 2;
 
