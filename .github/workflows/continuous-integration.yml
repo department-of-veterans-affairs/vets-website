@@ -910,6 +910,28 @@ jobs:
           name: cypress-stress-test-results-${{ matrix.ci_node_index }}
           path: cypress/results
           retention-days: 1
+          
+  warm-node22-cache:
+    name: “Warm Node 22 Yarn Cache”
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Pre-seed Node 22 cache
+        uses: ./.github/workflows/install
+        with:
+          # this must match exactly the key your install action will use
+          key:       ${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            22.11.0-
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
 
   node-22-unit-test-compatibility-check:
     name: Node 22 Compatibility Check For Unit Tests
