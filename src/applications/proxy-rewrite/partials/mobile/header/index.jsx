@@ -77,13 +77,13 @@ const MobileHeader = ({ isDesktop, megaMenuData }) => {
           }`}
           id="official-govt-site-explanation"
         >
-          <div className="usa-media-block usa-width-one-half">
+          <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--flex-start">
             <img
               alt="Dot gov"
-              className="usa-banner-icon usa-media-block__img"
+              className="usa-banner-icon usa-media_block-img"
               src="https://www.va.gov/img/icon-dot-gov.svg"
             />
-            <p className="usa-media-block__body vads-u-margin-top--0 vads-u-padding--0">
+            <p className="vads-u-margin-top--0 vads-u-padding--0">
               <strong>The .gov means it’s official.</strong>
               <br />
               Federal government websites often end in .gov or .mil. Before
@@ -91,13 +91,13 @@ const MobileHeader = ({ isDesktop, megaMenuData }) => {
               government site.
             </p>
           </div>
-          <div className="usa-media-block usa-width-one-half">
+          <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--flex-start vads-u-margin-top--2">
             <img
               alt="SSL"
-              className="usa-banner-icon usa-media-block__img"
+              className="usa-banner-icon usa-media_block-img"
               src="https://www.va.gov/img/icon-https.svg"
             />
-            <p className="usa-media-block__body vads-u-margin-top--0">
+            <p className="vads-u-margin-top--0">
               <strong>The site is secure.</strong>
               <br /> The <strong>https://</strong> ensures that you’re
               connecting to the official website and that any information you
