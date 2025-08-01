@@ -54,7 +54,7 @@ const getStore = (lettersPageNewDesign = true) => {
 
 describe('<NewAddressSection>', () => {
   it('should show intro text', () => {
-    const { getByText, getByRole } = render(
+    const { container, getByText, getByRole } = render(
       <Provider store={getStore()}>
         <MemoryRouter>
           <NewAddressSection success />
@@ -69,6 +69,8 @@ describe('<NewAddressSection>', () => {
         /This mailing address will be listed on your benefit letters and documentation. You can edit this address./,
       ).exist,
     );
+    const alert = container.querySelector('va-alert');
+    expect(alert).to.exist;
     expect(
       getByText(
         /If you edit the address here, it will also update the address in your VA.gov profile and across several VA benefits and services./,
