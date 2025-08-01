@@ -81,7 +81,7 @@ const MedicationsListCard = ({ rx }) => {
           </p>
         )}
         {rx && <ExtraDetails {...rx} />}
-        {rx && <FillRefillButton {...rx} />}
+        {rx && !isNonVaPrescription && <FillRefillButton {...rx} />}
       </>
     );
   };
