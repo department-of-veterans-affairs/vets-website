@@ -116,7 +116,7 @@ export const rememberTextBlob = (
     Any information you provide will help us understand your situation and
     identify evidence to support your claim. But you can skip questions you
     can’t or don’t want to answer. And you can save your in-progress online form
-    anytime if you need a break
+    anytime if you need a break.
   </p>
 );
 
@@ -201,7 +201,7 @@ export const mentalHealthSupportAlert = () => {
       <p>
         We can connect you with free, confidential support for mental health
         care or military sexual trauma anytime. We can connect you with support
-        even if you don’t file a claim or disability compensation or you aren’t
+        even if you don’t file a claim for disability compensation or you aren’t
         eligible for compensation.
       </p>
       <br />

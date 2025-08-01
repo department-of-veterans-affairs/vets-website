@@ -93,12 +93,6 @@ export const workflowChoicePageDescription = formData => {
   );
 };
 
-export const workflowChoiceAdditionalDescription = (
-  <p>
-    <strong>Note:</strong> If you choose to fill out the PDF version, you can
-    download the PDF now.
-  </p>
-);
 export const serviceRecordNotification = (
   <div className="usa-alert usa-alert-warning background-color-only">
     <span>

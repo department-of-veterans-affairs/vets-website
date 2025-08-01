@@ -11,37 +11,6 @@ import { rememberTextBlob } from '../form0781';
 export const behaviorPageTitle = 'Behavioral changes';
 
 export const behaviorIntroDescription = (
-  // <>
-  //   <p>
-  //     The next few questions are about behavioral changes that happened after
-  //     your traumatic experiences.
-  //   </p>
-  //   <p>
-  //     These questions are optional. Any information you provide will help us
-  //     understand your situation and identify evidence to support your claim. You
-  //     only need to provide details you’re comfortable sharing.
-  //   </p>
-  //   <h4>Information we’ll ask you for</h4>
-  //   <p>
-  //     We’ll ask you for this information:
-  //     <ul>
-  //       <li>
-  //         The types of behavioral changes you experienced after your traumatic
-  //         events
-  //       </li>
-  //       <li>
-  //         A description of each behavioral change, including when it happened,
-  //         whether any records exist, and any other details you want to provide
-  //       </li>
-  //     </ul>
-  //   </p>
-  //   <h4>You can take a break at any time</h4>
-  //   <p>
-  //     We understand that some of the questions may be difficult to answer. You
-  //     can take a break at any time. We’ll save the information you enter so you
-  //     can finish your application later.
-  //   </p>
-  // </>
   <>
     <p>In this section, we’ll ask you for this information:</p>
     <ul>
