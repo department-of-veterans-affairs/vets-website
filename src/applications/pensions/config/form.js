@@ -43,7 +43,7 @@ const formConfig = {
   },
   saveInProgress: {
     messages: {
-      inProgress: 'Your Veterans pension benefits is in progress.',
+      inProgress: 'Your Veterans Pension benefits application is in progress.',
       expired:
         'Your saved Veterans pension benefits has expired. If you want to apply for Veterans pension benefits application (21-527EZ), please start a new application.',
       saved: 'We saved your Veterans Pension benefits application',
