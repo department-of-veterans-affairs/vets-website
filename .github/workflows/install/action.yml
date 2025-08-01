@@ -42,7 +42,7 @@ runs:
       with:
         path: ${{ inputs.path }}
         key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ inputs.key }}
-        # restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ inputs.restore-keys }}
+        restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ inputs.restore-keys }}
 
     - name: Install dependencies
       uses: nick-fields/retry@v3
