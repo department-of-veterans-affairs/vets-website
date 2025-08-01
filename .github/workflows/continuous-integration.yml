@@ -929,6 +929,8 @@ jobs:
         timeout-minutes: 30
         with:
           key: 22.11.0-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            22.11.0-
           yarn_cache_folder: .cache/yarn
           path: |
             .cache/yarn
