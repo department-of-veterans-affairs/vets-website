@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import { format, subYears, addYears } from 'date-fns';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { makePages } from '../../../pages/toxicExposure/additionalExposuresDetails';
@@ -122,7 +123,7 @@ describe('additional exposures details', () => {
    * Future consideration: allow Veterans to submit with completely blank dates.
    * @see https://github.com/department-of-veterans-affairs/va.gov-team/issues/112288
    */
-  describe('edge case validations', () => {
+  describe('date validations', () => {
     const itemId = 'asbestos'; // Using asbestos as the test case
 
     it('should not submit with incomplete start date (missing month)', () => {
@@ -197,6 +198,18 @@ describe('additional exposures details', () => {
       pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, false);
     });
 
+    it('should accept valid date range (to after from)', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.otherExposuresDetails = {
+        [itemId]: {
+          startDate: format(subYears(new Date(), 2), 'yyyy-MM-dd'),
+          endDate: format(subYears(new Date(), 1), 'yyyy-MM-dd'),
+        },
+      };
+
+      pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, true);
+    });
+
     it('should not submit when end date is before start date', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.otherExposuresDetails = {
@@ -229,6 +242,162 @@ describe('additional exposures details', () => {
       };
 
       pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, false);
+    });
+
+    it('should accept current date for startDate', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.otherExposuresDetails = {
+        [itemId]: {
+          startDate: format(subYears(new Date(), 1), 'yyyy-MM-dd'),
+          endDate: format(new Date(), 'yyyy-MM-dd'),
+        },
+      };
+
+      pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, true);
+    });
+
+    it('should accept past date for startDate', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.otherExposuresDetails = {
+        [itemId]: {
+          startDate: format(subYears(new Date(), 5), 'yyyy-MM-dd'),
+          endDate: format(subYears(new Date(), 1), 'yyyy-MM-dd'),
+        },
+      };
+
+      pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, true);
+    });
+
+    it('should not submit when future date for startDate', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.otherExposuresDetails = {
+        [itemId]: {
+          startDate: format(addYears(new Date(), 1), 'yyyy-MM-dd'),
+          endDate: format(subYears(new Date(), 1), 'yyyy-MM-dd'),
+        },
+      };
+
+      pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, false);
+    });
+
+    it('should not submit when date before 1900 for startDate', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.otherExposuresDetails = {
+        [itemId]: {
+          startDate: '1899-12-31',
+          endDate: format(subYears(new Date(), 1), 'yyyy-MM-dd'),
+        },
+      };
+
+      pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, false);
+    });
+
+    it('should not submit when invalid date format for startDate', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.otherExposuresDetails = {
+        [itemId]: {
+          startDate: 'invalid-date',
+          endDate: format(subYears(new Date(), 1), 'yyyy-MM-dd'),
+        },
+      };
+
+      pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, false);
+    });
+
+    it('should accept current date for endDate', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.otherExposuresDetails = {
+        [itemId]: {
+          startDate: format(subYears(new Date(), 2), 'yyyy-MM-dd'),
+          endDate: format(new Date(), 'yyyy-MM-dd'),
+        },
+      };
+
+      pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, true);
+    });
+
+    it('should accept past date for endDate', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.otherExposuresDetails = {
+        [itemId]: {
+          startDate: format(subYears(new Date(), 5), 'yyyy-MM-dd'),
+          endDate: format(subYears(new Date(), 1), 'yyyy-MM-dd'),
+        },
+      };
+
+      pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, true);
+    });
+
+    it('should not submit when future date for endDate', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.otherExposuresDetails = {
+        [itemId]: {
+          startDate: format(subYears(new Date(), 2), 'yyyy-MM-dd'),
+          endDate: format(addYears(new Date(), 1), 'yyyy-MM-dd'),
+        },
+      };
+
+      pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, false);
+    });
+
+    it('should not submit when date before 1900 for endDate', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.otherExposuresDetails = {
+        [itemId]: {
+          startDate: format(subYears(new Date(), 2), 'yyyy-MM-dd'),
+          endDate: '1899-12-31',
+        },
+      };
+
+      pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, false);
+    });
+
+    it('should not submit when invalid date format for endDate', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.otherExposuresDetails = {
+        [itemId]: {
+          startDate: format(subYears(new Date(), 2), 'yyyy-MM-dd'),
+          endDate: 'invalid-date',
+        },
+      };
+
+      pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, false);
+    });
+
+    it('should not submit when start and end dates are equal', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.otherExposuresDetails = {
+        [itemId]: {
+          startDate: '2020-05-19',
+          endDate: '2020-05-19',
+        },
+      };
+
+      pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, false);
+    });
+
+    it('should not submit when non-leap year February 29', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.otherExposuresDetails = {
+        [itemId]: {
+          startDate: '2021-02-29',
+          endDate: format(subYears(new Date(), 1), 'yyyy-MM-dd'),
+        },
+      };
+
+      pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, false);
+    });
+
+    it('should accept leap year February 29', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.otherExposuresDetails = {
+        [itemId]: {
+          startDate: '2020-02-29',
+          endDate: format(subYears(new Date(), 1), 'yyyy-MM-dd'),
+        },
+      };
+
+      pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, true);
     });
   });
 });
