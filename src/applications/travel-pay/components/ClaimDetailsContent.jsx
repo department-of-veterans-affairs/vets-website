@@ -44,10 +44,6 @@ export default function ClaimDetailsContent({
   const showDecisionReason =
     decisionLetterReason && claimsMgmtDecisionReasonToggle;
 
-  const isDeniedStatus =
-    claimStatus === STATUSES.Denied.name ||
-    claimStatus === STATUSES.PartialPayment.name;
-
   const getDocLinkList = list =>
     list.map(({ filename, text, documentId }) => (
       <div
@@ -118,13 +114,12 @@ export default function ClaimDetailsContent({
               you call.
             </p>
           )}
-          {showDecisionReason &&
-            isDeniedStatus && (
-              <DecisionReason
-                claimStatus={claimStatus}
-                decisionLetterReason={decisionLetterReason}
-              />
-            )}
+          {showDecisionReason && (
+            <DecisionReason
+              claimStatus={claimStatus}
+              decisionLetterReason={decisionLetterReason}
+            />
+          )}
           {documentCategories.clerk.length > 0 &&
             getDocLinkList(documentCategories.clerk)}
         </>
