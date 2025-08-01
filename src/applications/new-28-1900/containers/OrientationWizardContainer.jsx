@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import { scrollToTop } from 'platform/utilities/scroll';
 import { focusElement } from 'platform/utilities/ui';
 import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
-import Wizard from 'applications/static-pages/wizard';
+import Wizard from '../components/Wizard';
 import pages from 'applications/new-28-1900/wizard/pages';
 import recordEvent from 'platform/monitoring/record-event';
 import OrientationApp from 'applications/new-28-1900/orientation/OrientationApp';

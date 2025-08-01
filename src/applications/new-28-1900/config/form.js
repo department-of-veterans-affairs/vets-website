@@ -2,7 +2,7 @@ import fullSchema from 'vets-json-schema/dist/28-1900-schema.json';
 import environment from 'platform/utilities/environment';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import PreSubmitInfo from 'applications/new-28-1900/components/PreSubmitInfo';
-import GetFormHelp from 'applications/vre/components/GetFormHelp';
+import GetFormHelp from '../components/GetFormHelp';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { additionalInformation } from './chapters/additional-information';
