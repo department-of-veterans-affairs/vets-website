@@ -7,7 +7,7 @@ import CallPharmacyPhone from './CallPharmacyPhone';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 
 const ExtraDetails = rx => {
-  const { dispStatus, refillRemaining } = rx;
+  const { dispStatus, refillRemaining, prescriptionSource } = rx;
   const pharmacyPhone = pharmacyPhoneNumber(rx);
   let noRefillRemaining = false;
   if (refillRemaining === 0 && dispStatus === 'Active') {
@@ -125,7 +125,7 @@ const ExtraDetails = rx => {
           />
         </div>
       )}
-      {dispStatus === dispStatusObj.nonVA && (
+      {(dispStatus === dispStatusObj.nonVA || prescriptionSource === 'NV') && (
         <p className="vads-u-margin-y--0" data-testid="non-VA-prescription">
           You can’t manage this medication in this online tool.
         </p>

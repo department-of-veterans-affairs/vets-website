@@ -13,6 +13,8 @@ const MedicationsListCard = ({ rx }) => {
   const pendingRenewal =
     rx.prescriptionSource === 'PD' && rx?.dispStatus === 'Renew';
   const latestTrackingStatus = rx?.trackingList?.[0];
+  const isNonVaPrescription = rx?.prescriptionSource === 'NV';
+  const rxStatus = isNonVaPrescription ? 'Active: Non-VA' : rx?.dispStatus;
 
   const cardBodyContent = () => {
     if (pendingRenewal || pendingMed) {
@@ -66,15 +68,15 @@ const MedicationsListCard = ({ rx }) => {
             </span>
           </p>
         )}
-        {rx.dispStatus !== 'Unknown' && (
+        {rxStatus !== 'Unknown' && (
           <p
             id={`status-${rx.prescriptionId}`}
             className="vads-u-margin-top--1p5 vads-u-font-weight--bold"
             data-testid="rxStatus"
             data-dd-privacy="mask"
           >
-            {rx.dispStatus !== 'Active: Refill in Process'
-              ? rx.dispStatus
+            {rxStatus !== 'Active: Refill in Process'
+              ? rxStatus
               : 'Active: Refill in process'}
           </p>
         )}
@@ -117,13 +119,13 @@ const MedicationsListCard = ({ rx }) => {
         >
           <span data-dd-privacy="mask">
             {rx.prescriptionName ||
-              (rx.dispStatus === 'Active: Non-VA' ? rx.orderableItem : '')}
+              (rxStatus === 'Active: Non-VA' ? rx.orderableItem : '')}
           </span>
         </Link>
         {!pendingMed &&
           !pendingRenewal &&
-          rx.dispStatus !== 'Unknown' &&
-          rx.dispStatus !== 'Active: Non-VA' && (
+          rxStatus !== 'Unknown' &&
+          rxStatus !== 'Active: Non-VA' && (
             <p
               data-testid="rx-number"
               data-dd-privacy="mask"
