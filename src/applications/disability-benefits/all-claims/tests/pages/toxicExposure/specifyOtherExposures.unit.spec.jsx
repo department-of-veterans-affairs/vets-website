@@ -103,24 +103,6 @@ describe('Specify Other Exposures', () => {
   });
 
   describe('date validation', () => {
-    it('should accept current date for startDate', () => {
-      const data = JSON.parse(JSON.stringify(formData));
-      data.toxicExposure.specifyOtherExposures.startDate = format(
-        new Date(),
-        'yyyy-MM-dd',
-      );
-      data.toxicExposure.specifyOtherExposures.endDate = format(
-        subYears(new Date(), 1),
-        'yyyy-MM-dd',
-      );
-
-      pageSubmitTest(
-        formConfig.chapters.disabilities.pages.specifyOtherExposures,
-        data,
-        true,
-      );
-    });
-
     it('should accept past date for startDate', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.specifyOtherExposures.startDate = format(

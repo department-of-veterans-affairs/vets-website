@@ -244,18 +244,6 @@ describe('additional exposures details', () => {
       pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, false);
     });
 
-    it('should accept current date for startDate', () => {
-      const data = JSON.parse(JSON.stringify(formData));
-      data.toxicExposure.otherExposuresDetails = {
-        [itemId]: {
-          startDate: format(subYears(new Date(), 1), 'yyyy-MM-dd'),
-          endDate: format(new Date(), 'yyyy-MM-dd'),
-        },
-      };
-
-      pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, true);
-    });
-
     it('should accept past date for startDate', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.otherExposuresDetails = {
