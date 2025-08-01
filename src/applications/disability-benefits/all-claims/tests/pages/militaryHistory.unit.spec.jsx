@@ -321,4 +321,179 @@ describe('Military history', () => {
       form.unmount();
     });
   });
+
+  it('should show an error for partial from date (YYYY-XX-XX)', async () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{}}
+        formData={{}}
+        onSubmit={onSubmit}
+        appStateData={appStateData}
+      />,
+    );
+
+    fillData(
+      form,
+      'select#root_serviceInformation_servicePeriods_0_serviceBranch',
+      'Army',
+    );
+    fillData(
+      form,
+      'input#root_serviceInformation_servicePeriods_0_dateRange_fromYear',
+      '2020',
+    );
+    fillDate(
+      form,
+      'root_serviceInformation_servicePeriods_0_dateRange_to',
+      '2021-01-01',
+    );
+
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find('.usa-input-error-message').length).to.be.greaterThan(0);
+      expect(onSubmit.called).to.be.false;
+      form.unmount();
+    });
+  });
+
+  it('should accept a valid leap year date', async () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{}}
+        formData={{}}
+        onSubmit={onSubmit}
+        appStateData={appStateData}
+      />,
+    );
+
+    fillData(
+      form,
+      'select#root_serviceInformation_servicePeriods_0_serviceBranch',
+      'Army',
+    );
+    fillDate(
+      form,
+      'root_serviceInformation_servicePeriods_0_dateRange_from',
+      '2020-02-29',
+    );
+    fillDate(
+      form,
+      'root_serviceInformation_servicePeriods_0_dateRange_to',
+      '2021-01-01',
+    );
+
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find('.usa-input-error-message').length).to.equal(0);
+      expect(onSubmit.called).to.be.true;
+      form.unmount();
+    });
+  });
+
+  it('should show an error if only from date is filled', async () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{}}
+        formData={{}}
+        onSubmit={onSubmit}
+        appStateData={appStateData}
+      />,
+    );
+
+    fillData(
+      form,
+      'select#root_serviceInformation_servicePeriods_0_serviceBranch',
+      'Army',
+    );
+    fillDate(
+      form,
+      'root_serviceInformation_servicePeriods_0_dateRange_from',
+      '2010-01-01',
+    );
+    // Do not fill to date
+
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find('.usa-input-error-message').length).to.be.greaterThan(0);
+      expect(onSubmit.called).to.be.false;
+      form.unmount();
+    });
+  });
+
+  it('should show an error if only to date is filled', async () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{}}
+        formData={{}}
+        onSubmit={onSubmit}
+        appStateData={appStateData}
+      />,
+    );
+
+    fillData(
+      form,
+      'select#root_serviceInformation_servicePeriods_0_serviceBranch',
+      'Army',
+    );
+    // Do not fill from date
+    fillDate(
+      form,
+      'root_serviceInformation_servicePeriods_0_dateRange_to',
+      '2012-01-01',
+    );
+
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find('.usa-input-error-message').length).to.be.greaterThan(0);
+      expect(onSubmit.called).to.be.false;
+      form.unmount();
+    });
+  });
+
+  it('should show an error if from and to dates are null/undefined', async () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{}}
+        formData={{
+          serviceInformation: {
+            servicePeriods: [
+              {
+                serviceBranch: 'Army',
+                dateRange: { from: null, to: undefined },
+              },
+            ],
+          },
+        }}
+        onSubmit={onSubmit}
+        appStateData={appStateData}
+      />,
+    );
+
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find('.usa-input-error-message').length).to.be.greaterThan(0);
+      expect(onSubmit.called).to.be.false;
+      form.unmount();
+    });
+  });
 });

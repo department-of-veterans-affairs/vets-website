@@ -71,4 +71,133 @@ describe('781 Unit Assignment Details', () => {
     });
     form.unmount();
   });
+
+  describe('unitAssignedDates field validation', () => {
+    const addUnitAssignment = (from, to) => {
+      const onSubmit = sinon.spy();
+      const form = mount(
+        <DefinitionTester
+          onSubmit={onSubmit}
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          uiSchema={uiSchema}
+        />,
+      );
+      if (from) fillDate(form, 'root_incident0_unitAssignedDates_from', from);
+      if (to) fillDate(form, 'root_incident0_unitAssignedDates_to', to);
+      form.find('form').simulate('submit');
+      return { form, onSubmit };
+    };
+
+    it('should accept valid date range', async () => {
+      const { form, onSubmit } = addUnitAssignment('2016-07-10', '2017-06-12');
+      await waitFor(() => {
+        expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
+        expect(onSubmit.called).to.be.true;
+      });
+      form.unmount();
+    });
+
+    it('should reject invalid date range (to before from)', async () => {
+      const { form, onSubmit } = addUnitAssignment('2017-06-12', '2016-07-10');
+      await waitFor(() => {
+        expect(form.find(ERR_MSG_CSS_CLASS).text()).to.include(
+          'The date must be after Start date',
+        );
+        expect(onSubmit.called).to.be.false;
+      });
+      form.unmount();
+    });
+
+    it('should reject equal from/to dates', async () => {
+      const { form, onSubmit } = addUnitAssignment('2016-07-10', '2016-07-10');
+      await waitFor(() => {
+        expect(form.find(ERR_MSG_CSS_CLASS).text()).to.include(
+          'The date must be after Start date',
+        );
+        expect(onSubmit.called).to.be.false;
+      });
+      form.unmount();
+    });
+
+    it('should accept only from date filled', async () => {
+      const { form, onSubmit } = addUnitAssignment('2016-07-10', '');
+      await waitFor(() => {
+        expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
+        expect(onSubmit.called).to.be.true;
+      });
+      form.unmount();
+    });
+
+    it('should accept only to date filled', async () => {
+      const { form, onSubmit } = addUnitAssignment('', '2017-06-12');
+      await waitFor(() => {
+        expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
+        expect(onSubmit.called).to.be.true;
+      });
+      form.unmount();
+    });
+
+    it('should reject date before 1900', async () => {
+      const { form, onSubmit } = addUnitAssignment('1899-12-31', '2017-06-12');
+      await waitFor(() => {
+        expect(form.find(ERR_MSG_CSS_CLASS).text()).to.include(
+          'Please enter a year between 1900 and 2069',
+        );
+        expect(onSubmit.called).to.be.false;
+      });
+      form.unmount();
+    });
+
+    it('should reject date after 2069', async () => {
+      const { form, onSubmit } = addUnitAssignment('2016-07-10', '2070-01-01');
+      await waitFor(() => {
+        expect(form.find(ERR_MSG_CSS_CLASS).text()).to.include(
+          'Please enter a year between 1900 and 2069',
+        );
+        expect(onSubmit.called).to.be.false;
+      });
+      form.unmount();
+    });
+
+    it('should reject invalid date format', async () => {
+      const { form, onSubmit } = addUnitAssignment(
+        'invalid-date',
+        '2017-06-12',
+      );
+      await waitFor(() => {
+        expect(
+          form
+            .find(ERR_MSG_CSS_CLASS)
+            .first()
+            .text(),
+        ).to.include('Please enter a year between 1900 and 2069');
+        expect(onSubmit.called).to.be.false;
+      });
+      form.unmount();
+    });
+
+    it('should reject non-leap year February 29', async () => {
+      const { form, onSubmit } = addUnitAssignment('2021-02-29', '2021-12-01');
+      await waitFor(() => {
+        expect(
+          form
+            .find(ERR_MSG_CSS_CLASS)
+            .first()
+            .text(),
+        ).to.include('Please provide a valid date');
+        expect(onSubmit.called).to.be.false;
+      });
+      form.unmount();
+    });
+
+    it('should accept leap year February 29', async () => {
+      const { form, onSubmit } = addUnitAssignment('2020-02-29', '2020-12-01');
+      await waitFor(() => {
+        expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
+        expect(onSubmit.called).to.be.true;
+      });
+      form.unmount();
+    });
+  });
 });
