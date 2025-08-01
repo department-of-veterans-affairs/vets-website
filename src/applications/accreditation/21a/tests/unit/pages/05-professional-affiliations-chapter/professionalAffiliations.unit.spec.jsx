@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import ProfessionalAffiliationsIntro from '../../../../components/05-professional-affiliations-chapter/ProfessionalAffiliationsIntro';
 
-context('Intro page', () => {
+describe('Professional Affiliations Intro', () => {
   it('renders the intro paragraph and all list items', () => {
     const { getByText, getAllByRole } = render(
       <ProfessionalAffiliationsIntro />,

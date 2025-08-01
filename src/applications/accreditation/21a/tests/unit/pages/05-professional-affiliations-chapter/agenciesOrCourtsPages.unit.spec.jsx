@@ -52,6 +52,8 @@ describe('Agencies Or Courts Pages', () => {
         'List each agency or court to which you are admitted. You will be able to add additional agencies or courts on the next screen.',
       );
       expect($('va-select[label="Agency/court"]', container)).to.exist;
+      expect($('va-text-input[label="Name of agency/court"]', container)).to.not
+        .exist;
       expect($('va-memorable-date', container)).to.exist;
       expect(
         $(
@@ -88,7 +90,15 @@ describe('Agencies Or Courts Pages', () => {
         <DefinitionTester
           schema={agencyOrCourtPage.schema}
           uiSchema={agencyOrCourtPage.uiSchema}
-          data={{ agenciesOrCourts: [formData] }}
+          data={{
+            agenciesOrCourts: [
+              {
+                ...formData,
+                agencyOrCourt: 'Other',
+                otherAgencyOrCourt: 'Other Agency Name',
+              },
+            ],
+          }}
           arrayPath="agenciesOrCourts"
           pagePerItemIndex={0}
         />,
@@ -98,6 +108,8 @@ describe('Agencies Or Courts Pages', () => {
         'List each agency or court to which you are admitted. You will be able to add additional agencies or courts on the next screen.',
       );
       expect($('va-select[label="Agency/court"]', container)).to.exist;
+      expect($('va-text-input[label="Name of agency/court"]', container)).to
+        .exist;
       expect($('va-memorable-date', container)).to.exist;
       expect(
         $(
@@ -115,7 +127,7 @@ describe('Agencies Or Courts Pages', () => {
         'state or Federal agency or court',
       );
       expect(arrayBuilderOptions.nounPlural).to.equal(
-        'state or Federal agency or courts',
+        'state or Federal agencies or courts',
       );
       expect(arrayBuilderOptions.required).to.be.false;
     });
@@ -124,6 +136,15 @@ describe('Agencies Or Courts Pages', () => {
       const item = { agencyOrCourt: 'Tax Court' };
       const { getByText } = render(arrayBuilderOptions.text.getItemName(item));
       expect(getByText(item.agencyOrCourt)).to.exist;
+    });
+
+    it('when agencryOrCourt is Other, should return the correct card title from getItemName', () => {
+      const item = {
+        agencyOrCourt: 'Other',
+        otherAgencyOrCourt: 'Other Agency Name',
+      };
+      const { getByText } = render(arrayBuilderOptions.text.getItemName(item));
+      expect(getByText(item.otherAgencyOrCourt)).to.exist;
     });
 
     it('should return the correct card description with admissionDate and membership/registration number', () => {
@@ -135,20 +156,6 @@ describe('Agencies Or Courts Pages', () => {
         arrayBuilderOptions.text.cardDescription(item),
       );
       expect(getByText('January 13, 1990, #TEST123')).to.exist;
-    });
-
-    it('should return the correct card description with admissionDate and membership/registration number', () => {
-      const item = {
-        dateRange: { from: '2000-01', to: '' },
-        currentlyEmployed: true,
-        primaryWorkAddress: {
-          selected: false,
-        },
-      };
-      const { getByText } = render(
-        arrayBuilderOptions.text.cardDescription(item, 'currentlyEmployed'),
-      );
-      expect(getByText('January 2000 - Present')).to.exist;
     });
   });
 });
