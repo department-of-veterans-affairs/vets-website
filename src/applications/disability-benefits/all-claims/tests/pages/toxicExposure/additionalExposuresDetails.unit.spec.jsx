@@ -273,7 +273,7 @@ describe('additional exposures details', () => {
       data.toxicExposure.otherExposuresDetails = {
         [itemId]: {
           startDate: format(addYears(new Date(), 1), 'yyyy-MM-dd'),
-          endDate: format(subYears(new Date(), 1), 'yyyy-MM-dd'),
+          endDate: format(addYears(new Date(), 2), 'yyyy-MM-dd'),
         },
       };
 
