@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { setSubmission as setSubmissionAction } from 'platform/forms-system/src/js/actions';
 import {
+  VaPagination,
   VaSearchFilter,
   VaSelect,
 } from '@department-of-veterans-affairs/web-components/react-bindings';
@@ -48,6 +49,8 @@ export class ConfirmationPage extends React.Component {
           ],
         },
       ],
+      currentPage: 1,
+      pageSize: 10,
     };
 
     this.applyInitialSort = this.applyInitialSort.bind(this);
@@ -158,7 +161,11 @@ export class ConfirmationPage extends React.Component {
           benefitsList: sortedBenefitsList,
         };
       },
-      () => this.setState(() => ({ filterText: this.createFilterText() })),
+      () =>
+        this.setState(() => ({
+          filterText: this.createFilterText(),
+          currentPage: 1,
+        })),
     );
   };
 
@@ -240,6 +247,7 @@ export class ConfirmationPage extends React.Component {
           benefits: this.props.results.data,
           benefitsList: BENEFITS_LIST,
           resultsCount: this.props.results.data.length,
+          currentPage: 1,
         }),
         sortingCallback,
       );
@@ -272,35 +280,45 @@ export class ConfirmationPage extends React.Component {
     }
   };
 
+  getPaginatedBenefits = () => {
+    const { currentPage, pageSize, benefits } = this.state;
+    const startIndex = (currentPage - 1) * pageSize;
+    return benefits.slice(startIndex, startIndex + pageSize);
+  };
+
+  handlePageChange = event => {
+    const newPage = event.detail.page;
+    this.setState({ currentPage: newPage }, () => {
+      this.setState({ filterText: this.createFilterText() });
+      scrollToTop();
+    });
+  };
+
   initializePage = () => {
     focusElement('h1');
     scrollToTop('topScrollElement');
   };
 
   createFilterText() {
-    const resultsText = this.state.resultsCount === 1 ? 'result' : 'results';
-    const filterLabels = this.state.filterOptions[0].category
-      .filter(cat => this.state.filterValues.includes(cat.id))
-      .map(cat => cat.label);
-    const filterValues = filterLabels.join(', ') || 'All';
+    const { currentPage, pageSize, resultsCount, filterValues } = this.state;
 
-    let sortValue;
-    if (this.state.sortValue === 'alphabetical') {
-      sortValue = 'alphabetically by benefit name';
-    } else if (this.state.sortValue === 'isTimeSensitive') {
-      sortValue = 'by time-sensitive';
-    } else {
-      sortValue = `alphabetically by benefit ${this.state.sortValue}`;
-    }
+    const totalResults = resultsCount || 0;
 
-    const count =
-      this.props.location.query.allBenefits === 'true'
-        ? this.state.benefitsList.length
-        : this.state.resultsCount;
+    const start = totalResults === 0 ? 0 : (currentPage - 1) * pageSize + 1;
+    const end =
+      totalResults === 0 ? 0 : Math.min(currentPage * pageSize, totalResults);
+
+    const filtersApplied = filterValues.includes('All')
+      ? 0
+      : filterValues.length;
+
     return (
       <>
-        Showing {count} {resultsText}, filtered to show{' '}
-        <b>{filterValues} results</b>, sorted {sortValue}
+        Showing {start}–{end} of {totalResults} results
+        {filtersApplied > 0 &&
+          ` with ${filtersApplied} filter${
+            filtersApplied > 1 ? 's' : ''
+          } applied`}
       </>
     );
   }
@@ -321,12 +339,16 @@ export class ConfirmationPage extends React.Component {
         return acc;
       }, {}) || {};
 
-    this.setState({
-      resultsCount,
-      benefitIds,
-      benefits: this.props.results.data,
-      filterText: this.createFilterText(),
-    });
+    this.setState(
+      {
+        resultsCount,
+        benefitIds,
+        benefits: this.props.results.data,
+      },
+      () => {
+        this.setState({ filterText: this.createFilterText() });
+      },
+    );
   }
 
   filterAndSort() {
@@ -480,11 +502,19 @@ export class ConfirmationPage extends React.Component {
 
               <Benefits
                 results={this.props.results}
-                benefits={this.state.benefits}
+                benefits={this.getPaginatedBenefits()}
                 benefitsList={this.state.benefitsList}
                 handleBackClick={this.handleBackClick}
                 benefitIds={this.state.benefitIds}
                 queryString={this.props.location.query}
+              />
+
+              <VaPagination
+                onPageSelect={this.handlePageChange}
+                page={this.state.currentPage}
+                pages={Math.ceil(
+                  this.state.benefits.length / this.state.pageSize,
+                )}
               />
             </div>
           </div>
