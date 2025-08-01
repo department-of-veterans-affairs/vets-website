@@ -2,9 +2,9 @@ import { ACTION_TYPES } from '../actions';
 import { SHORT_NAME_MAP } from '../constants/question-data-map';
 import { createFormStore, updateFormValue } from './utilities';
 
-const { CLAIM_DECISION_1_1 } = SHORT_NAME_MAP;
+const { Q_1_1_CLAIM_DECISION } = SHORT_NAME_MAP;
 const {
-  ONRAMP_UPDATE_CLAIM_DECISION_1_1,
+  ONRAMP_UPDATE_Q_1_1_CLAIM_DECISION,
   ONRAMP_VIEWED_INTRO_PAGE,
 } = ACTION_TYPES;
 
@@ -20,8 +20,8 @@ const OnrampReducer = (state = initialState, action) => {
         ...state,
         viewedIntroPage: action.payload,
       };
-    case ONRAMP_UPDATE_CLAIM_DECISION_1_1:
-      return updateFormValue(CLAIM_DECISION_1_1, state, action);
+    case ONRAMP_UPDATE_Q_1_1_CLAIM_DECISION:
+      return updateFormValue(Q_1_1_CLAIM_DECISION, state, action);
     default:
       return state;
   }

@@ -9,6 +9,7 @@ export const ADDRESS_VALIDATION_TYPES = Object.freeze({
   NO_SUGGESTIONS_NO_OVERRIDE: 'noSuggestionsNoOverride',
   SHOW_SUGGESTIONS_NO_OVERRIDE: 'showSuggestionsNoOverride',
   VALIDATION_ERROR: 'validationError',
+  SYSTEM_ERROR: 'systemError',
 });
 
 const headline = 'Confirm your address';
@@ -84,5 +85,14 @@ export const ADDRESS_VALIDATION_MESSAGES = Object.freeze({
         it with the U.S. Postal Service. Try editing it.
       </p>
     ),
+  },
+  [ADDRESS_VALIDATION_TYPES.SYSTEM_ERROR]: {
+    ModalText: () => (
+      <p className="vads-u-margin-y--0">
+        We can’t update your address information right now. Refresh this page or
+        try again later.
+      </p>
+    ),
+    slim: true,
   },
 });

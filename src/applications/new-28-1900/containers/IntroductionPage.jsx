@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { focusElement } from 'platform/utilities/ui/focus';
 import { scrollToTop } from 'platform/utilities/scroll';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { useSelector } from 'react-redux';
 import { isLOA3, isLoggedIn } from 'platform/user/selectors';
-import { TITLE, SUBTITLE } from '../constants';
+import { TITLE } from '../constants';
 
 const OMB_RES_BURDEN = 10;
 const OMB_NUMBER = '2900-0009';
@@ -79,27 +78,25 @@ export const IntroductionPage = props => {
   const { route } = props;
   const { formConfig, pageList } = route;
   const showVerifyIdentify = userLoggedIn && !userIdVerified;
+  const fullSubTitle =
+    'Application for Veteran Readiness and Employment for Claimants with Service-Connected Disabilities (VA Form 28-1900)';
 
   useEffect(() => {
     scrollToTop();
-    focusElement('h1');
   }, []);
 
   return (
     <article className="schemaform-intro">
-      <FormTitle title={TITLE} subTitle={SUBTITLE} />
-      <h2 className="vads-u-margin-top--0">
-        Application for Veteran Readiness and Employment for Claimants with
-        Service-Connected Disabilities (VA Form 28-1900)
-      </h2>
+      <FormTitle title={TITLE} subTitle={fullSubTitle} />
       <p>
-        Veteran Readiness and Employment (VR&E) benefits–also called Chapter
-        31–provide employment support and training services to help you find and
-        keep a job, and live as independently as possible. Apply online now.
+        Veteran Readiness and Employment (VR&E) benefits&mdash;also called
+        Chapter 31&mdash;provide employment support and training services to
+        help you find and keep a job, and live as independently as possible.
+        Apply online now.
       </p>
-      <h3 className="vads-u-font-size--h2 vads-u-margin-top--0">
+      <h2 className="vads-u-margin-top--0">
         Follow these steps to get started
-      </h3>
+      </h2>
       <ProcessList />
       {showVerifyIdentify ? (
         <div>{/* add verify identity alert if applicable */}</div>

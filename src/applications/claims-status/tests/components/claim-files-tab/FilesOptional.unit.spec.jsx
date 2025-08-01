@@ -65,7 +65,7 @@ describe('<FilesOptional>', () => {
     getByText('Request for evidence outside VA');
     getByText('We made a request outside VA on April 21, 2025');
     expect(queryByText(item.description)).to.be.null;
-    getByText(/you don’t have to do anything/i);
+    getByText(/you don’t need to do anything/i);
     getByText(
       'We asked someone outside VA for documents related to your claim.',
     );
@@ -81,7 +81,7 @@ describe('<FilesOptional>', () => {
 
     getByText(itemWithOverrideDescription.friendlyName);
     getByText('We made a request outside VA on April 21, 2025');
-    expect(queryByText(/you don’t have to do anything/i)).to.exist;
+    expect(queryByText(/you don’t need to do anything/i)).to.exist;
     getByText(itemWithOverrideDescription.shortDescription);
     expect(
       queryByText(

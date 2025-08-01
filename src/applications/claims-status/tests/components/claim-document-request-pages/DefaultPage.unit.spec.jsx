@@ -47,8 +47,8 @@ describe('<DefaultPage>', () => {
       const item = {
         closedDate: null,
         canUploadFile: true,
-        description: 'Buddy statement text',
-        displayName: 'Submit buddy statement(s)',
+        description: 'First praty description',
+        displayName: 'First party display name',
         id: 467558,
         overdue: true,
         receivedDate: null,
@@ -70,7 +70,7 @@ describe('<DefaultPage>', () => {
       getByText(
         `Respond by ${formatDate(
           item.suspenseDate,
-        )} for: Submit buddy statement(s)`,
+        )} for: First party display name`,
       );
       getByText('What we need from you', { selector: 'h2' });
       getByText('To respond to this request:');
@@ -123,8 +123,8 @@ describe('<DefaultPage>', () => {
     it('should render updated default UI  when status is NEEDED_FROM_OTHERS', () => {
       const item = {
         closedDate: null,
-        description: 'Buddy statement text',
-        displayName: 'Submit buddy statement(s)',
+        description: 'Third party description',
+        displayName: 'Third party display name',
         id: 467558,
         overdue: true,
         receivedDate: null,
@@ -148,7 +148,7 @@ describe('<DefaultPage>', () => {
       getByText(
         `We made a request outside VA on ${formatDate(
           item.requestedDate,
-        )} for: Submit buddy statement(s)`,
+        )} for: Third party display name`,
       );
       expect($('.optional-upload', container)).to.exist;
       getByText('This is just a notice. No action is needed by you.');
@@ -215,6 +215,34 @@ describe('<DefaultPage>', () => {
         `We made a request on ${formatDate(
           item.requestedDate,
         )} for: friendly DBQ name`,
+      );
+    });
+    it(`should render updated request language on when the track item is a sensitive item`, () => {
+      const item = {
+        closedDate: null,
+        description: 'old description',
+        friendlyName: 'Friendly sensitive item name',
+        displayName: 'ASB - tell us where, when, how exposed',
+        id: 467558,
+        overdue: true,
+        receivedDate: null,
+        requestedDate: '2024-03-25',
+        status: 'NEEDED_FROM_YOU',
+        suspenseDate: nineMonthsAgoSuspenseDate,
+        canUploadFile: false,
+        documents: [],
+        date: '2024-03-21',
+      };
+      const { getByText } = renderWithRouter(
+        <Provider store={getStore()}>
+          <DefaultPage {...defaultProps} item={item} />
+        </Provider>,
+      );
+      getByText('Request for evidence');
+      getByText(
+        `Respond by ${formatDate(
+          item.suspenseDate,
+        )} for: friendly sensitive item name`,
       );
     });
     it('should display pass due alert when suspense date is in the past', () => {

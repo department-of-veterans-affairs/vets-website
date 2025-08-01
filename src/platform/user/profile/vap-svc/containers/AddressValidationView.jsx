@@ -356,6 +356,7 @@ class AddressValidationView extends React.Component {
     const {
       addressFromUser,
       addressValidationError,
+      addressValidationErrorCode,
       confirmedSuggestions,
       suggestedAddresses,
       transaction,
@@ -370,6 +371,7 @@ class AddressValidationView extends React.Component {
       addressValidationError,
       confirmedSuggestions,
       validationKey,
+      addressValidationErrorCode,
       isNoValidationKeyAlertEnabled, // remove when profileShowNoValidationKeyAddressAlert flag is retired
     });
 
@@ -391,10 +393,13 @@ class AddressValidationView extends React.Component {
             status={addressValidationError ? 'error' : 'warning'}
             visible
             uswds
+            slim={addressValidationMessage?.slim}
           >
-            <h4 id="address-validation-alert-heading" slot="headline">
-              {addressValidationMessage.headline}
-            </h4>
+            {addressValidationMessage.headline && (
+              <h4 id="address-validation-alert-heading" slot="headline">
+                {addressValidationMessage.headline}
+              </h4>
+            )}
             <addressValidationMessage.ModalText
               editFunction={this.onEditClick}
             />
@@ -438,6 +443,7 @@ const mapStateToProps = (state, ownProps) => {
   const {
     addressFromUser,
     addressValidationError,
+    addressValidationErrorCode,
     addressValidationType,
     confirmedSuggestions,
     selectedAddress,
@@ -458,6 +464,7 @@ const mapStateToProps = (state, ownProps) => {
       isPendingTransaction(transaction),
     addressFromUser,
     addressValidationError,
+    addressValidationErrorCode,
     addressValidationType,
     confirmedSuggestions,
     selectedAddress,
@@ -493,6 +500,7 @@ AddressValidationView.propTypes = {
   suggestedAddresses: PropTypes.array.isRequired,
   updateSelectedAddress: PropTypes.func.isRequired,
   updateValidationKeyAndSave: PropTypes.func.isRequired,
+  addressValidationErrorCode: PropTypes.string,
   analyticsSectionName: PropTypes.string,
   confirmedSuggestions: PropTypes.arrayOf(
     PropTypes.shape({

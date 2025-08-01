@@ -773,8 +773,8 @@ export const BENEFITS_LIST = [
       [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [yesNoType.YES],
       [mappingTypes.BRANCH_COMPONENT]: [
         militaryBranchComponentTypes.ACTIVE_DUTY,
-        militaryBranchComponentTypes.NATIONAL_GUARD,
-        militaryBranchComponentTypes.RESERVE,
+        militaryBranchComponentTypes.NATIONAL_GUARD_SERVICE,
+        militaryBranchComponentTypes.RESERVE_SERVICE,
       ],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
@@ -814,8 +814,8 @@ export const BENEFITS_LIST = [
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
       [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [yesNoType.NO],
       [mappingTypes.BRANCH_COMPONENT]: [
-        militaryBranchComponentTypes.NATIONAL_GUARD,
-        militaryBranchComponentTypes.RESERVE,
+        militaryBranchComponentTypes.NATIONAL_GUARD_SERVICE,
+        militaryBranchComponentTypes.RESERVE_SERVICE,
       ],
       [mappingTypes.LENGTH_OF_TITLE_TEN_SERVICE]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],

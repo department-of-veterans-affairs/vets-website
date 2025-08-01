@@ -13,10 +13,10 @@ import { CONTACT_INFORMATION_CHAPTER_CONSTANTS } from '../constants';
 export default {
   uiSchema: {
     ...titleUI(CONTACT_INFORMATION_CHAPTER_CONSTANTS.phoneAndEmailPageTitle),
-    mainPhone: phoneUI('Phone number'),
-    cellPhone: phoneUI('Cell phone number'),
+    mainPhone: phoneUI('Home phone number'),
+    cellPhone: phoneUI('Mobile phone number'),
     internationalPhone: internationalPhoneUI('International phone number'),
-    email: emailToSendNotificationsUI('Email address'),
+    email: emailToSendNotificationsUI('Email'),
   },
   schema: {
     type: 'object',

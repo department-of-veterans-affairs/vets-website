@@ -26,9 +26,10 @@ describe('686 Remove child no longer in household array options', () => {
 
     it('should return true if any required fields are missing', () => {
       const incompleteItem = {
-        fullName: { first: 'John' },
+        fullName: { first: 'John' }, // Missing last name
         birthDate: '1990-01-01',
         ssn: '123-45-6789',
+        // dateStepchildLeftHousehold: missing
         supportingStepchild: true,
         livingExpensesPaid: '1000',
         whoDoesTheStepchildLiveWith: { first: 'Jane', last: 'Doe' },
@@ -49,6 +50,7 @@ describe('686 Remove child no longer in household array options', () => {
         fullName: { first: 'John', last: 'Doe' },
         birthDate: '1990-01-01',
         ssn: '123-45-6789',
+        dateStepchildLeftHousehold: '2023-01-01',
         supportingStepchild: false,
         whoDoesTheStepchildLiveWith: { first: 'Jane', last: 'Doe' },
         address: {
@@ -68,7 +70,9 @@ describe('686 Remove child no longer in household array options', () => {
         fullName: { first: 'John', last: 'Doe' },
         birthDate: '1990-01-01',
         ssn: '123-45-6789',
+        dateStepchildLeftHousehold: '2023-01-01',
         supportingStepchild: true,
+        // livingExpensesPaid: missing
         whoDoesTheStepchildLiveWith: { first: 'Jane', last: 'Doe' },
         address: {
           country: 'USA',
@@ -194,6 +198,30 @@ describe('686 Remove child no longer in household: Child information ', () => {
     );
 
     expect($$('va-text-input', container).length).to.equal(4);
+    expect($$('va-memorable-date', container).length).to.equal(1);
+  });
+});
+
+describe('686 Remove child no longer in household: When did stepchild leave household', () => {
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.reportStepchildNotInHousehold.pages.stepchildLeftHouseholdDate;
+
+  it('should render', () => {
+    const { container } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={formData}
+          arrayPath={arrayPath}
+          pagePerItemIndex={0}
+        />
+      </Provider>,
+    );
+
     expect($$('va-memorable-date', container).length).to.equal(1);
   });
 });

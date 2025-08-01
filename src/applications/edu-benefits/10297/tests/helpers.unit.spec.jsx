@@ -1,15 +1,18 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
 import sinon from 'sinon';
+import { render } from '@testing-library/react';
 import {
   ConfirmationGoBackLink,
   ConfirmationPrintThisPage,
   ConfirmationSubmissionAlert,
   ConfirmationWhatsNextProcessList,
+  getAgeInYears,
+  getEligibilityStatus,
   trainingProviderArrayOptions,
   getCardDescription,
   validateWithin180Days,
+  validateTrainingProviderStartDate,
 } from '../helpers';
 
 describe('10297 Helpers', () => {
@@ -71,11 +74,83 @@ describe('10297 Helpers', () => {
     });
   });
 
+  describe('#getAgeInYears', () => {
+    let clock;
+
+    beforeEach(() => {
+      // Mock Date.now() to always return a fixed value in 2024
+      const fixedTimestamp = new Date('2024-12-31T00:00:00Z').getTime();
+      clock = sinon.useFakeTimers({ now: fixedTimestamp, toFake: ['Date'] });
+    });
+
+    afterEach(() => {
+      clock.restore();
+    });
+
+    it('should return the age in years based on the given birthDate', () => {
+      expect(getAgeInYears('1963-01-01')).to.equal(61);
+      expect(getAgeInYears('1962-12-31')).to.equal(62);
+    });
+  });
+
+  describe('#getEligibilityStatus', () => {
+    let clock;
+
+    beforeEach(() => {
+      // Mock Date.now() to always return a fixed value in 2024
+      const fixedTimestamp = new Date('2024-12-31T00:00:00Z').getTime();
+      clock = sinon.useFakeTimers({ now: fixedTimestamp, toFake: ['Date'] });
+    });
+
+    afterEach(() => {
+      clock.restore();
+    });
+
+    it('should handle when the formData is empty', () => {
+      expect(getEligibilityStatus(undefined)).to.deep.equal({
+        isDutyEligible: false,
+        isDobEligible: false,
+        isDischargeEligible: false,
+        isFullyEligible: false,
+      });
+    });
+
+    it('should handle when the formData fields fail requirements', () => {
+      const formData = {
+        dutyRequirement: 'none',
+        dateOfBirth: '1950-07-01',
+        otherThanDishonorableDischarge: false,
+      };
+
+      expect(getEligibilityStatus(formData)).to.deep.equal({
+        isDutyEligible: false,
+        isDobEligible: false,
+        isDischargeEligible: false,
+        isFullyEligible: false,
+      });
+    });
+
+    it('should handle when the formData fields pass requirements', () => {
+      const formData = {
+        dutyRequirement: 'byDischarge',
+        dateOfBirth: '1990-07-01',
+        otherThanDishonorableDischarge: true,
+      };
+
+      expect(getEligibilityStatus(formData)).to.deep.equal({
+        isDutyEligible: true,
+        isDobEligible: true,
+        isDischargeEligible: true,
+        isFullyEligible: true,
+      });
+    });
+  });
+
   describe('trainingProvierArrayOptions', () => {
     it('should return correct isItemComplete', () => {
       const item = {
-        name: 'Training Provider Example',
-        address: {
+        providerName: 'Training Provider Example',
+        providerAddress: {
           country: 'USA',
           street: '123 Main St',
           city: 'Anytown',
@@ -94,7 +169,7 @@ describe('10297 Helpers', () => {
 
     it('should return correct card title using getItemName', () => {
       const item = {
-        name: 'Training Provider Example',
+        providerName: 'Training Provider Example',
       };
       const emptyItem = {};
       expect(trainingProviderArrayOptions.text.getItemName(item)).to.equal(
@@ -123,7 +198,7 @@ describe('10297 Helpers', () => {
   describe('getCardDescription', () => {
     it('should return a full description of details from the given card details', () => {
       const card = {
-        address: {
+        providerAddress: {
           country: 'USA',
           street: '123 Main St',
           city: 'Anytown',
@@ -195,6 +270,29 @@ describe('10297 Helpers', () => {
     it('does nothing when no date string is provided', () => {
       const errors = { addError: sinon.spy() };
       validateWithin180Days(errors, undefined);
+      expect(errors.addError.called).to.be.false;
+    });
+  });
+
+  describe('validateTrainingProviderStartDate()', () => {
+    it('does nothing (passes) when given a date after the program start date', () => {
+      const errors = { addError: sinon.spy() };
+      validateTrainingProviderStartDate(errors, '2025-01-03');
+      expect(errors.addError.called).to.be.false;
+    });
+
+    it('adds an error when given a date before the program start date', () => {
+      const errors = { addError: sinon.spy() };
+      validateTrainingProviderStartDate(errors, '2025-01-01');
+      expect(errors.addError.calledOnce).to.be.true;
+      expect(errors.addError.firstCall.args[0]).to.match(
+        /Training must start/i,
+      );
+    });
+
+    it('does nothing when no date string is provided', () => {
+      const errors = { addError: sinon.spy() };
+      validateTrainingProviderStartDate(errors, undefined);
       expect(errors.addError.called).to.be.false;
     });
   });
