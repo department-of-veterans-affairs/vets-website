@@ -138,7 +138,7 @@ describe('Agencies Or Courts Pages', () => {
       expect(getByText(item.agencyOrCourt)).to.exist;
     });
 
-    it('when agencryOrCourt is Other, should return the correct card title from getItemName', () => {
+    it('when agencyOrCourt is Other, should return the correct card title from getItemName', () => {
       const item = {
         agencyOrCourt: 'Other',
         otherAgencyOrCourt: 'Other Agency Name',
