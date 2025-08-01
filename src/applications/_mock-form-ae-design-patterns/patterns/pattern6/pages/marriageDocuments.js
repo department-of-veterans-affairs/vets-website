@@ -45,7 +45,7 @@ export default {
         type: 'object',
         properties: {},
       },
-      marriageCertificate: fileInputSchema,
+      marriageCertificate: fileInputSchema(),
       // marriageCertificate: {
       //   type: 'array',
       //   items: {
