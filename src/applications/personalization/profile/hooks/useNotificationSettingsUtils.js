@@ -172,6 +172,7 @@ export const useNotificationSettingsUtils = () => {
       // Always exclude QUICK_SUBMIT and GENERAL
       NOTIFICATION_GROUPS.QUICK_SUBMIT,
       NOTIFICATION_GROUPS.GENERAL,
+      NOTIFICATION_GROUPS.PAPERLESS_DELIVERY,
     ];
 
     const excludedItemIds = [
