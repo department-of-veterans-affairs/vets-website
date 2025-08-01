@@ -85,6 +85,7 @@ export function parseDurationFromSlotId(slotId) {
  * @param {Object} upcomingAppointments - Object containing upcoming appointments organized by month key (YYYY-MM)
  * @param {Array<Object>} availableSlots - Array of available appointment slots
  * @param {string} availableSlots[].start - ISO date string for slot start time
+ * @param {string} availableSlots[].end? - ISO date string for slot end time (optional)
  * @param {string} availableSlots[].id - Slot ID containing duration information
  * @returns {boolean} True if there is a scheduling conflict, false otherwise
  */
@@ -101,8 +102,13 @@ export function getAppointmentConflict(
     );
     if (selectedSlot) {
       const selectedSlotStart = ensureDate(selectedSlot.start);
-      const durationMinutes = parseDurationFromSlotId(selectedSlot.id);
-      const selectedSlotEnd = addMinutes(selectedSlotStart, durationMinutes);
+      let selectedSlotEnd;
+      if (selectedSlot.end) {
+        selectedSlotEnd = ensureDate(selectedSlot.end);
+      } else {
+        const durationMinutes = parseDurationFromSlotId(selectedSlot.id);
+        selectedSlotEnd = addMinutes(selectedSlotStart, durationMinutes);
+      }
       const key = format(selectedSlotStart, DATE_FORMATS.yearMonth);
       const appointments = upcomingAppointments[key];
       hasConflict = appointments?.some(appointment => {
