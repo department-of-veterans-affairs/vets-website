@@ -1,7 +1,12 @@
 /* eslint-disable no-plusplus */
 const { startOfDay } = require('date-fns');
 
-// Helper function to find the next business day (Monday-Friday)
+/**
+ * Finds the next business day (Monday-Friday) from the given date.
+ *
+ * @param {Date} [fromDate=new Date()] - The starting date to find the next business day from.
+ * @returns {Date} The next business day date.
+ */
 const findNextBusinessDay = (fromDate = new Date()) => {
   const date = new Date(fromDate);
 
@@ -16,7 +21,12 @@ const findNextBusinessDay = (fromDate = new Date()) => {
   return date;
 };
 
-// Helper function to generate random IDs
+/**
+ * Generates a random alphanumeric ID with an optional prefix.
+ *
+ * @param {string} [prefix=''] - Optional prefix to prepend to the generated ID.
+ * @returns {string} A random ID string of 8 characters plus the prefix.
+ */
 const generateRandomId = (prefix = '') => {
   const chars =
     'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -27,7 +37,12 @@ const generateRandomId = (prefix = '') => {
   return result;
 };
 
-// Helper function to generate random dates in business hours
+/**
+ * Generates a random date within business hours for a given month offset.
+ *
+ * @param {number} monthsOffset - The number of months to offset from the current month.
+ * @returns {Date} A random date within business hours (8 AM - 5 PM, 15-minute intervals).
+ */
 const generateRandomBusinessDate = monthsOffset => {
   const now = new Date();
   const targetMonth = new Date(
@@ -55,13 +70,25 @@ const generateRandomBusinessDate = monthsOffset => {
   );
 };
 
-// Helper function to format dates
+/**
+ * Formats a date for appointment data with optional hour offset.
+ *
+ * @param {Date} date - The date to format.
+ * @param {number} [offsetHours=0] - Number of hours to offset the date.
+ * @returns {string} ISO string formatted date without milliseconds.
+ */
 const formatAppointmentDate = (date, offsetHours = 0) => {
   const adjustedDate = new Date(date.getTime() + offsetHours * 60 * 60 * 1000);
   return adjustedDate.toISOString().replace(/\.\d{3}Z$/, 'Z');
 };
 
-// Helper function to format local time
+/**
+ * Formats a date to local time with timezone offset.
+ *
+ * @param {Date} date - The date to format.
+ * @param {string} [timezone='-06:00'] - The timezone offset string.
+ * @returns {string} ISO string formatted date with timezone offset.
+ */
 const formatLocalTime = (date, timezone = '-06:00') => {
   const localDate = new Date(date.getTime() - 6 * 60 * 60 * 1000); // Assume Central Time
   return localDate.toISOString().replace('Z', `.000${timezone}`);
@@ -105,7 +132,12 @@ const appointmentStatuses = {
   },
 };
 
-// Helper function to determine appointment status
+/**
+ * Determines appointment status based on weighted probabilities.
+ *
+ * @param {boolean} isPast - Whether the appointment is in the past.
+ * @returns {Object} Object containing status, cancellable flag, cancellation reason, and vista status.
+ */
 const getAppointmentStatus = isPast => {
   const rand = Math.random();
   let cumulative = 0;
@@ -590,6 +622,19 @@ const appointmentTemplates = {
   },
 };
 
+/**
+ * Generates mock confirmed appointments data for testing purposes.
+ *
+ * @param {Object} [options={}] - Configuration options for generating appointments.
+ * @param {number} [options.futureMonths=6] - Number of future months to generate appointments for.
+ * @param {number} [options.pastMonths=3] - Number of past months to generate appointments for.
+ * @param {number} [options.appointmentsPerMonth=2] - Average number of appointments per month.
+ * @param {string[]} [options.appointmentTypes=['clinic', 'phone', 'telehealth']] - Types of appointments to generate.
+ * @param {string[]} [options.serviceTypes] - Service types for appointments.
+ * @param {string} [options.locationId='983'] - Location ID for appointments.
+ * @param {string[]} [options.requiredAppointmentDates] - Specific dates that must have appointments.
+ * @returns {Object} Object containing an array of mock appointment data.
+ */
 const getMockConfirmedAppointments = (options = {}) => {
   const {
     futureMonths = 6,

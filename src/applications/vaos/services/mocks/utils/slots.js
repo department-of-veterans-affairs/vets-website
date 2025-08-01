@@ -1,4 +1,9 @@
-// Helper function to round time to nearest 15-minute interval
+/**
+ * Rounds a date to the nearest 15-minute interval.
+ *
+ * @param {Date} date - The date to round.
+ * @returns {Date} A new date rounded to the nearest 15-minute interval.
+ */
 const roundToFifteenMinutes = date => {
   const roundedDate = new Date(date);
   const minutes = roundedDate.getMinutes();
@@ -7,7 +12,12 @@ const roundToFifteenMinutes = date => {
   return roundedDate;
 };
 
-// Helper function to generate random base64-like identifier
+/**
+ * Generates a random alphanumeric identifier.
+ *
+ * @param {number} [length=8] - The length of the identifier to generate.
+ * @returns {string} A random alphanumeric string of the specified length.
+ */
 const generateRandomId = (length = 8) => {
   const chars =
     'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -18,7 +28,11 @@ const generateRandomId = (length = 8) => {
   return result;
 };
 
-// Helper function to generate UUID v4
+/**
+ * Generates a UUID v4 string.
+ *
+ * @returns {string} A UUID v4 formatted string.
+ */
 const generateUUID = () => {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
     const r = Math.floor(Math.random() * 16);
@@ -27,7 +41,13 @@ const generateUUID = () => {
   });
 };
 
-// Helper function to format duration in minutes and seconds
+/**
+ * Formats the duration between two dates as a string in minutes and seconds.
+ *
+ * @param {Date} startDate - The start date.
+ * @param {Date} endDate - The end date.
+ * @returns {string} Duration formatted as "Xm Ys" (e.g., "60m0s").
+ */
 const formatDuration = (startDate, endDate) => {
   const durationMs = endDate.getTime() - startDate.getTime();
   const minutes = Math.floor(durationMs / (1000 * 60));
@@ -35,7 +55,13 @@ const formatDuration = (startDate, endDate) => {
   return `${minutes}m${seconds}s`;
 };
 
-// Helper function to generate slot ID in the required format
+/**
+ * Generates a slot ID in the required format with multiple components.
+ *
+ * @param {Date} startDate - The start date of the slot.
+ * @param {Date} endDate - The end date of the slot.
+ * @returns {string} A formatted slot ID string with pipe-separated components.
+ */
 const generateSlotId = (startDate, endDate) => {
   // Generate components for the slot ID
   const baseId = generateRandomId(8);
@@ -52,18 +78,34 @@ const generateSlotId = (startDate, endDate) => {
   return `${baseId}-${practitionerRole}|${uuid}|${startTime}|${duration}|${timestamp}|${suffix}`;
 };
 
-// Helper function to format dates for slots
+/**
+ * Formats a date for slot data without milliseconds.
+ *
+ * @param {Date} date - The date to format.
+ * @returns {string} ISO string formatted date without milliseconds.
+ */
 const formatSlotDate = date => {
   return date.toISOString().replace(/\.\d{3}Z$/, 'Z');
 };
 
-// Helper function to check if a date is a business day
+/**
+ * Checks if a given date falls on a business day (Monday-Friday).
+ *
+ * @param {Date} date - The date to check.
+ * @returns {boolean} True if the date is a business day, false otherwise.
+ */
 const isBusinessDay = date => {
   const day = date.getDay();
   return day >= 1 && day <= 5; // Monday = 1, Friday = 5
 };
 
-// Helper function to generate business dates within a month range
+/**
+ * Generates an array of business dates within a specified month range.
+ *
+ * @param {Date} startMonth - The start date of the range.
+ * @param {Date} endMonth - The end date of the range.
+ * @returns {Date[]} An array of dates that fall on business days within the range.
+ */
 const generateBusinessDatesInRange = (startMonth, endMonth) => {
   const dates = [];
   const current = new Date(startMonth);
@@ -78,7 +120,16 @@ const generateBusinessDatesInRange = (startMonth, endMonth) => {
   return dates;
 };
 
-// Helper function to generate slots for a specific day
+/**
+ * Generates appointment slots for a specific day based on business hours and configuration.
+ *
+ * @param {Date} date - The date to generate slots for.
+ * @param {Object} options - Configuration options for slot generation.
+ * @param {Object} options.businessHours - Object with start and end hours (24-hour format).
+ * @param {number} options.slotDuration - Duration of each slot in minutes.
+ * @param {number} options.slotsPerDay - Maximum number of slots to generate per day.
+ * @returns {Object[]} An array of slot objects with ID, type, and attributes.
+ */
 const generateSlotsForDay = (date, options) => {
   const { businessHours, slotDuration, slotsPerDay } = options;
   const slots = [];
@@ -125,6 +176,12 @@ const generateSlotsForDay = (date, options) => {
   return slots;
 };
 
+/**
+ * Transforms slots for community care by removing the end time.
+ *
+ * @param {Object[]} slots - Array of slot objects to transform.
+ * @returns {Object[]} Transformed slots with end time removed.
+ */
 const transformSlotsForCommunityCare = slots => {
   return slots.map(slot => ({
     ...slot.attributes,
@@ -132,7 +189,14 @@ const transformSlotsForCommunityCare = slots => {
   }));
 };
 
-// Helper function to check if a slot conflicts with existing appointments
+/**
+ * Checks if a slot time conflicts with any existing appointments.
+ *
+ * @param {string} slotStart - ISO string of slot start time.
+ * @param {string} slotEnd - ISO string of slot end time.
+ * @param {Object[]} appointments - Array of existing appointment objects.
+ * @returns {boolean} True if there is a conflict, false otherwise.
+ */
 const hasAppointmentConflict = (slotStart, slotEnd, appointments) => {
   const slotStartTime = new Date(slotStart);
   const slotEndTime = new Date(slotEnd);
@@ -156,7 +220,13 @@ const hasAppointmentConflict = (slotStart, slotEnd, appointments) => {
   });
 };
 
-// Helper function to filter out conflicting slots
+/**
+ * Filters out slots that conflict with existing appointments.
+ *
+ * @param {Object[]} slots - Array of slot objects to filter.
+ * @param {Object[]} existingAppointments - Array of existing appointment objects.
+ * @returns {Object[]} Filtered array of slots without conflicts.
+ */
 const removeConflictingSlots = (slots, existingAppointments) => {
   if (!existingAppointments || existingAppointments.length === 0) {
     return slots;
@@ -172,7 +242,13 @@ const removeConflictingSlots = (slots, existingAppointments) => {
   );
 };
 
-// Helper function to force specific slots to conflict with given appointments
+/**
+ * Forces the creation of slots that conflict with specific appointments for testing purposes.
+ *
+ * @param {Object[]} allSlots - Array of all available slots.
+ * @param {Object[]} appointmentsToConflict - Array of appointments to create conflicts with.
+ * @returns {Object[]} Updated slots array with additional conflicting slots.
+ */
 const forceConflictingSlots = (allSlots, appointmentsToConflict) => {
   if (!appointmentsToConflict || appointmentsToConflict.length === 0) {
     return allSlots;
@@ -220,12 +296,20 @@ const forceConflictingSlots = (allSlots, appointmentsToConflict) => {
           roundedConflictStart.getTime() + 60 * 60 * 1000,
         );
 
+        const conflictSlotId = generateSlotId(
+          roundedConflictStart,
+          conflictSlotEnd,
+        );
         conflictingSlot = {
-          id: `conflict-slot-${appointment.id || Date.now()}-${Math.random()}`,
+          id: conflictSlotId,
           type: 'slots',
           attributes: {
-            start: roundedConflictStart.toISOString(),
-            end: conflictSlotEnd.toISOString(),
+            id: conflictSlotId,
+            start: formatSlotDate(roundedConflictStart),
+            end: formatSlotDate(conflictSlotEnd),
+            providerServiceId: 'Lfg2Mxk4',
+            appointmentTypeId: 'ov',
+            remaining: 1,
           },
         };
       }
@@ -244,7 +328,14 @@ const forceConflictingSlots = (allSlots, appointmentsToConflict) => {
   return [...allSlots, ...newSlots];
 };
 
-// Helper function to ensure some conflicts exist for testing
+/**
+ * Ensures that a certain percentage of days with appointments have slot conflicts for testing.
+ *
+ * @param {Object[]} allSlots - Array of all available slots.
+ * @param {Object[]} existingAppointments - Array of existing appointments.
+ * @param {number} conflictRate - Percentage (0-1) of days that should have conflicts.
+ * @returns {Object[]} Filtered slots array with controlled conflict rate.
+ */
 const ensureConflictsForTesting = (
   allSlots,
   existingAppointments,
@@ -297,6 +388,21 @@ const ensureConflictsForTesting = (
   return finalSlots;
 };
 
+/**
+ * Generates mock appointment slots data for testing purposes.
+ *
+ * @param {Object} [options={}] - Configuration options for generating slots.
+ * @param {number} [options.futureMonths=6] - Number of future months to generate slots for.
+ * @param {number} [options.pastMonths=1] - Number of past months to generate slots for.
+ * @param {number} [options.slotsPerDay=8] - Number of slots to generate per day.
+ * @param {number} [options.slotDuration=60] - Duration of each slot in minutes.
+ * @param {Object} [options.businessHours={start: 8, end: 17}] - Business hours configuration.
+ * @param {Object[]} [options.existingAppointments=[]] - Existing appointments to avoid conflicts with.
+ * @param {number} [options.conflictRate=0.3] - Rate of conflict generation for testing.
+ * @param {Object[]} [options.forceConflictWithAppointments=[]] - Appointments to force conflicts with.
+ * @param {boolean} [options.communityCareSlots=false] - Whether to format slots for community care.
+ * @returns {Object} Object containing an array of mock slot data.
+ */
 const getMockSlots = (options = {}) => {
   const {
     futureMonths = 6,
