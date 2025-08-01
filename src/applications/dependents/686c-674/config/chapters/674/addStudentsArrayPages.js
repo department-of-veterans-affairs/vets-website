@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {
   titleUI,
   textUI,
@@ -148,6 +147,7 @@ export const studentInformationPage = {
   },
   schema: {
     type: 'object',
+    required: ['fullName', 'birthDate'],
     properties: {
       fullName: fullNameNoSuffixSchema,
       birthDate: currentOrPastDateSchema,
@@ -170,6 +170,7 @@ export const studentIDInformationPage = {
   },
   schema: {
     type: 'object',
+    required: ['ssn', 'isParent'],
     properties: {
       ssn: ssnSchema,
       isParent: yesNoSchema,
@@ -205,15 +206,36 @@ export const studentIncomePage = {
 export const studentAddressPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(() => 'Student’s address'),
-    address: addressUI({
-      labels: {
-        militaryCheckbox:
-          'The student receives mail outside of the United States on a U.S. military base.',
+    address: {
+      ...addressUI({
+        title: '',
+        labels: {
+          militaryCheckbox:
+            'The student receives mail outside of the United States on a U.S. military base.',
+        },
+      }),
+      city: {
+        ...addressUI().city,
+        'ui:validations': [
+          (errors, city, formData) => {
+            const address = formData?.address;
+            const cityStr = city?.trim().toUpperCase();
+
+            if (
+              address &&
+              ['APO', 'FPO', 'DPO'].includes(cityStr) &&
+              address.isMilitary !== true
+            ) {
+              errors.addError('Enter a valid city name');
+            }
+          },
+        ],
       },
-    }),
+    },
   },
   schema: {
     type: 'object',
+    required: ['address'],
     properties: {
       address: addressSchema(),
     },
@@ -231,6 +253,7 @@ export const studentMaritalStatusPage = {
   },
   schema: {
     type: 'object',
+    required: ['wasMarried'],
     properties: {
       wasMarried: yesNoSchema,
     },
@@ -243,11 +266,26 @@ export const studentMarriageDatePage = {
     ...arrayBuilderItemSubsequentPageTitleUI(() => 'Student’s marital status'),
     marriageDate: currentOrPastDateUI({
       title: 'Date of marriage',
+      required: () => true,
     }),
+    'ui:options': {
+      updateSchema: (formData, schema, _uiSchema, index) => {
+        const itemData = formData?.studentInformation?.[index] || {};
+
+        if (itemData?.wasMarried !== true) {
+          itemData.marriageDate = undefined;
+          return schema;
+        }
+
+        return {
+          ...schema,
+          required: ['marriageDate'],
+        };
+      },
+    },
   },
   schema: {
     type: 'object',
-    required: ['marriageDate'],
     properties: {
       marriageDate: currentOrPastDateSchema,
     },
@@ -294,15 +332,13 @@ export const studentEducationBenefitsPage = {
       },
     },
     'ui:options': {
-      updateSchema: (formData, formSchema) => {
-        const requiredFields = ['tuitionIsPaidByGovAgency'];
-        if (formData?.typeOfProgramOrBenefit?.other) {
-          requiredFields.push('otherProgramOrBenefit');
-        }
-        return {
-          ...formSchema,
-          required: requiredFields,
-        };
+      updateSchema: (formData, formSchema, _uiSchema, index) => {
+        const isOtherChecked =
+          !!formData?.studentInformation?.[index]?.typeOfProgramOrBenefit
+            ?.other || !!formData?.typeOfProgramOrBenefit?.other;
+        const required = ['tuitionIsPaidByGovAgency'];
+        if (isOtherChecked) required.push('otherProgramOrBenefit');
+        return { ...formSchema, required };
       },
     },
   },
@@ -344,16 +380,19 @@ export const studentEducationBenefitsStartDatePage = {
 
           if (typeOfProgramOrBenefit) {
             itemData.benefitPaymentDate = undefined;
+            return schema;
           }
 
-          return schema;
+          return {
+            ...schema,
+            required: ['benefitPaymentDate'],
+          };
         },
       },
     },
   },
   schema: {
     type: 'object',
-    required: ['benefitPaymentDate'],
     properties: {
       benefitPaymentDate: currentOrPastDateSchema,
     },
@@ -384,6 +423,7 @@ export const studentProgramInfoPage = {
   },
   schema: {
     type: 'object',
+    required: ['schoolInformation'],
     properties: {
       schoolInformation: {
         type: 'object',
@@ -416,6 +456,7 @@ export const studentAttendancePage = {
     properties: {
       schoolInformation: {
         type: 'object',
+        required: ['studentIsEnrolledFullTime'],
         properties: {
           studentIsEnrolledFullTime: yesNoSchema,
         },
@@ -533,11 +574,19 @@ export const studentTermDatesPage = {
         type: 'object',
         properties: {
           currentTermDates: {
+            required: [
+              'officialSchoolStartDate',
+              'expectedStudentStartDate',
+              'expectedGraduationDate',
+            ],
             type: 'object',
             properties: {
               officialSchoolStartDate: currentOrPastDateSchema,
               expectedStudentStartDate: currentOrPastDateSchema,
-              expectedGraduationDate: currentOrPastDateSchema,
+              expectedGraduationDate: {
+                type: 'string',
+                pattern: '^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$',
+              },
             },
           },
         },
@@ -564,6 +613,7 @@ export const previousTermQuestionPage = {
     properties: {
       schoolInformation: {
         type: 'object',
+        required: ['studentDidAttendSchoolLastTerm'],
         properties: {
           studentDidAttendSchoolLastTerm: yesNoSchema,
         },
@@ -588,9 +638,13 @@ export const previousTermDatesPage = {
               false
             ) {
               itemData.schoolInformation.lastTermSchoolInformation = undefined;
+              return schema;
             }
 
-            return schema;
+            return {
+              ...schema,
+              required: ['termBegin', 'dateTermEnded'],
+            };
           },
         },
         termBegin: {
@@ -609,7 +663,6 @@ export const previousTermDatesPage = {
         type: 'object',
         properties: {
           lastTermSchoolInformation: {
-            required: ['termBegin', 'dateTermEnded'],
             type: 'object',
             properties: {
               termBegin: currentOrPastDateSchema,
@@ -637,6 +690,7 @@ export const claimsOrReceivesPensionPage = {
   },
   schema: {
     type: 'object',
+    required: ['claimsOrReceivesPension'],
     properties: {
       claimsOrReceivesPension: yesNoSchema,
     },

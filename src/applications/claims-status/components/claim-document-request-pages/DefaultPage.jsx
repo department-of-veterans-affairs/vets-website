@@ -12,16 +12,9 @@ import DueDate from '../DueDate';
 import { evidenceDictionary } from '../../utils/evidenceDictionary';
 
 export default function DefaultPage({
-  field,
-  files,
   item,
-  onAddFile,
   onCancel,
-  onDirtyFields,
-  onFieldChange,
-  onRemoveFile,
   onSubmit,
-  backUrl,
   progress,
   uploading,
 }) {
@@ -38,6 +31,29 @@ export default function DefaultPage({
     }
     return 'Request for evidence outside VA';
   };
+  const getFirstPartyDisplayName = () => {
+    if (evidenceDictionary[item.displayName]?.isSensitive) {
+      return `Request for evidence`;
+    }
+    return item.friendlyName || 'Request for evidence';
+  };
+  const getFirstParyRequestText = () => {
+    if (
+      item.friendlyName &&
+      evidenceDictionary[item.displayName]?.isSensitive
+    ) {
+      return `Respond by ${dateFormatter(
+        item.suspenseDate,
+      )} for: ${getDisplayFriendlyName(item)}`;
+    }
+    if (item.friendlyName) {
+      return `Respond by ${dateFormatter(item.suspenseDate)}`;
+    }
+    return `Respond by ${dateFormatter(item.suspenseDate)} for: ${
+      item.displayName
+    }`;
+  };
+
   const getRequestText = () => {
     if (evidenceDictionary[item.displayName]?.isDBQ) {
       return `We made a request on ${dateFormatter(item.requestedDate)} for: ${
@@ -61,13 +77,9 @@ export default function DefaultPage({
           <h1 className="claims-header">
             {item.status === 'NEEDED_FROM_YOU' ? (
               <>
-                {item.friendlyName || 'Request for evidence'}
+                {getFirstPartyDisplayName()}
                 <span className="vads-u-font-family--sans vads-u-margin-bottom--1 vads-u-margin-top--1">
-                  {item.friendlyName
-                    ? `Respond by ${dateFormatter(item.suspenseDate)}`
-                    : `Respond by ${dateFormatter(item.suspenseDate)} for: ${
-                        item.displayName
-                      }`}
+                  {getFirstParyRequestText()}
                 </span>
               </>
             ) : (
@@ -198,17 +210,10 @@ export default function DefaultPage({
             )}
           {item.canUploadFile && (
             <AddFilesForm
-              field={field}
               progress={progress}
               uploading={uploading}
-              files={files}
-              backUrl={backUrl}
-              onSubmit={onSubmit}
-              onAddFile={onAddFile}
-              onRemoveFile={onRemoveFile}
-              onFieldChange={onFieldChange}
               onCancel={onCancel}
-              onDirtyFields={onDirtyFields}
+              onSubmit={files => onSubmit(files)}
             />
           )}
         </div>
@@ -229,17 +234,10 @@ export default function DefaultPage({
           ) : null}
           <p>{scrubDescription(item.description)}</p>
           <AddFilesForm
-            field={field}
             progress={progress}
             uploading={uploading}
-            files={files}
-            backUrl={backUrl}
-            onSubmit={onSubmit}
-            onAddFile={onAddFile}
-            onRemoveFile={onRemoveFile}
-            onFieldChange={onFieldChange}
             onCancel={onCancel}
-            onDirtyFields={onDirtyFields}
+            onSubmit={files => onSubmit(files)}
           />
         </div>
       </Toggler.Disabled>
@@ -248,16 +246,9 @@ export default function DefaultPage({
 }
 
 DefaultPage.propTypes = {
-  field: PropTypes.object.isRequired,
-  files: PropTypes.array.isRequired,
   item: PropTypes.object.isRequired,
-  onAddFile: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
-  onDirtyFields: PropTypes.func.isRequired,
-  onFieldChange: PropTypes.func.isRequired,
-  onRemoveFile: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  backUrl: PropTypes.string,
   progress: PropTypes.number,
   uploading: PropTypes.bool,
 };

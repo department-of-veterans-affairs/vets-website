@@ -66,7 +66,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_26_4555: '26-4555',
   FORM_27_8832: '27-8832',
   FORM_28_1900: '28-1900',
-  FORM_28_1900_V2: '28-1900_V2',
+  FORM_28_1900_V2: '28-1900-V2',
   FORM_28_8832: '28-8832',
   FORM_40_0247: '40-0247',
   FORM_40_10007: '40-10007',
@@ -193,7 +193,9 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_1330M]: `${tryGetAppUrl('1330M')}/`,
     [VA_FORM_IDS.FORM_22_10216]: `${tryGetAppUrl('10216-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_10_10D_EXTENDED]: `${tryGetAppUrl('10-10D-EXTENDED')}/`,
-    [VA_FORM_IDS.FORM_21_0538]: `${tryGetAppUrl('21-0538')}/`,
+    [VA_FORM_IDS.FORM_21_0538]: `${tryGetAppUrl(
+      '0538-dependents-verification',
+    )}/`,
     [VA_FORM_IDS.FORM_22_10297]: `${tryGetAppUrl('22-10297')}/`,
   };
 };
@@ -723,9 +725,9 @@ export const MY_VA_SIP_FORMS = [
   },
   {
     id: VA_FORM_IDS.FORM_21_0538,
-    benefit: 'dependent-benefits',
-    title: '21-0538 Dependents verification',
-    description: 'dependent-benefits',
+    benefit: 'verifying your dependents for disability benefits',
+    title: 'verifying your dependents for disability benefits (21-0538)',
+    description: 'verifying your dependents for disability benefits (21-0538)',
     trackingPrefix: '0538-dependents-verification-',
   },
   {

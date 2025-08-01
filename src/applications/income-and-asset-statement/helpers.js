@@ -1,6 +1,9 @@
 import get from 'platform/utilities/data/get';
 import { capitalize } from 'lodash';
 
+export const showUpdatedContent = () =>
+  window.sessionStorage.getItem('showUpdatedContent') === 'true';
+
 export const annualReceivedIncomeFromAnnuityRequired = (form, index) =>
   get(['annuities', index, 'receivingIncomeFromAnnuity'], form);
 
@@ -36,6 +39,21 @@ export const formatFullNameNoSuffix = name => {
   const last = capitalize(name.last);
 
   return [first, middleInitial, last].filter(Boolean).join(' ');
+};
+
+/**
+ * Converts any string (e.g., a person's name or noun) to its possessive form.
+ * - "Johnson" -> "Johnson’s"
+ * - "Williams" -> "Williams’"
+ * - "Business" -> "Business’"
+ * - "Emma Lee" -> "Emma Lee’s"
+ *
+ * @param {string} str - The string to convert (e.g., full name or label)
+ * @returns {string} - Possessive form of the string
+ */
+export const formatPossessiveString = str => {
+  if (!str || typeof str !== 'string') return '';
+  return str.endsWith('s') ? `${str}’` : `${str}’s`;
 };
 
 export const isDefined = value => {
