@@ -937,7 +937,7 @@ jobs:
       - name: Fetch target branch
         run: git fetch origin ${{ github.head_ref }}
       - name: Merge in feature branch
-        run: git merge origin/${{ github.head_ref }} --no-edit
+        run: git merge origin/${{ github.ref_name }} --no-edit
           
       - name: Create test results folder
         run: mkdir -p test-results
