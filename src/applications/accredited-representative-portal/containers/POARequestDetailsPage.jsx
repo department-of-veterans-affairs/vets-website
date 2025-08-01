@@ -18,6 +18,7 @@ import { recordDatalayerEvent } from '../utilities/analytics';
 import api from '../utilities/api';
 import ProcessingBanner from '../components/ProcessingBanner';
 import POADetailsColumn from '../components/POADetailsColumn';
+import POADetailsAuthorization from '../components/POADetailsAuthorization';
 
 const DECISION_TYPES = {
   ACCEPTANCE: 'acceptance',
@@ -78,64 +79,12 @@ const PROCESSING_BANNER = {
   HEADER: 'We’re processing the accepted POA request',
   ACCEPTED: 'You accepted the POA request on',
   COPY:
-    'We’re processing your decision. This normally takes 1-2 minutes, but can sometimes take longer. We’ll update the status on the request once it finishes processing. You can refresh the page to check for updates.',
+    'We’re processing your decision. This normally takes 1-2 minutes, but can sometimes take longer. We’ll update the status of the request once it finishes processing. You can refresh the page to check for updates.',
 };
 const ERROR_BANNER = {
   HEADER: 'We couldn’t process the accepted POA request',
   COPY:
-    'We’re sorry, there was a problem with our system. We weren’t able to process your decision and update the status on the request. To try again, contact the claimant and ask them to resubmit VA Form 21-22.',
-};
-
-const Authorized = () => {
-  return (
-    <span>
-      <va-icon
-        height={20}
-        maxWidth={20}
-        icon="check_circle"
-        class="vads-u-color--success-dark poa-request__card-icon"
-      />
-      Authorized
-    </span>
-  );
-};
-
-const NoAccess = () => {
-  return (
-    <span>
-      <va-icon
-        height={20}
-        maxWidth={20}
-        icon="warning"
-        class="vads-u-color--warning-dark poa-request__card-icon"
-      />
-      No Access
-    </span>
-  );
-};
-
-const AccessToSome = () => {
-  return (
-    <span>
-      <va-icon
-        height={20}
-        maxWidth={20}
-        icon="warning"
-        class="vads-u-color--warning-dark poa-request__card-icon"
-      />
-      Access to some
-    </span>
-  );
-};
-const checkAuthorizations = x => {
-  if (x) {
-    return <NoAccess />;
-  }
-  return <Authorized />;
-};
-const checkLimitations = (limitations, limit) => {
-  const checkLimitation = limitations.includes(limit);
-  return checkAuthorizations(checkLimitation);
+    'We’re sorry, there was a problem with our system. We weren’t able to process your decision and update the status of the request. To try again, contact the claimant and ask them to resubmit VA Form 21-22.',
 };
 
 const POARequestDetailsPage = title => {
@@ -171,7 +120,8 @@ const POARequestDetailsPage = title => {
   const {
     recordDisclosureLimitations,
   } = poaRequest.powerOfAttorneyForm.authorizations;
-
+  const addressChange =
+    poaRequest?.powerOfAttorneyForm.authorizations.addressChange;
   const poaRequestSubmission =
     poaRequest?.powerOfAttorneyFormSubmission?.status;
   const navigation = useNavigation();
@@ -272,7 +222,7 @@ const POARequestDetailsPage = title => {
               <li>
                 <p>Address</p>
                 <p>
-                  {city}, {state}, {zipCode}
+                  {city}, {state} {zipCode}
                 </p>
               </li>
               <li>
@@ -330,53 +280,11 @@ const POARequestDetailsPage = title => {
               </>
             )}
 
-            <h2 className="poa-request-details__h2">
-              Authorization information
-            </h2>
-            <ul className="poa-request-details__list poa-request-details__list--info">
-              <li>
-                <p>Change of address</p>
-                <p>
-                  {poaRequest?.powerOfAttorneyForm.authorizations
-                    .addressChange ? (
-                    <Authorized />
-                  ) : (
-                    <NoAccess />
-                  )}
-                </p>
-              </li>
-              <li>
-                <p>Protected medical records</p>
-                <p>
-                  {recordDisclosureLimitations.length === 0 && <Authorized />}
-                  {recordDisclosureLimitations.length < 4 &&
-                    recordDisclosureLimitations.length > 0 && <AccessToSome />}
-                  {recordDisclosureLimitations.length === 4 && <NoAccess />}
-                </p>
-              </li>
-              <li>
-                <p>Alcoholism or alcohol abuse records</p>
-                <p>
-                  {checkLimitations(recordDisclosureLimitations, 'ALCOHOLISM')}
-                </p>
-              </li>
-              <li>
-                <p>Drug abuse records</p>
-                <p>
-                  {checkLimitations(recordDisclosureLimitations, 'DRUG_ABUSE')}
-                </p>
-              </li>
-              <li>
-                <p>HIV records</p>
-                <p>{checkLimitations(recordDisclosureLimitations, 'HIV')}</p>
-              </li>
-              <li>
-                <p>Sickle cell anemia records</p>
-                <p>
-                  {checkLimitations(recordDisclosureLimitations, 'SICKLE_CELL')}
-                </p>
-              </li>
-            </ul>
+            {/* Authorization component */}
+            <POADetailsAuthorization
+              recordDisclosureLimitations={recordDisclosureLimitations}
+              addressChange={addressChange}
+            />
 
             {poaStatus === 'Pending' && (
               <Toggler

@@ -306,57 +306,65 @@ class TrackClaimsPageV2 {
     cy.axeCheck();
   }
 
-  submitFilesForReview(isOldVersion = false) {
-    cy.intercept('POST', `/v0/evss_claims/189685/documents`, {
+  submitFilesForReview() {
+    cy.intercept('POST', `/v0/benefits_claims/189685/benefits_documents`, {
       body: {},
     }).as('documents');
-    cy.get('#file-upload')
+
+    // Upload file to va-file-input-multiple
+    cy.get('va-file-input-multiple')
       .shadow()
-      .find('input')
-      .selectFile(
-        {
-          contents: Cypress.Buffer.from('test file contents'),
-          fileName: 'file-upload-test.txt',
-          mimeType: 'text/plain',
-          lastModified: Date.now(),
-        },
-        { force: true },
-      )
-      .then(() => {
-        cy.get('.document-item-container va-select')
-          .shadow()
-          .find('select')
-          .select('L029');
+      .find('va-file-input')
+      .first()
+      .shadow()
+      .find('input[type="file"]')
+      .selectFile({
+        contents: Cypress.Buffer.from('test file contents'),
+        fileName: 'file-upload-test.txt',
+        mimeType: 'text/plain',
       });
 
-    if (isOldVersion) {
-      cy.get('va-button.submit-files-button')
-        .shadow()
-        .find('button')
-        .click();
-    } else {
-      cy.get('va-button#submit')
-        .shadow()
-        .find('button')
-        .click();
-    }
+    // Wait for file processing and select document type
+    cy.get('va-file-input-multiple')
+      .shadow()
+      .find('va-file-input')
+      .first()
+      .find('va-select')
+      .should('be.visible')
+      .shadow()
+      .find('select')
+      .should('not.be.disabled')
+      .should('be.visible')
+      .select('L029');
+
+    // Click submit button
+    cy.get('va-button[text="Submit documents for review"]')
+      .shadow()
+      .find('button')
+      .click();
 
     cy.wait('@documents');
-    cy.get('va-alert h2').should('contain', 'We have your evidence');
+    cy.get('va-alert h2').should('contain', 'We received your file upload');
   }
 
   submitFilesShowsError() {
-    cy.get('va-button#submit')
+    // Click submit without selecting any files to trigger validation error
+    cy.get('va-button[text="Submit documents for review"]')
       .shadow()
       .find('button')
-      .click()
-      .then(() => {
-        cy.get('va-file-input')
-          .shadow()
-          .find('#error-message')
-          .should('contain', 'Please select a file first');
-        cy.injectAxeThenAxeCheck();
-      });
+      .click();
+
+    // Check for error message in va-file-input-multiple
+    cy.get('va-file-input-multiple')
+      .shadow()
+      .find('va-file-input')
+      .first()
+      .shadow()
+      .find('#file-input-error-alert')
+      .should('be.visible')
+      .and('contain.text', 'Please select a file first');
+
+    cy.injectAxeThenAxeCheck();
   }
 
   verifyContentions() {

@@ -38,8 +38,9 @@ describe('pension add federal medical centers page', () => {
       />,
     );
 
-    expect(form.find('select').length).to.equal(5);
-    expect(form.find('input').length).to.equal(4);
+    expect(form.find('va-select').length).to.equal(1);
+    expect(form.find('VaMemorableDate').length).to.equal(2);
+    expect(form.find('input').length).to.equal(2);
     form.unmount();
   });
 

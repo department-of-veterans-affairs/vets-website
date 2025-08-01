@@ -9,7 +9,7 @@
   }
 
   &__search-header {
-    margin: 0 0 24px;
+    margin-bottom: 8px;
   }
   &__copy {
     margin: 0 0 24px 0;
@@ -124,7 +124,7 @@
       &--request {
         display: flex;
         align-items: center;
-        margin-bottom: 13px;
+        margin-bottom: 12px;
         flex-wrap: wrap;
       }
 
@@ -148,6 +148,13 @@
         font-weight: 700;
         margin: 0 5px 0 0;
 
+        .poa-search & {
+          width: 100%;
+          @media (min-width: $small-desktop-screen) {
+            width: auto;
+          }
+        }
+
         span {
           font-weight: normal;
           display: block;
@@ -158,7 +165,7 @@
       }
 
       &--org {
-        margin-top: 13px;
+        margin-top: 12px;
       }
 
       &--expiry {

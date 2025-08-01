@@ -1,8 +1,8 @@
 import {
   emailToSendNotificationsSchema,
   emailToSendNotificationsUI,
-  internationalPhoneDeprecatedSchema,
-  internationalPhoneDeprecatedUI,
+  internationalPhoneSchema,
+  internationalPhoneUI,
   phoneSchema,
   phoneUI,
   titleUI,
@@ -13,19 +13,17 @@ import { CONTACT_INFORMATION_CHAPTER_CONSTANTS } from '../constants';
 export default {
   uiSchema: {
     ...titleUI(CONTACT_INFORMATION_CHAPTER_CONSTANTS.phoneAndEmailPageTitle),
-    mainPhone: phoneUI('Phone number'),
-    cellPhone: phoneUI('Cell phone number'),
-    internationalPhone: internationalPhoneDeprecatedUI(
-      'International phone number',
-    ),
-    email: emailToSendNotificationsUI('Email address'),
+    mainPhone: phoneUI('Home phone number'),
+    cellPhone: phoneUI('Mobile phone number'),
+    internationalPhone: internationalPhoneUI('International phone number'),
+    email: emailToSendNotificationsUI('Email'),
   },
   schema: {
     type: 'object',
     properties: {
       mainPhone: phoneSchema,
       cellPhone: phoneSchema,
-      internationalPhone: internationalPhoneDeprecatedSchema,
+      internationalPhone: internationalPhoneSchema(),
       email: emailToSendNotificationsSchema,
     },
     required: ['email'],

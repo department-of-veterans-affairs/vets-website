@@ -10,6 +10,10 @@ import PhoneNumberReviewWidget from '../review/PhoneNumberWidget';
  * examplePhone: phoneUI({
  *   title: 'Cell phone number',
  *   hint: 'This is a hint'
+ *   errorMessages: {
+ *    required: 'This is a required input'
+ *    pattern: 'Enter a valid phone number'
+ * },
  * })
  * examplePhone: {
  *  ...phoneUI('Main phone number')
@@ -22,7 +26,7 @@ import PhoneNumberReviewWidget from '../review/PhoneNumberWidget';
  * @returns {UISchemaOptions}
  */
 const phoneUI = options => {
-  const { title, ...uiOptions } =
+  const { title, errorMessages = {}, ...uiOptions } =
     typeof options === 'object' ? options : { title: options };
 
   return {
@@ -37,6 +41,7 @@ const phoneUI = options => {
     'ui:errorMessages': {
       required: 'Please enter a 10-digit phone number (with or without dashes)',
       pattern: 'Please enter a 10-digit phone number (with or without dashes)',
+      ...errorMessages,
     },
   };
 };

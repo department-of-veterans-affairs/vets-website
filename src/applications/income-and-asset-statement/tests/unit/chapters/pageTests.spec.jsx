@@ -179,17 +179,18 @@ export const testNumberOfFieldsByType = (
   });
 };
 
-export const testNumberOfErrorsOnSubmitForWebComponents = (
+export const testComponentFieldsMarkedAsRequired = (
   formConfig,
   schema,
   uiSchema,
-  expectedNumberOfErrors,
+  componentFieldSelectors,
   pageTitle,
   data = {},
 ) => {
   describe(`${pageTitle} page`, () => {
-    it('should show the correct number of errors on submit for web components', () => {
-      const { container, getByRole } = render(
+    let container;
+    beforeEach(() => {
+      const result = render(
         <FakeProvider>
           <DefinitionTester
             definitions={formConfig.defaultDefinitions}
@@ -200,15 +201,15 @@ export const testNumberOfErrorsOnSubmitForWebComponents = (
           />
         </FakeProvider>,
       );
-
-      getByRole('button', { name: /submit/i }).click();
-      const nodes = Array.from(
-        container.querySelectorAll(
-          `${expectedFieldTypesWebComponents}, ${wrapperWebComponents}`,
-        ),
-      );
-      const errors = nodes.filter(node => node.error);
-      expect(errors).to.have.lengthOf(expectedNumberOfErrors);
+      container = result.container;
+    });
+    componentFieldSelectors.forEach(componentFieldSelector => {
+      it(`${componentFieldSelector} should be marked as required`, () => {
+        const element = container.querySelector(
+          `${componentFieldSelector}[required=true]`,
+        );
+        expect(element).to.exist;
+      });
     });
   });
 };
