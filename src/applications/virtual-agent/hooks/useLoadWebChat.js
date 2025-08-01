@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 
 function loadWebChat() {
   const script = document.createElement('script');
-
   script.src =
     'https://cdn.botframework.com/botframework-webchat/4.17.0/webchat.js';
 
