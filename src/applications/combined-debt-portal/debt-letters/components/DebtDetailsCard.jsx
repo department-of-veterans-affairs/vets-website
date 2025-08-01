@@ -72,9 +72,55 @@ const DebtDetailsCard = ({ debt, showOTPP }) => {
           </p>
         </va-alert>
       )}
-
       {!isChapter33Debt &&
         showOTPP && (
+          <>
+            <va-alert
+              background-only
+              status="warning"
+              data-testid="status-alert"
+            >
+              <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">
+                {/* using vads-u-margin-left here causes the word "before" 
+      to wrap to the next line so we need a {' '} space here */}
+                Pay your {convertedAr} balance or request help now
+              </h2>
+              <p>
+                To avoid late fees or collection action on your bill, you must
+                pay your full balance or request financial help before
+                <span className="vads-u-margin-left--0p5">
+                  {formattedDueDate}
+                </span>
+                .
+              </p>
+              <p>
+                <va-link
+                  href="/manage-va-debt/summary/debt-balances/"
+                  icon-name="chevron_right"
+                  icon-size={3}
+                  text="Back to current debts"
+                  class="vads-u-font-weight--bold vads-u-margin-left--neg0p5 vads-u-margin-top--2"
+                />
+
+                <Link
+                  className="vads-u-font-weight--bold"
+                  to={`/debt-balances/details/${debt.compositeDebtId}/resolve`}
+                  data-testid={`resolve-link-${debt.compositeDebtId}`}
+                  onClick={() => {
+                    recordEvent({
+                      event: 'cta-link-click-debt-details-card',
+                    });
+                  }}
+                >
+                  Pay your balance, request financial help, or dispute this bill
+                  <va-icon icon="chevron_right" size={3} aria-hidden="true" />
+                </Link>
+              </p>
+            </va-alert>
+          </>
+        )}
+      {!showOTPP &&
+        debtCardContent.showLinks && (
           <va-alert
             class="vads-u-margin-bottom--1"
             disable-analytics="false"
@@ -87,106 +133,44 @@ const DebtDetailsCard = ({ debt, showOTPP }) => {
 
             {debtCardContent.bodyText}
 
-            {showOTPP &&
-              debtCardContent.showLinks && (
-                <>
-                  <va-alert
-                    background-only
-                    status="warning"
-                    data-testid="status-alert"
-                  >
-                    <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">
-                      {/* using vads-u-margin-left here causes the word "before" 
-      to wrap to the next line so we need a {' '} space here */}
-                      Pay your {convertedAr} balance or request help now
-                    </h2>
-                    <p>
-                      To avoid late fees or collection action on your bill, you
-                      must pay your full balance or request financial help
-                      before
-                      <span className="vads-u-margin-left--0p5">
-                        {formattedDueDate}
-                      </span>
-                      .
-                    </p>
-                    <p>
-                      <Link
-                        className="vads-u-font-weight--bold"
-                        to={`/debt-balances/details/${debt.id}/resolve`}
-                        data-testid={`resolve-link-${debt.id}`}
-                        onClick={() => {
-                          recordEvent({
-                            event: 'cta-link-click-debt-details-card',
-                          });
-                        }}
-                      >
-                        Pay your balance, request financial help, or dispute
-                        this bill
-                        <va-icon
-                          icon="navigate_next"
-                          size={2}
-                          class="cdp-link-icon--active"
-                        />
-                      </Link>
-                    </p>
-                  </va-alert>
-                </>
-              )}
-
-            {!showOTPP &&
-              debtCardContent.showLinks && (
-                <va-alert
-                  class="vads-u-margin-bottom--1"
-                  disable-analytics="false"
-                  full-width="false"
-                  show-icon={debtCardContent.showIcon}
-                  status={debtCardContent.status}
-                  visible="true"
-                >
-                  <h2 slot="headline">{debtCardContent.headerText}</h2>
-
-                  {debtCardContent.bodyText}
-
-                  {debtCardContent.showLinks && (
-                    <>
-                      {debtCardContent.showMakePayment && (
-                        <p>
-                          <a
-                            aria-label="Make a payment"
-                            className="vads-c-action-link--blue"
-                            data-testid="link-make-payment"
-                            href="https://www.pay.va.gov/"
-                            onClick={() => {
-                              recordEvent({
-                                event: 'cta-link-click-debt-make-payment',
-                              });
-                            }}
-                          >
-                            Make a payment
-                          </a>
-                        </p>
-                      )}
-                      {debtCardContent.showRequestHelp && (
-                        <p>
-                          <a
-                            aria-label="Request help with your debt"
-                            className="vads-c-action-link--blue"
-                            data-testid="link-request-help"
-                            href="/manage-va-debt/request-debt-help-form-5655"
-                            onClick={() => {
-                              recordEvent({
-                                event: 'cta-link-click-debt-request-help',
-                              });
-                            }}
-                          >
-                            Request help with your debt
-                          </a>
-                        </p>
-                      )}
-                    </>
-                  )}
-                </va-alert>
-              )}
+            {debtCardContent.showLinks && (
+              <>
+                {debtCardContent.showMakePayment && (
+                  <p>
+                    <a
+                      aria-label="Make a payment"
+                      className="vads-c-action-link--blue"
+                      data-testid="link-make-payment"
+                      href="https://www.pay.va.gov/"
+                      onClick={() => {
+                        recordEvent({
+                          event: 'cta-link-click-debt-make-payment',
+                        });
+                      }}
+                    >
+                      Make a payment
+                    </a>
+                  </p>
+                )}
+                {debtCardContent.showRequestHelp && (
+                  <p>
+                    <a
+                      aria-label="Request help with your debt"
+                      className="vads-c-action-link--blue"
+                      data-testid="link-request-help"
+                      href="/manage-va-debt/request-debt-help-form-5655"
+                      onClick={() => {
+                        recordEvent({
+                          event: 'cta-link-click-debt-request-help',
+                        });
+                      }}
+                    >
+                      Request help with your debt
+                    </a>
+                  </p>
+                )}
+              </>
+            )}
           </va-alert>
         )}
     </>
@@ -195,6 +179,7 @@ const DebtDetailsCard = ({ debt, showOTPP }) => {
 
 DebtDetailsCard.propTypes = {
   debt: PropTypes.shape({
+    compositeDebtId: PropTypes.string.isRequired,
     currentAr: PropTypes.number,
     convertedAr: PropTypes.number,
     debtHistory: PropTypes.arrayOf(
