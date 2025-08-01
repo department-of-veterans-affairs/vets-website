@@ -522,7 +522,8 @@ const responses = {
         slotsPerDay: 3,
         conflictRate: 0,
         forceConflictWithAppointments: nextBusinessDayAppointments,
-      }).data.map(slot => slot.attributes);
+        // Community care slots don't have an end time
+      }).data.map(slot => ({ ...slot.attributes, end: undefined }));
     }
 
     return res.json({

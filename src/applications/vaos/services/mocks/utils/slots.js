@@ -7,12 +7,49 @@ const roundToFifteenMinutes = date => {
   return roundedDate;
 };
 
-// Helper function to convert date to hex-encoded slot ID format
+// Helper function to generate random base64-like identifier
+const generateRandomId = (length = 8) => {
+  const chars =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let result = '';
+  for (let i = 0; i < length; i += 1) {
+    result += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return result;
+};
+
+// Helper function to generate UUID v4
+const generateUUID = () => {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+    const r = Math.floor(Math.random() * 16);
+    const v = c === 'x' ? r : Math.floor(Math.random() * 4) + 8;
+    return v.toString(16);
+  });
+};
+
+// Helper function to format duration in minutes and seconds
+const formatDuration = (startDate, endDate) => {
+  const durationMs = endDate.getTime() - startDate.getTime();
+  const minutes = Math.floor(durationMs / (1000 * 60));
+  const seconds = Math.floor((durationMs % (1000 * 60)) / 1000);
+  return `${minutes}m${seconds}s`;
+};
+
+// Helper function to generate slot ID in the required format
 const generateSlotId = (startDate, endDate) => {
-  // Convert timestamps to hex and combine
-  const startHex = Math.floor(startDate.getTime() / 1000).toString(16);
-  const endHex = Math.floor(endDate.getTime() / 1000).toString(16);
-  return `${startHex}:${endHex}`;
+  // Generate components for the slot ID
+  const baseId = generateRandomId(8);
+  const practitionerNum = Math.floor(Math.random() * 20) + 1;
+  const roleNum = Math.floor(Math.random() * 5) + 1;
+  const practitionerRole = `practitioner-${practitionerNum}-role-${roleNum}`;
+  const uuid = generateUUID();
+  const startTime = startDate.toISOString();
+  const duration = formatDuration(startDate, endDate);
+  const timestamp = Date.now();
+  const suffix = 'ov';
+
+  // Combine all components with pipe separator
+  return `${baseId}-${practitionerRole}|${uuid}|${startTime}|${duration}|${timestamp}|${suffix}`;
 };
 
 // Helper function to format dates for slots
@@ -77,7 +114,8 @@ const generateSlotsForDay = (date, options) => {
         attributes: {
           id: slotId,
           start: formatSlotDate(roundedStartTime),
-          // end: formatSlotDate(endTime),
+          // end isn't always present, at least not for Community Care
+          end: formatSlotDate(endTime),
         },
       });
     }
