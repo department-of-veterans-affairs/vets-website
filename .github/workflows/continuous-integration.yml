@@ -934,6 +934,11 @@ jobs:
             .cache/yarn
             node_modules
 
+      - name: Set up Git
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+
       - name: Fetch target branch
         run: git fetch origin ${{ github.head_ref }}
       - name: Merge in feature branch
