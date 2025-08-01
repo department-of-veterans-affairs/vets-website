@@ -227,12 +227,23 @@ jobs:
         id: unit-tests-to-stress-test
         run: echo "tests=$UNIT_TESTS_TO_STRESS_TEST" >> $GITHUB_OUTPUT
 
+      - name: Set output of UNIT_TESTS_CHANGED
+        if: ${{ always() }}
+        id: unit-tests-changed
+        run: echo "tests=$UNIT_TESTS_CHANGED" >> $GITHUB_OUTPUT
       - name: Upload artifact of Unit Tests to Stress Test
         if: ${{ steps.unit-tests-to-stress-test.outputs.tests == 'true' }}
         uses: ./.github/workflows/upload-artifact
         with:
           name: unit-tests-to-stress-test
           path: unit_tests_to_stress_test.json
+
+      - name: Upload artifact of Unit Tests to Stress Test
+        if: ${{ steps.unit-tests-changed.outputs.changed-tests == 'true' }}
+        uses: ./.github/workflows/upload-artifact
+        with:
+          name: changed-unit-tests
+          path: changed_unit_tests.json
 
       - name: Set output of APPS_TO_STRESS_TEST
         if: ${{ always() }}
@@ -898,15 +909,16 @@ jobs:
           path: cypress/results
           retention-days: 1
 
-  node-22-compatibility-check:
+  node-22-unit-test-compatibility-check:
     name: Node 22 Compatibility Check For Unit Tests
     runs-on: ubuntu-latest
-    needs: [tests-prep, unit-tests]
+    needs: [tests-prep]
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           fetch-depth: 0
+          ref: node-22-bug-bash-testing
 
       # Need to figure out whether or not to modify the install action to accept a specific node version instead of letting it pick up .nvmrc
       - name: Install dependencies
@@ -975,6 +987,7 @@ jobs:
         with:
           name: unit-test-report
           path: mocha/results
+         
 
   update-e2e-allow-list:
     name: Update E2E Test Stability Allow List
