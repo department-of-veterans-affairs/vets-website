@@ -928,14 +928,11 @@ jobs:
         uses: ./.github/workflows/install
         timeout-minutes: 30
         with:
-          key: ${{ hashFiles('yarn.lock') }}
+          key: 22.11.0-${{ hashFiles('yarn.lock') }}
           yarn_cache_folder: .cache/yarn
           path: |
             .cache/yarn
             node_modules
-
-      - name: Seed missing CLI dependencies
-        run: yarn add --dev command-line-args@^5.2.0
 
       - name: Set up Git
         run: |
