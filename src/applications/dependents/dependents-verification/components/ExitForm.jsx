@@ -7,14 +7,14 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 
 export const form686Url = getAppUrl('686C-674');
 
-export const ExitForm = ({ router }) => {
+export const ExitForm = ({ goBack }) => {
   useEffect(() => {
     scrollAndFocus('h1');
   }, []);
 
   const handlers = {
     goBack: () => {
-      router.push('/dependents');
+      goBack();
     },
     goTo686: () => {
       window.location.assign(form686Url);
