@@ -934,6 +934,9 @@ jobs:
             .cache/yarn
             node_modules
 
+      - name: Seed missing CLI dependencies
+        run: npm install --no-save command-line-args
+
       - name: Set up Git
         run: |
           git config user.name "GitHub Actions"

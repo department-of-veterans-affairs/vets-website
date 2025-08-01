@@ -33,6 +33,7 @@ const COMMAND_LINE_OPTIONS = [
 
 // Get command line options
 const options = commandLineArgs(COMMAND_LINE_OPTIONS);
+// log this out to determing if we still need this
 
 // Helper function to get test paths
 function getTestPaths() {
@@ -50,6 +51,7 @@ function getTestPaths() {
     return glob.sync(STATIC_PAGES_PATTERN);
   }
 
+  // May need to convert this output into an array?
   if (process.env.NODE_COMPATBILITY_VERIFICATION) {
     return JSON.parse(fs.readFileSync(path.resolve(`changed_unit_tests.json`)));
   }
