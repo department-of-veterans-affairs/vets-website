@@ -45,7 +45,7 @@ function updateAddress(addressName) {
   const countryDropdown = $('va-select[label="Country"]', container);
   const line1Input = $('va-text-input[label^="Street address"]', container);
   const cityInput = $('va-text-input[label="City"]', container);
-  const stateDropdown = $('va-select[label="State"]', container);
+  const stateDropdown = $('va-select[label="State or territory"]', container);
   const zipCodeInput = $('va-text-input[label="Zip code"]', container);
   const submitButton = view.getByTestId('save-edit-button');
 

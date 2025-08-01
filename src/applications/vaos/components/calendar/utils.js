@@ -25,6 +25,56 @@ function ensureDate(value) {
 }
 
 /**
+ * Parses duration from slot ID string and returns minutes
+ *
+ * Extracts duration from pipe-separated ID string. The duration is expected
+ * to be at index 3 in formats like "30m0s", "1h30m0s", or "2h0m0s".
+ * Returns 30 minutes as default if duration cannot be parsed.
+ *
+ * @param {string} slotId - Slot ID string separated by pipes
+ * @returns {number} Duration in minutes, defaults to 30 if not found
+ *
+ * @example
+ * // returns 30
+ * parseDurationFromSlotId("...2025-08-06T13:00:00Z|30m0s|...")
+ * // returns 90
+ * parseDurationFromSlotId("...2025-08-06T13:00:00Z|1h30m0s|...")
+ * // returns 120
+ * parseDurationFromSlotId("...2025-08-06T13:00:00Z|2h0m0s|...")
+ */
+export function parseDurationFromSlotId(slotId) {
+  if (!slotId || typeof slotId !== 'string') {
+    return 30;
+  }
+
+  const parts = slotId.split('|');
+  if (parts.length < 4) {
+    return 30;
+  }
+
+  const durationString = parts[3];
+  if (!durationString) {
+    return 30;
+  }
+
+  // Parse duration format like "1h30m0s", "30m0s", "2h0m0s", etc.
+  const match = durationString.match(/(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s)?/);
+  if (match) {
+    const hours = match[1] ? parseInt(match[1], 10) : 0;
+    const minutes = match[2] ? parseInt(match[2], 10) : 0;
+    const seconds = match[3] ? parseInt(match[3], 10) : 0;
+
+    // Convert everything to total minutes, rounding up if there are seconds
+    const totalMinutes = hours * 60 + minutes + (seconds > 0 ? 1 : 0);
+
+    // Return at least 1 minute if we got a valid match but calculated 0
+    return totalMinutes > 0 ? totalMinutes : 30;
+  }
+
+  return 30;
+}
+
+/**
  * Checks if a selected appointment time conflicts with existing appointments
  *
  * This function determines whether the user's selected appointment slot overlaps
@@ -35,7 +85,8 @@ function ensureDate(value) {
  * @param {Object} upcomingAppointments - Object containing upcoming appointments organized by month key (YYYY-MM)
  * @param {Array<Object>} availableSlots - Array of available appointment slots
  * @param {string} availableSlots[].start - ISO date string for slot start time
- * @param {string} availableSlots[].end - ISO date string for slot end time
+ * @param {string} availableSlots[].end? - ISO date string for slot end time (optional)
+ * @param {string} availableSlots[].id - Slot ID containing duration information
  * @returns {boolean} True if there is a scheduling conflict, false otherwise
  */
 
@@ -51,7 +102,13 @@ export function getAppointmentConflict(
     );
     if (selectedSlot) {
       const selectedSlotStart = ensureDate(selectedSlot.start);
-      const selectedSlotEnd = ensureDate(selectedSlot.end);
+      let selectedSlotEnd;
+      if (selectedSlot.end) {
+        selectedSlotEnd = ensureDate(selectedSlot.end);
+      } else {
+        const durationMinutes = parseDurationFromSlotId(selectedSlot.id);
+        selectedSlotEnd = addMinutes(selectedSlotStart, durationMinutes);
+      }
       const key = format(selectedSlotStart, DATE_FORMATS.yearMonth);
       const appointments = upcomingAppointments[key];
       hasConflict = appointments?.some(appointment => {

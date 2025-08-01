@@ -14,7 +14,7 @@ const HomePage = ({ router, setIntroPageViewed }) => {
 
   const startTool = event => {
     event.preventDefault();
-    router.push(ROUTES.CLAIM_DECISION_1_1);
+    router.push(ROUTES.Q_1_1_CLAIM_DECISION);
   };
 
   return (
