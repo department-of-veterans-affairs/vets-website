@@ -4,7 +4,6 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvBypassDowntimeNotification = false,
 
     // medications
-    mhvMedicationsDisplayDocumentationContent = true,
     mhvMedicationsDisplayFilter = true,
     mhvMedicationsDisplayGrouping = true,
     mhvMedicationsDisplayPendingMeds = true,
@@ -78,10 +77,6 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_landing_page_personalization',
           value: mhvLandingPagePersonalization,
-        },
-        {
-          name: 'mhv_medications_display_documentation_content',
-          value: mhvMedicationsDisplayDocumentationContent,
         },
         {
           name: 'mhv_medications_display_filter',
