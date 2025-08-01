@@ -2870,13 +2870,13 @@
     react-focus-on "^3.5.1"
     react-transition-group "^1.0.0"
 
-"@department-of-veterans-affairs/component-library@51.2.0":
-  version "51.2.0"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/component-library/-/component-library-51.2.0.tgz#0a7225665894815916d57ccf978b29278a920fb4"
-  integrity sha512-mTRPEe0f+Nha82qCydToL8YfAPw1l91UMsNBLkotV52NCNwdzEp9w191J+Jcd5cBW7RHBmboqA6kBbrBoD/C3g==
+"@department-of-veterans-affairs/component-library@51.4.0-rc":
+  version "51.4.0-rc"
+  resolved "http://localhost:4873/@department-of-veterans-affairs%2fcomponent-library/-/component-library-51.4.0-rc.tgz#ff581f71cb6d7d7a36141df1b893f125a6dd6b08"
+  integrity sha512-RnQcvr5FkmEZGcUhhi/+P/e4jUOeyVHASgO4pAe1heK8bS7TVLgVqWTP27LxjfO0akfzcrOudPBhHQLHqtx0Gg==
   dependencies:
-    "@department-of-veterans-affairs/react-components" "28.1.0"
-    "@department-of-veterans-affairs/web-components" "19.2.0"
+    "@department-of-veterans-affairs/react-components" "workspace:*"
+    "@department-of-veterans-affairs/web-components" "19.4.0-rc"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
@@ -2916,9 +2916,9 @@
     yeoman-generator "^5.6.1"
     yosay "^2.0.2"
 
-"@department-of-veterans-affairs/react-components@28.1.0":
+"@department-of-veterans-affairs/react-components@28.1.0", "@department-of-veterans-affairs/react-components@workspace:*":
   version "28.1.0"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs%2freact-components/-/react-components-28.1.0.tgz#dd7bd0d334ec80b9efb3debb08203431dfdc0d41"
+  resolved "http://localhost:4873/@department-of-veterans-affairs%2freact-components/-/react-components-28.1.0.tgz#dd7bd0d334ec80b9efb3debb08203431dfdc0d41"
   integrity sha512-If25Cmvnt9R/9mG9MXKPLgmpkCI07mCRXZUilBJsIxty6k5Y5GKfEtyXESJgwsD+e2uSEJwFveHpzL7uD/wS7w==
   dependencies:
     classnames "^2.2.6"
@@ -2970,10 +2970,10 @@
     classnames "^2.3.1"
     intersection-observer "^0.12.0"
 
-"@department-of-veterans-affairs/web-components@19.2.0":
-  version "19.2.0"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/web-components/-/web-components-19.2.0.tgz#217b75a802849ccd0d38d4362c0e7a5ae4405b88"
-  integrity sha512-mvwwoM50Mx2RUHeFfj25HsOBWCLxpaBhYKlGUAWjceS5ow4VcWHijWyoYa9nwsIUCcQAieA2rlosN+vwCJpxwQ==
+"@department-of-veterans-affairs/web-components@19.4.0-rc":
+  version "19.4.0-rc"
+  resolved "http://localhost:4873/@department-of-veterans-affairs%2fweb-components/-/web-components-19.4.0-rc.tgz#0e53b1a9b2f2ff27723d524ef4ceb4aa926e82df"
+  integrity sha512-IKdpY93YSRaDlqwnBy0ypMGi3XgT7VhZa7o3g94YHTj72GZlROrh6i5gJNimMuhjSUOescWgBRbm38vlKXnbUA==
   dependencies:
     "@stencil/core" "4.20.0"
     aria-hidden "^1.1.3"

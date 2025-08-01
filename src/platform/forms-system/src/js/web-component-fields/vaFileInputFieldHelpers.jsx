@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { isEmpty } from 'lodash';
 import { uploadFile } from 'platform/forms-system/src/js/actions';
 
@@ -59,3 +60,37 @@ export const getFileSize = num => {
 // Defaulting obj to {} in case we get a null
 export const allKeysAreEmpty = (obj = {}) =>
   Object.keys(obj).every(key => !obj[key] || isEmpty(obj[key]));
+
+export const useFileUpload = (fileUploadUrl, accept, formNumber, dispatch) => {
+  const [isUploading, setIsUploading] = useState(false);
+  const [percentUploaded, setPercentUploaded] = useState(null);
+
+  const handleUpload = (file, onSuccess, password = null) => {
+    setIsUploading(true);
+
+    const onFileUploaded = uploadedFile => {
+      setIsUploading(false);
+      setPercentUploaded(null);
+      if (onSuccess) onSuccess(uploadedFile);
+    };
+
+    const onFileUploading = percent => {
+      setPercentUploaded(percent);
+      setIsUploading(true);
+    };
+
+    dispatch(
+      uploadScannedForm(
+        fileUploadUrl,
+        formNumber,
+        file,
+        onFileUploaded,
+        onFileUploading,
+        accept,
+        password,
+      ),
+    );
+  };
+
+  return { isUploading, percentUploaded, handleUpload };
+};

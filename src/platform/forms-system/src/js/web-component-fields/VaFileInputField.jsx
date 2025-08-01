@@ -10,43 +10,9 @@ import {
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { UNSUPPORTED_ENCRYPTED_FILE_ERROR } from '../validation';
 import vaFileInputFieldMapping from './vaFileInputFieldMapping';
-import { uploadScannedForm } from './vaFileInputFieldHelpers';
+import { useFileUpload } from './vaFileInputFieldHelpers';
 
 import passwordErrorState from '../utilities/file/passwordErrorState';
-
-const useFileUpload = (fileUploadUrl, accept, formNumber, dispatch) => {
-  const [isUploading, setIsUploading] = useState(false);
-  const [percentUploaded, setPercentUploaded] = useState(null);
-
-  const uploadFile = (file, onSuccess, password = null) => {
-    setIsUploading(true);
-
-    const onFileUploaded = uploadedFile => {
-      setIsUploading(false);
-      setPercentUploaded(null);
-      if (onSuccess) onSuccess(uploadedFile);
-    };
-
-    const onFileUploading = percent => {
-      setPercentUploaded(percent);
-      setIsUploading(true);
-    };
-
-    dispatch(
-      uploadScannedForm(
-        fileUploadUrl,
-        formNumber,
-        file,
-        onFileUploaded,
-        onFileUploading,
-        accept,
-        password,
-      ),
-    );
-  };
-
-  return { isUploading, percentUploaded, uploadFile };
-};
 
 /**
  * Usage uiSchema:

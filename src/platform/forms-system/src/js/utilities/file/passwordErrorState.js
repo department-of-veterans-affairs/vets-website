@@ -9,6 +9,8 @@ class PasswordErrorState {
 
   _touched = false;
 
+  _additionalInputErrors = {};
+
   setHasPassword(state) {
     this._hasPassword = state;
   }
@@ -26,13 +28,14 @@ class PasswordErrorState {
   }
 
   hasPasswordError() {
-    return this._needsPassword && !this._hasPassword;
+    return this._needsPassword && !this._hasPassword && this._touched;
   }
 
   reset() {
     this.setHasPassword(false);
     this.setNeedsPassword(false);
     this.setTouched(false);
+    this._additionalInputErrors = {};
   }
 }
 
@@ -49,6 +52,50 @@ const errorStates = {
 
   reset() {
     this.instances = {};
+  },
+};
+
+// for use with VaFileInputMultiple
+export const errorManager = {
+  passwordInstances: [],
+  additionalInputErrors: [],
+
+  addPasswordInstance(needsPassword = false) {
+    let instance = null;
+    if (needsPassword) {
+      instance = new PasswordErrorState();
+      instance.setNeedsPassword(true);
+    }
+    const instances = [...this.passwordInstances, instance];
+    this.passwordInstances = instances;
+  },
+
+  setHasPassword(index, state) {
+    if (this.passwordInstances.length >= index) {
+      this.passwordInstances[index].setHasPassword(state);
+    }
+  },
+
+  removePasswordInstance(index) {
+    this.passwordInstances = [...this.passwordInstances].toSpliced(index, 1);
+  },
+
+  addAdditionalInputErrors(error) {
+    this.addAdditionalInputErrors.push(error);
+  },
+
+  removeAdditionalInputErrors(index) {
+    this.addAdditionalInputErrors = [
+      ...this.addAdditionalInputErrors,
+    ].toSpliced(index, 1);
+  },
+
+  getAdditionalInputErrors() {
+    return this.addAdditionalInputErrors;
+  },
+
+  getPasswordInstances() {
+    return this.passwordInstances;
   },
 };
 
