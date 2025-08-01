@@ -935,7 +935,7 @@ jobs:
             node_modules
 
       - name: Seed missing CLI dependencies
-        run: npm install --no-save command-line-args
+        run: yarn add --dev command-line-args@^5.2.0
 
       - name: Set up Git
         run: |
