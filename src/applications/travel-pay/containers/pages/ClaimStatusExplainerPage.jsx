@@ -44,7 +44,7 @@ const ClaimStatusExplainerPage = () => {
   }
 
   // TODO: Once claimsMgmtToggle is on permanently, this page can be
-  // removed along wth its route definition
+  // removed along with its route definition
   if (claimsMgmtToggle) {
     window.location.replace('/my-health/travel-pay/claims/');
     return null;
