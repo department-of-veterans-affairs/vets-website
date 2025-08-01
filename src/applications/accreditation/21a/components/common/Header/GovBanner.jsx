@@ -66,10 +66,10 @@ export const GovBanner = () => {
         <div
           data-testid="official-govt-site-content"
           aria-hidden={expanded ? 'false' : 'true'}
-          className="vads-u-background-color--gray-lightest vads-u-display--flex vads-u-flex-direction--column vads-u-padding--1p5 vads-u-padding-y--2"
+          className="usa-banner-content usa-grid usa-accordion-content"
           id="official-govt-site-explanation"
         >
-          <div className="usa-media-block">
+          <div className="usa-media-block usa-width-one-half">
             <img
               alt="Dot gov"
               className="usa-banner-icon usa-media-block__img"
@@ -83,7 +83,7 @@ export const GovBanner = () => {
               government site.
             </p>
           </div>
-          <div className="usa-media-block vads-u-margin-top--2">
+          <div className="usa-media-block usa-width-one-half">
             <img
               alt="SSL"
               className="usa-banner-icon usa-media-block__img"
