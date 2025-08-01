@@ -19,13 +19,24 @@
         "birth_date": "1985-01-01",
         "verified": true
       },
+      "vet360_contact_information": {
+        "mailing_address": {
+          "address_line1": "456 Elm St",
+          "address_line2": "Suite 100",
+          "address_line3": "line 3",
+          "city": "Othertown",
+          "state_code": "CA",
+          "zip_code": "67890",
+          "country_code_iso3": "USA"
+        }
+      },
       "veteran_status": {
         "status": "OK",
         "is_veteran": true,
         "served_in_military": true
       },
       "in_progress_forms": [],
-      "prefills_available": ["28-1900"],
+      "prefills_available": ["28-1900-V2"],
       "services": [
         "facilities",
         "hca",
