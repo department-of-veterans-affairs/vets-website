@@ -499,7 +499,7 @@ export function selectApptDateAriaText(appointment) {
   return `${formatInTimeZone(
     appointmentDate,
     appointment.timezone,
-    'EEEE, MMMM d h:mm a',
+    'EEEE, MMMM d h:mm aaaa',
   )}, ${timezoneName}'}`;
 }
 
