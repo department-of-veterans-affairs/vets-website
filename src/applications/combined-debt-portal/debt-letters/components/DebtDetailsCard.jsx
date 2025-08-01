@@ -34,6 +34,9 @@ const DebtDetailsCard = ({ debt, showOTPP }) => {
   const dueDate = new Date(firstPaymentDate);
   const addedDaysForDueDate = 60;
   dueDate.setDate(dueDate.getDate() + addedDaysForDueDate);
+  const formattedDueDate = isValid(dueDate)
+    ? format(dueDate, 'MM/dd/yyyy')
+    : '';
 
   const convertedAr = currency.format(parseFloat(debt.currentAr));
 
@@ -95,14 +98,15 @@ const DebtDetailsCard = ({ debt, showOTPP }) => {
                     <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">
                       {/* using vads-u-margin-left here causes the word "before" 
       to wrap to the next line so we need a {' '} space here */}
-                      Pay your {currency(debt?.currentAr)} balance or request
-                      help now
+                      Pay your {convertedAr} balance or request help now
                     </h2>
                     <p>
                       To avoid late fees or collection action on your bill, you
                       must pay your full balance or request financial help
                       before
-                      <span className="vads-u-margin-left--0p5">{dueDate}</span>
+                      <span className="vads-u-margin-left--0p5">
+                        {formattedDueDate}
+                      </span>
                       .
                     </p>
                     <p>
