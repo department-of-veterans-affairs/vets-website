@@ -106,7 +106,6 @@ const generateSlotsForDay = (date, options) => {
 
     // Don't create slots that go beyond business hours
     if (endTime.getHours() <= businessHours.end) {
-      // Demo fake slot id "5vuTac8v-practitioner-11-role-3|533f98bd-d9cd-4e3e-895c-706ae44df8d0|2025-08-06T13:00:00Z|30m0s|1753991495613|ov"
       const slotId = generateSlotId(roundedStartTime, endTime);
       slots.push({
         id: slotId,
@@ -114,14 +113,23 @@ const generateSlotsForDay = (date, options) => {
         attributes: {
           id: slotId,
           start: formatSlotDate(roundedStartTime),
-          // end isn't always present, at least not for Community Care
           end: formatSlotDate(endTime),
+          providerServiceId: 'Lfg2Mxk4',
+          appointmentTypeId: 'ov',
+          remaining: 1,
         },
       });
     }
   }
 
   return slots;
+};
+
+const transformSlotsForCommunityCare = slots => {
+  return slots.map(slot => ({
+    ...slot.attributes,
+    end: undefined,
+  }));
 };
 
 // Helper function to check if a slot conflicts with existing appointments
@@ -299,6 +307,7 @@ const getMockSlots = (options = {}) => {
     existingAppointments = [],
     conflictRate = 0.3, // 30% of days with appointments should have conflicts
     forceConflictWithAppointments = [],
+    communityCareSlots = false,
   } = options;
 
   // Calculate date range
@@ -341,10 +350,14 @@ const getMockSlots = (options = {}) => {
   });
 
   return {
-    data: finalSlots,
+    data: communityCareSlots
+      ? transformSlotsForCommunityCare(finalSlots)
+      : finalSlots,
   };
 };
 
 module.exports = {
   getMockSlots,
+  generateSlotsForDay,
+  transformSlotsForCommunityCare,
 };

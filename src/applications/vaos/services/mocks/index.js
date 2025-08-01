@@ -491,7 +491,6 @@ const responses = {
     }
 
     const draftAppointment = providerUtils.createDraftAppointmentInfo(
-      3,
       referralNumber,
     );
 
@@ -503,8 +502,8 @@ const responses = {
         slotsPerDay: 3,
         conflictRate: 0,
         forceConflictWithAppointments: nextBusinessDayAppointments,
-        // Community care slots don't have an end time
-      }).data.map(slot => ({ ...slot.attributes, end: undefined }));
+        communityCareSlots: true,
+      }).data;
     }
 
     return res.json({
