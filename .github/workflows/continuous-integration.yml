@@ -241,7 +241,7 @@ jobs:
           path: unit_tests_to_stress_test.json
 
       - name: Upload artifact of Unit Tests Changed
-        if: ${{ steps.unit-tests-changed.outputs.changed-tests == 'true' }}
+        if: ${{ steps.unit-tests-changed.outputs.changed_unit_tests == 'true' }}
         uses: ./.github/workflows/upload-artifact
         with:
           name: changed-unit-tests
