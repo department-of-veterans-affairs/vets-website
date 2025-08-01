@@ -20,7 +20,7 @@ function renderPage({
 } = {}) {
   const mockStore = {
     getState: () => ({
-      dependents: { data: defaultData.dependents },
+      dependents: { data: data.dependents },
     }),
     dispatch: () => {},
     subscribe: () => {},
@@ -41,6 +41,13 @@ function renderPage({
 }
 
 describe('DependentsInformation', () => {
+  it('should render no dependents found message', () => {
+    // You shouldn't be able to see this because we don't allow starting the
+    // form without
+    const { getByText } = renderPage({ data: { dependents: [] } });
+    expect(getByText('No dependents found')).to.exist;
+  });
+
   it('renders all sections with prefilled data', () => {
     const { container } = renderPage();
 
@@ -69,7 +76,10 @@ describe('DependentsInformation', () => {
 
   it('should set form data with radio choice', async () => {
     const setFormDataSpy = sinon.spy();
-    const { container } = renderPage({ data: {}, setFormData: setFormDataSpy });
+    const { container } = renderPage({
+      data: { dependents: defaultData.dependents },
+      setFormData: setFormDataSpy,
+    });
 
     await waitFor(() => {
       $('va-radio', container).__events.vaValueChange({
@@ -90,7 +100,7 @@ describe('DependentsInformation', () => {
     });
   });
 
-  it('navigates forward when "No" is selected', async () => {
+  it('navigates forward to review page when "No" is selected', async () => {
     const goToPathSpy = sinon.spy();
     const goForwardSpy = sinon.spy();
     const { container } = renderPage({
@@ -99,26 +109,27 @@ describe('DependentsInformation', () => {
       goForward: goForwardSpy,
     });
 
+    fireEvent.click($('va-button[continue]', container));
     await waitFor(() => {
-      fireEvent.click($('va-button[continue]', container));
       expect(goToPathSpy.notCalled).to.be.true;
       expect(goForwardSpy.called).to.be.true;
     });
   });
 
-  it('navigates forward when "Yes" is selected', async () => {
+  it('navigates to exit page when "Yes" is selected', async () => {
     const goToPathSpy = sinon.spy();
     const goForwardSpy = sinon.spy();
     const { container } = renderPage({
-      data: { hasDependentsStatusChanged: 'N' },
+      data: { hasDependentsStatusChanged: 'Y' },
       goToPath: goToPathSpy,
       goForward: goForwardSpy,
     });
 
+    fireEvent.click($('va-button[continue]', container));
+
     await waitFor(() => {
-      fireEvent.click($('va-button[continue]', container));
-      expect(goToPathSpy.notCalled).to.be.true;
-      expect(goForwardSpy.called).to.be.true;
+      expect(goToPathSpy.called).to.be.true;
+      expect(goForwardSpy.notCalled).to.be.true;
     });
   });
 
