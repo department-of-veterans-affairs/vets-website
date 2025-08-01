@@ -168,14 +168,18 @@ export default function ClaimDetailsContent({
             )}
         </>
       )}
-      <p className="vads-u-font-weight--bold vads-u-margin-bottom--0">When</p>
+      <p className="vads-u-font-weight--bold vads-u-margin-bottom--0">
+        Claim submission timeline
+      </p>
       <p className="vads-u-margin-y--0">
         Submitted on {createDate} at {createTime}
       </p>
       <p className="vads-u-margin-y--0">
         Updated on {updateDate} at {updateTime}
       </p>
-      <p className="vads-u-font-weight--bold vads-u-margin-bottom--0">Where</p>
+      <p className="vads-u-font-weight--bold vads-u-margin-bottom--0">
+        Appointment information
+      </p>
       <p className="vads-u-margin-y--0">
         {appointmentDate} at {appointmentTime} appointment
       </p>
