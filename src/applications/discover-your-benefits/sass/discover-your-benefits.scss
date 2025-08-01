@@ -36,6 +36,18 @@
 }
 
 #filters-section-desktop {
+  flex: 0 0 300px;
+  max-width: 300px;
+  margin-right: 2rem;
+
+  @media (max-width: $medium-screen) {
+    flex: 1 1 100% !important;
+    max-width: 100% !important;
+    margin-right: 0 !important;
+    padding-right: 0 !important;
+    margin-bottom: 2rem;
+  }
+
   @media (min-width: $medium-screen) {
     padding-right: 20px;
   }
@@ -78,6 +90,8 @@
 }
 
 .benefit-list {
+  padding-left: 0 !important;
+  margin-left: 0 !important;
   list-style-type: none !important;
 }
 
@@ -105,10 +119,6 @@
       width: 100%;
     }
   }
-
-  .benefit-list {
-    padding-left: 0;
-  }
 }
 
 .blue-heading {
@@ -130,4 +140,31 @@
 
 .link-container a {
   margin: 16px 0;
+}
+
+#results-container > .vads-l-row {
+  display: flex;
+  flex-wrap: wrap;
+
+  @media (max-width: $medium-screen) {
+    flex-direction: column;
+  }
+
+  @media (min-width: $medium-screen) {
+    flex-wrap: nowrap;
+  }
+}
+
+#results-container {
+  margin-top: 2rem;
+}
+
+#results-section {
+  flex: 1 1 auto;
+}
+
+#filter-text {
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--vads-color-gray-medium);
+  margin-bottom: 2rem;
 }

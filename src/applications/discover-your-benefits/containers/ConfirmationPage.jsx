@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { scrollToTop } from 'platform/utilities/scroll';
-import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { setSubmission as setSubmissionAction } from 'platform/forms-system/src/js/actions';
 import {
@@ -411,14 +410,7 @@ export class ConfirmationPage extends React.Component {
 
         <div id="results-container" className="vads-l-grid-container">
           <div className="vads-l-row vads-u-margin-y--2 vads-u-margin-x--neg2p5">
-            <div
-              id="filters-section-desktop"
-              className={classNames({
-                'vads-l-col--12': true,
-                'medium-screen:vads-l-col--4': true,
-                'large-screen:vads-l-col--3': true,
-              })}
-            >
+            <div id="filters-section-desktop">
               <VaSearchFilter
                 filterOptions={this.state.filterOptions}
                 header="Filters"
@@ -443,10 +435,7 @@ export class ConfirmationPage extends React.Component {
                 </div>
               )}
             </div>
-            <div
-              id="results-section"
-              className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8 large-screen:vads-l-col--9"
-            >
+            <div id="results-section">
               <h2 className="vads-u-font-size--h2 vads-u-margin-top--0">
                 {this.props.location.query.allBenefits
                   ? 'All benefits'
