@@ -24,11 +24,11 @@ describe('ExitForm', () => {
   });
 
   it('should push url to router when back button is clicked', async () => {
-    const router = { push: sinon.spy() };
-    const { container } = render(<ExitForm router={router} />);
+    const goBackSpy = sinon.spy();
+    const { container } = render(<ExitForm goBack={goBackSpy} />);
 
     fireEvent.click($('va-button[back]', container));
-    await expect(router.push.calledWith('/dependents')).to.be.true;
+    await expect(goBackSpy.called).to.be.true;
   });
 
   it('should call redirect to 686c-674 when Go to button is clicked', async () => {
