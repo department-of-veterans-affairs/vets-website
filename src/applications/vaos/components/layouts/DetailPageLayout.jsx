@@ -76,11 +76,7 @@ Where.propTypes = {
 };
 
 export function Prepare({ children } = {}) {
-  return (
-    <Section heading="Prepare for your appointment">
-      <span data-dd-privacy="mask">{children}</span>
-    </Section>
-  );
+  return <Section heading="Prepare for your appointment">{children}</Section>;
 }
 Prepare.propTypes = {
   children: PropTypes.node,
