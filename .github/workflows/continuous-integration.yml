@@ -935,7 +935,7 @@ jobs:
             node_modules
 
       - name: Fetch target branch
-        run: git fetch origin/${{ github.head_ref }}
+        run: git fetch origin ${{ github.head_ref }}
       - name: Merge in feature branch
         run: git merge origin/${{ github.head_ref }} --no-edit
           
