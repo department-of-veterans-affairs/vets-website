@@ -213,6 +213,76 @@ describe('form submit transform', () => {
         expect(submissionObject.serviceMember.ssn).to.eql('123123123');
       });
     });
+    describe('transform5490Form', () => {
+      it('handles valid claimant data correctly', () => {
+        const form = {
+          data: {
+            claimantFullName: {
+              first: 'John',
+              middle: 'M',
+              last: 'Doe',
+            },
+            relativeDateOfBirth: '1990-01-01',
+          },
+        };
+
+        const result = JSON.parse(transform5490Form(null, form));
+        expect(result.claimant.firstName).to.equal('John');
+        expect(result.claimant.lastName).to.equal('Doe');
+      });
+
+      it('uses loadedData when form data is missing', () => {
+        const form = {
+          data: {},
+          loadedData: {
+            formData: {
+              claimantFullName: {
+                first: 'Jane',
+                middle: 'A',
+                last: 'Smith',
+              },
+              relativeDateOfBirth: '1985-05-05',
+            },
+          },
+        };
+
+        const result = JSON.parse(transform5490Form(null, form));
+        expect(result.claimant.firstName).to.equal('Jane');
+        expect(result.claimant.lastName).to.equal('Smith');
+      });
+
+      it('handles empty name fields appropriately', () => {
+        const form = {
+          data: {
+            claimantFullName: {
+              first: '',
+              middle: 'M',
+              last: 'Doe',
+            },
+            relativeDateOfBirth: '1990-01-01',
+          },
+        };
+
+        const result = JSON.parse(transform5490Form(null, form));
+        expect(result.claimant.firstName).to.be.undefined;
+      });
+
+      it('handles whitespace-only name values', () => {
+        const form = {
+          data: {
+            claimantFullName: {
+              first: 'John',
+              middle: 'M',
+              last: '   ',
+            },
+            relativeDateOfBirth: '1990-01-01',
+          },
+        };
+
+        const result = JSON.parse(transform5490Form(null, form));
+        expect(result.claimant.lastName).to.be.undefined;
+      });
+    });
 
     describe('creates Direct Deposit information', () => {
       it('sets up direct deposit account type', () => {
