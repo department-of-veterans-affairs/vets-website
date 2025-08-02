@@ -460,6 +460,8 @@ export const getHomelessOrAtRisk = formData => {
 export const isNotUploadingPrivateMedical = formData =>
   _.get(DATA_PATHS.hasPrivateRecordsToUpload, formData) === false;
 
+export const hasCompletedAuthorization = value => value;
+
 export const needsToEnterUnemployability = formData =>
   _.get('view:unemployable', formData, false);
 
@@ -853,3 +855,14 @@ export const formatFullName = (fullName = {}) => {
 
   return res.trim();
 };
+
+/**
+ * Checks if
+ * 1. The flag for the modern 4142 flow is enabled
+ *
+ * @param {object} formData
+ * @returns {boolean} true if disability526Enable2024Form4142 is present, false otherwise
+ */
+export function isCompletingModern4142(formData) {
+  return formData?.disability526Enable2024Form4142 === true;
+}

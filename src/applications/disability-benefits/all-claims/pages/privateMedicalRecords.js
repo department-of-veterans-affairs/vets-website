@@ -10,6 +10,7 @@ import {
   patientAcknowledgmentError,
 } from '../content/privateMedicalRecords';
 import { standardTitle } from '../content/form0781';
+import { isCompletingModern4142 } from '../utils';
 
 const isNotUploadingPrivateRecords = data =>
   data?.['view:hasPrivateRecordsToUpload'] === false;
@@ -36,13 +37,15 @@ export const uiSchema = {
       expandUnder: 'view:uploadPrivateRecordsQualifier',
       expandUnderCondition: isNotUploadingPrivateRecords,
       showFieldLabel: true,
+      hideIf: formData => isCompletingModern4142(formData),
     },
+    'ui:required': formData => !isCompletingModern4142(formData),
     'ui:validations': [
       (errors, fieldData, formData) => {
         const shouldValidate =
           formData?.['view:uploadPrivateRecordsQualifier']?.[
             'view:hasPrivateRecordsToUpload'
-          ] === false;
+          ] === false && !isCompletingModern4142(formData);
 
         if (shouldValidate) {
           return validateBooleanGroup(errors, fieldData, null, null, {
@@ -66,6 +69,7 @@ export const uiSchema = {
       expandUnder: 'view:uploadPrivateRecordsQualifier',
       expandUnderCondition: isNotUploadingPrivateRecords,
       forceDivWrapper: true,
+      hideIf: formData => isCompletingModern4142(formData),
     },
   },
 };

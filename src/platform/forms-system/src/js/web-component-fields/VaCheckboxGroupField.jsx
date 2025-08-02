@@ -8,7 +8,7 @@ import formsPatternFieldMapping from './formsPatternFieldMapping';
 
 // Combines schema, uiSchema, and formData together
 // for each checkbox for easier access
-const getCheckboxData = ({ schema, uiSchema, formData }) => {
+const getCheckboxData = ({ schema, uiSchema, formData = {} }) => {
   return Object.keys(schema.properties).map(key => ({
     key,
     schema: schema.properties[key],
