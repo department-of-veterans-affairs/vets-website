@@ -13,7 +13,7 @@
   "isMoving": true,
   "newAddress": {
     "view:militaryBaseDescription": {},
-    "country": "USA",
+    "country": "United States",
     "street": "124 Someplace Lane",
     "street2": "Apartment 98",
     "city": "Yet Another Place",
@@ -22,7 +22,7 @@
   },
   "veteranAddress": {
     "view:militaryBaseDescription": {},
-    "country": "USA",
+    "country": "United States",
     "street": "123 Someplace Lane",
     "street2": "Apartment 4",
     "city": "Another Place",
