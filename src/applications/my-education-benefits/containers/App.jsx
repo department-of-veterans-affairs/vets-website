@@ -46,6 +46,7 @@ export const App = ({
   duplicateEmail,
   duplicatePhone,
   meb160630Automation,
+  mebAddressValidationApi,
 }) => {
   const [fetchedContactInfo, setFetchedContactInfo] = useState(false);
   const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
@@ -350,6 +351,13 @@ export const App = ({
         });
       }
 
+      if (mebAddressValidationApi !== formData?.mebAddressValidationApi) {
+        setFormData({
+          ...formData,
+          mebAddressValidationApi,
+        });
+      }
+
       if (showMebEnhancements09 !== formData.showMebEnhancements09) {
         setFormData({
           ...formData,
@@ -385,6 +393,7 @@ export const App = ({
       duplicateEmail,
       duplicatePhone,
       meb160630Automation,
+      mebAddressValidationApi,
       mebDpoAddressOptionEnabled,
       mebKickerNotificationEnabled,
     ],
@@ -476,6 +485,7 @@ App.propTypes = {
   isLoggedIn: PropTypes.bool,
   location: PropTypes.object,
   meb160630Automation: PropTypes.bool,
+  mebAddressValidationApi: PropTypes.bool,
   mebDpoAddressOptionEnabled: PropTypes.bool,
   mebKickerNotificationEnabled: PropTypes.bool,
   mobilePhone: PropTypes.string,
