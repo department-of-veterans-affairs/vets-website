@@ -273,7 +273,7 @@ const LabsAndTests = () => {
                   type={recordType.LABS_AND_TESTS}
                   records={labsAndTests?.map(data => ({
                     ...data,
-                    isOracleHealthData: isAcceleratingLabsAndTests,
+                    isAccelerating: isAcceleratingLabsAndTests,
                   }))}
                   domainOptions={{
                     isAccelerating: isAcceleratingLabsAndTests,
