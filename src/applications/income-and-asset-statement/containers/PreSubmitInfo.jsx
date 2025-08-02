@@ -52,6 +52,7 @@ const PreSubmitInfo = ({
             (See 18 U.S.C. 1001)
           </div>
           <VaPrivacyAgreement
+            checked={formData.statementOfTruthCertified}
             name="statementOfTruthCertified"
             onVaChange={event => {
               setPreSubmit('statementOfTruthCertified', event.detail.checked);
