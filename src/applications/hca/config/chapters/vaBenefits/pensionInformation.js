@@ -1,25 +1,29 @@
+import {
+  titleUI,
+  descriptionUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import { FULL_SCHEMA } from '../../../utils/imports';
 import CustomReviewField from '../../../components/FormReview/CustomReviewField';
-import {
-  PensionInfoDescription,
-  PensionTypeDescription,
-} from '../../../components/FormDescriptions';
+import { PensionDescription } from '../../../components/FormDescriptions';
+import content from '../../../locales/en/content.json';
 
 const { vaPensionType } = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {
-    'ui:title': 'Current compensation from VA',
-    'ui:description': PensionInfoDescription,
+    ...titleUI(
+      content['benefits--pension-title'],
+      content['benefits--pension-description'],
+    ),
+    ...descriptionUI(PensionDescription),
     vaPensionType: {
-      'ui:title': 'Do you receive a Veterans pension from the VA?',
-      'ui:description': PensionTypeDescription,
+      'ui:title': content['benefits--pension-label'],
       'ui:reviewField': CustomReviewField,
       'ui:widget': 'radio',
       'ui:options': {
         labels: {
-          pension: 'Yes',
-          none: 'No',
+          pension: content['form--default-yes-label'],
+          none: content['form--default-no-label'],
         },
       },
     },

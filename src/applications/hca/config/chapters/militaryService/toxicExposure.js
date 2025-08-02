@@ -1,15 +1,19 @@
+import {
+  titleUI,
+  descriptionUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import { FULL_SCHEMA } from '../../../utils/imports';
 import ToxicExposureDescription from '../../../components/FormDescriptions/ToxicExposureDescription';
+import content from '../../../locales/en/content.json';
 
 const { hasTeraResponse } = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {
-    'ui:title': 'Toxic exposure',
-    'ui:description': ToxicExposureDescription,
+    ...titleUI(content['service-info--toxic-exposure-title']),
+    ...descriptionUI(ToxicExposureDescription),
     hasTeraResponse: {
-      'ui:title':
-        'Do you want to answer questions about your military service history and exposure to any toxins or other hazards?',
+      'ui:title': content['service-info--toxic-exposure-label'],
       'ui:widget': 'yesNo',
     },
   },
