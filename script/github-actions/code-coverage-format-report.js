@@ -24,7 +24,7 @@ codeCoverageData.forEach((data, index) => {
     // create table header
     codeCoverageHTML += `<th> ${data} </th> \n`;
   } else if (index === 5) {
-    // seperate table header from data
+    // separate table header from data
     codeCoverageHTML += `<th> ${data} </th> \n </tr> \n </thead> \n <tbody> \n`;
   } else if ((index - 1) % 5 === 0) {
     // start of row in table body
