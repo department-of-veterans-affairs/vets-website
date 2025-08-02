@@ -15,7 +15,6 @@ import formConfig from '../../../config/form';
 describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
   describe('applicantInformation', () => {
     const baseData = {
-      showMeb54901990eTextUpdate: false,
       dateOfBirth: null,
       serviceData: [],
       sponsors: { transferOfEntitlement: [] },
