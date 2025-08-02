@@ -2,12 +2,10 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { updateIntroPageViewed } from '../actions';
-import { QUESTION_MAP } from '../constants/question-data-map';
+import { QUESTION_CONTENT } from '../constants/question-data-map';
 import { ROUTES } from '../constants';
 
 const HomePage = ({ router, setIntroPageViewed }) => {
-  const H1 = QUESTION_MAP.HOME;
-
   useEffect(() => {
     setIntroPageViewed(true);
   });
@@ -19,7 +17,7 @@ const HomePage = ({ router, setIntroPageViewed }) => {
 
   return (
     <>
-      <h1 className="vads-u-margin-bottom--1">{H1}</h1>
+      <h1 className="vads-u-margin-bottom--1">{QUESTION_CONTENT.HOME.h1}</h1>
       <h2 className="vads-u-margin-y--0 vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--h3">
         Learn about what Decision Review option may be right for you.
       </h2>
