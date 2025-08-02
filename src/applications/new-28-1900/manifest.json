@@ -1,7 +1,7 @@
 {
-  "appName": "New 28-1900 Veteran Readiness",
+  "appName": "28-1900 Veteran Readiness",
   "entryFile": "./app-entry.jsx",
-  "entryName": "new-28-1900-chapter-31",
-  "rootUrl": "/temporary/apply-vre-form-28-1900",
-  "productId": "7fec94cf-e9f7-44c9-963a-97593f3c9e3f"
+  "entryName": "28-1900-chapter-31",
+  "rootUrl": "/careers-employment/vocational-rehabilitation/apply-vre-form-28-1900",
+  "productId": "e51e0c18-8b17-4295-beaf-a6fd345e719c"
 }
