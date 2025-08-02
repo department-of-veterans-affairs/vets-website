@@ -3,12 +3,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
-import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import navigationState from 'platform/forms-system/src/js/utilities/navigation/navigationState';
 import { useEditOrAddForm } from './useEditOrAddForm';
-import ArrayBuilderCancelButton from './ArrayBuilderCancelButton';
 import { getArrayUrlSearchParams } from './helpers';
+import ArrayBuilderButtonPair from './ArrayBuilderButtonPair';
 
 /**
  * @param {{
@@ -94,60 +93,15 @@ export default function ArrayBuilderItemPage({
         onChange={onChange}
         onSubmit={onSubmit}
       >
-        <>
-          {isAdd && (
-            <>
-              <ArrayBuilderCancelButton
-                goToPath={props.goToPath}
-                arrayPath={arrayPath}
-                summaryRoute={summaryRoute}
-                introRoute={introRoute}
-                reviewRoute={reviewRoute}
-                getText={getText}
-                required={required}
-              />
-              {/* save-in-progress link, etc */}
-              {props.pageContentBeforeButtons}
-              {props.contentBeforeButtons}
-              <NavButtons
-                goBack={props.goBack}
-                goForward={props.onContinue}
-                submitToContinue
-                useWebComponents={
-                  props.formOptions?.useWebComponentForNavigation
-                }
-              />
-            </>
-          )}
-          {isEdit && (
-            <div className="vads-u-display--flex">
-              <div className="vads-u-margin-right--2">
-                <ArrayBuilderCancelButton
-                  goToPath={props.goToPath}
-                  arrayPath={arrayPath}
-                  summaryRoute={summaryRoute}
-                  introRoute={introRoute}
-                  reviewRoute={reviewRoute}
-                  getText={getText}
-                  required={required}
-                  className="vads-u-margin-0"
-                />
-              </div>
-              <div>
-                <VaButton
-                  continue
-                  submit="prevent"
-                  // "Continue" will display instead of `text`
-                  // prop until this is fixed:
-                  // https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/2733
-                  text={getText('editSaveButtonText')}
-                />
-              </div>
-            </div>
-          )}
-
-          {props.contentAfterButtons}
-        </>
+        <ArrayBuilderButtonPair
+          arrayPath={arrayPath}
+          summaryRoute={summaryRoute}
+          introRoute={introRoute}
+          reviewRoute={reviewRoute}
+          getText={getText}
+          required={required}
+          {...props}
+        />
       </SchemaForm>
     );
   }
