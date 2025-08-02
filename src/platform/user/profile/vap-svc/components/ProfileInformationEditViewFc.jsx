@@ -468,6 +468,7 @@ export const ProfileInformationEditViewFc = ({
                 <VAPServiceEditModalErrorMessage error={error} />
               </div>
             )}
+            {contactInfoFormAppConfig?.contentBeforeButtons || null}
             <ProfileInformationActionButtons
               onCancel={onCancel}
               title={title}
@@ -498,6 +499,7 @@ export const ProfileInformationEditViewFc = ({
                 )}
               </div>
             </ProfileInformationActionButtons>
+            {contactInfoFormAppConfig?.contentAfterButtons || null}
           </SchemaForm>
         </div>
       )}
