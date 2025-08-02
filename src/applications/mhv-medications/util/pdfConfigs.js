@@ -6,6 +6,7 @@ import {
   displayProviderName,
   getRefillHistory,
   getShowRefillHistory,
+  pendingMedStatusDescription,
   processList,
   validateField,
   validateIfAvailable,
@@ -56,6 +57,13 @@ import {
  * @returns {Array<PdfConfigItem>}
  */
 export const buildNonVAPrescriptionPDFList = prescription => {
+  const pendingMed =
+    prescription?.prescriptionSource === 'PD' &&
+    prescription?.dispStatus === 'NewOrder';
+  const pendingRenewal =
+    prescription?.prescriptionSource === 'PD' &&
+    prescription?.dispStatus === 'Renew';
+
   return [
     {
       sections: [
@@ -76,7 +84,12 @@ export const buildNonVAPrescriptionPDFList = prescription => {
             },
             {
               title: 'Status',
-              value: validateField(prescription.dispStatus?.toString()),
+              value:
+                pendingMed || pendingRenewal
+                  ? pendingMedStatusDescription(
+                      prescription?.dispStatus?.toString(),
+                    )
+                  : validateField(prescription.dispStatus?.toString()),
               inline: true,
             },
             {
@@ -178,7 +191,10 @@ export const buildPrescriptionsPDFList = prescriptions => {
               : []),
             {
               title: 'Status',
-              value: validateField(rx.dispStatus),
+              value:
+                pendingMed || pendingRenewal
+                  ? pendingMedStatusDescription(rx?.dispStatus)
+                  : validateField(rx.dispStatus),
               inline: true,
               indent: 32,
             },
@@ -419,7 +435,10 @@ export const buildVAPrescriptionPDFList = prescription => {
               : []),
             {
               title: 'Status',
-              value: prescription.dispStatus || 'Unknown',
+              value:
+                pendingMed || pendingRenewal
+                  ? pendingMedStatusDescription(prescription?.dispStatus)
+                  : prescription.dispStatus || 'Unknown',
               inline: true,
             },
             {
