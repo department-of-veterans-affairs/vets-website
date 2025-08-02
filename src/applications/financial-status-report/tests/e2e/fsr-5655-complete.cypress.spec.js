@@ -19,10 +19,7 @@ import {
   verifyAddPage,
 } from './pages/ChecklistSummaryFlow';
 import { data } from './fixtures/data/fsr-maximal.json';
-import {
-  otherLivingExpensesOptions,
-  otherLivingExpensesList,
-} from '../../constants/checkboxSelections';
+import { otherLivingExpensesList } from '../../constants/checkboxSelections';
 
 Cypress.config('waitForAnimations', true);
 
@@ -468,25 +465,6 @@ const testConfig = createTestConfig(
       // ==============================================================
       // ================== householdExpensesChapter ==================
       // ==============================================================
-      'household-expenses-checklist': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('va-checkbox')
-            .shadow()
-            .find('input[type="checkbox"]')
-            .should('exist');
-          cy.get('.usa-button-primary').click();
-        });
-      },
-      'household-expenses-values': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('#Rent0')
-            .first()
-            .shadow()
-            .find('input')
-            .type('123');
-          cy.get('.usa-button-primary').click();
-        });
-      },
       // only shows if showUpdatedExpensePages is active
       'monthly-housing-expenses': ({ afterHook }) => {
         afterHook(() => {
@@ -641,19 +619,11 @@ const testConfig = createTestConfig(
       'other-expenses-checklist': ({ afterHook }) => {
         afterHook(() => {
           // Check the length of checkboxes based on the feature flag
-          cy.get('@testData').then(testData => {
-            const otherExpenseChecklistLength = testData[
-              'view:showUpdatedExpensePages'
-            ]
-              ? otherLivingExpensesList.length
-              : otherLivingExpensesOptions.length;
-
-            cy.get('va-checkbox')
-              .shadow()
-              .find('input[type=checkbox]')
-              .as('checklist')
-              .should('have.length', otherExpenseChecklistLength);
-          });
+          cy.get('va-checkbox')
+            .shadow()
+            .find('input[type=checkbox]')
+            .as('checklist')
+            .should('have.length', otherLivingExpensesList.length);
 
           // Iterate through otherExpenses and check each checkbox
           otherExpenses.forEach(expense => {
