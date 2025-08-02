@@ -176,7 +176,7 @@ describe('actions', () => {
       expect(result).to.be.true;
     });
 
-    it('returns false if has not served enough time', () => {
+    it('returns false if has not served enough time.', () => {
       const benefit = getBenefitById('COE');
       const formData = {
         [mappingTypes.GOALS]: goalTypes.RETIREMENT,
@@ -196,7 +196,7 @@ describe('actions', () => {
       expect(result).to.be.false;
     });
 
-    it('returns true if has served over 4 months under title 10', () => {
+    it('returns true if has served over 4 months under title 10.', () => {
       const benefit = getBenefitById('COE');
       const formData = {
         [mappingTypes.GOALS]: goalTypes.RETIREMENT,
@@ -216,22 +216,28 @@ describe('actions', () => {
       expect(result).to.be.true;
     });
 
-    it('returns true if has served over 4 months of active duty', () => {
+    it('returns true if has served over 4 months of active duty.', () => {
       const benefit = getBenefitById('COE');
       const formData = {
         [mappingTypes.GOALS]: goalTypes.RETIREMENT,
         [mappingTypes.LENGTH_OF_SERVICE]: timeServedTypes.UP_TO_6_MONTHS,
+        [mappingTypes.LENGTH_OF_TITLE_TEN_SERVICE]:
+          timeServedTypes.UP_TO_3_MONTHS,
         [mappingTypes.CHARACTER_OF_DISCHARGE]:
           characterOfDischargeTypes.UNCHARACTERIZED,
-        [militaryBranchTypes.ARMY]: {
-          [militaryBranchComponentTypes.ACTIVE_DUTY]: true,
+        [mappingTypes.BRANCH_COMPONENT]: {
+          [militaryBranchTypes.ARMY]: {
+            [militaryBranchComponentTypes.ACTIVE_DUTY]: true,
+            [militaryBranchComponentTypes.NATIONAL_GUARD_SERVICE]: true,
+          },
         },
+        [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: yesNoType.NO,
       };
       const result = actions.mapBenefitFromFormInputData(benefit, formData);
       expect(result).to.be.true;
     });
 
-    it('returns true if has served over 4 months of active duty and title 10', () => {
+    it('returns true if has served over 4 months of active duty and title 10.', () => {
       const benefit = getBenefitById('COE');
       const formData = {
         [mappingTypes.GOALS]: goalTypes.RETIREMENT,
@@ -252,7 +258,7 @@ describe('actions', () => {
       expect(result).to.be.true;
     });
 
-    it('returns false if has not served in active duty or title 10', () => {
+    it('returns false if has not served in active duty or title 10.', () => {
       const benefit = getBenefitById('COE');
       const formData = {
         [mappingTypes.GOALS]: goalTypes.RETIREMENT,

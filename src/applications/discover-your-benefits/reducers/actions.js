@@ -3,7 +3,6 @@ import {
   mappingTypes,
   anyType,
   blankType,
-  militaryBranchTypes,
 } from '../constants/benefits';
 
 export const FETCH_RESULTS_STARTED = 'FETCH_RESULTS_STARTED';
@@ -23,8 +22,8 @@ const fetchResultsFailure = error => ({
 });
 
 export const checkBranchComponentResponse = (formData, mappingValue) => {
-  return Object.values(militaryBranchTypes).some(
-    pageName => formData[pageName]?.[mappingValue] === true,
+  return Object.values(formData.branchComponents).some(
+    branchComponent => branchComponent[mappingValue] === true,
   );
 };
 
@@ -48,11 +47,8 @@ export const checkSingleResponse = (benefit, formData, mappingType) => {
   for (let i = 0; i < benefit.mappings[mappingType].length; i++) {
     const mappingValue = benefit.mappings[mappingType][i];
     const formResponse = formData[mappingType];
-    if (
-      mappingType === mappingTypes.BRANCH_COMPONENT &&
-      checkBranchComponentResponse(formData, mappingValue)
-    ) {
-      return true;
+    if (mappingType === mappingTypes.BRANCH_COMPONENT) {
+      return checkBranchComponentResponse(formData, mappingValue);
     }
     if (
       (formResponse &&
