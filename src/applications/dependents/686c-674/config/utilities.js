@@ -14,6 +14,26 @@ import {
 } from 'platform/forms-system/src/js/helpers';
 import { apiRequest } from 'platform/utilities/api';
 
+import { spouseMarriageHistoryOptions } from './chapters/report-add-a-spouse/spouseMarriageHistoryArrayPages';
+import { veteranMarriageHistoryOptions } from './chapters/report-add-a-spouse/veteranMarriageHistoryArrayPages';
+import { arrayBuilderOptions } from './chapters/report-add-child/config';
+import { removeChildStoppedAttendingSchoolOptions } from './chapters/report-child-stopped-attending-school/removeChildStoppedAttendingSchoolArrayPages';
+import { deceasedDependentOptions } from './chapters/report-dependent-death/deceasedDependentArrayPages';
+import { removeMarriedChildOptions } from './chapters/report-marriage-of-child/removeMarriedChildArrayPages';
+import { removeChildHouseholdOptions } from './chapters/stepchild-no-longer-part-of-household/removeChildHouseholdArrayPages';
+import { addStudentsOptions } from './chapters/674/addStudentsArrayPages';
+
+const ALL_ARRAY_OPTIONS = [
+  spouseMarriageHistoryOptions,
+  veteranMarriageHistoryOptions,
+  arrayBuilderOptions,
+  removeChildStoppedAttendingSchoolOptions,
+  deceasedDependentOptions,
+  removeMarriedChildOptions,
+  removeChildHouseholdOptions,
+  addStudentsOptions,
+];
+
 import { MARRIAGE_TYPES } from './constants';
 
 const SERVER_ERROR_REGEX = /^5\d{2}$/;
@@ -109,10 +129,45 @@ export {
   isClientError,
 };
 
+const arrayPaths = {
+  studentInformation: 'Your student(s)',
+  spouseMarriageHistory: "Your spouse's marriage history",
+  veteranMarriageHistory: 'Your marriage history',
+  childrenToAdd: "Your child's information",
+  childStoppedAttendingSchool: 'Your child who stopped attending school',
+  deaths: 'Your deceased dependent',
+  childMarriage: 'Your child who got married',
+  stepChildren: 'Your stepchild who no longer lives with you',
+};
+
 export function customTransformForSubmit(formConfig, form) {
+  const incompleteSections = [];
+
+  for (const option of ALL_ARRAY_OPTIONS) {
+    const items = form.data?.[option.arrayPath];
+    if (Array.isArray(items)) {
+      const hasIncomplete = items.some(option.isItemIncomplete);
+      if (hasIncomplete) {
+        const section =
+          arrayPaths[option.arrayPath] || option.nounPlural || option.arrayPath;
+        incompleteSections.push(section);
+      }
+    }
+  }
+
+  if (incompleteSections.length > 0) {
+    if (incompleteSections.length === 1) {
+      // eslint-disable-next-line no-param-reassign
+      form.formErrors.arrayLoopIncomplete = `We are missing information about ${incompleteSections[0].toLowerCase()}. Please finish adding all required information and try your submission again.`;
+    } else {
+      const sectionList = incompleteSections.map(s => `- ${s}`).join('\n');
+      // eslint-disable-next-line no-param-reassign
+      form.formErrors.arrayLoopIncomplete = `We are missing required information about:\n${sectionList}\nPlease finish adding all required information and try your submission again.`;
+    }
+    return false;
+  }
+
   const payload = cloneDeep(form);
-  // manually delete view:confirmEmail, since in our case we actually want the other view fields
-  // delete payload.data.veteranContactInformation['view:confirmEmail'];
   const expandedPages = expandArrayPages(
     createFormPageList(formConfig),
     payload.data,
