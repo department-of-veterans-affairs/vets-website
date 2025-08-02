@@ -40,10 +40,7 @@ export default function App({ location, children }) {
   const { useFormFeatureToggleSync } = useFeatureToggle();
   useFormFeatureToggleSync([
     'champvaEnableClaimResubmitQuestion',
-    {
-      toggleName: 'champvaEnableClaimResubmitQuestion', // feature toggle name
-      formKey: 'resubmitPathEnabled', // form data name
-    },
+    'champvaClaimsLlmValidation',
   ]);
 
   // Add Datadog RUM to the app
