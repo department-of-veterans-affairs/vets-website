@@ -13,6 +13,7 @@ import { nameWording, privWrapper } from '../../shared/utilities';
 import { FileFieldCustomSimple } from '../../shared/components/fileUploads/FileUpload';
 import { blankSchema } from './sponsorInformation';
 import { LLM_UPLOAD_WARNING } from '../components/llmUploadWarning';
+import { LLM_RESPONSE } from '../components/llmUploadResponse';
 
 const additionalMedicalClaimInfo = () => {
   return (
@@ -240,6 +241,7 @@ export const medicalClaimUploadSchema = {
       attachmentName: true,
       attachmentId: 'medical invoice', // hard-set for LLM verification
     }),
+    ...LLM_RESPONSE,
   },
   schema: {
     type: 'object',
@@ -262,6 +264,7 @@ export const medicalClaimUploadSchema = {
           },
         },
       },
+      'view:uploadWarn': blankSchema,
     },
   },
 };
@@ -348,6 +351,7 @@ export const eobUploadSchema = isPrimary => {
         attachmentName: true,
         attachmentId: 'EOB', // hard-set for LLM verification
       }),
+      ...LLM_RESPONSE,
     },
     schema: {
       type: 'object',
@@ -370,6 +374,7 @@ export const eobUploadSchema = isPrimary => {
             },
           },
         },
+        'view:uploadWarn': blankSchema,
       },
     },
   };
@@ -447,6 +452,7 @@ export const pharmacyClaimUploadSchema = {
       attachmentName: true,
       attachmentId: 'pharmacy invoice', // hard-set for LLM verification
     }),
+    ...LLM_RESPONSE,
   },
   schema: {
     type: 'object',
@@ -469,6 +475,7 @@ export const pharmacyClaimUploadSchema = {
           },
         },
       },
+      'view:uploadWarn': blankSchema,
     },
   },
 };
