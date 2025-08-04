@@ -164,7 +164,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '22-5490',
-  title: 'Survivors’ and Dependents Educational Assistance Benefits',
+  title: 'Survivors’ and Dependents’ Educational Assistance Benefits',
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your DEPENDENTS&#39; APPLICATION FOR VA EDUCATION BENEFITS  application (22-5490) is in progress.',
