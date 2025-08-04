@@ -23,7 +23,7 @@ export class ConfirmationPage extends React.Component {
       resultsCount: 0,
       benefitIds: {},
       sortValue: 'alphabetical',
-      filterValues: ['All'],
+      filterValues: [],
       filterText: '',
       benefits: [],
       benefitsList: BENEFITS_LIST,
@@ -32,7 +32,6 @@ export class ConfirmationPage extends React.Component {
           id: 1,
           label: 'Benefit type',
           category: [
-            { id: 'All', label: 'All' },
             { id: 'Burials', label: 'Burials and memorials' },
             { id: 'Careers', label: 'Careers and employment' },
             { id: 'Disability', label: 'Disability' },
@@ -192,7 +191,7 @@ export class ConfirmationPage extends React.Component {
       const selectedFilter =
         selectedFilterFacet?.category?.length > 0
           ? selectedFilterFacet.category.map(cat => cat.id)
-          : ['All'];
+          : [];
 
       const selectedSort =
         selectedSortFacet?.category?.[0]?.id || 'alphabetical';
@@ -213,7 +212,7 @@ export class ConfirmationPage extends React.Component {
       }));
 
       return {
-        filterValues: ['All'],
+        filterValues: [],
         sortValue: 'alphabetical',
         filterOptions: resetFilterOptions,
       };
@@ -232,7 +231,7 @@ export class ConfirmationPage extends React.Component {
   filterBenefits = sortingCallback => {
     const keys = this.state.filterValues;
 
-    if (keys.includes('All')) {
+    if (!keys || keys.length === 0) {
       this.setState(
         () => ({
           benefits: this.props.results.data,
@@ -280,7 +279,8 @@ export class ConfirmationPage extends React.Component {
     const filterLabels = this.state.filterOptions[0].category
       .filter(cat => this.state.filterValues.includes(cat.id))
       .map(cat => cat.label);
-    const filterValues = filterLabels.join(', ') || 'All';
+    const filterValues =
+      filterLabels.length > 0 ? filterLabels.join(', ') : 'All';
 
     let sortValue;
     if (this.state.sortValue === 'alphabetical') {
