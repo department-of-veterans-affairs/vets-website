@@ -17,6 +17,7 @@ import { fileUploadBlurb } from '../../shared/components/fileUploads/attachments
 import { nameWording, privWrapper } from '../../shared/utilities';
 import { CHAMPVA_PHONE_NUMBER } from '../../shared/constants';
 import { validFieldCharsOnly } from '../../shared/validations';
+import { LLM_UPLOAD_WARNING } from '../components/llmUploadWarning';
 
 export const claimIdentifyingNumberOptions = [
   'PDI number',
@@ -209,27 +210,7 @@ export const medicalUploadSupportingDocs = {
       label: 'Upload supporting document',
       attachmentName: true,
     }),
-    'view:fileClaim': {
-      'ui:description': (
-        <>
-          <a
-            href="https://www.va.gov/resources/how-to-file-a-champva-claim/"
-            rel="noopener noreferrer"
-          >
-            Learn more about supporting medical claim documents (opens in a new
-            tab)
-          </a>
-          <br />
-          <br />
-          <va-alert status="info">
-            To help reduce errors that might result in a claim denial, we’ll
-            scan your uploads to verify they meet document requirements. This
-            may cause a 1-2 minute delay during the upload process. Please don’t
-            refresh your screen.
-          </va-alert>
-        </>
-      ),
-    },
+    ...LLM_UPLOAD_WARNING,
   },
   schema: {
     type: 'object',
@@ -238,10 +219,8 @@ export const medicalUploadSupportingDocs = {
       titleSchema,
       'view:fileUploadBlurb': blankSchema,
       'view:notes': blankSchema,
-      'view:fileClaim': {
-        type: 'object',
-        properties: {},
-      },
+      // schema for LLM message
+      'view:fileClaim': blankSchema,
       medicalUpload: {
         type: 'array',
         minItems: 1,
@@ -311,32 +290,12 @@ export const pharmacyClaimUploadDocs = {
         return additionalNotesClaims(formData?.formContext?.fullData);
       },
     },
+    ...LLM_UPLOAD_WARNING,
     pharmacyUpload: fileUploadUI({
       label: 'Upload supporting document',
       attachmentName: true,
       attachmentId: 'pharmacy invoice', // hard-set for LLM verification
     }),
-    'view:fileClaim': {
-      'ui:description': (
-        <>
-          <a
-            href="https://www.va.gov/resources/how-to-file-a-champva-claim/"
-            rel="noopener noreferrer"
-          >
-            Learn more about supporting pharmacy claim documents (opens in a new
-            tab)
-          </a>
-          <br />
-          <br />
-          <va-alert status="info">
-            To help reduce errors that might result in a claim denial, we’ll
-            scan your uploads to verify they meet document requirements. This
-            may cause a 1-2 minute delay during the upload process. Please don’t
-            refresh your screen.
-          </va-alert>
-        </>
-      ),
-    },
   },
   schema: {
     type: 'object',
@@ -345,10 +304,8 @@ export const pharmacyClaimUploadDocs = {
       titleSchema,
       'view:fileUploadBlurb': blankSchema,
       'view:notes': blankSchema,
-      'view:fileClaim': {
-        type: 'object',
-        properties: {},
-      },
+      // schema for LLM message
+      'view:fileClaim': blankSchema,
       pharmacyUpload: {
         type: 'array',
         minItems: 1,

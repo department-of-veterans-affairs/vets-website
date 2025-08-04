@@ -57,14 +57,6 @@
         "providerPhone": "1231231234"
       }
     ],
-    "missingUploads": [
-      {
-        "name": "pharmacyUpload",
-        "path": "pharmacy-claim-upload",
-        "required": false,
-        "uploaded": true
-      }
-    ],
     "statementOfTruthCertified": true,
     "statementOfTruthSignature": "Beneficiary Middle Jones"
   }
