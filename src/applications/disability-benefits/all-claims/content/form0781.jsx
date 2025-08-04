@@ -208,16 +208,16 @@ export const mentalHealthSupportAlert = () => {
       <p>
         <va-link
           external
-          href="https://www.va.gov/health-care/health-needs-conditions/military-sexual-trauma/"
-          text="Learn how to get support for military sexual trauma"
+          href="https://www.va.gov/health-care/health-needs-conditions/mental-health/"
+          text="Learn how to get support for mental health care"
         />
       </p>
       <br />
       <p>
         <va-link
           external
-          href="https://www.va.gov/health-care/health-needs-conditions/mental-health/"
-          text="Learn how to get support for mental health care"
+          href="https://www.va.gov/health-care/health-needs-conditions/military-sexual-trauma/"
+          text="Learn how to get support for military sexual trauma"
         />
       </p>
     </va-alert-expandable>
