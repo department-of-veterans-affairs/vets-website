@@ -17,7 +17,7 @@ export function llmAlert({ formContext }) {
       </va-alert>
     );
   }
-  if (llmData && llmConfidence <= 0.7) {
+  if (llmData && llmConfidence < 0.8) {
     return (
       <va-alert status="error">
         <p>Your upload may be missing the following information:</p>
