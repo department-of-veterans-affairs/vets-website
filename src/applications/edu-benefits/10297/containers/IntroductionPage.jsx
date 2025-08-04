@@ -4,7 +4,7 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { scrollAndFocus } from 'platform/utilities/scroll';
 import { toggleLoginModal as toggleLoginModalAction } from '~/platform/site-wide/user-nav/actions';
 import { connect } from 'react-redux';
-// import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import {
   isLoggedIn,
   isProfileLoading,
@@ -16,7 +16,7 @@ import ProcessList from '../components/ProcessList';
 import TechnologyProgramAccordion from '../components/TechnologyProgramAccordion';
 
 const IntroductionPage = props => {
-  const { toggleLoginModal, loggedIn, showLoadingIndicator } = props;
+  const { route, toggleLoginModal, loggedIn, showLoadingIndicator } = props;
   useEffect(() => {
     const h1 = document.querySelector('h1');
     scrollAndFocus(h1);
@@ -78,18 +78,32 @@ const IntroductionPage = props => {
         </p>
       </va-additional-info>
       <div className="vads-u-margin-y--2 mobile-lg:vads-u-margin-y--3">
-        <va-alert-sign-in
-          disable-analytics
-          heading-level={3}
-          no-sign-in-link={null}
-          time-limit={null}
-          variant="signInRequired"
-          visible
-        >
-          <span slot="SignInButton">
-            <SignInButton />
-          </span>
-        </va-alert-sign-in>
+        {!loggedIn ? (
+          <va-alert-sign-in
+            data-testid="sign-in-alert"
+            disable-analytics
+            heading-level={3}
+            no-sign-in-link={null}
+            time-limit={null}
+            variant="signInRequired"
+            visible
+          >
+            <span slot="SignInButton">
+              <SignInButton />
+            </span>
+          </va-alert-sign-in>
+        ) : (
+          <>
+            <h2 className="vads-u-margin-top--1p5">Start the form</h2>
+            <SaveInProgressIntro
+              prefillEnabled={route.formConfig.prefillEnabled}
+              messages={route.formConfig.savedFormMessages}
+              formConfig={route.formConfig}
+              pageList={route.pageList}
+              startText="Start your Application for the High Technology Program"
+            />
+          </>
+        )}
       </div>
       <OmbInfo />
       <TechnologyProgramAccordion />
@@ -98,10 +112,10 @@ const IntroductionPage = props => {
 };
 const mapDispatchToProps = dispatch => ({
   toggleLoginModal: () => dispatch(toggleLoginModalAction(true)),
-  // setFormData: setData,
 });
 
 IntroductionPage.propTypes = {
+  loggedIn: PropTypes.bool,
   route: PropTypes.shape({
     formConfig: PropTypes.shape({
       prefillEnabled: PropTypes.bool,
@@ -109,7 +123,9 @@ IntroductionPage.propTypes = {
       downtime: PropTypes.object,
     }),
     pageList: PropTypes.array,
-  }).isRequired,
+  }),
+  showLoadingIndicator: PropTypes.bool,
+  toggleLoginModal: PropTypes.func,
 };
 function mapStateToProps(state) {
   return {

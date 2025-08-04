@@ -15,8 +15,8 @@ const uiSchema = {
         <p>
           If you’re on active duty while enrolled in the program, it does not
           make you ineligible, it just means that you would not get housing
-          allowance from the VA since it’s already covered by the service
-          division.
+          allowance from the VA since it’s already covered by your service
+          branch.
         </p>
       </va-alert>
     ),
