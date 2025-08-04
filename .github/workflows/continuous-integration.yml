@@ -913,7 +913,7 @@ jobs:
 
   node-22-unit-test-compatibility-check:
     name: Node 22 Compatibility Check For Unit Tests
-    if: ${{ needs.tests-prep.outputs.changed_unit_tests }}
+    if: ${{ needs.tests-prep.outputs.changed_unit_tests != 'false' }}
     runs-on: ubuntu-latest
     needs: [tests-prep]
     steps:
