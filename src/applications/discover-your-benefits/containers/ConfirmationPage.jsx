@@ -337,7 +337,7 @@ export class ConfirmationPage extends React.Component {
       <>
         {window.history.length > 2 ? (
           <>
-            <p>
+            <p className="vads-u-margin-bottom--0">
               Based on your answers, we've suggested some benefits for you to
               explore. If you need to, you can&nbsp;
               <va-link
@@ -351,7 +351,7 @@ export class ConfirmationPage extends React.Component {
           </>
         ) : (
           <>
-            <p>
+            <p className="vads-u-margin-bottom--0">
               Based on your answers, we've suggested some benefits for you to
               explore. Remember to check your eligibility before you apply.
             </p>
@@ -364,10 +364,10 @@ export class ConfirmationPage extends React.Component {
   render() {
     return (
       <div>
-        <article>
+        <article className="article-no-padding-btm">
           <div>
             {this.props.location.query.allBenefits ? (
-              <>
+              <div>
                 <p>
                   Below are all of the benefits that this tool can recommend.
                   Remember to check your eligibility before you apply.
@@ -376,12 +376,12 @@ export class ConfirmationPage extends React.Component {
                   These aren’t your personalized benefit recommendations, but
                   you can go back to your recommendations if you’d like.
                 </p>
-                <p>
+                <p className="vads-u-margin-bottom--0">
                   We're also planning to add more benefits and resources to this
                   tool. Check back soon to find more benefits you may want to
                   apply for.
                 </p>
-              </>
+              </div>
             ) : (
               this.titleParagraph()
             )}
@@ -443,6 +443,7 @@ export class ConfirmationPage extends React.Component {
               </h2>
               <VaSelect
                 enableAnalytics
+                full-width
                 aria-label="Sort Benefits"
                 label="Sort"
                 name="sort-benefits"
@@ -459,7 +460,6 @@ export class ConfirmationPage extends React.Component {
                   Time-sensitive
                 </option>
               </VaSelect>
-              <br />
               {this.state.filterText && (
                 <div id="filter-text">{this.state.filterText}</div>
               )}
