@@ -19,14 +19,6 @@ describe('10297 Keyboard Only Tests', () => {
     });
     cy.visit(manifest.rootUrl);
   });
-  //   beforeEach(() => {
-  //     if (Cypress.env('CI')) this.skip();
-  //     cy.login();
-  //     cy.intercept('GET', '/v0/edu-benefits/10297/maximal-test', {
-  //       data: maximalData,
-  //     });
-  //     cy.visit(manifest.rootUrl);
-  //   });
 
   it('should navigate through the form using keyboard only', () => {
     cy.injectAxeThenAxeCheck();
