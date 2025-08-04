@@ -42,9 +42,7 @@ describe('VAOS vaccine flow: NewBookingSection', () => {
     mockFetch();
   });
   before(() => {
-    
-    
-    .set('2024-12-05T00:00:00Z');
+    MockDate.set('2024-12-05T00:00:00Z');
   });
   after(() => {
     MockDate.reset();
