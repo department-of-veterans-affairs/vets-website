@@ -178,31 +178,46 @@ export function getPageAfterPageKey(pageList, pageKey) {
 }
 
 export function validatePages(orderedPageTypes) {
-  const pageTypes = {};
+  const pageTypes = {
+    summaryCount: 0,
+  };
+
   for (const pageType of orderedPageTypes) {
     if (pageType === 'intro') {
-      if (pageTypes.intro || pageTypes.summary || pageTypes.item) {
+      if (pageTypes.intro || pageTypes.item) {
         throw new Error(
           "arrayBuilderPages `pageBuilder.introPage` must be first and defined only once. Intro page should be used for 'required' flow, and should contain only text.",
         );
       }
       pageTypes.intro = true;
     } else if (pageType === 'summary') {
-      if (pageTypes.summary || pageTypes.item) {
+      pageTypes.summaryCount += 1;
+
+      if (pageTypes.item) {
         throw new Error(
-          'arrayBuilderPages `pageBuilder.summaryPage` must be defined only once and be defined before the item pages. This is so the loop cycle, and back and continue buttons will work consistently and appropriately. In a "required" flow, the summary path will be skipped on the first round despite being defined first.',
+          'arrayBuilderPages `pageBuilder.summaryPage` must come before item pages.',
         );
       }
-      pageTypes.summary = true;
     } else if (pageType === 'item') {
       pageTypes.item = true;
     }
   }
-  if (!pageTypes.summary) {
+
+  if (pageTypes.summaryCount < 1) {
     throw new Error(
-      'arrayBuilderPages must include a summary page with `pageBuilder.summaryPage`',
+      'arrayBuilderPages must include at least one summary page with `pageBuilder.summaryPage`',
     );
   }
+
+  // 🟡 Allow multiple summaries — assume they are mutually exclusive via `depends`
+  // But optionally warn in console if more than one exists
+  if (pageTypes.summaryCount > 1) {
+    // eslint-disable-next-line no-console
+    console.warn(
+      `[arrayBuilderPages] More than one summaryPage defined. Ensure they are gated by \`depends\` so only one is ever shown.`,
+    );
+  }
+
   if (!pageTypes.item) {
     throw new Error(
       'arrayBuilderPages must include at least one item page with `pageBuilder.itemPage`',
