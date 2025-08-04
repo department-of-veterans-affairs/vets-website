@@ -2,6 +2,7 @@ import { isEqual } from 'lodash';
 import { isInMPI, selectProfile } from 'platform/user/selectors';
 import set from 'platform/utilities/data/set';
 import { FULL_SCHEMA } from '../utils/imports';
+import { validateDateOfBirth } from '../utils/validation';
 
 /**
  * Map address object to match the key names in the schema
@@ -74,6 +75,14 @@ export const prefillTransformer = (pages, formData, metadata, state) => {
     if (phoneNumber && !phoneNumberRegex.test(phoneNumber)) {
       dataToReturn = set(phoneField, undefined, dataToReturn);
     }
+  }
+
+  if (formData.veteranDateOfBirth) {
+    dataToReturn = set(
+      'veteranDateOfBirth',
+      validateDateOfBirth(formData.veteranDateOfBirth),
+      dataToReturn,
+    );
   }
 
   dataToReturn = set(
