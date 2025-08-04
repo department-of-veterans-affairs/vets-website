@@ -67,7 +67,7 @@ describe('VAOS vaccine flow: ClinicChoicePage', () => {
 
     userEvent.click(screen.getByLabelText(/red team/i));
     await waitFor(
-      () => expect(screen.getByLabelText(/reddd team/i).checked).to.be.true,
+      () => expect(screen.getByLabelText(/red team/i).checked).to.be.true,
     );
     userEvent.click(screen.getByText(/continue/i));
 
