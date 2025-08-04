@@ -924,15 +924,20 @@ jobs:
           ref: node-22-bug-bash-testing
 
       # Need to figure out whether or not to modify the install action to accept a specific node version instead of letting it pick up .nvmrc
-      - name: Install dependencies
-        uses: ./.github/workflows/install
-        timeout-minutes: 30
-        with:
-          key: ${{ hashFiles('yarn.lock') }}
-          yarn_cache_folder: .cache/yarn
-          path: |
-            .cache/yarn
-            node_modules
+      - name: Manual dependencies install
+        run: |
+          CYPRESS_INSTALL_BINARY=https://vetsgov-website-builds-s3-upload.s3.us-gov-west-1.amazonaws.com/artifacts/cypress/13.15.0.zip \
+          yarn install \
+          --frozen-lockfile \
+          --network-timeout 1000000000 \
+          --prefer-offline \
+          --production=false
+
+          npx cypress install
+          npx cypress --version
+
+        env:
+          YARN_CACHE_FOLDER: .cache/yarn
 
       - name: Set up Git
         run: |
