@@ -72,18 +72,21 @@ describe('CDP - Debt Balances Page Diary Codes', () => {
     )
       .find('a')
       .click({ waitForAnimations: true });
-    cy.get('va-alert').as('alert-content');
-    cy.get('@alert-content')
-      .find('h2')
-      .contains(
-        `We’re reducing your benefit payments each month until your debt is paid`,
-      );
-    cy.get('@alert-content')
-      .find('[data-testid="link-make-payment"]')
-      .should('not.exist');
-    cy.get('@alert-content')
-      .find('[data-testid="link-request-help"]')
-      .should('not.exist');
+
+    // While CH33 alert is active, it will supercede the following alert, commenting to re-enable post removal of CH33 alert
+
+    // cy.get('va-alert').as('alert-content');
+    // cy.get('@alert-content')
+    //   .find('h2')
+    //   .contains(
+    //     `We’re reducing your benefit payments each month until your debt is paid`,
+    //   );
+    // cy.get('@alert-content')
+    //   .find('[data-testid="link-make-payment"]')
+    //   .should('not.exist');
+    // cy.get('@alert-content')
+    //   .find('[data-testid="link-request-help"]')
+    //   .should('not.exist');
     cy.injectAxeThenAxeCheck();
   });
 
