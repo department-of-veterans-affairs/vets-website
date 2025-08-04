@@ -923,7 +923,6 @@ jobs:
           fetch-depth: 0
           ref: node-22-bug-bash-testing
 
-      # Need to figure out whether or not to modify the install action to accept a specific node version instead of letting it pick up .nvmrc
       - name: Manual dependencies install
         run: |
           yarn install \
