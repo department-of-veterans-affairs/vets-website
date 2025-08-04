@@ -2,7 +2,6 @@ import {
   mockApiRequest,
   mockFetch,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import sinon from 'sinon';
@@ -21,17 +20,11 @@ import {
   retrieveFolder,
 } from '../../actions/folders';
 import * as Constants from '../../util/constants';
-import * as apiCalls from '../../api/SmApi';
 
 describe('folders actions', () => {
   const middlewares = [thunk];
   const mockStore = (initialState = { featureToggles: {} }) =>
     configureStore(middlewares)(initialState);
-  const isPilotState = {
-    featureToggles: {
-      [FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot]: true,
-    },
-  };
 
   const errorResponse = {
     errors: [
@@ -75,15 +68,6 @@ describe('folders actions', () => {
     });
   });
 
-  it('should call getFolderList with arg true when isPilot', async () => {
-    mockApiRequest(foldersListResponse);
-    const store = mockStore(isPilotState);
-    const getFolderListSpy = sinonSandbox.spy(apiCalls, 'getFolderList');
-    await store.dispatch(getFolders()).then(() => {
-      expect(getFolderListSpy.calledWith(true)).to.be.true;
-    });
-  });
-
   it('should dispatch error on unsuccessful getFolders action', async () => {
     mockApiRequest({ ...errorResponse, status: 503 });
     const store = mockStore();
@@ -110,16 +94,6 @@ describe('folders actions', () => {
         type: Actions.Folder.GET,
         response: folderInboxResponse,
       });
-    });
-  });
-
-  it('should call getFolder with arg true when isPilot', async () => {
-    mockApiRequest(folderInboxResponse);
-    const store = mockStore(isPilotState);
-    const getFolderSpy = sinonSandbox.spy(apiCalls, 'getFolder');
-    await store.dispatch(retrieveFolder(0)).then(() => {
-      expect(getFolderSpy.calledWith({ folderId: 0, isPilot: true })).to.be
-        .true;
     });
   });
 

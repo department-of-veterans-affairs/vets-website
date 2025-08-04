@@ -28,15 +28,8 @@ const fiveMonthsFromNowSuspenseDate = format(fiveMonthsFromNow, 'yyyy-MM-dd');
 
 describe('<DefaultPage>', () => {
   const defaultProps = {
-    field: { value: '', dirty: false },
-    files: [],
-    onAddFile: () => {},
     onCancel: () => {},
-    onDirtyFields: () => {},
-    onFieldChange: () => {},
-    onRemoveFile: () => {},
     onSubmit: () => {},
-    backUrl: '',
     progress: 0,
     uploading: false,
   };
@@ -50,12 +43,12 @@ describe('<DefaultPage>', () => {
     }));
 
   context('when cstFriendlyEvidenceRequests is true', () => {
-    it('should redner updated UI', () => {
+    it('should render updated UI', () => {
       const item = {
         closedDate: null,
         canUploadFile: true,
-        description: 'Buddy statement text',
-        displayName: 'Submit buddy statement(s)',
+        description: 'First praty description',
+        displayName: 'First party display name',
         id: 467558,
         overdue: true,
         receivedDate: null,
@@ -77,7 +70,7 @@ describe('<DefaultPage>', () => {
       getByText(
         `Respond by ${formatDate(
           item.suspenseDate,
-        )} for: Submit buddy statement(s)`,
+        )} for: First party display name`,
       );
       getByText('What we need from you', { selector: 'h2' });
       getByText('To respond to this request:');
@@ -88,10 +81,10 @@ describe('<DefaultPage>', () => {
       expect($('.optional-upload', container)).to.not.exist;
       getByText(scrubDescription(item.description));
       expect($('va-additional-info', container)).to.exist;
-      expect($('va-file-input', container)).to.exist;
+      expect($('va-file-input-multiple', container)).to.exist;
     });
 
-    it('should redner update 21-4142 information', () => {
+    it('should render update 21-4142 information', () => {
       const item = {
         closedDate: null,
         description: '21-4142 text',
@@ -125,13 +118,13 @@ describe('<DefaultPage>', () => {
       expect($('va-link', container)).to.exist;
       expect($('.optional-upload', container)).to.not.exist;
       expect($('va-additional-info', container)).to.exist;
-      expect($('va-file-input', container)).to.exist;
+      expect($('va-file-input-multiple', container)).to.exist;
     });
     it('should render updated default UI  when status is NEEDED_FROM_OTHERS', () => {
       const item = {
         closedDate: null,
-        description: 'Buddy statement text',
-        displayName: 'Submit buddy statement(s)',
+        description: 'Third party description',
+        displayName: 'Third party display name',
         id: 467558,
         overdue: true,
         receivedDate: null,
@@ -155,7 +148,7 @@ describe('<DefaultPage>', () => {
       getByText(
         `We made a request outside VA on ${formatDate(
           item.requestedDate,
-        )} for: Submit buddy statement(s)`,
+        )} for: Third party display name`,
       );
       expect($('.optional-upload', container)).to.exist;
       getByText('This is just a notice. No action is needed by you.');
@@ -165,7 +158,7 @@ describe('<DefaultPage>', () => {
       getByText(scrubDescription(item.description));
       getByText('What we’re notifying you about');
       expect($('va-additional-info', container)).to.exist;
-      expect($('va-file-input', container)).to.exist;
+      expect($('va-file-input-multiple', container)).to.exist;
     });
     it('should render updated RV1 reserve records content', () => {
       const item = {
@@ -224,6 +217,34 @@ describe('<DefaultPage>', () => {
         )} for: friendly DBQ name`,
       );
     });
+    it(`should render updated request language on when the track item is a sensitive item`, () => {
+      const item = {
+        closedDate: null,
+        description: 'old description',
+        friendlyName: 'Friendly sensitive item name',
+        displayName: 'ASB - tell us where, when, how exposed',
+        id: 467558,
+        overdue: true,
+        receivedDate: null,
+        requestedDate: '2024-03-25',
+        status: 'NEEDED_FROM_YOU',
+        suspenseDate: nineMonthsAgoSuspenseDate,
+        canUploadFile: false,
+        documents: [],
+        date: '2024-03-21',
+      };
+      const { getByText } = renderWithRouter(
+        <Provider store={getStore()}>
+          <DefaultPage {...defaultProps} item={item} />
+        </Provider>,
+      );
+      getByText('Request for evidence');
+      getByText(
+        `Respond by ${formatDate(
+          item.suspenseDate,
+        )} for: friendly sensitive item name`,
+      );
+    });
     it('should display pass due alert when suspense date is in the past', () => {
       const item = {
         closedDate: null,
@@ -250,33 +271,6 @@ describe('<DefaultPage>', () => {
       getByText('Deadline passed for requested information');
       getByText(
         'We haven’t received the information we asked for. You can still send it, but we may review your claim without it.',
-      );
-    });
-    it('should display pass due explanation text when suspense date is in the future', () => {
-      const item = {
-        closedDate: null,
-        description: 'Buddy statement text',
-        displayName: 'Submit buddy statement(s)',
-        id: 467558,
-        overdue: true,
-        receivedDate: null,
-        requestedDate: '2024-03-07',
-        status: 'NEEDED_FROM_YOU',
-        suspenseDate: fiveMonthsFromNowSuspenseDate,
-        uploadsAllowed: true,
-        canUploadFile: true,
-        documents: [],
-        date: '2024-03-07',
-      };
-      const { getByText, container } = renderWithRouter(
-        <Provider store={getStore()}>
-          <DefaultPage {...defaultProps} item={item} />
-        </Provider>,
-      );
-      expect($('#default-page', container)).to.exist;
-      expect($('.add-files-form', container)).to.exist;
-      getByText(
-        'We requested this evidence from you on March 7, 2024. You can still send the evidence after the “respond by” date, but it may delay your claim.',
       );
     });
     it('should display pass due explanation text when suspense date is in the future', () => {
@@ -345,7 +339,7 @@ describe('<DefaultPage>', () => {
     getByText('Submit buddy statement(s)');
     getByText(scrubDescription(item.description));
     expect($('va-additional-info', container)).to.exist;
-    expect($('va-file-input', container)).to.exist;
+    expect($('va-file-input-multiple', container)).to.exist;
   });
 
   it('should render component when status is NEEDED_FROM_OTHERS', () => {
@@ -378,6 +372,6 @@ describe('<DefaultPage>', () => {
     getByText('Submit buddy statement(s)');
     getByText(scrubDescription(item.description));
     expect($('va-additional-info', container)).to.exist;
-    expect($('va-file-input', container)).to.exist;
+    expect($('va-file-input-multiple', container)).to.exist;
   });
 });

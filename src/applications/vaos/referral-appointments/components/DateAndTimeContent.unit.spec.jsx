@@ -88,41 +88,6 @@ describe.skip('VAOS Component: DateAndTimeContent', () => {
       ),
     ).to.exist;
   });
-  it('should show error if conflicting appointment', async () => {
-    const selectedSlotKey = getReferralSlotKey(referral.uuid);
-    sessionStorage.setItem(selectedSlotKey, '2024-12-06T15:00:00-05:00');
-    const initialStateWithSelect = {
-      featureToggles: {
-        vaOnlineSchedulingCCDirectScheduling: true,
-      },
-      referral: {
-        selectedSlot: '2024-12-06T15:00:00-05:00',
-        currentPage: 'scheduleAppointment',
-      },
-    };
-    const draftAppointmentInfo = createDraftAppointmentInfo(1);
-    draftAppointmentInfo.attributes.slots[0].start =
-      '2024-12-06T15:00:00-05:00';
-    const screen = renderWithStoreAndRouter(
-      <DateAndTimeContent
-        currentReferral={referral}
-        draftAppointmentInfo={draftAppointmentInfo}
-        appointmentsByMonth={appointmentsByMonth}
-      />,
-      {
-        initialStateWithSelect,
-      },
-    );
-    const continueButton = await screen.findByRole('button', {
-      name: /Continue/i,
-    });
-    fireEvent.click(continueButton);
-    expect(
-      await screen.getByText(
-        'You already have an appointment at this time. Please select another day or time.',
-      ),
-    ).to.exist;
-  });
   it('should select date if value in session storage', async () => {
     const selectedSlotValue = '2024-12-06T15:00:00-05:00';
     const selectedSlotKey = getReferralSlotKey(referral.uuid);
@@ -135,7 +100,7 @@ describe.skip('VAOS Component: DateAndTimeContent', () => {
       },
       referral: {
         currentPage: 'scheduleAppointment',
-        selectedSlot: selectedSlotValue,
+        selectedSlotStartTime: selectedSlotValue,
       },
     };
 

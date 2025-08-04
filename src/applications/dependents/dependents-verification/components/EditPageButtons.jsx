@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 export default function EditPageButtons(props) {
   return (
-    <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--3">
+    <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--3 ">
       <div className="small-6 medium-5 columns">
         <va-button
           text="Update"
