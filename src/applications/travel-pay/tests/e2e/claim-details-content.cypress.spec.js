@@ -47,8 +47,8 @@ describe(`${appName} -- Claim Details Content`, () => {
     it('displays claim information section with correct details', () => {
       cy.contains('h2', 'Claim information').should('be.visible');
 
-      // Check "When" section
-      cy.contains('p', 'When')
+      // Check "Claim submission timeline" section
+      cy.contains('p', 'Claim submission timeline')
         .should('have.class', 'vads-u-font-weight--bold')
         .should('be.visible');
 
@@ -56,8 +56,8 @@ describe(`${appName} -- Claim Details Content`, () => {
       cy.contains('March 12, 2025').should('be.visible');
       cy.contains('Updated on').should('be.visible');
 
-      // Check "Where" section
-      cy.contains('p', 'Where')
+      // Check "Appointment information" section
+      cy.contains('p', 'Appointment information')
         .should('have.class', 'vads-u-font-weight--bold')
         .should('be.visible');
 
