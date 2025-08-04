@@ -926,7 +926,6 @@ jobs:
       # Need to figure out whether or not to modify the install action to accept a specific node version instead of letting it pick up .nvmrc
       - name: Manual dependencies install
         run: |
-          CYPRESS_INSTALL_BINARY=https://vetsgov-website-builds-s3-upload.s3.us-gov-west-1.amazonaws.com/artifacts/cypress/13.15.0.zip \
           yarn install \
           --network-timeout 1000000000 \
           --prefer-offline \
