@@ -1,5 +1,5 @@
 import React from 'react';
-import { CAREERS_EMPLOYMENT_ROOT_URL } from 'applications/vre/28-1900/constants';
+import { CAREERS_EMPLOYMENT_ROOT_URL } from '../../../constants';
 import { serviceMemberPathPageNames } from '../pageList';
 import { recordNotificationEvent, fireLinkClickEvent } from '../helpers';
 

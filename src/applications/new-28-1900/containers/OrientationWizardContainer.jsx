@@ -4,10 +4,10 @@ import { Link } from 'react-router';
 import { scrollToTop } from 'platform/utilities/scroll';
 import { focusElement } from 'platform/utilities/ui';
 import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
-import Wizard from 'applications/static-pages/wizard';
-import pages from 'applications/vre/28-1900/wizard/pages';
 import recordEvent from 'platform/monitoring/record-event';
-import OrientationApp from 'applications/vre/28-1900/orientation/OrientationApp';
+import Wizard from '../components/Wizard';
+import pages from '../wizard/pages';
+import OrientationApp from '../orientation/OrientationApp';
 
 const OrientationWizardContainer = props => {
   const [showOrientation, setShowOrientation] = useState(false);
