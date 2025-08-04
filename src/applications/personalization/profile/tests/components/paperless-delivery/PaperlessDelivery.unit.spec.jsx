@@ -55,6 +55,25 @@ describe('PaperlessDelivery', () => {
     expect(queryByText(/Add your email to get delivery updates/)).not.to.exist;
   });
 
+  it('should render email and update email address link when user has an email address', () => {
+    const initialState = {
+      user: {
+        profile: {
+          vapContactInfo: {
+            email: {
+              emailAddress: 'alongusername@me.com',
+            },
+          },
+        },
+      },
+    };
+    const { getByText, getByRole } = render(<PaperlessDelivery />, {
+      initialState,
+    });
+    expect(getByText(/alongusername@me.com/)).to.exist;
+    expect(getByRole('link', { name: /Update your email address/ })).to.exist;
+  });
+
   it('should render missing email alert when user has no email address', () => {
     const initialState = {
       user: {
@@ -71,5 +90,25 @@ describe('PaperlessDelivery', () => {
       initialState,
     });
     expect(getByText(/Add your email to get delivery updates/)).to.exist;
+  });
+
+  it('should render add email address link when user has no email address', () => {
+    const initialState = {
+      user: {
+        profile: {
+          vapContactInfo: {
+            email: {
+              emailAddress: null,
+            },
+          },
+        },
+      },
+    };
+    const { getByRole } = render(<PaperlessDelivery />, {
+      initialState,
+    });
+    expect(
+      getByRole('link', { name: /Add your email address to your profile/ }),
+    ).to.exist;
   });
 });
