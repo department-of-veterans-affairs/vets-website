@@ -264,7 +264,7 @@ export const medicalClaimUploadSchema = {
           },
         },
       },
-      'view:uploadWarn': blankSchema,
+      'view:uploadAlert': blankSchema,
     },
   },
 };
@@ -374,7 +374,7 @@ export const eobUploadSchema = isPrimary => {
             },
           },
         },
-        'view:uploadWarn': blankSchema,
+        'view:uploadAlert': blankSchema,
       },
     },
   };
@@ -475,7 +475,7 @@ export const pharmacyClaimUploadSchema = {
           },
         },
       },
-      'view:uploadWarn': blankSchema,
+      'view:uploadAlert': blankSchema,
     },
   },
 };
