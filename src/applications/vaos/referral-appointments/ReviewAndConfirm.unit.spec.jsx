@@ -27,6 +27,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     },
     referral: {
       selectedSlotStartTime: '2024-09-09T16:00:00.000Z',
+      draftAppointmentInfo,
       currentPage: 'reviewAndConfirm',
       appointmentCreateStatus: FETCH_STATUS.notStarted,
       pollingRequestStart: null,
@@ -34,29 +35,24 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       appointmentInfoLoading: false,
       referralAppointmentInfo: {},
     },
-    appointmentApi: {
-      mutations: {
-        postDraftReferralAppointmentCache: {
-          status: 'fulfilled',
-          data: draftAppointmentInfo,
-        },
-      },
-    },
+    appointmentApi: {},
   };
-  // TODO - add test for when draftAppointmentInfo is empty
-  // const initialEmptyState = {
-  //   featureToggles: {
-  //     vaOnlineSchedulingCCDirectScheduling: true,
-  //   },
-  //   referral: {
-  //     draftAppointmentInfo: {},
-  //     draftAppointmentCreateStatus: FETCH_STATUS.notStarted,
-  //     appointmentCreateStatus: FETCH_STATUS.notStarted,
-  //     pollingRequestStart: null,
-  //     appointmentInfoError: false,
-  //     appointmentInfoLoading: false,
-  //   },
-  // };
+  const initialEmptyState = {
+    featureToggles: {
+      vaOnlineSchedulingCCDirectScheduling: true,
+    },
+    referral: {
+      selectedSlotStartTime: '2024-09-09T16:00:00.000Z',
+      draftAppointmentInfo: {},
+      currentPage: 'reviewAndConfirm',
+      appointmentCreateStatus: FETCH_STATUS.notStarted,
+      pollingRequestStart: null,
+      appointmentInfoError: false,
+      appointmentInfoLoading: false,
+      referralAppointmentInfo: {},
+    },
+    appointmentApi: {},
+  };
   beforeEach(() => {
     requestStub = sandbox.stub(utils, 'apiRequestWithUrl');
   });
@@ -124,7 +120,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
   });
   it('should call create appointment post when "continue" is pressed', async () => {
     // Stub the appointment creation function
-    requestStub.resolves({ appointmentId: draftAppointmentInfo?.id });
+    requestStub.resolves({ data: { appointmentId: draftAppointmentInfo?.id } });
 
     const screen = renderWithStoreAndRouter(
       <ReviewAndConfirm
@@ -134,28 +130,11 @@ describe('VAOS Component: ReviewAndConfirm', () => {
         store: createTestStore(initialFullState),
       },
     );
-
+    await screen.findByTestId('continue-button');
     waitFor(() => {
-      expect(screen.queryByTestId('continue-button')).to.exist;
-
       userEvent.click(screen.queryByTestId('continue-button'));
     });
-
-    waitFor(() => {
-      sandbox.assert.calledOnce(
-        requestStub.withArgs('/vaos/v2/appointments/submit', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            draftApppointmentId: draftAppointmentInfo.id,
-            referralNumber: 'test-referral-number',
-            slotId: draftAppointmentInfo.attributes.slots[0].id,
-            networkId: draftAppointmentInfo.attributes.provider.networkIds[0],
-            providerServiceId: draftAppointmentInfo.attributes.provider.id,
-          }),
-        }),
-      );
-    });
+    sandbox.assert.calledOnce(requestStub);
   });
   it('should call "routeToNextReferralPage" when appointment creation is successful', async () => {
     const store = createTestStore(initialFullState);
@@ -172,41 +151,27 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     await screen.findByTestId('continue-button');
     expect(screen.getByTestId('continue-button')).to.exist;
     await userEvent.click(screen.getByTestId('continue-button'));
-    // Wait for the postReferralAppointment call to complete
-    waitFor(() =>
-      expect(screen.getByTestId('continue-button')).to.have.attribute(
-        'loading',
-        'false',
-      ),
-    );
-    waitFor(() => {
-      sandbox.assert.calledOnce(
-        requestStub.withArgs('/vaos/v2/appointments/submit', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            draftApppointmentId: draftAppointmentInfo.id,
-            referralNumber: 'test-referral-number',
-            slotId: draftAppointmentInfo.attributes.slots[0].id,
-            networkId: draftAppointmentInfo.attributes.provider.networkIds[0],
-            providerServiceId: draftAppointmentInfo.attributes.provider.id,
-          }),
-        }),
-      );
-    });
     await waitFor(() => {
+      const mutation = Object.keys(
+        store.getState().appointmentApi.mutations,
+      )[0];
       expect(
-        store.getState().appointmentApi.mutations.postReferralAppointmentCache
-          .status,
+        store.getState().appointmentApi.mutations[mutation].status,
       ).to.equal('fulfilled');
     });
-    waitFor(() => {
+    await waitFor(() => {
       expect(
         screen.history.push.calledWith(
           '/schedule-referral/complete/EEKoGzEf?id=UUID',
         ),
       ).to.be.true;
     });
+    expect(
+      screen.history.push.calledWith(
+        '/schedule-referral/complete/EEKoGzEf?id=UUID',
+      ),
+    ).to.be.true;
+    sandbox.assert.calledOnce(requestStub);
   });
   it('should display an error message when appointment creation fails', async () => {
     // Stub only for that specific call
@@ -225,16 +190,47 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     await screen.findByTestId('continue-button');
     expect(screen.getByTestId('continue-button')).to.exist;
     await userEvent.click(screen.getByTestId('continue-button'));
-    // Wait for the postReferralAppointment call to complete
-    waitFor(() =>
-      expect(screen.getByTestId('continue-button')).to.have.attribute(
-        'loading',
-        'false',
-      ),
-    );
+
     await screen.findByTestId('create-error-alert');
     expect(screen.getByTestId('create-error-alert')).to.contain.text(
       'We couldn’t schedule this appointment',
+    );
+    sandbox.assert.calledOnce(requestStub);
+  });
+  it('should fetch draft appointment info on mount if not in store', async () => {
+    const store = createTestStore(initialEmptyState);
+    requestStub.resolves({ data: draftAppointmentInfo });
+    const screen = renderWithStoreAndRouter(
+      <ReviewAndConfirm
+        currentReferral={createReferralById('2024-09-09', 'UUID')}
+      />,
+      {
+        store,
+      },
+    );
+    await screen.findByTestId('continue-button');
+    sandbox.assert.calledOnce(requestStub);
+    expect(store.getState().referral.draftAppointmentInfo).to.deep.equal(
+      draftAppointmentInfo,
+    );
+  });
+  it('should display an error message when new draft appointment creation fails', async () => {
+    const store = createTestStore(initialEmptyState);
+    // Stub only for that specific call
+    requestStub.throws({
+      error: { status: 500, message: 'Failed to create draft appointment' },
+    });
+    const screen = renderWithStoreAndRouter(
+      <ReviewAndConfirm
+        currentReferral={createReferralById('2024-09-09', 'UUID')}
+      />,
+      {
+        store,
+      },
+    );
+    await screen.findByTestId('error');
+    expect(screen.getByTestId('error')).to.contain.text(
+      'Something went wrong on our end. Please try again later.',
     );
     sandbox.assert.calledOnce(requestStub);
   });

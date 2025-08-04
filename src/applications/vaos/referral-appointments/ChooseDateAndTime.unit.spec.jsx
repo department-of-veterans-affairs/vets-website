@@ -95,14 +95,17 @@ describe('VAOS ChooseDateAndTime component', () => {
     featureToggles: {
       vaOnlineSchedulingCCDirectScheduling: true,
     },
-    appointmentApi: {
-      mutations: {
-        postDraftReferralAppointmentCache: {
-          status: 'fulfilled',
-          data: createDraftAppointmentInfo(1),
-        },
-      },
+    referral: {
+      draftAppointmentInfo: createDraftAppointmentInfo(1),
     },
+    // appointmentApi: {
+    //   mutations: {
+    //     postDraftReferralAppointmentCache: {
+    //       status: 'fulfilled',
+    //       data: createDraftAppointmentInfo(1),
+    //     },
+    //   },
+    // },
     appointments: {
       confirmed,
       confirmedStatus: FETCH_STATUS.succeeded,
