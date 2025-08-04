@@ -44,7 +44,7 @@ const testConfig = createTestConfig(
       },
       'household-information/dependents': ({ afterHook }) => {
         afterHook(() => {
-          cy.selectRadio('root_view:reportDependents', 'N');
+          cy.selectYesNoVaRadioOption('root_view:reportDependents', false);
           goToNextPage();
         });
       },

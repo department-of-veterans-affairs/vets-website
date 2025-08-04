@@ -15,7 +15,9 @@ import { REQUIRED_FILES } from '../../../config/constants';
 import { ApplicantAddressCopyPage } from '../../../../shared/components/applicantLists/ApplicantAddressPage';
 import { PassThroughPage } from '../../../../shared/components/PassThroughPage';
 
-import FileFieldCustom from '../../../../shared/components/fileUploads/FileUpload';
+import FileFieldCustom, {
+  FileFieldCustomSimple,
+} from '../../../../shared/components/fileUploads/FileUpload';
 
 import mockData from '../../e2e/fixtures/data/test-data.json';
 import { CustomApplicantSSNPage } from '../../../../shared/components/CustomApplicantSSNPage';
@@ -275,6 +277,10 @@ testComponentRender(
 );
 
 testComponentRender('FileFieldCustom', <FileFieldCustom data={{}} />);
+testComponentRender(
+  'FileFieldCustomSimple',
+  <FileFieldCustomSimple data={{}} />,
+);
 
 testComponentRender(
   'ApplicantAddressCopyPage',
