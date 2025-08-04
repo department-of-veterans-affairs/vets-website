@@ -25,7 +25,7 @@ export default function Verify() {
   } else {
     renderServiceNames = (
       <>
-        <strong>Login.gov</strong> or <strong>ID.me</strong>
+        <strong>ID.me</strong> or <strong>Login.gov</strong>
       </>
     );
   }
