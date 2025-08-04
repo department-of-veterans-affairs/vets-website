@@ -1,0 +1,59 @@
+{
+  "data": {
+    "applicantFullName": {
+      "first": "Juliow",
+      "last": "Juliow",
+      "middle": null
+    },
+    "bankAccount": {
+      "accountNumber": "123567909",
+      "accountType": null,
+      "routingNumber": "123123123",
+      "view": {
+        "bankInfoHelpText": {},
+        "checkGuideDetails": {}
+      }
+    },
+    "contactInfo": {
+      "emailAddress": null,
+      "homePhone": "3167880987",
+      "mobilePhone": null
+    },
+    "currentSalary": null,
+    "dateOfBirth": "1990-01-02",
+    "dateReleasedFromActiveDuty": "2025-08-02",
+    "dutyRequirement": "byDischarge",
+    "hasCompletedActiveDuty": true,
+    "highestLevelOfEducation": null,
+    "isEmployed": null,
+    "isInTechnologyIndustry": null,
+    "mailingAddress": {
+      "city": "Chicago",
+      "country": "USA",
+      "isMilitary": null,
+      "postalCode": "13215",
+      "state": "IL",
+      "street": "33 main st",
+      "street2": null,
+      "street3": null,
+      "view": {
+        "militaryBaseDescription": {}
+      }
+    },
+    "otherFocus": null,
+    "otherLevel": null,
+    "otherThanDishonorableDischarge": true,
+    "plannedStartDate": null,
+    "ssn": "123123123",
+    "technologyAreaOfFocus": null,
+    "trainingProviders": null,
+    "vaFileNumber": null,
+    "view": {
+      "activeDutyInfo": {},
+      "introduction": {},
+      "releaseDateNote": {},
+      "summary": null
+    }
+  }
+}
+ 
