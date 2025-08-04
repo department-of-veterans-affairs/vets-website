@@ -36,7 +36,9 @@ export const NotificationChannelCheckboxesFieldset = ({
     <div data-testid="fieldset-wrapper" className={fieldsetWrapperClasses}>
       <fieldset disabled={hasSomePendingUpdates}>
         <legend className="vads-u-padding--0">
-          <h3 className={legendHeadingClasses}>{itemName}</h3>
+          {itemName ? (
+            <h3 className={legendHeadingClasses}>{itemName}</h3>
+          ) : null}
           {description ? (
             <p className="vads-u-margin-y--0p5 vads-u-color--gray-medium vads-u-font-size--base vads-u-font-weight--normal">
               {description}
@@ -52,11 +54,10 @@ export const NotificationChannelCheckboxesFieldset = ({
 
 NotificationChannelCheckboxesFieldset.propTypes = {
   children: PropTypes.node.isRequired,
-  itemId: PropTypes.string.isRequired,
-  itemName: PropTypes.string.isRequired,
   description: PropTypes.string,
   disabled: PropTypes.bool,
   hasSomeErrorUpdates: PropTypes.bool,
   hasSomePendingUpdates: PropTypes.bool,
   hasSomeSuccessUpdates: PropTypes.bool,
+  itemName: PropTypes.string,
 };
