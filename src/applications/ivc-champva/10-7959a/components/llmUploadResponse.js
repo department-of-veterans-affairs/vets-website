@@ -2,10 +2,10 @@ import React from 'react';
 
 export function llmAlert({ formContext }) {
   const llmData =
-    formContext?.fullData?.medicalUpload ||
-    formContext?.fullData?.pharmacyUpload ||
+    formContext?.fullData?.medicalUpload &&
+    formContext?.fullData?.pharmacyUpload &&
     formContext?.fullData?.secondaryEob;
-  const llmConfidence = llmData?.map(data => data.llmResponse?.confidence);
+  const llmConfidence = llmData[0];
   const llmMissingFiles = llmData?.map(
     field => field?.llmResponse?.missingFields,
   );
