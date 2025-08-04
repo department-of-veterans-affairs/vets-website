@@ -151,10 +151,6 @@
   }
 }
 
-#results-container {
-  margin-top: 2rem;
-}
-
 #results-section {
   flex: 1 1 auto;
 }
@@ -166,6 +162,10 @@
   margin-top: 2rem;
 }
 
-.article-no-padding-btm {
-  padding-bottom: 2rem !important;
+.description-padding-btm {
+  padding-bottom: 2rem;
+}
+
+.description-article {
+  max-width: 648px;
 }

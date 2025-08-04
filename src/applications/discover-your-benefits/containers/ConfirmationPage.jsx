@@ -364,8 +364,8 @@ export class ConfirmationPage extends React.Component {
   render() {
     return (
       <div>
-        <article className="article-no-padding-btm">
-          <div>
+        <article className="description-article">
+          <div className="description-padding-btm">
             {this.props.location.query.allBenefits ? (
               <div>
                 <p>
@@ -386,30 +386,31 @@ export class ConfirmationPage extends React.Component {
               this.titleParagraph()
             )}
           </div>
-        </article>
-        <va-alert
-          close-btn-aria-label="Close notification"
-          status="info"
-          visible
-        >
-          <h2>Benefits for transitioning service members</h2>
-          <p>
-            We can help guide you as you transition from active-duty service or
-            from service in the Guard or Reserve. You’ll need to act quickly to
-            take advantage of certain time-sensitive benefits.
-            <br />
-            <va-link
-              href="https://www.va.gov/service-member-benefits/"
-              external
-              text="Learn more about VA benefits for service members"
-              type="secondary"
-              label="Learn more about VA benefits for service members"
-            />
-          </p>
-        </va-alert>
 
-        <div id="results-container" className="vads-l-grid-container">
-          <div className="vads-l-row vads-u-margin-y--2 vads-u-margin-x--neg2p5">
+          <va-alert
+            close-btn-aria-label="Close notification"
+            status="info"
+            visible
+          >
+            <h2>Benefits for transitioning service members</h2>
+            <p>
+              We can help guide you as you transition from active-duty service
+              or from service in the Guard or Reserve. You’ll need to act
+              quickly to take advantage of certain time-sensitive benefits.
+              <br />
+              <va-link
+                href="https://www.va.gov/service-member-benefits/"
+                external
+                text="Learn more about VA benefits for service members"
+                type="secondary"
+                label="Learn more about VA benefits for service members"
+              />
+            </p>
+          </va-alert>
+        </article>
+
+        <div id="results-container">
+          <div className="vads-l-row vads-u-margin-y--2">
             <div id="filters-section-desktop">
               <VaSearchFilter
                 filterOptions={this.state.filterOptions}
