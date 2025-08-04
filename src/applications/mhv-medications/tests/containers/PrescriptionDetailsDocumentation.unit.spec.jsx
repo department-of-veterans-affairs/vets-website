@@ -189,6 +189,7 @@ describe('Prescription details documentation container', () => {
   describe('PrescriptionDetailsDocumentation', () => {
     beforeEach(() => {
       HTMLAnchorElement.prototype.click = sinon.spy();
+      window.URL = window.URL || window.webkitURL;
       window.URL = {
         createObjectURL: sinon.stub().returns('test'),
         revokeObjectURL: sinon.spy(),
