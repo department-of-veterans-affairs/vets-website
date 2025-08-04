@@ -7,6 +7,7 @@ import { createInitialState } from '@department-of-veterans-affairs/platform-for
 
 import formConfig from '../../config/form';
 import ConfirmationPage from '../../containers/ConfirmationPage';
+import * as maximalJson from '../fixtures/data/maximal-test.json';
 
 const mockStore = state => createStore(() => state);
 
@@ -21,6 +22,7 @@ const getPage = submission =>
         form: {
           ...createInitialState(formConfig),
           submission,
+          data: { ...maximalJson.data },
         },
       })}
     >
@@ -34,26 +36,55 @@ describe('<ConfirmationPage />', () => {
   it('shows success alert', () => {
     const { container } = getPage({
       response: { confirmationNumber: '1234567890' },
-      timestamp: new Date().toISOString(),
+      timestamp: new Date(2025, 7, 1),
     });
+    const successAlert = container.querySelector('va-alert');
 
-    expect(container.querySelector('va-alert')).to.have.attribute(
-      'status',
-      'success',
-    );
+    expect(successAlert).to.have.attribute('status', 'success');
+    // Submission Date
+    expect(successAlert.innerHTML).to.include('August 1, 2025');
+    // Confirmation Number
+    expect(successAlert.innerHTML).to.include('1234567890');
   });
 
-  it('shows summary box with button to print page', () => {
+  it('shows save pdf section if response provides pdfUrl', () => {
+    const { container } = getPage({
+      response: { confirmationNumber: '1234567890', pdfUrl: '10297-download' },
+      timestamp: new Date(2025, 7, 1),
+    });
+    const savePdfSection = container.querySelector(
+      'div[class^="confirmation-save-pdf-download-section"]',
+    );
+
+    expect(savePdfSection).to.exist;
+    expect(savePdfSection.querySelector('va-link[filetype="PDF"]')).to.exist;
+  });
+
+  it('shows the chapter section collection/summary accordion', () => {
     const { container } = getPage({
       response: { confirmationNumber: '1234567890' },
       timestamp: new Date().toISOString(),
     });
+    const accordion = container.querySelector('va-accordion');
 
-    expect(container.querySelector('va-summary-box')).to.exist;
-    expect(container.querySelectorAll('va-summary-box h4').length).to.equal(3);
-    expect(container.querySelector('va-button')).to.have.attribute(
+    expect(accordion).to.exist;
+    expect(accordion.querySelectorAll('va-accordion-item').length).to.equal(1);
+    expect(accordion.querySelectorAll('h3').length).to.equal(4);
+  });
+
+  it('shows button to print page', () => {
+    const { container } = getPage({
+      response: { confirmationNumber: '1234567890' },
+      timestamp: new Date().toISOString(),
+    });
+    const printSection = container.querySelector(
+      'div[class^="confirmation-print-this-page-section"]',
+    );
+
+    expect(printSection).to.exist;
+    expect(printSection.querySelector('va-button')).to.have.attribute(
       'text',
-      'Print this page',
+      'Print this page for your records',
     );
   });
 
@@ -69,6 +100,19 @@ describe('<ConfirmationPage />', () => {
     );
   });
 
+  it('shows how to contact section with link', () => {
+    const { container } = getPage({
+      response: { confirmationNumber: '1234567890' },
+      timestamp: new Date().toISOString(),
+    });
+    const contactSection = container.querySelector(
+      'div[class="confirmation-how-to-contact-section"]',
+    );
+
+    expect(contactSection).to.exist;
+    expect(contactSection.querySelector('va-link[text="Ask VA"]')).to.exist;
+  });
+
   it('shows action link to return to VA.gov homepage', () => {
     const { container } = getPage({
       response: { confirmationNumber: '1234567890' },
@@ -77,7 +121,7 @@ describe('<ConfirmationPage />', () => {
 
     expect(container.querySelector('va-link-action')).to.have.attribute(
       'text',
-      'Go back to VA.gov',
+      'Go back to VA.gov homepage',
     );
   });
 
@@ -89,6 +133,6 @@ describe('<ConfirmationPage />', () => {
       'success',
     );
 
-    expect(queryByText(/\d{6,}/)).to.be.null;
+    expect(queryByText('Your confirmation number is')).to.be.null;
   });
 });
