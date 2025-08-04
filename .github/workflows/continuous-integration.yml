@@ -931,9 +931,6 @@ jobs:
           --prefer-offline \
           --production=false
 
-          npx cypress install
-          npx cypress --version
-
         env:
           YARN_CACHE_FOLDER: .cache/yarn
 
