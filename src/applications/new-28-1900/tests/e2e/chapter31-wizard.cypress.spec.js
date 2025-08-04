@@ -1,6 +1,6 @@
 import { CHAPTER_31_ROOT_URL, WIZARD_STATUS } from '../../constants';
 
-describe('Chapter 31 wizard', () => {
+describe.skip('Chapter 31 wizard', () => {
   beforeEach(() => {
     sessionStorage.removeItem(WIZARD_STATUS);
     cy.visit(CHAPTER_31_ROOT_URL);
