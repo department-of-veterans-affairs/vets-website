@@ -63,7 +63,7 @@ export const prefillTransformer = (pages, formData, metadata, state) => {
     dataToReturn = set('veteranHomeAddress', veteranHomeAddress, dataToReturn);
   }
 
-  // VES requires 10-digit US phone numbers, but VA Profile may contain international formats
+  // Veteran Enrollment System (VES) requires 10-digit US phone numbers, but VA Profile may contain international formats
   // Remove any phone numbers that don't match the required pattern (^[0-9]{10}$) as defined in vets-json-schema
   for (const phoneField of ['homePhone', 'mobilePhone']) {
     const phoneNumber = formData[phoneField];
