@@ -1,6 +1,7 @@
 import { isEqual } from 'lodash';
 import { isInMPI, selectProfile } from 'platform/user/selectors';
 import set from 'platform/utilities/data/set';
+import { FULL_SCHEMA } from '../utils/imports';
 
 /**
  * Map address object to match the key names in the schema
@@ -60,6 +61,19 @@ export const prefillTransformer = (pages, formData, metadata, state) => {
 
   if (veteranHomeAddress && !hasAddressMatch) {
     dataToReturn = set('veteranHomeAddress', veteranHomeAddress, dataToReturn);
+  }
+
+  // VES requires 10-digit US phone numbers, but VA Profile may contain international formats
+  // Remove any phone numbers that don't match the required pattern (^[0-9]{10}$) as defined in vets-json-schema
+  for (const phoneField of ['homePhone', 'mobilePhone']) {
+    const phoneNumber = formData[phoneField];
+    const phoneNumberRegex = new RegExp(
+      FULL_SCHEMA.properties[phoneField].pattern,
+    );
+
+    if (phoneNumber && !phoneNumberRegex.test(phoneNumber)) {
+      dataToReturn = set(phoneField, undefined, dataToReturn);
+    }
   }
 
   dataToReturn = set(
