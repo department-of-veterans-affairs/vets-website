@@ -9,6 +9,7 @@ export const SummaryDescription = () => {
       </p>
       <ul>
         <li>Wages from a job</li>
+        <li>Social Security</li>
         <li>
           Pensions, including those from Philippine Veterans Affairs Office
         </li>
