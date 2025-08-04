@@ -8,6 +8,9 @@ export { dateFormat } from './dateFormat';
 export { determineRefillLabel } from './determinRefillLabel';
 export { displayProviderName } from './displayProviderName';
 export { extractContainedResource } from './extractContainedResource';
+export {
+  filterRecentlyRequestedForAlerts,
+} from './filterRecentlyRequestedForAlerts';
 export { fromToNumbs } from './fromToNumbs';
 export { generateMedicationsPDF } from './generateMedicationsPDF';
 export { generateTextFile } from './generateTextFile';
