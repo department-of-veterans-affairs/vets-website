@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 
-export const FieldHasBeenUpdated = ({ history = window.history }) => {
+export const FieldHasBeenUpdated = ({ history = window.history, slim }) => {
   const location = useLocation();
   const locationState = useLocation().state;
   const { fieldInfo = null } = locationState || {};
@@ -13,6 +13,7 @@ export const FieldHasBeenUpdated = ({ history = window.history }) => {
     if (location.state?.fieldInfo) {
       history.replaceState(null, '');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const text = `We saved your ${fieldInfo?.title?.toLowerCase() ||
@@ -21,7 +22,7 @@ export const FieldHasBeenUpdated = ({ history = window.history }) => {
   return fieldInfo ? (
     <va-alert
       class="vads-u-margin-bottom--1"
-      background-only
+      slim={slim}
       status="success"
       role="alert"
       uswds
@@ -33,4 +34,5 @@ export const FieldHasBeenUpdated = ({ history = window.history }) => {
 
 FieldHasBeenUpdated.propTypes = {
   history: PropTypes.object,
+  slim: PropTypes.bool,
 };

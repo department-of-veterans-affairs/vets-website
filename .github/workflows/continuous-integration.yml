@@ -2023,6 +2023,39 @@ jobs:
     needs: [build, set-deploy-environments]
     if: ${{ needs.build.outputs.entry_names != '' && needs.build.outputs.continuous_deployment == 'true' }}
     steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          fetch-depth: 0
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: Get Slack channel
+        id: get-slack-channel
+        uses: ./.github/workflows/get-changed-apps
+        with:
+          output-type: 'slack_channel'
+
+      - name: Determine Slack channel
+        id: determine-channel
+        shell: bash
+        run: |
+          entries="${{ needs.build.outputs.entry_names }}"
+          channel="${{ steps.get-slack-channel.outputs.slack_channels }}"
+          if [[ "$entries" == *","* ]]; then
+            echo "channel=" >> $GITHUB_OUTPUT
+          else
+            echo "channel=$channel" >> $GITHUB_OUTPUT
+          fi
+
       - name: Dispatch Event to Next Workflow
         run: |
           curl -X POST \
