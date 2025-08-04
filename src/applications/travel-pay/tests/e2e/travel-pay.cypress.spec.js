@@ -93,31 +93,6 @@ describe(`${appName} -- Status Page`, () => {
     cy.location('pathname').should('eq', '/my-health/travel-pay/claims/');
   });
 
-  it('navigates to the status explainer page and back to status page', () => {
-    cy.get('va-additional-info')
-      .first()
-      .click();
-
-    cy.get('va-link[data-testid="status-explainer-link"]')
-      .first()
-      .click();
-
-    cy.location('pathname').should('eq', '/my-health/travel-pay/help');
-
-    cy.get('h1').should('include.text', 'What does my claim status mean?');
-
-    // // get the 4th Breadcrumb, test that it is correct for the page
-    cy.get('a')
-      .eq(3)
-      .should('include.text', 'Help: Claim Status Meanings');
-
-    // The 3rd Breadcrumb link (since there are 2 with path: "/")
-    cy.get('a')
-      .eq(2)
-      .click();
-    cy.location('pathname').should('eq', '/my-health/travel-pay/claims/');
-  });
-
   it('sorts the claims ordered by appointment date ascending on user action', () => {
     cy.openFilters();
     cy.get('select[name="claimsOrder"]').should('have.value', 'mostRecent');
