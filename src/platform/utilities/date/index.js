@@ -59,7 +59,7 @@ export function parseStringOrDate(date) {
   }
 
   throw new Error(
-    `Could not parse date string: ${date}. Please ensure that you provide a Date object, Unix timestamp with milliseconds, or ISO 8601 date string.`,
+    `Could not parse date string. Please ensure that you provide a Date object, Unix timestamp with milliseconds, or ISO 8601 date string.`,
   );
 }
 
