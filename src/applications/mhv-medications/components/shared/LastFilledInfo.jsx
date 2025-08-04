@@ -1,22 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { dateFormat } from '../../util/helpers';
-import { dispStatusObj } from '../../util/constants';
 
 const LastFilledInfo = rx => {
-  const {
-    dispStatus,
-    orderedDate,
-    prescriptionSource,
-    sortedDispensedDate,
-  } = rx;
-  let nonVA = prescriptionSource === 'NV';
-  let showLastFilledDate = false;
-  if (dispStatus === dispStatusObj.nonVA) {
-    nonVA = true;
-  } else if (sortedDispensedDate) {
-    showLastFilledDate = true;
-  }
+  const { orderedDate, sortedDispensedDate, prescriptionSource } = rx;
+
+  const nonVA = prescriptionSource === 'NV';
+  const showLastFilledDate = !nonVA && !!sortedDispensedDate;
+
   return (
     <>
       {nonVA && (
