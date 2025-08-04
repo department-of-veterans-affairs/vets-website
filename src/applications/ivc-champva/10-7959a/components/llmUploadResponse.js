@@ -1,6 +1,9 @@
 import React from 'react';
 
 export function llmAlert({ formContext }) {
+  // Early return if feature toggle is disabled
+  if (!formContext?.data?.champvaClaimsLlmValidation) return <></>;
+
   const llmData =
     formContext?.fullData?.medicalUpload ||
     formContext?.fullData?.pharmacyUpload ||
