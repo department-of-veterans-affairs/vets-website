@@ -25,6 +25,7 @@ describe('educationalInstitutionsPages', () => {
       city: 'Test',
       state: 'AK',
       postalCode: '23423',
+      isMilitary: false,
     },
     fullName: {
       first: 'Ginny',

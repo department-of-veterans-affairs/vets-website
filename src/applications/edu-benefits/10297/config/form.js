@@ -113,6 +113,7 @@ const formConfig = {
           title: 'Date released from active duty',
           uiSchema: dateReleasedFromActiveDuty.uiSchema,
           schema: dateReleasedFromActiveDuty.schema,
+          depends: formData => formData?.dutyRequirement !== 'atLeast3Years',
         },
         activeDutyStatus: {
           path: 'active-duty-status',
