@@ -123,7 +123,7 @@ export const validateMarriageAfterDob = (
 
   const difference = Date.parse(page) - Date.parse(fd?.applicantDob);
 
-  if (difference !== undefined && difference <= 0) {
+  if (!Number.isNaN(difference) && difference <= 0) {
     errors.addError("Date of marriage must be after applicant's date of birth");
   }
 };
@@ -155,7 +155,7 @@ export const validateMarriageAfterSponsorDob = (
   // entrypoint for this page.
   const difference = Date.parse(page) - Date.parse(fd?.['view:sponsorDob']);
 
-  if (difference !== undefined && difference <= 0) {
+  if (!Number.isNaN(difference) && difference <= 0) {
     errors.addError("Date of marriage must be after sponsor's date of birth");
   }
 };
