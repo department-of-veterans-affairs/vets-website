@@ -247,7 +247,6 @@ const DocumentUpload = () => {
         maxFileSize={5000000}
         minFileSize={0}
         name="travel-pay-claim-document-upload"
-        onChange={handleChange}
         onVaChange={handleChange}
       />
       {uploadInProgress ? (
