@@ -18,6 +18,7 @@ import { nameWording, privWrapper } from '../../shared/utilities';
 import { CHAMPVA_PHONE_NUMBER } from '../../shared/constants';
 import { validFieldCharsOnly } from '../../shared/validations';
 import { LLM_UPLOAD_WARNING } from '../components/llmUploadWarning';
+import { LLM_RESPONSE } from '../components/llmUploadResponse';
 
 export const claimIdentifyingNumberOptions = [
   'PDI number',
@@ -211,6 +212,7 @@ export const medicalUploadSupportingDocs = {
       attachmentName: true,
     }),
     ...LLM_UPLOAD_WARNING,
+    ...LLM_RESPONSE,
   },
   schema: {
     type: 'object',
@@ -233,6 +235,7 @@ export const medicalUploadSupportingDocs = {
           },
         },
       },
+      'view:uploadAlert': blankSchema,
     },
   },
 };
@@ -296,6 +299,7 @@ export const pharmacyClaimUploadDocs = {
       attachmentName: true,
       attachmentId: 'pharmacy invoice', // hard-set for LLM verification
     }),
+    ...LLM_RESPONSE,
   },
   schema: {
     type: 'object',
@@ -318,6 +322,7 @@ export const pharmacyClaimUploadDocs = {
           },
         },
       },
+      'view:uploadAlert': blankSchema,
     },
   },
 };

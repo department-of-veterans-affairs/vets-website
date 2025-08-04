@@ -4,42 +4,48 @@ export function llmAlert({ formContext }) {
   // Early return if feature toggle is disabled
   if (!formContext?.data?.champvaClaimsLlmValidation) return <></>;
 
-  const llmData =
+  // should be array of uploaded files
+  const fileData =
     formContext?.fullData?.medicalUpload ||
     formContext?.fullData?.pharmacyUpload ||
     formContext?.fullData?.secondaryEob;
-  const llmConfidence = llmData[0];
-  const llmMissingFiles = llmData?.map(
-    field => field?.llmResponse?.missingFields,
-  );
+  if (fileData === undefined) {
+    return <></>;
+  }
+  const mostRecentFile = fileData[fileData?.length - 1];
+  const { llmResponse } = mostRecentFile;
 
-  if (llmData && llmConfidence >= 0.8) {
-    return (
-      <va-alert status="success">
-        It looks like your upload contains all required information.
-      </va-alert>
-    );
-  }
-  if (llmData && llmConfidence < 0.8) {
-    return (
-      <va-alert status="error">
-        <p>Your upload may be missing the following information:</p>
-        <ul>
-          {llmMissingFiles[0]?.map((field, index) => (
-            <li key={index}>{field}</li>
-          ))}
-        </ul>
-        <p>
-          You can upload a new document to correct this, or continue anyway if
-          you're sure your document is complete.
-        </p>
-        <p>
-          We will not be able to process your claim without this information.
-        </p>
-      </va-alert>
-    );
-  }
-  if (!llmData) {
+  if (llmResponse && llmResponse.confidence >= 0.8) {
+    if (llmResponse.missingFields.length === 0) {
+      return (
+        <va-alert status="success">
+          It looks like your upload contains all required information.
+        </va-alert>
+      );
+    }
+    if (llmResponse.missingFields.length > 0) {
+      return (
+        <va-alert status="error">
+          <p>
+            Your upload ({mostRecentFile.name}) may be missing the following
+            information:
+          </p>
+          <ul>
+            {llmResponse.missingFields?.map((field, index) => (
+              <li key={index}>{field}</li>
+            ))}
+          </ul>
+          <p>
+            You can upload a new document to correct this, or continue anyway if
+            you're sure your document is complete.
+          </p>
+          <p>
+            We will not be able to process your claim without this information.
+          </p>
+        </va-alert>
+      );
+    }
+  } else {
     return (
       <va-alert status="warning">
         We could not complete verification for this file. You can retry
@@ -47,7 +53,6 @@ export function llmAlert({ formContext }) {
       </va-alert>
     );
   }
-
   return <></>;
 }
 
