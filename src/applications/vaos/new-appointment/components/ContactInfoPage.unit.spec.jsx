@@ -123,7 +123,7 @@ describe('VAOS Page: ContactInfoPage', () => {
     expect(screen.history.push.called).to.be.false;
   });
 
-  it('should prepopulate email and phone from VA Profile', async () => {
+  it('should pre-populate email and phone from VA Profile', async () => {
     const store = createTestStore({
       user: {
         profile: {

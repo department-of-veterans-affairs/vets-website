@@ -1,32 +1,29 @@
 {
   "data": {
-    "applicantFullName": {
-      "first": "Juliow",
-      "last": "Juliow",
-      "middle": null
-    },
+    "highestLevelOfEducation": "BD",
+    "currentSalary": "fiftyToSeventyFive",
+    "technologyAreaOfFocus": "mediaApplication",
+    "isInTechnologyIndustry": true,
+    "isEmployed": true,
     "bankAccount": {
-      "accountNumber": "123567909",
-      "accountType": null,
-      "routingNumber": "123123123",
-      "view": {
-        "bankInfoHelpText": {},
-        "checkGuideDetails": {}
-      }
+      "accountType": "checking",
+      "accountNumber": "123123123",
+      "routingNumber": "121000248"
     },
+    "hasCompletedActiveDuty": false,
+    "dateReleasedFromActiveDuty": "2025-09-07",
+    "ssn": "111223333",
     "contactInfo": {
-      "emailAddress": null,
-      "homePhone": "3167880987",
-      "mobilePhone": null
+      "mobilePhone": "1234567890",
+      "emailAddress": "email@address.com"
     },
-    "currentSalary": null,
-    "dateOfBirth": "1990-01-02",
-    "dateReleasedFromActiveDuty": "2025-08-02",
-    "dutyRequirement": "byDischarge",
-    "hasCompletedActiveDuty": true,
-    "highestLevelOfEducation": null,
-    "isEmployed": null,
-    "isInTechnologyIndustry": null,
+    "mailingAddress": {
+      "country": "USA",
+      "street": "The Street",
+      "city": "City",
+      "state": "AL",
+      "postalCode": "12345"
+    },
     "trainingProviderDetails" : [{
         "address": {
             "city": "Chicago",
@@ -43,35 +40,22 @@
         },
         "name": "Test Training Provider"
     }
-
     ],
-    "mailingAddress": {
-      "city": "Chicago",
-      "country": "USA",
-      "isMilitary": null,
-      "postalCode": "13215",
-      "state": "IL",
-      "street": "33 main st",
-      "street2": null,
-      "street3": null,
-      "view": {
-        "militaryBaseDescription": {}
-      }
-    },
-    "otherFocus": null,
-    "otherLevel": null,
+    "applicantFullName": { "first": "John", "last": "Doe" },
+    "dutyRequirement": "atLeast3Years",
+    "dateOfBirth": "2000-10-03",
     "otherThanDishonorableDischarge": true,
-    "plannedStartDate": null,
-    "ssn": "123123123",
-    "technologyAreaOfFocus": "computerSoftware",
-    "trainingProviders": null,
-    "vaFileNumber": null,
-    "view": {
-      "activeDutyInfo": {},
-      "introduction": {},
-      "releaseDateNote": {},
-      "summary": null
-    }
+    "trainingProvider": [
+      {
+        "name": "Training Provider",
+        "address": {
+          "country": "USA",
+          "street": "Train Street",
+          "city": "Train City",
+          "state": "DE",
+          "postalCode": "54321"
+        }
+      }
+    ]
   }
 }
- 
