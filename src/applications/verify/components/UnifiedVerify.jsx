@@ -49,11 +49,11 @@ export default function Verify() {
   } else {
     buttonContent = (
       <>
-        <VerifyLogingovButton
+        <VerifyIdmeButton
           useOAuth
           queryParams={{ operation: 'verify_page_unauthenticated' }}
         />
-        <VerifyIdmeButton
+        <VerifyLogingovButton
           useOAuth
           queryParams={{ operation: 'verify_page_unauthenticated' }}
         />
