@@ -118,8 +118,11 @@ describe('IntroductionPage', () => {
       </Provider>,
     );
 
-    expect(container.querySelector('va-link-action[text="Start form"]')).to.not
-      .be.null;
+    expect(
+      container.querySelector(
+        'va-link-action[text="Start form upload and submission"]',
+      ),
+    ).to.not.be.null;
   });
 
   it('opens the PDF download link when clicked', () => {

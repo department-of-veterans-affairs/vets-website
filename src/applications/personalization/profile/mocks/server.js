@@ -108,10 +108,10 @@ const responses = {
             profileShowNoValidationKeyAddressAlert: false,
             profileUseExperimental: false,
             profileShowPrivacyPolicy: false,
+            profileShowPaperlessDelivery: true,
             vetStatusPdfLogging: true,
             veteranStatusCardUseLighthouse: true,
             veteranStatusCardUseLighthouseFrontend: true,
-            vetStatusStage1: true,
             vreCutoverNotice: true,
           }),
         ),
@@ -231,7 +231,21 @@ const responses = {
       secondsOfDelay,
     );
   },
-  'POST /v0/profile/address_validation': address.addressValidation,
+  'POST /v0/profile/address_validation': (_req, res) => {
+    const addressValidationResponse = 'success';
+    delaySingleResponse(() => {
+      switch (addressValidationResponse) {
+        case 'success':
+          return res.status(200).json(address.addressValidation);
+        case 'downstreamError':
+          return res.status(400).json(address.downstreamError);
+        case 'noCandidateFound':
+          return res.status(400).json(address.noCandidateFound);
+        default:
+          return res.status(200).json('');
+      }
+    }, 1);
+  },
   'GET /v0/mhv_account': mhvAcccount.needsPatient,
   'GET /v0/profile/personal_information': handleGetPersonalInformationRoute,
   'PUT /v0/profile/preferred_names': handlePutPreferredNameRoute,
