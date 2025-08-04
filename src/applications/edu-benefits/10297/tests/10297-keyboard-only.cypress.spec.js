@@ -2,6 +2,14 @@ import maximalData from './fixtures/data/maximal-test.json';
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
 
+const futureDate = new Date();
+const daysToAdd = 2;
+futureDate.setDate(futureDate.getDate() + daysToAdd);
+const year = futureDate.getFullYear();
+const month = String(futureDate.getMonth() + 1).padStart(2, '0');
+const day = String(futureDate.getDate()).padStart(2, '0');
+const futureDateString = `${year}-${month}-${day}`;
+
 describe('10297 Keyboard Only Tests', () => {
   beforeEach(() => {
     cy.login();
@@ -100,10 +108,7 @@ describe('10297 Keyboard Only Tests', () => {
         .path,
     );
     cy.realPress('Tab');
-    cy.fillVaMemorableDate(
-      'root_dateReleasedFromActiveDuty',
-      maximalData.data.dateReleasedFromActiveDuty,
-    );
+    cy.fillVaMemorableDate('root_dateReleasedFromActiveDuty', futureDateString);
     cy.tabToContinueForm();
     cy.url().should(
       'include',
@@ -119,11 +124,168 @@ describe('10297 Keyboard Only Tests', () => {
     );
     // cy.chooseRadio(maximalData.data.hasCompletedActiveDuty);
     cy.tabToContinueForm();
+    cy.url().should(
+      'include',
+      formConfig.chapters.identificationChapter.pages.directDeposit.path,
+    );
+    cy.realPress('Tab');
+    cy.allyEvaluateRadioButtons(
+      [
+        'input#root_bankAccount_accountTypecheckinginput',
+        'input#root_bankAccount_accountTypesavingsinput',
+      ],
+      'ArrowDown',
+    );
+    cy.realPress('Tab');
+    cy.typeInFocused(maximalData.data.bankAccount.accountNumber);
+    cy.realPress('Tab');
+    cy.typeInFocused(maximalData.data.bankAccount.routingNumber);
+    cy.tabToContinueForm();
+    cy.url().should(
+      'include',
+      formConfig.chapters.trainingProviderChapter.pages.trainingProviderSummary
+        .path,
+    );
+
+    cy.injectAxeThenAxeCheck();
+    cy.realPress('Tab');
+    cy.selectVaRadioOption('root_view:summary', 'Y');
+    cy.tabToContinueForm();
+    cy.url().should(
+      'include',
+      'training-provider/0/details',
+      //   formConfig.chapters.trainingProviderChapter.pages.trainingProviderDetails
+      //     .path,
+    );
+    cy.injectAxeThenAxeCheck();
+    cy.realPress('Tab');
+    cy.typeInFocused(maximalData.data.trainingProviderDetails[0].name);
+    cy.injectAxeThenAxeCheck();
+    cy.realPress('Tab');
+    cy.selectVaSelect(
+      'root_providerAddress_country',
+      maximalData.data.trainingProviderDetails[0].address.country,
+    );
+    cy.injectAxeThenAxeCheck();
+    cy.realPress('Tab');
+    cy.typeInFocused(
+      maximalData.data.trainingProviderDetails[0].address.street,
+    );
+    cy.injectAxeThenAxeCheck();
+    cy.repeatKey('Tab', 3);
+    cy.typeInFocused(maximalData.data.trainingProviderDetails[0].address.city);
+    cy.injectAxeThenAxeCheck();
+    cy.repeatKey('Tab', 1);
+    cy.selectVaSelect(
+      'root_providerAddress_state',
+      maximalData.data.trainingProviderDetails[0].address.state,
+    );
+    cy.realPress('Tab');
+    cy.typeInFocused(
+      maximalData.data.trainingProviderDetails[0].address.postalCode,
+    );
+    cy.tabToContinueForm();
+    cy.url().should(
+      'include',
+      formConfig.chapters.trainingProviderChapter.pages.trainingProviderSummary
+        .path,
+    );
+    cy.injectAxeThenAxeCheck();
+    cy.repeatKey('Tab', 3);
+    cy.selectVaRadioOption('root_view:summary', 'N');
+    cy.tabToContinueForm();
+    cy.url().should(
+      'include',
+      formConfig.chapters.trainingProviderChapter.pages
+        .trainingProviderStartDate.path,
+    );
+    cy.injectAxeThenAxeCheck();
+    cy.realPress('Tab');
+    cy.fillVaMemorableDate('root_plannedStartDate', futureDateString);
+    cy.tabToContinueForm();
+    cy.url().should(
+      'include',
+      formConfig.chapters.backgroundInformationChapter.pages.employmentStatus
+        .path,
+    );
+    cy.injectAxeThenAxeCheck();
+    cy.selectVaRadioOption('root_isEmployed', 'Y');
+    cy.tabToContinueForm();
+    cy.url().should(
+      'include',
+      formConfig.chapters.backgroundInformationChapter.pages.employmentDetails
+        .path,
+    );
+    cy.injectAxeThenAxeCheck();
+    cy.realPress('Tab');
+    cy.selectVaRadioOption('root_isInTechnologyIndustry', 'Y');
+    cy.tabToContinueForm();
+    cy.url().should(
+      'include',
+      formConfig.chapters.backgroundInformationChapter.pages.employmentFocus
+        .path,
+    );
+    cy.injectAxeThenAxeCheck();
+    cy.realPress('Tab');
+    cy.allyEvaluateRadioButtons(
+      ['input#root_technologyAreaOfFocuscomputerProgramminginput'],
+      'ArrowDown',
+    );
+    cy.tabToContinueForm();
+    cy.url().should(
+      'include',
+      formConfig.chapters.backgroundInformationChapter.pages.salaryDetails.path,
+    );
+    cy.injectAxeThenAxeCheck();
+    cy.realPress('Tab');
+    cy.typeInFocused(maximalData.data.currentSalary);
+    cy.allyEvaluateRadioButtons(
+      ['input#root_currentSalarylessThanTwentyinput'],
+      'ArrowDown',
+    );
+    cy.tabToContinueForm();
+    cy.url().should(
+      'include',
+      formConfig.chapters.backgroundInformationChapter.pages.educationDetails
+        .path,
+    );
+    cy.injectAxeThenAxeCheck();
+    cy.realPress('Tab');
+    cy.allyEvaluateRadioButtons(
+      ['input#root_highestLevelOfEducationHSinput'],
+      'ArrowDown',
+    );
+    cy.tabToContinueForm();
     // cy.url().should(
     //   'include',
-    //   formConfig.chapters.identificationChapter.pages.directDeposit.path,
+    //   formConfig.chapters.backgroundInformationChapter.pages.educationDetails
+    //     .path,
+    // );
+    // cy.injectAxeThenAxeCheck();
+    // cy.realPress('Tab');
+    // cy.typeInFocused(maximalData.data.educationDetails.schoolName);
+
+    // cy.tabToContinueForm();
+    // cy.chooseRadio('computerSoftware');
+    // cy.selectVaSelect('root_technologyAreaOfFocus', 'computerSoftware');
+
+    // cy.typeInFocused(maximalData.data.trainingProviderDetails[0].name);
+    // cy.repeatKey('Tab', 2);
+    // cy.typeInFocused(
+    //   maximalData.data.trainingProviderDetails[0].address.street,
+    // );
+    // cy.repeatKey('Tab', 3);
+    // cy.typeInFocused(maximalData.data.trainingProviderDetails[0].address.city);
+    // cy.repeatKey('Tab', 1);
+    // cy.selectVaSelect(
+    //   'root_trainingProviders_0_mailingAddress_state',
+    //   maximalData.data.trainingProviderDetails[0].address.state,
     // );
     // cy.realPress('Tab');
+    // cy.typeInFocused(
+    //   maximalData.data.trainingProviderDetails[0].address.postalCode,
+    // );
+    // cy.tabToContinueForm();
 
     // cy.typeInFocused(maximalData.data.mailingAddress.state);
     // cy.repeatKey('Tab', 2);

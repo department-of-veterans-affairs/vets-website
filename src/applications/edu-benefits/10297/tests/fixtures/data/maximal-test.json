@@ -27,6 +27,24 @@
     "highestLevelOfEducation": null,
     "isEmployed": null,
     "isInTechnologyIndustry": null,
+    "trainingProviderDetails" : [{
+        "address": {
+            "city": "Chicago",
+            "country": "USA",
+            "isMilitary": null,
+            "postalCode": "13215",
+            "state": "IL",
+            "street": "33 main st",
+            "street2": null,
+            "street3": null,
+            "view": {
+            "militaryBaseDescription": {}
+            }
+        },
+        "name": "Test Training Provider"
+    }
+
+    ],
     "mailingAddress": {
       "city": "Chicago",
       "country": "USA",
@@ -45,7 +63,7 @@
     "otherThanDishonorableDischarge": true,
     "plannedStartDate": null,
     "ssn": "123123123",
-    "technologyAreaOfFocus": null,
+    "technologyAreaOfFocus": "computerSoftware",
     "trainingProviders": null,
     "vaFileNumber": null,
     "view": {
