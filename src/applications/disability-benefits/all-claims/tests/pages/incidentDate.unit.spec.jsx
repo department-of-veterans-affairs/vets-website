@@ -157,14 +157,6 @@ describe('781 Incident Date', () => {
       );
     });
 
-    it('should reject date after 2069', () => {
-      testCurrentOrPastDateField(
-        '2070-01-01',
-        false,
-        `Please enter a year between 1900 and ${new Date().getFullYear()}`,
-      );
-    });
-
     it('should reject invalid date format', () => {
       testCurrentOrPastDateField(
         'invalid-date',

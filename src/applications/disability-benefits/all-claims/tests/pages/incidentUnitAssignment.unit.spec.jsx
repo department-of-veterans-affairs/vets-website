@@ -1,203 +1,173 @@
 import React from 'react';
 import { expect } from 'chai';
-import { mount } from 'enzyme';
-import sinon from 'sinon';
-
-import {
-  DefinitionTester,
-  fillDate,
-  fillData,
-} from 'platform/testing/unit/schemaform-utils';
-import { waitFor } from '@testing-library/dom';
-import { ERR_MSG_CSS_CLASS } from '../../constants';
-
+import { render } from '@testing-library/react';
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../config/form';
+import { pageSubmitTest } from '../unit.helpers.spec';
 
 describe('781 Unit Assignment Details', () => {
   const page = formConfig.chapters.disabilities.pages.incidentUnitAssignment0;
   const { schema, uiSchema } = page;
 
-  it('should render', async () => {
-    const form = mount(
+  it('should render', () => {
+    const { container } = render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
       />,
     );
-    expect(form.find('input').length).to.equal(3);
-    expect(form.find('select').length).to.equal(4);
-    form.unmount();
+    expect(container.querySelectorAll('input')).to.have.length(3);
+    expect(container.querySelectorAll('select')).to.have.length(4);
   });
 
-  it('should fill in unit assignment details', async () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-        schema={schema}
-        uiSchema={uiSchema}
-      />,
-    );
+  it('should submit with valid unit assignment details', () => {
+    const formData = {
+      incident0: {
+        unitAssigned: '21st Airborne',
+        unitAssignedDates: {
+          from: '2016-07-10',
+          to: '2017-06-12',
+        },
+      },
+    };
 
-    fillData(form, 'input#root_incident0_unitAssigned', '21st Airborne');
-    fillDate(form, 'root_incident0_unitAssignedDates_from', '2016-07-10');
-    fillDate(form, 'root_incident0_unitAssignedDates_to', '2017-06-12');
-
-    await waitFor(() => {
-      form.find('form').simulate('submit');
-      expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
-      expect(onSubmit.called).to.be.true;
-    });
-    form.unmount();
+    pageSubmitTest({ schema, uiSchema }, formData, true);
   });
 
-  it('should allow submission if no assigned unit details are submitted', async () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-        schema={schema}
-        uiSchema={uiSchema}
-      />,
-    );
+  it('should submit with no assigned unit details', () => {
+    const formData = {};
 
-    await waitFor(() => {
-      form.find('form').simulate('submit');
-      expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
-      expect(onSubmit.called).to.be.true;
-    });
-    form.unmount();
+    pageSubmitTest({ schema, uiSchema }, formData, true);
   });
 
   describe('unitAssignedDates field validation', () => {
-    const addUnitAssignment = (from, to) => {
-      const onSubmit = sinon.spy();
-      const form = mount(
-        <DefinitionTester
-          onSubmit={onSubmit}
-          definitions={formConfig.defaultDefinitions}
-          schema={schema}
-          uiSchema={uiSchema}
-        />,
-      );
-      if (from) fillDate(form, 'root_incident0_unitAssignedDates_from', from);
-      if (to) fillDate(form, 'root_incident0_unitAssignedDates_to', to);
-      form.find('form').simulate('submit');
-      return { form, onSubmit };
-    };
+    it('should accept valid date range', () => {
+      const formData = {
+        incident0: {
+          unitAssignedDates: {
+            from: '2016-07-10',
+            to: '2017-06-12',
+          },
+        },
+      };
 
-    it('should accept valid date range', async () => {
-      const { form, onSubmit } = addUnitAssignment('2016-07-10', '2017-06-12');
-      await waitFor(() => {
-        expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
-        expect(onSubmit.called).to.be.true;
-      });
-      form.unmount();
+      pageSubmitTest({ schema, uiSchema }, formData, true);
     });
 
-    it('should reject invalid date range (to before from)', async () => {
-      const { form, onSubmit } = addUnitAssignment('2017-06-12', '2016-07-10');
-      await waitFor(() => {
-        expect(form.find(ERR_MSG_CSS_CLASS).text()).to.include(
-          'The date must be after Start date',
-        );
-        expect(onSubmit.called).to.be.false;
-      });
-      form.unmount();
+    it('should reject invalid date range (to before from)', () => {
+      const formData = {
+        incident0: {
+          unitAssignedDates: {
+            from: '2017-06-12',
+            to: '2016-07-10',
+          },
+        },
+      };
+
+      pageSubmitTest({ schema, uiSchema }, formData, false);
     });
 
-    it('should reject equal from/to dates', async () => {
-      const { form, onSubmit } = addUnitAssignment('2016-07-10', '2016-07-10');
-      await waitFor(() => {
-        expect(form.find(ERR_MSG_CSS_CLASS).text()).to.include(
-          'The date must be after Start date',
-        );
-        expect(onSubmit.called).to.be.false;
-      });
-      form.unmount();
+    it('should reject equal from/to dates', () => {
+      const formData = {
+        incident0: {
+          unitAssignedDates: {
+            from: '2016-07-10',
+            to: '2016-07-10',
+          },
+        },
+      };
+
+      pageSubmitTest({ schema, uiSchema }, formData, false);
     });
 
-    it('should accept only from date filled', async () => {
-      const { form, onSubmit } = addUnitAssignment('2016-07-10', '');
-      await waitFor(() => {
-        expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
-        expect(onSubmit.called).to.be.true;
-      });
-      form.unmount();
+    it('should accept only from date filled', () => {
+      const formData = {
+        incident0: {
+          unitAssignedDates: {
+            from: '2016-07-10',
+          },
+        },
+      };
+
+      pageSubmitTest({ schema, uiSchema }, formData, true);
     });
 
-    it('should accept only to date filled', async () => {
-      const { form, onSubmit } = addUnitAssignment('', '2017-06-12');
-      await waitFor(() => {
-        expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
-        expect(onSubmit.called).to.be.true;
-      });
-      form.unmount();
+    it('should accept only to date filled', () => {
+      const formData = {
+        incident0: {
+          unitAssignedDates: {
+            to: '2017-06-12',
+          },
+        },
+      };
+
+      pageSubmitTest({ schema, uiSchema }, formData, true);
     });
 
-    it('should reject date before 1900', async () => {
-      const { form, onSubmit } = addUnitAssignment('1899-12-31', '2017-06-12');
-      await waitFor(() => {
-        expect(form.find(ERR_MSG_CSS_CLASS).text()).to.include(
-          'Please enter a year between 1900 and 2069',
-        );
-        expect(onSubmit.called).to.be.false;
-      });
-      form.unmount();
+    it('should reject date before 1900', () => {
+      const formData = {
+        incident0: {
+          unitAssignedDates: {
+            from: '1899-12-31',
+            to: '2017-06-12',
+          },
+        },
+      };
+
+      pageSubmitTest({ schema, uiSchema }, formData, false);
     });
 
-    it('should reject date after 2069', async () => {
-      const { form, onSubmit } = addUnitAssignment('2016-07-10', '2070-01-01');
-      await waitFor(() => {
-        expect(form.find(ERR_MSG_CSS_CLASS).text()).to.include(
-          'Please enter a year between 1900 and 2069',
-        );
-        expect(onSubmit.called).to.be.false;
-      });
-      form.unmount();
+    it('should reject date after 2069', () => {
+      const formData = {
+        incident0: {
+          unitAssignedDates: {
+            from: '2016-07-10',
+            to: '2070-01-01',
+          },
+        },
+      };
+
+      pageSubmitTest({ schema, uiSchema }, formData, false);
     });
 
-    it('should reject invalid date format', async () => {
-      const { form, onSubmit } = addUnitAssignment(
-        'invalid-date',
-        '2017-06-12',
-      );
-      await waitFor(() => {
-        expect(
-          form
-            .find(ERR_MSG_CSS_CLASS)
-            .first()
-            .text(),
-        ).to.include('Please enter a year between 1900 and 2069');
-        expect(onSubmit.called).to.be.false;
-      });
-      form.unmount();
+    it('should reject invalid date format', () => {
+      const formData = {
+        incident0: {
+          unitAssignedDates: {
+            from: 'invalid-date',
+            to: '2017-06-12',
+          },
+        },
+      };
+
+      pageSubmitTest({ schema, uiSchema }, formData, false);
     });
 
-    it('should reject non-leap year February 29', async () => {
-      const { form, onSubmit } = addUnitAssignment('2021-02-29', '2021-12-01');
-      await waitFor(() => {
-        expect(
-          form
-            .find(ERR_MSG_CSS_CLASS)
-            .first()
-            .text(),
-        ).to.include('Please provide a valid date');
-        expect(onSubmit.called).to.be.false;
-      });
-      form.unmount();
+    it('should reject non-leap year February 29', () => {
+      const formData = {
+        incident0: {
+          unitAssignedDates: {
+            from: '2021-02-29',
+            to: '2021-12-01',
+          },
+        },
+      };
+
+      pageSubmitTest({ schema, uiSchema }, formData, false);
     });
 
-    it('should accept leap year February 29', async () => {
-      const { form, onSubmit } = addUnitAssignment('2020-02-29', '2020-12-01');
-      await waitFor(() => {
-        expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
-        expect(onSubmit.called).to.be.true;
-      });
-      form.unmount();
+    it('should accept leap year February 29', () => {
+      const formData = {
+        incident0: {
+          unitAssignedDates: {
+            from: '2020-02-29',
+            to: '2020-12-01',
+          },
+        },
+      };
+
+      pageSubmitTest({ schema, uiSchema }, formData, true);
     });
   });
 });

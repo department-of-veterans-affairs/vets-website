@@ -192,7 +192,7 @@ describe('Employment History', () => {
     });
 
     describe('date edge cases and validation', () => {
-      it('should not allow dates before 1900)', async () => {
+      it('should not allow dates before 1900', async () => {
         const oldDate = '1899-12-31';
 
         const form = createForm();
