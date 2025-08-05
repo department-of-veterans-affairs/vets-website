@@ -76,6 +76,7 @@ describe('Questionnaire Form - Chapter 2: Service', () => {
   const militaryServiceCompletedPage = chapter2.pages.militaryServiceCompleted;
   const militaryBranchPage = chapter2.pages.militaryBranch;
   const titleTenActiveDutyPage = chapter2.pages.titleTenActiveDuty;
+  const { titleTenTimeServed } = chapter2.pages;
 
   describe('depends function for militaryBranch', () => {
     it('should return true when in testing', () => {
@@ -114,6 +115,24 @@ describe('Questionnaire Form - Chapter 2: Service', () => {
 
     it('should return false when reserve service and national guard are undefined.', () => {
       expect(titleTenActiveDutyPage.depends({})).to.be.false;
+    });
+  });
+
+  describe('depends function for titleTenTimeServed', () => {
+    it('should return true titleTenActiveDuty is true.', () => {
+      const formData = {
+        titleTenActiveDuty: true,
+      };
+      expect(titleTenTimeServed.depends(formData)).to.be.true;
+    });
+    it('should return false titleTenActiveDuty is false.', () => {
+      const formData = {
+        titleTenActiveDuty: false,
+      };
+      expect(titleTenTimeServed.depends(formData)).to.be.false;
+    });
+    it('should return false titleTenActiveDuty is undefined.', () => {
+      expect(titleTenTimeServed.depends({})).to.be.false;
     });
   });
 
