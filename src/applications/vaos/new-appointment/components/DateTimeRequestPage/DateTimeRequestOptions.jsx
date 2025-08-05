@@ -1,5 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
+import { parseISO, format } from 'date-fns';
 
 /*
  * Simiarly to slots, but for checkboxes, which we know we only ever have two of
@@ -22,7 +24,6 @@ export default function DateTimeRequestOptions({
   selectedDates,
   rowSize,
   selectedCellIndex,
-  maxSelections,
   hasError,
   onChange,
   id,
@@ -68,25 +69,17 @@ export default function DateTimeRequestOptions({
     <div className={cssClasses}>
       {options.map((o, index) => {
         const checked = selectedDates.includes(o.value);
-        const disabled = !checked && selectedDates?.length === maxSelections;
 
         const divClasses = classNames(
           'vaos-calendar__option',
           'vaos-calendar__option--checkbox',
           'vads-u-background-color--white',
-          {
-            'vads-u-border-color--gray-light': disabled,
-            disabled,
-          },
         );
 
         const labelClasses = classNames(
           'vads-u-margin--0',
           'vads-u-font-weight--bold',
-          {
-            'vads-u-color--primary': !disabled,
-            'vads-u-color--gray-medium': disabled,
-          },
+          'vads-u-color--primary',
         );
 
         return (
@@ -106,6 +99,7 @@ export default function DateTimeRequestOptions({
               >
                 <span aria-hidden="true">{o.label}</span>
                 <span className="vads-u-visibility--screen-reader">
+                  {format(parseISO(currentlySelectedDate), 'EEEE, MMMM d')}{' '}
                   {o.label} appointment
                 </span>
               </label>
@@ -117,3 +111,13 @@ export default function DateTimeRequestOptions({
     </div>
   );
 }
+
+DateTimeRequestOptions.propTypes = {
+  id: PropTypes.string.isRequired,
+  currentlySelectedDate: PropTypes.string,
+  hasError: PropTypes.bool,
+  rowSize: PropTypes.number,
+  selectedCellIndex: PropTypes.number,
+  selectedDates: PropTypes.array,
+  onChange: PropTypes.func,
+};

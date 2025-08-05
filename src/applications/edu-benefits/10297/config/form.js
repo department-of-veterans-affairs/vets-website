@@ -5,6 +5,7 @@ import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import PreSubmitInfo from '../components/PreSubmitInfo';
 
 // Components
 import EligibilitySummary from '../components/EligibilitySummary';
@@ -60,6 +61,10 @@ const formConfig = {
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},
+  preSubmitInfo: {
+    CustomComponent: PreSubmitInfo,
+    required: true,
+  },
   chapters: {
     eligibilityChapter: {
       title: 'Check eligibility',
@@ -113,6 +118,7 @@ const formConfig = {
           title: 'Date released from active duty',
           uiSchema: dateReleasedFromActiveDuty.uiSchema,
           schema: dateReleasedFromActiveDuty.schema,
+          depends: formData => formData?.dutyRequirement !== 'atLeast3Years',
         },
         activeDutyStatus: {
           path: 'active-duty-status',

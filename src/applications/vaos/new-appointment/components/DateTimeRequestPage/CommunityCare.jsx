@@ -57,6 +57,7 @@ export default function CCRequest() {
   const [submitted, setSubmitted] = useState(false);
   // Add a counter state to trigger focusing
   const [focusTrigger, setFocusTrigger] = useState(0);
+  const [alertTrigger, setAlertTrigger] = useState(0);
   const appointmentSlotsStatus = useSelector(state =>
     selectAppointmentSlotsStatus(state),
   );
@@ -70,10 +71,13 @@ export default function CCRequest() {
     [focusTrigger],
   );
 
-  useEffect(() => {
-    document.title = `${pageTitle} | Veterans Affairs`;
-    scrollAndFocus();
-  }, []);
+  useEffect(
+    () => {
+      document.title = `${pageTitle} | Veterans Affairs`;
+      scrollAndFocus();
+    },
+    [pageTitle],
+  );
 
   const { selectedDates } = data;
 
@@ -100,7 +104,6 @@ export default function CCRequest() {
       <CalendarWidget
         multiSelect
         maxSelections={maxSelections}
-        maxSelectionsError="You can only choose up to 3 dates for your appointment"
         onChange={(...args) => dispatch(onCalendarChange(...args))}
         minDate={minDate}
         maxDate={addDays(new Date(), 120)}
@@ -112,6 +115,8 @@ export default function CCRequest() {
         required
         requiredMessage="Select at least one preferred timeframe for your appointment."
         showValidation={submitted && !userSelectedSlot(selectedDates)}
+        alertTrigger={alertTrigger}
+        setAlertTrigger={() => setAlertTrigger(prev => prev + 1)}
       />
       <FormButtons
         onBack={() => {
@@ -130,7 +135,8 @@ export default function CCRequest() {
           return dispatch(routeToPreviousAppointmentPage(history, pageKey));
         }}
         onSubmit={() => {
-          // Increment the focus trigger to force re-focusing the validation message
+          // Increment the alert and focus triggers to force re-focusing the validation message and re-announce it
+          setAlertTrigger(prev => prev + 1);
           setFocusTrigger(prev => prev + 1);
           goForward({
             dispatch,
