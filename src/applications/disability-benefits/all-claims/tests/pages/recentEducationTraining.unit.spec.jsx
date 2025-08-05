@@ -170,9 +170,10 @@ describe('Recent Education Training', () => {
       pageSubmitTest({ schema, uiSchema }, formData, false);
     });
 
-    it('should reject date greater than 100 years from the current year', () => {
-      const currentYear = new Date().getFullYear();
-      const futureYear = currentYear + 101;
+    it('should reject date greater maxYear', () => {
+      // Use the same maxYear calculation as the system and exceed it by 1 year
+      const { maxYear } = require('platform/forms-system/src/js/helpers');
+      const futureYear = maxYear + 1;
 
       const formData = {
         unemployability: {
@@ -183,7 +184,7 @@ describe('Recent Education Training', () => {
               name: 'Vocational Training Program',
               dates: {
                 from: '2010-01-01',
-                to: `${futureYear}-01-01`,
+                to: `${futureYear}-01-01`, // Dynamic date to exceed current maxYear
               },
             },
           ],

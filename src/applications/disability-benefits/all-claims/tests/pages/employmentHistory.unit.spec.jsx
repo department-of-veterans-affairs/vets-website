@@ -208,8 +208,10 @@ describe('Employment History', () => {
 
         await waitFor(() => {
           expect(form.find(ERR_MSG_CSS_CLASS)).to.have.lengthOf(1);
+          // Use the same maxYear calculation as the system
+          const { maxYear } = require('platform/forms-system/src/js/helpers');
           expect(form.find(ERR_MSG_CSS_CLASS).text()).to.contain(
-            'Please enter a year between 1900 and 2069',
+            `Please enter a year between 1900 and ${maxYear}`,
           );
         });
 
