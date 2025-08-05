@@ -282,7 +282,7 @@ const formConfig = {
                       DEA, CHAPTER 35
                     </h5>
                     <h4 className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-margin-bottom--2">
-                      Survivors' and Dependents Educational Assistance
+                      Survivors' and Dependents' Educational Assistance
                     </h4>
 
                     <h4 className="vads-u-font-size--h5 vads-u-margin-top--0 vads-u-margin-bottom--2">
