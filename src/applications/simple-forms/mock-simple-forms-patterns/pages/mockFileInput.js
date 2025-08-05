@@ -14,7 +14,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      wcv3FileInput: fileInputSchema,
+      wcv3FileInput: fileInputSchema(),
     },
   },
 };
