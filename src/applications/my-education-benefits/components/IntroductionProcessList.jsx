@@ -45,7 +45,7 @@ export const IntroductionProcessList = ({ showTextUpdate }) => {
                 You have a high school diploma, GED, or 12 hours of college{' '}
                 credit; <strong>and</strong>
               </li>
-              <li>You meet other requirements</li>
+              <li>You meet other requirements.</li>
             </ul>
           </va-additional-info>
 
@@ -65,7 +65,7 @@ export const IntroductionProcessList = ({ showTextUpdate }) => {
                 years beyond your initial service obligation;{' '}
                 <strong>and</strong>
               </li>
-              <li>You meet other requirements</li>
+              <li>You meet other requirements.</li>
             </ul>
           </va-additional-info>
         </va-process-list-item>
