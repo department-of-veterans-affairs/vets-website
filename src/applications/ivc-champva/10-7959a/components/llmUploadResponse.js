@@ -16,36 +16,35 @@ export function llmAlert({ formContext }) {
   const { llmResponse } = mostRecentFile;
 
   if (llmResponse && llmResponse.confidence >= 0.8) {
-    if (llmResponse.missingFields.length === 0) {
-      return (
-        <va-alert status="success">
-          It looks like your upload contains all required information.
-        </va-alert>
-      );
-    }
-    if (llmResponse.missingFields.length > 0) {
-      return (
-        <va-alert status="error">
-          <p>
-            Your upload ({mostRecentFile.name}) may be missing the following
-            information:
-          </p>
-          <ul>
-            {llmResponse.missingFields?.map((field, index) => (
-              <li key={index}>{field}</li>
-            ))}
-          </ul>
-          <p>
-            You can upload a new document to correct this, or continue anyway if
-            you're sure your document is complete.
-          </p>
-          <p>
-            We will not be able to process your claim without this information.
-          </p>
-        </va-alert>
-      );
-    }
-  } else {
+    return (
+      <va-alert status="success">
+        It looks like your upload contains all required information.
+      </va-alert>
+    );
+  }
+  if (llmResponse.missingFields.length > 0) {
+    return (
+      <va-alert status="error">
+        <p>
+          Your upload ({mostRecentFile.name}) may be missing the following
+          information:
+        </p>
+        <ul>
+          {llmResponse.missingFields?.map((field, index) => (
+            <li key={index}>{field}</li>
+          ))}
+        </ul>
+        <p>
+          You can upload a new document to correct this, or continue anyway if
+          you're sure your document is complete.
+        </p>
+        <p>
+          We will not be able to process your claim without this information.
+        </p>
+      </va-alert>
+    );
+  }
+  if (!llmResponse.mostRecentFile) {
     return (
       <va-alert status="warning">
         We could not complete verification for this file. You can retry
