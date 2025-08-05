@@ -78,10 +78,31 @@ describe('Questionnaire Form - Chapter 2: Service', () => {
   const militaryBranchPage = chapter2.pages.militaryBranch;
   const titleTenActiveDutyPage = chapter2.pages.titleTenActiveDuty;
   const { titleTenTimeServed } = chapter2.pages;
+  const armyBranchComponentPage = chapter2.pages[militaryBranchTypes.ARMY];
 
   describe('depends function for militaryBranch', () => {
     it('should return true when in testing', () => {
       expect(militaryBranchPage.depends()).to.be.true;
+    });
+  });
+
+  describe('depends function for armyBranchComponent', () => {
+    it('should return true when army branch is is true', () => {
+      const formData = {
+        militaryBranch: {
+          [militaryBranchTypes.ARMY]: true,
+        },
+      };
+      expect(armyBranchComponentPage.depends(formData)).to.be.true;
+    });
+
+    it('should return false when army branch is false', () => {
+      const formData = {
+        militaryBranch: {
+          [militaryBranchTypes.ARMY]: false,
+        },
+      };
+      expect(armyBranchComponentPage.depends(formData)).to.be.false;
     });
   });
 
