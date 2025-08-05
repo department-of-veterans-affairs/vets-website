@@ -45,13 +45,6 @@ export const CSP_IDS = {
 };
 
 export const SERVICE_PROVIDERS = {
-  [CSP_IDS.LOGIN_GOV]: {
-    label: 'Login.gov',
-    link: 'https://secure.login.gov/account',
-    image: <img src="/img/logingov.svg" alt="Login.gov" />,
-    policy: 'logingov',
-    className: `logingov-button`,
-  },
   [CSP_IDS.ID_ME]: {
     label: 'ID.me',
     link: 'https://wallet.id.me/settings',
@@ -59,6 +52,13 @@ export const SERVICE_PROVIDERS = {
     altImage: <img src="/img/idme.svg" alt="ID.me" />,
     policy: 'idme',
     className: 'idme-button',
+  },
+  [CSP_IDS.LOGIN_GOV]: {
+    label: 'Login.gov',
+    link: 'https://secure.login.gov/account',
+    image: <img src="/img/logingov.svg" alt="Login.gov" />,
+    policy: 'logingov',
+    className: `logingov-button`,
   },
   [CSP_IDS.DS_LOGON]: {
     label: 'DS Logon',
@@ -91,8 +91,12 @@ export const EXTERNAL_APPS = {
   SMHD: 'smhdweb',
 };
 
+export const ARP_APPS = {
+  FORM21A: 'form21a',
+};
+
 export const TEST_APPS = {
-  OKTA: 'okta_test',
+  OKTA: ['okta_test', 'okta_stg'],
 };
 
 export const eAuthURL = `https://${
@@ -108,6 +112,9 @@ export const EXTERNAL_REDIRECTS = {
   [EXTERNAL_APPS.VA_OCC_MOBILE]: `${eAuthURL}/MAP/users/v2/landing`,
   [EXTERNAL_APPS.ARP]: `${environment.BASE_URL}/representative`,
   [EXTERNAL_APPS.SMHD]: `${eAuthURL}/MAP/users/v2/landing?application=vaoccmobile&redirect_uri=/smhdWeb/`,
+  [ARP_APPS.FORM21A]: `${
+    environment.BASE_URL
+  }/representative/accreditation/attorney-claims-agent-form-21a`,
 };
 
 export const EXTERNAL_REDIRECTS_ALT = {

@@ -31,7 +31,7 @@ const submitForm = (form, formConfig) => {
 
         // Log the successful submission event
         recordEvent({
-          event: `${trackingPrefix}-submit-success`,
+          event: `${trackingPrefix}-submission-success`,
           ...eventData,
         });
         return apiResponse;
@@ -50,13 +50,13 @@ const submitForm = (form, formConfig) => {
         // Capturing specific error messages for better debugging
         if (error?.errors?.files) {
           Sentry.captureMessage(
-            `Dispute Debt pdf - handlePdfGeneration files failed: ${
+            `Dispute Debt - PDF - handlePdfGeneration files failed: ${
               error.errors.files[0]
             }`,
           );
         } else {
           Sentry.captureMessage(
-            `Dispute Debt pdf - generation failed in submitForm: ${error}`,
+            `Dispute Debt - PDF - generation failed in submitForm: ${error}`,
           );
         }
       });

@@ -21,9 +21,7 @@ export const veteranInformation = {
   },
   uiSchema: {
     'ui:description': VeteranInformation,
-    veteranInformation: {
-      ssnLastFour: {},
-    },
+    veteranInformation: {},
     'ui:objectViewField': VeteranInformationReviewPage,
   },
 };

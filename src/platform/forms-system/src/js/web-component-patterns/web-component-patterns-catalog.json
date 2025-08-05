@@ -2,7 +2,7 @@
   "title": "VA.gov Web Component Form Field Patterns Catalog (RJSF)",
   "description": "Catalog of all acceptable web component uiSchema and schema patterns for form fields in VA.gov applications. These patterns are used in pairs to define form field behavior and validation in RJSF (React JSON Schema Form) implementations using the VA design system web components.",
   "importPath": "platform/forms-system/src/js/web-component-patterns",
-  "totalPatterns": 49,
+  "totalPatterns": 51,
   "patterns": [
     {
       "category": "Address",
@@ -21,6 +21,24 @@
       "schema": "addressSchema",
       "schemaType": "function",
       "schemaDescription": "Schema for addressUI. Fields may be omitted."
+    },
+    {
+      "category": "AddressDeprecated",
+      "uiSchema": "addressDeprecatedUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "Web component v3 uiSchema for address",
+      "schema": "addressDeprecatedSchema",
+      "schemaType": "function",
+      "schemaDescription": "Web component schema for address"
+    },
+    {
+      "category": "AddressDeprecated",
+      "uiSchema": "addressNoMilitaryDeprecatedUI",
+      "uiSchemaType": "function",
+      "uiSchemaDescription": "Web component v3 uiSchema for address",
+      "schema": "addressNoMilitaryDeprecatedSchema",
+      "schemaType": "function",
+      "schemaDescription": "Web component schema for address"
     },
     {
       "category": "Arn",
@@ -208,7 +226,7 @@
       "uiSchemaType": "function",
       "uiSchemaDescription": "uiSchema for file input field",
       "schema": "fileInputSchema",
-      "schemaType": "object",
+      "schemaType": "function",
       "schemaDescription": "Schema for fileInputUI"
     },
     {
@@ -262,7 +280,7 @@
       "uiSchemaType": "function",
       "uiSchemaDescription": "Web component v3 uiSchema for an international phone number",
       "schema": "internationalPhoneSchema",
-      "schemaType": "object",
+      "schemaType": "function",
       "schemaDescription": null
     },
     {

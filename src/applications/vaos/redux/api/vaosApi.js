@@ -3,6 +3,7 @@ import { createApi } from '@reduxjs/toolkit/query/react';
 import { apiRequestWithUrl } from 'applications/vaos/services/utils';
 import { captureError } from '../../utils/error';
 import { fetchPendingAppointments } from '../actions';
+import { cacheDraftReferralAppointment } from '../../referral-appointments/redux/actions';
 
 export const vaosApi = createApi({
   reducerPath: 'appointmentApi',
@@ -40,9 +41,69 @@ export const vaosApi = createApi({
       // Needs an argumant to be passed in to trigger the query.
       async onQueryStarted(id, { dispatch }) {
         dispatch(fetchPendingAppointments());
+        // Reset draft referral appointment cache when fetching new referrals.
+        dispatch(cacheDraftReferralAppointment({}));
+      },
+    }),
+    postDraftReferralAppointment: builder.mutation({
+      async queryFn({ referralNumber, referralConsultId }) {
+        try {
+          return await apiRequestWithUrl(`/vaos/v2/appointments/draft`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              // eslint-disable-next-line camelcase
+              referral_number: referralNumber,
+              // eslint-disable-next-line camelcase
+              referral_consult_id: referralConsultId,
+            }),
+          });
+        } catch (error) {
+          captureError(error, false, 'post draft referral appointment');
+          return {
+            error: { status: error.status || 500, message: error.message },
+          };
+        }
+      },
+    }),
+    postReferralAppointment: builder.mutation({
+      async queryFn({
+        draftApppointmentId,
+        referralNumber,
+        slotId,
+        networkId,
+        providerServiceId,
+      }) {
+        try {
+          return await apiRequestWithUrl(`/vaos/v2/appointments/submit`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              id: draftApppointmentId,
+              referralNumber,
+              slotId,
+              networkId,
+              providerServiceId,
+            }),
+          });
+        } catch (error) {
+          captureError(error, false, 'post referral appointment');
+          return {
+            error: { status: error.status || 500, message: error?.message },
+          };
+        }
       },
     }),
   }),
 });
 
-export const { useGetReferralByIdQuery, useGetPatientReferralsQuery } = vaosApi;
+export const {
+  useGetReferralByIdQuery,
+  useGetPatientReferralsQuery,
+  usePostDraftReferralAppointmentMutation,
+  usePostReferralAppointmentMutation,
+} = vaosApi;

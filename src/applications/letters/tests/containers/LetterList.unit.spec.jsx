@@ -233,4 +233,128 @@ describe('<LetterList>', () => {
       ),
     ).to.exist;
   });
+
+  it('render Benefit Summary Letter for letter type benefit_summary_dependent as letter title when lettersPageNewDesign is true', () => {
+    const propsWithBenefitSummaryDependentLetter = {
+      letters: [
+        {
+          name: 'Benefit Summary Letter - Dependent',
+          letterType: 'benefit_summary_dependent',
+        },
+      ],
+      lettersAvailability: AVAILABILITY_STATUSES.available,
+      letterDownloadStatus: {},
+      optionsAvailable: true,
+    };
+    const { getByText } = render(
+      <Provider store={getStore(true)}>
+        <MemoryRouter>
+          <LetterList {...propsWithBenefitSummaryDependentLetter} />
+        </MemoryRouter>
+      </Provider>,
+    );
+    expect(getByText('Benefit Summary Letter')).to.exist;
+    expect(
+      getByText(
+        'The Benefit Summary Letter shows the VA benefits you receive as the survivor of a disabled Veteran.',
+      ),
+    ).to.exist;
+  });
+  it('renders updated proof of service card description lettersPageNewDesign is true', () => {
+    const proofOfService = {
+      letters: [
+        {
+          name: 'Proof of Service Letter',
+          letterType: 'proof_of_service',
+        },
+      ],
+      lettersAvailability: AVAILABILITY_STATUSES.available,
+      letterDownloadStatus: {},
+      optionsAvailable: true,
+    };
+    const { getByText } = render(
+      <Provider store={getStore(true)}>
+        <MemoryRouter>
+          <LetterList {...proofOfService} />
+        </MemoryRouter>
+      </Provider>,
+    );
+    expect(getByText('Proof of Service Card')).to.exist;
+    expect(
+      getByText(
+        'The Proof of Service Card documents that you served honorably in the Armed Forces.',
+      ),
+    ).to.exist;
+  });
+  it('renders updated letter description description lettersPageNewDesign is true', () => {
+    const props = {
+      letters: [
+        {
+          name: 'Proof of Service Letter',
+          letterType: 'proof_of_service',
+        },
+        {
+          name: 'Commissary Letter',
+          letterType: 'commissary',
+        },
+        {
+          name: 'Proof of Creditable Prescription Drug Coverage Letter',
+          letterType: 'medicare_partd',
+        },
+        {
+          name: 'Proof of Minimum Essential Coverage Letter',
+          letterType: 'minimum_essential_coverage',
+        },
+        {
+          name: 'Civil Service Preference Letter',
+          letterType: 'civil_service',
+        },
+        {
+          name: 'Benefit Verification Letter',
+          letterType: 'benefit_verification',
+        },
+      ],
+      lettersAvailability: AVAILABILITY_STATUSES.available,
+      letterDownloadStatus: {},
+      optionsAvailable: true,
+    };
+    const { getByText } = render(
+      <Provider store={getStore(true)}>
+        <MemoryRouter>
+          <LetterList {...props} />
+        </MemoryRouter>
+      </Provider>,
+    );
+    expect(getByText('Proof of Service Card')).to.exist;
+    expect(
+      getByText(
+        'The Proof of Service Card documents that you served honorably in the Armed Forces.',
+      ),
+    ).to.exist;
+    expect(
+      getByText(
+        `The Commissary Letter certifies that you’re eligible to receive commissary store and exchange privileges from the Armed Forces.`,
+      ),
+    ).to.exist;
+    expect(
+      getByText(
+        'A prescription drug coverage letter proves that you qualify for Medicare Part D prescription drug coverage.',
+      ),
+    ).to.exist;
+    expect(
+      getByText(
+        'A minimum essential coverage letter proves that you have the right amount of healthcare coverage required by the Affordable Care Act (ACA).',
+      ),
+    ).to.exist;
+    expect(
+      getByText(
+        'The Civil Service Preference Letter proves that you’re a disabled Veteran and you qualify for preference for civil service jobs.',
+      ),
+    ).to.exist;
+    expect(
+      getByText(
+        'The Benefit Verification Letter documents your VA financial benefits.',
+      ),
+    ).to.exist;
+  });
 });

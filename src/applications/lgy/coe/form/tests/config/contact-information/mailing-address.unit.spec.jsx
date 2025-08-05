@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
@@ -36,7 +36,7 @@ describe('COE mailing address', () => {
     expect($$('input', formDOM).length).to.equal(6);
   });
 
-  it('Should not submit without required fields', () => {
+  it('Should not submit without required fields', async () => {
     const onSubmit = sinon.spy();
     const form = render(
       <Provider store={defaultStore}>
@@ -53,7 +53,10 @@ describe('COE mailing address', () => {
 
     formDOM.submitForm();
 
-    expect($$('.usa-input-error', formDOM).length).to.equal(3);
+    await waitFor(() => {
+      expect($$('.usa-input-error', formDOM).length).to.equal(3);
+    });
+
     expect(onSubmit.called).to.be.false;
   });
 

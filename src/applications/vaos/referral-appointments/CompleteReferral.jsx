@@ -165,15 +165,15 @@ export const CompleteReferral = props => {
               className="vads-u-margin-bottom--0 vads-u-font-family--serif"
               data-testid="appointment-date"
             >
-              {appointmentDate}
+              <span data-dd-privacy="mask">{appointmentDate}</span>
             </p>
             <h2
               className="vads-u-margin-top--0 vads-u-margin-bottom-1"
               data-testid="appointment-time"
             >
-              {appointmentTime}
+              <span data-dd-privacy="mask">{appointmentTime}</span>
             </h2>
-            <strong data-testid="appointment-type">
+            <strong data-dd-privacy="mask" data-testid="appointment-type">
               {titleCase(currentReferral.categoryOfCare)} with{' '}
               {`${currentReferral.provider.name ||
                 'Provider name not available'}`}
@@ -182,7 +182,7 @@ export const CompleteReferral = props => {
               className="vads-u-margin-bottom--0"
               data-testid="appointment-modality"
             >
-              Community Care
+              Community care
             </p>
             <ProviderAddress
               address={attributes.provider.location.address}

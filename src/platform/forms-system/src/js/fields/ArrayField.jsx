@@ -365,6 +365,9 @@ export default class ArrayField extends React.Component {
       'rjsf-array-field': true,
     });
 
+    const useWebComponents = this.props.formContext?.formOptions
+      ?.useWebComponentForNavigation;
+
     return (
       <div className={containerClassNames}>
         {hasTitleOrDescription && (
@@ -551,16 +554,27 @@ export default class ArrayField extends React.Component {
            improve accessibility by removing unnecessary elements from the DOM when they are not relevant
            or interactable. */}
           {showAddAnotherButton && (
-            <button
-              type="button"
-              className={classNames(
-                'usa-button-secondary',
-                'va-growable-add-btn',
+            <>
+              {useWebComponents ? (
+                <VaButton
+                  secondary
+                  class="va-growable-add-btn"
+                  onClick={this.handleAdd}
+                  text={`Add another ${uiItemName}`}
+                />
+              ) : (
+                <button
+                  type="button"
+                  className={classNames(
+                    'usa-button-secondary',
+                    'va-growable-add-btn',
+                  )}
+                  onClick={this.handleAdd}
+                >
+                  Add another {uiItemName}
+                </button>
               )}
-              onClick={this.handleAdd}
-            >
-              Add another {uiItemName}
-            </button>
+            </>
           )}
           {/* Show an alert when no more items can be added */}
           {!showAddAnotherButton && (
@@ -577,15 +591,17 @@ export default class ArrayField extends React.Component {
 }
 
 ArrayField.propTypes = {
+  formContext: PropTypes.shape({
+    formOptions: PropTypes.shape({
+      useWebComponentForNavigation: PropTypes.bool,
+    }),
+  }).isRequired,
   schema: PropTypes.object.isRequired,
-  uiSchema: PropTypes.object,
-  errorSchema: PropTypes.object,
-  requiredSchema: PropTypes.object,
-  idSchema: PropTypes.object,
   onChange: PropTypes.func.isRequired,
-  onBlur: PropTypes.func,
-  formData: PropTypes.array,
   disabled: PropTypes.bool,
+  errorSchema: PropTypes.object,
+  formData: PropTypes.array,
+  idSchema: PropTypes.object,
   readonly: PropTypes.bool,
   registry: PropTypes.shape({
     widgets: PropTypes.objectOf(
@@ -593,6 +609,8 @@ ArrayField.propTypes = {
     ).isRequired,
     fields: PropTypes.objectOf(PropTypes.func).isRequired,
     definitions: PropTypes.object.isRequired,
-    formContext: PropTypes.object.isRequired,
   }),
+  requiredSchema: PropTypes.object,
+  uiSchema: PropTypes.object,
+  onBlur: PropTypes.func,
 };

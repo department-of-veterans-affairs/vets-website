@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { isLoggedIn } from 'platform/user/selectors';
@@ -7,6 +7,7 @@ import {
   VaAlert,
   VaButton,
   VaLink,
+  VaLinkAction,
   VaProcessList,
   VaProcessListItem,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -15,9 +16,10 @@ import { getFormContent, getFormNumber } from '../helpers';
 import { SIGN_IN_URL } from '../constants';
 
 const IntroductionPage = ({ route, router }) => {
+  const [visibleAlert, setVisibleAlert] = useState(true);
   const userLoggedIn = useSelector(state => isLoggedIn(state));
   const formNumber = getFormNumber();
-  const { title, subTitle, pdfDownloadUrl } = getFormContent();
+  const { subTitle, pdfDownloadUrl } = getFormContent();
 
   const goToSignIn = () => {
     window.location = SIGN_IN_URL;
@@ -26,17 +28,19 @@ const IntroductionPage = ({ route, router }) => {
   const startBtn = useMemo(
     () => {
       const startForm = () => {
+        sessionStorage.setItem('formIncompleteARP', 'true');
         recordEvent({ event: `${formNumber}-start-form` });
         return router.push(route.pageList[1].path);
       };
       return (
-        <a
+        <VaLinkAction
           href="#start"
-          className="vads-c-action-link--green representative-form__start"
+          label="Start form upload and submission"
+          class=" representative-form__start"
+          text="Start form upload and submission"
           onClick={startForm}
-        >
-          Start form
-        </a>
+          type="primary"
+        />
       );
     },
     [route.pageList, router],
@@ -44,9 +48,15 @@ const IntroductionPage = ({ route, router }) => {
 
   return (
     <article className="schemaform-intro representative-form">
-      <FormTitle title={title} subTitle={subTitle} />
-
-      <va-alert close-btn-aria-label="Close notification" status="info" visible>
+      <VaAlert
+        close-btn-aria-label="Close notification"
+        status="info"
+        closeable
+        uswds
+        onCloseEvent={() => setVisibleAlert(false)}
+        visible={visibleAlert}
+        className="form-686c__alert"
+      >
         <h2 id="track-your-status-on-mobile" slot="headline">
           We are working to improve this tool
         </h2>
@@ -54,8 +64,8 @@ const IntroductionPage = ({ route, router }) => {
           This is an early version of the Accredited Representative Portal that
           has limited functionality.
         </p>
-      </va-alert>
-
+      </VaAlert>
+      <FormTitle title={`Submit VA Form ${formNumber}`} subTitle={subTitle} />
       <h2 className="representative-form__h2">
         Follow these steps to submit the form
       </h2>
@@ -79,10 +89,13 @@ const IntroductionPage = ({ route, router }) => {
           </ul>
           <VaLink
             download
-            external
             filetype="PDF"
             href={pdfDownloadUrl}
-            text={`Download VA Form ${formNumber} (PDF)`}
+            onClick={e => {
+              e.preventDefault();
+              window.open(pdfDownloadUrl, '_blank');
+            }}
+            text={`Download VA Form ${formNumber}`}
           />
         </VaProcessListItem>
         <VaProcessListItem header="Upload and submit the form">

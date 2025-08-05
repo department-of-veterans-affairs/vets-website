@@ -1,5 +1,5 @@
 import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
-import { focusByOrder } from 'platform/utilities/ui/focus';
+import { focusElement } from 'platform/utilities/ui';
 import { waitForShadowRoot } from 'platform/utilities/ui/webComponents';
 import { scrollTo } from 'platform/utilities/scroll';
 import {
@@ -34,7 +34,7 @@ export const getFormContent = (pathname = null) => {
     ombInfo,
     subTitle,
     pdfDownloadUrl,
-    title: `Submit VA Form ${formNumber}`,
+    title: `VA Form ${formNumber}`,
     message: 'Select a file to upload',
   };
 };
@@ -59,7 +59,7 @@ export const getFileSize = num => {
 
 export const scrollAndFocusTarget = () => {
   scrollTo('topScrollElement');
-  focusByOrder(['va-segmented-progress-bar', 'h2']);
+  focusElement('h1');
 };
 
 // separate each number so the screenreader reads "number ending with 1 2 3 4"
@@ -70,6 +70,12 @@ export const mask = value => {
     `●●●–●●–${number}`,
     `ending with ${number.split('').join(' ')}`,
   );
+};
+
+export const maskVaFileNumber = vaFileNumber => {
+  if (!vaFileNumber) return '';
+  const number = vaFileNumber.slice(-4);
+  return vaFileNumber.length === 8 ? `●●●●${number}` : `●●●●●${number}`;
 };
 
 export const onCloseAlert = e => {
@@ -99,12 +105,7 @@ export const getAlert = (props, continueClicked) => {
   const fileUploading = props.data?.uploadedFile?.name === 'uploading';
   const formNumber = getFormNumber();
   if (warnings?.length > 0) {
-    return FORM_UPLOAD_OCR_ALERT(
-      formNumber,
-      getPdfDownloadUrl(formNumber),
-      onCloseAlert,
-      warnings,
-    );
+    return FORM_UPLOAD_OCR_ALERT(formNumber, onCloseAlert, warnings);
   }
 
   if (fileUploading && continueClicked) {
@@ -117,6 +118,25 @@ export const getAlert = (props, continueClicked) => {
 
   return null;
 };
+
+export function parseResponse({ data }) {
+  const { name, size, confirmationCode } = data.attributes;
+  return {
+    name,
+    confirmationCode,
+    size,
+  };
+}
+
+export function createPayload(file, formId, password) {
+  const payload = new FormData();
+  payload.set('form_id', formId);
+  payload.append('file', file);
+  if (password) {
+    payload.append('password', password);
+  }
+  return payload;
+}
 
 export async function addStyleToShadowDomOnPages(
   urlArray,

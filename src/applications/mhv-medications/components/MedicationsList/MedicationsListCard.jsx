@@ -1,33 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom-v5-compat';
-import { useSelector } from 'react-redux';
 import FillRefillButton from '../shared/FillRefillButton';
 import ExtraDetails from '../shared/ExtraDetails';
 import LastFilledInfo from '../shared/LastFilledInfo';
-import { dispStatusForRefillsLeft } from '../../util/constants';
-import { selectRefillContentFlag } from '../../util/selectors';
 import { dateFormat } from '../../util/helpers';
 import { dataDogActionNames } from '../../util/dataDogConstants';
 
 const MedicationsListCard = ({ rx }) => {
-  const showRefillContent = useSelector(selectRefillContentFlag);
   const pendingMed =
     rx.prescriptionSource === 'PD' && rx?.dispStatus === 'NewOrder';
   const pendingRenewal =
     rx.prescriptionSource === 'PD' && rx?.dispStatus === 'Renew';
   const latestTrackingStatus = rx?.trackingList?.[0];
-  let showRefillRemaining = false;
-
-  if (dispStatusForRefillsLeft.includes(rx.dispStatus)) {
-    showRefillRemaining = true;
-  }
-  const refillsRemaining = () => {
-    if (rx.refillRemaining === 1) {
-      return <p data-dd-privacy="mask">{rx.refillRemaining} refill left</p>;
-    }
-    return <p data-dd-privacy="mask">{rx.refillRemaining} refills left</p>;
-  };
 
   const cardBodyContent = () => {
     if (pendingRenewal || pendingMed) {
@@ -61,7 +46,6 @@ const MedicationsListCard = ({ rx }) => {
     return (
       <>
         {rx && <LastFilledInfo {...rx} />}
-        {showRefillRemaining && refillsRemaining()}
         {latestTrackingStatus && (
           <p
             className="vads-u-margin-top--1p5 vads-u-padding-bottom--1p5 vads-u-border-bottom--1px vads-u-border-color--gray-lighter"
@@ -95,7 +79,7 @@ const MedicationsListCard = ({ rx }) => {
           </p>
         )}
         {rx && <ExtraDetails {...rx} />}
-        {!showRefillContent && rx && <FillRefillButton {...rx} />}
+        {rx && <FillRefillButton {...rx} />}
       </>
     );
   };

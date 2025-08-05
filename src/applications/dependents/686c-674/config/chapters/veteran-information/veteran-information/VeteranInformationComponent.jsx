@@ -7,21 +7,13 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 
 import { selectProfile } from '~/platform/user/selectors';
 
-import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
-
 import {
   FORMAT_YMD_DATE_FNS,
   FORMAT_READABLE_DATE_FNS,
 } from '../../../constants';
 
 import { parseDateToDateObj } from '../../../utilities';
-
-// separate each number so the screen reader reads "number ending with 1 2 3 4"
-// instead of "number ending with 1,234"
-const mask = value => {
-  const number = (value || '').toString().slice(-4);
-  return srSubstitute(`${number}`, `ending with ${number.split('').join(' ')}`);
-};
+import { maskID } from '../../../../../shared/utils';
 
 export const VeteranInformation = ({ formData }) => {
   const { ssnLastFour } = formData?.veteranInformation || {};
@@ -51,7 +43,7 @@ export const VeteranInformation = ({ formData }) => {
               className="dd-privacy-mask"
               data-dd-action-name="Veteran's SSN"
             >
-              {mask(ssnLastFour)}
+              {maskID(ssnLastFour, '')}
             </span>
           </p>
         ) : null}

@@ -129,6 +129,20 @@ Cypress.Commands.add('selectVaCheckbox', (field, isChecked) => {
   }
 });
 
+Cypress.Commands.add('fillVaTelephoneInput', (field, value) => {
+  if (typeof value !== 'undefined') {
+    const element =
+      typeof field === 'string'
+        ? cy.get(`va-telephone-input[name="${field}"]`)
+        : cy.wrap(field);
+    element.shadow().within(() => {
+      cy.get('va-text-input').then($contact => {
+        cy.fillVaTextInput($contact, value.contact);
+      });
+    });
+  }
+});
+
 function fillVaDateFields(year, month, day, monthYearOnly) {
   cy.get('@currentElement')
     .shadow()
@@ -303,6 +317,11 @@ Cypress.Commands.add('enterWebComponentData', field => {
           cy.selectVaRadioOption(field.key, value);
         }
       }
+      break;
+    }
+
+    case 'VA-TELEPHONE-INPUT': {
+      cy.fillVaTelephoneInput(field.key, field.data);
       break;
     }
 

@@ -98,12 +98,15 @@ export const ErrorMessages = {
     UNABLE_TO_SAVE_OTHER: 'Something went wrong... Failed to save message.',
     ATTACHMENTS: {
       FILE_EMPTY: 'Your file is empty. Try attaching a different file.',
-      INVALID_FILE_TYPE: `We can't attach this file type. Try attaching a DOC, DOCX, GIF, JPG, PDF, PNG, RTF, TXT, XLS XLSX, JPEG, JFIF, PJPEG, or PJP.`,
+      INVALID_FILE_TYPE: `We can't attach this file type. Try attaching a DOC, DOCX, GIF, JPG, PDF, PNG, RTF, TXT, XLS, XLSX, JPEG, JFIF, PJPEG, or PJP.`,
+      INVALID_FILE_TYPE_EXTENDED: `We can't attach this file type. Try attaching a DOC, DOCX, GIF, JPG, PDF, PNG, RTF, TXT, XLS, XLSX, BMP, TIFF, PPT, PPSX, ODT, MP4, MOV, WMV, MPG.`,
       FILE_DUPLICATE: 'You have already attached this file.',
       FILE_TOO_LARGE:
         'Your file is too large. Try attaching a file smaller than 6MB.',
       TOTAL_MAX_FILE_SIZE_EXCEEDED:
         'Your files are too large. The total size of all files must be smaller than 10MB.',
+      TOTAL_MAX_FILE_SIZE_EXCEEDED_LARGE:
+        'Your files are too large. The total size of all files must be smaller than 25MB.',
     },
   },
   SearchForm: {
@@ -350,10 +353,45 @@ export const acceptedFileTypes = {
   pjp: 'image/pjp',
 };
 
+export const acceptedFileTypesExtended = {
+  doc: 'application/msword',
+  docx:
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  gif: 'image/gif',
+  jpg: 'image/jpeg',
+  jpeg: 'image/jpeg',
+  pdf: 'application/pdf',
+  png: 'image/png',
+  rtf: 'application/rtf', // corrected from 'text/rtf' to 'application/rtf' for wider compatibility
+  txt: 'text/plain',
+  xls: 'application/vnd.ms-excel',
+  xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  bmp: 'image/bmp',
+  tiff: 'image/tiff',
+  tif: 'image/tiff', // common alias
+  ppt: 'application/vnd.ms-powerpoint',
+  pptx:
+    'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+  pps: 'application/vnd.ms-powerpoint',
+  ppsx:
+    'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
+  odt: 'application/vnd.oasis.opendocument.text',
+  mp4: 'video/mp4',
+  m4v: 'video/x-m4v',
+  mov: 'video/quicktime',
+  wmv: 'video/x-ms-wmv',
+  mpg: 'video/mpeg',
+  jfif: 'image/jfif',
+  pjpeg: 'image/pjpeg',
+  pjp: 'image/pjp',
+};
+
 export const Attachments = {
   MAX_FILE_COUNT: 4,
+  MAX_FILE_COUNT_LARGE: 10,
   MAX_FILE_SIZE: 6000000,
   TOTAL_MAX_FILE_SIZE: 10000000,
+  TOTAL_MAX_FILE_SIZE_LARGE: 26214400, // 25 MB
 };
 
 export const ElectronicSignatureBox = {
@@ -428,7 +466,7 @@ export const BreadcrumbViews = {
 
 export const PageTitles = {
   DEFAULT_PAGE_TITLE_TAG: ' | Veterans Affairs',
-  MY_FOLDERS_PAGE_TITLE_TAG: ' More folders | Veterans Affairs',
+  MY_FOLDERS_PAGE_TITLE_TAG: 'More folders | Veterans Affairs',
   CONVERSATION_TITLE_TAG: 'Conversation | Veterans Affairs',
   EDIT_DRAFT_PAGE_TITLE_TAG:
     'Edit draft - MHV Secure Messaging | Veterans Affairs',

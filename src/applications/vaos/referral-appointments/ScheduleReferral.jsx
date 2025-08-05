@@ -40,12 +40,28 @@ export default function ScheduleReferral(props) {
   };
 
   return (
-    <ReferralLayout
-      hasEyebrow
-      heading={`Referral for ${categoryOfCare}`}
-      categoryOfCare={currentReferral?.categoryOfCare}
-    >
+    <ReferralLayout hasEyebrow heading={`Referral for ${categoryOfCare}`}>
       <div>
+        {!currentReferral.provider?.name && (
+          <va-alert
+            status="warning"
+            data-testid="referral-alert"
+            class="vads-u-margin-bottom--2"
+          >
+            <p className="vads-u-margin-top--0">
+              Online scheduling is not available for this referral at this time.
+              Please call your provider directly for help scheduling an
+              appointment.
+            </p>
+            <p className="vads-u-margin-bottom--0">
+              <va-link
+                href="https://www.va.gov/find-locations"
+                text="Find your community care provider's phone number"
+              />
+            </p>
+          </va-alert>
+        )}
+
         <p data-testid="subtitle">
           We’ve approved your referral for community care. You can schedule your
           first appointment now.
@@ -66,15 +82,17 @@ export default function ScheduleReferral(props) {
             text="Find your VA health facility"
           />
         </va-additional-info>
-        <va-link-action
-          className="vads-u-margin-top--1"
-          href={`/my-health/appointments/schedule-referral?id=${
-            currentReferral.uuid
-          }`}
-          text="Schedule your appointment"
-          onClick={handleClick()}
-          data-testid="schedule-appointment-button"
-        />
+        {currentReferral.provider?.name && (
+          <va-link-action
+            className="vads-u-margin-top--1"
+            href={`/my-health/appointments/schedule-referral?id=${
+              currentReferral.uuid
+            }`}
+            text="Schedule your appointment"
+            onClick={handleClick()}
+            data-testid="schedule-appointment-button"
+          />
+        )}
         <h2>Details about your referral</h2>
         <p data-testid="referral-details">
           <strong>Expiration date: </strong>
@@ -82,16 +100,25 @@ export default function ScheduleReferral(props) {
           ${format(new Date(currentReferral.expirationDate), 'MMMM d, yyyy')}`}
           <br />
           <strong>Type of care: </strong>
-          {categoryOfCare}
+          <span data-dd-privacy="mask">{categoryOfCare}</span>
           <br />
           <strong>Provider: </strong>
-          {currentReferral.provider.name}
+          <span data-dd-privacy="mask">
+            {currentReferral.provider?.name || 'Not available'}
+          </span>
           <br />
           <strong>Location: </strong>
-          {currentReferral.provider.facilityName}
+          <span data-dd-privacy="mask">
+            {currentReferral.provider?.facilityName || 'Not available'}
+          </span>
           <br />
           <strong>Referral number: </strong>
-          {currentReferral.referralNumber}
+          <span data-dd-privacy="mask">{currentReferral.referralNumber}</span>
+        </p>
+        <p data-testid="referral-informational-text">
+          You can schedule your first appointment online. Contact your community
+          care provider directly to schedule the remaining appointments for this
+          referral.
         </p>
         <h2>If you have questions about your referral</h2>
         <p>
@@ -101,10 +128,14 @@ export default function ScheduleReferral(props) {
         </p>
         <p data-testid="referral-facility">
           <strong>Referring VA facility: </strong>
-          {currentReferral.referringFacility.name}
+          <span data-dd-privacy="mask">
+            {currentReferral.referringFacility.name}
+          </span>
           <br />
           <strong>Phone: </strong>
-          {currentReferral.referringFacility.phone}
+          <span data-dd-privacy="mask">
+            {currentReferral.referringFacility.phone}
+          </span>
         </p>
       </div>
     </ReferralLayout>

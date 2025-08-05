@@ -62,7 +62,7 @@ import {
   onFormLoaded,
 } from '../utils/evidence';
 import { hasMstOption } from '../utils/mstOption';
-import { hasHomeAndMobilePhone } from '../utils/contactInfo';
+import { hasHomeAndMobilePhone } from '../../shared/utils/contactInfo';
 
 import manifest from '../manifest.json';
 import {
@@ -132,7 +132,6 @@ const formConfig = {
     requiredForPrefill: true,
     dependencies: [
       services.vaProfile, // for contact info
-      services.bgs, // submission
       services.mvi, // contestable issues
       services.appeals, // LOA3 & SSN
     ],

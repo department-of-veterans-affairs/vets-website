@@ -1,8 +1,11 @@
 import React from 'react';
+import { datadogRum } from '@datadog/browser-rum';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import recordEvent from '~/platform/monitoring/record-event';
 import WelcomeContainer from '../containers/WelcomeContainer';
+import { myVAHealthPortalLink } from '../utilities/data';
 
 const learnMoreLink = {
   text: 'Learn more about My HealtheVet on VA.gov',
@@ -14,7 +17,7 @@ const ledeContent = `Welcome. You can now manage your health care
   here on VA.gov. Here, you’ll find new, improved versions of your trusted
   health tools and more features.`;
 
-const HeaderLayout = ({ showWelcomeMessage = false }) => (
+const HeaderLayout = ({ showWelcomeMessage = false, isCerner = false }) => (
   <>
     <div
       className={classnames(
@@ -46,6 +49,29 @@ const HeaderLayout = ({ showWelcomeMessage = false }) => (
             Want to learn more about what’s new? <VaLink {...learnMoreLink} />
           </p>
         </div>
+        {isCerner && (
+          <p>
+            If your facility uses My VA Health, go to the My VA Health portal to
+            manage your care.
+            <br />
+            <a
+              onClick={() => {
+                datadogRum.addAction('Click on My VA Health portal link');
+                recordEvent({
+                  event: 'nav-link-click',
+                  action: 'click',
+                  'link-label': 'Go to the My VA Health portal',
+                  'link-destination': myVAHealthPortalLink,
+                  'link-origin': window.location.href,
+                });
+              }}
+              data-testid="mhv-go-back-1"
+              href={myVAHealthPortalLink}
+            >
+              Go to the My VA Health portal
+            </a>
+          </p>
+        )}
       </div>
       <div
         className={classnames(
@@ -78,9 +104,9 @@ const HeaderLayout = ({ showWelcomeMessage = false }) => (
 );
 
 HeaderLayout.propTypes = {
+  isCerner: PropTypes.bool,
   showMhvGoBack: PropTypes.bool,
   showWelcomeMessage: PropTypes.bool,
-  ssoe: PropTypes.bool,
 };
 
 export default HeaderLayout;

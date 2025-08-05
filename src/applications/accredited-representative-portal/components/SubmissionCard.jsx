@@ -27,21 +27,20 @@ const formatStatus = submission => {
             />
             {' Processing error'}
           </span>
-          <br />
           <span>Resubmit or contact 800-827-1000 for assistance</span>
         </>
       );
     case 'awaiting_receipt':
     default:
       return (
-        <>
+        <span className="submissions__awaiting">
           <va-icon
             class="submissions__inline-status-icon submissions__card-check"
-            icon="check_circle"
+            icon="loop"
             size="3"
           />
           <span>Awaiting receipt</span>
-        </>
+        </span>
       );
   }
 };
@@ -53,7 +52,7 @@ const SubmissionCard = ({ submission }) => {
         <p className="submission__card-date">
           Submitted {formatDateParsedZoneLong(submission.submittedDate)}
         </p>
-        <h2 className="submission__card-name vads-u-font-size--h3 vads-u-font-family--serif">
+        <h3 className="submission__card-name vads-u-font-size--h3 vads-u-font-family--serif">
           {submission.url ? (
             <Link
               to={`/submissions/${submission.id}`}
@@ -65,7 +64,7 @@ const SubmissionCard = ({ submission }) => {
           ) : (
             `${submission.lastName}, ${submission.firstName}`
           )}
-        </h2>
+        </h3>
         <p className="submission__card-form-name vads-u-font-size--h5 vads-u-font-family--serif">
           <strong>
             {submission.formType}
@@ -78,9 +77,11 @@ const SubmissionCard = ({ submission }) => {
           </span>
           {submission.confirmationNumber}
           <br />
-          <span className="submission__card-status--row">
+          <span
+            className={`submission__card-status--row ${submission.vbmsStatus}`}
+          >
             <span className="submission__card-attribute-text">
-              {'VBMS efolder status: '}
+              {'VBMS eFolder status: '}
             </span>
             {formatStatus(submission)}
           </span>

@@ -82,7 +82,9 @@ export const fetchDebts = async dispatch => {
   } catch (error) {
     Sentry.withScope(scope => {
       scope.setExtra('error', error);
-      Sentry.captureMessage(`FSR fetchDebts failed: ${error.detail}`);
+      Sentry.captureMessage(
+        `Dispute Debt - fetchDebts failed: ${error.detail}`,
+      );
     });
     dispatch({
       type: DEBTS_FETCH_FAILURE,

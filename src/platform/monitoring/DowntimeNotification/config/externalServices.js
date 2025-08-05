@@ -65,7 +65,7 @@ export default {
   // Online appointment scheduling
   vaos: 'vaos',
   // Online appointment scheduling warning message
-  vaosWarning: 'vaosWarning',
+  vaosWarning: 'vaoswarning',
   // VA Profile (formerly Vet360) - data source for centralized veteran contact information
   vaProfile: 'vet360',
   // Veteran Benefits Management System
@@ -84,6 +84,8 @@ export default {
   pcie: 'pcie',
   // Travel claim
   tc: 'tc',
+  // Community Care Direct Scheduling
+  communityCareDS: 'community_care_ds',
   // MDOT/ROES/DLC
   mdot: 'mdot',
   // stagingMdot: 'staging_mdot', // unnecessary

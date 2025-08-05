@@ -44,8 +44,13 @@ export const ConfirmationPageView = ({
             <strong>{formattedSubmitDate}</strong>
           </p>
         ) : null}
-        <p>Your confirmation number is: {confirmationNumber}.</p>
-        <p>We’ve emailed this confirmation number to you for your records.</p>
+        <p>
+          Your confirmation number is: <strong>{confirmationNumber}</strong>
+        </p>
+        <p>
+          <strong>Note:</strong> Print this page or copy the confirmation number
+          for your records.
+        </p>
       </va-alert>
       <section>
         <h2>What to expect</h2>
@@ -64,12 +69,13 @@ export const ConfirmationPageView = ({
           </va-process-list-item>
         </va-process-list>
       </section>
-      <a
-        className="vads-c-action-link--green vads-u-margin-bottom--4"
+      <va-link-action
         href="/representative/submissions"
-      >
-        Review submissions history
-      </a>
+        label="Review submissions history"
+        class="vads-u-margin-bottom--4"
+        text="Review submissions history"
+        type="primary"
+      />
       {childContent || null}
     </div>
   );

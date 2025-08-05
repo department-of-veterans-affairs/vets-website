@@ -1,4 +1,5 @@
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
@@ -21,6 +22,7 @@ import {
 } from '../chapters/signerInformation';
 
 // import mockData from '../tests/fixtures/data/test-data.json';
+import transformForSubmit from './submitTransformer';
 
 import {
   sponsorNameDobSchema,
@@ -44,10 +46,12 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   showReviewErrors: true, // May want to hide in prod later, but for now keeping in due to complexity of this form
+  transformForSubmit,
+  submitUrl: `${environment.API_URL}/ivc_champva/v1/forms/10-10d-ext`,
   // submitUrl: `${environment.API_URL}/ivc_champva/v1/forms`,
   // TODO: when we have the submitUrl up and running, remove this dummy response:
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  // submit: () =>
+  //   Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   preSubmitInfo: {
     statementOfTruth: {
       body:
@@ -68,16 +72,26 @@ const formConfig = {
   },
   ...minimalHeaderFormConfigOptions({
     breadcrumbList: [
-      { href: '/', label: 'VA.gov home' },
+      { href: '/', label: 'Home' },
       {
-        href: '/ivc-champva',
-        label: 'Ivc champva',
+        href: `/family-and-caregiver-benefits`,
+        label: `Family and caregiver benefits`,
       },
       {
-        href: '/ivc-champva/10-10d-extended',
-        label: '10 10d extended',
+        href: `/family-and-caregiver-benefits/health-and-disability/`,
+        label: `Health and disability benefits for family and caregivers`,
+      },
+      {
+        href: `/family-and-caregiver-benefits/health-and-disability/champva`,
+        label: `CHAMPVA benefits`,
+      },
+      {
+        href: `#content`,
+        label: `Apply for CHAMPVA benefits`,
       },
     ],
+    homeVeteransAffairs: false,
+    wrapping: true,
   }),
   formId: VA_FORM_IDS.FORM_10_10D_EXTENDED,
   saveInProgress: {
@@ -144,7 +158,7 @@ const formConfig = {
         },
         page6: {
           path: 'sponsor-info',
-          title: 'Sponsor’s name and date of birth',
+          title: "Sponsor's name and date of birth",
           ...sponsorNameDobSchema,
         },
         page7: {
@@ -154,13 +168,13 @@ const formConfig = {
         },
         page8: {
           path: 'sponsor-status',
-          title: 'Sponsor`s status',
+          title: "Sponsor's status",
           depends: formData => get('certifierRole', formData) !== 'sponsor',
           ...sponsorStatus,
         },
         page9: {
           path: 'sponsor-status-details',
-          title: 'Sponsor`s status details',
+          title: "Sponsor's status details",
           depends: formData =>
             get('certifierRole', formData) !== 'sponsor' &&
             get('sponsorIsDeceased', formData),
@@ -197,13 +211,13 @@ const formConfig = {
         },
         page10: {
           path: 'sponsor-mailing-address',
-          title: 'Sponsor`s mailing address',
+          title: "Sponsor's mailing address",
           depends: formData => !get('sponsorIsDeceased', formData),
           ...sponsorAddress,
         },
         page11: {
           path: 'sponsor-contact-information',
-          title: 'Sponsor`s contact information',
+          title: "Sponsor's contact information",
           depends: formData => !get('sponsorIsDeceased', formData),
           ...sponsorContactInfo,
         },

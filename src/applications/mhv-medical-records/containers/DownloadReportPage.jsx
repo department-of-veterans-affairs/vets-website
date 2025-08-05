@@ -15,7 +15,11 @@ import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selector
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import NeedHelpSection from '../components/DownloadRecords/NeedHelpSection';
 import ExternalLink from '../components/shared/ExternalLink';
-import { getLastSuccessfulUpdate, sendDataDogAction } from '../util/helpers';
+import {
+  getFailedDomainList,
+  getLastSuccessfulUpdate,
+  sendDataDogAction,
+} from '../util/helpers';
 import {
   accessAlertTypes,
   ALERT_TYPE_BB_ERROR,
@@ -24,6 +28,7 @@ import {
   documentTypes,
   pageTitles,
   refreshExtractTypes,
+  statsdFrontEndActions,
 } from '../util/constants';
 import { genAndDownloadCCD } from '../actions/downloads';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
@@ -31,18 +36,7 @@ import { Actions } from '../util/actionTypes';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
 import TrackedSpinner from '../components/shared/TrackedSpinner';
-
-/**
- * Formats failed domain lists with display names.
- * Special logic: If allergies fail but medications don't fail, push medications for completeness.
- */
-const getFailedDomainList = (failed, displayMap) => {
-  const modFailed = [...failed];
-  if (modFailed.includes('allergies') && !modFailed.includes('medications')) {
-    modFailed.push('medications');
-  }
-  return modFailed.map(domain => displayMap[domain]);
-};
+import { postRecordDatadogAction } from '../api/MrApi';
 
 // --- Main component ---
 const DownloadReportPage = ({ runningUnitTest }) => {
@@ -106,6 +100,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       }
       return null;
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [ccdError],
   );
 
@@ -189,6 +184,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
         userProfile?.userFullName?.last,
       ),
     );
+    postRecordDatadogAction(statsdFrontEndActions.DOWNLOAD_CCD);
     sendDataDogAction('Download Continuity of Care Document xml Link');
   };
 
@@ -211,6 +207,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
         setSeiPdfGenerationError(err);
         setSelfEnteredPdfLoading(false);
       });
+    postRecordDatadogAction(statsdFrontEndActions.DOWNLOAD_SEI);
     sendDataDogAction('Download self-entered health information PDF link');
   };
 

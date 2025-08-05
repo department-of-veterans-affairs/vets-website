@@ -11,10 +11,3 @@ export const fillVaFacilitySearch = () => {
     .first()
     .click();
 };
-
-export const fillStatementOfTruthPattern = (label, signature) => {
-  cy.findByTestId(label).within(() => {
-    cy.get('.signature-input').then($el => cy.fillVaTextInput($el, signature));
-    cy.get('.signature-checkbox').then($el => cy.selectVaCheckbox($el, true));
-  });
-};

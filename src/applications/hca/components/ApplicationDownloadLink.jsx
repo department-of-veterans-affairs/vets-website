@@ -15,7 +15,7 @@ const ApplicationDownloadLink = ({ formConfig }) => {
 
   // define local use variables
   const form = useSelector(state => state.form);
-  const formData = useMemo(() => submitTransformer(formConfig, form), [
+  const formData = useMemo(() => submitTransformer(formConfig, form, true), [
     formConfig,
     form,
   ]);

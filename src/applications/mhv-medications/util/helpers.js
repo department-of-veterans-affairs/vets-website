@@ -7,6 +7,7 @@ import {
   PRINT_FORMAT,
   DOWNLOAD_FORMAT,
   dispStatusObj,
+  NO_PROVIDER_NAME,
 } from './constants';
 
 // Cache the dynamic import promise to avoid redundant network requests
@@ -254,6 +255,18 @@ export const getRefillHistory = prescription => {
 };
 
 /**
+ * Get show refill history
+ *
+ * @param {Array} refillHistory - refill history array
+ * @returns {Boolean}
+ */
+export const getShowRefillHistory = refillHistory => {
+  return (
+    refillHistory?.length > 1 || refillHistory?.[0]?.dispensedDate !== undefined
+  );
+};
+
+/**
  * Create a plain text string for when a medication description can't be provided
  * @param {String} Phone number, as a string
  * @returns {String} A string suitable for display anywhere plain text is preferable
@@ -302,10 +315,9 @@ export const fromToNumbs = (page, total, listLength, maxPerPage) => {
  *
  * @param {Object} location - The location object from React Router, containing the current pathname.
  * @param {Number} currentPage - The current page number.
- * @param {Boolean} removeLandingPage - mhvMedicationsRemoveLandingPage feature flag value (to be removed once turned on in prod)
  * @returns {Array<Object>} An array of breadcrumb objects with `url` and `label` properties.
  */
-export const createBreadcrumbs = (location, currentPage, removeLandingPage) => {
+export const createBreadcrumbs = (location, currentPage) => {
   const { pathname } = location;
   const defaultBreadcrumbs = [
     {
@@ -319,24 +331,12 @@ export const createBreadcrumbs = (location, currentPage, removeLandingPage) => {
   ];
   const {
     subdirectories,
-    // TODO: remove once mhvMedicationsRemoveLandingPage is turned on in prod
-    MEDICATIONS_ABOUT,
     MEDICATIONS_URL,
     MEDICATIONS_REFILL,
   } = medicationsUrls;
 
-  // TODO: remove once mhvMedicationsRemoveLandingPage is turned on in prod
-  if (pathname.includes(subdirectories.ABOUT)) {
-    return [
-      ...defaultBreadcrumbs,
-      { href: MEDICATIONS_ABOUT, label: 'About medications' },
-    ];
-  }
   if (pathname === subdirectories.BASE) {
     return defaultBreadcrumbs.concat([
-      ...(!removeLandingPage
-        ? [{ href: MEDICATIONS_ABOUT, label: 'About medications' }]
-        : []),
       {
         href: `${MEDICATIONS_URL}?page=${currentPage || 1}`,
         label: 'Medications',
@@ -345,9 +345,7 @@ export const createBreadcrumbs = (location, currentPage, removeLandingPage) => {
   }
   if (pathname.includes(subdirectories.REFILL)) {
     return defaultBreadcrumbs.concat([
-      ...(!removeLandingPage
-        ? [{ href: MEDICATIONS_ABOUT, label: 'About medications' }]
-        : [{ href: MEDICATIONS_URL, label: 'Medications' }]),
+      { href: MEDICATIONS_URL, label: 'Medications' },
       { href: MEDICATIONS_REFILL, label: 'Refill prescriptions' },
     ]);
   }
@@ -618,15 +616,26 @@ export const isRefillTakingLongerThanExpected = rx => {
     return false;
   }
 
-  const refillDate = rx.refillDate || rx.rxRfRecords[0]?.refillDate;
-  const refillSubmitDate =
-    rx.refillSubmitDate || rx.rxRfRecords[0]?.refillSubmitDate;
+  let { refillDate } = rx;
+  let { refillSubmitDate } = rx;
+
+  if (Array.isArray(rx.rxRfRecords) && rx.rxRfRecords.length > 0) {
+    refillDate = refillDate || rx.rxRfRecords[0]?.refillDate;
+    refillSubmitDate = refillSubmitDate || rx.rxRfRecords[0]?.refillSubmitDate;
+  }
+
+  if (!refillDate && !refillSubmitDate) {
+    return false;
+  }
+
   const sevenDaysAgoDate = new Date().setDate(new Date().getDate() - 7);
 
   return (
     (rx.dispStatus === dispStatusObj.refillinprocess &&
+      refillDate &&
       Date.now() > Date.parse(refillDate)) ||
     (rx.dispStatus === dispStatusObj.submitted &&
+      refillSubmitDate &&
       Date.parse(refillSubmitDate) < sevenDaysAgoDate)
   );
 };
@@ -643,4 +652,53 @@ export const determineRefillLabel = (isPartialFill, rxHistory, i) => {
     return 'Partial fill';
   }
   return i + 1 === rxHistory.length ? 'Original fill' : 'Refill';
+};
+
+/**
+ * Convert a prescription resource from the API response into the expected format
+ * @param {Object} prescription - The prescription data from API
+ * @returns {Object} - Formatted prescription object
+ */
+export const convertPrescription = prescription => {
+  // Handle the case where prescription might be null/undefined
+  if (!prescription) return null;
+
+  // Extract from attributes if available, otherwise use the prescription object directly
+  return prescription.attributes || prescription;
+};
+
+/**
+ * Filter recently requested prescriptions to only include those taking longer than expected
+ * @param {Array} recentlyRequested - Array of recently requested prescriptions
+ * @returns {Array} - Filtered array of prescriptions taking longer than expected
+ */
+export const filterRecentlyRequestedForAlerts = recentlyRequested => {
+  if (!Array.isArray(recentlyRequested)) return [];
+
+  return recentlyRequested.reduce((alertList, prescription) => {
+    const rx = convertPrescription(prescription);
+    if (isRefillTakingLongerThanExpected(rx)) {
+      alertList.push(rx);
+    }
+    return alertList;
+  }, []);
+};
+
+/**
+ * Display the provider's name based on availability
+ * @param {String} first - The first name of the provider.
+ * @param {String} last - The last name of the provider.
+ * @returns {String}
+ * - If both first and last names are provided, return them in "First Last" format.
+ * - If only one name is available, return that name.
+ * - If no names are given, return a default message.
+ */
+export const displayProviderName = (first, last) => {
+  if (first && last) {
+    return `${first} ${last}`;
+  }
+  if (first || last) {
+    return first || last;
+  }
+  return NO_PROVIDER_NAME;
 };

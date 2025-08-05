@@ -1,90 +1,178 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
 import { focusElement } from 'platform/utilities/ui';
+import { isLoggedIn } from 'platform/user/selectors';
+
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
-class IntroductionPage extends React.Component {
-  componentDidMount() {
+export const IntroductionPage = ({ route }) => {
+  const loggedIn = useSelector(isLoggedIn);
+  const { formConfig, pageList } = route;
+
+  useEffect(() => {
     focusElement('h1');
-  }
+  }, []);
 
-  render() {
-    const { route } = this.props;
-    const { formConfig, pageList } = route;
+  const renderIfVeteranContent = () => (
+    <>
+      <p>You’ll need to report income and assets for these individuals:</p>
+      <ul>
+        <li>
+          Yourself, <strong>and</strong>
+        </li>
+        <li>
+          Your spouse (unless you live apart, and you are estranged, and you do
+          not contribute to your spouse’s support), <strong>and</strong>
+        </li>
+        <li>
+          Your child or children (unless you do not have custody or contribute
+          to your child’s or children’s support)
+        </li>
+      </ul>
+    </>
+  );
 
-    return (
-      <article className="schemaform-intro">
-        <FormTitle
-          title="Income and Asset Statement Form"
-          subTitle="VA Form 21P-0969"
+  const renderAccordionContent = () => (
+    <va-accordion>
+      <va-accordion-item header="If you’re the Veteran" level="3">
+        {renderIfVeteranContent()}
+      </va-accordion-item>
+      <va-accordion-item header="If you’re the surviving spouse" level="3">
+        <p>You’ll need to report income and assets for these individuals:</p>
+        <ul>
+          <li>
+            Yourself, <strong>and</strong>
+          </li>
+          <li>
+            Your child or children (unless you do not have custody or not
+            contribute to your child’s or children’s support)
+          </li>
+        </ul>
+      </va-accordion-item>
+      <va-accordion-item
+        header="If you’re the surviving child or custodian of a surviving child"
+        level="3"
+      >
+        <p>You’ll need to report income and assets for these individuals:</p>
+        <ul>
+          <li>
+            Yourself and/or the surviving child, <strong>and</strong>
+          </li>
+          <li>
+            The child’s custodian (unless the child’s custodian is an
+            institution), <strong>and</strong>
+          </li>
+          <li>The custodian’s spouse</li>
+        </ul>
+      </va-accordion-item>
+      <va-accordion-item header="If you’re the parent" level="3">
+        <p>You’ll need to report income and assets for these individuals:</p>
+        <ul>
+          <li>
+            Yourself, <strong>and</strong>
+          </li>
+          <li>
+            Your spouse (The Veteran’s other parent should file a separate
+            claim.)
+          </li>
+        </ul>
+        <p>
+          <strong>Note: </strong> Parents’ DIC claimants don’t need to report or
+          provide documentation of their assets.
+        </p>
+      </va-accordion-item>
+    </va-accordion>
+  );
+
+  return (
+    <article className="schemaform-intro">
+      <FormTitle
+        title="Submit income and asset statement to support your claim"
+        subTitle="Pension or DIC income and asset statement (VA Form 21P-0969)"
+      />
+      <p className="va-introtext">
+        Complete this form if you need to report or verify income and net worth
+        to support your Claim for Pension or Parents’ Dependency Indemnity
+        Compensation (DIC).
+      </p>
+      <h2 className="vads-u-font-size--h2 vad-u-margin-top--0">
+        What to know before you fill out this form
+      </h2>
+      <p>There are different reasons why you may need to submit this form:</p>
+      <ul>
+        <li>
+          As a supporting form requested by your Application for Veterans
+          Pension (VA21P-527 or VA21P-527EZ), <strong>or</strong>
+        </li>
+        <li>
+          As a supporting form requested by your DIC, Survivors’ Pension, and/or
+          Accrued Benefits (VA21P-534 or 21P-534EZ), <strong>or</strong>
+        </li>
+        <li>
+          You have an overflow of assets, <strong>or</strong>
+        </li>
+        <li>
+          You need to report an irregular or unusual change in your income
+          assets
+        </li>
+      </ul>
+      <div className="vads-u-margin-y--2">
+        <va-link
+          href="/pension/eligibility/"
+          text="Find out if you’re eligible for Veterans Pension benefits"
         />
-        <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-          Follow these steps below to apply for benefits
-        </h2>
-        <va-process-list>
-          <va-process-list-item header="Prepare">
-            <h4 className="vads-u-margin-y--1">
-              To fill out this application, you’ll need this information:
-            </h4>
-            <ul>
-              <li>
-                Your Social Security number or VA file number{' '}
-                <span className="vads-u-color--secondary-dark">
-                  (*Required)
-                </span>
-              </li>
-            </ul>
-            <p>
-              <strong>What if I need help filling out my application?</strong>{' '}
-              An accredited representative, like a Veterans Service Officer
-              (VSO), can help you fill out your claim.{' '}
-              <a href="/disability-benefits/apply/help/index.html">
-                Get help filing your claim
-              </a>
-            </p>
-          </va-process-list-item>
-          <va-process-list-item header="Apply">
-            <p>Complete and submit the pension benefits application form.</p>
-            <p>Complete this benefits form.</p>
-            <p>
-              After submitting the form, you’ll get a confirmation message. You
-              can print this for your records.
-            </p>
-          </va-process-list-item>
-          <va-process-list-item header="Review">
-            <p>
-              We process claims within a week. If more than a week has passed
-              since you submitted your application and you haven’t heard back,
-              please don’t apply again. Call us at.
-            </p>
-          </va-process-list-item>
-          <va-process-list-item header="Decision">
-            <p>
-              Once we’ve processed your claim, you’ll get a notice in the mail
-              with our decision.
-            </p>
-          </va-process-list-item>
-        </va-process-list>
-        <SaveInProgressIntro
-          headingLevel={2}
-          prefillEnabled={route.formConfig.prefillEnabled}
-          messages={formConfig.savedFormMessages}
-          pageList={pageList}
-          startText="Start the Income and Asset Statement application"
-        />
-        <div className="vads-u-margin-top--2">
-          <va-omb-info
-            res-burden={30}
-            omb-number="2900-0829"
-            exp-date="11/30/2026"
+      </div>
+      {!loggedIn && (
+        <div className="vads-u-margin-y--2">
+          <va-link
+            href="/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/#am-i-eligible-for-va-dic-as-a-"
+            text="Find out if you’re eligible for VA Dependency and Indemnity
+          Compensation (DIC)"
           />
         </div>
-      </article>
-    );
-  }
-}
+      )}
+      <va-additional-info trigger="What we consider an asset">
+        Assets include the fair market value of all property that you own, minus
+        the amount of any mortgages you may have. Assets don’t include your or
+        your dependents’ primary residence and lot (up to 2 acres).
+      </va-additional-info>
+      <h2 className="vads-u-font-size--h2 vad-u-margin-top--0">
+        What you’ll need to report
+      </h2>
+      {loggedIn ? renderIfVeteranContent() : renderAccordionContent()}
+
+      <va-additional-info
+        class="vads-u-margin-y--3"
+        trigger="What we consider child custody"
+      >
+        We define child custody for pension purposes in 38 C.F.R.§ 3.57(d).
+        Natural or adoptive parent has custody of a child unless custody is
+        legally removed. For pension purposes, a child who has attained age 18
+        remains in the custody of the person who had custody before the child
+        turned 18 unless custody is legally removed.
+      </va-additional-info>
+
+      <SaveInProgressIntro
+        headingLevel={2}
+        prefillEnabled={formConfig.prefillEnabled}
+        messages={formConfig.savedFormMessages}
+        pageList={pageList}
+        startText="Start the Income and Asset Statement application"
+      />
+
+      <div className="vads-u-margin-top--2">
+        <va-omb-info
+          res-burden={30}
+          omb-number="2900-0829"
+          exp-date="11/30/2026"
+        />
+      </div>
+    </article>
+  );
+};
 
 IntroductionPage.propTypes = {
   route: PropTypes.shape({
@@ -95,7 +183,6 @@ IntroductionPage.propTypes = {
       savedFormMessages: PropTypes.object,
     }),
   }),
-  router: PropTypes.object,
 };
 
 export default IntroductionPage;

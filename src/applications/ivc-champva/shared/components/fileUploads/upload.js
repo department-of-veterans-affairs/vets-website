@@ -10,14 +10,19 @@ const uploadUrl = `${
   environment.API_URL
 }/ivc_champva/v1/forms/submit_supporting_documents`;
 
-export function createPayload(file, _formId, password) {
+export function createPayload(
+  file,
+  _formId,
+  password,
+  attachmentId = undefined,
+) {
   const payload = new FormData();
   payload.append('file', file);
   payload.append('form_id', _formId);
+  // For hard-coded attachment IDs (needed for LLM validation)
+  if (attachmentId) payload.append('attachment_id', attachmentId);
   // password for encrypted PDFs
-  if (password) {
-    payload.append('password', password);
-  }
+  if (password) payload.append('password', password);
 
   return payload;
 }
@@ -65,7 +70,8 @@ export const fileUploadUi = content => {
     addAnotherLabel,
     buttonText: content.buttonText || 'Upload file',
     fileTypes,
-    createPayload,
+    createPayload: (file, _formId, password) =>
+      createPayload(file, _formId, password, content.attachmentId),
     parseResponse: (response, file) => {
       setTimeout(() => {
         // Get the host element that contains our upload/delete buttons.
@@ -78,11 +84,16 @@ export const fileUploadUi = content => {
         host = host.filter(el => el.innerText?.includes(file.name));
         findAndFocusLastSelect(host?.pop());
       }, 500);
-      return {
+      // optionally add llmResponse to the response
+      const returnValue = {
         name: file.name,
         confirmationCode: response.data.attributes.confirmationCode,
         attachmentId: content.attachmentId ?? '',
       };
+      if (response.llmResponse) {
+        returnValue.llmResponse = response.llmResponse;
+      }
+      return returnValue;
     },
     attachmentSchema: (/* { fileId, index } */) => ({
       'ui:title': 'Document type',

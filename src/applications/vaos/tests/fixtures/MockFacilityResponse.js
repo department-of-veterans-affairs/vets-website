@@ -21,6 +21,7 @@ export default class MockFacilityResponse {
     id = '983',
     isParent = false,
     name = 'Cheyenne VA Medical Center',
+    timezone = 'America/Denver',
   } = {}) {
     this.id = id;
     this.type = 'facility';
@@ -38,6 +39,9 @@ export default class MockFacilityResponse {
         city: `City ${id}`,
         state: 'WY',
         postalCode: '82001-5356',
+      },
+      timezone: {
+        timeZoneId: timezone,
       },
       vistaSite: id.substring(0, 3),
       vastParent: isParent ? id : id.substring(0, 3),

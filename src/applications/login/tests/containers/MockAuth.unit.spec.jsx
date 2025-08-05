@@ -2,9 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import environments from 'site/constants/environments';
-import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { SERVICE_PROVIDERS, GA } from 'platform/user/authentication/constants';
-import LoginButton from 'platform/user/authentication/components/LoginButton';
 import sinon from 'sinon';
 import { removeLoginAttempted } from 'platform/utilities/sso/loginAttempted';
 import { mockCrypto } from 'platform/utilities/oauth/mockCrypto';
@@ -27,7 +25,12 @@ const mockGADefaultArgs = {
 const csps = Object.values(SERVICE_PROVIDERS);
 
 const setup = ({ path, mockGA = mockGADefaultArgs }) => {
-  global.window.location = path ? new URL(`${base}${path}`) : originalLocation;
+  const startingLocation = path ? new URL(`${base}${path}`) : originalLocation;
+  if (Window.prototype.href) {
+    global.window.location.href = startingLocation;
+  } else {
+    global.window.location = startingLocation;
+  }
   global.ga = originalGA;
   global.window.crypto = mockCrypto;
   removeLoginAttempted();
@@ -80,7 +83,8 @@ describe('MockAuthButton', () => {
           '/v0/sign_in/authorize?type=logingov&client_id=vamock';
         setup({});
         await button.props.onClick();
-        expect(global.window.location).to.include(correctLink);
+        const location = global.window.location.href || global.window.location;
+        expect(location).to.include(correctLink);
         setup({});
       } else {
         expect(button).to.be.false;
@@ -89,22 +93,6 @@ describe('MockAuthButton', () => {
   });
 
   csps.forEach(csp => {
-    it(`should be a different color than any other csp button`, () => {
-      __BUILDTYPE__ = environments.LOCALHOST;
-      const { container } = render(
-        <>
-          <MockAuthButton />
-          <LoginButton csp={csp.policy} />
-        </>,
-      );
-      const mockAuthButton = $('.mauth-button', container);
-      const loginButton = $(`[data-csp="${csp.policy}"]`, container);
-      expect(mockAuthButton).to.not.have.style(
-        'background-color',
-        loginButton.style.backgroundColor,
-      );
-    });
-
     it('should set authType when a different CSP is selected', () => {
       __BUILDTYPE__ = environments.LOCALHOST;
       const { container } = render(<MockAuthButton />);
@@ -122,7 +110,7 @@ describe('MockAuthButton', () => {
   it('should be rendered on the mocked auth page', () => {
     __BUILDTYPE__ = environments.LOCALHOST;
     const { container } = render(<MockAuth />);
-    expect($('.mauth-button', container)).to.exist;
+    expect(container.querySelector('.mauth-button', container)).to.exist;
   });
 
   it('does not, cannot show up on staging or production stacks', () => {
@@ -130,9 +118,11 @@ describe('MockAuthButton', () => {
       currentEnvironment => {
         __BUILDTYPE__ = currentEnvironment;
         const { container } = render(<MockAuthButton />);
-        expect($('.mauth-button', container)).to.not.exist;
+        expect(container.querySelector('.mauth-button', container)).to.not
+          .exist;
         const { container2 } = render(<MockAuth />);
-        expect($('.mauth-button', container2)).to.not.exist;
+        expect(container.querySelector('.mauth-button', container2)).to.not
+          .exist;
       },
     );
   });

@@ -2,6 +2,8 @@ import React from 'react';
 
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
+import { focusElement } from 'platform/utilities/ui';
+import { scrollToTop } from 'platform/utilities/scroll';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -33,6 +35,11 @@ export const confirmFormLogic = ({ router, route }) => (
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
+const scrollAndFocusTarget = () => {
+  scrollToTop('topScrollElement');
+  focusElement('h3');
+};
+
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -62,6 +69,7 @@ const formConfig = {
   subTitle: 'VA Form 22-1919',
   customText: {
     submitButtonText: 'Continue',
+    appType: 'form',
   },
   defaultDefinitions: {
     fullName,
@@ -122,6 +130,7 @@ const formConfig = {
               path: 'proprietary-profit-1',
               uiSchema: affiliatedIndividualsSummary.uiSchema,
               schema: affiliatedIndividualsSummary.schema,
+              scrollAndFocusTarget,
             }),
             affiliatedIndividualsAssociation: pageBuilder.itemPage({
               title:
@@ -146,6 +155,7 @@ const formConfig = {
                 'Review the individuals with a potential conflict of interest that receive VA educational benefits',
               uiSchema: conflictOfInterestSummary.uiSchema,
               schema: conflictOfInterestSummary.schema,
+              scrollAndFocusTarget,
             }),
             conflictOfInterestCertifyingOfficial: pageBuilder.itemPage({
               path: 'conflict-of-interest/:index/certifying-official',

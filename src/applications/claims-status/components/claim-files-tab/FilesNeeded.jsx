@@ -11,6 +11,7 @@ import {
 } from '../../utils/helpers';
 import { standard5103Item } from '../../constants';
 import DueDate from '../DueDate';
+import { evidenceDictionary } from '../../utils/evidenceDictionary';
 
 export default function FilesNeeded({ item, previousPage = null }) {
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
@@ -30,16 +31,21 @@ export default function FilesNeeded({ item, previousPage = null }) {
   ];
 
   const getItemDisplayName = () => {
-    let { displayName } = item;
-
     if (isAutomated5103Notice(item.displayName) && cst5103UpdateEnabled) {
-      displayName = standard5103Item.displayName;
+      return standard5103Item.displayName;
+    }
+    if (cstFriendlyEvidenceRequests) {
+      if (evidenceDictionary[item.displayName]?.isSensitive) {
+        return `Request for evidence`;
+      }
+      if (item.friendlyName) {
+        return `Provide ${getDisplayFriendlyName(item)}`;
+      }
+
+      return 'Request for evidence';
     }
 
-    if (cstFriendlyEvidenceRequests && item.friendlyName) {
-      displayName = `Provide ${getDisplayFriendlyName(item)}`;
-    }
-    return displayName;
+    return item.displayName;
   };
 
   const getItemDescription = () => {

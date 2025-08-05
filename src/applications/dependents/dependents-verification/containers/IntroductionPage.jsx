@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+
 import { scrollToTop } from 'platform/utilities/scroll';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import { useSelector } from 'react-redux';
-import { isLOA3, isLoggedIn } from 'platform/user/selectors';
+
+import Gateway from '../components/Gateway';
 import { TITLE, SUBTITLE } from '../constants';
+import { PRIVACY_ACT_NOTICE } from '../helpers';
 
 const OMB_RES_BURDEN = 10;
 const OMB_NUMBER = '2900-0500';
@@ -15,38 +16,45 @@ const OMB_EXP_DATE = '1/31/2027';
 const ProcessList = () => {
   return (
     <va-process-list>
-      <va-process-list-item header="Prepare">
-        <h4>To fill out this application, you’ll need your:</h4>
+      <va-process-list-item header="Check your eligibility">
+        <p>
+          You must have previously added dependents to your disability benefits
+          in order to use this form to verify your VA dependents.
+        </p>
+      </va-process-list-item>
+      <va-process-list-item header="Review your active dependents and your information">
+        <p>Here’s what you will need to review:</p>
         <ul>
-          <li>Social Security number (required)</li>
+          <li>
+            Your active VA dependents currently listed under your disability
+            benefits, including any recent life events (such as recent marriage,
+            divorce, or a child reaching adulthood).
+          </li>
+          <li>
+            Your personal information, including your date of birth, Social
+            Security number, and contact details.
+          </li>
         </ul>
+      </va-process-list-item>
+      <va-process-list-item header="Start your dependents verification">
         <p>
-          <strong>What if I need help filling out my application?</strong> An
-          accredited representative, like a Veterans Service Officer (VSO), can
-          help you fill out your claim.{' '}
-          <a href="/disability-benefits/apply/help/index.html">
-            Get help filing your claim
-          </a>
+          We’ll take you through each step of the process. It should take about
+          10 minutes.
+        </p>
+        <p>
+          When you submit your verification form, you’ll get a confirmation
+          message. You can print this message for your records.
         </p>
       </va-process-list-item>
-      <va-process-list-item header="Apply">
-        <p>Complete this benefits form.</p>
+      <va-process-list-item header="After you submit">
         <p>
-          After submitting the form, you’ll get a confirmation message. You can
-          print this for your records.
+          You don’t need to do anything else. But you’ll need to verify your
+          dependents' information on your disability benefits each year.
         </p>
-      </va-process-list-item>
-      <va-process-list-item header="VA Review">
         <p>
-          We process claims within a week. If more than a week has passed since
-          you submitted your application and you haven’t heard back, please
-          don’t apply again. Call us at.
-        </p>
-      </va-process-list-item>
-      <va-process-list-item header="Decision">
-        <p>
-          Once we’ve processed your claim, you’ll get a notice in the mail with
-          our decision.
+          Verifying your dependents each year makes sure you get your full
+          benefits. It also helps avoid benefit overpayments, which you’d need
+          to repay.
         </p>
       </va-process-list-item>
     </va-process-list>
@@ -54,11 +62,7 @@ const ProcessList = () => {
 };
 
 export const IntroductionPage = props => {
-  const userLoggedIn = useSelector(state => isLoggedIn(state));
-  const userIdVerified = useSelector(state => isLOA3(state));
   const { route } = props;
-  const { formConfig, pageList } = route;
-  const showVerifyIdentify = userLoggedIn && !userIdVerified;
 
   useEffect(() => {
     scrollToTop();
@@ -68,28 +72,25 @@ export const IntroductionPage = props => {
   return (
     <article className="schemaform-intro">
       <FormTitle title={TITLE} subTitle={SUBTITLE} />
+      <p>
+        Use our online tool to submit your dependent verification form for VA
+        disability benefits.
+      </p>
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-        Follow the steps below to apply for dependent-benefits.
+        Follow the steps below to get started:
       </h2>
+      <Gateway route={route} top />
       <ProcessList />
-      {showVerifyIdentify ? (
-        <div>{/* add verify identity alert if applicable */}</div>
-      ) : (
-        <SaveInProgressIntro
-          hideUnauthedStartLink
-          headingLevel={2}
-          prefillEnabled={formConfig.prefillEnabled}
-          messages={formConfig.savedFormMessages}
-          pageList={pageList}
-          startText="Start the application"
-        />
-      )}
-      <p />
-      <va-omb-info
-        res-burden={OMB_RES_BURDEN}
-        omb-number={OMB_NUMBER}
-        exp-date={OMB_EXP_DATE}
-      />
+      <Gateway route={route} />
+      <div className="vads-u-margin-top--3">
+        <va-omb-info
+          res-burden={OMB_RES_BURDEN}
+          omb-number={OMB_NUMBER}
+          exp-date={OMB_EXP_DATE}
+        >
+          {PRIVACY_ACT_NOTICE}
+        </va-omb-info>
+      </div>
     </article>
   );
 };
@@ -102,9 +103,6 @@ IntroductionPage.propTypes = {
     }).isRequired,
     pageList: PropTypes.arrayOf(PropTypes.object).isRequired,
   }).isRequired,
-  location: PropTypes.shape({
-    basename: PropTypes.string,
-  }),
 };
 
 export default IntroductionPage;

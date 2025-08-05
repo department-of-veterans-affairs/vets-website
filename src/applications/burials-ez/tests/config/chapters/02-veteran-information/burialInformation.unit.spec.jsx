@@ -5,7 +5,6 @@ import React from 'react';
 import createCommonStore from '@department-of-veterans-affairs/platform-startup/store';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $$ } from 'platform/forms-system/src/js/utilities/ui';
-import { ReviewField } from '../../../../config/chapters/02-veteran-information/burialInformation';
 import formConfig from '../../../../config/form';
 
 const defaultStore = createCommonStore();
@@ -124,24 +123,5 @@ describe('Burial Information', () => {
         expect(burialDateInput.error).to.be.null;
       });
     });
-  });
-});
-
-describe('ReviewField', () => {
-  it('displays date of burial date if it exists', () => {
-    const children = {
-      props: {
-        formData: '2020-01-01',
-      },
-    };
-    const { queryByText } = render(<ReviewField>{children}</ReviewField>);
-    expect(queryByText('Date of burial')).to.exist;
-    expect(queryByText('January 1, 2020')).to.exist;
-  });
-  it('does not display burial date if missing', () => {
-    const children = { props: {} };
-    const { queryByText } = render(<ReviewField>{children}</ReviewField>);
-    expect(queryByText('Date of burial')).to.exist;
-    expect(queryByText('January 1 2020')).to.be.null;
   });
 });

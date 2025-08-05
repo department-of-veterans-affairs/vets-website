@@ -28,10 +28,16 @@ class ApiInitializer {
 
   initializeClaims = {
     happyPath: () => {
-      cy.intercept('GET', API_PATHS.CLAIMS, claims).as('sm');
+      cy.intercept(
+        'GET',
+        `${
+          API_PATHS.CLAIMS
+        }?start_date=2024-03-25T00:00:00&end_date=2024-06-25T23:59:59`,
+        claims,
+      ).as('sm');
     },
     errorPath: () => {
-      cy.intercept('GET', API_PATHS.CLAIMS, {
+      cy.intercept('GET', `${API_PATHS.CLAIMS}?*`, {
         statusCode: 503,
         body: {
           errors: [
@@ -44,6 +50,20 @@ class ApiInitializer {
           ],
         },
       }).as('smError');
+    },
+  };
+
+  additionalClaims = {
+    happyPath: () => {
+      cy.intercept(
+        'GET',
+        `${
+          API_PATHS.CLAIMS
+        }?start_date=2024-01-01T00:00:00&end_date=2024-03-31T23:59:59`,
+        {
+          fixture: 'applications/travel-pay/tests/fixtures/test-data-2.json',
+        },
+      ).as('sm2');
     },
   };
 

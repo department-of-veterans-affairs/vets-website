@@ -6,7 +6,7 @@ import { isEmpty } from 'lodash';
 import { useLocation } from 'react-router-dom';
 import NameTag from '~/applications/personalization/components/NameTag';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
-import { hasTotalDisabilityServerError } from '../../common/selectors/ratedDisabilities';
+import { hasTotalDisabilityError } from '../../common/selectors/ratedDisabilities';
 
 import ProfileSubNav from './ProfileSubNav';
 import ProfileMobileSubNav from './ProfileMobileSubNav';
@@ -44,21 +44,19 @@ const ProfileWrapper = ({
   isLOA3,
   isInMVI,
   totalDisabilityRating,
-  totalDisabilityRatingServerError,
+  totalDisabilityRatingError,
   showNameTag,
 }) => {
   const location = useLocation();
 
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const vetStatusCardToggle = useToggleValue(TOGGLE_NAMES.vetStatusStage1);
+  const paperlessDeliveryToggle = useToggleValue(
+    TOGGLE_NAMES.profileShowPaperlessDelivery,
+  );
 
-  let routesForNav = getRoutesForNav();
-
-  if (!vetStatusCardToggle) {
-    routesForNav = routesForNav.filter(
-      route => route.name !== 'Veteran Status Card',
-    );
-  }
+  const routesForNav = getRoutesForNav({
+    profileShowPaperlessDelivery: paperlessDeliveryToggle,
+  });
 
   const layout = useMemo(
     () => {
@@ -74,7 +72,7 @@ const ProfileWrapper = ({
       {showNameTag && (
         <NameTag
           totalDisabilityRating={totalDisabilityRating}
-          totalDisabilityRatingServerError={totalDisabilityRatingServerError}
+          totalDisabilityRatingError={totalDisabilityRatingError}
         />
       )}
 
@@ -128,7 +126,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     hero,
     totalDisabilityRating: state.totalRating?.totalDisabilityRating,
-    totalDisabilityRatingServerError: hasTotalDisabilityServerError(state),
+    totalDisabilityRatingError: hasTotalDisabilityError(state),
     showNameTag: ownProps.isLOA3 && isEmpty(hero?.errors),
   };
 };
@@ -147,7 +145,7 @@ ProfileWrapper.propTypes = {
     PropTypes.string,
     PropTypes.number,
   ]),
-  totalDisabilityRatingServerError: PropTypes.bool,
+  totalDisabilityRatingError: PropTypes.bool,
 };
 
 export default connect(mapStateToProps)(ProfileWrapper);

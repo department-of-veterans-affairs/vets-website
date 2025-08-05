@@ -96,6 +96,7 @@ const responses = {
             authExpVbaDowntimeMessage: false,
             profileHideDirectDeposit: false,
             representativeStatusEnableV2Features: true,
+            profileInternationalPhoneNumbers: false,
             profileLimitDirectDepositForNonBeneficiaries: true,
             profileShowCredentialRetirementMessaging: true,
             profileShowNewHealthCareCopayBillNotificationSetting: false,
@@ -107,10 +108,10 @@ const responses = {
             profileShowNoValidationKeyAddressAlert: false,
             profileUseExperimental: false,
             profileShowPrivacyPolicy: false,
+            profileShowPaperlessDelivery: true,
             vetStatusPdfLogging: true,
             veteranStatusCardUseLighthouse: true,
             veteranStatusCardUseLighthouseFrontend: true,
-            vetStatusStage1: true,
             vreCutoverNotice: true,
           }),
         ),
@@ -142,6 +143,8 @@ const responses = {
     // return res.json(user.loa3UserWithNoEmailOrMobilePhone); // user without email or mobile phone
     // return res.json(user.loa3UserWithNoHomeAddress); // home address is null
     // return res.json(user.loa3UserWithoutMailingAddress); // user with no mailing address
+    // return res.json(user.loa3UserWithInternationalMobilePhoneNumber); // international mobile phone number
+    // return res.json(user.loa3UserWithIntlMobilePhoneAndNoEmail); // user with international mobile phone number and no email
     // data claim users
     // return res.json(user.loa3UserWithNoRatingInfoClaim);
     // return res.json(user.loa3UserWithNoMilitaryHistoryClaim);
@@ -229,7 +232,21 @@ const responses = {
       secondsOfDelay,
     );
   },
-  'POST /v0/profile/address_validation': address.addressValidation,
+  'POST /v0/profile/address_validation': (_req, res) => {
+    const addressValidationResponse = 'success';
+    delaySingleResponse(() => {
+      switch (addressValidationResponse) {
+        case 'success':
+          return res.status(200).json(address.addressValidation);
+        case 'downstreamError':
+          return res.status(400).json(address.downstreamError);
+        case 'noCandidateFound':
+          return res.status(400).json(address.noCandidateFound);
+        default:
+          return res.status(200).json('');
+      }
+    }, 1);
+  },
   'GET /v0/mhv_account': mhvAcccount.needsPatient,
   'GET /v0/profile/personal_information': handleGetPersonalInformationRoute,
   'PUT /v0/profile/preferred_names': handlePutPreferredNameRoute,

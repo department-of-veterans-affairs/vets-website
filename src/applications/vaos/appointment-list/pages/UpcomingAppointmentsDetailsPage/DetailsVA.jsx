@@ -75,30 +75,30 @@ export default function DetailsVA({ appointment, facilityData }) {
             <p>
               Something went wrong when we tried to cancel this appointment.
               Please contact your medical center to cancel:
-              <br />
-              <br />
-              {isCC && (
-                <>
-                  <strong>{facility?.name}</strong>
-                  <br />
-                  <FacilityAddress
-                    facility={facility}
-                    showPhone
-                    phoneHeading="Scheduling facility phone:"
-                  />
-                </>
-              )}
-              {!!facility &&
-                !isCC && (
-                  <VAFacilityLocation
-                    facility={facility}
-                    facilityName={facility?.name}
-                    facilityId={facility?.id}
-                    isPhone
-                    showDirectionsLink={false}
-                  />
-                )}
             </p>
+            <br />
+            <br />
+            {isCC && (
+              <>
+                <strong>{facility?.name}</strong>
+                <br />
+                <FacilityAddress
+                  facility={facility}
+                  showPhone
+                  phoneHeading="Scheduling facility phone:"
+                />
+              </>
+            )}
+            {!!facility &&
+              !isCC && (
+                <VAFacilityLocation
+                  facility={facility}
+                  facilityName={facility?.name}
+                  facilityId={facility?.id}
+                  isPhone
+                  showDirectionsLink={false}
+                />
+              )}
           </VaAlert>
         </div>
       </>
@@ -109,17 +109,17 @@ export default function DetailsVA({ appointment, facilityData }) {
 DetailsVA.propTypes = {
   appointment: PropTypes.shape({
     id: PropTypes.string.isRequired,
-    start: PropTypes.string.isRequired,
+    start: PropTypes.instanceOf(Date).isRequired,
     comment: PropTypes.string,
     status: PropTypes.string.isRequired,
     vaos: PropTypes.shape({
-      isPastAppointment: PropTypes.bool.isRequired,
-      isUpcomingAppointment: PropTypes.bool.isRequired,
-      isPendingAppointment: PropTypes.bool.isRequired,
-      isCompAndPenAppointment: PropTypes.bool.isRequired,
-      isCOVIDVaccine: PropTypes.bool.isRequired,
-      isPhoneAppointment: PropTypes.bool.isRequired,
-      isCancellable: PropTypes.bool.isRequired,
+      isPastAppointment: PropTypes.bool,
+      isUpcomingAppointment: PropTypes.bool,
+      isPendingAppointment: PropTypes.bool,
+      isCompAndPenAppointment: PropTypes.bool,
+      isCOVIDVaccine: PropTypes.bool,
+      isPhoneAppointment: PropTypes.bool,
+      isCancellable: PropTypes.bool,
     }),
     location: PropTypes.shape({
       vistaId: PropTypes.string.isRequired,

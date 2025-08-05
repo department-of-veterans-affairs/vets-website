@@ -1,47 +1,44 @@
-import React from 'react';
+import { formatInTimeZone } from 'date-fns-tz';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+import React from 'react';
 import { getAppointmentTimezone } from '../../services/appointment';
 
-export function AppointmentDate({ date, format = 'dddd, MMMM D, YYYY' }) {
-  return <> {moment.parseZone(date).format(format)} </>;
+export function AppointmentDate({
+  date,
+  timezone,
+  format = 'EEEE, MMMM d, yyyy',
+}) {
+  return (
+    <span data-dd-privacy="mask">
+      {' '}
+      {formatInTimeZone(date, timezone, format)}{' '}
+    </span>
+  );
 }
 AppointmentDate.propTypes = {
   date: PropTypes.object,
   format: PropTypes.string,
+  timezone: PropTypes.string,
 };
 
-export function AppointmentTime({ appointment, format = 'h:mm a' }) {
+export function AppointmentTime({ appointment, timezone, format = 'h:mm a' }) {
   if (!appointment) return null;
 
-  const time = moment.parseZone(appointment.start);
   const { abbreviation, description } = getAppointmentTimezone(appointment);
-
   return (
     <>
-      {`${time.format(format)} `}
+      <span data-dd-privacy="mask">
+        {formatInTimeZone(appointment.start, timezone, format)}{' '}
+      </span>
       <span aria-hidden="true">{abbreviation}</span>
       <span className="sr-only">{description}</span>
     </>
   );
 }
 AppointmentTime.propTypes = {
-  appointment: PropTypes.object,
+  appointment: PropTypes.shape({
+    start: PropTypes.oneOfType([PropTypes.instanceOf(Date), PropTypes.string]),
+  }),
   format: PropTypes.string,
-};
-
-export default function AppointmentDateTime({ appointment }) {
-  const appointmentDate = moment.parseZone(appointment.start);
-  const { abbreviation, description } = getAppointmentTimezone(appointment);
-
-  return (
-    <>
-      {appointmentDate.format('dddd, MMMM D, YYYY [at] h:mm a')}{' '}
-      <span aria-hidden="true">{abbreviation}</span>
-      <span className="sr-only"> {description}</span>
-    </>
-  );
-}
-AppointmentDateTime.propTypes = {
-  appointment: PropTypes.object,
+  timezone: PropTypes.string,
 };

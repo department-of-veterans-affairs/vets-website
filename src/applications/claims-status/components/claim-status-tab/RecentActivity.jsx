@@ -12,6 +12,8 @@ import {
   getPhaseItemText,
   is5103Notice,
   getShowEightPhases,
+  renderDefaultThirdPartyMessage,
+  getDisplayFriendlyName,
 } from '../../utils/helpers';
 import { evidenceDictionary } from '../../utils/evidenceDictionary';
 
@@ -71,7 +73,8 @@ export default function RecentActivity({ claim }) {
 
     trackedItems.forEach(item => {
       const updatedDisplayName = cstFriendlyEvidenceRequests
-        ? item.friendlyName || item.displayName
+        ? (item.friendlyName && getDisplayFriendlyName(item)) ||
+          item.displayName
         : item.displayName;
       const displayName =
         cst5103UpdateEnabled && is5103Notice(item.displayName)
@@ -109,8 +112,9 @@ export default function RecentActivity({ claim }) {
         ) {
           addItems(
             item.requestedDate,
-            evidenceDictionary[item.displayName] &&
-            evidenceDictionary[item.displayName].isDBQ
+            (evidenceDictionary[item.displayName] &&
+              evidenceDictionary[item.displayName].isDBQ) ||
+            item.displayName.toLowerCase().includes('dbq')
               ? `We made a request: “${displayName}.”`
               : `We made a request outside the VA: “${displayName}.”`,
             item,
@@ -232,11 +236,7 @@ export default function RecentActivity({ claim }) {
               <br />
             </>
           ) : (
-            <>
-              <strong>You don’t have to do anything.</strong> We asked someone
-              outside VA for documents related to your claim.
-              <br />
-            </>
+            renderDefaultThirdPartyMessage(item.displayName)
           )}
           <Link
             aria-label={`About this notice for ${item.friendlyName ||
