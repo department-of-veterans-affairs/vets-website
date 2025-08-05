@@ -6,6 +6,7 @@ import {
   addMinutes,
   addMonths,
   addYears,
+  format,
   startOfMonth,
 } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
@@ -484,6 +485,53 @@ describe('VAOS Component: CalendarWidget', () => {
     expect(screen.queryByTestId('vaos-calendar')).to.have.class(
       'vaos-calendar__disabled',
     );
+  });
+
+  it('should show validation alert when max selections+1 dates selected for requests', async () => {
+    // Arrange
+    const now = new Date();
+    const selectedDates = [
+      format(addDays(now, 1), DATE_FORMATS.ISODateTimeLocal),
+      format(addDays(now, 2), DATE_FORMATS.ISODateTimeLocal),
+      format(addDays(now, 3), DATE_FORMATS.ISODateTimeLocal),
+      format(addDays(now, 4), DATE_FORMATS.ISODateTimeLocal),
+    ];
+
+    // Act
+    const screen = renderWithStoreAndRouter(
+      <CalendarWidget maxSelections={3} value={selectedDates} />,
+      {},
+    );
+
+    expect(
+      screen.queryByText(
+        'You can only select 3 times for your appointment. Deselect the 4th time to continue.',
+      ),
+    ).to.exist;
+  });
+
+  it('should show validation alert when max selections+2 or more dates selected for requests', async () => {
+    // Arrange
+    const minDate = new Date();
+    const selectedDates = [
+      format(addDays(minDate, 1), DATE_FORMATS.ISODateTimeLocal),
+      format(addDays(minDate, 2), DATE_FORMATS.ISODateTimeLocal),
+      format(addDays(minDate, 3), DATE_FORMATS.ISODateTimeLocal),
+      format(addDays(minDate, 4), DATE_FORMATS.ISODateTimeLocal),
+      format(addDays(minDate, 5), DATE_FORMATS.ISODateTimeLocal),
+    ];
+
+    // Act
+    const screen = renderWithStoreAndRouter(
+      <CalendarWidget maxSelections={3} value={selectedDates} />,
+      {},
+    );
+
+    expect(
+      screen.queryByText(
+        'You can only select 3 times for your appointment. Deselect 2 times to continue.',
+      ),
+    ).to.exist;
   });
 });
 
