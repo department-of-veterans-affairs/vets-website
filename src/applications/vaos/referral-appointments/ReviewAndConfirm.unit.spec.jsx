@@ -209,7 +209,17 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       },
     );
     await screen.findByTestId('continue-button');
-    sandbox.assert.calledOnce(requestStub);
+    sandbox.assert.calledWith(requestStub, '/vaos/v2/appointments/draft', {
+      body: JSON.stringify({
+        /* eslint-disable camelcase */
+        referral_number: 'VA0000007241',
+        referral_consult_id: '984_646907',
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+    });
     expect(store.getState().referral.draftAppointmentInfo).to.deep.equal(
       draftAppointmentInfo,
     );

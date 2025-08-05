@@ -55,7 +55,7 @@ export const ChooseDateAndTime = props => {
       ) {
         if (isDraftUninitialized) {
           postDraftReferralAppointment({
-            referralNumber: '',
+            referralNumber: currentReferral.referralNumber,
             referralConsultId: currentReferral.referralConsultId,
           });
         }
