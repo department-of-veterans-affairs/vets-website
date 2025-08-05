@@ -1,51 +1,7 @@
 import React from 'react';
 
 import classNames from 'classnames';
-import { format, isValid } from 'date-fns';
 import PropTypes from 'prop-types';
-
-const getFullName = fullName => {
-  if (!fullName) return null;
-
-  const first = (fullName?.first || '').trim();
-  const middle = (fullName?.middle || '').trim();
-  const last = (fullName?.last || '').trim();
-
-  return [first, middle, last].filter(Boolean).join(' ');
-};
-
-const onPrintPageClick = () => {
-  window.print();
-};
-
-export const ConfirmationSubmissionAlert = () => (
-  <p className="vads-u-margin-bottom--0">
-    We’ve received your application. We’ll review it and email you a decision
-    soon.
-  </p>
-);
-
-export const ConfirmationPrintThisPage = ({ data, submitDate }) => (
-  <va-summary-box>
-    <h3 slot="headline">Your application information</h3>
-    <h4 className="vads-u-margin-top--1p5">Who submitted this form</h4>
-    <p data-testid="full-name">{getFullName(data.fullName) || '---'}</p>
-    <h4 className="vads-u-margin-top--1">Date submitted</h4>
-    <p data-testid="data-submitted">
-      {isValid(submitDate) ? format(submitDate, 'MMM d, yyyy') : '---'}
-    </p>
-    <h4 className="vads-u-margin-top--1">Confirmation for your recrods</h4>
-    <p className="vads-u-padding-bottom--3">
-      You can print this confirmation page for your records.
-    </p>
-    <va-button onClick={onPrintPageClick} text="Print this page" />
-  </va-summary-box>
-);
-
-ConfirmationPrintThisPage.propTypes = {
-  data: PropTypes.object,
-  submitDate: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-};
 
 export const ConfirmationWhatsNextProcessList = () => (
   <>
@@ -76,6 +32,13 @@ export const ConfirmationWhatsNextProcessList = () => (
   </>
 );
 
+export const ConfirmationHowToContact = () => (
+  <p>
+    If you have questions about this form or need help, you can submit a request
+    through <va-link external href="https://ask.va.gov/" text="Ask VA" />
+  </p>
+);
+
 export const ConfirmationGoBackLink = () => (
   <div
     className={classNames(
@@ -84,7 +47,7 @@ export const ConfirmationGoBackLink = () => (
       'vads-u-margin-top--2',
     )}
   >
-    <va-link-action href="/" text="Go back to VA.gov" type="primary" />
+    <va-link-action href="/" text="Go back to VA.gov homepage" type="primary" />
   </div>
 );
 

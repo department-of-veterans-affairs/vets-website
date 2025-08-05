@@ -31,7 +31,7 @@ export const filePresenceValidation = (
  *
  * Usage schema:
  * ```js
- * exampleFileInput: fileInputSchema,
+ * exampleFileInput: fileInputSchema(),
  * required: ['exampleFileInput']
  *
  * // or
@@ -126,12 +126,10 @@ export const fileInputUI = options => {
  * Schema for fileInputUI
  *
  * ```js
- * exampleFileInput: {
- *   type: 'object',
- * }
+ * exampleFileInput: fileInputSchema()
  * ```
  */
-export const fileInputSchema = {
+export const fileInputSchema = () => ({
   type: 'object',
   properties: {
     confirmationCode: {
@@ -156,4 +154,4 @@ export const fileInputSchema = {
       },
     },
   },
-};
+});

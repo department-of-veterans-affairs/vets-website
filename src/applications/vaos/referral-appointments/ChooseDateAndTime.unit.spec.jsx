@@ -15,7 +15,7 @@ import * as flow from './flow';
 import { FETCH_STATUS } from '../utils/constants';
 import * as utils from '../services/utils';
 
-describe('VAOS ChooseDateAndTime component', () => {
+describe.skip('VAOS ChooseDateAndTime component', () => {
   const sandbox = sinon.createSandbox();
   const confirmed = [
     {

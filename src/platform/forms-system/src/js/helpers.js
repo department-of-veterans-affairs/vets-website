@@ -427,7 +427,21 @@ export const pureWithDeepEquals = shouldUpdate(
  */
 export function checkValidSchema(schema, errors = [], path = ['root']) {
   if (typeof schema.type !== 'string') {
-    errors.push(`Missing type in ${path.join('.')} schema.`);
+    if (typeof schema === 'function') {
+      const functionName = schema.name || 'function';
+      errors.push(
+        `Invalid schema at "${path.join(
+          '.',
+        )}": expected a schema object, but received the function "${functionName}". ` +
+          `JSON schemas must be plain objects. Did you forget to call "${functionName}()"?`,
+      );
+    } else {
+      errors.push(
+        `Invalid schema at "${path.join(
+          '.',
+        )}": missing or invalid "type" property. Expected an object with a "type" string.`,
+      );
+    }
   }
 
   if (schema.type === 'object') {

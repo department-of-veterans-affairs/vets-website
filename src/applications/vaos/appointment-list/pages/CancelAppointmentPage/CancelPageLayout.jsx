@@ -113,13 +113,15 @@ export default function CancelPageLayout() {
               </>
             )}
           {!!facility && (
-            <>
+            <span data-dd-privacy="mask">
               {facility.name}
               <br />
               <Address address={facility?.address} />
-            </>
+            </span>
           )}
-          {clinicName ? `Clinic: ${clinicName}` : 'Clinic not available'}
+          <span data-dd-privacy="mask">
+            {clinicName ? `Clinic: ${clinicName}` : 'Clinic not available'}
+          </span>
           <br />
           <ClinicOrFacilityPhone
             clinicPhone={clinicPhone}
@@ -169,8 +171,13 @@ export default function CancelPageLayout() {
                 <FacilityDirectionsLink location={facility} icon />
               </div>
               <br />
-              <span>Clinic: {clinicName || 'Not available'}</span> <br />
-              <span>Location: {clinicPhysicalLocation || 'Not available'}</span>
+              <span data-dd-privacy="mask">
+                Clinic: {clinicName || 'Not available'}
+              </span>{' '}
+              <br />
+              <span data-dd-privacy="mask">
+                Location: {clinicPhysicalLocation || 'Not available'}
+              </span>
               <br />
             </>
           )}

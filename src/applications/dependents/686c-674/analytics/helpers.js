@@ -1,7 +1,7 @@
 import { submitToUrl } from 'platform/forms-system/src/js/actions';
 import { customTransformForSubmit } from '../config/utilities';
 
-export const buildEventData = formData => {
+export const buildEventData = (formData = {}) => {
   return {
     'disability-claimSpouse': formData['view:selectable686Options'].addSpouse,
     'disability-under18AndUnmarried':

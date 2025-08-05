@@ -218,14 +218,21 @@ export const validateDependent = (formData = {}) => {
   } = formData;
 
   const isValidCurrency = val => {
-    if (val === undefined || val === '') return false;
-    return typeof val === 'string' && CURRENCY_PATTERN.test(val);
+    if (val === undefined || val === null || val === '') return false;
+    const valueStr = val.toString().trim();
+    if (!CURRENCY_PATTERN.test(valueStr)) return false;
+    const numericValue = parseFloat(valueStr.replace(/[$,]/g, ''));
+    // eslint-disable-next-line no-restricted-globals
+    return !isNaN(numericValue) && numericValue >= 0;
   };
-  const isValidSsn = val => typeof val === 'string' && SSN_PATTERN.test(val);
+  const isValidSSN = val => {
+    if (val === undefined || val === '') return false;
+    return typeof val === 'string' && SSN_PATTERN.test(val);
+  };
 
-  if (!fullName?.firstName || !fullName?.lastName) return true;
+  if (!fullName?.first || !fullName?.last) return true;
   if (!dependentRelation) return true;
-  if (!isValidSsn(socialSecurityNumber)) return true;
+  if (!isValidSSN(socialSecurityNumber)) return true;
   if (!validateDateOfBirth(dateOfBirth)) return true;
 
   const birthDate = new Date(dateOfBirth);
@@ -237,13 +244,7 @@ export const validateDependent = (formData = {}) => {
 
   if (dependentIncome) {
     const incomeFields = [grossIncome, netIncome, otherIncome];
-    const allFieldsHaveValues = incomeFields.every(val => {
-      if (!isValidCurrency(val)) return false;
-      const numericValue = parseFloat(val.replace(/[$,]/g, ''));
-      // eslint-disable-next-line no-restricted-globals
-      return !isNaN(numericValue) && numericValue >= 0;
-    });
-
+    const allFieldsHaveValues = incomeFields.every(isValidCurrency);
     if (!allFieldsHaveValues) return true;
   }
 
@@ -251,6 +252,5 @@ export const validateDependent = (formData = {}) => {
     dateOfBirth,
     'view:grossIncome': { grossIncome },
   });
-
   return needsEducationExpenses && !isValidCurrency(dependentEducationExpenses);
 };

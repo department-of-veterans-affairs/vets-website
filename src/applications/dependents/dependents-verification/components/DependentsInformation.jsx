@@ -224,11 +224,7 @@ DependentsInformation.propTypes = {
   data: PropTypes.shape({
     dependents: PropTypes.arrayOf(
       PropTypes.shape({
-        fullName: PropTypes.shape({
-          first: PropTypes.string,
-          middle: PropTypes.string,
-          last: PropTypes.string,
-        }),
+        fullName: PropTypes.string,
         relationship: PropTypes.string,
         dob: PropTypes.string,
         age: PropTypes.number,

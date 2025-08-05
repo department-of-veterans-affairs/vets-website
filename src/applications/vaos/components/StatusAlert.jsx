@@ -96,7 +96,10 @@ export default function StatusAlert({ appointment, facility }) {
             </div>
           </>
         ) : (
-          <p>You requested this appointment on {createdDate}.</p>
+          <p>
+            You requested this appointment on{' '}
+            <span data-dd-privacy="mask">{createdDate}</span>.
+          </p>
         )}
       </InfoAlert>
     );

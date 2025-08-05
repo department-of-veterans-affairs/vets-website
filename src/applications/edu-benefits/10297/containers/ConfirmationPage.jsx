@@ -4,8 +4,7 @@ import { useSelector } from 'react-redux';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
 import {
   ConfirmationGoBackLink,
-  ConfirmationPrintThisPage,
-  ConfirmationSubmissionAlert,
+  ConfirmationHowToContact,
   ConfirmationWhatsNextProcessList,
 } from '../helpers';
 
@@ -20,14 +19,14 @@ export const ConfirmationPage = props => {
       formConfig={props.route?.formConfig}
       submitDate={submitDate}
       confirmationNumber={confirmationNumber}
+      pdfUrl={submission?.response?.pdfUrl}
     >
-      <ConfirmationView.SubmissionAlert
-        title="You’ve submitted your application for the High Technology Program"
-        content={<ConfirmationSubmissionAlert />}
-        actions=""
-      />
-      <ConfirmationPrintThisPage data={form.data} submitDate={submitDate} />
+      <ConfirmationView.SubmissionAlert actions={null} />
+      <ConfirmationView.SavePdfDownload />
+      <ConfirmationView.ChapterSectionCollection />
+      <ConfirmationView.PrintThisPage />
       <ConfirmationWhatsNextProcessList />
+      <ConfirmationView.HowToContact content={<ConfirmationHowToContact />} />
       <ConfirmationGoBackLink />
     </ConfirmationView>
   );

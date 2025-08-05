@@ -10,14 +10,9 @@ import {
 import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
 import { fileUploadBlurb } from '../../shared/components/fileUploads/attachments';
 import { nameWording, privWrapper } from '../../shared/utilities';
-import FileFieldCustom from '../../shared/components/fileUploads/FileUpload';
+import { FileFieldCustomSimple } from '../../shared/components/fileUploads/FileUpload';
 import { blankSchema } from './sponsorInformation';
-
-// Wrap shared fileFieldCustom so we can pass the form-specific
-// list of required uploads (for use with MissingFileOverview)
-function FileFieldWrapped(props) {
-  return FileFieldCustom({ ...props, requiredFiles: [] });
-}
+import { LLM_UPLOAD_WARNING } from '../components/llmUploadWarning';
 
 const additionalMedicalClaimInfo = () => {
   return (
@@ -155,7 +150,7 @@ export const claimAutoSchema = {
 };
 
 export const medicalClaimUploadSchema = {
-  CustomPage: FileFieldWrapped,
+  CustomPage: FileFieldCustomSimple,
   CustomPageReview: null,
   uiSchema: {
     ...titleUI('Upload supporting documents', ({ formData }) => (
@@ -239,6 +234,7 @@ export const medicalClaimUploadSchema = {
         return additionalNotesClaims(formData?.formContext?.fullData);
       },
     },
+    ...LLM_UPLOAD_WARNING,
     medicalUpload: fileUploadUI({
       label: 'Upload supporting document',
       attachmentName: true,
@@ -252,6 +248,8 @@ export const medicalClaimUploadSchema = {
       titleSchema,
       'view:fileUploadBlurb': blankSchema,
       'view:notes': blankSchema,
+      // schema for LLM message
+      'view:fileClaim': blankSchema,
       medicalUpload: {
         type: 'array',
         minItems: 1,
@@ -271,7 +269,7 @@ export const medicalClaimUploadSchema = {
 export const eobUploadSchema = isPrimary => {
   const keyName = isPrimary ? 'primaryEob' : 'secondaryEob';
   return {
-    CustomPage: FileFieldWrapped,
+    CustomPage: FileFieldCustomSimple,
     CustomPageReview: null,
     uiSchema: {
       ...titleUI(
@@ -344,6 +342,7 @@ export const eobUploadSchema = isPrimary => {
           return additionalNotesClaims(formData?.formContext?.fullData);
         },
       },
+      ...LLM_UPLOAD_WARNING,
       [keyName]: fileUploadUI({
         label: 'Upload explanation of benefits',
         attachmentName: true,
@@ -357,6 +356,8 @@ export const eobUploadSchema = isPrimary => {
         titleSchema,
         'view:fileUploadBlurb': blankSchema,
         'view:notes': blankSchema,
+        // schema for LLM message
+        'view:fileClaim': blankSchema,
         [keyName]: {
           type: 'array',
           minItems: 1,
@@ -375,7 +376,7 @@ export const eobUploadSchema = isPrimary => {
 };
 
 export const pharmacyClaimUploadSchema = {
-  CustomPage: FileFieldWrapped,
+  CustomPage: FileFieldCustomSimple,
   CustomPageReview: null,
   uiSchema: {
     ...titleUI(
@@ -440,6 +441,7 @@ export const pharmacyClaimUploadSchema = {
         return additionalNotesClaims(formData?.formContext?.fullData);
       },
     },
+    ...LLM_UPLOAD_WARNING,
     pharmacyUpload: fileUploadUI({
       label: 'Upload supporting document',
       attachmentName: true,
@@ -453,6 +455,8 @@ export const pharmacyClaimUploadSchema = {
       titleSchema,
       'view:fileUploadBlurb': blankSchema,
       'view:notes': blankSchema,
+      // schema for LLM message
+      'view:fileClaim': blankSchema,
       pharmacyUpload: {
         type: 'array',
         minItems: 1,
