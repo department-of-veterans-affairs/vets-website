@@ -186,7 +186,7 @@ export function validatePages(orderedPageTypes) {
     if (pageType === 'intro') {
       if (pageTypes.intro || pageTypes.item) {
         throw new Error(
-          "arrayBuilderPages `pageBuilder.introPage` must be first and defined only once. Intro page should be used for 'required' flow, and should contain only text.",
+          "arrayBuilderPages `pageBuilder.introPage` must be first and defined only once. Intro page should be used for 'required' flow, and should contain only text",
         );
       }
       pageTypes.intro = true;
@@ -195,7 +195,7 @@ export function validatePages(orderedPageTypes) {
 
       if (pageTypes.item) {
         throw new Error(
-          'arrayBuilderPages `pageBuilder.summaryPage` must come before item pages.',
+          'arrayBuilderPages `pageBuilder.summaryPage` must come before item pages',
         );
       }
     } else if (pageType === 'item') {
@@ -205,16 +205,16 @@ export function validatePages(orderedPageTypes) {
 
   if (pageTypes.summaryCount < 1) {
     throw new Error(
-      'arrayBuilderPages must include at least one summary page with `pageBuilder.summaryPage`',
+      'arrayBuilderPages must include a summary page with `pageBuilder.summaryPage`',
     );
   }
 
-  // 🟡 Allow multiple summaries — assume they are mutually exclusive via `depends`
+  // Allow multiple summaries — assume they are mutually exclusive via `depends`
   // But optionally warn in console if more than one exists
   if (pageTypes.summaryCount > 1) {
     // eslint-disable-next-line no-console
     console.warn(
-      `[arrayBuilderPages] More than one summaryPage defined. Ensure they are gated by \`depends\` so only one is ever shown.`,
+      `[arrayBuilderPages] More than one summaryPage defined. Ensure they are gated by \`depends\` so only one is ever shown`,
     );
   }
 
