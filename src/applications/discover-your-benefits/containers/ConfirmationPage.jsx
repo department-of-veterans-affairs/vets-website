@@ -489,13 +489,13 @@ export class ConfirmationPage extends React.Component {
                 benefitIds={this.state.benefitIds}
                 queryString={this.props.location.query}
               />
-
               <VaPagination
                 onPageSelect={this.handlePageChange}
                 page={this.state.currentPage}
                 pages={Math.ceil(
                   this.state.benefits.length / this.state.pageSize,
                 )}
+                className="vads-u-padding-top--0 vads-u-justify-content--flex-start vads-u-border-top--0"
               />
             </div>
           </div>
