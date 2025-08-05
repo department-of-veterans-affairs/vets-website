@@ -8,6 +8,7 @@ import IsUnderCharges from '../../components/06-background-information-chapter/I
 import HasBeenTerminatedByVSOrg from '../../components/06-background-information-chapter/HasBeenTerminatedByVSOrg';
 import HasConditionThatAffectsRepresentation from '../../components/06-background-information-chapter/HasConditionThatAffectsRepresentation';
 import ConditionThatAffectsRepresentationDetails from '../../components/06-background-information-chapter/ConditionThatAffectsRepresentationDetails';
+import { DOCUMENT_TYPE_ENUM } from '../../config/enums';
 
 const convictionDetailsQuestion =
   'Provide the date, a detailed explanation, and the location of the conviction as well as the name and address of the military authority or court involved.';
@@ -27,6 +28,7 @@ export default {
     convictionDetails: backgroundInformationDetailsPageSchema({
       title: 'Conviction details',
       path: 'conviction-details',
+      docType: DOCUMENT_TYPE_ENUM.Imprisoned,
       depends: formData => formData.conviction,
       question: convictionDetailsQuestion,
       explanationDescription: ExplanationDescription,
@@ -41,6 +43,7 @@ export default {
     courtMartialedDetails: backgroundInformationDetailsPageSchema({
       title: 'Court martialed details',
       path: 'court-martialed-details',
+      docType: DOCUMENT_TYPE_ENUM.Convicted,
       depends: formData => formData.courtMartialed,
       question: convictionDetailsQuestion,
       explanationDescription: ExplanationDescription,
@@ -54,6 +57,7 @@ export default {
     underChargesDetails: backgroundInformationDetailsPageSchema({
       title: 'Under charges details',
       path: 'under-charges-details',
+      docType: DOCUMENT_TYPE_ENUM.CurrentlyCharged,
       depends: formData => formData.underCharges,
       question:
         'Provide the date, a detailed explanation, and the location of the violation as well as the name and address of the military authority or court involved.',
@@ -68,6 +72,7 @@ export default {
     resignedFromEducationDetails: backgroundInformationDetailsPageSchema({
       title: 'Resigned from education details',
       path: 'resigned-from-education-details',
+      docType: DOCUMENT_TYPE_ENUM.Suspended,
       depends: formData => formData.resignedFromEducation,
       question:
         'Provide a detailed statement setting forth all relevant facts and dates of the suspension, expulsion, or resignation.',
@@ -82,6 +87,7 @@ export default {
     withdrawnFromEducationDetails: backgroundInformationDetailsPageSchema({
       title: 'Withdrawn from education details',
       path: 'withdrawn-from-education-details',
+      docType: DOCUMENT_TYPE_ENUM.Withdrawn,
       depends: formData => formData.withdrawnFromEducation,
       question:
         'Provide a detailed statement setting forth all relevant facts and dates of your withdrawal.',
@@ -96,6 +102,7 @@ export default {
     disciplinedForDishonestyDetails: backgroundInformationDetailsPageSchema({
       title: 'Disciplined for dishonesty details',
       path: 'disciplined-for-dishonesty-details',
+      docType: DOCUMENT_TYPE_ENUM.Disciplined,
       depends: formData => formData.disciplinedForDishonesty,
       question:
         'Provide a detailed statement setting forth all relevant facts and dates of your discipline, reprimand, suspension, or termination.',
@@ -110,6 +117,7 @@ export default {
     resignedForDishonestyDetails: backgroundInformationDetailsPageSchema({
       title: 'Resigned for dishonesty details',
       path: 'resigned-for-dishonesty-details',
+      docType: DOCUMENT_TYPE_ENUM.ResignedRetired,
       depends: formData => formData.resignedForDishonesty,
       question:
         'Provide a detailed statement setting forth all relevant facts and dates of your resignation or retirement.',
@@ -124,6 +132,7 @@ export default {
     repForAgencyDetails: backgroundInformationDetailsPageSchema({
       title: 'Representative for agency details',
       path: 'representative-for-agency-details',
+      docType: DOCUMENT_TYPE_ENUM.AgencyAttorney,
       depends: formData => formData.representativeForAgency,
       question:
         'Provide details of your service, including which Federal or state department or agency and relevant dates.',
@@ -137,6 +146,7 @@ export default {
     reprimandedInAgencyDetails: backgroundInformationDetailsPageSchema({
       title: 'Reprimanded in agency details',
       path: 'reprimanded-in-agency-details',
+      docType: DOCUMENT_TYPE_ENUM.Reprimanded,
       depends: formData => formData.reprimandedInAgency,
       question:
         'Provide a detailed statement setting forth all relevant facts and dates of your reprimand, suspension, denial from practice, or barring.',
@@ -151,6 +161,7 @@ export default {
     resignedFromAgencyDetails: backgroundInformationDetailsPageSchema({
       title: 'Resigned from agency details',
       path: 'resigned-from-agency-details',
+      docType: DOCUMENT_TYPE_ENUM.ResignedToAvoidReprimand,
       depends: formData => formData.resignedFromAgency,
       question:
         'Provide a detailed statement setting forth all relevant facts and dates of your resignation.',
@@ -165,6 +176,7 @@ export default {
     appliedForVaAccreditationDetails: backgroundInformationDetailsPageSchema({
       title: 'Applied for VA accreditation details',
       path: 'applied-for-va-accreditation-details',
+      docType: DOCUMENT_TYPE_ENUM.AppliedForAccreditation,
       depends: formData => formData.appliedForVaAccreditation,
       question:
         'Provide details of your application, including when you previously applied, if you applied for accreditation as an attorney, agent, or VSO representative, and whether you are currently accredited as a VSO representative.',
@@ -179,6 +191,7 @@ export default {
     terminatedByVSOrgDetails: backgroundInformationDetailsPageSchema({
       title: 'Terminated by VSOrg details',
       path: 'terminated-by-vsorg-details',
+      docType: DOCUMENT_TYPE_ENUM.AccreditationTerminated,
       depends: formData => formData.terminatedByVsorg,
       question: 'Provide relevant details of your termination or suspension.',
       explanationDescription: ExplanationDescription,
@@ -194,6 +207,7 @@ export default {
       {
         title: 'Condition that affects representation details',
         path: 'condition-that-affects-representation-details',
+        docType: DOCUMENT_TYPE_ENUM.Impairments,
         depends: formData => formData.conditionThatAffectsRepresentation,
         question:
           'Describe the condition or impairment, and any treatment you receive now or in the past year.',
@@ -211,6 +225,7 @@ export default {
       {
         title: 'Condition that affects examination details',
         path: 'condition-that-affects-examination-details',
+        docType: DOCUMENT_TYPE_ENUM.PhysicalLimitations,
         depends: formData => formData.conditionThatAffectsExamination,
         question:
           'State the nature of such limitations and provide details of any special accommodation deemed necessary.',
