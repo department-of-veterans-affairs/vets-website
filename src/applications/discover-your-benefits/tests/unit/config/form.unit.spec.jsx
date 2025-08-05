@@ -92,6 +92,15 @@ describe('Questionnaire Form - Chapter 2: Service', () => {
       };
       expect(titleTenActiveDutyPage.depends(formData)).to.be.true;
     });
+
+    it('should return true when reserve service is true.', () => {
+      const formData = {
+        [militaryBranchTypes.AIR_FORCE]: {
+          [militaryBranchComponentTypes.RESERVE_SERVICE]: true,
+        },
+      };
+      expect(titleTenActiveDutyPage.depends(formData)).to.be.true;
+    });
   });
 
   describe('depends function for militaryServiceCompleted', () => {
