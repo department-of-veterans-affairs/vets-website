@@ -10,9 +10,6 @@ const ServiceProvidersList = React.memo(() => {
         <li>
           A verified <strong>Login.gov</strong> account, <strong>or</strong>
         </li>
-        <li>
-          A Premium <strong>DS Logon</strong> account, <strong>or</strong>
-        </li>
       </ul>
       <p>
         If you don’t have one of these accounts, you can create a free{' '}

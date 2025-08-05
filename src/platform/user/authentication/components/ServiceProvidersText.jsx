@@ -1,7 +1,7 @@
 import React from 'react';
 
 const ServiceProviders = React.memo(({ isBold }) => {
-  const serviceProviders = ['ID.me', 'Login.gov', 'DS Logon'];
+  const serviceProviders = ['ID.me', 'Login.gov'];
 
   return new Intl.ListFormat('en', { style: 'long', type: 'disjunction' })
     .formatToParts(serviceProviders)
