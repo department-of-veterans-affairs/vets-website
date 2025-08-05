@@ -282,6 +282,36 @@ describe('Questionnaire Form - Chapter 4: Character of Discharge', () => {
   const { chapter4 } = chapters;
   const dischargePage = chapter4.pages.characterOfDischarge;
 
+  it('should navigate back to militaryService question if militaryServiceCurrentlyServing is "Yes"', () => {
+    const formData = {
+      militaryServiceCurrentlyServing: true,
+    };
+    const goPathMock = path => {
+      expect(path).to.equal(
+        formConfig.chapters.chapter2.pages.militaryService.path,
+      );
+    };
+
+    dischargePage.onNavBack({
+      formData,
+      goPath: goPathMock,
+    });
+  });
+
+  it('should navigate back to seperation question if militaryServiceCurrentlyServing is "No"', () => {
+    const formData = {
+      militaryServiceCurrentlyServing: false,
+    };
+    const goPathMock = path => {
+      expect(path).to.equal(formConfig.chapters.chapter3.pages.separation.path);
+    };
+
+    dischargePage.onNavBack({
+      formData,
+      goPath: goPathMock,
+    });
+  });
+
   describe('Character of Discharge page configuration', () => {
     it('should have the correct path for the Character of Discharge page', () => {
       expect(dischargePage.path).to.equal('discharge');
