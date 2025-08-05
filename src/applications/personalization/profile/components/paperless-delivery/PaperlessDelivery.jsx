@@ -25,13 +25,19 @@ export const PaperlessDelivery = () => {
   const communicationPreferencesState = useSelector(
     selectCommunicationPreferences,
   );
-  const hasVAPServiceError = useSelector(hasVAPServiceConnectionError); // rename?
-  const hasLoadingError = Boolean(communicationPreferencesState.loadingErrors); // rename
-  const shouldShowAPIError = hasVAPServiceError || hasLoadingError; // rename
+  const hasVAPServiceError = useSelector(hasVAPServiceConnectionError);
+  const hasLoadingError = Boolean(communicationPreferencesState.loadingErrors);
+  const shouldShowAPIError = hasVAPServiceError || hasLoadingError;
   const shouldShowLoadingIndicator =
+    communicationPreferencesState.loadingStatus === LOADING_STATES.idle ||
     communicationPreferencesState.loadingStatus === LOADING_STATES.pending;
-
   const shouldFetchNotificationSettings = !shouldShowAPIError;
+  const shouldShowNotificationGroups = useMemo(
+    () => {
+      return !shouldShowAPIError && !shouldShowLoadingIndicator;
+    },
+    [shouldShowAPIError, shouldShowLoadingIndicator],
+  );
 
   useEffect(
     () => {
@@ -46,15 +52,6 @@ export const PaperlessDelivery = () => {
     [dispatch, facilities, shouldFetchNotificationSettings],
   );
 
-  const showMissingEmailAlert = !emailAddress;
-
-  const shouldShowNotificationGroups = useMemo(
-    () => {
-      return !shouldShowAPIError && !shouldShowLoadingIndicator;
-    },
-    [shouldShowAPIError, shouldShowLoadingIndicator],
-  );
-
   return (
     <>
       <Headline>{PROFILE_PATH_NAMES.PAPERLESS_DELIVERY}</Headline>
@@ -67,7 +64,7 @@ export const PaperlessDelivery = () => {
       {shouldShowNotificationGroups && (
         <>
           <Description />
-          {showMissingEmailAlert && <MissingEmailAlert />}
+          <MissingEmailAlert emailAddress={emailAddress} />
           <FieldHasBeenUpdated slim />
           <ProfileEmail emailAddress={emailAddress} />
           <hr aria-hidden="true" className="vads-u-margin-y--3" />
