@@ -24,7 +24,7 @@ export class ConfirmationPage extends React.Component {
       resultsCount: 0,
       benefitIds: {},
       sortValue: 'alphabetical',
-      filterValues: ['All'],
+      filterValues: [],
       filterText: '',
       benefits: [],
       benefitsList: BENEFITS_LIST,
@@ -33,7 +33,6 @@ export class ConfirmationPage extends React.Component {
           id: 1,
           label: 'Benefit type',
           category: [
-            { id: 'All', label: 'All' },
             { id: 'Burials', label: 'Burials and memorials' },
             { id: 'Careers', label: 'Careers and employment' },
             { id: 'Disability', label: 'Disability' },
@@ -199,7 +198,7 @@ export class ConfirmationPage extends React.Component {
       const selectedFilter =
         selectedFilterFacet?.category?.length > 0
           ? selectedFilterFacet.category.map(cat => cat.id)
-          : ['All'];
+          : [];
 
       const selectedSort =
         selectedSortFacet?.category?.[0]?.id || 'alphabetical';
@@ -220,7 +219,7 @@ export class ConfirmationPage extends React.Component {
       }));
 
       return {
-        filterValues: ['All'],
+        filterValues: [],
         sortValue: 'alphabetical',
         filterOptions: resetFilterOptions,
       };
@@ -239,7 +238,7 @@ export class ConfirmationPage extends React.Component {
   filterBenefits = sortingCallback => {
     const keys = this.state.filterValues;
 
-    if (keys.includes('All')) {
+    if (!keys || keys.length === 0) {
       this.setState(
         () => ({
           benefits: this.props.results.data,
@@ -306,16 +305,12 @@ export class ConfirmationPage extends React.Component {
     const end =
       totalResults === 0 ? 0 : Math.min(currentPage * pageSize, totalResults);
 
-    const filtersApplied = filterValues.includes('All')
-      ? 0
-      : filterValues.length;
-
     return (
       <>
         Showing {start}–{end} of {totalResults} results
-        {filtersApplied > 0 &&
-          ` with ${filtersApplied} filter${
-            filtersApplied > 1 ? 's' : ''
+        {filterValues.length > 0 &&
+          ` with ${filterValues.length} filter${
+            filterValues.length > 1 ? 's' : ''
           } applied`}
       </>
     );
@@ -359,7 +354,7 @@ export class ConfirmationPage extends React.Component {
       <>
         {window.history.length > 2 ? (
           <>
-            <p>
+            <p className="vads-u-margin-bottom--0">
               Based on your answers, we've suggested some benefits for you to
               explore. If you need to, you can&nbsp;
               <va-link
@@ -373,7 +368,7 @@ export class ConfirmationPage extends React.Component {
           </>
         ) : (
           <>
-            <p>
+            <p className="vads-u-margin-bottom--0">
               Based on your answers, we've suggested some benefits for you to
               explore. Remember to check your eligibility before you apply.
             </p>
@@ -386,10 +381,10 @@ export class ConfirmationPage extends React.Component {
   render() {
     return (
       <div>
-        <article>
-          <div>
+        <article className="description-article">
+          <div className="description-padding-btm">
             {this.props.location.query.allBenefits ? (
-              <>
+              <div>
                 <p>
                   Below are all of the benefits that this tool can recommend.
                   Remember to check your eligibility before you apply.
@@ -398,40 +393,41 @@ export class ConfirmationPage extends React.Component {
                   These aren’t your personalized benefit recommendations, but
                   you can go back to your recommendations if you’d like.
                 </p>
-                <p>
+                <p className="vads-u-margin-bottom--0">
                   We're also planning to add more benefits and resources to this
                   tool. Check back soon to find more benefits you may want to
                   apply for.
                 </p>
-              </>
+              </div>
             ) : (
               this.titleParagraph()
             )}
           </div>
-        </article>
-        <va-alert
-          close-btn-aria-label="Close notification"
-          status="info"
-          visible
-        >
-          <h2>Benefits for transitioning service members</h2>
-          <p>
-            We can help guide you as you transition from active-duty service or
-            from service in the Guard or Reserve. You’ll need to act quickly to
-            take advantage of certain time-sensitive benefits.
-            <br />
-            <va-link
-              href="https://www.va.gov/service-member-benefits/"
-              external
-              text="Learn more about VA benefits for service members"
-              type="secondary"
-              label="Learn more about VA benefits for service members"
-            />
-          </p>
-        </va-alert>
 
-        <div id="results-container" className="vads-l-grid-container">
-          <div className="vads-l-row vads-u-margin-y--2 vads-u-margin-x--neg2p5">
+          <va-alert
+            close-btn-aria-label="Close notification"
+            status="info"
+            visible
+          >
+            <h2>Benefits for transitioning service members</h2>
+            <p>
+              We can help guide you as you transition from active-duty service
+              or from service in the Guard or Reserve. You’ll need to act
+              quickly to take advantage of certain time-sensitive benefits.
+              <br />
+              <va-link
+                href="https://www.va.gov/service-member-benefits/"
+                external
+                text="Learn more about VA benefits for service members"
+                type="secondary"
+                label="Learn more about VA benefits for service members"
+              />
+            </p>
+          </va-alert>
+        </article>
+
+        <div id="results-container">
+          <div className="vads-l-row vads-u-margin-y--2">
             <div id="filters-section-desktop">
               <VaSearchFilter
                 filterOptions={this.state.filterOptions}
@@ -465,6 +461,7 @@ export class ConfirmationPage extends React.Component {
               </h2>
               <VaSelect
                 enableAnalytics
+                full-width
                 aria-label="Sort Benefits"
                 label="Sort"
                 name="sort-benefits"
@@ -481,7 +478,6 @@ export class ConfirmationPage extends React.Component {
                   Time-sensitive
                 </option>
               </VaSelect>
-              <br />
               {this.state.filterText && (
                 <div id="filter-text">{this.state.filterText}</div>
               )}
@@ -505,7 +501,7 @@ export class ConfirmationPage extends React.Component {
           </div>
         </div>
         <div className="row vads-u-margin-bottom--2">
-          <div className="usa-width-one-whole medium-8 columns">
+          <div className="vads-u-padding-x--0 vads-u-margin-x--0">
             <va-need-help>
               <div slot="content">
                 <GetFormHelp formConfig={this.props.formConfig} />

@@ -47,10 +47,6 @@
     padding-right: 0 !important;
     margin-bottom: 2rem;
   }
-
-  @media (min-width: $medium-screen) {
-    padding-right: 20px;
-  }
 }
 
 #filters-section-desktop select {
@@ -155,16 +151,27 @@
   }
 }
 
-#results-container {
-  margin-top: 2rem;
-}
-
 #results-section {
   flex: 1 1 auto;
 }
 
 #filter-text {
   padding-bottom: 0.5rem;
-  border-bottom: 1px solid var(--vads-color-gray-medium);
+  border-bottom: 1px solid var(--vads-color-base-light);
   margin-bottom: 2rem;
+  margin-top: 2rem;
+}
+
+.description-padding-btm {
+  padding-bottom: 2rem;
+}
+
+.description-article {
+  max-width: 648px;
+}
+
+@media (max-width: $small-screen) {
+  article.description-article {
+    padding-bottom: 16px !important;
+  }
 }
