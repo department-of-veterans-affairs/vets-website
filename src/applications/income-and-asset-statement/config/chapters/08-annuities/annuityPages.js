@@ -23,7 +23,6 @@ import {
 } from '../../../helpers';
 import { DependentDescription } from '../../../components/DependentDescription';
 
-// declare previous year for form questions and content
 const customDependentDescription = props => {
   return props.formData.annuities ? <></> : <DependentDescription />; // render the dependent description component if no annuities are present
 };
@@ -62,13 +61,6 @@ export const options = {
           </li>
         </ul>
       ),
-    // summaryTitleWithoutItems: () => (
-    //   <h3 className="vads-u-margin--0">
-    //     <span className="vads-u-display--block vads-u-font-size--h3 vads-u-color--base">
-    //       Annuities
-    //     </span>
-    //   </h3>
-    // ),
     reviewAddButtonText: 'Add another annuity',
     alertItemUpdated: 'Your annuity information has been updated',
     alertItemDeleted: 'Your annuity information has been deleted',
