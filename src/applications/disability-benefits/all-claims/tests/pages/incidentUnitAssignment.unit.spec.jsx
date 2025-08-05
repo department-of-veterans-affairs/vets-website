@@ -118,12 +118,15 @@ describe('781 Unit Assignment Details', () => {
       pageSubmitTest({ schema, uiSchema }, formData, false);
     });
 
-    it('should reject date after 2069', () => {
+    it('should reject date greater than 100 years from the current year', () => {
+      const currentYear = new Date().getFullYear();
+      const futureYear = currentYear + 101;
+
       const formData = {
         incident0: {
           unitAssignedDates: {
             from: '2016-07-10',
-            to: '2070-01-01',
+            to: `${futureYear}-01-01`,
           },
         },
       };

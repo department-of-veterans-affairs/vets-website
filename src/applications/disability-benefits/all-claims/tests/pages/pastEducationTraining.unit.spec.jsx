@@ -167,7 +167,10 @@ describe('Past Education Training', () => {
       pageSubmitTest({ schema, uiSchema }, formData, false);
     });
 
-    it('should reject date after 2069', () => {
+    it('should reject date greater than 100 years from the current year', () => {
+      const currentYear = new Date().getFullYear();
+      const futureYear = currentYear + 101;
+
       const formData = {
         unemployability: {
           receivedOtherEducationTrainingPreUnemployability: true,
@@ -176,7 +179,7 @@ describe('Past Education Training', () => {
               name: 'Vocational Training Program',
               dates: {
                 from: '2010-01-01',
-                to: '2070-01-01',
+                to: `${futureYear}-01-01`,
               },
             },
           ],
