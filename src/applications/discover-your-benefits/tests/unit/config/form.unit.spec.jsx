@@ -101,6 +101,20 @@ describe('Questionnaire Form - Chapter 2: Service', () => {
       };
       expect(titleTenActiveDutyPage.depends(formData)).to.be.true;
     });
+
+    it('should return false when reserve service and national guard are false.', () => {
+      const formData = {
+        [militaryBranchTypes.AIR_FORCE]: {
+          [militaryBranchComponentTypes.RESERVE_SERVICE]: false,
+          [militaryBranchComponentTypes.NATIONAL_GUARD_SERVICE]: false,
+        },
+      };
+      expect(titleTenActiveDutyPage.depends(formData)).to.be.false;
+    });
+
+    it('should return false when reserve service and national guard are undefined.', () => {
+      expect(titleTenActiveDutyPage.depends({})).to.be.false;
+    });
   });
 
   describe('depends function for militaryServiceCompleted', () => {
