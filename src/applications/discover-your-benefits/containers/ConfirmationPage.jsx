@@ -476,7 +476,7 @@ export class ConfirmationPage extends React.Component {
           </div>
         </div>
         <div className="row vads-u-margin-bottom--2">
-          <div className="usa-width-one-whole medium-8 columns">
+          <div className="vads-u-padding-x--0 vads-u-margin-x--0">
             <va-need-help>
               <div slot="content">
                 <GetFormHelp formConfig={this.props.formConfig} />
