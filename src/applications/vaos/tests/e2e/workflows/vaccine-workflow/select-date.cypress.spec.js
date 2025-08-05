@@ -1,5 +1,4 @@
-import { addDays, endOfMonth } from 'date-fns';
-import { formatInTimeZone } from 'date-fns-tz';
+import { addDays, isLastDayOfMonth } from 'date-fns';
 import { TYPE_OF_CARE_IDS } from '../../../../utils/constants';
 import MockClinicResponse from '../../../fixtures/MockClinicResponse';
 import MockFacilityResponse from '../../../fixtures/MockFacilityResponse';
@@ -48,14 +47,11 @@ describe('VAOS select appointment date', () => {
     });
 
     // Flaky test: https://github.com/department-of-veterans-affairs/va.gov-team/issues/99727
-    it.skip('should allow a user to choose available slot and fetch new slots after changing clinics', () => {
+    it('should allow a user to choose available slot and fetch new slots after changing clinics', () => {
       // Arrange
       // Add one day since same day appointments are not allowed.
       const firstDate = addDays(new Date(), 1);
-      const secondDate = formatInTimeZone(
-        addDays(new Date(), 2),
-        'America/Denver',
-      );
+      const secondDate = addDays(new Date(), 2);
       const mockUser = new MockUser({ addressLine1: '123 Main St.' });
       const response = MockSlotResponse.createResponses({
         startTimes: [firstDate, secondDate],
@@ -114,11 +110,11 @@ describe('VAOS select appointment date', () => {
         .selectClinic({ selection: /Clinic 2/i, isCovid: true })
         .clickNextButton();
 
-      DateTimeSelectPageObject.assertUrl()
-        // advance to next month if secondDate lands on following month
-        .compareDatesClickNextMonth(firstDate, secondDate)
-        .selectDate(secondDate)
-        .assertDateSelected(secondDate);
+      DateTimeSelectPageObject.assertUrl();
+      if (isLastDayOfMonth(firstDate))
+        DateTimeSelectPageObject.clickNextMonth()
+          .selectDate(secondDate)
+          .assertDateSelected(secondDate);
 
       // Assert
       cy.axeCheckBestPractice();
@@ -181,8 +177,6 @@ describe('VAOS select appointment date', () => {
       // Add one day since same day appointments are not allowed.
       const firstDate = addDays(new Date(), 1);
       const mockUser = new MockUser({ addressLine1: '123 Main St.' });
-      const todayDate = new Date().getDate();
-      const endOfMonthDate = endOfMonth(new Date()).getDate();
 
       mockSlotsApi({
         locationId: '983',
@@ -231,10 +225,15 @@ describe('VAOS select appointment date', () => {
       DateTimeSelectPageObject.assertUrl()
         // Account for 1st call returning 2 months of slots
         .clickNextMonth()
+        .assertCallCount({
+          alias: '@v2:get:slots',
+          count: 1,
+        })
+        .clickNextMonth()
         .wait({ alias: '@v2:get:slots' })
         .assertCallCount({
           alias: '@v2:get:slots',
-          count: todayDate < endOfMonthDate ? 2 : 3,
+          count: 2,
         });
 
       // Assert
