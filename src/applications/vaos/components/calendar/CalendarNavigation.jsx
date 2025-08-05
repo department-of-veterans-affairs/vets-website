@@ -74,14 +74,6 @@ const CalendarNavigation = ({
             <va-icon icon="navigate_next" size="3" aria-hidden="true" />
           </span>
         </button>
-        <div
-          className="sr-only"
-          id={`vaos-calendar-instructions-${date.getMonth()}`}
-        >
-          Press the Enter key to expand the day you want to schedule an
-          appointment. Then press the Tab key or form shortcut key to select an
-          appointment time.
-        </div>
       </span>
     </div>
   </div>

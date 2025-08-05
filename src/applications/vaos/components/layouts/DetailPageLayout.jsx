@@ -23,7 +23,7 @@ import ErrorAlert from '../ErrorAlert';
 export function When({ children, level = 2 }) {
   return (
     <Section heading="When" level={level}>
-      {children}
+      <span data-dd-privacy="mask">{children}</span>
     </Section>
   );
 }
@@ -38,7 +38,7 @@ export function What({ children, level = 2 }) {
   }
   return (
     <Section heading="What" level={level}>
-      {children}
+      <span data-dd-privacy="mask">{children}</span>
     </Section>
   );
 }
@@ -53,7 +53,7 @@ export function Who({ children, level = 2 }) {
   }
   return (
     <Section heading="Who" level={level}>
-      {children}
+      <span data-dd-privacy="mask">{children}</span>
     </Section>
   );
 }
@@ -65,7 +65,7 @@ Who.propTypes = {
 export function Where({ children, heading = 'Where', level = 2 } = {}) {
   return (
     <Section heading={heading} level={level}>
-      {children}
+      <span data-dd-privacy="mask">{children}</span>
     </Section>
   );
 }
