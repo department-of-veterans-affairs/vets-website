@@ -8,7 +8,7 @@ import ServiceProvidersText, {
   ServiceProvidersTextCreateAcct,
 } from 'platform/user/authentication/components/ServiceProvidersText';
 
-const serviceProviders = ['Login.gov', 'ID.me', 'DS Logon', 'My HealtheVet'];
+const serviceProviders = ['ID.me', 'Login.gov', 'DS Logon', 'My HealtheVet'];
 const mockStore = configureMockStore();
 
 const getServiceProvidersTextData = ({ propsIsBold = false }) => {
