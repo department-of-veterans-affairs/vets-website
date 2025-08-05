@@ -4,14 +4,16 @@ export function llmAlert({ formContext }) {
   // Early return if feature toggle is disabled
   if (!formContext?.data?.champvaClaimsLlmValidation) return <></>;
 
-  // should be array of uploaded files
-  const fileData =
-    formContext?.fullData?.medicalUpload ||
-    formContext?.fullData?.pharmacyUpload ||
-    formContext?.fullData?.secondaryEob;
-  if (fileData === undefined) {
-    return <></>;
-  }
+  // Get this page's upload key (e.g., medicalUpload)
+  const currentFileFieldKey = Object.keys(
+    formContext?.schema?.properties,
+  ).filter(el => formContext.schema.properties?.[el]?.type === 'array');
+  if (currentFileFieldKey.length === 0) return <></>;
+
+  // should be array of uploaded files for this page
+  const fileData = formContext?.fullData?.[currentFileFieldKey];
+  if (fileData === undefined) return <></>;
+
   const mostRecentFile = fileData[fileData?.length - 1];
   const { llmResponse } = mostRecentFile;
 
