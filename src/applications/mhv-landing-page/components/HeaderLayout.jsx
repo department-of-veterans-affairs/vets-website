@@ -42,17 +42,13 @@ const HeaderLayout = ({ showWelcomeMessage = false, isCerner = false }) => (
           </div>
         </div>
         <div>
-          <p className="vads-u-font-family--serif vads-u-line-height--5 medium-screen:vads-u-font-size--lg medium-screen:vads-u-line-height--6">
+          <p className="vads-u-font-family--serif vads-u-line-height--5 medium-screen:vads-u-font-size--lg medium-screen:vads-u-line-height--6 vads-u-margin-bottom--2">
             {ledeContent}
-          </p>
-          <p className="vads-u-font-family--serif vads-u-line-height--5 medium-screen:vads-u-font-size--lg medium-screen:vads-u-line-height--6">
-            Want to learn more about what’s new? <VaLink {...learnMoreLink} />
           </p>
         </div>
         {isCerner && (
-          <p>
-            If your facility uses My VA Health, go to the My VA Health portal to
-            manage your care.
+          <p className="vads-u-font-family--serif vads-u-line-height--5 medium-screen:vads-u-font-size--lg medium-screen:vads-u-line-height--6 vads-u-margin-y--2">
+            Does your facility use the My VA Health portal?
             <br />
             <a
               onClick={() => {
@@ -65,6 +61,7 @@ const HeaderLayout = ({ showWelcomeMessage = false, isCerner = false }) => (
                   'link-origin': window.location.href,
                 });
               }}
+              className="vads-u-font-family--serif medium-screen:vads-u-font-size--lg"
               data-testid="mhv-go-back-1"
               href={myVAHealthPortalLink}
             >
@@ -72,6 +69,11 @@ const HeaderLayout = ({ showWelcomeMessage = false, isCerner = false }) => (
             </a>
           </p>
         )}
+        <div>
+          <p className="vads-u-margin-y--2">
+            Want to learn more about what’s new? <VaLink {...learnMoreLink} />
+          </p>
+        </div>
       </div>
       <div
         className={classnames(
