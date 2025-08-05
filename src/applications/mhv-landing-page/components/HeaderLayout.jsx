@@ -42,7 +42,7 @@ const HeaderLayout = ({ showWelcomeMessage = false, isCerner = false }) => (
           </div>
         </div>
         <div>
-          <p className="vads-u-font-family--serif vads-u-line-height--5 medium-screen:vads-u-font-size--lg medium-screen:vads-u-line-height--6 vads-u-margin-bottom--2">
+          <p className="vads-u-font-family--serif vads-u-line-height--5 medium-screen:vads-u-font-size--lg medium-screen:vads-u-line-height--6 vads-u-margin-top--1 vads-u-margin-bottom--2">
             {ledeContent}
           </p>
         </div>
