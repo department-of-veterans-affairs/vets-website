@@ -51,6 +51,7 @@ export const dateFormat = (
   const isoTimestamp = convertToISO(timestamp);
   const isoTimeStampOrParamTimestamp = isoTimestamp || timestamp;
   const finalTimestamp = moment
+    .clone()
     .tz(isoTimeStampOrParamTimestamp, 'America/New_York')
     .format(format || 'MMMM D, YYYY');
 
