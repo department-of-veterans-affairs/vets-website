@@ -4,6 +4,10 @@ import {
   isOnConfirmationPage,
   formConfig,
 } from '../../../config/form';
+import {
+  militaryBranchComponentTypes,
+  militaryBranchTypes,
+} from '../../../constants/benefits';
 
 describe('Questionnaire Form', () => {
   describe('isOnReviewPage', () => {
@@ -70,6 +74,25 @@ describe('Questionnaire Form - Chapter 2: Service', () => {
   const { chapters } = formConfig;
   const { chapter2 } = chapters;
   const militaryServiceCompletedPage = chapter2.pages.militaryServiceCompleted;
+  const militaryBranchPage = chapter2.pages.militaryBranch;
+  const titleTenActiveDutyPage = chapter2.pages.titleTenActiveDuty;
+
+  describe('depends function for militaryBranch', () => {
+    it('should return true when in testing', () => {
+      expect(militaryBranchPage.depends()).to.be.true;
+    });
+  });
+
+  describe('depends function for titleTenActiveDuty', () => {
+    it('should return true when nation guard is true.', () => {
+      const formData = {
+        [militaryBranchTypes.AIR_FORCE]: {
+          [militaryBranchComponentTypes.NATIONAL_GUARD_SERVICE]: true,
+        },
+      };
+      expect(titleTenActiveDutyPage.depends(formData)).to.be.true;
+    });
+  });
 
   describe('depends function for militaryServiceCompleted', () => {
     it('should return true if militaryServiceCurrentlyServing is "Yes"', () => {

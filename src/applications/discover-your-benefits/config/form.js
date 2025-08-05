@@ -109,7 +109,7 @@ export const formConfig = {
           schema: militaryBranch.schema,
           depends: () => !environment.isProduction(),
         },
-        ...getBranchComponentPages(() => !environment.isProduction),
+        ...getBranchComponentPages(() => !environment.isProduction()),
         titleTenActiveDuty: {
           path: 'service/active-duty',
           title: 'Active Duty',
