@@ -1,6 +1,7 @@
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { OtherExposureDescription } from '../../../components/FormDescriptions/OtherExposureDescriptions';
 import { FULL_SCHEMA } from '../../../utils/imports';
+import content from '../../../locales/en/content.json';
 
 const {
   exposureToAirPollutants,
@@ -17,41 +18,40 @@ const {
 
 export default {
   uiSchema: {
-    ...titleUI('Other toxic exposures', OtherExposureDescription),
+    ...titleUI(
+      content['service-info--exposures-title'],
+      OtherExposureDescription,
+    ),
     'view:otherToxicExposures': {
       exposureToAirPollutants: {
-        'ui:title':
-          'Air pollutants (like burn pits, sand, oil wells, or sulfur fires)',
+        'ui:title': content['service-info--exposures-air-pollutants-label'],
       },
       exposureToAsbestos: {
-        'ui:title': 'Asbestos',
+        'ui:title': content['service-info--exposures-asbestos-label'],
       },
       exposureToChemicals: {
-        'ui:title':
-          'Chemicals (like pesticides, herbicides, or contaminated water)',
+        'ui:title': content['service-info--exposures-chemicals-label'],
       },
       exposureToContaminatedWater: {
-        'ui:title': 'Contaminated Water at Camp Lejeune',
+        'ui:title': content['service-info--exposures-camp-lejeune-label'],
       },
       exposureToMustardGas: {
-        'ui:title': 'Mustard gas',
+        'ui:title': content['service-info--exposures-mustard-gas-label'],
       },
       exposureToOccupationalHazards: {
-        'ui:title':
-          'Occupational hazards (like jet fuel, industrial solvents, lead, or firefighting foams)',
+        'ui:title': content['service-info--exposures-hazards-label'],
       },
       exposureToRadiation: {
-        'ui:title': 'Radiation',
+        'ui:title': content['service-info--exposures-radiation-label'],
       },
       exposureToShad: {
-        'ui:title': 'SHAD (Shipboard Hazard and Defense)',
+        'ui:title': content['service-info--exposures-shad-label'],
       },
       exposureToWarfareAgents: {
-        'ui:title':
-          'Warfare agents (like nerve agents or chemical and biological weapons)',
+        'ui:title': content['service-info--exposures-warfare-agents-label'],
       },
       exposureToOther: {
-        'ui:title': 'Other toxins or hazards not listed here',
+        'ui:title': content['service-info--exposures-other-label'],
       },
     },
   },

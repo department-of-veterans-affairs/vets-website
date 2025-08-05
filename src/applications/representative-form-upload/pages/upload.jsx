@@ -123,7 +123,7 @@ export const uploadPage = {
       'view:uploadTitle': emptyObjectSchema,
       'view:uploadFormNumberDescription': emptyObjectSchema,
       'view:uploadDescription': emptyObjectSchema,
-      uploadedFile: fileInputSchema,
+      uploadedFile: fileInputSchema(),
       supportingDocuments: {
         type: 'array',
         minItems: 1,

@@ -3,7 +3,7 @@ import { VerifyButton } from '~/platform/user/exportsFile';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 export default function CreateAccount() {
-  const cspInfo = ['logingov', 'idme'];
+  const cspInfo = ['idme', 'logingov'];
   return (
     <div
       className="vads-u-display--flex vads-u-flex-direction--column"
@@ -13,8 +13,8 @@ export default function CreateAccount() {
         Create a different account now
       </h2>
       <p id="createAccountP">
-        Create an identity-verified <strong>Login.gov</strong> or{' '}
-        <strong>ID.me</strong> account now, so you're ready for the change.
+        Create an identity-verified <strong>ID.me</strong> or{' '}
+        <strong>Login.gov</strong> account now, so you're ready for the change.
       </p>
       <VaLink
         text="Learn about why we are making changes to sign in"
