@@ -1033,7 +1033,7 @@ export function routeToPageInFlow(callback, history, current, action, data) {
       }
     };
 
-    if (action === 'next') {
+    if (action === 'next' || action === 'requestAppointment') {
       const nextAction = flow[current][action];
       if (typeof nextAction === 'string') {
         nextPage = flow[nextAction];
@@ -1058,7 +1058,8 @@ export function routeToPageInFlow(callback, history, current, action, data) {
         !nextPage.url.endsWith('/') &&
         (previousPage !== 'typeOfFacility' &&
           previousPage !== 'audiologyCareType' &&
-          previousPage !== 'vaFacilityV2')
+          previousPage !== 'vaFacilityV2' &&
+          previousPage !== 'selectProvider')
       ) {
         history.push(nextPage.url);
       } else if (
@@ -1099,6 +1100,15 @@ export function routeToPreviousAppointmentPage(history, current, data) {
     history,
     current,
     'previous',
+    data,
+  );
+}
+export function routeToRequestAppointmentPage(history, current, data) {
+  return routeToPageInFlow(
+    getNewAppointmentFlow,
+    history,
+    current,
+    'requestAppointment',
     data,
   );
 }

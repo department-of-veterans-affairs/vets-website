@@ -144,7 +144,8 @@ export default function covid19VaccineReducer(state = initialState, action) {
         };
       }
       if (
-        action.direction === 'next' &&
+        (action.direction === 'next' ||
+          action.direction === 'requestAppointment') &&
         action.pageKey !== action.pageKeyNext
       ) {
         updatedPreviousPages = {
