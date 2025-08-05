@@ -181,7 +181,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for DEPENDENTS&#39; APPLICATION FOR VA EDUCATION BENEFITS .',
   },
-  subTitle: 'Form 22-5490 (Dependents Application for VA Education Benefits)',
+  subTitle: "Form 22-5490 (Dependents' Application for VA Education Benefits)",
   defaultDefinitions: {
     fullName,
     ssn,
@@ -342,7 +342,7 @@ const formConfig = {
                 labels: {
                   fry: 'Fry Scholarship (Chapter 33)',
                   dea:
-                    "Survivors' and Dependents Educational Assistance (DEA, Chapter 35)",
+                    "Survivors' and Dependents' Educational Assistance (DEA, Chapter 35)",
                 },
                 widgetProps: {
                   fry: { 'data-info': 'fry' },

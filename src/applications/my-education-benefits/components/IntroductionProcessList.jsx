@@ -130,7 +130,7 @@ export const IntroductionProcessList = ({ showTextUpdate }) => {
             <li>
               You served for at least 30 continuous days (all at once, without a
               break in service) on or after September 11, 2001, and were
-              honorably discharged with a service-connected disability
+              honorably discharged with a service-connected disability.
             </li>
           </ul>
         </va-additional-info>
