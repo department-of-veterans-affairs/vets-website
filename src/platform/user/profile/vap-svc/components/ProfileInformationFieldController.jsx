@@ -362,6 +362,7 @@ class ProfileInformationFieldController extends React.Component {
       shouldFocusCancelButton: this.state.shouldFocusCancelButton,
       onCancelButtonFocused: () =>
         this.setState({ shouldFocusCancelButton: false }),
+      allowInternationalPhones: this.props.allowInternationalPhones,
     };
 
     // Add flag for email/phone fields to indicate they should use formOnlyUpdate
@@ -596,6 +597,7 @@ ProfileInformationFieldController.propTypes = {
     PropTypes.node,
   ]),
   activeEditView: PropTypes.string,
+  allowInternationalPhones: PropTypes.bool, // "opt-in" param for international phone numbers
   ariaDescribedBy: PropTypes.string,
   cancelButtonText: PropTypes.string,
   cancelCallback: PropTypes.func,
@@ -621,7 +623,12 @@ ProfileInformationFieldController.propTypes = {
 };
 
 export const mapStateToProps = (state, ownProps) => {
-  const { fieldName } = ownProps;
+  const { fieldName, allowInternationalPhones = false } = ownProps;
+
+  const internationalPhonesToggleValue =
+    state.featureToggles?.profileInternationalPhoneNumbers || false;
+  const enableInternationalPhones =
+    allowInternationalPhones && internationalPhonesToggleValue;
 
   const { transaction, transactionRequest } = selectVAPServiceTransaction(
     state,
@@ -646,7 +653,7 @@ export const mapStateToProps = (state, ownProps) => {
     formSchema,
     title,
   } = getProfileInfoFieldAttributes(fieldName, {
-    allowInternational: ownProps.allowInternationalPhones,
+    allowInternationalPhones: enableInternationalPhones,
   });
 
   const hasUnsavedEdits = state.vapService?.hasUnsavedEdits;

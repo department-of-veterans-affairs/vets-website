@@ -1,7 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
-
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
@@ -91,17 +90,20 @@ describe('educationalInstitutionsPages', () => {
           pagePerItemIndex={0}
         />,
       );
+      // education dates and checkbox should be visible
+      expect($('va-date[label="Start date"]', container)).to.exist;
       expect($('va-date[label="End date"]', container)).to.exist;
       const currentlyEnrolled = $('va-checkbox', container);
       expect(currentlyEnrolled).to.exist;
       expect(currentlyEnrolled.getAttribute('checked')).to.equal('false');
+
+      // check currently enrolled checkbox
       $('va-checkbox', container).__events.vaChange({
         target: { checked: true },
       });
-      expect($('va-checkbox', container).getAttribute('checked')).to.equal(
-        'true',
-      );
+      // end date is hidden and checkbox is checked
       expect($('va-date[label="End date"]', container)).to.not.exist;
+      expect(currentlyEnrolled.getAttribute('checked')).to.equal('true');
     });
   });
 
@@ -186,7 +188,7 @@ describe('educationalInstitutionsPages', () => {
 
   context('Show Summary Page', () => {
     const { educationalInstitutionsSummary } = educationalInstitutionsPages;
-    it('renders the summary page with a yes/no question when the', () => {
+    it('renders the summary page with a yes/no question', () => {
       const { container } = render(
         <SchemaForm
           name="educationalInstitutionsSummary"

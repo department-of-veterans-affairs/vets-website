@@ -83,7 +83,7 @@ export default function CalendarRow({
             index={index}
             key={`row-${rowNumber}-cell-${index}`}
             maxSelections={maxSelections}
-            onClick={() => handleSelectDate(date, rowNumber)}
+            onClick={handleSelectDate}
             selectedDates={selectedDates}
             renderIndicator={renderIndicator}
             renderSelectedLabel={renderSelectedLabel}
@@ -104,7 +104,6 @@ CalendarRow.propTypes = {
   handleSelectOption: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
   rowNumber: PropTypes.number.isRequired,
-  timezone: PropTypes.string.isRequired,
   availableSlots: PropTypes.arrayOf(
     PropTypes.shape({
       start: PropTypes.string,
@@ -122,4 +121,5 @@ CalendarRow.propTypes = {
   renderSelectedLabel: PropTypes.func,
   selectedDates: PropTypes.arrayOf(PropTypes.string),
   showWeekends: PropTypes.bool,
+  timezone: PropTypes.string,
 };

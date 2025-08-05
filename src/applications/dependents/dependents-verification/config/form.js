@@ -23,6 +23,7 @@ import { dependents } from './chapters/dependents/dependents';
 import { DependentsInformation } from '../components/DependentsInformation';
 import { DependentsInformationReview } from '../components/DependentsInformationReview';
 import { submit } from '../util';
+import { ExitForm } from '../components/ExitForm';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -111,15 +112,23 @@ const formConfig = {
     },
 
     dependents: {
-      title: 'Dependents on your VA benefits',
+      title: 'Review your dependents',
       pages: {
         dependents: {
           path: 'dependents',
-          title: 'Dependents on your VA benefits',
+          // title: 'Dependents on your VA benefits',
           CustomPage: DependentsInformation,
           CustomPageReview: DependentsInformationReview,
           uiSchema: dependents.uiSchema,
           schema: dependents.schema,
+        },
+        exitForm: {
+          path: 'exit-form',
+          CustomPage: ExitForm,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: data => data.hasDependentsStatusChanged === 'Y',
         },
       },
     },

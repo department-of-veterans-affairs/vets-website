@@ -25,7 +25,7 @@ import {
 } from '../helpers/dateRangeWithCurrentCheckboxPattern';
 
 /** @type {ArrayBuilderOptions} */
-const arrayBuilderOptions = {
+export const arrayBuilderOptions = {
   arrayPath: 'employers',
   nounSingular: 'employer',
   nounPlural: 'employers',
@@ -184,8 +184,14 @@ const dateRangePage = {
       toLabel: 'Employment end date',
       currentLabel: 'I still work here.',
       currentKey: 'currentlyEmployed',
-      isCurrentChecked: (formData, index) =>
-        formData?.employers?.[index]?.currentlyEmployed,
+      isCurrentChecked: (formData, index, fullData) => {
+        // Adding a check for formData and fullData since formData is sometimes undefined on load
+        // and we cant rely on fullData for testing
+        const employers = formData.employers ?? fullData.employers;
+        const employer = employers?.[index];
+
+        return employer?.currentlyEmployed === true;
+      },
     }),
   },
   schema: {
