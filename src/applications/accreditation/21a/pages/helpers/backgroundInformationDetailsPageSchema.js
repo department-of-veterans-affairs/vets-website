@@ -14,6 +14,7 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 const backgroundInformationDetails = ({
   title,
   path,
+  docType,
   depends,
   question,
   explanationDescription,
@@ -24,11 +25,12 @@ const backgroundInformationDetails = ({
   const certificationKey = `${key}Certification`;
   const url = `${
     environment.API_URL
-  }/accredited_representative_portal/v0/form21a/${path}`;
+  }/accredited_representative_portal/v0/form21a/create_attachment`;
 
   return {
     title,
     path,
+    docType,
     depends,
     uiSchema: {
       [explanationKey]: textareaUI({
