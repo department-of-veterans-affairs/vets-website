@@ -170,7 +170,7 @@ describe('Recent Education Training', () => {
       pageSubmitTest({ schema, uiSchema }, formData, false);
     });
 
-    it('should reject date greater maxYear', () => {
+    it('should reject date greater than maxYear', () => {
       // Use the same maxYear calculation as the system and exceed it by 1 year
       const { maxYear } = require('platform/forms-system/src/js/helpers');
       const futureYear = maxYear + 1;
