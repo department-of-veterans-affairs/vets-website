@@ -15,7 +15,15 @@ export function llmAlert({ formContext }) {
   const mostRecentFile = fileData[fileData?.length - 1];
   const { llmResponse } = mostRecentFile;
 
-  if (llmResponse && llmResponse.confidence >= 0.8) {
+  if (!llmResponse) {
+    return (
+      <va-alert status="warning">
+        We could not complete verification for this file. You can retry
+        verification, or you can continue without verifying.
+      </va-alert>
+    );
+  }
+  if (llmResponse.missingFields.length === 0) {
     return (
       <va-alert status="success">
         It looks like your upload contains all required information.
@@ -44,14 +52,7 @@ export function llmAlert({ formContext }) {
       </va-alert>
     );
   }
-  if (!llmResponse.mostRecentFile) {
-    return (
-      <va-alert status="warning">
-        We could not complete verification for this file. You can retry
-        verification, or you can continue without verifying.
-      </va-alert>
-    );
-  }
+
   return <></>;
 }
 
