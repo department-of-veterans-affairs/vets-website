@@ -52,7 +52,7 @@ const App = () => {
 
   const mhvSMDown = useMemo(
     () => {
-      if (scheduledDowntimes.size > 0) {
+      if (scheduledDowntimes.size > 0 && scheduledDowntimes.size < 100000) {
         return (
           scheduledDowntimes?.get(externalServices.mhvSm)?.status ||
           scheduledDowntimes?.get(externalServices.mhvPlatform)?.status
