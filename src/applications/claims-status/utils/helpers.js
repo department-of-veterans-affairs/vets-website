@@ -1244,6 +1244,9 @@ export const getLabel = (toggleValue, trackedItem) => {
     return trackedItem?.displayName;
   }
   if (toggleValue) {
+    if (evidenceDictionary[(trackedItem?.displayName)]?.isSensitive) {
+      return 'Request for evidence';
+    }
     if (
       trackedItem?.friendlyName &&
       trackedItem?.status === 'NEEDED_FROM_YOU'
@@ -1337,7 +1340,7 @@ export const renderDefaultThirdPartyMessage = displayName => {
     </>
   ) : (
     <>
-      <strong>You don’t have to do anything.</strong> We asked someone outside
+      <strong>You don’t need to do anything.</strong> We asked someone outside
       VA for documents related to your claim.
       <br />
     </>
@@ -1351,7 +1354,7 @@ export const renderOverrideThirdPartyMessage = item => {
   if (item.shortDescription) {
     return (
       <>
-        <strong>You don’t have to do anything.</strong> {item.shortDescription}
+        <strong>You don’t need to do anything.</strong> {item.shortDescription}
       </>
     );
   }

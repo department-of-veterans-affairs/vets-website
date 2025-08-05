@@ -5,9 +5,16 @@ import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import PreSubmitInfo from '../components/PreSubmitInfo';
 
+// Components
+import EligibilitySummary from '../components/EligibilitySummary';
+
+// Pages
 import {
+  eligibilityQuestions,
   applicantFullname,
+  mailingAddress,
   phoneAndEmail,
   identificationInformation,
   employmentStatus,
@@ -17,6 +24,7 @@ import {
   educationDetails,
   trainingProviderSummary,
   trainingProviderDetails,
+  trainingProviderStartDate,
 } from '../pages';
 
 import { trainingProviderArrayOptions } from '../helpers';
@@ -53,15 +61,45 @@ const formConfig = {
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},
+  preSubmitInfo: {
+    CustomComponent: PreSubmitInfo,
+    required: true,
+  },
   chapters: {
+    eligibilityChapter: {
+      title: 'Check eligibility',
+      pages: {
+        eligibilityQuestions: {
+          path: 'eligibility-questions',
+          title: 'Eligibility questions',
+          uiSchema: eligibilityQuestions.uiSchema,
+          schema: eligibilityQuestions.schema,
+        },
+        eligibilitySummary: {
+          path: 'eligibility-summary',
+          title: 'Eligibility summary',
+          CustomPage: EligibilitySummary,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          hideOnReview: true,
+        },
+      },
+    },
     identificationChapter: {
-      title: 'Veteran’s information',
+      title: 'Your information',
       pages: {
         applicantFullName: {
           path: 'applicant-fullname',
           title: 'Enter your full name',
           uiSchema: applicantFullname.uiSchema,
           schema: applicantFullname.schema,
+        },
+        mailingAddress: {
+          path: 'mailing-address',
+          title: 'Mailing address',
+          uiSchema: mailingAddress.uiSchema,
+          schema: mailingAddress.schema,
         },
         phoneAndEmail: {
           path: 'phone-and-email',
@@ -80,6 +118,7 @@ const formConfig = {
           title: 'Date released from active duty',
           uiSchema: dateReleasedFromActiveDuty.uiSchema,
           schema: dateReleasedFromActiveDuty.schema,
+          depends: formData => formData?.dutyRequirement !== 'atLeast3Years',
         },
         activeDutyStatus: {
           path: 'active-duty-status',
@@ -107,6 +146,13 @@ const formConfig = {
             schema: trainingProviderDetails.schema,
           }),
         })),
+        trainingProviderStartDate: {
+          path: 'training-provider-start-date',
+          title:
+            'Do you have a start date for the program you wish to enroll in?',
+          uiSchema: trainingProviderStartDate.uiSchema,
+          schema: trainingProviderStartDate.schema,
+        },
       },
     },
     backgroundInformationChapter: {

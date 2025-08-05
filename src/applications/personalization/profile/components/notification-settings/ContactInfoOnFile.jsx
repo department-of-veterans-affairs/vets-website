@@ -53,24 +53,30 @@ const ContactInfoOnFile = ({
         ) : null}
 
         <li className="vads-u-margin-y--0p5">
-          <strong>Mobile phone: </strong>
+          <strong>
+            {isInternationalMobile
+              ? 'International mobile phone: '
+              : 'Mobile phone: '}
+          </strong>
           {mobilePhoneNumber && (
-            <va-telephone
-              data-testid="mobile-phone-number-on-file"
-              // For international number areaCode is null
-              // and is instead part of phoneNumber
-              contact={
-                isInternationalMobile
-                  ? mobilePhoneNumber.phoneNumber
-                  : `${mobilePhoneNumber.areaCode}${
-                      mobilePhoneNumber.phoneNumber
-                    }`
-              }
-              country-code={
-                isInternationalMobile ? mobilePhoneNumber.countryCode : null
-              }
-              not-clickable
-            />
+            <span style={{ whiteSpace: 'nowrap' }}>
+              <va-telephone
+                data-testid="mobile-phone-number-on-file"
+                // For international number areaCode is null
+                // and is instead part of phoneNumber
+                contact={
+                  isInternationalMobile
+                    ? mobilePhoneNumber.phoneNumber
+                    : `${mobilePhoneNumber.areaCode}${
+                        mobilePhoneNumber.phoneNumber
+                      }`
+                }
+                country-code={
+                  isInternationalMobile ? mobilePhoneNumber.countryCode : null
+                }
+                not-clickable
+              />
+            </span>
           )}
           <va-link
             href={updateMobileNumberHref}

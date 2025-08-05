@@ -1,3 +1,7 @@
+import {
+  titleUI,
+  descriptionUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import {
   MedicareClaimNumberDescription,
@@ -6,6 +10,7 @@ import {
 import CustomReviewField from '../../../components/FormReview/CustomReviewField';
 import CustomDateReviewField from '../../../components/FormReview/CustomDateReviewField';
 import { FULL_SCHEMA } from '../../../utils/imports';
+import content from '../../../locales/en/content.json';
 
 const {
   medicareClaimNumber,
@@ -14,19 +19,22 @@ const {
 
 export default {
   uiSchema: {
+    ...titleUI(content['insurance-info--medicare-details-title']),
     medicarePartAEffectiveDate: {
-      ...currentOrPastDateUI('What is your Medicare Part A effective date?'),
-      'ui:description': MedicareEffectiveDateDescription,
+      ...currentOrPastDateUI(
+        content['insurance-info--medicare-details-date-label'],
+      ),
+      ...descriptionUI(MedicareEffectiveDateDescription),
       'ui:reviewField': CustomDateReviewField,
       'ui:required': () => true,
     },
     medicareClaimNumber: {
-      'ui:title': 'What is your Medicare claim number?',
-      'ui:description': MedicareClaimNumberDescription,
+      'ui:title': content['insurance-info--medicare-details-number-label'],
+      ...descriptionUI(MedicareClaimNumberDescription),
       'ui:reviewField': CustomReviewField,
       'ui:required': () => true,
       'ui:errorMessages': {
-        required: 'Please enter a valid 11-character Medicare claim number',
+        required: content['validation-error--medicare-number'],
       },
     },
   },
