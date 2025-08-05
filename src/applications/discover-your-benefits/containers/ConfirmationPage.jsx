@@ -61,8 +61,32 @@ export class ConfirmationPage extends React.Component {
   componentDidMount() {
     this.initializePage();
     this.handleResults();
+
+    if (this.props.location.query.allBenefits) {
+      const benefitsCopy = [...BENEFITS_LIST];
+
+      const sortedBenefits = this.sortBenefitObj(benefitsCopy, 'name');
+
+      this.setState(
+        {
+          benefits: sortedBenefits,
+          benefitsList: sortedBenefits,
+          resultsCount: sortedBenefits.length,
+          benefitIds: sortedBenefits.reduce((acc, b) => {
+            acc[b.id] = true;
+            return acc;
+          }, {}),
+          sortValue: 'alphabetical',
+          currentPage: 1,
+        },
+        () => {
+          this.setState({ filterText: this.createFilterText() });
+        },
+      );
+      return;
+    }
+
     this.resetSubmissionStatus();
-    this.sortBenefits();
   }
 
   componentDidUpdate(prevProps) {
@@ -77,6 +101,10 @@ export class ConfirmationPage extends React.Component {
 
   handleResults() {
     const { results, location, displayResults } = this.props;
+
+    if (location.query?.allBenefits) {
+      return;
+    }
 
     if (results.data && results.data.length > 0) {
       this.handleResultsData();
@@ -141,28 +169,24 @@ export class ConfirmationPage extends React.Component {
   sortBenefits = () => {
     const key = this.state.sortValue;
     const sortKey = key === 'alphabetical' ? 'name' : key;
+
     this.setState(
       prevState => {
-        if (!prevState.benefits || !Array.isArray(prevState.benefits)) {
+        if (!Array.isArray(prevState.benefitsList)) {
           return { benefits: [], benefitsList: [] };
         }
 
-        const sortedBenefits = this.sortBenefitObj(prevState.benefits, sortKey);
-        const sortedBenefitsList = this.sortBenefitObj(
-          prevState.benefitsList,
-          sortKey,
-        );
+        const sortedList = this.sortBenefitObj(prevState.benefitsList, sortKey);
 
         return {
-          benefits: sortedBenefits,
-          benefitsList: sortedBenefitsList,
+          benefits: sortedList,
+          benefitsList: sortedList,
+          currentPage: 1,
         };
       },
-      () =>
-        this.setState(() => ({
-          filterText: this.createFilterText(),
-          currentPage: 1,
-        })),
+      () => {
+        this.setState({ filterText: this.createFilterText() });
+      },
     );
   };
 
@@ -238,34 +262,50 @@ export class ConfirmationPage extends React.Component {
   filterBenefits = sortingCallback => {
     const keys = this.state.filterValues;
 
+    const isAllBenefits = this.props.location.query?.allBenefits;
+
+    const sourceData = isAllBenefits ? BENEFITS_LIST : this.props.results.data;
+
     if (!keys || keys.length === 0) {
+      const resultsCount = sourceData.length;
+      const benefitIds = sourceData.reduce((acc, b) => {
+        acc[b.id] = true;
+        return acc;
+      }, {});
+
       this.setState(
-        () => ({
-          benefits: this.props.results.data,
-          benefitsList: BENEFITS_LIST,
-          resultsCount: this.props.results.data.length,
+        {
+          benefits: sourceData,
+          benefitsList: sourceData,
+          resultsCount,
+          benefitIds,
           currentPage: 1,
-        }),
+        },
         sortingCallback,
       );
       return;
     }
 
-    const filteredBenefits = this.props.results.data.filter(benefit =>
+    const filteredBenefits = sourceData.filter(benefit =>
       this.matchesFilters(benefit, keys),
     );
 
-    const filteredBenefitsList = BENEFITS_LIST.filter(benefit =>
-      this.matchesFilters(benefit, keys),
-    );
+    const resultsCount = filteredBenefits.length;
+    const benefitIds = filteredBenefits.reduce((acc, b) => {
+      acc[b.id] = true;
+      return acc;
+    }, {});
 
-    this.setState(() => {
-      return {
+    this.setState(
+      {
         benefits: filteredBenefits,
-        benefitsList: filteredBenefitsList,
-        resultsCount: filteredBenefits.length,
-      };
-    }, sortingCallback);
+        benefitsList: filteredBenefits,
+        resultsCount,
+        benefitIds,
+        currentPage: 1,
+      },
+      sortingCallback,
+    );
   };
 
   displayResultsFromQuery = (query, displayResults) => {
@@ -325,18 +365,21 @@ export class ConfirmationPage extends React.Component {
   }
 
   applyInitialSort() {
-    const resultsCount = this.props.results.data.length || 0;
-    const benefitIds =
-      this.props.results.data?.reduce((acc, curr) => {
-        acc[curr.id] = true;
-        return acc;
-      }, {}) || {};
+    const data = this.props.results.data?.length
+      ? this.props.results.data
+      : this.state.benefits;
+
+    const resultsCount = data.length || 0;
+    const benefitIds = data.reduce((acc, curr) => {
+      acc[curr.id] = true;
+      return acc;
+    }, {});
 
     this.setState(
       {
         resultsCount,
         benefitIds,
-        benefits: this.props.results.data,
+        benefits: data,
       },
       () => {
         this.setState({ filterText: this.createFilterText() });
