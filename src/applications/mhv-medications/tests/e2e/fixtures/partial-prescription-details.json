@@ -13,7 +13,7 @@
             "refillRemaining": 9,
             "facilityName": "Dayton Medical Center",
             "orderedDate": "2024-08-30T04:00:00.000Z",
-            "quantity": 5,
+            "quantity": "5",
             "expirationDate": "2025-08-31T04:00:00.000Z",
             "dispensedDate": null,
             "stationNumber": "989",

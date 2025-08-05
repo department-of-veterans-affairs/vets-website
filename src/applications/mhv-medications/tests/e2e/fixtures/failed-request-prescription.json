@@ -12,7 +12,7 @@
             "refillRemaining": 4,
             "facilityName": "SLC10 TEST LAB",
             "orderedDate": "2023-07-12T04:00:00.000Z",
-            "quantity": 60,
+            "quantity": "60",
             "expirationDate": "2024-07-12T04:00:00.000Z",
             "dispensedDate": null,
             "stationNumber": "979",
