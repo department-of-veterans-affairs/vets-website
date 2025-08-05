@@ -82,7 +82,7 @@ export const IntroductionPage = ({
                 service-connected disability on or after September 11, 2001,{' '}
                 <strong>and</strong>
               </li>
-              <li>You meet other requirements</li>
+              <li>You meet other requirements.</li>
             </ul>
           </va-additional-info>
 
@@ -124,7 +124,7 @@ export const IntroductionPage = ({
                 disability and is likely to be discharged for the disability,{' '}
                 <strong>and</strong>
               </li>
-              <li>You meet other requirements</li>
+              <li>You meet other requirements.</li>
             </ul>
           </va-additional-info>
         </va-process-list-item>
