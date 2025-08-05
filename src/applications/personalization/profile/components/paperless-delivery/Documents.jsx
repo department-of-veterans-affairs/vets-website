@@ -1,14 +1,19 @@
 import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { selectPatientFacilities } from '~/platform/user/cerner-dsot/selectors';
 import { useNotificationSettingsUtils } from '@@profile/hooks';
 import { Document } from './Document';
 
 export const Documents = () => {
+  const facilities = useSelector(selectPatientFacilities, shallowEqual);
   const { usePaperlessDeliveryGroup } = useNotificationSettingsUtils();
   const group = usePaperlessDeliveryGroup();
   const documents = group?.[0]?.items;
+  const unavailable =
+    !facilities?.length || !group?.length || !documents?.length;
 
-  if (!group?.length || !documents?.length) {
+  if (unavailable) {
     return (
       <VaAlert status="info" visible>
         <h2 slot="headline">Paperless delivery not available yet</h2>
