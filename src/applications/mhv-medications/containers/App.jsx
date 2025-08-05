@@ -64,7 +64,7 @@ const App = ({ children }) => {
 
   const mhvRxDown = useMemo(
     () => {
-      if (scheduledDowntimes.size > 0) {
+      if (scheduledDowntimes.size > 0 && scheduledDowntimes.size < 100000) {
         return (
           scheduledDowntimes?.get(externalServices.mhvMeds)?.status ||
           scheduledDowntimes?.get(externalServices.mhvPlatform)?.status ||
