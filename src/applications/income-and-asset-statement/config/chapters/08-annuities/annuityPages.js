@@ -21,6 +21,12 @@ import {
   isDefined,
   surrenderValueRequired,
 } from '../../../helpers';
+import { DependentDescription } from '../../../components/DependentDescription';
+
+// declare previous year for form questions and content
+const customDependentDescription = props => {
+  return props.formData.annuities ? <></> : <DependentDescription />; // render the dependent description component if no annuities are present
+};
 
 /** @type {ArrayBuilderOptions} */
 export const options = {
@@ -56,6 +62,13 @@ export const options = {
           </li>
         </ul>
       ),
+    // summaryTitleWithoutItems: () => (
+    //   <h3 className="vads-u-margin--0">
+    //     <span className="vads-u-display--block vads-u-font-size--h3 vads-u-color--base">
+    //       Annuities
+    //     </span>
+    //   </h3>
+    // ),
     reviewAddButtonText: 'Add another annuity',
     alertItemUpdated: 'Your annuity information has been updated',
     alertItemDeleted: 'Your annuity information has been deleted',
@@ -84,7 +97,7 @@ const summaryPage = {
     'view:isAddingAnnuities': arrayBuilderYesNoUI(
       options,
       {
-        title: 'Have you or your dependents established an annuity?',
+        title: 'Do you or your dependents have an annuity?',
         hint: 'If yes, you’ll need to report at least one annuity',
         labels: {
           Y: 'Yes',
@@ -92,7 +105,7 @@ const summaryPage = {
         },
       },
       {
-        title: 'Do you have more annuities to report?',
+        title: 'Do you have another annuity to report?',
         labels: {
           Y: 'Yes',
           N: 'No',
@@ -156,12 +169,10 @@ const revocablePage = {
 const incomePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Income from annuity'),
-    receivingIncomeFromAnnuity: yesNoUI(
-      'Do you receive income from the annuity?',
-    ),
+    receivingIncomeFromAnnuity: yesNoUI('Does this annuity generate income?'),
     annualReceivedIncome: {
       ...currencyUI({
-        title: 'How much is the annual amount received?',
+        title: 'How much income does this annuity generate yearly?',
         expandUnder: 'receivingIncomeFromAnnuity',
         expandUnderCondition: true,
       }),
@@ -207,7 +218,7 @@ const hasAddedFundsPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Funds added to annuity'),
     addedFundsAfterEstablishment: yesNoUI(
-      'Have you added funds to the annuity in the current or prior three years?',
+      'Was money added to this annuity this year or in the last 3 years?',
     ),
   },
   schema: {
@@ -223,8 +234,8 @@ const hasAddedFundsPage = {
 const addedFundsPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Amount added to annuity'),
-    addedFundsDate: currentOrPastDateUI('When did you add funds?'),
-    addedFundsAmount: currencyUI('How much did you add?'),
+    addedFundsDate: currentOrPastDateUI('When was money added?'),
+    addedFundsAmount: currencyUI('How much was added?'),
   },
   schema: {
     type: 'object',
@@ -238,6 +249,7 @@ const addedFundsPage = {
 
 export const annuityPages = arrayBuilderPages(options, pageBuilder => ({
   annuityPagesSummary: pageBuilder.summaryPage({
+    ContentBeforeButtons: customDependentDescription,
     title: 'Annuities summary',
     path: 'annuities-summary',
     uiSchema: summaryPage.uiSchema,
