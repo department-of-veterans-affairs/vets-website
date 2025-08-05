@@ -73,6 +73,7 @@ describe('Questionnaire Form - Chapter 1: Goals', () => {
 describe('Questionnaire Form - Chapter 2: Service', () => {
   const { chapters } = formConfig;
   const { chapter2 } = chapters;
+  const { militaryService } = chapter2.pages;
   const militaryServiceCompletedPage = chapter2.pages.militaryServiceCompleted;
   const militaryBranchPage = chapter2.pages.militaryBranch;
   const titleTenActiveDutyPage = chapter2.pages.titleTenActiveDuty;
@@ -149,6 +150,46 @@ describe('Questionnaire Form - Chapter 2: Service', () => {
         militaryServiceCurrentlyServing: false,
       };
       expect(militaryServiceCompletedPage.depends(formData)).to.be.false;
+    });
+  });
+
+  describe('onNavForward function for militaryService', () => {
+    it('should navigate to discharge page if militaryServiceCurrentlyServing is "Yes"', () => {
+      const formData = {
+        militaryServiceCurrentlyServing: true,
+      };
+      const goPathMock = path => {
+        expect(path).to.equal(
+          formConfig.chapters.chapter4.pages.characterOfDischarge.path,
+        );
+      };
+
+      militaryService.onNavForward({
+        formData,
+        goPath: goPathMock,
+      });
+    });
+
+    it('should call goPath if militaryServiceCurrentlyServing is "No"', () => {
+      const formData = {
+        militaryServiceCurrentlyServing: 'No',
+      };
+      let goPathCalled = false;
+      let calledWith = '';
+      const goPathMock = arg => {
+        goPathCalled = true;
+        calledWith = arg;
+      };
+
+      militaryService.onNavForward({
+        formData,
+        goPath: goPathMock,
+      });
+
+      expect(goPathCalled).to.be.true;
+      expect(calledWith).to.equal(
+        formConfig.chapters.chapter3.pages.separation.path,
+      );
     });
   });
 
