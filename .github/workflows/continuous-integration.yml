@@ -1887,6 +1887,7 @@ jobs:
         run: node ./script/github-actions/check-deployability.js
         env:
           BUILDTYPE: ${{ matrix.environment }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Configure AWS credentials (1)
         if: steps.check-deployability.outputs.is_deployable == 'true'
