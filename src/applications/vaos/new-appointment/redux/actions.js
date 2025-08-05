@@ -1103,12 +1103,11 @@ export function routeToPreviousAppointmentPage(history, current, data) {
     data,
   );
 }
-export function routeToRequestAppointmentPage(history, current, data) {
+export function routeToRequestAppointmentPage(history, current) {
   return routeToPageInFlow(
     getNewAppointmentFlow,
     history,
     current,
     'requestAppointment',
-    data,
   );
 }

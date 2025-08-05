@@ -55,7 +55,7 @@ export default function ScheduleWithDifferentProvider({
       </p>
       <va-link
         active
-        href="#"
+        href="my-health/appointments/schedule/va-request/"
         text="Request an appointment"
         onClick={e => {
           e.preventDefault();
