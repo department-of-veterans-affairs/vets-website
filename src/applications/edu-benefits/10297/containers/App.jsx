@@ -15,7 +15,7 @@ export default function App({ location, children }) {
     // Insert CSS to hide 'For example: January 19 2000' hint on memorable dates
     // (can't be overridden by passing 'hint' to uiOptions):
     addStyleToShadowDomOnPages(
-      [''],
+      ['date-released-from-active-duty'],
       ['va-memorable-date'],
       '#dateHint {display: none}',
     );
@@ -30,7 +30,7 @@ export default function App({ location, children }) {
     [userLoggedIn, location],
   );
   return (
-    <div className="form-22-1919-container row">
+    <div className="form-22-10297-container row">
       <div className="vads-u-padding-left--0">
         <Breadcrumbs />
       </div>
