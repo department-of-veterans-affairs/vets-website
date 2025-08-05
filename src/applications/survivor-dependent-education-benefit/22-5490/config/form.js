@@ -210,7 +210,7 @@ const formConfig = {
                     <h3>Choose the benefit you’d like to apply for:</h3>
                     <p>
                       <strong>Note:</strong> If you are eligible for both the
-                      Fry Scholarship and Survivors' and Dependents Educational
+                      Fry Scholarship and Survivors' and Dependents' Educational
                       Assistance benefits, you’ll need to choose which one to
                       use. Once you make this choice, you can’t switch to the
                       other program.
