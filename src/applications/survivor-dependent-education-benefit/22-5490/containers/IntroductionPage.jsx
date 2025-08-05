@@ -86,7 +86,7 @@ export const IntroductionPage = ({
             </ul>
           </va-additional-info>
 
-          <va-additional-info trigger="What are the Survivors' and Dependents Educational Assistance (DEA, Chapter 35) eligibility requirements?">
+          <va-additional-info trigger="What are the Survivors' and Dependents' Educational Assistance (DEA, Chapter 35) eligibility requirements?">
             <p>
               <strong>
                 You may be eligible to get these benefits if both you and the
