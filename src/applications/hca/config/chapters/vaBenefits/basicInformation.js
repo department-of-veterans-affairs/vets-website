@@ -1,26 +1,28 @@
-import { FULL_SCHEMA } from '../../../utils/imports';
 import {
-  CompensationInfoDescription,
-  CompensationTypeDescription,
-} from '../../../components/FormDescriptions';
+  titleUI,
+  descriptionUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
+import { FULL_SCHEMA } from '../../../utils/imports';
+import { DisabilityRatingDescription } from '../../../components/FormDescriptions';
+import content from '../../../locales/en/content.json';
 
 const { vaCompensationType } = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {
-    'ui:title': 'Current compensation from VA',
-    'ui:description': CompensationInfoDescription,
+    ...titleUI(
+      content['benefits--disability-rating-title'],
+      content['benefits--disability-rating-description'],
+    ),
+    ...descriptionUI(DisabilityRatingDescription),
     vaCompensationType: {
-      'ui:title': 'Do you receive VA disability compensation?',
-      'ui:description': CompensationTypeDescription,
+      'ui:title': content['benefits--disability-rating-label'],
       'ui:widget': 'radio',
       'ui:options': {
         labels: {
-          lowDisability:
-            'Yes, for a service-connected disability rating of 40% or less',
-          highDisability:
-            'Yes, for a service-connected disability rating of 50% or higher',
-          none: 'No',
+          lowDisability: content['benefits--disability-rating-low-label'],
+          highDisability: content['benefits--disability-rating-high-label'],
+          none: content['form--default-no-label'],
         },
       },
     },
