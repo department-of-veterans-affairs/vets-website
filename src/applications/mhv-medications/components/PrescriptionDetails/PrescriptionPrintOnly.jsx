@@ -17,6 +17,8 @@ import {
 import VaPharmacyText from '../shared/VaPharmacyText';
 import { selectPendingMedsFlag } from '../../util/selectors';
 
+const rxSourceIsNonVA = rx => rx?.prescriptionSource === 'NV';
+
 const PrescriptionPrintOnly = props => {
   const { rx, refillHistory, isDetailsRx } = props;
   const showRefillHistory = getShowRefillHistory(refillHistory);
@@ -27,14 +29,17 @@ const PrescriptionPrintOnly = props => {
     rx?.prescriptionSource === 'PD' && rx?.dispStatus === 'NewOrder';
   const pendingRenewal =
     rx?.prescriptionSource === 'PD' && rx?.dispStatus === 'Renew';
+  const isNonVaPrescription = rxSourceIsNonVA(rx);
 
   const activeNonVaContent = pres => (
     <div className="print-only-rx-details-container vads-u-margin-top--1p5">
       <p>
-        <strong>Instructions:</strong> {validateField(pres.sig)}
+        <strong>Instructions:</strong>
+        {pres.sig || 'Instructions not available'}
       </p>
       <p>
-        <strong>Reason for use:</strong> {validateField(pres.indicationForUse)}
+        <strong>Reason for use:</strong>
+        {pres.indicationForUse || 'Reason for use not available'}
       </p>
       <p className="no-break">
         <strong>Status:</strong> {validateField(pres.dispStatus?.toString())}
@@ -87,11 +92,8 @@ const PrescriptionPrintOnly = props => {
   const DetailsHeaderElement = isDetailsRx ? 'h3' : 'h4';
   return (
     <div className="print-only-rx-container">
-      <NameElement>
-        {rx.prescriptionName ||
-          (rx.dispStatus === 'Active: Non-VA' ? rx.orderableItem : '')}
-      </NameElement>
-      {rx?.prescriptionSource !== 'NV' ? (
+      <NameElement>{rx?.prescriptionName || rx?.orderableItem}</NameElement>
+      {!isNonVaPrescription ? (
         <div className={isDetailsRx ? '' : 'vads-u-margin-left--2'}>
           <DetailsHeaderElement>
             {isDetailsRx

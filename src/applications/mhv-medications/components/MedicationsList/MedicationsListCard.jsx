@@ -6,6 +6,9 @@ import ExtraDetails from '../shared/ExtraDetails';
 import LastFilledInfo from '../shared/LastFilledInfo';
 import { dateFormat } from '../../util/helpers';
 import { dataDogActionNames } from '../../util/dataDogConstants';
+import { ACTIVE_NON_VA } from '../../util/constants';
+
+const rxSourceIsNonVA = rx => rx?.prescriptionSource === 'NV';
 
 const MedicationsListCard = ({ rx }) => {
   const pendingMed =
@@ -13,8 +16,8 @@ const MedicationsListCard = ({ rx }) => {
   const pendingRenewal =
     rx.prescriptionSource === 'PD' && rx?.dispStatus === 'Renew';
   const latestTrackingStatus = rx?.trackingList?.[0];
-  const isNonVaPrescription = rx?.prescriptionSource === 'NV';
-  const rxStatus = isNonVaPrescription ? 'Active: Non-VA' : rx?.dispStatus;
+  const isNonVaPrescription = rxSourceIsNonVA(rx);
+  const rxStatus = isNonVaPrescription ? ACTIVE_NON_VA : rx?.dispStatus;
 
   const cardBodyContent = () => {
     if (pendingRenewal || pendingMed) {
@@ -118,14 +121,13 @@ const MedicationsListCard = ({ rx }) => {
           to={`prescription/${rx.prescriptionId}`}
         >
           <span data-dd-privacy="mask">
-            {rx.prescriptionName ||
-              (rxStatus === 'Active: Non-VA' ? rx.orderableItem : '')}
+            {rx?.prescriptionName || rx?.orderableItem}
           </span>
         </Link>
         {!pendingMed &&
           !pendingRenewal &&
           rxStatus !== 'Unknown' &&
-          rxStatus !== 'Active: Non-VA' && (
+          !isNonVaPrescription && (
             <p
               data-testid="rx-number"
               data-dd-privacy="mask"

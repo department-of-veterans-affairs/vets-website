@@ -9,6 +9,7 @@ import {
 import ExtraDetails from '../shared/ExtraDetails';
 import { selectGroupingFlag } from '../../util/selectors';
 import { dataDogActionNames } from '../../util/dataDogConstants';
+import { ACTIVE_NON_VA } from '../../util/constants';
 
 const NonVaPrescription = prescription => {
   const showGroupingFlag = useSelector(selectGroupingFlag);
@@ -36,7 +37,7 @@ const NonVaPrescription = prescription => {
             Status
           </h3>
           <p data-testid="rx-status" data-dd-privacy="mask">
-            Active: Non-VA
+            {ACTIVE_NON_VA}
           </p>
           <div className="no-print">
             <va-additional-info
