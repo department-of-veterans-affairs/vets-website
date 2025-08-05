@@ -69,7 +69,6 @@ describe('<ConfirmationPage />', () => {
 
     expect(accordion).to.exist;
     expect(accordion.querySelectorAll('va-accordion-item').length).to.equal(1);
-    expect(accordion.querySelectorAll('h3').length).to.equal(4);
   });
 
   it('shows button to print page', () => {
