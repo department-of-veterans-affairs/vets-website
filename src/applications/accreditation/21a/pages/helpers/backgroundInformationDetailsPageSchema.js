@@ -25,7 +25,7 @@ const backgroundInformationDetails = ({
   const certificationKey = `${key}Certification`;
   const url = `${
     environment.API_URL
-  }/accredited_representative_portal/v0/form21a/create_attachment`;
+  }/accredited_representative_portal/v0/form21a/attachments`;
 
   return {
     title,
@@ -45,6 +45,21 @@ const backgroundInformationDetails = ({
             'You may add .pdf, .doc, .jpg, or .txt documents under 25MB. Please name documents with clear, descriptive names.',
           name: `${path}-file-input`,
           fileUploadUrl: url,
+          formNumber: '21a',
+          'ui:options': {
+            createPayload: (file, formId, password) => {
+              const payload = new FormData();
+              payload.set('form_id', formId);
+              payload.append('file', file);
+              payload.append('form_attachment[file_data]', file);
+              payload.append('form_attachment[gclaws_doc_type_id]', docType);
+
+              if (password) {
+                payload.append('form_attachment[password]', password);
+              }
+              return payload;
+            },
+          },
         }),
         /**
          * File upload warnings are modeled as form data that can be modified by
@@ -60,6 +75,10 @@ const backgroundInformationDetails = ({
           'ui:title': 'Document upload warnings',
         },
       },
+      /** TODO should be able to use this but for some reason it appears to not be working
+       * and to instead uses the createPayload in src/platform/forms-system/src/js/web-component-fields/vaFileInputFieldHelpers.jsx
+       * Need to figure out why this happens but then should work. */
+
       [certificationKey]: checkboxGroupUI({
         title: 'Certification',
         errorMessages: {
