@@ -111,6 +111,11 @@ export {
 
 export function customTransformForSubmit(formConfig, form) {
   const payload = cloneDeep(form);
+  if (!payload.data) {
+    payload.data = {};
+  }
+  payload.data.useV2 = true;
+  payload.data.daysTillExpires = 365;
   // manually delete view:confirmEmail, since in our case we actually want the other view fields
   // delete payload.data.veteranContactInformation['view:confirmEmail'];
   const expandedPages = expandArrayPages(
