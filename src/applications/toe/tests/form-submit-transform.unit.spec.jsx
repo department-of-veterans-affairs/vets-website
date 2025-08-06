@@ -216,7 +216,7 @@ describe('form submit transform', () => {
     describe('creates Direct Deposit information', () => {
       it('sets up direct deposit account type', () => {
         expect(submissionObject.directDeposit.directDepositAccountType).to.eql(
-          'checking',
+          'Checking',
         );
       });
       it('sets up direct deposit account number', () => {
