@@ -11,24 +11,26 @@ import { conditionOptions } from '../../content/conditionOptions';
 import { NewConditionDescription } from '../../content/conditions';
 import { arrayBuilderOptions, createAddAndEditTitles } from './utils';
 
-const missingConditionMessage =
+const ERR_TOO_LONG = 'This needs to be less than 256 characters';
+const ERR_DUP_NEW_CONDITION =
+  "You've already added this new condition to your claim";
+const ERR_DUP_RATED = 'You already have this condition as a rated disability';
+const ERR_MISSING_CONDITION =
   'Enter a condition, diagnosis, or short description of your symptoms';
 
-const validateLength = (err, fieldData) => {
-  const errorMessage = 'This needs to be less than 256 characters';
+// Check length and presence for the same string in one pass
+const validatePresenceAndLength = (err, text = '') => {
+  const trimmed = text.trim();
 
-  if (fieldData.length > 255) {
-    err.addError(errorMessage);
+  if (
+    !trimmed ||
+    trimmed.toLowerCase() === NULL_CONDITION_STRING.toLowerCase()
+  ) {
+    err.addError(ERR_MISSING_CONDITION);
+    return;
   }
-};
-
-const validateNotMissing = (err, fieldData) => {
-  const isMissingCondition =
-    !fieldData?.trim() ||
-    fieldData.toLowerCase() === NULL_CONDITION_STRING.toLowerCase();
-
-  if (isMissingCondition) {
-    err.addError(missingConditionMessage);
+  if (trimmed.length > 255) {
+    err.addError(ERR_TOO_LONG);
   }
 };
 
@@ -37,64 +39,41 @@ const regexNonWord = /[^\w]/g;
 const generateSaveInProgressId = str =>
   (str || 'blank').replace(regexNonWord, '').toLowerCase();
 
-const validateDuplicate = (
-  err,
-  fieldData,
-  items,
-  itemAccessor,
-  errorMessage,
-) => {
-  const index = getArrayIndexFromPathName();
+const normalize = str => generateSaveInProgressId((str ?? '').toLowerCase());
 
-  const lowerCasedItems =
-    items?.map(item => itemAccessor(item)?.toLowerCase()) || [];
+const hasDuplicateEntry = (value, items = [], accessor, selfIndex) => {
+  const target = normalize(value);
 
-  const fieldDataLowerCased = fieldData?.toLowerCase() || '';
-  const fieldDataSaveInProgressId = generateSaveInProgressId(fieldData || '');
+  const isDuplicate = (item, idx) => {
+    if (idx === selfIndex) return false;
+    return normalize(accessor(item)) === target;
+  };
 
-  const hasDuplicate = lowerCasedItems.some((item, i) => {
-    if (index === i) return false;
-
-    return (
-      item === fieldDataLowerCased ||
-      generateSaveInProgressId(item) === fieldDataSaveInProgressId
-    );
-  });
-
-  if (hasDuplicate) {
-    err.addError(errorMessage);
-  }
+  return items.some(isDuplicate);
 };
 
-const validateDuplicateNewCondition = (err, fieldData, formData) => {
-  const errorMessage = "You've already added this new condition to your claim";
-
-  validateDuplicate(
-    err,
-    fieldData,
-    formData?.[arrayBuilderOptions.arrayPath],
-    condition => condition.newCondition,
-    errorMessage,
-  );
-};
-
-const validateDuplicateWithRatedDisability = (err, fieldData, formData) => {
-  const errorMessage = 'You already have this condition as a rated disability';
-
-  validateDuplicate(
-    err,
-    fieldData,
-    formData?.ratedDisabilities,
-    disability => disability.name,
-    errorMessage,
-  );
-};
-
+// Simplify validation and checking for duplicate entries
 const validateCondition = (err, fieldData = '', formData = {}) => {
-  validateLength(err, fieldData);
-  validateNotMissing(err, fieldData);
-  validateDuplicateNewCondition(err, fieldData, formData);
-  validateDuplicateWithRatedDisability(err, fieldData, formData);
+  validatePresenceAndLength(err, fieldData);
+  const idx = getArrayIndexFromPathName();
+  const {
+    [arrayBuilderOptions.arrayPath]: arr = [],
+    ratedDisabilities = [],
+  } = formData;
+
+  if (hasDuplicateEntry(fieldData, arr, cond => cond?.newCondition, idx)) {
+    err.addError(ERR_DUP_NEW_CONDITION);
+  }
+  if (
+    hasDuplicateEntry(
+      fieldData,
+      ratedDisabilities,
+      disability => disability?.name,
+      idx,
+    )
+  ) {
+    err.addError(ERR_DUP_RATED);
+  }
 };
 
 /** @returns {PageSchema} */
@@ -120,7 +99,7 @@ const newConditionPage = {
         />
       ),
       'ui:errorMessages': {
-        required: missingConditionMessage,
+        required: ERR_MISSING_CONDITION,
       },
       'ui:validations': [validateCondition],
       'ui:options': {
