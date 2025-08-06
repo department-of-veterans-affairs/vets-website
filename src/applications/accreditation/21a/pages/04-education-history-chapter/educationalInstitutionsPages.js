@@ -75,7 +75,8 @@ const institutionAndDegreePage = {
         // Adding a check for formData and fullData since formData is sometimes undefined on load
         // and we cant rely on fullData for testing
         const institutions =
-          formData.educationalInstitutions ?? fullData.educationalInstitutions;
+          formData?.educationalInstitutions ??
+          fullData?.educationalInstitutions;
         const institution = institutions?.[index];
 
         return institution?.currentlyEnrolled === true;
@@ -107,7 +108,8 @@ const degreeInformationPage = {
         // Adding a check for formData and fullData since formData is sometimes undefined on load
         // and we cant rely on fullData for testing
         const institutions =
-          formData.educationalInstitutions ?? fullData.educationalInstitutions;
+          formData?.educationalInstitutions ??
+          fullData?.educationalInstitutions;
         const institution = institutions?.[index];
 
         return institution?.degreeReceived === false;
@@ -116,7 +118,8 @@ const degreeInformationPage = {
         // Adding a check for formData and fullData since formData is sometimes undefined on load
         // and we cant rely on fullData for testing
         const institutions =
-          formData.educationalInstitutions ?? fullData.educationalInstitutions;
+          formData?.educationalInstitutions ??
+          fullData?.educationalInstitutions;
         const institution = institutions?.[index];
 
         return institution?.degreeReceived === true;
@@ -128,7 +131,8 @@ const degreeInformationPage = {
         // Adding a check for formData and fullData since formData is sometimes undefined on load
         // and we cant rely on fullData for testing
         const institutions =
-          formData.educationalInstitutions ?? fullData.educationalInstitutions;
+          formData?.educationalInstitutions ??
+          fullData?.educationalInstitutions;
         const institution = institutions?.[index];
 
         return institution?.degreeReceived === true;
@@ -137,7 +141,8 @@ const degreeInformationPage = {
         // Adding a check for formData and fullData since formData is sometimes undefined on load
         // and we cant rely on fullData for testing
         const institutions =
-          formData.educationalInstitutions ?? fullData.educationalInstitutions;
+          formData?.educationalInstitutions ??
+          fullData?.educationalInstitutions;
         const institution = institutions?.[index];
 
         return institution?.degreeReceived === false;
