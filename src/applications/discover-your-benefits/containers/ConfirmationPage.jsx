@@ -364,7 +364,7 @@ export class ConfirmationPage extends React.Component {
   render() {
     return (
       <div>
-        <article className="description-article">
+        <article className="description-article vads-u-padding--0 vads-u-margin--0">
           <div className="description-padding-btm">
             {this.props.location.query.allBenefits ? (
               <div>
@@ -450,6 +450,7 @@ export class ConfirmationPage extends React.Component {
                 name="sort-benefits"
                 value={this.state.sortValue}
                 onVaSelect={this.handleSortSelect}
+                style={{ maxWidth: '288px' }}
               >
                 <option key="alphabetical" value="alphabetical">
                   Name (A-Z)
