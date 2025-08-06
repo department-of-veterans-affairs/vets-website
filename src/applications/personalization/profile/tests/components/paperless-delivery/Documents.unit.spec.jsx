@@ -29,16 +29,6 @@ describe('Documents', () => {
     sandbox.restore();
   });
 
-  it('should render alert when missing documents', () => {
-    sandbox
-      .stub(useNotificationSettingsUtils, 'useNotificationSettingsUtils')
-      .returns({
-        usePaperlessDeliveryGroup: () => [],
-      });
-    const { getByText } = render(<Documents />, {});
-    expect(getByText(/Paperless delivery not available yet/)).to.exist;
-  });
-
   it('should render alert when missing facilities', () => {
     facilities = [];
     sandbox
@@ -58,7 +48,7 @@ describe('Documents', () => {
     expect(getByText(/Paperless delivery not available yet/)).to.exist;
   });
 
-  it('should render', () => {
+  it('should render documents', () => {
     facilities = ['a-facility'];
     sandbox
       .stub(useNotificationSettingsUtils, 'useNotificationSettingsUtils')
