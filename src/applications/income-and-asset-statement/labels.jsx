@@ -3,10 +3,17 @@
 export const relationshipLabels = {
   VETERAN: 'Veteran',
   SPOUSE: 'Spouse',
-  CHILD: 'Child',
+  CHILD: 'Child/children',
   PARENT: 'Parent',
   CUSTODIAN: 'Custodian of child',
-  OTHER: 'Other',
+  OTHER: 'Another dependent not listed here ',
+};
+
+export const relationshipLabelDescriptions = {
+  SPOUSE:
+    'Unless you’re estranged, live apart, and don’t contribute to their support',
+  CHILD: 'Unless you don’t have custody and don’t provide financial support',
+  CUSTODIAN: 'Unless the child’s custodian is an institution',
 };
 
 export const transferMethodLabels = {

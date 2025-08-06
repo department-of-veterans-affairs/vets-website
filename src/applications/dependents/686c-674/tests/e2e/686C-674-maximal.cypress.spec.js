@@ -149,6 +149,24 @@ const testConfig = createTestConfig(
         });
       },
 
+      '686-stepchild-no-longer-part-of-household/0/date-child-left-household': ({
+        afterHook,
+      }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.get(
+            'select#options[name="root_dateStepchildLeftHouseholdMonth"]',
+            { timeout: 1000 },
+          )
+            .should('be.visible')
+            .should('not.be.disabled');
+          cy.get(
+            'select#options[name="root_dateStepchildLeftHouseholdMonth"]',
+          ).select('2');
+          cy.clickFormContinue();
+        });
+      },
+
       '686-report-dependent-death/0/date-of-death': ({ afterHook }) => {
         afterHook(() => {
           cy.fillPage();

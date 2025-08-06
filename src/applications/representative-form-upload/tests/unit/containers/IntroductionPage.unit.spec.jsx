@@ -112,18 +112,17 @@ describe('IntroductionPage', () => {
   it('renders start link and calls router when clicked (logged-in user)', () => {
     const routerSpy = { push: sinon.spy() };
 
-    const { getByText } = render(
+    const { container } = render(
       <Provider store={mockStore(true)}>
         <IntroductionPage {...props} router={routerSpy} />
       </Provider>,
     );
 
-    const link = getByText('Start form');
-    expect(link).to.exist;
-
-    userEvent.click(link);
-    expect(routerSpy.push.calledOnce).to.be.true;
-    expect(routerSpy.push.args[0][0]).to.equal('/first-page');
+    expect(
+      container.querySelector(
+        'va-link-action[text="Start form upload and submission"]',
+      ),
+    ).to.not.be.null;
   });
 
   it('opens the PDF download link when clicked', () => {
@@ -141,5 +140,28 @@ describe('IntroductionPage', () => {
 
     expect(openSpy.calledOnce).to.be.true;
     openSpy.restore();
+  });
+
+  it('sets sessionStorage flag when start form link is clicked', () => {
+    const routerSpy = { push: sinon.spy() };
+    const setItemSpy = sinon.spy(Storage.prototype, 'setItem');
+
+    const { container } = render(
+      <Provider store={mockStore(true)}>
+        <IntroductionPage {...props} router={routerSpy} />
+      </Provider>,
+    );
+
+    const link = container.querySelector('va-link-action');
+    expect(link).to.exist;
+
+    link.dispatchEvent(
+      new MouseEvent('click', { bubbles: true, cancelable: true }),
+    );
+
+    expect(setItemSpy.calledWith('formIncompleteARP', 'true')).to.be.true;
+    expect(routerSpy.push.calledOnce).to.be.true;
+
+    setItemSpy.restore();
   });
 });

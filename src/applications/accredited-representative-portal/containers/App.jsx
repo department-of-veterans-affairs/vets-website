@@ -4,9 +4,6 @@ import { Outlet } from 'react-router-dom';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-
 function App() {
   const {
     TOGGLE_NAMES: { accreditedRepresentativePortalFrontend: appToggleKey },
@@ -23,13 +20,7 @@ function App() {
     );
   }
 
-  return (
-    <div className="container">
-      <Header />
-      <Outlet />
-      <Footer />
-    </div>
-  );
+  return <Outlet />;
 }
 
 export default App;

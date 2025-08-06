@@ -17,11 +17,71 @@ import { fileUploadBlurb } from '../../shared/components/fileUploads/attachments
 import { nameWording, privWrapper } from '../../shared/utilities';
 import { CHAMPVA_PHONE_NUMBER } from '../../shared/constants';
 import { validFieldCharsOnly } from '../../shared/validations';
+import { LLM_UPLOAD_WARNING } from '../components/llmUploadWarning';
+import { LLM_RESPONSE } from '../components/llmUploadResponse';
 
-export const claimIdentifyingNumberOptions = [
-  'PDI number',
-  'Claim control number',
-];
+export const claimIdentifyingNumberOptions = ['PDI number', 'Control number'];
+
+const additionalInfoDescription = (
+  <div className="vads-u-margin-top--4">
+    <p>
+      <strong>For PDI numbers</strong> you don’t need to include the date in the
+      beginning of the PDI number. Enter the 2 letters and all of the numbers
+      following it.
+    </p>
+    <p>
+      <strong>For control numbers</strong> include all of the numbers listed
+      under “Control Number” on the CHAMPVA Explanation of benefits.
+    </p>
+
+    <va-additional-info
+      trigger="Where to find the PDI number"
+      class="vads-u-margin-y--3"
+    >
+      <span>
+        <p className="vads-u-margin-top--0">
+          The PDI number is located at the bottom of the letter we mailed you.
+          It begins with a date, followed by 2 letters (VA, PG, FX and CM) and a
+          series of numbers (example: 02/26/2025-VA1753294097390-001).
+        </p>
+        <p className="vads-u-margin-bottom--0">
+          If you can’t find the PDI number, call us at{' '}
+          <va-telephone contact={CHAMPVA_PHONE_NUMBER} />{' '}
+          <va-telephone contact="711" tty />
+          {'. '}
+          We’re here Monday through Friday, 8:05a.m. to 7:30 p.m.{' '}
+          <dfn>
+            <abbr title="Eastern Time">ET</abbr>
+          </dfn>
+          .
+        </p>
+      </span>
+    </va-additional-info>
+    <va-additional-info
+      trigger="Where to find the control number"
+      class="vads-u-margin-y--3"
+    >
+      <span>
+        <p className="vads-u-margin-top--0">
+          The control number is located on the CHAMPVA Explanation of Benefits
+          we mailed you. It is a 12-digit code or may begin with the letter “M”
+          followed by an 11-digit code (example: M00001234567).
+        </p>
+        <p className="vads-u-margin-bottom--0">
+          If you can’t find the control number, call us at{' '}
+          <va-telephone contact={CHAMPVA_PHONE_NUMBER} />
+          <va-telephone contact="711" tty />
+          {'. '}
+          We’re here Monday through Friday, 8:05a.m. to 7:30 p.m.{' '}
+          <dfn>
+            <abbr title="Eastern Time">ET</abbr>
+          </dfn>
+          .
+        </p>
+      </span>
+    </va-additional-info>
+  </div>
+);
 
 const additionalNotesClaims = formData => {
   const nameCap = privWrapper(
@@ -55,53 +115,20 @@ export const claimIdentifyingNumber = {
         `${
           formData?.certifierRole === 'applicant' ? 'Your' : 'Beneficiary’s'
         } claim identification number`,
-      `We'll use the Program Document Identifier (PDI) or claim control number to identify the original claim that was submitted. These can be found on the letter you received from CHAMPVA requesting further action on your claim.`,
+      `We’ll use the Program Document Identifier (PDI) or control number to identify the original claim that was submitted. These can be found on the letter you received from CHAMPVA requesting further action on your claim.`,
     ),
     pdiOrClaimNumber: selectUI({
-      title: 'Is this a PDI or claim control number?',
+      title: 'Is this a PDI number or control number?',
     }),
     identifyingNumber: {
-      ...textUI('PDI number or claim identification number'),
+      ...textUI('Claim identification number'),
     },
     'ui:validations': [
       (errors, formData) =>
         validFieldCharsOnly(errors, null, formData, 'identifyingNumber'),
     ],
     'view:adtlInfo': {
-      'ui:description': (
-        <div>
-          <va-additional-info trigger="Where to find the PDI number">
-            <p>
-              The PDI number is located at the bottom of the letter we mailed
-              you. It begins with the letters "VA" and includes an 8-digit code
-              (example: VA12345678).
-            </p>
-            <br />
-            <p>
-              If you can’t find the PDI number, call us at{' '}
-              <va-telephone contact={CHAMPVA_PHONE_NUMBER} />{' '}
-              <va-telephone contact="711" tty="true" />
-              {'. '}
-              We’re here Monday through Friday, 8:05a.m. to 7:30 p.m. ET.
-            </p>
-          </va-additional-info>
-          <va-additional-info trigger="Where to find the claim control number">
-            <p>
-              The claim control number is located on the CHAMPVA Explanation of
-              Benefits we mailed you. It begins with a letter followed by an
-              11-digit code (example: M00001234567).
-            </p>
-            <br />
-            <p>
-              If you can’t find the claim control number, call us at{' '}
-              <va-telephone contact={CHAMPVA_PHONE_NUMBER} />
-              <va-telephone contact="711" tty="true" />
-              {'. '}
-              We’re here Monday through Friday, 8:05a.m. to 7:30 p.m. ET.
-            </p>
-          </va-additional-info>
-        </div>
-      ),
+      'ui:description': additionalInfoDescription,
     },
   },
   schema: {
@@ -204,21 +231,13 @@ export const medicalUploadSupportingDocs = {
         return additionalNotesClaims(formData?.formContext?.fullData);
       },
     },
+
     medicalUpload: fileUploadUI({
       label: 'Upload supporting document',
       attachmentName: true,
     }),
-    'view:fileClaim': {
-      'ui:description': (
-        <a
-          href="https://www.va.gov/resources/how-to-file-a-champva-claim/"
-          rel="noopener noreferrer"
-        >
-          Learn more about supporting medical claim documents (opens in a new
-          tab)
-        </a>
-      ),
-    },
+    ...LLM_UPLOAD_WARNING,
+    ...LLM_RESPONSE,
   },
   schema: {
     type: 'object',
@@ -227,10 +246,8 @@ export const medicalUploadSupportingDocs = {
       titleSchema,
       'view:fileUploadBlurb': blankSchema,
       'view:notes': blankSchema,
-      'view:fileClaim': {
-        type: 'object',
-        properties: {},
-      },
+      // schema for LLM message
+      'view:fileClaim': blankSchema,
       medicalUpload: {
         type: 'array',
         minItems: 1,
@@ -243,6 +260,7 @@ export const medicalUploadSupportingDocs = {
           },
         },
       },
+      'view:uploadAlert': blankSchema,
     },
   },
 };
@@ -292,13 +310,6 @@ export const pharmacyClaimUploadDocs = {
           called a superbill) from your provider or Explanation of Benefits from
           your insurance company.
         </p>
-        <a
-          href="https://www.va.gov/resources/how-to-file-a-champva-claim/"
-          rel="noopener noreferrer"
-        >
-          Learn more about supporting pharmacy claim documents (opens in a new
-          tab)
-        </a>
       </>,
     ),
     ...fileUploadBlurb,
@@ -307,10 +318,13 @@ export const pharmacyClaimUploadDocs = {
         return additionalNotesClaims(formData?.formContext?.fullData);
       },
     },
+    ...LLM_UPLOAD_WARNING,
     pharmacyUpload: fileUploadUI({
       label: 'Upload supporting document',
       attachmentName: true,
+      attachmentId: 'pharmacy invoice', // hard-set for LLM verification
     }),
+    ...LLM_RESPONSE,
   },
   schema: {
     type: 'object',
@@ -319,6 +333,8 @@ export const pharmacyClaimUploadDocs = {
       titleSchema,
       'view:fileUploadBlurb': blankSchema,
       'view:notes': blankSchema,
+      // schema for LLM message
+      'view:fileClaim': blankSchema,
       pharmacyUpload: {
         type: 'array',
         minItems: 1,
@@ -331,6 +347,7 @@ export const pharmacyClaimUploadDocs = {
           },
         },
       },
+      'view:uploadAlert': blankSchema,
     },
   },
 };

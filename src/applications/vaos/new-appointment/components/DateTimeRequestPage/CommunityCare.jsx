@@ -1,16 +1,18 @@
+import { addDays } from 'date-fns';
 import { scrollToFirstError } from 'platform/utilities/scroll';
-import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import moment from 'moment';
+import { useHistory } from 'react-router-dom';
+import FormButtons from '../../../components/FormButtons';
+import CalendarWidget from '../../../components/calendar/CalendarWidget';
+import { FETCH_STATUS, FLOW_TYPES } from '../../../utils/constants';
+import { scrollAndFocus } from '../../../utils/scrollAndFocus';
+import { getPageTitle } from '../../newAppointmentFlow';
 import {
   onCalendarChange,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
 } from '../../redux/actions';
-import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import FormButtons from '../../../components/FormButtons';
-import CalendarWidget from '../../../components/calendar/CalendarWidget';
 import {
   getFlowType,
   getFormPageInfo,
@@ -18,8 +20,6 @@ import {
 } from '../../redux/selectors';
 import DateTimeRequestOptions from './DateTimeRequestOptions';
 import SelectedIndicator, { getSelectedLabel } from './SelectedIndicator';
-import { FETCH_STATUS, FLOW_TYPES } from '../../../utils/constants';
-import { getPageTitle } from '../../newAppointmentFlow';
 
 const pageKey = 'ccRequestDateTime';
 
@@ -57,6 +57,7 @@ export default function CCRequest() {
   const [submitted, setSubmitted] = useState(false);
   // Add a counter state to trigger focusing
   const [focusTrigger, setFocusTrigger] = useState(0);
+  const [alertTrigger, setAlertTrigger] = useState(0);
   const appointmentSlotsStatus = useSelector(state =>
     selectAppointmentSlotsStatus(state),
   );
@@ -70,19 +71,22 @@ export default function CCRequest() {
     [focusTrigger],
   );
 
-  useEffect(() => {
-    document.title = `${pageTitle} | Veterans Affairs`;
-    scrollAndFocus();
-  }, []);
+  useEffect(
+    () => {
+      document.title = `${pageTitle} | Veterans Affairs`;
+      scrollAndFocus();
+    },
+    [pageTitle],
+  );
 
   const { selectedDates } = data;
 
   // Calendar displays business days so check if adding 5 days falls on a Sat or Sun
   // If so, add 1 or 2 days to get to Mon. This fixes displaying and empty calendar
   // error.
-  const minDate = moment().add(5, 'd');
-  if (minDate.day() === 6) minDate.add(2, 'days');
-  if (minDate.day() === 0) minDate.add(1, 'days');
+  const minDate = addDays(new Date(), 5);
+  if (minDate.getDay() === 6) addDays(minDate, 2);
+  if (minDate.getDay() === 0) addDays(minDate, 1);
 
   return (
     <div className="vaos-form__detailed-radio">
@@ -100,12 +104,9 @@ export default function CCRequest() {
       <CalendarWidget
         multiSelect
         maxSelections={maxSelections}
-        maxSelectionsError="You can only choose up to 3 dates for your appointment"
         onChange={(...args) => dispatch(onCalendarChange(...args))}
-        minDate={minDate.format('YYYY-MM-DD')}
-        maxDate={moment()
-          .add(120, 'days')
-          .format('YYYY-MM-DD')}
+        minDate={minDate}
+        maxDate={addDays(new Date(), 120)}
         value={selectedDates}
         id="optionTime"
         renderIndicator={props => <SelectedIndicator {...props} />}
@@ -114,6 +115,8 @@ export default function CCRequest() {
         required
         requiredMessage="Select at least one preferred timeframe for your appointment."
         showValidation={submitted && !userSelectedSlot(selectedDates)}
+        alertTrigger={alertTrigger}
+        setAlertTrigger={() => setAlertTrigger(prev => prev + 1)}
       />
       <FormButtons
         onBack={() => {
@@ -132,7 +135,8 @@ export default function CCRequest() {
           return dispatch(routeToPreviousAppointmentPage(history, pageKey));
         }}
         onSubmit={() => {
-          // Increment the focus trigger to force re-focusing the validation message
+          // Increment the alert and focus triggers to force re-focusing the validation message and re-announce it
+          setAlertTrigger(prev => prev + 1);
           setFocusTrigger(prev => prev + 1);
           goForward({
             dispatch,

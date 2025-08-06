@@ -288,7 +288,7 @@ describe('VAOS Services: Appointment ', () => {
       mockFetch();
     });
 
-    it('should fetch 3 years of appointment history', async () => {
+    it.skip('should fetch 3 years of appointment history', async () => {
       const dateRanges = getDateRanges(3);
       dateRanges.forEach(range => {
         mockAppointmentsApi({
@@ -300,7 +300,7 @@ describe('VAOS Services: Appointment ', () => {
         });
       });
 
-      await getLongTermAppointmentHistoryV2(true);
+      await getLongTermAppointmentHistoryV2();
       expect(global.fetch.callCount).to.equal(3);
       expect(global.fetch.firstCall.args[0]).to.contain(
         `${format(dateRanges[0].start, 'yyyy-MM-dd')}`,

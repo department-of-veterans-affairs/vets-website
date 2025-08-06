@@ -2,6 +2,7 @@ import sessionStatus from '../fixtures/session/default.json';
 
 class Vitals {
   setIntercepts = ({ vitalData, useOhData = true }) => {
+    cy.intercept('POST', '/v0/datadog_action', {}).as('datadogAction');
     cy.intercept('POST', '/my_health/v1/medical_records/session', {}).as(
       'session',
     );

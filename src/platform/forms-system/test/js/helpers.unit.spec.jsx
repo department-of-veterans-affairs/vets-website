@@ -1058,6 +1058,7 @@ describe('Schemaform helpers:', () => {
             additionalItems: { type: 'string' },
             items: { type: 'string' },
           },
+          field10: () => {}, // Function type
         },
       };
 
@@ -1065,11 +1066,18 @@ describe('Schemaform helpers:', () => {
       try {
         isValid = checkValidSchema(s);
       } catch (err) {
-        // Perhaps this should not be in this test...Seems pretty brittle.
-        //  Still, I'd like a way to make sure we get all the right errors and
-        //  would prefer to not write 6 different tests.
         expect(err.message).to.equal(
-          'Errors found in schema: Missing type in root.field1 schema. Missing object properties in root.field2 schema. Missing type in root.field3.nestedField schema. Missing items schema in root.field4. Missing object properties in root.field5.additionalItems schema. Missing type in root.field6.items.0 schema. Missing type in root.field7.items schema. root.field8 should contain additionalItems when items is an array. root.field9 should not contain additionalItems when items is an object.',
+          'Errors found in schema: ' +
+            'Invalid schema at "root.field1": missing or invalid "type" property. Expected an object with a "type" string. ' +
+            'Missing object properties in root.field2 schema. ' +
+            'Invalid schema at "root.field3.nestedField": missing or invalid "type" property. Expected an object with a "type" string. ' +
+            'Missing items schema in root.field4. ' +
+            'Missing object properties in root.field5.additionalItems schema. ' +
+            'Invalid schema at "root.field6.items.0": missing or invalid "type" property. Expected an object with a "type" string. ' +
+            'Invalid schema at "root.field7.items": missing or invalid "type" property. Expected an object with a "type" string. ' +
+            'root.field8 should contain additionalItems when items is an array. ' +
+            'root.field9 should not contain additionalItems when items is an object. ' +
+            'Invalid schema at "root.field10": expected a schema object, but received the function "field10". JSON schemas must be plain objects. Did you forget to call "field10()"?',
         );
       }
       expect(isValid).to.equal(undefined);

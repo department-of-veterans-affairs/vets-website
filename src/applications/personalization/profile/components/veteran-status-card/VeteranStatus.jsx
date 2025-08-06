@@ -8,6 +8,7 @@ import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import DowntimeNotification, {
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
+import { datadogRum } from '@datadog/browser-rum';
 import { formatFullName } from '../../../common/helpers';
 import { getServiceBranchDisplayName } from '../../helpers';
 import Headline from '../ProfileSectionHeadline';
@@ -20,6 +21,7 @@ import {
 } from './VeteranStatusAlerts';
 import LoadFail from '../alerts/LoadFail';
 import '../../sass/veteran-status-card.scss';
+import { useBrowserMonitoring } from './hooks/useBrowserMonitoring';
 
 const VeteranStatus = ({
   militaryInformation = {},
@@ -38,8 +40,11 @@ const VeteranStatus = ({
   const [pdfError, setPdfError] = useState(false);
   const { first, middle, last, suffix } = userFullName;
 
-  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const vetStatusCardToggle = useToggleValue(TOGGLE_NAMES.vetStatusStage1);
+  const {
+    TOGGLE_NAMES,
+    useToggleValue,
+    useToggleLoadingValue,
+  } = useFeatureToggle();
 
   const userAgent =
     mockUserAgent || navigator.userAgent || navigator.vendor || window.opera;
@@ -161,8 +166,14 @@ const VeteranStatus = ({
         url: '/img/scissors-black.png',
       },
     },
-    vetStatusCardToggle,
   };
+
+  useBrowserMonitoring();
+
+  const isLoadingFeatureFlags = useToggleLoadingValue();
+  const monitorPdfGeneration = useToggleValue(TOGGLE_NAMES.vetStatusPdfLogging);
+  const monitoringEnabled =
+    isLoadingFeatureFlags === false && monitorPdfGeneration === true;
 
   const createPdf = async () => {
     try {
@@ -174,6 +185,12 @@ const VeteranStatus = ({
       );
     } catch (error) {
       setPdfError(true);
+      if (monitoringEnabled) {
+        datadogRum.addError(
+          error,
+          'Profile - Veteran Status Card - PDF generation error',
+        );
+      }
       captureError(error, { eventName: 'vet-status-pdf-download' });
     }
   };

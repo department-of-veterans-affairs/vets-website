@@ -11,10 +11,9 @@ module.exports = [
   { name: 'vaOnlineSchedulingOhDirectSchedule', value: true },
   { name: 'vaOnlineSchedulingOhRequest', value: true },
   { name: 'vaOnlineSchedulingRemovePodiatry', value: false },
-  { name: 'vaOnlineSchedulingFeSourceOfTruthTelehealth', value: true },
   { name: 'edu_section_103', value: true },
   { name: 'gibctEybBottomSheet', value: true },
-  { name: 'travelPayViewClaimDetails', value: false },
-  { name: 'travelPaySubmitMileageExpense', value: false },
+  { name: 'travelPayViewClaimDetails', value: true },
+  { name: 'travelPaySubmitMileageExpense', value: true },
   { name: 'vaOnlineSchedulingMentalHealthHistoryFiltering', value: true },
 ];
