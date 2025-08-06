@@ -20,11 +20,7 @@ import {
 } from '../utils/helpers';
 import { AVAILABILITY_STATUSES, LETTER_TYPES } from '../utils/constants';
 
-import {
-  lettersUseLighthouse,
-  lettersPageNewDesign,
-  togglesAreLoaded,
-} from '../selectors';
+import { lettersPageNewDesign, togglesAreLoaded } from '../selectors';
 
 export class LetterList extends React.Component {
   constructor(props) {
@@ -35,11 +31,10 @@ export class LetterList extends React.Component {
   }
 
   componentDidMount() {
-    const { shouldUseLighthouse } = this.props;
     focusElement('h2#nav-form-header');
     this.setState({
       // eslint-disable-next-line -- LH_MIGRATION
-      LH_MIGRATION__options: LH_MIGRATION__getOptions(shouldUseLighthouse),
+      LH_MIGRATION__options: LH_MIGRATION__getOptions(),
     });
   }
 
@@ -314,7 +309,6 @@ function mapStateToProps(state) {
     lettersAvailability: letterState.lettersAvailability,
     letterDownloadStatus: letterState.letterDownloadStatus,
     optionsAvailable: letterState.optionsAvailable,
-    shouldUseLighthouse: lettersUseLighthouse(state),
     togglesLoaded,
     lettersNewDesign,
   };
@@ -331,7 +325,6 @@ LetterList.propTypes = {
   lettersAvailability: PropTypes.string,
   lettersNewDesign: PropTypes.bool,
   optionsAvailable: PropTypes.bool,
-  shouldUseLighthouse: PropTypes.bool,
   togglesLoaded: PropTypes.bool,
 };
 
