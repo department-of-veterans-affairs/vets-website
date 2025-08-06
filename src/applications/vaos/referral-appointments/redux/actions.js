@@ -6,6 +6,8 @@ import { getProviderById, getAppointmentInfo } from '../../services/referral';
 import { STARTED_NEW_APPOINTMENT_FLOW } from '../../redux/sitewide';
 
 export const SET_FORM_CURRENT_PAGE = 'SET_FORM_CURRENT_PAGE';
+export const CACHE_DRAFT_REFERRAL_APPOINTMENT =
+  'CACHE_DRAFT_REFERRAL_APPOINTMENT';
 export const FETCH_PROVIDER_DETAILS = 'FETCH_PROVIDER_DETAILS';
 export const FETCH_PROVIDER_DETAILS_SUCCEEDED =
   'FETCH_PROVIDER_DETAILS_SUCCEEDED';
@@ -24,6 +26,15 @@ export function setFormCurrentPage(currentPage) {
   return {
     type: SET_FORM_CURRENT_PAGE,
     payload: currentPage,
+  };
+}
+
+export function cacheDraftReferralAppointment(data) {
+  return async dispatch => {
+    dispatch({
+      type: CACHE_DRAFT_REFERRAL_APPOINTMENT,
+      data,
+    });
   };
 }
 
