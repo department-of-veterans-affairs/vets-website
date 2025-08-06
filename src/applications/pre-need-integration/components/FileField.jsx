@@ -259,7 +259,7 @@ const FileField = props => {
           file: currentFile,
           name: currentFile.name,
           errorMessage:
-            'We weren’t able to upload your file. Make sure the file is an accepted format and size before continuing.',
+            'We weren’t able to upload your file. Make sure the file is in an accepted format and size before continuing.',
         };
         props.onChange(allFiles);
         return;
