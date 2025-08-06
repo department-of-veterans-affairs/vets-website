@@ -8,6 +8,7 @@ import {
   DOWNLOAD_FORMAT,
   dispStatusObj,
   NO_PROVIDER_NAME,
+  ACTIVE_NON_VA,
 } from './constants';
 
 // Cache the dynamic import promise to avoid redundant network requests
@@ -701,4 +702,23 @@ export const displayProviderName = (first, last) => {
     return first || last;
   }
   return NO_PROVIDER_NAME;
+};
+
+/**
+ * Determine if a prescription is a non-VA prescription
+ * @param {Object} rx - The prescription object.
+ * @returns {Boolean}
+ * - Returns true if the prescription source is 'NV' (Non-VA), indicating it's a non-VA prescription.
+ * - Returns false otherwise.
+ */
+export const rxSourceIsNonVA = rx => rx?.prescriptionSource === 'NV';
+
+/**
+ * Get the status of a prescription
+ * @param {Object} rx - The prescription object.
+ * @returns {String} - Returns the status of the prescription.
+ */
+export const getRxStatus = rx => {
+  if (rxSourceIsNonVA(rx)) return ACTIVE_NON_VA;
+  return rx?.dispStatus || FIELD_NONE_NOTED;
 };

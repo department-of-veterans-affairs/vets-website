@@ -120,6 +120,8 @@ const responses = {
     };
     delaySingleResponse(() => res.json(data), 2250);
   },
+  'PATCH /my_health/v1/prescriptions/:id/refill': (req, res) =>
+    res.status(200).json({}),
 };
 
 module.exports = delay(responses, 0);

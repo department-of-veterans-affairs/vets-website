@@ -29,11 +29,7 @@ describe('Medication card component', () => {
 
   it('shows status', () => {
     const screen = setup();
-    if (prescriptionsListItem.dispStatus === 'Active: Refill in Process') {
-      expect(screen.getByText('Active: Refill in process')).to.exist;
-    } else {
-      expect(screen.getByText(prescriptionsListItem.dispStatus)).to.exist;
-    }
+    expect(screen.getByText(prescriptionsListItem.dispStatus)).to.exist;
   });
 
   it('does not show Unknown when status is unknown', () => {

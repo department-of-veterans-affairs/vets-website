@@ -78,9 +78,7 @@ const MedicationsListCard = ({ rx }) => {
             data-testid="rxStatus"
             data-dd-privacy="mask"
           >
-            {rxStatus !== 'Active: Refill in Process'
-              ? rxStatus
-              : 'Active: Refill in process'}
+            {rxStatus}
           </p>
         )}
         {rx && <ExtraDetails {...rx} />}

@@ -13,11 +13,11 @@ import {
   determineRefillLabel,
   getShowRefillHistory,
   displayProviderName,
+  getRxStatus,
+  rxSourceIsNonVA,
 } from '../../util/helpers';
 import VaPharmacyText from '../shared/VaPharmacyText';
 import { selectPendingMedsFlag } from '../../util/selectors';
-
-const rxSourceIsNonVA = rx => rx?.prescriptionSource === 'NV';
 
 const PrescriptionPrintOnly = props => {
   const { rx, refillHistory, isDetailsRx } = props;
@@ -30,6 +30,7 @@ const PrescriptionPrintOnly = props => {
   const pendingRenewal =
     rx?.prescriptionSource === 'PD' && rx?.dispStatus === 'Renew';
   const isNonVaPrescription = rxSourceIsNonVA(rx);
+  const rxStatus = getRxStatus(rx);
 
   const activeNonVaContent = pres => (
     <div className="print-only-rx-details-container vads-u-margin-top--1p5">
@@ -42,7 +43,7 @@ const PrescriptionPrintOnly = props => {
         {pres.indicationForUse || 'Reason for use not available'}
       </p>
       <p className="no-break">
-        <strong>Status:</strong> {validateField(pres.dispStatus?.toString())}
+        <strong>Status:</strong> {rxStatus}
       </p>
       <p>
         A VA provider added this medication record in your VA medical records.
@@ -70,7 +71,7 @@ const PrescriptionPrintOnly = props => {
       </ul>
       <p className="vads-u-margin-top--neg1p5">
         <strong>When you started taking this medication:</strong>{' '}
-        {dateFormat(pres.dispensedDate, 'MMMM D, YYYY')}
+        {dateFormat(pres.dispensedDate, 'MMMM D, YYYY', 'Date not available')}
       </p>
       <p>
         <strong>Documented by: </strong>
@@ -78,7 +79,7 @@ const PrescriptionPrintOnly = props => {
       </p>
       <p>
         <strong>Documented at this facility: </strong>
-        {validateField(pres.facilityName)}
+        {pres.facilityName || 'VA facility name not available'}
       </p>
       <p>
         <strong>Provider Notes: </strong>
@@ -117,8 +118,7 @@ const PrescriptionPrintOnly = props => {
                 </>
               )}
             <p>
-              <strong>Status:</strong>{' '}
-              {validateField(rx.dispStatus?.toString())}
+              <strong>Status:</strong> {rxStatus}
             </p>
             <div className="vads-u-margin-y--0p5 no-break vads-u-margin-right--5">
               {pdfStatusDefinitions[rx.refillStatus]
@@ -162,7 +162,8 @@ const PrescriptionPrintOnly = props => {
             )}
 
             <p>
-              <strong>Facility:</strong> {validateField(rx.facilityName)}
+              <strong>Facility:</strong>{' '}
+              {rx.facilityName || 'VA facility name not available'}
             </p>
             <p>
               <strong>Pharmacy phone number:</strong>{' '}
