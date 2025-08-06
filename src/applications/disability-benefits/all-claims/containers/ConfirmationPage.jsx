@@ -48,6 +48,8 @@ export default class ConfirmationPage extends React.Component {
         fullName={props.fullName}
         isSubmittingBDD={props.isSubmittingBDD}
       />
+      {/* Testing confirmation component - with accordion */}
+      {/* <ConfirmationView.ChapterSectionCollection /> */}
       <ConfirmationView.PrintThisPage />
       <ConfirmationView.WhatsNextProcessList
         item1Header="We’ll send you an email to confirm your submission"
@@ -62,8 +64,8 @@ export default class ConfirmationPage extends React.Component {
       <ConfirmationView.GoBackLink />
       <ConfirmationView.NeedHelp />
 
-      {/* Testing confirmation accordion */}
-      <ConfirmationView.ChapterSectionCollection />
+      {/* Testing confirmation component - bottom of page, no accordion */}
+      <ConfirmationView.ChapterSectionCollection collapsible={false} />
     </ConfirmationView>
   );
 
