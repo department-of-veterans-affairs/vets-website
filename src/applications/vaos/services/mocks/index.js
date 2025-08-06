@@ -754,4 +754,4 @@ const responses = {
   // End of required v0 APIs
 };
 
-module.exports = delay(responses, 4000);
+module.exports = delay(responses, 100);
