@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
@@ -21,6 +21,11 @@ const RadioQuestion = ({ shortName }) => {
     responses,
   } = QUESTION_CONTENT[shortName];
   let radios;
+  const [isChecked, setIsChecked] = useState(false);
+
+  const setValueIsChecked = value => {
+    setIsChecked(value);
+  };
 
   const onContinueClick = () => {
     // TODO
@@ -41,6 +46,7 @@ const RadioQuestion = ({ shortName }) => {
       return (
         <VaRadioOption
           key={index}
+          checked={isChecked === shortAnswer}
           data-testid="va-radio-option"
           description={longAnswer}
           label={shortAnswer}
@@ -63,7 +69,12 @@ const RadioQuestion = ({ shortName }) => {
           hint={hintText}
           id="onramp-radio"
           label={questionText}
-          onVaValueChange={e => onValueChange(e.detail.value)}
+          onVaValueChange={e => {
+            // The below function is temporary; once data is connected to the Redux store,
+            // we can use only the onValueChange function.
+            setValueIsChecked(e.detail.value);
+            onValueChange(e.detail.value);
+          }}
           required
           use-forms-pattern="single"
         >
@@ -84,7 +95,12 @@ const RadioQuestion = ({ shortName }) => {
           hint={hintText}
           id="onramp-radio"
           label={questionText}
-          onVaValueChange={e => onValueChange(e.detail.value)}
+          onVaValueChange={e => {
+            // The below function is temporary; once data is connected to the Redux store,
+            // we can use only the onValueChange function.
+            setValueIsChecked(e.detail.value);
+            onValueChange(e.detail.value);
+          }}
           required
         >
           {renderRadioOptions()}
