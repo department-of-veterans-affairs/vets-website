@@ -6,11 +6,14 @@ import {
   addMinutes,
   addMonths,
   addYears,
+  format,
   startOfMonth,
 } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
+import MockDate from 'mockdate';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { getAppointmentConflict, parseDurationFromSlotId } from './utils';
 import { onCalendarChange } from '../../new-appointment/redux/actions';
 import {
   createTestStore,
@@ -28,20 +31,12 @@ describe('VAOS Component: CalendarWidget', () => {
     const slot2 = addMinutes(nowUTC, 120);
     const availableSlots = [
       {
+        id: 'practitioner|uuid|2025-08-06T13:00:00Z|60m0s|timestamp|ov',
         start: formatInTimeZone(nowUTC, 'UTC', DATE_FORMATS.ISODateTimeLocal),
-        end: formatInTimeZone(
-          addMinutes(nowUTC, 60),
-          'UTC',
-          DATE_FORMATS.ISODateTimeLocal,
-        ),
       },
       {
+        id: 'practitioner|uuid|2025-08-06T13:00:00Z|60m0s|timestamp|ov',
         start: formatInTimeZone(slot2, 'UTC', DATE_FORMATS.ISODateTimeLocal),
-        end: formatInTimeZone(
-          addMinutes(slot2, 60),
-          'UTC',
-          DATE_FORMATS.ISODateTimeLocal,
-        ),
       },
     ];
     const startMonth = nowUTC;
@@ -138,12 +133,8 @@ describe('VAOS Component: CalendarWidget', () => {
     nowUTC.setHours(12, 0, 0, 0);
     const availableSlots = [
       {
+        id: 'practitioner|uuid|2025-08-06T13:00:00Z|60m0s|timestamp|ov',
         start: formatInTimeZone(nowUTC, 'UTC', DATE_FORMATS.ISODateTimeUTC),
-        end: formatInTimeZone(
-          addMinutes(nowUTC, 60),
-          'UTC',
-          DATE_FORMATS.ISODateTimeUTC,
-        ),
       },
     ];
     const startMonth = nowUTC;
@@ -230,20 +221,12 @@ describe('VAOS Component: CalendarWidget', () => {
     const slot2 = addDays(nowUTC, 1);
     const availableSlots = [
       {
+        id: 'practitioner|uuid|2025-08-06T13:00:00Z|60m0s|timestamp|ov',
         start: formatInTimeZone(nowUTC, 'UTC', DATE_FORMATS.ISODateTimeUTC),
-        end: formatInTimeZone(
-          addMinutes(nowUTC, 60),
-          'UTC',
-          DATE_FORMATS.ISODateTimeUTC,
-        ),
       },
       {
+        id: 'practitioner|uuid|2025-08-06T13:00:00Z|60m0s|timestamp|ov',
         start: formatInTimeZone(slot2, 'UTC', DATE_FORMATS.ISODateTimeUTC),
-        end: formatInTimeZone(
-          addMinutes(slot2, 60),
-          'UTC',
-          DATE_FORMATS.ISODateTimeUTC,
-        ),
       },
     ];
     const startMonth = nowUTC;
@@ -339,11 +322,7 @@ describe('VAOS Component: CalendarWidget', () => {
     const availableSlots = [
       {
         start: formatInTimeZone(nowUTC, 'UTC', DATE_FORMATS.ISODateTimeUTC),
-        end: formatInTimeZone(
-          addMinutes(nowUTC, 60),
-          'UTC',
-          DATE_FORMATS.ISODateTimeUTC,
-        ),
+        id: 'practitioner|uuid|2025-08-06T13:00:00Z|60m0s|timestamp|ov',
       },
       {
         start: formatInTimeZone(slot2, 'UTC', DATE_FORMATS.ISODateTimeUTC),
@@ -507,4 +486,177 @@ describe('VAOS Component: CalendarWidget', () => {
       'vaos-calendar__disabled',
     );
   });
+
+  it('should show validation alert when max selections+1 dates selected for requests', async () => {
+    // Arrange
+    const now = new Date();
+    const selectedDates = [
+      format(addDays(now, 1), DATE_FORMATS.ISODateTimeLocal),
+      format(addDays(now, 2), DATE_FORMATS.ISODateTimeLocal),
+      format(addDays(now, 3), DATE_FORMATS.ISODateTimeLocal),
+      format(addDays(now, 4), DATE_FORMATS.ISODateTimeLocal),
+    ];
+
+    // Act
+    const screen = renderWithStoreAndRouter(
+      <CalendarWidget maxSelections={3} value={selectedDates} />,
+      {},
+    );
+
+    expect(
+      screen.queryByText(
+        'You can only select 3 times for your appointment. Deselect the 4th time to continue.',
+      ),
+    ).to.exist;
+  });
+
+  it('should show validation alert when max selections+2 or more dates selected for requests', async () => {
+    // Arrange
+    const minDate = new Date();
+    const selectedDates = [
+      format(addDays(minDate, 1), DATE_FORMATS.ISODateTimeLocal),
+      format(addDays(minDate, 2), DATE_FORMATS.ISODateTimeLocal),
+      format(addDays(minDate, 3), DATE_FORMATS.ISODateTimeLocal),
+      format(addDays(minDate, 4), DATE_FORMATS.ISODateTimeLocal),
+      format(addDays(minDate, 5), DATE_FORMATS.ISODateTimeLocal),
+    ];
+
+    // Act
+    const screen = renderWithStoreAndRouter(
+      <CalendarWidget maxSelections={3} value={selectedDates} />,
+      {},
+    );
+
+    expect(
+      screen.queryByText(
+        'You can only select 3 times for your appointment. Deselect 2 times to continue.',
+      ),
+    ).to.exist;
+  });
 });
+
+describe('CalendarUtils: getAppointmentConflict', () => {
+  before(() => {
+    MockDate.set('2024-12-05T00:00:00Z');
+  });
+  after(() => {
+    MockDate.reset();
+  });
+  const appointmentsByMonth = {
+    '2024-12': [
+      {
+        start: '2024-12-06T17:00:00Z',
+        startUtc: '2024-12-06T17:00:00Z',
+        minutesDuration: 60,
+      },
+    ],
+  };
+  const availableSlots = [
+    {
+      start: '2024-12-06T16:00:00Z',
+      end: '2024-12-06T17:00:00Z',
+    },
+    {
+      start: '2024-12-06T17:00:00Z',
+      end: '2024-12-06T18:00:00Z',
+    },
+  ];
+  it('returns false when there is no conflict', () => {
+    expect(
+      getAppointmentConflict(
+        '2024-12-06T16:00:00Z',
+        appointmentsByMonth,
+        availableSlots,
+      ),
+    ).to.be.false;
+  });
+  it('returns true when there is a conflict', () => {
+    expect(
+      getAppointmentConflict(
+        '2024-12-06T17:00:00Z',
+        appointmentsByMonth,
+        availableSlots,
+      ),
+    ).to.be.true;
+  });
+});
+
+describe('CalendarUtils: parseDurationFromSlotId', () => {
+  describe('valid duration formats', () => {
+    it('should parse minutes only format', () => {
+      const slotId =
+        'practitioner|uuid|2025-08-06T13:00:00Z|30m0s|timestamp|ov';
+      expect(parseDurationFromSlotId(slotId)).to.equal(30);
+    });
+
+    it('should parse hours only without minutes/seconds', () => {
+      const slotId = 'practitioner|uuid|2025-08-06T13:00:00Z|1h|timestamp|ov';
+      expect(parseDurationFromSlotId(slotId)).to.equal(60);
+    });
+
+    it('should handle complex duration with hours, minutes, and seconds', () => {
+      const slotId =
+        'practitioner|uuid|2025-08-06T13:00:00Z|1h15m45s|timestamp|ov';
+      expect(parseDurationFromSlotId(slotId)).to.equal(76); // 60 + 15 + 1 (rounded up for seconds)
+    });
+
+    it('should handle 45-minute appointment', () => {
+      const slotId =
+        'practitioner|uuid|2025-08-06T13:00:00Z|45m0s|timestamp|ov';
+      expect(parseDurationFromSlotId(slotId)).to.equal(45);
+    });
+
+    it('should handle 2.5-hour appointment', () => {
+      const slotId =
+        'practitioner|uuid|2025-08-06T13:00:00Z|2h30m0s|timestamp|ov';
+      expect(parseDurationFromSlotId(slotId)).to.equal(150);
+    });
+  });
+
+  describe('invalid inputs', () => {
+    it('should return default duration for null input', () => {
+      expect(parseDurationFromSlotId(null)).to.equal(30);
+    });
+
+    it('should return default duration for undefined input', () => {
+      expect(parseDurationFromSlotId(undefined)).to.equal(30);
+    });
+
+    it('should return default duration for empty string', () => {
+      expect(parseDurationFromSlotId('')).to.equal(30);
+    });
+
+    it('should return default duration for insufficient pipe-separated parts', () => {
+      expect(parseDurationFromSlotId('practitioner|uuid|timestamp')).to.equal(
+        30,
+      );
+      expect(parseDurationFromSlotId('practitioner')).to.equal(30);
+    });
+
+    it('should return default duration for empty duration part', () => {
+      const slotId = 'practitioner|uuid|2025-08-06T13:00:00Z||timestamp|ov';
+      expect(parseDurationFromSlotId(slotId)).to.equal(30);
+    });
+
+    it('should return default duration for malformed duration', () => {
+      const slotId =
+        'practitioner|uuid|2025-08-06T13:00:00Z|abc123|timestamp|ov';
+      expect(parseDurationFromSlotId(slotId)).to.equal(30);
+    });
+  });
+
+  describe('edge cases', () => {
+    it('should return default for zero duration calculation', () => {
+      const slotId =
+        'practitioner|uuid|2025-08-06T13:00:00Z|0h0m0s|timestamp|ov';
+      expect(parseDurationFromSlotId(slotId)).to.equal(30);
+    });
+
+    it('should handle duration with only seconds', () => {
+      const slotId = 'practitioner|uuid|2025-08-06T13:00:00Z|45s|timestamp|ov';
+      expect(parseDurationFromSlotId(slotId)).to.equal(1); // rounds up to 1 minute
+    });
+  });
+});
+
+// TODO add test for appointment conflict

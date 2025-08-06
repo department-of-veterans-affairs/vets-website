@@ -17,7 +17,7 @@ const DemographicViewField = props => {
   return (
     <>
       <div className="review-row">
-        <dt>{uiSchema['ui:title']}</dt>
+        <dt>&nbsp;</dt>
         <dd className="dd-privacy-hidden" data-dd-action-name="data value">
           {categories.length > 0 && uiSchema[categories[0]]['ui:title']}
         </dd>

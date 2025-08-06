@@ -1,6 +1,9 @@
 import get from 'platform/utilities/data/get';
 import { capitalize } from 'lodash';
 
+export const showUpdatedContent = () =>
+  window.sessionStorage.getItem('showUpdatedContent') === 'true';
+
 export const annualReceivedIncomeFromAnnuityRequired = (form, index) =>
   get(['annuities', index, 'receivingIncomeFromAnnuity'], form);
 

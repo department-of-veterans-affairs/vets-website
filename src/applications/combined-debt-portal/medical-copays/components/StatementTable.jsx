@@ -91,14 +91,6 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
             <span>{formatCurrency(charge.pDTransAmt)}</span>
           </va-table-row>
         ))}
-      {selectedCopay?.pHTotCredits !== 0 && (
-        <va-table-row>
-          <span>---</span>
-          <span>Total Credits</span>
-          <span>---</span>
-          <span>{formatCurrency(selectedCopay?.pHTotCredits)}</span>
-        </va-table-row>
-      )}
       <va-table-row>
         <span>---</span>
         <span>
@@ -137,6 +129,8 @@ StatementTable.propTypes = {
     pHTotCredits: PropTypes.number,
     pSStatementDateOutput: PropTypes.string,
     pSStatementVal: PropTypes.string,
+    statementEndDate: PropTypes.string,
+    statementStartDate: PropTypes.string,
   }),
 };
 

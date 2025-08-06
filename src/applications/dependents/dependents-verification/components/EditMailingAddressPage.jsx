@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { SchemaForm } from 'platform/forms-system/exportsFile';
 import { scrollTo } from 'platform/utilities/scroll';
@@ -21,6 +21,8 @@ const EditMailingAddress = ({
     goToPath(fromReviewPage ? '/review-and-submit' : returnPath);
   };
 
+  const originalAddress = useRef(data.address);
+
   const handlers = {
     onInput: inputData => {
       setFormData({
@@ -32,6 +34,10 @@ const EditMailingAddress = ({
       returnToPath();
     },
     onCancel: () => {
+      setFormData({
+        ...data,
+        address: originalAddress.current,
+      });
       returnToPath();
     },
   };
