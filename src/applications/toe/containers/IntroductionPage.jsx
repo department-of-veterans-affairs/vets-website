@@ -102,7 +102,9 @@ export const IntroductionPage = ({
                 </ul>
               </li>
               <li className="process-step list-three">
-                <h3 className="vads-u-font-size--h4">Start your application</h3>
+                <h3 className="vads-u-font-size--h4">
+                  Start your application for benefits
+                </h3>
                 <p>
                   We’ll take you through each step of the process. It should
                   take about 15 minutes.
@@ -183,7 +185,9 @@ export const IntroductionPage = ({
                 </p>
               </li>
               <li className="process-step list-three">
-                <h3 className="vads-u-font-size--h4">Start your application</h3>
+                <h3 className="vads-u-font-size--h4">
+                  Start your application for benefits
+                </h3>
                 <p>
                   We’ll take you through each step of the process. It should
                   take about 15 minutes.

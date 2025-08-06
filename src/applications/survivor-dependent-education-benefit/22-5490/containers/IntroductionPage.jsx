@@ -141,7 +141,7 @@ export const IntroductionPage = ({
             </ul>
           </div>
         </va-process-list-item>
-        <va-process-list-item header="Start your application">
+        <va-process-list-item header="Start your application for benefits">
           <p>
             We’ll take you through each step of the process. It should take
             about 15 minutes.
@@ -174,7 +174,7 @@ export const IntroductionPage = ({
             prefillEnabled={route.formConfig.prefillEnabled}
             messages={route.formConfig.savedFormMessages}
             pageList={route.pageList}
-            startText="Start your Application"
+            startText="Start your benefits application"
           >
             Please complete the 22-5490 form to apply for DEPENDENTS&#39;
             APPLICATION FOR VA EDUCATION BENEFITS .
