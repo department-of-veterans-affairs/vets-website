@@ -59,5 +59,6 @@ describe('SM MESSAGING COMBO BOX', () => {
     PatientComposePage.verifySendMessageConfirmationMessageText();
     PatientComposePage.verifySendMessageConfirmationMessageHasFocus();
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+    cy.url().should('include', '/inbox');
   });
 });
