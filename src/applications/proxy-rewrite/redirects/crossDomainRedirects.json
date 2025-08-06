@@ -2166,13 +2166,13 @@
 },
 {
   "domain": "www.benefits.va.gov",
-  "src": "/souixfalls",
+  "src": "/siouxfalls",
   "dest": "/sioux-falls-va-regional-benefit-office-at-royal-c-johnson-veterans-memorial-hospital/",
   "catchAll": true
 },
 {
   "domain": "www.benefits.va.gov",
-  "src": "/rosouixfalls",
+  "src": "/rosiouxfalls",
   "dest": "/sioux-falls-va-regional-benefit-office-at-royal-c-johnson-veterans-memorial-hospital/",
   "catchAll": true
 }
