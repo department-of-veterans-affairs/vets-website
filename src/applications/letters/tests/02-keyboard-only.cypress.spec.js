@@ -10,10 +10,12 @@ import {
 
 describe('Authed Letter Test', () => {
   it('confirms authed letter functionality', () => {
-    cy.intercept('GET', '/v0/letters/beneficiary', benefitSummaryOptions).as(
-      'benefitSummaryOptions',
-    );
-    cy.intercept('GET', '/v0/letters', letters);
+    cy.intercept(
+      'GET',
+      '/v0/letters_generator/beneficiary',
+      benefitSummaryOptions,
+    ).as('benefitSummaryOptions');
+    cy.intercept('GET', '/v0/letters_generator', letters).as('letters');
     cy.intercept('GET', '/v0/address', address);
     cy.intercept('GET', '/v0/address/countries', countries);
     cy.intercept('GET', '/v0/address/states', states);
