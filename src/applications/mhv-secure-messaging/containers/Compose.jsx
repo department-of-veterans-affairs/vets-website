@@ -23,9 +23,10 @@ import {
 } from '../util/constants';
 import { getRecentThreads } from '../util/threads';
 import { getUniqueTriageGroups } from '../util/recipients';
+import featureToggles from '../hooks/useFeatureToggles';
 
 const Compose = ({ skipInterstitial }) => {
-  const isPilot = useSelector(state => state.sm.app.isPilot);
+  const { cernerPilotSmFeatureFlag } = featureToggles();
 
   const dispatch = useDispatch();
   const recipients = useSelector(state => state.sm.recipients);
@@ -44,7 +45,7 @@ const Compose = ({ skipInterstitial }) => {
   const [acknowledged, setAcknowledged] = useState(skipInterstitial);
   const [draftType, setDraftType] = useState('');
   const [pageTitle, setPageTitle] = useState(
-    isPilot ? 'Start message' : 'Start a new message',
+    cernerPilotSmFeatureFlag ? 'Start message' : 'Start a new message',
   );
   const location = useLocation();
   const history = useHistory();

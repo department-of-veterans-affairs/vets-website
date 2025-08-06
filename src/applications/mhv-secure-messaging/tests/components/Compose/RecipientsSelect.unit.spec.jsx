@@ -182,7 +182,6 @@ describe('RecipientsSelect', () => {
     const customState = {
       ...initialState,
       sm: {
-        app: { isPilot: true },
         recipients: {
           activeFacility: {
             ehr: 'cerner',
@@ -206,7 +205,6 @@ describe('RecipientsSelect', () => {
     const customState = {
       ...initialState,
       sm: {
-        app: { isPilot: true },
         recipients: {
           activeFacility: {
             ehr: 'vista',

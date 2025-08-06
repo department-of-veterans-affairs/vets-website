@@ -65,14 +65,16 @@ const RecipientsSelect = ({
   const isSignatureRequiredRef = useRef();
   isSignatureRequiredRef.current = isSignatureRequired;
 
-  const { isComboBoxEnabled, featureTogglesLoading } = useFeatureToggles();
+  const {
+    isComboBoxEnabled,
+    featureTogglesLoading,
+    cernerPilotSmFeatureFlag,
+  } = useFeatureToggles();
 
   const [alertDisplayed, setAlertDisplayed] = useState(false);
   const [selectedRecipient, setSelectedRecipient] = useState(null);
   const [recipientsListSorted, setRecipientsListSorted] = useState([]);
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
-
-  const isPilot = useSelector(state => state.sm.app.isPilot);
 
   const optGroupEnabled = useSelector(
     state =>
@@ -191,7 +193,7 @@ const RecipientsSelect = ({
 
   const optionsValues = useMemo(
     () => {
-      if (!optGroupEnabled || isPilot) {
+      if (!optGroupEnabled || cernerPilotSmFeatureFlag) {
         return sortRecipients(recipientsList)?.map(item => (
           <option key={item.id} value={item.id}>
             {item.suggestedNameDisplay || item.name}
@@ -247,17 +249,18 @@ const RecipientsSelect = ({
 
   return (
     <>
-      {!featureTogglesLoading && (isComboBoxEnabled || isPilot) ? (
+      {!featureTogglesLoading &&
+      (isComboBoxEnabled || cernerPilotSmFeatureFlag) ? (
         <VaComboBox
           required
           label={`${
-            isPilot
+            cernerPilotSmFeatureFlag
               ? 'Select a care team'
               : 'Select a care team to send your message to'
           }`}
           name="to"
           hint={
-            isPilot
+            cernerPilotSmFeatureFlag
               ? 'Start typing your care facility, provider’s name, or type of care to search.'
               : null
           }
@@ -269,7 +272,7 @@ const RecipientsSelect = ({
           data-dd-action-name="Compose Recipient Combobox List"
           onInput={handleInput}
         >
-          {!isPilot && <CantFindYourTeam />}
+          {!cernerPilotSmFeatureFlag && <CantFindYourTeam />}
           {optionsValues}
         </VaComboBox>
       ) : (
@@ -291,7 +294,7 @@ const RecipientsSelect = ({
         </VaSelect>
       )}
 
-      {!isPilot &&
+      {!cernerPilotSmFeatureFlag &&
         alertDisplayed && (
           <VaAlert
             ref={alertRef}

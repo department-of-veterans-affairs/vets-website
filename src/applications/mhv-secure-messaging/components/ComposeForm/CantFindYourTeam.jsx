@@ -3,12 +3,13 @@ import { VaAdditionalInfo } from '@department-of-veterans-affairs/component-libr
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Paths, teamNotListedReasons } from '../../util/constants';
+import useFeatureToggles from '../../hooks/useFeatureToggles';
 
 const CantFindYourTeam = () => {
-  const isPilot = useSelector(state => state.sm.app.isPilot);
+  const { cernerPilotSmFeatureFlag } = useFeatureToggles();
   const { activeFacility } = useSelector(state => state.sm.recipients);
 
-  if (isPilot) {
+  if (cernerPilotSmFeatureFlag) {
     if (activeFacility?.ehr === 'cerner') {
       return (
         <VaAdditionalInfo

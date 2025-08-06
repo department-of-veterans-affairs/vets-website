@@ -73,7 +73,6 @@ const ComposeForm = props => {
   const history = useHistory();
   const headerRef = useRef();
 
-  const { isPilot } = useSelector(state => state.sm.app);
   const { draftInProgress } = useSelector(state => state.sm.threadDetails);
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
   const {
@@ -459,7 +458,7 @@ const ComposeForm = props => {
         selectedRecipientId === '' ||
         !selectedRecipientId
       ) {
-        if (!isPilot && isComboBoxEnabled) {
+        if (!cernerPilotSmFeatureFlag && isComboBoxEnabled) {
           if (comboBoxInputValue === '') {
             setRecipientError(ErrorMessages.ComposeForm.RECIPIENT_REQUIRED);
           } else {
@@ -957,7 +956,7 @@ const ComposeForm = props => {
           }
         />
         <div>
-          {!isPilot &&
+          {!cernerPilotSmFeatureFlag &&
             !noAssociations &&
             !allTriageGroupsBlocked && (
               <div
@@ -974,7 +973,7 @@ const ComposeForm = props => {
                 />
               </div>
             )}
-          {!isPilot &&
+          {!cernerPilotSmFeatureFlag &&
             recipientsList &&
             !noAssociations &&
             !allTriageGroupsBlocked && (
@@ -990,7 +989,7 @@ const ComposeForm = props => {
                 currentRecipient={currentRecipient}
               />
             )}
-          {isPilot && (
+          {cernerPilotSmFeatureFlag && (
             <SelectedRecipientTitle draftInProgress={draftInProgress} />
           )}
           <div className="compose-form-div">

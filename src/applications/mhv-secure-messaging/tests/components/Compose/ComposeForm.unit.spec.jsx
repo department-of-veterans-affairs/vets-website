@@ -1555,7 +1555,6 @@ describe('Compose form component', () => {
       featureToggles: { loading: false },
       sm: {
         ...initialState.sm,
-        app: { isPilot: true },
         recipients: {
           ...initialState.sm.recipients,
           activeFacility: {
