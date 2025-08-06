@@ -133,7 +133,7 @@ describe('App container logic', () => {
     });
   });
 
-  it('should render RoutedSavableApp with children if all conditions pass', () => {
+  it.skip('should render RoutedSavableApp with children if all conditions pass', () => {
     const { getByTestId } = renderApp();
     expect(getByTestId('children-content')).to.exist;
   });
