@@ -70,7 +70,9 @@ export default function VARequestLayout({ data: appointment }) {
         <Section heading="Preferred date and time">
           <ul className="usa-unstyled-list">
             {preferredDates.map((date, index) => (
-              <li key={`${appointment.id}-option-${index}`}>{date}</li>
+              <li key={`${appointment.id}-option-${index}`}>
+                <span data-dd-privacy="mask">{date}</span>
+              </li>
             ))}
           </ul>
         </Section>
