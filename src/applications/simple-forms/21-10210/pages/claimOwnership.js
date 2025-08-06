@@ -12,8 +12,8 @@ export default {
         'Are you submitting this statement to support your claim or someone else’s claim?',
       labelHeaderLevel: '2',
       labels: {
-        [CLAIM_OWNERSHIPS.SELF]: 'My own claim',
-        [CLAIM_OWNERSHIPS.THIRD_PARTY]: 'Someone else’s claim',
+        self: 'My own claim',
+        'third-party': 'Someone else’s claim',
       },
     }),
   },
