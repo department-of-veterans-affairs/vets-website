@@ -247,5 +247,296 @@ describe('educationalInstitutionsPages', () => {
       );
       expect(getByText('January 2000 - Present')).to.exist;
     });
+
+    context('isItemIncomplete function', () => {
+      it('should return true when item is null', () => {
+        expect(arrayBuilderOptions.isItemIncomplete(null)).to.be.true;
+      });
+
+      it('should return true when item is undefined', () => {
+        expect(arrayBuilderOptions.isItemIncomplete(undefined)).to.be.true;
+      });
+
+      it('should return true when item is empty object', () => {
+        expect(arrayBuilderOptions.isItemIncomplete({})).to.be.true;
+      });
+
+      it('should return true when name is missing', () => {
+        const item = {
+          dateRange: { from: '2020-01', to: '2024-01' },
+          degreeReceived: true,
+          degree: 'Bachelor',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when name is null', () => {
+        const item = {
+          name: null,
+          dateRange: { from: '2020-01', to: '2024-01' },
+          degreeReceived: true,
+          degree: 'Bachelor',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when name is empty string', () => {
+        const item = {
+          name: '',
+          dateRange: { from: '2020-01', to: '2024-01' },
+          degreeReceived: true,
+          degree: 'Bachelor',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when dateRange is missing', () => {
+        const item = {
+          name: 'Test University',
+          degreeReceived: true,
+          degree: 'Bachelor',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when dateRange is null', () => {
+        const item = {
+          name: 'Test University',
+          dateRange: null,
+          degreeReceived: true,
+          degree: 'Bachelor',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when dateRange.from is missing', () => {
+        const item = {
+          name: 'Test University',
+          dateRange: { to: '2024-01' },
+          degreeReceived: true,
+          degree: 'Bachelor',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when dateRange.from is null', () => {
+        const item = {
+          name: 'Test University',
+          dateRange: { from: null, to: '2024-01' },
+          degreeReceived: true,
+          degree: 'Bachelor',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when dateRange.from is empty string', () => {
+        const item = {
+          name: 'Test University',
+          dateRange: { from: '', to: '2024-01' },
+          degreeReceived: true,
+          degree: 'Bachelor',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when dateRange.to is missing and currentlyEnrolled is false', () => {
+        const item = {
+          name: 'Test University',
+          dateRange: { from: '2020-01' },
+          currentlyEnrolled: false,
+          degreeReceived: true,
+          degree: 'Bachelor',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when dateRange.to is null and currentlyEnrolled is false', () => {
+        const item = {
+          name: 'Test University',
+          dateRange: { from: '2020-01', to: null },
+          currentlyEnrolled: false,
+          degreeReceived: true,
+          degree: 'Bachelor',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when dateRange.to is empty string and currentlyEnrolled is false', () => {
+        const item = {
+          name: 'Test University',
+          dateRange: { from: '2020-01', to: '' },
+          currentlyEnrolled: false,
+          degreeReceived: true,
+          degree: 'Bachelor',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return false when dateRange.to is missing but currentlyEnrolled is true', () => {
+        const item = {
+          name: 'Test University',
+          dateRange: { from: '2020-01' },
+          currentlyEnrolled: true,
+          degreeReceived: true,
+          degree: 'Bachelor',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.false;
+      });
+
+      it('should return true when degreeReceived is undefined', () => {
+        const item = {
+          name: 'Test University',
+          dateRange: { from: '2020-01', to: '2024-01' },
+          degree: 'Bachelor',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when degreeReceived is true but degree is missing', () => {
+        const item = {
+          name: 'Test University',
+          dateRange: { from: '2020-01', to: '2024-01' },
+          degreeReceived: true,
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when degreeReceived is true but degree is null', () => {
+        const item = {
+          name: 'Test University',
+          dateRange: { from: '2020-01', to: '2024-01' },
+          degreeReceived: true,
+          degree: null,
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when degreeReceived is true but degree is empty string', () => {
+        const item = {
+          name: 'Test University',
+          dateRange: { from: '2020-01', to: '2024-01' },
+          degreeReceived: true,
+          degree: '',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when degreeReceived is false but reasonForNotCompleting is missing', () => {
+        const item = {
+          name: 'Test University',
+          dateRange: { from: '2020-01', to: '2024-01' },
+          degreeReceived: false,
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when degreeReceived is false but reasonForNotCompleting is null', () => {
+        const item = {
+          name: 'Test University',
+          dateRange: { from: '2020-01', to: '2024-01' },
+          degreeReceived: false,
+          reasonForNotCompleting: null,
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when degreeReceived is false but reasonForNotCompleting is empty string', () => {
+        const item = {
+          name: 'Test University',
+          dateRange: { from: '2020-01', to: '2024-01' },
+          degreeReceived: false,
+          reasonForNotCompleting: '',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return false when all required fields are present with degreeReceived true', () => {
+        const item = {
+          name: 'Test University',
+          dateRange: { from: '2020-01', to: '2024-01' },
+          degreeReceived: true,
+          degree: 'Bachelor',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.false;
+      });
+
+      it('should return false when all required fields are present with degreeReceived false', () => {
+        const item = {
+          name: 'Test University',
+          dateRange: { from: '2020-01', to: '2024-01' },
+          degreeReceived: false,
+          reasonForNotCompleting: 'Changed career path',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.false;
+      });
+
+      it('should return false when currentlyEnrolled is true and to date is missing', () => {
+        const item = {
+          name: 'Test University',
+          dateRange: { from: '2020-01' },
+          currentlyEnrolled: true,
+          degreeReceived: true,
+          degree: 'Bachelor',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.false;
+      });
+
+      it('should return true when only name is missing (all others present)', () => {
+        const item = {
+          dateRange: { from: '2020-01', to: '2024-01' },
+          degreeReceived: true,
+          degree: 'Bachelor',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when only dateRange.from is missing (all others present)', () => {
+        const item = {
+          name: 'Test University',
+          dateRange: { to: '2024-01' },
+          degreeReceived: true,
+          degree: 'Bachelor',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when only dateRange.to is missing and currentlyEnrolled is false (all others present)', () => {
+        const item = {
+          name: 'Test University',
+          dateRange: { from: '2020-01' },
+          currentlyEnrolled: false,
+          degreeReceived: true,
+          degree: 'Bachelor',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when only degreeReceived is undefined (all others present)', () => {
+        const item = {
+          name: 'Test University',
+          dateRange: { from: '2020-01', to: '2024-01' },
+          degree: 'Bachelor',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when degreeReceived is true but degree is missing (all others present)', () => {
+        const item = {
+          name: 'Test University',
+          dateRange: { from: '2020-01', to: '2024-01' },
+          degreeReceived: true,
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when degreeReceived is false but reasonForNotCompleting is missing (all others present)', () => {
+        const item = {
+          name: 'Test University',
+          dateRange: { from: '2020-01', to: '2024-01' },
+          degreeReceived: false,
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+    });
   });
 });
