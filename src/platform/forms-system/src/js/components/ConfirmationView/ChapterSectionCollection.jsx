@@ -39,6 +39,22 @@ export const getChapterTitle = (chapterFormConfig, formData, formConfig) => {
   return chapterTitle || '';
 };
 
+export const getPageTitle = (pageFormConfig, formData, formConfig) => {
+  const onReviewPage = true;
+
+  let pageTitle = pageFormConfig.reviewTitle || pageFormConfig.title;
+
+  if (typeof pageTitle === 'function') {
+    pageTitle = pageTitle({
+      formData,
+      formConfig,
+      onReviewPage,
+    });
+  }
+
+  return pageTitle || '';
+};
+
 const addMarginIfNewIndex = (arrayKey, index) => {
   if (!arrayMap[arrayKey]) {
     arrayMap[arrayKey] = new Set();
@@ -235,32 +251,48 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
 
 export const buildFields = (chapter, formData, pagesFromState) => {
   return chapter.expandedPages.flatMap(page => {
-    // page level ui:confirmationField
     const ConfirmationField = page.uiSchema['ui:confirmationField'];
+    const pageTitle = getPageTitle(page, formData, chapter.formConfig);
 
+    // Render the page title as an h4 before the fields
+    const pageTitleElement = (
+      <h4 key={`page-title-${page.pageKey}`}>{pageTitle}</h4>
+    );
+
+    let fields;
     if (ConfirmationField) {
       if (isReactComponent(ConfirmationField)) {
-        return <ConfirmationField formData={formData} />;
+        fields = [
+          <ConfirmationField formData={formData} key={`cf-${page.pageKey}`} />,
+        ];
+      } else {
+        throw new Error(
+          'Page level ui:confirmationField must be a React component',
+        );
       }
-
-      throw new Error(
-        'Page level ui:confirmationField must be a React component',
+    } else {
+      fields = Object.entries(page.uiSchema).flatMap(
+        ([uiSchemaKey, uiSchemaValue]) => {
+          const data = formData[uiSchemaKey];
+          return fieldEntries(
+            uiSchemaKey,
+            uiSchemaValue,
+            data,
+            page.schema,
+            pagesFromState?.[page.pageKey]?.schema,
+            page.index,
+          );
+        },
       );
     }
 
-    return Object.entries(page.uiSchema).flatMap(
-      ([uiSchemaKey, uiSchemaValue]) => {
-        const data = formData[uiSchemaKey];
-        return fieldEntries(
-          uiSchemaKey,
-          uiSchemaValue,
-          data,
-          page.schema,
-          pagesFromState?.[page.pageKey]?.schema,
-          page.index,
-        );
-      },
-    );
+    // Remove null items, return the page title and fields if there are any
+    fields = fields.filter(item => item != null);
+
+    if (fields.length > 0) {
+      return [pageTitleElement, ...fields];
+    }
+    return [];
   });
 };
 
