@@ -29,6 +29,8 @@ export default function prefillTransformer(pages, formData, metadata) {
         phoneNumber: contact.phoneNumber || '',
         emailAddress: contact.emailAddress || '',
       },
+      useV2: true,
+      daysTillExpires: 365,
     },
     metadata,
   };

@@ -198,6 +198,11 @@ export const formConfig = {
           path: 'options-selection',
           uiSchema: addOrRemoveDependents.uiSchema,
           schema: addOrRemoveDependents.schema,
+          initialData: {
+            // Set in prefill, but included here because we're seeing v2
+            // submissions without it
+            useV2: true,
+          },
         },
         addDependentOptions: {
           title: 'Add a dependent',
