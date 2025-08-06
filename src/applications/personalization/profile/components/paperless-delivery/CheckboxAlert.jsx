@@ -27,6 +27,5 @@ export const CheckboxAlert = ({ error, success }) => {
 
 CheckboxAlert.propTypes = {
   error: PropTypes.bool,
-  loading: PropTypes.bool,
   success: PropTypes.bool,
 };
