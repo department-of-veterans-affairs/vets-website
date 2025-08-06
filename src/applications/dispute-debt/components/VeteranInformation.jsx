@@ -29,12 +29,16 @@ const VeteranInformation = ({ formData }) => {
 
   return (
     <>
-      <div>
-        <h3 className="vads-u-margin-top--0  vads-u-font-size--h2">
-          Your personal information
-        </h3>
-        <p>This is the personal information we have on file for you.</p>
-        <div className="personal-information-box">
+      <va-card
+        data-testid="veteran-information-card"
+        class="vads-u-margin-y--3 gray-task contact-info-card"
+        uswds
+      >
+        <div>
+          <h3 className="vads-u-margin-top--0  vads-u-font-size--h2">
+            Your personal information
+          </h3>
+          <p>This is the personal information we have on file for you.</p>
           <div className="vads-u-padding-left--1">
             <h4 className="vads-u-margin-top--0">Personal information</h4>
             <p>
@@ -72,9 +76,7 @@ const VeteranInformation = ({ formData }) => {
             </p>
           </div>
         </div>
-      </div>
-
-      <br role="presentation" />
+      </va-card>
 
       <p>
         <strong>Note:</strong> To protect your personal information, we don’t
