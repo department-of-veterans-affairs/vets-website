@@ -79,7 +79,6 @@ const MedicationsListCard = ({ rx }) => {
           </p>
         )}
         {rx && <ExtraDetails {...rx} />}
-        {rx && <FillRefillButton {...rx} />}
       </>
     );
   };
