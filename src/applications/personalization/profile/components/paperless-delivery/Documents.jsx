@@ -10,10 +10,10 @@ export const Documents = () => {
   const { usePaperlessDeliveryGroup } = useNotificationSettingsUtils();
   const group = usePaperlessDeliveryGroup();
   const documents = group?.[0]?.items;
-  const unavailable =
-    !facilities?.length || !group?.length || !documents?.length;
+  const notEnrolled = !facilities?.length;
+  const hasDocuments = !!documents?.length;
 
-  if (unavailable) {
+  if (notEnrolled) {
     return (
       <VaAlert status="info" visible>
         <h2 slot="headline">Paperless delivery not available yet</h2>
@@ -37,9 +37,13 @@ export const Documents = () => {
             change this at any time.
           </h3>
         </legend>
-        {documents.map(id => (
-          <Document key={id} document={id} />
-        ))}
+        {hasDocuments && (
+          <>
+            {documents.map(id => (
+              <Document key={id} document={id} />
+            ))}
+          </>
+        )}
       </fieldset>
     </>
   );
