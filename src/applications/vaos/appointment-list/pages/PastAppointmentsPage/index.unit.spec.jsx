@@ -19,10 +19,8 @@ import {
   mockAppointmentsApi,
   mockFacilitiesApi,
 } from '../../../tests/mocks/mockApis';
-import {
-  getTestDate,
-  renderWithStoreAndRouter,
-} from '../../../tests/mocks/setup';
+import { renderWithStoreAndRouter } from '../../../tests/mocks/setup';
+import { mockToday } from '../../../tests/mocks/constants';
 import { APPOINTMENT_STATUS } from '../../../utils/constants';
 
 const initialState = {
@@ -30,14 +28,14 @@ const initialState = {
     vaOnlineSchedulingCancel: true,
   },
 };
-const now = startOfDay(new Date(), 'day');
+const now = startOfDay(mockToday, 'day');
 const start = subMonths(now, 3);
 const end = addMinutes(new Date(now).setMinutes(0), 30);
 
 describe('VAOS Page: PastAppointmentsList api', () => {
   beforeEach(() => {
     mockFetch();
-    MockDate.set(getTestDate());
+    MockDate.set(mockToday);
     mockFacilitiesApi({ response: [] });
   });
 
@@ -91,7 +89,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
 
   it('should update range on dropdown change', async () => {
     // Arrange
-    const pastDate = subMonths(new Date(), 4);
+    const pastDate = subMonths(mockToday, 4);
     const response = new MockAppointmentResponse({
       localStartTime: pastDate,
     }).setTypeOfCare(null);
@@ -131,7 +129,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
 
   it('should show information without facility name', async () => {
     // Arrange
-    const pastDate = subDays(new Date(), 3);
+    const pastDate = subDays(mockToday, 3);
     const response = new MockAppointmentResponse({
       past: true,
       localStartTime: pastDate,
@@ -186,7 +184,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
 
   it('should show information with facility name', async () => {
     // Arrange
-    const pastDate = subDays(new Date(), 3);
+    const pastDate = subDays(mockToday, 3);
     const response = new MockAppointmentResponse({
       localStartTime: pastDate,
     }).setLocation(new MockFacilityResponse());
@@ -241,7 +239,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
 
   it('should not display when over 2 years away', () => {
     // Arrange
-    const pastDate = subYears(new Date(), 2);
+    const pastDate = subYears(mockToday, 2);
 
     mockAppointmentsApi({
       start,
@@ -263,7 +261,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
 
   it('should show expected video information', async () => {
     // Arrange
-    const pastDate = subDays(new Date(), 3);
+    const pastDate = subDays(mockToday, 3);
     const responses = MockAppointmentResponse.createGfeResponses({
       localStartTime: pastDate,
       past: true,
@@ -330,7 +328,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
 
   it('should display past appointments using V2 api call', async () => {
     // Arrange
-    const yesterday = subDays(new Date(), 1);
+    const yesterday = subDays(mockToday, 1);
     const facility = new MockFacilityResponse();
     const response = new MockAppointmentResponse({
       localStartTime: yesterday,
@@ -370,7 +368,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
 
   it('should display past cancel appt', async () => {
     // Arrange
-    const yesterday = subDays(new Date(), 1);
+    const yesterday = subDays(mockToday, 1);
     const facility = new MockFacilityResponse();
     const response = new MockAppointmentResponse({
       localStartTime: yesterday,

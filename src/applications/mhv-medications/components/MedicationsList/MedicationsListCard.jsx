@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom-v5-compat';
-import FillRefillButton from '../shared/FillRefillButton';
 import ExtraDetails from '../shared/ExtraDetails';
 import LastFilledInfo from '../shared/LastFilledInfo';
 import { dateFormat } from '../../util/helpers';
@@ -82,7 +81,6 @@ const MedicationsListCard = ({ rx }) => {
           </p>
         )}
         {rx && <ExtraDetails {...rx} />}
-        {rx && !isNonVaPrescription && <FillRefillButton {...rx} />}
       </>
     );
   };

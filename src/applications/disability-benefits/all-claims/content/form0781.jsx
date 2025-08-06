@@ -68,6 +68,58 @@ export const traumaticEventsExamples = (
   </va-accordion>
 );
 
+export const mentalHealthSupportSummary = (
+  <p>
+    Before we start asking questions, we want to make sure you know how to get
+    support if you need it. You can access support anytime, including while you
+    wait for a decision on this claim.
+  </p>
+);
+
+export const mentalHealthSupportTextBlob = (
+  <>
+    <p>
+      We can connect you with mental health care—no matter your discharge
+      status, service history, or eligibility for VA health care. And you can
+      get free, confidential help anytime, day or night.
+    </p>
+    <va-link
+      external
+      href="https://www.va.gov/health-care/health-needs-conditions/mental-health/"
+      text="Learn how to get support for mental health care"
+    />
+  </>
+);
+
+export const militarySexualTraumaSupportTextBlob = (
+  <>
+    <p>
+      If you’re having difficulties related to military sexual trauma, we’re
+      here to support you in whatever way will help you best.
+    </p>
+    <p>
+      We provide free treatment for any physical or mental health conditions
+      related to your experiences of MST. You don’t need to have reported the
+      MST at the time or have other proof that the MST occurred to get care.
+    </p>
+    <va-link
+      external
+      href="https://www.va.gov/health-care/health-needs-conditions/military-sexual-trauma/"
+      text="Learn how to get support for military sexual trauma"
+    />
+  </>
+);
+
+export const rememberTextBlob = (
+  <p>
+    <strong>Remember: </strong>
+    Any information you provide will help us understand your situation and
+    identify evidence to support your claim. But you can skip questions you
+    can’t or don’t want to answer. And you can save your in-progress online form
+    anytime if you need a break.
+  </p>
+);
+
 export const mentalHealthSupportResources = (
   <>
     <strong>
@@ -144,22 +196,30 @@ export const mentalHealthSupportAlert = () => {
   return (
     <va-alert-expandable
       status="info"
-      trigger="Learn how to get mental health help now"
+      trigger="Get mental health and military sexual trauma support anytime"
     >
       <p>
-        We understand that some of the questions may be difficult to answer. If
-        you need to take a break and come back to your application, your
-        information will be saved.
+        We can connect you with free, confidential support for mental health
+        care or military sexual trauma anytime. We can connect you with support
+        even if you don’t file a claim for disability compensation or you aren’t
+        eligible for compensation.
       </p>
       <br />
       <p>
-        If you’re a Veteran in crisis or concerned about one, connect with our
-        caring, qualified Veterans Crisis Line responders for confidential help.
-        Many of them are Veterans themselves. This service is private, free, and
-        available 24/7.
+        <va-link
+          external
+          href="https://www.va.gov/health-care/health-needs-conditions/mental-health/"
+          text="Learn how to get support for mental health care"
+        />
       </p>
       <br />
-      {mentalHealthSupportResources}
+      <p>
+        <va-link
+          external
+          href="https://www.va.gov/health-care/health-needs-conditions/military-sexual-trauma/"
+          text="Learn how to get support for military sexual trauma"
+        />
+      </p>
     </va-alert-expandable>
   );
 };
