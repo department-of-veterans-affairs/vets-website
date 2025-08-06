@@ -5,7 +5,14 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import { addMonths, format, startOfDay, startOfMonth } from 'date-fns';
+import {
+  addMonths,
+  format,
+  isSameDay,
+  parseISO,
+  startOfDay,
+  startOfMonth,
+} from 'date-fns';
 import { CalendarContext } from './CalendarContext';
 import CalendarNavigation from './CalendarNavigation';
 import CalendarRow from './CalendarRow';
@@ -55,7 +62,6 @@ function CalendarWidget({
   disabledMessage,
   maxDate,
   maxSelections = 1,
-  maxSelectionsError = "You've exceeded the maximum number of selections",
   minDate,
   onChange,
   onNextMonth,
@@ -74,10 +80,12 @@ function CalendarWidget({
   upcomingAppointments = [],
   isAppointmentSelectionError,
   hideWhileDisabled = false,
+  alertTrigger = 0,
+  setAlertTrigger = () => {},
 }) {
-  const [currentlySelectedDate, setCurrentlySelectedDate] = useState(() => {
-    if (value.length > 0) {
-      return value[0].split('T')[0];
+  const [currentlySelectedDate, setCurrentlySelectedDate] = useState(date => {
+    if (date) {
+      return date.split('T')[0];
     }
 
     return null;
@@ -87,6 +95,14 @@ function CalendarWidget({
   const [dates, setDates] = useState([startDate || minDate]);
   const exceededMaximumSelections = value.length > maxSelections;
   const hasError = (required && showValidation) || exceededMaximumSelections;
+  let maxSelectionsError;
+  if (exceededMaximumSelections) {
+    const deselect =
+      value.length === maxSelections + 1
+        ? `the ${value.length}th time`
+        : `${value.length - maxSelections} times`;
+    maxSelectionsError = `You can only select ${maxSelections} times for your appointment. Deselect ${deselect} to continue.`;
+  }
 
   // Undefined allows to unset aria-hidden
   const hideCalendar = (disabled && hideWhileDisabled) || undefined;
@@ -129,7 +145,16 @@ function CalendarWidget({
               role="alert"
             >
               {showValidation && requiredMessage}
-              {exceededMaximumSelections && maxSelectionsError}
+            </span>
+          )}
+          {exceededMaximumSelections && (
+            <span
+              className="usa-input-error-message"
+              role="alert"
+              id="vaos-calendar-max-selections-error"
+              key={alertTrigger}
+            >
+              {maxSelectionsError}
             </span>
           )}
           {dates.map(
@@ -144,12 +169,14 @@ function CalendarWidget({
                   <>
                     {index === 0 && (
                       <CalendarNavigation
-                        prevOnClick={() =>
-                          handlePrev(onPreviousMonth, dates, setDates)
-                        }
-                        nextOnClick={() =>
-                          handleNext(onNextMonth, dates, setDates)
-                        }
+                        prevOnClick={() => {
+                          setAlertTrigger();
+                          handlePrev(onPreviousMonth, dates, setDates);
+                        }}
+                        nextOnClick={() => {
+                          setAlertTrigger();
+                          handleNext(onNextMonth, dates, setDates);
+                        }}
                         date={date}
                         prevDisabled={prevDisabled}
                         nextDisabled={nextDisabled}
@@ -169,6 +196,20 @@ function CalendarWidget({
                             handleSelectDate={dateSelection => {
                               if (maxSelections === 1) {
                                 onChange([]);
+                              }
+
+                              if (
+                                exceededMaximumSelections &&
+                                (dateSelection === currentlySelectedDate ||
+                                  (value?.length > 0 &&
+                                    !value.some(selectedDate =>
+                                      isSameDay(
+                                        parseISO(dateSelection),
+                                        parseISO(selectedDate),
+                                      ),
+                                    )))
+                              ) {
+                                setAlertTrigger();
                               }
 
                               setCurrentlySelectedDate(
@@ -225,6 +266,7 @@ function CalendarWidget({
 
 CalendarWidget.propTypes = {
   id: PropTypes.string.isRequired,
+  alertTrigger: PropTypes.number,
   appointmentSelectionErrorMsg: PropTypes.string,
   availableSlots: PropTypes.arrayOf(
     PropTypes.shape({
@@ -246,6 +288,7 @@ CalendarWidget.propTypes = {
   renderSelectedLabel: PropTypes.func,
   required: PropTypes.bool,
   requiredMessage: PropTypes.string,
+  setAlertTrigger: PropTypes.func,
   showValidation: PropTypes.bool,
   showWeekends: PropTypes.bool,
   startMonth: PropTypes.instanceOf(Date),
