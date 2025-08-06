@@ -53,7 +53,7 @@ function ProfileSubNavItems({ routes, isLOA3, isInMVI, clickHandler = null }) {
     history.push(href);
   };
 
-  const isActive = path => pathname === path;
+  const isActive = path => (pathname === path ? true : undefined);
 
   return (
     <VaSidenav
