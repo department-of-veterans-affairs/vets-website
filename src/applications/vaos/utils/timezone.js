@@ -157,5 +157,9 @@ export function getTimezoneNameFromAbbr(abbreviation) {
  * @returns User's timezone abbreviation Example: 'CST'
  */
 export function getUserTimezoneAbbr() {
-  return format(new Date(), 'z');
+  let abbreviation = format(new Date(), 'z');
+  if (abbreviation.startsWith('GMT'))
+    abbreviation = GMT_TABLE_MAPPING[abbreviation];
+
+  return abbreviation || format(new Date(), 'z');
 }

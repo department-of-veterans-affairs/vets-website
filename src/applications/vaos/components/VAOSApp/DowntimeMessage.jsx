@@ -7,16 +7,12 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import FullWidthLayout from '../FullWidthLayout';
 import InfoAlert from '../InfoAlert';
+import { getUserTimezoneAbbr, stripDST } from '../../utils/timezone';
 
 const appTitle = 'VA appointments tool';
 
-export default function DowntimeMessage({
-  startTime,
-  endTime,
-  status,
-  children,
-  description,
-}) {
+export default function DowntimeMessage(props) {
+  const { startTime, endTime, status, children, description } = props;
   const dispatch = useDispatch();
   const isDowntimeWarningDismissed = useSelector(state =>
     state.scheduledDowntime.dismissedDowntimeWarnings.includes(appTitle),
@@ -42,11 +38,17 @@ export default function DowntimeMessage({
             <p>{descriptionBody}</p>
           ) : (
             <p>
-              We’re making updates to the tool on {format(startTime, 'MMMM do')}{' '}
-              between {format(startTime, 'p')} and {format(endTime, 'p')}. We’re
-              sorry it’s not working right now. If you need to request or
-              confirm an appointment during this time, please call your local VA
-              medical center. Use the{' '}
+              We’re making updates to the tool between{' '}
+              {`${format(startTime, "EEEE, MMMM do 'at' h:mm aaaa")} ${stripDST(
+                getUserTimezoneAbbr(),
+              )}`}{' '}
+              and{' '}
+              {`${format(endTime, "EEEE, MMMM do 'at' h:mm aaaa")} ${stripDST(
+                getUserTimezoneAbbr(),
+              )}`}
+              . We’re sorry it’s not working right now. If you need to request
+              or confirm an appointment during this time, please call your local
+              VA medical center. Use the{' '}
               <a href="/find-locations">VA facility locator</a> to find contact
               information for your medical center.
             </p>
