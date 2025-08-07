@@ -1,8 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { electronicCorrespondenceMessage } from '../config/chapters/veteran-contact-information/editEmailPage';
+
 const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
-  const { email, phone, address = {}, internationalPhone } = data || {};
+  const {
+    email,
+    electronicCorrespondence,
+    phone,
+    address = {},
+    internationalPhone,
+  } = data || {};
   sessionStorage.removeItem('onReviewPage');
 
   const goEditPath = path => {
@@ -128,6 +136,14 @@ const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
           <dt>Email address</dt>
           <dd className="dd-privacy-hidden" data-dd-action-name="email address">
             <strong>{email ?? showError('Missing email address')}</strong>
+          </dd>
+        </div>
+        <div className="review-row">
+          <dt>Email address</dt>
+          <dd className="dd-privacy-hidden" data-dd-action-name="email address">
+            <strong>
+              {electronicCorrespondenceMessage(electronicCorrespondence)}
+            </strong>
           </dd>
         </div>
       </dl>
