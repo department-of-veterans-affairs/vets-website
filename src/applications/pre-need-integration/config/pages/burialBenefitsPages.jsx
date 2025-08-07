@@ -34,15 +34,20 @@ export function handleCancelAddTitle(props) {
   if (deceasedPersonName === null) {
     return `Cancel adding this deceased person?`;
   }
-  return `Cancel adding ${deceasedPersonName} deceased person?`;
+  return `Cancel adding ${deceasedPersonName}?`;
 }
 
 export function handleCancelAddNo() {
   return 'No, keep this';
 }
 
-export function handleDeleteTitle() {
-  return `Are you sure you want to remove this deceased person?`;
+export function handleDeleteTitle(props) {
+  const deceasedPersonName = props.getItemName(props.itemData);
+
+  if (deceasedPersonName === null) {
+    return `Are you sure you want to remove this deceased person?`;
+  }
+  return `Are you sure you want to remove ${deceasedPersonName}?`;
 }
 
 export function handleDeleteDescription(props) {
@@ -54,8 +59,13 @@ export function handleDeleteDescription(props) {
   return `This will remove ${deceasedPersonName} and all the information from the deceased person records.`;
 }
 
-export function handleDeleteNeedAtLeastOneDescription() {
-  return 'If you remove this deceased person, we’ll take you to a screen where you can add another deceased person. You’ll need to list at least one deceased person for us to process this form.';
+export function handleDeleteNeedAtLeastOneDescription(props) {
+  const deceasedPersonName = props.getItemName(props.itemData);
+  if (deceasedPersonName === null) {
+    return 'If you remove this deceased person, we’ll take you to a screen where you can add another deceased person. You’ll need to list at least one deceased person for us to process this form.';
+  }
+
+  return `If you remove ${deceasedPersonName}, we’ll take you to a screen where you can add another deceased person. You’ll need to list at least one deceased person for us to process this form.`;
 }
 
 export function handleDeleteYes() {
@@ -133,7 +143,7 @@ const introPage = {
   uiSchema: {
     ...titleUI(
       `Name of deceased person(s)`,
-      `In the next few questions, we'll ask you about the details of the person(s) currently buried in a VA national cemetery under your eligibility. You must add at least one name. You can add up to 3 people`,
+      `In the next few questions, we'll ask you about the details of the person(s) currently buried in a VA national cemetery under your eligibility. You must add at least one name. You can add up to 3 people.`,
     ),
   },
   schema: {
@@ -149,25 +159,14 @@ const introPage = {
  */
 const summaryPageVeteran = {
   uiSchema: {
-    'view:hasCurrentlyBuriedPersons': arrayBuilderYesNoUI(
-      options,
-      {
-        title:
-          'Is there anyone currently buried in a VA national cemetery under your eligibility?',
-        labels: {
-          Y: 'Yes',
-          N: 'No',
-        },
+    'view:hasCurrentlyBuriedPersons': arrayBuilderYesNoUI(options, {
+      title:
+        'Is there anyone currently buried in a VA national cemetery under your eligibility?',
+      labels: {
+        Y: 'Yes',
+        N: 'No',
       },
-      {
-        title:
-          'Do you have anyone else currently buried in a VA national cemetery under your eligibility?',
-        labels: {
-          Y: 'Yes, I have another deceased person to add',
-          N: 'No, I don’t have another deceased person to add',
-        },
-      },
-    ),
+    }),
   },
   schema: {
     type: 'object',
@@ -180,25 +179,14 @@ const summaryPageVeteran = {
 
 const summaryPagePreparer = {
   uiSchema: {
-    'view:hasCurrentlyBuriedPersons': arrayBuilderYesNoUI(
-      options,
-      {
-        title:
-          'Is there anyone currently buried in a VA national cemetery under the applicant’s eligibility?',
-        labels: {
-          Y: 'Yes',
-          N: 'No',
-        },
+    'view:hasCurrentlyBuriedPersons': arrayBuilderYesNoUI(options, {
+      title:
+        'Is there anyone currently buried in a VA national cemetery under the applicant’s eligibility?',
+      labels: {
+        Y: 'Yes',
+        N: 'No',
       },
-      {
-        title:
-          'Does the applicant have anyone else currently buried in a VA national cemetery under their eligibility?',
-        labels: {
-          Y: 'Yes, I have another deceased person to add',
-          N: 'No, I don’t have another deceased person to add',
-        },
-      },
-    ),
+    }),
   },
   schema: {
     type: 'object',
@@ -211,25 +199,14 @@ const summaryPagePreparer = {
 
 const summaryPageSponsor = {
   uiSchema: {
-    'view:hasCurrentlyBuriedPersons': arrayBuilderYesNoUI(
-      options,
-      {
-        title:
-          'Is there anyone currently buried in a VA national cemetery under the sponsor’s eligibility?',
-        labels: {
-          Y: 'Yes',
-          N: 'No',
-        },
+    'view:hasCurrentlyBuriedPersons': arrayBuilderYesNoUI(options, {
+      title:
+        'Is there anyone currently buried in a VA national cemetery under the sponsor’s eligibility?',
+      labels: {
+        Y: 'Yes',
+        N: 'No',
       },
-      {
-        title:
-          'Does the sponsor have anyone else currently buried in a VA national cemetery under their eligibility?',
-        labels: {
-          Y: 'Yes, I have another deceased person to add',
-          N: 'No, I don’t have another deceased person to add',
-        },
-      },
-    ),
+    }),
   },
   schema: {
     type: 'object',
