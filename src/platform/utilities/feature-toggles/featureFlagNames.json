@@ -33,6 +33,7 @@
   "cernerOverride757": "cerner_override_757",
   "cernerNonEligibleSisEnabled": "cerner_non_eligible_sis_enabled",
   "champvaEnableClaimResubmitQuestion": "champva_enable_claim_resubmit_question",
+  "champvaClaimsLlmValidation": "champva_claims_llm_validation",
   "checkInExperienceBrowserMonitoring": "check_in_experience_browser_monitoring",
   "checkInExperienceDayOfDemographicsFlagsEnabled": "check_in_experience_day_of_demographics_flags_enabled",
   "checkInExperienceEnabled": "check_in_experience_enabled",

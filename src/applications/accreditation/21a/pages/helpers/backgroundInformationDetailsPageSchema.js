@@ -75,7 +75,7 @@ const backgroundInformationDetails = ({
       type: 'object',
       properties: {
         [explanationKey]: textareaSchema,
-        [documentsKey]: fileInputSchema,
+        [documentsKey]: fileInputSchema(),
         [certificationKey]: checkboxGroupSchema(['certified']),
       },
       required: [explanationKey, certificationKey],
