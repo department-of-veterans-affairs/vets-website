@@ -8,7 +8,7 @@ function clickSubNavButton(buttonLabel, mobile) {
   if (mobile) {
     cy.findByRole('button', { name: /profile menu/i }).click();
   }
-  cy.findByRole('link', { name: buttonLabel }).click();
+  cy.get(`va-subnav-item[label="${buttonLabel}"]`).click();
 }
 
 /**
