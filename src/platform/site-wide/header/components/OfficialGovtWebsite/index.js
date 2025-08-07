@@ -56,11 +56,11 @@ export const OfficialGovtWebsite = () => {
       {expanded && (
         <div
           aria-hidden={expanded ? 'false' : 'true'}
-          className="usa-banner-content vads-grid-container usa-accordion-content"
+          className="usa-banner-content vads-grid-container usa-accordion-content vads-u-background-color--gray-lightest"
           id="official-govt-site-explanation"
         >
           <div className="vads-grid-row">
-            <div className="usa-media-block vads-grid-col-6">
+            <div className="usa-media-block desktop-lg:vads-grid-col-6">
               <img
                 alt="Dot gov"
                 className="usa-banner-icon usa-media_block-img"
@@ -74,7 +74,7 @@ export const OfficialGovtWebsite = () => {
                 government site.
               </p>
             </div>
-            <div className="usa-media-block vads-grid-col-6">
+            <div className="usa-media-block desktop-lg:vads-grid-col-6">
               <img
                 alt="SSL"
                 className="usa-banner-icon usa-media_block-img"
