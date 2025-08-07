@@ -5,6 +5,7 @@ import { scrollToTop } from 'platform/utilities/scroll';
 import PropTypes from 'prop-types';
 import { setSubmission as setSubmissionAction } from 'platform/forms-system/src/js/actions';
 import {
+  VaPagination,
   VaSearchFilter,
   VaSelect,
 } from '@department-of-veterans-affairs/web-components/react-bindings';
@@ -45,6 +46,8 @@ export class ConfirmationPage extends React.Component {
           ],
         },
       ],
+      currentPage: 1,
+      pageSize: 10,
     };
 
     this.applyInitialSort = this.applyInitialSort.bind(this);
@@ -58,8 +61,32 @@ export class ConfirmationPage extends React.Component {
   componentDidMount() {
     this.initializePage();
     this.handleResults();
+
+    if (this.props.location.query.allBenefits) {
+      const benefitsCopy = [...BENEFITS_LIST];
+
+      const sortedBenefits = this.sortBenefitObj(benefitsCopy, 'name');
+
+      this.setState(
+        {
+          benefits: sortedBenefits,
+          benefitsList: sortedBenefits,
+          resultsCount: sortedBenefits.length,
+          benefitIds: sortedBenefits.reduce((acc, b) => {
+            acc[b.id] = true;
+            return acc;
+          }, {}),
+          sortValue: 'alphabetical',
+          currentPage: 1,
+        },
+        () => {
+          this.setState({ filterText: this.createFilterText() });
+        },
+      );
+      return;
+    }
+
     this.resetSubmissionStatus();
-    this.sortBenefits();
   }
 
   componentDidUpdate(prevProps) {
@@ -74,6 +101,10 @@ export class ConfirmationPage extends React.Component {
 
   handleResults() {
     const { results, location, displayResults } = this.props;
+
+    if (location.query?.allBenefits) {
+      return;
+    }
 
     if (results.data && results.data.length > 0) {
       this.handleResultsData();
@@ -138,24 +169,24 @@ export class ConfirmationPage extends React.Component {
   sortBenefits = () => {
     const key = this.state.sortValue;
     const sortKey = key === 'alphabetical' ? 'name' : key;
+
     this.setState(
       prevState => {
-        if (!prevState.benefits || !Array.isArray(prevState.benefits)) {
+        if (!Array.isArray(prevState.benefitsList)) {
           return { benefits: [], benefitsList: [] };
         }
 
-        const sortedBenefits = this.sortBenefitObj(prevState.benefits, sortKey);
-        const sortedBenefitsList = this.sortBenefitObj(
-          prevState.benefitsList,
-          sortKey,
-        );
+        const sortedList = this.sortBenefitObj(prevState.benefitsList, sortKey);
 
         return {
-          benefits: sortedBenefits,
-          benefitsList: sortedBenefitsList,
+          benefits: sortedList,
+          benefitsList: sortedList,
+          currentPage: 1,
         };
       },
-      () => this.setState(() => ({ filterText: this.createFilterText() })),
+      () => {
+        this.setState({ filterText: this.createFilterText() });
+      },
     );
   };
 
@@ -231,33 +262,50 @@ export class ConfirmationPage extends React.Component {
   filterBenefits = sortingCallback => {
     const keys = this.state.filterValues;
 
+    const isAllBenefits = this.props.location.query?.allBenefits;
+
+    const sourceData = isAllBenefits ? BENEFITS_LIST : this.props.results.data;
+
     if (!keys || keys.length === 0) {
+      const resultsCount = sourceData.length;
+      const benefitIds = sourceData.reduce((acc, b) => {
+        acc[b.id] = true;
+        return acc;
+      }, {});
+
       this.setState(
-        () => ({
-          benefits: this.props.results.data,
-          benefitsList: BENEFITS_LIST,
-          resultsCount: this.props.results.data.length,
-        }),
+        {
+          benefits: sourceData,
+          benefitsList: sourceData,
+          resultsCount,
+          benefitIds,
+          currentPage: 1,
+        },
         sortingCallback,
       );
       return;
     }
 
-    const filteredBenefits = this.props.results.data.filter(benefit =>
+    const filteredBenefits = sourceData.filter(benefit =>
       this.matchesFilters(benefit, keys),
     );
 
-    const filteredBenefitsList = BENEFITS_LIST.filter(benefit =>
-      this.matchesFilters(benefit, keys),
-    );
+    const resultsCount = filteredBenefits.length;
+    const benefitIds = filteredBenefits.reduce((acc, b) => {
+      acc[b.id] = true;
+      return acc;
+    }, {});
 
-    this.setState(() => {
-      return {
+    this.setState(
+      {
         benefits: filteredBenefits,
-        benefitsList: filteredBenefitsList,
-        resultsCount: filteredBenefits.length,
-      };
-    }, sortingCallback);
+        benefitsList: filteredBenefits,
+        resultsCount,
+        benefitIds,
+        currentPage: 1,
+      },
+      sortingCallback,
+    );
   };
 
   displayResultsFromQuery = (query, displayResults) => {
@@ -269,36 +317,41 @@ export class ConfirmationPage extends React.Component {
     }
   };
 
+  getPaginatedBenefits = () => {
+    const { currentPage, pageSize, benefits } = this.state;
+    const startIndex = (currentPage - 1) * pageSize;
+    return benefits.slice(startIndex, startIndex + pageSize);
+  };
+
+  handlePageChange = event => {
+    const newPage = event.detail.page;
+    this.setState({ currentPage: newPage }, () => {
+      this.setState({ filterText: this.createFilterText() });
+      scrollToTop();
+    });
+  };
+
   initializePage = () => {
     focusElement('h1');
     scrollToTop('topScrollElement');
   };
 
   createFilterText() {
-    const resultsText = this.state.resultsCount === 1 ? 'result' : 'results';
-    const filterLabels = this.state.filterOptions[0].category
-      .filter(cat => this.state.filterValues.includes(cat.id))
-      .map(cat => cat.label);
-    const filterValues =
-      filterLabels.length > 0 ? filterLabels.join(', ') : 'All';
+    const { currentPage, pageSize, resultsCount, filterValues } = this.state;
 
-    let sortValue;
-    if (this.state.sortValue === 'alphabetical') {
-      sortValue = 'alphabetically by benefit name';
-    } else if (this.state.sortValue === 'isTimeSensitive') {
-      sortValue = 'by time-sensitive';
-    } else {
-      sortValue = `alphabetically by benefit ${this.state.sortValue}`;
-    }
+    const totalResults = resultsCount || 0;
 
-    const count =
-      this.props.location.query.allBenefits === 'true'
-        ? this.state.benefitsList.length
-        : this.state.resultsCount;
+    const start = totalResults === 0 ? 0 : (currentPage - 1) * pageSize + 1;
+    const end =
+      totalResults === 0 ? 0 : Math.min(currentPage * pageSize, totalResults);
+
     return (
       <>
-        Showing {count} {resultsText}, filtered to show{' '}
-        <b>{filterValues} results</b>, sorted {sortValue}
+        Showing {start}–{end} of {totalResults} results
+        {filterValues.length > 0 &&
+          ` with ${filterValues.length} filter${
+            filterValues.length > 1 ? 's' : ''
+          } applied`}
       </>
     );
   }
@@ -312,19 +365,31 @@ export class ConfirmationPage extends React.Component {
   }
 
   applyInitialSort() {
-    const resultsCount = this.props.results.data.length || 0;
-    const benefitIds =
-      this.props.results.data?.reduce((acc, curr) => {
-        acc[curr.id] = true;
-        return acc;
-      }, {}) || {};
+    const data = this.props.results.data?.length
+      ? this.props.results.data
+      : this.state.benefits;
 
-    this.setState({
-      resultsCount,
-      benefitIds,
-      benefits: this.props.results.data,
-      filterText: this.createFilterText(),
-    });
+    const resultsCount = data.length || 0;
+    const benefitIds = data.reduce((acc, curr) => {
+      acc[curr.id] = true;
+      return acc;
+    }, {});
+
+    const sortKey =
+      this.state.sortValue === 'alphabetical' ? 'name' : this.state.sortValue;
+    const sortedData = this.sortBenefitObj(data, sortKey);
+
+    this.setState(
+      {
+        resultsCount,
+        benefitIds,
+        benefits: sortedData,
+        benefitsList: sortedData,
+      },
+      () => {
+        this.setState({ filterText: this.createFilterText() });
+      },
+    );
   }
 
   filterAndSort() {
@@ -467,11 +532,19 @@ export class ConfirmationPage extends React.Component {
               )}
               <Benefits
                 results={this.props.results}
-                benefits={this.state.benefits}
+                benefits={this.getPaginatedBenefits()}
                 benefitsList={this.state.benefitsList}
                 handleBackClick={this.handleBackClick}
                 benefitIds={this.state.benefitIds}
                 queryString={this.props.location.query}
+              />
+              <VaPagination
+                onPageSelect={this.handlePageChange}
+                page={this.state.currentPage}
+                pages={Math.ceil(
+                  this.state.benefits.length / this.state.pageSize,
+                )}
+                className="vads-u-padding-top--0 vads-u-justify-content--flex-start vads-u-border-top--0"
               />
             </div>
           </div>

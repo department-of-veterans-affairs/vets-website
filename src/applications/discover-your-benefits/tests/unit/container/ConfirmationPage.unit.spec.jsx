@@ -294,7 +294,11 @@ describe('ConfirmationPage - sortBenefits and filterBenefits', () => {
     expect(benefitNames[1]).to.contain('Education');
   });
 
-  it('should show all benefits when no results are found but allBenefits=true is in the query', () => {
+  it('shows all benefits when no results are found but allBenefits=true is in the query', async () => {
+    const sortedBenefits = [...BENEFITS_LIST].sort((a, b) =>
+      a.name.localeCompare(b.name),
+    );
+
     const { mockStore, props } = getData([], form2, { allBenefits: 'true' });
 
     const updatedStore = {
@@ -310,11 +314,51 @@ describe('ConfirmationPage - sortBenefits and filterBenefits', () => {
       }),
     };
 
-    const { getAllByRole } = subject({ mockStore: updatedStore, props });
+    const { container, getAllByRole } = subject({
+      mockStore: updatedStore,
+      props: {
+        ...props,
+        location: {
+          ...props.location,
+          query: { allBenefits: 'true' },
+        },
+      },
+    });
 
-    const items = getAllByRole('listitem');
+    const seenBenefitNames = new Set();
+    const pageSize = 10;
+    const totalPages = Math.ceil(BENEFITS_LIST.length / pageSize);
+    const pagination = container.querySelector('va-pagination');
 
-    expect(items.length).to.equal(BENEFITS_LIST.length);
+    // Page 1 is already rendered
+    await waitFor(() => {
+      const items = getAllByRole('listitem');
+      expect(items.length).to.be.greaterThan(0);
+      items.forEach(item => seenBenefitNames.add(item.textContent.trim()));
+    });
+
+    // Dispatch page changes synchronously (skip page 1, it renders initially)
+    for (let page = 2; page <= totalPages; page++) {
+      pagination.dispatchEvent(
+        new CustomEvent('pageSelect', {
+          detail: { page },
+          bubbles: true,
+        }),
+      );
+
+      // eslint-disable-next-line no-await-in-loop
+      await waitFor(() => {
+        const items = getAllByRole('listitem');
+        expect(items.length).to.be.greaterThan(0);
+        items.forEach(item => seenBenefitNames.add(item.textContent.trim()));
+      });
+    }
+
+    const allNamesSeen = sortedBenefits.every(b =>
+      Array.from(seenBenefitNames).some(name => name.includes(b.name)),
+    );
+
+    expect(allNamesSeen).to.be.true;
   });
 
   it('should sort benefits by time sensitivity', () => {
@@ -369,6 +413,66 @@ describe('<ConfirmationPage> with <va-banner />', () => {
 
     await waitFor(() => {
       expect(props.router.goBack.called).to.be.true;
+    });
+  });
+
+  it('displays the correct benefits when navigating between pagination pages', async () => {
+    const benefits = Array.from({ length: 23 }, (_, i) => ({
+      id: String(i + 1),
+      name: `Benefit ${i + 1}`,
+      category: '',
+      isTimeSensitive: false,
+    }));
+
+    const sortedBenefits = [...benefits].sort((a, b) =>
+      a.name.localeCompare(b.name),
+    );
+
+    const { mockStore, props } = getData(benefits, form2);
+    const { container, getAllByRole } = subject({
+      mockStore,
+      props,
+    });
+
+    // Page 1 (items 0–9)
+    await waitFor(() => {
+      const items = getAllByRole('listitem').map(li => li.textContent);
+      expect(items).to.have.lengthOf(10);
+      expect(items[0]).to.include(sortedBenefits[0].name);
+      expect(items[9]).to.include(sortedBenefits[9].name);
+    });
+
+    // Click to page 2
+    const pagination = container.querySelector('va-pagination');
+    pagination.dispatchEvent(
+      new CustomEvent('pageSelect', {
+        detail: { page: 2 },
+        bubbles: true,
+      }),
+    );
+
+    // Page 2 (items 10–19)
+    await waitFor(() => {
+      const items = getAllByRole('listitem').map(li => li.textContent);
+      expect(items).to.have.lengthOf(10);
+      expect(items[0]).to.include(sortedBenefits[10].name);
+      expect(items[9]).to.include(sortedBenefits[19].name);
+    });
+
+    // Click to page 3
+    pagination.dispatchEvent(
+      new CustomEvent('pageSelect', {
+        detail: { page: 3 },
+        bubbles: true,
+      }),
+    );
+
+    // Page 3 (items 20–22)
+    await waitFor(() => {
+      const items = getAllByRole('listitem').map(li => li.textContent);
+      expect(items).to.have.lengthOf(3);
+      expect(items[0]).to.include(sortedBenefits[20].name);
+      expect(items[2]).to.include(sortedBenefits[22].name);
     });
   });
 });
