@@ -17,6 +17,9 @@ const formConfig = {
   trackingPrefix: 'careers-employment-27-8832-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  v3SegmentedProgressBar: true,
+  stepLabels:
+    'Your information;Veteran or service member information;Military history;Review',
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
