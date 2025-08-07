@@ -4,8 +4,8 @@ import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
-import { getProps } from '../../../shared/tests/pages/pageTests.spec';
-import CustomArrayBuilderButtonPair from '../../../shared/components/CustomArrayBuilderButtonPair';
+import { getProps } from '../../../../shared/tests/pages/pageTests.spec';
+import CustomArrayBuilderButtonPair from '../../../../shared/components/CustomArrayBuilderButtonPair';
 
 function stubWindowLocation(url, search) {
   const originalLocation = window.location;
