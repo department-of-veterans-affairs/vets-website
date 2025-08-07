@@ -4,7 +4,6 @@ import featureToggleClaimDetailV2Enabled from '../fixtures/mocks/lighthouse/feat
 import featureToggleClaimPhasesEnabled from '../fixtures/mocks/lighthouse/feature-toggle-claim-phases-enabled.json';
 import featureToggle5103UpdateEnabled from '../fixtures/mocks/lighthouse/feature-toggle-5103-update-enabled.json';
 import featureToggle5103UpdateEnabledV2 from '../fixtures/mocks/lighthouse/feature-toggle-5103-update-enabled-v2.json';
-import featureToggleFriendlyEvidenceRequests from '../fixtures/mocks/lighthouse/feature-toggle-cst-friendly-evidence-requests.json';
 // END lighthouse_migration
 
 const Timeouts = require('platform/testing/e2e/timeouts.js');
@@ -18,7 +17,6 @@ class TrackClaimsPageV2 {
     cstClaimPhasesToggleEnabled = false,
     cst5103UpdateEnabled = false,
     cst5103UpdateEnabledV2 = false,
-    cstFriendlyEvidenceRequest = false,
   ) {
     if (submitForm) {
       cy.intercept('POST', `/v0/benefits_claims/189685/submit5103`, {
@@ -52,13 +50,6 @@ class TrackClaimsPageV2 {
         'GET',
         '/v0/feature_toggles?*',
         featureToggle5103UpdateEnabledV2,
-      );
-    } else if (cstFriendlyEvidenceRequest) {
-      // When cst_use_claim_details_v2 and cst_friendly_evidence_requests are enabled
-      cy.intercept(
-        'GET',
-        '/v0/feature_toggles?*',
-        featureToggleFriendlyEvidenceRequests,
       );
     } else {
       cy.intercept(
@@ -539,7 +530,7 @@ class TrackClaimsPageV2 {
       .first()
       .shadow()
       .get('va-alert.primary-alert:first-of-type a')
-      .should('contain', 'Details');
+      .should('contain', 'About this request');
     cy.get('va-alert.primary-alert')
       .first()
       .shadow()
@@ -547,7 +538,7 @@ class TrackClaimsPageV2 {
       .click();
     cy.url().should(
       'contain',
-      '/track-claims/your-claims/189685/document-request/2',
+      '/track-claims/your-claims/189685/needed-from-you/2',
     );
   }
 
@@ -742,7 +733,7 @@ class TrackClaimsPageV2 {
       .first()
       .shadow()
       .get('.recent-activity-container va-alert[status="info"]:first-of-type a')
-      .should('contain', 'add it here');
+      .should('contain', 'About this notice');
     cy.get('.recent-activity-container va-alert[status="info"]')
       .first()
       .shadow()
@@ -751,7 +742,7 @@ class TrackClaimsPageV2 {
       .click();
     cy.url().should(
       'contain',
-      '/track-claims/your-claims/189685/document-request/4',
+      '/track-claims/your-claims/189685/needed-from-others/4',
     );
   }
 
