@@ -628,6 +628,57 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
       }).as('documents');
     });
 
+    it('should send correct data contract to backend API', () => {
+      setupComponentTest();
+
+      // Set up intercept to capture the actual request payload
+      cy.intercept(
+        'POST',
+        '/v0/benefits_claims/189685/benefits_documents',
+        req => {
+          // This is the CRITICAL test - verify exact payload structure sent to backend
+          const formData = req.body;
+
+          // Extract the multipart form data fields
+          expect(formData).to.contain('tracked_item_ids');
+          expect(formData).to.contain('document_type');
+          expect(formData).to.contain('password');
+
+          // Verify tracked_item_ids is JSON stringified array with null (AdditionalEvidencePage case)
+          expect(formData).to.include('[null]');
+
+          // Verify document_type contains the actual document type value
+          expect(formData).to.include('L029');
+
+          // Verify password contains the actual password entered by user
+          expect(formData).to.include('test-password');
+
+          req.reply({ statusCode: 200, body: {} });
+        },
+      ).as('documentsWithPayloadCheck');
+
+      // Upload an encrypted file (tests password handling + all other contract fields)
+      setupEncryptedFile('contract-test.pdf');
+
+      // Enter password (this is what would be broken by password regressions)
+      getFileInput(0)
+        .find('va-text-input')
+        .shadow()
+        .find('input')
+        .type('test-password');
+
+      // Select document type
+      selectDocumentType(0, 'L029'); // Copy of a DD214
+
+      // Submit the files - this will trigger our payload verification
+      clickSubmitButton();
+
+      // Wait for the request and verify it was made
+      cy.wait('@documentsWithPayloadCheck');
+
+      cy.axeCheck();
+    });
+
     it('should allow submission when all validation passes', () => {
       setupComponentTest();
 
