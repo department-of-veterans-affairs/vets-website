@@ -26,7 +26,7 @@ describe('Personal health care contacts', () => {
     cy.intercept('GET', '/v0/profile/contacts', contacts);
     cy.login(loa3User72);
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
-    cy.get('a[href$="/profile/contacts"]').should('exist');
+    cy.get('va-subnav-item[href="/profile/contacts"').should('exist');
     cy.injectAxeThenAxeCheck();
   });
 
@@ -34,7 +34,7 @@ describe('Personal health care contacts', () => {
     cy.intercept('GET', '/v0/profile/contacts', contacts);
     cy.login(loa3User72);
     cy.visit(PROFILE_PATHS.CONTACTS);
-    cy.get('a[href$="/profile/contacts"]').should('exist');
+    cy.get('va-subnav-item[href="/profile/contacts"').should('exist');
     cy.injectAxeThenAxeCheck();
   });
 
