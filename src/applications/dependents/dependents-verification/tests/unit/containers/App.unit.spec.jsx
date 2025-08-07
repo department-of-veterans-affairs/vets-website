@@ -13,6 +13,7 @@ function getDefaultState({
   featureToggle = true,
   loading = false,
   hasSession = true,
+  dependentsLoading = false,
 } = {}) {
   if (typeof localStorage !== 'undefined') {
     localStorage.setItem('hasSession', JSON.stringify(hasSession));
@@ -67,6 +68,9 @@ function getDefaultState({
     externalServiceStatus: {
       loading,
     },
+    dependents: {
+      loading: dependentsLoading,
+    },
   };
 }
 
@@ -77,8 +81,14 @@ function renderApp({
   featureToggle,
   loading,
   hasSession,
+  dependentsLoading,
 } = {}) {
-  const state = getDefaultState({ featureToggle, loading, hasSession });
+  const state = getDefaultState({
+    featureToggle,
+    loading,
+    hasSession,
+    dependentsLoading,
+  });
   const store = mockStore(state);
 
   const _location = {
@@ -121,10 +131,11 @@ describe('App container logic', () => {
     );
   });
 
-  it('should show loading indicator when not on intro page', async () => {
+  it('should show loading indicator when not on intro page and dependents loading', async () => {
     const { container, queryByTestId } = renderApp({
       pathname: '/add',
       hasSession: true,
+      dependentsLoading: true,
     });
 
     await waitFor(() => {
@@ -157,7 +168,7 @@ describe('App container logic', () => {
     expect(breadcrumbs).to.exist;
   });
 
-  it('should redirect to introduction page when not on intro page (with session)', () => {
+  it('should redirect to introduction page when not on intro page and dependents loading (with session)', () => {
     const mockReplace = sinon.stub();
     delete window.location;
     window.location = { replace: mockReplace };
@@ -165,13 +176,14 @@ describe('App container logic', () => {
     renderApp({
       pathname: '/some-other-page',
       hasSession: true,
+      dependentsLoading: true,
     });
 
     expect(mockReplace.calledOnce).to.be.true;
     expect(mockReplace.firstCall.args[0]).to.include('/introduction');
   });
 
-  it('should redirect to introduction page when not on intro page (without session)', () => {
+  it('should redirect to introduction page when not on intro page and dependents loading (without session)', () => {
     const mockReplace = sinon.stub();
     delete window.location;
     window.location = { replace: mockReplace };
@@ -179,6 +191,7 @@ describe('App container logic', () => {
     renderApp({
       pathname: '/add',
       hasSession: false,
+      dependentsLoading: true,
     });
 
     expect(mockReplace.calledOnce).to.be.true;
@@ -193,6 +206,7 @@ describe('App container logic', () => {
     renderApp({
       pathname: '/introduction',
       hasSession: true,
+      dependentsLoading: true,
     });
 
     expect(mockReplace.called).to.be.false;
@@ -206,8 +220,18 @@ describe('App container logic', () => {
     renderApp({
       pathname: '/introduction',
       hasSession: false,
+      dependentsLoading: true,
     });
 
     expect(mockReplace.called).to.be.false;
   });
+
+  // it('should render RoutedSavableApp with children when not on intro page but dependents not loading', () => {
+  //   const { getByTestId } = renderApp({
+  //     pathname: '/some-other-page',
+  //     hasSession: true,
+  //     dependentsLoading: false, // This should allow the form to render
+  //   });
+  //   expect(getByTestId('children-content')).to.exist;
+  // });
 });

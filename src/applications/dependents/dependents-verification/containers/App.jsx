@@ -14,6 +14,9 @@ export default function App({ location, children }) {
   const externalServicesLoading = useSelector(
     state => state?.externalServiceStatus?.loading,
   );
+  const dependentsLoading = useSelector(state => {
+    return state?.dependents?.loading;
+  });
   const isIntroPage = location?.pathname?.endsWith('/introduction');
 
   const breadcrumbs = [
@@ -34,19 +37,20 @@ export default function App({ location, children }) {
 
   const rawBreadcrumbs = JSON.stringify(breadcrumbs);
 
-  useEffect(() => {
-    if (!isIntroPage) {
-      window.location.replace(`${manifest.rootUrl}/introduction`);
-    }
-  }, []);
+  useEffect(
+    () => {
+      if (!isIntroPage && dependentsLoading) {
+        window.location.replace(`${manifest.rootUrl}/introduction`);
+      }
+    },
+    [isIntroPage, dependentsLoading],
+  );
 
   let content;
 
   if (!featureToggle) {
     content = <NoFormPage />;
-  } else if (externalServicesLoading) {
-    content = <va-loading-indicator message="Loading your information..." />;
-  } else if (!isIntroPage) {
+  } else if (externalServicesLoading || (!isIntroPage && dependentsLoading)) {
     content = <va-loading-indicator message="Loading your information..." />;
   } else {
     content = (
