@@ -44,7 +44,7 @@ class DirectDepositPage {
   confirmDirectDepositInSubnav = ({ visitPage = true } = {}) => {
     // the DD item should exist in the sub nav
     cy.get(
-      `va-sidenav-item[href="${PROFILE_PATH_NAMES.DIRECT_DEPOSIT}"]`,
+      `va-sidenav-item[label="${PROFILE_PATH_NAMES.DIRECT_DEPOSIT}"]`,
     ).should('exist');
     if (visitPage) {
       // going directly to DD should work
