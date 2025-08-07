@@ -33,7 +33,7 @@ describe('<NeedsMissingInfoAlert>', () => {
       'make sure we have your date of birth.',
     );
     expect($('p', container).textContent).to.contain(
-      'fill out a appeal request.', // Default fallback
+      'fill out an appeal request.', // Default fallback
     );
   });
 
