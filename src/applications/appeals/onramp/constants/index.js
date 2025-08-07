@@ -15,6 +15,7 @@ export const ROUTES = Object.freeze({
   Q_2_IS_1A_LAW_POLICY_CHANGE: 'law-policy-change-2-is-1a',
   Q_2_IS_1B_NEW_EVIDENCE: 'new-evidence-2-is-1b',
   Q_2_IS_2_CONDITION_WORSENED: 'condition-worsened-2-is-2',
+  Q_2_S_1_NEW_EVIDENCE: 'new-evidence-2-s-1',
   Q_2_H_1_EXISTING_BOARD_APPEAL: 'existing-board-appeal-2-h-1',
   Q_2_H_2_NEW_EVIDENCE: 'new-evidence-2-h-2',
   Q_2_H_2A_JUDGE_HEARING: 'judge-hearing-2-h-2a',
