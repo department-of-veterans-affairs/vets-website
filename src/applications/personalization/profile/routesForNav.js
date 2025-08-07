@@ -70,7 +70,6 @@ export const routesForNav = [
     path: PROFILE_PATHS.NOTIFICATION_SETTINGS,
     requiresLOA3: true,
     requiresMVI: true,
-    isNested: true,
   },
   {
     component: PaperlessDelivery,
@@ -78,7 +77,6 @@ export const routesForNav = [
     path: PROFILE_PATHS.PAPERLESS_DELIVERY,
     requiresLOA3: true,
     requiresMVI: true,
-    isNested: true,
   },
   {
     component: AccountSecurity,
