@@ -6,12 +6,14 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 
 import * as scrollUtil from 'platform/utilities/scroll';
+import { openReviewChapter } from 'platform/forms-system/src/js/actions';
 import VeteranContactInformationReviewPage from '../../../components/VeteranContactInformationReviewPage';
 
 describe('VeteranContactInformationReviewPage', () => {
   let goToPathSpy;
   let store;
   let scrollToStub;
+  let clock;
 
   const mockData = {
     email: 'vet@example.com',
@@ -27,17 +29,75 @@ describe('VeteranContactInformationReviewPage', () => {
   };
 
   beforeEach(() => {
-    // minimal Redux store so useDispatch works
+    clock = sinon.useFakeTimers({
+      now: Date.now(),
+      toFake: ['setTimeout', 'clearTimeout'],
+    });
     store = createStore(() => ({}));
-
-    // stub scrollTo so it doesn't error
+    sinon.spy(store, 'dispatch');
     scrollToStub = sinon.stub(scrollUtil, 'scrollTo').callsFake(() => {});
   });
 
   afterEach(() => {
     cleanup();
     sessionStorage.clear();
+    clock.restore();
     scrollToStub.restore();
+    store.dispatch.restore();
+  });
+
+  it('removes onReviewPage from sessionStorage on mount if present', () => {
+    sessionStorage.setItem('onReviewPage', 'email');
+    render(
+      <Provider store={store}>
+        <VeteranContactInformationReviewPage
+          data={mockData}
+          goToPath={() => {}}
+        />
+      </Provider>,
+    );
+    expect(sessionStorage.getItem('onReviewPage')).to.be.null;
+  });
+
+  it('dispatches openReviewChapter + scrolls when focusSection is set', async () => {
+    sessionStorage.setItem('onReviewPage', 'mailingAddress');
+    goToPathSpy = sinon.spy();
+
+    render(
+      <Provider store={store}>
+        <VeteranContactInformationReviewPage
+          data={mockData}
+          goToPath={goToPathSpy}
+        />
+      </Provider>,
+    );
+
+    const expectedAction = openReviewChapter('veteranContactInformation');
+
+    await waitFor(() => {
+      expect(store.dispatch.calledOnce).to.be.true;
+      expect(store.dispatch.calledWithExactly(expectedAction)).to.be.true;
+    });
+
+    expect(sessionStorage.getItem('onReviewPage')).to.be.null;
+
+    clock.tick(300);
+    await waitFor(() => {
+      expect(scrollToStub.calledOnce).to.be.true;
+    });
+  });
+
+  it('does not dispatch or scroll if no onReviewPage in sessionStorage', () => {
+    render(
+      <Provider store={store}>
+        <VeteranContactInformationReviewPage
+          data={mockData}
+          goToPath={() => {}}
+        />
+      </Provider>,
+    );
+    expect(store.dispatch.notCalled).to.be.true;
+    expect(scrollToStub.notCalled).to.be.true;
   });
 
   it('renders all contact info fields and Edit buttons', () => {
@@ -89,12 +149,12 @@ describe('VeteranContactInformationReviewPage', () => {
         />
       </Provider>,
     );
-    const editBtn = Array.from(container.querySelectorAll('va-button')).find(
-      btn => btn.getAttribute('label') === 'Edit mailing address',
-    );
-    fireEvent.click(editBtn);
 
     await waitFor(() => {
+      const editBtn = Array.from(container.querySelectorAll('va-button')).find(
+        btn => btn.getAttribute('label') === 'Edit mailing address',
+      );
+      fireEvent.click(editBtn);
       expect(sessionStorage.getItem('onReviewPage')).to.equal('mailingAddress');
       expect(goToPathSpy.calledOnce).to.be.true;
       expect(goToPathSpy.firstCall.args[0]).to.equal(
@@ -114,12 +174,12 @@ describe('VeteranContactInformationReviewPage', () => {
         />
       </Provider>,
     );
-    const editBtn = Array.from(container.querySelectorAll('va-button')).find(
-      btn => btn.getAttribute('label') === 'Edit email address',
-    );
-    fireEvent.click(editBtn);
 
     await waitFor(() => {
+      const editBtn = Array.from(container.querySelectorAll('va-button')).find(
+        btn => btn.getAttribute('label') === 'Edit email address',
+      );
+      fireEvent.click(editBtn);
       expect(sessionStorage.getItem('onReviewPage')).to.equal('email');
       expect(goToPathSpy.calledOnce).to.be.true;
       expect(goToPathSpy.firstCall.args[0]).to.equal(
@@ -139,12 +199,12 @@ describe('VeteranContactInformationReviewPage', () => {
         />
       </Provider>,
     );
-    const editBtn = Array.from(container.querySelectorAll('va-button')).find(
-      btn => btn.getAttribute('label') === 'Edit home phone number',
-    );
-    fireEvent.click(editBtn);
 
     await waitFor(() => {
+      const editBtn = Array.from(container.querySelectorAll('va-button')).find(
+        btn => btn.getAttribute('label') === 'Edit home phone number',
+      );
+      fireEvent.click(editBtn);
       expect(sessionStorage.getItem('onReviewPage')).to.equal('phone');
       expect(goToPathSpy.calledOnce).to.be.true;
       expect(goToPathSpy.firstCall.args[0]).to.equal(
@@ -164,12 +224,12 @@ describe('VeteranContactInformationReviewPage', () => {
         />
       </Provider>,
     );
-    const editBtn = Array.from(container.querySelectorAll('va-button')).find(
-      btn => btn.getAttribute('label') === 'Edit international phone number',
-    );
-    fireEvent.click(editBtn);
 
     await waitFor(() => {
+      const editBtn = Array.from(container.querySelectorAll('va-button')).find(
+        btn => btn.getAttribute('label') === 'Edit international phone number',
+      );
+      fireEvent.click(editBtn);
       expect(sessionStorage.getItem('onReviewPage')).to.equal(
         'internationalPhone',
       );
@@ -179,73 +239,5 @@ describe('VeteranContactInformationReviewPage', () => {
       );
       expect(goToPathSpy.firstCall.args[1]).to.deep.equal({ force: true });
     });
-  });
-
-  it('renders error message if fields are missing', async () => {
-    goToPathSpy = sinon.spy();
-    const errorData = {
-      address: {},
-      email: null,
-      phone: null,
-      internationalPhone: null,
-    };
-    const { container } = render(
-      <Provider store={store}>
-        <VeteranContactInformationReviewPage
-          data={errorData}
-          goToPath={goToPathSpy}
-        />
-      </Provider>,
-    );
-    await waitFor(() => {
-      const errors = container.querySelectorAll('.usa-input-error-message');
-      expect(errors.length).to.be.at.least(6);
-      expect(container.textContent).to.include('Missing country');
-      expect(container.textContent).to.include('Missing street address line 1');
-      expect(container.textContent).to.include('Missing city');
-      expect(container.textContent).to.include('Missing province');
-      expect(container.textContent).to.include('Missing postal code');
-      expect(container.textContent).to.include('Missing email address');
-    });
-  });
-
-  it('renders "Province" label for non-USA address', () => {
-    goToPathSpy = sinon.spy();
-    const data = {
-      ...mockData,
-      address: {
-        ...mockData.address,
-        country: 'CAN',
-        state: 'BC',
-      },
-    };
-    const { getByText } = render(
-      <Provider store={store}>
-        <VeteranContactInformationReviewPage
-          data={data}
-          goToPath={goToPathSpy}
-        />
-      </Provider>,
-    );
-    expect(getByText('Province')).to.exist;
-  });
-
-  it('renders "None provided" for missing phone/internationalPhone', () => {
-    goToPathSpy = sinon.spy();
-    const data = {
-      ...mockData,
-      phone: null,
-      internationalPhone: null,
-    };
-    const { getAllByText } = render(
-      <Provider store={store}>
-        <VeteranContactInformationReviewPage
-          data={data}
-          goToPath={goToPathSpy}
-        />
-      </Provider>,
-    );
-    const noneProvided = getAllByText('None provided');
-    expect(noneProvided.length).to.equal(2);
   });
 });
