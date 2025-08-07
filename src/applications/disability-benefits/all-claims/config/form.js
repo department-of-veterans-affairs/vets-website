@@ -45,6 +45,7 @@ import {
   showPtsdNonCombat,
   showSeparationLocation,
   isCompletingModern4142,
+  onFormLoaded,
 } from '../utils';
 
 import captureEvents from '../analytics-functions';
@@ -187,6 +188,7 @@ const formConfig = {
   errorText: ErrorText,
   showReviewErrors: true,
   reviewErrors,
+  onFormLoaded,
   defaultDefinitions: {
     ...fullSchema.definitions,
   },
