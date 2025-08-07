@@ -866,3 +866,24 @@ export const formatFullName = (fullName = {}) => {
 export function isCompletingModern4142(formData) {
   return formData?.disability526Enable2024Form4142 === true;
 }
+
+export const onFormLoaded = props => {
+  const { returnUrl } = props;
+  const { formData, router } = props;
+
+  if (
+    // flipper value that is injected
+    formData.disability526Enable2024Form4142 &&
+    // user previously acknowledged the old 4142
+    formData['view:patient_acknowledgement']?.['view:acknowledgement'] ===
+      true &&
+    // user has not already been redirected to the 4142 choice page, set on page load or nav away from page
+    !formData.wasRedirectedTo4142ChoicePageAlready
+  ) {
+    // Value for the alert to know to show itself, only true from here otherwise not set or false
+    formData.showNew4142AuthorizationAlert = true;
+    router.push('/supporting-evidence/private-medical-records');
+  } else {
+    router.push(returnUrl);
+  }
+};
