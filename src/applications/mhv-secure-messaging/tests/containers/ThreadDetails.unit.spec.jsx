@@ -303,8 +303,9 @@ describe('Thread Details container', () => {
 
     expect(await screen.queryByText('Continue to reply')).to.not.exist;
 
-    expect(await screen.findByText(`${category}: ${subject}`, { exact: false }))
-      .to.exist;
+    expect(
+      await screen.findByText(`${category} - ${subject}`, { exact: false }),
+    ).to.exist;
 
     expect(global.document.title).to.equal(
       `Messages: ${PageTitles.CONVERSATION_TITLE_TAG}`,
