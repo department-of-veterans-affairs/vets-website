@@ -3,11 +3,8 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom-v5-compat';
 import ExtraDetails from '../shared/ExtraDetails';
 import LastFilledInfo from '../shared/LastFilledInfo';
-import { dateFormat } from '../../util/helpers';
+import { dateFormat, getRxStatus, rxSourceIsNonVA } from '../../util/helpers';
 import { dataDogActionNames } from '../../util/dataDogConstants';
-import { ACTIVE_NON_VA } from '../../util/constants';
-
-const rxSourceIsNonVA = rx => rx?.prescriptionSource === 'NV';
 
 const MedicationsListCard = ({ rx }) => {
   const pendingMed =
@@ -16,7 +13,7 @@ const MedicationsListCard = ({ rx }) => {
     rx.prescriptionSource === 'PD' && rx?.dispStatus === 'Renew';
   const latestTrackingStatus = rx?.trackingList?.[0];
   const isNonVaPrescription = rxSourceIsNonVA(rx);
-  const rxStatus = isNonVaPrescription ? ACTIVE_NON_VA : rx?.dispStatus;
+  const rxStatus = getRxStatus(rx);
 
   const cardBodyContent = () => {
     if (pendingRenewal || pendingMed) {

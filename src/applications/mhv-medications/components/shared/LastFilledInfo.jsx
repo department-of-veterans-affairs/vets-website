@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { dateFormat } from '../../util/helpers';
+import { dateFormat, rxSourceIsNonVA } from '../../util/helpers';
 
 const LastFilledInfo = rx => {
-  const { orderedDate, sortedDispensedDate, prescriptionSource } = rx;
+  const { orderedDate, sortedDispensedDate } = rx;
 
-  const nonVA = prescriptionSource === 'NV';
+  const nonVA = rxSourceIsNonVA(rx);
   const showLastFilledDate = !nonVA && !!sortedDispensedDate;
 
   return (
