@@ -375,11 +375,16 @@ export class ConfirmationPage extends React.Component {
       return acc;
     }, {});
 
+    const sortKey =
+      this.state.sortValue === 'alphabetical' ? 'name' : this.state.sortValue;
+    const sortedData = this.sortBenefitObj(data, sortKey);
+
     this.setState(
       {
         resultsCount,
         benefitIds,
-        benefits: data,
+        benefits: sortedData,
+        benefitsList: sortedData,
       },
       () => {
         this.setState({ filterText: this.createFilterText() });
