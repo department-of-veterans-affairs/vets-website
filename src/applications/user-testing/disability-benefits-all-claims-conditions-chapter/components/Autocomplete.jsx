@@ -107,7 +107,8 @@ const Autocomplete = ({
         activateScrollToAndFocus(newIndex);
       }
     },
-    [activeIndex, results.length, focusOnInput, activateScrollToAndFocus],
+
+    [activeIndex, results.length, activateScrollToAndFocus],
   );
 
   const selectResult = useCallback(
@@ -154,6 +155,15 @@ const Autocomplete = ({
 
   // Keep local state in sync with external formData
   useEffect(() => setValue(formData), [formData]);
+
+  // Cancel debounced functions on unmount to avoid setting state on an unmounted component
+  useEffect(() => {
+    return () => {
+      debouncedSearch.cancel();
+      debouncedSetAriaLiveText.cancel();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(
     () => {

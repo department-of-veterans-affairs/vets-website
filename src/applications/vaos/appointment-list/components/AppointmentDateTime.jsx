@@ -8,7 +8,12 @@ export function AppointmentDate({
   timezone,
   format = 'EEEE, MMMM d, yyyy',
 }) {
-  return <> {formatInTimeZone(date, timezone, format)} </>;
+  return (
+    <span data-dd-privacy="mask">
+      {' '}
+      {formatInTimeZone(date, timezone, format)}{' '}
+    </span>
+  );
 }
 AppointmentDate.propTypes = {
   date: PropTypes.object,
@@ -23,7 +28,7 @@ export function AppointmentTime({ appointment, timezone, format = 'h:mm a' }) {
   return (
     <>
       <span data-dd-privacy="mask">
-        {`${formatInTimeZone(appointment.start, timezone, format)} `}
+        {formatInTimeZone(appointment.start, timezone, format)}{' '}
       </span>
       <span aria-hidden="true">{abbreviation}</span>
       <span className="sr-only">{description}</span>
@@ -31,7 +36,9 @@ export function AppointmentTime({ appointment, timezone, format = 'h:mm a' }) {
   );
 }
 AppointmentTime.propTypes = {
-  appointment: PropTypes.object,
+  appointment: PropTypes.shape({
+    start: PropTypes.oneOfType([PropTypes.instanceOf(Date), PropTypes.string]),
+  }),
   format: PropTypes.string,
   timezone: PropTypes.string,
 };
