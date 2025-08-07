@@ -13,8 +13,6 @@ export const VeteranInformation = ({ formData }) => {
   const { ssnLastFour } = formData?.veteranInformation || {};
   const { dob, userFullName = {} } = useSelector(selectProfile);
 
-  // console.log('Comp', ssnLastFour);
-
   const dobDate = dob ? formatDateParsedZoneLong(dob) : null;
 
   return (

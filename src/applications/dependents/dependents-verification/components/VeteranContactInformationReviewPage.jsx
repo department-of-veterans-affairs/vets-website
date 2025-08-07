@@ -63,14 +63,14 @@ const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
   };
 
   const handlers = {
-    mailingAddress: () =>
+    editMailingAddress: () =>
       goEditPath(
         '/veteran-contact-information/mailing-address',
         'mailingAddress',
       ),
-    email: () => goEditPath('veteran-contact-information/email', 'email'),
-    phone: () => goEditPath('veteran-contact-information/phone', 'phone'),
-    internationalPhone: () =>
+    editEmail: () => goEditPath('veteran-contact-information/email', 'email'),
+    editPhone: () => goEditPath('veteran-contact-information/phone', 'phone'),
+    editInternationalPhone: () =>
       goEditPath(
         'veteran-contact-information/international-phone',
         'internationalPhone',
@@ -84,7 +84,6 @@ const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
 
   return (
     <div className="form-review-panel-page">
-      {/* Mailing address */}
       <div className="form-review-panel-page-header-row">
         <h4 className="form-review-panel-page-header vads-u-font-size--h5 vads-u-margin--0">
           Mailing address
@@ -92,7 +91,7 @@ const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
         <va-button
           secondary
           class="edit-page float-right"
-          onClick={handlers.mailingAddress}
+          onClick={handlers.editMailingAddress}
           label="Edit mailing address"
           text="Edit"
           ref={mailingAddressRef}
@@ -166,7 +165,6 @@ const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
         </div>
       </dl>
 
-      {/* Email address */}
       <div className="form-review-panel-page-header-row vads-u-margin-top--4">
         <h4 className="form-review-panel-page-header vads-u-font-size--h5 vads-u-margin--0">
           Email address
@@ -174,7 +172,7 @@ const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
         <va-button
           secondary
           class="edit-page float-right"
-          onClick={handlers.email}
+          onClick={handlers.editEmail}
           label="Edit email address"
           text="Edit"
           ref={emailRef}
@@ -189,7 +187,6 @@ const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
         </div>
       </dl>
 
-      {/* Home phone number */}
       <div className="form-review-panel-page-header-row vads-u-margin-top--4">
         <h4 className="form-review-panel-page-header vads-u-font-size--h5 vads-u-margin--0">
           Home phone number
@@ -197,7 +194,7 @@ const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
         <va-button
           secondary
           class="edit-page float-right"
-          onClick={handlers.phone}
+          onClick={handlers.editPhone}
           label="Edit home phone number"
           text="Edit"
           ref={phoneRef}
@@ -218,7 +215,6 @@ const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
         </div>
       </dl>
 
-      {/* International phone */}
       <div className="form-review-panel-page-header-row vads-u-margin-top--4">
         <h4 className="form-review-panel-page-header vads-u-font-size--h5 vads-u-margin--0">
           International number
@@ -226,7 +222,7 @@ const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
         <va-button
           secondary
           class="edit-page float-right"
-          onClick={handlers.internationalPhone}
+          onClick={handlers.editInternationalPhone}
           label="Edit international phone number"
           text="Edit"
           ref={internationalPhoneRef}
@@ -234,7 +230,7 @@ const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
       </div>
       <dl className="review">
         <div className="review-row">
-          <dt>International phone number</dt>
+          <dt>International number</dt>
           <dd
             className="dd-privacy-hidden"
             data-dd-action-name="international phone"
