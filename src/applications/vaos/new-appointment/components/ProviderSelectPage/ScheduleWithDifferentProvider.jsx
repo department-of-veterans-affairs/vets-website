@@ -57,6 +57,7 @@ export default function ScheduleWithDifferentProvider({
         active
         href="my-health/appointments/schedule/va-request/"
         text="Request an appointment"
+        data-testid="request-appointment-link"
         onClick={e => {
           e.preventDefault();
           dispatch(routeToRequestAppointmentPage(history, pageKey));
