@@ -14,7 +14,7 @@ const getFormName = formId => {
     '20-0996': 'Higher-Level Review',
   };
 
-  return formNames[formId] || 'appeal';
+  return formNames[formId] ? `a ${formNames[formId]}` : `an appeal`;
 };
 
 const NeedsMissingInfoAlert = ({ missing, formId }) => {
@@ -46,7 +46,7 @@ const NeedsMissingInfoAlert = ({ missing, formId }) => {
       <h2 slot="headline">{heading}</h2>
       <p>
         You’ll need to provide us with the missing information before you can
-        fill out a {formName} request. Call the Defense Manpower Data Center
+        fill out {formName} request. Call the Defense Manpower Data Center
         (DMDC) support office at <va-telephone contact="8005389552" /> to make
         sure we have your {missing}. They’re open Monday through Friday, 8:00
         a.m. to 8:00 p.m.{' '}
