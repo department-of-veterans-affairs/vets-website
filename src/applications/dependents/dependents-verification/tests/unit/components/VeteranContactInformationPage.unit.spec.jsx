@@ -61,10 +61,10 @@ const defaultData = {
     state: 'VA',
     postalCode: '12345',
     country: 'USA',
-    province: '',
-    internationalPostalCode: '',
+    province: null,
+    internationalPostalCode: null,
   },
-  internationalPhone: '',
+  internationalPhone: null,
 };
 
 function renderPage({
@@ -107,20 +107,20 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
       'I do not agree to receive electronic correspondence',
     );
     expect(text).to.include('phone number');
-    expect(text).to.include('International phone number');
+    expect(text).to.include('International number');
     expect(text).to.include('123 Main St');
     expect(text).to.include('vet@example.com');
     expect(text).to.include('12345');
   });
 
-  it('covers international home phone ojbect', () => {
+  it('covers international home phone object', () => {
     const { container } = renderPage({
       profile: defaultProfile({ isInternationalHome: true }),
     });
     expect($('va-card', container)).to.not.be.null;
   });
 
-  it('covers international home phone ojbect', () => {
+  it('covers international home phone object', () => {
     const { container } = renderPage({
       profile: defaultProfile({ isInternationalMobile: true }),
     });
