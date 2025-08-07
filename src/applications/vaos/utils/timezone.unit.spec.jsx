@@ -1,6 +1,9 @@
 import { expect } from 'chai';
 import {
   getTimezoneAbbrByFacilityId,
+  getTimezoneAbbrFromApi,
+  getTimezoneByFacilityId,
+  getTimezoneDescByFacilityId,
   getTimezoneNameFromAbbr,
   stripDST,
 } from './timezone';
@@ -18,11 +21,6 @@ describe('VAOS Utils: timezone', () => {
       expect(getTimezoneAbbrByFacilityId('459GF')).to.equal('ST'); // Pacific/Pago_Pago
       expect(getTimezoneAbbrByFacilityId(672)).to.equal('AT'); // America/Puerto_Rico
       expect(getTimezoneAbbrByFacilityId('672GA')).to.equal('AT'); // America/St_Thomas
-    });
-
-    it('should not strip middle char if not an american zone', () => {
-      const abbr = getTimezoneAbbrByFacilityId(358); // manila
-      expect(abbr.length).to.equal(3);
     });
   });
 
@@ -76,6 +74,131 @@ describe('VAOS Utils: timezone', () => {
 
     it('should return abbreviation if no match', () => {
       expect(getTimezoneNameFromAbbr('HKT')).to.equal('HKT');
+    });
+  });
+
+  describe('getTimezoneDescByFacilityId', () => {
+    it('should return the correct description', () => {
+      expect(getTimezoneDescByFacilityId('358')).to.equal(
+        'Philippine time (PHT)',
+      );
+      expect(getTimezoneDescByFacilityId('402')).to.equal('Eastern time (ET)');
+      expect(getTimezoneDescByFacilityId('436')).to.equal('Mountain time (MT)');
+      expect(getTimezoneDescByFacilityId('437')).to.equal('Central time (CT)');
+      expect(getTimezoneDescByFacilityId('459')).to.equal('Hawaii time (HT)');
+      expect(getTimezoneDescByFacilityId('463')).to.equal('Alaska time (AKT)');
+      expect(getTimezoneDescByFacilityId('570')).to.equal('Pacific time (PT)');
+      expect(getTimezoneDescByFacilityId('649')).to.equal('Mountain time (MT)');
+      expect(getTimezoneDescByFacilityId('672')).to.equal('Atlantic time (AT)');
+      expect(getTimezoneDescByFacilityId('672A')).to.equal(
+        'Atlantic time (AT)',
+      );
+      expect(getTimezoneDescByFacilityId('459GE')).to.equal(
+        'Chamorro time (ChT)',
+      );
+      expect(getTimezoneDescByFacilityId('459GF')).to.equal('Samoa time (ST)');
+      expect(getTimezoneDescByFacilityId('459GH')).to.equal(
+        'Chamorro time (ChT)',
+      );
+    });
+    it('should return the correct description', () => {
+      expect(getTimezoneDescByFacilityId('4022')).to.equal('Eastern time (ET)');
+    });
+    it('should return null', () => {
+      expect(getTimezoneDescByFacilityId('0402')).to.be.null;
+    });
+  });
+
+  describe('getTimezoneAbbrFromApi', () => {
+    it('should return the correct abbreviation', () => {
+      expect(
+        getTimezoneAbbrFromApi({
+          start: new Date(),
+          timezone: 'America/New_York',
+        }),
+      ).to.equal('ET');
+      expect(
+        getTimezoneAbbrFromApi({
+          start: new Date(),
+          timezone: 'America/Chicago',
+        }),
+      ).to.equal('CT');
+      expect(
+        getTimezoneAbbrFromApi({
+          start: new Date(),
+          timezone: 'Pacific/Honolulu',
+        }),
+      ).to.equal('HT');
+      expect(
+        getTimezoneAbbrFromApi({
+          start: new Date(),
+          timezone: 'America/Anchorage',
+        }),
+      ).to.equal('AKT');
+      expect(
+        getTimezoneAbbrFromApi({
+          start: new Date(),
+          timezone: 'America/Los_Angeles',
+        }),
+      ).to.equal('PT');
+      expect(
+        getTimezoneAbbrFromApi({
+          start: new Date(),
+          timezone: 'America/Phoenix',
+        }),
+      ).to.equal('MT');
+      expect(
+        getTimezoneAbbrFromApi({
+          start: new Date(),
+          timezone: 'America/Puerto_Rico',
+        }),
+      ).to.equal('AT');
+      expect(
+        getTimezoneAbbrFromApi({
+          start: new Date(),
+          timezone: 'Asia/Manila',
+        }),
+      ).to.equal('PHT');
+      expect(
+        getTimezoneAbbrFromApi({
+          start: new Date(),
+          timezone: 'Pacific/Guam',
+        }),
+      ).to.equal('ChT');
+      expect(
+        getTimezoneAbbrFromApi({
+          start: new Date(),
+          timezone: 'Pacific/Pago_Pago',
+        }),
+      ).to.equal('ST');
+      expect(
+        getTimezoneAbbrFromApi({
+          start: new Date(),
+          timezone: 'Pacific/Saipan',
+        }),
+      ).to.equal('ChT');
+    });
+  });
+
+  describe('getTimezoneByFacilityId', () => {
+    it('should return the correct IANA timezone', () => {
+      expect(getTimezoneByFacilityId('358')).to.equal('Asia/Manila');
+      expect(getTimezoneByFacilityId(402)).to.equal('America/New_York');
+      expect(getTimezoneByFacilityId(437)).to.equal('America/Chicago');
+      expect(getTimezoneByFacilityId(442)).to.equal('America/Denver');
+      expect(getTimezoneByFacilityId(570)).to.equal('America/Los_Angeles');
+      expect(getTimezoneByFacilityId(463)).to.equal('America/Anchorage');
+      expect(getTimezoneByFacilityId(459)).to.equal('Pacific/Honolulu');
+      expect(getTimezoneByFacilityId('459GE')).to.equal('Pacific/Guam');
+      expect(getTimezoneByFacilityId('459GF')).to.equal('Pacific/Pago_Pago');
+      expect(getTimezoneByFacilityId('459GH')).to.equal('Pacific/Saipan');
+      expect(getTimezoneByFacilityId(672)).to.equal('America/Puerto_Rico');
+      expect(getTimezoneByFacilityId('672GA')).to.equal('America/St_Thomas');
+    });
+
+    it('should return null for an unknown id', () => {
+      expect(getTimezoneByFacilityId(null)).to.be.null;
+      expect(getTimezoneByFacilityId(undefined)).to.be.null;
     });
   });
 });

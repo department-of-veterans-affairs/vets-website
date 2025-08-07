@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -14,11 +14,10 @@ export default function App({ location, children }) {
   const externalServicesLoading = useSelector(
     state => state?.externalServiceStatus?.loading,
   );
-  const [isValidatingUrl, setIsValidatingUrl] = useState(true);
-
   const hasSession = JSON.parse(localStorage.getItem('hasSession'));
-
   const isIntroPage = location?.pathname?.endsWith('/introduction');
+  const { pathname } = location || {};
+  const pageUrl = pathname?.slice(1);
 
   const breadcrumbs = [
     {
@@ -32,7 +31,10 @@ export default function App({ location, children }) {
     {
       href:
         '/view-change-dependents/verify-dependents-form-21-0538/introduction',
-      label: 'Verify your dependents for disability benefits',
+      label:
+        pageUrl === 'exit-form'
+          ? 'Update your dependents in a different form'
+          : 'Verify your dependents for disability benefits',
     },
   ];
 
@@ -40,26 +42,20 @@ export default function App({ location, children }) {
 
   useEffect(
     () => {
-      if (!hasSession) {
+      if (!hasSession && !isIntroPage) {
         window.location.replace(`${manifest.rootUrl}/introduction`);
       }
     },
-    [hasSession],
+    [hasSession, isIntroPage],
   );
-
-  useEffect(() => {
-    if (!isIntroPage) {
-      window.location.replace(`${manifest.rootUrl}/introduction`);
-    } else {
-      setIsValidatingUrl(false);
-    }
-  }, []);
 
   let content;
 
   if (!featureToggle) {
     content = <NoFormPage />;
-  } else if (externalServicesLoading || !hasSession || isValidatingUrl) {
+  } else if (externalServicesLoading) {
+    content = <va-loading-indicator message="Loading your information..." />;
+  } else if (!hasSession && !isIntroPage) {
     content = <va-loading-indicator message="Loading your information..." />;
   } else {
     content = (
@@ -70,7 +66,7 @@ export default function App({ location, children }) {
   }
 
   return (
-    <article>
+    <article id="form-0538" data-location={pageUrl}>
       <div className="row">
         <div className="columns">
           <va-breadcrumbs breadcrumb-list={rawBreadcrumbs} wrapping />
