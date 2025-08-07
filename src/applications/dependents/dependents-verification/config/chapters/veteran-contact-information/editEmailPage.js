@@ -30,6 +30,7 @@ export default {
       'ui:webComponentField': VaCheckboxField,
       'ui:options': {
         classNames: 'custom-width',
+        hideOnReview: true,
       },
     },
   },
