@@ -7,6 +7,7 @@ import {
   VaSidenavSubmenu,
 } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { useHistory, useLocation } from 'react-router-dom';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import recordEvent from 'platform/monitoring/record-event';
 import { selectIsBlocked } from '../selectors';
 import { PROFILE_PATH_NAMES } from '../constants';
@@ -15,6 +16,10 @@ function ProfileSubNavItems({ routes, isLOA3, isInMVI, clickHandler = null }) {
   const history = useHistory();
   const { pathname } = useLocation();
   const isBlocked = useSelector(selectIsBlocked); // incompetent, fiduciary flag, deceased
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const showPaperlessDelivery = useToggleValue(
+    TOGGLE_NAMES.profileShowPaperlessDelivery,
+  );
 
   // Filter out the routes the user cannot access due to
   // not being in MVI/MPI, not having a high enough LOA,
@@ -29,18 +34,25 @@ function ProfileSubNavItems({ routes, isLOA3, isInMVI, clickHandler = null }) {
     return !(route.requiresMVI && !isInMVI);
   });
 
-  const notificationSettingsIndex = filteredRoutes.findIndex(
-    r => r.name === PROFILE_PATH_NAMES.NOTIFICATION_SETTINGS,
-  );
-  const paperlessDeliveryIndex = filteredRoutes.findIndex(
-    r => r.name === PROFILE_PATH_NAMES.PAPERLESS_DELIVERY,
-  );
-  const beforeRoutes = filteredRoutes.slice(0, notificationSettingsIndex);
-  const nestedRoutes = filteredRoutes.slice(
-    notificationSettingsIndex,
-    paperlessDeliveryIndex + 1,
-  );
-  const afterRoutes = filteredRoutes.slice(paperlessDeliveryIndex + 1);
+  let notificationSettingsIndex;
+  let paperlessDeliveryIndex;
+  let beforeRoutes;
+  let nestedRoutes;
+  let afterRoutes;
+  if (showPaperlessDelivery) {
+    notificationSettingsIndex = filteredRoutes.findIndex(
+      r => r.name === PROFILE_PATH_NAMES.NOTIFICATION_SETTINGS,
+    );
+    paperlessDeliveryIndex = filteredRoutes.findIndex(
+      r => r.name === PROFILE_PATH_NAMES.PAPERLESS_DELIVERY,
+    );
+    beforeRoutes = filteredRoutes.slice(0, notificationSettingsIndex);
+    nestedRoutes = filteredRoutes.slice(
+      notificationSettingsIndex,
+      paperlessDeliveryIndex + 1,
+    );
+    afterRoutes = filteredRoutes.slice(paperlessDeliveryIndex + 1);
+  }
 
   const recordNavUserEvent = e => {
     recordEvent({
@@ -56,40 +68,61 @@ function ProfileSubNavItems({ routes, isLOA3, isInMVI, clickHandler = null }) {
   const isActive = path => (pathname === path ? true : undefined);
   const hasSubmenu = !!nestedRoutes?.length;
 
+  if (showPaperlessDelivery) {
+    return (
+      <VaSidenav
+        header="Profile"
+        icon-background-color="vads-color-primary"
+        icon-name="account_circle"
+      >
+        {beforeRoutes.map(route => (
+          <VaSidenavItem
+            currentPage={isActive(route.path)}
+            key={route.name}
+            href={route.path}
+            label={route.name}
+            routerLink="true"
+            onVaRouteChange={recordNavUserEvent}
+          />
+        ))}
+        {hasSubmenu && (
+          <VaSidenavSubmenu
+            key="Communication settings"
+            label="Communication settings"
+          >
+            {nestedRoutes.map(route => (
+              <VaSidenavItem
+                currentPage={isActive(route.path)}
+                key={route.name}
+                href={route.path}
+                label={route.name}
+                routerLink="true"
+                onVaRouteChange={recordNavUserEvent}
+              />
+            ))}
+          </VaSidenavSubmenu>
+        )}
+        {afterRoutes.map(route => (
+          <VaSidenavItem
+            currentPage={isActive(route.path)}
+            key={route.name}
+            href={route.path}
+            label={route.name}
+            routerLink="true"
+            onVaRouteChange={recordNavUserEvent}
+          />
+        ))}
+      </VaSidenav>
+    );
+  }
+
   return (
     <VaSidenav
       header="Profile"
       icon-background-color="vads-color-primary"
       icon-name="account_circle"
     >
-      {beforeRoutes.map(route => (
-        <VaSidenavItem
-          currentPage={isActive(route.path)}
-          key={route.name}
-          href={route.path}
-          label={route.name}
-          routerLink="true"
-          onVaRouteChange={recordNavUserEvent}
-        />
-      ))}
-      {hasSubmenu && (
-        <VaSidenavSubmenu
-          key="Communication settings"
-          label="Communication settings"
-        >
-          {nestedRoutes.map(route => (
-            <VaSidenavItem
-              currentPage={isActive(route.path)}
-              key={route.name}
-              href={route.path}
-              label={route.name}
-              routerLink="true"
-              onVaRouteChange={recordNavUserEvent}
-            />
-          ))}
-        </VaSidenavSubmenu>
-      )}
-      {afterRoutes.map(route => (
+      {filteredRoutes.map(route => (
         <VaSidenavItem
           currentPage={isActive(route.path)}
           key={route.name}
