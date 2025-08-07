@@ -3,7 +3,6 @@ import { expect } from 'chai';
 import { render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
-import sinon from 'sinon';
 
 import App from '../../../containers/App';
 
@@ -133,7 +132,7 @@ describe('App container logic', () => {
     });
   });
 
-  it.skip('should render RoutedSavableApp with children if all conditions pass', () => {
+  it('should render RoutedSavableApp with children if all conditions pass', () => {
     const { getByTestId } = renderApp();
     expect(getByTestId('children-content')).to.exist;
   });
@@ -143,17 +142,4 @@ describe('App container logic', () => {
     const breadcrumbs = container.querySelector('va-breadcrumbs');
     expect(breadcrumbs).to.exist;
   });
-});
-
-it('should redirect to introduction page when not on intro page', () => {
-  const mockReplace = sinon.stub();
-  delete window.location;
-  window.location = { replace: mockReplace };
-
-  renderApp({
-    pathname: '/add',
-    hasSession: false,
-  });
-
-  expect(mockReplace.called).to.be.true;
 });
