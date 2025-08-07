@@ -5,6 +5,7 @@
 export default {
   arcgis: 'arcgis',
   appeals: 'appeals',
+  askva: 'askva',
   // Benefits Gateway Services
   bgs: 'bgs',
   // CARMA (Caregiver Record Management Application)
