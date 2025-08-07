@@ -121,20 +121,33 @@ describe('App container logic', () => {
     );
   });
 
-  it('should redirect', async () => {
-    const { container } = renderApp({
+  it('should show loading indicator when not on intro page', async () => {
+    const { container, queryByTestId } = renderApp({
       pathname: '/add',
-      hasSession: false,
+      hasSession: true,
     });
 
     await waitFor(() => {
       const loadingIndicator = container.querySelector('va-loading-indicator');
       expect(loadingIndicator).to.not.be.null;
     });
+
+    expect(queryByTestId('children-content')).to.be.null;
   });
 
-  it.skip('should render RoutedSavableApp with children if all conditions pass', () => {
-    const { getByTestId } = renderApp();
+  it('should render RoutedSavableApp with children when on intro page (with session)', () => {
+    const { getByTestId } = renderApp({
+      pathname: '/introduction',
+      hasSession: true,
+    });
+    expect(getByTestId('children-content')).to.exist;
+  });
+
+  it('should render RoutedSavableApp with children when on intro page (without session)', () => {
+    const { getByTestId } = renderApp({
+      pathname: '/introduction',
+      hasSession: false,
+    });
     expect(getByTestId('children-content')).to.exist;
   });
 
@@ -143,17 +156,58 @@ describe('App container logic', () => {
     const breadcrumbs = container.querySelector('va-breadcrumbs');
     expect(breadcrumbs).to.exist;
   });
-});
 
-it('should redirect to introduction page when not on intro page', () => {
-  const mockReplace = sinon.stub();
-  delete window.location;
-  window.location = { replace: mockReplace };
+  it('should redirect to introduction page when not on intro page (with session)', () => {
+    const mockReplace = sinon.stub();
+    delete window.location;
+    window.location = { replace: mockReplace };
 
-  renderApp({
-    pathname: '/add',
-    hasSession: false,
+    renderApp({
+      pathname: '/some-other-page',
+      hasSession: true,
+    });
+
+    expect(mockReplace.calledOnce).to.be.true;
+    expect(mockReplace.firstCall.args[0]).to.include('/introduction');
   });
 
-  expect(mockReplace.called).to.be.true;
+  it('should redirect to introduction page when not on intro page (without session)', () => {
+    const mockReplace = sinon.stub();
+    delete window.location;
+    window.location = { replace: mockReplace };
+
+    renderApp({
+      pathname: '/add',
+      hasSession: false,
+    });
+
+    expect(mockReplace.calledOnce).to.be.true;
+    expect(mockReplace.firstCall.args[0]).to.include('/introduction');
+  });
+
+  it('should not redirect when on intro page (with session)', () => {
+    const mockReplace = sinon.stub();
+    delete window.location;
+    window.location = { replace: mockReplace };
+
+    renderApp({
+      pathname: '/introduction',
+      hasSession: true,
+    });
+
+    expect(mockReplace.called).to.be.false;
+  });
+
+  it('should not redirect when on intro page (without session)', () => {
+    const mockReplace = sinon.stub();
+    delete window.location;
+    window.location = { replace: mockReplace };
+
+    renderApp({
+      pathname: '/introduction',
+      hasSession: false,
+    });
+
+    expect(mockReplace.called).to.be.false;
+  });
 });
