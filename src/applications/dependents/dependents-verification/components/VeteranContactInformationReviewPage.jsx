@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { openReviewChapter } from 'platform/forms-system/src/js/actions';
+import { scrollTo } from 'platform/utilities/scroll';
 
 const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
   const dispatch = useDispatch();
@@ -45,7 +46,7 @@ const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
           if (vaBtn?.shadowRoot) {
             const realBtn = vaBtn.shadowRoot.querySelector('button');
             if (realBtn) {
-              realBtn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              scrollTo(realBtn, { offset: -20 });
               realBtn.focus();
             }
           }
