@@ -30,7 +30,7 @@ export const OfficialGovtWebsite = () => {
           aria-expanded={expanded ? 'true' : 'false'}
           className="expand-official-govt-explanation va-button-link vads-u-text-decoration--none vads-u-display--flex vads-u-align-items--center"
           onClick={onToggle}
-          >
+        >
           An official website of the United States government.
           {/* down caret icon */}
           {/* Convert to va-icon when injected header/footer split is in prod: https://github.com/department-of-veterans-affairs/vets-website/pull/27590 */}
