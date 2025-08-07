@@ -290,8 +290,8 @@ describe('when moving to other profile pages', () => {
     // Open edit view
     cy.get(`va-button[label="Edit ${sectionName}"]`).click({ force: true });
 
-    cy.get('va-subnav-item[label="Military information"]').click();
-    cy.get('va-subnav-item[label="Contact information"]').click();
+    cy.get('va-sidenav-item[label="Military information"]').click();
+    cy.get('va-sidenav-item[label="Contact information"]').click();
     cy.get(`va-button[label="Edit ${sectionName}"]`).should('exist');
 
     cy.axeCheck();

@@ -16,7 +16,7 @@ export function subNavOnlyContainsAccountSecurity(mobile) {
     cy.findByRole('button', { name: /profile menu/i }).click();
   }
   cy.get(
-    `va-subnav-item[label="${PROFILE_PATH_NAMES.ACCOUNT_SECURITY}"]`,
+    `va-sidenav-item[label="${PROFILE_PATH_NAMES.ACCOUNT_SECURITY}"]`,
   ).should('exist');
 }
 
