@@ -335,4 +335,63 @@ describe('actions', () => {
       expect(result).to.be.false;
     });
   });
+
+  describe('GI Bill Benefits - GIB', () => {
+    it('should return true with correct criteria', () => {
+      const benefit = getBenefitById('GIB');
+      const formData = {
+        [mappingTypes.GOALS]: {
+          [goalTypes.UNDERSTAND]: true,
+          [goalTypes.SCHOOL]: true,
+        },
+        [mappingTypes.CHARACTER_OF_DISCHARGE]:
+          characterOfDischargeTypes.HONORABLE,
+      };
+      const result = actions.mapBenefitFromFormInputData(benefit, formData);
+      expect(result).to.be.true;
+    });
+
+    it('should return false with bad conduct discharge', () => {
+      const benefit = getBenefitById('GIB');
+      const formData = {
+        [mappingTypes.GOALS]: {
+          [goalTypes.UNDERSTAND]: true,
+          [goalTypes.SCHOOL]: true,
+        },
+        [mappingTypes.CHARACTER_OF_DISCHARGE]:
+          characterOfDischargeTypes.BAD_CONDUCT,
+      };
+      const result = actions.mapBenefitFromFormInputData(benefit, formData);
+      expect(result).to.be.false;
+    });
+
+    it('should return false with incorrect goals', () => {
+      const benefit = getBenefitById('GIB');
+      const formData = {
+        [mappingTypes.GOALS]: {
+          [goalTypes.CAREER]: true,
+          [goalTypes.FINANCIAL]: true,
+          [goalTypes.HEALTH]: true,
+          [goalTypes.PLAN]: true,
+          [goalTypes.RETIREMENT]: true,
+        },
+        [mappingTypes.CHARACTER_OF_DISCHARGE]:
+          characterOfDischargeTypes.HONORABLE,
+      };
+      const result = actions.mapBenefitFromFormInputData(benefit, formData);
+      expect(result).to.be.false;
+    });
+  });
 });
+
+/**
+ * GIB
+ * SBP
+ * FHV
+ * SVC
+ * TAP
+ * VRE
+ * VSC
+ * DHS
+ * VAP
+ */
