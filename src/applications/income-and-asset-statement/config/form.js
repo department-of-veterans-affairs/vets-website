@@ -2,6 +2,7 @@
 import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
+import set from 'platform/utilities/data/set';
 import PreSubmitInfo from '../containers/PreSubmitInfo';
 
 import manifest from '../manifest.json';
@@ -48,7 +49,23 @@ const formConfig = {
     //   saved: 'Your benefits application has been saved.',
     // },
   },
-  version: 0,
+  version: 1,
+  migrations: [
+    ({ formData, metadata }) => {
+      const url = metadata.returnUrl || metadata.return_url;
+      let newMetadata = metadata;
+
+      if (url === '/income-and-asset-statement-form-21p-0969') {
+        newMetadata = set(
+          'returnUrl',
+          '/supporting-forms-for-claims/income-and-asset-statement-form-21p-0969',
+          metadata,
+        );
+      }
+
+      return { formData, metadata: newMetadata };
+    },
+  ],
   prefillEnabled: true,
   prefillTransformer,
   dev: {
