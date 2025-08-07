@@ -39,7 +39,9 @@ describe('Accredited representative', () => {
   it('links from the nav', () => {
     cy.login(loa3User72);
     cy.visit(PROFILE_PATHS.ACCREDITED_REPRESENTATIVE);
-    cy.get('a[href$="/profile/accredited-representative"]').should('exist');
+    cy.get('va-subnav-item[href="/profile/accredited-representative"]').should(
+      'exist',
+    );
     cy.injectAxeThenAxeCheck();
   });
 });
