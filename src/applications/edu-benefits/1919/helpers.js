@@ -82,7 +82,7 @@ export const proprietaryProfitConflictsArrayOptions = {
       <>
         {item?.title}
         <div className=" vads-u-margin-y--2">
-          {item?.individualAssociationType === 'vaEmployee'
+          {item?.individualAssociationType === 'va'
             ? 'VA employee'
             : 'SAA employee'}
         </div>
@@ -237,4 +237,10 @@ export const getTitle = role => {
   }
 
   return title;
+};
+
+export const dateSigned = () => {
+  const date = new Date();
+  date.setDate(date.getDate());
+  return date.toISOString().split('T')[0];
 };

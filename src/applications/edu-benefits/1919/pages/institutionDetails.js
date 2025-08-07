@@ -2,6 +2,7 @@ import {
   textSchema,
   textUI,
   titleUI,
+  addressSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import InstitutionName from '../components/InstitutionName';
 import InstitutionAddress from '../components/InstitutionAddress';
@@ -59,9 +60,7 @@ const schema = {
         institutionName: {
           type: 'string',
         },
-        institutionAddress: {
-          type: 'string',
-        },
+        institutionAddress: addressSchema({ omit: ['isMilitary'] }),
       },
     },
   },

@@ -134,12 +134,12 @@ describe('22-1919 Edu form', () => {
     cy.realPress('Tab');
     cy.allyEvaluateRadioButtons(
       [
-        'input#root_individualAssociationTypevaEmployeeinput',
-        'input#root_individualAssociationTypesaaEmployeeinput',
+        'input#root_individualAssociationTypevainput',
+        'input#root_individualAssociationTypesaainput',
       ],
       'ArrowDown',
     );
-    cy.chooseRadio('vaEmployee');
+    cy.chooseRadio('va');
     cy.tabToContinueForm();
 
     // Affliated Individuals summary page
@@ -222,7 +222,7 @@ describe('22-1919 Edu form', () => {
         .conflictOfInterestSummary.path,
     );
     cy.injectAxeThenAxeCheck();
-    cy.realPress('Tab');
+    cy.repeatKey('Tab', 3);
     cy.allyEvaluateRadioButtons(
       [
         'input#root_allProprietaryConflictOfInterestYesinput',
@@ -246,7 +246,7 @@ describe('22-1919 Edu form', () => {
     // Review and sumbit page
     cy.url().should('include', 'review-and-submit');
     cy.injectAxeThenAxeCheck();
-    cy.tabToElement('va-link[text="privacy policy"]').click();
+    cy.tabToElement('va-link[text="privacy policy."]').click();
     cy.realPress('Enter');
     // Certification Statement
     cy.tabToElement('input[name="veteran-signature"]');
