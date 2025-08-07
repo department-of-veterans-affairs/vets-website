@@ -382,6 +382,54 @@ describe('actions', () => {
       expect(result).to.be.false;
     });
   });
+
+  describe('DOD SkillBridge program - SBP', () => {
+    it('should return true with correct criteria', () => {
+      const benefit = getBenefitById('SBP');
+      const formData = {
+        [mappingTypes.GOALS]: {
+          [goalTypes.UNDERSTAND]: true,
+          [goalTypes.RETIREMENT]: true,
+          [goalTypes.CAREER]: true,
+        },
+        [mappingTypes.CHARACTER_OF_DISCHARGE]:
+          characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
+      };
+      const result = actions.mapBenefitFromFormInputData(benefit, formData);
+      expect(result).to.be.true;
+    });
+
+    it('should return false with bad conduct discharge', () => {
+      const benefit = getBenefitById('SBP');
+      const formData = {
+        [mappingTypes.GOALS]: {
+          [goalTypes.UNDERSTAND]: true,
+          [goalTypes.RETIREMENT]: true,
+          [goalTypes.CAREER]: true,
+        },
+        [mappingTypes.CHARACTER_OF_DISCHARGE]:
+          characterOfDischargeTypes.BAD_CONDUCT,
+      };
+      const result = actions.mapBenefitFromFormInputData(benefit, formData);
+      expect(result).to.be.false;
+    });
+
+    it('should return false with incorrect goals', () => {
+      const benefit = getBenefitById('SBP');
+      const formData = {
+        [mappingTypes.GOALS]: {
+          [goalTypes.FINANCIAL]: true,
+          [goalTypes.HEALTH]: true,
+          [goalTypes.PLAN]: true,
+          [goalTypes.SCHOOL]: true,
+        },
+        [mappingTypes.CHARACTER_OF_DISCHARGE]:
+          characterOfDischargeTypes.HONORABLE,
+      };
+      const result = actions.mapBenefitFromFormInputData(benefit, formData);
+      expect(result).to.be.false;
+    });
+  });
 });
 
 /**
