@@ -80,12 +80,18 @@ export default function DowntimeMessage(props) {
             <p>{descriptionBody}</p>
           ) : (
             <p>
-              We’re doing work on the VA appointments tool on{' '}
-              {format(startTime, 'MMMM do')} between {format(startTime, 'p')}{' '}
-              and {format(endTime, 'p')}. If you need to request or confirm an
-              appointment during this time, please call your local VA medical
-              center. Use the <a href="/find-locations">VA facility locator</a>{' '}
-              to find contact information for your medical center.
+              We’re doing work on the VA appointments tool between{' '}
+              {`${format(startTime, "EEEE, MMMM do 'at' h:mm aaaa")} ${stripDST(
+                getUserTimezoneAbbr(),
+              )}`}{' '}
+              and{' '}
+              {`${format(endTime, "EEEE, MMMM do 'at' h:mm aaaa")} ${stripDST(
+                getUserTimezoneAbbr(),
+              )}`}
+              . If you need to request or confirm an appointment during this
+              time, please call your local VA medical center. Use the{' '}
+              <a href="/find-locations">VA facility locator</a> to find contact
+              information for your medical center.
             </p>
           )}
         </VaModal>
