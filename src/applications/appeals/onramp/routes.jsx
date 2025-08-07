@@ -7,11 +7,11 @@ const routes = {
   path: '/',
   component: App,
   indexRoute: {
-    onEnter: (nextState, replace) => replace(`/${ROUTES.HOME}`),
+    onEnter: (nextState, replace) => replace(`/${ROUTES.INTRODUCTION}`),
     component: HomePage,
   },
   childRoutes: [
-    { path: ROUTES.HOME, component: HomePage },
+    { path: ROUTES.INTRODUCTION, component: HomePage },
     { path: ROUTES.Q_1_1_CLAIM_DECISION, component: QuestionTemplate },
     { path: ROUTES.Q_1_1A_SUBMITTED_526, component: QuestionTemplate },
     { path: ROUTES.Q_1_2_CLAIM_DECISION, component: QuestionTemplate },

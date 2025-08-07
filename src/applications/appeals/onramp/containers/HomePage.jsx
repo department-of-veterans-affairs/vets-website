@@ -17,7 +17,9 @@ const HomePage = ({ router, setIntroPageViewed }) => {
 
   return (
     <>
-      <h1 className="vads-u-margin-bottom--1">{QUESTION_CONTENT.HOME.h1}</h1>
+      <h1 className="vads-u-margin-bottom--1">
+        {QUESTION_CONTENT.INTRODUCTION.h1}
+      </h1>
       <h2 className="vads-u-margin-y--0 vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--h3">
         Learn about what Decision Review option may be right for you.
       </h2>
