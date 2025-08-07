@@ -25,6 +25,9 @@ const formConfig = {
     collapsibleNavLinks: true,
   },
   formId: VA_FORM_IDS.FORM_27_8832,
+  formOptions: {
+    useWebComponentForNavigation: true,
+  },
   saveInProgress: {
     messages: {
       inProgress:
