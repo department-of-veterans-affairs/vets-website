@@ -54,6 +54,7 @@ function ProfileSubNavItems({ routes, isLOA3, isInMVI, clickHandler = null }) {
   };
 
   const isActive = path => (pathname === path ? true : undefined);
+  const hasSubmenu = !!nestedRoutes?.length;
 
   return (
     <VaSidenav
@@ -71,21 +72,23 @@ function ProfileSubNavItems({ routes, isLOA3, isInMVI, clickHandler = null }) {
           onVaRouteChange={recordNavUserEvent}
         />
       ))}
-      <VaSidenavSubmenu
-        key="Communication settings"
-        label="Communication settings"
-      >
-        {nestedRoutes.map(route => (
-          <VaSidenavItem
-            currentPage={isActive(route.path)}
-            key={route.name}
-            href={route.path}
-            label={route.name}
-            routerLink="true"
-            onVaRouteChange={recordNavUserEvent}
-          />
-        ))}
-      </VaSidenavSubmenu>
+      {hasSubmenu && (
+        <VaSidenavSubmenu
+          key="Communication settings"
+          label="Communication settings"
+        >
+          {nestedRoutes.map(route => (
+            <VaSidenavItem
+              currentPage={isActive(route.path)}
+              key={route.name}
+              href={route.path}
+              label={route.name}
+              routerLink="true"
+              onVaRouteChange={recordNavUserEvent}
+            />
+          ))}
+        </VaSidenavSubmenu>
+      )}
       {afterRoutes.map(route => (
         <VaSidenavItem
           currentPage={isActive(route.path)}
