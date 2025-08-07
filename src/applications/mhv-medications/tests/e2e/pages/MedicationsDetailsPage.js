@@ -867,7 +867,7 @@ class MedicationsDetailsPage {
   };
 
   verifyDocumentedByFullNameOnNonVAMedicationDetailsPage = FullName => {
-    cy.get('[data-testid="documented-by"]').should('have.text', FullName);
+    cy.get('[data-testid="rx-documented-by"]').should('have.text', FullName);
   };
 
   verifyResponseForRecordNotFoundForStandardizeErrorMessage = () => {

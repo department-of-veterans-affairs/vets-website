@@ -1,7 +1,8 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   saveCommunicationPreferenceChannel,
   selectChannelById,
@@ -10,6 +11,7 @@ import {
 import CommunicationChannelModel from '@@profile/models/CommunicationChannel';
 import recordEvent from '~/platform/monitoring/record-event';
 import { LOADING_STATES } from '../../../common/constants';
+import { LoadingButton } from './LoadingButton';
 import { CheckboxAlert } from './CheckboxAlert';
 
 export const Document = ({ document }) => {
@@ -38,6 +40,10 @@ export const Document = ({ document }) => {
     ? parseInt(parentItem.replace(/\D+/g, ''), 10)
     : null;
 
+  const checkboxClassName = classNames('vads-u-margin-bottom--0', {
+    'vads-u-display--none': loading,
+  });
+
   const handleChange = e => {
     const newValue = e.target.checked;
     if (newValue === isAllowed) {
@@ -58,18 +64,16 @@ export const Document = ({ document }) => {
     };
     recordEvent(eventPayload);
     dispatch(
-      saveCommunicationPreferenceChannel(
-        item.channels[0],
-        model.getApiCallObject(),
-      ),
+      saveCommunicationPreferenceChannel(channel, model.getApiCallObject()),
     );
   };
 
   return (
     <>
       <CheckboxAlert error={error} success={success} />
+      {loading && <LoadingButton />}
       <VaCheckbox
-        className="vads-u-margin-bottom--0"
+        className={checkboxClassName}
         checked={checked}
         disabled={loading}
         id={`paperless-checkbox-${item.name}`}

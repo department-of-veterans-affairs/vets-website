@@ -133,13 +133,21 @@ function VAFacilityPage({
   if (loadingFacilities || (singleValidVALocation && loadingClinics)) {
     return (
       <div>
-        <va-loading-indicator message="Finding locations" />
+        <va-loading-indicator
+          set-focus
+          message="Finding locations"
+          label="Finding locations"
+        />
       </div>
     );
   }
   if (loadingClinics) {
     return (
       <va-loading-indicator
+        set-focus
+        label="We’re checking if we can create an appointment for you at this
+                facility. This may take up to a minute. Thank you for your
+                patience."
         message="We’re checking if we can create an appointment for you at this
                 facility. This may take up to a minute. Thank you for your
                 patience."
@@ -232,18 +240,16 @@ function VAFacilityPage({
             {requestLocationStatus !== FETCH_STATUS.failed && (
               <p>
                 Or,{' '}
-                <button
-                  type="button"
+                <va-button
                   className="va-button-link"
+                  text="use your current location"
                   onClick={() => {
                     updateFacilitySortMethod(
                       FACILITY_SORT_METHODS.distanceFromCurrentLocation,
                       uiSchema,
                     );
                   }}
-                >
-                  use your current location
-                </button>
+                />
               </p>
             )}
           </>
@@ -256,18 +262,16 @@ function VAFacilityPage({
             </h2>
             <p>
               Or,{' '}
-              <button
-                type="button"
+              <va-button
                 className="va-button-link"
+                text="use your home address on file"
                 onClick={() => {
                   updateFacilitySortMethod(
                     FACILITY_SORT_METHODS.distanceFromResidential,
                     uiSchema,
                   );
                 }}
-              >
-                use your home address on file
-              </button>
+              />
             </p>
           </>
         )}
@@ -287,7 +291,11 @@ function VAFacilityPage({
       )}
       {requestingLocation && (
         <div className="vads-u-padding-bottom--2">
-          <va-loading-indicator message="Finding your location. Be sure to allow your browser to find your current location." />
+          <va-loading-indicator
+            set-focus
+            label="Finding your location. Be sure to allow your browser to find your current location."
+            message="Finding your location. Be sure to allow your browser to find your current location."
+          />
         </div>
       )}
       {facilitiesStatus === FETCH_STATUS.succeeded &&

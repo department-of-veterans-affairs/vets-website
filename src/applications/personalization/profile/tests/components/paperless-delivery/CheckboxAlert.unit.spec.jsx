@@ -8,7 +8,7 @@ describe('CheckboxAlert', () => {
     cleanup();
   });
 
-  it('should not render', () => {
+  it('should not render alert when neither success nor error is provided', () => {
     const { container } = render(<CheckboxAlert />);
     const alert = container.querySelector('va-alert');
     expect(alert).to.not.exist;
