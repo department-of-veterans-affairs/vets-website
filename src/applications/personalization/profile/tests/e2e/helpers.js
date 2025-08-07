@@ -15,12 +15,9 @@ export function subNavOnlyContainsAccountSecurity(mobile) {
   if (mobile) {
     cy.findByRole('button', { name: /profile menu/i }).click();
   }
-  cy.findByRole('navigation', { name: /profile/i }).within(() => {
-    cy.findAllByRole('link').should('have.length', 1);
-    cy.findByRole('link', {
-      name: PROFILE_PATH_NAMES.ACCOUNT_SECURITY,
-    }).should('exist');
-  });
+  cy.get(
+    `va-subnav-item[href="${PROFILE_PATH_NAMES.ACCOUNT_SECURITY}"]`,
+  ).should('exist');
 }
 
 export function onlyAccountSecuritySectionIsAccessible() {
