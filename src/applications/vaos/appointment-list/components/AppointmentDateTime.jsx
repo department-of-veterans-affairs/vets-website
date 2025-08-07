@@ -21,7 +21,11 @@ AppointmentDate.propTypes = {
   timezone: PropTypes.string,
 };
 
-export function AppointmentTime({ appointment, timezone, format = 'h:mm a' }) {
+export function AppointmentTime({
+  appointment,
+  timezone,
+  format = 'h:mm aaaa',
+}) {
   if (!appointment) return null;
 
   const { abbreviation, description } = getAppointmentTimezone(appointment);
