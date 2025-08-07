@@ -1,7 +1,7 @@
-// Except for HOME and results pages, left side must match
+// Except for INTRODUCTION and results pages, left side must match
 // short name codes in constants/question-data-map
 export const ROUTES = Object.freeze({
-  HOME: 'introduction',
+  INTRODUCTION: 'introduction',
   Q_1_1_CLAIM_DECISION: 'claim-decision-1-1',
   Q_1_1A_SUBMITTED_526: 'submitted-526-1-1a',
   Q_1_2_CLAIM_DECISION: 'claim-decision-1-2',

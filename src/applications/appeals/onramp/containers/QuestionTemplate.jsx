@@ -6,16 +6,19 @@ import { ROUTES } from '../constants';
 
 const QuestionTemplate = props => {
   const route = props?.location?.pathname.replace('/', '');
-  const shortName =
+  const SHORT_NAME =
     Object.keys(ROUTES).find(key => ROUTES[key] === route) || '';
 
-  return <RadioQuestion shortName={shortName} />;
+  return <RadioQuestion router={props.router} shortName={SHORT_NAME} />;
 };
 
 QuestionTemplate.propTypes = {
   location: PropTypes.shape({
     pathname: PropTypes.string,
-  }),
+  }).isRequired,
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
 };
 
 export default connect()(QuestionTemplate);
