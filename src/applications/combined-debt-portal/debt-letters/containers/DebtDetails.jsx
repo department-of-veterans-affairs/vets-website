@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import last from 'lodash/last';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { head } from 'lodash';
 import HowDoIPay from '../components/HowDoIPay';
 import NeedHelp from '../components/NeedHelp';
@@ -33,12 +34,6 @@ const DebtDetails = () => {
 
   const whyContent = renderWhyMightIHaveThisDebt(currentDebt.deductionCode);
   const dateUpdated = last(currentDebt.debtHistory)?.date;
-  const firstPaymentDate = last(currentDebt.fiscalTransactionData)
-    ?.transactionDate;
-
-  const dueDate = new Date(firstPaymentDate);
-  const addedDaysForDueDate = 60;
-  dueDate.setDate(dueDate.getDate() + addedDaysForDueDate);
 
   const filteredHistory = currentDebt.debtHistory
     ?.filter(history => approvedLetterCodes.includes(history.letterCode))
@@ -69,12 +64,6 @@ const DebtDetails = () => {
     return mostRecentDate;
   };
 
-  // sum all of the offsetAmounts from the fiscalTransactionData
-  const totalOffsetAmount = currentDebt?.fiscalTransactionData?.reduce(
-    (acc, transaction) => acc + parseFloat(transaction.offsetAmount || 0),
-    0,
-  );
-
   useEffect(() => {
     setPageFocus('h1');
   }, []);
@@ -83,7 +72,7 @@ const DebtDetails = () => {
     showPaymentHistory(state),
   );
 
-  const shouldShowOneThingPerPage = useSelector(state =>
+  const oneThingPerPageActive = useSelector(state =>
     showOneThingPerPage(state),
   );
 
@@ -136,83 +125,75 @@ const DebtDetails = () => {
             .
           </p>
         )}
-        <DebtDetailsCard
-          debt={currentDebt}
-          showOTPP={shouldShowOneThingPerPage}
-        />
-        {whyContent && (
-          <va-additional-info
-            trigger="Why might I have this debt?"
-            class="vads-u-margin-y--2"
-          >
-            {whyContent}
-          </va-additional-info>
-        )}
-
-        {!shouldShowOneThingPerPage ? <va-on-this-page /> : null}
-        {shouldShowPaymentHistory &&
-          !shouldShowOneThingPerPage && (
-            <div>
-              <h2 id="debtDetailsHeader" className="vads-u-margin-y--2">
-                Debt details
-              </h2>
-              <div className="mobile-lg:vads-u-display--flex small-screen:vads-u-justify-content--space-between medium-screen:vads-u-max-width--90">
-                <div>
-                  <h3 className="vads-u-margin-y--0">
-                    <span className="vads-u-display--block vads-u-font-size--base vads-u-font-weight--normal">
-                      Current balance as of{' '}
-                      {formatDate(
-                        getLatestPaymentDateFromCurrentDebt(currentDebt),
-                      )}
-                    </span>
-                    <span className="vads-u-margin-y--0 medium-screen:vads-u-font-size--h3">
-                      {formatCurrency(currentDebt.currentAr)}
-                    </span>
-                  </h3>
-                </div>
-                <div className="debt-balance-details mobile-lg:vads-u-margin-top--0">
-                  <h3 className="vads-u-margin-y--0">
-                    <span className="vads-u-display--block vads-u-font-size--base vads-u-font-weight--normal">
-                      Original overpayment amount
-                    </span>
-                    <span className="vads-u-margin-y--0 medium-screen:vads-u-font-size--h3">
-                      {formatCurrency(currentDebt.originalAr)}
-                    </span>
-                  </h3>
-                </div>
-              </div>
-              <PaymentHistoryTable currentDebt={currentDebt} />
-            </div>
-          )}
-        {shouldShowOneThingPerPage && (
+        <DebtDetailsCard debt={currentDebt} showOTPP={oneThingPerPageActive} />
+        {oneThingPerPageActive ? (
+          <va-accordion open-single>
+            <va-accordion-item header="Why might I have this debt?" id="first">
+              {whyContent}
+            </va-accordion-item>
+          </va-accordion>
+        ) : (
           <>
+            <va-additional-info
+              trigger="Why might I have this debt?"
+              class="vads-u-margin-y--2"
+            >
+              {whyContent}
+            </va-additional-info>
+            <va-on-this-page />
+          </>
+        )}
+        {shouldShowPaymentHistory && (
+          <div>
             <h2 id="debtDetailsHeader" className="vads-u-margin-y--2">
               Debt details
             </h2>
-            <p>
-              <span className="vads-u-display--block vads-u-font-size--base vads-u-font-weight--normal">
-                Current balance:{' '}
-                <strong>{formatCurrency(currentDebt.currentAr)}</strong>
-              </span>
-              <span className="vads-u-display--block vads-u-font-size--base vads-u-font-weight--normal">
-                Original amount:{' '}
-                <strong>{formatCurrency(currentDebt.originalAr)}</strong>
-              </span>
-              <span className="vads-u-display--block vads-u-font-size--base vads-u-font-weight--normal">
-                Amount paid:{' '}
-                <strong>{formatCurrency(totalOffsetAmount)}</strong>
-              </span>
-              {/* HIDDEN UNTIL LIGHTHOUSE IMPLEMENTATION COMPLETE
-               <span className="vads-u-display--block vads-u-font-size--base vads-u-font-weight--normal">
-                Total Fees:{' '}
-                <strong>{formatCurrency(currentDebt.originalAr)}</strong>
-              </span> */}
-              <span className="vads-u-display--block vads-u-font-size--base vads-u-font-weight--normal">
-                Payment Due: <strong>{formatDate(dueDate)}</strong>
-              </span>
-            </p>
-          </>
+            <div className="mobile-lg:vads-u-display--flex small-screen:vads-u-justify-content--space-between medium-screen:vads-u-max-width--90">
+              <div>
+                <h3 className="vads-u-margin-y--0">
+                  <span className="vads-u-display--block vads-u-font-size--base vads-u-font-weight--normal">
+                    Current balance as of{' '}
+                    {formatDate(
+                      getLatestPaymentDateFromCurrentDebt(currentDebt),
+                    )}
+                  </span>
+                  <span className="vads-u-margin-y--0 medium-screen:vads-u-font-size--h3">
+                    {formatCurrency(currentDebt.currentAr)}
+                  </span>
+                </h3>
+              </div>
+              <div className="debt-balance-details mobile-lg:vads-u-margin-top--0">
+                <h3 className="vads-u-margin-y--0">
+                  <span className="vads-u-display--block vads-u-font-size--base vads-u-font-weight--normal">
+                    Original overpayment amount
+                  </span>
+                  <span className="vads-u-margin-y--0 medium-screen:vads-u-font-size--h3">
+                    {formatCurrency(currentDebt.originalAr)}
+                  </span>
+                </h3>
+              </div>
+            </div>
+            <PaymentHistoryTable currentDebt={currentDebt} />
+          </div>
         )}
+        {oneThingPerPageActive &&
+          !shouldShowPaymentHistory && (
+            <>
+              <h2 id="debtDetailsHeader" className="vads-u-margin-y--2">
+                Debt details
+              </h2>
+              <p>
+                <span className="vads-u-display--block vads-u-font-size--base vads-u-font-weight--normal">
+                  Current balance:{' '}
+                  <strong>{formatCurrency(currentDebt.currentAr)}</strong>
+                </span>
+                <span className="vads-u-display--block vads-u-font-size--base vads-u-font-weight--normal">
+                  Original amount:{' '}
+                  <strong>{formatCurrency(currentDebt.originalAr)}</strong>
+                </span>
+              </p>
+            </>
+          )}
         {hasFilteredHistory && (
           <>
             <h2
@@ -242,12 +223,27 @@ const DebtDetails = () => {
           </>
         )}
 
-        {shouldShowOneThingPerPage ? null : (
+        {oneThingPerPageActive ? (
+          <va-need-help id="needHelp">
+            <div slot="content">
+              <p>
+                If you have any questions about your benefit overpayment.
+                Contact us online through{' '}
+                <a href="https://ask.va.gov/">Ask VA</a> or call the Debt
+                Management Center at <va-telephone contact={CONTACTS.DMC} /> (
+                <va-telephone contact="711" tty="true" />
+                ). For international callers, use{' '}
+                <va-telephone contact={CONTACTS.DMC_OVERSEAS} international />.
+                We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
+              </p>
+            </div>
+          </va-need-help>
+        ) : (
           <>
             <HowDoIPay userData={howToUserData} />
             <NeedHelp
               showVHAPaymentHistory={false}
-              showOneThingPerPage={shouldShowOneThingPerPage}
+              showOneThingPerPage={oneThingPerPageActive}
             />
           </>
         )}
