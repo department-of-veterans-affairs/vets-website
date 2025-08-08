@@ -43,7 +43,7 @@ describe('SM CURATED LIST MAIN FLOW', () => {
     cy.findByTestId(`compose-recipient-title`).should(`not.be.empty`);
     cy.contains(Data.CURATED_LIST.SELECT_CARE_TEAM)
       .should(`be.visible`)
-      .and(`have.attr`, `href`, Data.LINKS.PILOT_SELECT_CARE_TEAM);
+      .and(`have.attr`, `href`, Data.LINKS.SELECT_CARE_TEAM);
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });

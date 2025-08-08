@@ -16,12 +16,12 @@ describe('SM PILOT NEW MESSAGE', () => {
     SecureMessagingSite.login(updatedFeatureToggles);
     PilotEnvPage.loadInboxMessages();
 
-    cy.visit(`${Paths.UI_PILOT}/new-message/select-care-team`);
+    cy.visit(`${Paths.UI_MAIN}/new-message/select-care-team`);
     GeneralFunctionsPage.verifyPageHeader(Data.HCS_SELECT);
 
     PatientComposePage.interceptSentFolder();
 
-    cy.visit(`${Paths.UI_PILOT}/new-message/start-message`);
+    cy.visit(`${Paths.UI_MAIN}/new-message/start-message`);
     GeneralFunctionsPage.verifyPageHeader('Start message');
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);

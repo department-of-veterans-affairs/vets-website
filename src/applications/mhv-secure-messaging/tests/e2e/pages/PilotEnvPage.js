@@ -206,11 +206,11 @@ class PilotEnvPage {
   verifySelectCareTeamPageInterface = () => {
     cy.get(`va-radio-option`).should('have.length', 4);
     cy.get(`.vads-u-margin-bottom--1 > a`)
-      .should(`have.attr`, `href`, Data.LINKS.PILOT_HOME)
+      .should(`have.attr`, `href`, Data.LINKS.HOME)
       .and('have.text', Data.CURATED_LIST.CANT_FIND_TEAM);
 
     cy.get(`.vads-u-margin-top--2 > a`)
-      .should(`have.attr`, `href`, Data.LINKS.PILOT_CONTACT_LIST)
+      .should(`have.attr`, `href`, Data.LINKS.CONTACT_LIST)
       .and('have.text', Data.CURATED_LIST.CONTACT_LIST_UPDATE);
   };
 
@@ -221,10 +221,13 @@ class PilotEnvPage {
   };
 
   selectTriageGroup = (index = 0) => {
-    cy.get('.usa-combo-box').click();
+    cy.get('.usa-combo-box')
+      .should('be.visible')
+      .click();
 
     cy.get(`.usa-combo-box__list > li`)
       .eq(index)
+      .should('be.visible')
       .click();
   };
 }

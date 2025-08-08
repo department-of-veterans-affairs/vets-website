@@ -442,10 +442,9 @@ export const Data = {
   },
   LINKS: {
     PROFILE_SIGNATURE: `/profile/personal-information#messaging-signature`,
-    PILOT_HOME: '/my-health/secure-messages-pilot/',
-    PILOT_CONTACT_LIST: '/my-health/secure-messages-pilot/contact-list/',
-    PILOT_SELECT_CARE_TEAM:
-      '/my-health/secure-messages-pilot/new-message/select-care-team',
+    HOME: '/my-health/secure-messages/',
+    CONTACT_LIST: '/my-health/secure-messages/contact-list/',
+    SELECT_CARE_TEAM: '/my-health/secure-messages/new-message/select-care-team',
   },
   CL_LINK_TEXT: 'Show more teams in your contact list',
   URL: {
