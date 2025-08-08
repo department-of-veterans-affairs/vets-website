@@ -8,6 +8,7 @@ import {
   mockApiRequest,
   inputVaTextInput,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import triageTeams from '../../fixtures/recipients.json';
 import categories from '../../fixtures/categories-response.json';
 import draftMessage from '../../fixtures/message-draft-response.json';
@@ -202,7 +203,7 @@ describe('Compose form component', () => {
       {
         initialState: customState,
         reducers: reducer,
-        path: `/draft/${draftMessage.id}`,
+        path: `/draft/${customDraftMessage.id}`,
       },
     );
 
@@ -373,7 +374,6 @@ describe('Compose form component', () => {
         triageTeams: { triageTeams },
         categories: { categories },
         threadDetails: {
-          ...draftState.sm.threadDetails,
           drafts: {},
         },
         preferences: signatureReducers.signatureEnabled,
@@ -1552,7 +1552,10 @@ describe('Compose form component', () => {
   it('renders correct headings in pilot environment', async () => {
     const customState = {
       ...initialState,
-      featureToggles: { loading: false },
+      featureToggles: {
+        loading: false,
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot]: true,
+      },
       sm: {
         ...initialState.sm,
         recipients: {

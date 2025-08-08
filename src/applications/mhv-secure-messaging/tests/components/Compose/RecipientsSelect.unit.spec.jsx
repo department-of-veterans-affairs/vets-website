@@ -1,5 +1,6 @@
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
@@ -189,6 +190,9 @@ describe('RecipientsSelect', () => {
           },
         },
       },
+      featureToggles: {
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot]: true,
+      },
     };
     const screen = setup({ state: customState });
 
@@ -211,6 +215,9 @@ describe('RecipientsSelect', () => {
             vamcSystemName: 'Test Vista Facility Health Care',
           },
         },
+      },
+      featureToggles: {
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot]: true,
       },
     };
     const screen = setup({ state: customState });
