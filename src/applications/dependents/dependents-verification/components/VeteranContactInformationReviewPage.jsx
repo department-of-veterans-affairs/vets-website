@@ -7,19 +7,14 @@ import { scrollTo } from 'platform/utilities/scroll';
 import { electronicCorrespondenceMessage } from '../config/chapters/veteran-contact-information/editEmailPage';
 
 const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
-
   const dispatch = useDispatch();
-  const { email, phone, address = {}, internationalPhone } = data || {};
-
   const {
     email,
-    electronicCorrespondence,
     phone,
     address = {},
     internationalPhone,
+    electronicCorrespondence,
   } = data || {};
-  sessionStorage.removeItem('onReviewPage');
-
 
   const [focusSection, setFocusSection] = useState(null);
   const didFocusRef = useRef(false);
