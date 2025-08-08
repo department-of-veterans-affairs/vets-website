@@ -114,6 +114,7 @@ const VeteranBenefitSummaryOptions = () => {
           </ul>
 
           <VaCheckboxGroup
+            id="va-bsl-options"
             label="Choose what to include in your benefit letter:"
             labelHeaderLevel={4}
           >
