@@ -114,7 +114,7 @@ export function getTestDate() {
  * @async
  * @param {ReduxStore} store The Redux store to use to render the page
  * @param {string} value The string value of the radio button to click on
- * @returns {string} The url path that was routed to after clicking Continue
+ * @returns {Promise string} The url path that was routed to after clicking Continue
  */
 export async function setTypeOfFacility(store, value) {
   const screen = renderWithStoreAndRouter(<TypeOfFacilityPage />, { store });
@@ -140,7 +140,7 @@ export async function setTypeOfFacility(store, value) {
  * @param {ReduxStore} store The Redux store to use to render the page
  * @param {string|RegExp} label The string or regex to pass to *ByText query to get
  *   a radio button to click on
- * @returns {string} The url path that was routed to after clicking Continue
+ * @returns {Promise string} The url path that was routed to after clicking Continue
  */
 export async function setTypeOfCare(store, label) {
   const { findByLabelText, getByText, history } = renderWithStoreAndRouter(
@@ -165,7 +165,7 @@ export async function setTypeOfCare(store, label) {
  * @param {ReduxStore} store The Redux store to use to render the page
  * @param {string|RegExp} label The string or regex to pass to *ByText query to get
  *   a radio button to click on
- * @returns {string} The url path that was routed to after clicking Continue
+ * @returns {Promise string} The url path that was routed to after clicking Continue
  */
 export async function setTypeOfEyeCare(store, label) {
   const screen = renderWithStoreAndRouter(<TypeOfEyeCarePage />, { store });
@@ -192,7 +192,7 @@ export async function setTypeOfEyeCare(store, label) {
  * @param {string} facilityId The facility id of the facility to be selected
  * @param {Object} params
  * @param {?VAFacility} params.facilityData The facility data to use in the mock
- * @returns {string} The url path that was routed to after clicking Continue
+ * @returns {Promise string} The url path that was routed to after clicking Continue
  */
 export async function setVAFacility(
   store,
@@ -240,7 +240,7 @@ export async function setVAFacility(
  * @async
  * @param {ReduxStore} store The Redux store to use to render the page
  * @param {string} facilityId The facility id of the facility to be selected
- * @returns {string} The url path that was routed to after clicking Continue
+ * @returns {Promise string} The url path that was routed to after clicking Continue
  */
 export async function setVaccineFacility(store, facilityData = {}) {
   // TODO: Make sure this works in staging before removal
@@ -284,7 +284,7 @@ export async function setVaccineFacility(store, facilityData = {}) {
  * @async
  * @param {ReduxStore} store The Redux store to use to render the page
  * @param {string} value The string value of the radio button to click on
- * @returns {string} The url path that was routed to after clicking Continue
+ * @returns {Promise string} The url path that was routed to after clicking Continue
  */
 export async function setClinic(store, value) {
   const screen = renderWithStoreAndRouter(
@@ -315,7 +315,7 @@ export async function setClinic(store, value) {
  * @param {ReduxStore} store The Redux store to use to render the page
  * @param {string|RegExp} label The string or regex to pass to *ByText query to get
  *   a radio button to click on
- * @returns {string} The url path that was routed to after clicking Continue
+ * @returns {Promise string} The url path that was routed to after clicking Continue
  */
 export async function setVaccineClinic(store, label) {
   const screen = renderWithStoreAndRouter(<VaccineClinicChoicePage />, {
@@ -337,7 +337,7 @@ export async function setVaccineClinic(store, label) {
  * @async
  * @param {ReduxStore} store The Redux store to use to render the page
  * @param {Date} preferredDate A date object with the preferred date
- * @returns {string} The url path that was routed to after clicking Continue
+ * @returns {Promise string} The url path that was routed to after clicking Continue
  */
 export async function setPreferredDate(store, preferredDate) {
   const screen = renderWithStoreAndRouter(
@@ -375,7 +375,7 @@ export async function setPreferredDate(store, preferredDate) {
  * @param {string} typeOfCareId Type of care id string to use. Use V2 id format (idV2 in
  *  type of care list)
  * @param {Object} [residentialAddress=null] VA Profile address to use for the user
- * @returns {ReduxStore} Redux store with data set up
+ * @returns {Promise ReduxStore} Redux store with data set up
  */
 export async function setCommunityCareFlow({
   parentSites,
@@ -436,7 +436,7 @@ export async function setCommunityCareFlow({
  * @async
  * @param {ReduxStore} store The Redux store to use to render the page
  * @param {*} cityValue The value of the city to select
- * @returns {string} The url path that was routed to after clicking Continue
+ * @returns {Promise string} The url path that was routed to after clicking Continue
  */
 export async function setClosestCity(store, cityValue) {
   const screen = renderWithStoreAndRouter(<ClosestCityStatePage />, { store });
