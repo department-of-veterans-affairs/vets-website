@@ -36,7 +36,6 @@ export default {
       'ui:options': {
         hideOnReview: true,
         classNames: 'custom-width',
-        hideOnReview: true,
       },
     },
   },
