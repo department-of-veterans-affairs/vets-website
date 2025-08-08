@@ -226,12 +226,13 @@ describe('App container logic', () => {
     expect(mockReplace.called).to.be.false;
   });
 
-  // it('should render RoutedSavableApp with children when not on intro page but dependents not loading', () => {
+  // it('should render RoutedSavableApp with children when on form page and dependents not loading', () => {
   //   const { getByTestId } = renderApp({
-  //     pathname: '/some-other-page',
+  //     pathname: '/view-change-dependents/verify-dependents-form-21-0538/veteran-information',
   //     hasSession: true,
-  //     dependentsLoading: false, // This should allow the form to render
+  //     dependentsLoading: false,
   //   });
   //   expect(getByTestId('children-content')).to.exist;
   // });
+
 });

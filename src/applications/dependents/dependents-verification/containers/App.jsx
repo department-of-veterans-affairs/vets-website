@@ -40,10 +40,11 @@ export default function App({ location, children }) {
   useEffect(
     () => {
       if (!isIntroPage && dependentsLoading) {
+        // console.log("redir");
         window.location.replace(`${manifest.rootUrl}/introduction`);
       }
     },
-    [isIntroPage, dependentsLoading],
+    [],
   );
 
   let content;
