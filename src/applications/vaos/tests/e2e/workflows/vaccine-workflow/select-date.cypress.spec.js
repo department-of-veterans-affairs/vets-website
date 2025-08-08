@@ -1,5 +1,4 @@
-import { addDays, endOfMonth } from 'date-fns';
-import { formatInTimeZone } from 'date-fns-tz';
+import { addDays, addMonths, isLastDayOfMonth, lastDayOfMonth } from 'date-fns';
 import { TYPE_OF_CARE_IDS } from '../../../../utils/constants';
 import MockClinicResponse from '../../../fixtures/MockClinicResponse';
 import MockFacilityResponse from '../../../fixtures/MockFacilityResponse';
@@ -48,14 +47,11 @@ describe('VAOS select appointment date', () => {
     });
 
     // Flaky test: https://github.com/department-of-veterans-affairs/va.gov-team/issues/99727
-    it.skip('should allow a user to choose available slot and fetch new slots after changing clinics', () => {
+    it('should allow a user to choose available slot and fetch new slots after changing clinics', () => {
       // Arrange
       // Add one day since same day appointments are not allowed.
       const firstDate = addDays(new Date(), 1);
-      const secondDate = formatInTimeZone(
-        addDays(new Date(), 2),
-        'America/Denver',
-      );
+      const secondDate = addDays(new Date(), 2);
       const mockUser = new MockUser({ addressLine1: '123 Main St.' });
       const response = MockSlotResponse.createResponses({
         startTimes: [firstDate, secondDate],
@@ -114,11 +110,11 @@ describe('VAOS select appointment date', () => {
         .selectClinic({ selection: /Clinic 2/i, isCovid: true })
         .clickNextButton();
 
-      DateTimeSelectPageObject.assertUrl()
-        // advance to next month if secondDate lands on following month
-        .compareDatesClickNextMonth(firstDate, secondDate)
-        .selectDate(secondDate)
-        .assertDateSelected(secondDate);
+      DateTimeSelectPageObject.assertUrl();
+      if (isLastDayOfMonth(firstDate))
+        DateTimeSelectPageObject.clickNextMonth()
+          .selectDate(secondDate)
+          .assertDateSelected(secondDate);
 
       // Assert
       cy.axeCheckBestPractice();
@@ -176,70 +172,78 @@ describe('VAOS select appointment date', () => {
       cy.axeCheckBestPractice();
     });
 
-    it('should fetch slots when moving between months', () => {
-      // Arrange
-      // Add one day since same day appointments are not allowed.
-      const firstDate = addDays(new Date(), 1);
-      const mockUser = new MockUser({ addressLine1: '123 Main St.' });
-      const todayDate = new Date().getDate();
-      const endOfMonthDate = endOfMonth(new Date()).getDate();
+    for (let i = 0; i < 12; i++) {
+      it(`should fetch slots when moving between months: ${i}`, () => {
+        // Arrange
 
-      mockSlotsApi({
-        locationId: '983',
-        clinicId: '1',
-        response: MockSlotResponse.createResponses({
-          startTimes: [firstDate],
-        }),
-      });
+        // Add two days since date is set to the last day of the month end of day.
+        // Timezone conversion for MT will result in the previous day thus the need
+        // to add 2 days. NOTE: Same day appointments are not allowed.
+        const perferredDate = addDays(new Date(), 2);
+        const mockUser = new MockUser({ addressLine1: '123 Main St.' });
 
-      mockClinicsApi({
-        locationId: '983',
-        response: MockClinicResponse.createResponses({
+        mockSlotsApi({
           locationId: '983',
-          count: 2,
-        }),
-      });
-
-      // Act
-      cy.login(mockUser);
-
-      AppointmentListPageObject.visit().scheduleAppointment();
-
-      TypeOfCarePageObject.assertUrl({
-        url: '/type-of-care',
-        breadcrumb: 'Choose the type of care you need',
-      })
-        .assertAddressAlert({ exist: false })
-        .selectTypeOfCare(/COVID-19 vaccine/i)
-        .clickNextButton();
-
-      PlanAheadPageObject.assertUrl().clickNextButton();
-
-      DosesReceivedPageObject.assertUrl()
-        .selectRadioButton(/No\/I.m not sure/i)
-        .clickNextButton();
-
-      VAFacilityPageObject.assertUrl()
-        .assertHomeAddress({ address: /123 Main St/i })
-        .selectLocation(/Facility 983/i)
-        .clickNextButton();
-
-      ClinicChoicePageObject.assertUrl()
-        .selectClinic({ selection: /Clinic 1/i, isCovid: true })
-        .clickNextButton();
-
-      DateTimeSelectPageObject.assertUrl()
-        // Account for 1st call returning 2 months of slots
-        .clickNextMonth()
-        .wait({ alias: '@v2:get:slots' })
-        .assertCallCount({
-          alias: '@v2:get:slots',
-          count: todayDate < endOfMonthDate ? 2 : 3,
+          clinicId: '1',
+          response: MockSlotResponse.createResponses({
+            startTimes: [perferredDate],
+          }),
         });
 
-      // Assert
-      cy.axeCheckBestPractice();
-    });
+        mockClinicsApi({
+          locationId: '983',
+          response: MockClinicResponse.createResponses({
+            locationId: '983',
+            count: 2,
+          }),
+        });
+
+        // Act
+        cy.login(mockUser);
+        cy.clock(lastDayOfMonth(addMonths(new Date(), i)), ['Date']);
+
+        AppointmentListPageObject.visit().scheduleAppointment();
+
+        TypeOfCarePageObject.assertUrl({
+          url: '/type-of-care',
+          breadcrumb: 'Choose the type of care you need',
+        })
+          .assertAddressAlert({ exist: false })
+          .selectTypeOfCare(/COVID-19 vaccine/i)
+          .clickNextButton();
+
+        PlanAheadPageObject.assertUrl().clickNextButton();
+
+        DosesReceivedPageObject.assertUrl()
+          .selectRadioButton(/No\/I.m not sure/i)
+          .clickNextButton();
+
+        VAFacilityPageObject.assertUrl()
+          .assertHomeAddress({ address: /123 Main St/i })
+          .selectLocation(/Facility 983/i)
+          .clickNextButton();
+
+        ClinicChoicePageObject.assertUrl()
+          .selectClinic({ selection: /Clinic 1/i, isCovid: true })
+          .clickNextButton();
+
+        DateTimeSelectPageObject.assertUrl()
+          // Account for 1st call returning 2 months of slots
+          .assertCallCount({
+            alias: '@v2:get:slots',
+            count: 1,
+          })
+          .clickNextMonth()
+          .wait({ alias: '@v2:get:slots' })
+          .assertCallCount({
+            alias: '@v2:get:slots',
+            count: 2,
+          });
+
+        // Assert
+        cy.axeCheckBestPractice();
+      });
+    }
 
     it('should show validation error if no date selected', () => {
       // Arrange
