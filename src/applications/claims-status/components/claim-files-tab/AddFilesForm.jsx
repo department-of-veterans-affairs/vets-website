@@ -11,7 +11,6 @@ import {
   readAndCheckFile,
   checkIsEncryptedPdf,
 } from 'platform/forms-system/src/js/utilities/file';
-import { Toggler } from 'platform/utilities/feature-toggles';
 
 import { DOC_TYPES } from '../../utils/helpers';
 import { FILE_TYPES, validateFiles } from '../../utils/validations';
@@ -314,18 +313,14 @@ const AddFilesForm = ({ fileTab, onSubmit, uploading, progress, onCancel }) => {
   return (
     <>
       <div className="add-files-form">
-        <Toggler toggleName={Toggler.TOGGLE_NAMES.cstFriendlyEvidenceRequests}>
-          <Toggler.Enabled>
-            <div>
-              {!fileTab && (
-                <>
-                  <h2>Upload documents</h2>
-                  <p>If you have a document to upload, you can do that here.</p>
-                </>
-              )}
-            </div>
-          </Toggler.Enabled>
-        </Toggler>
+        <div>
+          {!fileTab && (
+            <>
+              <h2>Upload documents</h2>
+              <p>If you have a document to upload, you can do that here.</p>
+            </>
+          )}
+        </div>
         <VaFileInputMultiple
           accept={FILE_TYPES.map(type => `.${type}`).join(',')}
           ref={fileInputRef}

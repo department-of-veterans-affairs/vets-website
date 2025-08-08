@@ -27,7 +27,13 @@ const fileFormProps = {
 };
 
 describe('<AdditionalEvidencePage>', () => {
-  const getStore = createStore(() => ({}));
+  const getStore = (cst5103UpdateEnabled = true) =>
+    createStore(() => ({
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        cst_5103_update_enabled: cst5103UpdateEnabled,
+      },
+    }));
   let originalSetInterval;
   let intervalIds = [];
 
@@ -62,7 +68,7 @@ describe('<AdditionalEvidencePage>', () => {
 
     it('should render loading div', () => {
       const { container } = render(
-        <Provider store={getStore}>
+        <Provider store={getStore()}>
           <AdditionalEvidencePage {...fileFormProps} claim={claim} loading />,
         </Provider>,
       );
@@ -78,7 +84,7 @@ describe('<AdditionalEvidencePage>', () => {
         type: 'error',
       };
       const { container } = render(
-        <Provider store={getStore}>
+        <Provider store={getStore()}>
           <AdditionalEvidencePage
             {...fileFormProps}
             claim={claim}
@@ -94,7 +100,7 @@ describe('<AdditionalEvidencePage>', () => {
 
     it('should render upload error alert when rerendered', () => {
       const { container, rerender } = render(
-        <Provider store={getStore}>
+        <Provider store={getStore()}>
           <AdditionalEvidencePage {...fileFormProps} claim={claim} />,
         </Provider>,
       );
@@ -107,7 +113,7 @@ describe('<AdditionalEvidencePage>', () => {
       };
 
       rerender(
-        <Provider store={getStore}>
+        <Provider store={getStore()}>
           <AdditionalEvidencePage
             {...fileFormProps}
             claim={claim}
@@ -129,7 +135,7 @@ describe('<AdditionalEvidencePage>', () => {
       const clearAdditionalEvidenceNotification = sinon.spy();
 
       const { container, unmount } = render(
-        <Provider store={getStore}>
+        <Provider store={getStore()}>
           <AdditionalEvidencePage
             {...fileFormProps}
             claim={claim}
@@ -157,7 +163,7 @@ describe('<AdditionalEvidencePage>', () => {
       const clearAdditionalEvidenceNotification = sinon.spy();
 
       const { container, unmount } = render(
-        <Provider store={getStore}>
+        <Provider store={getStore()}>
           <AdditionalEvidencePage
             {...fileFormProps}
             claim={claim}
@@ -181,7 +187,7 @@ describe('<AdditionalEvidencePage>', () => {
       const location = { hash: '#add-files' };
 
       render(
-        <Provider store={getStore}>
+        <Provider store={getStore()}>
           <AdditionalEvidencePage
             {...fileFormProps}
             claim={claim}
@@ -221,7 +227,7 @@ describe('<AdditionalEvidencePage>', () => {
       const resetUploads = sinon.spy();
       const navigate = sinon.spy();
       const { rerender } = render(
-        <Provider store={getStore}>
+        <Provider store={getStore()}>
           <AdditionalEvidencePage
             {...fileFormProps}
             claim={claim}
@@ -234,7 +240,7 @@ describe('<AdditionalEvidencePage>', () => {
       );
 
       rerender(
-        <Provider store={getStore}>
+        <Provider store={getStore()}>
           <AdditionalEvidencePage
             {...fileFormProps}
             claim={claim}
@@ -271,7 +277,7 @@ describe('<AdditionalEvidencePage>', () => {
       ];
 
       const { container } = renderWithRouter(
-        <Provider store={getStore}>
+        <Provider store={getStore()}>
           <AdditionalEvidencePage
             {...fileFormProps}
             claim={claim}
@@ -289,7 +295,7 @@ describe('<AdditionalEvidencePage>', () => {
 
     it('doesn’t show va-alerts when no files are needed', () => {
       const { container } = render(
-        <Provider store={getStore}>
+        <Provider store={getStore()}>
           <AdditionalEvidencePage
             {...fileFormProps}
             claim={claim}
@@ -347,7 +353,7 @@ describe('<AdditionalEvidencePage>', () => {
       ];
 
       const { container, getByText, getByTestId } = renderWithRouter(
-        <Provider store={getStore}>
+        <Provider store={getStore()}>
           <AdditionalEvidencePage
             {...fileFormProps}
             claim={claim}
@@ -361,7 +367,7 @@ describe('<AdditionalEvidencePage>', () => {
       expect($('.primary-alert', container)).to.exist;
       expect(getByTestId(`item-${claim.attributes.trackedItems[0].id}`)).to
         .exist;
-      getByText('Automated 5103 Notice Response');
+      getByText('Review evidence list (5103 notice)');
     });
   });
   context('when claim is open with only standard 5103', () => {
@@ -383,7 +389,7 @@ describe('<AdditionalEvidencePage>', () => {
 
     it('doesnt show va-alert for standard 5103 notice', () => {
       const { queryByText, queryByTestId } = renderWithRouter(
-        <Provider store={getStore}>
+        <Provider store={getStore()}>
           <AdditionalEvidencePage
             {...fileFormProps}
             claim={claim}
@@ -433,7 +439,7 @@ describe('<AdditionalEvidencePage>', () => {
 
     it('should render closed message', () => {
       const { container, getByText } = render(
-        <Provider store={getStore}>
+        <Provider store={getStore()}>
           <AdditionalEvidencePage
             {...fileFormProps}
             claim={claim}
