@@ -37,18 +37,19 @@ import { fixDateFormat } from '../../../shared/utils/replace';
  */
 export const getTreatmentDate = (type, showNewFormContent, location) => {
   const { treatmentDate = '', evidenceDates = {}, noDate } = location;
+  const yearRegex = /^(19[2-9][6-9]|20[0-1][0-9]|202[0-5])$/;
+  const isValidYear = showNewFormContent && yearRegex.test(treatmentDate);
 
-  if (showNewFormContent && noDate) {
+  if (
+    (showNewFormContent && noDate) ||
+    (showNewFormContent && treatmentDate.length < 7 && !isValidYear)
+  ) {
     return '';
   }
 
-  const isYearOnly = treatmentDate.replace('-', '').length === 4;
-  const validTreatmentDate = isYearOnly || treatmentDate.length === 7;
-
-  const date =
-    showNewFormContent && validTreatmentDate
-      ? `${treatmentDate}-01`
-      : evidenceDates[type] || '';
+  const date = showNewFormContent
+    ? `${treatmentDate}-01`
+    : evidenceDates[type] || '';
 
   return fixDateFormat(date, treatmentDate.length === 4);
 };

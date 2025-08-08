@@ -16,51 +16,97 @@ import {
 } from '../../utils/submit';
 
 describe('getTreatmentDate', () => {
-  const setup = ({
-    toggle = true,
-    type = '',
-    date = '',
-    from = '2000-02-02',
-    to = '2020-03-04',
-    noDate,
-  }) => {
-    return getTreatmentDate(type, toggle, {
-      treatmentDate: date,
-      evidenceDates: { from, to },
-      noDate,
+  describe('showNewFormContent is false', () => {
+    it('should return empty when the proper data is not given', () => {
+      const location = {
+        evidenceDates: {
+          from: '',
+        },
+      };
+
+      expect(getTreatmentDate('to', false, location)).to.eq('');
+      expect(getTreatmentDate('from', false, location)).to.eq('');
+      expect(getTreatmentDate('', false, location)).to.eq('');
+      expect(getTreatmentDate('to', false, {})).to.eq('');
+      expect(getTreatmentDate('to', null, {})).to.eq('');
     });
-  };
 
-  it('should return an empty string', () => {
-    expect(getTreatmentDate('', true, {})).to.eq('');
+    it('should return a properly formatted date when the proper data is given', () => {
+      const location = {
+        evidenceDates: {
+          from: '2020-03-04',
+          to: '2020-03-04',
+        },
+      };
+
+      expect(getTreatmentDate('to', false, location)).to.eq('2020-03-04');
+      expect(getTreatmentDate('from', false, location)).to.eq('2020-03-04');
+    });
   });
 
-  it('should return treatment date', () => {
-    expect(setup({ date: '2020-02' })).to.eq('2020-02-01');
-  });
+  describe('showNewFormContent is true', () => {
+    it('should return empty when the proper data is not given', () => {
+      const location = {
+        treatmentDate: '1-01',
+      };
 
-  it('should return empty string', () => {
-    expect(setup({ noDate: true })).to.eq('');
-    expect(setup({ type: '' })).to.eq('');
-    expect(setup({ type: '' })).to.eq('');
-  });
+      expect(getTreatmentDate('to', true, location)).to.eq('');
+      expect(getTreatmentDate('from', true, location)).to.eq('');
+    });
 
-  it('should return from date', () => {
-    expect(setup({ type: 'from' })).to.eq('2000-02-02');
-    expect(setup({ type: 'from', toggle: false })).to.eq('2000-02-02');
-    // expecting YYYY-MM format for treatement date
-    expect(setup({ type: 'from', date: '2010-05-06' })).to.eq('2000-02-02');
-  });
+    it('should return empty when the proper data is not given', () => {
+      const location = {
+        treatmentDate: '01-01',
+      };
 
-  it('should return to date', () => {
-    expect(setup({ type: 'to' })).to.eq('2020-03-04');
-    expect(setup({ type: 'to', toggle: false })).to.eq('2020-03-04');
-    // expecting YYYY-MM format for treatement date
-    expect(setup({ type: 'to', date: '2010-05-06' })).to.eq('2020-03-04');
-  });
+      expect(getTreatmentDate('to', true, location)).to.eq('');
+      expect(getTreatmentDate('from', true, location)).to.eq('');
+    });
 
-  it('should return treatment date', () => {
-    expect(setup({ date: '2010-05' })).to.eq('2010-05-01');
+    it('should return empty when the proper data is not given', () => {
+      const location = {
+        treatmentDate: '1',
+      };
+
+      expect(getTreatmentDate('to', true, location)).to.eq('');
+      expect(getTreatmentDate('from', true, location)).to.eq('');
+    });
+
+    it('should return empty when the proper data is not given', () => {
+      const location = {
+        treatmentDate: '1923',
+      };
+
+      expect(getTreatmentDate('to', true, location)).to.eq('');
+      expect(getTreatmentDate('from', true, location)).to.eq('');
+    });
+
+    it('should return empty when the proper data is not given', () => {
+      const location = {
+        treatmentDate: '101-01',
+      };
+
+      expect(getTreatmentDate('to', true, location)).to.eq('');
+      expect(getTreatmentDate('from', true, location)).to.eq('');
+    });
+
+    it('should return the date when a proper data is given', () => {
+      const location = {
+        treatmentDate: '1926-01',
+      };
+
+      expect(getTreatmentDate('to', true, location)).to.eq('1926-01-01');
+      expect(getTreatmentDate('from', true, location)).to.eq('1926-01-01');
+    });
+
+    it('should return the date when a proper data is given', () => {
+      const location = {
+        treatmentDate: '2001-01',
+      };
+
+      expect(getTreatmentDate('to', true, location)).to.eq('2001-01-01');
+      expect(getTreatmentDate('from', true, location)).to.eq('2001-01-01');
+    });
   });
 });
 
