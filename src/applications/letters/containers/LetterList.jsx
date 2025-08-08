@@ -31,7 +31,7 @@ export class LetterList extends React.Component {
   }
 
   componentDidMount() {
-    const { lettersNewDesign, shouldUseLighthouse } = this.props;
+    const { lettersNewDesign } = this.props;
     focusElement(lettersNewDesign ? '#letters-title-id' : 'h2#nav-form-header');
     this.setState({
       // eslint-disable-next-line -- LH_MIGRATION
