@@ -335,11 +335,46 @@ describe('getEvidence', () => {
     expect(getEvidence(evidence.data)).to.deep.equal(evidence.result());
   });
 
-  // TODO: Replace this test once Lighthouse provides an endpoint for the new
-  // form data
-  it('should temporarily process VA evidence treatment dates into an evidence date range', () => {
-    const evidence = getData({ showScNewForm: true });
-    expect(getEvidence(evidence.data)).to.deep.equal(evidence.result(true));
+  describe('when showScNewForm is true', () => {
+    // TODO: Replace this test once Lighthouse provides an endpoint for the new
+    // form data
+    it('should temporarily process VA evidence treatment dates into an evidence date range', () => {
+      const evidence = getData({ showScNewForm: true });
+      expect(getEvidence(evidence.data)).to.deep.equal(evidence.result(true));
+    });
+
+    it('should send noTreatmentDates as true when no date is provided', () => {
+      const evidence = {
+        [EVIDENCE_VA]: true,
+        showScNewForm: true,
+        form5103Acknowledged: true,
+        locations: [
+          {
+            locationAndName: 'test 1',
+            issues: ['1', '2'],
+            evidenceDates: { from: '', to: '' },
+            treatmentDate: '',
+            noDate: false,
+          },
+        ],
+      };
+
+      expect(getEvidence(evidence)).to.deep.equal({
+        evidenceSubmission: {
+          evidenceType: ['retrieval'],
+          retrieveFrom: [
+            {
+              attributes: {
+                locationAndName: 'test 1',
+                noTreatmentDates: true,
+              },
+              type: 'retrievalEvidence',
+            },
+          ],
+        },
+        form5103Acknowledged: true,
+      });
+    });
   });
 });
 
