@@ -131,21 +131,6 @@ describe('App container logic', () => {
     );
   });
 
-  // it('should show loading indicator when not on intro page and dependents loading', async () => {
-  //   const { container, queryByTestId } = renderApp({
-  //     pathname: '/add',
-  //     hasSession: true,
-  //     dependentsLoading: true,
-  //   });
-  //
-  //   await waitFor(() => {
-  //     const loadingIndicator = container.querySelector('va-loading-indicator');
-  //     expect(loadingIndicator).to.not.be.null;
-  //   });
-  //
-  //   expect(queryByTestId('children-content')).to.be.null;
-  // });
-
   it('should render RoutedSavableApp with children when on intro page (with session)', () => {
     const { getByTestId } = renderApp({
       pathname: '/introduction',
@@ -167,36 +152,6 @@ describe('App container logic', () => {
     const breadcrumbs = container.querySelector('va-breadcrumbs');
     expect(breadcrumbs).to.exist;
   });
-
-  // it('should redirect to introduction page when not on intro page and dependents loading (with session)', () => {
-  //   const mockReplace = sinon.stub();
-  //   delete window.location;
-  //   window.location = { replace: mockReplace };
-  //
-  //   renderApp({
-  //     pathname: '/some-other-page',
-  //     hasSession: true,
-  //     dependentsLoading: true,
-  //   });
-  //
-  //   expect(mockReplace.calledOnce).to.be.true;
-  //   expect(mockReplace.firstCall.args[0]).to.include('/introduction');
-  // });
-
-  // it('should redirect to introduction page when not on intro page and dependents loading (without session)', () => {
-  //   const mockReplace = sinon.stub();
-  //   delete window.location;
-  //   window.location = { replace: mockReplace };
-  //
-  //   renderApp({
-  //     pathname: '/add',
-  //     hasSession: false,
-  //     dependentsLoading: true,
-  //   });
-  //
-  //   expect(mockReplace.calledOnce).to.be.true;
-  //   expect(mockReplace.firstCall.args[0]).to.include('/introduction');
-  // });
 
   it('should not redirect when on intro page (with session)', () => {
     const mockReplace = sinon.stub();
