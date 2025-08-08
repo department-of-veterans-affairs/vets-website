@@ -6,9 +6,13 @@ import mockPaymentInfo from '../fixtures/dd4cnp/dd4cnp-is-set-up.json';
 
 function clickSubNavButton(buttonLabel, mobile) {
   if (mobile) {
-    cy.get('va-sidenav').click();
+    cy.get('va-sidenav')
+      .filter(':visible')
+      .click();
   }
-  cy.get(`va-sidenav-item[label="${buttonLabel}"]`).click();
+  cy.get(`va-sidenav-item[label="${buttonLabel}"]`)
+    .filter(':visible')
+    .click();
 }
 
 /**
