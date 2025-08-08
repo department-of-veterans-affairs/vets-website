@@ -2,7 +2,6 @@ import React from 'react';
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
-import { SET_DATA } from 'platform/forms-system/src/js/actions';
 import { fireEvent, render } from '@testing-library/react';
 import ArrayBuilderCards from '../ArrayBuilderCards';
 import { initGetText } from '../helpers';
@@ -12,7 +11,6 @@ const mockRedux = ({
   submitted = false,
   formData = {},
   onChange = () => {},
-  setFormData = () => {},
 } = {}) => {
   return {
     props: {
@@ -23,7 +21,6 @@ const mockRedux = ({
         submitted,
       },
       formData,
-      setFormData,
     },
     mockStore: {
       getState: () => ({
@@ -36,12 +33,7 @@ const mockRedux = ({
         },
       }),
       subscribe: () => {},
-      dispatch: action => {
-        if (action.type === SET_DATA) {
-          return setFormData(action.data);
-        }
-        return null;
-      },
+      dispatch: () => {},
     },
   };
 };
@@ -52,7 +44,6 @@ describe('ArrayBuilderCards', () => {
     cardDescription = 'cardDescription',
     getItemName = (item, index) => `getItemName ${index + 1}`,
   }) {
-    const setFormData = sinon.spy();
     const goToPath = sinon.spy();
     const onRemoveAll = sinon.spy();
     const onRemove = sinon.spy();
@@ -68,7 +59,6 @@ describe('ArrayBuilderCards', () => {
         employers: arrayData,
         otherData: 'test',
       },
-      setFormData,
     });
 
     const { container, getByText } = render(
@@ -83,15 +73,14 @@ describe('ArrayBuilderCards', () => {
           getText={getText}
           required={() => false}
           isReview={false}
-          forceRerender={() => null}
         />
       </Provider>,
     );
 
     return {
-      setFormData,
       goToPath,
       getText,
+      onRemove,
       onRemoveAll,
       container,
       getByText,
@@ -110,7 +99,7 @@ describe('ArrayBuilderCards', () => {
   });
 
   it('should handle remove flow correctly', () => {
-    const { container, setFormData, onRemoveAll } = setupArrayBuilderCards({
+    const { container, onRemove, onRemoveAll } = setupArrayBuilderCards({
       arrayData: [{ name: 'Test' }, { name: 'Test 2' }],
     });
 
@@ -120,12 +109,12 @@ describe('ArrayBuilderCards', () => {
     const $modal = container.querySelector('va-modal');
     expect($modal.getAttribute('visible')).to.eq('true');
     $modal.__events.primaryButtonClick();
-    expect(setFormData.called).to.be.true;
-    expect(onRemoveAll.called).to.be.false;
+    sinon.assert.called(onRemove);
+    sinon.assert.notCalled(onRemoveAll);
   });
 
   it('should call remove all if there are no items', () => {
-    const { container, setFormData, onRemoveAll } = setupArrayBuilderCards({
+    const { container, onRemoveAll } = setupArrayBuilderCards({
       arrayData: [{ name: 'Test' }],
     });
 
@@ -135,10 +124,7 @@ describe('ArrayBuilderCards', () => {
     const $modal = container.querySelector('va-modal');
     expect($modal.getAttribute('visible')).to.eq('true');
     $modal.__events.primaryButtonClick();
-    expect(setFormData.called).to.be.true;
-    expect(setFormData.args[0][0].employers).to.be.undefined;
-    expect(setFormData.args[0][0]).to.contains({ otherData: 'test' });
-    expect(onRemoveAll.called).to.be.true;
+    sinon.assert.called(onRemoveAll);
   });
 
   it('should pass full data into cardDescription', () => {
