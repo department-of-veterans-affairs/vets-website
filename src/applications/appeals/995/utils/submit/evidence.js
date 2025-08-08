@@ -194,11 +194,14 @@ export const getEvidence = formData => {
           if (showNewFormContent) {
             // Only startDate (from) is required, remove evidenceDates if
             // undefined
-            if (location.noDate || !from) {
+            const noTreatmentDates = location.noDate || !from;
+
+            if (noTreatmentDates) {
               delete entry.attributes.evidenceDates;
             }
+
             // noDate can be undefined; so fallback to false due to LH schema
-            entry.attributes.noTreatmentDates = location.noDate || false;
+            entry.attributes.noTreatmentDates = noTreatmentDates || false;
           }
           list.push(entry);
         }
