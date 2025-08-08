@@ -1719,6 +1719,7 @@ jobs:
         stress-test-cypress-tests,
         tests-prep,
         unit-tests,
+        node-22-unit-test-compatibility-check,
         unit-tests-stress-test,
         update-e2e-allow-list,
         update-unit-test-allow-list,
@@ -1831,6 +1832,7 @@ jobs:
           CYPRESS_TESTS_RESULT: ${{ needs.cypress-tests.result  }}
           CYPRESS_TESTS_STRESS_TEST_RESULT: ${{ needs.stress-test-cypress-tests.result }}
           UNIT_TESTS_STRESS_TEST_RESULT: ${{ needs.unit-tests-stress-test.result }}
+          NODE_22_COMPATIBILITY_RESULT: ${{ needs.node-22-unit-test-compatibility-check.result }}
 
   archive:
     name: Archive
