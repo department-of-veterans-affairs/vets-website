@@ -12,7 +12,7 @@ import {
 } from '../actions/letters';
 import NoAddressBanner from '../components/NoAddressBanner';
 import systemDownMessage from '../components/systemDownMessage';
-import { lettersUseLighthouse, lettersCheckDiscrepancies } from '../selectors';
+import { lettersCheckDiscrepancies } from '../selectors';
 import { AVAILABILITY_STATUSES } from '../utils/constants';
 import {
   recordsNotFound,
@@ -33,10 +33,10 @@ const {
 
 export class Main extends React.Component {
   componentDidMount() {
-    const { shouldUseLighthouse, shouldUseLettersDiscrepancies } = this.props;
+    const { shouldUseLettersDiscrepancies } = this.props;
 
     // eslint-disable-next-line -- LH_MIGRATION
-    const LH_MIGRATION__options = LH_MIGRATION__getOptions(shouldUseLighthouse);
+    const LH_MIGRATION__options = LH_MIGRATION__getOptions();
 
     if (!this.props.emptyAddress) {
       // eslint-disable-next-line -- LH_MIGRATION
@@ -160,7 +160,6 @@ Main.propTypes = {
   lettersAvailability: PropTypes.string,
   profileHasEmptyAddress: PropTypes.func,
   shouldUseLettersDiscrepancies: PropTypes.bool,
-  shouldUseLighthouse: PropTypes.bool,
 };
 
 function mapStateToProps(state) {
@@ -175,8 +174,6 @@ function mapStateToProps(state) {
     optionsAvailable: letterState.optionsAvailable,
     emptyAddress: isAddressEmpty(selectVAPContactInfo(state)?.mailingAddress),
     shouldUseLettersDiscrepancies: lettersCheckDiscrepancies(state),
-    // TODO: change to conform to LH_MIGRATION style
-    shouldUseLighthouse: lettersUseLighthouse(state),
   };
 }
 

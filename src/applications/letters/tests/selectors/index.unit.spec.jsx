@@ -2,7 +2,6 @@ import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utiliti
 import { expect } from 'chai';
 import {
   isLoadingFeatures,
-  lettersUseLighthouse,
   lettersCheckDiscrepancies,
   lettersPageNewDesign,
   togglesAreLoaded,
@@ -12,7 +11,6 @@ describe('letters feature toggle selectors', () => {
   const getState = (overrides = {}) => ({
     featureToggles: {
       loading: false,
-      [FEATURE_FLAG_NAMES.bcasLettersUseLighthouse]: true,
       [FEATURE_FLAG_NAMES.lettersCheckDiscrepancies]: false,
       [FEATURE_FLAG_NAMES.lettersPageNewDesign]: true,
       ...overrides,
@@ -28,22 +26,6 @@ describe('letters feature toggle selectors', () => {
     it('returns false when loading is false', () => {
       const state = getState({ loading: false });
       expect(isLoadingFeatures(state)).to.be.false;
-    });
-  });
-
-  describe('lettersUseLighthouse', () => {
-    it('returns true when flag is enabled', () => {
-      const state = getState({
-        [FEATURE_FLAG_NAMES.bcasLettersUseLighthouse]: true,
-      });
-      expect(lettersUseLighthouse(state)).to.be.true;
-    });
-
-    it('returns false when flag is disabled', () => {
-      const state = getState({
-        [FEATURE_FLAG_NAMES.bcasLettersUseLighthouse]: false,
-      });
-      expect(lettersUseLighthouse(state)).to.be.false;
     });
   });
 

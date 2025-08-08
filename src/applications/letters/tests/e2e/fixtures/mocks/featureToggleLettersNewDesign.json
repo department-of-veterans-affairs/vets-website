@@ -5,10 +5,6 @@
       {
         "name": "letters_page_new_design",
         "value": true
-      },
-      {
-        "name": "bcas_letters_use_lighthouse",
-        "value": true
       }
     ]
   }
