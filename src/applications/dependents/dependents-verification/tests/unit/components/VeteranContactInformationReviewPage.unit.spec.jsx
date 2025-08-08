@@ -46,7 +46,7 @@ describe('VeteranContactInformationReviewPage', () => {
     store.dispatch.restore();
   });
 
-  it('removes onReviewPage from sessionStorage on mount if present', () => {
+  it('removes onReviewPage from sessionStorage on mount if present', async () => {
     sessionStorage.setItem('onReviewPage', 'email');
     render(
       <Provider store={store}>
@@ -56,7 +56,9 @@ describe('VeteranContactInformationReviewPage', () => {
         />
       </Provider>,
     );
-    expect(sessionStorage.getItem('onReviewPage')).to.be.null;
+    await waitFor(() => {
+      expect(sessionStorage.getItem('onReviewPage')).to.be.null;
+    });
   });
 
   // TODO: Fix in follow on - coverage is meeting QA standard
@@ -88,7 +90,7 @@ describe('VeteranContactInformationReviewPage', () => {
   //   });
   // });
 
-  it('does not dispatch or scroll if no onReviewPage in sessionStorage', () => {
+  it('does not dispatch or scroll if no onReviewPage in sessionStorage', async () => {
     render(
       <Provider store={store}>
         <VeteranContactInformationReviewPage
@@ -97,11 +99,13 @@ describe('VeteranContactInformationReviewPage', () => {
         />
       </Provider>,
     );
-    expect(store.dispatch.notCalled).to.be.true;
-    expect(scrollToStub.notCalled).to.be.true;
+    await waitFor(() => {
+      expect(store.dispatch.notCalled).to.be.true;
+      expect(scrollToStub.notCalled).to.be.true;
+    });
   });
 
-  it('renders all contact info fields and Edit buttons', () => {
+  it('renders all contact info fields and Edit buttons', async () => {
     goToPathSpy = sinon.spy();
     const { container, getAllByText, getByRole } = render(
       <Provider store={store}>
@@ -112,32 +116,34 @@ describe('VeteranContactInformationReviewPage', () => {
       </Provider>,
     );
 
-    expect(getByRole('heading', { level: 4, name: /Mailing address/i })).to
-      .exist;
-    expect(getAllByText('Country')[0]).to.exist;
-    expect(container.textContent).to.include('USA');
-    expect(getAllByText('Street')[0]).to.exist;
-    expect(container.textContent).to.include('1 Main St');
-    expect(getAllByText('City')[0]).to.exist;
-    expect(container.textContent).to.include('Hometown');
-    expect(getAllByText('State')[0]).to.exist;
-    expect(container.textContent).to.include('CA');
-    expect(getAllByText('Postal code')[0]).to.exist;
-    expect(container.textContent).to.include('90210');
-    expect(getAllByText('Email address').length).to.be.greaterThan(1);
+    await waitFor(() => {
+      expect(getByRole('heading', { level: 4, name: /Mailing address/i })).to
+        .exist;
+      expect(getAllByText('Country')[0]).to.exist;
+      expect(container.textContent).to.include('USA');
+      expect(getAllByText('Street')[0]).to.exist;
+      expect(container.textContent).to.include('1 Main St');
+      expect(getAllByText('City')[0]).to.exist;
+      expect(container.textContent).to.include('Hometown');
+      expect(getAllByText('State')[0]).to.exist;
+      expect(container.textContent).to.include('CA');
+      expect(getAllByText('Postal code')[0]).to.exist;
+      expect(container.textContent).to.include('90210');
+      expect(getAllByText('Email address').length).to.be.greaterThan(1);
 
-    const tel = container.querySelector('va-telephone');
-    expect(tel).to.exist;
-    expect(tel.getAttribute('contact')).to.equal('8005551212');
+      const tel = container.querySelector('va-telephone');
+      expect(tel).to.exist;
+      expect(tel.getAttribute('contact')).to.equal('8005551212');
 
-    expect(getByRole('heading', { level: 4, name: /International number/i })).to
-      .exist;
-    expect(container.textContent).to.include('441234567890');
+      expect(getByRole('heading', { level: 4, name: /International number/i }))
+        .to.exist;
+      expect(container.textContent).to.include('441234567890');
 
-    const editButtons = Array.from(
-      container.querySelectorAll('va-button'),
-    ).filter(btn => btn.getAttribute('text') === 'Edit');
-    expect(editButtons.length).to.equal(4);
+      const editButtons = Array.from(
+        container.querySelectorAll('va-button'),
+      ).filter(btn => btn.getAttribute('text') === 'Edit');
+      expect(editButtons.length).to.equal(4);
+    });
   });
 
   it('clicking Mailing Address Edit calls goToPath and sets sessionStorage', async () => {
