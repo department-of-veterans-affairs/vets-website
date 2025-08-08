@@ -35,7 +35,7 @@ export const arrayBuilderOptions = {
     !item?.positionTitle ||
     !item?.supervisorName ||
     !item?.address ||
-    !item?.phone.contact ||
+    !item?.phone?.contact ||
     !item?.dateRange?.from ||
     (!item?.dateRange?.to && !item?.currentlyEmployed) ||
     (!item?.currentlyEmployed && !item?.reasonForLeaving),

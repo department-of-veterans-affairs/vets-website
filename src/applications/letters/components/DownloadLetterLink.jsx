@@ -23,9 +23,12 @@ export class DownloadLetterLink extends React.Component {
 
     const benefitSummaryOptionList = document.getElementById('va-bsl-options');
     if (benefitSummaryOptionList) {
-      this.benefitSummaryOptionsLength = benefitSummaryOptionList.querySelectorAll(
-        'input[type="checkbox"]:checked',
-      ).length;
+      // TODO: when the feature flag for the new design is removed, the
+      // input[type="checkbox"]:checked selector can be removed as well
+      const checkedInputs = benefitSummaryOptionList.querySelectorAll(
+        'input[type="checkbox"]:checked, va-checkbox[checked="true"]',
+      );
+      this.benefitSummaryOptionsLength = checkedInputs.length;
     }
 
     recordEvent({

@@ -1,6 +1,10 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaCheckbox,
+  VaCheckboxGroup,
+  VaLoadingIndicator,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import {
   benefitOptionsMap,
@@ -51,18 +55,13 @@ const VeteranBenefitSummaryOptions = () => {
 
       if (displayOption && labelText) {
         benefitCheckboxes.push(
-          <li key={`option-${key}`} className="form-checkbox">
-            <input
-              checked={requestOptionsSelector[benefitOptionsMap[key]]}
-              id={key}
-              name={key}
-              type="checkbox"
-              onChange={e => handleChange(e)}
-            />
-            <label className="vads-u-margin-top--0" htmlFor={key}>
-              {labelText}
-            </label>
-          </li>,
+          <VaCheckbox
+            checked={requestOptionsSelector[benefitOptionsMap[key]]}
+            id={key}
+            name={key}
+            onVaChange={e => handleChange(e)}
+            label={labelText}
+          />,
         );
       }
     });
@@ -76,22 +75,13 @@ const VeteranBenefitSummaryOptions = () => {
 
     if (militaryServiceRows.length) {
       return (
-        <li key="option-militaryService" className="form-checkbox">
-          <input
-            checked={militaryService}
-            id="militaryService"
-            name="militaryService"
-            type="checkbox"
-            onChange={e => handleChange(e)}
-          />
-          <label
-            name="militaryService-label"
-            className="vads-u-margin-top--0"
-            htmlFor="militaryService"
-          >
-            Military service
-          </label>
-        </li>
+        <VaCheckbox
+          checked={militaryService}
+          id="militaryService"
+          name="militaryService"
+          onVaChange={e => handleChange(e)}
+          label="Military service"
+        />
       );
     }
 
@@ -123,18 +113,14 @@ const VeteranBenefitSummaryOptions = () => {
             <li>Reduce car taxes</li>
           </ul>
 
-          <fieldset>
-            <legend>
-              <h4 className="vads-u-font-family--sans vads-u-font-size--h4 vads-u-margin-y--0">
-                Choose what to include in your benefit letter:
-              </h4>
-            </legend>
-
-            <ul id="va-bsl-options" className="usa-unstyled-list">
-              {renderMilitaryServiceCheckbox()}
-              {renderBenefitsCheckboxes()}
-            </ul>
-          </fieldset>
+          <VaCheckboxGroup
+            id="va-bsl-options"
+            label="Choose what to include in your benefit letter:"
+            labelHeaderLevel={4}
+          >
+            {renderMilitaryServiceCheckbox()}
+            {renderBenefitsCheckboxes()}
+          </VaCheckboxGroup>
         </>
       );
     default:

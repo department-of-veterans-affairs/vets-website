@@ -2,7 +2,7 @@
 import { expect } from 'chai';
 import formConfig from '../../../config/form';
 import { testNumberOfWebComponentFields } from '../../../../shared/tests/pages/pageTests.spec';
-import mockData from '../../fixtures/data/test-data.json';
+import mockData from '../../e2e/fixtures/data/maximal-test.json';
 
 testNumberOfWebComponentFields(
   formConfig,

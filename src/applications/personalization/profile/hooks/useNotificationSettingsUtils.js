@@ -172,6 +172,7 @@ export const useNotificationSettingsUtils = () => {
       // Always exclude QUICK_SUBMIT and GENERAL
       NOTIFICATION_GROUPS.QUICK_SUBMIT,
       NOTIFICATION_GROUPS.GENERAL,
+      NOTIFICATION_GROUPS.PAPERLESS_DELIVERY,
     ];
 
     const excludedItemIds = [
@@ -262,6 +263,14 @@ export const useNotificationSettingsUtils = () => {
       [itemIds],
     );
 
+  const usePaperlessDeliveryGroup = () => {
+    return getAvailableGroups(communicationPreferences, [3]).filter(
+      ({ id }) => {
+        return id === NOTIFICATION_GROUPS.PAPERLESS_DELIVERY;
+      },
+    );
+  };
+
   return {
     toggles,
     showEmail,
@@ -269,6 +278,7 @@ export const useNotificationSettingsUtils = () => {
     channelsWithContactInfo,
     missingChannels,
     useAvailableGroups,
+    usePaperlessDeliveryGroup,
     useUnavailableItems,
     useFilteredItemsForMHVNotifications,
   };

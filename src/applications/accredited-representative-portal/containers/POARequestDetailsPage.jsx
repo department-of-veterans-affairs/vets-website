@@ -12,6 +12,8 @@ import {
   formatStatus,
   BANNER_TYPES,
   DETAILS_BC_LABEL,
+  PROCESSING_BANNER,
+  ERROR_BANNER,
   poaDetailsBreadcrumbs,
 } from '../utilities/poaRequests';
 import { recordDatalayerEvent } from '../utilities/analytics';
@@ -73,18 +75,6 @@ const DECISION_OPTIONS = {
   },
   ...DECLINATION_OPTIONS,
   ...DECLINATION_OPTIONS_UPDATE,
-};
-
-const PROCESSING_BANNER = {
-  HEADER: 'We’re processing the accepted POA request',
-  ACCEPTED: 'You accepted the POA request on',
-  COPY:
-    'We’re processing your decision. This normally takes 1-2 minutes, but can sometimes take longer. We’ll update the status of the request once it finishes processing. You can refresh the page to check for updates.',
-};
-const ERROR_BANNER = {
-  HEADER: 'We couldn’t process the accepted POA request',
-  COPY:
-    'We’re sorry, there was a problem with our system. We weren’t able to process your decision and update the status of the request. To try again, contact the claimant and ask them to resubmit VA Form 21-22.',
 };
 
 const POARequestDetailsPage = title => {
@@ -170,7 +160,7 @@ const POARequestDetailsPage = title => {
             data-testid="poa-request-details-header"
             tabIndex={-1}
           >
-            POA request
+            Representation request
             <p className="poa-request-details__name">
               {claimantLastName}, {claimantFirstName}
               {poaStatus !== 'expired' && (
@@ -198,6 +188,10 @@ const POARequestDetailsPage = title => {
             {poaRequestSubmission === BANNER_TYPES.PROCESSING && (
               <ProcessingBanner
                 status="info"
+                representative={
+                  poaRequest?.resolution?.accreditedIndividual ||
+                  'Your organization'
+                }
                 header={PROCESSING_BANNER.HEADER}
                 accepted={PROCESSING_BANNER.ACCEPTED}
                 date={poaRequest.resolution?.createdAt}

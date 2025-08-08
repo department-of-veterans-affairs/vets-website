@@ -112,7 +112,7 @@ const routes = [
               {
                 path: 'poa-requests/:id',
                 element: (
-                  <POARequestDetailsPage title="POA request | Veterans Affairs" />
+                  <POARequestDetailsPage title="Representation request | Veterans Affairs" />
                 ),
                 loader: POARequestDetailsPage.loader,
                 children: [

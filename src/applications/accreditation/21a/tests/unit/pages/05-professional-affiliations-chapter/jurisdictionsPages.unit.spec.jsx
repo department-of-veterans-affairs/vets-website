@@ -153,5 +153,178 @@ describe('Jurisdictions Pages', () => {
       );
       expect(getByText('January 13, 1990, #TEST123')).to.exist;
     });
+
+    context('isItemIncomplete function', () => {
+      it('should return true when item is null', () => {
+        expect(arrayBuilderOptions.isItemIncomplete(null)).to.be.true;
+      });
+
+      it('should return true when item is undefined', () => {
+        expect(arrayBuilderOptions.isItemIncomplete(undefined)).to.be.true;
+      });
+
+      it('should return true when item is empty object', () => {
+        expect(arrayBuilderOptions.isItemIncomplete({})).to.be.true;
+      });
+
+      it('should return true when jurisdiction is missing', () => {
+        const item = {
+          admissionDate: '1990-01-13',
+          membershipOrRegistrationNumber: 'TEST123',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when jurisdiction is null', () => {
+        const item = {
+          jurisdiction: null,
+          admissionDate: '1990-01-13',
+          membershipOrRegistrationNumber: 'TEST123',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when jurisdiction is empty string', () => {
+        const item = {
+          jurisdiction: '',
+          admissionDate: '1990-01-13',
+          membershipOrRegistrationNumber: 'TEST123',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when jurisdiction is "Other" but otherJurisdiction is missing', () => {
+        const item = {
+          jurisdiction: 'Other',
+          admissionDate: '1990-01-13',
+          membershipOrRegistrationNumber: 'TEST123',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when jurisdiction is "Other" but otherJurisdiction is null', () => {
+        const item = {
+          jurisdiction: 'Other',
+          otherJurisdiction: null,
+          admissionDate: '1990-01-13',
+          membershipOrRegistrationNumber: 'TEST123',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when jurisdiction is "Other" but otherJurisdiction is empty string', () => {
+        const item = {
+          jurisdiction: 'Other',
+          otherJurisdiction: '',
+          admissionDate: '1990-01-13',
+          membershipOrRegistrationNumber: 'TEST123',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when admissionDate is missing', () => {
+        const item = {
+          jurisdiction: 'Alabama',
+          membershipOrRegistrationNumber: 'TEST123',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when admissionDate is null', () => {
+        const item = {
+          jurisdiction: 'Alabama',
+          admissionDate: null,
+          membershipOrRegistrationNumber: 'TEST123',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when admissionDate is empty string', () => {
+        const item = {
+          jurisdiction: 'Alabama',
+          admissionDate: '',
+          membershipOrRegistrationNumber: 'TEST123',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when membershipOrRegistrationNumber is missing', () => {
+        const item = {
+          jurisdiction: 'Alabama',
+          admissionDate: '1990-01-13',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when membershipOrRegistrationNumber is null', () => {
+        const item = {
+          jurisdiction: 'Alabama',
+          admissionDate: '1990-01-13',
+          membershipOrRegistrationNumber: null,
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when membershipOrRegistrationNumber is empty string', () => {
+        const item = {
+          jurisdiction: 'Alabama',
+          admissionDate: '1990-01-13',
+          membershipOrRegistrationNumber: '',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return false when all required fields are present with regular jurisdiction', () => {
+        const item = {
+          jurisdiction: 'Alabama',
+          admissionDate: '1990-01-13',
+          membershipOrRegistrationNumber: 'TEST123',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.false;
+      });
+
+      it('should return false when all required fields are present with "Other" jurisdiction and otherJurisdiction', () => {
+        const item = {
+          jurisdiction: 'Other',
+          otherJurisdiction: 'Custom Jurisdiction Name',
+          admissionDate: '1990-01-13',
+          membershipOrRegistrationNumber: 'TEST123',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.false;
+      });
+
+      it('should return true when only jurisdiction is missing (all others present)', () => {
+        const item = {
+          admissionDate: '1990-01-13',
+          membershipOrRegistrationNumber: 'TEST123',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when only admissionDate is missing (all others present)', () => {
+        const item = {
+          jurisdiction: 'Alabama',
+          membershipOrRegistrationNumber: 'TEST123',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when only membershipOrRegistrationNumber is missing (all others present)', () => {
+        const item = {
+          jurisdiction: 'Alabama',
+          admissionDate: '1990-01-13',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when jurisdiction is "Other" but otherJurisdiction is missing (all others present)', () => {
+        const item = {
+          jurisdiction: 'Other',
+          admissionDate: '1990-01-13',
+          membershipOrRegistrationNumber: 'TEST123',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+    });
   });
 });

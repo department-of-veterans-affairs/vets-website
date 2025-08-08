@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom-v5-compat';
 import ExtraDetails from '../shared/ExtraDetails';
 import LastFilledInfo from '../shared/LastFilledInfo';
-import { dateFormat } from '../../util/helpers';
+import { dateFormat, getRxStatus, rxSourceIsNonVA } from '../../util/helpers';
 import { dataDogActionNames } from '../../util/dataDogConstants';
 
 const MedicationsListCard = ({ rx }) => {
@@ -12,6 +12,8 @@ const MedicationsListCard = ({ rx }) => {
   const pendingRenewal =
     rx.prescriptionSource === 'PD' && rx?.dispStatus === 'Renew';
   const latestTrackingStatus = rx?.trackingList?.[0];
+  const isNonVaPrescription = rxSourceIsNonVA(rx);
+  const rxStatus = getRxStatus(rx);
 
   const cardBodyContent = () => {
     if (pendingRenewal || pendingMed) {
@@ -65,16 +67,14 @@ const MedicationsListCard = ({ rx }) => {
             </span>
           </p>
         )}
-        {rx.dispStatus !== 'Unknown' && (
+        {rxStatus !== 'Unknown' && (
           <p
             id={`status-${rx.prescriptionId}`}
             className="vads-u-margin-top--1p5 vads-u-font-weight--bold"
             data-testid="rxStatus"
             data-dd-privacy="mask"
           >
-            {rx.dispStatus !== 'Active: Refill in Process'
-              ? rx.dispStatus
-              : 'Active: Refill in process'}
+            {rxStatus}
           </p>
         )}
         {rx && <ExtraDetails {...rx} />}
@@ -114,14 +114,13 @@ const MedicationsListCard = ({ rx }) => {
           to={`prescription/${rx.prescriptionId}`}
         >
           <span data-dd-privacy="mask">
-            {rx.prescriptionName ||
-              (rx.dispStatus === 'Active: Non-VA' ? rx.orderableItem : '')}
+            {rx?.prescriptionName || rx?.orderableItem}
           </span>
         </Link>
         {!pendingMed &&
           !pendingRenewal &&
-          rx.dispStatus !== 'Unknown' &&
-          rx.dispStatus !== 'Active: Non-VA' && (
+          rxStatus !== 'Unknown' &&
+          !isNonVaPrescription && (
             <p
               data-testid="rx-number"
               data-dd-privacy="mask"

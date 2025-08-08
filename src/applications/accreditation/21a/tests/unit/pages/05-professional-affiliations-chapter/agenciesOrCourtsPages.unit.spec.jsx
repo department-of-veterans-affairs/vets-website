@@ -157,5 +157,178 @@ describe('Agencies Or Courts Pages', () => {
       );
       expect(getByText('January 13, 1990, #TEST123')).to.exist;
     });
+
+    context('isItemIncomplete function', () => {
+      it('should return true when item is null', () => {
+        expect(arrayBuilderOptions.isItemIncomplete(null)).to.be.true;
+      });
+
+      it('should return true when item is undefined', () => {
+        expect(arrayBuilderOptions.isItemIncomplete(undefined)).to.be.true;
+      });
+
+      it('should return true when item is empty object', () => {
+        expect(arrayBuilderOptions.isItemIncomplete({})).to.be.true;
+      });
+
+      it('should return true when agencyOrCourt is missing', () => {
+        const item = {
+          admissionDate: '1990-01-13',
+          membershipOrRegistrationNumber: 'TEST123',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when agencyOrCourt is null', () => {
+        const item = {
+          agencyOrCourt: null,
+          admissionDate: '1990-01-13',
+          membershipOrRegistrationNumber: 'TEST123',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when agencyOrCourt is empty string', () => {
+        const item = {
+          agencyOrCourt: '',
+          admissionDate: '1990-01-13',
+          membershipOrRegistrationNumber: 'TEST123',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when agencyOrCourt is "Other" but otherAgencyOrCourt is missing', () => {
+        const item = {
+          agencyOrCourt: 'Other',
+          admissionDate: '1990-01-13',
+          membershipOrRegistrationNumber: 'TEST123',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when agencyOrCourt is "Other" but otherAgencyOrCourt is null', () => {
+        const item = {
+          agencyOrCourt: 'Other',
+          otherAgencyOrCourt: null,
+          admissionDate: '1990-01-13',
+          membershipOrRegistrationNumber: 'TEST123',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when agencyOrCourt is "Other" but otherAgencyOrCourt is empty string', () => {
+        const item = {
+          agencyOrCourt: 'Other',
+          otherAgencyOrCourt: '',
+          admissionDate: '1990-01-13',
+          membershipOrRegistrationNumber: 'TEST123',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when admissionDate is missing', () => {
+        const item = {
+          agencyOrCourt: 'Tax Court',
+          membershipOrRegistrationNumber: 'TEST123',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when admissionDate is null', () => {
+        const item = {
+          agencyOrCourt: 'Tax Court',
+          admissionDate: null,
+          membershipOrRegistrationNumber: 'TEST123',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when admissionDate is empty string', () => {
+        const item = {
+          agencyOrCourt: 'Tax Court',
+          admissionDate: '',
+          membershipOrRegistrationNumber: 'TEST123',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when membershipOrRegistrationNumber is missing', () => {
+        const item = {
+          agencyOrCourt: 'Tax Court',
+          admissionDate: '1990-01-13',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when membershipOrRegistrationNumber is null', () => {
+        const item = {
+          agencyOrCourt: 'Tax Court',
+          admissionDate: '1990-01-13',
+          membershipOrRegistrationNumber: null,
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when membershipOrRegistrationNumber is empty string', () => {
+        const item = {
+          agencyOrCourt: 'Tax Court',
+          admissionDate: '1990-01-13',
+          membershipOrRegistrationNumber: '',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return false when all required fields are present with regular agencyOrCourt', () => {
+        const item = {
+          agencyOrCourt: 'Tax Court',
+          admissionDate: '1990-01-13',
+          membershipOrRegistrationNumber: 'TEST123',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.false;
+      });
+
+      it('should return false when all required fields are present with "Other" agencyOrCourt and otherAgencyOrCourt', () => {
+        const item = {
+          agencyOrCourt: 'Other',
+          otherAgencyOrCourt: 'Custom Agency Name',
+          admissionDate: '1990-01-13',
+          membershipOrRegistrationNumber: 'TEST123',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.false;
+      });
+
+      it('should return true when only agencyOrCourt is missing (all others present)', () => {
+        const item = {
+          admissionDate: '1990-01-13',
+          membershipOrRegistrationNumber: 'TEST123',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when only admissionDate is missing (all others present)', () => {
+        const item = {
+          agencyOrCourt: 'Tax Court',
+          membershipOrRegistrationNumber: 'TEST123',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when only membershipOrRegistrationNumber is missing (all others present)', () => {
+        const item = {
+          agencyOrCourt: 'Tax Court',
+          admissionDate: '1990-01-13',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when agencyOrCourt is "Other" but otherAgencyOrCourt is missing (all others present)', () => {
+        const item = {
+          agencyOrCourt: 'Other',
+          admissionDate: '1990-01-13',
+          membershipOrRegistrationNumber: 'TEST123',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+    });
   });
 });

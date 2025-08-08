@@ -59,10 +59,12 @@ export function NewAddressSection({ success }) {
             </va-alert>
           )}
           <va-card className="vads-u-justify-content--space-between">
-            <ProfileInformationFieldController
-              fieldName={FIELD_NAMES.MAILING_ADDRESS}
-              ariaDescribedBy={`described-by-${FIELD_NAMES.MAILING_ADDRESS}`}
-            />
+            <div aria-live="polite" aria-relevant="all">
+              <ProfileInformationFieldController
+                fieldName={FIELD_NAMES.MAILING_ADDRESS}
+                ariaDescribedBy={`described-by-${FIELD_NAMES.MAILING_ADDRESS}`}
+              />
+            </div>
           </va-card>
         </VAPServicePendingTransactionCategory>
       </InitializeVAPServiceID>

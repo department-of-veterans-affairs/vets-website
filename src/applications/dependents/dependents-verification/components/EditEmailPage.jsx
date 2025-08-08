@@ -4,6 +4,8 @@ import { SchemaForm } from 'platform/forms-system/exportsFile';
 import { scrollTo } from 'platform/utilities/scroll';
 import EditPageButtons from './EditPageButtons';
 
+import { saveEditContactInformation } from '../util/contact-info';
+
 const EditEmailPage = ({
   schema,
   uiSchema,
@@ -35,14 +37,17 @@ const EditEmailPage = ({
       });
     },
     onUpdate: () => {
+      saveEditContactInformation('email', 'update');
       returnToPath();
     },
-    onCancel: () => {
+    onCancel: event => {
+      event.preventDefault();
       setFormData({
         ...data,
         email: originalEmail.current,
         electronicCorrespondence: originalElectronicCorrespondence.current,
       });
+      saveEditContactInformation('email', 'cancel');
       returnToPath();
     },
   };
