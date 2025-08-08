@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { PROFILE_PATH_NAMES } from '@@profile/constants';
 import { selectVAPEmailAddress } from '~/platform/user/selectors';
@@ -12,6 +12,10 @@ import { FieldHasBeenUpdated } from '../alerts/FieldHasBeenUpdated';
 export const PaperlessDelivery = () => {
   const emailAddress = useSelector(selectVAPEmailAddress);
   const showMissingEmailAlert = !emailAddress;
+
+  useEffect(() => {
+    document.title = `Paperless Delivery | Veterans Affairs`;
+  }, []);
 
   return (
     <>
