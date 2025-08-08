@@ -176,6 +176,8 @@ const transformedDisabilityNames = (facility, clonedData) => {
         claimed => sippableId(claimed) === name.toLowerCase(),
       );
       if (matched) {
+        // TODO as a part of the 4142 release, we need update this logic to reflect the
+        // accurate selection on the private medical records release page
         result[matched] = true;
       }
     }
