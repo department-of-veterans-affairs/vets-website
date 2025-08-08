@@ -131,7 +131,7 @@ const ComposeForm = props => {
               category: draftInProgress?.category || draft.category,
               subject: draftInProgress?.subject || draft.subject,
               body: draftInProgress?.body || draft.body,
-              messageId: draftInProgress.messageId || draft.messageId,
+              messageId: draftInProgress?.messageId || draft.messageId,
             }),
           );
         } else {
@@ -437,9 +437,9 @@ const ComposeForm = props => {
   useEffect(
     () => {
       if (
-        draftInProgress.category &&
-        draftInProgress.subject &&
-        draftInProgress.body &&
+        draftInProgress?.category &&
+        draftInProgress?.subject &&
+        draftInProgress?.body &&
         !formPopulated
       )
         populateForm();
