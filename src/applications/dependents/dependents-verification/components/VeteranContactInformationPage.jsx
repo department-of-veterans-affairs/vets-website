@@ -7,6 +7,7 @@ import { VaLink } from '@department-of-veterans-affairs/component-library/dist/r
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { scrollAndFocus } from 'platform/utilities/scroll';
 
+import { electronicCorrespondenceMessage } from '../config/chapters/veteran-contact-information/editEmailPage';
 import { isEmptyObject } from '../../shared/utils';
 
 const VeteranContactInformationPage = ({
@@ -171,10 +172,6 @@ const VeteranContactInformationPage = ({
     .join(' and ');
   const article = !email ? 'an' : 'a';
 
-  const agreementMessage = electronicCorrespondence
-    ? 'I agree to receive electronic correspondence from the VA about my claim at this email address'
-    : 'I do not agree to receive electronic correspondence from the VA about my claim at this email address';
-
   return (
     <>
       <h3 className="vads-u-margin-y--2">
@@ -294,7 +291,7 @@ const VeteranContactInformationPage = ({
                   className="dd-privacy-hidden"
                   data-dd-action-name="Electronic correspondence"
                 >
-                  {agreementMessage}
+                  {electronicCorrespondenceMessage(electronicCorrespondence)}
                 </div>
               </span>
             ) : (
