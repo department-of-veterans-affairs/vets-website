@@ -35,3 +35,7 @@ export const focusContactInfo = () => {
     scrollAndFocus('h3');
   }
 };
+
+export const focusPrefillAlert = () => {
+  focusElement('va-alert');
+};
