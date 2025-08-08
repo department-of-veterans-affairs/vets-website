@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { PROFILE_PATH_NAMES } from '@@profile/constants';
 import { fetchCommunicationPreferenceGroups } from '@@profile/ducks/communicationPreferences';
@@ -27,18 +27,17 @@ export const PaperlessDelivery = () => {
     selectCommunicationPreferences,
   );
   const hasVAPServiceError = useSelector(hasVAPServiceConnectionError);
-  const hasLoadingError = Boolean(communicationPreferencesState.loadingErrors);
-  const shouldShowAPIError = hasVAPServiceError || hasLoadingError;
+
+  const { loadingStatus, loadingErrors } = communicationPreferencesState;
+  const hasLoadingError = Boolean(loadingErrors);
+  const hasAPIError = hasVAPServiceError || hasLoadingError;
   const shouldShowLoadingIndicator =
-    communicationPreferencesState.loadingStatus === LOADING_STATES.idle ||
-    communicationPreferencesState.loadingStatus === LOADING_STATES.pending;
-  const shouldFetchNotificationSettings = !shouldShowAPIError;
-  const shouldShowNotificationGroups = useMemo(
-    () => {
-      return !shouldShowAPIError && !shouldShowLoadingIndicator;
-    },
-    [shouldShowAPIError, shouldShowLoadingIndicator],
-  );
+    loadingStatus === LOADING_STATES.idle ||
+    loadingStatus === LOADING_STATES.pending;
+  const shouldFetchNotificationSettings =
+    !hasAPIError && loadingStatus === LOADING_STATES.idle;
+  const shouldShowNotificationGroups =
+    !hasAPIError && !shouldShowLoadingIndicator;
 
   useEffect(
     () => {
