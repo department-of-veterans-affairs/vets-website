@@ -222,6 +222,8 @@ const veteranIncomeRecipientPage = {
     }),
     recipientRelationship: radioUI({
       title: 'Who receives this income?',
+      labelHeaderLevel: '2',
+      labelHeaderLevelStyle: '3',
       labels: Object.fromEntries(
         Object.entries(relationshipLabels).filter(
           ([key]) => key !== 'PARENT' && key !== 'CUSTODIAN',
@@ -267,6 +269,8 @@ const spouseIncomeRecipientPage = {
     }),
     recipientRelationship: radioUI({
       title: 'What’s the income recipient’s relationship to the Veteran?',
+      labelHeaderLevel: '2',
+      labelHeaderLevelStyle: '3',
       labels: Object.fromEntries(
         Object.entries(relationshipLabels)
           .filter(
@@ -322,6 +326,8 @@ const custodianIncomeRecipientPage = {
     }),
     recipientRelationship: radioUI({
       title: 'What’s the income recipient’s relationship to the Veteran?',
+      labelHeaderLevel: '2',
+      labelHeaderLevelStyle: '3',
       labels: Object.fromEntries(
         Object.entries(relationshipLabels)
           .filter(
@@ -378,6 +384,8 @@ const parentIncomeRecipientPage = {
     }),
     recipientRelationship: radioUI({
       title: 'What’s the income recipient’s relationship to the Veteran?',
+      labelHeaderLevel: '2',
+      labelHeaderLevelStyle: '3',
       labels: Object.fromEntries(
         Object.entries(relationshipLabels)
           .filter(
@@ -431,6 +439,8 @@ const nonVeteranIncomeRecipientPage = {
     }),
     recipientRelationship: radioUI({
       title: 'Who receives the income?',
+      labelHeaderLevel: '2',
+      labelHeaderLevelStyle: '3',
       labels: relationshipLabels,
     }),
     otherRecipientRelationshipType: {
