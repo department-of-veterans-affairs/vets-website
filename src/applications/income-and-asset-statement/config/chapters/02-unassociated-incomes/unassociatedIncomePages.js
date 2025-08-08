@@ -461,8 +461,28 @@ const nonVeteranIncomeRecipientPage = {
 /** @returns {PageSchema} */
 const recipientNamePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Recurring income recipient'),
-    recipientName: fullNameNoSuffixUI(title => `Income recipient’s ${title}`),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      showUpdatedContent()
+        ? 'Person who receives this income'
+        : 'Recurring income recipient',
+    ),
+    recipientName: showUpdatedContent()
+      ? {
+          ...fullNameNoSuffixUI,
+          first: {
+            ...fullNameNoSuffixUI.first,
+            'ui:title': 'First or given name',
+          },
+          middle: {
+            ...fullNameNoSuffixUI.middle,
+            'ui:title': 'Middle name',
+          },
+          last: {
+            ...fullNameNoSuffixUI.last,
+            'ui:title': 'Last or family name',
+          },
+        }
+      : fullNameNoSuffixUI(title => `Income recipient’s ${title}`),
   },
   schema: {
     type: 'object',
@@ -558,7 +578,9 @@ export const unassociatedIncomePages = arrayBuilderPages(
       schema: summaryPage.schema,
     }),
     unassociatedIncomeVeteranRecipientPage: pageBuilder.itemPage({
-      title: 'Recurring income recipient',
+      title: showUpdatedContent()
+        ? 'Person who receives this income'
+        : 'Recurring income recipient',
       path: 'recurring-income/:index/veteran-income-recipient',
       depends: formData =>
         showUpdatedContent() && formData.claimantType === 'VETERAN',
@@ -566,7 +588,9 @@ export const unassociatedIncomePages = arrayBuilderPages(
       schema: veteranIncomeRecipientPage.schema,
     }),
     unassociatedIncomeSpouseRecipientPage: pageBuilder.itemPage({
-      title: 'Recurring income recipient',
+      title: showUpdatedContent()
+        ? 'Person who receives this income'
+        : 'Recurring income recipient',
       path: 'recurring-income/:index/spouse-income-recipient',
       depends: formData =>
         showUpdatedContent() && formData.claimantType === 'SPOUSE',
@@ -574,7 +598,9 @@ export const unassociatedIncomePages = arrayBuilderPages(
       schema: spouseIncomeRecipientPage.schema,
     }),
     unassociatedIncomeCustodianRecipientPage: pageBuilder.itemPage({
-      title: 'Recurring income recipient',
+      title: showUpdatedContent()
+        ? 'Person who receives this income'
+        : 'Recurring income recipient',
       path: 'recurring-income/:index/custodian-income-recipient',
       depends: formData =>
         showUpdatedContent() && formData.claimantType === 'CUSTODIAN',
@@ -582,7 +608,9 @@ export const unassociatedIncomePages = arrayBuilderPages(
       schema: custodianIncomeRecipientPage.schema,
     }),
     unassociatedIncomeParentRecipientPage: pageBuilder.itemPage({
-      title: 'Recurring income recipient',
+      title: showUpdatedContent()
+        ? 'Person who receives this income'
+        : 'Recurring income recipient',
       path: 'recurring-income/:index/parent-income-recipient',
       depends: formData =>
         showUpdatedContent() && formData.claimantType === 'PARENT',
@@ -590,7 +618,9 @@ export const unassociatedIncomePages = arrayBuilderPages(
       schema: parentIncomeRecipientPage.schema,
     }),
     unassociatedIncomeNonVeteranRecipientPage: pageBuilder.itemPage({
-      title: 'Recurring income recipient',
+      title: showUpdatedContent()
+        ? 'Person who receives this income'
+        : 'Recurring income recipient',
       path: 'recurring-income/:index/income-recipient',
       depends: formData =>
         !showUpdatedContent() ||
@@ -599,7 +629,9 @@ export const unassociatedIncomePages = arrayBuilderPages(
       schema: nonVeteranIncomeRecipientPage.schema,
     }),
     unassociatedIncomeRecipientNamePage: pageBuilder.itemPage({
-      title: 'Recurring income recipient name',
+      title: showUpdatedContent()
+        ? 'Person who receives this income'
+        : 'Recurring income recipient',
       path: 'recurring-income/:index/recipient-name',
       depends: (formData, index) =>
         recipientNameRequired(formData, index, 'unassociatedIncomes'),
