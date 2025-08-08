@@ -9,7 +9,7 @@ import {
   mockUserData,
 } from './e2e/fixtures/mocks/lh_letters';
 
-describe('Authed Letter Test', () => {
+describe('Keyboard Only Letter Test', () => {
   it('confirms authed letter functionality', () => {
     cy.intercept(
       'GET',
@@ -20,7 +20,8 @@ describe('Authed Letter Test', () => {
     cy.intercept('GET', '/v0/address', address).as('address');
     cy.intercept('GET', '/v0/address/countries', countries).as('countries');
     cy.intercept('GET', '/v0/address/states', states).as('states');
-    cy.intercept('PUT', '/v0/address', newAddress).as('newAddress');
+    cy.intercept('PUT', '/v0/address', newAddress).as('newAddress')
+    
 
     cy.login(mockUserData);
     cy.visit('/records/download-va-letters/letters');
