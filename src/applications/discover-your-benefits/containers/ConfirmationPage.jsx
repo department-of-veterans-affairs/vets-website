@@ -474,7 +474,10 @@ export class ConfirmationPage extends React.Component {
           </va-alert>
         </article>
 
-        <div id="results-container">
+        <div
+          id="results-container"
+          className="vads-u-margin-top--4 medium-screen:vads-u-margin-top--6 "
+        >
           <div className="vads-l-row vads-u-margin-y--2">
             <div id="filters-section-desktop">
               <VaSearchFilter

@@ -169,9 +169,3 @@
 .description-article {
   max-width: 648px;
 }
-
-@media (max-width: $small-screen) {
-  article.description-article {
-    padding-bottom: 16px !important;
-  }
-}
