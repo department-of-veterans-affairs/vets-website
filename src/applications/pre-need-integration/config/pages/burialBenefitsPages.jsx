@@ -13,6 +13,7 @@ import {
   isVeteran,
   isAuthorizedAgent,
   getCemeteries,
+  hasDeceasedPersons,
 } from '../../utils/helpers';
 import CurrentlyBuriedDescription from '../../components/CurrentlyBuriedDescription';
 import fullNameUI from '../../definitions/fullName';
@@ -97,6 +98,12 @@ export function handleCancelEditNo() {
   return 'No, keep this';
 }
 
+export function handleSummaryTitle(formData) {
+  return hasDeceasedPersons(formData)
+    ? 'Name of deceased person(s)'
+    : 'Review your deceased persons';
+}
+
 export function handleVeteranDepends(formData) {
   return isVeteran(formData) && !isAuthorizedAgent(formData);
 }
@@ -135,6 +142,7 @@ const options = {
     cancelEditDescription: handleCancelEditDescription,
     cancelEditYes: handleCancelEditYes,
     cancelEditNo: handleCancelEditNo,
+    summaryTitle: handleSummaryTitle,
   },
 };
 

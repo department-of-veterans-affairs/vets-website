@@ -651,6 +651,13 @@ export function hasServiceRecord(item) {
   return !(serviceRecords === undefined || serviceRecords.length === 0);
 }
 
+export function hasDeceasedPersons(item) {
+  const deceasedPersons =
+    get('currentlyBuriedPersons', item) ||
+    get('formData.currentlyBuriedPersons', item);
+  return !(deceasedPersons === undefined || deceasedPersons.length === 0);
+}
+
 export function formatName(name) {
   const { first, middle, last, suffix } = name;
   return (
