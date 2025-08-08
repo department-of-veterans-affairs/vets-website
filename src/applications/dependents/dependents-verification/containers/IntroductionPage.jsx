@@ -49,7 +49,7 @@ const ProcessList = () => {
       <va-process-list-item header="After you submit">
         <p>
           You don’t need to do anything else. But you’ll need to verify your
-          dependents' information on your disability benefits each year.
+          dependents’ information on your disability benefits each year.
         </p>
         <p>
           Verifying your dependents each year makes sure you get your full
@@ -72,14 +72,14 @@ export const IntroductionPage = props => {
   return (
     <article className="schemaform-intro">
       <FormTitle title={TITLE} subTitle={SUBTITLE} />
-      <p>
+      <Gateway route={route} top />
+      <p className="vads-u-font-family--serif vads-u-font-size--md vads-u-margin-top--neg2 vads-u-margin-bottom--neg1 va-introtext">
         Use our online tool to submit your dependent verification form for VA
         disability benefits.
       </p>
-      <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
+      <h2 className="vads-u-margin-top--0">
         Follow the steps below to get started:
       </h2>
-      <Gateway route={route} top />
       <ProcessList />
       <Gateway route={route} />
       <div className="vads-u-margin-top--3">

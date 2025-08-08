@@ -1,5 +1,4 @@
 // import { externalServices } from 'platform/monitoring/DowntimeNotification';
-// import React from 'react';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { TITLE, SUBTITLE } from '../constants';
@@ -34,6 +33,16 @@ const formConfig = {
   trackingPrefix: '0538-dependents-verification-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  customText: {
+    appType: 'form',
+    appAction: 'your form',
+    continueAppButtonText: 'Continue your form',
+    startNewAppButtonText: 'Start a new form',
+    appSavedSuccessfullyMessage: 'Your form has been saved.',
+    finishAppLaterMessage: 'Finish this form later',
+    reviewPageTitle: 'Review your form',
+    submitButtonText: 'Submit form',
+  },
   preSubmitInfo: {
     statementOfTruth: {
       body:
@@ -65,18 +74,17 @@ const formConfig = {
   scrollAndFocusTarget: focusH3,
   saveInProgress: {
     messages: {
-      inProgress:
-        'Your dependent-benefits application (21-0538) is in progress.',
+      inProgress: 'Your dependent-benefits form (21-0538) is in progress.',
       expired:
-        'Your saved dependent-benefits application (21-0538) has expired. If you want to apply for dependent-benefits, please start a new application.',
-      saved: 'Your dependent-benefits application has been saved.',
+        'Your saved dependent-benefits form (21-0538) has expired. If you want to apply for dependent-benefits, please start a new form.',
+      saved: 'Your dependent-benefits form has been saved.',
     },
   },
   version: 0,
   savedFormMessages: {
     notFound: 'Please start over to apply for dependent-benefits.',
     noAuth:
-      'Please sign in again to continue your application for dependent-benefits.',
+      'Please sign in again to continue your form for dependent-benefits.',
   },
   title: TITLE,
   subTitle: SUBTITLE,
