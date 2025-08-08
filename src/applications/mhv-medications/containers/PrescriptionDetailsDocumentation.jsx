@@ -29,6 +29,11 @@ import CallPharmacyPhone from '../components/shared/CallPharmacyPhone';
 import { selectGroupingFlag } from '../util/selectors';
 import { useGetPrescriptionDocumentationQuery } from '../api/prescriptionsApi';
 import { usePrescriptionData } from '../hooks/usePrescriptionData';
+import {
+  selectSortOption,
+  selectFilterOption,
+  selectPageNumber,
+} from '../selectors/selectPreferences';
 
 const PrescriptionDetailsDocumentation = () => {
   const { prescriptionId } = useParams();
@@ -53,13 +58,9 @@ const PrescriptionDetailsDocumentation = () => {
   } = useGetPrescriptionDocumentationQuery(prescriptionId);
 
   // Get sort/filter selections from store.
-  const selectedSortOption = useSelector(
-    state => state.rx.preferences.sortOption,
-  );
-  const selectedFilterOption = useSelector(
-    state => state.rx.preferences.filterOption,
-  );
-  const currentPage = useSelector(state => state.rx.preferences.pageNumber);
+  const selectedSortOption = useSelector(selectSortOption);
+  const selectedFilterOption = useSelector(selectFilterOption);
+  const currentPage = useSelector(selectPageNumber);
   // Consolidate query parameters into a single state object to avoid multiple re-renders
   const showGroupingContent = useSelector(selectGroupingFlag);
   const [queryParams] = useState({
