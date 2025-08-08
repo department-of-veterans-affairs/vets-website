@@ -29,8 +29,9 @@ import {
   nameFormat,
   processList,
   removeTrailingSlash,
+  formatDateAndTimeWithGenericZone,
 } from '../../util/helpers';
-import { refreshPhases } from '../../util/constants';
+import { refreshPhases, VALID_REFRESH_DURATION } from '../../util/constants';
 
 describe('Name formatter', () => {
   it('formats a name with a first, middle, last, and suffix', () => {
@@ -421,19 +422,20 @@ describe('formats', () => {
 });
 
 describe('getStatusExtractPhase', () => {
-  const minutesBefore = (date, minutes) => {
-    return new Date(date.getTime() - minutes * 60 * 1000);
-  };
-
+  const minutesBefore = (date, minutes) =>
+    new Date(date.getTime() - minutes * 60000);
   const now = new Date();
 
-  it('returns STALE', () => {
+  it('returns STALE when lastCompleted is older than VALID_REFRESH_DURATION', () => {
     const phrStatus = [
       {
         extract: 'VPR',
-        lastRequested: minutesBefore(now, 80),
-        lastCompleted: minutesBefore(now, 70),
-        lastSuccessfulCompleted: minutesBefore(now, 70),
+        lastRequested: minutesBefore(now, VALID_REFRESH_DURATION / 60000 + 10),
+        lastCompleted: minutesBefore(now, VALID_REFRESH_DURATION / 60000 + 10),
+        lastSuccessfulCompleted: minutesBefore(
+          now,
+          VALID_REFRESH_DURATION / 60000 + 10,
+        ),
       },
     ];
     expect(getStatusExtractPhase(now, phrStatus, 'VPR')).to.equal(
@@ -441,7 +443,7 @@ describe('getStatusExtractPhase', () => {
     );
   });
 
-  it('returns IN_PROGRESS', () => {
+  it('returns IN_PROGRESS when lastCompleted < lastRequested', () => {
     const phrStatus = [
       {
         extract: 'VPR',
@@ -455,7 +457,7 @@ describe('getStatusExtractPhase', () => {
     );
   });
 
-  it('returns FAILED', () => {
+  it('returns FAILED when lastCompleted ≠ lastSuccessfulCompleted', () => {
     const phrStatus = [
       {
         extract: 'VPR',
@@ -469,7 +471,7 @@ describe('getStatusExtractPhase', () => {
     );
   });
 
-  it('returns CURRENT', () => {
+  it('returns CURRENT when lastCompleted === lastSuccessfulCompleted and within duration', () => {
     const phrStatus = [
       {
         extract: 'VPR',
@@ -480,6 +482,31 @@ describe('getStatusExtractPhase', () => {
     ];
     expect(getStatusExtractPhase(now, phrStatus, 'VPR')).to.equal(
       refreshPhases.CURRENT,
+    );
+  });
+
+  it('returns null if inputs are invalid', () => {
+    expect(getStatusExtractPhase(null, [], 'VPR')).to.be.null;
+    expect(getStatusExtractPhase(now, null, 'VPR')).to.be.null;
+    expect(getStatusExtractPhase(now, [], '')).to.be.null;
+  });
+
+  it('handles hasExplicitLoadError branch when upToDate, loadStatus, and errorMessage are set', () => {
+    // Use dates recent enough so that STALE check does not trigger
+    const recent = minutesBefore(now, 1);
+    const phrStatus = [
+      {
+        extract: 'VPR',
+        upToDate: true,
+        loadStatus: 'ERROR',
+        errorMessage: 'Something went wrong',
+        lastRequested: recent,
+        lastCompleted: recent,
+        lastSuccessfulCompleted: recent,
+      },
+    ];
+    expect(getStatusExtractPhase(now, phrStatus, 'VPR')).to.equal(
+      refreshPhases.FAILED,
     );
   });
 });
@@ -931,5 +958,49 @@ describe('getAppointmentsDateRange', () => {
 
     assertDateComponents(startDate, 2020, 0, 1, 0, 0, 0); // 2020-01-01T00:00:00 local time
     assertDateComponents(endDate, 2023, 1, 1, 23, 59, 59); // 2023-02-01T23:59:59 local time
+  });
+});
+
+describe('formatDateAndTimeWithGenericZone', () => {
+  let tzStub;
+
+  before(() => {
+    // Force user timezone to UTC for deterministic output
+    tzStub = sinon
+      .stub(Intl.DateTimeFormat.prototype, 'resolvedOptions')
+      .returns({ timeZone: 'UTC' });
+  });
+
+  after(() => {
+    tzStub.restore();
+  });
+
+  it('returns full date, time with “a.m.”/“p.m.” and generic zone for UTC', () => {
+    const date = parseISO('2025-02-17T14:30:00Z');
+    const { date: fullDate, time, timeZone } = formatDateAndTimeWithGenericZone(
+      date,
+    );
+
+    expect(fullDate).to.equal('February 17, 2025');
+    expect(time).to.equal('2:30 p.m.');
+    expect(timeZone).to.equal('UTC');
+  });
+
+  it('formats midnight correctly as “12:00 a.m.”', () => {
+    const date = parseISO('2025-02-17T00:00:00Z');
+    const { time } = formatDateAndTimeWithGenericZone(date);
+
+    expect(time).to.equal('12:00 a.m.');
+  });
+
+  it('strips “ST”/“DT” for other zones (e.g. PST→PT)', () => {
+    // change stub to a DST-aware zone
+    tzStub.returns({ timeZone: 'America/Los_Angeles' });
+    // 2025-07-01T15:45:00Z is 08:45 a.m. PDT → “8:45 a.m. PT”
+    const date = parseISO('2025-07-01T15:45:00Z');
+    const { time, timeZone } = formatDateAndTimeWithGenericZone(date);
+
+    expect(time).to.equal('8:45 a.m.');
+    expect(timeZone).to.equal('PT');
   });
 });

@@ -114,7 +114,9 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
   } = uiSchema;
 
   const label =
-    uiSchema['ui:title'] || schemaFromState?.properties?.[key].title;
+    uiSchema['ui:title'] ||
+    schemaFromState?.properties?.[key]?.title ||
+    schema?.properties?.[key]?.title;
 
   let refinedData = Array.isArray(data) ? data[index] : data;
   refinedData = typeof data === 'object' ? data[key] : data;
@@ -306,7 +308,7 @@ export const ChapterSectionCollection = ({
 
   resetDefaults();
 
-  const content = chapters.map(chapter => {
+  const content = chapters.map((chapter, index) => {
     const chapterTitle = getChapterTitle(
       chapter.formConfig,
       formData,
@@ -318,15 +320,20 @@ export const ChapterSectionCollection = ({
 
     hasFields = hasFields || fields.length > 0;
 
+    if (fields.length === 0) return null;
+
     return (
-      fields.length > 0 && (
-        <div key={`chapter_${chapter.name}`}>
+      <React.Fragment key={`chapter_${chapter.name}`}>
+        {index > 0 && (
+          <hr className="vads-u-border--1px vads-u-border-color--gray-light vads-u-margin-y--2" />
+        )}
+        <div>
           <h3>{chapterTitle}</h3>
           <ul className="vads-u-padding--0" style={{ listStyle: 'none' }}>
             {fields}
           </ul>
         </div>
-      )
+      </React.Fragment>
     );
   });
 

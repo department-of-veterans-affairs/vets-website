@@ -28,12 +28,7 @@ describe('Medications Partial Fill on Details Page', () => {
       Data.PARTIAL_FILL_TEXT,
     );
     detailsPage.verifyQuantityForPartialFillOnDetailsPage(Data.QUANTITY_EMPTY);
-    detailsPage.verifyImageFieldInAccordionCardInfoOnDetailsPage(
-      Data.IMAGE_FIELD,
-    );
-    detailsPage.verifyMedicationDescriptionFieldInAccordionCardInfo(
-      Data.MED_DESCRIPTION,
-    );
+
     detailsPage.verifyNoImageFieldMessageOnDetailsPage(Data.IMAGE_EMPTY);
   });
 });

@@ -80,23 +80,20 @@ export const deceasedDependentOptions = {
 /** @returns {PageSchema} */
 export const deceasedDependentIntroPage = {
   uiSchema: {
-    ...titleUI({
-      title: 'Your dependents who have died',
-      description: () => {
-        return (
-          <>
-            <p>
-              In the next few questions, we’ll ask you about your dependents who
-              have died. You must add at least one dependent who has died.
-            </p>
-            <CancelButton
-              dependentType="dependents who have died"
-              isAddChapter={false}
-            />
-          </>
-        );
-      },
-    }),
+    ...titleUI('Your dependents who have died'),
+    'ui:description': () => (
+      <>
+        <p>
+          In the next few questions, we’ll ask you about your dependents who
+          have died. You must add at least one dependent who has died.
+        </p>
+        <CancelButton
+          dependentType="dependents who have died"
+          dependentButtonType="dependents"
+          isAddChapter={false}
+        />
+      </>
+    ),
   },
   schema: {
     type: 'object',
@@ -148,11 +145,13 @@ export const deceasedDependentPersonalInfoPage = {
     },
     birthDate: currentOrPastDateUI({
       title: 'Dependent’s date of birth',
+      dataDogHidden: true,
       required: () => true,
     }),
   },
   schema: {
     type: 'object',
+    required: ['fullName', 'ssn', 'birthDate'],
     properties: {
       fullName: fullNameNoSuffixSchema,
       ssn: ssnSchema,
@@ -177,6 +176,7 @@ export const deceasedDependentTypePage = {
   },
   schema: {
     type: 'object',
+    required: ['dependentType'],
     properties: {
       dependentType: radioSchema(relationshipEnums),
     },
@@ -232,6 +232,7 @@ export const deceasedDependentDateOfDeathPage = {
   },
   schema: {
     type: 'object',
+    required: ['dependentDeathDate'],
     properties: {
       dependentDeathDate: dateOfDeathSchema,
     },
@@ -296,6 +297,7 @@ export const deceasedDependentLocationOfDeathPage = {
   },
   schema: {
     type: 'object',
+    required: ['dependentDeathLocation'],
     properties: {
       dependentDeathLocation: customLocationSchema,
     },

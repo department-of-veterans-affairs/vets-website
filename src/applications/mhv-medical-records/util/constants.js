@@ -7,6 +7,16 @@ export const recordType = {
   HEALTH_CONDITIONS: 'health conditions',
 };
 
+/** for use in Datadog RUM IDs, e.g. 'allergies-list-spinner' */
+export const recordTypeKeyNames = {
+  [recordType.ALLERGIES]: 'allergies',
+  [recordType.VACCINES]: 'vaccines',
+  [recordType.CARE_SUMMARIES_AND_NOTES]: 'care-summaries',
+  [recordType.LABS_AND_TESTS]: 'labs-and-tests',
+  [recordType.VITALS]: 'vitals',
+  [recordType.HEALTH_CONDITIONS]: 'health-conditions',
+};
+
 export const blueButtonRecordTypes = {
   MEDICATIONS: 'medications',
   APPOINTMENTS: 'appointments',
@@ -41,7 +51,6 @@ export const labTypes = {
   CHEM_HEM: 'chemistry_hematology',
   MICROBIOLOGY: 'microbiology',
   PATHOLOGY: 'pathology',
-  EKG: 'electrocardiogram',
   RADIOLOGY: 'radiology',
   CVIX_RADIOLOGY: 'cvix_radiology',
   OTHER: 'other',
@@ -61,7 +70,6 @@ export const loincCodes = {
   SURGICAL_PATHOLOGY: '27898-6',
   ELECTRON_MICROSCOPY: '50668-3',
   CYTOPATHOLOGY: '26438-2',
-  EKG: '11524-6',
   RADIOLOGY: '18748-4',
   // care summaries and notes
   PHYSICIAN_PROCEDURE_NOTE: '11506-3',
@@ -69,9 +77,15 @@ export const loincCodes = {
   DISCHARGE_SUMMARY: '18842-5',
   // vitals
   BLOOD_PRESSURE: '85354-9',
+  BREATHING_RATE: '9279-1',
+  HEIGHT: '8302-2',
+  TEMPERATURE: '8310-5',
+  WEIGHT: '29463-7',
   SYSTOLIC: '8480-6',
   DIASTOLIC: '8462-4',
   HEART_RATE: '8867-4',
+  PULSE_OXIMETRY_1: '59408-5',
+  PULSE_OXIMETRY_2: '2708-6',
 };
 
 export const fhirResourceTypes = {
@@ -156,7 +170,6 @@ export const vitalTypes = {
   TEMPERATURE: ['TEMPERATURE', 'BODY_TEMPERATURE'],
   WEIGHT: ['WEIGHT', 'BODY_WEIGHT'],
   HEIGHT: ['HEIGHT', 'BODY_HEIGHT'],
-  PAIN_SEVERITY: ['PAIN_SEVERITY_0_10_VERBAL_NUMERIC_RATING_SCORE_REPORTED'],
 };
 
 export const vitalTypeDisplayNames = {
@@ -202,7 +215,8 @@ export const vitalUnitDisplayText = {
   TEMPERATURE: ' °F',
   WEIGHT: ' pounds',
   BODY_WEIGHT: ' pounds',
-  HEIGHT: ' inches',
+  HEIGHT_FT: ' feet',
+  HEIGHT_IN: ' inches',
   BODY_HEIGHT: ' inches',
   PAIN_SEVERITY: '',
 };
@@ -457,9 +471,99 @@ export const CernerAlertContent = {
   },
 };
 
+export const LABS_AND_TESTS_DISPLAY_LABELS = {
+  DATE: 'Date and time collected',
+  TEST_CODE: 'Type of test',
+  SAMPLE_TESTED: 'Site or sample tested',
+  BODY_SITE: 'Body site tested',
+  ORDERED_BY: 'Ordered by',
+  LOCATION: 'Location',
+  COMMENTS: 'Lab comments',
+  RESULTS: 'Results',
+};
+
+export const LABS_AND_TESTS_DISPLAY_DISPLAY_MAP = {
+  date: LABS_AND_TESTS_DISPLAY_LABELS.DATE,
+  testCode: LABS_AND_TESTS_DISPLAY_LABELS.TEST_CODE,
+  sampleTested: LABS_AND_TESTS_DISPLAY_LABELS.SAMPLE_TESTED,
+  bodySite: LABS_AND_TESTS_DISPLAY_LABELS.BODY_SITE,
+  orderedBy: LABS_AND_TESTS_DISPLAY_LABELS.ORDERED_BY,
+  location: LABS_AND_TESTS_DISPLAY_LABELS.LOCATION,
+  comments: LABS_AND_TESTS_DISPLAY_LABELS.COMMENTS,
+  result: LABS_AND_TESTS_DISPLAY_LABELS.RESULTS,
+};
+
+export const OBSERVATION_DISPLAY_LABELS = {
+  TEST_CODE: 'Type of test',
+  SAMPLE_TESTED: 'Site or sample tested',
+  BODY_SITE: 'Body site tested',
+  STATUS: 'Status',
+  COMMENTS: 'Lab comments',
+  REFERENCE_RANGE: 'Reference range',
+  VALUE: 'Result',
+};
+export const OBSERVATION_DISPLAY_DISPLAY_MAP = {
+  testCode: OBSERVATION_DISPLAY_LABELS.TEST_CODE,
+  sampleTested: OBSERVATION_DISPLAY_LABELS.SAMPLE_TESTED,
+  bodySite: OBSERVATION_DISPLAY_LABELS.BODY_SITE,
+  status: OBSERVATION_DISPLAY_LABELS.STATUS,
+  comments: OBSERVATION_DISPLAY_LABELS.COMMENTS,
+  referenceRange: OBSERVATION_DISPLAY_LABELS.REFERENCE_RANGE,
+  value: OBSERVATION_DISPLAY_LABELS.VALUE,
+};
+
+export const SortTypes = {
+  ALPHABETICAL: {
+    value: 'alphatetically',
+    label: 'alphabetically',
+  },
+  ASC_DATE: {
+    value: 'ascDate',
+    label: 'newest to oldest',
+    labelWithDateEntered: 'newest to oldest (date entered)',
+  },
+  DSC_DATE: {
+    value: 'dscDate',
+    label: 'oldest to newest',
+    labelWithDateEntered: 'oldest to newest (date entered)',
+  },
+};
 export const radiologyErrors = {
   ERROR_REQUEST_AGAIN:
     'We’re sorry. There was a problem with our system. Try requesting your images again.',
   ERROR_TRY_LATER:
     'We’re sorry. There was a problem with our system. Try again later.',
+};
+
+export const allowedVitalLoincs = [
+  loincCodes.BLOOD_PRESSURE,
+  loincCodes.BREATHING_RATE,
+  loincCodes.HEART_RATE,
+  loincCodes.WEIGHT,
+  loincCodes.HEIGHT,
+  loincCodes.TEMPERATURE,
+  loincCodes.PULSE_OXIMETRY_1,
+  loincCodes.PULSE_OXIMETRY_2,
+];
+
+export const statsdFrontEndActions = {
+  // list calls
+  LABS_AND_TESTS_LIST: 'labs_and_tests_list',
+  CARE_SUMMARIES_AND_NOTES_LIST: 'care_summaries_and_notes_list',
+  VACCINES_LIST: 'vaccines_list',
+  ALLERGIES_LIST: 'allergies_list',
+  HEALTH_CONDITIONS_LIST: 'health_conditions_list',
+  VITALS_LIST: 'vitals_list',
+  // detail calls
+  LABS_AND_TESTS_DETAILS: 'labs_and_tests_details',
+  RADIOLOGY_IMAGES_LIST: 'radiology_images_list',
+  CARE_SUMMARIES_AND_NOTES_DETAILS: 'care_summaries_and_notes_details',
+  VACCINES_DETAILS: 'vaccines_details',
+  ALLERGIES_DETAILS: 'allergies_details',
+  HEALTH_CONDITIONS_DETAILS: 'health_conditions_details',
+  VITALS_DETAILS: 'vitals_details',
+  // download calls
+  DOWNLOAD_BLUE_BUTTON: 'download_blue_button',
+  DOWNLOAD_CCD: 'download_ccd',
+  DOWNLOAD_SEI: 'download_sei',
 };

@@ -1,130 +1,159 @@
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { focusElement, scrollToTop } from 'platform/utilities/ui';
+import { Link } from 'react-router';
+
+import { scrollToTop } from 'platform/utilities/scroll';
+import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import React, { useEffect } from 'react';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import { useSelector } from 'react-redux';
-import { isLOA3, isLoggedIn } from 'platform/user/selectors';
-import { TITLE, SUBTITLE } from '../constants';
+import recordEvent from 'platform/monitoring/record-event';
+import { WIZARD_STATUS } from '../constants';
 
-const OMB_RES_BURDEN = 10;
-const OMB_NUMBER = '2900-0009';
-const OMB_EXP_DATE = '08/31/2025';
-
-const ProcessList = () => {
-  return (
-    <va-process-list>
-      <va-process-list-item header="Check your eligibility">
-        <p className="vads-u-margin-bottom--0">
-          Make sure you meet our eligibility requirements before you apply.
-        </p>
-        <va-link
-          href="/careers-employment/vocational-rehabilitation/eligibility/"
-          text="Find out if you’re eligible for VR&E benefits"
-        />
-      </va-process-list-item>
-      <va-process-list-item header="Gather your information">
-        <p>Here’s what you’ll need to apply:</p>
-        <ul>
-          <li>Your Social Security number or VA file number</li>
-          <li>
-            An address, phone number, and email address where we can contact you
-          </li>
-        </ul>
-        <p>
-          <span className="vads-u-font-weight--bold">
-            What if I need help filling out my application?
-          </span>{' '}
-          An accredited representative with a Veterans Service Organization
-          (VSO) can help you fill out your application.{' '}
-          <va-link
-            href="/get-help-from-accredited-representative/"
-            text="Get help filing your claim"
-          />
-        </p>
-      </va-process-list-item>
-      <va-process-list-item header="Start your application">
-        <p>
-          We’ll take you through each step of the process. It should take about
-          10 minutes.
-        </p>
-        <p>
-          When you submit your application, you’ll get a confirmation message.
-          You can print this message for your records.
-        </p>
-        <va-additional-info trigger="What happens after you apply?">
-          Need copy.
-        </va-additional-info>
-      </va-process-list-item>
-    </va-process-list>
-  );
-};
-
-export const IntroductionPage = props => {
-  const userLoggedIn = useSelector(state => isLoggedIn(state));
-  const userIdVerified = useSelector(state => isLOA3(state));
-  const { route } = props;
-  const { formConfig, pageList } = route;
-  const showVerifyIdentify = userLoggedIn && !userIdVerified;
-
+const IntroductionPage = props => {
   useEffect(() => {
+    focusElement('.schemaform-title > h1');
     scrollToTop();
-    focusElement('h1');
+    document.title =
+      'Apply for Veteran Readiness and Employment Benefits | Veteran Affairs';
   }, []);
 
   return (
-    <article className="schemaform-intro">
-      <FormTitle title={TITLE} subTitle={SUBTITLE} />
-      <h2 className="vads-u-margin-top--0">
-        Application for Veteran Readiness and Employment for Claimants with
-        Service-Connected Disabilities (VA Form 28-1900)
-      </h2>
+    <div className="schemaform-intro">
+      <FormTitle title="Apply for Veteran Readiness and Employment with VA Form 28-1900" />
       <p>
-        Veteran Readiness and Employment (VR&E) benefits–also called Chapter
-        31–provide employment support and training services to help you find and
-        keep a job, and live as independently as possible. Apply online now.
+        Equal to VA Form 28-1900 (Vocational Rehabilitation for Claimants With
+        Service-Connected Disabilities)
       </p>
-      <h3 className="vads-u-font-size--h2 vads-u-margin-top--0">
-        Follow these steps to get started
-      </h3>
-      <ProcessList />
-      {showVerifyIdentify ? (
-        <div>{/* add verify identity alert if applicable */}</div>
-      ) : (
-        <SaveInProgressIntro
-          formConfig={formConfig}
-          headingLevel={2}
-          prefillEnabled={formConfig.prefillEnabled}
-          messages={formConfig.savedFormMessages}
-          pageList={pageList}
-          startText="Apply for veteran readiness and employment"
-          hideUnauthedStartLink
-          devOnly={{
-            forceShowFormControls: true,
+      <SaveInProgressIntro
+        hideUnauthedStartLink
+        prefillEnabled={props.route.formConfig.prefillEnabled}
+        messages={props.route.formConfig.savedFormMessages}
+        pageList={props.route.pageList}
+        startText="Apply for Veteran Readiness and Employment"
+        headingLevel="2"
+      >
+        Complete the 28-1900 form to apply for Vocational Rehabilitation.
+      </SaveInProgressIntro>
+      <h2>
+        Follow these steps to apply for Veteran Readiness and Employment
+        Benefits.
+      </h2>
+      <p id="vre-orientation-return">
+        If you’re not sure this is the right form, you can{' '}
+        <Link
+          aria-describedby="vre-orientation-return"
+          to="/start"
+          onClick={() => {
+            recordEvent({
+              event: 'howToWizard-start-over',
+            });
+            sessionStorage.removeItem(WIZARD_STATUS);
           }}
-        />
-      )}
-      <p />
-      <va-omb-info
-        res-burden={OMB_RES_BURDEN}
-        omb-number={OMB_NUMBER}
-        exp-date={OMB_EXP_DATE}
+        >
+          go back and answer the questions again.
+        </Link>
+      </p>
+      <div className="process schemaform-process">
+        <ol>
+          <li className="process-step list-one">
+            <h3>Prepare</h3>
+            <h4>When you apply, be sure to have these on hand:</h4>
+            <ul>
+              <li>Social Security number</li>
+              <li>Your VA file number (if you know it)</li>
+              <li>
+                An address, phone number, and email where we can contact you.
+              </li>
+            </ul>
+            <p>
+              <strong>What if I need help filling out my application?</strong>{' '}
+              An accredited representative with a Veterans Service Organization
+              (VSO) can help you fill out your application.{' '}
+              <a href="/disability/how-to-file-claim/">
+                Get help filing your claim
+              </a>
+            </p>
+          </li>
+          <li className="process-step list-two">
+            <h3>Apply</h3>
+            <p>Complete this Veteran Readiness and Employment form.</p>
+            <p>
+              After submitting your application, you’ll get a confirmation
+              message. It will include details about your next steps. You can
+              print this for your records.
+            </p>
+          </li>
+          <li className="process-step list-three">
+            <h3>VA review</h3>
+            <p>
+              We process applications in the order we receive them. We may
+              contact you if we have questions or need more information.
+            </p>
+          </li>
+          <li className="process-step list-four">
+            <h3>Decision</h3>
+            <p>
+              If you’re eligible for Veteran Readiness and Employment (VR&E)
+              benefits, we’ll schedule a meeting for you with a Vocational
+              Rehabilitation Counselor (VRC). The counselor will work with you
+              to create a personalized rehabilitation plan that outlines what
+              VR&E services you can get.
+            </p>
+          </li>
+        </ol>
+        <p id="vre-orientation-return-post-subway">
+          If you’re not sure this is the right form, you can{' '}
+          <Link
+            aria-describedby="vre-orientation-return-post-subway"
+            to="/start"
+            onClick={() => {
+              recordEvent({
+                event: 'howToWizard-start-over',
+              });
+              sessionStorage.removeItem(WIZARD_STATUS);
+            }}
+          >
+            go back and answer the questions again.
+          </Link>
+        </p>
+      </div>
+      <SaveInProgressIntro
+        hideUnauthedStartLink
+        buttonOnly
+        prefillEnabled={props.route.formConfig.prefillEnabled}
+        messages={props.route.formConfig.savedFormMessages}
+        pageList={props.route.pageList}
+        startText="Apply for Veteran Readiness and Employment"
       />
-    </article>
+      <div className="omb-info--container vads-u-margin-top--1p5 vads-u-padding-left--0">
+        <va-omb-info
+          res-burden={10}
+          omb-number="2900-0009"
+          exp-date="08/31/2025"
+        />
+      </div>
+      <h2 className="vads-u-font-size--h3">To apply by mail</h2>
+      <p>
+        You must sign in to complete this application online. To apply by mail,
+        fill out an Application for Vocational Rehabilitation for Claimants With
+        Service-connected Disabilities (VA Form 28-1900) and send it to the
+        address below:
+      </p>
+      <a
+        className="vads-u-padding-bottom--2 vads-u-display--inline-block"
+        href="/find-forms/about-form-28-1900/"
+      >
+        Get VA Form 28-1900 to download
+      </a>
+      <div className="vads-u-border-left--5px vads-u-border-color--primary vads-u-padding--0p5">
+        <p className="vads-u-margin--0p5">
+          <strong>Department of Veterans Affairs</strong>
+        </p>
+        <p className="vads-u-margin--0p5">VR&E Intake Center</p>
+        <p className="vads-u-margin--0p5">P.O. Box 5210</p>
+        <p className="vads-u-margin--0p5">Janesville, WI 53547-5210</p>
+      </div>
+    </div>
   );
-};
-
-IntroductionPage.propTypes = {
-  route: PropTypes.shape({
-    formConfig: PropTypes.shape({
-      prefillEnabled: PropTypes.bool.isRequired,
-      savedFormMessages: PropTypes.object.isRequired,
-    }).isRequired,
-    pageList: PropTypes.arrayOf(PropTypes.object).isRequired,
-  }).isRequired,
-  location: PropTypes.shape({
-    basename: PropTypes.string,
-  }),
 };
 
 export default IntroductionPage;

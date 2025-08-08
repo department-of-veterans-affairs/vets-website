@@ -5,8 +5,8 @@ import classNames from 'classnames';
 
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from 'platform/monitoring/record-event';
-import { getScrollOptions, focusElement } from 'platform/utilities/ui';
-import scrollTo from 'platform/utilities/ui/scrollTo';
+import { focusElement } from 'platform/utilities/ui/focus';
+import { getScrollOptions, scrollTo } from 'platform/utilities/scroll';
 import AlertBox from '../AlertBox';
 import Dropdown from '../Dropdown';
 import {

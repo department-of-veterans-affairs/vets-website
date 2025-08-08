@@ -20,15 +20,37 @@ import {
 import React from 'react';
 import PropTypes from 'prop-types';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
-import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+import { CustomPageNavButtons } from '../../shared/components/CustomPageNavButtons';
 import { populateFirstApplicant } from '../helpers/utilities';
+import manifest from '../manifest.json';
 
 const fullNameMiddleInitialUI = cloneDeep(fullNameUI());
 fullNameMiddleInitialUI.middle['ui:title'] = 'Middle initial';
 
+const signInAlert = loggedIn => (
+  <>
+    {!loggedIn && (
+      <va-alert status="info">
+        <p className="vads-u-margin-y--0">
+          It may take some time to complete this form. Sign in to save your
+          progress. We can also pre-fill some of the information for you to save
+          you time.
+          <br />
+          <va-link
+            href={`${manifest.rootUrl}?next=loginModal`}
+            text="Sign in to start your application"
+          />
+        </p>
+      </va-alert>
+    )}
+  </>
+);
+
 export const certifierRoleSchema = {
   uiSchema: {
-    ...titleUI('Your information'),
+    ...titleUI('Your information', ({ formContext }) =>
+      signInAlert(formContext?.isLoggedIn),
+    ),
     certifierRole: radioUI({
       title: 'Which of these best describes you?',
       required: () => true,
@@ -131,7 +153,7 @@ export function signerContactOnGoForward(props) {
   } else if (props?.data?.certifierRole === 'sponsor') {
     // Populate some sponsor fields with certifier info:
     formData.sponsorIsDeceased = false;
-    formData.veteransFullName = formData.certifierName;
+    formData.sponsorName = formData.certifierName;
     formData.sponsorAddress = formData.certifierAddress;
     formData.sponsorPhone = formData.certifierPhone;
   }
@@ -152,6 +174,11 @@ export function SignerContactInfoPage(props) {
     </button>
   );
 
+  const navButtons = CustomPageNavButtons({
+    ...props,
+    onContinue: () => signerContactOnGoForward(props),
+  });
+
   return (
     <SchemaForm
       name={props.name}
@@ -169,15 +196,7 @@ export function SignerContactInfoPage(props) {
       <>
         {/* contentBeforeButtons = save-in-progress links */}
         {props.contentBeforeButtons}
-        {props.onReviewPage ? (
-          updateButton
-        ) : (
-          <FormNavButtons
-            goBack={props.goBack}
-            goForward={() => signerContactOnGoForward(props)}
-            submitToContinue
-          />
-        )}
+        {props.onReviewPage ? updateButton : navButtons}
         {props.contentAfterButtons}
       </>
     </SchemaForm>

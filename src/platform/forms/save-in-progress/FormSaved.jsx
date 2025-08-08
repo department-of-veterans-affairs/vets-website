@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { fromUnixTime } from 'date-fns';
 import { format } from 'date-fns-tz';
 
-import scrollToTop from '~/platform/utilities/ui/scrollToTop';
+import { scrollToTop } from 'platform/utilities/scroll';
 import { waitForRenderThenFocus } from '~/platform/utilities/ui';
 import { savedMessage } from '~/platform/forms-system/src/js/utilities/save-in-progress-messages';
 
@@ -64,8 +64,8 @@ const FormSaved = props => {
             !!expirationDate && (
               <div className="saved-form-metadata-container">
                 <span className="saved-form-metadata">
-                  Last saved on{' '}
-                  {format(lastSavedDate, "MMMM d, yyyy', at' h:mm aaaa z")}
+                  We saved your application on{' '}
+                  {format(lastSavedDate, "MMMM d, yyyy', at' h:mm aaaa z")}.
                 </span>
                 {expirationMessage || (
                   <p className="expires-container">
@@ -78,8 +78,8 @@ const FormSaved = props => {
               </div>
             )}
           {success}
-          If you’re on a public computer, please sign out of your account before
-          you leave so your information stays secure.
+          If you’re on a public computer, sign out of your account to keep your
+          information secure.
         </div>
       </va-alert>
       {!verified && (

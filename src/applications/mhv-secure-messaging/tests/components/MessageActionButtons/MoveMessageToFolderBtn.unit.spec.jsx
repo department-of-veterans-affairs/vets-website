@@ -3,14 +3,17 @@ import { fireEvent, waitFor } from '@testing-library/dom';
 import { expect } from 'chai';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { cleanup } from '@testing-library/react';
-import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
+import {
+  mockApiRequest,
+  inputVaTextInput,
+} from '@department-of-veterans-affairs/platform-testing/helpers';
 import reducers from '~/applications/mhv-secure-messaging/reducers';
 import folderResponse from '../../fixtures/folder-response.json';
 import folderInboxResponse from '../../fixtures/folder-inbox-response.json';
 import MoveMessageToFolderBtn from '../../../components/MessageActionButtons/MoveMessageToFolderBtn';
 import * as Constants from '../../../util/constants';
 import { DefaultFolders } from '../../../util/constants';
-import { inputVaTextInput, selectVaRadio } from '../../../util/testUtils';
+import { selectVaRadio } from '../../../util/testUtils';
 import newFolderResponse from '../../e2e/fixtures/customResponse/created-folder-response.json';
 
 describe('Move button', () => {
@@ -183,41 +186,41 @@ describe('Move button', () => {
   });
 
   it('displays errors in Create New Folder modal on invalid value selections', async () => {
-    const screen = setup();
+    const { container, getByTestId, getByText } = setup();
 
-    fireEvent.click(screen.getByText('Move'));
-    screen.getByTestId('radiobutton-Inbox');
+    fireEvent.click(getByText('Move'));
+    getByTestId('radiobutton-Inbox');
 
     await waitFor(() => {
-      selectVaRadio(screen.container, 'newFolder');
+      selectVaRadio(container, 'newFolder');
     });
-    fireEvent.click(document.querySelector('va-button[text="Confirm"]'));
+    fireEvent.click(container.querySelector('va-button[text="Confirm"]'));
 
-    const createButton = document.querySelector('va-button[text="Create"]');
+    const createButton = container.querySelector('va-button[text="Create"]');
     fireEvent.click(createButton);
     await waitFor(() => {
-      expect(document.querySelector('va-text-input')).to.have.attribute(
+      expect(container.querySelector('va-text-input')).to.have.attribute(
         'error',
         Constants.Alerts.Folder.CREATE_FOLDER_ERROR_NOT_BLANK,
       );
     });
 
     const newFolderName = folderResponse[0].name;
-    inputVaTextInput(screen.container, newFolderName);
+    inputVaTextInput(container, newFolderName);
 
     fireEvent.click(createButton);
     await waitFor(() => {
-      expect(document.querySelector('va-text-input')).to.have.attribute(
+      expect(container.querySelector('va-text-input')).to.have.attribute(
         'error',
         Constants.Alerts.Folder.CREATE_FOLDER_ERROR_EXSISTING_NAME,
       );
     });
 
-    inputVaTextInput(screen.container, '&');
+    inputVaTextInput(container, '&');
 
     fireEvent.click(createButton);
     await waitFor(() => {
-      expect(document.querySelector('va-text-input')).to.have.attribute(
+      expect(container.querySelector('va-text-input')).to.have.attribute(
         'error',
         Constants.Alerts.Folder.CREATE_FOLDER_ERROR_CHAR_TYPE,
       );

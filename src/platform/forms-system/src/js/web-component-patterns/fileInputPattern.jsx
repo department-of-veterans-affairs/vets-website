@@ -16,7 +16,7 @@ export const filePresenceValidation = (
 };
 
 /**
- * Web component v3 uiSchema for generic fileInput field
+ * uiSchema for file input field
  *
  * Usage uiSchema:
  * ```js
@@ -31,7 +31,7 @@ export const filePresenceValidation = (
  *
  * Usage schema:
  * ```js
- * exampleFileInput: fileInputSchema,
+ * exampleFileInput: fileInputSchema(),
  * required: ['exampleFileInput']
  *
  * // or
@@ -123,15 +123,13 @@ export const fileInputUI = options => {
 };
 
 /**
- * Schema for generic fileInput field
+ * Schema for fileInputUI
  *
  * ```js
- * exampleFileInput: {
- *   type: 'object',
- * }
+ * exampleFileInput: fileInputSchema()
  * ```
  */
-export const fileInputSchema = {
+export const fileInputSchema = () => ({
   type: 'object',
   properties: {
     confirmationCode: {
@@ -156,4 +154,4 @@ export const fileInputSchema = {
       },
     },
   },
-};
+});

@@ -1,40 +1,25 @@
 // Chapter 1
 
 export const roleOptions = Object.freeze({
-  attorney: 'Attorney',
-  claimsAgent: 'Claims agent (non-attorney representative)',
+  ATTORNEY: 'Attorney',
+  CLAIMS_AGENT: 'Claims agent (non-attorney representative)',
 });
 
 export const typeOfPhoneOptions = Object.freeze({
-  cell: 'Cell',
-  home: 'Home',
-  work: 'Work',
+  CELL: 'Cell',
+  HOME: 'Home',
+  WORK: 'Work',
 });
-
-export const employmentStatusOptions = Object.freeze({
-  employed: 'Employed',
-  unemployed: 'Unemployed',
-  selfEmployed: 'Self-employed',
-  student: 'Student',
-  retired: 'Retired',
-  other: 'Other',
-});
-
-export const descriptionRequired = Object.freeze([
-  'unemployed',
-  'selfEmployed',
-  'other',
-]);
 
 export const primaryMailingAddressOptions = Object.freeze({
-  home: 'Home',
-  work: 'Work',
-  other: 'Other',
+  HOME: 'Home',
+  WORK: 'Work',
+  OTHER: 'Other',
 });
 
 export const primaryMailingAddressOptionsNoWork = Object.freeze({
-  home: 'Home',
-  other: 'Other',
+  HOME: 'Home',
+  OTHER: 'Other',
 });
 
 // Chapter 2
@@ -43,49 +28,83 @@ export const branchOptions = Object.freeze([
   'Air Force',
   'Army',
   'Coast Guard',
-  'Marine Corps',
+  'Marines',
   'Navy',
   'NOAA',
+  'No Active Service',
+  'Public Health Service',
   'Space Force',
-  'USPHS',
+  'Other',
 ]);
 
 export const characterOfDischargeOptions = Object.freeze([
-  'Honorable',
-  'General',
-  'Other Than Honorable',
   'Bad Conduct',
   'Dishonorable',
-  'Other',
+  'Convenience of Govt',
+  'Entry Level',
+  'General',
+  'Honorable',
+  'Medical',
+  'Other Than Honorable',
 ]);
 
 export const explanationRequired = Object.freeze([
   'Other Than Honorable',
   'Bad Conduct',
   'Dishonorable',
-  'Other',
 ]);
 
 // Chapter 3
 
-export const employmentActivitiesOptions = Object.freeze({
-  business: 'Business or service that advertises predominately to Veterans',
-  consulting: 'Consulting or referral services for Veterans',
-  financial: 'Financial planning',
-  homeOrNursing: 'Home care or nursing care',
-  medical: 'Medical services',
-  socialWork: 'Social work',
-  vocationalRehabilitation: 'Vocational rehabilitation',
-  none: 'None of these apply',
+export const employmentStatusOptions = Object.freeze({
+  EMPLOYED: 'Employed',
+  UNEMPLOYED: 'Unemployed',
+  SELF_EMPLOYED: 'Self-employed',
+  STUDENT: 'Student',
 });
+
+export const employmentActivitiesOptions = Object.freeze({
+  BUSINESS: 'Business or service that advertises predominately to Veterans',
+  CONSULTING: 'Consulting or referral services for Veterans',
+  FINANCIAL: 'Financial planning',
+  HOME_OR_NURSING: 'Home care or nursing care',
+  MEDICAL: 'Medical services',
+  SOCIAL_WORK: 'Social work',
+  VOCATIONAL_REHABILITATION: 'Vocational rehabilitation',
+});
+
+export const descriptionRequired = Object.freeze([
+  'UNEMPLOYED',
+  'SELF_EMPLOYED',
+]);
 
 // Chapter 4
 
+export const institutionTypeOptions = Object.freeze([
+  'High School',
+  'Community College',
+  'Under Graduate',
+  'Graduate',
+]);
+
 export const degreeOptions = Object.freeze([
-  'High school diploma or equivalent',
+  'GED',
+  'High school diploma',
   'Associate degree',
   "Bachelor's degree",
   "Master's degree",
   'Doctoral degree',
+]);
+
+// Chapter 7
+
+export const characterReferencesRelationship = Object.freeze([
+  'Classmate',
+  'Colleague',
+  'Customer/Client',
+  'Friend',
+  'Neighbor',
+  'Supervisor',
+  'Educator',
   'Other',
 ]);

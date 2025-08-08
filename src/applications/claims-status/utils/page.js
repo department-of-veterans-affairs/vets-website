@@ -1,5 +1,4 @@
-import { scrollAndFocus } from 'platform/utilities/ui';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { scrollAndFocus, scrollToTop } from 'platform/utilities/scroll';
 
 export function setFocus(selector) {
   const el =
@@ -35,3 +34,17 @@ export function isTab(url) {
       url.endsWith('overview'))
   );
 }
+
+export const focusNotificationAlert = () => {
+  const alert = document.querySelector('.claims-alert');
+  if (alert) {
+    setFocus(alert);
+    setTimeout(() => {
+      if (document.activeElement !== alert) {
+        setTimeout(() => {
+          setFocus(alert);
+        }, 150);
+      }
+    }, 0);
+  }
+};

@@ -71,7 +71,7 @@ export const RepresentativeStatusContainer = ({
   }
 
   if (!error && !id) {
-    return <NoRep DynamicHeader={DynamicHeader} />;
+    return <NoRep DynamicHeader={DynamicHeader} isWidget />;
   }
 
   return <UnknownRep DynamicHeader={DynamicHeader} />;

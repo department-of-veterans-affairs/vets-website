@@ -7,6 +7,10 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import getHelp from '../components/GetFormHelp';
 import PreSubmitInfo from '../containers/PreSubmitInfo';
 import { submitHandler } from '../utils/helpers';
+import {
+  militaryBranchComponentTypes,
+  militaryBranchTypes,
+} from '../constants/benefits';
 
 import manifest from '../manifest.json';
 
@@ -17,8 +21,12 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import goals from '../pages/goals';
 import disabilityRating from '../pages/disabilityRating';
 import militaryService from '../pages/militaryService';
-import militaryBranch from '../pages/militaryBranch';
+import activeDuty from '../pages/activeDuty';
+import militaryBranch, {
+  getBranchComponentPages,
+} from '../pages/militaryBranch';
 import militaryServiceTimeServed from '../pages/militaryServiceTimeServed';
+import titleTenServiceTime from '../pages/titleTenTimeServed';
 import militaryServiceCompleted from '../pages/militaryServiceCompleted';
 import separation from '../pages/separation';
 import characterOfDischarge from '../pages/characterOfDischarge';
@@ -101,6 +109,40 @@ export const formConfig = {
           schema: militaryBranch.schema,
           depends: () => !environment.isProduction(),
         },
+        ...getBranchComponentPages(() => !environment.isProduction),
+        titleTenActiveDuty: {
+          path: 'service/active-duty',
+          title: 'Active Duty',
+          uiSchema: activeDuty.uiSchema,
+          schema: activeDuty.schema,
+          depends: formData => {
+            return (
+              !environment.isProduction() &&
+              Object.values(militaryBranchTypes).some(pageName => {
+                return (
+                  formData[pageName]?.[
+                    militaryBranchComponentTypes.NATIONAL_GUARD_SERVICE
+                  ] ||
+                  formData[pageName]?.[
+                    militaryBranchComponentTypes.RESERVE_SERVICE
+                  ]
+                );
+              })
+            );
+          },
+        },
+        titleTenTimeServed: {
+          path: 'service/title-ten',
+          title: 'Title Ten',
+          uiSchema: titleTenServiceTime.uiSchema,
+          schema: titleTenServiceTime.schema,
+          depends: formData => {
+            return (
+              !environment.isProduction() &&
+              formData.titleTenActiveDuty === true
+            );
+          },
+        },
         militaryService: {
           path: 'service/current',
           title: 'Military Service',
@@ -121,8 +163,13 @@ export const formConfig = {
           title: 'Military Service Completed',
           uiSchema: militaryServiceCompleted.uiSchema,
           schema: militaryServiceCompleted.schema,
+          // Hide this question incase we need it later. The previous question skips this, but the 'depends' statement makes it show up on the review page even if
+          // the question doesn't show up in the questionnaire.
           depends: formData => {
-            return formData.militaryServiceCurrentlyServing === true;
+            return (
+              environment.isTest() &&
+              formData.militaryServiceCurrentlyServing === true
+            );
           },
           onNavForward: ({ formData, goPath }) => {
             if (formData.militaryServiceCurrentlyServing === true) {

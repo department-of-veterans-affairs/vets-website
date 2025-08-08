@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useHistory } from 'react-router-dom';
 import { format } from 'date-fns';
+import { formatInTimeZone } from 'date-fns-tz';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { titleCase } from '../utils/formatters';
+import { stripDST } from '../utils/timezone';
 import ReferralLayout from './components/ReferralLayout';
 import ProviderAddress from './components/ProviderAddress';
 import { routeToNextReferralPage } from './flow';
@@ -130,8 +132,14 @@ export const CompleteReferral = props => {
     new Date(attributes.start),
     'EEEE, MMMM do, yyyy',
   );
-  const appointmentTime = format(new Date(attributes.start), 'h:mm aaaa');
 
+  const appointmentTime = stripDST(
+    formatInTimeZone(
+      new Date(attributes.start),
+      attributes.provider.location.timezone,
+      'h:mm aaaa zzz',
+    ),
+  );
   return (
     <ReferralLayout
       hasEyebrow
@@ -157,15 +165,15 @@ export const CompleteReferral = props => {
               className="vads-u-margin-bottom--0 vads-u-font-family--serif"
               data-testid="appointment-date"
             >
-              {appointmentDate}
+              <span data-dd-privacy="mask">{appointmentDate}</span>
             </p>
             <h2
               className="vads-u-margin-top--0 vads-u-margin-bottom-1"
               data-testid="appointment-time"
             >
-              {appointmentTime}
+              <span data-dd-privacy="mask">{appointmentTime}</span>
             </h2>
-            <strong data-testid="appointment-type">
+            <strong data-dd-privacy="mask" data-testid="appointment-type">
               {titleCase(currentReferral.categoryOfCare)} with{' '}
               {`${currentReferral.provider.name ||
                 'Provider name not available'}`}
@@ -174,7 +182,7 @@ export const CompleteReferral = props => {
               className="vads-u-margin-bottom--0"
               data-testid="appointment-modality"
             >
-              Community Care
+              Community care
             </p>
             <ProviderAddress
               address={attributes.provider.location.address}
@@ -201,12 +209,12 @@ export const CompleteReferral = props => {
                 Please consider taking our pilot feedback surveys
               </h3>
               <p className="vads-u-margin-top--0">
-                First, you will follow the link below to the{' '}
-                <strong>sign-up survey</strong> with our recruitment partner.
+                First, follow the link below to the sign-up survey with our
+                recruitment partner.
               </p>
               <p>
-                Next, you will be contacted by our recruitment partner and
-                provided the <strong>feedback</strong> survey.
+                Next, wait to be contacted by our recruitment partner, who will
+                provide the feedback survey.
               </p>
               <p className="vads-u-margin-y--1">
                 Our recruiting partner will provide compensation.

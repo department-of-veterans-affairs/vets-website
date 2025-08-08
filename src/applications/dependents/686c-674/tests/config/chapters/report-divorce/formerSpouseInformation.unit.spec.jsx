@@ -1,10 +1,10 @@
-import { render } from '@testing-library/react';
+import React from 'react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
-import React from 'react';
 import createCommonStore from '@department-of-veterans-affairs/platform-startup/store';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
-import { $$ } from 'platform/forms-system/src/js/utilities/ui';
+import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../../../config/form';
 
 const defaultStore = createCommonStore();
@@ -89,6 +89,62 @@ describe('686 report divorce: Former spouse information', () => {
     expect($$('va-text-input', container).length).to.equal(2);
     expect($$('va-radio', container).length).to.equal(1);
     expect($$('va-radio-option', container).length).to.equal(2);
+  });
+
+  it('should render error messages', async () => {
+    const { container } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={{}}
+        />
+      </Provider>,
+    );
+
+    fireEvent.submit($('button[type="submit"]', container));
+
+    await waitFor(() => {
+      const errors = $$('[error]', container)?.map(
+        el => `${el.tagName}:${el.getAttribute('error')}`,
+      );
+      expect(errors.length).to.equal(4);
+      expect(errors).to.deep.equal([
+        'VA-MEMORABLE-DATE:Please enter a date',
+        'VA-TEXT-INPUT:Enter the city where this occurred',
+        'VA-SELECT:Select a state',
+        'VA-RADIO:You must provide a response',
+      ]);
+    });
+  });
+
+  it('should render error messages when reason marriage ended is "other"', async () => {
+    const { container } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={{ reportDivorce: { reasonMarriageEnded: 'Other' } }}
+        />
+      </Provider>,
+    );
+
+    fireEvent.submit($('button[type="submit"]', container));
+
+    await waitFor(() => {
+      const errors = $$('[error]', container)?.map(
+        el => `${el.tagName}:${el.getAttribute('error')}`,
+      );
+      expect(errors.length).to.equal(4);
+      expect(errors).to.deep.equal([
+        'VA-MEMORABLE-DATE:Please enter a date',
+        'VA-TEXT-INPUT:Enter the city where this occurred',
+        'VA-SELECT:Select a state',
+        'VA-TEXT-INPUT:You must provide a response',
+      ]);
+    });
   });
 });
 

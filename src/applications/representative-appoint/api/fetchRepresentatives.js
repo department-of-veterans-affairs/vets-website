@@ -23,7 +23,7 @@ export const fetchRepresentatives = async ({ query }) => {
       : `${environment.API_URL}`;
 
   return new Promise((resolve, reject) => {
-    fetch(`${apiUrl}${REPRESENTATIVES_API}?query=${query}`, apiSettings)
+    fetch(`${apiUrl}${REPRESENTATIVES_API()}?query=${query}`, apiSettings)
       .then(res => {
         if (!res.ok) {
           throw Error(res.statusText);

@@ -1,3 +1,5 @@
+import { relationshipOptionsSomeoneElse } from '../constants';
+
 const getSchoolInfo = school => {
   if (!school) return null;
   const schoolInfo = school.split('-');
@@ -51,15 +53,16 @@ export default function submitTransformer(formData, uploadFiles) {
   let schoolName;
   let schoolCode;
 
-  if (formData?.emailAddress) {
-    formData.businessEmail = formData.emailAddress;
-  } else {
-    formData.emailAddress = formData.businessEmail;
-  }
+  // Check if this is a business inquiry - only then prioritize business email
+  const isWorkRelated =
+    formData.relationshipToVeteran === relationshipOptionsSomeoneElse.WORK;
 
-  if (formData?.phoneNumber) {
-    formData.businessPhone = formData.phoneNumber;
-  } else {
+  // vets-api always looks for the field emailAddress or phoneNumber
+  // Therefore send businessEmail and businessPhone if this is a work-related inquiry.
+  // Otherwise the emailAddress and phoneNumber fields will already be filled with
+  // the correct information from their profile.
+  if (isWorkRelated) {
+    formData.emailAddress = formData.businessEmail;
     formData.phoneNumber = formData.businessPhone;
   }
 

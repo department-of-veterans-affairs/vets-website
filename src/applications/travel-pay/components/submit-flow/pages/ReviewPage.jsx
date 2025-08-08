@@ -6,7 +6,8 @@ import {
   VaCheckbox,
   VaButtonPair,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { focusElement, scrollToTop } from 'platform/utilities/ui';
+import { focusElement } from 'platform/utilities/ui/focus';
+import { scrollToTop } from 'platform/utilities/scroll';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
 
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
@@ -142,7 +143,7 @@ const ReviewPage = ({
         className="vads-u-margin-top--2"
         continue
         disable-analytics
-        rightButtonText="File claim"
+        rightButtonText="Submit claim"
         leftButtonText="Start over"
         onPrimaryClick={onSubmit}
         onSecondaryClick={onBack}

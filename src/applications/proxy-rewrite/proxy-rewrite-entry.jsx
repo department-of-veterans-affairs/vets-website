@@ -66,7 +66,7 @@ function createMutationObserverCallback() {
 function renderHeader(megaMenuData = [], headerContainer) {
   // HARDCODED: Since feature toggles aren't available in this context,
   // we're using a hardcoded value. Set to true or false based on desired behavior.
-  const showMhvHeaderLinks = false;
+  const showMhvHeaderLinks = true;
 
   // Create modified versions of the links with the injected header URLs
   const myVaLinkForHeader = {

@@ -12,22 +12,53 @@ import {
   phoneSchema,
   titleUI,
   titleSchema,
-  ssnOrVaFileNumberUI,
-  ssnOrVaFileNumberSchema,
+  ssnUI,
+  ssnSchema,
   yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import CustomPrefillMessage from '../components/CustomPrefillAlert';
-import { sponsorWording } from '../../10-10D/helpers/utilities';
-import { sponsorAddressCleanValidation } from '../../shared/validations';
+import {
+  sponsorAddressCleanValidation,
+  validateSponsorSsnIsUnique,
+} from '../../shared/validations';
+
+export const sponsorIntroSchema = {
+  uiSchema: {
+    ...titleUI(
+      'Sponsor information',
+      <>
+        <p>
+          Now we’ll ask you to enter information about the Veteran or service
+          member that the applicant is connected to, also called the sponsor.
+        </p>
+        <p>
+          We’ll use the sponsor’s name, social security number, and status to
+          confirm their eligibility for CHAMPVA benefits. We will not need you
+          to upload their DD-214.
+        </p>
+      </>,
+    ),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      titleSchema,
+    },
+  },
+};
 
 export const sponsorNameDobSchema = {
   uiSchema: {
-    ...titleUI(
-      `Sponsor's name and date of birth`,
-      `Enter the personal information for the sponsor (the Veteran or service member that the applicant is connected to). 
-             We'll use the sponsor's information to confirm their eligibility for CHAMPVA benefits.`,
-    ),
+    ...titleUI(`Sponsor’s name and date of birth`, ({ formData }) => (
+      <>
+        <p>
+          Enter the sponsor’s name and date of birth. We’ll use this information
+          to confirm their eligibility for CHAMPVA benefits.
+        </p>
+        {CustomPrefillMessage(formData, 'sponsor')}
+      </>
+    )),
     sponsorName: fullNameUI(),
     sponsorDob: dateOfBirthUI(),
   },
@@ -44,15 +75,19 @@ export const sponsorNameDobSchema = {
 
 export const sponsorIdentificationSchema = {
   uiSchema: {
-    ...titleUI(`Sponsor's identification information`),
-    sponsorSsn: ssnOrVaFileNumberUI(),
+    ...titleUI(({ formData }) => {
+      return `${formData?.certifierRole === 'sponsor' ? 'Your' : `Sponsor's`} 
+        identification information`;
+    }),
+    sponsorSsn: ssnUI(),
+    'ui:validations': [validateSponsorSsnIsUnique],
   },
   schema: {
     type: 'object',
     required: ['sponsorSsn'],
     properties: {
       titleSchema,
-      sponsorSsn: ssnOrVaFileNumberSchema,
+      sponsorSsn: ssnSchema,
     },
   },
 };
@@ -60,8 +95,8 @@ export const sponsorIdentificationSchema = {
 export const sponsorStatus = {
   uiSchema: {
     ...titleUI(
-      `Sponsor's status`,
-      'Now we’ll ask you questions about the death of the sponsor (if they died). Fill this out to the best of your knowledge.',
+      "Sponsor's status",
+      "Now we'll ask you questions about the death of the sponsor (if they have died). Fill this out to the best of your knowledge.",
     ),
     sponsorIsDeceased: yesNoUI({
       title: 'Has the sponsor died?',
@@ -109,17 +144,16 @@ export const sponsorStatusDetails = {
 export const sponsorAddress = {
   uiSchema: {
     ...titleUI(
-      ({ formData }) => `${sponsorWording(formData)} mailing address`,
-      ({ formData }) => (
-        // Prefill message conditionally displays based on `certifierRole`
-        <>
-          <p>
-            We’ll send any important information about this application to this
-            address.
-          </p>
-          {CustomPrefillMessage(formData, 'sponsor')}
-        </>
-      ),
+      ({ formData }) => {
+        return `${
+          formData.certifierRole === 'sponsor' ? 'Your' : `Sponsor's`
+        } mailing address`;
+      },
+      ({ formData }) => {
+        return `We'll send any important information about this application to ${
+          formData.certifierRole === 'sponsor' ? 'your' : `the sponsor's`
+        } address.`;
+      },
     ),
     sponsorAddress: {
       ...addressUI({
@@ -143,14 +177,21 @@ export const sponsorAddress = {
 
 export const sponsorContactInfo = {
   uiSchema: {
-    ...titleUI(`Sponsor's contact information`, ({ formData }) => {
-      return `We'll use this phone number to contact ${
-        formData.certifierRole === 'applicant' ? `you` : `the sponsor`
-      }
+    ...titleUI(
+      ({ formData }) => {
+        return `${
+          formData.certifierRole === 'sponsor' ? 'Your' : `Sponsor's`
+        } contact information`;
+      },
+      ({ formData }) => {
+        return `We'll use this phone number to contact ${
+          formData.certifierRole === 'sponsor' ? `you` : `the sponsor`
+        }
              if we have any questions about ${
-               formData.certifierRole === 'applicant' ? 'your' : 'their'
+               formData.certifierRole === 'sponsor' ? 'your' : 'their'
              } information.`;
-    }),
+      },
+    ),
     sponsorPhone: {
       ...phoneUI(),
       'ui:required': () => true,

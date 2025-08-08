@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { focusElement } from 'platform/utilities/ui';
+import { scrollTo } from 'platform/utilities/scroll';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import scrollTo from 'platform/utilities/ui/scrollTo';
 
 import {
   startText,
@@ -57,7 +57,7 @@ const IntroductionPage = props => {
       <h2 className="vads-u-margin-top--2">
         Follow these steps to request a Board Appeal
       </h2>
-      <va-process-list uswds>
+      <va-process-list>
         <va-process-list-item header="Check to be sure you can request a Board Appeal">
           {filingDeadlineContent}
           <p>You can request a Board Appeal for these claim decisions:</p>
@@ -88,7 +88,7 @@ const IntroductionPage = props => {
             We’ll take you through each step of the process. It should take
             about 30 minutes.
           </p>
-          <va-additional-info trigger="What happens after you apply" uswds>
+          <va-additional-info trigger="What happens after you apply">
             <div>
               <p className="vads-u-margin-top--0">
                 After you submit your request for a Board Appeal, you’ll get a
@@ -99,6 +99,7 @@ const IntroductionPage = props => {
                 review your case. The amount of time it takes the Board to
                 complete its review depends on which review option you choose.{' '}
                 <va-link
+                  disable-analytics
                   href={NOD_OPTIONS_URL}
                   text="Read about the 3 Board Appeal options"
                 />
@@ -122,6 +123,7 @@ const IntroductionPage = props => {
         regional office near you.
       </p>
       <va-link
+        disable-analytics
         href={FACILITY_LOCATOR_URL}
         text="Find a VA regional office near you"
       />
@@ -130,6 +132,7 @@ const IntroductionPage = props => {
         can also help you request a Board Appeal.
       </p>
       <va-link
+        disable-analytics
         href={GET_HELP_REVIEW_REQUEST_URL}
         text="Get help requesting a Board Appeal"
       />

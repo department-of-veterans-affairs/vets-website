@@ -393,6 +393,7 @@ body.va-pos-fixed {
   > div {
     align-items: center;
     display: flex;
+    white-space: nowrap;
   }
 
   @include media($medium-screen) {

@@ -226,21 +226,23 @@ export function filterViewFields(data) {
   return Object.keys(data).reduce((newData, nextProp) => {
     const field = data[nextProp];
 
-    if (Array.isArray(field)) {
-      const newArray = field.map(item => filterViewFields(item));
+    if (field !== null) {
+      if (Array.isArray(field)) {
+        const newArray = field.map(item => filterViewFields(item));
 
-      return set(nextProp, newArray, newData);
-    }
-
-    if (typeof field === 'object') {
-      if (nextProp.startsWith('view:')) {
-        return { ...newData, ...filterViewFields(field) };
+        return set(nextProp, newArray, newData);
       }
-      return set(nextProp, filterViewFields(field), newData);
-    }
 
-    if (!nextProp.startsWith('view:')) {
-      return set(nextProp, field, newData);
+      if (typeof field === 'object') {
+        if (nextProp.startsWith('view:')) {
+          return { ...newData, ...filterViewFields(field) };
+        }
+        return set(nextProp, filterViewFields(field), newData);
+      }
+
+      if (!nextProp.startsWith('view:')) {
+        return set(nextProp, field, newData);
+      }
     }
 
     return newData;
@@ -425,7 +427,21 @@ export const pureWithDeepEquals = shouldUpdate(
  */
 export function checkValidSchema(schema, errors = [], path = ['root']) {
   if (typeof schema.type !== 'string') {
-    errors.push(`Missing type in ${path.join('.')} schema.`);
+    if (typeof schema === 'function') {
+      const functionName = schema.name || 'function';
+      errors.push(
+        `Invalid schema at "${path.join(
+          '.',
+        )}": expected a schema object, but received the function "${functionName}". ` +
+          `JSON schemas must be plain objects. Did you forget to call "${functionName}()"?`,
+      );
+    } else {
+      errors.push(
+        `Invalid schema at "${path.join(
+          '.',
+        )}": missing or invalid "type" property. Expected an object with a "type" string.`,
+      );
+    }
   }
 
   if (schema.type === 'object') {
@@ -530,7 +546,9 @@ function generateArrayPages(arrayPages, data) {
         [],
       )
       // doing this after the map so that we don’t change indexes
-      .filter(page => !page.itemFilter || page.itemFilter(items[page.index]))
+      .filter(
+        page => !page.itemFilter || page.itemFilter(items[page.index], data),
+      )
   );
 }
 
@@ -698,24 +716,29 @@ export function omitRequired(schema) {
  * @param {ReplacerOptions | (key, val) => any | any[]} [options] An object of options for the transform, or a JSON.stringify replacer argument
  */
 export function transformForSubmit(formConfig, form, options) {
-  const replacer =
-    typeof options === 'function' || Array.isArray(options)
-      ? options
-      : createStringifyFormReplacer(options);
-  const expandedPages = expandArrayPages(
-    createFormPageList(formConfig),
-    form.data,
-  );
-  const activePages = getActivePages(expandedPages, form.data);
-  const inactivePages = getInactivePages(expandedPages, form.data);
-  const withoutInactivePages = filterInactivePageData(
-    inactivePages,
-    activePages,
-    form,
-  );
-  const withoutViewFields = filterViewFields(withoutInactivePages);
+  try {
+    const replacer =
+      typeof options === 'function' || Array.isArray(options)
+        ? options
+        : createStringifyFormReplacer(options);
+    const expandedPages = expandArrayPages(
+      createFormPageList(formConfig),
+      form.data,
+    );
+    const activePages = getActivePages(expandedPages, form.data);
+    const inactivePages = getInactivePages(expandedPages, form.data);
+    const withoutInactivePages = filterInactivePageData(
+      inactivePages,
+      activePages,
+      form,
+    );
+    const withoutViewFields = filterViewFields(withoutInactivePages);
 
-  return JSON.stringify(withoutViewFields, replacer) || '{}';
+    return JSON.stringify(withoutViewFields, replacer) || '{}';
+  } catch (error) {
+    window.DD_LOGS?.logger.error('Transform for Submit error', {}, error);
+    return '{}';
+  }
 }
 
 /**

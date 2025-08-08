@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { createServiceMap } from '@department-of-veterans-affairs/platform-monitoring';
 import { pageNotFoundHeading } from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
@@ -10,7 +11,6 @@ import { waitFor } from '@testing-library/dom';
 import App from '../../containers/App';
 import * as SmApi from '../../api/SmApi';
 import reducer from '../../reducers';
-import pilotRoutes from '../../pilot/routes';
 
 describe('App', () => {
   let oldLocation;
@@ -228,7 +228,7 @@ describe('App', () => {
     );
   });
 
-  it('does NOT render the downtime notification', () => {
+  it('does NOT render the downtime notification WHEN unrelated services are down', () => {
     const screen = renderWithStoreAndRouter(<App />, {
       initialState: {
         scheduledDowntime: {
@@ -252,7 +252,39 @@ describe('App', () => {
     );
     expect(downtimeComponent).to.be.null;
   });
+
+  it('does NOT render the downtime notification WHEN downtime bypass is enabled', () => {
+    const customState = {
+      ...initialState,
+      scheduledDowntime: {
+        globalDowntime: null,
+        isReady: true,
+        isPending: false,
+        serviceMap: downtime(['mhv_sm']),
+        dismissedDowntimeWarnings: [],
+      },
+      featureToggles: {},
+    };
+    customState.featureToggles[
+      FEATURE_FLAG_NAMES.mhvBypassDowntimeNotification
+    ] = true;
+    const screen = renderWithStoreAndRouter(<App />, {
+      initialState: customState,
+      reducers: reducer,
+      path: `/`,
+    });
+    const downtimeComponent = screen.queryByText(
+      'Maintenance on My HealtheVet',
+      {
+        selector: 'h2',
+        exact: true,
+      },
+    );
+    expect(downtimeComponent).to.be.null;
+  });
+
   it('redirects Basic users to /health-care/secure-messaging', async () => {
+    window.location.replace = sinon.spy();
     const customState = {
       featureToggles: {},
       user: {
@@ -276,6 +308,7 @@ describe('App', () => {
   });
 
   it('redirects user to /my-health/secure-messages/inbox', async () => {
+    window.location.replace = sinon.spy();
     const customState = { ...initialState, featureToggles: [] };
 
     await renderWithStoreAndRouter(<App />, {
@@ -292,65 +325,6 @@ describe('App', () => {
     );
   });
 
-  it('redirects user with pilot environment access to /my-health/secure-messages-pilot/inbox', async () => {
-    const customState = {
-      ...initialState,
-      featureToggles: [],
-      sm: {
-        ...initialState.sm,
-        app: { isPilot: true },
-      },
-    };
-
-    global.window.location = {
-      replace: sinon.spy(),
-      pathname: '/secure-messaging-pilot/',
-    };
-
-    customState.featureToggles[`${'mhv_secure_messaging_cerner_pilot'}`] = true;
-
-    const { queryByText } = renderWithStoreAndRouter(<App isPilot />, {
-      initialState: customState,
-      reducers: reducer,
-      path: `/`,
-    });
-
-    expect(queryByText('Messages', { selector: 'h1', exact: true }));
-    await waitFor(() => {
-      expect(window.location.replace.args[0][0]).to.equal(
-        '/my-health/secure-messages-pilot/inbox/',
-      );
-    });
-  });
-
-  it('should NOT redirect to the SM info page if the user is whitelisted or the feature flag is enabled', () => {
-    const customState = { ...initialState, featureToggles: [] };
-    customState.featureToggles[`${'mhv_secure_messaging_cerner_pilot'}`] = true;
-    const { queryByText } = renderWithStoreAndRouter(pilotRoutes, {
-      initialState: customState,
-      reducers: reducer,
-      path: `/inbox`,
-    });
-
-    expect(queryByText('Messages', { selector: 'h1', exact: true }));
-    expect(window.location.replace.calledOnce).to.be.false;
-  });
-
-  it('should redirect to the SM info page if the user is not whitelisted or the feature flag is disabled', () => {
-    const customState = { ...initialState, featureToggles: [] };
-    customState.featureToggles[
-      `${'mhv_secure_messaging_cerner_pilot'}`
-    ] = false;
-    const { queryByText } = renderWithStoreAndRouter(pilotRoutes, {
-      initialState: customState,
-      reducers: reducer,
-      path: `/`,
-    });
-
-    expect(queryByText('Messages', { selector: 'h1', exact: true }));
-    expect(window.location.replace.called).to.be.true;
-  });
-
   it('displays Page Not Found component if bad url', async () => {
     const screen = renderWithStoreAndRouter(<App />, {
       initialState,
@@ -358,6 +332,7 @@ describe('App', () => {
       path: `/sdfsdf`,
     });
     await waitFor(() => {
+      expect(screen.getByTestId('mhv-page-not-found')).to.exist;
       expect(
         screen.getByText(pageNotFoundHeading, {
           selector: 'h1',
@@ -375,7 +350,12 @@ describe('App', () => {
 
     const submitStub = sinon.stub(SmApi, 'submitLaunchMessagingAal');
     submitStub.resolves();
-    const useFeatureTogglesStub = stubUseFeatureToggles({ isAalEnabled: true });
+    const useFeatureTogglesStub = stubUseFeatureToggles({
+      isAalEnabled: true,
+      largeAttachmentsEnabled: true,
+    });
+    useFeatureTogglesStub;
+
     renderWithStoreAndRouter(<App />, {
       initialState,
       reducers: reducer,

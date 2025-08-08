@@ -11,21 +11,24 @@ const defaultStore = createCommonStore();
 
 const arrayPath = 'childrenToAdd';
 
-const formData = {
-  'view:selectable686Options': {
-    addChild: true,
-  },
-  childrenToAdd: [
-    {
-      hasChildEverBeenMarried: true,
+const formData = (marriageEndReason = '') => {
+  return {
+    'view:selectable686Options': {
+      addChild: true,
     },
-  ],
+    childrenToAdd: [
+      {
+        hasChildEverBeenMarried: true,
+        marriageEndReason,
+      },
+    ],
+  };
 };
 describe('686 add child marriage end details', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.addChild.pages.addChildMarriageEndDetailsPartOne;
+  } = formConfig.chapters.addChild.pages.addChildMarriageEndDetails;
 
   it('should render', () => {
     const { container } = render(
@@ -34,7 +37,7 @@ describe('686 add child marriage end details', () => {
           schema={schema}
           definitions={formConfig.defaultDefinitions}
           uiSchema={uiSchema}
-          data={formData}
+          data={formData()}
           arrayPath={arrayPath}
           pagePerItemIndex={0}
         />
@@ -44,5 +47,25 @@ describe('686 add child marriage end details', () => {
     expect($$('va-memorable-date', container).length).to.equal(1);
     expect($$('va-radio', container).length).to.equal(1);
     expect($$('va-radio-option', container).length).to.equal(4);
+  });
+
+  it('should render other field', () => {
+    const { container } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={formData('Other')}
+          arrayPath={arrayPath}
+          pagePerItemIndex={0}
+        />
+      </Provider>,
+    );
+
+    expect($$('va-memorable-date', container).length).to.equal(1);
+    expect($$('va-radio', container).length).to.equal(1);
+    expect($$('va-radio-option', container).length).to.equal(4);
+    expect($$('va-text-input', container).length).to.equal(1);
   });
 });

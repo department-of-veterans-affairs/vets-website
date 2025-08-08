@@ -11,8 +11,6 @@ export const uiSchema = {
       title:
         'Who do you want to remove as a dependent? Check everyone you want to remove.',
       required: () => true,
-      tile: true,
-      labelHeaderLevel: '3',
       labels: {
         reportDivorce: removeDependentOptions.reportDivorce,
         reportDeath: removeDependentOptions.reportDeath,
@@ -23,13 +21,14 @@ export const uiSchema = {
         reportChild18OrOlderIsNotAttendingSchool:
           removeDependentOptions.reportChild18OrOlderIsNotAttendingSchool,
       },
-      enableAnalytics: true,
       errorMessages: {
         required: 'Select at least one option',
       },
     }),
     'ui:options': {
       tile: true,
+      labelHeaderLevel: '3',
+      enableAnalytics: true,
       updateSchema: (formData, schema) => {
         // Check if new option is selected
         // update view:selectable686Options with the selection

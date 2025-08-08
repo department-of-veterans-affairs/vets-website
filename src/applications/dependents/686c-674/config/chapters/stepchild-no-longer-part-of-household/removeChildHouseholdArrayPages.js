@@ -23,25 +23,74 @@ import {
 import { CancelButton } from '../../helpers';
 import { getFullName } from '../../../../shared/utils';
 
+function isFieldMissing(value) {
+  return value === undefined || value === null || value === '';
+}
+
+function isObjectEmpty(obj) {
+  return (
+    typeof obj !== 'object' || obj === null || Object.keys(obj).length === 0
+  );
+}
+
+function isAddressIncomplete(address) {
+  if (isObjectEmpty(address)) return true;
+  if (!address.country) return true;
+  if (!address.street) return true;
+  if (!address.city) return true;
+  if (address.country === 'USA' && !address.state) return true;
+  if (!address.postalCode) return true;
+  return false;
+}
+
+function isSupportInfoIncomplete(item) {
+  return (
+    item.supportingStepchild === true && isFieldMissing(item.livingExpensesPaid)
+  );
+}
+
+function isLivingWithInfoIncomplete(item) {
+  return (
+    isFieldMissing(item.whoDoesTheStepchildLiveWith?.first) ||
+    isFieldMissing(item.whoDoesTheStepchildLiveWith?.last)
+  );
+}
+
+function isItemIncomplete(item) {
+  const errors = [];
+
+  const fail = (condition, msg) => {
+    if (condition) errors.push(msg);
+  };
+
+  fail(isFieldMissing(item?.fullName?.first), 'Missing child first name');
+  fail(isFieldMissing(item?.fullName?.last), 'Missing child last name');
+  fail(isFieldMissing(item?.birthDate), 'Missing birth date');
+  fail(isFieldMissing(item?.ssn), 'Missing SSN');
+  fail(
+    isFieldMissing(item?.dateStepchildLeftHousehold),
+    'Missing date stepchild left household',
+  );
+  fail(
+    isSupportInfoIncomplete(item),
+    'Missing living expenses paid amount when supporting stepchild',
+  );
+  fail(
+    isLivingWithInfoIncomplete(item),
+    'Missing parent or guardian name information',
+  );
+  fail(isAddressIncomplete(item?.address), 'Incomplete address information');
+
+  return errors.length > 0;
+}
+
 /** @type {ArrayBuilderOptions} */
 export const removeChildHouseholdOptions = {
   arrayPath: 'stepChildren',
   nounSingular: 'child',
   nounPlural: 'children',
   required: true,
-  isItemIncomplete: item =>
-    !item?.fullName?.first ||
-    !item?.fullName?.last ||
-    !item?.birthDate ||
-    !item?.ssn ||
-    (item?.supportingStepchild && !item?.livingExpensesPaid) ||
-    !item?.whoDoesTheStepchildLiveWith?.first ||
-    !item?.whoDoesTheStepchildLiveWith?.last ||
-    !item?.address?.country ||
-    !item?.address?.street ||
-    !item?.address?.city ||
-    !item?.address?.state ||
-    !item?.address?.postalCode,
+  isItemIncomplete,
   maxItems: 20,
   text: {
     summaryTitle: 'Review your stepchildren who have left your household',
@@ -52,24 +101,16 @@ export const removeChildHouseholdOptions = {
 
 export const removeChildHouseholdIntroPage = {
   uiSchema: {
-    ...titleUI(
-      'Your stepchildren who have left your household',
-      'In the next few questions, we’ll ask you about your stepchildren. You must add at least one stepchild.',
+    ...titleUI('Your stepchildren who have left your household'),
+    'ui:description': () => (
+      <>
+        <p>
+          In the next few questions, we’ll ask you about your stepchildren. You
+          must add at least one stepchild.
+        </p>
+        <CancelButton dependentType="stepchildren" isAddChapter={false} />
+      </>
     ),
-    ...titleUI({
-      title: 'Your stepchildren who have left your household',
-      description: () => {
-        return (
-          <>
-            <p>
-              In the next few questions, we’ll ask you about your stepchildren.
-              You must add at least one stepchild.
-            </p>
-            <CancelButton dependentType="stepchildren" isAddChapter={false} />
-          </>
-        );
-      },
-    }),
   },
   schema: {
     type: 'object',
@@ -119,17 +160,39 @@ export const householdChildInfoPage = {
       ...ssnUI('Child’s Social Security number'),
       'ui:required': () => true,
     },
-    birthDate: {
-      ...currentOrPastDateUI('Child’s date of birth'),
-      'ui:required': () => true,
-    },
+    birthDate: currentOrPastDateUI({
+      title: 'Child’s date of birth',
+      dataDogHidden: true,
+      required: () => true,
+    }),
   },
   schema: {
     type: 'object',
+    required: ['fullName', 'ssn', 'birthDate'],
     properties: {
       fullName: fullNameNoSuffixSchema,
       ssn: ssnSchema,
       birthDate: currentOrPastDateSchema,
+    },
+  },
+};
+
+/** @returns {PageSchema} */
+export const stepchildLeftHouseholdDatePage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      () => 'When did your stepchild leave your household?',
+    ),
+    dateStepchildLeftHousehold: currentOrPastDateUI({
+      title: 'Date stepchild left your household',
+      required: () => true,
+    }),
+  },
+  schema: {
+    type: 'object',
+    required: ['dateStepchildLeftHousehold'],
+    properties: {
+      dateStepchildLeftHousehold: currentOrPastDateSchema,
     },
   },
 };
@@ -147,6 +210,7 @@ export const veteranSupportsChildPage = {
   },
   schema: {
     type: 'object',
+    required: ['supportingStepchild'],
     properties: {
       supportingStepchild: yesNoSchema,
     },
@@ -201,11 +265,29 @@ export const childAddressPage = {
     ...arrayBuilderItemSubsequentPageTitleUI(() => 'Stepchild’s address'),
     address: {
       ...addressUI({
+        title: '',
         labels: {
           militaryCheckbox:
             'This child lives on a United States military base outside of the U.S.',
         },
       }),
+      city: {
+        ...addressUI().city,
+        'ui:validations': [
+          (errors, city, formData) => {
+            const address = formData?.address;
+            const cityStr = city?.trim().toUpperCase();
+
+            if (
+              address &&
+              ['APO', 'FPO', 'DPO'].includes(cityStr) &&
+              address.isMilitary !== true
+            ) {
+              errors.addError('Enter a valid city name');
+            }
+          },
+        ],
+      },
     },
   },
   schema: {
@@ -213,6 +295,7 @@ export const childAddressPage = {
     properties: {
       address: addressSchema(),
     },
+    required: ['address'],
   },
 };
 
@@ -231,5 +314,6 @@ export const parentOrGuardianPage = {
     properties: {
       whoDoesTheStepchildLiveWith: fullNameNoSuffixSchema,
     },
+    required: ['whoDoesTheStepchildLiveWith'],
   },
 };

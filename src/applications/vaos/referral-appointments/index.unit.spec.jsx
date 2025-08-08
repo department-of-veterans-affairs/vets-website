@@ -8,7 +8,7 @@ import { renderWithStoreAndRouter } from '../tests/mocks/setup';
 import { FETCH_STATUS } from '../utils/constants';
 import { createReferrals, createReferralById } from './utils/referrals';
 import * as useManualScrollRestoration from '../hooks/useManualScrollRestoration';
-import * as useIsInCCPilot from './hooks/useIsInCCPilot';
+import * as useIsInPilotUserStations from './hooks/useIsInPilotUserStations';
 import * as vaosApi from '../redux/api/vaosApi';
 
 const initialStateVAOSService = {
@@ -31,8 +31,8 @@ describe('ReferralAppointments', () => {
       isLoading: false,
     });
     sandbox.stub(useManualScrollRestoration, 'default');
-    sandbox.stub(useIsInCCPilot, 'useIsInCCPilot').returns({
-      isInCCPilot: true,
+    sandbox.stub(useIsInPilotUserStations, 'useIsInPilotUserStations').returns({
+      isInPilotUserStations: true,
     });
   });
 
@@ -100,7 +100,7 @@ describe('ReferralAppointments', () => {
 
     await waitFor(() => {
       // Looking for elements that would be in ScheduleReferral component
-      expect(screen.getByText('Schedule your appointment')).to.exist;
+      expect(screen.getByTestId('schedule-appointment-button')).to.exist;
     });
   });
 

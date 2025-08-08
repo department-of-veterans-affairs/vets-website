@@ -1,8 +1,7 @@
-import * as Sentry from '@sentry/browser';
 import { clearBotSessionStorage } from '../utils/sessionStorage';
-import { logErrorToDatadog } from '../utils/logging';
+import logger from '../utils/logger';
 
-export default function signOutEventListener(isDatadogLoggingEnabled) {
+export default function signOutEventListener() {
   const links = document.querySelectorAll('div#account-menu ul li a');
   for (const link of links) {
     if (link.textContent === 'Sign Out') {
@@ -16,6 +15,5 @@ export default function signOutEventListener(isDatadogLoggingEnabled) {
   const error = new TypeError(
     'Virtual Agent chatbot could not find sign out link in menu',
   );
-  Sentry.captureException(error);
-  logErrorToDatadog(isDatadogLoggingEnabled, error.message, error);
+  logger.error(error.message, error);
 }

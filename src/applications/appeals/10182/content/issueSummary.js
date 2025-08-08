@@ -16,6 +16,7 @@ export const SummaryTitle = ({ formData }) => {
       {ShowIssuesList({ issues })}
       <p>
         <BasicLink
+          disable-analytics
           path={CONTESTABLE_ISSUES_PATH}
           search="?redirect"
           text="Go back to add more issues"

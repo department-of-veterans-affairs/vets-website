@@ -1,4 +1,4 @@
-import { parseISO } from 'date-fns';
+import { parseISO, format } from 'date-fns';
 import { Actions } from '../util/actionTypes';
 import {
   concatObservationInterpretations,
@@ -136,6 +136,18 @@ export const extractSpecimen = record => {
 
 export const extractOrderedTest = (record, id) => {
   const serviceReq = extractContainedResource(record, id);
+
+  // First try to find a display value in the coding array
+  if (isArrayAndHasItems(serviceReq?.code?.coding)) {
+    const codingWithDisplay = serviceReq.code.coding.find(
+      item => item.display && item.display.trim() !== '',
+    );
+    if (codingWithDisplay?.display) {
+      return codingWithDisplay.display;
+    }
+  }
+
+  // Fall back to code.text if no display found
   return serviceReq?.code?.text || null;
 };
 
@@ -284,25 +296,6 @@ export const convertPathologyRecord = record => {
       EMPTY_FIELD,
     sortDate: record.effectiveDateTime,
     labComments: record.labComments || EMPTY_FIELD,
-  };
-};
-
-/**
- * @param {Object} record - A FHIR DocumentReference EKG object
- * @returns the appropriate frontend object for display
- */
-const convertEkgRecord = record => {
-  return {
-    id: record.id,
-    name: 'Electrocardiogram (EKG)',
-    type: labTypes.EKG,
-    category: '',
-    orderedBy: 'DOE, JANE A',
-    requestedBy: 'John J. Lydon',
-    signedBy: 'Beth M. Smith',
-    date: record.date ? dateFormatWithoutTimezone(record.date) : EMPTY_FIELD,
-    facility: 'Washington DC VAMC',
-    sortDate: record.date,
   };
 };
 
@@ -466,14 +459,7 @@ const getRecordType = record => {
     }
   }
   if (record.resourceType === fhirResourceTypes.DOCUMENT_REFERENCE) {
-    if (record.type?.coding?.some(coding => coding.code === loincCodes.EKG)) {
-      return labTypes.EKG;
-    }
-    if (
-      record.type?.coding?.some(coding => coding.code === loincCodes.RADIOLOGY)
-    ) {
-      return labTypes.OTHER;
-    }
+    return labTypes.OTHER;
   }
   if (Object.prototype.hasOwnProperty.call(record, 'radiologist')) {
     return labTypes.RADIOLOGY;
@@ -492,7 +478,6 @@ const labsAndTestsConverterMap = {
   [labTypes.CHEM_HEM]: convertChemHemRecord,
   [labTypes.MICROBIOLOGY]: convertMicrobiologyRecord,
   [labTypes.PATHOLOGY]: convertPathologyRecord,
-  [labTypes.EKG]: convertEkgRecord,
   [labTypes.RADIOLOGY]: convertMhvRadiologyRecord,
   [labTypes.CVIX_RADIOLOGY]: convertCvixRadiologyRecord,
 };
@@ -507,6 +492,43 @@ export const convertLabsAndTestsRecord = record => {
   return convertRecord
     ? convertRecord(record)
     : { ...record, type: labTypes.OTHER };
+};
+
+export function formatDateTime(datetimeString) {
+  const dateTime = new Date(datetimeString);
+  if (Number.isNaN(dateTime.getTime())) {
+    return { formattedDate: '', formattedTime: '' };
+  }
+  const formattedDate = format(dateTime, 'MMMM d, yyyy');
+  const formattedTime = format(dateTime, 'h:mm a');
+
+  return { formattedDate, formattedTime };
+}
+
+export const convertUnifiedLabsAndTestRecord = record => {
+  const { formattedDate, formattedTime } = formatDateTime(
+    record.attributes.dateCompleted,
+  );
+  const date = formattedDate ? `${formattedDate}, ${formattedTime}` : '';
+  return {
+    id: record.id,
+    date,
+    name: record.attributes.display,
+    location: record.attributes.location,
+    observations: record.attributes.observations,
+    orderedBy: record.attributes.orderedBy,
+    sampleTested: record.attributes.sampleTested,
+    bodySite: record.attributes.bodySite,
+    testCode: record.attributes.testCode,
+    type: record.attributes.testCode,
+    comments: record.attributes.comments,
+    result: record.attributes.encodedData
+      ? decodeBase64Report(record.attributes.encodedData)
+      : null,
+    base: {
+      ...record,
+    },
+  };
 };
 
 function sortByDate(array) {
@@ -544,10 +566,35 @@ export const labsAndTestsReducer = (state = initialState, action) => {
         labsAndTestsDetails: convertLabsAndTestsRecord(action.response),
       };
     }
+    case Actions.LabsAndTests.GET_UNIFIED_ITEM_FROM_LIST: {
+      return {
+        ...state,
+        labsAndTestsDetails: action.response.data.id
+          ? convertUnifiedLabsAndTestRecord(action.response.data)
+          : { ...action.response.data },
+      };
+    }
     case Actions.LabsAndTests.GET_FROM_LIST: {
       return {
         ...state,
         labsAndTestsDetails: action.response,
+      };
+    }
+    case Actions.LabsAndTests.GET_UNIFIED_LIST: {
+      const data = action.labsAndTestsResponse;
+      return {
+        ...state,
+        listCurrentAsOf: action.isCurrent ? new Date() : null,
+        listState: loadStates.FETCHED,
+        labsAndTestsList: data
+          .map(record => convertUnifiedLabsAndTestRecord(record))
+          .sort((a, b) => {
+            if (!a.base?.attributes?.dateCompleted) return 1; // Push nulls to the end
+            if (!b.base?.attributes?.dateCompleted) return -1; // Keep non-nulls at the front
+            const dateA = parseISO(a.base.attributes.dateCompleted);
+            const dateB = parseISO(b.base.attributes.dateCompleted);
+            return dateB - dateA;
+          }),
       };
     }
     case Actions.LabsAndTests.GET_LIST: {

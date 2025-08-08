@@ -1,26 +1,30 @@
 import React, { useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
-import { format, isValid } from 'date-fns';
+import { format, isValid, parseISO } from 'date-fns';
 import { useSelector } from 'react-redux';
-import { scrollTo, waitForRenderThenFocus } from 'platform/utilities/ui';
+import { waitForRenderThenFocus } from 'platform/utilities/ui/focus';
+import { scrollTo } from 'platform/utilities/scroll';
 
 export const ConfirmationPage = () => {
   const alertRef = useRef(null);
   const form = useSelector(state => state.form || {});
   const { submission, formId, data = {} } = form;
   const { fullName } = data;
-  const submitDate = submission?.timestamp;
   const confirmationNumber = submission?.response?.confirmationNumber;
+  const fullNameText = fullName
+    ? `${fullName.first ?? ''} ${fullName.middle ?? ''} ${fullName.last ?? ''}`
+        .replace(/\s+/g, ' ')
+        .trim() + (fullName.suffix ? `, ${fullName.suffix}` : '')
+    : '';
+  const submitDate = submission?.timestamp
+    ? parseISO(submission.timestamp)
+    : null;
 
-  useEffect(
-    () => {
-      if (alertRef?.current) {
-        scrollTo('topScrollElement');
-        waitForRenderThenFocus('h2', alertRef.current);
-      }
-    },
-    [alertRef],
-  );
+  useEffect(() => {
+    if (alertRef?.current) {
+      scrollTo('topScrollElement');
+      waitForRenderThenFocus('h2', alertRef.current);
+    }
+  }, []);
 
   return (
     <div>
@@ -43,12 +47,8 @@ export const ConfirmationPage = () => {
           File for disability compensation Claim{' '}
           <span className="vads-u-font-weight--normal">(Form {formId})</span>
         </h3>
-        {fullName ? (
-          <span>
-            for {fullName.first} {fullName.middle} {fullName.last}
-            {fullName.suffix ? `, ${fullName.suffix}` : null}
-          </span>
-        ) : null}
+
+        {fullNameText && <span>for {fullNameText}</span>}
 
         {confirmationNumber ? (
           <>
@@ -70,31 +70,8 @@ export const ConfirmationPage = () => {
       <a className="vads-c-action-link--green vads-u-margin-bottom--4" href="/">
         Go back to VA.gov
       </a>
-
-      {/* <div className="help-footer-box">
-        <h2 className="help-heading">Need help?</h2>
-        <GetFormHelp />
-      </div> */}
     </div>
   );
-};
-
-ConfirmationPage.propTypes = {
-  form: PropTypes.shape({
-    data: PropTypes.shape({
-      fullName: {
-        first: PropTypes.string,
-        middle: PropTypes.string,
-        last: PropTypes.string,
-        suffix: PropTypes.string,
-      },
-    }),
-    formId: PropTypes.string,
-    submission: PropTypes.shape({
-      timestamp: PropTypes.string,
-    }),
-  }),
-  name: PropTypes.string,
 };
 
 export default ConfirmationPage;

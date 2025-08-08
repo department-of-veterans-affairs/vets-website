@@ -3,7 +3,7 @@ import { expect } from 'chai';
 // navigation helpers
 export const goToNextPage = pagePath => {
   // clicks Continue button, and optionally checks destination path.
-  cy.findAllByText(/continue/i, { selector: 'button' }).click();
+  cy.clickFormContinue();
   if (pagePath) {
     cy.location('pathname').should('include', pagePath);
   }
@@ -77,27 +77,6 @@ export const fillFullNameWebComponentPattern = (
       fields[fieldName].suffix,
     );
   }
-};
-
-export const fillAddressWebComponentPattern = (fieldName, addressObject) => {
-  selectCheckboxWebComponent(
-    `${fieldName}_isMilitary`,
-    addressObject.isMilitary,
-  );
-  if (addressObject.city) {
-    if (addressObject.isMilitary) {
-      // there is a select dropdown instead when military is checked
-      selectDropdownWebComponent(`${fieldName}_city`, addressObject.city);
-    } else {
-      fillTextWebComponent(`${fieldName}_city`, addressObject.city);
-    }
-  }
-  selectDropdownWebComponent(`${fieldName}_country`, addressObject.country);
-  fillTextWebComponent(`${fieldName}_street`, addressObject.street);
-  fillTextWebComponent(`${fieldName}_street2`, addressObject.street2);
-  fillTextWebComponent(`${fieldName}_street3`, addressObject.street3);
-  selectDropdownWebComponent(`${fieldName}_state`, addressObject.state);
-  fillTextWebComponent(`${fieldName}_postalCode`, addressObject.postalCode);
 };
 
 export const fillDateWebComponentPattern = (fieldName, value) => {

@@ -3,6 +3,8 @@ import get from 'platform/utilities/data/get';
 import SsnField, { maskSSN } from '../web-component-fields/SsnField';
 import { validateSSN } from '../validation';
 import SSNReviewWidget from '../review/SSNWidget';
+import VAFileNumberWidget from '../review/VAFileNumberWidget';
+import ServiceNumberWidget from '../review/ServiceNumberWidget';
 import VaTextInputField from '../web-component-fields/VaTextInputField';
 
 const SSN_DEFAULT_TITLE = 'Social Security number';
@@ -10,7 +12,7 @@ const VA_FILE_NUMBER_DEFAULT_TITLE = 'VA file number';
 const SERVICE_NUMBER_DEFAULT_TITLE = 'Military Service number';
 
 /**
- * Web component v3 for Social Security number
+ * uiSchema for Social Security number field
  *
  * Pattern recommendation: Use the applicable person in the title
  * rather than in the field names.
@@ -38,7 +40,7 @@ const ssnUI = title => {
 };
 
 /**
- * Schema for Social Security number
+ * Schema for ssnUI
  *
  * ```js
  * // uiSchema
@@ -51,7 +53,7 @@ const ssnUI = title => {
 const ssnSchema = commonDefinitions.ssn;
 
 /**
- * Web component v3 for VA File Number
+ * uiSchema for VA File Number
  *
  * Pattern recommendation: Use the applicable person in the title
  * rather than in the field names.
@@ -67,6 +69,7 @@ const vaFileNumberUI = title => {
   return {
     'ui:title': title ?? VA_FILE_NUMBER_DEFAULT_TITLE,
     'ui:webComponentField': VaTextInputField,
+    'ui:reviewWidget': VAFileNumberWidget,
     'ui:errorMessages': {
       pattern: 'Your VA file number must be 8 or 9 digits',
     },
@@ -77,7 +80,7 @@ const vaFileNumberUI = title => {
 };
 
 /**
- * Schema for VA File Number
+ * Schema for vaFileNumberUI
  *
  * ```js
  * // uiSchema
@@ -90,7 +93,7 @@ const vaFileNumberUI = title => {
 const vaFileNumberSchema = commonDefinitions.centralMailVaFile;
 
 /**
- * Web component v3 field for Service Number
+ * uiSchema for Service Number
  *
  * Pattern recommendation: Use the applicable person in the title
  * rather than in the field names.
@@ -106,6 +109,7 @@ const serviceNumberUI = title => {
   return {
     'ui:title': title ?? SERVICE_NUMBER_DEFAULT_TITLE,
     'ui:webComponentField': VaTextInputField,
+    'ui:reviewWidget': ServiceNumberWidget,
     'ui:errorMessages': {
       pattern: `Your ${title ??
         SERVICE_NUMBER_DEFAULT_TITLE} must start with 0, 1, or 2 uppercase letters followed by 5 to 8 digits`,
@@ -117,7 +121,7 @@ const serviceNumberUI = title => {
 };
 
 /**
- * Schema for Service Number
+ * Schema for serviceNumberUI
  *
  * ```js
  * // uiSchema
@@ -130,7 +134,7 @@ const serviceNumberUI = title => {
 const serviceNumberSchema = commonDefinitions.veteranServiceNumber;
 
 /**
- * Web components v3 for Social Security number or VA File Number
+ * uiSchema for Social Security number or VA File Number. Includes two fields, and a hint about entering either or.
  *
  * Pattern recommendation: Use the applicable person in the title
  * rather than in the field names.
@@ -170,9 +174,7 @@ const ssnOrVaFileNumberUI = () => {
 };
 
 /**
- * Web components v3 for Social Security number or VA File Number.
- * Should be used with a description above the fields such as:
- * "You must enter a Social Security number or VA file number"
+ * uiSchema for Social Security number or VA File Number. Should be used with a description above the fields such as: "You must enter a Social Security number or VA file number"
  *
  * Pattern recommendation: Use the applicable person in the title
  * rather than in the field names.
@@ -206,7 +208,7 @@ const ssnOrVaFileNumberNoHintUI = () => {
 };
 
 /**
- * Schema for SSN or VA File Number
+ * Schema for ssnOrVaFileNumberUI
  *
  * ```js
  * // uiSchema
@@ -225,7 +227,7 @@ const ssnOrVaFileNumberSchema = {
 };
 
 /**
- * Schema for SSN or VA File Number
+ * Schema for ssnOrVaFileNumberNoHintUI
  *
  * ```js
  * // uiSchema
@@ -237,8 +239,7 @@ const ssnOrVaFileNumberSchema = {
 const ssnOrVaFileNumberNoHintSchema = ssnOrVaFileNumberSchema;
 
 /**
- * Schema for a single field accepting either a Social Security number
- * or a Military Service number.
+ * Schema ssnOrServiceNumberUI
  *
  * Accepts:
  * - SSN: 123-45-6789 or 123456789

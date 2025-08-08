@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { scrollToTop } from 'platform/utilities/scroll';
 
 const ScrollToTop = props => {
   const location = useLocation();
   useEffect(
     () => {
       if (!location.hash) {
-        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+        scrollToTop();
       }
     },
     [location],

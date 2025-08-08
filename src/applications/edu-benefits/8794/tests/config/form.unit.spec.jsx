@@ -51,6 +51,36 @@ describe('22-8794 formConfig', () => {
     expect(facilityPage.depends(hiddenFormData)).to.be.false;
   });
 
+  it('depends function shows / hides no-facility-description page correctly', () => {
+    const noFacilityPage =
+      formConfig.chapters.institutionDetailsChapter.pages
+        .institutionDetailsNoFacilityDescription;
+    expect(noFacilityPage)
+      .to.have.property('depends')
+      .that.is.a('function');
+
+    const showData = { institutionDetails: { hasVaFacilityCode: false } };
+    const hideData = { institutionDetails: { hasVaFacilityCode: true } };
+
+    expect(noFacilityPage.depends(showData)).to.be.true;
+    expect(noFacilityPage.depends(hideData)).to.be.false;
+  });
+
+  it('depends function shows / hides name & address page correctly', () => {
+    const nameAddrPage =
+      formConfig.chapters.institutionDetailsChapter.pages
+        .institutionNameAndAddress;
+    expect(nameAddrPage)
+      .to.have.property('depends')
+      .that.is.a('function');
+
+    const showData = { institutionDetails: { hasVaFacilityCode: false } };
+    const hideData = { institutionDetails: { hasVaFacilityCode: true } };
+
+    expect(nameAddrPage.depends(showData)).to.be.true;
+    expect(nameAddrPage.depends(hideData)).to.be.false;
+  });
+
   it('defaultDefinitions includes common schema pieces', () => {
     const defs = formConfig.defaultDefinitions;
     ['fullName', 'ssn', 'date', 'dateRange', 'usaPhone'].forEach(key =>

@@ -109,7 +109,6 @@ describe('<EvidencePrivateRecords>', () => {
     expect($('va-checkbox-group', container)).to.exist;
     expect($$('va-checkbox', container).length).to.eq(2);
     expect($$('va-memorable-date', container).length).to.eq(2);
-    expect($('.vads-c-action-link--green', container)).to.exist;
     // check Datadog classes
     expect(
       $$('va-checkbox.dd-privacy-hidden[data-dd-action-name]', container)
@@ -124,7 +123,6 @@ describe('<EvidencePrivateRecords>', () => {
     expect($('va-checkbox-group', container)).to.exist;
     expect($$('va-checkbox', container).length).to.eq(0);
     expect($$('va-memorable-date', container).length).to.eq(2);
-    expect($('.vads-c-action-link--green', container)).to.exist;
   });
 
   it('should update facility name', async () => {
@@ -208,6 +206,7 @@ describe('<EvidencePrivateRecords>', () => {
       clickContinue(container);
       await waitFor(() => expect(goSpy.calledWith(data)).to.be.true);
     });
+
     it('should navigate back to private records request page with valid data', async () => {
       const goSpy = sinon.spy();
       const data = { ...mockData, providerFacility: [mockFacility] };
@@ -224,6 +223,7 @@ describe('<EvidencePrivateRecords>', () => {
       // passing a negative index is okay, we're leaving the indexed pages
       await waitFor(() => expect(goSpy.calledWith(index - 1)).to.be.true);
     });
+
     it('should navigate from zero index to a new empty facility page, of index 1, with valid data', async () => {
       const goSpy = sinon.spy();
       const data = {
@@ -247,6 +247,7 @@ describe('<EvidencePrivateRecords>', () => {
           .to.be.true;
       });
     });
+
     it('should navigate from zero index, with valid data, to next index when inserting another entry', async () => {
       const goSpy = sinon.spy();
       const providerFacility = [mockFacility, mockFacility2, {}];
@@ -316,6 +317,7 @@ describe('<EvidencePrivateRecords>', () => {
         getAndTestAllErrors(container, { ignoreCountry: true });
       });
     });
+
     it('should show & focus error messages after going forward on an empty second page', async () => {
       const goSpy = sinon.spy();
       const index = 1;
@@ -340,6 +342,7 @@ describe('<EvidencePrivateRecords>', () => {
         getAndTestAllErrors(container);
       });
     });
+
     it('should go back on an empty page on first entry', async () => {
       const goSpy = sinon.spy();
       const index = 0;
@@ -378,6 +381,7 @@ describe('<EvidencePrivateRecords>', () => {
         expect(setDataSpy.lastCall.args[0].providerFacility.length).to.eq(1);
       });
     });
+
     it('should show & focus on error messages after adding new location on an empty second page', async () => {
       const goSpy = sinon.spy();
       const index = 1;
@@ -402,6 +406,7 @@ describe('<EvidencePrivateRecords>', () => {
         getAndTestAllErrors(container);
       });
     });
+
     it('should cancel navigation', async () => {
       const goSpy = sinon.spy();
       const index = 0;

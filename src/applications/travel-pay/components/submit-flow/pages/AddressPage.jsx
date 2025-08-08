@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { focusElement, scrollToTop } from 'platform/utilities/ui';
+import { focusElement } from 'platform/utilities/ui/focus';
+import { scrollToTop } from 'platform/utilities/scroll';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
 
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
@@ -140,6 +141,7 @@ const AddressPage = ({
         </div>
       </SmocRadio>
       <HelpTextOptions
+        dataTestId="address-help-text"
         trigger="If you didn't travel from your home address"
         headline="If you traveled from a different address, you can’t file a claim in this tool right now."
       />

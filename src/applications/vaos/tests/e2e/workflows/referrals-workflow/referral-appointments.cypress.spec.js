@@ -8,7 +8,7 @@ import {
   mockReferralsGetApi,
   mockReferralDetailGetApi,
   mockDraftReferralAppointmentApi,
-  mockAppointmentDetailsApi,
+  mockAppointmentDetailsApiWithPolling,
   mockSubmitAppointmentApi,
 } from './referrals-cypress-helpers';
 import MockUser from '../../../fixtures/MockUser';
@@ -26,6 +26,7 @@ import chooseDateAndTime from '../../referrals/page-objects/ChooseDateAndTime';
 import reviewAndConfirm from '../../referrals/page-objects/ReviewAndConfirm';
 import completeReferral from '../../referrals/page-objects/CompleteReferral';
 import epsAppointmentDetails from '../../referrals/page-objects/EpsAppointmentDetails';
+import { mockToday } from '../../../mocks/constants';
 
 describe('VAOS Referral Appointments', () => {
   beforeEach(() => {
@@ -124,23 +125,41 @@ describe('VAOS Referral Appointments', () => {
         response: submitAppointmentResponse,
       });
 
-      // Mock appointment details response
-      const appointmentDetailsResponse = new MockReferralAppointmentDetailsResponse(
+      // Mock appointment details with polling - first 5 requests return proposed, then booked
+      const proposedAppointmentResponse = new MockReferralAppointmentDetailsResponse(
         {
           appointmentId,
           typeOfCare: 'OPTOMETRY',
           providerName: 'Dr. Bones',
           organizationName: 'Meridian Health',
+          status: 'proposed',
           success: true,
         },
       ).toJSON();
-      mockAppointmentDetailsApi({
+
+      const bookedAppointmentResponse = new MockReferralAppointmentDetailsResponse(
+        {
+          appointmentId,
+          typeOfCare: 'OPTOMETRY',
+          providerName: 'Dr. Bones',
+          organizationName: 'Meridian Health',
+          status: 'booked',
+          success: true,
+        },
+      ).toJSON();
+
+      mockAppointmentDetailsApiWithPolling({
         id: appointmentId,
-        response: appointmentDetailsResponse,
+        firstResponse: proposedAppointmentResponse,
+        secondResponse: bookedAppointmentResponse,
+        switchAfterRequests: 2,
       });
     });
 
     it('should navigate through the referral scheduling flow', () => {
+      // Use cy.clock() to control time and ensure consistent appointment slot dates
+      cy.clock(mockToday, ['Date']);
+
       // Navigate to the Referrals and Requests page
       appointmentList.navigateToReferralsAndRequests();
 
@@ -197,17 +216,20 @@ describe('VAOS Referral Appointments', () => {
       // Wait for submit appointment response
       cy.wait('@v2:post:submitAppointment');
 
-      // Wait for appointment details to load
-      cy.wait('@v2:get:appointmentDetails');
+      // Wait for first appointment details polling request (should be proposed)
+      cy.wait('@v2:get:appointmentDetails:polling');
       cy.injectAxeThenAxeCheck();
+
+      // Wait for additional polling requests to eventually get booked status
+      // The app should poll multiple times, then it will get a booked status
+      cy.wait('@v2:get:appointmentDetails:polling', { timeout: 10000 });
+      cy.wait('@v2:get:appointmentDetails:polling', { timeout: 10000 }); // should return booked
 
       // Verify we're redirected to the confirmation page
       completeReferral.validate();
       completeReferral.assertAppointmentDetails();
       completeReferral.assertProviderInfo();
       completeReferral.assertReferralsLink();
-
-      // Click the details link
       completeReferral.clickDetailsLink();
 
       // Verify the completed appointment details

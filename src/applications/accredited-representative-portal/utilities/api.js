@@ -62,9 +62,12 @@ const wrapApiRequest = fn => {
         // Don't redirect to login for our app's root / landing page experience.
         // People are allowed to be unauthenticated there.
         // TODO: probably need a more sound & principled solution here.
-        ![manifest.rootUrl, `${manifest.rootUrl}/`].includes(
-          window.location.pathname,
-        )
+        ![
+          manifest.rootUrl,
+          `${manifest.rootUrl}/`,
+          `${manifest.rootUrl}/sign-in`,
+          `${manifest.rootUrl}/auth/login/callback`,
+        ].includes(window.location.pathname)
       ) {
         window.location = getSignInUrl({
           returnUrl: window.location.href,
@@ -111,7 +114,7 @@ const api = {
       : `&sort[by]=${SORT_DEFAULTS.SORT_BY}&sort[order]=${
           SORT_DEFAULTS.SORT_ORDER
         }`;
-    return [`/submissions?${size}${number}${sort}`];
+    return [`/claim_submissions?${size}${number}${sort}`];
   }),
   claimantSearch: wrapApiRequest(data => {
     return [

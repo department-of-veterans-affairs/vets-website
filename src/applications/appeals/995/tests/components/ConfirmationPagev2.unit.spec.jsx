@@ -151,7 +151,6 @@ describe('ConfirmationPageV2', () => {
       'buddy-statement.pdf',
       'photos.pdf',
     ]);
-    expect($$('.vads-c-action-link--green', container).length).to.eq(1);
   });
 
   it('should render the v2 confirmation page with evidence', () => {
@@ -248,7 +247,6 @@ describe('ConfirmationPageV2', () => {
       'Yes',
       'I gave permission in the past, but I want to revoke (or cancel) my permission',
     ]);
-    expect($$('.vads-c-action-link--green', container).length).to.eq(1);
   });
 
   it('should render the confirmation page with no evidence', () => {
@@ -320,7 +318,6 @@ describe('ConfirmationPageV2', () => {
       'Test 2Decision date: June 28, 2022',
       'Yes, I certify',
     ]);
-    expect($$('.vads-c-action-link--green', container).length).to.eq(1);
   });
 
   it('should render the v2 confirmation page with no evidence & alternate living situation', () => {
@@ -402,7 +399,6 @@ describe('ConfirmationPageV2', () => {
       'None selected',
       'No',
     ]);
-    expect($$('.vads-c-action-link--green', container).length).to.eq(1);
   });
 
   it('should render the v2 confirmation page with alternate choices', () => {
@@ -453,7 +449,6 @@ describe('ConfirmationPageV2', () => {
       'Yes',
       'No',
     ]);
-    expect($$('.vads-c-action-link--green', container).length).to.eq(1);
   });
 
   it('should render the v2 confirmation page with more alternate choices', () => {
@@ -506,6 +501,5 @@ describe('ConfirmationPageV2', () => {
       'Yes',
       'None selected',
     ]);
-    expect($$('.vads-c-action-link--green', container).length).to.eq(1);
   });
 });

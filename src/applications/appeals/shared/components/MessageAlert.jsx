@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
-import { scrollAndFocus } from 'platform/utilities/ui';
+import { scrollAndFocus } from 'platform/utilities/scroll';
 
 export const MessageAlert = ({
   title,
@@ -36,7 +36,7 @@ export const MessageAlert = ({
 
   return (
     <div ref={wrapAlert}>
-      <va-alert status="error" class={classes} uswds>
+      <va-alert status="error" class={classes}>
         <Header slot="headline" className="eligible-issues-error">
           {title}
         </Header>

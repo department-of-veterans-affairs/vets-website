@@ -75,9 +75,12 @@ export default function PhoneLayout({ data: appointment }) {
           </Section>
         )}
       <When>
-        <AppointmentDate date={startDate} />
+        <AppointmentDate date={startDate} timezone={appointment.timezone} />
         <br />
-        <AppointmentTime appointment={appointment} />
+        <AppointmentTime
+          appointment={appointment}
+          timezone={appointment.timezone}
+        />
         <br />
         {APPOINTMENT_STATUS.cancelled !== status &&
           !isPastAppointment && (
@@ -89,8 +92,14 @@ export default function PhoneLayout({ data: appointment }) {
             </div>
           )}
       </When>
-      <What>{typeOfCareName}</What>
-      <Who>{practitionerName}</Who>
+      <What>
+        {typeOfCareName && <span data-dd-privacy="mask">{typeOfCareName}</span>}
+      </What>
+      <Who>
+        {practitionerName && (
+          <span data-dd-privacy="mask">{practitionerName}</span>
+        )}
+      </Who>
       <Section heading="Scheduling facility">
         {!facility && (
           <>
@@ -110,7 +119,11 @@ export default function PhoneLayout({ data: appointment }) {
             <Address address={facility?.address} />
           </>
         )}
-        <span>Clinic: {clinicName || 'Not available'}</span> <br />
+        <span>
+          Clinic:{' '}
+          <span data-dd-privacy="mask">{clinicName || 'Not available'}</span>
+        </span>{' '}
+        <br />
         <ClinicOrFacilityPhone
           clinicPhone={clinicPhone}
           clinicPhoneExtension={clinicPhoneExtension}
@@ -123,12 +136,12 @@ export default function PhoneLayout({ data: appointment }) {
           APPOINTMENT_STATUS.cancelled === status) && (
           <Prepare>
             <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-              Bring your insurance cards. And bring a list of your medications
-              and other information to share with your provider.
+              Bring your insurance cards, a list of your medications, and other
+              things to share with your provider
             </p>
             <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
               <va-link
-                text="Find a full list of things to bring to your appointment"
+                text="Find out what to bring to your appointment"
                 href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"
               />
             </p>

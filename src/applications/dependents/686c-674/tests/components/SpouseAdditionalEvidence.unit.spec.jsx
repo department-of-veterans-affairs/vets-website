@@ -30,14 +30,11 @@ describe('SpouseAdditionalEvidence', () => {
     );
   });
 
-  it('should render the supporting evidence accordion', () => {
+  it('should not render an empty accordion', () => {
     const { container } = renderWithStore({});
     const evidenceAccordion = container.querySelector('#supporting-evidence');
 
-    expect(evidenceAccordion).to.not.be.null;
-    expect(evidenceAccordion.getAttribute('header')).to.equal(
-      'Supporting evidence you need to submit',
-    );
+    expect(evidenceAccordion).to.be.null;
   });
 
   it('should display common-law marriage requirements', () => {
@@ -45,10 +42,18 @@ describe('SpouseAdditionalEvidence', () => {
       currentMarriageInformation: { typeOfMarriage: 'COMMON-LAW' },
     });
 
+    const evidenceAccordion = container.querySelector('#supporting-evidence');
     const listItems = [...container.querySelectorAll('li')].map(
       li => li.textContent,
     );
 
+    expect(evidenceAccordion).to.not.be.null;
+    expect(evidenceAccordion.getAttribute('header')).to.equal(
+      'Supporting evidence you need to submit',
+    );
+    expect(evidenceAccordion.parentElement.getAttribute('open-single')).to.eq(
+      'true',
+    );
     expect(
       listItems.some(text =>
         text.includes('2 Statements of Marital Relationship'),

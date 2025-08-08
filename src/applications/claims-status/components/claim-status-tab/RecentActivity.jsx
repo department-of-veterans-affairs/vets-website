@@ -11,8 +11,11 @@ import {
   getOldestDocumentDate,
   getPhaseItemText,
   is5103Notice,
-  isDisabilityCompensationClaim,
+  getShowEightPhases,
+  renderDefaultThirdPartyMessage,
+  getDisplayFriendlyName,
 } from '../../utils/helpers';
+import { evidenceDictionary } from '../../utils/evidenceDictionary';
 
 export default function RecentActivity({ claim }) {
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
@@ -23,12 +26,10 @@ export default function RecentActivity({ claim }) {
     TOGGLE_NAMES.cstFriendlyEvidenceRequests,
   );
   const cstClaimPhasesEnabled = useToggleValue(TOGGLE_NAMES.cstClaimPhases);
-  // When feature flag cstClaimPhases is enabled and claim type code is for a disability
-  // compensation claim we show 8 phases instead of 5 with updated description, link text
-  // and statuses
-  const showEightPhases =
-    cstClaimPhasesEnabled &&
-    isDisabilityCompensationClaim(claim.attributes.claimTypeCode);
+  const showEightPhases = getShowEightPhases(
+    claim.attributes.claimTypeCode,
+    cstClaimPhasesEnabled,
+  );
 
   const getPhaseItemDescription = (currentPhaseBack, phase) => {
     const phaseItemText = getPhaseItemText(phase, showEightPhases);
@@ -72,7 +73,8 @@ export default function RecentActivity({ claim }) {
 
     trackedItems.forEach(item => {
       const updatedDisplayName = cstFriendlyEvidenceRequests
-        ? item.friendlyName || item.displayName
+        ? (item.friendlyName && getDisplayFriendlyName(item)) ||
+          item.displayName
         : item.displayName;
       const displayName =
         cst5103UpdateEnabled && is5103Notice(item.displayName)
@@ -110,7 +112,11 @@ export default function RecentActivity({ claim }) {
         ) {
           addItems(
             item.requestedDate,
-            `We made a request outside the VA: “${displayName}.”`,
+            (evidenceDictionary[item.displayName] &&
+              evidenceDictionary[item.displayName].isDBQ) ||
+            item.displayName.toLowerCase().includes('dbq')
+              ? `We made a request: “${displayName}.”`
+              : `We made a request outside the VA: “${displayName}.”`,
             item,
           );
         } else {
@@ -230,11 +236,7 @@ export default function RecentActivity({ claim }) {
               <br />
             </>
           ) : (
-            <>
-              <strong>You don’t have to do anything.</strong> We asked someone
-              outside VA for documents related to your claim.
-              <br />
-            </>
+            renderDefaultThirdPartyMessage(item.displayName)
           )}
           <Link
             aria-label={`About this notice for ${item.friendlyName ||

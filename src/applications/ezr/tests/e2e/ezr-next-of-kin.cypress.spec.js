@@ -7,10 +7,10 @@ import {
   fillTextWebComponent,
   goToNextPage,
   selectDropdownWebComponent,
-  selectYesNoWebComponent,
   fillNameWithKeyboard,
+  selectYesNoWebComponent,
 } from './helpers';
-import { MOCK_ENROLLMENT_RESPONSE } from '../../utils/constants';
+import { MOCK_ENROLLMENT_RESPONSE, API_ENDPOINTS } from '../../utils/constants';
 import { advanceToNextOfKin } from './helpers/next-of-kin';
 
 const { data: testData } = maxTestData;
@@ -21,7 +21,7 @@ describe('EZR Next Of Kin flow', () => {
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
       'mockFeatures',
     );
-    cy.intercept('GET', '/v0/health_care_applications/enrollment_status*', {
+    cy.intercept('GET', `/v0${API_ENDPOINTS.enrollmentStatus}*`, {
       statusCode: 200,
       body: MOCK_ENROLLMENT_RESPONSE,
     }).as('mockEnrollmentStatus');
@@ -38,6 +38,7 @@ describe('EZR Next Of Kin flow', () => {
     advanceToNextOfKin();
 
     selectYesNoWebComponent('view:hasNextOfKin', true);
+
     goToNextPage(
       '/update-benefits-information-form-10-10ezr/veteran-information/next-of-kin/0/contact',
     );
@@ -47,14 +48,12 @@ describe('EZR Next Of Kin flow', () => {
     fillNameWithKeyboard('fullName', contact.fullName);
     fillTextWebComponent('primaryPhone', contact.primaryPhone);
     selectDropdownWebComponent('relationship', contact.relationship);
-    selectYesNoWebComponent('view:hasNextOfKinAddress', true);
 
     // NoK 1 address
     goToNextPage(
       '/update-benefits-information-form-10-10ezr/veteran-information/next-of-kin/0/contact-address',
     );
-    cy.tabToElement(`[name="root_address_country"]`);
-    cy.chooseSelectOptionUsingValue(contact.address.country);
+    cy.selectVaSelect(`root_address_country`, contact.address.country);
     fillTextWebComponent('address_street', contact.address.street);
     fillTextWebComponent('address_city', contact.address.city);
     selectDropdownWebComponent('address_state', contact.address.state);
@@ -62,7 +61,7 @@ describe('EZR Next Of Kin flow', () => {
 
     cy.tabToElementAndPressSpace('.usa-button-primary');
 
-    cy.findByText(/Review your next of kins/i).should('exist');
+    cy.findByText(/Review your next of kin/i).should('exist');
     cy.findByText(`${contact.fullName.first} ${contact.fullName.last}`).should(
       'exist',
     );

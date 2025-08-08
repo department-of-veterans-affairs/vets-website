@@ -12,7 +12,7 @@ export const chapterHeaderClass = [
 export const ConfirmationSummary = ({ name, downloadUrl }) => (
   <div className="screen-only">
     {downloadUrl && (
-      <va-summary-box uswds class="vads-u-margin-top--2">
+      <va-summary-box class="vads-u-margin-top--2">
         <h3 slot="headline" className="vads-u-margin-top--0">
           {`Save a PDF copy of your ${name} request`}
         </h3>
@@ -47,8 +47,11 @@ ConfirmationSummary.propTypes = {
 
 export const ConfirmationReturnLink = () => (
   <div className="screen-only vads-u-margin-top--4">
-    <a className="vads-c-action-link--green" href="/">
-      Go back to VA.gov
-    </a>
+    <va-link-action
+      disable-analytics
+      href="/"
+      text="Go back to VA.gov"
+      type="primary"
+    />
   </div>
 );

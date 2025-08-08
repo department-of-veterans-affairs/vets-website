@@ -10,7 +10,7 @@ import prescriptions from '../fixtures/prescriptions.json';
 import allergies from '../fixtures/allergies.json';
 import prescriptionDetails from '../fixtures/prescriptionDetails.json';
 import nonVAPrescription from '../fixtures/nonVaPrescription.json';
-import { DOWNLOAD_FORMAT, EMPTY_FIELD } from '../../util/constants';
+import { DOWNLOAD_FORMAT, FIELD_NONE_NOTED } from '../../util/constants';
 import { convertHtmlForDownload } from '../../util/helpers';
 
 describe('Prescriptions List Config', () => {
@@ -26,7 +26,7 @@ describe('Prescriptions List Config', () => {
       },
     ];
     const pdfList = buildPrescriptionsPDFList(blankPrescriptions);
-    expect(pdfList[0].sections[0].items[2].value).to.equal(EMPTY_FIELD);
+    expect(pdfList[0].sections[0].items[2].value).to.equal(FIELD_NONE_NOTED);
   });
 });
 
@@ -43,8 +43,44 @@ describe('VA prescription Config', () => {
     expect(pdfGen[0].header).to.equal('Most recent prescription');
   });
 
-  it('should create "Refill history" section', () => {
-    const pdfGen = buildVAPrescriptionPDFList(prescriptionDetails);
+  it('should create "Refill history" section if there is 1 record with dispensedDate NOT undefined', () => {
+    const rxDetails = { ...prescriptionDetails.data.attributes };
+    rxDetails.dispensedDate = undefined; // this is to skip createOriginalFillRecord
+    const pdfGen = buildVAPrescriptionPDFList(rxDetails);
+    expect(pdfGen[1].header).to.equal('Refill history');
+  });
+
+  it('should NOT create "Refill history" section if there is 1 record with dispensedDate undefined', () => {
+    const rxDetails = { ...prescriptionDetails.data.attributes };
+    rxDetails.dispensedDate = undefined; // this is to skip createOriginalFillRecord
+    rxDetails.rxRfRecords[0].dispensedDate = undefined;
+    const pdfGen = buildVAPrescriptionPDFList(rxDetails);
+    expect(pdfGen[1]).to.not.exist;
+  });
+
+  it('should NOT create "Refill history" section if there are NO records', () => {
+    const rxDetails = { ...prescriptionDetails.data.attributes };
+    rxDetails.dispensedDate = undefined; // this is to skip createOriginalFillRecord
+    rxDetails.rxRfRecords = [];
+    const pdfGen = buildVAPrescriptionPDFList(rxDetails);
+    expect(pdfGen[1]).to.not.exist;
+  });
+
+  it('should create "Refill history" section if there are NO records but original fill record is created', () => {
+    const rxDetails = { ...prescriptionDetails.data.attributes };
+    rxDetails.rxRfRecords = [];
+    const pdfGen = buildVAPrescriptionPDFList(rxDetails);
+    expect(pdfGen[1].header).to.equal('Refill history');
+  });
+
+  it('should create "Refill history" section if there are 2 records', () => {
+    const rxDetails = { ...prescriptionDetails.data.attributes };
+    rxDetails.dispensedDate = undefined; // this is to skip createOriginalFillRecord
+    rxDetails.rxRfRecords = [
+      { ...rxDetails.rxRfRecords[0] },
+      { ...rxDetails.rxRfRecords[0] },
+    ];
+    const pdfGen = buildVAPrescriptionPDFList(rxDetails);
     expect(pdfGen[1].header).to.equal('Refill history');
   });
 
@@ -53,7 +89,7 @@ describe('VA prescription Config', () => {
       providerLastName: 'test',
     };
     const pdfList = buildVAPrescriptionPDFList(blankPrescription);
-    expect(pdfList[0].sections[0].items[12].value).to.equal('test, ');
+    expect(pdfList[0].sections[0].items[12].value).to.equal('test');
   });
 });
 
@@ -68,7 +104,7 @@ describe('Non VA prescription Config', () => {
       providerLastName: 'test',
     };
     const pdfList = buildNonVAPrescriptionPDFList(blankPrescription);
-    expect(pdfList[0].sections[0].items[6].value).to.equal('test, ');
+    expect(pdfList[0].sections[0].items[6].value).to.equal('test');
   });
 });
 

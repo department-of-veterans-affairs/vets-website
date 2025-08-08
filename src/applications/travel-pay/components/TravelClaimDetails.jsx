@@ -2,10 +2,9 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom-v5-compat';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { scrollTo } from 'platform/utilities/ui/scroll';
 import { focusElement } from 'platform/utilities/ui';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
-import { Element } from 'platform/utilities/scroll';
+import { Element, scrollTo } from 'platform/utilities/scroll';
 
 import { HelpTextManage } from './HelpText';
 import Breadcrumbs from './Breadcrumbs';
@@ -87,14 +86,18 @@ export default function TravelClaimDetails() {
 
         <div className="vads-u-margin-bottom--4">
           <p>
-            If you're eligible for reimbursement, we'll deposit your
+            If you’re eligible for reimbursement, we’ll deposit your
             reimbursement in your bank account.
           </p>
-
           <va-link
             href={REIMBURSEMENT_URL}
             text="Learn how to set up direct deposit for travel pay reimbursement"
           />
+          <p>
+            <strong>Note:</strong> Even if you already set up direct deposit for
+            your VA benefits, you’ll need to set up another direct deposit for
+            VA travel pay reimbursements.
+          </p>
         </div>
         <va-need-help>
           <div slot="content">

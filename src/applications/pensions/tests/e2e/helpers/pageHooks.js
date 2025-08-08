@@ -1,7 +1,6 @@
 import Timeouts from 'platform/testing/e2e/timeouts';
 
 import {
-  fillAddressWebComponentPattern,
   fillCareExpensesPage,
   fillCurrentEmploymentHistoryPage,
   fillDependentsPage,
@@ -41,9 +40,7 @@ const pageHooks = returnUrl => ({
 
       cy.get('va-button[data-testid="continue-your-application"]').click();
     } else {
-      cy.findAllByText(/start the pension application/i)
-        .first()
-        .click();
+      cy.clickStartForm();
     }
   },
   ...Object.keys(pagePaths).reduce((paths, pagePath) => ({
@@ -52,7 +49,7 @@ const pageHooks = returnUrl => ({
   })),
   [pagePaths.mailingAddress]: ({ afterHook }) => {
     cy.get('@testData').then(data => {
-      fillAddressWebComponentPattern('veteranAddress', data.veteranAddress);
+      cy.fillAddressWebComponentPattern('veteranAddress', data.veteranAddress);
       replaceDefaultPostHook({ afterHook });
     });
   },
@@ -135,7 +132,7 @@ const pageHooks = returnUrl => ({
   },
   [pagePaths.currentSpouseAddress]: ({ afterHook }) => {
     cy.get('@testData').then(data => {
-      fillAddressWebComponentPattern('spouseAddress', data.spouseAddress);
+      cy.fillAddressWebComponentPattern('spouseAddress', data.spouseAddress);
       afterHook(replaceDefaultPostHook);
     });
   },
@@ -217,9 +214,7 @@ const pageHooks = returnUrl => ({
           .shadow()
           .find('input')
           .click({ force: true });
-        cy.findAllByText(/Submit application/i, {
-          selector: 'button',
-        }).click();
+        cy.clickFormContinue();
         shouldNotHaveValidationErrors();
       });
     });

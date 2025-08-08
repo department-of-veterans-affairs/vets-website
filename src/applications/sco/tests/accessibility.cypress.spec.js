@@ -72,6 +72,30 @@ describe('Accessibility', () => {
       'contain.text',
       'VA Paper-Based Forms to Enrollment Manager Crosswalk (PPTX, 124 pages)',
     );
+    // Tab to 'Other resources New SCO Toolkit' section
+    cy.realPress('Tab');
+    cy.focused().should('contain.text', 'New SCO Toolkit');
+    cy.realPress('Tab');
+    cy.focused().should('contain.text', 'New SCO Toolkit');
+    cy.realPress('Tab');
+    cy.focused().should('contain.text', 'Getting Started as an SCO');
+    cy.realPress('Tab');
+    cy.focused().should('contain.text', 'Role of the SCO');
+    cy.realPress('Tab');
+    cy.focused().should('contain.text', 'Required Training');
+    cy.realPress('Tab');
+    cy.focused().should('contain.text', 'Gaining Access to Enrollment Manager');
+    cy.realPress('Tab');
+    cy.focused().should('contain.text', 'Certification Basics');
+    cy.realPress('Tab');
+    cy.focused().should('contain.text', 'SCO Responsibilities to the SAA');
+    cy.realPress('Tab');
+    cy.focused().should('contain.text', 'Compliance and Reporting');
+    cy.realPress('Tab');
+    cy.focused().should('contain.text', 'Common Mistakes to Avoid');
+    cy.realPress('Tab');
+    cy.focused().should('contain.text', 'Resources and Support');
+
     cy.realPress('Tab');
     cy.focused().should('contain.text', 'Payment and debt');
     cy.repeatKey('Tab', 4);
@@ -102,6 +126,6 @@ describe('Accessibility', () => {
     // Tab to 'Connect with us' section
     cy.focused().should('contain.text', 'Connect with us');
     cy.repeatKey('Tab', 5);
-    cy.focused().should('contain.text', 'VBA on YouTube');
+    cy.focused().should('contain.text', 'X');
   });
 });

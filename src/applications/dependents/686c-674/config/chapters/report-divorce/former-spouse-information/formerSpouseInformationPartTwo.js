@@ -23,7 +23,7 @@ export const schema = {
           type: 'string',
         },
       },
-      required: ['reasonMarriageEnded'],
+      required: ['date', 'reasonMarriageEnded'],
     },
   },
 };
@@ -31,10 +31,11 @@ export const schema = {
 export const uiSchema = {
   reportDivorce: {
     ...titleUI('When, where, and why did this marriage end?'),
-    date: {
-      ...currentOrPastDateUI('Date of divorce'),
-      'ui:required': () => true,
-    },
+    date: currentOrPastDateUI({
+      title: 'Date of divorce',
+      dataDogHidden: true,
+      required: () => true,
+    }),
     divorceLocation: {
       outsideUsa: {
         'ui:title': 'This occurred outside the U.S.',
@@ -98,11 +99,11 @@ export const uiSchema = {
     'ui:options': {
       updateSchema: (formData, formSchema) => {
         if (formSchema.properties.explanationOfOther['ui:collapsed']) {
-          return { ...formSchema, required: ['reasonMarriageEnded'] };
+          return { ...formSchema, required: ['date', 'reasonMarriageEnded'] };
         }
         return {
           ...formSchema,
-          required: ['reasonMarriageEnded', 'explanationOfOther'],
+          required: ['date', 'reasonMarriageEnded', 'explanationOfOther'],
         };
       },
     },

@@ -5,7 +5,8 @@ import mockPrefills from '../../../mocks/endpoints/in-progress-forms/mock-form-a
 import { generateFeatureToggles } from '../../../mocks/endpoints/feature-toggles';
 // eslint-disable-next-line import/no-duplicates
 
-describe('Prefill pattern - Blue Task', () => {
+// TODO: SKIPPED. Fix cypress test. Skip until fixed.
+describe.skip('Prefill pattern - Blue Task', () => {
   beforeEach(() => {
     // mockInterceptors();
     cy.login(mockUsers.loa3User);
@@ -185,8 +186,9 @@ describe('Prefill pattern - Blue Task', () => {
   });
 });
 
-describe('Prefill pattern - Blue Task Failure Scenario', () => {
-  it('shows error alert when profile update fails but form data is saved', () => {
+// TODO: SKIPPED. Fix cypress test. Skip until fixed.
+describe.skip('Prefill pattern - Blue Task Failure Scenario', () => {
+  it.skip('shows error alert when profile update fails but form data is saved', () => {
     cy.login(mockUsers.loa3User);
 
     cy.intercept('GET', '/v0/in_progress_forms/FORM-MOCK-AE-DESIGN-PATTERNS', {

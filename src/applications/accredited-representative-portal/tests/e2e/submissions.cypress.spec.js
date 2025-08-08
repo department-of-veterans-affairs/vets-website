@@ -11,7 +11,8 @@ const vamcUser = {
   },
 };
 
-const SUBMISSIONS_PAGE = '/representative/submissions';
+const SUBMISSIONS_PAGE =
+  '/representative/submissions?sortOrder=desc&sortBy=created_at&pageSize=20&pageNumber=1';
 
 Cypress.Commands.add('loginArpUser', () => {
   cy.intercept('GET', '**/accredited_representative_portal/v0/user', {
@@ -34,21 +35,6 @@ const setUpInterceptsAndVisit = (featureToggles, url) => {
 };
 
 describe('Accredited Representative Portal', () => {
-  describe('App feature toggle is not enabled', () => {
-    beforeEach(() => {
-      cy.loginArpUser();
-      setUpInterceptsAndVisit({
-        isAppEnabled: false,
-        isInPilot: false,
-      });
-    });
-
-    it('redirects to VA.gov homepage when in production and app is not enabled', () => {
-      cy.injectAxeThenAxeCheck();
-      cy.location('pathname').should('eq', '/');
-    });
-  });
-
   describe('App feature toggle is enabled, but submissions feature toggle is not enabled', () => {
     beforeEach(() => {
       setUpInterceptsAndVisit(

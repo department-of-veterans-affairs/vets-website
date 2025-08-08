@@ -8,7 +8,7 @@ import { expect } from 'chai';
 import {
   emailSchema,
   phoneSchema,
-  internationalPhoneSchema,
+  internationalPhoneDeprecatedSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import React from 'react';
 import { Provider } from 'react-redux';
@@ -101,7 +101,7 @@ describe('yourContactInformationPage', () => {
 
       expect(updatedSchema.properties).to.deep.include({
         businessPhone: {
-          ...internationalPhoneSchema,
+          ...internationalPhoneDeprecatedSchema,
           pattern: '^\\+?[0-9](?:-?[0-9]){0,15}$',
         },
         businessEmail: emailSchema,

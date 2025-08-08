@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
-import { Element } from 'platform/utilities/scroll';
 import { focusElement } from 'platform/utilities/ui';
-import { scrollTo } from 'platform/utilities/ui/scroll';
+import { Element, scrollTo } from 'platform/utilities/scroll';
 
 import { VaBackToTop } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
@@ -23,6 +22,9 @@ const ClaimStatusExplainerPage = () => {
 
   const toggleIsLoading = useToggleLoadingValue();
   const appEnabled = useToggleValue(TOGGLE_NAMES.travelPayPowerSwitch);
+  const claimsMgmtToggle = useToggleValue(
+    TOGGLE_NAMES.travelPayClaimsManagement,
+  );
 
   if (toggleIsLoading) {
     return (
@@ -38,6 +40,13 @@ const ClaimStatusExplainerPage = () => {
 
   if (!appEnabled) {
     window.location.replace('/');
+    return null;
+  }
+
+  // TODO: Once claimsMgmtToggle is on permanently, this page can be
+  // removed along with its route definition
+  if (claimsMgmtToggle) {
+    window.location.replace('/my-health/travel-pay/claims/');
     return null;
   }
 

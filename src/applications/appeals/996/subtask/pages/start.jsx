@@ -78,17 +78,16 @@ const BenefitType = ({ data = {}, error, setPageData }) => {
         higher-level reviewer. You can’t submit any new evidence with a
         Higher-Level Review.
       </p>
-      <va-additional-info
-        trigger="What are other decision review options?"
-        uswds
-      >
+      <va-additional-info trigger="What are other decision review options?">
         <p className="vads-u-padding-bottom--1">
           If you don’t think this is the right form for you, there other
           decision review options.
         </p>
-        <a href="/resources/choosing-a-decision-review-option/">
-          Learn about choosing a decision review option
-        </a>
+        <va-link
+          disable-analytics
+          href="/resources/choosing-a-decision-review-option/"
+          text="Learn about choosing a decision review option"
+        />
       </va-additional-info>
 
       <VaRadio
@@ -97,7 +96,6 @@ const BenefitType = ({ data = {}, error, setPageData }) => {
         onVaValueChange={handlers.setBenefitType}
         required
         label-header-level="2"
-        uswds
       >
         {options.map(({ value, label }) => (
           <VaRadioOption

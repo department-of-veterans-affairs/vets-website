@@ -4,8 +4,8 @@ import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 
 import { setData } from 'platform/forms-system/src/js/actions';
-import scrollTo from 'platform/utilities/ui/scrollTo';
-import { focusElement, scrollToFirstError } from 'platform/utilities/ui';
+import { scrollTo, scrollToFirstError } from 'platform/utilities/scroll';
+import { focusElement } from '../../utilities/ui/focus';
 
 /**
  * Problems to address:

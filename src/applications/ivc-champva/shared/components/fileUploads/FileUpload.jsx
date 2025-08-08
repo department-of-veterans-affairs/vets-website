@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
+import { CustomPageNavButtons } from '../CustomPageNavButtons';
 import MissingFileOverview, { hasReq } from './MissingFileOverview';
 
 export function FileFieldCustom(props) {
@@ -81,7 +81,7 @@ export function FileFieldCustom(props) {
     }
   }
 
-  const navButtons = <FormNavButtons goBack={onGoBack} submitToContinue />;
+  const navButtons = CustomPageNavButtons({ ...props, goBack: onGoBack });
 
   return (
     <>
@@ -100,6 +100,44 @@ export function FileFieldCustom(props) {
         trackingPrefix={props.trackingPrefix}
         onChange={props.onReviewPage ? customSet : props.onChange}
         onSubmit={onGoForward}
+      >
+        <div className="vads-u-margin-top--4">
+          {props.contentBeforeButtons}
+          {props.onReviewPage ? updateButton : navButtons}
+          {props.contentAfterButtons}
+        </div>
+      </SchemaForm>
+    </>
+  );
+}
+
+// Stripped down version of FileFieldCustom that doesn't include the
+// missing file overview logic + related customizations. This is useful
+// for accessing full form data in sub components on upload pages like
+// description components (such as is done in LLM_UPLOAD_WARNING)
+export function FileFieldCustomSimple(props) {
+  const updateButton = (
+    // eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component
+    <button type="submit" onClick={props.updatePage}>
+      Update page
+    </button>
+  );
+
+  const navButtons = CustomPageNavButtons(props);
+
+  return (
+    <>
+      <SchemaForm
+        schema={props.schema}
+        uiSchema={props.uiSchema}
+        name={props.name}
+        title={props.title}
+        pagePerItemIndex={props.pagePerItemIndex}
+        data={props.data}
+        formContext={props}
+        trackingPrefix={props.trackingPrefix}
+        onChange={props.onReviewPage ? props.setFormData : props.onChange}
+        onSubmit={props.goForward}
       >
         <div className="vads-u-margin-top--4">
           {props.contentBeforeButtons}
@@ -133,4 +171,7 @@ FileFieldCustom.propTypes = {
   onChange: PropTypes.func,
   onReviewPage: PropTypes.bool,
 };
+
+FileFieldCustomSimple.propTypes = FileFieldCustom.propTypes;
+
 export default FileFieldCustom;

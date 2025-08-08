@@ -2,20 +2,19 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
+import { waitFor } from '@testing-library/dom';
 // import moment from 'moment';
 
 import { Provider } from 'react-redux';
 import { combineReducers, createStore } from 'redux';
 
-import {
-  DefinitionTester, // selectCheckbox
-} from 'platform/testing/unit/schemaform-utils.jsx';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import {
   STATE_VALUES,
   MILITARY_STATE_VALUES,
 } from 'applications/disability-benefits/all-claims/constants';
 import { commonReducer } from 'platform/startup/store';
-import formConfig from '../../config/form.js';
+import formConfig from '../../config/form';
 import reducers from '../../reducers';
 
 // const NEXT_YEAR = moment()
@@ -166,7 +165,7 @@ describe('Disability benefits 526EZ contact information', () => {
     form.unmount();
   });
 
-  it('validates that state is military type if city is military type', () => {
+  it('validates that state is military type if city is military type', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <Provider store={fakeStore}>
@@ -193,13 +192,15 @@ describe('Disability benefits 526EZ contact information', () => {
       </Provider>,
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find('.usa-input-error-message').length).to.equal(1);
+      expect(onSubmit.called).to.be.false;
+    });
     form.unmount();
   });
 
-  it('validates that city is military type if state is military type', () => {
+  it('validates that city is military type if state is military type', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <Provider store={fakeStore}>
@@ -226,9 +227,11 @@ describe('Disability benefits 526EZ contact information', () => {
       </Provider>,
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find('.usa-input-error-message').length).to.equal(1);
+      expect(onSubmit.called).to.be.false;
+    });
     form.unmount();
   });
 
@@ -459,7 +462,7 @@ describe('Disability benefits 526EZ contact information', () => {
   //   form.unmount();
   // });
 
-  it('does not submit without required info', () => {
+  it('does not submit without required info', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <Provider store={fakeStore}>
@@ -493,9 +496,11 @@ describe('Disability benefits 526EZ contact information', () => {
       </Provider>,
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(4);
-    expect(onSubmit.called).to.be.false;
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find('.usa-input-error-message').length).to.equal(4);
+      expect(onSubmit.called).to.be.false;
+    });
     form.unmount();
   });
 

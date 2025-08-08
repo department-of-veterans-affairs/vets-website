@@ -1,3 +1,5 @@
+import { focusElement } from 'platform/utilities/ui/focus';
+import { scrollTo } from 'platform/utilities/scroll';
 import {
   EditAddress,
   EditEmail,
@@ -17,7 +19,6 @@ import {
   getReturnState,
   clearReturnState,
 } from '../utilities/data/profile';
-import { scrollTo, focusElement } from '../../../../utilities/ui';
 
 /**
  * Profile settings
@@ -65,6 +66,8 @@ const profileContactInfo = ({
   addressSchema,
   emailSchema,
   phoneSchema,
+
+  allowInternationalPhones = false,
 
   // keys to use in form data
   wrapperKey = 'veteran',
@@ -131,6 +134,7 @@ const profileContactInfo = ({
           content,
           contactPath,
           editContactInfoHeadingLevel,
+          allowInternationalPhones,
         }),
       CustomPageReview: null, // not shown on review & submit
       depends: () => false, // accessed from contact info page
@@ -152,6 +156,7 @@ const profileContactInfo = ({
           content,
           contactPath,
           editContactInfoHeadingLevel,
+          allowInternationalPhones,
         }),
       CustomPageReview: null, // not shown on review & submit
       depends: () => false, // accessed from contact info page

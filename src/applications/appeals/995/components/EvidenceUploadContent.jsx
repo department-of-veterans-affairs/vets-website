@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import { content } from '../content/evidenceSummary';
 import { EVIDENCE_UPLOAD_PATH, ATTACHMENTS_OTHER } from '../constants';
@@ -9,6 +8,7 @@ import {
   listClassNames,
   removeButtonClass,
 } from '../utils/evidence-classnames';
+import BasicLink from '../../shared/components/web-component-wrappers/BasicLink';
 
 /**
  * Build uploaded evidence list
@@ -32,6 +32,7 @@ export const EvidenceUploadContent = ({
     return null;
   }
   const Header = isOnReviewPage ? 'h5' : 'h4';
+  const SubHeader = isOnReviewPage ? 'h6' : 'h5';
 
   return (
     <>
@@ -55,12 +56,12 @@ export const EvidenceUploadContent = ({
                 hasErrors ? errorClassNames : listClassNames(!showListOnly)
               }
             >
-              <strong
-                className="upload-file dd-privacy-hidden overflow-wrap-word"
+              <SubHeader
+                className="upload-file dd-privacy-hidden overflow-wrap-word vads-u-margin-y--0 vads-u-font-weight--bold"
                 data-dd-action-name="Uploaded document file name"
               >
                 {upload.name}
-              </strong>
+              </SubHeader>
               <div>
                 {errors.attachmentId ||
                   ATTACHMENTS_OTHER[upload.attachmentId] ||
@@ -68,15 +69,15 @@ export const EvidenceUploadContent = ({
               </div>
               {!reviewMode && (
                 <div className="vads-u-margin-top--1p5">
-                  <Link
+                  <BasicLink
+                    disableAnalytics
                     id={`edit-upload-${index}`}
                     className="edit-item"
-                    to={`/${EVIDENCE_UPLOAD_PATH}#${index}`}
+                    path={`/${EVIDENCE_UPLOAD_PATH}#${index}`}
                     aria-label={`${content.editLinkAria} ${upload.name}`}
                     data-link={testing ? EVIDENCE_UPLOAD_PATH : null}
-                  >
-                    {content.edit}
-                  </Link>
+                    text={content.edit}
+                  />
                   <va-button
                     data-index={index}
                     data-type="upload"

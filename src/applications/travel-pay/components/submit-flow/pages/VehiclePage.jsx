@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { focusElement, scrollToTop } from 'platform/utilities/ui';
+import { focusElement } from 'platform/utilities/ui/focus';
+import { scrollToTop } from 'platform/utilities/scroll';
 
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import { HelpTextOptions } from '../../HelpText';
@@ -59,6 +60,7 @@ const VehiclePage = ({
         onValueChange={e => setYesNo({ ...yesNo, vehicle: e.detail.value })}
       />
       <HelpTextOptions
+        dataTestId="vehicle-help-text"
         trigger="If you didn't travel in your own vehicle"
         headline="If you traveled by bus, train, taxi, or other authorized public transportation, you can’t file a claim in this tool right now."
       />

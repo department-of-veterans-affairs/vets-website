@@ -25,7 +25,7 @@ export default function Verify() {
   } else {
     renderServiceNames = (
       <>
-        <strong>Login.gov</strong> or <strong>ID.me</strong>
+        <strong>ID.me</strong> or <strong>Login.gov</strong>
       </>
     );
   }
@@ -34,15 +34,29 @@ export default function Verify() {
   let buttonContent;
   if (!loading && isAuthenticated) {
     if (loginServiceName === 'idme') {
-      buttonContent = <VerifyIdmeButton />;
+      buttonContent = (
+        <VerifyIdmeButton
+          queryParams={{ operation: 'verify_page_authenticated' }}
+        />
+      );
     } else {
-      buttonContent = <VerifyLogingovButton />;
+      buttonContent = (
+        <VerifyLogingovButton
+          queryParams={{ operation: 'verify_page_authenticated' }}
+        />
+      );
     }
   } else {
     buttonContent = (
       <>
-        <VerifyLogingovButton useOAuth />
-        <VerifyIdmeButton useOAuth />
+        <VerifyIdmeButton
+          useOAuth
+          queryParams={{ operation: 'verify_page_unauthenticated' }}
+        />
+        <VerifyLogingovButton
+          useOAuth
+          queryParams={{ operation: 'verify_page_unauthenticated' }}
+        />
       </>
     );
   }

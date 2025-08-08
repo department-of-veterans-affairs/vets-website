@@ -26,6 +26,7 @@ export const additionalInformationPartOne = {
   },
   schema: {
     type: 'object',
+    required: ['doesChildLiveWithYou', 'hasChildEverBeenMarried'],
     properties: {
       doesChildLiveWithYou: yesNoSchema,
       hasChildEverBeenMarried: yesNoSchema,

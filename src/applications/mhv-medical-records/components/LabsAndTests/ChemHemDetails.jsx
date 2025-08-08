@@ -88,7 +88,7 @@ ${reportGeneratedBy}\n
 Date entered: ${record.date}\n
 ${txtLine}\n\n
 Type of test: ${record.type} \n
-Sample tested: ${record.sampleTested} \n
+Site or sample tested: ${record.sampleTested} \n
 Ordered by: ${record.orderedBy} \n
 Location: ${record.collectingLocation} \n
 Lab comments: ${processList(record.comments)} \n

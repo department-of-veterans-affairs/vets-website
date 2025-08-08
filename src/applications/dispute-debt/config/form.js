@@ -1,7 +1,6 @@
 import React from 'react';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import environment from 'platform/utilities/environment';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
@@ -17,12 +16,15 @@ import contactInfo from './contactInfo';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
 import NeedHelp from '../components/NeedHelp';
+import DebtReviewPage from '../components/DebtReviewPage';
+import DebtSelectionReview from '../components/DebtSelectionReview';
 
 import manifest from '../manifest.json';
-import prefillTransformer from './prefill-transformer';
+// import prefillTransformer from './prefill-transformer';
 import submitForm from './submitForm';
 import { TITLE } from '../constants';
 import transformForSubmit from './transformForSubmit';
+import { getDebtPageTitle, focusH3 } from '../utils';
 
 // Function to return the NeedHelp component
 const getHelp = () => <NeedHelp />;
@@ -35,11 +37,13 @@ const formConfig = {
   submitUrl: `${environment.API_URL}/debts_api/v0/digital_disputes`,
   submit: submitForm,
   trackingPrefix: 'dispute-debt',
+  useCustomScrollAndFocus: true,
+  scrollAndFocusTarget: focusH3, // scroll and focus fallback
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   dev: {
-    showNavLinks: true,
-    collapsibleNavLinks: true,
+    showNavLinks: false,
+    collapsibleNavLinks: false,
   },
   formId: VA_FORM_IDS.FORM_DISPUTE_DEBT,
   saveInProgress: {
@@ -52,11 +56,14 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
-  prefillTransformer,
+  // prefillTransformer,
   savedFormMessages: {
     notFound: 'Please start your application over to dispute your VA debt.',
     noAuth:
       'Please sign in again to continue your application to dispute your VA debt.',
+  },
+  customText: {
+    reviewTitle: 'Review and submit',
   },
   title: TITLE,
   downtime: {
@@ -92,6 +99,7 @@ const formConfig = {
           initialData: {
             selectedDebts: [],
           },
+          CustomPageReview: DebtSelectionReview,
         },
       },
     },
@@ -100,26 +108,41 @@ const formConfig = {
       pages: {
         disputeReason: {
           path: 'existence-or-amount/:index',
-          title: 'Debt X of Y: Name of debt',
+          title: getDebtPageTitle,
           uiSchema: disputeReason.uiSchema,
           schema: disputeReason.schema,
           showPagePerItem: true,
           arrayPath: 'selectedDebts',
+          CustomPageReview: DebtReviewPage,
         },
         supportStatement: {
           path: 'dispute-reason/:index',
-          title: 'Debt X of Y: Name of debt',
+          title: getDebtPageTitle,
           uiSchema: supportStatement.uiSchema,
           schema: supportStatement.schema,
           showPagePerItem: true,
           arrayPath: 'selectedDebts',
+          CustomPageReview: DebtReviewPage,
+        },
+        chapterPlaceholder: {
+          // This is in place for the depends to auto increment the chapter count to match veteran expectations
+          // it does NOT render but MUST be here
+          path: 'chapter-placeholder',
+          title: 'Chapter placeholder',
+          depends: formData => {
+            return !formData?.selectedDebts?.length > 0;
+          },
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {},
+          },
         },
       },
     },
   },
   getHelp,
   footerContent,
-  ...minimalHeaderFormConfigOptions(),
 };
 
 export default formConfig;

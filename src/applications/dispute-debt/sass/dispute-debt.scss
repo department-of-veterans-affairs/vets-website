@@ -1,6 +1,56 @@
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
 @import "../../../platform/forms/sass/m-schemaform";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
+
+.form-review-panel-page {
+  margin-bottom: 0;
+}
+
+// debt selection for VaCheckboxGroup, we want to bold the label hidden in the shadow dom text for the
+//  va-checkbox label and make the checkbox-description text grey
+.debt-selection-checkbox-group {
+  va-checkbox {
+    &::part(checkbox) {
+      max-width: fit-content;
+    }
+    &::part(label) {
+      font-weight: bold;
+    }
+    &::part(description) {
+      color: var(--vads-color-gray);
+      font-weight: normal;
+    }
+  }
+}
+
+// Remove bullets from debt selection list
+.form-review-panel-page ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.personal-information-box {
+    border: 1px solid var(--vads-color-gray-medium) !important;
+    padding: 0 $vads-spacing-2;
+}
+
+// Fix spacing between debt review buttons in form pages only
+// Excludes review page accordion items
+[data-chapter="reasonForDisputeChapter"]:not(va-accordion-item) {
+  .form-review-panel-page:first-child {
+    margin-bottom: 2rem;
+    margin-top: 0;
+    padding-top: 0;
+  }
+  .form-review-panel-page:not(:first-child) {
+    margin-top: 2rem;
+  }
+}
+
+#contact-informationHeader {
+  font-size: $font-size-h2;
+}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { scrollToTop } from 'platform/utilities/scroll';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { setSubmission as setSubmissionAction } from 'platform/forms-system/src/js/actions';

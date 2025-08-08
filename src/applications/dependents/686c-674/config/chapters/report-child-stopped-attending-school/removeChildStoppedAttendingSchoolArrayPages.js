@@ -41,24 +41,20 @@ export const removeChildStoppedAttendingSchoolOptions = {
 
 export const removeChildStoppedAttendingSchoolIntroPage = {
   uiSchema: {
-    ...titleUI({
-      title: 'Your children',
-      description: () => {
-        return (
-          <>
-            <p>
-              In the next few questions, we’ll ask you about your children
-              between ages 18 and 23 who left school. You must add at least one
-              child.
-            </p>
-            <CancelButton
-              dependentType="children who left school"
-              isAddChapter={false}
-            />
-          </>
-        );
-      },
-    }),
+    ...titleUI('Your children'),
+    'ui:description': () => (
+      <>
+        <p>
+          In the next few questions, we’ll ask you about your children between
+          ages 18 and 23 who left school. You must add at least one child.
+        </p>
+        <CancelButton
+          dependentType="children who left school"
+          dependentButtonType="children"
+          isAddChapter={false}
+        />
+      </>
+    ),
   },
   schema: {
     type: 'object',
@@ -110,13 +106,15 @@ export const childInformationPage = {
       ...ssnUI('Child’s Social Security number'),
       'ui:required': () => true,
     },
-    birthDate: {
-      ...currentOrPastDateUI('Child’s date of birth'),
-      'ui:required': () => true,
-    },
+    birthDate: currentOrPastDateUI({
+      title: 'Child’s date of birth',
+      dataDogHidden: true,
+      required: () => true,
+    }),
   },
   schema: {
     type: 'object',
+    required: ['fullName', 'ssn', 'birthDate'],
     properties: {
       fullName: fullNameNoSuffixSchema,
       ssn: ssnSchema,
@@ -138,6 +136,7 @@ export const dateChildLeftSchoolPage = {
   },
   schema: {
     type: 'object',
+    required: ['dateChildLeftSchool'],
     properties: {
       dateChildLeftSchool: currentOrPastDateSchema,
     },

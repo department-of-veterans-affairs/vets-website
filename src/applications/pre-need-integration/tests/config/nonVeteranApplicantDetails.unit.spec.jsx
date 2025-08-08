@@ -3,10 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import {
-  DefinitionTester,
-  // fillData,
-} from 'platform/testing/unit/schemaform-utils.jsx';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
 describe('Pre-need applicant non veteran applicant details', () => {
@@ -24,8 +21,8 @@ describe('Pre-need applicant non veteran applicant details', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(6);
-    expect(form.find('select').length).to.equal(3);
+    expect(form.find('input').length).to.equal(5);
+    expect(form.find('VaMemorableDate').length).to.equal(1);
     form.unmount();
   });
 
@@ -42,7 +39,10 @@ describe('Pre-need applicant non veteran applicant details', () => {
 
     form.find('form').simulate('submit');
 
-    expect(form.find('.usa-input-error').length).to.equal(4);
+    expect(form.find('.usa-input-error').length).to.equal(3);
+    const memorableDate = form.find('va-memorable-date');
+    expect(memorableDate.prop('error')).to.exist;
+    expect(memorableDate.prop('error')).to.not.equal('');
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });

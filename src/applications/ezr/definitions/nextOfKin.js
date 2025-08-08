@@ -9,8 +9,6 @@ import {
   phoneUI,
   selectUI,
   titleUI,
-  yesNoUI,
-  yesNoSchema,
   arrayBuilderItemFirstPageTitleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import content from '../locales/en/content.json';
@@ -65,10 +63,6 @@ export const nextOfKinPage = options => ({
     contactType: {
       ...selectUI({ title: 'Default relationship type', inert: true }),
     },
-    'view:hasNextOfKinAddress': yesNoUI({
-      title: content['next-of-kin-address-label'],
-      hint: content['next-of-kin-address-hint'],
-    }),
   },
   schema: {
     type: 'object',
@@ -80,15 +74,8 @@ export const nextOfKinPage = options => ({
         ...contactType,
         default: contactType.enum[0],
       },
-      'view:hasNextOfKinAddress': yesNoSchema,
     },
-    required: [
-      'fullName',
-      'primaryPhone',
-      'relationship',
-      'contactType',
-      'view:hasNextOfKinAddress',
-    ],
+    required: ['fullName', 'primaryPhone', 'relationship', 'contactType'],
   },
 });
 
@@ -117,11 +104,25 @@ export const nextOfKinAddressPage = () => ({
  */
 export const nextOfKinSummaryPage = (options = {}) => ({
   uiSchema: {
-    'view:hasNextOfKin': arrayBuilderYesNoUI(options, {
-      title: content['next-of-kin-add-contacts-label'],
-      titleHeaderLevel: 'h2',
-      hint: content['next-of-kin-hint-text'],
-    }),
+    'view:hasNextOfKin': arrayBuilderYesNoUI(
+      options,
+      {
+        title: content['next-of-kin-add-contacts-label'],
+        hint: content['next-of-kin-hint-text'],
+        labels: {
+          Y: content['next-of-kin-add-contacts-yes-label'],
+          N: content['next-of-kin-add-contacts-no-label'],
+        },
+      },
+      {
+        title: content['next-of-kin-add-another-contact-label'],
+        hint: content['next-of-kin-hint-text'],
+        labels: {
+          Y: content['next-of-kin-add-another-contact-yes-label'],
+          N: content['next-of-kin-add-another-contact-no-label'],
+        },
+      },
+    ),
   },
   schema: {
     type: 'object',

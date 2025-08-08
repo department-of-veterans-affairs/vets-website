@@ -17,6 +17,7 @@ import {
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { formatDateLong } from 'platform/utilities/date';
 import { trustTypeLabels } from '../../../labels';
+import { TrustSupplementaryFormsAlert } from '../../../components/FormAlerts';
 
 import {
   annualReceivedIncomeFromTrustRequired,
@@ -41,6 +42,7 @@ export const options = {
     typeof item.trustEstablishedForVeteransChild !== 'boolean' ||
     typeof item.haveAuthorityOrControlOfTrust !== 'boolean', // include all required fields here
   text: {
+    summaryDescription: TrustSupplementaryFormsAlert,
     getItemName: item =>
       isDefined(item?.establishedDate) &&
       `Trust established on ${formatDateLong(item.establishedDate)}`,
@@ -93,15 +95,15 @@ const summaryPage = {
           'Have you or your dependents established a trust or do you or your dependents have access to a trust?',
         hint: 'If yes, you’ll need to report at least one trust',
         labels: {
-          Y: 'Yes, I have a trust to report',
-          N: 'No, I don’t have a trust to report',
+          Y: 'Yes',
+          N: 'No',
         },
       },
       {
         title: 'Do you have more trusts to report?',
         labels: {
-          Y: 'Yes, I have more trusts to report',
-          N: 'No, I don’t have more trusts to report',
+          Y: 'Yes',
+          N: 'No',
         },
       },
     ),
@@ -109,6 +111,10 @@ const summaryPage = {
   schema: {
     type: 'object',
     properties: {
+      'view:TrustSupplementaryFormsAlert': {
+        type: 'object',
+        properties: {},
+      },
       'view:isAddingTrusts': arrayBuilderYesNoSchema,
     },
     required: ['view:isAddingTrusts'],
@@ -119,7 +125,7 @@ const summaryPage = {
 const informationPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Trust',
+      title: 'Trust establishment',
       nounSingular: options.nounSingular,
     }),
     establishedDate: currentOrPastDateUI('When was the trust established?'),
@@ -140,7 +146,7 @@ const informationPage = {
 /** @returns {PageSchema} */
 const trustTypePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Trust'),
+    ...arrayBuilderItemSubsequentPageTitleUI('Type of trust'),
     trustType: radioUI({
       title: 'What is the type of trust established?',
       labels: trustTypeLabels,
@@ -158,7 +164,7 @@ const trustTypePage = {
 /** @returns {PageSchema} */
 const incomePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Trust'),
+    ...arrayBuilderItemSubsequentPageTitleUI('Income from trust'),
     receivingIncomeFromTrust: yesNoUI(
       'Are you receiving income from the trust?',
     ),
@@ -184,7 +190,9 @@ const incomePage = {
 /** @returns {PageSchema} */
 const medicalExpensePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Trust'),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      'Use of trust for medical expenses',
+    ),
     trustUsedForMedicalExpenses: yesNoUI(
       'Is the trust being used to pay for or to reimburse someone else for your medical expenses?',
     ),
@@ -210,7 +218,7 @@ const medicalExpensePage = {
 /** @returns {PageSchema} */
 const veteransChildPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Trust'),
+    ...arrayBuilderItemSubsequentPageTitleUI('Trust for child'),
     trustEstablishedForVeteransChild: yesNoUI(
       'Was the trust established for a child of the Veteran who was incapable of self-support prior to reaching age 18?',
     ),
@@ -227,7 +235,7 @@ const veteransChildPage = {
 /** @returns {PageSchema} */
 const controlPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Trust'),
+    ...arrayBuilderItemSubsequentPageTitleUI('Control of trust'),
     haveAuthorityOrControlOfTrust: yesNoUI(
       'Do you have any additional authority or control of the trust?',
     ),
@@ -244,7 +252,7 @@ const controlPage = {
 /** @returns {PageSchema} */
 const hasAddedFundsPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Trust'),
+    ...arrayBuilderItemSubsequentPageTitleUI('Funds added to trust'),
     addedFundsAfterEstablishment: yesNoUI(
       'Have you added funds to the trust after it was established?',
     ),
@@ -261,7 +269,7 @@ const hasAddedFundsPage = {
 /** @returns {PageSchema} */
 const addedFundsPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Trust'),
+    ...arrayBuilderItemSubsequentPageTitleUI('Amount added to trust'),
     addedFundsDate: currentOrPastDateUI('When did you add funds?'),
     addedFundsAmount: currencyUI('How much did you add?'),
   },

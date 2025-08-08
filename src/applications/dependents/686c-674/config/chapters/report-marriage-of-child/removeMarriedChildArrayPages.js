@@ -41,23 +41,20 @@ export const removeMarriedChildOptions = {
 
 export const removeMarriedChildIntroPage = {
   uiSchema: {
-    ...titleUI({
-      title: 'Your children under 18 who got married',
-      description: () => {
-        return (
-          <>
-            <p>
-              In the next few questions, we’ll ask you about your children who
-              have gotten married. You must add at least one child.
-            </p>
-            <CancelButton
-              dependentType="children who got married"
-              isAddChapter={false}
-            />
-          </>
-        );
-      },
-    }),
+    ...titleUI('Your children under 18 who got married'),
+    'ui:description': () => (
+      <>
+        <p>
+          In the next few questions, we’ll ask you about your children who have
+          gotten married. You must add at least one child.
+        </p>
+        <CancelButton
+          dependentType="children who got married"
+          dependentButtonType="children"
+          isAddChapter={false}
+        />
+      </>
+    ),
   },
   schema: {
     type: 'object',
@@ -107,13 +104,15 @@ export const marriedChildInformationPage = {
       ...ssnUI('Child’s Social Security number'),
       'ui:required': () => true,
     },
-    birthDate: {
-      ...currentOrPastDateUI('Child’s date of birth'),
-      'ui:required': () => true,
-    },
+    birthDate: currentOrPastDateUI({
+      title: 'Child’s date of birth',
+      dataDogHidden: true,
+      required: () => true,
+    }),
   },
   schema: {
     type: 'object',
+    required: ['fullName', 'ssn', 'birthDate'],
     properties: {
       fullName: fullNameNoSuffixSchema,
       ssn: ssnSchema,
@@ -133,6 +132,7 @@ export const dateChildMarriedPage = {
   },
   schema: {
     type: 'object',
+    required: ['dateMarried'],
     properties: {
       dateMarried: currentOrPastDateSchema,
     },

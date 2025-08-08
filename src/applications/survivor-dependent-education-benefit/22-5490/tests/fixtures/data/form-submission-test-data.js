@@ -18,7 +18,7 @@ export const submissionForm = {
   trackingPrefix: 'edu-22-5490-',
   formErrors: {},
   data: {
-    relativeDateOfBirth: '1932-02-05',
+    claimantDateOfBirth: '1932-02-05',
     claimantFullName: {
       first: 'Hector',
       middle: 'M',

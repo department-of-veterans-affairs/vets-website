@@ -8,6 +8,7 @@ import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import DowntimeNotification, {
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
+import { datadogRum } from '@datadog/browser-rum';
 import { formatFullName } from '../../../common/helpers';
 import { getServiceBranchDisplayName } from '../../helpers';
 import Headline from '../ProfileSectionHeadline';
@@ -19,6 +20,8 @@ import {
   SystemErrorAlert,
 } from './VeteranStatusAlerts';
 import LoadFail from '../alerts/LoadFail';
+import '../../sass/veteran-status-card.scss';
+import { useBrowserMonitoring } from './hooks/useBrowserMonitoring';
 
 const VeteranStatus = ({
   militaryInformation = {},
@@ -37,8 +40,11 @@ const VeteranStatus = ({
   const [pdfError, setPdfError] = useState(false);
   const { first, middle, last, suffix } = userFullName;
 
-  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const vetStatusCardToggle = useToggleValue(TOGGLE_NAMES.vetStatusStage1);
+  const {
+    TOGGLE_NAMES,
+    useToggleValue,
+    useToggleLoadingValue,
+  } = useFeatureToggle();
 
   const userAgent =
     mockUserAgent || navigator.userAgent || navigator.vendor || window.opera;
@@ -62,58 +68,57 @@ const VeteranStatus = ({
     },
   } = militaryInformation;
 
-  const isServiceHistory403Error = !!serviceError?.errors?.some(
-    err => err.code === '403',
-  );
-
-  const isServiceHistoryNon403Error = !!serviceError?.errors?.every(
-    err => err.code !== '403',
-  );
-
   const isServiceHistoryValid = serviceHistory?.length;
+
+  const isServiceHistoryNon403Error =
+    !isLoading &&
+    data?.attributes?.veteranStatus === 'confirmed' &&
+    !isServiceHistoryValid &&
+    Array.isArray(serviceError?.errors) &&
+    serviceError.errors.length > 0 &&
+    serviceError.errors.every(err => err.code !== '403');
 
   const isCardDataValid = !!(
     !isLoading &&
     data?.attributes?.veteranStatus === 'confirmed' &&
-    vetStatusEligibility?.confirmed === true &&
     isServiceHistoryValid &&
     formattedFullName
   );
 
-  useEffect(
-    () => {
-      let isMounted = true;
-      if (formattedFullName && isServiceHistoryValid) {
-        const fetchVerificationStatus = async () => {
-          setIsLoading(true);
+  useEffect(() => {
+    document.title = `Veteran Status Card | Veterans Affairs`;
+  }, []);
 
-          try {
-            const path = '/profile/vet_verification_status';
-            const response = await apiRequest(path);
-            if (isMounted) {
-              setData(response.data);
-            }
-          } catch (error) {
-            if (isMounted) {
-              captureError(error, {
-                eventName: 'vet-status-fetch-verification',
-              });
-            }
-          } finally {
-            if (isMounted) {
-              setIsLoading(false);
-            }
-          }
-        };
-        fetchVerificationStatus();
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchVerificationStatus = async () => {
+      setIsLoading(true);
+
+      try {
+        const path = '/profile/vet_verification_status';
+        const response = await apiRequest(path);
+        if (isMounted) {
+          setData(response.data);
+        }
+      } catch (error) {
+        if (isMounted) {
+          captureError(error, {
+            eventName: 'vet-status-fetch-verification',
+          });
+        }
+      } finally {
+        if (isMounted) {
+          setIsLoading(false);
+        }
       }
+    };
+    fetchVerificationStatus();
 
-      return () => {
-        isMounted = false;
-      };
-    },
-    [formattedFullName, isServiceHistoryValid],
-  );
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const getLatestService = () => {
     if (serviceHistory?.length) {
@@ -161,8 +166,14 @@ const VeteranStatus = ({
         url: '/img/scissors-black.png',
       },
     },
-    vetStatusCardToggle,
   };
+
+  useBrowserMonitoring();
+
+  const isLoadingFeatureFlags = useToggleLoadingValue();
+  const monitorPdfGeneration = useToggleValue(TOGGLE_NAMES.vetStatusPdfLogging);
+  const monitoringEnabled =
+    isLoadingFeatureFlags === false && monitorPdfGeneration === true;
 
   const createPdf = async () => {
     try {
@@ -174,38 +185,37 @@ const VeteranStatus = ({
       );
     } catch (error) {
       setPdfError(true);
+      if (monitoringEnabled) {
+        datadogRum.addError(
+          error,
+          'Profile - Veteran Status Card - PDF generation error',
+        );
+      }
       captureError(error, { eventName: 'vet-status-pdf-download' });
     }
   };
 
   const renderAlert = () => {
-    if (isServiceHistoryNon403Error) {
-      // Service history non-403 error
-      return <LoadFail />;
+    if (
+      data?.attributes?.veteranStatus === 'not confirmed' &&
+      data?.message?.length > 0
+    ) {
+      // Vet verification status "not confirmed" alert
+      return (
+        <NotConfirmedAlert
+          headline={data.title}
+          message={data.message}
+          status={data.status}
+        />
+      );
     }
-    if (isServiceHistory403Error || !isServiceHistoryValid) {
-      // Service history 403 error or no service history
-      return <NoServiceHistoryAlert />;
-    }
-    if (formattedFullName) {
-      if (
-        data?.attributes?.veteranStatus === 'not confirmed' &&
-        data?.message?.length > 0
-      ) {
-        // Vet verification status warning
-        return (
-          <NotConfirmedAlert
-            headline={data.title}
-            message={data.message}
-            status={data.status}
-          />
-        );
-      }
-      if (
-        vetStatusEligibility?.confirmed === false &&
-        vetStatusEligibility?.message?.length > 0
-      ) {
-        // Vet status eligibility warning
+    if (
+      data?.attributes?.veteranStatus === 'confirmed' &&
+      !isServiceHistoryValid
+    ) {
+      // Vet verification status "confirmed" but no service history
+      if (vetStatusEligibility?.message?.length > 0) {
+        // Vet verification status eligibility alert
         return (
           <NotConfirmedAlert
             headline={vetStatusEligibility.title}
@@ -214,12 +224,11 @@ const VeteranStatus = ({
           />
         );
       }
+      // No service history or 403 error alert
+      return <NoServiceHistoryAlert />;
     }
-    if (!isCardDataValid) {
-      // System error
-      return <SystemErrorAlert />;
-    }
-    return null;
+    // System error alert for all other failures
+    return <SystemErrorAlert />;
   };
 
   const renderContent = () => {
@@ -232,46 +241,50 @@ const VeteranStatus = ({
         />
       );
     }
-    if (isCardDataValid) {
-      return (
-        <div className="vads-l-grid-container--full">
-          <div className="vads-l-row">
-            <VeteranStatusCard
-              edipi={edipi}
-              formattedFullName={formattedFullName}
-              latestService={latestService}
-              totalDisabilityRating={totalDisabilityRating}
-            />
-          </div>
-        </div>
-      );
+    if (isServiceHistoryNon403Error) {
+      return <LoadFail />;
     }
-    return renderAlert();
+    return (
+      <>
+        <p>
+          This card makes it easy to prove your service and access Veteran
+          discounts, all while keeping your personal information secure.
+        </p>
+        {isCardDataValid && (
+          <div className="vads-l-grid-container--full">
+            <div className="vads-l-row">
+              <VeteranStatusCard
+                edipi={edipi}
+                formattedFullName={formattedFullName}
+                latestService={latestService}
+                totalDisabilityRating={totalDisabilityRating}
+              />
+            </div>
+          </div>
+        )}
+        {!isCardDataValid && renderAlert()}
+        <FrequentlyAskedQuestions
+          createPdf={isCardDataValid ? createPdf : null}
+          pdfError={pdfError}
+        />
+      </>
+    );
   };
 
   return (
     <>
       <Headline>Veteran Status Card</Headline>
-      <p className="veteran-status-description">
-        This card makes it easy to prove your service and access Veteran
-        discounts, all while keeping your personal information secure.
-      </p>
       <DowntimeNotification
         appTitle="Veteran Status Card page"
         dependencies={[externalServices.VAPRO_MILITARY_INFO]}
       >
-        <div id="veteran-status">{renderContent()}</div>
-        <FrequentlyAskedQuestions
-          createPdf={isCardDataValid ? createPdf : null}
-          pdfError={pdfError}
-        />
+        {renderContent()}
       </DowntimeNotification>
     </>
   );
 };
 
 VeteranStatus.propTypes = {
-  edipi: PropTypes.number,
   militaryInformation: PropTypes.shape({
     serviceHistory: PropTypes.shape({
       error: PropTypes.shape({
@@ -296,6 +309,7 @@ VeteranStatus.propTypes = {
       }),
     }).isRequired,
   }).isRequired,
+  edipi: PropTypes.number,
   mockUserAgent: PropTypes.string,
   totalDisabilityRating: PropTypes.number,
   userFullName: PropTypes.object,

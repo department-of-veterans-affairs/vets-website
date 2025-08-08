@@ -1,5 +1,6 @@
 import React, { useLayoutEffect, useRef } from 'react';
 import { format, isValid, parseISO } from 'date-fns';
+import { BANK_NAME_PATTERNS } from '../../constants';
 
 export const isValidDate = dateString => {
   const parsedDate = parseISO(dateString);
@@ -156,6 +157,78 @@ export const reformatPaymentDates = payments => {
           n/a
         </span>
       ),
+    };
+  });
+};
+
+// Normalize payment data to fix misaligned fields
+export const normalizePaymentData = payments => {
+  const expectedFields = {
+    payCheckDt: null,
+    payCheckAmount: null,
+    payCheckType: null,
+    paymentMethod: null,
+    bankName: null,
+    accountNumber: null,
+  };
+
+  return payments.map(payment => {
+    if (!payment) {
+      return { ...expectedFields };
+    }
+
+    if (Array.isArray(payment)) {
+      const fieldKeys = Object.keys(expectedFields);
+      const mappedPayment = {};
+      fieldKeys.forEach((key, index) => {
+        mappedPayment[key] = payment[index] || null;
+      });
+      return mappedPayment;
+    }
+
+    // Detect misaligned data
+    const hasAccountInDateField =
+      payment.payCheckDt &&
+      typeof payment.payCheckDt === 'string' &&
+      payment.payCheckDt.includes('*');
+
+    const hasBankNameInDateField =
+      payment.payCheckDt &&
+      typeof payment.payCheckDt === 'string' &&
+      new RegExp(BANK_NAME_PATTERNS.join('|'), 'i').test(payment.payCheckDt);
+
+    const hasAmountInTypeField =
+      payment.payCheckType &&
+      typeof payment.payCheckType === 'string' &&
+      payment.payCheckType.includes('$');
+
+    if (
+      hasAccountInDateField ||
+      hasBankNameInDateField ||
+      hasAmountInTypeField
+    ) {
+      // Realign shifted data
+      return {
+        payCheckDt: null,
+        payCheckAmount: payment.payCheckType || null,
+        payCheckType: payment.paymentMethod || null,
+        paymentMethod: payment.bankName || null,
+        bankName: payment.accountNumber || null,
+        accountNumber: hasAccountInDateField ? payment.payCheckDt : null,
+      };
+    }
+
+    const normalizedPayment = { ...expectedFields };
+
+    Object.keys(expectedFields).forEach(field => {
+      if (payment && Object.prototype.hasOwnProperty.call(payment, field)) {
+        normalizedPayment[field] = payment[field];
+      }
+    });
+
+    return {
+      ...payment,
+      ...normalizedPayment,
     };
   });
 };

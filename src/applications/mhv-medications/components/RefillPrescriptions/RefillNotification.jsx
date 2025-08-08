@@ -132,6 +132,7 @@ const RefillNotification = ({ refillStatus, successfulMeds, failedMeds }) => {
         visible={isSuccess}
         id="success-refill"
         data-testid="success-refill"
+        data-dd-privacy="mask"
         status="success"
         setFocus
         uswds
@@ -143,7 +144,7 @@ const RefillNotification = ({ refillStatus, successfulMeds, failedMeds }) => {
         >
           Refills requested
         </h2>
-        <ul className="va-list--disc">
+        <ul className="va-list--disc" data-dd-privacy="mask">
           {successfulMeds?.map((id, idx) => (
             <li
               className="vads-u-padding-y--0"

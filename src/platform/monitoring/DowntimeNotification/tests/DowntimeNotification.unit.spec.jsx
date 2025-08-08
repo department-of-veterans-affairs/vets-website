@@ -1,10 +1,8 @@
 import React from 'react';
-import enzyme from 'enzyme';
+import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import moment from 'moment';
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
+import { addDays, addHours } from 'date-fns';
 import { createServiceMap } from '../util/helpers';
 import { externalServices, externalServiceStatus } from '../index';
 import {
@@ -15,18 +13,12 @@ import {
 const innerText = 'This is the inner text';
 
 const defaultProps = {
+  appTitle: 'Test App',
   dependencies: [],
   getGlobalDowntime: () => {},
   getScheduledDowntime: () => {},
   shouldSendRequest: true,
 };
-
-const getComponent = props =>
-  enzyme.shallow(
-    <DowntimeNotification {...defaultProps} {...props}>
-      <span>{innerText}</span>
-    </DowntimeNotification>,
-  );
 
 describe('mapStateToProps', () => {
   it('should set shouldSendRequest to true when scheduled downtime is not ready and a request is not pending', () => {
@@ -47,14 +39,13 @@ describe('mapStateToProps', () => {
   });
 
   it('should have properties of a downtime object if downtime is found', () => {
+    const now = new Date();
     const serviceMap = createServiceMap([
       {
         attributes: {
           externalService: 'myservice',
-          startTime: moment().toISOString(),
-          endTime: moment()
-            .add(1, 'day')
-            .toISOString(),
+          startTime: now?.toISOString(),
+          endTime: addDays(now, 1)?.toISOString(),
         },
       },
     ]);
@@ -83,107 +74,115 @@ describe('mapStateToProps', () => {
 });
 
 describe('<DowntimeNotification/>', () => {
-  it('calls getGlobalDowntime and getScheduledDowntime when rendered', () => {
-    const props = {
-      dependencies: [],
-      getScheduledDowntime: sinon.spy(),
-      getGlobalDowntime: sinon.spy(),
-    };
-    getComponent(props);
-    // expect(props.getGlobalDowntime.calledOnce).to.be.true;
-    expect(props.getScheduledDowntime.calledOnce).to.be.true;
+  it('calls getScheduledDowntime when rendered', async () => {
+    const getScheduledDowntime = sinon.spy();
+    render(
+      <DowntimeNotification
+        {...defaultProps}
+        getScheduledDowntime={getScheduledDowntime}
+      >
+        <span>{innerText}</span>
+      </DowntimeNotification>,
+    );
+    await waitFor(() => {
+      expect(getScheduledDowntime.calledOnce).to.be.true;
+    });
   });
 
   describe('No impending downtime', () => {
-    it('should render the children components when there are no dependencies', () => {
-      const wrapper = getComponent();
-      wrapper.setProps({ isReady: true });
-      expect(wrapper.text()).to.contain(innerText, 'The message was rendered.');
+    it('should render children when isReady and no downtime', () => {
+      const { getByText } = render(
+        <DowntimeNotification {...defaultProps} isReady>
+          <span>{innerText}</span>
+        </DowntimeNotification>,
+      );
+      expect(getByText(innerText)).to.exist;
     });
 
-    it('should render the children components when dependencies have no downtime', () => {
-      const wrapper = getComponent([externalServices.mvi]);
-      wrapper.setProps({ isReady: true });
-      expect(wrapper.text()).to.contain(innerText, 'The message was rendered.');
+    it('should render children when dependencies have no downtime', () => {
+      const { getByText } = render(
+        <DowntimeNotification
+          {...defaultProps}
+          dependencies={[externalServices.mvi]}
+          isReady
+        >
+          <span>{innerText}</span>
+        </DowntimeNotification>,
+      );
+      expect(getByText(innerText)).to.exist;
     });
   });
 
   describe('Approaching downtime', () => {
-    it('should render the children and a Modal when downtime is approaching', () => {
-      const wrapper = getComponent({ dependencies: [externalServices.mhv] });
-      wrapper.setProps({
-        isReady: true,
-        initializeDowntimeWarnings() {},
-        startTime: moment(),
-        endTime: moment(),
-        status: externalServiceStatus.downtimeApproaching,
-      });
-
-      const downtimeApproaching = wrapper.find('DowntimeApproaching').dive();
-      const innerWrapper = downtimeApproaching
-        .find('DowntimeNotificationWrapper')
-        .dive();
-
-      expect(innerWrapper.text()).to.contain(
-        innerText,
-        'The message was rendered',
+    it('should render downtime approaching modal and children', () => {
+      const dt = new Date('2025-06-25T16:00:00-00:00');
+      const dismissDowntimeWarning = sinon.stub();
+      const initializeDowntimeWarnings = sinon.stub();
+      const { getByText } = render(
+        <DowntimeNotification
+          {...defaultProps}
+          dependencies={[externalServices.mhv]}
+          isReady
+          startTime={dt}
+          endTime={addHours(dt, 2)}
+          status={externalServiceStatus.downtimeApproaching}
+          appTitle="Test App"
+          isDowntimeWarningDismissed={false}
+          dismissDowntimeWarning={dismissDowntimeWarning}
+          initializeDowntimeWarnings={initializeDowntimeWarnings}
+        >
+          <span>{innerText}</span>
+        </DowntimeNotification>,
       );
+      expect(getByText(innerText)).to.exist;
       expect(
-        innerWrapper.find(
-          `[data-status="${externalServiceStatus.downtimeApproaching}"]`,
+        getByText(
+          /We’ll be doing some work on the Test App on June 25th between/i,
         ),
-      ).to.have.lengthOf(1, 'The correct status was rendered');
-      expect(innerWrapper.find(VaModal)).to.have.lengthOf(
-        1,
-        'Authenticated users will see a modal',
-      );
+      ).to.exist;
     });
   });
 
   describe('In downtime', () => {
-    xit('should not render the children when we are in downtime and instead show an AlertBox', () => {
-      const wrapper = getComponent({ dependencies: [externalServices.mhv] });
-
-      wrapper.setProps({ isReady: true, status: externalServiceStatus.down });
-
-      const down = wrapper.find('Down').dive();
-      const innerWrapper = down.find('DowntimeNotificationWrapper').dive();
-
-      expect(innerWrapper.text()).to.not.contain(
-        innerText,
-        'The message was not rendered',
+    it('should render Down alert when in downtime', () => {
+      const { getByText, queryByText } = render(
+        <DowntimeNotification
+          {...defaultProps}
+          dependencies={[externalServices.mhv]}
+          isReady
+          status={externalServiceStatus.down}
+          appTitle="Test App"
+        >
+          <span>{innerText}</span>
+        </DowntimeNotification>,
       );
-      expect(
-        innerWrapper.find(`[data-status="${externalServiceStatus.down}"]`),
-      ).to.have.lengthOf(1, 'The correct status was rendered');
-      expect(innerWrapper.find('h3')).to.have.lengthOf(
-        1,
-        'Authenticated users will see a plain <h2>',
-      );
+      expect(getByText(/This application is down for maintenance/i)).to.exist;
+      // Should not render children
+      expect(queryByText(innerText)).to.not.exist;
     });
-  });
 
-  describe('custom render', () => {
-    it('allows a custom render property', () => {
-      const render = (downtime, children) => (
+    it('should allow a custom render property', () => {
+      const renderProp = (downtime, children) => (
         <div>
           <h1>Custom render for status {downtime.status}</h1>
           {children}
         </div>
       );
-
-      const props = { dependencies: [externalServices.mhv], render };
-
-      const wrapper = getComponent(props);
-      wrapper.setProps({ isReady: true, status: externalServiceStatus.down });
-
-      const text = wrapper.text();
-
-      expect(text).to.contain(
-        `Custom render for status ${externalServiceStatus.down}`,
-        'Custom render works',
+      const { getByText } = render(
+        <DowntimeNotification
+          {...defaultProps}
+          dependencies={[externalServices.mhv]}
+          isReady
+          status={externalServiceStatus.down}
+          render={renderProp}
+        >
+          <span>{innerText}</span>
+        </DowntimeNotification>,
       );
-      expect(text).to.contain(innerText, 'Custom render passes children nodes');
+      expect(
+        getByText(`Custom render for status ${externalServiceStatus.down}`),
+      ).to.exist;
+      expect(getByText(innerText)).to.exist;
     });
   });
 });

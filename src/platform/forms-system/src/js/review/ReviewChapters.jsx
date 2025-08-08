@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { VaAccordion } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
+import { scrollTo } from 'platform/utilities/scroll';
 import ReviewCollapsibleChapter from './ReviewCollapsibleChapter';
 import {
   createPageListByChapter,
@@ -21,7 +22,6 @@ import {
   uploadFile,
 } from '../actions';
 
-import { scrollTo } from '../../../../utilities/ui';
 import { getPageKey } from '../utilities/review';
 
 class ReviewChapters extends React.Component {
@@ -94,6 +94,7 @@ class ReviewChapters extends React.Component {
             hasUnviewedPages={chapter.hasUnviewedPages}
             uploadFile={this.props.uploadFile}
             viewedPages={viewedPages}
+            formOptions={formConfig?.formOptions}
           />
         ))}
       </VaAccordion>

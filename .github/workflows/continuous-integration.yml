@@ -53,7 +53,7 @@ jobs:
         uses: ./.github/workflows/get-changed-apps
         with:
           delimiter: ','
-          output-type: 'entry_name, continuous_deployment'
+          output-type: 'entry_name,continuous_deployment'
 
       - name: Get Mapbox Token
         if: ${{ matrix.buildtype == 'vagovprod' }}
@@ -161,6 +161,7 @@ jobs:
       ci_node_index: ${{ steps.matrix.outputs.ci_node_index }}
       changed_file_paths: ${{ steps.get-changed-apps.outputs.changed_files }}
       tests_ran: ${{ steps.tests-ran.outputs.tests_ran }}
+      e2e_count: ${{ steps.e2e-count.outputs.count }}
 
     steps:
       - name: Checkout
@@ -248,6 +249,12 @@ jobs:
         with:
           name: e2e-tests-to-test
           path: e2e_tests_to_test.json
+
+      - name: Count Cypress specs
+        id: e2e-count
+        run: |
+          COUNT=$(node -e "console.log(require('./e2e_tests_to_test.json').length)")
+          echo "count=$COUNT" >> $GITHUB_OUTPUT
 
       - name: Set output of CYPRESS_TESTS_TO_STRESS_TEST
         id: cypress-tests-to-stress-test
@@ -415,13 +422,17 @@ jobs:
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
           IS_STRESS_TEST: true
           STEP: ${{ matrix.runs }}
+
+      - name: Rename results directory to avoid merge collisions
+        run: |
+          mv mocha/results/unit-tests.json mocha/results/unit-tests-${{ matrix.runs }}.json
     
       - name: Archive unit test results
         if: ${{ always() }}
         uses: ./.github/workflows/upload-artifact
         with:
           name: unit-test-stress-test-results-${{ matrix.runs }}
-          path: mocha/results
+          path: mocha/results/unit-tests-${{ matrix.runs }}.json
 
   update-unit-test-allow-list:
     name: Update Unit Test Stability Allow List
@@ -659,7 +670,9 @@ jobs:
     needs: [build, tests-prep, fetch-ecr-credentials]
     if: |
       needs.build.result == 'success' &&
-      needs.tests-prep.result == 'success'
+      needs.tests-prep.result == 'success' &&
+      needs.tests-prep.outputs.e2e_count != '0'
+      
     container:
       image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/dsva/cypress-io/cypress/browsers:node16.16.0-chrome107-ff107-edge
       credentials:
@@ -692,12 +705,6 @@ jobs:
       - name: Checkout vets-website
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
-
-      - name: Checkout new-axe-checks branch
-        run: git fetch origin new-axe-checks --depth=1
-
-      - name: Checkout axeCheck.js from new-axe-checks branch
-        run: git checkout origin/new-axe-checks src/platform/testing/e2e/cypress/support/commands/axeCheck.js
 
       - name: Configure AWS credentials
         if: needs.tests-prep.outputs.cypress-tests != '[]'
@@ -1202,7 +1209,6 @@ jobs:
           role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
           role_duration: 900
           session_name: vsp-frontendteam-githubaction
-          
 
       # --------------------------------------------------
       # | Publish Unit Test Report and Upload to BigQuery |
@@ -1215,6 +1221,12 @@ jobs:
           path: qa-standards-dashboard-data/src/testing-reports/data
           merge-multiple: true
 
+      - name: Manual Mochawesome merge
+        working-directory: qa-standards-dashboard-data
+        run: |
+          rm -f src/testing-reports/data/unit-tests.json
+          node src/testing-reports/manual-merge.js
+         
       - name: Create Unit Test report
         run: yarn unit-mochawesome-to-bigquery
         working-directory: qa-standards-dashboard-data
@@ -1623,7 +1635,7 @@ jobs:
         update-e2e-allow-list,
         update-unit-test-allow-list,
       ]
-    if: ${{ always() && !cancelled() && github.ref != 'refs/heads/main' }}
+    if: always() && !cancelled() && github.ref != 'refs/heads/main' && ( needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'failure' || needs.tests-prep.result == 'skipped' )
     continue-on-error: true
     steps:
       - name: Checkout
@@ -1875,6 +1887,7 @@ jobs:
         run: node ./script/github-actions/check-deployability.js
         env:
           BUILDTYPE: ${{ matrix.environment }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Configure AWS credentials (1)
         if: steps.check-deployability.outputs.is_deployable == 'true'
@@ -1923,6 +1936,39 @@ jobs:
     needs: [build, set-deploy-environments]
     if: ${{ needs.build.outputs.entry_names != '' && needs.build.outputs.continuous_deployment == 'true' }}
     steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          fetch-depth: 0
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: Get Slack channel
+        id: get-slack-channel
+        uses: ./.github/workflows/get-changed-apps
+        with:
+          output-type: 'slack_channel'
+
+      - name: Determine Slack channel
+        id: determine-channel
+        shell: bash
+        run: |
+          entries="${{ needs.build.outputs.entry_names }}"
+          channel="${{ steps.get-slack-channel.outputs.slack_channels }}"
+          if [[ "$entries" == *","* ]]; then
+            echo "channel=" >> $GITHUB_OUTPUT
+          else
+            echo "channel=$channel" >> $GITHUB_OUTPUT
+          fi
+
       - name: Dispatch Event to Next Workflow
         run: |
           curl -X POST \
@@ -1932,7 +1978,8 @@ jobs:
           -d "$(jq -n --arg sha "${{ github.sha }}" \
           --arg ref "${{ github.ref }}" \
           --arg entry "${{ needs.build.outputs.entry_names }}" \
-          '{event_type: "cd-production-deploy", client_payload: {github_sha: $sha, github_ref: $ref, entry_app: $entry}}')"
+          --arg channel "${{ steps.determine-channel.outputs.channel }}" \
+          '{event_type: "cd-production-deploy", client_payload: {github_sha: $sha, github_ref: $ref, entry_app: $entry, slack_channel: $channel}}')"
                          
   notify-failure:
     name: Notify Failure

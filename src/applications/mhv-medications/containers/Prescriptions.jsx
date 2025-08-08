@@ -45,9 +45,7 @@ import Alert from '../components/shared/Alert';
 import {
   selectAllergiesFlag,
   selectGroupingFlag,
-  selectRefillContentFlag,
   selectRefillProgressFlag,
-  selectRemoveLandingPageFlag,
   selectIPEContentFlag,
 } from '../util/selectors';
 import PrescriptionsPrintOnly from './PrescriptionsPrintOnly';
@@ -88,10 +86,8 @@ const Prescriptions = () => {
 
   // Get feature flags
   const showGroupingContent = useSelector(selectGroupingFlag);
-  const showRefillContent = useSelector(selectRefillContentFlag);
   const showAllergiesContent = useSelector(selectAllergiesFlag);
   const showRefillProgressContent = useSelector(selectRefillProgressFlag);
-  const removeLandingPage = useSelector(selectRemoveLandingPageFlag);
   const showIPEContent = useSelector(selectIPEContentFlag);
 
   // Track if we've initialized from session storage
@@ -170,6 +166,7 @@ const Prescriptions = () => {
   const [isRetrievingFullList, setIsRetrievingFullList] = useState(false);
   const isAlertVisible = useMemo(() => false, []);
   const [isLoading, setLoading] = useState();
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [loadingMessage, setLoadingMessage] = useState('');
   const [pdfTxtGenerateStatus, setPdfTxtGenerateStatus] = useState({
     status: PDF_TXT_GENERATE_STATUS.NotStarted,
@@ -177,6 +174,8 @@ const Prescriptions = () => {
   });
   const scrollLocation = useRef();
   const { data: allergies, error: allergiesError } = useGetAllergiesQuery();
+
+  const refillAlertList = prescriptionsData?.refillAlertList || [];
 
   const updateLoadingStatus = (newIsLoading, newLoadingMessage) => {
     if (newIsLoading !== null) setLoading(newIsLoading);
@@ -197,6 +196,15 @@ const Prescriptions = () => {
     if (isFiltering) {
       updates.filterOption = filterOptions[newFilterOption]?.url || '';
       updates.page = 1;
+
+      if (newFilterOption === selectedFilterOption) {
+        document.getElementById('showingRx').scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+          inline: 'nearest',
+        });
+      }
+
       dispatch(setFilterOption(newFilterOption));
       dispatch(setPageNumber(1));
     }
@@ -282,9 +290,24 @@ const Prescriptions = () => {
 
   useEffect(
     () => {
-      focusElement(document.getElementById('showingRx'));
+      if (!isFirstLoad && !isLoading) {
+        const showingRx = document.getElementById('showingRx');
+        if (showingRx) {
+          focusElement(showingRx);
+          showingRx.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+            inline: 'nearest',
+          });
+        }
+        return;
+      }
+
+      if (isLoading === false && isFirstLoad) {
+        setIsFirstLoad(false);
+      }
     },
-    [isLoading],
+    [isLoading, filteredList],
   );
 
   // Update page title
@@ -445,13 +468,7 @@ const Prescriptions = () => {
         ].LABEL.toLowerCase()}\n\n${rxList}${allergiesList ?? ''}`
       );
     },
-    [
-      userName,
-      dob,
-      selectedSortOption,
-      selectedFilterOption,
-      prescriptionsFullList,
-    ],
+    [userName, dob, selectedSortOption, prescriptionsFullList],
   );
 
   const generatePDF = useCallback(
@@ -612,7 +629,7 @@ const Prescriptions = () => {
   }
 
   const renderLoadingIndicator = () => (
-    <div className="vads-u-height--viewport vads-u-padding-top--3">
+    <div className="vads-u-padding-y--9">
       <va-loading-indicator
         message={loadingMessage || 'Loading your medications...'}
         setFocus
@@ -667,8 +684,6 @@ const Prescriptions = () => {
   };
 
   const renderRefillCard = () => {
-    if (!showRefillContent) return null;
-
     return (
       <va-card background>
         <div className="vads-u-padding-x--1">
@@ -699,6 +714,7 @@ const Prescriptions = () => {
           dataDogActionNames.medicationsListPage.REFILL_ALERT_LINK
         }
         activeRefills={activeRefills}
+        refillAlertList={refillAlertList}
       />
     );
   };
@@ -725,19 +741,12 @@ const Prescriptions = () => {
         className="vads-u-margin-top--0 vads-u-margin-bottom--4"
         data-testid="Title-Notes"
       >
-        {removeLandingPage ? (
-          <>
-            Bring your medications list to each appointment. And tell your
-            provider about any new allergies or reactions. If you use Meds by
-            Mail, you can also call your servicing center and ask them to update
-            your records.
-          </>
-        ) : (
-          <>
-            When you share your medications list with providers, make sure you
-            also tell them about your allergies and reactions to medications.
-          </>
-        )}
+        <>
+          Bring your medications list to each appointment. And tell your
+          provider about any new allergies or reactions. If you use Meds by
+          Mail, you can also call your servicing center and ask them to update
+          your records.
+        </>
         {!showAllergiesContent && (
           <>
             {' '}
@@ -804,6 +813,7 @@ const Prescriptions = () => {
             />
             {showIPEContent && <InProductionEducationFiltering />}
           </>
+          {isLoading && renderLoadingIndicator()}
           {hasMedications && (
             <>
               {!isLoading && (
@@ -811,24 +821,20 @@ const Prescriptions = () => {
               )}
               <div className="rx-page-total-info vads-u-border-color--gray-lighter" />
               {!isLoading && renderMedicationsList()}
-              {!isLoading && (
-                <>
-                  <BeforeYouDownloadDropdown page={pageType.LIST} />
-                  <PrintDownload
-                    onDownload={handleFullListDownload}
-                    isSuccess={
-                      pdfTxtGenerateStatus.status ===
-                      PDF_TXT_GENERATE_STATUS.Success
-                    }
-                    isLoading={
-                      !allergiesError &&
-                      pdfTxtGenerateStatus.status ===
-                        PDF_TXT_GENERATE_STATUS.InProgress
-                    }
-                    list
-                  />
-                </>
-              )}
+              <BeforeYouDownloadDropdown page={pageType.LIST} />
+              <PrintDownload
+                onDownload={handleFullListDownload}
+                isSuccess={
+                  pdfTxtGenerateStatus.status ===
+                  PDF_TXT_GENERATE_STATUS.Success
+                }
+                isLoading={
+                  !allergiesError &&
+                  pdfTxtGenerateStatus.status ===
+                    PDF_TXT_GENERATE_STATUS.InProgress
+                }
+                list
+              />
             </>
           )}
           {!isLoading && noFilterMatches && renderNoFilterMatches()}
@@ -851,10 +857,9 @@ const Prescriptions = () => {
             <CernerFacilityAlert />
             {renderRefillAlert()}
             {renderMedicationsContent()}
-            {isLoading && renderLoadingIndicator()}
           </>
         )}
-        {removeLandingPage && !isLoading && <NeedHelp page={pageType.LIST} />}
+        <NeedHelp page={pageType.LIST} />
       </div>
     );
   };

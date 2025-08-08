@@ -1,6 +1,9 @@
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/utilities';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import {
+  environment,
+  getCernerURL,
+} from '@department-of-veterans-affairs/platform-utilities/exports';
 // Links to MHV subdomain need to use `mhvUrl`. Va.gov links can just be paths
 import { HEALTH_TOOL_HEADINGS, HEALTH_TOOL_LINKS } from '../../constants';
 
@@ -32,6 +35,9 @@ const resolveSHMDLink = environment.isProduction()
   ? 'https://veteran.apps.va.gov/smhdWeb'
   : 'https://veteran.apps-staging.va.gov/smhdWeb';
 
+// Oracle Health 'My VA Health' Portal
+const myVAHealthPortalLink = getCernerURL('/pages/home', true);
+
 const resolveLandingPageLinks = (
   authdWithSSOe = false,
   featureToggles,
@@ -42,135 +48,59 @@ const resolveLandingPageLinks = (
   if (messagesLinks.length > 0)
     messagesLinks[0].ariaLabel = unreadMessageAriaLabel;
 
-  const myVaHealthBenefitsLinks = (featureToggles[
-    FEATURE_FLAG_NAMES.mhvMilestone2ChangesEnabled
-  ]
-    ? [
-        {
-          href: '/health-care/get-health-id-card/',
-          text: 'Veteran health information card',
-        },
-        registered && {
-          href:
-            '/my-health/update-benefits-information-form-10-10ezr/introduction',
-          text: 'Update health benefits info (10-10EZR)',
-        },
-        {
-          href: '/health-care/copay-rates/',
-          text: 'Current Veteran copay rates',
-        },
-        {
-          href: '/health-care/health-needs-conditions/mental-health',
-          text: 'Mental health services',
-        },
-        {
-          href: '/health-care/about-va-health-benefits/dental-care/',
-          text: 'Dental care',
-        },
-        {
-          href: '/health-care/about-va-health-benefits/vision-care/',
-          text: 'Vision care',
-        },
-        {
-          href: '/COMMUNITYCARE/programs/veterans/index.asp',
-          text: 'Community care',
-        },
-        // {
-        //   href: '#FIXME-need-link',
-        //   text: 'Download my IRS 1095-B form',
-        // },
-      ]
-    : [
-        {
-          href: '/health-care/copay-rates/',
-          text: 'Current Veteran copay rates',
-        },
-        {
-          href: '/health-care/health-needs-conditions/mental-health',
-          text: 'Mental health services',
-        },
-        {
-          href: '/health-care/about-va-health-benefits/dental-care/',
-          text: 'Dental care',
-        },
-        {
-          href: '/COMMUNITYCARE/programs/veterans/index.asp',
-          text: 'Community care',
-        },
-        registered && {
-          href:
-            '/my-health/update-benefits-information-form-10-10ezr/introduction',
-          text: 'Update health benefits info (10-10EZR)',
-        },
-        {
-          href: '/health-care/get-health-id-card/',
-          text: 'Veteran health information card',
-        },
-        // {
-        //   href: '#FIXME-need-link',
-        //   text: 'Download my IRS 1095-B form',
-        // },
-      ]
-  ).filter(isLinkData);
+  const myVaHealthBenefitsLinks = [
+    {
+      href: '/health-care/get-health-id-card/',
+      text: 'Veteran health information card',
+    },
+    registered && {
+      href: '/my-health/update-benefits-information-form-10-10ezr/introduction',
+      text: 'Update health benefits info (10-10EZR)',
+    },
+    {
+      href: '/health-care/copay-rates/',
+      text: 'Current Veteran copay rates',
+    },
+    {
+      href: '/health-care/health-needs-conditions/mental-health',
+      text: 'Mental health services',
+    },
+    {
+      href: '/health-care/about-va-health-benefits/dental-care/',
+      text: 'Dental care',
+    },
+    {
+      href: '/health-care/about-va-health-benefits/vision-care/',
+      text: 'Vision care',
+    },
+    {
+      href: '/COMMUNITYCARE/programs/veterans/index.asp',
+      text: 'Community care',
+    },
+    // {
+    //   href: '#FIXME-need-link',
+    //   text: 'Download my IRS 1095-B form',
+    // },
+  ].filter(isLinkData);
 
-  const moreResourcesLinks = (featureToggles[
-    FEATURE_FLAG_NAMES.mhvMilestone2ChangesEnabled
-  ]
-    ? [
-        {
-          href:
-            'https://eauth.va.gov/MAP/users/v2/landing?redirect_uri=/cirrusmd/',
-          text: 'Chat live with a health professional on VA Health Chat',
-        },
-        {
-          href: 'https://www.veteranshealthlibrary.va.gov/',
-          text: 'Veterans Health Library',
-        },
-        {
-          href: '/health-care/wellness-programs/',
-          text: 'Veterans programs for health and wellness',
-        },
-        {
-          href: '/family-and-caregiver-benefits/',
-          text: 'Learn about family and caregiver benefits',
-        },
-      ]
-    : [
-        {
-          href:
-            'https://eauth.va.gov/MAP/users/v2/landing?redirect_uri=/cirrusmd/',
-          text: 'Chat live with a health professional on VA Health Chat',
-        },
-        {
-          href: '/resources/the-pact-act-and-your-va-benefits/',
-          text: 'The PACT Act and your benefits',
-        },
-        {
-          href: mhvUrl(authdWithSSOe, 'check-your-mental-health'),
-          text: 'Check your mental health',
-        },
-        {
-          href: 'https://www.veteranshealthlibrary.va.gov/',
-          text: 'Veterans Health Library',
-        },
-        {
-          href: 'https://www.myhealth.va.gov/healthy-living-centers',
-          text: 'Healthy Living Centers',
-        },
-        {
-          href: 'https://www.myhealth.va.gov/mhv-community',
-          text: 'The My HealtheVet community',
-        },
-        {
-          href: '/wholehealth/',
-          text: 'VA’s Whole Health living',
-        },
-        {
-          href: mhvUrl(authdWithSSOe, 'ss20200320-va-video-connect'),
-          text: 'How to use VA Video Connect',
-        },
-      ]
-  ).filter(isLinkData);
+  const moreResourcesLinks = [
+    {
+      href: 'https://eauth.va.gov/MAP/users/v2/landing?redirect_uri=/cirrusmd/',
+      text: 'Chat live with a health professional on VA Health Chat',
+    },
+    {
+      href: 'https://www.veteranshealthlibrary.va.gov/',
+      text: 'Veterans Health Library',
+    },
+    {
+      href: '/health-care/wellness-programs/',
+      text: 'Veterans programs for health and wellness',
+    },
+    {
+      href: '/family-and-caregiver-benefits/',
+      text: 'Learn about family and caregiver benefits',
+    },
+  ].filter(isLinkData);
 
   const spotlightLinks = [
     {
@@ -263,35 +193,20 @@ const resolveLandingPageLinks = (
     },
   ];
 
-  const hubs = featureToggles[FEATURE_FLAG_NAMES.mhvMilestone2ChangesEnabled]
-    ? [
-        {
-          title: 'VA health benefits',
-          links: myVaHealthBenefitsLinks,
-        },
-        {
-          title: 'More health resources',
-          links: moreResourcesLinks,
-        },
-        {
-          title: 'In the spotlight',
-          links: spotlightLinks,
-        },
-      ]
-    : [
-        {
-          title: registered ? 'My VA health benefits' : 'VA health benefits',
-          links: myVaHealthBenefitsLinks,
-        },
-        {
-          title: 'More resources and support',
-          links: moreResourcesLinks,
-        },
-        {
-          title: 'In the spotlight',
-          links: spotlightLinks,
-        },
-      ];
+  const hubs = [
+    {
+      title: 'VA health benefits',
+      links: myVaHealthBenefitsLinks,
+    },
+    {
+      title: 'More health resources',
+      links: moreResourcesLinks,
+    },
+    {
+      title: 'In the spotlight',
+      links: spotlightLinks,
+    },
+  ];
 
   const healthResourcesLinks = [
     {
@@ -319,7 +234,7 @@ const resolveLandingPageLinks = (
     },
     {
       href: '/health-care/how-to-apply/',
-      text: 'How to apply for VA health benefits care',
+      text: 'How to apply for VA health care',
     },
     {
       href: '/family-and-caregiver-benefits/health-and-disability/',
@@ -359,6 +274,7 @@ const resolveLandingPageLinks = (
 export {
   countUnreadMessages,
   isLinkData,
+  myVAHealthPortalLink,
   resolveLandingPageLinks,
   resolveUnreadMessageAriaLabel,
 };
