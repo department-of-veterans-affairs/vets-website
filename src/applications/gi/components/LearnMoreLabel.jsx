@@ -73,4 +73,5 @@ LearnMoreLabel.propTypes = {
   labelFor: PropTypes.string,
   text: PropTypes.any,
   onClick: PropTypes.func,
+  capitalize: PropTypes.bool,
 };
