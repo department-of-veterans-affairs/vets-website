@@ -88,8 +88,11 @@ describe('PaperlessDelivery', () => {
       loadingErrors: null,
     };
     const { getByText } = render(<PaperlessDelivery />, {});
-    expect(getByText(/enroll in additional paperless delivery options/)).to
-      .exist;
+    expect(
+      getByText(
+        /We have limited documents available for paperless delivery at this time/,
+      ),
+    ).to.exist;
   });
 
   it('should not render missing email alert when user has an email address', () => {
