@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import VeteranContactInformationPage from '../../../components/VeteranContactInformationPage';
+import { electronicCorrespondenceMessage } from '../../../config/chapters/veteran-contact-information/editEmailPage';
 
 const defaultProfile = ({
   isInternationalHome = false,
@@ -103,9 +104,7 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
     const text = container.textContent;
     expect(text).to.include('Mailing address');
     expect(text).to.include('Email address');
-    expect(text).to.include(
-      'I do not agree to receive electronic correspondence',
-    );
+    expect(text).to.include(electronicCorrespondenceMessage(false));
     expect(text).to.include('phone number');
     expect(text).to.include('International number');
     expect(text).to.include('123 Main St');
@@ -266,7 +265,7 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
     const continueBtn = $('va-button[continue]', container);
     expect(continueBtn).to.not.be.null;
     expect(container.textContent).to.include(
-      'I agree to receive electronic correspondence',
+      electronicCorrespondenceMessage(true),
     );
 
     await waitFor(() => {

@@ -4,9 +4,22 @@ import PropTypes from 'prop-types';
 import { openReviewChapter } from 'platform/forms-system/src/js/actions';
 import { scrollTo } from 'platform/utilities/scroll';
 
+import { electronicCorrespondenceMessage } from '../config/chapters/veteran-contact-information/editEmailPage';
+
 const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
+
   const dispatch = useDispatch();
   const { email, phone, address = {}, internationalPhone } = data || {};
+
+  const {
+    email,
+    electronicCorrespondence,
+    phone,
+    address = {},
+    internationalPhone,
+  } = data || {};
+  sessionStorage.removeItem('onReviewPage');
+
 
   const [focusSection, setFocusSection] = useState(null);
   const didFocusRef = useRef(false);
@@ -184,6 +197,14 @@ const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
           <dt>Email address</dt>
           <dd className="dd-privacy-hidden" data-dd-action-name="email address">
             <strong>{email ?? showError('Missing email address')}</strong>
+          </dd>
+        </div>
+        <div className="review-row">
+          <dt>Email address</dt>
+          <dd className="dd-privacy-hidden" data-dd-action-name="email address">
+            <strong>
+              {electronicCorrespondenceMessage(electronicCorrespondence)}
+            </strong>
           </dd>
         </div>
       </dl>
