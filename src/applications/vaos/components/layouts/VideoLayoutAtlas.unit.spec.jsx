@@ -1,11 +1,13 @@
-import React from 'react';
 import { expect } from 'chai';
+import { subDays } from 'date-fns';
+import React from 'react';
+import MockAppointmentResponse from '../../tests/fixtures/MockAppointmentResponse';
 import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../tests/mocks/setup';
+import { APPOINTMENT_STATUS } from '../../utils/constants';
 import VideoLayoutAtlas from './VideoLayoutAtlas';
-import { VIDEO_TYPES } from '../../utils/constants';
 
 describe('VAOS Component: VideoLayoutAtlas', () => {
   const initialState = {
@@ -43,41 +45,14 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
       };
 
       const store = createTestStore(state);
-      const appointment = {
-        type: 'VA',
-        modality: 'vaVideoCareAtAnAtlasLocation',
-        minutesDuration: 60,
-        startUtc: new Date(),
-        videoData: {
-          atlasConfirmationCode: '1234',
-          atlasLocation: {
-            address: {
-              line: ['5929 Georgia Ave NW'],
-              city: 'Washington',
-              state: 'DC',
-              postalCode: '20011',
-            },
-          },
-          isVideo: true,
-          facilityId: '983',
-          isAtlas: true,
-          kind: VIDEO_TYPES.adhoc,
-          extension: {
-            patientHasMobileGfe: false,
-          },
-        },
-        vaos: {
-          isCommunityCare: false,
-          isCompAndPenAppointment: false,
-          isCOVIDVaccine: false,
-          isPendingAppointment: false,
-          isUpcomingAppointment: true,
-          isVideo: true,
-          isCerner: false,
-          apiData: {},
-        },
-        status: 'booked',
-      };
+      const response = MockAppointmentResponse.createAtlasResponse({
+        localStartTime: new Date(),
+      })
+        .setLocationId(null)
+        .setTypeOfCare(null);
+      const appointment = MockAppointmentResponse.getTransformedResponse(
+        response,
+      );
       const nullAttributes = {
         type: 'VA',
         modality: 'vaVideoCareAtAnAtlasLocation',
@@ -133,49 +108,20 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
     it('should display facility phone when clinic phone is missing', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const appointment = {
-        location: {
-          stationId: '983',
-        },
-        minutesDuration: 60,
-        startUtc: new Date(),
-        videoData: {
-          atlasConfirmationCode: '1234',
-          atlasLocation: {
-            address: {
-              line: ['5929 Georgia Ave NW'],
-              city: 'Washington',
-              state: 'DC',
-              postalCode: '20011',
-            },
-          },
-          isVideo: true,
-          facilityId: '983',
-          isAtlas: true,
-          kind: VIDEO_TYPES.adhoc,
-          extension: {
-            patientHasMobileGfe: false,
-          },
-          providers: [
-            {
-              name: {
-                firstName: ['TEST'],
-                lastName: 'PROV',
-              },
-              display: 'TEST PROV',
-            },
-          ],
-        },
-        vaos: {
-          isCommunityCare: false,
-          isCompAndPenAppointment: true,
-          isCOVIDVaccine: false,
-          isPendingAppointment: false,
-          isUpcomingAppointment: true,
-          apiData: {},
-        },
-        status: 'booked',
-      };
+      const response = MockAppointmentResponse.createAtlasResponse({
+        localStartTime: new Date(),
+      })
+        .setAtlasAddress({
+          streetAddress: '5929 Georgia Ave NW',
+          city: 'Washington',
+          state: 'DC',
+          zipCode: '20011',
+        })
+        .setClinicPhoneNumber('307-778-7550')
+        .setPractitioner();
+      const appointment = MockAppointmentResponse.getTransformedResponse(
+        response,
+      );
 
       // Act
       const screen = renderWithStoreAndRouter(
@@ -184,6 +130,7 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           store,
         },
       );
+
       // Assert
       expect(
         screen.container.querySelector('va-telephone[contact="307-778-7550"]'),
@@ -193,47 +140,12 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
     it('should display VA main phone when facility id is missing', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const appointment = {
-        location: {},
-        minutesDuration: 60,
-        startUtc: new Date(),
-        videoData: {
-          atlasConfirmationCode: '1234',
-          atlasLocation: {
-            address: {
-              line: ['5929 Georgia Ave NW'],
-              city: 'Washington',
-              state: 'DC',
-              postalCode: '20011',
-            },
-          },
-          isVideo: true,
-          facilityId: '983',
-          isAtlas: true,
-          kind: VIDEO_TYPES.adhoc,
-          extension: {
-            patientHasMobileGfe: false,
-          },
-          providers: [
-            {
-              name: {
-                firstName: ['TEST'],
-                lastName: 'PROV',
-              },
-              display: 'TEST PROV',
-            },
-          ],
-        },
-        vaos: {
-          isCommunityCare: false,
-          isCompAndPenAppointment: true,
-          isCOVIDVaccine: false,
-          isPendingAppointment: false,
-          isUpcomingAppointment: true,
-          apiData: {},
-        },
-        status: 'booked',
-      };
+      const response = MockAppointmentResponse.createAtlasResponse({
+        localStartTime: new Date(),
+      }).setLocationId(null);
+      const appointment = MockAppointmentResponse.getTransformedResponse(
+        response,
+      );
 
       // Act
       const screen = renderWithStoreAndRouter(
@@ -242,6 +154,7 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           store,
         },
       );
+
       // Assert
       expect(
         screen.container.querySelector('va-telephone[contact="800-698-2411"]'),
@@ -253,59 +166,6 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
     it('should display VA video layout', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const appointment = {
-        type: 'VA',
-        modality: 'vaVideoCareAtAnAtlasLocation',
-        location: {
-          stationId: '983',
-          clinicName: 'Clinic 1',
-          clinicPhysicalLocation: 'CHEYENNE',
-          clinicPhone: '500-500-5000',
-          clinicPhoneExtension: '1234',
-        },
-        minutesDuration: 60,
-        startUtc: new Date(),
-        videoData: {
-          atlasConfirmationCode: '1234',
-          atlasLocation: {
-            address: {
-              line: ['5929 Georgia Ave NW'],
-              city: 'Washington',
-              state: 'DC',
-              postalCode: '20011',
-            },
-          },
-          isVideo: true,
-          facilityId: '983',
-          isAtlas: true,
-          kind: VIDEO_TYPES.adhoc,
-          extension: {
-            patientHasMobileGfe: false,
-          },
-          providers: [
-            {
-              name: {
-                firstName: ['TEST'],
-                lastName: 'PROV',
-              },
-              display: 'TEST PROV',
-            },
-          ],
-        },
-        vaos: {
-          isCommunityCare: false,
-          isCompAndPenAppointment: false,
-          isCOVIDVaccine: false,
-          isPendingAppointment: false,
-          isUpcomingAppointment: true,
-          isVideo: true,
-          isCerner: false,
-          apiData: {
-            serviceType: 'primaryCare',
-          },
-        },
-        status: 'booked',
-      };
       const nullAttributes = {
         type: 'VA',
         modality: 'vaVideoCareAtAnAtlasLocation',
@@ -314,6 +174,22 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           'type-of-care,provider,clinic-phone,facility-details,facility-phone',
         'fields-load-fail': '',
       };
+      const response = MockAppointmentResponse.createAtlasResponse({
+        localStartTime: new Date(),
+      })
+        .setAtlasAddress({
+          streetAddress: '5929 Georgia Ave NW',
+          city: 'Washington',
+          state: 'DC',
+          zipCode: '20011',
+        })
+        .setClinicPhoneNumber('500-500-5000')
+        .setClinicPhoneNumberExtension('1234')
+        .setPractitioner()
+        .setServiceName('Clinic 1');
+      const appointment = MockAppointmentResponse.getTransformedResponse(
+        response,
+      );
 
       // Act
       const screen = renderWithStoreAndRouter(
@@ -322,6 +198,7 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           store,
         },
       );
+
       // Assert
       expect(
         screen.getByRole('heading', {
@@ -418,7 +295,7 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
       );
       expect(
         screen.getByText(
-          /Bring your insurance cards. And bring a list of your medications and other information to share with your provider./i,
+          /Bring your insurance cards, a list of your medications, and other things to share with your provider/i,
         ),
       );
       expect(
@@ -428,13 +305,13 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
       ).to.be.ok;
       expect(
         screen.container.querySelector(
-          'va-link[text="Find a full list of things to bring to your appointment"]',
+          'va-link[text="Find out what to bring to your appointment"]',
         ),
       ).to.be.ok;
-      expect(screen.getByText(/Get your device ready to join./i));
+      expect(screen.getByText(/Get your device ready to join/i));
       expect(
         screen.container.querySelector(
-          'va-additional-info[trigger="How to setup your device"]',
+          'va-link[text="Learn how to prepare for your video appointment"]',
         ),
       ).to.be.ok;
 
@@ -449,55 +326,21 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
     it('should display VA video layout', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const appointment = {
-        location: {
-          stationId: '983',
-          clinicName: 'Clinic 1',
-          clinicPhysicalLocation: 'CHEYENNE',
-          clinicPhone: '500-500-5000',
-          clinicPhoneExtension: '1234',
-        },
-        videoData: {
-          atlasConfirmationCode: '1234',
-          atlasLocation: {
-            address: {
-              line: ['5929 Georgia Ave NW'],
-              city: 'Washington',
-              state: 'DC',
-              postalCode: '20011',
-            },
-          },
-          isVideo: true,
-          facilityId: '983',
-          isAtlas: true,
-          kind: VIDEO_TYPES.adhoc,
-          extension: {
-            patientHasMobileGfe: false,
-          },
-          providers: [
-            {
-              name: {
-                firstName: ['TEST'],
-                lastName: 'PROV',
-              },
-              display: 'TEST PROV',
-            },
-          ],
-        },
-        vaos: {
-          isCommunityCare: false,
-          isCompAndPenAppointment: false,
-          isCOVIDVaccine: false,
-          isPastAppointment: true,
-          isPendingAppointment: false,
-          isUpcomingAppointment: false,
-          isVideo: true,
-          apiData: {
-            serviceType: 'primaryCare',
-          },
-        },
-        status: 'booked',
-      };
+      const response = MockAppointmentResponse.createAtlasResponse({
+        localStartTime: subDays(new Date(), 1),
+        past: true,
+      })
+        .setAtlasAddress({
+          streetAddress: '5929 Georgia Ave NW',
+          city: 'Washington',
+          state: 'DC',
+          zipCode: '20011',
+        })
+        .setClinicPhoneNumber('500-500-5000')
+        .setPractitioner();
+      const appointment = MockAppointmentResponse.getTransformedResponse(
+        response,
+      );
 
       // Act
       const screen = renderWithStoreAndRouter(
@@ -506,6 +349,7 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           store,
         },
       );
+
       // Assert
       expect(
         screen.getByRole('heading', {
@@ -589,55 +433,21 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
     it('should display VA video layout when in the future', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const appointment = {
-        location: {
-          stationId: '983',
-          clinicName: 'Clinic 1',
-          clinicPhysicalLocation: 'CHEYENNE',
-          clinicPhone: '500-500-5000',
-          clinicPhoneExtension: '1234',
-        },
-        videoData: {
-          atlasConfirmationCode: '1234',
-          atlasLocation: {
-            address: {
-              line: ['5929 Georgia Ave NW'],
-              city: 'Washington',
-              state: 'DC',
-              postalCode: '20011',
-            },
-          },
-          isVideo: true,
-          facilityId: '983',
-          isAtlas: true,
-          kind: VIDEO_TYPES.adhoc,
-          extension: {
-            patientHasMobileGfe: false,
-          },
-          providers: [
-            {
-              name: {
-                firstName: ['TEST'],
-                lastName: 'PROV',
-              },
-              display: 'TEST PROV',
-            },
-          ],
-        },
-        vaos: {
-          isCommunityCare: false,
-          isCompAndPenAppointment: false,
-          isCOVIDVaccine: false,
-          isPastAppointment: false,
-          isPendingAppointment: false,
-          isUpcomingAppointment: true,
-          isVideo: true,
-          apiData: {
-            serviceType: 'primaryCare',
-          },
-        },
-        status: 'cancelled',
-      };
+      const response = MockAppointmentResponse.createAtlasResponse({
+        localStartTime: new Date(),
+        status: APPOINTMENT_STATUS.cancelled,
+      })
+        .setAtlasAddress({
+          streetAddress: '5929 Georgia Ave NW',
+          city: 'Washington',
+          state: 'DC',
+          zipCode: '20011',
+        })
+        .setClinicPhoneNumber('500-500-5000')
+        .setPractitioner();
+      const appointment = MockAppointmentResponse.getTransformedResponse(
+        response,
+      );
 
       // Act
       const screen = renderWithStoreAndRouter(
@@ -732,7 +542,7 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
       );
       expect(
         screen.getByText(
-          /Bring your insurance cards. And bring a list of your medications and other information to share with your provider./i,
+          /Bring your insurance cards, a list of your medications, and other things to share with your provider/i,
         ),
       );
       expect(
@@ -742,67 +552,36 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
       ).to.be.ok;
       expect(
         screen.container.querySelector(
-          'va-link[text="Find a full list of things to bring to your appointment"]',
+          'va-link[text="Find out what to bring to your appointment"]',
         ),
       ).to.be.ok;
-      expect(screen.getByText(/Get your device ready to join./i));
+      expect(screen.getByText(/Get your device ready to join/i));
       expect(
         screen.container.querySelector(
-          'va-additional-info[trigger="How to setup your device"]',
+          'va-link[text="Learn how to prepare for your video appointment"]',
         ),
       ).to.be.ok;
     });
+
     it('should display VA video layout when in the past', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const appointment = {
-        location: {
-          stationId: '983',
-          clinicName: 'Clinic 1',
-          clinicPhysicalLocation: 'CHEYENNE',
-          clinicPhone: '500-500-5000',
-          clinicPhoneExtension: '1234',
-        },
-        videoData: {
-          atlasConfirmationCode: '1234',
-          atlasLocation: {
-            address: {
-              line: ['5929 Georgia Ave NW'],
-              city: 'Washington',
-              state: 'DC',
-              postalCode: '20011',
-            },
-          },
-          isVideo: true,
-          facilityId: '983',
-          isAtlas: true,
-          kind: VIDEO_TYPES.adhoc,
-          extension: {
-            patientHasMobileGfe: false,
-          },
-          providers: [
-            {
-              name: {
-                firstName: ['TEST'],
-                lastName: 'PROV',
-              },
-              display: 'TEST PROV',
-            },
-          ],
-        },
-        vaos: {
-          isCommunityCare: false,
-          isCompAndPenAppointment: false,
-          isCOVIDVaccine: false,
-          isPastAppointment: true,
-          isPendingAppointment: false,
-          isVideo: true,
-          apiData: {
-            serviceType: 'primaryCare',
-          },
-        },
-        status: 'cancelled',
-      };
+      const response = MockAppointmentResponse.createAtlasResponse({
+        localStartTime: subDays(new Date(), 1),
+        past: true,
+        status: APPOINTMENT_STATUS.cancelled,
+      })
+        .setAtlasAddress({
+          streetAddress: '5929 Georgia Ave NW',
+          city: 'Washington',
+          state: 'DC',
+          zipCode: '20011',
+        })
+        .setClinicPhoneNumber('500-500-5000')
+        .setPractitioner();
+      const appointment = MockAppointmentResponse.getTransformedResponse(
+        response,
+      );
 
       // Act
       const screen = renderWithStoreAndRouter(
@@ -811,6 +590,7 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           store,
         },
       );
+
       // Assert
       expect(
         screen.getByRole('heading', {

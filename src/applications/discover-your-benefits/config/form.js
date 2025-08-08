@@ -7,7 +7,10 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import getHelp from '../components/GetFormHelp';
 import PreSubmitInfo from '../containers/PreSubmitInfo';
 import { submitHandler } from '../utils/helpers';
-import { militaryBranchComponentTypes } from '../constants/benefits';
+import {
+  militaryBranchComponentTypes,
+  militaryBranchTypes,
+} from '../constants/benefits';
 
 import manifest from '../manifest.json';
 
@@ -19,7 +22,9 @@ import goals from '../pages/goals';
 import disabilityRating from '../pages/disabilityRating';
 import militaryService from '../pages/militaryService';
 import activeDuty from '../pages/activeDuty';
-import militaryBranch from '../pages/militaryBranch';
+import militaryBranch, {
+  getBranchComponentPages,
+} from '../pages/militaryBranch';
 import militaryServiceTimeServed from '../pages/militaryServiceTimeServed';
 import titleTenServiceTime from '../pages/titleTenTimeServed';
 import militaryServiceCompleted from '../pages/militaryServiceCompleted';
@@ -104,6 +109,7 @@ export const formConfig = {
           schema: militaryBranch.schema,
           depends: () => !environment.isProduction(),
         },
+        ...getBranchComponentPages(() => !environment.isProduction),
         titleTenActiveDuty: {
           path: 'service/active-duty',
           title: 'Active Duty',
@@ -112,15 +118,16 @@ export const formConfig = {
           depends: formData => {
             return (
               !environment.isProduction() &&
-              Object.values(formData.branchComponents).some(
-                branchComponent =>
-                  branchComponent[
+              Object.values(militaryBranchTypes).some(pageName => {
+                return (
+                  formData[pageName]?.[
                     militaryBranchComponentTypes.NATIONAL_GUARD_SERVICE
-                  ] === true ||
-                  branchComponent[
+                  ] ||
+                  formData[pageName]?.[
                     militaryBranchComponentTypes.RESERVE_SERVICE
-                  ] === true,
-              )
+                  ]
+                );
+              })
             );
           },
         },
@@ -156,8 +163,13 @@ export const formConfig = {
           title: 'Military Service Completed',
           uiSchema: militaryServiceCompleted.uiSchema,
           schema: militaryServiceCompleted.schema,
+          // Hide this question incase we need it later. The previous question skips this, but the 'depends' statement makes it show up on the review page even if
+          // the question doesn't show up in the questionnaire.
           depends: formData => {
-            return formData.militaryServiceCurrentlyServing === true;
+            return (
+              environment.isTest() &&
+              formData.militaryServiceCurrentlyServing === true
+            );
           },
           onNavForward: ({ formData, goPath }) => {
             if (formData.militaryServiceCurrentlyServing === true) {

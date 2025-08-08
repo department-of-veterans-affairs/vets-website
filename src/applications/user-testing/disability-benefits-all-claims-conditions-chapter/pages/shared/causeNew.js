@@ -9,18 +9,17 @@ import { arrayBuilderOptions, createNewConditionName } from './utils';
 const causeNewPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) =>
-        `Details of the injury, event, disease or exposure that caused ${createNewConditionName(
-          formData,
-        )}`,
+      ({ formData }) => createNewConditionName(formData, true),
+      undefined,
+      false,
     ),
     primaryDescription: textareaUI({
       title:
-        'Briefly describe the injury, event, disease or exposure that caused your new condition. ',
+        'Briefly describe the injury, event, disease, or exposure that caused your condition. ',
       hint:
         'For example, I operated loud machinery while in the service, and this caused me to lose my hearing.',
       updateUiSchema: (_formData, fullData, index) => ({
-        'ui:title': `Briefly describe the injury, event, disease or exposure that caused ${createNewConditionName(
+        'ui:title': `Briefly describe the injury, event, disease, or exposure that caused ${createNewConditionName(
           fullData?.[arrayBuilderOptions.arrayPath]?.[index],
         )}.`,
       }),

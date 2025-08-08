@@ -20,7 +20,7 @@ export function ConfirmationPage(props) {
   const submitDate = new Date(submission?.timestamp);
 
   useEffect(() => {
-    focusElement('h2');
+    focusElement('h1');
     scrollToTop('topScrollElement');
   }, []);
 

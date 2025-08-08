@@ -2,6 +2,8 @@ import React from 'react';
 import recordEvent from 'platform/monitoring/record-event';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import { currency, calcDueDate, formatDate } from '../utils/helpers';
 
 const Alert = ({ children }) => children;
@@ -38,6 +40,52 @@ Alert.Error = () => (
     </a>
   </va-alert>
 );
+
+Alert.PastDueOTTP = ({ copay }) => {
+  const statementDate = formatDate(copay?.pSStatementDateOutput);
+
+  return (
+    <va-alert status="warning" data-testid="past-due-balance-alert">
+      <h2 slot="headline">Your balance may be overdue</h2>
+      <p>
+        Your balance due on
+        <time
+          dateTime={statementDate}
+          className="vads-u-margin-x--0p5 vads-u-font-weight--bold"
+        >
+          {statementDate}
+        </time>
+        was <strong>{currency(copay?.pHAmtDue)}</strong>. If you paid your full
+        balance, you don’t need to do anything else at this time.
+      </p>
+      <p>
+        <Link
+          className="vads-u-font-weight--bold"
+          to={`/copay-balances/${copay.id}/resolve`}
+          data-testid={`resolve-link-${copay.id}`}
+          onClick={() => {
+            recordEvent({ event: 'cta-link-click-copay-balance-card' });
+          }}
+        >
+          Pay your balance, request financial help, or dispute this bill
+          <va-icon
+            icon="navigate_next"
+            size={2}
+            class="cdp-link-icon--active"
+          />
+        </Link>
+      </p>
+    </va-alert>
+  );
+};
+
+Alert.PastDueOTTP.propTypes = {
+  copay: PropTypes.shape({
+    id: PropTypes.string,
+    pSStatementDateOutput: PropTypes.string,
+    pHAmtDue: PropTypes.number,
+  }),
+};
 
 Alert.PastDue = ({ copay }) => {
   const statementDate = formatDate(copay?.pSStatementDateOutput);
@@ -155,6 +203,45 @@ Alert.NoHistory = () => (
   </va-alert>
 );
 
+Alert.StatusOTTP = ({ copay }) => (
+  <va-alert background-only status="warning" data-testid="status-alert">
+    <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">
+      {/* using vads-u-margin-left here causes the word "before" 
+      to wrap to the next line so we need a {' '} space here */}
+      Pay your {currency(copay?.pHAmtDue)} balance or request help now
+    </h2>
+    <p>
+      To avoid late fees or collection action on your bill, you must pay your
+      full balance or request financial help before
+      <span className="vads-u-margin-left--0p5">
+        {calcDueDate(copay?.pSStatementDateOutput, 30)}
+      </span>
+      .
+    </p>
+    <p>
+      <Link
+        className="vads-u-font-weight--bold"
+        to={`/copay-balances/${copay.id}/resolve`}
+        data-testid={`resolve-link-${copay.id}`}
+        onClick={() => {
+          recordEvent({ event: 'cta-link-click-copay-balance-card' });
+        }}
+      >
+        Pay your balance, request financial help, or dispute this bill
+        <va-icon icon="navigate_next" size={2} class="cdp-link-icon--active" />
+      </Link>
+    </p>
+  </va-alert>
+);
+
+Alert.StatusOTTP.propTypes = {
+  copay: PropTypes.shape({
+    id: PropTypes.string,
+    pSStatementDateOutput: PropTypes.string,
+    pHAmtDue: PropTypes.number,
+  }),
+};
+
 Alert.Status = ({ copay }) => (
   <va-alert background-only status="warning" data-testid="status-alert">
     <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">
@@ -213,9 +300,19 @@ Alert.Status.propTypes = {
 };
 
 const Alerts = ({ type, copay, error }) => {
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+
+  const showCDPOneThingPerPage = useToggleValue(
+    TOGGLE_NAMES.showCDPOneThingPerPage,
+  );
+
   switch (type) {
     case 'status':
-      return <Alert.Status copay={copay} />;
+      return showCDPOneThingPerPage ? (
+        <Alert.StatusOTTP copay={copay} />
+      ) : (
+        <Alert.Status copay={copay} />
+      );
     case 'no-health-care':
       recordEvent({
         event: 'visible-alert-box',
@@ -244,7 +341,11 @@ const Alerts = ({ type, copay, error }) => {
         'alert-box-type': 'info',
         'alert-box-heading': 'Your balance may be overdue',
       });
-      return <Alert.PastDue copay={copay} />;
+      return showCDPOneThingPerPage ? (
+        <Alert.PastDueOTTP copay={copay} />
+      ) : (
+        <Alert.PastDue copay={copay} />
+      );
     default:
       recordEvent({
         event: 'visible-alert-box',
@@ -261,6 +362,7 @@ Alerts.propTypes = {
   copay: PropTypes.shape({
     pSStatementDate: PropTypes.string,
     pHAmtDue: PropTypes.number,
+    id: PropTypes.string,
   }),
   error: PropTypes.string,
   type: PropTypes.string,

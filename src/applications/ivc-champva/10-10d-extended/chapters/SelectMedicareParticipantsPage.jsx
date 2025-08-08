@@ -1,7 +1,6 @@
 /* eslint-disable react/sort-prop-types */
 import PropTypes from 'prop-types';
 import React from 'react';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import {
   arrayBuilderItemSubsequentPageTitleUI,
@@ -9,7 +8,13 @@ import {
   radioUI,
   titleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { nameWording, toHash, getAgeInYears } from '../../shared/utilities';
+import { CustomPageNavButtons } from '../../shared/components/CustomPageNavButtons';
+import { nameWording, toHash } from '../../shared/utilities';
+
+// similar to `toSpliced`, but simpler and actually works in testing framework
+function dropItem(arr, targetIdx) {
+  return arr.filter((_i, idx) => idx !== targetIdx);
+}
 
 /**
  * Gets applicants eligible for Medicare selection
@@ -18,9 +23,7 @@ import { nameWording, toHash, getAgeInYears } from '../../shared/utilities';
  * @returns {Array} Filtered array of eligible applicants
  */
 function getEligibleApplicants(data, idx) {
-  // Get applicants at or over 65 y/o
-  const applicants =
-    data?.applicants?.filter(a => getAgeInYears(a.applicantDob) >= 65) ?? [];
+  const applicants = data?.applicants ?? [];
   const medicareData = data?.medicare;
 
   // If no Medicare data exists, return all applicants
@@ -29,7 +32,7 @@ function getEligibleApplicants(data, idx) {
   }
 
   // Get Medicare entries excluding current one
-  const otherMedicareEntries = medicareData.toSpliced(idx, 1) ?? [];
+  const otherMedicareEntries = dropItem(medicareData, idx) ?? [];
 
   // Return applicants not already selected for Medicare
   return applicants.filter(applicant => {
@@ -134,6 +137,12 @@ export function selectMedicareParticipantOnGoForward(props) {
 
 /** @type {CustomPageType} */
 export function SelectMedicareParticipantPage(props) {
+  const navButtons = CustomPageNavButtons({
+    ...props,
+    onContinue: () => {
+      return selectMedicareParticipantOnGoForward(props);
+    },
+  });
   return (
     <SchemaForm
       name={props.name}
@@ -154,11 +163,7 @@ export function SelectMedicareParticipantPage(props) {
     >
       <>
         {props.contentBeforeButtons}
-        <FormNavButtons
-          goBack={props.goBack}
-          goForward={() => selectMedicareParticipantOnGoForward(props)}
-          submitToContinue
-        />
+        {navButtons}
         {props.contentAfterButtons}
       </>
     </SchemaForm>

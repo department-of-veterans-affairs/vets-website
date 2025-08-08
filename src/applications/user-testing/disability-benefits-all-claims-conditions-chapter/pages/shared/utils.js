@@ -3,29 +3,18 @@ import {
   getArrayIndexFromPathName,
   getArrayUrlSearchParams,
 } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
+import { waitForShadowRoot } from 'platform/utilities/ui/webComponents';
 
-import {
-  ARRAY_PATH,
-  CONDITION_TYPE_RADIO,
-  NEW_CONDITION_OPTION,
-} from '../../constants';
+import { ARRAY_PATH, NEW_CONDITION_OPTION } from '../../constants';
 import { conditionObjects } from '../../content/conditionOptions';
 import {
   NewConditionCardDescription,
   RatedDisabilityCardDescription,
 } from '../../content/conditions';
 
-// Just for user testing demo functionality
-export const isActiveDemo = (formData, currentDemo) =>
-  formData?.demo === currentDemo;
-
 export const isEditFromContext = context => context?.edit;
 
-const isEditFromUrl = () => {
-  const search = getArrayUrlSearchParams();
-  const hasEdit = search.get('edit');
-  return !!hasEdit;
-};
+const isEditFromUrl = () => Boolean(getArrayUrlSearchParams().get('edit'));
 
 export const createAddAndEditTitles = (addTitle, editTitle) =>
   isEditFromUrl() ? editTitle : addTitle;
@@ -44,40 +33,12 @@ export const createRatedDisabilityDescriptions = fullData => {
   }, {});
 };
 
-// Just for ConditionTypeRadio demo
-const isNewConditionForConditionTypeRadio = (formData, index) => {
-  if (formData?.[ARRAY_PATH]) {
-    const conditionType = formData[ARRAY_PATH]?.[index]?.['view:conditionType'];
-
-    return !conditionType || conditionType === 'NEW';
-  }
-
-  return (
-    !formData?.['view:conditionType'] ||
-    formData?.['view:conditionType'] === 'NEW'
-  );
-};
-
-// Just for ConditionTypeRadio demo
-const isRatedDisabilityForConditionTypeRadio = (formData, index) => {
-  if (formData?.[ARRAY_PATH]) {
-    const conditionType = formData[ARRAY_PATH]?.[index]?.['view:conditionType'];
-
-    return conditionType === 'RATED';
-  }
-
-  return formData?.['view:conditionType'] === 'RATED';
-};
-
-// Just for RatedOrNewNextPage demo
 const isNewConditionOption = ratedDisability =>
   ratedDisability === NEW_CONDITION_OPTION;
 
-// Just for RatedOrNewNextPage demo
-const isNewConditionForRatedOrNewNextPage = (formData, index) => {
+export const isNewCondition = (formData, index) => {
   if (formData?.[ARRAY_PATH]) {
     const ratedDisability = formData?.[ARRAY_PATH]?.[index]?.ratedDisability;
-
     return !ratedDisability || isNewConditionOption(ratedDisability);
   }
 
@@ -87,11 +48,9 @@ const isNewConditionForRatedOrNewNextPage = (formData, index) => {
   );
 };
 
-// Just for RatedOrNewNextPage demo
-const isRatedDisabilityForRatedOrNewNextPage = (formData, index) => {
+export const isRatedDisability = (formData, index) => {
   if (formData?.[ARRAY_PATH]) {
     const ratedDisability = formData?.[ARRAY_PATH]?.[index]?.ratedDisability;
-
     return ratedDisability && !isNewConditionOption(ratedDisability);
   }
 
@@ -99,22 +58,6 @@ const isRatedDisabilityForRatedOrNewNextPage = (formData, index) => {
     formData?.ratedDisability &&
     !isNewConditionOption(formData?.ratedDisability)
   );
-};
-
-export const isNewCondition = (formData, index) => {
-  if (isActiveDemo(formData, CONDITION_TYPE_RADIO.name)) {
-    return isNewConditionForConditionTypeRadio(formData, index);
-  }
-
-  return isNewConditionForRatedOrNewNextPage(formData, index);
-};
-
-export const isRatedDisability = (formData, index) => {
-  if (isActiveDemo(formData, CONDITION_TYPE_RADIO.name)) {
-    return isRatedDisabilityForConditionTypeRadio(formData, index);
-  }
-
-  return isRatedDisabilityForRatedOrNewNextPage(formData, index);
 };
 
 const getSelectedRatedDisabilities = fullData => {
@@ -153,13 +96,22 @@ export const hasRatedDisabilities = fullData => {
 const capitalizeFirstLetter = string =>
   string?.charAt(0).toUpperCase() + string?.slice(1);
 
-export const createNewConditionName = (item, capFirstLetter = false) => {
+export const createNewConditionName = (item = {}, capFirstLetter = false) => {
+  const newConditionName = item.newCondition;
+
+  // Check for a non-empty string here instead of each time
+  // arrayBuilderItemSubsequentPageTitleUI is called in different files
+  const checkNewConditionName =
+    typeof newConditionName === 'string' && newConditionName.trim()
+      ? newConditionName.trim()
+      : 'condition';
+
   const newCondition = capFirstLetter
-    ? capitalizeFirstLetter(item?.newCondition)
-    : item?.newCondition || 'new condition';
+    ? capitalizeFirstLetter(checkNewConditionName)
+    : checkNewConditionName;
 
   if (item?.sideOfBody) {
-    return `${newCondition}, ${item?.sideOfBody.toLowerCase()}`;
+    return `${newCondition}, ${item.sideOfBody.toLowerCase()}`;
   }
 
   return newCondition;
@@ -260,4 +212,36 @@ export const validateApproximateDate = (errors, dateString) => {
       'Enter a year only (e.g., 1988), a month and year (e.g., June 1988), or a full date (e.g., June 1 1988)',
     );
   }
+};
+
+// Inject a CSS rule into the shadow DOM of any matching web-component(s)
+// found on the current page (whose URL matches one of the `urlArray` items).
+// Usage:
+//   addStyleToShadowDomOnPages(
+//     [''],                 // URLs to match – '' means “this page”
+//     ['va-memorable-date'],// components to patch
+//     '#dateHint{display:none}'
+//   );
+// This is to hide the second For example date in the UI on pages
+// where a date can be entered
+export const addStyleToShadowDomOnPages = async (
+  urlArray,
+  targetElements,
+  style,
+) => {
+  if (urlArray.some(u => window.location.href.includes(u)))
+    targetElements.forEach(selector => {
+      document.querySelectorAll(selector).forEach(async component => {
+        try {
+          const el = await waitForShadowRoot(component);
+          if (el?.shadowRoot) {
+            const sheet = new CSSStyleSheet();
+            sheet.replaceSync(style);
+            el.shadowRoot.adoptedStyleSheets.push(sheet);
+          }
+        } catch (_) {
+          // Fail silently (styles just won't be applied)
+        }
+      });
+    });
 };

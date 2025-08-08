@@ -4,8 +4,6 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvBypassDowntimeNotification = false,
 
     // medications
-    mhvMedicationsToVaGovRelease = true,
-    mhvMedicationsDisplayRefillContent = true,
     mhvMedicationsDisplayDocumentationContent = true,
     mhvMedicationsDisplayFilter = true,
     mhvMedicationsDisplayGrouping = true,
@@ -14,7 +12,6 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicationsShowIpeContent = true,
     mhvMedicationsPartialFillContent,
     mhvMedicationsDontIncrementIpeCount,
-    mhvMedicationsRemoveLandingPage = true,
 
     // medical records
     mhvMedicalRecordsAllowTxtDownloads = true,
@@ -28,15 +25,22 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicalRecordsDisplayVitals = true,
     mhvMedicalRecordsToVaGovRelease = true,
     mhvMedicalRecordsMarch17Updates = true,
+
+    // OH integration work
     mhvAcceleratedDeliveryEnabled = false,
     mhvAcceleratedDeliveryAllergiesEnabled = false,
     mhvAcceleratedDeliveryVitalSignsEnabled = false,
+    mhvAcceleratedDeliveryVaccinesEnabled = false,
+    mhvAcceleratedDeliveryLabsAndTestsEnabled = false,
+
     mhvMedicalRecordsMilestoneTwo = false,
 
     // secure messaging
     mhvSecureMessagingTriageGroupPlainLanguage = false,
     mhvSecureMessagingRecipientOptGroups = true,
     mhvSecureMessagingRecipientCombobox = true,
+    mhvSecureMessagingCernerPilot = true,
+    mhvSecureMessagingLargeAttachments = true,
   } = toggles;
 
   return {
@@ -60,20 +64,20 @@ const generateFeatureToggles = (toggles = {}) => {
           value: mhvAcceleratedDeliveryAllergiesEnabled,
         },
         {
+          name: 'mhv_accelerated_delivery_vaccines_enabled',
+          value: mhvAcceleratedDeliveryVaccinesEnabled,
+        },
+        {
           name: 'mhv_accelerated_delivery_vital_signs_enabled',
           value: mhvAcceleratedDeliveryVitalSignsEnabled,
         },
         {
+          name: 'mhv_accelerated_delivery_labs_and_tests_enabled',
+          value: mhvAcceleratedDeliveryLabsAndTestsEnabled,
+        },
+        {
           name: 'mhv_landing_page_personalization',
           value: mhvLandingPagePersonalization,
-        },
-        {
-          name: 'mhv_medications_to_va_gov_release',
-          value: mhvMedicationsToVaGovRelease,
-        },
-        {
-          name: 'mhv_medications_display_refill_content',
-          value: mhvMedicationsDisplayRefillContent,
         },
         {
           name: 'mhv_medications_display_documentation_content',
@@ -94,10 +98,6 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medications_display_refill_progress',
           value: mhvMedicationsDisplayRefillProgress,
-        },
-        {
-          name: 'mhv_medications_remove_landing_page',
-          value: mhvMedicationsRemoveLandingPage,
         },
         {
           name: 'mhv_medications_show_ipe_content',
@@ -178,6 +178,14 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_secure_messaging_recipient_combobox',
           value: mhvSecureMessagingRecipientCombobox,
+        },
+        {
+          name: 'mhv_secure_messaging_cerner_pilot',
+          value: mhvSecureMessagingCernerPilot,
+        },
+        {
+          name: 'mhv_secure_messaging_large_attachments',
+          value: mhvSecureMessagingLargeAttachments,
         },
       ],
     },

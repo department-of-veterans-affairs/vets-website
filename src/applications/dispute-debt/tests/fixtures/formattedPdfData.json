@@ -1,0 +1,97 @@
+{
+  "veteran": {
+    "dob": "1950-09-06",
+    "email": "vets.gov.user80@gmail.com",
+    "ssnLastFour": "4321",
+    "vaFileLastFour": "9876",
+    "veteranFullName": {
+      "first": "Rosemary",
+      "middle": "D",
+      "last": "Woodhouse",
+      "suffix": "Jr"
+    },
+    "mailingAddress": {
+      "addressLine1": "1700 Clairmont Rd",
+      "addressLine2": "Apt 3",
+      "addressLine3": "ATTN: Rosemary Woodhouse",
+      "addressPou": "CORRESPONDENCE",
+      "addressType": "DOMESTIC",
+      "city": "Decatur",
+      "countryName": "United States",
+      "countryCodeIso2": "US",
+      "countryCodeIso3": "USA",
+      "countryCodeFips": "",
+      "countyCode": "13089",
+      "countyName": "DeKalb County",
+      "createdAt": "2024-01-22T19:30:44.000+00:00",
+      "effectiveEndDate": "",
+      "effectiveStartDate": "2024-04-09T23:25:00.000+00:00",
+      "geocodeDate": "2024-04-09T23:27:11.000+00:00",
+      "geocodePrecision": 32,
+      "id": 497940,
+      "internationalPostalCode": "",
+      "latitude": 33.8037,
+      "longitude": -84.3112,
+      "province": "",
+      "sourceDate": "2024-04-09T23:25:00.000+00:00",
+      "sourceSystemUser": "",
+      "stateCode": "GA",
+      "transactionId": "7857b343-6017-4346-bcdd-c5d15d6ef939",
+      "updatedAt": "2024-04-09T23:27:12.000+00:00",
+      "overrideValidationKey": "",
+      "validationKey": "",
+      "vet360Id": "1133854",
+      "vaProfileId": "1133854",
+      "zipCode": "30033",
+      "zipCodeSuffix": "4032",
+      "badAddress": false
+    },
+    "mobilePhone": {
+      "areaCode": "",
+      "countryCode": "39",
+      "createdAt": "2024-01-22T19:29:48.000+00:00",
+      "extension": "123",
+      "effectiveEndDate": "",
+      "effectiveStartDate": "2025-01-09T15:59:06.000+00:00",
+      "id": 407987,
+      "isInternational": true,
+      "isTextable": "",
+      "isTextPermitted": "",
+      "isTty": "",
+      "isVoicemailable": true,
+      "phoneNumber": "0815685547",
+      "phoneType": "MOBILE",
+      "sourceDate": "2025-01-09T15:59:06.000+00:00",
+      "sourceSystemUser": "",
+      "transactionId": "d7033e41-ca41-448c-884c-4be74136af5b",
+      "updatedAt": "2025-01-09T16:02:42.000+00:00",
+      "vet360Id": "1133854",
+      "vaProfileId": "1133854"
+    }
+  },
+  "selectedDebts": [
+    {
+      "supportStatement": "Supporting statement for debt number 1. . . ",
+      "deductionCode": "72",
+      "disputeReason": "I don't think I owe this debt to VA",
+      "compositeDebtId": "72321",
+      "label": "$227.42 overpayment for Post-9/11 GI Bill debt for housing",
+      "description": "Pay or request help by September 7, 2018",
+      "debtType": "DEBT",
+      "selectedDebtId": "72321"
+    },
+    {
+      "supportStatement": "Supporting statement for debt number 2. . . ",
+      "deductionCode": "30",
+      "disputeReason": "I don’t think the amount is correct on this debt",
+      "compositeDebtId": "71166",
+      "label": "$120.40 overpayment for Disability compensation and pension debt",
+      "description": "Pay or request help by November 17, 2020",
+      "debtType": "DEBT",
+      "selectedDebtId": "71166"
+    }
+  ],
+  "submissionDetails": {
+    "submissionDateTime": "submissionTime"
+  }
+}

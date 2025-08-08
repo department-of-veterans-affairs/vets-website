@@ -4,6 +4,7 @@ import React from 'react';
 
 import { waitFor } from '@testing-library/dom';
 import { addDays, addMinutes, format } from 'date-fns';
+import { formatInTimeZone } from 'date-fns-tz';
 import {
   createTestStore,
   renderWithStoreAndRouter,
@@ -26,7 +27,7 @@ describe('VAOS vaccine flow: SecondDosePage', () => {
       newBooking: {
         previousPages: {},
         data: {
-          vaFacility: 'var983',
+          vaFacility: '983var', // the substring (0,3) of the facility ID is used for TimeZone
           clinicId: '455',
           date1: [format(start, DATE_FORMATS.ISODateTime)],
         },
@@ -39,7 +40,7 @@ describe('VAOS vaccine flow: SecondDosePage', () => {
         clinics: {},
         facilities: [
           {
-            id: 'var983',
+            id: '983var',
             name: 'Cheyenne VA Medical Center',
           },
         ],
@@ -61,9 +62,17 @@ describe('VAOS vaccine flow: SecondDosePage', () => {
         new RegExp(`If you get your first dose of a 2-dose vaccine on`, 'i'),
       ),
     ).to.be.ok;
+
     expect(
       screen.getByText(
-        new RegExp(`${format(start, 'EEEE, MMMM d, yyyy')}`, 'i'),
+        new RegExp(
+          `${formatInTimeZone(
+            start,
+            'America/Denver',
+            DATE_FORMATS.friendlyWeekdayDate,
+          )}`,
+          'i',
+        ),
       ),
     ).to.be.ok;
     expect(
@@ -80,7 +89,11 @@ describe('VAOS vaccine flow: SecondDosePage', () => {
     expect(
       screen.getByText(
         new RegExp(
-          `after ${format(addDays(start, 21), 'EEEE, MMMM d, yyyy')}`,
+          `after ${formatInTimeZone(
+            addDays(start, 21),
+            'America/Denver',
+            DATE_FORMATS.friendlyWeekdayDate,
+          )}`,
           'i',
         ),
       ),
@@ -88,7 +101,11 @@ describe('VAOS vaccine flow: SecondDosePage', () => {
     expect(
       screen.getByText(
         new RegExp(
-          `after ${format(addDays(start, 28), 'EEEE, MMMM d, yyyy')}`,
+          `after ${formatInTimeZone(
+            addDays(start, 28),
+            'America/Denver',
+            DATE_FORMATS.friendlyWeekdayDate,
+          )}`,
           'i',
         ),
       ),

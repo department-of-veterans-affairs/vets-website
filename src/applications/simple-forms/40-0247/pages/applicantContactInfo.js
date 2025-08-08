@@ -10,7 +10,8 @@ import {
 export default {
   uiSchema: {
     ...titleUI(
-      'Tell us how we can reach you if there’s a question about your request',
+      'Contact details',
+      'Tell us how we can reach you if there’s a question about your request.',
     ),
     applicantPhone: phoneUI(),
     applicantEmail: emailUI(),

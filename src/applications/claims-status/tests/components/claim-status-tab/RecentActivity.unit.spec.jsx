@@ -193,6 +193,30 @@ const openClaimStep3WithNeededFromOthersItemwithActivityDescription = {
   },
 };
 
+const openClaimStep3WithDBQItemNoOverride = {
+  attributes: {
+    claimDate: '2024-05-02',
+    claimPhaseDates: {
+      phaseChangeDate: '2024-05-22',
+      currentPhaseBack: false,
+      latestPhaseType: 'GATHERING_OF_EVIDENCE',
+      previousPhases: {
+        phase1CompleteDate: '2024-05-10',
+        phase2CompleteDate: '2024-05-22',
+      },
+    },
+    claimTypeCode: '110LCMP7IDES',
+    trackedItems: [
+      {
+        id: 1,
+        requestedDate: '2024-05-12',
+        status: 'NEEDED_FROM_OTHERS',
+        displayName: 'DBQ no override',
+      },
+    ],
+  },
+};
+
 const openClaimStep3WithNoLongerRequiredItem = {
   attributes: {
     claimDate: '2024-05-02',
@@ -1424,9 +1448,9 @@ describe('<RecentActivity>', () => {
         </Provider>,
       );
       getByText(
-        `We made a request outside the VA: “Third party friendly name.”`,
+        `We made a request outside the VA: “third party friendly name.”`,
       );
-      getByText(/you don’t have to do anything/i);
+      getByText(/you don’t need to do anything/i);
       getByText(
         `We asked someone outside VA for documents related to your claim.`,
       );
@@ -1437,7 +1461,7 @@ describe('<RecentActivity>', () => {
           <RecentActivity claim={openClaimStep3WithDBQItem} />
         </Provider>,
       );
-      getByText(`We made a request: “DBQ friendly name.”`);
+      getByText(`We made a request: “dBQ friendly name.”`);
     });
     it('should render friendly display name, updated activity message and activity description with NEEDED_FROM_OTHERS record with activity description', () => {
       const { getByText, queryByText } = renderWithRouter(
@@ -1450,15 +1474,34 @@ describe('<RecentActivity>', () => {
         </Provider>,
       );
       getByText(
-        `We made a request outside the VA: “Third party friendly name.”`,
+        `We made a request outside the VA: “third party friendly name.”`,
       );
-      expect(queryByText(/you don’t have to do anything/i)).to.be.null;
+      expect(queryByText(/you don’t need to do anything/i)).to.be.null;
       expect(
         queryByText(
           `We asked someone outside VA for documents related to your claim.`,
         ),
       ).to.be.null;
       getByText('Activity Description');
+    });
+    it('should render default dbq message when the dbq item does not have overwrite content', () => {
+      const { getByText, queryByText } = renderWithRouter(
+        <Provider store={getStore(false, false, true)}>
+          <RecentActivity claim={openClaimStep3WithDBQItemNoOverride} />
+        </Provider>,
+      );
+      getByText(`We made a request: “DBQ no override.”`);
+      expect(queryByText(/you don’t have to do anything/i)).to.be.null;
+      expect(
+        queryByText(
+          `We asked someone outside VA for documents related to your claim.`,
+        ),
+      ).to.be.null;
+      expect(
+        queryByText(
+          `We’ve requested an exam related to your claim. The examiner’s office will contact you to schedule this appointment.`,
+        ),
+      ).to.exist;
     });
   });
 });

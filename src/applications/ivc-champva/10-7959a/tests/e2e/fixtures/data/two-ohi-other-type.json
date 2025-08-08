@@ -1,6 +1,7 @@
 {
   "description": "Two OHIs, medical claim, insurance type other, NOT work, NOT auto",
   "data": {
+    "claimStatus": "new",
     "view:hasPolicies": true,
     "pharmacyUpload": [
       {
@@ -54,14 +55,6 @@
         "name": "Cigna",
         "policyNum": "543",
         "providerPhone": "1231231234"
-      }
-    ],
-    "missingUploads": [
-      {
-        "name": "pharmacyUpload",
-        "path": "pharmacy-claim-upload",
-        "required": false,
-        "uploaded": true
       }
     ],
     "statementOfTruthCertified": true,

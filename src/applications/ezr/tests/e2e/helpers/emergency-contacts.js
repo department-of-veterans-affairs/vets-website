@@ -17,12 +17,11 @@ export const advanceToEmergencyContacts = () => {
   cy.tabToContinueForm();
 };
 
-export const fillContactPersonalInfo = (contact, addressComponentName) => {
+export const fillContactPersonalInfo = contact => {
   fillTextWebComponent('fullName_first', contact.fullName.first);
   fillTextWebComponent('fullName_last', contact.fullName.last);
   fillTextWebComponent('primaryPhone', contact.primaryPhone);
   selectDropdownWebComponent('relationship', contact.relationship);
-  selectYesNoWebComponent(addressComponentName, true);
   cy.injectAxeThenAxeCheck();
   goToNextPage();
 };

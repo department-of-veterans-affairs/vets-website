@@ -1,7 +1,7 @@
 export const marriageTypeLabels = {
   CIVIL: 'In a civil ceremony with an officiant who signed my marriage license',
   CEREMONIAL:
-    'In a religious ceremony with a clergyperson who signed my marriage',
+    'In a religious ceremony with a clergyperson who signed my marriage license',
   'COMMON-LAW': 'By common law',
   PROXY: 'By proxy',
   TRIBAL: 'In a tribal ceremony',
@@ -9,8 +9,8 @@ export const marriageTypeLabels = {
 };
 
 export const marriageTypeArr = [
-  'CEREMONIAL',
   'CIVIL',
+  'CEREMONIAL',
   'COMMON-LAW',
   'PROXY',
   'TRIBAL',

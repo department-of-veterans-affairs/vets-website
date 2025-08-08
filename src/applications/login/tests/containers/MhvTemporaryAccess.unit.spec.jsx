@@ -67,23 +67,6 @@ describe('MhvTemporaryAccess', () => {
     expect(sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL)).to.equal(
       'https://eauth.va.gov/mhv-portal-web/eauth?deeplinking=account-information',
     );
-    expect(accessButton.getAttribute('href')).to.contain(
-      `https://dev-api.va.gov/v1/sessions/mhv/new?operation=mhv_exception`,
-    );
-  });
-
-  it('renders recover password link', () => {
-    const screen = renderInReduxProvider(<MhvTemporaryAccess />);
-    const recoverHeading = screen.getByRole('heading', {
-      name: /Recover forgotten password/i,
-    });
-    expect(recoverHeading).to.exist;
-    const recoverLink = screen.getByTestId('recoverMhvBtn');
-    expect(recoverLink).to.exist;
-    expect(recoverLink).to.have.attribute(
-      'href',
-      'https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/forgot-password?action=new',
-    );
   });
 
   it('renders help and support section', () => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
-import { cloneDeep } from 'lodash';
+import { cloneDeep, capitalize } from 'lodash';
 import {
   addressUI,
   addressSchema,
@@ -28,6 +28,8 @@ import {
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
+import { CustomApplicantSSNPage } from '../../shared/components/CustomApplicantSSNPage';
+import { validateApplicantSsnIsUnique } from '../../shared/validations';
 
 import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
 import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
@@ -39,6 +41,7 @@ import {
 } from '../../shared/components/fileUploads/attachments';
 import {
   applicantWording,
+  nameWording,
   getAgeInYears,
   fmtDate,
 } from '../../shared/utilities';
@@ -46,27 +49,24 @@ import {
 import { ApplicantRelOriginPage } from './ApplicantRelOriginPage';
 import { ApplicantGenderPage } from './ApplicantGenderPage';
 import { page15aDepends } from '../helpers/utilities';
-import { MAIL_OR_FAX_LATER_MSG, MAX_APPLICANTS } from '../constants';
+import { MAX_APPLICANTS } from '../constants';
 
 import {
   // TODO: convert to standard file upload.
-  uploadWithInfoComponent,
   acceptableFiles,
 } from '../../10-10D/components/Sponsor/sponsorFileUploads';
 import { isInRange } from '../../10-10D/helpers/utilities';
 import { ApplicantDependentStatusPage } from '../../10-10D/pages/ApplicantDependentStatus';
-import { ApplicantMedicareStatusPage } from '../../10-10D/pages/ApplicantMedicareStatusPage';
-import { ApplicantMedicareStatusContinuedPage } from '../../10-10D/pages/ApplicantMedicareStatusContinuedPage';
-import ApplicantOhiStatusPage from '../../10-10D/pages/ApplicantOhiStatusPage';
 
 import CustomPrefillMessage from '../components/CustomPrefillAlert';
 
+import { validateMarriageAfterDob } from '../helpers/validations';
 /*
 // TODO: re-add this custom validation + the same for normal text fields
 import { applicantAddressCleanValidation } from '../../shared/validations';
 */
 
-// import mockData from '../tests/fixtures/data/test-data.json';
+// import mockData from '../tests/e2e/fixtures/data/maximal-test.json';
 
 const fullNameMiddleInitialUI = cloneDeep(fullNameUI());
 fullNameMiddleInitialUI.middle['ui:title'] = 'Middle initial';
@@ -81,10 +81,10 @@ fullNameMiddleInitialUI.middle['ui:title'] = 'Middle initial';
 function editTitleWrapper(title) {
   // Array builder helper `withEditTitle` returns a function, which we
   // always want to call, so just do that:
-  return withEditTitle(title)(title);
+  return withEditTitle(title, false)(title);
 }
 
-const applicantOptions = {
+export const applicantOptions = {
   arrayPath: 'applicants',
   nounSingular: 'applicant',
   nounPlural: 'applicants',
@@ -97,9 +97,7 @@ const applicantOptions = {
       item.applicantGender &&
       item.applicantPhone &&
       item.applicantAddress &&
-      item.applicantRelationshipToSponsor &&
-      item.applicantMedicareStatus &&
-      item.applicantHasOhi
+      item.applicantRelationshipToSponsor
     );
   }, // TODO: include more required fields here
   maxItems: MAX_APPLICANTS,
@@ -120,10 +118,13 @@ const applicantOptions = {
         </li>
         <li>
           <b>Relationship to sponsor:</b>{' '}
-          {item?.applicantRelationshipToSponsor?.relationshipToVeteran !==
-          'other'
-            ? item?.applicantRelationshipToSponsor?.relationshipToVeteran
-            : item?.applicantRelationshipToSponsor?.otherRelationshipToVeteran}
+          {capitalize(
+            item?.applicantRelationshipToSponsor?.relationshipToVeteran !==
+            'other'
+              ? item?.applicantRelationshipToSponsor?.relationshipToVeteran
+              : item?.applicantRelationshipToSponsor
+                  ?.otherRelationshipToVeteran,
+          )}
         </li>
       </ul>
     ),
@@ -168,8 +169,11 @@ const applicantIdentificationPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) => `${applicantWording(formData)} identification`,
+      '',
+      false,
     ),
     applicantSSN: ssnUI(),
+    'ui:validations': [validateApplicantSsnIsUnique],
   },
   schema: {
     type: 'object',
@@ -318,31 +322,38 @@ const applicantRelationshipOriginPage = {
   },
 };
 
-// TODO: switch to v3 file upload after initial page implementation
-const applicantBirthCertConfig = uploadWithInfoComponent(
-  undefined, // acceptableFiles.birthCert,
-  'birth certificates',
-);
-
 const applicantBirthCertUploadPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       'Upload birth certificate',
-      ({ formData }) => (
-        <>
-          To help us process this application faster, submit a copy of{' '}
+      ({ formData, formContext }) => {
+        const index = +formContext?.pagePerItemIndex; // NaN if not present
+        // since we don't have the standard access to full form data here,
+        // make use of the previously added `view:certifierRole` property.
+        const tmpFormData = {
+          ...formData,
+          /*
+          If idx is 0, we want to take certifier role into account. Otherwise not
+          because we consistently assume that if the certifier is an applicant
+          then they will be the first applicant. All other cases we should use 
+          third person addressing.
+          */
+          certifierRole: index === 0 ? formData?.['view:certifierRole'] : '',
+        };
+        const posessiveName = (
           <b className="dd-privacy-hidden">
-            {applicantWording(formData, true, false)}
-          </b>{' '}
-          birth certificate.
-          <br />
-          Submitting a copy can help us process this application faster.
-          <br />
-          {MAIL_OR_FAX_LATER_MSG}
-        </>
-      ),
+            {nameWording(tmpFormData, true, false)}
+          </b>
+        );
+
+        return (
+          <p>
+            You’ll need to submit a copy of {posessiveName} birth certificate.
+          </p>
+        );
+      },
     ),
-    ...applicantBirthCertConfig.uiSchema,
+    ...fileUploadBlurbCustom(),
     applicantBirthCertOrSocialSecCard: fileUploadUI({
       label: 'Upload a copy of birth certificate',
     }),
@@ -352,10 +363,18 @@ const applicantBirthCertUploadPage = {
     required: ['applicantBirthCertOrSocialSecCard'],
     properties: {
       titleSchema,
-      ...applicantBirthCertConfig.schema,
-      applicantBirthCertOrSocialSecCard: fileWithMetadataSchema(
-        acceptableFiles.birthCert,
-      ),
+      'view:fileUploadBlurb': blankSchema,
+      applicantBirthCertOrSocialSecCard: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            name: {
+              type: 'string',
+            },
+          },
+        },
+      },
     },
   },
 };
@@ -453,36 +472,46 @@ const applicantSchoolCertUploadPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       'Upload proof of school enrollment',
-      ({ formData }) => {
+      ({ formData, formContext }) => {
+        const index = +formContext?.pagePerItemIndex; // NaN if not present
+        // since we don't have the standard access to full form data here,
+        // make use of the previously added `view:certifierRole` property.
+        const tmpFormData = {
+          ...formData,
+          certifierRole: formData?.['view:certifierRole'],
+        };
+        // Calls the appropriate name getter depending on current list item index.
+        // First applicant is assumed to be the certifier if certifierRole === 'applicant'.
+        const getNameFn = posessive =>
+          index === 0
+            ? nameWording(tmpFormData, posessive, false)
+            : // formData doesn't need certifier role for applicantWording
+              applicantWording(formData, posessive, false);
+
         const posessiveName = (
-          <b className="dd-privacy-hidden">
-            {applicantWording(formData, true, false)}
-          </b>
+          <b className="dd-privacy-hidden">{getNameFn(true)}</b>
         );
         const nonPosessiveName = (
-          <b className="dd-privacy-hidden">
-            {applicantWording(formData, false, false)}
-          </b>
+          <b className="dd-privacy-hidden">{getNameFn(false)}</b>
         );
+        const nameBeingVerb =
+          tmpFormData?.certifierRole === 'applicant' ? (
+            'you’re'
+          ) : (
+            <>
+              <b className="dd-privacy-hidden">{nonPosessiveName}</b> is
+            </>
+          );
         return (
           <>
-            You’ll need to submit a copy of a document showing proof of{' '}
-            {posessiveName} school enrollment. If {nonPosessiveName} is planning
-            to enroll, you’ll need to upload a document showing information
-            about {posessiveName} plan to enroll.
-            <br />
-            <br />
-            Fill out a School Enrollment Certification Form.
-            <br />
-            <va-link
-              href="https://www.va.gov/COMMUNITYCARE/docs/pubfiles/forms/School-Enrollment.pdf"
-              text="Get school enrollment certification form to download"
-            />
-            <br />
-            <br />
-            Or you can submit an enrollment letter on the school’s letterhead.
-            <br />
-            Here’s what the letter should include:
+            <p>
+              <b>If {nameBeingVerb} already enrolled in school</b>
+            </p>
+            <p>You’ll need to submit a letter on the school’s letterhead.</p>
+            <p>
+              Ask the school to write us a letter on school letterhead that
+              includes all of these pieces of information:
+            </p>
             <ul>
               <li>{posessiveName} first and last name</li>
               <li>
@@ -491,13 +520,20 @@ const applicantSchoolCertUploadPage = {
               <li>
                 The start and end dates for each semester or enrollment term
               </li>
+              <li>Enrollment status (full-time or part-time)</li>
+              <li>Expected graduation date</li>
               <li>
                 Signature and title of a school official (like a director or
                 principal)
               </li>
             </ul>
-            If {nonPosessiveName} is not enrolled, upload a copy of{' '}
-            {posessiveName} acceptance letter from the school.
+            <p>
+              <b>If {nameBeingVerb} planning to enroll</b>
+            </p>
+            <p>
+              Submit a copy of {posessiveName} acceptance letter from the
+              school.
+            </p>
           </>
         );
       },
@@ -547,8 +583,10 @@ const applicantMarriageDatesPage = {
       ({ formData }) =>
         `${applicantWording(formData)} date of marriage to the sponsor`,
       'If you don’t know the exact date, enter your best guess. We won’t need the marriage certificate unless we can’t find a record of the marriage in our system.',
+      false,
     ),
     dateOfMarriageToSponsor: currentOrPastDateUI('Date of marriage'),
+    'ui:validations': [validateMarriageAfterDob],
   },
   schema: {
     type: 'object',
@@ -563,9 +601,12 @@ const applicantRemarriedPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) => `${applicantWording(formData)} marriage status`,
+      '',
+      false,
     ),
     applicantRemarried: {
       ...yesNoUI({
+        title: 'Has this applicant remarried?',
         updateUiSchema: formData => {
           return {
             'ui:title': `Has ${applicantWording(formData, false)} remarried?`,
@@ -647,57 +688,6 @@ const applicantReMarriageCertUploadPage = {
   },
 };
 
-const applicantMedicareStatusPage = {
-  uiSchema: {},
-  schema: {
-    type: 'object',
-    properties: {
-      applicantMedicareStatus: {
-        type: 'object',
-        properties: {
-          eligibility: { type: 'string' },
-          _unused: { type: 'string' },
-        },
-      },
-    },
-    required: ['applicantMedicareStatus'],
-  },
-};
-
-const applicantMedicarePartDStatusPage = {
-  uiSchema: {},
-  schema: {
-    type: 'object',
-    properties: {
-      applicantMedicarePartD: {
-        type: 'object',
-        properties: {
-          enrollment: { type: 'string' },
-          otherEnrollment: { type: 'string' },
-        },
-      },
-    },
-    required: ['applicantMedicarePartD'],
-  },
-};
-
-const applicantOhiStatusPage = {
-  uiSchema: {},
-  schema: {
-    type: 'object',
-    properties: {
-      applicantHasOhi: {
-        type: 'object',
-        properties: {
-          hasOhi: { type: 'string' },
-          _unused: { type: 'string' },
-        },
-      },
-    },
-    required: ['applicantHasOhi'],
-  },
-};
-
 const applicantSummaryPage = {
   uiSchema: {
     'view:hasApplicants': arrayBuilderYesNoUI(applicantOptions),
@@ -753,15 +743,15 @@ export const applicantPages = arrayBuilderPages(
     page14: pageBuilder.itemPage({
       path: 'applicant-identification/:index',
       title: 'Identification',
+      CustomPage: CustomApplicantSSNPage,
+      CustomPageReview: null,
       ...applicantIdentificationPage,
     }),
     page15a: pageBuilder.itemPage({
       path: 'applicant-address-selection/:index',
       title: 'Address selection',
       ...applicantAddressSelectionPage,
-      CustomPage: props => {
-        return ApplicantAddressCopyPage(props);
-      },
+      CustomPage: ApplicantAddressCopyPage,
       depends: (formData, index) => page15aDepends(formData, index),
     }),
     page15: pageBuilder.itemPage({
@@ -916,29 +906,6 @@ export const applicantPages = arrayBuilderPages(
         get('applicantRemarried', formData?.applicants?.[index]),
       CustomPage: FileFieldCustom,
       ...applicantReMarriageCertUploadPage,
-    }),
-    page19: pageBuilder.itemPage({
-      path: 'applicant-medicare/:index',
-      title: item => `${applicantWording(item)} Medicare Part A and B status`,
-      ...applicantMedicareStatusPage,
-      CustomPage: ApplicantMedicareStatusPage,
-    }),
-    page20: pageBuilder.itemPage({
-      path: 'applicant-medicare-continued/:index',
-      title: item => `${applicantWording(item)} Medicare Part D status`,
-      depends: (formData, index) =>
-        get(
-          'applicantMedicareStatus.eligibility',
-          formData?.applicants?.[index],
-        ) === 'enrolled',
-      ...applicantMedicarePartDStatusPage,
-      CustomPage: ApplicantMedicareStatusContinuedPage,
-    }),
-    page21: pageBuilder.itemPage({
-      path: 'applicant-other-insurance-status/:index',
-      title: item => `${applicantWording(item)} other health insurance status`,
-      ...applicantOhiStatusPage,
-      CustomPage: ApplicantOhiStatusPage,
     }),
   }),
 );

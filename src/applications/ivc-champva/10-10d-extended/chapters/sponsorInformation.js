@@ -12,13 +12,16 @@ import {
   phoneSchema,
   titleUI,
   titleSchema,
-  ssnOrVaFileNumberNoHintUI,
-  ssnOrVaFileNumberNoHintSchema,
+  ssnUI,
+  ssnSchema,
   yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import CustomPrefillMessage from '../components/CustomPrefillAlert';
-import { sponsorAddressCleanValidation } from '../../shared/validations';
+import {
+  sponsorAddressCleanValidation,
+  validateSponsorSsnIsUnique,
+} from '../../shared/validations';
 
 export const sponsorIntroSchema = {
   uiSchema: {
@@ -75,15 +78,16 @@ export const sponsorIdentificationSchema = {
     ...titleUI(({ formData }) => {
       return `${formData?.certifierRole === 'sponsor' ? 'Your' : `Sponsor's`} 
         identification information`;
-    }, `You must enter either a Social Security number or VA File number`),
-    sponsorSsn: ssnOrVaFileNumberNoHintUI(),
+    }),
+    sponsorSsn: ssnUI(),
+    'ui:validations': [validateSponsorSsnIsUnique],
   },
   schema: {
     type: 'object',
     required: ['sponsorSsn'],
     properties: {
       titleSchema,
-      sponsorSsn: ssnOrVaFileNumberNoHintSchema,
+      sponsorSsn: ssnSchema,
     },
   },
 };
@@ -91,12 +95,8 @@ export const sponsorIdentificationSchema = {
 export const sponsorStatus = {
   uiSchema: {
     ...titleUI(
-      ({ formData }) => {
-        return `${formData.certifierRole === 'sponsor' ? 'Your' : `Sponsor's`} 
-    status`;
-      },
-      `Now we'll ask you questions about the death of the sponsor (if they have died).
-     Fill this out to the best of your knowledge.`,
+      "Sponsor's status",
+      "Now we'll ask you questions about the death of the sponsor (if they have died). Fill this out to the best of your knowledge.",
     ),
     sponsorIsDeceased: yesNoUI({
       title: 'Has the sponsor died?',

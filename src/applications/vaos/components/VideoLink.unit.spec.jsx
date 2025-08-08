@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import MockDate from 'mockdate';
 import React from 'react';
 
-import { addHours, format, subMinutes } from 'date-fns';
+import { format } from 'date-fns';
 import {
   createTestStore,
   getTestDate,
@@ -42,65 +42,6 @@ describe('VAOS Component: VideoLink', () => {
     },
   };
 
-  it('does not render join appointment link when more than 30 minutes before start time', () => {
-    const store = createTestStore(initialState);
-    const appointment = {
-      location: {
-        clinicPhone: '500-500-5000',
-        clinicPhoneExtension: '1234',
-      },
-      start: format(subMinutes(new Date(), 31), DATE_FORMATS.ISODateTime),
-      videoData: {
-        url: 'test.com',
-      },
-      vaos: {
-        isVideo: true,
-      },
-    };
-    const screen = renderWithStoreAndRouter(
-      <VideoLink appointment={appointment} />,
-      {
-        store,
-      },
-    );
-    expect(screen.queryByText('Join appointment')).not.to.exist;
-    expect(
-      screen.queryByText(
-        /We'll add the link to join this appointment 30 minutes before your appointment time/i,
-      ),
-    ).to.exist;
-  });
-
-  it('does not render join appointment link when beyond 4 hours after start time', () => {
-    const store = createTestStore(initialState);
-    const appointment = {
-      location: {
-        vistaId: '983',
-        locationId: '983',
-      },
-      start: format(addHours(new Date(), 5), DATE_FORMATS.ISODateTime),
-      videoData: {
-        url: 'test.com',
-      },
-      vaos: {
-        isVideo: true,
-      },
-    };
-
-    const screen = renderWithStoreAndRouter(
-      <VideoLink appointment={appointment} />,
-      {
-        store,
-      },
-    );
-    expect(screen.queryByText('Join appointment')).not.to.exist;
-    expect(
-      screen.queryByText(
-        /We'll add the link to join this appointment 30 minutes before your appointment time/i,
-      ),
-    ).to.exist;
-  });
-
   it('render alert message when it is within timeframe but url is missing ', () => {
     const store = createTestStore(initialState);
     const appointment = {
@@ -109,7 +50,9 @@ describe('VAOS Component: VideoLink', () => {
         clinicPhoneExtension: '1234',
       },
       start: format(new Date(), DATE_FORMATS.ISODateTime),
-      videoData: {},
+      videoData: {
+        displayLink: true,
+      },
       vaos: {
         isVideo: true,
       },
@@ -125,7 +68,7 @@ describe('VAOS Component: VideoLink', () => {
     expect(
       screen.queryByRole('heading', {
         level: 3,
-        name: /We're sorry, we couldn't load the link to join your appointment/,
+        name: /We.re sorry, we couldn.t load the link to join your appointment/,
       }),
     ).to.exist;
     expect(
@@ -135,13 +78,13 @@ describe('VAOS Component: VideoLink', () => {
     ).to.exist;
   });
 
-  it('renders join appointment link 30 minutes prior to start time', () => {
+  it('renders join appointment link when displayLink=true', () => {
     const store = createTestStore(initialState);
     const appointment = {
       location: {},
-      start: format(subMinutes(new Date(), 30), DATE_FORMATS.ISODateTime),
       videoData: {
         url: 'test.com',
+        displayLink: true,
       },
       vaos: {},
     };
@@ -154,16 +97,16 @@ describe('VAOS Component: VideoLink', () => {
     expect(screen.queryByText('Join appointment')).to.exist;
   });
 
-  it('renders join appointment link within 4 hours after start time', () => {
+  it('does not render join appointment link when displayLink=false', () => {
     const store = createTestStore(initialState);
     const appointment = {
       location: {
         vistaId: '983',
         locationId: '983',
       },
-      start: format(addHours(new Date(), 4), DATE_FORMATS.ISODateTime),
       videoData: {
         url: 'test.com',
+        displayLink: false,
       },
       vaos: {},
     };
@@ -173,61 +116,11 @@ describe('VAOS Component: VideoLink', () => {
         store,
       },
     );
-    expect(screen.queryByText('Join appointment')).to.exist;
-  });
-
-  describe('with vaOnlineSchedulingFeSourceOfTruthTelehealth=true', () => {
-    const enabled = {
-      ...initialState,
-      featureToggles: {
-        vaOnlineSchedulingFeSourceOfTruthTelehealth: true,
-      },
-    };
-
-    it('renders join appointment link when displayLink=true', () => {
-      const store = createTestStore(enabled);
-      const appointment = {
-        location: {},
-        videoData: {
-          url: 'test.com',
-          displayLink: true,
-        },
-        vaos: {},
-      };
-      const screen = renderWithStoreAndRouter(
-        <VideoLink appointment={appointment} />,
-        {
-          store,
-        },
-      );
-      expect(screen.queryByText('Join appointment')).to.exist;
-    });
-
-    it('does not render join appointment link when displayLink=false', () => {
-      const store = createTestStore(enabled);
-      const appointment = {
-        location: {
-          vistaId: '983',
-          locationId: '983',
-        },
-        videoData: {
-          url: 'test.com',
-          displayLink: false,
-        },
-        vaos: {},
-      };
-      const screen = renderWithStoreAndRouter(
-        <VideoLink appointment={appointment} />,
-        {
-          store,
-        },
-      );
-      expect(screen.queryByText('Join appointment')).not.to.exist;
-      expect(
-        screen.queryByText(
-          /We'll add the link to join this appointment 30 minutes before your appointment time/i,
-        ),
-      ).to.exist;
-    });
+    expect(screen.queryByText('Join appointment')).not.to.exist;
+    expect(
+      screen.queryByText(
+        /We.ll add the link to join this appointment on this page 30 minutes before your appointment time/i,
+      ),
+    ).to.exist;
   });
 });

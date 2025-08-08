@@ -98,47 +98,64 @@ export const certifierEmailValidation = (errors, page, formData) => {
   );
 };
 
-export function noDash(str) {
-  return str?.replace(/-/g, '');
-}
-
 /**
- * Validates the sponsor's SSN does not match any others in the form.
+ * Validates an applicant's date of marriage to sponsor is not before
+ * said applicant's date of birth.
  * @param {Object} errors - The errors object for the current page
- * @param {Object} page - The current page data
+ * @param {String} page - The current page data (a date string in format YYYY-MM-DD)
+ * @param {Object} formData - Full form data for this applicant
+ * @param {Object} _pattern - Regex used for validation (unreferenced)
+ * @param {Object} _msgText - Error message text (unreferenced)
+ * @param {Number} index - Current list loop item index (only present on review-and-submit page)
  */
-export const validateSponsorSsnIsUnique = (errors, page) => {
-  const sponsorSSN = page?.ssn;
-  const match = page?.applicants?.find(
-    el => noDash(el?.applicantSSN) === noDash(sponsorSSN),
-  );
+export const validateMarriageAfterDob = (
+  errors,
+  page,
+  formData,
+  _pattern,
+  _msgText,
+  index,
+) => {
+  // Since formData is different on the review page vs within the list loop,
+  // use the presence of the index as a means to identify where we are.
+  // (index is null in the list loop, populated on review page)
+  const fd = formData?.applicants ? formData.applicants[index] : formData;
 
-  if (match) {
-    errors?.ssn?.addError(
-      'This Social Security number is in use elsewhere in the form. SSNs must be unique.',
-    );
+  const difference = Date.parse(page) - Date.parse(fd?.applicantDob);
+
+  if (!Number.isNaN(difference) && difference <= 0) {
+    errors.addError("Date of marriage must be after applicant's date of birth");
   }
 };
 
 /**
- * Validates that an applicant's SSN does not match any others in the form.
+ * Validates an applicant's date of marriage to sponsor is not before
+ * the sponsor's date of birth.
  * @param {Object} errors - The errors object for the current page
- * @param {Object} page - The current page data
+ * @param {String} page - The current page data (a date string in format YYYY-MM-DD)
+ * @param {Object} formData - Full form data for this applicant
+ * @param {Object} _pattern - Regex used for validation (unreferenced)
+ * @param {Object} _msgText - Error message text (unreferenced)
+ * @param {Number} index - Current list loop item index (only present on review-and-submit page)
  */
-export const validateApplicantSsnIsUnique = (errors, page) => {
-  const idx = page?.['view:pagePerItemIndex'];
-  const sponsorMatch =
-    noDash(page?.applicantSSN) === noDash(page?.['view:sponsorSSN']);
+export const validateMarriageAfterSponsorDob = (
+  errors,
+  page,
+  formData,
+  _pattern,
+  _msgText,
+  index,
+) => {
+  // Since formData is different on the review page vs within the list loop,
+  // use the presence of the index as a means to identify where we are.
+  // (index is null in the list loop, populated on review page)
+  const fd = formData?.applicants ? formData.applicants[index] : formData;
 
-  let applicants = page?.['view:applicantSSNArray'];
-  applicants = [...applicants.slice(0, idx), ...applicants.slice(idx + 1)];
-  const applicantMatch = applicants?.some(
-    app => noDash(app) === noDash(page?.applicantSSN),
-  );
+  // view:sponsorDob is added to applicant form data via the custom page
+  // entrypoint for this page.
+  const difference = Date.parse(page) - Date.parse(fd?.['view:sponsorDob']);
 
-  if (sponsorMatch || applicantMatch) {
-    errors.applicantSSN.addError(
-      'This Social Security number is in use elsewhere in the form. SSNs must be unique.',
-    );
+  if (!Number.isNaN(difference) && difference <= 0) {
+    errors.addError("Date of marriage must be after sponsor's date of birth");
   }
 };

@@ -2,6 +2,8 @@ import React from 'react';
 import { redirect } from 'react-router-dom';
 
 import App from './containers/App';
+import PublicLayoutContainer from './containers/PublicLayoutContainer';
+import AuthenticatedLayoutContainer from './containers/AuthenticatedLayoutContainer';
 import LandingPage from './containers/LandingPage';
 import POARequestSearchPage from './containers/POARequestSearchPage';
 import ClaimantSearchPage from './containers/ClaimantSearchPage';
@@ -10,6 +12,9 @@ import SubmissionsPage from './containers/SubmissionsPage';
 import SignedInLayout from './containers/SignedInLayout';
 import ErrorBoundary from './components/Error/ErrorBoundary';
 import GetHelpPage from './containers/GetHelpPage';
+import LoginContainer from './containers/LoginContainer';
+import AuthCallbackHandler from './containers/AuthCallbackHandler';
+
 import { userPromise } from './utilities/auth';
 import { getSignInUrl } from './utilities/constants';
 
@@ -30,7 +35,6 @@ const addSignInRedirection = route => {
         return await loader({ params, request });
       } catch (e) {
         // Only rethrow non-401 errors
-        // this can most likely be removed considering we added it to the api client
         if (!(e instanceof Response) || e.status !== 401) {
           throw e;
         }
@@ -51,60 +55,83 @@ const routes = [
   {
     id: 'root',
     path: '/',
-    loader() {
-      return userPromise;
-    },
     element: <App />,
     errorElement: <ErrorBoundary />,
     children: [
       {
-        index: true,
-        element: (
-          <LandingPage title="Accredited Representative Portal | Veterans Affairs" />
-        ),
-      },
-      forEachRoute(addSignInRedirection, {
-        element: <SignedInLayout />,
+        element: <PublicLayoutContainer />,
         children: [
           {
-            path: 'poa-requests',
-            element: (
-              <POARequestSearchPage title="Representation requests | Veterans Affairs" />
-            ),
-            loader: POARequestSearchPage.loader,
+            path: 'sign-in',
+            element: <LoginContainer />,
           },
           {
-            path: 'claimant-search',
-            element: <ClaimantSearchPage />,
-          },
-          {
-            path: 'poa-requests/:id',
-            element: (
-              <POARequestDetailsPage title="POA request | Veterans Affairs" />
-            ),
-            loader: POARequestDetailsPage.loader,
-            children: [
-              {
-                path: 'decision',
-                action: POARequestDetailsPage.createDecisionAction,
-              },
-            ],
-          },
-          {
-            path: 'get-help',
-            element: (
-              <GetHelpPage title="Get help using the portal | Veterans Affairs" />
-            ),
-          },
-          {
-            path: 'submissions',
-            element: (
-              <SubmissionsPage title="Form Submissions | Veterans Affairs" />
-            ),
-            loader: SubmissionsPage.loader,
+            path: 'auth/login/callback',
+            element: <AuthCallbackHandler />,
+            loader: AuthCallbackHandler.loader,
           },
         ],
-      }),
+      },
+      {
+        element: <AuthenticatedLayoutContainer />,
+        loader() {
+          return userPromise;
+        },
+        children: [
+          {
+            index: true,
+            element: (
+              <LandingPage title="Accredited Representative Portal | Veterans Affairs" />
+            ),
+          },
+          forEachRoute(addSignInRedirection, {
+            element: <SignedInLayout />,
+            children: [
+              {
+                path: 'poa-requests',
+                element: (
+                  <POARequestSearchPage title="Representation requests | Veterans Affairs" />
+                ),
+                loader: POARequestSearchPage.loader,
+              },
+              {
+                path: 'poa-search',
+                element: <POARequestSearchPage />,
+              },
+              {
+                path: 'submissions',
+                element: (
+                  <SubmissionsPage title="Form Submissions | Veterans Affairs" />
+                ),
+                loader: SubmissionsPage.loader,
+              },
+              {
+                path: 'claimant-search',
+                element: <ClaimantSearchPage />,
+              },
+              {
+                path: 'poa-requests/:id',
+                element: (
+                  <POARequestDetailsPage title="Representation request | Veterans Affairs" />
+                ),
+                loader: POARequestDetailsPage.loader,
+                children: [
+                  {
+                    path: 'decision',
+                    action: POARequestDetailsPage.createDecisionAction,
+                  },
+                ],
+              },
+              {
+                path: 'get-help',
+                element: (
+                  <GetHelpPage title="Get help using the portal | Veterans Affairs" />
+                ),
+              },
+            ],
+          }),
+        ],
+      },
     ],
   },
 ];

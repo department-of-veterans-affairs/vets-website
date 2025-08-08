@@ -27,7 +27,7 @@ class MockReferralListResponse {
     id = `referral-${Math.random()
       .toString(36)
       .substring(2, 10)}`,
-    categoryOfCare = 'Physical Therapy',
+    categoryOfCare = 'OPTOMETRY',
     referralNumber = `VA${Math.floor(1000 + Math.random() * 9000)}`,
     expirationDate = format(addMonths(new Date(), 6), 'yyyy-MM-dd'),
   } = {}) {
@@ -35,6 +35,7 @@ class MockReferralListResponse {
       id,
       type: 'referrals',
       attributes: {
+        stationId: '659BY',
         categoryOfCare,
         referralNumber,
         uuid: id,
@@ -55,19 +56,19 @@ class MockReferralListResponse {
     return [
       MockReferralListResponse.createReferral({
         id: 'PmDYsBz-egEtG13flMnHUQ==',
-        categoryOfCare: 'Physical Therapy',
+        categoryOfCare: 'OPTOMETRY',
         referralNumber: 'VA0000005682',
         expirationDate: format(addMonths(today, 2), formatStr),
       }),
       MockReferralListResponse.createReferral({
         id: 'oSI3vEVkzuR-JJomdWA6Fw==',
-        categoryOfCare: 'Physical Therapy',
+        categoryOfCare: 'OPTOMETRY',
         referralNumber: 'VA0000006569',
         expirationDate: format(addMonths(today, 6), formatStr),
       }),
       MockReferralListResponse.createReferral({
         id: 'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
-        categoryOfCare: 'Physical Therapy',
+        categoryOfCare: 'OPTOMETRY',
         referralNumber: 'VA0000007123',
         expirationDate: format(addMonths(today, 5), formatStr),
       }),

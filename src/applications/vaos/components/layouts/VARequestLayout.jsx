@@ -61,7 +61,7 @@ export default function VARequestLayout({ data: appointment }) {
   );
 
   return (
-    <PageLayout isDetailPage showNeedHelp>
+    <PageLayout showNeedHelp>
       <DetailPageLayout
         heading={heading}
         data={appointment}
@@ -70,12 +70,16 @@ export default function VARequestLayout({ data: appointment }) {
         <Section heading="Preferred date and time">
           <ul className="usa-unstyled-list">
             {preferredDates.map((date, index) => (
-              <li key={`${appointment.id}-option-${index}`}>{date}</li>
+              <li key={`${appointment.id}-option-${index}`}>
+                <span data-dd-privacy="mask">{date}</span>
+              </li>
             ))}
           </ul>
         </Section>
         <Section heading="Type of care">
-          {typeOfCareName || 'Type of care not noted'}
+          <span data-dd-privacy="mask">
+            {typeOfCareName || 'Type of care not noted'}
+          </span>
         </Section>
         <Section heading="How you prefer to attend">
           <span>{preferredModality}</span>

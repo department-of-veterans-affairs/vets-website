@@ -1,7 +1,7 @@
 import manifest from '../../manifest.json';
 import mockUser from './fixtures/mocks/mock-user';
 import featureToggles from './fixtures/mocks/mock-features.json';
-import { MOCK_ENROLLMENT_RESPONSE } from '../../utils/constants';
+import { MOCK_ENROLLMENT_RESPONSE, API_ENDPOINTS } from '../../utils/constants';
 
 describe('EZR Invalid Enrollment Status', () => {
   beforeEach(() => {
@@ -9,7 +9,7 @@ describe('EZR Invalid Enrollment Status', () => {
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
       'mockFeatures',
     );
-    cy.intercept('GET', '/v0/health_care_applications/enrollment_status*', {
+    cy.intercept('GET', `/v0${API_ENDPOINTS.enrollmentStatus}*`, {
       statusCode: 200,
       body: {
         ...MOCK_ENROLLMENT_RESPONSE,

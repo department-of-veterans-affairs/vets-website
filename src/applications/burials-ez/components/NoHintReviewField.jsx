@@ -8,7 +8,12 @@ const NoHintReviewField = ({
 }) => (
   <div className="review-row">
     <dt>{uiSchema['ui:title']}</dt>
-    <dd>{formData}</dd>
+    <dd
+      className="dd-privacy-hidden"
+      data-dd-action-name={uiSchema['ui:title']}
+    >
+      {formData}
+    </dd>
   </div>
 );
 

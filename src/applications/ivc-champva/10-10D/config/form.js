@@ -6,7 +6,6 @@ import {
   checkboxGroupUI,
   fullNameSchema,
   fullNameUI,
-  ssnOrVaFileNumberSchema,
   addressSchema,
   addressUI,
   phoneSchema,
@@ -31,15 +30,14 @@ import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import SubmissionError from '../../shared/components/SubmissionError';
 import CustomPrefillMessage from '../components/CustomPrefillAlert';
+import { CustomApplicantSSNPage } from '../../shared/components/CustomApplicantSSNPage';
 import {
   flattenApplicantSSN,
+  flattenSponsorSSN,
   migrateCardUploadKeys,
   removeOtherRelationshipSpecification,
 } from './migrations';
 // import { fileUploadUi as fileUploadUI } from '../components/File/upload';
-
-import { ssnOrVaFileNumberCustomUI } from '../components/CustomSsnPattern';
-
 import transformForSubmit from './submitTransformer';
 import prefillTransformer from './prefillTransformer';
 import manifest from '../manifest.json';
@@ -61,6 +59,8 @@ import {
   sponsorAddressCleanValidation,
   certifierAddressCleanValidation,
   applicantAddressCleanValidation,
+  validateSponsorSsnIsUnique,
+  validateApplicantSsnIsUnique,
 } from '../../shared/validations';
 import { ADDITIONAL_FILES_HINT } from '../../shared/constants';
 import { applicantWording, getAgeInYears } from '../../shared/utilities';
@@ -123,6 +123,7 @@ import {
   marriageDatesSchema,
   depends18f3,
 } from '../pages/ApplicantSponsorMarriageDetailsPage';
+import ApplicantSponsorMarriageDatePage from '../pages/ApplicantSponsorMarriageDatePage';
 import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
 import {
   signerContactInfoPage,
@@ -188,11 +189,12 @@ const formConfig = {
       saved: 'Your CHAMPVA benefits application has been saved.',
     },
   },
-  version: 3,
+  version: 4,
   migrations: [
     flattenApplicantSSN,
     migrateCardUploadKeys,
     removeOtherRelationshipSpecification,
+    flattenSponsorSSN,
   ],
   prefillEnabled: true,
   prefillTransformer,
@@ -412,14 +414,15 @@ const formConfig = {
                 identification information
               </>
             )),
-            ssn: ssnOrVaFileNumberCustomUI(),
+            ssn: ssnUI(),
+            'ui:validations': [validateSponsorSsnIsUnique],
           },
           schema: {
             type: 'object',
             required: ['ssn'],
             properties: {
               titleSchema,
-              ssn: ssnOrVaFileNumberSchema,
+              ssn: ssnSchema,
             },
           },
         },
@@ -707,6 +710,9 @@ const formConfig = {
               identification information
             </>
           ),
+          CustomPage: CustomApplicantSSNPage,
+          CustomPageReview: null,
+          customPageUsesPagePerItemData: true,
           showPagePerItem: true,
           uiSchema: {
             applicants: {
@@ -728,6 +734,7 @@ const formConfig = {
                   </>
                 )),
                 applicantSSN: ssnUI(),
+                'ui:validations': [validateApplicantSsnIsUnique],
               },
             },
           },
@@ -1215,6 +1222,8 @@ const formConfig = {
           depends: (formData, index) => depends18f3(formData, index),
           uiSchema: marriageDatesSchema.noRemarriageUiSchema,
           schema: marriageDatesSchema.noRemarriageSchema,
+          customPageUsesPagePerItemData: true,
+          CustomPage: ApplicantSponsorMarriageDatePage,
         },
         page18f: {
           path: 'applicant-marriage-upload/:index',

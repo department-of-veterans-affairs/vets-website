@@ -3,7 +3,7 @@
   "data": {
     "applicants": [
       {
-        "dateOfMarriageToSponsor": "2001-01-01",
+        "dateOfMarriageToSponsor": "2002-01-01",
         "applicantPhone": "1232343456",
         "applicantEmailAddress": "app1@email.gov",
         "applicantAddress": {
@@ -136,9 +136,7 @@
       "state": "AZ",
       "postalCode": "12312"
     },
-    "ssn": {
-      "ssn": "234234234"
-    },
+    "ssn": "234234234",
     "veteransFullName": {
       "first": "Sponsor",
       "last": "Jones"

@@ -1,7 +1,7 @@
-import { render } from '@testing-library/react';
+import React from 'react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
-import React from 'react';
 import createCommonStore from '@department-of-veterans-affairs/platform-startup/store';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $$ } from 'platform/forms-system/src/js/utilities/ui';
@@ -70,7 +70,38 @@ describe('686 current marriage information: Spouse address', () => {
 
     expect($$('va-checkbox', container).length).to.equal(1);
     expect($$('va-text-input', container).length).to.equal(4);
-    expect($$('va-select', container).length).to.equal(3);
+    expect($$('va-select', container).length).to.equal(1);
+    expect($$('va-radio-option', container).length).to.equal(6);
+  });
+
+  it('should render custom city error', async () => {
+    const { container } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={{
+            doesLiveWithSpouse: {
+              address: { city: 'APO', isMilitary: false },
+            },
+          }}
+        />
+      </Provider>,
+    );
+
+    const form = container?.querySelector('form');
+    fireEvent.submit(form);
+
+    await waitFor(() => {
+      const cityInput = container.querySelector(
+        'va-text-input[name="root_doesLiveWithSpouse_address_city"]',
+      );
+      expect(cityInput).to.exist;
+      expect(cityInput.getAttribute('error')).to.equal(
+        'Enter a valid city name',
+      );
+    });
   });
 });
 

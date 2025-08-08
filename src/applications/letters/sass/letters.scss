@@ -223,3 +223,7 @@ label + div {
 .edit-link {
   margin: 0.5em 0;
 }
+
+.letters--edit-address va-radio::part(legend) {
+  margin-top: 0;
+}

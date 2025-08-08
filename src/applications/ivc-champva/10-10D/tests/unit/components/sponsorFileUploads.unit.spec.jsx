@@ -56,6 +56,7 @@ describe('fileUploadUI functions', () => {
     expect(payload.get('file')).to.equal(fileObj);
   });
   it('should not find any select elements when page is empty', async () => {
-    expect(findAndFocusLastSelect().length).to.equal(0);
+    const { container } = render(<div />);
+    expect(findAndFocusLastSelect(container).length).to.equal(0);
   });
 });

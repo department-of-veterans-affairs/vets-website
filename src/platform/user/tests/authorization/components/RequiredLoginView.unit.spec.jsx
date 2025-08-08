@@ -63,6 +63,7 @@ const generateProps = ({
   verify = true,
   serviceRequired = backendServices.HCA,
   user = loa1User,
+  loadingIndicator,
   loginUrl = 'http://fake-login-url',
   verifyUrl = 'http://fake-verify-url',
   showProfileErrorMessage = false,
@@ -70,6 +71,7 @@ const generateProps = ({
   verify,
   serviceRequired,
   user,
+  loadingIndicator,
   loginUrl,
   verifyUrl,
   showProfileErrorMessage,
@@ -133,6 +135,33 @@ describe('<RequiredLoginView>', () => {
     // expect(wrapper.text()).to.contain('Loading your information...');
     expect(wrapper.find('va-loading-indicator').length).to.equal(1);
     expect(wrapper.find('ProfileErrorMessage').length).to.equal(0);
+    wrapper.unmount();
+  });
+
+  it('should render custom loading indicator when provided', () => {
+    function CustomLoader() {
+      return (
+        <div
+          className="vads-u-margin-y--5 vads-u-height--viewport"
+          data-testid="custom-loader"
+        >
+          <va-loading-indicator message="Loading your claims and appeals..." />
+        </div>
+      );
+    }
+    props = generateProps({
+      user: { ...loa1User, profile: { loading: true } },
+      loadingIndicator: <CustomLoader />,
+    });
+
+    const wrapper = mount(
+      <RequiredLoginView {...props}>
+        <TestChildComponent name="one" />
+      </RequiredLoginView>,
+    );
+
+    expect(wrapper.find('[data-testid="custom-loader"]').length).to.equal(1);
+    expect(wrapper.find('[data-testid="req-loader"]').length).to.equal(0);
     wrapper.unmount();
   });
 

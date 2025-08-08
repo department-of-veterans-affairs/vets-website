@@ -1,5 +1,5 @@
+import { format, formatInTimeZone } from 'date-fns-tz';
 import timezones from './timezones.json';
-import moment from '../lib/moment-tz';
 
 const TIMEZONE_LABELS = {
   PHT: 'Philippine time',
@@ -14,14 +14,43 @@ const TIMEZONE_LABELS = {
   AT: 'Atlantic time',
 };
 
-export function stripDST(abbr) {
-  if (/^[PMCEHSA][DS]T$|^AK[DS]T$|^ChST$/.test(abbr)) {
-    return abbr?.replace('ST', 'T').replace('DT', 'T');
+const GMT_TABLE_MAPPING = {
+  'GMT+8': 'PHT', // Asia/Manila
+  'GMT-11': 'ST', // Pacific/Pago_Pago
+  'GMT+10': 'ChT', // Pacific/Guam, Pacific/Saipan
+};
+
+/**
+ * Function to strip out the middle character in timezone abbreviations
+ *
+ * @export
+ * @param {string} stringWithAbbr - String containing timezone abbreviations
+ * @returns {string} - String with stripped timezone abbreviations
+ */
+export function stripDST(stringWithAbbr) {
+  // Extract timezone abbreviations from the string
+  const matches = stringWithAbbr.match(/([PMCEHSA][DS]T|AK[DS]T|ChST)/g);
+
+  if (matches && matches.length > 0) {
+    // Process each timezone abbreviation in the string
+    let result = stringWithAbbr;
+    matches.forEach(match => {
+      const stripped = match.replace('ST', 'T').replace('DT', 'T');
+      result = result.replace(match, stripped);
+    });
+    return result;
   }
 
-  return abbr;
+  return stringWithAbbr;
 }
 
+/**
+ * Function to return timezone.
+ *
+ * @export
+ * @param {string} id - Facility id
+ * @returns IANA Timezone name Example: 'America/Chicago'
+ */
 export function getTimezoneByFacilityId(id) {
   if (!id) {
     return null;
@@ -31,16 +60,25 @@ export function getTimezoneByFacilityId(id) {
     return timezones[id];
   }
 
-  return timezones[id.substr(0, 3)];
+  return timezones[id.substring(0, 3)];
 }
 
+/**
+ * Function to return timezone abbreviation.
+ *
+ * @export
+ * @param {Object} appointment
+ * @returns Timezone abbreviation with daylight savings time stripped. Example: 'CT'
+ */
 export function getTimezoneAbbrFromApi(appointment) {
   const appointmentTZ = appointment?.timezone;
   let timeZoneAbbr = appointmentTZ
-    ? moment(appointment.start)
-        .tz(appointmentTZ)
-        .format('z')
+    ? formatInTimeZone(new Date(), appointmentTZ, 'z')
     : null;
+
+  if (timeZoneAbbr?.startsWith('GMT')) {
+    return GMT_TABLE_MAPPING[timeZoneAbbr];
+  }
 
   // Strip out middle char in abbreviation so we can ignore DST
   if (
@@ -52,6 +90,13 @@ export function getTimezoneAbbrFromApi(appointment) {
   return timeZoneAbbr;
 }
 
+/**
+ * Function to return timezone abbreviation.
+ *
+ * @export
+ * @param {string} id - Facility id
+ * @returns Timezone abbreviation with daylight savings stripped. Example: 'CT'
+ */
 export function getTimezoneAbbrByFacilityId(id) {
   const matchingZone = getTimezoneByFacilityId(id);
 
@@ -59,7 +104,8 @@ export function getTimezoneAbbrByFacilityId(id) {
     return null;
   }
 
-  let abbreviation = moment.tz.zone(matchingZone).abbr(moment());
+  let abbreviation = formatInTimeZone(new Date(), matchingZone, 'z');
+  if (abbreviation?.startsWith('GMT')) return GMT_TABLE_MAPPING[abbreviation];
 
   // Strip out middle char in abbreviation so we can ignore DST
   if (matchingZone.includes('America') || matchingZone.includes('Pacific')) {
@@ -69,6 +115,13 @@ export function getTimezoneAbbrByFacilityId(id) {
   return abbreviation;
 }
 
+/**
+ * Function to return timezone description
+ *
+ * @export
+ * @param {string} id - Facility id
+ * @returns Timezone description Example: Central time (CT)
+ */
 export function getTimezoneDescByFacilityId(id) {
   const abbreviation = getTimezoneAbbrByFacilityId(id);
   const label = TIMEZONE_LABELS[abbreviation];
@@ -80,6 +133,13 @@ export function getTimezoneDescByFacilityId(id) {
   return abbreviation;
 }
 
+/**
+ * Function to return timezone label.
+ *
+ * @export
+ * @param {string} abbreviation - Timezone abbreviation Example: 'CT'
+ * @returns Timezone label Example: 'Central time'. Returns abbreviation if label is not found.
+ */
 export function getTimezoneNameFromAbbr(abbreviation) {
   const label = TIMEZONE_LABELS[abbreviation];
 
@@ -90,12 +150,16 @@ export function getTimezoneNameFromAbbr(abbreviation) {
   return abbreviation;
 }
 
-export function getUserTimezone() {
-  return moment.tz.guess();
-}
-
+/**
+ * Function to get user's timezone.
+ *
+ * @export
+ * @returns User's timezone abbreviation Example: 'CST'
+ */
 export function getUserTimezoneAbbr() {
-  return moment()
-    .tz(getUserTimezone())
-    .zoneAbbr();
+  let abbreviation = format(new Date(), 'z');
+  if (abbreviation.startsWith('GMT'))
+    abbreviation = GMT_TABLE_MAPPING[abbreviation];
+
+  return abbreviation || format(new Date(), 'z');
 }

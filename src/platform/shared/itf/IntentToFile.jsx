@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import environment from 'platform/utilities/environment';
 import { isLoggedIn } from 'platform/user/selectors';
-import { formatDowntime } from 'platform/utilities/date';
+import { formatDateLong, formatDowntime } from 'platform/utilities/date';
 import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
 import { focusElement } from 'platform/utilities/ui/focus';
 import { scrollTo } from 'platform/utilities/scroll';
@@ -183,9 +183,11 @@ const IntentToFile = ({
     );
   }
 
-  const { expirationDate } = localItf?.currentITF;
+  const { creationDate, expirationDate } = localItf?.currentITF;
   const renderProps = {
     itfType,
+    creationDateString: creationDate,
+    creationDateFormatted: creationDate ? formatDateLong(creationDate) : null,
     expirationDateString: expirationDate,
     expirationDateFormatted: expirationDate
       ? formatDowntime(expirationDate, DAY_YEAR_PATTERN)

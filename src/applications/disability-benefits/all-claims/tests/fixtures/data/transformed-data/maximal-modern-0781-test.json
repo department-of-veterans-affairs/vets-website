@@ -159,8 +159,7 @@
       }
     ],
     "confinements": [
-      { "from": "2016-01-01", "to": "2017-01-01" },
-      { "from": "2017-01-06", "to": "2017-04-01" }
+      { "from": "2016-01-01", "to": "2017-01-01" }
     ],
     "ratedDisabilities": [
       {
@@ -212,6 +211,11 @@
         "cause": "NEW",
         "primaryDescription": "It makes no sense for this particular condition, but hey, this is only test data.",
         "condition": "asthma"
+      },
+       {
+        "cause": "NEW",
+        "primaryDescription": "It makes no sense for this particular condition, but hey, this is only test data.",
+        "condition": "PTSD (post-traumatic stress disorder)"
       },
       {
         "cause": "WORSENED",

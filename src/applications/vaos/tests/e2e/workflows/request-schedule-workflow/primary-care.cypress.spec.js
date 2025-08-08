@@ -43,7 +43,8 @@ describe('VAOS request schedule flow - Primary care', () => {
       id: 'mock1',
       localStartTime: new Date(),
       status: APPOINTMENT_STATUS.proposed,
-    });
+      pending: true,
+    }).setType('REQUEST');
     mockAppointmentGetApi({
       response,
     });
@@ -113,6 +114,7 @@ describe('VAOS request schedule flow - Primary care', () => {
             .clickNextButton();
 
           TypeOfVisitPageObject.assertUrl()
+            .assertTypeOfVisitValidationErrors()
             .assertHeading({
               name: /How do you want to attend this appointment/i,
             })
@@ -374,6 +376,7 @@ describe('VAOS request schedule flow - Primary care', () => {
           .clickNextButton();
 
         TypeOfFacilityPageObject.assertUrl()
+          .assertTypeOfFacilityValidationErrors()
           .selectTypeOfFacility(/VA medical center or clinic/i)
           .clickNextButton();
 

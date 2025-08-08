@@ -4,10 +4,24 @@ import {
   formatDateParsedZoneLong,
   timeFromNow,
 } from 'platform/utilities/date/index';
+import { waitForShadowRoot } from 'platform/utilities/ui/webComponents';
 
 export const BANNER_TYPES = {
   PROCESSING: 'PENDING',
   FAILED: 'FAILED',
+};
+
+export const PROCESSING_BANNER = {
+  HEADER: 'We’re processing the accepted request',
+  ACCEPTED: 'accepted the request on',
+  COPY:
+    'Processing an accepted request normally takes 1-2 minutes, but can sometimes take longer. Representation won’t be established until the request finishes processing. You can refresh the page to check for status updates.',
+};
+
+export const ERROR_BANNER = {
+  HEADER: 'We couldn’t process the accepted request',
+  COPY:
+    'We’re sorry, there was a problem with our system. We weren’t able to process your decision and update the status of the request. To try again, contact the claimant and ask them to resubmit VA Form 21-22.',
 };
 
 export const expiresSoon = expDate => {
@@ -122,7 +136,7 @@ export const poaSearchBC = [
 export const findClaimantBC = [
   {
     href: '/representative',
-    label: 'Representative.va.gov home',
+    label: 'VA.gov/representative home',
   },
   {
     href: window.location.href,
@@ -140,7 +154,7 @@ export const poaDetailsBreadcrumbs = [
   },
   {
     href: window.location.href,
-    label: 'POA request',
+    label: 'Representation request',
   },
 ];
 export const SEARCH_PARAMS = {
@@ -178,4 +192,40 @@ export const PENDING_SORT_DEFAULTS = {
   SIZE: '20',
   // default is page 1
   NUMBER: '1',
+};
+
+export async function addStyleToShadowDomOnPages(
+  urlArray,
+  targetElements,
+  style,
+) {
+  // If we're on one of the desired pages (per URL array), inject CSS
+  // into the specified target elements' shadow DOMs:
+  if (urlArray.some(u => window.location.href.includes(u)))
+    targetElements.map(async e => {
+      try {
+        document.querySelectorAll(e).forEach(async item => {
+          const el = await waitForShadowRoot(item);
+          if (el?.shadowRoot) {
+            const sheet = new CSSStyleSheet();
+            sheet.replaceSync(style);
+            el.shadowRoot.adoptedStyleSheets.push(sheet);
+          }
+        });
+      } catch (err) {
+        // Fail silently (styles just won't be applied)
+      }
+    });
+}
+
+export const checkReason = poaRequest => {
+  const declinationReason = poaRequest?.resolution?.declinationReason;
+  switch (declinationReason) {
+    case 'LIMITED_AUTH':
+      return 'because authorization is limited.';
+    case 'OUTSIDE_SERVICE_TERRITORY':
+      return 'because the claimant is outside of the organization’s service territory.';
+    default:
+      return 'because of another reason.';
+  }
 };

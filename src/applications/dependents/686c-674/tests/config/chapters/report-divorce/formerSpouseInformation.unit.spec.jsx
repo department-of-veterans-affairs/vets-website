@@ -1,7 +1,7 @@
-import { render, fireEvent } from '@testing-library/react';
+import React from 'react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
-import React from 'react';
 import createCommonStore from '@department-of-veterans-affairs/platform-startup/store';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
@@ -91,7 +91,7 @@ describe('686 report divorce: Former spouse information', () => {
     expect($$('va-radio-option', container).length).to.equal(2);
   });
 
-  it('should render error messages', () => {
+  it('should render error messages', async () => {
     const { container } = render(
       <Provider store={defaultStore}>
         <DefinitionTester
@@ -104,19 +104,22 @@ describe('686 report divorce: Former spouse information', () => {
     );
 
     fireEvent.submit($('button[type="submit"]', container));
-    const errors = $$('[error]', container)?.map(
-      el => `${el.tagName}:${el.getAttribute('error')}`,
-    );
-    expect(errors.length).to.equal(4);
-    expect(errors).to.deep.equal([
-      'VA-MEMORABLE-DATE:Please enter a date',
-      'VA-TEXT-INPUT:Enter the city where this occurred',
-      'VA-SELECT:Select a state',
-      'VA-RADIO:You must provide a response',
-    ]);
+
+    await waitFor(() => {
+      const errors = $$('[error]', container)?.map(
+        el => `${el.tagName}:${el.getAttribute('error')}`,
+      );
+      expect(errors.length).to.equal(4);
+      expect(errors).to.deep.equal([
+        'VA-MEMORABLE-DATE:Please enter a date',
+        'VA-TEXT-INPUT:Enter the city where this occurred',
+        'VA-SELECT:Select a state',
+        'VA-RADIO:You must provide a response',
+      ]);
+    });
   });
 
-  it('should render error messages when reason marriage ended is "other"', () => {
+  it('should render error messages when reason marriage ended is "other"', async () => {
     const { container } = render(
       <Provider store={defaultStore}>
         <DefinitionTester
@@ -129,16 +132,19 @@ describe('686 report divorce: Former spouse information', () => {
     );
 
     fireEvent.submit($('button[type="submit"]', container));
-    const errors = $$('[error]', container)?.map(
-      el => `${el.tagName}:${el.getAttribute('error')}`,
-    );
-    expect(errors.length).to.equal(4);
-    expect(errors).to.deep.equal([
-      'VA-MEMORABLE-DATE:Please enter a date',
-      'VA-TEXT-INPUT:Enter the city where this occurred',
-      'VA-SELECT:Select a state',
-      'VA-TEXT-INPUT:You must provide a response',
-    ]);
+
+    await waitFor(() => {
+      const errors = $$('[error]', container)?.map(
+        el => `${el.tagName}:${el.getAttribute('error')}`,
+      );
+      expect(errors.length).to.equal(4);
+      expect(errors).to.deep.equal([
+        'VA-MEMORABLE-DATE:Please enter a date',
+        'VA-TEXT-INPUT:Enter the city where this occurred',
+        'VA-SELECT:Select a state',
+        'VA-TEXT-INPUT:You must provide a response',
+      ]);
+    });
   });
 });
 

@@ -10,39 +10,54 @@ const deepLinks = [
   {
     url: `${PROFILE_PATHS.CONTACT_INFORMATION}#an-unsupported-deep-link`,
     expectedTarget: {
-      role: 'heading',
+      tag: 'heading',
       name: 'Contact information',
     },
   },
   {
     url: `${PROFILE_PATHS.CONTACT_INFORMATION}#email-address`,
     expectedTarget: {
-      role: 'heading',
+      tag: 'heading',
       name: 'Email addresses',
     },
   },
   {
     url: `${PROFILE_PATHS.CONTACT_INFORMATION}#phone-numbers`,
     expectedTarget: {
-      role: 'heading',
+      tag: 'heading',
       name: 'Phone numbers',
     },
   },
   {
     url: `${PROFILE_PATHS.CONTACT_INFORMATION}#edit-contact-email-address`,
     expectedTarget: {
-      role: 'button',
-      name: /edit contact email address/i,
+      tag: 'va-button',
+      name: 'Edit Contact email address',
+      innerTag: 'button',
     },
   },
   {
     url: `${PROFILE_PATHS.CONTACT_INFORMATION}#edit-mobile-phone-number`,
     expectedTarget: {
-      role: 'button',
-      name: /edit mobile phone number/i,
+      tag: 'va-button',
+      name: 'Edit Mobile phone number',
+      innerTag: 'button',
     },
   },
 ];
+
+function getTargetElement(target) {
+  // If the element is a web component, find the native element
+  // inside the shadow DOM
+  if (target.innerTag) {
+    return cy
+      .get(`${target.tag}[label="${target.name}"]`)
+      .shadow()
+      .find(target.innerTag);
+  }
+  // Otherwise, use the standard role-based query
+  return cy.findByRole(target.tag, { name: target.name });
+}
 
 /**
  * @param {boolean} mobile - test on a mobile viewport or not
@@ -56,9 +71,8 @@ function checkAllDeepLinks(mobile = false) {
   deepLinks.forEach(({ url, expectedTarget }) => {
     cy.visit(url);
     // focus should be managed correctly
-    cy.findByRole(expectedTarget.role, {
-      name: expectedTarget.name,
-    }).should('have.focus');
+    // console.log('expectedTarget', expectedTarget);
+    getTargetElement(expectedTarget).should('have.focus');
   });
 }
 

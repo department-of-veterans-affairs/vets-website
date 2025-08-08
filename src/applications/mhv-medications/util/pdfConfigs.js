@@ -2,7 +2,10 @@ import {
   createNoDescriptionText,
   createVAPharmacyText,
   dateFormat,
+  determineRefillLabel,
+  displayProviderName,
   getRefillHistory,
+  getShowRefillHistory,
   processList,
   validateField,
   validateIfAvailable,
@@ -12,6 +15,7 @@ import {
   pdfDefaultStatusDefinition,
   nonVAMedicationTypes,
   FIELD_NOT_AVAILABLE,
+  ACTIVE_NON_VA,
 } from './constants';
 
 /**
@@ -60,20 +64,18 @@ export const buildNonVAPrescriptionPDFList = prescription => {
           items: [
             {
               title: 'Instructions',
-              value: validateIfAvailable('Instructions', prescription.sig),
+              value: prescription.sig || 'Instructions not available',
               inline: true,
             },
             {
               title: 'Reason for use',
-              value: validateIfAvailable(
-                'Reason for use',
-                prescription.indicationForUse,
-              ),
+              value:
+                prescription.indicationForUse || 'Reason for use not available',
               inline: true,
             },
             {
               title: 'Status',
-              value: validateField(prescription.dispStatus?.toString()),
+              value: ACTIVE_NON_VA,
               inline: true,
             },
             {
@@ -96,16 +98,16 @@ export const buildNonVAPrescriptionPDFList = prescription => {
             },
             {
               title: 'Documented by',
-              value: prescription.providerLastName
-                ? `${
-                    prescription.providerLastName
-                  }, ${prescription.providerFirstName || ''}`
-                : 'Provider name not available',
+              value: displayProviderName(
+                prescription.providerFirstName,
+                prescription.providerLastName,
+              ),
               inline: true,
             },
             {
               title: 'Documented at this facility',
-              value: validateIfAvailable('Facility', prescription.facilityName),
+              value:
+                prescription.facilityName || 'VA facility name not available',
               inline: true,
             },
             {
@@ -135,11 +137,14 @@ export const buildPrescriptionsPDFList = prescriptions => {
     if (rx?.prescriptionSource === 'NV') {
       return {
         ...buildNonVAPrescriptionPDFList(rx)[0],
-        header:
-          rx.prescriptionName ||
-          (rx.dispStatus === 'Active: Non-VA' ? rx.orderableItem : ''),
+        header: rx?.prescriptionName || rx?.orderableItem,
       };
     }
+
+    const pendingMed =
+      rx?.prescriptionSource === 'PD' && rx?.dispStatus === 'NewOrder';
+    const pendingRenewal =
+      rx?.prescriptionSource === 'PD' && rx?.dispStatus === 'Renew';
 
     return {
       header: rx.prescriptionName,
@@ -158,12 +163,16 @@ export const buildPrescriptionsPDFList = prescriptions => {
               inline: true,
               indent: 32,
             },
-            {
-              title: 'Prescription number',
-              value: rx.prescriptionNumber,
-              inline: true,
-              indent: 32,
-            },
+            ...(!pendingMed && !pendingRenewal
+              ? [
+                  {
+                    title: 'Prescription number',
+                    value: rx.prescriptionNumber,
+                    inline: true,
+                    indent: 32,
+                  },
+                ]
+              : []),
             {
               title: 'Status',
               value: validateField(rx.dispStatus),
@@ -241,9 +250,10 @@ export const buildPrescriptionsPDFList = prescriptions => {
             },
             {
               title: 'Prescribed by',
-              value: rx.providerLastName
-                ? `${rx.providerLastName}, ${rx.providerFirstName || ''}`
-                : 'Provider name not available',
+              value: displayProviderName(
+                rx.providerFirstName,
+                rx.providerLastName,
+              ),
               inline: true,
               indent: 32,
             },
@@ -373,6 +383,13 @@ export const buildAllergiesPDFList = allergies => {
  */
 export const buildVAPrescriptionPDFList = prescription => {
   const refillHistory = getRefillHistory(prescription);
+  const showRefillHistory = getShowRefillHistory(refillHistory);
+  const pendingMed =
+    prescription?.prescriptionSource === 'PD' &&
+    prescription?.dispStatus === 'NewOrder';
+  const pendingRenewal =
+    prescription?.prescriptionSource === 'PD' &&
+    prescription?.dispStatus === 'Renew';
   const VAPrescriptionPDFList = [
     {
       header: 'Most recent prescription',
@@ -388,11 +405,15 @@ export const buildVAPrescriptionPDFList = prescription => {
               ),
               inline: true,
             },
-            {
-              title: 'Prescription number',
-              value: prescription.prescriptionNumber,
-              inline: true,
-            },
+            ...(!pendingMed && !pendingRenewal
+              ? [
+                  {
+                    title: 'Prescription number',
+                    value: prescription.prescriptionNumber,
+                    inline: true,
+                  },
+                ]
+              : []),
             {
               title: 'Status',
               value: prescription.dispStatus || 'Unknown',
@@ -463,100 +484,133 @@ export const buildVAPrescriptionPDFList = prescription => {
             },
             {
               title: 'Prescribed by',
-              value: prescription.providerLastName
-                ? `${
-                    prescription.providerLastName
-                  }, ${prescription.providerFirstName || ''}`
-                : 'Provider name not available',
+              value: displayProviderName(
+                prescription.providerFirstName,
+                prescription.providerLastName,
+              ),
               inline: true,
             },
           ],
         },
       ],
     },
-    {
-      header: 'Refill history',
-      indent: 32,
-      headerSize: 'H4',
-      sections: [
-        {
-          items: [
-            {
-              value: `Showing ${refillHistory.length} refill${
-                refillHistory.length > 1 ? 's, from newest to oldest' : ''
-              }`,
-              indent: 32,
-            },
-          ],
-        },
-        ...refillHistory
-          .map((entry, i) => {
-            const { shape, color, backImprint, frontImprint } = entry;
-            const index = refillHistory.length - i - 1;
-            const phone =
-              entry.cmopDivisionPhone || entry.dialCmopDivisionPhone;
-            const hasValidDesc =
-              shape?.trim() && color?.trim() && frontImprint?.trim();
-            const description = hasValidDesc
-              ? `* Shape: ${shape[0].toUpperCase()}${shape
-                  .slice(1)
-                  .toLowerCase()}
-* Color: ${color[0].toUpperCase()}${color.slice(1).toLowerCase()}
-* Front marking: ${frontImprint}
-${backImprint ? `* Back marking: ${backImprint}` : ''}`
-              : createNoDescriptionText(phone);
-            return {
-              header: `${
-                index === 0 ? 'Original fill' : `Refill`
-              }: ${dateFormat(
-                entry.dispensedDate,
-                'MMMM D, YYYY',
-                'Date not available',
-              )}`,
-              indent: 32,
-              headerSize: 'H5',
-              items: [
-                ...(i === 0
-                  ? [
-                      {
-                        title: `Shipped on`,
-                        value: dateFormat(
-                          prescription?.trackingList?.[0]?.completeDateTime,
-                          'MMMM D, YYYY',
-                          'Date not available',
-                        ),
-                        inline: true,
-                        indent: 32,
-                      },
-                    ]
-                  : []),
-                {
-                  title: 'Medication description',
-                  inline: false,
-                  indent: 32,
-                },
-                ...(hasValidDesc
-                  ? [
-                      {
-                        title: 'Note',
-                        value: `If the medication you’re taking doesn’t match this description, call ${createVAPharmacyText(
-                          phone,
-                        )}.`,
-                        inline: true,
-                        indent: 32,
-                      },
-                    ]
-                  : []),
-                {
-                  value: description,
-                  indent: 32,
-                },
-              ],
-            };
-          })
-          .flat(),
-      ],
-    },
+    ...(showRefillHistory
+      ? [
+          {
+            header: 'Refill history',
+            indent: 32,
+            headerSize: 'H4',
+            sections: [
+              {
+                items: [
+                  {
+                    value: `Showing ${refillHistory.length} fill${
+                      refillHistory.length > 1 ? 's, from newest to oldest' : ''
+                    }`,
+                    indent: 32,
+                  },
+                ],
+              },
+              ...refillHistory
+                .map((entry, i) => {
+                  const { shape, color, backImprint, frontImprint } = entry;
+                  const isPartialFill = entry.prescriptionSource === 'PF';
+                  const refillLabel = determineRefillLabel(
+                    isPartialFill,
+                    refillHistory,
+                    i,
+                  );
+                  const phone =
+                    entry.cmopDivisionPhone || entry.dialCmopDivisionPhone;
+                  const hasValidDesc =
+                    shape?.trim() && color?.trim() && frontImprint?.trim();
+                  const description = hasValidDesc
+                    ? `* Shape: ${shape[0].toUpperCase()}${shape
+                        .slice(1)
+                        .toLowerCase()}
+    * Color: ${color[0].toUpperCase()}${color.slice(1).toLowerCase()}
+    * Front marking: ${frontImprint}
+    ${backImprint ? `* Back marking: ${backImprint}` : ''}`
+                    : createNoDescriptionText(phone);
+                  return {
+                    header: `${refillLabel}: ${dateFormat(
+                      entry.dispensedDate,
+                      'MMMM D, YYYY',
+                      'Date not available',
+                    )}`,
+                    indent: 32,
+                    headerSize: 'H5',
+                    items: [
+                      ...(isPartialFill
+                        ? [
+                            {
+                              value:
+                                'This fill has a smaller quantity on purpose.',
+                              indent: 32,
+                            },
+                            {
+                              title: 'Quantity',
+                              inline: true,
+                              value: validateIfAvailable(
+                                'Quantity',
+                                entry.quantity,
+                              ),
+                              indent: 32,
+                            },
+                          ]
+                        : []),
+                      ...(i === 0 && !isPartialFill
+                        ? [
+                            {
+                              title: `Shipped on`,
+                              value: dateFormat(
+                                prescription?.trackingList?.[0]
+                                  ?.completeDateTime,
+                                'MMMM D, YYYY',
+                                'Date not available',
+                              ),
+                              inline: true,
+                              indent: 32,
+                            },
+                          ]
+                        : []),
+                      ...(!isPartialFill
+                        ? [
+                            {
+                              title: 'Medication description',
+                              inline: false,
+                              indent: 32,
+                            },
+                          ]
+                        : []),
+                      ...(hasValidDesc && !isPartialFill
+                        ? [
+                            {
+                              title: 'Note',
+                              value: `If the medication you’re taking doesn’t match this description, call ${createVAPharmacyText(
+                                phone,
+                              )}.`,
+                              inline: true,
+                              indent: 32,
+                            },
+                          ]
+                        : []),
+                      ...(!isPartialFill
+                        ? [
+                            {
+                              value: description,
+                              indent: 32,
+                            },
+                          ]
+                        : []),
+                    ],
+                  };
+                })
+                .flat(),
+            ],
+          },
+        ]
+      : []),
   ];
 
   if (prescription?.groupedMedications?.length > 0) {
@@ -616,11 +670,10 @@ ${backImprint ? `* Back marking: ${backImprint}` : ''}`
               },
               {
                 title: 'Prescribed by',
-                value: previousPrescription.providerLastName
-                  ? `${
-                      previousPrescription.providerLastName
-                    }, ${previousPrescription.providerFirstName || ''}`
-                  : 'Provider name not available',
+                value: displayProviderName(
+                  previousPrescription.providerFirstName,
+                  previousPrescription.providerLastName,
+                ),
                 inline: true,
                 indent: 32,
               },
