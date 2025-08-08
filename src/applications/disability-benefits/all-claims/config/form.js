@@ -44,6 +44,7 @@ import {
   showPtsdCombat,
   showPtsdNonCombat,
   showSeparationLocation,
+  isCompletingModern4142,
 } from '../utils';
 
 import captureEvents from '../analytics-functions';
@@ -81,6 +82,7 @@ import {
   prisonerOfWar,
   privateMedicalRecords,
   privateMedicalRecordsAttachments,
+  privateMedicalAuthorizeRelease,
   privateMedicalRecordsRelease,
   ptsd781aChangesIntro,
   ptsdBypassCombat,
@@ -117,6 +119,7 @@ import { ancillaryFormsWizardDescription } from '../content/ancillaryFormsWizard
 
 import { ptsd781NameTitle } from '../content/ptsdClassification';
 import { ptsdFirstIncidentIntro } from '../content/ptsdFirstIncidentIntro';
+import PrivateRecordsAuthorization from '../components/Authorization';
 
 import { createFormConfig781, createFormConfig781a } from './781';
 
@@ -693,6 +696,19 @@ const formConfig = {
             !isNotUploadingPrivateMedical(formData),
           uiSchema: privateMedicalRecordsAttachments.uiSchema,
           schema: privateMedicalRecordsAttachments.schema,
+        },
+        // 2024 authorization
+        privateMedicalAuthorizeRelease: {
+          title: 'Private medical records',
+          path: 'supporting-evidence/private-medical-records-authorize-release',
+          depends: formData =>
+            hasPrivateEvidence(formData) &&
+            isNotUploadingPrivateMedical(formData) &&
+            isCompletingModern4142(formData),
+          CustomPage: PrivateRecordsAuthorization,
+          CustomPageReview: null,
+          uiSchema: privateMedicalAuthorizeRelease.uiSchema,
+          schema: privateMedicalAuthorizeRelease.schema,
         },
         privateMedicalRecordsRelease: {
           title: 'Private medical records',
