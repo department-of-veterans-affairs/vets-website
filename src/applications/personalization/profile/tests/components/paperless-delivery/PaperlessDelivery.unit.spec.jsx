@@ -77,7 +77,7 @@ describe('PaperlessDelivery', () => {
     const { getByText } = render(<PaperlessDelivery />, {});
     expect(
       getByText(
-        /When you sign up, you’ll start receiving fewer documents by mail/,
+        /With paperless delivery, you can choose which documents you no longer want to get by mail./,
       ),
     ).to.exist;
   });
