@@ -6,7 +6,7 @@ import mockPaymentInfo from '../fixtures/dd4cnp/dd4cnp-is-set-up.json';
 
 function clickSubNavButton(buttonLabel, mobile) {
   if (mobile) {
-    cy.findByRole('button', { name: /profile menu/i }).click();
+    cy.get('va-sidenav').click();
   }
   cy.get(`va-sidenav-item[label="${buttonLabel}"]`).click();
 }
@@ -119,6 +119,15 @@ function checkSubNavFocus(mobile = false) {
     'eq',
     `${Cypress.config().baseUrl}${PROFILE_PATHS.CONTACT_INFORMATION}`,
   );
+
+  // // a11y and focus management check for Paperless Delivery
+  // clickSubNavButton(PROFILE_PATH_NAMES.PAPERLESS_DELIVERY, mobile);
+  // cy.url().should(
+  //   'eq',
+  //   `${Cypress.config().baseUrl}${PROFILE_PATHS.PAPERLESS_DELIVERY}`,
+  // );
+  // cy.title().should('eq', 'Paperless Delivery | Veterans Affairs');
+  // cy.axeCheck();
 }
 
 describe('Profile Navigation - Accessibility', () => {

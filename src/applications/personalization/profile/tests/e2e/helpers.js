@@ -13,7 +13,7 @@ import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../constants';
 
 export function subNavOnlyContainsAccountSecurity(mobile) {
   if (mobile) {
-    cy.findByRole('button', { name: /profile menu/i }).click();
+    cy.get('va-sidenav').click();
   }
   cy.get(
     `va-sidenav-item[label="${PROFILE_PATH_NAMES.ACCOUNT_SECURITY}"]`,
