@@ -7,9 +7,8 @@ import { concatStreets } from '../../shared/utilities';
 // Take an address object and turn it into a string with line breaks
 function stringifyAddress(addr) {
   return addr
-    ? `${concatStreets(addr, true).streetCombined}${addr.city}, ${
-        addr.state
-      }\n${addr.postalCode}`
+    ? `${concatStreets(addr, true).streetCombined}${addr.city}, ${addr.state ||
+        ''},\n${addr.postalCode}`
     : '';
 }
 
@@ -47,18 +46,18 @@ export default function transformForSubmit(formConfig, form) {
       physical_address: transformedData.sameMailingAddress
         ? transformedData.veteranAddress
         : transformedData.physicalAddress || {
-            country: 'NA',
-            street: 'NA',
-            city: 'NA',
-            state: 'NA',
-            postalCode: 'NA',
+            country: ' ',
+            street: ' ',
+            city: ' ',
+            state: ' ',
+            postalCode: ' ',
           },
       mailing_address: transformedData.veteranAddress || {
-        country: 'NA',
-        street: 'NA',
-        city: 'NA',
-        state: 'NA',
-        postalCode: 'NA',
+        country: ' ',
+        street: ' ',
+        city: ' ',
+        state: ' ',
+        postalCode: ' ',
       },
       ssn: transformedData?.veteranSocialSecurityNumber?.ssn,
       vaClaimNumber: transformedData?.veteranSocialSecurityNumber?.vaFileNumber,
