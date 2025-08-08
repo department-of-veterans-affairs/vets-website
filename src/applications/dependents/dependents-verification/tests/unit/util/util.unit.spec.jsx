@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import * as apiModule from 'platform/utilities/api';
 // import * as recordEventModule from 'platform/monitoring/record-event';
 import * as helpers from 'platform/forms-system/src/js/helpers';
-import * as utils from '../../util'; // <-- Adjust path as needed
+import * as utils from '../../../util/index';
 
 describe('dependents/686c-674 util', () => {
   let stubs = [];

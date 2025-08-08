@@ -110,6 +110,9 @@ describe('EditPhonePage', () => {
     await waitFor(() => {
       expect(goToPathSpy.called).to.be.true;
       expect(goToPathSpy.calledWith('/review-and-submit')).to.be.true;
+      expect(sessionStorage.getItem('editContactInformation')).to.eq(
+        'phone,cancel',
+      );
     });
   });
 
@@ -172,6 +175,9 @@ describe('EditPhonePage', () => {
 
       const lastCallArg = setFormDataSpy.lastCall.args[0];
       expect(lastCallArg.phone).to.equal('8005556667');
+      expect(sessionStorage.getItem('editContactInformation')).to.eq(
+        'phone,update',
+      );
     });
   });
 
