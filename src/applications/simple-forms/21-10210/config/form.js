@@ -3,7 +3,10 @@ import footerContent from 'platform/forms/components/FormFooter';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import { scrollAndFocus, scrollTo } from 'platform/utilities/scroll';
 
-import { focusByOrder } from 'platform/utilities/ui/focus';
+import {
+  focusByOrder,
+  waitForRenderThenFocus,
+} from 'platform/utilities/ui/focus';
 import manifest from '../manifest.json';
 import getHelp from '../../shared/components/GetFormHelp';
 import { CLAIM_OWNERSHIPS, CLAIMANT_TYPES } from '../definitions/constants';
@@ -60,6 +63,15 @@ export const pageFocusScroll = () => {
     scrollTo('topScrollElement');
     setTimeout(() => {
       focusByOrder(['va-segmented-progress-bar', 'h2']);
+    }, 100);
+  };
+};
+export const pageFocusScrollNoProgressBar = () => {
+  return () => {
+    scrollTo('topScrollElement');
+    setTimeout(() => {
+      const radio = document.querySelector('va-radio[label-header-level]');
+      waitForRenderThenFocus('h2', radio.shadowRoot);
     }, 100);
   };
 };
@@ -136,7 +148,7 @@ const formConfig = {
           // chapter's hideFormNavProgress interferes with scrollAndFocusTarget
           // so using a function here to ensure correct focusSelector is used
           // regardless of which page FormNav thinks current page is.
-          scrollAndFocusTarget: pageFocusScroll(),
+          scrollAndFocusTarget: pageFocusScrollNoProgressBar(),
           // we want req'd fields prefilled for LOCAL testing/previewing
           // one single initialData prop here will suffice for entire form
           initialData:
