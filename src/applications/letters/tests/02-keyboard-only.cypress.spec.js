@@ -8,8 +8,11 @@ import {
   mockUserData,
 } from './e2e/fixtures/mocks/letters';
 
-describe('Authed Letter Test', () => {
-  it('confirms authed letter functionality', () => {
+import featureToggleDisabled from './e2e/fixtures/mocks/featureToggleDisabled.json';
+
+describe('Keyboard Only Letter Test', () => {
+  it('confirms keyboard only letter functionality', () => {
+    cy.intercept('GET', '/v0/feature_toggles?*', featureToggleDisabled);
     cy.intercept('GET', '/v0/letters/beneficiary', benefitSummaryOptions).as(
       'benefitSummaryOptions',
     );
