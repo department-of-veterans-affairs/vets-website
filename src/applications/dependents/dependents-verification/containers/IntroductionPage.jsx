@@ -77,7 +77,7 @@ export const IntroductionPage = props => {
         Use our online tool to submit your dependent verification form for VA
         disability benefits.
       </p>
-      <h2 className="vad-u-margin-top--0">
+      <h2 className="vads-u-margin-top--0">
         Follow the steps below to get started:
       </h2>
       <ProcessList />
