@@ -7,14 +7,14 @@ import {
   VaSelect,
   VaModal,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import {
-  readAndCheckFile,
-  checkIsEncryptedPdf,
-} from 'platform/forms-system/src/js/utilities/file';
 import { Toggler } from 'platform/utilities/feature-toggles';
 
 import { DOC_TYPES } from '../../utils/helpers';
-import { FILE_TYPES, validateFiles } from '../../utils/validations';
+import {
+  checkFileEncryption,
+  FILE_TYPES,
+  validateFiles,
+} from '../../utils/validations';
 import mailMessage from '../MailMessage';
 import UploadStatus from '../UploadStatus';
 
@@ -27,20 +27,6 @@ export const DOC_TYPE_ERROR = 'Please provide a response';
 export const SUBMIT_TEXT = 'Submit documents for review';
 
 // File encryption utilities
-export const checkFileEncryption = async file => {
-  if (!file.name?.toLowerCase().endsWith('.pdf')) {
-    return false;
-  }
-
-  try {
-    const checks = { checkIsEncryptedPdf };
-    const checkResults = await readAndCheckFile(file, checks);
-    return checkResults.checkIsEncryptedPdf;
-  } catch (error) {
-    return false;
-  }
-};
-
 export const createEncryptedFilesList = async files => {
   return Promise.all(
     files.map(async fileInfo => checkFileEncryption(fileInfo.file)),
