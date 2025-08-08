@@ -18,7 +18,7 @@ describe('22-1919 <PrivacyPolicy>', () => {
 
   const formData = {
     certifyingOfficial: {
-      role: { level: 'certifyingOfficial' },
+      role: { level: 'certifying official' },
     },
   };
 

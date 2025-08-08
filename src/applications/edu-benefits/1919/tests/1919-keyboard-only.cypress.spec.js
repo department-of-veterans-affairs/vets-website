@@ -45,14 +45,14 @@ describe('22-1919 Edu form', () => {
     cy.realPress('Tab');
     cy.allyEvaluateRadioButtons(
       [
-        'input#root_certifyingOfficial_role_levelcertifyingOfficialinput',
+        'input[name="root_certifyingOfficial_role_level"]',
         'input#root_certifyingOfficial_role_levelownerinput',
         'input#root_certifyingOfficial_role_levelofficerinput',
         'input#root_certifyingOfficial_role_levelotherinput',
       ],
       'ArrowDown',
     );
-    cy.chooseRadio('certifyingOfficial');
+    cy.chooseRadio('certifying official');
     cy.tabToContinueForm();
 
     // About institution page

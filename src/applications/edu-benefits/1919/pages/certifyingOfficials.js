@@ -9,7 +9,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 const levelNames = {
-  certifyingOfficial: 'Certifying official',
+  'certifying official': 'Certifying official',
   owner: 'Owner',
   officer: 'Officer',
   other: 'Other',

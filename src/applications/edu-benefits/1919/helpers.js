@@ -223,7 +223,7 @@ export const confirmationChildContent = (pdfUrl, goBack) => (
 
 export const getTitle = role => {
   const titles = {
-    certifyingOfficial: 'Certifying official',
+    'certifying official': 'Certifying official',
     owner: 'Owner',
     officer: 'Officer',
   };

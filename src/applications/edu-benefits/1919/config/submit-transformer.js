@@ -6,6 +6,8 @@ export function transform(formConfig, form) {
   const addressTransform = formData => {
     let clonedData = _.cloneDeep(formData);
     delete clonedData.institutionDetails.loader;
+    delete clonedData.statementOfTruthCertified;
+
     clonedData = {
       ...clonedData,
       institutionDetails: {
