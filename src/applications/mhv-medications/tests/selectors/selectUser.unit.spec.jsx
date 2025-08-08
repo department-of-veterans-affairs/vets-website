@@ -37,10 +37,32 @@ describe('mhv-medications selectors: selectUser', () => {
     });
   });
 
-  it('should select user facility', () => {
-    expect(selectUserFacility(mockState)).to.deep.equal({
-      id: '123',
-      name: 'VA Medical Center',
+  describe('selectUserFacility', () => {
+    it('should select user facility', () => {
+      const facilities = [{ id: '123', name: 'Test VA Facility' }];
+      const state = {
+        user: {
+          profile: {
+            facilities,
+          },
+        },
+      };
+      expect(selectUserFacility(state)).to.deep.equal(facilities);
+    });
+
+    it('should return undefined if user is missing', () => {
+      const state = {};
+      expect(selectUserFacility(state)).to.be.undefined;
+    });
+
+    it('should return undefined if profile is missing', () => {
+      const state = { user: {} };
+      expect(selectUserFacility(state)).to.be.undefined;
+    });
+
+    it('should return undefined if facilities is missing', () => {
+      const state = { user: { profile: {} } };
+      expect(selectUserFacility(state)).to.be.undefined;
     });
   });
 });
