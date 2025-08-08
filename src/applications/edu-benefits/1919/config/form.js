@@ -1,6 +1,6 @@
 import React from 'react';
 
-// import environment from 'platform/utilities/environment';
+import environment from 'platform/utilities/environment';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { focusElement } from 'platform/utilities/ui';
@@ -35,9 +35,9 @@ import submitForm from './submitForm';
 import { transform } from './submit-transformer';
 
 export const submitFormLogic = (form, formConfig) => {
-  // if (environment.isDev() || environment.isLocalhost()) {
-  //   return Promise.resolve(testData);
-  // }
+  if (environment.isDev() || environment.isLocalhost()) {
+    return Promise.resolve({ attributes: { confirmationNumber: '123123123' } });
+  }
   return submitForm(form, formConfig);
 };
 
