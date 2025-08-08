@@ -27,21 +27,19 @@ export const PaperlessDelivery = () => {
     selectCommunicationPreferences,
   );
   const hasVAPServiceError = useSelector(hasVAPServiceConnectionError);
-
   const { loadingStatus, loadingErrors } = communicationPreferencesState;
   const hasLoadingError = Boolean(loadingErrors);
   const hasAPIError = hasVAPServiceError || hasLoadingError;
-  const shouldShowLoadingIndicator =
+  const isLoading =
     loadingStatus === LOADING_STATES.idle ||
     loadingStatus === LOADING_STATES.pending;
-  const shouldFetchNotificationSettings =
+  const fetchCommunicationPreferences =
     !hasAPIError && loadingStatus === LOADING_STATES.idle;
-  const shouldShowNotificationGroups =
-    !hasAPIError && !shouldShowLoadingIndicator;
+  const showContent = !hasAPIError && !isLoading;
 
   useEffect(
     () => {
-      if (shouldFetchNotificationSettings) {
+      if (fetchCommunicationPreferences) {
         dispatch(
           fetchCommunicationPreferenceGroups({
             facilities,
@@ -49,7 +47,7 @@ export const PaperlessDelivery = () => {
         );
       }
     },
-    [dispatch, facilities, shouldFetchNotificationSettings],
+    [dispatch, facilities, fetchCommunicationPreferences],
   );
 
   useEffect(() => {
@@ -59,13 +57,13 @@ export const PaperlessDelivery = () => {
   return (
     <>
       <Headline>{PROFILE_PATH_NAMES.PAPERLESS_DELIVERY}</Headline>
-      {shouldShowLoadingIndicator && (
+      {isLoading && (
         <VaLoadingIndicator
           data-testid="loading-indicator"
           message="We’re loading your information."
         />
       )}
-      {shouldShowNotificationGroups && (
+      {showContent && (
         <>
           <Description />
           <MissingEmailAlert emailAddress={emailAddress} />
