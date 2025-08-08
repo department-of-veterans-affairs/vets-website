@@ -15,8 +15,9 @@ export default function App({ location, children }) {
     state => state?.externalServiceStatus?.loading,
   );
   const hasSession = JSON.parse(localStorage.getItem('hasSession'));
-
   const isIntroPage = location?.pathname?.endsWith('/introduction');
+  const { pathname } = location || {};
+  const pageUrl = pathname?.slice(1);
 
   const breadcrumbs = [
     {
@@ -30,7 +31,10 @@ export default function App({ location, children }) {
     {
       href:
         '/view-change-dependents/verify-dependents-form-21-0538/introduction',
-      label: 'Verify your dependents for disability benefits',
+      label:
+        pageUrl === 'exit-form'
+          ? 'Update your dependents in a different form'
+          : 'Verify your dependents for disability benefits',
     },
   ];
 
@@ -62,7 +66,7 @@ export default function App({ location, children }) {
   }
 
   return (
-    <article>
+    <article id="form-0538" data-location={pageUrl}>
       <div className="row">
         <div className="columns">
           <va-breadcrumbs breadcrumb-list={rawBreadcrumbs} wrapping />

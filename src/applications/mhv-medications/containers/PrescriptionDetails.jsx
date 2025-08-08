@@ -92,10 +92,7 @@ const PrescriptionDetails = () => {
   // const showGroupingContent = useSelector(selectGroupingFlag);
 
   const prescriptionHeader =
-    prescription?.prescriptionName ||
-    (prescription?.dispStatus === 'Active: Non-VA'
-      ? prescription?.orderableItem
-      : '');
+    prescription?.prescriptionName || prescription?.orderableItem;
   const refillHistory = getRefillHistory(prescription);
 
   // Prefetch prescription documentation for faster loading when
