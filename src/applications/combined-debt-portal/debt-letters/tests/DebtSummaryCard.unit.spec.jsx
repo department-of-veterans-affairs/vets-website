@@ -100,4 +100,127 @@ describe('DebtSummaryCard', () => {
 
     expect(wrapper.find('h2').text()).to.equal('Chapter 35 education debt');
   });
+
+  it('should show housing debt note for Post-9/11 GI Bill housing debt', () => {
+    const housingDebt = {
+      adamKey: '5',
+      fileNumber: '000000010',
+      payeeNumber: '00',
+      personEntitled: 'STUB_M',
+      deductionCode: '16', // Post-9/11 GI Bill debt for housing
+      diaryCode: '100',
+      benefitType: 'CH33 Housing',
+      amountOverpaid: 5000.0,
+      amountWithheld: 0.0,
+      originalAr: '5000',
+      currentAr: '5000',
+      debtHistory: [
+        {
+          date: '09/18/2012',
+          letterCode: '100',
+          status: 'First Demand Letter',
+          description: 'First demand letter',
+        },
+      ],
+      compositeDebtId: '441301',
+    };
+
+    const fakeStore = {
+      getState: () => ({
+        user: {
+          login: {
+            currentlyLoggedIn: true,
+          },
+        },
+        combinedPortal: {
+          debtLetters: {
+            isFetching: false,
+            debts: [],
+            selectedDebt: '5',
+          },
+        },
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
+    };
+
+    const wrapper = render(
+      <Provider store={fakeStore}>
+        <BrowserRouter>
+          <DebtSummaryCard debt={housingDebt} />
+        </BrowserRouter>
+      </Provider>,
+    );
+
+    // Check that the housing debt note is present
+    const noteText = wrapper.text();
+    expect(noteText).to.include(
+      'As of August 5, 2025, we now add an ID number (called a "receivable ID")',
+    );
+    expect(noteText).to.include(
+      'Monday through Friday, 7:30 a.m. to 7:00 p.m. ET',
+    );
+    // Check for the va-telephone component
+    expect(wrapper.find('va-telephone')).to.have.lengthOf(1);
+  });
+
+  it('should NOT show housing debt note for non-housing debts', () => {
+    const nonHousingDebt = {
+      adamKey: '6',
+      fileNumber: '000000011',
+      payeeNumber: '00',
+      personEntitled: 'STUB_M',
+      deductionCode: '11', // Post-9/11 GI Bill debt for books and supplies (NOT housing)
+      diaryCode: '100',
+      benefitType: 'CH33 Books',
+      amountOverpaid: 3000.0,
+      amountWithheld: 0.0,
+      originalAr: '3000',
+      currentAr: '3000',
+      debtHistory: [
+        {
+          date: '09/18/2012',
+          letterCode: '100',
+          status: 'First Demand Letter',
+          description: 'First demand letter',
+        },
+      ],
+      compositeDebtId: '441302',
+    };
+
+    const fakeStore = {
+      getState: () => ({
+        user: {
+          login: {
+            currentlyLoggedIn: true,
+          },
+        },
+        combinedPortal: {
+          debtLetters: {
+            isFetching: false,
+            debts: [],
+            selectedDebt: '6',
+          },
+        },
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
+    };
+
+    const wrapper = render(
+      <Provider store={fakeStore}>
+        <BrowserRouter>
+          <DebtSummaryCard debt={nonHousingDebt} />
+        </BrowserRouter>
+      </Provider>,
+    );
+
+    // Check that the housing debt note is NOT present
+    const noteText = wrapper.text();
+    expect(noteText).to.not.include(
+      'As of August 5, 2025, we now add an ID number (called a "receivable ID")',
+    );
+    // Check that va-telephone component is NOT present
+    expect(wrapper.find('va-telephone')).to.have.lengthOf(0);
+  });
 });
