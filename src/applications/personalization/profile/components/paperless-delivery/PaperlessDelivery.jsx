@@ -16,6 +16,7 @@ import { Description } from './Description';
 import { Note } from './Note';
 import { MissingEmailAlert } from './MissingEmailAlert';
 import { ProfileEmail } from './ProfileEmail';
+import { SecureStorage } from './SecureStorage';
 import { Documents } from './Documents';
 
 export const PaperlessDelivery = () => {
@@ -71,6 +72,7 @@ export const PaperlessDelivery = () => {
           <MissingEmailAlert emailAddress={emailAddress} />
           <FieldHasBeenUpdated slim />
           <ProfileEmail emailAddress={emailAddress} />
+          <SecureStorage />
           <hr aria-hidden="true" className="vads-u-margin-y--3" />
           <Documents />
           <Note />

@@ -95,6 +95,19 @@ describe('PaperlessDelivery', () => {
     ).to.exist;
   });
 
+  it('should render the secure storage information', () => {
+    mockSelectCommunicationPreferences = {
+      loadingStatus: LOADING_STATES.loaded,
+      loadingErrors: null,
+    };
+    const { getByText } = render(<PaperlessDelivery />, {});
+    expect(
+      getByText(
+        /We’ll always store secure, digital copies of these documents on VA.gov./,
+      ),
+    ).to.exist;
+  });
+
   it('should not render missing email alert when user has an email address', () => {
     mockSelectCommunicationPreferences = {
       loadingStatus: LOADING_STATES.loaded,
