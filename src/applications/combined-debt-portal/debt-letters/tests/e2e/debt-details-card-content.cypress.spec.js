@@ -70,7 +70,7 @@ describe('CDP - Debt Balances Page Diary Codes', () => {
       '[data-testid="debt-summary-item"]',
       'We’re reducing your benefit payments each month until your debt is paid',
     )
-      .find('a')
+      .find('va-link')
       .click({ waitForAnimations: true });
     cy.get('va-alert').as('alert-content');
     cy.get('@alert-content')
@@ -114,7 +114,7 @@ describe('CDP - Debt Balances Page Diary Codes', () => {
       '[data-testid="debt-summary-item"]',
       'Pay your $200.00 past due balance now or request help by October 7, 2018',
     )
-      .find('a')
+      .find('va-link')
       .click({ waitForAnimations: true });
     cy.get('va-alert').as('alert-content');
     cy.get('@alert-content')
