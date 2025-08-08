@@ -14,6 +14,7 @@ import {
   separationTypes,
   militaryBranchTypes,
   militaryBranchComponentTypes,
+  blankType,
 } from '../../../constants/benefits';
 
 const getBenefitById = id => {
@@ -344,22 +345,31 @@ describe('actions', () => {
           [goalTypes.UNDERSTAND]: true,
           [goalTypes.SCHOOL]: true,
         },
-        [mappingTypes.CHARACTER_OF_DISCHARGE]:
-          characterOfDischargeTypes.HONORABLE,
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: {
+          [characterOfDischargeTypes.HONORABLE]: true,
+          [characterOfDischargeTypes.STILL_SERVING]: true,
+          [blankType.BLANK]: true,
+        },
       };
       const result = actions.mapBenefitFromFormInputData(benefit, formData);
       expect(result).to.be.true;
     });
 
-    it('should return false with bad conduct discharge', () => {
+    it('should return false with incorrect disharge', () => {
       const benefit = getBenefitById('GIB');
       const formData = {
         [mappingTypes.GOALS]: {
           [goalTypes.UNDERSTAND]: true,
           [goalTypes.SCHOOL]: true,
         },
-        [mappingTypes.CHARACTER_OF_DISCHARGE]:
-          characterOfDischargeTypes.BAD_CONDUCT,
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: {
+          [characterOfDischargeTypes.BAD_CONDUCT]: true,
+          [characterOfDischargeTypes.DISHONORABLE]: true,
+          [characterOfDischargeTypes.NOT_SURE]: true,
+          [characterOfDischargeTypes.UNCHARACTERIZED]: true,
+          [characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL]: true,
+          [characterOfDischargeTypes.UNDER_OTHER_THAN_HONORABLE_CONDITIONS]: true,
+        },
       };
       const result = actions.mapBenefitFromFormInputData(benefit, formData);
       expect(result).to.be.false;
@@ -392,14 +402,19 @@ describe('actions', () => {
           [goalTypes.RETIREMENT]: true,
           [goalTypes.CAREER]: true,
         },
-        [mappingTypes.CHARACTER_OF_DISCHARGE]:
-          characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
+        [mappingTypes.CURRENTLY_SERVING]: yesNoType.YES,
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: {
+          [characterOfDischargeTypes.HONORABLE]: true,
+          [characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL]: true,
+          [characterOfDischargeTypes.STILL_SERVING]: true,
+          [blankType.BLANK]: true,
+        },
       };
       const result = actions.mapBenefitFromFormInputData(benefit, formData);
       expect(result).to.be.true;
     });
 
-    it('should return false with bad conduct discharge', () => {
+    it('should return false with incorrect discharge', () => {
       const benefit = getBenefitById('SBP');
       const formData = {
         [mappingTypes.GOALS]: {
@@ -407,8 +422,14 @@ describe('actions', () => {
           [goalTypes.RETIREMENT]: true,
           [goalTypes.CAREER]: true,
         },
-        [mappingTypes.CHARACTER_OF_DISCHARGE]:
-          characterOfDischargeTypes.BAD_CONDUCT,
+        [mappingTypes.CURRENTLY_SERVING]: yesNoType.YES,
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: {
+          [characterOfDischargeTypes.BAD_CONDUCT]: true,
+          [characterOfDischargeTypes.DISHONORABLE]: true,
+          [characterOfDischargeTypes.NOT_SURE]: true,
+          [characterOfDischargeTypes.UNCHARACTERIZED]: true,
+          [characterOfDischargeTypes.UNDER_OTHER_THAN_HONORABLE_CONDITIONS]: true,
+        },
       };
       const result = actions.mapBenefitFromFormInputData(benefit, formData);
       expect(result).to.be.false;
@@ -423,6 +444,24 @@ describe('actions', () => {
           [goalTypes.PLAN]: true,
           [goalTypes.SCHOOL]: true,
         },
+        [mappingTypes.CURRENTLY_SERVING]: yesNoType.YES,
+        [mappingTypes.CHARACTER_OF_DISCHARGE]:
+          characterOfDischargeTypes.HONORABLE,
+      };
+      const result = actions.mapBenefitFromFormInputData(benefit, formData);
+      expect(result).to.be.false;
+    });
+
+    it('should return false if not still serving', () => {
+      const benefit = getBenefitById('SBP');
+      const formData = {
+        [mappingTypes.GOALS]: {
+          [goalTypes.FINANCIAL]: true,
+          [goalTypes.HEALTH]: true,
+          [goalTypes.PLAN]: true,
+          [goalTypes.SCHOOL]: true,
+        },
+        [mappingTypes.CURRENTLY_SERVING]: yesNoType.NO,
         [mappingTypes.CHARACTER_OF_DISCHARGE]:
           characterOfDischargeTypes.HONORABLE,
       };
