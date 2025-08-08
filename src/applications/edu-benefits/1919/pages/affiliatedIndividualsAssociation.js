@@ -11,9 +11,9 @@ import {
 import { proprietaryProfitConflictsArrayOptions } from '../helpers';
 
 const associationLabels = {
-  vaEmployee:
+  va:
     'They are a VA employee who works with, receives services from, or receives compensation from our institution',
-  saaEmployee:
+  saa:
     'They are a SAA employee who works with or receives compensation from our institution',
 };
 
@@ -80,7 +80,7 @@ const individualPage = {
       last: { ...textSchema, pattern: noSpaceOnlyPattern },
       title: { ...textSchema, pattern: noSpaceOnlyPattern },
       individualAssociationType: {
-        ...radioSchema(['vaEmployee', 'saaEmployee']),
+        ...radioSchema(['va', 'saa']),
       },
     },
   },

@@ -20,13 +20,13 @@ describe('InstitutionAddress component', () => {
   it('should show institution address when available', () => {
     const store = mockStore({
       institutionDetails: {
-        address: {
-          address1: '123 Main St',
-          address2: 'Suite 100',
-          address3: '',
+        institutionAddress: {
+          street: '123 Main St',
+          street2: 'Suite 100',
+          street3: '',
           city: 'Anytown',
           state: 'CA',
-          zip: '12345',
+          postalCode: '12345',
           country: 'USA',
         },
         loader: false,
@@ -42,7 +42,7 @@ describe('InstitutionAddress component', () => {
   it('should show placeholder when institution address is not found', () => {
     const store = mockStore({
       institutionDetails: {
-        address: {},
+        institutionAddress: {},
         loader: false,
       },
     });
@@ -56,13 +56,13 @@ describe('InstitutionAddress component', () => {
   it('should show institution address3 when available', () => {
     const store = mockStore({
       institutionDetails: {
-        address: {
-          address1: '123 Main St',
-          address2: 'Suite 100',
-          address3: 'north st',
+        institutionAddress: {
+          street: '123 Main St',
+          street2: 'Suite 100',
+          street3: 'north st',
           city: 'Anytown',
           state: 'CA',
-          zip: '12345',
+          postalCode: '12345',
           country: 'USA',
         },
         loader: false,
