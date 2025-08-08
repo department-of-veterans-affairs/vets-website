@@ -80,39 +80,39 @@ describe('Dependents Verification 0538', () => {
     cy.injectAxeThenAxeCheck();
   });
 
-  // it('should navigate through the form to the exit page and then to 686c-674 intro page', () => {
-  //   cypressSetup();
-  //
-  //   cy.visit('/view-change-dependents/verify-dependents-form-21-0538');
-  //   cy.injectAxeThenAxeCheck();
-  //
-  //   cy.url().should('include', '/introduction');
-  //   cy.clickStartForm();
-  //
-  //   cy.url().should('include', '/veteran-information');
-  //   cy.injectAxeThenAxeCheck();
-  //   cy.get('va-alert[status="info"]').should(
-  //     'contain.text',
-  //     'we’ve prefilled part of your form',
-  //   );
-  //   cy.clickFormContinue();
-  //
-  //   cy.url().should('include', '/veteran-information');
-  //   cy.injectAxeThenAxeCheck();
-  //   cy.get('va-card').should('contain.text', 'Mailing address');
-  //   cy.clickFormContinue();
-  //
-  //   cy.url().should('include', '/dependents');
-  //   cy.injectAxeThenAxeCheck();
-  //   cy.get('va-card').should('contain.text', 'SUE BROOKS');
-  //   // Updates needed, go to exit page then to 686c-674 intro page
-  //   cy.get('va-radio-option[value="Y"]').click();
-  //   cy.clickFormContinue();
-  //
-  //   cy.url().should('include', '/exit-form');
-  //   cy.injectAxeThenAxeCheck();
-  //   cy.get('va-button[continue]').click();
-  //
-  //   cy.location('pathname').should('eq', `${STOP_PAGE}/introduction`);
-  // });
+  it('should navigate through the form to the exit page and then to 686c-674 intro page', () => {
+    cypressSetup();
+
+    cy.visit('/view-change-dependents/verify-dependents-form-21-0538');
+    cy.injectAxeThenAxeCheck();
+
+    cy.url().should('include', '/introduction');
+    cy.clickStartForm();
+
+    cy.url().should('include', '/veteran-information');
+    cy.injectAxeThenAxeCheck();
+    cy.get('va-alert[status="info"]').should(
+      'contain.text',
+      'we’ve prefilled part of your form',
+    );
+    cy.clickFormContinue();
+
+    cy.url().should('include', '/veteran-contact-information');
+    cy.injectAxeThenAxeCheck();
+    cy.get('va-card').should('contain.text', 'Mailing address');
+    cy.clickFormContinue();
+
+    cy.url().should('include', '/dependents');
+    cy.injectAxeThenAxeCheck();
+    cy.get('va-card').should('contain.text', 'SUE BROOKS');
+    // Updates needed, go to exit page then to 686c-674 intro page
+    cy.get('va-radio-option[value="Y"]').click();
+    cy.clickFormContinue();
+
+    cy.url().should('include', '/exit-form');
+    cy.injectAxeThenAxeCheck();
+    cy.get('va-button[continue]').click();
+
+    cy.location('pathname').should('eq', `${STOP_PAGE}/introduction`);
+  });
 });
