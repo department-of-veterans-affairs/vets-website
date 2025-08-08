@@ -1,5 +1,5 @@
 import App from './containers/App';
-import HomePage from './containers/HomePage';
+import IntroductionPage from './containers/IntroductionPage';
 import { ROUTES } from './constants';
 import QuestionTemplate from './containers/QuestionTemplate';
 
@@ -7,11 +7,11 @@ const routes = {
   path: '/',
   component: App,
   indexRoute: {
-    onEnter: (nextState, replace) => replace(`/${ROUTES.HOME}`),
-    component: HomePage,
+    onEnter: (nextState, replace) => replace(`/${ROUTES.INTRODUCTION}`),
+    component: IntroductionPage,
   },
   childRoutes: [
-    { path: ROUTES.HOME, component: HomePage },
+    { path: ROUTES.INTRODUCTION, component: IntroductionPage },
     { path: ROUTES.Q_1_1_CLAIM_DECISION, component: QuestionTemplate },
     { path: ROUTES.Q_1_1A_SUBMITTED_526, component: QuestionTemplate },
     { path: ROUTES.Q_1_2_CLAIM_DECISION, component: QuestionTemplate },

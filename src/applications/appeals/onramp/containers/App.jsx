@@ -4,7 +4,7 @@ import Breadcrumbs from '../components/Breadcrumbs';
 import { QUESTION_CONTENT } from '../constants/question-data-map';
 
 const App = ({ children }) => {
-  document.title = `${QUESTION_CONTENT.HOME.h1} | Veterans Affairs`;
+  document.title = `${QUESTION_CONTENT.INTRODUCTION.h1} | Veterans Affairs`;
 
   return (
     <div className="onramp-app row vads-u-padding-bottom--8">
