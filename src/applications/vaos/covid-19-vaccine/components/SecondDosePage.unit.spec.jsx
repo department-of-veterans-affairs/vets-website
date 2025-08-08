@@ -20,7 +20,7 @@ const initialState = {
 };
 
 describe('VAOS vaccine flow: SecondDosePage', () => {
-  const start = new Date();
+  const start = new Date('2025-08-05T08:00:00-06:00');
   const store = createTestStore({
     ...initialState,
     covid19Vaccine: {
@@ -52,6 +52,11 @@ describe('VAOS vaccine flow: SecondDosePage', () => {
     const screen = renderWithStoreAndRouter(<SecondDosePage />, {
       store,
     });
+    const expectedDate = formatInTimeZone(
+      start,
+      'America/Denver',
+      DATE_FORMATS.friendlyWeekdayDate,
+    );
 
     expect(
       await screen.getByText(/When to plan for a second dose/i),
@@ -63,18 +68,7 @@ describe('VAOS vaccine flow: SecondDosePage', () => {
       ),
     ).to.be.ok;
 
-    expect(
-      screen.getByText(
-        new RegExp(
-          `${formatInTimeZone(
-            start,
-            'America/Denver',
-            DATE_FORMATS.friendlyWeekdayDate,
-          )}`,
-          'i',
-        ),
-      ),
-    ).to.be.ok;
+    expect(screen.getByText(new RegExp(expectedDate, 'i'))).to.be.ok;
     expect(
       screen.getByText(
         new RegExp(
