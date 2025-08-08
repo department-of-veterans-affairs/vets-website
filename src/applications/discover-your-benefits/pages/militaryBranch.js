@@ -71,7 +71,7 @@ const getBranchComponentPage = (branchKey, environementCheck) => {
       },
     },
     depends: formData =>
-      formData.militaryBranch?.[branchKey] && environementCheck,
+      formData.militaryBranch?.[branchKey] && environementCheck(),
   };
 };
 
