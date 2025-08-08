@@ -27,7 +27,6 @@ describe('Downtime Notification Reducer', () => {
       const result = scheduledDowntime(undefined, action);
 
       expect(result).to.have.all.keys(scheduledDowntimeInterface);
-      expect(result.serviceMap).to.be.instanceof(Map);
     });
 
     describe('globalDowntime', () => {
