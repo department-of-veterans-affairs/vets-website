@@ -9,7 +9,7 @@ import { focusElement } from 'platform/utilities/ui';
 
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fullNameUI from 'platform/forms/definitions/fullName';
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+import { ssnOrVaFileNumberNoHintUI } from 'platform/forms-system/src/js/web-component-patterns';
 import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
@@ -822,9 +822,7 @@ export const preparerDateOfBirthUI = currentOrPastDateUI(
 );
 
 // Modify default uiSchema for SSN to insert any missing dashes.
-export const ssnDashesUI = merge({}, ssnUI, {
-  'ui:webComponentField': VaTextInputField,
-});
+export const ssnDashesUI = ssnOrVaFileNumberNoHintUI;
 
 export const preparerSsnDashesUI = merge({}, ssnDashesUI, {
   'ui:title': 'Applicant’s Social Security number',
