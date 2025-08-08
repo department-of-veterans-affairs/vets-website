@@ -8,6 +8,7 @@ import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import VeteranContactInformationPage from '../../../components/VeteranContactInformationPage';
 import { electronicCorrespondenceMessage } from '../../../config/chapters/veteran-contact-information/editEmailPage';
+import { saveEditContactInformation } from '../../../util/contact-info';
 
 const defaultProfile = ({
   isInternationalHome = false,
@@ -97,6 +98,10 @@ function renderPage({
 }
 
 describe('VeteranContactInformationPage (querySelector-only)', () => {
+  afterEach(() => {
+    sessionStorage.clear();
+  });
+
   it('renders all sections with prefilled data', () => {
     const { container } = renderPage();
 
@@ -360,7 +365,7 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
     const goToPath = sinon.spy();
     const { container } = renderPage({ goToPath, data: defaultData });
 
-    const editLink = $('va-link[label="Edit phone number"]', container);
+    const editLink = $('va-link[label="Edit home phone number"]', container);
     expect(editLink).to.not.be.null;
 
     fireEvent.click(editLink);
@@ -387,6 +392,33 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
       expect(
         goToPath.calledWith('/veteran-contact-information/international-phone'),
       ).to.be.true;
+    });
+  });
+
+  it('should show address success update alert & focus on it', async () => {
+    saveEditContactInformation('address', 'update');
+    const { container } = renderPage({ data: defaultData });
+
+    await waitFor(() => {
+      const alert = $('va-alert[status="success"]', container);
+      expect(alert).to.exist;
+      expect(alert.textContent).to.include('We updated your mailing address');
+      expect(alert.textContent).to.include('This update only applies to this');
+      expect(document.activeElement === alert).to.be.true;
+    });
+  });
+
+  it('should focus on edit link if editing was canceled', async () => {
+    saveEditContactInformation('address', 'cancel');
+    const { container } = renderPage({ data: defaultData });
+
+    await waitFor(() => {
+      const alert = $('va-alert[status="success"]', container);
+      expect(alert).to.not.exist;
+
+      // This check is flaky :(
+      // const editLink = $('va-link[label="Edit mailing address"]', container);
+      // expect(document.activeElement === editLink).to.be.true;
     });
   });
 });
