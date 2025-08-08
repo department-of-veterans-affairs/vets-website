@@ -25,34 +25,34 @@ import * as constants from '../../../config/constants';
 describe('Helpers', () => {
   describe('getFormNumber', () => {
     it('returns correct path when formNumber matches', () => {
-      global.window.location = {
-        pathname: '/representative/representative-form-upload/21-686c/upload',
-      };
-      expect(getFormNumber()).to.eq('21-686c');
+      // Passing pathname directly to avoid window.location issues across Node versions
+      // TODO: Add window.location tests once platform completes migration to Node 22
+      // global.window.location.href = 'http://localhost/representative/representative-form-upload/21-686c/upload';
+      // expect(getFormNumber()).to.eq('21-686c');
+      const pathname =
+        '/representative/representative-form-upload/21-686c/upload';
+      expect(getFormNumber(pathname)).to.eq('21-686c');
     });
 
     // put back in when we have a form with upper-case characters
     // it('retains upper-case characters from formMappings', () => {
-    //   global.window.location = {
-    //     pathname: '/representative/representative-form-upload/21-686c/upload',
-    //   };
+    //   global.window.location.href =
+    //     'http://localhost/representative/representative-form-upload/21-686c/upload';
     //   expect(getFormNumber()).to.eq('21P-0518-1');
     // });
 
     it('returns empty string when formNumber does not match', () => {
-      global.window.location = {
-        pathname: 'representative/representative-form-upload/fake-form/upload',
-      };
-      expect(getFormNumber()).to.eq('');
+      const pathname =
+        '/representative/representative-form-upload/fake-form/upload';
+      expect(getFormNumber(pathname)).to.eq('');
     });
   });
 
   describe('getFormContent', () => {
     it('returns appropriate content when the form number is mapped', () => {
-      global.window.location = {
-        pathname: 'representative/representative-form-upload/21-686c/upload',
-      };
-      expect(getFormContent()).to.include({ title: 'VA Form 21-686c' });
+      const pathname =
+        '/representative/representative-form-upload/21-686c/upload';
+      expect(getFormContent(pathname)).to.include({ title: 'VA Form 21-686c' });
     });
   });
 
@@ -247,7 +247,8 @@ describe('Helpers', () => {
 
   describe('createPayload', () => {
     it('creates a FormData with form_id and file', () => {
-      const file = new Blob(['content'], { type: 'text/plain' });
+      const blob = new Blob(['content']);
+      const file = new File([blob], 'test.txt', { type: 'text/plain' });
       const formId = '21-686c';
 
       const payload = createPayload(file, formId);
@@ -288,10 +289,7 @@ describe('Helpers', () => {
 
     before(() => {
       originalHref = window.location.href;
-      Object.defineProperty(window, 'location', {
-        value: { href: 'http://localhost/test-page' },
-        writable: true,
-      });
+      global.window.location.href = 'http://localhost/test-page';
     });
 
     it('does not throw if no matching URL', async () => {
@@ -307,10 +305,7 @@ describe('Helpers', () => {
     });
 
     after(() => {
-      Object.defineProperty(window, 'location', {
-        value: { href: originalHref },
-        writable: true,
-      });
+      global.window.location.href = originalHref;
     });
   });
 });
