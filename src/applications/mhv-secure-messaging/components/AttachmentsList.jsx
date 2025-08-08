@@ -160,7 +160,13 @@ const AttachmentsList = props => {
   return (
     <div>
       <div className="message-body-attachments-label vads-u-margin-bottom--1 vads-u-margin-top--3">
-        Attachments
+        {cernerPilotSmFeatureFlag ? (
+          <h2 className="vads-u-font-size--h3 vads-u-margin-top--4 vads-u-margin-bottom--0">
+            Attachments
+          </h2>
+        ) : (
+          'Attachments'
+        )}
         {attachments.length > 0 ? (
           <span data-testid="attachments-count"> ({attachments.length})</span>
         ) : (

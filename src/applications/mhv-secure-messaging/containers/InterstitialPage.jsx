@@ -32,7 +32,7 @@ const InterstitialPage = props => {
   const handleContinueButton = useCallback(
     () => {
       if (cernerPilotSmFeatureFlag && type !== 'reply') {
-        history.push(`${Paths.COMPOSE}${Paths.SELECT_HEALTH_CARE_SYSTEM}`);
+        history.push(`${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`);
       } else {
         acknowledge();
       }
