@@ -22,6 +22,10 @@ export const Document = ({ document }) => {
   const channel = useSelector(state =>
     selectChannelById(state.communicationPreferences, item.channels[0]),
   );
+  const channelId = useSelector(
+    state =>
+      state.communicationPreferences.items.entities[document].channels[0],
+  );
 
   const {
     channelType,
@@ -64,7 +68,7 @@ export const Document = ({ document }) => {
     };
     recordEvent(eventPayload);
     dispatch(
-      saveCommunicationPreferenceChannel(channel, model.getApiCallObject()),
+      saveCommunicationPreferenceChannel(channelId, model.getApiCallObject()),
     );
   };
 

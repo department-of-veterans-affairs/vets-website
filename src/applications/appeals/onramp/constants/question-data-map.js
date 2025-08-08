@@ -13,7 +13,6 @@ export const RESPONSES = Object.freeze({
   BOARD: 'Board Appeal',
   HLR: 'Higher-Level Review decision',
   INIT: 'Initial claim or claim for increase',
-  IS: 'Initial/Supplemental Claim',
   NO: 'No',
   SC: 'Supplemental claim',
   YES: 'Yes',
@@ -272,6 +271,9 @@ export const QUESTION_CONTENT = Object.freeze({
   },
   Q_2_IS_2_CONDITION_WORSENED: {
     ...CONDITION_WORSENED,
+  },
+  Q_2_S_1_NEW_EVIDENCE: {
+    ...NEW_AND_RELEVANT_EVIDENCE,
   },
   Q_2_H_1_EXISTING_BOARD_APPEAL: {
     descriptionText: (
