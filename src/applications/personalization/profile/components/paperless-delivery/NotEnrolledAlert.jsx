@@ -4,7 +4,7 @@ import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/
 export const NotEnrolledAlert = () => (
   <VaAlert status="info" visible>
     <h2 slot="headline">Paperless delivery not available yet</h2>
-    <p>
+    <p className="vads-u-margin-y--0">
       You’re not enrolled in any VA benefits that offer paperless delivery
       options.
     </p>
