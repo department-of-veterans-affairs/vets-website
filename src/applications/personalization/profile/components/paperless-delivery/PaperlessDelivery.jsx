@@ -61,10 +61,7 @@ export const PaperlessDelivery = () => {
     <>
       <Headline>{PROFILE_PATH_NAMES.PAPERLESS_DELIVERY}</Headline>
       {isLoading && (
-        <VaLoadingIndicator
-          data-testid="loading-indicator"
-          message="We’re loading your information."
-        />
+        <VaLoadingIndicator message="We’re loading your information." />
       )}
       {hasAPIError && <ApiErrorAlert />}
       {showContent && (
