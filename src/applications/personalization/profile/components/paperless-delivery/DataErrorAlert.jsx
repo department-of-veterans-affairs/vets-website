@@ -3,7 +3,7 @@ import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/
 
 export const DataErrorAlert = () => (
   <VaAlert status="warning" visible>
-    <p>
+    <p className="vads-u-margin-y--0">
       We’re sorry. Something went wrong on our end and we can’t load your
       documents available for paperless delivery. Try again later.
     </p>
