@@ -150,4 +150,13 @@ describe('PaperlessDelivery', () => {
       getByRole('link', { name: /Add your email address to your profile/ }),
     ).to.exist;
   });
+
+  it('should render alert on api error', () => {
+    mockSelectCommunicationPreferences = {
+      loadingStatus: LOADING_STATES.error,
+      loadingErrors: {},
+    };
+    const { getByText } = render(<PaperlessDelivery />, {});
+    expect(getByText(/This page isn’t available right now/)).to.exist;
+  });
 });

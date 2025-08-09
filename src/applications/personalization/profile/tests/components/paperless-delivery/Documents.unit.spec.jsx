@@ -68,4 +68,19 @@ describe('Documents', () => {
     expect(heading).to.exist;
     expect(heading).to.have.text('Documents available for paperless delivery');
   });
+
+  it('should render data error alert', () => {
+    facilities = ['a-facility'];
+    sandbox
+      .stub(useNotificationSettingsUtils, 'useNotificationSettingsUtils')
+      .returns({
+        usePaperlessDeliveryGroup: () => [],
+      });
+    const { container } = render(<Documents />, {});
+    const alert = container.querySelector('va-alert[status="warning"]');
+    expect(alert).to.exist;
+    expect(alert).to.have.text(
+      `We’re sorry. Something went wrong on our end and we can’t load your documents available for paperless delivery. Try again later.`,
+    );
+  });
 });

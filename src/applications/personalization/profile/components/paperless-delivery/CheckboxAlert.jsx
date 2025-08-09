@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 export const CheckboxAlert = ({ error, success }) => {
   if (error) {
     return (
-      <VaAlert data-role="alert" slim status="error" visible>
+      <VaAlert role="alert" slim status="error" visible>
         <p className="vads-u-margin-y--0">
           We’re sorry. We can’t update your information right now. We’re working
           to fix this problem. Try again later.
@@ -16,7 +16,7 @@ export const CheckboxAlert = ({ error, success }) => {
 
   if (success) {
     return (
-      <VaAlert data-role="alert" slim status="success" visible>
+      <VaAlert role="alert" slim status="success" visible>
         <p className="vads-u-margin-y--0">Update saved</p>
       </VaAlert>
     );
