@@ -8,6 +8,7 @@ import {
 import { selectPatientFacilities } from '~/platform/user/cerner-dsot/selectors';
 import { selectCommunicationPreferences } from '@@profile/reducers';
 import { fetchCommunicationPreferenceGroups } from '@@profile/ducks/communicationPreferences';
+import { focusElement } from '~/platform/utilities/ui';
 import { PROFILE_PATH_NAMES } from '@@profile/constants';
 import { LOADING_STATES } from '~/applications/personalization/common/constants';
 import Headline from '../ProfileSectionHeadline';
@@ -52,6 +53,7 @@ export const PaperlessDelivery = () => {
   );
 
   useEffect(() => {
+    focusElement('[data-focus-target]');
     document.title = `Paperless Delivery | Veterans Affairs`;
   }, []);
 
