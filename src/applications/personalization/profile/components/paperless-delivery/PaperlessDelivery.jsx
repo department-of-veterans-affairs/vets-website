@@ -53,8 +53,8 @@ export const PaperlessDelivery = () => {
   );
 
   useEffect(() => {
-    focusElement('[data-focus-target]');
     document.title = `Paperless Delivery | Veterans Affairs`;
+    focusElement('[data-focus-target]');
   }, []);
 
   return (
