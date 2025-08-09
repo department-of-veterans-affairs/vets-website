@@ -259,7 +259,7 @@ const FileField = props => {
           file: currentFile,
           name: currentFile.name,
           errorMessage:
-            'We weren’t able to upload your file. Make sure the file is not encrypted and an accepted format before continuing.',
+            'We weren’t able to upload your file. Make sure the file is in an accepted format and size before continuing.',
         };
         props.onChange(allFiles);
         return;
@@ -435,7 +435,6 @@ const FileField = props => {
             const errors =
               errorSchema?.[index]?.__errors ||
               [file.errorMessage].filter(error => error);
-
             // Don't show missing password error in the card (above the input
             // label), but we are adding an error for missing password to
             // prevent page submission without adding an error; see #71406
