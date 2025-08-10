@@ -138,11 +138,26 @@ export const updateErrorsOnFileChange = (
   return updatedErrors;
 };
 
-export const applyValidationErrors = (baseErrors, validationResults) => {
+export const applyValidationErrors = (
+  baseErrors,
+  validationResults,
+  files,
+  isFileReplacement = true,
+) => {
   const updatedErrors = [...baseErrors];
+
+  if (isFileReplacement) {
+    // Clear ALL errors when files are being replaced - fresh validation for new files
+    files.forEach((_, index) => {
+      updatedErrors[index] = null;
+    });
+  }
+
+  // Apply new validation errors
   validationResults.forEach(result => {
     updatedErrors[result.index] = result.error;
   });
+
   return updatedErrors;
 };
 
@@ -246,7 +261,14 @@ const AddFilesForm = ({ fileTab, onSubmit, uploading, progress, onCancel }) => {
           previousFileCount,
         );
 
-        return applyValidationErrors(baseErrors, validationResults);
+        // Determine if files were removed (fewer files) vs replaced/added (same or more files)
+        const isFileReplacement = newFiles.length >= previousFileCount;
+        return applyValidationErrors(
+          baseErrors,
+          validationResults,
+          newFiles,
+          isFileReplacement,
+        );
       });
 
       const encryptedStatus = await createEncryptedFilesList(newFiles);

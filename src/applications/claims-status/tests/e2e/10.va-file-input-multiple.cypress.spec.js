@@ -2,7 +2,7 @@ import TrackClaimsPageV2 from './page-objects/TrackClaimsPageV2';
 import claimsList from './fixtures/mocks/lighthouse/claims-list.json';
 import claimDetailsOpen from './fixtures/mocks/lighthouse/claim-detail-open.json';
 
-describe('VA File Input Multiple - TDD E2E Tests', () => {
+describe('VA File Input Multiple', () => {
   const setupComponentTest = () => {
     const trackClaimsPage = new TrackClaimsPageV2();
     trackClaimsPage.loadPage(claimsList, claimDetailsOpen);
@@ -226,6 +226,51 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
       cy.axeCheck();
     });
 
+    it('should clear file extension mismatch error when user replaces file with valid one', () => {
+      setupComponentTest();
+
+      // First, upload a file with mismatched extension to trigger error
+      getFileInput(0)
+        .find('input[type="file"]')
+        .selectFile({
+          contents: Cypress.Buffer.from(
+            'This is plain text content, not a PDF',
+          ),
+          fileName: 'fake-pdf.pdf',
+          mimeType: 'text/plain',
+        });
+
+      // Verify error message appears
+      getFileError(0)
+        .should('be.visible')
+        .and(
+          'contain',
+          'The file extension doesn’t match the file format. Please choose a different file.',
+        );
+
+      // Now replace the file with a valid one
+      // This simulates user changing their file selection
+      getFileInput(0)
+        .find('input[type="file"]')
+        .selectFile(
+          {
+            contents: Cypress.Buffer.from('Valid text content'),
+            fileName: 'valid-document.txt',
+            mimeType: 'text/plain',
+          },
+          { force: true },
+        );
+
+      // The error should be cleared when file is replaced
+      getFileError(0).should('not.exist');
+      getAboveFileInputError(0).should('not.exist');
+
+      // Verify the new file is shown
+      getFileInput(0).should('contain.text', 'valid-document.txt');
+
+      cy.axeCheck();
+    });
+
     it('should show error when file is 0 bytes', () => {
       setupComponentTest();
 
@@ -366,6 +411,43 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
 
       cy.axeCheck();
     });
+
+    it('should clear password error when user replaces encrypted file with non-encrypted one', () => {
+      setupComponentTest();
+
+      // Upload encrypted file and trigger password error
+      setupEncryptedFile('encrypted-document.pdf');
+      selectDocumentType(0, 'L029');
+      clickSubmitButton();
+
+      // Verify password error appears
+      getFileError(0)
+        .should('be.visible')
+        .and('contain.text', 'Please provide a password to decrypt this file');
+
+      // Replace encrypted file with a regular text file
+      getFileInput(0)
+        .find('input[type="file"]')
+        .selectFile(
+          {
+            contents: Cypress.Buffer.from('Regular text content'),
+            fileName: 'regular-document.txt',
+            mimeType: 'text/plain',
+          },
+          { force: true },
+        );
+
+      // Password error should be cleared since new file isn't encrypted
+      getFileError(0).should('not.exist');
+
+      // Verify the new file is shown and no password input appears
+      getFileInput(0).should('contain.text', 'regular-document.txt');
+      getFileInput(0)
+        .find('va-text-input')
+        .should('not.exist');
+
+      cy.axeCheck();
+    });
   });
 
   describe('Document type selection and validation', () => {
@@ -441,6 +523,46 @@ describe('VA File Input Multiple - TDD E2E Tests', () => {
       selectDocumentType(0, 'L014'); // Birth Certificate
 
       getFileError(0).should('not.exist');
+
+      cy.axeCheck();
+    });
+
+    it('should clear document type error when user replaces file', () => {
+      setupComponentTest();
+
+      // Upload file and trigger document type error
+      uploadFile('test-document.txt');
+
+      // Wait for document type selector to appear
+      getFileInputElement(0)
+        .find('va-select')
+        .should('be.visible');
+
+      // Submit without selecting document type to trigger error
+      clickSubmitButton();
+
+      // Verify document type error appears
+      getFileError(0)
+        .should('be.visible')
+        .and('contain.text', 'Please provide a response');
+
+      // Replace with a different file
+      getFileInput(0)
+        .find('input[type="file"]')
+        .selectFile(
+          {
+            contents: Cypress.Buffer.from('New document content'),
+            fileName: 'new-document.txt',
+            mimeType: 'text/plain',
+          },
+          { force: true },
+        );
+
+      // Document type error should be cleared for the new file
+      getFileError(0).should('not.exist');
+
+      // Verify the new file is shown
+      getFileInput(0).should('contain.text', 'new-document.txt');
 
       cy.axeCheck();
     });
