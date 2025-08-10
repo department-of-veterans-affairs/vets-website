@@ -18,6 +18,28 @@ describe('VA File Input Multiple', () => {
       .click();
   };
 
+  const verifySubmissionBlocked = () => {
+    // Set up intercept to detect if submission incorrectly reaches API
+    // This should never be called - validation should block submission locally
+    cy.intercept(
+      'POST',
+      '/v0/benefits_claims/189685/benefits_documents',
+      () => {
+        throw new Error('Submission should have been blocked by validation');
+      },
+    ).as('blockedSubmission');
+
+    // Try to submit
+    clickSubmitButton();
+
+    // Verify no API call was made (submission was blocked)
+    // Using timeout to ensure the intercept would have been triggered if submission occurred
+    cy.get('@blockedSubmission.all', { timeout: 1000 }).should(
+      'have.length',
+      0,
+    );
+  };
+
   const getFileInputElement = (fileIndex = 0) =>
     cy
       .get('va-file-input-multiple')
@@ -223,6 +245,12 @@ describe('VA File Input Multiple', () => {
           'The file extension doesn’t match the file format. Please choose a different file.',
         );
 
+      // Select document type to bypass that validation
+      selectDocumentType(0, 'L029');
+
+      // Verify submission is blocked due to extension mismatch error
+      verifySubmissionBlocked();
+
       cy.axeCheck();
     });
 
@@ -347,6 +375,9 @@ describe('VA File Input Multiple', () => {
       // Upload encrypted file and wait for password input
       setupEncryptedFile('encrypted-document.pdf');
 
+      // Select document type to isolate the password validation test
+      selectDocumentType(0, 'L029');
+
       // Submit without entering password
       clickSubmitButton();
 
@@ -354,6 +385,9 @@ describe('VA File Input Multiple', () => {
       getFileError(0)
         .should('be.visible')
         .and('contain.text', 'Please provide a password to decrypt this file');
+
+      // Also verify submission was blocked
+      verifySubmissionBlocked();
 
       cy.axeCheck();
     });
@@ -496,6 +530,9 @@ describe('VA File Input Multiple', () => {
       getFileError(0)
         .should('be.visible')
         .and('contain.text', 'Please provide a response');
+
+      // Also verify submission was blocked
+      verifySubmissionBlocked();
 
       cy.axeCheck();
     });
@@ -789,7 +826,7 @@ describe('VA File Input Multiple', () => {
           // Verify password contains the actual password entered by user
           expect(formData).to.include('test-password');
 
-          req.reply({ statusCode: 200, body: {} });
+          req.reply({ statusCode: 202, body: {} });
         },
       ).as('documentsWithPayloadCheck');
 

@@ -162,19 +162,28 @@ export const applyValidationErrors = (
 };
 
 // Validation and submission utilities
-const validateFilesForSubmission = (files, encrypted, docTypes) => {
+const validateFilesForSubmission = (
+  files,
+  encrypted,
+  docTypes,
+  existingErrors,
+) => {
   // Check if no files provided (always required)
   if (files.length === 0) {
     return { isValid: false, errors: [VALIDATION_ERROR] };
   }
 
-  // Check for encrypted files without passwords and missing document types
-  const errors = [];
+  // Re-enable checking existing errors (file validation errors)
+  const errors = [...(existingErrors || [])];
   let hasErrors = false;
 
   files.forEach((fileInfo, index) => {
+    // Check existing validation errors
+    if (errors[index]) {
+      hasErrors = true;
+    }
     // Check if file is encrypted and missing password
-    if (
+    else if (
       encrypted[index] &&
       (!fileInfo.password || fileInfo.password.trim() === '')
     ) {
@@ -185,8 +194,6 @@ const validateFilesForSubmission = (files, encrypted, docTypes) => {
     else if (!docTypes[index] || docTypes[index].trim() === '') {
       errors[index] = DOC_TYPE_ERROR;
       hasErrors = true;
-    } else {
-      errors[index] = null;
     }
   });
 
@@ -291,10 +298,12 @@ const AddFilesForm = ({ fileTab, onSubmit, uploading, progress, onCancel }) => {
     // Extract document types from shadow DOM
     const currentDocTypes = extractDocumentTypesFromShadowDOM(fileInputRef);
 
+    // Pass existing errors to validation so ALL errors are checked together
     const validation = validateFilesForSubmission(
       updatedFiles,
       encrypted,
       currentDocTypes,
+      errors,
     );
 
     if (!validation.isValid) {
