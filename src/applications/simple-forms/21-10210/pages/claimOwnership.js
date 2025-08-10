@@ -11,6 +11,7 @@ export default {
       title:
         'Are you submitting this statement to support your claim or someone else’s claim?',
       labelHeaderLevel: '2',
+      labelHeaderLevelStyle: '3',
       labels: {
         self: 'My own claim',
         'third-party': 'Someone else’s claim',

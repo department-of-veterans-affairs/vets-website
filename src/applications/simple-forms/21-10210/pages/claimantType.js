@@ -9,6 +9,7 @@ export default {
   uiSchema: {
     claimantType: radioUI({
       labelHeaderLevel: '2',
+      labelHeaderLevelStyle: '3',
       labels: {
         veteran: 'Veteran',
         'non-veteran': 'Non-Veteran',
