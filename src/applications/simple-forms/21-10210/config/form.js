@@ -58,7 +58,7 @@ const pageFocusScrollNoProgressBar = () => {
     setTimeout(() => {
       const radio = document.querySelector('va-radio[label-header-level]');
       waitForRenderThenFocus('h2', radio.shadowRoot);
-    }, 100);
+    }, 200);
   };
 };
 
