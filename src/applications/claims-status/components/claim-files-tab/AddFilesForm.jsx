@@ -203,7 +203,7 @@ const validateFilesForSubmission = (
   };
 };
 
-const createSubmissionPayload = (files, docTypes) => {
+const createSubmissionPayload = (files, docTypes, encrypted) => {
   return files.map((fileInfo, index) => ({
     file: fileInfo.file,
     // Include file metadata for better debugging (File objects don't serialize)
@@ -215,7 +215,7 @@ const createSubmissionPayload = (files, docTypes) => {
           lastModified: fileInfo.file.lastModified,
         }
       : null,
-    password: fileInfo.password || '',
+    password: encrypted[index] ? fileInfo.password : '',
     docType: docTypes[index] || '',
   }));
 };
@@ -312,7 +312,11 @@ const AddFilesForm = ({ fileTab, onSubmit, uploading, progress, onCancel }) => {
     }
 
     // Create complete payload for submission
-    const payload = createSubmissionPayload(updatedFiles, currentDocTypes);
+    const payload = createSubmissionPayload(
+      updatedFiles,
+      currentDocTypes,
+      encrypted,
+    );
 
     // Create files array in the exact format the submit actions expect
     const formattedFiles = payload.map(item => ({

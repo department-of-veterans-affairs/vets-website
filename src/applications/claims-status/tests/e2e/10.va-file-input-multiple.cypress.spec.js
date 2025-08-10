@@ -963,5 +963,56 @@ describe('VA File Input Multiple', () => {
 
       cy.axeCheck();
     });
+
+    it('should not submit password when switching from encrypted to non-encrypted file', () => {
+      setupComponentTest();
+
+      // Intercept submission to verify password is empty for non-encrypted file
+      cy.intercept(
+        'POST',
+        '/v0/benefits_claims/189685/benefits_documents',
+        req => {
+          const formData = req.body;
+          // Verify password field is empty (not the actual password that was typed earlier)
+          expect(formData).to.include('name="password"');
+          expect(formData).to.not.include('my-password');
+          req.reply({ statusCode: 200, body: {} });
+        },
+      ).as('documentsSubmission');
+
+      // Upload encrypted file and enter password
+      setupEncryptedFile('encrypted-document.pdf');
+      getFileInput(0)
+        .find('va-text-input')
+        .shadow()
+        .find('input')
+        .type('my-password');
+
+      // Select document type
+      selectDocumentType(0, 'L029');
+
+      // Replace with non-encrypted file
+      getFileInput(0)
+        .find('input[type="file"]')
+        .selectFile(
+          {
+            contents: Cypress.Buffer.from('Regular text content'),
+            fileName: 'regular-document.txt',
+            mimeType: 'text/plain',
+          },
+          { force: true },
+        );
+
+      // Verify the file was actually replaced and password input is gone
+      getFileInput(0).should('contain.text', 'regular-document.txt');
+      getFileInput(0)
+        .find('va-text-input')
+        .should('not.exist');
+
+      clickSubmitButton();
+      cy.wait('@documentsSubmission');
+
+      cy.axeCheck();
+    });
   });
 });
