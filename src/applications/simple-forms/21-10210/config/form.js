@@ -1,8 +1,8 @@
 import environment from 'platform/utilities/environment';
 import footerContent from 'platform/forms/components/FormFooter';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
-import { scrollAndFocus } from 'platform/utilities/scroll';
-import { pageFocusScrollNoProgressBar } from 'applications/simple-forms/21-10210/config/helpers';
+import { scrollAndFocus, scrollTo } from 'platform/utilities/scroll';
+import { waitForRenderThenFocus } from 'platform/utilities/ui/focus';
 import manifest from '../manifest.json';
 import getHelp from '../../shared/components/GetFormHelp';
 import { CLAIM_OWNERSHIPS, CLAIMANT_TYPES } from '../definitions/constants';
@@ -49,6 +49,16 @@ const pageScrollAndFocus = () => {
     if (!window.Cypress) {
       scrollAndFocus(document.querySelector(focusSelector));
     }
+  };
+};
+
+const pageFocusScrollNoProgressBar = () => {
+  return () => {
+    scrollTo('topScrollElement');
+    setTimeout(() => {
+      const radio = document.querySelector('va-radio[label-header-level]');
+      waitForRenderThenFocus('h2', radio.shadowRoot);
+    }, 100);
   };
 };
 
