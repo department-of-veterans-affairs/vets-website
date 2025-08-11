@@ -1,7 +1,6 @@
 import React from 'react';
 import { render, waitFor, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import { Provider } from 'react-redux';
 import {
   $,
@@ -99,8 +98,13 @@ describe('Toxic Exposure Conditions', () => {
     // The toxic exposure selection is now optional.
     // Users can proceed without selecting any conditions.
     // A modal will only appear if they have existing toxic exposure data.
-    const setFormDataSpy = sinon.spy();
-    const goForwardSpy = sinon.spy();
+    let goForwardCalled = false;
+
+    const setFormDataMock = () => {};
+    const goForwardMock = () => {
+      goForwardCalled = true;
+    };
+
     const formData = {
       newDisabilities: [
         {
@@ -117,14 +121,14 @@ describe('Toxic Exposure Conditions', () => {
 
     const { container } = renderPage({
       data: formData,
-      setFormData: setFormDataSpy,
-      goForward: goForwardSpy,
+      setFormData: setFormDataMock,
+      goForward: goForwardMock,
     });
 
     // Submit the form without selecting any conditions
     fireEvent.click($('button[type="submit"]', container));
 
     // Verify that goForward was called (form was submitted)
-    expect(goForwardSpy.called).to.be.true;
+    expect(goForwardCalled).to.be.true;
   });
 });

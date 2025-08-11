@@ -1,7 +1,7 @@
 import React from 'react';
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import { Provider } from 'react-redux';
 import ToxicExposureChoicePage from '../../pages/toxicExposure/toxicExposureChoicePage';
 
@@ -9,15 +9,43 @@ describe('ToxicExposureChoicePage', () => {
   const TOXIC_EXPOSURE_TOGGLE_NAME =
     'disabilityCompensationToxicExposureDestructionModal';
 
-  // Helper function to click modal buttons
-  const clickModalButton = (container, buttonText) => {
-    const modal = container.querySelector('va-modal');
-    const buttons = modal.querySelectorAll('button');
+  // Helper function to create mock functions with tracking
+  const createMockFn = () => {
+    const calls = [];
+    const fn = (...args) => {
+      calls.push(args);
+      fn.called = true;
+      fn.calledOnce = calls.length === 1;
+      fn.callCount = calls.length;
+      fn.lastCall = { args };
+      return undefined;
+    };
+
+    fn.calls = calls;
+    fn.called = false;
+    fn.calledOnce = false;
+    fn.lastCall = { args: [] };
+    fn.callCount = 0;
+    fn.calledWith = (...args) => {
+      return calls.some(
+        call =>
+          call.length === args.length &&
+          call.every((arg, i) => arg === args[i]),
+      );
+    };
+
+    return fn;
+  };
+
+  // Helper function to click modal buttons by text
+  const clickModalButton = async buttonText => {
+    const modal = document.querySelector('va-modal');
+    const buttons = modal?.querySelectorAll('button') || [];
     const button = Array.from(buttons).find(
       b => b.textContent.trim() === buttonText,
     );
     if (button) {
-      fireEvent.click(button);
+      await userEvent.click(button);
     }
   };
 
@@ -36,34 +64,40 @@ describe('ToxicExposureChoicePage', () => {
 
   const renderPage = ({
     data = {},
-    goBack = sinon.spy(),
-    goForward = sinon.spy(),
-    setFormData = sinon.spy(),
-    updatePage = sinon.spy(),
+    goBack = null,
+    goForward = null,
+    setFormData = null,
+    updatePage = null,
     onReviewPage = false,
     featureToggleEnabled = true,
   } = {}) => {
+    // Create mocks if not provided
+    const goBackFn = goBack || createMockFn();
+    const goForwardFn = goForward || createMockFn();
+    const setFormDataFn = setFormData || createMockFn();
+    const updatePageFn = updatePage || createMockFn();
     const mockStore = getMockStore(featureToggleEnabled);
 
     const utils = render(
       <Provider store={mockStore}>
         <ToxicExposureChoicePage
-          setFormData={setFormData}
+          setFormData={setFormDataFn}
           data={data}
-          goBack={goBack}
-          goForward={goForward}
+          goBack={goBackFn}
+          goForward={goForwardFn}
           onReviewPage={onReviewPage}
-          updatePage={updatePage}
+          updatePage={updatePageFn}
         />
       </Provider>,
     );
 
     return {
       ...utils,
-      goBack,
-      goForward,
-      setFormData,
-      updatePage,
+      goBack: goBackFn,
+      goForward: goForwardFn,
+      setFormData: setFormDataFn,
+      updatePage: updatePageFn,
+      user: userEvent,
     };
   };
 
@@ -79,16 +113,16 @@ describe('ToxicExposureChoicePage', () => {
         },
       };
 
-      const { container } = renderPage({ data });
+      renderPage({ data });
 
       // Should render checkbox for each new condition
-      expect(container.querySelector('va-checkbox[label="Chronic Bronchitis"]'))
+      expect(document.querySelector('va-checkbox[label="Chronic Bronchitis"]'))
         .to.exist;
-      expect(container.querySelector('va-checkbox[label="Asthma"]')).to.exist;
+      expect(document.querySelector('va-checkbox[label="Asthma"]')).to.exist;
 
       // Should render the "none" option
       expect(
-        container.querySelector(
+        document.querySelector(
           'va-checkbox[label="I am not claiming any conditions related to toxic exposure"]',
         ),
       ).to.exist;
@@ -104,10 +138,10 @@ describe('ToxicExposureChoicePage', () => {
         },
       };
 
-      const { container, goForward } = renderPage({ data });
-      const submitButton = container.querySelector('button[type="submit"]');
+      const { goForward, user } = renderPage({ data });
+      const submitButton = document.querySelector('button[type="submit"]');
 
-      fireEvent.click(submitButton);
+      await user.click(submitButton);
 
       await waitFor(() => {
         expect(goForward.calledOnce).to.be.true;
@@ -123,10 +157,10 @@ describe('ToxicExposureChoicePage', () => {
         },
       };
 
-      const { container, goForward } = renderPage({ data });
-      const submitButton = container.querySelector('button[type="submit"]');
+      const { goForward, user } = renderPage({ data });
+      const submitButton = document.querySelector('button[type="submit"]');
 
-      fireEvent.click(submitButton);
+      await user.click(submitButton);
 
       await waitFor(() => {
         expect(goForward.calledOnce).to.be.true;
@@ -144,16 +178,16 @@ describe('ToxicExposureChoicePage', () => {
         },
       };
 
-      const { container, goForward } = renderPage({
+      const { goForward, user } = renderPage({
         data,
         featureToggleEnabled: true,
       });
-      const submitButton = container.querySelector('button[type="submit"]');
+      const submitButton = document.querySelector('button[type="submit"]');
 
-      fireEvent.click(submitButton);
+      await user.click(submitButton);
 
       await waitFor(() => {
-        const modal = container.querySelector('va-modal');
+        const modal = document.querySelector('va-modal');
         expect(modal).to.exist;
         expect(modal.getAttribute('visible')).to.equal('true');
         expect(goForward.called).to.be.false;
@@ -170,10 +204,10 @@ describe('ToxicExposureChoicePage', () => {
         },
       };
 
-      const { container, goForward } = renderPage({ data });
-      const submitButton = container.querySelector('button[type="submit"]');
+      const { goForward, user } = renderPage({ data });
+      const submitButton = document.querySelector('button[type="submit"]');
 
-      fireEvent.click(submitButton);
+      await user.click(submitButton);
 
       await waitFor(() => {
         expect(goForward.calledOnce).to.be.true;
@@ -193,16 +227,16 @@ describe('ToxicExposureChoicePage', () => {
         },
       };
 
-      const { container, goForward } = renderPage({
+      const { goForward, user } = renderPage({
         data,
         featureToggleEnabled: true,
       });
-      const submitButton = container.querySelector('button[type="submit"]');
+      const submitButton = document.querySelector('button[type="submit"]');
 
-      fireEvent.click(submitButton);
+      await user.click(submitButton);
 
       await waitFor(() => {
-        const modal = container.querySelector('va-modal');
+        const modal = document.querySelector('va-modal');
         expect(modal).to.exist;
         expect(modal.getAttribute('visible')).to.equal('true');
         expect(goForward.called).to.be.false;
@@ -222,13 +256,13 @@ describe('ToxicExposureChoicePage', () => {
           },
         };
 
-        const { container, goForward } = renderPage({ data });
-        const submitButton = container.querySelector('button[type="submit"]');
+        const { goForward, user } = renderPage({ data });
+        const submitButton = document.querySelector('button[type="submit"]');
 
-        fireEvent.click(submitButton);
+        await user.click(submitButton);
 
         await waitFor(() => {
-          expect(container.querySelector('va-modal[visible="true"]')).not.to
+          expect(document.querySelector('va-modal[visible="true"]')).not.to
             .exist;
           expect(goForward.calledOnce).to.be.true;
         });
@@ -256,13 +290,13 @@ describe('ToxicExposureChoicePage', () => {
           },
         };
 
-        const { container } = renderPage({ data, featureToggleEnabled: true });
-        const submitButton = container.querySelector('button[type="submit"]');
+        const { user } = renderPage({ data, featureToggleEnabled: true });
+        const submitButton = document.querySelector('button[type="submit"]');
 
-        fireEvent.click(submitButton);
+        await user.click(submitButton);
 
         await waitFor(() => {
-          const modal = container.querySelector('va-modal');
+          const modal = document.querySelector('va-modal');
           expect(modal).to.exist;
           expect(modal.getAttribute('visible')).to.equal('true');
         });
@@ -279,13 +313,13 @@ describe('ToxicExposureChoicePage', () => {
           },
         };
 
-        const { container } = renderPage({ data, featureToggleEnabled: true });
-        const submitButton = container.querySelector('button[type="submit"]');
+        const { user } = renderPage({ data, featureToggleEnabled: true });
+        const submitButton = document.querySelector('button[type="submit"]');
 
-        fireEvent.click(submitButton);
+        await user.click(submitButton);
 
         await waitFor(() => {
-          const modal = container.querySelector('va-modal');
+          const modal = document.querySelector('va-modal');
           expect(modal).to.exist;
           expect(modal.getAttribute('visible')).to.equal('true');
         });
@@ -302,13 +336,13 @@ describe('ToxicExposureChoicePage', () => {
           },
         };
 
-        const { container } = renderPage({ data, featureToggleEnabled: true });
-        const submitButton = container.querySelector('button[type="submit"]');
+        const { user } = renderPage({ data, featureToggleEnabled: true });
+        const submitButton = document.querySelector('button[type="submit"]');
 
-        fireEvent.click(submitButton);
+        await user.click(submitButton);
 
         await waitFor(() => {
-          const modal = container.querySelector('va-modal');
+          const modal = document.querySelector('va-modal');
           expect(modal).to.exist;
           expect(modal.getAttribute('visible')).to.equal('true');
         });
@@ -325,13 +359,13 @@ describe('ToxicExposureChoicePage', () => {
           },
         };
 
-        const { container } = renderPage({ data, featureToggleEnabled: true });
-        const submitButton = container.querySelector('button[type="submit"]');
+        const { user } = renderPage({ data, featureToggleEnabled: true });
+        const submitButton = document.querySelector('button[type="submit"]');
 
-        fireEvent.click(submitButton);
+        await user.click(submitButton);
 
         await waitFor(() => {
-          const modal = container.querySelector('va-modal');
+          const modal = document.querySelector('va-modal');
           expect(modal).to.exist;
           expect(modal.getAttribute('visible')).to.equal('true');
         });
@@ -349,13 +383,13 @@ describe('ToxicExposureChoicePage', () => {
           },
         };
 
-        const { container, goForward } = renderPage({ data });
-        const submitButton = container.querySelector('button[type="submit"]');
+        const { goForward, user } = renderPage({ data });
+        const submitButton = document.querySelector('button[type="submit"]');
 
-        fireEvent.click(submitButton);
+        await user.click(submitButton);
 
         await waitFor(() => {
-          expect(container.querySelector('va-modal[visible="true"]')).not.to
+          expect(document.querySelector('va-modal[visible="true"]')).not.to
             .exist;
           expect(goForward.calledOnce).to.be.true;
         });
@@ -386,24 +420,25 @@ describe('ToxicExposureChoicePage', () => {
 
     describe('When the close button is clicked', () => {
       it('closes the modal and reverts "none" selection if it was selected', async () => {
-        const { container, setFormData, goForward } = renderPage({
+        const { setFormData, goForward, user } = renderPage({
           data: selectedNoneWithExistingEvidence,
           featureToggleEnabled: true,
         });
 
-        const submitButton = container.querySelector('button[type="submit"]');
-        fireEvent.click(submitButton);
+        const submitButton = document.querySelector('button[type="submit"]');
+        await user.click(submitButton);
 
         await waitFor(() => {
-          const modal = container.querySelector('va-modal');
+          const modal = document.querySelector('va-modal');
           expect(modal).to.exist;
         });
 
-        const modal = container.querySelector('va-modal');
+        const modal = document.querySelector('va-modal');
+        // Simulate modal close event
         modal.__events.closeEvent();
 
         await waitFor(() => {
-          expect(container.querySelector('va-modal[visible="true"]')).not.to
+          expect(document.querySelector('va-modal[visible="true"]')).not.to
             .exist;
 
           // Should revert "none" selection
@@ -427,24 +462,24 @@ describe('ToxicExposureChoicePage', () => {
           },
         };
 
-        const { container, setFormData, goForward } = renderPage({
+        const { setFormData, goForward, user } = renderPage({
           data,
           featureToggleEnabled: true,
         });
 
-        const submitButton = container.querySelector('button[type="submit"]');
-        fireEvent.click(submitButton);
+        const submitButton = document.querySelector('button[type="submit"]');
+        await user.click(submitButton);
 
         await waitFor(() => {
-          const modal = container.querySelector('va-modal');
+          const modal = document.querySelector('va-modal');
           expect(modal).to.exist;
         });
 
-        const modal = container.querySelector('va-modal');
+        const modal = document.querySelector('va-modal');
         modal.__events.closeEvent();
 
         await waitFor(() => {
-          expect(container.querySelector('va-modal[visible="true"]')).not.to
+          expect(document.querySelector('va-modal[visible="true"]')).not.to
             .exist;
 
           // Should not call setFormData when nothing needs reverting
@@ -458,23 +493,23 @@ describe('ToxicExposureChoicePage', () => {
 
     describe('When the cancel button is clicked', () => {
       it('closes the modal and reverts "none" selection if it was selected', async () => {
-        const { container, setFormData, goForward } = renderPage({
+        const { setFormData, goForward, user } = renderPage({
           data: selectedNoneWithExistingEvidence,
           featureToggleEnabled: true,
         });
 
-        const submitButton = container.querySelector('button[type="submit"]');
-        fireEvent.click(submitButton);
+        const submitButton = document.querySelector('button[type="submit"]');
+        await user.click(submitButton);
 
         await waitFor(() => {
-          const modal = container.querySelector('va-modal');
+          const modal = document.querySelector('va-modal');
           expect(modal).to.exist;
         });
 
-        clickModalButton(container, 'No, return to claim');
+        await clickModalButton('No, return to claim');
 
         await waitFor(() => {
-          expect(container.querySelector('va-modal[visible="true"]')).not.to
+          expect(document.querySelector('va-modal[visible="true"]')).not.to
             .exist;
 
           // Should revert "none" selection
@@ -537,20 +572,20 @@ describe('ToxicExposureChoicePage', () => {
       };
 
       it('deletes all toxic exposure data except conditions when "none" is selected', async () => {
-        const { container, setFormData } = renderPage({
+        const { setFormData, user } = renderPage({
           data: optOutOfExistingToxicExposureMetadata,
           featureToggleEnabled: true,
         });
 
-        const submitButton = container.querySelector('button[type="submit"]');
-        fireEvent.click(submitButton);
+        const submitButton = document.querySelector('button[type="submit"]');
+        await user.click(submitButton);
 
         await waitFor(() => {
-          const modal = container.querySelector('va-modal');
+          const modal = document.querySelector('va-modal');
           expect(modal).to.exist;
         });
 
-        clickModalButton(container, 'Yes, remove condition');
+        await clickModalButton('Yes, remove condition');
 
         await waitFor(() => {
           expect(setFormData.called).to.be.true;
@@ -573,20 +608,20 @@ describe('ToxicExposureChoicePage', () => {
           },
         };
 
-        const { container, setFormData } = renderPage({
+        const { setFormData, user } = renderPage({
           data: dataWithNoSelection,
           featureToggleEnabled: true,
         });
 
-        const submitButton = container.querySelector('button[type="submit"]');
-        fireEvent.click(submitButton);
+        const submitButton = document.querySelector('button[type="submit"]');
+        await user.click(submitButton);
 
         await waitFor(() => {
-          const modal = container.querySelector('va-modal');
+          const modal = document.querySelector('va-modal');
           expect(modal).to.exist;
         });
 
-        clickModalButton(container, 'Yes, remove condition');
+        await clickModalButton('Yes, remove condition');
 
         await waitFor(() => {
           expect(setFormData.called).to.be.true;
@@ -599,23 +634,23 @@ describe('ToxicExposureChoicePage', () => {
       });
 
       it('displays deletion confirmation alert', async () => {
-        const { container } = renderPage({
+        const { user } = renderPage({
           data: selectedNoneWithExistingEvidence,
           featureToggleEnabled: true,
         });
 
-        const submitButton = container.querySelector('button[type="submit"]');
-        fireEvent.click(submitButton);
+        const submitButton = document.querySelector('button[type="submit"]');
+        await user.click(submitButton);
 
         await waitFor(() => {
-          const modal = container.querySelector('va-modal');
+          const modal = document.querySelector('va-modal');
           expect(modal).to.exist;
         });
 
-        clickModalButton(container, 'Yes, remove condition');
+        await clickModalButton('Yes, remove condition');
 
         await waitFor(() => {
-          const alert = container.querySelector(confirmationAlertSelector);
+          const alert = document.querySelector(confirmationAlertSelector);
           expect(alert).to.exist;
           expect(alert.textContent).to.contain(
             'removed toxic exposure conditions from your claim',
@@ -635,7 +670,7 @@ describe('ToxicExposureChoicePage', () => {
       const { container } = renderPage({ data });
 
       expect(container.textContent).to.contain('Toxic exposure');
-      expect(container.querySelector('va-checkbox-group')).to.exist;
+      expect(document.querySelector('va-checkbox-group')).to.exist;
       expect(container.textContent).to.contain(
         'Learn more about toxic exposure',
       );
@@ -647,15 +682,15 @@ describe('ToxicExposureChoicePage', () => {
         toxicExposure: { conditions: {} },
       };
 
-      const { container } = renderPage({ data });
+      renderPage({ data });
 
-      const continueButton = container.querySelector(
+      const continueButton = document.querySelector(
         '.usa-button-primary[type="submit"]',
       );
       expect(continueButton).to.exist;
       expect(continueButton.textContent).to.contain('Continue');
 
-      const backButton = container.querySelector(
+      const backButton = document.querySelector(
         '.form-progress-buttons .usa-button-secondary',
       );
       expect(backButton).to.exist;
@@ -668,16 +703,16 @@ describe('ToxicExposureChoicePage', () => {
         toxicExposure: { conditions: {} },
       };
 
-      const { container } = renderPage({ data, onReviewPage: true });
+      renderPage({ data, onReviewPage: true });
 
-      expect(container.querySelector('va-button[text="Update page"]')).to.exist;
+      expect(document.querySelector('va-button[text="Update page"]')).to.exist;
       expect(
-        container.querySelector(
+        document.querySelector(
           '.usa-button-primary[type="submit"][text="Continue"]',
         ),
       ).not.to.exist;
       expect(
-        container.querySelector('.form-progress-buttons .usa-button-secondary'),
+        document.querySelector('.form-progress-buttons .usa-button-secondary'),
       ).not.to.exist;
     });
   });
@@ -692,13 +727,13 @@ describe('ToxicExposureChoicePage', () => {
         },
       };
 
-      const { container } = renderPage({ data, featureToggleEnabled: true });
-      const submitButton = container.querySelector('button[type="submit"]');
+      const { user } = renderPage({ data, featureToggleEnabled: true });
+      const submitButton = document.querySelector('button[type="submit"]');
 
-      fireEvent.click(submitButton);
+      await user.click(submitButton);
 
       await waitFor(() => {
-        const modal = container.querySelector('va-modal');
+        const modal = document.querySelector('va-modal');
         expect(modal).to.exist;
 
         // Check modal title
@@ -737,16 +772,16 @@ describe('ToxicExposureChoicePage', () => {
 
     describe('when feature toggle is enabled', () => {
       it('shows the modal when "none" is selected with existing data', async () => {
-        const { container } = renderPage({
+        const { user } = renderPage({
           data: dataWithNoneSelectedAndExistingData,
           featureToggleEnabled: true,
         });
 
-        const submitButton = container.querySelector('button[type="submit"]');
-        fireEvent.click(submitButton);
+        const submitButton = document.querySelector('button[type="submit"]');
+        await user.click(submitButton);
 
         await waitFor(() => {
-          expect(container.querySelector('va-modal[visible="true"]')).to.exist;
+          expect(document.querySelector('va-modal[visible="true"]')).to.exist;
         });
       });
 
@@ -759,34 +794,34 @@ describe('ToxicExposureChoicePage', () => {
           },
         };
 
-        const { container } = renderPage({
+        const { user } = renderPage({
           data: dataWithNoSelection,
           featureToggleEnabled: true,
         });
 
-        const submitButton = container.querySelector('button[type="submit"]');
-        fireEvent.click(submitButton);
+        const submitButton = document.querySelector('button[type="submit"]');
+        await user.click(submitButton);
 
         await waitFor(() => {
-          expect(container.querySelector('va-modal[visible="true"]')).to.exist;
+          expect(document.querySelector('va-modal[visible="true"]')).to.exist;
         });
       });
 
       it('deletes toxic exposure data when confirming modal', async () => {
-        const { container, setFormData } = renderPage({
+        const { setFormData, user } = renderPage({
           data: dataWithNoneSelectedAndExistingData,
           featureToggleEnabled: true,
         });
 
-        const submitButton = container.querySelector('button[type="submit"]');
-        fireEvent.click(submitButton);
+        const submitButton = document.querySelector('button[type="submit"]');
+        await user.click(submitButton);
 
         await waitFor(() => {
-          const modal = container.querySelector('va-modal');
+          const modal = document.querySelector('va-modal');
           expect(modal).to.exist;
         });
 
-        clickModalButton(container, 'Yes, remove condition');
+        await clickModalButton('Yes, remove condition');
 
         await waitFor(() => {
           expect(setFormData.called).to.be.true;
@@ -798,29 +833,29 @@ describe('ToxicExposureChoicePage', () => {
 
     describe('when feature toggle is disabled', () => {
       it('does NOT show the modal and proceeds forward', async () => {
-        const { container, goForward } = renderPage({
+        const { goForward, user } = renderPage({
           data: dataWithNoneSelectedAndExistingData,
           featureToggleEnabled: false,
         });
 
-        const submitButton = container.querySelector('button[type="submit"]');
-        fireEvent.click(submitButton);
+        const submitButton = document.querySelector('button[type="submit"]');
+        await user.click(submitButton);
 
         await waitFor(() => {
-          expect(container.querySelector('va-modal[visible="true"]')).not.to
+          expect(document.querySelector('va-modal[visible="true"]')).not.to
             .exist;
           expect(goForward.calledOnce).to.be.true;
         });
       });
 
       it('does NOT delete toxic exposure data when feature toggle is disabled', async () => {
-        const { container, setFormData, goForward } = renderPage({
+        const { setFormData, goForward, user } = renderPage({
           data: dataWithNoneSelectedAndExistingData,
           featureToggleEnabled: false,
         });
 
-        const submitButton = container.querySelector('button[type="submit"]');
-        fireEvent.click(submitButton);
+        const submitButton = document.querySelector('button[type="submit"]');
+        await user.click(submitButton);
 
         await waitFor(() => {
           expect(setFormData.called).to.be.false;
