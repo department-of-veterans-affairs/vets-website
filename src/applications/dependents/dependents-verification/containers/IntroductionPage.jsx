@@ -23,7 +23,7 @@ const ProcessList = () => {
         </p>
       </va-process-list-item>
       <va-process-list-item header="Review your active dependents and your information">
-        <p>Here’s what you will need to review:</p>
+        <p>Here’s what you’ll need to review:</p>
         <ul>
           <li>
             Your active VA dependents currently listed under your disability
@@ -73,7 +73,7 @@ export const IntroductionPage = props => {
     <article className="schemaform-intro">
       <FormTitle title={TITLE} subTitle={SUBTITLE} />
       <Gateway route={route} top />
-      <p className="vads-u-font-family--serif vads-u-font-size--md vads-u-margin-top--neg2 vads-u-margin-bottom--neg1 va-introtext">
+      <p className="va-introtext">
         Use our online tool to submit your dependent verification form for VA
         disability benefits.
       </p>
