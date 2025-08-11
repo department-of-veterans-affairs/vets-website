@@ -226,6 +226,12 @@
       "rootUrl": "/ds-v3-playground"
     },
     {
+      "directoryPath": "src/applications/edu-benefits/0839",
+      "appName": "0839",
+      "entryName": "0839-edu-benefits",
+      "rootUrl": "/school-administrators/submit-yellow-ribbon-program-agreement-form-22-0839"
+    },
+    {
       "directoryPath": "src/applications/edu-benefits/0994",
       "appName": "22-0994 Education benefits form",
       "entryName": "0994-edu-benefits",
