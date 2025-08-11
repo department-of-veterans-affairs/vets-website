@@ -52,6 +52,10 @@ export const PaperlessDelivery = () => {
     [dispatch, facilities, shouldFetchNotificationSettings],
   );
 
+  useEffect(() => {
+    document.title = `Paperless Delivery | Veterans Affairs`;
+  }, []);
+
   return (
     <>
       <Headline>{PROFILE_PATH_NAMES.PAPERLESS_DELIVERY}</Headline>

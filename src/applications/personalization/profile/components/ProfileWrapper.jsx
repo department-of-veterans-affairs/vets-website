@@ -78,7 +78,7 @@ const ProfileWrapper = ({
 
       {layout === LAYOUTS.SIDEBAR && (
         <>
-          <div className="medium-screen:vads-u-display--none">
+          <div className="medium-screen:vads-u-display--none vads-u-margin--1 vads-u-margin-bottom--2">
             <ProfileMobileSubNav
               routes={routesForNav}
               isLOA3={isLOA3}

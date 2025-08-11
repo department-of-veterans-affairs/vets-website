@@ -48,60 +48,73 @@ describe('ProfileSubNavItems', () => {
 
   it('renders all routes when requirements are met', () => {
     useSelectorStub.returns(false);
-    const container = renderSubNav(
+    const { container } = renderSubNav(
       <ProfileSubNavItems routes={defaultRoutes} isLOA3 isInMVI />,
       {
         store,
       },
     );
-    expect(container.getByText('Personal Info')).to.exist;
-    expect(container.getByText('Contact Info')).to.exist;
-    expect(container.getByText('Direct Deposit')).to.exist;
+
+    expect(container.querySelector('va-sidenav-item[label="Personal Info"]')).to
+      .exist;
+    expect(container.querySelector('va-sidenav-item[label="Contact Info"]')).to
+      .exist;
+    expect(container.querySelector('va-sidenav-item[label="Direct Deposit"]'))
+      .to.exist;
   });
 
   it('filters out LOA3 routes if not LOA3', () => {
     useSelectorStub.returns(false);
-    const container = renderSubNav(
+    const { container } = renderSubNav(
       <ProfileSubNavItems routes={defaultRoutes} isLOA3={false} isInMVI />,
       {
         store,
       },
     );
-    expect(container.getByText('Personal Info')).to.exist;
-    expect(container.queryByText('Contact Info')).to.be.null;
-    expect(container.getByText('Direct Deposit')).to.exist;
+    expect(container.querySelector('va-sidenav-item[label="Personal Info"]')).to
+      .exist;
+    expect(container.querySelector('va-sidenav-item[label="Contact Info"]')).to
+      .not.exist;
+    expect(container.querySelector('va-sidenav-item[label="Direct Deposit"]'))
+      .to.exist;
   });
 
   it('filters out LOA3 routes if user is blocked', () => {
     useSelectorStub.returns(true);
-    const container = renderSubNav(
+    const { container } = renderSubNav(
       <ProfileSubNavItems routes={defaultRoutes} isLOA3={false} isInMVI />,
       {
         store,
       },
     );
-    expect(container.getByText('Personal Info')).to.exist;
-    expect(container.queryByText('Contact Info')).to.be.null;
-    expect(container.getByText('Direct Deposit')).to.exist;
+    expect(container.querySelector('va-sidenav-item[label="Personal Info"]')).to
+      .exist;
+    expect(container.querySelector('va-sidenav-item[label="Contact Info"]')).to
+      .not.exist;
+    expect(container.querySelector('va-sidenav-item[label="Direct Deposit"]'))
+      .to.exist;
   });
 
   it('filters out MVI routes if not in MVI', () => {
     useSelectorStub.returns(false);
-    const container = renderSubNav(
+    const { container } = renderSubNav(
       <ProfileSubNavItems routes={defaultRoutes} isLOA3 isInMVI={false} />,
       {
         store,
       },
     );
-    expect(container.getByText('Personal Info')).to.exist;
-    expect(container.getByText('Contact Info')).to.exist;
-    expect(container.queryByText('Direct Deposit')).to.be.null;
+    expect(container.querySelector('va-sidenav-item[label="Personal Info"]')).to
+      .exist;
+    expect(container.querySelector('va-sidenav-item[label="Contact Info"]')).to
+      .exist;
+    expect(container.querySelector('va-sidenav-item[label="Direct Deposit"]'))
+      .to.not.exist;
   });
 
   it('calls clickHandler and records event on click', () => {
     useSelectorStub.returns(false);
     const clickHandler = sinon.spy();
-    const container = renderSubNav(
+    const { container } = renderSubNav(
       <ProfileSubNavItems
         routes={defaultRoutes}
         isLOA3
@@ -112,8 +125,17 @@ describe('ProfileSubNavItems', () => {
         store,
       },
     );
-    const link = container.getByText('Personal Info');
-    fireEvent.click(link);
+    const link = container.querySelector(
+      'va-sidenav-item[label="Personal Info"]',
+    );
+    fireEvent(
+      link,
+      new CustomEvent('vaRouteChange', {
+        detail: { href: '/profile/personal-info' },
+        bubbles: true,
+        composed: true,
+      }),
+    );
     expect(clickHandler.calledOnce).to.be.true;
   });
 });
