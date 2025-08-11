@@ -117,15 +117,16 @@ export const updateErrorsOnFileChange = (
   prevErrors,
   files,
   newFiles,
-  previousFileCount,
+  action,
 ) => {
   // First, clear "no files" error if present
   let updatedErrors = clearNoFilesError(prevErrors);
 
-  // If files were removed, rebuild error array to match current files
-  if (newFiles.length < previousFileCount) {
+  // Handle errors based on the specific action
+  if (action === 'FILE_REMOVED') {
+    // Rebuild error array to match remaining files
     updatedErrors = rebuildErrorsAfterFileDeletion(files, newFiles, prevErrors);
-  } else {
+  } else if (action === 'PASSWORD_UPDATE') {
     // Clear password errors when passwords are provided
     updatedErrors = clearSpecificErrors(
       updatedErrors,
@@ -142,12 +143,12 @@ export const applyValidationErrors = (
   baseErrors,
   validationResults,
   files,
-  isFileReplacement = true,
+  wasFileReplaced = false,
 ) => {
   const updatedErrors = [...baseErrors];
 
-  if (isFileReplacement) {
-    // Clear ALL errors when files are being replaced - fresh validation for new files
+  if (wasFileReplaced) {
+    // Clear ALL errors when a file was replaced (FILE_UPDATED action) - fresh validation for replaced files
     files.forEach((_, index) => {
       updatedErrors[index] = null;
     });
@@ -249,8 +250,7 @@ const AddFilesForm = ({ fileTab, onSubmit, uploading, progress, onCancel }) => {
   );
 
   const handleFileChange = async event => {
-    const { state } = event.detail;
-    const previousFileCount = files.length;
+    const { action, state } = event.detail;
     const newFiles = state || [];
 
     // Validate all files
@@ -265,16 +265,16 @@ const AddFilesForm = ({ fileTab, onSubmit, uploading, progress, onCancel }) => {
           prevErrors,
           files,
           newFiles,
-          previousFileCount,
+          action,
         );
 
-        // Determine if files were removed (fewer files) vs replaced/added (same or more files)
-        const isFileReplacement = newFiles.length >= previousFileCount;
+        // Check if a file was replaced (not added or removed)
+        const wasFileReplaced = action === 'FILE_UPDATED';
         return applyValidationErrors(
           baseErrors,
           validationResults,
           newFiles,
-          isFileReplacement,
+          wasFileReplaced,
         );
       });
 
