@@ -894,6 +894,10 @@ describe('VA File Input Multiple', () => {
       // Verify modal is closed
       cy.get('va-modal').should('not.be.visible');
 
+      // Verify no success or error alert appears (would appear if upload completed)
+      cy.get('va-alert[status="success"]').should('not.exist');
+      cy.get('va-alert[status="error"]').should('not.exist');
+
       cy.axeCheck();
     });
 
