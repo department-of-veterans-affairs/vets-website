@@ -9,13 +9,16 @@ const QuestionTemplate = props => {
   const shortName =
     Object.keys(ROUTES).find(key => ROUTES[key] === route) || '';
 
-  return <RadioQuestion shortName={shortName} />;
+  return <RadioQuestion router={props.router} shortName={shortName} />;
 };
 
 QuestionTemplate.propTypes = {
   location: PropTypes.shape({
     pathname: PropTypes.string,
-  }),
+  }).isRequired,
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
 };
 
 export default connect()(QuestionTemplate);
