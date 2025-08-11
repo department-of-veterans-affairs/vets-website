@@ -72,6 +72,36 @@ export function fetchAndUpdateSessionExpiration(url, settings) {
 }
 
 /**
+ * Attempts to fetch a new CSRF token from the backend and store it in localStorage.
+ * This is called when a necessary CSRF token is missing on the client side.
+ * @returns {Promise<void>} Resolves if a new token is successfully stored, rejects otherwise.
+ */
+export async function getAndStoreCSRFToken() {
+  const url = `${environment.API_URL}/v0/csrf_token`;
+
+  const response = await fetchAndUpdateSessionExpiration(url, {
+    method: 'HEAD',
+    credentials: 'include',
+    headers: {
+      'X-Key-Inflection': 'camel',
+      'Source-App-Name': window.appName,
+      'X-CSRF-Token': null,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to get new CSRF token (HTTP ${response.status})`);
+  }
+
+  const newCsrfToken = response.headers.get('X-CSRF-Token');
+  if (newCsrfToken) {
+    localStorage.setItem('csrfToken', newCsrfToken);
+  } else {
+    throw new Error('CSRF token header not found in the refresh response.');
+  }
+}
+
+/**
  *
  * @param {string} resource - The URL to fetch. If it starts with a leading "/"
  * it will be appended to the baseUrl. Otherwise, it will be used as an absolute
@@ -87,17 +117,18 @@ export function fetchAndUpdateSessionExpiration(url, settings) {
  * whether the code is running in production or non-production mode. If no environment object is provided, the function defaults to using the
  * global `environment` object.
  */
-export function apiRequest(
+export async function apiRequest(
   resource,
   optionalSettings,
   success,
   error,
   env = environment,
+  refreshCsrfToken = false,
 ) {
   const apiVersion = (optionalSettings && optionalSettings.apiVersion) || 'v0';
   const baseUrl = `${environment.API_URL}/${apiVersion}`;
   const url = resource[0] === '/' ? [baseUrl, resource].join('') : resource;
-  const csrfTokenStored = localStorage.getItem('csrfToken');
+  let csrfTokenStored = localStorage.getItem('csrfToken');
   const isProd = env.isProduction();
 
   if (success) {
@@ -112,6 +143,18 @@ export function apiRequest(
     console.warn(
       'the "error" callback has been deprecated, please use a promise chain instead',
     );
+  }
+
+  const methodsRequiringCsrf = ['POST', 'PUT', 'PATCH', 'DELETE'];
+  const requestMethod = (optionalSettings?.method || 'GET').toUpperCase();
+
+  if (
+    refreshCsrfToken &&
+    methodsRequiringCsrf.includes(requestMethod) &&
+    !csrfTokenStored
+  ) {
+    await getAndStoreCSRFToken();
+    csrfTokenStored = localStorage.getItem('csrfToken');
   }
 
   const defaultSettings = {
