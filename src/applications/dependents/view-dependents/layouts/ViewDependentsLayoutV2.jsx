@@ -37,6 +37,10 @@ function ViewDependentsLayout(props) {
     );
   }
 
+  const showActionLink =
+    !hasDependents &&
+    (props.notOnAwardDependents === null ||
+      props.notOnAwardDependents?.length === 0);
   const layout = (
     <>
       <ViewDependentsHeader
@@ -44,7 +48,7 @@ function ViewDependentsLayout(props) {
         showAlert={hasDependents}
       />
       {mainContent}
-      {!hasDependents && (
+      {showActionLink && (
         <p>
           <va-link-action
             href={getAppUrl('686C-674-v2')}
@@ -56,7 +60,7 @@ function ViewDependentsLayout(props) {
     </>
   );
 
-  return <div>{layout}</div>;
+  return <div className="vads-u-margin-bottom--4">{layout}</div>;
 }
 
 ViewDependentsLayout.propTypes = {
