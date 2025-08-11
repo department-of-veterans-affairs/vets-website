@@ -84,7 +84,7 @@ export function NewAddressSection({ success }) {
           } else {
             checkbox.focus();
           }
-        }, 100);
+        }, 300);
       };
 
       // Attach the event listener
