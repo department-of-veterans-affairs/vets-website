@@ -56,7 +56,7 @@ export const uiSchema = {
           'Choose the conditions you got treatment for at this facility.',
         'ui:webComponentField': VaCheckboxGroupField,
         'ui:options': {
-          updateSchema: makeSchemaForAllDisabilities,
+          updateSchema: makeSchemaForAllDisabilities, // test
           itemAriaLabel: data => data.treatmentCenterName,
           showFieldLabel: true,
         },
