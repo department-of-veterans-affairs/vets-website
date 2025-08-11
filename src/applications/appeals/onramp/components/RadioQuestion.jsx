@@ -41,15 +41,13 @@ const RadioQuestion = ({
     if (!formResponse) {
       setFormError(true);
       focusElement(radioRef.current);
+
+      return;
     }
 
     if (valueHasChanged) {
       // Remove answers from the Redux store if the display path ahead has changed
       cleanUpAnswers(allQuestionShortNames, updateCleanedFormStore, shortName);
-    }
-
-    if (formError) {
-      setFormError(false);
     }
 
     navigateForward(allQuestionShortNames, shortName, formResponses, router);
@@ -116,6 +114,7 @@ const RadioQuestion = ({
         <VaRadio
           class="vads-u-margin-top--0"
           data-testid={shortName}
+          error={formError ? 'Placeholder error message' : null}
           hint={hintText}
           id="onramp-radio"
           label={questionText}
