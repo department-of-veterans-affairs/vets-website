@@ -23,6 +23,7 @@ import { dependents } from './chapters/dependents/dependents';
 import { DependentsInformation } from '../components/DependentsInformation';
 import { DependentsInformationReview } from '../components/DependentsInformationReview';
 import { submit } from '../util';
+import { focusContactInfo, focusH3 } from '../util/focus';
 import { ExitForm } from '../components/ExitForm';
 
 /** @type {FormConfig} */
@@ -57,8 +58,11 @@ const formConfig = {
   verifyRequiredPrefill: true,
   formId: VA_FORM_IDS.FORM_21_0538,
   formOptions: {
+    focusOnAlertRole: true,
     useWebComponentForNavigation: true,
   },
+  useCustomScrollAndFocus: true,
+  scrollAndFocusTarget: focusH3,
   saveInProgress: {
     messages: {
       inProgress:
@@ -103,6 +107,7 @@ const formConfig = {
           CustomPageReview: VeteranContactInformationReviewPage,
           uiSchema: {},
           schema: { type: 'object', properties: {} },
+          scrollAndFocusTarget: focusContactInfo,
         },
         editAddressPage,
         editEmailPage,
@@ -113,10 +118,10 @@ const formConfig = {
 
     dependents: {
       title: 'Review your dependents',
+      reviewTitle: 'Dependents on your VA benefits',
       pages: {
         dependents: {
           path: 'dependents',
-          // title: 'Dependents on your VA benefits',
           CustomPage: DependentsInformation,
           CustomPageReview: DependentsInformationReview,
           uiSchema: dependents.uiSchema,

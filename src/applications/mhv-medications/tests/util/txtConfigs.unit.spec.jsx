@@ -140,11 +140,23 @@ describe('Non VA prescription Config', () => {
     providerFirstName: null,
   };
 
-  it('should contain prescription name', () => {
-    const txt = buildNonVAPrescriptionTXT(nonVaRx);
-    const name = `${nonVaRx.prescriptionName ||
-      (nonVaRx.dispStatus === 'Active: Non-VA' ? nonVaRx.orderableItem : '')}`;
-    expect(txt).to.include(name);
+  it('should list the prescription name', () => {
+    const txt = buildNonVAPrescriptionTXT({
+      ...nonVaRx,
+      prescriptionName: 'YOUR PRESCRIPTION NAME HERE',
+      orderableItem: 'YOUR ITEM NAME HERE',
+    });
+    expect(txt).to.include('YOUR PRESCRIPTION NAME HERE');
+    expect(txt).to.not.include('YOUR ITEM NAME HERE');
+  });
+
+  it('should list the orderableItem property when prescriptionName is not provided', () => {
+    const txt = buildNonVAPrescriptionTXT({
+      ...nonVaRx,
+      prescriptionName: null,
+      orderableItem: 'YOUR ITEM NAME HERE',
+    });
+    expect(txt).to.include('YOUR ITEM NAME HERE');
   });
 
   it('should contain facility name', () => {
