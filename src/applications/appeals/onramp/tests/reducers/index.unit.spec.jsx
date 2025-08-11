@@ -1,51 +1,15 @@
 import { expect } from 'chai';
 import guide, { initialState } from '../../reducers';
+import { ALL_QUESTIONS } from '../../constants';
+import { createFormStore } from '../../utilities/answer-storage';
+import { RESPONSES } from '../../constants/question-data-map';
 
 const { decisionReviewsGuide } = guide;
+const { YES } = RESPONSES;
 
 describe('reducer', () => {
   describe('decisionReviewsGuide', () => {
-    const allQuestionShortNames = [
-      'Q_1_1_CLAIM_DECISION',
-      'Q_1_1A_SUBMITTED_526',
-      'Q_1_2_CLAIM_DECISION',
-      'Q_1_2A_CONDITION_WORSENED',
-      'Q_1_2B_LAW_POLICY_CHANGE',
-      'Q_1_2C_NEW_EVIDENCE',
-      'Q_1_3_CLAIM_CONTESTED',
-      'Q_1_3A_FEWER_60_DAYS',
-      'Q_2_0_CLAIM_TYPE',
-      'Q_2_IS_1_SERVICE_CONNECTED',
-      'Q_2_IS_2_CONDITION_WORSENED',
-      'Q_2_IS_1A_LAW_POLICY_CHANGE',
-      'Q_2_IS_1B_NEW_EVIDENCE',
-      'Q_2_S_1_NEW_EVIDENCE',
-      'Q_2_H_1_EXISTING_BOARD_APPEAL',
-      'Q_2_H_2_NEW_EVIDENCE',
-      'Q_2_H_2A_JUDGE_HEARING',
-      'Q_2_H_2B_JUDGE_HEARING',
-    ];
-
-    const emptyFormStore = {
-      Q_1_1_CLAIM_DECISION: null,
-      Q_1_1A_SUBMITTED_526: null,
-      Q_1_2_CLAIM_DECISION: null,
-      Q_1_2A_CONDITION_WORSENED: null,
-      Q_1_2B_LAW_POLICY_CHANGE: null,
-      Q_1_2C_NEW_EVIDENCE: null,
-      Q_1_3_CLAIM_CONTESTED: null,
-      Q_1_3A_FEWER_60_DAYS: null,
-      Q_2_0_CLAIM_TYPE: null,
-      Q_2_IS_1_SERVICE_CONNECTED: null,
-      Q_2_IS_2_CONDITION_WORSENED: null,
-      Q_2_IS_1A_LAW_POLICY_CHANGE: null,
-      Q_2_IS_1B_NEW_EVIDENCE: null,
-      Q_2_S_1_NEW_EVIDENCE: null,
-      Q_2_H_1_EXISTING_BOARD_APPEAL: null,
-      Q_2_H_2_NEW_EVIDENCE: null,
-      Q_2_H_2A_JUDGE_HEARING: null,
-      Q_2_H_2B_JUDGE_HEARING: null,
-    };
+    const emptyFormStore = createFormStore(ALL_QUESTIONS);
 
     it('should return the current state for an undefined action', () => {
       expect(decisionReviewsGuide(undefined, {})).to.deep.equal(initialState);
@@ -67,7 +31,7 @@ describe('reducer', () => {
       };
 
       const currentState = {
-        allQuestionShortNames,
+        allQuestionShortNames: ALL_QUESTIONS,
         form: emptyFormStore,
         viewedIntroPage: true,
       };
@@ -84,7 +48,7 @@ describe('reducer', () => {
       };
 
       const expectedState = {
-        allQuestionShortNames,
+        allQuestionShortNames: ALL_QUESTIONS,
         form: emptyFormStore,
         viewedIntroPage: true,
       };
@@ -97,14 +61,14 @@ describe('reducer', () => {
     it('should handle ONRAMP_UPDATE_Q_1_1A_SUBMITTED_526 action', () => {
       const action = {
         type: 'ONRAMP_UPDATE_Q_1_1A_SUBMITTED_526',
-        payload: 'Yes',
+        payload: YES,
       };
 
       const currentState = {
-        allQuestionShortNames,
+        allQuestionShortNames: ALL_QUESTIONS,
         form: {
           ...emptyFormStore,
-          Q_1_1_CLAIM_DECISION: 'Yes',
+          Q_1_1_CLAIM_DECISION: YES,
         },
         viewedIntroPage: false,
       };
@@ -113,7 +77,7 @@ describe('reducer', () => {
         ...currentState,
         form: {
           ...currentState.form,
-          Q_1_1A_SUBMITTED_526: 'Yes',
+          Q_1_1A_SUBMITTED_526: YES,
         },
         viewedIntroPage: false,
       };
