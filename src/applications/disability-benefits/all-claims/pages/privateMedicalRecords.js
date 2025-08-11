@@ -44,8 +44,8 @@ export const uiSchema = {
       expandUnder: 'view:uploadPrivateRecordsQualifier',
       expandUnderCondition: isNotUploadingPrivateRecords,
       showFieldLabel: true,
-      hideIf: formData => isCompletingModern4142(formData),
       preserveHiddenData: true,
+      hideIf: formData => isCompletingModern4142(formData),
     },
     'ui:required': formData => !isCompletingModern4142(formData),
     'ui:validations': [
@@ -68,7 +68,6 @@ export const uiSchema = {
       'ui:title': 'I acknowledge and authorize this release of information',
       'ui:options': {
         useDlWrap: true,
-        preserveHiddenData: true,
       },
     },
   },

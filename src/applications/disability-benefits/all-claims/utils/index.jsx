@@ -867,23 +867,36 @@ export function isCompletingModern4142(formData) {
   return formData?.disability526Enable2024Form4142 === true;
 }
 
-export const onFormLoaded = props => {
-  const { returnUrl } = props;
-  const { formData, router } = props;
-
-  if (
-    // flipper value that is injected
-    formData.disability526Enable2024Form4142 &&
-    // user previously acknowledged the old 4142
-    formData['view:patient_acknowledgement']?.['view:acknowledgement'] ===
+export const baseDoNew4142Logic = formData => {
+  return (
+    formData.disability526Enable2024Form4142 === true &&
+    formData['view:patientAcknowledgement']?.['view:acknowledgement'] ===
       true &&
-    // user has not already been redirected to the 4142 choice page, set on page load or nav away from page
-    !formData.wasRedirectedTo4142ChoicePageAlready
-  ) {
-    // Value for the alert to know to show itself, only true from here otherwise not set or false
-    formData.showNew4142AuthorizationAlert = true;
-    router.push('/supporting-evidence/private-medical-records');
-  } else {
-    router.push(returnUrl);
-  }
+    formData?.['view:hasPrivateRecordsToUpload'] !== true &&
+    formData?.patient4142Acknowledgement !== true
+  );
 };
+
+export const onFormLoaded = props => {
+  const { returnUrl, formData, router } = props;
+  const shouldRedirectToModern4142Choice = baseDoNew4142Logic(formData);
+
+  if (shouldRedirectToModern4142Choice === true) {
+    try {
+      window.sessionStorage.setItem('needsShownNew4142Alert', 'true');
+    } catch (e) {
+      // ignore storage errors
+    }
+    router.push('/supporting-evidence/private-medical-records');
+    return;
+  }
+
+  router.push(returnUrl);
+};
+
+export function needs4142AlertShown(formData) {
+  return (
+    baseDoNew4142Logic(formData) &&
+    window.sessionStorage.getItem('needsShownNew4142Alert') === 'true'
+  );
+}
