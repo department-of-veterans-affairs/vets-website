@@ -209,7 +209,7 @@ export default function RecentActivity({ claim }) {
     [setCurrentPage],
   );
 
- const thirdPartyRequesAlertText = item => {
+  const thirdPartyRequesAlertText = item => {
     return (
       <va-alert
         data-testid={`item-from-others-${item.id}`}

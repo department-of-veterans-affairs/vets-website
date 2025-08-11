@@ -30,17 +30,15 @@ export default function FilesNeeded({ item, previousPage = null }) {
     if (isAutomated5103Notice(item.displayName) && cst5103UpdateEnabled) {
       return standard5103Item.displayName;
     }
-
     if (evidenceDictionary[item.displayName]?.isSensitive) {
       return `Request for evidence`;
     }
     if (evidenceDictionary[item.displayName]?.noProvidePrefix) {
-        return item.friendlyName;
-      }
+      return item.friendlyName;
+    }
     if (item.friendlyName) {
       return `Provide ${getDisplayFriendlyName(item)}`;
     }
-
     return 'Request for evidence';
   };
 
