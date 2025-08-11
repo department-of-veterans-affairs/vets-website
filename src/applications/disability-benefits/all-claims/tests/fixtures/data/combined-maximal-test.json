@@ -5,6 +5,7 @@
       "view:claimingNew": true
     },
     "standardClaim": true,
+    "view:isBddData": true,
     "view:fdcWarning": {},
     "isVaEmployee": true,
     "homelessOrAtRisk": "homeless",
@@ -130,6 +131,16 @@
       "view:hasOtherEvidence": true
     },
     "view:evidenceTypeHelp": {},
+    "view:uploadServiceTreatmentRecordsQualifier": {
+      "view:hasServiceTreatmentRecordsToUpload": true
+    },
+    "serviceTreatmentRecordsAttachments": [
+      {
+        "name": "STR.pdf",
+        "confirmationCode": "abcdef00-a42f-4bbc-88f3-873c5bea6c00",
+        "attachmentId": "L451"
+      }
+    ],
     "view:unemployable": false,
     "view:aidAndAttendance": true,
     "view:modifyingHome": true,
@@ -259,6 +270,10 @@
         {
           "from": "2016-01-01",
           "to": "2017-01-01"
+        },
+        {
+          "from": "2017-01-06",
+          "to": "2017-04-01"
         }
       ],
       "powDisabilities": {
@@ -351,6 +366,10 @@
     "serviceInformation": {
       "reservesNationalGuardService": {
         "view:isTitle10Activated": false,
+        "title10Activation": {
+          "title10ActivationDate": "2015-01-01",
+          "anticipatedSeparationDate": "2120-01-01"
+        },
         "obligationTermOfServiceDateRange": {
           "from": "2007-05-22",
           "to": "2008-06-05"
@@ -366,6 +385,12 @@
           }
         },
         {
+          "serviceBranch": "Air Force Reserves",
+          "dateRange": {
+            "from": "2014-07-22"
+          }
+        },
+        {
           "serviceBranch": "Air National Guard",
           "dateRange": {
             "from": "2015-01-01",
@@ -373,7 +398,11 @@
           }
         }
       ],
-      "view:militaryHistoryNote": {}
+      "view:militaryHistoryNote": {},
+      "separationLocation": {
+        "id": "98283",
+        "label": "AF Academy"
+      }
     },
     "view:selectablePtsdTypes": {
       "view:combatPtsdType": true
@@ -457,7 +486,6 @@
       "view:recordsInfo": {},
       "view:unemployabilityDatesDesc": {},
       "view:grossIncomeAdditionalInfo": {},
-      "view:supplementalBenefitsHelp": {},
       "view:substantiallyGainfulEmploymentInfo": {},
       "view:statementsAreTrue": {},
       "view:informOfReturnToWork": {}
