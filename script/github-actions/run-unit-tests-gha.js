@@ -43,10 +43,13 @@ function getTestPaths() {
 
   const changedFiles = (process.env.CHANGED_FILES || '')
     .split(' ')
-    .map(file => file.trim())
+    .map(
+      file => file.trim()
+    )
     .filter(Boolean)
     .map(
-      file => file.replace(/^\.\//, '')
+      file => 
+        file.replace(/^\.\//, '')
       .replace(/\\/g, '/')
     )
     .filter(
@@ -69,7 +72,7 @@ function getTestPaths() {
       .map(
         file => file.split('/')
         .slice(0, 3)
-        .join('/')
+        .join('/'),
       )
       .flatMap(
         base => glob.sync(`${base}/**/*.unit.spec.js?(x)`)
@@ -81,7 +84,7 @@ function getTestPaths() {
   }
 
   const cliPatterns = Array.isArray(options.path) ? options.path : [options.path];
-  const expanded = cliPatterns.flatMap((pattern) => glob.sync(pattern));
+  const expanded = cliPatterns.flatMap(pattern => glob.sync(pattern));
   return [...new Set(expanded)];
 }
 
