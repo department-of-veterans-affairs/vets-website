@@ -12,6 +12,7 @@ export default function LearnMoreLabel({
   bold,
   buttonClassName,
   dataTestId,
+  capitalize = false,
 }) {
   let displayText = text && <>{text} </>;
   if (labelFor && text) {
@@ -24,7 +25,7 @@ export default function LearnMoreLabel({
       </label>
     );
   }
-
+  const buttonText = capitalize ? 'Learn more' : 'learn more';
   return (
     <span
       data-testid={dataTestId}
@@ -52,7 +53,7 @@ export default function LearnMoreLabel({
         })}
       >
         <VaButton
-          text="(learn more)"
+          text={buttonText}
           tabIndex="-1"
           id={buttonId}
           label={ariaLabel}
