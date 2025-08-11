@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
 const commandLineArgs = require('command-line-args');
 const glob = require('glob');
-const fs = require('fs');
-const path = require('path');
+// const fs = require('fs');
+// const path = require('path');
 const core = require('@actions/core');
 const { runCommand } = require('../utils');
 // For usage instructions see https://github.com/department-of-veterans-affairs/vets-website#unit-tests
@@ -43,34 +43,36 @@ function getTestPaths() {
 
   const changedFiles = (process.env.CHANGED_FILES || '')
     .split(' ')
-    .map((file) => file.trim())
+    .map(file => file.trim())
     .filter(Boolean)
-    .map((file) => file.replace(/^\.\//, '')
-    .replace(/\\/g, '/'))
+    .map(
+      file => file.replace(/^\.\//, '')
+      .replace(/\\/g, '/')
+    )
     .filter(
-      (file) =>
+      file =>
         !file.endsWith('.md') && 
         !file.startsWith('.github/workflows')
     );
 
   if (changedFiles.length > 0) {
     const appTests = changedFiles
-      .filter((file) => file.startsWith('src/applications/'))
-      .map((file) => {
+      .filter(file => file.startsWith('src/applications/'))
+      .map(file => {
         const appName = file.split('/')[2];
         return `src/applications/${appName}/**/*.unit.spec.js?(x)`;
       })
-      .flatMap((pattern) => glob.sync(pattern));
+      .flatMap(pattern => glob.sync(pattern));
 
     const platformTests = changedFiles
-      .filter((file) => file.startsWith('src/platform/'))
+      .filter(file => file.startsWith('src/platform/'))
       .map(
-        (file) => file.split('/')
+        file => file.split('/')
         .slice(0, 3)
         .join('/')
       )
       .flatMap(
-        (base) => glob.sync(`${base}/**/*.unit.spec.js?(x)`)
+        base => glob.sync(`${base}/**/*.unit.spec.js?(x)`)
       );
 
     const staticPagesTests = glob.sync(STATIC_PAGES_PATTERN);
