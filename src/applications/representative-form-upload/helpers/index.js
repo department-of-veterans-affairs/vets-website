@@ -14,7 +14,8 @@ const formMappings = {
     pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-686c-ARE.pdf',
   },
   '21-526EZ': {
-    subTitle: 'File for disability compensation',
+    subTitle:
+      'Application for Disability Compensation and Related Compensation Benefits',
     pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-526EZ-ARE.pdf',
   },
 };

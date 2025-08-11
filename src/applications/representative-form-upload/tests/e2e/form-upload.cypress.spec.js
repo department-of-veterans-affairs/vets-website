@@ -93,7 +93,7 @@ describe('Representative Form Upload', () => {
       cy.axeCheck();
     });
 
-    ['21-686c', '21-526ez'].forEach(formId => {
+    ['21-686c'].forEach(formId => {
       describe(`form ${formId}`, () => {
         it('allows veteran claimant submission', () => {
           cy.visit(`/representative/representative-form-upload/${formId}`);

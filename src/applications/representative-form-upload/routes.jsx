@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { createRoutes } from 'platform/forms-system/src/js/routing/createRoutes';
 import FormApp from 'platform/forms-system/src/js/containers/FormApp';
 import { userPromise } from './utilities/auth';
@@ -16,6 +15,7 @@ userPromise
   .catch(error => {
     console.error('Error checking user login status:', error); // eslint-disable-line no-console
   });
+const config = formConfig();
 
 const routes = formUploadForms.map(formId => {
   const lowerCaseFormId = formId.toLowerCase();
@@ -23,7 +23,7 @@ const routes = formUploadForms.map(formId => {
     path: `/${lowerCaseFormId}`,
     component: ({ location, children }) => (
       <App>
-        <FormApp formConfig={formConfig} currentLocation={location}>
+        <FormApp formConfig={config} currentLocation={location}>
           {children}
         </FormApp>
       </App>
@@ -32,7 +32,7 @@ const routes = formUploadForms.map(formId => {
       onEnter: (_nextState, replace) =>
         replace(`/${lowerCaseFormId}/introduction`),
     },
-    childRoutes: createRoutes(formConfig),
+    childRoutes: createRoutes(config),
   };
 });
 
