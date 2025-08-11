@@ -103,6 +103,26 @@ describe('VA File Input Multiple', () => {
       .should('be.visible');
   };
 
+  const clickDeleteButton = (fileIndex = 0, expectedFileName) => {
+    getFileInput(fileIndex)
+      .should('contain.text', expectedFileName)
+      .find('va-button-icon[aria-label*="delete file"]')
+      .shadow()
+      .find('button')
+      .click();
+  };
+
+  const clickModalDeleteButton = () => {
+    cy.get('va-modal')
+      .shadow()
+      .find('va-button')
+      .first()
+      .shadow()
+      .find('button')
+      .should('contain', 'Yes, remove this')
+      .click();
+  };
+
   describe('Component display and instructions', () => {
     it('should display correct label and hint text', () => {
       setupComponentTest();
@@ -612,12 +632,7 @@ describe('VA File Input Multiple', () => {
       uploadFile('document-to-remove.txt');
 
       // Click the delete button
-      getFileInput(0)
-        .should('contain.text', 'document-to-remove.txt')
-        .find('va-button-icon[aria-label*="delete file"]')
-        .shadow()
-        .find('button')
-        .click();
+      clickDeleteButton(0, 'document-to-remove.txt');
 
       // Verify modal appears with correct content
       cy.get('va-modal[status="warning"]')
@@ -626,15 +641,8 @@ describe('VA File Input Multiple', () => {
         .shadow()
         .should('contain.text', 'Delete this file?');
 
-      // Click "Yes, remove this" in the modal (first button)
-      cy.get('va-modal')
-        .shadow()
-        .find('va-button')
-        .first()
-        .shadow()
-        .find('button')
-        .should('contain', 'Yes, remove this')
-        .click();
+      // Click "Yes, remove this" in the modal
+      clickModalDeleteButton();
 
       // Verify file is removed
       getFileInput(0).should('not.contain.text', 'document-to-remove.txt');
@@ -652,12 +660,7 @@ describe('VA File Input Multiple', () => {
       uploadFile('document-to-keep.txt');
 
       // Click the delete button
-      getFileInput(0)
-        .should('contain.text', 'document-to-keep.txt')
-        .find('va-button-icon[aria-label*="delete file"]')
-        .shadow()
-        .find('button')
-        .click();
+      clickDeleteButton(0, 'document-to-keep.txt');
 
       // Click "No, keep this" in the modal (secondary button)
       cy.get('va-modal')
@@ -697,21 +700,10 @@ describe('VA File Input Multiple', () => {
       selectDocumentType(2, 'L070'); // Medical records
 
       // Remove the middle file (encrypted one)
-      getFileInput(1)
-        .should('contain.text', 'encrypted-document.pdf')
-        .find('va-button-icon[aria-label*="delete file"]')
-        .shadow()
-        .find('button')
-        .click();
+      clickDeleteButton(1, 'encrypted-document.pdf');
 
       // Confirm removal in modal
-      cy.get('va-modal')
-        .shadow()
-        .find('va-button')
-        .first()
-        .shadow()
-        .find('button')
-        .click();
+      clickModalDeleteButton();
 
       // Verify remaining files still have their data
       // First file should still have its document type
@@ -769,21 +761,10 @@ describe('VA File Input Multiple', () => {
       getFileError(1).should('contain.text', DOC_TYPE_ERROR);
 
       // Remove the first file (encrypted one)
-      getFileInput(0)
-        .should('contain.text', 'encrypted-without-password.pdf')
-        .find('va-button-icon[aria-label*="delete file"]')
-        .shadow()
-        .find('button')
-        .click();
+      clickDeleteButton(0, 'encrypted-without-password.pdf');
 
       // Confirm removal in modal
-      cy.get('va-modal')
-        .shadow()
-        .find('va-button')
-        .first()
-        .shadow()
-        .find('button')
-        .click();
+      clickModalDeleteButton();
 
       // Verify the remaining file still has its error
       getFileError(0).should('contain.text', DOC_TYPE_ERROR);
