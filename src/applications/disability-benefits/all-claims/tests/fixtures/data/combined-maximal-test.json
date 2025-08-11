@@ -16,14 +16,15 @@
       "needToLeaveHousing": true
     },
     "homelessnessContact": {
-      "name": "Name Here, and invalid chars `~-- with email test@email.com",
+      "name": "Name Here, and invalid chars è æ á with email test@email.com",
       "phoneNumber": "1231231234"
     },
     "view:bankAccount": {
       "bankAccountType": "Checking",
       "bankAccountNumber": "1233",
       "bankRoutingNumber": "123123123",
-      "bankName": "Bigbank Co."
+      "bankName": "Bigbank Co.",
+      "view:newAccountAlert": {}
     },
     "phoneAndEmail": {
       "primaryPhone": "4445551212",
@@ -39,7 +40,8 @@
       "addressLine1": "123 Main",
       "city": "Bigcity",
       "state": "AK",
-      "zipCode": "12345"
+      "zipCode": "12345",
+      "view:livesOnMilitaryBaseInfo": {}
     },
     "view:hasForwardingAddress": true,
     "forwardingAddress": {
@@ -69,6 +71,12 @@
         "name": "Success.jpg",
         "confirmationCode": "de89492d-2d3f-4486-a73d-1fa4868aa49d",
         "attachmentId": "L023"
+      },
+      {
+        "name": "Screenshot 2025-07-31 at 5.07.24 PM.png",
+        "confirmationCode": "6525e785-23e5-4c30-8cc7-2e3eb3e82d43",
+        "attachmentId": "L015",
+        "isEncrypted": false
       }
     ],
     "view:uploadPrivateRecordsQualifier": {
@@ -146,7 +154,8 @@
     "view:modifyingHome": true,
     "view:modifyingCar": true,
     "view:needsCarHelp": {
-      "view:alreadyClaimedVehicleAllowance": false
+      "view:alreadyClaimedVehicleAllowance": false,
+      "view:doubleAllowanceAlert": {}
     },
     "toxicExposure": {
       "conditions": {
@@ -156,7 +165,8 @@
       "gulfWar1990": {
         "afghanistan": true,
         "iraq": true,
-        "airspace": true
+        "airspace": true,
+        "jordan": true
       },
       "gulfWar1990Details": {
         "afghanistan": {
@@ -170,7 +180,10 @@
           "endDate": "1992-12-15"
         },
         "israel": {},
-        "jordan": {},
+        "jordan": {
+          "startDate": "2003-02-01",
+          "endDate": "2004-02-01"
+        },
         "kuwait": {},
         "neutralzone": {},
         "oman": {},
@@ -199,7 +212,10 @@
           "startDate": "2002-01-01",
           "endDate": "2002-12-31"
         },
-        "airspace": {}
+        "airspace": {
+          "startDate": "2000-01-12",
+          "endDate": "2002-01-24"
+        }
       },
       "view:gulfWar2001AdditionalInfo": {},
       "herbicide": {
@@ -210,10 +226,11 @@
       "otherHerbicideLocations": {
         "description": "Test location 1",
         "startDate": "1968-01-01",
-        "endDate": "1969-01-01"
+        "endDate": "1969-01-01",
+        "view:notSure": true
       },
       "herbicideDetails": {
-        "cambodia": {},
+        "cambodia": false,
         "guam": {
           "startDate": "1967-01-01",
           "endDate": "1967-12-31"
@@ -249,9 +266,14 @@
       "otherExposuresDetails": {
         "asbestos": {
           "startDate": "2000-01-01",
-          "endDate": "2000-12-31"
+          "endDate": "2000-12-31",
+          "view:notSure": false
         },
-        "chemical": {},
+        "chemical": {
+          "startDate": "2002-02-04",
+          "endDate": "2003-02-04",
+          "view:notSure": true
+        },
         "water": {},
         "mos": {
           "startDate": "2001-01-08",
@@ -284,7 +306,7 @@
     "newDisabilities": [
       {
         "cause": "NEW",
-        "primaryDescription": "It makes no sense for this particular condition, but hey, this is only test data.",
+        "primaryDescription": "This description is for the first listed new condition (asthma).",
         "condition": "asthma",
         "view:descriptionInfo": {}
       },
@@ -292,7 +314,7 @@
         "cause": "SECONDARY",
         "view:secondaryFollowUp": {
           "causedByDisability": "Diabetes Mellitus0",
-          "causedByDisabilityDescription": "Again, this doesn't really make sense."
+          "causedByDisabilityDescription": "This is the causedByDisabilityDescription field for (Diabetes Mellitus0)."
         },
         "condition": "Cranial nerve paralysis or cranial neuritis (inflammation of cranial nerves)",
         "view:descriptionInfo": {}
@@ -396,9 +418,17 @@
             "from": "2015-01-01",
             "to": "2017-05-13"
           }
+        },
+        {
+          "serviceBranch": "Army",
+          "dateRange": {
+            "from": "2000-01-01",
+            "to": "2004-01-01"
+          }
         }
       ],
       "view:militaryHistoryNote": {},
+      "view:separationLocation": {},
       "separationLocation": {
         "id": "98283",
         "label": "AF Academy"
@@ -439,6 +469,31 @@
         "state": "report state",
         "township": "report township",
         "country": "USA"
+      },
+      {
+        "agency": "Name of the agency that issued the report",
+        "city": "report city",
+        "state": "report state",
+        "township": "report township",
+        "country": "USA",
+        "view:mentalHealthSupportAlert": {},
+        "militaryReports": { "restricted": false, "unrestricted": false, "pre2005": false },
+        "otherReports": { "police": true, "unsure": true },
+        "noReport": {},
+        "details": "first event",
+        "view:eventExamplesAdditionalInfo": {},
+        "location": "asdf",
+        "timing": "asdf"
+      },
+      {
+        "militaryReports": { "restricted": false, "unrestricted": false, "pre2005": false },
+        "otherReports": {},
+        "noReport": {},
+        "view:mentalHealthSupportAlert": {},
+        "details": "second event",
+        "view:eventExamplesAdditionalInfo": {},
+        "location": "asf",
+        "timing": "asdfasdf"
       }
     ],
     "workBehaviors": {
@@ -479,7 +534,7 @@
       "none": false
     },
     "optionIndicator": "yes",
-    "additionalInformation": "Is there anything else you want to tell us about your mental health conditions, or related traumatic events and behavioral changes?",
+    "additionalInformation": "Test string that includes a mix of potentially invalid characters — “consectètur” ædípíscíng élít; ‘sed’ do ámet… Curly “quotes” and ‘apostrophes’, en–dash –, em—dash —, ellipsis …, plus symbols § © ™.",
     "view:ancillaryFormsWizardIntro": {},
     "view:unemployabilityHelp": {},
     "unemployability": {
@@ -521,6 +576,38 @@
     "supportingEvidenceUnlisted": "unlisted document",
     "supportingEvidenceNoneCheckbox": {
       "none": false
+    },
+    "behaviorsDetails": {},
+    "waiveTrainingPay": true,
+    "view:waiveRetirementPayDescription": {},
+    "waiveRetirementPay": true,
+    "view:limitedConsent": true,
+    "limitedConsent": "asdf",
+    "view:patientAcknowledgement": { "view:acknowledgement": true },
+    "view:patientAcknowledgmentHelp": {},
+    "view:conflictingResponseAlert": {},
+    "view:ancillaryFormsWizard": false,
+    "view:behaviorAdditionalInformation": {},
+    "view:serviceTreatmentRecordsSubmitLater": {},
+    "view:evidenceSubmitLater": {},
+    "syncModern0781Flow": true,
+    "view:selectedMentalHealthWorkflowChoice": "optOutOfForm0781",
+    "view:previousMentalHealthWorkflowChoice": "optForOnlineForm0781",
+    "undefined": false,
+    "statementOfTruthCertified": true,
+    "statementOfTruthSignature": "Greg A Anderson",
+    "metadata": { "eventsForceRenderTimestamp": 1754003631751 },
+    "answerCombatBehaviorQuestions": "false",
+    "startedFormVersion": "2022",
+    "view:ratedDisabilitiesAlert": {},
+    "hasTrainingPay": true,
+    "view:hasMilitaryRetiredPay": true,
+    "militaryRetiredPayBranch": "Army",
+    "hasSeparationPay": true,
+    "view:separationPayDetails": {
+      "view:separationPayDetailsDescription": {},
+      "separationPayDate": "2006",
+      "separationPayBranch": "Army"
     }
   }
 }
