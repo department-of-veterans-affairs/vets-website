@@ -7,7 +7,7 @@ import {
   VaModal,
   VaAlert,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { scrollAndFocus, scrollToFirstError } from 'platform/utilities/ui';
+import { scrollAndFocus } from 'platform/utilities/ui';
 import cloneDeep from 'platform/utilities/data/cloneDeep';
 import {
   conditionsDescription,
@@ -135,34 +135,48 @@ const ToxicExposureChoicePage = ({
           delete deepClone.toxicExposure[key];
         }
       });
-      // Keep only the 'none' condition selected
-      deepClone.toxicExposure.conditions = { none: true };
+      // If user explicitly selected "none", keep it selected
+      // Otherwise, clear all conditions
+      if (data.toxicExposure?.conditions?.none === true) {
+        deepClone.toxicExposure.conditions = { none: true };
+      } else {
+        deepClone.toxicExposure.conditions = {};
+      }
     }
 
     setFormData(deepClone);
   };
 
-  // If the user opts to deselect "none" and they are asked in the modal to delete their toxic exposure data,
-  // they can close the modal or click the Cancel button. Doing so should revert the "none" checkbox back to unchecked
+  // If the user opts to not delete their toxic exposure data when prompted by the modal,
+  // revert any "none" selection if it was made
   const revertNoneConditionSelection = () => {
-    const deepClone = cloneDeep(data);
+    // Only revert if "none" was explicitly selected
+    if (data.toxicExposure?.conditions?.none === true) {
+      const deepClone = cloneDeep(data);
 
-    const toxicExposureSelections = deepClone.toxicExposure?.conditions || {};
-    // Deselect "none" checkbox
-    toxicExposureSelections.none = false;
+      const toxicExposureSelections = deepClone.toxicExposure?.conditions || {};
+      // Deselect "none" checkbox
+      toxicExposureSelections.none = false;
 
-    if (!deepClone.toxicExposure) {
-      deepClone.toxicExposure = {};
+      if (!deepClone.toxicExposure) {
+        deepClone.toxicExposure = {};
+      }
+      deepClone.toxicExposure.conditions = toxicExposureSelections;
+
+      setFormData(deepClone);
     }
-    deepClone.toxicExposure.conditions = toxicExposureSelections;
-
-    setFormData(deepClone);
+    // If nothing was selected, no need to revert anything
   };
 
   const shouldShowDeleteToxicExposureModal = () => {
-    return (
-      data.toxicExposure?.conditions?.none === true && hasToxicExposureData()
+    // Check if user has not selected any conditions or selected "none"
+    const conditions = data.toxicExposure?.conditions || {};
+    const hasNoSelection = !Object.values(conditions).some(
+      value => value === true,
     );
+    const selectedNone = data.toxicExposure?.conditions?.none === true;
+
+    return (hasNoSelection || selectedNone) && hasToxicExposureData();
   };
 
   const handlers = {
@@ -184,17 +198,6 @@ const ToxicExposureChoicePage = ({
     },
     onSubmit: event => {
       event.preventDefault();
-
-      // Check if at least one condition is selected
-      const conditions = data.toxicExposure?.conditions || {};
-      const hasSelection = Object.values(conditions).some(
-        value => value === true,
-      );
-
-      if (!hasSelection) {
-        scrollToFirstError({ focusOnAlertRole: true });
-        return;
-      }
 
       if (showDestructiveModal && shouldShowDeleteToxicExposureModal()) {
         setShowDeleteToxicExposureModal(true);
@@ -228,17 +231,6 @@ const ToxicExposureChoicePage = ({
     },
     onUpdatePage: event => {
       event.preventDefault();
-
-      // Check if at least one condition is selected
-      const conditions = data.toxicExposure?.conditions || {};
-      const hasSelection = Object.values(conditions).some(
-        value => value === true,
-      );
-
-      if (!hasSelection) {
-        scrollToFirstError({ focusOnAlertRole: true });
-        return;
-      }
 
       if (showDestructiveModal && shouldShowDeleteToxicExposureModal()) {
         setShowDeleteToxicExposureModal(true);
@@ -286,11 +278,7 @@ const ToxicExposureChoicePage = ({
 
         <VaModal
           visible={showDeleteToxicExposureModal}
-          onPrimaryButtonClick={handlers.onConfirmDeleteToxicExposureData}
-          onSecondaryButtonClick={handlers.onCancelDeleteToxicExposureData}
           onCloseEvent={handlers.onCancelDeleteToxicExposureData}
-          primaryButtonText="Yes, remove toxic exposure information"
-          secondaryButtonText="No, return to claim"
           status="warning"
         >
           <>
@@ -302,15 +290,32 @@ const ToxicExposureChoicePage = ({
             </h4>
             <p>{deleteToxicExposureModalDescription}</p>
             {deleteToxicExposureModalContent}
+            <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-top--3">
+              {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
+              <button
+                type="button"
+                onClick={handlers.onConfirmDeleteToxicExposureData}
+                className="usa-button usa-button-primary vads-u-width--full vads-u-margin-bottom--2"
+              >
+                Yes, remove condition
+              </button>
+
+              {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
+              <button
+                type="button"
+                onClick={handlers.onCancelDeleteToxicExposureData}
+                className="usa-button-secondary vads-u-width--full vads-u-background-color--white"
+              >
+                No, return to claim
+              </button>
+            </div>
           </>
         </VaModal>
 
         <form onSubmit={handlers.onSubmit}>
           <VaCheckboxGroup
             label={conditionsQuestion}
-            label-header-level={4}
             onVaChange={handlers.onSelectionChange}
-            required
             uswds
           >
             {conditionsDescription}

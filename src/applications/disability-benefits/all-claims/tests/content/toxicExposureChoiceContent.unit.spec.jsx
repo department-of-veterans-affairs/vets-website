@@ -11,13 +11,13 @@ describe('Toxic Exposure Choice Content', () => {
   describe('Modal content', () => {
     it('should have correct modal title', () => {
       expect(deleteToxicExposureModalTitle).to.equal(
-        'Remove toxic exposure conditions from your claim?',
+        'Remove condition related to toxic exposure?',
       );
     });
 
     it('should have correct modal description', () => {
       expect(deleteToxicExposureModalDescription).to.equal(
-        "If you choose to not claim any conditions related to toxic exposure, we'll delete this information from your claim:",
+        "If you choose to remove flat feet as a condition related to toxic exposure, we'll delete information about:",
       );
     });
 
@@ -25,7 +25,6 @@ describe('Toxic Exposure Choice Content', () => {
       const { container } = render(deleteToxicExposureModalContent);
 
       // Check that all expected sections are listed
-      expect(container.textContent).to.contain('Toxic exposure conditions');
       expect(container.textContent).to.contain(
         'Gulf War service locations and dates (1990 and 2001)',
       );
@@ -38,8 +37,8 @@ describe('Toxic Exposure Choice Content', () => {
 
       // Verify it's a list structure
       expect(container.querySelector('ul')).to.exist;
-      expect(container.querySelectorAll('li')).to.have.length(4);
-      expect(container.querySelectorAll('strong')).to.have.length(4);
+      expect(container.querySelectorAll('li')).to.have.length(3);
+      expect(container.querySelectorAll('strong')).to.have.length(0);
     });
   });
 

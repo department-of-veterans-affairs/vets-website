@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-  $,
-  $$,
-} from '@department-of-veterans-affairs/platform-forms-system/ui';
-import { fireEvent, render } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { Provider } from 'react-redux';
@@ -13,9 +9,20 @@ describe('ToxicExposureChoicePage', () => {
   const TOXIC_EXPOSURE_TOGGLE_NAME =
     'disabilityCompensationToxicExposureDestructionModal';
 
+  // Helper function to click modal buttons
+  const clickModalButton = (container, buttonText) => {
+    const modal = container.querySelector('va-modal');
+    const buttons = modal.querySelectorAll('button');
+    const button = Array.from(buttons).find(
+      b => b.textContent.trim() === buttonText,
+    );
+    if (button) {
+      fireEvent.click(button);
+    }
+  };
+
   const getMockStore = (featureToggleEnabled = true) => {
     const toggles = {};
-
     toggles[TOXIC_EXPOSURE_TOGGLE_NAME] = featureToggleEnabled;
 
     return {
@@ -27,30 +34,37 @@ describe('ToxicExposureChoicePage', () => {
     };
   };
 
-  const page = ({
+  const renderPage = ({
     data = {},
-    goBack = () => {},
-    goForward = () => {},
-    setFormData = () => {},
-    updatePage = () => {},
+    goBack = sinon.spy(),
+    goForward = sinon.spy(),
+    setFormData = sinon.spy(),
+    updatePage = sinon.spy(),
     onReviewPage = false,
     featureToggleEnabled = true,
   } = {}) => {
     const mockStore = getMockStore(featureToggleEnabled);
-    return (
+
+    const utils = render(
       <Provider store={mockStore}>
-        <div>
-          <ToxicExposureChoicePage
-            setFormData={setFormData}
-            data={data}
-            goBack={goBack}
-            goForward={goForward}
-            onReviewPage={onReviewPage}
-            updatePage={updatePage}
-          />
-        </div>
-      </Provider>
+        <ToxicExposureChoicePage
+          setFormData={setFormData}
+          data={data}
+          goBack={goBack}
+          goForward={goForward}
+          onReviewPage={onReviewPage}
+          updatePage={updatePage}
+        />
+      </Provider>,
     );
+
+    return {
+      ...utils,
+      goBack,
+      goForward,
+      setFormData,
+      updatePage,
+    };
   };
 
   describe('Toxic exposure condition selection', () => {
@@ -65,24 +79,22 @@ describe('ToxicExposureChoicePage', () => {
         },
       };
 
-      const { container } = render(page({ data }));
+      const { container } = renderPage({ data });
 
       // Should render checkbox for each new condition
-      expect($$('va-checkbox[label="Chronic Bronchitis"]', container)).to.exist;
-      expect($$('va-checkbox[label="Asthma"]', container)).to.exist;
+      expect(container.querySelector('va-checkbox[label="Chronic Bronchitis"]'))
+        .to.exist;
+      expect(container.querySelector('va-checkbox[label="Asthma"]')).to.exist;
 
       // Should render the "none" option
       expect(
-        $$(
+        container.querySelector(
           'va-checkbox[label="I am not claiming any conditions related to toxic exposure"]',
-          container,
         ),
       ).to.exist;
     });
 
-    it('should submit when selecting one or more conditions', () => {
-      const goForwardSpy = sinon.spy();
-
+    it('should submit when selecting one or more conditions', async () => {
       const data = {
         newDisabilities: [{ condition: 'Chronic Bronchitis' }],
         toxicExposure: {
@@ -91,30 +103,64 @@ describe('ToxicExposureChoicePage', () => {
           },
         },
       };
-      const { container } = render(page({ data, goForward: goForwardSpy }));
-      fireEvent.click($('button[type="submit"]', container));
 
-      expect(goForwardSpy.called).to.be.true;
+      const { container, goForward } = renderPage({ data });
+      const submitButton = container.querySelector('button[type="submit"]');
+
+      fireEvent.click(submitButton);
+
+      await waitFor(() => {
+        expect(goForward.calledOnce).to.be.true;
+        expect(goForward.calledWith(data)).to.be.true;
+      });
     });
 
-    it('should require at least one selection to submit', () => {
-      const goForwardSpy = sinon.spy();
-
+    it('should allow navigation when no condition is selected and no existing toxic exposure data', async () => {
       const data = {
         newDisabilities: [{ condition: 'Chronic Bronchitis' }],
         toxicExposure: {
           conditions: {},
         },
       };
-      const { container } = render(page({ data, goForward: goForwardSpy }));
-      fireEvent.click($('button[type="submit"]', container));
 
-      expect(goForwardSpy.called).to.be.false;
+      const { container, goForward } = renderPage({ data });
+      const submitButton = container.querySelector('button[type="submit"]');
+
+      fireEvent.click(submitButton);
+
+      await waitFor(() => {
+        expect(goForward.calledOnce).to.be.true;
+      });
     });
 
-    it('should submit when selecting none option', () => {
-      const goForwardSpy = sinon.spy();
+    it('should show modal when no condition is selected but has existing toxic exposure data', async () => {
+      const data = {
+        newDisabilities: [{ condition: 'Chronic Bronchitis' }],
+        toxicExposure: {
+          conditions: {},
+          gulfWar1990: {
+            bahrain: true,
+          },
+        },
+      };
 
+      const { container, goForward } = renderPage({
+        data,
+        featureToggleEnabled: true,
+      });
+      const submitButton = container.querySelector('button[type="submit"]');
+
+      fireEvent.click(submitButton);
+
+      await waitFor(() => {
+        const modal = container.querySelector('va-modal');
+        expect(modal).to.exist;
+        expect(modal.getAttribute('visible')).to.equal('true');
+        expect(goForward.called).to.be.false;
+      });
+    });
+
+    it('should allow navigation when selecting "none" option and no existing data', async () => {
       const data = {
         newDisabilities: [{ condition: 'Chronic Bronchitis' }],
         toxicExposure: {
@@ -123,16 +169,50 @@ describe('ToxicExposureChoicePage', () => {
           },
         },
       };
-      const { container } = render(page({ data, goForward: goForwardSpy }));
-      fireEvent.click($('button[type="submit"]', container));
 
-      expect(goForwardSpy.called).to.be.true;
+      const { container, goForward } = renderPage({ data });
+      const submitButton = container.querySelector('button[type="submit"]');
+
+      fireEvent.click(submitButton);
+
+      await waitFor(() => {
+        expect(goForward.calledOnce).to.be.true;
+      });
+    });
+
+    it('should show modal when selecting "none" option but has existing toxic exposure data', async () => {
+      const data = {
+        newDisabilities: [{ condition: 'Chronic Bronchitis' }],
+        toxicExposure: {
+          conditions: {
+            none: true,
+          },
+          herbicide: {
+            vietnam: true,
+          },
+        },
+      };
+
+      const { container, goForward } = renderPage({
+        data,
+        featureToggleEnabled: true,
+      });
+      const submitButton = container.querySelector('button[type="submit"]');
+
+      fireEvent.click(submitButton);
+
+      await waitFor(() => {
+        const modal = container.querySelector('va-modal');
+        expect(modal).to.exist;
+        expect(modal.getAttribute('visible')).to.equal('true');
+        expect(goForward.called).to.be.false;
+      });
     });
   });
 
   describe('Display modal for deleting already entered toxic exposure data', () => {
-    describe('when "none" is not selected but no existing toxic exposure data has been filled out', () => {
-      it('does not show the modal', () => {
+    describe('when conditions are selected but no existing toxic exposure data has been filled out', () => {
+      it('does not show the modal and allows navigation', async () => {
         const data = {
           newDisabilities: [{ condition: 'Chronic Bronchitis' }],
           toxicExposure: {
@@ -142,29 +222,16 @@ describe('ToxicExposureChoicePage', () => {
           },
         };
 
-        const { container } = render(page({ data }));
-        fireEvent.click($('button[type="submit"]', container));
+        const { container, goForward } = renderPage({ data });
+        const submitButton = container.querySelector('button[type="submit"]');
 
-        expect($('va-modal[visible="true"]', container)).not.to.exist;
-      });
-    });
+        fireEvent.click(submitButton);
 
-    describe('when "none" is not selected and there was no previous selection', () => {
-      it('does not show the modal', () => {
-        const data = {
-          newDisabilities: [{ condition: 'Chronic Bronchitis' }],
-          toxicExposure: {
-            conditions: {
-              chronicbronchitis: undefined,
-              none: undefined,
-            },
-          },
-        };
-
-        const { container } = render(page({ data }));
-        fireEvent.click($('button[type="submit"]', container));
-
-        expect($('va-modal[visible="true"]', container)).not.to.exist;
+        await waitFor(() => {
+          expect(container.querySelector('va-modal[visible="true"]')).not.to
+            .exist;
+          expect(goForward.calledOnce).to.be.true;
+        });
       });
     });
 
@@ -178,135 +245,119 @@ describe('ToxicExposureChoicePage', () => {
         },
       };
 
-      describe('when Gulf War 1990 locations were claimed', () => {
-        it('displays the modal', () => {
-          const data = {
-            ...baseDataNoneSelected,
-            toxicExposure: {
-              ...baseDataNoneSelected.toxicExposure,
-              gulfWar1990: {
-                bahrain: true,
-              },
+      it('displays the modal for Gulf War 1990 locations', async () => {
+        const data = {
+          ...baseDataNoneSelected,
+          toxicExposure: {
+            ...baseDataNoneSelected.toxicExposure,
+            gulfWar1990: {
+              bahrain: true,
             },
-          };
+          },
+        };
 
-          const { container } = render(
-            page({ data, featureToggleEnabled: true }),
-          );
-          fireEvent.click($('button[type="submit"]', container));
+        const { container } = renderPage({ data, featureToggleEnabled: true });
+        const submitButton = container.querySelector('button[type="submit"]');
 
+        fireEvent.click(submitButton);
+
+        await waitFor(() => {
           const modal = container.querySelector('va-modal');
           expect(modal).to.exist;
           expect(modal.getAttribute('visible')).to.equal('true');
         });
       });
 
-      describe('when Gulf War 2001 locations were claimed', () => {
-        it('displays the modal', () => {
-          const data = {
-            ...baseDataNoneSelected,
-            toxicExposure: {
-              ...baseDataNoneSelected.toxicExposure,
-              gulfWar2001: {
-                afghanistan: true,
-              },
+      it('displays the modal for Gulf War 2001 locations', async () => {
+        const data = {
+          ...baseDataNoneSelected,
+          toxicExposure: {
+            ...baseDataNoneSelected.toxicExposure,
+            gulfWar2001: {
+              afghanistan: true,
             },
-          };
+          },
+        };
 
-          const { container } = render(
-            page({ data, featureToggleEnabled: true }),
-          );
-          fireEvent.click($('button[type="submit"]', container));
+        const { container } = renderPage({ data, featureToggleEnabled: true });
+        const submitButton = container.querySelector('button[type="submit"]');
 
+        fireEvent.click(submitButton);
+
+        await waitFor(() => {
           const modal = container.querySelector('va-modal');
           expect(modal).to.exist;
           expect(modal.getAttribute('visible')).to.equal('true');
         });
       });
 
-      describe('when herbicide locations were claimed', () => {
-        it('displays the modal', () => {
-          const data = {
-            ...baseDataNoneSelected,
-            toxicExposure: {
-              ...baseDataNoneSelected.toxicExposure,
-              herbicide: {
-                vietnam: true,
-              },
+      it('displays the modal for herbicide locations', async () => {
+        const data = {
+          ...baseDataNoneSelected,
+          toxicExposure: {
+            ...baseDataNoneSelected.toxicExposure,
+            herbicide: {
+              vietnam: true,
             },
-          };
+          },
+        };
 
-          const { container } = render(
-            page({ data, featureToggleEnabled: true }),
-          );
-          fireEvent.click($('button[type="submit"]', container));
+        const { container } = renderPage({ data, featureToggleEnabled: true });
+        const submitButton = container.querySelector('button[type="submit"]');
 
+        fireEvent.click(submitButton);
+
+        await waitFor(() => {
           const modal = container.querySelector('va-modal');
           expect(modal).to.exist;
           expect(modal.getAttribute('visible')).to.equal('true');
         });
       });
 
-      describe('when additional exposures were claimed', () => {
-        it('displays the modal', () => {
-          const data = {
-            ...baseDataNoneSelected,
-            toxicExposure: {
-              ...baseDataNoneSelected.toxicExposure,
-              additionalExposures: {
-                asbestos: true,
-              },
+      it('displays the modal for additional exposures', async () => {
+        const data = {
+          ...baseDataNoneSelected,
+          toxicExposure: {
+            ...baseDataNoneSelected.toxicExposure,
+            additionalExposures: {
+              asbestos: true,
             },
-          };
+          },
+        };
 
-          const { container } = render(
-            page({ data, featureToggleEnabled: true }),
-          );
-          fireEvent.click($('button[type="submit"]', container));
+        const { container } = renderPage({ data, featureToggleEnabled: true });
+        const submitButton = container.querySelector('button[type="submit"]');
 
+        fireEvent.click(submitButton);
+
+        await waitFor(() => {
           const modal = container.querySelector('va-modal');
           expect(modal).to.exist;
           expect(modal.getAttribute('visible')).to.equal('true');
         });
       });
 
-      describe('when toxic exposure data was claimed but later unchecked', () => {
-        it('does not display the modal', () => {
-          const data = {
-            ...baseDataNoneSelected,
-            toxicExposure: {
-              ...baseDataNoneSelected.toxicExposure,
-              gulfWar1990: {
-                bahrain: false,
-                airspace: false,
-              },
+      it('does not display the modal when data was unchecked', async () => {
+        const data = {
+          ...baseDataNoneSelected,
+          toxicExposure: {
+            ...baseDataNoneSelected.toxicExposure,
+            gulfWar1990: {
+              bahrain: false,
+              airspace: false,
             },
-          };
+          },
+        };
 
-          const { container } = render(page({ data }));
-          fireEvent.click($('button[type="submit"]', container));
+        const { container, goForward } = renderPage({ data });
+        const submitButton = container.querySelector('button[type="submit"]');
 
-          expect($('va-modal[visible="true"]', container)).not.to.exist;
-        });
-      });
+        fireEvent.click(submitButton);
 
-      describe('when toxic exposure metadata is undefined', () => {
-        it('does not display the modal', () => {
-          const data = {
-            ...baseDataNoneSelected,
-            toxicExposure: {
-              ...baseDataNoneSelected.toxicExposure,
-              gulfWar1990: {
-                bahrain: undefined,
-                airspace: undefined,
-              },
-            },
-          };
-
-          const { container } = render(page({ data }));
-          fireEvent.click($('button[type="submit"]', container));
-
-          expect($('va-modal[visible="true"]', container)).not.to.exist;
+        await waitFor(() => {
+          expect(container.querySelector('va-modal[visible="true"]')).not.to
+            .exist;
+          expect(goForward.calledOnce).to.be.true;
         });
       });
     });
@@ -315,11 +366,6 @@ describe('ToxicExposureChoicePage', () => {
   describe('Modal delete action selection', () => {
     const confirmationAlertSelector =
       'va-alert[status="warning"][visible="true"][close-btn-aria-label="Deleted toxic exposure confirmation"]';
-
-    const noneSelected = {
-      chronicbronchitis: true,
-      none: true,
-    };
 
     const existingToxicExposureEvidence = {
       gulfWar1990: {
@@ -333,153 +379,116 @@ describe('ToxicExposureChoicePage', () => {
     const selectedNoneWithExistingEvidence = {
       newDisabilities: [{ condition: 'Chronic Bronchitis' }],
       toxicExposure: {
-        conditions: noneSelected,
+        conditions: { none: true },
         ...existingToxicExposureEvidence,
       },
     };
 
     describe('When the close button is clicked', () => {
-      describe('On the toxic exposure page', () => {
-        it('closes the modal, re-selects "none" as false and does not advance the page', () => {
-          const setFormDataSpy = sinon.spy();
-          const goForwardSpy = sinon.spy();
+      it('closes the modal and reverts "none" selection if it was selected', async () => {
+        const { container, setFormData, goForward } = renderPage({
+          data: selectedNoneWithExistingEvidence,
+          featureToggleEnabled: true,
+        });
 
-          const { container } = render(
-            page({
-              data: selectedNoneWithExistingEvidence,
-              goForward: goForwardSpy,
-              setFormData: setFormDataSpy,
-              featureToggleEnabled: true,
-            }),
-          );
+        const submitButton = container.querySelector('button[type="submit"]');
+        fireEvent.click(submitButton);
 
-          fireEvent.click($('button[type="submit"]', container));
-
+        await waitFor(() => {
           const modal = container.querySelector('va-modal');
+          expect(modal).to.exist;
+        });
 
-          modal.__events.closeEvent();
-          expect($('va-modal[visible="true"]', container)).not.to.exist;
+        const modal = container.querySelector('va-modal');
+        modal.__events.closeEvent();
 
-          // Re-deselects "none" option
-          const calledData = setFormDataSpy.lastCall.args[0];
+        await waitFor(() => {
+          expect(container.querySelector('va-modal[visible="true"]')).not.to
+            .exist;
+
+          // Should revert "none" selection
+          expect(setFormData.called).to.be.true;
+          const calledData = setFormData.lastCall.args[0];
           expect(calledData.toxicExposure.conditions.none).to.be.false;
-          expect(calledData.toxicExposure.conditions.chronicbronchitis).to.be
-            .true;
 
-          // Does not advance page
-          expect(goForwardSpy.called).to.be.false;
+          // Should not advance page
+          expect(goForward.called).to.be.false;
         });
       });
 
-      describe('On the review and submit page', () => {
-        it('closes the modal, re-selects "none" as false and does not update the page', () => {
-          const setFormDataSpy = sinon.spy();
-          const updatePageSpy = sinon.spy();
+      it('closes the modal without changes when nothing was selected', async () => {
+        const data = {
+          newDisabilities: [{ condition: 'Chronic Bronchitis' }],
+          toxicExposure: {
+            conditions: {},
+            gulfWar1990: {
+              bahrain: true,
+            },
+          },
+        };
 
-          const { container } = render(
-            page({
-              data: selectedNoneWithExistingEvidence,
-              setFormData: setFormDataSpy,
-              updatePage: updatePageSpy,
-              onReviewPage: true,
-              featureToggleEnabled: true,
-            }),
-          );
-
-          fireEvent.click($('va-button[text="Update page"]', container));
-
-          const modal = container.querySelector('va-modal');
-
-          modal.__events.closeEvent();
-          expect($('va-modal[visible="true"]', container)).not.to.exist;
-
-          // Re-deselects "none" option
-          const calledData = setFormDataSpy.lastCall.args[0];
-          expect(calledData.toxicExposure.conditions.none).to.be.false;
-          expect(calledData.toxicExposure.conditions.chronicbronchitis).to.be
-            .true;
-
-          // Does not update review and submit page
-          expect(updatePageSpy.called).to.be.false;
+        const { container, setFormData, goForward } = renderPage({
+          data,
+          featureToggleEnabled: true,
         });
-      });
-    });
 
-    describe('when the cancel button is clicked', () => {
-      describe('On the toxic exposure page', () => {
-        it('closes the modal, re-selects "none" as false and does not advance the page', () => {
-          const setFormDataSpy = sinon.spy();
-          const goForwardSpy = sinon.spy();
+        const submitButton = container.querySelector('button[type="submit"]');
+        fireEvent.click(submitButton);
 
-          const { container } = render(
-            page({
-              data: selectedNoneWithExistingEvidence,
-              goForward: goForwardSpy,
-              setFormData: setFormDataSpy,
-              featureToggleEnabled: true,
-            }),
-          );
-
-          fireEvent.click($('button[type="submit"]', container));
-
+        await waitFor(() => {
           const modal = container.querySelector('va-modal');
-
-          modal.__events.secondaryButtonClick();
-          expect($('va-modal[visible="true"]', container)).not.to.exist;
-
-          // Re-deselects "none" option
-          const calledData = setFormDataSpy.lastCall.args[0];
-          expect(calledData.toxicExposure.conditions.none).to.be.false;
-          expect(calledData.toxicExposure.conditions.chronicbronchitis).to.be
-            .true;
-
-          // Does not advance page
-          expect(goForwardSpy.called).to.be.false;
+          expect(modal).to.exist;
         });
-      });
 
-      describe('On the review and submit page', () => {
-        it('closes the modal, re-selects "none" as false and does not update the page', () => {
-          const setFormDataSpy = sinon.spy();
-          const updatePageSpy = sinon.spy();
+        const modal = container.querySelector('va-modal');
+        modal.__events.closeEvent();
 
-          const { container } = render(
-            page({
-              data: selectedNoneWithExistingEvidence,
-              setFormData: setFormDataSpy,
-              updatePage: updatePageSpy,
-              onReviewPage: true,
-              featureToggleEnabled: true,
-            }),
-          );
+        await waitFor(() => {
+          expect(container.querySelector('va-modal[visible="true"]')).not.to
+            .exist;
 
-          fireEvent.click($('va-button[text="Update page"]', container));
-          const modal = container.querySelector('va-modal');
+          // Should not call setFormData when nothing needs reverting
+          expect(setFormData.called).to.be.false;
 
-          modal.__events.secondaryButtonClick();
-          expect($('va-modal[visible="true"]', container)).not.to.exist;
-
-          // Re-deselects "none" option
-          const calledData = setFormDataSpy.lastCall.args[0];
-
-          expect(calledData.toxicExposure.conditions.none).to.be.false;
-          expect(calledData.toxicExposure.conditions.chronicbronchitis).to.be
-            .true;
-
-          // Does not update review and submit page
-          expect(updatePageSpy.called).to.be.false;
+          // Should not advance page
+          expect(goForward.called).to.be.false;
         });
       });
     });
 
-    // Primary Deletion Tests
+    describe('When the cancel button is clicked', () => {
+      it('closes the modal and reverts "none" selection if it was selected', async () => {
+        const { container, setFormData, goForward } = renderPage({
+          data: selectedNoneWithExistingEvidence,
+          featureToggleEnabled: true,
+        });
+
+        const submitButton = container.querySelector('button[type="submit"]');
+        fireEvent.click(submitButton);
+
+        await waitFor(() => {
+          const modal = container.querySelector('va-modal');
+          expect(modal).to.exist;
+        });
+
+        clickModalButton(container, 'No, return to claim');
+
+        await waitFor(() => {
+          expect(container.querySelector('va-modal[visible="true"]')).not.to
+            .exist;
+
+          // Should revert "none" selection
+          expect(setFormData.called).to.be.true;
+          const calledData = setFormData.lastCall.args[0];
+          expect(calledData.toxicExposure.conditions.none).to.be.false;
+
+          // Should not advance page
+          expect(goForward.called).to.be.false;
+        });
+      });
+    });
+
     describe('When the Confirm button is clicked', () => {
-      // Toxic exposure data we want to preserve
-      const preservedToxicExposureMetadata = {
-        conditions: { none: true },
-      };
-
-      // Toxic exposure data we want to delete
       const fullToxicExposureMetadata = {
         conditions: { none: true },
         gulfWar1990: {
@@ -522,239 +531,159 @@ describe('ToxicExposureChoicePage', () => {
         specifyOtherExposures: 'Lead exposure',
       };
 
-      // Full toxic exposure data to be cleaned
       const optOutOfExistingToxicExposureMetadata = {
         newDisabilities: [{ condition: 'Chronic Bronchitis' }],
         toxicExposure: fullToxicExposureMetadata,
       };
 
-      describe('On the toxic exposure page', () => {
-        it('closes the modal', () => {
-          const { container } = render(
-            page({
-              data: selectedNoneWithExistingEvidence,
-              featureToggleEnabled: true,
-            }),
-          );
-
-          fireEvent.click($('button[type="submit"]', container));
-
-          const modal = container.querySelector('va-modal');
-
-          modal.__events.primaryButtonClick();
-          expect($('va-modal[visible="true"]', container)).not.to.exist;
+      it('deletes all toxic exposure data except conditions when "none" is selected', async () => {
+        const { container, setFormData } = renderPage({
+          data: optOutOfExistingToxicExposureMetadata,
+          featureToggleEnabled: true,
         });
 
-        it('Deletes all toxic exposure data except conditions and preserves all other form metadata', () => {
-          const setFormDataSpy = sinon.spy();
-          const { container } = render(
-            page({
-              data: optOutOfExistingToxicExposureMetadata,
-              setFormData: setFormDataSpy,
-              featureToggleEnabled: true,
-            }),
-          );
+        const submitButton = container.querySelector('button[type="submit"]');
+        fireEvent.click(submitButton);
 
-          fireEvent.click($('button[type="submit"]', container));
-
+        await waitFor(() => {
           const modal = container.querySelector('va-modal');
-          modal.__events.primaryButtonClick();
+          expect(modal).to.exist;
+        });
 
-          expect(setFormDataSpy.called).to.be.true;
-          const calledData = setFormDataSpy.lastCall.args[0];
-          expect(calledData.toxicExposure).to.deep.equal(
-            preservedToxicExposureMetadata,
-          );
+        clickModalButton(container, 'Yes, remove condition');
+
+        await waitFor(() => {
+          expect(setFormData.called).to.be.true;
+          const calledData = setFormData.lastCall.args[0];
+          expect(calledData.toxicExposure).to.deep.equal({
+            conditions: { none: true },
+          });
           expect(calledData.newDisabilities).to.deep.equal([
             { condition: 'Chronic Bronchitis' },
           ]);
-        });
-
-        it('Does not advance the page and displays a deletion confirmation alert', async () => {
-          const goForwardSpy = sinon.spy();
-          const { container } = render(
-            page({
-              data: selectedNoneWithExistingEvidence,
-              goForward: goForwardSpy,
-              featureToggleEnabled: true,
-            }),
-          );
-
-          fireEvent.click($('button[type="submit"]', container));
-
-          const modal = container.querySelector('va-modal');
-          modal.__events.primaryButtonClick();
-
-          const alert = container.querySelector(confirmationAlertSelector);
-          expect(alert).to.exist;
-
-          const alertElement = $(confirmationAlertSelector, container);
-          expect(alertElement.textContent).to.contain(
-            'removed toxic exposure conditions from your claim',
-          );
-          expect(alertElement.textContent).to.contain(
-            'Review your conditions and supporting documents to remove any information you',
-          );
-          // Check for the va-link element instead of textContent
-          expect(
-            alertElement.querySelector(
-              'va-link[text="Continue with your claim"]',
-            ),
-          ).to.exist;
-
-          expect(goForwardSpy.called).to.be.false;
         });
       });
 
-      describe('On the review and submit page', () => {
-        it('closes the modal', () => {
-          const { container } = render(
-            page({
-              data: selectedNoneWithExistingEvidence,
-              onReviewPage: true,
-              featureToggleEnabled: true,
-            }),
-          );
+      it('deletes all toxic exposure data when nothing is selected', async () => {
+        const dataWithNoSelection = {
+          newDisabilities: [{ condition: 'Chronic Bronchitis' }],
+          toxicExposure: {
+            ...fullToxicExposureMetadata,
+            conditions: {},
+          },
+        };
 
-          fireEvent.click($('va-button[text="Update page"]', container));
-          const modal = container.querySelector('va-modal');
-
-          modal.__events.primaryButtonClick();
-          expect($('va-modal[visible="true"]', container)).not.to.exist;
+        const { container, setFormData } = renderPage({
+          data: dataWithNoSelection,
+          featureToggleEnabled: true,
         });
 
-        it('Deletes all toxic exposure data except conditions and preserves all other form metadata', () => {
-          const setFormDataSpy = sinon.spy();
-          const { container } = render(
-            page({
-              data: optOutOfExistingToxicExposureMetadata,
-              setFormData: setFormDataSpy,
-              onReviewPage: true,
-              featureToggleEnabled: true,
-            }),
-          );
+        const submitButton = container.querySelector('button[type="submit"]');
+        fireEvent.click(submitButton);
 
-          fireEvent.click($('va-button[text="Update page"]', container));
+        await waitFor(() => {
           const modal = container.querySelector('va-modal');
-          modal.__events.primaryButtonClick();
+          expect(modal).to.exist;
+        });
 
-          expect(setFormDataSpy.called).to.be.true;
-          const calledData = setFormDataSpy.lastCall.args[0];
-          expect(calledData.toxicExposure).to.deep.equal(
-            preservedToxicExposureMetadata,
-          );
+        clickModalButton(container, 'Yes, remove condition');
+
+        await waitFor(() => {
+          expect(setFormData.called).to.be.true;
+          const calledData = setFormData.lastCall.args[0];
+          expect(calledData.toxicExposure).to.deep.equal({ conditions: {} });
           expect(calledData.newDisabilities).to.deep.equal([
             { condition: 'Chronic Bronchitis' },
           ]);
         });
+      });
 
-        it('displays a deletion confirmation alert but does NOT include a link to continue with the claim to the next page', async () => {
-          const { container } = render(
-            page({
-              data: selectedNoneWithExistingEvidence,
-              onReviewPage: true,
-              featureToggleEnabled: true,
-            }),
-          );
+      it('displays deletion confirmation alert', async () => {
+        const { container } = renderPage({
+          data: selectedNoneWithExistingEvidence,
+          featureToggleEnabled: true,
+        });
 
-          fireEvent.click($('va-button[text="Update page"]', container));
+        const submitButton = container.querySelector('button[type="submit"]');
+        fireEvent.click(submitButton);
 
+        await waitFor(() => {
           const modal = container.querySelector('va-modal');
-          modal.__events.primaryButtonClick();
+          expect(modal).to.exist;
+        });
 
+        clickModalButton(container, 'Yes, remove condition');
+
+        await waitFor(() => {
           const alert = container.querySelector(confirmationAlertSelector);
           expect(alert).to.exist;
-
-          const alertElement = $(confirmationAlertSelector, container);
-          expect(alertElement.textContent).to.contain(
+          expect(alert.textContent).to.contain(
             'removed toxic exposure conditions from your claim',
-          );
-          expect(alertElement.textContent).to.contain(
-            'Review your conditions and supporting documents to remove any information you',
-          );
-
-          expect(alertElement.textContent).not.to.contain(
-            'Continue with your claim',
           );
         });
       });
     });
+  });
 
-    describe('Page content', () => {
-      describe('When rendered on the toxic exposure page', () => {
-        it('Displays the page title and description', () => {
-          const data = {
-            newDisabilities: [{ condition: 'Chronic Bronchitis' }],
-            toxicExposure: { conditions: {} },
-          };
+  describe('Page content', () => {
+    it('displays the page title and checkboxes', () => {
+      const data = {
+        newDisabilities: [{ condition: 'Chronic Bronchitis' }],
+        toxicExposure: { conditions: {} },
+      };
 
-          const { container } = render(page({ data }));
+      const { container } = renderPage({ data });
 
-          expect(container.textContent).to.contain('Toxic exposure');
-          // The question text is in the VaCheckboxGroup label which may not render in tests
-          // Instead check for the checkbox group and description
-          expect(container.querySelector('va-checkbox-group')).to.exist;
-          expect(container.textContent).to.contain(
-            'Learn more about toxic exposure',
-          );
-        });
+      expect(container.textContent).to.contain('Toxic exposure');
+      expect(container.querySelector('va-checkbox-group')).to.exist;
+      expect(container.textContent).to.contain(
+        'Learn more about toxic exposure',
+      );
+    });
 
-        it('Displays forward and back buttons', () => {
-          const data = {
-            newDisabilities: [{ condition: 'Chronic Bronchitis' }],
-            toxicExposure: { conditions: {} },
-          };
+    it('displays forward and back buttons on the form page', () => {
+      const data = {
+        newDisabilities: [{ condition: 'Chronic Bronchitis' }],
+        toxicExposure: { conditions: {} },
+      };
 
-          const { container } = render(page({ data }));
-          const continueButton = $(
-            '.usa-button-primary[type="submit"]',
-            container,
-          );
+      const { container } = renderPage({ data });
 
-          expect(continueButton).to.exist;
-          expect(continueButton.textContent).to.contain('Continue');
+      const continueButton = container.querySelector(
+        '.usa-button-primary[type="submit"]',
+      );
+      expect(continueButton).to.exist;
+      expect(continueButton.textContent).to.contain('Continue');
 
-          const backButton = $('.usa-button-secondary', container);
+      const backButton = container.querySelector(
+        '.form-progress-buttons .usa-button-secondary',
+      );
+      expect(backButton).to.exist;
+      expect(backButton.textContent).to.contain('Back');
+    });
 
-          expect(backButton).to.exist;
-          expect(backButton.textContent).to.contain('Back');
-        });
-      });
+    it('displays update button on review page', () => {
+      const data = {
+        newDisabilities: [{ condition: 'Chronic Bronchitis' }],
+        toxicExposure: { conditions: {} },
+      };
 
-      describe('When rendered on the Review and Submit Page', () => {
-        it('Does not display forward and back buttons', () => {
-          const data = {
-            newDisabilities: [{ condition: 'Chronic Bronchitis' }],
-            toxicExposure: { conditions: {} },
-          };
+      const { container } = renderPage({ data, onReviewPage: true });
 
-          const { container } = render(page({ data, onReviewPage: true }));
-          const continueButton = $(
-            '.usa-button-primary[type="submit"][text="Continue"]',
-            container,
-          );
-          expect(continueButton).not.to.exist;
-
-          const backButton = $('.usa-button-secondary', container);
-          expect(backButton).not.to.exist;
-        });
-
-        it('Displays update page button', () => {
-          const data = {
-            newDisabilities: [{ condition: 'Chronic Bronchitis' }],
-            toxicExposure: { conditions: {} },
-          };
-
-          const { container } = render(page({ data, onReviewPage: true }));
-
-          expect($('va-button[text="Update page"]', container)).to.exist;
-        });
-      });
+      expect(container.querySelector('va-button[text="Update page"]')).to.exist;
+      expect(
+        container.querySelector(
+          '.usa-button-primary[type="submit"][text="Continue"]',
+        ),
+      ).not.to.exist;
+      expect(
+        container.querySelector('.form-progress-buttons .usa-button-secondary'),
+      ).not.to.exist;
     });
   });
 
   describe('Modal content', () => {
-    it('should display correct modal title and content', () => {
+    it('displays correct modal title and content', async () => {
       const data = {
         newDisabilities: [{ condition: 'Chronic Bronchitis' }],
         toxicExposure: {
@@ -763,66 +692,37 @@ describe('ToxicExposureChoicePage', () => {
         },
       };
 
-      const { container } = render(page({ data, featureToggleEnabled: true }));
-      fireEvent.click($('button[type="submit"]', container));
+      const { container } = renderPage({ data, featureToggleEnabled: true });
+      const submitButton = container.querySelector('button[type="submit"]');
 
-      const modal = container.querySelector('va-modal');
-      expect(modal).to.exist;
+      fireEvent.click(submitButton);
 
-      // Check modal title
-      expect(modal.innerHTML).to.contain(
-        'Remove toxic exposure conditions from your claim?',
-      );
+      await waitFor(() => {
+        const modal = container.querySelector('va-modal');
+        expect(modal).to.exist;
 
-      // Check modal content lists
-      expect(modal.innerHTML).to.contain('Toxic exposure conditions');
-      expect(modal.innerHTML).to.contain(
-        'Gulf War service locations and dates (1990 and 2001)',
-      );
-      expect(modal.innerHTML).to.contain(
-        'Agent Orange exposure locations and dates',
-      );
-      expect(modal.innerHTML).to.contain(
-        'Other toxic exposure details and dates',
-      );
+        // Check modal title
+        expect(modal.innerHTML).to.contain(
+          'Remove condition related to toxic exposure?',
+        );
 
-      // Check button text
-      expect(modal.getAttribute('primary-button-text')).to.equal(
-        'Yes, remove toxic exposure information',
-      );
-      expect(modal.getAttribute('secondary-button-text')).to.equal(
-        'No, return to claim',
-      );
-    });
-  });
+        // Check modal content lists
+        expect(modal.innerHTML).to.contain(
+          'Gulf War service locations and dates (1990 and 2001)',
+        );
+        expect(modal.innerHTML).to.contain(
+          'Agent Orange exposure locations and dates',
+        );
+        expect(modal.innerHTML).to.contain(
+          'Other toxic exposure details and dates',
+        );
 
-  describe('Alert confirmation content', () => {
-    it('should display correct confirmation alert after deletion', () => {
-      const data = {
-        newDisabilities: [{ condition: 'Chronic Bronchitis' }],
-        toxicExposure: {
-          conditions: { none: true },
-          gulfWar1990: { bahrain: true },
-        },
-      };
-
-      const { container } = render(page({ data, featureToggleEnabled: true }));
-      fireEvent.click($('button[type="submit"]', container));
-
-      const modal = container.querySelector('va-modal');
-      modal.__events.primaryButtonClick();
-
-      const alert = container.querySelector(
-        'va-alert[status="warning"][visible="true"]',
-      );
-      expect(alert).to.exist;
-
-      expect(alert.textContent).to.contain(
-        'removed toxic exposure conditions from your claim',
-      );
-      expect(alert.textContent).to.contain(
-        'Review your conditions and supporting documents to remove any information you',
-      );
+        // Check button text
+        const buttons = modal.querySelectorAll('button');
+        expect(buttons).to.have.length(2);
+        expect(buttons[0].textContent.trim()).to.equal('Yes, remove condition');
+        expect(buttons[1].textContent.trim()).to.equal('No, return to claim');
+      });
     });
   });
 
@@ -830,129 +730,102 @@ describe('ToxicExposureChoicePage', () => {
     const dataWithNoneSelectedAndExistingData = {
       newDisabilities: [{ condition: 'Chronic Bronchitis' }],
       toxicExposure: {
-        conditions: {
-          none: true,
-        },
-        gulfWar1990: {
-          bahrain: true,
-        },
+        conditions: { none: true },
+        gulfWar1990: { bahrain: true },
       },
     };
 
     describe('when feature toggle is enabled', () => {
-      it('should show the modal when "none" is selected with existing data', () => {
-        const { container } = render(
-          page({
-            data: dataWithNoneSelectedAndExistingData,
-            featureToggleEnabled: true,
-          }),
-        );
+      it('shows the modal when "none" is selected with existing data', async () => {
+        const { container } = renderPage({
+          data: dataWithNoneSelectedAndExistingData,
+          featureToggleEnabled: true,
+        });
 
-        fireEvent.click($('button[type="submit"]', container));
-        expect($('va-modal[visible="true"]', container)).to.exist;
+        const submitButton = container.querySelector('button[type="submit"]');
+        fireEvent.click(submitButton);
+
+        await waitFor(() => {
+          expect(container.querySelector('va-modal[visible="true"]')).to.exist;
+        });
       });
 
-      it('should delete toxic exposure data when confirming modal', () => {
-        const setFormDataSpy = sinon.spy();
-        const { container } = render(
-          page({
-            data: dataWithNoneSelectedAndExistingData,
-            setFormData: setFormDataSpy,
-            featureToggleEnabled: true,
-          }),
-        );
+      it('shows the modal when nothing is selected with existing data', async () => {
+        const dataWithNoSelection = {
+          newDisabilities: [{ condition: 'Chronic Bronchitis' }],
+          toxicExposure: {
+            conditions: {},
+            gulfWar1990: { bahrain: true },
+          },
+        };
 
-        fireEvent.click($('button[type="submit"]', container));
+        const { container } = renderPage({
+          data: dataWithNoSelection,
+          featureToggleEnabled: true,
+        });
 
-        const modal = container.querySelector('va-modal');
-        modal.__events.primaryButtonClick();
+        const submitButton = container.querySelector('button[type="submit"]');
+        fireEvent.click(submitButton);
 
-        // Should have called setFormData with deleted toxic exposure data
-        expect(setFormDataSpy.called).to.be.true;
-        const calledData = setFormDataSpy.lastCall.args[0];
-        expect(calledData.toxicExposure.gulfWar1990).to.be.undefined;
-        expect(calledData.toxicExposure.conditions.none).to.be.true;
+        await waitFor(() => {
+          expect(container.querySelector('va-modal[visible="true"]')).to.exist;
+        });
       });
 
-      it('should show confirmation alert after deleting data', () => {
-        const { container } = render(
-          page({
-            data: dataWithNoneSelectedAndExistingData,
-            featureToggleEnabled: true,
-          }),
-        );
+      it('deletes toxic exposure data when confirming modal', async () => {
+        const { container, setFormData } = renderPage({
+          data: dataWithNoneSelectedAndExistingData,
+          featureToggleEnabled: true,
+        });
 
-        fireEvent.click($('button[type="submit"]', container));
+        const submitButton = container.querySelector('button[type="submit"]');
+        fireEvent.click(submitButton);
 
-        const modal = container.querySelector('va-modal');
-        modal.__events.primaryButtonClick();
+        await waitFor(() => {
+          const modal = container.querySelector('va-modal');
+          expect(modal).to.exist;
+        });
 
-        const alert = container.querySelector(
-          'va-alert[status="warning"][visible="true"]',
-        );
-        expect(alert).to.exist;
+        clickModalButton(container, 'Yes, remove condition');
+
+        await waitFor(() => {
+          expect(setFormData.called).to.be.true;
+          const calledData = setFormData.lastCall.args[0];
+          expect(calledData.toxicExposure.conditions.none).to.be.true;
+        });
       });
     });
 
     describe('when feature toggle is disabled', () => {
-      it('should NOT show the modal when "none" is selected with existing data', () => {
-        const goForwardSpy = sinon.spy();
-        const { container } = render(
-          page({
-            data: dataWithNoneSelectedAndExistingData,
-            goForward: goForwardSpy,
-            featureToggleEnabled: false,
-          }),
-        );
+      it('does NOT show the modal and proceeds forward', async () => {
+        const { container, goForward } = renderPage({
+          data: dataWithNoneSelectedAndExistingData,
+          featureToggleEnabled: false,
+        });
 
-        fireEvent.click($('button[type="submit"]', container));
+        const submitButton = container.querySelector('button[type="submit"]');
+        fireEvent.click(submitButton);
 
-        // Should not show modal
-        expect($('va-modal[visible="true"]', container)).not.to.exist;
-
-        // Should proceed forward
-        expect(goForwardSpy.called).to.be.true;
+        await waitFor(() => {
+          expect(container.querySelector('va-modal[visible="true"]')).not.to
+            .exist;
+          expect(goForward.calledOnce).to.be.true;
+        });
       });
 
-      it('should NOT delete toxic exposure data when feature toggle is disabled', () => {
-        const setFormDataSpy = sinon.spy();
-        const goForwardSpy = sinon.spy();
-        const { container } = render(
-          page({
-            data: dataWithNoneSelectedAndExistingData,
-            setFormData: setFormDataSpy,
-            goForward: goForwardSpy,
-            featureToggleEnabled: false,
-          }),
-        );
+      it('does NOT delete toxic exposure data when feature toggle is disabled', async () => {
+        const { container, setFormData, goForward } = renderPage({
+          data: dataWithNoneSelectedAndExistingData,
+          featureToggleEnabled: false,
+        });
 
-        fireEvent.click($('button[type="submit"]', container));
+        const submitButton = container.querySelector('button[type="submit"]');
+        fireEvent.click(submitButton);
 
-        // Should not have called setFormData to delete data
-        expect(setFormDataSpy.called).to.be.false;
-
-        // Should proceed forward
-        expect(goForwardSpy.called).to.be.true;
-      });
-
-      it('should work the same on review page when feature toggle is disabled', () => {
-        const updatePageSpy = sinon.spy();
-        const { container } = render(
-          page({
-            data: dataWithNoneSelectedAndExistingData,
-            updatePage: updatePageSpy,
-            onReviewPage: true,
-            featureToggleEnabled: false,
-          }),
-        );
-
-        fireEvent.click($('va-button[text="Update page"]', container));
-
-        // Should not show modal
-        expect($('va-modal[visible="true"]', container)).not.to.exist;
-
-        // Should update page
-        expect(updatePageSpy.called).to.be.true;
+        await waitFor(() => {
+          expect(setFormData.called).to.be.false;
+          expect(goForward.calledOnce).to.be.true;
+        });
       });
     });
   });

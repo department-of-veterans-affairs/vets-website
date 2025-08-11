@@ -1,26 +1,17 @@
 import React from 'react';
 
 export const deleteToxicExposureModalTitle =
-  'Remove toxic exposure conditions from your claim?';
+  'Remove condition related to toxic exposure?';
 
 export const deleteToxicExposureModalDescription =
-  "If you choose to not claim any conditions related to toxic exposure, we'll delete this information from your claim:";
+  "If you choose to remove flat feet as a condition related to toxic exposure, we'll delete information about:";
 
 export const deleteToxicExposureModalContent = (
   <>
     <ul>
-      <li>
-        <strong>Toxic exposure conditions</strong>
-      </li>
-      <li>
-        <strong>Gulf War service locations and dates (1990 and 2001)</strong>
-      </li>
-      <li>
-        <strong>Agent Orange exposure locations and dates</strong>
-      </li>
-      <li>
-        <strong>Other toxic exposure details and dates</strong>
-      </li>
+      <li>Gulf War service locations and dates (1990 and 2001)</li>
+      <li>Agent Orange exposure locations and dates</li>
+      <li>Other toxic exposure details and dates</li>
     </ul>
   </>
 );

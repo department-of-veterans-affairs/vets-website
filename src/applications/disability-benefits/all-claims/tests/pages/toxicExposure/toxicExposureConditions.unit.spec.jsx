@@ -95,12 +95,10 @@ describe('Toxic Exposure Conditions', () => {
     });
   });
 
-  it('should prevent form submission when no condition is selected', async () => {
-    // Note: The custom page component doesn't use the standard validation error.
-    // Instead, when both a condition and "none" are selected, it shows a destructive modal.
-    // The actual behavior is that selecting "none" with existing toxic exposure data
-    // triggers a modal asking if the user wants to delete their toxic exposure data.
-    // For this test, we'll verify that submitting with no selection prevents form submission.
+  it('should allow form submission when no condition is selected', async () => {
+    // The toxic exposure selection is now optional.
+    // Users can proceed without selecting any conditions.
+    // A modal will only appear if they have existing toxic exposure data.
     const setFormDataSpy = sinon.spy();
     const goForwardSpy = sinon.spy();
     const formData = {
@@ -123,10 +121,10 @@ describe('Toxic Exposure Conditions', () => {
       goForward: goForwardSpy,
     });
 
-    // Try to submit the form without selecting any conditions
+    // Submit the form without selecting any conditions
     fireEvent.click($('button[type="submit"]', container));
 
-    // Verify that goForward wasn't called (form wasn't submitted)
-    expect(goForwardSpy.called).to.be.false;
+    // Verify that goForward was called (form was submitted)
+    expect(goForwardSpy.called).to.be.true;
   });
 });
