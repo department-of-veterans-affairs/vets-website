@@ -8,14 +8,21 @@ import {
   patientAcknowledgmentTitle,
   patientAcknowledgmentText,
   patientAcknowledgmentError,
+  recordsConfirmAlertBanner,
 } from '../content/privateMedicalRecords';
 import { standardTitle } from '../content/form0781';
-import { isCompletingModern4142 } from '../utils';
+import { isCompletingModern4142, needs4142AlertShown } from '../utils';
 
 const isNotUploadingPrivateRecords = data =>
   data?.['view:hasPrivateRecordsToUpload'] === false;
 
 export const uiSchema = {
+  'view:recordsConfirmAlertBanner': {
+    'ui:description': recordsConfirmAlertBanner,
+    'ui:options': {
+      hideIf: formData => !needs4142AlertShown(formData),
+    },
+  },
   'ui:title': standardTitle('Private medical records'),
   'ui:description':
     'Now we’ll ask you about your private medical records for your condition.',
@@ -38,6 +45,7 @@ export const uiSchema = {
       expandUnderCondition: isNotUploadingPrivateRecords,
       showFieldLabel: true,
       hideIf: formData => isCompletingModern4142(formData),
+      preserveHiddenData: true,
     },
     'ui:required': formData => !isCompletingModern4142(formData),
     'ui:validations': [
@@ -60,6 +68,7 @@ export const uiSchema = {
       'ui:title': 'I acknowledge and authorize this release of information',
       'ui:options': {
         useDlWrap: true,
+        preserveHiddenData: true,
       },
     },
   },
@@ -77,6 +86,10 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
+    'view:recordsConfirmAlertBanner': {
+      type: 'object',
+      properties: {},
+    },
     'view:uploadPrivateRecordsQualifier': {
       required: ['view:hasPrivateRecordsToUpload'],
       type: 'object',
