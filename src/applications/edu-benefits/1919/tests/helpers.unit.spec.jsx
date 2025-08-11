@@ -141,7 +141,7 @@ describe('helpers ', () => {
 
   describe('getTitle', () => {
     it('should return "Certifying official" for certifyingOfficial role', () => {
-      const role = { level: 'certifyingOfficial' };
+      const role = { level: 'certifying official' };
       expect(getTitle(role)).to.equal('Certifying official');
     });
 
