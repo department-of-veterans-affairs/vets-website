@@ -901,6 +901,37 @@ describe('VA File Input Multiple', () => {
       cy.axeCheck();
     });
 
+    it('should close modal when clicking the modal close (X) button but allow upload to continue', () => {
+      setupComponentTest();
+
+      // Upload a file and set document type
+      uploadFile('document-to-continue.txt');
+      selectDocumentType(0, 'L014'); // Birth Certificate
+
+      // Submit the files
+      clickSubmitButton();
+
+      // Verify modal appears
+      cy.get('va-modal').should('be.visible');
+
+      // Click the X close button (aria-label contains "Close")
+      cy.get('va-modal')
+        .shadow()
+        .find('button[aria-label*="Close"]')
+        .click();
+
+      // Verify modal is closed
+      cy.get('va-modal').should('not.be.visible');
+
+      // Wait for upload to complete and verify success alert appears
+      cy.wait('@documents');
+      cy.get('va-alert[status="success"]')
+        .should('be.visible')
+        .and('contain.text', 'We received your file upload on');
+
+      cy.axeCheck();
+    });
+
     // Error alert for invalid password
     it('should show error when submitting PDF with invalid password', () => {
       setupComponentTest();
