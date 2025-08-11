@@ -18,13 +18,14 @@ import { FILE_TYPES, isPdf, validateFiles } from '../../utils/validations';
 import mailMessage from '../MailMessage';
 import UploadStatus from '../UploadStatus';
 
-export const LABEL_TEXT = 'Upload additional evidence';
-export const HINT_TEXT =
-  'You can upload a .pdf, .gif, .jpg, .jpeg, .bmp, or .txt file. Your file should be no larger than 50 MB (non-PDF) or 99 MB (PDF only).';
-export const VALIDATION_ERROR = 'Please select a file first';
-export const PASSWORD_ERROR = 'Please provide a password to decrypt this file';
-export const DOC_TYPE_ERROR = 'Please provide a response';
-export const SUBMIT_TEXT = 'Submit documents for review';
+import {
+  LABEL_TEXT,
+  HINT_TEXT,
+  VALIDATION_ERROR,
+  PASSWORD_ERROR,
+  DOC_TYPE_ERROR,
+  SUBMIT_TEXT,
+} from '../../constants';
 
 // File encryption utilities
 const checkFileEncryption = async file => {
