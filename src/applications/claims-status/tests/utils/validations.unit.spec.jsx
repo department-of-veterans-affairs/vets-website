@@ -4,7 +4,6 @@ import {
   validateFile,
   validateFiles,
   isPdf,
-  checkFileEncryption,
   FILE_TYPES,
   MAX_FILE_SIZE_BYTES,
   MAX_PDF_SIZE_BYTES,
@@ -160,20 +159,6 @@ describe('Claims status validation:', () => {
     it('should return false for files containing "pdf" but not ending with it', () => {
       const file = createMockFile('pdf_document.txt', 1024);
       expect(isPdf(file)).to.be.false;
-    });
-  });
-
-  describe('checkFileEncryption', () => {
-    it('should return false for non-PDF files', async () => {
-      const file = createMockFile('document.jpg', 1024);
-      const result = await checkFileEncryption(file);
-      expect(result).to.be.false;
-    });
-
-    it('should return false for files without names', async () => {
-      const file = { name: null, size: 1024 };
-      const result = await checkFileEncryption(file);
-      expect(result).to.be.false;
     });
   });
 

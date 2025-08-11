@@ -1,6 +1,5 @@
 import {
   readAndCheckFile,
-  checkIsEncryptedPdf,
   checkTypeAndExtensionMatches,
   FILE_TYPE_MISMATCH_ERROR,
 } from 'platform/forms-system/src/js/utilities/file';
@@ -19,20 +18,6 @@ export const FILE_SIZE_ERROR_NON_PDF = `The file you selected is larger than the
 
 // Helper functions
 export const isPdf = file => file.name?.toLowerCase().endsWith('pdf') || false;
-
-export const checkFileEncryption = async file => {
-  if (!isPdf(file)) {
-    return false;
-  }
-
-  try {
-    const checks = { checkIsEncryptedPdf };
-    const checkResults = await readAndCheckFile(file, checks);
-    return checkResults.checkIsEncryptedPdf;
-  } catch (error) {
-    return false;
-  }
-};
 
 const validateFileSize = file => {
   const maxSize = isPdf(file) ? MAX_PDF_SIZE_BYTES : MAX_FILE_SIZE_BYTES;

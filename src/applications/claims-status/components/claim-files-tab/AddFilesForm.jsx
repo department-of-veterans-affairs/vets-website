@@ -8,13 +8,13 @@ import {
   VaModal,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { Toggler } from 'platform/utilities/feature-toggles';
+import {
+  checkIsEncryptedPdf,
+  readAndCheckFile,
+} from 'platform/forms-system/src/js/utilities/file';
 
 import { DOC_TYPES } from '../../utils/helpers';
-import {
-  checkFileEncryption,
-  FILE_TYPES,
-  validateFiles,
-} from '../../utils/validations';
+import { FILE_TYPES, isPdf, validateFiles } from '../../utils/validations';
 import mailMessage from '../MailMessage';
 import UploadStatus from '../UploadStatus';
 
@@ -27,18 +27,28 @@ export const DOC_TYPE_ERROR = 'Please provide a response';
 export const SUBMIT_TEXT = 'Submit documents for review';
 
 // File encryption utilities
-export const createEncryptedFilesList = async files => {
+const checkFileEncryption = async file => {
+  if (!isPdf(file)) {
+    return false;
+  }
+
+  try {
+    const checks = { checkIsEncryptedPdf };
+    const checkResults = await readAndCheckFile(file, checks);
+    return checkResults.checkIsEncryptedPdf;
+  } catch (error) {
+    return false;
+  }
+};
+
+const createEncryptedFilesList = async files => {
   return Promise.all(
     files.map(async fileInfo => checkFileEncryption(fileInfo.file)),
   );
 };
 
 // Shadow DOM extraction utilities
-export const extractPasswordsFromShadowDOM = (
-  fileInputRef,
-  files,
-  encrypted,
-) => {
+const extractPasswordsFromShadowDOM = (fileInputRef, files, encrypted) => {
   const updatedFiles = [...files];
   const vaFileInputElements = fileInputRef.current?.shadowRoot?.querySelectorAll(
     'va-file-input',
@@ -64,7 +74,7 @@ export const extractPasswordsFromShadowDOM = (
   return updatedFiles;
 };
 
-export const extractDocumentTypesFromShadowDOM = fileInputRef => {
+const extractDocumentTypesFromShadowDOM = fileInputRef => {
   const fileInputs = Array.from(
     fileInputRef.current?.shadowRoot?.querySelectorAll('va-file-input') || [],
   );
@@ -76,14 +86,14 @@ export const extractDocumentTypesFromShadowDOM = fileInputRef => {
 };
 
 // Error handling utilities
-export const clearNoFilesError = prevErrors => {
+const clearNoFilesError = prevErrors => {
   if (prevErrors.length === 1 && prevErrors[0] === VALIDATION_ERROR) {
     return [];
   }
   return prevErrors;
 };
 
-export const clearSpecificErrors = (prevErrors, errorType, shouldClear) => {
+const clearSpecificErrors = (prevErrors, errorType, shouldClear) => {
   const newErrors = [...prevErrors];
   let hasChanges = false;
 
@@ -97,11 +107,7 @@ export const clearSpecificErrors = (prevErrors, errorType, shouldClear) => {
   return hasChanges ? newErrors : prevErrors;
 };
 
-export const rebuildErrorsAfterFileDeletion = (
-  currentFiles,
-  newFiles,
-  prevErrors,
-) => {
+const rebuildErrorsAfterFileDeletion = (currentFiles, newFiles, prevErrors) => {
   const newErrors = [];
   // Match errors to files by file reference, not by index
   newFiles.forEach((fileInfo, newIndex) => {
@@ -113,12 +119,7 @@ export const rebuildErrorsAfterFileDeletion = (
   return newErrors;
 };
 
-export const updateErrorsOnFileChange = (
-  prevErrors,
-  files,
-  newFiles,
-  action,
-) => {
+const updateErrorsOnFileChange = (prevErrors, files, newFiles, action) => {
   // First, clear "no files" error if present
   let updatedErrors = clearNoFilesError(prevErrors);
 
@@ -139,7 +140,7 @@ export const updateErrorsOnFileChange = (
   return updatedErrors;
 };
 
-export const applyValidationErrors = (
+const applyValidationErrors = (
   baseErrors,
   validationResults,
   files,
