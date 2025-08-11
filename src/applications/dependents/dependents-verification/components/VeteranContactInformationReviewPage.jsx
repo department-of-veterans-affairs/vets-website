@@ -195,7 +195,7 @@ const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
           </dd>
         </div>
         <div className="review-row">
-          <dt>Email address</dt>
+          <dt>Electronic correspondence agreement</dt>
           <dd className="dd-privacy-hidden" data-dd-action-name="email address">
             <strong>
               {electronicCorrespondenceMessage(electronicCorrespondence)}

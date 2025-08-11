@@ -105,6 +105,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_21P_4185_UPLOAD: '21P-4185-UPLOAD',
   FORM_22_10297: '22-10297',
   FORM_22_0839: '22-0839',
+  FORM_22_10275: '22-10275',
 });
 
 export const VA_FORM_IDS_SKIP_INFLECTION = Object.freeze([
@@ -199,6 +200,7 @@ export const getAllFormLinks = getAppUrlImpl => {
     )}/`,
     [VA_FORM_IDS.FORM_22_10297]: `${tryGetAppUrl('22-10297')}/`,
     [VA_FORM_IDS.FORM_22_0839]: `${tryGetAppUrl('22-0839')}/`,
+    [VA_FORM_IDS.FORM_22_10275]: `${tryGetAppUrl('22-10275')}/`,
   };
 };
 
@@ -745,6 +747,13 @@ export const MY_VA_SIP_FORMS = [
     title: '0839',
     description: 'education benefits',
     trackingPrefix: '0839-edu-benefits',
+  },
+  {
+    id: VA_FORM_IDS.FORM_22_10275,
+    benefit: 'education benefits',
+    title: '10275',
+    description: 'education benefits',
+    trackingPrefix: '10275-edu-benefits',
   },
 ];
 
