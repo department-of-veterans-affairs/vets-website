@@ -41,32 +41,37 @@ function getTestPaths() {
     return glob.sync(DEFAULT_SPEC_PATTERN);
   }
 
-  const changedFiles = process.env.CHANGED_FILES
-    ? process.env.CHANGED_FILES.split(' ')
-        .map(file => file.trim())
-        .filter(Boolean)
-        .map(file => file.replace(/^\.\//, '').replace(/\\/g, '/'))
-        .filter(file => !file.endsWith('.md') && !file.startsWith('.github/workflows'))
-    : [];
+  const changedFiles = (process.env.CHANGED_FILES || '')
+    .split(' ')
+    .map((file) => file.trim())
+    .filter(Boolean)
+    .map((file) => file.replace(/^\.\//, '').replace(/\\/g, '/'))
+    .filter(
+      (file) =>
+        !file.endsWith('.md') && !file.startsWith('.github/workflows')
+    );
 
-    if (changedFiles.length > 0) {
+  if (changedFiles.length > 0) {
     const appTests = changedFiles
-      .filter(file => file.startsWith('src/applications/'))
-      .map(file => `src/applications/${file.split('/')[2]}/**/*.unit.spec.js?(x)`)
-      .flatMap(pattern => glob.sync(pattern));
+      .filter((file) => file.startsWith('src/applications/'))
+      .map((file) => {
+        const appName = file.split('/')[2];
+        return `src/applications/${appName}/**/*.unit.spec.js?(x)`;
+      })
+      .flatMap((pattern) => glob.sync(pattern));
 
     const platformTests = changedFiles
-      .filter(file => file.startsWith('src/platform/'))
-      .map(file => file.split('/').slice(0, 3).join('/'))
-      .flatMap(base => glob.sync(`${base}/**/*.unit.spec.js?(x)`));
+      .filter((file) => file.startsWith('src/platform/'))
+      .map((file) => file.split('/').slice(0, 3).join('/'))
+      .flatMap((base) => glob.sync(`${base}/**/*.unit.spec.js?(x)`));
 
     const staticPagesTests = glob.sync(STATIC_PAGES_PATTERN);
 
     return [...new Set([...appTests, ...platformTests, ...staticPagesTests])];
   }
 
-  const commandPatterns = Array.isArray(options.path) ? options.path : [options.path];
-  const expanded = commandPatterns.flatMap(pattern => glob.sync(pattern));
+  const cliPatterns = Array.isArray(options.path) ? options.path : [options.path];
+  const expanded = cliPatterns.flatMap((pattern) => glob.sync(pattern));
   return [...new Set(expanded)];
 }
 
