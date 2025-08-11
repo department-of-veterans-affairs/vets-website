@@ -197,7 +197,7 @@
       "birthDate": "1976-06-09",
       "ssnLastFour": "0625",
       "vaFileLastFour": "0625",
-      "isInReceiptOfPension": 1
+      "isInReceiptOfPension": -1
     },
     "useV2": true,
     "daysTillExpires": 365,
