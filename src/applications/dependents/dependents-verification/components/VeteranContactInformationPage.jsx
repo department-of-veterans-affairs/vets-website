@@ -377,7 +377,7 @@ const VeteranContactInformationPage = ({
 
       <va-card class="vads-u-margin-top--3" data-field="internationalPhone">
         <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
-          International phone number
+          International number
         </h4>
         <div className="intl-phone vads-u-margin-y--2">
           {internationalPhone ? (
