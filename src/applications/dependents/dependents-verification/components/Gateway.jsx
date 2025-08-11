@@ -77,9 +77,9 @@ const Gateway = ({ route, top = false }) => {
     case 'no-dependents':
       return top ? (
         <va-alert status="info" visible>
-          <h3 slot="headline">
+          <h2 slot="headline">
             We don’t have any dependents information on file for you
-          </h3>
+          </h2>
           <p>We can’t find any dependents added to your disability award.</p>
           <va-link
             href="/view-change-dependents"
@@ -90,7 +90,7 @@ const Gateway = ({ route, top = false }) => {
     case 'error':
       return top ? (
         <va-alert status="error" visible>
-          <h3 slot="headline">Error Loading Dependents</h3>
+          <h2 slot="headline">Error Loading Dependents</h2>
           <p>
             There was an error loading your dependents. Please try again later
             or contact support.
