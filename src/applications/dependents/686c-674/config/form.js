@@ -68,6 +68,7 @@ import {
   veteranInformation,
   veteranAddress,
   veteranContactInformation,
+  checkVeteranPension,
 } from './chapters/veteran-information';
 import {
   removeChildStoppedAttendingSchoolOptions,
@@ -128,7 +129,12 @@ import prefillTransformer from './prefill-transformer';
 import { chapter as addChild } from './chapters/report-add-child';
 import { spouseAdditionalEvidence } from './chapters/additional-information/spouseAdditionalEvidence';
 import { childAdditionalEvidence as finalChildAdditionalEvidence } from './chapters/additional-information/childAdditionalEvidence';
-import { spouseEvidence, childEvidence } from './utilities';
+import {
+  spouseEvidence,
+  childEvidence,
+  showPensionRelatedQuestions,
+  showPensionBackupPath,
+} from './utilities';
 
 const emptyMigration = savedData => savedData;
 const migrations = [emptyMigration];
@@ -241,6 +247,13 @@ export const formConfig = {
           title: 'Veteran contact information',
           uiSchema: veteranContactInformation.uiSchema,
           schema: veteranContactInformation.schema,
+        },
+        checkVeteranPension: {
+          depends: formData => showPensionBackupPath(formData),
+          path: 'check-veteran-pension',
+          title: 'Check Veteran Pension',
+          uiSchema: checkVeteranPension.uiSchema,
+          schema: checkVeteranPension.schema,
         },
       },
     },
@@ -1086,6 +1099,7 @@ export const formConfig = {
       title: 'Your net worth',
       pages: {
         householdIncome: {
+          depends: formData => showPensionRelatedQuestions(formData),
           path: 'net-worth',
           title: 'Information about your net worth',
           uiSchema: householdIncome.uiSchema,

@@ -203,3 +203,19 @@ export const childEvidence = (formData = {}) => {
       showBirthCertificate || hasDisabledChild || hasAdoptedChild,
   };
 };
+
+export const showPensionRelatedQuestions = (formData = {}) => {
+  const { veteranInformation: vi, vaDependentsNetWorthAndPension } = formData;
+  if (vaDependentsNetWorthAndPension) {
+    const isInReceiptOfPension = vi?.isInReceiptOfPension === 1;
+    const backupPathIsInReceiptOfPension =
+      vi?.isInReceiptOfPension === -1 && formData['view:checkVeteranPension'];
+    return isInReceiptOfPension || backupPathIsInReceiptOfPension;
+  }
+  return false;
+};
+
+export const showPensionBackupPath = (formData = {}) => {
+  const { veteranInformation: vi, vaDependentsNetWorthAndPension } = formData;
+  return vaDependentsNetWorthAndPension && vi?.isInReceiptOfPension === -1;
+};
