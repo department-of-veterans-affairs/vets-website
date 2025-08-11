@@ -38,6 +38,9 @@ export default function FilesNeeded({ item, previousPage = null }) {
       if (evidenceDictionary[item.displayName]?.isSensitive) {
         return `Request for evidence`;
       }
+      if (evidenceDictionary[item.displayName]?.noProvidePrefix) {
+        return item.friendlyName;
+      }
       if (item.friendlyName) {
         return `Provide ${getDisplayFriendlyName(item)}`;
       }

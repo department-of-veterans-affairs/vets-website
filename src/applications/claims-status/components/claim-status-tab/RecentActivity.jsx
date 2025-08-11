@@ -62,6 +62,7 @@ export default function RecentActivity({ claim }) {
         id: `${item.id}-${uniqueId()}`,
         date,
         description,
+        oldDisplayName: item.displayName,
         displayName: cstFriendlyEvidenceRequests
           ? item.friendlyName || item.displayName
           : item.displayName,
@@ -236,7 +237,7 @@ export default function RecentActivity({ claim }) {
               <br />
             </>
           ) : (
-            renderDefaultThirdPartyMessage(item.displayName)
+            renderDefaultThirdPartyMessage(item.oldDisplayName)
           )}
           <Link
             aria-label={`About this notice for ${item.friendlyName ||
