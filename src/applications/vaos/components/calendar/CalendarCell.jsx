@@ -1,10 +1,10 @@
 /* eslint-disable @department-of-veterans-affairs/prefer-button-component */
 /* eslint-disable @department-of-veterans-affairs/prefer-icon-component */
-import React, { useState, useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
-import moment from 'moment';
 import classNames from 'classnames';
+import { format, parseISO } from 'date-fns';
 import debounce from 'platform/utilities/data/debounce';
+import PropTypes from 'prop-types';
+import React, { useEffect, useRef, useState } from 'react';
 import CalendarOptions from './CalendarOptions';
 
 const CalendarCell = ({
@@ -75,6 +75,7 @@ const CalendarCell = ({
     return (
       <div role="cell" className="vaos-calendar__calendar-day">
         <button
+          type="button"
           className="vads-u-padding--0 vads-u-visibility--hidden"
           aria-label="Non-existing Date"
         />
@@ -83,9 +84,9 @@ const CalendarCell = ({
   }
 
   const isCurrentlySelected = currentlySelectedDate === date;
-  const momentDate = moment(date);
-  const dateDay = momentDate.format('D');
-  const ariaDate = momentDate.format('dddd, MMMM Do');
+  const dateObj = parseISO(date);
+  const dateDay = format(dateObj, 'd');
+  const ariaDate = format(dateObj, 'EEEE, MMMM do');
   const buttonLabel = inSelectedArray
     ? `${ariaDate}, ${
         renderSelectedLabel
@@ -109,7 +110,6 @@ const CalendarCell = ({
         aria-controls={
           isCurrentlySelected ? `vaos-options-container-${date}` : undefined
         }
-        aria-describedby={`vaos-calendar-instructions-${momentDate.month()}`}
         className="vaos-calendar__calendar-day-button"
         id={`date-cell-${date}`}
         onClick={() => onClick(date)}

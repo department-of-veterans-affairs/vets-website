@@ -28,6 +28,19 @@ import noAssociationsAtAll from '../fixtures/json-triage-mocks/triage-teams-no-a
 import lostAssociation from '../fixtures/json-triage-mocks/triage-teams-lost-association.json';
 
 describe('Thread Details container', () => {
+  let stub;
+  afterEach(() => {
+    if (stub) {
+      stub.restore();
+      stub = null;
+    }
+  });
+  const stubUseFeatureToggles = value => {
+    const useFeatureToggles = require('../../hooks/useFeatureToggles');
+    stub = sinon.stub(useFeatureToggles, 'default').returns(value);
+    return stub;
+  };
+
   const setup = state => {
     return renderWithStoreAndRouter(<ThreadDetails testing />, {
       initialState: state,
@@ -131,17 +144,20 @@ describe('Thread Details container', () => {
         threadDetails,
       },
     };
+    if (!window.print) {
+      window.print = () => {};
+    }
+    const printStub = sinon.stub(window, 'print');
     const screen = setup(state);
     const printButton = screen.getByTestId('print-button');
-    const printSpy = sinon.spy(window, 'print');
 
     expect(printButton).to.exist;
 
+    fireEvent.click(printButton);
     await waitFor(() => {
-      fireEvent.click(printButton);
-      expect(printSpy.calledOnce).to.equal(true);
-      printSpy.restore();
+      expect(printStub.called).to.be.true;
     });
+    printStub.restore();
     expect(screen.getByTestId('message-thread-for-print')).to.be.visible;
   });
 
@@ -211,13 +227,6 @@ describe('Thread Details container', () => {
           replyToName: 'SM_TO_VA_GOV_TRIAGE_GROUP_TEST',
           threadFolderId: -2,
           cannotReply: false,
-          draftInProgress: {
-            recipientId: singleDraftThread.draftMessage.recipientId,
-            recipientName: singleDraftThread.draftMessage.recipientName,
-            category: singleDraftThread.draftMessage.category,
-            subject: singleDraftThread.draftMessage.subject,
-            body: singleDraftThread.draftMessage.body,
-          },
         },
         recipients: {
           allRecipients: noBlockedRecipients.mockAllRecipients,
@@ -294,11 +303,8 @@ describe('Thread Details container', () => {
 
     expect(await screen.queryByText('Continue to reply')).to.not.exist;
 
-    expect(
-      await screen.findByText(`Messages: ${category} - ${subject}`, {
-        exact: false,
-      }),
-    ).to.exist;
+    expect(await screen.findByText(`${category}: ${subject}`, { exact: false }))
+      .to.exist;
 
     expect(global.document.title).to.equal(
       `Messages: ${PageTitles.CONVERSATION_TITLE_TAG}`,
@@ -698,6 +704,11 @@ describe('Thread Details container', () => {
   });
 
   it('renders the sending message spinner when sent', async () => {
+    const useFeatureTogglesStub = stubUseFeatureToggles({
+      largeAttachmentsEnabled: false,
+    });
+    useFeatureTogglesStub;
+
     const folderId = '112233';
     const state = {
       sm: {
@@ -732,8 +743,58 @@ describe('Thread Details container', () => {
     mockApiRequest({ method: 'POST', data: {}, status: 200 });
     fireEvent.click(screen.getByTestId('send-button'));
     await waitFor(() => {
-      expect(screen.getByTestId('sending-indicator')).to.exist;
+      expect(screen.getByTestId('sending-indicator')).to.have.attribute(
+        'message',
+        'Sending message...',
+      );
     });
+  });
+
+  it('renders the sending message spinner when sent with largeAttachmentsEnabled feature flag', async () => {
+    const useFeatureTogglesStub = stubUseFeatureToggles({
+      largeAttachmentsEnabled: true,
+    });
+    useFeatureTogglesStub;
+    const folderId = '112233';
+    const state = {
+      sm: {
+        threadDetails: {
+          drafts: [
+            {
+              ...replyDraftMessage,
+              threadFolderId: folderId,
+              replyToMessageId: 1234,
+            },
+          ],
+          messages: [replyMessage],
+        },
+        recipients: {
+          allRecipients: noBlockedRecipients.mockAllRecipients,
+          allowedRecipients: noBlockedRecipients.mockAllowedRecipients,
+          blockedRecipients: noBlockedRecipients.mockBlockedRecipients,
+          associatedTriageGroupsQty:
+            noBlockedRecipients.associatedTriageGroupsQty,
+          associatedBlockedTriageGroupsQty:
+            noBlockedRecipients.associatedBlockedTriageGroupsQty,
+          noAssociations: noBlockedRecipients.noAssociations,
+          allTriageGroupsBlocked: noBlockedRecipients.allTriageGroupsBlocked,
+        },
+      },
+    };
+    const screen = setup(state);
+    await waitFor(() => {
+      screen.getByTestId('send-button');
+    });
+    expect(screen.getByTestId('send-button')).to.exist;
+    mockApiRequest({ method: 'POST', data: {}, status: 200 });
+    fireEvent.click(screen.getByTestId('send-button'));
+    await waitFor(() => {
+      expect(screen.getByTestId('sending-indicator')).to.have.attribute(
+        'message',
+        'Do not refresh the page. Sending message...',
+      );
+    });
+    useFeatureTogglesStub.restore();
   });
 
   it('responds to Save Draft button click on Reply Form', async () => {

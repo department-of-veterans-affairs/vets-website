@@ -117,6 +117,7 @@ import {
   removeChildHouseholdIntroPage,
   removeChildHouseholdOptions,
   removeChildHouseholdSummaryPage,
+  stepchildLeftHouseholdDatePage,
   supportAmountPage,
   veteranSupportsChildPage,
 } from './chapters/stepchild-no-longer-part-of-household/removeChildHouseholdArrayPages';
@@ -150,6 +151,9 @@ export const formConfig = {
     },
   },
   formId: VA_FORM_IDS.FORM_21_686CV2,
+  formOptions: {
+    useWebComponentForNavigation: true,
+  },
   saveInProgress: {
     messages: {
       inProgress: 'Your application is in progress',
@@ -194,6 +198,11 @@ export const formConfig = {
           path: 'options-selection',
           uiSchema: addOrRemoveDependents.uiSchema,
           schema: addOrRemoveDependents.schema,
+          initialData: {
+            // Set in prefill, but included here because we're seeing v2
+            // submissions without it
+            useV2: true,
+          },
         },
         addDependentOptions: {
           title: 'Add a dependent',
@@ -773,6 +782,19 @@ export const formConfig = {
               '686-stepchild-no-longer-part-of-household/:index/child-information',
             uiSchema: householdChildInfoPage.uiSchema,
             schema: householdChildInfoPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(
+                formData,
+                TASK_KEYS.reportStepchildNotInHousehold,
+              ) && formData?.['view:addOrRemoveDependents']?.remove,
+          }),
+          stepchildLeftHouseholdDate: pageBuilder.itemPage({
+            title:
+              'Information needed to report a stepchild is no longer part of your household',
+            path:
+              '686-stepchild-no-longer-part-of-household/:index/date-child-left-household',
+            uiSchema: stepchildLeftHouseholdDatePage.uiSchema,
+            schema: stepchildLeftHouseholdDatePage.schema,
             depends: formData =>
               isChapterFieldRequired(
                 formData,

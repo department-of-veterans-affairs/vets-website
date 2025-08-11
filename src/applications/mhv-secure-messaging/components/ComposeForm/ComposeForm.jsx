@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  useMemo,
-  useCallback,
-  useRef,
-} from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { validateNameSymbols } from 'platform/forms-system/src/js/web-component-patterns/fullNamePattern';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,7 +9,6 @@ import {
   externalServices,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import { renderMHVDowntime } from '@department-of-veterans-affairs/mhv/exports';
-import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import FileInput from './FileInput';
 import CategoryInput from './CategoryInput';
 import AttachmentsList from '../AttachmentsList';
@@ -56,14 +49,9 @@ import RecipientsSelect from './RecipientsSelect';
 import { useSessionExpiration } from '../../hooks/use-session-expiration';
 import EditSignatureLink from './EditSignatureLink';
 import useFeatureToggles from '../../hooks/useFeatureToggles';
-import {
-  clearDraftInProgress,
-  updateDraftInProgress,
-} from '../../actions/threadDetails';
-import SelectedRecipientTitle from './SelectedRecipientTitle';
 
 const ComposeForm = props => {
-  const { pageTitle, draft, recipients, signature } = props;
+  const { pageTitle, headerRef, draft, recipients, signature } = props;
   const {
     noAssociations,
     allTriageGroupsBlocked,
@@ -71,90 +59,18 @@ const ComposeForm = props => {
   } = recipients;
   const dispatch = useDispatch();
   const history = useHistory();
-  const headerRef = useRef();
 
-  const { isComboBoxEnabled } = useFeatureToggles();
-  const { isPilot } = useSelector(state => state.sm.app);
-  const { draftInProgress } = useSelector(state => state.sm.threadDetails);
-  const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
+  const {
+    isComboBoxEnabled,
+    largeAttachmentsEnabled,
+    cernerPilotSmFeatureFlag,
+  } = useFeatureToggles();
 
   const [recipientsList, setRecipientsList] = useState(allowedRecipients);
-  const [selectedRecipientId, setSelectedRecipientId] = useState(
-    draftInProgress?.recipientId || null,
-  );
+  const [selectedRecipientId, setSelectedRecipientId] = useState(null);
   const [isSignatureRequired, setIsSignatureRequired] = useState(null);
   const [checkboxMarked, setCheckboxMarked] = useState(false);
   const [attachFileError, setAttachFileError] = useState(null);
-  const [formPopulated, setFormPopulated] = useState(false);
-  const [sendMessageFlag, setSendMessageFlag] = useState(false);
-
-  const recipientExists = useCallback(
-    recipientId => {
-      return recipientsList.findIndex(item => +item.id === +recipientId) > -1;
-    },
-    [recipientsList],
-  );
-
-  useEffect(
-    () => {
-      // Consider draftInProgress "empty" if it has no recipientId
-      const isDraftInProgressEmpty =
-        !draftInProgress ||
-        Object.keys(draftInProgress).length === 0 ||
-        (!draftInProgress.careSystemVhaId &&
-          !draftInProgress.careSystemName &&
-          !draftInProgress.recipientId &&
-          !draftInProgress.recipientName);
-
-      if (isDraftInProgressEmpty && draft && !sendMessageFlag) {
-        const careTeam =
-          recipients?.allowedRecipients?.find(
-            team => draft?.recipientId === team.id,
-          ) || null;
-        const careSystem = ehrDataByVhaId[(careTeam?.stationNumber)] || null;
-
-        if (recipientExists(draft?.recipientId)) {
-          dispatch(
-            updateDraftInProgress({
-              careSystemVhaId:
-                draftInProgress?.careSystemVhaId || careSystem?.vhaId,
-              careSystemName:
-                draftInProgress?.careSystemName || careSystem?.vamcSystemName,
-              recipientId: draftInProgress?.recipientId || draft.recipientId,
-              recipientName:
-                draftInProgress?.recipientName ||
-                draft.suggestedNameDisplay ||
-                draft.recipientName,
-              category: draftInProgress?.category || draft.category,
-              subject: draftInProgress?.subject || draft.subject,
-              body: draftInProgress?.body || draft.body,
-              messageId: draftInProgress.messageId || draft.messageId,
-            }),
-          );
-        } else {
-          dispatch(
-            updateDraftInProgress({
-              careSystemVhaId: null,
-              careSystemName: null,
-              recipientId: null,
-              recipientName: null,
-              category: draftInProgress?.category || draft.category,
-              subject: draftInProgress?.subject || draft.subject,
-              body: draftInProgress?.body || draft.body,
-              messageId: draftInProgress.messageId || draft.messageId,
-            }),
-          );
-        }
-      }
-    },
-    [
-      draft,
-      dispatch,
-      ehrDataByVhaId,
-      recipients?.allowedRecipients,
-      recipientExists,
-    ],
-  );
 
   useEffect(
     () => {
@@ -168,18 +84,20 @@ const ComposeForm = props => {
     },
     [selectedRecipientId, allowedRecipients],
   );
-  const [category, setCategory] = useState(draftInProgress?.category || null);
+  const [category, setCategory] = useState(null);
   const [categoryError, setCategoryError] = useState('');
   const [bodyError, setBodyError] = useState(null);
   const [recipientError, setRecipientError] = useState('');
   const [subjectError, setSubjectError] = useState('');
   const [signatureError, setSignatureError] = useState('');
   const [checkboxError, setCheckboxError] = useState('');
-  const [subject, setSubject] = useState(draftInProgress?.subject || '');
-  const [messageBody, setMessageBody] = useState(draftInProgress?.body || '');
+  const [subject, setSubject] = useState('');
+  const [messageBody, setMessageBody] = useState('');
   const [electronicSignature, setElectronicSignature] = useState('');
   const [attachments, setAttachments] = useState([]);
+  const [formPopulated, setFormPopulated] = useState(false);
   const [fieldsString, setFieldsString] = useState('');
+  const [sendMessageFlag, setSendMessageFlag] = useState(false);
   const [messageInvalid, setMessageInvalid] = useState(false);
   const [navigationError, setNavigationError] = useState(null);
   const [saveError, setSaveError] = useState(null);
@@ -298,8 +216,14 @@ const ComposeForm = props => {
       if (allowedRecipients?.length > 0) {
         setRecipientsList([...allowedRecipients]);
       }
+
+      if (!draft) {
+        setCategory(null);
+        setSubject('');
+        setMessageBody('');
+      }
     },
-    [allowedRecipients],
+    [recipients, draft, allowedRecipients],
   );
 
   useEffect(
@@ -321,34 +245,31 @@ const ComposeForm = props => {
 
   useEffect(
     () => {
-      const send = async () => {
-        if (sendMessageFlag && isSaving !== true) {
-          scrollToTop();
-          const today = dateFormat(new Date(), 'YYYY-MM-DD');
-          const messageData = {
-            category: draftInProgress.category,
-            body: `${draftInProgress.body} ${
-              electronicSignature
-                ? `\n\n--------------------------------------------------\n\n${electronicSignature}\nSigned electronically on ${today}.`
-                : ''
-            }`,
-            subject: draftInProgress.subject,
-          };
-          messageData[`${'draft_id'}`] = draft?.messageId;
-          messageData[`${'recipient_id'}`] = draftInProgress.recipientId;
+      const today = dateFormat(new Date(), 'YYYY-MM-DD');
+      if (sendMessageFlag && isSaving !== true) {
+        scrollToTop();
+        const messageData = {
+          category,
+          body: `${messageBody} ${
+            electronicSignature
+              ? `\n\n--------------------------------------------------\n\n${electronicSignature}\nSigned electronically on ${today}.`
+              : ``
+          }`,
+          subject,
+        };
+        messageData[`${'draft_id'}`] = draft?.messageId;
+        messageData[`${'recipient_id'}`] = selectedRecipientId;
 
-          let sendData;
-          if (attachments.length > 0) {
-            sendData = new FormData();
-            sendData.append('message', JSON.stringify(messageData));
-            attachments.map(upload => sendData.append('uploads[]', upload));
-          } else {
-            sendData = JSON.stringify(messageData);
-          }
-
-          try {
-            await dispatch(sendMessage(sendData, attachments.length > 0));
-            dispatch(clearDraftInProgress());
+        let sendData;
+        if (attachments.length > 0) {
+          sendData = new FormData();
+          sendData.append('message', JSON.stringify(messageData));
+          attachments.map(upload => sendData.append('uploads[]', upload));
+        } else {
+          sendData = JSON.stringify(messageData);
+        }
+        dispatch(sendMessage(sendData, attachments.length > 0))
+          .then(() => {
             setTimeout(() => {
               navigateToFolderByFolderId(
                 currentFolder?.folderId || DefaultFolders.INBOX.id,
@@ -356,23 +277,25 @@ const ComposeForm = props => {
               );
             }, 1000);
             // Timeout neccessary for UCD requested 1 second delay
-          } catch (err) {
-            setSendMessageFlag(false);
-            scrollToTop();
-          }
-        }
-      };
-
-      send();
+          })
+          .catch(() => setSendMessageFlag(false), scrollToTop());
+      }
     },
-    [sendMessageFlag, isSaving, scrollToTop],
+    [
+      sendMessageFlag,
+      isSaving,
+      category,
+      messageBody,
+      electronicSignature,
+      subject,
+      draft?.messageId,
+      selectedRecipientId,
+      attachments,
+      dispatch,
+      currentFolder?.folderId,
+      history,
+    ],
   );
-
-  useEffect(() => {
-    if (headerRef.current) {
-      focusElement(headerRef.current);
-    }
-  }, []);
 
   useEffect(
     () => {
@@ -392,44 +315,46 @@ const ComposeForm = props => {
     [alertStatus, lastFocusableElement],
   );
 
+  const recipientExists = useCallback(
+    recipientId => {
+      return recipientsList.findIndex(item => +item.id === +recipientId) > -1;
+    },
+    [recipientsList],
+  );
+
   //  Populates form fields with recipients and categories
-  const populateForm = useCallback(
-    () => {
-      if (recipientExists(draftInProgress?.recipientId)) {
-        setSelectedRecipientId(draftInProgress.recipientId);
-      }
-      setCategory(draftInProgress?.category ?? draft.category);
-      setSubject(draftInProgress?.subject ?? draft.subject);
-      setMessageBody(draftInProgress?.body ?? draft.body);
+  const populateForm = () => {
+    if (recipientExists(draft.recipientId)) {
+      setSelectedRecipientId(draft.recipientId);
+    } else {
+      const newRecipient = {
+        id: draft?.recipientId,
+        name: draft?.recipientName,
+      };
+      setRecipientsList(prevRecipientsList => [
+        ...prevRecipientsList,
+        newRecipient,
+      ]);
+      setSelectedRecipientId(newRecipient.id);
+    }
+    setCategory(draft.category);
+    setSubject(draft.subject);
+    setMessageBody(draft.body);
+    if (draft.attachments) {
+      setAttachments(draft.attachments);
+    }
+    setFormPopulated(true);
+    setFieldsString(
+      JSON.stringify({
+        rec: draft.recipientId,
+        cat: draft.category,
+        sub: draft.subject,
+        bod: draft.body,
+      }),
+    );
+  };
 
-      if (draft?.attachments) {
-        setAttachments(draft.attachments);
-      }
-      setFormPopulated(true);
-      setFieldsString(
-        JSON.stringify({
-          rec: draftInProgress.recipientId,
-          cat: draftInProgress.category,
-          sub: draftInProgress.subject,
-          bod: draftInProgress.body,
-        }),
-      );
-    },
-    [recipientExists, draftInProgress, draft],
-  );
-
-  useEffect(
-    () => {
-      if (
-        draftInProgress.category &&
-        draftInProgress.subject &&
-        draftInProgress.body &&
-        !formPopulated
-      )
-        populateForm();
-    },
-    [draftInProgress, formPopulated, populateForm],
-  );
+  if (draft && !formPopulated) populateForm();
 
   const checkMessageValidity = useCallback(
     checkValidType => {
@@ -442,7 +367,7 @@ const ComposeForm = props => {
         selectedRecipientId === '' ||
         !selectedRecipientId
       ) {
-        if (!isPilot && isComboBoxEnabled) {
+        if (isComboBoxEnabled) {
           if (comboBoxInputValue === '') {
             setRecipientError(ErrorMessages.ComposeForm.RECIPIENT_REQUIRED);
           } else {
@@ -492,13 +417,12 @@ const ComposeForm = props => {
       subject,
       messageBody,
       category,
+      validMessageType.SEND,
       isSignatureRequired,
       electronicSignature,
       checkboxMarked,
-      setMessageInvalid,
-      comboBoxInputValue,
       isComboBoxEnabled,
-      isPilot,
+      comboBoxInputValue,
     ],
   );
 
@@ -566,14 +490,14 @@ const ComposeForm = props => {
 
       const draftId = draft?.messageId;
       const formData = {
-        recipientId: draftInProgress.recipientId,
-        category: draftInProgress.category,
-        subject: draftInProgress.subject,
-        body: draftInProgress.body,
+        recipientId: selectedRecipientId,
+        category,
+        subject,
+        body: messageBody,
       };
 
       const newFieldsString = JSON.stringify({
-        rec: parseInt(debouncedRecipient || draftInProgress.recipientId, 10),
+        rec: parseInt(debouncedRecipient || selectedRecipientId, 10),
         cat: debouncedCategory || category,
         sub: debouncedSubject || subject,
         bod: debouncedMessageBody || messageBody,
@@ -598,24 +522,21 @@ const ComposeForm = props => {
     },
     [
       checkMessageValidity,
-      attachments,
-      isSignatureRequired,
-      electronicSignature,
-      debouncedRecipient,
-      debouncedCategory,
-      debouncedSubject,
-      debouncedMessageBody,
+      validMessageType.SAVE,
+      draft?.messageId,
       selectedRecipientId,
       category,
       subject,
       messageBody,
+      debouncedRecipient,
+      debouncedCategory,
+      debouncedSubject,
+      debouncedMessageBody,
+      attachments,
+      isSignatureRequired,
+      electronicSignature,
       fieldsString,
-      saveError,
-      draft,
       dispatch,
-      setUnsavedNavigationError,
-      setNavigationError,
-      setSavedDraft,
     ],
   );
 
@@ -643,7 +564,7 @@ const ComposeForm = props => {
         focusOnErrorField();
       }
     },
-    [checkMessageValidity, isSignatureRequired],
+    [checkMessageValidity, isSignatureRequired, validMessageType.SEND],
   );
 
   // Navigation error effect
@@ -791,22 +712,12 @@ const ComposeForm = props => {
 
   const subjectHandler = e => {
     setSubject(e.target.value);
-    dispatch(
-      updateDraftInProgress({
-        subject: e.target.value,
-      }),
-    );
     if (e.target.value) setSubjectError('');
     setUnsavedNavigationError();
   };
 
   const messageBodyHandler = e => {
     setMessageBody(e.target.value);
-    dispatch(
-      updateDraftInProgress({
-        body: e.target.value,
-      }),
-    );
     if (e.target.value) setBodyError('');
     setUnsavedNavigationError();
   };
@@ -852,13 +763,14 @@ const ComposeForm = props => {
       }
     },
     [
-      draft,
       selectedRecipientId,
+      draft,
       category,
       subject,
       messageBody,
       attachments,
-      timeoutId,
+      signOutMessage,
+      noTimeout,
     ],
   );
 
@@ -867,7 +779,11 @@ const ComposeForm = props => {
   if (sendMessageFlag === true) {
     return (
       <va-loading-indicator
-        message="Sending message..."
+        message={
+          largeAttachmentsEnabled
+            ? 'Do not refresh the page. Sending message...'
+            : 'Sending message...'
+        }
         setFocus
         data-testid="sending-indicator"
       />
@@ -938,8 +854,7 @@ const ComposeForm = props => {
           }
         />
         <div>
-          {!isPilot &&
-            !noAssociations &&
+          {!noAssociations &&
             !allTriageGroupsBlocked && (
               <div
                 className={`vads-u-border-top--1px vads-u-padding-top--3 vads-u-margin-top--3 ${
@@ -955,8 +870,7 @@ const ComposeForm = props => {
                 />
               </div>
             )}
-          {!isPilot &&
-            recipientsList &&
+          {recipientsList &&
             !noAssociations &&
             !allTriageGroupsBlocked && (
               <RecipientsSelect
@@ -968,12 +882,8 @@ const ComposeForm = props => {
                 setCheckboxMarked={setCheckboxMarked}
                 setElectronicSignature={setElectronicSignature}
                 setComboBoxInputValue={setComboBoxInputValue}
-                currentRecipient={currentRecipient}
               />
             )}
-          {isPilot && (
-            <SelectedRecipientTitle draftInProgress={draftInProgress} />
-          )}
           <div className="compose-form-div">
             {noAssociations || allTriageGroupsBlocked ? (
               <ViewOnlyDraftSection
@@ -1072,6 +982,7 @@ const ComposeForm = props => {
                     attachmentScanError={attachmentScanError}
                     attachFileError={attachFileError}
                     setAttachFileError={setAttachFileError}
+                    isPilot={cernerPilotSmFeatureFlag}
                   />
                 </section>
               ))}
@@ -1107,6 +1018,8 @@ const ComposeForm = props => {
 
 ComposeForm.propTypes = {
   draft: PropTypes.object,
+  headerRef: PropTypes.object,
+  pageTitle: PropTypes.string,
   recipients: PropTypes.object,
   signature: PropTypes.object,
 };

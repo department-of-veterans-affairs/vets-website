@@ -43,63 +43,26 @@ export const DependentsInformationReview = ({ data, goToPath }) => {
       {dependents?.length > 0 ? (
         dependents?.map((dep, index) => (
           <React.Fragment key={index}>
-            <h4 className="vads-u-font-size--h5">
-              {`${dep.fullName.first} ${dep.fullName.last}`}
+            <h4
+              className="vads-u-font-size--h5 dd-privacy-hidden"
+              data-dd-action-name="Dependent SSN"
+            >
+              {dep.fullName}
             </h4>
             <dl key={index} className="review vads-u-margin-y--4">
-              <div className="review-row">
-                <dt>First name</dt>
-                <dd
-                  className="dd-privacy-mask"
-                  data-dd-action-name="Dependent's first name"
-                >
-                  {dep.fullName.first}
-                </dd>
-              </div>
-              {dep.fullName.middle && (
-                <div className="review-row">
-                  <dt>Middle name</dt>
-                  <dd
-                    className="dd-privacy-mask"
-                    data-dd-action-name="Dependent's middle name"
-                  >
-                    {dep.fullName.middle}
-                  </dd>
-                </div>
-              )}
-              <div className="review-row">
-                <dt>Last name</dt>
-                <dd
-                  className="dd-privacy-mask"
-                  data-dd-action-name="Dependent's last name"
-                >
-                  {dep.fullName.last}
-                </dd>
-              </div>
-              {dep.fullName.suffix && (
-                <div className="review-row">
-                  <dt>Suffix</dt>
-                  <dd
-                    className="dd-privacy-mask"
-                    data-dd-action-name="Dependent's name suffix"
-                  >
-                    {dep.fullName.suffix}
-                  </dd>
-                </div>
-              )}
               <div className="review-row">
                 <dt>Social Security number</dt>
                 <dd
                   className="dd-privacy-hidden"
                   data-dd-action-name="Dependent SSN"
                 >
-                  {maskID(dep.ssnLastFour)}
+                  {maskID(dep.ssn)}
                 </dd>
               </div>
               <div className="review-row">
                 <dt>Date of birth</dt>
                 <dd
-                  className="dd-privacy-mask"
+                  className="dd-privacy-hidden"
                   data-dd-action-name="Dependent's date of birth"
                 >
                   {dep.dob}
@@ -108,7 +71,7 @@ export const DependentsInformationReview = ({ data, goToPath }) => {
               <div className="review-row">
                 <dt>Age</dt>
                 <dd
-                  className="dd-privacy-mask"
+                  className="dd-privacy-hidden"
                   data-dd-action-name="Dependent's age"
                 >
                   {dep.age} years old
@@ -117,7 +80,7 @@ export const DependentsInformationReview = ({ data, goToPath }) => {
               <div className="review-row">
                 <dt>Relationship</dt>
                 <dd
-                  className="dd-privacy-mask"
+                  className="dd-privacy-hidden"
                   data-dd-action-name="Dependent's relationship"
                 >
                   {dep.relationship}
@@ -145,7 +108,7 @@ export const DependentsInformationReview = ({ data, goToPath }) => {
 
       <dl className="review">
         <div className="review-row">
-          <dt>Is your dependent information correct?</dt>
+          <dt>Has the status of your dependents changed?</dt>
           <dd>{DEPENDENT_CHOICES[hasDependentsStatusChanged]}</dd>
         </div>
       </dl>

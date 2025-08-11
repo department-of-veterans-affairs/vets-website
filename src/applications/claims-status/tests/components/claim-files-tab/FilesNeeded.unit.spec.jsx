@@ -7,13 +7,11 @@ import { createStore } from 'redux';
 import FilesNeeded from '../../../components/claim-files-tab/FilesNeeded';
 import { renderWithRouter } from '../../utils';
 
-const getStore = (cst5103UpdateEnabled = true, cstFriendlyEvidenceRequests) =>
+const getStore = (cst5103UpdateEnabled = true) =>
   createStore(() => ({
     featureToggles: {
       // eslint-disable-next-line camelcase
       cst_5103_update_enabled: cst5103UpdateEnabled,
-      // eslint-disable-next-line camelcase
-      cst_friendly_evidence_requests: cstFriendlyEvidenceRequests,
     },
   }));
 
@@ -37,9 +35,9 @@ describe('<FilesNeeded>', () => {
       );
 
       getByText('December 1, 2024', { exact: false });
-      getByText(item.displayName);
+      getByText('Request for evidence');
       getByText(item.description);
-      getByText('Details');
+      getByText('About this request');
       expect(sessionStorage.getItem('previousPage')).to.not.exist;
     });
 
@@ -65,7 +63,7 @@ describe('<FilesNeeded>', () => {
             ),
           ).to.exist;
           expect(queryByText('Review evidence list (5103 notice)')).to.exist;
-          getByText('Details');
+          getByText('About this request');
         });
       });
     });
@@ -98,32 +96,50 @@ describe('<FilesNeeded>', () => {
       expect(sessionStorage.getItem('previousPage')).to.equal(statusTab);
     });
   });
-  context('when cstFriendlyEvidenceRequests is true', () => {
-    it('should dispaly friendly description of 21-4142', () => {
-      const item214142 = {
-        closedDate: null,
-        description: '21-4142 text',
-        displayName: '21-4142/21-4142a',
-        friendlyName: 'Authorization to Disclose Information',
-        activityDescription: 'good description',
-        canUploadFile: true,
-        supportAliases: ['VA Form 21-4142'],
-        id: 14268,
-        overdue: true,
-        receivedDate: null,
-        requestedDate: '2024-03-07',
-        status: 'NEEDED_FROM_YOU',
-        suspenseDate: '2024-12-01',
-        uploadsAllowed: true,
-        documents: '[]',
-        date: '2024-03-07',
-      };
-      const { getByText } = renderWithRouter(
-        <Provider store={getStore(true, true)}>
-          <FilesNeeded item={item214142} />
-        </Provider>,
-      );
-      getByText('good description');
-    });
+  it('should dispaly friendly description and friendlyName of 21-4142', () => {
+    const item214142 = {
+      closedDate: null,
+      description: '21-4142 text',
+      displayName: '21-4142/21-4142a',
+      friendlyName: 'Authorization to Disclose Information',
+      activityDescription: 'good description',
+      canUploadFile: true,
+      supportAliases: ['VA Form 21-4142'],
+      id: 14268,
+      overdue: true,
+      receivedDate: null,
+      requestedDate: '2024-03-07',
+      status: 'NEEDED_FROM_YOU',
+      suspenseDate: '2024-12-01',
+      uploadsAllowed: true,
+      documents: '[]',
+      date: '2024-03-07',
+    };
+    const { getByText } = renderWithRouter(
+      <Provider store={getStore(true)}>
+        <FilesNeeded item={item214142} />
+      </Provider>,
+    );
+    getByText('good description');
+    getByText('Provide authorization to Disclose Information');
+  });
+  it('should dispaly Request for evidence for item without override content', () => {
+    const noOverrideItem = {
+      closedDate: null,
+      description: 'Description comes from API',
+      displayName: 'track item',
+      status: 'NEEDED_FROM_YOU',
+      suspenseDate: '2024-12-01',
+      uploadsAllowed: true,
+      documents: '[]',
+      date: '2024-03-07',
+    };
+    const { getByText } = renderWithRouter(
+      <Provider store={getStore(true)}>
+        <FilesNeeded item={noOverrideItem} />
+      </Provider>,
+    );
+    getByText('Request for evidence');
+    getByText('Description comes from API');
   });
 });

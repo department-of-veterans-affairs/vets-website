@@ -130,6 +130,7 @@ export const SystemErrorAlert = () => {
     <VeteranStatusAlert
       headline="Something went wrong"
       messages={['We’re sorry. Try to view your Veteran Status Card later.']}
+      status="warning"
     />
   );
 };

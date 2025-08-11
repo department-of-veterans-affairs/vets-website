@@ -3,6 +3,7 @@ import {
   createVAPharmacyText,
   dateFormat,
   determineRefillLabel,
+  displayProviderName,
   getRefillHistory,
   getShowRefillHistory,
   processList,
@@ -24,10 +25,7 @@ export const buildNonVAPrescriptionTXT = prescription => {
 ---------------------------------------------------------------------------------
 
 
-${prescription.prescriptionName ||
-    (prescription.dispStatus === 'Active: Non-VA'
-      ? prescription.orderableItem
-      : '')}
+${prescription?.prescriptionName || prescription?.orderableItem}
 
 Instructions: ${validateIfAvailable('Instructions', prescription.sig)}
 
@@ -142,11 +140,7 @@ Prescribed on: ${dateFormat(
       'Date not available',
     )}
 
-Prescribed by: ${
-      rx.providerLastName
-        ? `${rx.providerLastName}, ${rx.providerFirstName || ''}`
-        : 'Provider name not available'
-    }
+Prescribed by: ${displayProviderName(rx.providerFirstName, rx.providerLastName)}
 
 ${
       rx.groupedMedications?.length > 0
@@ -224,10 +218,7 @@ export const buildVAPrescriptionTXT = prescription => {
 ---------------------------------------------------------------------------------
 
 
-${prescription?.prescriptionName ||
-    (prescription?.dispStatus === 'Active: Non-VA'
-      ? prescription?.orderableItem
-      : '')}
+${prescription?.prescriptionName || prescription?.orderableItem}
 
 
 Most recent prescription
@@ -287,13 +278,11 @@ Prescribed on: ${dateFormat(
     'Date not available',
   )}
 
-Prescribed by: ${
-    prescription.providerLastName
-      ? `${prescription.providerLastName}, ${prescription.providerFirstName ||
-          ''}`
-      : 'Provider name not available'
-  }
-`;
+Prescribed by: ${displayProviderName(
+    prescription.providerFirstName,
+    prescription.providerLastName,
+  )}
+  `;
 
   if (showRefillHistory) {
     result += `
@@ -384,13 +373,10 @@ Prescribed on: ${dateFormat(
         'Date not available',
       )}
 
-Prescribed by: ${
-        previousPrescription.providerLastName
-          ? `${
-              previousPrescription.providerLastName
-            }, ${previousPrescription.providerFirstName || ''}`
-          : 'Provider name not available'
-      }
+Prescribed by: ${displayProviderName(
+        prescription.providerFirstName,
+        prescription.providerLastName,
+      )}
       `;
     });
   }

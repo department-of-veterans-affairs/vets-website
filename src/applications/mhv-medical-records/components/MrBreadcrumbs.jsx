@@ -124,6 +124,13 @@ const MrBreadcrumbs = () => {
         conditionId}`,
     )
   ) {
+    const url = `${backToImagesBreadcrumb}${
+      urlTimeFrame
+        ? `${
+            backToImagesBreadcrumb?.includes('?') ? '&' : '?'
+          }timeFrame=${urlTimeFrame}`
+        : ''
+    }`;
     return (
       <div
         className="vads-l-row vads-u-padding-y--3 breadcrumbs-container no-print"
@@ -134,9 +141,7 @@ const MrBreadcrumbs = () => {
           <va-icon icon="arrow_back" size={1} style={{ color: '#808080' }} />
         </span>
         <Link
-          to={`${backToImagesBreadcrumb}${
-            urlTimeFrame ? `?timeFrame=${urlTimeFrame}` : ''
-          }`}
+          to={url}
           onClick={() => {
             handleDataDogAction({ locationBasePath, locationChildPath });
             backToAllergiesBreadcrumb();

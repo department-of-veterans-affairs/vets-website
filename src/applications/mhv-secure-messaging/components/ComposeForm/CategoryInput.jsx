@@ -4,9 +4,7 @@ import {
   VaRadio,
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { useDispatch } from 'react-redux';
 import { RadioCategories } from '../../util/inputContants';
-import { updateDraftInProgress } from '../../actions/threadDetails';
 
 const CategoryInput = props => {
   const {
@@ -17,15 +15,9 @@ const CategoryInput = props => {
     setCategoryError,
     setUnsavedNavigationError,
   } = props;
-  const dispatch = useDispatch();
 
   const categoryChangeHandler = e => {
     setCategory(e.detail.value);
-    dispatch(
-      updateDraftInProgress({
-        category: e.detail.value,
-      }),
-    );
     if (e.detail.value) setCategoryError(null);
     setUnsavedNavigationError();
   };

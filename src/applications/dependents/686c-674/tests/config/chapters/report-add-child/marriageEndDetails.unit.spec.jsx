@@ -56,7 +56,7 @@ describe('686 add child marriage end details', () => {
           schema={schema}
           definitions={formConfig.defaultDefinitions}
           uiSchema={uiSchema}
-          data={formData('other')}
+          data={formData('Other')}
           arrayPath={arrayPath}
           pagePerItemIndex={0}
         />

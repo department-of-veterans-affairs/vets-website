@@ -1,9 +1,10 @@
 import React from 'react';
-import { render, waitFor, fireEvent } from '@testing-library/react';
+import { render, fireEvent, waitFor, cleanup } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { Provider } from 'react-redux';
-import EditMailingAddress from '../../../components/EditMailingAddress';
+
+import EditMailingAddress from '../../../components/EditMailingAddressPage';
 
 function createMockStore(getStateValue = {}) {
   return {
@@ -49,19 +50,15 @@ const mockData = {
   },
 };
 
-describe('EditMailingAddress renders fields', () => {
-  let goToPath;
+const store = createMockStore();
 
-  beforeEach(() => {
-    goToPath = sinon.spy();
-  });
-
+describe('EditMailingAddressPage', () => {
   afterEach(() => {
+    cleanup();
     sessionStorage.clear();
   });
 
   it('renders address inputs with correct labels and values', () => {
-    const store = createMockStore();
     const { container } = render(
       <Provider store={store}>
         <EditMailingAddress
@@ -69,9 +66,11 @@ describe('EditMailingAddress renders fields', () => {
           uiSchema={mockUiSchema}
           data={mockData}
           goToPath={() => {}}
+          setFormData={() => {}}
         />
       </Provider>,
     );
+
     const textInputs = container.querySelectorAll('input[type="text"]');
     expect(textInputs.length).to.equal(5);
 
@@ -93,8 +92,7 @@ describe('EditMailingAddress renders fields', () => {
     expect(container.textContent).to.include('Edit mailing address');
   });
 
-  it('renders Save and Cancel buttons', () => {
-    const store = createMockStore();
+  it('renders Update and Cancel buttons', () => {
     const { container } = render(
       <Provider store={store}>
         <EditMailingAddress
@@ -102,67 +100,133 @@ describe('EditMailingAddress renders fields', () => {
           uiSchema={mockUiSchema}
           data={mockData}
           goToPath={() => {}}
+          setFormData={() => {}}
         />
       </Provider>,
     );
 
-    const buttons = Array.from(container.querySelectorAll('va-button'));
-    const saveButton = buttons.find(
-      btn =>
-        btn.getAttribute('text') === 'Save' || btn.textContent.includes('Save'),
+    const vaButtons = container.querySelectorAll('va-button');
+    const updateButton = Array.from(vaButtons).find(
+      btn => btn.getAttribute('text')?.toLowerCase() === 'update',
     );
-    const cancelButton = buttons.find(
-      btn =>
-        btn.getAttribute('text') === 'Cancel' ||
-        btn.textContent.includes('Cancel'),
+    const cancelButton = Array.from(vaButtons).find(
+      btn => btn.getAttribute('text')?.toLowerCase() === 'cancel',
     );
-    expect(saveButton).to.not.be.null;
-    expect(cancelButton).to.not.be.null;
+
+    expect(vaButtons.length).to.eql(2);
+    expect(updateButton).to.exist;
+    expect(cancelButton).to.exist;
   });
 
-  it('calls onCancel when cancel button is clicked + reviewPage', async () => {
+  it('handler: onCancel navigates to review-and-submit if onReviewPage', async () => {
     sessionStorage.setItem('onReviewPage', true);
-    const store = createMockStore();
+    const goToPathSpy = sinon.spy();
     const { container } = render(
       <Provider store={store}>
         <EditMailingAddress
           schema={mockSchema}
           uiSchema={mockUiSchema}
           data={mockData}
-          goToPath={goToPath}
+          goToPath={goToPathSpy}
+          setFormData={() => {}}
         />
       </Provider>,
     );
 
-    const cancelButton = container.querySelector('va-button[text="Cancel"]');
+    const cancelButton = Array.from(
+      container.querySelectorAll('va-button'),
+    ).find(btn => btn.getAttribute('text')?.toLowerCase() === 'cancel');
 
     fireEvent.click(cancelButton);
 
     await waitFor(() => {
-      expect(goToPath.called).to.be.true;
-      expect(goToPath.calledWith('/review-and-submit')).to.be.true;
+      expect(goToPathSpy.called).to.be.true;
+      expect(goToPathSpy.calledWith('/review-and-submit')).to.be.true;
+      expect(sessionStorage.getItem('editContactInformation')).to.eq(
+        'address,cancel',
+      );
     });
   });
 
-  it('calls onSubmit when Save button is clicked', async () => {
-    const store = createMockStore();
+  it('handler: onCancel navigates to contact-info if not onReviewPage', async () => {
+    const goToPathSpy = sinon.spy();
     const { container } = render(
       <Provider store={store}>
         <EditMailingAddress
           schema={mockSchema}
           uiSchema={mockUiSchema}
           data={mockData}
-          goToPath={goToPath}
+          goToPath={goToPathSpy}
+          setFormData={() => {}}
         />
       </Provider>,
     );
 
-    const cancelButton = container.querySelector('va-button[text="Save"]');
+    const cancelButton = Array.from(
+      container.querySelectorAll('va-button'),
+    ).find(btn => btn.getAttribute('text')?.toLowerCase() === 'cancel');
 
-    fireEvent.submit(cancelButton);
+    fireEvent.click(cancelButton);
 
     await waitFor(() => {
-      expect(goToPath.called).to.be.true;
+      expect(goToPathSpy.called).to.be.true;
+      expect(goToPathSpy.calledWith('/veteran-contact-information')).to.be.true;
+    });
+  });
+
+  it('handler: onUpdate navigates to review-and-submit if onReviewPage, and setFormData is called on change', async () => {
+    sessionStorage.setItem('onReviewPage', true);
+    const goToPathSpy = sinon.spy();
+    const setFormDataSpy = sinon.spy();
+    const { container } = render(
+      <Provider store={store}>
+        <EditMailingAddress
+          schema={mockSchema}
+          uiSchema={mockUiSchema}
+          data={mockData}
+          goToPath={goToPathSpy}
+          setFormData={setFormDataSpy}
+        />
+      </Provider>,
+    );
+
+    const cityInput = container.querySelector('input[value="Hometown"]');
+    fireEvent.input(cityInput, { target: { value: 'Big City' } });
+
+    const form = container.querySelector('form');
+    form.dispatchEvent(
+      new window.Event('submit', { bubbles: true, cancelable: true }),
+    );
+
+    await waitFor(() => {
+      expect(goToPathSpy.called).to.be.true;
+      expect(goToPathSpy.calledWith('/review-and-submit')).to.be.true;
+      expect(setFormDataSpy.called).to.be.true;
+
+      const lastCallArg = setFormDataSpy.lastCall.args[0];
+      expect(lastCallArg.address.city).to.equal('Big City');
+      expect(sessionStorage.getItem('editContactInformation')).to.eq(
+        'address,update',
+      );
+    });
+  });
+
+  it('topScrollElement is called', async () => {
+    const { container } = render(
+      <Provider store={store}>
+        <div name="topScrollElement" />
+        <EditMailingAddress
+          schema={mockSchema}
+          uiSchema={mockUiSchema}
+          data={mockData}
+          goToPath={() => {}}
+          setFormData={() => {}}
+        />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      expect(container.querySelector('[name="topScrollElement"]')).to.exist;
     });
   });
 });

@@ -11,11 +11,6 @@ const initialState = {
   blockedRecipients: [],
   blockedFacilities: [],
   allFacilities: [],
-  allowedVistaFacilities: [],
-  allowedOhFacilities: [],
-  activeCareSystem: null,
-  activeCareTeam: null,
-  activeDraftId: null,
   associatedTriageGroupsQty: undefined,
   associatedBlockedTriageGroupsQty: undefined,
   noAssociations: undefined,
@@ -53,9 +48,7 @@ export const recipientsReducer = (state = initialState, action) => {
           .filter(
             recipient =>
               recipient.blockedStatus === false &&
-              recipient.preferredTeam === true &&
-              (state.activeCareSystem?.vhaId === undefined ||
-                state.activeCareSystem?.vhaId === recipient.stationNumber),
+              recipient.preferredTeam === true,
           )
           .map(recipient => formatRecipient(recipient)),
 
@@ -72,13 +65,11 @@ export const recipientsReducer = (state = initialState, action) => {
         allTriageGroupsBlocked,
       };
     }
-
     case Actions.AllRecipients.GET_LIST_ERROR:
       return {
         ...state,
         error: true,
       };
-
     default:
       return state;
   }

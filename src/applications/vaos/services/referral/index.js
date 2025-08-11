@@ -17,49 +17,6 @@ export async function getProviderById(providerId) {
   return response.data;
 }
 
-export async function postReferralAppointment({
-  draftApppointmentId,
-  referralNumber,
-  slotId,
-  networkId,
-  providerServiceId,
-}) {
-  const response = await apiRequestWithUrl(`/vaos/v2/appointments/submit`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      id: draftApppointmentId,
-      referralNumber,
-      slotId,
-      networkId,
-      providerServiceId,
-    }),
-  });
-  return response.data;
-}
-
-export async function postDraftReferralAppointment(
-  referralNumber,
-  referralConsultId,
-) {
-  const response = await apiRequestWithUrl(`/vaos/v2/appointments/draft`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      // eslint-disable-next-line camelcase
-      referral_number: referralNumber,
-      // eslint-disable-next-line camelcase
-      referral_consult_id: referralConsultId,
-    }),
-  });
-
-  return response.data;
-}
-
 export async function getAppointmentInfo(appointmentId) {
   const response = await apiRequestWithUrl(
     `/vaos/v2/eps_appointments/${appointmentId}`,

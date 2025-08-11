@@ -7,9 +7,8 @@ import { concatStreets } from '../../shared/utilities';
 // Take an address object and turn it into a string with line breaks
 function stringifyAddress(addr) {
   return addr
-    ? `${concatStreets(addr, true).streetCombined}${addr.city}, ${
-        addr.state
-      }\n${addr.postalCode}`
+    ? `${concatStreets(addr, true).streetCombined}${addr.city}, ${addr.state ||
+        ''},\n${addr.postalCode}`
     : '';
 }
 
@@ -33,6 +32,13 @@ export default function transformForSubmit(formConfig, form) {
     formsSystemTransformForSubmit(formConfig, form),
   );
 
+  // Combine all the parts of the international phone number into a single string
+  const intlPhoneJoined = `+${
+    transformedData?.veteranPhoneNumber?.callingCode
+  } ${transformedData?.veteranPhoneNumber?.contact} (${
+    transformedData?.veteranPhoneNumber?.countryCode
+  })`;
+
   const dataPostTransform = {
     veteran: {
       date_of_birth: formatDateShort(transformedData.veteranDateOfBirth),
@@ -40,22 +46,22 @@ export default function transformForSubmit(formConfig, form) {
       physical_address: transformedData.sameMailingAddress
         ? transformedData.veteranAddress
         : transformedData.physicalAddress || {
-            country: 'NA',
-            street: 'NA',
-            city: 'NA',
-            state: 'NA',
-            postalCode: 'NA',
+            country: ' ',
+            street: ' ',
+            city: ' ',
+            state: ' ',
+            postalCode: ' ',
           },
       mailing_address: transformedData.veteranAddress || {
-        country: 'NA',
-        street: 'NA',
-        city: 'NA',
-        state: 'NA',
-        postalCode: 'NA',
+        country: ' ',
+        street: ' ',
+        city: ' ',
+        state: ' ',
+        postalCode: ' ',
       },
       ssn: transformedData?.veteranSocialSecurityNumber?.ssn,
       vaClaimNumber: transformedData?.veteranSocialSecurityNumber?.vaFileNumber,
-      phone_number: transformedData.veteranPhoneNumber || '',
+      phone_number: intlPhoneJoined || '',
       email_address: transformedData.veteranEmailAddress || '',
     },
     statementOfTruthSignature: transformedData.statementOfTruthSignature,
@@ -66,7 +72,7 @@ export default function transformForSubmit(formConfig, form) {
         last: transformedData.veteranFullName?.last,
       },
       email: transformedData.veteranEmailAddress,
-      phone: transformedData.veteranPhoneNumber,
+      phone: intlPhoneJoined,
     },
   };
 

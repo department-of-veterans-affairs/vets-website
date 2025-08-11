@@ -5,7 +5,6 @@ export const AXE_CONTEXT = '.secure-messaging-container';
 export const Paths = {
   MHV_MAIN: '/my-health/',
   UI_MAIN: '/my-health/secure-messages',
-  UI_PILOT: '/my-health/secure-messages-pilot',
   SM_API_BASE: '/my_health/v1/messaging',
   SM_API_EXTENDED: '/my_health/v1/messaging/messages',
   INBOX: '/inbox/',
@@ -48,9 +47,9 @@ export const Paths = {
     MESSAGE_ALLRECIPIENTS: '/my_health/v1/messaging/allrecipients',
     MESSAGES: '/my_health/v1/messaging/messages',
     SELECTED_RECIPIENTS: `/my_health/v1/messaging/preferences/recipients`,
+    SENT_THREADS: '/my_health/v1/messaging/folders/-1/threads?*',
     MAINTENANCE_WINDOWS: `/v0/maintenance_windows/`,
     DRAFT_AUTO_SAVE: `/my_health/v1/messaging/message_drafts`,
-    SENT_THREADS: '/my_health/v1/messaging/folders/-1/threads*',
   },
 };
 
@@ -97,7 +96,6 @@ export const Locators = {
   COMBO_BOX: '.usa-combo-box',
   SEARCH_RESULT: `[data-testid="search-messages"]`,
   PAGE_NOT_FOUND: `mhv-page-not-found`,
-  CARE_SYSTEM: '[data-testid^="care-system-"]',
   FOLDERS: {
     FOLDER_NAME: '[label="Folder name"]',
     FOLDER_REMOVE: '[text="Yes, remove this folder"]',
@@ -115,7 +113,7 @@ export const Locators = {
   },
   BUTTONS: {
     SECURE_MESSAGING: '[data-testid="secure-messaging"]',
-    THREAD_EXPAND: '[data-testid="thread-expand-all"]',
+    THREAD_EXPAND: 'thread-expand-all',
     THREAD_EXPAND_MESSAGES:
       '[data-testid="thread-expand-all"] va-accordion-item',
     ADDITIONAL_FILTER: `.va-accordion__header`,
@@ -179,7 +177,7 @@ export const Locators = {
     CLOSE_NOTIFICATION: '.va-alert',
     REPT_SELECT: '[data-testid="compose-recipient-select"]',
     DRAFT_MODAL: '[data-testid="delete-draft-modal"]',
-    THREAD_EXPAND: '[data-testid="thread-expand-all"]',
+    THREAD_EXPAND: 'thread-expand-all',
     SEARCH_DROPDOWN: '#select-search-folder-dropdown',
     TEXT_INPUT: '[data-testid="search-keyword-text-input"]',
     PAGIN_LIST: '.usa-pagination__list li',
@@ -307,11 +305,13 @@ export const Alerts = {
     LOAD_API_ERROR: `We can’t load your contact list right now`,
   },
   ATTACHMENT: {
-    TYPES: `We can't attach this file type. Try attaching a DOC, DOCX, GIF, JPG, PDF, PNG, RTF, TXT, XLS XLSX, JPEG, JFIF, PJPEG, or PJP.`,
+    TYPES: `We can't attach this file type.`,
     EMPTY: `Your file is empty. Try attaching a different file.`,
-    FILE_IS_TOO_LARGE_TEXT:
+    VISTA_TOO_LARGE:
       'Your file is too large. Try attaching a file smaller than 6MB.',
-    ALREADY_ATTACHED_FILE: 'You have already attached this file.',
+    OH_TOO_LARGE:
+      'Your file is too large. Try attaching a file smaller than 25MB.',
+    ALREADY_ATTACHED: 'You have already attached this file.',
   },
   MAINTENANCE: {
     ACTIVE: `Maintenance on My HealtheVet`,
@@ -352,11 +352,16 @@ export const Data = {
   TEST_SUBJECT: 'Test Subject',
   TEST_IMAGE: 'test_image.jpg',
   TEST_LARGE_IMAGE: 'test_image_10mb.jpg',
+  TEST_VIDEO_MKV: 'test_video.mkv',
   MESSAGE_WAS_SAVED: 'message was saved',
   TEST_MESSAGE_SUBJECT: 'Test Message Subject',
   SAMPLE_DOC: 'sample_docx.docx',
-  SAMPLE_PDF: 'sample_pdf.pdf',
   SAMPLE_XLS: 'sample_XLS.xls',
+  SAMPLE_PDF: 'sample_pdf.pdf',
+  SAMPLE_TXT_1: 'test_txt_1.txt',
+  SAMPLE_TXT_2: 'test_txt_2.txt',
+  SAMPLE_TXT_3: 'test_txt_3.txt',
+  SAMPLE_TXT_4: 'test_txt_4.txt',
   SAMPLE_IMG: 'test_image.gif',
   START_NEW_MSG: 'Start a new message',
   EDIT_DRAFT: 'Edit draft',
@@ -377,7 +382,6 @@ export const Data = {
   CONTINUE_EDITING: 'Continue editing',
   MESSAGE_MOVED_TO_TRASH:
     'Message conversation was successfully moved to Trash.',
-  MESSAGE_SENT: `Message Sent.`,
   TEST_VIDEO: 'test_video.mp4',
   CREATE_FOLDER_TEST: 'create folder test',
   IS_ACTIVE: 'is-active',
@@ -389,7 +393,7 @@ export const Data = {
     "You can't send messages to your care teams right now",
   REMOVE_FOLDER: 'Remove folder',
   CANNOT_REMOVE_FOLDER: `You can't remove a folder with messages in it. Move all the messages to another folder. Then try removing it again.`,
-  HCS_SELECT: `Select care team`,
+  HCS_SELECT: `Which VA health care system do you want to send a message to?`,
   REPLY_HEADER: `Only use messages for non-urgent needs`,
   ATTACH_INFO: [
     'You may attach up to 4 files to each message',
@@ -397,15 +401,22 @@ export const Data = {
     'The maximum size for each file is 6 MB',
     'The maximum total size for all files attached to 1 message is 10 MB',
   ],
+  VISTA_LARGE_ATTACH_INFO: [
+    'You can attach up to 10 files to each message',
+    'You can attach only these file types: doc, docx, gif, jpg, pdf, png, rtf, txt, xls, xlxs, jpeg, jfif, pjpeg, pjp, bmp, tiff, ppt, pptx, pps, ppsx, odt, mp4, m4v, mov, wmv, mpg',
+    'The maximum size for each file is 6 MB',
+    'The maximum total size for all files attached to 1 message is 10 MB',
+  ],
+  OH_LARGE_ATTACH_INFO: [
+    'You can attach up to 10 files to each message',
+    'You can attach only these file types: doc, docx, gif, jpg, pdf, png, rtf, txt, xls, xlxs, jpeg, jfif, pjpeg, pjp, bmp, tiff, ppt, pptx, pps, ppsx, odt, mp4, m4v, mov, wmv, mpg',
+    'The maximum size for each file is 6 MB',
+    'The maximum total size for all files attached to 1 message is 25 MB',
+  ],
   EL_SIGN_CHECK: `I certify that the above is correct and true to the best of my knowledge and belief.`,
   EDIT_SIGNATURE: `Edit signature for all messages`,
   READ_RECEIPT: `Opened by your care team`,
   UNREAD_RECEIPT: `Not yet opened by your care team`,
-  CURATED_LIST: {
-    CANT_FIND_TEAM: `What to do if you can’t find your care team`,
-    CONTACT_LIST_UPDATE: `Update your contact list`,
-    SELECT_CARE_TEAM: `Select a different care team`,
-  },
   BUTTONS: {
     ATTACH_FILE: 'Attach file',
     SEND: `Send`,
@@ -424,10 +435,6 @@ export const Data = {
   },
   LINKS: {
     PROFILE_SIGNATURE: `/profile/personal-information#messaging-signature`,
-    PILOT_HOME: '/my-health/secure-messages-pilot/',
-    PILOT_CONTACT_LIST: '/my-health/secure-messages-pilot/contact-list/',
-    PILOT_SELECT_CARE_TEAM:
-      '/my-health/secure-messages-pilot/new-message/select-care-team',
   },
   CL_LINK_TEXT: 'Show more teams in your contact list',
   URL: {

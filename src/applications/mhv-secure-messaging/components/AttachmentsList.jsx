@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import { datadogRum } from '@datadog/browser-rum';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import featureToggles from '../hooks/useFeatureToggles';
 import { closeAlert } from '../actions/alerts';
 import RemoveAttachmentModal from './Modals/RemoveAttachmentModal';
 import HowToAttachFiles from './HowToAttachFiles';
@@ -26,7 +27,7 @@ const AttachmentsList = props => {
     setAttachFileError,
   } = props;
   const dispatch = useDispatch();
-  const { isPilot } = useSelector(state => state.sm.app);
+  const { cernerPilotSmFeatureFlag } = featureToggles();
   const attachmentReference = useRef(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isAttachmentRemoved, setIsAttachmentRemoved] = useState(false);
@@ -93,7 +94,7 @@ const AttachmentsList = props => {
         setAttachFileSuccess(false);
       }
     },
-    [attachments],
+    [attachments, setAttachFileSuccess],
   );
 
   const removeAttachment = file => {
@@ -159,20 +160,16 @@ const AttachmentsList = props => {
   return (
     <div>
       <div className="message-body-attachments-label vads-u-margin-bottom--1 vads-u-margin-top--3">
-        {isPilot ? (
-          <h2 className="vads-u-font-size--h3 vads-u-margin-top--4 vads-u-margin-bottom--0">
-            Attachments
-          </h2>
-        ) : (
-          'Attachments'
-        )}
+        Attachments
         {attachments.length > 0 ? (
           <span data-testid="attachments-count"> ({attachments.length})</span>
         ) : (
           ''
         )}
       </div>
-      {editingEnabled && <HowToAttachFiles />}
+      {editingEnabled && (
+        <HowToAttachFiles isPilot={cernerPilotSmFeatureFlag} />
+      )}
 
       {attachFileSuccess &&
         attachments.length > 0 &&
@@ -404,6 +401,7 @@ AttachmentsList.propTypes = {
   editingEnabled: PropTypes.bool,
   forPrint: PropTypes.bool,
   reply: PropTypes.bool,
+  setAttachFileError: PropTypes.func,
   setAttachFileSuccess: PropTypes.func,
   setAttachments: PropTypes.func,
   setIsModalVisible: PropTypes.func,

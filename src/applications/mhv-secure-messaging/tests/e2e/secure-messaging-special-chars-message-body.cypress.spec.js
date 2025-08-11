@@ -35,11 +35,9 @@ describe('SM MESSAGE BODY SPECIAL CHARACTERS', () => {
     PatientComposePage.getMessageSubjectField().type(`test subject`, {
       force: true,
     });
-    PatientComposePage.getMessageBodyField()
-      .clear()
-      .type(expectedBody, {
-        force: true,
-      });
+    PatientComposePage.getMessageBodyField().type(expectedBody, {
+      force: true,
+    });
     const draftResponse = { ...newDraft };
     draftResponse.data.attributes.body = responseBody;
     PatientComposePage.saveNewDraft('OTHER', 'test subject');
@@ -49,7 +47,6 @@ describe('SM MESSAGE BODY SPECIAL CHARACTERS', () => {
       .shadow()
       .find('textarea')
       .should(`have.value`, expectedBody);
-
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });

@@ -1,8 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { mount } from 'enzyme';
+import { waitFor } from '@testing-library/dom';
 import formConfig from '../../config/form';
 
 describe('Additional Remarks 781', () => {
@@ -11,7 +12,7 @@ describe('Additional Remarks 781', () => {
     uiSchema,
   } = formConfig.chapters.disabilities.pages.additionalRemarks781;
 
-  it('should render', () => {
+  it('should render', async () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig}
@@ -26,7 +27,7 @@ describe('Additional Remarks 781', () => {
     form.unmount();
   });
 
-  it('should submit if field is untouched', () => {
+  it('should submit if field is untouched', async () => {
     const onSubmit = sinon.spy();
 
     const form = mount(
@@ -40,9 +41,11 @@ describe('Additional Remarks 781', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find('.usa-input-error-message').length).to.equal(0);
+      expect(onSubmit.called).to.be.true;
+    });
     form.unmount();
   });
 });

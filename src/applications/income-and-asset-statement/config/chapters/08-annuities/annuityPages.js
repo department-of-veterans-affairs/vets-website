@@ -25,8 +25,8 @@ import {
 /** @type {ArrayBuilderOptions} */
 export const options = {
   arrayPath: 'annuities',
-  nounSingular: 'Annuity',
-  nounPlural: 'Annuities',
+  nounSingular: 'annuity',
+  nounPlural: 'annuities',
   required: false,
   isItemIncomplete: item =>
     !isDefined(item?.establishedDate) ||
@@ -87,15 +87,15 @@ const summaryPage = {
         title: 'Have you or your dependents established an annuity?',
         hint: 'If yes, you’ll need to report at least one annuity',
         labels: {
-          Y: 'Yes, I have an annuity to report',
-          N: 'No, I don’t have an annuity  to report',
+          Y: 'Yes',
+          N: 'No',
         },
       },
       {
         title: 'Do you have more annuities to report?',
         labels: {
-          Y: 'Yes, I have more annuities to report',
-          N: 'No, I don’t have more annuities to report',
+          Y: 'Yes',
+          N: 'No',
         },
       },
     ),

@@ -2,6 +2,20 @@ import sessionStatus from '../fixtures/session/default.json';
 
 class LabsAndTests {
   setIntercepts = ({ labsAndTestData, useOhData = true }) => {
+    cy.intercept('GET', '/my_health/v1/medical_records/imaging/status', [
+      {
+        status: 'COMPLETE',
+        statusText: '100',
+        studyIdUrn: '2184acee-280a-493b-91a1-c7914f3eaf98',
+        percentComplete: 100,
+        fileSize: '2.9 MB',
+        fileSizeNumber: 8041789,
+        startDate: 1720346400000,
+        endDate: 1739568636000,
+      },
+    ]).as('imagingStatus');
+    cy.intercept('POST', '/v0/datadog_action', {}).as('datadogAction');
+
     cy.intercept('POST', '/my_health/v1/medical_records/session', {}).as(
       'session',
     );
@@ -60,6 +74,13 @@ class LabsAndTests {
     cy.contains(labName).click({ waitForAnimations: true });
     cy.get('[data-testid="lab-name"]').should('be.visible');
     cy.get('[data-testid="lab-name"]').contains(labName);
+  };
+
+  loadVAPaginationNext = () => {
+    cy.get('va-pagination')
+      .shadow()
+      .find('[class="usa-pagination__link usa-pagination__next-page"]')
+      .click({ waitForAnimations: true });
   };
 }
 

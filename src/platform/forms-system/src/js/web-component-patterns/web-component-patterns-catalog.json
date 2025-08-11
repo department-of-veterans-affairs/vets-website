@@ -226,7 +226,7 @@
       "uiSchemaType": "function",
       "uiSchemaDescription": "uiSchema for file input field",
       "schema": "fileInputSchema",
-      "schemaType": "object",
+      "schemaType": "function",
       "schemaDescription": "Schema for fileInputUI"
     },
     {
@@ -280,7 +280,7 @@
       "uiSchemaType": "function",
       "uiSchemaDescription": "Web component v3 uiSchema for an international phone number",
       "schema": "internationalPhoneSchema",
-      "schemaType": "object",
+      "schemaType": "function",
       "schemaDescription": null
     },
     {

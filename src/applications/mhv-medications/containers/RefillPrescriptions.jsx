@@ -6,7 +6,6 @@ import {
   VaCheckbox,
   VaCheckboxGroup,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import {
   updatePageTitle,
   usePrintTitle,
@@ -18,11 +17,7 @@ import {
 } from '../api/prescriptionsApi';
 
 import { dateFormat } from '../util/helpers';
-import {
-  selectRefillContentFlag,
-  selectRefillProgressFlag,
-  selectRemoveLandingPageFlag,
-} from '../util/selectors';
+import { selectRefillProgressFlag } from '../util/selectors';
 import { SESSION_SELECTED_PAGE_NUMBER } from '../util/constants';
 import RefillNotification from '../components/RefillPrescriptions/RefillNotification';
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
@@ -48,6 +43,8 @@ const RefillPrescriptions = () => {
     result,
   ] = useBulkRefillPrescriptionsMutation();
   const { isLoading: isRefilling, error: bulkRefillError } = result;
+
+  const refillAlertList = refillableData?.refillAlertList || [];
 
   const getMedicationsByIds = (ids, prescriptions) => {
     if (!ids || !prescriptions) return [];
@@ -92,9 +89,7 @@ const RefillPrescriptions = () => {
 
   // Get refillable list from RTK Query result
   const fullRefillList = refillableData?.prescriptions || [];
-  const showRefillContent = useSelector(selectRefillContentFlag);
   const showRefillProgressContent = useSelector(selectRefillProgressFlag);
-  const removeLandingPage = useSelector(selectRemoveLandingPageFlag);
   const { data: allergies, error: allergiesError } = useGetAllergiesQuery();
   const userName = useSelector(state => state.user.profile.userFullName);
   const dob = useSelector(state => state.user.profile.dob);
@@ -190,9 +185,6 @@ const RefillPrescriptions = () => {
   usePrintTitle(baseTitle, userName, dob, updatePageTitle);
 
   const content = () => {
-    if (!showRefillContent) {
-      return <PageNotFound />;
-    }
     if (isLoading || isRefilling) {
       return (
         <div
@@ -219,6 +211,7 @@ const RefillPrescriptions = () => {
           <RefillAlert
             dataDogActionName={dataDogActionNames.refillPage.REFILL_ALERT_LINK}
             refillStatus={refillStatus}
+            refillAlertList={refillAlertList}
           />
         )}
         {prescriptionsApiError ? (
@@ -359,7 +352,7 @@ const RefillPrescriptions = () => {
             {showRefillProgressContent && (
               <ProcessList stepGuideProps={stepGuideProps} />
             )}
-            {removeLandingPage && <NeedHelp page={pageType.REFILL} />}
+            <NeedHelp page={pageType.REFILL} />
           </>
         )}
       </div>

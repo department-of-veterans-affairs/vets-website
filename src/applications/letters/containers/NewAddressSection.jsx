@@ -1,16 +1,13 @@
 import React, { useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
-import { selectVAPMailingAddress } from 'platform/user/selectors';
 import { focusElement } from 'platform/utilities/ui';
-import { TRANSACTION_CATEGORY_TYPES } from '@@vap-svc/constants';
+import { TRANSACTION_CATEGORY_TYPES, FIELD_NAMES } from '@@vap-svc/constants';
 import PropTypes from 'prop-types';
 
 import InitializeVAPServiceID from '@@vap-svc/containers/InitializeVAPServiceID';
 import VAPServicePendingTransactionCategory from '@@vap-svc/containers/VAPServicePendingTransactionCategory';
-import AddressView from '@@vap-svc/components/AddressField/AddressView';
+import ProfileInformationFieldController from '@@vap-svc/components/ProfileInformationFieldController';
 
 export function NewAddressSection({ success }) {
-  const mailingAddress = useSelector(selectVAPMailingAddress);
   const successRef = useRef(null);
 
   useEffect(
@@ -21,18 +18,33 @@ export function NewAddressSection({ success }) {
     },
     [success],
   );
-
   return (
     <div className="va-profile-wrapper">
       <InitializeVAPServiceID>
         <VAPServicePendingTransactionCategory
           categoryType={TRANSACTION_CATEGORY_TYPES.ADDRESS}
         >
-          <h2>Mailing Address</h2>
+          <h2>Mailing address</h2>
           <p>
             This mailing address will be listed on your benefit letters and
             documentation. You can edit this address.
           </p>
+          <va-alert status="info" class="vads-u-margin-bottom--3">
+            <p className="vads-u-margin-y--0">
+              If you edit the address here, it will also update the address in
+              your VA.gov profile and across several VA benefits and services.
+              <br />
+              <a
+                href="https://www.va.gov/change-address/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                About changing your address in your VA.gov profile (opens in new
+                tab)
+              </a>
+            </p>
+          </va-alert>
+
           {success && (
             <va-alert
               status="success"
@@ -47,14 +59,12 @@ export function NewAddressSection({ success }) {
             </va-alert>
           )}
           <va-card className="vads-u-justify-content--space-between">
-            <AddressView data={mailingAddress} />
-            <p className="edit-link">
-              <va-link
-                active
-                href="/records/download-va-letters/letters/edit-address"
-                text="Edit mailing address"
+            <div aria-live="polite" aria-relevant="all">
+              <ProfileInformationFieldController
+                fieldName={FIELD_NAMES.MAILING_ADDRESS}
+                ariaDescribedBy={`described-by-${FIELD_NAMES.MAILING_ADDRESS}`}
               />
-            </p>
+            </div>
           </va-card>
         </VAPServicePendingTransactionCategory>
       </InitializeVAPServiceID>

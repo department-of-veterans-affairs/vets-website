@@ -18,8 +18,15 @@ describe('Prescriptions List Txt Config', () => {
       expect(txt).to.include(rx.prescriptionName);
     });
   });
-  it('Should show None noted if provider name is not provided', () => {
-    const txt = buildPrescriptionsTXT(prescriptions);
+  it('Should show "Provider name not available" if provider name is not provided', () => {
+    const firstPrescriptionWithoutProviderName = [
+      {
+        ...prescriptions[0],
+        providerFirstName: null,
+        providerLastName: null,
+      },
+    ];
+    const txt = buildPrescriptionsTXT(firstPrescriptionWithoutProviderName);
     expect(txt).to.include('Prescribed by: Provider name not available');
   });
 });
@@ -133,11 +140,23 @@ describe('Non VA prescription Config', () => {
     providerFirstName: null,
   };
 
-  it('should contain prescription name', () => {
-    const txt = buildNonVAPrescriptionTXT(nonVaRx);
-    const name = `${nonVaRx.prescriptionName ||
-      (nonVaRx.dispStatus === 'Active: Non-VA' ? nonVaRx.orderableItem : '')}`;
-    expect(txt).to.include(name);
+  it('should list the prescription name', () => {
+    const txt = buildNonVAPrescriptionTXT({
+      ...nonVaRx,
+      prescriptionName: 'YOUR PRESCRIPTION NAME HERE',
+      orderableItem: 'YOUR ITEM NAME HERE',
+    });
+    expect(txt).to.include('YOUR PRESCRIPTION NAME HERE');
+    expect(txt).to.not.include('YOUR ITEM NAME HERE');
+  });
+
+  it('should list the orderableItem property when prescriptionName is not provided', () => {
+    const txt = buildNonVAPrescriptionTXT({
+      ...nonVaRx,
+      prescriptionName: null,
+      orderableItem: 'YOUR ITEM NAME HERE',
+    });
+    expect(txt).to.include('YOUR ITEM NAME HERE');
   });
 
   it('should contain facility name', () => {

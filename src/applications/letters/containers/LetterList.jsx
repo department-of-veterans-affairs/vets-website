@@ -35,8 +35,8 @@ export class LetterList extends React.Component {
   }
 
   componentDidMount() {
-    const { shouldUseLighthouse } = this.props;
-    focusElement('h2#nav-form-header');
+    const { lettersNewDesign, shouldUseLighthouse } = this.props;
+    focusElement(lettersNewDesign ? '#letters-title-id' : 'h2#nav-form-header');
     this.setState({
       // eslint-disable-next-line -- LH_MIGRATION
       LH_MIGRATION__options: LH_MIGRATION__getOptions(shouldUseLighthouse),
@@ -69,6 +69,17 @@ export class LetterList extends React.Component {
         helpText = bslHelpInstructions;
       } else if (letter.letterType === LETTER_TYPES.proofOfService) {
         letterTitle = 'Proof of Service Card';
+        content = (
+          <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.lettersPageNewDesign}>
+            {toggleValue =>
+              toggleValue
+                ? newLetterContent[letter.letterType] || ''
+                : letterContent[letter.letterType] || ''
+            }
+          </Toggler.Hoc>
+        );
+      } else if (letter.letterType === LETTER_TYPES.benefitSummaryDependent) {
+        letterTitle = 'Benefit Summary Letter';
         content = (
           <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.lettersPageNewDesign}>
             {toggleValue =>

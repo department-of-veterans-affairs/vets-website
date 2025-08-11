@@ -4,8 +4,9 @@ import sinon from 'sinon';
 import {
   DefinitionTester,
   fillDate,
-} from 'platform/testing/unit/schemaform-utils.jsx';
+} from 'platform/testing/unit/schemaform-utils';
 import { mount } from 'enzyme';
+import { waitFor } from '@testing-library/dom';
 import formConfig from '../../config/form';
 
 import { ERR_MSG_CSS_CLASS } from '../../constants';
@@ -16,7 +17,7 @@ describe('Unemployability affective Dates', () => {
     uiSchema,
   } = formConfig.chapters.disabilities.pages.unemployabilityDates;
 
-  it('should render', () => {
+  it('should render', async () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -34,7 +35,7 @@ describe('Unemployability affective Dates', () => {
     form.unmount();
   });
 
-  it('should fail to submit when no beginning date is filled out', () => {
+  it('should fail to submit when no beginning date is filled out', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -49,13 +50,15 @@ describe('Unemployability affective Dates', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(1);
+      expect(onSubmit.called).to.be.false;
+    });
     form.unmount();
   });
 
-  it('should submit when beginning date is filled in', () => {
+  it('should submit when beginning date is filled in', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -76,9 +79,11 @@ describe('Unemployability affective Dates', () => {
       '2017-03-04',
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
+      expect(onSubmit.called).to.be.true;
+    });
     form.unmount();
   });
 });

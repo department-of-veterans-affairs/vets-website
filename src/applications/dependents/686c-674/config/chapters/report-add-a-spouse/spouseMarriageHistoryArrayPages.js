@@ -89,6 +89,7 @@ export const formerMarriagePersonalInfoPage = {
   },
   schema: {
     type: 'object',
+    required: ['fullName'],
     properties: {
       fullName: fullNameNoSuffixSchema,
     },
@@ -153,6 +154,7 @@ export const formerMarriageStartDatePage = {
   },
   schema: {
     type: 'object',
+    required: ['startDate'],
     properties: {
       startDate: currentOrPastDateSchema,
     },
@@ -189,6 +191,7 @@ export const formerMarriageEndDatePage = {
   },
   schema: {
     type: 'object',
+    required: ['endDate'],
     properties: {
       endDate: currentOrPastDateSchema,
     },
@@ -255,6 +258,7 @@ export const formerMarriageStartLocationPage = {
   },
   schema: {
     type: 'object',
+    required: ['startLocation'],
     properties: {
       startLocation: customLocationSchema,
     },
@@ -328,6 +332,7 @@ export const formerMarriageEndLocationPage = {
   },
   schema: {
     type: 'object',
+    required: ['endLocation'],
     properties: {
       endLocation: customLocationSchema,
     },

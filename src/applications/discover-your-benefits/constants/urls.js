@@ -1,7 +1,7 @@
 export const URLS = Object.freeze({
   GIB_LEARN: 'https://www.va.gov/education/about-gi-bill-benefits/',
   GIB_APPLY: 'https://www.va.gov/education/how-to-apply/',
-  DBP_LEARN: 'https://skillbridge.osd.mil/program-overview.htm/',
+  DBP_LEARN: 'https://skillbridge.osd.mil/program-overview.htm',
   ECC_LEARN:
     'https://www.va.gov/careers-employment/education-and-career-counseling/',
   ECC_APPLY:
@@ -40,5 +40,5 @@ export const URLS = Object.freeze({
     'https://www.va.gov/education/transfer-post-9-11-gi-bill-benefits/',
   DCU_LEARN: 'https://www.va.gov/discharge-upgrade-instructions/',
   SVB_LEARN:
-    'https://discover.va.gov/external-resources/?_resource_type=state-veterans-affairs-office/',
+    'https://discover.va.gov/external-resources/?_resource_type=state-veterans-affairs-office',
 });

@@ -272,6 +272,39 @@ describe('convertAccountSummary', () => {
     expect(convertAccountSummary(undefined)).to.be.null;
   });
 
+  it('should correctly convert exclude facility with null facilityInfo', () => {
+    const data = {
+      facilities: [
+        {
+          facilityInfo: {
+            id: '123',
+            name: 'VA Medical Center',
+            stationNumber: 'TEST',
+            treatment: true,
+          },
+        },
+        {
+          facilityInfo: null,
+        },
+      ],
+      ipas: [
+        {
+          status: 'Active',
+          authenticationDate: '2021-05-01',
+          authenticatingFacilityId: '123',
+        },
+      ],
+    };
+    const result = convertAccountSummary(data);
+    // Ensure result.vaTreatmentFacilities only contains facilities where treatment is true
+    expect(result.vaTreatmentFacilities).to.have.lengthOf(1);
+    expect(result.vaTreatmentFacilities[0]).to.deep.equal({
+      facilityName: 'VA Medical Center',
+      stationNumber: 'TEST',
+      type: 'Treatment',
+    });
+  });
+
   it('should correctly convert patient data', () => {
     const data = {
       facilities: [

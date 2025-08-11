@@ -11,6 +11,7 @@ import { datadogRum } from '@datadog/browser-rum';
 import {
   dateFormat,
   determineRefillLabel,
+  displayProviderName,
   getImageUri,
   getRefillHistory,
   getShowRefillHistory,
@@ -27,11 +28,9 @@ import ExtraDetails from '../shared/ExtraDetails';
 import {
   selectGroupingFlag,
   selectPartialFillContentFlag,
-  selectRefillContentFlag,
   selectRefillProgressFlag,
 } from '../../util/selectors';
 import VaPharmacyText from '../shared/VaPharmacyText';
-import { FIELD_NONE_NOTED } from '../../util/constants';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 import GroupedMedications from './GroupedMedications';
 import CallPharmacyPhone from '../shared/CallPharmacyPhone';
@@ -39,7 +38,6 @@ import ProcessList from '../shared/ProcessList';
 import { landMedicationDetailsAal } from '../../api/rxApi';
 
 const VaPrescription = prescription => {
-  const showRefillContent = useSelector(selectRefillContentFlag);
   const showGroupingContent = useSelector(selectGroupingFlag);
   const showRefillProgressContent = useSelector(selectRefillProgressFlag);
   const showPartialFillContent = useSelector(selectPartialFillContentFlag);
@@ -187,7 +185,7 @@ const VaPrescription = prescription => {
             {/* TODO: clean after refill progress content flag is gone */}
             {!showRefillProgressContent && (
               <>
-                {showRefillContent && prescription?.isRefillable ? (
+                {prescription?.isRefillable ? (
                   <Link
                     // TODO: clean after grouping flag is gone
                     className={`${
@@ -274,7 +272,7 @@ const VaPrescription = prescription => {
                 {/* TODO: clean after refill progress content flag is gone */}
                 {showRefillProgressContent && (
                   <>
-                    {showRefillContent && prescription?.isRefillable ? (
+                    {prescription?.isRefillable ? (
                       <Link
                         // TODO: clean after grouping flag is gone
                         className={`${
@@ -371,14 +369,10 @@ const VaPrescription = prescription => {
                   Prescribed by
                 </h3>
                 <p>
-                  {prescription?.providerFirstName &&
-                  prescription?.providerLastName
-                    ? validateField(
-                        `${prescription.providerLastName}, ${
-                          prescription.providerFirstName
-                        }`,
-                      )
-                    : FIELD_NONE_NOTED}
+                  {displayProviderName(
+                    prescription?.providerFirstName,
+                    prescription?.providerLastName,
+                  )}
                 </p>
               </>
             )}
@@ -439,13 +433,11 @@ const VaPrescription = prescription => {
                 <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
                   Prescribed by
                 </h3>
-                <p>
-                  {prescription?.providerFirstName &&
-                  prescription?.providerLastName
-                    ? `${prescription.providerLastName}, ${
-                        prescription.providerFirstName
-                      }`
-                    : validateIfAvailable('Provider name')}
+                <p data-testid="prescribed-by">
+                  {displayProviderName(
+                    prescription?.providerFirstName,
+                    prescription?.providerLastName,
+                  )}
                 </p>
               </>
             )}
@@ -540,9 +532,12 @@ const VaPrescription = prescription => {
                         Refill history
                       </h3>
                     )}
-                    {refillHistory?.length > 1 &&
+                    {refillHistory?.length >= 1 &&
                       hasCmopNdcNumber(refillHistory) && (
-                        <p className="vads-u-margin--0">
+                        <p
+                          className="vads-u-margin--0"
+                          data-testid="note-images"
+                        >
                           <strong>Note:</strong> Images on this page are for
                           identification purposes only. They don’t mean that
                           this is the amount of medication you’re supposed to

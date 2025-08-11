@@ -28,6 +28,7 @@ import {
   draftAutoSaveTimeout,
   Alerts,
 } from '../../util/constants';
+import featureToggles from '../../hooks/useFeatureToggles';
 import useDebounce from '../../hooks/use-debounce';
 import { saveReplyDraft } from '../../actions/draftDetails';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
@@ -59,6 +60,7 @@ const ReplyDraftItem = props => {
   const composeFormActionButtonsRef = useRef(null);
 
   const folderId = useSelector(state => state.sm.folders.folder?.folderId);
+  const { cernerPilotSmFeatureFlag } = featureToggles();
 
   const [category, setCategory] = useState(null);
   const [subject, setSubject] = useState('');
@@ -137,7 +139,7 @@ const ReplyDraftItem = props => {
         noTimeout();
       }
     },
-    [draft, messageBody, attachments],
+    [messageBody, draft, attachments, signOutMessage, noTimeout],
   );
 
   useSessionExpiration(beforeUnloadHandler, noTimeout);
@@ -233,18 +235,19 @@ const ReplyDraftItem = props => {
       if (!attachments.length) setNavigationError(null);
     },
     [
-      attachments.length,
-      category,
-      checkMessageValidity,
-      debouncedMessageBody,
-      dispatch,
-      draft,
-      fieldsString,
-      messageBody,
-      replyMessage.messageId,
-      selectedRecipient,
-      subject,
       isModalVisible,
+      checkMessageValidity,
+      selectedRecipient,
+      category,
+      subject,
+      debouncedMessageBody,
+      messageBody,
+      fieldsString,
+      attachments,
+      setLastFocusableElement,
+      draftId,
+      dispatch,
+      replyMessage.messageId,
     ],
   );
   const sendMessageHandler = useCallback(
@@ -325,6 +328,7 @@ const ReplyDraftItem = props => {
     [
       cannotReply,
       debouncedMessageBody,
+      editMode,
       isAutosave,
       isModalVisible,
       saveDraftHandler,
@@ -389,7 +393,23 @@ const ReplyDraftItem = props => {
           });
       }
     },
-    [sendMessageFlag, isSaving],
+    [
+      sendMessageFlag,
+      isSaving,
+      category,
+      messageBody,
+      subject,
+      draft,
+      replyToMessageId,
+      selectedRecipient,
+      attachments,
+      setIsSending,
+      dispatch,
+      draftsCount,
+      replyMessage.messageId,
+      folderId,
+      history,
+    ],
   );
 
   const populateForm = () => {
@@ -423,7 +443,7 @@ const ReplyDraftItem = props => {
         populateForm();
       }
     },
-    [draft, formPopulated],
+    [draft, formPopulated, populateForm],
   );
 
   useEffect(
@@ -570,6 +590,7 @@ const ReplyDraftItem = props => {
                 attachmentScanError={attachmentScanError}
                 attachFileError={attachFileError}
                 setAttachFileError={setAttachFileError}
+                isPilot={cernerPilotSmFeatureFlag}
               />
             </section>
           )}
@@ -611,10 +632,10 @@ ReplyDraftItem.propTypes = {
   replyToName: PropTypes.string,
   setHideDraft: PropTypes.func,
   setIsEditing: PropTypes.func,
+  setIsSending: PropTypes.func,
   setLastFocusableElement: PropTypes.func,
   showBlockedTriageGroupAlert: PropTypes.bool,
   signature: PropTypes.object,
-  setIsSending: PropTypes.func,
 };
 
 export default ReplyDraftItem;
