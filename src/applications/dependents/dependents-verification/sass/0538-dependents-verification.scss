@@ -25,6 +25,10 @@
   }
 }
 
+/* Hide 0538 H1 & progress bar on exit-form page */
+article[data-location="exit-form"] .schemaform-title:not(.internal-page-title),
+article[data-location="exit-form"] va-segmented-progress-bar,
+
 /* hide SSN input on Vet info page */
 #root_veteranInformation_ssnLastFour-label,
 #root_veteranInformation_ssnLastFour-label + div {

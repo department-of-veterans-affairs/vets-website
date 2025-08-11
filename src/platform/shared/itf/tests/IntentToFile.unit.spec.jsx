@@ -54,11 +54,11 @@ describe('IntentToFile', () => {
       </div>,
     );
 
-  it('should render searching for ITF loading indicator', () => {
+  it('should render searching for ITF loading indicator', async () => {
     mockApiRequest({});
     const { container } = renderPage(getData());
 
-    waitFor(() => {
+    await waitFor(() => {
       expect($('.itf-wrapper', container)).to.exist;
       expect(
         $('va-loading-indicator', container).getAttribute('message'),
@@ -66,11 +66,11 @@ describe('IntentToFile', () => {
     });
   });
 
-  it('should render ITF found alert', () => {
+  it('should render ITF found alert', async () => {
     mockApiRequest(mockItfData(activeItf));
     const { container } = renderPage(getData());
 
-    waitFor(() => {
+    await waitFor(() => {
       expect($('va-alert[status="success"]', container).textContent).to.include(
         'We have your intent to file',
       );
@@ -78,11 +78,11 @@ describe('IntentToFile', () => {
     });
   });
 
-  it('should render ITF created alert', () => {
+  it('should render ITF created alert', async () => {
     mockApiRequest(mockItfData(nonActiveItf));
     const { container } = renderPage(getData());
 
-    waitFor(() => {
+    await waitFor(() => {
       expect($('va-alert[status="success"]', container).textContent).to.include(
         'We recorded your intent to file',
       );
@@ -90,12 +90,12 @@ describe('IntentToFile', () => {
     });
   });
 
-  it('should render ITF failed alert', () => {
+  it('should render ITF failed alert', async () => {
     mockApiRequest(mockItfData(), false);
     const { container } = renderPage(getData());
 
-    waitFor(() => {
-      expect($('va-alert[status="success"]', container).textContent).to.include(
+    await waitFor(() => {
+      expect($('va-alert[status="warning"]', container).textContent).to.include(
         'We’re sorry. We can’t find a record of your intent to file',
       );
       expect(document.activeElement?.tagName).to.equal('VA-ALERT');
@@ -152,6 +152,52 @@ describe('IntentToFile', () => {
     }).then(() => {
       expect($('.itf-wrapper', container)).to.not.exist;
       expect($('#test', container)).to.exist;
+    });
+  });
+
+  it('should not autofocus success alert when disableAutoFocus is true and ITF exists', async () => {
+    mockApiRequest(mockItfData(activeItf));
+    const { props, mockStore } = getData();
+    const { container } = render(
+      <Provider store={mockStore}>
+        <IntentToFile {...props} disableAutoFocus />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      expect($('va-alert[status="success"]', container).textContent).to.include(
+        'We have your intent to file',
+      );
+      expect(document.activeElement?.tagName).to.not.equal('VA-ALERT');
+    });
+  });
+
+  it('should not autofocus ITF created alert when disableAutoFocus is true and new ITF is created', async () => {
+    mockApiRequest(mockItfData(nonActiveItf));
+    const { props, mockStore } = getData();
+    const { container } = render(
+      <Provider store={mockStore}>
+        <IntentToFile {...props} disableAutoFocus />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      expect($('va-alert[status="success"]', container).textContent).to.include(
+        'We recorded your intent to file',
+      );
+      expect(document.activeElement?.tagName).to.not.equal('VA-ALERT');
+    });
+  });
+
+  it('should not autofocus ITF failed alert when disableAutoFocus is true and ITF lookup fails', () => {
+    mockApiRequest(mockItfData(), false);
+    const { container } = renderPage(getData());
+
+    waitFor(() => {
+      expect($('va-alert[status="success"]', container).textContent).to.include(
+        'We’re sorry. We can’t find a record of your intent to file',
+      );
+      expect(document.activeElement?.tagName).to.not.equal('VA-ALERT');
     });
   });
 });

@@ -27,21 +27,6 @@ const setUpInterceptsAndVisit = featureToggles => {
 };
 
 describe('Accredited Representative Portal', () => {
-  describe('App feature toggle is not enabled', () => {
-    beforeEach(() => {
-      cy.loginArpUser();
-      setUpInterceptsAndVisit({
-        isAppEnabled: false,
-        isInPilot: false,
-      });
-    });
-
-    it('redirects to VA.gov homepage when in production and app is not enabled', () => {
-      cy.injectAxeThenAxeCheck();
-      cy.location('pathname').should('eq', '/');
-    });
-  });
-
   describe('App feature toggle is enabled, but Pilot feature toggle is not enabled', () => {
     beforeEach(() => {
       setUpInterceptsAndVisit({

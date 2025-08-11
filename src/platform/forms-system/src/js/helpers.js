@@ -546,7 +546,9 @@ function generateArrayPages(arrayPages, data) {
         [],
       )
       // doing this after the map so that we don’t change indexes
-      .filter(page => !page.itemFilter || page.itemFilter(items[page.index]))
+      .filter(
+        page => !page.itemFilter || page.itemFilter(items[page.index], data),
+      )
   );
 }
 

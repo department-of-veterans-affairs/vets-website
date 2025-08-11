@@ -364,7 +364,12 @@ const formConfig = {
           depends: claimingNew,
           path: 'new-disabilities/follow-up/:index',
           showPagePerItem: true,
-          itemFilter: item => !isDisabilityPtsd(item.condition),
+          itemFilter: (item, formData) => {
+            if (formData?.syncModern0781Flow === true) {
+              return !!item.condition;
+            }
+            return !isDisabilityPtsd(item.condition);
+          },
           arrayPath: 'newDisabilities',
           uiSchema: newDisabilityFollowUp.uiSchema,
           schema: newDisabilityFollowUp.schema,

@@ -1,9 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import VeteranBenefitSummaryOptions from '../../containers/VeteranBenefitSummaryOptions';
 import { UPDATE_BENEFIT_SUMMARY_REQUEST_OPTION } from '../../utils/constants';
@@ -64,17 +63,13 @@ describe('<VeteranBenefitSummaryOptions />', () => {
       </Provider>,
     );
     const paragraph = container.querySelector('p:first-of-type');
-    const suggestedUses = container.querySelectorAll('ul.usa-list li');
-    const checkboxes = container.querySelectorAll('input[type="checkbox"]');
+    const checkboxes = container.querySelectorAll('va-checkbox');
 
     expect(paragraph).to.exist;
-    expect(suggestedUses).to.exist;
-    expect(suggestedUses).to.have.lengthOf(4);
     expect(checkboxes).to.exist;
     expect(checkboxes).to.have.lengthOf(4);
 
     checkboxes.forEach(checkbox => {
-      expect(checkbox).to.have.property('type', 'checkbox');
       expect(checkbox).to.have.property('checked', true);
     });
   });
@@ -94,7 +89,8 @@ describe('<VeteranBenefitSummaryOptions />', () => {
 
     expect(container).to.exist;
   });
-  it('dispatches the correct action when a checkbox is toggled', async () => {
+
+  it('dispatches the correct action when a checkbox is toggled', () => {
     const dispatchSpy = sinon.spy();
     const store = mockStore({
       letters: {
@@ -111,16 +107,31 @@ describe('<VeteranBenefitSummaryOptions />', () => {
 
     store.dispatch = dispatchSpy;
 
-    const { getByLabelText } = render(
+    const { container } = render(
       <Provider store={store}>
         <VeteranBenefitSummaryOptions />
       </Provider>,
     );
 
-    const checkbox = getByLabelText(/Combined disability rating/i);
+    const checkbox = container.querySelector(
+      'va-checkbox[label="Combined disability rating"]',
+    );
     expect(checkbox).to.exist;
 
-    await userEvent.click(checkbox);
+    // Simulate the va-checkbox change event
+    // The checkbox should be checked initially (true), so clicking should make it false
+    const event = new CustomEvent('vaChange', {
+      bubbles: true,
+    });
+    // Set the target properties that the handler expects
+    Object.defineProperty(event, 'target', {
+      value: {
+        id: 'serviceConnectedPercentage',
+        checked: false,
+      },
+      enumerable: true,
+    });
+    fireEvent(checkbox, event);
 
     expect(dispatchSpy.called).to.be.true;
 
@@ -129,6 +140,7 @@ describe('<VeteranBenefitSummaryOptions />', () => {
     expect(action.propertyPath).to.equal('serviceConnectedEvaluation');
     expect(action.value).to.be.false;
   });
+
   it('does render Military Service checkbox when service info exists', () => {
     const store = mockStore({
       letters: {
@@ -148,15 +160,18 @@ describe('<VeteranBenefitSummaryOptions />', () => {
       },
     });
 
-    const { queryByLabelText } = render(
+    const { container } = render(
       <Provider store={store}>
         <VeteranBenefitSummaryOptions />
       </Provider>,
     );
 
-    const checkbox = queryByLabelText(/military service/i);
+    const checkbox = container.querySelector(
+      'va-checkbox[label="Military service"]',
+    );
     expect(checkbox).to.exist;
   });
+
   it('does not render Military Service checkbox when no service info exists', () => {
     const store = mockStore({
       letters: {
@@ -169,15 +184,18 @@ describe('<VeteranBenefitSummaryOptions />', () => {
       },
     });
 
-    const { queryByLabelText } = render(
+    const { container } = render(
       <Provider store={store}>
         <VeteranBenefitSummaryOptions />
       </Provider>,
     );
 
-    const checkbox = queryByLabelText(/military service/i);
+    const checkbox = container.querySelector(
+      'va-checkbox[label="Military service"]',
+    );
     expect(checkbox).to.not.exist;
   });
+
   it('does not render checkboxes for benefitsInfo keys with null values', () => {
     const store = mockStore({
       letters: {
@@ -200,7 +218,7 @@ describe('<VeteranBenefitSummaryOptions />', () => {
       </Provider>,
     );
 
-    const checkboxes = container.querySelectorAll('input[type="checkbox"]');
+    const checkboxes = container.querySelectorAll('va-checkbox');
     expect(checkboxes.length).to.equal(1);
   });
 });

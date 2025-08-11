@@ -43,8 +43,12 @@ describe('global header', () => {
             '[alt="VA logo and Seal, U.S. Department of Veterans Affairs"]',
           );
           verifyElement('.sitewide-search-drop-down-panel-button');
-          h.verifyLinkWithoutSelector(1, 'Contact us', '/contact-us');
-          verifyElement('.sign-in-link');
+          h.verifyLinkWithoutSelector(
+            1,
+            'Contact us',
+            `${window.location.origin}/contact-us`,
+          );
+          verifyElement('.sign-in-links');
         });
     });
   });
@@ -64,7 +68,7 @@ describe('global header', () => {
         .within(() => {
           verifyElement('#header-crisis-line');
           verifyElement('.header-logo-row svg');
-          verifyElement('.sign-in-link');
+          verifyElement('.sign-in-links');
 
           const menuSelector = '.header-menu-button';
           verifyElement(menuSelector);

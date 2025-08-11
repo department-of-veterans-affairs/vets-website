@@ -398,6 +398,539 @@ describe('Employers Pages', () => {
       );
       expect(getByText('January 2000 - Present')).to.exist;
     });
+
+    context('isItemIncomplete function', () => {
+      it('should return true when item is null', () => {
+        expect(arrayBuilderOptions.isItemIncomplete(null)).to.be.true;
+      });
+
+      it('should return true when item is undefined', () => {
+        expect(arrayBuilderOptions.isItemIncomplete(undefined)).to.be.true;
+      });
+
+      it('should return true when item is empty object', () => {
+        expect(arrayBuilderOptions.isItemIncomplete({})).to.be.true;
+      });
+
+      it('should return true when name is missing', () => {
+        const item = {
+          positionTitle: 'Manager',
+          supervisorName: 'John Doe',
+          address: { street: '123 Main St' },
+          phone: { contact: '123-456-7890' },
+          dateRange: { from: '2020-01', to: '2024-01' },
+          currentlyEmployed: false,
+          reasonForLeaving: 'Better opportunity',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when name is null', () => {
+        const item = {
+          name: null,
+          positionTitle: 'Manager',
+          supervisorName: 'John Doe',
+          address: { street: '123 Main St' },
+          phone: { contact: '123-456-7890' },
+          dateRange: { from: '2020-01', to: '2024-01' },
+          currentlyEmployed: false,
+          reasonForLeaving: 'Better opportunity',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when name is empty string', () => {
+        const item = {
+          name: '',
+          positionTitle: 'Manager',
+          supervisorName: 'John Doe',
+          address: { street: '123 Main St' },
+          phone: { contact: '123-456-7890' },
+          dateRange: { from: '2020-01', to: '2024-01' },
+          currentlyEmployed: false,
+          reasonForLeaving: 'Better opportunity',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when positionTitle is missing', () => {
+        const item = {
+          name: 'Test Company',
+          supervisorName: 'John Doe',
+          address: { street: '123 Main St' },
+          phone: { contact: '123-456-7890' },
+          dateRange: { from: '2020-01', to: '2024-01' },
+          currentlyEmployed: false,
+          reasonForLeaving: 'Better opportunity',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when positionTitle is null', () => {
+        const item = {
+          name: 'Test Company',
+          positionTitle: null,
+          supervisorName: 'John Doe',
+          address: { street: '123 Main St' },
+          phone: { contact: '123-456-7890' },
+          dateRange: { from: '2020-01', to: '2024-01' },
+          currentlyEmployed: false,
+          reasonForLeaving: 'Better opportunity',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when positionTitle is empty string', () => {
+        const item = {
+          name: 'Test Company',
+          positionTitle: '',
+          supervisorName: 'John Doe',
+          address: { street: '123 Main St' },
+          phone: { contact: '123-456-7890' },
+          dateRange: { from: '2020-01', to: '2024-01' },
+          currentlyEmployed: false,
+          reasonForLeaving: 'Better opportunity',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when supervisorName is missing', () => {
+        const item = {
+          name: 'Test Company',
+          positionTitle: 'Manager',
+          address: { street: '123 Main St' },
+          phone: { contact: '123-456-7890' },
+          dateRange: { from: '2020-01', to: '2024-01' },
+          currentlyEmployed: false,
+          reasonForLeaving: 'Better opportunity',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when supervisorName is null', () => {
+        const item = {
+          name: 'Test Company',
+          positionTitle: 'Manager',
+          supervisorName: null,
+          address: { street: '123 Main St' },
+          phone: { contact: '123-456-7890' },
+          dateRange: { from: '2020-01', to: '2024-01' },
+          currentlyEmployed: false,
+          reasonForLeaving: 'Better opportunity',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when supervisorName is empty string', () => {
+        const item = {
+          name: 'Test Company',
+          positionTitle: 'Manager',
+          supervisorName: '',
+          address: { street: '123 Main St' },
+          phone: { contact: '123-456-7890' },
+          dateRange: { from: '2020-01', to: '2024-01' },
+          currentlyEmployed: false,
+          reasonForLeaving: 'Better opportunity',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when address is missing', () => {
+        const item = {
+          name: 'Test Company',
+          positionTitle: 'Manager',
+          supervisorName: 'John Doe',
+          phone: { contact: '123-456-7890' },
+          dateRange: { from: '2020-01', to: '2024-01' },
+          currentlyEmployed: false,
+          reasonForLeaving: 'Better opportunity',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when address is null', () => {
+        const item = {
+          name: 'Test Company',
+          positionTitle: 'Manager',
+          supervisorName: 'John Doe',
+          address: null,
+          phone: { contact: '123-456-7890' },
+          dateRange: { from: '2020-01', to: '2024-01' },
+          currentlyEmployed: false,
+          reasonForLeaving: 'Better opportunity',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when phone is missing', () => {
+        const item = {
+          name: 'Test Company',
+          positionTitle: 'Manager',
+          supervisorName: 'John Doe',
+          address: { street: '123 Main St' },
+          dateRange: { from: '2020-01', to: '2024-01' },
+          currentlyEmployed: false,
+          reasonForLeaving: 'Better opportunity',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when phone is null', () => {
+        const item = {
+          name: 'Test Company',
+          positionTitle: 'Manager',
+          supervisorName: 'John Doe',
+          address: { street: '123 Main St' },
+          phone: null,
+          dateRange: { from: '2020-01', to: '2024-01' },
+          currentlyEmployed: false,
+          reasonForLeaving: 'Better opportunity',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when phone.contact is missing', () => {
+        const item = {
+          name: 'Test Company',
+          positionTitle: 'Manager',
+          supervisorName: 'John Doe',
+          address: { street: '123 Main St' },
+          phone: {},
+          dateRange: { from: '2020-01', to: '2024-01' },
+          currentlyEmployed: false,
+          reasonForLeaving: 'Better opportunity',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when phone.contact is null', () => {
+        const item = {
+          name: 'Test Company',
+          positionTitle: 'Manager',
+          supervisorName: 'John Doe',
+          address: { street: '123 Main St' },
+          phone: { contact: null },
+          dateRange: { from: '2020-01', to: '2024-01' },
+          currentlyEmployed: false,
+          reasonForLeaving: 'Better opportunity',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when phone.contact is empty string', () => {
+        const item = {
+          name: 'Test Company',
+          positionTitle: 'Manager',
+          supervisorName: 'John Doe',
+          address: { street: '123 Main St' },
+          phone: { contact: '' },
+          dateRange: { from: '2020-01', to: '2024-01' },
+          currentlyEmployed: false,
+          reasonForLeaving: 'Better opportunity',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when dateRange is missing', () => {
+        const item = {
+          name: 'Test Company',
+          positionTitle: 'Manager',
+          supervisorName: 'John Doe',
+          address: { street: '123 Main St' },
+          phone: { contact: '123-456-7890' },
+          currentlyEmployed: false,
+          reasonForLeaving: 'Better opportunity',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when dateRange is null', () => {
+        const item = {
+          name: 'Test Company',
+          positionTitle: 'Manager',
+          supervisorName: 'John Doe',
+          address: { street: '123 Main St' },
+          phone: { contact: '123-456-7890' },
+          dateRange: null,
+          currentlyEmployed: false,
+          reasonForLeaving: 'Better opportunity',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when dateRange.from is missing', () => {
+        const item = {
+          name: 'Test Company',
+          positionTitle: 'Manager',
+          supervisorName: 'John Doe',
+          address: { street: '123 Main St' },
+          phone: { contact: '123-456-7890' },
+          dateRange: { to: '2024-01' },
+          currentlyEmployed: false,
+          reasonForLeaving: 'Better opportunity',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when dateRange.from is null', () => {
+        const item = {
+          name: 'Test Company',
+          positionTitle: 'Manager',
+          supervisorName: 'John Doe',
+          address: { street: '123 Main St' },
+          phone: { contact: '123-456-7890' },
+          dateRange: { from: null, to: '2024-01' },
+          currentlyEmployed: false,
+          reasonForLeaving: 'Better opportunity',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when dateRange.from is empty string', () => {
+        const item = {
+          name: 'Test Company',
+          positionTitle: 'Manager',
+          supervisorName: 'John Doe',
+          address: { street: '123 Main St' },
+          phone: { contact: '123-456-7890' },
+          dateRange: { from: '', to: '2024-01' },
+          currentlyEmployed: false,
+          reasonForLeaving: 'Better opportunity',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when dateRange.to is missing and currentlyEmployed is false', () => {
+        const item = {
+          name: 'Test Company',
+          positionTitle: 'Manager',
+          supervisorName: 'John Doe',
+          address: { street: '123 Main St' },
+          phone: { contact: '123-456-7890' },
+          dateRange: { from: '2020-01' },
+          currentlyEmployed: false,
+          reasonForLeaving: 'Better opportunity',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when dateRange.to is null and currentlyEmployed is false', () => {
+        const item = {
+          name: 'Test Company',
+          positionTitle: 'Manager',
+          supervisorName: 'John Doe',
+          address: { street: '123 Main St' },
+          phone: { contact: '123-456-7890' },
+          dateRange: { from: '2020-01', to: null },
+          currentlyEmployed: false,
+          reasonForLeaving: 'Better opportunity',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when dateRange.to is empty string and currentlyEmployed is false', () => {
+        const item = {
+          name: 'Test Company',
+          positionTitle: 'Manager',
+          supervisorName: 'John Doe',
+          address: { street: '123 Main St' },
+          phone: { contact: '123-456-7890' },
+          dateRange: { from: '2020-01', to: '' },
+          currentlyEmployed: false,
+          reasonForLeaving: 'Better opportunity',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return false when dateRange.to is missing but currentlyEmployed is true', () => {
+        const item = {
+          name: 'Test Company',
+          positionTitle: 'Manager',
+          supervisorName: 'John Doe',
+          address: { street: '123 Main St' },
+          phone: { contact: '123-456-7890' },
+          dateRange: { from: '2020-01' },
+          currentlyEmployed: true,
+          reasonForLeaving: 'Better opportunity',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.false;
+      });
+
+      it('should return true when currentlyEmployed is false but reasonForLeaving is missing', () => {
+        const item = {
+          name: 'Test Company',
+          positionTitle: 'Manager',
+          supervisorName: 'John Doe',
+          address: { street: '123 Main St' },
+          phone: { contact: '123-456-7890' },
+          dateRange: { from: '2020-01', to: '2024-01' },
+          currentlyEmployed: false,
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when currentlyEmployed is false but reasonForLeaving is null', () => {
+        const item = {
+          name: 'Test Company',
+          positionTitle: 'Manager',
+          supervisorName: 'John Doe',
+          address: { street: '123 Main St' },
+          phone: { contact: '123-456-7890' },
+          dateRange: { from: '2020-01', to: '2024-01' },
+          currentlyEmployed: false,
+          reasonForLeaving: null,
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when currentlyEmployed is false but reasonForLeaving is empty string', () => {
+        const item = {
+          name: 'Test Company',
+          positionTitle: 'Manager',
+          supervisorName: 'John Doe',
+          address: { street: '123 Main St' },
+          phone: { contact: '123-456-7890' },
+          dateRange: { from: '2020-01', to: '2024-01' },
+          currentlyEmployed: false,
+          reasonForLeaving: '',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return false when all required fields are present with currentlyEmployed true', () => {
+        const item = {
+          name: 'Test Company',
+          positionTitle: 'Manager',
+          supervisorName: 'John Doe',
+          address: { street: '123 Main St' },
+          phone: { contact: '123-456-7890' },
+          dateRange: { from: '2020-01' },
+          currentlyEmployed: true,
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.false;
+      });
+
+      it('should return false when all required fields are present with currentlyEmployed false', () => {
+        const item = {
+          name: 'Test Company',
+          positionTitle: 'Manager',
+          supervisorName: 'John Doe',
+          address: { street: '123 Main St' },
+          phone: { contact: '123-456-7890' },
+          dateRange: { from: '2020-01', to: '2024-01' },
+          currentlyEmployed: false,
+          reasonForLeaving: 'Better opportunity',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.false;
+      });
+
+      it('should return true when only name is missing (all others present)', () => {
+        const item = {
+          positionTitle: 'Manager',
+          supervisorName: 'John Doe',
+          address: { street: '123 Main St' },
+          phone: { contact: '123-456-7890' },
+          dateRange: { from: '2020-01', to: '2024-01' },
+          currentlyEmployed: false,
+          reasonForLeaving: 'Better opportunity',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when only positionTitle is missing (all others present)', () => {
+        const item = {
+          name: 'Test Company',
+          supervisorName: 'John Doe',
+          address: { street: '123 Main St' },
+          phone: { contact: '123-456-7890' },
+          dateRange: { from: '2020-01', to: '2024-01' },
+          currentlyEmployed: false,
+          reasonForLeaving: 'Better opportunity',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when only supervisorName is missing (all others present)', () => {
+        const item = {
+          name: 'Test Company',
+          positionTitle: 'Manager',
+          address: { street: '123 Main St' },
+          phone: { contact: '123-456-7890' },
+          dateRange: { from: '2020-01', to: '2024-01' },
+          currentlyEmployed: false,
+          reasonForLeaving: 'Better opportunity',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when only address is missing (all others present)', () => {
+        const item = {
+          name: 'Test Company',
+          positionTitle: 'Manager',
+          supervisorName: 'John Doe',
+          phone: { contact: '123-456-7890' },
+          dateRange: { from: '2020-01', to: '2024-01' },
+          currentlyEmployed: false,
+          reasonForLeaving: 'Better opportunity',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when only phone.contact is missing (all others present)', () => {
+        const item = {
+          name: 'Test Company',
+          positionTitle: 'Manager',
+          supervisorName: 'John Doe',
+          address: { street: '123 Main St' },
+          phone: {},
+          dateRange: { from: '2020-01', to: '2024-01' },
+          currentlyEmployed: false,
+          reasonForLeaving: 'Better opportunity',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when only dateRange.from is missing (all others present)', () => {
+        const item = {
+          name: 'Test Company',
+          positionTitle: 'Manager',
+          supervisorName: 'John Doe',
+          address: { street: '123 Main St' },
+          phone: { contact: '123-456-7890' },
+          dateRange: { to: '2024-01' },
+          currentlyEmployed: false,
+          reasonForLeaving: 'Better opportunity',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when only dateRange.to is missing and currentlyEmployed is false (all others present)', () => {
+        const item = {
+          name: 'Test Company',
+          positionTitle: 'Manager',
+          supervisorName: 'John Doe',
+          address: { street: '123 Main St' },
+          phone: { contact: '123-456-7890' },
+          dateRange: { from: '2020-01' },
+          currentlyEmployed: false,
+          reasonForLeaving: 'Better opportunity',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when only reasonForLeaving is missing and currentlyEmployed is false (all others present)', () => {
+        const item = {
+          name: 'Test Company',
+          positionTitle: 'Manager',
+          supervisorName: 'John Doe',
+          address: { street: '123 Main St' },
+          phone: { contact: '123-456-7890' },
+          dateRange: { from: '2020-01', to: '2024-01' },
+          currentlyEmployed: false,
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+    });
   });
 
   it('renders the summary page hint', () => {

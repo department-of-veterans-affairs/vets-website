@@ -236,5 +236,285 @@ describe('Military Service Chapter Pages', () => {
       );
       expect(getByText('January 2000 - Present')).to.exist;
     });
+
+    context('isItemIncomplete function', () => {
+      it('should return true when item is null', () => {
+        expect(arrayBuilderOptions.isItemIncomplete(null)).to.be.true;
+      });
+
+      it('should return true when item is undefined', () => {
+        expect(arrayBuilderOptions.isItemIncomplete(undefined)).to.be.true;
+      });
+
+      it('should return true when item is empty object', () => {
+        expect(arrayBuilderOptions.isItemIncomplete({})).to.be.true;
+      });
+
+      it('should return true when branch is missing', () => {
+        const item = {
+          dateRange: { from: '2020-01-01', to: '2021-01-01' },
+          currentlyServing: false,
+          characterOfDischarge: 'Honorable',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when branch is null', () => {
+        const item = {
+          branch: null,
+          dateRange: { from: '2020-01-01', to: '2021-01-01' },
+          currentlyServing: false,
+          characterOfDischarge: 'Honorable',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when branch is empty string', () => {
+        const item = {
+          branch: '',
+          dateRange: { from: '2020-01-01', to: '2021-01-01' },
+          currentlyServing: false,
+          characterOfDischarge: 'Honorable',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when dateRange is missing', () => {
+        const item = {
+          branch: 'Army',
+          currentlyServing: false,
+          characterOfDischarge: 'Honorable',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when dateRange is null', () => {
+        const item = {
+          branch: 'Army',
+          dateRange: null,
+          currentlyServing: false,
+          characterOfDischarge: 'Honorable',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when dateRange.from is missing', () => {
+        const item = {
+          branch: 'Army',
+          dateRange: { to: '2021-01-01' },
+          currentlyServing: false,
+          characterOfDischarge: 'Honorable',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when dateRange.from is null', () => {
+        const item = {
+          branch: 'Army',
+          dateRange: { from: null, to: '2021-01-01' },
+          currentlyServing: false,
+          characterOfDischarge: 'Honorable',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when dateRange.from is empty string', () => {
+        const item = {
+          branch: 'Army',
+          dateRange: { from: '', to: '2021-01-01' },
+          currentlyServing: false,
+          characterOfDischarge: 'Honorable',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when dateRange.to is missing and currentlyServing is false', () => {
+        const item = {
+          branch: 'Army',
+          dateRange: { from: '2020-01-01' },
+          currentlyServing: false,
+          characterOfDischarge: 'Honorable',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when dateRange.to is null and currentlyServing is false', () => {
+        const item = {
+          branch: 'Army',
+          dateRange: { from: '2020-01-01', to: null },
+          currentlyServing: false,
+          characterOfDischarge: 'Honorable',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when dateRange.to is empty string and currentlyServing is false', () => {
+        const item = {
+          branch: 'Army',
+          dateRange: { from: '2020-01-01', to: '' },
+          currentlyServing: false,
+          characterOfDischarge: 'Honorable',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return false when dateRange.to is missing but currentlyServing is true', () => {
+        const item = {
+          branch: 'Army',
+          dateRange: { from: '2020-01-01' },
+          currentlyServing: true,
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.false;
+      });
+
+      it('should return true when currentlyServing is false but characterOfDischarge is missing', () => {
+        const item = {
+          branch: 'Army',
+          dateRange: { from: '2020-01-01', to: '2021-01-01' },
+          currentlyServing: false,
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when currentlyServing is false but characterOfDischarge is null', () => {
+        const item = {
+          branch: 'Army',
+          dateRange: { from: '2020-01-01', to: '2021-01-01' },
+          currentlyServing: false,
+          characterOfDischarge: null,
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when currentlyServing is false but characterOfDischarge is empty string', () => {
+        const item = {
+          branch: 'Army',
+          dateRange: { from: '2020-01-01', to: '2021-01-01' },
+          currentlyServing: false,
+          characterOfDischarge: '',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when currentlyServing is false, characterOfDischarge requires explanation, but explanationOfDischarge is missing', () => {
+        const item = {
+          branch: 'Army',
+          dateRange: { from: '2020-01-01', to: '2021-01-01' },
+          currentlyServing: false,
+          characterOfDischarge: 'Other Than Honorable',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when currentlyServing is false, characterOfDischarge requires explanation, but explanationOfDischarge is null', () => {
+        const item = {
+          branch: 'Army',
+          dateRange: { from: '2020-01-01', to: '2021-01-01' },
+          currentlyServing: false,
+          characterOfDischarge: 'Other Than Honorable',
+          explanationOfDischarge: null,
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when currentlyServing is false, characterOfDischarge requires explanation, but explanationOfDischarge is empty string', () => {
+        const item = {
+          branch: 'Army',
+          dateRange: { from: '2020-01-01', to: '2021-01-01' },
+          currentlyServing: false,
+          characterOfDischarge: 'Other Than Honorable',
+          explanationOfDischarge: '',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return false when all required fields are present with currentlyServing true', () => {
+        const item = {
+          branch: 'Army',
+          dateRange: { from: '2020-01-01' },
+          currentlyServing: true,
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.false;
+      });
+
+      it('should return false when all required fields are present with currentlyServing false and honorable discharge', () => {
+        const item = {
+          branch: 'Army',
+          dateRange: { from: '2020-01-01', to: '2021-01-01' },
+          currentlyServing: false,
+          characterOfDischarge: 'Honorable',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.false;
+      });
+
+      it('should return false when all required fields are present with currentlyServing false and discharge requiring explanation', () => {
+        const item = {
+          branch: 'Army',
+          dateRange: { from: '2020-01-01', to: '2021-01-01' },
+          currentlyServing: false,
+          characterOfDischarge: 'Other Than Honorable',
+          explanationOfDischarge: 'Explanation of discharge circumstances',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.false;
+      });
+
+      it('should return true when only branch is missing (all others present)', () => {
+        const item = {
+          dateRange: { from: '2020-01-01', to: '2021-01-01' },
+          currentlyServing: false,
+          characterOfDischarge: 'Honorable',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when only dateRange.from is missing (all others present)', () => {
+        const item = {
+          branch: 'Army',
+          dateRange: { to: '2021-01-01' },
+          currentlyServing: false,
+          characterOfDischarge: 'Honorable',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when only dateRange.to is missing and currentlyServing is false (all others present)', () => {
+        const item = {
+          branch: 'Army',
+          dateRange: { from: '2020-01-01' },
+          currentlyServing: false,
+          characterOfDischarge: 'Honorable',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when only characterOfDischarge is missing and currentlyServing is false (all others present)', () => {
+        const item = {
+          branch: 'Army',
+          dateRange: { from: '2020-01-01', to: '2021-01-01' },
+          currentlyServing: false,
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when only explanationOfDischarge is missing and currentlyServing is false with discharge requiring explanation (all others present)', () => {
+        const item = {
+          branch: 'Army',
+          dateRange: { from: '2020-01-01', to: '2021-01-01' },
+          currentlyServing: false,
+          characterOfDischarge: 'Other Than Honorable',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return false when currentlyServing is true and explanationOfDischarge is missing (discharge requiring explanation)', () => {
+        const item = {
+          branch: 'Army',
+          dateRange: { from: '2020-01-01' },
+          currentlyServing: true,
+          characterOfDischarge: 'Other Than Honorable',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.false;
+      });
+    });
   });
 });

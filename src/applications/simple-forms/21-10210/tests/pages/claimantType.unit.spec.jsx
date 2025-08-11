@@ -1,6 +1,8 @@
 import {
   testNumberOfErrorsOnSubmit,
+  testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfFields,
+  testNumberOfWebComponentFields,
 } from '../../../shared/tests/pages/pageTests.spec';
 import { CLAIM_OWNERSHIPS, CLAIMANT_TYPES } from '../../definitions/constants';
 import formConfig from '../../config/form';
@@ -15,7 +17,43 @@ const mockData = {
   claimantType: CLAIMANT_TYPES.VETERAN,
 };
 
-const expectedNumberOfFields = 2;
+// Test with claimOwnership present (field should be visible)
+const expectedNumberOfWebComponentFields = 1;
+testNumberOfWebComponentFields(
+  formConfig,
+  schema,
+  uiSchema,
+  expectedNumberOfWebComponentFields,
+  pageTitle,
+  mockData,
+);
+
+// Test validation when field is visible but claimantType is missing
+const expectedNumberOfWebComponentErrors = 1;
+testNumberOfErrorsOnSubmitForWebComponents(
+  formConfig,
+  schema,
+  uiSchema,
+  expectedNumberOfWebComponentErrors,
+  pageTitle,
+  {
+    claimOwnership: CLAIM_OWNERSHIPS.SELF,
+  },
+);
+
+// Test that field is hidden when claimOwnership is undefined
+const expectedNumberOfWebComponentFieldsWhenHidden = 0;
+testNumberOfWebComponentFields(
+  formConfig,
+  schema,
+  uiSchema,
+  expectedNumberOfWebComponentFieldsWhenHidden,
+  'Claimant type (hidden)',
+  {}, // No claimOwnership data
+);
+
+// Legacy tests for backwards compatibility
+const expectedNumberOfFields = 0;
 testNumberOfFields(
   formConfig,
   schema,
@@ -25,14 +63,12 @@ testNumberOfFields(
   mockData,
 );
 
-const expectedNumberOfErrors = 1;
+const expectedNumberOfErrors = 0;
 testNumberOfErrorsOnSubmit(
   formConfig,
   schema,
   uiSchema,
   expectedNumberOfErrors,
   pageTitle,
-  {
-    claimOwnership: CLAIM_OWNERSHIPS.SELF,
-  },
+  mockData,
 );

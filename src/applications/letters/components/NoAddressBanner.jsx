@@ -4,7 +4,9 @@ export default function NoAddressBanner() {
   return (
     <>
       <va-alert status="warning" class="vads-u-margin-bottom--4">
-        <h3 slot="headline">We don’t have a valid address on file for you</h3>
+        <h2 slot="headline" className="vads-u-font-size--h3">
+          We don’t have a valid address on file for you
+        </h2>
         <div>
           You’ll need to{' '}
           <a href="/profile/contact-information">update your address</a> before

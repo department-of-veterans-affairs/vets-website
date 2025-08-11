@@ -66,7 +66,7 @@ import { validateMarriageAfterDob } from '../helpers/validations';
 import { applicantAddressCleanValidation } from '../../shared/validations';
 */
 
-// import mockData from '../tests/fixtures/data/test-data.json';
+// import mockData from '../tests/e2e/fixtures/data/maximal-test.json';
 
 const fullNameMiddleInitialUI = cloneDeep(fullNameUI());
 fullNameMiddleInitialUI.middle['ui:title'] = 'Middle initial';

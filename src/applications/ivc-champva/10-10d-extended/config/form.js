@@ -21,7 +21,7 @@ import {
   certifierRelationshipSchema,
 } from '../chapters/signerInformation';
 
-// import mockData from '../tests/fixtures/data/test-data.json';
+// import mockData from '../tests/e2e/fixtures/data/maximal-test.json';
 import transformForSubmit from './submitTransformer';
 
 import {

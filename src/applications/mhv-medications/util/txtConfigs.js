@@ -25,10 +25,7 @@ export const buildNonVAPrescriptionTXT = prescription => {
 ---------------------------------------------------------------------------------
 
 
-${prescription.prescriptionName ||
-    (prescription.dispStatus === 'Active: Non-VA'
-      ? prescription.orderableItem
-      : '')}
+${prescription?.prescriptionName || prescription?.orderableItem}
 
 Instructions: ${validateIfAvailable('Instructions', prescription.sig)}
 
@@ -221,10 +218,7 @@ export const buildVAPrescriptionTXT = prescription => {
 ---------------------------------------------------------------------------------
 
 
-${prescription?.prescriptionName ||
-    (prescription?.dispStatus === 'Active: Non-VA'
-      ? prescription?.orderableItem
-      : '')}
+${prescription?.prescriptionName || prescription?.orderableItem}
 
 
 Most recent prescription

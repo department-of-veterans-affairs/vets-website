@@ -2,6 +2,49 @@ import { isEqual } from 'lodash';
 import { isInMPI, selectProfile } from 'platform/user/selectors';
 import set from 'platform/utilities/data/set';
 import { FULL_SCHEMA } from '../utils/imports';
+import { validateDateOfBirth } from '../utils/validation';
+
+/**
+ * Validates and removes invalid phone numbers from form data
+ * Veteran Enrollment System (VES) requires 10-digit US phone numbers, but VA Profile may contain international formats
+ * Remove any phone numbers that don't match the required pattern (^[0-9]{10}$) as defined in vets-json-schema
+ * @param {Object} formData - the form data object
+ * @param {Object} dataToReturn - the data object being built
+ * @returns {Object} - updated data object
+ */
+const validatePhoneNumbers = (formData, dataToReturn) => {
+  let updatedData = dataToReturn;
+
+  for (const phoneField of ['homePhone', 'mobilePhone']) {
+    const phoneNumber = formData[phoneField];
+    const phoneNumberRegex = new RegExp(
+      FULL_SCHEMA.properties[phoneField].pattern,
+    );
+
+    if (phoneNumber && !phoneNumberRegex.test(phoneNumber)) {
+      updatedData = set(phoneField, undefined, updatedData);
+    }
+  }
+
+  return updatedData;
+};
+
+/**
+ * Validates and sets veteran date of birth if present
+ * @param {Object} formData - the form data object
+ * @param {Object} dataToReturn - the data object being built
+ * @returns {Object} - updated data object
+ */
+const validateVeteranDateOfBirth = (formData, dataToReturn) => {
+  if (formData.veteranDateOfBirth) {
+    return set(
+      'veteranDateOfBirth',
+      validateDateOfBirth(formData.veteranDateOfBirth),
+      dataToReturn,
+    );
+  }
+  return dataToReturn;
+};
 
 /**
  * Map address object to match the key names in the schema
@@ -63,18 +106,8 @@ export const prefillTransformer = (pages, formData, metadata, state) => {
     dataToReturn = set('veteranHomeAddress', veteranHomeAddress, dataToReturn);
   }
 
-  // Veteran Enrollment System (VES) requires 10-digit US phone numbers, but VA Profile may contain international formats
-  // Remove any phone numbers that don't match the required pattern (^[0-9]{10}$) as defined in vets-json-schema
-  for (const phoneField of ['homePhone', 'mobilePhone']) {
-    const phoneNumber = formData[phoneField];
-    const phoneNumberRegex = new RegExp(
-      FULL_SCHEMA.properties[phoneField].pattern,
-    );
-
-    if (phoneNumber && !phoneNumberRegex.test(phoneNumber)) {
-      dataToReturn = set(phoneField, undefined, dataToReturn);
-    }
-  }
+  dataToReturn = validatePhoneNumbers(formData, dataToReturn);
+  dataToReturn = validateVeteranDateOfBirth(formData, dataToReturn);
 
   dataToReturn = set(
     'view:doesMailingMatchHomeAddress',

@@ -13,6 +13,7 @@ export const relationshipLabelDescriptions = {
   SPOUSE:
     'Unless you’re estranged, live apart, and don’t contribute to their support',
   CHILD: 'Unless you don’t have custody and don’t provide financial support',
+  CUSTODIAN: 'Unless the child’s custodian is an institution',
 };
 
 export const transferMethodLabels = {

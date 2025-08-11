@@ -1,11 +1,13 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom-v5-compat';
 
+import * as focusUtils from '~/platform/utilities/ui/focus';
 import { LetterList } from '../../containers/LetterList';
 import {
   AVAILABILITY_STATUSES,
@@ -64,6 +66,50 @@ const getStore = (lettersPageNewDesign = false) =>
   }));
 
 describe('<LetterList>', () => {
+  describe('focus setting tests', () => {
+    let focusElementSpy;
+
+    beforeEach(() => {
+      focusElementSpy = sinon.spy(focusUtils, 'focusElement');
+    });
+
+    afterEach(() => {
+      focusElementSpy.restore();
+    });
+
+    it('sets focus to h2 when lettersNewDesign is false', () => {
+      render(
+        <Provider store={getStore()}>
+          <MemoryRouter>
+            <LetterList {...defaultProps} lettersNewDesign={false} />
+          </MemoryRouter>
+        </Provider>,
+      );
+
+      // Check that focusElement was called
+      expect(focusElementSpy.callCount).to.equal(1);
+      // Check what it was called with - when lettersNewDesign is false, it should call with nav header
+      const lastCall = focusElementSpy.getCall(0);
+      expect(lastCall.args[0]).to.equal('h2#nav-form-header');
+    });
+
+    it('sets focus to letters title when lettersNewDesign is true', () => {
+      render(
+        <Provider store={getStore(true)}>
+          <MemoryRouter>
+            <LetterList {...defaultProps} lettersNewDesign />
+          </MemoryRouter>
+        </Provider>,
+      );
+
+      // Check that focusElement was called
+      expect(focusElementSpy.callCount).to.equal(1);
+      // Check what it was called with
+      const lastCall = focusElementSpy.getCall(0);
+      expect(lastCall.args[0]).to.equal('#letters-title-id');
+    });
+  });
+
   it('renders', () => {
     const tree = SkinDeep.shallowRender(<LetterList {...defaultProps} />);
     expect(tree.type).to.equal('div');

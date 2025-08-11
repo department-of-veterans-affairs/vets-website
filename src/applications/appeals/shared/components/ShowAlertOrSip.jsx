@@ -57,7 +57,7 @@ const ShowAlertOrSip = ({ basename, sipOptions, bottom }) => {
     return bottom ? (
       <div className={classes} />
     ) : (
-      <NeedsMissingInfoAlert missing={missing} />
+      <NeedsMissingInfoAlert missing={missing} formId={sipOptions?.formId} />
     );
   }
 
@@ -71,7 +71,9 @@ const ShowAlertOrSip = ({ basename, sipOptions, bottom }) => {
 ShowAlertOrSip.propTypes = {
   basename: PropTypes.string,
   bottom: PropTypes.bool,
-  sipOptions: PropTypes.shape({}),
+  sipOptions: PropTypes.shape({
+    formId: PropTypes.string.isRequired,
+  }),
 };
 
 export default ShowAlertOrSip;

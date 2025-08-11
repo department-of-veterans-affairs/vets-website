@@ -23,7 +23,7 @@ describe('Prescription details documentation container', () => {
     user: {
       profile: {
         userFullName: { first: 'test', last: 'last', suffix: 'jr' },
-        dob: 'January, 01, 2000',
+        dob: '2000-01-01',
       },
       login: {
         currentlyLoggedIn: true,
