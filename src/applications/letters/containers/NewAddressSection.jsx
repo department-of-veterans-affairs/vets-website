@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { focusElement } from 'platform/utilities/ui';
 import { TRANSACTION_CATEGORY_TYPES, FIELD_NAMES } from '@@vap-svc/constants';
 import PropTypes from 'prop-types';
@@ -10,6 +10,9 @@ import ProfileInformationFieldController from '@@vap-svc/components/ProfileInfor
 export function NewAddressSection({ success }) {
   const successRef = useRef(null);
 
+  // need state to know whether we are editing
+  const [isEditing, setIsEditing] = useState(false);
+
   useEffect(
     () => {
       if (success && successRef?.current) {
@@ -18,6 +21,32 @@ export function NewAddressSection({ success }) {
     },
     [success],
   );
+
+  useEffect(
+    () => {
+      // check for the presence of the edit button
+      // if it is there, we are not editing; if it is not there, we are editing
+      const updateIsEditingState = () => {
+        const editButton = document.querySelector(
+          'va-button#edit-mailing-address',
+        );
+        setIsEditing(!editButton);
+      };
+
+      // call this on load
+      updateIsEditingState();
+
+      // observe DOM changes if the button may appear/disappear dynamically
+      // call it again when changes occur to make sure we are tracking the presence correctly
+      const observer = new MutationObserver(updateIsEditingState);
+      observer.observe(document.body, { childList: true, subtree: true });
+
+      // cleanup
+      return () => observer.disconnect();
+    },
+    [setIsEditing],
+  );
+
   return (
     <div className="va-profile-wrapper">
       <InitializeVAPServiceID>
@@ -59,12 +88,15 @@ export function NewAddressSection({ success }) {
             </va-alert>
           )}
           <va-card className="vads-u-justify-content--space-between">
-            <div aria-live="polite" aria-relevant="all">
-              <ProfileInformationFieldController
-                fieldName={FIELD_NAMES.MAILING_ADDRESS}
-                ariaDescribedBy={`described-by-${FIELD_NAMES.MAILING_ADDRESS}`}
-              />
-            </div>
+            {isEditing && (
+              <div aria-live="polite" aria-relevant="all" className="sr-only">
+                Edit address mode is active.
+              </div>
+            )}
+            <ProfileInformationFieldController
+              fieldName={FIELD_NAMES.MAILING_ADDRESS}
+              ariaDescribedBy={`described-by-${FIELD_NAMES.MAILING_ADDRESS}`}
+            />
           </va-card>
         </VAPServicePendingTransactionCategory>
       </InitializeVAPServiceID>
