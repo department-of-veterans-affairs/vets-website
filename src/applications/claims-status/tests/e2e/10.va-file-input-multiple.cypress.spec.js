@@ -501,6 +501,104 @@ describe('VA File Input Multiple', () => {
 
       cy.axeCheck();
     });
+
+    it('should not submit password when switching from encrypted to non-encrypted file', () => {
+      setupComponentTest();
+
+      // Intercept submission to verify password is empty for non-encrypted file
+      cy.intercept(
+        'POST',
+        '/v0/benefits_claims/189685/benefits_documents',
+        req => {
+          const formData = req.body;
+          // Verify password field is empty (not the actual password that was typed earlier)
+          expect(formData).to.include('name="password"');
+          expect(formData).to.not.include('my-password');
+          req.reply({ statusCode: 200, body: {} });
+        },
+      ).as('documentsSubmission');
+
+      // Upload encrypted file and enter password
+      setupEncryptedFile('encrypted-document.pdf');
+      getFileInput(0)
+        .find('va-text-input')
+        .shadow()
+        .find('input')
+        .type('my-password');
+
+      // Select document type
+      selectDocumentType(0, 'L029');
+
+      // Replace with non-encrypted file
+      getFileInput(0)
+        .find('input[type="file"]')
+        .selectFile(
+          {
+            contents: Cypress.Buffer.from('Regular text content'),
+            fileName: 'regular-document.txt',
+            mimeType: 'text/plain',
+          },
+          { force: true },
+        );
+
+      // Verify the file was actually replaced and password input is gone
+      getFileInput(0).should('contain.text', 'regular-document.txt');
+      getFileInput(0)
+        .find('va-text-input')
+        .should('not.exist');
+
+      clickSubmitButton();
+      cy.wait('@documentsSubmission');
+
+      cy.axeCheck();
+    });
+
+    // Error alert for invalid password
+    it('should show error when submitting PDF with invalid password', () => {
+      setupComponentTest();
+
+      const errorMessage =
+        'We couldn’t unlock your PDF. Save the PDF without a password and try again.';
+      const fileName = 'encrypted-document.pdf';
+      // Mock a server error response for invalid password
+      cy.intercept('POST', `/v0/benefits_claims/189685/benefits_documents`, {
+        statusCode: 422,
+        body: {
+          errors: [
+            {
+              title: errorMessage,
+            },
+          ],
+        },
+      }).as('documentsError');
+
+      // Upload encrypted file with incorrect password
+      setupEncryptedFile(fileName);
+      getFileInput(0)
+        .find('va-text-input')
+        .shadow()
+        .find('input')
+        .type('wrong-password');
+
+      // Select document type
+      selectDocumentType(0, 'L029'); // Copy of a DD214
+
+      // Submit the files
+      clickSubmitButton();
+
+      // Wait for error response
+      cy.wait('@documentsError');
+
+      // Verify error alert appears with correct content
+      cy.get('va-alert[status="error"]').should('be.visible');
+      cy.get('va-alert[status="error"] h2').should(
+        'contain.text',
+        `Error uploading ${fileName}`,
+      );
+      cy.get('va-alert[status="error"] p').should('contain.text', errorMessage);
+
+      cy.axeCheck();
+    });
   });
 
   describe('Document type selection and validation', () => {
@@ -931,101 +1029,241 @@ describe('VA File Input Multiple', () => {
 
       cy.axeCheck();
     });
+  });
 
-    // Error alert for invalid password
-    it('should show error when submitting PDF with invalid password', () => {
-      setupComponentTest();
+  describe('Data contract validation - UI to API consistency', () => {
+    // Regex patterns for extracting multipart form data
+    const FORM_DATA_PATTERNS = {
+      filename: /name="qqfilename"\r?\n\r?\n([^\r\n]+)/,
+      docType: /name="document_type"\r?\n\r?\n(L\d+)/,
+      password: /name="password"\r?\n\r?\n([^\r\n]*)/,
+    };
 
-      const errorMessage =
-        'We couldn’t unlock your PDF. Save the PDF without a password and try again.';
-      const fileName = 'encrypted-document.pdf';
-      // Mock a server error response for invalid password
-      cy.intercept('POST', `/v0/benefits_claims/189685/benefits_documents`, {
-        statusCode: 422,
-        body: {
-          errors: [
-            {
-              title: errorMessage,
-            },
-          ],
-        },
-      }).as('documentsError');
+    // Helper to set up common test scenario with multiple files
+    const setupMultipleFilesWithData = () => {
+      // File 1: Regular file with doctype
+      uploadFile('birth-cert.txt', 0);
+      selectDocumentType(0, 'L014'); // Birth Certificate
 
-      // Upload encrypted file with incorrect password
-      setupEncryptedFile(fileName);
-      getFileInput(0)
+      // File 2: Encrypted file with password and doctype
+      setupEncryptedFile('encrypted-middle.pdf', 1);
+      getFileInput(1)
         .find('va-text-input')
         .shadow()
         .find('input')
-        .type('wrong-password');
+        .type('middle-password');
+      selectDocumentType(1, 'L029'); // DD214
 
-      // Select document type
-      selectDocumentType(0, 'L029'); // Copy of a DD214
+      // File 3: Regular file with doctype
+      uploadFile('medical-records.txt', 2);
+      selectDocumentType(2, 'L070'); // Medical records
+    };
 
-      // Submit the files
-      clickSubmitButton();
-
-      // Wait for error response
-      cy.wait('@documentsError');
-
-      // Verify error alert appears with correct content
-      cy.get('va-alert[status="error"]').should('be.visible');
-      cy.get('va-alert[status="error"] h2').should(
-        'contain.text',
-        `Error uploading ${fileName}`,
-      );
-      cy.get('va-alert[status="error"] p').should('contain.text', errorMessage);
-
-      cy.axeCheck();
-    });
-
-    it('should not submit password when switching from encrypted to non-encrypted file', () => {
+    it('verifies file data consistency when files are changed - UI state matches API payload', () => {
       setupComponentTest();
 
-      // Intercept submission to verify password is empty for non-encrypted file
-      cy.intercept(
-        'POST',
-        '/v0/benefits_claims/189685/benefits_documents',
-        req => {
-          const formData = req.body;
-          // Verify password field is empty (not the actual password that was typed earlier)
-          expect(formData).to.include('name="password"');
-          expect(formData).to.not.include('my-password');
-          req.reply({ statusCode: 200, body: {} });
-        },
-      ).as('documentsSubmission');
+      // Step 1: Set up initial 3 files with data
+      setupMultipleFilesWithData();
 
-      // Upload encrypted file and enter password
-      setupEncryptedFile('encrypted-document.pdf');
-      getFileInput(0)
-        .find('va-text-input')
-        .shadow()
-        .find('input')
-        .type('my-password');
-
-      // Select document type
-      selectDocumentType(0, 'L029');
-
-      // Replace with non-encrypted file
-      getFileInput(0)
+      // Step 2: Change two of the files
+      // Change file 1 (middle): encrypted to encrypted
+      getFileInput(1)
         .find('input[type="file"]')
         .selectFile(
           {
-            contents: Cypress.Buffer.from('Regular text content'),
-            fileName: 'regular-document.txt',
+            contents: Cypress.Buffer.from(
+              '%PDF-1.4\n/Encrypt\nnew encrypted content',
+            ),
+            fileName: 'new-encrypted.pdf',
+            mimeType: 'application/pdf',
+          },
+          { force: true },
+        );
+
+      // Change file 2 (last): regular to regular
+      getFileInput(2)
+        .find('input[type="file"]')
+        .selectFile(
+          {
+            contents: Cypress.Buffer.from('Updated medical content'),
+            fileName: 'new-medical.txt',
             mimeType: 'text/plain',
           },
           { force: true },
         );
 
-      // Verify the file was actually replaced and password input is gone
-      getFileInput(0).should('contain.text', 'regular-document.txt');
+      // Step 3: Define what we expect after the changes
+      const expectedData = [
+        { filename: 'birth-cert.txt', docType: 'L014', password: '' }, // unchanged
+        {
+          filename: 'new-encrypted.pdf',
+          docType: 'L029',
+          password: 'middle-password',
+        }, // changed file, kept data
+        { filename: 'new-medical.txt', docType: 'L070', password: '' }, // changed file, kept data
+      ];
+
+      // Step 4: Verify UI shows expected state (filename, doctype, password)
+      // File 0: birth-cert.txt, L014, no password
+      getFileInput(0).should('contain.text', expectedData[0].filename);
+      getFileInputElement(0)
+        .find('va-select')
+        .shadow()
+        .find('select')
+        .should('have.value', expectedData[0].docType);
       getFileInput(0)
         .find('va-text-input')
-        .should('not.exist');
+        .should('not.exist'); // No password field
+
+      // File 1: new-encrypted.pdf, L029, has password 'middle-password'
+      getFileInput(1).should('contain.text', expectedData[1].filename);
+      getFileInputElement(1)
+        .find('va-select')
+        .shadow()
+        .find('select')
+        .should('have.value', expectedData[1].docType);
+      getFileInput(1)
+        .find('va-text-input')
+        .should('exist'); // Password field exists
+      getFileInput(1)
+        .find('va-text-input')
+        .shadow()
+        .find('input')
+        .should('have.value', expectedData[1].password);
+
+      // File 2: new-medical.txt, L070, no password
+      getFileInput(2).should('contain.text', expectedData[2].filename);
+      getFileInputElement(2)
+        .find('va-select')
+        .shadow()
+        .find('select')
+        .should('have.value', expectedData[2].docType);
+      getFileInput(2)
+        .find('va-text-input')
+        .should('not.exist'); // No password field
+
+      // Step 5: Capture API submissions and verify they match UI exactly
+      const submittedData = [];
+      cy.intercept(
+        'POST',
+        '/v0/benefits_claims/189685/benefits_documents',
+        req => {
+          const formData = req.body;
+          const filenameMatch = formData.match(FORM_DATA_PATTERNS.filename);
+          const docTypeMatch = formData.match(FORM_DATA_PATTERNS.docType);
+          const passwordMatch = formData.match(FORM_DATA_PATTERNS.password);
+
+          if (filenameMatch && docTypeMatch) {
+            submittedData.push({
+              filename: filenameMatch[1],
+              docType: docTypeMatch[1],
+              password: passwordMatch ? passwordMatch[1] : '',
+            });
+          }
+          req.reply({ statusCode: 200, body: {} });
+        },
+      ).as('submission');
 
       clickSubmitButton();
-      cy.wait('@documentsSubmission');
+
+      // Step 6: Verify API data matches UI expectations exactly
+      cy.wait(['@submission', '@submission', '@submission']).then(() => {
+        expect(submittedData).to.have.lengthOf(3);
+
+        expectedData.forEach(expected => {
+          const submitted = submittedData.find(
+            s => s.filename === expected.filename,
+          );
+          expect(submitted).to.exist;
+          expect(submitted.docType).to.equal(expected.docType);
+          expect(submitted.password).to.equal(expected.password);
+        });
+      });
+
+      cy.axeCheck();
+    });
+
+    it('verifies file data consistency after file deletion - UI state matches API payload', () => {
+      setupComponentTest();
+
+      // Step 1: Set up initial 3 files with data
+      setupMultipleFilesWithData();
+
+      // Step 2: Delete the middle file (encrypted with password)
+      clickDeleteButton(1, 'encrypted-middle.pdf');
+      clickModalDeleteButton();
+
+      // Step 3: Define what we expect after deletion
+      const expectedRemainingData = [
+        { filename: 'birth-cert.txt', docType: 'L014', password: '' }, // file 0, unchanged
+        { filename: 'medical-records.txt', docType: 'L070', password: '' }, // file 2 moved to position 1
+      ];
+
+      // Step 4: Verify UI shows expected remaining files (filename, doctype, password)
+      // File 0: birth-cert.txt, L014, no password
+      getFileInput(0).should('contain.text', expectedRemainingData[0].filename);
+      getFileInputElement(0)
+        .find('va-select')
+        .shadow()
+        .find('select')
+        .should('have.value', expectedRemainingData[0].docType);
+      getFileInput(0)
+        .find('va-text-input')
+        .should('not.exist'); // No password field
+
+      // File 1: medical-records.txt, L070, no password
+      getFileInput(1).should('contain.text', expectedRemainingData[1].filename);
+      getFileInputElement(1)
+        .find('va-select')
+        .shadow()
+        .find('select')
+        .should('have.value', expectedRemainingData[1].docType);
+      getFileInput(1)
+        .find('va-text-input')
+        .should('not.exist'); // No password field
+
+      // Step 5: Capture API submissions and verify they match UI exactly
+      const submittedData = [];
+      cy.intercept(
+        'POST',
+        '/v0/benefits_claims/189685/benefits_documents',
+        req => {
+          const formData = req.body;
+          const filenameMatch = formData.match(FORM_DATA_PATTERNS.filename);
+          const docTypeMatch = formData.match(FORM_DATA_PATTERNS.docType);
+          const passwordMatch = formData.match(FORM_DATA_PATTERNS.password);
+
+          // Verify deleted file data never appears in any submission
+          expect(formData).to.not.include('encrypted-middle.pdf');
+          expect(formData).to.not.include('L029'); // DD214 (deleted file's doctype)
+          expect(formData).to.not.include('middle-password');
+
+          if (filenameMatch && docTypeMatch) {
+            submittedData.push({
+              filename: filenameMatch[1],
+              docType: docTypeMatch[1],
+              password: passwordMatch ? passwordMatch[1] : '',
+            });
+          }
+          req.reply({ statusCode: 200, body: {} });
+        },
+      ).as('submission');
+
+      clickSubmitButton();
+
+      // Step 6: Verify API data matches UI expectations exactly
+      cy.wait(['@submission', '@submission']).then(() => {
+        expect(submittedData).to.have.lengthOf(2);
+
+        expectedRemainingData.forEach(expected => {
+          const submitted = submittedData.find(
+            s => s.filename === expected.filename,
+          );
+          expect(submitted).to.exist;
+          expect(submitted.docType).to.equal(expected.docType);
+          expect(submitted.password).to.equal(expected.password);
+        });
+      });
 
       cy.axeCheck();
     });
