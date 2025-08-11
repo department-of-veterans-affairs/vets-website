@@ -60,7 +60,7 @@ function ViewDependentsLayout(props) {
     </>
   );
 
-  return <div>{layout}</div>;
+  return <div className="vads-u-margin-bottom--4">{layout}</div>;
 }
 
 ViewDependentsLayout.propTypes = {

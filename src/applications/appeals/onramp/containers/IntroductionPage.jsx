@@ -5,7 +5,7 @@ import { updateIntroPageViewed } from '../actions';
 import { QUESTION_CONTENT } from '../constants/question-data-map';
 import { ROUTES } from '../constants';
 
-const HomePage = ({ router, setIntroPageViewed }) => {
+const IntroductionPage = ({ router, setIntroPageViewed }) => {
   useEffect(() => {
     setIntroPageViewed(true);
   });
@@ -17,7 +17,9 @@ const HomePage = ({ router, setIntroPageViewed }) => {
 
   return (
     <>
-      <h1 className="vads-u-margin-bottom--1">{QUESTION_CONTENT.HOME.h1}</h1>
+      <h1 className="vads-u-margin-bottom--1">
+        {QUESTION_CONTENT.INTRODUCTION.h1}
+      </h1>
       <h2 className="vads-u-margin-y--0 vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--h3">
         Learn about what Decision Review option may be right for you.
       </h2>
@@ -144,7 +146,7 @@ const HomePage = ({ router, setIntroPageViewed }) => {
   );
 };
 
-HomePage.propTypes = {
+IntroductionPage.propTypes = {
   router: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
@@ -158,4 +160,4 @@ const mapDispatchToProps = {
 export default connect(
   null,
   mapDispatchToProps,
-)(HomePage);
+)(IntroductionPage);
