@@ -43,19 +43,11 @@ function getTestPaths() {
 
   const changedFiles = (process.env.CHANGED_FILES || '')
     .split(' ')
-    .map(
-      file => file.trim()
-    )
+    .map(file => file.trim())
     .filter(Boolean)
-    .map(
-      file => 
-        file.replace(/^\.\//, '')
-      .replace(/\\/g, '/')
-    )
+    .map(file => file.replace(/^\.\//, '').replace(/\\/g, '/'))
     .filter(
-      file =>
-        !file.endsWith('.md') && 
-        !file.startsWith('.github/workflows')
+      file => !file.endsWith('.md') && !file.startsWith('.github/workflows'),
     );
 
   if (changedFiles.length > 0) {
@@ -69,21 +61,22 @@ function getTestPaths() {
 
     const platformTests = changedFiles
       .filter(file => file.startsWith('src/platform/'))
-      .map(
-        file => file.split('/')
-        .slice(0, 3)
-        .join('/'),
+      .map(file =>
+        file
+          .split('/')
+          .slice(0, 3)
+          .join('/'),
       )
-      .flatMap(
-        base => glob.sync(`${base}/**/*.unit.spec.js?(x)`)
-      );
+      .flatMap(base => glob.sync(`${base}/**/*.unit.spec.js?(x)`));
 
     const staticPagesTests = glob.sync(STATIC_PAGES_PATTERN);
 
     return [...new Set([...appTests, ...platformTests, ...staticPagesTests])];
   }
 
-  const cliPatterns = Array.isArray(options.path) ? options.path : [options.path];
+  const cliPatterns = Array.isArray(options.path)
+    ? options.path
+    : [options.path];
   const expanded = cliPatterns.flatMap(pattern => glob.sync(pattern));
   return [...new Set(expanded)];
 }
