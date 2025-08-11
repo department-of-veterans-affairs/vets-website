@@ -19,9 +19,6 @@ import { evidenceDictionary } from '../../utils/evidenceDictionary';
 
 export default function RecentActivity({ claim }) {
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const cst5103UpdateEnabled = useToggleValue(
-    TOGGLE_NAMES.cst5103UpdateEnabled,
-  );
   const cstClaimPhasesEnabled = useToggleValue(TOGGLE_NAMES.cstClaimPhases);
   const showEightPhases = getShowEightPhases(
     claim.attributes.claimTypeCode,
@@ -70,10 +67,9 @@ export default function RecentActivity({ claim }) {
     trackedItems.forEach(item => {
       const updatedDisplayName =
         (item.friendlyName && getDisplayFriendlyName(item)) || item.displayName;
-      const displayName =
-        cst5103UpdateEnabled && is5103Notice(item.displayName)
-          ? 'List of evidence we may need (5103 notice)'
-          : updatedDisplayName;
+      const displayName = is5103Notice(item.displayName)
+        ? 'List of evidence we may need (5103 notice)'
+        : updatedDisplayName;
 
       if (item.closedDate) {
         addItems(
