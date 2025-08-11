@@ -42,45 +42,32 @@ function getTestPaths() {
   }
 
   const changedFiles = process.env.CHANGED_FILES
-    ? process.env.CHANGED_FILES.split(' ').filter(
-        file => !file.endsWith('.md') && !file.startsWith('.github/workflows'),
-      )
+    ? process.env.CHANGED_FILES.split(' ')
+        .map(file => file.trim())
+        .filter(Boolean)
+        .map(file => file.replace(/^\.\//, '').replace(/\\/g, '/'))
+        .filter(file => !file.endsWith('.md') && !file.startsWith('.github/workflows'))
     : [];
 
-  if (changedFiles.length === 0) {
-    return glob.sync(STATIC_PAGES_PATTERN);
+    if (changedFiles.length > 0) {
+    const appTests = changedFiles
+      .filter(file => file.startsWith('src/applications/'))
+      .map(file => `src/applications/${file.split('/')[2]}/**/*.unit.spec.js?(x)`)
+      .flatMap(pattern => glob.sync(pattern));
+
+    const platformTests = changedFiles
+      .filter(file => file.startsWith('src/platform/'))
+      .map(file => file.split('/').slice(0, 3).join('/'))
+      .flatMap(base => glob.sync(`${base}/**/*.unit.spec.js?(x)`));
+
+    const staticPagesTests = glob.sync(STATIC_PAGES_PATTERN);
+
+    return [...new Set([...appTests, ...platformTests, ...staticPagesTests])];
   }
 
-  // May need to convert this output into an array?
-  if (process.env.NODE_COMPATBILITY_VERIFICATION) {
-    return JSON.parse(fs.readFileSync(path.resolve(`changed_unit_tests.json`)));
-  }
-
-  // Get app-specific tests
-  const appTests = changedFiles
-    .filter(file => file.startsWith('src/applications/'))
-    .map(file => {
-      const appName = file.split('/')[2];
-      return `src/applications/${appName}/**/*.unit.spec.js?(x)`;
-    })
-    .flatMap(pattern => glob.sync(pattern));
-
-  // Get platform tests
-  const platformTests = changedFiles
-    .filter(file => file.startsWith('src/platform/'))
-    .map(file => {
-      const platformPath = file
-        .split('/')
-        .slice(0, 3)
-        .join('/');
-      return `${platformPath}/**/*.unit.spec.js?(x)`;
-    })
-    .flatMap(pattern => glob.sync(pattern));
-
-  // Always include static pages tests
-  const staticPagesTests = glob.sync(STATIC_PAGES_PATTERN);
-
-  return [...new Set([...appTests, ...platformTests, ...staticPagesTests])];
+  const commandPatterns = Array.isArray(options.path) ? options.path : [options.path];
+  const expanded = commandPatterns.flatMap(pattern => glob.sync(pattern));
+  return [...new Set(expanded)];
 }
 
 // Helper function to build test command
