@@ -9,8 +9,9 @@ import ProfileInformationFieldController from '@@vap-svc/components/ProfileInfor
 
 export function NewAddressSection({ success }) {
   const successRef = useRef(null);
+  const ariaLiveRef = useRef(null);
 
-  // need state to know whether we are editing
+  const [checkboxIntercepted, setCheckboxIntercepted] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(
@@ -45,6 +46,57 @@ export function NewAddressSection({ success }) {
       return () => observer.disconnect();
     },
     [setIsEditing],
+  );
+
+  // Reset the intercepted flag when editing mode changes
+  useEffect(
+    () => {
+      setCheckboxIntercepted(false);
+    },
+    [isEditing],
+  );
+
+  useEffect(
+    () => {
+      // Try to find the first checkbox inside the ProfileInformationFieldController
+      // This selector may need to be adjusted if the structure changes
+      const container = document.querySelector('.va-profile-wrapper');
+
+      // Find the first visible checkbox
+      const checkbox = container?.querySelector('va-checkbox');
+
+      // Handler for focus event
+      const onCheckboxFocus = event => {
+        if (checkboxIntercepted) return;
+        event.preventDefault();
+        // Focus the aria-live region
+        if (ariaLiveRef.current) {
+          ariaLiveRef.current.focus();
+        }
+        setCheckboxIntercepted(true);
+        // After 0.5s, focus the native input inside va-checkbox if possible
+        setTimeout(() => {
+          const nativeInput =
+            checkbox.shadowRoot &&
+            checkbox.shadowRoot.querySelector('input[type="checkbox"]');
+          if (nativeInput) {
+            nativeInput.focus();
+          } else {
+            checkbox.focus();
+          }
+        }, 100);
+      };
+
+      // Attach the event listener
+      if (isEditing) {
+        checkbox?.addEventListener('focus', onCheckboxFocus, true);
+      }
+
+      // Cleanup
+      return () =>
+        checkbox?.removeEventListener('focus', onCheckboxFocus, true);
+    },
+    [isEditing, checkboxIntercepted],
   );
 
   return (
@@ -91,9 +143,10 @@ export function NewAddressSection({ success }) {
             <div
               aria-live="polite"
               aria-relevant="all"
-              aria-atomic="true"
               className="sr-only"
-              tabIndex={-1}
+              aria-atomic="true"
+              tabIndex="-1"
+              ref={ariaLiveRef}
             >
               {isEditing ? 'Edit address mode is active.' : ''}
             </div>
