@@ -88,11 +88,9 @@ export function NewAddressSection({ success }) {
             </va-alert>
           )}
           <va-card className="vads-u-justify-content--space-between">
-            {isEditing && (
-              <div aria-live="polite" aria-relevant="all" className="sr-only">
-                Edit address mode is active.
-              </div>
-            )}
+            <div aria-live="polite" aria-relevant="all" className="sr-only">
+              {isEditing && 'Edit address mode is active.'}
+            </div>
             <ProfileInformationFieldController
               fieldName={FIELD_NAMES.MAILING_ADDRESS}
               ariaDescribedBy={`described-by-${FIELD_NAMES.MAILING_ADDRESS}`}
