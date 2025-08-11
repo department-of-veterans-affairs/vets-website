@@ -46,7 +46,6 @@ describe('VAOS select appointment date', () => {
       });
     });
 
-    // Flaky test: https://github.com/department-of-veterans-affairs/va.gov-team/issues/99727
     it('should allow a user to choose available slot and fetch new slots after changing clinics', () => {
       // Arrange
       // Add one day since same day appointments are not allowed.
