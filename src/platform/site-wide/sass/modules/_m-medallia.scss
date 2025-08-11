@@ -196,16 +196,7 @@ button:not([disabled]):focus {
 
 /* submit cancel btns div*/
 ._207sw0FPxzBQQBPqaDdUpd {
-  float: left !important;
-  margin-right: 10px;
-}
-
-/* swap button positioning */
-._207sw0FPxzBQQBPqaDdUpd._1wsMeNP_TDIxNDJlja6xcv > div:nth-child(2) {
-    order: 1;
-}
-._207sw0FPxzBQQBPqaDdUpd._1wsMeNP_TDIxNDJlja6xcv > div:nth-child(1) {
-    order: 2;
+  float: right !important;
 }
 
 ._207sw0FPxzBQQBPqaDdUpd button {
@@ -288,6 +279,7 @@ button:not([disabled]):focus {
 ._10o3Ogtkx0b1R7N7tOe-dr {
   padding-top: 80px !important;
   justify-content: end;
+  display: block !important;
 }
 
 /* very specific styles to override inline styling for mhv and avs surveys */
