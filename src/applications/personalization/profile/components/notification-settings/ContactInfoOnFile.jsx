@@ -117,7 +117,10 @@ const ContactInfoOnFile = ({
           </p>
         </va-alert-expandable>
       )}
-      <va-additional-info trigger="By setting up notifications, you agree to receive unsecure emails and texts">
+      <va-additional-info
+        data-testid="data-encryption-notice"
+        trigger="By setting up notifications, you agree to receive unsecure emails and texts"
+      >
         <p>
           Data encryption is a way of making data hard to read by people other
           than the intended recipient. SMS text messaging and email aren’t
