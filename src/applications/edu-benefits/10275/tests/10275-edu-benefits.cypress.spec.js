@@ -4,9 +4,6 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 import mockUser from './fixtures/mocks/user.json';
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
-// TODO: uncomment this mock feature toggle when we get a functioning E2E test
-// up and running:
-// import mockFeatureToggles from './e2e/fixtures/mocks/featureToggles.json';
 
 const testConfig = createTestConfig(
   {
