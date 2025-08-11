@@ -10,7 +10,7 @@ const { runCommand } = require('../utils');
 // Configuration
 const DEFAULT_SPEC_PATTERN = '{src,script}/**/*.unit.spec.js?(x)';
 const STATIC_PAGES_PATTERN = 'src/platform/site-wide/**/*.unit.spec.js?(x)';
-const MAX_MEMORY = '8192'; // Reduced from 32768 to prevent memory issues
+const MAX_MEMORY = '32768'; // Reduced from 32768 to prevent memory issues
 
 // Command line options
 const COMMAND_LINE_OPTIONS = [
@@ -33,7 +33,6 @@ const COMMAND_LINE_OPTIONS = [
 
 // Get command line options
 const options = commandLineArgs(COMMAND_LINE_OPTIONS);
-// log this out to determing if we still need this
 
 // Helper function to get test paths
 function getTestPaths() {
