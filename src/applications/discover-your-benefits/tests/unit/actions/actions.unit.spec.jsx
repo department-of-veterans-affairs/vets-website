@@ -498,7 +498,6 @@ describe('actions', () => {
           [goalTypes.RETIREMENT]: true,
           [goalTypes.CAREER]: true,
         },
-        [mappingTypes.CURRENTLY_SERVING]: yesNoType.YES,
         [mappingTypes.CHARACTER_OF_DISCHARGE]: {
           [characterOfDischargeTypes.BAD_CONDUCT]: true,
           [characterOfDischargeTypes.DISHONORABLE]: true,
@@ -520,9 +519,37 @@ describe('actions', () => {
           [goalTypes.PLAN]: true,
           [goalTypes.SCHOOL]: true,
         },
-        [mappingTypes.CURRENTLY_SERVING]: yesNoType.YES,
         [mappingTypes.CHARACTER_OF_DISCHARGE]:
           characterOfDischargeTypes.HONORABLE,
+      };
+      const result = actions.mapBenefitFromFormInputData(benefit, formData);
+      expect(result).to.be.false;
+    });
+  });
+
+  describe('Support for your Veteran-owned small business - SVC', () => {
+    it('should return true with correct criteria', () => {
+      const benefit = getBenefitById('SVC');
+      const formData = {
+        [mappingTypes.GOALS]: {
+          [goalTypes.CAREER]: true,
+          [goalTypes.UNDERSTAND]: true,
+        },
+      };
+      const result = actions.mapBenefitFromFormInputData(benefit, formData);
+      expect(result).to.be.true;
+    });
+
+    it('should return false with incorrect goals', () => {
+      const benefit = getBenefitById('SVC');
+      const formData = {
+        [mappingTypes.GOALS]: {
+          [goalTypes.FINANCIAL]: true,
+          [goalTypes.HEALTH]: true,
+          [goalTypes.PLAN]: true,
+          [goalTypes.SCHOOL]: true,
+          [goalTypes.RETIREMENT]: true,
+        },
       };
       const result = actions.mapBenefitFromFormInputData(benefit, formData);
       expect(result).to.be.false;
@@ -533,11 +560,11 @@ describe('actions', () => {
 /**
  * GIB
  * SBP
- *
  * FHV
- *
  * SVC
+ *
  * TAP
+ *
  * VRE
  * VSC
  * DHS
