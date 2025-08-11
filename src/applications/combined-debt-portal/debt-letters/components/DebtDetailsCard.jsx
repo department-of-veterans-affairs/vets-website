@@ -63,32 +63,30 @@ const DebtDetailsCard = ({ debt, showOTPP }) => {
         <>
           {debtCardContent.showMakePayment && (
             <p>
-              <a
+              <va-link-action
                 aria-label="Make a payment"
-                className="vads-c-action-link--blue"
                 data-testid="link-make-payment"
                 href="https://www.pay.va.gov/"
                 onClick={() => {
                   recordEvent({ event: 'cta-link-click-debt-make-payment' });
                 }}
-              >
-                Make a payment
-              </a>
+                type="secondary"
+                text="Make a payment"
+              />
             </p>
           )}
           {debtCardContent.showRequestHelp && (
             <p>
-              <a
+              <va-link-action
                 aria-label="Request help with your debt"
-                className="vads-c-action-link--blue"
                 data-testid="link-request-help"
                 href="/manage-va-debt/request-debt-help-form-5655"
                 onClick={() => {
                   recordEvent({ event: 'cta-link-click-debt-request-help' });
                 }}
-              >
-                Request help with your debt
-              </a>
+                type="secondary"
+                text="Request help with your debt"
+              />
             </p>
           )}
         </>
