@@ -17,10 +17,7 @@ import {
 } from '../api/prescriptionsApi';
 
 import { dateFormat } from '../util/helpers';
-import {
-  selectRefillProgressFlag,
-  selectRemoveLandingPageFlag,
-} from '../util/selectors';
+import { selectRefillProgressFlag } from '../util/selectors';
 import { SESSION_SELECTED_PAGE_NUMBER } from '../util/constants';
 import RefillNotification from '../components/RefillPrescriptions/RefillNotification';
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
@@ -33,6 +30,8 @@ import { dataDogActionNames, pageType } from '../util/dataDogConstants';
 import ProcessList from '../components/shared/ProcessList';
 import { refillProcessStepGuide } from '../util/processListData';
 import { useGetAllergiesQuery } from '../api/allergiesApi';
+import { selectUserDob, selectUserFullName } from '../selectors/selectUser';
+import { selectSortOption } from '../selectors/selectPreferences';
 
 const RefillPrescriptions = () => {
   const {
@@ -86,17 +85,14 @@ const RefillPrescriptions = () => {
   const prescriptionsApiError = refillableError || bulkRefillError;
 
   // Selectors
-  const selectedSortOption = useSelector(
-    state => state.rx.preferences?.selectedSortOption,
-  );
+  const selectedSortOption = useSelector(selectSortOption);
 
   // Get refillable list from RTK Query result
   const fullRefillList = refillableData?.prescriptions || [];
   const showRefillProgressContent = useSelector(selectRefillProgressFlag);
-  const removeLandingPage = useSelector(selectRemoveLandingPageFlag);
   const { data: allergies, error: allergiesError } = useGetAllergiesQuery();
-  const userName = useSelector(state => state.user.profile.userFullName);
-  const dob = useSelector(state => state.user.profile.dob);
+  const userName = useSelector(selectUserFullName);
+  const dob = useSelector(selectUserDob);
 
   // Memoized Values
   const selectedRefillListLength = useMemo(() => selectedRefillList.length, [
@@ -356,7 +352,7 @@ const RefillPrescriptions = () => {
             {showRefillProgressContent && (
               <ProcessList stepGuideProps={stepGuideProps} />
             )}
-            {removeLandingPage && <NeedHelp page={pageType.REFILL} />}
+            <NeedHelp page={pageType.REFILL} />
           </>
         )}
       </div>

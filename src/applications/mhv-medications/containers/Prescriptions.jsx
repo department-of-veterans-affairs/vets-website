@@ -46,7 +46,6 @@ import {
   selectAllergiesFlag,
   selectGroupingFlag,
   selectRefillProgressFlag,
-  selectRemoveLandingPageFlag,
   selectIPEContentFlag,
 } from '../util/selectors';
 import PrescriptionsPrintOnly from './PrescriptionsPrintOnly';
@@ -67,29 +66,31 @@ import {
   setFilterOption,
   setPageNumber,
 } from '../redux/preferencesSlice';
+import { selectUserDob, selectUserFullName } from '../selectors/selectUser';
+import { selectPrescriptionId } from '../selectors/selectPrescription';
+import {
+  selectSortOption,
+  selectFilterOption,
+  selectPageNumber,
+} from '../selectors/selectPreferences';
 
 const Prescriptions = () => {
   const { search } = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const ssoe = useSelector(isAuthenticatedWithSSOe);
-  const userName = useSelector(state => state.user.profile.userFullName);
-  const dob = useSelector(state => state.user.profile.dob);
+  const userName = useSelector(selectUserFullName);
+  const dob = useSelector(selectUserDob);
 
   // Get sort/filter selections from store.
-  const selectedSortOption = useSelector(
-    state => state.rx.preferences.sortOption,
-  );
-  const selectedFilterOption = useSelector(
-    state => state.rx.preferences.filterOption,
-  );
-  const currentPage = useSelector(state => state.rx.preferences.pageNumber);
+  const selectedSortOption = useSelector(selectSortOption);
+  const selectedFilterOption = useSelector(selectFilterOption);
+  const currentPage = useSelector(selectPageNumber);
 
   // Get feature flags
   const showGroupingContent = useSelector(selectGroupingFlag);
   const showAllergiesContent = useSelector(selectAllergiesFlag);
   const showRefillProgressContent = useSelector(selectRefillProgressFlag);
-  const removeLandingPage = useSelector(selectRemoveLandingPageFlag);
   const showIPEContent = useSelector(selectIPEContentFlag);
 
   // Track if we've initialized from session storage
@@ -156,9 +157,7 @@ const Prescriptions = () => {
     [filteredList],
   );
 
-  const prescriptionId = useSelector(
-    state => state.rx.prescriptions?.prescriptionDetails?.prescriptionId,
-  );
+  const prescriptionId = useSelector(selectPrescriptionId);
   const [prescriptionsFullList, setPrescriptionsFullList] = useState([]);
   const [shouldPrint, setShouldPrint] = useState(false);
   const [printedList, setPrintedList] = useState([]);
@@ -470,13 +469,7 @@ const Prescriptions = () => {
         ].LABEL.toLowerCase()}\n\n${rxList}${allergiesList ?? ''}`
       );
     },
-    [
-      userName,
-      dob,
-      selectedSortOption,
-      selectedFilterOption,
-      prescriptionsFullList,
-    ],
+    [userName, dob, selectedSortOption, prescriptionsFullList],
   );
 
   const generatePDF = useCallback(
@@ -749,19 +742,12 @@ const Prescriptions = () => {
         className="vads-u-margin-top--0 vads-u-margin-bottom--4"
         data-testid="Title-Notes"
       >
-        {removeLandingPage ? (
-          <>
-            Bring your medications list to each appointment. And tell your
-            provider about any new allergies or reactions. If you use Meds by
-            Mail, you can also call your servicing center and ask them to update
-            your records.
-          </>
-        ) : (
-          <>
-            When you share your medications list with providers, make sure you
-            also tell them about your allergies and reactions to medications.
-          </>
-        )}
+        <>
+          Bring your medications list to each appointment. And tell your
+          provider about any new allergies or reactions. If you use Meds by
+          Mail, you can also call your servicing center and ask them to update
+          your records.
+        </>
         {!showAllergiesContent && (
           <>
             {' '}
@@ -874,7 +860,7 @@ const Prescriptions = () => {
             {renderMedicationsContent()}
           </>
         )}
-        {removeLandingPage && <NeedHelp page={pageType.LIST} />}
+        <NeedHelp page={pageType.LIST} />
       </div>
     );
   };

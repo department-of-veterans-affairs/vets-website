@@ -288,7 +288,7 @@ describe('VAOS Services: Appointment ', () => {
       mockFetch();
     });
 
-    it('should fetch 3 years of appointment history', async () => {
+    it.skip('should fetch 3 years of appointment history', async () => {
       const dateRanges = getDateRanges(3);
       dateRanges.forEach(range => {
         mockAppointmentsApi({

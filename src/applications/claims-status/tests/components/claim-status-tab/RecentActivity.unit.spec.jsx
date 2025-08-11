@@ -11,7 +11,6 @@ import { renderWithRouter } from '../../utils';
 const getStore = (
   cstClaimPhasesEnabled = false,
   cst5103UpdateEnabled = false,
-  cstFriendlyEvidenceRequests = false,
 ) =>
   createStore(() => ({
     featureToggles: {
@@ -19,8 +18,6 @@ const getStore = (
       cst_claim_phases: cstClaimPhasesEnabled,
       // eslint-disable-next-line camelcase
       cst_5103_update_enabled: cst5103UpdateEnabled,
-      // eslint-disable-next-line camelcase
-      cst_friendly_evidence_requests: cstFriendlyEvidenceRequests,
     },
   }));
 
@@ -647,7 +644,7 @@ describe('<RecentActivity>', () => {
           getByText('Your claim moved into Step 2: Initial review');
           getByText('Your claim moved into Step 3: Evidence gathering');
           getByText('Request for you');
-          getByText('We opened a request: “Needed from you Request”');
+          getByText('We opened a request: “friendly name”');
           expect($('va-pagination', container)).not.to.exist;
         });
         it('should render recent activities section with NEEDED_FROM_OTHERS record', () => {
@@ -665,10 +662,11 @@ describe('<RecentActivity>', () => {
           getByText('We received your claim in our system');
           getByText('Your claim moved into Step 2: Initial review');
           getByText('Your claim moved into Step 3: Evidence gathering');
-          getByText('Request for others');
-          getByText('We opened a request: “Needed from others Request”');
+          getByText(
+            'We made a request outside the VA: “third party friendly name.”',
+          );
           expect($('va-alert', container)).to.exist;
-          getByLabelText('Add it here for Needed from others Request');
+          getByLabelText('About this notice for Third party friendly name');
           expect($('va-pagination', container)).not.to.exist;
         });
         it('should render recent activities section with NO_LONGER_REQUIRED record', () => {
@@ -901,7 +899,7 @@ describe('<RecentActivity>', () => {
           () => {
             it('should render list', () => {
               const { container, getByText } = renderWithRouter(
-                <Provider store={getStore(true, false, false)}>
+                <Provider store={getStore(true, false)}>
                   <RecentActivity claim={openClaimStep4WithAuto5103Notice} />
                 </Provider>,
               );
@@ -1084,7 +1082,7 @@ describe('<RecentActivity>', () => {
             'Your claim moved into Step 3: Evidence gathering, review, and decision',
           );
           getByText('Request for you');
-          getByText('We opened a request: “Needed from you Request”');
+          getByText('We opened a request: “friendly name”');
           expect($('va-pagination', container)).not.to.exist;
         });
         it('should render recent activities section with NEEDED_FROM_OTHERS record', () => {
@@ -1104,10 +1102,11 @@ describe('<RecentActivity>', () => {
           getByText(
             'Your claim moved into Step 3: Evidence gathering, review, and decision',
           );
-          getByText('Request for others');
-          getByText('We opened a request: “Needed from others Request”');
+          getByText(
+            'We made a request outside the VA: “third party friendly name.”',
+          );
           expect($('va-alert', container)).to.exist;
-          getByLabelText('Add it here for Needed from others Request');
+          getByLabelText('About this notice for Third party friendly name');
           expect($('va-pagination', container)).not.to.exist;
         });
         it('should render recent activities section with NO_LONGER_REQUIRED record', () => {
@@ -1432,76 +1431,79 @@ describe('<RecentActivity>', () => {
     });
   });
 
-  context('When cstFriendlyEvidenceRequests is enabled', () => {
-    it('should render friendly disaply name with NEEDED_FROM_YOU record', () => {
-      const { getByText } = renderWithRouter(
-        <Provider store={getStore(false, false, true)}>
-          <RecentActivity claim={openClaimStep3WithNeededFromYouItem} />
-        </Provider>,
-      );
-      getByText(`We opened a request: “friendly name”`);
-    });
-    it('should render update message with NEEDED_FROM_OTHERS record', () => {
-      const { getByText } = renderWithRouter(
-        <Provider store={getStore(false, false, true)}>
-          <RecentActivity claim={openClaimStep3WithNeededFromOthersItem} />
-        </Provider>,
-      );
-      getByText(
-        `We made a request outside the VA: “Third party friendly name.”`,
-      );
-      getByText(/you don’t have to do anything/i);
-      getByText(
-        `We asked someone outside VA for documents related to your claim.`,
-      );
-    });
-    it('should render update message if track item is a DBQ', () => {
-      const { getByText } = renderWithRouter(
-        <Provider store={getStore(false, false, true)}>
-          <RecentActivity claim={openClaimStep3WithDBQItem} />
-        </Provider>,
-      );
-      getByText(`We made a request: “DBQ friendly name.”`);
-    });
-    it('should render friendly display name, updated activity message and activity description with NEEDED_FROM_OTHERS record with activity description', () => {
-      const { getByText, queryByText } = renderWithRouter(
-        <Provider store={getStore(false, false, true)}>
-          <RecentActivity
-            claim={
-              openClaimStep3WithNeededFromOthersItemwithActivityDescription
-            }
-          />
-        </Provider>,
-      );
-      getByText(
-        `We made a request outside the VA: “Third party friendly name.”`,
-      );
-      expect(queryByText(/you don’t have to do anything/i)).to.be.null;
-      expect(
-        queryByText(
+  context(
+    'Render updated content with evidence request friendly language feature',
+    () => {
+      it('should render friendly disaply name with NEEDED_FROM_YOU record', () => {
+        const { getByText } = renderWithRouter(
+          <Provider store={getStore(false, false)}>
+            <RecentActivity claim={openClaimStep3WithNeededFromYouItem} />
+          </Provider>,
+        );
+        getByText(`We opened a request: “friendly name”`);
+      });
+      it('should render update message with NEEDED_FROM_OTHERS record', () => {
+        const { getByText } = renderWithRouter(
+          <Provider store={getStore(false, false)}>
+            <RecentActivity claim={openClaimStep3WithNeededFromOthersItem} />
+          </Provider>,
+        );
+        getByText(
+          `We made a request outside the VA: “third party friendly name.”`,
+        );
+        getByText(/you don’t need to do anything/i);
+        getByText(
           `We asked someone outside VA for documents related to your claim.`,
-        ),
-      ).to.be.null;
-      getByText('Activity Description');
-    });
-    it('should render default dbq message when the dbq item does not have overwrite content', () => {
-      const { getByText, queryByText } = renderWithRouter(
-        <Provider store={getStore(false, false, true)}>
-          <RecentActivity claim={openClaimStep3WithDBQItemNoOverride} />
-        </Provider>,
-      );
-      getByText(`We made a request: “DBQ no override.”`);
-      expect(queryByText(/you don’t have to do anything/i)).to.be.null;
-      expect(
-        queryByText(
-          `We asked someone outside VA for documents related to your claim.`,
-        ),
-      ).to.be.null;
-      expect(
-        queryByText(
-          `We’ve requested an exam related to your claim. The examiner’s office will contact you to schedule this appointment.`,
-        ),
-      ).to.exist;
-    });
-  });
+        );
+      });
+      it('should render update message if track item is a DBQ', () => {
+        const { getByText } = renderWithRouter(
+          <Provider store={getStore(false, false)}>
+            <RecentActivity claim={openClaimStep3WithDBQItem} />
+          </Provider>,
+        );
+        getByText(`We made a request: “dBQ friendly name.”`);
+      });
+      it('should render friendly display name, updated activity message and activity description with NEEDED_FROM_OTHERS record with activity description', () => {
+        const { getByText, queryByText } = renderWithRouter(
+          <Provider store={getStore(false, false)}>
+            <RecentActivity
+              claim={
+                openClaimStep3WithNeededFromOthersItemwithActivityDescription
+              }
+            />
+          </Provider>,
+        );
+        getByText(
+          `We made a request outside the VA: “third party friendly name.”`,
+        );
+        expect(queryByText(/you don’t need to do anything/i)).to.be.null;
+        expect(
+          queryByText(
+            `We asked someone outside VA for documents related to your claim.`,
+          ),
+        ).to.be.null;
+        getByText('Activity Description');
+      });
+      it('should render default dbq message when the dbq item does not have overwrite content', () => {
+        const { getByText, queryByText } = renderWithRouter(
+          <Provider store={getStore(false, false)}>
+            <RecentActivity claim={openClaimStep3WithDBQItemNoOverride} />
+          </Provider>,
+        );
+        getByText(`We made a request: “DBQ no override.”`);
+        expect(queryByText(/you don’t have to do anything/i)).to.be.null;
+        expect(
+          queryByText(
+            `We asked someone outside VA for documents related to your claim.`,
+          ),
+        ).to.be.null;
+        expect(
+          queryByText(
+            `We’ve requested an exam related to your claim. The examiner’s office will contact you to schedule this appointment.`,
+          ),
+        ).to.exist;
+      });
+    },
+  );
 });

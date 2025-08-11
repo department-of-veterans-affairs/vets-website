@@ -25,7 +25,7 @@ import {
 } from '../helpers/dateRangeWithCurrentCheckboxPattern';
 
 /** @type {ArrayBuilderOptions} */
-const arrayBuilderOptions = {
+export const arrayBuilderOptions = {
   arrayPath: 'employers',
   nounSingular: 'employer',
   nounPlural: 'employers',
@@ -35,7 +35,7 @@ const arrayBuilderOptions = {
     !item?.positionTitle ||
     !item?.supervisorName ||
     !item?.address ||
-    !item?.phone.contact ||
+    !item?.phone?.contact ||
     !item?.dateRange?.from ||
     (!item?.dateRange?.to && !item?.currentlyEmployed) ||
     (!item?.currentlyEmployed && !item?.reasonForLeaving),

@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 
 export default function EditPageButtons(props) {
   return (
-    <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--3">
+    <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--3 ">
       <div className="small-6 medium-5 columns">
         <va-button
           text="Update"
           message-aria-describedby={`Update ${props.pageName.toLowerCase()}`}
           submit="prevent"
+          full-width
         />
       </div>
       <div className="small-6 medium-5 end columns">
@@ -17,7 +18,7 @@ export default function EditPageButtons(props) {
           message-aria-describedby={`Cancel updating ${props.pageName.toLowerCase()}`}
           onClick={props.handlers.onCancel}
           secondary
-          submit="prevent"
+          full-width
         />
       </div>
     </div>

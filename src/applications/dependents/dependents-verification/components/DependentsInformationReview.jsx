@@ -95,7 +95,7 @@ export const DependentsInformationReview = ({ data, goToPath }) => {
 
       <div className="form-review-panel-page-header-row vads-u-margin-top--4">
         <h4 className="form-review-panel-page-header vads-u-font-size--h5 vads-u-margin--0">
-          Status of dependents
+          Has the status of your dependents changed?
         </h4>
         <va-button
           secondary

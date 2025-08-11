@@ -66,7 +66,7 @@ import { validateMarriageAfterDob } from '../helpers/validations';
 import { applicantAddressCleanValidation } from '../../shared/validations';
 */
 
-// import mockData from '../tests/fixtures/data/test-data.json';
+// import mockData from '../tests/e2e/fixtures/data/maximal-test.json';
 
 const fullNameMiddleInitialUI = cloneDeep(fullNameUI());
 fullNameMiddleInitialUI.middle['ui:title'] = 'Middle initial';
@@ -751,9 +751,7 @@ export const applicantPages = arrayBuilderPages(
       path: 'applicant-address-selection/:index',
       title: 'Address selection',
       ...applicantAddressSelectionPage,
-      CustomPage: props => {
-        return ApplicantAddressCopyPage(props);
-      },
+      CustomPage: ApplicantAddressCopyPage,
       depends: (formData, index) => page15aDepends(formData, index),
     }),
     page15: pageBuilder.itemPage({

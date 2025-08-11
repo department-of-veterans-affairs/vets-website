@@ -4,10 +4,12 @@ import PropTypes from 'prop-types';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import { scrollAndFocus } from 'platform/utilities/scroll';
+import { scrollToFirstError } from 'platform/utilities/ui';
 
 import { DEPENDENT_CHOICES } from '../constants';
 import { maskID } from '../../shared/utils';
+
+import { removeEditContactInformation } from '../util/contact-info';
 
 export const DependentsInformation = ({
   data = {},
@@ -19,6 +21,7 @@ export const DependentsInformation = ({
 }) => {
   const dependents = useSelector(state => state.dependents?.data || []);
   const [showError, setShowError] = useState(false);
+  removeEditContactInformation(); // clearing edit flag just in case
 
   const handlers = {
     onValueChange: ({ detail }) => {
@@ -31,8 +34,11 @@ export const DependentsInformation = ({
     },
     onSubmit: () => {
       if (!data.hasDependentsStatusChanged) {
-        scrollAndFocus('va-radio');
         setShowError(true);
+        setTimeout(() => {
+          // Scroll to & focus on role="alert" error inside radio group
+          scrollToFirstError({ focusOnAlertRole: true });
+        });
         return;
       }
       if (data.hasDependentsStatusChanged === 'Y') {
@@ -155,7 +161,7 @@ export const DependentsInformation = ({
           );
         })
       ) : (
-        <strong>No dependents found</strong>
+        <h4>No dependents found</h4>
       )}
       <h4>Check if someone is missing on your VA benefits</h4>
       <p>You may be able to add a dependent if these changes occurred:</p>
@@ -224,11 +230,7 @@ DependentsInformation.propTypes = {
   data: PropTypes.shape({
     dependents: PropTypes.arrayOf(
       PropTypes.shape({
-        fullName: PropTypes.shape({
-          first: PropTypes.string,
-          middle: PropTypes.string,
-          last: PropTypes.string,
-        }),
+        fullName: PropTypes.string,
         relationship: PropTypes.string,
         dob: PropTypes.string,
         age: PropTypes.number,
