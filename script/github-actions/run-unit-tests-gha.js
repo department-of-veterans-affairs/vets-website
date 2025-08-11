@@ -45,10 +45,12 @@ function getTestPaths() {
     .split(' ')
     .map((file) => file.trim())
     .filter(Boolean)
-    .map((file) => file.replace(/^\.\//, '').replace(/\\/g, '/'))
+    .map((file) => file.replace(/^\.\//, '')
+    .replace(/\\/g, '/'))
     .filter(
       (file) =>
-        !file.endsWith('.md') && !file.startsWith('.github/workflows')
+        !file.endsWith('.md') && 
+        !file.startsWith('.github/workflows')
     );
 
   if (changedFiles.length > 0) {
@@ -62,8 +64,14 @@ function getTestPaths() {
 
     const platformTests = changedFiles
       .filter((file) => file.startsWith('src/platform/'))
-      .map((file) => file.split('/').slice(0, 3).join('/'))
-      .flatMap((base) => glob.sync(`${base}/**/*.unit.spec.js?(x)`));
+      .map(
+        (file) => file.split('/')
+        .slice(0, 3)
+        .join('/')
+      )
+      .flatMap(
+        (base) => glob.sync(`${base}/**/*.unit.spec.js?(x)`)
+      );
 
     const staticPagesTests = glob.sync(STATIC_PAGES_PATTERN);
 
