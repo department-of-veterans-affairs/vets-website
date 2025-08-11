@@ -2870,10 +2870,10 @@
     react-focus-on "^3.5.1"
     react-transition-group "^1.0.0"
 
-"@department-of-veterans-affairs/css-library@^0.23.0":
-  version "0.23.0"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/css-library/-/css-library-0.23.0.tgz#6a7caa71db13d61da86f451b7dd948c0c3a2d921"
-  integrity sha512-8x8fvvuREdAN6MH3/LmRLA5ux1PeQj46e8wcml9674YgAkRmvivShzTAH8ctVVHs376HgJMJ3mS12PV8SQPBuA==
+"@department-of-veterans-affairs/css-library@^0.23.1":
+  version "0.23.1"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/css-library/-/css-library-0.23.1.tgz#bf1b73e1c5d14104971cbb88b8c455af7a92daf0"
+  integrity sha512-GjCzTn56w25j0cHuvkObhVI8rqIqWQpTBQa1ro3wbRT3LldTA3EkQzO4rqnwhdRflsILHGT2x5ET7oQcwxXQ3A==
   dependencies:
     "@divriots/style-dictionary-to-figma" "^0.4.0"
     "@uswds/uswds" "^3.9.0"
@@ -22659,9 +22659,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#0a486fa277cff15bb5bd3dae4efb12690cdfb80d":
-  version "25.1.4"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#0a486fa277cff15bb5bd3dae4efb12690cdfb80d"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#99c8da6f5d4dae2a4a30e8fef6a26246729f6238":
+  version "25.1.5"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#99c8da6f5d4dae2a4a30e8fef6a26246729f6238"
   dependencies:
     minimist "^1.2.3"
 

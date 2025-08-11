@@ -144,6 +144,7 @@ const responses = {
     // return res.json(user.loa3UserWithNoHomeAddress); // home address is null
     // return res.json(user.loa3UserWithoutMailingAddress); // user with no mailing address
     // return res.json(user.loa3UserWithInternationalMobilePhoneNumber); // international mobile phone number
+    // return res.json(user.loa3UserWithIntlMobilePhoneAndNoEmail); // user with international mobile phone number and no email
     // data claim users
     // return res.json(user.loa3UserWithNoRatingInfoClaim);
     // return res.json(user.loa3UserWithNoMilitaryHistoryClaim);
