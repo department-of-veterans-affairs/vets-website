@@ -45,12 +45,12 @@ const NeedHelp = ({ showVHAPaymentHistory = false }) => {
           </p>
         )}
 
-        <a
-          className="vads-c-action-link--blue"
+        <va-link-action
           href="/manage-va-debt/request-debt-help-form-5655/"
-        >
-          Request help with your debt
-        </a>
+          message-aria-describedby="Opens pay.va.gov"
+          text="Request help with your debt"
+          class="vads-u-margin-top--2"
+        />
 
         {disputeDebtActive && (
           <section>
