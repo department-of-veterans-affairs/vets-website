@@ -338,8 +338,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
       forceRerender();
     }
 
-    function onRemoveItem(index, item, newFormData) {
-      props.onChange(newFormData);
+    function onRemoveItem(index, item) {
       // updated alert may be from initial state (URL path)
       // so we can go ahead and remove it if there is a new
       // alert
@@ -488,6 +487,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
         onRemoveAll={onRemoveAllItems}
         onRemove={onRemoveItem}
         isReview={isReviewPage}
+        forceRerender={forceRerender}
         titleHeaderLevel={headingLevel}
       />
     );
@@ -695,6 +695,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     recalculateErrors: PropTypes.func,
     reviewErrors: PropTypes.object,
     setData: PropTypes.func, // available regardless of review page or not
+    setFormData: PropTypes.func, // not available on review page
     title: PropTypes.string,
     trackingPrefix: PropTypes.string,
     NavButtons: PropTypes.func,

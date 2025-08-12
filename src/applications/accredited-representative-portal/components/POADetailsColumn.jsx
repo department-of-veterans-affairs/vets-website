@@ -8,7 +8,8 @@ const response = (poaStatus, poaRequest, poaRequestSubmission) => {
       return (
         <p>
           <strong>Response:</strong>{' '}
-          {poaRequest?.resolution?.accreditedIndividual || 'Your organization'}{' '}
+          {poaRequest?.resolution?.accreditedIndividual?.fullName ||
+            'Your organization'}{' '}
           declined this request on{' '}
           {resolutionDate(poaRequest?.resolution?.createdAt, poaStatus.id)}{' '}
           {checkReason(poaRequest)}
@@ -24,7 +25,8 @@ const response = (poaStatus, poaRequest, poaRequestSubmission) => {
       return (
         <p>
           <strong>Response:</strong>{' '}
-          {poaRequest?.resolution?.accreditedIndividual || 'Your organization'}{' '}
+          {poaRequest?.resolution?.accreditedIndividual?.fullName ||
+            'Your organization'}{' '}
           accepted this request on{' '}
           {resolutionDate(poaRequest?.resolution?.createdAt, poaStatus.id)}. We
           processed the request and power of attorney has been established.
@@ -53,7 +55,8 @@ const POADetailsColumn = ({ poaRequest, poaStatus }) => {
               <p className="poa-request-details__title">
                 Preferred representative
               </p>
-              {poaRequest?.resolution?.accreditedIndividual || 'None selected'}
+              {poaRequest?.resolution?.accreditedIndividual?.fullName ||
+                'None selected'}
             </>
           )}
         </li>
