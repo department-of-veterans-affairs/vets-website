@@ -38,7 +38,11 @@ export const whatAreAssets = (
   </>
 );
 
-export const netWorthTitle = networthValue => {
+export const netWorthTitle = ({ networthValue, featureFlag }) => {
+  if (!featureFlag) {
+    return `Did the household have a net worth greater than $${NETWORTH_VALUE} in the last tax year?`;
+  }
+
   const number = `${networthValue}` || NETWORTH_VALUE;
   const formattedNumber = parseInt(number.replace(/,/g, ''), 10).toLocaleString(
     'en-US',

@@ -22,7 +22,10 @@ export const uiSchema = {
     title: netWorthTitle(),
     enableAnalytics: true,
     updateUiSchema: formData => ({
-      'ui:title': netWorthTitle(formData?.netWorthLimit),
+      'ui:title': netWorthTitle({
+        netWorthValue: formData?.netWorthLimit,
+        featureFlag: formData?.vaDependentsNetWorthAndPension,
+      }),
     }),
   }),
 };
