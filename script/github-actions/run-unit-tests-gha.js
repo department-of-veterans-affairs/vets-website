@@ -1,16 +1,12 @@
 /* eslint-disable no-console */
 const commandLineArgs = require('command-line-args');
-const glob = require('glob');
-// const fs = require('fs');
-// const path = require('path');
 const core = require('@actions/core');
 const { runCommand } = require('../utils');
-// For usage instructions see https://github.com/department-of-veterans-affairs/vets-website#unit-tests
 
 // Configuration
 const DEFAULT_SPEC_PATTERN = '{src,script}/**/*.unit.spec.js?(x)';
 const STATIC_PAGES_PATTERN = 'src/platform/site-wide/**/*.unit.spec.js?(x)';
-const MAX_MEMORY = '32768'; // Reduced from 32768 to prevent memory issues
+const MAX_MEMORY = '8192'; // safer for CI; bump if needed
 
 // Command line options
 const COMMAND_LINE_OPTIONS = [
@@ -31,57 +27,66 @@ const COMMAND_LINE_OPTIONS = [
   },
 ];
 
-// Get command line options
 const options = commandLineArgs(COMMAND_LINE_OPTIONS);
 
-// Helper function to get test paths
-function getTestPaths() {
-  if (options['full-suite']) {
-    return glob.sync(DEFAULT_SPEC_PATTERN);
-  }
-
-  const changedFiles = (process.env.CHANGED_FILES || '')
-    .split(' ')
+function parseChangedFiles() {
+  return (process.env.CHANGED_FILES || '')
+    .split(/\s+/)
+    .map(file => file.replace(/^['"]|['"]$/g, ''))
     .map(file => file.trim())
     .filter(Boolean)
     .map(file => file.replace(/^\.\//, '').replace(/\\/g, '/'))
     .filter(
       file => !file.endsWith('.md') && !file.startsWith('.github/workflows'),
     );
+}
 
-  if (changedFiles.length > 0) {
-    const appTests = changedFiles
-      .filter(file => file.startsWith('src/applications/'))
-      .map(file => {
-        const appName = file.split('/')[2];
-        return `src/applications/${appName}/**/*.unit.spec.js?(x)`;
-      })
-      .flatMap(pattern => glob.sync(pattern));
+function getTestPaths() {
+  if (options['full-suite']) return [DEFAULT_SPEC_PATTERN];
 
-    const platformTests = changedFiles
-      .filter(file => file.startsWith('src/platform/'))
-      .map(file =>
+  if (options['app-folder']) {
+    return [
+      `src/applications/${options['app-folder']}/**/*.unit.spec.js?(x)`,
+      'script/**/*.unit.spec.js?(x)',
+      STATIC_PAGES_PATTERN,
+    ];
+  }
+
+  const changedFiles = parseChangedFiles();
+  const changes = changedFiles.filter(
+    file =>
+      file.startsWith('src/applications/') || file.startsWith('src/platform/'),
+  );
+
+  if (changes.length > 0) {
+    const appBases = new Set(
+      changes
+        .filter(file => file.startsWith('src/applications/'))
+        .map(file => `src/applications/${file.split('/')[2]}`),
+    );
+    const platformBases = new Set(
+      changes.filter(file => file.startsWith('src/platform/')).map(file =>
         file
           .split('/')
           .slice(0, 3)
           .join('/'),
-      )
-      .flatMap(base => glob.sync(`${base}/**/*.unit.spec.js?(x)`));
+      ),
+    );
 
-    const staticPagesTests = glob.sync(STATIC_PAGES_PATTERN);
-
-    return [...new Set([...appTests, ...platformTests, ...staticPagesTests])];
+    return [
+      ...[...appBases].map(b => `${b}/**/*.unit.spec.js?(x)`),
+      ...[...platformBases].map(b => `${b}/**/*.unit.spec.js?(x)`),
+      STATIC_PAGES_PATTERN,
+    ];
   }
 
   const cliPatterns = Array.isArray(options.path)
     ? options.path
     : [options.path];
-  const expanded = cliPatterns.flatMap(pattern => glob.sync(pattern));
-  return [...new Set(expanded)];
+  return [...new Set(cliPatterns)];
 }
 
-// Helper function to build test command
-function buildTestCommand(testPaths) {
+function buildCommandForMocha(testPaths) {
   const coverageInclude = options['app-folder']
     ? `--include 'src/applications/${options['app-folder']}/**'`
     : '';
@@ -104,18 +109,16 @@ function buildTestCommand(testPaths) {
   } ${testPaths.join(' ')}`;
 }
 
-// Main execution
 async function main() {
   try {
     const testPaths = getTestPaths();
-
     if (testPaths.length === 0) {
       console.log('No tests to run');
       core.exportVariable('tests_ran', 'false');
       return;
     }
-
-    const command = buildTestCommand(testPaths);
+    console.log('[DEBUG] Using patterns:', testPaths);
+    const command = buildCommandForMocha(testPaths);
     await runCommand(command);
     core.exportVariable('tests_ran', 'true');
   } catch (error) {
