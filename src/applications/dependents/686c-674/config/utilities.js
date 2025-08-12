@@ -229,5 +229,6 @@ export const showPensionRelatedQuestions = (formData = {}) => {
       vi?.isInReceiptOfPension === -1 && formData['view:checkVeteranPension'];
     return isInReceiptOfPension || backupPathIsInReceiptOfPension;
   }
-  return false;
+  // keep current behavior if feature flag is off
+  return true;
 };

@@ -285,10 +285,10 @@ describe('showPensionBackupPath', () => {
 
 describe('showPensionRelatedQuestions', () => {
   describe('when feature flag - vaDependentsNetWorthAndPension - is off', () => {
-    it('should return false', () => {
+    it('should return true', () => {
       expect(
         showPensionRelatedQuestions({ vaDependentsNetWorthAndPension: false }),
-      ).to.be.false;
+      ).to.be.true;
     });
   });
 
