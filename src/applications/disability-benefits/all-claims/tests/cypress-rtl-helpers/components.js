@@ -6,10 +6,12 @@
 import { TIMEOUTS, SELECTORS, MODAL_STATES } from './constants';
 
 /**
- * Helper to interact with VA web components (shadow DOM)
+ * Interacts with VA web components (shadow DOM)
+ * @function
  * @param {string} componentSelector - The VA component selector
+ * @returns {void}
  */
-export const interactWithVAComponent = componentSelector => {
+export const clickVA = componentSelector => {
   // VA components use click for all interactions (including checkboxes)
   cy.get(componentSelector)
     .should('exist')
@@ -18,11 +20,13 @@ export const interactWithVAComponent = componentSelector => {
 };
 
 /**
- * Helper to verify VA checkbox state
+ * Verifies VA checkbox state
+ * @function
  * @param {string} value - The value attribute of the checkbox
- * @param {boolean} shouldBeChecked - Whether it should be checked
+ * @param {boolean} [shouldBeChecked=true] - Whether it should be checked
+ * @returns {void}
  */
-export const verifyVACheckboxState = (value, shouldBeChecked = true) => {
+export const checkboxState = (value, shouldBeChecked = true) => {
   const assertion = shouldBeChecked ? 'have.attr' : 'not.have.attr';
   cy.get(`va-checkbox[value="${value}"]`)
     .should('exist')
@@ -30,15 +34,17 @@ export const verifyVACheckboxState = (value, shouldBeChecked = true) => {
 };
 
 /**
- * Helper to interact with VA modal buttons
+ * Clicks a button within a VA modal
+ * @function
  * @param {string} buttonText - The text of the button to click
- * @param {object} options - Optional configuration
- * @param {number} options.timeout - Custom timeout
- * @throws {Error} If buttonText is not provided
+ * @param {Object} [options={}] - Optional configuration
+ * @param {number} [options.timeout] - Custom timeout in milliseconds
+ * @throws {Error} Throws if buttonText is not provided
+ * @returns {void}
  */
-export const clickModalButton = (buttonText, options = {}) => {
+export const modalButton = (buttonText, options = {}) => {
   if (!buttonText) {
-    throw new Error('clickModalButton requires buttonText');
+    throw new Error('modalButton requires buttonText');
   }
   const { timeout = TIMEOUTS.DEFAULT } = options;
   cy.get(`${SELECTORS.VA_MODAL} button`, { timeout })
@@ -48,12 +54,14 @@ export const clickModalButton = (buttonText, options = {}) => {
 };
 
 /**
- * Helper to verify modal visibility with improved assertions
- * @param {boolean} shouldBeVisible - Whether the modal should be visible
- * @param {object} options - Optional configuration
- * @param {number} options.timeout - Custom timeout for visibility check
+ * Verifies modal visibility with improved assertions
+ * @function
+ * @param {boolean} [shouldBeVisible=true] - Whether the modal should be visible
+ * @param {Object} [options={}] - Optional configuration
+ * @param {number} [options.timeout] - Custom timeout for visibility check in milliseconds
+ * @returns {void}
  */
-export const verifyModalVisibility = (shouldBeVisible = true, options = {}) => {
+export const modalVisible = (shouldBeVisible = true, options = {}) => {
   const { timeout = TIMEOUTS.SHORT } = options;
 
   if (shouldBeVisible) {
@@ -87,16 +95,19 @@ export const verifyModalVisibility = (shouldBeVisible = true, options = {}) => {
 };
 
 /**
- * Helper to verify modal content
- * @param {string[]} expectedContent - Array of strings that should appear in the modal
- * @param {object} options - Optional configuration
- * @param {number} options.timeout - Custom timeout
+ * Verifies modal content
+ * @function
+ * @param {string[]} [expectedContent=[]] - Array of strings that should appear in the modal
+ * @param {Object} [options={}] - Optional configuration
+ * @param {number} [options.timeout] - Custom timeout in milliseconds
+ * @throws {Error} Throws if expectedContent is not an array
+ * @returns {void}
  */
-export const verifyModalContent = (expectedContent = [], options = {}) => {
+export const modalContains = (expectedContent = [], options = {}) => {
   const { timeout = TIMEOUTS.SHORT } = options;
 
   if (!Array.isArray(expectedContent)) {
-    throw new Error('verifyModalContent expects an array of strings');
+    throw new Error('modalContains expects an array of strings');
   }
 
   if (expectedContent.length === 0) {
@@ -118,16 +129,18 @@ export const verifyModalContent = (expectedContent = [], options = {}) => {
 };
 
 /**
- * Helper to verify alert exists and contains text
+ * Verifies alert exists and contains text
+ * @function
  * @param {string} status - The alert status (warning, info, error, success)
- * @param {string} text - Text the alert should contain
- * @param {object} options - Optional configuration
- * @param {number} options.timeout - Custom timeout
- * @throws {Error} If status is not provided
+ * @param {string} [text] - Text the alert should contain
+ * @param {Object} [options={}] - Optional configuration
+ * @param {number} [options.timeout] - Custom timeout in milliseconds
+ * @throws {Error} Throws if status is not provided
+ * @returns {void}
  */
-export const verifyAlert = (status, text, options = {}) => {
+export const alertExists = (status, text, options = {}) => {
   if (!status) {
-    throw new Error('verifyAlert requires a status parameter');
+    throw new Error('alertExists requires a status parameter');
   }
 
   const { timeout = TIMEOUTS.DEFAULT } = options;

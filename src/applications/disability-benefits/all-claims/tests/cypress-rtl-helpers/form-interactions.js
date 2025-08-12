@@ -4,68 +4,82 @@
  */
 
 import { TIMEOUTS, SELECTORS } from './constants';
-import { clickContinue } from './navigation';
+import { next } from './navigation';
 
 /**
- * Helper to select a radio option by its label text
+ * Selects a radio option by its label text
  * Uses accessible queries instead of value attributes
+ * @function
  * @param {string} labelText - The label text for the radio button
+ * @returns {void}
  */
-export const selectRadioOption = labelText => {
+export const selectRadio = labelText => {
   cy.findByLabelText(new RegExp(labelText, 'i')).click();
 };
 
 /**
- * Helper to fill a text input by its label
+ * Fills a text input by its label
+ * @function
  * @param {string} labelText - The label text for the input
  * @param {string} value - The value to type
+ * @returns {void}
  */
-export const fillTextInput = (labelText, value) => {
+export const fillText = (labelText, value) => {
   cy.findByLabelText(new RegExp(labelText, 'i')).clear();
   cy.findByLabelText(new RegExp(labelText, 'i')).type(value);
 };
 
 /**
- * Helper to fill a textarea by its label
+ * Fills a textarea by its label
+ * @function
  * @param {string} labelText - The label text for the textarea
  * @param {string} value - The value to type
+ * @returns {void}
  */
 export const fillTextarea = (labelText, value) => {
   cy.findByRole('textbox', { name: new RegExp(labelText, 'i') }).type(value);
 };
 
 /**
- * Helper to select an option from a dropdown by label
+ * Selects an option from a dropdown by label
+ * @function
  * @param {string} labelText - The label text for the select
  * @param {string} optionText - The option to select
+ * @returns {void}
  */
-export const selectDropdownOption = (labelText, optionText) => {
+export const selectOption = (labelText, optionText) => {
   cy.findByLabelText(new RegExp(labelText, 'i')).select(optionText);
 };
 
 /**
- * Helper to check a checkbox using accessible queries
+ * Checks a checkbox using accessible queries
+ * @function
  * @param {string} labelText - The label text for the checkbox
+ * @returns {void}
  */
-export const checkCheckbox = labelText => {
+export const check = labelText => {
   cy.findByRole('checkbox', { name: new RegExp(labelText, 'i') }).check();
 };
 
 /**
- * Helper to uncheck a checkbox using accessible queries
+ * Unchecks a checkbox using accessible queries
+ * @function
  * @param {string} labelText - The label text for the checkbox
+ * @returns {void}
  */
-export const uncheckCheckbox = labelText => {
+export const uncheck = labelText => {
   cy.findByRole('checkbox', { name: new RegExp(labelText, 'i') }).uncheck();
 };
 
 /**
- * Helper to select "No" for common form questions
+ * Selects "No" for common form questions
  * Uses multiple strategies to handle different form implementations
- * @param {object} options - Optional configuration
- * @param {string} options.selector - Custom selector if needed
- * @param {boolean} options.force - Force click even if element is covered
- * @param {number} options.timeout - Custom timeout
+ * @function
+ * @param {Object} [options={}] - Optional configuration
+ * @param {string} [options.selector] - Custom selector if needed
+ * @param {boolean} [options.force=true] - Force click even if element is covered
+ * @param {number} [options.timeout] - Custom timeout in milliseconds
+ * @returns {void}
  */
 export const selectNo = (options = {}) => {
   const { selector, force = true, timeout = TIMEOUTS.SHORT } = options;
@@ -112,12 +126,14 @@ export const selectNo = (options = {}) => {
 };
 
 /**
- * Helper to select "Yes" for common form questions
+ * Selects "Yes" for common form questions
  * Uses multiple strategies to handle different form implementations
- * @param {object} options - Optional configuration
- * @param {string} options.selector - Custom selector if needed
- * @param {boolean} options.force - Force click even if element is covered
- * @param {number} options.timeout - Custom timeout
+ * @function
+ * @param {Object} [options={}] - Optional configuration
+ * @param {string} [options.selector] - Custom selector if needed
+ * @param {boolean} [options.force=true] - Force click even if element is covered
+ * @param {number} [options.timeout] - Custom timeout in milliseconds
+ * @returns {void}
  */
 export const selectYes = (options = {}) => {
   const { selector, force = true, timeout = TIMEOUTS.SHORT } = options;
@@ -164,22 +180,35 @@ export const selectYes = (options = {}) => {
 };
 
 /**
- * Helper to select radio options by value
+ * Selects radio options by value
  * More reliable than label-based selection for VA forms
+ * @function
  * @param {string} value - The value attribute of the radio button
+ * @returns {void}
  */
-export const selectRadioByValue = value => {
+export const selectValue = value => {
   cy.get(`input[type="radio"][value="${value}"]`)
     .first()
     .check({ force: true });
 };
 
 /**
- * Helper to fill service period dates
- * @param {object} dates - Object containing service dates
- * @param {number} periodIndex - Index of the service period (default 0)
+ * Fills service period dates
+ * @function
+ * @param {Object} dates - Object containing service dates
+ * @param {string} [dates.branch] - Service branch name
+ * @param {Object} [dates.from] - Start date object
+ * @param {string} [dates.from.month] - Start month
+ * @param {string} [dates.from.day] - Start day
+ * @param {string} [dates.from.year] - Start year
+ * @param {Object} [dates.to] - End date object
+ * @param {string} [dates.to.month] - End month
+ * @param {string} [dates.to.day] - End day
+ * @param {string} [dates.to.year] - End year
+ * @param {number} [periodIndex=0] - Index of the service period
+ * @returns {void}
  */
-export const fillServicePeriod = (dates, periodIndex = 0) => {
+export const fillService = (dates, periodIndex = 0) => {
   const idPrefix = `#root_serviceInformation_servicePeriods_${periodIndex}`;
 
   if (dates.branch) {
@@ -214,22 +243,24 @@ export const fillServicePeriod = (dates, periodIndex = 0) => {
 };
 
 /**
- * Helper to fill out the condition follow-up flow
+ * Fills out the condition follow-up flow
+ * @function
  * @param {string} cause - The cause type (NEW, SECONDARY, WORSENED, VA)
  * @param {string} description - The description text
- * @throws {Error} If cause or description is not provided
+ * @throws {Error} Throws if cause or description is not provided
+ * @returns {void}
  */
-export const fillConditionFollowUp = (cause, description) => {
+export const fillCondition = (cause, description) => {
   const validCauses = ['NEW', 'SECONDARY', 'WORSENED', 'VA'];
 
   if (!cause || !validCauses.includes(cause)) {
     throw new Error(
-      `fillConditionFollowUp requires a valid cause: ${validCauses.join(', ')}`,
+      `fillCondition requires a valid cause: ${validCauses.join(', ')}`,
     );
   }
 
   if (!description) {
-    throw new Error('fillConditionFollowUp requires a description');
+    throw new Error('fillCondition requires a description');
   }
 
   cy.log(`Filling condition follow-up: cause=${cause}`);
@@ -238,11 +269,11 @@ export const fillConditionFollowUp = (cause, description) => {
   cy.get(`input[value="${cause}"]`)
     .should('exist')
     .check({ force: true });
-  clickContinue();
+  next();
 
   // Fill description
   cy.get('textarea[id="root_primaryDescription"]')
     .should('be.visible')
     .type(description);
-  clickContinue();
+  next();
 };

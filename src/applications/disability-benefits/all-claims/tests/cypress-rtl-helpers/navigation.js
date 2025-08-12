@@ -6,49 +6,54 @@
 import { TIMEOUTS, SELECTORS } from './constants';
 
 /**
- * Helper to click Continue button using RTL patterns
+ * Clicks Continue button using RTL patterns
  * Prioritizes accessible queries over implementation details
- * @param {object} options - Optional configuration
- * @param {number} options.timeout - Custom timeout
+ * @function
+ * @param {Object} [options={}] - Optional configuration
+ * @param {number} [options.timeout] - Custom timeout in milliseconds
+ * @returns {void}
  */
-export const clickContinue = (options = {}) => {
+export const next = (options = {}) => {
   const { timeout = TIMEOUTS.DEFAULT } = options;
-  cy.findByRole(SELECTORS.CONTINUE_BUTTON, { name: /continue/i, timeout })
+  cy.findByRole('button', { name: /continue/i, timeout })
     .should('be.visible')
     .should('be.enabled')
     .click();
 };
 
 /**
- * Helper to click Back button using RTL patterns
+ * Clicks Back button using RTL patterns
+ * @function
+ * @returns {void}
  */
-export const clickBack = () => {
+export const back = () => {
   cy.findByRole('button', { name: /back/i }).click();
 };
 
 /**
- * Helper to navigate through standard form pages that just need Continue
- * @param {string[]} pageNames - Array of page names for logging/documentation
+ * Navigates through standard form pages that just need Continue
+ * @function
+ * @param {string[]} [pageNames=[]] - Array of page names for logging/documentation
+ * @returns {void}
  */
-export const navigateThroughPages = (pageNames = []) => {
+export const navigateThrough = (pageNames = []) => {
   pageNames.forEach(pageName => {
     cy.log(`Navigating through: ${pageName}`);
-    clickContinue();
+    next();
   });
 };
 
 /**
- * Helper to wait for and verify navigation to a specific page
+ * Waits for and verifies navigation to a specific page
+ * @function
  * @param {string} pathInclude - Part of the path to check for
- * @param {number} timeout - Timeout in milliseconds
- * @throws {Error} If pathInclude is not provided
+ * @param {number} [timeout] - Timeout in milliseconds
+ * @throws {Error} Throws if pathInclude is not provided
+ * @returns {void}
  */
-export const waitForPageNavigation = (
-  pathInclude,
-  timeout = TIMEOUTS.DEFAULT,
-) => {
+export const waitForPath = (pathInclude, timeout = TIMEOUTS.DEFAULT) => {
   if (!pathInclude) {
-    throw new Error('waitForPageNavigation requires a pathInclude parameter');
+    throw new Error('waitForPath requires a pathInclude parameter');
   }
 
   cy.log(`Waiting for navigation to: ${pathInclude}`);
@@ -56,9 +61,11 @@ export const waitForPageNavigation = (
 };
 
 /**
- * Helper to navigate past the wizard
- * @param {object} options - Optional configuration
- * @param {number} options.timeout - Custom timeout
+ * Navigates past the wizard
+ * @function
+ * @param {Object} [options={}] - Optional configuration
+ * @param {number} [options.timeout] - Custom timeout in milliseconds
+ * @returns {void}
  */
 export const skipWizard = (options = {}) => {
   const { timeout = TIMEOUTS.DEFAULT } = options;
@@ -68,10 +75,12 @@ export const skipWizard = (options = {}) => {
 };
 
 /**
- * Helper to start the disability compensation application
+ * Starts the disability compensation application
  * Uses accessible link finding
+ * @function
+ * @returns {void}
  */
-export const startApplication = () => {
+export const startApp = () => {
   cy.findAllByRole('link', {
     name: /start the disability compensation application/i,
   })
@@ -81,10 +90,12 @@ export const startApplication = () => {
 };
 
 /**
- * Helper to navigate to the toxic exposure conditions page
+ * Navigates to the toxic exposure conditions page
  * Handles the standard flow to get there
+ * @function
+ * @returns {void}
  */
-export const navigateToToxicExposureConditions = () => {
+export const goToToxicExposure = () => {
   // This would typically involve the full navigation flow
   // but can be customized based on prefill data
   cy.log('Navigating to toxic exposure conditions page');

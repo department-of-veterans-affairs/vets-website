@@ -23,10 +23,10 @@ cypress-rtl-helpers/
 
 ```javascript
 import {
-  clickContinue,
+  next,
   selectNo,
-  verifyModalVisibility,
-  setupStandardMocks,
+  modalVisible,
+  setupMocks,
 } from './cypress-rtl-helpers';
 ```
 
@@ -36,7 +36,7 @@ import {
 import * as helpers from './cypress-rtl-helpers';
 
 // Use as:
-helpers.clickContinue();
+helpers.next();
 helpers.selectNo();
 ```
 
@@ -44,12 +44,12 @@ helpers.selectNo();
 
 ```javascript
 import {
-  clickContinue,
-  navigateThroughPages,
+  next,
+  navigateThrough,
 } from './cypress-rtl-helpers/navigation';
 import {
   selectNo,
-  fillTextInput,
+  fillText,
 } from './cypress-rtl-helpers/form-interactions';
 ```
 
@@ -57,48 +57,48 @@ import {
 
 ### Navigation Helpers (`navigation.js`)
 
-- `clickContinue()` - Click the Continue button
-- `clickBack()` - Click the Back button
-- `navigateThroughPages(pageNames)` - Navigate through multiple pages
-- `waitForPageNavigation(pathInclude)` - Wait for navigation to complete
-- `skipWizard()` - Skip the intro wizard
-- `startApplication()` - Start the disability application
-- `navigateToToxicExposureConditions()` - Navigate to toxic exposure section
+- `next()` - Clicks the Continue button
+- `back()` - Clicks the Back button
+- `navigateThrough(pageNames)` - Navigates through multiple pages
+- `waitForPath(pathInclude)` - Waits for navigation to complete
+- `skipWizard()` - Skips the intro wizard
+- `startApp()` - Starts the disability application
+- `goToToxicExposure()` - Navigates to toxic exposure section
 
 ### Form Interaction Helpers (`form-interactions.js`)
 
-- `selectRadioOption(labelText)` - Select a radio by label
-- `fillTextInput(labelText, value)` - Fill a text input
-- `fillTextarea(labelText, value)` - Fill a textarea
-- `selectDropdownOption(labelText, optionText)` - Select dropdown option
-- `checkCheckbox(labelText)` - Check a checkbox
-- `uncheckCheckbox(labelText)` - Uncheck a checkbox
-- `selectNo(options)` - Select "No" radio option
-- `selectYes(options)` - Select "Yes" radio option
-- `selectRadioByValue(value)` - Select radio by value attribute
-- `fillServicePeriod(dates, periodIndex)` - Fill military service dates
-- `fillConditionFollowUp(cause, description)` - Fill condition follow-up
+- `selectRadio(labelText)` - Selects a radio by label
+- `fillText(labelText, value)` - Fills a text input
+- `fillTextarea(labelText, value)` - Fills a textarea
+- `selectOption(labelText, optionText)` - Selects dropdown option
+- `check(labelText)` - Checks a checkbox
+- `uncheck(labelText)` - Unchecks a checkbox
+- `selectNo(options)` - Selects "No" radio option
+- `selectYes(options)` - Selects "Yes" radio option
+- `selectValue(value)` - Selects radio by value attribute
+- `fillService(dates, periodIndex)` - Fills military service dates
+- `fillCondition(cause, description)` - Fills condition follow-up
 
 ### VA Components Helpers (`components.js`)
 
-- `interactWithVAComponent(componentSelector)` - Interact with VA web components
-- `verifyVACheckboxState(value, shouldBeChecked)` - Verify VA checkbox state
-- `clickModalButton(buttonText, options)` - Click button in VA modal
-- `verifyModalVisibility(shouldBeVisible, options)` - Verify modal visibility
-- `verifyModalContent(expectedContent, options)` - Verify modal content
-- `verifyAlert(status, text, options)` - Verify VA alert
+- `clickVA(componentSelector)` - Interacts with VA web components
+- `checkboxState(value, shouldBeChecked)` - Verifies VA checkbox state
+- `modalButton(buttonText, options)` - Clicks button in VA modal
+- `modalVisible(shouldBeVisible, options)` - Verifies modal visibility
+- `modalContains(expectedContent, options)` - Verifies modal content
+- `alertExists(status, text, options)` - Verifies VA alert
 
 ### Disability-Specific Helpers (`disability-helpers.js`)
 
-- `addDisabilityCondition(condition, index)` - Add a disability condition
+- `addCondition(condition, index)` - Adds a disability condition
 
 ### Mocking Helpers (`mocking.js`)
 
-- `setupStandardMocks(options)` - Set up standard API mocks
+- `setupMocks(options)` - Sets up standard API mocks
 
 ### Assertion Helpers (`assertions.js`)
 
-- `verifyTextExists(text)` - Verify text exists on page
+- `textExists(text)` - Verifies text exists on page
 
 ## Best Practices
 
@@ -111,23 +111,6 @@ import {
 4. **Provide clear logs**: Helpers include logging to make test debugging easier.
 
 5. **Error handling**: Helpers validate required parameters and provide clear error messages.
-
-## Migration from Old Structure
-
-The original `cypress-rtl-helpers.js` file has been preserved for backward compatibility. It now re-exports all helpers from the modular structure. For new tests, import directly from the modular structure for better tree-shaking and clearer imports.
-
-### Old way (still works)
-
-```javascript
-import { clickContinue, selectNo } from './cypress-rtl-helpers';
-```
-
-### New way (recommended)
-
-```javascript
-import { clickContinue } from './cypress-rtl-helpers/navigation';
-import { selectNo } from './cypress-rtl-helpers/form-interactions';
-```
 
 ## Contributing
 

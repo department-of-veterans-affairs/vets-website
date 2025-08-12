@@ -18,84 +18,84 @@ export { TIMEOUTS, MODAL_STATES, SELECTORS } from './constants';
 
 // Export navigation helpers
 export {
-  clickBack,
-  clickContinue,
-  navigateThroughPages,
-  navigateToToxicExposureConditions,
+  back,
+  next,
+  navigateThrough,
+  goToToxicExposure,
   skipWizard,
-  startApplication,
-  waitForPageNavigation,
+  startApp,
+  waitForPath,
 } from './navigation';
 
 // Export form interaction helpers
 export {
-  checkCheckbox,
-  fillConditionFollowUp,
-  fillServicePeriod,
+  check,
+  fillCondition,
+  fillService,
   fillTextarea,
-  fillTextInput,
-  selectDropdownOption,
+  fillText,
+  selectOption,
   selectNo,
-  selectRadioByValue,
-  selectRadioOption,
+  selectValue,
+  selectRadio,
   selectYes,
-  uncheckCheckbox,
+  uncheck,
 } from './form-interactions';
 
 // Export VA component helpers
 export {
-  clickModalButton,
-  interactWithVAComponent,
-  verifyAlert,
-  verifyModalContent,
-  verifyModalVisibility,
-  verifyVACheckboxState,
+  modalButton,
+  clickVA,
+  alertExists,
+  modalContains,
+  modalVisible,
+  checkboxState,
 } from './components';
 
 // Export disability-specific helpers
-export { addDisabilityCondition } from './disability-helpers';
+export { addCondition } from './disability-helpers';
 
 // Export mocking helpers
-export { setupStandardMocks } from './mocking';
+export { setupMocks } from './mocking';
 
 // Export assertion helpers
-export { verifyTextExists } from './assertions';
+export { textExists } from './assertions';
 
 // Import all for rtlHelpers namespace
 import { TIMEOUTS, MODAL_STATES, SELECTORS } from './constants';
 import {
-  clickBack,
-  clickContinue,
-  navigateThroughPages,
-  navigateToToxicExposureConditions,
+  back,
+  next,
+  navigateThrough,
+  goToToxicExposure,
   skipWizard,
-  startApplication,
-  waitForPageNavigation,
+  startApp,
+  waitForPath,
 } from './navigation';
 import {
-  checkCheckbox,
-  fillConditionFollowUp,
-  fillServicePeriod,
+  check,
+  fillCondition,
+  fillService,
   fillTextarea,
-  fillTextInput,
-  selectDropdownOption,
+  fillText,
+  selectOption,
   selectNo,
-  selectRadioByValue,
-  selectRadioOption,
+  selectValue,
+  selectRadio,
   selectYes,
-  uncheckCheckbox,
+  uncheck,
 } from './form-interactions';
 import {
-  clickModalButton,
-  interactWithVAComponent,
-  verifyAlert,
-  verifyModalContent,
-  verifyModalVisibility,
-  verifyVACheckboxState,
+  modalButton,
+  clickVA,
+  alertExists,
+  modalContains,
+  modalVisible,
+  checkboxState,
 } from './components';
-import { addDisabilityCondition } from './disability-helpers';
-import { setupStandardMocks } from './mocking';
-import { verifyTextExists } from './assertions';
+import { addCondition } from './disability-helpers';
+import { setupMocks } from './mocking';
+import { textExists } from './assertions';
 
 // Export rtlHelpers namespace for convenience
 export const rtlHelpers = {
@@ -104,36 +104,36 @@ export const rtlHelpers = {
   MODAL_STATES,
   SELECTORS,
   // Navigation
-  clickBack,
-  clickContinue,
-  navigateThroughPages,
-  navigateToToxicExposureConditions,
+  back,
+  next,
+  navigateThrough,
+  goToToxicExposure,
   skipWizard,
-  startApplication,
-  waitForPageNavigation,
+  startApp,
+  waitForPath,
   // Form interactions
-  checkCheckbox,
-  fillConditionFollowUp,
-  fillServicePeriod,
+  check,
+  fillCondition,
+  fillService,
   fillTextarea,
-  fillTextInput,
-  selectDropdownOption,
+  fillText,
+  selectOption,
   selectNo,
-  selectRadioByValue,
-  selectRadioOption,
+  selectValue,
+  selectRadio,
   selectYes,
-  uncheckCheckbox,
+  uncheck,
   // VA components
-  clickModalButton,
-  interactWithVAComponent,
-  verifyAlert,
-  verifyModalContent,
-  verifyModalVisibility,
-  verifyVACheckboxState,
+  modalButton,
+  clickVA,
+  alertExists,
+  modalContains,
+  modalVisible,
+  checkboxState,
   // Disability helpers
-  addDisabilityCondition,
+  addCondition,
   // Mocking
-  setupStandardMocks,
+  setupMocks,
   // Assertions
-  verifyTextExists,
+  textExists,
 };

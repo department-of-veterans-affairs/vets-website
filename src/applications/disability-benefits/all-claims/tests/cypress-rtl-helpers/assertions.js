@@ -4,9 +4,11 @@
  */
 
 /**
- * Helper to verify text content exists on the page
+ * Verifies text content exists on the page
+ * @function
  * @param {string} text - The text to verify
+ * @returns {void}
  */
-export const verifyTextExists = text => {
+export const textExists = text => {
   cy.findByText(new RegExp(text, 'i')).should('exist');
 };

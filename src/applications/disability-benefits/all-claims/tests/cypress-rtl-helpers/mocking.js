@@ -6,10 +6,23 @@
 /* cspell:ignore vamc ppiu */
 
 /**
- * Helper to set up standard mock API responses
- * @param {object} options - Configuration options for mocks
+ * Sets up standard mock API responses
+ * @function
+ * @param {Object} options - Configuration options for mocks
+ * @param {Object} [options.featureToggles={}] - Feature toggle configurations
+ * @param {Object} [options.prefillData={}] - Prefill data for forms
+ * @param {Object} [options.user] - User data for authentication
+ * @param {Function} [options.mockItf] - ITF mock function
+ * @param {Object} [options.mockInProgress] - In-progress forms mock
+ * @param {Object} [options.mockLocations] - Separation locations mock
+ * @param {Object} [options.mockPayment] - Payment information mock
+ * @param {Object} [options.mockUpload] - Document upload mock
+ * @param {Object} [options.mockSubmit] - Form submission mock
+ * @param {Object} [options.mockServiceBranches] - Service branches mock
+ * @param {string} [options.MOCK_SIPS_API] - SIPS API endpoint
+ * @returns {void}
  */
-export const setupStandardMocks = options => {
+export const setupMocks = options => {
   const {
     featureToggles = {},
     prefillData = {},

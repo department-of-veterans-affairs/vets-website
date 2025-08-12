@@ -6,14 +6,16 @@
 import { TIMEOUTS, SELECTORS } from './constants';
 
 /**
- * Helper to add a new disability condition with improved error handling
+ * Adds a new disability condition with improved error handling
+ * @function
  * @param {string} condition - The condition name
- * @param {number} index - The index of the condition (default 0)
- * @throws {Error} If condition is not provided
+ * @param {number} [index=0] - The index of the condition
+ * @throws {Error} Throws if condition is not provided
+ * @returns {void}
  */
-export const addDisabilityCondition = (condition, index = 0) => {
+export const addCondition = (condition, index = 0) => {
   if (!condition) {
-    throw new Error('addDisabilityCondition requires a condition name');
+    throw new Error('addCondition requires a condition name');
   }
 
   cy.log(`Adding disability condition: ${condition}`);
