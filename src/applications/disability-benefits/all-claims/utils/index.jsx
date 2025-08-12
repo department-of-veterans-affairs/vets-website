@@ -866,3 +866,39 @@ export const formatFullName = (fullName = {}) => {
 export function isCompletingModern4142(formData) {
   return formData?.disability526Enable2024Form4142 === true;
 }
+
+export const baseDoNew4142Logic = formData => {
+  return (
+    formData.disability526Enable2024Form4142 === true &&
+    formData['view:patientAcknowledgement']?.['view:acknowledgement'] ===
+      true &&
+    formData?.['view:uploadPrivateRecordsQualifier']?.[
+      'view:hasPrivateRecordsToUpload'
+    ] !== true &&
+    formData?.patient4142Acknowledgement !== true
+  );
+};
+
+export const onFormLoaded = props => {
+  const { returnUrl, formData, router } = props;
+  const shouldRedirectToModern4142Choice = baseDoNew4142Logic(formData);
+
+  if (shouldRedirectToModern4142Choice === true) {
+    try {
+      window.sessionStorage.setItem('needsShownNew4142Alert', 'true');
+    } catch (e) {
+      // ignore storage errors
+    }
+    router.push('/supporting-evidence/private-medical-records');
+    return;
+  }
+
+  router.push(returnUrl);
+};
+
+export function needs4142AlertShown(formData) {
+  return (
+    baseDoNew4142Logic(formData) &&
+    window.sessionStorage.getItem('needsShownNew4142Alert') === 'true'
+  );
+}
