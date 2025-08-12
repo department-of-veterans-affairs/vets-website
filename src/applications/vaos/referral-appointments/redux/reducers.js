@@ -1,5 +1,6 @@
 import {
   SET_FORM_CURRENT_PAGE,
+  CACHE_DRAFT_REFERRAL_APPOINTMENT,
   FETCH_REFERRAL_APPOINTMENT_INFO,
   FETCH_REFERRAL_APPOINTMENT_INFO_FAILED,
   FETCH_REFERRAL_APPOINTMENT_INFO_SUCCEEDED,
@@ -12,6 +13,7 @@ const initialState = {
   facility: null,
   sortProviderBy: '',
   currentPage: null,
+  draftAppointmentInfo: {},
   referrals: [],
   referralDetails: [],
   selectedSlotStartTime: '',
@@ -31,6 +33,11 @@ function ccAppointmentReducer(state = initialState, action) {
       return {
         ...state,
         currentPage: action.payload,
+      };
+    case CACHE_DRAFT_REFERRAL_APPOINTMENT:
+      return {
+        ...state,
+        draftAppointmentInfo: action.data,
       };
     case FETCH_REFERRAL_APPOINTMENT_INFO:
       return {

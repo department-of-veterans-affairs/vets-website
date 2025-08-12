@@ -182,7 +182,7 @@ export const CompleteReferral = props => {
               className="vads-u-margin-bottom--0"
               data-testid="appointment-modality"
             >
-              Community Care
+              Community care
             </p>
             <ProviderAddress
               address={attributes.provider.location.address}

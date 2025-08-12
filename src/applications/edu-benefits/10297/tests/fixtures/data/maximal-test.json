@@ -7,7 +7,7 @@
     "isEmployed": true,
     "bankAccount": {
       "accountType": "checking",
-      "accountNumber": "12345",
+      "accountNumber": "123123123",
       "routingNumber": "121000248"
     },
     "hasCompletedActiveDuty": false,
@@ -24,6 +24,23 @@
       "state": "AL",
       "postalCode": "12345"
     },
+    "trainingProviderDetails" : [{
+        "address": {
+            "city": "Chicago",
+            "country": "USA",
+            "isMilitary": null,
+            "postalCode": "13215",
+            "state": "IL",
+            "street": "33 main st",
+            "street2": null,
+            "street3": null,
+            "view": {
+            "militaryBaseDescription": {}
+            }
+        },
+        "name": "Test Training Provider"
+    }
+    ],
     "applicantFullName": { "first": "John", "last": "Doe" },
     "dutyRequirement": "atLeast3Years",
     "dateOfBirth": "2000-10-03",

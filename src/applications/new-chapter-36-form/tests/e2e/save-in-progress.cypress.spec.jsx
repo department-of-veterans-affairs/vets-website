@@ -21,7 +21,7 @@ const testConfig = createTestConfig(
       introduction: ({ afterHook }) => {
         afterHook(() => {
           cy.injectAxeThenAxeCheck();
-          cy.contains('button', 'Continue your application').click();
+          cy.get('va-button[text="Continue your application"]').click();
         });
       },
       'name-and-date-of-birth': ({ afterHook }) => {
@@ -29,7 +29,7 @@ const testConfig = createTestConfig(
           cy.injectAxeThenAxeCheck();
           cy.get('@testData').then(() => {
             cy.fillPage();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
+            cy.get('va-button[text="Continue"]').click();
           });
         });
       },

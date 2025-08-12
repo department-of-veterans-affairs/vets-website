@@ -273,7 +273,7 @@ describe('<ClaimStatusPage>', () => {
             getByText('What you need to do');
             expect($('.recent-activity-container', container)).to.exist;
             expect($('va-alert h4', container).textContent).to.equal(
-              claim.attributes.trackedItems[0].displayName,
+              'Request for evidence',
             );
             expect($('va-alert p', container).textContent).to.equal(
               "We can't show all of the details of your claim. Please check back later.",

@@ -97,7 +97,6 @@ describe('SubmissionCard', () => {
 
     const status = container.querySelector('.submission__card-status');
     expect(status.textContent).to.include('Processing error');
-    expect(status.textContent).to.include('Resubmit or contact 800-827-1000');
   });
 
   it('renders fallback status for "awaiting_receipt"', () => {

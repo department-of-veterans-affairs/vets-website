@@ -17,11 +17,17 @@ const formConfig = {
   trackingPrefix: 'careers-employment-27-8832-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  v3SegmentedProgressBar: true,
+  stepLabels:
+    'Your information;Veteran or service member information;Military history;Review',
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
   },
   formId: VA_FORM_IDS.FORM_27_8832,
+  formOptions: {
+    useWebComponentForNavigation: true,
+  },
   saveInProgress: {
     messages: {
       inProgress:

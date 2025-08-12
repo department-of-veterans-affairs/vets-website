@@ -16,19 +16,19 @@ import {
 const Verify = ({ signInService, headerLevel }) => {
   const { variant, spanSlot } =
     {
-      logingov: {
-        variant: 'verifyLoginGov',
-        spanSlot: (
-          <span slot="LoginGovVerifyButton">
-            <VerifyLogingovButton />
-          </span>
-        ),
-      },
       idme: {
         variant: 'verifyIdMe',
         spanSlot: (
           <span slot="IdMeVerifyButton">
             <VerifyIdmeButton />
+          </span>
+        ),
+      },
+      logingov: {
+        variant: 'verifyLoginGov',
+        spanSlot: (
+          <span slot="LoginGovVerifyButton">
+            <VerifyLogingovButton />
           </span>
         ),
       },

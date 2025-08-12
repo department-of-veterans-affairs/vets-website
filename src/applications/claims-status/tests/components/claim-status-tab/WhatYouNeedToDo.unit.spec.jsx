@@ -13,7 +13,13 @@ const nothingNeededText =
   'There’s nothing we need from you right now. We’ll let you know when there’s an update.';
 
 describe('<WhatYouNeedToDo>', () => {
-  const getStore = createStore(() => ({}));
+  const getStore = (cst5103UpdateEnabled = true) =>
+    createStore(() => ({
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        cst_5103_update_enabled: cst5103UpdateEnabled,
+      },
+    }));
 
   it('should render no-documents description when there are no tracked items or standard 5103', () => {
     const claim = {
@@ -32,7 +38,7 @@ describe('<WhatYouNeedToDo>', () => {
     };
 
     const { container, getByText } = render(
-      <Provider store={getStore}>
+      <Provider store={getStore()}>
         <WhatYouNeedToDo claim={claim} />
       </Provider>,
     );
@@ -65,7 +71,7 @@ describe('<WhatYouNeedToDo>', () => {
     };
 
     const { container, queryByText } = renderWithRouter(
-      <Provider store={getStore}>
+      <Provider store={getStore()}>
         <WhatYouNeedToDo claim={claim} />
       </Provider>,
     );
@@ -98,7 +104,7 @@ describe('<WhatYouNeedToDo>', () => {
     };
 
     const { container, queryByText } = renderWithRouter(
-      <Provider store={getStore}>
+      <Provider store={getStore()}>
         <WhatYouNeedToDo claim={claim} />
       </Provider>,
     );
@@ -145,7 +151,7 @@ describe('<WhatYouNeedToDo>', () => {
           queryByText,
           getByTestId,
         } = renderWithRouter(
-          <Provider store={getStore}>
+          <Provider store={getStore()}>
             <WhatYouNeedToDo claim={claim} />
           </Provider>,
         );
@@ -154,7 +160,7 @@ describe('<WhatYouNeedToDo>', () => {
         expect($('va-alert', container)).to.exist;
         expect(getByTestId(`item-${claim.attributes.trackedItems[0].id}`)).to
           .exist;
-        getByText('Automated 5103 Notice Response');
+        getByText('Review evidence list (5103 notice)');
       });
     },
   );

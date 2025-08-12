@@ -240,7 +240,8 @@ export default function formReducer(state = initialState, action) {
         };
       }
       if (
-        action.direction === 'next' &&
+        (action.direction === 'next' ||
+          action.direction === 'requestAppointment') &&
         action.pageKey !== action.pageKeyNext
       ) {
         updatedPreviousPages = {
@@ -253,7 +254,8 @@ export default function formReducer(state = initialState, action) {
         pageChangeInProgress: false,
         previousPages: updatedPreviousPages,
         currentPageKey:
-          action.direction === 'next'
+          action.direction === 'next' ||
+          action.direction === 'requestAppointment'
             ? action.pageKeyNext
             : updatedPreviousPages[action.pageKey],
       };

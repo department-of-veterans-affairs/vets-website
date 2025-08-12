@@ -106,8 +106,8 @@ function ViewDependentsHeader(props) {
         )}
 
         <p className="vads-u-line-height--6 vads-u-font-size--h3 vads-u-font-family--serif">
-          These are the dependents we have in your VA.gov profile. Use this page
-          to update or verify your dependents every year.
+          These are the dependents we have on file for you. Use this page to
+          update or verify your dependents every year.
         </p>
 
         {showAlert &&

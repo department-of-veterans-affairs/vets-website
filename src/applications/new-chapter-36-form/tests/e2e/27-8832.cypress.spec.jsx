@@ -18,7 +18,7 @@ const testConfig = createTestConfig(
       introduction: ({ afterHook }) => {
         afterHook(() => {
           cy.injectAxeThenAxeCheck();
-          cy.get('a.vads-c-action-link--green').click();
+          cy.get('va-link-action[href="#start"]').click();
         });
       },
       'name-and-date-of-birth': ({ afterHook }) => {
@@ -26,7 +26,7 @@ const testConfig = createTestConfig(
           cy.injectAxeThenAxeCheck();
           cy.get('@testData').then(() => {
             cy.fillPage();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
+            cy.get('va-button[text="Continue"]').click();
           });
         });
       },

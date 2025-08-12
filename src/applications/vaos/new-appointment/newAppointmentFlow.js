@@ -265,6 +265,7 @@ export default function getNewAppointmentFlow(state) {
       url: 'provider',
       label: 'Which provider do you want to schedule with?',
       next: 'preferredDate',
+      requestAppointment: 'requestDateTime',
     },
     typeOfCare: {
       url: '/schedule/type-of-care',

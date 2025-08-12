@@ -1,7 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { environment } from '@department-of-veterans-affairs/platform-utilities/exports';
-import { dateFormat, pharmacyPhoneNumber } from '../../util/helpers';
+import {
+  dateFormat,
+  pharmacyPhoneNumber,
+  rxSourceIsNonVA,
+} from '../../util/helpers';
 import { dispStatusObj } from '../../util/constants';
 import CallPharmacyPhone from './CallPharmacyPhone';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
@@ -125,7 +129,7 @@ const ExtraDetails = rx => {
           />
         </div>
       )}
-      {dispStatus === dispStatusObj.nonVA && (
+      {(dispStatus === dispStatusObj.nonVA || rxSourceIsNonVA(rx)) && (
         <p className="vads-u-margin-y--0" data-testid="non-VA-prescription">
           You can’t manage this medication in this online tool.
         </p>

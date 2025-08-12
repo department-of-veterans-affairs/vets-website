@@ -118,10 +118,7 @@ export const ConfirmationPage = () => {
         <strong>If you don’t receive a decision letter,</strong> don’t apply
         again. Contact us online or call us instead.
       </p>
-
-      <a className="vads-c-action-link--green vads-u-margin-top--3" href="/">
-        Go back to VA.gov
-      </a>
+      <va-link-action href="/" text="Go back to VA.gov" type="secondary" />
       <div className="help-footer-box vads-u-margin-top--6">
         <h2 className="help-heading vads-u-font-size--h3">Need help?</h2>
         <p className="help-talk">

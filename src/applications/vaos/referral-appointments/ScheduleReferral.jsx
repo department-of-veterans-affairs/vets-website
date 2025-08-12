@@ -56,7 +56,7 @@ export default function ScheduleReferral(props) {
             <p className="vads-u-margin-bottom--0">
               <va-link
                 href="https://www.va.gov/find-locations"
-                text="Find your Community Care provider's phone number"
+                text="Find your community care provider's phone number"
               />
             </p>
           </va-alert>

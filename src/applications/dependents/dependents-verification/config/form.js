@@ -1,5 +1,4 @@
 // import { externalServices } from 'platform/monitoring/DowntimeNotification';
-// import React from 'react';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { TITLE, SUBTITLE } from '../constants';
@@ -23,6 +22,7 @@ import { dependents } from './chapters/dependents/dependents';
 import { DependentsInformation } from '../components/DependentsInformation';
 import { DependentsInformationReview } from '../components/DependentsInformationReview';
 import { submit } from '../util';
+import { focusContactInfo, focusH3 } from '../util/focus';
 import { ExitForm } from '../components/ExitForm';
 
 /** @type {FormConfig} */
@@ -33,6 +33,16 @@ const formConfig = {
   trackingPrefix: '0538-dependents-verification-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  customText: {
+    appType: 'form',
+    appAction: 'your form',
+    continueAppButtonText: 'Continue your form',
+    startNewAppButtonText: 'Start a new form',
+    appSavedSuccessfullyMessage: 'Your form has been saved.',
+    finishAppLaterMessage: 'Finish this form later',
+    reviewPageTitle: 'Review your form',
+    submitButtonText: 'Submit form',
+  },
   preSubmitInfo: {
     statementOfTruth: {
       body:
@@ -57,22 +67,24 @@ const formConfig = {
   verifyRequiredPrefill: true,
   formId: VA_FORM_IDS.FORM_21_0538,
   formOptions: {
+    focusOnAlertRole: true,
     useWebComponentForNavigation: true,
   },
+  useCustomScrollAndFocus: true,
+  scrollAndFocusTarget: focusH3,
   saveInProgress: {
     messages: {
-      inProgress:
-        'Your dependent-benefits application (21-0538) is in progress.',
+      inProgress: 'Your dependent-benefits form (21-0538) is in progress.',
       expired:
-        'Your saved dependent-benefits application (21-0538) has expired. If you want to apply for dependent-benefits, please start a new application.',
-      saved: 'Your dependent-benefits application has been saved.',
+        'Your saved dependent-benefits form (21-0538) has expired. If you want to apply for dependent-benefits, please start a new form.',
+      saved: 'Your dependent-benefits form has been saved.',
     },
   },
   version: 0,
   savedFormMessages: {
     notFound: 'Please start over to apply for dependent-benefits.',
     noAuth:
-      'Please sign in again to continue your application for dependent-benefits.',
+      'Please sign in again to continue your form for dependent-benefits.',
   },
   title: TITLE,
   subTitle: SUBTITLE,
@@ -103,6 +115,7 @@ const formConfig = {
           CustomPageReview: VeteranContactInformationReviewPage,
           uiSchema: {},
           schema: { type: 'object', properties: {} },
+          scrollAndFocusTarget: focusContactInfo,
         },
         editAddressPage,
         editEmailPage,
@@ -113,10 +126,10 @@ const formConfig = {
 
     dependents: {
       title: 'Review your dependents',
+      reviewTitle: 'Dependents on your VA benefits',
       pages: {
         dependents: {
           path: 'dependents',
-          // title: 'Dependents on your VA benefits',
           CustomPage: DependentsInformation,
           CustomPageReview: DependentsInformationReview,
           uiSchema: dependents.uiSchema,

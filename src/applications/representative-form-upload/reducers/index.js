@@ -7,8 +7,9 @@ import createSchemaFormReducer from 'platform/forms-system/src/js/state';
 import user from './user';
 import formConfig from '../config/form';
 
+const config = formConfig();
 const rootReducer = combineReducers({
-  form: createSchemaFormReducer(formConfig),
+  form: createSchemaFormReducer(config),
   navigation: state => ({ ...state, showLoginModal: false }),
   scheduledDowntime,
   featureToggles,

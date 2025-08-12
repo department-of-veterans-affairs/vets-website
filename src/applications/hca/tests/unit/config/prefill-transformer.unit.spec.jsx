@@ -2,26 +2,29 @@ import { expect } from 'chai';
 import { prefillTransformer } from '../../../config/prefill-transformer';
 
 describe('hca `prefillTransformer` utility', () => {
+  const defaultPrefillData = {
+    veteranFullName: { first: 'Greg', middle: 'A', last: 'Anderson' },
+    gender: 'M',
+    veteranDateOfBirth: '1933-05-04',
+    veteranSocialSecurityNumber: '796121200',
+    homePhone: '4445551212',
+    mobilePhone: '4445551212',
+    email: 'test2@test1.net',
+    lastServiceBranch: 'air force',
+    lastEntryDate: '2001-03-21',
+    lastDischargeDate: '2014-07-21',
+    dischargeType: 'honorable',
+    postNov111998Combat: true,
+    vaCompensationType: 'lowDisability',
+    'view:demographicCategories': { isSpanishHispanicLatino: false },
+  };
+
   const getData = ({
     residentialAddress = null,
     mailingAddress = null,
     status = null,
-  }) => {
-    const prefillData = {
-      veteranFullName: { first: 'Greg', middle: 'A', last: 'Anderson' },
-      gender: 'M',
-      veteranDateOfBirth: '1933-05-04',
-      veteranSocialSecurityNumber: '796121200',
-      homePhone: '4445551212',
-      email: 'test2@test1.net',
-      lastServiceBranch: 'air force',
-      lastEntryDate: '2001-03-21',
-      lastDischargeDate: '2014-07-21',
-      dischargeType: 'honorable',
-      postNov111998Combat: true,
-      vaCompensationType: 'lowDisability',
-      'view:demographicCategories': { isSpanishHispanicLatino: false },
-    };
+    prefillData = defaultPrefillData,
+  } = {}) => {
     const state = {
       user: {
         profile: {
@@ -86,8 +89,8 @@ describe('hca `prefillTransformer` utility', () => {
   };
 
   it('should return correct form data when profile data omits all addresses', () => {
-    const prefillData = getData({});
-    expect(Object.keys(prefillData)).to.have.lengthOf(14);
+    const prefillData = getData();
+    expect(Object.keys(prefillData)).to.have.lengthOf(15);
     expect(Object.keys(prefillData).veteranAddress).to.not.exist;
     expect(Object.keys(prefillData).veteranHomeAddress).to.not.exist;
     expect(prefillData['view:doesMailingMatchHomeAddress']).to.equal(undefined);
@@ -95,13 +98,13 @@ describe('hca `prefillTransformer` utility', () => {
 
   it('should return correct form data when user record is located in MPI', () => {
     const prefillData = getData({ status: 'OK' });
-    expect(Object.keys(prefillData)).to.have.lengthOf(15);
+    expect(Object.keys(prefillData)).to.have.lengthOf(16);
     expect(prefillData['view:isUserInMvi']).to.be.true;
   });
 
   it('should return correct form data when profile data omits mailing address', () => {
     const prefillData = getData({ residentialAddress });
-    expect(Object.keys(prefillData)).to.have.lengthOf(15);
+    expect(Object.keys(prefillData)).to.have.lengthOf(16);
     expect(prefillData.veteranAddress).to.equal(undefined);
     expect(Object.keys(prefillData.veteranHomeAddress)).to.have.lengthOf(7);
     expect(prefillData['view:doesMailingMatchHomeAddress']).to.equal(undefined);
@@ -109,7 +112,7 @@ describe('hca `prefillTransformer` utility', () => {
 
   it('should return correct form data when profile data includes mailing address that does not match residential address', () => {
     const prefillData = getData({ residentialAddress, mailingAddress });
-    expect(Object.keys(prefillData)).to.have.lengthOf(16);
+    expect(Object.keys(prefillData)).to.have.lengthOf(17);
     expect(Object.keys(prefillData.veteranAddress)).to.have.lengthOf(7);
     expect(Object.keys(prefillData.veteranHomeAddress)).to.have.lengthOf(7);
     expect(prefillData['view:doesMailingMatchHomeAddress']).to.be.false;
@@ -120,9 +123,79 @@ describe('hca `prefillTransformer` utility', () => {
       residentialAddress,
       mailingAddress: residentialAddress,
     });
-    expect(Object.keys(prefillData)).to.have.lengthOf(15);
+    expect(Object.keys(prefillData)).to.have.lengthOf(16);
     expect(Object.keys(prefillData).veteranHomeAddress).to.not.exist;
     expect(Object.keys(prefillData.veteranAddress)).to.have.lengthOf(7);
     expect(prefillData['view:doesMailingMatchHomeAddress']).to.be.true;
+  });
+
+  context('prefills valid veteranDateOfBirth', () => {
+    it('should return correct form data when profile data includes valid veteranDateOfBirth', () => {
+      const prefillData = getData({});
+      expect(Object.keys(prefillData)).to.have.lengthOf(15);
+      expect(prefillData.veteranDateOfBirth).to.equal(
+        defaultPrefillData.veteranDateOfBirth,
+      );
+    });
+
+    it('should return correct form data when profile data omits veteranDateOfBirth entirely', () => {
+      /* eslint-disable no-unused-vars */
+      const {
+        veteranDateOfBirth,
+        ...prefillDataWithoutDateOfBirth
+      } = defaultPrefillData;
+      /* eslint-enable no-unused-vars */
+
+      const prefillData = getData({
+        prefillData: prefillDataWithoutDateOfBirth,
+      });
+      expect(Object.keys(prefillData)).to.have.lengthOf(14);
+      expect(prefillData.veteranDateOfBirth).to.not.exist;
+    });
+
+    it('should return correct form data when profile data includes invalid veteranDateOfBirth', () => {
+      const prefillData = getData({
+        prefillData: {
+          ...defaultPrefillData,
+          veteranDateOfBirth: '1880-05-04',
+        },
+      });
+      expect(Object.keys(prefillData)).to.have.lengthOf(15);
+      expect(prefillData.veteranDateOfBirth).to.not.exist;
+    });
+  });
+
+  context('prefills valid phone numbers', () => {
+    it('should return correct form data when profile data includes valid USA phone numbers', () => {
+      const prefillData = getData({});
+      expect(Object.keys(prefillData)).to.have.lengthOf(15);
+      expect(prefillData.homePhone).to.equal(defaultPrefillData.homePhone);
+      expect(prefillData.mobilePhone).to.equal(defaultPrefillData.mobilePhone);
+    });
+
+    it('should return correct form data when profile data includes international phone numbers', () => {
+      const prefillData = getData({
+        prefillData: {
+          ...defaultPrefillData,
+          homePhone: '442012345678',
+          mobilePhone: '416123-4567',
+        },
+      });
+      expect(Object.keys(prefillData)).to.have.lengthOf(15);
+      expect(prefillData.homePhone).to.not.exist;
+      expect(prefillData.mobilePhone).to.not.exist;
+    });
+
+    it('should return correct form data when profile data omits homePhone entirely', () => {
+      /* eslint-disable no-unused-vars */
+      const { homePhone, ...prefillDataWithoutHomePhone } = defaultPrefillData;
+      /* eslint-enable no-unused-vars */
+
+      const prefillData = getData({
+        prefillData: prefillDataWithoutHomePhone,
+      });
+      expect(Object.keys(prefillData)).to.have.lengthOf(14);
+      expect(prefillData.homePhone).to.not.exist;
+    });
   });
 });

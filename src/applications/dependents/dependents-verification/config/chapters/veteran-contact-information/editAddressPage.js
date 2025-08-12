@@ -4,6 +4,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import EditMailingAddressPage from '../../../components/EditMailingAddressPage';
+import { focusPrefillAlert } from '../../../util/focus';
 
 export default {
   title: 'Edit mailing address',
@@ -41,4 +42,5 @@ export default {
       address: addressSchema(),
     },
   },
+  scrollAndFocusTarget: focusPrefillAlert,
 };

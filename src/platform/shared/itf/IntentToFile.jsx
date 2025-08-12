@@ -82,6 +82,7 @@ const IntentToFile = ({
   location = window.location,
   WrapAlert = WrapContent,
   WrapPage = WrapPageWithButtons, // required if customizing page replacement
+  disableAutoFocus = false,
 } = {}) => {
   const loggedIn = useSelector(state => isLoggedIn(state));
 
@@ -96,6 +97,7 @@ const IntentToFile = ({
   const apiUrl = `${environment.API_URL}${itfApi}/${itfType}`;
 
   const focusAlertHeader = () => {
+    if (disableAutoFocus) return;
     const header = children ? 'h2' : 'va-alert';
     setTimeout(() => {
       scrollTo('topContentElement');
@@ -225,6 +227,7 @@ IntentToFile.propTypes = {
   WrapPage: PropTypes.func,
   baseUrl: PropTypes.string,
   children: PropTypes.any,
+  disableAutoFocus: PropTypes.bool,
   itfApi: PropTypes.string,
   itfCreated: PropTypes.func,
   itfCreating: PropTypes.func,

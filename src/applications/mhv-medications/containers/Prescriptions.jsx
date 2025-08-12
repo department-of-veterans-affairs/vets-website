@@ -66,23 +66,26 @@ import {
   setFilterOption,
   setPageNumber,
 } from '../redux/preferencesSlice';
+import { selectUserDob, selectUserFullName } from '../selectors/selectUser';
+import { selectPrescriptionId } from '../selectors/selectPrescription';
+import {
+  selectSortOption,
+  selectFilterOption,
+  selectPageNumber,
+} from '../selectors/selectPreferences';
 
 const Prescriptions = () => {
   const { search } = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const ssoe = useSelector(isAuthenticatedWithSSOe);
-  const userName = useSelector(state => state.user.profile.userFullName);
-  const dob = useSelector(state => state.user.profile.dob);
+  const userName = useSelector(selectUserFullName);
+  const dob = useSelector(selectUserDob);
 
   // Get sort/filter selections from store.
-  const selectedSortOption = useSelector(
-    state => state.rx.preferences.sortOption,
-  );
-  const selectedFilterOption = useSelector(
-    state => state.rx.preferences.filterOption,
-  );
-  const currentPage = useSelector(state => state.rx.preferences.pageNumber);
+  const selectedSortOption = useSelector(selectSortOption);
+  const selectedFilterOption = useSelector(selectFilterOption);
+  const currentPage = useSelector(selectPageNumber);
 
   // Get feature flags
   const showGroupingContent = useSelector(selectGroupingFlag);
@@ -154,9 +157,7 @@ const Prescriptions = () => {
     [filteredList],
   );
 
-  const prescriptionId = useSelector(
-    state => state.rx.prescriptions?.prescriptionDetails?.prescriptionId,
-  );
+  const prescriptionId = useSelector(selectPrescriptionId);
   const [prescriptionsFullList, setPrescriptionsFullList] = useState([]);
   const [shouldPrint, setShouldPrint] = useState(false);
   const [printedList, setPrintedList] = useState([]);

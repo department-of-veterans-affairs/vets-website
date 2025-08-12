@@ -15,6 +15,7 @@ import {
   pdfDefaultStatusDefinition,
   nonVAMedicationTypes,
   FIELD_NOT_AVAILABLE,
+  ACTIVE_NON_VA,
 } from './constants';
 
 /**
@@ -63,20 +64,18 @@ export const buildNonVAPrescriptionPDFList = prescription => {
           items: [
             {
               title: 'Instructions',
-              value: validateIfAvailable('Instructions', prescription.sig),
+              value: prescription.sig || 'Instructions not available',
               inline: true,
             },
             {
               title: 'Reason for use',
-              value: validateIfAvailable(
-                'Reason for use',
-                prescription.indicationForUse,
-              ),
+              value:
+                prescription.indicationForUse || 'Reason for use not available',
               inline: true,
             },
             {
               title: 'Status',
-              value: validateField(prescription.dispStatus?.toString()),
+              value: ACTIVE_NON_VA,
               inline: true,
             },
             {
@@ -99,16 +98,16 @@ export const buildNonVAPrescriptionPDFList = prescription => {
             },
             {
               title: 'Documented by',
-              value: prescription.providerLastName
-                ? `${
-                    prescription.providerLastName
-                  }, ${prescription.providerFirstName || ''}`
-                : 'Provider name not available',
+              value: displayProviderName(
+                prescription.providerFirstName,
+                prescription.providerLastName,
+              ),
               inline: true,
             },
             {
               title: 'Documented at this facility',
-              value: validateIfAvailable('Facility', prescription.facilityName),
+              value:
+                prescription.facilityName || 'VA facility name not available',
               inline: true,
             },
             {
@@ -138,9 +137,7 @@ export const buildPrescriptionsPDFList = prescriptions => {
     if (rx?.prescriptionSource === 'NV') {
       return {
         ...buildNonVAPrescriptionPDFList(rx)[0],
-        header:
-          rx.prescriptionName ||
-          (rx.dispStatus === 'Active: Non-VA' ? rx.orderableItem : ''),
+        header: rx?.prescriptionName || rx?.orderableItem,
       };
     }
 

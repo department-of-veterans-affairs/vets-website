@@ -181,6 +181,7 @@ export default function SelectDate1Page() {
                 data-testid="loadingIndicator"
                 set-focus
                 message="Finding appointment availability..."
+                label="Finding appointment availability"
               />
             }
             onChange={dates => {

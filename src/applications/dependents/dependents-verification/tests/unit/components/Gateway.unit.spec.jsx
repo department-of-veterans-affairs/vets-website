@@ -84,7 +84,7 @@ describe('Gateway', () => {
       expect(global.fetch.args[0][0]).to.contain('/show');
       const alert = $('va-alert[status="info"]', container);
       expect(alert).to.exist;
-      expect($('h3', alert).textContent).to.eq(
+      expect($('h2', alert).textContent).to.eq(
         'We don’t have any dependents information on file for you',
       );
     });
@@ -101,7 +101,7 @@ describe('Gateway', () => {
       expect(global.fetch.args[0][0]).to.contain('/show');
       const alert = $('va-alert[status="error"]', container);
       expect(alert).to.exist;
-      expect($('h3', alert).textContent).to.eq('Error Loading Dependents');
+      expect($('h2', alert).textContent).to.eq('Error Loading Dependents');
     });
   });
 });

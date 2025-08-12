@@ -5,6 +5,11 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import EditEmailPage from '../../../components/EditEmailPage';
 
+export const electronicCorrespondenceMessage = value =>
+  value
+    ? 'I agree to receive electronic correspondence from the VA about my claim at this email address'
+    : 'I do not agree to receive electronic correspondence from the VA about my claim at this email address';
+
 /** @type {PageSchema} */
 export default {
   title: 'Edit email address',
@@ -29,6 +34,7 @@ export default {
         'I agree to receive electronic correspondence from the VA about my claim.',
       'ui:webComponentField': VaCheckboxField,
       'ui:options': {
+        hideOnReview: true,
         classNames: 'custom-width',
       },
     },

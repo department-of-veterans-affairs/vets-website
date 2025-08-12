@@ -25,7 +25,7 @@ const testConfig = createTestConfig(
       introduction: ({ afterHook }) => {
         afterHook(() => {
           cy.injectAxeThenAxeCheck();
-          cy.get('a.vads-c-action-link--green').click();
+          cy.get('va-link-action[href="#start"]').click();
         });
       },
       'veteran-address': ({ afterHook }) => {
@@ -43,7 +43,7 @@ const testConfig = createTestConfig(
                 data.veteranAddress,
               );
             }
-            cy.findByText(/continue/i, { selector: 'button' }).click();
+            cy.get('va-button[text="Continue"]').click();
           });
         });
       },
@@ -52,7 +52,7 @@ const testConfig = createTestConfig(
           cy.injectAxeThenAxeCheck();
           cy.get('@testData').then(data => {
             cy.fillAddressWebComponentPattern('newAddress', data.newAddress);
-            cy.findByText(/continue/i, { selector: 'button' }).click();
+            cy.get('va-button[text="Continue"]').click();
           });
         });
       },

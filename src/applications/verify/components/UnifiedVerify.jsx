@@ -25,7 +25,7 @@ export default function Verify() {
   } else {
     renderServiceNames = (
       <>
-        <strong>Login.gov</strong> or <strong>ID.me</strong>
+        <strong>ID.me</strong> or <strong>Login.gov</strong>
       </>
     );
   }
@@ -49,11 +49,11 @@ export default function Verify() {
   } else {
     buttonContent = (
       <>
-        <VerifyLogingovButton
+        <VerifyIdmeButton
           useOAuth
           queryParams={{ operation: 'verify_page_unauthenticated' }}
         />
-        <VerifyIdmeButton
+        <VerifyLogingovButton
           useOAuth
           queryParams={{ operation: 'verify_page_unauthenticated' }}
         />

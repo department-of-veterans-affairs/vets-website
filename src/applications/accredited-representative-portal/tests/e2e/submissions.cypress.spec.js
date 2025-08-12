@@ -35,21 +35,6 @@ const setUpInterceptsAndVisit = (featureToggles, url) => {
 };
 
 describe('Accredited Representative Portal', () => {
-  describe('App feature toggle is not enabled', () => {
-    beforeEach(() => {
-      cy.loginArpUser();
-      setUpInterceptsAndVisit({
-        isAppEnabled: false,
-        isInPilot: false,
-      });
-    });
-
-    it('redirects to VA.gov homepage when in production and app is not enabled', () => {
-      cy.injectAxeThenAxeCheck();
-      cy.location('pathname').should('eq', '/');
-    });
-  });
-
   describe('App feature toggle is enabled, but submissions feature toggle is not enabled', () => {
     beforeEach(() => {
       setUpInterceptsAndVisit(
@@ -82,9 +67,85 @@ describe('Accredited Representative Portal', () => {
 
     it('Shows data mock fetched from backend', () => {
       cy.injectAxeThenAxeCheck();
-      cy.contains('Snyder, John').should('be.visible');
-      cy.contains('Anderson, Montgomery').should('be.visible');
-      cy.contains('Fahey, Isias').should('be.visible');
+      cy.get('ul.submissions__list li:nth-of-type(1)').should(
+        'contain',
+        'Snyder, John',
+      );
+      cy.get('ul.submissions__list li:nth-of-type(1)').should(
+        'contain',
+        'Awaiting receipt',
+      );
+      cy.get('ul.submissions__list li:nth-of-type(2)').should(
+        'contain',
+        'Anderson, Montgomery',
+      );
+      cy.get('ul.submissions__list li:nth-of-type(2)').should(
+        'contain',
+        'Received April 15, 2025',
+      );
+      cy.get('ul.submissions__list li:nth-of-type(3)').should(
+        'contain',
+        'Fahey, Isias',
+      );
+      cy.get('ul.submissions__list li:nth-of-type(3)').should(
+        'contain',
+        'Processing error',
+      );
+      cy.get('ul.submissions__list li:nth-of-type(4)').should(
+        'contain',
+        'Davis, Brooks',
+      );
+      cy.get('ul.submissions__list li:nth-of-type(4)').should(
+        'contain',
+        'Processing error',
+      );
+    });
+
+    it('Allows the user to visit 686c form from Submissions', () => {
+      cy.injectAxeThenAxeCheck();
+      cy.get(
+        "va-link-action[href='/representative/representative-form-upload/21-686c']",
+      ).click();
+
+      cy.location('pathname').should(
+        'eq',
+        '/representative/representative-form-upload/21-686c/introduction',
+      );
+    });
+
+    context('526ez feature flag is off', () => {
+      it('does not allow the user to visit 526ez form from Submissions', () => {
+        cy.injectAxeThenAxeCheck();
+        cy.get('body').should('not.have.text', '526EZ');
+      });
+    });
+  });
+
+  context('526ez feature flag is on', () => {
+    beforeEach(() => {
+      setSubmissions();
+      cy.loginArpUser();
+      setUpInterceptsAndVisit(
+        {
+          isAppEnabled: true,
+          isInPilot: true,
+          isSubmissionsEnabled: true,
+          is526ezEnabled: true,
+        },
+        SUBMISSIONS_PAGE,
+      );
+    });
+
+    it('Allows the user to visit 526ez form from Submissions', () => {
+      cy.injectAxeThenAxeCheck();
+      cy.get(
+        "va-link-action[href='/representative/representative-form-upload/21-526EZ']",
+      ).click();
+
+      cy.location('pathname').should(
+        'eq',
+        '/representative/representative-form-upload/21-526ez/introduction',
+      );
     });
   });
 });

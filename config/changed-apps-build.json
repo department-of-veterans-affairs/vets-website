@@ -308,8 +308,7 @@
     },
     {
       "rootFolder": "vaos",
-      "slackGroup": "@vaos-fe-dev",
-      "slackChannel": "C06JM7UUHE3"
+      "slackGroup": "@vaos-fe-dev"
     },
     {
       "rootFolder": "verify",

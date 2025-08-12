@@ -7,14 +7,13 @@ import { datadogRum } from '@datadog/browser-rum';
 import { useSelector } from 'react-redux';
 import { rxListSortingOptions } from '../../util/constants';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
+import { selectSortOption } from '../../selectors/selectPreferences';
 
 const MedicationsListSort = props => {
   const { sortRxList } = props;
   const navigate = useNavigate();
 
-  const selectedSortOption = useSelector(
-    state => state.rx.preferences.sortOption,
-  );
+  const selectedSortOption = useSelector(selectSortOption);
 
   const rxSortingOptions = Object.keys(rxListSortingOptions);
 
