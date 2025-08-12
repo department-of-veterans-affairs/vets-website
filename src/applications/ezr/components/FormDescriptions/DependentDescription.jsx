@@ -1,14 +1,10 @@
 import React from 'react';
-import { LAST_YEAR, MAX_DEPENDENTS } from '../../utils/constants';
+import { LAST_YEAR } from '../../utils/constants';
 
 const DependentDescription = () => (
   <>
-    <p>
-      Next we’ll ask you questions about dependents. You can add up to{' '}
-      {MAX_DEPENDENTS} dependents.
-    </p>
     <va-additional-info
-      trigger="Who we consider a dependent"
+      trigger="Who do we consider dependent?"
       class="hydrated"
       uswds
     >
