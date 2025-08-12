@@ -7,12 +7,14 @@ const buildData = ({
   city = 'Decatur',
   useV2 = true,
   daysTillExpires = 365,
+  netWorthLimit = '159,240',
 }) => ({
   prefill: {
     data: {},
     nonPrefill: {
       veteranSsnLastFour: ssnLastFour,
       veteranVaFileNumberLastFour: vaFileLastFour,
+      netWorthLimit,
     },
     veteranContactInformation: {
       veteranAddress: {
@@ -31,6 +33,7 @@ const buildData = ({
   result: {
     useV2,
     daysTillExpires,
+    netWorthLimit,
     veteranInformation: {
       ssnLastFour,
       vaFileLastFour,
@@ -72,6 +75,7 @@ describe('NOD prefill transformer', () => {
       formData: {
         useV2: true,
         daysTillExpires: 365,
+        netWorthLimit: '159,240',
         veteranInformation: {
           ssnLastFour: '',
           vaFileLastFour: '',
@@ -111,6 +115,34 @@ describe('NOD prefill transformer', () => {
 
   describe('prefill contact info with military address', () => {
     it('should transform contact info when present', () => {
+      const { pages, metadata } = noTransformData;
+      const data = buildData({
+        ssnLastFour: '9876',
+        vaFileLastFour: '7654',
+        city: 'APO',
+      });
+      const transformedData = prefillTransformer(pages, data.prefill, metadata)
+        .formData;
+
+      expect(transformedData).to.deep.equal(data.result);
+    });
+  });
+
+  describe('prefill with netWorthValue', () => {
+    it('should use netWorthValue when present', () => {
+      const { pages, metadata } = noTransformData;
+      const data = buildData({
+        ssnLastFour: '9876',
+        vaFileLastFour: '7654',
+        city: 'APO',
+        netWorthLimit: '200,000',
+      });
+      const transformedData = prefillTransformer(pages, data.prefill, metadata)
+        .formData;
+
+      expect(transformedData).to.deep.equal(data.result);
+    });
+    it('should use default value for netWorthValue when absent', () => {
       const { pages, metadata } = noTransformData;
       const data = buildData({
         ssnLastFour: '9876',
