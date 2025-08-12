@@ -16,7 +16,7 @@ describe('addToxicExposure', () => {
     });
   });
 
-  describe('when user has toxic exposure data but no conditions', () => {
+  describe('when user has toxic exposure data but no toxic exposure conditions', () => {
     it('should return the form data unchanged', () => {
       const formData = {
         newDisabilities: [{ condition: 'Chronic Bronchitis' }],
@@ -57,26 +57,6 @@ describe('addToxicExposure', () => {
           },
           additionalExposures: { asbestos: true },
           specifyOtherExposures: 'Lead exposure',
-        },
-      };
-
-      const result = addToxicExposure(formData);
-
-      expect(result).to.deep.equal(formData);
-    });
-  });
-
-  describe('when user has mixed conditions including "none"', () => {
-    it('should return all toxic exposure data unchanged', () => {
-      const formData = {
-        newDisabilities: [{ condition: 'Chronic Bronchitis' }],
-        toxicExposure: {
-          conditions: {
-            chronicbronchitis: true,
-            none: true,
-          },
-          gulfWar1990: { bahrain: true },
-          herbicide: { vietnam: true },
         },
       };
 

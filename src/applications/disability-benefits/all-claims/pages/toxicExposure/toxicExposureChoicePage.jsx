@@ -45,13 +45,6 @@ export const toxicExposureKeys = [
   'specifyOtherExposures',
 ];
 
-export const sectionsOfToxicExposure = [
-  'Toxic exposure conditions',
-  'Gulf War service locations and dates (1990 and 2001)',
-  'Agent Orange exposure locations and dates',
-  'Other toxic exposure details and dates',
-];
-
 const ToxicExposureChoicePage = ({
   goBack,
   goForward,
