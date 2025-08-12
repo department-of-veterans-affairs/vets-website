@@ -64,7 +64,7 @@ export const placeOfBirth = {
           'ui:webComponentField': VaTextInputField,
           'ui:errorMessages': {
             required: 'Enter a postal code',
-            pattern: 'Enter a valid 5-digit zip code',
+            pattern: 'Enter a valid 5-digit postal code',
           },
           'ui:required': (formData, index) =>
             !(
