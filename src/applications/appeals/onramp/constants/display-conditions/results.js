@@ -27,8 +27,10 @@ export const resultsDCs = Object.freeze({
   },
   RESULTS_2_IS_3: {
     Q_1_1_CLAIM_DECISION: YES,
-    Q_1_2_CLAIM_DECISION: NO,
-    Q_1_2A_CONDITION_WORSENED: YES,
+    ONE_OF: {
+      Q_1_2A_CONDITION_WORSENED: YES,
+      Q_2_IS_2_CONDITION_WORSENED: YES,
+    },
   },
   RESULTS_HLR: {
     Q_1_1_CLAIM_DECISION: YES,
