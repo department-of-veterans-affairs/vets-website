@@ -745,6 +745,64 @@ describe('actions', () => {
       expect(result).to.be.false;
     });
   });
+
+  describe('Disability housing grant - DHS', () => {
+    it('should return true with correct criteria', () => {
+      const benefit = getBenefitById('DHS');
+      const formData = {
+        [mappingTypes.GOALS]: {
+          [goalTypes.FINANCIAL]: true,
+          [goalTypes.RETIREMENT]: true,
+          [goalTypes.UNDERSTAND]: true,
+        },
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: {
+          [characterOfDischargeTypes.HONORABLE]: true,
+          [characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL]: true,
+          [characterOfDischargeTypes.BAD_CONDUCT]: true,
+          [characterOfDischargeTypes.UNCHARACTERIZED]: true,
+          [characterOfDischargeTypes.NOT_SURE]: true,
+          [characterOfDischargeTypes.STILL_SERVING]: true,
+          [blankType.BLANK]: true,
+        },
+      };
+      const result = actions.mapBenefitFromFormInputData(benefit, formData);
+      expect(result).to.be.true;
+    });
+
+    it('should return false with incorrect goals', () => {
+      const benefit = getBenefitById('DHS');
+      const formData = {
+        [mappingTypes.GOALS]: {
+          [goalTypes.FINANCIAL]: true,
+          [goalTypes.HEALTH]: true,
+          [goalTypes.PLAN]: true,
+          [goalTypes.RETIREMENT]: true,
+        },
+        [mappingTypes.CHARACTER_OF_DISCHARGE]:
+          characterOfDischargeTypes.HONORABLE,
+      };
+      const result = actions.mapBenefitFromFormInputData(benefit, formData);
+      expect(result).to.be.false;
+    });
+
+    it('should return false with incorrect discharge', () => {
+      const benefit = getBenefitById('DHS');
+      const formData = {
+        [mappingTypes.GOALS]: {
+          [goalTypes.CAREER]: true,
+          [goalTypes.SCHOOL]: true,
+          [goalTypes.UNDERSTAND]: true,
+        },
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: {
+          [characterOfDischargeTypes.DISHONORABLE]: true,
+          [characterOfDischargeTypes.BAD_CONDUCT]: true,
+          [characterOfDischargeTypes.NOT_SURE]: true,
+        },
+      };
+      const result = actions.mapBenefitFromFormInputData(benefit, formData);
+      expect(result).to.be.false;
+    });
+  });
 });
 
 /**
