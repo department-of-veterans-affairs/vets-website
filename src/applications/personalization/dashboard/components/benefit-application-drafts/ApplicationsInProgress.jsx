@@ -121,7 +121,7 @@ const ApplicationsInProgress = ({
               const hasBenefit = !!formMeta?.benefit;
               const formTitle = hasBenefit
                 ? `application for ${formMeta.benefit}`
-                : `VA Form ${form.form}`;
+                : `VA Form ${form.form.replace(/-V2$/i, '')}`;
               const presentableFormId = presentableFormIDs[formId] || '';
               const { lastUpdated } = form || {};
               const lastSavedDate = format(
