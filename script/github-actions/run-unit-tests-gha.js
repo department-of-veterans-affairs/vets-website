@@ -86,6 +86,11 @@ function getTestPaths() {
   return [...new Set(cliPatterns)];
 }
 
+function extGlobFix(str) {
+  // cleanup parentheses in pattern string
+  return `'${String(str).replace(/'/g, `'\\''`)}'`;
+}
+
 function buildCommandForMocha(testPaths) {
   const coverageInclude = options['app-folder']
     ? `--include 'src/applications/${options['app-folder']}/**'`
@@ -102,11 +107,13 @@ function buildCommandForMocha(testPaths) {
     ? `NODE_ENV=test nyc --all ${coverageInclude} ${coverageReporter}`
     : `BABEL_ENV=test NODE_ENV=test mocha ${reporterOption}`;
 
+  const fixed = testPaths.map(extGlobFix).join(' ');
+
   return `STEP=unit-tests LOG_LEVEL=${options[
     'log-level'
   ].toLowerCase()} ${testRunner} --max-old-space-size=${MAX_MEMORY} --config ${
     options.config
-  } ${testPaths.join(' ')}`;
+  } ${fixed}`;
 }
 
 async function main() {
