@@ -28,7 +28,7 @@ export const VeteranInformation = ({ formData }) => {
       <h3>Your personal information</h3>
       <p>
         This is part of the information we’ll submit on your behalf for your
-        verification of dependents (VA Form 21-0538)
+        verification of dependents (VA Form 21-0538).
       </p>
       <va-card>
         <h4 className="vads-u-font-size--h3 vads-u-margin-top--1">

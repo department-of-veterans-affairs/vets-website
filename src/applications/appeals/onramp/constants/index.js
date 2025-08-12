@@ -1,7 +1,9 @@
-// Except for HOME and results pages, left side must match
+import { SHORT_NAME_MAP } from './question-data-map';
+
+// Except for INTRODUCTION and results pages, left side must match
 // short name codes in constants/question-data-map
 export const ROUTES = Object.freeze({
-  HOME: 'introduction',
+  INTRODUCTION: 'introduction',
   Q_1_1_CLAIM_DECISION: 'claim-decision-1-1',
   Q_1_1A_SUBMITTED_526: 'submitted-526-1-1a',
   Q_1_2_CLAIM_DECISION: 'claim-decision-1-2',
@@ -21,3 +23,5 @@ export const ROUTES = Object.freeze({
   Q_2_H_2A_JUDGE_HEARING: 'judge-hearing-2-h-2a',
   Q_2_H_2B_JUDGE_HEARING: 'judge-hearing-2-h-2b',
 });
+
+export const ALL_QUESTIONS = Object.freeze(Object.values(SHORT_NAME_MAP));
