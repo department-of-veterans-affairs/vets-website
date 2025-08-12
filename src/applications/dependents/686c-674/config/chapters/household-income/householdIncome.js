@@ -19,7 +19,10 @@ export const uiSchema = {
   ),
   'ui:description': whatAreAssets,
   householdIncome: yesNoUI({
-    title: netWorthTitle,
+    title: netWorthTitle(),
     enableAnalytics: true,
+    updateUiSchema: formData => ({
+      'ui:title': netWorthTitle(formData?.netWorthLimit),
+    }),
   }),
 };
