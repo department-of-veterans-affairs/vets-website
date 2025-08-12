@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
 const commandLineArgs = require('command-line-args');
-const core = require('@actions/core');
 const fs = require('fs');
 const path = require('path');
+const core = require('@actions/core');
 const { runCommand } = require('../utils');
 
 // Configuration
