@@ -1,6 +1,8 @@
 /* eslint-disable no-console */
 const commandLineArgs = require('command-line-args');
 const core = require('@actions/core');
+const fs = require('fs');
+const path = require('path');
 const { runCommand } = require('../utils');
 
 // Configuration
@@ -54,6 +56,10 @@ function getTestPaths() {
       'script/**/*.unit.spec.js?(x)',
       STATIC_PAGES_PATTERN,
     ];
+  }
+
+  if (process.env.NODE_COMPATIBILITY_VERIFICATION) {
+    return JSON.parse(fs.readFileSync(path.resolve(`changed_unit_tests.json`)));
   }
 
   const changedFiles = parseChangedFiles();
