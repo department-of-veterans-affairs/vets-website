@@ -70,7 +70,7 @@ describe('VAOS Component: AppointmentColumn', () => {
     // Assert
     expect(column.classList.contains('vads-u-flex--1'));
     expect(column.classList.contains('vads-u-padding-top--0'));
-    // expect(column.classList.contains('class1'));
+    expect(column.classList.contains('class1'));
   });
 
   it('should allow for additional styles', async () => {
