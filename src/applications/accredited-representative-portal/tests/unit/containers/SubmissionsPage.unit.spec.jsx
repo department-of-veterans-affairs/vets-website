@@ -2,6 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { MemoryRouter } from 'react-router-dom';
+import importedSubmissionsPage from '../../../containers/SubmissionsPage';
 
 describe('SubmissionsPage', () => {
   it('can import SubmissionsPage module', () => {
@@ -16,6 +17,22 @@ describe('SubmissionsPage', () => {
 
     const constants = require('../../../utilities/constants');
     expect(constants).to.exist;
+  });
+
+  it('contains 686c upload link reference', () => {
+    const componentString = importedSubmissionsPage.toString();
+    expect(componentString).to.include(
+      '/representative/representative-form-upload/21-686c',
+    );
+    expect(componentString).to.include('Upload and submit VA Form 21-686c');
+  });
+
+  it('contains 526 upload link reference', () => {
+    const componentString = importedSubmissionsPage.toString();
+    expect(componentString).to.include(
+      '/representative/representative-form-upload/21-526EZ',
+    );
+    expect(componentString).to.include('Upload and submit VA Form 21-526EZ');
   });
 
   it('has a loader function', () => {
