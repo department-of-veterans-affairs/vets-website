@@ -164,36 +164,6 @@ describe('getLettersList', () => {
         .then(done, done);
     });
   });
-  it('calls the discrepancies endpoint when shouldUseLettersDiscrepancies is true', done => {
-    setFetchJSONResponse(global.fetch.onCall(0), { data: { attributes: {} } });
-
-    const discrepancyCall = sinon.stub().resolves({});
-    const originalApiRequest = require('../../utils/helpers').apiRequest;
-    const helpers = require('../../utils/helpers');
-
-    sinon.stub(helpers, 'apiRequest').callsFake(url => {
-      if (url === '/v0/letters_discrepancy') {
-        return discrepancyCall(url);
-      }
-      return originalApiRequest(url);
-    });
-
-    const dispatch = sinon.spy();
-    getLetterList(dispatch, migrationOptions, true)
-      .then(() => {
-        expect(discrepancyCall.calledOnce).to.be.true;
-        expect(discrepancyCall.firstCall.args[0]).to.equal(
-          '/v0/letters_discrepancy',
-        );
-
-        helpers.apiRequest.restore();
-        done();
-      })
-      .catch(error => {
-        helpers.apiRequest.restore();
-        done(error);
-      });
-  });
 });
 
 describe('getLetterListAndBSLOptions', () => {

@@ -153,7 +153,6 @@ Main.propTypes = {
   getLetterListAndBSLOptions: PropTypes.func,
   lettersAvailability: PropTypes.string,
   profileHasEmptyAddress: PropTypes.func,
-  shouldUseLettersDiscrepancies: PropTypes.bool,
 };
 
 function mapStateToProps(state) {
