@@ -171,6 +171,7 @@ describe('VAOS select appointment date', () => {
       cy.axeCheckBestPractice();
     });
 
+    // Check for test flakyness on the last day of each month
     for (let i = 0; i < 12; i++) {
       it(`should fetch slots when moving between months: ${i}`, () => {
         // Arrange
@@ -178,14 +179,14 @@ describe('VAOS select appointment date', () => {
         // Add two days since date is set to the last day of the month end of day.
         // Timezone conversion for MT will result in the previous day thus the need
         // to add 2 days. NOTE: Same day appointments are not allowed.
-        const perferredDate = addDays(new Date(), 2);
+        const preferredDate = addDays(new Date(), 2);
         const mockUser = new MockUser({ addressLine1: '123 Main St.' });
 
         mockSlotsApi({
           locationId: '983',
           clinicId: '1',
           response: MockSlotResponse.createResponses({
-            startTimes: [perferredDate],
+            startTimes: [preferredDate],
           }),
         });
 

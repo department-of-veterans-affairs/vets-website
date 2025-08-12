@@ -927,6 +927,7 @@ describe('When preferred date is immediate care', () => {
       mockFetch();
     });
 
+    // Check for test flakyness on the last day of each month
     for (let i = 0; i < 12; i++) {
       it(`should fetch slots when moving between months: ${lastDayOfMonth(
         addMonths(endOfDay(new Date()), i),
@@ -1094,6 +1095,7 @@ describe('When preferred date is not immediate care', () => {
       mockFetch();
     });
 
+    // Check for test flakyness on the last day of each month
     for (let i = 0; i < 12; i++) {
       // Failing test: https://github.com/department-of-veterans-affairs/va.gov-team/issues/110920
       it(`should fetch slots when moving between months: ${lastDayOfMonth(
