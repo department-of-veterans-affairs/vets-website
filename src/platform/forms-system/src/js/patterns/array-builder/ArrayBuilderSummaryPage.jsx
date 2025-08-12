@@ -628,7 +628,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
       );
     }
 
-    const onNavForward = () => {
+    const onContinue = () => {
       const isValid = validateIncompleteItems({
         arrayData: get(arrayPath, props.data),
         isItemIncomplete,
@@ -639,7 +639,6 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
 
       if (isValid) {
         props.onContinue();
-        props.onSubmit(props.data);
       }
     };
 
@@ -655,7 +654,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
         formContext={props.formContext}
         trackingPrefix={props.trackingPrefix}
         onChange={props.onChange}
-        onSubmit={onNavForward}
+        onSubmit={props.onSubmit}
       >
         <>
           {/* contentBeforeButtons = save-in-progress links */}
@@ -663,7 +662,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
           {props.contentBeforeButtons}
           <NavButtons
             goBack={props.goBack}
-            goForward={onNavForward}
+            goForward={onContinue}
             submitToContinue
             useWebComponents={props.formOptions?.useWebComponentForNavigation}
           />
