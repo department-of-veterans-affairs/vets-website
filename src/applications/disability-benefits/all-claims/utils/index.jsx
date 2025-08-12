@@ -872,7 +872,9 @@ export const baseDoNew4142Logic = formData => {
     formData.disability526Enable2024Form4142 === true &&
     formData['view:patientAcknowledgement']?.['view:acknowledgement'] ===
       true &&
-    formData?.['view:hasPrivateRecordsToUpload'] !== true &&
+    formData?.['view:uploadPrivateRecordsQualifier']?.[
+      'view:hasPrivateRecordsToUpload'
+    ] !== true &&
     formData?.patient4142Acknowledgement !== true
   );
 };

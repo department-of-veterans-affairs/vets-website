@@ -5,36 +5,71 @@ import { ANALYTICS_EVENTS, HELP_TEXT_CLICKED_EVENT } from '../constants';
 
 const {
   openedPrivateRecordsAcknowledgment,
-  openedPrivateChoiceHelp,
+  // openedPrivateChoiceHelp,
 } = ANALYTICS_EVENTS;
 
+// export const privateRecordsChoiceHelp = (
+//   <div className="private-records-choice-help">
+//     <VaAdditionalInfo
+//       trigger="Which should I choose?"
+//       disableAnalytics
+//       onClick={() =>
+//         recordEventOnce(openedPrivateChoiceHelp, HELP_TEXT_CLICKED_EVENT)
+//       }
+//     >
+//       <h3 className="vads-u-font-size--h4">You upload your medical records</h3>
+//       <p>
+//         If you upload a digital copy of all your medical records, we can review
+//         your claim more quickly. Uploading a digital file works best if you have
+//         a computer with a fast Internet connection. The digital file can be
+//         uploaded as a .pdf or other photo file format, like a .jpeg or .png.
+//       </p>
+//       <h3 className="vads-u-font-size--h4">
+//         We get your medical records for you
+//       </h3>
+//       <p>
+//         If you tell us the name of the private doctor or hospital that treated
+//         you for your condition, we can get your medical records for you. Getting
+//         your records may take us some time, and this could mean that it’ll take
+//         us longer to make a decision on your claim.
+//       </p>
+//     </VaAdditionalInfo>
+//   </div>
+// );
 export const privateRecordsChoiceHelp = (
-  <div className="private-records-choice-help">
-    <VaAdditionalInfo
-      trigger="Which should I choose?"
-      disableAnalytics
-      onClick={() =>
-        recordEventOnce(openedPrivateChoiceHelp, HELP_TEXT_CLICKED_EVENT)
-      }
-    >
-      <h3 className="vads-u-font-size--h4">You upload your medical records</h3>
-      <p>
-        If you upload a digital copy of all your medical records, we can review
-        your claim more quickly. Uploading a digital file works best if you have
-        a computer with a fast Internet connection. The digital file can be
-        uploaded as a .pdf or other photo file format, like a .jpeg or .png.
-      </p>
-      <h3 className="vads-u-font-size--h4">
-        We get your medical records for you
-      </h3>
-      <p>
-        If you tell us the name of the private doctor or hospital that treated
-        you for your condition, we can get your medical records for you. Getting
-        your records may take us some time, and this could mean that it’ll take
-        us longer to make a decision on your claim.
-      </p>
-    </VaAdditionalInfo>
-  </div>
+  <p>
+    <va-accordion open-single>
+      <va-accordion-item
+        bordered
+        header="What happens when you upload your non-VA treatment records yourself"
+        id="get-records-yourself"
+      >
+        <p>
+          We can review your claim more quickly if you upload your records
+          yourself. You can upload .pdf, .jpeg, or .png files. Make sure you
+          have a strong internet connection.
+        </p>
+      </va-accordion-item>
+    </va-accordion>
+
+    <va-accordion open-single>
+      <va-accordion-item
+        bordered
+        header="What happens when you ask us to get your non-VA treatment records"
+        id="have-va-get-your-records"
+      >
+        <p>
+          We’ll ask you to give us information about the provider or hospital
+          that treated you. We’ll use this information to get your records. It
+          may take some time for us to get them. This means that it could take
+          longer for us to decide your claim. We’ll try at least 2 times to get
+          your records from the provider or hospital. If we can’t get them,
+          we’ll contact you to let you know and tell you know if there’s
+          anything you need to do.
+        </p>
+      </va-accordion-item>
+    </va-accordion>
+  </p>
 );
 
 // Banner component that clears the session flag on mount
@@ -77,6 +112,20 @@ export const patientAcknowledgmentError = (
   <p>
     You must select “I acknowledge and authorize this release of information”
     for us to get your records from your provider.
+  </p>
+);
+
+export const authorizationNotes = (
+  <p>
+    <b>Note:</b> If you select <b>No</b>, we’ll use VA Form 21-4142 to authorize
+    VA to get your non-VA treatment records.
+    <br />
+    <br />
+    <va-link
+      external
+      href="https://www.va.gov/find-forms/about-form-21-4142/"
+      text="Learn more about VA Form 21-4142"
+    />
   </p>
 );
 
