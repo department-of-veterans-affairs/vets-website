@@ -1,7 +1,6 @@
 import * as h from '../helpers';
 import { ROUTES } from '../../../constants';
 import { SHORT_NAME_MAP } from '../../../constants/question-data-map';
-import { RESULTS_NAME_MAP } from '../../../constants/results-data-map';
 
 const {
   Q_1_1_CLAIM_DECISION,
@@ -13,7 +12,6 @@ const {
   Q_2_IS_1A_LAW_POLICY_CHANGE,
   Q_2_IS_1B_NEW_EVIDENCE,
 } = SHORT_NAME_MAP;
-const { RESULTS_HLR } = RESULTS_NAME_MAP;
 
 // Results HLR: Higher-Level Review recommended
 // 1.1 - Yes
@@ -76,7 +74,7 @@ describe('Decision Reviews Onramp', () => {
 
       // RESULTS
       h.verifyUrl(ROUTES.RESULTS);
-      h.verifyText(h.RESULTS_HEADER, RESULTS_HLR);
+      h.verifyDrResultsHeader();
       cy.go('back');
 
       // Q_2_IS_1B_NEW_EVIDENCE
