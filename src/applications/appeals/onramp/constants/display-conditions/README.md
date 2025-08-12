@@ -93,6 +93,16 @@ It is expected that the same condition (e.g. key:value pair) is repeated across 
 
 Additionally, repetition ensures that scenarios like splits in logic paths are covered. If you don't find explicit display conditions for questions that can be reached multiple ways, those conditions are listed on a traditional question in another part of the code. For instance, all questions in path A will make up the full logic through path A, and all questions in path B will make up the full logic through path B, but it is not necessary for one question to make up the full logic for both paths.
 
+## Order of Questions
+
+The display conditions code (the keys in the objects) are expected to flow in the same order that they would appear in the browser flow. If Question 1 has a subquestion, Question 1A, that can be reached by both Question 1 and Question 2, the keys in the display conditions should go in this order:
+
+1. Question 1
+2. Question 2
+3. Question 1A
+
+The utility functions that consume the display conditions always look **ahead** of the current question only to see what could come next, so there would never be a scenario where Question 2 would be checking Question 1's display conditions to see what's next.
+
 ## Display Conditions (Review Screens)
 
 TODO
