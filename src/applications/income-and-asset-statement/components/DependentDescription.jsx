@@ -1,7 +1,7 @@
 import React from 'react';
 
 export const DependentDescription = () => {
-  const { LAST_YEAR } = new Date().getFullYear() - 1;
+  const LAST_YEAR = new Date().getFullYear() - 1;
 
   return (
     <va-additional-info
