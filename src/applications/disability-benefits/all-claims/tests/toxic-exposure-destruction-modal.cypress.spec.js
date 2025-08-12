@@ -1,65 +1,202 @@
 import path from 'path';
-import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 
-import mockUser from './fixtures/mocks/user.json';
 import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
-import mockServiceBranches from './fixtures/mocks/service-branches.json';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockLocations from './fixtures/mocks/separation-locations.json';
 import mockPayment from './fixtures/mocks/payment-information.json';
-import mockUpload from './fixtures/mocks/document-upload.json';
+import mockServiceBranches from './fixtures/mocks/service-branches.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
+import mockUpload from './fixtures/mocks/document-upload.json';
+import mockUser from './fixtures/mocks/user.json';
 
 import { mockItf } from './cypress.helpers';
+import {
+  addDisabilityCondition,
+  clickContinue,
+  clickModalButton,
+  fillConditionFollowUp,
+  fillServicePeriod,
+  interactWithVAComponent,
+  navigateThroughPages,
+  selectNo,
+  selectYes,
+  setupStandardMocks,
+  skipWizard,
+  startApplication,
+  verifyAlert,
+  verifyModalContent,
+  verifyModalVisibility,
+  verifyVACheckboxState,
+  waitForPageNavigation,
+} from './cypress-rtl-helpers';
 
 import {
-  MOCK_SIPS_API,
-  WIZARD_STATUS,
   FORM_STATUS_BDD,
+  MOCK_SIPS_API,
   SHOW_8940_4192,
+  WIZARD_STATUS,
 } from '../constants';
 
 /**
- * @description E2E test suite for the Toxic Exposure Destruction Modal feature.
- * Tests the behavior when users select "none" for toxic exposure conditions after
- * previously selecting conditions. Validates modal interactions and data handling.
+ * @fileoverview E2E test suite for the Toxic Exposure Destruction Modal feature
+ * @module toxic-exposure-destruction-modal.cypress.spec
+ *
+ * This test suite validates the toxic exposure destruction modal functionality that
+ * warns users when they're about to delete previously entered toxic exposure data.
+ * The modal appears when users select "none" after having selected conditions.
+ *
+ * Tests use React Testing Library patterns through custom helper functions for
+ * better accessibility and maintainability.
  *
  * @requires Feature toggle: disabilityCompensationToxicExposureDestructionModal
+ * @see {@link https://github.com/department-of-veterans-affairs/va.gov-team} VA.gov Team Repository
  */
 describe('Toxic Exposure Destruction Modal', () => {
+  // Test data constants for better maintainability
+  const TEST_DATA = {
+    asthmaWithGulfWar: {
+      conditions: { asthma: true },
+      gulfWar1990: { iraq: true },
+      gulfWar1990Details: {
+        iraq: {
+          startDate: '1991-01-01',
+          endDate: '1991-12-31',
+        },
+      },
+    },
+    asthmaOnly: {
+      conditions: { asthma: true },
+    },
+    tinnitusOnly: {
+      conditions: { tinnitus: true },
+    },
+  };
+
+  const SERVICE_PERIOD = {
+    branch: 'Marine Corps',
+    from: { month: 'May', day: '20', year: '1984' },
+    to: { month: 'May', day: '20', year: '2011' },
+  };
+
   beforeEach(() => {
-    window.sessionStorage.setItem(SHOW_8940_4192, 'true');
-    window.sessionStorage.removeItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
-    window.sessionStorage.removeItem(FORM_STATUS_BDD);
+    // Clear and set up session storage
+    cy.window().then(win => {
+      win.sessionStorage.setItem(SHOW_8940_4192, 'true');
+      win.sessionStorage.removeItem(WIZARD_STATUS);
+      win.sessionStorage.removeItem(FORM_STATUS_BDD);
+    });
 
-    cy.login(mockUser);
-
-    cy.intercept('GET', '/data/cms/vamc-ehr.json', { body: {} });
-    cy.intercept('GET', '/v0/intent_to_file', mockItf());
-    cy.intercept('PUT', `${MOCK_SIPS_API}*`, mockInProgress);
-    cy.intercept(
-      'GET',
-      '/v0/disability_compensation_form/separation_locations',
+    // Set up standard mocks with consistent configuration
+    setupStandardMocks({
+      user: mockUser,
+      mockItf,
+      mockInProgress,
       mockLocations,
-    );
-    cy.intercept('GET', '/v0/ppiu/payment_information', mockPayment);
-    cy.intercept('POST', '/v0/upload_supporting_evidence', mockUpload);
-    cy.intercept(
-      'POST',
-      '/v0/disability_compensation_form/submit_all_claim*',
+      mockPayment,
+      mockUpload,
       mockSubmit,
-    );
-    cy.intercept(
-      'GET',
-      '/v0/disability_compensation_form/submission_status/*',
-      '',
-    );
-    cy.intercept(
-      'GET',
-      '/v0/benefits_reference_data/service-branches',
       mockServiceBranches,
-    );
+      MOCK_SIPS_API,
+    });
   });
+
+  /**
+   * Helper to set up feature toggle and prefill data for toxic exposure
+   * @param {boolean} featureEnabled - Whether the destruction modal feature is enabled
+   * @param {object} toxicExposureData - The toxic exposure data to prefill
+   */
+  const setupToxicExposureTest = (featureEnabled, toxicExposureData = {}) => {
+    // Set up feature toggle
+    cy.intercept('GET', '/v0/feature_toggles*', {
+      statusCode: 200,
+      body: {
+        data: {
+          type: 'feature_toggles',
+          features: [
+            ...mockFeatureToggles.data.features,
+            {
+              name: 'disabilityCompensationToxicExposureDestructionModal',
+              value: featureEnabled,
+            },
+          ],
+        },
+      },
+    });
+
+    // Load and set up prefill data
+    cy.fixture(
+      path.join(__dirname, 'fixtures/data/maximal-toxic-exposure-test.json'),
+    ).then(data => {
+      const sanitizedRatedDisabilities = (data.ratedDisabilities || []).map(
+        ({ 'view:selected': _, ...obj }) => obj,
+      );
+
+      cy.intercept('GET', `${MOCK_SIPS_API}*`, {
+        formData: {
+          veteran: {
+            primaryPhone: '4445551212',
+            emailAddress: 'test2@test1.net',
+          },
+          disabilities: sanitizedRatedDisabilities,
+          toxicExposure: toxicExposureData,
+        },
+        metadata: {
+          version: 0,
+          prefill: true,
+          returnUrl: '/toxic-exposure/conditions',
+        },
+      });
+    });
+  };
+
+  /**
+   * Helper to navigate through the initial form sections
+   */
+  const navigateToConditionsSection = () => {
+    cy.visit('/disability/file-disability-claim-form-21-526ez/introduction');
+
+    // Start the application
+    skipWizard();
+    startApplication();
+
+    // Navigate through ITF and initial sections
+    clickContinue(); // ITF message
+    clickContinue(); // Proceed to main form
+
+    // Wait for housing situation page (prefilled data skips earlier pages)
+    waitForPageNavigation('/housing-situation');
+
+    // Select housing status and continue through basic info pages
+    selectNo();
+    navigateThroughPages([
+      'Housing situation',
+      'Terminally ill',
+      'Alternative names',
+    ]);
+
+    // Fill military history
+    fillServicePeriod(SERVICE_PERIOD);
+    clickContinue();
+
+    // Navigate through pay sections
+    navigateThroughPages(['Separation pay']);
+
+    // Retirement pay
+    selectNo();
+    clickContinue();
+
+    // Training pay
+    selectNo();
+    clickContinue();
+
+    // Add a condition
+    addDisabilityCondition('asthma');
+    clickContinue();
+
+    // Fill condition follow-up
+    clickContinue(); // Follow up intro
+    fillConditionFollowUp('NEW', 'Asthma condition description');
+  };
 
   /**
    * @test
@@ -73,221 +210,75 @@ describe('Toxic Exposure Destruction Modal', () => {
    * @expected Form navigates away from toxic exposure section
    */
   it('should show modal and delete toxic exposure data when user goes back and selects "none"', () => {
-    // Configure feature toggle for toxic exposure destruction modal
-    cy.intercept('GET', '/v0/feature_toggles*', {
-      statusCode: 200,
-      body: {
-        data: {
-          type: 'feature_toggles',
-          features: [
-            ...mockFeatureToggles.data.features,
-            {
-              name: 'disabilityCompensationToxicExposureDestructionModal',
-              value: true,
-            },
-          ],
-        },
-      },
-    });
+    // Set up test with feature enabled and prefilled toxic exposure data
+    setupToxicExposureTest(true, TEST_DATA.asthmaWithGulfWar);
 
-    cy.fixture(
-      path.join(__dirname, 'fixtures/data/maximal-toxic-exposure-test.json'),
-    ).then(data => {
-      const sanitizedRatedDisabilities = (data.ratedDisabilities || []).map(
-        ({ 'view:selected': _, ...obj }) => obj,
-      );
+    // Navigate to the conditions section
+    navigateToConditionsSection();
 
-      // Prefill form with toxic exposure data to simulate returning user scenario
-      cy.intercept('GET', `${MOCK_SIPS_API}*`, {
-        formData: {
-          veteran: {
-            primaryPhone: '4445551212',
-            emailAddress: 'test2@test1.net',
-          },
-          disabilities: sanitizedRatedDisabilities,
-          toxicExposure: {
-            conditions: {
-              asthma: true,
-            },
-            gulfWar1990: {
-              iraq: true,
-            },
-            gulfWar1990Details: {
-              iraq: {
-                startDate: '1991-01-01',
-                endDate: '1991-12-31',
-              },
-            },
-          },
-        },
-        metadata: {
-          version: 0,
-          prefill: true,
-          returnUrl: '/toxic-exposure/conditions',
-        },
-      });
-    });
-
-    cy.visit('/disability/file-disability-claim-form-21-526ez/introduction');
+    // Run accessibility check after page loads
     cy.injectAxeThenAxeCheck();
 
-    // Skip wizard and navigate to form start
-    cy.get('.skip-wizard-link').click();
-
-    // Start the disability compensation application
-    cy.findAllByRole('link', {
-      name: /start the disability compensation application/i,
-    })
-      .first()
-      .click();
-
-    // Navigate through Intent to File (ITF) message
-    cy.findByRole('button', { name: /continue/i }).click();
-
-    // Proceed to main form
-    cy.findByRole('button', { name: /continue/i }).click();
-
-    // Verify navigation to housing situation page (prefilled data skips earlier pages)
-    cy.location('pathname', { timeout: 10000 }).should(
-      'include',
-      '/housing-situation',
-    );
-
-    // Select housing status
-    cy.findByLabelText(/^no$/i).click();
-
-    cy.findByRole('button', { name: /continue/i }).click();
-
-    // Terminally ill
-    cy.findByRole('button', { name: /continue/i }).click();
-
-    // Alternative names
-    cy.findByRole('button', { name: /continue/i }).click();
-
-    // Military history
-    const idRoot = '#root_serviceInformation_servicePeriods_';
-    cy.get(`${idRoot}0_serviceBranch`).select('Marine Corps');
-    cy.get(`${idRoot}0_dateRange_fromMonth`).select('May');
-    cy.get(`${idRoot}0_dateRange_fromDay`).select('20');
-    cy.get(`${idRoot}0_dateRange_fromYear`).clear();
-    cy.get(`${idRoot}0_dateRange_fromYear`).type('1984');
-    cy.get(`${idRoot}0_dateRange_toMonth`).select('May');
-    cy.get(`${idRoot}0_dateRange_toDay`).select('20');
-    cy.get(`${idRoot}0_dateRange_toYear`).clear();
-    cy.get(`${idRoot}0_dateRange_toYear`).type('2011');
-    cy.findByRole('button', { name: /continue/i }).click();
-
-    // Separation pay
-    cy.findByRole('button', { name: /continue/i }).click();
-
-    // Retirement pay
-    cy.get('input[type="radio"][value="N"]')
-      .first()
-      .click();
-    cy.findByRole('button', { name: /continue/i }).click();
-
-    // Training pay
-    cy.get('input[type="radio"][value="N"]')
-      .first()
-      .click();
-    cy.findByRole('button', { name: /continue/i }).click();
-
-    // Add a new condition
-    cy.get('#root_newDisabilities_0_condition')
-      .shadow()
-      .find('input')
-      .type('asthma');
-    cy.get('[role="option"]')
-      .first()
-      .click();
-    // Click Save to save the condition
-    cy.get('va-button[text="Save"]').click();
-    cy.findByRole('button', { name: /continue/i }).click();
-
-    // Follow up intro page
-    cy.findByRole('button', { name: /continue/i }).click();
-
-    // Follow up - What caused your condition?
-    cy.get('input[value="NEW"]').check({ force: true });
-    cy.findByRole('button', { name: /continue/i }).click();
-
-    // Description page
-    cy.get('textarea[id="root_primaryDescription"]').type(
-      'Asthma condition description',
-    );
-    cy.findByRole('button', { name: /continue/i }).click();
-
-    // Navigate to toxic exposure conditions page
-
+    // Now on toxic exposure conditions page
     // Verify pre-selected condition
-    cy.get('va-checkbox[value="asthma"]').should('have.attr', 'checked');
+    verifyVACheckboxState('asthma', true);
 
-    // Uncheck the selected condition
-    cy.get('va-checkbox[value="asthma"]').click();
+    // Uncheck the selected condition and select "none"
+    interactWithVAComponent('va-checkbox[value="asthma"]');
+    interactWithVAComponent('va-checkbox[value="none"]');
 
-    // Select "none" to trigger modal
-    cy.get('va-checkbox[value="none"]').click();
+    // Trigger the modal
+    clickContinue();
 
-    // Click Continue to trigger the modal
-    cy.findByText(/continue/i, { selector: 'button' }).click();
+    // Verify modal appears with correct content
+    verifyModalVisibility(true);
+    verifyModalContent([
+      'Remove condition related to toxic exposure?',
+      'Gulf War service locations and dates',
+      'Agent Orange exposure locations and dates',
+      'Other toxic exposure details and dates',
+    ]);
 
-    // Verify modal appears
-    cy.get('va-modal').should('be.visible');
-    cy.get('va-modal')
-      .should('contain', 'Remove condition related to toxic exposure?')
-      .and('contain', 'Gulf War service locations and dates')
-      .and('contain', 'Agent Orange exposure locations and dates')
-      .and('contain', 'Other toxic exposure details and dates');
-
-    // Click "Yes, remove condition" to confirm deletion
-    cy.get('va-modal button')
-      .contains('Yes, remove condition')
-      .click();
+    // Confirm deletion
+    clickModalButton('Yes, remove condition');
 
     // Verify modal closes
-    cy.get('va-modal').should('not.be.visible');
+    verifyModalVisibility(false);
 
-    // Verify confirmation alert appears
-    cy.get('va-alert[status="warning"][visible="true"]')
-      .should('exist')
-      .and('be.visible');
-    cy.get('va-alert').should(
-      'contain',
-      'removed toxic exposure conditions from your claim',
-    );
+    // Verify confirmation alert
+    verifyAlert('warning', 'removed toxic exposure conditions from your claim');
 
-    // Click Continue to navigate to the next page
-    cy.findByText(/continue/i, { selector: 'button' }).click();
+    // Continue navigation
+    clickContinue();
 
     // Verify we navigated away from toxic exposure page
+    waitForPageNavigation('/pow');
     cy.url().should('not.include', '/toxic-exposure/conditions');
 
-    // Continue to prisoner of war page
-    cy.get('[type="radio"][value="N"]').check({ force: true });
-    cy.findByText(/continue/i, { selector: 'button' }).click();
+    // Continue through remaining form sections
+    selectNo();
+    clickContinue();
 
-    // Additional disability benefits
-    cy.findByText(/continue/i, { selector: 'button' }).click();
+    navigateThroughPages([
+      'Additional disability benefits',
+      'Summary of conditions',
+    ]);
 
-    // Summary of conditions
-    cy.findByText(/continue/i, { selector: 'button' }).click();
-
-    // Navigate through rest of form to review page
-    // Supporting evidence
-    cy.findByText(/continue/i, { selector: 'button' }).click();
-    cy.get('[type="radio"][value="N"]').check({ force: true });
-    cy.findByText(/continue/i, { selector: 'button' }).click();
-    cy.findByText(/continue/i, { selector: 'button' }).click();
-    cy.findByText(/continue/i, { selector: 'button' }).click();
+    // Navigate through supporting evidence
+    clickContinue();
+    selectNo();
+    navigateThroughPages([
+      'Evidence types',
+      'Summary of evidence',
+      'Next steps',
+    ]);
 
     // Additional information
-    cy.findByText(/continue/i, { selector: 'button' }).click();
-    cy.get('[type="radio"][value="N"]').check({ force: true });
-    cy.findByText(/continue/i, { selector: 'button' }).click();
-    cy.get('[type="radio"][value="Y"]').check({ force: true });
-    cy.findByText(/continue/i, { selector: 'button' }).click();
-
-    // Test completion - toxic exposure data removal verified
+    clickContinue();
+    selectNo();
+    clickContinue();
+    selectYes();
+    clickContinue();
   });
 
   /**
@@ -302,184 +293,49 @@ describe('Toxic Exposure Destruction Modal', () => {
    * @expected User can re-select conditions and continue
    */
   it('should preserve toxic exposure data when user cancels the modal', () => {
-    // Configure feature toggle for toxic exposure destruction modal
-    cy.intercept('GET', '/v0/feature_toggles*', {
-      statusCode: 200,
-      body: {
-        data: {
-          type: 'feature_toggles',
-          features: [
-            ...mockFeatureToggles.data.features,
-            {
-              name: 'disabilityCompensationToxicExposureDestructionModal',
-              value: true,
-            },
-          ],
-        },
-      },
-    });
+    // Set up test with feature enabled and minimal toxic exposure data
+    setupToxicExposureTest(true, TEST_DATA.asthmaOnly);
 
-    cy.fixture(
-      path.join(__dirname, 'fixtures/data/maximal-toxic-exposure-test.json'),
-    ).then(data => {
-      const sanitizedRatedDisabilities = (data.ratedDisabilities || []).map(
-        ({ 'view:selected': _, ...obj }) => obj,
-      );
+    // Navigate to the conditions section
+    navigateToConditionsSection();
 
-      // Prefill form with toxic exposure condition
-      cy.intercept('GET', `${MOCK_SIPS_API}*`, {
-        formData: {
-          veteran: {
-            primaryPhone: '4445551212',
-            emailAddress: 'test2@test1.net',
-          },
-          disabilities: sanitizedRatedDisabilities,
-          toxicExposure: {
-            conditions: {
-              asthma: true,
-            },
-          },
-        },
-        metadata: {
-          version: 0,
-          prefill: true,
-          returnUrl: '/toxic-exposure/conditions',
-        },
-      });
-    });
-
-    cy.visit('/disability/file-disability-claim-form-21-526ez/introduction');
+    // Run accessibility check after page loads
     cy.injectAxeThenAxeCheck();
 
-    // Navigate to form start
-    cy.get('.skip-wizard-link').click();
-    cy.findAllByRole('link', {
-      name: /start the disability compensation application/i,
-    })
-      .first()
-      .click();
-    cy.findByRole('button', { name: /continue/i }).click();
-
-    // Navigate through initial form sections
-    cy.findByRole('button', { name: /continue/i }).click(); // Continue past ITF
-
-    // Housing situation section
-    cy.location('pathname', { timeout: 10000 }).should(
-      'include',
-      '/housing-situation',
-    );
-    cy.get('input[type="radio"][id="root_homelessOrAtRisk_0"]')
-      .should('exist')
-      .click({ force: true });
-    cy.findByText(/continue/i, { selector: 'button' })
-      .should('be.visible')
-      .click();
-    // Terminally ill
-    cy.findByText(/continue/i, { selector: 'button' }).click();
-    // Alternative names
-    cy.findByText(/continue/i, { selector: 'button' }).click();
-    // Military history
-    cy.get('#root_serviceInformation_servicePeriods_0_serviceBranch').select(
-      'Marine Corps',
-    );
-    cy.get(
-      '#root_serviceInformation_servicePeriods_0_dateRange_fromMonth',
-    ).select('May');
-    cy.get(
-      '#root_serviceInformation_servicePeriods_0_dateRange_fromDay',
-    ).select('20');
-    cy.get(
-      '#root_serviceInformation_servicePeriods_0_dateRange_fromYear',
-    ).clear();
-    cy.get('#root_serviceInformation_servicePeriods_0_dateRange_fromYear').type(
-      '1984',
-    );
-    cy.get(
-      '#root_serviceInformation_servicePeriods_0_dateRange_toMonth',
-    ).select('May');
-    cy.get('#root_serviceInformation_servicePeriods_0_dateRange_toDay').select(
-      '20',
-    );
-    cy.get(
-      '#root_serviceInformation_servicePeriods_0_dateRange_toYear',
-    ).clear();
-    cy.get('#root_serviceInformation_servicePeriods_0_dateRange_toYear').type(
-      '2011',
-    );
-    cy.findByText(/continue/i, { selector: 'button' }).click();
-    // Separation pay
-    cy.findByText(/continue/i, { selector: 'button' }).click();
-    // Retirement pay
-    cy.get('[type="radio"][value="N"]').check({ force: true });
-    cy.findByText(/continue/i, { selector: 'button' }).click();
-    // Training pay
-    cy.get('[type="radio"][value="N"]').check({ force: true });
-    cy.findByText(/continue/i, { selector: 'button' }).click();
-    // Add condition
-    cy.get('#root_newDisabilities_0_condition')
-      .shadow()
-      .find('input')
-      .type('asthma');
-    cy.get('[role="option"]')
-      .first()
-      .click();
-    // Click Save to save the condition
-    cy.get('va-button[text="Save"]').click();
-    cy.findByText(/continue/i, { selector: 'button' }).click();
-
-    // Follow up intro page
-    cy.findByText(/continue/i, { selector: 'button' }).click();
-
-    // Follow up - What caused your condition?
-    cy.get('input[value="NEW"]').check({ force: true });
-    cy.findByText(/continue/i, { selector: 'button' }).click();
-
-    // Description page
-    cy.get('textarea[id="root_primaryDescription"]').type(
-      'Asthma condition description',
-    );
-    cy.findByRole('button', { name: /continue/i }).click();
-
-    // Navigate to toxic exposure conditions page
-
     // Verify pre-selected condition
-    cy.get('va-checkbox[value="asthma"]').should('have.attr', 'checked');
+    verifyVACheckboxState('asthma', true);
 
-    // Uncheck the selected condition
-    cy.get('va-checkbox[value="asthma"]').click();
+    // Uncheck the selected condition and select "none"
+    interactWithVAComponent('va-checkbox[value="asthma"]');
+    interactWithVAComponent('va-checkbox[value="none"]');
 
-    // Select "none" to trigger modal
-    cy.get('va-checkbox[value="none"]').click();
+    // Trigger the modal
+    clickContinue();
 
-    // Click Continue to trigger the modal
-    cy.findByText(/continue/i, { selector: 'button' }).click();
+    // Verify modal appears
+    verifyModalVisibility(true);
 
-    // Modal appears
-    cy.get('va-modal').should('be.visible');
-
-    // Click "No, return to claim" to cancel
-    cy.get('va-modal button')
-      .contains('No, return to claim')
-      .click();
+    // Cancel the deletion
+    clickModalButton('No, return to claim');
 
     // Verify modal closes
-    cy.get('va-modal').should('not.be.visible');
+    verifyModalVisibility(false);
 
-    // Verify "none" checkbox remains checked after modal cancellation
-    cy.get('va-checkbox[value="none"]').should('have.attr', 'checked');
+    // Verify "none" checkbox remains checked
+    verifyVACheckboxState('none', true);
 
     // Verify we're still on the same page
-    cy.url().should('include', '/toxic-exposure/conditions');
+    cy.location('pathname').should('include', '/toxic-exposure/conditions');
 
     // Re-check asthma to continue with toxic exposure data
-    cy.get('va-checkbox[value="asthma"]').click();
-    cy.findByText(/continue/i, { selector: 'button' }).click();
+    interactWithVAComponent('va-checkbox[value="asthma"]');
+    clickContinue();
 
     // Gulf War locations page - select none
-    cy.get('va-checkbox[data-key="none"][name*="gulfWar1990"]').click();
-    cy.findByText(/continue/i, { selector: 'button' }).click();
-
-    // Test completion - toxic exposure data preservation verified
+    interactWithVAComponent(
+      'va-checkbox[data-key="none"][name*="gulfWar1990"]',
+    );
+    clickContinue();
   });
 
   /**
@@ -493,154 +349,61 @@ describe('Toxic Exposure Destruction Modal', () => {
    * @expected Feature works as before the modal was introduced
    */
   it('should not show modal when feature toggle is disabled', () => {
-    // Disable feature toggle to test backward compatibility
-    cy.intercept('GET', '/v0/feature_toggles*', {
-      statusCode: 200,
-      body: {
-        data: {
-          type: 'feature_toggles',
-          features: [
-            ...mockFeatureToggles.data.features,
-            {
-              name: 'disabilityCompensationToxicExposureDestructionModal',
-              value: false,
-            },
-          ],
-        },
-      },
-    });
-
-    cy.fixture(
-      path.join(__dirname, 'fixtures/data/maximal-toxic-exposure-test.json'),
-    ).then(data => {
-      const sanitizedRatedDisabilities = (data.ratedDisabilities || []).map(
-        ({ 'view:selected': _, ...obj }) => obj,
-      );
-
-      // Prefill form with toxic exposure condition
-      cy.intercept('GET', `${MOCK_SIPS_API}*`, {
-        formData: {
-          veteran: {
-            primaryPhone: '4445551212',
-            emailAddress: 'test2@test1.net',
-          },
-          disabilities: sanitizedRatedDisabilities,
-          toxicExposure: {
-            conditions: {
-              tinnitus: true,
-            },
-          },
-        },
-        metadata: {
-          version: 0,
-          prefill: true,
-          returnUrl: '/toxic-exposure/conditions',
-        },
-      });
-    });
+    // Set up test with feature DISABLED
+    setupToxicExposureTest(false, TEST_DATA.tinnitusOnly);
 
     cy.visit('/disability/file-disability-claim-form-21-526ez/introduction');
+
+    // Navigate using helper functions
+    skipWizard();
+    startApplication();
+
+    // Run accessibility check after page loads
     cy.injectAxeThenAxeCheck();
-    // Navigate to form start
-    cy.get('.skip-wizard-link')
-      .should('be.visible')
-      .click();
 
-    // Navigate through form to toxic exposure section
-    cy.findAllByRole('link', {
-      name: /start the disability compensation application/i,
-    })
-      .first()
-      .click();
-    cy.findByRole('button', { name: /continue/i }).click();
-    cy.findByRole('button', { name: /continue/i }).click();
+    // Navigate through initial sections
+    clickContinue(); // ITF
+    clickContinue(); // Main form
 
-    // Housing situation section
-    cy.location('pathname', { timeout: 10000 }).should(
-      'include',
-      '/housing-situation',
-    );
-    cy.get('input[type="radio"][id="root_homelessOrAtRisk_0"]')
-      .should('exist')
-      .click({ force: true });
-    cy.findByText(/continue/i, { selector: 'button' })
-      .should('be.visible')
-      .click();
-    cy.findByText(/continue/i, { selector: 'button' }).click();
-    cy.findByText(/continue/i, { selector: 'button' }).click();
-    cy.get('#root_serviceInformation_servicePeriods_0_serviceBranch').select(
-      'Marine Corps',
-    );
-    cy.get(
-      '#root_serviceInformation_servicePeriods_0_dateRange_fromMonth',
-    ).select('May');
-    cy.get(
-      '#root_serviceInformation_servicePeriods_0_dateRange_fromDay',
-    ).select('20');
-    cy.get(
-      '#root_serviceInformation_servicePeriods_0_dateRange_fromYear',
-    ).clear();
-    cy.get('#root_serviceInformation_servicePeriods_0_dateRange_fromYear').type(
-      '1984',
-    );
-    cy.get(
-      '#root_serviceInformation_servicePeriods_0_dateRange_toMonth',
-    ).select('May');
-    cy.get('#root_serviceInformation_servicePeriods_0_dateRange_toDay').select(
-      '20',
-    );
-    cy.get(
-      '#root_serviceInformation_servicePeriods_0_dateRange_toYear',
-    ).clear();
-    cy.get('#root_serviceInformation_servicePeriods_0_dateRange_toYear').type(
-      '2011',
-    );
-    cy.findByText(/continue/i, { selector: 'button' }).click();
-    cy.findByText(/continue/i, { selector: 'button' }).click();
-    cy.get('[type="radio"][value="N"]').check({ force: true });
-    cy.findByText(/continue/i, { selector: 'button' }).click();
-    cy.get('[type="radio"][value="N"]').check({ force: true });
-    cy.findByText(/continue/i, { selector: 'button' }).click();
-    cy.get('#root_newDisabilities_0_condition')
-      .shadow()
-      .find('input')
-      .type('tinnitus');
-    cy.get('[role="option"]')
-      .first()
-      .click();
-    // Click Save to save the condition
-    cy.get('va-button[text="Save"]').click();
-    cy.findByText(/continue/i, { selector: 'button' }).click();
+    // Housing situation
+    waitForPageNavigation('/housing-situation');
+    selectNo();
 
-    // Follow up intro page
-    cy.findByText(/continue/i, { selector: 'button' }).click();
+    navigateThroughPages(['Housing', 'Terminally ill', 'Alternative names']);
 
-    // Follow up - What caused your condition?
-    cy.get('input[value="NEW"]').check({ force: true });
-    cy.findByText(/continue/i, { selector: 'button' }).click();
+    // Fill military history
+    fillServicePeriod(SERVICE_PERIOD);
 
-    // Description page
-    cy.get('textarea[id="root_primaryDescription"]').type(
-      'Tinnitus condition description',
-    );
-    cy.findByRole('button', { name: /continue/i }).click();
+    navigateThroughPages(['Military history', 'Separation pay']);
 
-    // Toxic exposure conditions page
+    // Answer No to retirement and training pay
+    selectNo();
+    clickContinue();
+    selectNo();
+    clickContinue();
 
-    // Uncheck the selected condition
-    cy.get('va-checkbox[value="tinnitus"]').click();
+    // Add tinnitus condition
+    addDisabilityCondition('tinnitus');
+    clickContinue();
 
-    // Select "none"
-    cy.get('va-checkbox[value="none"]').click();
+    // Fill condition follow-up
+    clickContinue(); // Follow up intro
+    fillConditionFollowUp('NEW', 'Tinnitus condition description');
+
+    // Now on toxic exposure conditions page
+    // Uncheck tinnitus and select "none"
+    interactWithVAComponent('va-checkbox[value="tinnitus"]');
+    interactWithVAComponent('va-checkbox[value="none"]');
 
     // Continue without modal (feature disabled)
-    cy.findByText(/continue/i, { selector: 'button' }).click();
+    clickContinue();
 
-    // Verify modal does not appear
+    // Verify modal does NOT appear
+    verifyModalVisibility(false);
     cy.get('va-modal').should('not.exist');
 
-    // Verify navigation proceeds to next page
-    cy.url().should('not.include', '/toxic-exposure/conditions');
-    cy.get('[type="radio"][value="N"]').should('exist');
+    // Verify navigation proceeds - should be on prisoner of war page
+    cy.location('pathname').should('not.include', '/toxic-exposure/conditions');
+    cy.get('input[type="radio"][value="N"]').should('exist');
   });
 });
