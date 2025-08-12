@@ -773,10 +773,10 @@ describe('actions', () => {
       const benefit = getBenefitById('DHS');
       const formData = {
         [mappingTypes.GOALS]: {
-          [goalTypes.FINANCIAL]: true,
           [goalTypes.HEALTH]: true,
           [goalTypes.PLAN]: true,
-          [goalTypes.RETIREMENT]: true,
+          [goalTypes.SCHOOL]: true,
+          [goalTypes.CAREER]: true,
         },
         [mappingTypes.CHARACTER_OF_DISCHARGE]:
           characterOfDischargeTypes.HONORABLE,
@@ -789,14 +789,13 @@ describe('actions', () => {
       const benefit = getBenefitById('DHS');
       const formData = {
         [mappingTypes.GOALS]: {
-          [goalTypes.CAREER]: true,
-          [goalTypes.SCHOOL]: true,
+          [goalTypes.FINANCIAL]: true,
+          [goalTypes.RETIREMENT]: true,
           [goalTypes.UNDERSTAND]: true,
         },
         [mappingTypes.CHARACTER_OF_DISCHARGE]: {
           [characterOfDischargeTypes.DISHONORABLE]: true,
-          [characterOfDischargeTypes.BAD_CONDUCT]: true,
-          [characterOfDischargeTypes.NOT_SURE]: true,
+          [characterOfDischargeTypes.UNDER_OTHER_THAN_HONORABLE_CONDITIONS]: true,
         },
       };
       const result = actions.mapBenefitFromFormInputData(benefit, formData);
