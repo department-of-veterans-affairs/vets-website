@@ -689,22 +689,13 @@ describe('actions', () => {
     });
   });
 
-  describe('VetSuccess on Campus (VSOC) - VSC', () => {
+  describe('Support for your Veteran-owned small business - VSC', () => {
     it('should return true with correct criteria', () => {
       const benefit = getBenefitById('SVC');
       const formData = {
         [mappingTypes.GOALS]: {
           [goalTypes.CAREER]: true,
-          [goalTypes.SCHOOL]: true,
           [goalTypes.UNDERSTAND]: true,
-        },
-        [mappingTypes.CHARACTER_OF_DISCHARGE]: {
-          [characterOfDischargeTypes.HONORABLE]: true,
-          [characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL]: true,
-          [characterOfDischargeTypes.UNDER_OTHER_THAN_HONORABLE_CONDITIONS]: true,
-          [characterOfDischargeTypes.UNCHARACTERIZED]: true,
-          [characterOfDischargeTypes.STILL_SERVING]: true,
-          [blankType.BLANK]: true,
         },
       };
       const result = actions.mapBenefitFromFormInputData(benefit, formData);
@@ -719,19 +710,7 @@ describe('actions', () => {
           [goalTypes.HEALTH]: true,
           [goalTypes.PLAN]: true,
           [goalTypes.RETIREMENT]: true,
-        },
-      };
-      const result = actions.mapBenefitFromFormInputData(benefit, formData);
-      expect(result).to.be.false;
-    });
-
-    it('should return false with incorrect discharge', () => {
-      const benefit = getBenefitById('SVC');
-      const formData = {
-        [mappingTypes.CHARACTER_OF_DISCHARGE]: {
-          [characterOfDischargeTypes.DISHONORABLE]: true,
-          [characterOfDischargeTypes.BAD_CONDUCT]: true,
-          [characterOfDischargeTypes.NOT_SURE]: true,
+          [goalTypes.SCHOOL]: true,
         },
       };
       const result = actions.mapBenefitFromFormInputData(benefit, formData);
@@ -747,9 +726,9 @@ describe('actions', () => {
  * SVC
  * TAP
  * VRE
- *
  * VSC
  *
  * DHS
+ *
  * VAP -- wait
  */
