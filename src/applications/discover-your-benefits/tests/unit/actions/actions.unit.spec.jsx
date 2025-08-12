@@ -186,10 +186,8 @@ describe('actions', () => {
           timeServedTypes.UP_TO_3_MONTHS,
         [mappingTypes.CHARACTER_OF_DISCHARGE]:
           characterOfDischargeTypes.UNCHARACTERIZED,
-        [mappingTypes.BRANCH_COMPONENT]: {
-          [militaryBranchTypes.ARMY]: {
-            [militaryBranchComponentTypes.ACTIVE_DUTY]: true,
-          },
+        [militaryBranchTypes.ARMY]: {
+          [militaryBranchComponentTypes.ACTIVE_DUTY]: true,
         },
         [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: true,
       };
@@ -206,10 +204,8 @@ describe('actions', () => {
           timeServedTypes.UP_TO_6_MONTHS,
         [mappingTypes.CHARACTER_OF_DISCHARGE]:
           characterOfDischargeTypes.UNCHARACTERIZED,
-        [mappingTypes.BRANCH_COMPONENT]: {
-          [militaryBranchTypes.ARMY]: {
-            [militaryBranchComponentTypes.ACTIVE_DUTY]: false,
-          },
+        [militaryBranchTypes.ARMY]: {
+          [militaryBranchComponentTypes.ACTIVE_DUTY]: false,
         },
         [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: true,
       };
@@ -241,11 +237,9 @@ describe('actions', () => {
           timeServedTypes.UP_TO_6_MONTHS,
         [mappingTypes.CHARACTER_OF_DISCHARGE]:
           characterOfDischargeTypes.UNCHARACTERIZED,
-        [mappingTypes.BRANCH_COMPONENT]: {
-          [militaryBranchTypes.ARMY]: {
-            [militaryBranchComponentTypes.ACTIVE_DUTY]: true,
-            [militaryBranchComponentTypes.NATIONAL_GUARD_SERVICE]: true,
-          },
+        [militaryBranchTypes.ARMY]: {
+          [militaryBranchComponentTypes.ACTIVE_DUTY]: true,
+          [militaryBranchComponentTypes.NATIONAL_GUARD_SERVICE]: true,
         },
         [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: true,
       };
@@ -262,11 +256,9 @@ describe('actions', () => {
           timeServedTypes.UP_TO_6_MONTHS,
         [mappingTypes.CHARACTER_OF_DISCHARGE]:
           characterOfDischargeTypes.UNCHARACTERIZED,
-        [mappingTypes.BRANCH_COMPONENT]: {
-          [militaryBranchTypes.ARMY]: {
-            [militaryBranchComponentTypes.ACTIVE_DUTY]: false,
-            [militaryBranchComponentTypes.NATIONAL_GUARD_SERVICE]: true,
-          },
+        [militaryBranchTypes.ARMY]: {
+          [militaryBranchComponentTypes.ACTIVE_DUTY]: false,
+          [militaryBranchComponentTypes.NATIONAL_GUARD_SERVICE]: true,
         },
         [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: false,
       };
@@ -281,10 +273,8 @@ describe('actions', () => {
           [goalTypes.SCHOOL]: true,
           [goalTypes.CAREER]: true,
         },
-        [mappingTypes.BRANCH_COMPONENT]: {
-          [militaryBranchTypes.ARMY]: {
-            [militaryBranchComponentTypes.ACTIVE_DUTY]: true,
-          },
+        [militaryBranchTypes.ARMY]: {
+          [militaryBranchComponentTypes.ACTIVE_DUTY]: true,
         },
         [mappingTypes.EXPECTED_SEPARATION]:
           expectedSeparationTypes.UP_TO_3_MONTHS,
@@ -302,10 +292,8 @@ describe('actions', () => {
           [goalTypes.SCHOOL]: true,
           [goalTypes.CAREER]: true,
         },
-        [mappingTypes.BRANCH_COMPONENT]: {
-          [militaryBranchTypes.ARMY]: {
-            [militaryBranchComponentTypes.ACTIVE_DUTY]: true,
-          },
+        [militaryBranchTypes.ARMY]: {
+          [militaryBranchComponentTypes.ACTIVE_DUTY]: true,
         },
         [mappingTypes.SEPARATION]: {
           [separationTypes.UP_TO_6_MONTHS]: true,
@@ -324,10 +312,8 @@ describe('actions', () => {
           [goalTypes.SCHOOL]: true,
           [goalTypes.CAREER]: true,
         },
-        [mappingTypes.BRANCH_COMPONENT]: {
-          [militaryBranchTypes.ARMY]: {
-            [militaryBranchComponentTypes.ACTIVE_DUTY]: true,
-          },
+        [militaryBranchTypes.ARMY]: {
+          [militaryBranchComponentTypes.ACTIVE_DUTY]: true,
         },
         [mappingTypes.CHARACTER_OF_DISCHARGE]:
           characterOfDischargeTypes.HONORABLE,
@@ -812,7 +798,6 @@ describe('actions', () => {
  * TAP
  * VRE
  * VSC
- *
  * DHS
  *
  * VAP -- wait
