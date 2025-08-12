@@ -363,20 +363,6 @@ describe('VA File Input Multiple', () => {
       cy.axeCheck();
     });
 
-    it('should show password input for encrypted files ending with "pdf" (without dot)', () => {
-      setupComponentTest();
-
-      // Upload an encrypted file with name ending in "pdf" but without .pdf extension
-      uploadEncryptedPDF('encrypted-document_pdf');
-      getFileInput(0)
-        .find('va-text-input')
-        .should('be.visible')
-        .shadow()
-        .should('contain.text', 'File password');
-
-      cy.axeCheck();
-    });
-
     it('should not show password input when non-encrypted PDF is uploaded', () => {
       setupComponentTest();
 

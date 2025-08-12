@@ -9,7 +9,7 @@ export const FILE_TYPES = ['pdf', 'gif', 'jpeg', 'jpg', 'bmp', 'txt'];
 // File validation constants
 export const MAX_FILE_SIZE_MB = 50;
 export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 ** 2;
-export const MAX_PDF_SIZE_MB = 99; // Note: UI hint says 150MB but code validates 99MB
+export const MAX_PDF_SIZE_MB = 99;
 export const MAX_PDF_SIZE_BYTES = MAX_PDF_SIZE_MB * 1024 ** 2;
 
 // Error messages
@@ -17,7 +17,7 @@ export const FILE_SIZE_ERROR_PDF = `The file you selected is larger than the ${M
 export const FILE_SIZE_ERROR_NON_PDF = `The file you selected is larger than the ${MAX_FILE_SIZE_MB}MB maximum file size and could not be added.`;
 
 // Helper functions
-export const isPdf = file => file.name?.toLowerCase().endsWith('pdf') || false;
+export const isPdf = file => file.name?.toLowerCase().endsWith('.pdf') || false;
 
 const validateFileSize = file => {
   const maxSize = isPdf(file) ? MAX_PDF_SIZE_BYTES : MAX_FILE_SIZE_BYTES;

@@ -7,11 +7,11 @@ import {
   VaSelect,
   VaModal,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { Toggler } from 'platform/utilities/feature-toggles';
 import {
-  checkIsEncryptedPdf,
   readAndCheckFile,
+  checkIsEncryptedPdf,
 } from 'platform/forms-system/src/js/utilities/file';
+import { Toggler } from 'platform/utilities/feature-toggles';
 
 import { DOC_TYPES } from '../../utils/helpers';
 import { FILE_TYPES, isPdf, validateFiles } from '../../utils/validations';

@@ -32,6 +32,54 @@ describe('Claims status validation:', () => {
     });
   });
 
+  describe('isPdf', () => {
+    it('should return true for files with .pdf extension', () => {
+      const file = createMockFile('document.pdf', 1024);
+      expect(isPdf(file)).to.be.true;
+    });
+
+    it('should return true for mixed-case PDF extensions', () => {
+      const file = createMockFile('DOCUMENT.PDF', 1024);
+      expect(isPdf(file)).to.be.true;
+    });
+
+    it('should return false for non-PDF files', () => {
+      const file = createMockFile('document.jpg', 1024);
+      expect(isPdf(file)).to.be.false;
+    });
+
+    it('should return false for files containing "pdf" but not ending with it', () => {
+      const file = createMockFile('pdf_document.txt', 1024);
+      expect(isPdf(file)).to.be.false;
+    });
+
+    it('should return false for files ending with "pdf" without the dot', () => {
+      const file = createMockFile('documentpdf', 1024);
+      expect(isPdf(file)).to.be.false;
+    });
+
+    it('should handle null filename gracefully', () => {
+      const file = { name: null, size: 1024 };
+      const result = isPdf(file);
+      // Optional chaining returns undefined, but || false converts to false
+      expect(result).to.be.false;
+    });
+
+    it('should handle undefined filename gracefully', () => {
+      const file = { name: undefined, size: 1024 };
+      const result = isPdf(file);
+      // Optional chaining returns undefined, but || false converts to false
+      expect(result).to.be.false;
+    });
+
+    it('should handle files with no name property gracefully', () => {
+      const file = { size: 1024 };
+      const result = isPdf(file);
+      // Optional chaining returns undefined, but || false converts to false
+      expect(result).to.be.false;
+    });
+  });
+
   describe('validateFile', () => {
     describe('null/undefined file handling', () => {
       it('should return null for null file', async () => {
@@ -107,58 +155,6 @@ describe('Claims status validation:', () => {
         const exceedsResult = await validateFile(exceedsPdfLimit);
         expect(exceedsResult).to.equal(FILE_SIZE_ERROR_PDF);
       });
-    });
-
-    describe('PDF detection tests', () => {
-      it('should recognize files with .pdf extension as PDF', async () => {
-        const pdfFile = createMockFile(
-          'document.pdf',
-          MAX_FILE_SIZE_BYTES + 1024,
-        );
-        const result = await validateFile(pdfFile);
-        expect(result).to.not.equal(FILE_SIZE_ERROR_NON_PDF);
-      });
-
-      it('should recognize files ending with "pdf" as PDF (without dot)', async () => {
-        const fileWithoutExtension = createMockFile(
-          'file_name_pdf',
-          MAX_FILE_SIZE_BYTES + 1024,
-        );
-        const result = await validateFile(fileWithoutExtension);
-        expect(result).to.not.equal(FILE_SIZE_ERROR_NON_PDF);
-      });
-    });
-  });
-
-  describe('isPdf', () => {
-    it('should return true for files with .pdf extension', () => {
-      const file = createMockFile('document.pdf', 1024);
-      expect(isPdf(file)).to.be.true;
-    });
-
-    it('should return true for files ending with "pdf" (without dot)', () => {
-      const file = createMockFile('file_name_pdf', 1024);
-      expect(isPdf(file)).to.be.true;
-    });
-
-    it('should return true for mixed-case PDF extensions', () => {
-      const file = createMockFile('DOCUMENT.PDF', 1024);
-      expect(isPdf(file)).to.be.true;
-    });
-
-    it('should return false for non-PDF files', () => {
-      const file = createMockFile('document.jpg', 1024);
-      expect(isPdf(file)).to.be.false;
-    });
-
-    it('should return false for files without name', () => {
-      const file = { name: null, size: 1024 };
-      expect(isPdf(file)).to.be.false;
-    });
-
-    it('should return false for files containing "pdf" but not ending with it', () => {
-      const file = createMockFile('pdf_document.txt', 1024);
-      expect(isPdf(file)).to.be.false;
     });
   });
 
