@@ -90,7 +90,7 @@ function getTestPaths() {
   return [...new Set(cliPatterns)];
 }
 
-// cleanup parentheses in pattern string to make the Mocha shell happy
+// cleanup function to avoid the shell breaking the string over included parentheses in patterns
 function extGlobFix(str) {
   return `'${String(str).replace(/'/g, `'\\''`)}'`;
 }
