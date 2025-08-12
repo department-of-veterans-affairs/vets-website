@@ -12,7 +12,6 @@ import {
 } from '../actions/letters';
 import NoAddressBanner from '../components/NoAddressBanner';
 import systemDownMessage from '../components/systemDownMessage';
-import { lettersCheckDiscrepancies } from '../selectors';
 import { AVAILABILITY_STATUSES } from '../utils/constants';
 import {
   recordsNotFound,
@@ -33,17 +32,12 @@ const {
 
 export class Main extends React.Component {
   componentDidMount() {
-    const { shouldUseLettersDiscrepancies } = this.props;
-
     // eslint-disable-next-line -- LH_MIGRATION
     const LH_MIGRATION__options = LH_MIGRATION__getOptions();
 
     if (!this.props.emptyAddress) {
       // eslint-disable-next-line -- LH_MIGRATION
-      return this.props.getLetterListAndBSLOptions(
-        LH_MIGRATION__options,
-        shouldUseLettersDiscrepancies,
-      );
+      return this.props.getLetterListAndBSLOptions(LH_MIGRATION__options);
     }
     return this.props.profileHasEmptyAddress();
   }
@@ -173,7 +167,6 @@ function mapStateToProps(state) {
     },
     optionsAvailable: letterState.optionsAvailable,
     emptyAddress: isAddressEmpty(selectVAPContactInfo(state)?.mailingAddress),
-    shouldUseLettersDiscrepancies: lettersCheckDiscrepancies(state),
   };
 }
 
