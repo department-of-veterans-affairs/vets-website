@@ -55,7 +55,7 @@ const branchComponentsUIProps = branchKey => {
   });
 };
 
-const getBranchComponentPage = (branchKey, environementCheck) => {
+const getBranchComponentPage = branchKey => {
   return {
     path: `service/${branchComponentUrlNames[branchKey]}`,
     title: `${militaryBranchTypeLabels[branchKey]}`,
@@ -70,18 +70,14 @@ const getBranchComponentPage = (branchKey, environementCheck) => {
         [branchKey]: branchComponentsSchemaProps(branchKey),
       },
     },
-    depends: formData =>
-      formData.militaryBranch?.[branchKey] && environementCheck,
+    depends: formData => formData.militaryBranch?.[branchKey],
   };
 };
 
-export const getBranchComponentPages = environementCheck => {
+export const getBranchComponentPages = () => {
   const branchComponentPages = {};
   branchesWithComponents.forEach(branchKey => {
-    branchComponentPages[branchKey] = getBranchComponentPage(
-      branchKey,
-      environementCheck,
-    );
+    branchComponentPages[branchKey] = getBranchComponentPage(branchKey);
   });
   return branchComponentPages;
 };
