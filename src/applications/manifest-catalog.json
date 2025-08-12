@@ -355,7 +355,7 @@
       "directoryPath": "src/applications/income-and-asset-statement",
       "appName": "21P-0969 Income and Asset Statement Form",
       "entryName": "income-and-asset-statement",
-      "rootUrl": "/supporting-forms-for-claims/submit-income-and-asset-statement-form-21p-0969"
+      "rootUrl": "/supporting-forms-for-claims/income-and-asset-statement-form-21p-0969"
     },
     {
       "directoryPath": "src/applications/income-limits",
