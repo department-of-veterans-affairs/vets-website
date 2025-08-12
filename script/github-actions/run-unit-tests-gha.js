@@ -6,7 +6,7 @@ const { runCommand } = require('../utils');
 // Configuration
 const DEFAULT_SPEC_PATTERN = '{src,script}/**/*.unit.spec.js?(x)';
 const STATIC_PAGES_PATTERN = 'src/platform/site-wide/**/*.unit.spec.js?(x)';
-const MAX_MEMORY = '8192'; // safer for CI; bump if needed
+const MAX_MEMORY = '8192'; // Reduced from 32768 to prevent memory issues
 
 // Command line options
 const COMMAND_LINE_OPTIONS = [
@@ -27,8 +27,10 @@ const COMMAND_LINE_OPTIONS = [
   },
 ];
 
+// Get command line options
 const options = commandLineArgs(COMMAND_LINE_OPTIONS);
 
+// Helper function to get test paths
 function parseChangedFiles() {
   return (process.env.CHANGED_FILES || '')
     .split(/\s+/)
@@ -42,8 +44,10 @@ function parseChangedFiles() {
 }
 
 function getTestPaths() {
+  // Passes the default spec pattern to mocha to run ALL unit tests in src and script directories
   if (options['full-suite']) return [DEFAULT_SPEC_PATTERN];
 
+  // Get app-specific tests
   if (options['app-folder']) {
     return [
       `src/applications/${options['app-folder']}/**/*.unit.spec.js?(x)`,
@@ -86,11 +90,12 @@ function getTestPaths() {
   return [...new Set(cliPatterns)];
 }
 
+// cleanup parentheses in pattern string to make the Mocha shell happy
 function extGlobFix(str) {
-  // cleanup parentheses in pattern string
   return `'${String(str).replace(/'/g, `'\\''`)}'`;
 }
 
+// Helper function to build test command
 function buildCommandForMocha(testPaths) {
   const coverageInclude = options['app-folder']
     ? `--include 'src/applications/${options['app-folder']}/**'`
@@ -107,15 +112,16 @@ function buildCommandForMocha(testPaths) {
     ? `NODE_ENV=test nyc --all ${coverageInclude} ${coverageReporter}`
     : `BABEL_ENV=test NODE_ENV=test mocha ${reporterOption}`;
 
-  const fixed = testPaths.map(extGlobFix).join(' ');
+  const readyForMocha = testPaths.map(extGlobFix).join(' ');
 
   return `STEP=unit-tests LOG_LEVEL=${options[
     'log-level'
   ].toLowerCase()} ${testRunner} --max-old-space-size=${MAX_MEMORY} --config ${
     options.config
-  } ${fixed}`;
+  } ${readyForMocha}`;
 }
 
+// Main execution
 async function main() {
   try {
     const testPaths = getTestPaths();
