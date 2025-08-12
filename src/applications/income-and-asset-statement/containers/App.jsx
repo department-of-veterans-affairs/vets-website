@@ -3,10 +3,7 @@ import { connect, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
-import {
-  canInitDatadog,
-  useBrowserMonitoring,
-} from 'platform/monitoring/Datadog/';
+import { useBrowserMonitoring } from 'platform/monitoring/Datadog/';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import environment from 'platform/utilities/environment';
 import formConfig from '../config/form';
@@ -54,10 +51,6 @@ function App({ location, children, isLoggedIn }) {
     },
     [isLoadingFeatures, incomeAndAssetsContentUpdates],
   );
-
-  if (!canInitDatadog()) {
-    return <NoFormPage />;
-  }
 
   if (isLoadingFeatures) {
     return <va-loading-indicator message="Loading application..." />;
