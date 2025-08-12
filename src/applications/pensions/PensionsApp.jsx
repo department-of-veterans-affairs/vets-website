@@ -71,11 +71,10 @@ export default function PensionEntry({ location, children }) {
     return <NoFormPage />;
   }
 
-  // Hide ITF until backend feature is ready
   return (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
       {pensionItfShowAlert && (
-        <IntentToFile itfType="pension" location={location} />
+        <IntentToFile itfType="pension" location={location} disableAutoFocus />
       )}
       {children}
     </RoutedSavableApp>
