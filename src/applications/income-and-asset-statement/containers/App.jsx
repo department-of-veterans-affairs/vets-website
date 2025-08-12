@@ -68,10 +68,9 @@ function App({ location, children, isLoggedIn }) {
 }
 
 const mapStateToProps = state => {
-  const { featureToggles, user } = state;
+  const { user } = state;
   return {
     isLoggedIn: user?.login?.currentlyLoggedIn,
-    featureToggles,
   };
 };
 
