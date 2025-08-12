@@ -560,6 +560,10 @@ describe('CalendarUtils: getAppointmentConflict', () => {
       start: '2024-12-06T17:00:00Z',
       end: '2024-12-06T18:00:00Z',
     },
+    {
+      start: '2024-12-06T16:30:00Z',
+      end: '2024-12-06T17:30:00Z',
+    },
   ];
   it('returns false when there is no conflict', () => {
     expect(
@@ -578,6 +582,93 @@ describe('CalendarUtils: getAppointmentConflict', () => {
         availableSlots,
       ),
     ).to.be.true;
+  });
+  it('returns true when there is a conflict with overlapping appointment', () => {
+    expect(
+      getAppointmentConflict(
+        '2024-12-06T16:30:00Z',
+        appointmentsByMonth,
+        availableSlots,
+      ),
+    ).to.be.true;
+  });
+});
+
+describe('CalendarUtils: parseDurationFromSlotId', () => {
+  describe('valid duration formats', () => {
+    it('should parse minutes only format', () => {
+      const slotId =
+        'practitioner|uuid|2025-08-06T13:00:00Z|30m0s|timestamp|ov';
+      expect(parseDurationFromSlotId(slotId)).to.equal(30);
+    });
+
+    it('should parse hours only without minutes/seconds', () => {
+      const slotId = 'practitioner|uuid|2025-08-06T13:00:00Z|1h|timestamp|ov';
+      expect(parseDurationFromSlotId(slotId)).to.equal(60);
+    });
+
+    it('should handle complex duration with hours, minutes, and seconds', () => {
+      const slotId =
+        'practitioner|uuid|2025-08-06T13:00:00Z|1h15m45s|timestamp|ov';
+      expect(parseDurationFromSlotId(slotId)).to.equal(76); // 60 + 15 + 1 (rounded up for seconds)
+    });
+
+    it('should handle 45-minute appointment', () => {
+      const slotId =
+        'practitioner|uuid|2025-08-06T13:00:00Z|45m0s|timestamp|ov';
+      expect(parseDurationFromSlotId(slotId)).to.equal(45);
+    });
+
+    it('should handle 2.5-hour appointment', () => {
+      const slotId =
+        'practitioner|uuid|2025-08-06T13:00:00Z|2h30m0s|timestamp|ov';
+      expect(parseDurationFromSlotId(slotId)).to.equal(150);
+    });
+  });
+
+  describe('invalid inputs', () => {
+    it('should return default duration for null input', () => {
+      expect(parseDurationFromSlotId(null)).to.equal(30);
+    });
+
+    it('should return default duration for undefined input', () => {
+      expect(parseDurationFromSlotId(undefined)).to.equal(30);
+    });
+
+    it('should return default duration for empty string', () => {
+      expect(parseDurationFromSlotId('')).to.equal(30);
+    });
+
+    it('should return default duration for insufficient pipe-separated parts', () => {
+      expect(parseDurationFromSlotId('practitioner|uuid|timestamp')).to.equal(
+        30,
+      );
+      expect(parseDurationFromSlotId('practitioner')).to.equal(30);
+    });
+
+    it('should return default duration for empty duration part', () => {
+      const slotId = 'practitioner|uuid|2025-08-06T13:00:00Z||timestamp|ov';
+      expect(parseDurationFromSlotId(slotId)).to.equal(30);
+    });
+
+    it('should return default duration for malformed duration', () => {
+      const slotId =
+        'practitioner|uuid|2025-08-06T13:00:00Z|abc123|timestamp|ov';
+      expect(parseDurationFromSlotId(slotId)).to.equal(30);
+    });
+  });
+
+  describe('edge cases', () => {
+    it('should return default for zero duration calculation', () => {
+      const slotId =
+        'practitioner|uuid|2025-08-06T13:00:00Z|0h0m0s|timestamp|ov';
+      expect(parseDurationFromSlotId(slotId)).to.equal(30);
+    });
+
+    it('should handle duration with only seconds', () => {
+      const slotId = 'practitioner|uuid|2025-08-06T13:00:00Z|45s|timestamp|ov';
+      expect(parseDurationFromSlotId(slotId)).to.equal(1); // rounds up to 1 minute
+    });
   });
 });
 
