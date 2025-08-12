@@ -17,7 +17,6 @@ class ConfirmationPage extends React.Component {
     const { formConfig } = route;
     const { submission } = form;
     const { response } = submission || {};
-
     const submitDate = new Date(form.submission.submittedAt);
     const confirmationNumber = response?.confirmationNumber || '';
 
@@ -26,19 +25,44 @@ class ConfirmationPage extends React.Component {
         submitDate={submitDate}
         confirmationNumber={confirmationNumber}
         formConfig={formConfig}
+        pdfUrl="https://www.va.gov/vaforms/va/pdf/VA%20Form%2040-10007.pdf"
       >
         <ConfirmationView.SubmissionAlert
           title="Your pre-need determination request has been submitted"
           content="We'll review your request and send you a letter in the mail with our decision."
           actions={null}
         />
+        <ConfirmationView.SavePdfDownload />
+        <ConfirmationView.ChapterSectionCollection />
+        <h4>Do you have more documents you need to submit?</h4>
+        <p className="mail-or-fax-message">
+          To mail or fax additional documents:
+        </p>
+        <ol className="mail-or-fax-steps">
+          <li className="mail-or-fax-step">Make copies of the documents.</li>
+          <li className="mail-or-fax-step">
+            Make sure you write your name and confirmation number on every page.
+          </li>
+          <li className="mail-or-fax-step">
+            <span>
+              Submit application and supporting documents to the VA by mail:
+            </span>
+            <p>
+              <div className="mail-fax-address">
+                <div>NCA Intake Center</div>
+                <div>P.O. Box 5237</div>
+                <div>Janesville, WI 53547</div>
+              </div>
+            </p>
+            <strong>Or</strong>
+            <p>
+              Fax them to the National Cemetery Scheduling Office:{' '}
+              <va-telephone contact="8558408299" />.
+            </p>
+          </li>
+        </ol>
         <ConfirmationView.PrintThisPage />
-        <ConfirmationView.WhatsNextProcessList
-          item1Header="We'll review your request"
-          item1Content="We'll determine if you're eligible for burial in a VA national cemetery based on the information you provided."
-          item2Header="We'll send you our decision by mail"
-          item2Content="You should receive our decision within 60 days after we receive your request."
-        />
+        <ConfirmationView.WhatsNextProcessList />
         <ConfirmationView.HowToContact />
         <ConfirmationView.GoBackLink />
         <ConfirmationView.NeedHelp />
