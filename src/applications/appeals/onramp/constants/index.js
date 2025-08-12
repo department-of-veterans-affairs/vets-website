@@ -1,4 +1,5 @@
 import { SHORT_NAME_MAP } from './question-data-map';
+import { RESULTS_NAME_MAP } from './results-data-map';
 
 // Except for INTRODUCTION and results pages, left side must match
 // short name codes in constants/question-data-map
@@ -22,6 +23,8 @@ export const ROUTES = Object.freeze({
   Q_2_H_2_NEW_EVIDENCE: 'new-evidence-2-h-2',
   Q_2_H_2A_JUDGE_HEARING: 'judge-hearing-2-h-2a',
   Q_2_H_2B_JUDGE_HEARING: 'judge-hearing-2-h-2b',
+  RESULTS: 'results',
 });
 
 export const ALL_QUESTIONS = Object.freeze(Object.values(SHORT_NAME_MAP));
+export const ALL_RESULTS = Object.freeze(Object.values(RESULTS_NAME_MAP));
