@@ -84,8 +84,8 @@ const ToxicExposureChoicePage = ({
   useEffect(
     () => {
       if (showDeleteToxicExposureModal && modalRef.current) {
-        const modalHeading = document.querySelector('h4');
-        scrollAndFocus(modalHeading);
+        // Use the ref directly instead of querying the document
+        scrollAndFocus(modalRef.current);
       }
     },
     [showDeleteToxicExposureModal],
@@ -140,8 +140,9 @@ const ToxicExposureChoicePage = ({
     setFormData(deepClone);
   };
 
-  // If the user opts to not delete their toxic exposure data when prompted by the modal,
-  // revert any "none" selection if it was made
+  // If the user cancels the deletion modal, revert the selection that triggered it:
+  // - If "none" was selected, uncheck it
+  // - If all conditions were deselected, no action needed (already empty)
   const revertNoneConditionSelection = () => {
     // Only revert if "none" was explicitly selected
     if (data.toxicExposure?.conditions?.none === true) {

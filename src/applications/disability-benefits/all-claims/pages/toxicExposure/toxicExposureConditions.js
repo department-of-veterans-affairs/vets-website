@@ -22,7 +22,7 @@ export const uiSchema = {
       updateUiSchema: makeTEConditionsUISchema,
     }),
   },
-  // View fields for tracking state changes - hidden from user
+  // Hidden view fields for state tracking, required by forms-system.
   'view:previousToxicExposureConditions': {
     'ui:hidden': true,
   },
@@ -40,7 +40,7 @@ export const schema = {
         conditions: checkboxGroupSchema([]),
       },
     },
-    // View fields for state tracking
+    // View fields for state tracking - required by forms-system
     'view:previousToxicExposureConditions': {
       type: 'object',
       properties: {},
