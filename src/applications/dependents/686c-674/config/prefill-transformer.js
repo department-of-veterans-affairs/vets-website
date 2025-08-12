@@ -2,7 +2,7 @@ export default function prefillTransformer(pages, formData, metadata) {
   const {
     veteranSsnLastFour = '',
     veteranVaFileNumberLastFour = '',
-    isInReceiptOfPension,
+    isInReceiptOfPension = -1,
   } = formData?.nonPrefill || {};
   const contact = formData?.veteranContactInformation || {};
   const address = contact.veteranAddress || {};

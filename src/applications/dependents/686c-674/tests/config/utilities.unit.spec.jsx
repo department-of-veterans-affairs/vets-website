@@ -13,6 +13,8 @@ import {
   validateName,
   spouseEvidence,
   childEvidence,
+  showPensionBackupPath,
+  showPensionRelatedQuestions,
 } from '../../config/utilities';
 
 describe('Utilities', () => {
@@ -248,6 +250,89 @@ describe('childEvidence', () => {
       hasAdoptedChild: false,
       hasDisabledChild: true,
       needsChildUpload: true,
+    });
+  });
+});
+
+describe('showPensionBackupPath', () => {
+  describe('when feature flag - vaDependentsNetWorthAndPension - is off', () => {
+    it('should return false', () => {
+      expect(showPensionBackupPath({ vaDependentsNetWorthAndPension: false }))
+        .to.be.false;
+    });
+  });
+
+  describe('when feature flag - vaDependentsNetWorthAndPension - is on', () => {
+    it('should return true if isInReceiptOfPension is -1', () => {
+      expect(
+        showPensionBackupPath({
+          veteranInformation: { isInReceiptOfPension: -1 },
+          vaDependentsNetWorthAndPension: true,
+        }),
+      ).to.be.true;
+    });
+
+    it('should return false if isInReceiptOfPension is not -1', () => {
+      expect(
+        showPensionBackupPath({
+          veteranInformation: { isInReceiptOfPension: 1 },
+          vaDependentsNetWorthAndPension: true,
+        }),
+      ).to.be.false;
+    });
+  });
+});
+
+describe('showPensionRelatedQuestions', () => {
+  describe('when feature flag - vaDependentsNetWorthAndPension - is off', () => {
+    it('should return false', () => {
+      expect(
+        showPensionRelatedQuestions({ vaDependentsNetWorthAndPension: false }),
+      ).to.be.false;
+    });
+  });
+
+  describe('when feature flag - vaDependentsNetWorthAndPension - is on', () => {
+    describe('when backup path is shown (no prefill data)', () => {
+      it('should return true if veteran has indicated they are in receipt of pension', () => {
+        expect(
+          showPensionRelatedQuestions({
+            veteranInformation: { isInReceiptOfPension: -1 },
+            'view:checkVeteranPension': true,
+            vaDependentsNetWorthAndPension: true,
+          }),
+        ).to.be.true;
+      });
+
+      it('should return false if veteran has not indicated they are in receipt of pension', () => {
+        expect(
+          showPensionRelatedQuestions({
+            veteranInformation: { isInReceiptOfPension: -1 },
+            'view:checkVeteranPension': false,
+            vaDependentsNetWorthAndPension: true,
+          }),
+        ).to.be.false;
+      });
+    });
+
+    describe('when backup path is not shown (has prefill data)', () => {
+      it('should return false if isInReceiptOfPension is 0', () => {
+        expect(
+          showPensionRelatedQuestions({
+            veteranInformation: { isInReceiptOfPension: 0 },
+            vaDependentsNetWorthAndPension: true,
+          }),
+        ).to.be.false;
+      });
+
+      it('should return true if isInReceiptOfPension is 1', () => {
+        expect(
+          showPensionRelatedQuestions({
+            veteranInformation: { isInReceiptOfPension: 1 },
+            vaDependentsNetWorthAndPension: true,
+          }),
+        ).to.be.true;
+      });
     });
   });
 });

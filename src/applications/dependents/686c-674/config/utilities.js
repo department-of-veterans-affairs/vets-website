@@ -204,7 +204,24 @@ export const childEvidence = (formData = {}) => {
   };
 };
 
+/**
+ * showPensionBackupPath determines if the pension related question backup path should be shown
+ * @param {object} formData - The form data
+ * @returns {boolean} - True if the backup path should be shown, false otherwise
+ */
+export const showPensionBackupPath = (formData = {}) => {
+  // -1 in prefill indicates pension awards API failed
+  const { veteranInformation: vi, vaDependentsNetWorthAndPension } = formData;
+  return vaDependentsNetWorthAndPension && vi?.isInReceiptOfPension === -1;
+};
+
+/**
+ * showPensionRelatedQuestions determines if the pension related questions should be shown
+ * @param {object} formData - The form data
+ * @returns {boolean} - True if the questions should be shown, false otherwise
+ */
 export const showPensionRelatedQuestions = (formData = {}) => {
+  // -1 = pension awards API failed, 1 = in receipt of pension, 0 = not in receipt of pension
   const { veteranInformation: vi, vaDependentsNetWorthAndPension } = formData;
   if (vaDependentsNetWorthAndPension) {
     const isInReceiptOfPension = vi?.isInReceiptOfPension === 1;
@@ -213,9 +230,4 @@ export const showPensionRelatedQuestions = (formData = {}) => {
     return isInReceiptOfPension || backupPathIsInReceiptOfPension;
   }
   return false;
-};
-
-export const showPensionBackupPath = (formData = {}) => {
-  const { veteranInformation: vi, vaDependentsNetWorthAndPension } = formData;
-  return vaDependentsNetWorthAndPension && vi?.isInReceiptOfPension === -1;
 };
