@@ -1,4 +1,5 @@
 {
+  "accreditedRepresentativePortalForm526ez": "accredited_representative_portal_form_526ez",
   "accreditedRepresentativePortalCustomLogin": "accredited_representative_portal_custom_login",
   "accreditedRepresentativePortalFrontend": "accredited_representative_portal_frontend",
   "accreditedRepresentativePortalPilot": "accredited_representative_portal_pilot",
@@ -297,6 +298,7 @@
   "travelPayViewClaimDetails": "travel_pay_view_claim_details",
   "travelPaySubmitMileageExpense": "travel_pay_submit_mileage_expense",
   "travelPayClaimsManagement": "travel_pay_claims_management",
+  "travelPayClaimsManagementDecisionReason": "travel_pay_claims_management_decision_reason",
   "useFacilitiesApiV2ForCernerCTA": "use_facilities_api_v2_for_cerner_cta",
   "useLighthouseFormsSearchLogic": "new_va_forms_search",
   "vaDependentsVerification": "va_dependents_verification",
