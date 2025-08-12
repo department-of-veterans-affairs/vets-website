@@ -6,7 +6,10 @@ import {
 } from '../utilities/answer-storage';
 import { ALL_QUESTIONS } from '../constants';
 
-const { ONRAMP_VIEWED_INTRO_PAGE } = FORM_ACTION_TYPES;
+const {
+  ONRAMP_UPDATE_FORM_STORE,
+  ONRAMP_VIEWED_INTRO_PAGE,
+} = FORM_ACTION_TYPES;
 
 export const initialState = {
   allQuestionShortNames: ALL_QUESTIONS,
@@ -23,6 +26,16 @@ const decisionReviewsGuide = (state = initialState, action) => {
     return {
       ...state,
       viewedIntroPage: action.payload,
+    };
+  }
+
+  if (action.type === ONRAMP_UPDATE_FORM_STORE) {
+    return {
+      ...state,
+      form: {
+        ...state.form,
+        ...action.payload,
+      },
     };
   }
 

@@ -1,9 +1,10 @@
 import React from 'react';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import PropTypes from 'prop-types';
 import HowDoIDispute from './HowDoIDispute';
 
-const NeedHelp = ({ showVHAPaymentHistory = false }) => {
+const NeedHelp = ({ showVHAPaymentHistory = false, showOneThingPerPage }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const disputeDebtActive = useToggleValue(TOGGLE_NAMES.disputeDebt);
 
@@ -31,7 +32,7 @@ const NeedHelp = ({ showVHAPaymentHistory = false }) => {
           </li>
           <li>A waiver (ask us to stop collection on the debt)</li>
         </ul>
-        {showVHAPaymentHistory ? (
+        {showVHAPaymentHistory || showOneThingPerPage ? (
           <p>
             <strong>Note:</strong> The time limit to request a waiver (debt
             forgiveness) is 1 year from the date you received your first debt
@@ -74,6 +75,11 @@ const NeedHelp = ({ showVHAPaymentHistory = false }) => {
       </va-need-help>
     </>
   );
+};
+
+NeedHelp.propTypes = {
+  showOneThingPerPage: PropTypes.bool,
+  showVHAPaymentHistory: PropTypes.bool,
 };
 
 export default NeedHelp;
