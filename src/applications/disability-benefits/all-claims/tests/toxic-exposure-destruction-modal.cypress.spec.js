@@ -10,25 +10,39 @@ import mockUpload from './fixtures/mocks/document-upload.json';
 import mockUser from './fixtures/mocks/user.json';
 
 import { mockItf } from './cypress.helpers';
+
+// Import navigation helpers
 import {
-  addDisabilityCondition,
   clickContinue,
-  clickModalButton,
-  fillConditionFollowUp,
-  fillServicePeriod,
-  interactWithVAComponent,
   navigateThroughPages,
-  selectNo,
-  selectYes,
-  setupStandardMocks,
   skipWizard,
   startApplication,
+  waitForPageNavigation,
+} from './cypress-rtl-helpers/navigation';
+
+// Import form interaction helpers
+import {
+  fillConditionFollowUp,
+  fillServicePeriod,
+  selectNo,
+  selectYes,
+} from './cypress-rtl-helpers/form-interactions';
+
+// Import VA component helpers
+import {
+  clickModalButton,
+  interactWithVAComponent,
   verifyAlert,
   verifyModalContent,
   verifyModalVisibility,
   verifyVACheckboxState,
-  waitForPageNavigation,
-} from './cypress-rtl-helpers';
+} from './cypress-rtl-helpers/components';
+
+// Import disability-specific helpers
+import { addDisabilityCondition } from './cypress-rtl-helpers/disability-helpers';
+
+// Import mocking helpers
+import { setupStandardMocks } from './cypress-rtl-helpers/mocking';
 
 import {
   FORM_STATUS_BDD,
