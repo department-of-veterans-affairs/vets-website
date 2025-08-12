@@ -8,6 +8,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { setData } from 'platform/forms-system/src/js/actions';
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
 import { focusElement, scrollTo } from 'platform/utilities/ui';
@@ -81,6 +82,7 @@ const ArrayBuilderCards = ({
   arrayPath,
   isIncomplete = () => false,
   getEditItemPathUrl,
+  setFormData,
   formData,
   nounSingular,
   titleHeaderLevel = '3',
@@ -89,6 +91,7 @@ const ArrayBuilderCards = ({
   onRemove,
   required,
   isReview,
+  forceRerender,
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(null);
@@ -155,10 +158,15 @@ const ArrayBuilderCards = ({
     if (!required(newData) && !arrayWithRemovedItem?.length) {
       delete newData[arrayPath];
     }
+    setFormData(newData);
     hideRemoveConfirmationModal({
       focusRemoveButton: false,
     });
-    onRemove(removedIndex, removedItem, newData);
+    onRemove(removedIndex, removedItem);
+    // forceRerender should happen BEFORE onRemoveAll because
+    // we should handle any data manipulation before a potential
+    // change of URL
+    forceRerender(newData);
     if (arrayWithRemovedItem.length === 0) {
       onRemoveAll(newData);
     }
@@ -299,8 +307,13 @@ const mapStateToProps = state => ({
   pageList: state.form.pages,
 });
 
+const mapDispatchToProps = {
+  setFormData: setData,
+};
+
 ArrayBuilderCards.propTypes = {
   arrayPath: PropTypes.string.isRequired,
+  forceRerender: PropTypes.func.isRequired,
   formData: PropTypes.object.isRequired,
   getEditItemPathUrl: PropTypes.func.isRequired,
   getText: PropTypes.func.isRequired,
@@ -308,6 +321,7 @@ ArrayBuilderCards.propTypes = {
   isReview: PropTypes.bool.isRequired,
   nounSingular: PropTypes.string.isRequired,
   required: PropTypes.func.isRequired,
+  setFormData: PropTypes.func.isRequired,
   onRemove: PropTypes.func.isRequired,
   onRemoveAll: PropTypes.func.isRequired,
   cardDescription: PropTypes.oneOfType([
@@ -318,4 +332,7 @@ ArrayBuilderCards.propTypes = {
   titleHeaderLevel: PropTypes.string,
 };
 
-export default connect(mapStateToProps)(ArrayBuilderCards);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ArrayBuilderCards);

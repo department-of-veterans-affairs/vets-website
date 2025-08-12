@@ -124,7 +124,6 @@ describe('ArrayBuilderSummaryPage', () => {
     const setFormData = sinon.spy();
     const goToPath = sinon.spy();
     const onContinue = sinon.spy();
-    const onChange = sinon.spy();
     let getText = helpers.initGetText({
       getItemName: item => item?.name,
       nounPlural: 'employers',
@@ -144,7 +143,6 @@ describe('ArrayBuilderSummaryPage', () => {
     const { mockStore } = mockRedux({
       formData: data,
       setFormData,
-      onChange,
       formErrors: reviewErrors,
     });
 
@@ -208,7 +206,7 @@ describe('ArrayBuilderSummaryPage', () => {
           schema={processedSchema}
           uiSchema={processedUiSchema}
           data={processedData}
-          onChange={onChange}
+          onChange={() => {}}
           onContinue={onContinue}
           onSubmit={() => {}}
           onReviewPage={false}
@@ -224,14 +222,37 @@ describe('ArrayBuilderSummaryPage', () => {
 
     const { container, getByText } = renderResult;
 
+    function rerenderWithNewData(newData) {
+      renderResult.rerender(
+        <Provider store={mockStore}>
+          <CustomPage
+            schema={processedSchema}
+            uiSchema={processedUiSchema}
+            data={newData}
+            setFormData={setFormData}
+            onChange={() => {}}
+            onContinue={onContinue}
+            onSubmit={() => {}}
+            onReviewPage={false}
+            goToPath={goToPath}
+            name={title}
+            title={title}
+            appStateData={{}}
+            formContext={{}}
+            formOptions={{ useWebComponentForNavigation: useWebComponent }}
+          />
+        </Provider>,
+      );
+    }
+
     return {
       setFormData,
       goToPath,
       getText,
       container,
       getByText,
+      rerenderWithNewData,
       onContinue,
-      onChange,
     };
   }
 
@@ -308,7 +329,13 @@ describe('ArrayBuilderSummaryPage', () => {
   });
 
   it('should remove all appropriately', () => {
-    const { container, goToPath, onChange } = setupArrayBuilderSummaryPage({
+    const {
+      getText,
+      container,
+      goToPath,
+      getByText,
+      setFormData,
+    } = setupArrayBuilderSummaryPage({
       arrayData: [{ name: 'Test' }],
       urlParams: '',
       maxItems: 5,
@@ -321,8 +348,8 @@ describe('ArrayBuilderSummaryPage', () => {
     const $modal = container.querySelector('va-modal');
     expect($modal.getAttribute('visible')).to.eq('true');
     $modal.__events.primaryButtonClick();
-    sinon.assert.calledOnce(onChange);
-    sinon.assert.calledWithExactly(onChange, { employers: [] });
+    expect(setFormData.called).to.be.true;
+    expect(setFormData.args[0][0].employers).to.eql([]);
     expect(goToPath.args[0][0]).to.eql(
       '/first-item/0?add=true&removedAllWarn=true',
     );
@@ -560,7 +587,11 @@ describe('ArrayBuilderSummaryPage', () => {
   });
 
   it('should display a removed item alert from 1 -> 0 items', async () => {
-    const { container, onChange } = setupArrayBuilderSummaryPage({
+    const {
+      container,
+      setFormData,
+      rerenderWithNewData,
+    } = setupArrayBuilderSummaryPage({
       arrayData: [{ name: 'Test' }],
       urlParams: '',
       maxItems: 5,
@@ -574,15 +605,20 @@ describe('ArrayBuilderSummaryPage', () => {
     expect(modal).to.have.attribute('visible');
     modal.__events.primaryButtonClick();
     await waitFor(() => {
-      sinon.assert.calledOnce(onChange);
-      sinon.assert.calledWithExactly(onChange, {});
+      sinon.assert.calledWith(setFormData, {});
+      rerenderWithNewData({});
       const alert = container.querySelector('va-alert');
       expect(alert).to.include.text('has been deleted');
+      expect(setFormData.args[0][0]).to.eql({});
     });
   });
 
   it('should display a removed item alert from 2 -> 1 items', async () => {
-    const { container, onChange } = setupArrayBuilderSummaryPage({
+    const {
+      container,
+      setFormData,
+      rerenderWithNewData,
+    } = setupArrayBuilderSummaryPage({
       arrayData: [{ name: 'Test' }, { name: 'Test 2' }],
       urlParams: '',
       maxItems: 5,
@@ -596,12 +632,15 @@ describe('ArrayBuilderSummaryPage', () => {
     expect(modal).to.have.attribute('visible');
     modal.__events.primaryButtonClick();
     await waitFor(() => {
-      sinon.assert.calledOnce(onChange);
-      sinon.assert.calledWithExactly(onChange, {
+      sinon.assert.calledWith(setFormData, {
+        employers: [{ name: 'Test 2' }],
+      });
+      rerenderWithNewData({
         employers: [{ name: 'Test 2' }],
       });
       const alert = container.querySelector('va-alert');
       expect(alert).to.include.text('has been deleted');
+      expect(setFormData.args[0][0].employers).to.have.lengthOf(1);
     });
   });
 
