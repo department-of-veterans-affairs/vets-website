@@ -73,8 +73,4 @@ export const getAppData = state => ({
   mebDpoAddressOptionEnabled: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.mebDpoAddressOptionEnabled
   ],
-  // **NEW** flag for the v2 intro/process updates
-  showMeb54901990eTextUpdate: !!toggleValues(state)[
-    FEATURE_FLAG_NAMES.showMeb54901990eTextUpdate
-  ],
 });
