@@ -43,7 +43,9 @@ export const navigateForward = (
 
   // We're looking for the next question that has display conditions met
   // so the loop helps us skip the ones that don't
-  for (let i = currentIndex + 1; i < endIndex; i++) {
+  // We allow one additional loop after we run out of questions
+  // to check if we're at a results page
+  for (let i = currentIndex + 1; i <= endIndex + 1; i++) {
     const nextShortName = allQuestionShortNames?.[nextIndex];
 
     if (nextIndex > endIndex) {
