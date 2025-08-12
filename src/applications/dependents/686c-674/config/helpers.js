@@ -205,6 +205,7 @@ export const customLocationSchemaStatePostal = {
         },
         postalCode: {
           type: 'string',
+          maxLength: 5,
         },
       },
     },
