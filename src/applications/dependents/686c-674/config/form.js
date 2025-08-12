@@ -322,7 +322,8 @@ export const formConfig = {
         currentMarriageInformationPartTwo: {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
-            formData?.['view:addOrRemoveDependents']?.add,
+            formData?.['view:addOrRemoveDependents']?.add &&
+            showPensionRelatedQuestions(formData),
           title: 'Spouse’s income',
           path: 'current-marriage-information/spouse-income',
           uiSchema: currentMarriageInformationPartTwo.uiSchema,
@@ -551,7 +552,8 @@ export const formConfig = {
             schema: studentIncomePage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674) &&
-              formData?.['view:addOrRemoveDependents']?.add,
+              formData?.['view:addOrRemoveDependents']?.add &&
+              showPensionRelatedQuestions(formData),
           }),
           addStudentsPartFour: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
@@ -683,6 +685,7 @@ export const formConfig = {
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674) &&
               formData?.['view:addOrRemoveDependents']?.add,
+            // showPensionRelatedQuestions(formData),
           }),
           addStudentsPartSeventeen: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
@@ -692,7 +695,8 @@ export const formConfig = {
             depends: (formData, index) =>
               isChapterFieldRequired(formData, TASK_KEYS.report674) &&
               formData?.['view:addOrRemoveDependents']?.add &&
-              formData?.studentInformation?.[index]?.claimsOrReceivesPension,
+              formData?.studentInformation?.[index]?.claimsOrReceivesPension &&
+              showPensionRelatedQuestions(formData),
           }),
           addStudentsPartEighteen: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
@@ -702,7 +706,8 @@ export const formConfig = {
             depends: (formData, index) =>
               isChapterFieldRequired(formData, TASK_KEYS.report674) &&
               formData?.['view:addOrRemoveDependents']?.add &&
-              formData?.studentInformation?.[index]?.claimsOrReceivesPension,
+              formData?.studentInformation?.[index]?.claimsOrReceivesPension &&
+              showPensionRelatedQuestions(formData),
           }),
           addStudentsPartNineteen: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
@@ -751,7 +756,8 @@ export const formConfig = {
         formerSpouseInformationPartThree: {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.reportDivorce) &&
-            formData?.['view:addOrRemoveDependents']?.remove,
+            formData?.['view:addOrRemoveDependents']?.remove &&
+            showPensionRelatedQuestions(formData),
           title: 'Divorced spouse’s income',
           path: 'report-a-divorce/former-spouse-income',
           uiSchema: formerSpouseInformationPartThree.uiSchema,
@@ -947,7 +953,8 @@ export const formConfig = {
             schema: deceasedDependentIncomePage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.reportDeath) &&
-              formData?.['view:addOrRemoveDependents']?.remove,
+              formData?.['view:addOrRemoveDependents']?.remove &&
+              showPensionRelatedQuestions(formData),
           }),
         })),
       },
@@ -1015,7 +1022,9 @@ export const formConfig = {
               isChapterFieldRequired(
                 formData,
                 TASK_KEYS.reportMarriageOfChildUnder18,
-              ) && formData?.['view:addOrRemoveDependents']?.remove,
+              ) &&
+              formData?.['view:addOrRemoveDependents']?.remove &&
+              showPensionRelatedQuestions(formData),
           }),
         })),
       },
@@ -1088,7 +1097,9 @@ export const formConfig = {
                 isChapterFieldRequired(
                   formData,
                   TASK_KEYS.reportChild18OrOlderIsNotAttendingSchool,
-                ) && formData?.['view:addOrRemoveDependents']?.remove,
+                ) &&
+                formData?.['view:addOrRemoveDependents']?.remove &&
+                showPensionRelatedQuestions(formData),
             }),
           }),
         ),

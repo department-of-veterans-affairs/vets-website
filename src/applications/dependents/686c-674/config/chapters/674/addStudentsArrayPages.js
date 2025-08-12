@@ -189,15 +189,14 @@ export const studentIncomePage = {
       labels: {
         Y: 'Yes',
         N: 'No',
-        NA: 'This question doesn’t apply to me',
       },
-      required: () => false,
+      required: () => true,
     }),
   },
   schema: {
     type: 'object',
     properties: {
-      studentIncome: radioSchema(['Y', 'N', 'NA']),
+      studentIncome: radioSchema(['Y', 'N']),
     },
   },
 };
