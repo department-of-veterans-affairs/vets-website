@@ -4,10 +4,12 @@ import PropTypes from 'prop-types';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import { scrollAndFocus } from 'platform/utilities/scroll';
+import { scrollToFirstError } from 'platform/utilities/ui';
 
 import { DEPENDENT_CHOICES } from '../constants';
 import { maskID } from '../../shared/utils';
+
+import { removeEditContactInformation } from '../util/contact-info';
 
 export const DependentsInformation = ({
   data = {},
@@ -19,6 +21,7 @@ export const DependentsInformation = ({
 }) => {
   const dependents = useSelector(state => state.dependents?.data || []);
   const [showError, setShowError] = useState(false);
+  removeEditContactInformation(); // clearing edit flag just in case
 
   const handlers = {
     onValueChange: ({ detail }) => {
@@ -31,8 +34,11 @@ export const DependentsInformation = ({
     },
     onSubmit: () => {
       if (!data.hasDependentsStatusChanged) {
-        scrollAndFocus('va-radio');
         setShowError(true);
+        setTimeout(() => {
+          // Scroll to & focus on role="alert" error inside radio group
+          scrollToFirstError({ focusOnAlertRole: true });
+        });
         return;
       }
       if (data.hasDependentsStatusChanged === 'Y') {

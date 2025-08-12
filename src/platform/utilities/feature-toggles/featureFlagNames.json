@@ -1,4 +1,5 @@
 {
+  "accreditedRepresentativePortalForm526ez": "accredited_representative_portal_form_526ez",
   "accreditedRepresentativePortalCustomLogin": "accredited_representative_portal_custom_login",
   "accreditedRepresentativePortalFrontend": "accredited_representative_portal_frontend",
   "accreditedRepresentativePortalPilot": "accredited_representative_portal_pilot",
@@ -51,7 +52,6 @@
   "coeAccess": "coe_access",
   "combinedDebtPortalAccess": "combined_debt_portal_access",
   "confirmationPageNew": "confirmation_page_new",
-  "cstFriendlyEvidenceRequests": "cst_friendly_evidence_requests",
   "cst5103UpdateEnabled": "cst_5103_update_enabled",
   "cstClaimPhases": "cst_claim_phases",
   "cstIncludeDdl5103Letters": "cst_include_ddl_5103_letters",

@@ -14,7 +14,9 @@ export default function App({ location, children }) {
   const externalServicesLoading = useSelector(
     state => state?.externalServiceStatus?.loading,
   );
-  const hasSession = JSON.parse(localStorage.getItem('hasSession'));
+  const dependentsLoading = useSelector(state => {
+    return state?.dependents?.loading;
+  });
   const isIntroPage = location?.pathname?.endsWith('/introduction');
   const { pathname } = location || {};
   const pageUrl = pathname?.slice(1);
@@ -40,22 +42,17 @@ export default function App({ location, children }) {
 
   const rawBreadcrumbs = JSON.stringify(breadcrumbs);
 
-  useEffect(
-    () => {
-      if (!hasSession && !isIntroPage) {
-        window.location.replace(`${manifest.rootUrl}/introduction`);
-      }
-    },
-    [hasSession, isIntroPage],
-  );
+  useEffect(() => {
+    if (!isIntroPage && dependentsLoading) {
+      window.location.replace(`${manifest.rootUrl}/introduction`);
+    }
+  }, []);
 
   let content;
 
   if (!featureToggle) {
     content = <NoFormPage />;
   } else if (externalServicesLoading) {
-    content = <va-loading-indicator message="Loading your information..." />;
-  } else if (!hasSession && !isIntroPage) {
     content = <va-loading-indicator message="Loading your information..." />;
   } else {
     content = (
