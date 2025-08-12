@@ -1,9 +1,3 @@
-/* vets-api/config/form_profile_mappings/10182.yml
-nonPrefill:
-  veteranSsnLastFour:
-  veteranVaFileNumberLastFour:
-*/
-
 export default function prefillTransformer(pages, formData, metadata) {
   const { veteranSsnLastFour = '', veteranVaFileNumberLastFour = '' } =
     formData?.nonPrefill || {};
@@ -25,15 +19,15 @@ export default function prefillTransformer(pages, formData, metadata) {
         veteranAddress: {
           isMilitary,
           country: address.countryName || 'USA',
-          street: address.addressLine1 || '',
-          street2: address.addressLine2 || '',
-          street3: address.addressLine3 || '',
-          city: address.city || '',
-          state: address.stateCode || '',
-          postalCode: address.zipCode || '',
+          street: address.addressLine1 || null,
+          street2: address.addressLine2 || null,
+          street3: address.addressLine3 || null,
+          city: address.city || null,
+          state: address.stateCode || null,
+          postalCode: address.zipCode || null,
         },
-        phoneNumber: contact.phoneNumber || '',
-        emailAddress: contact.emailAddress || '',
+        phoneNumber: contact.phoneNumber || null,
+        emailAddress: contact.emailAddress || null,
       },
       useV2: true,
       daysTillExpires: 365,

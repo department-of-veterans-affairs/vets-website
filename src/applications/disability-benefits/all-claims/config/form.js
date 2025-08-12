@@ -151,7 +151,12 @@ const formConfig = {
   trackingPrefix: 'disability-526EZ-',
   downtime: {
     requiredForPrefill: true,
-    dependencies: [services.evss, services.mvi, services.vaProfile],
+    dependencies: [
+      services.evss,
+      services.mvi,
+      services.vaProfile,
+      services.disabilityCompensationForm,
+    ],
   },
   formId: VA_FORM_IDS.FORM_21_526EZ,
   wizardStorageKey: WIZARD_STATUS,
@@ -364,7 +369,12 @@ const formConfig = {
           depends: claimingNew,
           path: 'new-disabilities/follow-up/:index',
           showPagePerItem: true,
-          itemFilter: item => !isDisabilityPtsd(item.condition),
+          itemFilter: (item, formData) => {
+            if (formData?.syncModern0781Flow === true) {
+              return !!item.condition;
+            }
+            return !isDisabilityPtsd(item.condition);
+          },
           arrayPath: 'newDisabilities',
           uiSchema: newDisabilityFollowUp.uiSchema,
           schema: newDisabilityFollowUp.schema,
