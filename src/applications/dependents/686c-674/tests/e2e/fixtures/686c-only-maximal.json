@@ -1,0 +1,365 @@
+{
+  "doesLiveWithSpouse": {
+    "spouseIncome": "Y",
+    "spouseDoesLiveWithVeteran": true,
+    "address": {
+      "view:militaryBaseDescription": {}
+    }
+  },
+  "veteranContactInformation": {
+    "phoneNumber": "5555555555",
+    "emailAddress": "nope@nope.com",
+    "electronicCorrespondence": true,
+    "veteranAddress": {
+      "view:militaryBaseDescription": {},
+      "country": "USA",
+      "street": "4826 ORCHID DR",
+      "city": "BROWNSVILLE",
+      "state": "TX",
+      "postalCode": "78526"
+    }
+  },
+  "view:removeDependentOptions": {
+    "reportDivorce": true,
+    "reportDeath": true,
+    "reportStepchildNotInHousehold": true,
+    "reportMarriageOfChildUnder18": true,
+    "reportChild18OrOlderIsNotAttendingSchool": false
+  },
+  "view:addDependentOptions": {
+    "addSpouse": true,
+    "addChild": true,
+    "report674": false,
+    "addDisabledChild": true
+  },
+  "view:addDependentOptionsDescription": {},
+  "view:additionalEvidenceDescription": {},
+  "spouseSupportingDocuments": [
+    {
+      "name": "Screenshot from 2025-04-23 13-28-43.png",
+      "confirmationCode": "0a6fc362-f125-4796-84c9-c13435363329",
+      "attachmentId": "",
+      "isEncrypted": false
+    },
+    {
+      "name": "Screenshot from 2025-04-23 13-28-59.png",
+      "confirmationCode": "9a267bd7-f459-47e5-903e-baab21953ffd",
+      "attachmentId": "",
+      "isEncrypted": false
+    }
+  ],
+  "view:completedChildStoppedAttendingSchool": false,
+  "view:completedMarriedChild": false,
+  "view:completedDependent": false,
+  "view:completedHouseholdChild": false,
+  "view:completedStudent": false,
+  "view:completedVeteranFormerMarriage": false,
+  "view:addOrRemoveDependents": {
+    "add": true,
+    "remove": true
+  },
+  "childSupportingDocuments": [
+    {
+      "name": "Screenshot from 2025-04-21 12-47-33.png",
+      "confirmationCode": "e13a641a-23e0-4e08-aa0f-bfc1b3e61519",
+      "attachmentId": "",
+      "isEncrypted": false
+    }
+  ],
+  "householdIncome": false,
+  "reportDivorce": {
+    "spouseIncome": "N",
+    "date": "2025-04-01",
+    "divorceLocation": {
+      "outsideUsa": false,
+      "location": {
+        "city": "BROWNSVILLE",
+        "state": "TX"
+      }
+    },
+    "reasonMarriageEnded": "Divorce",
+    "explanationOfOther": "Other",
+    "fullName": {
+      "first": "LAUREN",
+      "last": "QUINLAN-MOCK"
+    },
+    "birthDate": "1990-09-25",
+    "view:cancelDivorce": {}
+  },
+  "view:completedAddChild": false,
+  "view:completedSpouseFormerMarriage": false,
+  "currentMarriageInformation": {
+    "typeOfMarriage": "CIVIL",
+    "view:marriageTypeInformation": {},
+    "location": {
+      "city": "Fakesville",
+      "state": "CA"
+    },
+    "date": "1991-03-19"
+  },
+  "spouseInformation": {
+    "ssn": "333445555",
+    "birthDate": "1991-02-19",
+    "isVeteran": true,
+    "fullName": {
+      "first": "Two-Names",
+      "last": "Doe"
+    }
+  },
+  "view:cancelAddSpouse": {},
+  "spouseMarriageHistory": [
+    {
+      "endLocation": {
+        "outsideUsa": true,
+        "location": {
+          "city": "Fakesville",
+          "country": "DZA"
+        }
+      },
+      "reasonMarriageEnded": "Divorce",
+      "otherReasonMarriageEnded": "other way",
+      "startLocation": {
+        "outsideUsa": true,
+        "location": {
+          "city": "Fakesville",
+          "country": "DZA"
+        }
+      },
+      "endDate": "2020-03-25",
+      "startDate": "2020-03-19",
+      "fullName": {
+        "first": "LAUREN",
+        "last": "QUINLAN-MOCK"
+      }
+    }
+  ],
+  "childrenToAdd": [
+    {
+      "incomeInLastYear": "NA",
+      "marriageEndDescription": "Other",
+      "marriageEndDate": "2021-08-18",
+      "marriageEndReason": "other",
+      "doesChildLiveWithYou": true,
+      "hasChildEverBeenMarried": true,
+      "doesChildHaveDisability": false,
+      "isBiologicalChildOfSpouse": true,
+      "dateEnteredHousehold": "2021-05-19",
+      "view:biologicalParentInfo": {},
+      "biologicalParentName": {
+        "first": "John",
+        "last": "Doe"
+      },
+      "biologicalParentSsn": "333444554",
+      "biologicalParentDob": "2014-09-19",
+      "relationshipToChild": {
+        "adopted": true,
+        "stepchild": true
+      },
+      "view:commonEvidenceInfo": {},
+      "view:stepchildAdditionalEvidenceDescription": {},
+      "view:adoptedAdditionalEvidenceDescription": {},
+      "isBiologicalChild": false,
+      "birthLocation": {
+        "location": {
+          "city": "BLOOMSDALE",
+          "state": "MO",
+          "postalCode": "63627"
+        }
+      },
+      "ssn": "800664466",
+      "fullName": {
+        "first": "DON",
+        "last": "DIEFENDORF-MOCK"
+      },
+      "birthDate": "2025-05-12"
+    }
+  ],
+  "view:selectable686Options": {
+    "addSpouse": true,
+    "addChild": true,
+    "report674": false,
+    "addDisabledChild": true,
+    "reportDivorce": true,
+    "reportDeath": true,
+    "reportStepchildNotInHousehold": true,
+    "reportMarriageOfChildUnder18": true,
+    "reportChild18OrOlderIsNotAttendingSchool": false
+  },
+  "veteranInformation": {
+    "fullName": {
+      "first": "Dewayne",
+      "middle": "Q",
+      "last": "Quinlan-mock"
+    },
+    "ssn": "764133702",
+    "birthDate": "1977-06-23",
+    "ssnLastFour": "3702",
+    "vaFileLastFour": "3702"
+  },
+  "useV2": true,
+  "daysTillExpires": 365,
+  "metadata": {
+    "former marriagesForceRenderTimestamp": 1745275642611
+  },
+  "privacyAgreementAccepted": true,
+  "studentInformation": [
+    {
+      "studentNetworthInformation": {
+        "savings": "6000",
+        "securities": "3455",
+        "realEstate": "43332",
+        "otherAssets": "3433",
+        "totalValue": "23455"
+      },
+      "studentExpectedEarningsNextYear": {
+        "earningsFromAllEmployment": "1",
+        "annualSocialSecurityPayments": "1",
+        "otherAnnuitiesIncome": "1",
+        "allOtherIncome": "1"
+      },
+      "studentEarningsFromSchoolYear": {
+        "earningsFromAllEmployment": "2000.00",
+        "annualSocialSecurityPayments": "40000",
+        "otherAnnuitiesIncome": "2000.86",
+        "allOtherIncome": "100"
+      },
+      "claimsOrReceivesPension": true,
+      "schoolInformation": {
+        "studentDidAttendSchoolLastTerm": false,
+        "dateFullTimeEnded": "2000-02-12",
+        "studentIsEnrolledFullTime": false,
+        "currentTermDates": {
+          "officialSchoolStartDate": "2025-04-22",
+          "expectedStudentStartDate": "2025-04-22",
+          "expectedGraduationDate": "2025-07-28"
+        },
+        "isSchoolAccredited": true,
+        "view:accredited": {},
+        "name": "University of Missouri"
+      },
+      "typeOfProgramOrBenefit": {
+        "ch35": true,
+        "fry": true,
+        "feca": true,
+        "other": true
+      },
+      "otherProgramOrBenefit": "Test",
+      "tuitionIsPaidByGovAgency": false,
+      "view:programExamples": {},
+      "ssn": "800662233",
+      "isParent": false,
+      "wasMarried": false,
+      "address": {
+        "view:militaryBaseDescription": {},
+        "country": "USA",
+        "street": "484 PARKVIEW DR",
+        "city": "BLOOMSDALE",
+        "state": "MO",
+        "postalCode": "63627"
+      },
+      "remarks": "asdf",
+      "benefitPaymentDate": "2021-01-19",
+      "studentIncome": "NA",
+      "fullName": {
+        "first": "DAN",
+        "last": "DIEFENDORF-MOCK"
+      },
+      "birthDate": "2004-01-01"
+    }
+  ],
+  "veteranMarriageHistory": [
+    {
+      "endLocation": {
+        "location": {
+          "city": "Fakesville",
+          "state": "AZ"
+        }
+      },
+      "startLocation": {
+        "location": {
+          "city": "Fakesville",
+          "state": "AZ"
+        }
+      },
+      "endDate": "1991-01-19",
+      "startDate": "1991-01-19",
+      "reasonMarriageEnded": "Other",
+      "otherReasonMarriageEnded": "other",
+      "fullName": {
+        "first": "John",
+        "last": "Doe"
+      }
+    }
+  ],
+  "stepChildren": [
+    {
+      "whoDoesTheStepchildLiveWith": {
+        "first": "Peter",
+        "last": "Johnson"
+      },
+      "dateStepchildLeftHousehold": "2025-05-02",
+      "address": {
+        "view:militaryBaseDescription": {},
+        "country": "USA",
+        "street": "123 Fake St.",
+        "city": "Las Vegas",
+        "state": "NV",
+        "postalCode": "12345"
+      },
+      "livingExpensesPaid": "More than half",
+      "supportingStepchild": true,
+      "fullName": {
+        "first": "John",
+        "last": "Doe"
+      },
+      "ssn": "333445555",
+      "birthDate": "2012-02-19"
+    }
+  ],
+  "deaths": [
+    {
+      "deceasedDependentIncome": "N",
+      "dependentDeathLocation": {
+        "outsideUsa": false,
+        "location": {
+          "city": "Fakesville",
+          "state": "CO"
+        }
+      },
+      "dependentDeathDate": "1991-05-19",
+      "dependentType": "SPOUSE",
+      "fullName": {
+        "first": "John",
+        "last": "Doe"
+      },
+      "ssn": "333445555",
+      "birthDate": "1991-06-19"
+    }
+  ],
+  "childMarriage": [
+    {
+      "dependentIncome": "N",
+      "fullName": {
+        "first": "Nancy",
+        "last": "Doe"
+      },
+      "ssn": "333445555",
+      "birthDate": "1991-02-19",
+      "dateMarried": "1991-01-19"
+    }
+  ],
+  "childStoppedAttendingSchool": [
+    {
+      "dependentIncome": "NA",
+      "dateChildLeftSchool": "1991-03-19",
+      "fullName": {
+        "first": "John",
+        "last": "Doe"
+      },
+      "ssn": "333445555",
+      "birthDate": "1991-01-19"
+    }
+  ],
+  "statementOfTruthSignature": "Dewayne Q Quinlan-mock",
+  "statementOfTruthCertified": true
+}
