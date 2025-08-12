@@ -1,0 +1,69 @@
+import { RESPONSES } from '../question-data-map';
+
+const { NO, YES } = RESPONSES;
+
+// Refer to the README in this directory for an explanation of display conditions
+export const resultsDCs = Object.freeze({
+  RESULTS_1_1B: {
+    Q_1_1_CLAIM_DECISION: NO,
+    Q_1_1A_SUBMITTED_526: NO,
+  },
+  RESULTS_1_1C: {
+    Q_1_1_CLAIM_DECISION: NO,
+    Q_1_1A_SUBMITTED_526: YES,
+  },
+  RESULTS_1_3B: {
+    Q_1_1_CLAIM_DECISION: YES,
+    Q_1_2_CLAIM_DECISION: YES,
+    Q_1_3_CLAIM_CONTESTED: YES,
+    Q_1_3A_FEWER_60_DAYS: NO,
+  },
+  RESULTS_1_2_C1: {
+    Q_1_1_CLAIM_DECISION: YES,
+    Q_1_2_CLAIM_DECISION: NO,
+    Q_1_2A_CONDITION_WORSENED: NO,
+    Q_1_2B_LAW_POLICY_CHANGE: NO,
+    Q_1_2C_NEW_EVIDENCE: NO,
+  },
+  RESULTS_2_IS_3: {
+    Q_1_1_CLAIM_DECISION: YES,
+    Q_1_2_CLAIM_DECISION: NO,
+    Q_1_2A_CONDITION_WORSENED: YES,
+  },
+  RESULTS_HLR: {
+    Q_1_1_CLAIM_DECISION: YES,
+    ONE_OF: {
+      Q_2_IS_1B_NEW_EVIDENCE: NO,
+      Q_2_S_1_NEW_EVIDENCE: NO,
+    },
+  },
+  RESULTS_SC: {
+    Q_1_1_CLAIM_DECISION: YES,
+    ONE_OF: {
+      Q_1_2B_LAW_POLICY_CHANGE: YES,
+      Q_1_2C_NEW_EVIDENCE: YES,
+      Q_2_IS_1A_LAW_POLICY_CHANGE: YES,
+      Q_2_IS_1B_NEW_EVIDENCE: YES,
+      Q_2_S_1_NEW_EVIDENCE: YES,
+      Q_2_H_1_EXISTING_BOARD_APPEAL: YES,
+    },
+  },
+  RESULTS_BOARD_EVIDENCE: {
+    Q_1_1_CLAIM_DECISION: YES,
+    Q_1_2_CLAIM_DECISION: YES,
+    Q_2_H_2A_JUDGE_HEARING: NO,
+  },
+  RESULTS_BOARD_HEARING: {
+    Q_1_1_CLAIM_DECISION: YES,
+    Q_1_2_CLAIM_DECISION: YES,
+    ONE_OF: {
+      Q_2_H_2A_JUDGE_HEARING: YES,
+      Q_2_H_2B_JUDGE_HEARING: YES,
+    },
+  },
+  RESULTS_BOARD_DIRECT: {
+    Q_1_1_CLAIM_DECISION: YES,
+    Q_1_2_CLAIM_DECISION: YES,
+    Q_2_H_2B_JUDGE_HEARING: NO,
+  },
+});
