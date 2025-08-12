@@ -1,0 +1,61 @@
+{
+  "beforeTransform": {
+    "view:allProprietaryProfitConflictsMissingInformation": {},
+    "view:introduction": {},
+    "allProprietaryConflictOfInterest": false,
+    "view:proprietaryProfitConflictsMissingInformation": {},
+    "isProfitConflictOfInterest": false,
+    "isProprietaryProfit": true,
+    "institutionDetails": {
+      "facilityCode": "25007120",
+      "institutionName": "AVEDA INSTITUTE MARYLAND",
+      "address": {
+        "address1": "227 ARCHER STREET",
+        "address2": null,
+        "address3": null,
+        "city": "BEL AIR",
+        "state": "MD",
+        "zip": "21014",
+        "country": "USA"
+      },
+      "loader": false
+    },
+    "aboutYourInstitution": true,
+    "certifyingOfficial": {
+      "first": "John",
+      "last": "Doe",
+      "role": { "level": "certifyingOfficial" }
+    },
+    "statementOfTruthSignature": "John Doe",
+    "statementOfTruthCertified": true
+  },
+  "afterTransform": {
+    "allProprietaryConflictOfInterest": false,
+    "isProfitConflictOfInterest": false,
+    "isProprietaryProfit": true,
+    "institutionDetails": {
+      "facilityCode": "25007120",
+      "institutionName": "AVEDA INSTITUTE MARYLAND",
+      "loader": false,
+      "institutionAddress": {
+        "address1": "227 ARCHER STREET",
+        "address2": null,
+        "address3": null,
+        "city": "BEL AIR",
+        "state": "MD",
+        "zip": "21014",
+        "country": "USA"
+      }
+    },
+    "aboutYourInstitution": true,
+    "certifyingOfficial": {
+      "first": "John",
+      "last": "Doe",
+      "role": { "level": "certifying official" }
+    },
+    "statementOfTruthSignature": "John Doe",
+    "proprietaryProfitConflicts": [],
+    "allProprietaryProfitConflicts": [],
+    "dateSigned": "2025-08-10"
+  }
+}
