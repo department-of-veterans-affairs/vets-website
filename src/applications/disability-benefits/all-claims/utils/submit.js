@@ -366,7 +366,9 @@ export const addForm4142 = formData => {
     }),
   };
   delete clonedData.limitedConsent;
-  delete clonedData.providerFacility;
+  if (!clonedData.syncModern0781Flow) {
+    delete clonedData.providerFacility;
+  }
   return clonedData;
 };
 
