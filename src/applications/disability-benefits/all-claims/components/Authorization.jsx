@@ -38,7 +38,7 @@ const AUTHORIZATION_LABEL =
   'I acknowledge and authorize this release of information';
 
 const PrivateRecordsAuthorization = ({
-  data = {},
+  data,
   goBack,
   goForward,
   setFormData,
@@ -89,7 +89,7 @@ const PrivateRecordsAuthorization = ({
     },
     onChange: event => {
       const { checked } = event.target;
-      setFormData({ ...data, privacyAgreementAccepted: checked });
+      setFormData({ ...data, patient4142Acknowledgement: checked });
 
       if (checked && hasError) {
         setHasError(false);
@@ -97,7 +97,7 @@ const PrivateRecordsAuthorization = ({
     },
     onGoForward: () => {
       // Validation ONLY happens on form submission attempt
-      if (data.privacyAgreementAccepted) {
+      if (data.patient4142Acknowledgement) {
         setHasError(false);
         goForward(data);
       } else {
@@ -449,7 +449,7 @@ const PrivateRecordsAuthorization = ({
                 name="privacy-agreement"
                 error={hasError ? ' ' : ''}
                 label={AUTHORIZATION_LABEL}
-                checked={data.privacyAgreementAccepted}
+                checked={data.patient4142Acknowledgement}
                 onVaChange={handlers.onChange}
                 required
                 enable-analytics
@@ -490,6 +490,8 @@ PrivateRecordsAuthorization.prototype = {
   goToPath: PropTypes.func,
   pagePerItemIndex: PropTypes.number,
   setFormData: PropTypes.func,
+  data: PropTypes.object.isRequired,
+  formData: PropTypes.object,
   testingIndex: PropTypes.number,
   updatePage: PropTypes.func,
   onReviewPage: PropTypes.bool,

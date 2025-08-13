@@ -5,11 +5,13 @@
 export default {
   arcgis: 'arcgis',
   appeals: 'appeals',
+  askva: 'askva',
   // Benefits Gateway Services
   bgs: 'bgs',
   // CARMA (Caregiver Record Management Application)
   carma: 'carma',
   decisionReviews: 'decision_reviews',
+  disabilityCompensationForm: 'disability_compensation_form',
   // Debt Management Services
   dmc: 'dmc',
   dslogon: 'dslogon',
