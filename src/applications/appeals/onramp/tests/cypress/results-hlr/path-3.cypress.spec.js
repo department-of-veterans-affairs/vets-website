@@ -1,6 +1,7 @@
 import * as h from '../helpers';
 import { ROUTES } from '../../../constants';
 import { SHORT_NAME_MAP } from '../../../constants/question-data-map';
+import { RESULTS_NAME_MAP } from '../../../constants/results-data-map';
 
 const {
   Q_1_1_CLAIM_DECISION,
@@ -9,6 +10,7 @@ const {
   Q_2_0_CLAIM_TYPE,
   Q_2_S_1_NEW_EVIDENCE,
 } = SHORT_NAME_MAP;
+const { RESULTS_HLR } = RESULTS_NAME_MAP;
 
 // Results HLR: Higher-Level Review recommended
 // 1.1 - Yes
@@ -51,7 +53,10 @@ describe('Decision Reviews Onramp', () => {
       h.selectRadio(Q_2_S_1_NEW_EVIDENCE, 1);
       h.clickContinue();
 
-      // TODO - Add results page check here
+      // RESULTS
+      h.verifyUrl(ROUTES.RESULTS);
+      h.verifyText(h.RESULTS_HEADER, RESULTS_HLR);
+      cy.go('back');
 
       // Q_2_S_1_NEW_EVIDENCE
       h.verifyUrl(ROUTES.Q_2_S_1_NEW_EVIDENCE);
