@@ -332,6 +332,7 @@ describe('actions', () => {
   });
 
   describe('GI Bill Benefits - GIB', () => {
+    const benefit = getBenefitById('GIB');
     const validGoals = [goalTypes.UNDERSTAND, goalTypes.SCHOOL];
     const invalidGoals = Object.values(goalTypes).filter(
       goal => !validGoals.some(goal2 => goal2 === goal),
@@ -345,7 +346,6 @@ describe('actions', () => {
       discharge => !validDischarge.some(discharge2 => discharge2 === discharge),
     );
     it('should return true with valid goals', () => {
-      const benefit = getBenefitById('GIB');
       validGoals.forEach(goal => {
         const formData = {
           [mappingTypes.GOALS]: { [goal]: true },
@@ -357,7 +357,6 @@ describe('actions', () => {
     });
 
     it('should return true with valid discharge', () => {
-      const benefit = getBenefitById('GIB');
       validDischarge.forEach(discharge => {
         const formData = {
           [mappingTypes.GOALS]: formatData(validGoals),
@@ -369,7 +368,6 @@ describe('actions', () => {
     });
 
     it('should return false with incorrect disharge', () => {
-      const benefit = getBenefitById('GIB');
       const formData = {
         [mappingTypes.GOALS]: formatData(validGoals),
         [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(invalidDischarge),
@@ -379,7 +377,6 @@ describe('actions', () => {
     });
 
     it('should return false with incorrect goals', () => {
-      const benefit = getBenefitById('GIB');
       const formData = {
         [mappingTypes.GOALS]: formatData(invalidGoals),
         [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
@@ -390,6 +387,7 @@ describe('actions', () => {
   });
 
   describe('DOD SkillBridge program - SBP', () => {
+    const benefit = getBenefitById('SBP');
     const validGoals = [
       goalTypes.RETIREMENT,
       goalTypes.CAREER,
@@ -409,7 +407,6 @@ describe('actions', () => {
     );
 
     it('should return true with correct goals', () => {
-      const benefit = getBenefitById('SBP');
       validGoals.forEach(goal => {
         const formData = {
           [mappingTypes.GOALS]: { [goal]: true },
@@ -422,7 +419,6 @@ describe('actions', () => {
     });
 
     it('should return true with correct discharge', () => {
-      const benefit = getBenefitById('SBP');
       validDischarge.forEach(discharge => {
         const formData = {
           [mappingTypes.GOALS]: formatData(validGoals),
@@ -435,7 +431,6 @@ describe('actions', () => {
     });
 
     it('should return false with incorrect discharge', () => {
-      const benefit = getBenefitById('SBP');
       const formData = {
         [mappingTypes.GOALS]: formatData(validGoals),
         [mappingTypes.CURRENTLY_SERVING]: true,
@@ -446,7 +441,6 @@ describe('actions', () => {
     });
 
     it('should return false with incorrect goals', () => {
-      const benefit = getBenefitById('SBP');
       const formData = {
         [mappingTypes.GOALS]: formatData(invalidGoals),
         [mappingTypes.CURRENTLY_SERVING]: true,
@@ -457,7 +451,6 @@ describe('actions', () => {
     });
 
     it('should return false if not still serving', () => {
-      const benefit = getBenefitById('SBP');
       const formData = {
         [mappingTypes.GOALS]: formatData(validGoals),
         [mappingTypes.CURRENTLY_SERVING]: false,
@@ -469,6 +462,7 @@ describe('actions', () => {
   });
 
   describe("Veterans' Preference in federal hiring - FHV", () => {
+    const benefit = getBenefitById('FHV');
     const validGoals = [
       goalTypes.RETIREMENT,
       goalTypes.CAREER,
@@ -488,7 +482,6 @@ describe('actions', () => {
     );
 
     it('should return true with correct goals', () => {
-      const benefit = getBenefitById('FHV');
       validGoals.forEach(goal => {
         const formData = {
           [mappingTypes.GOALS]: { [goal]: true },
@@ -500,7 +493,6 @@ describe('actions', () => {
     });
 
     it('should return true with correct discharge', () => {
-      const benefit = getBenefitById('FHV');
       validDischarge.forEach(discharge => {
         const formData = {
           [mappingTypes.GOALS]: formatData(validGoals),
@@ -512,7 +504,6 @@ describe('actions', () => {
     });
 
     it('should return false with incorrect discharge', () => {
-      const benefit = getBenefitById('FHV');
       const formData = {
         [mappingTypes.GOALS]: formatData(validGoals),
         [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(invalidDischarge),
@@ -522,7 +513,6 @@ describe('actions', () => {
     });
 
     it('should return false with incorrect goals', () => {
-      const benefit = getBenefitById('FHV');
       const formData = {
         [mappingTypes.GOALS]: formatData(invalidGoals),
         [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
@@ -533,28 +523,24 @@ describe('actions', () => {
   });
 
   describe('Support for your Veteran-owned small business - SVC', () => {
+    const benefit = getBenefitById('SVC');
+    const validGoals = [goalTypes.CAREER, goalTypes.UNDERSTAND];
+    const invalidGoals = Object.values(goalTypes).filter(
+      goal => !validGoals.some(goal2 => goal2 === goal),
+    );
     it('should return true with correct criteria', () => {
-      const benefit = getBenefitById('SVC');
-      const formData = {
-        [mappingTypes.GOALS]: {
-          [goalTypes.CAREER]: true,
-          [goalTypes.UNDERSTAND]: true,
-        },
-      };
-      const result = actions.mapBenefitFromFormInputData(benefit, formData);
-      expect(result).to.be.true;
+      validGoals.forEach(goal => {
+        const formData = {
+          [mappingTypes.GOALS]: { [goal]: true },
+        };
+        const result = actions.mapBenefitFromFormInputData(benefit, formData);
+        expect(result).to.be.true;
+      });
     });
 
     it('should return false with incorrect goals', () => {
-      const benefit = getBenefitById('SVC');
       const formData = {
-        [mappingTypes.GOALS]: {
-          [goalTypes.FINANCIAL]: true,
-          [goalTypes.HEALTH]: true,
-          [goalTypes.PLAN]: true,
-          [goalTypes.SCHOOL]: true,
-          [goalTypes.RETIREMENT]: true,
-        },
+        [mappingTypes.GOALS]: formatData(invalidGoals),
       };
       const result = actions.mapBenefitFromFormInputData(benefit, formData);
       expect(result).to.be.false;
@@ -562,13 +548,13 @@ describe('actions', () => {
   });
 
   describe('Transition Assistance Program - TAP', () => {
+    const benefit = getBenefitById('TAP');
     const validGoals = [goalTypes.RETIREMENT, goalTypes.UNDERSTAND];
     const invalidGoals = Object.values(goalTypes).filter(
       goal => !validGoals.some(goal2 => goal2 === goal),
     );
 
     it('should return true with correct goals', () => {
-      const benefit = getBenefitById('TAP');
       validGoals.forEach(goal => {
         const formData = {
           [mappingTypes.GOALS]: { [goal]: true },
@@ -580,7 +566,6 @@ describe('actions', () => {
     });
 
     it('should return false with incorrect goals', () => {
-      const benefit = getBenefitById('TAP');
       const formData = {
         [mappingTypes.GOALS]: formatData(invalidGoals),
         [mappingTypes.CURRENTLY_SERVING]: true,
@@ -590,7 +575,6 @@ describe('actions', () => {
     });
 
     it('should return false if not still serving', () => {
-      const benefit = getBenefitById('TAP');
       const formData = {
         [mappingTypes.GOALS]: formatData(validGoals),
         [mappingTypes.CURRENTLY_SERVING]: false,
@@ -601,6 +585,7 @@ describe('actions', () => {
   });
 
   describe('Veteran Readiness and Employment (Chapter 31) - VRE', () => {
+    const benefit = getBenefitById('VRE');
     const validGoals = [goalTypes.CAREER, goalTypes.UNDERSTAND];
     const invalidGoals = Object.values(goalTypes).filter(
       goal => !validGoals.some(goal2 => goal2 === goal),
@@ -627,7 +612,6 @@ describe('actions', () => {
     );
 
     it('should return true with correct goals', () => {
-      const benefit = getBenefitById('VRE');
       validGoals.forEach(goal => {
         const formData = {
           [mappingTypes.GOALS]: { [goal]: true },
@@ -640,7 +624,6 @@ describe('actions', () => {
     });
 
     it('should return true with correct discharge', () => {
-      const benefit = getBenefitById('VRE');
       validDischarge.forEach(discharge => {
         const formData = {
           [mappingTypes.GOALS]: formatData(validGoals),
@@ -653,7 +636,6 @@ describe('actions', () => {
     });
 
     it('should return true with correct disability rating', () => {
-      const benefit = getBenefitById('VRE');
       validDisabilityRating.forEach(rating => {
         const formData = {
           [mappingTypes.GOALS]: formatData(validGoals),
@@ -666,7 +648,6 @@ describe('actions', () => {
     });
 
     it('should return false with incorrect discharge', () => {
-      const benefit = getBenefitById('VRE');
       const formData = {
         [mappingTypes.GOALS]: formatData(validGoals),
         [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(invalidDischarge),
@@ -677,7 +658,6 @@ describe('actions', () => {
     });
 
     it('should return false with incorrect goals', () => {
-      const benefit = getBenefitById('VRE');
       const formData = {
         [mappingTypes.GOALS]: formatData(invalidGoals),
         [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
@@ -688,7 +668,6 @@ describe('actions', () => {
     });
 
     it('should return false with wrong disibility rating', () => {
-      const benefit = getBenefitById('VRE');
       const formData = {
         [mappingTypes.GOALS]: formatData(validGoals),
         [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
@@ -701,6 +680,7 @@ describe('actions', () => {
   });
 
   describe('VetSuccess on Campus (VSOC) - VSC', () => {
+    const benefit = getBenefitById('VSC');
     const validGoals = [
       goalTypes.SCHOOL,
       goalTypes.CAREER,
@@ -722,7 +702,6 @@ describe('actions', () => {
     );
 
     it('should return true with correct goals', () => {
-      const benefit = getBenefitById('VSC');
       validGoals.forEach(goal => {
         const formData = {
           [mappingTypes.GOALS]: { [goal]: true },
@@ -734,7 +713,6 @@ describe('actions', () => {
     });
 
     it('should return true with correct discharge', () => {
-      const benefit = getBenefitById('VSC');
       validDischarge.forEach(discharge => {
         const formData = {
           [mappingTypes.GOALS]: formatData(validGoals),
@@ -746,7 +724,6 @@ describe('actions', () => {
     });
 
     it('should return false with incorrect goals', () => {
-      const benefit = getBenefitById('VSC');
       const formData = {
         [mappingTypes.GOALS]: formatData(invalidGoals),
         [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
@@ -756,7 +733,6 @@ describe('actions', () => {
     });
 
     it('should return false with incorrect discharge', () => {
-      const benefit = getBenefitById('VSC');
       const formData = {
         [mappingTypes.GOALS]: formatData(validGoals),
         [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(invalidDischarge),
@@ -767,6 +743,7 @@ describe('actions', () => {
   });
 
   describe('Disability housing grant - DHS', () => {
+    const benefit = getBenefitById('DHS');
     const validGoals = [
       goalTypes.FINANCIAL,
       goalTypes.RETIREMENT,
@@ -788,7 +765,6 @@ describe('actions', () => {
     );
 
     it('should return true with correct goals', () => {
-      const benefit = getBenefitById('DHS');
       validGoals.forEach(goal => {
         const formData = {
           [mappingTypes.GOALS]: { [goal]: true },
@@ -800,7 +776,6 @@ describe('actions', () => {
     });
 
     it('should return true with correct discharge', () => {
-      const benefit = getBenefitById('DHS');
       validDischarge.forEach(discharge => {
         const formData = {
           [mappingTypes.GOALS]: formatData(validGoals),
@@ -812,7 +787,6 @@ describe('actions', () => {
     });
 
     it('should return false with incorrect goals', () => {
-      const benefit = getBenefitById('DHS');
       const formData = {
         [mappingTypes.GOALS]: formatData(invalidGoals),
         [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
@@ -822,7 +796,6 @@ describe('actions', () => {
     });
 
     it('should return false with incorrect discharge', () => {
-      const benefit = getBenefitById('DHS');
       const formData = {
         [mappingTypes.GOALS]: formatData(validGoals),
         [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(invalidDischarge),
@@ -833,6 +806,7 @@ describe('actions', () => {
   });
 
   describe('Veterans Pension - VAP', () => {
+    const benefit = getBenefitById('VAP');
     const validGoals = [
       goalTypes.FINANCIAL,
       goalTypes.RETIREMENT,
@@ -863,7 +837,6 @@ describe('actions', () => {
     );
 
     it('should return true with correct goals', () => {
-      const benefit = getBenefitById('VAP');
       validGoals.forEach(goal => {
         const formData = {
           [mappingTypes.GOALS]: { [goal]: true },
@@ -876,7 +849,6 @@ describe('actions', () => {
     });
 
     it('should return true with correct discharge', () => {
-      const benefit = getBenefitById('VAP');
       validDischarge.forEach(discharge => {
         const formData = {
           [mappingTypes.GOALS]: formatData(validGoals),
@@ -889,7 +861,6 @@ describe('actions', () => {
     });
 
     it('should return true with active duty service', () => {
-      const benefit = getBenefitById('VAP');
       validLengthOfService.forEach(service => {
         const formData = {
           [mappingTypes.GOALS]: formatData(validGoals),
@@ -905,7 +876,6 @@ describe('actions', () => {
     });
 
     it('should return true with Title Ten active duty', () => {
-      const benefit = getBenefitById('VAP');
       const formData = {
         [mappingTypes.GOALS]: formatData(validGoals),
         [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: true,
@@ -916,7 +886,6 @@ describe('actions', () => {
     });
 
     it('should return false with incorrect goals', () => {
-      const benefit = getBenefitById('VAP');
       const formData = {
         [mappingTypes.GOALS]: formatData(invalidGoals),
         [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: true,
@@ -927,7 +896,6 @@ describe('actions', () => {
     });
 
     it('should return false with incorrect discharge', () => {
-      const benefit = getBenefitById('VAP');
       const formData = {
         [mappingTypes.GOALS]: formatData(validGoals),
         [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: true,
@@ -938,7 +906,6 @@ describe('actions', () => {
     });
 
     it('should return false with invalid length of service', () => {
-      const benefit = getBenefitById('VAP');
       invalidLengthOfService.forEach(service => {
         const formData = {
           [mappingTypes.GOALS]: formatData(validGoals),
@@ -954,7 +921,6 @@ describe('actions', () => {
     });
 
     it('should return false with only National Guard and Reserve service', () => {
-      const benefit = getBenefitById('VAP');
       const formData = {
         [mappingTypes.GOALS]: formatData(validGoals),
         [militaryBranchTypes.ARMY]: {
@@ -978,6 +944,5 @@ describe('actions', () => {
  * VRE
  * VSC
  * DHS
- *
  * VAP -- wait
  */
