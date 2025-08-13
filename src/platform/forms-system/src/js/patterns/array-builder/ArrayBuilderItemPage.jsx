@@ -93,6 +93,7 @@ export default function ArrayBuilderItemPage({
         trackingPrefix={props.trackingPrefix}
         onChange={onChange}
         onSubmit={onSubmit}
+        formOptions={props.formOptions}
       >
         <>
           {isAdd && (

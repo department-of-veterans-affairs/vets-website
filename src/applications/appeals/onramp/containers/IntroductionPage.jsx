@@ -39,6 +39,7 @@ const IntroductionPage = ({ router, setIntroPageViewed }) => {
       </p>
       <va-button
         class="vads-u-width--full"
+        data-testid="onramp-start"
         onClick={startTool}
         text="Start the tool"
       />
