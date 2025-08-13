@@ -1343,6 +1343,9 @@ describe('<RecentActivity>', () => {
           </Provider>,
         );
         getByText(`We made a request: “dBQ friendly name.”`);
+        getByText(
+          /We’ve requested an exam related to your claim. The examiner’s office will contact you to schedule this appointment./i,
+        );
       });
       it('should render friendly display name, updated activity message and activity description with NEEDED_FROM_OTHERS record with activity description', () => {
         const { getByText, queryByText } = renderWithRouter(
