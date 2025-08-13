@@ -270,15 +270,15 @@ export const convertAccountSummary = data => {
   const { facilities = [], ipas } = data;
 
   // Map facilities
-  const mappedFacilities = !facilities
-    ? []
-    : facilities
+  const mappedFacilities = facilities
+    ? facilities
         ?.filter(facility => facility?.facilityInfo?.treatment)
         .map(facility => ({
           facilityName: facility.facilityInfo?.name || 'Unknown facility',
           stationNumber: facility.facilityInfo?.stationNumber || 'Unknown ID',
           type: facility.facilityInfo?.treatment ? 'Treatment' : 'VAMC',
-        }));
+        }))
+    : [];
 
   // Extract user profile details
   const ipa = ipas && ipas[0];
