@@ -1,6 +1,8 @@
 /* eslint-disable no-console */
 const commandLineArgs = require('command-line-args');
 const glob = require('glob');
+const fs = require('fs');
+const path = require('path');
 const core = require('@actions/core');
 const { runCommand } = require('../utils');
 // For usage instructions see https://github.com/department-of-veterans-affairs/vets-website#unit-tests
@@ -31,6 +33,7 @@ const COMMAND_LINE_OPTIONS = [
 
 // Get command line options
 const options = commandLineArgs(COMMAND_LINE_OPTIONS);
+// log this out to determing if we still need this
 
 // Helper function to get test paths
 function getTestPaths() {
@@ -46,6 +49,11 @@ function getTestPaths() {
 
   if (changedFiles.length === 0) {
     return glob.sync(STATIC_PAGES_PATTERN);
+  }
+
+  // May need to convert this output into an array?
+  if (process.env.NODE_COMPATBILITY_VERIFICATION) {
+    return JSON.parse(fs.readFileSync(path.resolve(`changed_unit_tests.json`)));
   }
 
   // Get app-specific tests

@@ -19,31 +19,22 @@ export function LH_MIGRATION__getEntryPoint(topLevelObject, entryPointKeys) {
   }, topLevelObject);
 }
 
-export function LH_MIGRATION__getOptions(shouldUseLighthouse) {
-  const migrationOptions = {
+export function LH_MIGRATION__getOptions() {
+  return {
     listEndpoint: {
       method: 'GET',
-      path: '/v0/letters',
+      path: '/v0/letters_generator',
     },
     summaryEndpoint: {
       method: 'GET',
-      path: '/v0/letters/beneficiary',
+      path: '/v0/letters_generator/beneficiary',
     },
     downloadEndpoint: {
       method: 'POST',
-      path: '/v0/letters',
+      path: '/v0/letters_generator/download',
     },
-    dataEntryPoint: ['data', 'attributes'],
+    dataEntryPoint: [],
   };
-
-  if (shouldUseLighthouse) {
-    migrationOptions.listEndpoint.path = '/v0/letters_generator';
-    migrationOptions.summaryEndpoint.path = '/v0/letters_generator/beneficiary';
-    migrationOptions.downloadEndpoint.path = '/v0/letters_generator/download';
-    migrationOptions.dataEntryPoint = [];
-  }
-
-  return migrationOptions;
 }
 
 export function apiRequest(resource, optionalSettings = {}, success, error) {

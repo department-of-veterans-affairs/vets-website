@@ -5,7 +5,7 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { useSelector } from 'react-redux';
 import { isLOA3, isLoggedIn } from 'platform/user/selectors';
-import { TITLE, SUBTITLE } from '../constants';
+import { TITLE, FULL_SUBTITLE } from '../constants';
 
 const OMB_RES_BURDEN = 30;
 const OMB_NUMBER = '2900-0265';
@@ -85,7 +85,7 @@ export const IntroductionPage = props => {
 
   return (
     <article className="schemaform-intro">
-      <FormTitle title={TITLE} subTitle={SUBTITLE} />
+      <FormTitle title={TITLE} subTitle={FULL_SUBTITLE} />
       <p>
         Personalized Career Planning and Guidance (PCPG), or Chapter 36, offers
         free educational and career support to Veterans, service members, and

@@ -13,12 +13,17 @@ const formMappings = {
     subTitle: 'Application Request to Add and/or Remove Dependents',
     pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-686c-ARE.pdf',
   },
+  '21-526EZ': {
+    subTitle:
+      'Application for Disability Compensation and Related Compensation Benefits',
+    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-526EZ-ARE.pdf',
+  },
 };
 
 export const getFormNumber = (pathname = null) => {
   const path = pathname || window?.location?.pathname;
   const regex = /upload\/([^/]+)/;
-  const match = path.match(regex)?.[1];
+  const match = path.match(regex)?.[1]?.toLowerCase();
   return (
     Object.keys(formMappings).find(key => key.toLowerCase() === match) || ''
   );
