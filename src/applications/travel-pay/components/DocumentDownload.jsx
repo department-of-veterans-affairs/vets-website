@@ -49,7 +49,7 @@ const DocumentDownload = ({ claimId, documentId, filename, text }) => {
   };
 
   return (
-    <div aria-live="polite">
+    <span aria-live="polite">
       {isLoading && (
         <va-icon
           srtext={`Downloading ${filename}`}
@@ -69,7 +69,7 @@ const DocumentDownload = ({ claimId, documentId, filename, text }) => {
           {error}
         </div>
       )}
-    </div>
+    </span>
   );
 };
 

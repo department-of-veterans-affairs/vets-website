@@ -49,18 +49,20 @@ import { selectGroupingFlag } from '../util/selectors';
 import { useGetAllergiesQuery } from '../api/allergiesApi';
 import { usePrescriptionData } from '../hooks/usePrescriptionData';
 import { usePrefetch } from '../api/prescriptionsApi';
+import { selectUserDob, selectUserFullName } from '../selectors/selectUser';
+import {
+  selectSortOption,
+  selectFilterOption,
+  selectPageNumber,
+} from '../selectors/selectPreferences';
 
 const PrescriptionDetails = () => {
   const { prescriptionId } = useParams();
 
   // Get sort/filter selections from store.
-  const selectedSortOption = useSelector(
-    state => state.rx.preferences.sortOption,
-  );
-  const selectedFilterOption = useSelector(
-    state => state.rx.preferences.filterOption,
-  );
-  const currentPage = useSelector(state => state.rx.preferences.pageNumber);
+  const selectedSortOption = useSelector(selectSortOption);
+  const selectedFilterOption = useSelector(selectFilterOption);
+  const currentPage = useSelector(selectPageNumber);
   // Consolidate query parameters into a single state object to avoid multiple re-renders
   const showGroupingContent = useSelector(selectGroupingFlag);
   const [queryParams] = useState({
@@ -80,8 +82,8 @@ const PrescriptionDetails = () => {
 
   const nonVaPrescription = prescription?.prescriptionSource === 'NV';
 
-  const userName = useSelector(state => state.user.profile.userFullName);
-  const dob = useSelector(state => state.user.profile.dob);
+  const userName = useSelector(selectUserFullName);
+  const dob = useSelector(selectUserDob);
   const { data: allergies, error: allergiesError } = useGetAllergiesQuery();
 
   const [prescriptionPdfList, setPrescriptionPdfList] = useState([]);
@@ -89,13 +91,9 @@ const PrescriptionDetails = () => {
     status: PDF_TXT_GENERATE_STATUS.NotStarted,
     format: undefined,
   });
-  // const showGroupingContent = useSelector(selectGroupingFlag);
 
   const prescriptionHeader =
-    prescription?.prescriptionName ||
-    (prescription?.dispStatus === 'Active: Non-VA'
-      ? prescription?.orderableItem
-      : '');
+    prescription?.prescriptionName || prescription?.orderableItem;
   const refillHistory = getRefillHistory(prescription);
 
   // Prefetch prescription documentation for faster loading when

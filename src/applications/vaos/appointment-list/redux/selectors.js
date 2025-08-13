@@ -469,7 +469,7 @@ export function selectApptDetailAriaText(appointment, isRequest = false) {
   const fillin3 = `${formatInTimeZone(
     appointmentDate,
     appointment.timezone,
-    'EEEE, MMMM d h:mm aaa',
+    'EEEE, MMMM d h:mm aaaa',
   )}, ${timezoneName}`;
 
   // Override fillin2 text for canceled or pending appointments
@@ -499,7 +499,7 @@ export function selectApptDateAriaText(appointment) {
   return `${formatInTimeZone(
     appointmentDate,
     appointment.timezone,
-    'EEEE, MMMM d h:mm aaa',
+    'EEEE, MMMM d h:mm aaaa',
   )}, ${timezoneName}'}`;
 }
 

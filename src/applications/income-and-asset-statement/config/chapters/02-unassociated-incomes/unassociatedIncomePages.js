@@ -222,6 +222,8 @@ const veteranIncomeRecipientPage = {
     }),
     recipientRelationship: radioUI({
       title: 'Who receives this income?',
+      labelHeaderLevel: '2',
+      labelHeaderLevelStyle: '3',
       labels: Object.fromEntries(
         Object.entries(relationshipLabels).filter(
           ([key]) => key !== 'PARENT' && key !== 'CUSTODIAN',
@@ -267,6 +269,8 @@ const spouseIncomeRecipientPage = {
     }),
     recipientRelationship: radioUI({
       title: 'What’s the income recipient’s relationship to the Veteran?',
+      labelHeaderLevel: '2',
+      labelHeaderLevelStyle: '3',
       labels: Object.fromEntries(
         Object.entries(relationshipLabels)
           .filter(
@@ -322,6 +326,8 @@ const custodianIncomeRecipientPage = {
     }),
     recipientRelationship: radioUI({
       title: 'What’s the income recipient’s relationship to the Veteran?',
+      labelHeaderLevel: '2',
+      labelHeaderLevelStyle: '3',
       labels: Object.fromEntries(
         Object.entries(relationshipLabels)
           .filter(
@@ -378,6 +384,8 @@ const parentIncomeRecipientPage = {
     }),
     recipientRelationship: radioUI({
       title: 'What’s the income recipient’s relationship to the Veteran?',
+      labelHeaderLevel: '2',
+      labelHeaderLevelStyle: '3',
       labels: Object.fromEntries(
         Object.entries(relationshipLabels)
           .filter(
@@ -431,6 +439,8 @@ const nonVeteranIncomeRecipientPage = {
     }),
     recipientRelationship: radioUI({
       title: 'Who receives the income?',
+      labelHeaderLevel: '2',
+      labelHeaderLevelStyle: '3',
       labels: relationshipLabels,
     }),
     otherRecipientRelationshipType: {
@@ -461,8 +471,28 @@ const nonVeteranIncomeRecipientPage = {
 /** @returns {PageSchema} */
 const recipientNamePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Recurring income recipient'),
-    recipientName: fullNameNoSuffixUI(title => `Income recipient’s ${title}`),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      showUpdatedContent()
+        ? 'Person who receives this income'
+        : 'Recurring income recipient',
+    ),
+    recipientName: showUpdatedContent()
+      ? {
+          ...fullNameNoSuffixUI(),
+          first: {
+            ...fullNameNoSuffixUI().first,
+            'ui:title': 'First or given name',
+          },
+          middle: {
+            ...fullNameNoSuffixUI().middle,
+            'ui:title': 'Middle name',
+          },
+          last: {
+            ...fullNameNoSuffixUI().last,
+            'ui:title': 'Last or family name',
+          },
+        }
+      : fullNameNoSuffixUI(title => `Income recipient’s ${title}`),
   },
   schema: {
     type: 'object',
@@ -599,7 +629,7 @@ export const unassociatedIncomePages = arrayBuilderPages(
       schema: nonVeteranIncomeRecipientPage.schema,
     }),
     unassociatedIncomeRecipientNamePage: pageBuilder.itemPage({
-      title: 'Recurring income recipient name',
+      title: 'Recurring income recipient',
       path: 'recurring-income/:index/recipient-name',
       depends: (formData, index) =>
         recipientNameRequired(formData, index, 'unassociatedIncomes'),

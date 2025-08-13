@@ -4,6 +4,8 @@ import { SchemaForm } from 'platform/forms-system/exportsFile';
 import { scrollTo } from 'platform/utilities/scroll';
 import EditPageButtons from './EditPageButtons';
 
+import { saveEditContactInformation } from '../util/contact-info';
+
 const EditPhonePage = ({
   schema,
   uiSchema,
@@ -32,13 +34,16 @@ const EditPhonePage = ({
       });
     },
     onUpdate: () => {
+      saveEditContactInformation('phone', 'update');
       returnToPath();
     },
-    onCancel: () => {
+    onCancel: event => {
+      event.preventDefault();
       setFormData({
         ...data,
         phone: originalPhone.current,
       });
+      saveEditContactInformation('phone', 'cancel');
       returnToPath();
     },
   };
