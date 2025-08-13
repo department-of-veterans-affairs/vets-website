@@ -18,8 +18,7 @@ export const privateRecordsChoiceHelp = (
       >
         <p>
           We can review your claim more quickly if you upload your records
-          yourself. You can upload .pdf, .jpeg, or .png files. Make sure you
-          have a strong internet connection.
+          yourself. You can upload .pdf, .jpeg, or .png files.
         </p>
       </va-accordion-item>
     </va-accordion>
@@ -36,8 +35,8 @@ export const privateRecordsChoiceHelp = (
           may take some time for us to get them. This means that it could take
           longer for us to decide your claim. We’ll try at least 2 times to get
           your records from the provider or hospital. If we can’t get them,
-          we’ll contact you to let you know and tell you know if there’s
-          anything you need to do.
+          we’ll contact you to let you know and tell you if there’s anything you
+          need to do.
         </p>
       </va-accordion-item>
     </va-accordion>

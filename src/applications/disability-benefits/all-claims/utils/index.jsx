@@ -882,7 +882,6 @@ export const baseDoNew4142Logic = formData => {
 export const onFormLoaded = props => {
   const { returnUrl, formData, router } = props;
   const shouldRedirectToModern4142Choice = baseDoNew4142Logic(formData);
-
   if (shouldRedirectToModern4142Choice === true) {
     try {
       window.sessionStorage.setItem('needsShownNew4142Alert', 'true');
