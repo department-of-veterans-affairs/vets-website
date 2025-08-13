@@ -116,6 +116,7 @@
   "giSandboxComparisonToolToggle": "gi_sandbox_comparision_tool_toggle",
   "giComparisonToolProgramsToggleFlag": "gi_comparison_tool_programs_toggle_flag",
   "giComparisonToolLceToggleFlag": "gi_comparison_tool_lce_toggle_flag",
+  "giFeedbackToolVetTecEducationBenefit": "gi_feedback_tool_vet_tec_education_benefit",
   "haCpapSuppliesCta": "ha_cpap_supplies_cta",
   "hcaBrowserMonitoringEnabled": "hca_browser_monitoring_enabled",
   "hcaEnrollmentStatusOverrideEnabled": "hca_enrollment_status_override_enabled",
