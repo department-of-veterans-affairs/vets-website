@@ -61,21 +61,21 @@ describe('Claims status validation:', () => {
     it('should handle null filename gracefully', () => {
       const file = { name: null, size: 1024 };
       const result = isPdf(file);
-      // Optional chaining returns undefined, but || false converts to false
+      // Optional chaining fails on null, nullish coalescing (??) provides false fallback
       expect(result).to.be.false;
     });
 
     it('should handle undefined filename gracefully', () => {
       const file = { name: undefined, size: 1024 };
       const result = isPdf(file);
-      // Optional chaining returns undefined, but || false converts to false
+      // Optional chaining fails on undefined, nullish coalescing (??) provides false fallback
       expect(result).to.be.false;
     });
 
     it('should handle files with no name property gracefully', () => {
       const file = { size: 1024 };
       const result = isPdf(file);
-      // Optional chaining returns undefined, but || false converts to false
+      // Optional chaining fails on undefined property, nullish coalescing (??) provides false fallback
       expect(result).to.be.false;
     });
   });
