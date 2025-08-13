@@ -34,6 +34,12 @@ const formatData = list => {
   return result;
 };
 
+const getInvalidMappingValues = (validMappingValues, allMappings) => {
+  return Object.values(allMappings).filter(
+    value1 => !validMappingValues.some(value2 => value2 === value1),
+  );
+};
+
 describe('actions', () => {
   describe('getResults', () => {
     it('returns valid response when formData is passed', async () => {
@@ -334,17 +340,17 @@ describe('actions', () => {
   describe('GI Bill Benefits - GIB', () => {
     const benefit = getBenefitById('GIB');
     const validGoals = [goalTypes.UNDERSTAND, goalTypes.SCHOOL];
-    const invalidGoals = Object.values(goalTypes).filter(
-      goal => !validGoals.some(goal2 => goal2 === goal),
-    );
+    const invalidGoals = getInvalidMappingValues(validGoals, goalTypes);
     const validDischarge = [
       characterOfDischargeTypes.HONORABLE,
       characterOfDischargeTypes.STILL_SERVING,
       blankType.BLANK,
     ];
-    const invalidDischarge = Object.values(characterOfDischargeTypes).filter(
-      discharge => !validDischarge.some(discharge2 => discharge2 === discharge),
+    const invalidDischarge = getInvalidMappingValues(
+      validDischarge,
+      characterOfDischargeTypes,
     );
+
     it('should return true with valid goals', () => {
       validGoals.forEach(goal => {
         const formData = {
@@ -393,17 +399,16 @@ describe('actions', () => {
       goalTypes.CAREER,
       goalTypes.UNDERSTAND,
     ];
-    const invalidGoals = Object.values(goalTypes).filter(
-      goal => !validGoals.some(goal2 => goal2 === goal),
-    );
+    const invalidGoals = getInvalidMappingValues(validGoals, goalTypes);
     const validDischarge = [
       characterOfDischargeTypes.HONORABLE,
       characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
       characterOfDischargeTypes.STILL_SERVING,
       blankType.BLANK,
     ];
-    const invalidDischarge = Object.values(characterOfDischargeTypes).filter(
-      discharge => !validDischarge.some(discharge2 => discharge2 === discharge),
+    const invalidDischarge = getInvalidMappingValues(
+      validDischarge,
+      characterOfDischargeTypes,
     );
 
     it('should return true with correct goals', () => {
@@ -468,17 +473,16 @@ describe('actions', () => {
       goalTypes.CAREER,
       goalTypes.UNDERSTAND,
     ];
-    const invalidGoals = Object.values(goalTypes).filter(
-      goal => !validGoals.some(goal2 => goal2 === goal),
-    );
+    const invalidGoals = getInvalidMappingValues(validGoals, goalTypes);
     const validDischarge = [
       characterOfDischargeTypes.HONORABLE,
       characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
       characterOfDischargeTypes.STILL_SERVING,
       blankType.BLANK,
     ];
-    const invalidDischarge = Object.values(characterOfDischargeTypes).filter(
-      discharge => !validDischarge.some(discharge2 => discharge2 === discharge),
+    const invalidDischarge = getInvalidMappingValues(
+      validDischarge,
+      characterOfDischargeTypes,
     );
 
     it('should return true with correct goals', () => {
@@ -525,9 +529,7 @@ describe('actions', () => {
   describe('Support for your Veteran-owned small business - SVC', () => {
     const benefit = getBenefitById('SVC');
     const validGoals = [goalTypes.CAREER, goalTypes.UNDERSTAND];
-    const invalidGoals = Object.values(goalTypes).filter(
-      goal => !validGoals.some(goal2 => goal2 === goal),
-    );
+    const invalidGoals = getInvalidMappingValues(validGoals, goalTypes);
     it('should return true with correct criteria', () => {
       validGoals.forEach(goal => {
         const formData = {
@@ -550,9 +552,7 @@ describe('actions', () => {
   describe('Transition Assistance Program - TAP', () => {
     const benefit = getBenefitById('TAP');
     const validGoals = [goalTypes.RETIREMENT, goalTypes.UNDERSTAND];
-    const invalidGoals = Object.values(goalTypes).filter(
-      goal => !validGoals.some(goal2 => goal2 === goal),
-    );
+    const invalidGoals = getInvalidMappingValues(validGoals, goalTypes);
 
     it('should return true with correct goals', () => {
       validGoals.forEach(goal => {
@@ -587,9 +587,7 @@ describe('actions', () => {
   describe('Veteran Readiness and Employment (Chapter 31) - VRE', () => {
     const benefit = getBenefitById('VRE');
     const validGoals = [goalTypes.CAREER, goalTypes.UNDERSTAND];
-    const invalidGoals = Object.values(goalTypes).filter(
-      goal => !validGoals.some(goal2 => goal2 === goal),
-    );
+    const invalidGoals = getInvalidMappingValues(validGoals, goalTypes);
     const validDischarge = [
       characterOfDischargeTypes.HONORABLE,
       characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
@@ -599,8 +597,9 @@ describe('actions', () => {
       characterOfDischargeTypes.BAD_CONDUCT,
       blankType.BLANK,
     ];
-    const invalidDischarge = Object.values(characterOfDischargeTypes).filter(
-      discharge => !validDischarge.some(discharge2 => discharge2 === discharge),
+    const invalidDischarge = getInvalidMappingValues(
+      validDischarge,
+      characterOfDischargeTypes,
     );
 
     const validDisabilityRating = [
@@ -686,9 +685,7 @@ describe('actions', () => {
       goalTypes.CAREER,
       goalTypes.UNDERSTAND,
     ];
-    const invalidGoals = Object.values(goalTypes).filter(
-      goal => !validGoals.some(goal2 => goal2 === goal),
-    );
+    const invalidGoals = getInvalidMappingValues(validGoals, goalTypes);
     const validDischarge = [
       characterOfDischargeTypes.HONORABLE,
       characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
@@ -697,10 +694,10 @@ describe('actions', () => {
       characterOfDischargeTypes.STILL_SERVING,
       blankType.BLANK,
     ];
-    const invalidDischarge = Object.values(characterOfDischargeTypes).filter(
-      discharge => !validDischarge.some(discharge2 => discharge2 === discharge),
+    const invalidDischarge = getInvalidMappingValues(
+      validDischarge,
+      characterOfDischargeTypes,
     );
-
     it('should return true with correct goals', () => {
       validGoals.forEach(goal => {
         const formData = {
@@ -749,9 +746,7 @@ describe('actions', () => {
       goalTypes.RETIREMENT,
       goalTypes.UNDERSTAND,
     ];
-    const invalidGoals = Object.values(goalTypes).filter(
-      goal => !validGoals.some(goal2 => goal2 === goal),
-    );
+    const invalidGoals = getInvalidMappingValues(validGoals, goalTypes);
     const validDischarge = [
       characterOfDischargeTypes.HONORABLE,
       characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
@@ -760,8 +755,9 @@ describe('actions', () => {
       characterOfDischargeTypes.NOT_SURE,
       characterOfDischargeTypes.STILL_SERVING,
     ];
-    const invalidDischarge = Object.values(characterOfDischargeTypes).filter(
-      discharge => !validDischarge.some(discharge2 => discharge2 === discharge),
+    const invalidDischarge = getInvalidMappingValues(
+      validDischarge,
+      characterOfDischargeTypes,
     );
 
     it('should return true with correct goals', () => {
@@ -812,9 +808,7 @@ describe('actions', () => {
       goalTypes.RETIREMENT,
       goalTypes.UNDERSTAND,
     ];
-    const invalidGoals = Object.values(goalTypes).filter(
-      goal => !validGoals.some(goal2 => goal2 === goal),
-    );
+    const invalidGoals = getInvalidMappingValues(validGoals, goalTypes);
     const validDischarge = [
       characterOfDischargeTypes.HONORABLE,
       characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
@@ -823,17 +817,20 @@ describe('actions', () => {
       characterOfDischargeTypes.NOT_SURE,
       characterOfDischargeTypes.STILL_SERVING,
     ];
-    const invalidDischarge = Object.values(characterOfDischargeTypes).filter(
-      discharge => !validDischarge.some(discharge2 => discharge2 === discharge),
+    const invalidDischarge = getInvalidMappingValues(
+      validDischarge,
+      characterOfDischargeTypes,
     );
     const validLengthOfService = [
       timeServedTypes.UP_TO_6_MONTHS,
       timeServedTypes.UP_TO_1_YEAR,
+      timeServedTypes.UP_TO_2_YEARS,
       timeServedTypes.UP_TO_3_YEARS,
       timeServedTypes.OVER_3_YEARS,
     ];
-    const invalidLengthOfService = Object.values(validLengthOfService).filter(
-      service => !validDischarge.some(service2 => service2 === service),
+    const invalidLengthOfService = getInvalidMappingValues(
+      validLengthOfService,
+      timeServedTypes,
     );
 
     it('should return true with correct goals', () => {
@@ -916,7 +913,7 @@ describe('actions', () => {
           [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
         };
         const result = actions.mapBenefitFromFormInputData(benefit, formData);
-        expect(result).to.be.true;
+        expect(result).to.be.false;
       });
     });
 
