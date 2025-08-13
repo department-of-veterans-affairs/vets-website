@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 import {
   truncateDescription,
@@ -13,10 +12,6 @@ import { standard5103Item } from '../../constants';
 import { evidenceDictionary } from '../../utils/evidenceDictionary';
 
 export default function FilesNeeded({ item, previousPage = null }) {
-  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const cst5103UpdateEnabled = useToggleValue(
-    TOGGLE_NAMES.cst5103UpdateEnabled,
-  );
   // We will not use the truncateDescription() here as these descriptions are custom and specific to what we want
   // the user to see based on the given item type.
   const itemsWithNewDescriptions = [
@@ -27,17 +22,18 @@ export default function FilesNeeded({ item, previousPage = null }) {
   ];
 
   const getItemDisplayName = () => {
-    if (isAutomated5103Notice(item.displayName) && cst5103UpdateEnabled) {
+    if (isAutomated5103Notice(item.displayName)) {
       return standard5103Item.displayName;
     }
-
     if (evidenceDictionary[item.displayName]?.isSensitive) {
       return `Request for evidence`;
+    }
+    if (evidenceDictionary[item.displayName]?.noProvidePrefix) {
+      return item.friendlyName;
     }
     if (item.friendlyName) {
       return `Provide ${getDisplayFriendlyName(item)}`;
     }
-
     return 'Request for evidence';
   };
 

@@ -103,6 +103,8 @@ The display conditions code (the keys in the objects) are expected to flow in th
 
 The utility functions that consume the display conditions always look **ahead** of the current question only to see what could come next, so there would never be a scenario where Question 2 would be checking Question 1's display conditions to see what's next.
 
-## Display Conditions (Review Screens)
+## Display Conditions (Results Screens)
 
-TODO
+The display conditions for results are identical in structure to questions, but they might be leaner when it comes to covering split paths. Unlike the questions, some results screens have more than one or two scenarios in which to display. When a results screen can be reached many ways, our primary concern is the answers to the questions immediately prior to that screen.
+
+Remember, as the user navigates through the flow, the questions' display conditions will direct them properly through the decision tree. By the time they reach a results screen, we will have verified every question against the decision tree, so the results decision tree won't need to do much additional validation.
