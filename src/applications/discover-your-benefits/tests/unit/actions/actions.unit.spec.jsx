@@ -562,29 +562,27 @@ describe('actions', () => {
   });
 
   describe('Transition Assistance Program - TAP', () => {
-    it('should return true with correct criteria', () => {
+    const validGoals = [goalTypes.RETIREMENT, goalTypes.UNDERSTAND];
+    const invalidGoals = Object.values(goalTypes).filter(
+      goal => !validGoals.some(goal2 => goal2 === goal),
+    );
+
+    it('should return true with correct goals', () => {
       const benefit = getBenefitById('TAP');
-      const formData = {
-        [mappingTypes.GOALS]: {
-          [goalTypes.RETIREMENT]: true,
-          [goalTypes.UNDERSTAND]: true,
-        },
-        [mappingTypes.CURRENTLY_SERVING]: true,
-      };
-      const result = actions.mapBenefitFromFormInputData(benefit, formData);
-      expect(result).to.be.true;
+      validGoals.forEach(goal => {
+        const formData = {
+          [mappingTypes.GOALS]: { [goal]: true },
+          [mappingTypes.CURRENTLY_SERVING]: true,
+        };
+        const result = actions.mapBenefitFromFormInputData(benefit, formData);
+        expect(result).to.be.true;
+      });
     });
 
     it('should return false with incorrect goals', () => {
       const benefit = getBenefitById('TAP');
       const formData = {
-        [mappingTypes.GOALS]: {
-          [goalTypes.FINANCIAL]: true,
-          [goalTypes.HEALTH]: true,
-          [goalTypes.PLAN]: true,
-          [goalTypes.SCHOOL]: true,
-          [goalTypes.CAREER]: true,
-        },
+        [mappingTypes.GOALS]: formatData(invalidGoals),
         [mappingTypes.CURRENTLY_SERVING]: true,
       };
       const result = actions.mapBenefitFromFormInputData(benefit, formData);
@@ -594,10 +592,7 @@ describe('actions', () => {
     it('should return false if not still serving', () => {
       const benefit = getBenefitById('TAP');
       const formData = {
-        [mappingTypes.GOALS]: {
-          [goalTypes.CAREER]: true,
-          [goalTypes.UNDERSTAND]: true,
-        },
+        [mappingTypes.GOALS]: formatData(validGoals),
         [mappingTypes.CURRENTLY_SERVING]: false,
       };
       const result = actions.mapBenefitFromFormInputData(benefit, formData);
