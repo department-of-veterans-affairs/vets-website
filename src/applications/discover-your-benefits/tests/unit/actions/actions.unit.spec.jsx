@@ -26,6 +26,14 @@ const getBenefitById = id => {
   return {};
 };
 
+const formatData = list => {
+  const result = {};
+  list.forEach(item => {
+    result[item] = true;
+  });
+  return result;
+};
+
 describe('actions', () => {
   describe('getResults', () => {
     it('returns valid response when formData is passed', async () => {
@@ -324,38 +332,47 @@ describe('actions', () => {
   });
 
   describe('GI Bill Benefits - GIB', () => {
-    it('should return true with correct criteria', () => {
+    const validGoals = [goalTypes.UNDERSTAND, goalTypes.SCHOOL];
+    const invalidGoals = Object.values(goalTypes).filter(
+      goal => !validGoals.some(goal2 => goal2 === goal),
+    );
+    const validDischarge = [
+      characterOfDischargeTypes.HONORABLE,
+      characterOfDischargeTypes.STILL_SERVING,
+      blankType.BLANK,
+    ];
+    const invalidDischarge = Object.values(characterOfDischargeTypes).filter(
+      discharge => !validDischarge.some(discharge2 => discharge2 === discharge),
+    );
+    it('should return true with valid goals', () => {
       const benefit = getBenefitById('GIB');
-      const formData = {
-        [mappingTypes.GOALS]: {
-          [goalTypes.UNDERSTAND]: true,
-          [goalTypes.SCHOOL]: true,
-        },
-        [mappingTypes.CHARACTER_OF_DISCHARGE]: {
-          [characterOfDischargeTypes.HONORABLE]: true,
-          [characterOfDischargeTypes.STILL_SERVING]: true,
-          [blankType.BLANK]: true,
-        },
-      };
-      const result = actions.mapBenefitFromFormInputData(benefit, formData);
-      expect(result).to.be.true;
+      validGoals.forEach(goal => {
+        const formData = {
+          [mappingTypes.GOALS]: { [goal]: true },
+          [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
+        };
+        const result = actions.mapBenefitFromFormInputData(benefit, formData);
+        expect(result).to.be.true;
+      });
+    });
+
+    it('should return true with valid discharge', () => {
+      const benefit = getBenefitById('GIB');
+      validDischarge.forEach(discharge => {
+        const formData = {
+          [mappingTypes.GOALS]: formatData(validGoals),
+          [mappingTypes.CHARACTER_OF_DISCHARGE]: { [discharge]: true },
+        };
+        const result = actions.mapBenefitFromFormInputData(benefit, formData);
+        expect(result).to.be.true;
+      });
     });
 
     it('should return false with incorrect disharge', () => {
       const benefit = getBenefitById('GIB');
       const formData = {
-        [mappingTypes.GOALS]: {
-          [goalTypes.UNDERSTAND]: true,
-          [goalTypes.SCHOOL]: true,
-        },
-        [mappingTypes.CHARACTER_OF_DISCHARGE]: {
-          [characterOfDischargeTypes.BAD_CONDUCT]: true,
-          [characterOfDischargeTypes.DISHONORABLE]: true,
-          [characterOfDischargeTypes.NOT_SURE]: true,
-          [characterOfDischargeTypes.UNCHARACTERIZED]: true,
-          [characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL]: true,
-          [characterOfDischargeTypes.UNDER_OTHER_THAN_HONORABLE_CONDITIONS]: true,
-        },
+        [mappingTypes.GOALS]: formatData(validGoals),
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(invalidDischarge),
       };
       const result = actions.mapBenefitFromFormInputData(benefit, formData);
       expect(result).to.be.false;
@@ -364,15 +381,8 @@ describe('actions', () => {
     it('should return false with incorrect goals', () => {
       const benefit = getBenefitById('GIB');
       const formData = {
-        [mappingTypes.GOALS]: {
-          [goalTypes.CAREER]: true,
-          [goalTypes.FINANCIAL]: true,
-          [goalTypes.HEALTH]: true,
-          [goalTypes.PLAN]: true,
-          [goalTypes.RETIREMENT]: true,
-        },
-        [mappingTypes.CHARACTER_OF_DISCHARGE]:
-          characterOfDischargeTypes.HONORABLE,
+        [mappingTypes.GOALS]: formatData(invalidGoals),
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
       };
       const result = actions.mapBenefitFromFormInputData(benefit, formData);
       expect(result).to.be.false;
