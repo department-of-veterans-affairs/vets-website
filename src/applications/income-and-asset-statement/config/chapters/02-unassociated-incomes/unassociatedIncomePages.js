@@ -269,6 +269,7 @@ const spouseIncomeRecipientPage = {
     }),
     recipientRelationship: radioUI({
       title: 'What’s the income recipient’s relationship to the Veteran?',
+      hint: 'You’ll be able to add individual incomes separately',
       labelHeaderLevel: '2',
       labelHeaderLevelStyle: '3',
       labels: Object.fromEntries(
