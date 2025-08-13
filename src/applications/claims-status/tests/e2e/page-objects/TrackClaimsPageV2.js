@@ -2,9 +2,6 @@
 // START lighthouse_migration
 import featureToggleClaimDetailV2Enabled from '../fixtures/mocks/lighthouse/feature-toggle-claim-detail-v2-enabled.json';
 import featureToggleClaimPhasesEnabled from '../fixtures/mocks/lighthouse/feature-toggle-claim-phases-enabled.json';
-import featureToggle5103UpdateEnabled from '../fixtures/mocks/lighthouse/feature-toggle-5103-update-enabled.json';
-import featureToggle5103UpdateEnabledV2 from '../fixtures/mocks/lighthouse/feature-toggle-5103-update-enabled-v2.json';
-import featureToggleFriendlyEvidenceRequests from '../fixtures/mocks/lighthouse/feature-toggle-cst-friendly-evidence-requests.json';
 // END lighthouse_migration
 
 const Timeouts = require('platform/testing/e2e/timeouts.js');
@@ -16,9 +13,6 @@ class TrackClaimsPageV2 {
     mock = null,
     submitForm = false,
     cstClaimPhasesToggleEnabled = false,
-    cst5103UpdateEnabled = false,
-    cst5103UpdateEnabledV2 = false,
-    cstFriendlyEvidenceRequest = false,
   ) {
     if (submitForm) {
       cy.intercept('POST', `/v0/benefits_claims/189685/submit5103`, {
@@ -38,27 +32,6 @@ class TrackClaimsPageV2 {
         'GET',
         '/v0/feature_toggles?*',
         featureToggleClaimPhasesEnabled,
-      );
-    } else if (cst5103UpdateEnabled) {
-      // When cst_use_claim_details_v2 is disabled, cst_5103_update_enabled is enabled
-      cy.intercept(
-        'GET',
-        '/v0/feature_toggles?*',
-        featureToggle5103UpdateEnabled,
-      );
-    } else if (cst5103UpdateEnabledV2) {
-      // When cst_use_claim_details_v2 and cst_5103_update_enabled are enabled
-      cy.intercept(
-        'GET',
-        '/v0/feature_toggles?*',
-        featureToggle5103UpdateEnabledV2,
-      );
-    } else if (cstFriendlyEvidenceRequest) {
-      // When cst_use_claim_details_v2 and cst_friendly_evidence_requests are enabled
-      cy.intercept(
-        'GET',
-        '/v0/feature_toggles?*',
-        featureToggleFriendlyEvidenceRequests,
       );
     } else {
       cy.intercept(
@@ -450,11 +423,11 @@ class TrackClaimsPageV2 {
         // Verify some tracked items on page 1
         cy.get('.recent-activity-container > ol > li > p').should(
           'contain',
-          'We completed a review for the request: “Automated 5103 Notice Response”',
+          'We completed a review for the request: “List of evidence we may need (5103 notice)”',
         );
         cy.get('.recent-activity-container > ol > li > p').should(
           'contain',
-          'We opened a request: “Automated 5103 Notice Response”',
+          'We opened a request: “List of evidence we may need (5103 notice)”',
         );
         cy.get('.recent-activity-container > ol > li > p').should(
           'contain',
@@ -502,11 +475,11 @@ class TrackClaimsPageV2 {
       // Verify some tracked items on page 1
       cy.get('.recent-activity-container > ol > li > p').should(
         'contain',
-        'We completed a review for the request: “Automated 5103 Notice Response”',
+        'We completed a review for the request: “List of evidence we may need (5103 notice)”',
       );
       cy.get('.recent-activity-container > ol > li > p').should(
         'contain',
-        'We opened a request: “Automated 5103 Notice Response”',
+        'We opened a request: “List of evidence we may need (5103 notice)”',
       );
       cy.get('.recent-activity-container > ol > li > p').should(
         'contain',
@@ -569,7 +542,7 @@ class TrackClaimsPageV2 {
       .first()
       .shadow()
       .get('va-alert.primary-alert:first-of-type a')
-      .should('contain', 'Details');
+      .should('contain', 'About this request');
     cy.get('va-alert.primary-alert')
       .first()
       .shadow()
@@ -577,7 +550,7 @@ class TrackClaimsPageV2 {
       .click();
     cy.url().should(
       'contain',
-      '/track-claims/your-claims/189685/document-request/2',
+      '/track-claims/your-claims/189685/needed-from-you/2',
     );
   }
 
@@ -586,11 +559,7 @@ class TrackClaimsPageV2 {
     cy.get('[data-testid="item-2"]')
       .shadow()
       .get('[data-testid="item-2"]:first-of-type a')
-      .should('contain', 'Details');
-    cy.get('[data-testid="item-2"]')
-      .find('.due-date-header')
-      .should('contain', 'Needed from you by February 4, 2022')
-      .and('contain', 'Due');
+      .should('contain', 'About this request');
     cy.get('[data-testid="item-2"]')
       .find('.alert-description')
       .should('contain', 'Submit Buddy Statement(s)');
@@ -600,7 +569,7 @@ class TrackClaimsPageV2 {
       .click();
     cy.url().should(
       'contain',
-      '/track-claims/your-claims/189685/document-request/2',
+      '/track-claims/your-claims/189685/needed-from-you/2',
     );
   }
 
@@ -612,7 +581,7 @@ class TrackClaimsPageV2 {
       : '[data-testid="item-13"]';
     const url = isStandard
       ? '/track-claims/your-claims/189685/5103-evidence-notice'
-      : '/track-claims/your-claims/189685/document-request/13';
+      : '/track-claims/your-claims/189685/needed-from-you/13';
     cy.get(testId).should('be.visible');
     if (isStandard || is5103Update) {
       cy.get(testId)
@@ -621,11 +590,11 @@ class TrackClaimsPageV2 {
     } else {
       cy.get(testId)
         .find('h4')
-        .should('contain', 'Automated 5103 Notice Response');
+        .should('contain', 'Request for evidence');
     }
     cy.get(testId)
       .find('a')
-      .should('contain', 'Details');
+      .should('contain', 'About this request');
     cy.get(testId)
       .find('.alert-description')
       .first()
@@ -639,19 +608,8 @@ class TrackClaimsPageV2 {
     cy.url().should('contain', url);
   }
 
-  verifyDocRequestforDefaultPage(is5103Notice = false) {
+  verifyDocRequestforDefaultPage() {
     cy.get('#default-page').should('be.visible');
-    if (is5103Notice) {
-      cy.get('.due-date-header').should(
-        'contain',
-        'Needed from you by July 14, 2024',
-      );
-    } else {
-      cy.get('.due-date-header')
-        .should('contain', 'Needed from you by February 4, 2022')
-        .and('contain', 'Due');
-    }
-    cy.get('va-additional-info').should('be.visible');
   }
 
   // Not currently using Standard 5103 Notice. Was being used on WhatYouNeedToDo and AdditionalEvidence.
@@ -704,7 +662,7 @@ class TrackClaimsPageV2 {
     } else {
       cy.get('.usa-breadcrumb__list > li:nth-child(4) a').should(
         'contain',
-        'Submit Buddy Statement(s)',
+        'Request for evidence',
       );
     }
   }
@@ -748,7 +706,7 @@ class TrackClaimsPageV2 {
       .shadow()
       .get('va-alert[status="info"] a')
       .first()
-      .should('contain', 'add it here');
+      .should('contain', 'About this notice');
     cy.get('va-alert[status="info"]')
       .first()
       .shadow()
@@ -757,7 +715,7 @@ class TrackClaimsPageV2 {
       .click();
     cy.url().should(
       'contain',
-      '/track-claims/your-claims/189685/document-request/4',
+      '/track-claims/your-claims/189685/needed-from-others/4',
     );
   }
 
@@ -769,7 +727,7 @@ class TrackClaimsPageV2 {
       .first()
       .shadow()
       .get('.recent-activity-container va-alert[status="info"]:first-of-type a')
-      .should('contain', 'add it here');
+      .should('contain', 'About this notice');
     cy.get('.recent-activity-container va-alert[status="info"]')
       .first()
       .shadow()
@@ -778,7 +736,7 @@ class TrackClaimsPageV2 {
       .click();
     cy.url().should(
       'contain',
-      '/track-claims/your-claims/189685/document-request/4',
+      '/track-claims/your-claims/189685/needed-from-others/4',
     );
   }
 
