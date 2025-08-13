@@ -701,38 +701,55 @@ describe('actions', () => {
   });
 
   describe('VetSuccess on Campus (VSOC) - VSC', () => {
-    it('should return true with correct criteria', () => {
+    const validGoals = [
+      goalTypes.SCHOOL,
+      goalTypes.CAREER,
+      goalTypes.UNDERSTAND,
+    ];
+    const invalidGoals = Object.values(goalTypes).filter(
+      goal => !validGoals.some(goal2 => goal2 === goal),
+    );
+    const validDischarge = [
+      characterOfDischargeTypes.HONORABLE,
+      characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
+      characterOfDischargeTypes.UNDER_OTHER_THAN_HONORABLE_CONDITIONS,
+      characterOfDischargeTypes.UNCHARACTERIZED,
+      characterOfDischargeTypes.STILL_SERVING,
+      blankType.BLANK,
+    ];
+    const invalidDischarge = Object.values(characterOfDischargeTypes).filter(
+      discharge => !validDischarge.some(discharge2 => discharge2 === discharge),
+    );
+
+    it('should return true with correct goals', () => {
       const benefit = getBenefitById('VSC');
-      const formData = {
-        [mappingTypes.GOALS]: {
-          [goalTypes.CAREER]: true,
-          [goalTypes.SCHOOL]: true,
-          [goalTypes.UNDERSTAND]: true,
-        },
-        [mappingTypes.CHARACTER_OF_DISCHARGE]: {
-          [characterOfDischargeTypes.HONORABLE]: true,
-          [characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL]: true,
-          [characterOfDischargeTypes.UNDER_OTHER_THAN_HONORABLE_CONDITIONS]: true,
-          [characterOfDischargeTypes.UNCHARACTERIZED]: true,
-          [characterOfDischargeTypes.STILL_SERVING]: true,
-          [blankType.BLANK]: true,
-        },
-      };
-      const result = actions.mapBenefitFromFormInputData(benefit, formData);
-      expect(result).to.be.true;
+      validGoals.forEach(goal => {
+        const formData = {
+          [mappingTypes.GOALS]: { [goal]: true },
+          [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
+        };
+        const result = actions.mapBenefitFromFormInputData(benefit, formData);
+        expect(result).to.be.true;
+      });
+    });
+
+    it('should return true with correct discharge', () => {
+      const benefit = getBenefitById('VSC');
+      validDischarge.forEach(discharge => {
+        const formData = {
+          [mappingTypes.GOALS]: formatData(validGoals),
+          [mappingTypes.CHARACTER_OF_DISCHARGE]: discharge,
+        };
+        const result = actions.mapBenefitFromFormInputData(benefit, formData);
+        expect(result).to.be.true;
+      });
     });
 
     it('should return false with incorrect goals', () => {
       const benefit = getBenefitById('VSC');
       const formData = {
-        [mappingTypes.GOALS]: {
-          [goalTypes.FINANCIAL]: true,
-          [goalTypes.HEALTH]: true,
-          [goalTypes.PLAN]: true,
-          [goalTypes.RETIREMENT]: true,
-        },
-        [mappingTypes.CHARACTER_OF_DISCHARGE]:
-          characterOfDischargeTypes.HONORABLE,
+        [mappingTypes.GOALS]: formatData(invalidGoals),
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
       };
       const result = actions.mapBenefitFromFormInputData(benefit, formData);
       expect(result).to.be.false;
@@ -741,16 +758,8 @@ describe('actions', () => {
     it('should return false with incorrect discharge', () => {
       const benefit = getBenefitById('VSC');
       const formData = {
-        [mappingTypes.GOALS]: {
-          [goalTypes.CAREER]: true,
-          [goalTypes.SCHOOL]: true,
-          [goalTypes.UNDERSTAND]: true,
-        },
-        [mappingTypes.CHARACTER_OF_DISCHARGE]: {
-          [characterOfDischargeTypes.DISHONORABLE]: true,
-          [characterOfDischargeTypes.BAD_CONDUCT]: true,
-          [characterOfDischargeTypes.NOT_SURE]: true,
-        },
+        [mappingTypes.GOALS]: formatData(validGoals),
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(invalidDischarge),
       };
       const result = actions.mapBenefitFromFormInputData(benefit, formData);
       expect(result).to.be.false;
@@ -758,39 +767,55 @@ describe('actions', () => {
   });
 
   describe('Disability housing grant - DHS', () => {
-    it('should return true with correct criteria', () => {
+    const validGoals = [
+      goalTypes.FINANCIAL,
+      goalTypes.RETIREMENT,
+      goalTypes.UNDERSTAND,
+    ];
+    const invalidGoals = Object.values(goalTypes).filter(
+      goal => !validGoals.some(goal2 => goal2 === goal),
+    );
+    const validDischarge = [
+      characterOfDischargeTypes.HONORABLE,
+      characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
+      characterOfDischargeTypes.BAD_CONDUCT,
+      characterOfDischargeTypes.UNCHARACTERIZED,
+      characterOfDischargeTypes.NOT_SURE,
+      characterOfDischargeTypes.STILL_SERVING,
+    ];
+    const invalidDischarge = Object.values(characterOfDischargeTypes).filter(
+      discharge => !validDischarge.some(discharge2 => discharge2 === discharge),
+    );
+
+    it('should return true with correct goals', () => {
       const benefit = getBenefitById('DHS');
-      const formData = {
-        [mappingTypes.GOALS]: {
-          [goalTypes.FINANCIAL]: true,
-          [goalTypes.RETIREMENT]: true,
-          [goalTypes.UNDERSTAND]: true,
-        },
-        [mappingTypes.CHARACTER_OF_DISCHARGE]: {
-          [characterOfDischargeTypes.HONORABLE]: true,
-          [characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL]: true,
-          [characterOfDischargeTypes.BAD_CONDUCT]: true,
-          [characterOfDischargeTypes.UNCHARACTERIZED]: true,
-          [characterOfDischargeTypes.NOT_SURE]: true,
-          [characterOfDischargeTypes.STILL_SERVING]: true,
-          [blankType.BLANK]: true,
-        },
-      };
-      const result = actions.mapBenefitFromFormInputData(benefit, formData);
-      expect(result).to.be.true;
+      validGoals.forEach(goal => {
+        const formData = {
+          [mappingTypes.GOALS]: { [goal]: true },
+          [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
+        };
+        const result = actions.mapBenefitFromFormInputData(benefit, formData);
+        expect(result).to.be.true;
+      });
+    });
+
+    it('should return true with correct discharge', () => {
+      const benefit = getBenefitById('DHS');
+      validDischarge.forEach(discharge => {
+        const formData = {
+          [mappingTypes.GOALS]: formatData(validGoals),
+          [mappingTypes.CHARACTER_OF_DISCHARGE]: discharge,
+        };
+        const result = actions.mapBenefitFromFormInputData(benefit, formData);
+        expect(result).to.be.true;
+      });
     });
 
     it('should return false with incorrect goals', () => {
       const benefit = getBenefitById('DHS');
       const formData = {
-        [mappingTypes.GOALS]: {
-          [goalTypes.HEALTH]: true,
-          [goalTypes.PLAN]: true,
-          [goalTypes.SCHOOL]: true,
-          [goalTypes.CAREER]: true,
-        },
-        [mappingTypes.CHARACTER_OF_DISCHARGE]:
-          characterOfDischargeTypes.HONORABLE,
+        [mappingTypes.GOALS]: formatData(invalidGoals),
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
       };
       const result = actions.mapBenefitFromFormInputData(benefit, formData);
       expect(result).to.be.false;
@@ -799,15 +824,8 @@ describe('actions', () => {
     it('should return false with incorrect discharge', () => {
       const benefit = getBenefitById('DHS');
       const formData = {
-        [mappingTypes.GOALS]: {
-          [goalTypes.FINANCIAL]: true,
-          [goalTypes.RETIREMENT]: true,
-          [goalTypes.UNDERSTAND]: true,
-        },
-        [mappingTypes.CHARACTER_OF_DISCHARGE]: {
-          [characterOfDischargeTypes.DISHONORABLE]: true,
-          [characterOfDischargeTypes.UNDER_OTHER_THAN_HONORABLE_CONDITIONS]: true,
-        },
+        [mappingTypes.GOALS]: formatData(validGoals),
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(invalidDischarge),
       };
       const result = actions.mapBenefitFromFormInputData(benefit, formData);
       expect(result).to.be.false;
