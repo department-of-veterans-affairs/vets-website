@@ -6,20 +6,22 @@ import { RESULTS_NAME_MAP } from '../../../constants/results-data-map';
 const {
   Q_1_1_CLAIM_DECISION,
   Q_1_2_CLAIM_DECISION,
-  Q_1_2A_CONDITION_WORSENED,
-  Q_1_2B_LAW_POLICY_CHANGE,
-  Q_1_2C_NEW_EVIDENCE,
+  Q_1_3_CLAIM_CONTESTED,
+  Q_1_3A_FEWER_60_DAYS,
+  Q_2_H_2_NEW_EVIDENCE,
+  Q_2_H_2B_JUDGE_HEARING,
 } = SHORT_NAME_MAP;
-const { RESULTS_SC } = RESULTS_NAME_MAP;
+const { RESULTS_BOARD_DIRECT } = RESULTS_NAME_MAP;
 
-// Results SC: Supplemental Claim recommended
+// Results Board Appeal: Direct Review recommended
 // 1.1 - Yes
-// 1.2 - No
-// 1.2A - No
-// 1.2B - No
-// 1.2C - Yes
+// 1.2 - Yes
+// 1.3 - Yes
+// 1.3A - Yes
+// 2.H.2 - No
+// 2.H.2B - No
 describe('Decision Reviews Onramp', () => {
-  describe('Results SC (path 2)', () => {
+  describe('Results Board (path 1)', () => {
     it('navigates through the flow forward and backward successfully', () => {
       cy.visit(h.ROOT);
 
@@ -35,39 +37,48 @@ describe('Decision Reviews Onramp', () => {
 
       // Q_1_2_CLAIM_DECISION
       h.verifyUrl(ROUTES.Q_1_2_CLAIM_DECISION);
-      h.selectRadio(Q_1_2_CLAIM_DECISION, 1);
+      h.selectRadio(Q_1_2_CLAIM_DECISION, 0);
       h.clickContinue();
 
-      // Q_1_2A_CONDITION_WORSENED
-      h.verifyUrl(ROUTES.Q_1_2A_CONDITION_WORSENED);
-      h.selectRadio(Q_1_2A_CONDITION_WORSENED, 1);
+      // Q_1_3_CLAIM_CONTESTED
+      h.verifyUrl(ROUTES.Q_1_3_CLAIM_CONTESTED);
+      h.selectRadio(Q_1_3_CLAIM_CONTESTED, 0);
       h.clickContinue();
 
-      // Q_1_2B_LAW_POLICY_CHANGE
-      h.verifyUrl(ROUTES.Q_1_2B_LAW_POLICY_CHANGE);
-      h.selectRadio(Q_1_2B_LAW_POLICY_CHANGE, 1);
+      // Q_1_3A_FEWER_60_DAYS
+      h.verifyUrl(ROUTES.Q_1_3A_FEWER_60_DAYS);
+      h.selectRadio(Q_1_3A_FEWER_60_DAYS, 0);
       h.clickContinue();
 
-      // Q_1_2C_NEW_EVIDENCE
-      h.verifyUrl(ROUTES.Q_1_2C_NEW_EVIDENCE);
-      h.selectRadio(Q_1_2C_NEW_EVIDENCE, 0);
+      // Q_2_H_2_NEW_EVIDENCE
+      h.verifyUrl(ROUTES.Q_2_H_2_NEW_EVIDENCE);
+      h.selectRadio(Q_2_H_2_NEW_EVIDENCE, 1);
+      h.clickContinue();
+
+      // Q_2_H_2B_JUDGE_HEARING
+      h.verifyUrl(ROUTES.Q_2_H_2B_JUDGE_HEARING);
+      h.selectRadio(Q_2_H_2B_JUDGE_HEARING, 1);
       h.clickContinue();
 
       // RESULTS
       h.verifyUrl(ROUTES.RESULTS);
-      h.verifyText(h.RESULTS_HEADER, RESULTS_SC);
+      h.verifyText(h.RESULTS_HEADER, RESULTS_BOARD_DIRECT);
       cy.go('back');
 
-      // Q_1_2C_NEW_EVIDENCE
-      h.verifyUrl(ROUTES.Q_1_2C_NEW_EVIDENCE);
+      // Q_2_H_2B_JUDGE_HEARING
+      h.verifyUrl(ROUTES.Q_2_H_2B_JUDGE_HEARING);
       h.clickBack();
 
-      // Q_1_2B_LAW_POLICY_CHANGE
-      h.verifyUrl(ROUTES.Q_1_2B_LAW_POLICY_CHANGE);
+      // Q_2_H_2_NEW_EVIDENCE
+      h.verifyUrl(ROUTES.Q_2_H_2_NEW_EVIDENCE);
       h.clickBack();
 
-      // Q_1_2A_CONDITION_WORSENED
-      h.verifyUrl(ROUTES.Q_1_2A_CONDITION_WORSENED);
+      // Q_1_3A_FEWER_60_DAYS
+      h.verifyUrl(ROUTES.Q_1_3A_FEWER_60_DAYS);
+      h.clickBack();
+
+      // Q_1_3_CLAIM_CONTESTED
+      h.verifyUrl(ROUTES.Q_1_3_CLAIM_CONTESTED);
       h.clickBack();
 
       // Q_1_2_CLAIM_DECISION
