@@ -822,7 +822,7 @@ export const preparerDateOfBirthUI = currentOrPastDateUI(
 );
 
 // Modify default uiSchema for SSN to insert any missing dashes.
-export const ssnDashesUI = ssnOrVaFileNumberNoHintUI;
+export const ssnDashesUI = ssnOrVaFileNumberNoHintUI();
 
 export const preparerSsnDashesUI = merge({}, ssnDashesUI, {
   'ui:title': 'Applicant’s Social Security number',
