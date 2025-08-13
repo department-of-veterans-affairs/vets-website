@@ -1,8 +1,10 @@
 import { useEffect, useRef } from 'react';
 import { add, getYear } from 'date-fns';
 import { intersection, matches, merge, uniq } from 'lodash';
+import * as Sentry from '@sentry/browser';
 import shouldUpdate from 'recompose/shouldUpdate';
 import { deepEquals } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
+import { handleSessionUpdates } from '../../../utilities/api';
 import get from '../../../utilities/data/get';
 import omit from '../../../utilities/data/omit';
 import set from '../../../utilities/data/set';
@@ -66,12 +68,46 @@ export function getActivePages(pages, data) {
   return pages.filter(page => isActivePage(page, data));
 }
 
+export function getPageProperties(page) {
+  if (!page?.schema?.properties) return [];
+
+  const isArrayPage =
+    typeof page.arrayPath === 'string' &&
+    page.arrayPath.length &&
+    page.schema.properties[page.arrayPath]?.items?.properties;
+
+  if (isArrayPage) {
+    const { properties } = page.schema.properties[page.arrayPath].items;
+    return Object.keys(properties).map(
+      key => `${page.arrayPath}.${page.index}.${key}`,
+    );
+  }
+
+  return Object.keys(page.schema.properties);
+}
+
+export function deleteNestedProperty(obj, pathString) {
+  let current = obj;
+  const pathToDelete = pathString.split('.');
+  for (let i = 0; i < pathToDelete.length - 1; i++) {
+    if (
+      current[pathToDelete[i]] === undefined ||
+      typeof current[pathToDelete[i]] !== 'object'
+    ) {
+      return; // exit if path is invalid
+    }
+    current = current[pathToDelete[i]];
+  }
+  // ensure the parent object exists before attempting deletion
+  if (current && typeof current === 'object') {
+    delete current[pathToDelete[pathToDelete.length - 1]];
+  }
+}
+
 export function getActiveProperties(activePages) {
   const allProperties = [];
   activePages.forEach(page => {
-    if (page.schema) {
-      allProperties.push(...Object.keys(page.schema.properties));
-    }
+    allProperties.push(...getPageProperties(page));
   });
   return uniq(allProperties);
 }
@@ -250,20 +286,18 @@ export function filterViewFields(data) {
 }
 
 export function filterInactivePageData(inactivePages, activePages, form) {
-  const activeProperties = getActiveProperties(activePages);
-  let newData;
+  const activePropsSet = new Set(getActiveProperties(activePages));
+  const formData = { ...form.data };
 
-  return inactivePages.reduce(
-    (formData, page) =>
-      Object.keys(page.schema.properties).reduce((currentData, prop) => {
-        newData = currentData;
-        if (!activeProperties.includes(prop)) {
-          delete newData[prop];
-        }
-        return newData;
-      }, formData),
-    form.data,
-  );
+  inactivePages.forEach(page => {
+    getPageProperties(page).forEach(prop => {
+      if (!activePropsSet.has(prop)) {
+        deleteNestedProperty(formData, prop);
+      }
+    });
+  });
+
+  return formData;
 }
 
 export const stringifyFormReplacer = createStringifyFormReplacer();
@@ -870,5 +904,44 @@ export function convertUrlPathToPageConfigPath(urlPath, rootUrl = null) {
     return pageConfigPath.replace(/\/\d{1,2}(?=\/|$)/, '/:index');
   } catch {
     return urlPath;
+  }
+}
+
+/**
+ * Wrap a XMLHttpRequest so that it mimics the url and headers.get properties
+ * of a Response object for compatability with platform utilities that use fetch
+ *
+ * @param {XMLHttpRequest} XHR request object
+ * @returns {Object} wrapped XHR instance with methods / properties that mimic some of Response object's
+ */
+function xhrWrapper(xhr) {
+  return {
+    headers: {
+      get: name => xhr.getResponseHeader(name),
+    },
+    url: xhr.url,
+  };
+}
+
+/**
+ * Update session tokens after request
+ *
+ * @param {XMLHttpRequest} XHR request object
+ * @param {string} CSRF token stored before request made
+ */
+export function handleSessionRefresh(xhr, csrfTokenStored) {
+  const wrapper = xhrWrapper(xhr);
+  try {
+    handleSessionUpdates(wrapper);
+  } catch (err) {
+    Sentry.withScope(scope => {
+      scope.setExtra('error', err);
+      scope.setFingerprint(['{{default}}', scope._tags?.source]);
+      Sentry.captureMessage(`vets_client_error: ${err.message}`);
+    });
+  }
+  const csrfToken = wrapper.headers.get('X-CSRF-Token');
+  if (csrfToken && csrfToken !== csrfTokenStored) {
+    localStorage.setItem('csrfToken', csrfToken);
   }
 }

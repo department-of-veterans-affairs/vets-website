@@ -1,23 +1,17 @@
 import React from 'react';
 import { expect } from 'chai';
-import sinon from 'sinon';
-import { mount } from 'enzyme';
-
-import {
-  DefinitionTester,
-  fillData,
-  fillDate,
-  selectRadio,
-} from 'platform/testing/unit/schemaform-utils';
+import { render } from '@testing-library/react';
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../config/form';
-import { ERR_MSG_CSS_CLASS } from '../../constants';
+import { pageSubmitTest } from '../unit.helpers.spec';
 
-describe('Recent Job Applications', () => {
-  const page = formConfig.chapters.disabilities.pages.pastEducationTraining;
+describe('Past Education Training', () => {
+  const formConfig8940 = require('../../config/8940').default();
+  const page = formConfig8940.pastEducationTraining;
   const { schema, uiSchema } = page;
 
   it('should render', () => {
-    const form = mount(
+    const { container } = render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
@@ -25,85 +19,232 @@ describe('Recent Job Applications', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(2);
-    expect(form.find('select').length).to.equal(1);
-    form.unmount();
+    expect(container.querySelectorAll('input')).to.have.length(2);
+    expect(container.querySelectorAll('select')).to.have.length(1);
   });
 
-  it('should add an other education', () => {
-    const otherEducation = 'Other';
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        onSubmit={onSubmit}
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-      />,
-    );
+  it('should submit with valid education data', () => {
+    const formData = {
+      unemployability: {
+        education: 'Other',
+        otherEducation: 'Vocational Training',
+        receivedOtherEducationTrainingPreUnemployability: true,
+        otherEducationTrainingPreUnemployability: [
+          {
+            name: 'Vocational Training Program',
+            dates: {
+              from: '2010-01-01',
+              to: '2010-12-01',
+            },
+          },
+        ],
+      },
+    };
 
-    fillData(form, 'select#root_unemployability_education', 'Other');
-    fillData(form, 'input#root_unemployability_otherEducation', 'Vocational');
-    selectRadio(
-      form,
-      'root_unemployability_receivedOtherEducationTrainingPreUnemployability',
-      'Y',
-    );
-    fillData(
-      form,
-      'input#root_unemployability_otherEducationTrainingPreUnemployability_0_name',
-      otherEducation,
-    );
-
-    fillDate(
-      form,
-      'root_unemployability_otherEducationTrainingPreUnemployability_0_dates_from',
-      '2010-01-01',
-    );
-    fillDate(
-      form,
-      'root_unemployability_otherEducationTrainingPreUnemployability_0_dates_to',
-      '2010-12-01',
-    );
-
-    form.find('.va-growable-add-btn').simulate('click');
-
-    expect(
-      form
-        .find('.va-growable-background')
-        .first()
-        .text(),
-    ).to.contain(otherEducation);
-
-    form.find('form').simulate('submit');
-
-    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
-    form.unmount();
+    pageSubmitTest({ schema, uiSchema }, formData, true);
   });
 
-  it('should allow submission with no data', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        onSubmit={onSubmit}
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-      />,
-    );
+  it('should submit with no education data', () => {
+    const formData = {
+      unemployability: {
+        receivedOtherEducationTrainingPreUnemployability: false,
+      },
+    };
 
-    selectRadio(
-      form,
-      'root_unemployability_receivedOtherEducationTrainingPreUnemployability',
-      'N',
-    );
-    expect(form.find('input').length).to.equal(2);
-    expect(form.find('select').length).to.equal(1);
+    pageSubmitTest({ schema, uiSchema }, formData, true);
+  });
 
-    form.find('form').simulate('submit');
-    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
-    form.unmount();
+  describe('otherEducationTrainingPreUnemployability.dates field validation', () => {
+    it('should accept valid date range', () => {
+      const formData = {
+        unemployability: {
+          receivedOtherEducationTrainingPreUnemployability: true,
+          otherEducationTrainingPreUnemployability: [
+            {
+              name: 'Vocational Training Program',
+              dates: {
+                from: '2010-01-01',
+                to: '2010-12-01',
+              },
+            },
+          ],
+        },
+      };
+
+      pageSubmitTest({ schema, uiSchema }, formData, true);
+    });
+
+    it('should reject invalid date range (to before from)', () => {
+      const formData = {
+        unemployability: {
+          receivedOtherEducationTrainingPreUnemployability: true,
+          otherEducationTrainingPreUnemployability: [
+            {
+              name: 'Vocational Training Program',
+              dates: {
+                from: '2010-12-01',
+                to: '2010-01-01',
+              },
+            },
+          ],
+        },
+      };
+
+      pageSubmitTest({ schema, uiSchema }, formData, false);
+    });
+
+    it('should reject equal from/to dates', () => {
+      const formData = {
+        unemployability: {
+          receivedOtherEducationTrainingPreUnemployability: true,
+          otherEducationTrainingPreUnemployability: [
+            {
+              name: 'Vocational Training Program',
+              dates: {
+                from: '2010-01-01',
+                to: '2010-01-01',
+              },
+            },
+          ],
+        },
+      };
+
+      pageSubmitTest({ schema, uiSchema }, formData, false);
+    });
+
+    it('should accept only from date filled', () => {
+      const formData = {
+        unemployability: {
+          receivedOtherEducationTrainingPreUnemployability: true,
+          otherEducationTrainingPreUnemployability: [
+            {
+              name: 'Vocational Training Program',
+              dates: {
+                from: '2010-01-01',
+              },
+            },
+          ],
+        },
+      };
+
+      pageSubmitTest({ schema, uiSchema }, formData, true);
+    });
+
+    it('should accept only to date filled', () => {
+      const formData = {
+        unemployability: {
+          receivedOtherEducationTrainingPreUnemployability: true,
+          otherEducationTrainingPreUnemployability: [
+            {
+              name: 'Vocational Training Program',
+              dates: {
+                to: '2010-12-01',
+              },
+            },
+          ],
+        },
+      };
+
+      pageSubmitTest({ schema, uiSchema }, formData, true);
+    });
+
+    it('should reject date before 1900', () => {
+      const formData = {
+        unemployability: {
+          receivedOtherEducationTrainingPreUnemployability: true,
+          otherEducationTrainingPreUnemployability: [
+            {
+              name: 'Vocational Training Program',
+              dates: {
+                from: '1899-12-31',
+                to: '2010-12-01',
+              },
+            },
+          ],
+        },
+      };
+
+      pageSubmitTest({ schema, uiSchema }, formData, false);
+    });
+
+    it('should reject date greater than maxYear', () => {
+      // Use the same maxYear calculation as the system and exceed it by 1 year
+      const { maxYear } = require('platform/forms-system/src/js/helpers');
+      const futureYear = maxYear + 1;
+
+      const formData = {
+        unemployability: {
+          receivedOtherEducationTrainingPreUnemployability: true,
+          otherEducationTrainingPreUnemployability: [
+            {
+              name: 'Vocational Training Program',
+              dates: {
+                from: '2010-01-01',
+                to: `${futureYear}-01-01`, // Dynamic date to exceed current maxYear
+              },
+            },
+          ],
+        },
+      };
+
+      pageSubmitTest({ schema, uiSchema }, formData, false);
+    });
+
+    it('should reject invalid date format', () => {
+      const formData = {
+        unemployability: {
+          receivedOtherEducationTrainingPreUnemployability: true,
+          otherEducationTrainingPreUnemployability: [
+            {
+              name: 'Vocational Training Program',
+              dates: {
+                from: 'invalid-date',
+                to: '2010-12-01',
+              },
+            },
+          ],
+        },
+      };
+
+      pageSubmitTest({ schema, uiSchema }, formData, false);
+    });
+
+    it('should reject non-leap year February 29', () => {
+      const formData = {
+        unemployability: {
+          receivedOtherEducationTrainingPreUnemployability: true,
+          otherEducationTrainingPreUnemployability: [
+            {
+              name: 'Vocational Training Program',
+              dates: {
+                from: '2021-02-29',
+                to: '2021-12-01',
+              },
+            },
+          ],
+        },
+      };
+
+      pageSubmitTest({ schema, uiSchema }, formData, false);
+    });
+
+    it('should accept leap year February 29', () => {
+      const formData = {
+        unemployability: {
+          receivedOtherEducationTrainingPreUnemployability: true,
+          otherEducationTrainingPreUnemployability: [
+            {
+              name: 'Vocational Training Program',
+              dates: {
+                from: '2020-02-29',
+                to: '2020-12-01',
+              },
+            },
+          ],
+        },
+      };
+
+      pageSubmitTest({ schema, uiSchema }, formData, true);
+    });
   });
 });
