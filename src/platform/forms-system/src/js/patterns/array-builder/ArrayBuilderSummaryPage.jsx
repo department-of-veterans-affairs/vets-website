@@ -262,19 +262,6 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
       [isReviewPage, arrayData?.length],
     );
 
-    function forceRerender(data = props.data) {
-      // This is a hacky workaround to rerender the page
-      // due to the way SchemaForm interacts with CustomPage
-      // here in order to hide/show alerts correctly.
-      props.setData({
-        ...data,
-        _metadata: {
-          ...data._metadata,
-          [`${nounPlural}ForceRenderTimestamp`]: Date.now(),
-        },
-      });
-    }
-
     useEffect(
       () => {
         setShowReviewErrorAlert(hasReviewError);
@@ -321,7 +308,6 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
           ),
         );
       });
-      forceRerender();
     }
 
     function onDismissRemovedAlert() {
@@ -335,7 +321,6 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
           ),
         );
       });
-      forceRerender();
     }
 
     function onRemoveItem(index, item, newFormData) {
@@ -548,25 +533,25 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
       ...uiSchema,
     };
     let newSchema = schema;
-    let titleTextType;
-    let descriptionTextType;
-    let UIDescription;
     const NavButtons = props.NavButtons || FormNavButtons;
+    const hasArrayItems = !!arrayData?.length;
 
-    if (arrayData?.length > 0) {
-      titleTextType = 'summaryTitle';
-      descriptionTextType = 'summaryDescription';
-      UIDescription = (
-        <>
-          <Alerts />
-          <Cards />
-        </>
-      );
-    } else {
-      titleTextType = 'summaryTitleWithoutItems';
-      descriptionTextType = 'summaryDescriptionWithoutItems';
-      UIDescription = <Alerts />;
-    }
+    const typeSuffix = hasArrayItems ? '' : 'WithoutItems';
+    const titleTextType = `summaryTitle${typeSuffix}`;
+    const descriptionTextType = `summaryDescription${typeSuffix}`;
+
+    const renderKey = [
+      showUpdatedAlert ? 'u1' : 'u0',
+      showRemovedAlert ? 'r1' : 'r0',
+      showReviewErrorAlert ? 'e1' : 'e0',
+      isMaxItemsReached ? 'm1' : 'm0',
+    ].join('-');
+    const UIDescription = (
+      <div key={renderKey}>
+        <Alerts />
+        {hasArrayItems && <Cards />}
+      </div>
+    );
 
     const descriptionText = getText(descriptionTextType, null, props.data);
     const UITitle = (
