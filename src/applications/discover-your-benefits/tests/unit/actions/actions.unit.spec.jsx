@@ -390,42 +390,56 @@ describe('actions', () => {
   });
 
   describe('DOD SkillBridge program - SBP', () => {
-    it('should return true with correct criteria', () => {
+    const validGoals = [
+      goalTypes.RETIREMENT,
+      goalTypes.CAREER,
+      goalTypes.UNDERSTAND,
+    ];
+    const invalidGoals = Object.values(goalTypes).filter(
+      goal => !validGoals.some(goal2 => goal2 === goal),
+    );
+    const validDischarge = [
+      characterOfDischargeTypes.HONORABLE,
+      characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
+      characterOfDischargeTypes.STILL_SERVING,
+      blankType.BLANK,
+    ];
+    const invalidDischarge = Object.values(characterOfDischargeTypes).filter(
+      discharge => !validDischarge.some(discharge2 => discharge2 === discharge),
+    );
+
+    it('should return true with correct goals', () => {
       const benefit = getBenefitById('SBP');
-      const formData = {
-        [mappingTypes.GOALS]: {
-          [goalTypes.UNDERSTAND]: true,
-          [goalTypes.RETIREMENT]: true,
-          [goalTypes.CAREER]: true,
-        },
-        [mappingTypes.CURRENTLY_SERVING]: true,
-        [mappingTypes.CHARACTER_OF_DISCHARGE]: {
-          [characterOfDischargeTypes.HONORABLE]: true,
-          [characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL]: true,
-          [characterOfDischargeTypes.STILL_SERVING]: true,
-          [blankType.BLANK]: true,
-        },
-      };
-      const result = actions.mapBenefitFromFormInputData(benefit, formData);
-      expect(result).to.be.true;
+      validGoals.forEach(goal => {
+        const formData = {
+          [mappingTypes.GOALS]: { [goal]: true },
+          [mappingTypes.CURRENTLY_SERVING]: true,
+          [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
+        };
+        const result = actions.mapBenefitFromFormInputData(benefit, formData);
+        expect(result).to.be.true;
+      });
+    });
+
+    it('should return true with correct discharge', () => {
+      const benefit = getBenefitById('SBP');
+      validDischarge.forEach(discharge => {
+        const formData = {
+          [mappingTypes.GOALS]: formatData(validGoals),
+          [mappingTypes.CURRENTLY_SERVING]: true,
+          [mappingTypes.CHARACTER_OF_DISCHARGE]: discharge,
+        };
+        const result = actions.mapBenefitFromFormInputData(benefit, formData);
+        expect(result).to.be.true;
+      });
     });
 
     it('should return false with incorrect discharge', () => {
       const benefit = getBenefitById('SBP');
       const formData = {
-        [mappingTypes.GOALS]: {
-          [goalTypes.UNDERSTAND]: true,
-          [goalTypes.RETIREMENT]: true,
-          [goalTypes.CAREER]: true,
-        },
+        [mappingTypes.GOALS]: formatData(validGoals),
         [mappingTypes.CURRENTLY_SERVING]: true,
-        [mappingTypes.CHARACTER_OF_DISCHARGE]: {
-          [characterOfDischargeTypes.BAD_CONDUCT]: true,
-          [characterOfDischargeTypes.DISHONORABLE]: true,
-          [characterOfDischargeTypes.NOT_SURE]: true,
-          [characterOfDischargeTypes.UNCHARACTERIZED]: true,
-          [characterOfDischargeTypes.UNDER_OTHER_THAN_HONORABLE_CONDITIONS]: true,
-        },
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(invalidDischarge),
       };
       const result = actions.mapBenefitFromFormInputData(benefit, formData);
       expect(result).to.be.false;
@@ -434,15 +448,9 @@ describe('actions', () => {
     it('should return false with incorrect goals', () => {
       const benefit = getBenefitById('SBP');
       const formData = {
-        [mappingTypes.GOALS]: {
-          [goalTypes.FINANCIAL]: true,
-          [goalTypes.HEALTH]: true,
-          [goalTypes.PLAN]: true,
-          [goalTypes.SCHOOL]: true,
-        },
+        [mappingTypes.GOALS]: formatData(invalidGoals),
         [mappingTypes.CURRENTLY_SERVING]: true,
-        [mappingTypes.CHARACTER_OF_DISCHARGE]:
-          characterOfDischargeTypes.HONORABLE,
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
       };
       const result = actions.mapBenefitFromFormInputData(benefit, formData);
       expect(result).to.be.false;
@@ -451,15 +459,9 @@ describe('actions', () => {
     it('should return false if not still serving', () => {
       const benefit = getBenefitById('SBP');
       const formData = {
-        [mappingTypes.GOALS]: {
-          [goalTypes.FINANCIAL]: true,
-          [goalTypes.HEALTH]: true,
-          [goalTypes.PLAN]: true,
-          [goalTypes.SCHOOL]: true,
-        },
+        [mappingTypes.GOALS]: formatData(validGoals),
         [mappingTypes.CURRENTLY_SERVING]: false,
-        [mappingTypes.CHARACTER_OF_DISCHARGE]:
-          characterOfDischargeTypes.HONORABLE,
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
       };
       const result = actions.mapBenefitFromFormInputData(benefit, formData);
       expect(result).to.be.false;
