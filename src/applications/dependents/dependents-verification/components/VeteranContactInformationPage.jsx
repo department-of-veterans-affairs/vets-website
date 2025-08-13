@@ -237,9 +237,8 @@ const VeteranContactInformationPage = ({
       ) : null}
       <p>
         If you notice any errors, correct them now.{' '}
-        <strong>Changes made here apply only to this application.</strong> If
-        you want to update your contact information in our system, go to your VA
-        profile.
+        <strong>Changes made here apply only to this form.</strong> If you want
+        to update your contact information in our system, go to your VA profile.
       </p>
       <va-link
         text="Update your contact information in your VA profile"
@@ -377,7 +376,7 @@ const VeteranContactInformationPage = ({
 
       <va-card class="vads-u-margin-top--3" data-field="internationalPhone">
         <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
-          International phone number
+          International number
         </h4>
         <div className="intl-phone vads-u-margin-y--2">
           {internationalPhone ? (

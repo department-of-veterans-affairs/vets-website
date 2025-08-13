@@ -21,6 +21,11 @@ import { useLocation } from 'react-router-dom-v5-compat';
 import MhvServiceRequiredGuard from 'platform/mhv/components/MhvServiceRequiredGuard';
 import { downtimeNotificationParams } from '../util/constants';
 import { selectBypassDowntime } from '../util/selectors';
+import {
+  selectGlobalDowntime,
+  selectScheduledDowntimeIsReady,
+  selectScheduledDowntime,
+} from '../selectors/selectDowntime';
 
 const App = ({ children }) => {
   const dispatch = useDispatch();
@@ -41,17 +46,9 @@ const App = ({ children }) => {
     state => state.featureToggles,
   );
 
-  const globalDowntime = useSelector(
-    state => state.scheduledDowntime?.globalDowntime,
-  );
-
-  const scheduledDownTimeIsReady = useSelector(
-    state => state.scheduledDowntime?.isReady,
-  );
-
-  const scheduledDowntimes = useSelector(
-    state => state.scheduledDowntime?.serviceMap || [],
-  );
+  const globalDowntime = useSelector(selectGlobalDowntime);
+  const scheduledDownTimeIsReady = useSelector(selectScheduledDowntimeIsReady);
+  const scheduledDowntimes = useSelector(selectScheduledDowntime);
 
   useEffect(
     () => {
