@@ -16,6 +16,10 @@ import {
   stringifyUrlParams,
   getUrlPathIndex,
   convertUrlPathToPageConfigPath,
+  getPageProperties,
+  getActiveProperties,
+  deleteNestedProperty,
+  filterInactivePageData,
 } from '../../src/js/helpers';
 
 describe('Schemaform helpers:', () => {
@@ -1444,6 +1448,214 @@ describe('Schemaform helpers:', () => {
           {},
         ),
       ).to.eql(false);
+    });
+  });
+
+  describe('getPageProperties', () => {
+    it('should return deeply-nested array item properties', () => {
+      const page = {
+        arrayPath: 'dependents',
+        index: 0,
+        schema: {
+          properties: {
+            dependents: {
+              items: {
+                properties: {
+                  dob: { type: 'string' },
+                  ssn: { type: 'string' },
+                },
+              },
+            },
+          },
+        },
+      };
+      expect(getPageProperties(page)).to.eql([
+        'dependents.0.dob',
+        'dependents.0.ssn',
+      ]);
+    });
+    it('should return shallow properties when not an array page', () => {
+      const page = {
+        schema: {
+          properties: {
+            dob: { type: 'string' },
+            ssn: { type: 'string' },
+          },
+        },
+      };
+      expect(getPageProperties(page)).to.eql(['dob', 'ssn']);
+    });
+    it('should return empty array if no schema', () => {
+      expect(getPageProperties({})).to.eql([]);
+    });
+  });
+  describe('getActiveProperties', () => {
+    it('should return unique flattened props across pages', () => {
+      const pages = [
+        {
+          schema: {
+            properties: {
+              dob: { type: 'string' },
+              ssn: { type: 'string' },
+            },
+          },
+        },
+        {
+          schema: {
+            properties: {
+              dob: { type: 'string' }, // duplicate
+              email: { type: 'string' },
+            },
+          },
+        },
+      ];
+      expect(getActiveProperties(pages)).to.eql(['dob', 'ssn', 'email']);
+    });
+  });
+  describe('deleteNestedProperties', () => {
+    it('should delete a nested property', () => {
+      const obj = { a: { b: { c: 123 } } };
+      deleteNestedProperty(obj, 'a.b.c');
+      expect(obj).to.eql({ a: { b: {} } });
+    });
+    it('should do nothing if path is invalid', () => {
+      const obj = { a: { b: 123 } };
+      deleteNestedProperty(obj, 'a.b.c'); // b is not an object
+      expect(obj).to.eql({ a: { b: 123 } });
+    });
+    it('should not crash on non-object path', () => {
+      const obj = {};
+      deleteNestedProperty(obj, 'x.y.z');
+      expect(obj).to.eql({});
+    });
+  });
+  describe('filterInactivePageData', () => {
+    it('should delete inactive props from form data', () => {
+      const form = {
+        data: {
+          dob: '1990-01-01',
+          ssn: '211111111',
+          email: 'email@domain.com',
+        },
+      };
+      const activePages = [
+        {
+          schema: {
+            properties: {
+              dob: { type: 'string' },
+              ssn: { type: 'string' },
+            },
+          },
+        },
+      ];
+      const inactivePages = [
+        {
+          schema: {
+            properties: {
+              email: { type: 'string' },
+            },
+          },
+        },
+      ];
+      const result = filterInactivePageData(inactivePages, activePages, form);
+      expect(result).to.eql({
+        dob: '1990-01-01',
+        ssn: '211111111',
+      });
+    });
+    it('should delete nested inactive props from form data based on active pages', () => {
+      const form = {
+        data: {
+          veteran: {
+            fullName: { first: 'John', last: 'Smith' },
+            dob: '1980-01-01',
+            ssn: '311111111',
+          },
+          spouse: {
+            ssn: '211111111',
+          },
+        },
+      };
+      const activePages = [
+        {
+          schema: {
+            properties: {
+              'veteran.fullName.first': { type: 'string' },
+              'veteran.fullName.last': { type: 'string' },
+              'veteran.dob': { type: 'string' },
+            },
+          },
+        },
+      ];
+      const inactivePages = [
+        {
+          schema: {
+            properties: {
+              'veteran.ssn': { type: 'string' },
+              'spouse.ssn': { type: 'string' },
+            },
+          },
+        },
+      ];
+      const result = filterInactivePageData(inactivePages, activePages, form);
+      expect(result).to.eql({
+        veteran: {
+          fullName: { first: 'John', last: 'Smith' },
+          dob: '1980-01-01',
+        },
+        spouse: {},
+      });
+    });
+    it('should handle array-based pages and remove inactive fields by index', () => {
+      const form = {
+        data: {
+          dependents: [
+            { ssn: '411111111', dob: '2000-01-01' },
+            { ssn: '511111111', dob: '2002-01-01' },
+          ],
+        },
+      };
+      const activePages = [
+        {
+          arrayPath: 'dependents',
+          index: 0,
+          schema: {
+            properties: {
+              dependents: {
+                items: {
+                  properties: {
+                    ssn: { type: 'string' },
+                  },
+                },
+              },
+            },
+          },
+        },
+      ];
+      const inactivePages = [
+        {
+          arrayPath: 'dependents',
+          index: 0,
+          schema: {
+            properties: {
+              dependents: {
+                items: {
+                  properties: {
+                    dob: { type: 'string' },
+                  },
+                },
+              },
+            },
+          },
+        },
+      ];
+      const result = filterInactivePageData(inactivePages, activePages, form);
+      expect(result).to.eql({
+        dependents: [
+          { ssn: '411111111' },
+          { ssn: '511111111', dob: '2002-01-01' }, // untouched, only index 0 was affected
+        ],
+      });
     });
   });
 });
