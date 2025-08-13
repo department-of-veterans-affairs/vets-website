@@ -71,8 +71,8 @@ import {
   selectFilterOption,
   selectPageNumber,
 } from '../selectors/selectPreferences';
-import { buildPdfData } from '../util/pdfData';
-import { generateMedicationsPdfFile } from '../util/pdfService';
+import { buildPdfData } from '../util/buildPdfData';
+import { generateMedicationsPdfFile } from '../util/generateMedicationsPdfFile';
 
 const Prescriptions = () => {
   const { search } = useLocation();
