@@ -133,6 +133,19 @@ function manualSchoolEntryIsCheckedAndIsUS(formData) {
   return manualSchoolEntryIsChecked(formData) && isUS(formData);
 }
 
+/**
+ * Filters education benefits programs based on the fetched feature toggle.
+ * The (VET TEC 2.0) program will only appear if the feature toggle is enabled.
+ * @returns education benefits programs
+ */
+const getPrograms = () => {
+  const showVetTecToggle = sessionStorage.getItem('showVecTecToggle');
+  if (showVetTecToggle !== 'true') {
+    delete programs.properties.vetTec;
+  }
+  return programs;
+};
+
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -379,7 +392,7 @@ const formConfig = {
                 type: 'object',
                 required: ['programs'],
                 properties: {
-                  programs,
+                  programs: getPrograms(),
                   assistance: {
                     type: 'object',
                     properties: {
