@@ -61,18 +61,6 @@ export function customReplacer(key, value) {
 }
 
 /**
- * Cycles through the list of provider facilities and performs transformations on each property as needed
- * @param {array} providerFacilities array of objects being transformed
- * @returns {array} containing the new Provider Facility structure
- */
-export function transformProviderFacilities(providerFacilities) {
-  return providerFacilities.map(facility => ({
-    ...facility,
-    treatmentDateRange: [facility.treatmentDateRange],
-  }));
-}
-
-/**
  * Returns an array of disabilities pulled from ratedDisabilities, newDisabilities, newPrimaryDisabilities and newSecondaryDisabilities
  * @param {object} formData
  */
@@ -176,6 +164,44 @@ export function transformRelatedDisabilities(
   );
 }
 
+// Transform the related disabilities list into an object of { [originalClaimedName]: true }
+const transformedDisabilityNames = (facility, clonedData) => {
+  const claimedNames = getClaimedConditionNames(clonedData, false);
+  const treatedNames = facility.treatedDisabilityNames || {};
+  const result = {};
+
+  Object.keys(treatedNames).forEach(name => {
+    if (treatedNames[name]) {
+      const matched = claimedNames.find(
+        claimed => sippableId(claimed) === name.toLowerCase(),
+      );
+      if (matched) {
+        // TODO as a part of the 4142 release, we need update this logic to reflect the
+        // accurate selection on the private medical records release page
+        result[matched] = true;
+      }
+    }
+  });
+
+  return result;
+};
+
+/**
+ * Cycles through the list of provider facilities and performs transformations on each property as needed
+ * @param {array} providerFacilities array of objects being transformed
+ * @returns {array} containing the new Provider Facility structure
+ */
+export function transformProviderFacilities(providerFacilities, clonedData) {
+  // Add treatedDisabilityNames as an array of strings for each facility
+  return providerFacilities.map(facility => {
+    const disabilityNames = transformedDisabilityNames(facility, clonedData);
+    return {
+      ...facility,
+      treatedDisabilityNames: disabilityNames,
+      treatmentDateRange: [facility.treatmentDateRange],
+    };
+  });
+}
 export const removeExtraData = formData => {
   // EVSS no longer accepts some keys
   const ratingKeysToRemove = [
@@ -354,6 +380,7 @@ export const addForm4142 = formData => {
     ...(clonedData.providerFacility && {
       providerFacility: transformProviderFacilities(
         clonedData.providerFacility,
+        clonedData,
       ),
     }),
   };
