@@ -351,23 +351,23 @@ describe('actions', () => {
       characterOfDischargeTypes,
     );
 
-    it('should return true with valid goals', () => {
-      validGoals.forEach(goal => {
-        const formData = {
-          [mappingTypes.GOALS]: { [goal]: true },
-          [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
-        };
+    validGoals.forEach(goal => {
+      const formData = {
+        [mappingTypes.GOALS]: { [goal]: true },
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
+      };
+      it(`should return true with goal: ${goal}`, () => {
         const result = actions.mapBenefitFromFormInputData(benefit, formData);
         expect(result).to.be.true;
       });
     });
 
-    it('should return true with valid discharge', () => {
-      validDischarge.forEach(discharge => {
-        const formData = {
-          [mappingTypes.GOALS]: formatData(validGoals),
-          [mappingTypes.CHARACTER_OF_DISCHARGE]: { [discharge]: true },
-        };
+    validDischarge.forEach(discharge => {
+      const formData = {
+        [mappingTypes.GOALS]: formatData(validGoals),
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: { [discharge]: true },
+      };
+      it(`should return true with discharge: ${discharge}`, () => {
         const result = actions.mapBenefitFromFormInputData(benefit, formData);
         expect(result).to.be.true;
       });
@@ -411,25 +411,25 @@ describe('actions', () => {
       characterOfDischargeTypes,
     );
 
-    it('should return true with correct goals', () => {
-      validGoals.forEach(goal => {
-        const formData = {
-          [mappingTypes.GOALS]: { [goal]: true },
-          [mappingTypes.CURRENTLY_SERVING]: true,
-          [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
-        };
+    validGoals.forEach(goal => {
+      const formData = {
+        [mappingTypes.GOALS]: { [goal]: true },
+        [mappingTypes.CURRENTLY_SERVING]: true,
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
+      };
+      it(`should return true with goal: ${goal}`, () => {
         const result = actions.mapBenefitFromFormInputData(benefit, formData);
         expect(result).to.be.true;
       });
     });
 
-    it('should return true with correct discharge', () => {
-      validDischarge.forEach(discharge => {
-        const formData = {
-          [mappingTypes.GOALS]: formatData(validGoals),
-          [mappingTypes.CURRENTLY_SERVING]: true,
-          [mappingTypes.CHARACTER_OF_DISCHARGE]: discharge,
-        };
+    validDischarge.forEach(discharge => {
+      const formData = {
+        [mappingTypes.GOALS]: formatData(validGoals),
+        [mappingTypes.CURRENTLY_SERVING]: true,
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: discharge,
+      };
+      it(`should return true with discharge: ${discharge}`, () => {
         const result = actions.mapBenefitFromFormInputData(benefit, formData);
         expect(result).to.be.true;
       });
@@ -485,23 +485,23 @@ describe('actions', () => {
       characterOfDischargeTypes,
     );
 
-    it('should return true with correct goals', () => {
-      validGoals.forEach(goal => {
-        const formData = {
-          [mappingTypes.GOALS]: { [goal]: true },
-          [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
-        };
+    validGoals.forEach(goal => {
+      const formData = {
+        [mappingTypes.GOALS]: { [goal]: true },
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
+      };
+      it(`should return true with goal: ${goal}`, () => {
         const result = actions.mapBenefitFromFormInputData(benefit, formData);
         expect(result).to.be.true;
       });
     });
 
-    it('should return true with correct discharge', () => {
-      validDischarge.forEach(discharge => {
-        const formData = {
-          [mappingTypes.GOALS]: formatData(validGoals),
-          [mappingTypes.CHARACTER_OF_DISCHARGE]: discharge,
-        };
+    validDischarge.forEach(discharge => {
+      const formData = {
+        [mappingTypes.GOALS]: formatData(validGoals),
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: discharge,
+      };
+      it(`should return true with discharge: ${discharge}`, () => {
         const result = actions.mapBenefitFromFormInputData(benefit, formData);
         expect(result).to.be.true;
       });
@@ -530,11 +530,11 @@ describe('actions', () => {
     const benefit = getBenefitById('SVC');
     const validGoals = [goalTypes.CAREER, goalTypes.UNDERSTAND];
     const invalidGoals = getInvalidMappingValues(validGoals, goalTypes);
-    it('should return true with correct criteria', () => {
-      validGoals.forEach(goal => {
-        const formData = {
-          [mappingTypes.GOALS]: { [goal]: true },
-        };
+    validGoals.forEach(goal => {
+      const formData = {
+        [mappingTypes.GOALS]: { [goal]: true },
+      };
+      it(`should return true with goal: ${goal}`, () => {
         const result = actions.mapBenefitFromFormInputData(benefit, formData);
         expect(result).to.be.true;
       });
@@ -554,12 +554,12 @@ describe('actions', () => {
     const validGoals = [goalTypes.RETIREMENT, goalTypes.UNDERSTAND];
     const invalidGoals = getInvalidMappingValues(validGoals, goalTypes);
 
-    it('should return true with correct goals', () => {
-      validGoals.forEach(goal => {
-        const formData = {
-          [mappingTypes.GOALS]: { [goal]: true },
-          [mappingTypes.CURRENTLY_SERVING]: true,
-        };
+    validGoals.forEach(goal => {
+      const formData = {
+        [mappingTypes.GOALS]: { [goal]: true },
+        [mappingTypes.CURRENTLY_SERVING]: true,
+      };
+      it(`should return true with goal: ${goal}`, () => {
         const result = actions.mapBenefitFromFormInputData(benefit, formData);
         expect(result).to.be.true;
       });
@@ -610,25 +610,25 @@ describe('actions', () => {
       goal => !validGoals.some(goal2 => goal2 === goal),
     );
 
-    it('should return true with correct goals', () => {
-      validGoals.forEach(goal => {
-        const formData = {
-          [mappingTypes.GOALS]: { [goal]: true },
-          [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
-          [mappingTypes.DISABILITY_RATING]: formatData(validDisabilityRating),
-        };
+    validGoals.forEach(goal => {
+      const formData = {
+        [mappingTypes.GOALS]: { [goal]: true },
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
+        [mappingTypes.DISABILITY_RATING]: formatData(validDisabilityRating),
+      };
+      it(`should return true with goal: ${goal}`, () => {
         const result = actions.mapBenefitFromFormInputData(benefit, formData);
         expect(result).to.be.true;
       });
     });
 
-    it('should return true with correct discharge', () => {
-      validDischarge.forEach(discharge => {
-        const formData = {
-          [mappingTypes.GOALS]: formatData(validGoals),
-          [mappingTypes.CHARACTER_OF_DISCHARGE]: discharge,
-          [mappingTypes.DISABILITY_RATING]: formatData(validDisabilityRating),
-        };
+    validDischarge.forEach(discharge => {
+      const formData = {
+        [mappingTypes.GOALS]: formatData(validGoals),
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: discharge,
+        [mappingTypes.DISABILITY_RATING]: formatData(validDisabilityRating),
+      };
+      it(`should return true with discharge: ${discharge}`, () => {
         const result = actions.mapBenefitFromFormInputData(benefit, formData);
         expect(result).to.be.true;
       });
@@ -698,23 +698,24 @@ describe('actions', () => {
       validDischarge,
       characterOfDischargeTypes,
     );
-    it('should return true with correct goals', () => {
-      validGoals.forEach(goal => {
-        const formData = {
-          [mappingTypes.GOALS]: { [goal]: true },
-          [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
-        };
+
+    validGoals.forEach(goal => {
+      const formData = {
+        [mappingTypes.GOALS]: { [goal]: true },
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
+      };
+      it(`should return true with goal: ${goal}`, () => {
         const result = actions.mapBenefitFromFormInputData(benefit, formData);
         expect(result).to.be.true;
       });
     });
 
-    it('should return true with correct discharge', () => {
-      validDischarge.forEach(discharge => {
-        const formData = {
-          [mappingTypes.GOALS]: formatData(validGoals),
-          [mappingTypes.CHARACTER_OF_DISCHARGE]: discharge,
-        };
+    validDischarge.forEach(discharge => {
+      const formData = {
+        [mappingTypes.GOALS]: formatData(validGoals),
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: discharge,
+      };
+      it(`should return true with discharge: ${discharge}`, () => {
         const result = actions.mapBenefitFromFormInputData(benefit, formData);
         expect(result).to.be.true;
       });
@@ -760,23 +761,23 @@ describe('actions', () => {
       characterOfDischargeTypes,
     );
 
-    it('should return true with correct goals', () => {
-      validGoals.forEach(goal => {
-        const formData = {
-          [mappingTypes.GOALS]: { [goal]: true },
-          [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
-        };
+    validGoals.forEach(goal => {
+      const formData = {
+        [mappingTypes.GOALS]: { [goal]: true },
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
+      };
+      it(`should return true with goal: ${goal}`, () => {
         const result = actions.mapBenefitFromFormInputData(benefit, formData);
         expect(result).to.be.true;
       });
     });
 
-    it('should return true with correct discharge', () => {
-      validDischarge.forEach(discharge => {
-        const formData = {
-          [mappingTypes.GOALS]: formatData(validGoals),
-          [mappingTypes.CHARACTER_OF_DISCHARGE]: discharge,
-        };
+    validDischarge.forEach(discharge => {
+      const formData = {
+        [mappingTypes.GOALS]: formatData(validGoals),
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: discharge,
+      };
+      it(`should return true with discharge: ${discharge}`, () => {
         const result = actions.mapBenefitFromFormInputData(benefit, formData);
         expect(result).to.be.true;
       });
@@ -833,40 +834,40 @@ describe('actions', () => {
       timeServedTypes,
     );
 
-    it('should return true with correct goals', () => {
-      validGoals.forEach(goal => {
-        const formData = {
-          [mappingTypes.GOALS]: { [goal]: true },
-          [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: true,
-          [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
-        };
+    validGoals.forEach(goal => {
+      const formData = {
+        [mappingTypes.GOALS]: { [goal]: true },
+        [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: true,
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
+      };
+      it(`should return true with goal: ${goal}`, () => {
         const result = actions.mapBenefitFromFormInputData(benefit, formData);
         expect(result).to.be.true;
       });
     });
 
-    it('should return true with correct discharge', () => {
-      validDischarge.forEach(discharge => {
-        const formData = {
-          [mappingTypes.GOALS]: formatData(validGoals),
-          [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: true,
-          [mappingTypes.CHARACTER_OF_DISCHARGE]: discharge,
-        };
+    validDischarge.forEach(discharge => {
+      const formData = {
+        [mappingTypes.GOALS]: formatData(validGoals),
+        [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: true,
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: discharge,
+      };
+      it(`should return true with discharge: ${discharge}`, () => {
         const result = actions.mapBenefitFromFormInputData(benefit, formData);
         expect(result).to.be.true;
       });
     });
 
-    it('should return true with active duty service', () => {
-      validLengthOfService.forEach(service => {
-        const formData = {
-          [mappingTypes.GOALS]: formatData(validGoals),
-          [mappingTypes.LENGTH_OF_SERVICE]: service,
-          [militaryBranchTypes.ARMY]: {
-            [militaryBranchComponentTypes.ACTIVE_DUTY]: true,
-          },
-          [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
-        };
+    validLengthOfService.forEach(service => {
+      const formData = {
+        [mappingTypes.GOALS]: formatData(validGoals),
+        [mappingTypes.LENGTH_OF_SERVICE]: service,
+        [militaryBranchTypes.ARMY]: {
+          [militaryBranchComponentTypes.ACTIVE_DUTY]: true,
+        },
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
+      };
+      it(`should return true with active duty and length of service: ${service}`, () => {
         const result = actions.mapBenefitFromFormInputData(benefit, formData);
         expect(result).to.be.true;
       });
@@ -902,16 +903,16 @@ describe('actions', () => {
       expect(result).to.be.false;
     });
 
-    it('should return false with invalid length of service', () => {
-      invalidLengthOfService.forEach(service => {
-        const formData = {
-          [mappingTypes.GOALS]: formatData(validGoals),
-          [mappingTypes.LENGTH_OF_SERVICE]: service,
-          [militaryBranchTypes.ARMY]: {
-            [militaryBranchComponentTypes.ACTIVE_DUTY]: true,
-          },
-          [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
-        };
+    invalidLengthOfService.forEach(service => {
+      const formData = {
+        [mappingTypes.GOALS]: formatData(validGoals),
+        [mappingTypes.LENGTH_OF_SERVICE]: service,
+        [militaryBranchTypes.ARMY]: {
+          [militaryBranchComponentTypes.ACTIVE_DUTY]: true,
+        },
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
+      };
+      it(`should return false with length of service: ${service}`, () => {
         const result = actions.mapBenefitFromFormInputData(benefit, formData);
         expect(result).to.be.false;
       });
