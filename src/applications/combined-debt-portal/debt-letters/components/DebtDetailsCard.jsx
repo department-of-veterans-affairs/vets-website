@@ -41,6 +41,7 @@ const DebtDetailsCard = ({ debt, showOTPP }) => {
           href={`/manage-va-debt/summary/debt-balances/details/${
             debt.compositeDebtId
           }/resolve`}
+          data-testid="link-resolve"
           text="Pay your balance, request financial help, or dispute this bill"
           type="primary"
         />
