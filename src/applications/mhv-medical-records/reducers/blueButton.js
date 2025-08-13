@@ -272,7 +272,7 @@ export const convertAccountSummary = data => {
   // Map facilities
   const mappedFacilities = facilities
     ? facilities
-        ?.filter(facility => facility?.facilityInfo?.treatment)
+        .filter(facility => facility?.facilityInfo?.treatment)
         .map(facility => ({
           facilityName: facility.facilityInfo?.name || 'Unknown facility',
           stationNumber: facility.facilityInfo?.stationNumber || 'Unknown ID',
