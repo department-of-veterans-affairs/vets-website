@@ -69,22 +69,21 @@ export function getActivePages(pages, data) {
 }
 
 export function getPageProperties(page) {
-  const allProperties = [];
-  if (
+  if (!page?.schema?.properties) return [];
+
+  const isArrayPage =
     typeof page.arrayPath === 'string' &&
-    page.arrayPath.length > 0 &&
-    page.schema.properties?.[page.arrayPath]?.items
-  ) {
+    page.arrayPath.length &&
+    page.schema.properties[page.arrayPath]?.items?.properties;
+
+  if (isArrayPage) {
     const { properties } = page.schema.properties[page.arrayPath].items;
-    allProperties.push(
-      ...Object.keys(properties).map(
-        key => `${page.arrayPath}.${page.index}.${key}`,
-      ),
+    return Object.keys(properties).map(
+      key => `${page.arrayPath}.${page.index}.${key}`,
     );
-  } else if (page.schema) {
-    allProperties.push(...Object.keys(page.schema.properties));
   }
-  return allProperties;
+
+  return Object.keys(page.schema.properties);
 }
 
 export function deleteNestedProperty(obj, pathString) {
