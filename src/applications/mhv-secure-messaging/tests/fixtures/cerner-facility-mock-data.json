@@ -53,6 +53,20 @@
             "vamcSystemName": "VA Southern Oregon health care",
             "ehr": "cerner"
           }
+        ],
+        "vistaFacilities": [
+          {
+            "vhaId": "463",
+            "vamcFacilityName": "Colonel Mary Louise Rasmuson Campus of the Alaska VA Healthcare System",
+            "vamcSystemName": "VA Alaska health care",
+            "ehr": "vista"
+          },
+          {
+            "vhaId": "583",
+            "vamcFacilityName": "Richard L. Roudebush Veterans' Administration Medical Center",
+            "vamcSystemName": "VA Indiana health care",
+            "ehr": "vista"
+          }
         ]
       }
     }

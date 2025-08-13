@@ -55,7 +55,7 @@ const initialData = {
   },
 };
 
-// Prefill entire form with data:
+// Prefill entire form with data :
 // Helpful for testing confirmation page
 if (
   (environment.isLocalhost() || environment.isDev()) &&

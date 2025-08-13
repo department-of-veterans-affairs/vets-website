@@ -83,10 +83,14 @@ export default function VAFacilityPageV2() {
         { value: 'alphabetical', label: 'Alphabetically' },
       ];
       if (featureRecentLocationsFilter) {
-        options.push({
-          value: 'recentLocations',
-          label: 'By recent locations',
-        });
+        // Add recentLocations to the top of the list
+        return [
+          {
+            value: 'recentLocations',
+            label: 'By recent locations',
+          },
+          ...options,
+        ];
       }
       return options;
     },
