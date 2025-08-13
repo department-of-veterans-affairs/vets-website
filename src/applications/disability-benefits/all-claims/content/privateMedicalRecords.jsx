@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { VaAdditionalInfo } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { recordEventOnce } from 'platform/monitoring/record-event';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { ANALYTICS_EVENTS, HELP_TEXT_CLICKED_EVENT } from '../constants';
 
 const {
@@ -45,6 +46,7 @@ export const privateRecordsChoiceHelp = (
 
 // Banner component that clears the session flag on mount
 const RecordsConfirmAlertBanner = () => {
+  const bannerElement = useRef(null);
   React.useEffect(() => {
     try {
       if (typeof window !== 'undefined') {
@@ -53,7 +55,9 @@ const RecordsConfirmAlertBanner = () => {
     } catch (e) {
       // noop
     }
+    focusElement(bannerElement.current);
   }, []);
+
   return (
     <va-banner
       data-label="Info banner"

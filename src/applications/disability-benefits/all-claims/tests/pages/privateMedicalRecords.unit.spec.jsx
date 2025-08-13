@@ -142,8 +142,8 @@ describe('526 All Claims Private medical records', () => {
         formData={{}}
       />,
     );
-    // checkbox should not be rendered
-    expect(form.find('va-checkbox').length).to.equal(1);
+    // checkbox should be rendered
+    expect(form.find('input[type="checkbox"]').length).to.equal(1);
     form.unmount();
   });
 
@@ -164,7 +164,7 @@ describe('526 All Claims Private medical records', () => {
         formData={{}}
       />,
     );
-    expect(form.find('va-checkbox').length).to.equal(0);
+    expect(form.find('input[type="checkbox"]').length).to.equal(0);
     form.unmount();
   });
 });
