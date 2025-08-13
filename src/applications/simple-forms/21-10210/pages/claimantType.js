@@ -1,41 +1,39 @@
 import {
-  radioSchema,
   radioUI,
+  radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { CLAIMANT_TYPES, CLAIM_OWNERSHIPS } from '../definitions/constants';
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     claimantType: radioUI({
       labelHeaderLevel: '2',
       labelHeaderLevelStyle: '3',
-      hideIf: formData => formData.claimOwnership === undefined,
       labels: {
-        [CLAIMANT_TYPES.VETERAN]: 'Veteran',
-        [CLAIMANT_TYPES.NON_VETERAN]: 'Non-Veteran',
+        veteran: 'Veteran',
+        'non-veteran': 'Non-Veteran',
       },
+      hideIf: formData => formData.claimOwnership === undefined,
       updateSchema: (formData, schema, uiSchema) => {
         const { claimOwnership } = formData;
-        let labels = {
-          [CLAIMANT_TYPES.VETERAN]: 'Veteran',
-          [CLAIMANT_TYPES.NON_VETERAN]: 'Non-Veteran',
-        };
+        let labels = { veteran: 'Veteran', 'non-veteran': 'Non-Veteran' };
         let title;
 
         switch (claimOwnership) {
           case CLAIM_OWNERSHIPS.SELF:
             title = 'Are you a Veteran?';
             labels = {
-              [CLAIMANT_TYPES.VETERAN]: 'Yes',
-              [CLAIMANT_TYPES.NON_VETERAN]: 'No',
+              veteran: 'Yes',
+              'non-veteran': 'No',
             };
             break;
           case CLAIM_OWNERSHIPS.THIRD_PARTY:
             title =
-              "Is the person you're submitting this statement for a Veteran?";
+              'Is the person you’re submitting this statement for a Veteran?';
             labels = {
-              [CLAIMANT_TYPES.VETERAN]: 'Yes',
-              [CLAIMANT_TYPES.NON_VETERAN]: 'No',
+              veteran: 'Yes',
+              'non-veteran': 'No',
             };
             break;
           default:

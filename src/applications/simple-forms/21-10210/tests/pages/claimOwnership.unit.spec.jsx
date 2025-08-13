@@ -13,6 +13,7 @@ const {
 } = formConfig.chapters.statementInfoChapter.pages.claimOwnershipPage;
 const pageTitle = 'Claim ownership';
 
+// Test that the v3 radio field renders with correct number of options
 const expectedNumberOfWebComponentFields = 1;
 testNumberOfWebComponentFields(
   formConfig,
@@ -23,6 +24,7 @@ testNumberOfWebComponentFields(
   { claimOwnership: CLAIM_OWNERSHIPS.SELF },
 );
 
+// Test v3 validation when no option is selected
 const expectedNumberOfWebComponentErrors = 1;
 testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
@@ -32,6 +34,7 @@ testNumberOfErrorsOnSubmitForWebComponents(
   pageTitle,
 );
 
+// Legacy tests for backwards compatibility
 const expectedNumberOfFields = 0;
 testNumberOfFields(
   formConfig,

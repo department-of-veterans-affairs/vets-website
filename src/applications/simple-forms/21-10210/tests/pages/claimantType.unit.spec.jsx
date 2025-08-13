@@ -17,6 +17,7 @@ const mockData = {
   claimantType: CLAIMANT_TYPES.VETERAN,
 };
 
+// Test with claimOwnership present (field should be visible)
 const expectedNumberOfWebComponentFields = 1;
 testNumberOfWebComponentFields(
   formConfig,
@@ -27,6 +28,7 @@ testNumberOfWebComponentFields(
   mockData,
 );
 
+// Test validation when field is visible but claimantType is missing
 const expectedNumberOfWebComponentErrors = 1;
 testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
@@ -39,6 +41,7 @@ testNumberOfErrorsOnSubmitForWebComponents(
   },
 );
 
+// Legacy tests for backwards compatibility
 const expectedNumberOfFields = 0;
 testNumberOfFields(
   formConfig,

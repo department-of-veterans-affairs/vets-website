@@ -1,6 +1,6 @@
 import {
-  radioSchema,
   radioUI,
+  radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { CLAIM_OWNERSHIPS } from '../definitions/constants';
 
@@ -8,18 +8,13 @@ import { CLAIM_OWNERSHIPS } from '../definitions/constants';
 export default {
   uiSchema: {
     claimOwnership: radioUI({
+      title:
+        'Are you submitting this statement to support your claim or someone else’s claim?',
       labelHeaderLevel: '2',
       labelHeaderLevelStyle: '3',
       labels: {
-        [CLAIM_OWNERSHIPS.SELF]: 'My own claim',
-        [CLAIM_OWNERSHIPS.THIRD_PARTY]: 'Someone else’s claim',
-      },
-      updateSchema: (formData, schema, uiSchema) => {
-        return {
-          title:
-            'Are you submitting this statement to support your claim or someone else’s claim?',
-          uiSchema,
-        };
+        self: 'My own claim',
+        'third-party': 'Someone else’s claim',
       },
     }),
   },
