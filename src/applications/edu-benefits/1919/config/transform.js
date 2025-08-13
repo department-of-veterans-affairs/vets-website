@@ -19,6 +19,15 @@ export default function transform(form) {
   clonedData.institutionDetails.institutionAddress = institutionAddress;
   delete clonedData.institutionDetails.address;
 
+  // Handle facility code that has not been assigned
+  if (!clonedData.institutionDetails.facilityCode) {
+    clonedData.institutionDetails = {
+      facilityCode: '12345678',
+      institutionName: '',
+      institutionAddress: {},
+    };
+  }
+
   // Populate list & loops arrays with empty object if optional questions are 'No'
   if (!clonedData.isProfitConflictOfInterest) {
     clonedData.proprietaryProfitConflicts = [];

@@ -1,5 +1,5 @@
 {
-  "beforeTransform": {
+  "beforeTransform1": {
     "view:allProprietaryProfitConflictsMissingInformation": {},
     "view:introduction": {},
     "allProprietaryConflictOfInterest": false,
@@ -29,7 +29,7 @@
     "statementOfTruthSignature": "John Doe",
     "statementOfTruthCertified": true
   },
-  "afterTransform": {
+  "afterTransform1": {
     "allProprietaryConflictOfInterest": false,
     "isProfitConflictOfInterest": false,
     "isProprietaryProfit": true,
@@ -56,6 +56,49 @@
     "statementOfTruthSignature": "John Doe",
     "proprietaryProfitConflicts": [],
     "allProprietaryProfitConflicts": [],
+    "dateSigned": "2025-08-10"
+  },
+  "beforeTransform2": {
+    "view:allProprietaryProfitConflictsMissingInformation": {},
+    "view:introduction": {},
+    "allProprietaryConflictOfInterest": true,
+    "allProprietaryProfitConflicts": [],
+    "view:proprietaryProfitConflictsMissingInformation": {},
+    "isProfitConflictOfInterest": true,
+    "proprietaryProfitConflicts": [],
+    "isProprietaryProfit": true,
+    "institutionDetails": {
+      "facilityCode": null,
+      "institutionName": null,
+      "address": null
+    },
+    "aboutYourInstitution": true,
+    "certifyingOfficial": {
+      "first": "John",
+      "last": "Doe",
+      "role": { "level": "certifyingOfficial" }
+    },
+    "statementOfTruthSignature": "John Doe",
+    "statementOfTruthCertified": true
+  },
+  "afterTransform2": {
+    "allProprietaryConflictOfInterest": true,
+    "allProprietaryProfitConflicts": [],
+    "isProfitConflictOfInterest": true,
+    "proprietaryProfitConflicts": [],
+    "isProprietaryProfit": true,
+    "institutionDetails": {
+      "facilityCode": "12345678",
+      "institutionName": "",
+      "institutionAddress": {}
+    },
+    "aboutYourInstitution": true,
+    "certifyingOfficial": {
+      "first": "John",
+      "last": "Doe",
+      "role": { "level": "certifying official" }
+    },
+    "statementOfTruthSignature": "John Doe",
     "dateSigned": "2025-08-10"
   }
 }

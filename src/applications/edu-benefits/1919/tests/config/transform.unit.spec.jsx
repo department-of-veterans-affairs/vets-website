@@ -13,14 +13,23 @@ describe('22-1919 Transform Function', () => {
       toFake: ['Date'],
     });
 
-    const formData = { data: transformTestData.beforeTransform };
-    const transformedData = JSON.stringify({
-      educationBenefitsClaim: {
-        form: JSON.stringify(transformTestData.afterTransform),
-      },
-    });
+    // Facility code provided for institution
+    expect(transform({ data: transformTestData.beforeTransform1 })).to.equal(
+      JSON.stringify({
+        educationBenefitsClaim: {
+          form: JSON.stringify(transformTestData.afterTransform1),
+        },
+      }),
+    );
 
-    expect(transform(formData)).to.equal(transformedData);
+    // Facility code *not yet* provided for institution
+    expect(transform({ data: transformTestData.beforeTransform2 })).to.equal(
+      JSON.stringify({
+        educationBenefitsClaim: {
+          form: JSON.stringify(transformTestData.afterTransform2),
+        },
+      }),
+    );
 
     clock.restore();
   });
