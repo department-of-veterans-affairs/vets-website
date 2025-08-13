@@ -172,7 +172,7 @@ export function transformProviderFacilities(providerFacilities, clonedData) {
   // This map transforms treatedDisabilityNames back into the original condition names from the sippableIds
   return providerFacilities.map(facility => {
     const disabilityNames = transformRelatedDisabilities(
-      facility.treatedDisabilityNames || { '': false },
+      facility.treatedDisabilityNames || [],
       getClaimedConditionNames(clonedData, false),
     );
 
