@@ -932,15 +932,3 @@ describe('actions', () => {
     });
   });
 });
-
-/**
- * GIB
- * SBP
- * FHV
- * SVC
- * TAP
- * VRE
- * VSC
- * DHS
- * VAP -- wait
- */
