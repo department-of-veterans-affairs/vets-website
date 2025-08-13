@@ -152,7 +152,6 @@ export function transformRelatedDisabilities(
       // name should already be lower-case, but just in case...no pun intended
       claimedName => sippableId(claimedName) === name.toLowerCase(),
     );
-
   return (
     Object.keys(conditionContainer)
       // The check box is checked
@@ -164,28 +163,6 @@ export function transformRelatedDisabilities(
   );
 }
 
-// Transform the related disabilities list into an object of { [originalClaimedName]: true }
-const transformedDisabilityNames = (facility, clonedData) => {
-  const claimedNames = getClaimedConditionNames(clonedData, false);
-  const treatedNames = facility.treatedDisabilityNames || {};
-  const result = {};
-
-  Object.keys(treatedNames).forEach(name => {
-    if (treatedNames[name]) {
-      const matched = claimedNames.find(
-        claimed => sippableId(claimed) === name.toLowerCase(),
-      );
-      if (matched) {
-        // TODO as a part of the 4142 release, we need update this logic to reflect the
-        // accurate selection on the private medical records release page
-        result[matched] = true;
-      }
-    }
-  });
-
-  return result;
-};
-
 /**
  * Cycles through the list of provider facilities and performs transformations on each property as needed
  * @param {array} providerFacilities array of objects being transformed
@@ -194,7 +171,12 @@ const transformedDisabilityNames = (facility, clonedData) => {
 export function transformProviderFacilities(providerFacilities, clonedData) {
   // Add treatedDisabilityNames as an array of strings for each facility
   return providerFacilities.map(facility => {
-    const disabilityNames = transformedDisabilityNames(facility, clonedData);
+    const disabilityNames = transformRelatedDisabilities(
+      facility.treatedDisabilityNames || { '': false },
+      getClaimedConditionNames(clonedData, false),
+    );
+
+    // const disabilityNames = transformedDisabilityNames(facility, clonedData);
     return {
       ...facility,
       treatedDisabilityNames: disabilityNames,
