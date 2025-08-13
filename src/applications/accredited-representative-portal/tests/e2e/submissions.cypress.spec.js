@@ -100,5 +100,42 @@ describe('Accredited Representative Portal', () => {
         'Processing error',
       );
     });
+
+    it('Allows the user to visit 686c form from Submissions', () => {
+      cy.injectAxeThenAxeCheck();
+      cy.get(
+        "va-link-action[href='/representative/representative-form-upload/21-686c']",
+      ).click();
+    });
+
+    context('526ez feature flag is off', () => {
+      it('does not allow the user to visit 526ez form from Submissions', () => {
+        cy.injectAxeThenAxeCheck();
+        cy.get('body').should('not.have.text', '526EZ');
+      });
+    });
+  });
+
+  context('526ez feature flag is on', () => {
+    beforeEach(() => {
+      setSubmissions();
+      cy.loginArpUser();
+      setUpInterceptsAndVisit(
+        {
+          isAppEnabled: true,
+          isInPilot: true,
+          isSubmissionsEnabled: true,
+          is526ezEnabled: true,
+        },
+        SUBMISSIONS_PAGE,
+      );
+    });
+
+    it('Allows the user to visit 526ez form from Submissions', () => {
+      cy.injectAxeThenAxeCheck();
+      cy.get(
+        "va-link-action[href='/representative/representative-form-upload/21-526EZ']",
+      ).click();
+    });
   });
 });
