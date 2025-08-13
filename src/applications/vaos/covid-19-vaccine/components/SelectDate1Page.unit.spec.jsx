@@ -329,12 +329,14 @@ describe('When preferred date is immediate care', () => {
   describe('And current date is last day of the month and end of day', () => {
     beforeEach(() => {
       mockFetch();
+      MockDate.set(lastDayOfMonth(new Date()));
     });
 
-    // Check for test flakyness on the last day of each month
-    it('should fetch slots when moving between months', async () => {
-      MockDate.set(lastDayOfMonth(new Date()));
+    afterEach(() => {
+      MockDate.reset();
+    });
 
+    it('should fetch slots when moving between months', async () => {
       const clinics = MockClinicResponse.createResponses({
         clinics: [
           { id: '308', name: 'Green team clinic' },
@@ -475,7 +477,5 @@ describe('When preferred date is immediate care', () => {
       });
       expect(screen.history.push.called).to.be.false;
     });
-
-    MockDate.reset();
   });
 });
