@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { PROFILE_PATH_NAMES } from '@@profile/constants';
 import { fetchCommunicationPreferenceGroups } from '@@profile/ducks/communicationPreferences';
@@ -16,6 +16,7 @@ import { Description } from './Description';
 import { Note } from './Note';
 import { MissingEmailAlert } from './MissingEmailAlert';
 import { ProfileEmail } from './ProfileEmail';
+import { SecureStorage } from './SecureStorage';
 import { Documents } from './Documents';
 
 export const PaperlessDelivery = () => {
@@ -26,22 +27,19 @@ export const PaperlessDelivery = () => {
     selectCommunicationPreferences,
   );
   const hasVAPServiceError = useSelector(hasVAPServiceConnectionError);
-  const hasLoadingError = Boolean(communicationPreferencesState.loadingErrors);
-  const shouldShowAPIError = hasVAPServiceError || hasLoadingError;
-  const shouldShowLoadingIndicator =
-    communicationPreferencesState.loadingStatus === LOADING_STATES.idle ||
-    communicationPreferencesState.loadingStatus === LOADING_STATES.pending;
-  const shouldFetchNotificationSettings = !shouldShowAPIError;
-  const shouldShowNotificationGroups = useMemo(
-    () => {
-      return !shouldShowAPIError && !shouldShowLoadingIndicator;
-    },
-    [shouldShowAPIError, shouldShowLoadingIndicator],
-  );
+  const { loadingStatus, loadingErrors } = communicationPreferencesState;
+  const hasLoadingError = Boolean(loadingErrors);
+  const hasAPIError = hasVAPServiceError || hasLoadingError;
+  const isLoading =
+    loadingStatus === LOADING_STATES.idle ||
+    loadingStatus === LOADING_STATES.pending;
+  const fetchCommunicationPreferences =
+    !hasAPIError && loadingStatus === LOADING_STATES.idle;
+  const showContent = !hasAPIError && !isLoading;
 
   useEffect(
     () => {
-      if (shouldFetchNotificationSettings) {
+      if (fetchCommunicationPreferences) {
         dispatch(
           fetchCommunicationPreferenceGroups({
             facilities,
@@ -49,24 +47,29 @@ export const PaperlessDelivery = () => {
         );
       }
     },
-    [dispatch, facilities, shouldFetchNotificationSettings],
+    [dispatch, facilities, fetchCommunicationPreferences],
   );
+
+  useEffect(() => {
+    document.title = `Paperless Delivery | Veterans Affairs`;
+  }, []);
 
   return (
     <>
       <Headline>{PROFILE_PATH_NAMES.PAPERLESS_DELIVERY}</Headline>
-      {shouldShowLoadingIndicator && (
+      {isLoading && (
         <VaLoadingIndicator
           data-testid="loading-indicator"
           message="We’re loading your information."
         />
       )}
-      {shouldShowNotificationGroups && (
+      {showContent && (
         <>
           <Description />
           <MissingEmailAlert emailAddress={emailAddress} />
           <FieldHasBeenUpdated slim />
           <ProfileEmail emailAddress={emailAddress} />
+          <SecureStorage />
           <hr aria-hidden="true" className="vads-u-margin-y--3" />
           <Documents />
           <Note />
