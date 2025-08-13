@@ -788,6 +788,124 @@ describe('actions', () => {
       expect(result).to.be.false;
     });
   });
+
+  describe('Veterans Pension - VAP', () => {
+    it('should return true with active duty service', () => {
+      const benefit = getBenefitById('VAP');
+      const formData = {
+        [mappingTypes.GOALS]: {
+          [goalTypes.FINANCIAL]: true,
+          [goalTypes.RETIREMENT]: true,
+          [goalTypes.UNDERSTAND]: true,
+        },
+        [mappingTypes.LENGTH_OF_SERVICE]: {
+          [timeServedTypes.UP_TO_6_MONTHS]: true,
+          [timeServedTypes.UP_TO_1_YEAR]: true,
+          [timeServedTypes.UP_TO_2_YEARS]: true,
+          [timeServedTypes.UP_TO_3_YEARS]: true,
+          [timeServedTypes.OVER_3_YEARS]: true,
+        },
+        [militaryBranchTypes.ARMY]: {
+          [militaryBranchComponentTypes.ACTIVE_DUTY]: true,
+        },
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: {
+          [characterOfDischargeTypes.HONORABLE]: true,
+          [characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL]: true,
+          [characterOfDischargeTypes.BAD_CONDUCT]: true,
+          [characterOfDischargeTypes.UNCHARACTERIZED]: true,
+          [characterOfDischargeTypes.NOT_SURE]: true,
+          [characterOfDischargeTypes.STILL_SERVING]: true,
+          [blankType.BLANK]: true,
+        },
+      };
+      const result = actions.mapBenefitFromFormInputData(benefit, formData);
+      expect(result).to.be.true;
+    });
+
+    it('should return true with Title Ten active duty', () => {
+      const benefit = getBenefitById('VAP');
+      const formData = {
+        [mappingTypes.GOALS]: {
+          [goalTypes.FINANCIAL]: true,
+          [goalTypes.RETIREMENT]: true,
+          [goalTypes.UNDERSTAND]: true,
+        },
+        [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: true,
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: {
+          [characterOfDischargeTypes.HONORABLE]: true,
+          [characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL]: true,
+          [characterOfDischargeTypes.BAD_CONDUCT]: true,
+          [characterOfDischargeTypes.UNCHARACTERIZED]: true,
+          [characterOfDischargeTypes.NOT_SURE]: true,
+          [characterOfDischargeTypes.STILL_SERVING]: true,
+          [blankType.BLANK]: true,
+        },
+      };
+      const result = actions.mapBenefitFromFormInputData(benefit, formData);
+      expect(result).to.be.true;
+    });
+
+    it('should return false with only National Guard and Reserve service', () => {
+      const benefit = getBenefitById('VAP');
+      const formData = {
+        [mappingTypes.GOALS]: {
+          [goalTypes.FINANCIAL]: true,
+          [goalTypes.RETIREMENT]: true,
+          [goalTypes.UNDERSTAND]: true,
+        },
+        [militaryBranchTypes.ARMY]: {
+          [militaryBranchComponentTypes.NATIONAL_GUARD_SERVICE]: true,
+          [militaryBranchComponentTypes.RESERVE_SERVICE]: true,
+        },
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: {
+          [characterOfDischargeTypes.HONORABLE]: true,
+          [characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL]: true,
+          [characterOfDischargeTypes.BAD_CONDUCT]: true,
+          [characterOfDischargeTypes.UNCHARACTERIZED]: true,
+          [characterOfDischargeTypes.NOT_SURE]: true,
+          [characterOfDischargeTypes.STILL_SERVING]: true,
+          [blankType.BLANK]: false,
+        },
+      };
+      const result = actions.mapBenefitFromFormInputData(benefit, formData);
+      expect(result).to.be.false;
+    });
+
+    it('should return false with incorrect goals', () => {
+      const benefit = getBenefitById('VAP');
+      const formData = {
+        [mappingTypes.GOALS]: {
+          [goalTypes.HEALTH]: true,
+          [goalTypes.PLAN]: true,
+          [goalTypes.SCHOOL]: true,
+          [goalTypes.CAREER]: true,
+        },
+        [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: true,
+        [mappingTypes.CHARACTER_OF_DISCHARGE]:
+          characterOfDischargeTypes.HONORABLE,
+      };
+      const result = actions.mapBenefitFromFormInputData(benefit, formData);
+      expect(result).to.be.false;
+    });
+
+    it('should return false with incorrect discharge', () => {
+      const benefit = getBenefitById('VAP');
+      const formData = {
+        [mappingTypes.GOALS]: {
+          [goalTypes.FINANCIAL]: true,
+          [goalTypes.RETIREMENT]: true,
+          [goalTypes.UNDERSTAND]: true,
+        },
+        [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: true,
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: {
+          [characterOfDischargeTypes.DISHONORABLE]: true,
+          [characterOfDischargeTypes.UNDER_OTHER_THAN_HONORABLE_CONDITIONS]: true,
+        },
+      };
+      const result = actions.mapBenefitFromFormInputData(benefit, formData);
+      expect(result).to.be.false;
+    });
+  });
 });
 
 /**
