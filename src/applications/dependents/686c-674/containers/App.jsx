@@ -43,13 +43,7 @@ function App({
   });
 
   const { useFormFeatureToggleSync } = useFeatureToggle();
-  useFormFeatureToggleSync([
-    'featureToggleNameAndDataKey',
-    {
-      toggleName: 'vaDependentsNetWorthAndPension',
-      formKey: 'vaDependentsNetWorthAndPension',
-    },
-  ]);
+  useFormFeatureToggleSync(['vaDependentsNetWorthAndPension']);
 
   // Handle loading
   if (isLoading) {

@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import prefillTransformer from '../../config/prefill-transformer';
+import { NETWORTH_VALUE } from '../../config/constants';
 
 const buildData = ({
   ssnLastFour = '',
@@ -7,7 +8,7 @@ const buildData = ({
   city = 'Decatur',
   useV2 = true,
   daysTillExpires = 365,
-  netWorthLimit = '159,240',
+  netWorthLimit = NETWORTH_VALUE,
 }) => ({
   prefill: {
     data: {},
@@ -75,7 +76,7 @@ describe('NOD prefill transformer', () => {
       formData: {
         useV2: true,
         daysTillExpires: 365,
-        netWorthLimit: '159,240',
+        netWorthLimit: NETWORTH_VALUE,
         veteranInformation: {
           ssnLastFour: '',
           vaFileLastFour: '',
@@ -153,6 +154,7 @@ describe('NOD prefill transformer', () => {
         .formData;
 
       expect(transformedData).to.deep.equal(data.result);
+      expect(transformedData.netWorthLimit).to.equal(NETWORTH_VALUE);
     });
   });
 });
