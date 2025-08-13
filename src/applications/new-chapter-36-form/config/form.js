@@ -1,10 +1,16 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import { TITLE, SUBTITLE, VET_SM_INFO_CHAPTER_CONSTANTS } from '../constants';
+
+import {
+  TITLE,
+  SUBTITLE,
+  VET_SM_INFO_CHAPTER_CONSTANTS,
+  YOUR_INFORMATION_CHAPTER_CONSTANTS,
+} from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-
+import claimantAddressPage from '../pages/claimantAddress';
 import veteranAddressPage from '../pages/veteranAddress';
 import veteranServiceMemberInfoPage from '../pages/veteranServiceMemberInfo';
 
@@ -53,6 +59,12 @@ const formConfig = {
     veteranServiceMemberInfoChapter: {
       title: VET_SM_INFO_CHAPTER_CONSTANTS.chapterTitle,
       pages: {
+        claimantAddressPage: {
+          path: 'claimant-address',
+          title: YOUR_INFORMATION_CHAPTER_CONSTANTS.claimantAddressPageTitle,
+          uiSchema: claimantAddressPage.uiSchema,
+          schema: claimantAddressPage.schema,
+        },
         veteranServiceMemberInfoPage: {
           path: 'vet-sm-info',
           title:

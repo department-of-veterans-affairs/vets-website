@@ -24,11 +24,14 @@ const testConfig = createTestConfig(
           cy.get('va-button[text="Continue your application"]').click();
         });
       },
-      'name-and-date-of-birth': ({ afterHook }) => {
+      'claimant-address': ({ afterHook }) => {
         afterHook(() => {
           cy.injectAxeThenAxeCheck();
-          cy.get('@testData').then(() => {
-            cy.fillPage();
+          cy.get('@testData').then(data => {
+            cy.fillAddressWebComponentPattern(
+              'claimantAddress',
+              data.claimantAddress,
+            );
             cy.get('va-button[text="Continue"]').click();
           });
         });
