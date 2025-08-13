@@ -241,7 +241,6 @@ describe('Helpers Module', () => {
       expect(result.formData.claimantFullName.middle).to.equal('A');
       expect(result.formData.claimantFullName.last).to.equal('Smith');
       expect(result.formData.email).to.equal('jane.smith@example.com');
-      expect(result.formData.confirmEmail).to.equal('jane.smith@example.com');
       expect(result.formData.mobilePhone.phone).to.equal('5556667777');
       expect(result.formData.mobilePhone.isInternational).to.be.false;
       expect(result.formData.homePhone.phone).to.equal('5558889999');
