@@ -145,7 +145,11 @@ const DebtDetails = () => {
         )}
         {shouldShowPaymentHistory && (
           <div>
-            <h2 id="debtDetailsHeader" className="vads-u-margin-y--2">
+            <h2
+              id="debtDetailsHeader"
+              className="vads-u-margin-y--2"
+              data-testid="debt-details-header"
+            >
               Debt details
             </h2>
             <div className="mobile-lg:vads-u-display--flex small-screen:vads-u-justify-content--space-between medium-screen:vads-u-max-width--90">
@@ -179,7 +183,11 @@ const DebtDetails = () => {
         {oneThingPerPageActive &&
           !shouldShowPaymentHistory && (
             <>
-              <h2 id="debtDetailsHeader" className="vads-u-margin-y--2">
+              <h2
+                id="debtDetailsHeader"
+                className="vads-u-margin-y--2"
+                data-testid="otpp-details-header"
+              >
                 Debt details
               </h2>
               <p>

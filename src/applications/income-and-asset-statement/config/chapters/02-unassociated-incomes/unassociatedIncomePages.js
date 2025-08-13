@@ -478,17 +478,17 @@ const recipientNamePage = {
     ),
     recipientName: showUpdatedContent()
       ? {
-          ...fullNameNoSuffixUI,
+          ...fullNameNoSuffixUI(),
           first: {
-            ...fullNameNoSuffixUI.first,
+            ...fullNameNoSuffixUI().first,
             'ui:title': 'First or given name',
           },
           middle: {
-            ...fullNameNoSuffixUI.middle,
+            ...fullNameNoSuffixUI().middle,
             'ui:title': 'Middle name',
           },
           last: {
-            ...fullNameNoSuffixUI.last,
+            ...fullNameNoSuffixUI().last,
             'ui:title': 'Last or family name',
           },
         }

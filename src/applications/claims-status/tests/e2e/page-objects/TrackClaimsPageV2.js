@@ -2,8 +2,6 @@
 // START lighthouse_migration
 import featureToggleClaimDetailV2Enabled from '../fixtures/mocks/lighthouse/feature-toggle-claim-detail-v2-enabled.json';
 import featureToggleClaimPhasesEnabled from '../fixtures/mocks/lighthouse/feature-toggle-claim-phases-enabled.json';
-import featureToggle5103UpdateEnabled from '../fixtures/mocks/lighthouse/feature-toggle-5103-update-enabled.json';
-import featureToggle5103UpdateEnabledV2 from '../fixtures/mocks/lighthouse/feature-toggle-5103-update-enabled-v2.json';
 // END lighthouse_migration
 
 const Timeouts = require('platform/testing/e2e/timeouts.js');
@@ -15,8 +13,6 @@ class TrackClaimsPageV2 {
     mock = null,
     submitForm = false,
     cstClaimPhasesToggleEnabled = false,
-    cst5103UpdateEnabled = false,
-    cst5103UpdateEnabledV2 = false,
   ) {
     if (submitForm) {
       cy.intercept('POST', `/v0/benefits_claims/189685/submit5103`, {
@@ -36,20 +32,6 @@ class TrackClaimsPageV2 {
         'GET',
         '/v0/feature_toggles?*',
         featureToggleClaimPhasesEnabled,
-      );
-    } else if (cst5103UpdateEnabled) {
-      // When cst_use_claim_details_v2 is disabled, cst_5103_update_enabled is enabled
-      cy.intercept(
-        'GET',
-        '/v0/feature_toggles?*',
-        featureToggle5103UpdateEnabled,
-      );
-    } else if (cst5103UpdateEnabledV2) {
-      // When cst_use_claim_details_v2 and cst_5103_update_enabled are enabled
-      cy.intercept(
-        'GET',
-        '/v0/feature_toggles?*',
-        featureToggle5103UpdateEnabledV2,
       );
     } else {
       cy.intercept(
@@ -411,11 +393,11 @@ class TrackClaimsPageV2 {
         // Verify some tracked items on page 1
         cy.get('.recent-activity-container > ol > li > p').should(
           'contain',
-          'We completed a review for the request: “Automated 5103 Notice Response”',
+          'We completed a review for the request: “List of evidence we may need (5103 notice)”',
         );
         cy.get('.recent-activity-container > ol > li > p').should(
           'contain',
-          'We opened a request: “Automated 5103 Notice Response”',
+          'We opened a request: “List of evidence we may need (5103 notice)”',
         );
         cy.get('.recent-activity-container > ol > li > p').should(
           'contain',
@@ -463,11 +445,11 @@ class TrackClaimsPageV2 {
       // Verify some tracked items on page 1
       cy.get('.recent-activity-container > ol > li > p').should(
         'contain',
-        'We completed a review for the request: “Automated 5103 Notice Response”',
+        'We completed a review for the request: “List of evidence we may need (5103 notice)”',
       );
       cy.get('.recent-activity-container > ol > li > p').should(
         'contain',
-        'We opened a request: “Automated 5103 Notice Response”',
+        'We opened a request: “List of evidence we may need (5103 notice)”',
       );
       cy.get('.recent-activity-container > ol > li > p').should(
         'contain',

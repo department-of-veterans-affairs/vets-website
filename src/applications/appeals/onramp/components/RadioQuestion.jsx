@@ -8,7 +8,11 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { QUESTION_CONTENT } from '../constants/question-data-map';
-import { updateFormStore, updateQuestionValue } from '../actions';
+import {
+  updateFormStore,
+  updateQuestionValue,
+  updateResultsPage,
+} from '../actions';
 import { cleanUpAnswers } from '../utilities/answer-storage';
 import { navigateForward } from '../utilities/page-navigation';
 
@@ -18,11 +22,13 @@ import { navigateForward } from '../utilities/page-navigation';
  */
 const RadioQuestion = ({
   allQuestionShortNames,
+  allResultsShortNames,
   formResponses,
   router,
   setQuestionValue,
   shortName,
   updateCleanedFormStore,
+  updateResultsPageValue,
 }) => {
   const {
     descriptionText,
@@ -50,7 +56,14 @@ const RadioQuestion = ({
       cleanUpAnswers(allQuestionShortNames, updateCleanedFormStore, shortName);
     }
 
-    navigateForward(allQuestionShortNames, shortName, formResponses, router);
+    navigateForward(
+      allQuestionShortNames,
+      allResultsShortNames,
+      shortName,
+      formResponses,
+      router,
+      updateResultsPageValue,
+    );
   };
 
   const onValueChange = value => {
@@ -143,16 +156,19 @@ const RadioQuestion = ({
 
 const mapStateToProps = state => ({
   allQuestionShortNames: state?.decisionReviewsGuide?.allQuestionShortNames,
+  allResultsShortNames: state?.decisionReviewsGuide?.allResultsShortNames,
   formResponses: state?.decisionReviewsGuide?.form,
 });
 
 const mapDispatchToProps = {
   setQuestionValue: updateQuestionValue,
   updateCleanedFormStore: updateFormStore,
+  updateResultsPageValue: updateResultsPage,
 };
 
 RadioQuestion.propTypes = {
   allQuestionShortNames: PropTypes.arrayOf(PropTypes.string).isRequired,
+  allResultsShortNames: PropTypes.arrayOf(PropTypes.string).isRequired,
   formResponses: PropTypes.object.isRequired,
   router: PropTypes.shape({
     goBack: PropTypes.func,
@@ -161,6 +177,7 @@ RadioQuestion.propTypes = {
   setQuestionValue: PropTypes.func.isRequired,
   shortName: PropTypes.string.isRequired,
   updateCleanedFormStore: PropTypes.func.isRequired,
+  updateResultsPageValue: PropTypes.func.isRequired,
   descriptionText: PropTypes.string,
   hintText: PropTypes.string,
   useSinglePattern: PropTypes.bool,

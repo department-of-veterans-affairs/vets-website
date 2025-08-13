@@ -39,6 +39,7 @@ const formConfig = {
   showReviewErrors: !environment.isProduction() && !environment.isStaging(),
   formId: VA_FORM_IDS.FORM_21P_0969,
   formOptions: {
+    focusOnAlertRole: true,
     useWebComponentForNavigation: true,
   },
   saveInProgress: {
