@@ -601,47 +601,76 @@ describe('actions', () => {
   });
 
   describe('Veteran Readiness and Employment (Chapter 31) - VRE', () => {
-    it('should return true with correct criteria', () => {
+    const validGoals = [goalTypes.CAREER, goalTypes.UNDERSTAND];
+    const invalidGoals = Object.values(goalTypes).filter(
+      goal => !validGoals.some(goal2 => goal2 === goal),
+    );
+    const validDischarge = [
+      characterOfDischargeTypes.HONORABLE,
+      characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
+      characterOfDischargeTypes.UNDER_OTHER_THAN_HONORABLE_CONDITIONS,
+      characterOfDischargeTypes.UNCHARACTERIZED,
+      characterOfDischargeTypes.STILL_SERVING,
+      characterOfDischargeTypes.BAD_CONDUCT,
+      blankType.BLANK,
+    ];
+    const invalidDischarge = Object.values(characterOfDischargeTypes).filter(
+      discharge => !validDischarge.some(discharge2 => discharge2 === discharge),
+    );
+
+    const validDisabilityRating = [
+      disabilityTypes.APPLIED_AND_RECEIVED,
+      disabilityTypes.STARTED,
+    ];
+    const invalidDisabilityRating = Object.values(goalTypes).filter(
+      goal => !validGoals.some(goal2 => goal2 === goal),
+    );
+
+    it('should return true with correct goals', () => {
       const benefit = getBenefitById('VRE');
-      const formData = {
-        [mappingTypes.GOALS]: {
-          [goalTypes.UNDERSTAND]: true,
-          [goalTypes.CAREER]: true,
-        },
-        [mappingTypes.CURRENTLY_SERVING]: true,
-        [mappingTypes.CHARACTER_OF_DISCHARGE]: {
-          [characterOfDischargeTypes.HONORABLE]: true,
-          [characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL]: true,
-          [characterOfDischargeTypes.UNDER_OTHER_THAN_HONORABLE_CONDITIONS]: true,
-          [characterOfDischargeTypes.UNCHARACTERIZED]: true,
-          [characterOfDischargeTypes.BAD_CONDUCT]: true,
-          [characterOfDischargeTypes.STILL_SERVING]: true,
-          [blankType.BLANK]: true,
-        },
-        [mappingTypes.DISABILITY_RATING]: {
-          [disabilityTypes.APPLIED_AND_RECEIVED]: true,
-          [disabilityTypes.STARTED]: true,
-        },
-      };
-      const result = actions.mapBenefitFromFormInputData(benefit, formData);
-      expect(result).to.be.true;
+      validGoals.forEach(goal => {
+        const formData = {
+          [mappingTypes.GOALS]: { [goal]: true },
+          [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
+          [mappingTypes.DISABILITY_RATING]: formatData(validDisabilityRating),
+        };
+        const result = actions.mapBenefitFromFormInputData(benefit, formData);
+        expect(result).to.be.true;
+      });
+    });
+
+    it('should return true with correct discharge', () => {
+      const benefit = getBenefitById('VRE');
+      validDischarge.forEach(discharge => {
+        const formData = {
+          [mappingTypes.GOALS]: formatData(validGoals),
+          [mappingTypes.CHARACTER_OF_DISCHARGE]: discharge,
+          [mappingTypes.DISABILITY_RATING]: formatData(validDisabilityRating),
+        };
+        const result = actions.mapBenefitFromFormInputData(benefit, formData);
+        expect(result).to.be.true;
+      });
+    });
+
+    it('should return true with correct disability rating', () => {
+      const benefit = getBenefitById('VRE');
+      validDisabilityRating.forEach(rating => {
+        const formData = {
+          [mappingTypes.GOALS]: formatData(validGoals),
+          [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
+          [mappingTypes.DISABILITY_RATING]: rating,
+        };
+        const result = actions.mapBenefitFromFormInputData(benefit, formData);
+        expect(result).to.be.true;
+      });
     });
 
     it('should return false with incorrect discharge', () => {
       const benefit = getBenefitById('VRE');
       const formData = {
-        [mappingTypes.GOALS]: {
-          [goalTypes.UNDERSTAND]: true,
-          [goalTypes.CAREER]: true,
-        },
-        [mappingTypes.CURRENTLY_SERVING]: true,
-        [mappingTypes.CHARACTER_OF_DISCHARGE]: {
-          [characterOfDischargeTypes.DISHONORABLE]: true,
-        },
-        [mappingTypes.DISABILITY_RATING]: {
-          [disabilityTypes.APPLIED_AND_RECEIVED]: true,
-          [disabilityTypes.STARTED]: true,
-        },
+        [mappingTypes.GOALS]: formatData(validGoals),
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(invalidDischarge),
+        [mappingTypes.DISABILITY_RATING]: formatData(validDisabilityRating),
       };
       const result = actions.mapBenefitFromFormInputData(benefit, formData);
       expect(result).to.be.false;
@@ -650,19 +679,9 @@ describe('actions', () => {
     it('should return false with incorrect goals', () => {
       const benefit = getBenefitById('VRE');
       const formData = {
-        [mappingTypes.GOALS]: {
-          [goalTypes.FINANCIAL]: true,
-          [goalTypes.HEALTH]: true,
-          [goalTypes.PLAN]: true,
-          [goalTypes.SCHOOL]: true,
-          [goalTypes.RETIREMENT]: true,
-        },
-        [mappingTypes.CHARACTER_OF_DISCHARGE]:
-          characterOfDischargeTypes.HONORABLE,
-        [mappingTypes.DISABILITY_RATING]: {
-          [disabilityTypes.APPLIED_AND_RECEIVED]: true,
-          [disabilityTypes.STARTED]: true,
-        },
+        [mappingTypes.GOALS]: formatData(invalidGoals),
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
+        [mappingTypes.DISABILITY_RATING]: formatData(validDisabilityRating),
       };
       const result = actions.mapBenefitFromFormInputData(benefit, formData);
       expect(result).to.be.false;
@@ -671,17 +690,9 @@ describe('actions', () => {
     it('should return false with wrong disibility rating', () => {
       const benefit = getBenefitById('VRE');
       const formData = {
-        [mappingTypes.GOALS]: {
-          [goalTypes.UNDERSTAND]: true,
-          [goalTypes.CAREER]: true,
-        },
-        [mappingTypes.CURRENTLY_SERVING]: false,
-        [mappingTypes.CHARACTER_OF_DISCHARGE]:
-          characterOfDischargeTypes.HONORABLE,
-        [mappingTypes.DISABILITY_RATING]: {
-          [disabilityTypes.DENIED]: true,
-          [disabilityTypes.NOT_APPLIED]: true,
-        },
+        [mappingTypes.GOALS]: formatData(validGoals),
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
+        [mappingTypes.DISABILITY_RATING]: formatData(invalidDisabilityRating),
       };
 
       const result = actions.mapBenefitFromFormInputData(benefit, formData);
