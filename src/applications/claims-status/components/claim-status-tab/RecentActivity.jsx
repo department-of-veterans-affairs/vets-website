@@ -219,7 +219,7 @@ export default function RecentActivity({ claim }) {
             <br />
           </>
         ) : (
-          renderDefaultThirdPartyMessage(item.displayName)
+          renderDefaultThirdPartyMessage(item.oldDisplayName)
         )}
         <Link
           aria-label={`About this notice for ${item.friendlyName ||
