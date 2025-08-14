@@ -20,10 +20,7 @@ const isNotUploadingPrivateRecords = data =>
 export const uiSchema = {
   'ui:title': standardTitle('Options for providing non-VA treatment records'),
   'view:recordsConfirmAlertBanner': {
-    'ui:description': recordsConfirmAlertBanner,
-    'ui:options': {
-      hideIf: formData => !needs4142AlertShown(formData),
-    },
+    'ui:description': formData => recordsConfirmAlertBanner(formData)
   },
   'view:uploadPrivateRecordsQualifier': {
     'view:hasPrivateRecordsToUpload': yesNoUI({
