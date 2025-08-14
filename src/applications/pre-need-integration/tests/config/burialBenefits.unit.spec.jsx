@@ -102,7 +102,7 @@ describe('Pre-need burial benefits', () => {
 
     selectRadio(form, 'root_application_hasCurrentlyBuried', '1');
 
-    fireEvent.submit(form.find('form').getDOMNode());
+    form.find('form').simulate('submit');
 
     expect(onSubmit.called).to.be.true;
     form.unmount();
