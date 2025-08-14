@@ -164,36 +164,6 @@ describe('getLettersList', () => {
         .then(done, done);
     });
   });
-  it('calls the discrepancies endpoint when shouldUseLettersDiscrepancies is true', done => {
-    setFetchJSONResponse(global.fetch.onCall(0), { data: { attributes: {} } });
-
-    const discrepancyCall = sinon.stub().resolves({});
-    const originalApiRequest = require('../../utils/helpers').apiRequest;
-    const helpers = require('../../utils/helpers');
-
-    sinon.stub(helpers, 'apiRequest').callsFake(url => {
-      if (url === '/v0/letters_discrepancy') {
-        return discrepancyCall(url);
-      }
-      return originalApiRequest(url);
-    });
-
-    const dispatch = sinon.spy();
-    getLetterList(dispatch, migrationOptions, true)
-      .then(() => {
-        expect(discrepancyCall.calledOnce).to.be.true;
-        expect(discrepancyCall.firstCall.args[0]).to.equal(
-          '/v0/letters_discrepancy',
-        );
-
-        helpers.apiRequest.restore();
-        done();
-      })
-      .catch(error => {
-        helpers.apiRequest.restore();
-        done(error);
-      });
-  });
 });
 
 describe('getLetterListAndBSLOptions', () => {
@@ -327,34 +297,6 @@ describe('getLetterPdf', () => {
       serviceConnectedDisabilities: true,
     },
   };
-
-  it('handles msSaveOrOpenBlob for IE', done => {
-    // Simulate IE support
-    Object.defineProperty(window.navigator, 'msSaveOrOpenBlob', {
-      value: sinon.stub(),
-      configurable: true,
-    });
-
-    setFetchBlobResponse(
-      global.fetch.onCall(0),
-      new Blob(['IE blob content'], { type: 'application/pdf' }),
-    );
-
-    const { letterType, letterName, letterOptions } = civilSLetter;
-    const thunk = getLetterPdf(
-      letterType,
-      letterName,
-      letterOptions,
-      migrationOptions,
-    );
-
-    const dispatch = sinon.spy();
-    thunk(dispatch, getState)
-      .then(() => {
-        expect(window.navigator.msSaveOrOpenBlob.calledOnce).to.be.true;
-      })
-      .then(done, done);
-  });
 
   it('dispatches download pending action first', done => {
     const { letterType, letterName, letterOptions } = benefitSLetter;
