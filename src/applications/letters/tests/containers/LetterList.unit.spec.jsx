@@ -399,7 +399,7 @@ describe('<LetterList>', () => {
     ).to.exist;
     expect(
       getByText(
-        'The Benefit Verification Letter documents your VA financial benefits.',
+        'The Benefit Verification Letter shows your VA financial benefits.',
       ),
     ).to.exist;
   });

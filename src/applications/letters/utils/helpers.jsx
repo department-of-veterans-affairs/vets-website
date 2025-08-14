@@ -223,9 +223,7 @@ export const newLetterContent = {
     'This letter can be customized and used for many things, including to verify service history, income, disability status, and more.',
   benefit_verification: (
     <>
-      <p>
-        The Benefit Verification Letter documents your VA financial benefits.
-      </p>
+      <p>The Benefit Verification Letter shows your VA financial benefits.</p>
       <p>
         You can use this letter to prove your income, such as when applying for
         a car loan or a mortgage.
