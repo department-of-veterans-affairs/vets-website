@@ -164,7 +164,7 @@ export const studentIDInformationPage = {
       'ui:required': () => true,
     },
     isParent: {
-      ...yesNoUI('Are you this student’s parent?'),
+      ...yesNoUI('Are you this student’s biological parent?'),
       'ui:required': () => true,
     },
   },
