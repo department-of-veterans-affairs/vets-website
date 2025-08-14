@@ -115,7 +115,9 @@ describe('PaperlessDelivery', () => {
     };
     emailAddress = 'alongusername@me.com';
     const { queryByText } = render(<PaperlessDelivery />, {});
-    expect(queryByText(/Add your email to get delivery updates/)).not.to.exist;
+    expect(
+      queryByText(/Add your email to get notified when documents are ready/),
+    ).not.to.exist;
   });
 
   it('should render email and update email address link when user has an email address', () => {
@@ -136,7 +138,8 @@ describe('PaperlessDelivery', () => {
     };
     emailAddress = null;
     const { getByText } = render(<PaperlessDelivery />, {});
-    expect(getByText(/Add your email to get delivery updates/)).to.exist;
+    expect(getByText(/Add your email to get notified when documents are ready/))
+      .to.exist;
   });
 
   it('should render add email address link when user has no email address', () => {
