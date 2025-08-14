@@ -379,7 +379,7 @@ describe('<LetterList>', () => {
     ).to.exist;
     expect(
       getByText(
-        `The Commissary Letter certifies that you’re eligible to receive commissary store and exchange privileges from the Armed Forces.`,
+        `The Commissary Letter shows that you’re eligible to receive commissary store and exchange privileges from the Armed Forces.`,
       ),
     ).to.exist;
     expect(

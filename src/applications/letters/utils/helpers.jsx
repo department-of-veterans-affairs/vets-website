@@ -163,8 +163,8 @@ export const newLetterContent = {
   commissary: (
     <>
       <p>
-        The Commissary Letter certifies that you’re eligible to receive
-        commissary store and exchange privileges from the Armed Forces.
+        The Commissary Letter shows that you’re eligible to receive commissary
+        store and exchange privileges from the Armed Forces.
       </p>
       <p>
         You can use this letter to get a Retiree Military ID card to access
