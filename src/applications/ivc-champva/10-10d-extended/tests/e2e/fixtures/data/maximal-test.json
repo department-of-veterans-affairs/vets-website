@@ -1,38 +1,33 @@
 {
   "data": {
+    "view:hasHealthInsurance": true,
+    "view:hasMedicare": true,
     "view:hasApplicants": true,
     "applicants": [
       {
-        "applicantRelationshipOrigin": {
-          "relationshipToVeteran": "blood"
-        },
-        "applicantEmailAddress": "johnny@alvin.gov",
-        "applicantAddress": {
-          "country": "USA",
-          "street": "456 Circle Street",
-          "city": "Clinton",
-          "state": "AS",
-          "postalCode": "56790"
-        },
-        "applicantSSN": "345345345",
-        "applicantPhone": "555-555-1234",
-        "applicantGender": {
-          "gender": "male"
-        },
-        "applicantRelationshipToSponsor": {
-          "relationshipToVeteran": "child"
-        },
-        "applicantDependentStatus": {
-          "status": "enrolled"
-        },
-        "applicantEnrolledInOHI": false,
-        "applicantDob": "2003-01-04",
         "applicantName": {
           "first": "Johnny",
           "middle": "T",
           "last": "Alvin",
           "suffix": "Jr."
-        }
+        },
+        "applicantDob": "2003-01-04",
+        "applicantSSN": "345345345",
+        "applicantAddress": {
+          "street": "456 Circle St",
+          "street2": "Apt 2",
+          "street3": "Floor 5",
+          "city": "Applicant",
+          "country": "USA",
+          "state": "IN",
+          "postalCode": "56790"
+        },
+        "applicantPhone": "5555551234",
+        "applicantEmailAddress": "johnny@alvin.gov",
+        "applicantGender": "male",
+        "applicantRelationshipOrigin": "blood",
+        "applicantRelationshipToSponsor": "spouse",
+        "applicantDependentStatus": "enrolled"
       }
     ],
     "healthInsurance": [
@@ -70,10 +65,11 @@
         "medicarePartDBackCard": []
       }
     ],
-    "sponsorSsn": "123123123",
-    "sponsorName": {
-      "first": "Joe",
-      "last": "Johnson"
+    "certifierName": {
+      "first": "Certifier",
+      "middle": "T",
+      "last": "Jones",
+      "suffix": "Sr."
     },
     "certifierRole": "other",
     "certifierRelationship": {
@@ -83,20 +79,33 @@
         "thirdParty": true
       }
     },
-    "certifierPhone": "1231231234",
-    "certifierEmail": "certifier@email.gov",
     "certifierAddress": {
-      "country": "USA",
-      "street": "123 Certifier Street",
+      "street": "123 Certifier St",
+      "street2": "Apt 5",
+      "street3": "Floor 2",
       "city": "Citytown",
+      "country": "USA",
       "state": "AL",
       "postalCode": "12312"
     },
-    "certifierName": {
-      "first": "Certifier",
-      "last": "Jones"
+    "certifierPhone": "1231231234",
+    "certifierEmail": "certifier@email.gov",
+    "sponsorName": {
+      "first": "Joe",
+      "middle": "James",
+      "last": "Johnson",
+      "suffix": "Jr."
     },
     "sponsorDob": "1958-01-01",
+    "sponsorSsn": "123123123",
+    "sponsorAddress": {
+      "country": "USA",
+      "street": "123 Sponsor St",
+      "city": "Sponsor",
+      "state": "AL",
+      "postalCode": "12312"
+    },
+    "sponsorPhone": "5552223333",
     "sponsorIsDeceased": true,
     "sponsorDOD": "2001-01-01",
     "sponsorDeathConditions": false,

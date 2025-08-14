@@ -7,12 +7,18 @@ import user from '../fixtures/mocks/user.json';
 import submit from '../fixtures/mocks/submit.json';
 import featureToggles from '../fixtures/mocks/featureToggles.json';
 import minimalFlow from '../fixtures/data/minimal-flow.json';
+import maximalFlow from '../fixtures/data/maximal-flow.json';
+import militaryFlow from '../fixtures/data/military-address-flow.json';
 
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
     dataDir: null,
-    dataSets: [{ title: 'minimalFlow', data: minimalFlow }],
+    dataSets: [
+      { title: 'minimalFlow', data: minimalFlow },
+      { title: 'maximalFlow', data: maximalFlow },
+      { title: 'militaryFlow', data: militaryFlow },
+    ],
 
     pageHooks: {
       introduction: ({ afterHook }) => {
@@ -21,11 +27,14 @@ const testConfig = createTestConfig(
           cy.get('va-link-action[href="#start"]').click();
         });
       },
-      'name-and-date-of-birth': ({ afterHook }) => {
+      'claimant-address': ({ afterHook }) => {
         afterHook(() => {
           cy.injectAxeThenAxeCheck();
-          cy.get('@testData').then(() => {
-            cy.fillPage();
+          cy.get('@testData').then(data => {
+            cy.fillAddressWebComponentPattern(
+              'claimantAddress',
+              data.claimantAddress,
+            );
             cy.get('va-button[text="Continue"]').click();
           });
         });
