@@ -34,17 +34,15 @@ export const PaperlessDelivery = () => {
   const hasVAPServiceError = useSelector(hasVAPServiceConnectionError);
   const { loadingStatus } = communicationPreferencesState;
   const hasLoadingError = loadingStatus === LOADING_STATES.error;
-  const hasAPIError = hasVAPServiceError || hasLoadingError;
   const isLoading =
     loadingStatus === LOADING_STATES.idle ||
     loadingStatus === LOADING_STATES.pending;
-  const fetchCommunicationPreferences =
-    !hasAPIError && loadingStatus === LOADING_STATES.idle;
+  const hasAPIError = hasVAPServiceError || hasLoadingError;
   const showContent = !hasAPIError && !isLoading;
 
   useEffect(
     () => {
-      if (fetchCommunicationPreferences) {
+      if (!hasAPIError) {
         dispatch(
           fetchCommunicationPreferenceGroups({
             facilities,
@@ -52,7 +50,8 @@ export const PaperlessDelivery = () => {
         );
       }
     },
-    [dispatch, facilities, fetchCommunicationPreferences],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [dispatch, hasAPIError],
   );
 
   useEffect(() => {
