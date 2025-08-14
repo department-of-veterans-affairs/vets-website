@@ -281,7 +281,10 @@ describe('Preneed helpers', () => {
 
     beforeEach(() => {
       focusElementStub = sinon.stub(window, 'focusElement');
-      $$Stub = sinon.stub(window, '$$').returns([
+      // prettier-ignore
+      $$Stub = sinon
+      .stub(window, '$$')
+      .returns([
         { textContent: 'file1', focus: sinon.spy() },
         { textContent: 'file2', focus: sinon.spy() },
       ]);
