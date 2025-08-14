@@ -1,5 +1,5 @@
 import { transformForSubmit as formsSystemTransformForSubmit } from 'platform/forms-system/src/js/helpers';
-import { FILE_UPLOAD_ORDER } from './constants';
+import { FILE_UPLOAD_ORDER, REQUIRED_FILES } from './constants';
 import {
   adjustYearString,
   concatStreets,
@@ -43,27 +43,33 @@ function transformRelationship(obj) {
 
 // For each applicant, adjust organization of the object, add supporting documents array
 function transformApplicants(applicants) {
-  const applicantsPostTransform = [];
-  applicants.forEach(app => {
+  const uploadKeys = Array.from(
+    new Set([
+      ...(FILE_UPLOAD_ORDER || []),
+      ...Object.keys(REQUIRED_FILES || {}),
+    ]),
+  );
+
+  return (applicants || []).map(app => {
     let transformedApp = {
       ...app,
       ssnOrTin: app.applicantSSN ?? '',
       vetRelationship: transformRelationship(
         app.applicantRelationshipToSponsor || 'NA',
       ),
-      // Grab any file upload properties from this applicant and combine into a
-      // supporting documents array:
-      applicantSupportingDocuments: FILE_UPLOAD_ORDER.map(
-        property => app?.[property],
-      ).filter(el => el), // Drop any undefineds/nulls
+      // Collect uploads from ALL known keys, keep arrays only, drop falsy
+      applicantSupportingDocuments: uploadKeys
+        .map(k => app?.[k])
+        .filter(Boolean)
+        .filter(v => Array.isArray(v)),
     };
+
     transformedApp = adjustYearString(transformedApp);
     transformedApp.applicantAddress = concatStreets(
       transformedApp.applicantAddress,
     );
-    applicantsPostTransform.push(transformedApp);
+    return transformedApp;
   });
-  return applicantsPostTransform;
 }
 
 export default function transformForSubmit(formConfig, form) {
@@ -144,20 +150,16 @@ export default function transformForSubmit(formConfig, form) {
 
   // Flatten supporting docs for all applicants to a single array
   const supDocs = [];
-  dataPostTransform.applicants.forEach(app => {
-    if (app.applicantSupportingDocuments.length > 0) {
-      app.applicantSupportingDocuments.forEach(doc => {
-        if (doc !== undefined && doc !== null) {
-          // doc is an array of files for a given input (e.g., insurance cards).
-          // For clarity's sake, add applicant's name onto each file object:
-          const files = doc.map(file => ({
-            ...file,
-            applicantName: app.applicantName,
-          }));
-          supDocs.push(...files);
-        }
-      });
-    }
+  (dataPostTransform.applicants || []).forEach(app => {
+    (app.applicantSupportingDocuments || []).forEach(doc => {
+      if (Array.isArray(doc) && doc.length) {
+        supDocs.push(
+          ...doc
+            .filter(Boolean)
+            .map(file => ({ ...file, applicantName: app.applicantName })),
+        );
+      }
+    });
   });
 
   // Set a top-level boolean indicating if any applicants are over 65
@@ -165,9 +167,12 @@ export default function transformForSubmit(formConfig, form) {
     app => getAgeInYears(app.applicantDob) >= 65,
   );
 
-  dataPostTransform.supportingDocs = dataPostTransform.supportingDocs
-    .flat()
-    .concat(supDocs);
+  dataPostTransform.supportingDocs = [
+    ...(Array.isArray(dataPostTransform.supportingDocs)
+      ? dataPostTransform.supportingDocs
+      : []),
+    ...supDocs,
+  ];
   dataPostTransform.certifierRole = transformedData.certifierRole;
   dataPostTransform.statementOfTruthSignature =
     transformedData.statementOfTruthSignature;

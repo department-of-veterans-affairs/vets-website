@@ -57,14 +57,16 @@ describe('transform for submit', () => {
   });
   it('should attach applicant name to each uploaded file', () => {
     const modified = JSON.parse(JSON.stringify(mockData));
-    const fileKey = Object.keys(REQUIRED_FILES)[0]; // grab a file we expect to be uploaded
-    modified.data.applicants[0][fileKey] = [
-      {
-        name: 'file.png',
-      },
-    ];
+    const fileKey = Object.keys(REQUIRED_FILES)[0];
+
+    modified.data.applicants[0][fileKey] = [{ name: 'file.png' }];
+
     const transformed = JSON.parse(transformForSubmit(formConfig, modified));
-    expect(transformed.supportingDocs[0].applicantName.first).to.equal(
+    const docsWithApplicant = transformed.supportingDocs.filter(
+      d => d?.applicantName,
+    );
+    expect(docsWithApplicant).to.not.be.empty;
+    expect(docsWithApplicant[0].applicantName.first).to.equal(
       transformed.applicants[0].applicantName.first,
     );
   });

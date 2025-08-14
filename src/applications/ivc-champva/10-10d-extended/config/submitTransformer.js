@@ -103,7 +103,12 @@ function mapHealthInsuranceToApplicants(data) {
       .forEach(applicant => {
         // Initialize Medicare array if it doesn't exist
         applicant.medicare = applicant.medicare || [];
-        applicant.applicantMedicareAdvantage = plan.medicarePlanType === 'c';
+        const isAdvantage =
+          String(plan.medicarePlanType || '')
+            .trim()
+            .toLowerCase() === 'c';
+        applicant.applicantMedicareAdvantage =
+          Boolean(applicant.applicantMedicareAdvantage) || isAdvantage;
         // original 10-10d form produces this medicareStatus field, so we need
         // it to fill the PDF on the backend
         applicant.applicantMedicareStatus = { eligibility: 'enrolled' };
@@ -152,24 +157,27 @@ function mapHealthInsuranceToApplicants(data) {
  */
 function collectSupportingDocuments(data) {
   // Get top-level supporting docs
-  const topLevelDocs = getObjectsWithAttachmentId(data, 'confirmationCode');
+  const topLevelDocs = (
+    getObjectsWithAttachmentId(data, 'confirmationCode') || []
+  )
+    .flat()
+    .filter(Boolean);
 
   // Collect docs from insurance policies and Medicare
   const policyDocs = [];
   ['healthInsurance', 'medicare'].forEach(key => {
-    data[key].forEach(item => {
-      const docs = getObjectsWithAttachmentId(item, 'confirmationCode');
-      policyDocs.push(...docs);
+    (data[key] || []).forEach(item => {
+      const docs = getObjectsWithAttachmentId(item, 'confirmationCode') || [];
+      policyDocs.push(...docs.filter(Boolean));
     });
   });
 
   // Collect and enhance applicant supporting docs
   const applicantDocs = [];
-  data.applicants.forEach(applicant => {
+  (data.applicants || []).forEach(applicant => {
     if (applicant.applicantSupportingDocuments?.length) {
-      applicant.applicantSupportingDocuments.forEach(doc => {
+      (applicant.applicantSupportingDocuments || []).forEach(doc => {
         if (doc) {
-          // Add applicant name to document for clarity
           applicantDocs.push({
             ...doc,
             applicantName: applicant.applicantName,
@@ -180,7 +188,7 @@ function collectSupportingDocuments(data) {
   });
 
   // Combine all documents
-  return [...topLevelDocs.flat(), ...policyDocs, ...applicantDocs];
+  return [...topLevelDocs, ...policyDocs, ...applicantDocs].filter(Boolean);
 }
 
 /**
