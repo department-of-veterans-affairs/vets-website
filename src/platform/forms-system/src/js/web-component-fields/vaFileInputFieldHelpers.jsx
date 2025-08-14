@@ -65,13 +65,13 @@ export const useFileUpload = (fileUploadUrl, accept, formNumber, dispatch) => {
   const [isUploading, setIsUploading] = useState(false);
   const [percentUploaded, setPercentUploaded] = useState(null);
 
-  const handleUpload = (file, onSuccess, password = null) => {
+  const handleUpload = (file, onSuccess, password = null, fileIndex) => {
     setIsUploading(true);
 
     const onFileUploaded = uploadedFile => {
       setIsUploading(false);
       setPercentUploaded(null);
-      if (onSuccess) onSuccess(uploadedFile);
+      if (onSuccess) onSuccess(uploadedFile, fileIndex);
     };
 
     const onFileUploading = percent => {

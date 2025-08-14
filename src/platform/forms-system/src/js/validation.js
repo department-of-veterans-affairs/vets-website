@@ -587,6 +587,9 @@ export const NOT_UPLOADED = 'We couldn’t upload your file';
 export const MISSING_PASSWORD_ERROR = 'Encrypted file requires a password.';
 export const UNSUPPORTED_ENCRYPTED_FILE_ERROR =
   "We weren't able to upload your file. Make sure the file is not encrypted and an accepted format.";
+export const MISSING_FILE = 'File is required.';
+export const MISSING_ADDITIONAL_INFO = 'This information is required.';
+export const UTF8_ENCODING_ERROR = "The file's encoding is not valid";
 export function getFileError(file) {
   if (file.errorMessage) {
     return file.errorMessage;

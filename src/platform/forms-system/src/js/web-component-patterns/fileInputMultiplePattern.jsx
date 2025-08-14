@@ -2,6 +2,7 @@ import { isEmpty } from 'lodash';
 import { VaFileInputMultiple } from '../web-component-fields';
 import navigationState from '../utilities/navigation/navigationState';
 import { errorManager } from '../utilities/file/passwordErrorState';
+import { MISSING_FILE } from '../validation';
 
 export const fileInputMultipleUI = options => {
   const { title, description, errorMessages, required, ...uiOptions } = options;
@@ -25,31 +26,60 @@ export const fileInputMultipleUI = options => {
       ...errorMessages,
     },
     'ui:validations': [
-      (errors, data) => {
+      (errors, data, formData) => {
         const isNavigationEvent = navigationState.getNavigationEventStatus();
-
+        const passwordErrorInstances = errorManager.getPasswordInstances();
         if (isNavigationEvent) {
-          for (const instance of errorManager.getPasswordInstances()) {
-            if (instance) {
-              // add a placeholder error to force re-render
-              errors.addError('placeholder');
-              instance.setTouched(true);
+          const isRequired =
+            typeof required === 'function' ? required(formData) : !!required;
+
+          // user selected an encrypted file but has not yet provided password
+          // don't flag for missing file
+          const _encryptedFileWaitingForPassword = passwordErrorInstances.some(
+            instance => instance && instance.getNeedsPassword(),
+          );
+
+          const _required =
+            !uiOptions.skipUpload &&
+            isRequired &&
+            isNavigationEvent &&
+            !_encryptedFileWaitingForPassword;
+
+          if (_required) {
+            let hasFile = false;
+            for (const file of data) {
+              const _hasFile = file.confirmationCode && file.name && file.size;
+              if (_hasFile) {
+                hasFile = true;
+                break;
+              }
+            }
+            if (!hasFile) {
+              errors.addError(MISSING_FILE);
+              // don't do additional validation if missing file
+              return;
             }
           }
-        }
 
-        if (
-          isNavigationEvent &&
-          uiOptions.additionalInputRequired &&
-          data.some(file => isEmpty(file.additionalData))
-        ) {
-          // add a placeholder error to force re-render
-          errors.addError('placeholder');
-        }
+          errorManager.setTouched();
+          passwordErrorInstances.forEach(instance => {
+            if (instance) {
+              if (instance.getNeedsPassword() && !instance.getHasPassword()) {
+                // add a placeholder error to force re-render
+                errors.addError('placeholder');
+              }
+              instance.setTouched(true);
+            }
+          });
 
-        // if (isNavigationEvent && uiOptions.additionalInputRequired) {
-        //   console.log(formData);
-        // }
+          if (
+            uiOptions.additionalInputRequired &&
+            data.some(file => isEmpty(file.additionalData))
+          ) {
+            // add a placeholder error to force re-render
+            errors.addError('placeholder');
+          }
+        }
       },
     ],
     'ui:options': {

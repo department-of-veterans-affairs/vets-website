@@ -15,6 +15,17 @@ const vaFileInputFieldMapping = props => {
     ? _accept.join(',')
     : DEFAULT_ACCEPT_TYPES;
 
+  let uploadedFiles = null;
+  if (childrenProps.formData) {
+    uploadedFiles = [];
+    for (const _u of childrenProps.formData) {
+      const buffer = new ArrayBuffer(_u.size);
+      const blob = new Blob([buffer], { type: 'image/png' });
+      const file = new File([blob], _u.name, { type: 'image/png' });
+      uploadedFiles.push(file);
+    }
+  }
+
   return {
     ...commonFieldProps,
     ...formsPatternProps,
@@ -35,6 +46,7 @@ const vaFileInputFieldMapping = props => {
       ? uiOptions.additionalInput
       : null,
     handleAdditionalInput: uiOptions.handleAdditionalInput,
+    uploadedFiles,
   };
 };
 

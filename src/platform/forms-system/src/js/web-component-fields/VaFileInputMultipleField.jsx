@@ -8,8 +8,11 @@ import {
 import debounce from 'platform/utilities/data/debounce';
 import { isEmpty } from 'lodash';
 import {
-  // MISSING_PASSWORD_ERROR,
+  MISSING_PASSWORD_ERROR,
   UNSUPPORTED_ENCRYPTED_FILE_ERROR,
+  MISSING_FILE,
+  UTF8_ENCODING_ERROR,
+  MISSING_ADDITIONAL_INFO,
 } from '../validation';
 import { useFileUpload } from './vaFileInputFieldHelpers';
 import vaFileInputFieldMapping from './vaFileInputFieldMapping';
@@ -20,7 +23,6 @@ const VaFileInputMultipleField = props => {
   const { uiOptions = {}, childrenProps } = props;
   const [encrypted, setEncrypted] = useState([]);
   const [errors, setErrors] = useState([]);
-  const [resetVisualState, setResetVisualState] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [percentsUploaded, setPercentsUploaded] = useState([]);
   const dispatch = useDispatch();
@@ -33,6 +35,21 @@ const VaFileInputMultipleField = props => {
   const componentRef = useRef(null);
   const mappedProps = vaFileInputFieldMapping(props);
 
+  // if prefill, initialize values
+  useEffect(() => {
+    const doPrefill =
+      Array.isArray(mappedProps.uploadedFiles) && componentRef.current;
+    if (doPrefill) {
+      setErrors(new Array(childrenProps.formData.length).fill(null));
+      childrenProps.formData.forEach((_, i) =>
+        errorManager.addPasswordInstance(i),
+      );
+      setCurrentIndex(childrenProps.formData.length - 1);
+      componentRef.current.value = mappedProps.uploadedFiles;
+    }
+  }, []);
+
+  // update the percent uploaded array
   useEffect(
     () => {
       const _percents = [...percentsUploaded];
@@ -42,44 +59,55 @@ const VaFileInputMultipleField = props => {
     [percentUploaded],
   );
 
-  // keep the resetVisualState array in sync with error arrray
-  useEffect(
-    () => {
-      const _resetValues = errors.map(error => !!error);
-      setResetVisualState(_resetValues);
-    },
-    [errors],
-  );
-
   // update the additional inputs with error or with data if prefill
   useEffect(
     () => {
-      if (componentRef.current) {
-        childrenProps.formData.forEach((file, i) => {
-          if (uiOptions.additionalInputUpdate) {
+      if (componentRef.current && componentRef.current.shadowRoot) {
+        childrenProps.formData.forEach((file, index) => {
+          if (
+            uiOptions.additionalInputRequired &&
+            uiOptions.additionalInputUpdate
+          ) {
             const instance = componentRef.current.shadowRoot.getElementById(
-              `instance-${i}`,
+              `instance-${index}`,
             );
-            // if instance has an error the additional input is not shown
-            if (!instance.getAttribute('error')) {
+            if (
+              instance &&
+              index < errorManager.getLastTouched() && // this instance has been touched
+              !instance.getAttribute('error') // if instance has an error the additional input is not shown
+            ) {
               const slotContent = instance.shadowRoot
                 .querySelector('slot')
-                .assignedNodes()[0].firstElementChild;
-              // component missing additional data
-              const error = isEmpty(file.additionalData)
-                ? 'This field required'
-                : '';
-              uiOptions.additionalInputUpdate(
-                slotContent,
-                error,
-                file.additionalData,
-              );
+                ?.assignedNodes()[0]?.firstElementChild;
+              if (slotContent) {
+                // component missing additional data
+                const error = isEmpty(file.additionalData)
+                  ? MISSING_ADDITIONAL_INFO
+                  : '';
+                uiOptions.additionalInputUpdate(
+                  slotContent,
+                  error,
+                  file.additionalData,
+                );
+              }
             }
           }
         });
       }
     },
-    [childrenProps.formData],
+    [childrenProps.formData, mappedProps.error],
+  );
+
+  // update errors array with missing file error that was set in validator
+  useEffect(
+    () => {
+      if (mappedProps.error === MISSING_FILE) {
+        const _errors = [...errors];
+        _errors[0] = MISSING_FILE;
+        setErrors(_errors);
+      }
+    },
+    [mappedProps.error],
   );
 
   const assignFileUploadToStore = uploadedFile => {
@@ -99,43 +127,53 @@ const VaFileInputMultipleField = props => {
     childrenProps.onChange([...childrenProps.formData, newFile]);
   };
 
-  const handleFileProcessing = uploadedFile => {
+  const handleFileProcessing = (uploadedFile, index) => {
     if (!uploadedFile || !uploadedFile.file) return;
 
+    const _errors = [...errors];
     // if there is no back-end (e.g. mock-forms) don't set network errors that would prevent navigation
     if (!uiOptions.skipUpload) {
-      const _errors = [...errors];
-      _errors[currentIndex] = uploadedFile.errorMessage;
-      setErrors(_errors);
+      _errors[index] = uploadedFile.errorMessage || null;
+    } else {
+      _errors[index] = null;
     }
-
+    setErrors(_errors);
     assignFileUploadToStore(uploadedFile);
   };
 
-  const handleFileAdded = async ({ file }) => {
+  const handleFileAdded = async ({ file }, index) => {
     const checks = await standardFileChecks(file);
+    const _errors = [...errors];
     if (!checks.checkTypeAndExtensionMatches) {
-      setErrors(prev => [...prev, FILE_TYPE_MISMATCH_ERROR]);
-      setResetVisualState(prev => [...prev, true]);
-      childrenProps.onChange([]);
+      _errors[index] = FILE_TYPE_MISMATCH_ERROR;
+      setErrors(_errors);
       return;
     }
-
     if (!!checks.checkIsEncryptedPdf && uiOptions.disallowEncryptedPdfs) {
-      setErrors(prev => [...prev, UNSUPPORTED_ENCRYPTED_FILE_ERROR]);
-      setResetVisualState(prev => [...prev, true]);
-      childrenProps.onChange([]);
+      _errors[index] = UNSUPPORTED_ENCRYPTED_FILE_ERROR;
+      setErrors(_errors);
+      return;
+    }
+    if (!checks.checkUTF8Encoding) {
+      _errors[index] = UTF8_ENCODING_ERROR;
+      setErrors(_errors);
       return;
     }
 
-    setErrors(prev => [...prev, null]);
-    setEncrypted(prev => [...prev, !!checks.checkIsEncryptedPdf]);
+    _errors[index] = null;
 
+    setErrors(_errors);
+    const _encrypted = [...encrypted];
+    _encrypted[index] = !!checks.checkIsEncryptedPdf;
+    setEncrypted(_encrypted);
+
+    // this file not encrypted
     if (!checks.checkIsEncryptedPdf) {
-      handleUpload(file, handleFileProcessing);
-      errorManager.addPasswordInstance();
+      handleUpload(file, handleFileProcessing, null, index);
+      errorManager.addPasswordInstance(index);
+      // this file is encrypted
     } else {
-      errorManager.addPasswordInstance(true);
+      errorManager.addPasswordInstance(index, true);
     }
   };
 
@@ -144,16 +182,12 @@ const VaFileInputMultipleField = props => {
   }
 
   const handleFileRemoved = _file => {
-    const index = childrenProps.formData.indexOf(
-      file =>
-        file.lastModified === _file.lastModified &&
-        file.name === _file.name &&
-        file.size === _file.size,
+    const index = (childrenProps.formData || []).findIndex(
+      file => file.name === _file.name && file.size === _file.size,
     );
 
     setErrors(removeOneFromArray(errors, index));
-    setResetVisualState(removeOneFromArray(resetVisualState, index));
-    errorManager.removePasswordInstance(index);
+    errorManager.removeInstance(index);
     setEncrypted(removeOneFromArray(encrypted, index));
     setPercentsUploaded(removeOneFromArray(percentsUploaded, index));
 
@@ -166,8 +200,8 @@ const VaFileInputMultipleField = props => {
     () =>
       debounce(1000, ({ file, password }, index) => {
         if (password.length > 0) {
-          errorManager.setHasPassword(index, true);
-          handleUpload(file, handleFileProcessing, password);
+          errorManager.resetInstance(index);
+          handleUpload(file, handleFileProcessing, password, index);
         }
       }),
     [],
@@ -176,21 +210,27 @@ const VaFileInputMultipleField = props => {
   const handleChange = e => {
     const { detail } = e;
     const { action, state, file } = detail;
+    const findFileIndex = () =>
+      state.findIndex(
+        f => f.file.name === file.name && f.file.size === file.size,
+      );
     if (state.length > 0) {
       const _file = state.at(-1);
       switch (action) {
-        case 'FILE_ADDED':
-          handleFileAdded(_file);
-          setCurrentIndex(state.length - 1);
+        case 'FILE_ADDED': {
+          const _currentIndex = state.length - 1;
+          handleFileAdded(_file, _currentIndex);
+          setCurrentIndex(_currentIndex);
           break;
+        }
+        case 'FILE_UPDATED': {
+          const index = findFileIndex();
+          handleFileAdded(_file, index);
+          setCurrentIndex(index);
+          break;
+        }
         case 'PASSWORD_UPDATE': {
-          const index = state.findIndex(f => {
-            return (
-              f.file.lastModified === _file.file.lastModified &&
-              f.file.name === _file.file.name &&
-              f.file.size === _file.file.size
-            );
-          });
+          const index = findFileIndex();
           setCurrentIndex(index);
           const passwordFile = state[index];
           debouncePassword(passwordFile, index);
@@ -233,9 +273,11 @@ const VaFileInputMultipleField = props => {
   // get the password errors for any relevant instances
   const passwordErrors = errorManager.getPasswordInstances().map(instance => {
     return instance && instance.hasPasswordError()
-      ? 'Encrypted files require a password'
+      ? MISSING_PASSWORD_ERROR
       : null;
   });
+
+  const resetVisualState = errors.map(error => (error ? true : null));
 
   return (
     <VaFileInputMultiple
@@ -247,6 +289,8 @@ const VaFileInputMultipleField = props => {
       percentUploaded={percentsUploaded}
       passwordErrors={passwordErrors}
       onVaSelect={handleAdditionalInput}
+      maxFileSize={uiOptions.maxFileSize}
+      minFileSize={uiOptions.minFileSize}
     >
       {mappedProps.additionalInput && (
         <div className="additional-input-container">

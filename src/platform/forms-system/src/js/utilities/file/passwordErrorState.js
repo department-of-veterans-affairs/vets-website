@@ -27,6 +27,14 @@ class PasswordErrorState {
     return this._touched;
   }
 
+  getNeedsPassword() {
+    return this._needsPassword;
+  }
+
+  getHasPassword() {
+    return this._hasPassword;
+  }
+
   hasPasswordError() {
     return this._needsPassword && !this._hasPassword && this._touched;
   }
@@ -59,15 +67,36 @@ const errorStates = {
 export const errorManager = {
   passwordInstances: [],
   additionalInputErrors: [],
+  touched: null,
 
-  addPasswordInstance(needsPassword = false) {
-    let instance = null;
-    if (needsPassword) {
-      instance = new PasswordErrorState();
-      instance.setNeedsPassword(true);
-    }
-    const instances = [...this.passwordInstances, instance];
-    this.passwordInstances = instances;
+  setTouched(value = this.passwordInstances.length) {
+    this.touched = value;
+  },
+
+  addPasswordInstance(index, needsPassword = false) {
+    const instance = needsPassword ? new PasswordErrorState() : null;
+    if (instance) instance.setNeedsPassword(true);
+    this.passwordInstances[index] = instance;
+    // adding a new file
+    // if (index > this.passwordInstances.length) {
+    //   if (needsPassword) {
+    //     instance = new PasswordErrorState();
+    //     instance.setNeedsPassword(true);
+    //   }
+    //   // const instances = [...this.passwordInstances, instance];
+    //   // this.passwordInstances = instances;
+    //   // updating file
+    // } else {
+    //   // eslint-disable-next-line no-lonely-if
+    //   if (needsPassword) {
+    //     instance = new PasswordErrorState();
+    //     instance.setNeedsPassword(true);
+    //     // this.passwordInstances[index] = instance;
+    //   }
+    //   // else {
+    //   //   this.passwordInstances[index] = null;
+    //   // }
+    // }
   },
 
   setHasPassword(index, state) {
@@ -76,18 +105,34 @@ export const errorManager = {
     }
   },
 
-  removePasswordInstance(index) {
+  resetInstance(index) {
+    if (this.passwordInstances.length >= index) {
+      this.passwordInstances[index].setHasPassword(true);
+    }
+  },
+
+  removeInstance(index) {
     this.passwordInstances = [...this.passwordInstances].toSpliced(index, 1);
+    // this.additionalInputErrors = [...this.additionalInputErrors].toSpliced(
+    //   index,
+    //   1,
+    // );
   },
 
   addAdditionalInputErrors(error) {
-    this.addAdditionalInputErrors.push(error);
+    this.additionalInputErrors.push(error);
   },
 
   removeAdditionalInputErrors(index) {
     this.addAdditionalInputErrors = [
       ...this.addAdditionalInputErrors,
     ].toSpliced(index, 1);
+    // decrement last touched count
+    const _touched =
+      typeof this.touched === 'number' && this.touched > 0
+        ? this.touched - 1
+        : null;
+    this.setTouched(_touched);
   },
 
   getAdditionalInputErrors() {
@@ -96,6 +141,10 @@ export const errorManager = {
 
   getPasswordInstances() {
     return this.passwordInstances;
+  },
+
+  getLastTouched() {
+    return this.touched;
   },
 };
 

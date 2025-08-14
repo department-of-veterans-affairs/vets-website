@@ -1,5 +1,6 @@
 import checkTypeAndExtensionMatches from './checkTypeAndExtensionMatches';
 import checkIsEncryptedPdf from './checkIsEncryptedPdf';
+import checkUTF8Encoding from './checkUTF8Encoding';
 
 /**
  * Read in first 256 bytes of the selected file to perform various checks before
@@ -19,15 +20,15 @@ export default function readAndCheckFile(file, checks) {
         if (event.target.result) {
           // const { result } = event.target // with readAsBinaryString
           const result = Array.from(new Uint8Array(event.target.result));
-          resolve(
-            Object.keys(checks).reduce(
-              (checkResults, checkName) => ({
-                ...checkResults,
-                [checkName]: checks[checkName]({ file, result }),
+          (async () => {
+            const entries = await Promise.all(
+              Object.entries(checks).map(async ([name, fn]) => {
+                const value = await fn({ file, result });
+                return [name, value];
               }),
-              {},
-            ),
-          );
+            );
+            resolve(Object.fromEntries(entries));
+          })().catch(reject);
         } else {
           reject(new Error('Unable to get file'));
         }
@@ -57,6 +58,7 @@ export async function standardFileChecks(file) {
   const checks = {
     ...(isPdf ? { checkIsEncryptedPdf } : {}),
     checkTypeAndExtensionMatches,
+    checkUTF8Encoding,
   };
 
   return readAndCheckFile(file, checks);
