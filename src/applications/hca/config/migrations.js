@@ -253,6 +253,22 @@ export default [
       newMetadata = set('returnUrl', returnUrl, newMetadata);
     }
 
+    // temp fix until we get insurance v2 enabled
+    (formData?.providers || []).forEach(policy => {
+      const isValid =
+        policy.insuranceName &&
+        policy.insurancePolicyHolderName &&
+        (policy.insurancePolicyNumber || policy.insuranceGroupCode);
+
+      if (!isValid) {
+        newMetadata = set(
+          'returnUrl',
+          'insurance-information/general',
+          newMetadata,
+        );
+      }
+    });
+
     return { formData, metadata: newMetadata };
   },
 ];
