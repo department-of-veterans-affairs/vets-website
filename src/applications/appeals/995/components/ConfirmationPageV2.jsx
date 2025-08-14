@@ -169,19 +169,17 @@ export const ConfirmationPageV2 = () => {
           </div>
         </li>
 
-        {showScNewForm && (
-          <li>
-            <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
-              {facilityTypeTitle}
-            </div>
-            <div
-              className="vads-u-margin-bottom--2 dd-privacy-hidden"
-              data-dd-action-name="facility types selected"
-            >
-              {facilityTypeList(data.facilityTypes) || 'None selected'}
-            </div>
-          </li>
-        )}
+        <li>
+          <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
+            {facilityTypeTitle}
+          </div>
+          <div
+            className="vads-u-margin-bottom--2 dd-privacy-hidden"
+            data-dd-action-name="facility types selected"
+          >
+            {facilityTypeList(data.facilityTypes) || 'None selected'}
+          </div>
+        </li>
       </ul>
 
       {noEvidence && (
