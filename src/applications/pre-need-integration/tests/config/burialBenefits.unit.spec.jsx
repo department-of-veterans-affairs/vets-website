@@ -6,7 +6,10 @@ import sinon from 'sinon';
 import { mount } from 'enzyme';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import { mockFetch } from 'platform/testing/unit/helpers';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import {
+  DefinitionTester,
+  selectRadio,
+} from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
 
 const mockStore = configureMockStore();
@@ -82,5 +85,26 @@ describe('Pre-need burial benefits', () => {
       expect(errorElements.length).to.equal(1);
       expect(onSubmit.called).to.be.false;
     });
+  });
+
+  it('should submit with required information', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <Provider store={store}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          onSubmit={onSubmit}
+          uiSchema={uiSchema}
+        />{' '}
+      </Provider>,
+    );
+
+    selectRadio(form, 'root_application_hasCurrentlyBuried', '1');
+
+    fireEvent.submit(form.find('form').getDOMNode());
+
+    expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 });

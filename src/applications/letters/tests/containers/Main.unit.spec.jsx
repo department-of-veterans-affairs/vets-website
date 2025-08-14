@@ -148,7 +148,6 @@ describe('<Main>', () => {
       getLetterListAndBSLOptions,
       profileHasEmptyAddress,
       shouldUseLighthouse: true,
-      shouldUseLettersDiscrepancies: true,
     };
 
     const tree = SkinDeep.shallowRender(<Main {...props} />);
