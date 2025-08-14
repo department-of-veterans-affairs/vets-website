@@ -4,12 +4,19 @@ import { render } from '@testing-library/react';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 import ConfirmationPage from '../../containers/ConfirmationPage';
 import { submissionStatuses } from '../../constants';
 import { bddConfirmationHeadline } from '../../content/bddConfirmationAlert';
 import formConfig from '../../config/form';
 
-const getData = ({ renderName = true, suffix = 'Esq.' } = {}) => ({
+const getData = ({
+  renderName = true,
+  suffix = 'Esq.',
+  featureToggles = {
+    [Toggler.TOGGLE_NAMES.disability526ShowConfirmationReview]: false,
+  },
+} = {}) => ({
   user: {
     profile: {
       userFullName: renderName
@@ -17,6 +24,7 @@ const getData = ({ renderName = true, suffix = 'Esq.' } = {}) => ({
         : {},
     },
   },
+  featureToggles,
   form: {
     data: {},
   },
@@ -139,5 +147,44 @@ describe('ConfirmationPage', () => {
   it('should render success when form submitted successfully but submission status has non retryable error', () => {
     // status code 200, but response has "status: non_retryable_error"
     verifyConfirmationPage('', false, submissionStatuses.failed);
+  });
+
+  context('confirmation review section', () => {
+    it('should not render confirmation review when toggle is off', () => {
+      const store = mockStore(getData()); // default mock data toggle is off
+      const props = {
+        ...defaultProps,
+        submissionStatus: submissionStatuses.succeeded,
+      };
+
+      const tree = render(
+        <Provider store={store}>
+          <ConfirmationPage {...props} />
+        </Provider>,
+      );
+      expect(tree.queryByTestId('new-confirmation-review-component')).to.be
+        .null;
+    });
+
+    it('should render confirmation review when toggle is on', () => {
+      const store = mockStore(
+        getData({
+          featureToggles: {
+            [Toggler.TOGGLE_NAMES.disability526ShowConfirmationReview]: true,
+          },
+        }),
+      );
+      const props = {
+        ...defaultProps,
+        submissionStatus: submissionStatuses.succeeded,
+      };
+
+      const tree = render(
+        <Provider store={store}>
+          <ConfirmationPage {...props} />
+        </Provider>,
+      );
+      expect(tree.queryByTestId('new-confirmation-review-component')).to.exist;
+    });
   });
 });
