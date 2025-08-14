@@ -76,7 +76,7 @@ MhvPageNotFoundContent.propTypes = {
  * </Switch>
  *
  * @example
- * // routes.jsx -- react-router-dom-v5-compat -- declare <MhvPageNotFound /> last within <Routes />
+ * // routes.jsx -- react-router-dom -- declare <MhvPageNotFound /> last within <Routes />
  * import { MhvPageNotFound } from '@department-of-veterans-affairs/mhv/exports';
  * <Routes>
  *   <Route path="/" element={<App />} />

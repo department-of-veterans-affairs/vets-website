@@ -31,7 +31,7 @@ export const helpfulLinks = [
  * </Switch>
  *
  * @example
- * // routes.jsx -- react-router-dom-v5-compat -- declare <PageNotFound /> last within <Routes />
+ * // routes.jsx -- react-router-dom -- declare <PageNotFound /> last within <Routes />
  * import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
  * <Routes>
  *   <Route path="/" element={<App />} />

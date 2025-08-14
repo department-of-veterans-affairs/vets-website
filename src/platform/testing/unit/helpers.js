@@ -1,8 +1,7 @@
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
-import PropTypes from 'prop-types';
 import React from 'react';
-import { createMemoryHistory } from 'history-v4';
+import { createMemoryHistory } from 'history';
 import ReactTestUtils from 'react-dom/test-utils';
 import sinon from 'sinon';
 
@@ -45,10 +44,55 @@ function wrapWithContext(context, contextTypes, children) {
  * @param {React.Component} component The component to wrap with router context
  * @returns {React.Element} A new React element that wraps component
  */
-function wrapWithRouterContext(component) {
-  const context = { router: {} };
-  const contextTypes = { router: PropTypes.object };
-  return wrapWithContext(context, contextTypes, component);
+/**
+ * Creates a test history object using React Router v5 compatible history.
+ * This function creates a memory history instance that can be used in tests,
+ * with spies attached to track navigation calls.
+ *
+ * @export
+ * @param {string} [path='/'] - The initial url to use for the history
+ * @returns {History} A History object compatible with React Router v5
+ */
+const createTestHistory = (path = '/') => {
+  const history = createMemoryHistory({ initialEntries: [path] });
+
+  // Add spies for common history methods used in tests
+  // Note: goBack and goForward were removed in history v5
+  sinon.spy(history, 'replace');
+  sinon.spy(history, 'push');
+  sinon.spy(history, 'go');
+
+  return history;
+};
+
+/**
+ * Wraps a component with context.
+ *
+ * @export
+ * @param {Object} context Context object the wrapped component will be mounted under.
+ * @param {Object} contextTypes Object containing the types of context properties
+ * @param {ReactWrapper} component React component to wrap.
+ * @returns {React.Element} A new React element that wraps component
+ */
+/**
+ * Wraps a component with router context for testing.
+ * Creates a Router instance with memory history for isolated testing.
+ * Compatible with React Router v5.
+ *
+ * @param {React.Component} component - The component to wrap
+ * @param {Object} options - Configuration options
+ * @param {string} [options.path='/'] - Initial path for the router
+ * @param {Object} [options.history] - Custom history object to use
+ * @returns {React.Component} Component wrapped with router context
+ */
+function wrapWithRouterContext(component, options = {}) {
+  const { path = '/', history = null } = options;
+  const testHistory = history || createTestHistory(path);
+
+  // For React Router v5, we need to import Router differently
+  const { Router } = require('react-router-dom');
+
+  return React.createElement(Router, { history: testHistory }, component);
 }
 
 /**
@@ -237,22 +281,6 @@ const mockEventListeners = (target = {}) => {
       }
     },
   };
-};
-
-/**
- * Creates a history object and attaches a spy to replace and push.
- * The history object is fully functional, not stubbed.
- *
- * @export
- * @param {string} [path='/'] - The initial url to use for the history
- * @returns {History} A History object
- */
-const createTestHistory = (path = '/') => {
-  const history = createMemoryHistory({ initialEntries: [path] });
-  sinon.spy(history, 'replace');
-  sinon.spy(history, 'push');
-
-  return history;
 };
 
 /**

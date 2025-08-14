@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import * as reactRouter from 'react-router';
+import * as reactRouter from 'react-router-dom';
 import * as history from 'history';
 import * as navActions from 'platform/site-wide/user-nav/actions';
 import * as reactApp from '../react';

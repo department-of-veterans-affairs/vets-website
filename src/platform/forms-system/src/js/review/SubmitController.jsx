@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import * as Sentry from '@sentry/browser';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
+import { useHistory } from 'react-router-dom';
 
 import recordEvent from '~/platform/monitoring/record-event';
 import {
@@ -23,6 +23,23 @@ import {
   submitForm,
   setFormErrors,
 } from '../actions';
+
+/**
+ * HOC to provide router props to SubmitController class component
+ * This maintains the existing router.push API while using hooks internally
+ */
+function withRouterV5(WrappedComponent) {
+  return function ComponentWithRouter(props) {
+    const history = useHistory();
+
+    const router = {
+      push: history.push,
+      replace: history.replace,
+    };
+
+    return <WrappedComponent {...props} router={router} />;
+  };
+}
 
 class SubmitController extends Component {
   /* eslint-disable-next-line camelcase */
@@ -245,7 +262,7 @@ SubmitController.propTypes = {
   formErrors: PropTypes.shape({}),
 };
 
-export default withRouter(
+export default withRouterV5(
   connect(
     mapStateToProps,
     mapDispatchToProps,

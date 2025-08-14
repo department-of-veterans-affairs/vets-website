@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 import { VaAccordion } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { scrollTo } from 'platform/utilities/scroll';
@@ -180,12 +179,10 @@ ReviewChapters.propTypes = {
   onSetData: PropTypes.func,
 };
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(ReviewChapters),
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ReviewChapters);
 
 // for tests
 export { ReviewChapters };

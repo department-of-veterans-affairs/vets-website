@@ -10,7 +10,7 @@ import { renderInReduxProvider } from 'platform/testing/unit/react-testing-libra
 import { waitFor } from '@testing-library/react';
 import environment from 'platform/utilities/environment';
 
-import { MemoryRouter } from 'react-router-dom-v5-compat';
+import { MemoryRouter } from 'react-router-dom';
 import allPayments from '../../../reducers/index';
 import ViewPaymentsLists from '../../../components/view-payments-lists/ViewPaymentsLists';
 import {
