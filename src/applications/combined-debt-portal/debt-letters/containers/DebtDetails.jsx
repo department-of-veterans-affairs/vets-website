@@ -23,7 +23,7 @@ import {
 import DebtDetailsCard from '../components/DebtDetailsCard';
 import PaymentHistoryTable from '../components/PaymentHistoryTable';
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
-import Modals from '../components/Modals';
+import Modals from '../../combined/components/Modals';
 
 const DebtDetails = () => {
   const { selectedDebt, debts } = useSelector(
