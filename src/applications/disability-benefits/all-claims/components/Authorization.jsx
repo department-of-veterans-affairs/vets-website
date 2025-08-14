@@ -342,7 +342,7 @@ const PrivateRecordsAuthorization = ({
                 <ol type="a">
                   <li>
                     Psychological, psychiatric, or other mental impairment(s)
-                    excluding "psychotherapy notes" as defined in 45 C.F.R.
+                    excluding “psychotherapy notes” as defined in 45 C.F.R.
                     §164.501,
                   </li>
                   <li>Drug abuse, alcoholism, or other substance abuse,</li>
