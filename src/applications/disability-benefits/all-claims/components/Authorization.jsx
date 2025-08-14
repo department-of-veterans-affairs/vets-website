@@ -321,7 +321,7 @@ const PrivateRecordsAuthorization = ({
             <p>
               HIPAA NOTE: This general and special authorization to disclose was
               developed to comply with the provisions regarding disclosure of
-              medical and other information under P.L. 104-191 ("HIPAA"); 45
+              medical and other information under P.L. 104-191 (“HIPAA”); 45
               C.F.R. parts 160 and 164; 42 U.S.C. §290dd-2; 42 C.F.R. part 2,
               and State Law.
             </p>
