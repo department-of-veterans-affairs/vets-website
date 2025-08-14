@@ -49,7 +49,7 @@ describe('ConfirmationPageV2', () => {
     expect($('va-alert[status="success"]', container)).to.exist;
 
     const items = $$('.dd-privacy-hidden[data-dd-action-name]', container);
-    expect(items.length).to.eq(7);
+    expect(items.length).to.eq(8);
     expect(
       items.map(
         (el, index) => el[[2, 3].includes(index) ? 'innerHTML' : 'textContent'],
@@ -62,6 +62,7 @@ describe('ConfirmationPageV2', () => {
       '',
       ',  ',
       'No, I didn’t certify',
+      'None selected',
     ]);
     expect($('va-summary-box', container)).to.not.exist;
   });
@@ -110,10 +111,10 @@ describe('ConfirmationPageV2', () => {
     );
 
     expect($$('ul', container).length).to.eq(6);
-    expect($$('li', container).length).to.eq(22);
+    expect($$('li', container).length).to.eq(23);
 
     const items = $$('.dd-privacy-hidden[data-dd-action-name]', container);
-    expect(items.length).to.eq(31);
+    expect(items.length).to.eq(32);
     expect(
       items.map(
         (el, index) => el[[4, 5].includes(index) ? 'innerHTML' : 'textContent'],
@@ -132,6 +133,7 @@ describe('ConfirmationPageV2', () => {
       'TestDecision date: January 1, 2022',
       'Test 2Decision date: June 28, 2022',
       'Yes, I certify',
+      'None selected',
       'VAMC Location 1',
       'Test and Test 2',
       'Jan 1, 2001 – Jan 1, 2011',
@@ -295,10 +297,10 @@ describe('ConfirmationPageV2', () => {
     );
 
     expect($$('ul', container).length).to.eq(3);
-    expect($$('li', container).length).to.eq(13);
+    expect($$('li', container).length).to.eq(14);
 
     const items = $$('.dd-privacy-hidden[data-dd-action-name]', container);
-    expect(items.length).to.eq(13);
+    expect(items.length).to.eq(14);
     expect(
       items.map(
         (el, index) => el[[4, 5].includes(index) ? 'innerHTML' : 'textContent'],
@@ -317,6 +319,7 @@ describe('ConfirmationPageV2', () => {
       'TestDecision date: January 1, 2022',
       'Test 2Decision date: June 28, 2022',
       'Yes, I certify',
+      'None selected',
     ]);
   });
 
