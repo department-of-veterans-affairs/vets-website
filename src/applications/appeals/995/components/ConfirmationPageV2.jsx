@@ -66,9 +66,7 @@ export const ConfirmationPageV2 = () => {
     submission?.timestamp || new Date().toISOString(),
   );
 
-  const livingSituation = showScNewForm ? (
-    <LivingSituation data={data} />
-  ) : null;
+  const livingSituation = <LivingSituation data={data} />;
 
   return (
     <>
@@ -146,7 +144,7 @@ export const ConfirmationPageV2 = () => {
         userFullName={profile.userFullName}
         veteran={data.veteran}
         hasHomeAndMobilePhone
-        livingSituation={showScNewForm ? livingSituation : null}
+        livingSituation={livingSituation}
         formData={data}
       />
 
