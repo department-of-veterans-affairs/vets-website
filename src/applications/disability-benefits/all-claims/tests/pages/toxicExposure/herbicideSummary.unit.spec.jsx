@@ -1,5 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import { expect } from 'chai';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../../config/form';
@@ -48,7 +49,9 @@ describe('Herbicide Summary', () => {
     };
 
     const { getByText } = render(
-      <DefinitionTester schema={schema} uiSchema={uiSchema} data={formData} />,
+      <MemoryRouter>
+        <DefinitionTester schema={schema} uiSchema={uiSchema} data={formData} />
+      </MemoryRouter>,
     );
 
     getByText(herbicidePageTitle);
@@ -103,7 +106,9 @@ describe('Herbicide Summary', () => {
     };
 
     const { getByText, queryByText } = render(
-      <DefinitionTester schema={schema} uiSchema={uiSchema} data={formData} />,
+      <MemoryRouter>
+        <DefinitionTester schema={schema} uiSchema={uiSchema} data={formData} />
+      </MemoryRouter>,
     );
 
     expect(queryByText(HERBICIDE_LOCATIONS.cambodia)).to.not.exist;

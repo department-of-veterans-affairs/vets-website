@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
+import { MemoryRouter } from 'react-router';
 import Sinon from 'sinon';
 import { $$ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
@@ -38,12 +39,14 @@ describe('Behavior Summary Page', () => {
 
       const onSubmit = Sinon.spy();
       const { container, getByText } = render(
-        <DefinitionTester
-          schema={schema}
-          data={formData}
-          onSubmit={onSubmit}
-          uiSchema={uiSchema}
-        />,
+        <MemoryRouter>
+          <DefinitionTester
+            schema={schema}
+            data={formData}
+            onSubmit={onSubmit}
+            uiSchema={uiSchema}
+          />
+        </MemoryRouter>,
       );
 
       // show a heading for each selected behavior

@@ -3,6 +3,7 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
+import { MemoryRouter } from 'react-router-dom';
 import CustomReviewTopContent from '../../components/CustomReviewTopContent';
 
 const initialState = {
@@ -29,18 +30,20 @@ describe('CustomReviewTopContent', () => {
   it('renders when startedFormVersion: "2019", claim type of new, and new condition present (success path)', () => {
     const store = createStore(() => initialState);
 
-    const { container, queryByText } = render(
+    const { container, getByText } = render(
       <Provider store={store}>
-        <CustomReviewTopContent />
+        <MemoryRouter>
+          <CustomReviewTopContent />
+        </MemoryRouter>
       </Provider>,
     );
 
     expect(container.querySelector('va-alert')).to.exist;
-    queryByText('We updated our online form');
-    queryByText(
-      'Your answers may support your claim for disability compensation',
+    getByText('We updated our online form');
+    getByText(
+      /Your answers may support your claim for disability compensation\./,
     );
-    queryByText('Answer our new questions');
+    getByText('Answer our new questions');
   });
 
   it('does not render when startedFormVersion: "2019" and cfi only', () => {
@@ -66,7 +69,9 @@ describe('CustomReviewTopContent', () => {
 
     const { container } = render(
       <Provider store={store}>
-        <CustomReviewTopContent />
+        <MemoryRouter>
+          <CustomReviewTopContent />
+        </MemoryRouter>
       </Provider>,
     );
     expect(container.querySelector('va-alert')).to.not.exist;
@@ -79,7 +84,9 @@ describe('CustomReviewTopContent', () => {
 
     const { container } = render(
       <Provider store={store}>
-        <CustomReviewTopContent />
+        <MemoryRouter>
+          <CustomReviewTopContent />
+        </MemoryRouter>
       </Provider>,
     );
 
@@ -93,7 +100,9 @@ describe('CustomReviewTopContent', () => {
 
     const { container } = render(
       <Provider store={store}>
-        <CustomReviewTopContent />
+        <MemoryRouter>
+          <CustomReviewTopContent />
+        </MemoryRouter>
       </Provider>,
     );
     expect(container.querySelector('va-alert')).to.not.exist;
@@ -106,7 +115,9 @@ describe('CustomReviewTopContent', () => {
 
     const { container } = render(
       <Provider store={store}>
-        <CustomReviewTopContent />
+        <MemoryRouter>
+          <CustomReviewTopContent />
+        </MemoryRouter>
       </Provider>,
     );
     expect(container.querySelector('va-alert')).to.not.exist;
