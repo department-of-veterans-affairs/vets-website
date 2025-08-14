@@ -105,23 +105,23 @@ export function NewAddressSection({ success }) {
         <VAPServicePendingTransactionCategory
           categoryType={TRANSACTION_CATEGORY_TYPES.ADDRESS}
         >
-          <h2>Mailing address</h2>
+          <h2>Verify your mailing address</h2>
           <p>
             This mailing address will be listed on your benefit letters and
             documentation. You can edit this address.
           </p>
           <va-alert status="info" class="vads-u-margin-bottom--3">
             <p className="vads-u-margin-y--0">
-              If you edit the address here, it will also update the address in
-              your VA.gov profile and across several VA benefits and services.
+              Changing your address here will also update it in your VA.gov
+              profile. We use this address for several VA benefits and services.
               <br />
               <a
                 href="https://www.va.gov/change-address/"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                About changing your address in your VA.gov profile (opens in new
-                tab)
+                Learn about changing your address in your VA.gov profile (opens
+                in new tab)
               </a>
             </p>
           </va-alert>
@@ -140,6 +140,7 @@ export function NewAddressSection({ success }) {
             </va-alert>
           )}
           <va-card className="vads-u-justify-content--space-between">
+            <h3>Mailing address</h3>
             <div
               aria-live="polite"
               aria-relevant="all"
