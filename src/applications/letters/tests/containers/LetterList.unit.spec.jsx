@@ -384,7 +384,7 @@ describe('<LetterList>', () => {
     ).to.exist;
     expect(
       getByText(
-        'A prescription drug coverage letter proves that you qualify for Medicare Part D prescription drug coverage.',
+        'The Proof of Creditable Prescription Drug Coverage Letter proves that you qualify for Medicare Part D prescription drug coverage.',
       ),
     ).to.exist;
     expect(

@@ -187,8 +187,8 @@ export const newLetterContent = {
   medicare_partd: (
     <>
       <p>
-        A prescription drug coverage letter proves that you qualify for Medicare
-        Part D prescription drug coverage.
+        The Proof of Creditable Prescription Drug Coverage Letter proves that
+        you qualify for Medicare Part D prescription drug coverage.
       </p>
       <p>
         You may need to submit this letter when applying for Medicare Part D
