@@ -140,7 +140,7 @@ export function NewAddressSection({ success }) {
             </va-alert>
           )}
           <va-card className="vads-u-justify-content--space-between">
-            <h3>Mailing address</h3>
+            <h3 className="vads-u-margin-top--0">Your mailing address</h3>
             <div
               aria-live="polite"
               aria-relevant="all"
