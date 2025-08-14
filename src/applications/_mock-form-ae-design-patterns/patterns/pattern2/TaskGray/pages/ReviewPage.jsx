@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import { VaPrivacyAgreement } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 

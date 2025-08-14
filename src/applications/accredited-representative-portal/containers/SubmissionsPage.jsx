@@ -4,7 +4,7 @@ import {
   useSearchParams,
   useNavigation,
   redirect,
-} from 'react-router-dom-v5-compat';
+} from 'react-router-dom';
 import {
   VaLoadingIndicator,
   VaBreadcrumbs,

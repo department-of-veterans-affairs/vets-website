@@ -4,7 +4,7 @@ import { focusElement } from 'platform/utilities/ui/focus';
 import { scrollToTop } from 'platform/utilities/scroll';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { isLoggedIn } from 'platform/user/selectors';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { setData } from 'platform/forms-system/src/js/actions';

@@ -1,6 +1,6 @@
 import React, { useMemo, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate, useLocation } from 'react-router-dom-v5-compat';
+import { useHistory, useLocation } from 'react-router-dom';
 import PropType from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import DeleteDraftModal from '../Modals/DeleteDraftModal';
@@ -19,7 +19,7 @@ import { addAlert } from '../../actions/alerts';
 import { deleteDraft } from '../../actions/draftDetails';
 
 const DeleteDraft = props => {
-  const history = useNavigate();
+  const history = useHistory();
   const location = useLocation();
   const dispatch = useDispatch();
   const deleteDraftButtonRef = useRef();

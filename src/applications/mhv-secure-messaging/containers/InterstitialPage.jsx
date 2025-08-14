@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom-v5-compat';
+import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import PropType from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -9,7 +9,7 @@ import { isPilotState } from '../selectors';
 
 const InterstitialPage = props => {
   const { acknowledge, type } = props;
-  const history = useNavigate();
+  const history = useHistory();
   const isPilot = useSelector(isPilotState);
 
   useEffect(() => {

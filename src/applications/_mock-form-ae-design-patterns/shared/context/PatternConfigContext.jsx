@@ -2,7 +2,7 @@ import React, { createContext, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { useHistory, useLocation } from 'react-router-dom';
+import { withRouter } from 'react-router';
 import fallbackForm from '../config/fallbackForm';
 import { TaskTabs } from '../components/TaskTabs';
 import { Portal } from '../components/Portal';
@@ -36,31 +36,7 @@ export const PatternConfigProviderBase = ({ children, router }) => {
   ) : null;
 };
 
-export const PatternConfigProvider = ({ children }) => {
-  const history = useHistory();
-  const location = useLocation();
-
-  // Create router object for backward compatibility
-  const router = {
-    push: history.push,
-    replace: history.replace,
-    go: history.go,
-    goBack: history.goBack,
-    goForward: history.goForward,
-    location,
-    routes: [], // Mock routes array for compatibility
-  };
-
-  return (
-    <PatternConfigProviderBase router={router}>
-      {children}
-    </PatternConfigProviderBase>
-  );
-};
-
-PatternConfigProvider.propTypes = {
-  children: PropTypes.node.isRequired,
-};
+export const PatternConfigProvider = withRouter(PatternConfigProviderBase);
 
 PatternConfigProviderBase.propTypes = {
   children: PropTypes.node.isRequired,

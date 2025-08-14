@@ -6,7 +6,7 @@ import backendServices from '@department-of-veterans-affairs/platform-user/profi
 
 import { setData } from '~/platform/forms-system/src/js/actions';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { focusElement } from 'platform/utilities/ui/focus';
 import { scrollToFirstError } from 'platform/utilities/scroll';

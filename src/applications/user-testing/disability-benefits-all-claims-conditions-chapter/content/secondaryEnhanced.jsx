@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { getArrayIndexFromPathName } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 
 import { ARRAY_PATH } from '../constants';

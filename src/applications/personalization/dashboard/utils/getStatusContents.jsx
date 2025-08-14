@@ -2,7 +2,7 @@ import React from 'react';
 import { format } from 'date-fns';
 import _ from 'lodash';
 import * as Sentry from '@sentry/browser';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 import Decision from '../components/claims-and-appeals/Decision';
 import {

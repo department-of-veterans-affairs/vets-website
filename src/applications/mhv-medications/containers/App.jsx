@@ -18,7 +18,7 @@ import {
   useBackToTop,
   renderMHVDowntime,
 } from '@department-of-veterans-affairs/mhv/exports';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom-v5-compat';
 import MhvServiceRequiredGuard from 'platform/mhv/components/MhvServiceRequiredGuard';
 import { medicationsUrls, downtimeNotificationParams } from '../util/constants';
 import {

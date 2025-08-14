@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route } from 'react-router';
 import DhpAppContainer from './containers/DhpAppContainer';
 
 const routes = <Route path="/" component={DhpAppContainer} />;

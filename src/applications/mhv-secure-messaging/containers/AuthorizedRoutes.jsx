@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom-v5-compat';
+import { Switch, Route, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
@@ -62,7 +62,7 @@ const AuthorizedRoutes = () => {
       data-testid="secure-messaging"
     >
       <ScrollToTop />
-      <Routes>
+      <Switch>
         <AppRoute exact path={Paths.FOLDERS} key="Folders">
           <Folders />
         </AppRoute>
@@ -131,7 +131,7 @@ const AuthorizedRoutes = () => {
         <Route>
           <MhvPageNotFoundContent />
         </Route>
-      </Routes>
+      </Switch>
     </div>
   );
 };

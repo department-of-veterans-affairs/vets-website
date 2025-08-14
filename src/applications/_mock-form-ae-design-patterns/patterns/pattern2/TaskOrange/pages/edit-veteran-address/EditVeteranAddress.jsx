@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { SchemaForm, setData } from 'platform/forms-system/exportsFile';
 import { useDispatch } from 'react-redux';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import { scrollTo } from 'platform/utilities/scroll';
 

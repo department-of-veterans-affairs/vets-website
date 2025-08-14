@@ -1,10 +1,10 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
 
 import { Toggler } from '~/platform/utilities/feature-toggles';
 
-const redirect = <Redirect to="../status" replace />;
+const redirect = <Navigate to="../status" replace />;
 
 export default function TogglerRoute({
   children,

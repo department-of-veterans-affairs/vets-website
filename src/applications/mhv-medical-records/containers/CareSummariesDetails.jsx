@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom-v5-compat';
+import { useParams } from 'react-router-dom';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import {
   getCareSummaryAndNotesDetails,

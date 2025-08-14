@@ -11,7 +11,7 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import { isEmpty } from 'lodash';
 import appendQuery from 'append-query';
-import { useHistory, useLocation } from 'react-router-dom';
+import { browserHistory } from 'react-router';
 import repStatusLoader from 'platform/user/widgets/representative-status';
 import { recordSearchResultsChange } from '../utils/analytics';
 import SearchControls from '../components/search/SearchControls';
@@ -37,12 +37,6 @@ import {
 } from '../actions';
 
 const SearchPage = props => {
-  const history = useHistory();
-  const location = useLocation();
-
-  // Parse URL search params to create query object for backward compatibility
-  const query = Object.fromEntries(new URLSearchParams(location.search));
-
   const searchResultTitleRef = useRef(null);
   const previousLocationInputString = useRef(
     props.currentQuery.locationInputString,
@@ -61,7 +55,8 @@ const SearchPage = props => {
   const isPostLogin = props.location?.search?.includes('postLogin=true');
 
   const resultsArePresent =
-    (props.location?.search && props?.results?.length > 0) || isEmpty(query);
+    (props.location?.search && props?.results?.length > 0) ||
+    isEmpty(props.location.query);
 
   const store = useStore();
 
@@ -72,7 +67,7 @@ const SearchPage = props => {
   );
 
   const updateUrlParams = params => {
-    const { currentQuery } = props;
+    const { location, currentQuery } = props;
 
     const queryParams = {
       address: currentQuery.locationInputString,
@@ -94,7 +89,7 @@ const SearchPage = props => {
       `/get-help-from-accredited-representative/find-rep${location.pathname}`,
       queryParams,
     );
-    history.push(queryStringObj);
+    browserHistory.push(queryStringObj);
   };
 
   const handleSearch = async () => {
@@ -104,6 +99,8 @@ const SearchPage = props => {
   };
 
   const handleSearchViaUrl = () => {
+    const { location } = props;
+
     if (resultsArePresent || isPostLogin) {
       return;
     }
@@ -113,21 +110,21 @@ const SearchPage = props => {
     props.updateSearchQuery({
       id: Date.now(),
       context: {
-        location: query.address,
-        repOrgName: query.name,
+        location: location.query.address,
+        repOrgName: location.query.name,
       },
-      locationQueryString: query.address,
-      locationInputString: query.address,
+      locationQueryString: location.query.address,
+      locationInputString: location.query.address,
       position: {
-        latitude: query.lat,
-        longitude: query.long,
+        latitude: location.query.lat,
+        longitude: location.query.long,
       },
-      representativeQueryString: query.name,
-      representativeInputString: query.name,
-      representativeType: query.type,
-      page: query.page,
-      sortType: query.sort,
-      searchArea: query.distance,
+      representativeQueryString: location.query.name,
+      representativeInputString: location.query.name,
+      representativeType: location.query.type,
+      page: location.query.page,
+      sortType: location.query.sort,
+      searchArea: location.query.distance,
     });
   };
 

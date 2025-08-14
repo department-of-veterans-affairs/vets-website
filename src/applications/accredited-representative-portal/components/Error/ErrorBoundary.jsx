@@ -1,5 +1,5 @@
 import React from 'react';
-import { useRouteError } from 'react-router-dom-v5-compat';
+import { useRouteError } from 'react-router-dom';
 import { Toggler } from 'platform/utilities/feature-toggles';
 import ErrorPage from '../../containers/ErrorPage';
 import Error403 from './Error403';

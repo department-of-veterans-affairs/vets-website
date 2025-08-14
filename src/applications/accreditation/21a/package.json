@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "react-router": "^5.3.4",
-    "history": "^5.3.0"
+    "react-router": "3.2.0",
+    "history": "3.0.0"
   }
 }

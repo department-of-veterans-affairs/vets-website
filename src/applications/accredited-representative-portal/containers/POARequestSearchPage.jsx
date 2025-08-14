@@ -6,7 +6,7 @@ import {
   redirect,
   Link,
   useNavigation,
-} from 'react-router-dom-v5-compat';
+} from 'react-router-dom';
 import {
   VaLoadingIndicator,
   VaBreadcrumbs,

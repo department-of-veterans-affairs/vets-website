@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Link, withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 

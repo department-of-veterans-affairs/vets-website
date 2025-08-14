@@ -1,6 +1,6 @@
 import React from 'react';
 import AddressView from '@@vap-svc/components/AddressField/AddressView';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { selectVAPMailingAddress } from 'platform/user/selectors';
 import { useSelector } from 'react-redux';
 import { PrefillAlert } from '../../../shared/components/alerts/PrefillAlert';

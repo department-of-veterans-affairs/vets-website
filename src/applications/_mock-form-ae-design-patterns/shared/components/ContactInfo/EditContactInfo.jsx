@@ -13,7 +13,7 @@ import {
   setReturnState,
 } from 'platform/forms-system/src/js/utilities/data/profile';
 import { usePrevious } from 'platform/utilities/react-hooks';
-import { useHistory, useLocation } from 'react-router-dom';
+import { withRouter } from 'react-router';
 import { refreshProfile, sanitizeUrl } from 'platform/user/exportsFile';
 import {
   ContactInfoFormAppConfigProvider,
@@ -146,22 +146,7 @@ BuildPageBase.propTypes = {
   title: PropTypes.string,
 };
 
-const BuildPage = props => {
-  const history = useHistory();
-  const location = useLocation();
-
-  // Create router object for backward compatibility
-  const router = {
-    push: history.push,
-    replace: history.replace,
-    go: history.go,
-    goBack: history.goBack,
-    goForward: history.goForward,
-    location,
-  };
-
-  return <BuildPageBase {...props} router={router} />;
-};
+const BuildPage = withRouter(BuildPageBase);
 
 export const EditHomePhone = props => (
   <BuildPage {...props} field="HOME_PHONE" id="home-phone" />

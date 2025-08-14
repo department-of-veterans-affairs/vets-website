@@ -3,7 +3,7 @@ import {
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom-v5-compat';
+import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { datadogRum } from '@datadog/browser-rum';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -16,7 +16,7 @@ import * as Constants from '../util/constants';
 const ManageFolderButtons = props => {
   const { ErrorMessages, Alerts } = Constants;
   const dispatch = useDispatch();
-  const history = useNavigate();
+  const history = useHistory();
   const { folder } = props;
   const folders = useSelector(state => state.sm.folders.folderList);
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);

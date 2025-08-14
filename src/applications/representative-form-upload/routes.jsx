@@ -1,5 +1,4 @@
 import React from 'react';
-import { Route, Switch, Navigate } from 'react-router-dom';
 
 import { createRoutes } from 'platform/forms-system/src/js/routing/createRoutes';
 import FormApp from 'platform/forms-system/src/js/containers/FormApp';
@@ -18,30 +17,23 @@ userPromise
     console.error('Error checking user login status:', error); // eslint-disable-line no-console
   });
 
-const routes = (
-  <Switch>
-    {formUploadForms.map(formId => {
-      const lowerCaseFormId = formId.toLowerCase();
-      return (
-        <Route key={lowerCaseFormId} path={`/${lowerCaseFormId}`}>
-          <Route
-            index
-            render={() => <Navigate to={`/${lowerCaseFormId}/introduction`} />}
-          />
-          <Route
-            path="*"
-            render={({ location }) => (
-              <App>
-                <FormApp formConfig={formConfig} currentLocation={location}>
-                  {createRoutes(formConfig)}
-                </FormApp>
-              </App>
-            )}
-          />
-        </Route>
-      );
-    })}
-  </Switch>
-);
+const routes = formUploadForms.map(formId => {
+  const lowerCaseFormId = formId.toLowerCase();
+  return {
+    path: `/${lowerCaseFormId}`,
+    component: ({ location, children }) => (
+      <App>
+        <FormApp formConfig={formConfig} currentLocation={location}>
+          {children}
+        </FormApp>
+      </App>
+    ),
+    indexRoute: {
+      onEnter: (_nextState, replace) =>
+        replace(`/${lowerCaseFormId}/introduction`),
+    },
+    childRoutes: createRoutes(formConfig),
+  };
+});
 
 export default routes;

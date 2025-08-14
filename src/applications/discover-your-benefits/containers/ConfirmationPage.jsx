@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { setSubmission as setSubmissionAction } from 'platform/forms-system/src/js/actions';
 import { VaSelect } from '@department-of-veterans-affairs/web-components/react-bindings';
 import appendQuery from 'append-query';
-import { useHistory, useLocation } from 'react-router-dom';
+import { browserHistory } from 'react-router';
 import { displayResults as displayResultsAction } from '../reducers/actions';
 import GetFormHelp from '../components/GetFormHelp';
 import CopyResultsModal from '../components/CopyResultsModal';
@@ -19,6 +19,7 @@ export class ConfirmationPage extends React.Component {
     super(props);
 
     this.state = {
+      hasResults: false,
       resultsCount: 0,
       benefitIds: {},
       sortValue: 'alphabetical',
@@ -78,7 +79,7 @@ export class ConfirmationPage extends React.Component {
       `${this.props.location.basename}${this.props.location.pathname}`,
       queryParams,
     );
-    this.props.history.replace(queryStringObj);
+    browserHistory.replace(queryStringObj);
 
     this.applyInitialSort();
   }
@@ -248,6 +249,7 @@ export class ConfirmationPage extends React.Component {
 
     this.setState(
       {
+        hasResults,
         resultsCount,
         benefitIds,
         benefits: this.props.results.data,
@@ -497,10 +499,6 @@ ConfirmationPage.propTypes = {
   benefitIds: PropTypes.object,
   displayResults: PropTypes.func,
   formConfig: PropTypes.object,
-  history: PropTypes.shape({
-    replace: PropTypes.func,
-    push: PropTypes.func,
-  }),
   location: PropTypes.shape({
     basename: PropTypes.string,
     pathname: PropTypes.string,
@@ -523,36 +521,7 @@ ConfirmationPage.propTypes = {
   setSubmission: PropTypes.func,
 };
 
-const ConnectedConfirmationPage = connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(ConfirmationPage);
-
-// Wrapper component to provide history hook
-const ConfirmationPageWithHistory = props => {
-  const history = useHistory();
-  const location = useLocation();
-
-  // Parse URL search params to create query object for backward compatibility
-  const query = Object.fromEntries(new URLSearchParams(location.search));
-
-  // Create location object with query for backward compatibility
-  const locationWithQuery = {
-    ...props.location,
-    query,
-  };
-
-  return (
-    <ConnectedConfirmationPage
-      {...props}
-      history={history}
-      location={locationWithQuery}
-    />
-  );
-};
-
-ConfirmationPageWithHistory.propTypes = {
-  location: PropTypes.object,
-};
-
-export default ConfirmationPageWithHistory;

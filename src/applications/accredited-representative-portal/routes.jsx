@@ -1,5 +1,5 @@
 import React from 'react';
-import { redirect } from 'react-router-dom-v5-compat';
+import { redirect } from 'react-router-dom';
 
 import App from './containers/App';
 import LandingPage from './containers/LandingPage';

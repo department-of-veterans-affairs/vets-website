@@ -5,7 +5,7 @@ import React, {
   useMemo,
   useRef,
 } from 'react';
-import { Link, useNavigate } from 'react-router-dom-v5-compat';
+import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
@@ -50,7 +50,7 @@ import TrackedSpinner from '../shared/TrackedSpinner';
 
 const DownloadFileType = props => {
   const { runningUnitTest = false } = props;
-  const history = useNavigate();
+  const history = useHistory();
   const [fileType, setFileType] = useState('');
   const [fileTypeError, setFileTypeError] = useState('');
 

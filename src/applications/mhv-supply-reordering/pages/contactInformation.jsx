@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import AddressViewField from '@department-of-veterans-affairs/platform-forms-system/AddressViewField';
 import UnsavedFieldNote from '../components/UnsavedFieldNote';

@@ -7,7 +7,7 @@ import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/a
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { compareDesc, parse } from 'date-fns';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import {
   ServerErrorAlert,

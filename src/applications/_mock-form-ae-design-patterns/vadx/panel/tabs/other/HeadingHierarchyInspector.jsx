@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useLocation } from 'react-router-dom';
+import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import HeadingHierarchyAnalyzer from '../../../utils/HeadingHierarchyAnalyzer';
 
@@ -113,7 +113,6 @@ HeadingHierarchyInspectorBase.propTypes = {
   location: PropTypes.object.isRequired,
 };
 
-export const HeadingHierarchyInspector = () => {
-  const location = useLocation();
-  return <HeadingHierarchyInspectorBase location={location} />;
-};
+export const HeadingHierarchyInspector = withRouter(
+  HeadingHierarchyInspectorBase,
+);

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom-v5-compat';
+import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import PropType from 'prop-types';
 import {
@@ -13,7 +13,7 @@ import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/sour
 import { Paths } from '../util/constants';
 
 const SelectHealthCareSystem = () => {
-  const history = useNavigate();
+  const history = useHistory();
   const allFacilities = useSelector(state => state.sm.recipients.allFacilities);
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
 

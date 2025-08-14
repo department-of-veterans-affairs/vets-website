@@ -4,7 +4,7 @@ import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { clearFormData, removeAskVaForm } from '../actions';
 

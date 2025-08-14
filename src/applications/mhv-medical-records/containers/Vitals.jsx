@@ -6,7 +6,7 @@ import {
   updatePageTitle,
   usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
-import { useNavigate, useLocation } from 'react-router-dom-v5-compat';
+import { useHistory, useLocation } from 'react-router-dom';
 import RecordList from '../components/RecordList/RecordList';
 import { getVitals, reloadRecords } from '../actions/vitals';
 import {
@@ -36,7 +36,7 @@ import { useTrackAction } from '../hooks/useTrackAction';
 
 const Vitals = () => {
   const dispatch = useDispatch();
-  const history = useNavigate();
+  const history = useHistory();
   const location = useLocation();
 
   const updatedRecordList = useSelector(state => state.mr.vitals.updatedList);

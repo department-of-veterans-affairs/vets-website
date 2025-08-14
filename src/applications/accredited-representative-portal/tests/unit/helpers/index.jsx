@@ -4,7 +4,7 @@ import {
   createMemoryRouter,
   RouterProvider,
   MemoryRouter,
-} from 'react-router-dom-v5-compat';
+} from 'react-router-dom';
 import { render } from '@testing-library/react';
 
 import { connectFeatureToggle } from 'platform/utilities/feature-toggles';

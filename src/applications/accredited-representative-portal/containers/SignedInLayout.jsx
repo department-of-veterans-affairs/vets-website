@@ -1,5 +1,5 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom-v5-compat';
+import { Outlet } from 'react-router-dom';
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';

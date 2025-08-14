@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import set from 'platform/utilities/data/set';

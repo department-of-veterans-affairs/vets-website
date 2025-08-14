@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { withRouter } from 'react-router';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import constants from 'vets-json-schema/dist/constants.json';
@@ -71,85 +71,72 @@ export const certificateNotice = () => (
   </p>
 );
 
-const CancelButtonBase = ({
-  isAddChapter = false,
-  dependentType = 'dependents',
-  altMessage = false,
-  router,
-}) => {
-  const [isVisible, setIsVisible] = useState(false);
-  const closeModal = () => setIsVisible(false);
+export const CancelButton = withRouter(
+  ({
+    isAddChapter = false,
+    dependentType = 'dependents',
+    altMessage = false,
+    router,
+  }) => {
+    const [isVisible, setIsVisible] = useState(false);
+    const closeModal = () => setIsVisible(false);
 
-  const cancelText =
-    dependentType && typeof dependentType === 'string'
-      ? `Cancel ${isAddChapter ? 'adding' : 'removing'} ${dependentType}`
-      : 'Cancel';
+    const cancelText =
+      dependentType && typeof dependentType === 'string'
+        ? `Cancel ${isAddChapter ? 'adding' : 'removing'} ${dependentType}`
+        : 'Cancel';
 
-  const modalText = `Cancel ${
-    isAddChapter ? 'adding' : 'removing'
-  } ${dependentType}?`;
+    const modalText = `Cancel ${
+      isAddChapter ? 'adding' : 'removing'
+    } ${dependentType}?`;
 
-  const secondaryText = `No, continue ${
-    isAddChapter ? 'adding' : 'removing'
-  } ${dependentType}`;
+    const secondaryText = `No, continue ${
+      isAddChapter ? 'adding' : 'removing'
+    } ${dependentType}`;
 
-  return (
-    <>
-      <va-button
-        data-testid="cancel-btn"
-        aria-label={cancelText}
-        onClick={() => setIsVisible(true)}
-        secondary
-        text={cancelText}
-      />
+    return (
+      <>
+        <va-button
+          data-testid="cancel-btn"
+          aria-label={cancelText}
+          onClick={() => setIsVisible(true)}
+          secondary
+          text={cancelText}
+        />
 
-      <VaModal
-        large
-        data-testid="cancel-modal"
-        modalTitle={modalText}
-        primaryButtonText="Yes, cancel"
-        secondaryButtonText={secondaryText}
-        visible={isVisible}
-        status="warning"
-        onPrimaryButtonClick={() => {
-          const route = isAddChapter
-            ? '/options-selection/add-dependents'
-            : '/options-selection/remove-dependents';
-          router?.push(route);
-        }}
-        onSecondaryButtonClick={closeModal}
-        onCloseEvent={closeModal}
-        clickToClose
-      >
-        {altMessage ? (
-          <p>
-            If you cancel, the information entered won’t be saved and you’ll be
-            taken to step 1, to update your selection.
-          </p>
-        ) : (
-          <p>
-            If you cancel, you’ll be taken to step 1 to update your selection.
-          </p>
-        )}
-      </VaModal>
-    </>
-  );
-};
-
-export const CancelButton = props => {
-  const history = useHistory();
-
-  // Create router object for backward compatibility
-  const router = {
-    push: history.push,
-    replace: history.replace,
-    go: history.go,
-    goBack: history.goBack,
-    goForward: history.goForward,
-  };
-
-  return <CancelButtonBase {...props} router={router} />;
-};
+        <VaModal
+          large
+          data-testid="cancel-modal"
+          modalTitle={modalText}
+          primaryButtonText="Yes, cancel"
+          secondaryButtonText={secondaryText}
+          visible={isVisible}
+          status="warning"
+          onPrimaryButtonClick={() => {
+            const route = isAddChapter
+              ? '/options-selection/add-dependents'
+              : '/options-selection/remove-dependents';
+            router?.push(route);
+          }}
+          onSecondaryButtonClick={closeModal}
+          onCloseEvent={closeModal}
+          clickToClose
+        >
+          {altMessage ? (
+            <p>
+              If you cancel, the information entered won’t be saved and you’ll
+              be taken to step 1, to update your selection.
+            </p>
+          ) : (
+            <p>
+              If you cancel, you’ll be taken to step 1 to update your selection.
+            </p>
+          )}
+        </VaModal>
+      </>
+    );
+  },
+);
 
 const MILITARY_STATE_VALUES = constants.militaryStates.map(
   state => state.value,

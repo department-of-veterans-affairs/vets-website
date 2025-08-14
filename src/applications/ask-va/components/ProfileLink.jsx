@@ -2,7 +2,7 @@ import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/select
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 const ProfileLink = ({ loggedIn }) => {
   return loggedIn ? (

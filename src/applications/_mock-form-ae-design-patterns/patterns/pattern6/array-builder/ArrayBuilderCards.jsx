@@ -5,7 +5,7 @@
  * Cards with "Edit" and "DELETE"
  */
 import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';

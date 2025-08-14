@@ -1,9 +1,8 @@
-import { createV5RoutesFromLegacy } from 'platform/forms-system/src/js/routing/convertLegacyRoutes';
 import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
 import formConfig from './config/form';
 import App from './containers/App';
 
-const legacyRoutes = {
+const routes = {
   path: '/',
   component: App,
   indexRoute: {
@@ -11,7 +10,5 @@ const legacyRoutes = {
   },
   childRoutes: createRoutesWithSaveInProgress(formConfig),
 };
-
-const routes = createV5RoutesFromLegacy(legacyRoutes);
 
 export default routes;

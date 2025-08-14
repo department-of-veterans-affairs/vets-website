@@ -1,7 +1,7 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom-v5-compat';
 
 import { render } from '@testing-library/react';
 import LetterPageWrapper from '../../containers/LetterPageWrapper';

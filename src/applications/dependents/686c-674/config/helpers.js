@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import constants from 'vets-json-schema/dist/constants.json';

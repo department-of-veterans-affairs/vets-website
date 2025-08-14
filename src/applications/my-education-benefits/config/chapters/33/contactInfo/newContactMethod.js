@@ -1,6 +1,6 @@
 import React from 'react';
 import { createSelector } from 'reselect';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 import TextNotificationsDisclaimer from '../../../../components/TextNotificationsDisclaimer';
 import { formFields } from '../../../../constants';

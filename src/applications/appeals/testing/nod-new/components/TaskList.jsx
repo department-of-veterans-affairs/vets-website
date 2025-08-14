@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 import formConfig from '../config/form';
 import { setupPages } from '../utils/taskListPages';

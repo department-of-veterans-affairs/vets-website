@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom-v5-compat';
+import { useParams } from 'react-router-dom';
 import { fetchLcResult } from '../actions';
 import LicenseCertificationAdminInfo from '../components/LicenseCertificationAdminInfo';
 import LicenseCertificationTestInfo from '../components/LicenseCertificationTestInfo';

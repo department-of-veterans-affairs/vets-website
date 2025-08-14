@@ -7,7 +7,7 @@ import {
   VaBreadcrumbs,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import SsnField from 'platform/forms-system/src/js/web-component-fields/SsnField';
-import { useSearchParams, useNavigation } from 'react-router-dom-v5-compat';
+import { useSearchParams, useNavigation } from 'react-router-dom';
 import { Toggler, useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { focusElement } from 'platform/utilities/ui';
 import api from '../utilities/api';

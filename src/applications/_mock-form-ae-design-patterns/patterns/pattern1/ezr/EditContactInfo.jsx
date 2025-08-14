@@ -14,7 +14,7 @@ import {
   setReturnState,
 } from 'platform/forms-system/src/js/utilities/data/profile';
 
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import NameTag from '../../../shared/components/NameTag';
 import { Portal } from '../../../shared/components/Portal';
 import CopyResidentialAddress from '../../../shared/components/CopyResidentialAddress';

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';

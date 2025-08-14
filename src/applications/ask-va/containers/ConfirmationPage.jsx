@@ -2,7 +2,7 @@ import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router';
 import manifest from '../manifest.json';
 
 const contactPrefrencesMap = {

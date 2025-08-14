@@ -1,6 +1,6 @@
 import React from 'react';
 import { createSelector } from 'reselect';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 import fullSchema1990e from 'vets-json-schema/dist/22-1990E-schema.json';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';

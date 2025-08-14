@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useSearchParams } from 'react-router-dom-v5-compat';
+import { useSearchParams } from 'react-router-dom';
 import { SEARCH_PARAMS } from '../utilities/constants';
 
 const PaginationMeta = ({ meta, results, resultType, defaults }) => {

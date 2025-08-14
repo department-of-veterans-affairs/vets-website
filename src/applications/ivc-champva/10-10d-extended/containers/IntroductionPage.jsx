@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui/focus';

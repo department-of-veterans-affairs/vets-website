@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 

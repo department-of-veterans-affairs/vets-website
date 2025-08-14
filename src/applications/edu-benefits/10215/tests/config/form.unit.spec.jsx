@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { render } from '@testing-library/react';
-import { createMemoryRouter } from 'react-router-dom';
+import { createMemoryRouter } from 'react-router-dom-v5-compat';
 import formConfig, {
   arrayBuilderOptions,
   convertPercentageToText,

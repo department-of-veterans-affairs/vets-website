@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, useNavigate } from 'react-router-dom-v5-compat';
+import { useParams, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
@@ -28,7 +28,7 @@ const RadiologyImagesList = ({ isTesting }) => {
     environment.API_URL
   }/my_health/v1/medical_records/imaging`;
 
-  const history = useNavigate();
+  const history = useHistory();
   const dispatch = useDispatch();
 
   const activeAlert = useAlerts(dispatch);

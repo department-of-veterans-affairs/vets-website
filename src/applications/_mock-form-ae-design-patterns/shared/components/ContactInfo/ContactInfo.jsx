@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { useHistory, useLocation } from 'react-router-dom';
+import { withRouter } from 'react-router';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { Element, scrollTo, scrollAndFocus } from 'platform/utilities/scroll';
@@ -633,47 +633,6 @@ ContactInfoBase.propTypes = {
   onReviewPage: PropTypes.bool,
 };
 
-const ContactInfo = props => {
-  const history = useHistory();
-  const location = useLocation();
-
-  // Create a router-like object for backward compatibility
-  const router = {
-    replace: history.replace,
-    go: history.go,
-    goBack: history.goBack,
-    goForward: history.goForward,
-    location,
-    // For complex push operations with state, maintain compatibility
-    push: (...args) => {
-      if (
-        args.length === 1 &&
-        typeof args[0] === 'object' &&
-        args[0].pathname
-      ) {
-        // Handle router.push({ pathname, state }) format
-        history.push(args[0].pathname, args[0].state);
-      } else {
-        // Handle simple router.push(path) format
-        history.push(...args);
-      }
-    },
-    // Mock routes structure for legacy compatibility
-    routes: [
-      {},
-      {
-        formConfig: {
-          urlPrefix:
-            location.pathname
-              .split('/')
-              .slice(0, -1)
-              .join('/') || '',
-        },
-      },
-    ],
-  };
-
-  return <ContactInfoBase {...props} router={router} />;
-};
+const ContactInfo = withRouter(ContactInfoBase);
 
 export default ContactInfo;

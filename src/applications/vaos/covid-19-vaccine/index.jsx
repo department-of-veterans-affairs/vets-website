@@ -5,7 +5,7 @@ import {
   Route,
   useRouteMatch,
   useLocation,
-  Navigate,
+  Redirect,
 } from 'react-router-dom';
 import covid19VaccineReducer from './redux/reducer';
 import { selectIsNewAppointmentStarted } from '../new-appointment/redux/selectors';
@@ -75,7 +75,7 @@ export function NewBookingSection() {
   });
 
   if (shouldRedirectToStart) {
-    return <Navigate to="/" />;
+    return <Redirect to="/" />;
   }
 
   if (facilitySettingsStatus === FETCH_STATUS.failed) {
@@ -103,7 +103,7 @@ export function NewBookingSection() {
     facilitySettingsStatus === FETCH_STATUS.succeeded &&
     !location.pathname.includes(`${match.url}/contact-facility`)
   ) {
-    return <Navigate to={`${match.url}/contact-facility`} />;
+    return <Redirect to={`${match.url}/contact-facility`} />;
   }
 
   return (

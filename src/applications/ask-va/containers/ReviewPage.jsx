@@ -21,7 +21,7 @@ import {
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router';
 import { scrollTo, getScrollOptions } from 'platform/utilities/scroll';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {

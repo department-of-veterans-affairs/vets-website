@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useLocation } from 'react-router-dom-v5-compat';
+import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import PropTypes from 'prop-types';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';

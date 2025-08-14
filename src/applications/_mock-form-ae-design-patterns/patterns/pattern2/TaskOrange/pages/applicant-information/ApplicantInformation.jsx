@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { format, parseISO } from 'date-fns';
-import { withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';

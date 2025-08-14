@@ -1,11 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  useLocation,
-  useParams,
-  useNavigate,
-} from 'react-router-dom-v5-compat';
+import { useLocation, useParams, useHistory } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { addUserProperties } from '@department-of-veterans-affairs/mhv/exports';
 
@@ -48,7 +44,7 @@ const Compose = ({ skipInterstitial }) => {
   const [draftType, setDraftType] = useState('');
   const [pageTitle, setPageTitle] = useState('Start a new message');
   const location = useLocation();
-  const history = useNavigate();
+  const history = useHistory();
   const isDraftPage = location.pathname.includes('/draft');
   const header = useRef();
 

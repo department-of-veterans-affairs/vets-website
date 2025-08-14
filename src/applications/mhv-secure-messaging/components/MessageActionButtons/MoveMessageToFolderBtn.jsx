@@ -7,7 +7,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { datadogRum } from '@datadog/browser-rum';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom-v5-compat';
+import { useHistory } from 'react-router-dom';
 import { moveMessageThread } from '../../actions/messages';
 import { getFolders, newFolder } from '../../actions/folders';
 import { navigateToFolderByFolderId } from '../../util/helpers';
@@ -27,7 +27,7 @@ const MoveMessageToFolderBtn = props => {
     setIsCreateNewModalVisible,
   } = props;
   const dispatch = useDispatch();
-  const history = useNavigate();
+  const history = useHistory();
   const threadSort = useSelector(state => state.sm.threads.threadSort);
   const [selectedFolder, setSelectedFolder] = useState(null);
   const [isMoveModalVisible, setIsMoveModalVisible] = useState(false);

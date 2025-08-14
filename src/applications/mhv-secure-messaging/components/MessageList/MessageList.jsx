@@ -23,7 +23,7 @@ import { VaPagination } from '@department-of-veterans-affairs/component-library/
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { useDispatch } from 'react-redux';
-import { useLocation } from 'react-router-dom-v5-compat';
+import { useLocation } from 'react-router-dom';
 import MessageListItem from './MessageListItem';
 import ThreadListSort from '../ThreadList/ThreadListSort';
 import { setSearchPage, setSearchSort } from '../../actions/search';

@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom-v5-compat';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   VaCheckbox,
@@ -14,7 +14,7 @@ import { sendDataDogAction, formatDate } from '../../util/helpers';
 import useFocusOutline from '../../hooks/useFocusOutline';
 
 const DownloadRecordType = () => {
-  const history = useNavigate();
+  const history = useHistory();
   const dispatch = useDispatch();
   const [checkAll, setCheckAll] = useState(false);
   const [labTestCheck, setLabTestCheck] = useState(false);

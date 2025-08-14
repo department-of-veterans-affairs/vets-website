@@ -1,7 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { Router } from 'react-router-dom';
-import { createBrowserHistory } from 'history';
+import { Router, useRouterHistory, browserHistory } from 'react-router';
+import { createHistory } from 'history';
 import { updateRoute } from 'platform/site-wide/user-nav/actions';
 import startReactApp from 'platform/startup/react';
 import asyncSetUpCommonFunctionality from './asyncSetUpCommonFunctionality';
@@ -29,16 +29,17 @@ export async function asyncStartApp({
     runAxeCheck.default();
   }
 
-  let history = createBrowserHistory();
+  let history = browserHistory;
   if (url) {
-    history = createBrowserHistory({
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    history = useRouterHistory(createHistory)({
       basename: url,
     });
 
     try {
-      store.dispatch(updateRoute(history.location));
+      store.dispatch(updateRoute(history.getCurrentLocation()));
 
-      history.listen(({ location }) => {
+      history.listen(location => {
         if (location) {
           store.dispatch(updateRoute(location));
         }

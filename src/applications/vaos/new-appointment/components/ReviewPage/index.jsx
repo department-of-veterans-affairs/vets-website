@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { Navigate, useHistory } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import LoadingButton from '@department-of-veterans-affairs/platform-site-wide/LoadingButton';
 import classNames from 'classnames';
 import { selectReviewPage } from '../../redux/selectors';
@@ -48,7 +48,7 @@ export default function ReviewPage() {
   );
 
   if (!data?.typeOfCareId) {
-    return <Navigate to="/new-appointment" />;
+    return <Redirect to="/new-appointment" />;
   }
 
   const isDirectSchedule = flowType === FLOW_TYPES.DIRECT;

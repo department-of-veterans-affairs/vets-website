@@ -1,12 +1,7 @@
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  Link,
-  useNavigate,
-  useLocation,
-  useParams,
-} from 'react-router-dom-v5-compat';
+import { Link, useHistory, useLocation, useParams } from 'react-router-dom';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { Breadcrumbs, Paths } from '../util/constants';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
@@ -16,7 +11,7 @@ import { handleDataDogAction, removeTrailingSlash } from '../util/helpers';
 const MrBreadcrumbs = () => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const history = useNavigate();
+  const history = useHistory();
 
   const crumbsList = useSelector(state => state.mr.breadcrumbs.crumbsList);
   const pageNumber = useSelector(state => state.mr.pageTracker.pageNumber);

@@ -1,7 +1,7 @@
 import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
 
 import formConfig from './config/form';
-import PensionsApp from './PensionsApp';
+import PensionsApp from './PensionsApp.jsx';
 
 const routes = [
   {

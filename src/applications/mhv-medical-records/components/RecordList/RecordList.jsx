@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import { chunk } from 'lodash';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { useNavigate, useLocation } from 'react-router-dom-v5-compat';
+import {
+  useHistory,
+  useLocation,
+} from 'react-router-dom/cjs/react-router-dom.min';
 import RecordListItem from './RecordListItem';
 import RecordListHeader from './RecordListHeader';
 import { getParamValue, sendDataDogAction } from '../../util/helpers';
@@ -14,7 +17,7 @@ const RecordList = props => {
   const { records, type, perPage = 10, hidePagination, domainOptions } = props;
   const totalEntries = records?.length;
 
-  const history = useNavigate();
+  const history = useHistory();
   const location = useLocation();
   const paramPage = getParamValue(location.search, 'page');
   const [currentRecords, setCurrentRecords] = useState([]);

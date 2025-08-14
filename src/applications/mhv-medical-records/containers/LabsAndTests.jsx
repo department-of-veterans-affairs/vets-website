@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { useNavigate, useLocation } from 'react-router-dom-v5-compat';
+import { useHistory, useLocation } from 'react-router-dom';
 import { format } from 'date-fns';
 import { Actions } from '../util/actionTypes';
 import RecordList from '../components/RecordList/RecordList';
@@ -38,7 +38,7 @@ import { useTrackAction } from '../hooks/useTrackAction';
 const LabsAndTests = () => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const history = useNavigate();
+  const history = useHistory();
 
   const updatedRecordList = useSelector(
     state => state.mr.labsAndTests.updatedList,

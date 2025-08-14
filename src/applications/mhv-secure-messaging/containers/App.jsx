@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { Routes } from 'react-router-dom-v5-compat';
+import { Switch } from 'react-router-dom';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
@@ -165,9 +165,9 @@ const App = ({ isPilot }) => {
           medium-screen:vads-u-flex-direction--row"
             >
               <ScrollToTop />
-              <Routes>
+              <Switch>
                 <AuthorizedRoutes />
-              </Routes>
+              </Switch>
             </div>
           )}
 
