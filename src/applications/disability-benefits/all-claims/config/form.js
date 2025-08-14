@@ -112,6 +112,7 @@ import {
 
 import { toxicExposurePages } from '../pages/toxicExposure/toxicExposurePages';
 import { form0781PagesConfig } from './form0781/index';
+import { supportingEvidencePages } from '../pages/supportingEvidence/supportingEvidencePages';
 
 import { ancillaryFormsWizardDescription } from '../content/ancillaryFormsWizardIntro';
 
@@ -643,6 +644,7 @@ const formConfig = {
           },
           schema: { type: 'object', properties: {} },
         },
+        ...supportingEvidencePages,
         serviceTreatmentRecords: {
           title: 'Service treatment records',
           path: 'supporting-evidence/service-treatment-records',
