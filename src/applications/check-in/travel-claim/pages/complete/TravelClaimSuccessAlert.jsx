@@ -46,7 +46,7 @@ const TravelClaimSuccessAlert = () => {
           <p>{t('you-dont-need-to-do-anything-else')}</p>
         </va-alert>
       </div>
-      <va-card>
+      <va-card data-testid="travel-pay-survey">
         <div>
           <h3 className="vads-u-margin-top--1">
             {t('consider-taking-our-pilot-feedback-survey')}
