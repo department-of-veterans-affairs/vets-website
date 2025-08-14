@@ -199,8 +199,9 @@ export const newLetterContent = {
   minimum_essential_coverage: (
     <>
       <p>
-        A minimum essential coverage letter proves that you have the right
-        amount of healthcare coverage required by the Affordable Care Act (ACA).
+        The Proof of Minimum Essential Coverage Letter proves that you have the
+        right amount of health care coverage required by the Affordable Care Act
+        (ACA).
       </p>
       <p>
         You can use this letter when filing your taxes or applying for something

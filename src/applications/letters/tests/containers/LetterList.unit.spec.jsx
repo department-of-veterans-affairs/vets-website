@@ -389,7 +389,7 @@ describe('<LetterList>', () => {
     ).to.exist;
     expect(
       getByText(
-        'A minimum essential coverage letter proves that you have the right amount of healthcare coverage required by the Affordable Care Act (ACA).',
+        'The Proof of Minimum Essential Coverage Letter proves that you have the right amount of health care coverage required by the Affordable Care Act (ACA).',
       ),
     ).to.exist;
     expect(
