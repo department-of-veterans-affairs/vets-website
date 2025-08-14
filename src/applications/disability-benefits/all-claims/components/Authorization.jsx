@@ -239,8 +239,8 @@ const PrivateRecordsAuthorization = ({
             records submitted or maintained in accordance with the procedures
             developed by OMB, or electronic signature or other forms of
             electronic authentication used in accordance with such procedures,
-            "shall not be denied legal effect, validity, or enforceability
-            merely because such records are in electronic form" (Public Law
+           “shall not be denied legal effect, validity, or enforceability
+            merely because such records are in electronic form” (Public Law
             105-277, section 1707).
           </p>
         </va-accordion-item>
