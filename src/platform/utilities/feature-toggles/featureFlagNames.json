@@ -299,6 +299,7 @@
   "travelPayClaimsManagementDecisionReason": "travel_pay_claims_management_decision_reason",
   "useFacilitiesApiV2ForCernerCTA": "use_facilities_api_v2_for_cerner_cta",
   "useLighthouseFormsSearchLogic": "new_va_forms_search",
+  "vaDependentsNetWorthAndPension": "va_dependents_net_worth_and_pension",
   "vaDependentsVerification": "va_dependents_verification",
   "vaDependentsV2": "va_dependents_v2",
   "vaDependentsV2Banner": "va_dependents_v2_banner",
