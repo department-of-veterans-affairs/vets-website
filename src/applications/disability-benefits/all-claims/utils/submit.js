@@ -61,18 +61,6 @@ export function customReplacer(key, value) {
 }
 
 /**
- * Cycles through the list of provider facilities and performs transformations on each property as needed
- * @param {array} providerFacilities array of objects being transformed
- * @returns {array} containing the new Provider Facility structure
- */
-export function transformProviderFacilities(providerFacilities) {
-  return providerFacilities.map(facility => ({
-    ...facility,
-    treatmentDateRange: [facility.treatmentDateRange],
-  }));
-}
-
-/**
  * Returns an array of disabilities pulled from ratedDisabilities, newDisabilities, newPrimaryDisabilities and newSecondaryDisabilities
  * @param {object} formData
  */
@@ -164,7 +152,6 @@ export function transformRelatedDisabilities(
       // name should already be lower-case, but just in case...no pun intended
       claimedName => sippableId(claimedName) === name.toLowerCase(),
     );
-
   return (
     Object.keys(conditionContainer)
       // The check box is checked
@@ -176,6 +163,26 @@ export function transformRelatedDisabilities(
   );
 }
 
+/**
+ * Cycles through the list of provider facilities and performs transformations on each property as needed
+ * @param {array} providerFacilities array of objects being transformed
+ * @returns {array} containing the new Provider Facility structure
+ */
+export function transformProviderFacilities(providerFacilities, clonedData) {
+  // This map transforms treatedDisabilityNames back into the original condition names from the sippableIds
+  return providerFacilities.map(facility => {
+    const disabilityNames = transformRelatedDisabilities(
+      facility.treatedDisabilityNames || [],
+      getClaimedConditionNames(clonedData, false),
+    );
+
+    return {
+      ...facility,
+      treatedDisabilityNames: disabilityNames,
+      treatmentDateRange: [facility.treatmentDateRange],
+    };
+  });
+}
 export const removeExtraData = formData => {
   // EVSS no longer accepts some keys
   const ratingKeysToRemove = [
@@ -354,6 +361,7 @@ export const addForm4142 = formData => {
     ...(clonedData.providerFacility && {
       providerFacility: transformProviderFacilities(
         clonedData.providerFacility,
+        clonedData,
       ),
     }),
   };
