@@ -199,7 +199,7 @@ const PrivateRecordsAuthorization = ({
             <li>Social workers/rehabilitation counselors,</li>
             <li>Consulting examiners used by VA,</li>
             <li>
-              Employers, insurance companies, workers' compensation programs,
+              Employers, insurance companies, workers’ compensation programs,
               and
             </li>
             <li>
