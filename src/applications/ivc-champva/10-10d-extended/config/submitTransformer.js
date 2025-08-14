@@ -163,27 +163,24 @@ function mapHealthInsuranceToApplicants(
  */
 function collectSupportingDocuments(data) {
   // Get top-level supporting docs
-  const topLevelDocs = (
-    getObjectsWithAttachmentId(data, 'confirmationCode') || []
-  )
-    .flat()
-    .filter(Boolean);
+  const topLevelDocs = getObjectsWithAttachmentId(data, 'confirmationCode');
 
   // Collect docs from insurance policies and Medicare
   const policyDocs = [];
   ['healthInsurance', 'medicare'].forEach(key => {
-    (data[key] || []).forEach(item => {
-      const docs = getObjectsWithAttachmentId(item, 'confirmationCode') || [];
-      policyDocs.push(...docs.filter(Boolean));
+    data[key].forEach(item => {
+      const docs = getObjectsWithAttachmentId(item, 'confirmationCode');
+      policyDocs.push(...docs);
     });
   });
 
   // Collect and enhance applicant supporting docs
   const applicantDocs = [];
-  (data.applicants || []).forEach(applicant => {
+  data.applicants.forEach(applicant => {
     if (applicant.applicantSupportingDocuments?.length) {
-      (applicant.applicantSupportingDocuments || []).forEach(doc => {
+      applicant.applicantSupportingDocuments.forEach(doc => {
         if (doc) {
+          // Add applicant name to document for clarity
           applicantDocs.push({
             ...doc,
             applicantName: applicant.applicantName,
@@ -194,7 +191,7 @@ function collectSupportingDocuments(data) {
   });
 
   // Combine all documents
-  return [...topLevelDocs, ...policyDocs, ...applicantDocs].filter(Boolean);
+  return [...topLevelDocs.flat(), ...policyDocs, ...applicantDocs];
 }
 
 /**
