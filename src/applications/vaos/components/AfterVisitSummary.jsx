@@ -32,7 +32,7 @@ export default function AfterVisitSummary({ data: appointment }) {
           level={1}
           headline="We can't access after-visit summaries at this time."
         >
-          We’re sorry. We’ve run into a problem.
+          We are sorry. We’ve run into a problem.
         </InfoAlert>
       </Section>
     );
