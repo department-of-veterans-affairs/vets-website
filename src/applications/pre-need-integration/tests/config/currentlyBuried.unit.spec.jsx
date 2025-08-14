@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { mockFetch } from 'platform/testing/unit/helpers';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import formConfig from '../../config/form';
 
 const mockStore = configureMockStore();
@@ -61,9 +62,9 @@ describe('Pre-need burial benefits', () => {
     form.unmount();
   });
 
-  it('should not submit empty form', () => {
+  it('should not submit empty form', async () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { container } = render(
       <Provider store={store}>
         <DefinitionTester
           schema={schema}
@@ -74,10 +75,12 @@ describe('Pre-need burial benefits', () => {
       </Provider>,
     );
 
-    form.find('form').simulate('submit');
+    fireEvent.submit(container.querySelector('form'));
 
-    expect(form.find('.usa-input-error').length).to.equal(2);
-    expect(onSubmit.called).to.be.false;
-    form.unmount();
+    await waitFor(() => {
+      const errorElements = container.querySelectorAll('.usa-input-error');
+      expect(errorElements.length).to.equal(2);
+      expect(onSubmit.called).to.be.false;
+    });
   });
 });
