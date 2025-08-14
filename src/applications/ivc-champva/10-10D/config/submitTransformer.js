@@ -57,7 +57,6 @@ function transformApplicants(applicants) {
         property => app?.[property],
       ).filter(el => el), // Drop any undefineds/nulls
     };
-
     transformedApp = adjustYearString(transformedApp);
     transformedApp.applicantAddress = concatStreets(
       transformedApp.applicantAddress,
