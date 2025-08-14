@@ -6,6 +6,9 @@ import {
   selectVAPEmailAddress,
 } from '~/platform/user/selectors';
 import { selectPatientFacilities } from '~/platform/user/cerner-dsot/selectors';
+import DowntimeNotification, {
+  externalServices,
+} from '~/platform/monitoring/DowntimeNotification';
 import { selectCommunicationPreferences } from '@@profile/reducers';
 import { fetchCommunicationPreferenceGroups } from '@@profile/ducks/communicationPreferences';
 import { focusElement } from '~/platform/utilities/ui';
@@ -60,21 +63,26 @@ export const PaperlessDelivery = () => {
   return (
     <>
       <Headline>{PROFILE_PATH_NAMES.PAPERLESS_DELIVERY}</Headline>
-      {isLoading && (
-        <VaLoadingIndicator message="We’re loading your information." />
-      )}
-      {hasAPIError && <ApiErrorAlert />}
-      {showContent && (
-        <>
-          <Description />
-          <MissingEmailAlert emailAddress={emailAddress} />
-          <FieldHasBeenUpdated slim />
-          <ProfileEmail emailAddress={emailAddress} />
-          <SecureStorage />
-          <Documents />
-          <Note />
-        </>
-      )}
+      <DowntimeNotification
+        appTitle="paperless delivery page"
+        dependencies={[externalServices.VAPRO_NOTIFICATION_SETTINGS]}
+      >
+        {isLoading && (
+          <VaLoadingIndicator message="We’re loading your information." />
+        )}
+        {hasAPIError && <ApiErrorAlert />}
+        {showContent && (
+          <>
+            <Description />
+            <MissingEmailAlert emailAddress={emailAddress} />
+            <FieldHasBeenUpdated slim />
+            <ProfileEmail emailAddress={emailAddress} />
+            <SecureStorage />
+            <Documents />
+            <Note />
+          </>
+        )}
+      </DowntimeNotification>
     </>
   );
 };
