@@ -312,7 +312,7 @@ const PrivateRecordsAuthorization = ({
               at any time except to the extent a source of information has
               already relied on it to take an action. To revoke, I must send a
               written statement to the VA Regional Office handling my claim or
-              the Board of Veterans' Appeals (if my claim is related to an
+              the Board of Veterans’ Appeals (if my claim is related to an
               appeal) and also send a copy directly to any of my sources that I
               no longer wish to disclose information about me. I understand that
               VA may use information disclosed prior to revocation to decide my
