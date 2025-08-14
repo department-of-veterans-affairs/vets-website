@@ -18,6 +18,7 @@ export { getErrorTypeFromFormat } from './getErrorTypeFromFormat';
 export { getImageUri } from './getImageUri';
 export { getReactions } from './getReactions';
 export { getRefillHistory } from './getRefillHistory';
+export { getRxStatus } from './getRxStatus';
 export { getShowRefillHistory } from './getShowRefillHistory';
 export { hasCmopNdcNumber } from './hasCmopNdcNumber';
 export { isArrayAndHasItems } from './isArrayAndHasItems';
@@ -26,6 +27,7 @@ export {
 } from './isRefillTakingLongerThanExpected';
 export { pharmacyPhoneNumber } from './pharmacyPhoneNumber';
 export { processList } from './processList';
+export { rxSourceIsNonVA } from './rxSourceIsNonVA';
 export { sanitizeKramesHtmlStr } from './sanitizeKramesHtmlStr';
 export { validateField } from './validateField';
 export { validateIfAvailable } from './validateIfAvailable';

@@ -656,6 +656,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
         trackingPrefix={props.trackingPrefix}
         onChange={props.onChange}
         onSubmit={onNavForward}
+        formOptions={props.formOptions}
       >
         <>
           {/* contentBeforeButtons = save-in-progress links */}
