@@ -23,6 +23,7 @@ import {
 import DebtDetailsCard from '../components/DebtDetailsCard';
 import PaymentHistoryTable from '../components/PaymentHistoryTable';
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
+import Modals from '../components/Modals';
 
 const DebtDetails = () => {
   const { selectedDebt, debts } = useSelector(
@@ -222,6 +223,9 @@ const DebtDetails = () => {
             ) : null}
           </>
         )}
+        <Modals title="Notice of rights and responsibilities" id="notice-modal">
+          <Modals.Rights />
+        </Modals>
 
         {oneThingPerPageActive ? (
           <va-need-help id="needHelp">
