@@ -232,4 +232,19 @@ describe('PaperlessDelivery', () => {
     });
     expect(getByText(/This page isn’t available right now/)).to.exist;
   });
+
+  it('should render downtime maintenance alert', () => {
+    const { getByText } = render(<PaperlessDelivery />, {
+      initialState: {
+        scheduledDowntime: {
+          globalDowntime: true,
+          isReady: true,
+          isPending: false,
+          serviceMap: { get() {} },
+          dismissedDowntimeWarnings: [],
+        },
+      },
+    });
+    expect(getByText(/This tool is down for maintenance/)).to.exist;
+  });
 });
