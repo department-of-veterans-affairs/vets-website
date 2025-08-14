@@ -1,8 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import { createStore } from 'redux';
-import { Provider } from 'react-redux';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
@@ -13,14 +11,6 @@ const nothingNeededText =
   'There’s nothing we need from you right now. We’ll let you know when there’s an update.';
 
 describe('<WhatYouNeedToDo>', () => {
-  const getStore = (cst5103UpdateEnabled = true) =>
-    createStore(() => ({
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        cst_5103_update_enabled: cst5103UpdateEnabled,
-      },
-    }));
-
   it('should render no-documents description when there are no tracked items or standard 5103', () => {
     const claim = {
       attributes: {
@@ -37,11 +27,7 @@ describe('<WhatYouNeedToDo>', () => {
       },
     };
 
-    const { container, getByText } = render(
-      <Provider store={getStore()}>
-        <WhatYouNeedToDo claim={claim} />
-      </Provider>,
-    );
+    const { container, getByText } = render(<WhatYouNeedToDo claim={claim} />);
 
     getByText(nothingNeededText);
     expect($('va-alert', container)).not.to.exist;
@@ -71,9 +57,7 @@ describe('<WhatYouNeedToDo>', () => {
     };
 
     const { container, queryByText } = renderWithRouter(
-      <Provider store={getStore()}>
-        <WhatYouNeedToDo claim={claim} />
-      </Provider>,
+      <WhatYouNeedToDo claim={claim} />,
     );
 
     expect(queryByText(nothingNeededText)).not.to.exist;
@@ -104,9 +88,7 @@ describe('<WhatYouNeedToDo>', () => {
     };
 
     const { container, queryByText } = renderWithRouter(
-      <Provider store={getStore()}>
-        <WhatYouNeedToDo claim={claim} />
-      </Provider>,
+      <WhatYouNeedToDo claim={claim} />,
     );
 
     expect(queryByText(nothingNeededText)).not.to.exist;
@@ -150,11 +132,7 @@ describe('<WhatYouNeedToDo>', () => {
           getByText,
           queryByText,
           getByTestId,
-        } = renderWithRouter(
-          <Provider store={getStore()}>
-            <WhatYouNeedToDo claim={claim} />
-          </Provider>,
-        );
+        } = renderWithRouter(<WhatYouNeedToDo claim={claim} />);
 
         expect(queryByText(nothingNeededText)).not.to.exist;
         expect($('va-alert', container)).to.exist;

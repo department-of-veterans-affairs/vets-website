@@ -1,22 +1,25 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { PROFILE_PATH_NAMES } from '@@profile/constants';
-import { fetchCommunicationPreferenceGroups } from '@@profile/ducks/communicationPreferences';
+import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   hasVAPServiceConnectionError,
   selectVAPEmailAddress,
 } from '~/platform/user/selectors';
 import { selectPatientFacilities } from '~/platform/user/cerner-dsot/selectors';
-import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { selectCommunicationPreferences } from '@@profile/reducers';
+import { fetchCommunicationPreferenceGroups } from '@@profile/ducks/communicationPreferences';
+import { focusElement } from '~/platform/utilities/ui';
+import { PROFILE_PATH_NAMES } from '@@profile/constants';
+import { LOADING_STATES } from '~/applications/personalization/common/constants';
 import Headline from '../ProfileSectionHeadline';
 import { FieldHasBeenUpdated } from '../alerts/FieldHasBeenUpdated';
-import { LOADING_STATES } from '../../../common/constants';
 import { Description } from './Description';
-import { Note } from './Note';
 import { MissingEmailAlert } from './MissingEmailAlert';
 import { ProfileEmail } from './ProfileEmail';
+import { SecureStorage } from './SecureStorage';
 import { Documents } from './Documents';
+import { Note } from './Note';
+import { ApiErrorAlert } from './ApiErrorAlert';
 
 export const PaperlessDelivery = () => {
   const dispatch = useDispatch();
@@ -26,22 +29,19 @@ export const PaperlessDelivery = () => {
     selectCommunicationPreferences,
   );
   const hasVAPServiceError = useSelector(hasVAPServiceConnectionError);
-  const hasLoadingError = Boolean(communicationPreferencesState.loadingErrors);
-  const shouldShowAPIError = hasVAPServiceError || hasLoadingError;
-  const shouldShowLoadingIndicator =
-    communicationPreferencesState.loadingStatus === LOADING_STATES.idle ||
-    communicationPreferencesState.loadingStatus === LOADING_STATES.pending;
-  const shouldFetchNotificationSettings = !shouldShowAPIError;
-  const shouldShowNotificationGroups = useMemo(
-    () => {
-      return !shouldShowAPIError && !shouldShowLoadingIndicator;
-    },
-    [shouldShowAPIError, shouldShowLoadingIndicator],
-  );
+  const { loadingStatus } = communicationPreferencesState;
+  const hasLoadingError = loadingStatus === LOADING_STATES.error;
+  const hasAPIError = hasVAPServiceError || hasLoadingError;
+  const isLoading =
+    loadingStatus === LOADING_STATES.idle ||
+    loadingStatus === LOADING_STATES.pending;
+  const fetchCommunicationPreferences =
+    !hasAPIError && loadingStatus === LOADING_STATES.idle;
+  const showContent = !hasAPIError && !isLoading;
 
   useEffect(
     () => {
-      if (shouldFetchNotificationSettings) {
+      if (fetchCommunicationPreferences) {
         dispatch(
           fetchCommunicationPreferenceGroups({
             facilities,
@@ -49,25 +49,28 @@ export const PaperlessDelivery = () => {
         );
       }
     },
-    [dispatch, facilities, shouldFetchNotificationSettings],
+    [dispatch, facilities, fetchCommunicationPreferences],
   );
+
+  useEffect(() => {
+    document.title = `Paperless Delivery | Veterans Affairs`;
+    focusElement('[data-focus-target]');
+  }, []);
 
   return (
     <>
       <Headline>{PROFILE_PATH_NAMES.PAPERLESS_DELIVERY}</Headline>
-      {shouldShowLoadingIndicator && (
-        <VaLoadingIndicator
-          data-testid="loading-indicator"
-          message="We’re loading your information."
-        />
+      {isLoading && (
+        <VaLoadingIndicator message="We’re loading your information." />
       )}
-      {shouldShowNotificationGroups && (
+      {hasAPIError && <ApiErrorAlert />}
+      {showContent && (
         <>
           <Description />
           <MissingEmailAlert emailAddress={emailAddress} />
           <FieldHasBeenUpdated slim />
           <ProfileEmail emailAddress={emailAddress} />
-          <hr aria-hidden="true" className="vads-u-margin-y--3" />
+          <SecureStorage />
           <Documents />
           <Note />
         </>
