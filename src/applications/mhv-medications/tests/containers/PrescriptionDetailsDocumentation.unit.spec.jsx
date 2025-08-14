@@ -223,5 +223,16 @@ describe('Prescription details documentation container', () => {
         { timeout: 3000 },
       );
     });
+
+    it('should work', async () => {
+      const screen = setup();
+
+      await waitFor(() => {
+        const downloadPdfBtn = screen.getByTestId('download-pdf-button');
+        expect(downloadPdfBtn).to.exist;
+        downloadPdfBtn.click();
+        expect(screen.getByText('Download started')).to.exist;
+      });
+    });
   });
 });
