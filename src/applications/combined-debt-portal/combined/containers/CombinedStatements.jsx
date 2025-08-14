@@ -13,7 +13,7 @@ import {
 import environment from 'platform/utilities/environment';
 import last from 'lodash/last';
 import { parse, format } from 'date-fns';
-import Modals from '../../medical-copays/components/Modals';
+import Modals from '../components/Modals';
 import {
   currency,
   setPageFocus,
