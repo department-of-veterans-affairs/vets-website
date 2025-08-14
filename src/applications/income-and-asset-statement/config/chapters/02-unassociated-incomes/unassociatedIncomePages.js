@@ -117,6 +117,13 @@ const yesNoOptionsMore = {
   },
 };
 
+const sharedRecipientRelationshipBase = {
+  title: 'Who receives this income?',
+  hint: 'You’ll be able to add individual incomes separately',
+  labelHeaderLevel: '2',
+  labelHeaderLevelStyle: '3',
+};
+
 /**
  * Cards are populated on this page above the uiSchema if items are present
  *
@@ -221,7 +228,7 @@ const veteranIncomeRecipientPage = {
       nounSingular: options.nounSingular,
     }),
     recipientRelationship: radioUI({
-      title: 'Who receives this income?',
+      ...sharedRecipientRelationshipBase,
       labels: Object.fromEntries(
         Object.entries(relationshipLabels).filter(
           ([key]) => key !== 'PARENT' && key !== 'CUSTODIAN',
@@ -266,7 +273,7 @@ const spouseIncomeRecipientPage = {
       nounSingular: options.nounSingular,
     }),
     recipientRelationship: radioUI({
-      title: 'What’s the income recipient’s relationship to the Veteran?',
+      ...sharedRecipientRelationshipBase,
       labels: Object.fromEntries(
         Object.entries(relationshipLabels)
           .filter(
@@ -321,7 +328,7 @@ const custodianIncomeRecipientPage = {
       nounSingular: options.nounSingular,
     }),
     recipientRelationship: radioUI({
-      title: 'What’s the income recipient’s relationship to the Veteran?',
+      ...sharedRecipientRelationshipBase,
       labels: Object.fromEntries(
         Object.entries(relationshipLabels)
           .filter(
@@ -377,7 +384,7 @@ const parentIncomeRecipientPage = {
       nounSingular: options.nounSingular,
     }),
     recipientRelationship: radioUI({
-      title: 'What’s the income recipient’s relationship to the Veteran?',
+      ...sharedRecipientRelationshipBase,
       labels: Object.fromEntries(
         Object.entries(relationshipLabels)
           .filter(
@@ -431,6 +438,8 @@ const nonVeteranIncomeRecipientPage = {
     }),
     recipientRelationship: radioUI({
       title: 'Who receives the income?',
+      labelHeaderLevel: '2',
+      labelHeaderLevelStyle: '3',
       labels: relationshipLabels,
     }),
     otherRecipientRelationshipType: {
@@ -461,8 +470,28 @@ const nonVeteranIncomeRecipientPage = {
 /** @returns {PageSchema} */
 const recipientNamePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Recurring income recipient'),
-    recipientName: fullNameNoSuffixUI(title => `Income recipient’s ${title}`),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      showUpdatedContent()
+        ? 'Person who receives this income'
+        : 'Recurring income recipient',
+    ),
+    recipientName: showUpdatedContent()
+      ? {
+          ...fullNameNoSuffixUI(),
+          first: {
+            ...fullNameNoSuffixUI().first,
+            'ui:title': 'First or given name',
+          },
+          middle: {
+            ...fullNameNoSuffixUI().middle,
+            'ui:title': 'Middle name',
+          },
+          last: {
+            ...fullNameNoSuffixUI().last,
+            'ui:title': 'Last or family name',
+          },
+        }
+      : fullNameNoSuffixUI(title => `Income recipient’s ${title}`),
   },
   schema: {
     type: 'object',
@@ -599,7 +628,7 @@ export const unassociatedIncomePages = arrayBuilderPages(
       schema: nonVeteranIncomeRecipientPage.schema,
     }),
     unassociatedIncomeRecipientNamePage: pageBuilder.itemPage({
-      title: 'Recurring income recipient name',
+      title: 'Recurring income recipient',
       path: 'recurring-income/:index/recipient-name',
       depends: (formData, index) =>
         recipientNameRequired(formData, index, 'unassociatedIncomes'),
