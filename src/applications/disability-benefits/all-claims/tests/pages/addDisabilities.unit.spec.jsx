@@ -1,4 +1,5 @@
 import { fireEvent, render, waitFor } from '@testing-library/react';
+import { MemoryRouter } from 'react-router';
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 import { fullStringSimilaritySearch } from 'platform/forms-system/src/js/utilities/addDisabilitiesStringSearch';
@@ -27,21 +28,23 @@ const createScreen = (
   const onSubmit = sinon.spy();
 
   return render(
-    <DefinitionTester
-      definitions={formConfig.defaultDefinitions}
-      schema={schema}
-      uiSchema={uiSchema}
-      data={{
-        'view:claimType': {
-          'view:claimingNew': claimingNew,
-          'view:claimingIncrease': claimingIncrease,
-        },
-        newDisabilities: condition,
-        ratedDisabilities: [{}, {}],
-      }}
-      formData={{}}
-      onSubmit={onSubmit}
-    />,
+    <MemoryRouter>
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          'view:claimType': {
+            'view:claimingNew': claimingNew,
+            'view:claimingIncrease': claimingIncrease,
+          },
+          newDisabilities: condition,
+          ratedDisabilities: [{}, {}],
+        }}
+        formData={{}}
+        onSubmit={onSubmit}
+      />
+    </MemoryRouter>,
   );
 };
 

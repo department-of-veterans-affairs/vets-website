@@ -1,7 +1,8 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import { MemoryRouter } from 'react-router-dom';
+// Use v5-compat router so component hooks (useLocation/useNavigate) work under tests
+import { MemoryRouter } from 'react-router-dom-v5-compat';
 import { payments } from '../../../helpers';
 import {
   paymentsReceivedFields,

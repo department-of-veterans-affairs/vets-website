@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import { MemoryRouter } from 'react-router-dom';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../../config/form';
 import {
@@ -43,7 +44,9 @@ describe('Gulf War 2001 Summary', () => {
     };
 
     const { getByText } = render(
-      <DefinitionTester schema={schema} uiSchema={uiSchema} data={formData} />,
+      <MemoryRouter>
+        <DefinitionTester schema={schema} uiSchema={uiSchema} data={formData} />
+      </MemoryRouter>,
     );
 
     getByText(gulfWar2001PageTitle);
@@ -83,7 +86,9 @@ describe('Gulf War 2001 Summary', () => {
     };
 
     const { queryByText } = render(
-      <DefinitionTester schema={schema} uiSchema={uiSchema} data={formData} />,
+      <MemoryRouter>
+        <DefinitionTester schema={schema} uiSchema={uiSchema} data={formData} />
+      </MemoryRouter>,
     );
 
     expect(queryByText(GULF_WAR_2001_LOCATIONS.yemen)).to.exist;
@@ -110,7 +115,9 @@ describe('Gulf War 2001 Summary', () => {
     };
 
     const { getByText } = render(
-      <DefinitionTester schema={schema} uiSchema={uiSchema} data={formData} />,
+      <MemoryRouter>
+        <DefinitionTester schema={schema} uiSchema={uiSchema} data={formData} />
+      </MemoryRouter>,
     );
 
     getByText(gulfWar2001PageTitle);
