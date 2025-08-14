@@ -328,7 +328,7 @@ describe('<LetterList>', () => {
     expect(getByText('Proof of Service Card')).to.exist;
     expect(
       getByText(
-        'The Proof of Service Card documents that you served honorably in the Armed Forces.',
+        'The Proof of Service Card shows that you served honorably in the Armed Forces.',
       ),
     ).to.exist;
   });
@@ -374,7 +374,7 @@ describe('<LetterList>', () => {
     expect(getByText('Proof of Service Card')).to.exist;
     expect(
       getByText(
-        'The Proof of Service Card documents that you served honorably in the Armed Forces.',
+        'The Proof of Service Card shows that you served honorably in the Armed Forces.',
       ),
     ).to.exist;
     expect(
