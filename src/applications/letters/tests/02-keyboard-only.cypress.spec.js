@@ -1,3 +1,4 @@
+import Timeouts from 'platform/testing/e2e/timeouts';
 import {
   letters,
   benefitSummaryOptions,
@@ -6,25 +7,25 @@ import {
   countries,
   states,
   mockUserData,
-} from './e2e/fixtures/mocks/letters';
-
-import featureToggleDisabled from './e2e/fixtures/mocks/featureToggleDisabled.json';
+} from './e2e/fixtures/mocks/lh_letters';
 
 describe('Keyboard Only Letter Test', () => {
-  it('confirms keyboard only letter functionality', () => {
-    cy.intercept('GET', '/v0/feature_toggles?*', featureToggleDisabled);
-    cy.intercept('GET', '/v0/letters/beneficiary', benefitSummaryOptions).as(
-      'benefitSummaryOptions',
-    );
-    cy.intercept('GET', '/v0/letters', letters);
-    cy.intercept('GET', '/v0/address', address);
-    cy.intercept('GET', '/v0/address/countries', countries);
-    cy.intercept('GET', '/v0/address/states', states);
-    cy.intercept('PUT', '/v0/address', newAddress);
+  it('confirms authed letter functionality', () => {
+    cy.intercept(
+      'GET',
+      '/v0/letters_generator/beneficiary',
+      benefitSummaryOptions,
+    ).as('benefitSummaryOptions');
+    cy.intercept('GET', '/v0/letters_generator', letters).as('letters');
+    cy.intercept('GET', '/v0/address', address).as('address');
+    cy.intercept('GET', '/v0/address/countries', countries).as('countries');
+    cy.intercept('GET', '/v0/address/states', states).as('states');
+    cy.intercept('PUT', '/v0/address', newAddress).as('newAddress');
 
     cy.login(mockUserData);
     cy.visit('/records/download-va-letters/letters');
     cy.injectAxe();
+    cy.get('.letters', { timeout: Timeouts.slow }).should('be.visible');
 
     // Update address
     cy.tabToElement('#mailingAddress-edit-link');

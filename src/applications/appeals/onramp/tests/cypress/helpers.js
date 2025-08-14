@@ -2,6 +2,7 @@ import manifest from '../../manifest.json';
 
 export const ROOT = manifest.rootUrl;
 export const START_LINK = 'onramp-start';
+export const RESULTS_HEADER = 'onramp-results-header';
 
 export const clickStart = () =>
   cy
