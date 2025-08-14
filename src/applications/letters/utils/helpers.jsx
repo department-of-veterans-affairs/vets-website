@@ -622,6 +622,6 @@ export function isAddressEmpty(address) {
 
 export function getDownloadSuccessMessage(optionsLength) {
   return `Your letter includes the ${
-    optionsLength === 1 ? 'one item' : `${optionsLength} items`
+    optionsLength === 1 ? 'one topic' : `${optionsLength} topics`
   } you selected.`;
 }
