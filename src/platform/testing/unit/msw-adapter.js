@@ -330,6 +330,51 @@ export function delayedJsonResponse(data, delayMs = 200) {
   };
 }
 
+// Captures unhandled requests for follow-up by GHA annotation scripts
+export function collectUnhandledRequests(
+  server,
+  { envVar = 'MSW_UNHANDLED_JSON' } = {},
+) {
+  const collected = new Set();
+  const items = [];
+
+  if (!server?.events?.on) {
+    return {
+      items,
+      flush: () => '[]',
+      stop: () => {},
+    };
+  }
+
+  const handler = ({ request }) => {
+    const key = `${request.method} ${request.url}`;
+    if (collected.has(key)) return;
+    collected.add(key);
+
+    items.push({
+      method: request.method,
+      url: request.url,
+    });
+  };
+
+  server.events.on('request:unhandled', handler);
+
+  const flush = () => {
+    const json = JSON.stringify(items);
+    try {
+      process.env[envVar] = json;
+      // eslint-disable-next-line no-empty
+    } catch {}
+    return json;
+  };
+
+  const stop = () => {
+    server.events.off?.('request:unhandled', handler);
+  };
+
+  return { items, flush, stop };
+}
+
 // Export setupServer with consistent API
 export const setupServer = (...handlers) => {
   if (mswVersion === 2) {
