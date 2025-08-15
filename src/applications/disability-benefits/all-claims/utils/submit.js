@@ -353,8 +353,10 @@ export const addForm4142 = formData => {
   if (!formData.providerFacility) {
     return formData;
   }
+  const completed2024Form = formData?.disability526Enable2024Form4142 === true;
   const clonedData = _.cloneDeep(formData);
   clonedData.form4142 = {
+    completed2024Form,
     ...(clonedData.limitedConsent && {
       limitedConsent: clonedData.limitedConsent,
     }),
