@@ -1,6 +1,7 @@
 import * as h from '../helpers';
 import { ROUTES } from '../../../constants';
 import { SHORT_NAME_MAP } from '../../../constants/question-data-map';
+import { RESULTS_NAME_MAP } from '../../../constants/results-data-map';
 
 const {
   Q_1_1_CLAIM_DECISION,
@@ -9,6 +10,7 @@ const {
   Q_1_2B_LAW_POLICY_CHANGE,
   Q_1_2C_NEW_EVIDENCE,
 } = SHORT_NAME_MAP;
+const { RESULTS_1_2_C1 } = RESULTS_NAME_MAP;
 
 // Results 1.2.C1: You need to file a new claim because you have no new evidence
 // and you are outside of the 1-year deadline
@@ -54,7 +56,7 @@ describe('Decision Reviews Onramp', () => {
 
       // RESULTS
       h.verifyUrl(ROUTES.RESULTS);
-      h.verifyNonDrResultsHeader();
+      h.verifyNonDrResultsHeader(RESULTS_1_2_C1);
       cy.go('back');
 
       // Q_1_2C_NEW_EVIDENCE

@@ -19,7 +19,7 @@ const ResultsTemplate = ({ resultPage, router, viewedIntroPage }) => {
   if (h1 && bodyContent) {
     return (
       <>
-        <h1 data-testid="onramp-results-header">{h1}</h1>
+        <h1 data-testid={`onramp-results-header-${resultPage}`}>{h1}</h1>
         {bodyContent}
       </>
     );

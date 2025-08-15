@@ -1,6 +1,7 @@
 import * as h from '../helpers';
 import { ROUTES } from '../../../constants';
 import { SHORT_NAME_MAP } from '../../../constants/question-data-map';
+import { RESULTS_NAME_MAP } from '../../../constants/results-data-map';
 
 const {
   Q_1_1_CLAIM_DECISION,
@@ -8,6 +9,7 @@ const {
   Q_1_3_CLAIM_CONTESTED,
   Q_1_3A_FEWER_60_DAYS,
 } = SHORT_NAME_MAP;
+const { RESULTS_1_3B } = RESULTS_NAME_MAP;
 
 // Results 1.3B: Contested claims, more than 60 days after decision
 // 1.1 - Yes
@@ -46,7 +48,7 @@ describe('Decision Reviews Onramp', () => {
 
       // RESULTS
       h.verifyUrl(ROUTES.RESULTS);
-      h.verifyNonDrResultsHeader();
+      h.verifyNonDrResultsHeader(RESULTS_1_3B);
       cy.go('back');
 
       // Q_1_3A_FEWER_60_DAYS

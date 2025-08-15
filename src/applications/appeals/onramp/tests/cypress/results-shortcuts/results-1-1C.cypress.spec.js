@@ -1,8 +1,10 @@
 import * as h from '../helpers';
 import { ROUTES } from '../../../constants';
 import { SHORT_NAME_MAP } from '../../../constants/question-data-map';
+import { RESULTS_NAME_MAP } from '../../../constants/results-data-map';
 
 const { Q_1_1_CLAIM_DECISION, Q_1_1A_SUBMITTED_526 } = SHORT_NAME_MAP;
+const { RESULTS_1_1C } = RESULTS_NAME_MAP;
 
 // Results 1.1C: You can't request a review yet
 // 1.1 - No
@@ -29,7 +31,7 @@ describe('Decision Reviews Onramp', () => {
 
       // RESULTS
       h.verifyUrl(ROUTES.RESULTS);
-      h.verifyNonDrResultsHeader();
+      h.verifyNonDrResultsHeader(RESULTS_1_1C);
       cy.go('back');
 
       // Q_1_1A_SUBMITTED_526

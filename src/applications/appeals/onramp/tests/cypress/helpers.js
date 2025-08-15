@@ -77,14 +77,14 @@ export const verifyText = (selector, expectedValue) =>
     .should('be.visible')
     .should('have.text', expectedValue);
 
-export const verifyNonDrResultsHeader = () =>
+export const verifyNonDrResultsHeader = expectedPage =>
   cy
-    .findByTestId(RESULTS_HEADER)
+    .findByTestId(`${RESULTS_HEADER}-${expectedPage}`)
     .should('be.visible')
     .should('have.text', NON_DR_HEADING);
 
-export const verifyDrResultsHeader = () =>
+export const verifyDrResultsHeader = expectedPage =>
   cy
-    .findByTestId(RESULTS_HEADER)
+    .findByTestId(`${RESULTS_HEADER}-${expectedPage}`)
     .should('be.visible')
     .should('have.text', DR_HEADING);
