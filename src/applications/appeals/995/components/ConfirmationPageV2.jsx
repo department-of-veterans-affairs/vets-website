@@ -221,42 +221,40 @@ export const ConfirmationPageV2 = () => {
         />
       ) : null}
 
-      {showScNewForm && (
-        <>
-          <h3 className={chapterHeaderClass}>VHA indicator</h3>
+      <>
+        <h3 className={chapterHeaderClass}>VHA indicator</h3>
 
-          {/* Adding a `role="list"` to `ul` with `list-style: none` to work around
-              a problem with Safari not treating the `ul` as a list. */}
-          {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
-          <ul className="remove-bullets vads-u-margin-bottom--4" role="list">
+        {/* Adding a `role="list"` to `ul` with `list-style: none` to work around
+            a problem with Safari not treating the `ul` as a list. */}
+        {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+        <ul className="remove-bullets vads-u-margin-bottom--4" role="list">
+          <li>
+            <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
+              {optionForMstTitle}
+            </div>
+            <div
+              className="vads-u-margin-bottom--2 dd-privacy-hidden"
+              data-dd-action-name="option for MST"
+            >
+              {mstOptionText}
+            </div>
+          </li>
+          {data.mstOption && (
             <li>
               <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
-                {optionForMstTitle}
+                {optionIndicatorLabel}
               </div>
               <div
                 className="vads-u-margin-bottom--2 dd-privacy-hidden"
-                data-dd-action-name="option for MST"
+                data-dd-action-name="MST option indicator"
               >
-                {mstOptionText}
+                {optionIndicatorChoices[data.optionIndicator] ??
+                  'None selected'}
               </div>
             </li>
-            {data.mstOption && (
-              <li>
-                <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
-                  {optionIndicatorLabel}
-                </div>
-                <div
-                  className="vads-u-margin-bottom--2 dd-privacy-hidden"
-                  data-dd-action-name="MST option indicator"
-                >
-                  {optionIndicatorChoices[data.optionIndicator] ??
-                    'None selected'}
-                </div>
-              </li>
-            )}
-          </ul>
-        </>
-      )}
+          )}
+        </ul>
+      </>
 
       <ConfirmationReturnLink />
     </>
