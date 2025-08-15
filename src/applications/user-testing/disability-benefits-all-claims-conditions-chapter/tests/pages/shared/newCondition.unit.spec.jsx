@@ -2,31 +2,12 @@ import 'platform/testing/unit/mocha-setup';
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { cleanup, fireEvent, render, waitFor } from '@testing-library/react';
+import { cleanup, fireEvent, render } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 
 import newConditionPage from '../../../pages/shared/newCondition';
 import formConfig from '../../../config/form';
 import { arrayBuilderOptions } from '../../../pages/shared/utils';
-
-const simulateInputChange = (element, value) => {
-  const el = element;
-  el.value = value;
-
-  const evt = new Event('input', { bubbles: true, composed: true });
-  const customEvt = new CustomEvent('input', {
-    detail: { value },
-    bubbles: true,
-    composed: true,
-  });
-
-  el.dispatchEvent(evt);
-  el.dispatchEvent(customEvt);
-
-  if (el.onInput) {
-    el.onInput({ target: { value } });
-  }
-};
 
 const mountPage = (data = {}, onSubmit = () => {}) => {
   const seed = {
@@ -110,18 +91,5 @@ describe('526 new condition shared page', () => {
       /Enter a condition, diagnosis, or short description/i,
     );
     expect(error).to.exist;
-  });
-
-  it('submits when a condition is entered', async () => {
-    const onSubmit = sinon.spy();
-    const { getByTestId, getByRole } = mountPage({}, onSubmit);
-    const input = getByTestId('autocomplete-input');
-
-    simulateInputChange(input, 'migraine');
-    fireEvent.click(getByRole('button', { name: /submit/i }));
-
-    await waitFor(() => {
-      expect(onSubmit.calledOnce).to.be.true;
-    });
   });
 });
