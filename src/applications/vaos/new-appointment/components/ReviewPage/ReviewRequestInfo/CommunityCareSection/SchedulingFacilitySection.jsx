@@ -53,7 +53,7 @@ export default function SchedulingFacilitySection({ facility }) {
           <va-link
             href={ccClosestCity.url}
             onClick={handleClick(history, home, ccClosestCity)}
-            aria-label="Edit facility preference"
+            label="Edit facility preference"
             text="Edit"
             data-testid="edit-new-appointment"
           />
