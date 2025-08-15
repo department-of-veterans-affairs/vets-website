@@ -23,7 +23,8 @@ const testConfig = createTestConfig(
     pageHooks: pageHooks(cy),
     setupPerTest: () => {
       cy.login(mockUser);
-      setup(cy);
+      // Pass realBackendSubmit: true to allow real submission
+      setup(cy, { realBackendSubmit: true });
     },
 
     // skip: [],
