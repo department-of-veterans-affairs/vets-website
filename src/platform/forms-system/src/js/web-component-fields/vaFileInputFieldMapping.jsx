@@ -16,7 +16,7 @@ const vaFileInputFieldMapping = props => {
     : DEFAULT_ACCEPT_TYPES;
 
   let uploadedFiles = null;
-  if (childrenProps.formData) {
+  if (Array.isArray(childrenProps.formData)) {
     uploadedFiles = [];
     for (const _u of childrenProps.formData) {
       const buffer = new ArrayBuffer(_u.size);

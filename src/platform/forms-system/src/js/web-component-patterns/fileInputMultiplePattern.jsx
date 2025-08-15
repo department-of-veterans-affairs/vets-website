@@ -124,17 +124,11 @@ export const fileInputMultipleSchema = (options = {}) => {
         confirmationCode: {
           type: 'string',
         },
-        isEncrypted: {
-          type: 'boolean',
-        },
         name: {
           type: 'string',
         },
         size: {
           type: 'integer',
-        },
-        fileType: {
-          type: 'string',
         },
         warnings: {
           type: 'array',
@@ -147,9 +141,6 @@ export const fileInputMultipleSchema = (options = {}) => {
           properties: {},
         },
         type: {
-          type: 'string',
-        },
-        _id: {
           type: 'string',
         },
       },

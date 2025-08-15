@@ -1,3 +1,5 @@
+import { makeMinimalPNG } from '../form-tester/utilities';
+
 const FORCE_OPTION = { force: true };
 const DELAY_OPTION = { force: true, delay: 100 };
 
@@ -149,16 +151,14 @@ Cypress.Commands.add('fillVaFileInput', (field, value) => {
       typeof field === 'string'
         ? cy.get(`va-file-input[name="${field}"]`)
         : cy.wrap(field);
-
-    element.then($el => {
+    cy.log('made it here');
+    element.then(async $el => {
       const el = $el[0];
 
+      const pngFile = await makeMinimalPNG();
       const mockFormData = {
-        file: {
-          name: value?.name || 'test.pdf',
-          size: value?.size || 1024,
-          type: value?.type || 'application/pdf',
-        },
+        name: value?.name || 'placeholder.png',
+        size: value?.size || 123,
         password: value?.password || 'abc',
         additionalData: value?.additionalData || 'abc',
         confirmationCode: value?.confirmationCode || '123456',
@@ -166,14 +166,47 @@ Cypress.Commands.add('fillVaFileInput', (field, value) => {
         hasAdditionalInputError: false,
         hasPasswordError: false,
       };
-
       const fileSelectEvent = new CustomEvent('vaChange', {
-        detail: { files: [mockFormData] },
+        detail: { files: [pngFile], mockFormData },
         bubbles: true,
         composed: true,
       });
 
       el.dispatchEvent(fileSelectEvent);
+    });
+  }
+});
+
+Cypress.Commands.add('fillVaFileInputMultiple', (field, value) => {
+  if (typeof value !== 'undefined') {
+    const element =
+      typeof field === 'string'
+        ? cy.get(`va-file-input-multiple[name="${field}"]`)
+        : cy.wrap(field);
+
+    element.then(async $el => {
+      const el = $el[0];
+
+      const pngFile = await makeMinimalPNG();
+      const detail = {
+        action: 'FILE_ADDED',
+        file: pngFile,
+        state: [],
+        mockFormData: {
+          confirmationCode: 'abc123',
+          name: 'placeholder.png',
+          size: 123,
+        },
+      };
+
+      const options = {
+        detail,
+        bubbles: true,
+        composed: true,
+      };
+
+      const event = new CustomEvent('vaFileInputMultiple', options);
+      el.dispatchEvent(event);
     });
   }
 });
@@ -367,6 +400,11 @@ Cypress.Commands.add('enterWebComponentData', field => {
 
     case 'VA-FILE-INPUT': {
       cy.fillVaFileInput(field.key, field.data);
+      break;
+    }
+
+    case 'VA-FILE-INPUT-MULTIPLE': {
+      cy.fillVaFileInputMultiple(field.key, field.data);
       break;
     }
 

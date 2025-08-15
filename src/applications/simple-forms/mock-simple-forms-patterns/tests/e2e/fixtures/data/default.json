@@ -8,6 +8,7 @@
       "date": true,
       "internationalPhone": true,
       "fileInput": true,
+      "fileInputMultiple": true,
       "formsPattern": true,
       "miscellaneous": true,
       "numberInput": true,
@@ -35,6 +36,7 @@
         "documentStatus": "private"
       }
     },
+    "wcv3FileInputMultiple": [],
     "vaCompensationType": "none",
     "isCurrentlyActiveDuty": false,
     "wcv3VaCompensationType": "highDisability",

@@ -82,7 +82,7 @@ const VaFileInputField = props => {
   const dispatch = useDispatch();
   const [error, setError] = useState(mappedProps.error);
   const [fileWithPassword, setFileWithPassword] = useState(null);
-  const { percentUploaded, uploadFile } = useFileUpload(
+  const { percentUploaded, handleUpload } = useFileUpload(
     uiOptions.fileUploadUrl,
     accept,
     formNumber,
@@ -150,7 +150,7 @@ const VaFileInputField = props => {
           _id,
         });
         passwordError = null;
-        uploadFile(fileWithPassword, handleFileProcessing, password);
+        handleUpload(fileWithPassword, handleFileProcessing, password);
       }
     }),
   );
@@ -189,12 +189,12 @@ const VaFileInputField = props => {
 
     // cypress test / skip the network call and its callbacks
     if (environment.isTest() && !environment.isUnitTest()) {
-      handleFileProcessing(fileFromEvent);
+      childrenProps.onChange(e.detail.mockFormData);
       // delay uploading for encrypted files until password is entered
     } else if (checks.checkIsEncryptedPdf) {
       setFileWithPassword(fileFromEvent);
     } else {
-      uploadFile(fileFromEvent, handleFileProcessing);
+      handleUpload(fileFromEvent, handleFileProcessing);
     }
   };
 

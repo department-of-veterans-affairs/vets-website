@@ -5,6 +5,7 @@ import {
   standardFileChecks,
   FILE_TYPE_MISMATCH_ERROR,
 } from 'platform/forms-system/src/js/utilities/file';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import debounce from 'platform/utilities/data/debounce';
 import { isEmpty } from 'lodash';
 import {
@@ -62,38 +63,37 @@ const VaFileInputMultipleField = props => {
   // update the additional inputs with error or with data if prefill
   useEffect(
     () => {
-      if (componentRef.current && componentRef.current.shadowRoot) {
-        childrenProps.formData.forEach((file, index) => {
-          if (
-            uiOptions.additionalInputRequired &&
-            uiOptions.additionalInputUpdate
-          ) {
-            const instance = componentRef.current.shadowRoot.getElementById(
-              `instance-${index}`,
+      if (
+        !componentRef.current ||
+        !componentRef.current.shadowRoot ||
+        !uiOptions.additionalInputUpdate
+      )
+        return;
+
+      childrenProps.formData.forEach((file, index) => {
+        const instance = componentRef.current.shadowRoot.getElementById(
+          `instance-${index}`,
+        );
+        if (instance) {
+          const slotContent = instance.shadowRoot
+            .querySelector('slot')
+            ?.assignedNodes()[0]?.firstElementChild;
+          if (slotContent) {
+            // component missing additional data and has been touched and instance not already in error state
+            const error =
+              isEmpty(file.additionalData) &&
+              index < errorManager.getLastTouched() &&
+              !instance.getAttribute('error')
+                ? MISSING_ADDITIONAL_INFO
+                : '';
+            uiOptions.additionalInputUpdate(
+              slotContent,
+              error,
+              file.additionalData,
             );
-            if (
-              instance &&
-              index < errorManager.getLastTouched() && // this instance has been touched
-              !instance.getAttribute('error') // if instance has an error the additional input is not shown
-            ) {
-              const slotContent = instance.shadowRoot
-                .querySelector('slot')
-                ?.assignedNodes()[0]?.firstElementChild;
-              if (slotContent) {
-                // component missing additional data
-                const error = isEmpty(file.additionalData)
-                  ? MISSING_ADDITIONAL_INFO
-                  : '';
-                uiOptions.additionalInputUpdate(
-                  slotContent,
-                  error,
-                  file.additionalData,
-                );
-              }
-            }
           }
-        });
-      }
+        }
+      });
     },
     [childrenProps.formData, mappedProps.error],
   );
@@ -141,7 +141,7 @@ const VaFileInputMultipleField = props => {
     assignFileUploadToStore(uploadedFile);
   };
 
-  const handleFileAdded = async ({ file }, index) => {
+  const handleFileAdded = async ({ file }, index, mockFormData) => {
     const checks = await standardFileChecks(file);
     const _errors = [...errors];
     if (!checks.checkTypeAndExtensionMatches) {
@@ -166,6 +166,12 @@ const VaFileInputMultipleField = props => {
     const _encrypted = [...encrypted];
     _encrypted[index] = !!checks.checkIsEncryptedPdf;
     setEncrypted(_encrypted);
+
+    // cypress test / skip the network call and its callbacks
+    if (environment.isTest() && !environment.isUnitTest()) {
+      childrenProps.onChange([...mockFormData]);
+      return;
+    }
 
     // this file not encrypted
     if (!checks.checkIsEncryptedPdf) {
@@ -209,39 +215,37 @@ const VaFileInputMultipleField = props => {
 
   const handleChange = e => {
     const { detail } = e;
-    const { action, state, file } = detail;
+    const { action, state, file, mockFormData } = detail;
     const findFileIndex = () =>
       state.findIndex(
         f => f.file.name === file.name && f.file.size === file.size,
       );
-    if (state.length > 0) {
-      const _file = state.at(-1);
-      switch (action) {
-        case 'FILE_ADDED': {
-          const _currentIndex = state.length - 1;
-          handleFileAdded(_file, _currentIndex);
-          setCurrentIndex(_currentIndex);
-          break;
-        }
-        case 'FILE_UPDATED': {
-          const index = findFileIndex();
-          handleFileAdded(_file, index);
-          setCurrentIndex(index);
-          break;
-        }
-        case 'PASSWORD_UPDATE': {
-          const index = findFileIndex();
-          setCurrentIndex(index);
-          const passwordFile = state[index];
-          debouncePassword(passwordFile, index);
-          break;
-        }
-        case 'FILE_REMOVED':
-          handleFileRemoved(file);
-          break;
-        default:
-          break;
+    const _file = state.at(-1);
+    switch (action) {
+      case 'FILE_ADDED': {
+        const _currentIndex = state.length - 1;
+        handleFileAdded(_file, _currentIndex, mockFormData);
+        setCurrentIndex(_currentIndex);
+        break;
       }
+      case 'FILE_UPDATED': {
+        const index = findFileIndex();
+        handleFileAdded(_file, index);
+        setCurrentIndex(index);
+        break;
+      }
+      case 'PASSWORD_UPDATE': {
+        const index = findFileIndex();
+        setCurrentIndex(index);
+        const passwordFile = state[index];
+        debouncePassword(passwordFile, index);
+        break;
+      }
+      case 'FILE_REMOVED':
+        handleFileRemoved(file);
+        break;
+      default:
+        break;
     }
   };
 
