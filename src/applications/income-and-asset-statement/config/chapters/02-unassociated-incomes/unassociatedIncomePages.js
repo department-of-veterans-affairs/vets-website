@@ -84,7 +84,7 @@ export const options = {
     alertItemUpdated: 'Your recurring income information has been updated',
     alertItemDeleted: 'Your recurring income information has been deleted',
     cancelAddTitle: 'Cancel adding this recurring income',
-    cancelAddButtonText: 'Cancel adding this recurring income',
+    cancelAddButtonText: 'Cancel adding this income',
     cancelAddYes: 'Yes, cancel adding this recurring income',
     cancelAddNo: 'No',
     cancelEditTitle: 'Cancel editing this recurring income',
