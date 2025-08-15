@@ -33,7 +33,7 @@ import {
   CHAR_LIMITS,
 } from '../constants';
 import { getBranches } from './serviceBranches';
-import { redirect } from '@department-of-veterans-affairs/platform-user/authentication/utilities';
+import { getSharedVariable, setSharedVariable } from './sharedState';
 
 /**
  * Returns an object where all the fields are prefixed with `view:` if they aren't already
@@ -869,14 +869,6 @@ export function isCompletingModern4142(formData) {
 }
 
 export const baseDoNew4142Logic = formData => {
-  console.log('baseDoNew4142Logic',
-    formData.disability526Enable2024Form4142,
-    formData['view:patientAcknowledgement']?.['view:acknowledgement'],
-    formData?.['view:uploadPrivateRecordsQualifier']?.[
-      'view:hasPrivateRecordsToUpload'
-    ],
-    formData?.patient4142Acknowledgement,
-  );
   return (
     formData.disability526Enable2024Form4142 === true &&
     formData['view:patientAcknowledgement']?.['view:acknowledgement'] ===
@@ -888,30 +880,28 @@ export const baseDoNew4142Logic = formData => {
   );
 };
 
+export function needs4142AlertShown(formData) {
+  return (
+    baseDoNew4142Logic(formData) &&
+    getSharedVariable('alertNeedsShown4142') === true
+  );
+}
+
 export const onFormLoaded = props => {
   const { returnUrl, formData, router } = props;
   const shouldRedirectToModern4142Choice = baseDoNew4142Logic(formData);
-  console.log('shouldRedirectToModern4142Choice', shouldRedirectToModern4142Choice, returnUrl);
-  const redirectUrl = '/supporting-evidence/private-medical-records'
+  const redirectUrl = '/supporting-evidence/private-medical-records';
 
   if (shouldRedirectToModern4142Choice === true) {
-    formData.needsShownNew4142Alert = true;
-    console.log('setting needsShownNew4142Alert to true', formData.needsShownNew4142Alert);
+    setSharedVariable('alertNeedsShown4142', shouldRedirectToModern4142Choice);
     router.push(redirectUrl);
-  } else if (returnUrl === '/supporting-evidence/private-medical-records-authorize-release' && formData.disability526Enable2024Form4142 !== true) {
+  } else if (
+    returnUrl ===
+      '/supporting-evidence/private-medical-records-authorize-release' &&
+    formData.disability526Enable2024Form4142 !== true
+  ) {
     router.push(redirectUrl);
   } else {
-    formData.needsShownNew4142Alert = false;
     router.push(returnUrl);
   }
-  return;
 };
-
-export function needs4142AlertShown(formData) {
-  console.log('checking needsShownNew4142Alert', formData.needsShownNew4142Alert)
-  return (
-    baseDoNew4142Logic(formData) &&
-    formData.needsShownNew4142Alert === true
-    // window.sessionStorage.getItem('needsShownNew4142Alert') === 'true'
-  );
-}
