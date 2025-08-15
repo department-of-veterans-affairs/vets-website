@@ -10,6 +10,7 @@ import {
   specialIssueTypes,
   CHAR_LIMITS,
   defaultDisabilityDescriptions,
+  POLICE_REPORT_LOCATION_FIELDS,
 } from './constants';
 
 import { isBDD, truncateDescriptions } from './utils';
@@ -44,6 +45,11 @@ export function transform(formConfig, form) {
   const { separationLocation } = form.data.serviceInformation;
   const savedSeparationLocation = separationLocation
     ? _.cloneDeep(separationLocation)
+    : undefined;
+
+  // Preserve original 0781 events to restore fields stripped by schema filtering
+  const savedEvents = Array.isArray(form.data.events)
+    ? _.cloneDeep(form.data.events)
     : undefined;
 
   // Define the transformations
@@ -99,6 +105,40 @@ export function transform(formConfig, form) {
       delete clonedData.powDisabilities;
     }
     return clonedData;
+  };
+
+  // Some police report location fields (agency, city, state, township, country)
+  // are not part of the base json schema and get filtered out by transformForSubmit.
+  // If the user indicated a police report for an event, restore those fields
+  // from the original form data so they can be included in form0781 later.
+  const restorePoliceReportLocationFields = formData => {
+    if (!savedEvents || !Array.isArray(formData.events)) {
+      return formData;
+    }
+
+    const mergedEvents = formData.events.map((evt = {}, index) => {
+      const original = savedEvents[index] || {};
+
+      const policeTrue = Boolean(
+        (evt.reports && evt.reports.police === true) ||
+          (original.reports && original.reports.police === true),
+      );
+
+      if (!policeTrue) return evt;
+
+      const restored = { ...evt };
+      POLICE_REPORT_LOCATION_FIELDS.forEach(field => {
+        if (
+          typeof original[field] === 'string' &&
+          original[field].trim().length > 0
+        ) {
+          restored[field] = original[field];
+        }
+      });
+      return restored;
+    });
+
+    return _.set('events', mergedEvents, formData);
   };
 
   const addRequiredDescriptionsToDisabilitiesBDD = formData => {
@@ -260,6 +300,7 @@ export function transform(formConfig, form) {
   // Apply the transformations
   const transformedData = [
     filterEmptyObjects,
+    restorePoliceReportLocationFields,
     addBackRatedDisabilities, // Must run after filterEmptyObjects
     addBackAndTransformSeparationLocation, // Must run after filterEmptyObjects
     setActionTypes, // Must run after addBackRatedDisabilities
