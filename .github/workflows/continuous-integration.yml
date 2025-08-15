@@ -1321,7 +1321,18 @@ jobs:
    # --------------------------------------
       # | Publish Unit Test Coverage Report       |
       # -------------------------------------
+      - name: Generate full coverage on main
+        if: ${{ github.ref == 'refs/heads/main' }}
+        run: yarn test:unit:gha --full-suite --coverage --log-level verbose
+
+      - name: Prepare coverage artifact (main)
+        if: ${{ github.ref == 'refs/heads/main' }}
+        run: |
+          mkdir -p qa-standards-dashboard-data/coverage
+          cp coverage/coverage-summary.json qa-standards-dashboard-data/coverage/coverage-summary.json
+
       - name: Download Unit Test coverage results
+        if: ${{ github.ref != 'refs/heads/main' }}
         uses: ./.github/workflows/download-artifact
         with:
           name: unit-test-coverage
