@@ -23,7 +23,7 @@ export default function AppointmentTime({ date, timezone }) {
         {timezoneAbbreviation}
       </span>
       <span className="sr-only" data-testid="appointment-time-description">
-        {formattedTime} {timezoneAbbreviation}
+        {`${formattedTime} ${timezoneAbbreviation}`}
         {`Appointment time in ${timezoneDescription}`}
       </span>
     </div>
