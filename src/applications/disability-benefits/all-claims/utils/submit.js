@@ -353,7 +353,16 @@ export const addForm4142 = formData => {
   if (!formData.providerFacility) {
     return formData;
   }
+
+  // Flipper was on at submission time
   const completed2024Form = formData?.disability526Enable2024Form4142 === true;
+
+  // If the 2024 form was completed but they revoke auth at some point and still somehow submit with the 4142 data
+  // protect against filling out the form
+  if (completed2024Form && formData?.patient4142Acknowledgement !== true) {
+    return formData;
+  }
+
   const clonedData = _.cloneDeep(formData);
   clonedData.form4142 = {
     completed2024Form,

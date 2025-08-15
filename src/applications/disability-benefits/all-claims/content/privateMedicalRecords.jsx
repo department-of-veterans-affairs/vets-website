@@ -59,8 +59,8 @@ export const recordsConfirmAlertBanner = () => {
           gave us permission to get them from your provider. But we updated our
           terms and conditions for the release of these records.
           <br />
-          If you still want us to get them, select <b>No</b> and review the
-          updated terms and conditions on the next screen.
+          If you still want us to get them, select <strong>No</strong> and
+          review the updated terms and conditions on the next screen.
         </p>
       </va-banner>
     );
@@ -80,8 +80,8 @@ export const patientAcknowledgmentError = (
 
 export const authorizationNotes = (
   <p>
-    <b>Note:</b> If you select <b>No</b>, we’ll use VA Form 21-4142 to authorize
-    VA to get your non-VA treatment records.
+    <strong>Note:</strong> If you select <strong>No</strong>, we’ll use VA Form
+    21-4142 to authorize VA to get your non-VA treatment records.
     <br />
     <br />
     <va-link

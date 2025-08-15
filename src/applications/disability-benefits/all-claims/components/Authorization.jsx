@@ -131,7 +131,11 @@ const PrivateRecordsAuthorization = ({
   const RegularOrReviewButtons = () => (
     <>
       {onReviewPage ? (
-        <va-button onClick={updatePage} text="Update" />
+        <va-button
+          onClick={updatePage}
+          label="Update behavior questions choice"
+          text="Update page"
+        />
       ) : (
         <FormNavButtons goBack={goBack} goForward={handlers.onGoForward} />
       )}
