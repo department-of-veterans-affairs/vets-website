@@ -8,6 +8,15 @@ const submitFormFor = eventName =>
     const body = formConfig.transformForSubmit
       ? formConfig.transformForSubmit(formConfig, form)
       : transformForSubmit(formConfig, form);
+
+    // Log the final payload being sent to vets-api
+    // eslint-disable-next-line no-console
+    console.log('=== FINAL PAYLOAD SENT TO VETS-API ===');
+    // eslint-disable-next-line no-console
+    console.log('Submit URL:', formConfig.submitUrl);
+    // eslint-disable-next-line no-console
+    console.log('Payload:', body);
+
     // This item should have been set in any previous API calls
     const csrfTokenStored = localStorage.getItem('csrfToken');
 
