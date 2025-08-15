@@ -25,7 +25,7 @@ function mockPrescription(n = 0, attrs = {}) {
       refillRemaining,
       facilityName: 'The Facility',
       orderedDate: '2024-02-23T10:30:00-05:00',
-      quantity: 1,
+      quantity: '1',
       expirationDate: '2099-01-02T10:30:00-05:00',
       dispensedDate: '2024-02-25T10:30:00-05:00',
       stationNumber: '001',
