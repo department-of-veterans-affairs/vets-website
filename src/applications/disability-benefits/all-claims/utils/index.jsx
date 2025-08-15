@@ -870,13 +870,18 @@ export function isCompletingModern4142(formData) {
 
 export const baseDoNew4142Logic = formData => {
   return (
+    // If flipper is enabled
     formData.disability526Enable2024Form4142 === true &&
+    // And the user has previously acknowledged the 4142 authorization
     formData['view:patientAcknowledgement']?.['view:acknowledgement'] ===
       true &&
+    // And the user has not switched to another 4142 option (e.g. upload)
     formData?.['view:uploadPrivateRecordsQualifier']?.[
       'view:hasPrivateRecordsToUpload'
     ] !== true &&
+    // And the user has not already acknowledged the NEW 4142
     formData?.patient4142Acknowledgement !== true
+    // then we must redirect them and show the alert
   );
 };
 
