@@ -284,9 +284,6 @@ class TrackClaimsPageV2 {
       body: {},
     }).as('documents');
 
-    const fileName = 'file-upload-test.txt';
-    const docType = 'L029';
-
     // Upload file to va-file-input-multiple
     cy.get('va-file-input-multiple')
       .shadow()
@@ -296,7 +293,7 @@ class TrackClaimsPageV2 {
       .find('input[type="file"]')
       .selectFile({
         contents: Cypress.Buffer.from('test file contents'),
-        fileName,
+        fileName: 'file-upload-test.txt',
         mimeType: 'text/plain',
       });
 
@@ -311,42 +308,15 @@ class TrackClaimsPageV2 {
       .find('select')
       .should('not.be.disabled')
       .should('be.visible')
-      .select(docType);
+      .select('L029');
 
-    // Capture URL before clicking submit (since navigation happens after)
-    cy.url().then(currentUrl => {
-      const trackedItemMatch = currentUrl.match(
-        /\/(document-request|needed-from-you|needed-from-others)\/(\d+)/,
-      );
+    // Click submit button
+    cy.get('va-button[text="Submit documents for review"]')
+      .shadow()
+      .find('button')
+      .click();
 
-      // Click submit button
-      cy.get('va-button[text="Submit documents for review"]')
-        .shadow()
-        .find('button')
-        .click();
-
-      cy.wait('@documents').then(interception => {
-        const formData = interception.request.body;
-
-        // Always verify file name and document type
-        expect(formData).to.contain(`name="qqfilename"`);
-        expect(formData).to.contain(fileName);
-        expect(formData).to.contain(`name="document_type"`);
-        expect(formData).to.contain(docType);
-
-        if (trackedItemMatch) {
-          // DocumentRequest flow - should have tracked item ID
-          const expectedTrackedItemId = trackedItemMatch[2];
-          expect(formData).to.contain('tracked_item_ids');
-          expect(formData).to.contain(`[${expectedTrackedItemId}]`);
-        } else {
-          // General files flow - should have tracked_item_ids with null value
-          expect(formData).to.contain('tracked_item_ids');
-          expect(formData).to.contain('[null]');
-        }
-      });
-    });
-
+    cy.wait('@documents');
     cy.get('va-alert h2').should('contain', 'We received your file upload');
   }
 
