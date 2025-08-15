@@ -684,14 +684,14 @@ const formConfig = {
           schema: vaMedicalRecords.schema,
         },
         privateMedicalRecords: {
-          title: 'Private medical records',
+          title: 'Non-VA treatment records',
           path: 'supporting-evidence/private-medical-records',
           depends: hasPrivateEvidence,
           uiSchema: privateMedicalRecords.uiSchema,
           schema: privateMedicalRecords.schema,
         },
         privateMedicalRecordsAttachments: {
-          title: 'Private medical records',
+          title: 'Non-VA treatment records',
           path: 'supporting-evidence/private-medical-records-upload',
           depends: formData =>
             hasPrivateEvidence(formData) &&
@@ -701,7 +701,7 @@ const formConfig = {
         },
         // 2024 authorization
         privateMedicalAuthorizeRelease: {
-          title: 'Private medical records',
+          title: 'Non-VA treatment records',
           path: 'supporting-evidence/private-medical-records-authorize-release',
           depends: formData =>
             hasPrivateEvidence(formData) &&
@@ -713,7 +713,7 @@ const formConfig = {
           schema: privateMedicalAuthorizeRelease.schema,
         },
         privateMedicalRecordsRelease: {
-          title: 'Private medical records',
+          title: 'Non-VA treatment records',
           path: 'supporting-evidence/private-medical-records-release',
           depends: formData =>
             hasPrivateEvidence(formData) &&

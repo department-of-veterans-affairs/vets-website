@@ -44,6 +44,8 @@ const PrivateRecordsAuthorization = ({
   setFormData,
   contentBeforeButtons,
   contentAfterButtons,
+  onReviewPage,
+  updatePage,
 }) => {
   const [hasError, setHasError] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -124,6 +126,16 @@ const PrivateRecordsAuthorization = ({
       secondary
       text="Review Privacy Act Statement"
     />
+  );
+
+  const RegularOrReviewButtons = () => (
+    <>
+      {onReviewPage ? (
+        <va-button onClick={updatePage} text="Update" />
+      ) : (
+        <FormNavButtons goBack={goBack} goForward={handlers.onGoForward} />
+      )}
+    </>
   );
 
   return (
@@ -465,9 +477,10 @@ const PrivateRecordsAuthorization = ({
           </va-card>
         </form>
       </div>
+
       <div className="vads-u-margin-top--5">
         {contentBeforeButtons}
-        <FormNavButtons goBack={goBack} goForward={handlers.onGoForward} />
+        <RegularOrReviewButtons />
         {contentAfterButtons}
       </div>
       <VaModal
