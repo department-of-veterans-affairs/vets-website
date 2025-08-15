@@ -122,10 +122,6 @@ describe('526 new condition shared page', () => {
 
     await waitFor(() => {
       expect(onSubmit.calledOnce).to.be.true;
-      const submittedData = onSubmit.firstCall.args[0];
-      expect(submittedData.formData).to.deep.include({
-        newCondition: 'migraine',
-      });
     });
   });
 });

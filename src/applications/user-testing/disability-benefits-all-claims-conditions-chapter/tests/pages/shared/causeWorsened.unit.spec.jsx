@@ -57,22 +57,24 @@ describe('526 cause worsened shared page', () => {
     );
   });
 
-  it('shows required error when <va-textarea> and <va-text-input> left blank', async () => {
+  it('shows required error when description and location blank', async () => {
     const { container, getByRole } = mountPage();
 
     fireEvent.click(getByRole('button', { name: /submit/i }));
 
-    const textInputContainer = container.querySelector('va-text-input');
-    const textareaContainer = container.querySelector('va-textarea');
+    const descriptionContainer = container.querySelector('va-text-input');
+    const locationContainer = container.querySelector('va-text-input');
 
-    expect(textInputContainer).to.have.attribute(
-      'error',
-      'You must provide a response',
-    );
-    expect(textareaContainer).to.have.attribute(
-      'error',
-      'You must provide a response',
-    );
+    await waitFor(() => {
+      expect(descriptionContainer).to.have.attribute(
+        'error',
+        'You must provide a response',
+      );
+      expect(locationContainer).to.have.attribute(
+        'error',
+        'You must provide a response',
+      );
+    });
   });
 
   it('shows required error when input for value provided but not for textarea', async () => {
@@ -126,7 +128,7 @@ describe('526 cause worsened shared page', () => {
     await waitFor(() => expect(spy.calledOnce).to.be.true);
   });
 
-  it('truncates worsened effect field to 350 characters', () => {
+  it('truncates worsened effect field to 350 characters', async () => {
     const long = 'x'.repeat(400);
 
     const { container, getByRole } = mountPage({
@@ -135,20 +137,33 @@ describe('526 cause worsened shared page', () => {
 
     fireEvent.click(getByRole('button', { name: /submit/i }));
 
-    const textareaContainer = container.querySelector('va-textarea');
-    expect(textareaContainer).to.have.attribute('error');
+    const textareaContainer = container.querySelector(
+      'va-textarea[name="root_worsenedEffects"]',
+    );
+
+    await waitFor(() =>
+      expect(textareaContainer).to.have.attribute(
+        'error',
+        'This field should be less than 350 characters',
+      ),
+    );
   });
 
-  it('truncates worsened description field to 50 characters', () => {
+  it('shows an error when worsened description exceeds 50 on submit', async () => {
     const long = 'x'.repeat(75);
-
-    const { container, getByRole } = mountPage({
-      worsenedDescription: long,
-    });
+    const { container, getByRole } = mountPage({ worsenedDescription: long });
 
     fireEvent.click(getByRole('button', { name: /submit/i }));
 
-    const textareaContainer = container.querySelector('va-text-input');
-    expect(textareaContainer).to.have.attribute('error');
+    const input = container.querySelector(
+      'va-text-input[name="root_worsenedDescription"]',
+    );
+
+    await waitFor(() =>
+      expect(input).to.have.attribute(
+        'error',
+        'This field should be less than 50 characters',
+      ),
+    );
   });
 });

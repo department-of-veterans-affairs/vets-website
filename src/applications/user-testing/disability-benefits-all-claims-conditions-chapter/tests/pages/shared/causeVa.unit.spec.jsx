@@ -62,17 +62,23 @@ describe('526 cause va shared page', () => {
 
     fireEvent.click(getByRole('button', { name: /submit/i }));
 
-    const textareaContainer = container.querySelector('va-textarea');
-    expect(textareaContainer).to.have.attribute(
-      'error',
-      'You must provide a response',
+    const textareaContainer = container.querySelector(
+      'va-textarea[name="root_vaMistreatmentDescription"]',
+    );
+    const locationEl = container.querySelector(
+      'va-text-input[name="root_vaMistreatmentLocation"]',
     );
 
-    const textinputContainer = container.querySelector('va-textarea');
-    expect(textinputContainer).to.have.attribute(
-      'error',
-      'You must provide a response',
-    );
+    await waitFor(() => {
+      expect(textareaContainer).to.have.attribute(
+        'error',
+        'You must provide a response',
+      );
+      expect(locationEl).to.have.attribute(
+        'error',
+        'You must provide a response',
+      );
+    });
   });
 
   it('shows required error when description provided but not location', async () => {
@@ -86,9 +92,9 @@ describe('526 cause va shared page', () => {
 
     fireEvent.click(getByRole('button', { name: /submit/i }));
     await waitFor(() => {
-      const textarea = container.querySelector('va-textarea');
+      const textareaContainer = container.querySelector('va-textarea');
       const textinput = container.querySelector('va-text-input');
-      expect(textarea).not.to.have.attribute('error');
+      expect(textareaContainer).not.to.have.attribute('error');
       expect(textinput).to.have.attribute('error');
     });
   });
@@ -128,16 +134,18 @@ describe('526 cause va shared page', () => {
     expect(textareaContainer).not.to.have.attribute('error');
   });
 
-  it('truncates input to 350 characters', () => {
+  it('shows an error when input exceeds the limit', async () => {
     const long = 'x'.repeat(400);
-
     const { container, getByRole } = mountPage({
-      primaryDescription: long,
+      vaMistreatmentDescription: long,
     });
 
     fireEvent.click(getByRole('button', { name: /submit/i }));
 
-    const textareaContainer = container.querySelector('va-textarea');
-    expect(textareaContainer).to.have.attribute('error');
+    const field = container.querySelector(
+      'va-textarea[name="root_vaMistreatmentDescription"]',
+    );
+
+    await waitFor(() => expect(field).to.have.attribute('error'));
   });
 });
