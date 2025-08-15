@@ -893,15 +893,23 @@ export const onFormLoaded = props => {
   const redirectUrl = '/supporting-evidence/private-medical-records';
 
   if (shouldRedirectToModern4142Choice === true) {
+    // if we should redirect to the modern 4142 choice page, we set the shared variable
+    // and redirect to the redirectUrl (the modern 4142 choice page)
     setSharedVariable('alertNeedsShown4142', shouldRedirectToModern4142Choice);
     router.push(redirectUrl);
   } else if (
+    // if the returnUrl is the modern 4142 choice page and the flipper is not enabled,
+    // then we toggled flipper on, the user got to this page, then we turned the flipper off
+    // this happens a lot in development and testing but would only happen if we do a rollback in production
+    // if the user is set to redirect to a page that is set to be hidden they get stuck in a loop so we must place them on the previous page
+    shouldRedirectToModern4142Choice === false &&
     returnUrl ===
       '/supporting-evidence/private-medical-records-authorize-release' &&
     formData.disability526Enable2024Form4142 !== true
   ) {
     router.push(redirectUrl);
   } else {
+    // otherwise, we just redirect to the returnUrl as usual when resuming a form
     router.push(returnUrl);
   }
 };
