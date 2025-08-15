@@ -4,7 +4,10 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import DependentSummary from '../../../../components/FormPages/DependentSummary';
-import { DEPENDENT_VIEW_FIELDS } from '../../../../utils/constants';
+import {
+  DEPENDENT_VIEW_FIELDS,
+  MAX_DEPENDENTS,
+} from '../../../../utils/constants';
 import content from '../../../../locales/en/content.json';
 
 describe('ezr DependentSummary page', () => {
@@ -50,6 +53,14 @@ describe('ezr DependentSummary page', () => {
         container.querySelector('[data-testid="ezr-dependent-list-field"]'),
       ).to.not.exist;
     });
+
+    it('should not render the max dependents warning', () => {
+      const { props } = getData({ dependents: dependentData.empty });
+      const { container } = render(<DependentSummary {...props} />);
+      expect(
+        container.querySelector('[data-testid="ezr-dependents-max-warning"]'),
+      ).to.not.exist;
+    });
   });
 
   context('when dependents have been reported', () => {
@@ -92,6 +103,38 @@ describe('ezr DependentSummary page', () => {
       expect(container.querySelector('[data-testid="ezr-update-button"]')).to
         .not.exist;
     });
+
+    it('should render the max dependents warning', () => {
+      const dependents = [];
+      for (let i = 0; i < MAX_DEPENDENTS; i++) {
+        dependents.push(dependentData.populated[0]);
+      }
+      const { props: newProps } = getData({
+        dependents,
+        onReviewPage: false,
+      });
+      const { container } = render(<DependentSummary {...newProps} />);
+      expect(
+        container.querySelector('[data-testid="ezr-dependents-max-warning"]'),
+      ).exist;
+    });
+
+    it('should use custom yes/no labels when there are dependents listed', () => {
+      const { props: newProps } = getData({
+        dependents: dependentData.populated,
+        onReviewPage: false,
+      });
+      const { container } = render(<DependentSummary {...newProps} />);
+      const selector = container.querySelector(
+        '[data-testid="ezr-dependent-declaration-field"]',
+      );
+      expect(selector).to.contain.text(
+        content['household-dependent-report-yes-addtl'],
+      );
+      expect(selector).to.contain.text(
+        content['household-dependent-report-no-addtl'],
+      );
+    });
   });
 
   context('when rendered on the review page', () => {
@@ -118,6 +161,13 @@ describe('ezr DependentSummary page', () => {
       const { container } = render(<DependentSummary {...props} />);
       expect(container.querySelector('[data-testid="ezr-update-button"]')).to
         .exist;
+    });
+
+    it('should not render the max dependents warning', () => {
+      const { container } = render(<DependentSummary {...props} />);
+      expect(
+        container.querySelector('[data-testid="ezr-dependents-max-warning"]'),
+      ).to.not.exist;
     });
   });
 

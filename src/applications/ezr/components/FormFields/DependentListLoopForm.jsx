@@ -12,7 +12,6 @@ import {
   replaceStrValues,
 } from '../../utils/helpers/general';
 import content from '../../locales/en/content.json';
-import SaveInProgressWarning from '../FormAlerts/SaveInProgressWarning';
 
 const DependentListLoopForm = props => {
   const { children, data, page, onChange, onSubmit } = props;
@@ -34,7 +33,6 @@ const DependentListLoopForm = props => {
 
   return (
     <>
-      <SaveInProgressWarning type="dependent" />
       <SchemaForm
         name="Dependent"
         title="Dependent"
