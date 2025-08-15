@@ -262,19 +262,6 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
       [isReviewPage, arrayData?.length],
     );
 
-    function forceRerender(data = props.data) {
-      // This is a hacky workaround to rerender the page
-      // due to the way SchemaForm interacts with CustomPage
-      // here in order to hide/show alerts correctly.
-      props.setData({
-        ...data,
-        _metadata: {
-          ...data._metadata,
-          [`${nounPlural}ForceRenderTimestamp`]: Date.now(),
-        },
-      });
-    }
-
     useEffect(
       () => {
         setShowReviewErrorAlert(hasReviewError);
@@ -321,7 +308,6 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
           ),
         );
       });
-      forceRerender();
     }
 
     function onDismissRemovedAlert() {
@@ -335,10 +321,10 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
           ),
         );
       });
-      forceRerender();
     }
 
-    function onRemoveItem(index, item) {
+    function onRemoveItem(index, item, newFormData) {
+      props.onChange(newFormData);
       // updated alert may be from initial state (URL path)
       // so we can go ahead and remove it if there is a new
       // alert
@@ -487,7 +473,6 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
         onRemoveAll={onRemoveAllItems}
         onRemove={onRemoveItem}
         isReview={isReviewPage}
-        forceRerender={forceRerender}
         titleHeaderLevel={headingLevel}
       />
     );
@@ -548,25 +533,25 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
       ...uiSchema,
     };
     let newSchema = schema;
-    let titleTextType;
-    let descriptionTextType;
-    let UIDescription;
     const NavButtons = props.NavButtons || FormNavButtons;
+    const hasArrayItems = !!arrayData?.length;
 
-    if (arrayData?.length > 0) {
-      titleTextType = 'summaryTitle';
-      descriptionTextType = 'summaryDescription';
-      UIDescription = (
-        <>
-          <Alerts />
-          <Cards />
-        </>
-      );
-    } else {
-      titleTextType = 'summaryTitleWithoutItems';
-      descriptionTextType = 'summaryDescriptionWithoutItems';
-      UIDescription = <Alerts />;
-    }
+    const typeSuffix = hasArrayItems ? '' : 'WithoutItems';
+    const titleTextType = `summaryTitle${typeSuffix}`;
+    const descriptionTextType = `summaryDescription${typeSuffix}`;
+
+    const renderKey = [
+      showUpdatedAlert ? 'u1' : 'u0',
+      showRemovedAlert ? 'r1' : 'r0',
+      showReviewErrorAlert ? 'e1' : 'e0',
+      isMaxItemsReached ? 'm1' : 'm0',
+    ].join('-');
+    const UIDescription = (
+      <div key={renderKey}>
+        <Alerts />
+        {hasArrayItems && <Cards />}
+      </div>
+    );
 
     const descriptionText = getText(descriptionTextType, null, props.data);
     const UITitle = (
@@ -695,7 +680,6 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     recalculateErrors: PropTypes.func,
     reviewErrors: PropTypes.object,
     setData: PropTypes.func, // available regardless of review page or not
-    setFormData: PropTypes.func, // not available on review page
     title: PropTypes.string,
     trackingPrefix: PropTypes.string,
     NavButtons: PropTypes.func,
