@@ -4,6 +4,23 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+const updateFormData = (oldData, formData) => {
+  const prev = oldData?.aboutYourInstitution;
+  const curr = formData?.aboutYourInstitution;
+
+  if (prev !== curr) {
+    return {
+      ...formData,
+      institutionDetails: {
+        ...formData.institutionDetails,
+        institutionName: '',
+        institutionAddress: {},
+      },
+    };
+  }
+  return formData;
+};
+
 const uiSchema = {
   ...titleUI('Tell us about your institution'),
   aboutYourInstitution: {
@@ -19,6 +36,7 @@ const uiSchema = {
     }),
   },
 };
+
 const schema = {
   type: 'object',
   required: ['aboutYourInstitution'],
@@ -26,4 +44,5 @@ const schema = {
     aboutYourInstitution: yesNoSchema,
   },
 };
-export { schema, uiSchema };
+
+export { schema, uiSchema, updateFormData };

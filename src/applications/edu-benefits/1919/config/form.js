@@ -19,6 +19,7 @@ import {
   certifyingOfficials,
   aboutYourInstitution,
   institutionDetails,
+  institutionNameAndAddress,
   isProprietaryProfit,
   conflictOfInterestCertifyingOfficial,
   conflictOfInterestSummary,
@@ -101,6 +102,7 @@ const formConfig = {
           title: 'About your institution',
           uiSchema: aboutYourInstitution.uiSchema,
           schema: aboutYourInstitution.schema,
+          updateFormData: aboutYourInstitution.updateFormData,
         },
         institutionDetails: {
           path: 'institution-information',
@@ -109,6 +111,15 @@ const formConfig = {
           schema: institutionDetails.schema,
           depends: formData => {
             return formData?.aboutYourInstitution === true;
+          },
+        },
+        institutionNameAndAddress: {
+          path: 'institution-name-and-address',
+          title: 'Institution name and address',
+          uiSchema: institutionNameAndAddress.uiSchema,
+          schema: institutionNameAndAddress.schema,
+          depends: formData => {
+            return formData?.aboutYourInstitution !== true;
           },
         },
       },
