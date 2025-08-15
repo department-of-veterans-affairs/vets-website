@@ -33,6 +33,7 @@ import {
   CHAR_LIMITS,
 } from '../constants';
 import { getBranches } from './serviceBranches';
+import { getSharedVariable, setSharedVariable } from './sharedState';
 
 /**
  * Returns an object where all the fields are prefixed with `view:` if they aren't already
@@ -879,25 +880,28 @@ export const baseDoNew4142Logic = formData => {
   );
 };
 
-export const onFormLoaded = props => {
-  const { returnUrl, formData, router } = props;
-  const shouldRedirectToModern4142Choice = baseDoNew4142Logic(formData);
-  if (shouldRedirectToModern4142Choice === true) {
-    try {
-      window.sessionStorage.setItem('needsShownNew4142Alert', 'true');
-    } catch (e) {
-      // ignore storage errors
-    }
-    router.push('/supporting-evidence/private-medical-records');
-    return;
-  }
-
-  router.push(returnUrl);
-};
-
 export function needs4142AlertShown(formData) {
   return (
     baseDoNew4142Logic(formData) &&
-    window.sessionStorage.getItem('needsShownNew4142Alert') === 'true'
+    getSharedVariable('alertNeedsShown4142') === true
   );
 }
+
+export const onFormLoaded = props => {
+  const { returnUrl, formData, router } = props;
+  const shouldRedirectToModern4142Choice = baseDoNew4142Logic(formData);
+  const redirectUrl = '/supporting-evidence/private-medical-records';
+
+  if (shouldRedirectToModern4142Choice === true) {
+    setSharedVariable('alertNeedsShown4142', shouldRedirectToModern4142Choice);
+    router.push(redirectUrl);
+  } else if (
+    returnUrl ===
+      '/supporting-evidence/private-medical-records-authorize-release' &&
+    formData.disability526Enable2024Form4142 !== true
+  ) {
+    router.push(redirectUrl);
+  } else {
+    router.push(returnUrl);
+  }
+};

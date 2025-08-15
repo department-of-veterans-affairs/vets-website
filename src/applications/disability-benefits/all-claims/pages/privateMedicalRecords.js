@@ -12,7 +12,7 @@ import {
   authorizationNotes,
 } from '../content/privateMedicalRecords';
 import { standardTitle } from '../content/form0781';
-import { isCompletingModern4142, needs4142AlertShown } from '../utils';
+import { isCompletingModern4142 } from '../utils';
 
 const isNotUploadingPrivateRecords = data =>
   data?.['view:hasPrivateRecordsToUpload'] === false;
@@ -21,9 +21,6 @@ export const uiSchema = {
   'ui:title': standardTitle('Options for providing non-VA treatment records'),
   'view:recordsConfirmAlertBanner': {
     'ui:description': recordsConfirmAlertBanner,
-    'ui:options': {
-      hideIf: formData => !needs4142AlertShown(formData),
-    },
   },
   'view:uploadPrivateRecordsQualifier': {
     'view:hasPrivateRecordsToUpload': yesNoUI({

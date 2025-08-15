@@ -1,8 +1,8 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { VaAdditionalInfo } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { recordEventOnce } from 'platform/monitoring/record-event';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { ANALYTICS_EVENTS, HELP_TEXT_CLICKED_EVENT } from '../constants';
+import { getSharedVariable, setSharedVariable } from '../utils/sharedState';
 
 const {
   openedPrivateRecordsAcknowledgment,
@@ -44,41 +44,29 @@ export const privateRecordsChoiceHelp = (
   </p>
 );
 
-// Banner component that clears the session flag on mount
-const RecordsConfirmAlertBanner = () => {
-  const bannerElement = useRef(null);
-  React.useEffect(() => {
-    try {
-      if (typeof window !== 'undefined') {
-        window.sessionStorage.removeItem('needsShownNew4142Alert');
-      }
-    } catch (e) {
-      // noop
-    }
-    focusElement(bannerElement.current);
-  }, []);
-
-  return (
-    <va-banner
-      data-label="Info banner"
-      headline="Confirm how to provide your non-VA records"
-      type="warning"
-      visible
-    >
-      <p>
-        You previously chose not to upload your private medical records and gave
-        us permission to get them from your provider. But we updated our terms
-        and conditions for the release of these records.
-        <br />
-        If you still want us to get them, select <b>No</b> and review the
-        updated terms and conditions on the next screen.
-      </p>
-    </va-banner>
-  );
+export const recordsConfirmAlertBanner = () => {
+  if (getSharedVariable('alertNeedsShown4142') === true) {
+    setSharedVariable('alertNeedsShown4142', false);
+    return (
+      <va-banner
+        data-label="Info banner"
+        headline="Confirm how to provide your non-VA records"
+        type="warning"
+        visible
+      >
+        <p>
+          You previously chose not to upload your private medical records and
+          gave us permission to get them from your provider. But we updated our
+          terms and conditions for the release of these records.
+          <br />
+          If you still want us to get them, select <b>No</b> and review the
+          updated terms and conditions on the next screen.
+        </p>
+      </va-banner>
+    );
+  }
+  return null;
 };
-
-// Export the rendered element to preserve existing import name usage
-export const recordsConfirmAlertBanner = <RecordsConfirmAlertBanner />;
 
 export const patientAcknowledgmentTitle = (
   <h3 className="vads-u-margin-top--0">Authorize us to get your records</h3>
