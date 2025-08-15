@@ -3,15 +3,18 @@ import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { VaCheckboxGroup } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { setFocus } from '../utils';
 
 import AlertCard from './AlertCard';
 import { DEBT_TYPES } from '../constants';
+import ZeroDebtsAlert from './ZeroDebtsAlert';
 
 const DebtSelection = ({ formContext }) => {
   const { availableDebts, isDebtError } = useSelector(
     state => state.availableDebts,
   );
+
   const { data } = useSelector(state => state.form);
   const { selectedDebts = [] } = data;
   const dispatch = useDispatch();
@@ -29,11 +32,6 @@ const DebtSelection = ({ formContext }) => {
     },
     [dispatch, formContext.submitted, selectedDebts?.length],
   );
-
-  // nothing to actually display so we short circuit and return just the error (no question info)
-  if (isDebtError || !availableDebts.length) {
-    return <AlertCard debtType={DEBT_TYPES.DEBT} />;
-  }
 
   const onGroupChange = ({ detail, target }) => {
     // adding new prop selectedDebtId to selectedDebts so it's easier to filter on uncheck
@@ -73,13 +71,23 @@ const DebtSelection = ({ formContext }) => {
     );
   };
 
+  // nothing to actually display so we short circuit and return just the error (no question info)
+  if (isDebtError) {
+    return <AlertCard debtType={DEBT_TYPES.DEBT} />;
+  }
+
+  // if no debts are available, we show a zero debts alert
+  if (availableDebts.length === 0) {
+    return <ZeroDebtsAlert />;
+  }
+
   return (
     <div data-testid="debt-selection-content">
       <VaCheckboxGroup
         className="vads-u-margin-y--3 debt-selection-checkbox-group"
         error={selectionError}
         id="debt-selection-checkbox-group"
-        label="Select one or more debts you want to request relief for: "
+        label="Select at least one debt to dispute: "
         onVaChange={onGroupChange}
         required
       >
@@ -94,14 +102,15 @@ const DebtSelection = ({ formContext }) => {
             data-testid="debt-selection-checkbox"
             key={debt.compositeDebtId}
             label={debt.label}
+            tile
           />
         ))}
       </VaCheckboxGroup>
-      <va-additional-info trigger="What if my debt isn’t listed here?">
-        If you received a letter about a VA benefit debt that isn’t listed here,
-        call us at <va-telephone contact="8008270648" /> (or{' '}
-        <va-telephone contact="6127136415" international /> from overseas).
-        We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
+      <va-additional-info trigger="If your debt isn't listed here">
+        To dispute a benefit overpayment debt that’s not listed here, call us at{' '}
+        <va-telephone contact={CONTACTS.DMC} /> (or{' '}
+        <va-telephone contact={CONTACTS.DMC_OVERSEAS} international /> from
+        overseas). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
       </va-additional-info>
     </div>
   );

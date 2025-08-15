@@ -14,25 +14,44 @@ import formConfig from '../../../config/form';
 
 describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
   describe('applicantInformation', () => {
+    const baseData = {
+      showMeb54901990eTextUpdate: false,
+      dateOfBirth: null,
+      serviceData: [],
+      sponsors: { transferOfEntitlement: [] },
+      relationshipToMember: null,
+    };
+
+    const mockStore = configureStore([]);
+
     it('should fill out the applicant information fields', () => {
+      const initialState = {
+        form: {
+          data: baseData,
+        },
+      };
+      const store = mockStore(initialState);
+
       const {
         schema,
         uiSchema,
       } = formConfig.chapters.applicantInformationChapter.pages.applicantInformation;
       const form = mount(
-        <DefinitionTester
-          schema={schema}
-          uiSchema={uiSchema}
-          definitions={formConfig.defaultDefinitions}
-          data={{}}
-          formData={{}}
-        />,
+        <Provider store={store}>
+          <DefinitionTester
+            schema={schema}
+            uiSchema={uiSchema}
+            definitions={formConfig.defaultDefinitions}
+            data={baseData}
+            formData={baseData}
+          />
+        </Provider>,
       );
 
       fillData(form, 'input#root_fullName_first', 'John');
       fillData(form, 'input#root_fullName_last', 'Doe');
       fillData(form, 'input#root_ssn', '123456789');
-      selectRadio(form, 'root_relationShipToMember', 'spouse');
+      selectRadio(form, 'root_relationshipToMember', 'spouse');
 
       expect(form.find('input#root_fullName_first').props().value).to.equal(
         'John',
@@ -43,26 +62,35 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
       expect(form.find('input#root_ssn').props().value).to.equal('123456789');
       expect(
         form
-          .find('input[name="root_relationShipToMember"][value="spouse"]')
+          .find('input[name="root_relationshipToMember"][value="spouse"]')
           .props().checked,
       ).to.be.true;
       form.unmount();
     });
 
     it('should render an error when no first/last name are provided', () => {
+      const initialState = {
+        form: {
+          data: baseData,
+        },
+      };
+      const store = mockStore(initialState);
+
       const {
         schema,
         uiSchema,
       } = formConfig.chapters.applicantInformationChapter.pages.applicantInformation;
 
       const form = mount(
-        <DefinitionTester
-          schema={schema}
-          uiSchema={uiSchema}
-          definitions={formConfig.defaultDefinitions}
-          data={{}}
-          formData={{}}
-        />,
+        <Provider store={store}>
+          <DefinitionTester
+            schema={schema}
+            uiSchema={uiSchema}
+            definitions={formConfig.defaultDefinitions}
+            data={baseData}
+            formData={baseData}
+          />
+        </Provider>,
       );
 
       form.find('input#root_fullName_first').simulate('change', {
@@ -83,7 +111,7 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
       form.find('input#root_dateOfBirthYear').simulate('change', {
         target: { value: '1990' },
       });
-      selectRadio(form, 'root_relationShipToMember', 'spouse');
+      selectRadio(form, 'root_relationshipToMember', 'spouse');
 
       form.find('form').simulate('submit');
       const errorMessages = form.find('.usa-input-error-message');
@@ -100,19 +128,28 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
     });
 
     it('should render errors when names are too long', () => {
+      const initialState = {
+        form: {
+          data: baseData,
+        },
+      };
+      const store = mockStore(initialState);
+
       const {
         schema,
         uiSchema,
       } = formConfig.chapters.applicantInformationChapter.pages.applicantInformation;
 
       const form = mount(
-        <DefinitionTester
-          schema={schema}
-          uiSchema={uiSchema}
-          definitions={formConfig.defaultDefinitions}
-          data={{}}
-          formData={{}}
-        />,
+        <Provider store={store}>
+          <DefinitionTester
+            schema={schema}
+            uiSchema={uiSchema}
+            definitions={formConfig.defaultDefinitions}
+            data={baseData}
+            formData={baseData}
+          />
+        </Provider>,
       );
 
       form.find('input#root_fullName_first').simulate('change', {
@@ -136,7 +173,7 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
       form.find('input#root_dateOfBirthYear').simulate('change', {
         target: { value: '1990' },
       });
-      selectRadio(form, 'root_relationShipToMember', 'spouse');
+      selectRadio(form, 'root_relationshipToMember', 'spouse');
 
       form.find('form').simulate('submit');
       const errorMessages = form.find('.usa-input-error-message');
@@ -156,19 +193,28 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
     });
 
     it('should render an error when last name is too short', () => {
+      const initialState = {
+        form: {
+          data: baseData,
+        },
+      };
+      const store = mockStore(initialState);
+
       const {
         schema,
         uiSchema,
       } = formConfig.chapters.applicantInformationChapter.pages.applicantInformation;
 
       const form = mount(
-        <DefinitionTester
-          schema={schema}
-          uiSchema={uiSchema}
-          definitions={formConfig.defaultDefinitions}
-          data={{}}
-          formData={{}}
-        />,
+        <Provider store={store}>
+          <DefinitionTester
+            schema={schema}
+            uiSchema={uiSchema}
+            definitions={formConfig.defaultDefinitions}
+            data={baseData}
+            formData={baseData}
+          />
+        </Provider>,
       );
 
       form.find('input#root_fullName_first').simulate('change', {
@@ -192,7 +238,7 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
       form.find('input#root_dateOfBirthYear').simulate('change', {
         target: { value: '1990' },
       });
-      selectRadio(form, 'root_relationShipToMember', 'spouse');
+      selectRadio(form, 'root_relationshipToMember', 'spouse');
 
       form.find('form').simulate('submit');
 
@@ -208,19 +254,28 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
     });
 
     it('should render errors when first/middle/last names are invalid', () => {
+      const initialState = {
+        form: {
+          data: baseData,
+        },
+      };
+      const store = mockStore(initialState);
+
       const {
         schema,
         uiSchema,
       } = formConfig.chapters.applicantInformationChapter.pages.applicantInformation;
 
       const form = mount(
-        <DefinitionTester
-          schema={schema}
-          uiSchema={uiSchema}
-          definitions={formConfig.defaultDefinitions}
-          data={{}}
-          formData={{}}
-        />,
+        <Provider store={store}>
+          <DefinitionTester
+            schema={schema}
+            uiSchema={uiSchema}
+            definitions={formConfig.defaultDefinitions}
+            data={baseData}
+            formData={baseData}
+          />
+        </Provider>,
       );
 
       form.find('input#root_fullName_first').simulate('change', {
@@ -244,7 +299,7 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
       form.find('input#root_dateOfBirthYear').simulate('change', {
         target: { value: '1990' },
       });
-      selectRadio(form, 'root_relationShipToMember', 'spouse');
+      selectRadio(form, 'root_relationshipToMember', 'spouse');
 
       form.find('form').simulate('submit');
       const errorMessages = form.find('.usa-input-error-message');
@@ -328,7 +383,7 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
 
   it('should fill out the marriage information fields', () => {
     const baseData = {
-      relationShipToMember: 'spouse',
+      relationshipToMember: 'spouse',
     };
     const {
       schema,
@@ -363,7 +418,7 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
         definitions={formConfig.defaultDefinitions}
         data={{
           marriageStatus: 'divorced',
-          relationShipToMember: 'spouse',
+          relationshipToMember: 'spouse',
           remarriageStatus: 'yes',
         }}
         formData={{}}

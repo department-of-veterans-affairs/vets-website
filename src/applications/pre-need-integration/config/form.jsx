@@ -100,6 +100,8 @@ import {
   nonVeteranApplicantDetailsDescription,
   nonVeteranApplicantDetailsDescriptionPreparer,
   isApplicantTheSponsor,
+  militaryDetailsReviewHeader,
+  previousNameReviewHeader,
 } from '../utils/helpers';
 import SupportingFilesDescription from '../components/SupportingFilesDescription';
 import {
@@ -562,7 +564,7 @@ const formConfig = {
       pages: {
         militaryDetailsSelf: {
           path: 'military-details-self',
-          title: 'Military details',
+          title: formData => militaryDetailsReviewHeader(formData),
           depends: formData =>
             isVeteran(formData) && !isAuthorizedAgent(formData),
           uiSchema: militaryDetailsSelf.uiSchema,
@@ -570,7 +572,7 @@ const formConfig = {
         },
         militaryDetailsPreparer: {
           path: 'military-details-preparer',
-          title: 'Military details',
+          title: formData => militaryDetailsReviewHeader(formData),
           depends: formData =>
             isVeteran(formData) && isAuthorizedAgent(formData),
           uiSchema: militaryDetailsPreparer.uiSchema,
@@ -598,6 +600,7 @@ const formConfig = {
             isVeteran(formData) && !isAuthorizedAgent(formData),
           uiSchema: applicantMilitaryName.uiSchema(
             'Did you serve under another name?',
+            'your service name',
           ),
           schema: applicantMilitaryName.schema,
         },
@@ -607,11 +610,12 @@ const formConfig = {
             isVeteran(formData) && isAuthorizedAgent(formData),
           uiSchema: applicantMilitaryName.uiSchema(
             'Did the applicant serve under another name?',
+            'applicant’s service name',
           ),
           schema: applicantMilitaryName.schema,
         },
         applicantMilitaryNameInformation: {
-          title: 'Previous name',
+          title: formData => previousNameReviewHeader(formData),
           path: 'applicant-military-name-information',
           depends: formData =>
             isVeteranAndHasServiceName(formData) &&
@@ -620,7 +624,7 @@ const formConfig = {
           schema: applicantMilitaryNameInformation.schema,
         },
         applicantMilitaryNameInformationPreparer: {
-          title: 'Previous name',
+          title: formData => previousNameReviewHeader(formData),
           path: 'applicant-military-name-information-preparer',
           depends: formData =>
             isVeteranAndHasServiceName(formData) && isAuthorizedAgent(formData),
@@ -675,7 +679,22 @@ const formConfig = {
       pages: {
         burialBenefits: {
           path: 'burial-benefits',
-          uiSchema: burialBenefits.uiSchema,
+          depends: formData =>
+            isVeteran(formData) && !isAuthorizedAgent(formData),
+          uiSchema: burialBenefits.uiSchema('decedents'),
+          schema: burialBenefits.schema,
+        },
+        burialBenefitsPreparer: {
+          path: 'burial-benefits-preparer',
+          depends: formData =>
+            isVeteran(formData) && isAuthorizedAgent(formData),
+          uiSchema: burialBenefits.uiSchema('applicant’s cemetery'),
+          schema: burialBenefits.schema,
+        },
+        burialBenefitsSponsor: {
+          path: 'burial-benefits-sponsor',
+          depends: formData => !isVeteran(formData),
+          uiSchema: burialBenefits.uiSchema('sponsor’s cemetery'),
           schema: burialBenefits.schema,
         },
         currentlyBuriedPersons: {

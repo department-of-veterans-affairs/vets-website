@@ -1,0 +1,93 @@
+{
+  "householdIncome": false,
+  "view:deathsMissingInformation": {},
+  "view:completedDependent": false,
+  "veteranInformation": {
+      "fullName": {
+        "first": "Pauline",
+        "middle": "E",
+        "last": "Foster"
+      },
+      "ssn": "796330625",
+      "birthDate": "1976-06-09",
+      "ssnLastFour": "0625",
+      "vaFileLastFour": "0625"
+    },
+  "veteranContactInformation": {
+    "phoneNumber": "8008885555",
+    "internationalPhoneNumber": "18008675309",
+    "emailAddress": "nope@nope.org",
+    "electronicCorrespondence": true,
+    "veteranAddress": {
+      "view:militaryBaseDescription": {},
+      "country": "USA",
+      "street": "123 Fake St.",
+      "street2": "Building 7",
+      "street3": "Suite C",
+      "city": "Fakesville",
+      "state": "KS",
+      "postalCode": "12345"
+    }
+  },
+  "view:removeDependentOptions": {
+    "reportDeath": true
+  },
+  "view:addOrRemoveDependents": {
+    "remove": true
+  },
+  "useV2": true,
+  "view:addDependentOptions": {},
+  "view:addDependentOptionsDescription": {},
+  "spouseInformation": {
+    "fullName": {}
+  },
+  "view:certificateNotice": {},
+  "view:cancelAddSpouse": {},
+  "doesLiveWithSpouse": {
+    "address": {
+      "view:militaryBaseDescription": {}
+    }
+  },
+  "currentMarriageInformation": {
+    "location": {},
+    "view:marriageTypeInformation": {}
+  },
+  "reportDivorce": {
+    "fullName": {},
+    "view:cancelDivorce": {},
+    "divorceLocation": {
+      "location": {}
+    }
+  },
+  "deaths": [
+    {
+      "deceasedDependentIncome": "N",
+      "dependentDeathLocation": {
+        "location": {
+          "city": "Fakesville",
+          "state": "NV"
+        }
+      },
+      "dependentDeathDate": "2025-02-19",
+      "childStatus": {
+        "childUnder18": true,
+        "stepChild": true,
+        "adopted": true
+      },
+      "dependentType": "CHILD",
+      "fullName": {
+        "first": "John",
+        "middle": "J",
+        "last": "Doe"
+      },
+      "ssn": "333445555",
+      "birthDate": "2015-02-19"
+    }
+  ],
+  "view:additionalEvidenceDescription": {},
+  "view:selectable686Options": {
+    "reportDeath": true
+  },
+  "statementOfTruthSignature": "Pauline E Foster",
+  "statementOfTruthCertified": true
+}

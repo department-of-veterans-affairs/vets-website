@@ -12,6 +12,7 @@ import {
 } from '../tests/mocks/setup';
 import { FETCH_STATUS } from '../utils/constants';
 import { createMockEpsAppointment } from './utils/appointment';
+import { createReferralById } from './utils/referrals';
 import * as epsAppointmentUtils from './utils/appointment';
 
 describe('CompleteReferral', () => {
@@ -19,6 +20,10 @@ describe('CompleteReferral', () => {
     'appointment-id',
     'booked',
     epsAppointmentUtils.appointmentData,
+  );
+  const currentReferral = createReferralById(
+    '2024-11-29',
+    'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
   );
   const sandbox = sinon.createSandbox();
 
@@ -62,49 +67,68 @@ describe('CompleteReferral', () => {
       'startNewAppointmentFlow',
     );
 
-    const { getByTestId } = renderWithStoreAndRouter(<CompleteReferral />, {
-      store: createTestStore(initialState),
-      path: '/complete/UUID?confirmMsg=true',
-    });
+    const { getByTestId } = renderWithStoreAndRouter(
+      <CompleteReferral currentReferral={currentReferral} />,
+      {
+        store: createTestStore(initialState),
+        path: '/complete/UUID?confirmMsg=true',
+      },
+    );
 
     fireEvent.click(getByTestId('schedule-appointment-link'));
     expect(startNewAppointmentFlowSpy.calledOnce).to.be.true;
   });
 
   it('should render error alert when appointment info has an error', () => {
-    const { getByTestId } = renderWithStoreAndRouter(<CompleteReferral />, {
-      store: createTestStore(errorState),
-    });
+    const { getByTestId } = renderWithStoreAndRouter(
+      <CompleteReferral currentReferral={currentReferral} />,
+      {
+        store: createTestStore(errorState),
+      },
+    );
 
     expect(getByTestId('error-alert')).to.exist;
   });
 
   it('should render warning alert when appointment info has timed out', () => {
-    const { getByTestId } = renderWithStoreAndRouter(<CompleteReferral />, {
-      store: createTestStore(timeoutErrorState),
-    });
+    const { getByTestId } = renderWithStoreAndRouter(
+      <CompleteReferral currentReferral={currentReferral} />,
+      {
+        store: createTestStore(timeoutErrorState),
+      },
+    );
 
     expect(getByTestId('warning-alert')).to.exist;
   });
 
   it('should render appointment details correctly', () => {
-    const { getByTestId } = renderWithStoreAndRouter(<CompleteReferral />, {
-      store: createTestStore(initialState),
-    });
+    const { getByTestId } = renderWithStoreAndRouter(
+      <CompleteReferral currentReferral={currentReferral} />,
+      {
+        store: createTestStore(initialState),
+      },
+    );
 
     expect(getByTestId('appointment-block')).to.exist;
     expect(getByTestId('appointment-date')).to.have.text(
-      'Thursday, November 21st, 2024',
+      'Monday, November 18th, 2024',
     );
     expect(getByTestId('appointment-type')).to.have.text(
-      'Physical Therapy with Dr. Bones',
+      'Optometry with Dr. Moreen S. Rafa',
     );
 
-    expect(getByTestId('appointment-modality')).to.have.text(
-      'In Person at Test Medical Complex',
+    expect(getByTestId('survey-info-block')).to.exist;
+    expect(getByTestId('survey-info-block')).to.contain.text(
+      'Please consider taking our pilot feedback surveys',
     );
-    expect(getByTestId('appointment-clinic')).to.have.text(
-      'Clinic: Meridian Health',
+    expect(getByTestId('survey-link')).to.exist;
+    expect(getByTestId('survey-link')).to.have.attribute(
+      'text',
+      'Start the sign-up survey',
+    );
+    expect(getByTestId('survey-link')).to.have.attribute(
+      'href',
+      'https://forms.gle/7Lh5H2fab7Qv3DbA9',
     );
   });
 });

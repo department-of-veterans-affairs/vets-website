@@ -4,6 +4,8 @@ import {
   titleUI,
   radioUI,
   radioSchema,
+  yesNoUI,
+  yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 export const formSignatureSchema = {
@@ -43,6 +45,43 @@ export const applicationEmailSchema = {
     required: ['certifierEmail'],
     properties: {
       certifierEmail: emailSchema,
+    },
+  },
+};
+
+export const champvaScreenSchema = {
+  uiSchema: {
+    ...titleUI(
+      ({ formData }) =>
+        `${
+          formData.certifierRole === 'applicant' ? 'Your' : `Beneficiary's`
+        } CHAMPVA benefit status`,
+    ),
+    champvaBenefitStatus: {
+      ...yesNoUI({
+        required: () => true,
+        labels: {
+          yes: 'Yes',
+          no: 'No',
+        },
+        updateUiSchema: formData => {
+          return {
+            'ui:title': `${
+              formData?.certifierRole === 'applicant'
+                ? 'Do you'
+                : 'Does your beneficiary'
+            } 
+                receive CHAMPVA benefits now?`,
+          };
+        },
+      }),
+    },
+  },
+  schema: {
+    type: 'object',
+    required: ['champvaBenefitStatus'],
+    properties: {
+      champvaBenefitStatus: yesNoSchema,
     },
   },
 };

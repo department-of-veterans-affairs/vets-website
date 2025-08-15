@@ -2,11 +2,14 @@ import AccountSecurity from './components/account-security/AccountSecurity';
 import ContactInformation from './components/contact-information/ContactInformation';
 import PersonalInformation from './components/personal-information/PersonalInformation';
 import MilitaryInformation from './components/military-information/MilitaryInformation';
+import VeteranStatus from './components/veteran-status-card/VeteranStatus';
+import AccreditedRepresentative from './components/accredited-representative/AccreditedRepresentative';
 import { DirectDeposit } from './components/direct-deposit/DirectDeposit';
 import ConnectedApplications from './components/connected-apps/ConnectedApps';
 import NotificationSettings from './components/notification-settings/NotificationSettings';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from './constants';
 import PersonalHealthCareContacts from './components/personal-health-care-contacts';
+import { PaperlessDelivery } from './components/paperless-delivery/PaperlessDelivery';
 
 // the routesForNav array is used in the routes file to build the routes
 // the edit and hub routes are not present in the routesForNav array because
@@ -41,6 +44,13 @@ export const routesForNav = [
     requiresMVI: true,
   },
   {
+    component: VeteranStatus,
+    name: PROFILE_PATH_NAMES.VETERAN_STATUS_CARD,
+    path: PROFILE_PATHS.VETERAN_STATUS_CARD,
+    requiresLOA3: true,
+    requiresMVI: true,
+  },
+  {
     component: DirectDeposit,
     name: PROFILE_PATH_NAMES.DIRECT_DEPOSIT,
     path: PROFILE_PATHS.DIRECT_DEPOSIT,
@@ -48,9 +58,23 @@ export const routesForNav = [
     requiresMVI: true,
   },
   {
+    component: AccreditedRepresentative,
+    name: PROFILE_PATH_NAMES.ACCREDITED_REPRESENTATIVE,
+    path: PROFILE_PATHS.ACCREDITED_REPRESENTATIVE,
+    requiresLOA3: true,
+    requiresMVI: true,
+  },
+  {
     component: NotificationSettings,
     name: PROFILE_PATH_NAMES.NOTIFICATION_SETTINGS,
     path: PROFILE_PATHS.NOTIFICATION_SETTINGS,
+    requiresLOA3: true,
+    requiresMVI: true,
+  },
+  {
+    component: PaperlessDelivery,
+    name: PROFILE_PATH_NAMES.PAPERLESS_DELIVERY,
+    path: PROFILE_PATHS.PAPERLESS_DELIVERY,
     requiresLOA3: true,
     requiresMVI: true,
   },
@@ -70,8 +94,18 @@ export const routesForNav = [
   },
 ];
 
-export const getRoutesForNav = () => {
+export const getRoutesForNav = (
+  { profileShowPaperlessDelivery = false } = {
+    profileShowPaperlessDelivery: false,
+  },
+) => {
   return routesForNav.reduce((acc, route) => {
+    if (
+      !profileShowPaperlessDelivery &&
+      route.name === PROFILE_PATH_NAMES.PAPERLESS_DELIVERY
+    ) {
+      return acc;
+    }
     acc.push(route);
     return acc;
   }, []);

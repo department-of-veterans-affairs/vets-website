@@ -1,0 +1,133 @@
+{
+  "householdIncome": false,
+  "reportDivorce": {
+    "spouseIncome": "NA",
+    "date": "2020-08-03",
+    "divorceLocation": {
+      "location": {
+        "city": "Fakesville",
+        "state": "AZ"
+      }
+    },
+    "reasonMarriageEnded": "Divorce",
+    "fullName": {
+      "first": "Jane",
+      "last": "Doe"
+    },
+    "birthDate": "1991-03-19",
+    "view:cancelDivorce": {}
+  },
+  "view:veteranMarriageHistoryMissingInformation": {},
+  "view:completedVeteranFormerMarriage": false,
+  "view:spouseMarriageHistoryMissingInformation": {},
+  "view:completedSpouseFormerMarriage": false,
+  "currentMarriageInformation": {
+    "typeOfMarriage": "COMMON-LAW",
+    "view:marriageTypeInformation": {},
+    "outsideUsa": true,
+    "location": {
+      "city": "Fakesville",
+      "country": "AUS"
+    },
+    "date": "2025-07-19"
+  },
+  "doesLiveWithSpouse": {
+    "spouseIncome": "N",
+    "spouseDoesLiveWithVeteran": true,
+    "address": {
+      "view:militaryBaseDescription": {}
+    }
+  },
+  "spouseInformation": {
+    "ssn": "333445555",
+    "birthDate": "1991-02-19",
+    "isVeteran": false,
+    "fullName": {
+      "first": "John",
+      "last": "Doe"
+    }
+  },
+  "view:cancelAddSpouse": {},
+  "veteranContactInformation": {
+    "phoneNumber": "8008675309",
+    "internationalPhoneNumber": "18008885555",
+    "emailAddress": "nope@nope.com",
+    "electronicCorrespondence": true,
+    "veteranAddress": {
+      "view:militaryBaseDescription": {},
+      "country": "USA",
+      "street": "123 Fake St.",
+      "city": "Fakesville",
+      "state": "AL",
+      "postalCode": "12345"
+    }
+  },
+  "view:removeDependentOptions": {
+    "reportDivorce": true
+  },
+  "view:addOrRemoveDependents": {
+    "add": true,
+    "remove": true
+  },
+  "view:addDependentOptions": {
+    "addSpouse": true
+  },
+  "view:addDependentOptionsDescription": {},
+  "useV2": true,
+  "veteranMarriageHistory": [
+    {
+      "endLocation": {
+        "location": {
+          "city": "Fakesville",
+          "state": "CT"
+        }
+      },
+      "startLocation": {
+        "location": {
+          "city": "Fakesville",
+          "state": "AZ"
+        }
+      },
+      "endDate": "2020-06-19",
+      "startDate": "2016-08-03",
+      "reasonMarriageEnded": "Divorce",
+      "fullName": {
+        "first": "Jane",
+        "last": "Doe"
+      }
+    }
+  ],
+  "view:additionalEvidenceDescription": {},
+  "view:selectable686Options": {
+    "addSpouse": true,
+    "reportDivorce": true
+  },
+  "veteranInformation": {
+      "fullName": {
+        "first": "Pauline",
+        "middle": "E",
+        "last": "Foster"
+      },
+      "ssn": "796330625",
+      "birthDate": "1976-06-09",
+      "ssnLastFour": "0625",
+      "vaFileLastFour": "0625"
+    },
+  "statementOfTruthSignature": "Pauline E Foster",
+  "statementOfTruthCertified": true,
+  "daysTillExpires": 365,
+  "spouseSupportingDocuments": [
+      {
+        "name": "Screenshot from 2025-04-23 13-28-43.png",
+        "confirmationCode": "0a6fc362-f125-4796-84c9-c13435363329",
+        "attachmentId": "",
+        "isEncrypted": false
+      },
+      {
+        "name": "Screenshot from 2025-04-23 13-28-59.png",
+        "confirmationCode": "9a267bd7-f459-47e5-903e-baab21953ffd",
+        "attachmentId": "",
+        "isEncrypted": false
+      }
+    ]
+}

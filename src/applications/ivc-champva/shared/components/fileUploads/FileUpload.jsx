@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
+import { CustomPageNavButtons } from '../CustomPageNavButtons';
 import MissingFileOverview, { hasReq } from './MissingFileOverview';
 
 export function FileFieldCustom(props) {
@@ -19,7 +19,7 @@ export function FileFieldCustom(props) {
   try {
     MissingFileOverview({
       contentAfterButtons: props.contentAfterButtons,
-      data: props.contentAfterButtons.props.form.data,
+      data: props?.fullData,
       goBack: props.goBack,
       goForward: props.goForward,
       disableLinks: true,
@@ -52,10 +52,9 @@ export function FileFieldCustom(props) {
     // Check if url is a review page
     const urlParams = new URLSearchParams(window?.location?.search);
     if (urlParams.get('fileReview') === 'true') {
-      /* Have to use contentAfterButtons' data because we might have
-      just received a single list-loop element as our props.data,
-      which would then lead us to the wrong conclusions */
-      if (uploadsMissing(props.contentAfterButtons.props.form.data)) {
+      /* Using fullData because we might have just received a single list-loop
+      element as our props.data, which would then lead us to the wrong conclusions */
+      if (uploadsMissing(props.fullData)) {
         props.goToPath('/supporting-files');
       } else {
         // Since we just uploaded the last file, bypass files overview page.
@@ -82,7 +81,7 @@ export function FileFieldCustom(props) {
     }
   }
 
-  const navButtons = <FormNavButtons goBack={onGoBack} submitToContinue />;
+  const navButtons = CustomPageNavButtons({ ...props, goBack: onGoBack });
 
   return (
     <>
@@ -112,11 +111,50 @@ export function FileFieldCustom(props) {
   );
 }
 
+// Stripped down version of FileFieldCustom that doesn't include the
+// missing file overview logic + related customizations. This is useful
+// for accessing full form data in sub components on upload pages like
+// description components (such as is done in LLM_UPLOAD_WARNING)
+export function FileFieldCustomSimple(props) {
+  const updateButton = (
+    // eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component
+    <button type="submit" onClick={props.updatePage}>
+      Update page
+    </button>
+  );
+
+  const navButtons = CustomPageNavButtons(props);
+
+  return (
+    <>
+      <SchemaForm
+        schema={props.schema}
+        uiSchema={props.uiSchema}
+        name={props.name}
+        title={props.title}
+        pagePerItemIndex={props.pagePerItemIndex}
+        data={props.data}
+        formContext={props}
+        trackingPrefix={props.trackingPrefix}
+        onChange={props.onReviewPage ? props.setFormData : props.onChange}
+        onSubmit={props.goForward}
+      >
+        <div className="vads-u-margin-top--4">
+          {props.contentBeforeButtons}
+          {props.onReviewPage ? updateButton : navButtons}
+          {props.contentAfterButtons}
+        </div>
+      </SchemaForm>
+    </>
+  );
+}
+
 FileFieldCustom.propTypes = {
   contentAfterButtons: PropTypes.any,
   contentBeforeButtons: PropTypes.any,
   data: PropTypes.object,
   formContext: PropTypes.object,
+  fullData: PropTypes.object,
   goBack: PropTypes.func,
   goForward: PropTypes.func,
   goToPath: PropTypes.func,
@@ -133,4 +171,7 @@ FileFieldCustom.propTypes = {
   onChange: PropTypes.func,
   onReviewPage: PropTypes.bool,
 };
+
+FileFieldCustomSimple.propTypes = FileFieldCustom.propTypes;
+
 export default FileFieldCustom;

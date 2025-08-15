@@ -1,44 +1,59 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams, useHistory } from 'react-router-dom';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { addUserProperties } from '@department-of-veterans-affairs/mhv/exports';
+
 import { clearThread } from '../actions/threadDetails';
+import { getListOfThreads } from '../actions/threads';
+import { closeAlert } from '../actions/alerts';
+import { getPatientSignature } from '../actions/preferences';
 import { retrieveMessageThread } from '../actions/messages';
+
 import ComposeForm from '../components/ComposeForm/ComposeForm';
 import InterstitialPage from './InterstitialPage';
 import BlockedTriageGroupAlert from '../components/shared/BlockedTriageGroupAlert';
-import { closeAlert } from '../actions/alerts';
-import { PageTitles, Paths, BlockedTriageAlertStyles } from '../util/constants';
-import { getPatientSignature } from '../actions/preferences';
+import {
+  PageTitles,
+  Paths,
+  BlockedTriageAlertStyles,
+  DefaultFolders,
+  threadSortingOptions,
+  ParentComponent,
+} from '../util/constants';
+import { getRecentThreads } from '../util/threads';
+import { getUniqueTriageGroups } from '../util/recipients';
+import featureToggles from '../hooks/useFeatureToggles';
 
-const Compose = () => {
+const Compose = ({ skipInterstitial }) => {
+  const { cernerPilotSmFeatureFlag } = featureToggles();
+
   const dispatch = useDispatch();
   const recipients = useSelector(state => state.sm.recipients);
   const { drafts, saveError } = useSelector(state => state.sm.threadDetails);
   const signature = useSelector(state => state.sm.preferences.signature);
   const { noAssociations } = useSelector(state => state.sm.recipients);
-  const removeLandingPageFF = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvSecureMessagingRemoveLandingPage
-      ],
+
+  const { threadList, isLoading, hasError: hasThreadListError } = useSelector(
+    state => state.sm.threads,
   );
+
   const draftMessage = drafts?.[0] ?? null;
   const { draftId } = useParams();
   const { allTriageGroupsBlocked } = recipients;
 
-  const [acknowledged, setAcknowledged] = useState(false);
+  const [acknowledged, setAcknowledged] = useState(skipInterstitial);
   const [draftType, setDraftType] = useState('');
-  const [pageTitle, setPageTitle] = useState('Start a new message');
+  const [pageTitle, setPageTitle] = useState(
+    cernerPilotSmFeatureFlag ? 'Start message' : 'Start a new message',
+  );
   const location = useLocation();
   const history = useHistory();
   const isDraftPage = location.pathname.includes('/draft');
-  const header = useRef();
 
   useEffect(
     () => {
-      if (location.pathname === Paths.COMPOSE) {
+      if (location.pathname.startsWith(Paths.COMPOSE)) {
         dispatch(clearThread());
         setDraftType('compose');
       } else {
@@ -54,7 +69,7 @@ const Compose = () => {
         checkNextPath();
       };
     },
-    [dispatch, draftId, location.pathname],
+    [dispatch, draftId, history, location.pathname],
   );
 
   useEffect(
@@ -91,14 +106,59 @@ const Compose = () => {
 
   useEffect(
     () => {
-      if (acknowledged && header) focusElement(document.querySelector('h1'));
-      document.title = `${pageTitle} ${
-        removeLandingPageFF
-          ? PageTitles.NEW_MESSAGE_PAGE_TITLE_TAG
-          : PageTitles.PAGE_TITLE_TAG
-      }`;
+      document.title = `${pageTitle} ${PageTitles.DEFAULT_PAGE_TITLE_TAG}`;
     },
-    [header, acknowledged, removeLandingPageFF, pageTitle],
+    [pageTitle],
+  );
+  // make sure the thread list is fetched when navigating to the compose page
+  useEffect(
+    () => {
+      const shouldLoadSentFolder = () => {
+        const isThreadListEmpty = !threadList;
+        const didThreadListError = hasThreadListError;
+        const isFirstThreadNotSentFolder =
+          threadList?.[0]?.folderId !== DefaultFolders.SENT.id;
+        return (
+          !isLoading &&
+          !didThreadListError &&
+          (isThreadListEmpty || isFirstThreadNotSentFolder)
+        );
+      };
+
+      const loadSentFolder = () => {
+        dispatch(
+          getListOfThreads(
+            DefaultFolders.SENT.id,
+            100,
+            1,
+            threadSortingOptions.SENT_DATE_DESCENDING.value,
+            false,
+          ),
+        );
+      };
+      if (shouldLoadSentFolder()) {
+        loadSentFolder();
+      }
+    },
+    [dispatch, hasThreadListError, isLoading, threadList],
+  );
+
+  useEffect(
+    () => {
+      if (threadList?.length > 0 && !isLoading && recipients) {
+        const groups = getUniqueTriageGroups(threadList);
+        const recentMessages = getRecentThreads(threadList);
+        const dataForDataDog = {
+          allowedSMRecipients: recipients.allowedRecipients.length,
+          countOfSentMessagesInTheLastSixMonths: recentMessages.length || 0,
+          uniqueRecentTriageGroups: groups.length,
+        };
+        addUserProperties({
+          ...dataForDataDog,
+        });
+      }
+    },
+    [threadList, isLoading, recipients],
   );
 
   const content = () => {
@@ -107,7 +167,6 @@ const Compose = () => {
         <>
           <ComposeForm
             pageTitle={pageTitle}
-            headerRef={header}
             draft={draftMessage}
             recipients={!recipients.error && recipients}
             signature={signature}
@@ -151,6 +210,7 @@ const Compose = () => {
                   ? BlockedTriageAlertStyles.WARNING
                   : BlockedTriageAlertStyles.INFO
               }
+              parentComponent={ParentComponent.COMPOSE}
             />
           </div>
         )}
@@ -177,6 +237,10 @@ const Compose = () => {
       )}
     </>
   );
+};
+
+Compose.propTypes = {
+  skipInterstitial: PropTypes.bool,
 };
 
 export default Compose;

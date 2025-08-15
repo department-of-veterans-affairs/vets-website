@@ -1,0 +1,47 @@
+flow:
+  title: Education Benefits and Work Study, veteran issues outside the US (auth)
+  runOnCI: true # when this is false, the flow will only run on a scheduled job
+  steps:
+    - action: include
+      target: page
+      value: start-your-question-auth
+    
+    - action: include
+      target: page
+      value: your-personal-information
+
+    - action: include
+      target: page
+      value: select-category-benefits-issues-outside-the-us
+
+    - action: include
+      target: page
+      value: select-topic-education-benefits-and-work-study
+
+    - action: include
+      target: page
+      value: select-subtopic-work-study
+
+    - action: include
+      target: page
+      value: what-is-your-relationship-to-the-veteran-veteran
+
+    - action: include
+      target: page
+      value: your-school-state-and-residency-state
+
+    - action: include
+      target: page
+      value: your-contact-information
+
+    - action: include
+      target: page
+      value: your-question-education
+
+    - action: include
+      target: page
+      value: editing-answers
+
+    - action: include
+      target: page
+      value: your-confirmation-number

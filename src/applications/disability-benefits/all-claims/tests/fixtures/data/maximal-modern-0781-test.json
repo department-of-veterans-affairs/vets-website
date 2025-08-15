@@ -8,6 +8,7 @@
     "view:fdcWarning": {},
     "isVaEmployee": true,
     "homelessOrAtRisk": "homeless",
+    "none": false,
     "view:isHomeless": {
       "homelessHousingSituation": "other",
       "otherHomelessHousing": "Under a bridge",
@@ -200,10 +201,6 @@
         {
           "from": "2016-01-01",
           "to": "2017-01-01"
-        },
-        {
-          "from": "2017-01-06",
-          "to": "2017-04-01"
         }
       ],
       "powDisabilities": {
@@ -216,6 +213,12 @@
         "cause": "NEW",
         "primaryDescription": "It makes no sense for this particular condition, but hey, this is only test data.",
         "condition": "asthma",
+        "view:descriptionInfo": {}
+      },
+        {
+        "cause": "NEW",
+        "primaryDescription": "It makes no sense for this particular condition, but hey, this is only test data.",
+        "condition": "PTSD (post-traumatic stress disorder)",
         "view:descriptionInfo": {}
       },
       {
@@ -328,7 +331,7 @@
     "skip781ForCombatReason": false,
     "view:ptsdCombatBypassAdditionalInfo": {},
     "view:mentalHealthSupportAlert": {},
-    "view:mentalHealthWorkflowChoice": "optForOnlineForm0781",
+    "mentalHealthWorkflowChoice": "optForOnlineForm0781",
     "eventTypes": {
       "combat": true,
       "mst": true,
@@ -378,8 +381,8 @@
       "socialEconomic": true,
       "unlisted": true
     },
-    "view:noneCheckbox": {
-      "view:noBehaviorChanges": false
+    "noBehavioralChange": {
+      "noChange": false
     },
     "treatmentReceivedNonVaProvider": {
       "nonVa": true,
@@ -391,7 +394,7 @@
       "vaPaid": true,
       "dod": true
     },
-    "view:treatmentNoneCheckbox": {
+    "treatmentNoneCheckbox": {
       "none": false
     },
     "optionIndicator": "yes",

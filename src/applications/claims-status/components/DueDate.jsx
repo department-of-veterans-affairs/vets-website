@@ -10,13 +10,15 @@ export default function DueDate({ date }) {
   const className = pastDueDate ? 'past-due' : 'due-file';
 
   const formattedClaimDate = buildDateFormatter()(date);
+  let dueDateHeader = '';
 
-  const dueDateHeader = pastDueDate
-    ? `Needed from you by ${formattedClaimDate} - Due ${formatDistanceToNowStrict(
-        dueDate,
-      )} ago`
-    : `Needed from you by ${formattedClaimDate}`;
-
+  if (pastDueDate) {
+    dueDateHeader = `Needed from you by ${formattedClaimDate} - Due ${formatDistanceToNowStrict(
+      dueDate,
+    )} ago`;
+  } else {
+    dueDateHeader = `Needed from you by ${formattedClaimDate}`;
+  }
   return (
     <div className="due-date-header">
       <strong className={className}>{dueDateHeader}</strong>

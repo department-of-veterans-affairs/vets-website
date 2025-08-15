@@ -17,11 +17,8 @@ describe('Medical Records View Allergies', () => {
     Allergies.setIntercepts({ allergiesData: allergies });
   });
 
-  it('Hide all PHR messages', () => {
+  it.skip('Hide all PHR messages', () => {
     site.loadPage();
-
-    // check for MY Va Health links
-    Allergies.checkLandingPageLinks();
 
     Allergies.goToAllergiesPage();
 

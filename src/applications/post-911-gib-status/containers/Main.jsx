@@ -2,11 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
-// import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-
 import { getEnrollmentData } from '../actions/post-911-gib-status';
 import {
-  backendErrorMessage,
   authenticationErrorMessage,
   genericErrorMessage,
 } from '../utils/helpers';
@@ -31,11 +28,9 @@ export class Main extends React.Component {
       case 'noChapter33Record':
         appContent = authenticationErrorMessage;
         break;
+      case 'serviceDowntimeError':
       case 'getEnrollmentDataFailure':
       case 'backendServiceError':
-        appContent = backendErrorMessage;
-        break;
-      case 'serviceDowntimeError':
         appContent = genericErrorMessage;
         break;
       default:
@@ -53,7 +48,7 @@ Main.propTypes = {
   children: PropTypes.node,
 };
 
-function mapStateToProps(state) {
+export function mapStateToProps(state) {
   return {
     enrollmentData: state.post911GIBStatus.enrollmentData,
     availability: state.post911GIBStatus.availability,

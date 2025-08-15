@@ -5,7 +5,6 @@ export const AXE_CONTEXT = '.secure-messaging-container';
 export const Paths = {
   MHV_MAIN: '/my-health/',
   UI_MAIN: '/my-health/secure-messages',
-  UI_PILOT: '/my-health/secure-messages-pilot',
   SM_API_BASE: '/my_health/v1/messaging',
   SM_API_EXTENDED: '/my_health/v1/messaging/messages',
   INBOX: '/inbox/',
@@ -31,6 +30,7 @@ export const Paths = {
   THREAD: '/thread',
   CONTACT_LIST: '/contact-list',
   NEW_MESSAGE: '/my-health/secure-messages/new-message/',
+  AAL: '/my_health/v1/aal',
   INTERCEPT: {
     MESSAGE_RECIPIENT: '/my_health/v1/messaging/recipients*',
     MESSAGE_CATEGORY: '/my_health/v1/messaging/messages/categories',
@@ -48,6 +48,8 @@ export const Paths = {
     MESSAGES: '/my_health/v1/messaging/messages',
     SELECTED_RECIPIENTS: `/my_health/v1/messaging/preferences/recipients`,
     MAINTENANCE_WINDOWS: `/v0/maintenance_windows/`,
+    DRAFT_AUTO_SAVE: `/my_health/v1/messaging/message_drafts`,
+    SENT_THREADS: '/my_health/v1/messaging/folders/-1/threads*',
   },
 };
 
@@ -80,15 +82,21 @@ export const Locators = {
   THREADS: '[data-testid="thread-list-item"]',
   MES_COUNT: '[data-testid="message-count"]',
   REPLY_FORM: '[data-testid="reply-form"]',
+  REPLY_TO: '[data-testid="draft-reply-to"]',
   CLEAR_FILTERS: '[text="Clear Filters"]',
   FILTER_INPUT: '#filter-input',
   ADDITIONAL_FILTER: '#additional-filter-accordion',
   ACCORDIONS: '[data-testid="faq-accordion-item"]',
+  ACCORDION_ITEM_OPEN: 'va-accordion-item[open]:not([open="false"])',
   MESSAGE_THREAD_META: '.message-thread-meta',
   SPINNER: `[data-testid="loading-indicator"]`,
   BACK_TO: '.sm-breadcrumb-list-item > a',
   FAQ_ACC_ITEM: '[data-testid="faq-accordion-item"]',
   INBOX_FOOTER: `[data-testid="inbox-footer"]`,
+  COMBO_BOX: '.usa-combo-box',
+  SEARCH_RESULT: `[data-testid="search-messages"]`,
+  PAGE_NOT_FOUND: `mhv-page-not-found`,
+  CARE_SYSTEM: '[data-testid^="care-system-"]',
   FOLDERS: {
     FOLDER_NAME: '[label="Folder name"]',
     FOLDER_REMOVE: '[text="Yes, remove this folder"]',
@@ -106,7 +114,7 @@ export const Locators = {
   },
   BUTTONS: {
     SECURE_MESSAGING: '[data-testid="secure-messaging"]',
-    THREAD_EXPAND: '[data-testid="thread-expand-all"]',
+    THREAD_EXPAND: 'thread-expand-all',
     THREAD_EXPAND_MESSAGES:
       '[data-testid="thread-expand-all"] va-accordion-item',
     ADDITIONAL_FILTER: `.va-accordion__header`,
@@ -115,7 +123,7 @@ export const Locators = {
     // check if below are duplicates
     REPLY_BTN: '#reply-button',
     REPLY: '[data-testid="reply-button-body"]',
-    CONTINUE: '[data-testid="continue-button"]',
+    CONTINUE: 'continue-button',
     TEST2: '[data-testid=radiobutton-TEST2]',
     TESTAGAIN: '[data-testid=radiobutton-TESTAGAIN]',
     NEW_FOLDER_RADIOBTN: '[data-testid=folder-list-radio-button]',
@@ -142,7 +150,6 @@ export const Locators = {
     CONTINUE_EDITING: 'va-button[text="Continue editing"]',
     CREATE_FOLDER: '[data-testid="create-folder-button"]',
     REMOVE_FOLDER: '[data-testid="remove-folder-button"]',
-    PREFERENCES: '[data-testid="edit-preferences-button"]',
     CATEGORY_RADIOBTN: '[data-testid="compose-category-radio-button"]',
     DELETE_CANCEL: '#delete-cancel',
     DELETE_CONFIRM: '#delete-draft',
@@ -154,23 +161,24 @@ export const Locators = {
   },
   LINKS: {
     GO_TO_INBOX: '[data-testid="inbox-link"]',
-    PREFER_LINK: '[data-testid="edit-preferences-link"]',
     CREATE_NEW_MESSAGE: '[data-testid="compose-message-link"]',
     CRUMB: 'ol[role="list"] > li',
     CRUMB_LIST: '[data-testid="sm-breadcrumbs"]',
+    CRUMB_BACK: '[data-testid="sm-breadcrumbs-back"]',
     BACK_TO_DRAFTS: '.sm-breadcrumb-list-item>a',
     CRUMBS_BACK: '.sm-breadcrumb-list-item',
     OLD_VERSION: `.welcome-message > p > a`,
     EDIT_SIGNATURE: `div.vads-u-margin-top--2`,
+    REPLY: `reply-to-message-link`,
   },
   ALERTS: {
-    HEADER: `#heading`,
+    HEADER: `[data-testid="error-folder-not-empty"]`,
     MODEL_TITLE_ALERT: '.va-modal-alert-title',
     TRIAGE_ALERT: '[data-testid="blocked-triage-group-alert"] > div > a',
     CLOSE_NOTIFICATION: '.va-alert',
     REPT_SELECT: '[data-testid="compose-recipient-select"]',
     DRAFT_MODAL: '[data-testid="delete-draft-modal"]',
-    THREAD_EXPAND: '[data-testid="thread-expand-all"]',
+    THREAD_EXPAND: 'thread-expand-all',
     SEARCH_DROPDOWN: '#select-search-folder-dropdown',
     TEXT_INPUT: '[data-testid="search-keyword-text-input"]',
     PAGIN_LIST: '.usa-pagination__list li',
@@ -221,6 +229,9 @@ export const Locators = {
     REMOVE_THIS_FOLDER: `[data-testid="remove-this-folder"]`,
     OLD_MSG_HEAD: `[data-testid=expired-alert-message]`,
     NO_ASSOCIATION: '[data-testid="not-connected-alert"]',
+    COMBO_BOX: '.usa-error-message',
+    EL_SIGN_NAME: '#input-error-message .usa-error-message',
+    EL_SIGN_CHECK: `#checkbox-error-message .usa-error-message`,
   },
   FIELDS: {
     RECIPIENT: '#select',
@@ -238,6 +249,7 @@ export const Locators = {
     EL_SIGN: `[message-aria-describedby="Electronic signature"]`,
     MESSAGE_SUBJECT: '[data-testid="message-subject-field"]',
     MESSAGE_BODY: `[data-testid="message-body-field"]`,
+    RECIPIENTS_COMBO: `#options`,
   },
   INFO: {
     SUBJECT_LIMIT: '#charcount-message',
@@ -263,6 +275,7 @@ export const Locators = {
     RECIPIENTS: `select#options`,
     ADD_INFO: `va-additional-info[trigger^="If you"]`,
     SORT: '#sort-order-dropdown',
+    RECIPIENTS_COMBO: `#options--list`,
   },
   ICONS: {
     ATTCH_ICON: '[data-testid="attachment-icon"]',
@@ -293,11 +306,13 @@ export const Alerts = {
     LOAD_API_ERROR: `We can’t load your contact list right now`,
   },
   ATTACHMENT: {
-    TYPES: `We can't attach this file type. Try attaching a DOC, DOCX, GIF, JPG, PDF, PNG, RTF, TXT, XLS XLSX, JPEG, JFIF, PJPEG, or PJP.`,
+    TYPES: `We can't attach this file type.`,
     EMPTY: `Your file is empty. Try attaching a different file.`,
-    FILE_IS_TOO_LARGE_TEXT:
+    VISTA_TOO_LARGE:
       'Your file is too large. Try attaching a file smaller than 6MB.',
-    ALREADY_ATTACHED_FILE: 'You have already attached this file.',
+    OH_TOO_LARGE:
+      'Your file is too large. Try attaching a file smaller than 25MB.',
+    ALREADY_ATTACHED: 'You have already attached this file.',
   },
   MAINTENANCE: {
     ACTIVE: `Maintenance on My HealtheVet`,
@@ -308,6 +323,12 @@ export const Alerts = {
     EMPTY_END_DATE: `Error Please enter an end date.`,
     INVALID_START_DATE: `Start date must be on or before end date.`,
     INVALID_END_DATE: `End date must be on or after start date.`,
+  },
+  OH_OLD_MSG: {
+    HEADER: 'This conversation is too old for new replies',
+    P_1: `The last message in this conversation is more than 45 days old.`,
+    P_2: `If you want to continue this conversation directly with your provider, call your VA health facility. Ask to speak to the My HealtheVet coordinator or secure messaging administrator.`,
+    P_3: `Or you can send a message to other care teams in your contact list.`,
   },
   OUTAGE: 'We’re sorry. We couldn’t load this page. Try again later.',
   OLD_MSG_HEAD: 'This conversation is too old for new replies',
@@ -332,11 +353,16 @@ export const Data = {
   TEST_SUBJECT: 'Test Subject',
   TEST_IMAGE: 'test_image.jpg',
   TEST_LARGE_IMAGE: 'test_image_10mb.jpg',
+  TEST_VIDEO_MKV: 'test_video.mkv',
   MESSAGE_WAS_SAVED: 'message was saved',
   TEST_MESSAGE_SUBJECT: 'Test Message Subject',
   SAMPLE_DOC: 'sample_docx.docx',
-  SAMPLE_PDF: 'sample_pdf.pdf',
   SAMPLE_XLS: 'sample_XLS.xls',
+  SAMPLE_PDF: 'sample_pdf.pdf',
+  SAMPLE_TXT_1: 'test_txt_1.txt',
+  SAMPLE_TXT_2: 'test_txt_2.txt',
+  SAMPLE_TXT_3: 'test_txt_3.txt',
+  SAMPLE_TXT_4: 'test_txt_4.txt',
   SAMPLE_IMG: 'test_image.gif',
   START_NEW_MSG: 'Start a new message',
   EDIT_DRAFT: 'Edit draft',
@@ -348,6 +374,7 @@ export const Data = {
   FOLDER_RENAMED_SUCCESSFULLY: 'Folder was successfully renamed.',
   SECURE_MSG_SENT_SUCCESSFULLY: 'Message Sent.',
   PLEASE_SELECT_RECIPIENT: 'Please select a recipient.',
+  PLEASE_SELECT_VALID_RECIPIENT: 'Please select a valid recipient.',
   PLEASE_SELECT_CATEGORY: 'Please select a category.',
   SUBJECT_CANNOT_BLANK: 'Subject cannot be blank.',
   BODY_CANNOT_BLANK: 'Message body cannot be blank.',
@@ -356,26 +383,47 @@ export const Data = {
   CONTINUE_EDITING: 'Continue editing',
   MESSAGE_MOVED_TO_TRASH:
     'Message conversation was successfully moved to Trash.',
+  MESSAGE_SENT: `Message Sent.`,
   TEST_VIDEO: 'test_video.mp4',
   CREATE_FOLDER_TEST: 'create folder test',
   IS_ACTIVE: 'is-active',
   END_CONVERSATION_IN_FOLDER: 'End of conversations in this folder',
   SAVE_MEG_AS_DRAFT: 'If you save this message as a draft',
-  EDIT_YOUR_MSG_PREFRENCES: 'Edit your message preferences',
   NO_MSG_IN_FOLDER: 'There are no messages in this folder.',
   WHAT_SECURE_MSG_PILOT: 'What is Secure Messaging Pilot?',
   CANNOT_SEND_MSG_TO_CARE_TEAM:
     "You can't send messages to your care teams right now",
   REMOVE_FOLDER: 'Remove folder',
   CANNOT_REMOVE_FOLDER: `You can't remove a folder with messages in it. Move all the messages to another folder. Then try removing it again.`,
+  HCS_SELECT: `Select care team`,
+  REPLY_HEADER: `Only use messages for non-urgent needs`,
   ATTACH_INFO: [
     'You may attach up to 4 files to each message',
     'You can attach only these file types: doc, docx, gif, jpg, pdf, png, rtf, txt, xls, xlsx, jpeg, jfif, pjpeg, pjp',
     'The maximum size for each file is 6 MB',
     'The maximum total size for all files attached to 1 message is 10 MB',
   ],
+  VISTA_LARGE_ATTACH_INFO: [
+    'You can attach up to 10 files to each message',
+    'You can attach only these file types: doc, docx, gif, jpg, pdf, png, rtf, txt, xls, xlxs, jpeg, jfif, pjpeg, pjp, bmp, tiff, ppt, pptx, pps, ppsx, odt, mp4, m4v, mov, wmv, mpg',
+    'The maximum size for each file is 6 MB',
+    'The maximum total size for all files attached to 1 message is 10 MB',
+  ],
+  OH_LARGE_ATTACH_INFO: [
+    'You can attach up to 10 files to each message',
+    'You can attach only these file types: doc, docx, gif, jpg, pdf, png, rtf, txt, xls, xlxs, jpeg, jfif, pjpeg, pjp, bmp, tiff, ppt, pptx, pps, ppsx, odt, mp4, m4v, mov, wmv, mpg',
+    'The maximum size for each file is 6 MB',
+    'The maximum total size for all files attached to 1 message is 25 MB',
+  ],
   EL_SIGN_CHECK: `I certify that the above is correct and true to the best of my knowledge and belief.`,
   EDIT_SIGNATURE: `Edit signature for all messages`,
+  READ_RECEIPT: `Opened by your care team`,
+  UNREAD_RECEIPT: `Not yet opened by your care team`,
+  CURATED_LIST: {
+    CANT_FIND_TEAM: `What to do if you can’t find your care team`,
+    CONTACT_LIST_UPDATE: `Update your contact list`,
+    SELECT_CARE_TEAM: `Select a different care team`,
+  },
   BUTTONS: {
     ATTACH_FILE: 'Attach file',
     SEND: `Send`,
@@ -394,7 +442,9 @@ export const Data = {
   },
   LINKS: {
     PROFILE_SIGNATURE: `/profile/personal-information#messaging-signature`,
-    LEGACY_PREFERENCES: 'mhv-portal-web/preferences',
+    HOME: '/my-health/secure-messages/',
+    CONTACT_LIST: '/my-health/secure-messages/contact-list/',
+    SELECT_CARE_TEAM: '/my-health/secure-messages/new-message/select-care-team',
   },
   CL_LINK_TEXT: 'Show more teams in your contact list',
   URL: {
@@ -428,7 +478,15 @@ export const Data = {
     LINK_1: `Learn more about messages`,
     LINK_2: `Find your VA health facility`,
   },
+
+  NOT_FOUND: {
+    H2: `Or try these other health resources`,
+    P_O: `If you typed or copied the URL into your web browser, check that it’s correct.`,
+    P_1: `If that doesn’t work, try going to the My HealtheVet homepage.`,
+    LINK: `Go to the My HealtheVet on VA.gov homepage`,
+  },
 };
+
 export const Assertions = {
   MESSAGES: 'Messages',
   FOLDER_RENAMED_SUCCESS: 'Folder was successfully renamed.',

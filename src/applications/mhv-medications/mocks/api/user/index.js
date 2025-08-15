@@ -29,6 +29,9 @@ const defaultUser = {
       },
       in_progress_forms: [],
       prefills_available: ['21-526EZ'],
+      account: {
+        accountUuid: '6af59b36-f14d-482e-88b4-3d7820422343',
+      },
       services: [
         'facilities',
         'hca',
@@ -57,6 +60,8 @@ const defaultUser = {
             is_cerner: false,
           },
         ],
+        va_patient: true,
+        mhv_account_state: 'OK',
       },
     },
   },

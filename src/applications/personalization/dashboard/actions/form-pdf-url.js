@@ -1,4 +1,3 @@
-import download from 'downloadjs';
 import recordEvent from 'platform/monitoring/record-event';
 import { apiRequest } from 'platform/utilities/api';
 import environment from '~/platform/utilities/environment';
@@ -64,23 +63,30 @@ const validateUrl = ({ url }) => {
   return url;
 };
 
-export const makeFetchFormPdfUrl = (d = download, r = recordEvent) => (
+export const makeFetchFormPdfUrl = (r = recordEvent) => (
   formId,
   submissionGuid,
 ) => async dispatch => {
   dispatch(actionStart(submissionGuid));
   try {
     const response = await getFormPdfUrl(formId, submissionGuid);
-    const url = validateUrl(response);
+    validateUrl(response);
     recordSuccess(r);
-    // TODO: alternate mode for browsers/devices that don't support downloads or filesystem?
-    // TODO: determine file naming convention, or pull out of URL w/ RegExp
-    d(url, `Form_${formId}_${submissionGuid}`, 'application/pdf');
     return dispatch(actionSuccess(submissionGuid, response));
   } catch (error) {
     recordFail(r, 'internal error');
     dispatch(actionFail(submissionGuid, error));
-    throw new Error(error);
+    if (error.response && error.response.status === 400) {
+      return {
+        error:
+          "Sorry, we're unable to generate a PDF at this time. You can try again later.",
+      };
+    }
+
+    return {
+      error:
+        "You can't download a copy of your form right now. We're sorry. Check back later.",
+    };
   }
 };
 

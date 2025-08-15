@@ -5,8 +5,8 @@ import { labTypes } from '../../util/constants';
 import { sendDataDogAction } from '../../util/helpers';
 
 const LabsAndTestsListItem = props => {
-  const { record } = props;
-
+  const { record, options = {} } = props;
+  const { isAccelerating, timeFrame } = options;
   return (
     <va-card
       background
@@ -15,7 +15,9 @@ const LabsAndTestsListItem = props => {
     >
       <div className="vads-u-font-weight--bold vads-u-margin-bottom--0p5">
         <Link
-          to={`/labs-and-tests/${record.id}`}
+          to={`/labs-and-tests/${record.id}${
+            isAccelerating ? `?timeFrame=${timeFrame}` : ''
+          }`}
           data-dd-privacy="mask"
           data-dd-action-name="Lab and Test Results Detail Link"
           onClick={() => {
@@ -45,18 +47,23 @@ const LabsAndTestsListItem = props => {
             {`Ordered by ${record.orderedBy}`}
           </div>
         )}
-        {record.type === labTypes.EKG && (
-          <div data-dd-privacy="mask" data-dd-action-name>
-            {`Signed by ${record.signedBy}`}
-          </div>
-        )}
       </div>
     </va-card>
   );
 };
-
 export default LabsAndTestsListItem;
 
 LabsAndTestsListItem.propTypes = {
-  record: PropTypes.object,
+  record: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    date: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    orderedBy: PropTypes.string,
+    signedBy: PropTypes.string,
+  }).isRequired,
+  options: PropTypes.shape({
+    isAccelerating: PropTypes.bool,
+    timeFrame: PropTypes.string,
+  }),
 };

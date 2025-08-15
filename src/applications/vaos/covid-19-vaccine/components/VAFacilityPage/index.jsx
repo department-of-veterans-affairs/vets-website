@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import { usePrevious } from '@department-of-veterans-affairs/platform-utilities/exports';
@@ -18,7 +18,6 @@ import VAFacilityInfoMessage from './VAFacilityInfoMessage';
 import ResidentialAddress from './ResidentialAddress';
 import InfoAlert from '../../../components/InfoAlert';
 import useFormState from '../../../hooks/useFormState';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
 import {
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
@@ -43,24 +42,15 @@ function VAFacilityPage({
   sortMethod,
   updateFacilitySortMethod,
   supportedFacilities,
-  changeCrumb,
 }) {
   const history = useHistory();
   const loadingClinics = clinicsStatus === FETCH_STATUS.loading;
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
+
   const dispatch = useDispatch();
 
   const pageTitle = singleValidVALocation
     ? 'Your appointment location'
     : 'Choose a VA location';
-
-  useEffect(() => {
-    if (featureBreadcrumbUrlUpdate) {
-      changeCrumb(pageTitle);
-    }
-  }, []);
 
   useEffect(
     () => {
@@ -143,13 +133,21 @@ function VAFacilityPage({
   if (loadingFacilities || (singleValidVALocation && loadingClinics)) {
     return (
       <div>
-        <va-loading-indicator message="Finding locations" />
+        <va-loading-indicator
+          set-focus
+          message="Finding locations"
+          label="Finding locations"
+        />
       </div>
     );
   }
   if (loadingClinics) {
     return (
       <va-loading-indicator
+        set-focus
+        label="We’re checking if we can create an appointment for you at this
+                facility. This may take up to a minute. Thank you for your
+                patience."
         message="We’re checking if we can create an appointment for you at this
                 facility. This may take up to a minute. Thank you for your
                 patience."
@@ -297,7 +295,11 @@ function VAFacilityPage({
       )}
       {requestingLocation && (
         <div className="vads-u-padding-bottom--2">
-          <va-loading-indicator message="Finding your location. Be sure to allow your browser to find your current location." />
+          <va-loading-indicator
+            set-focus
+            label="Finding your location. Be sure to allow your browser to find your current location."
+            message="Finding your location. Be sure to allow your browser to find your current location."
+          />
         </div>
       )}
       {facilitiesStatus === FETCH_STATUS.succeeded &&
@@ -340,7 +342,6 @@ function VAFacilityPage({
 VAFacilityPage.propTypes = {
   address: PropTypes.object,
   canScheduleAtChosenFacility: PropTypes.bool,
-  changeCrumb: PropTypes.func,
   clinicsStatus: PropTypes.string,
   facilitiesStatus: PropTypes.string,
   hideEligibilityModal: PropTypes.func,

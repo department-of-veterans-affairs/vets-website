@@ -1,32 +1,49 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import {
   pdfStatusDefinitions,
   pdfDefaultStatusDefinition,
-  EMPTY_FIELD,
+  FIELD_NONE_NOTED,
 } from '../../util/constants';
 import {
   validateField,
   dateFormat,
   pharmacyPhoneNumber,
+  determineRefillLabel,
+  getShowRefillHistory,
+  displayProviderName,
+  getRxStatus,
+  rxSourceIsNonVA,
 } from '../../util/helpers';
-import VaPharmacyText from '../shared/VaPharmacyText';
+import MedicationDescription from '../shared/MedicationDescription';
+import { selectPendingMedsFlag } from '../../util/selectors';
 
 const PrescriptionPrintOnly = props => {
   const { rx, refillHistory, isDetailsRx } = props;
+  const showRefillHistory = getShowRefillHistory(refillHistory);
   const pharmacyPhone = pharmacyPhoneNumber(rx);
   const latestTrackingStatus = rx?.trackingList?.[0];
+  const showPendingMedsContent = useSelector(selectPendingMedsFlag);
+  const pendingMed =
+    rx?.prescriptionSource === 'PD' && rx?.dispStatus === 'NewOrder';
+  const pendingRenewal =
+    rx?.prescriptionSource === 'PD' && rx?.dispStatus === 'Renew';
+  const isNonVaPrescription = rxSourceIsNonVA(rx);
+  const rxStatus = getRxStatus(rx);
 
   const activeNonVaContent = pres => (
     <div className="print-only-rx-details-container vads-u-margin-top--1p5">
       <p>
-        <strong>Instructions:</strong> {validateField(pres.sig)}
+        <strong>Instructions:</strong>
+        {pres.sig || 'Instructions not available'}
       </p>
       <p>
-        <strong>Reason for use:</strong> {validateField(pres.indicationForUse)}
+        <strong>Reason for use:</strong>
+        {pres.indicationForUse || 'Reason for use not available'}
       </p>
       <p className="no-break">
-        <strong>Status:</strong> {validateField(pres.dispStatus?.toString())}
+        <strong>Status:</strong> {rxStatus}
       </p>
       <p>
         A VA provider added this medication record in your VA medical records.
@@ -54,17 +71,15 @@ const PrescriptionPrintOnly = props => {
       </ul>
       <p className="vads-u-margin-top--neg1p5">
         <strong>When you started taking this medication:</strong>{' '}
-        {dateFormat(pres.dispensedDate, 'MMMM D, YYYY')}
+        {dateFormat(pres.dispensedDate, 'MMMM D, YYYY', 'Date not available')}
       </p>
       <p>
         <strong>Documented by: </strong>
-        {pres.providerLastName
-          ? `${pres.providerLastName}, ${pres.providerFirstName || ''}`
-          : EMPTY_FIELD}
+        {displayProviderName(pres?.providerFirstName, pres?.providerLastName)}
       </p>
       <p>
         <strong>Documented at this facility: </strong>
-        {validateField(pres.facilityName)}
+        {pres.facilityName || 'VA facility name not available'}
       </p>
       <p>
         <strong>Provider Notes: </strong>
@@ -78,11 +93,8 @@ const PrescriptionPrintOnly = props => {
   const DetailsHeaderElement = isDetailsRx ? 'h3' : 'h4';
   return (
     <div className="print-only-rx-container">
-      <NameElement>
-        {rx.prescriptionName ||
-          (rx.dispStatus === 'Active: Non-VA' ? rx.orderableItem : '')}
-      </NameElement>
-      {rx?.prescriptionSource !== 'NV' ? (
+      <NameElement>{rx?.prescriptionName || rx?.orderableItem}</NameElement>
+      {!isNonVaPrescription ? (
         <div className={isDetailsRx ? '' : 'vads-u-margin-left--2'}>
           <DetailsHeaderElement>
             {isDetailsRx
@@ -96,12 +108,17 @@ const PrescriptionPrintOnly = props => {
                 ? dateFormat(rx.sortedDispensedDate, 'MMMM D, YYYY')
                 : 'Not filled yet'}
             </p>
+            {!pendingMed &&
+              !pendingRenewal && (
+                <>
+                  <p>
+                    <strong>Prescription number:</strong>{' '}
+                    {rx.prescriptionNumber}
+                  </p>
+                </>
+              )}
             <p>
-              <strong>Prescription number:</strong> {rx.prescriptionNumber}
-            </p>
-            <p>
-              <strong>Status:</strong>{' '}
-              {validateField(rx.dispStatus?.toString())}
+              <strong>Status:</strong> {rxStatus}
             </p>
             <div className="vads-u-margin-y--0p5 no-break vads-u-margin-right--5">
               {pdfStatusDefinitions[rx.refillStatus]
@@ -135,14 +152,18 @@ const PrescriptionPrintOnly = props => {
             <p>
               <strong>Refills left:</strong> {validateField(rx.refillRemaining)}
             </p>
+            {!showPendingMedsContent && (
+              <p>
+                <strong>
+                  Request refills by this prescription expiration date:
+                </strong>{' '}
+                {dateFormat(rx.expirationDate, 'MMMM D, YYYY')}
+              </p>
+            )}
+
             <p>
-              <strong>
-                Request refills by this prescription expiration date:
-              </strong>{' '}
-              {dateFormat(rx.expirationDate, 'MMMM D, YYYY')}
-            </p>
-            <p>
-              <strong>Facility:</strong> {validateField(rx.facilityName)}
+              <strong>Facility:</strong>{' '}
+              {rx.facilityName || 'VA facility name not available'}
             </p>
             <p>
               <strong>Pharmacy phone number:</strong>{' '}
@@ -152,7 +173,7 @@ const PrescriptionPrintOnly = props => {
                   <va-telephone tty contact="711" not-clickable />)
                 </>
               ) : (
-                EMPTY_FIELD
+                FIELD_NONE_NOTED
               )}
             </p>
             <p>
@@ -171,9 +192,7 @@ const PrescriptionPrintOnly = props => {
             </p>
             <p>
               <strong>Prescribed by:</strong>{' '}
-              {rx.providerLastName
-                ? `${rx.providerLastName}, ${rx.providerFirstName || ''}`
-                : 'None noted'}
+              {displayProviderName(rx?.providerFirstName, rx?.providerLastName)}
             </p>
             {!isDetailsRx &&
               rx.groupedMedications?.length > 0 && (
@@ -189,11 +208,11 @@ const PrescriptionPrintOnly = props => {
                 </p>
               )}
           </div>
-          {refillHistory && (
+          {showRefillHistory && (
             <div className="print-only-refill-container vads-u-margin-left--2">
               <h4>Refill history</h4>
               <p className="vads-u-margin-y--1p5">
-                {`Showing ${refillHistory.length} refill${
+                {`Showing ${refillHistory.length} fill${
                   refillHistory.length > 1 ? 's, from newest to oldest' : ''
                 }`}
               </p>
@@ -201,64 +220,44 @@ const PrescriptionPrintOnly = props => {
                 {refillHistory.map((entry, i) => {
                   const index = refillHistory.length - i - 1;
                   const { shape, color, backImprint, frontImprint } = entry;
+                  const isPartialFill = entry.prescriptionSource === 'PF';
+                  const refillLabel = determineRefillLabel(
+                    isPartialFill,
+                    refillHistory,
+                    i,
+                  );
                   return (
                     <div key={index} className="vads-u-margin-bottom--2">
                       <h5 className="vads-u-margin-top--1">
-                        {`${
-                          index === 0 ? 'Original fill' : `Refill`
-                        }: ${dateFormat(entry.dispensedDate)}`}
+                        {`${refillLabel}: ${dateFormat(entry.dispensedDate)}`}
                       </h5>
-                      {i === 0 && (
-                        <p>
-                          <strong>Shipped on:</strong>{' '}
-                          {dateFormat(latestTrackingStatus?.completeDateTime)}
-                        </p>
+                      {isPartialFill && (
+                        <>
+                          <p>This fill has a smaller quantity on purpose.</p>
+                          <p>
+                            <strong>Quantity:</strong> {entry.quantity}
+                          </p>
+                        </>
                       )}
-                      <p className="vads-u-margin--0">
-                        <strong>Medication description: </strong>
-                      </p>
-                      {shape?.trim() &&
-                      color?.trim() &&
-                      frontImprint?.trim() ? (
+                      {i === 0 &&
+                        !isPartialFill && (
+                          <p>
+                            <strong>Shipped on:</strong>{' '}
+                            {dateFormat(latestTrackingStatus?.completeDateTime)}
+                          </p>
+                        )}
+                      {!isPartialFill && (
                         <>
                           <p className="vads-u-margin--0">
-                            <strong>Note:</strong> If the medication you’re
-                            taking doesn’t match this description, call{' '}
-                            <VaPharmacyText
-                              phone={pharmacyPhone}
-                              isNotClickable
-                            />
-                            .
+                            <strong>Medication description: </strong>
                           </p>
-                          <ul className="vads-u-margin--0">
-                            <li className="vads-u-margin-y--0">
-                              <strong>Shape:</strong> {shape[0].toUpperCase()}
-                              {shape.slice(1).toLowerCase()}
-                            </li>
-                            <li className="vads-u-margin-y--0">
-                              <strong>Color:</strong> {color[0].toUpperCase()}
-                              {color.slice(1).toLowerCase()}
-                            </li>
-                            <li className="vads-u-margin-y--0">
-                              <strong>Front marking:</strong> {frontImprint}
-                            </li>
-                            {backImprint ? (
-                              <li className="vads-u-margin-y--0">
-                                <strong>Back marking:</strong> {backImprint}
-                              </li>
-                            ) : (
-                              <></>
-                            )}
-                          </ul>
-                        </>
-                      ) : (
-                        <>
-                          No description available. Call{' '}
-                          <VaPharmacyText
-                            phone={pharmacyPhone}
-                            isNotClickable
-                          />{' '}
-                          if you need help identifying this medication.
+                          <MedicationDescription
+                            shape={shape}
+                            color={color}
+                            frontImprint={frontImprint}
+                            backImprint={backImprint}
+                            pharmacyPhone={pharmacyPhone}
+                          />
                         </>
                       )}
                     </div>
@@ -308,9 +307,10 @@ const PrescriptionPrintOnly = props => {
                           </p>
                           <p>
                             <strong>Prescribed by:</strong>{' '}
-                            {(entry.providerFirstName &&
-                              entry.providerLastName) ||
-                              EMPTY_FIELD}
+                            {displayProviderName(
+                              entry?.providerFirstName,
+                              entry?.providerLastName,
+                            )}
                           </p>
                         </div>
                       );

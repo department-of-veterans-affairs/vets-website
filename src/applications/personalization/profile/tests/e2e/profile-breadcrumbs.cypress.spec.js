@@ -27,6 +27,14 @@ describe('Profile Breadcrumbs', () => {
     }
     it('render the active page name in the breadcrumbs', () => {
       cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles());
+      cy.intercept('GET', '/v0/feature_toggles*', {
+        data: {
+          features: [
+            { name: 'representative_status_enable_v2_features', value: true },
+            { name: 'profile_show_paperless_delivery', value: true },
+          ],
+        },
+      });
       cy.visit(`${path}/`);
       cy.get('va-breadcrumbs')
         .shadow()

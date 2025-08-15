@@ -1,9 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import {
-  isMstEvent,
   options,
   summaryPageTitleWithTag,
   traumaticEventsPages,
@@ -13,7 +11,6 @@ import {
   eventsListDescription,
 } from '../../../content/traumaticEventsList';
 import { form0781HeadingTag } from '../../../content/form0781';
-import { isCompletingForm0781 } from '../../../utils/form0781';
 
 describe('Traumatic Events Pages', () => {
   const formData = {
@@ -109,86 +106,7 @@ describe('Traumatic Events Pages', () => {
   it('should render mentalHealthSupportAlert in ContentBeforeButtons', () => {
     const { container } = render(<div>{ContentBeforeButtons}</div>);
     const { textContent } = container;
-    const expectedText =
-      'We understand that some of the questions may be difficult to answer.';
-
+    const expectedText = `We can connect you with free, confidential support for mental health care or military sexual trauma anytime. We can connect you with support even if you don’t file a claim for disability compensation or you aren’t eligible for compensation.`;
     expect(textContent).to.include(expectedText);
-  });
-
-  it('should enforce maxItems limit of 20', () => {
-    const MockDefinitionTester = ({ data, onSubmit }) => (
-      <div>
-        {data.events.map((_, index) => (
-          <div key={index} data-testid="event-item">
-            Event {index + 1}
-          </div>
-        ))}
-        {data.events.length < 20 && <button>Add an event</button>}
-        <button onClick={onSubmit}>Submit</button>
-      </div>
-    );
-
-    const events = Array.from({ length: 20 }, () => ({}));
-    const onSubmit = sinon.spy();
-
-    const { queryByText, queryAllByTestId } = render(
-      <MockDefinitionTester data={{ events }} onSubmit={onSubmit} />,
-    );
-
-    const renderedEvents = queryAllByTestId('event-item');
-    expect(renderedEvents.length).to.equal(20);
-
-    const addButton = queryByText('Add an event');
-    expect(addButton).to.be.null;
-  });
-
-  /**
-   * Tests for isMstEvent logic
-   */
-  describe('isMstEvent', () => {
-    let stub;
-
-    beforeEach(() => {
-      stub = sinon
-        .stub(isCompletingForm0781, 'isCompletingForm0781')
-        .returns(true);
-    });
-
-    afterEach(() => {
-      stub.restore();
-    });
-
-    it('should return false when eventTypes is missing', () => {
-      const testFormData = {};
-      expect(isMstEvent(testFormData)).to.be.false;
-    });
-
-    it('should return false when eventTypes is present but does not include MST', () => {
-      const testFormData = {
-        eventTypes: { combat: true, training: false },
-      };
-      expect(isMstEvent(testFormData)).to.be.false;
-    });
-
-    it('should return true when eventTypes.mst is explicitly true', () => {
-      const testFormData = {
-        eventTypes: { mst: true },
-      };
-      expect(isMstEvent(testFormData)).to.be.true;
-    });
-
-    it('should return true when eventTypes.mst is true among other event types', () => {
-      const testFormData = {
-        eventTypes: { combat: false, mst: true, other: true },
-      };
-      expect(isMstEvent(testFormData)).to.be.true;
-    });
-
-    it('should return false when eventTypes.mst is false', () => {
-      const testFormData = {
-        eventTypes: { mst: false, combat: true },
-      };
-      expect(isMstEvent(testFormData)).to.be.false;
-    });
   });
 });

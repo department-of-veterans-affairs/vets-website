@@ -1,6 +1,6 @@
 import PageObject from './PageObject';
 
-export class ClosestCityStatePageObject extends PageObject {
+class ClosestCityStatePageObject extends PageObject {
   assertHeading({ name }) {
     return this.assertShadow({
       element: 'va-radio',
@@ -11,6 +11,13 @@ export class ClosestCityStatePageObject extends PageObject {
   assertUrl() {
     cy.url().should('include', 'closest-city');
     cy.axeCheckBestPractice();
+
+    return this;
+  }
+
+  assertClosestCityStateValidationErrors() {
+    this.clickNextButton();
+    this.assertValidationError('Select a city');
 
     return this;
   }

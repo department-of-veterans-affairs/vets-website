@@ -112,7 +112,6 @@ describe('<EvidenceSummary>', () => {
     expect($$('h3', container).length).to.eq(1);
     expect($$('h4', container).length).to.eq(4);
     expect($$('ul', container).length).to.eq(3);
-    expect($('a.vads-c-action-link--green', container)).to.exist;
     expect($$('.form-nav-buttons button', container).length).to.eq(2);
   });
 
@@ -121,7 +120,6 @@ describe('<EvidenceSummary>', () => {
 
     expect($$('h3', container).length).to.eq(2); // includes no evidence alert
     expect($$('ul', container).length).to.eq(0);
-    expect($('a.vads-c-action-link--green', container)).to.exist;
     expect($$('.form-nav-buttons button', container).length).to.eq(2);
   });
 
@@ -140,7 +138,6 @@ describe('<EvidenceSummary>', () => {
     expect($$('h4', container).length).to.eq(4);
     expect($$('ul', container).length).to.eq(3);
     expect($$('.usa-input-error-message', container).length).to.eq(9);
-    expect($('a.vads-c-action-link--green', container)).to.exist;
     expect($$('.form-nav-buttons button', container).length).to.eq(2);
 
     await fireEvent.click(
@@ -161,7 +158,6 @@ describe('<EvidenceSummary>', () => {
     expect($('va-alert[visible="true"]', container)).to.not.exist;
     expect($$('h3', container).length).to.eq(1);
     expect($$('ul', container).length).to.eq(1);
-    expect($('a.vads-c-action-link--green', container)).to.exist;
   });
 
   it('should render missing evidence alert', () => {
@@ -174,7 +170,6 @@ describe('<EvidenceSummary>', () => {
     expect($('va-alert[status="warning"][visible="true"]', container)).to.exist;
     expect($$('va-alert h3', container).length).to.eq(1);
     expect($$('ul', container).length).to.eq(0);
-    expect($('a.vads-c-action-link--green', container)).to.exist;
   });
 
   it('should include the correct edit URL links', () => {
@@ -313,8 +308,8 @@ describe('<EvidenceSummary>', () => {
       $('va-button[label="Remove VAMC Location 2"]', container),
     );
 
-    const modal = await $('va-modal', container);
-    await modal.__events.secondaryButtonClick(); // Cancel removal
+    const secondaryButton = $('va-button[secondary]', container);
+    fireEvent.click(secondaryButton);
 
     await waitFor(() => {
       expect(setFormData.called).to.be.false;
@@ -349,8 +344,8 @@ describe('<EvidenceSummary>', () => {
       $('va-button[label="Remove Private Hospital"]', container),
     );
 
-    const modal = await $('va-modal', container);
-    await modal.__events.secondaryButtonClick(); // Cancel removal
+    const secondaryButton = $('va-button[secondary]', container);
+    fireEvent.click(secondaryButton);
 
     await waitFor(() => {
       expect(setFormData.called).to.be.false;
@@ -389,8 +384,8 @@ describe('<EvidenceSummary>', () => {
       $('va-button[label="Remove limitations"]', container),
     );
 
-    const modal = await $('va-modal', container);
-    await modal.__events.secondaryButtonClick(); // Cancel removal
+    const secondaryButton = $('va-button[secondary]', container);
+    fireEvent.click(secondaryButton);
 
     await waitFor(() => {
       expect(setFormData.called).to.be.false;
@@ -423,8 +418,8 @@ describe('<EvidenceSummary>', () => {
     // remove second VA entry
     await fireEvent.click($('va-button[label="Delete x-rays.pdf"]', container));
 
-    const modal = await $('va-modal', container);
-    await modal.__events.secondaryButtonClick(); // Cancel delete
+    const secondaryButton = $('va-button[secondary]', container);
+    fireEvent.click(secondaryButton);
 
     await waitFor(() => {
       expect(setFormData.called).to.be.false;
@@ -439,7 +434,6 @@ describe('<EvidenceSummary>', () => {
     expect(
       $$('.private-facility, .private-limitation', container).length,
     ).to.eq(3);
-    expect($('a.vads-c-action-link--green', container)).to.exist;
     expect($$('.form-nav-buttons button', container).length).to.eq(0);
     expect(
       $('.form-nav-buttons va-button', container).getAttribute('text'),

@@ -3,14 +3,13 @@ import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import BackLink from '../../../components/BackLink';
-import ErrorMessage from '../../../components/ErrorMessage';
+import AppointmentDetailsErrorMessage from '../../components/AppointmentDetailsErrorMessage';
 import FacilityAddress from '../../../components/FacilityAddress';
 import FacilityPhone from '../../../components/FacilityPhone';
 import FullWidthLayout from '../../../components/FullWidthLayout';
 import CCRequestLayout from '../../../components/layouts/CCRequestLayout';
 import VARequestLayout from '../../../components/layouts/VARequestLayout';
 import VAFacilityLocation from '../../../components/VAFacilityLocation';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
 import { FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import PageLayout from '../../components/PageLayout';
@@ -44,43 +43,24 @@ export default function RequestedAppointmentDetailsPage() {
     facilityPhone,
     isCC,
     isCanceled,
-    typeOfCareText,
   } = useSelector(
     state => selectRequestedAppointmentDetails(state, id),
     shallowEqual,
-  );
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
   );
 
   useEffect(
     () => {
       if (appointment) {
-        let title = `${isCanceled ? 'Canceled' : 'Pending'} ${
-          isCC ? 'Community care' : 'VA'
-        } ${typeOfCareText} appointment`;
-
-        if (featureBreadcrumbUrlUpdate) {
-          title = `${
-            isCanceled ? 'Canceled Request For' : 'Pending Request For'
-          } 
-            ${isCC ? 'Community Care Appointment' : 'Appointment'}`;
-          title = title.concat(` | Veterans Affairs`);
-        }
+        let title = `${
+          isCanceled ? 'Canceled Request For ' : 'Pending Request For '
+        }${isCC ? 'Community Care Appointment' : 'Appointment'}`;
+        title = title.concat(` | Veterans Affairs`);
 
         document.title = title;
       }
       scrollAndFocus();
     },
-    [
-      dispatch,
-      typeOfCareText,
-      featureBreadcrumbUrlUpdate,
-      isCanceled,
-      isCC,
-      appointment,
-      cancelInfo,
-    ],
+    [dispatch, isCanceled, isCC, appointment],
   );
 
   useEffect(
@@ -102,7 +82,7 @@ export default function RequestedAppointmentDetailsPage() {
   ) {
     return (
       <FullWidthLayout>
-        <ErrorMessage level={1} />
+        <AppointmentDetailsErrorMessage />
       </FullWidthLayout>
     );
   }
@@ -136,7 +116,7 @@ export default function RequestedAppointmentDetailsPage() {
   }
   if (cancelInfo.cancelAppointmentStatus === FETCH_STATUS.notStarted) {
     return (
-      <PageLayout showNeedHelp isDetailPage>
+      <PageLayout showNeedHelp>
         <CancelWarningPage
           {...{
             appointment,
@@ -148,7 +128,7 @@ export default function RequestedAppointmentDetailsPage() {
   }
   if (cancelInfo.cancelAppointmentStatus === FETCH_STATUS.succeeded) {
     return (
-      <PageLayout showNeedHelp isDetailPage>
+      <PageLayout showNeedHelp>
         <CancelConfirmationPage {...{ appointment, cancelInfo }} />
       </PageLayout>
     );

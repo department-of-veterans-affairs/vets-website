@@ -34,27 +34,29 @@ import { DefaultCardHeader } from './DefaultCardHeader';
  * @typedef {Object} PersonalInformationConfig - Field configuration object for PersonalInformation component
  * @property {FieldConfig} [name] - Name field configuration
  * @property {FieldConfig} [ssn] - SSN field configuration
- * @property {FieldConfig} [vaFileNumber] - VA file number field configuration
  * @property {FieldConfig} [dateOfBirth] - Date of birth field configuration
+ * @property {FieldConfig} [vaFileNumber] - VA file number field configuration
  * @property {FieldConfig} [sex] - Sex field configuration
  */
 
 /**
- * @type {FieldConfig}
- */
-const defaultFieldConfig = {
-  show: true,
-  required: false,
-};
-
-/**
  * @type {PersonalInformationConfig}
+ * @description Default configuration for the PersonalInformation component, shows the name field as non-required field
  */
-const defaultConfig = {
-  name: { ...defaultFieldConfig },
-  ssn: { ...defaultFieldConfig },
+export const defaultConfig = {
+  name: {
+    show: true,
+    required: false,
+  },
+  ssn: {
+    show: false,
+    required: false,
+  },
+  dateOfBirth: {
+    show: false,
+    required: false,
+  },
   vaFileNumber: { show: false, required: false },
-  dateOfBirth: { ...defaultFieldConfig },
   sex: { show: false, required: false },
 };
 
@@ -84,6 +86,7 @@ export const PersonalInformation = ({
   contentBeforeButtons,
   contentAfterButtons,
   errorMessage,
+  formOptions = {},
 }) => {
   const finalConfig = { ...defaultConfig, ...config };
 
@@ -229,7 +232,11 @@ export const PersonalInformation = ({
       {footer || null}
 
       {contentBeforeButtons || null}
-      <NavButtons goBack={goBack} goForward={goForward} />
+      <NavButtons
+        goBack={goBack}
+        goForward={goForward}
+        useWebComponents={formOptions.useWebComponentForNavigation}
+      />
       {contentAfterButtons || null}
     </>
   );
@@ -278,6 +285,9 @@ PersonalInformation.propTypes = {
       vaFileLastFour: PropTypes.string,
     }),
   }),
+  formOptions: PropTypes.shape({
+    useWebComponentForNavigation: PropTypes.bool,
+  }),
   goBack: PropTypes.func,
   goForward: PropTypes.func,
 };
@@ -287,18 +297,22 @@ PersonalInformation.propTypes = {
 export const PersonalInformationNote = ({ children }) => {
   return <>{children}</>;
 };
+PersonalInformationNote.componentType = 'note';
 
 export const PersonalInformationHeader = ({ children }) => {
   return <>{children}</>;
 };
+PersonalInformationHeader.componentType = 'header';
 
 export const PersonalInformationFooter = ({ children }) => {
   return <>{children}</>;
 };
+PersonalInformationFooter.componentType = 'footer';
 
 export const PersonalInformationCardHeader = ({ children }) => {
   return <>{children}</>;
 };
+PersonalInformationCardHeader.componentType = 'cardHeader';
 
 const ChildPropTypes = PropTypes.oneOfType([
   PropTypes.node,

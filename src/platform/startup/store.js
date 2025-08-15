@@ -9,7 +9,6 @@ import thunk from 'redux-thunk';
 import persistState from 'redux-localstorage';
 // Relative imports.
 import i18Reducer from 'applications/static-pages/i18Select/reducers';
-import { vaosApi } from 'applications/vaos/redux/api/vaosApi';
 import announcements from '../site-wide/announcements/reducers';
 import createAnalyticsMiddleware from './analytics-middleware';
 import environment from '../utilities/environment';
@@ -52,12 +51,14 @@ export const commonReducer = {
  *
  * @param {Object} [appReducer={}] An object with reducer functions as properties
  * @param {Array} analyticsEvents A list of analytics events to capture when redux actions are fired
+ * @param {Array} additionalMiddlewares Additional middlewares to add to the store
  * @returns {Store} The Redux store with a combined reducer from the commonReducer and
  * appReducer.
  */
 export default function createCommonStore(
   appReducer = {},
   analyticsEvents = [],
+  additionalMiddlewares = [],
 ) {
   const reducer = {
     ...appReducer,
@@ -66,14 +67,16 @@ export default function createCommonStore(
   const useDevTools =
     !environment.isProduction() && window.__REDUX_DEVTOOLS_EXTENSION__;
 
+  const middlewares = [
+    thunk,
+    createAnalyticsMiddleware(analyticsEvents),
+    ...additionalMiddlewares,
+  ];
+
   const store = createStore(
     combineReducers(reducer),
     compose(
-      applyMiddleware(
-        thunk,
-        createAnalyticsMiddleware(analyticsEvents),
-        vaosApi.middleware,
-      ),
+      applyMiddleware(...middlewares),
       persistState('i18State'),
       useDevTools ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f,
     ),

@@ -1,6 +1,4 @@
 import React from 'react';
-import LoginGovSVG from 'platform/user/authentication/components/LoginGovSVG';
-import IDMeSVG from 'platform/user/authentication/components/IDMeSVG';
 import environment from '../../utilities/environment';
 import {
   eauthEnvironmentPrefixes,
@@ -47,20 +45,20 @@ export const CSP_IDS = {
 };
 
 export const SERVICE_PROVIDERS = {
-  [CSP_IDS.LOGIN_GOV]: {
-    label: 'Login.gov',
-    link: 'https://secure.login.gov/account',
-    image: <LoginGovSVG />,
-    policy: 'logingov',
-    className: `logingov-button`,
-  },
   [CSP_IDS.ID_ME]: {
     label: 'ID.me',
     link: 'https://wallet.id.me/settings',
-    image: <IDMeSVG />,
-    altImage: <IDMeSVG />,
+    image: <img src="/img/idme.svg" alt="ID.me" />,
+    altImage: <img src="/img/idme.svg" alt="ID.me" />,
     policy: 'idme',
     className: 'idme-button',
+  },
+  [CSP_IDS.LOGIN_GOV]: {
+    label: 'Login.gov',
+    link: 'https://secure.login.gov/account',
+    image: <img src="/img/logingov.svg" alt="Login.gov" />,
+    policy: 'logingov',
+    className: `logingov-button`,
   },
   [CSP_IDS.DS_LOGON]: {
     label: 'DS Logon',
@@ -87,14 +85,19 @@ export const AUTHN_SETTINGS = {
 export const EXTERNAL_APPS = {
   MHV: CSP_IDS.MHV,
   MY_VA_HEALTH: 'myvahealth',
-  EBENEFITS: 'ebenefits',
   VA_FLAGSHIP_MOBILE: 'vamobile',
   VA_OCC_MOBILE: 'vaoccmobile',
   ARP: 'arp',
   SMHD: 'smhdweb',
 };
 
-export const EBENEFITS_DEFAULT_PATH = '/profilepostauth';
+export const ARP_APPS = {
+  FORM21A: 'form21a',
+};
+
+export const TEST_APPS = {
+  OKTA: ['okta_test', 'okta_stg'],
+};
 
 export const eAuthURL = `https://${
   eauthEnvironmentPrefixes[environment.BUILDTYPE]
@@ -105,11 +108,13 @@ export const EXTERNAL_REDIRECTS = {
     cernerEnvPrefixes[environment.BUILDTYPE]
   }patientportal.myhealth.va.gov`,
   [EXTERNAL_APPS.MHV]: `${eAuthURL}/mhv-portal-web/eauth`,
-  [EXTERNAL_APPS.EBENEFITS]: `${eAuthURL}/ebenefits`,
   [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE]: '',
   [EXTERNAL_APPS.VA_OCC_MOBILE]: `${eAuthURL}/MAP/users/v2/landing`,
   [EXTERNAL_APPS.ARP]: `${environment.BASE_URL}/representative`,
   [EXTERNAL_APPS.SMHD]: `${eAuthURL}/MAP/users/v2/landing?application=vaoccmobile&redirect_uri=/smhdWeb/`,
+  [ARP_APPS.FORM21A]: `${
+    environment.BASE_URL
+  }/representative/accreditation/attorney-claims-agent-form-21a`,
 };
 
 export const EXTERNAL_REDIRECTS_ALT = {
@@ -143,10 +148,6 @@ export const SIGNUP_TYPES = {
   [CSP_IDS.LOGIN_GOV]: 'logingov_signup',
 };
 
-export const MHV_TRANSITION_DATE = null;
-export const MHV_TRANSITION_TIME = '[x]';
-export const ACCOUNT_TRANSITION_DISMISSED = 'accountTransitionDismissed';
-
 export const LINK_TYPES = {
   CREATE: 'create',
   SIGNIN: 'signin',
@@ -164,4 +165,5 @@ export const AUTH_PARAMS = {
   scope: 'scope',
   verification: 'verification',
   operation: 'operation',
+  state: 'state',
 };

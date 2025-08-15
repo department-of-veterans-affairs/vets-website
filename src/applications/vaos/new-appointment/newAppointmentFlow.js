@@ -1,6 +1,6 @@
+/* eslint-disable no-shadow */
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import {
-  selectFeatureBreadcrumbUrlUpdate,
   selectFeatureOHDirectSchedule,
   selectFeatureOHRequest,
   selectRegisteredCernerFacilityIds,
@@ -19,8 +19,8 @@ import {
   FACILITY_TYPES,
   FLOW_TYPES,
   GA_PREFIX,
+  TYPE_OF_CARE_IDS,
   TYPES_OF_CARE,
-  COVID_VACCINE_ID,
   OH_ENABLED_TYPES_OF_CARE,
 } from '../utils/constants';
 import {
@@ -38,16 +38,12 @@ import {
 } from './redux/actions';
 import { startNewVaccineFlow } from '../appointment-list/redux/actions';
 
-const AUDIOLOGY = '203';
-const SLEEP_CARE = 'SLEEP';
-const EYE_CARE = 'EYE';
-const PODIATRY = 'tbd-podiatry';
 const VA_FACILITY_V2_KEY = 'vaFacilityV2';
 
 function isCCAudiology(state) {
   return (
     getFormData(state).facilityType === FACILITY_TYPES.COMMUNITY_CARE &&
-    getFormData(state).typeOfCareId === AUDIOLOGY
+    getFormData(state).typeOfCareId === TYPE_OF_CARE_IDS.AUDIOLOGY_ID
   );
 }
 
@@ -63,19 +59,19 @@ function isCCFacility(state) {
 }
 
 function isSleepCare(state) {
-  return getFormData(state).typeOfCareId === SLEEP_CARE;
+  return getFormData(state).typeOfCareId === TYPE_OF_CARE_IDS.SLEEP_MEDICINE_ID;
 }
 
 function isEyeCare(state) {
-  return getFormData(state).typeOfCareId === EYE_CARE;
+  return getFormData(state).typeOfCareId === TYPE_OF_CARE_IDS.EYE_CARE_ID;
 }
 
 function isPodiatry(state) {
-  return getFormData(state).typeOfCareId === PODIATRY;
+  return getFormData(state).typeOfCareId === TYPE_OF_CARE_IDS.PODIATRY_ID;
 }
 
 function isCovidVaccine(state) {
-  return getFormData(state).typeOfCareId === COVID_VACCINE_ID;
+  return getFormData(state).typeOfCareId === TYPE_OF_CARE_IDS.COVID_VACCINE_ID;
 }
 
 async function vaFacilityNext(state, dispatch) {
@@ -139,215 +135,6 @@ async function vaFacilityNext(state, dispatch) {
   return VA_FACILITY_V2_KEY;
 }
 
-const flow = {
-  home: {
-    url: '/',
-  },
-  typeOfAppointment: {
-    url: '/new-appointment',
-    // Temporary stub for typeOfAppointment which will eventually be first step
-    // Next will direct to type of care or provider once both flows are complete
-    next: 'typeOfFacility',
-  },
-  vaccineFlow: {
-    url: '/new-covid-19-vaccine-appointment',
-    label: 'COVID-19 vaccine appointment',
-  },
-  typeOfCare: {
-    url: '/new-appointment',
-    label: 'What type of care do you need?',
-    async next(state, dispatch) {
-      if (isCovidVaccine(state)) {
-        recordEvent({
-          event: `${GA_PREFIX}-schedule-covid19-button-clicked`,
-        });
-        dispatch(startNewVaccineFlow());
-        return 'vaccineFlow';
-      }
-      if (isSleepCare(state)) {
-        dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
-        return 'typeOfSleepCare';
-      }
-      if (isEyeCare(state)) {
-        return 'typeOfEyeCare';
-      }
-      if (isCommunityCare(state)) {
-        const isEligible = await dispatch(checkCommunityCareEligibility());
-
-        if (isEligible && isPodiatry(state)) {
-          // If CC enabled systems and toc is podiatry, skip typeOfFacility
-          dispatch(updateFacilityType(FACILITY_TYPES.COMMUNITY_CARE));
-          dispatch(startRequestAppointmentFlow(true));
-          return 'ccRequestDateTime';
-        }
-        if (isEligible) {
-          return 'typeOfFacility';
-        }
-        if (isPodiatry(state)) {
-          // If no CC enabled systems and toc is podiatry, show modal
-          dispatch(showPodiatryAppointmentUnavailableModal());
-          return 'typeOfCare';
-        }
-      }
-
-      dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
-      return VA_FACILITY_V2_KEY;
-    },
-  },
-  typeOfFacility: {
-    url: '/new-appointment/choose-facility-type',
-    label: 'Where do you prefer to receive care?',
-    next(state, dispatch) {
-      if (isCCAudiology(state)) {
-        return 'audiologyCareType';
-      }
-
-      if (isCCFacility(state)) {
-        dispatch(startRequestAppointmentFlow(true));
-        return 'ccRequestDateTime';
-      }
-
-      return VA_FACILITY_V2_KEY;
-    },
-  },
-  typeOfSleepCare: {
-    url: '/new-appointment/choose-sleep-care',
-    label: 'Choose the type of sleep care you need',
-    next: VA_FACILITY_V2_KEY,
-  },
-  typeOfEyeCare: {
-    url: '/new-appointment/choose-eye-care',
-    label: 'Choose the type of eye care you need',
-    async next(state, dispatch) {
-      const data = getFormData(state);
-
-      // check that the result does have a ccId
-      if (getTypeOfCare(data)?.ccId) {
-        const isEligible = await dispatch(checkCommunityCareEligibility());
-
-        if (isEligible) {
-          return 'typeOfFacility';
-        }
-      }
-
-      dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
-      return VA_FACILITY_V2_KEY;
-    },
-  },
-  audiologyCareType: {
-    url: '/new-appointment/audiology',
-    label: 'Choose the type of audiology care you need',
-    next(state, dispatch) {
-      dispatch(startRequestAppointmentFlow(true));
-      return 'ccRequestDateTime';
-    },
-  },
-  ccPreferences: {
-    url: '/new-appointment/community-care-preferences',
-    label: 'Which provider do you prefer?',
-    next: 'ccLanguage',
-  },
-  ccLanguage: {
-    url: '/new-appointment/community-care-language',
-    label: 'What language do you prefer?',
-    next: 'reasonForAppointment',
-  },
-  ccClosestCity: {
-    url: '/new-appointment/choose-closest-city',
-    label: 'What’s the nearest city to you?',
-    next: 'ccPreferences',
-  },
-  vaFacility: {
-    url: '/new-appointment/va-facility',
-    next: vaFacilityNext,
-  },
-  vaFacilityV2: {
-    url: '/new-appointment/va-facility-2',
-    label: 'Which VA location would you like to go to?',
-    next: vaFacilityNext,
-  },
-  scheduleCerner: {
-    url: '/new-appointment/how-to-schedule',
-    label: 'How to schedule',
-  },
-  clinicChoice: {
-    url: '/new-appointment/clinics',
-    label: 'Which VA clinic would you like to go to?',
-    next(state, dispatch) {
-      if (getFormData(state).clinicId === 'NONE') {
-        dispatch(startRequestAppointmentFlow());
-        return 'requestDateTime';
-      }
-
-      // fetch appointment slots
-      dispatch(startDirectScheduleFlow());
-      return 'preferredDate';
-    },
-  },
-  selectProvider: {
-    url: '/new-appointment/provider',
-    label: 'Which provider do you want to schedule with?',
-    next: null,
-  },
-  preferredDate: {
-    url: '/new-appointment/preferred-date',
-    label: 'When are you available for this appointment?',
-    next: 'selectDateTime',
-  },
-  selectDateTime: {
-    url: '/new-appointment/select-date',
-    label: 'What date and time do you want for this appointment?',
-    next: 'reasonForAppointment',
-  },
-  requestDateTime: {
-    url: '/new-appointment/request-date',
-    label: 'When would you like an appointment?',
-    next(state) {
-      const supportedSites = selectCommunityCareSupportedSites(state);
-      if (isCCFacility(state) && supportedSites.length > 1) {
-        return 'ccClosestCity';
-      }
-      if (isCCFacility(state)) {
-        return 'ccPreferences';
-      }
-
-      return 'reasonForAppointment';
-    },
-  },
-  reasonForAppointment: {
-    url: '/new-appointment/reason-appointment',
-    label: 'What’s the reason for this appointment?',
-    next(state) {
-      if (
-        isCCFacility(state) ||
-        getNewAppointment(state).flowType === FLOW_TYPES.DIRECT
-      ) {
-        return 'contactInfo';
-      }
-
-      return 'visitType';
-    },
-  },
-  visitType: {
-    url: '/new-appointment/choose-visit-type',
-    label: 'How do you want to attend this appointment?',
-    next: 'contactInfo',
-  },
-  appointmentTime: {
-    url: '/new-appointment/appointment-time',
-    next: 'contactInfo',
-  },
-  contactInfo: {
-    url: '/new-appointment/contact-info',
-    label: 'How should we contact you?',
-    next: 'review',
-  },
-  review: {
-    url: '/new-appointment/review',
-    label: 'Review and confirm your appointment details',
-  },
-};
-
 /**
  * Function to get new appointment workflow.
  * The URL displayed in the browser address bar is changed when the feature flag
@@ -358,162 +145,233 @@ const flow = {
  * @returns {object} Appointment workflow object
  */
 export default function getNewAppointmentFlow(state) {
-  const featureBreadcrumbUrlUpdate = selectFeatureBreadcrumbUrlUpdate(state);
   const flowType = getFlowType(state);
   const isSingleVaFacility = selectSingleSupportedVALocation(state);
 
+  const flow = {
+    requestDateTime: {
+      label: 'When would you like an appointment?',
+      next(state) {
+        const supportedSites = selectCommunityCareSupportedSites(state);
+        if (isCCFacility(state) && supportedSites.length > 1) {
+          return 'ccClosestCity';
+        }
+        if (isCCFacility(state)) {
+          return 'ccPreferences';
+        }
+
+        return 'reasonForAppointment';
+      },
+    },
+  };
+
   return {
-    ...flow,
     appointmentTime: {
-      ...flow.appointmentTime,
-      url: featureBreadcrumbUrlUpdate
-        ? 'appointment-time'
-        : '/new-appointment/appointment-time',
+      url: 'appointment-time',
+      next: 'contactInfo',
     },
     audiologyCareType: {
-      ...flow.audiologyCareType,
-      url: featureBreadcrumbUrlUpdate
-        ? 'audiology-care'
-        : '/new-appointment/audiology',
+      url: 'audiology-care',
+      label: 'Choose the type of audiology care you need',
+      next(state, dispatch) {
+        dispatch(startRequestAppointmentFlow(true));
+        return 'ccRequestDateTime';
+      },
     },
     ccClosestCity: {
-      ...flow.ccClosestCity,
-      url: featureBreadcrumbUrlUpdate
-        ? 'closest-city'
-        : '/new-appointment/choose-closest-city',
+      url: 'closest-city',
+      label: 'What’s the nearest city to you?',
+      next: 'ccPreferences',
     },
     ccLanguage: {
-      ...flow.ccLanguage,
-      url: featureBreadcrumbUrlUpdate
-        ? 'preferred-language'
-        : '/new-appointment/community-care-language',
+      url: 'preferred-language',
+      label: 'What language do you prefer?',
+      next: 'reasonForAppointment',
     },
     ccPreferences: {
-      ...flow.ccPreferences,
-      url: featureBreadcrumbUrlUpdate
-        ? 'preferred-provider'
-        : '/new-appointment/community-care-preferences',
-    },
-    clinicChoice: {
-      ...flow.clinicChoice,
-      url: featureBreadcrumbUrlUpdate
-        ? '/schedule/clinic'
-        : '/new-appointment/clinics',
-    },
-    contactInfo: {
-      ...flow.contactInfo,
-      url: featureBreadcrumbUrlUpdate
-        ? 'contact-information'
-        : '/new-appointment/contact-info',
-    },
-    preferredDate: {
-      ...flow.preferredDate,
-      url: featureBreadcrumbUrlUpdate
-        ? 'preferred-date'
-        : '/new-appointment/preferred-date',
-    },
-    reasonForAppointment: {
-      ...flow.reasonForAppointment,
-      url: featureBreadcrumbUrlUpdate
-        ? 'reason'
-        : '/new-appointment/reason-appointment',
-    },
-    requestDateTime: {
-      ...flow.requestDateTime,
-      url: featureBreadcrumbUrlUpdate
-        ? 'va-request/'
-        : '/new-appointment/request-date',
+      url: 'preferred-provider',
+      label: 'Which provider do you prefer?',
+      next: 'ccLanguage',
     },
     ccRequestDateTime: {
       ...flow.requestDateTime,
-      url: featureBreadcrumbUrlUpdate
-        ? 'community-request/'
-        : '/new-appointment/request-date',
+      url: 'community-request/',
     },
-    root: {
-      url: featureBreadcrumbUrlUpdate
-        ? '/my-health/appointments'
-        : '/health-care/schedule-view-va-appointments/appointments/',
+    clinicChoice: {
+      url: '/schedule/clinic',
+      label: 'Which VA clinic would you like to go to?',
+      next(state, dispatch) {
+        if (getFormData(state).clinicId === 'NONE') {
+          dispatch(startRequestAppointmentFlow());
+          return 'requestDateTime';
+        }
+
+        // fetch appointment slots
+        dispatch(startDirectScheduleFlow());
+        return 'preferredDate';
+      },
+    },
+    contactInfo: {
+      url: 'contact-information',
+      label: 'How should we contact you?',
+      next: 'review',
+    },
+    home: {
+      url: '/',
+    },
+    preferredDate: {
+      url: 'preferred-date',
+      label: 'When are you available for this appointment?',
+      next: 'selectDateTime',
+    },
+    reasonForAppointment: {
+      url: 'reason',
+      label: 'What’s the reason for this appointment?',
+      next(state) {
+        if (
+          isCCFacility(state) ||
+          getNewAppointment(state).flowType === FLOW_TYPES.DIRECT
+        ) {
+          return 'contactInfo';
+        }
+
+        return 'visitType';
+      },
+    },
+    requestDateTime: {
+      ...flow.requestDateTime,
+      url: 'va-request/',
     },
     review: {
-      ...flow.review,
       label:
         FLOW_TYPES.DIRECT === flowType
           ? 'Review and confirm your appointment details'
           : 'Review and submit your request',
-      url: featureBreadcrumbUrlUpdate ? 'review' : '/new-appointment/review',
+      url: 'review',
+    },
+    root: {
+      url: '/my-health/appointments',
     },
     scheduleCerner: {
-      ...flow.scheduleCerner,
-      url: featureBreadcrumbUrlUpdate
-        ? 'how-to-schedule'
-        : '/new-appointment/how-to-schedule',
+      url: 'how-to-schedule',
+      label: 'How to schedule',
     },
     selectDateTime: {
-      ...flow.selectDateTime,
-      url: featureBreadcrumbUrlUpdate
-        ? 'date-time'
-        : '/new-appointment/select-date',
+      url: 'date-time',
+      label: 'What date and time do you want for this appointment?',
+      next: 'reasonForAppointment',
+    },
+    selectProvider: {
+      url: 'provider',
+      label: 'Which provider do you want to schedule with?',
+      next: 'preferredDate',
+      requestAppointment: 'requestDateTime',
     },
     typeOfCare: {
-      ...flow.typeOfCare,
-      url: featureBreadcrumbUrlUpdate
-        ? '/schedule/type-of-care'
-        : '/new-appointment',
+      url: '/schedule/type-of-care',
+      label: 'What type of care do you need?',
+      async next(state, dispatch) {
+        if (isCovidVaccine(state)) {
+          recordEvent({
+            event: `${GA_PREFIX}-schedule-covid19-button-clicked`,
+          });
+          dispatch(startNewVaccineFlow());
+          return 'vaccineFlow';
+        }
+        if (isSleepCare(state)) {
+          dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
+          return 'typeOfSleepCare';
+        }
+        if (isEyeCare(state)) {
+          return 'typeOfEyeCare';
+        }
+        if (isCommunityCare(state)) {
+          const isEligible = await dispatch(checkCommunityCareEligibility());
+
+          if (isEligible && isPodiatry(state)) {
+            // If CC enabled systems and toc is podiatry, skip typeOfFacility
+            dispatch(updateFacilityType(FACILITY_TYPES.COMMUNITY_CARE));
+            dispatch(startRequestAppointmentFlow(true));
+            return 'ccRequestDateTime';
+          }
+          if (isEligible) {
+            return 'typeOfFacility';
+          }
+          if (isPodiatry(state)) {
+            // If no CC enabled systems and toc is podiatry, show modal
+            dispatch(showPodiatryAppointmentUnavailableModal());
+            return 'typeOfCare';
+          }
+        }
+
+        dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
+        return VA_FACILITY_V2_KEY;
+      },
     },
     typeOfEyeCare: {
-      ...flow.typeOfEyeCare,
-      url: featureBreadcrumbUrlUpdate
-        ? 'eye-care'
-        : '/new-appointment/choose-eye-care',
+      url: 'eye-care',
+      label: 'Choose the type of eye care you need',
+      async next(state, dispatch) {
+        const data = getFormData(state);
+
+        // check that the result does have a ccId
+        if (getTypeOfCare(data)?.ccId) {
+          const isEligible = await dispatch(checkCommunityCareEligibility());
+
+          if (isEligible) {
+            return 'typeOfFacility';
+          }
+        }
+
+        dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
+        return VA_FACILITY_V2_KEY;
+      },
     },
     typeOfFacility: {
-      ...flow.typeOfFacility,
-      url: featureBreadcrumbUrlUpdate
-        ? 'facility-type'
-        : '/new-appointment/choose-facility-type',
+      url: 'facility-type',
+      label: 'Where do you prefer to receive care?',
+      next(state, dispatch) {
+        if (isCCAudiology(state)) {
+          return 'audiologyCareType';
+        }
+
+        if (isCCFacility(state)) {
+          dispatch(startRequestAppointmentFlow(true));
+          return 'ccRequestDateTime';
+        }
+
+        return VA_FACILITY_V2_KEY;
+      },
     },
     typeOfSleepCare: {
-      ...flow.typeOfSleepCare,
-      url: featureBreadcrumbUrlUpdate
-        ? 'sleep-care'
-        : '/new-appointment/choose-sleep-care',
-    },
-    vaccineFlow: {
-      ...flow.vaccineFlow,
-      url: featureBreadcrumbUrlUpdate
-        ? // IMPORTANT!!!
-          // The trailing slash is needed for going back to the previous page to work properly.
-          // The training slash indicates that 'new-covid-19-vaccine-appointment' is a parent path
-          // with children.
-          //
-          // Ex. /schedule/new-covid-19-vaccine-appointment/
-          //
-          // Leaving the '/' off makes '/schedule' the parent.
-          'covid-vaccine/'
-        : '/new-covid-19-vaccine-appointment',
-    },
-    vaFacility: {
-      ...flow.vaFacility,
-      url: featureBreadcrumbUrlUpdate
-        ? 'va-facility'
-        : '/new-appointment/va-facility',
+      url: 'sleep-care',
+      label: 'Choose the type of sleep care you need',
+      next: VA_FACILITY_V2_KEY,
     },
     vaFacilityV2: {
-      ...flow.vaFacilityV2,
+      url: 'location',
       label: isSingleVaFacility
         ? 'Your appointment location'
-        : 'Which VA location would you like to go to?',
-
-      url: featureBreadcrumbUrlUpdate
-        ? 'location'
-        : '/new-appointment/va-facility-2',
+        : 'Which VA facility would you like to go to?',
+      next: vaFacilityNext,
+    },
+    vaccineFlow: {
+      url:
+        // IMPORTANT!!!
+        // The trailing slash is needed for going back to the previous page to work properly.
+        // The training slash indicates that 'new-covid-19-vaccine-appointment' is a parent path
+        // with children.
+        //
+        // Ex. /schedule/new-covid-19-vaccine-appointment/
+        //
+        // Leaving the '/' off makes '/schedule' the parent.
+        'covid-vaccine/',
+      label: 'COVID-19 vaccine appointment',
     },
     visitType: {
-      ...flow.visitType,
-      url: featureBreadcrumbUrlUpdate
-        ? 'preferred-method'
-        : '/new-appointment/choose-visit-type',
+      url: 'preferred-method',
+      label: 'How do you want to attend this appointment?',
+      next: 'contactInfo',
     },
   };
 }

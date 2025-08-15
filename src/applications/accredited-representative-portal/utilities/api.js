@@ -5,6 +5,7 @@ import environment from 'platform/utilities/environment';
 import localStorage from 'platform/utilities/storage/localStorage';
 import manifest from '../manifest.json';
 import { getSignInUrl } from './constants';
+import { SORT_DEFAULTS } from './submissions';
 
 // Set app name for request headers
 window.appName = manifest.entryName;
@@ -61,9 +62,12 @@ const wrapApiRequest = fn => {
         // Don't redirect to login for our app's root / landing page experience.
         // People are allowed to be unauthenticated there.
         // TODO: probably need a more sound & principled solution here.
-        ![manifest.rootUrl, `${manifest.rootUrl}/`].includes(
-          window.location.pathname,
-        )
+        ![
+          manifest.rootUrl,
+          `${manifest.rootUrl}/`,
+          `${manifest.rootUrl}/sign-in`,
+          `${manifest.rootUrl}/auth/login/callback`,
+        ].includes(window.location.pathname)
       ) {
         window.location = getSignInUrl({
           returnUrl: window.location.href,
@@ -89,8 +93,37 @@ const wrapApiRequest = fn => {
 
 const api = {
   getPOARequests: wrapApiRequest(query => {
-    const urlQuery = new URLSearchParams(query).toString();
-    return [`/power_of_attorney_requests?${urlQuery}`];
+    const status = query.status ? `status=${query.status}` : '';
+    const size = query.size ? `&page[size]=${query.size}` : '';
+    const number = query.number ? `&page[number]=${query.number}` : '';
+    const sort = query.sort
+      ? `&sort[by]=${query.sortBy}&sort[order]=${query.sort}`
+      : '';
+    const params = `${status}${size}${number}${sort}`;
+    return [`/power_of_attorney_requests${params ? '?' : ''}${params}`];
+  }),
+  getSubmissions: wrapApiRequest(query => {
+    const size = query.size
+      ? `page[size]=${query.size}`
+      : `page[size]=${SORT_DEFAULTS.SIZE}`;
+    const number = query.number
+      ? `&page[number]=${query.number}`
+      : `&page[number]=${SORT_DEFAULTS.NUMBER}`;
+    const sort = query.sort
+      ? `&sort[by]=${query.sortBy}&sort[order]=${query.sort}`
+      : `&sort[by]=${SORT_DEFAULTS.SORT_BY}&sort[order]=${
+          SORT_DEFAULTS.SORT_ORDER
+        }`;
+    return [`/claim_submissions?${size}${number}${sort}`];
+  }),
+  claimantSearch: wrapApiRequest(data => {
+    return [
+      `/claimant/search`,
+      {
+        body: JSON.stringify({ ...data }),
+        method: 'POST',
+      },
+    ];
   }),
 
   getPOARequest: wrapApiRequest(id => {

@@ -1,5 +1,6 @@
 export const selectCurrentPage = state => state.referral.currentPage;
-export const getSelectedSlot = state => state.referral.selectedSlot;
+export const getSelectedSlotStartTime = state =>
+  state.referral.selectedSlotStartTime;
 
 export function getProviderInfo(state) {
   return {
@@ -21,24 +22,13 @@ export function getReferralAppointmentInfo(state) {
   };
 }
 
-export function getDraftAppointmentInfo(state) {
-  return {
-    draftAppointmentInfo: state.referral.draftAppointmentInfo,
-    draftAppointmentCreateStatus: state.referral.draftAppointmentCreateStatus,
-  };
+export function getCachedDraftAppointmentInfo(state) {
+  return state.referral.draftAppointmentInfo;
 }
 
 export function getReferrals(state) {
   return {
     referrals: state.referral.referrals,
     referralsFetchStatus: state.referral.referralsFetchStatus,
-  };
-}
-
-export function getReferral(state, id) {
-  const referral = state.referral.referralDetails.find(ref => ref.uuid === id);
-  return {
-    referral,
-    referralFetchStatus: state.referral.referralFetchStatus,
   };
 }

@@ -8,6 +8,8 @@ import {
   arrayBuilderYesNoUI,
   addressUI,
   addressSchema,
+  currencyUI,
+  currencySchema,
   dateOfBirthUI,
   dateOfBirthSchema,
   fullNameUI,
@@ -23,7 +25,6 @@ import {
   VaCheckboxField,
   VaTextInputField,
 } from 'platform/forms-system/src/js/web-component-fields';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
   DisabilityDocsAlert,
@@ -335,9 +336,6 @@ const addressPage = {
         "How much do you contribute per month to your child's support?",
       ),
       {
-        'ui:options': {
-          classNames: 'schemaform-currency-input-v3',
-        },
         'ui:required': (formData, index) => {
           return (
             formData?.childInHousehold === false ||
@@ -352,7 +350,7 @@ const addressPage = {
     properties: {
       childAddress: addressSchema({ omit: ['isMilitary', 'street3'] }),
       personWhoLivesWithChild: fullNameSchema,
-      monthlyPayment: { type: 'number' },
+      monthlyPayment: currencySchema,
     },
   },
 };

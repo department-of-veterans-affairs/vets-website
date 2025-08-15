@@ -1,6 +1,13 @@
 import { expect } from 'chai';
-import moment from 'moment';
-import { isValid, getDate, getMonth, getYear } from 'date-fns';
+import {
+  add,
+  parseISO,
+  getUnixTime,
+  isValid,
+  getDate,
+  getMonth,
+  getYear,
+} from 'date-fns';
 
 import {
   dateFieldToDate,
@@ -53,46 +60,24 @@ describe('Helpers unit tests', () => {
   });
 
   describe('timeFromNow', () => {
-    const today = moment().unix();
+    const today = getUnixTime(new Date());
     it('should display time in days', () => {
-      expect(
-        timeFromNow(
-          moment(today)
-            .add(30, 'days')
-            .toDate(),
-          today,
-        ),
-      ).to.equal('30 days');
+      expect(timeFromNow(add(today, { days: 30 }), today)).to.equal('30 days');
     });
     it('should display time in hours', () => {
-      expect(
-        timeFromNow(
-          moment(today)
-            .add(23, 'hours')
-            .toDate(),
-          today,
-        ),
-      ).to.equal('23 hours');
+      expect(timeFromNow(add(today, { hours: 23 }), today)).to.equal(
+        '23 hours',
+      );
     });
     it('should display time in minutes', () => {
-      expect(
-        timeFromNow(
-          moment(today)
-            .add(59, 'minutes')
-            .toDate(),
-          today,
-        ),
-      ).to.equal('59 minutes');
+      expect(timeFromNow(add(today, { minutes: 59 }), today)).to.equal(
+        '59 minutes',
+      );
     });
     it('should display time in seconds', () => {
-      expect(
-        timeFromNow(
-          moment(today)
-            .add(59, 'seconds')
-            .toDate(),
-          today,
-        ),
-      ).to.equal('59 seconds');
+      expect(timeFromNow(add(today, { seconds: 59 }), today)).to.equal(
+        '59 seconds',
+      );
     });
   });
 
@@ -265,8 +250,8 @@ describe('Helpers unit tests', () => {
       );
     });
 
-    it('can handle a moment date', () => {
-      expect(formatDowntime(moment('2020-05-24T12:00:30-04:00'))).to.equal(
+    it('can handle a date object', () => {
+      expect(formatDowntime(parseISO('2020-05-24T12:00:30-04:00'))).to.equal(
         'May 24 at noon ET',
       );
     });
@@ -275,6 +260,11 @@ describe('Helpers unit tests', () => {
       expect(formatDowntime(new Date('2020-05-24T12:00:30-04:00'))).to.equal(
         'May 24 at noon ET',
       );
+    });
+    it('returns a formatted datetime with custom day pattern', () => {
+      expect(
+        formatDowntime(new Date('2020-05-24T12:00:30-04:00'), 'd, y'),
+      ).to.equal('May 24, 2020 at noon ET');
     });
   });
 
@@ -312,35 +302,35 @@ describe('Helpers unit tests', () => {
     it('should throw an error when given an invalid date string', () => {
       const invalidDateString = 'invalid-date';
       expect(() => parseStringOrDate(invalidDateString)).to.throw(
-        `Could not parse date string: ${invalidDateString}. Please ensure that you provide a Date object, Unix timestamp with milliseconds, or ISO 8601 date string.`,
+        `Could not parse date string (sanitized): AAAAAAA-AAAA. Please ensure that you provide a Date object, Unix timestamp with milliseconds, or ISO 8601 date string.`,
       );
     });
 
     it('should throw an error when given a date in an invalid format', () => {
       const nonDateString = 'Sun Jun 11 2012 00:00:00 GMT-0700 (PDT)';
       expect(() => parseStringOrDate(nonDateString)).to.throw(
-        `Could not parse date string: ${nonDateString}. Please ensure that you provide a Date object, Unix timestamp with milliseconds, or ISO 8601 date string.`,
+        `Could not parse date string (sanitized): AAA AAA 11 1111 11:11:11 AAA-1111 (AAA). Please ensure that you provide a Date object, Unix timestamp with milliseconds, or ISO 8601 date string.`,
       );
     });
 
     it('should throw an error when given a non-date string', () => {
       const nonDateString = 'not-a-date';
       expect(() => parseStringOrDate(nonDateString)).to.throw(
-        `Could not parse date string: ${nonDateString}. Please ensure that you provide a Date object, Unix timestamp with milliseconds, or ISO 8601 date string.`,
+        `Could not parse date string (sanitized): AAA-A-AAAA. Please ensure that you provide a Date object, Unix timestamp with milliseconds, or ISO 8601 date string.`,
       );
     });
 
     it('should throw an error when given null', () => {
       const nonDateString = null;
       expect(() => parseStringOrDate(nonDateString)).to.throw(
-        `Could not parse date string: ${nonDateString}. Please ensure that you provide a Date object, Unix timestamp with milliseconds, or ISO 8601 date string.`,
+        `Could not parse date string (sanitized): null. Please ensure that you provide a Date object, Unix timestamp with milliseconds, or ISO 8601 date string.`,
       );
     });
 
     it('should throw an error when given a non-date string', () => {
       const nonDateString = undefined;
       expect(() => parseStringOrDate(nonDateString)).to.throw(
-        `Could not parse date string: ${nonDateString}. Please ensure that you provide a Date object, Unix timestamp with milliseconds, or ISO 8601 date string.`,
+        `Could not parse date string (sanitized): undefined. Please ensure that you provide a Date object, Unix timestamp with milliseconds, or ISO 8601 date string.`,
       );
     });
   });

@@ -43,7 +43,7 @@ describe('Chem Hem details component', () => {
   });
 
   it('should display the test name', () => {
-    const header = screen.getAllByText('Potassium, Sodium', {
+    const header = screen.getAllByText('POTASSIUM, SODIUM', {
       exact: true,
       selector: 'h1',
     });
@@ -162,7 +162,7 @@ describe('Chem hem details component with no date', () => {
   it('should not display the formatted date if effectiveDateTime is missing', () => {
     waitFor(() => {
       expect(screen.queryByTestId('header-time').innerHTML).to.contain(
-        'None noted',
+        'None recorded',
       );
     });
   });

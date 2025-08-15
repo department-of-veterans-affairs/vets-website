@@ -2,9 +2,6 @@ import React from 'react';
 
 export const officialReportPageTitle = 'Official report';
 
-export const reportTypesQuestion =
-  'Were any of these types of official reports filed for the event you described?';
-
 export const officialReportsDescription = (type = 'default') => {
   return (
     <>
@@ -30,22 +27,9 @@ export const officialReportsDescription = (type = 'default') => {
         that traumatic events often go unreported. You can skip this question if
         you don’t feel comfortable answering.
       </p>
-      {type === 'mst' && <p>{reportTypesQuestion}</p>}
     </>
   );
 };
-
-export const militaryReportsHint =
-  'Select any military incident reports filed for this event.';
-
-export const noReportHint =
-  'Select this option if you didn’t have any official reports filed, don’t know about any official reports, or prefer not to include them.';
-
-export const otherReportTypesTitle =
-  'Other official report type not listed here:';
-
-export const otherReportsHint =
-  'Select any any other types of reports filed for this event.';
 
 export const otherReportTypesExamples = (
   <va-additional-info trigger="Examples of ’other’ types of reports">
@@ -62,23 +46,32 @@ export const otherReportTypesExamples = (
   </va-additional-info>
 );
 
-export function selectedReportTypes(formData) {
-  const militaryReportsSelected = Object.values(
-    formData?.militaryReports || {},
-  ).some(Boolean);
+export const removePoliceReportModalContent = (
+  <>
+    <p>
+      If you change your selection, we’ll delete information you provided about
+      this report.
+    </p>
+  </>
+);
 
-  const otherReportsSelected = Object.entries(formData?.otherReports || {})
+export function selectedReportTypes(formData = {}) {
+  const militaryReportsSelected = Object.values(
+    formData.militaryReports || {},
+  ).some(value => value === true);
+
+  const otherReportsSelected = Object.entries(formData.otherReports || {})
     .filter(([key]) => key !== 'none')
-    .some(([, selected]) => Boolean(selected));
+    .some(([, selected]) => selected === true);
 
   const unlistedReportEntered =
-    typeof formData?.unlistedReport === 'string' &&
-    formData.unlistedReport.trim();
+    typeof formData.unlistedReport === 'string' &&
+    formData.unlistedReport.trim().length > 0;
 
   return {
     militaryReports: militaryReportsSelected,
     otherReports: otherReportsSelected,
-    unlistedReport: Boolean(unlistedReportEntered),
+    unlistedReport: unlistedReportEntered,
   };
 }
 
@@ -87,12 +80,12 @@ export function selectedReportTypes(formData) {
  * @param {object} formData
  * @returns {boolean}
  */
-export function showConflictingAlert(formData) {
+export function showConflictingAlert(formData = {}) {
   const { militaryReports, otherReports, unlistedReport } = selectedReportTypes(
     formData,
   );
 
-  const noneSelected = Boolean(formData?.noReport?.none);
+  const noneSelected = formData?.noReport?.none === true;
   const reportTypeSelected = militaryReports || otherReports || unlistedReport;
 
   return noneSelected && reportTypeSelected;

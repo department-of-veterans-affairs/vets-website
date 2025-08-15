@@ -1,11 +1,12 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { mount } from 'enzyme';
 import moment from 'moment';
+import { waitFor } from '@testing-library/dom';
 import formConfig from '../../config/form';
-import { form0781WorkflowChoices } from '../../content/form0781/workflowChoicePage';
+import { form0781WorkflowChoices } from '../../content/form0781/workflowChoices';
 
 describe('VA Medical Records', () => {
   const {
@@ -108,7 +109,7 @@ describe('VA Medical Records', () => {
               'view:hasVaMedicalRecords': true,
             },
             syncModern0781Flow: true,
-            'view:mentalHealthWorkflowChoice':
+            mentalHealthWorkflowChoice:
               form0781WorkflowChoices.COMPLETE_ONLINE_FORM, // Opt in/out
           }}
         />,
@@ -133,7 +134,7 @@ describe('VA Medical Records', () => {
               'view:hasVaMedicalRecords': true,
             },
             syncModern0781Flow: true,
-            'view:mentalHealthWorkflowChoice':
+            mentalHealthWorkflowChoice:
               form0781WorkflowChoices.OPT_OUT_OF_FORM0781, // Opt in/out
           }}
         />,
@@ -194,7 +195,7 @@ describe('VA Medical Records', () => {
 
   // Ignore empty vaTreatmentFacilities when not selected, see
   // va.gov-team/issues/34289
-  it('should allow submit if VA medical records not selected', () => {
+  it('should allow submit if VA medical records not selected', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -213,14 +214,15 @@ describe('VA Medical Records', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
-
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find('.usa-input-error-message').length).to.equal(0);
+      expect(onSubmit.called).to.be.true;
+    });
     form.unmount();
   });
 
-  it('should not submit without all required info', () => {
+  it('should not submit without all required info', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -238,274 +240,21 @@ describe('VA Medical Records', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
-    // Required field: Facility name
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-    expect(
-      form.find(
-        'va-checkbox-group[error="Please select at least one condition"]',
-      ).length,
-    ).to.equal(1);
-    expect(onSubmit.called).to.be.false;
-    form.unmount();
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      // Required field: Facility name
+      expect(form.find('.usa-input-error-message').length).to.equal(1);
+      expect(
+        form.find(
+          'va-checkbox-group[error="Please select at least one condition"]',
+        ).length,
+      ).to.equal(1);
+      expect(onSubmit.called).to.be.false;
+      form.unmount();
+    });
   });
 
-  it('should not submit when treatment start date precedes service start date', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{
-          ...claimType,
-          ratedDisabilities,
-          vaTreatmentFacilities: [
-            {
-              treatmentCenterName: 'Sommerset VA Clinic',
-              treatedDisabilityNames: {
-                diabetesmelitus: true,
-              },
-              treatmentDateRange: {
-                from: '2001-05-XX',
-              },
-              treatmentCenterAddress: {
-                country: 'USA',
-                city: 'Sommerset',
-                state: 'VA',
-              },
-            },
-          ],
-          serviceInformation: {
-            servicePeriods: [
-              { dateRange: { from: '2012-01-12' } },
-              { dateRange: { from: '2001-06-30' } },
-            ],
-          },
-        }}
-        onSubmit={onSubmit}
-      />,
-    );
-
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
-    form.unmount();
-  });
-
-  it('should submit when treatment start date equals service start date', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{
-          ...claimType,
-          ratedDisabilities,
-          vaTreatmentFacilities: [
-            {
-              treatmentCenterName: 'Sommerset VA Clinic',
-              treatedDisabilityNames: {
-                diabetesmelitus: true,
-              },
-              treatmentDateRange: {
-                from: '2001-05-XX',
-              },
-              treatmentCenterAddress: {
-                country: 'USA',
-                city: 'Sommerset',
-                state: 'VA',
-              },
-            },
-          ],
-          serviceInformation: {
-            servicePeriods: [
-              { dateRange: { from: '2012-01-12' }, serviceBranch: 'Army' },
-              { dateRange: { from: '2001-05-30' }, serviceBranch: 'Army' },
-            ],
-          },
-        }}
-        onSubmit={onSubmit}
-      />,
-    );
-
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
-    expect(onSubmit.calledOnce).to.be.true;
-    form.unmount();
-  });
-
-  it('should submit when treatment start date year without month equals earliest service start date year', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{
-          ...claimType,
-          ratedDisabilities,
-          vaTreatmentFacilities: [
-            {
-              treatmentCenterName: 'Sommerset VA Clinic',
-              treatedDisabilityNames: {
-                diabetesmelitus: true,
-              },
-              treatmentDateRange: {
-                from: '2001-XX-XX',
-              },
-              treatmentCenterAddress: {
-                country: 'USA',
-                city: 'Sommerset',
-                state: 'VA',
-              },
-            },
-          ],
-          serviceInformation: {
-            servicePeriods: [
-              { dateRange: { from: '2012-01-12' }, serviceBranch: 'Army' },
-              { dateRange: { from: '2001-05-30' }, serviceBranch: 'Army' },
-            ],
-          },
-        }}
-        onSubmit={onSubmit}
-      />,
-    );
-
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
-    expect(onSubmit.calledOnce).to.be.true;
-    form.unmount();
-  });
-
-  it('should not submit when treatment start date includes a month but no year', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{
-          ...claimType,
-          ratedDisabilities,
-          vaTreatmentFacilities: [
-            {
-              treatmentCenterName: 'Sommerset VA Clinic',
-              treatedDisabilityNames: {
-                diabetesmelitus: true,
-              },
-              treatmentDateRange: {
-                from: 'XXXX-05-XX',
-              },
-              treatmentCenterAddress: {
-                country: 'USA',
-                city: 'Sommerset',
-                state: 'VA',
-              },
-            },
-          ],
-          serviceInformation: {
-            servicePeriods: [
-              { dateRange: { from: '2012-01-12' } },
-              { dateRange: { from: '2001-06-30' } },
-            ],
-          },
-        }}
-        onSubmit={onSubmit}
-      />,
-    );
-
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
-    form.unmount();
-  });
-
-  it('should not submit when treatment start date is in the future', () => {
-    const onSubmit = sinon.spy();
-    const futureDate = `${moment()
-      .add(1, 'month')
-      .format('YYYY-MM')}-XX`;
-    const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{
-          ...claimType,
-          ratedDisabilities,
-          vaTreatmentFacilities: [
-            {
-              treatmentCenterName: 'Sommerset VA Clinic',
-              treatedDisabilityNames: {
-                diabetesmelitus: true,
-              },
-              treatmentDateRange: {
-                from: futureDate,
-              },
-              treatmentCenterAddress: {
-                country: 'USA',
-                city: 'Sommerset',
-                state: 'VA',
-              },
-            },
-          ],
-          serviceInformation: {
-            servicePeriods: [
-              { dateRange: { from: '2012-01-12' } },
-              { dateRange: { from: '2001-06-30' } },
-            ],
-          },
-        }}
-        onSubmit={onSubmit}
-      />,
-    );
-
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
-    form.unmount();
-  });
-
-  it('should submit with all required info', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{
-          ...claimType,
-          ratedDisabilities,
-          vaTreatmentFacilities: [
-            {
-              treatmentCenterName: 'Test clinic',
-              treatedDisabilityNames: {
-                diabetesmelitus: true,
-              },
-              treatmentDateRange: {
-                from: '2010-04-XX',
-              },
-              treatmentCenterAddress: {
-                country: 'USA',
-                city: 'Sommerset',
-                state: 'VA',
-              },
-            },
-          ],
-        }}
-        onSubmit={onSubmit}
-      />,
-    );
-
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
-    expect(onSubmit.calledOnce).to.be.true;
-    form.unmount();
-  });
-
-  it('should require military city when military state selected', () => {
+  it('should require military city when military state selected', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -536,13 +285,15 @@ describe('VA Medical Records', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
-    form.unmount();
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find('.usa-input-error-message').length).to.equal(1);
+      expect(onSubmit.called).to.be.false;
+      form.unmount();
+    });
   });
 
-  it('should require military state when military city entered', () => {
+  it('should require military state when military city entered', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -573,9 +324,410 @@ describe('VA Medical Records', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
-    form.unmount();
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find('.usa-input-error-message').length).to.equal(1);
+      expect(onSubmit.called).to.be.false;
+      form.unmount();
+    });
+  });
+
+  describe('treatmentDateRange comprehensive date validation', () => {
+    it('should not submit when treatment start date precedes service start date', async () => {
+      const onSubmit = sinon.spy();
+      const form = mount(
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          uiSchema={uiSchema}
+          data={{
+            ...claimType,
+            ratedDisabilities,
+            vaTreatmentFacilities: [
+              {
+                treatmentCenterName: 'Sommerset VA Clinic',
+                treatedDisabilityNames: {
+                  diabetesmelitus: true,
+                },
+                treatmentDateRange: {
+                  from: '2001-05-XX',
+                },
+                treatmentCenterAddress: {
+                  country: 'USA',
+                  city: 'Sommerset',
+                  state: 'VA',
+                },
+              },
+            ],
+            serviceInformation: {
+              servicePeriods: [
+                { dateRange: { from: '2012-01-12' } },
+                { dateRange: { from: '2001-06-30' } },
+              ],
+            },
+          }}
+          onSubmit={onSubmit}
+        />,
+      );
+
+      await waitFor(() => {
+        form.find('form').simulate('submit');
+        expect(form.find('.usa-input-error-message').length).to.equal(1);
+        expect(onSubmit.called).to.be.false;
+        form.unmount();
+      });
+    });
+
+    it('should submit when treatment start date equals service start date', async () => {
+      const onSubmit = sinon.spy();
+      const form = mount(
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          uiSchema={uiSchema}
+          data={{
+            ...claimType,
+            ratedDisabilities,
+            vaTreatmentFacilities: [
+              {
+                treatmentCenterName: 'Sommerset VA Clinic',
+                treatedDisabilityNames: {
+                  diabetesmelitus: true,
+                },
+                treatmentDateRange: {
+                  from: '2001-05-XX',
+                },
+                treatmentCenterAddress: {
+                  country: 'USA',
+                  city: 'Sommerset',
+                  state: 'VA',
+                },
+              },
+            ],
+            serviceInformation: {
+              servicePeriods: [
+                { dateRange: { from: '2012-01-12' }, serviceBranch: 'Army' },
+                { dateRange: { from: '2001-05-30' }, serviceBranch: 'Army' },
+              ],
+            },
+          }}
+          onSubmit={onSubmit}
+        />,
+      );
+
+      await waitFor(() => {
+        form.find('form').simulate('submit');
+        expect(form.find('.usa-input-error-message').length).to.equal(0);
+        expect(onSubmit.calledOnce).to.be.true;
+        form.unmount();
+      });
+    });
+
+    it('should submit when treatment start date year without month equals earliest service start date year', async () => {
+      const onSubmit = sinon.spy();
+      const form = mount(
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          uiSchema={uiSchema}
+          data={{
+            ...claimType,
+            ratedDisabilities,
+            vaTreatmentFacilities: [
+              {
+                treatmentCenterName: 'Sommerset VA Clinic',
+                treatedDisabilityNames: {
+                  diabetesmelitus: true,
+                },
+                treatmentDateRange: {
+                  from: '2001-XX-XX',
+                },
+                treatmentCenterAddress: {
+                  country: 'USA',
+                  city: 'Sommerset',
+                  state: 'VA',
+                },
+              },
+            ],
+            serviceInformation: {
+              servicePeriods: [
+                { dateRange: { from: '2012-01-12' }, serviceBranch: 'Army' },
+                { dateRange: { from: '2001-05-30' }, serviceBranch: 'Army' },
+              ],
+            },
+          }}
+          onSubmit={onSubmit}
+        />,
+      );
+
+      await waitFor(() => {
+        form.find('form').simulate('submit');
+        expect(form.find('.usa-input-error-message').length).to.equal(0);
+        expect(onSubmit.calledOnce).to.be.true;
+        form.unmount();
+      });
+    });
+
+    it('should not submit when treatment start date includes a month but no year', async () => {
+      const onSubmit = sinon.spy();
+      const form = mount(
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          uiSchema={uiSchema}
+          data={{
+            ...claimType,
+            ratedDisabilities,
+            vaTreatmentFacilities: [
+              {
+                treatmentCenterName: 'Sommerset VA Clinic',
+                treatedDisabilityNames: {
+                  diabetesmelitus: true,
+                },
+                treatmentDateRange: {
+                  from: 'XXXX-05-XX',
+                },
+                treatmentCenterAddress: {
+                  country: 'USA',
+                  city: 'Sommerset',
+                  state: 'VA',
+                },
+              },
+            ],
+            serviceInformation: {
+              servicePeriods: [
+                { dateRange: { from: '2012-01-12' } },
+                { dateRange: { from: '2001-06-30' } },
+              ],
+            },
+          }}
+          onSubmit={onSubmit}
+        />,
+      );
+
+      await waitFor(() => {
+        form.find('form').simulate('submit');
+        expect(form.find('.usa-input-error-message').length).to.equal(1);
+        expect(onSubmit.called).to.be.false;
+        form.unmount();
+      });
+    });
+
+    it('should not submit when treatment start date is in the future', async () => {
+      const onSubmit = sinon.spy();
+      const futureDate = `${moment()
+        .add(1, 'month')
+        .format('YYYY-MM')}-XX`;
+      const form = mount(
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          uiSchema={uiSchema}
+          data={{
+            ...claimType,
+            ratedDisabilities,
+            vaTreatmentFacilities: [
+              {
+                treatmentCenterName: 'Sommerset VA Clinic',
+                treatedDisabilityNames: {
+                  diabetesmelitus: true,
+                },
+                treatmentDateRange: {
+                  from: futureDate,
+                },
+                treatmentCenterAddress: {
+                  country: 'USA',
+                  city: 'Sommerset',
+                  state: 'VA',
+                },
+              },
+            ],
+            serviceInformation: {
+              servicePeriods: [
+                { dateRange: { from: '2012-01-12' } },
+                { dateRange: { from: '2001-06-30' } },
+              ],
+            },
+          }}
+          onSubmit={onSubmit}
+        />,
+      );
+      await waitFor(() => {
+        form.find('form').simulate('submit');
+        expect(form.find('.usa-input-error-message').length).to.equal(1);
+        expect(onSubmit.called).to.be.false;
+        form.unmount();
+      });
+    });
+
+    it('should accept valid treatment date range', async () => {
+      const onSubmit = sinon.spy();
+      const form = mount(
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          uiSchema={uiSchema}
+          data={{
+            ...claimType,
+            ratedDisabilities,
+            vaTreatmentFacilities: [
+              {
+                treatmentCenterName: 'Test clinic',
+                treatedDisabilityNames: {
+                  diabetesmelitus: true,
+                },
+                treatmentDateRange: {
+                  from: '2010-04-XX',
+                },
+                treatmentCenterAddress: {
+                  country: 'USA',
+                  city: 'Sommerset',
+                  state: 'VA',
+                },
+              },
+            ],
+          }}
+          onSubmit={onSubmit}
+        />,
+      );
+
+      await waitFor(() => {
+        form.find('form').simulate('submit');
+        expect(form.find('.usa-input-error-message').length).to.equal(0);
+        expect(onSubmit.calledOnce).to.be.true;
+        form.unmount();
+      });
+    });
+
+    it('should handle year-only date (YYYY-XX-XX)', async () => {
+      const onSubmit = sinon.spy();
+      const form = mount(
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          uiSchema={uiSchema}
+          data={{
+            ...claimType,
+            ratedDisabilities,
+            vaTreatmentFacilities: [
+              {
+                treatmentCenterName: 'Test clinic',
+                treatedDisabilityNames: {
+                  diabetesmelitus: true,
+                },
+                treatmentDateRange: {
+                  from: '2010-XX-XX',
+                },
+                treatmentCenterAddress: {
+                  country: 'USA',
+                  city: 'Sommerset',
+                  state: 'VA',
+                },
+              },
+            ],
+          }}
+          onSubmit={onSubmit}
+        />,
+      );
+
+      await waitFor(() => {
+        form.find('form').simulate('submit');
+        expect(form.find('.usa-input-error-message').length).to.equal(0);
+        expect(onSubmit.calledOnce).to.be.true;
+        form.unmount();
+      });
+    });
+
+    it('should accept null treatment date', async () => {
+      const onSubmit = sinon.spy();
+      const form = mount(
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          uiSchema={uiSchema}
+          data={{
+            ...claimType,
+            ratedDisabilities,
+            vaTreatmentFacilities: [
+              {
+                treatmentCenterName: 'Test clinic',
+                treatedDisabilityNames: {
+                  diabetesmelitus: true,
+                },
+                treatmentDateRange: {
+                  from: null, // Null date - not required
+                },
+                treatmentCenterAddress: {
+                  country: 'USA',
+                  city: 'Sommerset',
+                  state: 'VA',
+                },
+              },
+            ],
+          }}
+          onSubmit={onSubmit}
+        />,
+      );
+
+      await waitFor(() => {
+        form.find('form').simulate('submit');
+        expect(form.find('.usa-input-error-message').length).to.equal(0);
+        expect(onSubmit.calledOnce).to.be.true;
+        form.unmount();
+      });
+    });
+
+    it('should validate multiple treatment facilities with different date scenarios', async () => {
+      const onSubmit = sinon.spy();
+      const form = mount(
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          uiSchema={uiSchema}
+          data={{
+            ...claimType,
+            ratedDisabilities,
+            vaTreatmentFacilities: [
+              {
+                treatmentCenterName: 'Clinic A',
+                treatedDisabilityNames: {
+                  diabetesmelitus: true,
+                },
+                treatmentDateRange: {
+                  from: '2010-04-XX',
+                },
+                treatmentCenterAddress: {
+                  country: 'USA',
+                  city: 'Sommerset',
+                  state: 'VA',
+                },
+              },
+              {
+                treatmentCenterName: 'Clinic B',
+                treatedDisabilityNames: {
+                  intervertebraldiscsyndrome: true,
+                },
+                treatmentDateRange: {
+                  from: '2011-XX-XX', // Partial date
+                },
+                treatmentCenterAddress: {
+                  country: 'USA',
+                  city: 'Richmond',
+                  state: 'VA',
+                },
+              },
+            ],
+          }}
+          onSubmit={onSubmit}
+        />,
+      );
+
+      await waitFor(() => {
+        form.find('form').simulate('submit');
+        expect(form.find('.usa-input-error-message').length).to.equal(0);
+        expect(onSubmit.calledOnce).to.be.true;
+        form.unmount();
+      });
+    });
   });
 });

@@ -1,6 +1,6 @@
 import {
-  testNumberOfErrorsOnSubmit,
-  testNumberOfFields,
+  testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfWebComponentFields,
 } from '../../../../shared/tests/pages/pageTests.spec';
 import formConfig from '../../../config/form';
 
@@ -11,20 +11,20 @@ const {
 
 const pageTitle = 'authorization';
 
-const expectedNumberOfFields = 1;
-testNumberOfFields(
+const numberOfWebComponentFields = 1;
+testNumberOfWebComponentFields(
   formConfig,
   schema,
   uiSchema,
-  expectedNumberOfFields,
+  numberOfWebComponentFields,
   pageTitle,
 );
 
-const expectedNumberOfErrors = 1;
-testNumberOfErrorsOnSubmit(
+const numberOfWebComponentErrors = 1;
+testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,
   uiSchema,
-  expectedNumberOfErrors,
+  numberOfWebComponentErrors,
   pageTitle,
 );

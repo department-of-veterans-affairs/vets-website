@@ -18,6 +18,8 @@ import { migrateBranches } from './serviceBranches';
 
 import { ptsdBypassDescription } from '../content/ptsdBypassContent';
 
+import { form0781WorkflowChoices } from '../content/form0781/workflowChoices';
+
 /**
  * This is mostly copied from us-forms' own stringifyFormReplacer, but with
  * the incomplete / empty address check removed, since we don't need this
@@ -362,6 +364,91 @@ export const addForm4142 = formData => {
   return clonedData;
 };
 
+// This function is a failsafe redundancy to BehaviorIntroCombatPage.jsx > deleteBehavioralAnswers()
+export const delete0781BehavioralData = formData => {
+  const clonedData = _.cloneDeep(formData);
+
+  delete clonedData.workBehaviors;
+  delete clonedData.otherBehaviors;
+  delete clonedData.healthBehaviors;
+  delete clonedData.behaviorsDetails;
+
+  return clonedData;
+};
+
+const delete0781FormData = formData => {
+  const clonedData = delete0781BehavioralData(_.cloneDeep(formData));
+
+  // Remove top-level keys
+  [
+    'events',
+    'eventTypes',
+    'supportingEvidenceRecords',
+    'supportingEvidenceReports',
+    'supportingEvidenceUnlisted',
+    'supportingEvidenceWitness',
+    'supportingEvidenceOther',
+    'supportingEvidenceNoneCheckbox',
+    'optionIndicator',
+    'treatmentReceivedNonVaProvider',
+    'treatmentReceivedVaProvider',
+    'treatmentNoneCheckbox',
+    'additionalInformation',
+  ].forEach(key => {
+    delete clonedData[key];
+  });
+
+  return clonedData;
+};
+
+export const sanitize0781PoliceReportData = formData => {
+  const clonedData = _.cloneDeep(formData);
+
+  if (Array.isArray(clonedData.events)) {
+    for (let i = 0; i < clonedData.events.length; i++) {
+      const event = clonedData.events[i];
+      // If reports is missing or police is explicitly false, remove location fields
+      if (!event.reports || event.reports.police === false) {
+        delete event.agency;
+        delete event.city;
+        delete event.country;
+        delete event.state;
+        delete event.township;
+      }
+    }
+  }
+
+  return clonedData;
+};
+
+// This function is a failsafe redundancy for BehaviorListPage.jsx > deleteBehaviorDetails()
+export const sanitize0781BehaviorsDetails = formData => {
+  const clonedData = _.cloneDeep(formData);
+
+  if (clonedData.behaviorsDetails) {
+    const work = clonedData.workBehaviors || {};
+    const health = clonedData.healthBehaviors || {};
+    const other = clonedData.otherBehaviors || {};
+    const noChange = clonedData.noBehavioralChange?.noChange === true;
+
+    if (noChange) {
+      // Clear all behaviorsDetails if "no change" is explicitly selected
+      clonedData.behaviorsDetails = {};
+    } else {
+      Object.keys(clonedData.behaviorsDetails).forEach(key => {
+        const isSelected =
+          work[key] === true || health[key] === true || other[key] === true;
+
+        if (!isSelected) {
+          delete clonedData.behaviorsDetails[key];
+        }
+      });
+    }
+  }
+
+  return clonedData;
+};
+
 export const addForm0781 = formData => {
   if (formData.syncModern0781Flow === true) {
     return formData;
@@ -501,6 +588,23 @@ export const addForm0781V2 = formData => {
   if (!formData.syncModern0781Flow) {
     return formData;
   }
+
+  // If a user selected any workflow option other than submitting the online form,
+  // all 0781-related data should be removed
+  if (
+    formData.mentalHealthWorkflowChoice !==
+    form0781WorkflowChoices.COMPLETE_ONLINE_FORM
+  ) {
+    return delete0781FormData(formData);
+  }
+
+  if (formData.answerCombatBehaviorQuestions === 'false') {
+    delete0781BehavioralData(formData);
+  }
+
+  sanitize0781PoliceReportData(formData);
+  sanitize0781BehaviorsDetails(formData);
+
   const clonedData = _.cloneDeep(formData);
 
   clonedData.form0781 = {
@@ -563,6 +667,7 @@ export const addForm0781V2 = formData => {
 
   delete clonedData.eventTypes;
   delete clonedData.events;
+  delete clonedData.noBehavioralChange;
   delete clonedData.workBehaviors;
   delete clonedData.healthBehaviors;
   delete clonedData.otherBehaviors;
@@ -626,4 +731,29 @@ export const addFileAttachments = formData => {
     delete clonedData[key];
   });
   return { ...clonedData, ...(attachments.length && { attachments }) };
+};
+
+/**
+ * Check validations for Custom pages
+ * @param {Function[]} validations - array of validation functions
+ * @param {*} data - field data passed to the validation function
+ * @param {*} fullData - full and appStateData passed to validation function
+ * @param {*} index - array index if within an array
+ * @returns {String[]} - error messages
+ *
+ * Copied from src/applications/appeals/shared/validations/index.js, because we don't allow cross-app imports
+ */
+export const checkValidations = (
+  validations = [],
+  data = {},
+  fullData = {},
+  index,
+) => {
+  const errors = { errorMessages: [] };
+  errors.addError = message => errors.errorMessages.push(message);
+  /* errors, fieldData, formData, schema, uiSchema, index, appStateData */
+  validations.map(validation =>
+    validation(errors, data, fullData, null, null, index, fullData),
+  );
+  return errors.errorMessages;
 };

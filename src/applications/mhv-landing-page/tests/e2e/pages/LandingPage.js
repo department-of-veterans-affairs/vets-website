@@ -17,23 +17,41 @@ class LandingPage {
 
   validateURL = () => cy.url().should('match', /\/my-health\/$/);
 
+  validateNonPatientURL = () =>
+    cy.url().should('match', /\/my-health\/\?page=non-patient$/);
+
   visitPage = ({
     verified = true,
     registered = true,
     mhvAccountState = 'OK',
+    serviceName = 'idme',
+    edipi = null,
     user,
+    isNonPatientPage = false,
   } = {}) => {
-    let props = { mhvAccountState };
+    let props = { mhvAccountState, serviceName, edipi, isNonPatientPage };
     if (!verified) props = { ...props, loa: 1 };
     if (!registered) props = { ...props, vaPatient: false };
     const userMock = user || generateUser(props);
     cy.login(userMock);
     cy.visit(this.pageUrl);
     this.loaded();
-    this.validateURL();
+    if (isNonPatientPage) {
+      this.validateNonPatientURL();
+    } else {
+      this.validateURL();
+    }
   };
 
   visit = props => this.visitPage(props);
+
+  visitNonPatientPage = props =>
+    this.visitPage({
+      registered: false,
+      verified: true,
+      isNonPatientPage: true,
+      ...props,
+    });
 
   initializeApi = () => {
     Object.entries(responses).forEach(([request, response]) => {

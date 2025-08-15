@@ -3,10 +3,17 @@
 export const relationshipLabels = {
   VETERAN: 'Veteran',
   SPOUSE: 'Spouse',
-  CHILD: 'Child',
+  CHILD: 'Child/children',
   PARENT: 'Parent',
   CUSTODIAN: 'Custodian of child',
-  OTHER: 'Other',
+  OTHER: 'Another dependent not listed here ',
+};
+
+export const relationshipLabelDescriptions = {
+  SPOUSE:
+    'Unless you’re estranged, live apart, and don’t contribute to their support',
+  CHILD: 'Unless you don’t have custody and don’t provide financial support',
+  CUSTODIAN: 'Unless the child’s custodian is an institution',
 };
 
 export const transferMethodLabels = {
@@ -18,11 +25,11 @@ export const transferMethodLabels = {
 };
 
 export const claimantTypeLabels = {
-  VETERAN: 'Veteran',
-  SPOUSE: 'Surviving spouse',
-  CHILD: 'Surviving child',
-  PARENT: 'Parent',
-  CUSTODIAN: 'Custodian of child beneficiary',
+  VETERAN: "I'm a Veteran submitting this form to support my own claim",
+  SPOUSE: "I'm the Veteran's surviving spouse",
+  CHILD: "I'm the Veteran's surviving child",
+  CUSTODIAN: "I'm the custodian of a Veteran's surviving child",
+  PARENT: "I'm the Veteran's surviving parent",
 };
 
 export const incomeFrequencyLabels = {
@@ -33,7 +40,7 @@ export const incomeFrequencyLabels = {
 
 export const incomeTypeLabels = {
   SOCIAL_SECURITY: 'Social Security',
-  PENSION_RETIREMENT: 'Pension or retirement income',
+  RETIREMENT_PENSION: 'Pension or retirement income',
   WAGES: 'Wages',
   UNEMPLOYMENT: 'Unemployment',
   CIVIL_SERVICE: 'Civil Service',
@@ -54,7 +61,7 @@ export const ownedAssetTypeLabels = {
 
 export const generatedIncomeTypeLabels = {
   INTELLECTUAL_PROPERTY: 'Benefits from intellectual property',
-  MINERALS_LUMBER: 'Extraction of minerals/lumbar',
+  MINERALS_LUMBER: 'Extraction of minerals/lumber',
   USE_OF_LAND: 'Use of land',
   OTHER: 'Other',
 };

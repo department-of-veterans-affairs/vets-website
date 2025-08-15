@@ -39,16 +39,6 @@ const AddOtherExpense = ({ data, goToPath, setFormData }) => {
   const [submitted, setSubmitted] = useState(false);
 
   const handlers = {
-    onSubmit: event => {
-      // handle page navigation
-      // goToPath needs to be encapsulated separately from setFormData
-      // or data updates won't be reflected when page navigation occurs
-      event.preventDefault();
-
-      if (!nameError && !amountError && !otherExpenseAmountError) {
-        goToPath(SUMMARY_PATH);
-      }
-    },
     onExpenseNameChange: ({ target }) => {
       setExpenseName(target.value);
     },
@@ -88,8 +78,9 @@ const AddOtherExpense = ({ data, goToPath, setFormData }) => {
           ...data,
           otherExpenses: newExpenses,
         });
+
+        goToPath(SUMMARY_PATH);
       }
-      handlers.onSubmit(event);
     },
   };
 
@@ -102,7 +93,7 @@ const AddOtherExpense = ({ data, goToPath, setFormData }) => {
 
   return (
     <>
-      <form onSubmit={handlers.onSubmit}>
+      <form>
         <fieldset className="vads-u-margin-y--2">
           <legend
             id="decision-date-description"
@@ -149,7 +140,6 @@ const AddOtherExpense = ({ data, goToPath, setFormData }) => {
                 {
                   label: `${labelText} expense`,
                   onClick: handlers.onUpdate,
-                  isSubmitting: 'prevent', // If this button submits a form
                 },
               ]}
             />

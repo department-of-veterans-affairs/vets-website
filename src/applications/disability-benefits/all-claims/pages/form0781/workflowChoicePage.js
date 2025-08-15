@@ -3,19 +3,19 @@ import { form0781HeadingTag, titleWithTag } from '../../content/form0781';
 import {
   form0781WorkflowChoiceDescription,
   form0781WorkflowChoiceLabels,
-  form0781WorkflowChoices,
   traumaticEventsExamples,
   workflowChoicePageDescription,
   workflowChoicePageTitle,
-  mstAlert,
 } from '../../content/form0781/workflowChoicePage';
+
+import { form0781WorkflowChoices } from '../../content/form0781/workflowChoices';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
     'ui:title': titleWithTag(workflowChoicePageTitle, form0781HeadingTag),
     'ui:description': ({ formData }) => workflowChoicePageDescription(formData),
-    'view:mentalHealthWorkflowChoice': radioUI({
+    mentalHealthWorkflowChoice: radioUI({
       title: form0781WorkflowChoiceDescription,
       labelHeaderLevel: '4',
       errorMessages: {
@@ -27,26 +27,19 @@ export default {
     'view:traumaticEventsInfo': {
       'ui:description': traumaticEventsExamples,
     },
-    'view:mstAlertInfo': {
-      'ui:description': mstAlert,
-    },
   },
 
   schema: {
     type: 'object',
-    required: ['view:mentalHealthWorkflowChoice'],
+    required: ['mentalHealthWorkflowChoice'],
     properties: {
-      'view:mentalHealthWorkflowChoice': {
+      mentalHealthWorkflowChoice: {
         type: 'string',
         enum: Object.keys(form0781WorkflowChoices).map(
           key => form0781WorkflowChoices[key],
         ),
       },
       'view:traumaticEventsInfo': {
-        type: 'object',
-        properties: {},
-      },
-      'view:mstAlertInfo': {
         type: 'object',
         properties: {},
       },

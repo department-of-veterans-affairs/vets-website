@@ -10,11 +10,11 @@ import {
   setFetchJSONResponse,
 } from '~/platform/testing/unit/helpers';
 
+import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
 import { createDebtsSuccess } from '../../../mocks/debts';
 import { user81Copays } from '../../../mocks/medical-copays';
 import BenefitPaymentsAndDebt from '../../../components/debts/Debts';
 import reducers from '../../../reducers';
-import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
 
 const mockStore = configureStore([thunk]);
 
@@ -57,6 +57,28 @@ describe('<BenefitPaymentsAndDebt />', () => {
     );
 
     expect(getByTestId('no-outstanding-debts-text')).to.exist;
+  });
+
+  it('displays debts card when using count-only mode', () => {
+    const store = mockStore({
+      allDebts: {
+        isLoading: false,
+        debts: [],
+        debtsCount: 3,
+        copays: [],
+        debtsErrors: [],
+        copaysErrors: [],
+      },
+    });
+
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <BenefitPaymentsAndDebt />
+      </Provider>,
+    );
+
+    const header = getByTestId('debt-total-header');
+    expect(header.textContent).to.equal('3 overpayment debts');
   });
 
   it('displays debts card when debts are present', () => {

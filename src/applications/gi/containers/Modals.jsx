@@ -29,6 +29,10 @@ import TuitionAndFeesModalContent from '../components/content/modals/TuitionAndF
 import VeteranSuccessModalContent from '../components/content/modals/VeteranSuccessModalContent';
 import YellowRibbonModalContent from '../components/content/modals/YellowRibbonModalContent';
 import LearnMoreAccreditedContent from './search/LearnMoreAccreditedContent';
+import PublicSchoolModalContent from '../components/content/modals/PublicSchoolModalContent';
+import PrivateSchoolModalContent from '../components/content/modals/PrivateSchoolModalContent';
+import ProprietarySchoolModalContent from '../components/content/modals/ProprietarySchoolModalContent';
+import ForeignSchoolModalContent from '../components/content/modals/ForeignSchoolModalContent';
 
 export function Modals({ hideModal, modals, profile }) {
   const shouldDisplayModal = modal => modals.displaying === modal;
@@ -329,6 +333,34 @@ export function Modals({ hideModal, modals, profile }) {
         modalTitle="Accreditation and why it matters"
       >
         <AccreditationModalContent />
+      </VaModal>
+      <VaModal
+        onCloseEvent={hideModal}
+        visible={shouldDisplayModal('publicSchool')}
+        modalTitle="Public Institution"
+      >
+        <PublicSchoolModalContent />
+      </VaModal>
+      <VaModal
+        onCloseEvent={hideModal}
+        visible={shouldDisplayModal('privateSchool')}
+        modalTitle="Private Nonprofit Institution"
+      >
+        <PrivateSchoolModalContent />
+      </VaModal>
+      <VaModal
+        onCloseEvent={hideModal}
+        visible={shouldDisplayModal('proprietarySchool')}
+        modalTitle="Proprietary Institution"
+      >
+        <ProprietarySchoolModalContent />
+      </VaModal>
+      <VaModal
+        onCloseEvent={hideModal}
+        visible={shouldDisplayModal('foreignSchool')}
+        modalTitle="Foreign Institution"
+      >
+        <ForeignSchoolModalContent />
       </VaModal>
       <VaModal
         onCloseEvent={hideModal}

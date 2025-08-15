@@ -1,5 +1,4 @@
 /* eslint-disable @department-of-veterans-affairs/axe-check-required */
-import { pageNotFoundTestId } from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import { appName, rootUrl } from '../../manifest.json';
 import user from '../fixtures/user.json';
 import ApiInitializer from './utilities/ApiInitializer';
@@ -30,6 +29,7 @@ describe(`${appName} -- Status Page`, () => {
     ApiInitializer.initializeFeatureToggle.withAllFeatures();
     ApiInitializer.initializeClaims.happyPath();
     ApiInitializer.initializeClaimDetails.happyPath();
+    ApiInitializer.additionalClaims.happyPath();
     cy.login(user);
     cy.visit(rootUrl);
     cy.injectAxeThenAxeCheck();
@@ -41,10 +41,11 @@ describe(`${appName} -- Status Page`, () => {
 
   it('navigates to the platform 404 page if route not found', () => {
     cy.visit(`${rootUrl}/banana`);
-    cy.findByTestId(pageNotFoundTestId).should('exist');
+    cy.findByTestId('mhv-page-not-found').should('exist');
   });
 
   it('defaults to "most recent" sort order', () => {
+    cy.openFilters();
     cy.get('select[name="claimsOrder"]').should('have.value', 'mostRecent');
   });
 
@@ -76,48 +77,31 @@ describe(`${appName} -- Status Page`, () => {
       'Claim number: TC0000000000001',
     );
 
+    cy.get('p[data-testid="status-definition-text"]').should(
+      'contain.text',
+      'We approved your claim',
+    );
+
     // Wrapper to simulate Bradcrumbs spacing interferes with the cypress .get
     // cy.get('va-link[data-testid="details-back-link"]')
     //   .first()
     //   .click();
 
     // Instead just find the text for the link and click it
-    cy.contains('Check your travel reimbursement claim status').click();
+    cy.contains('Travel reimbursement claims').click();
 
-    cy.location('pathname').should('eq', '/my-health/travel-pay/claims/');
-  });
-
-  it('navigates to the status explainer page and back to status page', () => {
-    cy.get('va-additional-info')
-      .first()
-      .click();
-
-    cy.get('va-link[data-testid="status-explainer-link"]')
-      .first()
-      .click();
-
-    cy.location('pathname').should('eq', '/my-health/travel-pay/help');
-
-    cy.get('h1').should('include.text', 'What does my claim status mean?');
-
-    // // get the 4th Breadcrumb, test that it is correct for the page
-    cy.get('a')
-      .eq(3)
-      .should('include.text', 'Help: Claim Status Meanings');
-
-    // The 3rd Breadcrumb link (since there are 2 with path: "/")
-    cy.get('a')
-      .eq(2)
-      .click();
     cy.location('pathname').should('eq', '/my-health/travel-pay/claims/');
   });
 
   it('sorts the claims ordered by appointment date ascending on user action', () => {
+    cy.openFilters();
     cy.get('select[name="claimsOrder"]').should('have.value', 'mostRecent');
     cy.get('select[name="claimsOrder"]').select('oldest');
     cy.get('select[name="claimsOrder"]').should('have.value', 'oldest');
 
-    cy.get('va-button[data-testid="Sort travel claims"]').click();
+    cy.get('va-button[data-testid="apply_filters"]').click({
+      waitForAnimations: true,
+    });
 
     cy.get('h3[data-testid="travel-claim-details"]')
       .first()
@@ -159,43 +143,43 @@ describe(`${appName} -- Status Page`, () => {
   });
 
   it('filters the claims by a date range preset', () => {
-    cy.openFilters();
-
-    cy.get('select[name="claimsDates"]').should('have.value', 'all');
-    cy.get('select[name="claimsDates"]').select('Past 3 Months');
-    cy.get('select[name="claimsDates"]').should('have.value', 'Past 3 Months');
-
-    cy.get('va-button[data-testid="apply_filters"]').click({
-      waitForAnimations: true,
-    });
+    cy.get('select[name="claimsDates"]').should(
+      'have.value',
+      '{"label":"Past 3 Months","value":"pastThreeMonths","start":"2024-03-25T00:00:00","end":"2024-06-25T23:59:59"}',
+    );
+    cy.get('select[name="claimsDates"]').select(
+      '{"label":"Jan 2024 - Mar 2024","value":"Q1_2024","start":"2024-01-01T00:00:00","end":"2024-03-31T23:59:59"}',
+      { waitForAnimations: true },
+    );
+    cy.get('select[name="claimsDates"]').should(
+      'have.value',
+      '{"label":"Jan 2024 - Mar 2024","value":"Q1_2024","start":"2024-01-01T00:00:00","end":"2024-03-31T23:59:59"}',
+    );
 
     cy.get('h3[data-testid="travel-claim-details"]').should('have.length', 1);
 
     cy.get('h3[data-testid="travel-claim-details"]')
       .first()
-      .should('include.text', 'May 15, 2024');
+      .should('include.text', 'February 11, 2024');
   });
 
   it('filters by multiple properties with non-default sorting', () => {
+    cy.openFilters();
     cy.get('select[name="claimsOrder"]').select('oldest');
     cy.get('select[name="claimsOrder"]').should('have.value', 'oldest');
-    cy.get('va-button[data-testid="Sort travel claims"]').click();
 
-    cy.openFilters();
     cy.selectVaCheckbox('Claim submitted', true);
-    cy.get('select[name="claimsDates"]').select('All of 2023');
-    cy.get('select[name="claimsDates"]').should('have.value', 'All of 2023');
 
     cy.get('va-button[data-testid="apply_filters"]').click({
       waitForAnimations: true,
     });
 
-    cy.get('h3[data-testid="travel-claim-details"]').should('have.length', 3);
+    cy.get('h3[data-testid="travel-claim-details"]').should('have.length', 4);
     cy.get('h3[data-testid="travel-claim-details"]')
       .first()
-      .should('include.text', 'May 17, 2023');
+      .should('include.text', 'August 3, 2022');
     cy.get('h3[data-testid="travel-claim-details"]')
-      .eq(2)
+      .eq(3)
       .should('include.text', 'December 28, 2023');
   });
 
@@ -221,9 +205,9 @@ describe(`${appName} -- Status Page`, () => {
   });
 
   it('preserves sort order when filters are applied', () => {
-    cy.get('select[name="claimsOrder"]').select('oldest');
-    cy.get('va-button[data-testid="Sort travel claims"]').click();
     cy.openFilters();
+
+    cy.get('select[name="claimsOrder"]').select('oldest');
     cy.selectVaCheckbox('Saved', true);
     cy.get('va-button[data-testid="apply_filters"]').click({
       waitForAnimations: true,

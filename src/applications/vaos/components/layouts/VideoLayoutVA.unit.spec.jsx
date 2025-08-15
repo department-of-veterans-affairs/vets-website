@@ -1,19 +1,21 @@
-import React from 'react';
 import { expect } from 'chai';
-import moment from 'moment';
+import React from 'react';
 
+import { subDays } from 'date-fns';
+import MockAppointmentResponse from '../../tests/fixtures/MockAppointmentResponse';
+import MockFacilityResponse from '../../tests/fixtures/MockFacilityResponse';
 import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../tests/mocks/setup';
+import { APPOINTMENT_STATUS } from '../../utils/constants';
 import VideoLayoutVA from './VideoLayoutVA';
-import { VIDEO_TYPES } from '../../utils/constants';
 
 describe('VAOS Component: VideoLayoutVA', () => {
   const initialState = {
     appointments: {
       facilityData: {
-        '983': {
+        983: {
           address: {
             line: ['2360 East Pershing Boulevard'],
             city: 'Cheyenne',
@@ -44,32 +46,12 @@ describe('VAOS Component: VideoLayoutVA', () => {
         },
       };
       const store = createTestStore(state);
-
-      const appointment = {
-        location: {
-          stationId: '983',
-          clinicName: 'Clinic 1',
-          clinicPhysicalLocation: 'CHEYENNE',
-        },
-        videoData: {
-          isVideo: true,
-          facilityId: '983',
-          kind: VIDEO_TYPES.clinic,
-          extension: {
-            patientHasMobileGfe: false,
-          },
-        },
-        vaos: {
-          isCommunityCare: false,
-          isCompAndPenAppointment: false,
-          isCOVIDVaccine: false,
-          isPendingAppointment: false,
-          isUpcomingAppointment: true,
-          isVideo: true,
-          apiData: {},
-        },
-        status: 'booked',
-      };
+      const response = MockAppointmentResponse.createClinicResponse({
+        localStartTime: new Date(),
+      }).setLocation(null);
+      const appointment = MockAppointmentResponse.getTransformedResponse(
+        response,
+      );
 
       // Act
       const screen = renderWithStoreAndRouter(
@@ -102,28 +84,12 @@ describe('VAOS Component: VideoLayoutVA', () => {
         },
       };
       const store = createTestStore(state);
-
-      const appointment = {
-        location: {},
-        videoData: {
-          isVideo: true,
-          facilityId: '983',
-          kind: VIDEO_TYPES.clinic,
-          extension: {
-            patientHasMobileGfe: false,
-          },
-        },
-        vaos: {
-          isCommunityCare: false,
-          isCompAndPenAppointment: false,
-          isCOVIDVaccine: false,
-          isPendingAppointment: false,
-          isUpcomingAppointment: true,
-          isVideo: true,
-          apiData: {},
-        },
-        status: 'booked',
-      };
+      const response = MockAppointmentResponse.createClinicResponse({
+        localStartTime: new Date(),
+      }).setLocationId(null);
+      const appointment = MockAppointmentResponse.getTransformedResponse(
+        response,
+      );
 
       // Act
       const screen = renderWithStoreAndRouter(
@@ -150,34 +116,22 @@ describe('VAOS Component: VideoLayoutVA', () => {
     it('should not display heading and text for empty data', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const appointment = {
-        type: 'VA',
-        modality: 'vaVideoCareAtAVaLocation',
-        videoData: {
-          isVideo: true,
-          facilityId: '983',
-          kind: VIDEO_TYPES.clinic,
-          extension: {
-            patientHasMobileGfe: false,
-          },
-        },
-        vaos: {
-          isCommunityCare: false,
-          isCompAndPenAppointment: false,
-          isCOVIDVaccine: false,
-          isPendingAppointment: false,
-          isUpcomingAppointment: true,
-          isVideo: true,
-          isCerner: false,
-          apiData: {},
-        },
-        status: 'booked',
-      };
       const nullAttributes = {
         type: 'VA',
         modality: 'vaVideoCareAtAVaLocation',
         isCerner: false,
+        'fields-load-success': '',
+        'fields-load-fail':
+          'type-of-care,provider,clinic-phone,facility-id,facility-details,facility-phone',
       };
+      const response = MockAppointmentResponse.createClinicResponse({
+        localStartTime: new Date(),
+      })
+        .setLocationId(null)
+        .setTypeOfCare(null);
+      const appointment = MockAppointmentResponse.getTransformedResponse(
+        response,
+      );
 
       // Act
       const screen = renderWithStoreAndRouter(
@@ -210,52 +164,7 @@ describe('VAOS Component: VideoLayoutVA', () => {
       ).not.to.exist;
 
       expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-total',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-any',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-type-of-care',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-type-of-care',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-provider',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-provider',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-clinic-phone',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-clinic-phone',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-facility-id',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-facility-id',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-facility-details',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-facility-details',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-facility-phone',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-facility-phone',
+        event: 'vaos-null-states',
         ...nullAttributes,
       });
     });
@@ -263,29 +172,14 @@ describe('VAOS Component: VideoLayoutVA', () => {
     it('should display facility phone when clinic phone is missing', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const appointment = {
-        location: {
-          stationId: '983',
-        },
-        videoData: {
-          isVideo: true,
-          facilityId: '983',
-          kind: VIDEO_TYPES.clinic,
-          extension: {
-            patientHasMobileGfe: false,
-          },
-        },
-        vaos: {
-          isCommunityCare: false,
-          isCompAndPenAppointment: false,
-          isCOVIDVaccine: false,
-          isPendingAppointment: false,
-          isUpcomingAppointment: true,
-          isVideo: true,
-          apiData: {},
-        },
-        status: 'booked',
-      };
+      const response = MockAppointmentResponse.createClinicResponse({
+        localStartTime: new Date(),
+      })
+        .setLocation(new MockFacilityResponse())
+        .setPractitioner();
+      const appointment = MockAppointmentResponse.getTransformedResponse(
+        response,
+      );
 
       // Act
       const screen = renderWithStoreAndRouter(
@@ -299,30 +193,16 @@ describe('VAOS Component: VideoLayoutVA', () => {
         screen.container.querySelector('va-telephone[contact="307-778-7550"]'),
       ).to.be.ok;
     });
+
     it('should display VA main phone when facility id is missing', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const appointment = {
-        location: {},
-        videoData: {
-          isVideo: true,
-          facilityId: null,
-          kind: VIDEO_TYPES.clinic,
-          extension: {
-            patientHasMobileGfe: false,
-          },
-        },
-        vaos: {
-          isCommunityCare: false,
-          isCompAndPenAppointment: false,
-          isCOVIDVaccine: false,
-          isPendingAppointment: false,
-          isUpcomingAppointment: true,
-          isVideo: true,
-          apiData: {},
-        },
-        status: 'booked',
-      };
+      const response = MockAppointmentResponse.createClinicResponse({
+        localStartTime: new Date(),
+      }).setLocationId(null);
+      const appointment = MockAppointmentResponse.getTransformedResponse(
+        response,
+      );
 
       // Act
       const screen = renderWithStoreAndRouter(
@@ -331,6 +211,7 @@ describe('VAOS Component: VideoLayoutVA', () => {
           store,
         },
       );
+
       // Assert
       expect(
         screen.container.querySelector('va-telephone[contact="800-698-2411"]'),
@@ -343,44 +224,25 @@ describe('VAOS Component: VideoLayoutVA', () => {
       it('should display VA video layout', async () => {
         // Arrange
         const store = createTestStore(initialState);
-        const appointment = {
-          location: {
-            stationId: '983',
-            clinicName: 'Clinic 1',
-            clinicPhysicalLocation: 'CHEYENNE',
-            clinicPhone: '500-500-5000',
-            clinicPhoneExtension: '1234',
-          },
-          videoData: {
-            isVideo: true,
-            facilityId: '983',
-            kind: VIDEO_TYPES.clinic,
-            extension: {
-              patientHasMobileGfe: false,
-            },
-            providers: [
-              {
-                name: {
-                  firstName: ['TEST'],
-                  lastName: 'PROV',
-                },
-                display: 'TEST PROV',
-              },
-            ],
-          },
-          vaos: {
-            isCommunityCare: false,
-            isCompAndPenAppointment: false,
-            isCOVIDVaccine: false,
-            isPendingAppointment: false,
-            isUpcomingAppointment: true,
-            isVideo: true,
-            apiData: {
-              serviceType: 'primaryCare',
-            },
-          },
-          status: 'booked',
+        const nullAttributes = {
+          type: 'VA',
+          modality: 'vaVideoCareAtAVaLocation',
+          isCerner: false,
+          'fields-load-success':
+            'type-of-care,provider,clinic-phone,facility-id,facility-details,facility-phone',
+          'fields-load-fail': '',
         };
+        const response = MockAppointmentResponse.createClinicResponse({
+          localStartTime: new Date(),
+        })
+          .setClinicPhoneNumber('500-500-5000')
+          .setClinicPhoneNumberExtension('1234')
+          .setServiceName('Clinic 1')
+          .setLocation(new MockFacilityResponse())
+          .setPractitioner();
+        const appointment = MockAppointmentResponse.getTransformedResponse(
+          response,
+        );
 
         // Act
         const screen = renderWithStoreAndRouter(
@@ -472,7 +334,7 @@ describe('VAOS Component: VideoLayoutVA', () => {
         );
         expect(
           screen.getByText(
-            /Bring your insurance cards. And bring a list of your medications and other information to share with your provider./i,
+            /Bring your insurance cards, a list of your medications, and other things to share with your provider/i,
           ),
         );
         expect(
@@ -482,51 +344,13 @@ describe('VAOS Component: VideoLayoutVA', () => {
         ).to.be.ok;
         expect(
           screen.container.querySelector(
-            'va-link[text="Find a full list of things to bring to your appointment"]',
+            'va-link[text="Find out what to bring to your appointment"]',
           ),
         ).to.be.ok;
 
         expect(window.dataLayer).to.deep.include({
-          event: 'vaos-null-states-expected-total',
-        });
-        expect(window.dataLayer).not.to.deep.include({
-          event: 'vaos-null-states-missing-any',
-        });
-        expect(window.dataLayer).to.deep.include({
-          event: 'vaos-null-states-expected-type-of-care',
-        });
-        expect(window.dataLayer).not.to.deep.include({
-          event: 'vaos-null-states-missing-type-of-care',
-        });
-        expect(window.dataLayer).to.deep.include({
-          event: 'vaos-null-states-expected-provider',
-        });
-        expect(window.dataLayer).not.to.deep.include({
-          event: 'vaos-null-states-missing-provider',
-        });
-        expect(window.dataLayer).to.deep.include({
-          event: 'vaos-null-states-expected-clinic-phone',
-        });
-        expect(window.dataLayer).not.to.deep.include({
-          event: 'vaos-null-states-missing-clinic-phone',
-        });
-        expect(window.dataLayer).to.deep.include({
-          event: 'vaos-null-states-expected-facility-id',
-        });
-        expect(window.dataLayer).not.to.deep.include({
-          event: 'vaos-null-states-missing-facility-id',
-        });
-        expect(window.dataLayer).to.deep.include({
-          event: 'vaos-null-states-expected-facility-details',
-        });
-        expect(window.dataLayer).not.to.deep.include({
-          event: 'vaos-null-states-missing-facility-details',
-        });
-        expect(window.dataLayer).to.deep.include({
-          event: 'vaos-null-states-expected-facility-phone',
-        });
-        expect(window.dataLayer).not.to.deep.include({
-          event: 'vaos-null-states-missing-facility-phone',
+          event: 'vaos-null-states',
+          ...nullAttributes,
         });
       });
     });
@@ -535,44 +359,16 @@ describe('VAOS Component: VideoLayoutVA', () => {
       it('should display VA video layout', async () => {
         // Arrange
         const store = createTestStore(initialState);
-        const appointment = {
-          location: {
-            stationId: '983',
-            clinicName: 'Clinic 1',
-            clinicPhysicalLocation: 'CHEYENNE',
-            clinicPhone: '500-500-5000',
-            clinicPhoneExtension: '1234',
-          },
-          videoData: {
-            isVideo: true,
-            facilityId: '983',
-            kind: VIDEO_TYPES.storeForward,
-            extension: {
-              patientHasMobileGfe: false,
-            },
-            providers: [
-              {
-                name: {
-                  firstName: ['TEST'],
-                  lastName: 'PROV',
-                },
-                display: 'TEST PROV',
-              },
-            ],
-          },
-          vaos: {
-            isCommunityCare: false,
-            isCompAndPenAppointment: false,
-            isCOVIDVaccine: false,
-            isPendingAppointment: false,
-            isUpcomingAppointment: true,
-            isVideo: true,
-            apiData: {
-              serviceType: 'primaryCare',
-            },
-          },
-          status: 'booked',
-        };
+        const response = MockAppointmentResponse.createStoreForwardResponse({
+          localStartTime: new Date(),
+        })
+          .setClinicPhoneNumber('500-500-5000')
+          .setLocation(new MockFacilityResponse())
+          .setPractitioner()
+          .setServiceName('Clinic 1');
+        const appointment = MockAppointmentResponse.getTransformedResponse(
+          response,
+        );
 
         // Act
         const screen = renderWithStoreAndRouter(
@@ -657,7 +453,7 @@ describe('VAOS Component: VideoLayoutVA', () => {
         );
         expect(
           screen.getByText(
-            /Bring your insurance cards. And bring a list of your medications and other information to share with your provider./i,
+            /Bring your insurance cards, a list of your medications, and other things to share with your provider/i,
           ),
         );
         expect(
@@ -667,7 +463,7 @@ describe('VAOS Component: VideoLayoutVA', () => {
         ).to.be.ok;
         expect(
           screen.container.querySelector(
-            'va-link[text="Find a full list of things to bring to your appointment"]',
+            'va-link[text="Find out what to bring to your appointment"]',
           ),
         ).to.be.ok;
       });
@@ -678,45 +474,17 @@ describe('VAOS Component: VideoLayoutVA', () => {
     it('should display VA video layout', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const appointment = {
-        location: {
-          stationId: '983',
-          clinicName: 'Clinic 1',
-          clinicPhysicalLocation: 'CHEYENNE',
-          clinicPhone: '500-500-5000',
-          clinicPhoneExtension: '1234',
-        },
-        videoData: {
-          isVideo: true,
-          facilityId: '983',
-          kind: VIDEO_TYPES.clinic,
-          extension: {
-            patientHasMobileGfe: false,
-          },
-          providers: [
-            {
-              name: {
-                firstName: ['TEST'],
-                lastName: 'PROV',
-              },
-              display: 'TEST PROV',
-            },
-          ],
-        },
-        vaos: {
-          isCommunityCare: false,
-          isCompAndPenAppointment: false,
-          isCOVIDVaccine: false,
-          isPastAppointment: true,
-          isPendingAppointment: false,
-          isUpcomingAppointment: false,
-          isVideo: true,
-          apiData: {
-            serviceType: 'primaryCare',
-          },
-        },
-        status: 'booked',
-      };
+      const response = MockAppointmentResponse.createClinicResponse({
+        localStartTime: subDays(new Date(), 1),
+        past: true,
+      })
+        .setClinicPhoneNumber('500-500-5000')
+        .setServiceName('Clinic 1')
+        .setLocation(new MockFacilityResponse())
+        .setPractitioner();
+      const appointment = MockAppointmentResponse.getTransformedResponse(
+        response,
+      );
 
       // Act
       const screen = renderWithStoreAndRouter(
@@ -808,45 +576,18 @@ describe('VAOS Component: VideoLayoutVA', () => {
     it('should display VA video layout when in the future', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const appointment = {
-        location: {
-          stationId: '983',
-          clinicName: 'Clinic 1',
-          clinicPhysicalLocation: 'CHEYENNE',
-          clinicPhone: '500-500-5000',
-          clinicPhoneExtension: '1234',
-        },
-        videoData: {
-          isVideo: true,
-          facilityId: '983',
-          kind: VIDEO_TYPES.clinic,
-          extension: {
-            patientHasMobileGfe: true,
-          },
-          providers: [
-            {
-              name: {
-                firstName: ['TEST'],
-                lastName: 'PROV',
-              },
-              display: 'TEST PROV',
-            },
-          ],
-        },
-        vaos: {
-          isCommunityCare: false,
-          isCompAndPenAppointment: false,
-          isCOVIDVaccine: false,
-          isPastAppointment: false,
-          isPendingAppointment: false,
-          isUpcomingAppointment: true,
-          isVideo: true,
-          apiData: {
-            serviceType: 'primaryCare',
-          },
-        },
-        status: 'cancelled',
-      };
+      const response = MockAppointmentResponse.createClinicResponse({
+        localStartTime: new Date(),
+        status: APPOINTMENT_STATUS.cancelled,
+      })
+        .setClinicPhoneNumber('500-500-5000')
+        .setLocation(new MockFacilityResponse())
+        .setPhysicalLocation('CHEYENNE')
+        .setPractitioner()
+        .setServiceName('Clinic 1');
+      const appointment = MockAppointmentResponse.getTransformedResponse(
+        response,
+      );
 
       // Act
       const screen = renderWithStoreAndRouter(
@@ -866,7 +607,7 @@ describe('VAOS Component: VideoLayoutVA', () => {
 
       expect(
         screen.getByText(
-          /If you want to reschedule, call us or schedule a new appointment online/i,
+          /If you still want this appointment, call your VA health facility to schedule./i,
         ),
       );
       expect(
@@ -934,7 +675,7 @@ describe('VAOS Component: VideoLayoutVA', () => {
       );
       expect(
         screen.getByText(
-          /Bring your insurance cards. And bring a list of your medications and other information to share with your provider./i,
+          /Bring your insurance cards, a list of your medications, and other things to share with your provider/i,
         ),
       );
       expect(
@@ -944,7 +685,7 @@ describe('VAOS Component: VideoLayoutVA', () => {
       ).to.be.ok;
       expect(
         screen.container.querySelector(
-          'va-link[text="Find a full list of things to bring to your appointment"]',
+          'va-link[text="Find out what to bring to your appointment"]',
         ),
       ).to.be.ok;
 
@@ -957,48 +698,19 @@ describe('VAOS Component: VideoLayoutVA', () => {
     it('should display VA video layout when in the past', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const appointment = {
-        location: {
-          stationId: '983',
-          clinicName: 'Clinic 1',
-          clinicPhysicalLocation: 'CHEYENNE',
-          clinicPhone: '500-500-5000',
-          clinicPhoneExtension: '1234',
-        },
-        videoData: {
-          isVideo: true,
-          facilityId: '983',
-          kind: VIDEO_TYPES.clinic,
-          extension: {
-            patientHasMobileGfe: true,
-          },
-          providers: [
-            {
-              name: {
-                firstName: ['TEST'],
-                lastName: 'PROV',
-              },
-              display: 'TEST PROV',
-            },
-          ],
-        },
-        vaos: {
-          isCommunityCare: false,
-          isCompAndPenAppointment: false,
-          isCOVIDVaccine: false,
-          isPastAppointment: true,
-          isPendingAppointment: false,
-          isUpcomingAppointment: false,
-          isVideo: true,
-          apiData: {
-            serviceType: 'primaryCare',
-          },
-        },
-        status: 'cancelled',
-        start: moment()
-          .subtract(2, 'day')
-          .format('YYYY-MM-DDTHH:mm:ss'),
-      };
+      const response = MockAppointmentResponse.createClinicResponse({
+        localStartTime: subDays(new Date(), 2),
+        past: true,
+        status: APPOINTMENT_STATUS.cancelled,
+      })
+        .setClinicPhoneNumber('500-500-5000')
+        .setLocation(new MockFacilityResponse())
+        .setPhysicalLocation('CHEYENNE')
+        .setPractitioner()
+        .setServiceName('Clinic 1');
+      const appointment = MockAppointmentResponse.getTransformedResponse(
+        response,
+      );
 
       // Act
       const screen = renderWithStoreAndRouter(
@@ -1007,6 +719,7 @@ describe('VAOS Component: VideoLayoutVA', () => {
           store,
         },
       );
+
       // Assert
       expect(
         screen.getByRole('heading', {
@@ -1017,7 +730,7 @@ describe('VAOS Component: VideoLayoutVA', () => {
 
       expect(
         screen.getByText(
-          /If you want to reschedule, call us or schedule a new appointment online/i,
+          /If you still want this appointment, call your VA health facility to schedule./i,
         ),
       );
       expect(

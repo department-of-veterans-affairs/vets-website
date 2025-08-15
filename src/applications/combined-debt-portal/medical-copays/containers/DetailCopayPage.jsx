@@ -3,8 +3,9 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 
-import Modals from '../components/Modals';
+import Modals from '../../combined/components/Modals';
 import Alert from '../../combined/components/MCPAlerts';
 import StatementTable from '../components/StatementTable';
 import DownloadStatement from '../components/DownloadStatement';
@@ -16,21 +17,36 @@ import {
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 
 const DetailCopayPage = ({ match }) => {
-  const selectedId = match.params.id;
   const [alert, setAlert] = useState('status');
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const showVHAPaymentHistory = useToggleValue(
+    TOGGLE_NAMES.showVHAPaymentHistory,
+  );
+  const showCDPOneThingPerPage = useToggleValue(
+    TOGGLE_NAMES.showCDPOneThingPerPage,
+  );
+
+  // Get the selected copay statement ID from the URL
+  //  and the selected copay statement data from Redux
+  const selectedId = match.params.id;
   const combinedPortalData = useSelector(state => state.combinedPortal);
   const statements = combinedPortalData.mcp.statements ?? [];
-  const userFullName = useSelector(({ user }) => user.profile.userFullName);
   const [selectedCopay] = statements?.filter(({ id }) => id === selectedId);
+
+  // Get selected copay statement data
   const title = `Copay bill for ${selectedCopay?.station.facilityName}`;
-  const fullName = userFullName?.middle
-    ? `${userFullName.first} ${userFullName.middle} ${userFullName.last}`
-    : `${userFullName.first} ${userFullName.last}`;
+  const statementDate = formatDate(selectedCopay?.pSStatementDateOutput);
   const isCurrentBalance = verifyCurrentBalance(
     selectedCopay?.pSStatementDateOutput,
   );
   const acctNum =
     selectedCopay?.accountNumber || selectedCopay?.pHAccountNumber;
+
+  // get veteran name
+  const userFullName = useSelector(({ user }) => user.profile.userFullName);
+  const fullName = userFullName?.middle
+    ? `${userFullName.first} ${userFullName.middle} ${userFullName.last}`
+    : `${userFullName.first} ${userFullName.last}`;
 
   const getPaymentDueDate = () => {
     if (!selectedCopay?.pSStatementDateOutput) return null;
@@ -104,6 +120,13 @@ const DetailCopayPage = ({ match }) => {
           {title}
         </h1>
 
+        {showCDPOneThingPerPage && (
+          <p className="va-introtext">
+            Updated on {statementDate}. Payments after this date will not be
+            reflected here.
+          </p>
+        )}
+
         <Alert type={alert} copay={selectedCopay} />
 
         <div className="vads-u-margin-y--4">
@@ -142,12 +165,22 @@ const DetailCopayPage = ({ match }) => {
           >
             Current statement
           </h2>
-
-          <StatementTable
-            charges={charges}
-            formatCurrency={formatCurrency}
-            selectedCopay={selectedCopay}
-          />
+          {/* TODO
+            - This page will be enabled for both, but the table will be different for OTPP and VHA payment history 
+            - OTPP (show_cdp_one_thing_per_page / showCDPOneThingPerPage)
+              - Show statement charges like we do on one debt letter
+            - VHA Payment History (vha_show_payment_history / showVHAPaymentHistory)
+              - Show payment history charges from lighthouse 
+          */}
+          {showVHAPaymentHistory ? (
+            <StatementTable
+              charges={charges}
+              formatCurrency={formatCurrency}
+              selectedCopay={selectedCopay}
+            />
+          ) : (
+            <p>Show statement table</p>
+          )}
 
           <DownloadStatement
             key={selectedId}

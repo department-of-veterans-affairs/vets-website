@@ -1580,7 +1580,7 @@
     "dest": "/boston-va-regional-benefit-office/",
     "catchAll": true
   },
-    {
+  {
     "domain": "www.benefits.va.gov",
     "src": "/manchester",
     "dest": "/manchester-va-regional-benefit-office/",
@@ -1713,5 +1713,467 @@
     "src": "/stpaul",
     "dest": "/st-paul-va-regional-benefit-office/",
     "catchAll": true
-  }
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/neworleans",
+    "dest": "/new-orleans-va-regional-benefit-office-at-new-orleans-va-medical-center/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/RONEWORLEANS",
+    "dest": "/new-orleans-va-regional-benefit-office-at-new-orleans-va-medical-center/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/pittsburgh",
+    "dest": "/pittsburgh-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROPITTSBURGH",
+    "dest": "/pittsburgh-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+  "domain": "www.benefits.va.gov",
+  "src": "/atlanta",
+  "dest": "/senator-johnny-isakson-va-atlanta-regional-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/roatlanta",
+  "dest": "/senator-johnny-isakson-va-atlanta-regional-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/desmoines",
+  "dest": "/des-moines-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/rodesmoines",
+  "dest": "/des-moines-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/rostpetersburg",
+  "dest": "/st-petersburg-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/stpetersburg",
+  "dest": "/st-petersburg-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/hartford",
+  "dest": "/hartford-va-regional-benefit-office-at-newington-va-clinic/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/rohartford",
+  "dest": "/hartford-va-regional-benefit-office-at-newington-va-clinic/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/providence",
+  "dest": "/providence-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/roprovidence",
+  "dest": "/providence-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/baltimore",
+  "dest": "/baltimore-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/robaltimore",
+  "dest": "/baltimore-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/lincoln",
+  "dest": "/lincoln-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/rolincoln",
+  "dest": "/lincoln-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/milwaukee",
+  "dest": "/milwaukee-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/romilwaukee",
+  "dest": "/milwaukee-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/rates_DIC_pen14.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/survivor-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/rates_DIC_pen16.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/survivor-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/rates_DIC_pen17.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/survivor-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/rates_DIC_pen18.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/survivor-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp03.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/survivor-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0300.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/survivor-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0301.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/survivor-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0302.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/survivor-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0303.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/survivor-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0304.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/survivor-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0305.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/survivor-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0306.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/survivor-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0307.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/survivor-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0308.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/survivor-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0309.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/survivor-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0311.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/survivor-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0313.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/survivor-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0399.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/survivor-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp04.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/parent-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0400.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/parent-rates/",
+  "catchAll": true
+} ,
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0401.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/parent-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0402.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/parent-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0403.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/parent-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0404.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/parent-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0405.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/parent-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0406.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/parent-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0407.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/parent-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0408.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/parent-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0409.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/parent-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0411.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/parent-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0499.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/parent-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/waco",
+  "dest": "/waco-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/rowaco",
+  "dest": "/waco-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/compensation/claims-postservice-questionnaire-claimherbicide.asp",
+  "dest": "/disability/eligibility/hazardous-materials-exposure/agent-orange/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/compensation/mailingaddresses.asp",
+  "dest": "/disability/how-to-file-claim/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/compensation/camp-lejeune.asp",
+  "dest": "/disability/eligibility/hazardous-materials-exposure/camp-lejeune-water-contamination/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/compensation/resources-advisor_program.asp",
+  "dest": "/disability/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/muskogee",
+  "dest": "/muskogee-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/ROMUSKOGEE",
+  "dest": "/muskogee-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/compensation/claims-postservice-pow.asp",
+  "dest": "/disability/eligibility/former-pows/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/compensation/claims-postservice-agent_orange-diabetes.asp",
+  "dest": "/resources/is-my-type-2-diabetes-a-presumptive-condition/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/compensation/notice.asp",
+  "dest": "/disability/how-to-file-claim/evidence-needed/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/compensation/types-compensation.asp",
+  "dest": "/disability/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/compensation/dbq_disabilityexams.asp",
+  "dest": "/disability/how-to-file-claim/evidence-needed/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/compensation/claimexam.asp",
+  "dest": "/resources/va-claim-exam/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/indianapolis",
+  "dest": "/indianapolis-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/ROINDIANAPOLIS",
+  "dest": "/indianapolis-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/seattle",
+  "dest": "/seattle-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/roseattle",
+  "dest": "/seattle-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/sanjuan",
+  "dest": "/san-juan-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/rosanjuan",
+  "dest": "/san-juan-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/louisville",
+  "dest": "/louisville-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/rolouisville",
+  "dest": "/louisville-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/fargo",
+  "dest": "/fargo-va-regional-benefit-office-at-north-fargo-va-clinic/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/rofargo",
+  "dest": "/fargo-va-regional-benefit-office-at-north-fargo-va-clinic/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/siouxfalls",
+  "dest": "/sioux-falls-va-regional-benefit-office-at-royal-c-johnson-veterans-memorial-hospital/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/rosiouxfalls",
+  "dest": "/sioux-falls-va-regional-benefit-office-at-royal-c-johnson-veterans-memorial-hospital/",
+  "catchAll": true
+}
 ]

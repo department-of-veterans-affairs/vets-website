@@ -1,5 +1,14 @@
 // @ts-check
-import MockUser from '../../fixtures/MockUser';
+import { getTypeOfCareById } from '../../../../utils/appointment';
+import { TYPE_OF_CARE_IDS } from '../../../../utils/constants';
+import MockClinicResponse from '../../../fixtures/MockClinicResponse';
+import MockEligibilityResponse from '../../../fixtures/MockEligibilityResponse';
+import MockFacilityResponse from '../../../fixtures/MockFacilityResponse';
+import MockUser from '../../../fixtures/MockUser';
+import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
+import ClinicChoicePageObject from '../../page-objects/ClinicChoicePageObject';
+import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
+import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
 import {
   mockAppointmentsGetApi,
   mockClinicsApi,
@@ -12,18 +21,10 @@ import {
   mockVamcEhrApi,
   vaosSetup,
 } from '../../vaos-cypress-helpers';
-import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
-import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
-import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
-import MockFacilityResponse from '../../fixtures/MockFacilityResponse';
-import { getTypeOfCareById } from '../../../../utils/appointment';
-import { PRIMARY_CARE } from '../../../../utils/constants';
-import MockEligibilityResponse from '../../fixtures/MockEligibilityResponse';
-import MockClinicResponse from '../../fixtures/MockClinicResponse';
-import ClinicChoicePageObject from '../../page-objects/ClinicChoicePageObject';
 
-const { cceType } = getTypeOfCareById(PRIMARY_CARE);
-const typeOfCareId = getTypeOfCareById(PRIMARY_CARE).idV2;
+const { idV2: typeOfCareId, cceType } = getTypeOfCareById(
+  TYPE_OF_CARE_IDS.PRIMARY_CARE,
+);
 
 describe('VAOS direct schedule flow - Multiple clinics dead ends', () => {
   beforeEach(() => {
@@ -79,6 +80,7 @@ describe('VAOS direct schedule flow - Multiple clinics dead ends', () => {
           .clickNextButton();
 
         ClinicChoicePageObject.assertUrl()
+          .assertClinicChoiceValidationErrors()
           .selectClinic({
             selection: /I need a different clinic/i,
           })

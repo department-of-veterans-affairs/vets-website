@@ -6,6 +6,24 @@
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/va-pagination";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
 
+.loading-indicator-full-page-container {
+  height: 100vh;
+  padding-top: 30vh;
+}
+
+.breadcrumbs-loading-container {
+  min-height: 4rem;
+}
+
+.on-this-page-loading-container {
+  min-height: 350px;
+}
+
+.additional-info-loading-container {
+  min-height: 1.625rem;
+  margin: 1rem 0;
+}
+
 .claim-list {
   margin-bottom: 2em;
 }
@@ -163,6 +181,49 @@
   .usa-label {
     margin-bottom: 1em;
   }
+}
+
+.loading-skeleton {
+  &--loading {
+    padding: 1em;
+    border: 1px solid var(--vads-color-gray-medium);
+  }
+
+  &--row {
+    margin: 0;
+    position: relative;
+    overflow: hidden;
+    background-color: var(--vads-color-gray-medium);
+    border-radius: 6px;
+
+    @media (forced-colors: active) {
+      border: 1px solid;
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      width: 150%;
+      height: 100%;
+      background-image: linear-gradient(
+        90deg,
+        transparent 0,
+        var(--vads-color-white) 50%,
+        transparent 100%
+      );
+      transform: translateX(-100%);
+      animation: skeleton-shimmer 1.6s linear infinite;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &--row::after { animation: none; }
+  }
+}
+
+@keyframes skeleton-shimmer {
+  100% { transform: translateX(100%); }
 }
 
 .last-changed-label {
@@ -349,6 +410,14 @@
 
 .claims-header {
   margin: 0;
+  display: inline-block;
+
+  & > span {
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 30px;
+    display: block;
+  }
 }
 
 .claims-files-cancel {
@@ -519,7 +588,7 @@ h1:focus {
     }
 
     // Move up the headers to align with the bullet point better
-    h3 {
+    h2 {
       padding-top: 0.4em;
     }
 
@@ -1037,32 +1106,6 @@ $marker-text-width: 5.625rem;
   & > h2 {
     margin-top: 0;
   }
-  .usa-accordion-bordered {
-    .usa-accordion-button {
-      font-size: 1.25rem; // match standard h3
-    }
-
-    .usa-accordion-content {
-      padding-top: 1.25em;
-
-      h5 {
-        font-family: var(--font-source-sans);
-        margin-top: 0;
-      }
-    }
-
-    .granted-section {
-      h5 {
-        color: var(--vads-color-success-dark);
-      }
-    }
-
-    .denied-section {
-      h5 {
-        color: var(--vads-color-secondary);
-      }
-    }
-  }
 }
 
 .closed-appeal-notice {
@@ -1105,6 +1148,17 @@ $marker-text-width: 5.625rem;
   }
 }
 
+.external-active-link {
+  display: flex;
+  font-weight: 700;
+  margin-top: 16px;
+  font-size: medium;
+}
+
+.active-link-icon {
+  position: relative;
+  top: 4px;
+}
 .tabs {
   list-style: none;
   margin-bottom: -1px;

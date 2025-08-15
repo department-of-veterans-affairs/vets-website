@@ -1,36 +1,39 @@
 // @ts-check
-import moment from 'moment';
-import { APPOINTMENT_STATUS, PRIMARY_CARE } from '../../../../utils/constants';
-import MockAppointmentResponse from '../../fixtures/MockAppointmentResponse';
+import { getTypeOfCareById } from '../../../../utils/appointment';
 import {
-  mockAppointmentGetApi,
+  APPOINTMENT_STATUS,
+  TYPE_OF_CARE_IDS,
+} from '../../../../utils/constants';
+import MockAppointmentResponse from '../../../fixtures/MockAppointmentResponse';
+import MockEligibilityResponse from '../../../fixtures/MockEligibilityResponse';
+import MockFacilityResponse from '../../../fixtures/MockFacilityResponse';
+import MockUser from '../../../fixtures/MockUser';
+import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
+import ConfirmationPageObject from '../../page-objects/ConfirmationPageObject';
+import ContactInfoPageObject from '../../page-objects/ContactInfoPageObject';
+import DateTimeRequestPageObject from '../../page-objects/DateTimeRequestPageObject';
+import ReasonForAppointmentPageObject from '../../page-objects/ReasonForAppointmentPageObject';
+import ReviewPageObject from '../../page-objects/ReviewPageObject';
+import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
+import TypeOfFacilityPageObject from '../../page-objects/TypeOfFacilityPageObject';
+import TypeOfVisitPageObject from '../../page-objects/TypeOfVisitPageObject';
+import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
+import {
   mockAppointmentCreateApi,
+  mockAppointmentGetApi,
   mockAppointmentsGetApi,
   mockEligibilityApi,
+  mockEligibilityCCApi,
   mockFacilitiesApi,
   mockFeatureToggles,
   mockSchedulingConfigurationApi,
   mockVamcEhrApi,
   vaosSetup,
-  mockEligibilityCCApi,
 } from '../../vaos-cypress-helpers';
-import MockUser from '../../fixtures/MockUser';
-import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
-import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
-import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
-import MockEligibilityResponse from '../../fixtures/MockEligibilityResponse';
-import MockFacilityResponse from '../../fixtures/MockFacilityResponse';
-import DateTimeRequestPageObject from '../../page-objects/DateTimeRequestPageObject';
-import TypeOfVisitPageObject from '../../page-objects/TypeOfVisitPageObject';
-import ContactInfoPageObject from '../../page-objects/ContactInfoPageObject';
-import ReviewPageObject from '../../page-objects/ReviewPageObject';
-import ConfirmationPageObject from '../../page-objects/ConfirmationPageObject';
-import ReasonForAppointmentPageObject from '../../page-objects/ReasonForAppointmentPageObject';
-import TypeOfFacilityPageObject from '../../page-objects/TypeOfFacilityPageObject';
-import { getTypeOfCareById } from '../../../../utils/appointment';
 
-const typeOfCareId = getTypeOfCareById(PRIMARY_CARE).idV2;
-const { cceType } = getTypeOfCareById(PRIMARY_CARE);
+const { idV2: typeOfCareId, cceType } = getTypeOfCareById(
+  TYPE_OF_CARE_IDS.PRIMARY_CARE,
+);
 
 describe('VAOS request schedule flow - Primary care', () => {
   beforeEach(() => {
@@ -38,10 +41,10 @@ describe('VAOS request schedule flow - Primary care', () => {
 
     const response = new MockAppointmentResponse({
       id: 'mock1',
-      localStartTime: moment(),
+      localStartTime: new Date(),
       status: APPOINTMENT_STATUS.proposed,
-      serviceType: 'primaryCare',
-    });
+      pending: true,
+    }).setType('REQUEST');
     mockAppointmentGetApi({
       response,
     });
@@ -102,13 +105,16 @@ describe('VAOS request schedule flow - Primary care', () => {
           ReasonForAppointmentPageObject.assertUrl()
             .assertHeading({ name: /What.s the reason for this appointment/i })
             .selectReasonForAppointment()
-            .typeAdditionalText({
+            .assertLabel({
               label: /Add any details you.d like to share with your provider/,
+            })
+            .typeAdditionalText({
               content: 'This is a test',
             })
             .clickNextButton();
 
           TypeOfVisitPageObject.assertUrl()
+            .assertTypeOfVisitValidationErrors()
             .assertHeading({
               name: /How do you want to attend this appointment/i,
             })
@@ -159,8 +165,10 @@ describe('VAOS request schedule flow - Primary care', () => {
           ReasonForAppointmentPageObject.assertUrl()
             .assertHeading({ name: /What.s the reason for this appointment/i })
             .selectReasonForAppointment()
-            .typeAdditionalText({
+            .assertLabel({
               label: /Add any details you.d like to share with your provider/,
+            })
+            .typeAdditionalText({
               content: 'This is a test',
             })
             .clickNextButton();
@@ -238,8 +246,10 @@ describe('VAOS request schedule flow - Primary care', () => {
           ReasonForAppointmentPageObject.assertUrl()
             .assertHeading({ name: /What.s the reason for this appointment/i })
             .selectReasonForAppointment()
-            .typeAdditionalText({
+            .assertLabel({
               label: /Add any details you.d like to share with your provider/,
+            })
+            .typeAdditionalText({
               content: 'This is a test',
             })
             .clickNextButton();
@@ -295,8 +305,10 @@ describe('VAOS request schedule flow - Primary care', () => {
           ReasonForAppointmentPageObject.assertUrl()
             .assertHeading({ name: /What.s the reason for this appointment/i })
             .selectReasonForAppointment()
-            .typeAdditionalText({
+            .assertLabel({
               label: /Add any details you.d like to share with your provider/,
+            })
+            .typeAdditionalText({
               content: 'This is a test',
             })
             .clickNextButton();
@@ -364,6 +376,7 @@ describe('VAOS request schedule flow - Primary care', () => {
           .clickNextButton();
 
         TypeOfFacilityPageObject.assertUrl()
+          .assertTypeOfFacilityValidationErrors()
           .selectTypeOfFacility(/VA medical center or clinic/i)
           .clickNextButton();
 
@@ -379,8 +392,10 @@ describe('VAOS request schedule flow - Primary care', () => {
         ReasonForAppointmentPageObject.assertUrl()
           .assertHeading({ name: /What.s the reason for this appointment/i })
           .selectReasonForAppointment()
-          .typeAdditionalText({
+          .assertLabel({
             label: /Add any details you.d like to share with your provider/,
+          })
+          .typeAdditionalText({
             content: 'This is a test',
           })
           .clickNextButton();

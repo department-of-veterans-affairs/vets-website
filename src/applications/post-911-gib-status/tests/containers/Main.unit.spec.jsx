@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import _ from 'lodash';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
-import { Main } from '../../containers/Main';
+import { Main, mapStateToProps } from '../../containers/Main';
 
 const defaultProps = {
   availability: 'available',
@@ -17,6 +17,7 @@ describe('Main', () => {
     const vdom = tree.getRenderOutput();
     expect(vdom).to.not.be.undefined;
   });
+
   it('should call getEnrollmentData in componentDidMount', () => {
     const props = {
       getEnrollmentData: sinon.spy(),
@@ -28,14 +29,20 @@ describe('Main', () => {
     wrapper.unmount();
   });
 
-  it('should show data when service is available', () => {
-    /*
-    const props = _.merge({}, defaultProps,
-                          { enrollmentData: { firstName: 'Joe' } });
-    const tree = SkinDeep.shallowRender(<Main {...props}/>);
-    // TODO: why is StatusPage not found
-    expect(tree.dive(['div', 'StatusPage'])).to.be.ok;
-    */
+  it('should correctly map enrollmentData and availability from state', () => {
+    const state = {
+      post911GIBStatus: {
+        enrollmentData: { firstName: 'Joe', lastName: 'Doe' },
+        availability: 'available',
+      },
+    };
+
+    const expectedProps = {
+      enrollmentData: { firstName: 'Joe', lastName: 'Doe' },
+      availability: 'available',
+    };
+
+    expect(mapStateToProps(state)).to.deep.equal(expectedProps);
   });
 
   it('should show loading spinner when waiting for response', () => {
@@ -51,7 +58,7 @@ describe('Main', () => {
       availability: 'backendServiceError',
     });
     const tree = SkinDeep.shallowRender(<Main {...props} />);
-    expect(tree.subTree('#backendErrorMessage')).to.be.ok;
+    expect(tree.subTree('#genericErrorMessage')).to.be.ok;
   });
 
   it('should show backend authentication error', () => {
@@ -98,6 +105,6 @@ describe('Main', () => {
       availability: 'getEnrollmentDataFailure',
     });
     const tree = SkinDeep.shallowRender(<Main {...props} />);
-    expect(tree.subTree('#backendErrorMessage')).to.be.ok;
+    expect(tree.subTree('#genericErrorMessage')).to.be.ok;
   });
 });

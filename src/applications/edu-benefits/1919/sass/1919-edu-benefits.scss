@@ -5,3 +5,51 @@
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
+
+.need-help-container {
+  width: 642px;
+  @media (max-width: $small-screen) {
+    width: 100%;
+  }
+}
+
+@media (max-width: $small-screen) {
+  .form-22-1919-container {
+    padding-inline: 0.8rem;
+  }
+
+  .form-22-1919-container .schemaform-buttons,
+  .form-22-1919-container .form-progress-buttons {
+    display: flex;
+    flex-direction: column !important;
+
+    div {
+      width: 100%;
+    }
+
+    div:first-of-type {
+      order: 2;
+    }
+  }
+
+  .form-22-1919-container .schemaform-buttons,
+  .form-22-1919-container .form-progress-buttons {
+    display: flex;
+    flex-direction: column !important;
+
+    div {
+      width: 100%;
+    }
+
+    div:first-of-type {
+      order: 2;
+    }
+  }
+  .form-22-1919-container va-button[text="Cancel adding this individual"] {
+    width: 100%;
+  }
+}
+
+.custom-classname {
+  display: block !important;
+}

@@ -125,6 +125,51 @@ export const addOrRemoveDependentClaimTypeCodes = [
   '130SCHEBNREJ',
 ];
 
+// These are claim types codes for pension compensation claims. Claim type codes listed here
+// are used in isPensionClaim() to show the 8 claim phase steps instead of 5.
+export const pensionClaimTypeCodes = [
+  '190ORGDPN',
+  '190ORGDPNPMC',
+  '190AID',
+  '140ISD',
+  '290DICEDPMC',
+  '020SMDICPMC',
+  '020IRDICPMC',
+  '687NRPMC',
+  '150ELECPMC',
+  '150INCNWPMC',
+  '150INCPMC',
+  '120INCPMC',
+  '150NWTHPMC',
+  '120SUPHCDPMC',
+  '120ILCP7PMC',
+  '120SMPPMC',
+  '150MERPMC',
+  '120ASMP',
+  '120ARP',
+  '150AIA',
+  '600APCDP',
+  '600PCDPPM',
+  '696MROCPMC',
+  '180AILP',
+  '180ORGPENPMC',
+  '180ORGPEN',
+];
+
+export const survivorsPensionClaimTypeCodes = [
+  '190ORGDPN',
+  '190ORGDPNPMC',
+  '190AID',
+  '140ISD',
+  '687NRPMC',
+];
+export const DICClaimTypeCodes = ['290DICEDPMC', '020SMDICPMC', '020IRDICPMC'];
+export const veteransPensionClaimTypeCodes = [
+  '180AILP',
+  '180ORGPENPMC',
+  '180ORGPEN',
+];
+
 // The Standard 5103 Notice Response doesn't come through as a tracked item from our API until it is closed so we need to make a
 // mocked item with information.
 export const standard5103Item = {
@@ -144,3 +189,12 @@ export const standard5103Item = {
     </>
   ),
 };
+
+// File upload form text constants
+export const LABEL_TEXT = 'Upload additional evidence';
+export const HINT_TEXT =
+  'You can upload a .pdf, .gif, .jpg, .jpeg, .bmp, or .txt file. Your file should be no larger than 50 MB (non-PDF) or 99 MB (PDF only).';
+export const VALIDATION_ERROR = 'Please select a file first';
+export const PASSWORD_ERROR = 'Please provide a password to decrypt this file';
+export const DOC_TYPE_ERROR = 'Please provide a document type';
+export const SUBMIT_TEXT = 'Submit documents for review';

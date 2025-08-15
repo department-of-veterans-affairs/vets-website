@@ -34,9 +34,10 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   VaAlert,
+  VaComboBox,
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
@@ -46,6 +47,8 @@ import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/sour
 import { sortRecipients } from '../../util/helpers';
 import { Prompts } from '../../util/constants';
 import CantFindYourTeam from './CantFindYourTeam';
+import useFeatureToggles from '../../hooks/useFeatureToggles';
+import { updateDraftInProgress } from '../../actions/threadDetails';
 
 const RecipientsSelect = ({
   recipientsList,
@@ -55,10 +58,18 @@ const RecipientsSelect = ({
   isSignatureRequired,
   setCheckboxMarked,
   setElectronicSignature,
+  setComboBoxInputValue,
 }) => {
+  const dispatch = useDispatch();
   const alertRef = useRef(null);
   const isSignatureRequiredRef = useRef();
   isSignatureRequiredRef.current = isSignatureRequired;
+
+  const {
+    isComboBoxEnabled,
+    featureTogglesLoading,
+    cernerPilotSmFeatureFlag,
+  } = useFeatureToggles();
 
   const [alertDisplayed, setAlertDisplayed] = useState(false);
   const [selectedRecipient, setSelectedRecipient] = useState(null);
@@ -70,6 +81,20 @@ const RecipientsSelect = ({
       state.featureToggles[
         FEATURE_FLAG_NAMES.mhvSecureMessagingRecipientOptGroups
       ],
+  );
+
+  const handleSetCheckboxMarked = useCallback(
+    marked => {
+      if (setCheckboxMarked) setCheckboxMarked(marked);
+    },
+    [setCheckboxMarked],
+  );
+
+  const handleSetElectronicSignature = useCallback(
+    signature => {
+      if (setElectronicSignature) setElectronicSignature(signature);
+    },
+    [setElectronicSignature],
   );
 
   useEffect(
@@ -125,17 +150,21 @@ const RecipientsSelect = ({
     () => {
       if (selectedRecipient) {
         onValueChange(selectedRecipient);
-        setCheckboxMarked(false);
-        setElectronicSignature('');
+        handleSetCheckboxMarked(false);
+        handleSetElectronicSignature('');
       }
     },
     [
       onValueChange,
       selectedRecipient,
-      setCheckboxMarked,
-      setElectronicSignature,
+      handleSetCheckboxMarked,
+      handleSetElectronicSignature,
     ],
   );
+
+  const handleInput = e => {
+    setComboBoxInputValue(e.target.shadowRoot.querySelector('input').value);
+  };
 
   const handleRecipientSelect = useCallback(
     e => {
@@ -148,16 +177,23 @@ const RecipientsSelect = ({
       const recipient = recipientsList.find(r => +r.id === +value) || {};
       setSelectedRecipient(recipient);
 
+      dispatch(
+        updateDraftInProgress({
+          recipientName: recipient.name,
+          recipientId: recipient.id,
+        }),
+      );
+
       if (recipient.signatureRequired || isSignatureRequired) {
         setAlertDisplayed(true);
       }
     },
-    [recipientsList, isSignatureRequired, setSelectedRecipient],
+    [recipientsList, dispatch, isSignatureRequired],
   );
 
   const optionsValues = useMemo(
     () => {
-      if (!optGroupEnabled) {
+      if (!optGroupEnabled || cernerPilotSmFeatureFlag) {
         return sortRecipients(recipientsList)?.map(item => (
           <option key={item.id} value={item.id}>
             {item.suggestedNameDisplay || item.name}
@@ -213,43 +249,72 @@ const RecipientsSelect = ({
 
   return (
     <>
-      <VaSelect
-        enable-analytics
-        id="recipient-dropdown"
-        label="To"
-        name="to"
-        value={defaultValue !== undefined ? defaultValue : ''}
-        onVaSelect={handleRecipientSelect}
-        class="composeSelect"
-        data-testid="compose-recipient-select"
-        error={error}
-        data-dd-privacy="mask"
-        data-dd-action-name="Compose Recipient Dropdown List"
-      >
-        <CantFindYourTeam />
-        {optionsValues}
-      </VaSelect>
-
-      {alertDisplayed && (
-        <VaAlert
-          ref={alertRef}
-          class="vads-u-margin-y--2"
-          closeBtnAriaLabel="Close notification"
-          closeable
-          onCloseEvent={() => {
-            setAlertDisplayed(false);
-          }}
-          status="info"
-          visible
-          data-testid="signature-alert"
+      {!featureTogglesLoading &&
+      (isComboBoxEnabled || cernerPilotSmFeatureFlag) ? (
+        <VaComboBox
+          required
+          label={`${
+            cernerPilotSmFeatureFlag
+              ? 'Select a care team'
+              : 'Select a care team to send your message to'
+          }`}
+          name="to"
+          hint={
+            cernerPilotSmFeatureFlag
+              ? 'Start typing your care facility, provider’s name, or type of care to search.'
+              : null
+          }
+          value={defaultValue !== undefined ? defaultValue : ''}
+          onVaSelect={handleRecipientSelect}
+          data-testid="compose-recipient-combobox"
+          error={error}
+          data-dd-privacy="mask"
+          data-dd-action-name="Compose Recipient Combobox List"
+          onInput={handleInput}
         >
-          <p className="vads-u-margin-y--0" role="alert" aria-live="polite">
-            {isSignatureRequired === true
-              ? Prompts.Compose.SIGNATURE_REQUIRED
-              : Prompts.Compose.SIGNATURE_NOT_REQUIRED}
-          </p>
-        </VaAlert>
+          {!cernerPilotSmFeatureFlag && <CantFindYourTeam />}
+          {optionsValues}
+        </VaComboBox>
+      ) : (
+        <VaSelect
+          enable-analytics
+          id="recipient-dropdown"
+          label="To"
+          name="to"
+          value={defaultValue !== undefined ? defaultValue : ''}
+          onVaSelect={handleRecipientSelect}
+          class="composeSelect"
+          data-testid="compose-recipient-select"
+          error={error}
+          data-dd-privacy="mask"
+          data-dd-action-name="Compose Recipient Dropdown List"
+        >
+          <CantFindYourTeam />
+          {optionsValues}
+        </VaSelect>
       )}
+
+      {!cernerPilotSmFeatureFlag &&
+        alertDisplayed && (
+          <VaAlert
+            ref={alertRef}
+            class="vads-u-margin-y--2"
+            closeBtnAriaLabel="Close notification"
+            closeable
+            onCloseEvent={() => {
+              setAlertDisplayed(false);
+            }}
+            status="info"
+            visible
+            data-testid="signature-alert"
+          >
+            <p className="vads-u-margin-y--0" role="alert" aria-live="polite">
+              {isSignatureRequired === true
+                ? Prompts.Compose.SIGNATURE_REQUIRED
+                : Prompts.Compose.SIGNATURE_NOT_REQUIRED}
+            </p>
+          </VaAlert>
+        )}
     </>
   );
 };
@@ -257,10 +322,13 @@ const RecipientsSelect = ({
 RecipientsSelect.propTypes = {
   recipientsList: PropTypes.array.isRequired,
   onValueChange: PropTypes.func.isRequired,
+  activeFacility: PropTypes.object,
+  currentRecipient: PropTypes.object,
   defaultValue: PropTypes.number,
   error: PropTypes.string,
   isSignatureRequired: PropTypes.bool,
   setCheckboxMarked: PropTypes.func,
+  setComboBoxInputValue: PropTypes.func,
   setElectronicSignature: PropTypes.func,
 };
 

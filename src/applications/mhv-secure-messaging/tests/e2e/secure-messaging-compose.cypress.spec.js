@@ -13,6 +13,7 @@ describe('SM MESSAGING COMPOSE', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.navigateToComposePage();
+    PatientComposePage.interceptSentFolder();
   });
 
   it('verify interface', () => {
@@ -26,7 +27,7 @@ describe('SM MESSAGING COMPOSE', () => {
 
     cy.get(Locators.DROPDOWN.ADD_INFO).should(`be.visible`);
 
-    PatientComposePage.verifyRecipientsDropdownLinks();
+    PatientComposePage.verifyAdditionalInfoDropdownLinks();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

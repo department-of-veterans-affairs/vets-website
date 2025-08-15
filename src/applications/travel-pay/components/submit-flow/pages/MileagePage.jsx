@@ -3,13 +3,18 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { focusElement, scrollToTop } from 'platform/utilities/ui';
+import { focusElement } from 'platform/utilities/ui/focus';
+import { scrollToTop } from 'platform/utilities/scroll';
 
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import { HelpTextOptions } from '../../HelpText';
 import { formatDateTime } from '../../../util/dates';
 import { selectAppointment } from '../../../redux/selectors';
 import SmocRadio from '../../SmocRadio';
+import {
+  recordSmocButtonClick,
+  recordSmocPageview,
+} from '../../../util/events-helpers';
 
 const title = 'Are you only claiming mileage?';
 
@@ -21,6 +26,7 @@ const MileagePage = ({
   setIsUnsupportedClaimType,
 }) => {
   useEffect(() => {
+    recordSmocPageview('mileage');
     focusElement('h1', {}, 'va-radio');
     scrollToTop('topScrollElement');
   }, []);
@@ -35,6 +41,7 @@ const MileagePage = ({
 
   const handlers = {
     onNext: () => {
+      recordSmocButtonClick('mileage', 'continue');
       if (!yesNo.mileage) {
         setRequiredAlert(true);
       } else if (yesNo.mileage !== 'yes') {
@@ -45,6 +52,7 @@ const MileagePage = ({
       }
     },
     onBack: () => {
+      recordSmocButtonClick('mileage', 'back');
       setPageIndex(pageIndex - 1);
     },
   };
@@ -55,6 +63,11 @@ const MileagePage = ({
         value={yesNo.mileage}
         label={title}
         error={requiredAlert}
+        description={`For your appointment on ${formattedDate} at ${formattedTime} ${
+          data.location?.attributes?.name
+            ? `at ${data.location.attributes.name}`
+            : ''
+        }, ${data.reasonForAppointment ?? ''}`}
         onValueChange={e => {
           setYesNo({ ...yesNo, mileage: e.detail.value });
         }}
@@ -100,6 +113,7 @@ const MileagePage = ({
       <VaButtonPair
         class="vads-u-margin-y--2"
         continue
+        disable-analytics
         onPrimaryClick={handlers.onNext}
         onSecondaryClick={handlers.onBack}
       />

@@ -11,14 +11,16 @@ import { format as fmtTZ } from 'date-fns-tz';
 import { EXTERNAL_SERVICES } from 'platform/monitoring/external-services/config';
 import { SERVICE_PROVIDERS } from './constants';
 
-/* Shared */
-export const AUTH_DEPENDENCIES = [
+export const CSP_DEPENDENCIES = [
   EXTERNAL_SERVICES.idme,
-  EXTERNAL_SERVICES.ssoe,
   EXTERNAL_SERVICES.dslogon,
-  EXTERNAL_SERVICES.mhv,
-  EXTERNAL_SERVICES.mvi,
   EXTERNAL_SERVICES.logingov,
+];
+
+export const AUTH_DEPENDENCIES = [
+  ...CSP_DEPENDENCIES,
+  EXTERNAL_SERVICES.ssoe,
+  EXTERNAL_SERVICES.mvi,
 ];
 
 export const generateCSPBanner = ({ csp }) => {
@@ -42,7 +44,7 @@ export const generateCSPBanner = ({ csp }) => {
 };
 
 export const DOWNTIME_BANNER_CONFIG = {
-  ...Object.keys(SERVICE_PROVIDERS).reduce(
+  ...CSP_DEPENDENCIES.reduce(
     (acc, cv) => ({
       ...acc,
       [cv]: generateCSPBanner({ csp: cv }),

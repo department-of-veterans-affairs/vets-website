@@ -16,7 +16,7 @@ export default function ReferralTaskCard({ data }) {
     return null;
   }
 
-  const { expirationDate, uuid } = data;
+  const { expirationDate, uuid } = data.attributes;
 
   const expirationDateObject = new Date(expirationDate);
   const isPastExpirationDate = isAfter(new Date(), expirationDateObject);

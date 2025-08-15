@@ -11,6 +11,7 @@
 @import "../components/direct-deposit/vye/sass/change-of-address-wrapper";
 @import "../components/direct-deposit/vye/sass/change-of-direct-deposit-wrapper";
 @import "./proof-of-veteran-status-card";
+@import "./paperless-delivery";
 
 [tabindex="-1"]:focus {
   outline: 0;
@@ -80,7 +81,6 @@
     margin: 0;
   }
 }
-
 
 // styles for a 'process list' component, but with complete/incomplete styles
 .va-conditional-process-list {
@@ -154,4 +154,8 @@
 
 .list-type-disc {
   list-style-type: disc;
+}
+
+section.profile-info-section ol li {
+  list-style-type: none;
 }

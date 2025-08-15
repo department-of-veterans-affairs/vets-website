@@ -4,20 +4,24 @@ import {
   textUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import { createNewConditionName } from './utils';
+import { arrayBuilderOptions, createNewConditionName } from './utils';
 
 /** @returns {PageSchema} */
 const causeVAPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) =>
-        `Details of the injury or event in VA care that caused ${createNewConditionName(
-          formData,
-        )}`,
+      ({ formData }) => createNewConditionName(formData, true),
+      undefined,
+      false,
     ),
     vaMistreatmentDescription: textareaUI({
       title:
-        'Briefly describe the injury or event in VA care that caused your new condition.',
+        'Briefly describe the injury or event in VA care that caused your condition.',
+      updateUiSchema: (_formData, fullData, index) => ({
+        'ui:title': `Briefly describe the injury or event in VA care that caused your ${createNewConditionName(
+          fullData?.[arrayBuilderOptions.arrayPath]?.[index],
+        )}.`,
+      }),
       charcount: true,
     }),
     vaMistreatmentLocation: textUI({

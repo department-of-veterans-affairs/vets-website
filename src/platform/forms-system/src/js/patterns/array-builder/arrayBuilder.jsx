@@ -11,6 +11,9 @@ import {
   initGetText,
   defaultSummaryPageScrollAndFocusTarget,
   defaultItemPageScrollAndFocusTarget,
+  arrayBuilderDependsContextWrapper,
+  arrayBuilderContextObject,
+  getArrayUrlSearchParams,
 } from './helpers';
 import ArrayBuilderItemPage from './ArrayBuilderItemPage';
 import ArrayBuilderSummaryPage from './ArrayBuilderSummaryPage';
@@ -63,6 +66,23 @@ function throwMissingYesNoValidation() {
   throw new Error(
     "arrayBuilderPages `pageBuilder.summaryPage()` must include a `uiSchema` that is using `arrayBuilderYesNoUI` pattern instead of `yesNoUI` pattern, or a similar pattern including `yesNoUI` with `'ui:validations'`",
   );
+}
+
+function safeDependsItem(depends) {
+  if (typeof depends !== 'function') {
+    return depends;
+  }
+  return (formData, index, context = null) => {
+    try {
+      return depends(
+        formData,
+        index,
+        arrayBuilderDependsContextWrapper(context),
+      );
+    } catch (e) {
+      return false;
+    }
+  };
 }
 
 function validateNoSchemaAssociatedWithLinkOrButton(
@@ -158,31 +178,46 @@ export function getPageAfterPageKey(pageList, pageKey) {
 }
 
 export function validatePages(orderedPageTypes) {
-  const pageTypes = {};
+  const pageTypes = {
+    summaryCount: 0,
+  };
+
   for (const pageType of orderedPageTypes) {
     if (pageType === 'intro') {
-      if (pageTypes.intro || pageTypes.summary || pageTypes.item) {
+      if (pageTypes.intro || pageTypes.item) {
         throw new Error(
-          "arrayBuilderPages `pageBuilder.introPage` must be first and defined only once. Intro page should be used for 'required' flow, and should contain only text.",
+          "arrayBuilderPages `pageBuilder.introPage` must be first and defined only once. Intro page should be used for 'required' flow, and should contain only text",
         );
       }
       pageTypes.intro = true;
     } else if (pageType === 'summary') {
-      if (pageTypes.summary || pageTypes.item) {
+      pageTypes.summaryCount += 1;
+
+      if (pageTypes.item) {
         throw new Error(
-          'arrayBuilderPages `pageBuilder.summaryPage` must be defined only once and be defined before the item pages. This is so the loop cycle, and back and continue buttons will work consistently and appropriately. In a "required" flow, the summary path will be skipped on the first round despite being defined first.',
+          'arrayBuilderPages `pageBuilder.summaryPage` must come before item pages',
         );
       }
-      pageTypes.summary = true;
     } else if (pageType === 'item') {
       pageTypes.item = true;
     }
   }
-  if (!pageTypes.summary) {
+
+  if (pageTypes.summaryCount < 1) {
     throw new Error(
       'arrayBuilderPages must include a summary page with `pageBuilder.summaryPage`',
     );
   }
+
+  // Allow multiple summaries — assume they are mutually exclusive via `depends`
+  // But optionally warn in console if more than one exists
+  if (pageTypes.summaryCount > 1) {
+    // eslint-disable-next-line no-console
+    console.warn(
+      `[arrayBuilderPages] More than one summaryPage defined. Ensure they are gated by \`depends\` so only one is ever shown`,
+    );
+  }
+
   if (!pageTypes.item) {
     throw new Error(
       'arrayBuilderPages must include at least one item page with `pageBuilder.itemPage`',
@@ -217,9 +252,9 @@ export function validateMinItems(minItems) {
 
 export function assignGetItemName(options) {
   const safeGetItemName = getItemFn => {
-    return (item, index) => {
+    return (item, index, fullData) => {
       try {
-        return getItemFn(item, index);
+        return getItemFn(item, index, fullData);
       } catch (e) {
         return null;
       }
@@ -249,6 +284,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
   let hasItemsKey;
   const itemPages = [];
   const orderedPageTypes = [];
+  const missingInformationKey = `view:${options?.arrayPath}MissingInformation`;
 
   if (
     !options ||
@@ -271,7 +307,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     nounSingular,
     nounPlural,
     isItemIncomplete = item => item?.name,
-    minItems = 1,
+    minItems = null, // default to null to avoid enforcing a minimum length on optional arrays
     maxItems = 100,
     hideMaxItemsAlert = false,
     text: userText = {},
@@ -347,15 +383,12 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
   validateMinItems(options.minItems);
   const required =
     typeof userRequired === 'function' ? userRequired : () => userRequired;
-  const lastItemPagePath = itemPages?.[itemPages.length - 1]?.path;
 
-  const getActiveItemPages = (formData, index) => {
+  const getActiveItemPages = (formData, index, context = null) => {
     return itemPages.filter(page => {
       try {
         if (page.depends) {
-          return typeof page.depends === 'function'
-            ? page.depends(formData, index)
-            : page.depends;
+          return safeDependsItem(page.depends)(formData, index, context);
         }
         return true;
       } catch (e) {
@@ -364,12 +397,12 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     });
   };
 
-  const getFirstItemPagePath = (formData, index) => {
-    return getActiveItemPages(formData, index)?.[0]?.path;
+  const getFirstItemPagePath = (formData, index, context = null) => {
+    return getActiveItemPages(formData, index, context)?.[0]?.path;
   };
 
-  const getLastItemPagePath = (formData, index) => {
-    const activeItemPages = getActiveItemPages(formData, index);
+  const getLastItemPagePath = (formData, index, context = null) => {
+    const activeItemPages = getActiveItemPages(formData, index, context);
     return activeItemPages?.[activeItemPages.length - 1]?.path;
   };
 
@@ -391,11 +424,18 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     goPath(path);
   };
 
-  const navForwardSummaryAddItem = ({ formData, goPath }) => {
+  const navForwardSummaryAddItem = ({ formData, goPath, urlParams }) => {
     const nextIndex = formData[arrayPath]?.length || 0;
 
     const path = createArrayBuilderItemAddPath({
-      path: getFirstItemPagePath(formData, nextIndex),
+      path: getFirstItemPagePath(
+        formData,
+        nextIndex,
+        arrayBuilderContextObject({
+          add: true,
+          review: urlParams?.review,
+        }),
+      ),
       index: nextIndex,
     });
     goPath(path);
@@ -425,9 +465,9 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
   });
 
   /** @type {FormConfigPage['onNavForward']} */
-  const navForwardSummary = ({ formData, goPath, pageList }) => {
+  const navForwardSummary = ({ formData, goPath, pageList, urlParams }) => {
     if (formData?.[hasItemsKey]) {
-      navForwardSummaryAddItem({ formData, goPath });
+      navForwardSummaryAddItem({ formData, goPath, urlParams });
     } else {
       navForwardSummaryGoNextChapter({ formData, goPath, pageList });
     }
@@ -443,7 +483,14 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     // summary -> items -> summary
     if (required(formData) && !formData[arrayPath]?.length) {
       path = createArrayBuilderItemAddPath({
-        path: getFirstItemPagePath(formData, 0),
+        path: getFirstItemPagePath(
+          formData,
+          0,
+          arrayBuilderContextObject({
+            add: true,
+            review: urlParams?.review,
+          }),
+        ),
         index: 0,
         isReview: urlParams?.review,
       });
@@ -481,19 +528,6 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     };
   };
 
-  function safeDepends(depends) {
-    if (typeof depends !== 'function') {
-      return depends;
-    }
-    return (formData, index) => {
-      try {
-        return depends(formData, index);
-      } catch (e) {
-        return false;
-      }
-    };
-  }
-
   pageBuilder.summaryPage = pageConfig => {
     let requiredOpts = ['title', 'path'];
     if (usesYesNo) {
@@ -509,6 +543,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       introPath,
       isItemIncomplete,
       maxItems,
+      missingInformationKey,
       hideMaxItemsAlert,
       nounPlural,
       nounSingular,
@@ -602,7 +637,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       onNavForward,
       ...pageConfig,
       ...(pageConfig.depends
-        ? { depends: safeDepends(pageConfig.depends) }
+        ? { depends: safeDependsItem(pageConfig.depends) }
         : {}),
       CustomPage,
       uiSchema: {

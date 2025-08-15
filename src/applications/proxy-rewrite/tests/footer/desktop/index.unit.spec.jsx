@@ -85,7 +85,7 @@ describe('DesktopFooter', () => {
     assertData(27, 'Resources and support', 'https://www.va.gov/resources/');
     assertData(28, 'Contact us', 'https://www.va.gov/contact-us/');
     assertData(29, '800-698-2411', 'tel:18006982411');
-    assertData(30, 'TTY: 711', 'tel:+1711');
+    assertData(30, 'TTY: 711', 'tel:711');
     assertData(31, 'Find a VA location', 'https://www.va.gov/find-locations/');
     assertData(
       32,

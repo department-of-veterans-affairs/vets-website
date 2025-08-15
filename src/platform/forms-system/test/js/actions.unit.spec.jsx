@@ -17,6 +17,8 @@ import {
   uploadFile,
   setFormErrors,
   SET_FORM_ERRORS,
+  setItf,
+  SET_ITF,
 } from '../../src/js/actions';
 
 describe('Schemaform actions:', () => {
@@ -196,10 +198,10 @@ describe('Schemaform actions:', () => {
 
       const promise = thunk(dispatch).then(() => {
         const sentryReports = testkit.reports();
-        expect(sentryReports.length).to.equal(1);
-        expect(sentryReports[0].extra.inProgressFormId).to.equal('123');
-        expect(sentryReports[0].extra.errorType).to.equal('serverError');
-        expect(sentryReports[0].extra.statusText).to.equal('Bad Request');
+        expect(sentryReports.length).to.equal(2);
+        expect(sentryReports[1].extra.inProgressFormId).to.equal('123');
+        expect(sentryReports[1].extra.errorType).to.equal('serverError');
+        expect(sentryReports[1].extra.statusText).to.equal('Bad Request');
       });
 
       requests[0].respond(400, null, JSON.stringify(response));
@@ -325,6 +327,7 @@ describe('Schemaform actions:', () => {
             errorMessage:
               'We couldn\u2019t upload your file because it\u2019s too large. ' +
               `File size must be less than 5B.`,
+            size: 10,
           });
           done();
         },
@@ -362,6 +365,7 @@ describe('Schemaform actions:', () => {
             errorMessage:
               'We couldn\u2019t upload your file because it\u2019s too large. ' +
               `File size must be less than 5B.`,
+            size: 10,
           });
           done();
         },
@@ -400,6 +404,7 @@ describe('Schemaform actions:', () => {
             errorMessage:
               'We couldn\u2019t upload your file because it\u2019s too large. ' +
               `File size must be less than 5 Bytes.`,
+            size: 10,
           });
           done();
         },
@@ -972,6 +977,15 @@ describe('Schemaform actions:', () => {
       const action = setFormErrors(data);
       expect(action.data).to.equal(data);
       expect(action.type).to.equal(SET_FORM_ERRORS);
+    });
+  });
+
+  describe('setItf', () => {
+    it('should return action', () => {
+      const data = { test: 'foo' };
+      const action = setItf(data);
+      expect(action.data).to.equal(data);
+      expect(action.type).to.equal(SET_ITF);
     });
   });
 });

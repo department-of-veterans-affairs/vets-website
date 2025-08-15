@@ -1,0 +1,135 @@
+{
+  "householdIncome": false,
+  "reportDivorce": {
+    "spouseIncome": "NA",
+    "date": "2020-04-19",
+    "divorceLocation": {
+      "location": {
+        "city": "Fakesville",
+        "state": "CO"
+      }
+    },
+    "reasonMarriageEnded": "Divorce",
+    "fullName": {
+      "first": "Doe",
+      "middle": "C",
+      "last": "Doe"
+    },
+    "birthDate": "1991-04-19",
+    "view:cancelDivorce": {}
+  },
+  "view:veteranMarriageHistoryMissingInformation": {},
+  "view:completedVeteranFormerMarriage": false,
+  "currentMarriageInformation": {
+    "typeOfMarriage": "CIVIL",
+    "view:marriageTypeInformation": {},
+    "outsideUsa": true,
+    "location": {
+      "city": "Fakesville",
+      "country": "AUS"
+    },
+    "date": "2025-05-19"
+  },
+  "view:spouseMarriageHistoryMissingInformation": {},
+  "view:completedSpouseFormerMarriage": false,
+  "doesLiveWithSpouse": {
+    "spouseIncome": "Y",
+    "spouseDoesLiveWithVeteran": true,
+    "address": {
+      "view:militaryBaseDescription": {}
+    }
+  },
+  "spouseInformation": {
+    "ssn": "333445555",
+    "birthDate": "1991-01-19",
+    "isVeteran": false,
+    "fullName": {
+      "first": "Jane",
+      "middle": "B",
+      "last": "Doe"
+    }
+  },
+  "view:cancelAddSpouse": {},
+  "veteranInformation": {
+      "fullName": {
+        "first": "Pauline",
+        "middle": "E",
+        "last": "Foster"
+      },
+      "ssn": "796330625",
+      "birthDate": "1976-06-09",
+      "ssnLastFour": "0625",
+      "vaFileLastFour": "0625"
+    },
+  "veteranContactInformation": {
+    "phoneNumber": "8008885555",
+    "emailAddress": "test@test.com",
+    "electronicCorrespondence": true,
+    "veteranAddress": {
+      "view:militaryBaseDescription": {},
+      "country": "USA",
+      "street": "123 Fake St.",
+      "city": "Fakesville",
+      "state": "AL",
+      "postalCode": "12345"
+    }
+  },
+  "view:removeDependentOptions": {
+    "reportDivorce": true
+  },
+  "view:addDependentOptions": {
+    "addSpouse": true
+  },
+  "view:addDependentOptionsDescription": {},
+  "view:addOrRemoveDependents": {
+    "add": true,
+    "remove": true
+  },
+  "useV2": true,
+  "spouseMarriageHistory": [],
+  "veteranMarriageHistory": [
+    {
+      "endLocation": {
+        "location": {
+          "city": "Fakesville",
+          "state": "CO"
+        }
+      },
+      "startLocation": {
+        "location": {
+          "city": "Fakesville",
+          "state": "AR"
+        }
+      },
+      "endDate": "2020-04-19",
+      "startDate": "2016-01-19",
+      "reasonMarriageEnded": "Divorce",
+      "fullName": {
+        "first": "Doe",
+        "middle": "C",
+        "last": "Doe"
+      }
+    }
+  ],
+  "spouseSupportingDocuments": [
+    {
+      "name": "Screenshot from 2025-04-23 13-28-43.png",
+      "confirmationCode": "0a6fc362-f125-4796-84c9-c13435363329",
+      "attachmentId": "",
+      "isEncrypted": false
+    },
+    {
+      "name": "Screenshot from 2025-04-23 13-28-59.png",
+      "confirmationCode": "9a267bd7-f459-47e5-903e-baab21953ffd",
+      "attachmentId": "",
+      "isEncrypted": false
+    }
+  ],
+  "view:additionalEvidenceDescription": {},
+  "view:selectable686Options": {
+    "addSpouse": true,
+    "reportDivorce": true
+  },
+  "statementOfTruthSignature": "Pauline E Foster",
+  "statementOfTruthCertified": true
+}

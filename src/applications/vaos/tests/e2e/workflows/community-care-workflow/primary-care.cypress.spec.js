@@ -1,37 +1,40 @@
 // @ts-check
-import moment from 'moment';
-import MockAppointmentResponse from '../../fixtures/MockAppointmentResponse';
+import { getTypeOfCareById } from '../../../../utils/appointment';
 import {
-  mockAppointmentGetApi,
+  APPOINTMENT_STATUS,
+  TYPE_OF_CARE_IDS,
+} from '../../../../utils/constants';
+import MockAppointmentResponse from '../../../fixtures/MockAppointmentResponse';
+import MockFacilityResponse from '../../../fixtures/MockFacilityResponse';
+import MockProviderResponse from '../../../fixtures/MockProviderResponse';
+import MockUser from '../../../fixtures/MockUser';
+import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
+import ClosestCityStatePageObject from '../../page-objects/ClosestCityStatePageObject';
+import CommunityCarePreferencesPageObject from '../../page-objects/CommunityCarePreferencesPageObject';
+import ConfirmationPageObject from '../../page-objects/ConfirmationPageObject';
+import ContactInfoPageObject from '../../page-objects/ContactInfoPageObject';
+import DateTimeRequestPageObject from '../../page-objects/DateTimeRequestPageObject';
+import PreferredLanguagePageObject from '../../page-objects/PreferredLanguagePageObject';
+import ReasonForAppointmentPageObject from '../../page-objects/ReasonForAppointmentPageObject';
+import ReviewPageObject from '../../page-objects/ReviewPageObject';
+import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
+import TypeOfFacilityPageObject from '../../page-objects/TypeOfFacilityPageObject';
+import {
   mockAppointmentCreateApi,
+  mockAppointmentGetApi,
   mockAppointmentsGetApi,
   mockCCProvidersApi,
+  mockEligibilityCCApi,
   mockFacilitiesApi,
   mockFeatureToggles,
-  mockEligibilityCCApi,
   mockSchedulingConfigurationApi,
   mockVamcEhrApi,
   vaosSetup,
 } from '../../vaos-cypress-helpers';
-import MockUser from '../../fixtures/MockUser';
-import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
-import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
-import TypeOfFacilityPageObject from '../../page-objects/TypeOfFacilityPageObject';
-import DateTimeRequestPageObject from '../../page-objects/DateTimeRequestPageObject';
-import CommunityCarePreferencesPageObject from '../../page-objects/CommunityCarePreferencesPageObject';
-import ReasonForAppointmentPageObject from '../../page-objects/ReasonForAppointmentPageObject';
-import ContactInfoPageObject from '../../page-objects/ContactInfoPageObject';
-import ReviewPageObject from '../../page-objects/ReviewPageObject';
-import ConfirmationPageObject from '../../page-objects/ConfirmationPageObject';
-import PreferredLanguagePageObject from '../../page-objects/PreferredLanguagePageObject';
-import { APPOINTMENT_STATUS, PRIMARY_CARE } from '../../../../utils/constants';
-import ClosestCityStatePageObject from '../../page-objects/ClosestCityStatePageObject';
-import MockProviderResponse from '../../fixtures/MockProviderResponse';
-import MockFacilityResponse from '../../fixtures/MockFacilityResponse';
-import { getTypeOfCareById } from '../../../../utils/appointment';
 
-const { cceType } = getTypeOfCareById(PRIMARY_CARE);
-const typeOfCareId = getTypeOfCareById(PRIMARY_CARE).idV2;
+const { idV2: typeOfCareId, cceType } = getTypeOfCareById(
+  TYPE_OF_CARE_IDS.PRIMARY_CARE,
+);
 
 describe('VAOS community care flow - Primary care', () => {
   beforeEach(() => {
@@ -39,9 +42,8 @@ describe('VAOS community care flow - Primary care', () => {
 
     const response = new MockAppointmentResponse({
       id: 'mock1',
-      localStartTime: moment(),
+      localStartTime: new Date(),
       status: APPOINTMENT_STATUS.proposed,
-      serviceType: 'primaryCare',
     });
     mockAppointmentGetApi({
       response,
@@ -85,6 +87,7 @@ describe('VAOS community care flow - Primary care', () => {
           .clickNextButton();
 
         TypeOfFacilityPageObject.assertUrl()
+          .assertTypeOfFacilityValidationErrors()
           .selectTypeOfFacility(/Community care facility/i)
           .clickNextButton();
 
@@ -217,6 +220,7 @@ describe('VAOS community care flow - Primary care', () => {
           .clickNextButton();
 
         ClosestCityStatePageObject.assertUrl()
+          .assertClosestCityStateValidationErrors()
           .assertHeading({ name: /What.s the nearest city to you/i })
           .selectFacility({ label: /City 983/i })
           .clickNextButton();

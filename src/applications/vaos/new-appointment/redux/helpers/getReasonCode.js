@@ -8,8 +8,12 @@
  * @returns {string} The created reason text
  */
 
-import moment from '../../../lib/moment-tz';
-import { PURPOSE_TEXT_V2, TYPE_OF_VISIT } from '../../../utils/constants';
+import { format } from 'date-fns';
+import {
+  PURPOSE_TEXT_V2,
+  REASON_MAX_CHARS,
+  TYPE_OF_VISIT,
+} from '../../../utils/constants';
 
 export function getReasonCode({ data, isCC, isDS }) {
   const apptReasonCode = PURPOSE_TEXT_V2.find(
@@ -22,7 +26,7 @@ export function getReasonCode({ data, isCC, isDS }) {
   ).map(visit => visit.vsGUI);
 
   if (isCC) {
-    reasonText = data.reasonAdditionalInfo?.slice(0, 250);
+    reasonText = data.reasonAdditionalInfo?.slice(0, REASON_MAX_CHARS);
     return {
       text: reasonText,
     };
@@ -30,8 +34,8 @@ export function getReasonCode({ data, isCC, isDS }) {
   if (!isCC) {
     const formattedDates = data.selectedDates.map(
       date =>
-        `${moment(date).format('MM/DD/YYYY')}${
-          moment(date).hour() >= 12 ? ' PM' : ' AM'
+        `${format(new Date(date), 'MM/dd/yyyy')}${
+          new Date(date).getHours() >= 12 ? ' PM' : ' AM'
         }`,
     );
     const facility = `station id: ${data.vaFacility}`;
@@ -40,7 +44,10 @@ export function getReasonCode({ data, isCC, isDS }) {
     const email = `email: ${data.email}`;
     const preferredDates = `preferred dates:${formattedDates.toString()}`;
     const reasonCode = `reason code:${apptReasonCode}`;
-    reasonText = `comments:${data.reasonAdditionalInfo.slice(0, 250)}`;
+    reasonText = `comments:${data.reasonAdditionalInfo.slice(
+      0,
+      REASON_MAX_CHARS,
+    )}`;
     // Add station id, preferred modality, phone number, email, preferred Date, reason Code to
     // appointmentInfo string in this order: [0]station id, [1]preferred modality, [2]phone number,
     // [3]email, [4]preferred Date, [5]reason Code
@@ -48,7 +55,10 @@ export function getReasonCode({ data, isCC, isDS }) {
   }
   if (isDS) {
     appointmentInfo = `reason code:${apptReasonCode}`;
-    reasonText = `comments:${data.reasonAdditionalInfo.slice(0, 250)}`;
+    reasonText = `comments:${data.reasonAdditionalInfo.slice(
+      0,
+      REASON_MAX_CHARS,
+    )}`;
   }
   return {
     text: data.reasonAdditionalInfo ? `${appointmentInfo}|${reasonText}` : null,

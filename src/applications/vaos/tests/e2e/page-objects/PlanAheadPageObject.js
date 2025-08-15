@@ -1,6 +1,6 @@
 import PageObject from './PageObject';
 
-export class PlanAheadPageObject extends PageObject {
+class PlanAheadPageObject extends PageObject {
   assertUrl() {
     return super.assertUrl({
       url: 'covid-vaccine',

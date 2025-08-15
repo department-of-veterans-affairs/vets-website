@@ -1,6 +1,6 @@
 import {
-  testNumberOfErrorsOnSubmit,
-  testNumberOfFields,
+  testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfWebComponentFields,
 } from '../../../../shared/tests/pages/pageTests.spec';
 import formConfig from '../../../config/form';
 
@@ -11,20 +11,20 @@ const {
 
 const pageTitle = 'patient identification 2';
 
-const expectedNumberOfFields = 5;
-testNumberOfFields(
+const numberOfWebComponentFields = 6;
+testNumberOfWebComponentFields(
   formConfig,
   schema,
   uiSchema,
-  expectedNumberOfFields,
+  numberOfWebComponentFields,
   pageTitle,
 );
 
-const expectedNumberOfErrors = 3;
-testNumberOfErrorsOnSubmit(
+const numberOfWebComponentErrors = 3;
+testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,
   uiSchema,
-  expectedNumberOfErrors,
+  numberOfWebComponentErrors,
   pageTitle,
 );

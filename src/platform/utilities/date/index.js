@@ -58,8 +58,17 @@ export function parseStringOrDate(date) {
     }
   }
 
+  const sanitizedDate = inputDate => {
+    if (inputDate == null) return String(inputDate); // handles null & undefined
+    return String(inputDate)
+      .replace(/[A-Za-z]/g, 'A')
+      .replace(/\d/g, '1');
+  };
+
   throw new Error(
-    `Could not parse date string: ${date}. Please ensure that you provide a Date object, Unix timestamp with milliseconds, or ISO 8601 date string.`,
+    `Could not parse date string (sanitized): ${sanitizedDate(
+      date,
+    )}. Please ensure that you provide a Date object, Unix timestamp with milliseconds, or ISO 8601 date string.`,
   );
 }
 
@@ -185,9 +194,11 @@ const LONG_FORM_MONTHS = [
  *   * a Date object
  *   * a moment object
  *   * an ISO string in Eastern time
+ * @param {string} dayPattern The pattern for the day of the week. Defaults to 'd'.
+ *   If the year needs to be included, use 'd, y'.
  * @returns {string} The formatted date-time string
  */
-export const formatDowntime = dateTime => {
+export const formatDowntime = (dateTime, dayPattern = 'd') => {
   let date;
   const timeZone = 'America/New_York';
 
@@ -205,6 +216,7 @@ export const formatDowntime = dateTime => {
   const dtMonth = format(easternTimeZoneDate, 'M', { timeZone });
   const dtHour = format(easternTimeZoneDate, 'H', { timeZone });
   const dtMinute = format(easternTimeZoneDate, 'm', { timeZone });
+  const dayFormat = format(easternTimeZoneDate, dayPattern, { timeZone });
 
   const monthFormat = LONG_FORM_MONTHS.includes(dtMonth - 1) ? 'MMMM' : 'MMM.';
   let timeFormat;
@@ -220,7 +232,7 @@ export const formatDowntime = dateTime => {
 
   return format(
     easternTimeZoneDate,
-    `${monthFormat} d 'at' ${timeFormat} 'ET'`,
+    `${monthFormat} ${dayFormat} 'at' ${timeFormat} 'ET'`,
     { timeZone },
   );
 };

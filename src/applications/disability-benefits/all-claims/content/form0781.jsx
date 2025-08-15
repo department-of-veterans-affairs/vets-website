@@ -33,7 +33,7 @@ export const traumaticEventsExamples = (
           You experienced offensive comments about your body or sexual
           activities
         </li>
-        <li>You experienced unwanted sexual advances</li>
+        <li>You experienced repeated unwanted sexual advances</li>
         <li>
           You experienced someone touching or grabbing you against your will,
           including during hazing
@@ -66,6 +66,58 @@ export const traumaticEventsExamples = (
       </ul>
     </va-accordion-item>
   </va-accordion>
+);
+
+export const mentalHealthSupportSummary = (
+  <p>
+    Before we start asking questions, we want to make sure you know how to get
+    support if you need it. You can access support anytime, including while you
+    wait for a decision on this claim.
+  </p>
+);
+
+export const mentalHealthSupportTextBlob = (
+  <>
+    <p>
+      We can connect you with mental health care—no matter your discharge
+      status, service history, or eligibility for VA health care. And you can
+      get free, confidential help anytime, day or night.
+    </p>
+    <va-link
+      external
+      href="https://www.va.gov/health-care/health-needs-conditions/mental-health/"
+      text="Learn how to get support for mental health care"
+    />
+  </>
+);
+
+export const militarySexualTraumaSupportTextBlob = (
+  <>
+    <p>
+      If you’re having difficulties related to military sexual trauma, we’re
+      here to support you in whatever way will help you best.
+    </p>
+    <p>
+      We provide free treatment for any physical or mental health conditions
+      related to your experiences of MST. You don’t need to have reported the
+      MST at the time or have other proof that the MST occurred to get care.
+    </p>
+    <va-link
+      external
+      href="https://www.va.gov/health-care/health-needs-conditions/military-sexual-trauma/"
+      text="Learn how to get support for military sexual trauma"
+    />
+  </>
+);
+
+export const rememberTextBlob = (
+  <p>
+    <strong>Remember: </strong>
+    Any information you provide will help us understand your situation and
+    identify evidence to support your claim. But you can skip questions you
+    can’t or don’t want to answer. And you can save your in-progress online form
+    anytime if you need a break.
+  </p>
 );
 
 export const mentalHealthSupportResources = (
@@ -144,45 +196,72 @@ export const mentalHealthSupportAlert = () => {
   return (
     <va-alert-expandable
       status="info"
-      trigger="Learn how to get mental health help now"
+      trigger="Get mental health and military sexual trauma support anytime"
     >
       <p>
-        We understand that some of the questions may be difficult to answer. If
-        you need to take a break and come back to your application, your
-        information will be saved.
+        We can connect you with free, confidential support for mental health
+        care or military sexual trauma anytime. We can connect you with support
+        even if you don’t file a claim for disability compensation or you aren’t
+        eligible for compensation.
       </p>
       <br />
       <p>
-        If you’re a Veteran in crisis or concerned about one, connect with our
-        caring, qualified Veterans Crisis Line responders for confidential help.
-        Many of them are Veterans themselves. This service is private, free, and
-        available 24/7.
+        <va-link
+          external
+          href="https://www.va.gov/health-care/health-needs-conditions/mental-health/"
+          text="Learn how to get support for mental health care"
+        />
       </p>
       <br />
-      {mentalHealthSupportResources}
+      <p>
+        <va-link
+          external
+          href="https://www.va.gov/health-care/health-needs-conditions/military-sexual-trauma/"
+          text="Learn how to get support for military sexual trauma"
+        />
+      </p>
     </va-alert-expandable>
   );
 };
 
 /**
- * Create a title and headingTag for a page which will be passed into ui:title so that
- * they are grouped in the same legend
- * @param {string} title - the title for the page, which displays below the stepper
- * @param {string} headingTag - the headingTag for the page, which displays above the title
- * @returns {JSX.Element} markup with title and headingTag. example below.
+ * Generates a combined heading inside a <legend> element for use in a page title.
+ * This groups a heading tag (like a form identifier) and a page-specific title
+ * into a single semantic block, styled appropriately.
  *
- * <h3 class="...">VA FORM 21-0781</h3>
- * <h3 class="...">Mental health support</h3>
+ * @param {string} title - The main title for the page, typically describing the form section
+ * @param {string} headingTag - A label or identifier that appears above the title
+ * @returns {JSX.Element} A <legend> element containing a single <h3> with two styled <span> blocks
+ *
+ * Example rendered structure:
+ * <legend>
+ *   <h3 class="vads-u-margin--0">
+ *     <span class="...">VA FORM 21-0781</span>
+ *     <span class="...">Mental health support</span>
+ *   </h3>
+ * </legend>
  */
 export function titleWithTag(title, headingTag) {
   return (
-    <>
-      <h3 className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-margin--0">
-        {`${headingTag} `}
+    <legend>
+      <h3 className="vads-u-margin--0">
+        <span className="vads-u-display--block vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
+          {`${headingTag}`}{' '}
+        </span>
+        <span className="vads-u-display--block vads-u-font-size--h3 vads-u-color--base">
+          {title}
+        </span>
       </h3>
-      <h3 className="vads-u-font-size--h3 vads-u-color--base vads-u-margin--0">
+    </legend>
+  );
+}
+
+export function standardTitle(title) {
+  return (
+    <h3 className="vads-u-margin--0">
+      <span className="vads-u-display--block vads-u-font-size--h3 vads-u-color--base">
         {title}
-      </h3>
-    </>
+      </span>
+    </h3>
   );
 }

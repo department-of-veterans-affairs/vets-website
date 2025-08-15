@@ -11,15 +11,12 @@ import {
   reportGeneratedBy,
   txtLine,
   usePrintTitle,
-} from '@department-of-veterans-affairs/mhv/exports';
-import {
   formatNameFirstLast,
-  generateTextFile,
   getNameDateAndTime,
   makePdf,
-  processList,
   formatUserDob,
-} from '../util/helpers';
+} from '@department-of-veterans-affairs/mhv/exports';
+import { generateTextFile, processList } from '../util/helpers';
 import ItemList from '../components/shared/ItemList';
 import {
   getConditionDetails,
@@ -32,6 +29,7 @@ import {
   ALERT_TYPE_ERROR,
   accessAlertTypes,
   pageTitles,
+  statsdFrontEndActions,
 } from '../util/constants';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
@@ -40,6 +38,7 @@ import { generateConditionContent } from '../util/pdfHelpers/conditions';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import HeaderSection from '../components/shared/HeaderSection';
 import LabelValue from '../components/shared/LabelValue';
+import { useTrackAction } from '../hooks/useTrackAction';
 
 const ConditionDetails = props => {
   const { runningUnitTest } = props;
@@ -58,6 +57,7 @@ const ConditionDetails = props => {
   const dispatch = useDispatch();
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
+  useTrackAction(statsdFrontEndActions.HEALTH_CONDITIONS_DETAILS);
 
   useEffect(
     () => {
@@ -100,7 +100,13 @@ const ConditionDetails = props => {
     const scaffold = generatePdfScaffold(user, title, subject);
     const pdfData = { ...scaffold, ...generateConditionContent(record) };
     const pdfName = `VA-conditions-details-${getNameDateAndTime(user)}`;
-    makePdf(pdfName, pdfData, 'Condition details', runningUnitTest);
+    makePdf(
+      pdfName,
+      pdfData,
+      'medicalRecords',
+      'Medical Records - Condition details - PDF generation error',
+      runningUnitTest,
+    );
   };
 
   const generateConditionTxt = async () => {

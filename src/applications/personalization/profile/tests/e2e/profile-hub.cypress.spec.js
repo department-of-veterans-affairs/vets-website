@@ -8,7 +8,11 @@ import user from '../../mocks/endpoints/user';
 describe('Profile - Hub page', () => {
   beforeEach(() => {
     cy.login(mockUser);
-    mockProfileLOA3(generateFeatureToggles());
+    mockProfileLOA3(
+      generateFeatureToggles({
+        profileShowPaperlessDelivery: false,
+      }),
+    );
   });
 
   it('should render the correct content', () => {
@@ -21,6 +25,7 @@ describe('Profile - Hub page', () => {
       'exist',
     );
     cy.findByText('Military information', { selector: 'h2' }).should('exist');
+    cy.findByText('Veteran Status Card', { selector: 'h2' }).should('exist');
     cy.findByText('Direct deposit information', { selector: 'h2' }).should(
       'exist',
     );

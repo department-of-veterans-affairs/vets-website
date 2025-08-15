@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import {
   focusElement,
   waitForRenderThenFocus,
@@ -55,12 +54,6 @@ const FolderThreadListView = props => {
   const { noAssociations, allTriageGroupsBlocked } = useSelector(
     state => state.sm.recipients,
   );
-  const removeLandingPageFF = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvSecureMessagingRemoveLandingPage
-      ],
-  );
 
   const displayingNumberOfThreadsSelector =
     "[data-testid='displaying-number-of-threads']";
@@ -82,7 +75,7 @@ const FolderThreadListView = props => {
       );
       dispatch(getListOfThreads(sortFolderId, perPage, page, value, update));
     },
-    [dispatch, threadSort, threadsPerPage],
+    [dispatch, threadsPerPage],
   );
 
   const handleSortCallback = sortOrderValue => {
@@ -145,26 +138,26 @@ const FolderThreadListView = props => {
 
   useEffect(
     () => {
-      if (folderId !== (null || undefined)) {
-        if (folder.name === convertPathNameToTitleCase(location.pathname)) {
+      if (folderId != null) {
+        let sortOption = threadSortingOptions.SENT_DATE_DESCENDING.value;
+        if (location.pathname === Paths.DRAFTS) {
+          sortOption = threadSortingOptions.DRAFT_DATE_DESCENDING.value;
+        }
+        retrieveListOfThreads({
+          sortFolderId: folderId,
+          value: sortOption,
+          page: 1,
+        });
+
+        dispatch(
+          getListOfThreads(folderId, threadsPerPage, 1, sortOption, false),
+        );
+        if (folder?.name === convertPathNameToTitleCase(location.pathname)) {
           const pageTitleTag = getPageTitle({
-            removeLandingPageFF,
             folderName: folder.name,
           });
           updatePageTitle(pageTitleTag);
         }
-        if (folderId !== threadSort?.folderId) {
-          let sortOption = threadSortingOptions.SENT_DATE_DESCENDING.value;
-          if (location.pathname === Paths.DRAFTS) {
-            sortOption = threadSortingOptions.DRAFT_DATE_DESCENDING.value;
-          }
-          retrieveListOfThreads({
-            sortFolderId: folderId,
-            value: sortOption,
-            page: 1,
-          });
-        }
-
         if (folderId !== searchFolder?.folderId) {
           dispatch(clearSearchResults());
         }
@@ -176,11 +169,8 @@ const FolderThreadListView = props => {
       retrieveListOfThreads,
       folder?.name,
       location?.pathname,
-      threadSort?.folderId,
-      threadSort?.value,
-      threadSort?.page,
+      threadsPerPage,
       searchFolder?.folderId,
-      threadList?.length,
     ],
   );
 

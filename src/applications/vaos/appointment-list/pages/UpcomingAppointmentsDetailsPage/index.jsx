@@ -1,20 +1,20 @@
+import { formatInTimeZone } from 'date-fns-tz';
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import moment from 'moment';
-import InfoAlert from '../../../components/InfoAlert';
-import ErrorMessage from '../../../components/ErrorMessage';
 import FullWidthLayout from '../../../components/FullWidthLayout';
+import InfoAlert from '../../../components/InfoAlert';
 import CCLayout from '../../../components/layouts/CCLayout';
 import VideoLayout from '../../../components/layouts/VideoLayout';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
 import {
   isAtlasVideoAppointment,
   isClinicVideoAppointment,
+  isInPersonVisit,
   isVAPhoneAppointment,
 } from '../../../services/appointment';
 import { FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
+import AppointmentDetailsErrorMessage from '../../components/AppointmentDetailsErrorMessage';
 import PageLayout from '../../components/PageLayout';
 import {
   closeCancelAppointment,
@@ -23,7 +23,6 @@ import {
 import {
   getConfirmedAppointmentDetailsInfo,
   selectIsCanceled,
-  selectIsInPerson,
   selectIsPast,
 } from '../../redux/selectors';
 import DetailsVA from './DetailsVA';
@@ -36,18 +35,13 @@ export default function UpcomingAppointmentsDetailsPage() {
     appointmentDetailsStatus,
     isBadAppointmentId,
     facilityData,
-    useV2,
   } = useSelector(
     state => getConfirmedAppointmentDetailsInfo(state, id),
     shallowEqual,
   );
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
-  const isInPerson = selectIsInPerson(appointment);
+  const isInPerson = isInPersonVisit(appointment);
   const isPast = selectIsPast(appointment);
   const isCanceled = selectIsCanceled(appointment);
-  const appointmentDate = moment.parseZone(appointment?.start);
   const isVideo = appointment?.vaos?.isVideo;
   const isCommunityCare = appointment?.vaos?.isCommunityCare;
   const isVA = !isVideo && !isCommunityCare;
@@ -91,27 +85,17 @@ export default function UpcomingAppointmentsDetailsPage() {
       } else if (isVAPhoneAppointment(appointment)) {
         pageTitle = `${prefix} Phone Appointment On`;
       }
-      const pageTitleSuffix = featureBreadcrumbUrlUpdate
-        ? ' | Veterans Affairs'
-        : '';
 
-      if (appointment && appointmentDate) {
-        document.title = `${pageTitle} ${appointmentDate.format(
-          'dddd, MMMM D, YYYY',
-        )}${pageTitleSuffix}`;
+      if (appointment && appointment.start) {
+        document.title = `${pageTitle} ${formatInTimeZone(
+          appointment.start,
+          appointment.timezone,
+          'EEEE, MMMM d, yyyy',
+        )} | Veterans Affairs`;
         scrollAndFocus();
       }
     },
-    [
-      appointment,
-      appointmentDate,
-      isCommunityCare,
-      isCanceled,
-      isInPerson,
-      isPast,
-      isVideo,
-      featureBreadcrumbUrlUpdate,
-    ],
+    [appointment, isCommunityCare, isCanceled, isInPerson, isPast, isVideo],
   );
 
   useEffect(
@@ -155,7 +139,7 @@ export default function UpcomingAppointmentsDetailsPage() {
   ) {
     return (
       <PageLayout showBreadcrumbs showNeedHelp>
-        <ErrorMessage level={1} />
+        <AppointmentDetailsErrorMessage />
       </PageLayout>
     );
   }
@@ -168,13 +152,9 @@ export default function UpcomingAppointmentsDetailsPage() {
   }
 
   return (
-    <PageLayout isDetailPage showNeedHelp>
+    <PageLayout showNeedHelp>
       {isVA && (
-        <DetailsVA
-          appointment={appointment}
-          facilityData={facilityData}
-          useV2={useV2}
-        />
+        <DetailsVA appointment={appointment} facilityData={facilityData} />
       )}
       {isCommunityCare && <CCLayout data={appointment} />}
       {isVideo && <VideoLayout data={appointment} />}

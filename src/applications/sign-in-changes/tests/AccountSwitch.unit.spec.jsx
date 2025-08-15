@@ -2,7 +2,6 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
-import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import AccountSwitch from '../components/AccountSwitch';
 
 const mockStore = {
@@ -19,7 +18,7 @@ describe('AccountSwitch', () => {
       </Provider>,
     );
 
-    const loginGovButton = $('.logingov-verify-buttons', container);
+    const loginGovButton = container.querySelector('.logingov-verify-buttons');
     expect(loginGovButton).to.exist;
 
     const heading = getByText(/Start using your/i);
@@ -36,7 +35,7 @@ describe('AccountSwitch', () => {
       </Provider>,
     );
 
-    const idmeButton = $('.idme-verify-buttons', container);
+    const idmeButton = container.querySelector('.idme-verify-buttons');
     expect(idmeButton).to.exist;
 
     const heading = getByText(/Start using your/i);
@@ -61,10 +60,10 @@ describe('AccountSwitch', () => {
     const buttons = getAllByRole('button');
     expect(buttons.length).to.eql(2);
 
-    const logingovButton = $('.logingov-verify-buttons', container);
+    const logingovButton = container.querySelector('.logingov-verify-buttons');
     expect(logingovButton).to.exist;
 
-    const idmeButton = $('.idme-verify-buttons', container);
+    const idmeButton = container.querySelector('.idme-verify-buttons');
     expect(idmeButton).to.exist;
 
     const heading = getByText(/Start using your/i);

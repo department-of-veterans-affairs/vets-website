@@ -67,6 +67,8 @@
         "hasAttachments": false
       }
     ],
+    "isLoading": false,
+    "cannotReply": false,
     "replyToName": "MHVDAYMARK, MARK ",
     "lastSaveTime": null
   }

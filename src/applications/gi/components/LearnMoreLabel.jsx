@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { focusElement } from 'platform/utilities/ui';
 import classNames from 'classnames';
-import recordEvent from 'platform/monitoring/record-event';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 export default function LearnMoreLabel({
@@ -14,6 +12,7 @@ export default function LearnMoreLabel({
   bold,
   buttonClassName,
   dataTestId,
+  capitalize = false,
 }) {
   let displayText = text && <>{text} </>;
   if (labelFor && text) {
@@ -26,13 +25,10 @@ export default function LearnMoreLabel({
       </label>
     );
   }
-
+  const buttonText = capitalize ? 'Learn more' : 'learn more';
   return (
     <span
       data-testid={dataTestId}
-      role="button"
-      tabIndex="0"
-      onKeyDown={() => {}}
       className={classNames(
         buttonClassName,
         'vads-u-margin--0',
@@ -41,14 +37,14 @@ export default function LearnMoreLabel({
           'vads-u-font-weight--bold': bold,
         },
       )}
-      onClick={() => {
-        focusElement(labelFor);
-        recordEvent({
-          event: 'cta-button-click',
-          'button-click-label': `${ariaLabel || labelFor}`,
-          'button-type': 'link',
-        });
-      }}
+      // onClick={() => {
+      //   focusElement(labelFor);
+      //   recordEvent({
+      //     event: 'cta-button-click',
+      //     'button-click-label': `${ariaLabel || labelFor}`,
+      //     'button-type': 'link',
+      //   });
+      // }}
     >
       {bold ? <strong>{displayText}</strong> : displayText}
       <span
@@ -57,7 +53,8 @@ export default function LearnMoreLabel({
         })}
       >
         <VaButton
-          text="(Learn more)"
+          text={buttonText}
+          tabIndex="-1"
           id={buttonId}
           label={ariaLabel}
           className={`learn-more-btn ${bold ? 'learn-more-bold-text' : ''}`}
@@ -76,4 +73,5 @@ LearnMoreLabel.propTypes = {
   labelFor: PropTypes.string,
   text: PropTypes.any,
   onClick: PropTypes.func,
+  capitalize: PropTypes.bool,
 };

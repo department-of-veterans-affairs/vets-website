@@ -7,63 +7,78 @@ import ReferralLayout from './components/ReferralLayout';
 import { getUpcomingAppointmentListInfo } from '../appointment-list/redux/selectors';
 import {
   setFormCurrentPage,
-  createDraftReferralAppointment,
+  cacheDraftReferralAppointment,
 } from './redux/actions';
+import { getCachedDraftAppointmentInfo } from './redux/selectors';
 // eslint-disable-next-line import/no-restricted-paths
 import { fetchFutureAppointments } from '../appointment-list/redux/actions';
-import { getDraftAppointmentInfo } from './redux/selectors';
+import { usePostDraftReferralAppointmentMutation } from '../redux/api/vaosApi';
 import { FETCH_STATUS } from '../utils/constants';
-import { scrollAndFocus } from '../utils/scrollAndFocus';
 import DateAndTimeContent from './components/DateAndTimeContent';
 
 export const ChooseDateAndTime = props => {
-  const { currentReferral } = props;
+  const { attributes: currentReferral } = props.currentReferral;
   const dispatch = useDispatch();
   const location = useLocation();
 
-  const { draftAppointmentInfo, draftAppointmentCreateStatus } = useSelector(
-    state => getDraftAppointmentInfo(state),
-    shallowEqual,
+  const [
+    postDraftReferralAppointment,
+    {
+      data: draftAppointmentData,
+      isError: isDraftError,
+      isLoading: isDraftLoading,
+      isUninitialized: isDraftUninitialized,
+      isSuccess: isDraftSuccess,
+    },
+  ] = usePostDraftReferralAppointmentMutation();
+  const draftAppointmentInfo = useSelector(state =>
+    getCachedDraftAppointmentInfo(state),
   );
   const { futureStatus, appointmentsByMonth } = useSelector(
     state => getUpcomingAppointmentListInfo(state),
     shallowEqual,
   );
-
   const [loading, setLoading] = useState(true);
   const [failed, setFailed] = useState(false);
   useEffect(
     () => {
-      if (
-        draftAppointmentCreateStatus === FETCH_STATUS.notStarted ||
+      if (draftAppointmentInfo?.attributes) {
+        if (futureStatus === FETCH_STATUS.notStarted) {
+          dispatch(fetchFutureAppointments({ includeRequests: false }));
+        }
+        if (futureStatus === FETCH_STATUS.succeeded) {
+          setLoading(false);
+        }
+      } else if (
+        isDraftUninitialized ||
         futureStatus === FETCH_STATUS.notStarted
       ) {
-        if (draftAppointmentCreateStatus === FETCH_STATUS.notStarted) {
-          dispatch(createDraftReferralAppointment(currentReferral.uuid));
+        if (isDraftUninitialized) {
+          postDraftReferralAppointment({
+            referralNumber: currentReferral.referralNumber,
+            referralConsultId: currentReferral.referralConsultId,
+          });
         }
         if (futureStatus === FETCH_STATUS.notStarted) {
           dispatch(fetchFutureAppointments({ includeRequests: false }));
         }
-      } else if (
-        draftAppointmentCreateStatus === FETCH_STATUS.succeeded &&
-        futureStatus === FETCH_STATUS.succeeded
-      ) {
-        setLoading(false);
-        scrollAndFocus('h1');
-      } else if (
-        draftAppointmentCreateStatus === FETCH_STATUS.failed ||
-        futureStatus === FETCH_STATUS.failed
-      ) {
+      } else if (isDraftSuccess) {
+        dispatch(cacheDraftReferralAppointment(draftAppointmentData));
+      } else if (isDraftError || futureStatus === FETCH_STATUS.failed) {
         setLoading(false);
         setFailed(true);
-        scrollAndFocus('h1');
       }
     },
     [
-      currentReferral.uuid,
+      currentReferral,
       dispatch,
-      draftAppointmentCreateStatus,
+      draftAppointmentData,
+      draftAppointmentInfo,
       futureStatus,
+      isDraftError,
+      isDraftSuccess,
+      isDraftUninitialized,
+      postDraftReferralAppointment,
     ],
   );
   useEffect(
@@ -73,11 +88,14 @@ export const ChooseDateAndTime = props => {
     [location, dispatch],
   );
 
-  if (loading) {
+  if (loading || isDraftLoading) {
     return (
-      <div className="vads-u-margin-y--8" data-testid="loading">
-        <va-loading-indicator message="Loading available appointments times..." />
-      </div>
+      <ReferralLayout
+        data-testid="loading"
+        loadingMessage="Loading available appointment times..."
+        hasEyebrow
+        heading="Schedule an appointment with your provider"
+      />
     );
   }
 

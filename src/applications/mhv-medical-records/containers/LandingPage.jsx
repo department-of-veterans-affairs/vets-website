@@ -15,13 +15,13 @@ import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
-import { getCernerURL } from 'platform/utilities/cerner';
+import environment from 'platform/utilities/environment';
 import {
   CernerAlertContent,
   downtimeNotificationParams,
   pageTitles,
 } from '../util/constants';
-import { createSession } from '../api/MrApi';
+import { createSession, postCreateAAL } from '../api/MrApi';
 import {
   selectConditionsFlag,
   selectNotesFlag,
@@ -32,7 +32,7 @@ import {
 } from '../util/selectors';
 import ExternalLink from '../components/shared/ExternalLink';
 import useAcceleratedData from '../hooks/useAcceleratedData';
-import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
+import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import { sendDataDogAction } from '../util/helpers';
 
 const LAB_TEST_RESULTS_LABEL = 'Go to your lab and test results';
@@ -45,6 +45,8 @@ const MEDICAL_RECORDS_DOWNLOAD_LABEL =
   'Go to download your medical records reports';
 const MEDICAL_RECORDS_SETTINGS_LABEL =
   'Go to manage your electronic sharing settings';
+const SHARE_PERSONAL_HEALTH_DATA_WITH_YOUR_CARE_TEAM =
+  'Go to the Share My Health Data website';
 
 const LandingPage = () => {
   const dispatch = useDispatch();
@@ -59,14 +61,11 @@ const LandingPage = () => {
     state => state.featureToggles.mhv_medical_records_kill_external_links,
   );
 
-  const {
-    isLoading,
-    isAccelerating,
-    isAcceleratingAllergies,
-    isAcceleratingVitals,
-  } = useAcceleratedData();
+  const { isLoading } = useAcceleratedData();
 
   const accordionRef = useRef(null);
+
+  const headingRef = useRef(null);
 
   useEffect(() => {
     const expandButton = accordionRef.current?.shadowRoot?.querySelector(
@@ -89,18 +88,39 @@ const LandingPage = () => {
 
   useEffect(
     () => {
+      setTimeout(() => {
+        const heading = headingRef.current;
+        focusElement(heading);
+      }, 400);
+    },
+    [headingRef],
+  );
+
+  useEffect(
+    () => {
       // Create the user's MHV session when they arrive at the MR landing page
       createSession();
-      focusElement(document.querySelector('h1'));
+
       updatePageTitle(pageTitles.MEDICAL_RECORDS_PAGE_TITLE);
     },
     [dispatch],
   );
 
+  const sendAalViewList = activityType => {
+    postCreateAAL({
+      activityType,
+      action: 'View',
+      performerType: 'Self',
+      status: 1,
+      oncePerSession: true,
+    });
+  };
+
   return (
     <div className="landing-page">
       <section className="vads-u-margin-bottom--2">
         <h1
+          ref={headingRef}
           className="vads-u-margin-top--0 vads-u-margin-bottom--1"
           data-testid="mr-landing-page-title"
         >
@@ -127,7 +147,7 @@ const LandingPage = () => {
         </p>
       </section>
 
-      <CernerFacilityAlert {...CernerAlertContent.MR_LANDING_PAGE} />
+      <AcceleratedCernerFacilityAlert {...CernerAlertContent.MR_LANDING_PAGE} />
 
       {isLoading && (
         <section>
@@ -149,28 +169,17 @@ const LandingPage = () => {
                 Get results of your VA medical tests. This includes blood tests,
                 X-rays, and other imaging tests.
               </p>
-              {isAccelerating ? (
-                <a
-                  className="vads-c-action-link--blue vads-u-margin-bottom--0p5"
-                  href={getCernerURL('/pages/health_record/results', true)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  data-testid="labs-and-tests-oh-landing-page-link"
-                >
-                  View your labs and tests on My VA Health (opens in new tab)
-                </a>
-              ) : (
-                <Link
-                  to="/labs-and-tests"
-                  className="vads-c-action-link--blue"
-                  data-testid="labs-and-tests-landing-page-link"
-                  onClick={() => {
-                    sendDataDogAction(LAB_TEST_RESULTS_LABEL);
-                  }}
-                >
-                  {LAB_TEST_RESULTS_LABEL}
-                </Link>
-              )}
+              <Link
+                to="/labs-and-tests"
+                className="vads-c-action-link--blue"
+                data-testid="labs-and-tests-landing-page-link"
+                onClick={() => {
+                  sendAalViewList('Lab and test results');
+                  sendDataDogAction(LAB_TEST_RESULTS_LABEL);
+                }}
+              >
+                {LAB_TEST_RESULTS_LABEL}
+              </Link>
             </section>
           )}
           {displayNotes && (
@@ -183,36 +192,19 @@ const LandingPage = () => {
                 care. This includes summaries of your stays in health facilities
                 (called admission and discharge summaries).
               </p>
-              {isAccelerating ? (
-                <>
-                  <a
-                    className="vads-c-action-link--blue vads-u-margin-bottom--0p5"
-                    href={getCernerURL(
-                      '/pages/health_record/comprehensive_record/health_summaries',
-                      true,
-                    )}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    data-testid="summary-and-notes-oh-landing-page-link"
-                  >
-                    View your care summaries and notes on My VA Health (opens in
-                    new window)
-                  </a>
-                </>
-              ) : (
-                <>
-                  <Link
-                    to="/summaries-and-notes"
-                    className="vads-c-action-link--blue"
-                    data-testid="notes-landing-page-link"
-                    onClick={() => {
-                      sendDataDogAction(CARE_SUMMARIES_AND_NOTES_LABEL);
-                    }}
-                  >
-                    {CARE_SUMMARIES_AND_NOTES_LABEL}
-                  </Link>
-                </>
-              )}
+              <>
+                <Link
+                  to="/summaries-and-notes"
+                  className="vads-c-action-link--blue"
+                  data-testid="notes-landing-page-link"
+                  onClick={() => {
+                    sendAalViewList('Care Summaries and Notes');
+                    sendDataDogAction(CARE_SUMMARIES_AND_NOTES_LABEL);
+                  }}
+                >
+                  {CARE_SUMMARIES_AND_NOTES_LABEL}
+                </Link>
+              </>
             </section>
           )}
           {displayVaccines && (
@@ -224,31 +216,17 @@ const LandingPage = () => {
                 Get a list of all vaccines (immunizations) in your VA medical
                 records.
               </p>
-              {isAccelerating ? (
-                <a
-                  className="vads-c-action-link--blue vads-u-margin-bottom--0p5"
-                  href={getCernerURL(
-                    '/pages/health_record/health-record-immunizations',
-                    true,
-                  )}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  data-testid="vaccines-oh-landing-page-link"
-                >
-                  View your vaccines on My VA Health (opens in new tab)
-                </a>
-              ) : (
-                <Link
-                  to="/vaccines"
-                  className="vads-c-action-link--blue"
-                  data-testid="vaccines-landing-page-link"
-                  onClick={() => {
-                    sendDataDogAction(VACCINES_LABEL);
-                  }}
-                >
-                  {VACCINES_LABEL}
-                </Link>
-              )}
+              <Link
+                to="/vaccines"
+                className="vads-c-action-link--blue"
+                data-testid="vaccines-landing-page-link"
+                onClick={() => {
+                  sendAalViewList('Vaccines');
+                  sendDataDogAction(VACCINES_LABEL);
+                }}
+              >
+                {VACCINES_LABEL}
+              </Link>
             </section>
           )}
           <section>
@@ -260,31 +238,17 @@ const LandingPage = () => {
               VA medical records. This includes medication side effects (also
               called adverse drug reactions).
             </p>
-            {isAccelerating && !isAcceleratingAllergies ? (
-              <a
-                className="vads-c-action-link--blue vads-u-margin-bottom--0p5"
-                href={getCernerURL(
-                  '/pages/health_record/health-record-allergies/',
-                  true,
-                )}
-                target="_blank"
-                rel="noopener noreferrer"
-                data-testid="allergies-oh-landing-page-link"
-              >
-                View your allergies on My VA Health (opens in new tab)
-              </a>
-            ) : (
-              <Link
-                to="/allergies"
-                className="vads-c-action-link--blue"
-                data-testid="allergies-landing-page-link"
-                onClick={() => {
-                  sendDataDogAction(ALLERGIES_AND_REACTIONS_LABEL);
-                }}
-              >
-                {ALLERGIES_AND_REACTIONS_LABEL}
-              </Link>
-            )}
+            <Link
+              to="/allergies"
+              className="vads-c-action-link--blue"
+              data-testid="allergies-landing-page-link"
+              onClick={() => {
+                sendAalViewList('Allergy and Reactions');
+                sendDataDogAction(ALLERGIES_AND_REACTIONS_LABEL);
+              }}
+            >
+              {ALLERGIES_AND_REACTIONS_LABEL}
+            </Link>
           </section>
           {displayConditions && (
             <section>
@@ -295,28 +259,17 @@ const LandingPage = () => {
                 Get a list of health conditions your VA providers are helping
                 you manage.
               </p>
-              {isAccelerating ? (
-                <a
-                  className="vads-c-action-link--blue vads-u-margin-bottom--0p5"
-                  href={getCernerURL('/pages/health_record/conditions', true)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  data-testid="health-conditions-oh-landing-page-link"
-                >
-                  View your health conditions on My VA Health (opens in new tab)
-                </a>
-              ) : (
-                <Link
-                  to="/conditions"
-                  className="vads-c-action-link--blue"
-                  data-testid="conditions-landing-page-link"
-                  onClick={() => {
-                    sendDataDogAction(HEALTH_CONDITIONS_LABEL);
-                  }}
-                >
-                  {HEALTH_CONDITIONS_LABEL}
-                </Link>
-              )}
+              <Link
+                to="/conditions"
+                className="vads-c-action-link--blue"
+                data-testid="conditions-landing-page-link"
+                onClick={() => {
+                  sendAalViewList('Health Conditions');
+                  sendDataDogAction(HEALTH_CONDITIONS_LABEL);
+                }}
+              >
+                {HEALTH_CONDITIONS_LABEL}
+              </Link>
             </section>
           )}
           {displayVitals && (
@@ -334,28 +287,17 @@ const LandingPage = () => {
                 <li>Height and weight</li>
                 <li>Temperature</li>
               </ul>
-              {isAccelerating && !isAcceleratingVitals ? (
-                <a
-                  className="vads-c-action-link--blue vads-u-margin-bottom--0p5"
-                  href={getCernerURL('/pages/health_record/results', true)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  data-testid="vitals-oh-landing-page-link"
-                >
-                  View your vitals on My VA Health (opens in new tab)
-                </a>
-              ) : (
-                <Link
-                  to="/vitals"
-                  className="vads-c-action-link--blue"
-                  data-testid="vitals-landing-page-link"
-                  onClick={() => {
-                    sendDataDogAction(VITALS_LABEL);
-                  }}
-                >
-                  {VITALS_LABEL}
-                </Link>
-              )}
+              <Link
+                to="/vitals"
+                className="vads-c-action-link--blue"
+                data-testid="vitals-landing-page-link"
+                onClick={() => {
+                  sendAalViewList('Vitals');
+                  sendDataDogAction(VITALS_LABEL);
+                }}
+              >
+                {VITALS_LABEL}
+              </Link>
             </section>
           )}
 
@@ -452,6 +394,29 @@ const LandingPage = () => {
                 >
                   {MEDICAL_RECORDS_SETTINGS_LABEL}
                 </Link>
+              </section>
+              <section className="vads-u-padding-bottom--3">
+                <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+                  Share personal health data with your care team
+                </h2>
+                <p className="vads-u-margin-bottom--2">
+                  You can share your personal health data with your care team
+                  using the Share My Health Data website.
+                </p>
+                <va-link
+                  href={
+                    environment.isProduction()
+                      ? 'https://veteran.apps.va.gov/smhdWeb'
+                      : 'https://veteran.apps-staging.va.gov/smhdWeb'
+                  }
+                  text={SHARE_PERSONAL_HEALTH_DATA_WITH_YOUR_CARE_TEAM}
+                  data-testid="health-data-landing-page-link"
+                  onClick={() => {
+                    sendDataDogAction(
+                      SHARE_PERSONAL_HEALTH_DATA_WITH_YOUR_CARE_TEAM,
+                    );
+                  }}
+                />
               </section>
             </>
           )}

@@ -2,8 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
 import { focusElement } from 'platform/utilities/ui';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { Toggler } from '~/platform/utilities/feature-toggles';
+import { scrollToTop } from 'platform/utilities/scroll';
 import ApplicationDownloadLink from '../ApplicationDownloadLink';
 
 const ConfirmationScreenView = ({ name, timestamp }) => {
@@ -52,7 +51,7 @@ const ConfirmationScreenView = ({ name, timestamp }) => {
         <h4>Confirmation for your records</h4>
         <p>You can print this confirmation page for your records.</p>
 
-        <div className="vads-u-margin-top--2">
+        <div className="vads-u-margin-y--2">
           <va-button
             text="Print this page"
             onClick={() => window.print()}
@@ -60,13 +59,9 @@ const ConfirmationScreenView = ({ name, timestamp }) => {
             uswds
           />
         </div>
-        <Toggler toggleName={Toggler.TOGGLE_NAMES.hcaDownloadCompletedPdf}>
-          <Toggler.Enabled>
-            <div className="hca-application--download">
-              <ApplicationDownloadLink />
-            </div>
-          </Toggler.Enabled>
-        </Toggler>
+        <div className="hca-application--download">
+          <ApplicationDownloadLink />
+        </div>
       </va-summary-box>
     </>
   );

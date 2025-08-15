@@ -90,7 +90,6 @@ export const hasDuplicates = (data = {}) => {
 };
 
 /**
- * Removes disqualifying issues and issues > 1 year past their decision date.
  * This function removes issues with no title, cleans up whitespace & sorts the
  * list by descending (newest first) decision date, then ensures the list only
  * includes unique entries

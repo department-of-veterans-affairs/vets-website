@@ -24,11 +24,15 @@ export default function VerifyAlert({ headingLevel = 2, dataTestId }) {
         headingLevel={headingLevel}
         data-testid={dataTestId}
       >
-        <span slot="LoginGovSignInButton">
-          <VerifyLogingovButton />
-        </span>
         <span slot="IdMeSignInButton">
-          <VerifyIdmeButton />
+          <VerifyIdmeButton
+            queryParams={{ operation: 'verify_cta_authenticated' }}
+          />
+        </span>
+        <span slot="LoginGovSignInButton">
+          <VerifyLogingovButton
+            queryParams={{ operation: 'verify_cta_authenticated' }}
+          />
         </span>
       </VaAlertSignIn>
     );
@@ -38,11 +42,15 @@ export default function VerifyAlert({ headingLevel = 2, dataTestId }) {
   const spanSlot =
     csp === CSP_IDS.LOGIN_GOV ? (
       <span slot="LoginGovVerifyButton">
-        <VerifyLogingovButton />
+        <VerifyLogingovButton
+          queryParams={{ operation: 'verify_cta_authenticated' }}
+        />
       </span>
     ) : (
       <span slot="IdMeVerifyButton">
-        <VerifyIdmeButton />
+        <VerifyIdmeButton
+          queryParams={{ operation: 'verify_cta_authenticated' }}
+        />
       </span>
     );
 

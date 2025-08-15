@@ -1,79 +1,54 @@
 import {
+  arrayBuilderItemFirstPageTitleUI,
   radioSchema,
   radioUI,
-  titleUI,
-  withAlertOrDescription,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { NEW_CONDITION_OPTION } from '../../constants';
 import {
   arrayBuilderOptions,
-  createDefaultAndEditTitles,
   createNonSelectedRatedDisabilities,
+  createRatedDisabilityDescriptions,
 } from '../shared/utils';
 
-const createRatedDisabilitiesSchema = fullData => {
-  const nonSelectedRatedDisabilities = createNonSelectedRatedDisabilities(
-    fullData,
-  );
-
-  return (
-    {
-      ...nonSelectedRatedDisabilities,
-      [NEW_CONDITION_OPTION]: NEW_CONDITION_OPTION,
-    } || {}
-  );
-};
-
-const createRatedDisabilitiesDescriptions = fullData => {
-  return fullData.ratedDisabilities.reduce((acc, disability) => {
-    let text = `Current rating: ${disability.ratingPercentage}%`;
-
-    if (disability.ratingPercentage === disability.maximumRatingPercentage) {
-      text += ` (You’re already at the maximum for this rated disability.)`;
-    }
-
-    acc[disability.name] = text;
-
-    return acc;
-  }, {});
-};
+const createRatedDisabilitySchema = fullData =>
+  ({
+    [NEW_CONDITION_OPTION]: NEW_CONDITION_OPTION,
+    ...createNonSelectedRatedDisabilities(fullData),
+  } || {});
 
 /** @returns {PageSchema} */
 const conditionPage = {
   uiSchema: {
-    ...titleUI(
-      () =>
-        createDefaultAndEditTitles(
-          'Tell us which condition you want to claim',
-          `Edit condition`,
-        ),
-      withAlertOrDescription({
-        nounSingular: arrayBuilderOptions.nounSingular,
-        hasMultipleItemPages: true,
-      }),
-    ),
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: 'Add a condition',
+      nounSingular: arrayBuilderOptions.nounSingular,
+    }),
     ratedDisability: radioUI({
-      title:
-        'Select a rated disability that worsened or a new condition to claim',
-      hint: 'Select one, you will have the opportunity to add more later.',
-      updateUiSchema: (_formData, fullData) => ({
-        'ui:options': {
-          descriptions: createRatedDisabilitiesDescriptions(fullData),
-        },
-      }),
-      updateSchema: (_formData, _schema, _uiSchema, _index, _path, fullData) =>
-        radioSchema(Object.keys(createRatedDisabilitiesSchema(fullData))),
+      title: 'What condition would you like to add?',
+      hint:
+        "Choose one. You'll return to this screen later if you need to add more.",
+
+      updateSchema: (_formData, _schema, uiSchema, _index, _path, fullData) => {
+        const options = Object.keys(createRatedDisabilitySchema(fullData));
+        const descriptions = createRatedDisabilityDescriptions(fullData);
+
+        // Inject descriptions directly into uiSchema at schema update time
+        // Temporary eslint fix to address the form system’s dynamic schema injection pattern
+        // eslint-disable-next-line no-param-reassign
+        uiSchema['ui:options'] = {
+          ...(uiSchema['ui:options'] || {}),
+          descriptions,
+        };
+
+        return radioSchema(options);
+      },
     }),
   },
   schema: {
     type: 'object',
     properties: {
-      ratedDisability: radioSchema(
-        Object.keys({
-          Error: 'Error',
-        }),
-      ),
+      ratedDisability: radioSchema(['error']),
     },
     required: ['ratedDisability'],
   },

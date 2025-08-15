@@ -1,43 +1,43 @@
 // @ts-check
-import moment from 'moment';
-import MockAppointmentResponse from '../../fixtures/MockAppointmentResponse';
+import { getTypeOfCareById } from '../../../../utils/appointment';
+import { TYPE_OF_CARE_IDS } from '../../../../utils/constants';
+import MockAppointmentResponse from '../../../fixtures/MockAppointmentResponse';
+import MockClinicResponse from '../../../fixtures/MockClinicResponse';
+import MockEligibilityResponse from '../../../fixtures/MockEligibilityResponse';
+import MockFacilityResponse from '../../../fixtures/MockFacilityResponse';
+import MockProviderResponse from '../../../fixtures/MockProviderResponse';
+import MockUser from '../../../fixtures/MockUser';
+import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
+import AudiologyPageObject from '../../page-objects/AudiologyPageObject';
+import ClosestCityStatePageObject from '../../page-objects/ClosestCityStatePageObject';
+import CommunityCarePreferencesPageObject from '../../page-objects/CommunityCarePreferencesPageObject';
+import ConfirmationPageObject from '../../page-objects/ConfirmationPageObject';
+import ContactInfoPageObject from '../../page-objects/ContactInfoPageObject';
+import DateTimeRequestPageObject from '../../page-objects/DateTimeRequestPageObject';
+import PreferredLanguagePageObject from '../../page-objects/PreferredLanguagePageObject';
+import ReasonForAppointmentPageObject from '../../page-objects/ReasonForAppointmentPageObject';
+import ReviewPageObject from '../../page-objects/ReviewPageObject';
+import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
+import TypeOfFacilityPageObject from '../../page-objects/TypeOfFacilityPageObject';
+import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
 import {
-  mockAppointmentGetApi,
   mockAppointmentCreateApi,
+  mockAppointmentGetApi,
   mockAppointmentsGetApi,
   mockCCProvidersApi,
+  mockClinicsApi,
+  mockEligibilityApi,
   mockEligibilityCCApi,
   mockFacilitiesApi,
   mockFeatureToggles,
   mockSchedulingConfigurationApi,
   mockVamcEhrApi,
   vaosSetup,
-  mockEligibilityApi,
-  mockClinicsApi,
 } from '../../vaos-cypress-helpers';
-import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
-import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
-import DateTimeRequestPageObject from '../../page-objects/DateTimeRequestPageObject';
-import CommunityCarePreferencesPageObject from '../../page-objects/CommunityCarePreferencesPageObject';
-import PreferredLanguagePageObject from '../../page-objects/PreferredLanguagePageObject';
-import ReasonForAppointmentPageObject from '../../page-objects/ReasonForAppointmentPageObject';
-import ContactInfoPageObject from '../../page-objects/ContactInfoPageObject';
-import ReviewPageObject from '../../page-objects/ReviewPageObject';
-import ConfirmationPageObject from '../../page-objects/ConfirmationPageObject';
-import MockUser from '../../fixtures/MockUser';
-import TypeOfFacilityPageObject from '../../page-objects/TypeOfFacilityPageObject';
-import AudiologyPageObject from '../../page-objects/AudiologyPageObject';
-import ClosestCityStatePageObject from '../../page-objects/ClosestCityStatePageObject';
-import MockProviderResponse from '../../fixtures/MockProviderResponse';
-import MockFacilityResponse from '../../fixtures/MockFacilityResponse';
-import { getTypeOfCareById } from '../../../../utils/appointment';
-import { AUDIOLOGY_ID } from '../../../../utils/constants';
-import MockEligibilityResponse from '../../fixtures/MockEligibilityResponse';
-import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
-import MockClinicResponse from '../../fixtures/MockClinicResponse';
 
-const typeOfCareId = getTypeOfCareById(AUDIOLOGY_ID).idV2;
-const { cceType } = getTypeOfCareById(AUDIOLOGY_ID);
+const { idV2: typeOfCareId, cceType } = getTypeOfCareById(
+  TYPE_OF_CARE_IDS.AUDIOLOGY_ID,
+);
 
 describe('VAOS community care flow - Audiology', () => {
   beforeEach(() => {
@@ -103,10 +103,9 @@ describe('VAOS community care flow - Audiology', () => {
     beforeEach(() => {
       const response = new MockAppointmentResponse({
         id: 'mock1',
-        localStartTime: moment(),
+        localStartTime: new Date(),
         status: 'proposed',
-        serviceType: 'audiology',
-      });
+      }).setTypeOfCare('audiology');
       mockAppointmentGetApi({
         response,
       });
@@ -152,6 +151,7 @@ describe('VAOS community care flow - Audiology', () => {
             .clickNextButton();
 
           AudiologyPageObject.assertUrl()
+            .assertAudiologyValidationErrors()
             .selectTypeOfCare(/Routine hearing exam/i)
             .clickNextButton();
 

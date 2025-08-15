@@ -4,8 +4,8 @@ import { render } from '@testing-library/react';
 import { AboutThisTool } from '../../components/AboutThisTool';
 
 describe('About this tool', () => {
-  it('Should render two links', () => {
+  it('Should render three links', () => {
     const { container } = render(<AboutThisTool />);
-    expect(container.querySelectorAll('a').length).to.equal(2);
+    expect(container.querySelectorAll('a').length).to.equal(3);
   });
 });

@@ -38,6 +38,7 @@ const backgroundInformationDetails = ({
       [documentsKey]: {
         ...fileInputUI({
           title: 'Provide any relevant documents',
+          required: () => false,
           hint:
             'You may add .pdf, .doc, .jpg, or .txt documents under 25MB. Please name documents with clear, descriptive names.',
           name: `${path}-file-input`,
@@ -74,7 +75,7 @@ const backgroundInformationDetails = ({
       type: 'object',
       properties: {
         [explanationKey]: textareaSchema,
-        [documentsKey]: fileInputSchema,
+        [documentsKey]: fileInputSchema(),
         [certificationKey]: checkboxGroupSchema(['certified']),
       },
       required: [explanationKey, certificationKey],

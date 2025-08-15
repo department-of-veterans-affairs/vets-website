@@ -1,20 +1,16 @@
 import merge from 'lodash/merge';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import {
   addressUI,
   addressSchema,
+  currencyUI,
+  currencySchema,
   fullNameUI,
   fullNameSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import { showMultiplePageResponse } from '../../../helpers';
 import { getDependentChildTitle, dependentIsOutsideHousehold } from './helpers';
 import createHouseholdMemberTitle from '../../../components/DisclosureTitle';
-
-const {
-  monthlyPayment,
-} = fullSchemaPensions.properties.dependents.items.properties;
 
 /** @type {PageSchema} */
 export default {
@@ -44,9 +40,6 @@ export default {
             "How much do you contribute per month to your child's support?",
           ),
           {
-            'ui:options': {
-              classNames: 'schemaform-currency-input-v3',
-            },
             'ui:required': dependentIsOutsideHousehold,
           },
         ),
@@ -63,7 +56,7 @@ export default {
           properties: {
             childAddress: addressSchema({ omit: ['isMilitary', 'street3'] }),
             personWhoLivesWithChild: fullNameSchema,
-            monthlyPayment,
+            monthlyPayment: currencySchema,
           },
         },
       },

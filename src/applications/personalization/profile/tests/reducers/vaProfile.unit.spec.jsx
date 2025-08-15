@@ -14,6 +14,7 @@ describe('vaProfile reducer', () => {
     hero: null,
     personalInformation: null,
     militaryInformation: null,
+    powerOfAttorney: null,
   };
 
   it('should return the initial state', () => {

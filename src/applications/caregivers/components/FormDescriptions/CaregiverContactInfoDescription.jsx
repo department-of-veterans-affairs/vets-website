@@ -8,8 +8,8 @@ const CaregiverContactInfoDescription = ({ label }) => (
       follow up about this application.
     </p>
     <p>
-      Providing the caregiver’s email address is optional, but it helps us
-      contact them faster.
+      Providing the caregiver’s email address is optional. If you provide an
+      email, we’ll send you a confirmation when we get your application.
     </p>
     <p>
       <strong>Note:</strong> We’ll always mail the caregiver a copy of our

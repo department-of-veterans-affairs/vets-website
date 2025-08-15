@@ -50,6 +50,7 @@
   $font-path: "/fonts";
   $image-path: "~uswds/src/img";
   
+  @import "./accordions.scss";
   @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/core";
   @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/utilities.css";
 
@@ -949,6 +950,19 @@
       pointer-events: none;
       width: 1.5rem;
     }
+  }
+
+  #mega-menu .my-va-top-nav,
+  .mega-menu .my-va-top-nav {
+    margin-left: auto;
+  }
+  #mega-menu .my-va-top-nav.current-page,
+  .mega-menu .my-va-top-nav.current-page {
+    margin-left: auto;
+  }
+
+  #mega-menu .login-container .row.va-flex {
+    display: grid;
   }
 
   #mega-menu {
@@ -2186,6 +2200,10 @@
     font-size: 16px;
   }
 
+  ul#header-nav-items li {
+    max-width: 100%;
+  }
+
   @media (min-width: 320px) and (max-width: 767px) {
     .menu-rule,
     #menu-rule {
@@ -2467,6 +2485,8 @@
     > li {
       margin-bottom: 6px !important;
       background-color: #162e51;
+      margin-bottom: 0;
+      max-width: unset
     }
   }
 

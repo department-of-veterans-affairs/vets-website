@@ -12,7 +12,6 @@ import {
   populateFirstApplicant,
   page15aDepends,
 } from '../../../helpers/utilities';
-import { getTopLevelFormData } from '../../../components/Applicant/applicantFileUpload';
 import ApplicantField from '../../../../shared/components/applicantLists/ApplicantField';
 import { testComponentRender } from '../../../../shared/tests/pages/pageTests.spec';
 import mockData from '../../e2e/fixtures/data/test-data.json';
@@ -85,33 +84,6 @@ testComponentRender(
   'ApplicantField',
   <ApplicantField formData={mockData.data.applicants[0]} />,
 );
-
-describe('getTopLevelFormData helper', () => {
-  it('should return data if `contentAfterButtons` is present in formContext', () => {
-    expect(
-      getTopLevelFormData({
-        contentAfterButtons: {
-          props: {
-            form: {
-              data: {
-                veteransFullName: { first: 'firstname', last: 'lastname' },
-              },
-            },
-          },
-        },
-      }),
-    ).to.not.be.undefined;
-  });
-  it('should return data if `contentAfterButtons` is not present in formContext', () => {
-    expect(
-      getTopLevelFormData({
-        data: {
-          veteransFullName: { first: 'firstname', last: 'lastname' },
-        },
-      }),
-    ).to.not.be.undefined;
-  });
-});
 
 describe('populateFirstApplicant', () => {
   const newAppInfo = {

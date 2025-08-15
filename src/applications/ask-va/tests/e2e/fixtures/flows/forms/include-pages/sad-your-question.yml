@@ -1,0 +1,14 @@
+steps:
+  - action: exists
+    target: header
+    value:  Your question
+  - action: click
+    target: call-to-action-secondary
+    value:  Back
+  - action: click
+    target: call-to-action
+  - action: click
+    target: call-to-action
+  - action: exists
+    target: error
+    value: Please let us know what your question is about.

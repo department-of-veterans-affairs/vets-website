@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { useLocation } from 'react-router-dom';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import HowDoIPay from '../components/HowDoIPay';
 import NeedHelp from '../components/NeedHelp';
 import { setPageFocus } from '../../combined/utils/helpers';
@@ -17,6 +18,11 @@ const ResolveDebtPage = ({ match }) => {
   const location = useLocation();
   const currentDebt = getCurrentDebt(selectedDebt, debts, location);
   const selectedId = currentDebt?.id || match?.params?.id;
+
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const showVHAPaymentHistory = useToggleValue(
+    TOGGLE_NAMES.showVHAPaymentHistory,
+  );
 
   const howToUserData = {
     fileNumber: currentDebt.fileNumber,
@@ -59,13 +65,13 @@ const ResolveDebtPage = ({ match }) => {
         <h1 data-testid="detail-page-title" className="vads-u-margin-bottom--2">
           {title}
         </h1>
-        <h3 className="vads-u-margin-top--1p5 vads-u-margin-bottom--0 vads-u-font-size--h3 vads-u-font-weight--normal">
+        <h2 className="vads-u-margin-top--1p5 vads-u-margin-bottom--0 vads-u-font-size--h2 vads-u-font-weight--normal">
           You can pay your balance, request financial help, or dispute this
           overpayment
-        </h3>
+        </h2>
         <va-on-this-page class="medium-screen:vads-u-margin-top--0" />
         <HowDoIPay userData={howToUserData} />
-        <NeedHelp />
+        <NeedHelp showVHAPaymentHistory={showVHAPaymentHistory} />
       </div>
     </>
   );

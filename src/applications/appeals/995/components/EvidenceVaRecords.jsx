@@ -16,11 +16,9 @@ import {
 } from '../validations/evidence';
 
 import { focusEvidence } from '../../shared/utils/focus';
-import {
-  HeaderAndModal,
-  IssueAndDates,
-  PageNavigation,
-} from './EvidenceRecords';
+import { EvidenceHeaderAndModal } from './EvidenceHeaderAndModal';
+import { EvidenceIssueAndDates } from './EvidenceIssueAndDates';
+import { EvidencePageNavigation } from './EvidencePageNavigation';
 
 import { getIssueName, getSelected } from '../../shared/utils/issues';
 import { checkValidations } from '../../shared/validations';
@@ -316,7 +314,7 @@ const EvidenceVaRecords = ({
   return (
     <form onSubmit={handlers.onGoForward}>
       <fieldset>
-        <HeaderAndModal
+        <EvidenceHeaderAndModal
           currentData={currentData}
           currentState={currentState}
           currentIndex={currentIndex}
@@ -338,10 +336,9 @@ const EvidenceVaRecords = ({
           // ignore submitted & dirty state when showing unique error
           error={showError('name') || errors.unique || null}
           autocomplete="section-facility name"
-          uswds
         />
 
-        <IssueAndDates
+        <EvidenceIssueAndDates
           currentData={currentData}
           availableIssues={availableIssues}
           content={setContent}
@@ -351,7 +348,7 @@ const EvidenceVaRecords = ({
           dateRangeKey={showScNewForm ? 'treatmentDate' : 'evidenceDates'}
         />
 
-        <PageNavigation
+        <EvidencePageNavigation
           path={`${VA_PATH}?index=${currentIndex + 1}`}
           content={{
             ...setContent,

@@ -14,5 +14,10 @@ describe('Medications List Page Print List', () => {
     listPage.verifyPrintMedicationsListEnabledOnListPage();
     listPage.verifyPrintThisPageOptionFromDropDownMenuOnListPage();
     listPage.verifyPrintAllMedicationsFromDropDownOnListPage();
+    cy.window().then(win => {
+      cy.stub(win, 'print').as('print');
+    });
+    cy.get('[data-testid="download-print-button"]').click();
+    cy.get('@print').should('have.been.called');
   });
 });

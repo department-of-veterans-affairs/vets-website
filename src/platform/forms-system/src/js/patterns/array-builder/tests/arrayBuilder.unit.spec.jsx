@@ -360,7 +360,7 @@ describe('arrayBuilderPages required parameters and props tests', () => {
       expect(true).to.be.false;
     } catch (e) {
       expect(e.message).to.include(
-        '`pageBuilder.summaryPage` must be defined only once and be defined before the item pages',
+        '`pageBuilder.summaryPage` must come before item pages',
       );
     }
   });
@@ -411,8 +411,27 @@ describe('arrayBuilderPages required parameters and props tests', () => {
         pageB: pageBuilder.itemPage(validPageB),
       }));
     } catch (e) {
-      expect(e.message).to.include('must include a summary page');
+      expect(e.message).to.include(
+        'arrayBuilderPages must include a summary page with `pageBuilder.summaryPage',
+      );
     }
+  });
+
+  it('should log a warning if more than one summary page exists', () => {
+    const warnSpy = sinon.spy(console, 'warn');
+    arrayBuilderPages(validOptionsRequiredFlow, pageBuilder => ({
+      summaryPageA: pageBuilder.summaryPage(validSummaryPage),
+      summaryPageB: pageBuilder.summaryPage(validSummaryPage),
+      introPage: pageBuilder.introPage(validIntroPage),
+      pageA: pageBuilder.itemPage(validPageA),
+      pageB: pageBuilder.itemPage(validPageB),
+    }));
+    expect(warnSpy.calledOnce).to.be.true;
+    expect(warnSpy.args[0][0]).to.include(
+      '[arrayBuilderPages] More than one summaryPage defined. Ensure they are gated by `depends` so only one is ever shown',
+    );
+
+    warnSpy.restore();
   });
 
   it('should throw error if required is not passed', () => {
@@ -654,6 +673,27 @@ describe('assignGetItemName', () => {
     expect(getItemName({ name: 'test', otherName: 'other name' })).to.eq(
       'other name',
     );
+  });
+
+  it('should pass index and fullData to getItemName', () => {
+    const options = {
+      arrayPath: 'employers',
+      nounSingular: 'employer',
+      nounPlural: 'employers',
+      required: true,
+      text: {
+        getItemName: sinon.spy(),
+      },
+    };
+
+    const getItemName = assignGetItemName(options);
+    const fullData = [{ name: 'test1' }, { name: 'test2' }];
+    getItemName(fullData[1], 1, fullData);
+    expect(options.text.getItemName.args[0]).to.deep.equal([
+      fullData[1],
+      1,
+      fullData,
+    ]);
   });
 
   it('should gracefully return null if we get an exception on getItemName', () => {

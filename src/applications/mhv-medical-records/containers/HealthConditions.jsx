@@ -11,12 +11,15 @@ import {
   accessAlertTypes,
   refreshExtractTypes,
   CernerAlertContent,
+  statsdFrontEndActions,
 } from '../util/constants';
 import RecordListSection from '../components/shared/RecordListSection';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
-import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
+import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
+import NoRecordsMessage from '../components/shared/NoRecordsMessage';
+import { useTrackAction } from '../hooks/useTrackAction';
 
 const HealthConditions = () => {
   const ABOUT_THE_CODES_LABEL = 'About the codes in some condition names';
@@ -24,6 +27,7 @@ const HealthConditions = () => {
   const updatedRecordList = useSelector(
     state => state.mr.conditions.updatedList,
   );
+
   const listState = useSelector(state => state.mr.conditions.listState);
   const conditions = useSelector(state => state.mr.conditions.conditionsList);
   const activeAlert = useAlerts(dispatch);
@@ -31,6 +35,7 @@ const HealthConditions = () => {
   const conditionsCurrentAsOf = useSelector(
     state => state.mr.conditions.listCurrentAsOf,
   );
+  useTrackAction(statsdFrontEndActions.HEALTH_CONDITIONS_LIST);
 
   useListRefresh({
     listState,
@@ -66,13 +71,15 @@ const HealthConditions = () => {
       <h1 className="vads-u-margin--0" data-testid="health-conditions">
         Health conditions
       </h1>
-      <p className="vads-u-margin-top--1 vads-u-margin-bottom--3">
-        Health condition records are available{' '}
-        <span className="vads-u-font-weight--bold">36 hours</span> after your
-        providers enter them.
+
+      <p className="page-description">
+        This list includes the same information as your "VA problem list" in the
+        previous My HealtheVet experience.
       </p>
 
-      <CernerFacilityAlert {...CernerAlertContent.HEALTH_CONDITIONS} />
+      <AcceleratedCernerFacilityAlert
+        {...CernerAlertContent.HEALTH_CONDITIONS}
+      />
 
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
@@ -108,7 +115,14 @@ const HealthConditions = () => {
             condition, ask your provider at your next appointment.
           </p>
         </va-additional-info>
-        <RecordList records={conditions} type={recordType.HEALTH_CONDITIONS} />
+        {conditions?.length ? (
+          <RecordList
+            records={conditions}
+            type={recordType.HEALTH_CONDITIONS}
+          />
+        ) : (
+          <NoRecordsMessage type={recordType.HEALTH_CONDITIONS} />
+        )}
       </RecordListSection>
     </>
   );

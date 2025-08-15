@@ -1,16 +1,13 @@
 import React from 'react';
 import { Route, Navigate, Routes } from 'react-router-dom-v5-compat';
 
-import { Toggler } from '~/platform/utilities/feature-toggles';
-
-import TogglerRoute from './components/TogglerRoute';
 import YourClaimsPageV2 from './containers/YourClaimsPageV2';
 import YourClaimLetters from './containers/YourClaimLetters';
 import ClaimPage from './containers/ClaimPage';
 import ClaimStatusPage from './containers/ClaimStatusPage';
 import StemClaimStatusPage from './containers/StemClaimStatusPage';
 import FilesPage from './containers/FilesPage';
-import AskVAPage from './containers/AskVAPage';
+
 import DocumentRequestPage from './containers/DocumentRequestPage';
 import ClaimEstimationPage from './containers/ClaimEstimationPage';
 import AppealsV2StatusPage from './containers/AppealsV2StatusPage';
@@ -19,20 +16,7 @@ import AppealInfo from './containers/AppealInfo';
 import ClaimsStatusApp from './containers/ClaimsStatusApp';
 import OverviewPage from './containers/OverviewPage';
 import Standard5103NoticePage from './containers/Standard5103NoticePage';
-
-const { cst5103UpdateEnabled } = Toggler.TOGGLE_NAMES;
-
-const askVARoute = (
-  <TogglerRoute toggleName={cst5103UpdateEnabled} redirectWhenToggleEnabled>
-    <AskVAPage />
-  </TogglerRoute>
-);
-
-const standard5103EvidenceNoticeRoute = (
-  <TogglerRoute toggleName={cst5103UpdateEnabled}>
-    <Standard5103NoticePage />
-  </TogglerRoute>
-);
+import DocumentRedirectPage from './containers/DocumentRedirectPage';
 
 const routes = (
   <Routes>
@@ -46,14 +30,21 @@ const routes = (
       <Route path="your-claims" element={<YourClaimsPageV2 />} />
       <Route path="your-claims/:id" element={<ClaimPage />}>
         <Route index element={<Navigate to="status" replace />} />
-        <Route path="ask-va-to-decide" element={askVARoute} />
         <Route
           path="5103-evidence-notice"
-          element={standard5103EvidenceNoticeRoute}
+          element={<Standard5103NoticePage />}
         />
         <Route path="claim-estimate" element={<ClaimEstimationPage />} />
         <Route
           path="document-request/:trackedItemId"
+          element={<DocumentRedirectPage />}
+        />
+        <Route
+          path="needed-from-you/:trackedItemId"
+          element={<DocumentRequestPage />}
+        />
+        <Route
+          path="needed-from-others/:trackedItemId"
           element={<DocumentRequestPage />}
         />
         <Route path="files" element={<FilesPage />} />

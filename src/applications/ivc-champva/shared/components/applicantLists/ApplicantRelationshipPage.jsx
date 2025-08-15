@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   VaButton,
   VaRadio,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import PropTypes from 'prop-types';
+import { CustomPageNavButtons } from '../CustomPageNavButtons';
 
 import { ADDITIONAL_FILES_HINT } from '../../constants';
-import { applicantWording, validateText } from '../../utilities';
+import { applicantWording } from '../../utilities';
+import { validateText } from '../../validations';
 
 /*
 Overriding these allows us to set custom property titles.
@@ -41,7 +42,16 @@ export function appRelBoilerplate({ data, pagePerItemIndex }) {
   };
 }
 
-function generateOptions({ data, pagePerItemIndex }) {
+/**
+ * Assembles radio options and returns customized wording for use in the display
+ * @param {Object} param0.data Formdata object
+ * @param {Number|String} param0.pagePerItemIndex list loop current index
+ * @param {Object} param0.customWordingloop Object containing custom wording overrides.
+ *  Wording that may be overridden includes: personTitle, customTitle, customHint,
+ *  description, customOtherDescription.
+ * @returns
+ */
+function generateOptions({ data, pagePerItemIndex, customWording }) {
   const {
     keyname,
     currentListItem,
@@ -56,7 +66,7 @@ function generateOptions({ data, pagePerItemIndex }) {
     {
       label: `${
         data.sponsorIsDeceased ? 'Surviving s' : 'S'
-      }pouse or partner from a legal union (including a civil union or common-law marriage`,
+      }pouse or partner from a legal union (including a civil union or common-law marriage)`,
       value: 'spouse',
     },
     {
@@ -65,13 +75,10 @@ function generateOptions({ data, pagePerItemIndex }) {
       }hild (including adopted children or step children)`,
       value: 'child',
     },
-    {
-      label: 'Other relationship',
-      value: 'other',
-    },
   ];
 
   return {
+    ...customWording,
     options,
     useFirstPerson,
     relativePossessive,
@@ -102,7 +109,7 @@ export function ApplicantRelationshipReviewPage(props) {
   return data ? (
     <div className="form-review-panel-page">
       <div className="form-review-panel-page-header-row">
-        <h4 className="form-review-panel-page-header vads-u-font-size--h5">
+        <h4 className="form-review-panel-page-header vads-u-font-size--h5 dd-privacy-hidden">
           {props.title(currentListItem)}
         </h4>
         <VaButton
@@ -115,8 +122,8 @@ export function ApplicantRelationshipReviewPage(props) {
       </div>
       <dl className="review">
         <div className="review-row">
-          <dt>{description}</dt>
-          <dd>
+          <dt className="dd-privacy-hidden">{description}</dt>
+          <dd className="dd-privacy-hidden">
             {options.map(
               opt =>
                 opt.value === currentListItem?.[keyname]?.[primary]
@@ -131,13 +138,17 @@ export function ApplicantRelationshipReviewPage(props) {
             <dt>
               {customOtherDescription || (
                 <>
-                  Since {useFirstPerson ? 'your' : `${applicant}’s `}{' '}
-                  relationship with the {personTitle} was not listed, please
-                  describe it here
+                  Since{' '}
+                  <span className="dd-privacy-hidden">
+                    {useFirstPerson ? 'your' : `${applicant}’s `}
+                  </span>{' '}
+                  relationship with the{' '}
+                  <span className="dd-privacy-hidden">{personTitle}</span> was
+                  not listed, please describe it here
                 </>
               )}
             </dt>
-            <dd>{other}</dd>
+            <dd className="dd-privacy-hidden">{other}</dd>
           </div>
         ) : null}
       </dl>
@@ -145,30 +156,40 @@ export function ApplicantRelationshipReviewPage(props) {
   ) : null;
 }
 
-export default function ApplicantRelationshipPage({
-  data,
-  genOp,
-  setFormData,
-  goBack,
-  goForward,
-  keyname = KEYNAME,
-  primary = PRIMARY,
-  secondary = SECONDARY,
-  pagePerItemIndex,
-  updatePage,
-  onReviewPage,
-}) {
+export default function ApplicantRelationshipPage(props) {
+  const {
+    data,
+    fullData,
+    genOp,
+    setFormData,
+    goForward,
+    keyname = KEYNAME,
+    primary = PRIMARY,
+    secondary = SECONDARY,
+    pagePerItemIndex,
+    updatePage,
+    onReviewPage,
+    customWording,
+  } = props;
+
+  // fulldata is present in array builder pages:
+  const fullOrItemData = fullData ?? data;
   const relationshipStructure = {
     [primary]: undefined,
     [secondary]: undefined,
   };
   const [checkValue, setCheckValue] = useState(
-    data?.applicants?.[pagePerItemIndex]?.[keyname] || relationshipStructure,
+    fullOrItemData?.applicants?.[pagePerItemIndex]?.[keyname] ||
+      relationshipStructure,
   );
   const [checkError, setCheckError] = useState(undefined);
   const [inputError, setInputError] = useState(undefined);
   const [dirty, setDirty] = useState(false);
-  const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
+
+  const radioRef = useRef(null); // Used to set focus when in error state
+
+  const navButtons = CustomPageNavButtons(props);
+
   // eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component
   const updateButton = <button type="submit">Update page</button>;
   const genOps = genOp || generateOptions;
@@ -183,9 +204,18 @@ export default function ApplicantRelationshipPage({
     description,
     customOtherDescription,
   } = genOps({
-    data,
+    data: fullOrItemData,
     pagePerItemIndex,
+    customWording, // For hint override when using default configuration
   });
+
+  const setFocusOnRadio = () => {
+    if (radioRef.current) {
+      const element =
+        radioRef.current.querySelector('input') || radioRef.current;
+      element.focus();
+    }
+  };
 
   const handlers = {
     validate() {
@@ -210,6 +240,7 @@ export default function ApplicantRelationshipPage({
       } else {
         setInputError(null);
       }
+      if (!isValid) setFocusOnRadio(); // we have an error, set focus on the input
       return isValid;
     },
     radioUpdate: ({ detail }) => {
@@ -234,11 +265,11 @@ export default function ApplicantRelationshipPage({
     onGoForward: event => {
       event.preventDefault();
       if (!handlers.validate()) return;
-      const testVal = { ...data };
+      const testVal = { ...fullOrItemData };
       testVal.applicants[pagePerItemIndex][keyname] = checkValue;
       setFormData(testVal);
       if (onReviewPage) updatePage();
-      goForward(data);
+      goForward({ formData: data });
     },
   };
 
@@ -251,18 +282,19 @@ export default function ApplicantRelationshipPage({
   );
   return (
     <>
-      {
-        titleUI(
-          customTitle ||
-            `${
-              useFirstPerson ? `Your` : `${applicant}’s`
-            } relationship to the ${personTitle}`,
-        )['ui:title']
-      }
-
       <form onSubmit={handlers.onGoForward}>
+        <span className="dd-privacy-hidden">
+          {
+            titleUI(
+              customTitle ||
+                `${
+                  useFirstPerson ? `Your` : `${applicant}’s`
+                } relationship to the ${personTitle}`,
+            )['ui:title']
+          }
+        </span>
         <VaRadio
-          class="vads-u-margin-y--2"
+          class="vads-u-margin-y--2 dd-privacy-hidden"
           label={
             description ||
             `What ${data.sponsorIsDeceased ? 'was' : 'is'} ${
@@ -274,6 +306,7 @@ export default function ApplicantRelationshipPage({
           error={checkError}
           onVaValueChange={handlers.radioUpdate}
           name={`root_${keyname}`}
+          ref={radioRef}
         >
           {options.map(option => (
             <va-radio-option
@@ -330,7 +363,10 @@ ApplicantRelationshipReviewPage.propTypes = {
 };
 
 ApplicantRelationshipPage.propTypes = {
+  contentAfterButtons: PropTypes.object,
+  customWording: PropTypes.object,
   data: PropTypes.object,
+  fullData: PropTypes.object,
   genOp: PropTypes.func,
   goBack: PropTypes.func,
   goForward: PropTypes.func,

@@ -12,6 +12,7 @@ import {
 import { apiRequest } from 'platform/utilities/api';
 import { refreshProfile } from 'platform/user/profile/actions';
 import recordEvent from 'platform/monitoring/record-event';
+import { isServerError } from 'platform/user/profile/utilities';
 import { hasBadAddress } from '../selectors';
 
 import localVAProfileService, {
@@ -47,8 +48,14 @@ export const VAP_SERVICE_NO_CHANGES_DETECTED =
 export const ADDRESS_VALIDATION_CONFIRM = 'ADDRESS_VALIDATION_CONFIRM';
 export const ADDRESS_VALIDATION_ERROR = 'ADDRESS_VALIDATION_ERROR';
 export const ADDRESS_VALIDATION_RESET = 'ADDRESS_VALIDATION_RESET';
+export const ADDRESS_VALIDATION_CLEAR_VALIDATION_KEY =
+  'ADDRESS_VALIDATION_CLEAR_VALIDATION_KEY';
+export const ADDRESS_VALIDATION_SET_VALIDATION_KEY =
+  'ADDRESS_VALIDATION_SET_VALIDATION_KEY';
 export const ADDRESS_VALIDATION_INITIALIZE = 'ADDRESS_VALIDATION_INITIALIZE';
 export const ADDRESS_VALIDATION_UPDATE = 'ADDRESS_VALIDATION_UPDATE';
+export const VAP_SERVICE_TRANSACTION_FORM_ONLY_UPDATE =
+  'VAP_SERVICE_TRANSACTION_FORM_ONLY_UPDATE';
 
 export function fetchTransactions() {
   return async dispatch => {
@@ -238,10 +245,30 @@ export function createTransaction(
         fieldName,
         transaction,
       });
+
+      return transaction;
     } catch (error) {
       const [firstError = {}] = error.errors ?? [];
       const { code = 'code', title = 'title', detail = 'detail' } = firstError;
       const profileSection = analyticsSectionName || 'unknown-profile-section';
+
+      // Check if it's a 5xx error and we're in a form context
+      if (isServerError(error.status)) {
+        const state = getState();
+        const hasFormData = Boolean(state.form?.data);
+
+        // Only dispatch form-only update if we're in a form context
+        if (hasFormData) {
+          dispatch({
+            type: VAP_SERVICE_TRANSACTION_FORM_ONLY_UPDATE,
+            fieldName,
+            payload,
+          });
+          // Return special flag to indicate form-only update should proceed
+          return { formOnlyUpdate: true };
+        }
+      }
+
       recordEvent({
         event: 'profile-edit-failure',
         'profile-action': 'save-failure',
@@ -256,6 +283,7 @@ export function createTransaction(
         error,
         fieldName,
       });
+      return null;
     }
   };
 }
@@ -369,6 +397,12 @@ export const validateAddress = (
     if (onlyValidate) {
       return {
         onlyValidate,
+        formOnlyUpdate: true,
+        data: {
+          attributes: {
+            transactionStatus: TRANSACTION_STATUS.COMPLETED_SUCCESS,
+          },
+        },
       };
     }
 
@@ -400,6 +434,8 @@ export const validateAddress = (
     }
     const errorCode = error?.errors?.[0]?.code || 'apiRequest-error';
     const errorStatus = error?.errors?.[0]?.status || 'unknown';
+    const firstErrorCode =
+      error?.errors?.[0]?.detail?.messages?.[0]?.code || 'unknown';
 
     recordEvent({
       event: 'profile-edit-failure',
@@ -415,6 +451,7 @@ export const validateAddress = (
     return dispatch({
       type: ADDRESS_VALIDATION_ERROR,
       addressValidationError: true,
+      addressValidationErrorCode: firstErrorCode,
       addressFromUser: { ...inputAddress },
       fieldName,
       error,
@@ -447,6 +484,11 @@ export const updateValidationKeyAndSave = (
       : await localVAProfileService.addressValidationSuccess();
     const { validationKey } = response;
 
+    dispatch({
+      type: ADDRESS_VALIDATION_SET_VALIDATION_KEY,
+      validationKey,
+    });
+
     return dispatch(
       createTransaction(
         route,
@@ -469,4 +511,13 @@ export const updateValidationKeyAndSave = (
 
 export const resetAddressValidation = () => ({
   type: ADDRESS_VALIDATION_RESET,
+});
+
+export const setAddressValidationKey = validationKey => ({
+  type: ADDRESS_VALIDATION_SET_VALIDATION_KEY,
+  validationKey,
+});
+
+export const clearAddressValidationKey = () => ({
+  type: ADDRESS_VALIDATION_CLEAR_VALIDATION_KEY,
 });

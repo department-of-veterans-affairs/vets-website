@@ -8,6 +8,7 @@ describe('Compose a new message with attachments', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.navigateToComposePage();
+    PatientComposePage.interceptSentFolder();
   });
 
   it('verify use can send a message with attachments', () => {
@@ -16,7 +17,7 @@ describe('Compose a new message with attachments', () => {
     PatientComposePage.getMessageSubjectField().type(Data.TEST_SUBJECT);
     PatientComposePage.getMessageBodyField().type(Data.TEST_MESSAGE_BODY, {
       force: true,
-      waitforanimations: true,
+      waitForAnimations: true,
     });
     PatientComposePage.attachMessageFromFile(Data.SAMPLE_PDF);
     PatientComposePage.sendMessage();
@@ -37,7 +38,7 @@ describe('Compose a new message with attachments', () => {
     cy.axeCheck(AXE_CONTEXT);
   });
 
-  it('verify use can delete attachment', () => {
+  it('verify user can delete attachment', () => {
     PatientComposePage.attachMessageFromFile(Data.SAMPLE_PDF);
     PatientComposePage.removeAttachedFile();
 

@@ -1,15 +1,19 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { validateField, dateFormat } from '../../util/helpers';
+import {
+  validateField,
+  dateFormat,
+  displayProviderName,
+} from '../../util/helpers';
 import ExtraDetails from '../shared/ExtraDetails';
 import { selectGroupingFlag } from '../../util/selectors';
 import { dataDogActionNames } from '../../util/dataDogConstants';
+import { ACTIVE_NON_VA } from '../../util/constants';
 
 const NonVaPrescription = prescription => {
   const showGroupingFlag = useSelector(selectGroupingFlag);
   const content = () => {
-    const status = prescription?.dispStatus?.toString();
     return (
       <div
         className={`medication-details-div vads-u-margin-bottom--3 ${
@@ -29,11 +33,11 @@ const NonVaPrescription = prescription => {
         </h2>
         {prescription && <ExtraDetails {...prescription} />}
         <section>
-          <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+          <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
             Status
           </h3>
           <p data-testid="rx-status" data-dd-privacy="mask">
-            {validateField(status)}
+            {ACTIVE_NON_VA}
           </p>
           <div className="no-print">
             <va-additional-info
@@ -71,45 +75,50 @@ const NonVaPrescription = prescription => {
           </div>
         </section>
         <section>
-          <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+          <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
             Instructions
           </h3>
-          <p>{validateField(prescription.sig)}</p>
+          <p data-testid="rx-instructions">
+            {prescription.sig || 'Instructions not available'}
+          </p>
         </section>
         <section>
-          <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+          <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
             Reason for use
           </h3>
-          <p>{validateField(prescription.indicationForUse)}</p>
+          <p data-testid="rx-reason-for-use">
+            {prescription.indicationForUse || 'Reason for use not available'}
+          </p>
         </section>
         <section>
-          <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+          <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
             When you started taking this medication
           </h3>
-          <p>{dateFormat(prescription.dispensedDate)}</p>
+          <p data-testid="rx-dispensed-date">
+            {dateFormat(prescription.dispensedDate, null, 'Date not available')}
+          </p>
         </section>
         <section>
-          <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+          <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
             Documented by
           </h3>
-          <p data-dd-privacy="mask">
-            {validateField(
-              `${prescription.providerLastName}, ${
-                prescription.providerFirstName
-              }`,
+          <p data-testid="rx-documented-by" data-dd-privacy="mask">
+            {displayProviderName(
+              prescription?.providerFirstName,
+              prescription?.providerLastName,
             )}
           </p>
         </section>
         <section>
-          <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+          <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
             Documented at this facility
           </h3>
-          <p data-dd-privacy="mask">
-            {validateField(prescription.facilityName)}
+          <p data-testid="rx-documented-at" data-dd-privacy="mask">
+            {prescription.facilityName || 'VA facility name not available'}
           </p>
         </section>
         <section>
-          <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+          <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
             Provider notes
           </h3>
           <p data-dd-privacy="mask">

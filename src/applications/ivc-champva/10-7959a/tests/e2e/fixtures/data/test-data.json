@@ -2,7 +2,26 @@
   "description": "Applicant is certifier, two policies, medical claim, has EOB",
   "data": {
     "view:hasPolicies": true,
-    "certifierRole": "applicant",
+    "certifierRelationship": "parent",
+    "certifierPhone": "5554443333",
+    "certifierEmail": "cert@email.gov",
+    "certifierAddress": {
+      "country": "USA",
+      "street": "123 Cert St",
+      "street2": "St 2",
+      "city": "Certland",
+      "state": "AS",
+      "postalCode": "12312"
+    },
+    "certifierName": {
+      "first": "Jerry",
+      "middle": "Middle",
+      "last": "Jones",
+      "suffix": "Jr."
+    },
+    "certifierRole": "other",
+    "certifierReceivedPacket": true,
+    "claimStatus": "new",
     "sponsorName": {
       "first": "Sponsor",
       "middle": "Quincy",
@@ -10,7 +29,7 @@
       "suffix": "Jr."
     },
     "applicantName": {
-      "first": "Beneficiary",
+      "first": "Jim",
       "last": "Jones"
     },
     "applicantPhone": "1231231234",

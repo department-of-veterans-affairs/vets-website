@@ -10,7 +10,7 @@ const vamcUser = {
   },
 };
 const POA_REQUESTS =
-  '/representative/poa-requests?useMockData&status=pending&sort=created_at_asc';
+  '/representative/poa-requests?useMockData&useMockUser&status=pending&sort=created_at_asc&pageSize=20&pageNumber=1';
 
 Cypress.Commands.add('loginArpUser', () => {
   cy.intercept('GET', '**/accredited_representative_portal/v0/user', {
@@ -27,21 +27,6 @@ const setUpInterceptsAndVisit = featureToggles => {
 };
 
 describe('Accredited Representative Portal', () => {
-  describe('App feature toggle is not enabled', () => {
-    beforeEach(() => {
-      cy.loginArpUser();
-      setUpInterceptsAndVisit({
-        isAppEnabled: false,
-        isInPilot: false,
-      });
-    });
-
-    it('redirects to VA.gov homepage when in production and app is not enabled', () => {
-      cy.injectAxeThenAxeCheck();
-      cy.location('pathname').should('eq', '/');
-    });
-  });
-
   describe('App feature toggle is enabled, but Pilot feature toggle is not enabled', () => {
     beforeEach(() => {
       setUpInterceptsAndVisit({
@@ -69,7 +54,6 @@ describe('Accredited Representative Portal', () => {
       );
       cy.visit(POA_REQUESTS);
 
-      cy.contains('Power of attorney requests').should('be.visible');
       cy.get('[data-testid=desktop-logo').click();
       cy.get('[data-testid=landing-page-heading]').should(
         'have.text',

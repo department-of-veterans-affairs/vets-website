@@ -1,15 +1,23 @@
-import { LAST_YEAR } from '../../../utils/constants';
+import {
+  titleUI,
+  descriptionUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
+import { LAST_YEAR, replaceStrValues } from '../../../utils/helpers';
 import { FULL_SCHEMA } from '../../../utils/imports';
 import { SpouseFinancialSupportDescription } from '../../../components/FormDescriptions';
+import content from '../../../locales/en/content.json';
 
 const { provideSupportLastYear } = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {
-    'ui:title': 'Spouse\u2019s financial support',
+    ...titleUI('Spouse\u2019s financial support'),
+    ...descriptionUI(SpouseFinancialSupportDescription),
     provideSupportLastYear: {
-      'ui:title': `Did you provide financial support to your spouse in ${LAST_YEAR} even though you didn\u2019t live together?`,
-      'ui:description': SpouseFinancialSupportDescription,
+      'ui:title': replaceStrValues(
+        content['household-info--spouse-support-label'],
+        LAST_YEAR,
+      ),
       'ui:widget': 'yesNo',
     },
   },

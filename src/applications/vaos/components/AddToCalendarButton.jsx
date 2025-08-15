@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import moment from 'moment';
+import { addMinutes } from 'date-fns';
 import { getCalendarData } from '../services/appointment';
 import { generateICS } from '../utils/calendar';
 
@@ -22,8 +22,9 @@ function handleClick({ filename, ics }) {
 
 export default function AddToCalendarButton({ appointment, facility }) {
   const isCC = appointment.vaos.isCommunityCare;
-  const startDate = moment.parseZone(appointment?.start);
+  const startUtc = appointment?.start;
   const duration = appointment?.minutesDuration;
+  const endUtc = addMinutes(startUtc, duration);
 
   const {
     additionalText,
@@ -42,13 +43,7 @@ export default function AddToCalendarButton({ appointment, facility }) {
     additionalText,
     ...(!isCC && { providerName }),
   };
-  const ics = generateICS(
-    summary,
-    description,
-    location,
-    startDate,
-    moment(startDate).add(duration, 'minutes'),
-  );
+  const ics = generateICS(summary, description, location, startUtc, endUtc);
 
   const filename = `${summary.replace(/\s/g, '_')}.ics`;
 

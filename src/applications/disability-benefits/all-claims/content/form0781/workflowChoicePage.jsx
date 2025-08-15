@@ -1,17 +1,36 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import {
+  VaRadio,
+  VaModal,
+  VaAlert,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { scrollToFirstError, scrollTo } from 'platform/utilities/scroll';
+import {
+  form0781HeadingTag,
+  titleWithTag,
+  mentalHealthSupportAlert,
+} from '../form0781';
+import { checkValidations } from '../../utils/submit';
+
+import { form0781WorkflowChoices } from './workflowChoices';
 
 export const workflowChoicePageTitle =
-  'Adding VA Form 21-0781 to support new mental health conditions';
+  'Option to add a statement in support of mental health conditions';
 
 // Lists new conditions the veteran has claimed
 // The user should not get to this page if these conditions are not present
 const conditionSelections = formData => {
-  const conditions = formData.newDisabilities.map(
-    disability =>
-      // Capitalize condition
-      disability.condition.charAt(0).toUpperCase() +
-      disability.condition.slice(1),
-  );
+  const conditions = Array.isArray(formData?.newDisabilities)
+    ? formData.newDisabilities.map(
+        disability =>
+          disability.condition.charAt(0).toUpperCase() +
+          disability.condition.slice(1),
+      )
+    : [];
+
+  if (conditions.length === 0) return null;
 
   return (
     <div>
@@ -27,48 +46,8 @@ const conditionSelections = formData => {
   );
 };
 
-export const workflowChoicePageDescription = formData => {
-  return (
-    <>
-      {conditionSelections(formData)}
-      <h4>When to consider adding VA Form 21-0781 to your claim</h4>
-      <p>
-        We offer this optional form for you to share more supporting information
-        about certain conditions. If your claim includes a new mental health
-        condition (like PTSD, major depression, or generalized anxiety disorder)
-        that’s related to a traumatic event you experienced during military
-        service, we encourage you to submit this form.
-      </p>
-      <p>
-        We’ll need to ask you about the traumatic events you experienced and any
-        behavioral changes that you experienced as a result. Answer as many or
-        as few of the questions that you feel comfortable answering. We’ll use
-        any information you can share to support your claim.
-      </p>
-      <p>
-        To answer all the questions, you’ll likely need about 45 minutes. You
-        can answer the questions online. Or, you can fill out a PDF version of
-        the form and upload it as part of your online submission.
-      </p>
-      <p>
-        <va-link
-          external
-          href="https://www.va.gov/find-forms/about-form-21-0781/"
-          text="Get VA Form 21-0781 to download"
-        />
-      </p>
-    </>
-  );
-};
-
 export const form0781WorkflowChoiceDescription =
-  'Do you want to add VA Form 21-0781?';
-
-export const form0781WorkflowChoices = {
-  COMPLETE_ONLINE_FORM: 'optForOnlineForm0781',
-  SUBMIT_PAPER_FORM: 'optForPaperForm0781Upload',
-  OPT_OUT_OF_FORM0781: 'optOutOfForm0781',
-};
+  'Do you want to add a statement in support of mental health conditions?';
 
 export const form0781WorkflowChoiceLabels = Object.freeze({
   [form0781WorkflowChoices.COMPLETE_ONLINE_FORM]:
@@ -79,6 +58,49 @@ export const form0781WorkflowChoiceLabels = Object.freeze({
     'No, I don’t want to add this form to my claim.',
 });
 
+export const workflowChoicePageDescription = formData => {
+  return (
+    <>
+      {conditionSelections(formData)}
+      <p>
+        We encourage you to submit this optional statement for any new mental
+        health conditions related to a traumatic event that happened during your
+        military service. We’ll use the information to support your claim.
+      </p>
+      <p>
+        <strong>Here’s what to know before you decide:</strong>
+      </p>
+      <ul>
+        <li>
+          You can submit this statement in 1 of 2 ways: Answer questions online
+          or upload a PDF version of the questions.
+        </li>
+        <li>
+          We’ll ask you to describe the traumatic events you experienced and how
+          they relate to your mental health conditions. You’ll likely need about
+          45 minutes to answer all the questions.
+        </li>
+        <li>
+          You can skip questions you can’t or don’t want to answer. And you can
+          save your in-progress online form anytime if you need a break.
+        </li>
+        <li>
+          We’ll ask you to share supporting evidence (like health records) later
+          in the form.
+        </li>
+      </ul>
+    </>
+  );
+};
+
+export const serviceRecordNotification = (
+  <div className="usa-alert usa-alert-warning background-color-only">
+    <span>
+      <strong>Note:</strong> If you would rather upload a DD214 than enter dates
+      here, you can do that later in the form.
+    </span>
+  </div>
+);
 export const traumaticEventsExamples = (
   <va-accordion open-single>
     <va-accordion-item class="vads-u-margin-y--3" id="first" bordered>
@@ -125,7 +147,7 @@ export const traumaticEventsExamples = (
           You experienced offensive comments about your body or sexual
           activities
         </li>
-        <li>You experienced unwanted sexual advances</li>
+        <li>You experienced repeated unwanted sexual advances</li>
         <li>
           You experienced someone touching or grabbing you against your will,
           including during hazing
@@ -162,34 +184,486 @@ export const traumaticEventsExamples = (
   </va-accordion>
 );
 
-export const mstAlert = () => {
+export const sectionsOfMentalHealthStatement = [
+  'Traumatic events from your military service',
+  'Behavioral changes',
+  'Types of providers who treated  your traumatic events',
+  'Types of documents about your mental health conditions',
+];
+
+export const mentalHealthKeys = [
+  'treatmentReceivedVaProvider',
+  'treatmentReceivedNonVaProvider',
+  'treatmentNoneCheckbox',
+  'supportingEvidenceWitness',
+  'supportingEvidenceUnlisted',
+  'supportingEvidenceReports',
+  'supportingEvidenceRecords',
+  'supportingEvidenceOther',
+  'supportingEvidenceNoneCheckbox',
+  'behaviorsDetails',
+  'workBehaviors',
+  'healthBehaviors',
+  'otherBehaviors',
+  'eventTypes',
+  'unlistedBehaviors',
+  'form781Upload',
+  'additionalInformation',
+  'events',
+];
+
+const confirmationDataUpload = {
+  yes: 'Yes, upload PDF instead',
+  no: 'No, return to claim',
+};
+
+const confirmationDataOptOut = {
+  yes: 'Yes, delete my statement',
+  no: 'No, return to claim',
+};
+
+const confirmationCompleteOnline = {
+  yes: 'Yes, answer online instead',
+  no: 'No, return to claim',
+};
+
+const modalDescriptionUpload = (
+  <>
+    <p>
+      If you choose to upload a PDF statement, we’ll delete this information
+      from your claim:
+    </p>
+    <p>
+      <ul>
+        {sectionsOfMentalHealthStatement.map((section, i) => (
+          <li key={i}>{section}</li>
+        ))}
+      </ul>
+    </p>
+  </>
+);
+
+const modalDescriptionSkip = (
+  <>
+    <p>
+      If you choose to delete this statement, we’ll delete this information from
+      your claim:
+    </p>
+    <ul>
+      {sectionsOfMentalHealthStatement.map((section, i) => (
+        <li key={i}>
+          <b>{section}</b>
+        </li>
+      ))}
+    </ul>
+  </>
+);
+
+const modalDescriptionOnline = formData => {
   return (
     <>
-      <va-alert-expandable
-        status="info"
-        trigger="Learn more about treatment for military sexual trauma"
-      >
-        <p>
-          If you experienced military sexual trauma (MST), we provide treatment
-          for any physical or mental health conditions related to your
-          experiences.
-        </p>
-        <br />
-        <p>
-          You don’t need to file a disability claim or have a disability rating
-          to get care. These services are available to Veterans regardless of
-          discharge status. You may be able to receive MST-related health care
-          even if you’re not eligible for other VA health care.
-        </p>
-        <br />
-        <p>
-          <va-link
-            external
-            href="https://www.va.gov/health-care/health-needs-conditions/military-sexual-trauma/"
-            text="Learn more about MST-related benefits and services"
-          />
-        </p>
-      </va-alert-expandable>
+      <p>
+        If you choose to answer questions online, we’ll delete this PDF you
+        uploaded:
+      </p>
+      <p>
+        <ul>
+          {formData.form781Upload.map((file, index) => (
+            <li key={index}>
+              <strong>{file.name}</strong>
+            </li>
+          ))}
+        </ul>
+      </p>
     </>
   );
 };
+
+const alertDescriptionSkip =
+  'We deleted your statement about mental health conditions. You can still add a statement anytime before you submit your claim by choosing to answer questions online or uploading a PDF statement.';
+
+const alertDescriptionUpload =
+  'We’ve deleted information you entered online about mental health conditions.';
+const alertDescriptionOnline = 'We’ve deleted your uploaded PDF.';
+
+export const modalTitleSkip =
+  'Delete your statement about mental health conditions?';
+export const modalTitleUpload = 'Upload a PDF statement instead?';
+export const modalTitleOnline = 'Answer questions online instead?';
+
+const deleteMentalHealthStatement = (data, setFormData) => {
+  const updatedData = { ...data };
+
+  mentalHealthKeys.forEach(key => {
+    delete updatedData[key];
+  });
+
+  setFormData(updatedData);
+};
+
+const deepCheck = value => {
+  switch (typeof value) {
+    case 'boolean':
+      return value === true;
+    case 'string':
+      return value.trim() !== '';
+    case 'number':
+      return true;
+    case 'object':
+      if (value === null) return false;
+
+      return Object.values(value).some(nestedValue => deepCheck(nestedValue));
+
+    default:
+      return false;
+  }
+};
+
+const checkMentalHealthData = formData => {
+  return mentalHealthKeys.some(key => {
+    if (!(key in formData)) {
+      return false;
+    }
+
+    return deepCheck(formData[key]);
+  });
+};
+
+const WorkflowChoicePage = props => {
+  const {
+    data,
+    goBack,
+    goForward,
+    setFormData,
+    contentBeforeButtons,
+    contentAfterButtons,
+    onReviewPage,
+    updatePage,
+  } = props;
+
+  const selectionField = 'view:selectedMentalHealthWorkflowChoice';
+  const [previousWorkflowChoice, setPreviousWorkflowChoice] = useState(
+    data?.['view:previousMentalHealthWorkflowChoice'] ?? null,
+  );
+  const [
+    selectedMentalHealthWorkflowChoice,
+    setSelectedMentalHealthWorkflowChoice,
+  ] = useState(data?.mentalHealthWorkflowChoice ?? null);
+
+  const [hasError, setHasError] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const [shouldGoForward, setShouldGoForward] = useState(false);
+
+  useEffect(
+    () => {
+      if (showAlert) {
+        scrollTo('success-alert');
+      }
+    },
+    [showAlert],
+  );
+
+  useEffect(
+    () => {
+      if (
+        shouldGoForward &&
+        data?.mentalHealthWorkflowChoice === selectedMentalHealthWorkflowChoice
+      ) {
+        setShouldGoForward(false);
+        goForward(data);
+      }
+    },
+    [data, goForward, selectedMentalHealthWorkflowChoice, shouldGoForward],
+  );
+
+  const missingSelectionErrorMessage =
+    'A response is needed for this question.';
+
+  const missingSelection = (error, _fieldData, formData) => {
+    if (!formData?.[selectionField]) {
+      error.addError?.(missingSelectionErrorMessage);
+    }
+  };
+
+  const checkErrors = (formData = data) => {
+    const error = checkValidations(
+      [missingSelection],
+      data?.['view:selectedMentalHealthWorkflowChoice'],
+      formData,
+    );
+
+    const result = error?.[0] || null;
+    setHasError(result);
+
+    return result;
+  };
+
+  const selectedChoice = selectedMentalHealthWorkflowChoice ?? null;
+
+  const {
+    primaryText,
+    secondaryText,
+    modalContent,
+    alertContent,
+    modalTitle,
+  } = (() => {
+    switch (selectedChoice) {
+      case form0781WorkflowChoices.SUBMIT_PAPER_FORM:
+        return {
+          primaryText: confirmationDataUpload.yes,
+          secondaryText: confirmationDataUpload.no,
+          modalContent: modalDescriptionUpload,
+          alertContent: alertDescriptionUpload,
+          modalTitle: modalTitleUpload,
+        };
+      case form0781WorkflowChoices.OPT_OUT_OF_FORM0781:
+        return {
+          primaryText: confirmationDataOptOut.yes,
+          secondaryText: confirmationDataOptOut.no,
+          modalContent: modalDescriptionSkip,
+          alertContent: alertDescriptionSkip,
+          modalTitle: modalTitleSkip,
+        };
+      default:
+        return {
+          primaryText: confirmationCompleteOnline.yes,
+          secondaryText: confirmationCompleteOnline.no,
+          modalContent: data.form781Upload && modalDescriptionOnline(data),
+          alertContent: alertDescriptionOnline,
+          modalTitle: modalTitleOnline,
+        };
+    }
+  })();
+
+  const setPreviousData = () => {
+    const formData = {
+      ...data,
+      'view:previousMentalHealthWorkflowChoice': selectedMentalHealthWorkflowChoice,
+      mentalHealthWorkflowChoice: selectedMentalHealthWorkflowChoice,
+    };
+    setPreviousWorkflowChoice(selectedMentalHealthWorkflowChoice);
+    setFormData(formData);
+    setShouldGoForward(true);
+  };
+
+  const handlers = {
+    onSelection: event => {
+      const { value } = event?.detail || {};
+      if (value) {
+        setSelectedMentalHealthWorkflowChoice(value);
+        setFormData({
+          ...data,
+          'view:selectedMentalHealthWorkflowChoice': value,
+        });
+      }
+    },
+    onSubmit: event => {
+      event.preventDefault();
+      if (checkErrors()) {
+        scrollToFirstError({ focusOnAlertRole: true });
+      } else if (
+        previousWorkflowChoice !== selectedMentalHealthWorkflowChoice &&
+        checkMentalHealthData(data)
+      ) {
+        setShowModal(true);
+      } else {
+        setShowAlert(false);
+        setPreviousData();
+      }
+    },
+    onUpdatePage: event => {
+      event.preventDefault();
+      if (checkErrors()) {
+        scrollToFirstError({ focusOnAlertRole: true });
+      } else if (
+        previousWorkflowChoice !== selectedMentalHealthWorkflowChoice &&
+        checkMentalHealthData(data)
+      ) {
+        setShowModal(true);
+      } else {
+        setShowAlert(false);
+        const formData = {
+          ...data,
+          'view:previousMentalHealthWorkflowChoice': selectedMentalHealthWorkflowChoice,
+          mentalHealthWorkflowChoice: selectedMentalHealthWorkflowChoice,
+        };
+        setPreviousWorkflowChoice(selectedMentalHealthWorkflowChoice);
+        setFormData(formData);
+        setTimeout(() => {
+          updatePage(event);
+        }, 100);
+      }
+    },
+    onCloseModal: () => {
+      setShowModal(false);
+    },
+    onGoForward: () => {
+      deleteMentalHealthStatement(data, setFormData);
+      setShowModal(false);
+      setShowAlert(true);
+    },
+    onGoBack: () => {
+      goBack(data);
+    },
+    onCloseAlert: () => {
+      setShowAlert(false);
+    },
+  };
+
+  return (
+    <form onSubmit={handlers.onSubmit}>
+      <VaAlert
+        id="success-alert"
+        status="success"
+        closeable
+        visible={showAlert}
+        onCloseEvent={handlers.onCloseAlert}
+        class="vads-u-margin-bottom--4"
+        uswds
+      >
+        {alertContent}
+        <p>
+          {!onReviewPage ? (
+            <va-link
+              text="Continue with your claim"
+              onClick={handlers.onSubmit}
+            />
+          ) : null}
+        </p>
+      </VaAlert>
+      <fieldset className="vads-u-margin-bottom--2">
+        <legend id="root__title" className="schemaform-block-title">
+          <h3 className="vads-u-color--gray-dark vads-u-margin-top--0 vads-u-margin-bottom--3">
+            {titleWithTag(workflowChoicePageTitle, form0781HeadingTag)}
+          </h3>
+        </legend>
+        <div>
+          {workflowChoicePageDescription(data)}
+          <div>
+            <VaRadio
+              label={form0781WorkflowChoiceDescription}
+              label-header-level="4"
+              required
+              uswds="true"
+              class="rjsf-web-component-field hydrated"
+              aria-invalid="false"
+              onVaValueChange={handlers.onSelection}
+              error={hasError}
+            >
+              <va-radio-option
+                label={
+                  form0781WorkflowChoiceLabels[
+                    form0781WorkflowChoices.COMPLETE_ONLINE_FORM
+                  ]
+                }
+                name="private"
+                value={form0781WorkflowChoices.COMPLETE_ONLINE_FORM}
+                checked={
+                  selectedMentalHealthWorkflowChoice ===
+                  form0781WorkflowChoices.COMPLETE_ONLINE_FORM
+                }
+              />
+              <va-radio-option
+                label={
+                  form0781WorkflowChoiceLabels[
+                    form0781WorkflowChoices.SUBMIT_PAPER_FORM
+                  ]
+                }
+                name="private"
+                value={form0781WorkflowChoices.SUBMIT_PAPER_FORM}
+                checked={
+                  selectedMentalHealthWorkflowChoice ===
+                  form0781WorkflowChoices.SUBMIT_PAPER_FORM
+                }
+              />
+              <va-radio-option
+                label={
+                  form0781WorkflowChoiceLabels[
+                    form0781WorkflowChoices.OPT_OUT_OF_FORM0781
+                  ]
+                }
+                name="private"
+                value={form0781WorkflowChoices.OPT_OUT_OF_FORM0781}
+                checked={
+                  selectedMentalHealthWorkflowChoice ===
+                  form0781WorkflowChoices.OPT_OUT_OF_FORM0781
+                }
+              />
+            </VaRadio>
+            <div>
+              <p>
+                <strong>Note:</strong> If you choose to fill out the PDF
+                version, you can download the PDF now.
+              </p>
+              <p>
+                <va-link
+                  external
+                  href="https://www.va.gov/find-forms/about-form-21-0781/"
+                  text="Download VA Form 21-0781"
+                />
+              </p>
+            </div>
+          </div>
+          {!onReviewPage ? (
+            <>
+              {traumaticEventsExamples}
+              {mentalHealthSupportAlert()}
+            </>
+          ) : null}
+        </div>
+        <VaModal
+          clickToClose
+          status="warning"
+          modalTitle={modalTitle}
+          primaryButtonText={primaryText}
+          secondaryButtonText={secondaryText}
+          onPrimaryButtonClick={handlers.onGoForward}
+          onSecondaryButtonClick={handlers.onCloseModal}
+          onCloseEvent={handlers.onCloseModal}
+          visible={showModal}
+          uswds
+        >
+          {modalContent}
+        </VaModal>
+      </fieldset>
+      {onReviewPage ? (
+        /**
+         * Does not use web component for design consistency on all pages.
+         * @see https://github.com/department-of-veterans-affairs/vets-website/pull/35911
+         */
+        // eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component
+        <button
+          className="usa-button-primary"
+          type="button"
+          onClick={event => handlers.onUpdatePage(event)}
+        >
+          Update page
+        </button>
+      ) : (
+        <>
+          {contentBeforeButtons}
+          <FormNavButtons
+            goBack={handlers.onGoBack}
+            goForward={handlers.onSubmit}
+            submitToContinue
+          />
+          {contentAfterButtons}
+        </>
+      )}
+    </form>
+  );
+};
+
+WorkflowChoicePage.propTypes = {
+  contentAfterButtons: PropTypes.element,
+  contentBeforeButtons: PropTypes.element,
+  data: PropTypes.object,
+  goBack: PropTypes.func,
+  goForward: PropTypes.func,
+  setFormData: PropTypes.func,
+  updatePage: PropTypes.bool,
+  onReviewPage: PropTypes.func,
+};
+
+export default WorkflowChoicePage;

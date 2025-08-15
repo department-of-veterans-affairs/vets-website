@@ -8,11 +8,9 @@ import {
   states,
   mockUserData,
 } from './e2e/fixtures/mocks/lh_letters';
-import featureToggleEnabled from './e2e/fixtures/mocks/featureToggleEnabled.json';
 
 describe('Authed Letter Test', () => {
   it('confirms authed letter functionality', () => {
-    cy.intercept('GET', '/v0/feature_toggles?*', featureToggleEnabled);
     cy.intercept(
       'GET',
       '/v0/letters_generator/beneficiary',
@@ -90,6 +88,7 @@ describe('Authed Letter Test', () => {
         cy.get(`#${id}`).should('not.be.checked');
       });
     });
+
     // collapse the bsl accordion
     cy.get('.step-content va-accordion-item:nth-of-type(4)')
       .shadow()

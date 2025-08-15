@@ -2,6 +2,7 @@ import sessionStatus from '../fixtures/session/default.json';
 
 class Vitals {
   setIntercepts = ({ vitalData, useOhData = true }) => {
+    cy.intercept('POST', '/v0/datadog_action', {}).as('datadogAction');
     cy.intercept('POST', '/my_health/v1/medical_records/session', {}).as(
       'session',
     );
@@ -21,29 +22,10 @@ class Vitals {
     }).as('vitals-list');
   };
 
-  checkLandingPageLinks = () => {
-    cy.get('[data-testid="labs-and-tests-oh-landing-page-link"]').should(
-      'be.visible',
-    );
-    cy.get('[data-testid="summary-and-notes-oh-landing-page-link"]').should(
-      'be.visible',
-    );
-    cy.get('[data-testid="vaccines-oh-landing-page-link"]').should(
-      'be.visible',
-    );
-    cy.get('[data-testid="health-conditions-oh-landing-page-link"]').should(
-      'be.visible',
-    );
-
-    cy.get('[data-testid="allergies-oh-landing-page-link"]').should(
-      'be.visible',
-    );
-  };
-
   goToVitalPage = () => {
-    cy.get('[data-testid="vitals-landing-page-link"]')
-      .should('be.visible')
-      .click();
+    cy.get('[data-testid="vitals-landing-page-link"]').as('vitals-link');
+    cy.get('@vitals-link').should('be.visible');
+    cy.get('@vitals-link').click();
   };
 
   checkUrl = ({ timeFrame }) => {

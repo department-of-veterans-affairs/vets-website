@@ -1,30 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { fillPrescription } from '../../actions/prescriptions';
+import { useRefillPrescriptionMutation } from '../../api/prescriptionsApi';
 import CallPharmacyPhone from './CallPharmacyPhone';
 import { pharmacyPhoneNumber } from '../../util/helpers';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 
 const FillRefillButton = rx => {
-  const dispatch = useDispatch();
+  const [refillPrescription, { isLoading }] = useRefillPrescriptionMutation();
 
   const { dispensedDate, error, prescriptionId, success, isRefillable } = rx;
 
-  const [isLoading, setIsLoading] = useState(false);
   const hasBeenDispensed =
     dispensedDate || rx.rxRfRecords?.find(record => record.dispensedDate);
   const pharmacyPhone = pharmacyPhoneNumber(rx);
-
-  useEffect(
-    () => {
-      if (success || error) {
-        setIsLoading(false);
-      }
-    },
-    [success, error],
-  );
 
   if (isRefillable) {
     return (
@@ -80,8 +69,7 @@ const FillRefillButton = rx => {
           data-testid="refill-request-button"
           hidden={success || isLoading}
           onClick={() => {
-            setIsLoading(true);
-            dispatch(fillPrescription(prescriptionId));
+            refillPrescription(prescriptionId);
           }}
           text={`Request ${hasBeenDispensed ? 'a refill' : 'the first fill'}`}
         />

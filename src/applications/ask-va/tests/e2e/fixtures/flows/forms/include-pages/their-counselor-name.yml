@@ -1,0 +1,9 @@
+steps:
+  - action: exists
+    target: header
+    value: Veteran Readiness and Employment counselor
+  - action: typeTextInput
+    target: THEIR_COUNSELOR_NAME
+    value: Johnson
+  - action: click
+    target: call-to-action

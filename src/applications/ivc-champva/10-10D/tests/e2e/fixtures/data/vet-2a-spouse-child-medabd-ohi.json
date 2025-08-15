@@ -3,7 +3,7 @@
   "data": {
     "applicants": [
       {
-        "dateOfMarriageToSponsor": "2001-01-01",
+        "dateOfMarriageToSponsor": "2002-01-01",
         "applicantPhone": "1232343456",
         "applicantEmailAddress": "app1@email.gov",
         "applicantAddress": {
@@ -33,13 +33,25 @@
             "uploaded": false
           },
           {
-            "name": "applicantMedicarePartAPartBCard",
+            "name": "applicantMedicarePartAPartBCardFront",
             "path": "applicant-medicare-ab-file/:index",
             "required": true,
             "uploaded": false
           },
           {
-            "name": "applicantMedicarePartDCard",
+            "name": "applicantMedicarePartAPartBCardBack",
+            "path": "applicant-medicare-ab-file/:index",
+            "required": true,
+            "uploaded": false
+          },
+          {
+            "name": "applicantMedicarePartDCardFront",
+            "path": "applicant-medicare-d-file/:index",
+            "required": true,
+            "uploaded": false
+          },
+          {
+            "name": "applicantMedicarePartDCardBack",
             "path": "applicant-medicare-d-file/:index",
             "required": true,
             "uploaded": false
@@ -51,7 +63,13 @@
             "uploaded": false
           },
           {
-            "name": "applicantOhiCard",
+            "name": "applicantOhiCardFront",
+            "path": "applicant-other-insurance-file/:index",
+            "required": true,
+            "uploaded": false
+          },
+          {
+            "name": "applicantOhiCardBack",
             "path": "applicant-other-insurance-file/:index",
             "required": true,
             "uploaded": false
@@ -118,9 +136,7 @@
       "state": "AZ",
       "postalCode": "12312"
     },
-    "ssn": {
-      "ssn": "234234234"
-    },
+    "ssn": "234234234",
     "veteransFullName": {
       "first": "Sponsor",
       "last": "Jones"

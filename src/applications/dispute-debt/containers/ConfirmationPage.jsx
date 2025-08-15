@@ -1,81 +1,64 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { format, isValid } from 'date-fns';
 import { useSelector } from 'react-redux';
-import { scrollTo, waitForRenderThenFocus } from 'platform/utilities/ui';
 
-export const ConfirmationPage = () => {
-  const alertRef = useRef(null);
+import {
+  ConfirmationView,
+  ChapterSectionCollection,
+} from 'platform/forms-system/src/js/components/ConfirmationView';
+import NeedHelp from '../components/NeedHelp';
+
+export const ConfirmationPage = ({ route }) => {
+  const { formConfig } = route;
+
   const form = useSelector(state => state.form || {});
-  const { submission, formId, data = {} } = form;
-  const { fullName } = data;
-  const submitDate = submission?.timestamp;
-  const confirmationNumber = submission?.response?.confirmationNumber;
+  const { submission } = form;
+  const { response, timestamp } = submission || {};
 
-  useEffect(
-    () => {
-      if (alertRef?.current) {
-        scrollTo('topScrollElement');
-        waitForRenderThenFocus('h2', alertRef.current);
-      }
+  // no confirmation number is returned from the API currently
+  const { confirmationNumber = '' } = response || {};
+
+  // Dropping reason chapter to better match designs and avoid extra repeating noise
+  const trimmedConfig = {
+    ...formConfig,
+    chapters: {
+      personalInformationChapter: {
+        ...formConfig.chapters.personalInformationChapter,
+      },
+      debtSelectionChapter: {
+        ...formConfig.chapters.debtSelectionChapter,
+      },
     },
-    [alertRef],
-  );
+  };
 
   return (
-    <div>
-      <div className="print-only">
-        <img
-          src="https://www.va.gov/img/design/logo/logo-black-and-white.png"
-          alt="VA logo"
-          width="300"
-        />
-      </div>
-
-      <va-alert status="success" ref={alertRef}>
-        <h2 slot="headline">Your application has been submitted</h2>
-      </va-alert>
-
-      <p>We may contact you for more information or documents.</p>
-      <p className="screen-only">Please print this page for your records.</p>
-      <div className="inset">
-        <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
-          Dispute your VA debt Claim{' '}
-          <span className="vads-u-font-weight--normal">(Form {formId})</span>
-        </h3>
-        {fullName ? (
-          <span>
-            for {fullName.first} {fullName.middle} {fullName.last}
-            {fullName.suffix ? `, ${fullName.suffix}` : null}
-          </span>
-        ) : null}
-
-        {confirmationNumber ? (
-          <>
-            <h4>Confirmation number</h4>
-            <p>{confirmationNumber}</p>
-          </>
-        ) : null}
-
-        {isValid(submitDate) ? (
-          <p>
-            <strong>Date submitted</strong>
-            <br />
-            <span>{format(submitDate, 'MMMM d, yyyy')}</span>
-          </p>
-        ) : null}
-
-        <va-button onClick={window.print} text="Print this for your records" />
-      </div>
-      <a className="vads-c-action-link--green vads-u-margin-bottom--4" href="/">
-        Go back to VA.gov
-      </a>
-
-      {/* <div className="help-footer-box">
-        <h2 className="help-heading">Need help?</h2>
-        <GetFormHelp />
-      </div> */}
-    </div>
+    <ConfirmationView
+      confirmationNumber={confirmationNumber}
+      formConfig={formConfig}
+      submitDate={timestamp || ''}
+    >
+      <ConfirmationView.SubmissionAlert
+        title="Your dispute submission is in progress"
+        content="You will receive a letter in the mail confirming receipt within 30 days."
+        actions={null}
+      />
+      {/* <ConfirmationView.SavePdfDownload /> */}
+      <ChapterSectionCollection
+        formConfig={trimmedConfig}
+        header="Information you submitted on this dispute"
+      />
+      <ConfirmationView.PrintThisPage />
+      <ConfirmationView.WhatsNextProcessList
+        item1Header="We’ll confirm when we receive your dispute request"
+        item1Content="After we receive your submission, we’ll review your dispute. You’ll receive a letter in the mail confirming receipt within 30 days."
+        item1Actions={null}
+        item2Header="We’ll review your dispute"
+        item2Content="A determination will be made within 30–90 days. We will mail you a letter with our decision."
+      />
+      <ConfirmationView.HowToContact />
+      <ConfirmationView.GoBackLink />
+      <ConfirmationView.NeedHelp content={<NeedHelp />} />
+    </ConfirmationView>
   );
 };
 
@@ -95,6 +78,9 @@ ConfirmationPage.propTypes = {
     }),
   }),
   name: PropTypes.string,
+  route: PropTypes.shape({
+    formConfig: PropTypes.object,
+  }),
 };
 
 export default ConfirmationPage;

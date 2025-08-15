@@ -17,6 +17,7 @@ class MedicationsSite {
     if (isMedicationsUser) {
       cy.intercept(
         'GET',
+        // '/my_health/v1/prescriptions?page=1&per_page=10&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
         '/my_health/v1/prescriptions?page=1&per_page=999',
         prescriptions,
       ).as('prescriptions');
@@ -147,7 +148,7 @@ class MedicationsSite {
     cy.get('[data-testid="page-total-info"]').should($el => {
       const text = $el.text().trim();
       expect(text).to.include(
-        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${threadLength} medications, alphabetically by status`,
+        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${threadLength}  medications, alphabetically by status`,
       );
     });
   };

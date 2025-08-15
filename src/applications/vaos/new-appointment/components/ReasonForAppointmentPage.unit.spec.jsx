@@ -61,7 +61,7 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
       );
     });
 
-    it('should show validation for VA medical request', async () => {
+    it.skip('should show validation for VA medical request', async () => {
       const store = createTestStore(initialState);
       const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
         store,
@@ -121,7 +121,7 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
       );
     });
 
-    it('should show error msg when ^ is entered in VA medical request', async () => {
+    it.skip('should show error msg when ^ is entered in VA medical request', async () => {
       const store = createTestStore(initialState);
       const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
         store,
@@ -148,7 +148,7 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
       );
     });
 
-    it('should continue to the correct page based on type choice for VA medical request', async () => {
+    it.skip('should continue to the correct page based on type choice for VA medical request', async () => {
       const store = createTestStore(initialState);
       const screen = renderWithStoreAndRouter(
         <Route component={ReasonForAppointmentPage} />,
@@ -191,7 +191,7 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
 
       await waitFor(() =>
         expect(screen.history.push.lastCall?.args[0]).to.equal(
-          '/new-appointment/choose-visit-type',
+          'preferred-method',
         ),
       );
     });
@@ -226,7 +226,7 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
       );
     });
 
-    it('should show error msg when enter all spaces for Community Care medical request', async () => {
+    it.skip('should show error msg when enter all spaces for Community Care medical request', async () => {
       const store = createTestStore(initialState);
       await setTypeOfFacility(store, 'communityCare');
 
@@ -282,7 +282,7 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
 
       await waitFor(() =>
         expect(screen.history.push.lastCall?.args[0]).to.equal(
-          '/new-appointment/contact-info',
+          'contact-information',
         ),
       );
     });

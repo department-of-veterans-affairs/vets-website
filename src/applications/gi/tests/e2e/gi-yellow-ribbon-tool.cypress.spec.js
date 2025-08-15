@@ -10,27 +10,26 @@ describe('GI Bill Comparison Tool - Yellow Ribbon Tool', () => {
     cy.intercept('GET', '/data/cms/vamc-ehr.json', {
       statusCode: 200,
     });
-    cy.intercept('GET', '/v0/feature_toggles?*', {
-      data: {
-        type: 'feature_toggles',
-        features: [
-          {
-            name: 'show_yellow_ribbon_table',
-            value: true,
-          },
-        ],
-      },
-    }).as('featureToggles');
     cy.intercept('GET', '**/v1/gi/institutions/31800132*', {
       statusCode: 200,
       body: yellowRibbonMock,
     }).as('yellowRibbonProgram');
     cy.visit('education/gi-bill-comparison-tool/institution/31800132');
     cy.wait('@yellowRibbonProgram');
-    cy.wait('@featureToggles');
+    cy.injectAxe();
+    cy.axeCheck('main', {
+      rules: {
+        'link-name': {
+          enabled: false,
+        },
+        'aria-command-name': {
+          enabled: false,
+        },
+      },
+    });
   });
   it('clicks the "Jump to" link and navigates to the Yellow Ribbon Program section', () => {
-    //   cy.injectAxeThenAxeCheck();
+    // cy.injectAxeThenAxeCheck();
     cy.get('a[href="#yellow-ribbon-program-information"]')
       .should('exist')
       .and('contain', 'Yellow Ribbon Program information')
@@ -42,7 +41,7 @@ describe('GI Bill Comparison Tool - Yellow Ribbon Tool', () => {
       .and('be.visible');
   });
   it('should display the "Yellow Ribbon Program information" label and section', () => {
-    //   cy.injectAxeThenAxeCheck();
+    // cy.injectAxeThenAxeCheck();
     cy.get('#yellow-ribbon-program-information').should('exist');
     cy.get('#yellow-ribbon-program-information')
       .contains('Yellow Ribbon Program information')
@@ -54,7 +53,7 @@ describe('GI Bill Comparison Tool - Yellow Ribbon Tool', () => {
     });
   });
   it('should navigate when the Yellow Ribbon Program link is clicked', () => {
-    //   cy.injectAxeThenAxeCheck();
+    // cy.injectAxeThenAxeCheck();
     cy.get('va-link[data-testid="yellow-ribbon-program-link"]')
       .shadow()
       .find('a')
@@ -66,7 +65,7 @@ describe('GI Bill Comparison Tool - Yellow Ribbon Tool', () => {
   });
 
   it('filters results when a user selects a degree level and clicks "Display Results"', () => {
-    //   cy.injectAxeThenAxeCheck();
+    // cy.injectAxeThenAxeCheck();
     cy.get('va-select#degree')
       .shadow()
       .find('select')
@@ -84,7 +83,7 @@ describe('GI Bill Comparison Tool - Yellow Ribbon Tool', () => {
     });
   });
   it('filters results when a user selects a degree level and clicks "Display Results"', () => {
-    //   cy.injectAxeThenAxeCheck();
+    // cy.injectAxeThenAxeCheck();
     cy.get('va-select#degree')
       .shadow()
       .find('select')
@@ -102,7 +101,7 @@ describe('GI Bill Comparison Tool - Yellow Ribbon Tool', () => {
     });
   });
   it('each program card for "Doctoral" shows correct text and numeric values', () => {
-    //   cy.injectAxeThenAxeCheck();
+    // cy.injectAxeThenAxeCheck();
     cy.get('va-select#degree')
       .shadow()
       .find('select')
@@ -136,7 +135,7 @@ describe('GI Bill Comparison Tool - Yellow Ribbon Tool', () => {
     });
   });
   it('filters results when a user selects a Doctoral degree level and clicks "Display Results"', () => {
-    //   cy.injectAxeThenAxeCheck();
+    // cy.injectAxeThenAxeCheck();
     cy.get('va-select#degree')
       .shadow()
       .find('select')

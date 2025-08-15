@@ -21,7 +21,7 @@ class IntroductionPage extends React.Component {
           subTitle="Web component v3 patterns for testing and development"
         />
         <div>
-          <h3>Pages</h3>
+          <h2 className="vads-u-font-size--h3">Pages</h2>
           <ul>
             <li>
               <Link to="/chapter-select">Chapter select</Link>
@@ -60,7 +60,7 @@ class IntroductionPage extends React.Component {
               <Link to="/ssn-pattern">Ssn pattern</Link>
             </li>
             <li>
-              <Link to="/checkbox-and-text-input">Checkbox and text input</Link>
+              <Link to="/checkbox">Checkbox</Link>
             </li>
             <li>
               <Link to="/checkbox-group">Checkbox group</Link>
@@ -81,6 +81,12 @@ class IntroductionPage extends React.Component {
             </li>
             <li>
               <Link to="/date">Date</Link>
+            </li>
+            <li>
+              <Link to="/international-phone">International phone</Link>
+            </li>
+            <li>
+              <Link to="/file-input">File input</Link>
             </li>
             <li>
               <Link to="/dynamic-fields">Dynamic fields</Link>

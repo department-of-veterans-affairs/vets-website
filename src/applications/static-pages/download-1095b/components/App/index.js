@@ -27,10 +27,9 @@ import {
   notFoundComponent,
   pdfHelp,
   systemErrorComponent,
-  unavailableComponent,
 } from './utils';
 
-export const App = ({ displayToggle, toggleLoginModal }) => {
+export const App = ({ toggleLoginModal }) => {
   const [year, updateYear] = useState(0);
   const [formError, updateFormError] = useState({ error: false, type: '' });
   const cspId = useSelector(signInServiceName);
@@ -41,38 +40,39 @@ export const App = ({ displayToggle, toggleLoginModal }) => {
     () => {
       return (
         profile.isLoadingProfile ||
-        (displayToggle &&
-          profile.isUserLOA3 &&
-          hasLoadedMostRecentYear === false) ||
-        displayToggle === undefined
+        (profile.isUserLOA3 && hasLoadedMostRecentYear === false)
       );
     },
-    [displayToggle, hasLoadedMostRecentYear, profile],
+    [hasLoadedMostRecentYear, profile],
   );
   useEffect(
     () => {
-      if (profile.isUserLOA3 !== true || displayToggle !== true) {
+      if (profile.isUserLOA3 !== true) {
         return;
       }
 
       apiRequest('/form1095_bs/available_forms')
         .then(response => {
-          if (response.errors || response.availableForms.length === 0) {
+          if (response.availableForms.length === 0) {
+            recordEvent({ event: '1095b-available-forms-not-found' });
             updateFormError({ error: true, type: errorTypes.NOT_FOUND });
-          }
-          const mostRecentYearData = response.availableForms[0];
-          if (mostRecentYearData?.year) {
-            updateYear(mostRecentYearData.year);
+          } else {
+            recordEvent({ event: '1095b-available-forms-found' });
+            const mostRecentYearData = response.availableForms[0];
+            if (mostRecentYearData.year) {
+              updateYear(mostRecentYearData.year);
+            }
           }
         })
         .catch(() => {
+          recordEvent({ event: '1095b-available-forms-system-error' });
           updateFormError({ error: true, type: errorTypes.SYSTEM_ERROR });
         })
         .finally(() => {
           setHasLoadedMostRecentYear(true);
         });
     },
-    [profile.isUserLOA3, displayToggle],
+    [profile.isUserLOA3],
   );
 
   useEffect(
@@ -91,6 +91,7 @@ export const App = ({ displayToggle, toggleLoginModal }) => {
         return window.URL.createObjectURL(blob);
       })
       .catch(() => {
+        recordEvent({ event: `1095b-${format}-download-error` });
         updateFormError({ error: true, type: errorTypes.DOWNLOAD_ERROR });
         return false;
       });
@@ -119,11 +120,11 @@ export const App = ({ displayToggle, toggleLoginModal }) => {
         }
         return (
           <VaAlertSignIn variant="signInEither" visible headingLevel={4}>
-            <span slot="LoginGovSignInButton">
-              <VerifyLogingovButton />
-            </span>
             <span slot="IdMeSignInButton">
               <VerifyIdmeButton />
+            </span>
+            <span slot="LoginGovSignInButton">
+              <VerifyLogingovButton />
             </span>
           </VaAlertSignIn>
         );
@@ -174,7 +175,7 @@ export const App = ({ displayToggle, toggleLoginModal }) => {
                 `${environment.API_URL}/v0/form1095_bs/download_pdf/${year}`,
               )}
               id="pdf-download-link"
-              label="Download PDF (best for printing)"
+              label={`Download ${year} 10 95-B PDF (best for printing)`}
               text="Download PDF (best for printing)"
               onClick={e => {
                 e.preventDefault();
@@ -190,7 +191,7 @@ export const App = ({ displayToggle, toggleLoginModal }) => {
                 `${environment.API_URL}/v0/form1095_bs/download_txt/${year}`,
               )}
               id="txt-download-link"
-              label="Download Text file (best for screen readers, enlargers, and refreshable Braille displays)"
+              label={`Download ${year} 10 95-B Text file (best for screen readers, enlargers, and refreshable Braille displays)`}
               text="Download Text file (best for screen readers, enlargers, and refreshable Braille displays)"
               onClick={e => {
                 e.preventDefault();
@@ -220,9 +221,6 @@ export const App = ({ displayToggle, toggleLoginModal }) => {
     if (formError.type === errorTypes.SYSTEM_ERROR) {
       return systemErrorComponent;
     }
-    if (!displayToggle) {
-      return unavailableComponent();
-    }
     if (formError.type === errorTypes.NOT_FOUND) {
       return notFoundComponent();
     }
@@ -251,17 +249,13 @@ export const App = ({ displayToggle, toggleLoginModal }) => {
 
 App.propTypes = {
   toggleLoginModal: PropTypes.func.isRequired,
-  displayToggle: PropTypes.bool,
 };
-const mapStateToProps = state => ({
-  displayToggle: state?.featureToggles?.showDigitalForm1095b,
-});
 
 const mapDispatchToProps = dispatch => ({
   toggleLoginModal: open => dispatch(toggleLoginModalAction(open)),
 });
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps,
 )(App);

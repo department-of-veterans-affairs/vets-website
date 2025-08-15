@@ -3,9 +3,13 @@ import { Edit } from './components/edit/Edit';
 import { getRoutesForNav } from './routesForNav';
 import { Hub } from './components/hub/Hub';
 
-const getRoutes = () => {
+const getRoutes = (
+  { profileShowPaperlessDelivery = false } = {
+    profileShowPaperlessDelivery: false,
+  },
+) => {
   return [
-    ...getRoutesForNav(),
+    ...getRoutesForNav({ profileShowPaperlessDelivery }),
     {
       component: Edit,
       name: PROFILE_PATH_NAMES.EDIT,

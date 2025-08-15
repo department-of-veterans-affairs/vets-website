@@ -15,7 +15,7 @@ const Breadcrumbs = () => {
     },
     {
       href: '/school-administrators/85-15-rule-enrollment-ratio/introduction/',
-      label: 'Report 85/15 Rule enrollment ratios',
+      label: 'Report 85/15 rule enrollment ratios',
     },
     ...(navigation.path.endsWith('/calculation-instructions')
       ? [

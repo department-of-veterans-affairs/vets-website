@@ -1,0 +1,160 @@
+{
+  "view:additionalEvidenceDescription": {},
+  "householdIncome": false,
+  "view:studentInformationMissingInformation": {},
+  "view:completedStudent": false,
+  "view:childrenToAddMissingInformation": {},
+  "view:completedAddChild": false,
+  "veteranInformation": {
+      "fullName": {
+        "first": "Pauline",
+        "middle": "E",
+        "last": "Foster"
+      },
+      "ssn": "796330625",
+      "birthDate": "1976-06-09",
+      "ssnLastFour": "0625",
+      "vaFileLastFour": "0625"
+    },
+  "veteranContactInformation": {
+    "phoneNumber": "8008885555",
+    "internationalPhoneNumber": "18008885555",
+    "emailAddress": "nope@nope.com",
+    "electronicCorrespondence": true,
+    "veteranAddress": {
+      "view:militaryBaseDescription": {},
+      "country": "USA",
+      "street": "123 Fake St.",
+      "city": "Fakesville",
+      "state": "NV",
+      "postalCode": "56789"
+    }
+  },
+  "view:addDependentOptions": {
+    "addChild": true,
+    "report674": true
+  },
+  "view:addDependentOptionsDescription": {},
+  "view:addOrRemoveDependents": {
+    "add": true
+  },
+  "useV2": true,
+  "view:removeDependentOptions": {},
+  "spouseInformation": {
+    "fullName": {}
+  },
+  "view:certificateNotice": {},
+  "view:cancelAddSpouse": {},
+  "doesLiveWithSpouse": {
+    "address": {
+      "view:militaryBaseDescription": {}
+    }
+  },
+  "currentMarriageInformation": {
+    "location": {},
+    "view:marriageTypeInformation": {}
+  },
+  "childrenToAdd": [
+    {
+      "incomeInLastYear": "N",
+      "doesChildLiveWithYou": true,
+      "hasChildEverBeenMarried": false,
+      "doesChildHavePermanentDisability": false,
+      "view:disabilityInfo": {},
+      "doesChildHaveDisability": true,
+      "isBiologicalChildOfSpouse": true,
+      "dateEnteredHousehold": "2025-03-19",
+      "view:biologicalParentInfo": {},
+      "biologicalParentName": {
+        "first": "John",
+        "last": "Doner"
+      },
+      "biologicalParentSsn": "333445556",
+      "biologicalParentDob": "1990-06-19",
+      "relationshipToChild": {
+        "adopted": true,
+        "stepchild": true
+      },
+      "view:commonEvidenceInfo": {},
+      "view:stepchildAdditionalEvidenceDescription": {},
+      "view:adoptedAdditionalEvidenceDescription": {},
+      "isBiologicalChild": false,
+      "birthLocation": {
+        "outsideUsa": false,
+        "location": {
+          "city": "Fakesville",
+          "state": "AL",
+          "postalCode": "12345"
+        }
+      },
+      "ssn": "333445555",
+      "fullName": {
+        "first": "John",
+        "last": "Doe"
+      },
+      "birthDate": "2017-01-19"
+    }
+  ],
+  "studentInformation": [
+    {
+      "remarks": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      "claimsOrReceivesPension": false,
+      "schoolInformation": {
+        "lastTermSchoolInformation": {
+          "termBegin": "2023-01-12",
+          "dateTermEnded": "2023-09-23"
+        },
+        "studentDidAttendSchoolLastTerm": true,
+        "currentTermDates": {
+          "officialSchoolStartDate": "2024-02-13",
+          "expectedStudentStartDate": "2024-03-19",
+          "expectedGraduationDate": "2030-06-19"
+        },
+        "isSchoolAccredited": true,
+        "view:accredited": {},
+        "studentIsEnrolledFullTime": true,
+        "name": "Quest for Knowledge Trade programs"
+      },
+      "benefitPaymentDate": "2024-02-19",
+      "typeOfProgramOrBenefit": {
+        "fry": true,
+        "other": true
+      },
+      "otherProgramOrBenefit": "additional program",
+      "tuitionIsPaidByGovAgency": false,
+      "view:programExamples": {},
+      "marriageDate": "2020-02-19",
+      "wasMarried": true,
+      "address": {
+        "view:militaryBaseDescription": {},
+        "country": "USA",
+        "street": "123 Fake St.",
+        "city": "Fakesville",
+        "state": "AL",
+        "postalCode": "12345"
+      },
+      "studentIncome": "NA",
+      "ssn": "333446666",
+      "isParent": true,
+      "fullName": {
+        "first": "Jane",
+        "middle": "C",
+        "last": "Doe"
+      },
+      "birthDate": "2010-01-21"
+    }
+  ],
+  "reportDivorce": {
+    "fullName": {},
+    "view:cancelDivorce": {},
+    "divorceLocation": {
+      "location": {}
+    }
+  },
+  "view:selectable686Options": {
+    "addChild": true,
+    "report674": true
+  },
+  "statementOfTruthSignature": "Pauline E Foster",
+  "statementOfTruthCertified": true
+}

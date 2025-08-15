@@ -1,24 +1,24 @@
 /* eslint-disable no-plusplus */
 // @ts-check
-import moment from 'moment';
+import { format, subDays, subMonths } from 'date-fns';
 import { APPOINTMENT_STATUS } from '../../../../utils/constants';
+import MockAppointmentResponse from '../../../fixtures/MockAppointmentResponse';
+import MockUser from '../../../fixtures/MockUser';
+import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
+import PastAppointmentListPageObject from '../../page-objects/AppointmentList/PastAppointmentListPageObject';
 import {
   mockAppointmentsGetApi,
   mockFeatureToggles,
   mockVamcEhrApi,
   vaosSetup,
 } from '../../vaos-cypress-helpers';
-import MockAppointmentResponse from '../../fixtures/MockAppointmentResponse';
-import PastAppointmentListPageObject from '../../page-objects/AppointmentList/PastAppointmentListPageObject';
-import MockUser from '../../fixtures/MockUser';
-import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
 
 describe('VAOS past appointment flow', () => {
   describe('When veteran has past appointments', () => {
     beforeEach(() => {
       vaosSetup();
 
-      mockFeatureToggles({ vaOnlineSchedulingFeSourceOfTruth: false });
+      mockFeatureToggles({});
       mockVamcEhrApi();
 
       cy.login(new MockUser());
@@ -26,7 +26,7 @@ describe('VAOS past appointment flow', () => {
 
     it('should display past appointments list', () => {
       // Arrange
-      const yesterday = moment().subtract(1, 'day');
+      const yesterday = subDays(new Date(), 1);
 
       const response = new MockAppointmentResponse({
         cancellable: false,
@@ -45,7 +45,7 @@ describe('VAOS past appointment flow', () => {
         // Assert
         // Constrain search within list group.
         cy.findByTestId(
-          `appointment-list-${yesterday.format('YYYY-MM')}`,
+          `appointment-list-${format(yesterday, 'yyyy-MM')}`,
         ).within(() => {
           cy.findAllByTestId('appointment-list-item').should($list => {
             expect($list).to.have.length(1);
@@ -58,12 +58,13 @@ describe('VAOS past appointment flow', () => {
 
     it('should display past appointment details', () => {
       // Arrange
-      const yesterday = moment().subtract(1, 'day');
+      const yesterday = subDays(new Date(), 1);
       const response = new MockAppointmentResponse({
         id: '3',
         cancellable: false,
         localStartTime: yesterday,
         status: APPOINTMENT_STATUS.booked,
+        past: true,
       });
 
       mockAppointmentsGetApi({ response: [response] });
@@ -83,7 +84,7 @@ describe('VAOS past appointment flow', () => {
         return new MockAppointmentResponse({
           id: i,
           cancellable: false,
-          localStartTime: moment().subtract(i, 'month'),
+          localStartTime: subMonths(new Date(), i),
           status: APPOINTMENT_STATUS.booked,
         });
       });
@@ -98,9 +99,7 @@ describe('VAOS past appointment flow', () => {
       // Assert
       // Constrain search within list group.
       cy.findByTestId(
-        `appointment-list-${moment()
-          .subtract(6, 'month')
-          .format('YYYY-MM')}`,
+        `appointment-list-${format(subMonths(new Date(), 6), 'yyyy-MM')}`,
       ).within(() => {
         cy.findAllByTestId('appointment-list-item').should($list => {
           expect($list.length).to.equal(1);
@@ -132,7 +131,7 @@ describe('VAOS past appointment flow', () => {
       PastAppointmentListPageObject.visit();
 
       // Assert
-      cy.findByText(/We.re sorry\. We.ve run into a problem/i);
+      cy.findByText(/We can’t access your appointments right now/i);
       cy.axeCheckBestPractice();
     });
   });

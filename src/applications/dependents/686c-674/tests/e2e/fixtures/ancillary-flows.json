@@ -1,0 +1,125 @@
+{
+  "householdIncome": false,
+  "view:childStoppedAttendingSchoolMissingInformation": {},
+  "view:completedChildStoppedAttendingSchool": false,
+  "view:childMarriageMissingInformation": {},
+  "view:completedMarriedChild": false,
+  "view:deathsMissingInformation": {},
+  "view:completedDependent": false,
+  "view:stepChildrenMissingInformation": {},
+  "view:completedHouseholdChild": false,
+  "veteranInformation": {
+      "fullName": {
+        "first": "Pauline",
+        "middle": "E",
+        "last": "Foster"
+      },
+      "ssn": "796330625",
+      "birthDate": "1976-06-09",
+      "ssnLastFour": "0625",
+      "vaFileLastFour": "0625"
+    },
+  "veteranContactInformation": {
+    "phoneNumber": "8008675309",
+    "internationalPhoneNumber": "18008675309",
+    "emailAddress": "nope@nope.com",
+    "electronicCorrespondence": true,
+    "veteranAddress": {
+      "view:militaryBaseDescription": {},
+      "country": "USA",
+      "street": "123 Fake St.",
+      "city": "Fakesville",
+      "state": "AL",
+      "postalCode": "12345"
+    }
+  },
+  "view:addOrRemoveDependents": {
+    "add": false,
+    "remove": true
+  },
+  "view:selectable686Options": {
+    "reportStepchildNotInHousehold": true,
+    "reportDeath": true,
+    "reportMarriageOfChildUnder18": true,
+    "reportChild18OrOlderIsNotAttendingSchool": true
+  },
+  "view:addDependentOptions": {},
+  "view:removeDependentOptions": {
+    "reportStepchildNotInHousehold": true,
+    "reportDeath": true,
+    "reportMarriageOfChildUnder18": true,
+    "reportChild18OrOlderIsNotAttendingSchool": true
+  },
+  "stepChildren": [
+    {
+      "whoDoesTheStepchildLiveWith": {
+        "first": "John",
+        "middle": "Middle",
+        "last": "Doe"
+      },
+      "address": {
+        "view:militaryBaseDescription": {},
+        "country": "USA",
+        "street": "123 Fake St.",
+        "city": "North Las Vegas",
+        "state": "NV",
+        "postalCode": "89084"
+      },
+      "livingExpensesPaid": "Less than half",
+      "supportingStepchild": true,
+      "dateStepchildLeftHousehold": "2025-02-19",
+      "fullName": {
+        "first": "John",
+        "last": "Doe"
+      },
+      "ssn": "333445555",
+      "birthDate": "2012-02-19"
+    }
+  ],
+  "deaths": [
+    {
+      "deceasedDependentIncome": "NA",
+      "dependentDeathLocation": {
+        "location": {
+          "city": "Fakesville",
+          "state": "CA"
+        }
+      },
+      "dependentDeathDate": "2025-04-19",
+      "dependentType": "SPOUSE",
+      "fullName": {
+        "first": "John",
+        "last": "Doe"
+      },
+      "ssn": "333445555",
+      "birthDate": "1991-02-19"
+    }
+  ],
+  "childMarriage": [
+    {
+      "dependentIncome": "N",
+      "dateMarried": "2025-05-19",
+      "fullName": {
+        "first": "Jane",
+        "middle": "C",
+        "last": "Doe"
+      },
+      "ssn": "333445555",
+      "birthDate": "2008-04-21"
+    }
+  ],
+  "childStoppedAttendingSchool": [
+    {
+      "dependentIncome": "N",
+      "dateChildLeftSchool": "2025-03-19",
+      "fullName": {
+        "first": "John",
+        "last": "Doe"
+      },
+      "ssn": "333445555",
+      "birthDate": "2004-03-19"
+    }
+  ],
+  "statementOfTruthSignature": "Pauline E Foster",
+  "statementOfTruthCertified": true
+}

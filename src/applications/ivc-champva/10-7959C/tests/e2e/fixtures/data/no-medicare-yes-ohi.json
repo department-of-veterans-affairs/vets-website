@@ -1,6 +1,7 @@
 {
   "description": "No Medicare, both OHIs (Medigap), US address (new), third party signer",
   "data": {
+    "champvaBenefitStatus": true,
     "secondaryAdditionalComments": "Secondary comment",
     "secondaryMedigapPlan": "D",
     "applicantSecondaryInsuranceType": "medigap",

@@ -2,6 +2,7 @@ import React from 'react';
 import { merge } from 'lodash';
 import get from 'platform/utilities/data/get';
 import omit from 'platform/utilities/data/omit';
+import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
 
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema.json';
 
@@ -16,9 +17,7 @@ const nonRequiredFullName = omit('required', fullName);
 export const uiSchema = {
   application: {
     veteran: {
-      'ui:description': (
-        <h3 className="vads-u-font-size--h5">Sponsor’s previous name</h3>
-      ),
+      'ui:description': <h3>Sponsor’s previous name</h3>,
       serviceName: merge({}, nonRequiredFullNameUI, {
         first: {
           'ui:title': 'Sponsor’s previous first name',
@@ -35,6 +34,8 @@ export const uiSchema = {
         },
         suffix: {
           'ui:title': 'Sponsor’s previous suffix',
+          'ui:webComponentField': VaSelectField,
+          'ui:options': { classNames: 'form-select-medium' },
         },
       }),
     },

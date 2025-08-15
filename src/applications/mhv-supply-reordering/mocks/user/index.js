@@ -57,6 +57,7 @@ const ok = {
             is_cerner: false,
           },
         ],
+        va_patient: true,
       },
     },
   },

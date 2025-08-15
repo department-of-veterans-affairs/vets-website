@@ -1,29 +1,22 @@
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { waitFor } from '@testing-library/dom';
 import { expect } from 'chai';
+import { addDays, addMinutes, startOfDay, subDays, subMonths } from 'date-fns';
 import MockDate from 'mockdate';
-import moment from 'moment';
 import React from 'react';
 import { AppointmentList } from '..';
-import { createMockAppointment } from '../../tests/mocks/data';
-import { mockVAOSAppointmentsFetch } from '../../tests/mocks/helpers';
-import {
-  getVAOSAppointmentMock,
-  getVAOSRequestMock,
-} from '../../tests/mocks/mock';
+import MockAppointmentResponse from '../../tests/fixtures/MockAppointmentResponse';
+import MockFacilityResponse from '../../tests/fixtures/MockFacilityResponse';
+import { mockAppointmentsApi } from '../../tests/mocks/mockApis';
 import { getTestDate, renderWithStoreAndRouter } from '../../tests/mocks/setup';
+import { APPOINTMENT_STATUS } from '../../utils/constants';
 import PastAppointmentsPage from '../pages/PastAppointmentsPage';
 import RequestedAppointmentsPage from '../pages/RequestedAppointmentsPage/RequestedAppointmentsPage';
 
 describe('VAOS Backend Service Alert', () => {
-  const initialState = {
-    featureToggles: {
-      vaOnlineSchedulingVAOSServiceCCAppointments: true,
-      vaOnlineSchedulingVAOSServiceVAAppointments: true,
-      // eslint-disable-next-line camelcase
-      show_new_schedule_view_appointments_page: true,
-    },
-  };
+  const now = startOfDay(new Date());
+  const yesterday = subDays(now, 1);
+  const initialState = {};
 
   beforeEach(() => {
     mockFetch();
@@ -35,66 +28,36 @@ describe('VAOS Backend Service Alert', () => {
   });
 
   it('should display BackendAppointmentServiceAlert if there is a failure returned on the upcoming appointments list', async () => {
-    const appointmentTime = moment().add(1, 'days');
-    const start = moment()
-      .subtract(30, 'days')
-      .format('YYYY-MM-DD');
-    const end = moment()
-      .add(395, 'days')
-      .format('YYYY-MM-DD');
+    // Arrange
+    const start = subDays(now, 30);
+    const end = addDays(now, 395);
+    const appointment = new MockAppointmentResponse({
+      localStartTime: addDays(now, 1),
+      status: APPOINTMENT_STATUS.booked,
+    }).setLocation(new MockFacilityResponse());
 
-    const data = {
-      id: '01aa456cc',
-      kind: 'cc',
-      practitioners: [
-        {
-          identifier: [{ system: null, value: '123' }],
-          name: {
-            family: 'Medical Care',
-            given: ['Atlantic'],
-          },
-        },
-      ],
-      description: 'community care appointment',
-      comment: 'test comment',
-      start: appointmentTime,
-      communityCareProvider: {
-        providerName: 'Atlantic Medical Care',
-      },
-      serviceType: 'audiology',
-      reasonCode: {
-        text: 'test comment',
-      },
-    };
-    const appointment = createMockAppointment({
-      ...data,
-    });
-
-    mockVAOSAppointmentsFetch({
-      start: moment()
-        .subtract(120, 'days')
-        .format('YYYY-MM-DD'),
-      end: moment().format('YYYY-MM-DD'),
-      requests: [appointment],
+    mockAppointmentsApi({
+      start: subDays(now, 120),
+      end: addDays(now, 1),
+      response: [appointment],
       statuses: ['proposed', 'cancelled'],
     });
-
-    mockVAOSAppointmentsFetch({
+    mockAppointmentsApi({
       start,
       end,
-      requests: [appointment],
+      response: [appointment],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
       backendServiceFailures: true,
     });
 
+    // Act
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState,
     });
 
+    // Assert
     await waitFor(() => {
-      expect(global.document.title).to.equal(
-        `Appointments | VA online scheduling | Veterans Affairs`,
-      );
+      expect(global.document.title).to.equal(`Appointments | Veterans Affairs`);
     });
 
     await waitFor(() => {
@@ -104,183 +67,64 @@ describe('VAOS Backend Service Alert', () => {
   });
 
   it('should not display BackendAppointmentServiceAlert if there is no failure returned the upcoming appointments list', async () => {
-    const appointmentTime = moment().add(1, 'days');
-    const start = moment()
-      .subtract(30, 'days')
-      .format('YYYY-MM-DD');
-    const end = moment()
-      .add(395, 'days')
-      .format('YYYY-MM-DD');
-
-    const data = {
-      id: '01aa456cc',
-      kind: 'cc',
-      practitioners: [
-        {
-          identifier: [{ system: null, value: '123' }],
-          name: {
-            family: 'Medical Care',
-            given: ['Atlantic'],
-          },
-        },
-      ],
-      description: 'community care appointment',
-      comment: 'test comment',
-      start: appointmentTime,
-      communityCareProvider: {
-        providerName: 'Atlantic Medical Care',
-      },
-      serviceType: 'audiology',
-      reasonCode: {
-        text: 'test comment',
-      },
-    };
-    const appointment = createMockAppointment({
-      ...data,
+    // Arrange
+    const start = subDays(now, 30);
+    const end = addDays(now, 395);
+    const appointment = new MockAppointmentResponse({
+      localStartTime: addDays(now, 1),
+      status: APPOINTMENT_STATUS.booked,
     });
 
-    mockVAOSAppointmentsFetch({
+    mockAppointmentsApi({
       start,
       end,
-      requests: [appointment],
+      response: [appointment],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
-    mockVAOSAppointmentsFetch({
-      start: moment()
-        .subtract(4, 'months')
-        .format('YYYY-MM-DD'),
-      end: moment().format('YYYY-MM-DD'),
+    mockAppointmentsApi({
+      start: subDays(now, 120),
+      end: now,
       statuses: ['proposed', 'cancelled'],
-      requests: [appointment],
+      response: [appointment],
     });
 
+    // Act
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState,
     });
 
+    // Assert
     await waitFor(() => {
-      expect(global.document.title).to.equal(
-        `Appointments | VA online scheduling | Veterans Affairs`,
-      );
+      expect(global.document.title).to.equal(`Appointments | Veterans Affairs`);
     });
 
     expect(screen.queryByTestId('backend-appointment-service-alert')).to.not
       .exist;
   });
 
-  it('should display BackendAppointmentServiceAlert if there is a failure returned on the past appointments list, useFeSourceOfTruthVA=false', async () => {
-    const now = moment().startOf('day');
-    const start = moment(now).subtract(3, 'months');
-    const end = moment()
-      .minutes(0)
-      .add(30, 'minutes');
+  it('should not display BackendAppointmentServiceAlert if there is no failure returned on the past appointments list', async () => {
+    // Arrange
+    const start = subMonths(now, 3);
+    const end = addMinutes(now.setMinutes(0), 30);
+    const appointment = new MockAppointmentResponse({
+      localStartTime: yesterday,
+      status: APPOINTMENT_STATUS.booked,
+    }).setLocation(new MockFacilityResponse());
 
-    const yesterday = moment.utc().subtract(1, 'day');
-    const appointment = getVAOSAppointmentMock();
-    appointment.id = '123';
-    appointment.attributes = {
-      ...appointment.attributes,
-      minutesDuration: 30,
-      status: 'booked',
-      localStartTime: yesterday.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
-      start: yesterday.format(),
-      locationId: '983',
-      location: {
-        id: '983',
-        type: 'appointments',
-        attributes: {
-          id: '983',
-          vistaSite: '983',
-          name: 'Cheyenne VA Medical Center',
-          lat: 39.744507,
-          long: -104.830956,
-          phone: { main: '307-778-7550' },
-          physicalAddress: {
-            line: ['2360 East Pershing Boulevard'],
-            city: 'Cheyenne',
-            state: 'WY',
-            postalCode: '82001-5356',
-          },
-        },
-      },
-    };
-
-    mockVAOSAppointmentsFetch({
-      start: start.format('YYYY-MM-DD'),
-      end: end.format('YYYY-MM-DD'),
-      requests: [appointment],
+    mockAppointmentsApi({
+      end,
+      includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
+      response: [appointment],
+      start,
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-      backendServiceFailures: true,
-      avs: true,
-      fetchClaimStatus: true,
     });
 
+    // Act
     const screen = renderWithStoreAndRouter(<PastAppointmentsPage />, {
       initialState,
     });
 
-    await waitFor(() => {
-      expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
-    });
-
-    await waitFor(() => {
-      expect(screen.queryByTestId('backend-appointment-service-alert')).to
-        .exist;
-    });
-  });
-
-  it('should not display BackendAppointmentServiceAlert if there is no failure returned on the past appointments list, useFeSourceOfTruthVA=true', async () => {
-    const now = moment().startOf('day');
-    const start = moment(now).subtract(3, 'months');
-    const end = moment()
-      .minutes(0)
-      .add(30, 'minutes');
-
-    const yesterday = moment.utc().subtract(1, 'day');
-    const appointment = getVAOSAppointmentMock();
-    appointment.id = '123';
-    appointment.attributes = {
-      ...appointment.attributes,
-      type: 'VA',
-      minutesDuration: 30,
-      status: 'booked',
-      localStartTime: yesterday.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
-      start: yesterday.format(),
-      locationId: '983',
-      location: {
-        id: '983',
-        type: 'appointments',
-        attributes: {
-          id: '983',
-          vistaSite: '983',
-          name: 'Cheyenne VA Medical Center',
-          lat: 39.744507,
-          long: -104.830956,
-          phone: { main: '307-778-7550' },
-          physicalAddress: {
-            line: ['2360 East Pershing Boulevard'],
-            city: 'Cheyenne',
-            state: 'WY',
-            postalCode: '82001-5356',
-          },
-        },
-      },
-    };
-
-    mockVAOSAppointmentsFetch({
-      start: start.format('YYYY-MM-DD'),
-      end: end.format('YYYY-MM-DD'),
-      requests: [appointment],
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-      backendServiceFailures: false,
-      avs: true,
-      fetchClaimStatus: true,
-    });
-
-    const screen = renderWithStoreAndRouter(<PastAppointmentsPage />, {
-      initialState,
-    });
-
+    // Assert
     await waitFor(() => {
       expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
     });
@@ -292,57 +136,28 @@ describe('VAOS Backend Service Alert', () => {
   });
 
   it('should not display BackendAppointmentServiceAlert if there is no failure returned on the past appointments list', async () => {
-    const now = moment().startOf('day');
-    const start = moment(now).subtract(3, 'months');
-    const end = moment()
-      .minutes(0)
-      .add(30, 'minutes');
+    // Arrange
+    const start = subMonths(now, 3);
+    const end = addMinutes(now.setMinutes(0), 30);
+    const appointment = new MockAppointmentResponse({
+      localStartTime: yesterday,
+      status: APPOINTMENT_STATUS.booked,
+    }).setLocation(new MockFacilityResponse());
 
-    const yesterday = moment.utc().subtract(1, 'day');
-    const appointment = getVAOSAppointmentMock();
-    appointment.id = '123';
-    appointment.attributes = {
-      ...appointment.attributes,
-      type: 'VA',
-      minutesDuration: 30,
-      status: 'booked',
-      localStartTime: yesterday.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
-      start: yesterday.format(),
-      locationId: '983',
-      location: {
-        id: '983',
-        type: 'appointments',
-        attributes: {
-          id: '983',
-          vistaSite: '983',
-          name: 'Cheyenne VA Medical Center',
-          lat: 39.744507,
-          long: -104.830956,
-          phone: { main: '307-778-7550' },
-          physicalAddress: {
-            line: ['2360 East Pershing Boulevard'],
-            city: 'Cheyenne',
-            state: 'WY',
-            postalCode: '82001-5356',
-          },
-        },
-      },
-    };
-
-    mockVAOSAppointmentsFetch({
-      start: start.format('YYYY-MM-DD'),
-      end: end.format('YYYY-MM-DD'),
-      requests: [appointment],
+    mockAppointmentsApi({
+      end,
+      includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
+      response: [appointment],
+      start,
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-      backendServiceFailures: false,
-      avs: true,
-      fetchClaimStatus: true,
     });
 
+    // Act
     const screen = renderWithStoreAndRouter(<PastAppointmentsPage />, {
       initialState,
     });
 
+    // Assert
     await waitFor(() => {
       expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
     });
@@ -354,84 +169,28 @@ describe('VAOS Backend Service Alert', () => {
   });
 
   it('should display BackendAppointmentServiceAlert if there is a failure returned on the pending appointments list', async () => {
-    const startDate = moment.utc();
+    // Arrange
+    const appointment = new MockAppointmentResponse({
+      localStartTime: yesterday,
+      status: APPOINTMENT_STATUS.proposed,
+      pending: true,
+    }).setLocation(new MockFacilityResponse());
 
-    const appointment = getVAOSRequestMock();
-    appointment.id = '1234';
-    appointment.attributes = {
-      comment: 'A message from the patient',
-      contact: {
-        telecom: [
-          { type: 'phone', value: '2125551212' },
-          { type: 'email', value: 'veteranemailtest@va.gov' },
-        ],
-      },
-      kind: 'clinic',
-      locationId: '983',
-      location: {
-        id: '983',
-        type: 'appointments',
-        attributes: {
-          id: '983',
-          vistaSite: '983',
-          name: 'Cheyenne VA Medical Center',
-          lat: 39.744507,
-          long: -104.830956,
-          phone: { main: '307-778-7550' },
-          physicalAddress: {
-            line: ['2360 East Pershing Boulevard'],
-            city: 'Cheyenne',
-            state: 'WY',
-            postalCode: '82001-5356',
-          },
-        },
-      },
-
-      id: '1234',
-      preferredTimesForPhoneCall: ['Morning'],
-      reasonCode: {
-        coding: [{ code: 'Routine Follow-up' }],
-        text: 'A message from the patient',
-      },
-      requestedPeriods: [
-        {
-          start: moment(startDate)
-            .add(3, 'days')
-            .format('YYYY-MM-DD'),
-        },
-        {
-          start: moment(startDate)
-            .add(4, 'days')
-            .format('YYYY-MM-DD'),
-        },
-      ],
-      serviceType: '323',
-      start: null,
-      status: 'proposed',
-    };
-
-    mockVAOSAppointmentsFetch({
-      start: moment()
-        .subtract(120, 'days')
-        .format('YYYY-MM-DD'),
-      end: moment()
-        .add(2, 'days')
-        .format('YYYY-MM-DD'),
+    mockAppointmentsApi({
+      start: subDays(now, 120),
+      end: addDays(now, 2),
       statuses: ['proposed', 'cancelled'],
-      requests: [appointment],
+      response: [appointment],
       backendServiceFailures: true,
     });
 
-    const screen = renderWithStoreAndRouter(<RequestedAppointmentsPage />, {
-      initialState: {
-        ...initialState,
-        featureToggles: {
-          ...initialState.featureToggles,
-          vaOnlineSchedulingVAOSServiceRequests: true,
-        },
-      },
-    });
+    // Act
+    const screen = renderWithStoreAndRouter(
+      <RequestedAppointmentsPage />,
+      initialState,
+    );
 
+    // Assert
     await waitFor(() => {
       expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
     });
@@ -443,84 +202,28 @@ describe('VAOS Backend Service Alert', () => {
   });
 
   it('should not display BackendAppointmentServiceAlert if there no failure returned on the pending appointments list', async () => {
-    const startDate = moment.utc();
+    // Arrange
+    const appointment = new MockAppointmentResponse({
+      localStartTime: yesterday,
+      status: APPOINTMENT_STATUS.proposed,
+      pending: true,
+    }).setLocation(new MockFacilityResponse());
 
-    const appointment = getVAOSRequestMock();
-    appointment.id = '1234';
-    appointment.attributes = {
-      comment: 'A message from the patient',
-      contact: {
-        telecom: [
-          { type: 'phone', value: '2125551212' },
-          { type: 'email', value: 'veteranemailtest@va.gov' },
-        ],
-      },
-      kind: 'clinic',
-      locationId: '983',
-      location: {
-        id: '983',
-        type: 'appointments',
-        attributes: {
-          id: '983',
-          vistaSite: '983',
-          name: 'Cheyenne VA Medical Center',
-          lat: 39.744507,
-          long: -104.830956,
-          phone: { main: '307-778-7550' },
-          physicalAddress: {
-            line: ['2360 East Pershing Boulevard'],
-            city: 'Cheyenne',
-            state: 'WY',
-            postalCode: '82001-5356',
-          },
-        },
-      },
-
-      id: '1234',
-      preferredTimesForPhoneCall: ['Morning'],
-      reasonCode: {
-        coding: [{ code: 'Routine Follow-up' }],
-        text: 'A message from the patient',
-      },
-      requestedPeriods: [
-        {
-          start: moment(startDate)
-            .add(3, 'days')
-            .format('YYYY-MM-DD'),
-        },
-        {
-          start: moment(startDate)
-            .add(4, 'days')
-            .format('YYYY-MM-DD'),
-        },
-      ],
-      serviceType: '323',
-      start: null,
-      status: 'proposed',
-    };
-
-    mockVAOSAppointmentsFetch({
-      start: moment()
-        .subtract(120, 'days')
-        .format('YYYY-MM-DD'),
-      end: moment()
-        .add(2, 'days')
-        .format('YYYY-MM-DD'),
+    mockAppointmentsApi({
+      start: subDays(now, 120),
+      end: addDays(now, 2),
       statuses: ['proposed', 'cancelled'],
-      requests: [appointment],
+      response: [appointment],
       backendServiceFailures: false,
     });
 
-    const screen = renderWithStoreAndRouter(<RequestedAppointmentsPage />, {
-      initialState: {
-        ...initialState,
-        featureToggles: {
-          ...initialState.featureToggles,
-          vaOnlineSchedulingVAOSServiceRequests: true,
-        },
-      },
-    });
+    // Act
+    const screen = renderWithStoreAndRouter(
+      <RequestedAppointmentsPage />,
+      initialState,
+    );
 
+    // Assert
     await waitFor(() => {
       expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
     });

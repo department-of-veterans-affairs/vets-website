@@ -9,7 +9,8 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import PercentageCalc from '../components/PercentageCalc';
 import CustomReviewField from '../ReviewPage/CustomReviewField';
-import { isDateThirtyDaysOld } from '../utilities';
+import { isDateThirtyDaysOld, isValidStudentRatio } from '../utilities';
+import RatioExceedMessage from '../components/RatioExceedMessage';
 
 export default {
   uiSchema: {
@@ -23,6 +24,15 @@ export default {
               'Please enter the number of beneficiary students at your institution',
           },
         }),
+        'ui:validations': [
+          (errors, fieldData, formData) => {
+            if (!isValidStudentRatio(formData)) {
+              errors.addError(
+                'The calculation percentage exceeds 35%. Please check your numbers, and if you believe this calculation is an error, contact your ELR',
+              );
+            }
+          },
+        ],
       },
       numOfStudent: {
         ...numberUI({
@@ -31,6 +41,19 @@ export default {
             required: 'Please enter the total number of students',
           },
         }),
+        'ui:validations': [
+          (errors, fieldData, formData) => {
+            const numOfStudent = Number(fieldData);
+            const beneficiaryStudent = Number(
+              formData?.studentRatioCalcChapter?.beneficiaryStudent,
+            );
+            if (numOfStudent < beneficiaryStudent) {
+              errors.addError(
+                'Number of VA beneficiaries cannot surpass the total number of students',
+              );
+            }
+          },
+        ],
       },
       studentPercentageCalc: {
         'ui:title': 'VA beneficiary students percentage (calculated)',
@@ -44,7 +67,7 @@ export default {
         ...currentOrPastDateUI({
           title: 'Date of calculation',
           hint:
-            'Provide the date that the 35% calculation was completed. This must be within 30 calendar days of the term start date.',
+            'Provide the date the 35% calculation was performed. This date must be on or after but not later than 30 days after the start of the term.',
           errorMessages: {
             required: 'Please enter a date',
           },
@@ -62,6 +85,14 @@ export default {
           },
         ],
       },
+      'view:ratioExceedMessage': {
+        'ui:description': RatioExceedMessage,
+        'ui:options': {
+          hideIf: formData => {
+            return isValidStudentRatio(formData);
+          },
+        },
+      },
     },
   },
   schema: {
@@ -76,6 +107,7 @@ export default {
             type: 'number',
           },
           dateOfCalculation: currentOrPastDateSchema,
+          'view:ratioExceedMessage': { type: 'object', properties: {} },
         },
         required: ['beneficiaryStudent', 'numOfStudent', 'dateOfCalculation'],
       },

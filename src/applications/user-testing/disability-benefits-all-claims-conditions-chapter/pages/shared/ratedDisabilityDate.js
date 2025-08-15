@@ -1,28 +1,59 @@
+import { useEffect } from 'react';
 import {
   arrayBuilderItemSubsequentPageTitleUI,
-  currentOrPastMonthYearDateSchema,
-  currentOrPastMonthYearDateUI,
+  currentOrPastDateSchema,
+  currentOrPastDateUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+
+import {
+  addStyleToShadowDomOnPages,
+  ForceFieldBlur,
+  validateApproximateDate,
+} from './utils';
+
+// Hides the built-in “For example: January 19 2000”
+const HideDefaultDateHint = () => {
+  useEffect(() => {
+    // Inject the style into every <va-memorable-date> on the page
+    addStyleToShadowDomOnPages(
+      [''],
+      ['va-memorable-date'],
+      '#dateHint {display:none}',
+    );
+  }, []);
+
+  return null; // nothing visual – side-effect only
+};
+
+const baseDateUI = currentOrPastDateUI({
+  title: 'When did your condition get worse?',
+  hint:
+    "You can share an approximate date. If your condition started in the winter of 2020, you'd enter December 1, 2020.",
+});
 
 /** @returns {PageSchema} */
 const ratedDisabilityDatePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) => `Start date of ${formData?.ratedDisability} worsening`,
+      ({ formData }) =>
+        `${formData?.ratedDisability || 'service-connected disability'}`,
     ),
-    // TODO: Can we make just year required?
-    // Could use month-optional https://design.va.gov/storybook/?path=/story/components-va-date--month-optional
-    // TODO: Why is there the empty option when both are required?
-    conditionDate: currentOrPastMonthYearDateUI({
-      title: 'What’s the approximate date your disability worsened?',
-      hint:
-        'For example, if you got a rating for back pain in 2018 but noticed increased issues in late 2020, you would enter December 2020',
-    }),
+    conditionDate: {
+      ...baseDateUI,
+      // run the effect here
+      'ui:description': HideDefaultDateHint,
+      'ui:validations': [validateApproximateDate],
+    },
+    // Aim is to trigger internal VA form field update logic
+    _forceFieldBlur: {
+      'ui:field': ForceFieldBlur,
+    },
   },
   schema: {
     type: 'object',
     properties: {
-      conditionDate: currentOrPastMonthYearDateSchema,
+      conditionDate: currentOrPastDateSchema,
+      _forceFieldBlur: { type: 'boolean' }, // Required for ForceFieldBlur to render
     },
   },
 };

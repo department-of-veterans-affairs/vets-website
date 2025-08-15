@@ -171,6 +171,7 @@ To **open the Cypress test runner UI in Codespaces and run any tests within it**
 ```sh
 yarn cy:open-codespaces
 ```
+
 Then visit http://localhost:6080/ and log in with the password `vscode`.
 
 To **run Cypress tests from the command line**:
@@ -218,15 +219,6 @@ Afterward, check `/mochawesome-report` contents.
 
 **For other options with `yarn cy:run`,** [the same options for `cypress run` are applicable](https://docs.cypress.io/guides/guides/command-line.html#Commands).
 
-## Changing Virtual Agent backend URL
-
-If not already create a `.env` file in the root of the project and add
-the following while updating the URL
-
-```
-VIRTUAL_AGENT_BACKEND_URL=https://some.url.com
-```
-
 ## Running a mock API for local development
 
 In separate terminal from your local dev server, run
@@ -271,10 +263,11 @@ for doing very specific things.
 | run the site for local development with automatic rebuilding of Javascript and sass **with** css sourcemaps | `yarn watch:css-sourcemaps` then visit `http://localhost:3001/`. You may also set `--env buildtype` and `NODE_ENV` though setting `NODE_ENV` to production will make incremental builds slow.                                             |
 | run the site for local development with automatic rebuilding of code and styles for specific **apps**       | `yarn watch --env entry=disability-benefits,static-pages`. Valid application names are in each app's `manifest.json` under `entryName`                                                                                                    |
 | run the site so that devices on your local network can access it                                            | `yarn watch --env host=0.0.0.0 --env public=192.168.x.x:3001` Note that we use CORS to limit what hosts can access different APIs, so accessing with a `192.168.x.x` address may run into problems                                        |
-| run the site so that it can be accessed from a public codespaces URL                                        | `yarn watch --env api=https://${CODESPACE_NAME}-3000.app.github.dev public=https://${CODESPACE_NAME}-3001.app.github.dev` (only works from a codespaces terminal with mocks running and public port visibility) |
+| run the site so that it can be accessed from a public codespaces URL                                        | `yarn watch --env api=https://${CODESPACE_NAME}-3000.app.github.dev public=https://${CODESPACE_NAME}-3001.app.github.dev` (only works from a codespaces terminal with mocks running and public port visibility)                           |
 | watch file changes without starting the server                                                              | `yarn watch:no-server`                                                                                                                                                                                                                    |
 | run all unit tests and watch                                                                                | `yarn test:watch`                                                                                                                                                                                                                         |
 | run only E2E tests (headless)                                                                               | Make sure the site is running locally (`yarn watch`) and run the tests with `yarn cy:run`                                                                                                                                                 |
+| run only E2E tests (headless) in Codespaces                                                                | Make sure the site is running locally (`yarn watch`) and set up virtual display: `export DISPLAY=:99 && Xvfb :99 -screen 0 1024x768x24 -ac +extension GLX +render -noreset &` then run `export DISPLAY=:99 && yarn cy:run`        |
 | run E2E tests in the browser                                                                                | `yarn cy:open`                                                                                                                                                                                                                            |
 | count all Cypress E2E specs                                                                                 | `yarn cy:count`                                                                                                                                                                                                                           |
 | run all linters                                                                                             | `yarn lint`                                                                                                                                                                                                                               |
@@ -284,9 +277,7 @@ for doing very specific things.
 | add new npm modules                                                                                         | `yarn add my-module`. Use the `--dev` flag for modules that are build or test related.                                                                                                                                                    |
 | get the latest json schema                                                                                  | `yarn update:schema`. This updates our [`vets-json-schema`](https://github.com/department-of-veterans-affairs/vets-json-schema) to the most recent commit.                                                                                |
 | check test coverage                                                                                         | `yarn test:coverage`                                                                                                                                                                                                                      |
-| run bundle analyzer on our production JS bundles                                                            | `yarn build-analyze`                                                                                                                                                                                                                      |
-| generate a stats file for analysis by bundle analyzer                                                       | `NODE_ENV=production yarn build:webpack --env buildtype=vagovprod --env analyzer`.                                                                                                                                                        |
-| load the analyzer tool on a stats file                                                                      | `yarn analyze`                                                                                                                                                                                                                            |
+| run [statoscope](https://github.com/statoscope/statoscope) on your app                                      | `yarn build-analyze-app static-pages`                                                                                                                                                                                                                       |
 | add a new React app                                                                                         | `yarn new:app` (make sure you have [`vagov-content`](https://github.com/department-of-veterans-affairs/vagov-content/) and [`content-build`](https://github.com/department-of-veterans-affairs/content-build/) sibling to `vets-website`) |
 
 ## Supported Browsers
@@ -312,5 +303,6 @@ Create a .env file in the root of vets-website, and assign the above token to a 
 1. [Using yarn Workspaces](https://depo-platform-documentation.scrollhelp.site/developer-docs/yarn-workspaces)
 
 ## Not a member of the repository and want to be added?
+
 - If you're on a VA.gov Platform team, contact your Program Manager.
 - If you're on a VFS team, you must complete [Platform Orientation](https://depo-platform-documentation.scrollhelp.site/getting-started/platform-orientation) to be added to this repository. This includes completing your Platform Orientation ticket(s) in GitHub.

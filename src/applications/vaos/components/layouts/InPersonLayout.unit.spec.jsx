@@ -1,17 +1,20 @@
-import React from 'react';
 import { expect } from 'chai';
-import moment from 'moment';
+import { subDays } from 'date-fns';
+import React from 'react';
+import MockAppointmentResponse from '../../tests/fixtures/MockAppointmentResponse';
+import MockFacilityResponse from '../../tests/fixtures/MockFacilityResponse';
 import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../tests/mocks/setup';
+import { APPOINTMENT_STATUS } from '../../utils/constants';
 import InPersonLayout from './InPersonLayout';
 
 describe('VAOS Component: InPersonLayout', () => {
   const initialState = {
     appointments: {
       facilityData: {
-        '983': {
+        983: {
           address: {
             line: ['2360 East Pershing Boulevard'],
             city: 'Cheyenne',
@@ -42,24 +45,13 @@ describe('VAOS Component: InPersonLayout', () => {
         },
       };
       const store = createTestStore(state);
-
-      const appointment = {
-        location: {
-          vistaId: '983',
-          clinicId: '848',
-          stationId: '983',
-          clinicName: 'CHY PC VAR2',
-        },
-        videoData: {},
-        vaos: {
-          isCommunityCare: false,
-          isCompAndPenAppointment: false,
-          isCOVIDVaccine: false,
-          isPendingAppointment: false,
-          isUpcomingAppointment: true,
-        },
-        status: 'booked',
-      };
+      const response = MockAppointmentResponse.createVAResponse({
+        localStartTime: new Date(),
+        status: APPOINTMENT_STATUS.booked,
+      });
+      const appointment = MockAppointmentResponse.getTransformedResponse(
+        response,
+      );
 
       // Act
       const screen = renderWithStoreAndRouter(
@@ -92,19 +84,13 @@ describe('VAOS Component: InPersonLayout', () => {
         },
       };
       const store = createTestStore(state);
-
-      const appointment = {
-        location: {},
-        videoData: {},
-        vaos: {
-          isCommunityCare: false,
-          isCompAndPenAppointment: false,
-          isCOVIDVaccine: false,
-          isPendingAppointment: false,
-          isUpcomingAppointment: true,
-        },
-        status: 'booked',
-      };
+      const response = MockAppointmentResponse.createVAResponse({
+        localStartTime: new Date(),
+        status: APPOINTMENT_STATUS.booked,
+      }).setLocationId(null);
+      const appointment = MockAppointmentResponse.getTransformedResponse(
+        response,
+      );
 
       // Act
       const screen = renderWithStoreAndRouter(
@@ -131,26 +117,23 @@ describe('VAOS Component: InPersonLayout', () => {
     it('should not display heading and text for empty data', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const appointment = {
-        type: 'VA',
-        modality: 'vaInPerson',
-        videoData: {},
-        vaos: {
-          isCommunityCare: false,
-          isCompAndPenAppointment: false,
-          isCOVIDVaccine: false,
-          isPendingAppointment: false,
-          isUpcomingAppointment: true,
-          isCerner: false,
-          apiData: {},
-        },
-        status: 'booked',
-      };
       const nullAttributes = {
         type: 'VA',
         modality: 'vaInPerson',
         isCerner: false,
+        'fields-load-success': '',
+        'fields-load-fail':
+          'type-of-care,provider,clinic-phone,facility-id,facility-details,facility-phone',
       };
+      const response = MockAppointmentResponse.createVAResponse({
+        localStartTime: new Date(),
+        status: APPOINTMENT_STATUS.booked,
+      })
+        .setLocationId(null)
+        .setTypeOfCare(null);
+      const appointment = MockAppointmentResponse.getTransformedResponse(
+        response,
+      );
 
       // Act
       const screen = renderWithStoreAndRouter(
@@ -189,54 +172,8 @@ describe('VAOS Component: InPersonLayout', () => {
           );
         }),
       );
-
       expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-total',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-any',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-type-of-care',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-type-of-care',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-provider',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-provider',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-clinic-phone',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-clinic-phone',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-facility-id',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-facility-id',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-facility-details',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-facility-details',
-        ...nullAttributes,
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-facility-phone',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-missing-facility-phone',
+        event: 'vaos-null-states',
         ...nullAttributes,
       });
     });
@@ -244,23 +181,16 @@ describe('VAOS Component: InPersonLayout', () => {
     it('should display facility phone when clinic phone is missing', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const appointment = {
-        location: {
-          stationId: '983',
-        },
-        videoData: {},
-        vaos: {
-          isCommunityCare: false,
-          isCompAndPenAppointment: false,
-          isCOVIDVaccine: false,
-          isPendingAppointment: false,
-          isUpcomingAppointment: true,
-          apiData: {},
-        },
-        status: 'booked',
-      };
 
       // Act
+      const response = MockAppointmentResponse.createVAResponse({
+        localStartTime: new Date(),
+        status: APPOINTMENT_STATUS.booked,
+      }).setLocation(new MockFacilityResponse());
+      const appointment = MockAppointmentResponse.getTransformedResponse(
+        response,
+      );
+
       const screen = renderWithStoreAndRouter(
         <InPersonLayout data={appointment} />,
         {
@@ -275,27 +205,23 @@ describe('VAOS Component: InPersonLayout', () => {
     it('should display display VA main phone when facility id is missing', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const appointment = {
-        location: {},
-        videoData: {},
-        vaos: {
-          isCommunityCare: false,
-          isCompAndPenAppointment: false,
-          isCOVIDVaccine: false,
-          isPendingAppointment: false,
-          isUpcomingAppointment: true,
-          apiData: {},
-        },
-        status: 'booked',
-      };
 
       // Act
+      const response = MockAppointmentResponse.createVAResponse({
+        localStartTime: new Date(),
+        status: APPOINTMENT_STATUS.booked,
+      }).setLocationId(null);
+      const appointment = MockAppointmentResponse.getTransformedResponse(
+        response,
+      );
+
       const screen = renderWithStoreAndRouter(
         <InPersonLayout data={appointment} />,
         {
           store,
         },
       );
+
       // Assert
       expect(
         screen.container.querySelector('va-telephone[contact="800-698-2411"]'),
@@ -307,37 +233,29 @@ describe('VAOS Component: InPersonLayout', () => {
     it('should display in-person layout', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const appointment = {
-        reasonForAppointment: 'This is a test',
-        patientComments: 'Additional information:colon',
-        practitioners: [
-          {
-            name: {
-              family: 'User',
-              given: ['Test'],
-            },
-          },
-        ],
-        location: {
-          stationId: '983',
-          clinicName: 'Clinic 1',
-          clinicPhysicalLocation: 'CHEYENNE',
-          clinicPhone: '500-500-5000',
-          clinicPhoneExtension: '1234',
-        },
-        videoData: {},
-        vaos: {
-          isCommunityCare: false,
-          isCompAndPenAppointment: false,
-          isCOVIDVaccine: false,
-          isPendingAppointment: false,
-          isUpcomingAppointment: true,
-          isCancellable: true,
-          apiData: {
-            serviceType: 'primaryCare',
-          },
-        },
-        status: 'booked',
+      const response = MockAppointmentResponse.createVAResponse({
+        localStartTime: new Date(),
+        status: APPOINTMENT_STATUS.booked,
+      })
+        .setCancellable(true)
+        .setClinicPhoneNumber('500-500-5000')
+        .setClinicPhoneNumberExtension('1234')
+        .setLocation(new MockFacilityResponse())
+        .setPatientComments('Additional information:colon')
+        .setPhysicalLocation('CHEYENNE')
+        .setPractitioner()
+        .setReasonForAppointment('This is a test')
+        .setServiceName('Clinic 1');
+      const appointment = MockAppointmentResponse.getTransformedResponse(
+        response,
+      );
+      const nullAttributes = {
+        type: 'VA',
+        modality: 'vaInPerson',
+        isCerner: false,
+        'fields-load-success':
+          'type-of-care,provider,clinic-phone,facility-id,facility-details,facility-phone',
+        'fields-load-fail': '',
       };
 
       // Act
@@ -364,7 +282,7 @@ describe('VAOS Component: InPersonLayout', () => {
       expect(screen.getByText(/Primary care/i));
 
       expect(screen.getByRole('heading', { level: 2, name: /Who/i }));
-      expect(screen.getByText(/Test User/i));
+      expect(screen.getByText(/Test Prov/i));
 
       expect(
         screen.getByRole('heading', { level: 2, name: /Where to attend/i }),
@@ -400,7 +318,7 @@ describe('VAOS Component: InPersonLayout', () => {
       );
       expect(
         screen.getByText(
-          /Bring your insurance cards. And bring a list of your medications and other information to share with your provider./i,
+          /Bring your insurance cards, a list of your medications, and other things to share with your provider/i,
         ),
       );
       expect(
@@ -410,7 +328,7 @@ describe('VAOS Component: InPersonLayout', () => {
       ).to.be.ok;
       expect(
         screen.container.querySelector(
-          'va-link[text="Find a full list of things to bring to your appointment"]',
+          'va-link[text="Find out what to bring to your appointment"]',
         ),
       ).to.be.ok;
 
@@ -429,74 +347,26 @@ describe('VAOS Component: InPersonLayout', () => {
       ).to.be.ok;
 
       expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-total',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-any',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-type-of-care',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-type-of-care',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-provider',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-provider',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-clinic-phone',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-clinic-phone',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-facility-id',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-facility-id',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-facility-details',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-facility-details',
-      });
-      expect(window.dataLayer).to.deep.include({
-        event: 'vaos-null-states-expected-facility-phone',
-      });
-      expect(window.dataLayer).not.to.deep.include({
-        event: 'vaos-null-states-missing-facility-phone',
+        event: 'vaos-null-states',
+        ...nullAttributes,
       });
     });
 
     it('should display in-person layout without cancel button', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const appointment = {
-        reasonForAppointment: 'This is a test',
-        patientComments: 'Additional information:colon',
-        location: {
-          stationId: '983',
-          clinicName: 'Clinic 1',
-          clinicPhysicalLocation: 'CHEYENNE',
-        },
-        videoData: {},
-        vaos: {
-          isCommunityCare: false,
-          isCompAndPenAppointment: false,
-          isCOVIDVaccine: false,
-          isPendingAppointment: false,
-          isUpcomingAppointment: true,
-          isCancellable: false,
-          apiData: {
-            serviceType: 'primaryCare',
-          },
-        },
-        status: 'booked',
-      };
+      const response = MockAppointmentResponse.createVAResponse({
+        localStartTime: new Date(),
+        status: APPOINTMENT_STATUS.booked,
+      })
+        .setServiceName('Clinic 1')
+        .setLocation(new MockFacilityResponse())
+        .setPatientComments('Additional information:colon')
+        .setPhysicalLocation('CHEYENNE')
+        .setReasonForAppointment('This is a test');
+      const appointment = MockAppointmentResponse.getTransformedResponse(
+        response,
+      );
 
       // Act
       const screen = renderWithStoreAndRouter(
@@ -548,7 +418,7 @@ describe('VAOS Component: InPersonLayout', () => {
       );
       expect(
         screen.getByText(
-          /Bring your insurance cards. And bring a list of your medications and other information to share with your provider./i,
+          /Bring your insurance cards, a list of your medications, and other things to share with your provider/i,
         ),
       );
       expect(
@@ -558,7 +428,7 @@ describe('VAOS Component: InPersonLayout', () => {
       ).to.be.ok;
       expect(
         screen.container.querySelector(
-          'va-link[text="Find a full list of things to bring to your appointment"]',
+          'va-link[text="Find out what to bring to your appointment"]',
         ),
       ).to.be.ok;
 
@@ -582,29 +452,22 @@ describe('VAOS Component: InPersonLayout', () => {
     it('should display past in-person layout', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const appointment = {
-        reasonForAppointment: 'This is a test',
-        patientComments: 'Additional information:colon',
-        location: {
-          stationId: '983',
-          clinicName: 'Clinic 1',
-          clinicPhysicalLocation: 'CHEYENNE',
-          clinicPhone: '500-500-5000',
-          clinicPhoneExtension: '1234',
-        },
-        videoData: {},
-        vaos: {
-          isPastAppointment: true,
-          isCancellable: true,
-          apiData: {
-            localStartTime: moment()
-              .subtract(1, 'day')
-              .format('YYYY-MM-DDTHH:mm:ss'),
-            serviceType: 'primaryCare',
-          },
-        },
-        status: 'booked',
-      };
+      const response = MockAppointmentResponse.createVAResponse({
+        localStartTime: subDays(new Date(), 1),
+        past: true,
+        status: APPOINTMENT_STATUS.booked,
+      })
+        .setAfterVisitSummary('https://va.gov')
+        .setClinicPhoneNumber('500-500-5000')
+        .setClinicPhoneNumberExtension('1234')
+        .setServiceName('Clinic 1')
+        .setLocation(new MockFacilityResponse())
+        .setPatientComments('Additional information:colon')
+        .setPhysicalLocation('CHEYENNE')
+        .setReasonForAppointment('This is a test');
+      const appointment = MockAppointmentResponse.getTransformedResponse(
+        response,
+      );
 
       // Act
       const screen = renderWithStoreAndRouter(
@@ -675,26 +538,21 @@ describe('VAOS Component: InPersonLayout', () => {
     it('should display in-person when appointment is in the future', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const appointment = {
-        reasonForAppointment: 'This is a test',
-        patientComments: 'Additional information:colon',
-        location: {
-          stationId: '983',
-          clinicName: 'Clinic 1',
-          clinicPhysicalLocation: 'CHEYENNE',
-          clinicPhone: '500-500-5000',
-          clinicPhoneExtension: '1234',
-        },
-        videoData: {},
-        vaos: {
-          isUpcomingAppointment: true,
-          apiData: {
-            localStartTime: moment().format('YYYY-MM-DDTHH:mm:ss'),
-            serviceType: 'primaryCare',
-          },
-        },
-        status: 'cancelled',
-      };
+      const response = MockAppointmentResponse.createVAResponse({
+        localStartTime: new Date(),
+        future: true,
+        status: APPOINTMENT_STATUS.cancelled,
+      })
+        .setClinicPhoneNumber('500-500-5000')
+        .setClinicPhoneNumberExtension('1234')
+        .setServiceName('Clinic 1')
+        .setLocation(new MockFacilityResponse())
+        .setPatientComments('Additional information:colon')
+        .setPhysicalLocation('CHEYENNE')
+        .setReasonForAppointment('This is a test');
+      const appointment = MockAppointmentResponse.getTransformedResponse(
+        response,
+      );
 
       // Act
       const screen = renderWithStoreAndRouter(
@@ -713,7 +571,7 @@ describe('VAOS Component: InPersonLayout', () => {
       );
       expect(
         screen.getByText(
-          /If you want to reschedule, call us or schedule a new appointment online/i,
+          /If you still want this appointment, call your VA health facility to schedule./i,
         ),
       );
       expect(
@@ -754,7 +612,7 @@ describe('VAOS Component: InPersonLayout', () => {
       );
       expect(
         screen.getByText(
-          /Bring your insurance cards. And bring a list of your medications and other information to share with your provider./i,
+          /Bring your insurance cards, a list of your medications, and other things to share with your provider/i,
         ),
       );
       expect(
@@ -764,7 +622,7 @@ describe('VAOS Component: InPersonLayout', () => {
       ).to.be.ok;
       expect(
         screen.container.querySelector(
-          'va-link[text="Find a full list of things to bring to your appointment"]',
+          'va-link[text="Find out what to bring to your appointment"]',
         ),
       ).to.be.ok;
 
@@ -784,29 +642,23 @@ describe('VAOS Component: InPersonLayout', () => {
       ).not.exist;
     });
     it('should display in-person when appointment is in the past', async () => {
+      // Arrange
       const store = createTestStore(initialState);
-      const appointment = {
-        reasonForAppointment: 'This is a test',
-        patientComments: 'Additional information:colon',
-        location: {
-          stationId: '983',
-          clinicName: 'Clinic 1',
-          clinicPhysicalLocation: 'CHEYENNE',
-          clinicPhone: '500-500-5000',
-          clinicPhoneExtension: '1234',
-        },
-        videoData: {},
-        vaos: {
-          isPastAppointment: true,
-          apiData: {
-            localStartTime: moment()
-              .subtract(2, 'day')
-              .format('YYYY-MM-DDTHH:mm:ss'),
-            serviceType: 'primaryCare',
-          },
-        },
-        status: 'cancelled',
-      };
+      const response = MockAppointmentResponse.createVAResponse({
+        localStartTime: subDays(new Date(), 1),
+        past: true,
+        status: APPOINTMENT_STATUS.cancelled,
+      })
+        .setClinicPhoneNumber('500-500-5000')
+        .setClinicPhoneNumberExtension('1234')
+        .setServiceName('Clinic 1')
+        .setLocation(new MockFacilityResponse())
+        .setPatientComments('Additional information:colon')
+        .setPhysicalLocation('CHEYENNE')
+        .setReasonForAppointment('This is a test');
+      const appointment = MockAppointmentResponse.getTransformedResponse(
+        response,
+      );
 
       // Act
       const screen = renderWithStoreAndRouter(
@@ -825,7 +677,7 @@ describe('VAOS Component: InPersonLayout', () => {
       );
       expect(
         screen.getByText(
-          /If you want to reschedule, call us or schedule a new appointment online/i,
+          /If you still want this appointment, call your VA health facility to schedule./i,
         ),
       );
       expect(

@@ -8,6 +8,7 @@ import {
   EXTERNAL_APPS,
   GA,
   SIGNUP_TYPES,
+  CSP_IDS,
 } from 'platform/user/authentication/constants';
 import { externalApplicationsConfig } from 'platform/user/authentication/usip-config';
 import {
@@ -256,15 +257,18 @@ export const formatInfoCookie = cookieStringRaw => {
 export const getInfoToken = () => {
   if (!infoTokenExists()) return null;
 
-  return document.cookie
-    .split(';')
-    .map(cookie => cookie.split('='))
-    .reduce((_, [cookieKey, cookieValue]) => ({
-      ..._,
-      ...(cookieKey.includes(COOKIES.INFO_TOKEN) && {
-        ...formatInfoCookie(decodeURIComponent(cookieValue)),
-      }),
-    }));
+  const cookie = `; ${document.cookie}`;
+  const parts = cookie.split(`; ${COOKIES.INFO_TOKEN}=`);
+
+  if (parts.length === 2) {
+    const value = parts
+      .pop()
+      .split(';')
+      .shift();
+    return formatInfoCookie(decodeURIComponent(value));
+  }
+
+  return null;
 };
 
 export const removeInfoToken = () => {
@@ -334,3 +338,29 @@ export const logoutEvent = async (signInServiceName, wait = {}) => {
     teardownProfileSession();
   }
 };
+
+export function createOktaOAuthRequest({
+  clientId,
+  codeChallenge,
+  state,
+  loginType,
+}) {
+  const oAuthParams = {
+    [OAUTH_KEYS.CLIENT_ID]: encodeURIComponent(clientId),
+    [OAUTH_KEYS.ACR]: CSP_IDS.LOGIN_GOV === loginType ? 'ial2' : 'loa3',
+    [OAUTH_KEYS.STATE]: state,
+    [OAUTH_KEYS.RESPONSE_TYPE]: OAUTH_ALLOWED_PARAMS.CODE,
+    [OAUTH_KEYS.CODE_CHALLENGE]: codeChallenge,
+    [OAUTH_KEYS.CODE_CHALLENGE_METHOD]: OAUTH_ALLOWED_PARAMS.S256,
+  };
+
+  const url = new URL(API_SIGN_IN_SERVICE_URL({ type: loginType }));
+
+  Object.keys(oAuthParams).forEach(param =>
+    url.searchParams.append(param, oAuthParams[param]),
+  );
+
+  sessionStorage.setItem('ci', clientId);
+  recordEvent({ event: `login-attempted-${loginType}-oauth-${clientId}` });
+  return url.toString();
+}

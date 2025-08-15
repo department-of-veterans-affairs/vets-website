@@ -196,16 +196,7 @@ button:not([disabled]):focus {
 
 /* submit cancel btns div*/
 ._207sw0FPxzBQQBPqaDdUpd {
-  float: left !important;
-  margin-right: 10px;
-}
-
-/* swap button positioning */
-._207sw0FPxzBQQBPqaDdUpd._1wsMeNP_TDIxNDJlja6xcv > div:nth-child(2) {
-    order: 1;
-}
-._207sw0FPxzBQQBPqaDdUpd._1wsMeNP_TDIxNDJlja6xcv > div:nth-child(1) {
-    order: 2;
+  float: right !important;
 }
 
 ._207sw0FPxzBQQBPqaDdUpd button {
@@ -264,15 +255,33 @@ button:not([disabled]):focus {
   width: 139px !important;
 }
 
+.surveyBtn_close {
+  flex: 0 0 auto;
+  height: 48px !important;
+}
+
+/* Footer submit button */
 #survey-wrapper > form > footer > div._207sw0FPxzBQQBPqaDdUpd._1wsMeNP_TDIxNDJlja6xcv > div:nth-child(2) > button {
   width: 150px !important;
   height: 48px !important;
   font-size: 16px
 }
-#survey-wrapper > form > footer > div._207sw0FPxzBQQBPqaDdUpd._1wsMeNP_TDIxNDJlja6xcv > div._1RyEnl1pfp8YClxLIzLFFu > button {
+
+/* Footer close button */
+#survey-wrapper > form > footer > div._207sw0FPxzBQQBPqaDdUpd._1wsMeNP_TDIxNDJlja6xcv > div > button {
   width: 70px !important;
   height: 48px !important;
   font-size: 16px
+}
+
+/*thank you page close button for surveys 17, 34, 71, 77, 79*/
+._207sw0FPxzBQQBPqaDdUpd._2M4TF5Rxgvio1UclfnYMTm._2vQTmZC1KnAnSmSzTZL7tK>div {
+  margin-right: 40px !important
+}
+
+/*thank you page close button for surveys 21, 25, 43, 56, 57, 78, 80*/
+._1RyEnl1pfp8YClxLIzLFFu:has(> button[data-aut="button-close-typ"]) {
+  margin-right: 40px !important;
 }
 
 #survey-wrapper > form > main > fieldset._1BI5B2xY6xMD9hHPCMgWgM.pra_footer > div > p:nth-child(1) {
@@ -281,7 +290,9 @@ button:not([disabled]):focus {
 
 /* powered by div */
 ._10o3Ogtkx0b1R7N7tOe-dr {
-  padding-top: 80px !important
+  padding-top: 80px !important;
+  justify-content: end;
+  display: block !important;
 }
 
 /* very specific styles to override inline styling for mhv and avs surveys */

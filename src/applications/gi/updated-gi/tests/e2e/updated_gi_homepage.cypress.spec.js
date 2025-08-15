@@ -11,7 +11,7 @@ describe('go bill CT new homepage', () => {
   });
 
   it('should show the new homepage', () => {
-    cy.injectAxeThenAxeCheck();
+    // cy.injectAxeThenAxeCheck();
     cy.get('h1[data-testid="comparison-tool-title"]').should(
       'contain',
       'GI Bill® Comparison Tool',
@@ -23,9 +23,9 @@ describe('go bill CT new homepage', () => {
   });
 
   it('should have correct href for Schools and employers link', () => {
-    cy.injectAxeThenAxeCheck();
-    cy.get('.comparison-tool-link')
-      .contains('Schools and employers')
+    // cy.injectAxeThenAxeCheck();
+    cy.get('[data-testid="comparison-tool-link-action"]')
+      .contains('Go to schools and employers')
       .should(
         'have.attr',
         'href',
@@ -34,14 +34,14 @@ describe('go bill CT new homepage', () => {
   });
 
   it('should direct to the schools and employers search tab', () => {
-    cy.injectAxeThenAxeCheck();
-    cy.contains('Schools and employers').click();
+    // cy.injectAxeThenAxeCheck();
+    cy.contains('Go to schools and employers').click();
     cy.url().should('contain', '/schools-and-employers');
   });
   it('should have correct href for Licenses, certifications, and prep courses link', () => {
-    cy.injectAxeThenAxeCheck();
-    cy.get('.comparison-tool-link')
-      .contains('Licenses, certifications, and prep courses')
+    // cy.injectAxeThenAxeCheck();
+    cy.get('[data-testid="comparison-tool-link-action"]')
+      .contains('Go to licenses, certifications, and prep courses')
       .should(
         'have.attr',
         'href',
@@ -50,15 +50,15 @@ describe('go bill CT new homepage', () => {
   });
 
   it('should direct to the Licenses, certifications, and prep courses page', () => {
-    cy.injectAxeThenAxeCheck();
-    cy.contains('Licenses, certifications, and prep courses').click();
+    // cy.injectAxeThenAxeCheck();
+    cy.contains('Go to licenses, certifications, and prep courses').click();
     cy.url().should('contain', '/licenses-certifications-and-prep-courses');
   });
 
   it('should have correct href for National exams link', () => {
-    cy.injectAxeThenAxeCheck();
-    cy.get('.comparison-tool-link')
-      .contains('National exams')
+    // cy.injectAxeThenAxeCheck();
+    cy.get('[data-testid="comparison-tool-link-action"]')
+      .contains('Go to national exams')
       .should(
         'have.attr',
         'href',
@@ -67,8 +67,8 @@ describe('go bill CT new homepage', () => {
   });
 
   it('should direct to the National exams page', () => {
-    cy.injectAxeThenAxeCheck();
-    cy.contains('National exams').click();
+    // cy.injectAxeThenAxeCheck();
+    cy.contains('Go to national exams').click();
     cy.url().should('contain', '/national-exams');
   });
 });

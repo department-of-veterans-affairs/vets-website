@@ -9,9 +9,11 @@ const PROFILE_HREFS = [
   PROFILE_PATHS.CONTACTS,
   PROFILE_PATHS.MILITARY_INFORMATION,
   '/records/get-military-service-records/',
+  PROFILE_PATHS.VETERAN_STATUS_CARD,
   PROFILE_PATHS.DIRECT_DEPOSIT,
   '/va-payment-history/payments/',
   PROFILE_PATHS.NOTIFICATION_SETTINGS,
+  PROFILE_PATHS.PAPERLESS_DELIVERY,
   PROFILE_PATHS.ACCOUNT_SECURITY,
   'https://wallet.id.me/settings',
   PROFILE_PATHS.CONNECTED_APPLICATIONS,
@@ -21,7 +23,11 @@ describe('Profile - Hub page, Keyboard navigation', () => {
   it('should allow tabbing through all links on the page, in order', () => {
     cy.login(mockUser);
 
-    mockProfileLOA3(generateFeatureToggles());
+    mockProfileLOA3(
+      generateFeatureToggles({
+        profileShowPaperlessDelivery: true,
+      }),
+    );
 
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 

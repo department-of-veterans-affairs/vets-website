@@ -1,5 +1,5 @@
 import { objDiff, onReviewPage } from './utilities';
-import { makeHumanReadable, validateText } from '../../shared/utilities';
+import { makeHumanReadable } from '../../shared/utilities';
 
 /* 
 This validation checks if the `certProp` value matches the corresponding
@@ -99,41 +99,63 @@ export const certifierEmailValidation = (errors, page, formData) => {
 };
 
 /**
- * Runs `validateText` against all properties in an address object
- * to make sure they don't contain illegal characters (as defined in `validateText`).
- *
- * @param {Object} errors Formlib error objects corresponding to the address fields
- * @param {Object} page Form data accessible on the current page
- * @param {Object} formData All form fields and their data, or the current list loop item data
- * @param {String} addressProp keyname for the address property in
- * `formData` we want to access - can be omitted when checking an address prop in
- * a list loop item (see /applicant-mailing-address for example)
+ * Validates an applicant's date of marriage to sponsor is not before
+ * said applicant's date of birth.
+ * @param {Object} errors - The errors object for the current page
+ * @param {String} page - The current page data (a date string in format YYYY-MM-DD)
+ * @param {Object} formData - Full form data for this applicant
+ * @param {Object} _pattern - Regex used for validation (unreferenced)
+ * @param {Object} _msgText - Error message text (unreferenced)
+ * @param {Number} index - Current list loop item index (only present on review-and-submit page)
  */
-export const validAddressCharsOnly = (errors, page, formData, addressProp) => {
-  // Get address fields we want to check
-  const addressFields = addressProp ? formData[addressProp] : page; // if in list loop, page is just the address fields
-  // Iterate over all address properties and check all string values
-  // to make sure they don't violate our list of acceptable characters:
-  Object.keys(addressFields || {}).forEach(key => {
-    const val = addressFields[key];
-    if (typeof val === 'string') {
-      const res = validateText(addressFields[key]);
-      if (res) {
-        const targetErr = addressProp ? errors[addressProp][key] : errors[key];
-        targetErr.addError(res);
-      }
-    }
-  });
+export const validateMarriageAfterDob = (
+  errors,
+  page,
+  formData,
+  _pattern,
+  _msgText,
+  index,
+) => {
+  // Since formData is different on the review page vs within the list loop,
+  // use the presence of the index as a means to identify where we are.
+  // (index is null in the list loop, populated on review page)
+  const fd = formData?.applicants ? formData.applicants[index] : formData;
+
+  const difference = Date.parse(page) - Date.parse(fd?.applicantDob);
+
+  if (!Number.isNaN(difference) && difference <= 0) {
+    errors.addError("Date of marriage must be after applicant's date of birth");
+  }
 };
 
-export const sponsorAddressCleanValidation = (errors, page, formData) => {
-  return validAddressCharsOnly(errors, page, formData, 'sponsorAddress');
-};
+/**
+ * Validates an applicant's date of marriage to sponsor is not before
+ * the sponsor's date of birth.
+ * @param {Object} errors - The errors object for the current page
+ * @param {String} page - The current page data (a date string in format YYYY-MM-DD)
+ * @param {Object} formData - Full form data for this applicant
+ * @param {Object} _pattern - Regex used for validation (unreferenced)
+ * @param {Object} _msgText - Error message text (unreferenced)
+ * @param {Number} index - Current list loop item index (only present on review-and-submit page)
+ */
+export const validateMarriageAfterSponsorDob = (
+  errors,
+  page,
+  formData,
+  _pattern,
+  _msgText,
+  index,
+) => {
+  // Since formData is different on the review page vs within the list loop,
+  // use the presence of the index as a means to identify where we are.
+  // (index is null in the list loop, populated on review page)
+  const fd = formData?.applicants ? formData.applicants[index] : formData;
 
-export const certifierAddressCleanValidation = (errors, page, formData) => {
-  return validAddressCharsOnly(errors, page, formData, 'certifierAddress');
-};
+  // view:sponsorDob is added to applicant form data via the custom page
+  // entrypoint for this page.
+  const difference = Date.parse(page) - Date.parse(fd?.['view:sponsorDob']);
 
-export const applicantAddressCleanValidation = (errors, page, formData) => {
-  return validAddressCharsOnly(errors, page, formData);
+  if (!Number.isNaN(difference) && difference <= 0) {
+    errors.addError("Date of marriage must be after sponsor's date of birth");
+  }
 };

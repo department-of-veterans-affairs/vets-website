@@ -1,3 +1,5 @@
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+
 export const appendReportsFromLocalStorage = resultsArray => {
   const localReportsArray = localStorage.getItem('vaReports');
 
@@ -15,6 +17,14 @@ export const appendReportsFromLocalStorage = resultsArray => {
   }
 
   return resultsArray;
+};
+
+export const isProductionEnv = () => {
+  return (
+    !environment.BASE_URL.includes('localhost') &&
+    !window.DD_RUM?.getInitConfiguration() &&
+    !window.Mocha
+  );
 };
 
 /**

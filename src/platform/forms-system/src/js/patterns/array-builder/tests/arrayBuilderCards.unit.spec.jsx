@@ -99,11 +99,11 @@ describe('ArrayBuilderCards', () => {
   }
 
   it('should render proper text for ArrayBuilderCards', () => {
-    const { getByText, getText } = setupArrayBuilderCards({
+    const { container, getByText, getText } = setupArrayBuilderCards({
       arrayData: [{ name: 'Test' }],
     });
 
-    expect(getByText('Edit')).to.exist;
+    expect(container.querySelector('va-link[text="Edit"]')).to.exist;
     expect(getText.calledWith('cardDescription')).to.be.true;
     expect(getText.calledWith('getItemName')).to.be.true;
     expect(getByText('getItemName 1')).to.exist;
@@ -136,20 +136,21 @@ describe('ArrayBuilderCards', () => {
     expect($modal.getAttribute('visible')).to.eq('true');
     $modal.__events.primaryButtonClick();
     expect(setFormData.called).to.be.true;
-    expect(setFormData.args[0][0].employers).to.eql([]);
+    expect(setFormData.args[0][0].employers).to.be.undefined;
+    expect(setFormData.args[0][0]).to.contains({ otherData: 'test' });
     expect(onRemoveAll.called).to.be.true;
   });
 
   it('should pass full data into cardDescription', () => {
     const cardDescriptionSpy = sinon.spy();
     const getItemNameSpy = sinon.spy();
-    const { getByText, getText } = setupArrayBuilderCards({
+    const { container, getText } = setupArrayBuilderCards({
       arrayData: [{ name: 'Test' }],
       cardDescription: cardDescriptionSpy,
       getItemName: getItemNameSpy,
     });
 
-    expect(getByText('Edit')).to.exist;
+    expect(container.querySelector('va-link[text="Edit"]')).to.exist;
     expect(getText.calledWith('cardDescription')).to.be.true;
     expect(getText.calledWith('getItemName')).to.be.true;
     const functionArgs = [

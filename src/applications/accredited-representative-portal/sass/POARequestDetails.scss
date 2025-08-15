@@ -3,11 +3,34 @@
 .poa-request-details {
   width: 100%;
   @media (min-width: $small-desktop-screen) {
-    width: 1000px;
+    width: 960px;
   }
 
+  @media (min-width: $small-desktop-screen) {
+    &__h2 {
+      margin: 32px 0 24px;
+
+      &.is--authorization-h2 {
+        margin: 32px 0 8px;
+      }
+    }
+
+    &__h3 {
+      &.is--authorization-h3 {
+        margin: 32px 0 0;
+      }
+    }
+  }
+
+  &__visibility-hidden-dt {
+    display: none;
+    @media (min-width: $small-desktop-screen) {
+      visibility: hidden;
+      display: block;
+    }
+  }
   &__form {
-    padding: 35px 14px;
+    padding: 34px 38px;
     background-color: $vads-color-base-lightest;
     margin-top: 66px;
 
@@ -16,16 +39,14 @@
     }
 
     @media (min-width: $small-desktop-screen) {
-      max-width: 654px;
-      padding: 34px 87px 50px 38px;
       margin-top: 88px;
     }
 
     &-label {
       margin: 0;
+      max-width: 100%;
 
       p {
-        margin: 4px 0 14px;
         color: $vads-color-base;
       }
 
@@ -37,7 +58,6 @@
     }
 
     &-submit {
-      margin: 0;
       width: auto !important;
 
       @media (min-width: $small-desktop-screen) {
@@ -49,7 +69,7 @@
   &__divider {
     border-bottom: 1px solid $vads-color-base-light;
     width: 100%;
-    margin: 2rem 0;
+    margin: 28px 0;
     display: flex;
   }
 
@@ -63,11 +83,24 @@
     @media (min-width: $small-desktop-screen) {
       flex-direction: row;
       flex-wrap: wrap;
+      justify-content: space-evenly;
+
+      &--col {
+        margin: 0;
+        width: 780px;
+      }
     }
 
     &-item {
       @media (min-width: $small-desktop-screen) {
-        flex: 33%;
+        max-width: 350px;
+
+        &:first-child {
+          margin-right: auto;
+        }
+        &:last-child {
+          margin-left: auto;
+        }
       }
     }
 
@@ -76,15 +109,17 @@
 
       li {
         border-bottom: 1px solid $vads-color-base;
-        padding: 0 15px 8px;
+        padding: 8px 16px;
         margin: 0;
         display: flex;
         flex-direction: column;
+        max-width: 100%;
 
         @media (min-width: $small-desktop-screen) {
           flex-direction: row;
           height: 56px;
           align-items: center;
+          padding: 16px;
         }
 
         &:first-child {
@@ -92,10 +127,15 @@
         }
 
         p {
-          margin: 8px 0 0;
+          margin: 0;
           flex: 50%;
           &:first-child {
             font-weight: 700;
+            margin: 0 0 16px;
+
+            @media (min-width: $small-desktop-screen) {
+              margin: 0;
+            }
           }
 
           span {
@@ -120,8 +160,10 @@
     margin: 0;
 
     .poa-request__card-field--label & {
-      margin-left: 5px;
       font-weight: normal;
+      @media (min-width: $small-screen) {
+        margin-left: 5px;
+      }
     }
 
     .poa-request-details__list & {
@@ -138,7 +180,7 @@
   }
 
   &__header {
-    margin-bottom: 8px;
+    margin-bottom: 0;
   }
 
   &__name {
@@ -150,6 +192,7 @@
     font-family: inherit;
     @media (min-width: $small-desktop-screen) {
       font-size: 1.875rem;
+      margin: 24px 0;
     }
   }
 
@@ -191,7 +234,7 @@
   }
 
   &__info {
-    max-width: 650px;
+    max-width: 627px;
   }
 }
 .processing-date {

@@ -1,8 +1,8 @@
 {
-  "checkboxGroupGoals_setACareerPath": true,
-  "militaryServiceTotalTimeServed": "More than 3 years",
-  "militaryServiceCurrentlyServing": "No",
-  "separation": "UP_TO_6MO",
-  "characterOfDischarge": "honorable",
+  "checkboxGroupGoals_setACareerPath": "CAREER",
+  "militaryServiceTotalTimeServed": "OVER_3_YEARS",
+  "militaryServiceCurrentlyServing": "N",
+  "separation": "UP_TO_6_MONTHS",
+  "characterOfDischarge": "HONORABLE",
   "disabilityRating": "NOT_APPLIED"
 }

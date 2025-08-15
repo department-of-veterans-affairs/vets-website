@@ -1,0 +1,21 @@
+{
+  "confirmationCode": "123456",
+  "formName": "Application Request to Add and/or Remove Dependents",
+  "formData": {
+    "veteranSsn": "234232345",
+    "postalCode": "12345",
+    "veteranDateOfBirth": {},
+    "veteranFullName": {
+      "first": "John",
+      "last": "Veteran"
+    },
+    "claimantDateOfBirth": "1932-02-05",
+    "claimantFullName": {
+      "first": "John",
+      "last": "Claimant"
+    },
+    "vaFileNumber": "99999999",
+    "claimantSsn": "234232345",
+    "formNumber": "21-686c"
+  }
+}

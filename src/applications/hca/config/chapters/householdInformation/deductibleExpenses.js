@@ -1,12 +1,16 @@
+import {
+  titleUI,
+  descriptionUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { validateCurrency } from '../../../utils/validation';
-import { LAST_YEAR } from '../../../utils/constants';
+import { LAST_YEAR, replaceStrValues } from '../../../utils/helpers';
 import { FULL_SCHEMA } from '../../../utils/imports';
 import {
-  DeductibleExpensesDescription,
   EducationalExpensesDescription,
   MedicalExpensesDescription,
 } from '../../../components/FormDescriptions';
+import content from '../../../locales/en/content.json';
 
 const {
   deductibleEducationExpenses,
@@ -16,35 +20,45 @@ const {
 
 export default {
   uiSchema: {
-    'ui:title': DeductibleExpensesDescription,
+    ...titleUI(
+      replaceStrValues(content['household-info--expenses-title'], LAST_YEAR),
+      content['household-info--expenses-description'],
+    ),
     'view:deductibleMedicalExpenses': {
-      'ui:title': 'Non-reimbursable medical expenses',
-      'ui:description': MedicalExpensesDescription,
+      'ui:title': content['household-info--expenses-medical-title'],
+      ...descriptionUI(MedicalExpensesDescription),
       deductibleMedicalExpenses: {
         ...currencyUI(
-          `Enter the amount you or your spouse (if you’re married) paid in non-reimbursable medical expenses in ${LAST_YEAR}`,
+          replaceStrValues(
+            content['household-info--expenses-medical-label'],
+            LAST_YEAR,
+          ),
         ),
         'ui:validations': [validateCurrency],
       },
     },
     'view:deductibleEducationExpenses': {
-      'ui:title': 'College or vocational education expenses',
-      'ui:description': EducationalExpensesDescription,
+      'ui:title': content['household-info--expenses-education-title'],
+      ...descriptionUI(EducationalExpensesDescription),
       deductibleEducationExpenses: {
         ...currencyUI(
-          `Enter the amount you paid for your own college or vocational education in ${LAST_YEAR}`,
+          replaceStrValues(
+            content['household-info--expenses-education-label'],
+            LAST_YEAR,
+          ),
         ),
         'ui:validations': [validateCurrency],
       },
     },
     'view:deductibleFuneralExpenses': {
-      'ui:title':
-        'Funeral and burial expenses for a spouse or dependent who died',
-      'ui:description':
-        'Funeral and burial expenses are any payments made by you, like prepaid expenses.',
+      'ui:title': content['household-info--expenses-funeral-title'],
+      'ui:description': content['household-info--expenses-funeral-description'],
       deductibleFuneralExpenses: {
         ...currencyUI(
-          `Enter the amount you paid in funeral or burial expenses in ${LAST_YEAR}`,
+          replaceStrValues(
+            content['household-info--expenses-funeral-label'],
+            LAST_YEAR,
+          ),
         ),
         'ui:validations': [validateCurrency],
       },

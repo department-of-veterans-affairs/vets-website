@@ -46,11 +46,8 @@ describe('TravelClaimDetails', () => {
   let oldLocation;
   beforeEach(() => {
     oldLocation = global.window.location;
-    delete global.window.location;
-
-    global.window.location = {
-      replace: sinon.spy(),
-    };
+    global.window.location = {};
+    global.window.location.replace = sinon.spy();
   });
 
   afterEach(() => {
@@ -68,7 +65,12 @@ describe('TravelClaimDetails', () => {
 
     expect(
       screen.getByText(
-        /If you're eligible for reimbursement, we'll deposit your reimbursement in your bank account./i,
+        /If you’re eligible for reimbursement, we’ll deposit your reimbursement in your bank account./i,
+      ),
+    );
+    expect(
+      screen.getByText(
+        /Even if you already set up direct deposit for your VA benefits, you’ll need to set up another direct deposit for VA travel pay reimbursements./i,
       ),
     );
   });

@@ -1,3 +1,4 @@
+const fs = require('fs');
 const delay = require('mocker-api/lib/delay');
 
 const TOGGLE_NAMES = require('../../../../platform/utilities/feature-toggles/featureFlagNames.json');
@@ -19,7 +20,14 @@ const claimDetails = {
   v2: require('./travel-claim-details-v2.json'),
 };
 
+const maintenanceWindows = {
+  none: require('./maintenance-windows/none.json'),
+  enabled: require('./maintenance-windows/enabled.json'),
+};
+
 const responses = {
+  'OPTIONS /v0/maintenance_windows': 'OK',
+  'GET /v0/maintenance_windows': maintenanceWindows.none,
   'GET /v0/user': user.withAddress,
   'GET /v0/feature_toggles': {
     data: {
@@ -29,17 +37,33 @@ const responses = {
         { name: `${TOGGLE_NAMES.travelPayViewClaimDetails}`, value: true },
         { name: `${TOGGLE_NAMES.travelPaySubmitMileageExpense}`, value: true },
         { name: `${TOGGLE_NAMES.travelPayClaimsManagement}`, value: true },
+        {
+          name: `${TOGGLE_NAMES.travelPayClaimsManagementDecisionReason}`,
+          value: true,
+        },
       ],
     },
   },
   'GET /travel_pay/v0/claims': travelClaims,
+
+  // 'GET /travel_pay/v0/claims': (req, res) => {
+  //   return res.status(200).json({
+  //     metadata: {
+  //       status: 200,
+  //       pageNumber: 1,
+  //       totalRecordCount: 0,
+  //     },
+  //     data: [],
+  //   });
+  // },
+
   // 'GET /travel_pay/v0/claims': (req, res) => {
   //   return res.status(503).json({
   //     errors: [
   //       {
   //         title: 'Server error',
   //         status: 503,
-  //         detail: 'An unknown server error has occured.',
+  //         detail: 'An unknown server error has occurred.',
   //         code: 'VA900',
   //       },
   //     ],
@@ -114,5 +138,34 @@ const responses = {
   //     ],
   //   });
   // },
+
+  // Document download
+  'GET /travel_pay/v0/claims/:claimId/documents/:docId': (req, res) => {
+    // Error condition for screenshot-2 from the mock data
+    if (req.params.docId === '12fcfecc-5132-4c16-8a9a-7af07b714cd4') {
+      return res.status(503).json({
+        errors: [
+          {
+            title: 'Service unavailable',
+            status: 503,
+            detail: 'An unknown error has occured.',
+            code: 'VA900',
+          },
+        ],
+      });
+    }
+
+    // Absolute path to our mock docx file
+    const docx = fs.readFileSync(
+      'src/applications/travel-pay/services/mocks/sample-decision-letter.docx',
+    );
+    res.writeHead(200, {
+      'Content-Disposition': 'attachment; filename="Rejection Letter.docx"',
+      'Content-Type':
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'Content-Length': docx.length,
+    });
+    return res.end(Buffer.from(docx, 'binary'));
+  },
 };
 module.exports = delay(responses, 1000);

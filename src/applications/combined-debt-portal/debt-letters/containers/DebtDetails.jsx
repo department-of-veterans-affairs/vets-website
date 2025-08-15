@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import last from 'lodash/last';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { head } from 'lodash';
 import HowDoIPay from '../components/HowDoIPay';
 import NeedHelp from '../components/NeedHelp';
@@ -12,6 +13,7 @@ import {
   debtLettersShowLettersVBMS,
   showPaymentHistory,
   formatDate,
+  showOneThingPerPage,
 } from '../../combined/utils/helpers';
 import { getCurrentDebt, currency } from '../utils/page';
 import {
@@ -21,6 +23,7 @@ import {
 import DebtDetailsCard from '../components/DebtDetailsCard';
 import PaymentHistoryTable from '../components/PaymentHistoryTable';
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
+import Modals from '../../combined/components/Modals';
 
 const DebtDetails = () => {
   const { selectedDebt, debts } = useSelector(
@@ -32,6 +35,7 @@ const DebtDetails = () => {
 
   const whyContent = renderWhyMightIHaveThisDebt(currentDebt.deductionCode);
   const dateUpdated = last(currentDebt.debtHistory)?.date;
+
   const filteredHistory = currentDebt.debtHistory
     ?.filter(history => approvedLetterCodes.includes(history.letterCode))
     .reverse();
@@ -67,6 +71,10 @@ const DebtDetails = () => {
 
   const shouldShowPaymentHistory = useSelector(state =>
     showPaymentHistory(state),
+  );
+
+  const oneThingPerPageActive = useSelector(state =>
+    showOneThingPerPage(state),
   );
 
   if (Object.keys(currentDebt).length === 0) {
@@ -118,19 +126,31 @@ const DebtDetails = () => {
             .
           </p>
         )}
-        <DebtDetailsCard debt={currentDebt} />
-        {whyContent && (
-          <va-additional-info
-            trigger="Why might I have this debt?"
-            class="vads-u-margin-y--2"
-          >
-            {whyContent}
-          </va-additional-info>
+        <DebtDetailsCard debt={currentDebt} showOTPP={oneThingPerPageActive} />
+        {oneThingPerPageActive ? (
+          <va-accordion open-single>
+            <va-accordion-item header="Why might I have this debt?" id="first">
+              {whyContent}
+            </va-accordion-item>
+          </va-accordion>
+        ) : (
+          <>
+            <va-additional-info
+              trigger="Why might I have this debt?"
+              class="vads-u-margin-y--2"
+            >
+              {whyContent}
+            </va-additional-info>
+            <va-on-this-page />
+          </>
         )}
-        <va-on-this-page />
         {shouldShowPaymentHistory && (
           <div>
-            <h2 id="debtDetailsHeader" className="vads-u-margin-y--2">
+            <h2
+              id="debtDetailsHeader"
+              className="vads-u-margin-y--2"
+              data-testid="debt-details-header"
+            >
               Debt details
             </h2>
             <div className="mobile-lg:vads-u-display--flex small-screen:vads-u-justify-content--space-between medium-screen:vads-u-max-width--90">
@@ -161,6 +181,28 @@ const DebtDetails = () => {
             <PaymentHistoryTable currentDebt={currentDebt} />
           </div>
         )}
+        {oneThingPerPageActive &&
+          !shouldShowPaymentHistory && (
+            <>
+              <h2
+                id="debtDetailsHeader"
+                className="vads-u-margin-y--2"
+                data-testid="otpp-details-header"
+              >
+                Debt details
+              </h2>
+              <p>
+                <span className="vads-u-display--block vads-u-font-size--base vads-u-font-weight--normal">
+                  Current balance:{' '}
+                  <strong>{formatCurrency(currentDebt.currentAr)}</strong>
+                </span>
+                <span className="vads-u-display--block vads-u-font-size--base vads-u-font-weight--normal">
+                  Original amount:{' '}
+                  <strong>{formatCurrency(currentDebt.originalAr)}</strong>
+                </span>
+              </p>
+            </>
+          )}
         {hasFilteredHistory && (
           <>
             <h2
@@ -189,8 +231,34 @@ const DebtDetails = () => {
             ) : null}
           </>
         )}
-        <HowDoIPay userData={howToUserData} />
-        <NeedHelp />
+        <Modals title="Notice of rights and responsibilities" id="notice-modal">
+          <Modals.Rights />
+        </Modals>
+
+        {oneThingPerPageActive ? (
+          <va-need-help id="needHelp">
+            <div slot="content">
+              <p>
+                If you have any questions about your benefit overpayment.
+                Contact us online through{' '}
+                <a href="https://ask.va.gov/">Ask VA</a> or call the Debt
+                Management Center at <va-telephone contact={CONTACTS.DMC} /> (
+                <va-telephone contact="711" tty="true" />
+                ). For international callers, use{' '}
+                <va-telephone contact={CONTACTS.DMC_OVERSEAS} international />.
+                We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
+              </p>
+            </div>
+          </va-need-help>
+        ) : (
+          <>
+            <HowDoIPay userData={howToUserData} />
+            <NeedHelp
+              showVHAPaymentHistory={false}
+              showOneThingPerPage={oneThingPerPageActive}
+            />
+          </>
+        )}
       </div>
     </article>
   );

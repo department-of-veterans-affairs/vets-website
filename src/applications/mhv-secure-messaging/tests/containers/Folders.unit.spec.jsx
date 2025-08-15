@@ -44,16 +44,19 @@ describe('Folders Landing Page', () => {
   });
 
   it(`verifies page title tag for 'More folders' page`, async () => {
-    await waitFor(() => {
-      expect(global.document.title).to.equal(
-        PageTitles.MY_FOLDERS_PAGE_TITLE_TAG,
-      );
-    });
+    await waitFor(
+      () => {
+        expect(global.document.title.trim()).to.equal(
+          `Messages: ${PageTitles.MY_FOLDERS_PAGE_TITLE_TAG}`,
+        );
+      },
+      { timeout: 1000 },
+    );
   });
 
   it('renders without errors', () => {
     expect(
-      screen.getByText('More folders', {
+      screen.getByText('Messages: More folders', {
         selector: 'h1',
         exact: true,
       }),

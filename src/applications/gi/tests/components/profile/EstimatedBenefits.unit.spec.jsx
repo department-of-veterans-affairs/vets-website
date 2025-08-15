@@ -220,4 +220,10 @@ describe('<EstimatedBenefits>', () => {
     expect(labelMonths16.exists()).to.be.false;
     tree.unmount();
   });
+  it('renders va-additional-info', () => {
+    const tree = mount(<EstimatedBenefits {...mockProps} />);
+    const tag = tree.find('va-additional-info');
+    expect(tag.length).to.eq(1);
+    tree.unmount();
+  });
 });

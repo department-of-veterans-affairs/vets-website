@@ -20,6 +20,7 @@
     },
     "serviceNumber": "123456",
     "serveUnderOtherNames": true,
+    "view:isAddingOtherNames": false,
     "previousNames": [
       {
         "previousFullName": {
@@ -41,18 +42,21 @@
     "medicaidStatus": true,
     "specialMonthlyPension": false,
     "vaTreatmentHistory": true,
+    "view:isAddingVaMedicalCenters": false,
     "vaMedicalCenters": [
       {
         "medicalCenter": "Dallas VA Medical Center"
       }
     ],
     "federalTreatmentHistory": true,
+    "view:isAddingFederalMedicalCenters": false,
     "federalMedicalCenters": [
       {
         "medicalCenter": "Memphis Health Care"
       }
     ],
     "currentEmployment": true,
+    "view:isAddingCurrentEmployment": false,
     "currentEmployers": [
       {
         "jobType": "Customer service",
@@ -151,6 +155,7 @@
       }
     ],
     "view:hasDependents": true,
+    "view:isAddingDependents": false,
     "dependents": [
       {
         "childInHousehold": false,
@@ -221,6 +226,7 @@
     "totalNetWorth": false,
     "netWorthEstimation": 1550,
     "hasCareExpenses": true,
+    "view:isAddingCareExpenses": false,
     "careExpenses": [
       {
         "recipients": "VETERAN",
@@ -264,6 +270,7 @@
       }
     ],
     "hasMedicalExpenses": true,
+    "view:isAddingMedicalExpenses": false,
     "medicalExpenses": [
       {
         "recipients": "VETERAN",
@@ -323,6 +330,7 @@
     "homeAcreageValue": 75000,
     "landMarketable": true,
     "receivesIncome": true,
+    "view:isAddingIncomeSources": false,
     "incomeSources": [
       {
         "typeOfIncome": "SOCIAL_SECURITY",
@@ -352,7 +360,7 @@
         "amount": 3278.75
       }
     ],
-    "view:noDirectDeposit": false,
+    "view:usingDirectDeposit": true,
     "bankAccount": {
       "accountType": "checking",
       "bankName": "Best Bank",

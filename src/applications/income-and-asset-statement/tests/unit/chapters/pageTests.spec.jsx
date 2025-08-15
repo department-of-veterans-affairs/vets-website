@@ -4,7 +4,10 @@ import { render, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import sinon from 'sinon';
 import configureStore from 'redux-mock-store';
-import { $$ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import {
+  $,
+  $$,
+} from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 
 import testData from '../../e2e/fixtures/data/test-data.json';
@@ -22,6 +25,19 @@ export const FakeProvider = ({ children, state }) => {
   const mockStore = configureStore(middleware);
   const { data } = getData(state);
   return <Provider store={mockStore(data)}>{children}</Provider>;
+};
+
+const getOtherFieldInput = (container, otherFieldName) => {
+  return (
+    $(`va-text-input[name="${otherFieldName}"]`, container) ||
+    $(`input[name="${otherFieldName}"]`, container)
+  );
+};
+
+const fillRadio = async (radio, value) => {
+  await radio.__events.vaValueChange({
+    detail: { value },
+  });
 };
 
 export const testNumberOfFields = (
@@ -163,17 +179,18 @@ export const testNumberOfFieldsByType = (
   });
 };
 
-export const testNumberOfErrorsOnSubmitForWebComponents = (
+export const testComponentFieldsMarkedAsRequired = (
   formConfig,
   schema,
   uiSchema,
-  expectedNumberOfErrors,
+  componentFieldSelectors,
   pageTitle,
   data = {},
 ) => {
   describe(`${pageTitle} page`, () => {
-    it('should show the correct number of errors on submit for web components', () => {
-      const { container, getByRole } = render(
+    let container;
+    beforeEach(() => {
+      const result = render(
         <FakeProvider>
           <DefinitionTester
             definitions={formConfig.defaultDefinitions}
@@ -184,15 +201,15 @@ export const testNumberOfErrorsOnSubmitForWebComponents = (
           />
         </FakeProvider>,
       );
-
-      getByRole('button', { name: /submit/i }).click();
-      const nodes = Array.from(
-        container.querySelectorAll(
-          `${expectedFieldTypesWebComponents}, ${wrapperWebComponents}`,
-        ),
-      );
-      const errors = nodes.filter(node => node.error);
-      expect(errors).to.have.lengthOf(expectedNumberOfErrors);
+      container = result.container;
+    });
+    componentFieldSelectors.forEach(componentFieldSelector => {
+      it(`${componentFieldSelector} should be marked as required`, () => {
+        const element = container.querySelector(
+          `${componentFieldSelector}[required=true]`,
+        );
+        expect(element).to.exist;
+      });
     });
   });
 };
@@ -267,6 +284,42 @@ export const testShowAlert = (
 
       await setToShowAlert(container);
       expect($$('va-alert', container).length).to.equal(1);
+    });
+  });
+};
+
+export const testSelectAndValidateField = (
+  formConfig,
+  schema,
+  uiSchema,
+  pageTitle,
+  otherFieldName,
+  data = {},
+  value = 'OTHER',
+) => {
+  describe(`${pageTitle} - Select "${value}" and validate field is revealed`, () => {
+    it(`should reveal and require the '${otherFieldName}' input field when radio input is set to '${value}'`, () => {
+      const { container } = render(
+        <FakeProvider>
+          <DefinitionTester
+            schema={schema}
+            data={data}
+            definitions={formConfig.defaultDefinitions}
+            uiSchema={uiSchema}
+          />
+        </FakeProvider>,
+      );
+
+      expect($(`va-text-input[name="${otherFieldName}"]`, container)).to.be
+        .null;
+
+      const radio = $('va-radio', container);
+      expect(radio).to.exist;
+      fillRadio(radio, value);
+
+      const otherFieldInput = getOtherFieldInput(container, otherFieldName);
+      expect(otherFieldInput).to.exist;
+      // expect(otherFieldInput).to.have.attr('required', 'true');
     });
   });
 };

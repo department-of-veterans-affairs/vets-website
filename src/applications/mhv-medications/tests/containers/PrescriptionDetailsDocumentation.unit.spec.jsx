@@ -1,43 +1,32 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import {
-  resetFetch,
-  mockApiRequest,
-} from '@department-of-veterans-affairs/platform-testing/helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { waitFor } from '@testing-library/dom';
-import { MemoryRouter, Route } from 'react-router-dom';
-import { render } from '@testing-library/react';
-import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { cleanup } from '@testing-library/react';
+import { Route, Routes } from 'react-router-dom-v5-compat';
+import { prescriptionsApi } from '../../api/prescriptionsApi';
+import { allergiesApi } from '../../api/allergiesApi';
+import {
+  stubAllergiesApi,
+  stubPrescriptionIdApi,
+  stubPrescriptionDocumentationQuery,
+} from '../testing-utils';
 import reducer from '../../reducers';
 import rxDetailsResponse from '../fixtures/prescriptionDetails.json';
 import PrescriptionDetailsDocumentation from '../../containers/PrescriptionDetailsDocumentation';
-import medicationInformation from '../fixtures/medicationInformation.json';
-import medicationInformationEmpty from '../fixtures/medicationInformationEmpty.json';
+
+let sandbox;
 
 describe('Prescription details documentation container', () => {
   const initialState = {
     user: {
       profile: {
         userFullName: { first: 'test', last: 'last', suffix: 'jr' },
-        dob: 'January, 01, 2000',
+        dob: '2000-01-01',
       },
       login: {
         currentlyLoggedIn: true,
-      },
-    },
-    rx: {
-      prescriptions: {
-        prescriptionDetails: {
-          ...rxDetailsResponse.data.attributes,
-          rxRfRecords: [
-            {
-              cmopNdcNumber: '00093314705',
-            },
-          ],
-        },
-        apiError: false,
       },
     },
     featureToggles: {
@@ -47,48 +36,67 @@ describe('Prescription details documentation container', () => {
   };
 
   const setup = (state = initialState) => {
-    return renderWithStoreAndRouter(<PrescriptionDetailsDocumentation />, {
-      initialState: state,
-      reducers: reducer,
-      path: 'prescription/23991135/documentation',
-    });
-  };
-
-  const setupWithReactRouter = () => {
-    const store = createStore(() => initialState);
-    return render(
-      <Provider store={store}>
-        <MemoryRouter
-          initialEntries={['/prescriptions/1234567891/documentation']}
-        >
-          <Route path="/prescriptions/:prescriptionId/documentation">
-            <PrescriptionDetailsDocumentation />
-          </Route>
-        </MemoryRouter>
-      </Provider>,
+    return renderWithStoreAndRouterV6(
+      <Routes>
+        <Route
+          path="/prescriptions/:prescriptionId/documentation"
+          element={<PrescriptionDetailsDocumentation />}
+        />
+      </Routes>,
+      {
+        initialState: state,
+        reducers: reducer,
+        initialEntries: ['/prescriptions/23991135/documentation'],
+        additionalMiddlewares: [
+          allergiesApi.middleware,
+          prescriptionsApi.middleware,
+        ],
+      },
     );
   };
 
-  afterEach(() => {
-    resetFetch();
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+    stubAllergiesApi({ sandbox });
+    const data = JSON.parse(JSON.stringify(rxDetailsResponse.data.attributes));
+    data.rxRfRecords = [{ cmopNdcNumber: '00093314705' }];
+    stubPrescriptionIdApi({ sandbox, data });
+    stubPrescriptionDocumentationQuery({ sandbox });
   });
 
-  it('renders without errors', () => {
+  afterEach(async () => {
+    cleanup();
+    await sandbox.restore();
+  });
+
+  it('renders without errors', async () => {
     const screen = setup();
-    expect(screen);
+    await waitFor(() => {
+      expect(screen).to.exist;
+    });
   });
 
   it('should display loading message when loading specific rx documentation', async () => {
+    sandbox.restore();
+    stubAllergiesApi({ sandbox });
+    stubPrescriptionIdApi({ sandbox });
+    stubPrescriptionDocumentationQuery({
+      sandbox,
+      isLoading: true,
+      data: null,
+    });
     const screen = setup();
-    waitFor(() => {
+    await waitFor(() => {
       expect(screen.getByTestId('loading-indicator')).to.exist;
-      expect(screen.getByText('Loading information...')).to.exist;
+      expect(screen.getByTestId('loading-indicator')).to.have.attribute(
+        'message',
+        'Loading information...',
+      );
     });
   });
 
   it('Content should exist after receiving information from API', async () => {
-    mockApiRequest(medicationInformation);
-    const screen = setupWithReactRouter();
+    const screen = setup();
     await waitFor(() => {
       const title = screen.getByTestId('medication-information-title');
       const warning = screen.getByTestId('medication-information-warning');
@@ -116,8 +124,14 @@ describe('Prescription details documentation container', () => {
   });
 
   it('Certain content should not exist after receiving no information from API', async () => {
-    mockApiRequest(medicationInformationEmpty);
-    const screen = setupWithReactRouter();
+    sandbox.restore();
+    stubAllergiesApi({ sandbox });
+    stubPrescriptionIdApi({ sandbox });
+    stubPrescriptionDocumentationQuery({
+      sandbox,
+      data: null,
+    });
+    const screen = setup();
     await waitFor(() => {
       const title = screen.queryByTestId('medication-information-title');
       const warning = screen.queryByTestId('medication-information-warning');
@@ -143,8 +157,14 @@ describe('Prescription details documentation container', () => {
   });
 
   it('Certain content should not exist after receiving error from API', async () => {
-    mockApiRequest(null, false);
-    const screen = setupWithReactRouter();
+    sandbox.restore();
+    stubAllergiesApi({ sandbox });
+    stubPrescriptionIdApi({ sandbox });
+    stubPrescriptionDocumentationQuery({
+      sandbox,
+      error: true,
+    });
+    const screen = setup();
     await waitFor(() => {
       const title = screen.queryByTestId('medication-information-title');
       const warning = screen.queryByTestId('medication-information-warning');
@@ -163,6 +183,45 @@ describe('Prescription details documentation container', () => {
       expect(downloadPdfBtn).to.not.exist;
       expect(noInfoAlert).to.not.exist;
       expect(errorAlert).to.exist;
+    });
+  });
+
+  describe('PrescriptionDetailsDocumentation', () => {
+    beforeEach(() => {
+      HTMLAnchorElement.prototype.click = sinon.spy();
+      window.URL = {
+        createObjectURL: sinon.stub().returns('test'),
+        revokeObjectURL: sinon.spy(),
+      };
+      window.location = { assign: sinon.spy() };
+
+      if (!global.navigator) global.navigator = {};
+      global.navigator.onLine = true;
+    });
+
+    it('should call downloadFile with TXT format and generate TXT file', async () => {
+      const screen = setup();
+
+      await waitFor(() => {
+        const downloadTxtBtn = screen.getByTestId('download-txt-button');
+        expect(downloadTxtBtn).to.exist;
+        downloadTxtBtn.click();
+        expect(screen.getByText('Download started')).to.exist;
+      });
+    });
+
+    it('should call downloadFile with PDF format and generate PDF file', async () => {
+      const screen = setup();
+
+      await waitFor(
+        () => {
+          const downloadPdfBtn = screen.getByTestId('download-pdf-button');
+          expect(downloadPdfBtn).to.exist;
+          downloadPdfBtn.click();
+          expect(screen.getByText('Download started')).to.exist;
+        },
+        { timeout: 3000 },
+      );
     });
   });
 });

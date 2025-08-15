@@ -1,0 +1,96 @@
+{
+  "householdIncome": false,
+  "view:childStoppedAttendingSchoolMissingInformation": {},
+  "view:completedChildStoppedAttendingSchool": false,
+  "view:childMarriageMissingInformation": {},
+  "view:completedMarriedChild": false,
+  "veteranInformation": {
+      "fullName": {
+        "first": "Pauline",
+        "middle": "E",
+        "last": "Foster"
+      },
+      "ssn": "796330625",
+      "birthDate": "1976-06-09",
+      "ssnLastFour": "0625",
+      "vaFileLastFour": "0625"
+    },
+  "veteranContactInformation": {
+    "phoneNumber": "8008885555",
+    "internationalPhoneNumber": "18008885555",
+    "emailAddress": "nope@nope.com",
+    "electronicCorrespondence": true,
+    "veteranAddress": {
+      "view:militaryBaseDescription": {},
+      "country": "USA",
+      "street": "123 Fake St.",
+      "city": "Fakesville",
+      "state": "AL",
+      "postalCode": "12345"
+    }
+  },
+  "view:removeDependentOptions": {
+    "reportMarriageOfChildUnder18": true,
+    "reportChild18OrOlderIsNotAttendingSchool": true
+  },
+  "view:addOrRemoveDependents": {
+    "remove": true
+  },
+  "useV2": true,
+  "view:addDependentOptions": {},
+  "view:addDependentOptionsDescription": {},
+  "spouseInformation": {
+    "fullName": {}
+  },
+  "view:certificateNotice": {},
+  "view:cancelAddSpouse": {},
+  "doesLiveWithSpouse": {
+    "address": {
+      "view:militaryBaseDescription": {}
+    }
+  },
+  "currentMarriageInformation": {
+    "location": {},
+    "view:marriageTypeInformation": {}
+  },
+  "reportDivorce": {
+    "fullName": {},
+    "view:cancelDivorce": {},
+    "divorceLocation": {
+      "location": {}
+    }
+  },
+  "childMarriage": [
+    {
+      "dependentIncome": "N",
+      "dateMarried": "2025-01-19",
+      "fullName": {
+        "first": "John",
+        "middle": "C",
+        "last": "Doe"
+      },
+      "ssn": "333445555",
+      "birthDate": "2004-03-19"
+    }
+  ],
+  "childStoppedAttendingSchool": [
+    {
+      "dependentIncome": "N",
+      "dateChildLeftSchool": "2025-06-19",
+      "fullName": {
+        "first": "John",
+        "last": "Doe"
+      },
+      "ssn": "333445555",
+      "birthDate": "2012-03-19"
+    }
+  ],
+  "view:additionalEvidenceDescription": {},
+  "view:selectable686Options": {
+    "reportMarriageOfChildUnder18": true,
+    "reportChild18OrOlderIsNotAttendingSchool": true
+  },
+  "daysTillExpires": 365,
+  "statementOfTruthSignature": "Pauline E Foster",
+  "statementOfTruthCertified": true
+}

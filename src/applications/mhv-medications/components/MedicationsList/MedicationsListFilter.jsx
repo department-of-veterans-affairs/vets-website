@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { datadogRum } from '@datadog/browser-rum';
 import PropTypes from 'prop-types';
@@ -9,19 +10,26 @@ import {
   VaAccordion,
   VaAccordionItem,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   ALL_MEDICATIONS_FILTER_KEY,
   filterOptions,
-  SESSION_RX_FILTER_OPEN_BY_DEFAULT,
-  SESSION_SELECTED_FILTER_OPTION,
 } from '../../util/constants';
 import { dataDogActionNames } from '../../util/dataDogConstants';
-import { RX_IPE_FILTERING_DESCRIPTION_ID } from './InProductionEducationFiltering';
+import { setFilterOpen, setFilterOption } from '../../redux/preferencesSlice';
+import {
+  selectFilterOpenByDefault,
+  selectFilterOption,
+} from '../../selectors/selectPreferences';
 
-const MedicationsListFilter = props => {
-  const { updateFilter, filterOption, setFilterOption, filterCount } = props;
+const MedicationsListFilter = ({ updateFilter, filterCount }) => {
+  const dispatch = useDispatch();
   const ref = useRef(null);
+  const filterOpenByDefault = useSelector(selectFilterOpenByDefault);
+  const filterOption = useSelector(selectFilterOption);
+  const [selectedFilterOption, setSelectedFilterOption] = useState(
+    filterOption,
+  );
 
   const mapFilterCountToFilterLabels = label => {
     switch (label) {
@@ -45,19 +53,21 @@ const MedicationsListFilter = props => {
     }
   };
 
-  useEffect(() => {
-    if (sessionStorage.getItem(SESSION_RX_FILTER_OPEN_BY_DEFAULT)) {
-      ref.current.setAttribute('open', true);
-      sessionStorage.removeItem(SESSION_RX_FILTER_OPEN_BY_DEFAULT);
-    }
-  }, []);
+  useEffect(
+    () => {
+      if (filterOpenByDefault) {
+        ref.current.setAttribute('open', true);
+        dispatch(setFilterOpen(false));
+      }
+    },
+    [filterOpenByDefault, dispatch, ref],
+  );
 
   const handleFilterOptionChange = ({ detail }) => {
-    setFilterOption(detail.value);
+    setSelectedFilterOption(detail.value);
   };
 
   const handleFilterSubmit = () => {
-    // Submit analytics event
     recordEvent({
       event: 'form_radio_button_submit',
       action: 'click',
@@ -66,25 +76,25 @@ const MedicationsListFilter = props => {
       // eslint-disable-next-line camelcase
       form_field_label: 'Select a filter',
       // eslint-disable-next-line camelcase
-      form_field_option_label: filterOption,
+      form_field_option_label: selectedFilterOption,
     });
-    updateFilter(filterOption);
-    focusElement(document.getElementById('showingRx'));
+
+    updateFilter(selectedFilterOption);
+    waitForRenderThenFocus('#showingRx', document, 500);
   };
 
   const handleFilterReset = () => {
-    setFilterOption(ALL_MEDICATIONS_FILTER_KEY);
     updateFilter(ALL_MEDICATIONS_FILTER_KEY);
-    focusElement(document.getElementById('showingRx'));
+    setSelectedFilterOption(ALL_MEDICATIONS_FILTER_KEY);
+    waitForRenderThenFocus('#showingRx', document, 500);
   };
 
   const handleAccordionItemToggle = ({ target }) => {
     if (target) {
       const isOpen = target.getAttribute('open');
       if (isOpen === 'false') {
-        setFilterOption(
-          sessionStorage.getItem(SESSION_SELECTED_FILTER_OPTION) ||
-            ALL_MEDICATIONS_FILTER_KEY,
+        dispatch(
+          setFilterOption(selectedFilterOption || ALL_MEDICATIONS_FILTER_KEY),
         );
       }
       datadogRum.addAction(
@@ -101,7 +111,6 @@ const MedicationsListFilter = props => {
       data-testid="filter-accordion"
       class="filter-accordion"
       onAccordionItemToggled={handleAccordionItemToggle}
-      aria-describedby={RX_IPE_FILTERING_DESCRIPTION_ID}
       uswds
     >
       <VaAccordionItem
@@ -136,7 +145,8 @@ const MedicationsListFilter = props => {
               name="filter-options-group"
               value={option}
               description={filterOptions[option].description}
-              checked={filterOption === option}
+              checked={selectedFilterOption === option}
+              data-testid={`filter-option-${option}`}
               data-dd-action-name={
                 dataDogActionNames.medicationsListPage[option]
               }
@@ -170,8 +180,6 @@ const MedicationsListFilter = props => {
 
 MedicationsListFilter.propTypes = {
   filterCount: PropTypes.object,
-  filterOption: PropTypes.string,
-  setFilterOption: PropTypes.func,
   updateFilter: PropTypes.func,
 };
 

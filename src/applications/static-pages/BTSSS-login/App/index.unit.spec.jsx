@@ -36,4 +36,22 @@ describe('BTSSS Widget', () => {
     });
     expect(container.querySelector('va-alert-sign-in')).to.not.exist;
   });
+
+  it('does not render BTSSS info with SMOC flag on', () => {
+    const screen = renderInReduxProvider(<BTSSSApp />, {
+      initialState: {
+        user: { login: { currentlyLoggedIn: true } },
+        featureToggles: {
+          loading: false,
+          /* eslint-disable-next-line camelcase */
+          travel_pay_submit_mileage_expense: true,
+        },
+      },
+    });
+    expect(
+      screen.queryByText(
+        'You can file a claim online through the Beneficiary Travel Self Service System (BTSSS).',
+      ),
+    ).to.not.exist;
+  });
 });

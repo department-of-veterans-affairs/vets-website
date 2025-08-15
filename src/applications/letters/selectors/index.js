@@ -5,10 +5,11 @@ export const isLoadingFeatures = state => toggleValues(state).loading;
 
 // Feature toggles
 
-// 'bcas_letters_use_lighthouse'
-export const lettersUseLighthouse = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.bcasLettersUseLighthouse];
+// 'letters_page_new_design'
+export const lettersPageNewDesign = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.lettersPageNewDesign];
 
-// 'letters_check_discrepancies'
-export const lettersCheckDiscrepancies = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.lettersCheckDiscrepancies];
+// Verify toggles are loaded
+export const togglesAreLoaded = state => {
+  return !toggleValues(state)?.loading;
+};

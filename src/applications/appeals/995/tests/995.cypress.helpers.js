@@ -218,7 +218,9 @@ export const pageHooks = {
         });
         testData.contestedIssues.forEach(issue => {
           if (issue[SELECTED]) {
-            cy.get(`h4:contains("${issue.attributes.ratingIssueSubjectText}")`)
+            cy.get(
+              `label:contains("${issue.attributes.ratingIssueSubjectText}")`,
+            )
               .closest('li')
               .find('input[type="checkbox"]')
               .click({ force: true });
@@ -270,7 +272,7 @@ export const pageHooks = {
 
             // Add another
             if (index + 1 < locations.length) {
-              cy.get('.vads-c-action-link--green').click();
+              cy.get('va-link-action').click();
             }
           }
         });
@@ -369,7 +371,7 @@ export const pageHooks = {
 
             // Add another
             if (index + 1 < providerFacility.length) {
-              cy.get('.vads-c-action-link--green').click();
+              cy.get('va-link-action').click();
             }
           }
         });
