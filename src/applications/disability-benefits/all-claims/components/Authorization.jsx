@@ -199,7 +199,7 @@ const PrivateRecordsAuthorization = ({
             <li>Social workers/rehabilitation counselors,</li>
             <li>Consulting examiners used by VA,</li>
             <li>
-              Employers, insurance companies, workers' compensation programs,
+              Employers, insurance companies, workers’ compensation programs,
               and
             </li>
             <li>
@@ -239,8 +239,8 @@ const PrivateRecordsAuthorization = ({
             records submitted or maintained in accordance with the procedures
             developed by OMB, or electronic signature or other forms of
             electronic authentication used in accordance with such procedures,
-            "shall not be denied legal effect, validity, or enforceability
-            merely because such records are in electronic form" (Public Law
+            “shall not be denied legal effect, validity, or enforceability
+            merely because such records are in electronic form” (Public Law
             105-277, section 1707).
           </p>
         </va-accordion-item>
@@ -312,7 +312,7 @@ const PrivateRecordsAuthorization = ({
               at any time except to the extent a source of information has
               already relied on it to take an action. To revoke, I must send a
               written statement to the VA Regional Office handling my claim or
-              the Board of Veterans' Appeals (if my claim is related to an
+              the Board of Veterans’ Appeals (if my claim is related to an
               appeal) and also send a copy directly to any of my sources that I
               no longer wish to disclose information about me. I understand that
               VA may use information disclosed prior to revocation to decide my
@@ -321,7 +321,7 @@ const PrivateRecordsAuthorization = ({
             <p>
               HIPAA NOTE: This general and special authorization to disclose was
               developed to comply with the provisions regarding disclosure of
-              medical and other information under P.L. 104-191 ("HIPAA"); 45
+              medical and other information under P.L. 104-191 (“HIPAA”); 45
               C.F.R. parts 160 and 164; 42 U.S.C. §290dd-2; 42 C.F.R. part 2,
               and State Law.
             </p>
@@ -342,7 +342,7 @@ const PrivateRecordsAuthorization = ({
                 <ol type="a">
                   <li>
                     Psychological, psychiatric, or other mental impairment(s)
-                    excluding "psychotherapy notes" as defined in 45 C.F.R.
+                    excluding “psychotherapy notes” as defined in 45 C.F.R.
                     §164.501,
                   </li>
                   <li>Drug abuse, alcoholism, or other substance abuse,</li>

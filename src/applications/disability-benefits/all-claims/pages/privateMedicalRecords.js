@@ -26,7 +26,7 @@ export const uiSchema = {
     'view:hasPrivateRecordsToUpload': yesNoUI({
       title: 'Do you want to upload your private medical records?',
       labels: {
-        Y: "Yes, I'll upload my non-VA treatment records",
+        Y: 'Yes, I’ll upload my non-VA treatment records',
         N: 'No, get my non-VA treatment records from my providers',
       },
     }),
