@@ -146,11 +146,14 @@ export const setup = (cy, testOptions = {}) => {
     'uploadFile',
   );
 
-  cy.intercept(
-    'POST',
-    '/v0/disability_compensation_form/submit_all_claim',
-    mockSubmit,
-  );
+  // Don't mock the submission if realBackendSubmit is true
+  if (!testOptions?.realBackendSubmit) {
+    cy.intercept(
+      'POST',
+      '/v0/disability_compensation_form/submit_all_claim',
+      mockSubmit,
+    );
+  }
 
   // Stub submission status for immediate transition to confirmation page.
   cy.intercept(

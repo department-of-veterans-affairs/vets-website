@@ -31,6 +31,12 @@ import {
 } from './utils/submit';
 
 export function transform(formConfig, form) {
+  // Log the original vets-json-schema payload for validation
+  // eslint-disable-next-line no-console
+  console.log('=== VETS-JSON-SCHEMA PAYLOAD (Before Transformation) ===');
+  // eslint-disable-next-line no-console
+  console.log(JSON.stringify(form.data, null, 2));
+
   // Grab isBDD before things are changed/deleted
   const isBDDForm = isBDD(form.data);
   // Grab ratedDisabilities before they're deleted in case the page is inactive
@@ -285,6 +291,12 @@ export function transform(formConfig, form) {
     (formData, transformer) => transformer(formData),
     _.cloneDeep(form.data),
   );
+
+  // Log the transformed payload before sending to vets-api
+  // eslint-disable-next-line no-console
+  console.log('=== TRANSFORMED PAYLOAD (After Transformation, Before API) ===');
+  // eslint-disable-next-line no-console
+  console.log(JSON.stringify({ form526: transformedData }, null, 2));
 
   return JSON.stringify({ form526: transformedData });
 }
