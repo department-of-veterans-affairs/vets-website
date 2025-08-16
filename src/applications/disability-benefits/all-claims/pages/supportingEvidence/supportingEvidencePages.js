@@ -1,3 +1,4 @@
+import React from 'react';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import evidenceType from './evidenceType';
 import evidenceUploads from './evidenceUploads';
@@ -20,6 +21,24 @@ export const options = {
       'You can also submit other kinds of evidence as a part of your claim.',
     getItemName: item => {
       return item?.evidenceType || 'Unknown evidence type';
+    },
+    cardDescription: item => {
+      const uploadedFiles = item?.uploadedDocuments || [];
+
+      return (
+        <div>
+          {uploadedFiles.length > 0 && (
+            <div>
+              <p>Files uploaded:</p>
+              <ul>
+                {uploadedFiles.map((file, index) => (
+                  <li key={index}>{file.name}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      );
     },
     summaryAddButtonText: 'Add evidence',
     reviewAddButtonText: 'Add evidence',
