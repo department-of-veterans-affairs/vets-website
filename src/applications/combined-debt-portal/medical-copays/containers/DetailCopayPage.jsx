@@ -5,7 +5,7 @@ import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/re
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 
-import Modals from '../components/Modals';
+import Modals from '../../combined/components/Modals';
 import Alert from '../../combined/components/MCPAlerts';
 import StatementTable from '../components/StatementTable';
 import DownloadStatement from '../components/DownloadStatement';

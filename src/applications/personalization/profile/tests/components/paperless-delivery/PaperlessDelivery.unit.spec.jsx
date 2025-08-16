@@ -74,10 +74,20 @@ describe('PaperlessDelivery', () => {
       loadingStatus: LOADING_STATES.loaded,
       loadingErrors: null,
     };
-    const { getByText } = render(<PaperlessDelivery />, {});
+    const { getByText } = render(<PaperlessDelivery />, {
+      initialState: {
+        scheduledDowntime: {
+          globalDowntime: null,
+          isReady: true,
+          isPending: false,
+          serviceMap: { get() {} },
+          dismissedDowntimeWarnings: [],
+        },
+      },
+    });
     expect(
       getByText(
-        /When you sign up, you’ll start receiving fewer documents by mail/,
+        /With paperless delivery, you can choose which documents you no longer want to get by mail./,
       ),
     ).to.exist;
   });
@@ -87,9 +97,45 @@ describe('PaperlessDelivery', () => {
       loadingStatus: LOADING_STATES.loaded,
       loadingErrors: null,
     };
-    const { getByText } = render(<PaperlessDelivery />, {});
-    expect(getByText(/enroll in additional paperless delivery options/)).to
-      .exist;
+    const { getByText } = render(<PaperlessDelivery />, {
+      initialState: {
+        scheduledDowntime: {
+          globalDowntime: null,
+          isReady: true,
+          isPending: false,
+          serviceMap: { get() {} },
+          dismissedDowntimeWarnings: [],
+        },
+      },
+    });
+    expect(
+      getByText(
+        /We have limited documents available for paperless delivery at this time/,
+      ),
+    ).to.exist;
+  });
+
+  it('should render the secure storage information', () => {
+    mockSelectCommunicationPreferences = {
+      loadingStatus: LOADING_STATES.loaded,
+      loadingErrors: null,
+    };
+    const { getByText } = render(<PaperlessDelivery />, {
+      initialState: {
+        scheduledDowntime: {
+          globalDowntime: null,
+          isReady: true,
+          isPending: false,
+          serviceMap: { get() {} },
+          dismissedDowntimeWarnings: [],
+        },
+      },
+    });
+    expect(
+      getByText(
+        /We’ll always store secure, digital copies of these documents on VA.gov./,
+      ),
+    ).to.exist;
   });
 
   it('should not render missing email alert when user has an email address', () => {
@@ -99,7 +145,9 @@ describe('PaperlessDelivery', () => {
     };
     emailAddress = 'alongusername@me.com';
     const { queryByText } = render(<PaperlessDelivery />, {});
-    expect(queryByText(/Add your email to get delivery updates/)).not.to.exist;
+    expect(
+      queryByText(/Add your email to get notified when documents are ready/),
+    ).not.to.exist;
   });
 
   it('should render email and update email address link when user has an email address', () => {
@@ -108,7 +156,17 @@ describe('PaperlessDelivery', () => {
       loadingErrors: null,
     };
     emailAddress = 'alongusername@me.com';
-    const { getByText, getByRole } = render(<PaperlessDelivery />, {});
+    const { getByText, getByRole } = render(<PaperlessDelivery />, {
+      initialState: {
+        scheduledDowntime: {
+          globalDowntime: null,
+          isReady: true,
+          isPending: false,
+          serviceMap: { get() {} },
+          dismissedDowntimeWarnings: [],
+        },
+      },
+    });
     expect(getByText(/alongusername@me.com/)).to.exist;
     expect(getByRole('link', { name: /Update your email address/ })).to.exist;
   });
@@ -119,8 +177,19 @@ describe('PaperlessDelivery', () => {
       loadingErrors: null,
     };
     emailAddress = null;
-    const { getByText } = render(<PaperlessDelivery />, {});
-    expect(getByText(/Add your email to get delivery updates/)).to.exist;
+    const { getByText } = render(<PaperlessDelivery />, {
+      initialState: {
+        scheduledDowntime: {
+          globalDowntime: null,
+          isReady: true,
+          isPending: false,
+          serviceMap: { get() {} },
+          dismissedDowntimeWarnings: [],
+        },
+      },
+    });
+    expect(getByText(/Add your email to get notified when documents are ready/))
+      .to.exist;
   });
 
   it('should render add email address link when user has no email address', () => {
@@ -129,9 +198,53 @@ describe('PaperlessDelivery', () => {
       loadingErrors: null,
     };
     emailAddress = null;
-    const { getByRole } = render(<PaperlessDelivery />, {});
+    const { getByRole } = render(<PaperlessDelivery />, {
+      initialState: {
+        scheduledDowntime: {
+          globalDowntime: null,
+          isReady: true,
+          isPending: false,
+          serviceMap: { get() {} },
+          dismissedDowntimeWarnings: [],
+        },
+      },
+    });
     expect(
       getByRole('link', { name: /Add your email address to your profile/ }),
     ).to.exist;
+  });
+
+  it('should render alert on api error', () => {
+    mockSelectCommunicationPreferences = {
+      loadingStatus: LOADING_STATES.error,
+      loadingErrors: {},
+    };
+    const { getByText } = render(<PaperlessDelivery />, {
+      initialState: {
+        scheduledDowntime: {
+          globalDowntime: null,
+          isReady: true,
+          isPending: false,
+          serviceMap: { get() {} },
+          dismissedDowntimeWarnings: [],
+        },
+      },
+    });
+    expect(getByText(/This page isn’t available right now/)).to.exist;
+  });
+
+  it('should render downtime maintenance alert', () => {
+    const { getByText } = render(<PaperlessDelivery />, {
+      initialState: {
+        scheduledDowntime: {
+          globalDowntime: true,
+          isReady: true,
+          isPending: false,
+          serviceMap: { get() {} },
+          dismissedDowntimeWarnings: [],
+        },
+      },
+    });
+    expect(getByText(/This tool is down for maintenance/)).to.exist;
   });
 });

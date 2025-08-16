@@ -28,6 +28,7 @@ const mockUiSchema = {
 };
 
 const mockData = {
+  'view:phoneSource': 'home',
   phone: '8005556666',
 };
 
@@ -54,7 +55,7 @@ describe('EditPhonePage', () => {
     const textInputs = container.querySelectorAll('input[type="text"]');
     expect(textInputs.length).to.equal(1);
     expect(container.textContent).to.include('Phone number');
-    expect(container.textContent).to.include('Edit phone number');
+    expect(container.textContent).to.include('Edit home phone number');
     expect(textInputs[0].value).to.equal('8005556666');
   });
 

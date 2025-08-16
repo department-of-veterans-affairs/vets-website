@@ -1,10 +1,20 @@
 import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
-import mockUser from './fixtures/mocks/user.json';
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
+import {
+  createSummaryHandler,
+  fillAddressAndGoToNext,
+  selectSharedAddressAndGoToNext,
+  setupBasicTest,
+  startAsGuestUser,
+} from './utils';
 
+// define handlers for ArrayBuilder sections
+const handleApplicantSummary = createSummaryHandler('root_view:hasApplicants');
+
+// define test config
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
@@ -12,22 +22,43 @@ const testConfig = createTestConfig(
     dataSets: ['minimal-test'],
     pageHooks: {
       introduction: ({ afterHook }) => {
+        afterHook(() => startAsGuestUser());
+      },
+      'signer-mailing-address': ({ afterHook }) => {
         afterHook(() => {
-          cy.findAllByText(/^start/i, { selector: 'a[href="#start"]' })
-            .last()
-            .click({ force: true });
+          cy.get('@testData').then(data => {
+            fillAddressAndGoToNext('certifierAddress', data.certifierAddress);
+          });
+        });
+      },
+      'sponsor-mailing-same': ({ afterHook }) => {
+        afterHook(() => selectSharedAddressAndGoToNext('not-shared'));
+      },
+      'sponsor-mailing-address': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            fillAddressAndGoToNext('sponsorAddress', data.sponsorAddress);
+          });
+        });
+      },
+      'applicant-summary': ({ afterHook }) => {
+        afterHook(() => handleApplicantSummary());
+      },
+      'applicant-address-selection/:index': ({ afterHook }) => {
+        afterHook(() => selectSharedAddressAndGoToNext('not-shared'));
+      },
+      'applicant-mailing-address/:index': ({ afterHook, index }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            fillAddressAndGoToNext(
+              'applicantAddress',
+              data.applicants[index].applicantAddress,
+            );
+          });
         });
       },
     },
-
-    setupPerTest: () => {
-      cy.intercept('GET', '/v0/user', mockUser);
-      cy.intercept('POST', formConfig.submitUrl, { status: 200 });
-      cy.login(mockUser);
-    },
-
-    // Skip tests in CI until the form is released.
-    // Remove this setting when the form has a content page in production.
+    setupPerTest: () => setupBasicTest(),
     skip: Cypress.env('CI'),
   },
   manifest,
