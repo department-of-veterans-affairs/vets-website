@@ -53,12 +53,12 @@ const pageScrollAndFocus = () => {
   };
 };
 
-export const pageFocusScrollNoProgressBar = () => {
+const pageFocusScrollNoProgressBar = () => {
   return () => {
     scrollTo('topScrollElement');
     setTimeout(() => {
       const radio = document.querySelector('va-radio[label-header-level]');
-      waitForRenderThenFocus('h2', radio.shadowRoot);
+      waitForRenderThenFocus('h2', radio);
     }, 100);
   };
 };
