@@ -28,7 +28,7 @@ describe('form config options', () => {
       scrollAndFocusTarget,
     } = formConfig.chapters.statementInfoChapter.pages.claimOwnershipPage;
 
-    const { getByText } = render(
+    const { container } = render(
       <Provider store={mockStore}>
         <DefinitionTester
           definitions={formConfig.defaultDefinitions}
@@ -43,8 +43,8 @@ describe('form config options', () => {
     scrollAndFocusTarget();
 
     expect(
-      getByText(
-        'Are you submitting this statement to support your claim or someone else’s claim?',
+      container.querySelector(
+        'va-radio[label="Are you submitting this statement to support your claim or someone else’s claim?"]',
       ),
     ).to.exist;
   });
