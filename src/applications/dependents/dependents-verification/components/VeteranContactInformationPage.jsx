@@ -65,9 +65,10 @@ const VeteranContactInformationPage = ({
     profileMobilePhone,
   );
   const profileHomePhoneString = convertPhoneObjectToString(profileHomePhone);
-  const [phoneSource] = useState(
-    phone || profileMobilePhoneString ? 'Mobile' : 'Home',
-  );
+  const phoneSource =
+    data['view:phoneSource'] || phone || profileMobilePhoneString
+      ? 'Mobile'
+      : 'Home';
 
   // Get international phone from mobile or home, if it's international
   let profileInternationalPhone = null;
@@ -123,6 +124,7 @@ const VeteranContactInformationPage = ({
     }
 
     updateContactInfo({
+      'view:phoneSource': data['view:phoneSource'] || phoneSource,
       email: email || profileEmail?.emailAddress || '',
       phone: phone || profileMobilePhoneString || profileHomePhoneString || '',
       address: newAddress,
@@ -352,7 +354,7 @@ const VeteranContactInformationPage = ({
 
       <va-card class="vads-u-margin-top--3" data-field="phone">
         <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
-          {`${phoneSource} phone number`}
+          {`${data['view:phoneSource']} phone number`}
         </h4>
         <div className="phone vads-u-margin-y--2">
           {phone ? (
@@ -369,7 +371,7 @@ const VeteranContactInformationPage = ({
         <EditCardLink
           value={phone}
           name="phone"
-          type={phoneSource}
+          type={data['view:phoneSource']}
           onClick={handlers.editClick}
         />
       </va-card>
@@ -421,6 +423,7 @@ VeteranContactInformationPage.propTypes = {
   // updatePage: PropTypes.func,
   data: PropTypes.shape({
     email: PropTypes.string,
+    'view:phoneSource': PropTypes.string,
     phone: PropTypes.string,
     address: PropTypes.shape({
       street: PropTypes.string,

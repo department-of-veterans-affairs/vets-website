@@ -16,7 +16,7 @@ import {
   getRxStatus,
   rxSourceIsNonVA,
 } from '../../util/helpers';
-import VaPharmacyText from '../shared/VaPharmacyText';
+import MedicationDescription from '../shared/MedicationDescription';
 import { selectPendingMedsFlag } from '../../util/selectors';
 
 const PrescriptionPrintOnly = props => {
@@ -251,52 +251,13 @@ const PrescriptionPrintOnly = props => {
                           <p className="vads-u-margin--0">
                             <strong>Medication description: </strong>
                           </p>
-                          {shape?.trim() &&
-                          color?.trim() &&
-                          frontImprint?.trim() ? (
-                            <>
-                              <p className="vads-u-margin--0">
-                                <strong>Note:</strong> If the medication you’re
-                                taking doesn’t match this description, call{' '}
-                                <VaPharmacyText
-                                  phone={pharmacyPhone}
-                                  isNotClickable
-                                />
-                                .
-                              </p>
-                              <ul className="vads-u-margin--0">
-                                <li className="vads-u-margin-y--0">
-                                  <strong>Shape:</strong>{' '}
-                                  {shape[0].toUpperCase()}
-                                  {shape.slice(1).toLowerCase()}
-                                </li>
-                                <li className="vads-u-margin-y--0">
-                                  <strong>Color:</strong>{' '}
-                                  {color[0].toUpperCase()}
-                                  {color.slice(1).toLowerCase()}
-                                </li>
-                                <li className="vads-u-margin-y--0">
-                                  <strong>Front marking:</strong> {frontImprint}
-                                </li>
-                                {backImprint ? (
-                                  <li className="vads-u-margin-y--0">
-                                    <strong>Back marking:</strong> {backImprint}
-                                  </li>
-                                ) : (
-                                  <></>
-                                )}
-                              </ul>
-                            </>
-                          ) : (
-                            <>
-                              No description available. Call{' '}
-                              <VaPharmacyText
-                                phone={pharmacyPhone}
-                                isNotClickable
-                              />{' '}
-                              if you need help identifying this medication.
-                            </>
-                          )}
+                          <MedicationDescription
+                            shape={shape}
+                            color={color}
+                            frontImprint={frontImprint}
+                            backImprint={backImprint}
+                            pharmacyPhone={pharmacyPhone}
+                          />
                         </>
                       )}
                     </div>
