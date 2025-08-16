@@ -3,6 +3,8 @@ import { expect } from 'chai';
 import { mount } from 'enzyme';
 
 import { Provider } from 'react-redux';
+// Use standard v6 MemoryRouter (component does not rely on legacy v5 hooks here)
+import { MemoryRouter } from 'react-router-dom';
 import { combineReducers, createStore } from 'redux';
 
 import { commonReducer } from 'platform/startup/store';
@@ -100,20 +102,28 @@ describe('Form 526EZ Entry Page', () => {
       // stop fetchBranches call
       sessionStorage.setItem(SERVICE_BRANCHES, '["1","2","3"]');
     }
+    // Normalize router: allow tests to provide an array we can push paths into
+    let routerRef = router;
+    if (Array.isArray(router)) {
+      const historyArray = router; // preserve reference for assertions
+      routerRef = { push: path => historyArray.push(path) };
+    }
     return mount(
-      <Provider store={fakeStore}>
-        <Form526Entry
-          location={initialState.currentLocation}
-          user={initialState.user}
-          showWizard={initialState.showWizard}
-          router={router}
-          savedForms={savedForms}
-        >
-          <main>
-            <h1>{fakeSipsIntro(initialState.user)}</h1>
-          </main>
-        </Form526Entry>
-      </Provider>,
+      <MemoryRouter initialEntries={[pathname]}>
+        <Provider store={fakeStore}>
+          <Form526Entry
+            location={initialState.currentLocation}
+            user={initialState.user}
+            showWizard={initialState.showWizard}
+            router={routerRef}
+            savedForms={savedForms}
+          >
+            <main>
+              <h1>{fakeSipsIntro(initialState.user)}</h1>
+            </main>
+          </Form526Entry>
+        </Provider>
+      </MemoryRouter>,
     );
   };
 

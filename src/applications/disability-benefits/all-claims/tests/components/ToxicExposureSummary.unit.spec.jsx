@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import { MemoryRouter } from 'react-router-dom';
 import { ToxicExposureSummary } from '../../components/ToxicExposureSummary';
 import { GULF_WAR_1990_LOCATIONS, TE_URL_PREFIX } from '../../constants';
 import { goBackLink, noDatesEntered } from '../../content/toxicExposure';
@@ -24,7 +25,9 @@ describe('toxicExposureSummary', () => {
     };
 
     const tree = render(
-      <ToxicExposureSummary formData={formData} {...props} />,
+      <MemoryRouter>
+        <ToxicExposureSummary formData={formData} {...props} />
+      </MemoryRouter>,
     );
 
     tree.getByText(GULF_WAR_1990_LOCATIONS.afghanistan);
@@ -49,7 +52,9 @@ describe('toxicExposureSummary', () => {
     };
 
     const tree = render(
-      <ToxicExposureSummary formData={formData} {...props} />,
+      <MemoryRouter>
+        <ToxicExposureSummary formData={formData} {...props} />
+      </MemoryRouter>,
     );
 
     tree.getByText(GULF_WAR_1990_LOCATIONS.waters);
@@ -82,7 +87,9 @@ describe('toxicExposureSummary', () => {
     };
 
     const tree = render(
-      <ToxicExposureSummary formData={formData} {...props} />,
+      <MemoryRouter>
+        <ToxicExposureSummary formData={formData} {...props} />
+      </MemoryRouter>,
     );
 
     tree.getByText(GULF_WAR_1990_LOCATIONS.afghanistan);
@@ -118,7 +125,9 @@ describe('toxicExposureSummary', () => {
     };
 
     const { queryByText } = render(
-      <ToxicExposureSummary formData={formData} {...props} />,
+      <MemoryRouter>
+        <ToxicExposureSummary formData={formData} {...props} />
+      </MemoryRouter>,
     );
 
     expect(queryByText(GULF_WAR_1990_LOCATIONS.waters)).to.exist;

@@ -1,5 +1,7 @@
+import React from 'react';
 import { expect } from 'chai';
 import { render, within } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import { SummaryOfDisabilitiesDescription } from '../../content/summaryOfDisabilities';
 import { NULL_CONDITION_STRING } from '../../constants';
 import { DISABILITY_SHARED_CONFIG } from '../../utils';
@@ -24,7 +26,11 @@ describe('summaryOfDisabilitiesDescription', () => {
       },
     };
 
-    const tree = render(SummaryOfDisabilitiesDescription({ formData }));
+    const tree = render(
+      <MemoryRouter>
+        <SummaryOfDisabilitiesDescription formData={formData} />
+      </MemoryRouter>,
+    );
     tree.getByText('Condition 1');
     tree.getByText(NULL_CONDITION_STRING);
   });
@@ -48,7 +54,11 @@ describe('summaryOfDisabilitiesDescription', () => {
       },
     };
 
-    const tree = render(SummaryOfDisabilitiesDescription({ formData }));
+    const tree = render(
+      <MemoryRouter>
+        <SummaryOfDisabilitiesDescription formData={formData} />
+      </MemoryRouter>,
+    );
 
     tree.getByText('Condition 1');
     expect(tree.queryByText('Condition 2')).to.be.null;
@@ -67,7 +77,11 @@ describe('summaryOfDisabilitiesDescription', () => {
       ],
     };
 
-    const tree = render(SummaryOfDisabilitiesDescription({ formData }));
+    const tree = render(
+      <MemoryRouter>
+        <SummaryOfDisabilitiesDescription formData={formData} />
+      </MemoryRouter>,
+    );
 
     tree.getByText('Condition 1');
     tree.getByText('Condition 2');
@@ -89,7 +103,11 @@ describe('summaryOfDisabilitiesDescription', () => {
       ],
     };
 
-    const tree = render(SummaryOfDisabilitiesDescription({ formData }));
+    const tree = render(
+      <MemoryRouter>
+        <SummaryOfDisabilitiesDescription formData={formData} />
+      </MemoryRouter>,
+    );
 
     const ptsd = tree.getByText('PTSD (Post Traumatic Stress Disorder)');
     within(ptsd).getByText('Combat');
@@ -134,7 +152,11 @@ describe('summaryOfDisabilitiesDescription', () => {
       ],
     };
 
-    const tree = render(SummaryOfDisabilitiesDescription({ formData }));
+    const tree = render(
+      <MemoryRouter>
+        <SummaryOfDisabilitiesDescription formData={formData} />
+      </MemoryRouter>,
+    );
 
     tree.getByText('Diabetes Mellitus0');
     tree.getByText('Asthma');
@@ -149,7 +171,11 @@ describe('summaryOfDisabilitiesDescription', () => {
       },
     };
 
-    const tree = render(SummaryOfDisabilitiesDescription({ formData }));
+    const tree = render(
+      <MemoryRouter>
+        <SummaryOfDisabilitiesDescription formData={formData} />
+      </MemoryRouter>,
+    );
 
     const link = tree.getByText('go back and add it');
     expect(link.getAttribute('aria-label')).to.equal(
@@ -168,7 +194,11 @@ describe('summaryOfDisabilitiesDescription', () => {
       },
     };
 
-    const tree = render(SummaryOfDisabilitiesDescription({ formData }));
+    const tree = render(
+      <MemoryRouter>
+        <SummaryOfDisabilitiesDescription formData={formData} />
+      </MemoryRouter>,
+    );
 
     const link = tree.getByText('go back and add it');
     expect(link.getAttribute('data-testid')).to.equal(
@@ -184,7 +214,11 @@ describe('summaryOfDisabilitiesDescription', () => {
       },
     };
 
-    const tree = render(SummaryOfDisabilitiesDescription({ formData }));
+    const tree = render(
+      <MemoryRouter>
+        <SummaryOfDisabilitiesDescription formData={formData} />
+      </MemoryRouter>,
+    );
 
     const link = tree.getByText('go back and add it');
     expect(link.getAttribute('data-testid')).to.equal(

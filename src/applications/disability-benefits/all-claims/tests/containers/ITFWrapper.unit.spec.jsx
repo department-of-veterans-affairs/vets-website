@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
+import { MemoryRouter } from 'react-router-dom';
 import sinon from 'sinon';
 import { merge } from 'lodash';
 import moment from 'moment';
@@ -35,9 +36,11 @@ describe('526 ITFWrapper', () => {
   it('should not make an api call on the intro page', () => {
     mockFetch();
     const tree = mount(
-      <ITFWrapper location={{ pathname: '/introduction' }}>
-        <p>It worked!</p>
-      </ITFWrapper>,
+      <MemoryRouter>
+        <ITFWrapper location={{ pathname: '/introduction' }}>
+          <p>It worked!</p>
+        </ITFWrapper>
+      </MemoryRouter>,
     );
     expect(fetchITF.called).to.be.false;
     expect(tree.text()).to.equal('It worked!');
@@ -47,9 +50,11 @@ describe('526 ITFWrapper', () => {
   it('should not make an api call on the intro page with a trailing slash', () => {
     mockFetch();
     const tree = mount(
-      <ITFWrapper location={{ pathname: '/introduction/' }}>
-        <p>It worked!</p>
-      </ITFWrapper>,
+      <MemoryRouter>
+        <ITFWrapper location={{ pathname: '/introduction/' }}>
+          <p>It worked!</p>
+        </ITFWrapper>
+      </MemoryRouter>,
     );
     expect(fetchITF.called).to.be.false;
     expect(tree.text()).to.equal('It worked!');
@@ -59,9 +64,11 @@ describe('526 ITFWrapper', () => {
   it('should not make an api call on the confirmation page', () => {
     mockFetch();
     const tree = mount(
-      <ITFWrapper location={{ pathname: '/confirmation' }}>
-        <p>It worked!</p>
-      </ITFWrapper>,
+      <MemoryRouter>
+        <ITFWrapper location={{ pathname: '/confirmation' }}>
+          <p>It worked!</p>
+        </ITFWrapper>
+      </MemoryRouter>,
     );
     expect(fetchITF.called).to.be.false;
     expect(tree.text()).to.equal('It worked!');
@@ -70,9 +77,11 @@ describe('526 ITFWrapper', () => {
 
   it('should fetch the ITF if the form is loaded not on the intro or confirmation pages', () => {
     const tree = mount(
-      <ITFWrapper {...defaultProps}>
-        <p>Shouldn’t see me yet...</p>
-      </ITFWrapper>,
+      <MemoryRouter>
+        <ITFWrapper {...defaultProps}>
+          <p>Shouldn’t see me yet...</p>
+        </ITFWrapper>
+      </MemoryRouter>,
     );
     expect(fetchITF.called).to.be.true;
     tree.unmount();
@@ -132,15 +141,20 @@ describe('526 ITFWrapper', () => {
         fetchCallState: requestStates.pending,
       },
     });
-    const tree = mount(
-      <ITFWrapper {...props}>
-        <p>Shouldn’t see me yet...</p>
-      </ITFWrapper>,
+    const Wrapper = wrapperProps => (
+      <MemoryRouter>
+        <ITFWrapper {...wrapperProps.itfProps}>
+          <p>Shouldn’t see me yet...</p>
+        </ITFWrapper>
+      </MemoryRouter>
     );
-    // The ITF call happens in componentWillReceiveProps, so trigger that function call
-    tree.setProps(
-      merge({}, props, { itf: { fetchCallState: requestStates.failed } }),
-    );
+    const tree = mount(<Wrapper itfProps={props} />);
+    // trigger prop change to simulate fetch failure
+    tree.setProps({
+      itfProps: merge({}, props, {
+        itf: { fetchCallState: requestStates.failed },
+      }),
+    });
     expect(createITF.called).to.be.true;
     tree.unmount();
   });
@@ -241,9 +255,11 @@ describe('526 ITFWrapper', () => {
       },
     });
     const tree = mount(
-      <ITFWrapper {...props}>
-        <p>Hello, world.</p>
-      </ITFWrapper>,
+      <MemoryRouter>
+        <ITFWrapper {...props}>
+          <p>Hello, world.</p>
+        </ITFWrapper>
+      </MemoryRouter>,
     );
     const banner = tree.find('ITFBanner');
     const bannerProps = banner.props();
@@ -275,9 +291,11 @@ describe('526 ITFWrapper', () => {
       },
     });
     const tree = mount(
-      <ITFWrapper {...props}>
-        <p>Hello, world.</p>
-      </ITFWrapper>,
+      <MemoryRouter>
+        <ITFWrapper {...props}>
+          <p>Hello, world.</p>
+        </ITFWrapper>
+      </MemoryRouter>,
     );
     const banner = tree.find('ITFBanner');
     const bannerProps = banner.props();

@@ -1,5 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import { expect } from 'chai';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../../config/form';
@@ -49,7 +50,9 @@ describe('Additional Exposures Summary', () => {
     };
 
     const { getByText } = render(
-      <DefinitionTester schema={schema} uiSchema={uiSchema} data={formData} />,
+      <MemoryRouter>
+        <DefinitionTester schema={schema} uiSchema={uiSchema} data={formData} />
+      </MemoryRouter>,
     );
 
     getByText(additionalExposuresPageTitle);
@@ -101,7 +104,9 @@ describe('Additional Exposures Summary', () => {
     };
 
     const { getByText, queryByText } = render(
-      <DefinitionTester schema={schema} uiSchema={uiSchema} data={formData} />,
+      <MemoryRouter>
+        <DefinitionTester schema={schema} uiSchema={uiSchema} data={formData} />
+      </MemoryRouter>,
     );
 
     expect(queryByText(ADDITIONAL_EXPOSURES.asbestos)).to.not.exist;
@@ -137,7 +142,9 @@ describe('Additional Exposures Summary', () => {
     };
 
     const { getAllByText, getByText } = render(
-      <DefinitionTester schema={schema} uiSchema={uiSchema} data={formData} />,
+      <MemoryRouter>
+        <DefinitionTester schema={schema} uiSchema={uiSchema} data={formData} />
+      </MemoryRouter>,
     );
 
     getByText(additionalExposuresPageTitle);

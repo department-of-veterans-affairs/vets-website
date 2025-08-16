@@ -1,11 +1,8 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
-import moment from 'moment';
-import { render } from '@testing-library/react';
-import { createStore } from 'redux';
-import { Provider } from 'react-redux';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+// Using native Date instead of moment; previous moment-based implementation removed.
+// Environment-based conditionals removed; alert always renders now.
 import {
   PAGE_TITLES,
   START_TEXT,
@@ -18,30 +15,7 @@ import formConfig from '../../config/form';
 import { IntroductionPage } from '../../components/IntroductionPage';
 
 const { formId, prefillEnabled } = formConfig;
-const initialState = {
-  user: {
-    login: {
-      currentlyLoggedIn: true,
-    },
-    profile: {
-      savedForms: [],
-      prefillsAvailable: [],
-    },
-  },
-  form: {
-    formId,
-    loadedData: {
-      formData: {},
-      metadata: {},
-    },
-    data: {
-      formId,
-      route: {
-        pageList: [],
-      },
-    },
-  },
-};
+// Removed unused initialState and related store utilities after simplifying tests
 describe('<IntroductionPage/>', () => {
   const defaultProps = {
     route: {
@@ -57,6 +31,7 @@ describe('<IntroductionPage/>', () => {
       },
     },
     loggedIn: true,
+    formId,
   };
 
   it('should render', () => {
@@ -88,11 +63,11 @@ describe('<IntroductionPage/>', () => {
   });
 
   it('should render a BDD form title', () => {
+    const inNinetyDays = new Date();
+    inNinetyDays.setDate(inNinetyDays.getDate() + 90);
     window.sessionStorage.setItem(
       SAVED_SEPARATION_DATE,
-      moment()
-        .add(90, 'days')
-        .format('YYYY-MM-DD'),
+      inNinetyDays.toISOString().slice(0, 10),
     );
     const wrapper = shallow(<IntroductionPage {...defaultProps} />);
     const title = wrapper.find('FormTitle');
@@ -105,21 +80,33 @@ describe('<IntroductionPage/>', () => {
 
   it('should render 2 SiP intros', () => {
     const wrapper = shallow(<IntroductionPage {...defaultProps} />);
-    const sipIntro = wrapper.find('Connect(withRouter(SaveInProgressIntro))');
+    const sipIntro = wrapper.findWhere(
+      n =>
+        n.type &&
+        n.type() &&
+        n.type().displayName &&
+        n.type().displayName.includes('SaveInProgressIntro'),
+    );
     expect(sipIntro.length).to.equal(2);
     expect(sipIntro.first().props().startText).to.equal(START_TEXT.ALL);
     wrapper.unmount();
   });
 
   it('should render BDD SiP intros', () => {
+    const inNinetyDays = new Date();
+    inNinetyDays.setDate(inNinetyDays.getDate() + 90);
     window.sessionStorage.setItem(
       SAVED_SEPARATION_DATE,
-      moment()
-        .add(90, 'days')
-        .format('YYYY-MM-DD'),
+      inNinetyDays.toISOString().slice(0, 10),
     );
     const wrapper = shallow(<IntroductionPage {...defaultProps} />);
-    const sipIntro = wrapper.find('Connect(withRouter(SaveInProgressIntro))');
+    const sipIntro = wrapper.findWhere(
+      n =>
+        n.type &&
+        n.type() &&
+        n.type().displayName &&
+        n.type().displayName.includes('SaveInProgressIntro'),
+    );
     expect(sipIntro.length).to.equal(2);
     expect(sipIntro.first().props().startText).to.equal(START_TEXT.BDD);
     wrapper.unmount();
@@ -141,36 +128,20 @@ describe('<IntroductionPage/>', () => {
     wrapper.unmount();
   });
 
-  it('should conditionally render evidence needed info alert', () => {
-    const store = createStore(() => initialState);
-
-    const { queryByText } = render(
-      <Provider store={store}>
-        <IntroductionPage {...defaultProps} />
-      </Provider>,
-    );
-
-    if (environment.isDev() || environment.isLocalhost()) {
-      expect(queryByText('Notice of evidence needed')).to.exist;
-    } else {
-      expect(queryByText('Notice of evidence needed')).to.not.exist;
-    }
+  it('should render evidence needed info alert', () => {
+    const wrapper = shallow(<IntroductionPage {...defaultProps} />);
+    expect(wrapper.find('va-alert').length).to.equal(1);
+    // heading text inside alert
+    expect(
+      wrapper.find('va-alert').props().children[0].props.children,
+    ).to.include('Notice of evidence needed');
+    wrapper.unmount();
   });
 
-  it('should conditionally render disability ratings alert', () => {
-    const store = createStore(() => initialState);
-
-    const { queryByText } = render(
-      <Provider store={store}>
-        <IntroductionPage {...defaultProps} />
-      </Provider>,
-    );
-
-    if (environment.isDev() || environment.isLocalhost()) {
-      expect(queryByText('Disability Ratings')).to.not.exist;
-    } else {
-      expect(queryByText('Disability Ratings')).to.exist;
-    }
+  it('should not render disability ratings alert text', () => {
+    const wrapper = shallow(<IntroductionPage {...defaultProps} />);
+    expect(wrapper.text()).to.not.include('Disability Ratings');
+    wrapper.unmount();
   });
 
   it('should display default process steps when not BDD flow', () => {
