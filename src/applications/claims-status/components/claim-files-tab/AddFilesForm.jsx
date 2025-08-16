@@ -13,21 +13,22 @@ import {
 } from 'platform/forms-system/src/js/utilities/file';
 
 import { DOC_TYPES } from '../../utils/helpers';
-import { FILE_TYPES, validateFiles } from '../../utils/validations';
+import { FILE_TYPES, isPdf, validateFiles } from '../../utils/validations';
 import mailMessage from '../MailMessage';
 import UploadStatus from '../UploadStatus';
 
-export const LABEL_TEXT = 'Upload additional evidence';
-export const HINT_TEXT =
-  'You can upload a .pdf, .gif, .jpg, .jpeg, .bmp, or .txt file. Your file should be no larger than 50 MB (non-PDF) or 99 MB (PDF only).';
-export const VALIDATION_ERROR = 'Please select a file first';
-export const PASSWORD_ERROR = 'Please provide a password to decrypt this file';
-export const DOC_TYPE_ERROR = 'Please provide a response';
-export const SUBMIT_TEXT = 'Submit documents for review';
+import {
+  LABEL_TEXT,
+  HINT_TEXT,
+  VALIDATION_ERROR,
+  PASSWORD_ERROR,
+  DOC_TYPE_ERROR,
+  SUBMIT_TEXT,
+} from '../../constants';
 
 // File encryption utilities
-export const checkFileEncryption = async file => {
-  if (!file.name?.toLowerCase().endsWith('.pdf')) {
+const checkFileEncryption = async file => {
+  if (!isPdf(file)) {
     return false;
   }
 
@@ -40,18 +41,14 @@ export const checkFileEncryption = async file => {
   }
 };
 
-export const createEncryptedFilesList = async files => {
+const createEncryptedFilesList = async files => {
   return Promise.all(
     files.map(async fileInfo => checkFileEncryption(fileInfo.file)),
   );
 };
 
 // Shadow DOM extraction utilities
-export const extractPasswordsFromShadowDOM = (
-  fileInputRef,
-  files,
-  encrypted,
-) => {
+const extractPasswordsFromShadowDOM = (fileInputRef, files, encrypted) => {
   const updatedFiles = [...files];
   const vaFileInputElements = fileInputRef.current?.shadowRoot?.querySelectorAll(
     'va-file-input',
@@ -77,7 +74,7 @@ export const extractPasswordsFromShadowDOM = (
   return updatedFiles;
 };
 
-export const extractDocumentTypesFromShadowDOM = fileInputRef => {
+const extractDocumentTypesFromShadowDOM = fileInputRef => {
   const fileInputs = Array.from(
     fileInputRef.current?.shadowRoot?.querySelectorAll('va-file-input') || [],
   );
@@ -89,14 +86,14 @@ export const extractDocumentTypesFromShadowDOM = fileInputRef => {
 };
 
 // Error handling utilities
-export const clearNoFilesError = prevErrors => {
+const clearNoFilesError = prevErrors => {
   if (prevErrors.length === 1 && prevErrors[0] === VALIDATION_ERROR) {
     return [];
   }
   return prevErrors;
 };
 
-export const clearSpecificErrors = (prevErrors, errorType, shouldClear) => {
+const clearSpecificErrors = (prevErrors, errorType, shouldClear) => {
   const newErrors = [...prevErrors];
   let hasChanges = false;
 
@@ -110,11 +107,7 @@ export const clearSpecificErrors = (prevErrors, errorType, shouldClear) => {
   return hasChanges ? newErrors : prevErrors;
 };
 
-export const rebuildErrorsAfterFileDeletion = (
-  currentFiles,
-  newFiles,
-  prevErrors,
-) => {
+const rebuildErrorsAfterFileDeletion = (currentFiles, newFiles, prevErrors) => {
   const newErrors = [];
   // Match errors to files by file reference, not by index
   newFiles.forEach((fileInfo, newIndex) => {
@@ -126,19 +119,15 @@ export const rebuildErrorsAfterFileDeletion = (
   return newErrors;
 };
 
-export const updateErrorsOnFileChange = (
-  prevErrors,
-  files,
-  newFiles,
-  previousFileCount,
-) => {
+const updateErrorsOnFileChange = (prevErrors, files, newFiles, action) => {
   // First, clear "no files" error if present
   let updatedErrors = clearNoFilesError(prevErrors);
 
-  // If files were removed, rebuild error array to match current files
-  if (newFiles.length < previousFileCount) {
+  // Handle errors based on the specific action
+  if (action === 'FILE_REMOVED') {
+    // Rebuild error array to match remaining files
     updatedErrors = rebuildErrorsAfterFileDeletion(files, newFiles, prevErrors);
-  } else {
+  } else if (action === 'PASSWORD_UPDATE') {
     // Clear password errors when passwords are provided
     updatedErrors = clearSpecificErrors(
       updatedErrors,
@@ -151,28 +140,52 @@ export const updateErrorsOnFileChange = (
   return updatedErrors;
 };
 
-export const applyValidationErrors = (baseErrors, validationResults) => {
+const applyValidationErrors = (
+  baseErrors,
+  validationResults,
+  files,
+  wasFileReplaced = false,
+) => {
   const updatedErrors = [...baseErrors];
+
+  if (wasFileReplaced) {
+    // Clear ALL errors when a file was replaced (FILE_UPDATED action) - fresh validation for replaced files
+    files.forEach((_, index) => {
+      updatedErrors[index] = null;
+    });
+  }
+
+  // Apply new validation errors
   validationResults.forEach(result => {
     updatedErrors[result.index] = result.error;
   });
+
   return updatedErrors;
 };
 
 // Validation and submission utilities
-const validateFilesForSubmission = (files, encrypted, docTypes) => {
+const validateFilesForSubmission = (
+  files,
+  encrypted,
+  docTypes,
+  existingErrors,
+) => {
   // Check if no files provided (always required)
   if (files.length === 0) {
     return { isValid: false, errors: [VALIDATION_ERROR] };
   }
 
-  // Check for encrypted files without passwords and missing document types
-  const errors = [];
+  // Re-enable checking existing errors (file validation errors)
+  const errors = [...(existingErrors || [])];
   let hasErrors = false;
 
   files.forEach((fileInfo, index) => {
+    // Check existing validation errors
+    if (errors[index]) {
+      hasErrors = true;
+    }
     // Check if file is encrypted and missing password
-    if (
+    else if (
       encrypted[index] &&
       (!fileInfo.password || fileInfo.password.trim() === '')
     ) {
@@ -183,8 +196,6 @@ const validateFilesForSubmission = (files, encrypted, docTypes) => {
     else if (!docTypes[index] || docTypes[index].trim() === '') {
       errors[index] = DOC_TYPE_ERROR;
       hasErrors = true;
-    } else {
-      errors[index] = null;
     }
   });
 
@@ -194,7 +205,7 @@ const validateFilesForSubmission = (files, encrypted, docTypes) => {
   };
 };
 
-const createSubmissionPayload = (files, docTypes) => {
+const createSubmissionPayload = (files, docTypes, encrypted) => {
   return files.map((fileInfo, index) => ({
     file: fileInfo.file,
     // Include file metadata for better debugging (File objects don't serialize)
@@ -206,7 +217,7 @@ const createSubmissionPayload = (files, docTypes) => {
           lastModified: fileInfo.file.lastModified,
         }
       : null,
-    password: fileInfo.password || '',
+    password: encrypted[index] ? fileInfo.password : '',
     docType: docTypes[index] || '',
   }));
 };
@@ -240,8 +251,7 @@ const AddFilesForm = ({ fileTab, onSubmit, uploading, progress, onCancel }) => {
   );
 
   const handleFileChange = async event => {
-    const { state } = event.detail;
-    const previousFileCount = files.length;
+    const { action, state } = event.detail;
     const newFiles = state || [];
 
     // Validate all files
@@ -256,10 +266,17 @@ const AddFilesForm = ({ fileTab, onSubmit, uploading, progress, onCancel }) => {
           prevErrors,
           files,
           newFiles,
-          previousFileCount,
+          action,
         );
 
-        return applyValidationErrors(baseErrors, validationResults);
+        // Check if a file was replaced (not added or removed)
+        const wasFileReplaced = action === 'FILE_UPDATED';
+        return applyValidationErrors(
+          baseErrors,
+          validationResults,
+          newFiles,
+          wasFileReplaced,
+        );
       });
 
       const encryptedStatus = await createEncryptedFilesList(newFiles);
@@ -282,10 +299,12 @@ const AddFilesForm = ({ fileTab, onSubmit, uploading, progress, onCancel }) => {
     // Extract document types from shadow DOM
     const currentDocTypes = extractDocumentTypesFromShadowDOM(fileInputRef);
 
+    // Pass existing errors to validation so ALL errors are checked together
     const validation = validateFilesForSubmission(
       updatedFiles,
       encrypted,
       currentDocTypes,
+      errors,
     );
 
     if (!validation.isValid) {
@@ -294,7 +313,11 @@ const AddFilesForm = ({ fileTab, onSubmit, uploading, progress, onCancel }) => {
     }
 
     // Create complete payload for submission
-    const payload = createSubmissionPayload(updatedFiles, currentDocTypes);
+    const payload = createSubmissionPayload(
+      updatedFiles,
+      currentDocTypes,
+      encrypted,
+    );
 
     // Create files array in the exact format the submit actions expect
     const formattedFiles = payload.map(item => ({
