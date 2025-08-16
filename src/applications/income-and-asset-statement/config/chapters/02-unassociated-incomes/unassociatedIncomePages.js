@@ -25,9 +25,10 @@ import {
   isIncomeTypeInfoIncomplete,
   isRecipientInfoIncomplete,
   otherIncomeTypeExplanationRequired,
-  otherRecipientRelationshipExplanationRequired,
+  otherRecipientRelationshipTypeUI,
   recipientNameRequired,
   resolveRecipientFullName,
+  sharedRecipientRelationshipBase,
   showUpdatedContent,
 } from '../../../helpers';
 import {
@@ -105,23 +106,12 @@ const yesNoOptionLabels = {
 
 const sharedYesNoOptionsBase = {
   labelHeaderLevel: '2',
-  labelHeaderLevelStyle: '4',
-  labels: yesNoOptionLabels,
+  labelHeaderLevelStyle: '3',
 };
 
 const yesNoOptionsMore = {
   title: 'Do you have more recurring income to report?',
-  labels: {
-    Y: 'Yes',
-    N: 'No',
-  },
-};
-
-const sharedRecipientRelationshipBase = {
-  title: 'Who receives this income?',
-  hint: 'You’ll be able to add individual incomes separately',
-  labelHeaderLevel: '2',
-  labelHeaderLevelStyle: '3',
+  ...sharedYesNoOptionsBase,
 };
 
 /**
@@ -165,6 +155,7 @@ const updatedSummaryPage = {
         hint:
           'Your dependents include your spouse, including a same-sex and common-law partner and children who you financially support.',
         ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
       },
       yesNoOptionsMore,
     ),
@@ -181,6 +172,7 @@ const updatedSpouseSummaryPage = {
           'Will you or your dependents receive any income in the next year from sources other than bank accounts or property?',
         hint: 'Your dependents include children who you financially support. ',
         ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
       },
       yesNoOptionsMore,
     ),
@@ -197,6 +189,7 @@ const updatedChildSummaryPage = {
           'Will you receive any income in the next year from sources other than bank accounts or property?',
         hint: null,
         ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
       },
       yesNoOptionsMore,
     ),
@@ -214,6 +207,7 @@ const updatedCustodianSummaryPage = {
         hint:
           'Your dependents include your spouse, including a same-sex and common-law partner and the Veteran’s children who you financially support.',
         ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
       },
       yesNoOptionsMore,
     ),
@@ -236,20 +230,9 @@ const veteranIncomeRecipientPage = {
       ),
       descriptions: relationshipLabelDescriptions,
     }),
-    otherRecipientRelationshipType: {
-      'ui:title': 'Describe their relationship to the Veteran',
-      'ui:webComponentField': VaTextInputField,
-      'ui:options': {
-        expandUnder: 'recipientRelationship',
-        expandUnderCondition: 'OTHER',
-      },
-      'ui:required': (formData, index) =>
-        otherRecipientRelationshipExplanationRequired(
-          formData,
-          index,
-          'unassociatedIncomes',
-        ),
-    },
+    otherRecipientRelationshipType: otherRecipientRelationshipTypeUI(
+      'unassociatedIncomes',
+    ),
   },
   schema: {
     type: 'object',
@@ -291,20 +274,9 @@ const spouseIncomeRecipientPage = {
         ),
       ),
     }),
-    otherRecipientRelationshipType: {
-      'ui:title': 'Describe their relationship to the Veteran',
-      'ui:webComponentField': VaTextInputField,
-      'ui:options': {
-        expandUnder: 'recipientRelationship',
-        expandUnderCondition: 'OTHER',
-      },
-      'ui:required': (formData, index) =>
-        otherRecipientRelationshipExplanationRequired(
-          formData,
-          index,
-          'unassociatedIncomes',
-        ),
-    },
+    otherRecipientRelationshipType: otherRecipientRelationshipTypeUI(
+      'unassociatedIncomes',
+    ),
   },
   schema: {
     type: 'object',
@@ -351,20 +323,9 @@ const custodianIncomeRecipientPage = {
         ),
       ),
     }),
-    otherRecipientRelationshipType: {
-      'ui:title': 'Describe their relationship to the Veteran',
-      'ui:webComponentField': VaTextInputField,
-      'ui:options': {
-        expandUnder: 'recipientRelationship',
-        expandUnderCondition: 'OTHER',
-      },
-      'ui:required': (formData, index) =>
-        otherRecipientRelationshipExplanationRequired(
-          formData,
-          index,
-          'unassociatedIncomes',
-        ),
-    },
+    otherRecipientRelationshipType: otherRecipientRelationshipTypeUI(
+      'unassociatedIncomes',
+    ),
   },
   schema: {
     type: 'object',
@@ -404,20 +365,9 @@ const parentIncomeRecipientPage = {
         SPOUSE: 'The Veteran’s other parent should file a separate claim',
       },
     }),
-    otherRecipientRelationshipType: {
-      'ui:title': 'Describe their relationship to the Veteran',
-      'ui:webComponentField': VaTextInputField,
-      'ui:options': {
-        expandUnder: 'recipientRelationship',
-        expandUnderCondition: 'OTHER',
-      },
-      'ui:required': (formData, index) =>
-        otherRecipientRelationshipExplanationRequired(
-          formData,
-          index,
-          'unassociatedIncomes',
-        ),
-    },
+    otherRecipientRelationshipType: otherRecipientRelationshipTypeUI(
+      'unassociatedIncomes',
+    ),
   },
   schema: {
     type: 'object',
@@ -442,20 +392,9 @@ const nonVeteranIncomeRecipientPage = {
       labelHeaderLevelStyle: '3',
       labels: relationshipLabels,
     }),
-    otherRecipientRelationshipType: {
-      'ui:title': 'Describe their relationship to the Veteran',
-      'ui:webComponentField': VaTextInputField,
-      'ui:options': {
-        expandUnder: 'recipientRelationship',
-        expandUnderCondition: 'OTHER',
-      },
-      'ui:required': (formData, index) =>
-        otherRecipientRelationshipExplanationRequired(
-          formData,
-          index,
-          'unassociatedIncomes',
-        ),
-    },
+    otherRecipientRelationshipType: otherRecipientRelationshipTypeUI(
+      'unassociatedIncomes',
+    ),
   },
   schema: {
     type: 'object',
