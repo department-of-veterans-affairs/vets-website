@@ -99,7 +99,7 @@ const PrivateRecordsAuthorization = ({
     },
     onGoForward: () => {
       // Validation ONLY happens on form submission attempt
-      if (data.patient4142Acknowledgement) {
+      if (data?.patient4142Acknowledgement) {
         setHasError(false);
         goForward(data);
       } else {
@@ -465,7 +465,7 @@ const PrivateRecordsAuthorization = ({
                 name="privacy-agreement"
                 error={hasError ? ' ' : ''}
                 label={AUTHORIZATION_LABEL}
-                checked={data.patient4142Acknowledgement}
+                checked={data?.patient4142Acknowledgement || false}
                 onVaChange={handlers.onChange}
                 required
                 enable-analytics
