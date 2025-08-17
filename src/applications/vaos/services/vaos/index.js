@@ -166,20 +166,24 @@ export function getAvailableV2Slots({
   startDate,
   endDate,
 }) {
-  const queryParams = [];
+  let queryParams = [];
   const start = startDate.toISOString();
   const end = endDate.toISOString();
 
   if (typeOfCare) queryParams.push(`clinical_service=${typeOfCare}`);
   if (provider) queryParams.push(`provider=${provider}`);
-  if (queryParams.length > 0) queryParams.unshift('&');
 
   let baseUrl = `/vaos/v2/locations/${facilityId}`;
   if (clinicId) baseUrl = `${baseUrl}/clinics/${clinicId.split('_')[1]}`;
 
+  if (queryParams.length > 0) {
+    // If there are query params, convert to query string
+    queryParams = `&${queryParams.join('&')}`;
+  }
+
   baseUrl = `${baseUrl}/slots?start=${encodeURIComponent(
     start,
-  )}&end=${encodeURIComponent(end)}${queryParams.join('&')}`;
+  )}&end=${encodeURIComponent(end)}${queryParams}`;
 
   return apiRequestWithUrl(baseUrl).then(parseApiList);
 }
