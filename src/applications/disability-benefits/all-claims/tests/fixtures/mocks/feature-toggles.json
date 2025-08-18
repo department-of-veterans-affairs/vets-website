@@ -21,6 +21,10 @@
       {
         "name": "allowEncryptedFiles",
         "value": true
+      },
+      {
+        "name": "disability_526_form4142_use_2024_version",
+        "value": true
       }
 
     ]
