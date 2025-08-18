@@ -6,7 +6,7 @@
       "providerFacility": [
         {
           "providerFacilityAddress": {
-              "city": "Milwalkuee",
+              "city": "Milwaukee",
               "country": "USA",
               "postalCode": "53211",
               "state": "MD",
@@ -164,25 +164,6 @@
       }
     ],
     "patient4142Acknowledgement": true,
-    "providerFacility": [
-      {
-        "providerFacilityAddress": {
-        "city": "Milwaukee",
-        "country": "USA",
-        "postalCode": "53211",
-        "state": "MD",
-        "street": "123 Main St"
-        },
-        "providerFacilityName": "hospital",
-        "treatedDisabilityNames": {
-          "anklereplacementanklearthroplastybilateral": true
-        },
-        "treatmentDateRange": {
-            "from": "2000-02-04",
-            "to": "2002-05-16"
-        }
-      }
-	],
     "attachments": [
       {
         "name": "lolwut.png",
