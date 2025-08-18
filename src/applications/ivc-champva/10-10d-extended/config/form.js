@@ -119,29 +119,29 @@ const formConfig = {
       pages: {
         page1: {
           // initialData: mockData.data,
-          path: 'signer-type',
+          path: 'signer-information/who-is-applying',
           title: 'Which of these best describes you?',
           ...certifierRoleSchema,
         },
         page2: {
-          path: 'signer-info',
+          path: 'signer-information/name',
           title: 'Your name',
           ...certifierNameSchema,
         },
         page3: {
-          path: 'signer-mailing-address',
+          path: 'signer-information/mailing-address',
           title: 'Your mailing address',
           ...certifierAddressSchema,
         },
         page4: {
-          path: 'signer-contact-info',
+          path: 'signer-information/contact-information',
           title: 'Your contact information',
           CustomPage: SignerContactInfoPage,
           CustomPageReview: null,
           ...signerContactInfoPage,
         },
         page5: {
-          path: 'signer-relationship',
+          path: 'signer-information/relationship-to-applicant',
           title: 'Your relationship to applicant',
           depends: formData => get('certifierRole', formData) === 'other',
           ...certifierRelationshipSchema,
@@ -152,36 +152,36 @@ const formConfig = {
       title: 'Sponsor information',
       pages: {
         page5a: {
-          path: 'sponsor-intro',
+          path: 'sponsor-information/overview',
           title: 'Sponsor information',
           ...sponsorIntroSchema,
         },
         page6: {
-          path: 'sponsor-info',
-          title: "Sponsor's name and date of birth",
+          path: 'sponsor-information/name-and-date-of-birth',
+          title: 'Sponsor\u2019s name and date of birth',
           ...sponsorNameDobSchema,
         },
         page7: {
-          path: 'sponsor-identification-info',
-          title: `Sponsor's identification information`,
+          path: 'sponsor-information/social-security-number',
+          title: `Sponsor\u2019s identification information`,
           ...sponsorIdentificationSchema,
         },
         page8: {
-          path: 'sponsor-status',
-          title: "Sponsor's status",
+          path: 'sponsor-information/status',
+          title: 'Sponsor\u2019s status',
           depends: formData => get('certifierRole', formData) !== 'sponsor',
           ...sponsorStatus,
         },
         page9: {
-          path: 'sponsor-status-details',
-          title: "Sponsor's status details",
+          path: 'sponsor-information/status-details',
+          title: 'Sponsor\u2019s status details',
           depends: formData =>
             get('certifierRole', formData) !== 'sponsor' &&
             get('sponsorIsDeceased', formData),
           ...sponsorStatusDetails,
         },
         page10b0: {
-          path: 'sponsor-mailing-same',
+          path: 'sponsor-information/address',
           title: formData => `${sponsorWording(formData)} address selection`,
           // Only show if we have addresses to pull from:
           depends: formData =>
@@ -194,7 +194,7 @@ const formConfig = {
               customAddressKey: 'sponsorAddress',
               customTitle: `${sponsorWording(props.data)} address selection`,
               customDescription:
-                'We’ll send any important information about this form to this address.',
+                'We\u2019ll send any important information about this form to this address.',
               customSelectText: `Does ${sponsorWording(
                 props.data,
                 false,
@@ -210,14 +210,14 @@ const formConfig = {
           schema: blankSchema,
         },
         page10: {
-          path: 'sponsor-mailing-address',
-          title: "Sponsor's mailing address",
+          path: 'sponsor-information/mailing-address',
+          title: 'Sponsor\u2019s mailing address',
           depends: formData => !get('sponsorIsDeceased', formData),
           ...sponsorAddress,
         },
         page11: {
-          path: 'sponsor-contact-information',
-          title: "Sponsor's contact information",
+          path: 'sponsor-information/contact-information',
+          title: 'Sponsor\u2019s contact information',
           depends: formData => !get('sponsorIsDeceased', formData),
           ...sponsorContactInfo,
         },
