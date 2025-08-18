@@ -82,7 +82,7 @@ describe('Paperless Delivery', () => {
         .find('input[type="checkbox"]')
         .should('exist')
         .and('not.be.checked');
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
     });
   });
 
@@ -108,7 +108,7 @@ describe('Paperless Delivery', () => {
           'You’re not enrolled in any VA benefits that offer paperless delivery options',
         )
         .and('be.visible');
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
     });
   });
 });
