@@ -328,7 +328,7 @@ describe('<LetterList>', () => {
     expect(getByText('Proof of Service Card')).to.exist;
     expect(
       getByText(
-        'The Proof of Service Card documents that you served honorably in the Armed Forces.',
+        'The Proof of Service Card shows that you served honorably in the Armed Forces.',
       ),
     ).to.exist;
   });
@@ -374,22 +374,22 @@ describe('<LetterList>', () => {
     expect(getByText('Proof of Service Card')).to.exist;
     expect(
       getByText(
-        'The Proof of Service Card documents that you served honorably in the Armed Forces.',
+        'The Proof of Service Card shows that you served honorably in the Armed Forces.',
       ),
     ).to.exist;
     expect(
       getByText(
-        `The Commissary Letter certifies that you’re eligible to receive commissary store and exchange privileges from the Armed Forces.`,
+        `The Commissary Letter shows that you’re eligible to receive commissary store and exchange privileges from the Armed Forces.`,
       ),
     ).to.exist;
     expect(
       getByText(
-        'A prescription drug coverage letter proves that you qualify for Medicare Part D prescription drug coverage.',
+        'The Proof of Creditable Prescription Drug Coverage Letter proves that you qualify for Medicare Part D prescription drug coverage.',
       ),
     ).to.exist;
     expect(
       getByText(
-        'A minimum essential coverage letter proves that you have the right amount of healthcare coverage required by the Affordable Care Act (ACA).',
+        'The Proof of Minimum Essential Coverage Letter proves that you have the right amount of health care coverage required by the Affordable Care Act (ACA).',
       ),
     ).to.exist;
     expect(
@@ -399,7 +399,7 @@ describe('<LetterList>', () => {
     ).to.exist;
     expect(
       getByText(
-        'The Benefit Verification Letter documents your VA financial benefits.',
+        'The Benefit Verification Letter shows your VA financial benefits.',
       ),
     ).to.exist;
   });

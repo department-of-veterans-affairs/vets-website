@@ -31,7 +31,7 @@ describe('Decision Reviews Onramp', () => {
 
       // RESULTS
       h.verifyUrl(ROUTES.RESULTS);
-      h.verifyText(h.RESULTS_HEADER, RESULTS_1_1B);
+      h.verifyNonDrResultsHeader(RESULTS_1_1B);
       cy.go('back');
 
       // Q_1_1A_SUBMITTED_526

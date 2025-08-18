@@ -59,7 +59,7 @@ export default function ReasonForAppointmentSection({ data }) {
           <div>
             <va-link
               href={reason.url}
-              aria-label="Edit details you’d like to share with your provider"
+              label="Edit details you’d like to share with your provider"
               text="Edit"
               data-testid="edit-new-appointment"
               onClick={handleClick(history, home, reason)}

@@ -62,7 +62,7 @@ describe('Decision Reviews Onramp', () => {
 
       // RESULTS
       h.verifyUrl(ROUTES.RESULTS);
-      h.verifyText(h.RESULTS_HEADER, RESULTS_BOARD_HEARING);
+      h.verifyDrResultsHeader(RESULTS_BOARD_HEARING);
       cy.go('back');
 
       // Q_2_H_2B_JUDGE_HEARING
