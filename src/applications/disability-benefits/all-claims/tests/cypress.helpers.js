@@ -120,11 +120,47 @@ export const setup = (cy, testOptions = {}) => {
   window.sessionStorage.removeItem(WIZARD_STATUS);
   window.sessionStorage.removeItem(FORM_STATUS_BDD);
 
-  cy.intercept(
-    'GET',
-    '/v0/feature_toggles*',
-    testOptions?.toggles || mockFeatureToggles,
-  );
+  if (testOptions?.prefillData?.disability526Enable2024Form4142 === true) {
+    cy.intercept('GET', '/v0/feature_toggles*', {
+      statusCode: 200,
+      body: {
+        data: {
+          features: [
+            {
+              name: 'disability_526_form4142_use_2024_version',
+              value: true,
+            },
+            {
+              name: 'show526Wizard',
+              value: true,
+            },
+            {
+              name: 'form526_confirmation_email',
+              value: true,
+            },
+            {
+              name: 'form526_confirmation_email_show_copy',
+              value: true,
+            },
+            {
+              name: 'subform_8940_4192',
+              value: true,
+            },
+            {
+              name: 'allowEncryptedFiles',
+              value: true,
+            },
+          ],
+        },
+      },
+    });
+  } else {
+    cy.intercept(
+      'GET',
+      '/v0/feature_toggles*',
+      testOptions?.toggles || mockFeatureToggles,
+    );
+  }
 
   // `mockItf` is not a fixture; it can't be loaded as a fixture
   // because fixtures don't evaluate JS.
