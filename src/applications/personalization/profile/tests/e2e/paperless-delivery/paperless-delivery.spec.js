@@ -140,6 +140,12 @@ describe('Paperless Delivery', () => {
       cy.get('va-checkbox').should('not.exist');
     });
 
+    it('should display not enrolled alert', () => {
+      cy.findByText(
+        /You’re not enrolled in any VA benefits that offer paperless delivery options/,
+      ).should('exist');
+    });
+
     it('should display note text', () => {
       cy.findByText(
         /We have limited documents available for paperless delivery at this time/,
