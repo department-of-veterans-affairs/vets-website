@@ -21,9 +21,6 @@ const IntroductionPage = ({
   }, []);
 
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const showLegacyWizard = useToggleValue(
-    TOGGLE_NAMES.showFinancialStatusReportWizard,
-  );
   const showStaticWizard = useToggleValue(TOGGLE_NAMES.fsrWizard);
 
   if (!route || !route.formConfig || !route.pageList) {
@@ -85,10 +82,7 @@ const IntroductionPage = ({
       <h2 className="vads-u-font-size--h3">
         Follow these steps to request help
       </h2>
-      <IntroProcessList
-        showLegacyWizard={showLegacyWizard}
-        showStaticWizard={showStaticWizard}
-      />
+      <IntroProcessList showStaticWizard={showStaticWizard} />
       <div className="vads-u-margin-y--4">
         <ShowAlertOrSip
           user={user}

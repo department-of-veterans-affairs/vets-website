@@ -5,11 +5,7 @@ import { formatDateLong } from 'platform/utilities/date';
 import { deductionCodes } from '../constants/deduction-codes';
 import { ignoreFields } from '../constants/ignoreFields';
 
-export const fsrLegacyWizardFeatureToggle = state => {
-  return toggleValues(state)[
-    FEATURE_FLAG_NAMES.showFinancialStatusReportWizard
-  ];
-};
+// Legacy wizard feature flag removed
 
 export const fsrFeatureToggle = state => {
   return toggleValues(state)[FEATURE_FLAG_NAMES.showFinancialStatusReport];
@@ -76,7 +72,7 @@ export const currency = amount => {
 };
 
 const hasProperty = (arr, key) => {
-  return arr.filter(item => item[key]).length > 0 ?? false;
+  return arr.filter(item => item[key]).length > 0;
 };
 
 export const sumValues = (arr, key) => {

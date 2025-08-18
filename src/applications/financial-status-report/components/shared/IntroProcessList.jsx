@@ -1,10 +1,7 @@
 import React from 'react';
-import recordEvent from 'platform/monitoring/record-event';
 import PropTypes from 'prop-types';
-import { WIZARD_STATUS } from '../../wizard/constants';
-import manifest from '../../manifest.json';
 
-const IntroProcessList = ({ showLegacyWizard, showStaticWizard }) => {
+const IntroProcessList = ({ showStaticWizard }) => {
   return showStaticWizard ? (
     <>
       <va-process-list
@@ -114,23 +111,6 @@ const IntroProcessList = ({ showLegacyWizard, showStaticWizard }) => {
     </>
   ) : (
     <>
-      {/* This link resets the legacy wizard, should be disabled with the main flag */}
-      {showLegacyWizard ? (
-        <p>
-          If you don’t think this is the right form for you,
-          <a
-            href={manifest.rootUrl}
-            onClick={() => {
-              sessionStorage.removeItem(WIZARD_STATUS);
-              recordEvent({ event: 'howToWizard-start-over' });
-            }}
-            className="vads-u-margin-left--0p5"
-          >
-            go back and answer questions again
-          </a>
-          .
-        </p>
-      ) : null}
       <va-process-list
         class="vads-u-margin-left--neg2 vads-u-padding-bottom--0"
         data-testid="legacy-process-list"
@@ -242,7 +222,6 @@ const IntroProcessList = ({ showLegacyWizard, showStaticWizard }) => {
 };
 
 IntroProcessList.propTypes = {
-  showLegacyWizard: PropTypes.bool,
   showStaticWizard: PropTypes.bool,
 };
 

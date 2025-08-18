@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import MetaTags from 'react-meta-tags';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
@@ -9,20 +9,12 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
 import { setData } from 'platform/forms-system/src/js/actions';
-import {
-  WIZARD_STATUS_NOT_STARTED,
-  WIZARD_STATUS_COMPLETE,
-  WIZARD_STATUS_RESTARTED,
-  restartShouldRedirect,
-} from 'platform/site-wide/wizard';
+// Legacy wizard fully removed; no site-wide wizard usage
 
 import formConfig from '../config/form';
 import { fetchFormStatus } from '../actions';
 import { ErrorAlert } from '../components/alerts/Alerts';
-import WizardContainer from '../wizard/WizardContainer';
-import { WIZARD_STATUS } from '../wizard/constants';
 import {
-  fsrLegacyWizardFeatureToggle,
   fsrFeatureToggle,
   reviewPageNavigationFeatureToggle,
 } from '../utils/helpers';
@@ -41,11 +33,9 @@ const App = ({
   location,
   pending,
   profile,
-  router,
   setFormData,
   showFSR,
   showReviewPageNavigationFeature,
-  showLegacyWizard,
 }) => {
   const dispatch = useDispatch();
   const { shouldShowReviewButton } = useDetectFieldChanges(formData);
@@ -56,7 +46,6 @@ const App = ({
   const showStreamlinedWaiver = useToggleValue(
     TOGGLE_NAMES.showFinancialStatusReportStreamlinedWaiver,
   );
-  const showStaticWizard = useToggleValue(TOGGLE_NAMES.fsrWizard);
 
   // Set the document title based on the current page
   useDocumentTitle(location);
@@ -83,20 +72,7 @@ const App = ({
 
   const { email = {}, mobilePhone = {}, mailingAddress = {} } = contactData;
 
-  const [wizardState, setWizardState] = useState(
-    sessionStorage.getItem(WIZARD_STATUS) || WIZARD_STATUS_NOT_STARTED,
-  );
-
-  const setWizardStatus = value => {
-    sessionStorage.setItem(WIZARD_STATUS, value);
-    setWizardState(value);
-  };
-
-  const hasRestarted = () => {
-    setWizardStatus(WIZARD_STATUS_RESTARTED);
-    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_RESTARTED);
-    router.push('/');
-  };
+  // Legacy wizard removed; no wizard state handling required
 
   // Contact information data
   useEffect(
@@ -129,20 +105,9 @@ const App = ({
     [email, formData, isLoggedIn, mobilePhone, mailingAddress, setFormData],
   );
 
-  useEffect(() => {
-    if (restartShouldRedirect(WIZARD_STATUS)) {
-      hasRestarted();
-    }
-  });
+  // Removed legacy wizard restart redirect
 
-  useEffect(
-    () => {
-      if (showFSR === false) {
-        setWizardStatus(WIZARD_STATUS_NOT_STARTED);
-      }
-    },
-    [showFSR],
-  );
+  // No wizard status to reset
 
   useEffect(
     () => {
@@ -197,15 +162,7 @@ const App = ({
     return <ErrorAlert />;
   }
 
-  if (
-    !showStaticWizard &&
-    showLegacyWizard &&
-    wizardState !== WIZARD_STATUS_COMPLETE
-  ) {
-    return (
-      <WizardContainer setWizardStatus={setWizardStatus} showFSR={showFSR} />
-    );
-  }
+  // Legacy wizard removed; always render form when available
 
   return showFSR ? (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
@@ -240,7 +197,6 @@ App.propTypes = {
   setFormData: PropTypes.func,
   showFSR: PropTypes.bool,
   showReviewPageNavigationFeature: PropTypes.bool,
-  showLegacyWizard: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
@@ -249,7 +205,6 @@ const mapStateToProps = state => ({
   isError: state.fsr.isError,
   pending: state.fsr.pending,
   profile: selectProfile(state) || {},
-  showLegacyWizard: fsrLegacyWizardFeatureToggle(state),
   showFSR: fsrFeatureToggle(state),
   showReviewPageNavigationFeature: reviewPageNavigationFeatureToggle(state),
   isLoadingFeatures: toggleValues(state).loading,
