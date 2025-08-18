@@ -73,7 +73,7 @@ describe('Paperless Delivery', () => {
         .shadow()
         .find('input[type="checkbox"]')
         .click({ force: true });
-      cy.wait('@paperlessPatchAllowed');
+      cy.wait('@paperlessPatch');
       cy.get('va-alert')
         .should('be.visible')
         .and('contain.text', 'Update saved');
