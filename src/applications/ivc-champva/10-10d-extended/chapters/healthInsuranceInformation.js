@@ -113,6 +113,7 @@ export const healthInsuranceOptions = {
       </ul>
     ),
   },
+  reviewPanelHeadingLevel: '3',
 };
 
 const healthInsuranceIntroPage = {

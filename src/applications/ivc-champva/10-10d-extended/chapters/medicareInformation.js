@@ -97,6 +97,7 @@ export const medicareOptions = {
       </ul>
     ),
   },
+  reviewPanelHeadingLevel: '3',
 };
 
 const medicareSummaryPage = {
