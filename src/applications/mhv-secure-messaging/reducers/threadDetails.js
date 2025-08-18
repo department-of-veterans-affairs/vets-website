@@ -19,6 +19,8 @@ const initialState = {
     careSystemName: null,
     careSystemVhaId: null,
     attachments: [],
+    navigationError: null,
+    saveError: null,
   },
 };
 

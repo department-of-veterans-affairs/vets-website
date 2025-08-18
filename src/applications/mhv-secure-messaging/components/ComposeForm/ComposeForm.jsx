@@ -184,13 +184,31 @@ const ComposeForm = props => {
   const [attachments, setAttachments] = useState([]);
   const [fieldsString, setFieldsString] = useState('');
   const [messageInvalid, setMessageInvalid] = useState(false);
-  const [navigationError, setNavigationError] = useState(null);
-  const [saveError, setSaveError] = useState(null);
+  const navigationError = draftInProgress?.navigationError;
+  const setNavigationError = useCallback(
+    error => {
+      dispatch(updateDraftInProgress({ navigationError: error }));
+    },
+    [dispatch],
+  );
+  const saveError = draftInProgress?.saveError;
+  const setSaveError = useCallback(
+    error => {
+      dispatch(updateDraftInProgress({ saveError: error }));
+    },
+    [dispatch],
+  );
   const [lastFocusableElement, setLastFocusableElement] = useState(null);
   const [modalVisible, updateModalVisible] = useState(false);
   const [attachFileSuccess, setAttachFileSuccess] = useState(false);
   const [deleteButtonClicked, setDeleteButtonClicked] = useState(false);
-  const [savedDraft, setSavedDraft] = useState(false);
+  const savedDraft = draftInProgress?.savedDraft;
+  const setSavedDraft = useCallback(
+    value => {
+      dispatch(updateDraftInProgress({ savedDraft: value }));
+    },
+    [dispatch],
+  );
   const [currentRecipient, setCurrentRecipient] = useState(null);
   const [comboBoxInputValue, setComboBoxInputValue] = useState('');
 
