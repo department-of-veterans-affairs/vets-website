@@ -28,10 +28,14 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(10);
 
-  const searchParams = useMemo(() => new URLSearchParams(location.search), [
-    location.search,
-  ]);
-  const query = location.query || Object.fromEntries(searchParams.entries());
+  const query = useMemo(
+    () => {
+      if (location.query) return location.query;
+      return Object.fromEntries(new URLSearchParams(location.search));
+    },
+    [location.search, location.query],
+  );
+
   const isAllBenefits = query.allBenefits;
 
   const filterOptions = useMemo(
