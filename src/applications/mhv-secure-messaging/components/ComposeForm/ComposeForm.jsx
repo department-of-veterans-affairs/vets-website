@@ -26,7 +26,6 @@ import {
   messageSignatureFormatter,
   setCaretToPos,
   navigateToFolderByFolderId,
-  resetUserSession,
   dateFormat,
   scrollToTop,
 } from '../../util/helpers';
@@ -53,7 +52,6 @@ import { RadioCategories } from '../../util/inputContants';
 import { getCategories } from '../../actions/categories';
 import ElectronicSignature from './ElectronicSignature';
 import RecipientsSelect from './RecipientsSelect';
-import { useSessionExpiration } from '../../hooks/use-session-expiration';
 import EditSignatureLink from './EditSignatureLink';
 import useFeatureToggles from '../../hooks/useFeatureToggles';
 import {
@@ -239,21 +237,6 @@ const ComposeForm = props => {
       ).length > 0,
     [alertsList],
   );
-
-  const localStorageValues = useMemo(() => {
-    return {
-      atExpires: localStorage.atExpires,
-      hasSession: localStorage.hasSession,
-      sessionExpiration: localStorage.sessionExpiration,
-      userFirstName: localStorage.userFirstName,
-    };
-  }, []);
-
-  const { signOutMessage, timeoutId } = resetUserSession(localStorageValues);
-
-  const noTimeout = () => {
-    clearTimeout(timeoutId);
-  };
 
   useEffect(
     () => {
@@ -861,40 +844,6 @@ const ComposeForm = props => {
   const electronicCheckboxHandler = e => {
     setCheckboxMarked(e.detail.checked);
   };
-
-  const beforeUnloadHandler = useCallback(
-    e => {
-      if (
-        selectedRecipientId?.toString() !==
-          (draft ? draft?.recipientId.toString() : '0') ||
-        category !== (draft ? draft?.category : null) ||
-        subject !== (draft ? draft?.subject : '') ||
-        messageBody !== (draft ? draft?.body : '') ||
-        attachments.length
-      ) {
-        e.preventDefault();
-        window.onbeforeunload = () => signOutMessage;
-        e.returnValue = true;
-      } else {
-        window.removeEventListener('beforeunload', beforeUnloadHandler);
-        window.onbeforeunload = null;
-        e.returnValue = false;
-        noTimeout();
-      }
-    },
-    [
-      selectedRecipientId,
-      draft,
-      category,
-      subject,
-      messageBody,
-      attachments,
-      signOutMessage,
-      noTimeout,
-    ],
-  );
-
-  useSessionExpiration(beforeUnloadHandler, noTimeout);
 
   if (sendMessageFlag === true) {
     return (

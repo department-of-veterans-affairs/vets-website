@@ -9,6 +9,7 @@ import {
   updateDraftInProgress,
 } from '../../actions/threadDetails';
 import { ErrorMessages, Paths } from '../../util/constants';
+import useBeforeUnloadGuard from '../../hooks/useBeforeUnloadGuard';
 
 export const RouteLeavingGuard = ({ saveDraftHandler, type }) => {
   const dispatch = useDispatch();
@@ -102,9 +103,13 @@ export const RouteLeavingGuard = ({ saveDraftHandler, type }) => {
       const nextPath = nextLocation.pathname;
 
       // Allow navigation between specified paths without guard
+      const normalizePath = path => path.replace(/\/$/, '');
+      const normalizedCurrentPath = normalizePath(currentPath);
+      const normalizedNextPath = normalizePath(nextPath);
+
       if (
-        allowedPaths.includes(currentPath) &&
-        allowedPaths.includes(nextPath)
+        allowedPaths.includes(normalizedCurrentPath) &&
+        allowedPaths.includes(normalizedNextPath)
       ) {
         return true;
       }
@@ -175,6 +180,7 @@ export const RouteLeavingGuard = ({ saveDraftHandler, type }) => {
     [saveError, savedDraft],
   );
 
+  useBeforeUnloadGuard(when);
   return (
     <>
       <Prompt when={when} message={handleBlockedNavigation} />

@@ -15,7 +15,6 @@ import {
   decodeHtmlEntities,
   messageSignatureFormatter,
   navigateToFolderByFolderId,
-  resetUserSession,
   setCaretToPos,
 } from '../../util/helpers';
 import AttachmentsList from '../AttachmentsList';
@@ -34,7 +33,6 @@ import { saveReplyDraft } from '../../actions/draftDetails';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
 import { retrieveMessageThread, sendReply } from '../../actions/messages';
 import { focusOnErrorField } from '../../util/formHelpers';
-import { useSessionExpiration } from '../../hooks/use-session-expiration';
 import { updateDraftInProgress } from '../../actions/threadDetails';
 
 const ReplyDraftItem = props => {
@@ -112,22 +110,7 @@ const ReplyDraftItem = props => {
     [alertsList],
   );
 
-  const localStorageValues = useMemo(() => {
-    return {
-      atExpires: localStorage.atExpires,
-      hasSession: localStorage.hasSession,
-      sessionExpiration: localStorage.sessionExpiration,
-      userFirstName: localStorage.userFirstName,
-    };
-  }, []);
-
-  const { signOutMessage, timeoutId } = resetUserSession(localStorageValues);
-
   const replyToMessageId = draft?.messageId || replyMessage.messageId;
-
-  const noTimeout = () => {
-    clearTimeout(timeoutId);
-  };
 
   const formattededSignature = useMemo(
     () => {
@@ -142,24 +125,6 @@ const ReplyDraftItem = props => {
     },
     [replyMessage, dispatch],
   );
-
-  const beforeUnloadHandler = useCallback(
-    e => {
-      if (messageBody !== (draft ? draft.body : '') || attachments.length) {
-        e.preventDefault();
-        window.onbeforeunload = () => signOutMessage;
-        e.returnValue = true;
-      } else {
-        window.removeEventListener('beforeunload', beforeUnloadHandler);
-        window.onbeforeunload = null;
-        e.returnValue = false;
-        noTimeout();
-      }
-    },
-    [messageBody, draft, attachments, signOutMessage, noTimeout],
-  );
-
-  useSessionExpiration(beforeUnloadHandler, noTimeout);
 
   const checkMessageValidity = useCallback(
     () => {
