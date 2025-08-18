@@ -18,7 +18,7 @@ export default function AppointmentTime({ date, timezone }) {
   );
   return (
     <div data-dd-privacy="mask" data-testid="appointment-time">
-      {formattedTime}
+      {`${formattedTime} `}
       <span aria-hidden="true" data-testid="appointment-time-abbreviation">
         {timezoneAbbreviation}
       </span>
