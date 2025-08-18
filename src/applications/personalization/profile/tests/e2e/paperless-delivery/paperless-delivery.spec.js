@@ -89,13 +89,17 @@ describe('Paperless Delivery', () => {
       cy.visit(PROFILE_PATHS.PAPERLESS_DELIVERY);
     });
 
-    it('should render the page with no accessibility violations', () => {
+    it('displays alert - not available yet', () => {
       cy.findByRole('heading', { name: 'Paperless delivery', level: 1 }).should(
         'be.visible',
       );
-      cy.findByText(
-        /You’re not enrolled in any VA benefits that offer paperless delivery options/,
-      ).should('exist');
+      cy.get('va-alert')
+        .should('contain.text', 'Paperless delivery not available yet')
+        .and(
+          'contain.text',
+          'You’re not enrolled in any VA benefits that offer paperless delivery options',
+        )
+        .and('be.visible');
       cy.axeCheck();
     });
   });
