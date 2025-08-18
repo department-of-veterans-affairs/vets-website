@@ -65,8 +65,8 @@ const VaFileInputMultipleField = props => {
     () => {
       let id;
       if (
-        componentRef.current ||
-        componentRef.current.shadowRoot ||
+        componentRef.current &&
+        componentRef.current.shadowRoot &&
         uiOptions.additionalInputUpdate
       ) {
         // using a delay because the slot content does not render immediatley
