@@ -187,6 +187,10 @@ export const setup = (cy, testOptions = {}) => {
       formData.syncModern0781Flow = testOptions.prefillData.syncModern0781Flow;
     }
 
+    if (testOptions?.prefillData?.disability526Enable2024Form4142) {
+      formData.disability526Enable2024Form4142 =
+        testOptions.prefillData.disability526Enable2024Form4142;
+    }
     cy.intercept('GET', `${MOCK_SIPS_API}*`, {
       formData,
       metadata: mockPrefill.metadata,
@@ -491,7 +495,35 @@ export const pageHooks = (cy, testOptions) => ({
   },
 
   'supporting-evidence/private-medical-records': () => {
-    cy.get('[type="radio"][value="Y"]').check({ force: true });
+    cy.get('@testData').then(data => {
+      if (
+        data['view:uploadPrivateRecordsQualifier'][
+          'view:hasPrivateRecordsToUpload'
+        ] === true
+      ) {
+        cy.get('[type="radio"][value="Y"]').check({ force: true });
+        cy.fillPage();
+      } else {
+        cy.get('[type="radio"][value="N"]').check({ force: true });
+      }
+      cy.findByText(/continue/i, { selector: 'button' }).click();
+    });
+  },
+
+  'supporting-evidence/private-medical-records-authorize-release': () => {
+    cy.get('@testData').then(data => {
+      if (data.patient4142Acknowledgement === true) {
+        cy.get('h3')
+          .invoke('text')
+          .then(textValue => {
+            expect(textValue).to.include(
+              'Authorize the release of non-VA medical records to VA',
+            );
+          });
+        cy.get('input[name="privacy-agreement"]').focus();
+        cy.get('input[name="privacy-agreement"]').click({ force: true });
+      }
+    });
     cy.findByText(/continue/i, { selector: 'button' }).click();
   },
 
