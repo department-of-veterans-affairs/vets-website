@@ -100,7 +100,7 @@ const responses = {
             profileLimitDirectDepositForNonBeneficiaries: true,
             profileShowCredentialRetirementMessaging: true,
             profileShowNewHealthCareCopayBillNotificationSetting: false,
-            profileShowMhvNotificationSettingsEmailAppointmentReminders: false,
+            profileShowMhvNotificationSettingsEmailAppointmentReminders: true,
             profileShowMhvNotificationSettingsEmailRxShipment: true,
             profileShowMhvNotificationSettingsNewSecureMessaging: true,
             profileShowMhvNotificationSettingsMedicalImages: true,

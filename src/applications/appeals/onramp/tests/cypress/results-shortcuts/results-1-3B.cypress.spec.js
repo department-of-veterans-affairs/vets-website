@@ -48,7 +48,7 @@ describe('Decision Reviews Onramp', () => {
 
       // RESULTS
       h.verifyUrl(ROUTES.RESULTS);
-      h.verifyText(h.RESULTS_HEADER, RESULTS_1_3B);
+      h.verifyNonDrResultsHeader(RESULTS_1_3B);
       cy.go('back');
 
       // Q_1_3A_FEWER_60_DAYS
