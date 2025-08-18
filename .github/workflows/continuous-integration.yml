@@ -351,6 +351,15 @@ jobs:
       - name: Create test results folder
         run: mkdir -p test-results
 
+
+      - name: Detect network APIs used
+        run: node script/find-network-apis.js src
+      - name: Set patch toggles
+        run: |
+          # naive mapping; tune as needed
+          echo "UNHANDLED_HTTP_PATCH_FETCH=$(node -e "p=JSON.parse(process.env.NETWORK_API_DISCOVERY_JSON||'{}');console.log(p.fetch?.length||p.undici?.length?'true':'false')")" >> $GITHUB_ENV
+          echo "UNHANDLED_HTTP_PATCH_XHR=$(node -e "p=JSON.parse(process.env.NETWORK_API_DISCOVERY_JSON||'{}');console.log(p.xhr?.length?'true':'false')")" >> $GITHUB_ENV
+          echo "UNHANDLED_HTTP_PATCH_HTTP=$(node -e "p=JSON.parse(process.env.NETWORK_API_DISCOVERY_JSON||'{}');console.log((p.http?.length||p.got?.length||p.nodeFetch?.length||p.axios?.length)?'true':'false')")" >> $GITHUB_ENV
       - name: Run unit tests
         id: run-tests
         run: |
@@ -791,6 +800,15 @@ jobs:
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
 
+      - name: Detect network APIs used
+        run: node script/find-network-apis.js src
+      - name: Set patch toggles
+        run: |
+          # naive mapping; tune as needed
+          echo "UNHANDLED_HTTP_PATCH_FETCH=$(node -e "p=JSON.parse(process.env.NETWORK_API_DISCOVERY_JSON||'{}');console.log(p.fetch?.length||p.undici?.length?'true':'false')")" >> $GITHUB_ENV
+          echo "UNHANDLED_HTTP_PATCH_XHR=$(node -e "p=JSON.parse(process.env.NETWORK_API_DISCOVERY_JSON||'{}');console.log(p.xhr?.length?'true':'false')")" >> $GITHUB_ENV
+          echo "UNHANDLED_HTTP_PATCH_HTTP=$(node -e "p=JSON.parse(process.env.NETWORK_API_DISCOVERY_JSON||'{}');console.log((p.http?.length||p.got?.length||p.nodeFetch?.length||p.axios?.length)?'true':'false')")" >> $GITHUB_ENV
+      
       - name: Run Cypress tests
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         run: node script/github-actions/run-cypress-tests.js
