@@ -118,6 +118,11 @@
         "condition": "asthma"
       },
       {
+        "cause": "NEW",
+        "primaryDescription": "It makes no sense for this particular condition, but hey, this is only test data.",
+        "condition": "PTSD (post-traumatic stress disorder)"
+      },
+      {
         "cause": "WORSENED",
         "worsenedDescription": "My knee was strained in the service",
         "worsenedEffects": "It wasn't great before, but it got bad enough I needed a replacement. Now I have to take medication for it. I think. That makes sense, right?",
