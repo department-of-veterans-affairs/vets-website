@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import transformTestData from '../fixtures/data/transform-test-data.json';
+import formConfig from '../../config/form';
 import transform from '../../config/transform';
 
 describe('22-1919 Transform Function', () => {
@@ -22,7 +23,7 @@ describe('22-1919 Transform Function', () => {
 
     // Facility code provided for institution
     submitData = JSON.parse(
-      transform({
+      transform(formConfig, {
         data: transformTestData.beforeTransform1,
       }),
     );
@@ -30,7 +31,8 @@ describe('22-1919 Transform Function', () => {
 
     // Facility code *not yet* provided for institution
     submitData = JSON.parse(
-      transform({
+      transform(formConfig, {
+        formConfig,
         data: transformTestData.beforeTransform2,
       }),
     );
