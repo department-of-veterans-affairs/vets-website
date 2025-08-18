@@ -1,4 +1,5 @@
 import { makeUserObject } from '~/applications/personalization/common/helpers';
+import { generateFeatureToggles } from '@@profile/mocks/endpoints/feature-toggles';
 import mockGet from '@@profile/tests/fixtures/paperless-delivery/paperless-delivery-200.json';
 import mockPatch from '@@profile/tests/fixtures/paperless-delivery/paperless-delivery-patch.json';
 import mockPatchAllowed from '@@profile/tests/fixtures/paperless-delivery/paperless-delivery-patch-allowed.json';
@@ -6,6 +7,13 @@ import { PROFILE_PATHS } from '@@profile/constants';
 
 describe('Paperless Delivery', () => {
   beforeEach(() => {
+    cy.intercept(
+      'GET',
+      '/v0/feature_toggles*',
+      generateFeatureToggles({
+        profileShowPaperlessDelivery: true,
+      }),
+    );
     cy.intercept('GET', '/v0/profile/communication_preferences', {
       body: mockGet,
       statusCode: 200,
