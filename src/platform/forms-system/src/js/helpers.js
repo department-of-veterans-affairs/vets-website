@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { add, getYear } from 'date-fns';
-import { intersection, matches, merge, uniq } from 'lodash';
+import { cloneDeep, intersection, matches, merge, uniq } from 'lodash';
 import * as Sentry from '@sentry/browser';
 import shouldUpdate from 'recompose/shouldUpdate';
 import { deepEquals } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
@@ -68,14 +68,55 @@ export function getActivePages(pages, data) {
   return pages.filter(page => isActivePage(page, data));
 }
 
+export function getPageProperties(page) {
+  if (!page?.schema?.properties) return [];
+
+  const isArrayPage =
+    typeof page.arrayPath === 'string' &&
+    page.arrayPath.length &&
+    page.schema.properties[page.arrayPath]?.items?.properties;
+
+  if (isArrayPage) {
+    const { properties } = page.schema.properties[page.arrayPath].items;
+    return Object.keys(properties).map(
+      key => `${page.arrayPath}.${page.index}.${key}`,
+    );
+  }
+
+  return Object.keys(page.schema.properties);
+}
+
+export function deleteNestedProperty(obj, pathString) {
+  let current = obj;
+  const parts = pathString.split('.');
+  for (let i = 0; i < parts.length - 1; i++) {
+    const next = current?.[parts[i]];
+    if (next === null || typeof next !== 'object') return;
+    current = next;
+  }
+  if (current && typeof current === 'object') {
+    delete current[parts[parts.length - 1]];
+  }
+}
+
 export function getActiveProperties(activePages) {
-  const allProperties = [];
-  activePages.forEach(page => {
-    if (page.schema) {
-      allProperties.push(...Object.keys(page.schema.properties));
-    }
+  const props = activePages.flatMap(page => {
+    const pageProps = getPageProperties(page);
+    if (pageProps.length) return pageProps;
+
+    const hasArrayPath =
+      typeof page.arrayPath === 'string' && page.arrayPath.length;
+    const hasItemsSchema = !!page?.schema?.properties?.[page.arrayPath]?.items;
+
+    // items may be $ref’d with no inline properties; mark parent as active
+    if (hasArrayPath && hasItemsSchema) return [page.arrayPath];
+
+    if (page?.schema?.properties) return Object.keys(page.schema.properties);
+
+    return [];
   });
-  return uniq(allProperties);
+
+  return [...new Set(props)];
 }
 
 export function getInactivePages(pages, data) {
@@ -251,21 +292,58 @@ export function filterViewFields(data) {
   }, {});
 }
 
-export function filterInactivePageData(inactivePages, activePages, form) {
-  const activeProperties = getActiveProperties(activePages);
-  let newData;
+// Check 'events' for 'events.0.agency', 'veteran' for 'veteran.fullName.first', etc.
+function hasActiveAncestor(prop, activeSet) {
+  const parts = prop.split('.');
+  for (let i = 1; i < parts.length; i++) {
+    const ancestor = parts.slice(0, i).join('.');
+    if (activeSet.has(ancestor)) return true;
+  }
+  return false;
+}
 
-  return inactivePages.reduce(
-    (formData, page) =>
-      Object.keys(page.schema.properties).reduce((currentData, prop) => {
-        newData = currentData;
-        if (!activeProperties.includes(prop)) {
-          delete newData[prop];
-        }
-        return newData;
-      }, formData),
-    form.data,
-  );
+export function filterInactivePageData(inactivePages, activePages, form) {
+  const activeProps = getActiveProperties(activePages);
+  const activePropsSet = new Set(activeProps);
+  const formData = cloneDeep(form.data); // don't mutate inputs
+
+  // count how many active nested fields exist per array item: "<root>.<index>"
+  const activeItemCounts = activeProps.reduce((map, p) => {
+    const parts = p.split('.');
+    const isArrayChild = parts.length > 2 && /^\d+$/.test(parts[1]);
+    if (isArrayChild) {
+      const key = `${parts[0]}.${parts[1]}`;
+      map.set(key, (map.get(key) || 0) + 1);
+    }
+    return map;
+  }, new Map());
+
+  inactivePages.forEach(page => {
+    getPageProperties(page).forEach(prop => {
+      // protected if there's an exact active match or an active ancestor (e.g., 'dependents' or 'events')
+      if (activePropsSet.has(prop) || hasActiveAncestor(prop, activePropsSet)) {
+        return;
+      }
+
+      const parts = prop.split('.');
+      const isArrayChild =
+        parts.length > 2 &&
+        /^\d+$/.test(parts[1]) &&
+        Array.isArray(formData?.[parts[0]]);
+      const itemPrefix = isArrayChild ? `${parts[0]}.${parts[1]}` : null;
+
+      // Keep siblings ONLY if that array item has MULTIPLE active fields
+      // (e.g., events.0 has details + location active). If there's just one
+      // active field (e.g., dependents.0.ssn), allow deletion of inactive siblings.
+      if (isArrayChild && (activeItemCounts.get(itemPrefix) || 0) >= 2) {
+        return;
+      }
+
+      deleteNestedProperty(formData, prop);
+    });
+  });
+
+  return formData;
 }
 
 export const stringifyFormReplacer = createStringifyFormReplacer();
