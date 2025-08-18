@@ -10,6 +10,8 @@ import environment from 'platform/utilities/environment';
 import { dispatchIncompleteItemError } from './ArrayBuilderEvents';
 import { DEFAULT_ARRAY_BUILDER_TEXT } from './arrayBuilderText';
 
+export const META_DATA_KEY = 'metadata';
+
 /**
  * Initializes the getText function for the ArrayBuilder
  */
