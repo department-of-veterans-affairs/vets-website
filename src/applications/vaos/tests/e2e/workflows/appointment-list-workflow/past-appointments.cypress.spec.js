@@ -12,6 +12,7 @@ import {
   mockVamcEhrApi,
   vaosSetup,
 } from '../../vaos-cypress-helpers';
+import AppointmentDetailPageObject from '../../page-objects/AppointmentList/AppointmentDetailPageObject';
 
 describe('VAOS past appointment flow', () => {
   describe('When veteran has past appointments', () => {
@@ -74,6 +75,8 @@ describe('VAOS past appointment flow', () => {
         .assertAppointmentList({ numberOfAppointments: 1 })
         .selectListItem()
         .assertLink({ name: /Back to past appointments/i, useShadowDOM: true });
+
+      AppointmentDetailPageObject.assertDaysLeftToFile();
 
       cy.axeCheckBestPractice();
     });
