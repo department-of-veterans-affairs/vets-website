@@ -1,5 +1,6 @@
 import get from 'platform/utilities/data/get';
 import { capitalize } from 'lodash';
+import { fullNameNoSuffixUI } from '~/platform/forms-system/src/js/web-component-patterns';
 
 export const showUpdatedContent = () =>
   window.sessionStorage.getItem('showUpdatedContent') === 'true';
@@ -151,4 +152,22 @@ export function resolveRecipientFullName(item, formData) {
   }
 
   return formatFullNameNoSuffix(recipientName);
+}
+
+export function fullNameUIHelper() {
+  return {
+    ...fullNameNoSuffixUI(),
+    first: {
+      ...fullNameNoSuffixUI().first,
+      'ui:title': 'First or given name',
+    },
+    middle: {
+      ...fullNameNoSuffixUI().middle,
+      'ui:title': 'Middle name',
+    },
+    last: {
+      ...fullNameNoSuffixUI().last,
+      'ui:title': 'Last or family name',
+    },
+  };
 }
