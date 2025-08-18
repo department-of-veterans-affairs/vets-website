@@ -89,8 +89,8 @@
             {
                 "cause": "WORSENED",
                 "view:worsenedFollowUp": {
-                    "worsenedDescription": ";lk;k;lk;k;k;k;k;jijkkkkkkkkkkk",
-                    "worsenedEffects": "fasdasdasdasasdsafsadasdsafasdasdasczxczx"
+                    "worsenedDescription": "worsened description",
+                    "worsenedEffects": "worsened effects"
                 },
                 "view:serviceConnectedDisability": {},
                 "condition": "migraines (headaches)"
@@ -99,14 +99,14 @@
                 "cause": "SECONDARY",
                 "view:secondaryFollowUp": {
                     "causedByDisability": "Traumatic Brain Injury (TBI)",
-                    "causedByDisabilityDescription": "dsadsadasfasdas"
+                    "causedByDisabilityDescription": "caused by TBI"
                 },
                 "view:serviceConnectedDisability": {},
                 "condition": "knee strain or sprain, right"
             },
             {
                 "cause": "NEW",
-                "primaryDescription": "asdsafasdasdasdasdas",
+                "primaryDescription": "primary description",
                 "view:serviceConnectedDisability": {},
                 "condition": "traumatic brain injury (TBI)"
             }
