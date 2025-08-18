@@ -353,7 +353,7 @@ jobs:
 
 
       - name: Detect network APIs used
-        run: node script/find-network-apis.js src
+        run: node script/github-actions/find-network-apis.js src
       - name: Set patch toggles
         run: |
           # naive mapping; tune as needed
@@ -801,7 +801,7 @@ jobs:
         run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
 
       - name: Detect network APIs used
-        run: node script/find-network-apis.js src
+        run: node script/github-actions/find-network-apis.js src
       - name: Set patch toggles
         run: |
           # naive mapping; tune as needed
