@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, waitFor } from '@testing-library/react';
+import { fireEvent } from '@testing-library/react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import sinon from 'sinon';
 import { expect } from 'chai';
@@ -10,134 +10,387 @@ import Navigation from '../../../components/Navigation';
 import inbox from '../../fixtures/folder-inbox-metadata.json';
 
 describe('RouteLeavingGuard component', () => {
-  const initialState = {
+  let saveDraftHandlerSpy;
+
+  beforeEach(() => {
+    saveDraftHandlerSpy = sinon.spy();
+  });
+
+  const getInitialState = (draftInProgress = {}) => ({
     sm: {
       folders: {
         folder: inbox,
       },
+      threadDetails: {
+        draftInProgress,
+      },
     },
-  };
+  });
 
-  const {
-    cancelButtonText,
-    confirmButtonText,
-  } = ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT;
-
-  const initialProps = {
-    cancelButtonText,
-    confirmButtonText,
-    modalVisible: false,
-    navigate: () => {},
-    p1: 'p1',
-    p2: 'p2',
-    saveDraftHandler: () => {},
-    shouldBlockNavigation: () => {},
-    title: 'title',
-    updateModalVisible: () => {},
-    when: true,
-  };
-
-  const setup = (props = initialProps) => {
+  const setup = (props = {}, state = {}, path = '/compose') => {
     return renderWithStoreAndRouter(
       <>
         <Navigation />
-        <RouteLeavingGuard {...props} />
+        <RouteLeavingGuard
+          saveDraftHandler={saveDraftHandlerSpy}
+          type="compose"
+          {...props}
+        />
       </>,
       {
-        initialState,
+        initialState: getInitialState(state),
         reducers: reducer,
-        path: '/compose',
+        path,
       },
     );
   };
 
-  it('triggers shouldBlock callback on navigating away ', async () => {
-    const updateModalVisibleSpy = sinon.spy();
-    const shouldBlockSpy = sinon.spy(() => {
-      return true;
+  describe('when no navigation or save errors exist', () => {
+    it('renders without modal visible', () => {
+      const screen = setup();
+      const modal = screen.getByTestId('navigation-warning-modal');
+      expect(modal.getAttribute('visible')).to.equal('false');
     });
-    const saveDraftHandlerSpy = sinon.spy();
-    const customProps = {
-      ...initialProps,
-      updateModalVisible: updateModalVisibleSpy,
-      shouldBlockNavigation: shouldBlockSpy,
-      saveDraftHandler: saveDraftHandlerSpy,
-    };
-    const screen = setup(customProps);
-    await waitFor(() => {
-      screen.getByText('Inbox');
-    });
-    await fireEvent.click(screen.getByText('Inbox'));
-    expect(shouldBlockSpy.calledOnce).to.be.true;
 
-    await fireEvent.click(
-      document.querySelector(`[text="${confirmButtonText}"]`),
-    );
-    expect(saveDraftHandlerSpy.calledWith('auto')).to.be.true;
+    it('does not block navigation when no errors', () => {
+      const screen = setup();
+      expect(
+        screen.container.querySelector(
+          '[data-testid="navigation-warning-modal"][visible="true"]',
+        ),
+      ).to.not.exist;
+    });
   });
 
-  it('respond to closing modal', async () => {
-    const updateModalVisibleSpy = sinon.spy();
-    const customProps = {
-      ...initialProps,
-      modalVisible: true,
-      updateModalVisible: updateModalVisibleSpy,
-      saveError: {
-        cancelButtonText,
-        confirmButtonText,
-        title: 'Unable to save draft',
-      },
-      savedDraft: true,
+  describe('when navigation error exists', () => {
+    const navigationError = {
+      title: 'Unsaved changes',
+      p1: 'You have unsaved changes.',
+      p2: 'Do you want to continue?',
+      cancelButtonText: 'Stay on page',
+      confirmButtonText: 'Leave page',
     };
-    setup(customProps);
-    await fireEvent.click(
-      document.querySelector(`[text="${cancelButtonText}"]`),
-    );
-    expect(updateModalVisibleSpy.calledWith(false));
+
+    it('displays modal when navigationError and modal is visible', () => {
+      const screen = setup(
+        {},
+        { navigationError, navigationErrorModalVisible: true },
+      );
+
+      expect(screen.getByTestId('navigation-warning-modal')).to.exist;
+      const modal = screen.getByTestId('navigation-warning-modal');
+      expect(modal.getAttribute('modal-title')).to.equal('Unsaved changes');
+      expect(screen.getByText('You have unsaved changes.')).to.exist;
+      expect(screen.getByText('Do you want to continue?')).to.exist;
+    });
+
+    it('handles confirm navigation click without save', async () => {
+      const screen = setup(
+        {},
+        { navigationError, navigationErrorModalVisible: true },
+      );
+
+      const confirmButton = screen.container.querySelector(
+        'va-button[text="Leave page"]',
+      );
+      fireEvent.click(confirmButton);
+
+      expect(saveDraftHandlerSpy.called).to.be.false;
+    });
+
+    it('handles cancel navigation click', async () => {
+      const screen = setup(
+        {},
+        { navigationError, navigationErrorModalVisible: true },
+      );
+
+      const cancelButton = screen.container.querySelector(
+        'va-button[text="Stay on page"]',
+      );
+      fireEvent.click(cancelButton);
+
+      // Modal should still exist but we can check if the spy functions were called correctly
+      expect(screen.getByTestId('navigation-warning-modal')).to.exist;
+    });
   });
 
-  it(`not blocking navigation when criteria is satisfied`, async () => {
-    const updateModalVisibleSpy = sinon.spy();
-    const shouldBlockSpy = sinon.spy(() => {
-      return false;
-    });
-    const customProps = {
-      ...initialProps,
-      updateModalVisible: updateModalVisibleSpy,
-      shouldBlockNavigation: shouldBlockSpy,
+  describe('when save error exists with saved draft', () => {
+    const saveError = {
+      title: ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.title,
+      p1: ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.p1,
+      cancelButtonText:
+        ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT
+          .cancelButtonText,
+      confirmButtonText:
+        ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT
+          .confirmButtonText,
     };
-    const screen = setup(customProps);
-    await waitFor(() => {
-      screen.getByText('Inbox');
+
+    it('displays modal when saveError and savedDraft are true', () => {
+      const screen = setup({}, { saveError, savedDraft: true });
+
+      expect(screen.getByTestId('navigation-warning-modal')).to.exist;
+      const modal = screen.getByTestId('navigation-warning-modal');
+      expect(modal.getAttribute('modal-title')).to.equal(
+        ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.title,
+      );
     });
-    fireEvent.click(screen.getByText('Inbox'));
-    expect(shouldBlockSpy.calledOnce).to.be.true;
+
+    it('calls saveDraftHandler when confirm button contains "Save"', async () => {
+      const screen = setup({}, { saveError, savedDraft: true });
+
+      const confirmButton = screen.container.querySelector(
+        `va-button[text="${
+          ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT
+            .confirmButtonText
+        }"]`,
+      );
+      fireEvent.click(confirmButton);
+
+      expect(saveDraftHandlerSpy.calledWith('auto')).to.be.true;
+    });
+
+    it('does not call saveDraftHandler when confirm button does not contain "Save"', async () => {
+      const customSaveError = {
+        ...saveError,
+        confirmButtonText: 'Delete draft',
+      };
+
+      const screen = setup(
+        {},
+        { saveError: customSaveError, savedDraft: true },
+      );
+
+      const confirmButton = screen.container.querySelector(
+        'va-button[text="Delete draft"]',
+      );
+      fireEvent.click(confirmButton);
+
+      expect(saveDraftHandlerSpy.called).to.be.false;
+    });
   });
 
-  it(`save draft handler not called if a secondary button name is not ${
-    ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.confirmButtonText
-  }`, async () => {
-    const updateModalVisibleSpy = sinon.spy();
-    const shouldBlockSpy = sinon.spy(() => {
-      return false;
+  describe('cancel button behavior with draft saving', () => {
+    it('calls saveDraftHandler with manual when cancel button matches CONT_SAVING_DRAFT', async () => {
+      const navigationError = {
+        title: ErrorMessages.ComposeForm.CONT_SAVING_DRAFT.title,
+        cancelButtonText:
+          ErrorMessages.ComposeForm.CONT_SAVING_DRAFT.cancelButtonText,
+        confirmButtonText:
+          ErrorMessages.ComposeForm.CONT_SAVING_DRAFT.confirmButtonText,
+      };
+
+      const screen = setup(
+        {},
+        { navigationError, navigationErrorModalVisible: true },
+      );
+
+      const cancelButton = screen.container.querySelector(
+        `va-button[text="${
+          ErrorMessages.ComposeForm.CONT_SAVING_DRAFT.cancelButtonText
+        }"]`,
+      );
+      fireEvent.click(cancelButton);
+
+      expect(saveDraftHandlerSpy.calledWith('manual')).to.be.true;
     });
-    const saveDraftHandlerSpy = sinon.spy();
-    const customCancelButtonText = 'cancel';
-    const customProps = {
-      ...initialProps,
-      cancelButtonText: customCancelButtonText,
-      updateModalVisible: updateModalVisibleSpy,
-      shouldBlockNavigation: shouldBlockSpy,
-      saveDraftHandler: saveDraftHandlerSpy,
-    };
-    const screen = setup(customProps);
-    await waitFor(() => {
-      screen.getByText('Inbox');
+
+    it('calls saveDraftHandler with manual when cancel button matches CONT_SAVING_DRAFT_CHANGES', async () => {
+      const navigationError = {
+        title: ErrorMessages.ComposeForm.CONT_SAVING_DRAFT_CHANGES.title,
+        cancelButtonText:
+          ErrorMessages.ComposeForm.CONT_SAVING_DRAFT_CHANGES.cancelButtonText,
+        confirmButtonText:
+          ErrorMessages.ComposeForm.CONT_SAVING_DRAFT_CHANGES.confirmButtonText,
+      };
+
+      const screen = setup(
+        {},
+        { navigationError, navigationErrorModalVisible: true },
+      );
+
+      const cancelButton = screen.container.querySelector(
+        `va-button[text="${
+          ErrorMessages.ComposeForm.CONT_SAVING_DRAFT_CHANGES.cancelButtonText
+        }"]`,
+      );
+      fireEvent.click(cancelButton);
+
+      expect(saveDraftHandlerSpy.calledWith('manual')).to.be.true;
     });
-    fireEvent.click(screen.getByText('Inbox'));
-    await fireEvent.click(
-      document.querySelector(`[text="${customCancelButtonText}"]`),
-    );
-    expect(saveDraftHandlerSpy.calledOnce).to.be.false;
+
+    it('does not call saveDraftHandler when cancel button text does not match draft save patterns', async () => {
+      const navigationError = {
+        title: 'Unsaved changes',
+        cancelButtonText: 'Stay on page',
+        confirmButtonText: 'Leave page',
+      };
+
+      const screen = setup(
+        {},
+        { navigationError, navigationErrorModalVisible: true },
+      );
+
+      const cancelButton = screen.container.querySelector(
+        'va-button[text="Stay on page"]',
+      );
+      fireEvent.click(cancelButton);
+
+      expect(saveDraftHandlerSpy.called).to.be.false;
+    });
+  });
+
+  describe('modal visibility and text rendering', () => {
+    it('does not render p1 text when cancelButtonText matches UNABLE_TO_SAVE_DRAFT_ATTACHMENT confirmButtonText', () => {
+      const saveError = {
+        title: "We can't save attachments in a draft message",
+        p1: 'This text should not be displayed',
+        cancelButtonText:
+          ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT
+            .confirmButtonText,
+        confirmButtonText: 'Save draft without attachments',
+      };
+
+      const screen = setup({}, { saveError, savedDraft: true });
+
+      expect(screen.queryByText('This text should not be displayed')).to.not
+        .exist;
+    });
+
+    it('renders p1 text when cancelButtonText does not match UNABLE_TO_SAVE_DRAFT_ATTACHMENT confirmButtonText', () => {
+      const saveError = {
+        title: "We can't save attachments in a draft message",
+        p1: 'This text should be displayed',
+        cancelButtonText: 'Edit draft',
+        confirmButtonText: 'Save draft without attachments',
+      };
+
+      const screen = setup({}, { saveError, savedDraft: true });
+
+      expect(screen.getByText('This text should be displayed')).to.exist;
+    });
+
+    it('renders p2 text when provided', () => {
+      const navigationError = {
+        title: 'Test title',
+        p1: 'First paragraph',
+        p2: 'Second paragraph should be displayed',
+        cancelButtonText: 'Cancel',
+        confirmButtonText: 'Confirm',
+      };
+
+      const screen = setup(
+        {},
+        { navigationError, navigationErrorModalVisible: true },
+      );
+
+      expect(screen.getByText('Second paragraph should be displayed')).to.exist;
+    });
+
+    it('does not render p2 text when not provided', () => {
+      const navigationError = {
+        title: 'Test title',
+        p1: 'First paragraph',
+        cancelButtonText: 'Cancel',
+        confirmButtonText: 'Confirm',
+      };
+
+      const screen = setup(
+        {},
+        { navigationError, navigationErrorModalVisible: true },
+      );
+
+      // Check that there's no empty p tag or second paragraph
+      const paragraphs = screen.container.querySelectorAll('p');
+      expect(paragraphs).to.have.length(1);
+    });
+  });
+
+  describe('component props and types', () => {
+    it('renders with compose type', () => {
+      const screen = setup({ type: 'compose' });
+      expect(screen.container).to.exist;
+    });
+
+    it('renders with reply type', () => {
+      const screen = setup({ type: 'reply' });
+      expect(screen.container).to.exist;
+    });
+
+    it('renders without crashing when saveDraftHandler is provided', () => {
+      const customHandler = sinon.spy();
+      const screen = setup({ saveDraftHandler: customHandler });
+      expect(screen.container).to.exist;
+    });
+  });
+
+  describe('datadog action names', () => {
+    it('sets correct data-dd-action-name for confirm button when save error exists', () => {
+      const saveError = {
+        title: ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.title,
+        cancelButtonText:
+          ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT
+            .cancelButtonText,
+        confirmButtonText:
+          ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT
+            .confirmButtonText,
+      };
+
+      const screen = setup({}, { saveError, savedDraft: true });
+
+      const confirmButton = screen.container.querySelector(
+        `va-button[text="${
+          ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT
+            .confirmButtonText
+        }"]`,
+      );
+      expect(confirmButton.getAttribute('data-dd-action-name')).to.equal(
+        "Save draft without attachments button - Can't save with attachments modal",
+      );
+    });
+
+    it('sets correct data-dd-action-name for confirm button when navigation error exists', () => {
+      const navigationError = {
+        title: 'Unsaved changes',
+        cancelButtonText: 'Stay on page',
+        confirmButtonText: 'Leave page',
+      };
+
+      const screen = setup(
+        {},
+        { navigationError, navigationErrorModalVisible: true },
+      );
+
+      const confirmButton = screen.container.querySelector(
+        'va-button[text="Leave page"]',
+      );
+      expect(confirmButton.getAttribute('data-dd-action-name')).to.equal(
+        'Confirm Navigation Leaving Button',
+      );
+    });
+
+    it('sets correct data-dd-action-name for cancel button when save error exists', () => {
+      const saveError = {
+        title: ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.title,
+        cancelButtonText:
+          ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT
+            .cancelButtonText,
+        confirmButtonText:
+          ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT
+            .confirmButtonText,
+      };
+
+      const screen = setup({}, { saveError, savedDraft: true });
+
+      const cancelButton = screen.container.querySelector(
+        `va-button[text="${
+          ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT
+            .cancelButtonText
+        }"]`,
+      );
+      expect(cancelButton.getAttribute('data-dd-action-name')).to.equal(
+        "Edit draft button - Can't save with attachments modal",
+      );
+    });
   });
 });
