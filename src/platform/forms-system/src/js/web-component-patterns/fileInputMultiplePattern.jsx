@@ -36,7 +36,10 @@ export const fileInputMultipleUI = options => {
           // user selected an encrypted file but has not yet provided password
           // don't flag for missing file
           const _encryptedFileWaitingForPassword = passwordErrorInstances.some(
-            instance => instance && instance.getNeedsPassword(),
+            instance =>
+              instance &&
+              instance.getNeedsPassword() &&
+              !instance.getHasPassword(),
           );
 
           const _required =
@@ -66,7 +69,7 @@ export const fileInputMultipleUI = options => {
             if (instance) {
               if (instance.getNeedsPassword() && !instance.getHasPassword()) {
                 // add a placeholder error to force re-render
-                errors.addError('placeholder');
+                errors.addError(`${Math.random()}`);
               }
               instance.setTouched(true);
             }
@@ -74,10 +77,11 @@ export const fileInputMultipleUI = options => {
 
           if (
             uiOptions.additionalInputRequired &&
-            data.some(file => isEmpty(file.additionalData))
+            (data.length === 0 ||
+              data.some(file => isEmpty(file.additionalData)))
           ) {
             // add a placeholder error to force re-render
-            errors.addError('placeholder');
+            errors.addError(`${Math.random()}`);
           }
         }
       },

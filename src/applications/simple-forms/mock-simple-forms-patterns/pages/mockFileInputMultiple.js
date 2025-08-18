@@ -23,7 +23,7 @@ export default {
       // disallowEncryptedPdfs: true,
       // skipUpload: true, // mock-forms does not have a backend for upload
       maxFileSize: 1024 * 1024 * 5,
-      minFileSize: 1024,
+      minFileSize: 1024 * 1024,
       errorMessages: {
         additionalInput: 'Choose a document status',
       },

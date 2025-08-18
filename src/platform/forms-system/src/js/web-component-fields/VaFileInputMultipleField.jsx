@@ -63,37 +63,48 @@ const VaFileInputMultipleField = props => {
   // update the additional inputs with error or with data if prefill
   useEffect(
     () => {
+      let id;
       if (
-        !componentRef.current ||
-        !componentRef.current.shadowRoot ||
-        !uiOptions.additionalInputUpdate
-      )
-        return;
-
-      childrenProps.formData.forEach((file, index) => {
-        const instance = componentRef.current.shadowRoot.getElementById(
-          `instance-${index}`,
-        );
-        if (instance) {
-          const slotContent = instance.shadowRoot
-            .querySelector('slot')
-            ?.assignedNodes()[0]?.firstElementChild;
-          if (slotContent) {
-            // component missing additional data and has been touched and instance not already in error state
-            const error =
-              isEmpty(file.additionalData) &&
-              index < errorManager.getLastTouched() &&
-              !instance.getAttribute('error')
-                ? MISSING_ADDITIONAL_INFO
-                : '';
-            uiOptions.additionalInputUpdate(
-              slotContent,
-              error,
-              file.additionalData,
+        componentRef.current ||
+        componentRef.current.shadowRoot ||
+        uiOptions.additionalInputUpdate
+      ) {
+        // using a delay because the slot content does not render immediatley
+        // TODO: find a cleaner solution than setTimeout
+        id = setTimeout(() => {
+          errorManager.getPasswordInstances().forEach((_, index) => {
+            const instance = componentRef.current.shadowRoot.getElementById(
+              `instance-${index}`,
             );
-          }
-        }
-      });
+            if (instance) {
+              const slotContent = instance.shadowRoot
+                .querySelector('slot')
+                ?.assignedNodes()[0]?.firstElementChild;
+              if (slotContent) {
+                // component missing additional data and has been touched and instance not already in error state
+                const file = childrenProps.formData[index];
+                const _isEmpty =
+                  !file || (file && isEmpty(file.additionalData));
+                const error =
+                  _isEmpty &&
+                  index < errorManager.getLastTouched() &&
+                  !instance.getAttribute('error')
+                    ? MISSING_ADDITIONAL_INFO
+                    : '';
+                const additionalData = file?.additionalData || null;
+                uiOptions.additionalInputUpdate(
+                  slotContent,
+                  error,
+                  additionalData,
+                );
+              }
+            }
+          });
+        }, 100);
+      }
+      return () => {
+        clearTimeout(id);
+      };
     },
     [childrenProps.formData, mappedProps.error],
   );
@@ -204,13 +215,13 @@ const VaFileInputMultipleField = props => {
   // upload after debounce
   const debouncePassword = useMemo(
     () =>
-      debounce(1000, ({ file, password }, index) => {
+      debounce(500, ({ file, password }, index) => {
         if (password.length > 0) {
           errorManager.resetInstance(index);
           handleUpload(file, handleFileProcessing, password, index);
         }
       }),
-    [],
+    [handleUpload],
   );
 
   const handleChange = e => {
@@ -294,7 +305,7 @@ const VaFileInputMultipleField = props => {
       passwordErrors={passwordErrors}
       onVaSelect={handleAdditionalInput}
       maxFileSize={uiOptions.maxFileSize}
-      minFileSize={uiOptions.minFileSize}
+      min-file-size={uiOptions.minFileSize}
     >
       {mappedProps.additionalInput && (
         <div className="additional-input-container">

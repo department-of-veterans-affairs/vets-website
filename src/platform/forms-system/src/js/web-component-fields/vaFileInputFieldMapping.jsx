@@ -19,9 +19,11 @@ const vaFileInputFieldMapping = props => {
   if (Array.isArray(childrenProps.formData)) {
     uploadedFiles = [];
     for (const _u of childrenProps.formData) {
-      const buffer = new ArrayBuffer(_u.size);
+      const buffer = new ArrayBuffer(_u?.size || 1024);
       const blob = new Blob([buffer], { type: 'image/png' });
-      const file = new File([blob], _u.name, { type: 'image/png' });
+      const file = new File([blob], _u?.name || 'placeholder', {
+        type: 'image/png',
+      });
       uploadedFiles.push(file);
     }
   }
