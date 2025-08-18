@@ -58,7 +58,9 @@ const EditPhonePage = ({
 
   return (
     <>
-      <h3 className="vads-u-margin-bottom--4">Edit phone number</h3>
+      <h3 className="vads-u-margin-bottom--4">
+        {`Edit ${data['view:phoneSource']} phone number`}
+      </h3>
       <SchemaForm
         addNameAttribute
         name="Contact Info Form"

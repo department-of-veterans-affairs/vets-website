@@ -78,7 +78,7 @@ export const IntroductionPage = props => {
         disability benefits.
       </p>
       <h2 className="vads-u-margin-top--0">
-        Follow the steps below to get started:
+        Follow the steps below to get started
       </h2>
       <ProcessList />
       <Gateway route={route} />
