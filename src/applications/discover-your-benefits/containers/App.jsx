@@ -5,10 +5,10 @@ import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import SubmitHelper from '../components/SubmitHelper';
 import formConfig from '../config/form';
-import { useDatadogRum } from '../hooks/useBrowserMonitoring';
+import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
 
 export default function App({ location, children }) {
-  useDatadogRum();
+  useBrowserMonitoring();
   return (
     <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0 discover-your-benefits">
       <VaBreadcrumbs

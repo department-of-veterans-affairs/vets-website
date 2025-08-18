@@ -58,11 +58,11 @@ const initializeBrowserLogging = () => {
   }
 };
 
-const useDatadogRum = () => {
+const useBrowserMonitoring = () => {
   useEffect(() => {
     initializeDatadogRum();
     initializeBrowserLogging();
   }, []);
 };
 
-export { useDatadogRum };
+export { useBrowserMonitoring };
