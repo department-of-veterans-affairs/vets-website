@@ -103,33 +103,6 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
     [dispatch],
   );
 
-  const resetSubmissionStatus = useCallback(
-    () => {
-      const now = new Date().getTime();
-      dispatch(setSubmissionAction('status', false));
-      dispatch(setSubmissionAction('hasAttemptedSubmit', false));
-      dispatch(setSubmissionAction('timestamp', now));
-    },
-    [dispatch],
-  );
-
-  const handleResultsData = useCallback(
-    () => {
-      if (!results?.data?.length) return;
-
-      const benefitIdsQueryString = results.data.map(r => r.id).join(',');
-      const queryParams = { benefits: benefitIdsQueryString };
-      const queryStringObj = appendQuery(
-        `${location.basename}${location.pathname}`,
-        queryParams,
-      );
-
-      browserHistory.replace(queryStringObj);
-      applyInitialSort();
-    },
-    [results, location, applyInitialSort],
-  );
-
   const displayResultsFromQuery = useCallback(
     (queryParams, displayResultsFn) => {
       const { benefits: benefitsParam } = queryParams;
@@ -140,39 +113,6 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
       }
     },
     [],
-  );
-
-  const handleFilterChange = useCallback(event => {
-    const activeFilters = event.detail;
-
-    const selectedFilterFacet = activeFilters.find(
-      f => f.label === 'Benefit type',
-    );
-
-    const selectedFilter =
-      selectedFilterFacet?.category?.map(cat => cat.id) || [];
-
-    setTempFilterValues(selectedFilter);
-  }, []);
-
-  const handleResults = useCallback(
-    () => {
-      if (isAllBenefits) return;
-
-      if (Array.isArray(results?.data) && results.data.length > 0) {
-        handleResultsData();
-      } else if (query && Object.keys(query).length > 0) {
-        displayResultsFromQuery(query, displayResults);
-      }
-    },
-    [
-      isAllBenefits,
-      results?.data,
-      query,
-      handleResultsData,
-      displayResultsFromQuery,
-      displayResults,
-    ],
   );
 
   const filterAndSortBenefits = useCallback(
@@ -214,6 +154,14 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
     [filterValues, isAllBenefits, results.data, sortValue],
   );
 
+  const getPaginatedBenefits = useCallback(
+    () => {
+      const startIndex = (currentPage - 1) * pageSize;
+      return benefits.slice(startIndex, startIndex + pageSize);
+    },
+    [currentPage, pageSize, benefits],
+  );
+
   const handleBackClick = useCallback(
     e => {
       e.preventDefault();
@@ -238,6 +186,19 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
     setTempFilterValues(selectedFilter);
   }, []);
 
+  const handleFilterChange = useCallback(event => {
+    const activeFilters = event.detail;
+
+    const selectedFilterFacet = activeFilters.find(
+      f => f.label === 'Benefit type',
+    );
+
+    const selectedFilter =
+      selectedFilterFacet?.category?.map(cat => cat.id) || [];
+
+    setTempFilterValues(selectedFilter);
+  }, []);
+
   const handleFilterClearAll = useCallback(() => {
     setFilterValues([]);
     setTempFilterValues([]);
@@ -252,17 +213,56 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
     [setCurrentPage],
   );
 
+  const handleResultsData = useCallback(
+    () => {
+      if (!results?.data?.length) return;
+
+      const benefitIdsQueryString = results.data.map(r => r.id).join(',');
+      const queryParams = { benefits: benefitIdsQueryString };
+      const queryStringObj = appendQuery(
+        `${location.basename}${location.pathname}`,
+        queryParams,
+      );
+
+      browserHistory.replace(queryStringObj);
+      applyInitialSort();
+    },
+    [results, location, applyInitialSort],
+  );
+
+  const handleResults = useCallback(
+    () => {
+      if (isAllBenefits) return;
+
+      if (Array.isArray(results?.data) && results.data.length > 0) {
+        handleResultsData();
+      } else if (query && Object.keys(query).length > 0) {
+        displayResultsFromQuery(query, displayResults);
+      }
+    },
+    [
+      isAllBenefits,
+      results?.data,
+      query,
+      handleResultsData,
+      displayResultsFromQuery,
+      displayResults,
+    ],
+  );
+
   const handleSortSelect = useCallback(e => {
     const selectedSortKey = e.target.value;
     setSortValue(selectedSortKey);
   }, []);
 
-  const getPaginatedBenefits = useCallback(
+  const resetSubmissionStatus = useCallback(
     () => {
-      const startIndex = (currentPage - 1) * pageSize;
-      return benefits.slice(startIndex, startIndex + pageSize);
+      const now = new Date().getTime();
+      dispatch(setSubmissionAction('status', false));
+      dispatch(setSubmissionAction('hasAttemptedSubmit', false));
+      dispatch(setSubmissionAction('timestamp', now));
     },
-    [currentPage, pageSize, benefits],
+    [dispatch],
   );
 
   const titleParagraph = () => {
