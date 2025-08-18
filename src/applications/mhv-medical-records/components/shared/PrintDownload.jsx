@@ -4,13 +4,7 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import { sendDataDogAction } from '../../util/helpers';
 
 const PrintDownload = props => {
-  const {
-    downloadPdf,
-    downloadTxt,
-    list,
-    allowTxtDownloads,
-    description,
-  } = props;
+  const { downloadPdf, downloadTxt, list, description } = props;
   const menu = useRef(null);
 
   const [menuOpen, setMenuOpen] = useState(false);
@@ -22,6 +16,7 @@ const PrintDownload = props => {
     'toggle-menu-button vads-u-justify-content--space-between';
   let menuOptionsClasses = 'menu-options';
   if (menuOpen) {
+    // eslint-disable-next-line no-unused-vars
     toggleMenuButtonClasses +=
       ' toggle-menu-button-open vads-u-justify-content--space-between';
     menuOptionsClasses += ' menu-options-open';
@@ -78,9 +73,9 @@ const PrintDownload = props => {
       ref={menu}
       onFocus={handleFocus}
     >
-      <button
-        className={`vads-u-padding-x--2 ${toggleMenuButtonClasses}`}
-        type="button"
+      <va-button
+        className="vads-u-padding-x--2 {toggleMenuButtonClasses}"
+        text="Print or download"
         onClick={() => {
           setMenuOpen(!menuOpen);
           sendDataDogAction(`Print Button - ${description}`);
@@ -88,24 +83,12 @@ const PrintDownload = props => {
         id="print-download-menu"
         data-testid="print-download-menu"
         aria-expanded={menuOpen}
-      >
-        <span>Print or download</span>
-        <span
-          className="vads-u-color--primary vads-u-margin-left--0p5"
-          aria-hidden="true"
-        >
-          {menuOpen ? (
-            <va-icon icon="expand_less" size={3} />
-          ) : (
-            <va-icon icon="expand_more" size={3} />
-          )}
-        </span>
-      </button>
+      />
       <ul className={menuOptionsClasses}>
         <li>
-          <button
+          <va-button
             className="vads-u-padding-x--2"
-            type="button"
+            text="Print this"
             onClick={() => {
               handlePrint();
               sendDataDogAction(
@@ -114,14 +97,12 @@ const PrintDownload = props => {
             }}
             id="printButton-0"
             data-testid="printButton-0"
-          >
-            Print this {listOrPage}
-          </button>
+          />
         </li>
         <li>
-          <button
+          <va-button
             className="vads-u-padding-x--2"
-            type="button"
+            text="Download PDF of this"
             onClick={() => {
               handlePdfDownload();
               sendDataDogAction(
@@ -130,28 +111,22 @@ const PrintDownload = props => {
             }}
             id="printButton-1"
             data-testid="printButton-1"
-          >
-            Download PDF of this {listOrPage}
-          </button>
+          />
         </li>
-        {allowTxtDownloads && (
-          <li>
-            <button
-              className="vads-u-padding-x--2"
-              type="button"
-              id="printButton-2"
-              data-testid="printButton-2"
-              onClick={() => {
-                handleTxtDownload();
-                sendDataDogAction(
-                  `Download TXT of this ${listOrPage} option - ${description}`,
-                );
-              }}
-            >
-              Download a text file (.txt) of this {listOrPage}
-            </button>
-          </li>
-        )}
+        <li>
+          <va-button
+            className="vads-u-padding-x--2"
+            text="Download a text file (.txt) of this"
+            id="printButton-2"
+            data-testid="printButton-2"
+            onClick={() => {
+              handleTxtDownload();
+              sendDataDogAction(
+                `Download TXT of this ${listOrPage} option - ${description}`,
+              );
+            }}
+          />
+        </li>
       </ul>
     </div>
   );
@@ -160,7 +135,6 @@ const PrintDownload = props => {
 export default PrintDownload;
 
 PrintDownload.propTypes = {
-  allowTxtDownloads: PropTypes.bool,
   description: PropTypes.string,
   downloadPdf: PropTypes.any,
   downloadTxt: PropTypes.any,

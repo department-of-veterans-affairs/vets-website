@@ -5,7 +5,7 @@ import { useParams, useLocation } from 'react-router-dom';
 import { chunk } from 'lodash';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+
 import {
   updatePageTitle,
   generatePdfScaffold,
@@ -68,12 +68,6 @@ const VitalDetails = props => {
   const records = useSelector(state => state.mr.vitals.vitalDetails);
   const vitalsList = useSelector(state => state.mr.vitals.vitalsList);
   const user = useSelector(state => state.user.profile);
-  const allowTxtDownloads = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
-      ],
-  );
   const { vitalType } = useParams();
   const dispatch = useDispatch();
 
@@ -317,13 +311,9 @@ Provider notes: ${vital.notes}\n\n`,
             description={ddDisplayName}
             downloadPdf={generateVitalsPdf}
             downloadTxt={generateVitalsTxt}
-            allowTxtDownloads={allowTxtDownloads}
             list
           />
-          <DownloadingRecordsInfo
-            description={ddDisplayName}
-            allowTxtDownloads={allowTxtDownloads}
-          />
+          <DownloadingRecordsInfo description={ddDisplayName} />
 
           <HeaderSection
             header={`Displaying ${displayNums[0]} to ${displayNums[1]} of ${

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+
 import {
   generatePdfScaffold,
   updatePageTitle,
@@ -36,12 +36,6 @@ import LabelValue from '../shared/LabelValue';
 const ChemHemDetails = props => {
   const { record, fullState, runningUnitTest } = props;
   const user = useSelector(state => state.user.profile);
-  const allowTxtDownloads = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
-      ],
-  );
   const [downloadStarted, setDownloadStarted] = useState(false);
 
   useEffect(
@@ -136,12 +130,8 @@ Lab comments: ${entry.labComments}\n`,
           description="L&TR Detail"
           downloadPdf={generateChemHemPdf}
           downloadTxt={generateChemHemTxt}
-          allowTxtDownloads={allowTxtDownloads}
         />
-        <DownloadingRecordsInfo
-          description="L&TR Detail"
-          allowTxtDownloads={allowTxtDownloads}
-        />
+        <DownloadingRecordsInfo description="L&TR Detail" />
 
         {/*                   TEST DETAILS                          */}
         <div className="test-details-container max-80">

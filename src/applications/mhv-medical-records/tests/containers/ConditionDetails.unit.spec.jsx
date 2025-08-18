@@ -14,10 +14,6 @@ import conditions from '../fixtures/conditions.json';
 describe('Condition details container', () => {
   const initialState = {
     mr: { conditions: { conditionDetails: convertCondition(condition) } },
-    featureToggles: {
-      // eslint-disable-next-line camelcase
-      mhv_medical_records_allow_txt_downloads: true,
-    },
     user,
   };
 
@@ -91,10 +87,6 @@ describe('Condition details container', () => {
 describe('Condition details container with record with no ICD/SCT code in the name', () => {
   const initialState = {
     mr: { conditions: { conditionDetails: convertCondition(conditions[4]) } },
-    featureToggles: {
-      // eslint-disable-next-line camelcase
-      mhv_medical_records_allow_txt_downloads: true,
-    },
     user,
   };
 

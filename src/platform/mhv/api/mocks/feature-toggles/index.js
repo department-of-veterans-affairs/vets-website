@@ -14,7 +14,6 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicationsDontIncrementIpeCount,
 
     // medical records
-    mhvMedicalRecordsAllowTxtDownloads = true,
     mhvMedicalRecordsDisplayConditions = true,
     mhvMedicalRecordsDisplayDomains = true,
     mhvMedicalRecordsDisplayLabsAndTests = true,
@@ -116,10 +115,6 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medical_records_kill_external_links',
           value: true,
-        },
-        {
-          name: 'mhv_medical_records_allow_txt_downloads',
-          value: mhvMedicalRecordsAllowTxtDownloads,
         },
         {
           name: 'mhv_medical_records_display_conditions',
