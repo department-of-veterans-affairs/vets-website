@@ -73,14 +73,14 @@ export function generateParticipantNames(item) {
 const yesNoOptions = {
   title:
     'Do you have any other health insurance to report for one or more applicants?',
-  labelHeaderLevel: '5',
+  labelHeaderLevel: '2',
   labelHeaderLevelStyle: '5',
   hint:
     'If any applicants have other health insurance, it is required to report it to process your application for CHAMPVA benefits.',
 };
 const yesNoOptionsMore = {
   title: 'Do you have any other health insurance to report?',
-  labelHeaderLevel: '5',
+  labelHeaderLevel: '2',
   labelHeaderLevelStyle: '5',
   hint:
     'If any applicants have other health insurance, it is required to report it to process your application for CHAMPVA benefits.',
