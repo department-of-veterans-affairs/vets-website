@@ -236,7 +236,7 @@
                   "defaultSendIndicator": false,
                   "communicationPermission": {
                     "id": 81592,
-                    "allowed": true
+                    "allowed": false
                   }
                 }
               ]

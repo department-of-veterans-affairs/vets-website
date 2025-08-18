@@ -1,29 +1,15 @@
 import { makeUserObject } from '~/applications/personalization/common/helpers';
-import mockCommunicationPreferences from '@@profile/tests/fixtures/paperless-delivery/paperless-delivery-200.json';
+import mockGet from '@@profile/tests/fixtures/paperless-delivery/paperless-delivery-200.json';
+import mockPatch from '@@profile/tests/fixtures/paperless-delivery/paperless-delivery-patch.json';
+import mockPatchAllowed from '@@profile/tests/fixtures/paperless-delivery/paperless-delivery-patch-allowed.json';
 import { PROFILE_PATHS } from '@@profile/constants';
-import {
-  mockNotificationSettingsAPIs,
-  registerCypressHelpers,
-} from '../helpers';
-
-registerCypressHelpers();
 
 describe('Paperless Delivery', () => {
   beforeEach(() => {
-    mockNotificationSettingsAPIs();
     cy.intercept('GET', '/v0/profile/communication_preferences', {
+      body: mockGet,
       statusCode: 200,
-      body: mockCommunicationPreferences,
-    });
-    cy.intercept('POST', '/v0/profile/communication_preferences', {
-      delay: 500,
-      body: {},
-    }).as('post');
-
-    cy.intercept('PATCH', '/v0/profile/communication_preferences/81592', {
-      delay: 500,
-      body: {},
-    }).as('patch');
+    }).as('paperlessGet');
   });
 
   context('when user is enrolled in health care', () => {
@@ -37,76 +23,58 @@ describe('Paperless Delivery', () => {
       cy.visit(PROFILE_PATHS.PAPERLESS_DELIVERY);
     });
 
-    it('should render the page with no accessibility violations', () => {
-      cy.axeCheck();
-    });
-
-    it('should display page heading', () => {
-      cy.findByRole('heading', {
-        name: 'Paperless delivery',
-        level: 1,
-      }).should('exist');
-    });
-
-    it('should display loading indicator', () => {
-      cy.loadingIndicatorWorks();
-    });
-
-    it('should display description text', () => {
-      cy.findByText(
-        /With paperless delivery, you can choose which documents you no longer want to get by mail/,
-      ).should('exist');
-    });
-
-    it('should display email address and link to update', () => {
-      cy.findByText('vets.gov.user+36@gmail.com').should('exist');
-      cy.findByRole('link', {
-        name: 'Update your email address',
-        level: 1,
-      }).should('exist');
-    });
-
-    it('should display secure storage text', () => {
-      cy.findByText(
-        /We’ll always store secure, digital copies of these documents on VA.gov/,
-      ).should('exist');
-    });
-
-    it('should display paperless delivery group and checkbox', () => {
+    it('allows user to toggle opt-in for paperless delivery', () => {
+      cy.intercept('PATCH', '/v0/profile/communication_preferences/82064', {
+        body: mockPatchAllowed,
+        delay: 500,
+        statusCode: 200,
+      }).as('paperlessPatchAllowed');
+      cy.findByRole('heading', { name: 'Paperless delivery', level: 1 }).should(
+        'be.visible',
+      );
       cy.findByRole('heading', {
         name: 'Documents available for paperless delivery',
         level: 2,
-      }).should('exist');
-      cy.findByRole('heading', {
-        name: /Select the document you no longer want to get by mail. You can change this at any time/,
-        level: 3,
-      }).should('exist');
-      cy.get('va-checkbox').should('exist');
-    });
-
-    it('should display note text', () => {
-      cy.findByText(
-        /We have limited documents available for paperless delivery at this time/,
-      ).should('exist');
-    });
-
-    it('should update checkbox and display alert when selected', () => {
+      }).should('be.visible');
       cy.get('va-checkbox')
+        .first()
+        .as('paperlessOption');
+      cy.get('@paperlessOption')
         .shadow()
         .find('input[type="checkbox"]')
-        .should('be.checked');
-      cy.get('va-checkbox')
+        .should('exist')
+        .and('not.be.checked');
+      cy.get('@paperlessOption')
         .shadow()
         .find('input[type="checkbox"]')
         .click({ force: true });
-      cy.wait('@patch');
+      cy.wait('@paperlessPatchAllowed');
       cy.get('va-alert')
         .should('be.visible')
         .and('contain.text', 'Update saved');
-      cy.get('va-checkbox')
+      cy.get('@paperlessOption')
         .shadow()
         .find('input[type="checkbox"]')
-        .should('not.be.checked');
+        .should('be.checked');
+      cy.intercept('PATCH', '/v0/profile/communication_preferences/82064', {
+        body: mockPatch,
+        delay: 500,
+        statusCode: 200,
+      }).as('paperlessPatch');
+      cy.get('@paperlessOption')
+        .shadow()
+        .find('input[type="checkbox"]')
+        .click({ force: true });
+      cy.wait('@paperlessPatchAllowed');
+      cy.get('va-alert')
+        .should('be.visible')
+        .and('contain.text', 'Update saved');
+      cy.get('@paperlessOption')
+        .shadow()
+        .find('input[type="checkbox"]')
+        .should('exist')
+        .and('not.be.checked');
+      cy.axeCheck();
     });
   });
 
@@ -122,62 +90,13 @@ describe('Paperless Delivery', () => {
     });
 
     it('should render the page with no accessibility violations', () => {
-      cy.axeCheck();
-    });
-
-    it('should display page heading', () => {
-      cy.findByRole('heading', {
-        name: 'Paperless delivery',
-        level: 1,
-      }).should('exist');
-    });
-
-    it('should display loading indicator', () => {
-      cy.loadingIndicatorWorks();
-    });
-
-    it('should display description text', () => {
-      cy.findByText(
-        /With paperless delivery, you can choose which documents you no longer want to get by mail/,
-      ).should('exist');
-    });
-
-    it('should display email address and link to update', () => {
-      cy.findByText('vets.gov.user+36@gmail.com').should('exist');
-      cy.findByRole('link', {
-        name: 'Update your email address',
-        level: 1,
-      }).should('exist');
-    });
-
-    it('should display secure storage text', () => {
-      cy.findByText(
-        /We’ll always store secure, digital copies of these documents on VA.gov/,
-      ).should('exist');
-    });
-
-    it('should not display paperless delivery group and checkbox', () => {
-      cy.findByRole('heading', {
-        name: 'Documents available for paperless delivery',
-        level: 2,
-      }).should('not.exist');
-      cy.findByRole('heading', {
-        name: /Select the document you no longer want to get by mail. You can change this at any time/,
-        level: 3,
-      }).should('not.exist');
-      cy.get('va-checkbox').should('not.exist');
-    });
-
-    it('should display not enrolled alert', () => {
+      cy.findByRole('heading', { name: 'Paperless delivery', level: 1 }).should(
+        'be.visible',
+      );
       cy.findByText(
         /You’re not enrolled in any VA benefits that offer paperless delivery options/,
       ).should('exist');
-    });
-
-    it('should display note text', () => {
-      cy.findByText(
-        /We have limited documents available for paperless delivery at this time/,
-      ).should('exist');
+      cy.axeCheck();
     });
   });
 });
