@@ -22,7 +22,7 @@ describe('SM CURATED LIST BACK TO SELECTION', () => {
   it('back navigation from new draft', () => {
     PilotEnvPage.navigateToSelectCareTeamPage();
 
-    PilotEnvPage.selectCareTeam(0);
+    PilotEnvPage.selectCareSystem(0);
 
     PilotEnvPage.selectTriageGroup(2);
 
@@ -40,9 +40,6 @@ describe('SM CURATED LIST BACK TO SELECTION', () => {
       .type(`TEST BODY`);
 
     cy.contains(`Select a different care team`).click();
-
-    // temporary solution to remove save draft alert
-    cy.contains(`Delete draft`).click();
 
     PilotEnvPage.selectTriageGroup(2);
 
@@ -81,10 +78,10 @@ describe('SM CURATED LIST BACK TO SELECTION', () => {
 
     cy.contains(`Select a different care team`).click();
 
-    PilotEnvPage.selectTriageGroup(4);
+    PilotEnvPage.selectTriageGroup(1);
 
     cy.get(`.usa-combo-box__list > li`)
-      .eq(4)
+      .eq(1)
       .invoke('text')
       .then(name => {
         cy.wrap(name).as(`updatedTGName`);
