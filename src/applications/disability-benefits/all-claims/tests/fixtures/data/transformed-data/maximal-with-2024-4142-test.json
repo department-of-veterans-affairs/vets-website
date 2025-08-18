@@ -6,7 +6,7 @@
       "providerFacility": [
         {
           "providerFacilityAddress": {
-              "city": "MIlwalkuee",
+              "city": "Milwalkuee",
               "country": "USA",
               "postalCode": "53211",
               "state": "MD",
@@ -164,7 +164,7 @@
       }
     ],
     "patient4142Acknowledgement": true,
-		"providerFacility": [
+    "providerFacility": [
       {
         "providerFacilityAddress": {
         "city": "Milwaukee",
@@ -184,16 +184,6 @@
       }
 	],
     "attachments": [
-      {
-        "name": "AngleSettingJig_9_25_15.pdf",
-        "confirmationCode": "544f14cc-4e51-4661-b8f4-d79f71567491",
-        "attachmentId": "L107"
-      },
-      {
-        "name": "image.png",
-        "confirmationCode": "fa0c0f47-a42f-4bbc-88f3-873c5bea6ce7",
-        "attachmentId": "L023"
-      },
       {
         "name": "lolwut.png",
         "confirmationCode": "552067b2-9c5d-4bd8-bcd8-bc621b51a145",
