@@ -15,6 +15,15 @@ describe('Paperless Delivery', () => {
       statusCode: 200,
       body: mockCommunicationPreferences,
     });
+    cy.intercept('POST', '/v0/profile/communication_preferences', {
+      delay: 500,
+      body: {},
+    }).as('post');
+
+    cy.intercept('PATCH', '/v0/profile/communication_preferences/81592', {
+      delay: 500,
+      body: {},
+    }).as('patch');
   });
 
   context('when user is enrolled in health care', () => {
@@ -79,6 +88,25 @@ describe('Paperless Delivery', () => {
       cy.findByText(
         /We have limited documents available for paperless delivery at this time/,
       ).should('exist');
+    });
+
+    it('should update checkbox and display alert when selected', () => {
+      cy.get('va-checkbox')
+        .shadow()
+        .find('input[type="checkbox"]')
+        .should('be.checked');
+      cy.get('va-checkbox')
+        .shadow()
+        .find('input[type="checkbox"]')
+        .click({ force: true });
+      cy.wait('@patch');
+      cy.get('va-alert')
+        .should('be.visible')
+        .and('contain.text', 'Update saved');
+      cy.get('va-checkbox')
+        .shadow()
+        .find('input[type="checkbox"]')
+        .should('not.be.checked');
     });
   });
 
