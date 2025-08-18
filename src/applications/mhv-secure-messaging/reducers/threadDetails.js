@@ -21,6 +21,7 @@ const initialState = {
     attachments: [],
     navigationError: null,
     saveError: null,
+    savedDraft: false,
   },
 };
 

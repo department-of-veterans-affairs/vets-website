@@ -191,7 +191,6 @@ const ComposeForm = props => {
     },
     [dispatch],
   );
-  const saveError = draftInProgress?.saveError;
   const setSaveError = useCallback(
     error => {
       dispatch(updateDraftInProgress({ saveError: error }));
@@ -199,7 +198,8 @@ const ComposeForm = props => {
     [dispatch],
   );
   const [lastFocusableElement, setLastFocusableElement] = useState(null);
-  const [modalVisible, updateModalVisible] = useState(false);
+  const navigationErrorModalVisible =
+    draftInProgress?.navigationErrorModalVisible;
   const [attachFileSuccess, setAttachFileSuccess] = useState(false);
   const [deleteButtonClicked, setDeleteButtonClicked] = useState(false);
   const savedDraft = draftInProgress?.savedDraft;
@@ -780,7 +780,7 @@ const ComposeForm = props => {
       setUnsavedNavigationError,
       draft?.body,
       draft,
-      modalVisible,
+      navigationErrorModalVisible,
     ],
   );
 
@@ -791,7 +791,7 @@ const ComposeForm = props => {
         debouncedCategory &&
         debouncedSubject &&
         debouncedMessageBody &&
-        !modalVisible
+        !navigationErrorModalVisible
       ) {
         saveDraftHandler('auto');
         setUnsavedNavigationError();
@@ -803,7 +803,7 @@ const ComposeForm = props => {
       debouncedSubject,
       debouncedRecipient,
       saveDraftHandler,
-      modalVisible,
+      navigationErrorModalVisible,
       setUnsavedNavigationError,
     ],
   );
@@ -933,46 +933,7 @@ const ComposeForm = props => {
       )}
 
       <form className="compose-form" id="sm-compose-form">
-        <RouteLeavingGuard
-          when={!!navigationError || !!saveError}
-          navigate={path => {
-            history.push(path);
-          }}
-          shouldBlockNavigation={() => {
-            return !!navigationError;
-          }}
-          // if save button is clicked, set saveErrors instead of NavigationErrors
-          title={
-            saveError && savedDraft ? saveError?.title : navigationError?.title
-          }
-          p1={saveError && savedDraft ? saveError?.p1 : navigationError?.p1}
-          p2={saveError && savedDraft ? saveError?.p2 : navigationError?.p2}
-          confirmButtonText={
-            saveError && savedDraft
-              ? saveError?.confirmButtonText
-              : navigationError?.confirmButtonText
-          }
-          cancelButtonText={
-            saveError && savedDraft
-              ? saveError?.cancelButtonText
-              : navigationError?.cancelButtonText
-          }
-          saveDraftHandler={saveDraftHandler}
-          savedDraft={savedDraft}
-          saveError={saveError}
-          setSetErrorModal={setSavedDraft}
-          setIsModalVisible={updateModalVisible}
-          confirmButtonDDActionName={
-            saveError && savedDraft
-              ? "Save draft without attachments button - Can't save with attachments modal"
-              : undefined
-          }
-          cancelButtonDDActionName={
-            saveError && savedDraft
-              ? "Edit draft button - Can't save with attachments modal"
-              : undefined
-          }
-        />
+        <RouteLeavingGuard saveDraftHandler={saveDraftHandler} type="compose" />
         <div>
           {!cernerPilotSmFeatureFlag &&
             !noAssociations &&
