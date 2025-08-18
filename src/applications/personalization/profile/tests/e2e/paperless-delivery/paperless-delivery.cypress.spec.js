@@ -4,9 +4,11 @@ import mockGet from '@@profile/tests/fixtures/paperless-delivery/paperless-deliv
 import mockPatch from '@@profile/tests/fixtures/paperless-delivery/paperless-delivery-patch.json';
 import mockPatchAllowed from '@@profile/tests/fixtures/paperless-delivery/paperless-delivery-patch-allowed.json';
 import { PROFILE_PATHS } from '@@profile/constants';
+import { mockNotificationSettingsAPIs } from '../helpers';
 
 describe('Paperless Delivery', () => {
   beforeEach(() => {
+    mockNotificationSettingsAPIs();
     cy.intercept(
       'GET',
       '/v0/feature_toggles*',
@@ -32,7 +34,7 @@ describe('Paperless Delivery', () => {
     });
 
     it('allows user to toggle opt-in for paperless delivery', () => {
-      cy.intercept('PATCH', '/v0/profile/communication_preferences/82064', {
+      cy.intercept('PATCH', '/v0/profile/communication_preferences/*', {
         body: mockPatchAllowed,
         delay: 500,
         statusCode: 200,
@@ -64,7 +66,7 @@ describe('Paperless Delivery', () => {
         .shadow()
         .find('input[type="checkbox"]')
         .should('be.checked');
-      cy.intercept('PATCH', '/v0/profile/communication_preferences/82064', {
+      cy.intercept('PATCH', '/v0/profile/communication_preferences/*', {
         body: mockPatch,
         delay: 500,
         statusCode: 200,
