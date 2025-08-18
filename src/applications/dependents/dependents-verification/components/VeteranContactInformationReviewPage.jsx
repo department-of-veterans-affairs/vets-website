@@ -206,21 +206,24 @@ const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
 
       <div className="form-review-panel-page-header-row vads-u-margin-top--4">
         <h4 className="form-review-panel-page-header vads-u-font-size--h5 vads-u-margin--0">
-          Home phone number
+          {`${data['view:phoneSource']} phone number`}
         </h4>
         <va-button
           secondary
           class="edit-page float-right"
           onClick={handlers.editPhone}
-          label="Edit home phone number"
+          label={`Edit ${data['view:phoneSource']} phone number`}
           text="Edit"
           ref={phoneRef}
         />
       </div>
       <dl className="review">
         <div className="review-row">
-          <dt>Home phone number</dt>
-          <dd className="dd-privacy-hidden" data-dd-action-name="home phone">
+          <dt>{`${data['view:phoneSource']} phone number`}</dt>
+          <dd
+            className="dd-privacy-hidden"
+            data-dd-action-name={`${data['view:phoneSource']} phone number`}
+          >
             <strong>
               {phone ? (
                 <va-telephone contact={phone} not-clickable />
@@ -264,6 +267,7 @@ VeteranContactInformationReviewPage.propTypes = {
   goToPath: PropTypes.func.isRequired,
   data: PropTypes.shape({
     email: PropTypes.string,
+    'view:phoneSource': PropTypes.string,
     phone: PropTypes.string,
     address: PropTypes.shape({
       country: PropTypes.string,
