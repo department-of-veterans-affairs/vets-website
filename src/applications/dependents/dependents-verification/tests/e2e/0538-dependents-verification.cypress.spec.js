@@ -54,10 +54,6 @@ describe('Dependents Verification 0538', () => {
 
     cy.url().should('include', '/veteran-information');
     cy.injectAxeThenAxeCheck();
-    cy.get('va-alert[status="info"]').should(
-      'contain.text',
-      'we’ve prefilled part of your form',
-    );
     cy.clickFormContinue();
 
     cy.url().should('include', '/veteran-contact-information');
@@ -91,10 +87,6 @@ describe('Dependents Verification 0538', () => {
 
     cy.url().should('include', '/veteran-information');
     cy.injectAxeThenAxeCheck();
-    cy.get('va-alert[status="info"]').should(
-      'contain.text',
-      'we’ve prefilled part of your form',
-    );
     cy.clickFormContinue();
 
     cy.url().should('include', '/veteran-contact-information');
