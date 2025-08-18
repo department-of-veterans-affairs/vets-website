@@ -95,7 +95,7 @@ export const RouteLeavingGuard = ({ saveDraftHandler, type }) => {
           `${Paths.MESSAGE_THREAD}${draftInProgress?.messageId}`,
         ];
       } else if (type === 'reply') {
-        allowedPaths = [`${Paths.REPLY}${Paths.REPLY}`];
+        allowedPaths = [`${Paths.REPLY}`];
       }
 
       const currentPath = location.pathname;
