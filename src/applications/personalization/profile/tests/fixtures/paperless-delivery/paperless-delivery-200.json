@@ -219,6 +219,29 @@
               ]
             }
           ]
+        },
+        {
+          "id": 6,
+          "name": "Digital Delivery - Health Care",
+          "description": "Digital Delivery settings for health care related items",
+          "communicationItems": [
+            {
+              "id": 15,
+              "name": "1095-B Proof of Health Care",
+              "communicationChannels": [
+                {
+                  "id": 3,
+                  "name": "Digital Delivery",
+                  "description": "Delivered using digital delivery model",
+                  "defaultSendIndicator": false,
+                  "communicationPermission": {
+                    "id": 81592,
+                    "allowed": true
+                  }
+                }
+              ]
+            }
+          ]
         }
       ]
     }

@@ -1,5 +1,5 @@
 import { makeUserObject } from '~/applications/personalization/common/helpers';
-import mockCommunicationPreferences from '@@profile/tests/fixtures/communication-preferences/get-200-maximal.json';
+import mockCommunicationPreferences from '@@profile/tests/fixtures/paperless-delivery/paperless-delivery-200.json';
 import { PROFILE_PATHS } from '@@profile/constants';
 import {
   mockNotificationSettingsAPIs,
