@@ -116,14 +116,7 @@ describe('RouteLeavingGuard component', () => {
 
   describe('when save error exists with saved draft', () => {
     const saveError = {
-      title: ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.title,
-      p1: ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.p1,
-      cancelButtonText:
-        ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT
-          .cancelButtonText,
-      confirmButtonText:
-        ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT
-          .confirmButtonText,
+      ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
     };
 
     it('displays modal when saveError and savedDraft are true', () => {
@@ -173,11 +166,7 @@ describe('RouteLeavingGuard component', () => {
   describe('cancel button behavior with draft saving', () => {
     it('calls saveDraftHandler with manual when cancel button matches CONT_SAVING_DRAFT', async () => {
       const navigationError = {
-        title: ErrorMessages.ComposeForm.CONT_SAVING_DRAFT.title,
-        cancelButtonText:
-          ErrorMessages.ComposeForm.CONT_SAVING_DRAFT.cancelButtonText,
-        confirmButtonText:
-          ErrorMessages.ComposeForm.CONT_SAVING_DRAFT.confirmButtonText,
+        ...ErrorMessages.ComposeForm.CONT_SAVING_DRAFT,
       };
 
       const screen = setup(
@@ -197,11 +186,7 @@ describe('RouteLeavingGuard component', () => {
 
     it('calls saveDraftHandler with manual when cancel button matches CONT_SAVING_DRAFT_CHANGES', async () => {
       const navigationError = {
-        title: ErrorMessages.ComposeForm.CONT_SAVING_DRAFT_CHANGES.title,
-        cancelButtonText:
-          ErrorMessages.ComposeForm.CONT_SAVING_DRAFT_CHANGES.cancelButtonText,
-        confirmButtonText:
-          ErrorMessages.ComposeForm.CONT_SAVING_DRAFT_CHANGES.confirmButtonText,
+        ...ErrorMessages.ComposeForm.CONT_SAVING_DRAFT_CHANGES,
       };
 
       const screen = setup(
@@ -243,12 +228,7 @@ describe('RouteLeavingGuard component', () => {
   describe('modal visibility and text rendering', () => {
     it('does not render p1 text when cancelButtonText matches UNABLE_TO_SAVE_DRAFT_ATTACHMENT confirmButtonText', () => {
       const saveError = {
-        title: "We can't save attachments in a draft message",
-        p1: 'This text should not be displayed',
-        cancelButtonText:
-          ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT
-            .confirmButtonText,
-        confirmButtonText: 'Save draft without attachments',
+        ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
       };
 
       const screen = setup({}, { saveError, savedDraft: true });
@@ -327,13 +307,7 @@ describe('RouteLeavingGuard component', () => {
   describe('datadog action names', () => {
     it('sets correct data-dd-action-name for confirm button when save error exists', () => {
       const saveError = {
-        title: ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.title,
-        cancelButtonText:
-          ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT
-            .cancelButtonText,
-        confirmButtonText:
-          ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT
-            .confirmButtonText,
+        ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
       };
 
       const screen = setup({}, { saveError, savedDraft: true });
@@ -371,13 +345,7 @@ describe('RouteLeavingGuard component', () => {
 
     it('sets correct data-dd-action-name for cancel button when save error exists', () => {
       const saveError = {
-        title: ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.title,
-        cancelButtonText:
-          ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT
-            .cancelButtonText,
-        confirmButtonText:
-          ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT
-            .confirmButtonText,
+        ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
       };
 
       const screen = setup({}, { saveError, savedDraft: true });
