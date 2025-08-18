@@ -117,6 +117,13 @@ const yesNoOptionsMore = {
   },
 };
 
+const sharedRecipientRelationshipBase = {
+  title: 'Who receives this income?',
+  hint: 'You’ll be able to add individual incomes separately',
+  labelHeaderLevel: '2',
+  labelHeaderLevelStyle: '3',
+};
+
 /**
  * Cards are populated on this page above the uiSchema if items are present
  *
@@ -221,9 +228,7 @@ const veteranIncomeRecipientPage = {
       nounSingular: options.nounSingular,
     }),
     recipientRelationship: radioUI({
-      title: 'Who receives this income?',
-      labelHeaderLevel: '2',
-      labelHeaderLevelStyle: '3',
+      ...sharedRecipientRelationshipBase,
       labels: Object.fromEntries(
         Object.entries(relationshipLabels).filter(
           ([key]) => key !== 'PARENT' && key !== 'CUSTODIAN',
@@ -268,9 +273,7 @@ const spouseIncomeRecipientPage = {
       nounSingular: options.nounSingular,
     }),
     recipientRelationship: radioUI({
-      title: 'What’s the income recipient’s relationship to the Veteran?',
-      labelHeaderLevel: '2',
-      labelHeaderLevelStyle: '3',
+      ...sharedRecipientRelationshipBase,
       labels: Object.fromEntries(
         Object.entries(relationshipLabels)
           .filter(
@@ -325,9 +328,7 @@ const custodianIncomeRecipientPage = {
       nounSingular: options.nounSingular,
     }),
     recipientRelationship: radioUI({
-      title: 'What’s the income recipient’s relationship to the Veteran?',
-      labelHeaderLevel: '2',
-      labelHeaderLevelStyle: '3',
+      ...sharedRecipientRelationshipBase,
       labels: Object.fromEntries(
         Object.entries(relationshipLabels)
           .filter(
@@ -383,9 +384,7 @@ const parentIncomeRecipientPage = {
       nounSingular: options.nounSingular,
     }),
     recipientRelationship: radioUI({
-      title: 'What’s the income recipient’s relationship to the Veteran?',
-      labelHeaderLevel: '2',
-      labelHeaderLevelStyle: '3',
+      ...sharedRecipientRelationshipBase,
       labels: Object.fromEntries(
         Object.entries(relationshipLabels)
           .filter(

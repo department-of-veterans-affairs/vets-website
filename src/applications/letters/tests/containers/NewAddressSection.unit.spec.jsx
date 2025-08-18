@@ -62,7 +62,7 @@ describe('<NewAddressSection>', () => {
       </Provider>,
     );
     const link = getByRole('link', {
-      name: /about changing your address in your VA\.gov profile/i,
+      name: /learn about changing your address in your VA\.gov profile/i,
     });
     expect(
       getByText(
@@ -73,7 +73,7 @@ describe('<NewAddressSection>', () => {
     expect(alert).to.exist;
     expect(
       getByText(
-        /If you edit the address here, it will also update the address in your VA.gov profile and across several VA benefits and services./,
+        /Changing your address here will also update it in your VA.gov profile. We use this address for several VA benefits and services./,
       ).exist,
     );
     expect(link).to.exist;

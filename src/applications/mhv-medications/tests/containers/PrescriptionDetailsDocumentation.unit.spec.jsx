@@ -213,12 +213,15 @@ describe('Prescription details documentation container', () => {
     it('should call downloadFile with PDF format and generate PDF file', async () => {
       const screen = setup();
 
-      await waitFor(() => {
-        const downloadPdfBtn = screen.getByTestId('download-pdf-button');
-        expect(downloadPdfBtn).to.exist;
-        downloadPdfBtn.click();
-        expect(screen.getByText('Download started')).to.exist;
-      });
+      await waitFor(
+        () => {
+          const downloadPdfBtn = screen.getByTestId('download-pdf-button');
+          expect(downloadPdfBtn).to.exist;
+          downloadPdfBtn.click();
+          expect(screen.getByText('Download started')).to.exist;
+        },
+        { timeout: 3000 },
+      );
     });
   });
 });

@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { useBrowserMonitoring } from 'platform/monitoring/Datadog/';
 import environment from 'platform/utilities/environment';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
 import manifest from '../manifest.json';
 import formConfig from '../config/form';
@@ -40,6 +41,9 @@ function App({
       environment.vspEnvironment() === 'staging' ? 100 : 20,
     sessionSampleRate: 50,
   });
+
+  const { useFormFeatureToggleSync } = useFeatureToggle();
+  useFormFeatureToggleSync(['vaDependentsNetWorthAndPension']);
 
   // Handle loading
   if (isLoading) {
