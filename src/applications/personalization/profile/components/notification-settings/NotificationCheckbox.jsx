@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import classNames from 'classnames';
 import { NotificationStatusMessage } from './NotificationStatusMessage';
+import { NOTIFICATION_CHANNEL_FIELD_DESCRIPTIONS } from '../../constants';
 
 export const NotificationCheckbox = ({
   channelId,
@@ -80,6 +81,8 @@ export const NotificationCheckbox = ({
     );
   }
 
+  const description = NOTIFICATION_CHANNEL_FIELD_DESCRIPTIONS[channelId];
+
   const className = classNames({
     'vads-u-padding-bottom--0p5': last,
     'vads-u-display--none': loadingMessage,
@@ -90,27 +93,17 @@ export const NotificationCheckbox = ({
       {!loadingMessage && !successMessage && errorSpan}
       {!loadingMessage && !errorMessage && successSpan}
       {!errorMessage && !successMessage && loadingSpan}
-      {disabled ? (
-        <VaCheckbox
-          checked={checked}
-          label={label}
-          data-testid={checkboxId}
-          id={checkboxId}
-          disabled
-          uswds
-          className={className}
-        />
-      ) : (
-        <VaCheckbox
-          checked={checked}
-          label={label}
-          onVaChange={handleChange}
-          data-testid={checkboxId}
-          id={checkboxId}
-          uswds
-          className={className}
-        />
-      )}{' '}
+      <VaCheckbox
+        checked={checked}
+        label={label}
+        onVaChange={handleChange}
+        data-testid={checkboxId}
+        id={checkboxId}
+        disabled={disabled}
+        uswds
+        className={className}
+        hint={description}
+      />{' '}
     </div>
   );
 };
