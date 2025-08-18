@@ -12,6 +12,13 @@ const ArrayBuilderSummaryReviewPage = ({
   Title,
   hideAdd,
 }) => {
+  const { reviewPanelHeadingLevel } = arrayBuilderOptions;
+  const headingLevel = ['1', '2', '3', '4', '5', '6'].includes(
+    String(reviewPanelHeadingLevel),
+  )
+    ? reviewPanelHeadingLevel
+    : '4';
+  const Header = `h${headingLevel}`;
   return (
     <>
       {arrayData?.length ? (
@@ -19,7 +26,7 @@ const ArrayBuilderSummaryReviewPage = ({
       ) : (
         <>
           <div className="form-review-panel-page-header-row">
-            <h4
+            <Header
               className="form-review-panel-page-header vads-u-font-size--h5"
               data-title-for-noun-singular={`${
                 arrayBuilderOptions.nounSingular
@@ -30,7 +37,7 @@ const ArrayBuilderSummaryReviewPage = ({
                 updatedItemData,
                 customPageProps.data,
               )}
-            </h4>
+            </Header>
           </div>
           <dl className="review">
             <div className="review-row">
