@@ -140,63 +140,76 @@ export default function ContactInformation({ institution, showModal }) {
 
   const institutionCodes = () => (
     <div className="small-screen-font">
-      <h3 className={institutionCodesClassNames}>Institution codes</h3>
+      <h3 className={institutionCodesClassNames}>
+        School identifiers and profile
+      </h3>
       <hr />
-      <div>
-        <strong>
-          <LearnMoreLabel
-            bold
-            text="VA Facility Code"
-            onClick={() => {
-              showModal('facilityCode');
-            }}
-            ariaLabel={ariaLabels.learnMore.facilityCode}
-            buttonId="facilityCode-button"
-            buttonClassName="small-screen-font"
+
+      <ul>
+        <li>
+          <strong>
+            <LearnMoreLabel
+              bold
+              text="VA Facility Code"
+              onClick={() => {
+                showModal('facilityCode');
+              }}
+              ariaLabel={ariaLabels.learnMore.facilityCode}
+              buttonId="facilityCode-button"
+              buttonClassName="small-screen-font"
+            />
+            :
+          </strong>
+          &nbsp;
+          {institution.facilityCode || 'N/A'}
+        </li>
+
+        {!isOJT && (
+          <li>
+            <strong>
+              <LearnMoreLabel
+                bold
+                text="ED IPEDS code"
+                onClick={() => {
+                  showModal('ipedsCode');
+                }}
+                ariaLabel={ariaLabels.learnMore.ipedsCode}
+                buttonId="ipedsCode-button"
+                buttonClassName="small-screen-font"
+              />
+              :
+            </strong>
+            &nbsp;
+            {institution.cross || 'N/A'}
+          </li>
+        )}
+        {!isOJT && (
+          <li>
+            <strong>
+              <LearnMoreLabel
+                bold
+                text="ED OPE code"
+                onClick={() => {
+                  showModal('opeCode');
+                }}
+                ariaLabel={ariaLabels.learnMore.opeCode}
+                buttonId="opeCode-button"
+                buttonClassName="small-screen-font"
+              />
+              :
+            </strong>
+            &nbsp;
+            {institution.ope || 'N/A'}
+          </li>
+        )}
+        <li>
+          <va-link
+            external
+            text="View this school's profile on College Navigator"
+            href="https://nces.ed.gov/collegenavigator/?q=201034&s=all&id=201034"
           />
-          :
-        </strong>
-        &nbsp;
-        {institution.facilityCode || 'N/A'}
-      </div>
-      {!isOJT && (
-        <div>
-          <strong>
-            <LearnMoreLabel
-              bold
-              text="ED IPEDS code"
-              onClick={() => {
-                showModal('ipedsCode');
-              }}
-              ariaLabel={ariaLabels.learnMore.ipedsCode}
-              buttonId="ipedsCode-button"
-              buttonClassName="small-screen-font"
-            />
-            :
-          </strong>
-          &nbsp;
-          {institution.cross || 'N/A'}
-        </div>
-      )}
-      {!isOJT && (
-        <div>
-          <strong>
-            <LearnMoreLabel
-              bold
-              text="ED OPE code"
-              onClick={() => {
-                showModal('opeCode');
-              }}
-              ariaLabel={ariaLabels.learnMore.opeCode}
-              buttonId="opeCode-button"
-              buttonClassName="small-screen-font"
-            />
-            :
-          </strong>
-          &nbsp;
-          {institution.ope || 'N/A'}
-        </div>
-      )}
+        </li>
+      </ul>
     </div>
   );
 
