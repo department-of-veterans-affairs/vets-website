@@ -121,13 +121,13 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
 
   const filterAndSortBenefits = useCallback(
     () => {
-      const keys = filterValues;
+      const filterKeys = filterValues;
       const sourceData = isAllBenefits ? BENEFITS_LIST : results.data || [];
 
       let filtered = sourceData;
-      if (keys && keys.length > 0) {
+      if (filterKeys && filterKeys.length > 0) {
         filtered = sourceData.filter(benefit =>
-          keys.some(
+          filterKeys.some(
             key =>
               key === 'isTimeSensitive'
                 ? benefit.isTimeSensitive
@@ -177,29 +177,19 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
     [router],
   );
 
+  const extractSelectedFilters = activeFilters => {
+    const selectedFacet = activeFilters.find(f => f.label === 'Benefit type');
+    return selectedFacet?.category?.map(cat => cat.id) || [];
+  };
+
   const handleFilterApply = useCallback(event => {
-    const activeFilters = event.detail;
-    const selectedFilterFacet = activeFilters.find(
-      f => f.label === 'Benefit type',
-    );
-
-    const selectedFilter =
-      selectedFilterFacet?.category?.map(cat => cat.id) || [];
-
+    const selectedFilter = extractSelectedFilters(event.detail);
     setFilterValues(selectedFilter);
     setTempFilterValues(selectedFilter);
   }, []);
 
   const handleFilterChange = useCallback(event => {
-    const activeFilters = event.detail;
-
-    const selectedFilterFacet = activeFilters.find(
-      f => f.label === 'Benefit type',
-    );
-
-    const selectedFilter =
-      selectedFilterFacet?.category?.map(cat => cat.id) || [];
-
+    const selectedFilter = extractSelectedFilters(event.detail);
     setTempFilterValues(selectedFilter);
   }, []);
 
@@ -231,7 +221,7 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
       browserHistory.replace(queryStringObj);
       applyInitialSort();
     },
-    [results, location, applyInitialSort],
+    [results.data, location.pathname, location.basename, applyInitialSort],
   );
 
   const handleResults = useCallback(
@@ -269,7 +259,7 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
     [dispatch],
   );
 
-  const titleParagraph = () => {
+  const renderTitleParagraph = () => {
     return (
       <>
         {window.history.length > 2 ? (
@@ -353,7 +343,7 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
               </p>
             </div>
           ) : (
-            titleParagraph()
+            renderTitleParagraph()
           )}
         </div>
 
@@ -405,7 +395,6 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
                   text="Show every benefit in this tool"
                   data-testid="show-all-benefits"
                   type="secondary"
-                  className=""
                 />
               </div>
             )}
