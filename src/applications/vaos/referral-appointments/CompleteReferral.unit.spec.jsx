@@ -1,10 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-
-import { fireEvent } from '@testing-library/react';
+import { fireEvent, waitFor } from '@testing-library/react';
+import * as utils from 'applications/vaos/services/utils';
 import CompleteReferral from './CompleteReferral';
-
 import * as actionsModule from './redux/actions';
 import {
   createTestStore,
@@ -16,8 +15,10 @@ import { createReferralById } from './utils/referrals';
 import * as epsAppointmentUtils from './utils/appointment';
 
 describe('CompleteReferral', () => {
+  let requestStub;
+  const appointmentId = 'test-appointment-id';
   const referralAppointmentInfo = createMockEpsAppointment(
-    'appointment-id',
+    appointmentId,
     'booked',
     epsAppointmentUtils.appointmentData,
   );
@@ -30,10 +31,6 @@ describe('CompleteReferral', () => {
   const initialState = {
     referral: {
       appointmentCreateStatus: FETCH_STATUS.succeeded,
-      appointmentInfoError: false,
-      appointmentInfoTimeout: false,
-      appointmentInfoLoading: false,
-      referralAppointmentInfo,
     },
   };
 
@@ -56,12 +53,15 @@ describe('CompleteReferral', () => {
       referralAppointmentInfo: {},
     },
   };
-
+  beforeEach(() => {
+    requestStub = sandbox.stub(utils, 'apiRequestWithUrl');
+  });
   afterEach(() => {
     sandbox.restore();
   });
 
-  it('should call routeToCCPage when "Review your appointments" link is clicked', () => {
+  it('should call routeToCCPage when "Review your appointments" link is clicked', async () => {
+    requestStub.resolves({ data: referralAppointmentInfo });
     const startNewAppointmentFlowSpy = sandbox.spy(
       actionsModule,
       'startNewAppointmentFlow',
@@ -74,19 +74,24 @@ describe('CompleteReferral', () => {
         path: '/complete/UUID?confirmMsg=true',
       },
     );
-
+    await waitFor(() => {
+      expect(getByTestId('appointment-block')).to.exist;
+    });
     fireEvent.click(getByTestId('schedule-appointment-link'));
     expect(startNewAppointmentFlowSpy.calledOnce).to.be.true;
   });
 
-  it('should render error alert when appointment info has an error', () => {
+  it('should render error alert when appointment info has an error', async () => {
+    requestStub.throws(() => new Error());
     const { getByTestId } = renderWithStoreAndRouter(
       <CompleteReferral currentReferral={currentReferral} />,
       {
         store: createTestStore(errorState),
       },
     );
-
+    await waitFor(() => {
+      expect(getByTestId('error-alert')).to.exist;
+    });
     expect(getByTestId('error-alert')).to.exist;
   });
 
@@ -101,14 +106,18 @@ describe('CompleteReferral', () => {
     expect(getByTestId('warning-alert')).to.exist;
   });
 
-  it('should render appointment details correctly', () => {
+  it('should render appointment details correctly', async () => {
+    requestStub.resolves({ data: referralAppointmentInfo });
     const { getByTestId } = renderWithStoreAndRouter(
       <CompleteReferral currentReferral={currentReferral} />,
       {
         store: createTestStore(initialState),
+        path: `/schedule-referral/complete/${appointmentId}`,
       },
     );
-
+    await waitFor(() => {
+      expect(getByTestId('appointment-block')).to.exist;
+    });
     expect(getByTestId('appointment-block')).to.exist;
     expect(getByTestId('appointment-date')).to.have.text(
       'Monday, November 18th, 2024',
@@ -138,5 +147,26 @@ describe('CompleteReferral', () => {
       'href',
       'https://forms.gle/7Lh5H2fab7Qv3DbA9',
     );
+  });
+
+  it('should link to details view', async () => {
+    requestStub.resolves({ data: referralAppointmentInfo });
+    const screen = renderWithStoreAndRouter(
+      <CompleteReferral currentReferral={currentReferral} />,
+      {
+        store: createTestStore(initialState),
+        path: `/schedule-referral/complete/${appointmentId}`,
+      },
+    );
+    await waitFor(() => {
+      expect(screen.getByTestId('cc-details-link')).to.exist;
+    });
+    fireEvent.click(screen.getByTestId('cc-details-link'));
+    await waitFor(() => {
+      expect(screen.history.push.calledWith(`/${appointmentId}?eps=true`)).to.be
+        .true;
+    });
+    expect(screen.history.push.calledWith(`/${appointmentId}?eps=true`)).to.be
+      .true;
   });
 });

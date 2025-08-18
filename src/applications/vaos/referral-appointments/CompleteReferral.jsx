@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useHistory } from 'react-router-dom';
@@ -9,11 +9,8 @@ import ProviderAddress from './components/ProviderAddress';
 import AppointmentDate from '../components/AppointmentDate';
 import AppointmentTime from '../components/AppointmentTime';
 import { routeToNextReferralPage } from './flow';
-import {
-  pollFetchAppointmentInfo,
-  setFormCurrentPage,
-  startNewAppointmentFlow,
-} from './redux/actions';
+import { useGetAppointmentInfoQuery } from '../redux/api/vaosApi';
+import { setFormCurrentPage, startNewAppointmentFlow } from './redux/actions';
 // eslint-disable-next-line import/no-restricted-paths
 import getNewAppointmentFlow from '../new-appointment/newAppointmentFlow';
 import {
@@ -39,14 +36,11 @@ export const CompleteReferral = props => {
   const history = useHistory();
   const appointmentCreateStatus = useSelector(getAppointmentCreateStatus);
   const currentPage = useSelector(selectCurrentPage);
+
+  const [pollingInterval, setPollingInterval] = useState(3000);
   const [, appointmentId] = pathname.split('/schedule-referral/complete/');
   const { root, typeOfCare } = useSelector(getNewAppointmentFlow);
-  const {
-    appointmentInfoError,
-    appointmentInfoTimeout,
-    appointmentInfoLoading,
-    referralAppointmentInfo,
-  } = useSelector(getReferralAppointmentInfo);
+  const { appointmentInfoTimeout } = useSelector(getReferralAppointmentInfo);
 
   function goToDetailsView(e) {
     e.preventDefault();
@@ -62,33 +56,51 @@ export const CompleteReferral = props => {
     },
     [dispatch],
   );
+  const {
+    data: referralAppointmentInfo,
+    isError: appointmentInfoError,
+    isLoading: appointmentInfoLoading,
+    isSuccess,
+  } = useGetAppointmentInfoQuery(appointmentId, { pollingInterval });
+
   useEffect(
     () => {
       if (
-        !appointmentInfoError &&
-        !appointmentInfoTimeout &&
-        !appointmentInfoLoading &&
-        referralAppointmentInfo?.attributes?.status !== 'booked'
+        isSuccess &&
+        referralAppointmentInfo?.attributes?.status === 'booked'
       ) {
-        dispatch(
-          pollFetchAppointmentInfo(appointmentId, {
-            timeOut: 30000,
-            retryCount: 3,
-            retryDelay: 1000,
-          }),
-        );
+        setPollingInterval(0);
       }
     },
-    [
-      dispatch,
-      appointmentId,
-      referralAppointmentInfo?.attributes?.status,
-      appointmentInfoError,
-      appointmentInfoTimeout,
-      appointmentCreateStatus,
-      appointmentInfoLoading,
-    ],
+    [isSuccess, referralAppointmentInfo],
   );
+  // useEffect(
+  //   () => {
+  //     if (
+  //       !appointmentInfoError &&
+  //       !appointmentInfoTimeout &&
+  //       !appointmentInfoLoading &&
+  //       referralAppointmentInfo?.attributes?.status !== 'booked'
+  //     ) {
+  //       dispatch(
+  //         pollFetchAppointmentInfo(appointmentId, {
+  //           timeOut: 30000,
+  //           retryCount: 3,
+  //           retryDelay: 1000,
+  //         }),
+  //       );
+  //     }
+  //   },
+  //   [
+  //     dispatch,
+  //     appointmentId,
+  //     referralAppointmentInfo?.attributes?.status,
+  //     appointmentInfoError,
+  //     appointmentInfoTimeout,
+  //     appointmentCreateStatus,
+  //     appointmentInfoLoading,
+  //   ],
+  // );
   if (appointmentInfoError || appointmentInfoTimeout) {
     return (
       <ReferralLayout
@@ -117,7 +129,7 @@ export const CompleteReferral = props => {
     );
   }
 
-  if (appointmentInfoLoading || !referralAppointmentInfo.attributes) {
+  if (appointmentInfoLoading || !referralAppointmentInfo?.attributes) {
     return (
       <ReferralLayout loadingMessage="Confirming your appointment. This may take up to 30 seconds. Please don’t refresh the page." />
     );
