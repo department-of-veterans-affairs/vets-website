@@ -1,7 +1,7 @@
 import React, { useMemo, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { scrollToTop } from 'platform/utilities/scroll';
 
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -175,18 +175,6 @@ const NotificationSettings = ({
               }
               return <NotificationGroup groupId={id} key={id} />;
             })}
-            <p className="vads-u-margin-bottom--0">
-              <strong>Note:</strong> Text messaging and email aren’t encrypted
-              forms of communication.{' '}
-              <Link
-                to="/privacy-policy/digital-notifications-terms-and-conditions/#privacy-and-security"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="vads-u-display--block desktop-lg:vads-u-display--inline"
-              >
-                Read more about privacy and security for digital notifications
-              </Link>
-            </p>
           </>
         )}
       </DowntimeNotification>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -6,6 +6,10 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import formConfig from '../config/form';
 import NoFormPage from '../components/NoFormPage';
 import manifest from '../manifest.json';
+import { TITLE } from '../constants';
+
+// Must match the H1
+document.title = TITLE;
 
 export default function App({ location, children }) {
   const featureToggle = useSelector(
@@ -14,11 +18,12 @@ export default function App({ location, children }) {
   const externalServicesLoading = useSelector(
     state => state?.externalServiceStatus?.loading,
   );
-  const [isValidatingUrl, setIsValidatingUrl] = useState(true);
-
-  const hasSession = JSON.parse(localStorage.getItem('hasSession'));
-
+  const dependentsLoading = useSelector(state => {
+    return state?.dependents?.loading;
+  });
   const isIntroPage = location?.pathname?.endsWith('/introduction');
+  const { pathname } = location || {};
+  const pageUrl = pathname?.slice(1);
 
   const breadcrumbs = [
     {
@@ -32,26 +37,18 @@ export default function App({ location, children }) {
     {
       href:
         '/view-change-dependents/verify-dependents-form-21-0538/introduction',
-      label: 'Verify your dependents for disability benefits',
+      label:
+        pageUrl === 'exit-form'
+          ? 'Update your dependents in a different form'
+          : 'Verify your dependents for disability benefits',
     },
   ];
 
   const rawBreadcrumbs = JSON.stringify(breadcrumbs);
 
-  useEffect(
-    () => {
-      if (!hasSession) {
-        window.location.replace(`${manifest.rootUrl}/introduction`);
-      }
-    },
-    [hasSession],
-  );
-
   useEffect(() => {
-    if (!isIntroPage) {
+    if (!isIntroPage && dependentsLoading) {
       window.location.replace(`${manifest.rootUrl}/introduction`);
-    } else {
-      setIsValidatingUrl(false);
     }
   }, []);
 
@@ -59,7 +56,7 @@ export default function App({ location, children }) {
 
   if (!featureToggle) {
     content = <NoFormPage />;
-  } else if (externalServicesLoading || !hasSession || isValidatingUrl) {
+  } else if (externalServicesLoading) {
     content = <va-loading-indicator message="Loading your information..." />;
   } else {
     content = (
@@ -70,7 +67,7 @@ export default function App({ location, children }) {
   }
 
   return (
-    <article>
+    <article id="form-0538" data-location={pageUrl}>
       <div className="row">
         <div className="columns">
           <va-breadcrumbs breadcrumb-list={rawBreadcrumbs} wrapping />

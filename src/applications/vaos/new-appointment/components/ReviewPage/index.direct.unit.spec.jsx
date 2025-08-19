@@ -178,8 +178,8 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
     const editLinks = screen.getAllByTestId('edit-new-appointment');
     const uniqueLinks = new Set();
     editLinks.forEach(link => {
-      expect(link).to.have.attribute('aria-label');
-      uniqueLinks.add(link.getAttribute('aria-label'));
+      expect(link).to.have.attribute('label');
+      uniqueLinks.add(link.getAttribute('label'));
     });
     expect(uniqueLinks.size).to.equal(editLinks.length);
   });

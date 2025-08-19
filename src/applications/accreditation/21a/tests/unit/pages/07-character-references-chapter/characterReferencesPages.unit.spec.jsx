@@ -377,5 +377,264 @@ describe('educationalInstitutionsPages', () => {
       getByText('Relationship:');
       getByText(formData.relationship);
     });
+
+    context('isItemIncomplete function', () => {
+      it('should return true when item is null', () => {
+        expect(arrayBuilderOptions.isItemIncomplete(null)).to.be.true;
+      });
+
+      it('should return true when item is undefined', () => {
+        expect(arrayBuilderOptions.isItemIncomplete(undefined)).to.be.true;
+      });
+
+      it('should return true when item is empty object', () => {
+        expect(arrayBuilderOptions.isItemIncomplete({})).to.be.true;
+      });
+
+      it('should return true when fullName is missing', () => {
+        const item = {
+          address: { street: '123 Main St' },
+          phone: { contact: '123-456-7890' },
+          email: 'test@example.com',
+          relationship: 'Friend',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when fullName is null', () => {
+        const item = {
+          fullName: null,
+          address: { street: '123 Main St' },
+          phone: { contact: '123-456-7890' },
+          email: 'test@example.com',
+          relationship: 'Friend',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when address is missing', () => {
+        const item = {
+          fullName: { first: 'John', last: 'Doe' },
+          phone: { contact: '123-456-7890' },
+          email: 'test@example.com',
+          relationship: 'Friend',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when address is null', () => {
+        const item = {
+          fullName: { first: 'John', last: 'Doe' },
+          address: null,
+          phone: { contact: '123-456-7890' },
+          email: 'test@example.com',
+          relationship: 'Friend',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when phone is missing', () => {
+        const item = {
+          fullName: { first: 'John', last: 'Doe' },
+          address: { street: '123 Main St' },
+          email: 'test@example.com',
+          relationship: 'Friend',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when phone is null', () => {
+        const item = {
+          fullName: { first: 'John', last: 'Doe' },
+          address: { street: '123 Main St' },
+          phone: null,
+          email: 'test@example.com',
+          relationship: 'Friend',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when phone.contact is missing', () => {
+        const item = {
+          fullName: { first: 'John', last: 'Doe' },
+          address: { street: '123 Main St' },
+          phone: {},
+          email: 'test@example.com',
+          relationship: 'Friend',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when phone.contact is null', () => {
+        const item = {
+          fullName: { first: 'John', last: 'Doe' },
+          address: { street: '123 Main St' },
+          phone: { contact: null },
+          email: 'test@example.com',
+          relationship: 'Friend',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when phone.contact is empty string', () => {
+        const item = {
+          fullName: { first: 'John', last: 'Doe' },
+          address: { street: '123 Main St' },
+          phone: { contact: '' },
+          email: 'test@example.com',
+          relationship: 'Friend',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when email is missing', () => {
+        const item = {
+          fullName: { first: 'John', last: 'Doe' },
+          address: { street: '123 Main St' },
+          phone: { contact: '123-456-7890' },
+          relationship: 'Friend',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when email is null', () => {
+        const item = {
+          fullName: { first: 'John', last: 'Doe' },
+          address: { street: '123 Main St' },
+          phone: { contact: '123-456-7890' },
+          email: null,
+          relationship: 'Friend',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when email is empty string', () => {
+        const item = {
+          fullName: { first: 'John', last: 'Doe' },
+          address: { street: '123 Main St' },
+          phone: { contact: '123-456-7890' },
+          email: '',
+          relationship: 'Friend',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when relationship is missing', () => {
+        const item = {
+          fullName: { first: 'John', last: 'Doe' },
+          address: { street: '123 Main St' },
+          phone: { contact: '123-456-7890' },
+          email: 'test@example.com',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when relationship is null', () => {
+        const item = {
+          fullName: { first: 'John', last: 'Doe' },
+          address: { street: '123 Main St' },
+          phone: { contact: '123-456-7890' },
+          email: 'test@example.com',
+          relationship: null,
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when relationship is empty string', () => {
+        const item = {
+          fullName: { first: 'John', last: 'Doe' },
+          address: { street: '123 Main St' },
+          phone: { contact: '123-456-7890' },
+          email: 'test@example.com',
+          relationship: '',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return false when all required fields are present', () => {
+        const item = {
+          fullName: { first: 'John', last: 'Doe' },
+          address: { street: '123 Main St' },
+          phone: { contact: '123-456-7890' },
+          email: 'test@example.com',
+          relationship: 'Friend',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.false;
+      });
+
+      it('should return false when all required fields are present with full data', () => {
+        const item = {
+          fullName: {
+            first: 'John',
+            middle: 'Michael',
+            last: 'Doe',
+            suffix: 'Jr.',
+          },
+          address: {
+            street: '123 Main St',
+            street2: 'Apt 4B',
+            city: 'New York',
+            state: 'NY',
+            postalCode: '10001',
+            country: 'USA',
+          },
+          phone: { contact: '123-456-7890', callingCode: 1 },
+          email: 'john.doe@example.com',
+          relationship: 'Colleague',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.false;
+      });
+
+      it('should return true when only fullName is missing (all others present)', () => {
+        const item = {
+          address: { street: '123 Main St' },
+          phone: { contact: '123-456-7890' },
+          email: 'test@example.com',
+          relationship: 'Friend',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when only address is missing (all others present)', () => {
+        const item = {
+          fullName: { first: 'John', last: 'Doe' },
+          phone: { contact: '123-456-7890' },
+          email: 'test@example.com',
+          relationship: 'Friend',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when only phone.contact is missing (all others present)', () => {
+        const item = {
+          fullName: { first: 'John', last: 'Doe' },
+          address: { street: '123 Main St' },
+          phone: {},
+          email: 'test@example.com',
+          relationship: 'Friend',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when only email is missing (all others present)', () => {
+        const item = {
+          fullName: { first: 'John', last: 'Doe' },
+          address: { street: '123 Main St' },
+          phone: { contact: '123-456-7890' },
+          relationship: 'Friend',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+
+      it('should return true when only relationship is missing (all others present)', () => {
+        const item = {
+          fullName: { first: 'John', last: 'Doe' },
+          address: { street: '123 Main St' },
+          phone: { contact: '123-456-7890' },
+          email: 'test@example.com',
+        };
+        expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+      });
+    });
   });
 });

@@ -65,10 +65,10 @@ const ResolveDebtPage = ({ match }) => {
         <h1 data-testid="detail-page-title" className="vads-u-margin-bottom--2">
           {title}
         </h1>
-        <h3 className="vads-u-margin-top--1p5 vads-u-margin-bottom--0 vads-u-font-size--h3 vads-u-font-weight--normal">
+        <h2 className="vads-u-margin-top--1p5 vads-u-margin-bottom--0 vads-u-font-size--h2 vads-u-font-weight--normal">
           You can pay your balance, request financial help, or dispute this
           overpayment
-        </h3>
+        </h2>
         <va-on-this-page class="medium-screen:vads-u-margin-top--0" />
         <HowDoIPay userData={howToUserData} />
         <NeedHelp showVHAPaymentHistory={showVHAPaymentHistory} />

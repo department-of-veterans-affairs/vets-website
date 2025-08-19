@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { format, isValid } from 'date-fns';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { setPageFocus } from '../../combined/utils/helpers';
-import Modals from '../components/Modals';
+import Modals from '../../combined/components/Modals';
 import StatementAddresses from '../components/StatementAddresses';
 import AccountSummary from '../components/AccountSummary';
 import StatementCharges from '../components/StatementCharges';
