@@ -146,7 +146,7 @@ const applicantIntroPage = {
             {CustomPrefillMessage(formData, 'applicant')}
           </>
         ) : (
-          <p>Enter tthis information for each applicant you’re applying for.</p>
+          <p>Enter this information for each applicant you’re applying for.</p>
         );
       },
     ),
