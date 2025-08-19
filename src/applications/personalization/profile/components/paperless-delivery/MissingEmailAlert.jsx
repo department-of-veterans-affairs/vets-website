@@ -6,11 +6,12 @@ export const MissingEmailAlert = ({ emailAddress }) => {
   if (!emailAddress) {
     return (
       <VaAlert role="alert" status="info" visible>
-        <h2 slot="headline">Add your email to get delivery updates</h2>
+        <h2 slot="headline">
+          Add your email to get notified when documents are ready
+        </h2>
         <p className="vads-u-margin-y--0">
-          Your email address isn’t on file. So you won’t get an email update
-          when your documents are available online. Add your email address to
-          your VA.gov profile to get these updates.
+          You don’t have an email address in your VA profile. If you add one,
+          we’ll email you when your documents are ready.
         </p>
       </VaAlert>
     );

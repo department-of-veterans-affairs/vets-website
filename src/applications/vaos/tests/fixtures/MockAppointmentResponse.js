@@ -99,6 +99,13 @@ export default class MockAppointmentResponse {
       future,
       pending,
       past,
+      travelPayClaim: {
+        metadata: {
+          status: 200,
+          message: 'Data retrieved successfully.',
+          success: true,
+        },
+      },
     };
   }
 
