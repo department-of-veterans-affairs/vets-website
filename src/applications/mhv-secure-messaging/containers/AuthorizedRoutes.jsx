@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Switch, Route, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
 import { MhvPageNotFoundContent } from 'platform/mhv/components/MhvPageNotFound';
 import ScrollToTop from '../components/shared/ScrollToTop';
 import Compose from './Compose';
@@ -14,7 +15,8 @@ import manifest from '../manifest.json';
 import SmBreadcrumbs from '../components/shared/SmBreadcrumbs';
 import EditContactList from './EditContactList';
 import InterstitialPage from './InterstitialPage';
-import SelectHealthCareSystem from './SelectHealthCareSystem';
+import SelectCareTeam from './SelectCareTeam';
+import { clearDraftInProgress } from '../actions/threadDetails';
 import featureToggles from '../hooks/useFeatureToggles';
 
 // Prepend SmBreadcrumbs to each route, except for PageNotFound
@@ -33,9 +35,35 @@ AppRoute.propTypes = {
 
 const { Paths } = Constants;
 
+// TODO: Curated List - update safe paths with all new urls for composing a message
+const draftInProgressSafePaths = [
+  `${Paths.COMPOSE}${Paths.START_MESSAGE}`,
+  `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`,
+  new RegExp(`^${Paths.MESSAGE_THREAD}[^/]+/?$`),
+  Paths.COMPOSE,
+  Paths.CONTACT_LIST,
+];
+
 const AuthorizedRoutes = () => {
   const location = useLocation();
+  const dispatch = useDispatch();
+  const { draftInProgress } = useSelector(state => state.sm.threadDetails);
   const { cernerPilotSmFeatureFlag } = featureToggles();
+
+  useEffect(
+    () => {
+      const isDraftSafe = draftInProgressSafePaths.some(
+        path =>
+          path instanceof RegExp
+            ? path.test(location.pathname)
+            : location.pathname.startsWith(path),
+      );
+      if (!isDraftSafe && draftInProgress.recipientId) {
+        dispatch(clearDraftInProgress());
+      }
+    },
+    [location.pathname, draftInProgress.recipientId, dispatch],
+  );
 
   if (location.pathname === `/`) {
     const basePath = `${manifest.rootUrl}${Paths.INBOX}`;
@@ -100,10 +128,10 @@ const AuthorizedRoutes = () => {
         {cernerPilotSmFeatureFlag && (
           <AppRoute
             exact
-            path={`${Paths.COMPOSE}${Paths.SELECT_HEALTH_CARE_SYSTEM}`}
-            key="SelectHealthCareSystem"
+            path={`${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`}
+            key="SelectCareTeam"
           >
-            <SelectHealthCareSystem />
+            <SelectCareTeam />
           </AppRoute>
         )}
         {cernerPilotSmFeatureFlag && (

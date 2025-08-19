@@ -142,6 +142,9 @@ describe('EditMailingAddressPage', () => {
     await waitFor(() => {
       expect(goToPathSpy.called).to.be.true;
       expect(goToPathSpy.calledWith('/review-and-submit')).to.be.true;
+      expect(sessionStorage.getItem('editContactInformation')).to.eq(
+        'address,cancel',
+      );
     });
   });
 
@@ -202,6 +205,9 @@ describe('EditMailingAddressPage', () => {
 
       const lastCallArg = setFormDataSpy.lastCall.args[0];
       expect(lastCallArg.address.city).to.equal('Big City');
+      expect(sessionStorage.getItem('editContactInformation')).to.eq(
+        'address,update',
+      );
     });
   });
 

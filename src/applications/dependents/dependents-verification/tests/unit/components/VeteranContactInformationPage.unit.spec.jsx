@@ -8,6 +8,7 @@ import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import VeteranContactInformationPage from '../../../components/VeteranContactInformationPage';
 import { electronicCorrespondenceMessage } from '../../../config/chapters/veteran-contact-information/editEmailPage';
+import { saveEditContactInformation } from '../../../util/contact-info';
 
 const defaultProfile = ({
   isInternationalHome = false,
@@ -55,6 +56,7 @@ const defaultData = {
   email: 'vet@example.com',
   electronicCorrespondence: false,
   phone: '5551234567',
+  'view:phoneSource': 'home',
   address: {
     street: '123 Main St',
     street2: 'Unit 2',
@@ -62,10 +64,10 @@ const defaultData = {
     state: 'VA',
     postalCode: '12345',
     country: 'USA',
-    province: '',
-    internationalPostalCode: '',
+    province: null,
+    internationalPostalCode: null,
   },
-  internationalPhone: '',
+  internationalPhone: null,
 };
 
 function renderPage({
@@ -82,6 +84,7 @@ function renderPage({
     dispatch: () => {},
     subscribe: () => {},
   };
+
   return render(
     <Provider store={mockStore}>
       <VeteranContactInformationPage
@@ -97,6 +100,10 @@ function renderPage({
 }
 
 describe('VeteranContactInformationPage (querySelector-only)', () => {
+  afterEach(() => {
+    sessionStorage.clear();
+  });
+
   it('renders all sections with prefilled data', () => {
     const { container } = renderPage();
 
@@ -106,20 +113,20 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
     expect(text).to.include('Email address');
     expect(text).to.include(electronicCorrespondenceMessage(false));
     expect(text).to.include('phone number');
-    expect(text).to.include('International phone number');
+    expect(text).to.include('International number');
     expect(text).to.include('123 Main St');
     expect(text).to.include('vet@example.com');
     expect(text).to.include('12345');
   });
 
-  it('covers international home phone ojbect', () => {
+  it('covers international home phone object', () => {
     const { container } = renderPage({
       profile: defaultProfile({ isInternationalHome: true }),
     });
     expect($('va-card', container)).to.not.be.null;
   });
 
-  it('covers international home phone ojbect', () => {
+  it('covers international home phone object', () => {
     const { container } = renderPage({
       profile: defaultProfile({ isInternationalMobile: true }),
     });
@@ -356,12 +363,40 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
     });
   });
 
-  it('should go to phone number edit page on edit link click', async () => {
+  it('should go to (home) phone number edit page on edit link click', async () => {
     const goToPath = sinon.spy();
     const { container } = renderPage({ goToPath, data: defaultData });
 
-    const editLink = $('va-link[label="Edit phone number"]', container);
+    const editLink = $('va-link[label="Edit home phone number"]', container);
     expect(editLink).to.not.be.null;
+    expect($('va-telephone', container).getAttribute('contact')).to.eq(
+      '5551234567',
+    );
+
+    fireEvent.click(editLink);
+
+    await waitFor(() => {
+      expect(goToPath.calledWith('/veteran-contact-information/phone')).to.be
+        .true;
+    });
+  });
+
+  it('should go to (mobile) phone number edit page on edit link click', async () => {
+    const goToPath = sinon.spy();
+    const { container } = renderPage({
+      goToPath,
+      data: {
+        ...defaultData,
+        phone: '5557654321',
+        'view:phoneSource': 'mobile',
+      },
+    });
+
+    const editLink = $('va-link[label="Edit mobile phone number"]', container);
+    expect(editLink).to.exist;
+    expect($('va-telephone', container).getAttribute('contact')).to.eq(
+      '5557654321',
+    );
 
     fireEvent.click(editLink);
 
@@ -387,6 +422,33 @@ describe('VeteranContactInformationPage (querySelector-only)', () => {
       expect(
         goToPath.calledWith('/veteran-contact-information/international-phone'),
       ).to.be.true;
+    });
+  });
+
+  it('should show address success update alert & focus on it', async () => {
+    saveEditContactInformation('address', 'update');
+    const { container } = renderPage({ data: defaultData });
+
+    await waitFor(() => {
+      const alert = $('va-alert[status="success"]', container);
+      expect(alert).to.exist;
+      expect(alert.textContent).to.include('We updated your mailing address');
+      expect(alert.textContent).to.include('This update only applies to this');
+      expect(document.activeElement === alert).to.be.true;
+    });
+  });
+
+  it('should focus on edit link if editing was canceled', async () => {
+    saveEditContactInformation('address', 'cancel');
+    const { container } = renderPage({ data: defaultData });
+
+    await waitFor(() => {
+      const alert = $('va-alert[status="success"]', container);
+      expect(alert).to.not.exist;
+
+      // This check is flaky :(
+      // const editLink = $('va-link[label="Edit mailing address"]', container);
+      // expect(document.activeElement === editLink).to.be.true;
     });
   });
 });

@@ -51,7 +51,10 @@ const ResolvePage = ({ match }) => {
         wrapping
       />
       <div className="medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">
-        <h1 data-testid="detail-page-title" className="vads-u-margin-bottom--2">
+        <h1
+          data-testid="resolve-page-title"
+          className="vads-u-margin-bottom--2"
+        >
           {title}
         </h1>
         <va-on-this-page class="medium-screen:vads-u-margin-top--0" />
