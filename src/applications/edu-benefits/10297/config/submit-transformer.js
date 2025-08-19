@@ -54,7 +54,7 @@ export function transform(formConfig, form) {
   Consider making both fields in trainingProviders optional in schema, or using oneOf 
   property for trainingProviders.providers to be an array or boolean for explicit definition.
 
-  Verify plannedStartDate transform after schema update
+  Verify plannedStartDate transform after requirements update
   */
 
   const trainingProviderTransform = formData => {
@@ -71,7 +71,7 @@ export function transform(formConfig, form) {
               ...provider,
             }))
           : [],
-        plannedStartDate: plannedStartDate || null,
+        plannedStartDate: plannedStartDate || Date.now(),
       },
     };
   };
