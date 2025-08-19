@@ -16,7 +16,6 @@ const PrintDownload = props => {
     'toggle-menu-button vads-u-justify-content--space-between';
   let menuOptionsClasses = 'menu-options';
   if (menuOpen) {
-    // eslint-disable-next-line no-unused-vars
     toggleMenuButtonClasses +=
       ' toggle-menu-button-open vads-u-justify-content--space-between';
     menuOptionsClasses += ' menu-options-open';
@@ -74,8 +73,8 @@ const PrintDownload = props => {
       onFocus={handleFocus}
     >
       <va-button
-        className="vads-u-padding-x--2 {toggleMenuButtonClasses}"
-        text="Print or download"
+        className={`vads-u-padding-x--2 ${toggleMenuButtonClasses}`}
+        type="button"
         onClick={() => {
           setMenuOpen(!menuOpen);
           sendDataDogAction(`Print Button - ${description}`);
@@ -83,7 +82,19 @@ const PrintDownload = props => {
         id="print-download-menu"
         data-testid="print-download-menu"
         aria-expanded={menuOpen}
-      />
+      >
+        <span>Print or download</span>
+        <span
+          className="vads-u-color--primary vads-u-margin-left--0p5"
+          aria-hidden="true"
+        >
+          {menuOpen ? (
+            <va-icon icon="expand_less" size={3} />
+          ) : (
+            <va-icon icon="expand_more" size={3} />
+          )}
+        </span>
+      </va-button>
       <ul className={menuOptionsClasses}>
         <li>
           <va-button
