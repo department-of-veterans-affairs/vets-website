@@ -212,12 +212,7 @@ export const ConfirmationPageV2 = () => {
       ) : null}
 
       {otherEvidence.length ? (
-        <EvidenceUploadContent
-          list={otherEvidence}
-          reviewMode
-          showListOnly
-          showScNewForm={showScNewForm}
-        />
+        <EvidenceUploadContent list={otherEvidence} reviewMode showListOnly />
       ) : null}
 
       <>
