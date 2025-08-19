@@ -1,5 +1,6 @@
 import { makeUserObject } from '~/applications/personalization/common/helpers';
 import { generateFeatureToggles } from '@@profile/mocks/endpoints/feature-toggles';
+import mockUser from '@@profile/tests/fixtures/users/user-36.json';
 import mockGet from '@@profile/tests/fixtures/paperless-delivery/paperless-delivery-200.json';
 import mockPatch from '@@profile/tests/fixtures/paperless-delivery/paperless-delivery-patch.json';
 import mockPatchAllowed from '@@profile/tests/fixtures/paperless-delivery/paperless-delivery-patch-allowed.json';
@@ -7,29 +8,18 @@ import { PROFILE_PATHS } from '@@profile/constants';
 import { mockNotificationSettingsAPIs } from '../helpers';
 
 describe('Paperless Delivery', () => {
-  beforeEach(() => {
-    mockNotificationSettingsAPIs();
-    cy.intercept(
-      'GET',
-      '/v0/feature_toggles*',
-      generateFeatureToggles({
-        profileShowPaperlessDelivery: true,
-      }),
-    );
-    cy.intercept('GET', '/v0/profile/communication_preferences', {
-      body: mockGet,
-      statusCode: 200,
-    }).as('paperlessGet');
-  });
-
   context('when user is enrolled in health care', () => {
     beforeEach(() => {
-      cy.login(
-        makeUserObject({
-          isPatient: true,
-          facilities: [{ facilityId: '999' }],
+      mockNotificationSettingsAPIs(
+        generateFeatureToggles({
+          profileShowPaperlessDelivery: true,
         }),
       );
+      cy.intercept('GET', '/v0/profile/communication_preferences', {
+        body: mockGet,
+        statusCode: 200,
+      }).as('paperlessGet');
+      cy.login(mockUser);
       cy.visit(PROFILE_PATHS.PAPERLESS_DELIVERY);
     });
 
@@ -90,6 +80,15 @@ describe('Paperless Delivery', () => {
 
   context('when user is not enrolled in health care', () => {
     beforeEach(() => {
+      mockNotificationSettingsAPIs(
+        generateFeatureToggles({
+          profileShowPaperlessDelivery: true,
+        }),
+      );
+      cy.intercept('GET', '/v0/profile/communication_preferences', {
+        body: mockGet,
+        statusCode: 200,
+      }).as('paperlessGet');
       cy.login(
         makeUserObject({
           isPatient: true,
