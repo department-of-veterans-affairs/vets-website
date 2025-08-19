@@ -95,7 +95,7 @@ const ContactInfoOnFile = ({
         <va-alert-expandable
           status="info"
           trigger="You won’t receive text notifications"
-          class="vads-u-margin-top--2"
+          class="vads-u-margin-top--3"
           data-testid="international-mobile-number-info-alert"
         >
           <p className="vads-u-padding-bottom--2">
