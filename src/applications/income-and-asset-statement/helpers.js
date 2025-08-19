@@ -1,5 +1,6 @@
-import get from 'platform/utilities/data/get';
 import { capitalize } from 'lodash';
+
+import get from '@department-of-veterans-affairs/platform-utilities/data/get';
 
 export const showUpdatedContent = () =>
   window.sessionStorage.getItem('showUpdatedContent') === 'true';
