@@ -39,6 +39,6 @@ export default {
       canReceiveTexts: yesNoSchema,
       email: emailSchema,
     },
-    required: ['phone', 'typeOfPhone', 'canReceiveTexts', 'e-mail'],
+    required: ['phone', 'typeOfPhone', 'canReceiveTexts', 'email'],
   },
 };
