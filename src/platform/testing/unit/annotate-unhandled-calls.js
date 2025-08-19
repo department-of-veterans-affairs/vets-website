@@ -1,5 +1,6 @@
 const http = require('http');
 const https = require('https');
+const path = require('path');
 
 let netTouched = false;
 const warnedFiles = new Set();
@@ -38,6 +39,19 @@ function makeNetWrappedFns(mod) {
   }
 })();
 
+function ghAnnotate({ file, title, message, line = 1 }) {
+  const esc = s =>
+    String(s)
+      .replace(/%/g, '%25')
+      .replace(/\r/g, '%0D')
+      .replace(/\n/g, '%0A');
+  process.stdout.write(
+    `::warning file=${esc(file)},line=${line},title=${esc(title)}::${esc(
+      message,
+    )}\n`,
+  );
+}
+
 module.exports = {
   mochaHooks: {
     beforeEach() {
@@ -45,10 +59,17 @@ module.exports = {
     },
     afterEach() {
       if (netTouched && currentFile && !warnedFiles.has(currentFile)) {
-        process.stdout.write(
-          `::warning file=${currentFile},title=Unhandled network calls::` +
-            `This spec made real network requests—add mocks (nock/msw) or stubs.\n`,
-        );
+        const workspace = process.env.GITHUB_WORKSPACE || process.cwd();
+        const rel = path.relative(workspace, currentFile).replace(/\\/g, '/');
+
+        ghAnnotate({
+          file: rel,
+          line: 1, // pin to first line so it shows inline in PR diff
+          title: 'Unhandled network calls',
+          message:
+            'This spec made real network requests. Add mocks (nock/msw) or stubs.',
+        });
+
         warnedFiles.add(currentFile);
       }
       netTouched = false;
