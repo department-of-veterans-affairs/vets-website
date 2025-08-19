@@ -76,7 +76,7 @@ describe('Medications Breadcrumbs', () => {
       rx: {
         prescriptions: {
           prescriptionDetails: undefined,
-          apiError: true,
+          apiError: { status: '500' },
         },
       },
     });
@@ -94,6 +94,6 @@ describe('Medications Breadcrumbs', () => {
       },
     });
     const breadcrumbs = screen.getByTestId('rx-breadcrumb-link');
-    expect(breadcrumbs).to.not.exist;
+    expect(breadcrumbs).to.be.null;
   });
 });
