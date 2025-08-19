@@ -489,7 +489,11 @@ export function mockSchedulingConfigurationsApi({
 /**
  * Mocks the api call that fetches a list of appointment slots for direct scheduling
  *
+ * VistA slots
  * @example GET '/vaos/v2/locations/:facilityId/clinics/:clinicId/slots'
+ *
+ * OH slots
+ * @example GET '/vaos/v2/locations/:facilityId/slots'
  *
  * @export
  * @param {Object} arguments
@@ -508,17 +512,27 @@ export function mockAppointmentSlotApi({
   facilityId,
   preferredDate,
   startDate,
+  provider = null,
   response: data = [],
   responseCode = 200,
 } = {}) {
+  let queryParams = [];
   const start = startDate || startOfMonth(preferredDate);
   const end = endDate || lastDayOfMonth(addMonths(preferredDate, 1));
-  const baseUrl =
-    `${
-      environment.API_URL
-    }/vaos/v2/locations/${facilityId}/clinics/${clinicId}/slots?` +
-    `start=${encodeURIComponent(start.toISOString())}` +
-    `&end=${encodeURIComponent(end.toISOString())}`;
+
+  let baseUrl = `${environment.API_URL}/vaos/v2/locations/${facilityId}`;
+
+  if (clinicId) baseUrl = `${baseUrl}/clinics/${clinicId}`;
+  if (provider) queryParams.push(`provider=${provider}`);
+
+  if (queryParams.length > 0) {
+    // If there are query params, convert to query string
+    queryParams = `&${queryParams.join('&')}`;
+  }
+
+  baseUrl = `${baseUrl}/slots?start=${encodeURIComponent(
+    start.toISOString(),
+  )}&end=${encodeURIComponent(end.toISOString())}${queryParams}`;
 
   if (responseCode === 200) {
     setFetchJSONResponse(global.fetch.withArgs(baseUrl), {
