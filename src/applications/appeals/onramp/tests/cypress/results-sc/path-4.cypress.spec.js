@@ -69,7 +69,7 @@ describe('Decision Reviews Onramp', () => {
 
       // RESULTS
       h.verifyUrl(ROUTES.RESULTS);
-      h.verifyText(h.RESULTS_HEADER, RESULTS_SC);
+      h.verifyDrResultsHeader(RESULTS_SC);
       cy.go('back');
 
       // Q_2_IS_1B_NEW_EVIDENCE

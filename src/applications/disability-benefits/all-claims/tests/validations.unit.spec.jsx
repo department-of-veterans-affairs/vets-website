@@ -1004,7 +1004,8 @@ describe('526 All Claims validations', () => {
     it('does not add an error when the entered date is in the future', () => {
       const addError = sinon.spy();
       const errors = { addError };
-      const tomorrow = format(add(new Date(), { days: 1 }), 'yyyy-MM-dd');
+      // Use 2 days in the future to avoid time-of-day issues
+      const tomorrow = format(addDays(new Date(), 2), 'yyyy-MM-dd');
 
       isInFuture(errors, tomorrow);
       expect(addError.callCount).to.equal(0);
