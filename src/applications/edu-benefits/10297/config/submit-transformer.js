@@ -1,26 +1,27 @@
 import _ from 'lodash';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
+import { dateSigned } from '../helpers';
 
 // create test object
 export function transform(formConfig, form) {
   const contactInfoTransform = formData => {
     const clonedData = _.cloneDeep(formData);
-    const { contactInfo } = clonedData;
+    // const { contactInfo } = clonedData;
 
-    const homePhone = contactInfo?.homePhone
-      ? contactInfo.homePhone.replace(/[^0-9]/g, '')
-      : '';
+    // const homePhone = contactInfo?.homePhone
+    //   ? contactInfo.homePhone.replace(/[^0-9]/g, '')
+    //   : '';
 
-    const mobilePhone = contactInfo?.mobilePhone
-      ? contactInfo.mobilePhone.replace(/[^0-9]/g, '')
-      : '';
+    // const mobilePhone = contactInfo?.mobilePhone
+    //   ? contactInfo.mobilePhone.replace(/[^0-9]/g, '')
+    //   : '';
 
     return {
       ...clonedData,
       contactInfo: {
         ...clonedData.contactInfo,
-        homePhone,
-        mobilePhone,
+        // homePhone,
+        // mobilePhone,
       },
     };
   };
@@ -28,12 +29,19 @@ export function transform(formConfig, form) {
   // Will be removed
   const eligibilityTransform = formData => {
     const clonedData = _.cloneDeep(formData);
-    const { dutyRequirement } = clonedData;
+    // const { dutyRequirement } = clonedData;
+    delete clonedData.dutyRequirement;
+    delete clonedData.otherThanDishonorableDischarge;
+    delete clonedData.AGREED;
+    if (!clonedData.hasCompletedActiveDuty) {
+      delete clonedData.dateReleasedFromActiveDuty;
+    }
 
     return {
       ...clonedData,
-      hasCompletedByDischarge: dutyRequirement === 'byDischarge',
-      hasCompletedActiveDuty: dutyRequirement === 'atLeast3Years',
+      dateSigned: dateSigned(),
+      // hasCompletedByDischarge: dutyRequirement === 'byDischarge',
+      // hasCompletedActiveDuty: dutyRequirement === 'atLeast3Years',
     };
   };
 
