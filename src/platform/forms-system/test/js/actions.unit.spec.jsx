@@ -981,7 +981,7 @@ describe('Schemaform actions:', () => {
   });
 
   describe('setItf', () => {
-    it('should return an action', () => {
+    it('should return action', () => {
       const data = { test: 'foo' };
       const action = setItf(data);
       expect(action.data).to.equal(data);
