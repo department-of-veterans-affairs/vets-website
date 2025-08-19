@@ -57,6 +57,10 @@ const ResolvePage = ({ match }) => {
         >
           {title}
         </h1>
+        <p className="va-introtext">
+          You can pay your balance, request financial help, or dispute this
+          bill.
+        </p>
         <va-on-this-page class="medium-screen:vads-u-margin-top--0" />
         <HowToPay
           acctNum={acctNum}
@@ -64,7 +68,7 @@ const ResolvePage = ({ match }) => {
           amtDue={amtDue}
         />
         <FinancialHelp />
-        <DisputeCharges />
+        <DisputeCharges showOneThingPerPage />
         <va-need-help id="needHelp">
           <div slot="content">
             <p>
