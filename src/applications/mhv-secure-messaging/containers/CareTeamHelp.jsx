@@ -1,12 +1,13 @@
 import React, { useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import { Paths, PageTitles } from '../util/constants';
 
 const CareTeamHelp = () => {
   const { allFacilities } = useSelector(state => state.sm.recipients);
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
+  const history = useHistory();
 
   // Determine what types of health systems the user has
   const userSystemTypes = useMemo(
@@ -88,12 +89,15 @@ const CareTeamHelp = () => {
             Friday, 8:00 a.m. to 8:00 p.m. ET.
           </p>
 
-          <Link
-            to={`${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`}
-            className="vads-u-margin-top--3"
-          >
-            <va-icon icon="arrow_back" size={3} /> Back
-          </Link>
+          <va-button
+            back
+            full-width
+            onClick={() => history.goBack()}
+            text="Back"
+          />
+          <div className="bottom-container">
+            <va-back-to-top />
+          </div>
         </div>
       );
     }
@@ -151,12 +155,15 @@ const CareTeamHelp = () => {
             Friday, 8:00 a.m. to 8:00 p.m. ET.
           </p>
 
-          <Link
-            to={`${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`}
-            className="vads-u-margin-top--3"
-          >
-            <va-icon icon="arrow_back" size={3} /> Back
-          </Link>
+          <va-button
+            back
+            full-width
+            onClick={() => history.goBack()}
+            text="Back"
+          />
+          <div className="bottom-container">
+            <va-back-to-top />
+          </div>
         </div>
       );
     }
@@ -213,12 +220,15 @@ const CareTeamHelp = () => {
           Friday, 8:00 a.m. to 8:00 p.m. ET.
         </p>
 
-        <Link
-          to={`${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`}
-          className="vads-u-margin-top--3"
-        >
-          <va-icon icon="arrow_back" size={3} /> Back
-        </Link>
+        <va-button
+          back
+          full-width
+          onClick={() => history.goBack()}
+          text="Back"
+        />
+        <div className="bottom-container">
+          <va-back-to-top />
+        </div>
       </div>
     );
   };
