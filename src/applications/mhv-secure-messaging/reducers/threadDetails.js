@@ -19,6 +19,9 @@ const initialState = {
     careSystemName: null,
     careSystemVhaId: null,
     attachments: [],
+    navigationError: null,
+    saveError: null,
+    savedDraft: false,
   },
 };
 
@@ -82,6 +85,10 @@ export const threadDetailsReducer = (state = initialState, action) => {
             lastSaveTime: Date.now(),
           },
         ],
+        draftInProgress: {
+          ...state.draftInProgress,
+          messageId: action.response.data.attributes.messageId,
+        },
         isSaving: false,
         saveError: null,
         lastSaveTime: Date.now(),

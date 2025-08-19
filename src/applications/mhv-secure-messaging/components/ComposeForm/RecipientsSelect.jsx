@@ -72,7 +72,9 @@ const RecipientsSelect = ({
   } = useFeatureToggles();
 
   const [alertDisplayed, setAlertDisplayed] = useState(false);
-  const [selectedRecipient, setSelectedRecipient] = useState(null);
+  const [selectedRecipient, setSelectedRecipient] = useState(
+    defaultValue || null,
+  );
   const [recipientsListSorted, setRecipientsListSorted] = useState([]);
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
 
