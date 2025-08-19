@@ -157,7 +157,6 @@ const applicantIntroPage = {
   schema: {
     type: 'object',
     properties: {
-      titleSchema,
       applicantName: fullNameSchema,
       applicantDob: dateOfBirthSchema,
     },
@@ -222,7 +221,6 @@ const applicantMailingAddressPage = {
   schema: {
     type: 'object',
     properties: {
-      titleSchema,
       applicantAddress: addressSchema(),
     },
     required: ['applicantAddress'],
@@ -260,7 +258,6 @@ const applicantContactInfoPage = {
   schema: {
     type: 'object',
     properties: {
-      titleSchema,
       applicantPhone: phoneSchema,
       applicantEmailAddress: emailSchema,
     },
@@ -308,8 +305,6 @@ const applicantRelationshipOriginPage = {
   schema: {
     type: 'object',
     properties: {
-      titleSchema,
-      'ui:description': blankSchema,
       applicantRelationshipOrigin: {
         type: 'object',
         properties: {
@@ -362,7 +357,6 @@ const applicantBirthCertUploadPage = {
     type: 'object',
     required: ['applicantBirthCertOrSocialSecCard'],
     properties: {
-      titleSchema,
       'view:fileUploadBlurb': blankSchema,
       applicantBirthCertOrSocialSecCard: {
         type: 'array',
@@ -402,7 +396,6 @@ const applicantAdoptionUploadPage = {
     type: 'object',
     required: ['applicantAdoptionPapers'],
     properties: {
-      titleSchema,
       'view:fileUploadBlurb': blankSchema,
       applicantAdoptionPapers: fileWithMetadataSchema(
         acceptableFiles.adoptionCert,
@@ -451,7 +444,6 @@ const applicantStepChildUploadPage = {
     type: 'object',
     required: ['applicantStepMarriageCert'],
     properties: {
-      titleSchema,
       'view:fileUploadBlurb': blankSchema,
       applicantStepMarriageCert: {
         type: 'array',
@@ -547,7 +539,6 @@ const applicantSchoolCertUploadPage = {
     type: 'object',
     required: ['applicantSchoolCert'],
     properties: {
-      titleSchema,
       'view:fileUploadBlurb': blankSchema,
       applicantSchoolCert: fileWithMetadataSchema(acceptableFiles.schoolCert),
     },
@@ -559,8 +550,6 @@ const applicantDependentStatusPage = {
   schema: {
     type: 'object',
     properties: {
-      titleSchema,
-      'ui:description': blankSchema,
       applicantDependentStatus: {
         type: 'object',
         properties: {
@@ -619,7 +608,6 @@ const applicantRemarriedPage = {
     type: 'object',
     required: ['applicantRemarried'],
     properties: {
-      titleSchema,
       applicantRemarried: yesNoSchema,
     },
   },
@@ -671,7 +659,6 @@ const applicantReMarriageCertUploadPage = {
     type: 'object',
     required: ['applicantRemarriageCert'],
     properties: {
-      titleSchema,
       'view:fileUploadBlurb': blankSchema,
       applicantRemarriageCert: {
         type: 'array',
@@ -722,12 +709,7 @@ export const applicantPages = arrayBuilderPages(
           </>,
         ),
       },
-      schema: {
-        type: 'object',
-        properties: {
-          titleSchema,
-        },
-      },
+      schema: titleSchema,
     }),
     applicantSummary: pageBuilder.summaryPage({
       path: 'applicant-summary',

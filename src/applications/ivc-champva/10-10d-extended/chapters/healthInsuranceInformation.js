@@ -3,7 +3,6 @@ import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import {
-  titleSchema,
   radioUI,
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderItemSubsequentPageTitleUI,
@@ -136,7 +135,6 @@ const healthInsuranceIntroPage = {
     type: 'object',
     required: ['insuranceType'],
     properties: {
-      titleSchema,
       insuranceType: radioSchema([
         'hmo',
         'ppo',
@@ -181,7 +179,6 @@ const medigapInformation = {
     type: 'object',
     required: ['medigapPlan'],
     properties: {
-      titleSchema,
       medigapPlan: radioSchema(Object.keys(MEDIGAP)),
     },
   },
@@ -209,7 +206,6 @@ const providerInformation = {
     type: 'object',
     required: ['provider', 'effectiveDate'],
     properties: {
-      titleSchema,
       provider: textSchema,
       effectiveDate: currentOrPastDateSchema,
       expirationDate: currentOrPastDateSchema,
@@ -231,7 +227,6 @@ const employer = {
     type: 'object',
     required: ['throughEmployer'],
     properties: {
-      titleSchema,
       throughEmployer: yesNoSchema,
     },
   },
@@ -255,7 +250,6 @@ const additionalComments = {
   schema: {
     type: 'object',
     properties: {
-      titleSchema,
       additionalComments: { type: 'string', maxLength: 200 },
     },
   },
@@ -279,7 +273,6 @@ const healthInsuranceCardUploadPage = {
     type: 'object',
     required: ['insuranceCardFront', 'insuranceCardBack'],
     properties: {
-      titleSchema,
       'view:fileUploadBlurb': blankSchema,
       insuranceCardFront: {
         type: 'array',

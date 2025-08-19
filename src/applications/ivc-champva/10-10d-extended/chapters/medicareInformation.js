@@ -4,7 +4,6 @@ import { memoize } from 'lodash';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import {
   titleUI,
-  titleSchema,
   textUI,
   textSchema,
   radioUI,
@@ -111,7 +110,6 @@ const medicareSummaryPage = {
   schema: {
     type: 'object',
     properties: {
-      titleSchema,
       'view:hasMedicare': arrayBuilderYesNoSchema,
     },
     required: ['view:hasMedicare'],
@@ -144,7 +142,6 @@ const medicarePlanOver65 = {
     type: 'object',
     required: ['medicarePlanType'],
     properties: {
-      titleSchema,
       medicarePlanType: radioSchema(['ab', 'c', 'a', 'b']),
     },
   },
@@ -175,7 +172,6 @@ const medicarePlanUnder65 = {
     type: 'object',
     required: ['medicarePlanType'],
     properties: {
-      titleSchema,
       medicarePlanType: radioSchema(['ab', 'c', 'a']),
     },
   },
@@ -232,7 +228,6 @@ const medicarePartAPartBEffectiveDatesPage = partC => {
     schema: {
       type: 'object',
       properties: {
-        titleSchema,
         'view:partATitle': blankSchema,
         medicarePartAEffectiveDate: currentOrPastDateSchema,
         'view:partBTitle': blankSchema,
@@ -313,7 +308,6 @@ const medicarePartAEffectiveDatePage = {
     type: 'object',
     required: ['medicarePartAEffectiveDate'],
     properties: {
-      titleSchema,
       medicarePartAEffectiveDate: currentOrPastDateSchema,
     },
   },
@@ -378,7 +372,6 @@ const medicarePartBEffectiveDatePage = {
     type: 'object',
     required: ['medicarePartBEffectiveDate'],
     properties: {
-      titleSchema,
       medicarePartBEffectiveDate: currentOrPastDateSchema,
     },
   },
@@ -453,7 +446,6 @@ const medicarePartADenialPage = {
     type: 'object',
     required: ['hasPartADenial'],
     properties: {
-      titleSchema,
       hasPartADenial: yesNoSchema,
     },
   },
@@ -486,7 +478,6 @@ const medicarePartADenialProofUploadPage = {
     type: 'object',
     required: ['medicarePartADenialProof'],
     properties: {
-      titleSchema,
       'view:fileUploadBlurb': blankSchema,
       medicarePartADenialProof: {
         type: 'array',
@@ -528,7 +519,6 @@ const medicarePartCCarrierEffectiveDatePage = {
     type: 'object',
     required: ['medicarePartCCarrier', 'medicarePartCEffectiveDate'],
     properties: {
-      titleSchema,
       medicarePartCCarrier: textSchema,
       medicarePartCEffectiveDate: currentOrPastDateSchema,
     },
@@ -556,7 +546,6 @@ const medicarePartCPharmacyBenefitsPage = {
     type: 'object',
     required: ['hasPharmacyBenefits'],
     properties: {
-      titleSchema,
       hasPharmacyBenefits: yesNoSchema,
     },
   },
@@ -581,7 +570,6 @@ const medicarePartCCardUploadPage = {
     type: 'object',
     required: ['medicarePartCFrontCard', 'medicarePartCBackCard'],
     properties: {
-      titleSchema,
       'view:fileUploadBlurb': blankSchema,
       medicarePartCFrontCard: {
         type: 'array',
@@ -631,7 +619,6 @@ const medicarePartDStatusPage = {
     type: 'object',
     required: ['hasMedicarePartD'],
     properties: {
-      titleSchema,
       hasMedicarePartD: yesNoSchema,
     },
   },
@@ -655,7 +642,6 @@ const medicarePartDCarrierEffectiveDatePage = {
     type: 'object',
     required: ['medicarePartDEffectiveDate'],
     properties: {
-      titleSchema,
       medicarePartDEffectiveDate: currentOrPastDateSchema,
     },
   },
@@ -680,7 +666,6 @@ const medicarePartDCardUploadPage = {
     type: 'object',
     required: ['medicarePartDFrontCard', 'medicarePartDBackCard'],
     properties: {
-      titleSchema,
       'view:fileUploadBlurb': blankSchema,
       medicarePartDFrontCard: {
         type: 'array',
@@ -789,7 +774,6 @@ export const missingMedicarePage = {
     type: 'object',
     required: ['hasProofMultipleApplicants'],
     properties: {
-      titleSchema,
       'view:missingList': blankSchema,
       hasProofMultipleApplicants: yesNoSchema,
     },
@@ -820,7 +804,6 @@ export const proofOfIneligibilityUploadPage = {
     type: 'object',
     required: ['proofOfIneligibilityUpload'],
     properties: {
-      titleSchema,
       'view:fileUploadBlurb': blankSchema,
       proofOfIneligibilityUpload: {
         type: 'array',
