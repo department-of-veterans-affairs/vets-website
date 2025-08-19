@@ -2,7 +2,7 @@ import React from 'react';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 
 const START_URL =
-  'supporting-forms-for-claims/income-and-asset-statement-form-21p-0969';
+  'supporting-forms-for-claims/submit-income-and-asset-statement-form-21p-0969';
 const DOWNLOAD_URL = 'https://www.va.gov/find-forms/about-form-21p-0969/';
 
 export const App = () => {
