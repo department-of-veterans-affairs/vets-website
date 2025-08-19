@@ -55,7 +55,7 @@ export default function PreferredDatesSection(props) {
           <div>
             <va-link
               href={`../${url}`}
-              aria-label="Edit preferred date"
+              label="Edit preferred date"
               text="Edit"
               data-testid="edit-new-appointment"
               onClick={handleClick(history, home, url)}

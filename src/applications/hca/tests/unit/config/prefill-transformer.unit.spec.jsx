@@ -129,6 +129,42 @@ describe('hca `prefillTransformer` utility', () => {
     expect(prefillData['view:doesMailingMatchHomeAddress']).to.be.true;
   });
 
+  context('prefills valid veteranDateOfBirth', () => {
+    it('should return correct form data when profile data includes valid veteranDateOfBirth', () => {
+      const prefillData = getData({});
+      expect(Object.keys(prefillData)).to.have.lengthOf(15);
+      expect(prefillData.veteranDateOfBirth).to.equal(
+        defaultPrefillData.veteranDateOfBirth,
+      );
+    });
+
+    it('should return correct form data when profile data omits veteranDateOfBirth entirely', () => {
+      /* eslint-disable no-unused-vars */
+      const {
+        veteranDateOfBirth,
+        ...prefillDataWithoutDateOfBirth
+      } = defaultPrefillData;
+      /* eslint-enable no-unused-vars */
+
+      const prefillData = getData({
+        prefillData: prefillDataWithoutDateOfBirth,
+      });
+      expect(Object.keys(prefillData)).to.have.lengthOf(14);
+      expect(prefillData.veteranDateOfBirth).to.not.exist;
+    });
+
+    it('should return correct form data when profile data includes invalid veteranDateOfBirth', () => {
+      const prefillData = getData({
+        prefillData: {
+          ...defaultPrefillData,
+          veteranDateOfBirth: '1880-05-04',
+        },
+      });
+      expect(Object.keys(prefillData)).to.have.lengthOf(15);
+      expect(prefillData.veteranDateOfBirth).to.not.exist;
+    });
+  });
+
   context('prefills valid phone numbers', () => {
     it('should return correct form data when profile data includes valid USA phone numbers', () => {
       const prefillData = getData({});

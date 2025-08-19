@@ -4,6 +4,7 @@ import { mount } from 'enzyme';
 import sinon from 'sinon';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
@@ -36,14 +37,14 @@ describe('isSponsor Pre-Need Integration info', () => {
     form.unmount();
   });
 
-  it('should not submit empty form', () => {
+  it('should not submit empty form', async () => {
     const store = mockStore({
       form: {
         data: {},
       },
     });
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { container } = render(
       <Provider store={store}>
         <DefinitionTester
           schema={schema}
@@ -54,10 +55,12 @@ describe('isSponsor Pre-Need Integration info', () => {
       </Provider>,
     );
 
-    form.find('form').simulate('submit');
+    fireEvent.submit(container.querySelector('form'));
 
-    expect(form.find('.usa-input-error').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
-    form.unmount();
+    await waitFor(() => {
+      const errorElements = container.querySelectorAll('.usa-input-error');
+      expect(errorElements.length).to.equal(1);
+      expect(onSubmit.called).to.be.false;
+    });
   });
 });

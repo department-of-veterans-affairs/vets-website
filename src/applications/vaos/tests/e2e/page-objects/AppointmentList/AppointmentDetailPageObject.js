@@ -166,6 +166,20 @@ class AppointmentDetailPageObject extends PageObject {
     return this;
   }
 
+  assertDaysLeftToFile() {
+    // Verify that the days left is a valid number
+    cy.findAllByTestId('days-left-to-file').each(el => {
+      const text = el.text();
+      const parts = text.split(':');
+      // Is it a valid number
+      expect(Number.isInteger(parseInt(parts[1].trim(), 10))).to.equal(true);
+      // Is it a positive number
+      expect(parseInt(parts[1], 10)).to.be.at.least(0);
+    });
+
+    return this;
+  }
+
   clickCancelButton() {
     cy.get('[data-testid="cancel-button"]')
       .shadow()

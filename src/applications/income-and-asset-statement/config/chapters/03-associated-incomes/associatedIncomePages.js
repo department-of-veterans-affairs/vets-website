@@ -19,16 +19,23 @@ import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array
 import {
   formatCurrency,
   formatPossessiveString,
+  fullNameUIHelper,
   generateDeleteDescription,
   isDefined,
   isIncomeTypeInfoIncomplete,
   isRecipientInfoIncomplete,
   otherIncomeTypeExplanationRequired,
-  otherRecipientRelationshipExplanationRequired,
+  otherRecipientRelationshipTypeUI,
   recipientNameRequired,
   resolveRecipientFullName,
+  sharedRecipientRelationshipBase,
+  showUpdatedContent,
 } from '../../../helpers';
-import { relationshipLabels, incomeTypeEarnedLabels } from '../../../labels';
+import {
+  relationshipLabels,
+  relationshipLabelDescriptions,
+  incomeTypeEarnedLabels,
+} from '../../../labels';
 
 /** @type {ArrayBuilderOptions} */
 export const options = {
@@ -123,7 +130,85 @@ const summaryPage = {
 };
 
 /** @returns {PageSchema} */
-const incomeRecipientPage = {
+const veteranIncomeRecipientPage = {
+  uiSchema: {
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: 'Financial account relationship',
+      nounSingular: options.nounSingular,
+    }),
+    recipientRelationship: radioUI({
+      ...sharedRecipientRelationshipBase,
+      labels: Object.fromEntries(
+        Object.entries(relationshipLabels).filter(
+          ([key]) => key !== 'PARENT' && key !== 'CUSTODIAN',
+        ),
+      ),
+      descriptions: relationshipLabelDescriptions,
+    }),
+    otherRecipientRelationshipType: otherRecipientRelationshipTypeUI(
+      'associatedIncomes',
+    ),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      recipientRelationship: radioSchema(
+        Object.keys(relationshipLabels).filter(
+          key => key !== 'PARENT' && key !== 'CUSTODIAN',
+        ),
+      ),
+      otherRecipientRelationshipType: { type: 'string' },
+    },
+    required: ['recipientRelationship'],
+  },
+};
+
+/** @returns {PageSchema} */
+const spouseIncomeRecipientPage = {
+  uiSchema: {
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: 'Recurring income relationship',
+      nounSingular: options.nounSingular,
+    }),
+    recipientRelationship: radioUI({
+      ...sharedRecipientRelationshipBase,
+      labels: Object.fromEntries(
+        Object.entries(relationshipLabels)
+          .filter(
+            ([key]) =>
+              key !== 'VETERAN' && key !== 'PARENT' && key !== 'CUSTODIAN',
+          )
+          .map(([key, value]) => [
+            key,
+            key === 'SPOUSE' ? 'Surviving spouse' : value,
+          ]),
+      ),
+      descriptions: Object.fromEntries(
+        Object.entries(relationshipLabelDescriptions).filter(
+          ([key]) => key === 'CHILD',
+        ),
+      ),
+    }),
+    otherRecipientRelationshipType: otherRecipientRelationshipTypeUI(
+      'associatedIncomes',
+    ),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      recipientRelationship: radioSchema(
+        Object.keys(relationshipLabels).filter(
+          key => key !== 'VETERAN' && key !== 'PARENT' && key !== 'CUSTODIAN',
+        ),
+      ),
+      otherRecipientRelationshipType: { type: 'string' },
+    },
+    required: ['recipientRelationship'],
+  },
+};
+
+/** @returns {PageSchema} */
+const nonVeteranIncomeRecipientPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
       title: 'Financial account relationship',
@@ -133,20 +218,9 @@ const incomeRecipientPage = {
       title: 'Who receives the income?',
       labels: relationshipLabels,
     }),
-    otherRecipientRelationshipType: {
-      'ui:title': 'Describe their relationship to the Veteran',
-      'ui:webComponentField': VaTextInputField,
-      'ui:options': {
-        expandUnder: 'recipientRelationship',
-        expandUnderCondition: 'OTHER',
-      },
-      'ui:required': (formData, index) =>
-        otherRecipientRelationshipExplanationRequired(
-          formData,
-          index,
-          'associatedIncomes',
-        ),
-    },
+    otherRecipientRelationshipType: otherRecipientRelationshipTypeUI(
+      'associatedIncomes',
+    ),
   },
   schema: {
     type: 'object',
@@ -161,8 +235,14 @@ const incomeRecipientPage = {
 /** @returns {PageSchema} */
 const recipientNamePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Financial account recipient'),
-    recipientName: fullNameNoSuffixUI(title => `Income recipient’s ${title}`),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      showUpdatedContent()
+        ? 'Person who receives this income'
+        : 'Financial account recipient',
+    ),
+    recipientName: showUpdatedContent()
+      ? fullNameUIHelper()
+      : fullNameNoSuffixUI(title => `Income recipient’s ${title}`),
   },
   schema: {
     type: 'object',
@@ -223,11 +303,32 @@ export const associatedIncomePages = arrayBuilderPages(
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
+    associatedIncomeVeteranRecipientPage: pageBuilder.itemPage({
+      title: 'Financial account recipient',
+      path: 'financial-accounts/:index/veteran-income-recipient',
+      depends: formData =>
+        showUpdatedContent() && formData.claimantType === 'VETERAN',
+      uiSchema: veteranIncomeRecipientPage.uiSchema,
+      schema: veteranIncomeRecipientPage.schema,
+    }),
+    associatedIncomeSpouseRecipientPage: pageBuilder.itemPage({
+      title: 'Financial account recipient',
+      path: 'financial-accounts/:index/spouse-income-recipient',
+      depends: formData =>
+        showUpdatedContent() && formData.claimantType === 'SPOUSE',
+      uiSchema: spouseIncomeRecipientPage.uiSchema,
+      schema: spouseIncomeRecipientPage.schema,
+    }),
     associatedIncomeRecipientPage: pageBuilder.itemPage({
       title: 'Financial account recipient',
       path: 'financial-accounts/:index/income-recipient',
-      uiSchema: incomeRecipientPage.uiSchema,
-      schema: incomeRecipientPage.schema,
+      depends: formData =>
+        !showUpdatedContent() ||
+        (showUpdatedContent() &&
+          formData.claimantType !== 'VETERAN' &&
+          formData.claimantType !== 'SPOUSE'),
+      uiSchema: nonVeteranIncomeRecipientPage.uiSchema,
+      schema: nonVeteranIncomeRecipientPage.schema,
     }),
     associatedIncomeRecipientNamePage: pageBuilder.itemPage({
       title: 'Financial account recipient name',
