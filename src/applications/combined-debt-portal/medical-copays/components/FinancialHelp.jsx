@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export const FinancialHelp = ({ showOneThingPerPage = false }) => (
   <article className="vads-u-padding--0" data-testid="financial-help">
@@ -53,5 +54,9 @@ export const FinancialHelp = ({ showOneThingPerPage = false }) => (
     </p>
   </article>
 );
+
+FinancialHelp.propTypes = {
+  showOneThingPerPage: PropTypes.bool,
+};
 
 export default FinancialHelp;
