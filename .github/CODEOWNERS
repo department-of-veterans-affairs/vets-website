@@ -19,8 +19,8 @@
 
 # Platform Design System
 
-src/platform/forms @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/platform-va-product-forms @department-of-veterans-affairs/va-platform-cop-frontend
-src/platform/forms-system @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/platform-va-product-forms @department-of-veterans-affairs/va-platform-cop-frontend
+src/platform/forms @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/platform-va-product-forms
+src/platform/forms-system @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/platform-va-product-forms
 src/applications/_mock-form @department-of-veterans-affairs/platform-va-product-forms @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/simple-forms @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/platform-va-product-forms @department-of-veterans-affairs/va-platform-cop-frontend
 src/platform/static-pages/simple-forms @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/platform-va-product-forms @department-of-veterans-affairs/va-platform-cop-frontend
