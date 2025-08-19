@@ -100,7 +100,7 @@ const VaFileInputMultipleField = props => {
               }
             }
           });
-        }, 100);
+        }, 50);
       }
       return () => {
         clearTimeout(id);
@@ -121,7 +121,18 @@ const VaFileInputMultipleField = props => {
     [mappedProps.error],
   );
 
-  const assignFileUploadToStore = uploadedFile => {
+  // get the va-file-input instances
+  function getFileInputInstances() {
+    let els = [];
+    if (componentRef.current?.shadowRoot) {
+      els = Array.from(
+        componentRef.current.shadowRoot.querySelectorAll('va-file-input'),
+      );
+    }
+    return els;
+  }
+
+  const assignFileUploadToStore = (uploadedFile, index) => {
     if (!uploadedFile) return;
 
     const { file, ...rest } = uploadedFile;
@@ -135,7 +146,18 @@ const VaFileInputMultipleField = props => {
       type,
     };
 
-    childrenProps.onChange([...childrenProps.formData, newFile]);
+    const encryptedFile = childrenProps.formData[index];
+    // check to see if we are adding an encrypted pdf
+    // where the additional info was added before the password
+    let files;
+    if (encryptedFile?.additionalData) {
+      newFile.additionalData = encryptedFile.additionalData;
+      files = [...childrenProps.formData];
+      files[index] = newFile;
+    } else {
+      files = [...childrenProps.formData, newFile];
+    }
+    childrenProps.onChange(files);
   };
 
   const handleFileProcessing = (uploadedFile, index) => {
@@ -149,7 +171,7 @@ const VaFileInputMultipleField = props => {
       _errors[index] = null;
     }
     setErrors(_errors);
-    assignFileUploadToStore(uploadedFile);
+    assignFileUploadToStore(uploadedFile, index);
   };
 
   const handleFileAdded = async ({ file }, index, mockFormData) => {
@@ -267,10 +289,8 @@ const VaFileInputMultipleField = props => {
       .filter(el => el.tagName === 'VA-FILE-INPUT');
 
     // find the index of the instance
-    const els = componentRef.current.shadowRoot.querySelectorAll(
-      'va-file-input',
-    );
-    const index = Array.from(els).findIndex(el => el.id === vaFileInput.id);
+    const els = getFileInputInstances();
+    const index = els.findIndex(el => el.id === vaFileInput.id);
 
     // update the formData
     if (mappedProps.handleAdditionalInput) {
@@ -293,9 +313,9 @@ const VaFileInputMultipleField = props => {
   });
 
   const resetVisualState = errors.map(error => (error ? true : null));
-
   return (
     <VaFileInputMultiple
+      error={mappedProps.error}
       ref={componentRef}
       encrypted={encrypted}
       onVaMultipleChange={handleChange}
@@ -305,7 +325,7 @@ const VaFileInputMultipleField = props => {
       passwordErrors={passwordErrors}
       onVaSelect={handleAdditionalInput}
       maxFileSize={uiOptions.maxFileSize}
-      min-file-size={uiOptions.minFileSize}
+      minFileSize={uiOptions.minFileSize}
     >
       {mappedProps.additionalInput && (
         <div className="additional-input-container">
