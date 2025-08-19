@@ -103,7 +103,7 @@ describe('ArrayBuilderSummaryReviewPage', () => {
       });
 
       expect(queryByTestId('title')).to.not.exist;
-      expect(getByRole('heading', { level: 3, name: summaryTitle })).to.exist;
+      expect(getByRole('heading', { level: 4, name: summaryTitle })).to.exist;
       expect(container.querySelector('dl.review')).to.exist;
       expect(container.querySelector('dt')).to.include.text(reviewQuestion);
       expect(container.querySelector('dd span')).to.include.text('No');
@@ -117,12 +117,12 @@ describe('ArrayBuilderSummaryReviewPage', () => {
         arrayData: [],
         arrayBuilderOptions: {
           getText,
-          reviewPanelHeadingLevel: '2',
+          reviewPanelHeadingLevel: '3',
         },
       });
 
-      expect(getByRole('heading', { level: 2, name: summaryTitle })).to.exist;
-      expect(queryByRole('heading', { level: 3 })).to.not.exist;
+      expect(getByRole('heading', { level: 3, name: summaryTitle })).to.exist;
+      expect(queryByRole('heading', { level: 4 })).to.not.exist;
     });
 
     it('should call `getText` with correct parameters', () => {
@@ -216,7 +216,7 @@ describe('ArrayBuilderSummaryReviewPage', () => {
         },
       });
 
-      const headerEl = container.querySelector('h3');
+      const headerEl = container.querySelector('h4');
       expect(headerEl.getAttribute('data-title-for-noun-singular')).to.equal(
         'employer',
       );

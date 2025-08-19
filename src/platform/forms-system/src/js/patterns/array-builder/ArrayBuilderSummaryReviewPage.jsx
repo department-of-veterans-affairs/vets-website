@@ -13,7 +13,7 @@ const ArrayBuilderSummaryReviewPage = ({
   Title,
   hideAdd,
 }) => {
-  const { reviewPanelHeadingLevel } = arrayBuilderOptions;
+  const { reviewPanelHeadingLevel = '4' } = arrayBuilderOptions;
   const { headingLevel } = useHeadingLevels(reviewPanelHeadingLevel, true);
   const Header = `h${headingLevel}`;
   return (
