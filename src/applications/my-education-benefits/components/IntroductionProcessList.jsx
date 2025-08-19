@@ -81,7 +81,7 @@ export const IntroductionProcessList = ({ showTextUpdate }) => {
           </ul>
         </va-process-list-item>
 
-        <va-process-list-item header="Start your application">
+        <va-process-list-item header="Start your application for benefits">
           <p>
             We’ll take you through each step of the process. It should take
             about 15 minutes.

@@ -57,7 +57,7 @@ export const HowToApplyPost911GiBill = ({
             buttonOnly
             pageList={route.pageList}
             prefillEnabled={route?.formConfig?.prefillEnabled}
-            startText="Start your application"
+            startText="Start your benefits application"
             user={user}
           />
         )}
