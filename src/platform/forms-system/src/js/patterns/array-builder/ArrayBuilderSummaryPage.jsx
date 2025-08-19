@@ -71,7 +71,7 @@ function getYesNoReviewErrorMessage(reviewErrors, hasItemsKey) {
   return error?.message;
 }
 
-const useHeadingLevels = (userHeaderLevel, isReviewPage) => {
+export const useHeadingLevels = (userHeaderLevel, isReviewPage) => {
   const isMinimalHeader = useRef(null);
   if (isMinimalHeader.current === null) {
     // only check once

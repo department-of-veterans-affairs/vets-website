@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useHeadingLevels } from './ArrayBuilderSummaryPage';
 
 const ArrayBuilderSummaryReviewPage = ({
   customPageProps,
@@ -13,11 +14,7 @@ const ArrayBuilderSummaryReviewPage = ({
   hideAdd,
 }) => {
   const { reviewPanelHeadingLevel } = arrayBuilderOptions;
-  const headingLevel = ['1', '2', '3', '4', '5', '6'].includes(
-    String(reviewPanelHeadingLevel),
-  )
-    ? reviewPanelHeadingLevel
-    : '4';
+  const { headingLevel } = useHeadingLevels(reviewPanelHeadingLevel, true);
   const Header = `h${headingLevel}`;
   return (
     <>
