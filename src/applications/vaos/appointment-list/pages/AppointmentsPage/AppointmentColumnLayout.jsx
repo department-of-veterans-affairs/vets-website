@@ -137,7 +137,7 @@ export default function AppointmentColumnLayout({
                 startDate,
                 data.timezone,
                 'h:mm aaaa',
-              )} ${timezoneAbbr}`}{' '}
+              )} ${timezoneAbbr || ''}`}{' '}
             </span>
           </AppointmentColumn>
 
