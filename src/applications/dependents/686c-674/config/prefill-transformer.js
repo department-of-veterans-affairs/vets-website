@@ -1,6 +1,11 @@
+import { NETWORTH_VALUE } from './constants';
+
 export default function prefillTransformer(pages, formData, metadata) {
-  const { veteranSsnLastFour = '', veteranVaFileNumberLastFour = '' } =
-    formData?.nonPrefill || {};
+  const {
+    veteranSsnLastFour = '',
+    veteranVaFileNumberLastFour = '',
+    netWorthLimit = NETWORTH_VALUE,
+  } = formData?.nonPrefill || {};
   const contact = formData?.veteranContactInformation || {};
   const address = contact.veteranAddress || {};
   const isMilitary =
@@ -30,6 +35,7 @@ export default function prefillTransformer(pages, formData, metadata) {
         emailAddress: contact.emailAddress || null,
       },
       useV2: true,
+      netWorthLimit,
       daysTillExpires: 365,
     },
     metadata,
