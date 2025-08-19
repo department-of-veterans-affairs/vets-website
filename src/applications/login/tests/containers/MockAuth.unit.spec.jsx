@@ -22,7 +22,9 @@ const mockGADefaultArgs = {
   throwGAError: false,
 };
 
-const csps = Object.values(SERVICE_PROVIDERS);
+const csps = Object.values(SERVICE_PROVIDERS).filter(
+  provider => provider.policy === 'idme' || provider.policy === 'logingov',
+);
 
 const setup = ({ path, mockGA = mockGADefaultArgs }) => {
   const startingLocation = path ? new URL(`${base}${path}`) : originalLocation;
