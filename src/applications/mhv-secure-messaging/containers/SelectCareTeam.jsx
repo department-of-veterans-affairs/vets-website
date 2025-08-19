@@ -68,12 +68,24 @@ const SelectCareTeam = () => {
               recipientName: recipient.suggestedNameDisplay || recipient.name,
             }),
           );
-          dispatch(
-            updateDraftInProgress({
-              navigationError:
-                ErrorMessages.ComposeForm.CONT_SAVING_DRAFT_CHANGES,
-            }),
-          );
+          if (
+            draftInProgress?.body &&
+            draftInProgress?.subject &&
+            draftInProgress?.category
+          ) {
+            dispatch(
+              updateDraftInProgress({
+                navigationError:
+                  ErrorMessages.ComposeForm.CONT_SAVING_DRAFT_CHANGES,
+              }),
+            );
+          } else {
+            dispatch(
+              updateDraftInProgress({
+                navigationError: ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
+              }),
+            );
+          }
         } else if (!recipient.id) {
           dispatch(
             updateDraftInProgress({
