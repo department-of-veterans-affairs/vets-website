@@ -368,9 +368,6 @@ jobs:
           CHANGED_FILES: ${{ needs.tests-prep.outputs.changed_file_paths }}
           APP_FOLDERS: ${{ needs.tests-prep.outputs.app_folders }}
           IS_STRESS_TEST: false
-
-      - name: Emit unhandled network annotations
-        run: node script/github-actions/annotate-unhandled-api-calls.js
       
       - name: Archive unit test results
         if: ${{ always() && steps.run-tests.outputs.tests_ran == 'true' }}
@@ -806,9 +803,6 @@ jobs:
           STEP: ${{ matrix.ci_node_index }}
           APP_URLS: ${{ needs.tests-prep.outputs.app_urls }}
           NUM_CONTAINERS: ${{ needs.tests-prep.outputs.num_containers }}
-
-      - name: Emit unhandled network annotations
-        run: node script/github-actions/annotate-unhandled-api-calls.js
 
       - name: Archive test videos
         if: ${{ needs.tests-prep.outputs.cypress-tests != '[]' && failure() }}
