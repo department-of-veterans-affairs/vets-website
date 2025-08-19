@@ -3,14 +3,17 @@ import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 
 // create test object
 export function transform(formConfig, form) {
-  // console.log({ formConfig, form });
-
   const contactInfoTransform = formData => {
     const clonedData = _.cloneDeep(formData);
-    let { homePhone, mobilePhone } = clonedData.contactInfo;
+    const { contactInfo } = clonedData;
 
-    homePhone = homePhone?.replace(/[^0-9]/g, '');
-    mobilePhone = mobilePhone?.replace(/[^0-9]/g, '');
+    const homePhone = contactInfo?.homePhone
+      ? contactInfo.homePhone.replace(/[^0-9]/g, '')
+      : '';
+
+    const mobilePhone = contactInfo?.mobilePhone
+      ? contactInfo.mobilePhone.replace(/[^0-9]/g, '')
+      : '';
 
     return {
       ...clonedData,
@@ -22,14 +25,7 @@ export function transform(formConfig, form) {
     };
   };
 
-  /*
-  - There is a naming mismatch between hasCompletedActiveDuty and activeDutyDuringHitechVets.
-  - dutyRequirement corresponds to hasCompletedActiveDuty on the schema.
-  - hasCompletedActiveDuty corresponds to activeDutyDuringHitechVets on the schema.
-  - activeDutyDuringHitechVets is not a value in formData.
-  - verify this is correct
-  */
-
+  // Will be removed
   const eligibilityTransform = formData => {
     const clonedData = _.cloneDeep(formData);
     const { dutyRequirement } = clonedData;
@@ -51,18 +47,42 @@ export function transform(formConfig, form) {
     };
   };
 
+  /* 
+  trainingProviders.providers gets stripped if no providers are added -- 
+  values with empty arrays passed to transformForSubmit are removed.
+
+  Consider making both fields in trainingProviders optional in schema, or using oneOf 
+  property for trainingProviders.providers to be an array or boolean for explicit definition.
+
+  Verify plannedStartDate transform after schema update
+  */
+
   const trainingProviderTransform = formData => {
     const clonedData = _.cloneDeep(formData);
     const { plannedStartDate, trainingProviders } = clonedData;
 
+    delete clonedData.plannedStartDate;
+
     return {
       ...clonedData,
-      trainingProviders: trainingProviders.map(provider => ({
-        ...provider,
-        plannedStartDate,
-      })),
+      trainingProviders: {
+        providers: trainingProviders
+          ? trainingProviders.map(provider => ({
+              ...provider,
+            }))
+          : [],
+        plannedStartDate: plannedStartDate || null,
+      },
     };
   };
+
+  /*
+  consider employmentDetails transfom or updating schema:
+  - employmentStatus is optional in in UI config but required in schema
+  - highestLevelOfEducation is optional in UI config but required in schema
+  - want to capture user input in schema if select 'something else' for highestLevelOfEducation?
+  - want to capture user input in schema if select 'something else' for technologyAreaOfFocus?
+  */
 
   const usFormTransform = formData =>
     transformForSubmit(formConfig, { ...form, data: formData });
@@ -74,11 +94,8 @@ export function transform(formConfig, form) {
     trainingProviderTransform,
     usFormTransform,
   ].reduce((formData, transformer) => {
-    // console.log('PRETRANSFORM 🥌', formData);
     return transformer(formData);
   }, form.data);
-
-  // console.log({ transformedData });
 
   return JSON.stringify({
     educationBenefitsClaim: {
