@@ -113,7 +113,7 @@ describe('ConfirmationPageV2', () => {
     );
 
     expect($$('ul', container).length).to.eq(7);
-    expect($$('li', container).length).to.eq(24);
+    expect($$('li', container).length).to.eq(25);
 
     const items = $$('.dd-privacy-hidden[data-dd-action-name]', container);
     expect(items.length).to.eq(33);

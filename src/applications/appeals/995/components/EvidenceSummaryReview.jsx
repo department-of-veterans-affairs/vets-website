@@ -42,7 +42,7 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
   const otherEvidence = getOtherEvidence(data);
 
   const showScNewForm = data[SC_NEW_FORM_DATA];
-  const showLimitedConsentYN = showScNewForm && data[EVIDENCE_LIMIT];
+  const showLimitedConsentYN = data[EVIDENCE_LIMIT];
 
   const evidenceLength =
     vaEvidence.length + privateEvidence.length + otherEvidence.length;

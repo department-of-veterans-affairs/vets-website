@@ -389,25 +389,6 @@ describe('<EvidenceSummary>', () => {
     });
   });
 
-  it('should remove private limitations when remove is clicked', async () => {
-    const setFormData = sinon.spy();
-    const { container } = setupSummary({
-      setFormData,
-      limit: 'Pizza addiction',
-      toggle: false,
-    });
-    // remove limitation
-    fireEvent.click($('va-button[label="Remove limitations"]', container));
-
-    const modal = $('va-modal', container);
-    modal.__events.primaryButtonClick(); // Remove entry
-
-    await waitFor(() => {
-      expect(setFormData.called).to.be.true;
-      expect(setFormData.args[0][0].limitedConsent).to.deep.equal('');
-    });
-  });
-
   it('should remove second upload entry when remove is clicked', async () => {
     const setFormData = sinon.spy();
     const { container } = setupSummary({ setFormData });
