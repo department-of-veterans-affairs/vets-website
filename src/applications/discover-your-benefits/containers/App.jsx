@@ -9,6 +9,7 @@ import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
 
 export default function App({ location, children }) {
   useBrowserMonitoring();
+  
   return (
     <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0 discover-your-benefits">
       <VaBreadcrumbs
