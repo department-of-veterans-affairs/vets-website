@@ -141,7 +141,7 @@ export const IntroductionPage = ({
             </ul>
           </div>
         </va-process-list-item>
-        <va-process-list-item header="Start your application for benefits">
+        <va-process-list-item header="Start your application">
           <p>
             We’ll take you through each step of the process. It should take
             about 15 minutes.
