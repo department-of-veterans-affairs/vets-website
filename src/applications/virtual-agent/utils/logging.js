@@ -41,7 +41,7 @@ export function logErrorToDatadog(
 
     // or this might be an option to call from the initialized window object
     if (window.DD_LOGS) {
-      window.DD_LOGS.logger.error(message, {}, context);
+      window.DD_LOGS.logger.error(message, context);
     }
   }
 }
