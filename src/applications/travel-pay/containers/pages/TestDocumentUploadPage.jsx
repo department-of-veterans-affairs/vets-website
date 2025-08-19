@@ -1,5 +1,6 @@
 import React from 'react';
-
+import { Provider } from 'react-redux';
+import store from '../../redux/store';
 import DocumentUpload from '../../components/DocumentUpload';
 import MultipleDocumentUpload from '../../components/MultipleDocumentUpload';
 
@@ -10,7 +11,9 @@ const TestDocumentUploadPage = () => {
       <h2>Single Document Upload</h2>
       <DocumentUpload />
       <h2>Multiple Document Upload</h2>
-      <MultipleDocumentUpload />
+      <Provider store={store}>
+        <MultipleDocumentUpload />
+      </Provider>
     </div>
   );
 };
