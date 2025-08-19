@@ -85,9 +85,6 @@ describe('EpsAppointmentDetailsPage', () => {
     sandbox
       .stub(actionsModule, 'setFormCurrentPage')
       .returns({ type: 'SET_FORM_CURRENT_PAGE' });
-    sandbox
-      .stub(actionsModule, 'fetchAppointmentInfo')
-      .returns(referralAppointmentInfo);
   });
 
   afterEach(() => {

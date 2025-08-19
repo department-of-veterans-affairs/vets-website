@@ -22,11 +22,17 @@ describe('CompleteReferral', () => {
     'booked',
     epsAppointmentUtils.appointmentData,
   );
+  const referralDraftAppointmentInfo = createMockEpsAppointment(
+    appointmentId,
+    'draft',
+    epsAppointmentUtils.appointmentData,
+  );
   const currentReferral = createReferralById(
     '2024-11-29',
     'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
   );
-  const sandbox = sinon.createSandbox();
+  let sandbox;
+  let clock;
 
   const initialState = {
     referral: {
@@ -43,17 +49,8 @@ describe('CompleteReferral', () => {
       referralAppointmentInfo: {},
     },
   };
-
-  const timeoutErrorState = {
-    referral: {
-      appointmentCreateStatus: FETCH_STATUS.succeeded,
-      appointmentInfoError: false,
-      appointmentInfoTimeout: true,
-      appointmentInfoLoading: false,
-      referralAppointmentInfo: {},
-    },
-  };
   beforeEach(() => {
+    sandbox = sinon.createSandbox();
     requestStub = sandbox.stub(utils, 'apiRequestWithUrl');
   });
   afterEach(() => {
@@ -96,14 +93,19 @@ describe('CompleteReferral', () => {
   });
 
   it('should render warning alert when appointment info has timed out', () => {
+    clock = sinon.useFakeTimers({
+      toFake: ['setTimeout', 'Date'],
+    });
+    requestStub.resolves({ data: referralDraftAppointmentInfo });
     const { getByTestId } = renderWithStoreAndRouter(
       <CompleteReferral currentReferral={currentReferral} />,
       {
-        store: createTestStore(timeoutErrorState),
+        store: createTestStore(initialState),
       },
     );
-
+    clock.tick(33000);
     expect(getByTestId('warning-alert')).to.exist;
+    clock.restore();
   });
 
   it('should render appointment details correctly', async () => {
