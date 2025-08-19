@@ -99,7 +99,7 @@ export function nameTagRendersWithoutDisabilityRating() {
  * This does _not_ mock the APIs used by the Notification Setting section. It
  * only mocks the other APIs that are required by the Profile
  */
-export function mockNotificationSettingsAPIs() {
+export function mockNotificationSettingsAPIs(toggles) {
   mockGETEndpoints(['/v0/mhv_account']);
   cy.intercept(
     '/v0/disability_compensation_form/rating_info',
@@ -110,7 +110,7 @@ export function mockNotificationSettingsAPIs() {
   cy.intercept('/v0/profile/service_history', serviceHistory);
   cy.intercept('/v0/profile/ch33_bank_accounts', dd4eduNotEnrolled);
   cy.intercept('/v0/ppiu/payment_information', mockPaymentInfoNotEligible);
-  mockFeatureToggles();
+  mockFeatureToggles(toggles ? () => toggles : null);
 }
 
 /**
