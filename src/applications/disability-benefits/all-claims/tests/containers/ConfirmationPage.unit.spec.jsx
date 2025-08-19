@@ -13,9 +13,7 @@ import formConfig from '../../config/form';
 const getData = ({
   renderName = true,
   suffix = 'Esq.',
-  featureToggles = {
-    [Toggler.TOGGLE_NAMES.disability526ShowConfirmationReview]: false,
-  },
+  featureToggles = {},
 } = {}) => ({
   user: {
     profile: {
@@ -54,11 +52,20 @@ describe('ConfirmationPage', () => {
    * @param {string} claimId - if claimId has a value, verify the label and value are on the page
    * @param {boolean} isBdd - if true, verify BDD alert is present, otherwise verify it is not present
    * @param {string} submissionStatus - used to verify logic based on success or non success status
+   * @param {boolean} showCopyofSubmission - if true (toggle on), verify copy of submission section is shown
    */
-  const verifyConfirmationPage = (claimId, isBdd = false, submissionStatus) => {
+  const verifyConfirmationPage = (
+    claimId,
+    isBdd = false,
+    submissionStatus,
+    showCopyofSubmission = false,
+  ) => {
     const store = mockStore(
       getData({
-        disability526NewConfirmationPage: true,
+        featureToggles: {
+          [Toggler.TOGGLE_NAMES
+            .disability526ShowConfirmationReview]: showCopyofSubmission,
+        },
       }),
     );
     const props = {
@@ -72,7 +79,13 @@ describe('ConfirmationPage', () => {
       props.isSubmittingBDD = true;
     }
 
-    const { container, getByText, queryByText } = render(
+    const {
+      container,
+      getByText,
+      queryByText,
+      getByTestId,
+      queryByTestId,
+    } = render(
       <Provider store={store}>
         <ConfirmationPage {...props} />
       </Provider>,
@@ -82,6 +95,12 @@ describe('ConfirmationPage', () => {
       getByText(bddConfirmationHeadline);
     } else {
       expect(queryByText(bddConfirmationHeadline)).to.not.exist;
+    }
+
+    if (showCopyofSubmission) {
+      expect(getByTestId('new-confirmation-review-component')).to.exist;
+    } else {
+      expect(queryByTestId('new-confirmation-review-component')).to.be.null;
     }
 
     // success alert
@@ -149,42 +168,12 @@ describe('ConfirmationPage', () => {
     verifyConfirmationPage('', false, submissionStatuses.failed);
   });
 
-  context('confirmation review section', () => {
-    it('should not render confirmation review when toggle is off', () => {
-      const store = mockStore(getData()); // default mock data toggle is off
-      const props = {
-        ...defaultProps,
-        submissionStatus: submissionStatuses.succeeded,
-      };
-
-      const tree = render(
-        <Provider store={store}>
-          <ConfirmationPage {...props} />
-        </Provider>,
-      );
-      expect(tree.queryByTestId('new-confirmation-review-component')).to.be
-        .null;
-    });
-
-    it('should render confirmation review when toggle is on', () => {
-      const store = mockStore(
-        getData({
-          featureToggles: {
-            [Toggler.TOGGLE_NAMES.disability526ShowConfirmationReview]: true,
-          },
-        }),
-      );
-      const props = {
-        ...defaultProps,
-        submissionStatus: submissionStatuses.succeeded,
-      };
-
-      const tree = render(
-        <Provider store={store}>
-          <ConfirmationPage {...props} />
-        </Provider>,
-      );
-      expect(tree.queryByTestId('new-confirmation-review-component')).to.exist;
-    });
+  it('should render confirmation review section when toggle is on', () => {
+    verifyConfirmationPage(
+      '12345678',
+      false,
+      submissionStatuses.succeeded,
+      true, // disability526ShowConfirmationReview toggle
+    );
   });
 });
