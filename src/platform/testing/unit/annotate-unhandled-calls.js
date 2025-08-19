@@ -3,10 +3,11 @@ const https = require('https');
 
 let netTouched = false;
 const warnedFiles = new Set();
+let currentFile = null;
 
 function makeNetWrappedFns(mod) {
-  const origReq = mod.request.bind(mod);
-  const origGet = mod.get.bind(mod);
+  const origReq = mod.request && mod.request.bind(mod);
+  const origGet = mod.get && mod.get.bind(mod);
   return {
     request(...args) {
       netTouched = true;
@@ -19,37 +20,39 @@ function makeNetWrappedFns(mod) {
   };
 }
 
-(() => {
+(function installWrappers() {
   const h = makeNetWrappedFns(http);
-  http.request = h.request;
-  http.get = h.get;
+  if (h.request) http.request = h.request;
+  if (h.get) http.get = h.get;
 
   const hs = makeNetWrappedFns(https);
-  https.request = hs.request;
-  https.get = hs.get;
+  if (hs.request) https.request = hs.request;
+  if (hs.get) https.get = hs.get;
 
-  // Might need this for node 18+
-  //   if (typeof globalThis.fetch === 'function') {
-  //     const origFetch = globalThis.fetch.bind(globalThis);
-  //     globalThis.fetch = (...args) => {
-  //       netTouched = true;
-  //       return origFetch(...args);
-  //     };
-  //   }
+  // Node >=18 or polyfilled fetch
+  if (typeof globalThis.fetch === 'function') {
+    const origFetch = globalThis.fetch.bind(globalThis);
+    globalThis.fetch = (...args) => {
+      netTouched = true;
+      return origFetch(...args);
+    };
+  }
 })();
 
-beforeEach(function() {
-  if (this.currentTest && this.currentTest.file)
-    this._currentFile = this.currentTest.file;
-});
-
-afterEach(function() {
-  if (netTouched && this._currentFile && !warnedFiles.has(this._currentFile)) {
-    process.stdout.write(
-      `::warning file=${this._currentFile},title=Unhandled network calls::` +
-        `This spec made real network requests. Add mocks (nock/msw) or stubs.\n`,
-    );
-    warnedFiles.add(this._currentFile);
-  }
-  netTouched = false;
-});
+module.exports = {
+  mochaHooks: {
+    beforeEach() {
+      currentFile = (this.currentTest && this.currentTest.file) || currentFile;
+    },
+    afterEach() {
+      if (netTouched && currentFile && !warnedFiles.has(currentFile)) {
+        process.stdout.write(
+          `::warning file=${currentFile},title=Unhandled network calls::` +
+            `This spec made real network requests—add mocks (nock/msw) or stubs.\n`,
+        );
+        warnedFiles.add(currentFile);
+      }
+      netTouched = false;
+    },
+  },
+};
