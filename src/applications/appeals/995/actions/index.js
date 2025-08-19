@@ -37,7 +37,38 @@ export const getContestableIssues = props => {
       .then(response =>
         dispatch({
           type: FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
-          response,
+          response: {
+            data: [
+              {
+                id: null,
+                type: 'contestableIssue',
+                attributes: {
+                  ratingIssueReferenceId: '8891',
+                  ratingIssueProfileDate: '2025-08-19',
+                  ratingIssueDiagnosticCode: '7101',
+                  ratingIssueSubjectText: 'Hypertension',
+                  ratingIssuePercentNumber: null,
+                  description: 'Service connection for hypertension is denied.',
+                  isRating: true,
+                  latestIssuesInChain: [
+                    {
+                      id: null,
+                      approxDecisionDate: '2025-08-19',
+                    },
+                  ],
+                  decisionIssueId: null,
+                  ratingDecisionReferenceId: null,
+                  approxDecisionDate: '2025-08-19',
+                  rampClaimId: null,
+                  titleOfActiveReview: null,
+                  sourceReviewType: null,
+                  timely: false,
+                  activeReview: false,
+                },
+              },
+            ],
+          },
+          // response,
           benefitType,
         }),
       )
