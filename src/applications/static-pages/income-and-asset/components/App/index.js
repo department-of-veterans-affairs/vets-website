@@ -12,7 +12,7 @@ export const App = () => {
     TOGGLE_NAMES,
   } = useFeatureToggle();
   const isLoadingFeatures = useToggleLoadingValue();
-  const formEnabled = useToggleValue(TOGGLE_NAMES.incomeAndAssetFormEnabled);
+  const formEnabled = useToggleValue(TOGGLE_NAMES.incomeAndAssetsFormEnabled);
 
   if (isLoadingFeatures) {
     return <va-loading-indicator label="Loading" message="Loading..." />;
