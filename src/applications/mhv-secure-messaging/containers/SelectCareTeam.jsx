@@ -345,7 +345,9 @@ const SelectCareTeam = () => {
         </div>
         <div className="vads-u-margin-top--2">
           <p className="vads-u-margin-bottom--1">
-            <Link to="/">What to do if you can’t find your care team</Link>
+            <Link to={Paths.CARE_TEAM_HELP}>
+              What to do if you can’t find your care team
+            </Link>
           </p>
         </div>
         {showContactListLink && (

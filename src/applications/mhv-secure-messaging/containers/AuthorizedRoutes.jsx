@@ -16,6 +16,7 @@ import SmBreadcrumbs from '../components/shared/SmBreadcrumbs';
 import EditContactList from './EditContactList';
 import InterstitialPage from './InterstitialPage';
 import SelectCareTeam from './SelectCareTeam';
+import CareTeamHelp from './CareTeamHelp';
 import { clearDraftInProgress } from '../actions/threadDetails';
 import featureToggles from '../hooks/useFeatureToggles';
 
@@ -144,6 +145,9 @@ const AuthorizedRoutes = () => {
             <Compose />
           </AppRoute>
         )}
+        <AppRoute exact path={Paths.CARE_TEAM_HELP} key="CareTeamHelp">
+          <CareTeamHelp />
+        </AppRoute>
         <Route>
           <MhvPageNotFoundContent />
         </Route>
