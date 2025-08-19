@@ -9,8 +9,18 @@ export const UPDATE_AMOUNT = 'UPDATE_AMOUNT';
 export const UPDATE_VENDOR_TYPE = 'UPDATE_VENDOR_TYPE';
 
 // Initial State
+// Have to set this otherwise the file field dont display since component doesnt re-render
 const initialState = {
-  files: [],
+  files: [
+    {
+      file: {},
+      name: null,
+      date: '',
+      amount: null,
+      vendorType: '',
+      expenseType: '',
+    },
+  ],
 };
 
 // Reducer
@@ -19,7 +29,15 @@ export default function filesReducer(state = initialState, action) {
     case ADD_FILE:
       return {
         ...state,
-        files: [...state.files, action.payload],
+        files: state.files.map(
+          (file, i) =>
+            i === action.index
+              ? {
+                  ...file,
+                  ...action.payload, // merge existing with new data
+                }
+              : { file, ...action.payload },
+        ),
       };
 
     case REMOVE_FILE:
