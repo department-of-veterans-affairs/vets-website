@@ -83,4 +83,17 @@ describe('Medications Breadcrumbs', () => {
     const breadcrumbs = screen.getByTestId('rx-breadcrumb-link');
     expect(breadcrumbs).to.exist;
   });
+
+  it('Does not render breadcrumbs if Rx details call returns 404', () => {
+    const screen = setup({
+      rx: {
+        prescriptions: {
+          prescriptionDetails: undefined,
+          apiError: { status: '404' },
+        },
+      },
+    });
+    const breadcrumbs = screen.getByTestId('rx-breadcrumb-link');
+    expect(breadcrumbs).to.not.exist;
+  });
 });
