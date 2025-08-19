@@ -82,6 +82,7 @@
       }
     ],
     "socOptIn": true,
+    "homeless": false,
     "form5103Acknowledged": true,
     "privacyAgreementAccepted": true,
     "locations": [

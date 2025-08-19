@@ -24,6 +24,7 @@
         "timezone": "America/Los_Angeles"
       },
       "socOptIn": true,
+      "homeless": false,
       "form5103Acknowledged": true,
       "evidenceSubmission": {
         "evidenceType": [
