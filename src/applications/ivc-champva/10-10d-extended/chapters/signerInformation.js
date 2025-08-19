@@ -57,7 +57,7 @@ export const certifierRoleSchema = {
       labels: {
         applicant: 'I’m applying for benefits for myself',
         sponsor:
-          'I’m a Veteran applying for benefits for my spouse or dependents',
+          'I’m a Veteran applying for benefits for my spouse, dependents, or both',
         other:
           'I’m a representative applying for benefits on behalf of someone else',
       },

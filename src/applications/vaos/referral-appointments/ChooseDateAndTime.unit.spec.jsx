@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { waitFor } from '@testing-library/dom';
+import { waitFor, waitForElementToBeRemoved } from '@testing-library/dom';
 import {
   renderWithStoreAndRouter,
   createTestStore,
@@ -15,7 +15,7 @@ import * as flow from './flow';
 import { FETCH_STATUS } from '../utils/constants';
 import * as utils from '../services/utils';
 
-describe.skip('VAOS ChooseDateAndTime component', () => {
+describe('VAOS ChooseDateAndTime component', () => {
   const sandbox = sinon.createSandbox();
   const confirmed = [
     {
@@ -95,13 +95,8 @@ describe.skip('VAOS ChooseDateAndTime component', () => {
     featureToggles: {
       vaOnlineSchedulingCCDirectScheduling: true,
     },
-    appointmentApi: {
-      mutations: {
-        postDraftReferralAppointmentCache: {
-          status: 'fulfilled',
-          data: createDraftAppointmentInfo(1),
-        },
-      },
+    referral: {
+      draftAppointmentInfo: createDraftAppointmentInfo(1),
     },
     appointments: {
       confirmed,
@@ -117,7 +112,7 @@ describe.skip('VAOS ChooseDateAndTime component', () => {
       draftAppointmentCreateStatus: FETCH_STATUS.notStarted,
     },
     appointments: {
-      confirmed: [],
+      confirmed,
       confirmedStatus: FETCH_STATUS.notStarted,
     },
   };
@@ -178,8 +173,24 @@ describe.skip('VAOS ChooseDateAndTime component', () => {
         store: createTestStore(initialEmptyState),
       },
     );
-    expect(await screen.getByTestId('loading')).to.exist;
-    sandbox.assert.calledOnce(utils.apiRequestWithUrl);
+    await waitForElementToBeRemoved(() =>
+      screen.queryByTestId('loading-container'),
+    );
+    sandbox.assert.calledWith(
+      utils.apiRequestWithUrl,
+      '/vaos/v2/appointments/draft',
+      {
+        body: JSON.stringify({
+          /* eslint-disable camelcase */
+          referral_number: 'VA0000007241',
+          referral_consult_id: '984_646907',
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+      },
+    );
     sandbox.assert.calledOnce(fetchAppointmentsModule.fetchAppointments);
   });
   it('should show error if any fetch fails', async () => {

@@ -107,28 +107,24 @@ export const formConfig = {
           title: 'Military Branch Served',
           uiSchema: militaryBranch.uiSchema,
           schema: militaryBranch.schema,
-          depends: () => !environment.isProduction(),
         },
-        ...getBranchComponentPages(() => !environment.isProduction()),
+        ...getBranchComponentPages(),
         titleTenActiveDuty: {
           path: 'service/active-duty',
           title: 'Active Duty',
           uiSchema: activeDuty.uiSchema,
           schema: activeDuty.schema,
           depends: formData => {
-            return (
-              !environment.isProduction() &&
-              Object.values(militaryBranchTypes).some(pageName => {
-                return (
-                  formData[pageName]?.[
-                    militaryBranchComponentTypes.NATIONAL_GUARD_SERVICE
-                  ] ||
-                  formData[pageName]?.[
-                    militaryBranchComponentTypes.RESERVE_SERVICE
-                  ]
-                );
-              })
-            );
+            return Object.values(militaryBranchTypes).some(pageName => {
+              return (
+                formData[pageName]?.[
+                  militaryBranchComponentTypes.NATIONAL_GUARD_SERVICE
+                ] ||
+                formData[pageName]?.[
+                  militaryBranchComponentTypes.RESERVE_SERVICE
+                ]
+              );
+            });
           },
         },
         titleTenTimeServed: {
@@ -137,10 +133,7 @@ export const formConfig = {
           uiSchema: titleTenServiceTime.uiSchema,
           schema: titleTenServiceTime.schema,
           depends: formData => {
-            return (
-              !environment.isProduction() &&
-              formData.titleTenActiveDuty === true
-            );
+            return formData.titleTenActiveDuty === true;
           },
         },
         militaryService: {
