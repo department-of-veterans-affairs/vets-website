@@ -8,6 +8,7 @@ export const AccountSummary = ({
   newCharges,
   paymentsReceived,
   previousBalance,
+  showOneThingPerPage = false,
   statementDate,
 }) => {
   return (
@@ -33,7 +34,11 @@ export const AccountSummary = ({
           {currency(currentBalance)}
         </strong>
       </p>
-      <h3 className="vads-u-margin-top--2">Balance Activity</h3>
+      {showOneThingPerPage ? (
+        <h3 className="vads-u-margin-top--2">Copay details</h3>
+      ) : (
+        <h3 className="vads-u-margin-top--2">Balance activity</h3>
+      )}
       <ul className="no-bullets vads-u-padding-x--0">
         <li
           data-testid="account-summary-previous"
@@ -66,6 +71,7 @@ AccountSummary.propTypes = {
   newCharges: PropTypes.number,
   paymentsReceived: PropTypes.number,
   previousBalance: PropTypes.number,
+  showOneThingPerPage: PropTypes.bool,
   statementDate: PropTypes.string,
 };
 
