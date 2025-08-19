@@ -9,7 +9,6 @@ import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { hasTotalDisabilityError } from '../../common/selectors/ratedDisabilities';
 
 import ProfileSubNav from './ProfileSubNav';
-import ProfileMobileSubNav from './ProfileMobileSubNav';
 import { PROFILE_PATHS } from '../constants';
 import { ProfileFullWidthContainer } from './ProfileFullWidthContainer';
 import { getRoutesForNav } from '../routesForNav';
@@ -79,7 +78,7 @@ const ProfileWrapper = ({
       {layout === LAYOUTS.SIDEBAR && (
         <>
           <div className="medium-screen:vads-u-display--none vads-u-margin--1 vads-u-margin-bottom--2">
-            <ProfileMobileSubNav
+            <ProfileSubNav
               routes={routesForNav}
               isLOA3={isLOA3}
               isInMVI={isInMVI}
