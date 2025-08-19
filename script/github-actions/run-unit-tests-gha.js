@@ -9,7 +9,7 @@ const { runCommand } = require('../utils');
 
 // Configuration
 const DEFAULT_SPEC_PATTERN = '{src,script}/**/*.unit.spec.js?(x)';
-const STATIC_PAGES_PATTERN = 'src/**/*.unit.spec.js?(x)';
+const STATIC_PAGES_PATTERN = 'src/platform/**/*.unit.spec.js?(x)';
 const MAX_MEMORY = '8192'; // Reduced from 32768 to prevent memory issues
 
 // Command line options
