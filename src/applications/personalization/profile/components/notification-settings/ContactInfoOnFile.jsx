@@ -120,6 +120,7 @@ const ContactInfoOnFile = ({
       <va-additional-info
         data-testid="data-encryption-notice"
         trigger="By setting up notifications, you agree to receive unsecure emails and texts"
+        class="vads-u-margin-top--3"
       >
         <p>
           Data encryption is a way of making data hard to read by people other
