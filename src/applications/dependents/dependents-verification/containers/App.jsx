@@ -6,6 +6,10 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import formConfig from '../config/form';
 import NoFormPage from '../components/NoFormPage';
 import manifest from '../manifest.json';
+import { TITLE } from '../constants';
+
+// Must match the H1
+document.title = TITLE;
 
 export default function App({ location, children }) {
   const featureToggle = useSelector(

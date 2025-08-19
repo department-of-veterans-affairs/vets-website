@@ -58,7 +58,7 @@ const CernerFacilityAlert = ({ cernerFacilities }) => {
   );
 
   const renderSingleFacility = () => (
-    <p data-testId="single-cerner-facility-text">
+    <p data-testid="single-cerner-facility-text">
       Some of your secure messages may be in a different portal. To send a
       secure message to a provider at{' '}
       <strong>{cernerFacilitiesNames[0]}</strong>, go to My VA Health.
