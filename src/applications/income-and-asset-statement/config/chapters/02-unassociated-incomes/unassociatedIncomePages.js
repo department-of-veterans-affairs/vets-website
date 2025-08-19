@@ -20,6 +20,7 @@ import { SummaryDescription } from '../../../components/RecurringIncomeSummaryDe
 import {
   formatCurrency,
   formatPossessiveString,
+  fullNameUIHelper,
   generateDeleteDescription,
   isDefined,
   isIncomeTypeInfoIncomplete,
@@ -417,21 +418,7 @@ const recipientNamePage = {
         : 'Recurring income recipient',
     ),
     recipientName: showUpdatedContent()
-      ? {
-          ...fullNameNoSuffixUI(),
-          first: {
-            ...fullNameNoSuffixUI().first,
-            'ui:title': 'First or given name',
-          },
-          middle: {
-            ...fullNameNoSuffixUI().middle,
-            'ui:title': 'Middle name',
-          },
-          last: {
-            ...fullNameNoSuffixUI().last,
-            'ui:title': 'Last or family name',
-          },
-        }
+      ? fullNameUIHelper()
       : fullNameNoSuffixUI(title => `Income recipient’s ${title}`),
   },
   schema: {
