@@ -94,7 +94,7 @@ describe('CompleteReferral', () => {
 
   it('should render warning alert when appointment info has timed out', () => {
     clock = sinon.useFakeTimers({
-      toFake: ['setTimeout', 'Date'],
+      toFake: ['setTimeout', 'clearTimeout', 'Date'],
     });
     requestStub.resolves({ data: referralDraftAppointmentInfo });
     const { getByTestId } = renderWithStoreAndRouter(
@@ -104,6 +104,10 @@ describe('CompleteReferral', () => {
       },
     );
     clock.tick(33000);
+    waitFor(() => {
+      expect(getByTestId('warning-alert')).to.exist;
+    });
+
     expect(getByTestId('warning-alert')).to.exist;
     clock.restore();
   });
