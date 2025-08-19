@@ -1,61 +1,41 @@
-import React from 'react';
-
-import { omit } from 'lodash';
-
-import emailUI from 'platform/forms-system/src/js/definitions/email';
-import formDefinitions from '../definitions/form-definitions';
+import {
+  emailToSendNotificationsSchema,
+  emailToSendNotificationsUI,
+  phoneSchema,
+  phoneUI,
+  titleUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 
 import { CLAIM_OWNERSHIPS, CLAIMANT_TYPES } from '../definitions/constants';
-
-const partialEmailUi = omit(emailUI(), ['ui:title', 'ui:options']);
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    claimantPhone: {
-      'ui:title': 'Phone number',
-      'ui:autocomplete': 'tel',
-      'ui:errorMessages': {
-        minLength:
-          'Please enter a 10-digit phone number (with or without dashes)',
-        pattern:
-          'Please enter a 10-digit phone number (with or without dashes)',
-        required:
-          'Please enter a 10-digit phone number (with or without dashes)',
-      },
-      'ui:options': {
-        inputType: 'tel',
-      },
-    },
-    claimantEmail: {
-      ...partialEmailUi,
-      'ui:options': {
-        inputType: 'email',
-        updateSchema: formData => {
-          const { claimOwnership, claimantType } = formData;
+    ...titleUI('Phone and email address'),
+    claimantPhone: phoneUI(),
+    claimantEmail: emailToSendNotificationsUI({
+      updateUiSchema: formData => {
+        const { claimOwnership, claimantType } = formData;
 
-          if (
-            claimOwnership === CLAIM_OWNERSHIPS.SELF &&
-            claimantType === CLAIMANT_TYPES.NON_VETERAN
-          ) {
-            return {
-              title: (
-                <span>
-                  Email address
-                  <br />
-                  When you enter your email address, you agree to receive emails
-                  from us about your claim.
-                </span>
-              ),
-            };
-          }
-
+        if (
+          claimOwnership === CLAIM_OWNERSHIPS.SELF &&
+          claimantType === CLAIMANT_TYPES.NON_VETERAN
+        ) {
           return {
-            title: 'Email address',
+            'ui:options': {
+              hint:
+                'We’ll use this email address to send you notifications about your form submission',
+            },
           };
-        },
+        }
+
+        return {
+          'ui:options': {
+            hint: '',
+          },
+        };
       },
-    },
+    }),
     'ui:options': {
       updateSchema: (formData, formSchema) => {
         const { claimOwnership, claimantType } = formData;
@@ -80,8 +60,8 @@ export default {
     type: 'object',
     required: ['claimantPhone'],
     properties: {
-      claimantPhone: formDefinitions.phone,
-      claimantEmail: formDefinitions.pdfEmail,
+      claimantPhone: phoneSchema,
+      claimantEmail: emailToSendNotificationsSchema,
     },
   },
 };
