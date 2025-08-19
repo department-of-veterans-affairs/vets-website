@@ -74,6 +74,7 @@ function ProfileSubNavItems({ routes, isLOA3, isInMVI, clickHandler = null }) {
         header="Profile"
         icon-background-color="vads-color-primary"
         icon-name="account_circle"
+        role="navigation"
       >
         {beforeRoutes.map(route => (
           <VaSidenavItem
@@ -121,6 +122,7 @@ function ProfileSubNavItems({ routes, isLOA3, isInMVI, clickHandler = null }) {
       header="Profile"
       icon-background-color="vads-color-primary"
       icon-name="account_circle"
+      role="navigation"
     >
       {filteredRoutes.map(route => (
         <VaSidenavItem
