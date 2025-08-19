@@ -351,15 +351,6 @@ jobs:
       - name: Create test results folder
         run: mkdir -p test-results
 
-
-      - name: Detect network APIs used
-        run: node script/github-actions/find-network-apis.js src
-      - name: Set patch toggles
-        run: |
-          # naive mapping; tune as needed
-          echo "UNHANDLED_HTTP_PATCH_FETCH=$(node -e "p=JSON.parse(process.env.NETWORK_API_DISCOVERY_JSON||'{}');console.log(p.fetch?.length||p.undici?.length?'true':'false')")" >> $GITHUB_ENV
-          echo "UNHANDLED_HTTP_PATCH_XHR=$(node -e "p=JSON.parse(process.env.NETWORK_API_DISCOVERY_JSON||'{}');console.log(p.xhr?.length?'true':'false')")" >> $GITHUB_ENV
-          echo "UNHANDLED_HTTP_PATCH_HTTP=$(node -e "p=JSON.parse(process.env.NETWORK_API_DISCOVERY_JSON||'{}');console.log((p.http?.length||p.got?.length||p.nodeFetch?.length||p.axios?.length)?'true':'false')")" >> $GITHUB_ENV
       - name: Run unit tests
         id: run-tests
         run: |
@@ -374,6 +365,9 @@ jobs:
           CHANGED_FILES: ${{ needs.tests-prep.outputs.changed_file_paths }}
           APP_FOLDERS: ${{ needs.tests-prep.outputs.app_folders }}
           IS_STRESS_TEST: false
+
+      - name: Emit unhandled network annotations
+        run: node script/github-actions/annotate-unhandled-api-calls.js
       
       - name: Archive unit test results
         if: ${{ always() && steps.run-tests.outputs.tests_ran == 'true' }}
@@ -796,19 +790,6 @@ jobs:
           TEST_TYPE: e2e
           TEST_PROPERTY: 'TESTS'
 
-      - name: Start server
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
-        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
-
-      - name: Detect network APIs used
-        run: node script/github-actions/find-network-apis.js src
-      - name: Set patch toggles
-        run: |
-          # naive mapping; tune as needed
-          echo "UNHANDLED_HTTP_PATCH_FETCH=$(node -e "p=JSON.parse(process.env.NETWORK_API_DISCOVERY_JSON||'{}');console.log(p.fetch?.length||p.undici?.length?'true':'false')")" >> $GITHUB_ENV
-          echo "UNHANDLED_HTTP_PATCH_XHR=$(node -e "p=JSON.parse(process.env.NETWORK_API_DISCOVERY_JSON||'{}');console.log(p.xhr?.length?'true':'false')")" >> $GITHUB_ENV
-          echo "UNHANDLED_HTTP_PATCH_HTTP=$(node -e "p=JSON.parse(process.env.NETWORK_API_DISCOVERY_JSON||'{}');console.log((p.http?.length||p.got?.length||p.nodeFetch?.length||p.axios?.length)?'true':'false')")" >> $GITHUB_ENV
-      
       - name: Run Cypress tests
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         run: node script/github-actions/run-cypress-tests.js
@@ -818,6 +799,9 @@ jobs:
           STEP: ${{ matrix.ci_node_index }}
           APP_URLS: ${{ needs.tests-prep.outputs.app_urls }}
           NUM_CONTAINERS: ${{ needs.tests-prep.outputs.num_containers }}
+
+      - name: Emit unhandled network annotations
+        run: node script/github-actions/annotate-unhandled-api-calls.js
 
       - name: Archive test videos
         if: ${{ needs.tests-prep.outputs.cypress-tests != '[]' && failure() }}
