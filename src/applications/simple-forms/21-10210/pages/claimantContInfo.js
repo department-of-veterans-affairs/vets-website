@@ -12,21 +12,8 @@ import { CLAIM_OWNERSHIPS, CLAIMANT_TYPES } from '../definitions/constants';
 export default {
   uiSchema: {
     ...titleUI('Phone and email address'),
-    claimantPhone: phoneUI({
-      title: 'Phone number',
-      autocomplete: 'tel',
-      errorMessages: {
-        minLength:
-          'Please enter a 10-digit phone number (with or without dashes)',
-        pattern:
-          'Please enter a 10-digit phone number (with or without dashes)',
-        required:
-          'Please enter a 10-digit phone number (with or without dashes)',
-      },
-      inputType: 'tel',
-    }),
+    claimantPhone: phoneUI(),
     claimantEmail: emailToSendNotificationsUI({
-      inputType: 'email',
       updateUiSchema: formData => {
         const { claimOwnership, claimantType } = formData;
 
