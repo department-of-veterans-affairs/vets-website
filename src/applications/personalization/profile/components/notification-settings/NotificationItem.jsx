@@ -117,6 +117,16 @@ const NotificationItem = ({ channelIds, itemName, description, itemId }) => {
 
   if (shouldBlock) return null;
 
+  // Ensure "empty `filterChannels`" will not render an empty fieldset wrapper
+  // This is its own condition since `userHasAtLeastOneChannelContactInfo`
+  // can still be true when filterChannels length is 0
+  if (
+    // (mobilePhone && mobilePhone.isInternational) && // todo need?
+    filteredChannels.length === 0
+  ) {
+    return null;
+  }
+
   return (
     <>
       {userHasAtLeastOneChannelContactInfo ? (
