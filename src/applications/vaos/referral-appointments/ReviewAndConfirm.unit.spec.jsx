@@ -17,7 +17,7 @@ import * as flow from './flow';
 describe('VAOS Component: ReviewAndConfirm', () => {
   let requestStub;
   const slotDate = '2024-09-09T16:00:00.000Z';
-  let sandbox;
+  const sandbox = sinon.createSandbox();
   const draftAppointmentInfo = createDraftAppointmentInfo(1);
 
   draftAppointmentInfo.attributes.slots[0].start = slotDate;
@@ -54,7 +54,6 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     appointmentApi: {},
   };
   beforeEach(() => {
-    sandbox = sinon.createSandbox();
     requestStub = sandbox.stub(utils, 'apiRequestWithUrl');
   });
   afterEach(() => {
