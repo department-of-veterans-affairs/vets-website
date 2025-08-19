@@ -57,7 +57,7 @@ const SelectCareTeam = () => {
       const newId = recipient?.id ? recipient.id.toString() : null;
 
       // Only update if the value actually changes
-      if (selectedCareTeamId !== newId) {
+      if (String(selectedCareTeamId) !== String(newId)) {
         setSelectedCareTeamId(newId);
 
         if (recipient.id && recipient.id !== '0') {
