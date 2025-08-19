@@ -16,6 +16,7 @@ describe('VeteranContactInformationReviewPage', () => {
 
   const mockData = {
     email: 'vet@example.com',
+    'view:phoneSource': 'home',
     phone: '8005551212',
     address: {
       country: 'USA',

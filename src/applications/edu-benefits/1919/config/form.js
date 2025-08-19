@@ -2,8 +2,11 @@ import React from 'react';
 
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
+import environment from 'platform/utilities/environment';
 import { focusElement } from 'platform/utilities/ui';
 import { scrollToTop } from 'platform/utilities/scroll';
+import submitForm from './submitForm';
+import transform from './transform';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -44,9 +47,8 @@ const scrollAndFocusTarget = () => {
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${environment.API_URL}/v0/education_benefits_claims/1919`,
+  submit: submitForm,
   trackingPrefix: 'Edu-1919-',
   introduction: IntroductionPage,
   confirmation: confirmFormLogic,
@@ -87,6 +89,7 @@ const formConfig = {
       messageAriaDescribedBy: 'I have read and accept the privacy policy.',
     },
   },
+  transformForSubmit: transform,
   chapters: {
     institutionDetailsChapter: {
       title: 'Institution details',
