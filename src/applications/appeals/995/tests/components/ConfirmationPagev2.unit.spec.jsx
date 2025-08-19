@@ -324,7 +324,7 @@ describe('ConfirmationPageV2', () => {
       'Test 2Decision date: June 28, 2022',
       'Yes, I certify',
       'None selected',
-      '',
+      'No',
     ]);
   });
 

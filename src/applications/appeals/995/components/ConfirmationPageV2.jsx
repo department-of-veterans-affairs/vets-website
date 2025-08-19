@@ -58,7 +58,7 @@ export const ConfirmationPageV2 = () => {
   const showScNewForm = data[SC_NEW_FORM_DATA];
 
   let mstOptionText = '';
-  if (showScNewForm && typeof data.mstOption === 'boolean') {
+  if (typeof data.mstOption === 'boolean') {
     mstOptionText = data.mstOption ? 'Yes' : 'No';
   }
 
