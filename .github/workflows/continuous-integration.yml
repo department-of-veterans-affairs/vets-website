@@ -354,12 +354,11 @@ jobs:
       - name: Run unit tests
         id: run-tests
         run: |
-          # if [[ -n "$APP_FOLDERS" ]]; then
-          #   yarn test:unit:gha ${APP_FOLDERS:+"{script,src/platform,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level verbose
-          # else
-          #   yarn test:unit:gha yarn test:unit:gha "{src,script}/**/*.unit.spec.js?(x)" --coverage --log-level verbose
-          # fi
-          yarn test:unit:gha "{script,src/platform,appeals,accreditation,vaos,mhv}/**/*.unit.spec.js?(x)" --coverage --log-level verbose
+          if [[ -n "$APP_FOLDERS" ]]; then
+            yarn test:unit:gha ${APP_FOLDERS:+"{script,src/platform,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level verbose
+          else
+            yarn test:unit:gha yarn test:unit:gha "{src,script}/**/*.unit.spec.js?(x)" --coverage --log-level verbose
+          fi
           
         env:
           MOCHA_FILE: test-results/unit-tests.xml
