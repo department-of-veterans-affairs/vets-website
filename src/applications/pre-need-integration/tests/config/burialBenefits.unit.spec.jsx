@@ -48,7 +48,7 @@ describe('Pre-need burial benefits', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.burialBenefits.pages.burialBenefits;
+  } = formConfig.chapters.burialBenefits.pages.burialBenefitsVeteran;
 
   it('should render', () => {
     const form = mount(
