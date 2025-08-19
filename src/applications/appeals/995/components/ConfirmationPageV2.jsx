@@ -207,7 +207,6 @@ export const ConfirmationPageV2 = () => {
           privacyAgreementAccepted={data.privacyAgreementAccepted}
           reviewMode
           showListOnly
-          // showScNewForm={showScNewForm}
           showLimitedConsentYN={data[EVIDENCE_LIMIT]}
         />
       ) : null}
