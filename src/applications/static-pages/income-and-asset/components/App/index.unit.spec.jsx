@@ -1,4 +1,3 @@
-// /static-pages/income-and-asset/components/App/index.unit.spec.jsx
 import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
