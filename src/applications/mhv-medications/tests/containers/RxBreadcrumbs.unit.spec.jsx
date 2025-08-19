@@ -1,10 +1,16 @@
 import { expect } from 'chai';
 import React from 'react';
+import { waitFor } from '@testing-library/dom';
 import { Route, Routes } from 'react-router-dom-v5-compat';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import sinon from 'sinon';
+import { cleanup } from '@testing-library/react';
 import reducers from '../../reducers';
 import RxBreadcrumbs from '../../containers/RxBreadcrumbs';
 import { medicationsUrls } from '../../util/constants';
+import { stubPrescriptionIdApi } from '../testing-utils';
+
+let sandbox;
 
 describe('Medications Breadcrumbs', () => {
   const setup = (state = {}) => {
@@ -35,6 +41,16 @@ describe('Medications Breadcrumbs', () => {
     });
   };
 
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+    stubPrescriptionIdApi({ sandbox });
+  });
+
+  afterEach(async () => {
+    cleanup();
+    await sandbox.restore();
+  });
+
   it('renders without errors', () => {
     const screen = setup();
     expect(screen);
@@ -47,6 +63,9 @@ describe('Medications Breadcrumbs', () => {
   });
 
   it('Correct link is shown on documentation page', () => {
+    sandbox.restore();
+    stubPrescriptionIdApi({ sandbox });
+
     const screen = renderWithStoreAndRouterV6(
       <Routes>
         <Route
@@ -76,7 +95,7 @@ describe('Medications Breadcrumbs', () => {
       rx: {
         prescriptions: {
           prescriptionDetails: undefined,
-          apiError: { status: '500' },
+          apiError: true,
         },
       },
     });
@@ -84,16 +103,17 @@ describe('Medications Breadcrumbs', () => {
     expect(breadcrumbs).to.exist;
   });
 
-  it('Does not render breadcrumbs if Rx details call returns 404', () => {
-    const screen = setup({
-      rx: {
-        prescriptions: {
-          prescriptionDetails: undefined,
-          apiError: { status: '404' },
-        },
-      },
+  it('Does not render breadcrumbs if Rx details call returns 404', async () => {
+    sandbox.restore();
+    stubPrescriptionIdApi({
+      sandbox,
+      error: { status: '404' },
     });
-    const breadcrumbs = screen.getByTestId('rx-breadcrumb-link');
-    expect(breadcrumbs).to.be.null;
+
+    const screen = setup();
+    await waitFor(() => {
+      const breadcrumbs = screen.queryByTestId('rx-breadcrumb-link');
+      expect(breadcrumbs).to.not.exist;
+    });
   });
 });
