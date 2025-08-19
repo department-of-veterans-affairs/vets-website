@@ -359,7 +359,7 @@ jobs:
           # else
           #   yarn test:unit:gha yarn test:unit:gha "{src,script}/**/*.unit.spec.js?(x)" --coverage --log-level verbose
           # fi
-          yarn test:unit:gha yarn --coverage --log-level verbose
+          yarn test:unit:gha "{script,src/platform,appeals,accreditation,vaos,mhv}/**/*.unit.spec.js?(x)" --coverage --log-level verbose
           
         env:
           MOCHA_FILE: test-results/unit-tests.xml
