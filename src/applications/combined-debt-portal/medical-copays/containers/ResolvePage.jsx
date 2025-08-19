@@ -67,13 +67,14 @@ const ResolvePage = ({ match }) => {
           facility={selectedCopay?.station}
           amtDue={amtDue}
         />
-        <FinancialHelp />
+        <FinancialHelp showOneThingPerPage />
         <DisputeCharges showOneThingPerPage />
         <va-need-help id="needHelp">
           <div slot="content">
             <p>
-              You can contact us online through Ask VA or call the VA Health
-              Resource Center at{' '}
+              You can contact us online through{' '}
+              <va-link text="Ask VA" href="https://ask.va.gov" /> or call the VA
+              Health Resource Center at{' '}
               <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} /> (
               <va-telephone contact="711" tty="true" />
               ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
