@@ -2,28 +2,8 @@ import { datadogLogs } from '@datadog/browser-logs';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { initializeBrowserLogging } from 'platform/monitoring/Datadog';
 
-// Conditional added to prevent initialization of Datadog as it was causing tests to hang indefinitely and prevented coverage report generation
-// OLD call that is now wrapped in an init function
-// if (!process.env.NODE_ENV === 'test') {
-//   // Initialize Datadog logging
-//   datadogLogs.init({
-//     clientToken: 'pubf64b43174e3eb74fa640b1ec28781c07',
-//     service: 'virtual-agent-front-end',
-//     team: 'virtual-agent-platform',
-//     site: 'ddog-gov.com',
-//     env: environment.vspEnvironment(),
-//     sessionSampleRate: 100,
-//     forwardConsoleLogs: ['error'],
-//     telemetrySampleRate: 100,
-//     forwardErrorsToLogs: true,
-//     forwardReports: [],
-//     sampleRate: 100,
-//   });
-// }
-
-// example from burials-ez
-// const APP_ID = '88a7f64b-7f8c-4e26-bef8-55954cab8973';
-const APP_ID = 'still-need-this-app-uuid-thingy';
+const APP_ID = 'ad327652-564b-4537-91c7-328eb90f77ed';
+const CLIENT_TOKEN = 'pubf64b43174e3eb74fa640b1ec28781c07';
 
 /**
  * Initializes logging for the application.
@@ -31,9 +11,8 @@ const APP_ID = 'still-need-this-app-uuid-thingy';
  */
 export const initLogging = () =>
   initializeBrowserLogging({
-    clientToken: 'pubf64b43174e3eb74fa640b1ec28781c07',
+    clientToken: CLIENT_TOKEN,
     applicationId: APP_ID,
-    // team: 'virtual-agent-platform', ????
     service: 'virtual-agent-front-end',
     site: 'ddog-gov.com',
     env: environment.vspEnvironment(),
