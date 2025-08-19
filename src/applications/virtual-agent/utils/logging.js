@@ -39,7 +39,7 @@ export function logErrorToDatadog(
   if (isDatadogLoggingEnabled) {
     datadogLogs.logger.error(message, context);
 
-    // or this might be an option to call from the initialized window object
+    // Fallback to window.DD_LOGS if datadogLogs is unavailable (e.g., in environments where Datadog is initialized globally).
     if (window.DD_LOGS) {
       window.DD_LOGS.logger.error(message, context);
     }
