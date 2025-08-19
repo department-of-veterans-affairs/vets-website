@@ -79,10 +79,12 @@ export const useHeadingLevels = (userHeaderLevel, isReviewPage) => {
   }
   const headingLevel =
     userHeaderLevel || (isMinimalHeader.current && !isReviewPage ? '1' : '3');
+  const reviewHeadingLevel =
+    userHeaderLevel || (isMinimalHeader.current ? '3' : '4');
   const headingStyle =
     isMinimalHeader.current && !isReviewPage ? ' vads-u-font-size--h2' : '';
 
-  return { headingLevel, headingStyle };
+  return { headingLevel, headingStyle, reviewHeadingLevel };
 };
 
 /**
