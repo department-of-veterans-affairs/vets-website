@@ -363,6 +363,7 @@ export function transform5490Form(_formConfig, form) {
       firstName: form?.data?.fullName?.first,
       lastName: form?.data?.fullName?.last,
       middleName: form?.data?.fullName?.middle,
+      suffix: form?.data?.fullName?.suffix,
       relationship: form?.data?.relationshipToMember,
       dateOfBirth: form?.data?.dateOfBirth,
       ssn: form?.data?.ssn,
