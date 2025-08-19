@@ -87,7 +87,7 @@ export const CompleteReferral = props => {
           );
         }, pollingInterval);
       }
-      return () => clearInterval(requestInterval);
+      return () => clearTimeout(requestInterval);
     },
     [
       booked,
