@@ -58,7 +58,7 @@ export const sponsorNameDobSchema = {
       },
       `Enter the veteran's name and date of birth. We'll use this information to confirm their eligibility.`,
       ({ formData }) => {
-        CustomPrefillMessage(formData, 'sponsor');
+        return CustomPrefillMessage(formData, 'sponsor');
       },
     ),
     sponsorName: fullNameUI(),
