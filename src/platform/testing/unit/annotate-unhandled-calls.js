@@ -29,7 +29,6 @@ function makeNetWrappedFns(mod) {
   if (hs.request) https.request = hs.request;
   if (hs.get) https.get = hs.get;
 
-  // Node >=18 or polyfilled fetch
   if (typeof globalThis.fetch === 'function') {
     const origFetch = globalThis.fetch.bind(globalThis);
     globalThis.fetch = (...args) => {
