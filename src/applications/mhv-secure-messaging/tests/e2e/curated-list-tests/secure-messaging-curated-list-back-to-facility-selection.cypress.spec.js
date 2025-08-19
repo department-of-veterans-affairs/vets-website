@@ -6,6 +6,7 @@ import PatientMessageDraftsPage from '../pages/PatientMessageDraftsPage';
 import mockSavedDraftResponse from '../fixtures/draftPageResponses/single-draft-response.json';
 import mockSentThreads from '../fixtures/sentResponse/sent-messages-response.json';
 import PatientComposePage from '../pages/PatientComposePage';
+import newDraft from '../fixtures/draftsResponse/drafts-single-message-response.json';
 
 describe('SM CURATED LIST BACK TO SELECTION', () => {
   beforeEach(() => {
@@ -107,5 +108,67 @@ describe('SM CURATED LIST BACK TO SELECTION', () => {
     );
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+  });
+
+  it('verify route guard when draft is not saved', () => {
+    const draftMessage = {
+      subject: 'TEST SUBJECT',
+      body: 'TEST BODY',
+      recipientId: '6910405',
+      category: 'OTHER',
+    };
+    PilotEnvPage.navigateToSelectCareTeamPage();
+
+    PilotEnvPage.selectCareSystem(0);
+
+    PilotEnvPage.selectTriageGroup(2);
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+
+    // this is for intercepting repeatedly calling api request for sent threads
+    cy.intercept(`GET`, Paths.INTERCEPT.SENT_THREADS, mockSentThreads).as(
+      'sentThreadsResponse',
+    );
+    cy.findByText(/Update your contact list/i).click();
+    cy.get('va-modal[modal-title="We can\'t save this message yet"]').should(
+      'be.visible',
+    );
+
+    cy.get('va-modal[modal-title="We can\'t save this message yet"]')
+      .find('va-button[text="Edit draft"]')
+      .click();
+    cy.findByTestId(`continue-button`).click();
+    PatientComposePage.selectCategory(draftMessage.category);
+    PatientComposePage.getMessageSubjectField().type(draftMessage.subject);
+
+    cy.findByText(/Select a different care team/i).click();
+    cy.get('va-modal[modal-title="We can\'t save this message yet"]').should(
+      'not.be.visible',
+    );
+    cy.findByTestId(`continue-button`).click();
+    PatientComposePage.getMessageBodyField()
+      .clear()
+      .type(draftMessage.body);
+    const saveDraftResponse = {
+      ...newDraft.data,
+      // type: 'message_drafts',
+      attributes: {
+        ...newDraft.data.attributes,
+        ...draftMessage,
+      },
+    };
+
+    PatientComposePage.saveNewDraft(
+      draftMessage.category,
+      draftMessage.subject,
+      saveDraftResponse,
+    );
+    cy.wait('@new_draft');
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+    cy.findByText(/Select a different care team/i).click();
+    cy.findByText(/Update your contact list/i).click();
+    cy.get(
+      'va-modal[modal-title="Do you want to save your changes to this draft?"]',
+    ).should('not.exist');
   });
 });
