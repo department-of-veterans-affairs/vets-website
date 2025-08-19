@@ -206,7 +206,10 @@ export default function ContactInformation({ institution, showModal }) {
           <va-link
             external
             text="View this school's profile on College Navigator"
-            href="https://nces.ed.gov/collegenavigator/?q=201034&s=all&id=201034"
+            href={`https://nces.ed.gov/collegenavigator/?q=${
+              institution.facilityCode
+            }&s=all&id=${institution.facilityCode}`}
+            //  href={`https://nces.ed.gov/collegenavigator/?id=${institution.facilityCode}`}
           />
         </li>
       </ul>
