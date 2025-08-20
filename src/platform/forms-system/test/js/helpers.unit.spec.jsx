@@ -1558,10 +1558,26 @@ describe('Schemaform helpers:', () => {
       deleteNestedProperty(obj, 'x.y.z');
       expect(obj).to.eql({});
     });
-    it('deleteNestedProperty removes an array child path', () => {
+    it('should remove an array child path', () => {
       const obj = { dependents: [{ ssn: '411111111', dob: '2000-01-01' }] };
       deleteNestedProperty(obj, 'dependents.0.ssn');
       expect(obj).to.eql({ dependents: [{ dob: '2000-01-01' }] });
+    });
+    it('should ignore paths containing `__proto__` and not pollute `prototypes`', () => {
+      const obj = { a: { b: { c: 123 } } };
+      deleteNestedProperty(obj, '__proto__.polluted');
+      expect(obj).to.eql({ a: { b: { c: 123 } } });
+      expect(Object.prototype).to.not.have.property('polluted');
+    });
+    it('should ignore paths containing `constructor`', () => {
+      const obj = { a: { constructor: { b: 1 }, safe: true } };
+      deleteNestedProperty(obj, 'a.constructor.b');
+      expect(obj).to.eql({ a: { constructor: { b: 1 }, safe: true } });
+    });
+    it('should ignore final segment if it is `prototype`', () => {
+      const obj = { a: { b: { prototype: 1, c: 2 } } };
+      deleteNestedProperty(obj, 'a.b.prototype');
+      expect(obj).to.eql({ a: { b: { prototype: 1, c: 2 } } });
     });
   });
   describe('filterInactivePageData', () => {

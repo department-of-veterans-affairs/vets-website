@@ -111,7 +111,9 @@ export function getPageProperties(page) {
 }
 
 /**
- * Deletes a deeply nested property from an object using a dot-separated path.
+ * Deletes a deeply nested property from an object using a dot-separated path,
+ * while guarding against prototype pollution by disallowing "__proto__", "constructor",
+ * and "prototype" at any segment of the path.
  *
  * Traverses `obj` along `pathString` and removes the final property if reachable.
  * If any segment does not resolve to an object, the function exits without changes.
@@ -129,8 +131,15 @@ export function getPageProperties(page) {
  * @see getActiveProperties
  */
 export function deleteNestedProperty(obj, pathString) {
-  let current = obj;
   const parts = pathString.split('.');
+  let current = obj;
+
+  // guard against prototype pollution: bail if any segment is dangerous
+  for (let i = 0; i < parts.length; i++) {
+    const k = parts[i];
+    if (k === '__proto__' || k === 'constructor' || k === 'prototype') return;
+  }
+
   for (let i = 0; i < parts.length - 1; i++) {
     const next = current?.[parts[i]];
     if (next === null || typeof next !== 'object') return;
