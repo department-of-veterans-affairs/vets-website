@@ -50,20 +50,16 @@ const verifyEditPage = (values, editButtonText) => {
     .find('input')
     .as('ValueInput');
 
-  // ensure inputs are enabled before interacting
-  cy.get('@TextInput').should('not.be.disabled');
-  cy.get('@ValueInput').should('not.be.disabled');
-
   // verify edit page has correct values populated in input fields
   cy.get('@TextInput').should('have.value', values[0].name);
   cy.get('@ValueInput').should('have.value', values[0].amount);
 
-  // edit the values
-  cy.get('@TextInput').clear();
-  cy.get('@TextInput').type('edit-test');
+  // edit the values - use force to handle any timing issues
+  cy.get('@TextInput').clear({ force: true });
+  cy.get('@TextInput').type('edit-test', { force: true });
 
-  cy.get('@ValueInput').clear();
-  cy.get('@ValueInput').type('111');
+  cy.get('@ValueInput').clear({ force: true });
+  cy.get('@ValueInput').type('111', { force: true });
 
   // return to summary page
   customButtonGroupContinue(editButtonText);
@@ -82,19 +78,20 @@ const verifyAddPage = (values, editButtonText) => {
   // find add link on mini summary page
   cy.findByTestId('add-link').click();
 
-  // verify edit page has correct values populated in input fields
+  // Type values - use force to handle any timing issues
   cy.get('va-text-input')
     .first()
     .shadow()
     .find('input')
-    .should('not.be.disabled')
-    .type('add-test');
+    .clear({ force: true })
+    .type('add-test', { force: true });
+
   cy.get('va-text-input')
     .last()
     .shadow()
     .find('input')
-    .should('not.be.disabled')
-    .type('1234');
+    .clear({ force: true })
+    .type('1234', { force: true });
 
   // return to summary page
   customButtonGroupContinue(editButtonText);

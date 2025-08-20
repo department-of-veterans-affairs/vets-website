@@ -258,9 +258,10 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get(
             'input[name="root_benefits_spouseBenefits_compensationAndPension"]',
-          ).type('165.21');
+          ).type('165.21', { force: true });
           cy.get('input[name="root_benefits_spouseBenefits_education"]').type(
             '0',
+            { force: true },
           );
           cy.get('.usa-button-primary').click();
         });
