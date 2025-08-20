@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/sort-prop-types */
+import classNames from 'classnames';
 import React, { forwardRef, useEffect, useMemo, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui/focus';
@@ -82,8 +83,9 @@ export const useHeadingLevels = (userHeaderLevel, isReviewPage) => {
   }
 
   const headingLevel = userHeaderLevel ?? defaultLevel;
-  const headingStyle =
-    isMinimalHeader && !isReviewPage ? 'vads-u-font-size--h2' : '';
+  const headingStyle = {
+    'vads-u-font-size--h2': isMinimalHeader && !isReviewPage,
+  };
 
   return { headingLevel, headingStyle };
 };
@@ -374,10 +376,10 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
 
     const Title = ({ textType }) => {
       const text = getText(textType, updatedItemData, props.data);
-
+      const baseClasses = ['vads-u-color--gray-dark', 'vads-u-margin-top--0'];
       return text ? (
         <Heading
-          className={`vads-u-color--gray-dark vads-u-margin-top--0${headingStyle}`}
+          className={classNames(baseClasses, headingStyle)}
           data-title-for-noun-singular={nounSingular}
         >
           {text}
