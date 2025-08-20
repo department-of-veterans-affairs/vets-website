@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, fireEvent } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import * as ReactRedux from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
@@ -109,33 +109,5 @@ describe('ProfileSubNavItems', () => {
       .exist;
     expect(container.querySelector('va-sidenav-item[label="Direct Deposit"]'))
       .to.not.exist;
-  });
-
-  it('calls clickHandler and records event on click', () => {
-    useSelectorStub.returns(false);
-    const clickHandler = sinon.spy();
-    const { container } = renderSubNav(
-      <ProfileSubNavItems
-        routes={defaultRoutes}
-        isLOA3
-        isInMVI
-        clickHandler={clickHandler}
-      />,
-      {
-        store,
-      },
-    );
-    const link = container.querySelector(
-      'va-sidenav-item[label="Personal Info"]',
-    );
-    fireEvent(
-      link,
-      new CustomEvent('vaRouteChange', {
-        detail: { href: '/profile/personal-info' },
-        bubbles: true,
-        composed: true,
-      }),
-    );
-    expect(clickHandler.calledOnce).to.be.true;
   });
 });

@@ -7,19 +7,13 @@ import {
   VaSidenavSubmenu,
 } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { useHistory, useLocation } from 'react-router-dom';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import recordEvent from 'platform/monitoring/record-event';
 import { selectIsBlocked } from '../selectors';
-import { PROFILE_PATH_NAMES } from '../constants';
 
-function ProfileSubNavItems({ routes, isLOA3, isInMVI, clickHandler = null }) {
+function ProfileSubNavItems({ routes, isLOA3, isInMVI }) {
   const history = useHistory();
   const { pathname } = useLocation();
   const isBlocked = useSelector(selectIsBlocked); // incompetent, fiduciary flag, deceased
-  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const showPaperlessDelivery = useToggleValue(
-    TOGGLE_NAMES.profileShowPaperlessDelivery,
-  );
 
   // Filter out the routes the user cannot access due to
   // not being in MVI/MPI, not having a high enough LOA,
@@ -34,88 +28,15 @@ function ProfileSubNavItems({ routes, isLOA3, isInMVI, clickHandler = null }) {
     return !(route.requiresMVI && !isInMVI);
   });
 
-  let notificationSettingsIndex;
-  let paperlessDeliveryIndex;
-  let beforeRoutes;
-  let nestedRoutes;
-  let afterRoutes;
-  if (showPaperlessDelivery) {
-    notificationSettingsIndex = filteredRoutes.findIndex(
-      r => r.name === PROFILE_PATH_NAMES.NOTIFICATION_SETTINGS,
-    );
-    paperlessDeliveryIndex = filteredRoutes.findIndex(
-      r => r.name === PROFILE_PATH_NAMES.PAPERLESS_DELIVERY,
-    );
-    beforeRoutes = filteredRoutes.slice(0, notificationSettingsIndex);
-    nestedRoutes = filteredRoutes.slice(
-      notificationSettingsIndex,
-      paperlessDeliveryIndex + 1,
-    );
-    afterRoutes = filteredRoutes.slice(paperlessDeliveryIndex + 1);
-  }
-
   const recordNavUserEvent = e => {
     recordEvent({
       event: 'nav-sidenav',
     });
-    if (clickHandler) {
-      clickHandler();
-    }
     const { href } = e.detail;
     history.push(href);
   };
 
   const isActive = path => (pathname === path ? true : undefined);
-  const hasSubmenu = !!nestedRoutes?.length;
-
-  if (showPaperlessDelivery) {
-    return (
-      <VaSidenav
-        header="Profile"
-        icon-background-color="vads-color-primary"
-        icon-name="account_circle"
-        role="navigation"
-      >
-        {beforeRoutes.map(route => (
-          <VaSidenavItem
-            currentPage={isActive(route.path)}
-            key={route.name}
-            href={route.path}
-            label={route.name}
-            routerLink="true"
-            onVaRouteChange={recordNavUserEvent}
-          />
-        ))}
-        {hasSubmenu && (
-          <VaSidenavSubmenu
-            key="Communication settings"
-            label="Communication settings"
-          >
-            {nestedRoutes.map(route => (
-              <VaSidenavItem
-                currentPage={isActive(route.path)}
-                key={route.name}
-                href={route.path}
-                label={route.name}
-                routerLink="true"
-                onVaRouteChange={recordNavUserEvent}
-              />
-            ))}
-          </VaSidenavSubmenu>
-        )}
-        {afterRoutes.map(route => (
-          <VaSidenavItem
-            currentPage={isActive(route.path)}
-            key={route.name}
-            href={route.path}
-            label={route.name}
-            routerLink="true"
-            onVaRouteChange={recordNavUserEvent}
-          />
-        ))}
-      </VaSidenav>
-    );
-  }
 
   return (
     <VaSidenav
@@ -124,16 +45,60 @@ function ProfileSubNavItems({ routes, isLOA3, isInMVI, clickHandler = null }) {
       icon-name="account_circle"
       role="navigation"
     >
-      {filteredRoutes.map(route => (
-        <VaSidenavItem
-          currentPage={isActive(route.path)}
-          key={route.name}
-          href={route.path}
-          label={route.name}
-          routerLink="true"
-          onVaRouteChange={recordNavUserEvent}
-        />
-      ))}
+      {filteredRoutes.map(route => {
+        // Checks if route should be rendered inside a submenu by looking for a subnavParent
+        // If route has a subnavParent, checks for all other routes with the same subnavParent
+        // If there are 2 or more routes with the same subnavParent, render them inside a submenu
+        // If route is not the first child of a subnavParent, skip because it's rendered elsewhere
+        // If there is only 1 route for a subnavParent, render as individual route
+        if (route.subnavParent) {
+          const subnavChildren = filteredRoutes.filter(
+            subnavRoute => subnavRoute.subnavParent === route.subnavParent,
+          );
+          const hasSubnavChildren = subnavChildren.length > 1;
+          const isFirstChild = subnavChildren[0]?.name === route.name;
+          if (!isFirstChild) return null;
+          if (!hasSubnavChildren) {
+            return (
+              <VaSidenavItem
+                currentPage={isActive(route.path)}
+                key={route.name}
+                href={route.path}
+                label={route.name}
+                routerLink="true"
+                onVaRouteChange={recordNavUserEvent}
+              />
+            );
+          }
+          return (
+            <VaSidenavSubmenu
+              key={route.subnavParent}
+              label={route.subnavParent}
+            >
+              {subnavChildren.map(subnavChild => (
+                <VaSidenavItem
+                  currentPage={isActive(subnavChild.path)}
+                  key={subnavChild.name}
+                  href={subnavChild.path}
+                  label={subnavChild.name}
+                  routerLink="true"
+                  onVaRouteChange={recordNavUserEvent}
+                />
+              ))}
+            </VaSidenavSubmenu>
+          );
+        }
+        return (
+          <VaSidenavItem
+            currentPage={isActive(route.path)}
+            key={route.name}
+            href={route.path}
+            label={route.name}
+            routerLink="true"
+            onVaRouteChange={recordNavUserEvent}
+          />
+        );
+      })}
     </VaSidenav>
   );
 }
@@ -147,8 +112,6 @@ ProfileSubNavItems.propTypes = {
       name: PropTypes.string.isRequired,
     }),
   ).isRequired,
-  // Optional handler to fire when a nav item is clicked
-  clickHandler: PropTypes.func,
 };
 
 export default ProfileSubNavItems;
