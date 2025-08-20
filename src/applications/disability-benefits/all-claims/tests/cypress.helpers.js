@@ -110,6 +110,9 @@ export const postItf = () => ({
   },
 });
 
+const regexNonWord = /[^\w]/g;
+export const sippableId = str =>
+  (str || 'blank').replace(regexNonWord, '').toLowerCase();
 /**
  * Setup for the e2e test, including any cleanup and mocking api responses
  * @param {object} cy
@@ -578,6 +581,22 @@ export const pageHooks = (cy, testOptions) => ({
       }
     });
     cy.findByText(/continue/i, { selector: 'button' }).click();
+  },
+
+  'supporting-evidence/private-medical-records-release': () => {
+    cy.get('@testData').then(data => {
+      if (data.disability526Enable2024Form4142 === true) {
+        data.newDisabilities.map(disability => {
+          const condition = sippableId(disability.condition);
+          return cy
+            .get(
+              `input[name="root_providerFacility_0_treatedDisabilityNames_${condition}`,
+            )
+            .should('be.visible');
+        });
+        cy.fillPage();
+      }
+    });
   },
 
   'supporting-evidence/private-medical-records-upload': () => {
