@@ -1,4 +1,19 @@
 const { defineConfig } = require('cypress');
+const path = require('path');
+
+function ghAnnotate({ file, title, message, line = 1 }) {
+  const esc = s =>
+    String(s)
+      .replace(/%/g, '%25')
+      .replace(/\r/g, '%0D')
+      .replace(/\n/g, '%0A');
+  process.stdout.write(
+    `::warning file=${esc(file)},line=${line},title=${esc(title)}::${esc(
+      message,
+    )}\n`,
+  );
+}
+const touchedSpecs = new Set();
 
 const cypressConfig = {
   viewportWidth: 1920,
@@ -185,10 +200,33 @@ const cypressConfig = {
   },
   e2e: {
     setupNodeEvents(on, config) {
-      return require('../src/platform/testing/e2e/cypress/plugins/index')(
+      const nodeConfig = require('../src/platform/testing/e2e/cypress/plugins/index')(
         on,
         config,
       );
+
+      on('task', {
+        recordNetworkTouch(specAbs) {
+          touchedSpecs.add(specAbs);
+          return null;
+        },
+      });
+
+      on('after:spec', spec => {
+        if (!touchedSpecs.has(spec.absolute)) return;
+        const workspace = process.env.GITHUB_WORKSPACE || process.cwd();
+        const rel = path.relative(workspace, spec.absolute).replace(/\\/g, '/');
+        ghAnnotate({
+          file: rel,
+          line: 1,
+          title: 'Unhandled network calls',
+          message:
+            'This spec made real network requests—add cy.intercept() or stubs.',
+        });
+        touchedSpecs.delete(spec.absolute);
+      });
+
+      return nodeConfig || config;
     },
     baseUrl: 'http://localhost:3001',
     specPattern: 'src/**/tests/**/*.cypress.spec.js?(x)',
