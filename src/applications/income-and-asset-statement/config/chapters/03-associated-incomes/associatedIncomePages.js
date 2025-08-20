@@ -19,6 +19,7 @@ import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array
 import {
   formatCurrency,
   formatPossessiveString,
+  fullNameUIHelper,
   generateDeleteDescription,
   isDefined,
   isIncomeTypeInfoIncomplete,
@@ -234,8 +235,14 @@ const nonVeteranIncomeRecipientPage = {
 /** @returns {PageSchema} */
 const recipientNamePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Financial account recipient'),
-    recipientName: fullNameNoSuffixUI(title => `Income recipient’s ${title}`),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      showUpdatedContent()
+        ? 'Person who receives this income'
+        : 'Financial account recipient',
+    ),
+    recipientName: showUpdatedContent()
+      ? fullNameUIHelper()
+      : fullNameNoSuffixUI(title => `Income recipient’s ${title}`),
   },
   schema: {
     type: 'object',

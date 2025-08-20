@@ -21,7 +21,7 @@ export const PROCESSING_BANNER = {
 export const ERROR_BANNER = {
   HEADER: 'We couldn’t process the accepted request',
   COPY:
-    'We’re sorry, there was a problem with our system. We weren’t able to process your decision and update the status of the request. To try again, contact the claimant and ask them to resubmit VA Form 21-22.',
+    'We’re sorry, there was a problem with our system. We weren’t able to process the accepted request. Power of attorney has not been established with this claimant. To try again, ask the claimant to resubmit online VA Form 21-22.',
 };
 
 export const expiresSoon = expDate => {
