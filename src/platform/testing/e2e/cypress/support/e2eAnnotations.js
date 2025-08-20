@@ -50,3 +50,14 @@ afterEach(() => {
     touched = false;
   }
 });
+
+Cypress.on('window:before:load', win => {
+  // eslint-disable-next-line no-param-reassign
+  win.__annotator__ = {
+    wrapped: true,
+    getTouched: () => touched,
+    mark: () => {
+      touched = true;
+    },
+  };
+});
