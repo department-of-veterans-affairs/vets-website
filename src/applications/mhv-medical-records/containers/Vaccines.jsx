@@ -74,11 +74,9 @@ const Vaccines = props => {
   } = useSelector(state => state.mr.vaccines);
   const user = useSelector(state => state.user.profile);
   const refresh = useSelector(state => state.mr.refresh);
-  const { allowTxtDownloads, useBackendPagination } = useSelector(state => {
+  const { useBackendPagination } = useSelector(state => {
     const toggles = state.featureToggles;
     return {
-      allowTxtDownloads:
-        toggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads],
       useBackendPagination:
         toggles[
           FEATURE_FLAG_NAMES.mhvMedicalRecordsSupportBackendPaginationVaccine
@@ -293,13 +291,9 @@ const Vaccines = props => {
               description="Vaccines - List"
               list
               downloadPdf={generateVaccinesPdf}
-              allowTxtDownloads={allowTxtDownloads}
               downloadTxt={generateVaccinesTxt}
             />
-            <DownloadingRecordsInfo
-              allowTxtDownloads={allowTxtDownloads}
-              description="Vaccines"
-            />
+            <DownloadingRecordsInfo description="Vaccines" />
             {useBackendPagination && vaccines ? (
               <RecordListNew
                 records={vaccines?.map(vaccine => ({

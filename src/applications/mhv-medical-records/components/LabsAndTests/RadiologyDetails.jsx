@@ -49,11 +49,7 @@ const RadiologyDetails = props => {
   const processingAlertHeadingRef = useRef(null);
 
   const user = useSelector(state => state.user.profile);
-  const { allowTxtDownloads, allowMarchUpdates } = useSelector(state => ({
-    allowTxtDownloads:
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
-      ],
+  const { allowMarchUpdates } = useSelector(state => ({
     allowMarchUpdates:
       state.featureToggles[
         FEATURE_FLAG_NAMES.mhvMedicalRecordsUpdateLandingPage
@@ -470,12 +466,8 @@ ${record.results}`;
           description="L&TR Detail"
           downloadPdf={downloadPdf}
           downloadTxt={generateRadiologyTxt}
-          allowTxtDownloads={allowTxtDownloads}
         />
-        <DownloadingRecordsInfo
-          description="L&TR Detail"
-          allowTxtDownloads={allowTxtDownloads}
-        />
+        <DownloadingRecordsInfo description="L&TR Detail" />
 
         <div className="test-details-container max-80">
           <HeaderSection header="Details about this test">

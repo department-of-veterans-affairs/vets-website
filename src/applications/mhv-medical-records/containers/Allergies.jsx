@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+
 import PropTypes from 'prop-types';
 import {
   generatePdfScaffold,
@@ -57,12 +57,6 @@ const Allergies = props => {
     state => state.mr.allergies.listCurrentAsOf,
   );
   const refresh = useSelector(state => state.mr.refresh);
-  const allowTxtDownloads = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
-      ],
-  );
 
   const user = useSelector(state => state.user.profile);
   const { isAcceleratingAllergies } = useAcceleratedData();
@@ -226,13 +220,9 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
               description="Allergies - List"
               list
               downloadPdf={generateAllergiesPdf}
-              allowTxtDownloads={allowTxtDownloads}
               downloadTxt={generateAllergiesTxt}
             />
-            <DownloadingRecordsInfo
-              allowTxtDownloads={allowTxtDownloads}
-              description="Allergies"
-            />
+            <DownloadingRecordsInfo description="Allergies" />
             <RecordList
               records={allergies?.map(allergy => ({
                 ...allergy,
