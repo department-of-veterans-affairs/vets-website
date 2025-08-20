@@ -58,35 +58,25 @@ function ProfileSubNavItems({ routes, isLOA3, isInMVI }) {
           const hasSubnavChildren = subnavChildren.length > 1;
           const isFirstChild = subnavChildren[0]?.name === route.name;
           if (!isFirstChild) return null;
-          if (!hasSubnavChildren) {
+          if (hasSubnavChildren) {
             return (
-              <VaSidenavItem
-                currentPage={isActive(route.path)}
-                key={route.name}
-                href={route.path}
-                label={route.name}
-                routerLink="true"
-                onVaRouteChange={recordNavUserEvent}
-              />
+              <VaSidenavSubmenu
+                key={route.subnavParent}
+                label={route.subnavParent}
+              >
+                {subnavChildren.map(subnavChild => (
+                  <VaSidenavItem
+                    currentPage={isActive(subnavChild.path)}
+                    key={subnavChild.name}
+                    href={subnavChild.path}
+                    label={subnavChild.name}
+                    routerLink="true"
+                    onVaRouteChange={recordNavUserEvent}
+                  />
+                ))}
+              </VaSidenavSubmenu>
             );
           }
-          return (
-            <VaSidenavSubmenu
-              key={route.subnavParent}
-              label={route.subnavParent}
-            >
-              {subnavChildren.map(subnavChild => (
-                <VaSidenavItem
-                  currentPage={isActive(subnavChild.path)}
-                  key={subnavChild.name}
-                  href={subnavChild.path}
-                  label={subnavChild.name}
-                  routerLink="true"
-                  onVaRouteChange={recordNavUserEvent}
-                />
-              ))}
-            </VaSidenavSubmenu>
-          );
         }
         return (
           <VaSidenavItem
