@@ -67,16 +67,49 @@ const ConfirmationDenied = ({
           Application for VA education benefits (Form 22-1990)
         </h3>
         <h3 slot="headline">Post-9/11 GI Bill, Chapter 33</h3>
-        {claimantName.trim() ? <p>For {claimantName}</p> : <></>}
-        <dl>
-          <dt>Date received</dt>
-          <dd>{confirmationDate}</dd>
-        </dl>
-        <va-button
-          class="meb-print"
-          text="Print this page"
-          onClick={printPage}
-        />
+
+        <div className="vads-u-margin-bottom--2">
+          <h4 className="vads-u-margin-bottom--1">Who submitted this form</h4>
+          {claimantName.trim() ? (
+            <p className="vads-u-margin--0">{claimantName}</p>
+          ) : (
+            <p className="vads-u-margin--0">Not provided</p>
+          )}
+        </div>
+
+        <div className="vads-u-margin-bottom--2">
+          <h4 className="vads-u-margin-bottom--1">Date received</h4>
+          <p className="vads-u-margin--0">{confirmationDate}</p>
+        </div>
+
+        <div className="vads-u-margin-bottom--3">
+          <h4 className="vads-u-margin-bottom--1">
+            Confirmation for your records
+          </h4>
+          <p className="vads-u-margin-bottom--2">
+            You can print this confirmation page for your records. You can also
+            download your completed application as a PDF.
+          </p>
+        </div>
+
+        <div className="vads-u-margin-bottom--2">
+          <va-button
+            class="meb-print"
+            text="Print this page"
+            onClick={printPage}
+          />
+        </div>
+
+        <div>
+          <va-icon icon="file_download" className="vads-u-margin-right--1" />
+          <a
+            href={encodeURI(LETTER_URL)}
+            download
+            className="vads-u-font-weight--bold"
+          >
+            Download your completed application (PDF)
+          </a>
+        </div>
       </va-summary-box>
 
       <h2>What happens next?</h2>

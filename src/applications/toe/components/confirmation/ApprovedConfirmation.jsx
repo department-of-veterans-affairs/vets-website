@@ -78,18 +78,52 @@ const ApprovedConfirmation = ({
             <h3 slot="headline" style={{ marginTop: '0.625rem' }}>
               Application for VA education benefits (Form 22-1990e)
             </h3>
-            For {user}
-            <div className="vads-u-display--flex vads-u-flex-direction--column">
-              <strong>Date received</strong>
-              {dateReceived}
+            <h4>Transfer of Entitlement</h4>
+
+            <div className="vads-u-margin-bottom--2">
+              <h4 className="vads-u-margin-bottom--1">
+                Who submitted this form
+              </h4>
+              <p className="vads-u-margin--0">{user || 'Not provided'}</p>
             </div>
-            <br />
-            <va-button
-              uswds
-              className="usa-button vads-u-margin-top--3 vads-u-width--auto"
-              text="Print this page"
-              onClick={printPage}
-            />
+
+            <div className="vads-u-margin-bottom--2">
+              <h4 className="vads-u-margin-bottom--1">Date received</h4>
+              <p className="vads-u-margin--0">{dateReceived}</p>
+            </div>
+
+            <div className="vads-u-margin-bottom--3">
+              <h4 className="vads-u-margin-bottom--1">
+                Confirmation for your records
+              </h4>
+              <p className="vads-u-margin-bottom--2">
+                You can print this confirmation page for your records. You can
+                also download your completed application as a PDF.
+              </p>
+            </div>
+
+            <div className="vads-u-margin-bottom--2">
+              <va-button
+                uswds
+                className="usa-button vads-u-margin-top--3 vads-u-width--auto"
+                text="Print this page"
+                onClick={printPage}
+              />
+            </div>
+
+            <div>
+              <va-icon
+                icon="file_download"
+                className="vads-u-margin-right--1"
+              />
+              <a
+                href={encodeURI(LETTER_ENDPOINT)}
+                download
+                className="vads-u-font-weight--bold"
+              >
+                Download your completed application (PDF)
+              </a>
+            </div>
           </div>
         </va-alert>
       </div>
