@@ -1,17 +1,28 @@
-// src/applications/_debug/tests/network-touch.cypress.spec.js
-describe('network-touch smoke (XHR)', () => {
-  it('forces a real XHR', () => {
-    cy.visit('/'); // or 'about:blank' if your app isn’t up
+describe('annotator debug', () => {
+  it('confirms hook + flips touched', () => {
+    cy.task('annotatorCanary', 'spec booted');
+    cy.visit('/');
+
+    // (A) support hook present?
+    cy.window().then(win => {
+      expect(Boolean(win.__annotator__ && win.__annotator__.wrapped)).to.eq(
+        true,
+      );
+    });
+
+    // (B) cause a real XHR (should flip 'touched' via XHR.prototype.open)
     cy.window().then(win => {
       const xhr = new win.XMLHttpRequest();
-      xhr.open('GET', 'https://httpbin.org/status/204'); // any cross-origin URL
+      xhr.open('GET', 'https://httpbin.org/status/204');
       try {
         xhr.send();
-      } catch (e) {
-        /* ignore CORS errors */
-      }
+        // eslint-disable-next-line no-empty
+      } catch (_) {}
     });
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(250); // give it a tick to fire
+
+    // (C) verify the flag flipped
+    cy.window().then(win => {
+      expect(win.__annotator__.getTouched(), 'touched flipped').to.eq(true);
+    });
   });
 });
