@@ -50,6 +50,10 @@ const RemoveButton = ({ onClick, srText }) => (
     label={srText}
   />
 );
+RemoveButton.propTypes = {
+  srText: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
+};
 
 const MissingInformationAlert = ({ children }) => (
   <div className="vads-u-margin-top--2">
@@ -58,6 +62,10 @@ const MissingInformationAlert = ({ children }) => (
     </va-alert>
   </div>
 );
+
+MissingInformationAlert.propTypes = {
+  children: PropTypes.any.isRequired,
+};
 
 const IncompleteLabel = () => (
   <div className="vads-u-margin-bottom--1">
@@ -72,6 +80,11 @@ const DuplicateInformationAlert = ({ status = 'warning', children }) => (
     </va-alert>
   </div>
 );
+
+DuplicateInformationAlert.propTypes = {
+  children: PropTypes.any.isRequired,
+  status: PropTypes.string,
+};
 
 const DuplicateLabel = () => (
   <div className="vads-u-margin-bottom--1">
@@ -208,6 +221,7 @@ const ArrayBuilderCards = ({
   );
 
   Card.propTypes = {
+    children: PropTypes.any.isRequired,
     index: PropTypes.number.isRequired,
   };
 

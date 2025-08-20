@@ -539,7 +539,7 @@ export const processArrayData = array => {
  */
 export const getItemDataFromPath = ({
   arrayPath,
-  duplicateChecks,
+  duplicateChecks = {},
   itemIndex,
   fullData,
 }) =>

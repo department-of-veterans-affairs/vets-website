@@ -111,9 +111,9 @@ export default function ArrayBuilderItemPage({
 
     const NavButtons = props.NavButtons || FormNavButtons;
     const handlers = {
-      onSubmit: () => {
+      onSubmit: newProps => {
         setShowDuplicateModal(null);
-        onSubmit();
+        onSubmit(newProps);
       },
       onDuplicateModalClose: () => {
         setShowDuplicateModal(false);

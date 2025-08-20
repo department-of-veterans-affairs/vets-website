@@ -391,6 +391,10 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
       ) : null;
     };
 
+    Title.propTypes = {
+      textType: PropTypes.string.isRequired,
+    };
+
     const UpdatedAlert = ({ show }) => {
       return (
         <div ref={updatedAlertRef}>
@@ -411,6 +415,10 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
       );
     };
 
+    UpdatedAlert.propTypes = {
+      show: PropTypes.bool.isRequired,
+    };
+
     const RemovedAlert = ({ show }) => {
       return (
         <div ref={removedAlertRef}>
@@ -424,6 +432,10 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
           ) : null}
         </div>
       );
+    };
+
+    RemovedAlert.propTypes = {
+      show: PropTypes.bool.isRequired,
     };
 
     const ReviewErrorAlert = ({ show }) => {
@@ -444,6 +456,10 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
           ) : null}
         </div>
       );
+    };
+
+    ReviewErrorAlert.propTypes = {
+      show: PropTypes.bool.isRequired,
     };
 
     const Alerts = () => {
