@@ -14,11 +14,8 @@ const ArrayBuilderSummaryReviewPage = ({
   hideAdd,
 }) => {
   const { reviewPanelHeadingLevel } = arrayBuilderOptions;
-  const { reviewHeadingLevel } = useHeadingLevels(
-    reviewPanelHeadingLevel,
-    true,
-  );
-  const Header = `h${reviewHeadingLevel}`;
+  const { headingLevel } = useHeadingLevels(reviewPanelHeadingLevel, true);
+  const Header = `h${headingLevel}`;
   return (
     <>
       {arrayData?.length ? (

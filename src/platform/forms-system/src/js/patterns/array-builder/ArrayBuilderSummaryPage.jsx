@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/sort-prop-types */
-import React, { forwardRef, useEffect, useRef, useState } from 'react';
+import React, { forwardRef, useEffect, useMemo, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui/focus';
 import { scrollAndFocus } from 'platform/utilities/scroll';
@@ -72,19 +72,20 @@ function getYesNoReviewErrorMessage(reviewErrors, hasItemsKey) {
 }
 
 export const useHeadingLevels = (userHeaderLevel, isReviewPage) => {
-  const isMinimalHeader = useRef(null);
-  if (isMinimalHeader.current === null) {
-    // only check once
-    isMinimalHeader.current = isMinimalHeaderPath();
-  }
-  const headingLevel =
-    userHeaderLevel || (isMinimalHeader.current && !isReviewPage ? '1' : '3');
-  const reviewHeadingLevel =
-    userHeaderLevel || (isMinimalHeader.current ? '3' : '4');
-  const headingStyle =
-    isMinimalHeader.current && !isReviewPage ? ' vads-u-font-size--h2' : '';
+  const isMinimalHeader = useMemo(() => isMinimalHeaderPath(), []);
+  let defaultLevel;
 
-  return { headingLevel, headingStyle, reviewHeadingLevel };
+  if (isMinimalHeader) {
+    defaultLevel = isReviewPage ? '3' : '1';
+  } else {
+    defaultLevel = isReviewPage ? '4' : '3';
+  }
+
+  const headingLevel = userHeaderLevel ?? defaultLevel;
+  const headingStyle =
+    isMinimalHeader && !isReviewPage ? 'vads-u-font-size--h2' : '';
+
+  return { headingLevel, headingStyle };
 };
 
 /**
