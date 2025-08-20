@@ -98,7 +98,7 @@ export const formConfig = {
       pages: {
         militaryServiceTimeServed: {
           path: 'service/time-served',
-          title: 'Military Service Time Served',
+          title: 'Length of service',
           uiSchema: militaryServiceTimeServed.uiSchema,
           schema: militaryServiceTimeServed.schema,
         },
@@ -138,7 +138,7 @@ export const formConfig = {
         },
         militaryService: {
           path: 'service/current',
-          title: 'Military Service',
+          title: 'Current Service',
           uiSchema: militaryService.uiSchema,
           schema: militaryService.schema,
           onNavForward: ({ formData, goPath }) => {
@@ -210,7 +210,7 @@ export const formConfig = {
       pages: {
         disabilityRating: {
           path: 'disability',
-          title: 'Disability Rating',
+          title: 'Disability',
           uiSchema: disabilityRating.uiSchema,
           schema: disabilityRating.schema,
         },
