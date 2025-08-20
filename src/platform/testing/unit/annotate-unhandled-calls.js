@@ -64,7 +64,7 @@ module.exports = {
 
         ghAnnotate({
           file: rel,
-          line: 1, // pin to first line so it shows inline in PR diff
+          line: 1,
           title: 'Unhandled network calls',
           message:
             'This spec made real network requests. Add mocks (nock/msw) or stubs.',
