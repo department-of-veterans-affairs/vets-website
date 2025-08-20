@@ -113,7 +113,7 @@ const DocumentUpload = () => {
     // Custom upload functionality that doesn't depend on forms-system Redux
     const fileUploadUrl = `${
       environment.API_URL
-    }/travel_pay/v0/claims/12345/documents/form-data`; // Using mock claim ID
+    }/travel_pay/v0/claims/12345/documents`; // Using mock claim ID
 
     // Check if we're replacing an existing file
     const isReplacement = uploadedFile !== null;
@@ -153,7 +153,7 @@ const DocumentUpload = () => {
 
     // Create FormData payload
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append('document', file);
 
     // Upload using apiRequest
     const performUpload = async () => {
