@@ -8,6 +8,7 @@ import {
   createPutHandler,
   createPostHandler,
   jsonResponse,
+  networkError,
   setupServer,
 } from 'platform/testing/unit/msw-adapter';
 import { handleTokenRequest } from '../helpers';
@@ -435,5 +436,24 @@ describe('handleTokenRequest', () => {
       csp: 'logingov',
     });
     expect(handleTokenSpy.called).to.be.false;
+  });
+
+  it('should NOT call generateOAuthError when `requestToken` fails', async () => {
+    server.use(
+      createPostHandler('https://dev-api.va.gov/v0/sign_in/token?*', () => {
+        return networkError('failure');
+      }),
+    );
+    const handleTokenSpy = sinon.spy();
+    localStorage.setItem('state', 'hhh');
+    localStorage.setItem('code_verifier', 'anything');
+
+    await handleTokenRequest({
+      code: 'hello',
+      state: 'hhh',
+      generateOAuthError: handleTokenSpy,
+      csp: 'logingov',
+    });
+    expect(handleTokenSpy.called).to.be.true;
   });
 });
