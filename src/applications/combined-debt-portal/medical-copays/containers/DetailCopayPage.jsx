@@ -118,7 +118,10 @@ const DetailCopayPage = ({ match }) => {
         wrapping
       />
       <div className="medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">
-        <h1 data-testid="detail-page-title" className="vads-u-margin-bottom--2">
+        <h1
+          data-testid="detail-copay-page-title-otpp"
+          className="vads-u-margin-bottom--2"
+        >
           {title}
         </h1>
         <Alert type={alert} copay={selectedCopay} />
@@ -127,35 +130,26 @@ const DetailCopayPage = ({ match }) => {
             Copay details
           </h2>
           <dl className="vads-u-margin--0">
-            <div
-              role="none"
-              className="vads-u-display--flex vads-u-flex-direction--row"
-            >
+            <div className="vads-u-display--flex vads-u-flex-direction--row">
               <dt>Current balance:</dt>
               <dd className="vads-u-margin-left--1 vads-u-font-weight--bold">
                 {formatCurrency(selectedCopay?.pHNewBalance)}
               </dd>
             </div>
-            <div
-              role="none"
-              className="vads-u-display--flex vads-u-flex-direction--row"
-            >
+            <div className="vads-u-display--flex vads-u-flex-direction--row">
               <dt>Payment due:</dt>
               <dd className="vads-u-margin-left--1 vads-u-font-weight--bold">
                 {formatDate(getPaymentDueDate())}
               </dd>
             </div>
-            {selectedCopay.pHTotCharges ? (
-              <div
-                role="none"
-                className="vads-u-display--flex vads-u-flex-direction--row"
-              >
+            {selectedCopay.pHTotCharges ? null : (
+              <div className="vads-u-display--flex vads-u-flex-direction--row">
                 <dt>New charges:</dt>
                 <dd className="vads-u-margin-left--1 vads-u-font-weight--bold">
                   {formatCurrency(selectedCopay.pHTotCharges)}
                 </dd>
               </div>
-            ) : null}
+            )}
           </dl>
           <h2 className="vads-u-margin-top--2 vads-u-font-size--h3">
             Account number
@@ -172,7 +166,6 @@ const DetailCopayPage = ({ match }) => {
             />
           ) : (
             <StatementCharges
-              data-testid="statement-charges"
               copay={selectedCopay}
               showCurrentStatementHeader
               showOneThingPerPage={showCDPOneThingPerPage}

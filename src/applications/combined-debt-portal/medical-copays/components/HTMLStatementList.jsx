@@ -33,7 +33,10 @@ const HTMLStatementList = ({ selectedId, oneThingPerPageActive = false }) => {
         months for this facility.
       </p>
       {oneThingPerPageActive ? (
-        <ul className="no-bullets vads-u-x--0">
+        <ul
+          className="no-bullets vads-u-x--0"
+          data-testid="otpp-statement-list"
+        >
           {previousSortedFacilityCopays.map(statement => (
             <HTMLStatementLink
               id={statement.id}
@@ -43,7 +46,7 @@ const HTMLStatementList = ({ selectedId, oneThingPerPageActive = false }) => {
           ))}
         </ul>
       ) : (
-        <ul className="no-bullets vads-u-x--0">
+        <ul className="no-bullets vads-u-x--0" data-testid="statement-list">
           {sortedFacilityCopays.map(statement => (
             <HTMLStatementLink
               id={statement.id}
