@@ -60,19 +60,18 @@ const VaFileInputMultipleField = props => {
     [percentUploaded],
   );
 
-  // update the additional inputs with error or with data if prefill
+  // update the additional inputs with prefill data and/or set errors on additional inputs
   useEffect(
     () => {
-      let id;
-      if (
-        componentRef.current &&
-        componentRef.current.shadowRoot &&
-        uiOptions.additionalInputUpdate
-      ) {
-        // using a delay because the slot content does not render immediatley
-        // TODO: find a cleaner solution than setTimeout
-        id = setTimeout(() => {
-          errorManager.getPasswordInstances().forEach((_, index) => {
+      // using a delay because the slot content does not render immediatley
+      // TODO: find a cleaner solution than setTimeout
+      const id = setTimeout(() => {
+        if (
+          componentRef.current &&
+          componentRef.current.shadowRoot &&
+          uiOptions.additionalInputUpdate
+        ) {
+          childrenProps.formData.forEach((_, index) => {
             const instance = componentRef.current.shadowRoot.getElementById(
               `instance-${index}`,
             );
@@ -81,10 +80,10 @@ const VaFileInputMultipleField = props => {
                 .querySelector('slot')
                 ?.assignedNodes()[0]?.firstElementChild;
               if (slotContent) {
-                // component missing additional data and has been touched and instance not already in error state
                 const file = childrenProps.formData[index];
                 const _isEmpty =
                   !file || (file && isEmpty(file.additionalData));
+                // component missing additional data and has been touched and instance not already in error state
                 const error =
                   _isEmpty &&
                   index < errorManager.getLastTouched() &&
@@ -100,8 +99,9 @@ const VaFileInputMultipleField = props => {
               }
             }
           });
-        }, 50);
-      }
+        }
+      }, 150);
+
       return () => {
         clearTimeout(id);
       };
@@ -120,17 +120,6 @@ const VaFileInputMultipleField = props => {
     },
     [mappedProps.error],
   );
-
-  // get the va-file-input instances
-  function getFileInputInstances() {
-    let els = [];
-    if (componentRef.current?.shadowRoot) {
-      els = Array.from(
-        componentRef.current.shadowRoot.querySelectorAll('va-file-input'),
-      );
-    }
-    return els;
-  }
 
   const assignFileUploadToStore = (uploadedFile, index) => {
     if (!uploadedFile) return;
@@ -165,37 +154,42 @@ const VaFileInputMultipleField = props => {
 
     const _errors = [...errors];
     // if there is no back-end (e.g. mock-forms) don't set network errors that would prevent navigation
-    if (!uiOptions.skipUpload) {
-      _errors[index] = uploadedFile.errorMessage || null;
-    } else {
-      _errors[index] = null;
-    }
+    const _error = uiOptions.skipUpload
+      ? null
+      : uploadedFile.errorMessage || null;
+    _errors[index] = _error;
     setErrors(_errors);
     assignFileUploadToStore(uploadedFile, index);
   };
 
   const handleFileAdded = async ({ file }, index, mockFormData) => {
     const checks = await standardFileChecks(file);
-    const _errors = [...errors];
+    let fileCheckError;
     if (!checks.checkTypeAndExtensionMatches) {
-      _errors[index] = FILE_TYPE_MISMATCH_ERROR;
-      setErrors(_errors);
-      return;
+      fileCheckError = FILE_TYPE_MISMATCH_ERROR;
     }
+
     if (!!checks.checkIsEncryptedPdf && uiOptions.disallowEncryptedPdfs) {
-      _errors[index] = UNSUPPORTED_ENCRYPTED_FILE_ERROR;
-      setErrors(_errors);
-      return;
+      fileCheckError = UNSUPPORTED_ENCRYPTED_FILE_ERROR;
     }
+
     if (!checks.checkUTF8Encoding) {
-      _errors[index] = UTF8_ENCODING_ERROR;
+      fileCheckError = UTF8_ENCODING_ERROR;
+    }
+
+    const _errors = [...errors];
+    if (fileCheckError) {
+      _errors[index] = fileCheckError;
       setErrors(_errors);
+      errorManager.setFileCheckError(index, true);
       return;
     }
 
+    // file ok
+    errorManager.setFileCheckError(index, false);
     _errors[index] = null;
-
     setErrors(_errors);
+
     const _encrypted = [...encrypted];
     _encrypted[index] = !!checks.checkIsEncryptedPdf;
     setEncrypted(_encrypted);
@@ -206,13 +200,12 @@ const VaFileInputMultipleField = props => {
       return;
     }
 
-    // this file not encrypted
+    // keep track of potential missisng password errors
+    errorManager.addPasswordInstance(index, !!checks.checkIsEncryptedPdf);
+
+    // this file not encrypted - upload right now
     if (!checks.checkIsEncryptedPdf) {
       handleUpload(file, handleFileProcessing, null, index);
-      errorManager.addPasswordInstance(index);
-      // this file is encrypted
-    } else {
-      errorManager.addPasswordInstance(index, true);
     }
   };
 
@@ -257,6 +250,7 @@ const VaFileInputMultipleField = props => {
     switch (action) {
       case 'FILE_ADDED': {
         const _currentIndex = state.length - 1;
+        errorManager.setInternalFileInputErrors(_currentIndex, false);
         handleFileAdded(_file, _currentIndex, mockFormData);
         setCurrentIndex(_currentIndex);
         break;
@@ -282,16 +276,23 @@ const VaFileInputMultipleField = props => {
     }
   };
 
-  const handleAdditionalInput = e => {
-    // get the va-file-input instance from which event was emitted
+  // get the va-file-input instances
+  function getFileInputInstanceIndex(e) {
     const [vaFileInput] = e
       .composedPath()
       .filter(el => el.tagName === 'VA-FILE-INPUT');
 
-    // find the index of the instance
-    const els = getFileInputInstances();
-    const index = els.findIndex(el => el.id === vaFileInput.id);
+    let els = [];
+    if (componentRef.current?.shadowRoot) {
+      els = Array.from(
+        componentRef.current.shadowRoot.querySelectorAll('va-file-input'),
+      );
+    }
+    return els.findIndex(el => el.id === vaFileInput.id);
+  }
 
+  const handleAdditionalInput = e => {
+    const index = getFileInputInstanceIndex(e);
     // update the formData
     if (mappedProps.handleAdditionalInput) {
       const payload = mappedProps.handleAdditionalInput(e);
@@ -305,6 +306,11 @@ const VaFileInputMultipleField = props => {
     }
   };
 
+  const handleInternalFileInputError = e => {
+    const index = getFileInputInstanceIndex(e);
+    errorManager.setInternalFileInputErrors(index, true);
+  };
+
   // get the password errors for any relevant instances
   const passwordErrors = errorManager.getPasswordInstances().map(instance => {
     return instance && instance.hasPasswordError()
@@ -315,10 +321,12 @@ const VaFileInputMultipleField = props => {
   const resetVisualState = errors.map(error => (error ? true : null));
   return (
     <VaFileInputMultiple
+      {...mappedProps}
       error={mappedProps.error}
       ref={componentRef}
       encrypted={encrypted}
       onVaMultipleChange={handleChange}
+      onVaFileInputError={handleInternalFileInputError}
       errors={errors}
       resetVisualState={resetVisualState}
       percentUploaded={percentsUploaded}

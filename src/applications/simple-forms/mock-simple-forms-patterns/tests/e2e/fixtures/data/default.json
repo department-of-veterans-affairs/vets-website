@@ -36,7 +36,26 @@
         "documentStatus": "private"
       }
     },
-    "wcv3FileInputMultiple": [],
+    "wcv3FileInputMultiple": [
+      {
+        "name": "my_form.pdf",
+        "size": 2048,
+        "type": "pdf",
+        "confirmationCode": "123abc",
+        "additionalData": {
+          "documentStatus": "private"
+        }
+      },
+      {
+        "name": "my_png.png",
+        "size": 2048,
+        "type": "png",
+        "confirmationCode": "456efg",
+        "additionalData": {
+          "documentStatus": "private"
+        }
+      }
+    ],
     "vaCompensationType": "none",
     "isCurrentlyActiveDuty": false,
     "wcv3VaCompensationType": "highDisability",

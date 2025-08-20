@@ -67,36 +67,34 @@ const errorStates = {
 export const errorManager = {
   passwordInstances: [],
   additionalInputErrors: [],
+  fileCheckErrors: [],
+  internalFileInputErrors: [],
   touched: null,
 
   setTouched(value = this.passwordInstances.length) {
     this.touched = value;
   },
 
+  setInternalFileInputErrors(index, value) {
+    this.internalFileInputErrors[index] = value;
+  },
+
+  getInternalFileInputErrors() {
+    return this.internalFileInputErrors;
+  },
+
+  setFileCheckError(index, value) {
+    this.fileCheckErrors[index] = value;
+  },
+
+  getFileCheckErrors() {
+    return this.fileCheckErrors;
+  },
+
   addPasswordInstance(index, needsPassword = false) {
     const instance = needsPassword ? new PasswordErrorState() : null;
     if (instance) instance.setNeedsPassword(true);
     this.passwordInstances[index] = instance;
-    // adding a new file
-    // if (index > this.passwordInstances.length) {
-    //   if (needsPassword) {
-    //     instance = new PasswordErrorState();
-    //     instance.setNeedsPassword(true);
-    //   }
-    //   // const instances = [...this.passwordInstances, instance];
-    //   // this.passwordInstances = instances;
-    //   // updating file
-    // } else {
-    //   // eslint-disable-next-line no-lonely-if
-    //   if (needsPassword) {
-    //     instance = new PasswordErrorState();
-    //     instance.setNeedsPassword(true);
-    //     // this.passwordInstances[index] = instance;
-    //   }
-    //   // else {
-    //   //   this.passwordInstances[index] = null;
-    //   // }
-    // }
   },
 
   setHasPassword(index, state) {
