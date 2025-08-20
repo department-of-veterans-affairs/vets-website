@@ -5,6 +5,7 @@ import 'cypress-real-events/support';
 import '@cypress/code-coverage/support';
 import addContext from 'mochawesome/addContext';
 import './commands';
+import './e2eAnnotations';
 
 beforeEach(() => {
   cy.intercept('GET', '/feature_toggles', {
