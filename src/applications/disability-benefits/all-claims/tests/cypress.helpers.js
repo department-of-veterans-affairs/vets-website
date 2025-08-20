@@ -548,6 +548,9 @@ export const pageHooks = (cy, testOptions) => ({
 
   'supporting-evidence/private-medical-records-authorize-release': () => {
     cy.get('@testData').then(data => {
+      if (data.disability526Enable2024Form4142 !== true) {
+        throw new Error(`Unexpectedly showing new 4142 page`);
+      }
       if (data.patient4142Acknowledgement === true) {
         cy.get('h3')
           .invoke('text')
