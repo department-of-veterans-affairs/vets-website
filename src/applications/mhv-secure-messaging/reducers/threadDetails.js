@@ -28,6 +28,7 @@ export const threadDetailsReducer = (state = initialState, action) => {
     case Actions.Thread.GET_THREAD:
       return {
         ...initialState,
+        acceptIntersticial: state.acceptIntersticial,
         draftInProgress: { ...state.draftInProgress },
         ...action.payload,
       };
@@ -122,6 +123,7 @@ export const threadDetailsReducer = (state = initialState, action) => {
     case Actions.Thread.CLEAR_THREAD:
       return {
         ...initialState,
+        acceptIntersticial: state.acceptIntersticial,
         draftInProgress: { ...state.draftInProgress },
       };
     case Actions.Thread.CANNOT_REPLY_ALERT: {

@@ -11,6 +11,7 @@ import {
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
 import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
+import { populatedDraft } from '../selectors';
 import { Paths } from '../util/constants';
 import manifest from '../manifest.json';
 import RecipientsSelect from '../components/ComposeForm/RecipientsSelect';
@@ -30,6 +31,7 @@ const SelectCareTeam = () => {
   const { draftInProgress, acceptIntersticial } = useSelector(
     state => state.sm.threadDetails,
   );
+  const validDraft = useSelector(populatedDraft);
 
   const [careTeamError, setCareTeamError] = useState('');
   const [careTeamsList, setCareTeamsList] = useState([]);
@@ -45,7 +47,7 @@ const SelectCareTeam = () => {
 
   useEffect(
     () => {
-      if (!acceptIntersticial)
+      if (!acceptIntersticial && !validDraft)
         window.location.replace(`${manifest.rootUrl}${Paths.COMPOSE}`);
     },
     [acceptIntersticial],
