@@ -4,6 +4,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import EditMailingAddressPage from '../../../components/EditMailingAddressPage';
+import { focusPrefillAlert } from '../../../util/focus';
 
 export default {
   title: 'Edit mailing address',
@@ -13,6 +14,23 @@ export default {
   uiSchema: {
     address: {
       ...addressUI(),
+      city: {
+        ...addressUI().city,
+        'ui:validations': [
+          (errors, city, formData) => {
+            const address = formData?.address;
+            const cityStr = city?.trim().toUpperCase();
+
+            if (
+              address &&
+              ['APO', 'FPO', 'DPO'].includes(cityStr) &&
+              address.isMilitary !== true
+            ) {
+              errors.addError('Enter a valid city name');
+            }
+          },
+        ],
+      },
       'ui:options': {
         hideOnReview: true,
       },
@@ -24,4 +42,5 @@ export default {
       address: addressSchema(),
     },
   },
+  scrollAndFocusTarget: focusPrefillAlert,
 };

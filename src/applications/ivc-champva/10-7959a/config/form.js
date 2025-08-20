@@ -8,6 +8,7 @@ import SubmissionError from '../../shared/components/SubmissionError';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import transformForSubmit from './submitTransformer';
 import { nameWording, privWrapper } from '../../shared/utilities';
+import { FileFieldCustomSimple } from '../../shared/components/fileUploads/FileUpload';
 import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
 import {
   certifierRoleSchema,
@@ -205,6 +206,8 @@ const formConfig = {
           depends: formData =>
             get('claimStatus', formData) === 'resubmission' &&
             get('claimType', formData) === 'medical',
+          CustomPage: FileFieldCustomSimple,
+          CustomPageReview: null,
           ...medicalUploadSupportingDocs,
         },
         pageij: {
@@ -221,6 +224,8 @@ const formConfig = {
           depends: formData =>
             get('claimStatus', formData) === 'resubmission' &&
             get('claimType', formData) === 'pharmacy',
+          CustomPage: FileFieldCustomSimple,
+          CustomPageReview: null,
           ...pharmacyClaimUploadDocs,
         },
       },

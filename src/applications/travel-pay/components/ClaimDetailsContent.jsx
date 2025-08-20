@@ -8,6 +8,7 @@ import { formatDateTime } from '../util/dates';
 import { STATUSES, FORM_100998_LINK } from '../constants';
 import { toPascalCase } from '../util/string-helpers';
 import DocumentDownload from './DocumentDownload';
+import DecisionReason from './DecisionReason';
 
 const title = 'Your travel reimbursement claim';
 
@@ -22,11 +23,15 @@ export default function ClaimDetailsContent({
   totalCostRequested,
   reimbursementAmount,
   documents,
+  decisionLetterReason,
 }) {
   useSetPageTitle(title);
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const claimsMgmtToggle = useToggleValue(
     TOGGLE_NAMES.travelPayClaimsManagement,
+  );
+  const claimsMgmtDecisionReasonToggle = useToggleValue(
+    TOGGLE_NAMES.travelPayClaimsManagementDecisionReason,
   );
 
   const [appointmentDate, appointmentTime] = formatDateTime(
@@ -35,6 +40,9 @@ export default function ClaimDetailsContent({
   );
   const [createDate, createTime] = formatDateTime(createdOn);
   const [updateDate, updateTime] = formatDateTime(modifiedOn);
+
+  const showDecisionReason =
+    decisionLetterReason && claimsMgmtDecisionReasonToggle;
 
   const getDocLinkList = list =>
     list.map(({ filename, text, documentId }) => (
@@ -86,21 +94,17 @@ export default function ClaimDetailsContent({
       >
         Claim number: {claimNumber}
       </span>
+
       <h2 className="vads-u-font-size--h3">Claim status: {claimStatus}</h2>
       {claimsMgmtToggle && (
         <>
           {STATUSES[toPascalCase(claimStatus)] ? (
-            <>
-              <p className="vads-u-font-weight--bold vads-u-margin-top--2 vads-u-margin-bottom--0">
-                What does this status mean
-              </p>
-              <p
-                className="vads-u-margin-top--0"
-                data-testid="status-definition-text"
-              >
-                {STATUSES[toPascalCase(claimStatus)].definition}
-              </p>
-            </>
+            <p
+              className="vads-u-margin-top--2"
+              data-testid="status-definition-text"
+            >
+              {STATUSES[toPascalCase(claimStatus)].definition}
+            </p>
           ) : (
             <p className="vads-u-margin-top--2">
               If you need help understanding your claim, call the BTSSS call
@@ -109,6 +113,12 @@ export default function ClaimDetailsContent({
               a.m. to 8:00 p.m. ET. Have your claim number ready to share when
               you call.
             </p>
+          )}
+          {showDecisionReason && (
+            <DecisionReason
+              claimStatus={claimStatus}
+              decisionLetterReason={decisionLetterReason}
+            />
           )}
           {documentCategories.clerk.length > 0 &&
             getDocLinkList(documentCategories.clerk)}
@@ -158,14 +168,18 @@ export default function ClaimDetailsContent({
             )}
         </>
       )}
-      <p className="vads-u-font-weight--bold vads-u-margin-bottom--0">When</p>
+      <p className="vads-u-font-weight--bold vads-u-margin-bottom--0">
+        Claim submission timeline
+      </p>
       <p className="vads-u-margin-y--0">
         Submitted on {createDate} at {createTime}
       </p>
       <p className="vads-u-margin-y--0">
         Updated on {updateDate} at {updateTime}
       </p>
-      <p className="vads-u-font-weight--bold vads-u-margin-bottom--0">Where</p>
+      <p className="vads-u-font-weight--bold vads-u-margin-bottom--0">
+        Appointment information
+      </p>
       <p className="vads-u-margin-y--0">
         {appointmentDate} at {appointmentTime} appointment
       </p>
@@ -245,6 +259,7 @@ ClaimDetailsContent.propTypes = {
   createdOn: PropTypes.string.isRequired,
   facilityName: PropTypes.string.isRequired,
   modifiedOn: PropTypes.string.isRequired,
+  decisionLetterReason: PropTypes.string,
   documents: PropTypes.array,
   reimbursementAmount: PropTypes.number,
   totalCostRequested: PropTypes.number,

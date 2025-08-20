@@ -17,26 +17,25 @@ export default {
     ),
     veteranAddress: merge({}, addressUI(null, true), {
       street: {
-        'ui:title': 'Street address',
+        'ui:title': content['contact-info--street-address-label'],
         'ui:errorMessages': {
-          pattern:
-            'Please provide a valid street. Must be at least 1 character.',
+          pattern: content['validation-error--street-address'],
         },
       },
       city: {
         'ui:errorMessages': {
-          pattern: 'Please provide a valid city. Must be at least 1 character.',
+          pattern: content['validation-error--city'],
         },
       },
       state: {
-        'ui:title': 'State/Province/Region',
+        'ui:title': content['contact-info--state-label'],
         'ui:errorMessages': {
-          required: 'Please enter a state/province/region',
+          required: content['validation-error--state'],
         },
       },
     }),
     'view:doesMailingMatchHomeAddress': {
-      'ui:title': 'Is your home address the same as your mailing address?',
+      'ui:title': content['vet-info--address-match-label'],
       'ui:widget': 'yesNo',
       'ui:required': () => true,
     },

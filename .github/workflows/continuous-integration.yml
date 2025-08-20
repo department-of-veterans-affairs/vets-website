@@ -53,7 +53,7 @@ jobs:
         uses: ./.github/workflows/get-changed-apps
         with:
           delimiter: ','
-          output-type: 'entry_name, continuous_deployment'
+          output-type: 'entry_name,continuous_deployment'
 
       - name: Get Mapbox Token
         if: ${{ matrix.buildtype == 'vagovprod' }}
@@ -162,6 +162,7 @@ jobs:
       changed_file_paths: ${{ steps.get-changed-apps.outputs.changed_files }}
       tests_ran: ${{ steps.tests-ran.outputs.tests_ran }}
       e2e_count: ${{ steps.e2e-count.outputs.count }}
+      changed_unit_tests: ${{ steps.unit-tests-changed.outputs.changed_unit_tests }}
 
     steps:
       - name: Checkout
@@ -227,12 +228,24 @@ jobs:
         id: unit-tests-to-stress-test
         run: echo "tests=$UNIT_TESTS_TO_STRESS_TEST" >> $GITHUB_OUTPUT
 
+      - name: Set output of UNIT_TESTS_CHANGED
+        if: ${{ always() }}
+        id: unit-tests-changed
+        run: echo "changed_unit_tests=$UNIT_TESTS_CHANGED" >> $GITHUB_OUTPUT
+
       - name: Upload artifact of Unit Tests to Stress Test
         if: ${{ steps.unit-tests-to-stress-test.outputs.tests == 'true' }}
         uses: ./.github/workflows/upload-artifact
         with:
           name: unit-tests-to-stress-test
           path: unit_tests_to_stress_test.json
+
+      - name: Upload artifact of Unit Tests Changed
+        if: ${{ steps.unit-tests-changed.outputs.changed_unit_tests == 'true' }}
+        uses: ./.github/workflows/upload-artifact
+        with:
+          name: changed-unit-tests
+          path: changed_unit_tests.json
 
       - name: Set output of APPS_TO_STRESS_TEST
         if: ${{ always() }}
@@ -898,6 +911,81 @@ jobs:
           path: cypress/results
           retention-days: 1
 
+  node-22-unit-test-compatibility-check:
+    name: Node 22 Compatibility Check For Unit Tests
+    if: ${{ needs.tests-prep.outputs.changed_unit_tests != 'false' }}
+    runs-on: ubuntu-latest
+    needs: [tests-prep]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          fetch-depth: 0
+          ref: node-22-bug-bash-testing
+
+      - name: Get Node version
+        id: get-node-version
+        shell: bash
+        run: echo NODE_VERSION=$(cat .nvmrc) >> $GITHUB_OUTPUT
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+      
+      - name: Manual dependencies install
+        run: |
+          yarn install \
+          --network-timeout 1000000000 \
+          --prefer-offline \
+          --production=false
+
+        env:
+          YARN_CACHE_FOLDER: .cache/yarn
+
+      - name: Set up Git
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+
+      - name: Fetch target branch
+        run: git fetch origin ${{ github.head_ref }}
+      - name: Merge in feature branch
+        run: git merge origin/${{ github.ref_name }} --no-edit
+          
+      - name: Create test results folder
+        run: mkdir -p test-results
+
+      - name: Download Unit Test Stability Allow List
+        uses: ./.github/workflows/download-artifact
+        with:
+          name: changed-unit-tests
+          path: .
+          
+      - name: Run unit tests
+        id: run-tests
+        run: |
+          echo "Unit tests being run on Node $(node --version)"
+          if [[ -n "$APP_FOLDERS" ]]; then
+            yarn test:unit:gha ${APP_FOLDERS:+"{script,src/platform,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level verbose
+          else
+            yarn test:unit:gha yarn test:unit:gha "{src,script}/**/*.unit.spec.js?(x)" --coverage --log-level verbose
+          fi
+        env:
+          MOCHA_FILE: test-results/unit-tests.xml
+          CHANGED_FILES: ${{ needs.tests-prep.outputs.changed_file_paths }}
+          APP_FOLDERS: ${{ needs.tests-prep.outputs.app_folders }}
+          IS_STRESS_TEST: false
+          NODE_COMPATBILITY_VERIFICATION: true
+
+      - name: Archive unit test results
+        if: ${{ always() && steps.run-tests.outputs.tests_ran == 'true' }}
+        uses: ./.github/workflows/upload-artifact
+        with:
+          name: unit-test-node-compatibility-report
+          path: mocha/results
+         
+
   update-e2e-allow-list:
     name: Update E2E Test Stability Allow List
     runs-on: ubuntu-22.04
@@ -1321,7 +1409,18 @@ jobs:
    # --------------------------------------
       # | Publish Unit Test Coverage Report       |
       # -------------------------------------
+      - name: Generate full coverage on main
+        if: ${{ github.ref == 'refs/heads/main' }}
+        run: yarn test:unit:gha --full-suite --coverage --log-level verbose
+
+      - name: Prepare coverage artifact (main)
+        if: ${{ github.ref == 'refs/heads/main' }}
+        run: |
+          mkdir -p qa-standards-dashboard-data/coverage
+          cp coverage/coverage-summary.json qa-standards-dashboard-data/coverage/coverage-summary.json
+
       - name: Download Unit Test coverage results
+        if: ${{ github.ref != 'refs/heads/main' }}
         uses: ./.github/workflows/download-artifact
         with:
           name: unit-test-coverage
@@ -1631,6 +1730,7 @@ jobs:
         stress-test-cypress-tests,
         tests-prep,
         unit-tests,
+        node-22-unit-test-compatibility-check,
         unit-tests-stress-test,
         update-e2e-allow-list,
         update-unit-test-allow-list,
@@ -1743,6 +1843,7 @@ jobs:
           CYPRESS_TESTS_RESULT: ${{ needs.cypress-tests.result  }}
           CYPRESS_TESTS_STRESS_TEST_RESULT: ${{ needs.stress-test-cypress-tests.result }}
           UNIT_TESTS_STRESS_TEST_RESULT: ${{ needs.unit-tests-stress-test.result }}
+          NODE_22_COMPATIBILITY_RESULT: ${{ needs.node-22-unit-test-compatibility-check.result }}
 
   archive:
     name: Archive
@@ -1887,6 +1988,7 @@ jobs:
         run: node ./script/github-actions/check-deployability.js
         env:
           BUILDTYPE: ${{ matrix.environment }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Configure AWS credentials (1)
         if: steps.check-deployability.outputs.is_deployable == 'true'
@@ -1935,6 +2037,21 @@ jobs:
     needs: [build, set-deploy-environments]
     if: ${{ needs.build.outputs.entry_names != '' && needs.build.outputs.continuous_deployment == 'true' }}
     steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          fetch-depth: 0
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
       - name: Get Slack channel
         id: get-slack-channel
         uses: ./.github/workflows/get-changed-apps
@@ -1962,8 +2079,7 @@ jobs:
           -d "$(jq -n --arg sha "${{ github.sha }}" \
           --arg ref "${{ github.ref }}" \
           --arg entry "${{ needs.build.outputs.entry_names }}" \
-          --arg channel "${{ steps.determine-channel.outputs.channel }}" \
-          '{event_type: "cd-production-deploy", client_payload: {github_sha: $sha, github_ref: $ref, entry_app: $entry, slack_channel: $channel}}')"
+          '{event_type: "cd-production-deploy", client_payload: {github_sha: $sha, github_ref: $ref, entry_app: $entry}}')"
                          
   notify-failure:
     name: Notify Failure

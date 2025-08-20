@@ -2,11 +2,19 @@ import React, { useEffect, useCallback, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { selectUser } from '~/platform/user/selectors';
-import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import { scrollAndFocus } from 'platform/utilities/scroll';
+import { scrollAndFocus, scrollTo } from 'platform/utilities/scroll';
+import { focusElement } from 'platform/utilities/ui';
 
+import { electronicCorrespondenceMessage } from '../config/chapters/veteran-contact-information/editEmailPage';
+import EditCardLink from './EditCardLink';
+import {
+  getEditContactInformation,
+  removeEditContactInformation,
+  contactInfoXref,
+  convertPhoneObjectToString,
+} from '../util/contact-info';
 import { isEmptyObject } from '../../shared/utils';
 
 const VeteranContactInformationPage = ({
@@ -18,6 +26,8 @@ const VeteranContactInformationPage = ({
   contentAfterButtons,
 }) => {
   const alertRef = useRef(null);
+  const updateAlertRef = useRef(null);
+
   const { profile } = useSelector(selectUser);
   const {
     email,
@@ -27,6 +37,8 @@ const VeteranContactInformationPage = ({
     electronicCorrespondence,
   } = data;
 
+  const editstate = useRef(getEditContactInformation());
+  const { name, action } = editstate?.current || {};
   const { vapContactInfo } = profile || {};
   const {
     email: profileEmail,
@@ -40,19 +52,31 @@ const VeteranContactInformationPage = ({
   const [showPrefillAlert, setShowPrefillAlert] = useState(null);
   const [showAlert, setShowAlert] = useState(null);
   const [submitted, setSubmitted] = useState(false);
-  // Mobile > Home - see
-  // https://www.figma.com/design/bvj72inycD0iZkuCbjYTWL/Dependent-Verification-MVP?node-id=3283-112583&t=AQOdcM9NR0aEb8CC-4
-  const [phoneSource] = useState(
-    phone || profileMobilePhone ? 'Mobile' : 'Home',
-  );
 
-  const convertPhoneObjectToString = phoneObj => {
-    if (!phoneObj) return '';
-    const { areaCode, phoneNumber, countryCode, isInternational } = phoneObj;
-    return areaCode && phoneNumber
-      ? `${isInternational ? countryCode : ''}${areaCode}${phoneNumber}`
-      : '';
-  };
+  /* Mobile > Home > Work
+  * https://www.figma.com/design/bvj72inycD0iZkuCbjYTWL/Dependent-Verification-MVP?node-id=3283-112583&t=AQOdcM9NR0aEb8CC-4
+  * Can we add logic about what attributes we can show in this page?
+  * If there’s a mobile number available in the profile, show only this mobile number
+  * If there’s a mobile number and home number, show only mobile number
+  * If there’s home number and no mobile number, show home number
+  * If there’s no phone number but work number, show mobile number card with “none provided.” Should we use work number at all?
+  */
+  const profileMobilePhoneString = convertPhoneObjectToString(
+    profileMobilePhone,
+  );
+  const profileHomePhoneString = convertPhoneObjectToString(profileHomePhone);
+  const phoneSource =
+    data['view:phoneSource'] || phone || profileMobilePhoneString
+      ? 'Mobile'
+      : 'Home';
+
+  // Get international phone from mobile or home, if it's international
+  let profileInternationalPhone = null;
+  if (profileMobilePhone?.isInternational) {
+    profileInternationalPhone = convertPhoneObjectToString(profileMobilePhone);
+  } else if (profileHomePhone?.isInternational) {
+    profileInternationalPhone = convertPhoneObjectToString(profileHomePhone);
+  }
 
   const updateContactInfo = field => {
     setFormData({
@@ -60,13 +84,6 @@ const VeteranContactInformationPage = ({
       ...field,
     });
   };
-
-  let profileInternationalPhone = null;
-  if (profileHomePhone?.isInternational) {
-    profileInternationalPhone = convertPhoneObjectToString(profileHomePhone);
-  } else if (profileMobilePhone?.isInternational) {
-    profileInternationalPhone = convertPhoneObjectToString(profileMobilePhone);
-  }
 
   const checkErrors = useCallback(
     () => {
@@ -107,12 +124,9 @@ const VeteranContactInformationPage = ({
     }
 
     updateContactInfo({
+      'view:phoneSource': data['view:phoneSource'] || phoneSource,
       email: email || profileEmail?.emailAddress || '',
-      phone:
-        phone ||
-        convertPhoneObjectToString(profileHomePhone) ||
-        convertPhoneObjectToString(profileMobilePhone) ||
-        '',
+      phone: phone || profileMobilePhoneString || profileHomePhoneString || '',
       address: newAddress,
       internationalPhone: internationalPhone || profileInternationalPhone || '',
     });
@@ -132,12 +146,37 @@ const VeteranContactInformationPage = ({
       }
       checkErrors();
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [email, address, profileEmail, profileMailingAddress],
+  );
+
+  useEffect(
+    () => {
+      if (name) {
+        if (updateAlertRef?.current && name && action === 'update') {
+          setTimeout(() => {
+            scrollAndFocus(updateAlertRef.current);
+          });
+        } else if (action === 'cancel') {
+          setTimeout(() => {
+            const card = document.querySelector(
+              `va-card[data-field="${name}"]`,
+            );
+            if (card) {
+              scrollTo(card);
+              focusElement('a', {}, card.querySelector('va-link'));
+            }
+          });
+        }
+      }
+    },
+    [updateAlertRef, name, action],
   );
 
   const handlers = {
     onSubmit: event => {
       event.preventDefault();
+      removeEditContactInformation();
       if (checkErrors()) {
         setSubmitted(true);
         setShowPrefillAlert(null); // Hide prefill alert if there are errors
@@ -171,15 +210,20 @@ const VeteranContactInformationPage = ({
     .join(' and ');
   const article = !email ? 'an' : 'a';
 
-  const agreementMessage = electronicCorrespondence
-    ? 'I agree to receive electronic correspondence from the VA about my claim at this email address'
-    : 'I do not agree to receive electronic correspondence from the VA about my claim at this email address';
-
   return (
     <>
       <h3 className="vads-u-margin-y--2">
         Confirm the contact information we have on file for you
       </h3>
+      {name &&
+        action === 'update' && (
+          <va-alert ref={updateAlertRef} status="success" visible>
+            <h3 slot="headline">
+              {`We updated your ${contactInfoXref[name].label}`}
+            </h3>
+            <p>This update only applies to this application</p>
+          </va-alert>
+        )}
       {!submitted && showPrefillAlert ? (
         <va-alert status="warning" visible>
           We could not prefill this form with your {prefillMissingInfo} address.
@@ -195,9 +239,8 @@ const VeteranContactInformationPage = ({
       ) : null}
       <p>
         If you notice any errors, correct them now.{' '}
-        <strong>Changes made here apply only to this application.</strong> If
-        you want to update your contact information in our system, go to your VA
-        profile.
+        <strong>Changes made here apply only to this form.</strong> If you want
+        to update your contact information in our system, go to your VA profile.
       </p>
       <va-link
         text="Update your contact information in your VA profile"
@@ -208,7 +251,7 @@ const VeteranContactInformationPage = ({
       <div
         className={submitted && hasMissingAddress ? 'contact-info-error' : ''}
       >
-        <va-card class="vads-u-margin-top--3">
+        <va-card class="vads-u-margin-top--3" data-field="address">
           <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
             Mailing address{' '}
             <span className="schemaform-required-span vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
@@ -255,23 +298,16 @@ const VeteranContactInformationPage = ({
               </>
             )}
           </div>
-          <VaLink
-            active
-            href="/veteran-contact-information/mailing-address"
-            label={`${address ? 'Edit' : 'Add'} mailing address`}
-            text={address ? 'Edit' : 'Add'}
-            onClick={e =>
-              handlers.editClick(
-                e,
-                '/veteran-contact-information/mailing-address',
-              )
-            }
+          <EditCardLink
+            value={address.street}
+            name="address"
+            onClick={handlers.editClick}
           />
         </va-card>
       </div>
 
       <div className={submitted && hasMissingEmail ? 'contact-info-error' : ''}>
-        <va-card class="vads-u-margin-top--3">
+        <va-card class="vads-u-margin-top--3" data-field="email">
           <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
             Email address{' '}
             <span className="schemaform-required-span vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
@@ -294,7 +330,7 @@ const VeteranContactInformationPage = ({
                   className="dd-privacy-hidden"
                   data-dd-action-name="Electronic correspondence"
                 >
-                  {agreementMessage}
+                  {electronicCorrespondenceMessage(electronicCorrespondence)}
                 </div>
               </span>
             ) : (
@@ -308,21 +344,17 @@ const VeteranContactInformationPage = ({
               </>
             )}
           </div>
-          <VaLink
-            active
-            href="/veteran-contact-information/email"
-            label={`${email ? 'Edit' : 'Add'} email address`}
-            text={email ? 'Edit' : 'Add'}
-            onClick={e =>
-              handlers.editClick(e, '/veteran-contact-information/email')
-            }
+          <EditCardLink
+            value={email}
+            name="email"
+            onClick={handlers.editClick}
           />
         </va-card>
       </div>
 
-      <va-card class="vads-u-margin-top--3">
+      <va-card class="vads-u-margin-top--3" data-field="phone">
         <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
-          {`${phoneSource} phone number`}
+          {`${data['view:phoneSource']} phone number`}
         </h4>
         <div className="phone vads-u-margin-y--2">
           {phone ? (
@@ -336,20 +368,17 @@ const VeteranContactInformationPage = ({
             <span>None provided</span>
           )}
         </div>
-        <VaLink
-          active
-          href="/veteran-contact-information/phone"
-          label={`${phone ? 'Edit' : 'Add'} phone number`}
-          text={phone ? 'Edit' : 'Add'}
-          onClick={e =>
-            handlers.editClick(e, '/veteran-contact-information/phone')
-          }
+        <EditCardLink
+          value={phone}
+          name="phone"
+          type={data['view:phoneSource']}
+          onClick={handlers.editClick}
         />
       </va-card>
 
-      <va-card class="vads-u-margin-top--3">
+      <va-card class="vads-u-margin-top--3" data-field="internationalPhone">
         <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
-          International phone number
+          International number
         </h4>
         <div className="intl-phone vads-u-margin-y--2">
           {internationalPhone ? (
@@ -363,19 +392,10 @@ const VeteranContactInformationPage = ({
             <span>None provided</span>
           )}
         </div>
-        <VaLink
-          active
-          href="/veteran-contact-information/international-phone"
-          label={`${
-            internationalPhone ? 'Edit' : 'Add'
-          } international phone number`}
-          text={internationalPhone ? 'Edit' : 'Add'}
-          onClick={e =>
-            handlers.editClick(
-              e,
-              '/veteran-contact-information/international-phone',
-            )
-          }
+        <EditCardLink
+          value={internationalPhone}
+          name="internationalPhone"
+          onClick={handlers.editClick}
         />
       </va-card>
 
@@ -403,6 +423,7 @@ VeteranContactInformationPage.propTypes = {
   // updatePage: PropTypes.func,
   data: PropTypes.shape({
     email: PropTypes.string,
+    'view:phoneSource': PropTypes.string,
     phone: PropTypes.string,
     address: PropTypes.shape({
       street: PropTypes.string,

@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/sort-prop-types */
-import React, { forwardRef, useEffect, useRef, useState } from 'react';
+import classNames from 'classnames';
+import React, { forwardRef, useEffect, useMemo, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui/focus';
 import { scrollAndFocus } from 'platform/utilities/scroll';
@@ -71,16 +72,20 @@ function getYesNoReviewErrorMessage(reviewErrors, hasItemsKey) {
   return error?.message;
 }
 
-const useHeadingLevels = (userHeaderLevel, isReviewPage) => {
-  const isMinimalHeader = useRef(null);
-  if (isMinimalHeader.current === null) {
-    // only check once
-    isMinimalHeader.current = isMinimalHeaderPath();
+export const useHeadingLevels = (userHeaderLevel, isReviewPage) => {
+  const isMinimalHeader = useMemo(() => isMinimalHeaderPath(), []);
+  let defaultLevel;
+
+  if (isMinimalHeader) {
+    defaultLevel = isReviewPage ? '3' : '1';
+  } else {
+    defaultLevel = isReviewPage ? '4' : '3';
   }
-  const headingLevel =
-    userHeaderLevel || (isMinimalHeader.current && !isReviewPage ? '1' : '3');
-  const headingStyle =
-    isMinimalHeader.current && !isReviewPage ? ' vads-u-font-size--h2' : '';
+
+  const headingLevel = userHeaderLevel ?? defaultLevel;
+  const headingStyle = {
+    'vads-u-font-size--h2': isMinimalHeader && !isReviewPage,
+  };
 
   return { headingLevel, headingStyle };
 };
@@ -371,10 +376,10 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
 
     const Title = ({ textType }) => {
       const text = getText(textType, updatedItemData, props.data);
-
+      const baseClasses = ['vads-u-color--gray-dark', 'vads-u-margin-top--0'];
       return text ? (
         <Heading
-          className={`vads-u-color--gray-dark vads-u-margin-top--0${headingStyle}`}
+          className={classNames(baseClasses, headingStyle)}
           data-title-for-noun-singular={nounSingular}
         >
           {text}
@@ -628,6 +633,21 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
       );
     }
 
+    const onNavForward = () => {
+      const isValid = validateIncompleteItems({
+        arrayData: get(arrayPath, props.data),
+        isItemIncomplete,
+        nounSingular,
+        errors: { addError: () => {} },
+        arrayPath,
+      });
+
+      if (isValid) {
+        props.onContinue();
+        props.onSubmit(props.data);
+      }
+    };
+
     return (
       <SchemaForm
         name={props.name}
@@ -640,7 +660,8 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
         formContext={props.formContext}
         trackingPrefix={props.trackingPrefix}
         onChange={props.onChange}
-        onSubmit={props.onSubmit}
+        onSubmit={onNavForward}
+        formOptions={props.formOptions}
       >
         <>
           {/* contentBeforeButtons = save-in-progress links */}
@@ -648,7 +669,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
           {props.contentBeforeButtons}
           <NavButtons
             goBack={props.goBack}
-            goForward={props.onContinue}
+            goForward={onNavForward}
             submitToContinue
             useWebComponents={props.formOptions?.useWebComponentForNavigation}
           />
