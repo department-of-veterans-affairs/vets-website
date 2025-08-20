@@ -15,6 +15,8 @@ import { withRouter } from 'react-router';
 import {
   arrayBuilderContextObject,
   createArrayBuilderItemEditPath,
+  getItemDuplicateDismissedName,
+  META_DATA_KEY,
   slugifyText,
 } from './helpers';
 import {
@@ -63,6 +65,20 @@ const IncompleteLabel = () => (
   </div>
 );
 
+const DuplicateInformationAlert = ({ status = 'warning', children }) => (
+  <div className="vads-u-margin-top--2">
+    <va-alert status={status} class="array-builder-duplicate-alert">
+      {children}
+    </va-alert>
+  </div>
+);
+
+const DuplicateLabel = () => (
+  <div className="vads-u-margin-bottom--1">
+    <span className="usa-label">DUPLICATE</span>
+  </div>
+);
+
 /**
  * @param {{
  *   arrayPath: string,
@@ -82,6 +98,7 @@ const ArrayBuilderCards = ({
   isIncomplete = () => false,
   getEditItemPathUrl,
   formData,
+  fullData,
   nounSingular,
   titleHeaderLevel = '3',
   getText,
@@ -89,6 +106,8 @@ const ArrayBuilderCards = ({
   onRemove,
   required,
   isReview,
+  duplicateChecks = {},
+  duplicateCheckResult = {},
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(null);
@@ -111,6 +130,22 @@ const ArrayBuilderCards = ({
         const card = `va-card[name="${nounSingularSlug}_${index}"]`;
         scrollTo(card);
         focusElement(`${card} .array-builder-missing-info-alert`);
+      }
+    },
+  );
+
+  useArrayBuilderEvent(
+    ARRAY_BUILDER_EVENTS.DUPLICATE_ITEM_ERROR,
+    ({ index, arrayPath: duplicateArrayPath }) => {
+      if (duplicateArrayPath === arrayPath) {
+        const card = `va-card[name="${nounSingularSlug}_${index}"]`;
+        requestAnimationFrame(() => {
+          if (!isMounted.current) {
+            return;
+          }
+          scrollTo(card);
+          focusElement(`${card} .array-builder-duplicate-alert`);
+        });
       }
     },
   );
@@ -200,11 +235,65 @@ const ArrayBuilderCards = ({
                 formData,
                 index,
               );
+
+              // Incomplete label & alert > duplicate label & alert
+              let label = null;
+              let alert = null;
+              if (isIncomplete(itemData)) {
+                label = <IncompleteLabel />;
+                alert = (
+                  <MissingInformationAlert>
+                    {getText(
+                      'cardItemMissingInformation',
+                      itemData,
+                      formData,
+                      index,
+                    )}
+                  </MissingInformationAlert>
+                );
+              } else if (
+                duplicateCheckResult.duplicates?.includes(
+                  duplicateCheckResult.arrayData?.[index],
+                )
+              ) {
+                const duplicateMetadataFlag = getItemDuplicateDismissedName({
+                  arrayPath,
+                  duplicateChecks,
+                  itemIndex: index,
+                  itemString: duplicateCheckResult.arrayData?.[index],
+                });
+                const dismissedInMetadata =
+                  fullData[META_DATA_KEY]?.[duplicateMetadataFlag];
+                // If they continue after seeing the duplicate modal between
+                // item pages, then we remove the duplicate label and change
+                // this from a warning to an info alert
+                label = dismissedInMetadata ? null : <DuplicateLabel />;
+                alert = dismissedInMetadata ? (
+                  <DuplicateInformationAlert status="info">
+                    {getText(
+                      'duplicateCardInfoAlert',
+                      itemData,
+                      formData,
+                      index,
+                    )}
+                  </DuplicateInformationAlert>
+                ) : (
+                  <DuplicateInformationAlert status="warning">
+                    {getText(
+                      'duplicateCardWarningAlert',
+                      itemData,
+                      formData,
+                      index,
+                    )}
+                  </DuplicateInformationAlert>
+                );
+              }
+
               return (
                 <li key={index} style={{ listStyleType: 'none' }}>
                   <Card index={index}>
                     <div>
-                      {isIncomplete(itemData) && <IncompleteLabel />}
+                      {label}
                       <CardTitle
                         className={`vads-u-margin-top--0${cardHeadingStyling} dd-privacy-mask`}
                         data-dd-action-name="Card title"
@@ -212,16 +301,7 @@ const ArrayBuilderCards = ({
                         {itemName}
                       </CardTitle>
                       {itemDescription}
-                      {isIncomplete(itemData) && (
-                        <MissingInformationAlert>
-                          {getText(
-                            'cardItemMissingInformation',
-                            itemData,
-                            formData,
-                            index,
-                          )}
-                        </MissingInformationAlert>
-                      )}
+                      {alert}
                     </div>
                     <span className="vads-u-margin-bottom--neg1 vads-u-margin-top--1 vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between vads-u-font-weight--bold">
                       <EditLink
@@ -302,6 +382,7 @@ const mapStateToProps = state => ({
 ArrayBuilderCards.propTypes = {
   arrayPath: PropTypes.string.isRequired,
   formData: PropTypes.object.isRequired,
+  fullData: PropTypes.object.isRequired,
   getEditItemPathUrl: PropTypes.func.isRequired,
   getText: PropTypes.func.isRequired,
   isIncomplete: PropTypes.func.isRequired,
@@ -315,6 +396,15 @@ ArrayBuilderCards.propTypes = {
     PropTypes.node,
     PropTypes.string,
   ]),
+  duplicateCheckResult: PropTypes.shape({
+    duplicates: PropTypes.arrayOf(PropTypes.string).isRequired,
+    arrayData: PropTypes.arrayOf(PropTypes.object).isRequired,
+  }),
+  duplicateChecks: PropTypes.shape({
+    comparisons: PropTypes.arrayOf(PropTypes.string),
+    duplicatesAllowed: PropTypes.bool,
+    externalComparisonData: PropTypes.func,
+  }),
   titleHeaderLevel: PropTypes.string,
 };
 

@@ -7,10 +7,21 @@ import { focusByOrder, focusElement } from 'platform/utilities/ui/focus';
 import { scrollTo, scrollToTop } from 'platform/utilities/scroll';
 import navigationState from 'platform/forms-system/src/js/utilities/navigation/navigationState';
 import environment from 'platform/utilities/environment';
-import { dispatchIncompleteItemError } from './ArrayBuilderEvents';
+import {
+  dispatchIncompleteItemError,
+  dispatchDuplicateItemError,
+} from './ArrayBuilderEvents';
 import { DEFAULT_ARRAY_BUILDER_TEXT } from './arrayBuilderText';
 
 export const META_DATA_KEY = 'metadata';
+
+/**
+ * @param {string} [search] e.g. `?add=true`
+ * @returns {URLSearchParams}
+ */
+export function getArrayUrlSearchParams(search = window?.location?.search) {
+  return new URLSearchParams(search);
+}
 
 /**
  * Initializes the getText function for the ArrayBuilder
@@ -36,10 +47,13 @@ export function initGetText({
     ...textOverrides,
   };
 
+  const searchParams = getArrayUrlSearchParams();
   const getTextProps = {
     getItemName,
     nounPlural,
     nounSingular,
+    isEdit: !!searchParams.get('edit'),
+    isAdd: !!searchParams.get('add'),
   };
 
   /**
@@ -221,14 +235,6 @@ export function isDeepEmpty(obj) {
           value === '',
       )
     : true;
-}
-
-/**
- * @param {string} [search] e.g. `?add=true`
- * @returns {URLSearchParams}
- */
-export function getArrayUrlSearchParams(search = window?.location?.search) {
-  return new URLSearchParams(search);
 }
 
 // Used as a helper so that we can stub this for tests
@@ -481,4 +487,175 @@ export const useHeadingLevels = (userHeaderLevel, isReviewPage) => {
   };
 
   return { headingLevel, headingStyle };
+};
+
+/*
+ * Process array data for duplicate comparison
+ * @param {Array<String>} array - array of processed form data for comparison
+ * @returns {String} - Combined processed form data
+ */
+export const processArrayData = array => {
+  if (!Array.isArray(array)) {
+    throw new Error('Processing array data requires an array', array);
+  }
+  return slugifyText(array.join(';'));
+};
+
+/**
+ * @typedef externalComparisonFunction
+ * @type {Function}
+ * @property {Object} fullData - The full form data
+ * @property {Array<String>} arrayData - The array data being checked
+ * @returns {Array} - An array of arrrays with external comparison data
+ * @example (first name, last name, birth date, ssn)
+ * [
+ *   ['John', 'Doe', '1990-01-01', '123-45-6789'],
+ *   ['Jane', 'Smith', '1992-02-02', '987-65-4321']
+ * ]
+ */
+/**
+ * Duplicate checks object
+ * @typedef {Object} DuplicateChecks
+ * @property {Array<String>} comparisons - The array paths to compare for
+ * duplicates
+ * @property {externalComparisonFunction} externalComparisonData - A function to
+ * collect and return external data for comparison
+ * @example
+ * {
+ *   arrayPath: 'childrenToAdd',
+ *   comparisons: ['fullName.first', 'fullName.last', 'birthDate', 'ssn'],
+ *   externalComparisonData: ({ formData, arrayData }) => {
+ *     // return array of array strings to be used for duplicate comparisons
+ *     return [];
+ *   }
+ */
+/**
+ * Get item data from the array based on duplicate check settings
+ * @param {string} arrayPath - The path to the array in the form data
+ * @param {DuplicateChecks} duplicateChecks - The duplicate checks object
+ * @param {Object} fullData - The full form data
+ * @param {Number} itemIndex - The index of the item in the array
+ * @returns {String} - A string representing item data for duplicate checking
+ */
+export const getItemDataFromPath = ({
+  arrayPath,
+  duplicateChecks,
+  itemIndex,
+  fullData,
+}) =>
+  processArrayData(
+    (duplicateChecks.comparisons || []).map(path =>
+      get([arrayPath, itemIndex, ...path.split('.')], fullData),
+    ),
+  );
+
+/**
+ * Metadata key for duplicate item tracking
+ * @param {string} arrayPath - The path to the array in the form data
+ * @param {DuplicateChecks} duplicateChecks - The duplicate checks object
+ * @param {Number} itemIndex - The index of the item in the array
+ * @param {Array<String>} [itemArray] - array of item data for used in summary
+ * cards
+ * @param {Object} formData - The full form data
+ * @returns {String} - The metadata key for the item
+ */
+export const getItemDuplicateDismissedName = ({
+  arrayPath,
+  duplicateChecks,
+  itemIndex,
+  itemString = '',
+  fullData = {},
+}) =>
+  [
+    arrayPath,
+    itemString ||
+      getItemDataFromPath({
+        arrayPath,
+        duplicateChecks,
+        itemIndex,
+        fullData,
+      }),
+    'allowDuplicate',
+  ].join(';');
+
+/**
+ * Get array data using duplicate checks comparisons
+ * @param {string} arrayPath - The path to the array in the form data
+ * @param {DuplicateChecks} duplicateChecks - The duplicate checks object
+ * @param {Object} formData - The full form data
+ * @returns
+ */
+export const getArrayDataFromDuplicateChecks = ({
+  arrayPath,
+  duplicateChecks,
+  fullData,
+}) => {
+  const arrayLength = get(arrayPath, fullData)?.length || 0;
+
+  // Build an array of data values from provided paths
+  return new Array(arrayLength).fill([]).map((_, itemIndex) =>
+    getItemDataFromPath({
+      arrayPath,
+      duplicateChecks,
+      itemIndex,
+      fullData,
+    }),
+  );
+};
+
+/**
+ * @typedef {Object} DuplicateCheckResult
+ * @property {Array<String>} arrayData - The array data being checked for duplicates
+ * @property {Array<String>} duplicates - The list of duplicate items found
+ * @property {boolean} hasDuplicate - Indicates if any duplicates were found
+ */
+/**
+ * Utility function to check for duplicates in an array based on object keys
+ * @param {string} arrayPath - The path to the array in the form data
+ * @param {DuplicateChecks} checks - An object containing array paths of data
+ * that needs to be checked for duplicates
+ * @param {Object} fullData - Full form data to check for duplicates
+ * @returns {DuplicateCheckResult}
+ */
+export const checkIfArrayHasDuplicateData = ({
+  arrayPath,
+  duplicateChecks,
+  fullData,
+}) => {
+  const arrayData = getArrayDataFromDuplicateChecks({
+    arrayPath,
+    duplicateChecks,
+    fullData,
+  });
+
+  // Get external comparison data
+  let externalComparisonData = [];
+  if (typeof duplicateChecks.externalComparisonData === 'function') {
+    externalComparisonData = duplicateChecks.externalComparisonData({
+      fullData,
+      arrayData,
+    });
+  }
+
+  const allItems = [
+    ...arrayData,
+    ...externalComparisonData.map(processArrayData),
+  ];
+  const duplicates = allItems.filter(
+    (item, itemIndex) => allItems.indexOf(item) !== itemIndex,
+  );
+  const hasDuplicate = new Set(allItems).size !== allItems.length;
+
+  if (hasDuplicate) {
+    dispatchDuplicateItemError({
+      index: arrayData.indexOf(duplicates[0]),
+      arrayPath,
+    });
+  }
+
+  return {
+    arrayData,
+    duplicates,
+    hasDuplicate,
+  };
 };

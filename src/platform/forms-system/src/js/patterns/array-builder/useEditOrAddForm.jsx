@@ -1,7 +1,12 @@
 import { useState, useEffect, useCallback } from 'react';
 import cloneDeep from 'lodash/cloneDeep';
 import { updateSchemasAndData } from 'platform/forms-system/src/js/state/helpers';
-import { replaceItemInFormData } from './helpers';
+import {
+  replaceItemInFormData,
+  META_DATA_KEY,
+  checkIfArrayHasDuplicateData,
+  getItemDuplicateDismissedName,
+} from './helpers';
 
 /**
  * Custom hook for handling form state for edit or add form pages.
@@ -35,11 +40,23 @@ export function useEditOrAddForm({
   onSubmit,
   index,
   arrayPath,
+  duplicateChecks,
 }) {
   // These states are only used in edit mode
   const [localData, setLocalData] = useState(null);
   const [localSchema, setLocalSchema] = useState(null);
   const [localUiSchema, setLocalUiSchema] = useState(null);
+  const [duplicateCheckResult, setDuplicateCheckResult] = useState({
+    arrayData: [],
+    hasDuplicate: false,
+    duplicates: [],
+  });
+  const itemDuplicateDismissedName = getItemDuplicateDismissedName({
+    arrayPath,
+    duplicateChecks,
+    fullData,
+    itemIndex: index || 0,
+  });
 
   useEffect(
     () => {
@@ -123,15 +140,42 @@ export function useEditOrAddForm({
     ],
   );
 
+  const checkForDuplicates = useCallback(
+    () => {
+      if (
+        !duplicateChecks ||
+        fullData[META_DATA_KEY]?.[itemDuplicateDismissedName] ||
+        !(
+          duplicateChecks.externalComparisonData ||
+          duplicateChecks.comparisons?.length > 0
+        )
+      ) {
+        return { arrayData: [], hasDuplicate: false, duplicates: [] };
+      }
+      return checkIfArrayHasDuplicateData({
+        arrayPath,
+        duplicateChecks,
+        fullData,
+        index,
+      });
+    },
+    [arrayPath, duplicateChecks, fullData, index, itemDuplicateDismissedName],
+  );
+
   const handleOnSubmit = useCallback(
     newProps => {
+      const check = checkForDuplicates();
+      setDuplicateCheckResult(check);
+      if (check.duplicates.includes(check.arrayData[index])) {
+        return;
+      }
       if (isEdit) {
         onSubmit({ formData: localData });
       } else {
         onSubmit(newProps);
       }
     },
-    [isEdit, localData, onSubmit],
+    [checkForDuplicates, index, isEdit, localData, onSubmit],
   );
 
   return {
@@ -140,5 +184,6 @@ export function useEditOrAddForm({
     uiSchema: isEdit ? localUiSchema : uiSchema,
     onChange: handleOnChange,
     onSubmit: handleOnSubmit,
+    duplicateCheckResult,
   };
 }

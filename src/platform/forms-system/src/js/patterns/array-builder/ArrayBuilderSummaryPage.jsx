@@ -16,9 +16,11 @@ import ArrayBuilderSummaryReviewPage from './ArrayBuilderSummaryReviewPage';
 import ArrayBuilderSummaryNoSchemaFormPage from './ArrayBuilderSummaryNoSchemaFormPage';
 import {
   arrayBuilderContextObject,
+  checkIfArrayHasDuplicateData,
   createArrayBuilderItemAddPath,
   getUpdatedItemFromPath,
   isDeepEmpty,
+  META_DATA_KEY,
   slugifyText,
   useHeadingLevels,
   validateIncompleteItems,
@@ -111,6 +113,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     titleHeaderLevel,
     useLinkInsteadOfYesNo,
     useButtonInsteadOfYesNo,
+    duplicateChecks = {},
   } = arrayBuilderOptions;
 
   // use closure variable rather than useRef to
@@ -149,6 +152,12 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     const isMaxItemsReached = arrayData?.length >= maxItems;
     const hasReviewError =
       isReviewPage && checkHasYesNoReviewError(props.reviewErrors, hasItemsKey);
+
+    const duplicateCheckResult = checkIfArrayHasDuplicateData({
+      arrayPath,
+      duplicateChecks,
+      fullData: props.fullData,
+    });
 
     const setDataFromRef = data => {
       const dataToSet = { ...(dataRef.current || {}), ...data };
@@ -488,6 +497,9 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
         onRemove={onRemoveItem}
         isReview={isReviewPage}
         titleHeaderLevel={headingLevel}
+        fullData={props.fullData}
+        duplicateChecks={duplicateChecks}
+        duplicateCheckResult={duplicateCheckResult}
       />
     );
 
@@ -682,6 +694,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     data: PropTypes.object,
     formContext: PropTypes.object,
     formOptions: PropTypes.object,
+    fullData: PropTypes.object,
     goBack: PropTypes.func,
     goToPath: PropTypes.func,
     onChange: PropTypes.func,

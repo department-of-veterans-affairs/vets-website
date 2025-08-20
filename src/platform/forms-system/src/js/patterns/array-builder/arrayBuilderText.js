@@ -110,6 +110,20 @@ export const DEFAULT_ARRAY_BUILDER_TEXT = {
       : `Delete this ${props.nounSingular}?`;
   },
   deleteYes: props => `Yes, delete this ${props.nounSingular}`,
+
+  duplicateModalTitle: props => 'Is this a duplicate?',
+  duplicateModalDescription: props =>
+    `You already have a ${props.nounSingular} with this information`,
+  duplicateModalPrimaryButtonText: props => 'Yes, cancel',
+  duplicateModalSecondaryButtonText: props =>
+    `No, continue adding ${props.nounSingular}`,
+  duplicateCardWarningAlert: props =>
+    `This ${props.nounSingular} may be a duplicate item. Edit or remove this ${
+      props.nounSingular
+    }’s information before continuing.`,
+  duplicateCardInfoAlert: props =>
+    `This ${props.nounSingular} may be a duplicate entry.`,
+
   reviewAddButtonText: props => `Add another ${props.nounSingular}`,
   summaryAddButtonText: props => `Add ${props.nounSingular}`,
   summaryAddLinkText: props => `Add ${props.nounSingular}`,
