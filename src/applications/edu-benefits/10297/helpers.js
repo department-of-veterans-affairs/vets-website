@@ -171,3 +171,16 @@ export const validateTrainingProviderStartDate = (errors, dateString) => {
       'Training must start on or after 1/2/2025 to qualify for VET TEC 2.0',
     );
 };
+
+export const viewifyFields = formData => {
+  const newFormData = {};
+  Object.keys(formData).forEach(key => {
+    const viewKey = /^view:/.test(key) ? key : `view:${key}`;
+    // Recurse if necessary
+    newFormData[viewKey] =
+      typeof formData[key] === 'object' && !Array.isArray(formData[key])
+        ? viewifyFields(formData[key])
+        : formData[key];
+  });
+  return newFormData;
+};
