@@ -29,8 +29,8 @@ const ConfirmationPage = props => {
       }
     >
       <ConfirmationView.SubmissionAlert
-        title="Your pre-need determination request has been submitted"
-        content="We'll review your request and send you a letter in the mail with our decision."
+        title="You've submitted your application"
+        content="You'll receive a confirmation email shortly. We'll let you know by mail or phone if we need more details."
         actions={null}
       />
       <ConfirmationView.SavePdfDownload />
