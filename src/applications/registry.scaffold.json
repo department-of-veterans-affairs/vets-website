@@ -150,6 +150,6 @@
   {
     "appName": "Income & Asset Staged Entry Widget",
     "widgetType": "income-and-asset-statement-staged-entry",
-    "rootUrl": "/income-and-asset-statement-form-21p-0969"
+    "rootUrl": "/income-and-asset-statement-staged-entry"
   }
 ]
