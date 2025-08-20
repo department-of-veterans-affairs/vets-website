@@ -18,9 +18,13 @@ const ProcessList = () => {
     <va-process-list>
       <va-process-list-item header="Check your eligibility">
         <p>
-          You must have previously added dependents to your benefits in order to
-          use this form to verify your VA dependents.
+          You can only use this form if you have dependents on your VA
+          disability benefits.
         </p>
+        <va-link
+          text=" Not sure? Check your VA dependents."
+          href="/manage-dependents/"
+        />
       </va-process-list-item>
       <va-process-list-item header="Review your active dependents and your information">
         <p>Here’s what you’ll need to review:</p>
