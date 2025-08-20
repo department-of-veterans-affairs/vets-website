@@ -68,6 +68,30 @@ export function getActivePages(pages, data) {
   return pages.filter(page => isActivePage(page, data));
 }
 
+/**
+ * Returns property keys for a page based on its schema and array context.
+ *
+ * - If no schema properties exist, returns an empty array.
+ * - For array pages, returns keys prefixed with `"arrayPath.index."`.
+ * - Otherwise, returns the top-level schema property keys.
+ *
+ * @param {Page} page - Page definition with schema and optional array context.
+ * @returns {string[]} Property keys (e.g., ["name"] or ["addresses.0.city"]).
+ *
+ * @example
+ * getPageProperties({ schema: { properties: { name: {}, age: {} } } });
+ * // ["name", "age"]
+ *
+ * @example
+ * getPageProperties({
+ *   schema: { properties: { addresses: { items: { properties: { street: {}, city: {} } } } } },
+ *   arrayPath: "addresses",
+ *   index: 0
+ * });
+ * // ["addresses.0.street", "addresses.0.city"]
+ *
+ * @see getActiveProperties
+ */
 export function getPageProperties(page) {
   if (!page?.schema?.properties) return [];
 
@@ -86,6 +110,24 @@ export function getPageProperties(page) {
   return Object.keys(page.schema.properties);
 }
 
+/**
+ * Deletes a deeply nested property from an object using a dot-separated path.
+ *
+ * Traverses `obj` along `pathString` and removes the final property if reachable.
+ * If any segment does not resolve to an object, the function exits without changes.
+ *
+ * @param {Object} obj - The object to modify (mutated in place).
+ * @param {string} pathString - Dot-separated path to the property (e.g., "user.address.street").
+ * @returns {void}
+ *
+ * @example
+ * const user = { profile: { name: "Alice", age: 30 } };
+ * deleteNestedProperty(user, "profile.age");
+ * // user => { profile: { name: "Alice" } }
+ *
+ * @see getPageProperties
+ * @see getActiveProperties
+ */
 export function deleteNestedProperty(obj, pathString) {
   let current = obj;
   const parts = pathString.split('.');
@@ -99,6 +141,36 @@ export function deleteNestedProperty(obj, pathString) {
   }
 }
 
+/**
+ * Aggregates active property keys across pages, de-duplicated.
+ *
+ * Uses {@link getPageProperties} for each page. Handles cases where array items
+ * are defined via `$ref` with no inline `properties`—in that case the array
+ * path itself (e.g., "dependents") is treated as active.
+ *
+ * @param {Page[]} activePages - Pages considered active.
+ * @returns {string[]} Unique list of active property keys.
+ *
+ * @example
+ * getActiveProperties([
+ *   { schema: { properties: { name: {}, age: {} } } },
+ *   {
+ *     schema: { properties: { addresses: { items: { properties: { city: {} } } } } },
+ *     arrayPath: "addresses",
+ *     index: 0
+ *   }
+ * ]);
+ * // ["name", "age", "addresses.0.city"]
+ *
+ * @example
+ * // $ref-like items with no inline properties
+ * getActiveProperties([
+ *   { schema: { properties: { dependents: { items: {} } } }, arrayPath: "dependents" }
+ * ]);
+ * // ["dependents"]
+ *
+ * @see getPageProperties
+ */
 export function getActiveProperties(activePages) {
   const props = activePages.flatMap(page => {
     const pageProps = getPageProperties(page);
@@ -302,6 +374,34 @@ function hasActiveAncestor(prop, activeSet) {
   return false;
 }
 
+/**
+ * Removes inactive page data from a form while preserving active fields and ancestors.
+ *
+ * Rules:
+ * - Active properties come from {@link getActiveProperties}.
+ * - A property is protected from deletion if it is active *or* has an active ancestor
+ *   (e.g., "dependents" protects "dependents.0.name").
+ * - Array items:
+ *   - If multiple fields within the same item are active, all siblings are preserved.
+ *   - If only one field is active, inactive siblings are removed.
+ *
+ * @param {Page[]} inactivePages - Pages considered inactive; their properties may be removed.
+ * @param {Page[]} activePages - Pages considered active; determine what to keep.
+ * @param {FormDataWrapper} form - Object containing the `data` to be filtered.
+ * @returns {Object} A deep-cloned `data` object with inactive properties removed.
+ *
+ * @example
+ * const form = { data: { firstName: "Alice", middleName: "M.", lastName: "Smith" } };
+ * filterInactivePageData(
+ *   [{ schema: { properties: { middleName: {} } } }],
+ *   [{ schema: { properties: { firstName: {}, lastName: {} } } }],
+ *   form
+ * );
+ * // => { firstName: "Alice", lastName: "Smith" }
+ *
+ * @see getActiveProperties
+ * @see deleteNestedProperty
+ */
 export function filterInactivePageData(inactivePages, activePages, form) {
   const activeProps = getActiveProperties(activePages);
   const activePropsSet = new Set(activeProps);

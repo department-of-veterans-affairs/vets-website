@@ -475,3 +475,16 @@
  * @property {boolean} [allowPartialAddress] Allows addresses with missing fields
  * @property {boolean} [replaceEscapedCharacters] Replaces escaped characters
  */
+
+/**
+ * @typedef {Object} Page
+ * @property {Object} schema - JSON schema for the page.
+ * @property {Object<string, Object>} [schema.properties] - Property definitions.
+ * @property {string} [arrayPath] - Dot path to an array field represented by this page (if any).
+ * @property {number} [index] - Array item index for array pages (if any).
+ */
+
+/**
+ * @typedef {Object} FormDataWrapper
+ * @property {Object} data - Arbitrary form data object to read/modify.
+ */
