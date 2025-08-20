@@ -3,7 +3,7 @@ describe('annotator debug', () => {
     cy.task('annotatorCanary', 'spec booted');
     cy.visit('/');
 
-    // (A) support hook present?
+    // (A) support hook present??
     cy.window().then(win => {
       expect(Boolean(win.__annotator__ && win.__annotator__.wrapped)).to.eq(
         true,
