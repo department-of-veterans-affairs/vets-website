@@ -32,7 +32,6 @@ describe('CompleteReferral', () => {
     'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
   );
   let sandbox;
-  let clock;
 
   const initialState = {
     referral: {
@@ -50,7 +49,12 @@ describe('CompleteReferral', () => {
     },
   };
   beforeEach(() => {
-    sandbox = sinon.createSandbox();
+    sandbox = sinon.createSandbox({
+      useFakeTimers: {
+        now: new Date(),
+        toFake: ['Date'],
+      },
+    });
     requestStub = sandbox.stub(utils, 'apiRequestWithUrl');
   });
   afterEach(() => {
@@ -92,10 +96,7 @@ describe('CompleteReferral', () => {
     expect(getByTestId('error-alert')).to.exist;
   });
 
-  it('should render warning alert when appointment info has timed out', () => {
-    clock = sinon.useFakeTimers({
-      toFake: ['setTimeout', 'clearTimeout', 'Date'],
-    });
+  it('should render warning alert when appointment info has timed out', async () => {
     requestStub.resolves({ data: referralDraftAppointmentInfo });
     const { getByTestId } = renderWithStoreAndRouter(
       <CompleteReferral currentReferral={currentReferral} />,
@@ -103,13 +104,14 @@ describe('CompleteReferral', () => {
         store: createTestStore(initialState),
       },
     );
-    clock.tick(33000);
-    waitFor(() => {
-      expect(getByTestId('warning-alert')).to.exist;
-    });
-
+    await sandbox.clock.tick(35000);
+    await waitFor(
+      () => {
+        expect(getByTestId('warning-alert')).to.exist;
+      },
+      { timeout: 3000, interval: 1000 },
+    );
     expect(getByTestId('warning-alert')).to.exist;
-    clock.restore();
   });
 
   it('should render appointment details correctly', async () => {

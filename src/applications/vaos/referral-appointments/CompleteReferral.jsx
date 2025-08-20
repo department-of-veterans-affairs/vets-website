@@ -78,7 +78,7 @@ export const CompleteReferral = props => {
         setAppointmentInfoTimeout(true);
         setPollingInterval(0);
       } else {
-        requestInterval = setTimeout(() => {
+        requestInterval = setInterval(() => {
           setRequestTime(
             differenceInMilliseconds(
               new Date(),
@@ -87,7 +87,7 @@ export const CompleteReferral = props => {
           );
         }, pollingInterval);
       }
-      return () => clearTimeout(requestInterval);
+      return () => clearInterval(requestInterval);
     },
     [
       booked,
