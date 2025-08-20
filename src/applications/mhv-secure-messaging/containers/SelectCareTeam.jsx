@@ -12,6 +12,7 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
 import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import { Paths } from '../util/constants';
+import manifest from '../manifest.json';
 import RecipientsSelect from '../components/ComposeForm/RecipientsSelect';
 import EmergencyNote from '../components/EmergencyNote';
 import { updateDraftInProgress } from '../actions/threadDetails';
@@ -26,7 +27,9 @@ const SelectCareTeam = () => {
     allowedRecipients,
   } = useSelector(state => state.sm.recipients);
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
-  const { draftInProgress } = useSelector(state => state.sm.threadDetails);
+  const { draftInProgress, acceptIntersticial } = useSelector(
+    state => state.sm.threadDetails,
+  );
 
   const [careTeamError, setCareTeamError] = useState('');
   const [careTeamsList, setCareTeamsList] = useState([]);
@@ -39,6 +42,14 @@ const SelectCareTeam = () => {
   const [recipientsSelectKey, setRecipientsSelectKey] = useState(0); // controls resetting the careTeam combo box when the careSystem changes
 
   const MAX_RADIO_OPTIONS = 6;
+
+  useEffect(
+    () => {
+      if (!acceptIntersticial)
+        window.location.replace(`${manifest.rootUrl}${Paths.COMPOSE}`);
+    },
+    [acceptIntersticial],
+  );
 
   // On initial load, always clear the active care system
   // This ensures that if the user navigates back to this page, they will see

@@ -2,6 +2,7 @@ import { Actions } from '../util/actionTypes';
 import { updateMessageInThread, updateDrafts } from '../util/helpers';
 
 const initialState = {
+  acceptIntersticial: false,
   drafts: [],
   messages: undefined,
   isLoading: false,
@@ -144,6 +145,13 @@ export const threadDetailsReducer = (state = initialState, action) => {
           ...initialState.draftInProgress,
         },
       };
+
+    case Actions.Draft.SET_ACCEPT_INTERSTITIAL: {
+      return {
+        ...state,
+        acceptIntersticial: action.payload,
+      };
+    }
 
     default:
       return state;

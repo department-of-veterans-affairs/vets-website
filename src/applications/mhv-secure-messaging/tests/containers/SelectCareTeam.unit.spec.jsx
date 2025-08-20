@@ -230,6 +230,7 @@ describe('SelectCareTeam', () => {
       sm: {
         ...initialState.sm,
         threadDetails: {
+          acceptIntersticial: false,
           draftInProgress: {
             recipientId: initialState.sm.recipients.allowedRecipients[0].id,
             recipientName: initialState.sm.recipients.allowedRecipients[0].name,
@@ -371,5 +372,67 @@ describe('SelectCareTeam', () => {
       careSystemVhaId: '662',
       careSystemName: 'Test Facility 1',
     });
+  });
+
+  it('redirects users to interstitial page if interstitial not accepted', async () => {
+    const oldLocation = global.window.location;
+    global.window.location = {
+      replace: sinon.spy(),
+    };
+    window.location.replace = sinon.spy();
+
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        threadDetails: {
+          acceptIntersticial: false,
+          draftInProgress: {},
+        },
+      },
+    };
+
+    renderWithStoreAndRouter(<SelectCareTeam />, {
+      initialState: customState,
+      reducers: reducer,
+      path: Paths.SELECT_CARE_TEAM,
+    });
+
+    await waitFor(() => {
+      expect(window.location.replace.called).to.be.true;
+    });
+
+    global.window.location = oldLocation;
+  });
+
+  it('wont redirect users if interstitial accepted', async () => {
+    const oldLocation = global.window.location;
+    global.window.location = {
+      replace: sinon.spy(),
+    };
+    window.location.replace = sinon.spy();
+
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        threadDetails: {
+          acceptIntersticial: true,
+          draftInProgress: {},
+        },
+      },
+    };
+
+    renderWithStoreAndRouter(<SelectCareTeam />, {
+      initialState: customState,
+      reducers: reducer,
+      path: Paths.SELECT_CARE_TEAM,
+    });
+
+    await waitFor(() => {
+      expect(window.location.replace.called).to.be.false;
+    });
+
+    global.window.location = oldLocation;
   });
 });
