@@ -2,6 +2,8 @@ import React, { useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
+import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { Paths, PageTitles } from '../util/constants';
 
 const CareTeamHelp = () => {
@@ -85,8 +87,9 @@ const CareTeamHelp = () => {
 
           <p>
             If you need more help, call us at{' '}
-            <strong>877-327-0022 (TTY: 711)</strong>. We’re here Monday through
-            Friday, 8:00 a.m. to 8:00 p.m. ET.
+            <VaTelephone contact={CONTACTS.MY_HEALTHEVET} /> (
+            <VaTelephone contact={CONTACTS['711']} tty />
+            ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
           </p>
 
           <va-button
@@ -151,8 +154,9 @@ const CareTeamHelp = () => {
 
           <p>
             If you need more help, call us at{' '}
-            <strong>877-327-0022 (TTY: 711)</strong>. We’re here Monday through
-            Friday, 8:00 a.m. to 8:00 p.m. ET.
+            <VaTelephone contact={CONTACTS.MY_HEALTHEVET} /> (
+            <VaTelephone contact={CONTACTS['711']} tty />
+            ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
           </p>
 
           <va-button
@@ -216,8 +220,9 @@ const CareTeamHelp = () => {
 
         <p>
           If you need more help, call us at{' '}
-          <strong>877-327-0022 (TTY: 711)</strong>. We’re here Monday through
-          Friday, 8:00 a.m. to 8:00 p.m. ET.
+          <VaTelephone contact={CONTACTS.MY_HEALTHEVET} /> (
+          <VaTelephone contact={CONTACTS['711']} tty />
+          ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </p>
 
         <va-button
