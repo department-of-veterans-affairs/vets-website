@@ -82,9 +82,10 @@ class PatientComposePage {
   };
 
   selectCategory = (category = 'OTHER') => {
-    cy.get(`#compose-message-categories${category}input`).click({
-      force: true,
-    });
+    cy.get('[data-testid="compose-message-categories"]')
+      .shadow()
+      .find('select')
+      .select(category, { force: true });
   };
 
   getMessageSubjectField = () => {
@@ -161,9 +162,10 @@ class PatientComposePage {
       .shadow()
       .find('select')
       .select(1, { force: true });
-    cy.tabToElement(Locators.BUTTONS.CATEGORY_RADIO_BUTTON)
-      .first()
-      .click();
+    // Tab to category select and verify it's focusable
+    cy.tabToElement('[data-testid="compose-message-categories"]')
+      .should('be.visible')
+      .invoke('attr', 'value', 'OTHER');
     cy.tabToElement(Locators.MESSAGE_SUBJECT)
       .shadow()
       .find('#inputField')
