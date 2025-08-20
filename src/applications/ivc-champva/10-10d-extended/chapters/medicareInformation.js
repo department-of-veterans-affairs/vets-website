@@ -51,14 +51,14 @@ const toHashMemoized = memoize(str => toHash(str));
  */
 const yesNoOptions = {
   title: 'Do you have any Medicare to report for one or more applicants?',
-  labelHeaderLevel: '5',
+  labelHeaderLevel: '2',
   labelHeaderLevelStyle: '5',
   hint:
     'If any applicants have Medicare, it is required to report it to process your application for CHAMPVA benefits.',
 };
 const yesNoOptionsMore = {
   title: 'Do you have any other applicants with Medicare to report?',
-  labelHeaderLevel: '5',
+  labelHeaderLevel: '2',
   labelHeaderLevelStyle: '5',
   hint:
     'If any applicants have Medicare, it is required to report it to process your application for CHAMPVA benefits.',
