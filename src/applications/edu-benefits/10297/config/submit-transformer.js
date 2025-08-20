@@ -2,26 +2,18 @@ import _ from 'lodash';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import { dateSigned } from '../helpers';
 
-// create test object
 export function transform(formConfig, form) {
   const contactInfoTransform = formData => {
     const clonedData = _.cloneDeep(formData);
-    // const { contactInfo } = clonedData;
-
-    // const homePhone = contactInfo?.homePhone
-    //   ? contactInfo.homePhone.replace(/[^0-9]/g, '')
-    //   : '';
-
-    // const mobilePhone = contactInfo?.mobilePhone
-    //   ? contactInfo.mobilePhone.replace(/[^0-9]/g, '')
-    //   : '';
 
     return {
       ...clonedData,
       contactInfo: {
         ...clonedData.contactInfo,
+        mobilePhone: clonedData.contactInfo.mobilePhone
+          ? clonedData.contactInfo.mobilePhone
+          : '1231231234',
         // homePhone,
-        // mobilePhone,
       },
     };
   };
@@ -29,19 +21,22 @@ export function transform(formConfig, form) {
   // Will be removed
   const eligibilityTransform = formData => {
     const clonedData = _.cloneDeep(formData);
-    // const { dutyRequirement } = clonedData;
+
     delete clonedData.dutyRequirement;
     delete clonedData.otherThanDishonorableDischarge;
-    delete clonedData.AGREED;
-    if (!clonedData.hasCompletedActiveDuty) {
-      delete clonedData.dateReleasedFromActiveDuty;
-    }
+
+    // if (!clonedData.hasCompletedActiveDuty) {
+    //   delete clonedData.dateReleasedFromActiveDuty;
+    // }
 
     return {
       ...clonedData,
       dateSigned: dateSigned(),
-      // hasCompletedByDischarge: dutyRequirement === 'byDischarge',
-      // hasCompletedActiveDuty: dutyRequirement === 'atLeast3Years',
+      dateReleasedFromActiveDuty: clonedData.dateReleasedFromActiveDuty
+        ? clonedData.dateReleasedFromActiveDuty
+        : '2025-08-20',
+      hasCompletedByDischarge: clonedData.dutyRequirement === 'byDischarge',
+      hasCompletedActiveDuty: clonedData.dutyRequirement === 'atLeast3Years',
     };
   };
 
@@ -55,19 +50,9 @@ export function transform(formConfig, form) {
     };
   };
 
-  /* 
-  trainingProviders.providers gets stripped if no providers are added -- 
-  values with empty arrays passed to transformForSubmit are removed.
-
-  Consider making both fields in trainingProviders optional in schema, or using oneOf 
-  property for trainingProviders.providers to be an array or boolean for explicit definition.
-
-  Verify plannedStartDate transform after requirements update
-  */
-
   const trainingProviderTransform = formData => {
     const clonedData = _.cloneDeep(formData);
-    const { plannedStartDate, trainingProviders } = clonedData;
+    const { trainingProviders } = clonedData;
 
     delete clonedData.plannedStartDate;
 
@@ -79,18 +64,33 @@ export function transform(formConfig, form) {
               ...provider,
             }))
           : [],
-        plannedStartDate: plannedStartDate || Date.now(),
+        plannedStartDate: clonedData.plannedStartDate || '2025-08-20',
       },
     };
   };
 
-  /*
-  consider employmentDetails transfom or updating schema:
-  - employmentStatus is optional in in UI config but required in schema
-  - highestLevelOfEducation is optional in UI config but required in schema
-  - want to capture user input in schema if select 'something else' for highestLevelOfEducation?
-  - want to capture user input in schema if select 'something else' for technologyAreaOfFocus?
-  */
+  const employmentDetailsTransform = formData => {
+    const clonedData = _.cloneDeep(formData);
+
+    return {
+      ...clonedData,
+      isEmployed: clonedData.isEmployed ? clonedData.isEmployed : false,
+      highestLevelOfEducation: clonedData.highestLevelOfEducation
+        ? clonedData.highestLevelOfEducation
+        : 'NA',
+    };
+  };
+
+  const privacyAgreementTransform = formData => {
+    const clonedData = _.cloneDeep(formData);
+
+    delete clonedData.AGREED;
+
+    return {
+      ...clonedData,
+      privacyAgreementAccepted: true,
+    };
+  };
 
   const usFormTransform = formData =>
     transformForSubmit(formConfig, { ...form, data: formData });
@@ -99,6 +99,8 @@ export function transform(formConfig, form) {
     contactInfoTransform,
     eligibilityTransform,
     identificationTransform,
+    employmentDetailsTransform,
+    privacyAgreementTransform,
     trainingProviderTransform,
     usFormTransform,
   ].reduce((formData, transformer) => {
