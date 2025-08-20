@@ -13,6 +13,7 @@ const updateFormData = (oldData, formData) => {
       ...formData,
       institutionDetails: {
         ...formData.institutionDetails,
+        facilityCode: '',
         institutionName: '',
         institutionAddress: {},
       },
