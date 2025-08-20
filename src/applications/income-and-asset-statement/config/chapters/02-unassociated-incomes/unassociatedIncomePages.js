@@ -17,6 +17,7 @@ import {
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { SummaryDescription } from '../../../components/RecurringIncomeSummaryDescription';
+import { DependentDescription } from '../../../components/DependentDescription';
 import {
   formatCurrency,
   formatPossessiveString,
@@ -37,6 +38,14 @@ import {
   relationshipLabelDescriptions,
   relationshipLabels,
 } from '../../../labels';
+
+const customDependentDescription = props => {
+  return props.formData.unassociatedIncomes?.length ? (
+    <></>
+  ) : (
+    <DependentDescription />
+  ); // render the dependent description component if no recurring incomes are present
+};
 
 /** @type {ArrayBuilderOptions} */
 export const options = {
@@ -306,13 +315,15 @@ const custodianIncomeRecipientPage = {
       ...sharedRecipientRelationshipBase,
       labels: Object.fromEntries(
         Object.entries(relationshipLabels)
-          .filter(
-            ([key]) =>
-              key === 'SPOUSE' || key === 'CUSTODIAN' || key === 'OTHER',
+          .filter(([key]) =>
+            ['SPOUSE', 'CHILD', 'CUSTODIAN', 'OTHER'].includes(key),
           )
           .map(([key, value]) => {
             if (key === 'SPOUSE') {
               return [key, 'Custodian’s spouse'];
+            }
+            if (key === 'CHILD') {
+              return [key, 'Veteran’s surviving child '];
             }
             if (key === 'CUSTODIAN') {
               return [key, 'Child’s custodian'];
@@ -333,7 +344,12 @@ const custodianIncomeRecipientPage = {
   schema: {
     type: 'object',
     properties: {
-      recipientRelationship: radioSchema(['CUSTODIAN', 'SPOUSE', 'OTHER']),
+      recipientRelationship: radioSchema([
+        'CUSTODIAN',
+        'SPOUSE',
+        'CHILD',
+        'OTHER',
+      ]),
       otherRecipientRelationshipType: { type: 'string' },
     },
     required: ['recipientRelationship'],
@@ -480,6 +496,9 @@ export const unassociatedIncomePages = arrayBuilderPages(
       schema: summaryPage.schema,
     }),
     unassociatedIncomePagesUpdatedSummary: pageBuilder.summaryPage({
+      ContentBeforeButtons: showUpdatedContent()
+        ? customDependentDescription
+        : null,
       title: 'Recurring income',
       path: 'recurring-income-summary-updated',
       depends: formData =>
@@ -491,6 +510,9 @@ export const unassociatedIncomePages = arrayBuilderPages(
       schema: summaryPage.schema,
     }),
     unassociatedIncomePagesUpdatedSpouseSummary: pageBuilder.summaryPage({
+      ContentBeforeButtons: showUpdatedContent()
+        ? customDependentDescription
+        : null,
       title: 'Recurring income',
       path: 'recurring-income-summary-spouse',
       depends: formData =>
@@ -499,6 +521,9 @@ export const unassociatedIncomePages = arrayBuilderPages(
       schema: summaryPage.schema,
     }),
     unassociatedIncomePagesUpdatedChildSummary: pageBuilder.summaryPage({
+      ContentBeforeButtons: showUpdatedContent()
+        ? customDependentDescription
+        : null,
       title: 'Recurring income',
       path: 'recurring-income-summary-child',
       depends: formData =>
@@ -507,6 +532,9 @@ export const unassociatedIncomePages = arrayBuilderPages(
       schema: summaryPage.schema,
     }),
     unassociatedIncomePagesUpdatedCustodianSummary: pageBuilder.summaryPage({
+      ContentBeforeButtons: showUpdatedContent()
+        ? customDependentDescription
+        : null,
       title: 'Recurring income',
       path: 'recurring-income-summary-custodian',
       depends: formData =>
