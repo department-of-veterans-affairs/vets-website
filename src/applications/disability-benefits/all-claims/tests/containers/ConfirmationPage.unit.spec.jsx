@@ -24,7 +24,10 @@ const getData = ({
   },
   featureToggles,
   form: {
-    data: {},
+    data: {
+      standardClaim: true,
+      isVaEmployee: true,
+    },
   },
 });
 
@@ -40,7 +43,10 @@ describe('ConfirmationPage', () => {
     submittedAt: new Date('November, 7, 2024'),
     route: {
       formConfig,
-      pageList: [],
+      pageList: [
+        { path: '/introduction' },
+        { path: '/veteran-information', formConfig },
+      ],
     },
   };
 
@@ -79,13 +85,7 @@ describe('ConfirmationPage', () => {
       props.isSubmittingBDD = true;
     }
 
-    const {
-      container,
-      getByText,
-      queryByText,
-      getByTestId,
-      queryByTestId,
-    } = render(
+    const { container, getByText, queryByText } = render(
       <Provider store={store}>
         <ConfirmationPage {...props} />
       </Provider>,
@@ -97,10 +97,14 @@ describe('ConfirmationPage', () => {
       expect(queryByText(bddConfirmationHeadline)).to.not.exist;
     }
 
+    // copy of submission section
+    const accordionItem = container.querySelector(
+      'va-accordion-item[header="Information you submitted on this form"]',
+    );
     if (showCopyofSubmission) {
-      expect(getByTestId('new-confirmation-review-component')).to.exist;
+      expect(accordionItem).to.exist;
     } else {
-      expect(queryByTestId('new-confirmation-review-component')).to.be.null;
+      expect(accordionItem).to.be.null;
     }
 
     // success alert
