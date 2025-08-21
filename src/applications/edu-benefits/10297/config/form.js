@@ -37,6 +37,7 @@ import { trainingProviderArrayOptions } from '../helpers';
 import dateReleasedFromActiveDuty from '../pages/dateReleasedFromActiveDuty';
 import activeDutyStatus from '../pages/activeDutyStatus';
 import createDirectDepositPage from '../pages/DirectDeposit';
+import prefillTransformer from './prefill-transformer';
 
 export const submitFormLogic = (form, formConfig) => {
   if (environment.isDev() || environment.isLocalhost()) {
@@ -64,6 +65,7 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   savedFormMessages: {
     notFound: 'Please start over to apply for education benefits.',
     noAuth:

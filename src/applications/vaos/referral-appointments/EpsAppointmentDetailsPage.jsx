@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useHistory } from 'react-router-dom';
-import { format } from 'date-fns';
 
 import { fetchAppointmentInfo, setFormCurrentPage } from './redux/actions';
 // eslint-disable-next-line import/no-restricted-paths
@@ -11,8 +10,8 @@ import { getReferralAppointmentInfo } from './redux/selectors';
 import PageLayout from '../appointment-list/components/PageLayout';
 import FullWidthLayout from '../components/FullWidthLayout';
 import Section from '../components/Section';
-// eslint-disable-next-line import/no-restricted-paths
-import { AppointmentTime } from '../appointment-list/components/AppointmentDateTime';
+import AppointmentDate from '../components/AppointmentDate';
+import AppointmentTime from '../components/AppointmentTime';
 import ProviderAddress from './components/ProviderAddress';
 
 export default function EpsAppointmentDetailsPage() {
@@ -87,11 +86,6 @@ export default function EpsAppointmentDetailsPage() {
 
   const { attributes: appointment } = referralAppointmentInfo;
 
-  const appointmentDate = format(
-    new Date(appointment.start),
-    'EEEE, MMMM do, yyyy',
-  );
-
   return (
     <PageLayout>
       <div className="vaos-hide-for-print mobile:vads-u-margin-bottom--0 mobile-lg:vads-u-margin-bottom--1 medium-screen:vads-u-margin-bottom--2">
@@ -125,11 +119,11 @@ export default function EpsAppointmentDetailsPage() {
           <span data-dd-privacy="mask">Community Care Appointment</span>
         </h1>
         <Section heading="When">
-          <span data-dd-privacy="mask">{appointmentDate}</span>
+          <AppointmentDate date={appointment.start} />
           <br />
           <AppointmentTime
-            appointment={appointment}
-            timezone={appointment.timezone}
+            date={appointment.start}
+            timezone={appointment.provider.location.timezone}
           />
         </Section>
         <Section heading="Provider">
