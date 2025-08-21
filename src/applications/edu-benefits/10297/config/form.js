@@ -39,9 +39,9 @@ import activeDutyStatus from '../pages/activeDutyStatus';
 import createDirectDepositPage from '../pages/DirectDeposit';
 
 export const submitFormLogic = (form, formConfig) => {
-  // if (environment.isDev() || environment.isLocalhost()) {
-  //   return Promise.resolve(testData);
-  // }
+  if (environment.isDev() || environment.isLocalhost()) {
+    return Promise.resolve(testData);
+  }
   return submitForm(form, formConfig);
 };
 
