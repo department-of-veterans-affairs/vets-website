@@ -18,13 +18,13 @@ const CHANGED_APPS = process.env.CHANGED_FILES
   : [];
 
 const dateTimeHelpers = [
-  'new Date(',
-  'Date.now(',
+  'new Date()',
+  'Date.now()',
   'Date.parse(',
   'Date.UTC(',
-  'dayjs(',
-  'moment(',
-  'DateTime.now(',
+  'dayjs()',
+  'moment()',
+  'DateTime.now()',
   'cy.clock(',
   'cy.tick(',
   'getHours(',
