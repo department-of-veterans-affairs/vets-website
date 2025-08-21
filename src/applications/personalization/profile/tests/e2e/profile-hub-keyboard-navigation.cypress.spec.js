@@ -50,11 +50,11 @@ describe('Profile - Hub page, Keyboard navigation', () => {
     const notificationSettingsIndex = PROFILE_HREFS.indexOf(
       PROFILE_PATHS.NOTIFICATION_SETTINGS,
     );
-    const PROFILE_HREFS_WITH_PAPERLESS = PROFILE_HREFS.toSpliced(
-      notificationSettingsIndex + 1,
-      0,
+    const PROFILE_HREFS_WITH_PAPERLESS = [
+      ...PROFILE_HREFS.slice(0, notificationSettingsIndex + 1),
       PROFILE_PATHS.PAPERLESS_DELIVERY,
-    );
+      ...PROFILE_HREFS.slice(notificationSettingsIndex + 1),
+    ];
     const [firstHref, ...hrefs] = PROFILE_HREFS_WITH_PAPERLESS;
     cy.tabToElement(`a[href^="${firstHref}"]`);
     hrefs.forEach(href => {
