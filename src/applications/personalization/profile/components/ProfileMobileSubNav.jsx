@@ -1,3 +1,4 @@
+/* eslint-disable @department-of-veterans-affairs/prefer-button-component */
 import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { isEscape } from 'platform/utilities/accessibility';
@@ -64,13 +65,16 @@ const ProfileMobileSubNav = ({ isLOA3, isInMVI, routes }) => {
       >
         {!isMenuOpen && (
           <h2 tabIndex="-1" className={menuButtonClasses}>
-            <va-button
+            <button
               ref={openMenuButton}
               className="open-menu"
-              text="Profile menu"
+              type="button"
               onClick={() => setIsMenuOpen(true)}
               id="mobile-subnav-header-button"
-            />
+            >
+              <strong>Profile menu</strong>
+              <va-icon icon="menu" size={3} aria-hidden="true" />
+            </button>
           </h2>
         )}
         {isMenuOpen && (
@@ -81,17 +85,25 @@ const ProfileMobileSubNav = ({ isLOA3, isInMVI, routes }) => {
                   Profile menu
                 </h2>
               </strong>
-              <va-button
+              <button
                 ref={closeMenuButton}
                 className="close-menu vads-u-display--flex"
-                text="Close"
                 style={{ alignItems: 'center' }}
+                type="button"
                 onClick={() => {
                   // close menu and set focus to the trigger button
                   setIsMenuOpen(false);
                   setFocusTriggerButton(true);
                 }}
-              />
+              >
+                <span>Close</span>
+                <va-icon
+                  size={3}
+                  icon="close"
+                  aria-hidden="true"
+                  style={{ top: '1px', position: 'relative' }}
+                />
+              </button>
             </div>
             <ProfileSubNav
               isLOA3={isLOA3}
