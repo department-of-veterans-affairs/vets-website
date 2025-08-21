@@ -92,7 +92,9 @@ const CareSummariesAndNotes = () => {
         Care summaries and notes
       </h1>
 
-      <p>This list doesn’t include care summaries from before 2013.</p>
+      {!isAcceleratingCareNotes && (
+        <p>This list doesn’t include care summaries from before 2013.</p>
+      )}
 
       <AcceleratedCernerFacilityAlert
         {...CernerAlertContent.CARE_SUMMARIES_AND_NOTES}

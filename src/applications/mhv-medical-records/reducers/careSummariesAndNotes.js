@@ -244,10 +244,28 @@ export function formatDateTime(datetimeString) {
 }
 
 const convertUnifiedCareSummariesAndNotesRecord = record => {
-  const { formattedDate, formattedTime } = formatDateTime(
-    record.attributes.date,
+  const formattedNoteDate = formatDateTime(record.attributes.date);
+  const noteDate = formattedNoteDate
+    ? `${formattedNoteDate.formattedDate}, ${formattedNoteDate.formattedTime}`
+    : '';
+
+  const formattedAdmissionDate = formatDateTime(
+    record.attributes.admissionDate,
   );
-  const date = formattedDate ? `${formattedDate}, ${formattedTime}` : '';
+  const admissionDate = formattedAdmissionDate
+    ? `${formattedAdmissionDate.formattedDate}, ${
+        formattedAdmissionDate.formattedTime
+      }`
+    : '';
+  const formattedDischargeDate = formatDateTime(
+    record.attributes.dischargeDate,
+  );
+  const dischargedDate = formattedDischargeDate
+    ? `${formattedDischargeDate.formattedDate}, ${
+        formattedDischargeDate.formattedTime
+      }`
+    : '';
+
   return {
     id: record.id,
     name: record.attributes.name || EMPTY_FIELD,
@@ -255,12 +273,16 @@ const convertUnifiedCareSummariesAndNotesRecord = record => {
       ? record.attributes.loincCodes[0]
       : EMPTY_FIELD,
     loincCodes: record.attributes.loincCodes || [],
-    date: date || EMPTY_FIELD,
+    date: noteDate || EMPTY_FIELD,
     dateSigned: record.attributes.dateSigned || EMPTY_FIELD,
     writtenBy: record.attributes.writtenBy || EMPTY_FIELD,
     signedBy: record.attributes.signedBy || EMPTY_FIELD,
     location: record.attributes.location || EMPTY_FIELD,
     note: record.attributes.note || EMPTY_FIELD,
+    dischargedBy: record.attributes.dischargedBy || EMPTY_FIELD,
+    admissionDate,
+    dischargedDate,
+    summary: record.attributes.summary || EMPTY_FIELD,
   };
 };
 /**
