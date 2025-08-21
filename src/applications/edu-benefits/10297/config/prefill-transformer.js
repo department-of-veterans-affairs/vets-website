@@ -10,24 +10,16 @@ export default function prefillTransformer(pages, formData, metadata, state) {
     } = state.user.vet360ContactInformation || {};
 
     const { applicantFullName, homePhone, email, ssn, mailingAddress } = data;
-    const {
-      edipi,
-      icn,
-      dob,
-      email: emailAddress,
-      userFullName,
-    } = state.user.profile;
+    const { dob, email: emailAddress, userFullName } = state.user.profile;
 
     const emailAddresses = email || emailAddress || undefined;
 
-    const newData = _.omit(['homePhone', 'email', 'dob', 'edipi', 'icn'], data);
+    const newData = _.omit(['homePhone', 'email', 'dob'], data);
     newData.contactInfo = {
       homePhone: homePhone || phone || '',
       mobilePhone: mobilePhone || '',
       emailAddress: emailAddresses,
     };
-    newData.edipi = edipi;
-    newData.icn = icn;
     newData.dateOfBirth = dob;
     newData.applicantFullName = applicantFullName || userFullName;
     newData.mailingAddress = mailingAddress || userMailingAddress;
