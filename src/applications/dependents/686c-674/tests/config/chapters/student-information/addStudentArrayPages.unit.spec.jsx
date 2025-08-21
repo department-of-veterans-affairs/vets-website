@@ -46,7 +46,6 @@ describe('addStudentsOptions', () => {
         studentDidAttendSchoolLastTerm: true,
         lastTermSchoolInformation: { termBegin: '', dateTermEnded: '' },
       },
-      claimsOrReceivesPension: true,
       typeOfProgramOrBenefit: { someBenefit: true },
       benefitPaymentDate: '',
     };
@@ -296,7 +295,7 @@ describe('674 Add students: Student income the past year ', () => {
     );
 
     expect($$('va-radio', container).length).to.equal(1);
-    expect($$('va-radio-option', container).length).to.equal(3);
+    expect($$('va-radio-option', container).length).to.equal(2);
   });
 });
 
@@ -605,31 +604,6 @@ describe('674 Add students: Previous term dates', () => {
     );
 
     expect($$('va-memorable-date', container).length).to.equal(2);
-  });
-});
-
-describe('674 Add students: Veteran claims pension', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.report674.pages.addStudentsPartSixteen;
-
-  it('should render', () => {
-    const { container } = render(
-      <Provider store={defaultStore}>
-        <DefinitionTester
-          schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}
-          data={formData()}
-          arrayPath={arrayPath}
-          pagePerItemIndex={0}
-        />
-      </Provider>,
-    );
-
-    expect($$('va-radio', container).length).to.equal(1);
-    expect($$('va-radio-option', container).length).to.equal(2);
   });
 });
 

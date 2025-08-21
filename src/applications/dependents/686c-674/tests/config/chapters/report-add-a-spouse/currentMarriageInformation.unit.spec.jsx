@@ -124,7 +124,7 @@ describe('686 current marriage information: Spouse income', () => {
     );
 
     expect($$('va-radio', container).length).to.equal(1);
-    expect($$('va-radio-option', container).length).to.equal(3);
+    expect($$('va-radio-option', container).length).to.equal(2);
   });
 });
 
