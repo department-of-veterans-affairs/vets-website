@@ -31,7 +31,7 @@ testNumberOfErrorsOnSubmitForWebComponents(
 );
 
 // run test for correct number of standard fields on the page
-const expectedNumberOfFields = 1;
+const expectedNumberOfFields = 2;
 testNumberOfFields(
   formConfig,
   schema,
