@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import BasicLink from './BasicLink';
 
-export const EVIDENCE_PRIVATE_REQUEST =
-  'supporting-evidence/request-private-medical-records';
+export const EVIDENCE_PRIVATE_MEDICAL_RECORDS =
+  'supporting-evidence/private-medical-records';
 
 const AuthorizationAlert = ({ hasError, onAnchorClick }) => (
   <va-alert status="error" visible={hasError} role="alert">
@@ -29,7 +29,7 @@ const AuthorizationAlert = ({ hasError, onAnchorClick }) => (
     </p>
     <BasicLink
       className="vads-u-display--block vads-u-margin-top--2"
-      path={`/${EVIDENCE_PRIVATE_REQUEST}`}
+      path={`/${EVIDENCE_PRIVATE_MEDICAL_RECORDS}`}
       text="Go back to select ‘No’"
     />
   </va-alert>
