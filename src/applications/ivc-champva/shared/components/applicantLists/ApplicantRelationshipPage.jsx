@@ -220,27 +220,49 @@ export default function ApplicantRelationshipPage(props) {
   const handlers = {
     validate() {
       let isValid = true;
+
+      // clear any existing errors
+      setCheckError(null);
+      setInputError(null);
+
+      // primary field validation
       if (!checkValue[primary]) {
         setCheckError('This field is required');
         isValid = false;
-      } else {
-        setCheckError(null); // Clear any existing err msg
       }
-      if (checkValue[primary] === 'other' && !checkValue[secondary]) {
-        setInputError('This field is required');
-        isValid = false;
-      } else if (checkValue[primary] === 'other' && checkValue[secondary]) {
-        const errMsg = validateText(checkValue[secondary]);
-        if (errMsg) {
-          setInputError(errMsg);
+
+      // secondary field validation (for "other" option)
+      if (checkValue[primary] === 'other') {
+        if (!checkValue[secondary]) {
+          setInputError('This field is required');
           isValid = false;
         } else {
-          setInputError(null);
+          const errMsg = validateText(checkValue[secondary]);
+          if (errMsg) {
+            setInputError(errMsg);
+            isValid = false;
+          }
         }
-      } else {
-        setInputError(null);
       }
-      if (!isValid) setFocusOnRadio(); // we have an error, set focus on the input
+
+      // spouse validation - only one spouse allowed
+      if (checkValue[primary] === 'spouse') {
+        const hasExistingSpouse = fullData.applicants.some(
+          (item, idx) =>
+            item?.applicantRelationshipToSponsor?.relationshipToVeteran ===
+              'spouse' && idx !== pagePerItemIndex,
+        );
+        if (hasExistingSpouse) {
+          setCheckError(
+            'Only one applicant can have a spousal relationship to the Veteran',
+          );
+          isValid = false;
+        }
+      }
+
+      // we have an error, set focus on the input
+      if (!isValid) setFocusOnRadio();
+
       return isValid;
     },
     radioUpdate: ({ detail }) => {
