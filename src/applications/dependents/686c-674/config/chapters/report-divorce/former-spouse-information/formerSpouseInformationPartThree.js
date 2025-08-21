@@ -10,7 +10,7 @@ export const schema = {
     reportDivorce: {
       type: 'object',
       properties: {
-        spouseIncome: radioSchema(['Y', 'N', 'NA']),
+        spouseIncome: radioSchema(['Y', 'N']),
       },
     },
   },
@@ -21,14 +21,11 @@ export const uiSchema = {
     ...titleUI('Divorced spouse’s income'),
     spouseIncome: radioUI({
       title: 'Did this dependent have an income in the last 365 days?',
-      hint:
-        'Answer this question only if you are removing this dependent from your pension.',
       labels: {
         Y: 'Yes',
         N: 'No',
-        NA: 'This question doesn’t apply to me',
       },
-      required: () => false,
+      required: () => true,
     }),
   },
 };

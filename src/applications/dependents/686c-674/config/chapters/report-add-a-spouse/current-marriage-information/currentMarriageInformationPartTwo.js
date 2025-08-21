@@ -10,7 +10,7 @@ export const schema = {
     doesLiveWithSpouse: {
       type: 'object',
       properties: {
-        spouseIncome: radioSchema(['Y', 'N', 'NA']),
+        spouseIncome: radioSchema(['Y', 'N']),
       },
     },
   },
@@ -26,9 +26,8 @@ export const uiSchema = {
       labels: {
         Y: 'Yes',
         N: 'No',
-        NA: 'This question doesn’t apply to me',
       },
-      required: () => false,
+      required: () => true,
     }),
   },
 };

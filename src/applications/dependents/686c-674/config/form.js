@@ -104,7 +104,6 @@ import {
   studentTermDatesPage,
   previousTermQuestionPage,
   previousTermDatesPage,
-  claimsOrReceivesPensionPage,
   studentEarningsPage,
   studentFutureEarningsPage,
   studentAssetsPage,
@@ -677,25 +676,14 @@ export const formConfig = {
               formData?.studentInformation?.[index]?.schoolInformation
                 ?.studentDidAttendSchoolLastTerm,
           }),
-          addStudentsPartSixteen: pageBuilder.itemPage({
-            title: 'Add one or more students between ages 18 and 23',
-            path: 'report-674/add-students/:index/additional-student-income',
-            uiSchema: claimsOrReceivesPensionPage.uiSchema,
-            schema: claimsOrReceivesPensionPage.schema,
-            depends: formData =>
-              isChapterFieldRequired(formData, TASK_KEYS.report674) &&
-              formData?.['view:addOrRemoveDependents']?.add &&
-              showPensionRelatedQuestions(formData),
-          }),
           addStudentsPartSeventeen: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
             path: 'report-674/add-students/:index/all-student-income',
             uiSchema: studentEarningsPage.uiSchema,
             schema: studentEarningsPage.schema,
-            depends: (formData, index) =>
+            depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674) &&
               formData?.['view:addOrRemoveDependents']?.add &&
-              formData?.studentInformation?.[index]?.claimsOrReceivesPension &&
               showPensionRelatedQuestions(formData),
           }),
           addStudentsPartEighteen: pageBuilder.itemPage({
@@ -703,10 +691,9 @@ export const formConfig = {
             path: 'report-674/add-students/:index/expected-student-income',
             uiSchema: studentFutureEarningsPage.uiSchema,
             schema: studentFutureEarningsPage.schema,
-            depends: (formData, index) =>
+            depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674) &&
               formData?.['view:addOrRemoveDependents']?.add &&
-              formData?.studentInformation?.[index]?.claimsOrReceivesPension &&
               showPensionRelatedQuestions(formData),
           }),
           addStudentsPartNineteen: pageBuilder.itemPage({
@@ -714,10 +701,9 @@ export const formConfig = {
             path: 'report-674/add-students/:index/student-assets',
             uiSchema: studentAssetsPage.uiSchema,
             schema: studentAssetsPage.schema,
-            depends: (formData, index) =>
+            depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674) &&
               formData?.['view:addOrRemoveDependents']?.add &&
-              formData?.studentInformation?.[index]?.claimsOrReceivesPension &&
               showPensionRelatedQuestions(formData),
           }),
           addStudentsPartTwenty: pageBuilder.itemPage({

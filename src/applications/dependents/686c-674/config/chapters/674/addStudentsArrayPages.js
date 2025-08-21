@@ -68,8 +68,6 @@ export const addStudentsOptions = {
     !item?.schoolInformation?.currentTermDates?.expectedGraduationDate ||
     (item?.schoolInformation?.studentDidAttendSchoolLastTerm === true &&
       !item?.schoolInformation?.studentDidAttendSchoolLastTerm) ||
-    (item?.claimsOrReceivesPension === true &&
-      !item?.claimsOrReceivesPension) ||
     (item?.schoolInformation?.studentDidAttendSchoolLastTerm === true &&
       (!item?.schoolInformation?.lastTermSchoolInformation?.termBegin ||
         !item?.schoolInformation?.lastTermSchoolInformation?.dateTermEnded)) ||
@@ -674,28 +672,6 @@ export const previousTermDatesPage = {
   },
 };
 
-export const claimsOrReceivesPensionPage = {
-  uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(() => 'Student’s income'),
-    claimsOrReceivesPension: {
-      ...yesNoUI(
-        'Are you claiming or do you already receive Veterans Pension or Survivors Pension benefits?',
-      ),
-      'ui:description': generateHelpText(
-        'If yes, we’ll ask you questions about the student’s income. If no, we’ll skip questions about the student’s income',
-      ),
-      'ui:required': () => true,
-    },
-  },
-  schema: {
-    type: 'object',
-    required: ['claimsOrReceivesPension'],
-    properties: {
-      claimsOrReceivesPension: yesNoSchema,
-    },
-  },
-};
-
 export const studentEarningsPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
@@ -705,7 +681,7 @@ export const studentEarningsPage = {
       updateSchema: (formData, schema, _uiSchema, index) => {
         const itemData = formData?.studentInformation?.[index];
 
-        if (itemData?.claimsOrReceivesPension === false) {
+        if (formData?.['view:checkVeteranPension']) {
           itemData.studentEarningsFromSchoolYear = undefined;
           itemData.studentExpectedEarningsNextYear = undefined;
           itemData.studentNetworthInformation = undefined;
