@@ -24,9 +24,9 @@ const UnderReviewChapter30 = ({
         <h3 slot="headline">MGIB-AD, Chapter 30</h3>
 
         <div className="vads-u-margin-bottom--2">
-          <p className="vads-u-margin-bottom--1 vads-u-font-weight--bold">
+          <h4 className="vads-u-margin-bottom--0p5 vads-u-font-weight--bold">
             Who submitted this form
-          </p>
+          </h4>
           {claimantName.trim() ? (
             <p className="vads-u-margin--0">{claimantName}</p>
           ) : (
@@ -35,16 +35,16 @@ const UnderReviewChapter30 = ({
         </div>
 
         <div className="vads-u-margin-bottom--2">
-          <p className="vads-u-margin-bottom--1 vads-u-font-weight--bold">
+          <h4 className="vads-u-margin-bottom--0p5 vads-u-font-weight--bold">
             Date received
-          </p>
+          </h4>
           <p className="vads-u-margin--0">{confirmationDate}</p>
         </div>
 
         <div className="vads-u-margin-bottom--3">
-          <p className="vads-u-margin-bottom--1 vads-u-font-weight--bold">
+          <h4 className="vads-u-margin-bottom--0p5 vads-u-font-weight--bold">
             Confirmation for your records
-          </p>
+          </h4>
           <p className="vads-u-margin-bottom--2">
             You can print this confirmation page for your records.
           </p>

@@ -38,23 +38,23 @@ const UnderReviewConfirmation = ({ user, printPage, dateReceived }) => {
             <h4>FRY, Chapter 33</h4>
 
             <div className="vads-u-margin-bottom--2">
-              <p className="vads-u-margin-bottom--1 vads-u-font-weight--bold">
+              <h4 className="vads-u-margin-bottom--0p5 vads-u-font-weight--bold">
                 Who submitted this form
-              </p>
+              </h4>
               <p className="vads-u-margin--0">{user || 'Not provided'}</p>
             </div>
 
             <div className="vads-u-margin-bottom--2">
-              <p className="vads-u-margin-bottom--1 vads-u-font-weight--bold">
+              <h4 className="vads-u-margin-bottom--0p5 vads-u-font-weight--bold">
                 Date received
-              </p>
+              </h4>
               <p className="vads-u-margin--0">{dateReceived}</p>
             </div>
 
             <div className="vads-u-margin-bottom--3">
-              <p className="vads-u-margin-bottom--1 vads-u-font-weight--bold">
+              <h4 className="vads-u-margin-bottom--0p5 vads-u-font-weight--bold">
                 Confirmation for your records
-              </p>
+              </h4>
               <p className="vads-u-margin-bottom--2">
                 You can print this confirmation page for your records.
               </p>
