@@ -38,6 +38,7 @@ const CategoryInput = props => {
           data-testid="compose-message-categories"
           className="fieldset-input message-category"
           error={categoryError}
+          id="category-select-dropdown"
           label="Category"
           name="compose-message-categories"
           value={category}

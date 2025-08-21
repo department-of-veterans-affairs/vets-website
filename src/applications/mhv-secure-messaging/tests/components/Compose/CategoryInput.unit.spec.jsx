@@ -59,7 +59,7 @@ describe('CategoryInput component', () => {
         },
       );
       const values = await screen
-        .getAllByTestId('compose-category-radio-button')
+        .getAllByTestId('compose-category-dropdown-select')
         ?.map(el => el.value);
       expect(values).to.be.not.empty;
       expect(values).deep.equal(categories);
@@ -74,18 +74,17 @@ describe('CategoryInput component', () => {
           path: Paths.COMPOSE,
         },
       );
-      const name = await screen
-        .getAllByTestId('compose-category-radio-button')
-        ?.map(el => el.name);
+      const selectElement = await screen.getByTestId(
+        'compose-message-categories',
+      );
+      const name = selectElement.getAttribute('name');
 
-      expect(name).to.be.not.empty;
-      expect(name).to.contain('compose-message-categories');
-      expect(name).to.have.lengthOf(categories.length);
+      expect(name).to.equal('compose-message-categories');
     });
 
-    it('should have category checked when category prop is present', async () => {
+    it('should have category selected when category prop is present', async () => {
       const selectedCategory = Categories.OTHER.value;
-      await renderWithStoreAndRouter(
+      const screen = await renderWithStoreAndRouter(
         <CategoryInput category={selectedCategory} categories={categories} />,
         {
           initialState,
@@ -93,18 +92,9 @@ describe('CategoryInput component', () => {
           path: Paths.COMPOSE,
         },
       );
-      const selectedRadioOption = document.querySelector(
-        `va-radio-option[label="${Categories.OTHER.label}: ${
-          Categories.OTHER.description
-        }"]`,
-      );
+      const selectElement = screen.getByTestId('compose-message-categories');
 
-      const uncheckedCategories = document.querySelectorAll(
-        'va-radio-option[checked="false"]',
-      );
-
-      expect(selectedRadioOption).to.have.attribute('checked', 'true');
-      expect(uncheckedCategories).to.have.lengthOf(categories.length - 1);
+      expect(selectElement).to.have.attribute('value', selectedCategory);
     });
 
     it('should display an error when error prop is present', async () => {
