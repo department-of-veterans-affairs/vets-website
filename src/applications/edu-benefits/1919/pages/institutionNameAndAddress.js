@@ -58,7 +58,16 @@ const schema = {
       type: 'object',
       properties: {
         institutionName: { ...textSchema, pattern: noSpaceOnlyPattern },
-        institutionAddress: addressSchema(),
+        institutionAddress: {
+          ...addressSchema(),
+          properties: {
+            ...addressSchema().properties,
+            country: {
+              ...addressSchema().properties.country,
+              default: 'USA',
+            },
+          },
+        },
       },
       required: ['institutionName', 'institutionAddress'],
     },
