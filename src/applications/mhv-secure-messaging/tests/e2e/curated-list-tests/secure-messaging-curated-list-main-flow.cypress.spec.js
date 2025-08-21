@@ -28,7 +28,7 @@ describe('SM CURATED LIST MAIN FLOW', () => {
   });
 
   it('verify navigating to compose page', () => {
-    PilotEnvPage.selectCareTeam(0);
+    PilotEnvPage.selectCareSystem(0);
 
     PilotEnvPage.selectTriageGroup(2);
 
@@ -49,7 +49,7 @@ describe('SM CURATED LIST MAIN FLOW', () => {
   });
 
   it('verify user can send a message', () => {
-    PilotEnvPage.selectCareTeam(0);
+    PilotEnvPage.selectCareSystem(0);
 
     PilotEnvPage.selectTriageGroup(2);
 
