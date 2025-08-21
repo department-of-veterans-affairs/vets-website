@@ -97,6 +97,15 @@ const PrivateRecordsAuthorization = ({
         setHasError(false);
       }
     },
+    reviewAndSubmitUpdate: () => {
+      if (data?.patient4142Acknowledgement) {
+        setHasError(false);
+        updatePage();
+      } else {
+        setHasError(true);
+        focusOnAlert();
+      }
+    },
     onGoForward: () => {
       // Validation ONLY happens on form submission attempt
       if (data?.patient4142Acknowledgement) {
@@ -132,7 +141,7 @@ const PrivateRecordsAuthorization = ({
     <>
       {onReviewPage ? (
         <va-button
-          onClick={updatePage}
+          onClick={handlers.reviewAndSubmitUpdate}
           label="Update behavior questions choice"
           text="Update page"
         />
