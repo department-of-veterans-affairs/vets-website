@@ -117,7 +117,7 @@ export const applicantOptions = {
           <b>Phone number:</b> {item?.applicantPhone}
         </li>
         <li>
-          <b>Relationship to veteran:</b>{' '}
+          <b>Relationship to Veteran:</b>{' '}
           {capitalize(
             item?.applicantRelationshipToSponsor?.relationshipToVeteran !==
             'other'
@@ -774,7 +774,7 @@ export const applicantPages = arrayBuilderPages(
     page18: pageBuilder.itemPage({
       path: 'applicant-relationship/:index',
       title: item =>
-        `What's ${applicantWording(item)} relationship to the Veteran?`,
+        `What’s ${applicantWording(item)} relationship to the Veteran?`,
       ...applicantRelationshipPage,
       CustomPage: props =>
         ApplicantRelationshipPage({

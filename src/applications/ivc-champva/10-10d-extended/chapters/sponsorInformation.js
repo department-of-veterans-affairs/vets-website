@@ -53,7 +53,7 @@ export const sponsorNameDobSchema = {
     ...titleUI(
       ({ formData }) => {
         return `${
-          formData.certifierRole === 'sponsor' ? 'Your' : `Veteran's`
+          formData.certifierRole === 'sponsor' ? 'Your' : `Veteran’s`
         } name and date of birth`;
       },
       `Enter the veteran's name and date of birth. We'll use this information to confirm their eligibility.`,
@@ -97,7 +97,7 @@ export const sponsorIdentificationSchema = {
 export const sponsorStatus = {
   uiSchema: {
     ...titleUI(
-      "Veteran's status",
+      'Veteran’s status',
       "If the Veteran died, we'll ask more questions about those details. Answer to the best of your knowledge.",
     ),
     sponsorIsDeceased: yesNoUI({
@@ -176,7 +176,7 @@ export const sponsorContactInfo = {
       return `${
         formData.certifierRole === 'sponsor' ? 'Your' : `Veteran's`
       } contact information`;
-    }, `We'll use this phone number to contact the Veteran if we have any questions about their clientInformation.`),
+    }, `We'll use this phone number to contact the Veteran if we have any questions about their information.`),
     sponsorPhone: {
       ...phoneUI(),
       'ui:required': () => true,
