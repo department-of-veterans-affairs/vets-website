@@ -250,7 +250,7 @@ describe('EpsAppointmentDetailsPage', () => {
     expect(getByTestId('provider-telephone')).to.exist;
   });
 
-  it('should display correct time with timezone conversion', () => {
+  it('should display correct time with timezone conversion', async () => {
     // Create appointment with specific UTC time and timezone
     const appointmentWithTimeZone = {
       ...referralAppointmentInfo,
@@ -266,19 +266,15 @@ describe('EpsAppointmentDetailsPage', () => {
         },
       },
     };
-
-    const stateWithTimeZone = {
-      referral: {
-        ...initialState.referral,
-        referralAppointmentInfo: appointmentWithTimeZone,
-      },
-    };
-
+    requestStub.resolves({ data: appointmentWithTimeZone });
     const container = renderWithStoreAndRouter(<EpsAppointmentDetailsPage />, {
-      store: createTestStore(stateWithTimeZone),
+      store: createTestStore(initialState),
       path: `/${appointmentId}`,
     });
 
+    await waitFor(() => {
+      expect(container.getByTestId('appointment-time')).to.exist;
+    });
     // The AppointmentTime component should display the time in the provider's timezone
     // 18:30 UTC should convert to either:
     // - 1:30 PM EST (during standard time)
