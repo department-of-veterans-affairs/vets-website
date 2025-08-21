@@ -7,7 +7,6 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import PreSubmitInfo from '../components/PreSubmitInfo';
 
-
 // Components
 import EligibilitySummary from '../components/EligibilitySummary';
 
@@ -33,7 +32,7 @@ import { trainingProviderArrayOptions } from '../helpers';
 import dateReleasedFromActiveDuty from '../pages/dateReleasedFromActiveDuty';
 import activeDutyStatus from '../pages/activeDutyStatus';
 import createDirectDepositPage from '../pages/DirectDeposit';
-import { prefillTransformer } from './prefill-transformer';
+import prefillTransformer from './prefill-transformer';
 
 /** @type {FormConfig} */
 const formConfig = {

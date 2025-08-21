@@ -1,63 +1,76 @@
 import _ from 'lodash';
 import { viewifyFields } from '../helpers';
 
-const prefillBankInformation = data => {
-  const newData = _.omit(
-    ['accountType', 'accountNumber', 'routingNumber'],
-    data,
-  );
+export default function prefillTransformer(pages, formData, metadata, state) {
+  const prefillContactInformation = data => {
+    const {
+      mailingAddress: userMailingAddress,
+      mobilePhone,
+      homePhone: phone,
+    } = state.user.vet360ContactInformation || {};
 
-  const { accountType, accountNumber, routingNumber } = data;
+    const { applicantFullName, homePhone, email, ssn, mailingAddress } = data;
+    const {
+      edipi,
+      icn,
+      dob,
+      email: emailAddress,
+      userFullName,
+    } = state.user.profile;
 
-  if (accountType && accountNumber && routingNumber) {
-    newData['view:originalBankAccount'] = viewifyFields({
+    const emailAddresses = email || emailAddress || undefined;
+
+    const newData = _.omit(['homePhone', 'email', 'dob', 'edipi', 'icn'], data);
+    newData.contactInfo = {
+      homePhone: homePhone || phone || '',
+      mobilePhone: mobilePhone || '',
+      emailAddress: emailAddresses,
+    };
+    newData.edipi = edipi;
+    newData.icn = icn;
+    newData.dateOfBirth = dob;
+    newData.applicantFullName = applicantFullName || userFullName;
+    newData.mailingAddress = mailingAddress || userMailingAddress;
+    newData.ssn = ssn;
+    return newData;
+  };
+
+  const prefillBankInformation = data => {
+    const newData = { ...data };
+
+    const bankInfo = state.user.profile?.bankAccount || {};
+    const { accountType, accountNumber, routingNumber } = {
+      ...bankInfo,
+      ...data,
+    };
+
+    newData.bankAccount = {
       accountType,
       accountNumber,
       routingNumber,
+    };
+
+    newData['view:originalBankAccount'] = viewifyFields({
+      accountType: newData.bankAccount.accountType,
+      accountNumber: newData.bankAccount.accountNumber,
+      routingNumber: newData.bankAccount.routingNumber,
     });
-
-    // start the bank widget in 'review' mode
     newData['view:bankAccount'] = { 'view:hasPrefilledBank': true };
-  }
-  // console.log('newDataaaaaaaa', newData);
-  return newData;
-};
 
-export function prefillTransformer(pages, formData, metadata, state) {
-  const { homePhone, email } = formData; // Destructure bankAccount from formData
-  const { edipi, icn, dob, email: emailAddress, gender } = state.user.profile;
-
-  const emailAddresses = email || emailAddress || undefined;
-  // console.log(state.user.profile, 'state.user.profile in prefillTransformer');
-
-  const newFormData = {
-    ..._.omit(formData, [
-      'homePhone',
-      'email',
-      'dob',
-      'edipi',
-      'icn',
-      'bankAccount', // Ensure bankAccount is omitted before potentially adding it back
-    ]),
-    bankAccount: prefillBankInformation(formData), // Add the prefilled bankAccount
-
-
-    contactInfo: {
-      homePhone,
-      emailAddress: emailAddresses,
-      'view:confirmEmail': emailAddresses,
-    },
-    edipi,
-    icn,
-    dateOfBirth: dob,
-    applicantGender: gender,
+    return newData;
   };
-  console.log('newFormData in prefillTransformer', newFormData);
+
+  const transformations = [prefillContactInformation, prefillBankInformation];
+
+  const applyTransformations = (data = {}, transformer) => {
+    return transformer(data);
+  };
+
+  const finalFormData = transformations.reduce(applyTransformations, formData);
 
   return {
     metadata,
-    formData: newFormData, // newFormData now contains the prefilled bankAccount if applicable
+    formData: finalFormData,
     pages,
-    state,
   };
 }
