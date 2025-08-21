@@ -202,7 +202,7 @@ describe('Questionnaire Form - Chapter 5: Disability', () => {
     });
 
     it('should have the correct title for the Disability page', () => {
-      expect(disabilityPage.title).to.equal('Disability Rating');
+      expect(disabilityPage.title).to.equal('Disability');
     });
 
     it('should have a valid uiSchema for the Disability page', () => {
