@@ -26,6 +26,8 @@ const SortForm = ({ options, defaults }) => {
   const sort = searchParams.get(SEARCH_PARAMS.SORTORDER) || defaults.SORT_ORDER;
   const number = searchParams.get(SEARCH_PARAMS.NUMBER) || defaults.NUMBER;
   const size = searchParams.get(SEARCH_PARAMS.SIZE) || defaults.SIZE;
+  const selectedIndividual =
+    searchParams.get('as_selected_individual') || defaults.SELECTED_INDIVIDUAL;
 
   const handleChange = async e => {
     e.preventDefault();
@@ -33,7 +35,7 @@ const SortForm = ({ options, defaults }) => {
     const sortOrder = e.detail?.value?.split(',')[1];
     const statusLabel = status ? `status=${status}&` : '';
     navigate(
-      `?${statusLabel}sortOrder=${sortOrder}&sortBy=${sortBy}&pageNumber=${number}&pageSize=${size}`,
+      `?${statusLabel}sortOrder=${sortOrder}&sortBy=${sortBy}&pageNumber=${number}&pageSize=${size}&as_selected_individual=${selectedIndividual}`,
     );
   };
 
