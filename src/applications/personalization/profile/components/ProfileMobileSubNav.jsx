@@ -78,7 +78,7 @@ const ProfileMobileSubNav = ({ isLOA3, isInMVI, routes }) => {
             <div className="menu-header vads-u-display--flex">
               <strong className="vads-u-flex--auto">
                 <h2 id="mobile-subnav-header" className={menuButtonClasses}>
-                  Profile menu
+                  Profile menu1
                 </h2>
               </strong>
               <va-button
