@@ -28,6 +28,7 @@ const AuthorizationAlert = ({ hasError, onAnchorClick }) => (
       non-VA records later in the form or by mail.
     </p>
     <BasicLink
+      data-testid="goBack"
       className="vads-u-display--block vads-u-margin-top--2"
       path={`/${EVIDENCE_PRIVATE_MEDICAL_RECORDS}`}
       text="Go back to select ‘No’"
