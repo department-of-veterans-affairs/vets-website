@@ -105,7 +105,7 @@ const setupSummary = ({
     </div>,
   );
 
-describe('<EvidenceSummary>', () => {
+describe.skip('<EvidenceSummary>', () => {
   it('should render', () => {
     const { container } = setupSummary({ limit: 'Pizza addiction' });
 

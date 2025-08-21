@@ -108,7 +108,7 @@ import {
   appStateSelector,
 } from '../../shared/utils/issues';
 
-import { showScNewForm, clearRedirect } from '../utils/toggle';
+import { clearRedirect } from '../utils/toggle';
 
 // const { } = fullSchema.properties;
 const blankUiSchema = { 'ui:options': { hideOnReview: true } };
@@ -183,7 +183,6 @@ const formConfig = {
           path: 'housing-risk',
           uiSchema: housingRisk.uiSchema,
           schema: housingRisk.schema,
-          depends: showScNewForm,
           scrollAndFocusTarget: focusAlertOrRadio,
           onContinue: clearRedirect,
         },
@@ -286,7 +285,6 @@ const formConfig = {
           path: 'facility-types',
           uiSchema: facilityTypes.uiSchema,
           schema: facilityTypes.schema,
-          depends: showScNewForm,
           scrollAndFocusTarget: focusRadioH3,
         },
         evidenceVaRecordsRequest: {
@@ -400,7 +398,6 @@ const formConfig = {
           path: 'option-claims',
           uiSchema: optionForMst.uiSchema,
           schema: optionForMst.schema,
-          depends: showScNewForm,
           scrollAndFocusTarget: focusRadioH3,
         },
         optionIndicator: {

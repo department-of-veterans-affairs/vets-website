@@ -95,6 +95,7 @@ export const buildVaLocationString = ({
   wrapped = false,
 } = {}) => {
   const issues = includeIssues ? sortIssues(data.issues || []) : [];
+
   if (newForm) {
     const noDate = (wrapped ? data.noTreatmentDates : data.noDate) || false;
     const treatmentDate = (data.treatmentDate || '').replace(

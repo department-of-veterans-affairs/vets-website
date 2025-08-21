@@ -14,7 +14,7 @@ import { content } from '../content/evidenceSummary';
 import { EvidencePrivateContent } from './EvidencePrivateContent';
 import { EvidenceUploadContent } from './EvidenceUploadContent';
 import { EvidenceVaContent } from './EvidenceVaContent';
-import { SUMMARY_EDIT, SC_NEW_FORM_DATA, EVIDENCE_LIMIT } from '../constants';
+import { SUMMARY_EDIT, EVIDENCE_LIMIT } from '../constants';
 import { data995 } from '../../shared/props';
 
 const EvidenceSummaryReview = ({ data, editPage }) => {
@@ -41,8 +41,7 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
   const privateEvidence = getPrivateEvidence(data);
   const otherEvidence = getOtherEvidence(data);
 
-  const showScNewForm = data[SC_NEW_FORM_DATA];
-  const showLimitedConsentYN = showScNewForm && data[EVIDENCE_LIMIT];
+  const showLimitedConsentYN = data[EVIDENCE_LIMIT];
 
   const evidenceLength =
     vaEvidence.length + privateEvidence.length + otherEvidence.length;
@@ -57,7 +56,6 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
   };
 
   const props = {
-    showScNewForm,
     isOnReviewPage: true,
     reviewMode: true,
   };
