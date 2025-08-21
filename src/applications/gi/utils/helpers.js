@@ -1191,6 +1191,7 @@ export const norm = s => String(s || '').toLowerCase();
 export const toSnakeLower = s =>
   String(s)
     .replace(/([A-Z])/g, '_$1')
+    .replace(/^_/, '') // strip leading underscore if present
     .toLowerCase();
 
 // title case and space underscores for display fallbacks
