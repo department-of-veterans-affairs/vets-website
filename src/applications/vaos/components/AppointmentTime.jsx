@@ -7,9 +7,7 @@ import { stripDST } from '../utils/timezone';
  * Component for displaying appointment time in a consistent format with timezone
  */
 export default function AppointmentTime({ date, timezone }) {
-  const formattedTime = stripDST(
-    formatInTimeZone(new Date(date), timezone, 'h:mm aaaa'),
-  );
+  const formattedTime = formatInTimeZone(new Date(date), timezone, 'h:mm aaaa');
   const timezoneAbbreviation = stripDST(
     formatInTimeZone(new Date(date), timezone, 'zzz'),
   );
