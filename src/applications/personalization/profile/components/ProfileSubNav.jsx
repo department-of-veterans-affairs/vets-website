@@ -110,30 +110,20 @@ const ProfileSubNav = ({ isInMVI, isLOA3, routes, clickHandler = null }) => {
 
   // This will be replaced with the return above once Paperless delivery is live
   return (
-    <nav className="va-subnav" aria-labelledby="subnav-header">
-      <div>
-        <h2
-          id="subnav-header"
-          className="vads-u-font-size--h4 vads-u-margin-top--0 vads-u-margin-bottom--0 vads-u-padding-y--2"
-        >
-          Profile <span className="sr-only">menu</span>
-        </h2>
-        <ul className="vads-u-margin-top--0">
-          {filteredRoutes.map(route => (
-            <li key={route.path}>
-              <NavLink
-                activeClassName="is-active"
-                exact
-                to={route.path}
-                onClick={recordNavUserEvent}
-              >
-                {route.name}
-              </NavLink>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </nav>
+    <ul className="vads-u-margin-top--0">
+      {filteredRoutes.map(route => (
+        <li key={route.path}>
+          <NavLink
+            activeClassName="is-active"
+            exact
+            to={route.path}
+            onClick={recordNavUserEvent}
+          >
+            {route.name}
+          </NavLink>
+        </li>
+      ))}
+    </ul>
   );
 };
 
