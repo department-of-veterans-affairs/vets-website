@@ -29,8 +29,10 @@ function handleScheduleClick(dispatch) {
   };
 }
 
+const timeOut = 30000; // 30 seconds
+const pollingInterval = 1000; // 1 second
+
 export const CompleteReferral = props => {
-  const timeOut = 30000; // 30 seconds
   const { attributes: currentReferral } = props.currentReferral;
   const { pathname } = useLocation();
   const dispatch = useDispatch();
@@ -39,7 +41,6 @@ export const CompleteReferral = props => {
   const currentPage = useSelector(selectCurrentPage);
   const [requestTime, setRequestTime] = useState(0);
   const requestStart = useRef(formatISO(new Date()));
-  const [pollingInterval, setPollingInterval] = useState(1000);
   const [appointmentInfoTimeout, setAppointmentInfoTimeout] = useState(false);
   const [, appointmentId] = pathname.split('/schedule-referral/complete/');
   const { root, typeOfCare } = useSelector(getNewAppointmentFlow);
@@ -63,22 +64,23 @@ export const CompleteReferral = props => {
     data: referralAppointmentInfo,
     isError: appointmentInfoError,
     isLoading: appointmentInfoLoading,
-  } = useGetAppointmentInfoQuery(appointmentId, { pollingInterval });
+  } = useGetAppointmentInfoQuery(appointmentId);
   const [booked, setBooked] = useState(
     referralAppointmentInfo?.attributes?.status === 'booked',
   );
   useEffect(
     () => {
       let requestInterval;
+      // Stop polling when appointment is booked.
       if (referralAppointmentInfo?.attributes?.status === 'booked') {
         setBooked(true);
-        // Stop polling when appointment is booked.
-        setPollingInterval(0);
       } else if (requestTime > timeOut && !booked) {
+        // Stop polling if not booked after timeout.
         setAppointmentInfoTimeout(true);
-        setPollingInterval(0);
       } else {
+        // Refetch data after polling interval and increment request time.
         requestInterval = setInterval(() => {
+          referralAppointmentRefetch();
           setRequestTime(
             differenceInMilliseconds(
               new Date(),
@@ -89,14 +91,7 @@ export const CompleteReferral = props => {
       }
       return () => clearInterval(requestInterval);
     },
-    [
-      booked,
-      pollingInterval,
-      referralAppointmentInfo,
-      referralAppointmentRefetch,
-      requestTime,
-      timeOut,
-    ],
+    [booked, referralAppointmentInfo, referralAppointmentRefetch, requestTime],
   );
 
   if (appointmentInfoError || appointmentInfoTimeout) {
