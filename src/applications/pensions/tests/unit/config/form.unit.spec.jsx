@@ -308,4 +308,164 @@ describe('Pensions formConfig', () => {
       }),
     );
   });
+  it('when transformed for submit, should NOT convert array items to null (no [null] arrays)', () => {
+    const formData = {
+      data: {
+        serveUnderOtherNames: true,
+        previousNames: [
+          {
+            previousFullName: {
+              first: 'Joseph',
+              last: 'Doe',
+            },
+          },
+        ],
+        currentEmployment: true,
+        currentEmployers: [
+          {
+            jobType: 'Customer service',
+            jobHoursWeek: 20,
+          },
+        ],
+        vaTreatmentHistory: true,
+        vaMedicalCenters: [
+          {
+            medicalCenter: 'Dallas Fort Worth VA Medical Center',
+          },
+        ],
+        maritalStatus: 'SEPARATED',
+        marriages: [
+          {
+            spouseFullName: {
+              first: 'Meg',
+              middle: 'Middle',
+              last: 'Doe',
+            },
+            'view:currentMarriage': {
+              dateOfMarriage: '1994-03-02',
+              locationOfMarriage: 'North Adams, MA',
+              marriageType: 'CEREMONIAL',
+            },
+          },
+        ],
+        'view:hasDependents': true,
+        dependents: [
+          {
+            childInHousehold: false,
+            childAddress: {
+              street: '123 8th st',
+              city: 'Hadley',
+              country: 'USA',
+              state: 'ME',
+              postalCode: '01050',
+            },
+            personWhoLivesWithChild: {
+              first: 'Joe',
+              middle: 'Middle',
+              last: 'Smith',
+            },
+            monthlyPayment: 3444,
+            childPlaceOfBirth: 'Tallahassee, FL',
+            childSocialSecurityNumber: '333224444',
+            childRelationship: 'biological',
+            previouslyMarried: true,
+            married: true,
+            fullName: {
+              first: 'Emily',
+              middle: 'Anne',
+              last: 'Doe',
+            },
+            childDateOfBirth: '2000-03-03',
+          },
+        ],
+        receivesIncome: true,
+        incomeSources: [
+          {
+            typeOfIncome: 'SOCIAL_SECURITY',
+            receiver: 'Jane Doe',
+            payer: 'John Doe',
+            amount: 278.0,
+          },
+        ],
+      },
+    };
+
+    const result = transform(formConfig, formData);
+    const payload = JSON.parse(JSON.parse(result).pensionClaim.form);
+
+    expect(payload.previousNames).to.deep.equal([
+      {
+        previousFullName: {
+          first: 'Joseph',
+          last: 'Doe',
+        },
+      },
+    ]);
+    expect(payload.currentEmployers).to.deep.equal([
+      { jobType: 'Customer service', jobHoursWeek: 20 },
+    ]);
+    expect(payload.vaMedicalCenters).to.deep.equal([
+      { medicalCenter: 'Dallas Fort Worth VA Medical Center' },
+    ]);
+    expect(payload.marriages).to.deep.equal([
+      {
+        spouseFullName: {
+          first: 'Meg',
+          middle: 'Middle',
+          last: 'Doe',
+        },
+        dateOfMarriage: '1994-03-02',
+        locationOfMarriage: 'North Adams, MA',
+        marriageType: 'CEREMONIAL',
+      },
+    ]);
+    expect(payload.dependents).to.deep.equal([
+      {
+        childInHousehold: false,
+        childAddress: {
+          street: '123 8th st',
+          city: 'Hadley',
+          country: 'USA',
+          state: 'ME',
+          postalCode: '01050',
+        },
+        personWhoLivesWithChild: {
+          first: 'Joe',
+          middle: 'Middle',
+          last: 'Smith',
+        },
+        monthlyPayment: 3444,
+        childPlaceOfBirth: 'Tallahassee, FL',
+        childSocialSecurityNumber: '333224444',
+        childRelationship: 'biological',
+        previouslyMarried: true,
+        married: true,
+        fullName: {
+          first: 'Emily',
+          middle: 'Anne',
+          last: 'Doe',
+        },
+        childDateOfBirth: '2000-03-03',
+      },
+    ]);
+    expect(payload.incomeSources).to.deep.equal([
+      {
+        typeOfIncome: 'SOCIAL_SECURITY',
+        receiver: 'Jane Doe',
+        payer: 'John Doe',
+        amount: 278.0,
+      },
+    ]);
+
+    [
+      'previousNames',
+      'currentEmployers',
+      'vaMedicalCenters',
+      'marriages',
+      'dependents',
+      'incomeSources',
+    ].forEach(key => {
+      expect((payload[key] || []).includes(null)).to.equal(false);
+    });
+  });
 });
