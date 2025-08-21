@@ -23,8 +23,10 @@ describe('SM PILOT NEW MESSAGE', () => {
 
     PatientComposePage.interceptSentFolder();
 
-    // cy.visit(`${Paths.UI_MAIN}/new-message/start-message`);
-    // GeneralFunctionsPage.verifyPageHeader('Only use messages for non-urgent needs');
+    cy.visit(`${Paths.UI_MAIN}/new-message/start-message`);
+    GeneralFunctionsPage.verifyPageHeader(
+      'Only use messages for non-urgent needs',
+    );
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
