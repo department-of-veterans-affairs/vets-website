@@ -75,7 +75,7 @@ const ApprovedConfirmation = ({
           visible
         >
           <div>
-            <h3 slot="headline" className="vads-u-margin-top--0p5">
+            <h3 slot="headline" className="vads-u-margin-top--0">
               Application for VA education benefits (Form 22-1990e)
             </h3>
             <h4 className="vads-u-margin-top--0">Transfer of Entitlement</h4>
@@ -94,17 +94,17 @@ const ApprovedConfirmation = ({
               <p className="vads-u-margin--0">{dateReceived}</p>
             </div>
 
-            <div className="vads-u-margin-bottom--1p5">
+            <div className="vads-u-margin-bottom--1">
               <h4 className="vads-u-margin-bottom--0p5 vads-u-font-weight--bold">
                 Confirmation for your records
               </h4>
-              <p className="vads-u-margin-bottom--0p5">
+              <p className="vads-u-margin--0">
                 You can print this confirmation page for your records. You can
                 also download your completed application as a PDF.
               </p>
             </div>
 
-            <div className="vads-u-margin-bottom--2">
+            <div className="vads-u-margin-bottom--1">
               <va-button
                 uswds
                 className="usa-button vads-u-margin-top--3 vads-u-width--auto"

@@ -29,7 +29,7 @@ const UnderReviewConfirmation = ({ user, printPage, dateReceived }) => {
           visible
         >
           <div>
-            <h3 slot="headline" className="vads-u-margin-top--0p5">
+            <h3 slot="headline" className="vads-u-margin-top--0">
               Application for VA Education Benefits (VA Form 22-5490)
             </h3>
             <h4 className="vads-u-margin-top--0">FRY, Chapter 33</h4>
@@ -48,16 +48,16 @@ const UnderReviewConfirmation = ({ user, printPage, dateReceived }) => {
               <p className="vads-u-margin--0">{dateReceived}</p>
             </div>
 
-            <div className="vads-u-margin-bottom--3">
+            <div className="vads-u-margin-bottom--1">
               <h4 className="vads-u-margin-bottom--0p5 vads-u-font-weight--bold">
                 Confirmation for your records
               </h4>
-              <p className="vads-u-margin-bottom--1">
+              <p className="vads-u-margin--0">
                 You can print this confirmation page for your records.
               </p>
             </div>
 
-            <div className="vads-u-margin-bottom--2">
+            <div className="vads-u-margin-bottom--1">
               <va-button
                 uswds
                 className="usa-button vads-u-margin-top--3 vads-u-width--auto"
