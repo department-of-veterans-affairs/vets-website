@@ -24,17 +24,17 @@ const testConfig = createTestConfig(
       introduction: ({ afterHook }) => {
         afterHook(() => startAsGuestUser());
       },
-      'signer-information/mailing-address': ({ afterHook }) => {
+      'your-information/mailing-address': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             fillAddressAndGoToNext('certifierAddress', data.certifierAddress);
           });
         });
       },
-      'sponsor-information/address': ({ afterHook }) => {
+      'veteran-information/address': ({ afterHook }) => {
         afterHook(() => selectSharedAddressAndGoToNext('not-shared'));
       },
-      'sponsor-information/mailing-address': ({ afterHook }) => {
+      'veteran-information/mailing-address': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             fillAddressAndGoToNext('sponsorAddress', data.sponsorAddress);
