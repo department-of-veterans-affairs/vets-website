@@ -107,22 +107,3 @@ export default function StudentFeedbackCardGrid({
     </>
   );
 }
-
-// allFacilityCodeComplaints;
-// [
-//   {
-//     ope: '01072795',
-//     ope6: '10727',
-//     closed: '2020-04-17',
-//     facilityCode: '21376032',
-//     categories: ['other'],
-//   },
-//   {
-//     ope: '01072795',
-//     ope6: '10727',
-//     closed: '2022-04-19',
-//     facilityCode: '21376032',
-//     categories: ['other'],
-//   },
-// ];
-/// /////////////////////////////////////

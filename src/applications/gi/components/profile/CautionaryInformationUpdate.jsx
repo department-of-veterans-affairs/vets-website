@@ -5,7 +5,6 @@ import { VaLinkAction } from '@department-of-veterans-affairs/component-library/
 import CautionFlagDetails from './CautionFlagDetails';
 import SchoolClosingDetails from './SchoolClosingDetails';
 import LearnMoreLabel from '../LearnMoreLabel';
-// import { ariaLabels, complaintData } from '../../constants';
 
 export function CautionaryInformation({ institution, showModal }) {
   const {
@@ -16,54 +15,6 @@ export function CautionaryInformation({ institution, showModal }) {
     website,
   } = institution;
   const history = useHistory();
-  // const renderTableRow = ({
-  //   allCampuses,
-  //   description,
-  //   displayEmpty,
-  //   key,
-  //   thisCampus,
-  //   definition,
-  // }) => {
-  //   if (!displayEmpty && !thisCampus && !allCampuses) return null;
-  //   const bold = description === 'Total Complaints';
-  //   return (
-  //     <tr key={key}>
-  //       <td>
-  //         <strong>{description}</strong>
-  //         <br />
-  //         {definition}
-  //       </td>
-  //       <td>{bold ? <strong>{thisCampus}</strong> : thisCampus}</td>
-  //       <td>{bold ? <strong>{allCampuses}</strong> : allCampuses}</td>
-  //     </tr>
-  //   );
-  // };
-  // const renderListRow = ({ description, key, value, definition }) => {
-  //   if (value < 1) return null;
-  //   const bold = description === 'Total Complaints';
-  //   return (
-  //     <div className="row " key={key}>
-  //       <div className="small-11 columns">
-  //         {description !== 'Other' ? (
-  //           <va-additional-info
-  //             trigger={
-  //               bold ? <strong>{description}:</strong> : `${description}:`
-  //             }
-  //           >
-  //             {definition}
-  //           </va-additional-info>
-  //         ) : (
-  //           <p className="vads-u-margin--0">{description}</p>
-  //         )}
-  //       </div>
-  //       <div className="small-1 columns">
-  //         <p className="number vads-u-margin--0">
-  //           {bold ? <strong>{value}</strong> : value}
-  //         </p>
-  //       </div>
-  //     </div>
-  //   );
-  // };
 
   const renderCautionFlags = () => {
     if (!schoolClosing && cautionFlags.length === 0) {
@@ -105,43 +56,6 @@ export function CautionaryInformation({ institution, showModal }) {
     );
   };
 
-  // const allCampusesLink = (
-  //   <div className="small-screen-font">
-  //     <LearnMoreLabel
-  //       id="typeAccredited-button"
-  //       bold
-  //       text="All campuses"
-  //       onClick={() => {
-  //         showModal('allCampuses');
-  //       }}
-  //       ariaLabel={ariaLabels.learnMore.allCampusComplaints}
-  //       buttonClassName="small-screen-font"
-  //       buttonId="all-campuses-learn-more"
-  //     />
-  //   </div>
-  // );
-
-  // const complaintRows = complaintData.reduce(
-  //   (hydratedComplaints, complaint) => {
-  //     const totals = complaint.totals || {};
-  //     const { type, key, totalKey } = complaint;
-  //     const hydratedComplaint = {
-  //       description: type,
-  //       thisCampus: complaint.totals
-  //         ? complaints[totals[0]]
-  //         : complaints[`${key}ByFacCode`],
-  //       allCampuses: complaint.totals
-  //         ? complaints[totals[1]]
-  //         : complaints[`${totalKey || key}ByOpeIdDoNotSum`],
-  //       definition: complaint?.definition || '',
-  //     };
-  //     return [...hydratedComplaints, hydratedComplaint];
-  //   },
-  //   [],
-  // );
-
-  // const allComplaints = complaintRows.pop();
-
   return (
     <div className="cautionary-information small-screen-font">
       {renderCautionFlags()}
@@ -167,7 +81,6 @@ export function CautionaryInformation({ institution, showModal }) {
           </span>
         </div>
 
-        {/* ✱ NEW: extra text + CTA link when at least one complaint exists */}
         {complaints.mainCampusRollUp > 0 && (
           <>
             <p className="small-screen-font vads-u-margin-top--1">
@@ -183,137 +96,24 @@ export function CautionaryInformation({ institution, showModal }) {
               />{' '}
               about all campuses.
             </p>
-
-            {/* <va-link-action
-              href="https://va.gov/vso/"
-              text="Search student feedback and complaints data"
-              type="secondary"
-              class="small-screen-font"
-              id="search-student-complaints"
-            /> */}
             <VaLinkAction
-              href={`/schools-and-employers/institution/${institution.facilityCode}/filter-student-feedback`}
+              href={`/schools-and-employers/institution/${
+                institution.facilityCode
+              }/filter-student-feedback`}
               text="Search student feedback and complaints data"
               type="secondary"
               onClick={e => {
                 e.preventDefault();
                 history.push(
-                  `/schools-and-employers/institution/${institution.facilityCode}/filter-student-feedback`,
+                  `/schools-and-employers/institution/${
+                    institution.facilityCode
+                  }/filter-student-feedback`,
                 );
               }}
             />
           </>
         )}
       </div>
-
-      <div>
-        <div className="table">
-          {/* NOTE: This table purposely not converted to a va-table - DST */}
-          {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-table-component */}
-          {/* <table className="usa-table">
-            <thead>
-              <tr>
-                <th scope="col" aria-label="Empty header" />
-                <th scope="col">This campus</th>
-                <th scope="col">{allCampusesLink}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {renderTableRow({
-                description: 'All student complaints',
-                displayEmpty: true,
-                thisCampus: allComplaints.thisCampus || 0,
-                allCampuses: allComplaints.allCampuses || 0,
-              })}
-            </tbody>
-          </table> */}
-
-          {/* {!!complaints.mainCampusRollUp && (
-            // NOTE: This table purposely not converted to a va-table - DST
-            // eslint-disable-next-line @department-of-veterans-affairs/prefer-table-component
-            <table className="usa-table">
-              <thead>
-                <tr>
-                  <th scope="col">
-                    Complaints by type{' '}
-                    <span>(Each complaint can have multiple types)</span>
-                  </th>
-                  <th scope="col">This campus</th>
-                  <th scope="col">{allCampusesLink}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {complaintRows.map(c => {
-                  return renderTableRow({
-                    key: c.description,
-                    description: c.description,
-                    thisCampus: c.thisCampus || 0,
-                    allCampuses: c.allCampuses || 0,
-                    definition: c.definition,
-                  });
-                })}
-              </tbody>
-            </table>
-          )} */}
-        </div>
-
-        {/* <div className="list">
-          <h4 className="vads-u-margin-bottom--0 small-screen-font">
-            This campus
-          </h4>
-          {complaintRows.every(
-            complaintType => complaintType.thisCampus === null,
-          ) && (
-            <div className="row">
-              <div className="small-11 columns">
-                <p className="vads-u-margin--0">All student complaints:</p>
-              </div>
-              <div className="small-1 columns">
-                <p className="number vads-u-margin--0">0</p>
-              </div>
-            </div>
-          )}
-          {complaintRows.map(c => {
-            return renderListRow({
-              key: c.description,
-              description: c.description,
-              value: c.thisCampus,
-              definition: c.definition,
-            });
-          })}
-          <h4 className="vads-u-margin-bottom--0">{allCampusesLink}</h4>
-          {complaintRows.every(
-            complaintType => complaintType.allCampuses === null,
-          ) && (
-            <div className="row">
-              <div className="small-11 columns">
-                <p className="vads-u-margin--0">All student complaints:</p>
-              </div>
-              <div className="small-1 columns">
-                <p className="number vads-u-margin--0">0</p>
-              </div>
-            </div>
-          )}
-          {complaintRows.map(c => {
-            return renderListRow({
-              key: c.description,
-              description: c.description,
-              value: c.allCampuses,
-              definition: c.definition,
-            });
-          })}
-        </div> */}
-      </div>
-      {/* <div className="mobile-lg:vads-u-text-align--right">
-        <a
-          href="/education/submit-school-feedback/introduction"
-          target="_blank"
-          rel="noopener noreferrer"
-          id="submit-a-complaint"
-        >
-          Submit a complaint through our Feedback Tool
-        </a>
-      </div> */}
     </div>
   );
 }
