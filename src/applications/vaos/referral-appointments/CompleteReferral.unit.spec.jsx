@@ -113,6 +113,14 @@ describe('CompleteReferral', () => {
     expect(getByTestId('appointment-date')).to.have.text(
       'Monday, November 18th, 2024',
     );
+
+    // Check that appointment time container exists and contains time elements
+    const timeContainer = getByTestId('appointment-time');
+    expect(timeContainer).to.exist;
+    expect(timeContainer.textContent).to.include('8:30');
+    expect(timeContainer.textContent).to.include('a.m.');
+    expect(timeContainer.textContent).to.include('ET');
+
     expect(getByTestId('appointment-type')).to.have.text(
       'Optometry with Dr. Moreen S. Rafa',
     );
