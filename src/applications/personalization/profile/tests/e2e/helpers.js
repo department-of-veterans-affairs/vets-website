@@ -11,24 +11,32 @@ import error500 from '@@profile/tests/fixtures/500.json';
 
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../constants';
 
-export function subNavOnlyContainsAccountSecurity(mobile) {
+export function subNavOnlyContainsAccountSecurity({
+  profileShowPaperlessDelivery = false,
+  mobile = false,
+} = {}) {
   if (mobile) {
-    cy.findByRole('button', { name: /profile menu/i }).click();
-    // uncomment when Paperless Delivery is ready for production
-    // cy.get('va-sidenav')
-    //   .filter(':visible')
-    //   .click();
+    if (profileShowPaperlessDelivery) {
+      cy.get('va-sidenav')
+        .filter(':visible')
+        .click();
+    } else {
+      cy.findByRole('button', { name: /profile menu/i }).click();
+    }
   }
-  cy.findByRole('navigation', { name: /profile/i }).within(() => {
-    cy.findAllByRole('link').should('have.length', 1);
-    cy.findByRole('link', {
-      name: PROFILE_PATH_NAMES.ACCOUNT_SECURITY,
-    }).should('exist');
-  });
-  // uncomment when Paperless Delivery is ready for production
-  // cy.get(
-  //   `va-sidenav-item[label="${PROFILE_PATH_NAMES.ACCOUNT_SECURITY}"]`,
-  // ).should('exist');
+
+  if (profileShowPaperlessDelivery) {
+    cy.get(
+      `va-sidenav-item[label="${PROFILE_PATH_NAMES.ACCOUNT_SECURITY}"]`,
+    ).should('exist');
+  } else {
+    cy.findByRole('navigation', { name: /profile/i }).within(() => {
+      cy.findAllByRole('link').should('have.length', 1);
+      cy.findByRole('link', {
+        name: PROFILE_PATH_NAMES.ACCOUNT_SECURITY,
+      }).should('exist');
+    });
+  }
 }
 
 export function onlyAccountSecuritySectionIsAccessible() {
