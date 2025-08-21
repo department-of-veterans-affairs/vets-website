@@ -24,30 +24,33 @@ const testConfig = createTestConfig(
       introduction: ({ afterHook }) => {
         afterHook(() => startAsGuestUser());
       },
-      'signer-mailing-address': ({ afterHook }) => {
+      'your-information/mailing-address': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             fillAddressAndGoToNext('certifierAddress', data.certifierAddress);
           });
         });
       },
-      'sponsor-mailing-same': ({ afterHook }) => {
+      'veteran-information/address': ({ afterHook }) => {
         afterHook(() => selectSharedAddressAndGoToNext('not-shared'));
       },
-      'sponsor-mailing-address': ({ afterHook }) => {
+      'veteran-information/mailing-address': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             fillAddressAndGoToNext('sponsorAddress', data.sponsorAddress);
           });
         });
       },
-      'applicant-summary': ({ afterHook }) => {
+      'applicant-information/summary': ({ afterHook }) => {
         afterHook(() => handleApplicantSummary());
       },
-      'applicant-address-selection/:index': ({ afterHook }) => {
+      'applicant-information/:index/address': ({ afterHook }) => {
         afterHook(() => selectSharedAddressAndGoToNext('not-shared'));
       },
-      'applicant-mailing-address/:index': ({ afterHook, index }) => {
+      'applicant-information/:index/mailing-address': ({
+        afterHook,
+        index,
+      }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             fillAddressAndGoToNext(

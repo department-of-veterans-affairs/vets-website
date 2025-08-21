@@ -712,7 +712,7 @@ export function getEligibleApplicantsWithoutMedicare(formData) {
 }
 
 export const missingMedicarePage = {
-  path: 'missing-medicare-applicants',
+  path: 'medicare-information/status',
   title: 'Medicare status',
   depends: (formData, index) => {
     const excluded = getEligibleApplicantsWithoutMedicare(formData);
@@ -727,7 +727,7 @@ export const missingMedicarePage = {
   // always attempt to navigate back inside the medicare array rather
   // than to the summary page, so manually overriding it here.
   onNavBack: ({ goPath }) => {
-    goPath('/medicare-summary');
+    goPath('/medicare-information/summary');
   },
   uiSchema: {
     ...titleUI('Medicare status'),
@@ -781,7 +781,7 @@ export const missingMedicarePage = {
 };
 
 export const proofOfIneligibilityUploadPage = {
-  path: 'proof-of-ineligibility-upload',
+  path: 'medicare-information/proof-of-ineligibility',
   title: 'Proof of Medicare ineligibility',
   depends: formData => formData?.hasProofMultipleApplicants,
   uiSchema: {
@@ -824,13 +824,13 @@ export const medicarePages = arrayBuilderPages(
   medicareOptions,
   pageBuilder => ({
     medicareSummary: pageBuilder.summaryPage({
-      path: 'medicare-summary',
+      path: 'medicare-information/summary',
       title: 'Review your Medicare plans',
       uiSchema: medicareSummaryPage.uiSchema,
       schema: medicareSummaryPage.schema,
     }),
     participant: pageBuilder.itemPage({
-      path: 'select-participant/:index',
+      path: 'medicare-information/:index/participants',
       title: 'Select Medicare participants',
       ...selectMedicareParticipantPage,
       CustomPage: props =>
@@ -842,7 +842,7 @@ export const medicarePages = arrayBuilderPages(
       CustomPageReview: () => <></>,
     }),
     medicareTypeOver65: pageBuilder.itemPage({
-      path: 'medicare-type-over-65/:index',
+      path: 'medicare-information/:index/over-65-plan-type',
       title: 'Plan type (over 65)',
       depends: (formData, index) => {
         const curAppHash = formData?.medicare?.[index]?.medicareParticipant;
@@ -855,8 +855,8 @@ export const medicarePages = arrayBuilderPages(
       ...medicarePlanOver65,
     }),
     medicareTypeUnder65: pageBuilder.itemPage({
-      path: 'medicare-type-under-65/:index',
-      title: 'Plan type (over 65)',
+      path: 'medicare-information/:index/under-65-plan-type',
+      title: 'Plan type (under 65)',
       depends: (formData, index) => {
         const curAppHash = formData?.medicare?.[index]?.medicareParticipant;
         const curApp = formData?.applicants?.find(
@@ -868,7 +868,7 @@ export const medicarePages = arrayBuilderPages(
       ...medicarePlanUnder65,
     }),
     medicarePartAEffectiveDate: pageBuilder.itemPage({
-      path: 'medicare-part-a-effective-date/:index',
+      path: 'medicare-information/:index/part-a-effective-date',
       title: 'Medicare Part A effective date',
       depends: (formData, index) => {
         const planType = formData?.medicare?.[index]?.medicarePlanType;
@@ -877,7 +877,7 @@ export const medicarePages = arrayBuilderPages(
       ...medicarePartAEffectiveDatePage,
     }),
     medicarePartACardUpload: pageBuilder.itemPage({
-      path: 'medicare-part-a-card-upload/:index',
+      path: 'medicare-information/:index/part-a-card',
       title: 'Upload Medicare Part A card',
       depends: (formData, index) => {
         const planType = formData?.medicare?.[index]?.medicarePlanType;
@@ -887,7 +887,7 @@ export const medicarePages = arrayBuilderPages(
       ...medicarePartACardUploadPage,
     }),
     medicarePartBEffectiveDate: pageBuilder.itemPage({
-      path: 'medicare-part-b-effective-date/:index',
+      path: 'medicare-information/:index/part-b-effective-date',
       title: 'Medicare Part B effective date',
       depends: (formData, index) => {
         const planType = formData?.medicare?.[index]?.medicarePlanType;
@@ -896,7 +896,7 @@ export const medicarePages = arrayBuilderPages(
       ...medicarePartBEffectiveDatePage,
     }),
     medicarePartBCardUpload: pageBuilder.itemPage({
-      path: 'medicare-part-b-card-upload/:index',
+      path: 'medicare-information/:index/part-b-card',
       title: 'Upload Medicare Part B card',
       depends: (formData, index) => {
         const planType = formData?.medicare?.[index]?.medicarePlanType;
@@ -906,7 +906,7 @@ export const medicarePages = arrayBuilderPages(
       ...medicarePartBCardUploadPage,
     }),
     medicarePartADenial: pageBuilder.itemPage({
-      path: 'medicare-part-a-denial/:index',
+      path: 'medicare-information/:index/part-a-denial-notice',
       title: 'Medicare Part A denial',
       depends: (formData, index) => {
         const planType = formData?.medicare?.[index]?.medicarePlanType;
@@ -915,7 +915,7 @@ export const medicarePages = arrayBuilderPages(
       ...medicarePartADenialPage,
     }),
     medicarePartADenialProofUpload: pageBuilder.itemPage({
-      path: 'medicare-part-a-denial-upload/:index',
+      path: 'medicare-information/:index/proof-of-part-a-denial',
       title: 'Upload proof of Medicare ineligibility',
       depends: (formData, index) => {
         const planType = formData?.medicare?.[index]?.medicarePlanType;
@@ -933,7 +933,7 @@ export const medicarePages = arrayBuilderPages(
       ...medicarePartADenialProofUploadPage,
     }),
     medicarePartAPartBEffectiveDates: pageBuilder.itemPage({
-      path: 'medicare-effective-dates/:index',
+      path: 'medicare-information/:index/parts-a-and-b-effective-dates',
       title: 'Medicare effective dates',
       depends: (formData, index) => {
         const planType = formData?.medicare?.[index]?.medicarePlanType;
@@ -942,7 +942,8 @@ export const medicarePages = arrayBuilderPages(
       ...medicarePartAPartBEffectiveDatesPage(false),
     }),
     medicarePartCABEffectiveDates: pageBuilder.itemPage({
-      path: 'medicare-effective-dates-part-c-ab/:index',
+      path:
+        'medicare-information/:index/parts-a-and-b-effective-dates-with-part-c',
       title: 'Medicare effective dates',
       depends: (formData, index) => {
         const planType = formData?.medicare?.[index]?.medicarePlanType;
@@ -951,7 +952,7 @@ export const medicarePages = arrayBuilderPages(
       ...medicarePartAPartBEffectiveDatesPage(true),
     }),
     medicareABCardUpload: pageBuilder.itemPage({
-      path: 'medicare-ab-card-upload/:index',
+      path: 'medicare-information/:index/parts-a-and-b-card',
       title: 'Upload Medicare card (A/B)',
       depends: (formData, index) => {
         const planType = formData?.medicare?.[index]?.medicarePlanType;
@@ -961,7 +962,7 @@ export const medicarePages = arrayBuilderPages(
       ...medicareABCardUploadPage,
     }),
     medicarePartCCarrierEffectiveDate: pageBuilder.itemPage({
-      path: 'medicare-part-c-carrier-effective-date/:index',
+      path: 'medicare-information/:index/part-c-carrier-and-effective-date',
       title: 'Medicare Part C carrier and effective date',
       depends: (formData, index) => {
         const planType = formData?.medicare?.[index]?.medicarePlanType;
@@ -970,7 +971,7 @@ export const medicarePages = arrayBuilderPages(
       ...medicarePartCCarrierEffectiveDatePage,
     }),
     medicarePartCPharmacyBenefits: pageBuilder.itemPage({
-      path: 'medicare-part-c-pharmacy-benefits/:index',
+      path: 'medicare-information/:index/part-c-pharmacy-benefits',
       title: 'Medicare Part C pharmacy benefits',
       depends: (formData, index) => {
         const planType = formData?.medicare?.[index]?.medicarePlanType;
@@ -979,7 +980,7 @@ export const medicarePages = arrayBuilderPages(
       ...medicarePartCPharmacyBenefitsPage,
     }),
     medicarePartCCardUpload: pageBuilder.itemPage({
-      path: 'medicare-part-c-card-upload/:index',
+      path: 'medicare-information/:index/part-c-card',
       title: 'Upload Medicare Part C card',
       depends: (formData, index) => {
         const planType = formData?.medicare?.[index]?.medicarePlanType;
@@ -989,7 +990,7 @@ export const medicarePages = arrayBuilderPages(
       ...medicarePartCCardUploadPage,
     }),
     medicarePartDStatus: pageBuilder.itemPage({
-      path: 'medicare-part-d-status/:index',
+      path: 'medicare-information/:index/part-d-status',
       title: 'Medicare Part D status',
       depends: (formData, index) => {
         const planType = formData?.medicare?.[index]?.medicarePlanType;
@@ -998,7 +999,7 @@ export const medicarePages = arrayBuilderPages(
       ...medicarePartDStatusPage,
     }),
     medicarePartDCarrierEffectiveDate: pageBuilder.itemPage({
-      path: 'medicare-part-d-carrier-effective-date/:index',
+      path: 'medicare-information/:index/part-d-carrier-and-effective-date',
       title: 'Medicare Part D carrier and effective date',
       depends: (formData, index) => {
         const planType = formData?.medicare?.[index]?.medicarePlanType;
@@ -1008,7 +1009,7 @@ export const medicarePages = arrayBuilderPages(
       ...medicarePartDCarrierEffectiveDatePage,
     }),
     medicarePartDCardUpload: pageBuilder.itemPage({
-      path: 'medicare-part-d-card-upload/:index',
+      path: 'medicare-information/:index/part-d-card',
       title: 'Upload Medicare Part D card',
       depends: (formData, index) => {
         const planType = formData?.medicare?.[index]?.medicarePlanType;
