@@ -6,23 +6,19 @@ import {
   dateOfBirthSchema,
   dateOfDeathSchema,
   dateOfDeathUI,
-  emailUI,
-  emailSchema,
   fullNameUI,
   fullNameSchema,
   phoneUI,
   phoneSchema,
   titleUI,
-  ssnUI,
-  ssnSchema,
+  titleSchema,
+  ssnOrVaFileNumberNoHintUI,
+  ssnOrVaFileNumberNoHintSchema,
   yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import CustomPrefillMessage from '../components/CustomPrefillAlert';
-import {
-  sponsorAddressCleanValidation,
-  validateSponsorSsnIsUnique,
-} from '../../shared/validations';
+import { sponsorAddressCleanValidation } from '../../shared/validations';
 
 export const sponsorIntroSchema = {
   uiSchema: {
@@ -43,7 +39,9 @@ export const sponsorIntroSchema = {
   },
   schema: {
     type: 'object',
-    properties: {},
+    properties: {
+      titleSchema,
+    },
   },
 };
 
@@ -65,6 +63,7 @@ export const sponsorNameDobSchema = {
     type: 'object',
     required: ['sponsorName', 'sponsorDob'],
     properties: {
+      titleSchema,
       sponsorName: fullNameSchema,
       sponsorDob: dateOfBirthSchema,
     },
@@ -76,15 +75,15 @@ export const sponsorIdentificationSchema = {
     ...titleUI(({ formData }) => {
       return `${formData?.certifierRole === 'sponsor' ? 'Your' : `Sponsor's`} 
         identification information`;
-    }),
-    sponsorSsn: ssnUI(),
-    'ui:validations': [validateSponsorSsnIsUnique],
+    }, `You must enter either a Social Security number or VA File number`),
+    sponsorSsn: ssnOrVaFileNumberNoHintUI(),
   },
   schema: {
     type: 'object',
     required: ['sponsorSsn'],
     properties: {
-      sponsorSsn: ssnSchema,
+      titleSchema,
+      sponsorSsn: ssnOrVaFileNumberNoHintSchema,
     },
   },
 };
@@ -92,8 +91,12 @@ export const sponsorIdentificationSchema = {
 export const sponsorStatus = {
   uiSchema: {
     ...titleUI(
-      "Sponsor's status",
-      "Now we'll ask you questions about the death of the sponsor (if they have died). Fill this out to the best of your knowledge.",
+      ({ formData }) => {
+        return `${formData.certifierRole === 'sponsor' ? 'Your' : `Sponsor's`} 
+    status`;
+      },
+      `Now we'll ask you questions about the death of the sponsor (if they have died).
+     Fill this out to the best of your knowledge.`,
     ),
     sponsorIsDeceased: yesNoUI({
       title: 'Has the sponsor died?',
@@ -107,6 +110,7 @@ export const sponsorStatus = {
     type: 'object',
     required: ['sponsorIsDeceased'],
     properties: {
+      titleSchema,
       sponsorIsDeceased: yesNoSchema,
     },
   },
@@ -130,6 +134,7 @@ export const sponsorStatusDetails = {
     type: 'object',
     required: ['sponsorDOD', 'sponsorDeathConditions'],
     properties: {
+      titleSchema,
       sponsorDOD: dateOfDeathSchema,
       sponsorDeathConditions: yesNoSchema,
     },
@@ -164,6 +169,7 @@ export const sponsorAddress = {
     type: 'object',
     required: ['sponsorAddress'],
     properties: {
+      titleSchema,
       sponsorAddress: addressSchema(),
     },
   },
@@ -190,16 +196,13 @@ export const sponsorContactInfo = {
       ...phoneUI(),
       'ui:required': () => true,
     },
-    sponsorEmail: {
-      ...emailUI(),
-    },
   },
   schema: {
     type: 'object',
     required: ['sponsorPhone'],
     properties: {
+      titleSchema,
       sponsorPhone: phoneSchema,
-      sponsorEmail: emailSchema,
     },
   },
 };

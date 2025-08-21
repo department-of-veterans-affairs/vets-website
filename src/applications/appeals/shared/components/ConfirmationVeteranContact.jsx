@@ -27,9 +27,6 @@ export const ConfirmationVeteranContact = ({
           >
             <va-telephone
               contact={getPhoneString(homePhone)}
-              country-code={
-                homePhone?.isInternational ? homePhone?.countryCode : undefined
-              }
               extension={homePhone?.extension}
               not-clickable
             />
@@ -46,9 +43,6 @@ export const ConfirmationVeteranContact = ({
         >
           <va-telephone
             contact={getPhoneString(phone)}
-            country-code={
-              phone?.isInternational ? phone?.countryCode : undefined
-            }
             extension={phone?.extension}
             not-clickable
           />

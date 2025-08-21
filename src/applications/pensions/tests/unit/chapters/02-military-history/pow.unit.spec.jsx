@@ -14,7 +14,7 @@ import { DefinitionTester } from '@department-of-veterans-affairs/platform-testi
 import getData from '../../../fixtures/mocks/mockStore';
 
 import {
-  testComponentFieldsMarkedAsRequired,
+  testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfFieldsByType,
   testNumberOfWebComponentFields,
 } from '../pageTests.spec';
@@ -36,11 +36,12 @@ describe('web component tests', () => {
     pageTitle,
   );
 
-  testComponentFieldsMarkedAsRequired(
+  const expectedNumberOfErrors = 1;
+  testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     schema,
     uiSchema,
-    [`va-radio[label="Have you ever been a prisoner of war?"]`],
+    expectedNumberOfErrors,
     pageTitle,
   );
 

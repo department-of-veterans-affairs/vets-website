@@ -44,26 +44,17 @@ const NotificationItem = ({ channelIds, itemName, description, itemId }) => {
     }
   })();
 
-  const mobilePhone = useSelector(state => selectVAPMobilePhone(state));
-
   // this is filtering all the channels that end with 1, which is the text channel
   // once the support for email is added, we'll need to remove this filter along with the feature toggle reliance
   const filteredChannels = useMemo(
     () => {
       return channelIds.filter(channelId => {
-        // Do not include texting to international
-        if (
-          channelId.endsWith(NOTIFICATION_CHANNEL_IDS.TEXT) &&
-          mobilePhone?.isInternational
-        ) {
-          return false;
-        }
         return emailNotificationsEnabled
           ? channelId
           : channelId.endsWith(NOTIFICATION_CHANNEL_IDS.TEXT);
       });
     },
-    [channelIds, emailNotificationsEnabled, mobilePhone],
+    [channelIds, emailNotificationsEnabled],
   );
 
   const channelsByItemId = useSelector(state =>
@@ -109,6 +100,7 @@ const NotificationItem = ({ channelIds, itemName, description, itemId }) => {
   );
 
   // need to do this otherwise we will see Appointment Reminder and Shipment item title only without any checkbox
+  const mobilePhone = useSelector(state => selectVAPMobilePhone(state));
   const shouldBlock =
     userHasAtLeastOneChannelContactInfo &&
     ((itemId === 'item3' && !aptReminderToggle) ||
@@ -116,13 +108,6 @@ const NotificationItem = ({ channelIds, itemName, description, itemId }) => {
     !mobilePhone;
 
   if (shouldBlock) return null;
-
-  // Ensure "empty `filterChannels`" will not render an empty fieldset wrapper
-  // This is its own condition since `userHasAtLeastOneChannelContactInfo`
-  // can still be true when filterChannels length is 0
-  if (filteredChannels.length === 0) {
-    return null;
-  }
 
   return (
     <>

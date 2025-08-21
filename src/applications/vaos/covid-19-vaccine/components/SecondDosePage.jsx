@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { formatInTimeZone } from 'date-fns-tz';
-import { addDays, parseISO } from 'date-fns';
+import moment from 'moment';
 import FormButtons from '../../components/FormButtons';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { getReviewPage, selectPageChangeInProgress } from '../redux/selectors';
@@ -10,8 +9,6 @@ import {
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
 } from '../flow';
-import { getTimezoneByFacilityId } from '../../utils/timezone';
-import { DATE_FORMATS } from '../../utils/constants';
 
 const pageKey = 'secondDosePage';
 const pageTitle = 'When to plan for a second dose';
@@ -24,9 +21,7 @@ export default function SecondDosePage() {
   const pageChangeInProgress = useSelector(selectPageChangeInProgress);
   const history = useHistory();
   const dispatch = useDispatch();
-  const { date1, vaFacility } = data;
-  const selectedDate = parseISO(date1[0]);
-  const timezone = getTimezoneByFacilityId(vaFacility);
+  const { date1 } = data;
 
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
@@ -39,14 +34,8 @@ export default function SecondDosePage() {
       <div className="vads-u-margin-bottom--4">
         <p>
           If you get your first dose of a 2-dose vaccine on{' '}
-          <strong>
-            {formatInTimeZone(
-              selectedDate,
-              timezone,
-              DATE_FORMATS.friendlyWeekdayDate,
-            )}
-          </strong>
-          , here’s when to plan to come back for your second dose.
+          <strong>{moment(date1[0]).format('dddd, MMMM D, YYYY')}</strong>,
+          here’s when to plan to come back for your second dose.
         </p>
         <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--0">
           Moderna
@@ -57,11 +46,9 @@ export default function SecondDosePage() {
           Plan to return{' '}
           <strong>
             after{' '}
-            {formatInTimeZone(
-              addDays(selectedDate, 28),
-              timezone,
-              DATE_FORMATS.friendlyWeekdayDate,
-            )}
+            {moment(date1[0])
+              .add(28, 'days')
+              .format('dddd, MMMM D, YYYY')}
           </strong>
         </div>
         <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--0">Pfizer</h2>
@@ -71,11 +58,9 @@ export default function SecondDosePage() {
           Plan to return{' '}
           <strong>
             after{' '}
-            {formatInTimeZone(
-              addDays(selectedDate, 21),
-              timezone,
-              DATE_FORMATS.friendlyWeekdayDate,
-            )}
+            {moment(date1[0])
+              .add(21, 'days')
+              .format('dddd, MMMM D, YYYY')}
           </strong>
         </div>
         <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--0">

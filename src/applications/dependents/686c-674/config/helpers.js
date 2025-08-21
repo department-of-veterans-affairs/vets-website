@@ -6,7 +6,7 @@ import constants from 'vets-json-schema/dist/constants.json';
 import { focusElement } from 'platform/utilities/ui';
 
 export const isChapterFieldRequired = (formData, option) =>
-  formData[`view:selectable686Options`]?.[option];
+  formData[`view:selectable686Options`][option];
 
 export const VerifiedAlert = (
   <div className="vads-u-margin-bottom--2">
@@ -76,7 +76,7 @@ export const CancelButton = withRouter(
   ({
     isAddChapter = false,
     dependentType = 'dependents',
-    dependentButtonType,
+    altMessage = false,
     router,
   }) => {
     const buttonRef = useRef(null);
@@ -86,35 +86,35 @@ export const CancelButton = withRouter(
       focusElement('button', {}, buttonRef.current.shadowRoot);
     };
 
-    const cancelButtonText =
+    const cancelText =
       dependentType && typeof dependentType === 'string'
         ? `Cancel ${isAddChapter ? 'adding' : 'removing'} ${dependentType}`
         : 'Cancel';
 
-    const modalTitle = `Cancel ${
+    const modalText = `Cancel ${
       isAddChapter ? 'adding' : 'removing'
     } ${dependentType}?`;
 
-    const secondaryButtonText = `No, continue ${
+    const secondaryText = `No, continue ${
       isAddChapter ? 'adding' : 'removing'
-    } ${dependentButtonType || dependentType}`;
+    } ${dependentType}`;
 
     return (
       <>
         <va-button
           ref={buttonRef}
           data-testid="cancel-btn"
-          aria-label={cancelButtonText}
+          aria-label={cancelText}
           onClick={() => setIsVisible(true)}
           secondary
-          text={cancelButtonText}
+          text={cancelText}
         />
 
         <VaModal
           data-testid="cancel-modal"
-          modalTitle={modalTitle}
+          modalTitle={modalText}
           primaryButtonText="Yes, cancel"
-          secondaryButtonText={secondaryButtonText}
+          secondaryButtonText={secondaryText}
           visible={isVisible}
           status="warning"
           onPrimaryButtonClick={() => {
@@ -127,10 +127,16 @@ export const CancelButton = withRouter(
           onCloseEvent={closeModal}
           clickToClose
         >
-          <p>
-            If you cancel, we’ll take you back to Step 1 to update your
-            selection.
-          </p>
+          {altMessage ? (
+            <p>
+              If you cancel, the information entered won’t be saved and you’ll
+              be taken to step 1, to update your selection.
+            </p>
+          ) : (
+            <p>
+              If you cancel, you’ll be taken to step 1 to update your selection.
+            </p>
+          )}
         </VaModal>
       </>
     );
@@ -205,7 +211,6 @@ export const customLocationSchemaStatePostal = {
         },
         postalCode: {
           type: 'string',
-          pattern: '^\\d{5}$',
         },
       },
     },

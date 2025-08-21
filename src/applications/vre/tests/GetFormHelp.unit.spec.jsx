@@ -4,9 +4,9 @@ import { render } from '@testing-library/react';
 import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 import GetFormHelp from '../components/GetFormHelp';
 
-describe.skip('GetFormHelp', () => {
+describe('GetFormHelp', () => {
   it('should render', () => {
     const { container } = render(<GetFormHelp />);
-    expect($$('a', container).length).to.eql(1);
+    expect($$('a', container).length).to.eql(2);
   });
 });

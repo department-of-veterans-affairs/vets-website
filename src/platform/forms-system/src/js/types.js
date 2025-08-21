@@ -250,7 +250,7 @@
  *   'ui:objectViewField'?: React.ReactNode,
  *   'ui:options'?: UIOptions,
  *   'ui:order'?: string[],
- *   'ui:required'?: (formData: any, index: number, fullData: any, path: Array<string | number>) => boolean,
+ *   'ui:required'?: (formData: any, index: number, fullData: any) => boolean,
  *   'ui:reviewField'?: React.ReactNode,
  *   'ui:reviewWidget'?: React.ReactNode,
  *   'ui:title'?: string | JSX.Element | React.ReactNode,
@@ -301,7 +301,7 @@
  * @property {boolean} [freeInput] for AutoSuggest widget
  * @property {boolean} [generateIndividualItemHeaders] For array field generation that would use the "new item" logic. Items created before it will now have "item" headers attached to them if there are multiple and it is not the final one in the series.
  * @property {boolean} [hideEmptyValueInReview] Field will not be displayed in review page if empty if set to true
- * @property {(formData: any, index: number, fullData: any, path: Array<string | number>) => boolean} [hideIf] Conditional logic if the field should be hidden
+ * @property {(formData: any, index: number, fullData: any) => boolean} [hideIf] Conditional logic if the field should be hidden
  * @property {boolean} [hideLabelText] Hide the text above a form field. May be useful for checkbox widgets and some other corner cases.
  * @property {boolean} [hideTitle] For arrays.
  * @property {boolean} [hideOnReview] Used to hide a field on review page
@@ -465,7 +465,6 @@
  * @property {number} [maxItems] The maximum number of items allowed in the array. Omit to allow unlimited items.
  * @property {boolean} required This determines the flow type of the array builder. Required starts with an intro page, optional starts with the yes/no question (summary page).
  * @property {string} [reviewPath] Defaults to `'review-and-submit'` if not provided.
- * @property {string} [reviewPanelHeadingLevel] The heading level for the summary title on the review page.
  * @property {ArrayBuilderText} [text] Override any default text used in the array builder pattern
  * @property {boolean} [useLinkInsteadOfYesNo]
  * @property {boolean} [useButtonInsteadOfYesNo]

@@ -20,15 +20,15 @@ import ResizeObserver from '../fixtures/mocks/ResizeObserver';
 global.ResizeObserver = ResizeObserver;
 let sandbox;
 
-// Skipped until Node 22.
-// `global.window.location.replace = sinon.spy();` fails on Node 14
-describe.skip('App', () => {
+describe('App', () => {
   let oldLocation;
 
   beforeEach(() => {
     mockFetch();
     oldLocation = global.window.location;
-    global.window.location.replace = sinon.spy();
+    global.window.location = {
+      replace: sinon.spy(),
+    };
     sandbox = sinon.createSandbox();
   });
 

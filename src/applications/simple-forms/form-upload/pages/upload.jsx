@@ -44,7 +44,7 @@ export const uploadPage = {
   schema: {
     type: 'object',
     properties: {
-      uploadedFile: fileInputSchema(),
+      uploadedFile: fileInputSchema,
     },
     required: ['uploadedFile'],
   },

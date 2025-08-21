@@ -122,7 +122,10 @@ describe('<NameTag>', () => {
       it('should render a fallback link', () => {
         const initialState = getInitialState();
         const view = render(
-          <NameTag totalDisabilityRating={null} totalDisabilityRatingError />,
+          <NameTag
+            totalDisabilityRating={null}
+            totalDisabilityRatingServerError
+          />,
           { initialState },
         );
         expect(view.queryByText(/your disability rating:/i)).to.not.exist;

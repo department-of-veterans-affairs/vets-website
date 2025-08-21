@@ -74,7 +74,7 @@ const preventMaxSelections = ({
           }
         });
 
-      cy.get('va-checkbox#root_contestedIssues_0').as('issueCheckbox');
+      cy.get('input#root_contestedIssues_0').as('issueCheckbox');
 
       cy.get('@issueCheckbox')
         .should('not.be.checked')

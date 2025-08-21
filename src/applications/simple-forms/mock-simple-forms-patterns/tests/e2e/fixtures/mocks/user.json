@@ -21,7 +21,7 @@
       },
       "in_progress_forms": [
         {
-          "form": "FORM_MOCK_SF_PATTERNS",
+          "form": "21-10210",
           "metadata": {
             "savedAt": 1681760746439,
             "submission": {
@@ -31,7 +31,7 @@
               "timestamp": 1681760746426,
               "hasAttemptedSubmit": true
             },
-            "expiresAt": 9999999999,
+            "expiresAt": 1686944746,
             "lastUpdated": 1681760746,
             "inProgressFormId": 19439
           },

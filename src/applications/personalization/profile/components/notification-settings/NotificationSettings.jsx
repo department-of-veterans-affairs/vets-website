@@ -54,13 +54,9 @@ const NotificationSettings = ({
 
   const requiredContactInfoOnFile = useMemo(
     () => {
-      // Target domestic numbers here to follow the original required contact info flow
-      // The addition of international numbers has a separate flow of modals and alerts
-      const domesticMobilePhone =
-        mobilePhoneNumber && !mobilePhoneNumber.isInternational;
       return showEmail
-        ? !!(emailAddress || domesticMobilePhone)
-        : !!(mobilePhoneNumber && domesticMobilePhone);
+        ? !!(emailAddress || mobilePhoneNumber)
+        : !!mobilePhoneNumber;
     },
     [emailAddress, mobilePhoneNumber, showEmail],
   );
@@ -141,9 +137,7 @@ const NotificationSettings = ({
         {shouldShowAPIError && <LoadFail />}
         {showMissingContactInfoAlert && (
           <MissingContactInfoAlert
-            missingMobilePhone={
-              mobilePhoneNumber || !mobilePhoneNumber?.isInternational
-            }
+            missingMobilePhone={!mobilePhoneNumber}
             missingEmailAddress={!emailAddress}
             showEmailNotificationSettings={showEmail}
           />
@@ -175,6 +169,10 @@ const NotificationSettings = ({
               }
               return <NotificationGroup groupId={id} key={id} />;
             })}
+            <p className="vads-u-margin-bottom--0">
+              <strong>Note:</strong> We have limited notification options at
+              this time. Check back for more options in the future.
+            </p>
           </>
         )}
       </DowntimeNotification>

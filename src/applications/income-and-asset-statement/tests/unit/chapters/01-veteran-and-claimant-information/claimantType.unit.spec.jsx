@@ -4,7 +4,7 @@ import formConfig from '../../../../config/form';
 import claimantType from '../../../../config/chapters/01-veteran-and-claimant-information/claimantType';
 import {
   testNumberOfFieldsByType,
-  testComponentFieldsMarkedAsRequired,
+  testNumberOfErrorsOnSubmitForWebComponents,
   testSubmitsWithoutErrors,
 } from '../pageTests.spec';
 
@@ -20,11 +20,11 @@ describe('income and asset claimant type page', () => {
     },
     'claimant type',
   );
-  testComponentFieldsMarkedAsRequired(
+  testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     schema,
     uiSchema,
-    ['va-radio[label="Which of these best describes you?"]'],
+    1,
     'claimant type',
   );
   testSubmitsWithoutErrors(

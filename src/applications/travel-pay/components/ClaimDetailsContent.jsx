@@ -8,7 +8,6 @@ import { formatDateTime } from '../util/dates';
 import { STATUSES, FORM_100998_LINK } from '../constants';
 import { toPascalCase } from '../util/string-helpers';
 import DocumentDownload from './DocumentDownload';
-import DecisionReason from './DecisionReason';
 
 const title = 'Your travel reimbursement claim';
 
@@ -23,15 +22,11 @@ export default function ClaimDetailsContent({
   totalCostRequested,
   reimbursementAmount,
   documents,
-  decisionLetterReason,
 }) {
   useSetPageTitle(title);
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const claimsMgmtToggle = useToggleValue(
     TOGGLE_NAMES.travelPayClaimsManagement,
-  );
-  const claimsMgmtDecisionReasonToggle = useToggleValue(
-    TOGGLE_NAMES.travelPayClaimsManagementDecisionReason,
   );
 
   const [appointmentDate, appointmentTime] = formatDateTime(
@@ -41,15 +36,11 @@ export default function ClaimDetailsContent({
   const [createDate, createTime] = formatDateTime(createdOn);
   const [updateDate, updateTime] = formatDateTime(modifiedOn);
 
-  const showDecisionReason =
-    decisionLetterReason && claimsMgmtDecisionReasonToggle;
-
   const getDocLinkList = list =>
     list.map(({ filename, text, documentId }) => (
       <div
         key={`claim-attachment-dl-${filename}`}
         className="vads-u-margin-top--1"
-        data-testid="user-submitted-documents"
       >
         <DocumentDownload
           text={text}
@@ -94,17 +85,21 @@ export default function ClaimDetailsContent({
       >
         Claim number: {claimNumber}
       </span>
-
       <h2 className="vads-u-font-size--h3">Claim status: {claimStatus}</h2>
       {claimsMgmtToggle && (
         <>
           {STATUSES[toPascalCase(claimStatus)] ? (
-            <p
-              className="vads-u-margin-top--2"
-              data-testid="status-definition-text"
-            >
-              {STATUSES[toPascalCase(claimStatus)].definition}
-            </p>
+            <>
+              <p className="vads-u-font-weight--bold vads-u-margin-top--2 vads-u-margin-bottom--0">
+                What does this status mean
+              </p>
+              <p
+                className="vads-u-margin-top--0"
+                data-testid="status-definition-text"
+              >
+                {STATUSES[toPascalCase(claimStatus)].definition}
+              </p>
+            </>
           ) : (
             <p className="vads-u-margin-top--2">
               If you need help understanding your claim, call the BTSSS call
@@ -113,12 +108,6 @@ export default function ClaimDetailsContent({
               a.m. to 8:00 p.m. ET. Have your claim number ready to share when
               you call.
             </p>
-          )}
-          {showDecisionReason && (
-            <DecisionReason
-              claimStatus={claimStatus}
-              decisionLetterReason={decisionLetterReason}
-            />
           )}
           {documentCategories.clerk.length > 0 &&
             getDocLinkList(documentCategories.clerk)}
@@ -168,18 +157,14 @@ export default function ClaimDetailsContent({
             )}
         </>
       )}
-      <p className="vads-u-font-weight--bold vads-u-margin-bottom--0">
-        Claim submission timeline
-      </p>
+      <p className="vads-u-font-weight--bold vads-u-margin-bottom--0">When</p>
       <p className="vads-u-margin-y--0">
         Submitted on {createDate} at {createTime}
       </p>
       <p className="vads-u-margin-y--0">
         Updated on {updateDate} at {updateTime}
       </p>
-      <p className="vads-u-font-weight--bold vads-u-margin-bottom--0">
-        Appointment information
-      </p>
+      <p className="vads-u-font-weight--bold vads-u-margin-bottom--0">Where</p>
       <p className="vads-u-margin-y--0">
         {appointmentDate} at {appointmentTime} appointment
       </p>
@@ -199,50 +184,35 @@ export default function ClaimDetailsContent({
               <h2 className="vads-u-font-size--h3">
                 Appealing a claim decision
               </h2>
-              <p className="vads-u-margin-bottom--0">
-                You can appeal a claim decision online or by mail. For both
-                options, you’ll need to fill out a copy of Your Rights to Seek
-                Further Review of Our Healthcare Benefits Decision (VA Form
-                10-0998). You’ll also need to include any required supporting
-                documents with your appeal.
-              </p>
-              {documentCategories.forms.length > 0 ? (
-                <DocumentDownload
-                  text="Get VA Form 10-0998 to download"
-                  claimId={claimId}
-                  documentId={documentCategories.forms[0].documentId}
-                  filename={documentCategories.forms[0].filename}
-                />
-              ) : (
-                <va-link
-                  text="Get VA Form 10-0998 to download"
-                  href={FORM_100998_LINK}
-                />
-              )}{' '}
-              <p className="vads-u-font-weight--bold vads-u-margin-bottom--0">
-                Option 1: Online
-              </p>
-              <p className="vads-u-margin-bottom--0 vads-u-margin-top--0">
-                Send a secure message to the Beneficiary Travel team at the VA
-                facility that provided your care or at your home VA facility.
-                Attach a copy of VA Form 10-0998 and any supporting documents.
-              </p>
-              <va-link
-                text="Send a secure message"
-                href="/health-care/send-receive-messages/"
+              <p>If you would like to appeal this decision you can:</p>
+              <ul>
+                <li>Submit an appeal via the Board of Appeals.</li>
+                <li>
+                  Send a secure message to the Beneficiary Travel team of the VA
+                  facility that provided your care or of you home VA facility.
+                </li>
+                <li>
+                  Mail a printed version of{' '}
+                  {documentCategories.forms.length > 0 ? (
+                    <DocumentDownload
+                      text="VA Form 10-0998 (PDF)"
+                      claimId={claimId}
+                      documentId={documentCategories.forms[0].documentId}
+                      filename={documentCategories.forms[0].filename}
+                    />
+                  ) : (
+                    <va-link
+                      text="VA Form 10-0998 (PDF)"
+                      href={FORM_100998_LINK}
+                    />
+                  )}{' '}
+                  with the appropriate documentation.
+                </li>
+              </ul>
+              <va-link-action
+                text="Appeal the claim decision"
+                href="/decision-reviews"
               />
-              <p className="vads-u-font-weight--bold vads-u-margin-bottom--0">
-                Option 2: By mail
-              </p>
-              <p className="vads-u-margin-top--0">
-                Mail a printed copy of VA Form 10-0998 and any supporting
-                documents to the address listed in your decision letter.
-              </p>
-              <p>
-                <span className="vads-u-font-weight--bold">Note:</span> If you’d
-                like to submit an appeal via the Board of Veterans’ Appeals,
-                follow the instructions in your decision letter.
-              </p>
             </>
           )}
         </>
@@ -259,7 +229,6 @@ ClaimDetailsContent.propTypes = {
   createdOn: PropTypes.string.isRequired,
   facilityName: PropTypes.string.isRequired,
   modifiedOn: PropTypes.string.isRequired,
-  decisionLetterReason: PropTypes.string,
   documents: PropTypes.array,
   reimbursementAmount: PropTypes.number,
   totalCostRequested: PropTypes.number,

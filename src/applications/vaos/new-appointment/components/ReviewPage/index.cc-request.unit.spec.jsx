@@ -11,16 +11,11 @@ import {
 } from '@department-of-veterans-affairs/platform-testing/helpers';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
-import { addDays, format, startOfDay } from 'date-fns';
 import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../../tests/mocks/setup';
-import {
-  DATE_FORMATS,
-  FACILITY_TYPES,
-  TYPE_OF_CARE_IDS,
-} from '../../../utils/constants';
+import { FACILITY_TYPES, TYPE_OF_CARE_IDS } from '../../../utils/constants';
 
 import ReviewPage from '.';
 import MockAppointmentResponse from '../../../tests/fixtures/MockAppointmentResponse';
@@ -33,6 +28,7 @@ const initialStateVAOSService = {
 };
 
 describe('VAOS Page: ReviewPage CC request with VAOS service', () => {
+  let store;
   const defaultState = {
     ...initialStateVAOSService,
     user: {
@@ -117,10 +113,11 @@ describe('VAOS Page: ReviewPage CC request with VAOS service', () => {
 
   beforeEach(() => {
     mockFetch();
+    store = createTestStore(defaultState);
   });
 
   it('should submit successfully', async () => {
-    const store = createTestStore(defaultState);
+    store = createTestStore(defaultState);
 
     mockAppointmentSubmitApi({
       response: new MockAppointmentResponse({ id: 'fake_id' }),
@@ -163,12 +160,12 @@ describe('VAOS Page: ReviewPage CC request with VAOS service', () => {
       },
       requestedPeriods: [
         {
-          start: '2020-05-25T00:00:00Z',
-          end: '2020-05-25T11:59:00Z',
+          start: '2020-05-25T06:00:00Z',
+          end: '2020-05-25T17:59:00Z',
         },
         {
-          start: '2020-05-26T12:00:00Z',
-          end: '2020-05-26T23:59:00Z',
+          start: '2020-05-26T18:00:00Z',
+          end: '2020-05-27T05:59:00Z',
         },
       ],
       preferredTimesForPhoneCall: ['Morning', 'Afternoon', 'Evening'],
@@ -197,17 +194,15 @@ describe('VAOS Page: ReviewPage CC request with VAOS service', () => {
   });
 
   it('should record GA tracking events', async () => {
-    const tomorrow = addDays(startOfDay(new Date()), 2);
-    const store = createTestStore({
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    store = createTestStore({
       ...defaultState,
       newAppointment: {
         ...defaultState.newAppointment,
         data: {
           ...defaultState.newAppointment.data,
-          selectedDates: [
-            format(tomorrow, DATE_FORMATS.ISODateTime),
-            format(tomorrow, DATE_FORMATS.ISODateTime),
-          ],
+          selectedDates: [tomorrow, tomorrow],
         },
       },
     });
@@ -242,17 +237,15 @@ describe('VAOS Page: ReviewPage CC request with VAOS service', () => {
   });
 
   it('should show error message on failure', async () => {
-    const tomorrow = addDays(startOfDay(new Date()), 2);
-    const store = createTestStore({
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    store = createTestStore({
       ...defaultState,
       newAppointment: {
         ...defaultState.newAppointment,
         data: {
           ...defaultState.newAppointment.data,
-          selectedDates: [
-            format(tomorrow, DATE_FORMATS.ISODateTime),
-            format(tomorrow, DATE_FORMATS.ISODateTime),
-          ],
+          selectedDates: [tomorrow, tomorrow],
         },
       },
     });
@@ -272,13 +265,10 @@ describe('VAOS Page: ReviewPage CC request with VAOS service', () => {
 
     userEvent.click(screen.getByText(/Submit request/i));
 
-    await screen.findByText('We can’t submit your request right now');
+    await screen.findByText('We can’t submit your request');
 
     expect(screen.baseElement).contain.text(
-      'We’re sorry. There’s a problem with our system. Refresh this page to start over or try again later.',
-    );
-    expect(screen.baseElement).contain.text(
-      'If you need to schedule now, call your VA facility.',
+      'Something went wrong when we tried to submit your request. You can try again later, or call your VA medical center to help with your request.',
     );
 
     expect(screen.baseElement).contain.text('Cheyenne VA Medical Center');

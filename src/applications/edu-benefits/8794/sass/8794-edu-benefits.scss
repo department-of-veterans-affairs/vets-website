@@ -41,16 +41,3 @@
     width: 100%;
   }
 }
-va-accordion-item[data-chapter="institutionDetailsChapter"] {
-  #institutionHeading {
-    text-align: left;
-  }
-  dl.review .review-row:has(#institutionHeading) {
-    flex-direction: column;
-  }
-  .va-address-block {
-    margin-left: 0 !important;
-  }
-}
-
-

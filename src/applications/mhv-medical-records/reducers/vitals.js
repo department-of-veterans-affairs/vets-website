@@ -6,7 +6,6 @@ import {
   vitalUnitCodes,
   vitalUnitDisplayText,
   loadStates,
-  allowedVitalLoincs,
 } from '../util/constants';
 import {
   isArrayAndHasItems,
@@ -56,17 +55,6 @@ export const getMeasurement = (record, type) => {
       item.code.coding.some(coding => coding.code === loincCodes.DIASTOLIC),
     );
     return `${systolic.valueQuantity.value}/${diastolic.valueQuantity.value}`;
-  }
-
-  if (
-    vitalTypes.HEIGHT.includes(type) &&
-    record.valueQuantity?.code === '[in_i]'
-  ) {
-    const feet = Math.floor(record.valueQuantity.value / 12);
-    const inches = record.valueQuantity.value % 12;
-    return `${feet}${vitalUnitDisplayText.HEIGHT_FT}, ${inches}${
-      vitalUnitDisplayText.HEIGHT_IN
-    }`;
   }
 
   if (record.valueQuantity) {
@@ -133,15 +121,9 @@ export const vitalReducer = (state = initialState, action) => {
     case Actions.Vitals.GET_LIST: {
       const oldList = state.vitalsList;
       const newList =
-        action.response.entry
-          ?.filter(entry =>
-            entry.resource.code.coding.some(coding =>
-              allowedVitalLoincs.includes(coding.code),
-            ),
-          )
-          .map(vital => {
-            return convertVital(vital.resource);
-          }) || [];
+        action.response.entry?.map(vital => {
+          return convertVital(vital.resource);
+        }) || [];
 
       return {
         ...state,

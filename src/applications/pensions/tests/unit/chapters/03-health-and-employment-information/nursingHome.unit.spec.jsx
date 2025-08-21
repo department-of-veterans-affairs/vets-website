@@ -1,5 +1,5 @@
 import {
-  testComponentFieldsMarkedAsRequired,
+  testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfFieldsByType,
   testNumberOfWebComponentFields,
   testSubmitsWithoutErrors,
@@ -20,11 +20,12 @@ describe('pension nursing home page', () => {
     pageTitle,
   );
 
-  testComponentFieldsMarkedAsRequired(
+  const expectedNumberOfErrors = 1;
+  testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     schema,
     uiSchema,
-    [`va-radio[label="Do you live in a nursing home?"]`],
+    expectedNumberOfErrors,
     pageTitle,
   );
 

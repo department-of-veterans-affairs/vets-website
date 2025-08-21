@@ -10,7 +10,7 @@ import { renderDOB } from '@@vap-svc/util/personal-information/personalInformati
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { getMessagingSignature } from 'platform/user/profile/actions';
-import { ProfileInfoSection } from '../ProfileInfoSection';
+import { ProfileInfoCard } from '../ProfileInfoCard';
 import LegalName from './LegalName';
 import DisabilityRating from './DisabilityRating';
 import MessagingSignature from './MessagingSignature';
@@ -164,7 +164,7 @@ const PersonalInformationSection = ({ dob }) => {
           </div>
         </va-additional-info>
       </div>
-      <ProfileInfoSection data={updatedCardFields} level={1} />
+      <ProfileInfoCard data={updatedCardFields} level={1} />
     </div>
   );
 };

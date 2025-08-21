@@ -11,12 +11,7 @@ import ProgressButton from './ProgressButton';
  * the `goForward` function to the form's `onSubmit` instead. Doing this will
  * navigate the user to the next page only if validation is successful.
  */
-const FormNavButtons = ({
-  goBack,
-  goForward,
-  submitToContinue,
-  useWebComponents,
-}) => (
+const FormNavButtons = ({ goBack, goForward, submitToContinue }) => (
   <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--2">
     <div className="small-6 medium-5 columns">
       {goBack && (
@@ -25,7 +20,6 @@ const FormNavButtons = ({
           buttonText="Back"
           buttonClass="usa-button-secondary"
           beforeText="«"
-          useWebComponents={useWebComponents}
         />
       )}
     </div>
@@ -36,7 +30,6 @@ const FormNavButtons = ({
         buttonText="Continue"
         buttonClass="usa-button-primary"
         afterText="»"
-        useWebComponents={useWebComponents}
       />
     </div>
   </div>
@@ -46,16 +39,11 @@ FormNavButtons.propTypes = {
   goBack: propTypes.func,
   goForward: propTypes.func,
   submitToContinue: propTypes.bool,
-  useWebComponents: propTypes.bool,
 };
 
 export default FormNavButtons;
 
-export const FormNavButtonContinue = ({
-  goForward,
-  submitToContinue,
-  useWebComponents,
-}) => (
+export const FormNavButtonContinue = ({ goForward, submitToContinue }) => (
   <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--2">
     <div className="medium-8 columns">
       <ProgressButton
@@ -64,7 +52,6 @@ export const FormNavButtonContinue = ({
         buttonText="Continue"
         buttonClass="usa-button-primary"
         afterText="»"
-        useWebComponents={useWebComponents}
       />
     </div>
   </div>
@@ -73,5 +60,4 @@ export const FormNavButtonContinue = ({
 FormNavButtonContinue.propTypes = {
   goForward: propTypes.func,
   submitToContinue: propTypes.bool,
-  useWebComponents: propTypes.bool,
 };

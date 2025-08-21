@@ -1,4 +1,4 @@
-import { add, format, subDays, addDays } from 'date-fns';
+import { add, format } from 'date-fns';
 import sinon from 'sinon';
 import { expect } from 'chai';
 import moment from 'moment';
@@ -24,11 +24,6 @@ import {
   validateZIP,
   limitNewDisabilities,
   requireSeparationLocation,
-  isMonthOnly,
-  isYearOnly,
-  isYearMonth,
-  isTreatmentBeforeService,
-  findEarliestServiceDate,
 } from '../validations';
 
 import { getDisabilityLabels } from '../content/disabilityLabels';
@@ -91,155 +86,83 @@ describe('526 All Claims validations', () => {
 
   describe('isValidYear', () => {
     it('should add an error if the year is not a number', () => {
-      const err = { addError: sinon.spy() };
+      const err = {
+        addError: sinon.spy(),
+      };
       isValidYear(err, 'asdf');
       expect(err.addError.called).to.be.true;
-
-      const err2 = { addError: sinon.spy() };
-      isValidYear(err2, '');
-      expect(err2.addError.called).to.be.true;
-
-      const err3 = { addError: sinon.spy() };
-      isValidYear(err3, null);
-      expect(err3.addError.called).to.be.true;
-
-      const err4 = { addError: sinon.spy() };
-      isValidYear(err4, undefined);
-      expect(err4.addError.called).to.be.true;
     });
 
     it('should add an error if the year contains more than just four digits', () => {
-      const err = { addError: sinon.spy() };
+      const err = {
+        addError: sinon.spy(),
+      };
       isValidYear(err, '1990asdf');
       expect(err.addError.called).to.be.true;
     });
 
     it(`should add an error if the year is less than ${minYear}`, () => {
-      const err = { addError: sinon.spy() };
+      const err = {
+        addError: sinon.spy(),
+      };
       isValidYear(err, minYear - 1);
       expect(err.addError.called).to.be.true;
     });
 
     it(`should add an error if the year is more than ${maxYear}`, () => {
-      const err = { addError: sinon.spy() };
+      const err = {
+        addError: sinon.spy(),
+      };
       isValidYear(err, maxYear + 1);
       expect(err.addError.called).to.be.true;
     });
 
     it(`should not add an error if the year is between ${minYear} and ${maxYear}`, () => {
-      const err = { addError: sinon.spy() };
+      const err = {
+        addError: sinon.spy(),
+      };
       isValidYear(err, '2010');
       expect(err.addError.called).to.be.false;
     });
 
     it('should add an error if the year is in the future', () => {
-      const err = { addError: sinon.spy() };
+      const err = {
+        addError: sinon.spy(),
+      };
       isValidYear(err, maxYear - 1);
       expect(err.addError.called).to.be.true;
     });
-
-    it('should add an error for years that are not exactly 4 digits', () => {
-      const err = { addError: sinon.spy() };
-      isValidYear(err, '123');
-      expect(err.addError.called).to.be.true;
-
-      const err2 = { addError: sinon.spy() };
-      isValidYear(err2, '12');
-      expect(err2.addError.called).to.be.true;
-
-      const err3 = { addError: sinon.spy() };
-      isValidYear(err3, '12345');
-      expect(err3.addError.called).to.be.true;
-    });
-
-    it('should add an error for years with leading zeros', () => {
-      const err = { addError: sinon.spy() };
-      isValidYear(err, '0123');
-      expect(err.addError.called).to.be.true;
-    });
-
-    describe('should test boundary years correctly', () => {
-      let getFullYearStub;
-      beforeEach(() => {
-        // make 3000 the "current" year
-        getFullYearStub = sinon
-          .stub(Date.prototype, 'getFullYear')
-          .returns(3000);
+    describe('oneDisabilityRequired', () => {
+      it('should not add an error if at least one disability is selected', () => {
+        const err = {
+          addError: sinon.spy(),
+        };
+        const formData = {
+          ratedDisabilities: [
+            {
+              unemployabilityDisability: true,
+            },
+          ],
+          newDisabilities: [
+            {
+              unemployabilityDisability: false,
+            },
+          ],
+        };
+        oneDisabilityRequired('rated')(err, null, formData);
+        expect(err.addError.called).to.be.false;
       });
-      afterEach(() => {
-        getFullYearStub.restore();
+      it('should add an error if no disabilities are selected', () => {
+        const err = {
+          addError: sinon.spy(),
+        };
+        const formData = {
+          ratedDisabilities: [],
+          newDisabilities: [],
+        };
+        oneDisabilityRequired('rated')(err, null, formData);
+        expect(err.addError.called).to.be.true;
       });
-
-      it('should test exact boundaries when current year is 3000', () => {
-        const err1900 = { addError: sinon.spy() };
-        isValidYear(err1900, '1900');
-        expect(err1900.addError.called).to.be.false;
-
-        const err3000 = { addError: sinon.spy() };
-        isValidYear(err3000, '3000');
-        expect(err3000.addError.called).to.be.false;
-
-        const err1899 = { addError: sinon.spy() };
-        isValidYear(err1899, '1899');
-        expect(err1899.addError.called).to.be.true;
-
-        const err3001 = { addError: sinon.spy() };
-        isValidYear(err3001, '3001');
-        expect(err3001.addError.called).to.be.true;
-      });
-    });
-
-    it('should test current year', () => {
-      const currentYear = new Date().getFullYear();
-      const err = { addError: sinon.spy() };
-      isValidYear(err, currentYear.toString());
-      expect(err.addError.called).to.be.false;
-    });
-
-    it('should add error for future years', () => {
-      const nextYear = new Date().getFullYear() + 1;
-      const err = { addError: sinon.spy() };
-      isValidYear(err, nextYear.toString());
-      expect(err.addError.called).to.be.true;
-    });
-
-    it('should handle numeric input types', () => {
-      const err = { addError: sinon.spy() };
-      isValidYear(err, 2010);
-      expect(err.addError.called).to.be.false;
-    });
-  });
-
-  describe('oneDisabilityRequired', () => {
-    it('should not add an error if at least one disability is selected', () => {
-      const err = {
-        addError: sinon.spy(),
-      };
-      const formData = {
-        ratedDisabilities: [
-          {
-            unemployabilityDisability: true,
-          },
-        ],
-        newDisabilities: [
-          {
-            unemployabilityDisability: false,
-          },
-        ],
-      };
-      oneDisabilityRequired('rated')(err, null, formData);
-      expect(err.addError.called).to.be.false;
-    });
-    it('should add an error if no disabilities are selected', () => {
-      const err = {
-        addError: sinon.spy(),
-      };
-      const formData = {
-        ratedDisabilities: [],
-        newDisabilities: [],
-      };
-      oneDisabilityRequired('rated')(err, null, formData);
-      expect(err.addError.called).to.be.true;
     });
   });
 
@@ -422,255 +345,76 @@ describe('526 All Claims validations', () => {
       },
     };
 
-    describe('dates within service periods', () => {
-      it('should not add an error when date range is within first service period', () => {
-        const err = {
-          from: { addError: sinon.spy() },
-          to: { addError: sinon.spy() },
-        };
-        isWithinServicePeriod(
-          err,
-          { from: '2014-07-01', to: '2014-07-20' },
-          null,
-          null,
-          null,
-          null,
-          appStateData,
-        );
-        expect(err.from.addError.called).to.be.false;
-        expect(err.to.addError.called).to.be.false;
-      });
-
-      it('should not add an error when date range is within second service period', () => {
-        const err = {
-          from: { addError: sinon.spy() },
-          to: { addError: sinon.spy() },
-        };
-        isWithinServicePeriod(
-          err,
-          { from: '2016-01-01', to: '2016-12-31' },
-          null,
-          null,
-          null,
-          null,
-          appStateData,
-        );
-        expect(err.from.addError.called).to.be.false;
-        expect(err.to.addError.called).to.be.false;
-      });
-
-      it('should not add an error when date range spans exactly one service period', () => {
-        const err = {
-          from: { addError: sinon.spy() },
-          to: { addError: sinon.spy() },
-        };
-        isWithinServicePeriod(
-          err,
-          { from: '2001-03-21', to: '2014-07-21' },
-          null,
-          null,
-          null,
-          null,
-          appStateData,
-        );
-        expect(err.from.addError.called).to.be.false;
-        expect(err.to.addError.called).to.be.false;
-      });
+    it('should not add an error when date range is within a service period', () => {
+      const err = {
+        from: { addError: sinon.spy() },
+        to: { addError: sinon.spy() },
+      };
+      isWithinServicePeriod(
+        err,
+        { from: '2014-07-01', to: '2014-07-20' },
+        null,
+        null,
+        null,
+        null,
+        appStateData,
+      );
+      expect(err.from.addError.called).to.be.false;
+      expect(err.to.addError.called).to.be.false;
     });
 
-    describe('dates outside service periods', () => {
-      it('should add an error when date range is before all service periods', () => {
-        const err = {
-          from: { addError: sinon.spy() },
-          to: { addError: sinon.spy() },
-        };
-        isWithinServicePeriod(
-          err,
-          { from: '2000-01-01', to: '2000-12-31' },
-          null,
-          null,
-          null,
-          null,
-          appStateData,
-        );
-        expect(err.from.addError.called).to.be.true;
-        expect(err.to.addError.called).to.be.true;
-      });
-
-      it('should add an error when date range is after all service periods', () => {
-        const err = {
-          from: { addError: sinon.spy() },
-          to: { addError: sinon.spy() },
-        };
-        isWithinServicePeriod(
-          err,
-          { from: '2018-01-01', to: '2018-12-31' },
-          null,
-          null,
-          null,
-          null,
-          appStateData,
-        );
-        expect(err.from.addError.called).to.be.true;
-        expect(err.to.addError.called).to.be.true;
-      });
-
-      it('should add an error when date range extends beyond service period end', () => {
-        const err = {
-          from: { addError: sinon.spy() },
-          to: { addError: sinon.spy() },
-        };
-        isWithinServicePeriod(
-          err,
-          { from: '2014-07-01', to: '2014-07-30' },
-          null,
-          null,
-          null,
-          null,
-          appStateData,
-        );
-        expect(err.from.addError.called).to.be.true;
-        expect(err.to.addError.called).to.be.true;
-      });
+    it('should not add an error when with incomplete date ranges', () => {
+      const err = {
+        from: { addError: sinon.spy() },
+        to: { addError: sinon.spy() },
+      };
+      isWithinServicePeriod(
+        err,
+        { from: '2014-07-01', to: '2014-07-XX' },
+        null,
+        null,
+        null,
+        null,
+        appStateData,
+      );
+      expect(err.from.addError.called).to.be.false;
+      expect(err.to.addError.called).to.be.false;
     });
 
-    describe('multiple service periods handling', () => {
-      it('should correctly validate against one service period when another period would fail', () => {
-        const err = {
-          from: { addError: sinon.spy() },
-          to: { addError: sinon.spy() },
-        };
-        isWithinServicePeriod(
-          err,
-          { from: '2002-01-01', to: '2002-12-31' }, // Only valid in first period
-          null,
-          null,
-          null,
-          null,
-          appStateData,
-        );
-        expect(err.from.addError.called).to.be.false;
-        expect(err.to.addError.called).to.be.false;
-      });
-
-      it('should handle empty service periods array', () => {
-        const err = {
-          from: { addError: sinon.spy() },
-          to: { addError: sinon.spy() },
-        };
-        const emptyAppStateData = {
-          serviceInformation: {
-            servicePeriods: [],
-          },
-        };
-        isWithinServicePeriod(
-          err,
-          { from: '2014-07-01', to: '2014-07-20' },
-          null,
-          null,
-          null,
-          null,
-          emptyAppStateData,
-        );
-        expect(err.from.addError.called).to.be.true;
-        expect(err.to.addError.called).to.be.true;
-      });
+    it('should add an error when date range is within a service period', () => {
+      const err = {
+        from: { addError: sinon.spy() },
+        to: { addError: sinon.spy() },
+      };
+      isWithinServicePeriod(
+        err,
+        { from: '2014-07-01', to: '2014-07-30' },
+        null,
+        null,
+        null,
+        null,
+        appStateData,
+      );
+      expect(err.from.addError.called).to.be.true;
+      expect(err.to.addError.called).to.be.true;
     });
 
-    describe('appropriate error messages', () => {
-      it('should add correct error message to from field', () => {
-        const err = {
-          from: { addError: sinon.spy() },
-          to: { addError: sinon.spy() },
-        };
-        isWithinServicePeriod(
-          err,
-          { from: '2018-01-01', to: '2018-12-31' },
-          null,
-          null,
-          null,
-          null,
-          appStateData,
-        );
-
-        expect(err.from.addError.called).to.be.true;
-      });
-
-      it('should add correct error message to to field', () => {
-        const err = {
-          from: { addError: sinon.spy() },
-          to: { addError: sinon.spy() },
-        };
-        isWithinServicePeriod(
-          err,
-          { from: '2018-01-01', to: '2018-12-31' },
-          null,
-          null,
-          null,
-          null,
-          appStateData,
-        );
-
-        expect(
-          err.to.addError.calledWith('Please provide your service periods'),
-        ).to.be.true;
-      });
-    });
-
-    describe('incomplete date handling', () => {
-      it('should not add an error when from date is incomplete', () => {
-        const err = {
-          from: { addError: sinon.spy() },
-          to: { addError: sinon.spy() },
-        };
-        isWithinServicePeriod(
-          err,
-          { from: '2014-07-XX', to: '2014-07-30' },
-          null,
-          null,
-          null,
-          null,
-          appStateData,
-        );
-        expect(err.from.addError.called).to.be.false;
-        expect(err.to.addError.called).to.be.false;
-      });
-
-      it('should not add an error when to date is incomplete', () => {
-        const err = {
-          from: { addError: sinon.spy() },
-          to: { addError: sinon.spy() },
-        };
-        isWithinServicePeriod(
-          err,
-          { from: '2014-07-01', to: '2014-07-XX' },
-          null,
-          null,
-          null,
-          null,
-          appStateData,
-        );
-        expect(err.from.addError.called).to.be.false;
-        expect(err.to.addError.called).to.be.false;
-      });
-
-      it('should not add an error when both dates are incomplete', () => {
-        const err = {
-          from: { addError: sinon.spy() },
-          to: { addError: sinon.spy() },
-        };
-        isWithinServicePeriod(
-          err,
-          { from: '2014-XX-XX', to: '2014-07-XX' },
-          null,
-          null,
-          null,
-          null,
-          appStateData,
-        );
-        expect(err.from.addError.called).to.be.false;
-        expect(err.to.addError.called).to.be.false;
-      });
+    it('should add an error when date range is within a service period', () => {
+      const err = {
+        from: { addError: sinon.spy() },
+        to: { addError: sinon.spy() },
+      };
+      isWithinServicePeriod(
+        err,
+        { from: '2014-08-01', to: '2014-08-10' },
+        null,
+        null,
+        null,
+        null,
+        appStateData,
+      );
+      expect(err.from.addError.called).to.be.true;
+      expect(err.to.addError.called).to.be.true;
     });
   });
 
@@ -945,69 +689,24 @@ describe('526 All Claims validations', () => {
         'you will need to wait',
       );
     });
-
-    it('should add error for invalid date formats', () => {
-      const errors = { addError: sinon.spy() };
-      validateSeparationDate(errors, 'invalid-date', _, _, _, 0, data());
-
-      expect(errors.addError.called).to.be.true;
-      expect(errors.addError.args[0][0]).to.contain('is not a real date');
-    });
-
-    it('should add error for empty date string', () => {
-      const errors = { addError: sinon.spy() };
-      validateSeparationDate(errors, '', _, _, _, 0, data());
-
-      expect(errors.addError.called).to.be.true;
-      expect(errors.addError.args[0][0]).to.contain('is not a real date');
-    });
-
-    it('should add error for malformed date', () => {
-      const errors = { addError: sinon.spy() };
-      validateSeparationDate(errors, '2025-13-45', _, _, _, 0, data());
-
-      expect(errors.addError.called).to.be.true;
-      expect(errors.addError.args[0][0]).to.contain('is not a real date');
-    });
-
-    it('should add error for null/undefined date', () => {
-      const errors = { addError: sinon.spy() };
-      validateSeparationDate(errors, null, _, _, _, 0, data());
-
-      expect(errors.addError.called).to.be.true;
-      expect(errors.addError.args[0][0]).to.contain('is not a real date');
-    });
   });
 
   describe('isInFuture', () => {
-    it('adds an error when entered date is in the past', () => {
+    it('adds an error when entered date is today or earlier', () => {
       const addError = sinon.spy();
       const errors = { addError };
-      const yesterday = format(subDays(new Date(), 1), 'yyyy-MM-dd');
+      const fieldData = '2018-04-12';
 
-      isInFuture(errors, yesterday);
+      isInFuture(errors, fieldData);
       expect(addError.calledOnce).to.be.true;
-      expect(addError.args[0][0]).to.equal('Start date must be in the future');
-    });
-
-    it('adds an error when entered date is today', () => {
-      const addError = sinon.spy();
-      const errors = { addError };
-      const today = format(new Date(), 'yyyy-MM-dd');
-
-      isInFuture(errors, today);
-
-      expect(addError.calledOnce).to.be.true;
-      expect(addError.args[0][0]).to.equal('Start date must be in the future');
     });
 
     it('does not add an error when the entered date is in the future', () => {
       const addError = sinon.spy();
       const errors = { addError };
-      // Use 2 days in the future to avoid time-of-day issues
-      const tomorrow = format(addDays(new Date(), 2), 'yyyy-MM-dd');
+      const fieldData = '2099-04-12';
 
-      isInFuture(errors, tomorrow);
+      isInFuture(errors, fieldData);
       expect(addError.callCount).to.equal(0);
     });
   });
@@ -1016,9 +715,7 @@ describe('526 All Claims validations', () => {
     it('adds an error when date is > 180 days in the future', () => {
       const addError = sinon.spy();
       const errors = { addError };
-      const futureDate = new Date();
-      futureDate.setDate(futureDate.getDate() + 190);
-      const fieldData = futureDate.toISOString().split('T')[0];
+      const fieldData = daysFromToday(190);
 
       isLessThan180DaysInFuture(errors, fieldData);
       expect(addError.calledOnce).to.be.true;
@@ -1027,30 +724,15 @@ describe('526 All Claims validations', () => {
     it('does not add an error when the entered date is < 180 days in the future', () => {
       const addError = sinon.spy();
       const errors = { addError };
-      const futureDate = new Date();
-      futureDate.setDate(futureDate.getDate() + 170);
-      const fieldData = futureDate.toISOString().split('T')[0];
+      const fieldData = daysFromToday(170);
 
       isLessThan180DaysInFuture(errors, fieldData);
       expect(addError.callCount).to.equal(0);
     });
 
-    it('adds error for more than 180 days in the future', () => {
-      const addError = sinon.spy();
-      const errors = { addError };
-      const futureDate = new Date();
-      futureDate.setDate(futureDate.getDate() + 181);
-      const fieldData = futureDate.toISOString().split('T')[0];
-
-      isLessThan180DaysInFuture(errors, fieldData);
-      expect(addError.calledOnce).to.be.true;
-    });
-
     it('adds error when separation date is in the past', () => {
       const errors = { addError: sinon.spy() };
-      const pastDate = new Date();
-      pastDate.setDate(pastDate.getDate() - 10);
-      const fieldData = pastDate.toISOString().split('T')[0];
+      const fieldData = daysFromToday(-10);
 
       isLessThan180DaysInFuture(errors, fieldData);
 
@@ -1068,176 +750,38 @@ describe('526 All Claims validations', () => {
         },
       },
     });
-
-    const getData = (activationDate, separationDate) => ({
+    const getData = (start, end) => ({
       reservesNationalGuardService: {
         title10Activation: {
-          title10ActivationDate: activationDate,
-          anticipatedSeparationDate: separationDate,
+          title10ActivationDate: daysFromToday(start),
+          anticipatedSeparationDate: daysFromToday(end),
         },
       },
     });
+    it('adds an error when date is > 180 days in the future', () => {
+      const addError = sinon.spy();
+      const errors = getErrors(addError);
+      const fieldData = getData(150, 140);
 
-    describe('chronological order validation', () => {
-      it('adds an error when separation date is before activation date', () => {
-        const addError = sinon.spy();
-        const errors = getErrors(addError);
-        const fieldData = getData(daysFromToday(150), daysFromToday(140));
-
-        title10BeforeRad(errors, fieldData);
-
-        expect(addError.calledOnce).to.be.true;
-        expect(addError.args[0][0]).to.contain('after your activation date');
-      });
-
-      it('does not add an error when separation date is after activation date', () => {
-        const addError = sinon.spy();
-        const errors = getErrors(addError);
-        const fieldData = getData(daysFromToday(140), daysFromToday(150));
-
-        title10BeforeRad(errors, fieldData);
-
-        expect(addError.callCount).to.equal(0);
-      });
-
-      it('does not add an error when separation date equals activation date', () => {
-        const addError = sinon.spy();
-        const errors = getErrors(addError);
-        const fieldData = getData(daysFromToday(140), daysFromToday(140));
-
-        title10BeforeRad(errors, fieldData);
-
-        expect(addError.callCount).to.equal(0);
-      });
+      title10BeforeRad(errors, fieldData);
+      expect(addError.calledOnce).to.be.true;
     });
 
-    describe('invalid date handling', () => {
-      it('does not add errors for invalid activation date', () => {
-        const addError = sinon.spy();
-        const errors = getErrors(addError);
-        const fieldData = getData('invalid-date', daysFromToday(150));
+    it('does not add an error when the entered date is < 180 days in the future', () => {
+      const addError = sinon.spy();
+      const errors = getErrors(addError);
+      const fieldData = getData(140, 150);
 
-        title10BeforeRad(errors, fieldData);
-
-        expect(addError.callCount).to.equal(0);
-      });
-
-      it('does not add errors for invalid separation date', () => {
-        const addError = sinon.spy();
-        const errors = getErrors(addError);
-        const fieldData = getData(daysFromToday(140), 'invalid-date');
-
-        title10BeforeRad(errors, fieldData);
-
-        expect(addError.callCount).to.equal(0);
-      });
-
-      it('does not add errors when both dates are invalid', () => {
-        const addError = sinon.spy();
-        const errors = getErrors(addError);
-        const fieldData = getData('invalid-activation', 'invalid-separation');
-
-        title10BeforeRad(errors, fieldData);
-
-        expect(addError.callCount).to.equal(0);
-      });
+      title10BeforeRad(errors, fieldData);
+      expect(addError.callCount).to.equal(0);
     });
 
-    describe('missing data handling', () => {
-      it('does not add errors for empty page data', () => {
-        const addError = sinon.spy();
-        const errors = getErrors(addError);
+    it('does not add errors for empty page data', () => {
+      const addError = sinon.spy();
+      const errors = getErrors(addError);
 
-        title10BeforeRad(errors);
-
-        expect(addError.callCount).to.equal(0);
-      });
-
-      it('does not add errors for missing reservesNationalGuardService', () => {
-        const addError = sinon.spy();
-        const errors = getErrors(addError);
-        const fieldData = {};
-
-        title10BeforeRad(errors, fieldData);
-
-        expect(addError.callCount).to.equal(0);
-      });
-
-      it('does not add errors for missing title10Activation', () => {
-        const addError = sinon.spy();
-        const errors = getErrors(addError);
-        const fieldData = {
-          reservesNationalGuardService: {},
-        };
-
-        title10BeforeRad(errors, fieldData);
-
-        expect(addError.callCount).to.equal(0);
-      });
-
-      it('does not add errors for missing activation date only', () => {
-        const addError = sinon.spy();
-        const errors = getErrors(addError);
-        const fieldData = {
-          reservesNationalGuardService: {
-            title10Activation: {
-              title10ActivationDate: null,
-              anticipatedSeparationDate: daysFromToday(150),
-            },
-          },
-        };
-
-        title10BeforeRad(errors, fieldData);
-
-        expect(addError.calledOnce).to.be.false;
-      });
-
-      it('does not add errors for missing separation date only', () => {
-        const addError = sinon.spy();
-        const errors = getErrors(addError);
-        const fieldData = {
-          reservesNationalGuardService: {
-            title10Activation: {
-              title10ActivationDate: daysFromToday(140),
-              anticipatedSeparationDate: null,
-            },
-          },
-        };
-
-        title10BeforeRad(errors, fieldData);
-
-        expect(addError.calledOnce).to.be.false;
-      });
-
-      it('does not add errors when both dates are null', () => {
-        const addError = sinon.spy();
-        const errors = getErrors(addError);
-        const fieldData = getData(null, null);
-
-        title10BeforeRad(errors, fieldData);
-
-        expect(addError.callCount).to.equal(0);
-      });
-
-      it('does not add errors when both dates are undefined', () => {
-        const addError = sinon.spy();
-        const errors = getErrors(addError);
-        const fieldData = getData(undefined, undefined);
-
-        title10BeforeRad(errors, fieldData);
-
-        expect(addError.callCount).to.equal(0);
-      });
-
-      it('does not add errors when both dates are empty strings', () => {
-        const addError = sinon.spy();
-        const errors = getErrors(addError);
-        const fieldData = getData('', '');
-
-        title10BeforeRad(errors, fieldData);
-
-        expect(addError.callCount).to.equal(0);
-      });
+      title10BeforeRad(errors);
+      expect(addError.callCount).to.equal(0);
     });
   });
 
@@ -1298,34 +842,6 @@ describe('526 All Claims validations', () => {
       expect(addError.called).to.be.true;
     });
 
-    it('should not show an error for the same activation date as earliest service start', () => {
-      const addError = sinon.spy();
-      const errors = { addError };
-      const data = {
-        servicePeriods: [
-          { serviceBranch: 'Reserves', dateRange: { from: '2000-01-14' } },
-        ],
-      };
-      validateTitle10StartDate(errors, '2000-01-14', _, _, _, _, data);
-      expect(addError.called).to.be.false;
-    });
-
-    it('should show an error for empty appStateData', () => {
-      const addError = sinon.spy();
-      const errors = { addError };
-
-      validateTitle10StartDate(errors, '2001-01-01', _, _, _, _, {});
-      expect(addError.called).to.be.true;
-    });
-
-    it('should show an error for undefined appStateData', () => {
-      const addError = sinon.spy();
-      const errors = { addError };
-
-      validateTitle10StartDate(errors, '2001-01-01', _, _, _, _, undefined);
-      expect(addError.called).to.be.true;
-    });
-
     // should never happen since the page is only shown if a Veteran includes
     // a Reserve/National Guard period
     it('should show an error if there are no Reserve/National Guard periods', () => {
@@ -1379,7 +895,10 @@ describe('526 All Claims validations', () => {
   });
 
   describe('requireSeparationLocation', () => {
-    const getDays = days => format(addDays(new Date(), days), 'yyyy-MM-dd');
+    const getDays = days =>
+      moment()
+        .add(days, 'days')
+        .format('YYYY-MM-DD');
     const getFormData = (activeDate, reserveDate) => ({
       serviceInformation: {
         servicePeriods: [{ dateRange: { to: activeDate } }],
@@ -1396,306 +915,6 @@ describe('526 All Claims validations', () => {
 
       requireSeparationLocation(err, {}, getFormData('', getDays(1)));
       expect(err.addError.called).to.be.true;
-    });
-  });
-
-  describe('helper functions', () => {
-    describe('isMonthOnly', () => {
-      it('should return true for valid month-only format (XXXX-MM-XX)', () => {
-        expect(isMonthOnly('XXXX-01-XX')).to.be.true;
-        expect(isMonthOnly('XXXX-12-XX')).to.be.true;
-      });
-
-      it('should return false for complete dates', () => {
-        expect(isMonthOnly('2025-01-15')).to.be.false;
-        expect(isMonthOnly('2000-12-31')).to.be.false;
-      });
-
-      it('should return false for year-only format (YYYY-XX-XX)', () => {
-        expect(isMonthOnly('2025-XX-XX')).to.be.false;
-        expect(isMonthOnly('2000-XX-XX')).to.be.false;
-      });
-
-      it('should return false for partial year-month format (YYYY-MM-XX)', () => {
-        expect(isMonthOnly('2025-01-XX')).to.be.false;
-        expect(isMonthOnly('2000-12-XX')).to.be.false;
-      });
-
-      it('should return false for malformed formats', () => {
-        expect(isMonthOnly('XXXX-1-XX')).to.be.false;
-        expect(isMonthOnly('XXXX-01-X')).to.be.false;
-        expect(isMonthOnly('XX-01-XX')).to.be.false;
-      });
-
-      it('should return false for empty or invalid inputs', () => {
-        expect(isMonthOnly('')).to.be.false;
-        expect(isMonthOnly(null)).to.be.false;
-        expect(isMonthOnly(undefined)).to.be.false;
-        expect(isMonthOnly('invalid-date')).to.be.false;
-      });
-
-      it('should return false for formats with different separators', () => {
-        expect(isMonthOnly('XXXX/01/XX')).to.be.false;
-        expect(isMonthOnly('XXXX.01.XX')).to.be.false;
-        expect(isMonthOnly('XXXX 01 XX')).to.be.false;
-      });
-    });
-
-    describe('isYearOnly', () => {
-      it('should return true for valid year-only format (YYYY-XX-XX)', () => {
-        expect(isYearOnly('1999-XX-XX')).to.be.true;
-        expect(isYearOnly('2050-XX-XX')).to.be.true;
-      });
-
-      it('should return false for complete dates', () => {
-        expect(isYearOnly('2025-07-18')).to.be.false;
-        expect(isYearOnly('2000-12-31')).to.be.false;
-      });
-
-      it('should return false for month-only format (XXXX-MM-XX)', () => {
-        expect(isYearOnly('XXXX-01-XX')).to.be.false;
-        expect(isYearOnly('XXXX-07-XX')).to.be.false;
-      });
-
-      it('should return false for partial year-month format (YYYY-MM-XX)', () => {
-        expect(isYearOnly('2025-07-XX')).to.be.false;
-        expect(isYearOnly('1999-01-XX')).to.be.false;
-      });
-
-      it('should return false for malformed formats', () => {
-        expect(isYearOnly('25-XX-XX')).to.be.false;
-        expect(isYearOnly('2025-XX-X')).to.be.false;
-        expect(isYearOnly('2025-X-XX')).to.be.false;
-      });
-
-      it('should return false for empty or invalid inputs', () => {
-        expect(isYearOnly('')).to.be.false;
-        expect(isYearOnly(null)).to.be.false;
-        expect(isYearOnly(undefined)).to.be.false;
-        expect(isYearOnly('invalid-date')).to.be.false;
-      });
-
-      it('should return false for formats with different separators', () => {
-        expect(isYearOnly('2025/XX/XX')).to.be.false;
-        expect(isYearOnly('2025.XX.XX')).to.be.false;
-        expect(isYearOnly('2025 XX XX')).to.be.false;
-      });
-    });
-
-    describe('isYearMonth', () => {
-      it('should return true for valid year-month format (YYYY-MM-XX)', () => {
-        expect(isYearMonth('2025-07-XX')).to.be.true;
-        expect(isYearMonth('1999-12-XX')).to.be.true;
-      });
-
-      it('should return false for complete dates', () => {
-        expect(isYearMonth('2025-07-18')).to.be.false;
-        expect(isYearMonth('1999-01-01')).to.be.false;
-      });
-
-      it('should return false for year-only format (YYYY-XX-XX)', () => {
-        expect(isYearMonth('2025-XX-XX')).to.be.false;
-        expect(isYearMonth('1999-XX-XX')).to.be.false;
-      });
-
-      it('should return false for month-only format (XXXX-MM-XX)', () => {
-        expect(isYearMonth('XXXX-07-XX')).to.be.false;
-        expect(isYearMonth('XXXX-01-XX')).to.be.false;
-      });
-
-      it('should return false for malformed year, month or day formats', () => {
-        expect(isYearMonth('25-07-XX')).to.be.false;
-        expect(isYearMonth('2025-7-XX')).to.be.false;
-        expect(isYearMonth('2025-07-X')).to.be.false;
-        expect(isYearMonth('2025-07-xx')).to.be.false;
-      });
-
-      it('should return false for formats with different separators', () => {
-        expect(isYearMonth('2025/07/XX')).to.be.false;
-        expect(isYearMonth('2025.07.XX')).to.be.false;
-        expect(isYearMonth('2025 07 XX')).to.be.false;
-      });
-
-      it('should return false for empty or invalid inputs', () => {
-        expect(isYearMonth('')).to.be.false;
-        expect(isYearMonth(null)).to.be.false;
-        expect(isYearMonth(undefined)).to.be.false;
-        expect(isYearMonth('invalid-date')).to.be.false;
-      });
-    });
-
-    describe('isTreatmentBeforeService', () => {
-      describe('year-only format (YYYY-XX-XX)', () => {
-        it('should return true when treatment year is before service year', () => {
-          // eslint-disable-next-line no-restricted-globals
-          const treatmentDate = moment('1999-01-01');
-          // eslint-disable-next-line no-restricted-globals
-          const earliestServiceDate = moment('2000-01-01');
-          const fieldData = '1999-XX-XX';
-
-          const result = isTreatmentBeforeService(
-            treatmentDate,
-            earliestServiceDate,
-            fieldData,
-          );
-          expect(result).to.be.true;
-        });
-
-        it('should return false when treatment year is after service year', () => {
-          // eslint-disable-next-line no-restricted-globals
-          const treatmentDate = moment('2001-01-01');
-          // eslint-disable-next-line no-restricted-globals
-          const earliestServiceDate = moment('2000-01-01');
-          const fieldData = '2001-XX-XX';
-
-          const result = isTreatmentBeforeService(
-            treatmentDate,
-            earliestServiceDate,
-            fieldData,
-          );
-          expect(result).to.be.false;
-        });
-      });
-
-      describe('year-month format (YYYY-MM-XX)', () => {
-        it('should return true when treatment year-month is before service year-month', () => {
-          // eslint-disable-next-line no-restricted-globals
-          const treatmentDate = moment('1999-12-01');
-          // eslint-disable-next-line no-restricted-globals
-          const earliestServiceDate = moment('2000-01-01');
-          const fieldData = '1999-12-XX';
-
-          const result = isTreatmentBeforeService(
-            treatmentDate,
-            earliestServiceDate,
-            fieldData,
-          );
-          expect(result).to.be.true;
-        });
-
-        it('should return false when treatment year-month is after service year-month', () => {
-          // eslint-disable-next-line no-restricted-globals
-          const treatmentDate = moment('2000-02-01');
-          // eslint-disable-next-line no-restricted-globals
-          const earliestServiceDate = moment('2000-01-01');
-          const fieldData = '2000-02-XX';
-
-          const result = isTreatmentBeforeService(
-            treatmentDate,
-            earliestServiceDate,
-            fieldData,
-          );
-          expect(result).to.be.false;
-        });
-      });
-
-      describe('non-matching format cases', () => {
-        it('should return false for complete date format (YYYY-MM-DD)', () => {
-          // eslint-disable-next-line no-restricted-globals
-          const treatmentDate = moment('1999-01-01');
-          // eslint-disable-next-line no-restricted-globals
-          const earliestServiceDate = moment('2000-01-01');
-          const fieldData = '1999-01-01';
-
-          const result = isTreatmentBeforeService(
-            treatmentDate,
-            earliestServiceDate,
-            fieldData,
-          );
-          expect(result).to.be.false;
-        });
-
-        it('should return false for month-only format (XXXX-MM-XX)', () => {
-          // eslint-disable-next-line no-restricted-globals
-          const treatmentDate = moment('1999-01-01');
-          // eslint-disable-next-line no-restricted-globals
-          const earliestServiceDate = moment('2000-01-01');
-          const fieldData = 'XXXX-01-XX';
-
-          const result = isTreatmentBeforeService(
-            treatmentDate,
-            earliestServiceDate,
-            fieldData,
-          );
-          expect(result).to.be.false;
-        });
-
-        it('should return false for invalid date format', () => {
-          // eslint-disable-next-line no-restricted-globals
-          const treatmentDate = moment('1999-01-01');
-          // eslint-disable-next-line no-restricted-globals
-          const earliestServiceDate = moment('2000-01-01');
-          const fieldData = 'invalid-date';
-
-          const result = isTreatmentBeforeService(
-            treatmentDate,
-            earliestServiceDate,
-            fieldData,
-          );
-          expect(result).to.be.false;
-        });
-      });
-    });
-
-    describe('findEarliestServiceDate', () => {
-      it('should return the earliest service date from multiple periods', () => {
-        const servicePeriods = [
-          { serviceBranch: 'Army', dateRange: { from: '2003-03-12' } },
-          { serviceBranch: 'Navy', dateRange: { from: '2000-01-14' } },
-          { serviceBranch: 'Air Force', dateRange: { from: '2011-12-25' } },
-        ];
-
-        const result = findEarliestServiceDate(servicePeriods);
-        expect(result.format('YYYY-MM-DD')).to.equal('2000-01-14');
-      });
-
-      it('should return the single service date when only one period exists', () => {
-        const servicePeriods = [
-          { serviceBranch: 'Marines', dateRange: { from: '2005-06-15' } },
-        ];
-
-        const result = findEarliestServiceDate(servicePeriods);
-        expect(result.format('YYYY-MM-DD')).to.equal('2005-06-15');
-      });
-
-      it('should filter out service periods with empty serviceBranch', () => {
-        const servicePeriods = [
-          { serviceBranch: '', dateRange: { from: '1990-01-01' } },
-          { serviceBranch: 'Navy', dateRange: { from: '2000-01-14' } },
-        ];
-
-        const result = findEarliestServiceDate(servicePeriods);
-        expect(result.format('YYYY-MM-DD')).to.equal('2000-01-14');
-      });
-
-      it('should filter out service periods with missing serviceBranch', () => {
-        const servicePeriods = [
-          { dateRange: { from: '1990-01-01' } },
-          { serviceBranch: 'Navy', dateRange: { from: '2000-01-14' } },
-        ];
-
-        const result = findEarliestServiceDate(servicePeriods);
-        expect(result.format('YYYY-MM-DD')).to.equal('2000-01-14');
-      });
-
-      it('should filter out service periods with null serviceBranch', () => {
-        const servicePeriods = [
-          { serviceBranch: null, dateRange: { from: '1990-01-01' } },
-          { serviceBranch: 'Navy', dateRange: { from: '2000-01-14' } },
-        ];
-
-        const result = findEarliestServiceDate(servicePeriods);
-        expect(result.format('YYYY-MM-DD')).to.equal('2000-01-14');
-      });
-
-      it('should throw error when service period has undefined dateRange', () => {
-        const servicePeriods = [
-          { serviceBranch: 'Army', dateRange: { from: '2003-03-12' } },
-          { serviceBranch: 'Navy' },
-        ];
-
-        expect(() => findEarliestServiceDate(servicePeriods)).to.throw();
-      });
     });
   });
 });

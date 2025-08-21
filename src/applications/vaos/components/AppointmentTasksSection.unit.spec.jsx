@@ -19,7 +19,7 @@ describe('VAOS Component: AppointmentTasks', () => {
     it(`should display Appointment tasks section with file claim link for ${kind} video appointment`, async () => {
       const appointment = {
         id: appointmentId,
-        start: new Date('2021-09-01T10:00:00Z'),
+        start: '2021-09-01T10:00:00Z',
         vaos: {
           apiData: {
             travelPayClaim: {
@@ -34,7 +34,6 @@ describe('VAOS Component: AppointmentTasks', () => {
           isCommunityCare: false,
           isPhoneAppointment: false,
           isVideo: true,
-          isVideoAtVA: true,
         },
         videoData: {
           kind,
@@ -55,7 +54,7 @@ describe('VAOS Component: AppointmentTasks', () => {
   it('should display Appointment tasks section with file claim link', async () => {
     const appointment = {
       id: appointmentId,
-      start: new Date('2021-09-01T10:00:00Z'),
+      start: '2021-09-01T10:00:00Z',
       kind: 'clinic',
       type: 'VA',
       modality: 'vaInPerson',
@@ -90,7 +89,7 @@ describe('VAOS Component: AppointmentTasks', () => {
   it('should not display Appointment tasks section if not a past appointment', async () => {
     const appointment = {
       id: appointmentId,
-      start: new Date('2021-09-01T10:00:00Z'),
+      start: '2021-09-01T10:00:00Z',
       vaos: {
         apiData: {
           travelPayClaim: {
@@ -116,7 +115,7 @@ describe('VAOS Component: AppointmentTasks', () => {
   it('should not display Appointment tasks section if appointment is cc', async () => {
     const appointment = {
       id: appointmentId,
-      start: new Date('2021-09-01T10:00:00Z'),
+      start: '2021-09-01T10:00:00Z',
       vaos: {
         apiData: {
           travelPayClaim: {
@@ -142,7 +141,7 @@ describe('VAOS Component: AppointmentTasks', () => {
   it('should not display Appointment tasks section if appointment is video', async () => {
     const appointment = {
       id: appointmentId,
-      start: new Date('2021-09-01T10:00:00Z'),
+      start: '2021-09-01T10:00:00Z',
       vaos: {
         apiData: {
           travelPayClaim: {
@@ -168,7 +167,7 @@ describe('VAOS Component: AppointmentTasks', () => {
   it('should not display Appointment tasks section if appointment is phone', async () => {
     const appointment = {
       id: appointmentId,
-      start: new Date('2021-09-01T10:00:00Z'),
+      start: '2021-09-01T10:00:00Z',
       vaos: {
         apiData: {
           travelPayClaim: {
@@ -194,7 +193,7 @@ describe('VAOS Component: AppointmentTasks', () => {
   it('should not display file claim link if no claim data', async () => {
     const appointment = {
       id: appointmentId,
-      start: new Date('2021-09-01T10:00:00Z'),
+      start: '2021-09-01T10:00:00Z',
       vaos: {
         apiData: {},
         isPastAppointment: true,
@@ -211,7 +210,7 @@ describe('VAOS Component: AppointmentTasks', () => {
   });
   it('should not display file claim link if days remaining are less than 1', async () => {
     const appointment = {
-      start: new Date('2021-08-31T10:00:00Z'),
+      start: '2021-08-31T10:00:00Z',
       vaos: {
         apiData: {
           travelPayClaim: {

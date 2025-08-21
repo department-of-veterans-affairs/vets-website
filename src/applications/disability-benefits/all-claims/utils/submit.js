@@ -18,7 +18,7 @@ import { migrateBranches } from './serviceBranches';
 
 import { ptsdBypassDescription } from '../content/ptsdBypassContent';
 
-import { form0781WorkflowChoices } from '../content/form0781/workflowChoices';
+import { form0781WorkflowChoices } from '../content/form0781/workflowChoicePage';
 
 /**
  * This is mostly copied from us-forms' own stringifyFormReplacer, but with
@@ -58,6 +58,18 @@ export function customReplacer(key, value) {
   }
 
   return value;
+}
+
+/**
+ * Cycles through the list of provider facilities and performs transformations on each property as needed
+ * @param {array} providerFacilities array of objects being transformed
+ * @returns {array} containing the new Provider Facility structure
+ */
+export function transformProviderFacilities(providerFacilities) {
+  return providerFacilities.map(facility => ({
+    ...facility,
+    treatmentDateRange: [facility.treatmentDateRange],
+  }));
 }
 
 /**
@@ -152,6 +164,7 @@ export function transformRelatedDisabilities(
       // name should already be lower-case, but just in case...no pun intended
       claimedName => sippableId(claimedName) === name.toLowerCase(),
     );
+
   return (
     Object.keys(conditionContainer)
       // The check box is checked
@@ -163,26 +176,6 @@ export function transformRelatedDisabilities(
   );
 }
 
-/**
- * Cycles through the list of provider facilities and performs transformations on each property as needed
- * @param {array} providerFacilities array of objects being transformed
- * @returns {array} containing the new Provider Facility structure
- */
-export function transformProviderFacilities(providerFacilities, clonedData) {
-  // This map transforms treatedDisabilityNames back into the original condition names from the sippableIds
-  return providerFacilities.map(facility => {
-    const disabilityNames = transformRelatedDisabilities(
-      facility.treatedDisabilityNames || [],
-      getClaimedConditionNames(clonedData, false),
-    );
-
-    return {
-      ...facility,
-      treatedDisabilityNames: disabilityNames,
-      treatmentDateRange: [facility.treatmentDateRange],
-    };
-  });
-}
 export const removeExtraData = formData => {
   // EVSS no longer accepts some keys
   const ratingKeysToRemove = [
@@ -353,26 +346,14 @@ export const addForm4142 = formData => {
   if (!formData.providerFacility) {
     return formData;
   }
-
-  // Flipper was on at submission time
-  const completed2024Form = formData?.disability526Enable2024Form4142 === true;
-
-  // If the 2024 form was completed but they revoke auth at some point and still somehow submit with the 4142 data
-  // protect against filling out the form
-  if (completed2024Form && formData?.patient4142Acknowledgement !== true) {
-    return formData;
-  }
-
   const clonedData = _.cloneDeep(formData);
   clonedData.form4142 = {
-    completed2024Form,
     ...(clonedData.limitedConsent && {
       limitedConsent: clonedData.limitedConsent,
     }),
     ...(clonedData.providerFacility && {
       providerFacility: transformProviderFacilities(
         clonedData.providerFacility,
-        clonedData,
       ),
     }),
   };

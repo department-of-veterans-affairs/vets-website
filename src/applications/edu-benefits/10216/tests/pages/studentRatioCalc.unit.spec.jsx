@@ -45,16 +45,14 @@ const renderWithStore = (state = {}) => {
 };
 
 describe('Student Ratio Calculation page', () => {
-  it('Renders the page with the correct number of inputs', async () => {
+  it('Renders the page with the correct number of inputs', () => {
     const { container, getByRole } = renderWithStore({});
 
     expect($$('va-text-input', container).length).to.equal(2);
     expect($$('va-memorable-date', container).length).to.equal(1);
     expect($$('va-alert', container).length).to.equal(1);
     getByRole('button', { name: /submit/i }).click();
-    await waitFor(() => {
-      expect($$('va-memorable-date[error]', container).length).to.equal(1);
-    });
+    expect($$('va-memorable-date[error]', container).length).to.equal(1);
   });
   it('Shows correct date validation message when date more than 30 days from term start date', async () => {
     const data = {

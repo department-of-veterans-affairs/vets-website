@@ -443,6 +443,9 @@ module.exports = async (env = {}) => {
         util: require.resolve('util/'),
         zlib: require.resolve('browserify-zlib'),
         'process/browser': require.resolve('process/browser'),
+        os: require.resolve('os-browserify/browser'),
+        http: require.resolve('stream-http'),
+        https: require.resolve('https-browserify'),
       },
       symlinks: false,
     },
@@ -485,6 +488,12 @@ module.exports = async (env = {}) => {
         ),
         'process.env.USE_LOCAL_DIRECTLINE':
           process.env.USE_LOCAL_DIRECTLINE || false,
+        'process.env.DATADOG_APP_NAME': JSON.stringify(
+          process.env.DATADOG_APP_NAME || '',
+        ),
+        'process.env.DATADOG_API_KEY': JSON.stringify(
+          process.env.DATADOG_API_KEY || '',
+        ),
         'process.env.HOST_NAME': JSON.stringify(process.env.HOST_NAME || ''),
         'process.env.LOG_LEVEL': JSON.stringify(
           process.env.LOG_LEVEL || 'info',
@@ -572,10 +581,6 @@ module.exports = async (env = {}) => {
       }),
     );
   }
-
-  baseConfig.watchOptions = {
-    ignored: /\/(\.git|node_modules)\//,
-  };
 
   return baseConfig;
 };

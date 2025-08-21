@@ -2,7 +2,7 @@ import { radioUI, radioSchema } from './radioPattern';
 import VaTextInputField from '../web-component-fields/VaTextInputField';
 
 /**
- * uiSchema for relationship to veteran. Includes spouse, child, parent, executor, and other fields
+ * Web component uiSchema for relationship to veteran
  *
  * Pattern recommendation: Use as a standalone on the page
  *
@@ -70,9 +70,6 @@ export const relationshipToVeteranUI = options => {
   };
 };
 
-/**
- * uiSchema for relationship to veteran, specifically for spouse or child
- */
 export const relationshipToVeteranSpouseOrChildUI = personTitle => {
   const person = personTitle ?? 'Veteran';
 
@@ -91,9 +88,6 @@ export const relationshipToVeteranSpouseOrChildUI = personTitle => {
   };
 };
 
-/**
- * uiSchema for claimant relationship to veteran, specifically for spouse or child
- */
 export const claimantRelationshipToVeteranSpouseOrChildUI = personTitle => {
   const person = personTitle ?? 'Veteran';
 

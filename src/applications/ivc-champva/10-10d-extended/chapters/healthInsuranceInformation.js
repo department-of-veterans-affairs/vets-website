@@ -3,6 +3,8 @@ import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import {
+  titleUI,
+  titleSchema,
   radioUI,
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderItemSubsequentPageTitleUI,
@@ -66,34 +68,15 @@ export function generateParticipantNames(item) {
   return 'No participants';
 }
 
-/**
- * Options for the yes/no text on summary page:
- */
-const yesNoOptions = {
-  title:
-    'Do you have any other health insurance to report for one or more applicants?',
-  labelHeaderLevel: '2',
-  labelHeaderLevelStyle: '5',
-  hint:
-    'If any applicants have other health insurance, it is required to report it to process your application for CHAMPVA benefits.',
-};
-const yesNoOptionsMore = {
-  title: 'Do you have any other health insurance to report?',
-  labelHeaderLevel: '2',
-  labelHeaderLevelStyle: '5',
-  hint:
-    'If any applicants have other health insurance, it is required to report it to process your application for CHAMPVA benefits.',
-};
-export const healthInsuranceOptions = {
+const healthInsuranceOptions = {
   arrayPath: 'healthInsurance',
   nounSingular: 'plan',
   nounPlural: 'plans',
   required: false,
   isItemIncomplete: item =>
     !(item.provider && item.insuranceType && item.effectiveDate),
+  // maxItems: MAX_APPLICANTS,
   text: {
-    summaryTitle: 'Report other health insurance',
-    summaryTitleWithoutItems: 'Report other health insurance',
     getItemName: item => item?.provider,
     cardDescription: item => (
       <ul className="no-bullets">
@@ -135,6 +118,7 @@ const healthInsuranceIntroPage = {
     type: 'object',
     required: ['insuranceType'],
     properties: {
+      titleSchema,
       insuranceType: radioSchema([
         'hmo',
         'ppo',
@@ -149,11 +133,7 @@ const healthInsuranceIntroPage = {
 
 const healthInsuranceSummaryPage = {
   uiSchema: {
-    'view:hasHealthInsurance': arrayBuilderYesNoUI(
-      healthInsuranceOptions,
-      yesNoOptions,
-      yesNoOptionsMore,
-    ),
+    'view:hasHealthInsurance': arrayBuilderYesNoUI(healthInsuranceOptions),
   },
   schema: {
     type: 'object',
@@ -179,6 +159,7 @@ const medigapInformation = {
     type: 'object',
     required: ['medigapPlan'],
     properties: {
+      titleSchema,
       medigapPlan: radioSchema(Object.keys(MEDIGAP)),
     },
   },
@@ -206,6 +187,7 @@ const providerInformation = {
     type: 'object',
     required: ['provider', 'effectiveDate'],
     properties: {
+      titleSchema,
       provider: textSchema,
       effectiveDate: currentOrPastDateSchema,
       expirationDate: currentOrPastDateSchema,
@@ -216,7 +198,7 @@ const providerInformation = {
 const employer = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) => `Type of insurance for ${formData?.provider}`,
+      ({ formData }) => `Type of insurance for ${formData.provider}`,
     ),
     throughEmployer: yesNoUI({
       title: 'Is this insurance through the applicant(s) employer?',
@@ -227,6 +209,7 @@ const employer = {
     type: 'object',
     required: ['throughEmployer'],
     properties: {
+      titleSchema,
       throughEmployer: yesNoSchema,
     },
   },
@@ -236,7 +219,7 @@ const additionalComments = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        `${formData?.provider} health insurance additional comments`,
+        `${formData.provider} health insurance additional comments`,
     ),
     additionalComments: textareaUI({
       title: 'Any additional comments about the applicant(s) health insurance?',
@@ -250,6 +233,7 @@ const additionalComments = {
   schema: {
     type: 'object',
     properties: {
+      titleSchema,
       additionalComments: { type: 'string', maxLength: 200 },
     },
   },
@@ -258,7 +242,7 @@ const additionalComments = {
 const healthInsuranceCardUploadPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) => `Upload ${formData?.provider} health insurance card`,
+      ({ formData }) => `Upload ${formData.provider} health insurance card`,
       'You’ll need to submit a copy of the front and back of this health insurance card.',
     ),
     ...fileUploadBlurb,
@@ -273,6 +257,7 @@ const healthInsuranceCardUploadPage = {
     type: 'object',
     required: ['insuranceCardFront', 'insuranceCardBack'],
     properties: {
+      titleSchema,
       'view:fileUploadBlurb': blankSchema,
       insuranceCardFront: {
         type: 'array',
@@ -305,41 +290,64 @@ const healthInsuranceCardUploadPage = {
 export const healthInsurancePages = arrayBuilderPages(
   healthInsuranceOptions,
   pageBuilder => ({
+    healthInsuranceIntro: pageBuilder.introPage({
+      path: 'health-insurance-intro',
+      title: '[noun plural]',
+      // initialData: mockData.data,
+      uiSchema: {
+        ...titleUI(
+          'Report other health insurance plans',
+          <>
+            Medicare and other health insurance certification is required to
+            process your application for CHAMPVA benefits.
+            <br />
+            If you and/or your applicants don’t have other health insurance,
+            select Continue to go to the next question.
+          </>,
+        ),
+      },
+      schema: {
+        type: 'object',
+        properties: {
+          titleSchema,
+        },
+      },
+    }),
     healthInsuranceSummary: pageBuilder.summaryPage({
-      path: 'health-insurance-information/summary',
+      path: 'health-insurance-summary',
       title: 'Review your plans',
       uiSchema: healthInsuranceSummaryPage.uiSchema,
       schema: healthInsuranceSummaryPage.schema,
     }),
     healthInsuranceType: pageBuilder.itemPage({
-      path: 'health-insurance-information/:index/plan-type',
+      path: 'health-insurance-type/:index',
       title: 'Plan type',
       ...healthInsuranceIntroPage,
     }),
     medigapType: pageBuilder.itemPage({
-      path: 'health-insurance-information/:index/medigap-information',
+      path: 'medigap-type/:index',
       title: 'Plan type',
       depends: (formData, index) =>
         get('insuranceType', formData.healthInsurance?.[index]) === 'medigap',
       ...medigapInformation,
     }),
     provider: pageBuilder.itemPage({
-      path: 'health-insurance-information/:index/provider-information',
+      path: 'insurance-info/:index',
       title: 'Health insurance information',
       ...providerInformation,
     }),
     throughEmployer: pageBuilder.itemPage({
-      path: 'health-insurance-information/:index/employer-sponsorship',
+      path: 'through-employer/:index',
       title: 'Type of insurance - through employer',
       ...employer,
     }),
     comments: pageBuilder.itemPage({
-      path: 'health-insurance-information/:index/additional-comments',
+      path: 'insurance-comments/:index',
       title: 'Type of insurance',
       ...additionalComments,
     }),
     participants: pageBuilder.itemPage({
-      path: 'health-insurance-information/:index/participants',
+      path: 'select-participants/:index',
       title: 'Select healthcare participants',
       ...selectHealthcareParticipantsPage,
       CustomPage: props =>
@@ -351,7 +359,7 @@ export const healthInsurancePages = arrayBuilderPages(
       CustomPageReview: () => <></>,
     }),
     insuranceCard: pageBuilder.itemPage({
-      path: 'health-insurance-information/:index/insurance-card',
+      path: 'health-insurance-card/:index',
       title: 'Upload health insurance card',
       CustomPage: FileFieldCustom,
       ...healthInsuranceCardUploadPage,

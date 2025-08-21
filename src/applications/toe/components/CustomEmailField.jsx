@@ -9,30 +9,32 @@ import { fetchDuplicateContactInfo, updateGlobalEmail } from '../actions';
 
 function CustomEmailField(props) {
   function handleChange(event) {
-    if (props.email !== event) {
-      props.setFormData({
-        ...props?.formData,
-        email: {
-          ...props?.formData?.email,
-          email: event,
-        },
-      });
-    }
+    if (props?.toeDupContactInfoCall) {
+      if (props.email !== event) {
+        props.setFormData({
+          ...props?.formData,
+          email: {
+            ...props?.formData?.email,
+            email: event,
+          },
+        });
+      }
 
-    const mobilePhone = props?.mobilePhone ? props?.mobilePhone : '';
-    if (event && isValidEmail(event)) {
-      props.fetchDuplicateContactInfo(
-        [{ value: event, dupe: '' }],
-        [{ value: mobilePhone, dupe: '' }],
-      );
-    } else {
-      props.setFormData({
-        ...props?.formData,
-        email: {
-          ...props?.formData?.email,
-          email: event,
-        },
-      });
+      const mobilePhone = props?.mobilePhone ? props?.mobilePhone : '';
+      if (event && isValidEmail(event)) {
+        props.fetchDuplicateContactInfo(
+          [{ value: event, dupe: '' }],
+          [{ value: mobilePhone, dupe: '' }],
+        );
+      } else {
+        props.setFormData({
+          ...props?.formData,
+          email: {
+            ...props?.formData?.email,
+            email: event,
+          },
+        });
+      }
     }
   }
 
@@ -53,6 +55,7 @@ const mapStateToProps = state => ({
   email: state?.form?.data?.email?.email,
   duplicateEmail: state?.data?.duplicateEmail,
   mobilePhone: state?.form?.data['view:phoneNumbers']?.mobilePhoneNumber?.phone,
+  toeDupContactInfoCall: state?.featureToggles?.toeDupContactInfoCall,
   formData: state?.form?.data,
 });
 

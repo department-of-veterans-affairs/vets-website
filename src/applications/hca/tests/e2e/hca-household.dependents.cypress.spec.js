@@ -28,11 +28,10 @@ describe('HCA-Household: Dependent disclosure', () => {
     goToNextPage('/household-information/marital-status');
     cy.get('[name="root_maritalStatus"]').select('Never Married');
 
-    goToNextPage('/household-information/your-dependents');
     goToNextPage('/household-information/dependents');
-    cy.selectYesNoVaRadioOption('root_view:reportDependents', true);
+    cy.selectRadio('root_view:reportDependents', 'Y');
 
-    goToNextPage();
+    goToNextPage('/household-information/dependent-information');
     fillDependentBasicInformation(testData.dependents[0]);
 
     goToNextPage();
@@ -41,7 +40,7 @@ describe('HCA-Household: Dependent disclosure', () => {
     cy.selectRadio('root_view:dependentIncome', 'N');
 
     goToNextPage('/household-information/dependents');
-    cy.selectYesNoVaRadioOption('root_view:reportDependents', false);
+    cy.selectRadio('root_view:reportDependents', 'N');
 
     goToNextPage('/household-information/veteran-annual-income');
     fillVeteranIncome(testData);
@@ -61,11 +60,10 @@ describe('HCA-Household: Dependent disclosure', () => {
     goToNextPage('/household-information/marital-status');
     cy.get('[name="root_maritalStatus"]').select('Never Married');
 
-    goToNextPage('/household-information/your-dependents');
     goToNextPage('/household-information/dependents');
-    cy.selectYesNoVaRadioOption('root_view:reportDependents', true);
+    cy.selectRadio('root_view:reportDependents', 'Y');
 
-    goToNextPage();
+    goToNextPage('/household-information/dependent-information');
     fillDependentBasicInformation(testData.dependents[0]);
 
     goToNextPage();
@@ -84,7 +82,7 @@ describe('HCA-Household: Dependent disclosure', () => {
     );
 
     goToNextPage('/household-information/dependents');
-    cy.selectYesNoVaRadioOption('root_view:reportDependents', false);
+    cy.selectRadio('root_view:reportDependents', 'N');
 
     goToNextPage('/household-information/veteran-annual-income');
     fillVeteranIncome(testData);
@@ -104,11 +102,10 @@ describe('HCA-Household: Dependent disclosure', () => {
     goToNextPage('/household-information/marital-status');
     cy.get('[name="root_maritalStatus"]').select('Never Married');
 
-    goToNextPage('/household-information/your-dependents');
     goToNextPage('/household-information/dependents');
-    cy.selectYesNoVaRadioOption('root_view:reportDependents', true);
+    cy.selectRadio('root_view:reportDependents', 'Y');
 
-    goToNextPage();
+    goToNextPage('/household-information/dependent-information');
     fillDependentBasicInformation(testData.dependents[0]);
 
     goToNextPage();
@@ -120,7 +117,7 @@ describe('HCA-Household: Dependent disclosure', () => {
     cy.selectRadio('root_receivedSupportLastYear', 'Y');
 
     goToNextPage('/household-information/dependents');
-    cy.selectYesNoVaRadioOption('root_view:reportDependents', false);
+    cy.selectRadio('root_view:reportDependents', 'N');
 
     goToNextPage('/household-information/veteran-annual-income');
     fillVeteranIncome(testData);
@@ -140,11 +137,10 @@ describe('HCA-Household: Dependent disclosure', () => {
     goToNextPage('/household-information/marital-status');
     cy.get('[name="root_maritalStatus"]').select('Never Married');
 
-    goToNextPage('/household-information/your-dependents');
     goToNextPage('/household-information/dependents');
-    cy.selectYesNoVaRadioOption('root_view:reportDependents', true);
+    cy.selectRadio('root_view:reportDependents', 'Y');
 
-    goToNextPage();
+    goToNextPage('/household-information/dependent-information');
     fillDependentBasicInformation(testData.dependents[0]);
 
     goToNextPage();
@@ -166,7 +162,7 @@ describe('HCA-Household: Dependent disclosure', () => {
     );
 
     goToNextPage('/household-information/dependents');
-    cy.selectYesNoVaRadioOption('root_view:reportDependents', false);
+    cy.selectRadio('root_view:reportDependents', 'N');
 
     goToNextPage('/household-information/veteran-annual-income');
     fillVeteranIncome(testData);
@@ -186,11 +182,10 @@ describe('HCA-Household: Dependent disclosure', () => {
     goToNextPage('/household-information/marital-status');
     cy.get('[name="root_maritalStatus"]').select('Never Married');
 
-    goToNextPage('/household-information/your-dependents');
     goToNextPage('/household-information/dependents');
-    cy.selectYesNoVaRadioOption('root_view:reportDependents', true);
+    cy.selectRadio('root_view:reportDependents', 'Y');
 
-    goToNextPage();
+    goToNextPage('/household-information/dependent-information');
     fillDependentBasicInformation({
       ...testData.dependents[0],
       dateOfBirth: '1990-01-01',
@@ -202,7 +197,7 @@ describe('HCA-Household: Dependent disclosure', () => {
     cy.selectRadio('root_view:dependentIncome', 'N');
 
     goToNextPage('/household-information/dependents');
-    cy.selectYesNoVaRadioOption('root_view:reportDependents', false);
+    cy.selectRadio('root_view:reportDependents', 'N');
 
     goToNextPage('/household-information/veteran-annual-income');
     fillVeteranIncome(testData);
@@ -222,11 +217,10 @@ describe('HCA-Household: Dependent disclosure', () => {
     goToNextPage('/household-information/marital-status');
     cy.get('[name="root_maritalStatus"]').select('Never Married');
 
-    goToNextPage('/household-information/your-dependents');
     goToNextPage('/household-information/dependents');
-    cy.selectYesNoVaRadioOption('root_view:reportDependents', true);
+    cy.selectRadio('root_view:reportDependents', 'Y');
 
-    goToNextPage();
+    goToNextPage('/household-information/dependent-information');
     fillDependentBasicInformation({
       ...testData.dependents[0],
       dateOfBirth: '1990-01-01',
@@ -241,7 +235,7 @@ describe('HCA-Household: Dependent disclosure', () => {
     fillDependentIncome(testData.dependents[0]);
 
     goToNextPage('/household-information/dependents');
-    cy.selectYesNoVaRadioOption('root_view:reportDependents', false);
+    cy.selectRadio('root_view:reportDependents', 'N');
 
     goToNextPage('/household-information/veteran-annual-income');
     fillVeteranIncome(testData);
@@ -261,11 +255,10 @@ describe('HCA-Household: Dependent disclosure', () => {
     goToNextPage('/household-information/marital-status');
     cy.get('[name="root_maritalStatus"]').select('Never Married');
 
-    goToNextPage('/household-information/your-dependents');
     goToNextPage('/household-information/dependents');
-    cy.selectYesNoVaRadioOption('root_view:reportDependents', true);
+    cy.selectRadio('root_view:reportDependents', 'Y');
 
-    goToNextPage();
+    goToNextPage('/household-information/dependent-information');
     fillDependentBasicInformation({
       ...testData.dependents[0],
       dateOfBirth: '1990-01-01',
@@ -280,7 +273,7 @@ describe('HCA-Household: Dependent disclosure', () => {
     cy.selectRadio('root_receivedSupportLastYear', 'Y');
 
     goToNextPage('/household-information/dependents');
-    cy.selectYesNoVaRadioOption('root_view:reportDependents', false);
+    cy.selectRadio('root_view:reportDependents', 'N');
 
     goToNextPage('/household-information/veteran-annual-income');
     fillVeteranIncome(testData);
@@ -300,11 +293,10 @@ describe('HCA-Household: Dependent disclosure', () => {
     goToNextPage('/household-information/marital-status');
     cy.get('[name="root_maritalStatus"]').select('Never Married');
 
-    goToNextPage('/household-information/your-dependents');
     goToNextPage('/household-information/dependents');
-    cy.selectYesNoVaRadioOption('root_view:reportDependents', true);
+    cy.selectRadio('root_view:reportDependents', 'Y');
 
-    goToNextPage();
+    goToNextPage('/household-information/dependent-information');
     fillDependentBasicInformation({
       ...testData.dependents[0],
       dateOfBirth: '1990-01-01',
@@ -322,7 +314,7 @@ describe('HCA-Household: Dependent disclosure', () => {
     fillDependentIncome(testData.dependents[0]);
 
     goToNextPage('/household-information/dependents');
-    cy.selectYesNoVaRadioOption('root_view:reportDependents', false);
+    cy.selectRadio('root_view:reportDependents', 'N');
 
     goToNextPage('/household-information/veteran-annual-income');
     fillVeteranIncome(testData);

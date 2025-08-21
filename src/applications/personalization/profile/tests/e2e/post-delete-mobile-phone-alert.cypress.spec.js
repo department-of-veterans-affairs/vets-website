@@ -38,7 +38,7 @@ describe('Contact info update success alert', () => {
   it('should be shown after deleting mobile phone number', () => {
     cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
 
-    cy.get(`va-button[label="Remove Mobile phone number"]`).click({
+    cy.findByRole('button', { name: /remove mobile phone/i }).click({
       waitForAnimations: true,
     });
 

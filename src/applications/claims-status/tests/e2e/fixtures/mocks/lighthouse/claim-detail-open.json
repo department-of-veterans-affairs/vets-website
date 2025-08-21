@@ -183,8 +183,7 @@
           "id": 2,
           "status": "NEEDED_FROM_YOU",
           "uploaded": false,
-          "uploadsAllowed": false,
-          "canUploadFile": true
+          "uploadsAllowed": false
         },
         {
           "closedDate": null,
@@ -197,8 +196,7 @@
           "id": 3,
           "status": "NEEDED_FROM_YOU",
           "uploaded": false,
-          "uploadsAllowed": true,
-          "canUploadFile": true
+          "uploadsAllowed": true
         },
         {
           "closedDate": null,
@@ -250,8 +248,7 @@
           "id": 7,
           "status": "NEEDED_FROM_YOU",
           "uploaded": false,
-          "uploadsAllowed": true,
-          "canUploadFile": true
+          "uploadsAllowed": true
         },
         {
           "closedDate": null,
@@ -303,8 +300,7 @@
           "id": 11,
           "status": "NEEDED_FROM_YOU",
           "uploaded": false,
-          "uploadsAllowed": true,
-          "canUploadFile": true
+          "uploadsAllowed": true
         },
         {
           "closedDate": null,
@@ -330,8 +326,7 @@
           "id": 13,
           "status": "NEEDED_FROM_YOU",
           "uploaded": false,
-          "uploadsAllowed": true,
-          "canUploadFile": true
+          "uploadsAllowed": true
         }
       ]
     }

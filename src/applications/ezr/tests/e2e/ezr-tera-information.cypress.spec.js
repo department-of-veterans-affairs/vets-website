@@ -17,7 +17,7 @@ import {
   fillAgentOrangeDateRange,
   fillTextWebComponent,
 } from './helpers';
-import { MOCK_ENROLLMENT_RESPONSE, API_ENDPOINTS } from '../../utils/constants';
+import { MOCK_ENROLLMENT_RESPONSE } from '../../utils/constants';
 import { advanceToHouseholdSection } from './helpers/household';
 
 function setUserData(user, prefillData) {
@@ -25,7 +25,7 @@ function setUserData(user, prefillData) {
   cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
     'mockFeatures',
   );
-  cy.intercept('GET', `/v0${API_ENDPOINTS.enrollmentStatus}*`, {
+  cy.intercept('GET', '/v0/health_care_applications/enrollment_status*', {
     statusCode: 200,
     body: MOCK_ENROLLMENT_RESPONSE,
   }).as('mockEnrollmentStatus');

@@ -19,15 +19,14 @@ import {
   generateFooterContent,
   generateInitialHeaderContent,
   createRichTextDetailItem,
-  addBulletList,
 } from './utils';
 
 const config = {
   margins: {
     top: 40,
     bottom: 40,
-    left: 16,
-    right: 16,
+    left: 30,
+    right: 30,
   },
   indents: {
     one: 45,
@@ -40,7 +39,7 @@ const config = {
     },
     H2: {
       font: 'Bitter-Bold',
-      size: 20,
+      size: 24,
     },
     H3: {
       font: 'Bitter-Bold',
@@ -165,7 +164,7 @@ const generateTitleSection = (doc, parent, data) => {
     }),
   );
 
-  doc.moveDown();
+  doc.moveDown(0.75);
   titleSection.end();
 };
 
@@ -173,13 +172,18 @@ const generateContentsSection = (doc, parent, data) => {
   const infoSection = doc.struct('Sect', {
     title: 'Information',
   });
-  const failedSets = [];
-  Object.values(selfEnteredTypes).forEach(type => {
-    const recordSet = data.recordSets.find(set => set.type === type);
-    if (!recordSet) {
-      failedSets.push(type);
-    }
-  });
+  const missingRecordSets = Object.values(selfEnteredTypes).filter(
+    type =>
+      !data.recordSets.find(set => set.type === type && set.records.length),
+  );
+  const listOptions = {
+    lineGap: -2,
+    paragraphGap: 6,
+    listType: 'bullet',
+    bulletRadius: 2,
+    bulletIndent: config.margins.left,
+    x: 6,
+  };
 
   if (data.recordSets.length === 0) {
     infoSection.add(
@@ -212,61 +216,43 @@ const generateContentsSection = (doc, parent, data) => {
         'H2',
         config,
         'Types of self-entered information in this report',
-        {
-          x: config.margins.left,
-          paragraphGap: 12,
-        },
+        { x: config.margins.left, paragraphGap: 12 },
       ),
     );
     parent.add(infoSection);
-
-    const recordSets = data.recordSets
-      .filter(item => item.records.length)
-      .map(item => capitalize(item.type));
-
-    addBulletList(infoSection, doc, recordSets, config, {
-      bulletRadius: 2,
-      bulletIndent: config.indents.bulletList,
-      paragraphGap: 4,
-      textOffset: 4,
-    });
-
+    infoSection.add(
+      doc.struct('List', () => {
+        doc
+          .font(config.text.font)
+          .fontSize(config.text.size)
+          .list(
+            data.recordSets
+              .filter(item => item.records.length)
+              .map(item => capitalize(item.type)),
+            listOptions,
+          );
+      }),
+    );
     doc.moveDown(0.75);
 
-    if (failedSets.length) {
+    if (missingRecordSets.length) {
       infoSection.add(
         createHeading(
           doc,
           'H2',
           config,
-          "Information we can't access right now",
+          "Types of information you haven't entered yet",
           { x: config.margins.left, paragraphGap: 12 },
         ),
       );
-
       infoSection.add(
-        doc.struct('P', () => {
+        doc.struct('List', () => {
           doc
             .font(config.text.font)
             .fontSize(config.text.size)
-            .text(
-              "We're sorry. There was a problem with our system. Try downloading your report again later.",
-              config.margins.left,
-              doc.y,
-              { paragraphGap: 10 },
-            );
+            .list(missingRecordSets.map(type => capitalize(type)), listOptions);
         }),
       );
-
-      const failedDomains = failedSets.map(type => capitalize(type));
-
-      addBulletList(infoSection, doc, failedDomains, config, {
-        bulletRadius: 2,
-        bulletIndent: config.indents.bulletList,
-        paragraphGap: 4,
-        textOffset: 4,
-      });
-
       doc.moveDown(0.75);
     }
   }

@@ -17,20 +17,21 @@ export default {
     ),
     veteranHomeAddress: merge({}, addressUI(null, true), {
       street: {
-        'ui:title': content['contact-info--street-address-label'],
+        'ui:title': 'Street address',
         'ui:errorMessages': {
-          pattern: content['validation-error--street-address'],
+          pattern:
+            'Please provide a valid street. Must be at least 1 character.',
         },
       },
       city: {
         'ui:errorMessages': {
-          pattern: content['validation-error--city'],
+          pattern: 'Please provide a valid city. Must be at least 1 character.',
         },
       },
       state: {
-        'ui:title': content['contact-info--state-label'],
+        'ui:title': 'State/Province/Region',
         'ui:errorMessages': {
-          required: content['validation-error--state'],
+          required: 'Please enter a state/province/region',
         },
       },
     }),

@@ -7,12 +7,12 @@ import {
   yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+
+import { typeOfPhoneOptions } from '../../constants/options';
 import {
   internationalPhoneSchema,
   internationalPhoneUI,
-} from 'platform/forms-system/src/js/web-component-patterns/internationalPhonePattern';
-
-import { typeOfPhoneOptions } from '../../constants/options';
+} from '../helpers/internationalPhonePatterns';
 
 /** @type {PageSchema} */
 export default {
@@ -34,7 +34,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      phone: internationalPhoneSchema(),
+      phone: internationalPhoneSchema,
       typeOfPhone: radioSchema(Object.keys(typeOfPhoneOptions)),
       canReceiveTexts: yesNoSchema,
       email: emailSchema,

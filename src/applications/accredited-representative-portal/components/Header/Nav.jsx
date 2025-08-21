@@ -63,7 +63,7 @@ export const Nav = () => {
               <Toggler.Enabled>
                 <Link
                   className="nav__btn desktop"
-                  to="/claimant-search"
+                  to="/poa-search"
                   data-testid="desktop-search-link"
                   onClick={recordDatalayerEvent}
                   data-eventname="nav-link-click"

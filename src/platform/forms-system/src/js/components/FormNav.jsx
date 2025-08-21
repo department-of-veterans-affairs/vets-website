@@ -110,43 +110,22 @@ export default function FormNav(props) {
   // https://github.com/department-of-veterans-affairs/va.gov-team/issues/12323
   useEffect(
     () => {
-      // Get the currently focused element
-      const { activeElement } = document;
-
-      // Check if the active element is a va-select or inside a va-select
-      const isVaSelect =
-        activeElement?.tagName === 'VA-SELECT' ||
-        activeElement?.closest('va-select') ||
-        activeElement?.classList.contains('rjsf-web-component-field');
-
-      // Prevent focus change and scrolling when interacting with the accordion header or va-select
-      if (activeElement?.closest('.accordion-header') || isVaSelect) {
-        return;
-      }
-
-      // Update the index based on the current chapter
       if (current > index + 1) {
         setIndex(index + 1);
       } else if (current === index) {
         setIndex(index - 1);
       }
 
-      // Handle focus logic for the review & submit page
+      // Focus on review & submit header
       if (
-        (page.chapterKey === 'review' ||
-          window.location.pathname.endsWith('review-and-submit')) &&
-        !activeElement?.closest('.accordion-header') &&
-        !isVaSelect
+        page.chapterKey === 'review' ||
+        window.location.pathname.endsWith('review-and-submit')
       ) {
-        // Ensure scrollTo is only called when necessary
-        if (!hideFormNavProgress && !isMinimalHeaderApp()) {
-          scrollTo('topScrollElement');
-        }
-
+        scrollTo('topScrollElement');
         if (hideFormNavProgress || isMinimalHeaderApp()) {
           focusElement('h1');
         } else {
-          // Ensure focusAfterRender is only called when appropriate
+          // Focus on review & submit page h2 in stepper
           focusAfterRender(
             'va-segmented-progress-bar',
             document,

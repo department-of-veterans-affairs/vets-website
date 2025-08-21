@@ -15,8 +15,6 @@ import * as Sentry from '@sentry/browser';
 import { configure } from '@testing-library/dom';
 import chaiAxe from './axe-plugin';
 import { sentryTransport } from './sentry';
-import { setupServer } from 'msw/node';
-import { rest } from 'msw';
 
 const isStressTest = process.env.IS_STRESS_TEST || 'false';
 const DISALLOWED_SPECS = process.env.DISALLOWED_TESTS || [];
@@ -172,17 +170,7 @@ function flushPromises() {
   return new Promise(resolve => setImmediate(resolve));
 }
 
-const server = setupServer(
-  rest.get('/feature_toggles', (req, res, ctx) => {
-    return res(ctx.status(200), ctx.body(''));
-  }),
-);
-
 export const mochaHooks = {
-  beforeAll() {
-    server.listen({ onUnhandledRequest: 'bypass' });
-  },
-
   beforeEach() {
     setupJSDom();
     resetFetch();
@@ -196,16 +184,9 @@ export const mochaHooks = {
         this.currentTest.file.slice(this.currentTest.file.indexOf('src')),
       );
     }
-    server.resetHandlers();
   },
-
   afterEach() {
     cleanupStorage();
     flushPromises();
   },
-
-  afterAll() {
-    server.close();
-  }
-
 };

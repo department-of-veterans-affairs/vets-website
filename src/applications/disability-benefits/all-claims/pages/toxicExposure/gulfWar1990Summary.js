@@ -1,4 +1,6 @@
-import { GulfWar1990SummaryDescription } from '../../components/ToxicExposureSummary';
+import React from 'react';
+import { GULF_WAR_1990_LOCATIONS, TE_URL_PREFIX } from '../../constants';
+import { ToxicExposureSummary } from '../../components/ToxicExposureSummary';
 import {
   gulfWar1990PageTitle,
   titleWithSubtitle,
@@ -6,7 +8,15 @@ import {
 
 export const uiSchema = {
   'ui:title': titleWithSubtitle(gulfWar1990PageTitle, 'Summary'),
-  'ui:description': GulfWar1990SummaryDescription,
+  'ui:description': ({ formData }) => (
+    <ToxicExposureSummary
+      formData={formData}
+      checkboxObjectName="gulfWar1990"
+      checkboxDefinitions={GULF_WAR_1990_LOCATIONS}
+      datesObjectName="gulfWar1990Details"
+      goBackUrlPath={`${TE_URL_PREFIX}/gulf-war-1990`}
+    />
+  ),
 };
 
 export const schema = {

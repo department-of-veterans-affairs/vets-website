@@ -2,11 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Navigate } from 'react-router-dom-v5-compat';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import withRouter from '../utils/withRouter';
+import DocumentRequestPage from './DocumentRequestPage';
 
 const DocumentRedirectPage = ({ trackedItem, trackedItemId }) => {
   const [redirectPath, setRedirectPath] = useState(null);
-
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const cstFriendlyEvidenceRequests = useToggleValue(
+    TOGGLE_NAMES.cstFriendlyEvidenceRequests,
+  );
   useEffect(
     () => {
       if (!trackedItem) return;
@@ -17,9 +22,16 @@ const DocumentRedirectPage = ({ trackedItem, trackedItemId }) => {
           setRedirectPath(`../needed-from-others/${trackedItemId}`);
         }
       };
-      fetchEvidenceType();
+      if (cstFriendlyEvidenceRequests) {
+        fetchEvidenceType();
+      }
     },
-    [trackedItem, trackedItem.status, trackedItemId],
+    [
+      cstFriendlyEvidenceRequests,
+      trackedItem,
+      trackedItem.status,
+      trackedItemId,
+    ],
   );
   if (!trackedItem)
     return (
@@ -29,7 +41,11 @@ const DocumentRedirectPage = ({ trackedItem, trackedItemId }) => {
       />
     );
 
-  return <Navigate to={redirectPath} replace />;
+  return cstFriendlyEvidenceRequests ? (
+    <Navigate to={redirectPath} replace />
+  ) : (
+    <DocumentRequestPage />
+  );
 };
 
 function mapStateToProps(state, ownProps) {

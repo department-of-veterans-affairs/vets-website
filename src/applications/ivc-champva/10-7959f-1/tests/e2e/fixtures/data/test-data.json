@@ -1,17 +1,20 @@
 {
   "data": {
-    "veteranPhoneNumber": {
-      "callingCode": "1",
-      "countryCode": "US",
-      "contact": "(432) 143-2143"
-    },
-    "veteranEmailAddress": "testmail@email.gov",
-    "sameMailingAddress": true,
+    "veteranPhoneNumber": "2058797651",
+    "veteranEmailAddress": "reiting@gmail.com",
+    "sameMailingAddress": "Y",
     "veteranAddress": {
       "country": "USA",
       "street": "6 main",
       "city": "canton",
       "state": "NH",
+      "postalCode": "13617"
+    },
+    "physicalAddress": {
+      "country": "USA",
+      "street": "1 main ",
+      "city": "canton",
+      "state": "NE",
       "postalCode": "13617"
     },
     "veteranSocialSecurityNumber": {

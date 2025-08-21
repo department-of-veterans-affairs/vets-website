@@ -11,20 +11,19 @@ import {
   emailUI,
   fullNameSchema,
   fullNameUI,
-  selectSchema,
-  selectUI,
-  internationalPhoneSchema,
-  internationalPhoneUI,
+  textareaSchema,
+  textareaUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
 import CharacterReferencesIntro from '../../components/07-character-references-chapter/CharacterReferencesIntro';
 import { createName } from '../helpers/createName';
-import { characterReferencesRelationship } from '../../constants/options';
-import { getCardDescription } from '../helpers/getCardDescription';
-import { CHAPTER_TYPE } from '../../config/enums';
+import {
+  internationalPhoneSchema,
+  internationalPhoneUI,
+} from '../helpers/internationalPhonePatterns';
 
 /** @type {ArrayBuilderOptions} */
-export const arrayBuilderOptions = {
+const arrayBuilderOptions = {
   arrayPath: 'characterReferences',
   nounSingular: 'character reference',
   nounPlural: 'character references',
@@ -32,7 +31,7 @@ export const arrayBuilderOptions = {
   isItemIncomplete: item =>
     !item?.fullName ||
     !item?.address ||
-    !item?.phone?.contact ||
+    !item?.phone ||
     !item?.email ||
     !item?.relationship,
   minItems: 3, // TODO: [Fix arrayBuilder minItems validation](https://app.zenhub.com/workspaces/accredited-representative-facing-team-65453a97a9cc36069a2ad1d6/issues/gh/department-of-veterans-affairs/va.gov-team/87155)
@@ -42,7 +41,7 @@ export const arrayBuilderOptions = {
       `${item?.fullName?.first} ${item?.fullName?.last}${
         item?.fullName?.suffix ? `, ${item?.fullName?.suffix}` : ''
       }`,
-    cardDescription: item => getCardDescription(item, CHAPTER_TYPE.CHARACTER),
+    cardDescription: item => `${item?.phone}, ${item?.email}`,
     summaryDescription:
       'You must add at least 3 and no more than 4 character references.',
   },
@@ -88,8 +87,6 @@ const addressPage = {
           suffix: formData?.fullName?.suffix,
           fallback: 'Reference',
         })} address`,
-      null,
-      false,
     ),
     address: addressUI({
       labels: {
@@ -120,16 +117,14 @@ const contactInformationPage = {
           suffix: formData?.fullName?.suffix,
           fallback: 'Reference',
         })} contact information`,
-      null,
-      false,
     ),
-    phone: internationalPhoneUI(),
+    phone: internationalPhoneUI('Primary number'),
     email: emailUI(),
   },
   schema: {
     type: 'object',
     properties: {
-      phone: internationalPhoneSchema(),
+      phone: internationalPhoneSchema,
       email: emailSchema,
     },
     required: ['phone', 'email'],
@@ -149,12 +144,12 @@ const relationshipPage = {
           isPossessive: false,
         })}`,
     ),
-    relationship: selectUI('What is your relationship to this reference?'),
+    relationship: textareaUI('What is your relationship to this reference?'),
   },
   schema: {
     type: 'object',
     properties: {
-      relationship: selectSchema(characterReferencesRelationship),
+      relationship: textareaSchema,
     },
     required: ['relationship'],
   },

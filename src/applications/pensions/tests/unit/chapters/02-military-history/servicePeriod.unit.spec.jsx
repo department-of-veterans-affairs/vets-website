@@ -13,7 +13,7 @@ import {
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import {
   getWebComponentErrors,
-  testComponentFieldsMarkedAsRequired,
+  testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfFieldsByType,
   testNumberOfWebComponentFields,
 } from '../pageTests.spec';
@@ -46,15 +46,12 @@ describe('pensions service period page', () => {
     pageTitle,
   );
 
-  testComponentFieldsMarkedAsRequired(
+  const expectedNumberOfErrors = 3;
+  testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     schema,
     uiSchema,
-    [
-      `va-checkbox-group[label="Branch of service"]`,
-      `va-memorable-date[label="Date initially entered active duty"]`,
-      `va-memorable-date[label="Final release date from active duty"]`,
-    ],
+    expectedNumberOfErrors,
     pageTitle,
   );
 

@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import BackLink from '../../../components/BackLink';
-import AppointmentDetailsErrorMessage from '../../components/AppointmentDetailsErrorMessage';
+import ErrorMessage from '../../../components/ErrorMessage';
 import FacilityAddress from '../../../components/FacilityAddress';
 import FacilityPhone from '../../../components/FacilityPhone';
 import FullWidthLayout from '../../../components/FullWidthLayout';
@@ -43,6 +43,7 @@ export default function RequestedAppointmentDetailsPage() {
     facilityPhone,
     isCC,
     isCanceled,
+    typeOfCareText,
   } = useSelector(
     state => selectRequestedAppointmentDetails(state, id),
     shallowEqual,
@@ -51,7 +52,11 @@ export default function RequestedAppointmentDetailsPage() {
   useEffect(
     () => {
       if (appointment) {
-        let title = `${
+        let title = `${isCanceled ? 'Canceled ' : 'Pending '}${
+          isCC ? 'Community care' : 'VA'
+        } ${typeOfCareText} appointment`;
+
+        title = `${
           isCanceled ? 'Canceled Request For ' : 'Pending Request For '
         }${isCC ? 'Community Care Appointment' : 'Appointment'}`;
         title = title.concat(` | Veterans Affairs`);
@@ -60,7 +65,7 @@ export default function RequestedAppointmentDetailsPage() {
       }
       scrollAndFocus();
     },
-    [dispatch, isCanceled, isCC, appointment],
+    [dispatch, typeOfCareText, isCanceled, isCC, appointment, cancelInfo],
   );
 
   useEffect(
@@ -82,7 +87,7 @@ export default function RequestedAppointmentDetailsPage() {
   ) {
     return (
       <FullWidthLayout>
-        <AppointmentDetailsErrorMessage />
+        <ErrorMessage level={1} />
       </FullWidthLayout>
     );
   }
@@ -116,7 +121,7 @@ export default function RequestedAppointmentDetailsPage() {
   }
   if (cancelInfo.cancelAppointmentStatus === FETCH_STATUS.notStarted) {
     return (
-      <PageLayout showNeedHelp>
+      <PageLayout showNeedHelp isDetailPage>
         <CancelWarningPage
           {...{
             appointment,
@@ -128,7 +133,7 @@ export default function RequestedAppointmentDetailsPage() {
   }
   if (cancelInfo.cancelAppointmentStatus === FETCH_STATUS.succeeded) {
     return (
-      <PageLayout showNeedHelp>
+      <PageLayout showNeedHelp isDetailPage>
         <CancelConfirmationPage {...{ appointment, cancelInfo }} />
       </PageLayout>
     );

@@ -47,24 +47,12 @@ class SearchHelpSignIn extends Component {
   };
 
   handleMenuClick = menu => () => {
-    if (menu === 'account') {
-      this.recordAccountMenuExpanded();
-    }
     this.props.toggleMenu(menu, !this.props.isMenuOpen[menu]);
   };
 
   handleSearchMenuClick = this.handleMenuClick('search');
 
   handleAccountMenuClick = this.handleMenuClick('account');
-
-  recordAccountMenuExpanded = () => {
-    if (!this.props.isMenuOpen.account) {
-      recordEvent({
-        event: 'nav-user-menu',
-        action: 'expand',
-      });
-    }
-  };
 
   showHomepageCreateAccountBlock = () => {
     if (
@@ -105,11 +93,9 @@ class SearchHelpSignIn extends Component {
     }
     return (
       <div className="sign-in-links">
-        <va-button
-          className="sign-in-link"
-          text="Sign in"
-          onClick={this.handleSignInSignUp}
-        />
+        <button className="sign-in-link" onClick={this.handleSignInSignUp}>
+          Sign in
+        </button>
       </div>
     );
   };
@@ -133,7 +119,7 @@ class SearchHelpSignIn extends Component {
         {!this.props.isHeaderV2 && (
           <a
             className="vads-u-color--white vads-u-text-decoration--none vads-u-padding-x--1 vads-u-font-weight--bold"
-            href={`${window.location.origin}/contact-us/`}
+            href="/contact-us/"
             onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
           >
             Contact us

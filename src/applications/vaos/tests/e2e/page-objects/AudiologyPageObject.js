@@ -8,12 +8,6 @@ class AudiologyPageObject extends PageObject {
     return this;
   }
 
-  assertAudiologyValidationErrors() {
-    this.clickNextButton();
-    this.assertValidationError('You must provide a response');
-    return this;
-  }
-
   selectTypeOfCare(label) {
     return super.selectRadioButtonShadow(label);
   }

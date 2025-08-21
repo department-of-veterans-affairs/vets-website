@@ -6,7 +6,8 @@ import {
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 
 const { noRapidProcessing } = fullSchemaPensions.properties;
-const fullyDevelopedClaimsLinkText = 'Learn more about fully developed claims';
+const fullyDevelopedClaimsLinkText =
+  'Learn more about fully developed claims (opens in new tab)';
 
 const Description = (
   <>
@@ -15,11 +16,14 @@ const Description = (
       faster decision on your claim. We call this the Fully Developed Claims
       (FDC) program.
     </p>
-    <va-link
+    <a
+      rel="noopener noreferrer"
+      target="_blank"
       href="https://www.va.gov/disability/how-to-file-claim/evidence-needed/fully-developed-claims/"
-      external
-      text={fullyDevelopedClaimsLinkText}
-    />
+      aria-label={fullyDevelopedClaimsLinkText}
+    >
+      {fullyDevelopedClaimsLinkText}
+    </a>
   </>
 );
 

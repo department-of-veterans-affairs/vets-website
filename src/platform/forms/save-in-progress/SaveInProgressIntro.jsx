@@ -1,13 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link, withRouter } from 'react-router';
+import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import { fromUnixTime, isBefore } from 'date-fns';
 import { format } from 'date-fns-tz';
-import {
-  VaButton,
-  VaLink,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { getNextPagePath } from '~/platform/forms-system/src/js/routing';
 import {
@@ -203,31 +200,6 @@ class SaveInProgressIntro extends React.Component {
         unauthStartText,
       } = this.props;
       const CustomLink = this.props.customLink;
-      const unauthStartLink = this.props.formConfig?.formOptions
-        ?.useWebComponentForNavigation ? (
-        <p>
-          <VaLink
-            onClick={this.handleClickAndReroute}
-            href={this.getStartPage()}
-            className="schemaform-start-button"
-            aria-label={ariaLabel}
-            // aria-describedby={ariaDescribedby}
-            text={`Start your ${appType} without signing in`}
-          />
-        </p>
-      ) : (
-        <p>
-          <Link
-            onClick={this.handleClick}
-            to={this.getStartPage}
-            className="schemaform-start-button"
-            aria-label={ariaLabel}
-            aria-describedby={ariaDescribedby}
-          >
-            Start your {appType} without signing in
-          </Link>
-        </p>
-      );
       const unauthStartButton = CustomLink ? (
         <CustomLink
           href="#start"
@@ -250,7 +222,19 @@ class SaveInProgressIntro extends React.Component {
       alert = buttonOnly ? (
         <>
           {unauthStartButton}
-          {!this.props.hideUnauthedStartLink && unauthStartLink}
+          {!this.props.hideUnauthedStartLink && (
+            <p>
+              <Link
+                onClick={this.handleClick}
+                to={this.getStartPage}
+                className="schemaform-start-button"
+                aria-label={ariaLabel}
+                aria-describedby={ariaDescribedby}
+              >
+                Start your {appType} without signing in
+              </Link>
+            </p>
+          )}
         </>
       ) : (
         <va-alert-sign-in
@@ -266,7 +250,19 @@ class SaveInProgressIntro extends React.Component {
         >
           <span slot="SignInButton">
             {unauthStartButton}
-            {!this.props.hideUnauthedStartLink && unauthStartLink}
+            {!this.props.hideUnauthedStartLink && (
+              <p>
+                <Link
+                  onClick={this.handleClick}
+                  to={this.getStartPage}
+                  className="schemaform-start-button"
+                  aria-label={ariaLabel}
+                  aria-describedby={ariaDescribedby}
+                >
+                  Start your {appType} without signing in
+                </Link>
+              </p>
+            )}
           </span>
         </va-alert-sign-in>
       );
@@ -303,12 +299,6 @@ class SaveInProgressIntro extends React.Component {
 
   handleClick = () => {
     recordEvent({ event: 'no-login-start-form' });
-  };
-
-  handleClickAndReroute = event => {
-    event.preventDefault();
-    recordEvent({ event: 'no-login-start-form' });
-    this.props.router.push(this.getStartPage());
   };
 
   openLoginModal = () => {
@@ -452,9 +442,6 @@ SaveInProgressIntro.propTypes = {
       appContinuing: PropTypes.string,
     }),
     requiresVerifiedUser: PropTypes.bool,
-    formOptions: PropTypes.shape({
-      useWebComponentForNavigation: PropTypes.bool,
-    }),
   }),
   formData: PropTypes.object,
   gaStartEventName: PropTypes.string,
@@ -471,9 +458,6 @@ SaveInProgressIntro.propTypes = {
   retentionPeriod: PropTypes.string,
   retentionPeriodStart: PropTypes.string,
   returnUrl: PropTypes.string,
-  router: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }),
   startMessageOnly: PropTypes.bool,
   startText: PropTypes.string,
   unauthStartText: PropTypes.string,
@@ -567,6 +551,6 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(withRouter(SaveInProgressIntro));
+)(SaveInProgressIntro);
 
 export { SaveInProgressIntro };

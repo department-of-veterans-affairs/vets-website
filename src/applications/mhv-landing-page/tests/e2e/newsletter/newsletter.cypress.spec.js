@@ -40,10 +40,13 @@ describe(`${appName} -- MHV Newsletter Signup`, () => {
     });
   });
 
-  describe('unregistered user with verified login (non-patient page)', () => {
+  describe('unregistered user with verified login', () => {
     it('renders', () => {
       ApiInitializer.initializeFeatureToggle.withAllFeatures();
-      LandingPage.visitNonPatientPage();
+      LandingPage.visit({
+        registered: false,
+        verified: true,
+      });
       cy.findByRole('heading', {
         name: /Subscribe to the My HealtheVet newsletter/,
       }).should.exist;

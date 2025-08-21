@@ -16,7 +16,7 @@ import RequestedAppointmentsPage from '../RequestedAppointmentsPage/RequestedApp
 // import { selectPatientFacilities } from '~/platform/user/cerner-dsot/selectors';
 // import ReferralTaskCardWithReferral from '../../../referral-appointments/components/ReferralTaskCardWithReferral';
 import { routeToCCPage } from '../../../referral-appointments/flow';
-import { useIsInPilotUserStations } from '../../../referral-appointments/hooks/useIsInPilotUserStations';
+import { useIsInCCPilot } from '../../../referral-appointments/hooks/useIsInCCPilot';
 import { setFormCurrentPage } from '../../../referral-appointments/redux/actions';
 import AppointmentListNavigation from '../../components/AppointmentListNavigation';
 import PageLayout from '../../components/PageLayout';
@@ -45,7 +45,7 @@ export default function AppointmentsPage() {
   const dispatch = useDispatch();
   const [hasTypeChanged, setHasTypeChanged] = useState(false);
   let [pageTitle] = useState('VA appointments');
-  const { isInPilotUserStations } = useIsInPilotUserStations();
+  const { isInCCPilot } = useIsInCCPilot();
 
   const pendingAppointments = useSelector(state =>
     selectPendingAppointments(state),
@@ -153,7 +153,7 @@ export default function AppointmentsPage() {
       referral id in the url sent to the veteran  */}
       {/* {isInCCPilot && <ReferralTaskCardWithReferral />} */}
 
-      {isInPilotUserStations && (
+      {isInCCPilot && (
         <div
           className={classNames(
             'vads-u-padding-y--3',
@@ -168,14 +168,14 @@ export default function AppointmentsPage() {
           <va-link
             calendar
             href="/my-health/appointments/referrals-requests"
-            text="Review referrals and requests"
+            text="Review requests and referrals"
             data-testid="review-requests-and-referrals"
             onClick={handleCCLinkClick}
           />
         </div>
       )}
       <AppointmentListNavigation
-        hidePendingTab={isInPilotUserStations}
+        hidePendingTab={isInCCPilot}
         count={count}
         callback={setHasTypeChanged}
       />

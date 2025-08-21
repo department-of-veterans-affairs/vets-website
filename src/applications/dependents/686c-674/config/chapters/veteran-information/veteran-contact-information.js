@@ -2,7 +2,7 @@ import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/V
 import {
   titleUI,
   phoneUI,
-  internationalPhoneDeprecatedUI,
+  internationalPhoneUI,
   emailUI,
   phoneSchema,
   emailSchema,
@@ -21,7 +21,7 @@ export const uiSchema = {
       'ui:required': () => true,
     },
     internationalPhoneNumber: {
-      ...internationalPhoneDeprecatedUI({
+      ...internationalPhoneUI({
         title: 'International phone number',
         international: true,
       }),

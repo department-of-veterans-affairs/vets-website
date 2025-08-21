@@ -30,15 +30,15 @@ export default function AccountSwitch({ userEmails }) {
       <h2 className="vads-u-margin-y--0" id="accountSwitchH2">
         {headingText}
       </h2>
-      {userHasIdme && (
-        <CspDisplay csp="idme" email={userEmails.idme} name="ID.me" />
-      )}
       {userHasLogingov && (
         <CspDisplay
           csp="logingov"
           email={userEmails.logingov}
           name="Login.gov"
         />
+      )}
+      {userHasIdme && (
+        <CspDisplay csp="idme" email={userEmails.idme} name="ID.me" />
       )}
     </div>
   );

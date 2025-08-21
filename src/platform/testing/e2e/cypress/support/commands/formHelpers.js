@@ -1,7 +1,5 @@
 import Timeouts from 'platform/testing/e2e/timeouts';
 
-const FORCE_OPTION = { force: true };
-
 Cypress.Commands.add('fillName', (baseName, name) => {
   cy.get(`input[name="${baseName}_first"]`, {
     timeout: Timeouts.normal,
@@ -126,57 +124,4 @@ Cypress.Commands.add('fillAddress', (baseName, address) => {
   if (address.postalCode) {
     cy.fill(`input[name="${baseName}_postalCode"]`, address.postalCode);
   }
-});
-
-// Using generic selectors to click on both the continue & submit button;
-// because the review page submit button has type="button", and the va-button
-// does not have a "continue" or "primary" (default appearance) attribute
-Cypress.Commands.add('clickFormContinue', () => {
-  cy.get('.form-progress-buttons')
-    .find(
-      'button.usa-button-primary, va-button[continue], va-button:not([secondary])',
-    )
-    .then($el => {
-      if ($el[0].tagName === 'VA-BUTTON') {
-        cy.wrap($el)
-          .shadow()
-          .find('button')
-          .should('be.visible')
-          .should('not.be', 'disabled')
-          .click(FORCE_OPTION);
-      } else {
-        cy.wrap($el)
-          .should('be.visible')
-          .should('not.be', 'disabled')
-          .click(FORCE_OPTION);
-      }
-    });
-});
-
-Cypress.Commands.add('clickFormBack', () => {
-  cy.get('.form-progress-buttons')
-    .find('button.usa-button-secondary, va-button[back]')
-    .then($el => {
-      if ($el[0].tagName === 'VA-BUTTON') {
-        cy.wrap($el)
-          .shadow()
-          .find('button')
-          .should('be.visible')
-          .should('not.be', 'disabled')
-          .click(FORCE_OPTION);
-      } else {
-        cy.wrap($el)
-          .should('be.visible')
-          .should('not.be', 'disabled')
-          .click(FORCE_OPTION);
-      }
-    });
-});
-
-Cypress.Commands.add('clickStartForm', () => {
-  cy.get(
-    'a.vads-c-action-link--green[href="#start"], va-link-action[href="#start"]',
-  )
-    .first()
-    .click();
 });

@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $$, $ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../config/form';
@@ -11,7 +11,7 @@ describe('Designating official page', () => {
     uiSchema,
   } = formConfig.chapters.designatingOfficialChapter.pages.designatingOfficial;
 
-  it('Renders the page with the correct number of inputs', async () => {
+  it('Renders the page with the correct number of inputs', () => {
     const { container, getByRole } = render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -23,14 +23,10 @@ describe('Designating official page', () => {
     expect($$('va-text-input', container).length).to.equal(7);
     expect($$('va-radio', container).length).to.equal(1);
     expect($$('va-radio-option', container).length).to.equal(2);
-
-    fireEvent.click(getByRole('button', { name: /submit/i }));
-
-    await waitFor(() => {
-      expect($$('va-text-input[error]', container).length).to.equal(4);
-    });
+    getByRole('button', { name: /submit/i }).click();
+    expect($$('va-text-input[error]', container).length).to.equal(4);
   });
-  it('Renders the page with the correct number of required inputs after selecting a phone type', async () => {
+  it('Renders the page with the correct number of required inputs after selecting a phone type', () => {
     const { container, getByRole } = render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -39,11 +35,8 @@ describe('Designating official page', () => {
       />,
     );
 
-    fireEvent.click(getByRole('button', { name: /submit/i }));
-
-    await waitFor(() => {
-      expect($$('va-text-input[error]', container).length).to.equal(4);
-    });
+    getByRole('button', { name: /submit/i }).click();
+    expect($$('va-text-input[error]', container).length).to.equal(4);
 
     $('va-radio', container).__events.vaValueChange({
       detail: { value: 'us' },

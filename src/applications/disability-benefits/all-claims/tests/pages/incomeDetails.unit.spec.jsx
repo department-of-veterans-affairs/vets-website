@@ -7,7 +7,6 @@ import {
   DefinitionTester,
   fillData,
 } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
-import { waitFor } from '@testing-library/dom';
 import formConfig from '../../config/form';
 import initialData from '../initialData';
 
@@ -18,7 +17,7 @@ describe('Income Details Questions', () => {
     arrayPath,
   } = formConfig.chapters.disabilities.pages.incomeDetails;
 
-  it('should render income details form', async () => {
+  it('should render income details form', () => {
     const form = mount(
       <DefinitionTester
         arrayPath={arrayPath}
@@ -35,7 +34,7 @@ describe('Income Details Questions', () => {
     form.unmount();
   });
 
-  it('should add income details', async () => {
+  it('should add income details', () => {
     const onSubmit = sinon.spy();
 
     const form = mount(
@@ -52,15 +51,13 @@ describe('Income Details Questions', () => {
     fillData(form, 'input#root_unemployability_mostEarningsInAYear', '10000');
     fillData(form, 'input#root_unemployability_yearOfMostEarnings', '2012');
 
-    await waitFor(() => {
-      form.find('form').simulate('submit');
-      expect(onSubmit.called).to.be.false;
-      expect(form.find('.usa-input-error').length).to.equal(0);
-    });
+    form.find('form').simulate('submit');
+    expect(onSubmit.called).to.be.false;
+    expect(form.find('.usa-input-error').length).to.equal(0);
     form.unmount();
   });
 
-  it('should not submit when income is not all numbers', async () => {
+  it('should not submit when income is not all numbers', () => {
     const onSubmit = sinon.spy();
 
     const form = mount(
@@ -76,15 +73,13 @@ describe('Income Details Questions', () => {
 
     fillData(form, 'input#root_unemployability_mostEarningsInAYear', 'abcde');
 
-    await waitFor(() => {
-      form.find('form').simulate('submit');
-      expect(onSubmit.called).to.be.false;
-      expect(form.find('.usa-input-error').length).to.equal(1);
-    });
+    form.find('form').simulate('submit');
+    expect(onSubmit.called).to.be.false;
+    expect(form.find('.usa-input-error').length).to.equal(1);
     form.unmount();
   });
 
-  it('should not submit when year is not valid', async () => {
+  it('should not submit when year is not valid', () => {
     const onSubmit = sinon.spy();
 
     const form = mount(
@@ -100,11 +95,9 @@ describe('Income Details Questions', () => {
 
     fillData(form, 'input#root_unemployability_yearOfMostEarnings', '0000');
 
-    await waitFor(() => {
-      form.find('form').simulate('submit');
-      expect(onSubmit.called).to.be.false;
-      expect(form.find('.usa-input-error').length).to.equal(1);
-    });
+    form.find('form').simulate('submit');
+    expect(onSubmit.called).to.be.false;
+    expect(form.find('.usa-input-error').length).to.equal(1);
     form.unmount();
   });
 });

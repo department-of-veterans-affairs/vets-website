@@ -11,19 +11,25 @@ import {
   getOldestDocumentDate,
   getPhaseItemText,
   is5103Notice,
-  getShowEightPhases,
-  renderDefaultThirdPartyMessage,
-  getDisplayFriendlyName,
+  isDisabilityCompensationClaim,
 } from '../../utils/helpers';
 import { evidenceDictionary } from '../../utils/evidenceDictionary';
 
 export default function RecentActivity({ claim }) {
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const cstClaimPhasesEnabled = useToggleValue(TOGGLE_NAMES.cstClaimPhases);
-  const showEightPhases = getShowEightPhases(
-    claim.attributes.claimTypeCode,
-    cstClaimPhasesEnabled,
+  const cst5103UpdateEnabled = useToggleValue(
+    TOGGLE_NAMES.cst5103UpdateEnabled,
   );
+  const cstFriendlyEvidenceRequests = useToggleValue(
+    TOGGLE_NAMES.cstFriendlyEvidenceRequests,
+  );
+  const cstClaimPhasesEnabled = useToggleValue(TOGGLE_NAMES.cstClaimPhases);
+  // When feature flag cstClaimPhases is enabled and claim type code is for a disability
+  // compensation claim we show 8 phases instead of 5 with updated description, link text
+  // and statuses
+  const showEightPhases =
+    cstClaimPhasesEnabled &&
+    isDisabilityCompensationClaim(claim.attributes.claimTypeCode);
 
   const getPhaseItemDescription = (currentPhaseBack, phase) => {
     const phaseItemText = getPhaseItemText(phase, showEightPhases);
@@ -56,8 +62,9 @@ export default function RecentActivity({ claim }) {
         id: `${item.id}-${uniqueId()}`,
         date,
         description,
-        oldDisplayName: item.displayName,
-        displayName: item.friendlyName || item.displayName,
+        displayName: cstFriendlyEvidenceRequests
+          ? item.friendlyName || item.displayName
+          : item.displayName,
         activityDescription: item.activityDescription,
         status: item.status,
         type: 'tracked_item',
@@ -65,11 +72,13 @@ export default function RecentActivity({ claim }) {
     };
 
     trackedItems.forEach(item => {
-      const updatedDisplayName =
-        (item.friendlyName && getDisplayFriendlyName(item)) || item.displayName;
-      const displayName = is5103Notice(item.displayName)
-        ? 'List of evidence we may need (5103 notice)'
-        : updatedDisplayName;
+      const updatedDisplayName = cstFriendlyEvidenceRequests
+        ? item.friendlyName || item.displayName
+        : item.displayName;
+      const displayName =
+        cst5103UpdateEnabled && is5103Notice(item.displayName)
+          ? 'List of evidence we may need (5103 notice)'
+          : updatedDisplayName;
 
       if (item.closedDate) {
         addItems(
@@ -96,12 +105,14 @@ export default function RecentActivity({ claim }) {
       }
 
       if (item.requestedDate) {
-        if (item.status === 'NEEDED_FROM_OTHERS') {
+        if (
+          cstFriendlyEvidenceRequests &&
+          item.status === 'NEEDED_FROM_OTHERS'
+        ) {
           addItems(
             item.requestedDate,
-            (evidenceDictionary[item.displayName] &&
-              evidenceDictionary[item.displayName].isDBQ) ||
-            item.displayName.toLowerCase().includes('dbq')
+            evidenceDictionary[item.displayName] &&
+            evidenceDictionary[item.displayName].isDBQ
               ? `We made a request: “${displayName}.”`
               : `We made a request outside the VA: “${displayName}.”`,
             item,
@@ -186,6 +197,9 @@ export default function RecentActivity({ claim }) {
     );
   };
   const requestType = itemStatus => {
+    if (itemStatus === 'NEEDED_FROM_OTHERS' && !cstFriendlyEvidenceRequests) {
+      return 'Request for others';
+    }
     if (itemStatus === 'NEEDED_FROM_YOU') return 'Request for you';
     return undefined;
   };
@@ -206,6 +220,37 @@ export default function RecentActivity({ claim }) {
   );
 
   const thirdPartyRequesAlertText = item => {
+    if (cstFriendlyEvidenceRequests) {
+      return (
+        <va-alert
+          data-testid={`item-from-others-${item.id}`}
+          class="optional-alert vads-u-padding-bottom--1"
+          status="info"
+          slim
+        >
+          {item.activityDescription ? (
+            <>
+              {item.activityDescription}
+              <br />
+            </>
+          ) : (
+            <>
+              <strong>You don’t have to do anything.</strong> We asked someone
+              outside VA for documents related to your claim.
+              <br />
+            </>
+          )}
+          <Link
+            aria-label={`About this notice for ${item.friendlyName ||
+              item.displayName}`}
+            className="add-your-claims-link"
+            to={`../needed-from-others/${item.id}`}
+          >
+            About this notice
+          </Link>
+        </va-alert>
+      );
+    }
     return (
       <va-alert
         data-testid={`item-from-others-${item.id}`}
@@ -213,21 +258,14 @@ export default function RecentActivity({ claim }) {
         status="info"
         slim
       >
-        {item.activityDescription ? (
-          <>
-            {item.activityDescription}
-            <br />
-          </>
-        ) : (
-          renderDefaultThirdPartyMessage(item.oldDisplayName)
-        )}
+        You don’t have to do anything, but if you have this information you can{' '}
         <Link
-          aria-label={`About this notice for ${item.friendlyName ||
+          aria-label={`Add it here for ${item.friendlyName ||
             item.displayName}`}
           className="add-your-claims-link"
-          to={`../needed-from-others/${item.id}`}
+          to={`../document-request/${item.id}`}
         >
-          About this notice
+          add it here.
         </Link>
       </va-alert>
     );

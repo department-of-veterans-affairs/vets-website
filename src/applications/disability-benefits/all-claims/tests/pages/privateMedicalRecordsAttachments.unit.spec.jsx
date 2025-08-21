@@ -5,9 +5,8 @@ import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 
 import { uploadStore } from 'platform/forms-system/test/config/helpers';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
-import { waitFor } from '@testing-library/dom';
-import formConfig from '../../config/form';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
+import formConfig from '../../config/form.js';
 
 describe('526 All Claims Private medical records', () => {
   const errorClass = '.usa-input-error-message';
@@ -16,7 +15,7 @@ describe('526 All Claims Private medical records', () => {
       .privateMedicalRecordsAttachments;
   const { schema, uiSchema } = page;
 
-  it('should render', async () => {
+  it('should render', () => {
     const form = mount(
       <Provider store={uploadStore}>
         <DefinitionTester
@@ -35,7 +34,7 @@ describe('526 All Claims Private medical records', () => {
     form.unmount();
   });
 
-  it('should expand upload when "yes" option selected', async () => {
+  it('should expand upload when "yes" option selected', () => {
     const form = mount(
       <Provider store={uploadStore}>
         <DefinitionTester
@@ -58,7 +57,7 @@ describe('526 All Claims Private medical records', () => {
     form.unmount();
   });
 
-  it('should not submit without an upload if one indicated', async () => {
+  it('should not submit without an upload if one indicated', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <Provider store={uploadStore}>
@@ -77,15 +76,13 @@ describe('526 All Claims Private medical records', () => {
       </Provider>,
     );
 
-    await waitFor(() => {
-      form.find('form').simulate('submit');
-      expect(onSubmit.called).to.be.false;
-      expect(form.find(errorClass).length).to.equal(1); // upload at least 1 doc
-    });
+    form.find('form').simulate('submit');
+    expect(onSubmit.called).to.be.false;
+    expect(form.find(errorClass).length).to.equal(1); // upload at least 1 doc
     form.unmount();
   });
 
-  it('should not submit without additional upload info', async () => {
+  it('should not submit without additional upload info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <Provider store={uploadStore}>
@@ -107,15 +104,13 @@ describe('526 All Claims Private medical records', () => {
       </Provider>,
     );
 
-    await waitFor(() => {
-      form.find('form').simulate('submit');
-      expect(onSubmit.called).to.be.false;
-      expect(form.find(errorClass).length).to.equal(1); // name, doc type req'd
-    });
+    form.find('form').simulate('submit');
+    expect(onSubmit.called).to.be.false;
+    expect(form.find(errorClass).length).to.equal(1); // name, doc type req'd
     form.unmount();
   });
 
-  it('should submit with all required info', async () => {
+  it('should submit with all required info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <Provider store={uploadStore}>
@@ -141,11 +136,9 @@ describe('526 All Claims Private medical records', () => {
       </Provider>,
     );
 
-    await waitFor(() => {
-      form.find('form').simulate('submit');
-      expect(onSubmit.calledOnce).to.be.true;
-      expect(form.find(errorClass).length).to.equal(0); // name, doc type req'd
-    });
+    form.find('form').simulate('submit');
+    expect(onSubmit.calledOnce).to.be.true;
+    expect(form.find(errorClass).length).to.equal(0); // name, doc type req'd
     form.unmount();
   });
 });

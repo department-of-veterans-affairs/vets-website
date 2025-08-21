@@ -2,18 +2,6 @@ const { differenceInDays, formatISO, sub } = require('date-fns');
 const { prescriptionDocumentationHtml } = require('./documentation');
 const prescriptionsList = require('../../../../tests/fixtures/prescriptionsList.json');
 
-const dispStatusObj = {
-  UNKNOWN: 'Unknown',
-  ACTIVE: 'Active',
-  REFILL_IN_PROCESS: 'Active: Refill in Process',
-  SUBMITTED: 'Active: Submitted',
-  EXPIRED: 'Expired',
-  DISCONTINUED: 'Discontinued',
-  TRANSFERRED: 'Transferred',
-  NON_VA: 'Active: Non-VA',
-  ON_HOLD: 'Active: On Hold',
-  ACTIVE_PARKED: 'Active: Parked',
-};
 function mockPrescription(n = 0, attrs = {}) {
   // Generate some refillable, some not
   const isRefillable = n % 3 === 0;
@@ -159,145 +147,13 @@ function mockPrescriptionArray(n = 20) {
 }
 
 function generateMockPrescriptions(n = 20) {
-  function edgeCasePrescription({
-    prescriptionId,
-    prescriptionName,
-    dispStatus,
-    refillDate,
-    refillSubmitDate,
-    rxRfRecords,
-  }) {
-    return mockPrescription(prescriptionId, {
-      prescriptionName,
-      dispStatus,
-      refillDate,
-      refillSubmitDate,
-      rxRfRecords,
-    });
-  }
-  const now = new Date();
-  const sevenDaysAgo = new Date(
-    now.getTime() - 7 * 24 * 60 * 60 * 1000,
-  ).toISOString();
-  const eightDaysAgo = new Date(
-    now.getTime() - 8 * 24 * 60 * 60 * 1000,
-  ).toISOString();
-  const sixDaysAgo = new Date(
-    now.getTime() - 6 * 24 * 60 * 60 * 1000,
-  ).toISOString();
-  const futureDate = new Date(
-    now.getTime() + 5 * 24 * 60 * 60 * 1000,
-  ).toISOString();
-  const timestamp = Date.now() - 8 * 24 * 60 * 60 * 1000;
-  const recentlyRequested = [
-    edgeCasePrescription({
-      prescriptionId: 1001,
-      prescriptionName: 'Refillinprocess Past',
-      dispStatus: dispStatusObj.REFILL_IN_PROCESS,
-      refillDate: eightDaysAgo,
-    }),
-    edgeCasePrescription({
-      prescriptionId: 1002,
-      prescriptionName: 'Submitted Past',
-      dispStatus: dispStatusObj.SUBMITTED,
-      refillSubmitDate: eightDaysAgo,
-    }),
-    edgeCasePrescription({
-      prescriptionId: 1003,
-      prescriptionName: 'Submitted Recent',
-      dispStatus: dispStatusObj.SUBMITTED,
-      refillSubmitDate: sixDaysAgo,
-    }),
-    edgeCasePrescription({
-      prescriptionId: 1004,
-      prescriptionName: 'Refillinprocess Future',
-      dispStatus: dispStatusObj.REFILL_IN_PROCESS,
-      refillDate: futureDate,
-    }),
-    edgeCasePrescription({
-      prescriptionId: 1005,
-      prescriptionName: 'Null Dates',
-      dispStatus: dispStatusObj.REFILL_IN_PROCESS,
-    }),
-    edgeCasePrescription({
-      prescriptionId: 1006,
-      prescriptionName: 'Empty rxRfRecords',
-      dispStatus: dispStatusObj.REFILL_IN_PROCESS,
-      rxRfRecords: [],
-    }),
-    edgeCasePrescription({
-      prescriptionId: 1007,
-      prescriptionName: 'Empty rxRfRecords[0]',
-      dispStatus: dispStatusObj.REFILL_IN_PROCESS,
-      rxRfRecords: [{}],
-    }),
-    edgeCasePrescription({
-      prescriptionId: 1008,
-      prescriptionName: 'Invalid Date',
-      dispStatus: dispStatusObj.REFILL_IN_PROCESS,
-      refillDate: 'not-a-date',
-    }),
-    edgeCasePrescription({
-      prescriptionId: 1009,
-      prescriptionName: 'Timestamp Number',
-      dispStatus: dispStatusObj.REFILL_IN_PROCESS,
-      refillDate: timestamp,
-    }),
-    edgeCasePrescription({
-      prescriptionId: 1010,
-      prescriptionName: 'String Timestamp',
-      dispStatus: dispStatusObj.REFILL_IN_PROCESS,
-      refillDate: String(timestamp),
-    }),
-    edgeCasePrescription({
-      prescriptionId: 1011,
-      prescriptionName: 'Missing dispStatus',
-      refillDate: eightDaysAgo,
-    }),
-    edgeCasePrescription({
-      prescriptionId: 1012,
-      prescriptionName: 'Unexpected dispStatus',
-      dispStatus: dispStatusObj.UNKNOWN,
-      refillDate: eightDaysAgo,
-    }),
-    edgeCasePrescription({
-      prescriptionId: 1013,
-      prescriptionName: 'Boundary 7 Days',
-      dispStatus: dispStatusObj.REFILL_IN_PROCESS,
-      refillDate: sevenDaysAgo,
-    }),
-    null,
-    undefined,
-    '',
-    edgeCasePrescription({
-      prescriptionId: 1014,
-      prescriptionName: 'Non-array rxRfRecords',
-      dispStatus: dispStatusObj.REFILL_IN_PROCESS,
-      rxRfRecords: {},
-      refillDate: eightDaysAgo,
-    }),
-    edgeCasePrescription({
-      prescriptionId: 1015,
-      prescriptionName: 'Mixed Dates',
-      dispStatus: dispStatusObj.REFILL_IN_PROCESS,
-      refillDate: eightDaysAgo,
-      rxRfRecords: [{ refillDate: 'not-a-date' }, { refillDate: eightDaysAgo }],
-    }),
-  ];
   return {
     data: [
       ...mockPrescriptionArray(n),
-      mockPrescription(99, {
-        dispStatus: dispStatusObj.NON_VA,
-        dispensedDate: null,
-        facilityName: null,
-        indicationForUse: null,
-        prescriptionName: 'TACROLIMUS 1MG CAP',
+      mockPrescription(0, {
+        dispStatus: 'Active: Non-VA',
+        prescriptionName: 'Test Active Non-Va',
         prescriptionSource: 'NV',
-        providerFirstName: null,
-        providerLastName: null,
-        sig: null,
-        trackingList: [],
       }),
     ],
     meta: {
@@ -309,7 +165,6 @@ function generateMockPrescriptions(n = 20) {
         totalPages: 1,
         totalEntries: n,
       },
-      recentlyRequested,
     },
     links: {},
   };

@@ -18,24 +18,23 @@ import {
 } from '../../../helpers';
 import * as constants from '../../../config/constants';
 
-// All global.window.location assignments are skipped for node 22 upgrade
 describe('Helpers', () => {
   describe('getFormNumber', () => {
-    it.skip('returns correct path when formNumber matches', () => {
+    it('returns correct path when formNumber matches', () => {
       global.window.location = {
         pathname: '/find-forms/upload/21-0779/upload',
       };
       expect(getFormNumber()).to.eq('21-0779');
     });
 
-    it.skip('retains upper-case characters from formMappings', () => {
+    it('retains upper-case characters from formMappings', () => {
       global.window.location = {
         pathname: '/find-forms/upload/21p-0518-1/upload',
       };
       expect(getFormNumber()).to.eq('21P-0518-1');
     });
 
-    it.skip('returns empty string when formNumber does not match', () => {
+    it('returns empty string when formNumber does not match', () => {
       global.window.location = {
         pathname: 'find-forms/upload/fake-form/upload',
       };
@@ -44,7 +43,7 @@ describe('Helpers', () => {
   });
 
   describe('getFormContent', () => {
-    it.skip('returns appropriate content when the form number is mapped', () => {
+    it('returns appropriate content when the form number is mapped', () => {
       global.window.location = {
         pathname: 'find-forms/upload/21-0779/upload',
       };

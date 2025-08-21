@@ -3,9 +3,9 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
-import formConfig from '../../config/form';
-import initialData from '../schema/initialData';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
+import formConfig from '../../config/form.js';
+import initialData from '../schema/initialData.js';
 
 describe('781 choice screen', () => {
   const page = formConfig.chapters.disabilities.pages.ptsdWalkthroughChoice781;

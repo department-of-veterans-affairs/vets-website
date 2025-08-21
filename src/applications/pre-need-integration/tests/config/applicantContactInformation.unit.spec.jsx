@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import {
   uiSchema,
   schema,
-  DynamicStateSelectFieldApplicant,
+  applicantMailingAddressStateTitleWrapper,
 } from '../../config/pages/applicantContactInformation';
 import * as helpers from '../../utils/helpers';
 
@@ -160,9 +160,17 @@ describe('Applicant Address Component', () => {
       expect(padding.properties).to.deep.equal({});
     });
   });
-  describe('DynamicStateSelectFieldApplicant component', () => {
+  describe('MailingAddressStateTitle component', () => {
     it('should exist in the wrapper component', () => {
-      expect(DynamicStateSelectFieldApplicant).to.exist;
+      expect(applicantMailingAddressStateTitleWrapper).to.exist;
+      expect(applicantMailingAddressStateTitleWrapper.type.name).to.equal(
+        'MailingAddressStateTitle',
+      );
+    });
+    it('should pass correct path to MailingAddressStateTitle', () => {
+      expect(
+        applicantMailingAddressStateTitleWrapper.props.elementPath,
+      ).to.equal('application.claimant.address.country');
     });
   });
 });

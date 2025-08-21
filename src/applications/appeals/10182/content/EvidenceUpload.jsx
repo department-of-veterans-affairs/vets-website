@@ -42,7 +42,10 @@ export const EvidenceUploadDescription = (
 );
 
 export const evidenceNote = (
-  <va-additional-info trigger="How can I submit evidence that I can’t upload?">
+  <va-additional-info
+    trigger="How can I submit evidence that I can’t upload?"
+    uswds
+  >
     You have 90 days to submit evidence after the form is submitted. You can
     submit more evidence by mailing it to this address:
     {bvaAddressAndFax}

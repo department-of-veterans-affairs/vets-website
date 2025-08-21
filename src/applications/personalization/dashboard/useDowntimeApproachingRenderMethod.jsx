@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import moment from 'moment';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import externalServiceStatus from '~/platform/monitoring/DowntimeNotification/config/externalServiceStatus';
 
@@ -16,8 +15,6 @@ export default function useDowntimeApproachingRenderMethod() {
 
   return (downtime, children) => {
     if (downtime.status === externalServiceStatus.downtimeApproaching) {
-      const startTime = moment(downtime.startTime);
-      const endTime = moment(downtime.endTime);
       return (
         <>
           <VaModal
@@ -32,9 +29,10 @@ export default function useDowntimeApproachingRenderMethod() {
           >
             <p>
               We’ll be making updates to some tools and features on{' '}
-              {startTime.format('MMMM Do')} between {startTime.format('LT')} and{' '}
-              {endTime.format('LT')} If you have trouble using parts of the
-              dashboard during that time, please check back soon.
+              {downtime.startTime.format('MMMM Do')} between{' '}
+              {downtime.startTime.format('LT')} and{' '}
+              {downtime.endTime.format('LT')} If you have trouble using parts of
+              the dashboard during that time, please check back soon.
             </p>
             <va-button
               secondary

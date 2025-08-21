@@ -15,7 +15,6 @@ import {
   claimAvailable,
   getStatusMap,
   isDisabilityCompensationClaim,
-  isPensionClaim,
   setPageFocus,
   setTabDocumentTitle,
 } from '../utils/helpers';
@@ -75,8 +74,7 @@ class OverviewPage extends React.Component {
         <ClaimOverviewHeader claimTypeCode={claimTypeCode} />
         <Toggler toggleName={Toggler.TOGGLE_NAMES.cstClaimPhases}>
           <Toggler.Enabled>
-            {isDisabilityCompensationClaim(claimTypeCode) ||
-            isPensionClaim(claimTypeCode) ? (
+            {isDisabilityCompensationClaim(claimTypeCode) ? (
               <>
                 <div className="claim-phase-diagram">
                   <MobileClaimPhaseDiagram currentPhase={currentPhase} />
@@ -87,7 +85,6 @@ class OverviewPage extends React.Component {
                   currentClaimPhaseDate={claimPhaseDates.phaseChangeDate}
                   currentPhase={currentPhase}
                   currentPhaseBack={currentPhaseBack}
-                  claimTypeCode={claimTypeCode}
                 />
               </>
             ) : (

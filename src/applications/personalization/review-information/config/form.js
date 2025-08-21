@@ -28,7 +28,6 @@ const profileContactInfoPage = profileContactInfo({
   contactInfoUiSchema: {},
   contactSectionHeadingLevel: 'h2',
   editContactInfoHeadingLevel: 'h2',
-  allowInternationalPhones: true,
 });
 
 content.title = '';

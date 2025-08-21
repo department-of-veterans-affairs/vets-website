@@ -8,7 +8,6 @@ export const PROFILE_TOGGLES = {
   profileUseExperimental: false,
   profileShowQuickSubmitNotificationSetting: false,
   profileShowEmailNotificationSettings: false,
-  profileShowPaperlessDelivery: false,
 };
 
 // The values of these constants map to the possible values that come back from
@@ -51,7 +50,6 @@ export const PROFILE_PATHS = Object.freeze({
   ACCOUNT_SECURITY: '/profile/account-security',
   CONTACTS: '/profile/contacts',
   EDIT: '/profile/edit',
-  PAPERLESS_DELIVERY: '/profile/paperless-delivery',
 });
 
 export const PROFILE_PATH_NAMES = Object.freeze({
@@ -67,7 +65,6 @@ export const PROFILE_PATH_NAMES = Object.freeze({
   ACCOUNT_SECURITY: 'Account security',
   CONTACTS: 'Personal health care contacts',
   EDIT: 'Edit your information',
-  PAPERLESS_DELIVERY: 'Paperless delivery',
 });
 
 export const PROFILE_PATHS_WITH_NAMES = Object.entries(PROFILE_PATHS).map(
@@ -142,39 +139,22 @@ export const NOTIFICATION_GROUPS = Object.freeze({
   YOUR_HEALTH_CARE: 'group3',
   PAYMENTS: 'group4',
   QUICK_SUBMIT: 'group5',
-  PAPERLESS_DELIVERY: 'group6',
-});
-
-const RAW_IDS = Object.freeze({
-  APPEAL_HEARING_REMINDERS: 1,
-  HEALTH_APPOINTMENT_REMINDERS: 3,
-  PRESCRIPTION_SHIPMENT: 4,
-  DISABILITY_PENSION_DEPOSIT: 5,
-  APPEAL_STATUS_UPDATES: 6,
-  RX_REFILL: 7,
-  VA_APPOINTMENT_REMINDERS: 8,
-  SECURE_MESSAGING: 9,
-  MEDICAL_IMAGES: 10,
-  BIWEEKLY_MHV_NEWSLETTER: 11,
-  QUICK_SUBMIT: 12,
-  BENEFIT_OVERPAYMENT_DEBT: 13,
-  HEALTH_CARE_COPAY_BILL: 14,
 });
 
 export const NOTIFICATION_ITEM_IDS = Object.freeze({
-  APPEAL_HEARING_REMINDERS: `item${RAW_IDS.APPEAL_HEARING_REMINDERS}`,
-  HEALTH_APPOINTMENT_REMINDERS: `item${RAW_IDS.HEALTH_APPOINTMENT_REMINDERS}`,
-  PRESCRIPTION_SHIPMENT: `item${RAW_IDS.PRESCRIPTION_SHIPMENT}`,
-  DISABILITY_PENSION_DEPOSIT: `item${RAW_IDS.DISABILITY_PENSION_DEPOSIT}`,
-  APPEAL_STATUS_UPDATES: `item${RAW_IDS.APPEAL_STATUS_UPDATES}`,
-  RX_REFILL: `item${RAW_IDS.RX_REFILL}`,
-  VA_APPOINTMENT_REMINDERS: `item${RAW_IDS.VA_APPOINTMENT_REMINDERS}`,
-  SECURE_MESSAGING: `item${RAW_IDS.SECURE_MESSAGING}`,
-  MEDICAL_IMAGES: `item${RAW_IDS.MEDICAL_IMAGES}`,
-  BIWEEKLY_MHV_NEWSLETTER: `item${RAW_IDS.BIWEEKLY_MHV_NEWSLETTER}`,
-  QUICK_SUBMIT: `item${RAW_IDS.QUICK_SUBMIT}`,
-  BENEFIT_OVERPAYMENT_DEBT: `item${RAW_IDS.BENEFIT_OVERPAYMENT_DEBT}`,
-  HEALTH_CARE_COPAY_BILL: `item${RAW_IDS.HEALTH_CARE_COPAY_BILL}`,
+  APPEAL_HEARING_REMINDERS: 'item1',
+  HEALTH_APPOINTMENT_REMINDERS: 'item3',
+  PRESCRIPTION_SHIPMENT: 'item4',
+  DISABILITY_PENSION_DEPOSIT: 'item5',
+  APPEAL_STATUS_UPDATES: 'item6',
+  RX_REFILL: 'item7',
+  VA_APPOINTMENT_REMINDERS: 'item8',
+  SECURE_MESSAGING: 'item9',
+  MEDICAL_IMAGES: 'item10',
+  BIWEEKLY_MHV_NEWSLETTER: 'item11',
+  QUICK_SUBMIT: 'item12',
+  BENEFIT_OVERPAYMENT_DEBT: 'item13',
+  HEALTH_CARE_COPAY_BILL: 'item14',
 });
 
 export const NOTIFICATION_CHANNEL_IDS = Object.freeze({
@@ -185,15 +165,6 @@ export const NOTIFICATION_CHANNEL_IDS = Object.freeze({
 export const NOTIFICATION_CHANNEL_LABELS = Object.freeze({
   [NOTIFICATION_CHANNEL_IDS.TEXT]: 'text',
   [NOTIFICATION_CHANNEL_IDS.EMAIL]: 'email',
-});
-
-export const NOTIFICATION_CHANNEL_FIELD_DESCRIPTIONS = Object.freeze({
-  [`channel${RAW_IDS.HEALTH_APPOINTMENT_REMINDERS}-${
-    NOTIFICATION_CHANNEL_IDS.TEXT
-  }`]: "Text reminders can include facility and clinic details. We'll send you a text to opt in or out of including these details in your appointment reminders.",
-  [`channel${RAW_IDS.HEALTH_APPOINTMENT_REMINDERS}-${
-    NOTIFICATION_CHANNEL_IDS.EMAIL
-  }`]: 'Email reminders include facility and clinic details.',
 });
 
 /**

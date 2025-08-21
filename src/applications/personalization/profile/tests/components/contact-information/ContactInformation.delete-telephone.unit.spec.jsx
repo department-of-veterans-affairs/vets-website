@@ -22,16 +22,21 @@ const ui = (
 let view;
 let server;
 
-// helper function that returns the Edit or Remove va-button
-// since RTL doesn't support getByRole/getByText queries for web components
-function getVaButton(action, numberName) {
-  const label = `${action} ${numberName}`;
-  return view.container.querySelector(`va-button[label="${label}"]`);
+function getEditButton(numberName) {
+  // Need to use `queryByRole` since the visible label is simply `Edit`, but
+  // the aria-label is more descriptive
+  return view.queryByRole('button', {
+    name: new RegExp(`edit.*${numberName}`, 'i'),
+  });
 }
 
 function deletePhoneNumber(numberName) {
   // delete
-  getVaButton('Remove', numberName).click();
+  view
+    .getByLabelText(new RegExp(`remove ${numberName}`, 'i'), {
+      selector: 'button',
+    })
+    .click();
   const confirmDeleteButton = view.getByText('Yes, remove my information', {
     selector: 'button',
   });
@@ -62,9 +67,9 @@ async function testSuccess(numberName, shortNumberName) {
   await view.findByText('Update saved.');
 
   // the edit phone number button should still exist
-  expect(getVaButton('Edit', numberName)).to.exist;
+  view.getByRole('button', { name: new RegExp(`edit.*${numberName}`, 'i') });
   // and the add phone number text should exist
-  expect(view.getByText(new RegExp(`add.*${shortNumberName}`, 'i'))).to.exist;
+  view.getByText(new RegExp(`add.*${shortNumberName}`, 'i'));
 }
 
 // When the initial transaction creation request fails
@@ -79,7 +84,8 @@ async function testTransactionCreationFails(numberName) {
     { exact: false },
   );
 
-  expect(getVaButton('Edit', numberName)).to.exist;
+  const editButton = getEditButton(numberName);
+  expect(editButton).to.exist;
 }
 
 // When the update fails but not until after the Delete Modal has exited and the
@@ -110,7 +116,7 @@ async function testSlowFailure(numberName) {
   ).to.exist;
 
   // and the add/edit button should be back
-  expect(getVaButton('Edit', numberName)).to.exist;
+  expect(getEditButton(numberName)).to.exist;
 }
 
 describe('Deleting', () => {

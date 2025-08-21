@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useHeadingLevels } from './ArrayBuilderSummaryPage';
 
 const ArrayBuilderSummaryReviewPage = ({
   customPageProps,
@@ -13,9 +12,6 @@ const ArrayBuilderSummaryReviewPage = ({
   Title,
   hideAdd,
 }) => {
-  const { reviewPanelHeadingLevel } = arrayBuilderOptions;
-  const { headingLevel } = useHeadingLevels(reviewPanelHeadingLevel, true);
-  const Header = `h${headingLevel}`;
   return (
     <>
       {arrayData?.length ? (
@@ -23,7 +19,7 @@ const ArrayBuilderSummaryReviewPage = ({
       ) : (
         <>
           <div className="form-review-panel-page-header-row">
-            <Header
+            <h4
               className="form-review-panel-page-header vads-u-font-size--h5"
               data-title-for-noun-singular={`${
                 arrayBuilderOptions.nounSingular
@@ -34,7 +30,7 @@ const ArrayBuilderSummaryReviewPage = ({
                 updatedItemData,
                 customPageProps.data,
               )}
-            </Header>
+            </h4>
           </div>
           <dl className="review">
             <div className="review-row">

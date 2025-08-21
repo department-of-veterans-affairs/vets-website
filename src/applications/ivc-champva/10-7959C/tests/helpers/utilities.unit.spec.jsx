@@ -1,13 +1,10 @@
-import React from 'react';
 import { expect } from 'chai';
-import { testComponentRender } from 'applications/ivc-champva/shared/tests/pages/pageTests.spec';
 import { isRequiredFile, nameWordingExt } from '../../helpers/utilities';
 import { requiredFiles } from '../../config/constants';
 import {
   concatStreets,
   getObjectsWithAttachmentId,
   nameWording,
-  PrivWrappedReview,
 } from '../../../shared/utilities';
 import { validateText } from '../../../shared/validations';
 
@@ -109,12 +106,3 @@ describe('validateText function', () => {
     expect(validateText(testStr)).to.be.null;
   });
 });
-
-testComponentRender(
-  'PrivWrappedReview',
-  <PrivWrappedReview
-    defaultEditButton={() => {}}
-    title="Test"
-    renderedProperties={[<div key="Test1" />]}
-  />,
-);

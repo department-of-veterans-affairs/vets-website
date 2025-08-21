@@ -146,7 +146,6 @@ export const arrayBuilderItemSubsequentPageTitleUI = (
  */
 
 /**
- * uiSchema for the yes/no question in an array builder summary page. Includes array builder options, options when no cards are present, and options when cards are present.
  * @param {{
  *   arrayPath: string,
  *   nounSingular: string,
@@ -312,7 +311,4 @@ export const arrayBuilderYesNoUI = (
   };
 };
 
-/**
- * schema for arrayBuilderYesNoUI
- */
 export const arrayBuilderYesNoSchema = yesNoSchema;

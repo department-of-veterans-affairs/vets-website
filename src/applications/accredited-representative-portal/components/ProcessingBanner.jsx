@@ -2,14 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { resolutionDate } from '../utilities/poaRequests';
 
-const ProcessingBanner = ({
-  status,
-  header,
-  accepted,
-  copy,
-  date,
-  representative,
-}) => {
+const ProcessingBanner = ({ status, header, accepted, copy, date }) => {
   return (
     <va-alert status={status} visible>
       <h2>{header}</h2>
@@ -17,7 +10,7 @@ const ProcessingBanner = ({
         {accepted && (
           <>
             <p className="processing-date">
-              {representative} {accepted} {resolutionDate(date)}.
+              {accepted} {resolutionDate(date)}.
             </p>
           </>
         )}
@@ -32,7 +25,6 @@ ProcessingBanner.propTypes = {
   copy: PropTypes.string,
   date: PropTypes.string,
   header: PropTypes.object,
-  representative: PropTypes.string,
   status: PropTypes.string,
 };
 

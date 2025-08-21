@@ -54,49 +54,51 @@ describe('IntentToFile', () => {
       </div>,
     );
 
-  it('should render searching for ITF loading indicator', async () => {
+  it('should render searching for ITF loading indicator', () => {
     mockApiRequest({});
     const { container } = renderPage(getData());
 
-    await waitFor(() => {
+    waitFor(() => {
       expect($('.itf-wrapper', container)).to.exist;
       expect(
         $('va-loading-indicator', container).getAttribute('message'),
-      ).to.include('Checking if you have an existing intent to file...');
+      ).to.include(
+        'wait while we check to see if you have an existing Intent to File',
+      );
     });
   });
 
-  it('should render ITF found alert', async () => {
+  it('should render ITF found alert', () => {
     mockApiRequest(mockItfData(activeItf));
     const { container } = renderPage(getData());
 
-    await waitFor(() => {
+    waitFor(() => {
       expect($('va-alert[status="success"]', container).textContent).to.include(
-        'We have your intent to file',
+        'We’ve found your intent to file',
       );
       expect(document.activeElement?.tagName).to.equal('VA-ALERT');
     });
   });
 
-  it('should render ITF created alert', async () => {
+  it('should render ITF created alert', () => {
     mockApiRequest(mockItfData(nonActiveItf));
     const { container } = renderPage(getData());
 
-    await waitFor(() => {
+    waitFor(() => {
       expect($('va-alert[status="success"]', container).textContent).to.include(
-        'We recorded your intent to file',
+        'We automatically recorded your intent to file',
       );
       expect(document.activeElement?.tagName).to.equal('VA-ALERT');
     });
   });
 
-  it('should render ITF failed alert', async () => {
+  it('should render ITF failed alert', () => {
     mockApiRequest(mockItfData(), false);
     const { container } = renderPage(getData());
 
-    await waitFor(() => {
-      expect($('va-alert[status="warning"]', container).textContent).to.include(
-        'We’re sorry. We can’t find a record of your intent to file',
+    waitFor(() => {
+      expect($('va-alert[status="success"]', container).textContent).to.include(
+        'We tried to check for your intent to file',
       );
       expect(document.activeElement?.tagName).to.equal('VA-ALERT');
     });
@@ -152,52 +154,6 @@ describe('IntentToFile', () => {
     }).then(() => {
       expect($('.itf-wrapper', container)).to.not.exist;
       expect($('#test', container)).to.exist;
-    });
-  });
-
-  it('should not autofocus success alert when disableAutoFocus is true and ITF exists', async () => {
-    mockApiRequest(mockItfData(activeItf));
-    const { props, mockStore } = getData();
-    const { container } = render(
-      <Provider store={mockStore}>
-        <IntentToFile {...props} disableAutoFocus />
-      </Provider>,
-    );
-
-    await waitFor(() => {
-      expect($('va-alert[status="success"]', container).textContent).to.include(
-        'We have your intent to file',
-      );
-      expect(document.activeElement?.tagName).to.not.equal('VA-ALERT');
-    });
-  });
-
-  it('should not autofocus ITF created alert when disableAutoFocus is true and new ITF is created', async () => {
-    mockApiRequest(mockItfData(nonActiveItf));
-    const { props, mockStore } = getData();
-    const { container } = render(
-      <Provider store={mockStore}>
-        <IntentToFile {...props} disableAutoFocus />
-      </Provider>,
-    );
-
-    await waitFor(() => {
-      expect($('va-alert[status="success"]', container).textContent).to.include(
-        'We recorded your intent to file',
-      );
-      expect(document.activeElement?.tagName).to.not.equal('VA-ALERT');
-    });
-  });
-
-  it('should not autofocus ITF failed alert when disableAutoFocus is true and ITF lookup fails', () => {
-    mockApiRequest(mockItfData(), false);
-    const { container } = renderPage(getData());
-
-    waitFor(() => {
-      expect($('va-alert[status="success"]', container).textContent).to.include(
-        'We’re sorry. We can’t find a record of your intent to file',
-      );
-      expect(document.activeElement?.tagName).to.not.equal('VA-ALERT');
     });
   });
 });

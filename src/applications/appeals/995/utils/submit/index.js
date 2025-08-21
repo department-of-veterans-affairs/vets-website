@@ -2,7 +2,7 @@ import { CLAIMANT_TYPES } from '../../constants';
 import { MAX_LENGTH } from '../../../shared/constants';
 
 import { getHomeless } from './homeless';
-import { getAddress, getEmail } from './veteran';
+import { getAddress, getPhone, getEmail } from './veteran';
 import {
   getTreatmentDate,
   hasDuplicateLocation,
@@ -45,6 +45,7 @@ export const getClaimantData = ({
 export {
   getHomeless,
   getAddress,
+  getPhone,
   getEmail,
   getTreatmentDate,
   hasDuplicateLocation,

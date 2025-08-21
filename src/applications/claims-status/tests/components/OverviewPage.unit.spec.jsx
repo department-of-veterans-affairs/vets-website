@@ -131,37 +131,6 @@ const closedDependencyClaim = {
   },
 };
 
-const openPensionClaim = {
-  id: '1',
-  type: 'claim',
-  attributes: {
-    claimTypeCode: '180ORGPENPMC',
-    claimDate: '2025-01-23',
-    claimPhaseDates: {
-      phaseChangeDate: '2025-01-23',
-      currentPhaseBack: false,
-      latestPhaseType: 'GATHERING_OF_EVIDENCE',
-      previousPhases: {
-        phase2CompleteDate: '2025-01-23',
-        phase1CompleteDate: '2025-01-23',
-      },
-    },
-    claimType: 'Pension',
-    closeDate: null,
-    contentions: [
-      {
-        name: 'pension (New)',
-      },
-      {
-        name: 'veteran pension (New)',
-      },
-    ],
-    status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
-    trackedItems: [],
-    canUpload: true,
-  },
-};
-
 describe('<OverviewPage>', () => {
   const getStore = (cstClaimPhasesEnabled = true) =>
     createStore(() => ({
@@ -344,35 +313,6 @@ describe('<OverviewPage>', () => {
         getByText('Overview of the claim process');
         getByText(
           'There are 8 steps in the claim process. It’s common for claims to repeat steps 3 to 6 if we need more information.',
-        );
-        expect($('.claim-phase-diagram', container)).to.exist;
-        expect($('.claim-phase-stepper', container)).to.exist;
-        expect($('.claim-timeline', container)).to.not.exist;
-      });
-    });
-    context('when claim is open and pension claim', () => {
-      it('should render empty content when loading', () => {
-        const { container } = renderWithRouter(
-          <Provider store={getStore()}>
-            <OverviewPage claim={openPensionClaim} {...props} loading />
-          </Provider>,
-        );
-        const overviewSection = $('.overview-container', container);
-        expect(overviewSection).to.not.exist;
-        expect($('va-loading-indicator', container)).to.exist;
-      });
-
-      it('should render overview header, claim phase diagram and stepper', () => {
-        const { container, getByText } = renderWithRouter(
-          <Provider store={getStore()}>
-            <OverviewPage {...props} claim={openPensionClaim} />
-          </Provider>,
-        );
-        const overviewPage = $('#tabPanelFiles', container);
-        expect(overviewPage).to.exist;
-        getByText('Veterans Pension benefits claim process');
-        getByText(
-          'There are 8 steps in the claim process. You may need to repeat steps 3 to 6 if we need more information.',
         );
         expect($('.claim-phase-diagram', container)).to.exist;
         expect($('.claim-phase-stepper', container)).to.exist;

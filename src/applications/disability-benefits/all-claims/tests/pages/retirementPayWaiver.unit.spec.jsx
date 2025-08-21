@@ -1,9 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import { mount } from 'enzyme';
-import { waitFor } from '@testing-library/dom';
 import formConfig from '../../config/form';
 
 describe('Retirement Pay Waiver', () => {
@@ -12,7 +11,7 @@ describe('Retirement Pay Waiver', () => {
     uiSchema,
   } = formConfig.chapters.additionalInformation.pages.retirementPayWaiver;
 
-  it('should render two radio options by default', async () => {
+  it('should render two radio options by default', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -27,7 +26,7 @@ describe('Retirement Pay Waiver', () => {
     form.unmount();
   });
 
-  it('should submit when an option is selected', async () => {
+  it('should submit when an option is selected', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -40,15 +39,13 @@ describe('Retirement Pay Waiver', () => {
       />,
     );
 
-    await waitFor(() => {
-      form.find('form').simulate('submit');
-      expect(form.find('.usa-input-error-message').length).to.equal(0);
-      expect(onSubmit.calledOnce).to.be.true;
-    });
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error-message').length).to.equal(0);
+    expect(onSubmit.calledOnce).to.be.true;
     form.unmount();
   });
 
-  it('should fail to submit when neither option is selected', async () => {
+  it('should fail to submit when neither option is selected', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -61,11 +58,9 @@ describe('Retirement Pay Waiver', () => {
       />,
     );
 
-    await waitFor(() => {
-      form.find('form').simulate('submit');
-      expect(form.find('.usa-input-error-message').length).to.equal(1);
-      expect(onSubmit.called).to.be.false;
-    });
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error-message').length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
     form.unmount();
   });
 });

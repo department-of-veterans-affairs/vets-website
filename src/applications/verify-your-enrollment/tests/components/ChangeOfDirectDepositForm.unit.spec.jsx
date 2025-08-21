@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import {
   getFormDOM,
@@ -25,7 +25,7 @@ describe('Change Of Direct Deposit Form', () => {
     expect(wrapper).to.be.not.null;
   });
 
-  it('Should not submit blank form', async () => {
+  it('Should not submit blank form', () => {
     const screen = render(
       <DefinitionTester
         pagePerItemIndex={0}
@@ -40,14 +40,12 @@ describe('Change Of Direct Deposit Form', () => {
     const formDOM = getFormDOM(screen);
     formDOM.submitForm();
 
-    await waitFor(() => {
-      expect(
-        formDOM.querySelectorAll('.usa-input-error-message').length,
-      ).to.equal(7);
-    });
+    expect(
+      formDOM.querySelectorAll('.usa-input-error-message').length,
+    ).to.equal(7);
   });
 
-  it('Should raise one error with the account validation', async () => {
+  it('Should raise one error with the account validation', () => {
     const screen = render(
       <DefinitionTester
         pagePerItemIndex={0}
@@ -105,9 +103,7 @@ describe('Change Of Direct Deposit Form', () => {
 
     formDOM.submitForm();
 
-    await waitFor(() => {
-      expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
-    });
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
   });
 
   it('Should submit form', async () => {
@@ -164,9 +160,6 @@ describe('Change Of Direct Deposit Form', () => {
     expect(accountNumber.value).to.equal('123');
     expect(verifyAccountNumber.value).to.equal('123');
     formDOM.submitForm();
-
-    await waitFor(() => {
-      expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
-    });
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
   });
 });

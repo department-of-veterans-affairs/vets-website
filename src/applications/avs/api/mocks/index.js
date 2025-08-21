@@ -21,10 +21,7 @@ const responses = {
     const secondsOfDelay = 1;
     const { data } = avs.data(req.params.id);
     if (!data.data) {
-      return res.status(404).json(avs.notFoundError);
-      // return res.status(401).json(avs.unauthorizedError);
-      // return res.status(400).json(avs.badRequestError);
-      // return res.status(500).json(data);
+      return res.status(404).json(data);
     }
     return delaySingleResponse(() => res.json(data), secondsOfDelay);
   },

@@ -141,7 +141,6 @@ const AddressPage = ({
         </div>
       </SmocRadio>
       <HelpTextOptions
-        dataTestId="address-help-text"
         trigger="If you didn't travel from your home address"
         headline="If you traveled from a different address, you can’t file a claim in this tool right now."
       />

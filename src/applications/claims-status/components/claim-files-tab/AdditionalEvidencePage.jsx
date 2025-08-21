@@ -2,16 +2,26 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import { getScrollOptions, Element, scrollTo } from 'platform/utilities/scroll';
+
 import AddFilesForm from './AddFilesForm';
 import Notification from '../Notification';
 import FilesOptional from './FilesOptional';
 import FilesNeeded from './FilesNeeded';
 
-import { setPageFocus, focusNotificationAlert } from '../../utils/page';
+import { benefitsDocumentsUseLighthouse } from '../../selectors';
+import { setFocus, setPageFocus } from '../../utils/page';
 import {
+  addFile,
+  removeFile,
   submitFiles,
+  // START lighthouse_migration
+  submitFilesLighthouse,
+  // END lighthouse_migration
+  updateField,
   cancelUpload,
   getClaim as getClaimAction,
+  setFieldsDirty,
   resetUploads,
   clearAdditionalEvidenceNotification,
 } from '../../actions';
@@ -21,6 +31,15 @@ import {
   isClaimOpen,
 } from '../../utils/helpers';
 import withRouter from '../../utils/withRouter';
+
+const scrollToError = () => {
+  const options = getScrollOptions({ offset: -25 });
+
+  setTimeout(() => {
+    scrollTo('uploadError', options);
+    setFocus('.usa-alert-error');
+  });
+};
 
 const filesPath = `../files`;
 
@@ -38,6 +57,9 @@ class AdditionalEvidencePage extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
+    if (this.props.message && !prevProps.message) {
+      scrollToError();
+    }
     if (!this.props.loading && prevProps.loading) {
       setPageFocus();
     }
@@ -52,8 +74,14 @@ class AdditionalEvidencePage extends React.Component {
     }
   }
 
-  onSubmitFiles(claimId, files) {
-    this.props.submitFiles(claimId, null, files);
+  onSubmitFiles(claimId) {
+    // START lighthouse_migration
+    if (this.props.documentsUseLighthouse) {
+      this.props.submitFilesLighthouse(claimId, null, this.props.files);
+    } else {
+      this.props.submitFiles(claimId, null, this.props.files);
+    }
+    // END lighthouse_migration
   }
 
   scrollToSection = () => {
@@ -68,7 +96,7 @@ class AdditionalEvidencePage extends React.Component {
   }
 
   render() {
-    const { claim } = this.props;
+    const { claim, lastPage } = this.props;
 
     let content;
 
@@ -86,15 +114,16 @@ class AdditionalEvidencePage extends React.Component {
       );
     } else {
       const { message, filesNeeded } = this.props;
+
       content = (
         <div className="additional-evidence-container">
           {message && (
             <>
+              <Element name="uploadError" />
               <Notification
                 title={message.title}
                 body={message.body}
                 type={message.type}
-                onSetFocus={focusNotificationAlert}
               />
             </>
           )}
@@ -118,11 +147,20 @@ class AdditionalEvidencePage extends React.Component {
                 <FilesOptional key={item.id} id={claim.id} item={item} />
               ))}
               <AddFilesForm
-                fileTab
+                field={this.props.uploadField}
                 progress={this.props.progress}
                 uploading={this.props.uploading}
+                files={this.props.files}
+                backUrl={lastPage ? `/${lastPage}` : filesPath}
+                onSubmit={() => {
+                  this.onSubmitFiles(claim.id);
+                }}
+                onAddFile={this.props.addFile}
+                onRemoveFile={this.props.removeFile}
+                onFieldChange={this.props.updateField}
                 onCancel={this.props.cancelUpload}
-                onSubmit={files => this.onSubmitFiles(claim.id, files)}
+                onDirtyFields={this.props.setFieldsDirty}
+                fileTab
               />
             </>
           ) : (
@@ -152,41 +190,64 @@ function mapStateToProps(state) {
   return {
     loading: claimsState.claimDetail.loading,
     claim,
+    files: claimsState.uploads.files,
     uploading: claimsState.uploads.uploading,
     progress: claimsState.uploads.progress,
     uploadError: claimsState.uploads.uploadError,
     uploadComplete: claimsState.uploads.uploadComplete,
+    uploadField: claimsState.uploads.uploadField,
+    lastPage: claimsState.routing.lastPage,
     message: claimsState.notifications.additionalEvidenceMessage,
     filesNeeded: getFilesNeeded(trackedItems),
     filesOptional: getFilesOptional(trackedItems),
+    // START lighthouse_migration
+    documentsUseLighthouse: benefitsDocumentsUseLighthouse(state),
+    // END lighthouse_migration
   };
 }
 
 const mapDispatchToProps = {
+  addFile,
+  removeFile,
   submitFiles,
+  updateField,
   cancelUpload,
   getClaim: getClaimAction,
+  submitFilesLighthouse,
+  setFieldsDirty,
   resetUploads,
   clearAdditionalEvidenceNotification,
 };
 
 AdditionalEvidencePage.propTypes = {
+  addFile: PropTypes.func,
   cancelUpload: PropTypes.func,
   claim: PropTypes.object,
   clearAdditionalEvidenceNotification: PropTypes.func,
+  // START lighthouse_migration
+  documentsUseLighthouse: PropTypes.bool,
+  // END lighthouse_migration
+  files: PropTypes.array,
   filesNeeded: PropTypes.array,
   filesOptional: PropTypes.array,
   getClaim: PropTypes.func,
+  lastPage: PropTypes.string,
   loading: PropTypes.bool,
   location: PropTypes.object,
   message: PropTypes.object,
   navigate: PropTypes.func,
   params: PropTypes.object,
   progress: PropTypes.number,
+  removeFile: PropTypes.func,
   resetUploads: PropTypes.func,
+  setFieldsDirty: PropTypes.func,
   submitFiles: PropTypes.func,
+  // START lighthouse_migration
+  submitFilesLighthouse: PropTypes.func,
+  // END lighthouse_migration
+  updateField: PropTypes.func,
   uploadComplete: PropTypes.bool,
-  uploadError: PropTypes.bool,
+  uploadField: PropTypes.object,
   uploading: PropTypes.bool,
 };
 

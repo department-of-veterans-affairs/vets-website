@@ -1,13 +1,13 @@
-import 'platform/polyfills';
+import '@department-of-veterans-affairs/platform-polyfills';
 import './sass/dispute-debt.scss';
 
-import startApp from 'platform/startup';
+import { startAppFromIndex } from '@department-of-veterans-affairs/platform-startup/exports';
 
 import routes from './routes';
 import reducer from './reducers';
 import manifest from './manifest.json';
 
-startApp({
+startAppFromIndex({
   entryName: manifest.entryName,
   url: manifest.rootUrl,
   reducer,

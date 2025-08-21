@@ -77,7 +77,7 @@ export default function RenderErrorContainer({
           <h2>What you can do:</h2>
           <va-button onClick={openLoginModal} text="Try signing in again" />
           <ContactCenterInformation
-            startSentence
+            startSentance
             className="vads-u-display--block vads-u-margin-top--2"
           />
         </>
@@ -206,7 +206,7 @@ export default function RenderErrorContainer({
       troubleshootingContent = (
         <>
           <h2>What you can do:</h2>
-          <ContactCenterInformation startSentence />
+          <ContactCenterInformation startSentance />
         </>
       );
       break;
@@ -223,7 +223,7 @@ export default function RenderErrorContainer({
       troubleshootingContent = (
         <>
           <h2>To fix this issue:</h2>
-          <ContactCenterInformation startSentence />
+          <ContactCenterInformation startSentance />
         </>
       );
       break;
@@ -239,7 +239,7 @@ export default function RenderErrorContainer({
       troubleshootingContent = (
         <>
           <h2>To fix this issue:</h2>
-          <ContactCenterInformation startSentence />
+          <ContactCenterInformation startSentance />
         </>
       );
       break;
@@ -255,7 +255,7 @@ export default function RenderErrorContainer({
       troubleshootingContent = (
         <>
           <h2>To fix this issue:</h2>
-          <ContactCenterInformation startSentence />
+          <ContactCenterInformation startSentance />
         </>
       );
       break;
@@ -400,7 +400,7 @@ export default function RenderErrorContainer({
         <>
           <h2>How can I fix this issue?</h2>
           <p>Try signing in again in a few minutes.</p>
-          <ContactCenterInformation startSentence />
+          <ContactCenterInformation startSentance />
         </>
       );
       break;
@@ -415,7 +415,7 @@ export default function RenderErrorContainer({
       troubleshootingContent = (
         <>
           <h2>How can I fix this issue?</h2>
-          <ContactCenterInformation startSentence />
+          <ContactCenterInformation startSentance />
         </>
       );
       break;

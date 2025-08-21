@@ -1,7 +1,5 @@
 {
   "data": {
-    "isLoggedIn": true,
-    "dateReceivedByVa": false,
     "incomeNetWorthDateRange": {
       "from": "2023-07-01",
       "to": "2024-01-01"
@@ -10,11 +8,7 @@
       "first": "John",
       "last": "Doe"
     },
-    "otherVeteranFullName": {
-      "first": "Jane",
-      "last": "Doe"
-    },
-    "otherVeteranSocialSecurityNumber": "987654321",
+    "veteranSocialSecurityNumber": "321654987",
     "claimantFullName": {
       "first": "Jane",
       "last": "Doe"

@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { scrollToTop } from 'platform/utilities/scroll';
 import withRouter from '../utils/withRouter';
 
@@ -18,7 +17,6 @@ import {
 
 import AppealListItem from '../components/appeals-v2/AppealListItem';
 import AppealsUnavailable from '../components/AppealsUnavailable';
-import ClaimCardLoadingSkeleton from '../components/ClaimCard/ClaimCardLoadingSkeleton';
 import NeedHelp from '../components/NeedHelp';
 import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
@@ -79,14 +77,11 @@ class YourClaimsPageV2 extends React.Component {
     }
 
     getStemClaims();
-    if (!this.props.isSmoothLoadingEnabled) {
-      if (claimsLoading && appealsLoading && stemClaimsLoading) {
-        scrollToTop();
-      } else {
-        setUpPage();
-      }
+
+    if (claimsLoading && appealsLoading && stemClaimsLoading) {
+      scrollToTop();
     } else {
-      focusElement('h1');
+      setUpPage();
     }
   }
 
@@ -194,13 +189,9 @@ class YourClaimsPageV2 extends React.Component {
       claimsLoading || appealsLoading || stemClaimsLoading;
     const emptyList = !(list && list.length);
     if (allRequestsLoading || (atLeastOneRequestLoading && emptyList)) {
-      if (this.props.isSmoothLoadingEnabled) {
-        content = <ClaimCardLoadingSkeleton />;
-      } else {
-        content = (
-          <va-loading-indicator message="Loading your claims and appeals..." />
-        );
-      }
+      content = (
+        <va-loading-indicator message="Loading your claims and appeals..." />
+      );
     } else if (!emptyList) {
       const listLen = list.length;
       const numPages = Math.ceil(listLen / ITEMS_PER_PAGE);
@@ -221,14 +212,10 @@ class YourClaimsPageV2 extends React.Component {
         <>
           {pageInfo}
           <div className="claim-list">
-            {!this.props.isSmoothLoadingEnabled &&
-              atLeastOneRequestLoading && (
-                <va-loading-indicator message="Loading your claims and appeals..." />
-              )}
-            {pageItems.map(claim => this.renderListItem(claim))}
-            {this.props.isSmoothLoadingEnabled && (
-              <ClaimCardLoadingSkeleton isLoading={atLeastOneRequestLoading} />
+            {atLeastOneRequestLoading && (
+              <va-loading-indicator message="Loading your claims and appeals..." />
             )}
+            {pageItems.map(claim => this.renderListItem(claim))}
             {shouldPaginate && (
               <VaPagination
                 page={this.state.page}
@@ -245,53 +232,29 @@ class YourClaimsPageV2 extends React.Component {
 
     return (
       <>
-        {!this.props.isSmoothLoadingEnabled && <div name="topScrollElement" />}
+        <div name="topScrollElement" />
         <article className="row">
           <div className="usa-width-two-thirds medium-8 columns">
-            <div
-              className={`${
-                this.props.isSmoothLoadingEnabled
-                  ? 'breadcrumbs-loading-container'
-                  : ''
-              }`}
-            >
-              <ClaimsBreadcrumbs />
-            </div>
+            <ClaimsBreadcrumbs />
             <h1 className="claims-container-title">
               Check your claim, decision review, or appeal status
             </h1>
-            <div
-              className={`${
-                this.props.isSmoothLoadingEnabled
-                  ? 'on-this-page-loading-container'
-                  : ''
-              }`}
-            >
-              <va-on-this-page />
-            </div>
+            <va-on-this-page />
             <h2 id="your-claims-or-appeals" className="vads-u-margin-top--2p5">
               Your claims, decision reviews, or appeals
             </h2>
             <div>{this.renderErrorMessages()}</div>
-            <div
-              className={`${
-                this.props.isSmoothLoadingEnabled
-                  ? 'additional-info-loading-container'
-                  : ''
-              }`}
+            <va-additional-info
+              id="claims-combined"
+              class="claims-combined"
+              trigger="Find out why we sometimes combine claims."
             >
-              <va-additional-info
-                id="claims-combined"
-                class="claims-combined"
-                trigger="Find out why we sometimes combine claims."
-              >
-                <div>
-                  If you turn in a new claim while we’re reviewing another one
-                  from you, we’ll add any new information to the original claim
-                  and close the new claim, with no action required from you.
-                </div>
-              </va-additional-info>
-            </div>
+              <div>
+                If you turn in a new claim while we’re reviewing another one
+                from you, we’ll add any new information to the original claim
+                and close the new claim, with no action required from you.
+              </div>
+            </va-additional-info>
             {content}
             <ClaimLetterSection />
             <h2 id="what-if-i-dont-see-my-appeal">
@@ -323,7 +286,6 @@ YourClaimsPageV2.propTypes = {
   getAppealsV2: PropTypes.func,
   getClaims: PropTypes.func,
   getStemClaims: PropTypes.func,
-  isSmoothLoadingEnabled: PropTypes.bool,
   list: PropTypes.arrayOf(
     PropTypes.shape({
       type: PropTypes.string,
@@ -345,9 +307,6 @@ function mapStateToProps(state) {
   const canAccessClaims = services.includes(backendServices.LIGHTHOUSE);
   const stemAutomatedDecision = toggleValues(state)[
     FEATURE_FLAG_NAMES.stemAutomatedDecision
-  ];
-  const isSmoothLoadingEnabled = toggleValues(state)[
-    FEATURE_FLAG_NAMES.cstSmoothLoadingExperience
   ];
 
   const stemClaims = stemAutomatedDecision ? claimsV2Root.stemClaims : [];
@@ -387,7 +346,6 @@ function mapStateToProps(state) {
     claimsAvailable: claimsV2Root.claimsAvailability,
     claimsLoading: claimsV2Root.claimsLoading,
     fullName: state.user.profile.userFullName,
-    isSmoothLoadingEnabled,
     list: groupClaimsByDocsNeeded(sortedList),
     stemClaimsLoading: claimsV2Root.stemClaimsLoading,
   };

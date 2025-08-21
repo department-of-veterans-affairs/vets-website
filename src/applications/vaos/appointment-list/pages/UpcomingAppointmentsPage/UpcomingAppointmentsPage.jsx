@@ -1,6 +1,6 @@
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import classNames from 'classnames';
-import { format, parseISO } from 'date-fns';
+import moment from 'moment';
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -64,9 +64,9 @@ export default function UpcomingAppointmentsPage() {
     return (
       <InfoAlert
         status="error"
-        headline="We can’t access your appointments right now"
+        headline="We’re sorry. We’ve run into a problem"
       >
-        We’re sorry. There’s a problem with our system. Refresh this page or try
+        We’re having trouble getting your upcoming appointments. Please try
         again later.
       </InfoAlert>
     );
@@ -82,7 +82,7 @@ export default function UpcomingAppointmentsPage() {
       </div>
 
       {keys.map((key, index) => {
-        const monthDate = parseISO(key, 'yyyy-MM');
+        const monthDate = moment(key, 'YYYY-MM');
 
         let hashTable = appointmentsByMonth;
         hashTable = groupAppointmentByDay(hashTable[key]);
@@ -94,9 +94,8 @@ export default function UpcomingAppointmentsPage() {
                 'vads-u-margin-top--0': index === 0,
               })}
               data-testid="appointment-list-header"
-              data-dd-privacy="mask"
             >
-              {format(monthDate, 'MMMM yyyy')}
+              {monthDate.format('MMMM YYYY')}
             </h2>
             {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
             <ul
@@ -106,8 +105,7 @@ export default function UpcomingAppointmentsPage() {
                 'vads-u-border-bottom--1px',
                 'vads-u-border-color--gray-medium',
               )}
-              data-testid={`appointment-list-${format(monthDate, 'yyyy-MM')}`}
-              data-dd-privacy="mask"
+              data-testid={`appointment-list-${monthDate.format('YYYY-MM')}`}
               role="list"
             >
               {UpcomingAppointmentLayout({

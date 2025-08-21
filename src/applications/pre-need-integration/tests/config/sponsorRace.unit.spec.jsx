@@ -2,7 +2,6 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
-import { render, fireEvent, waitFor } from '@testing-library/react';
 
 import {
   DefinitionTester,
@@ -30,9 +29,9 @@ describe('Pre-need applicant demographics', () => {
     form.unmount();
   });
 
-  it('should not submit empty form', async () => {
+  it('should not submit empty form', () => {
     const onSubmit = sinon.spy();
-    const { container } = render(
+    const form = mount(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
@@ -41,16 +40,12 @@ describe('Pre-need applicant demographics', () => {
       />,
     );
 
-    fireEvent.submit(container.querySelector('form'));
+    form.find('form').simulate('submit');
 
-    await waitFor(() => {
-      // Check for input error styling and va-checkbox-group error attribute
-      expect(container.querySelectorAll('.usa-input-error').length).to.equal(1);
-      expect(
-        container.querySelectorAll('va-checkbox-group[error]').length,
-      ).to.equal(1);
-      expect(onSubmit.called).to.be.false;
-    });
+    expect(form.find('.usa-input-error').length).to.equal(1);
+    expect(form.find('va-checkbox-group[error]').length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('should check required boxes', () => {

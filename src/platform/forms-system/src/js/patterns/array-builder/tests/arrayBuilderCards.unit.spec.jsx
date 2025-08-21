@@ -99,11 +99,11 @@ describe('ArrayBuilderCards', () => {
   }
 
   it('should render proper text for ArrayBuilderCards', () => {
-    const { container, getByText, getText } = setupArrayBuilderCards({
+    const { getByText, getText } = setupArrayBuilderCards({
       arrayData: [{ name: 'Test' }],
     });
 
-    expect(container.querySelector('va-link[text="Edit"]')).to.exist;
+    expect(getByText('Edit')).to.exist;
     expect(getText.calledWith('cardDescription')).to.be.true;
     expect(getText.calledWith('getItemName')).to.be.true;
     expect(getByText('getItemName 1')).to.exist;
@@ -144,13 +144,13 @@ describe('ArrayBuilderCards', () => {
   it('should pass full data into cardDescription', () => {
     const cardDescriptionSpy = sinon.spy();
     const getItemNameSpy = sinon.spy();
-    const { container, getText } = setupArrayBuilderCards({
+    const { getByText, getText } = setupArrayBuilderCards({
       arrayData: [{ name: 'Test' }],
       cardDescription: cardDescriptionSpy,
       getItemName: getItemNameSpy,
     });
 
-    expect(container.querySelector('va-link[text="Edit"]')).to.exist;
+    expect(getByText('Edit')).to.exist;
     expect(getText.calledWith('cardDescription')).to.be.true;
     expect(getText.calledWith('getItemName')).to.be.true;
     const functionArgs = [

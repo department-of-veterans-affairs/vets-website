@@ -1,11 +1,11 @@
 import _ from 'lodash';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
-import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import { grossIncomeAdditionalInfo } from '../content/recentEarnedIncome';
+import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import {
   unemployabilityTitle,
   unemployabilityPageTitle,
 } from '../content/unemployabilityFormIntro';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 const {
   past12MonthsEarnedIncome,

@@ -1,10 +1,8 @@
-export * from './addressDeprecatedPattern';
 export * from './addressPattern';
 export * from './arnPattern';
 export * from './arrayBuilderPatterns';
 export * from './bankPattern';
 export * from './checkboxGroupPattern';
-export * from './checkboxPattern';
 export * from './currencyPattern';
 export * from './datePatterns';
 export * from './emailPattern';
@@ -19,4 +17,3 @@ export * from './ssnPattern';
 export * from './textPatterns';
 export * from './titlePattern';
 export * from './yesNoPattern';
-export * from './internationalPhonePattern';

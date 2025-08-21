@@ -186,4 +186,21 @@ describe('Enrollment Verification Page Tests', () => {
     cy.visit('/education/verify-school-enrollment/mgib-enrollments/');
     cy.get('a[href="/verify"]').should('contain', 'Verify your identity');
   });
+  it('should show Maintenance Alet if toggle is off', () => {
+    cy.injectAxeThenAxeCheck();
+    cy.intercept('GET', '/v0/feature_toggles*', {
+      data: {
+        type: 'feature_toggles',
+        features: [
+          { name: 'toggle_vye_application', value: false },
+          { name: 'mgib_verifications_maintenance', value: true },
+        ],
+      },
+    });
+    cy.visit('/education/verify-school-enrollment/mgib-enrollments/');
+    cy.get('h2[id="maintenance-alert"]').should(
+      'contain',
+      'System Maintenance',
+    );
+  });
 });

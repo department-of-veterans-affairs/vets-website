@@ -10,6 +10,7 @@ import {
 import * as constants from '../../constants';
 
 import {
+  addFile,
   cancelUpload,
   clearAdditionalEvidenceNotification,
   clearClaim,
@@ -18,14 +19,18 @@ import {
   getClaim,
   getClaimLetters,
   getStemClaims,
+  removeFile,
   resetUploads,
   setAdditionalEvidenceNotification,
+  setFieldsDirty,
   setLastPage,
   setNotification,
+  updateField,
   submit5103,
 } from '../../actions';
 
 import {
+  ADD_FILE,
   CANCEL_UPLOAD,
   CLEAR_CLAIM_DETAIL,
   CLEAR_NOTIFICATION,
@@ -33,13 +38,16 @@ import {
   GET_CLAIM_DETAIL,
   SET_CLAIM_DETAIL,
   SET_CLAIMS_UNAVAILABLE,
+  REMOVE_FILE,
   RESET_UPLOADS,
   SET_DECISION_REQUEST_ERROR,
   SET_DECISION_REQUESTED,
+  SET_FIELDS_DIRTY,
   SET_LAST_PAGE,
   SET_NOTIFICATION,
   SET_ADDITIONAL_EVIDENCE_NOTIFICATION,
   SUBMIT_DECISION_REQUEST,
+  UPDATE_FIELD,
   FETCH_CLAIMS_PENDING,
   FETCH_CLAIMS_ERROR,
   FETCH_STEM_CLAIMS_ERROR,
@@ -61,22 +69,25 @@ describe('Actions', () => {
     });
   });
   describe('submit5103', () => {
+    let expectedUrl;
     const server = setupServer();
 
     before(() => {
       server.listen();
     });
 
+    beforeEach(() => {
+      server.events.on('request:start', req => {
+        expectedUrl = req.url.href;
+      });
+    });
+
     afterEach(() => {
       server.resetHandlers();
+      expectedUrl = undefined;
     });
 
     after(() => server.close());
-
-    // TODO: This test has been simplified due to Node 22 compatibility issues.
-    // Original test expected 3 dispatches: SUBMIT_DECISION_REQUEST, SET_DECISION_REQUESTED, and SET_NOTIFICATION
-    // Node 22 only dispatches the first 2, causing timeouts.
-    // This should be investigated and properly fixed to test the full notification flow.
 
     context('when cstClaimPhasesEnabled is true', () => {
       it('should submit request and set notification', done => {
@@ -98,34 +109,28 @@ describe('Actions', () => {
 
         const thunk = submit5103(ID, 12345, true);
         const dispatchSpy = sinon.spy();
-        let dispatches = 0;
-        let testCompleted = false;
-
-        const completeTest = () => {
-          if (testCompleted) return;
-          testCompleted = true;
-
-          expect(dispatchSpy.callCount).to.be.at.least(2);
-          expect(dispatchSpy.firstCall.args[0].type).to.eql(
-            SUBMIT_DECISION_REQUEST,
-          );
-          expect(dispatchSpy.secondCall.args[0].type).to.be.oneOf([
-            SET_DECISION_REQUESTED,
-            'SET_DECISION_REQUEST_ERROR',
-          ]);
-          done();
+        const dispatch = action => {
+          dispatchSpy(action);
+          if (dispatchSpy.callCount === 3) {
+            expect(expectedUrl).to.contain('5/submit5103');
+            expect(dispatchSpy.firstCall.args[0]).to.eql({
+              type: SUBMIT_DECISION_REQUEST,
+            });
+            expect(dispatchSpy.secondCall.args[0]).to.eql({
+              type: SET_DECISION_REQUESTED,
+            });
+            expect(dispatchSpy.thirdCall.args[0].type).to.eql(SET_NOTIFICATION);
+            expect(dispatchSpy.thirdCall.args[0].message.title).to.eql(
+              'We received your evidence waiver',
+            );
+            expect(dispatchSpy.thirdCall.args[0].message.body).to.eql(
+              'Thank you. We’ll move your claim to the next step as soon as possible.',
+            );
+            done();
+          }
         };
 
-        thunk(action => {
-          dispatchSpy(action);
-          dispatches += 1;
-
-          if (dispatches === 2) {
-            setTimeout(completeTest, 100);
-          } else if (dispatches === 3) {
-            completeTest();
-          }
-        });
+        thunk(dispatch);
       });
     });
 
@@ -149,34 +154,28 @@ describe('Actions', () => {
 
         const thunk = submit5103(ID);
         const dispatchSpy = sinon.spy();
-        let dispatches = 0;
-        let testCompleted = false;
-
-        const completeTest = () => {
-          if (testCompleted) return;
-          testCompleted = true;
-
-          expect(dispatchSpy.callCount).to.be.at.least(2);
-          expect(dispatchSpy.firstCall.args[0].type).to.eql(
-            SUBMIT_DECISION_REQUEST,
-          );
-          expect(dispatchSpy.secondCall.args[0].type).to.be.oneOf([
-            SET_DECISION_REQUESTED,
-            'SET_DECISION_REQUEST_ERROR',
-          ]);
-          done();
+        const dispatch = action => {
+          dispatchSpy(action);
+          if (dispatchSpy.callCount === 3) {
+            expect(expectedUrl).to.contain('5/submit5103');
+            expect(dispatchSpy.firstCall.args[0]).to.eql({
+              type: SUBMIT_DECISION_REQUEST,
+            });
+            expect(dispatchSpy.secondCall.args[0]).to.eql({
+              type: SET_DECISION_REQUESTED,
+            });
+            expect(dispatchSpy.thirdCall.args[0].type).to.eql(SET_NOTIFICATION);
+            expect(dispatchSpy.thirdCall.args[0].message.title).to.eql(
+              'Request received',
+            );
+            expect(dispatchSpy.thirdCall.args[0].message.body).to.eql(
+              'Thank you. We have your claim request and will make a decision.',
+            );
+            done();
+          }
         };
 
-        thunk(action => {
-          dispatchSpy(action);
-          dispatches += 1;
-
-          if (dispatches === 2) {
-            setTimeout(completeTest, 100);
-          } else if (dispatches === 3) {
-            completeTest();
-          }
-        });
+        thunk(dispatch);
       });
 
       it('should fail on error', done => {
@@ -347,6 +346,38 @@ describe('Actions', () => {
       });
     });
   });
+  describe('addFile', () => {
+    it('should return the correct action object', () => {
+      const action = addFile('Testing');
+
+      expect(action).to.eql({
+        type: ADD_FILE,
+        files: 'Testing',
+        isEncrypted: false,
+      });
+    });
+  });
+  describe('addFile with encrypted flag', () => {
+    it('should return the correct action object', () => {
+      const action = addFile('Testing', { isEncrypted: true });
+
+      expect(action).to.eql({
+        type: ADD_FILE,
+        files: 'Testing',
+        isEncrypted: true,
+      });
+    });
+  });
+  describe('removeFile', () => {
+    it('should return the correct action object', () => {
+      const action = removeFile(1);
+
+      expect(action).to.eql({
+        type: REMOVE_FILE,
+        index: 1,
+      });
+    });
+  });
   describe('clearNotification', () => {
     it('should return the correct action object', () => {
       const action = clearNotification();
@@ -362,6 +393,26 @@ describe('Actions', () => {
 
       expect(action).to.eql({
         type: CLEAR_ADDITIONAL_EVIDENCE_NOTIFICATION,
+      });
+    });
+  });
+  describe('updateField', () => {
+    it('should return the correct action object', () => {
+      const action = updateField('path', 'field');
+
+      expect(action).to.eql({
+        type: UPDATE_FIELD,
+        path: 'path',
+        field: 'field',
+      });
+    });
+  });
+  describe('setFieldsDirty', () => {
+    it('should return the correct action object', () => {
+      const action = setFieldsDirty();
+
+      expect(action).to.eql({
+        type: SET_FIELDS_DIRTY,
       });
     });
   });

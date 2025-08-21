@@ -1,7 +1,0 @@
-{
-  "appName": "Decision Reviews Onramp Tool",
-  "entryFile": "./app-entry.jsx",
-  "entryName": "onramp",
-  "rootUrl": "/decision-reviews/onramp-to-dr",
-  "productId": "76fd4ae2-68e4-45b5-bec2-71bffbc34462"
-}

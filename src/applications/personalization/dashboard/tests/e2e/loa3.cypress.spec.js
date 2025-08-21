@@ -110,9 +110,9 @@ describe('The My VA Dashboard', () => {
       });
     });
 
-    it('should show the fallback link in the header', () => {
+    it('should totally hide the disability rating in the header', () => {
       cy.visit(manifest.rootUrl);
-      nameTagRendersWithFallbackLink();
+      nameTagRendersWithoutDisabilityRating();
       nameTagIsFocused();
       cy.injectAxe();
       cy.axeCheck();
@@ -127,9 +127,9 @@ describe('The My VA Dashboard', () => {
       });
     });
 
-    it('should totally hide the disability rating in the header', () => {
+    it('should show the fallback link in the header', () => {
       cy.visit(manifest.rootUrl);
-      nameTagRendersWithoutDisabilityRating();
+      nameTagRendersWithFallbackLink();
       nameTagIsFocused();
       cy.injectAxe();
       cy.axeCheck();

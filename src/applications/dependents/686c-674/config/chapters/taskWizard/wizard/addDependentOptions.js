@@ -18,6 +18,7 @@ export const uiSchema = {
         report674: addDependentOptions.report674,
         addDisabledChild: addDependentOptions.addDisabledChild,
       },
+      enableAnalytics: true,
       errorMessages: {
         required: 'Select at least one option',
       },
@@ -25,7 +26,6 @@ export const uiSchema = {
     'ui:options': {
       tile: true,
       labelHeaderLevel: '3',
-      enableAnalytics: true,
       updateSchema: (formData, schema) => {
         // Check if new option is selected
         // update view:selectable686Options with the selection

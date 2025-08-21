@@ -5,7 +5,7 @@ import { expect } from 'chai';
 
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import {
-  testComponentFieldsMarkedAsRequired,
+  testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfErrorsOnSubmit,
   testNumberOfWebComponentFields,
   testNumberOfFields,
@@ -52,16 +52,12 @@ describe('Pension: Financial information, income sources page', () => {
       data,
     );
 
-    testComponentFieldsMarkedAsRequired(
+    const expectedNumberOfWebComponentErrors = 4;
+    testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
       uiSchema,
-      [
-        `va-radio[label="What type of income?"]`,
-        `va-radio[label="Who receives this income?"]`,
-        `va-text-input[label="Who pays this income?"]`,
-        `va-text-input[label="What’s the monthly amount of income?"]`,
-      ],
+      expectedNumberOfWebComponentErrors,
       pageTitle,
       data,
     );
@@ -125,6 +121,7 @@ describe('Pension: Financial information, income sources page', () => {
       pageTitle,
       data,
     );
+
     const expectedNumberOfErrors = 0;
     testNumberOfErrorsOnSubmit(
       formConfig,
@@ -135,16 +132,12 @@ describe('Pension: Financial information, income sources page', () => {
       data,
     );
 
-    testComponentFieldsMarkedAsRequired(
+    const expectedNumberOfWebComponentErrors = 4;
+    testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
       uiSchema,
-      [
-        `va-radio[label="What type of income?"]`,
-        `va-radio[label="Who receives this income?"]`,
-        `va-text-input[label="Who pays this income?"]`,
-        `va-text-input[label="What’s the monthly amount of income?"]`,
-      ],
+      expectedNumberOfWebComponentErrors,
       pageTitle,
       data,
     );

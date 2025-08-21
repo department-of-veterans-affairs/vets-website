@@ -59,7 +59,7 @@ export default function CCRequestLayout({ data: appointment }) {
   );
 
   return (
-    <PageLayout showNeedHelp>
+    <PageLayout isDetailPage showNeedHelp>
       <DetailPageLayout
         heading={heading}
         data={appointment}
@@ -68,16 +68,12 @@ export default function CCRequestLayout({ data: appointment }) {
         <Section heading="Preferred date and time">
           <ul className="usa-unstyled-list">
             {preferredDates.map((date, index) => (
-              <li key={`${appointment.id}-option-${index}`}>
-                <span data-dd-privacy="mask">{date}</span>
-              </li>
+              <li key={`${appointment.id}-option-${index}`}>{date}</li>
             ))}
           </ul>
         </Section>
         <Section heading="Type of care">
-          <span data-dd-privacy="mask">
-            {typeOfCareName || 'Type of care not noted'}
-          </span>
+          {typeOfCareName || 'Type of care not noted'}
         </Section>
         <Section heading="Scheduling facility">
           {APPOINTMENT_STATUS.cancelled !== status && (
@@ -88,20 +84,16 @@ export default function CCRequestLayout({ data: appointment }) {
               <br />
             </span>
           )}
-          <span data-dd-privacy="mask">{facilityName}</span>
+          {facilityName}
         </Section>
         <Section heading="Preferred community care provider">
-          <span data-dd-privacy="mask">
-            {`${providerName || 'Provider name not available'}`}
-          </span>
+          <span>{`${providerName || 'Provider name not available'}`}</span>
           <br />
-          <span data-dd-privacy="mask">
+          <span>
             {`${treatmentSpecialty || 'Treatment specialty not available'}`}
           </span>
           <br />
-          {providerAddress && (
-            <span data-dd-privacy="mask">{providerAddress.line[0]}</span>
-          )}
+          {providerAddress && <span>{providerAddress.line[0]}</span>}
           {!providerAddress && <span>Address not available</span>}
           <br />
         </Section>

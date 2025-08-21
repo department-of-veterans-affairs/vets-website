@@ -5,6 +5,8 @@ import sinon from 'sinon';
 
 import { ProfileInformationEditView } from '@@vap-svc/components/ProfileInformationEditView';
 
+import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
+
 describe('<ProfileInformationEditView/> - Email Address', () => {
   let props = null;
   let component = null;
@@ -81,13 +83,13 @@ describe('<ProfileInformationEditView/> - Email Address', () => {
     component.unmount();
   });
 
-  describe('the save `va-button` loading state', () => {
+  describe('the `LoadingButton.isLoading`', () => {
     it('is `true` if the transactionRequest is pending', () => {
       props.transactionRequest = { isPending: true };
       component = enzyme.shallow(<ProfileInformationEditView {...props} />);
 
-      const vaButton = component.find('[data-testid="save-edit-button"]');
-      expect(vaButton.prop('loading')).to.be.true;
+      const loadingButton = component.find(LoadingButton);
+      expect(loadingButton.prop('isLoading')).to.be.true;
 
       component.unmount();
     });
@@ -102,8 +104,8 @@ describe('<ProfileInformationEditView/> - Email Address', () => {
       };
       component = enzyme.shallow(<ProfileInformationEditView {...props} />);
 
-      const vaButton = component.find('[data-testid="save-edit-button"]');
-      expect(vaButton.prop('loading')).to.be.true;
+      const loadingButton = component.find(LoadingButton);
+      expect(loadingButton.prop('isLoading')).to.be.true;
 
       component.unmount();
     });
@@ -119,11 +121,13 @@ describe('<ProfileInformationEditView/> - Email Address', () => {
       };
       component = enzyme.shallow(<ProfileInformationEditView {...props} />);
 
-      const vaButton = component.find('[data-testid="save-edit-button"]');
-      expect(vaButton.prop('loading')).to.be.false;
+      const loadingButton = component.find(LoadingButton);
+      expect(loadingButton.prop('isLoading')).to.be.false;
 
       component.unmount();
     });
+
+    it('sets the LoadingButton to isLoading if the transaction is pending', () => {});
   });
 
   describe('the cancel button', () => {

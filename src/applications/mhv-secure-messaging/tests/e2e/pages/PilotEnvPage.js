@@ -1,17 +1,15 @@
 import mockPilotMessages from '../fixtures/pilot-responses/inbox-threads-OH-response.json';
 import mockFolders from '../fixtures/pilot-responses/folders-respose.json';
-import { Paths, Locators, Data } from '../utils/constants';
+import { Paths, Locators } from '../utils/constants';
 import mockMultiThreadResponse from '../fixtures/pilot-responses/multi-message-thread-response.json';
 import mockRecipients from '../fixtures/recipientsResponse/recipients-response.json';
 import mockGeneralFolder from '../fixtures/generalResponses/generalFolder.json';
 import mockSignature from '../fixtures/signature-response.json';
 import mockCategories from '../fixtures/categories-response.json';
-import PatientComposePage from './PatientComposePage';
-import PatientInterstitialPage from './PatientInterstitialPage';
 
 class PilotEnvPage {
   loadInboxMessages = (
-    url = Paths.UI_MAIN,
+    url = Paths.UI_PILOT,
     messages = mockPilotMessages,
     folders = mockFolders,
     recipients = mockRecipients,
@@ -78,12 +76,6 @@ class PilotEnvPage {
     });
 
     // cy.wait('@single-thread', { requestTimeout: 20000 });
-  };
-
-  navigateToComposePage = () => {
-    PatientComposePage.interceptSentFolder();
-    cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click({ force: true });
-    PatientInterstitialPage.getContinueButton().click({ force: true });
   };
 
   verifyHeader = text => {
@@ -196,41 +188,6 @@ class PilotEnvPage {
             expect(listBefore[listBefore.length - 1]).to.eq(listAfter[0]);
           });
       });
-  };
-
-  navigateToSelectCareTeamPage = () => {
-    cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click({ force: true });
-    PatientInterstitialPage.getContinueButton().click({ force: true });
-  };
-
-  verifySelectCareTeamPageInterface = () => {
-    cy.get(`va-radio-option`).should('have.length', 4);
-    cy.get(`.vads-u-margin-bottom--1 > a`)
-      .should(`have.attr`, `href`, Data.LINKS.HOME)
-      .and('have.text', Data.CURATED_LIST.CANT_FIND_TEAM);
-
-    cy.get(`.vads-u-margin-top--2 > a`)
-      .should(`have.attr`, `href`, Data.LINKS.CONTACT_LIST)
-      .and('have.text', Data.CURATED_LIST.CONTACT_LIST_UPDATE);
-  };
-
-  selectCareSystem = (index = 0) => {
-    cy.get(Locators.CARE_SYSTEM)
-      .eq(index)
-      .click();
-  };
-
-  selectTriageGroup = (index = 0) => {
-    cy.get('va-combo-box')
-      .shadow()
-      .find('#options')
-      .should('be.visible')
-      .click({ force: true });
-
-    cy.get(`.usa-combo-box__list > li`)
-      .eq(index)
-      .should('be.visible')
-      .click({ force: true });
   };
 }
 

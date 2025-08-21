@@ -17,7 +17,6 @@ function getNullProfileState() {
     prefillsAvailable: [],
     savedForms: [],
     loading: false,
-    loa: { current: 1 },
   };
 }
 
@@ -31,7 +30,6 @@ function transformProfilePayload(payload) {
     verified: profile.verified,
     prefillsAvailable: payload.prefillsAvailable,
     savedForms: payload.inProgressForms,
-    loa: profile.loa || { current: 1 },
   };
 }
 

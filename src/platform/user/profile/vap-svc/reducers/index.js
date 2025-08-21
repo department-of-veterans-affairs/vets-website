@@ -27,11 +27,7 @@ import {
   UPDATE_SELECTED_ADDRESS,
   ADDRESS_VALIDATION_INITIALIZE,
   ADDRESS_VALIDATION_UPDATE,
-  ADDRESS_VALIDATION_CLEAR_VALIDATION_KEY,
-  ADDRESS_VALIDATION_SET_VALIDATION_KEY,
   COPY_ADDRESS_MODAL,
-  OPEN_INTL_MOBILE_CONFIRM_MODAL,
-  CLOSE_INTL_MOBILE_CONFIRM_MODAL,
 } from '../actions';
 
 const initialAddressValidationState = {
@@ -48,17 +44,9 @@ const initialAddressValidationState = {
     countryCodeIso3: '',
   },
   addressValidationError: false,
-  addressValidationErrorCode: null,
   validationKey: null,
   selectedAddress: {},
   selectedAddressId: null,
-};
-
-const initialIntlMobileConfirmModalState = {
-  isOpen: false,
-  countryCode: null,
-  phoneNumber: null,
-  confirmFn: null,
 };
 
 const initialState = {
@@ -77,9 +65,6 @@ const initialState = {
     ...initialAddressValidationState,
   },
   copyAddressModal: null,
-  intlMobileConfirmModal: {
-    ...initialIntlMobileConfirmModalState,
-  },
 };
 
 export default function vapService(state = initialState, action) {
@@ -397,7 +382,6 @@ export default function vapService(state = initialState, action) {
           selectedAddressId: action.selectedAddressId,
           confirmedSuggestions: action.confirmedSuggestions,
           addressValidationError: false,
-          addressValidationErrorCode: null,
         },
         modal: 'addressValidation',
       };
@@ -420,7 +404,6 @@ export default function vapService(state = initialState, action) {
           addressValidationType: action.fieldName,
           validationKey: action.validationKey || null,
           addressFromUser: action.addressFromUser,
-          addressValidationErrorCode: action.addressValidationErrorCode,
         },
         modal: action.fieldName,
       };
@@ -429,24 +412,6 @@ export default function vapService(state = initialState, action) {
       return {
         ...state,
         addressValidation: { ...initialAddressValidationState },
-      };
-
-    case ADDRESS_VALIDATION_SET_VALIDATION_KEY:
-      return {
-        ...state,
-        addressValidation: {
-          ...state.addressValidation,
-          validationKey: action.validationKey,
-        },
-      };
-
-    case ADDRESS_VALIDATION_CLEAR_VALIDATION_KEY:
-      return {
-        ...state,
-        addressValidation: {
-          ...state.addressValidation,
-          validationKey: null,
-        },
       };
 
     case ADDRESS_VALIDATION_UPDATE:
@@ -472,25 +437,6 @@ export default function vapService(state = initialState, action) {
       return {
         ...state,
         copyAddressModal: action?.value,
-      };
-
-    case OPEN_INTL_MOBILE_CONFIRM_MODAL:
-      return {
-        ...state,
-        intlMobileConfirmModal: {
-          isOpen: true,
-          countryCode: action.countryCode,
-          phoneNumber: action.phoneNumber,
-          confirmFn: action.confirmFn,
-        },
-      };
-
-    case CLOSE_INTL_MOBILE_CONFIRM_MODAL:
-      return {
-        ...state,
-        intlMobileConfirmModal: {
-          ...initialIntlMobileConfirmModalState,
-        },
       };
 
     default:

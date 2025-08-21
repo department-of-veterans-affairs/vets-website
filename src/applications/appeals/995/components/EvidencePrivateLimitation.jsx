@@ -70,6 +70,7 @@ const EvidencePrivateLimitation = ({
           name="limitation"
           onInput={handlers.onInput}
           value={data.limitedConsent}
+          uswds
         />
         <p />
         {content.info}

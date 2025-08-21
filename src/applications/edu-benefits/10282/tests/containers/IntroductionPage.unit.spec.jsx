@@ -27,9 +27,7 @@ describe('Edu 10282 <IntroductionPage>', () => {
 
   it('should render save in progress widget', () => {
     const wrapper = shallow(<IntroductionPage {...fakeStore.getState()} />);
-    const sipContainer = wrapper.find(
-      'Connect(withRouter(SaveInProgressIntro))',
-    );
+    const sipContainer = wrapper.find('Connect(SaveInProgressIntro)');
 
     expect(sipContainer.length).to.equal(1);
     expect(sipContainer.props().startText).to.contain('Start your application');

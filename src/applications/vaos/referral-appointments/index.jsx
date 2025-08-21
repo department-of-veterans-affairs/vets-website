@@ -10,7 +10,7 @@ import ScheduleReferral from './ScheduleReferral';
 import ReviewAndConfirm from './ReviewAndConfirm';
 import ChooseDateAndTime from './ChooseDateAndTime';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
-import { useIsInPilotUserStations } from './hooks/useIsInPilotUserStations';
+import { useIsInCCPilot } from './hooks/useIsInCCPilot';
 import CompleteReferral from './CompleteReferral';
 import ReferralLayout from './components/ReferralLayout';
 import { useGetReferralByIdQuery } from '../redux/api/vaosApi';
@@ -18,7 +18,7 @@ import { useGetReferralByIdQuery } from '../redux/api/vaosApi';
 export default function ReferralAppointments() {
   useManualScrollRestoration();
   const basePath = useRouteMatch();
-  const { isInPilotUserStations } = useIsInPilotUserStations();
+  const { isInCCPilot } = useIsInCCPilot();
   const { search } = useLocation();
   const params = new URLSearchParams(search);
   const id = params.get('id');
@@ -30,7 +30,7 @@ export default function ReferralAppointments() {
     return <Redirect to="/referrals-requests" />;
   }
 
-  if (!isInPilotUserStations) {
+  if (!isInCCPilot) {
     return <Redirect from={basePath.url} to="/" />;
   }
 

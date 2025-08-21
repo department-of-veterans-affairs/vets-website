@@ -1,5 +1,5 @@
 import {
-  testComponentFieldsMarkedAsRequired,
+  testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfFieldsByType,
   testNumberOfWebComponentFields,
   testSubmitsWithoutErrors,
@@ -21,15 +21,12 @@ describe('Add dependent children page', () => {
     pageTitle,
   );
 
-  testComponentFieldsMarkedAsRequired(
+  const expectedNumberOfErrors = 3;
+  testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     schema,
     uiSchema,
-    [
-      `va-text-input[label="Child’s first name"]`,
-      `va-text-input[label="Child’s last name"]`,
-      `va-memorable-date[label="Date of birth"]`,
-    ],
+    expectedNumberOfErrors,
     pageTitle,
   );
 

@@ -1,23 +1,25 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { subDays } from 'date-fns';
 import recordEvent from '~/platform/monitoring/record-event';
 import {
-  Toggler,
   useFeatureToggle,
+  Toggler,
 } from '~/platform/utilities/feature-toggles';
 import PaymentsCard from './PaymentsCard';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import IconCTALink from '../IconCTALink';
+import { canAccess } from '../../../common/selectors';
+import { API_NAMES } from '../../../common/constants';
 
 const NoRecentPaymentText = () => {
   return (
     <p
-      className="vads-u-margin-top--0 vads-u-margin-bottom--1"
+      className="vads-u-margin-bottom--3 vads-u-margin-top--0"
       data-testid="no-recent-payments-text"
     >
-      You don’t have any recent payments.
+      You have no recent payments to show.
     </p>
   );
 };
@@ -77,55 +79,111 @@ const PaymentsError = () => {
   return (
     <div className="vads-u-margin-bottom--2p5">
       <va-alert status={status} show-icon data-testid="payments-error">
+        <h2 slot="headline">We can’t access your payment history</h2>
         <div>
-          We can’t show your payment history right now. Refresh this page or try
-          again later.
+          We’re sorry. We can’t access your payment history right now. We’re
+          working to fix this problem. Please check back later.
         </div>
       </va-alert>
     </div>
   );
 };
 
-const BenefitPayments = () => {
-  const lastPayment = useSelector(
-    state =>
-      state.allPayments.payments
-        ?.filter(p => new Date(p.payCheckDt) > subDays(new Date(), 61))
-        .sort((a, b) => new Date(b.payCheckDt) - new Date(a.payCheckDt))[0] ??
-      null,
-  );
-  const paymentsError = useSelector(
-    state => !!state.allPayments.error || false,
-  );
+const BenefitPayments = ({
+  payments,
+  paymentsError,
+  shouldShowLoadingIndicator,
+}) => {
+  const lastPayment =
+    payments
+      ?.filter(p => new Date(p.payCheckDt) > subDays(new Date(), 61))
+      .sort((a, b) => new Date(b.payCheckDt) - new Date(a.payCheckDt))[0] ??
+    null;
+
+  if (shouldShowLoadingIndicator) {
+    return (
+      <div className="vads-u-margin-y--6">
+        <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
+          Benefit payments
+        </h2>
+        <va-loading-indicator message="Loading benefit payments..." />
+      </div>
+    );
+  }
 
   return (
-    <>
-      <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
-        <Toggler.Enabled>
-          <h3 className="vads-u-margin-top--0">Benefit payments</h3>
-        </Toggler.Enabled>
-      </Toggler>
+    <div
+      className="health-care-wrapper vads-u-margin-y--6"
+      data-testid="dashboard-section-payment"
+    >
+      <h2>Benefit payments</h2>
       <div className="vads-l-row">
         {lastPayment && (
           <>
             <DashboardWidgetWrapper>
               <PaymentsCard lastPayment={lastPayment} />
             </DashboardWidgetWrapper>
+            <Toggler
+              toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}
+            >
+              <Toggler.Disabled>
+                <DashboardWidgetWrapper>
+                  <PopularActionsForPayments />
+                </DashboardWidgetWrapper>
+              </Toggler.Disabled>
+            </Toggler>
           </>
         )}
         {!lastPayment && (
           <DashboardWidgetWrapper>
             {paymentsError ? <PaymentsError /> : <NoRecentPaymentText />}
-            <va-link
-              href="/va-payment-history/payments/"
-              text="View all payment information"
-              data-testid="view-payment-history-link"
-            />
+            <Toggler
+              toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}
+            >
+              <Toggler.Disabled>
+                <PopularActionsForPayments
+                  showPaymentHistoryLink={
+                    (payments && !!payments.length) || paymentsError
+                  }
+                />
+              </Toggler.Disabled>
+            </Toggler>
           </DashboardWidgetWrapper>
         )}
       </div>
-    </>
+    </div>
   );
 };
 
-export default BenefitPayments;
+BenefitPayments.propTypes = {
+  payments: PropTypes.arrayOf(
+    PropTypes.shape({
+      payCheckAmount: PropTypes.string.isRequired,
+      payCheckDt: PropTypes.string.isRequired,
+      payCheckId: PropTypes.string.isRequired,
+      payCheckReturnFiche: PropTypes.string.isRequired,
+      payCheckType: PropTypes.string.isRequired,
+      paymentMethod: PropTypes.string.isRequired,
+      bankName: PropTypes.string.isRequired,
+      accountNumber: PropTypes.string.isRequired,
+    }),
+  ),
+  paymentsError: PropTypes.bool,
+  shouldShowLoadingIndicator: PropTypes.bool,
+};
+
+const mapStateToProps = state => {
+  const canAccessPaymentHistory = canAccess(state)[API_NAMES.PAYMENT_HISTORY];
+  return {
+    payments: state.allPayments.payments || [],
+    paymentsError: !!state.allPayments.error || false,
+    shouldShowLoadingIndicator: canAccessPaymentHistory
+      ? state.allPayments.isLoading
+      : false,
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  {},
+)(BenefitPayments);

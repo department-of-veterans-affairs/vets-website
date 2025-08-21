@@ -6,12 +6,13 @@ import MedicationsList from '../components/MedicationsList/MedicationsList';
 import PrintOnlyPage from './PrintOnlyPage';
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
 import { useGetAllergiesQuery } from '../api/allergiesApi';
-import { selectSortOption } from '../selectors/selectPreferences';
 
 const PrescriptionsPrintOnly = ({ list, isFullList, hasError = false }) => {
   const { search } = useLocation();
   const { data: allergies } = useGetAllergiesQuery();
-  const selectedSortOption = useSelector(selectSortOption);
+  const selectedSortOption = useSelector(
+    state => state.rx.preferences.sortOption,
+  );
   const page = useMemo(
     () => {
       const query = new URLSearchParams(search);

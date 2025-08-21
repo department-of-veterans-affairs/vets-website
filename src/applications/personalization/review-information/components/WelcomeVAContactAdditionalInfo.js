@@ -8,19 +8,36 @@ const WelcomeVAContactAdditionalInfo = (
     >
       <div>
         <p className="vads-u-margin-y--1">
-          We use this information to contact you about VA benefits like
-          disability compensation and pension benefits. If you’re enrolled in VA
-          health care, we also use this information to send you updates like
-          appointment and prescription refill reminders. But some VA
-          departments, like education and home loan benefits, keep their own
-          separate records. So you’ll need to contact them directly to change
-          your contact information.
+          We use this information to contact you about these VA benefits and
+          services:
         </p>
+        <ul>
+          <li>Disability compensation</li>
+          <li>Pension benefits</li>
+          <li>Claims and appeals</li>
+          <li>Veteran Readiness and Employment (VR&E)</li>
+        </ul>
         <p>
-          <va-link
+          If you’re enrolled in VA health care, we also use this information to
+          send you these:
+        </p>
+        <ul>
+          <li>Appointment reminders</li>
+          <li>Communications from your VA medical center</li>
+          <li>Lab and test results</li>
+          <li>
+            Prescription medicines (we send your medicines to your mailing
+            address)
+          </li>
+        </ul>
+        <p>
+          <a
             href="/resources/change-your-address-on-file-with-va/#change-your-address-by-contact"
-            text="Learn how to change your address and other contact information for different VA benefits"
-          />
+            target="_blank"
+          >
+            Find out how to change your contact information for other VA
+            benefits{' '}
+          </a>
         </p>
       </div>
     </va-additional-info>

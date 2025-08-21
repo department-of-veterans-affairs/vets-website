@@ -17,7 +17,7 @@ export const schema = {
 };
 
 export const uiSchema = {
-  ...titleUI('Spouse’s income'),
+  ...titleUI('Information about your marriage'),
   doesLiveWithSpouse: {
     spouseIncome: radioUI({
       title: 'Did your spouse have an income in the last 365 days?',

@@ -9,13 +9,6 @@ class TypeOfFacilityPageObject extends PageObject {
     return this;
   }
 
-  assertTypeOfFacilityValidationErrors() {
-    this.clickNextButton();
-    this.assertValidationError('You must provide a response');
-
-    return this;
-  }
-
   selectTypeOfFacility(label) {
     return super.selectRadioButtonShadow(label);
   }

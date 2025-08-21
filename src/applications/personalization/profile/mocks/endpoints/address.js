@@ -103,59 +103,17 @@ const addressValidation = {
         city: 'San Francisco',
         countryName: 'United States',
         countryCodeIso3: 'USA',
-        countyName: 'San Francisco',
         stateCode: 'CA',
         zipCode: '94115',
       },
       addressMetaData: {
-        confidenceScore: 100,
+        confidenceScore: 88,
         addressType: 'Domestic',
-        deliveryPointValidation: 'CONFIRMED',
+        deliveryPointValidation: 'MISSING_ZIP',
       },
     },
   ],
   validationKey: -981994727,
-};
-
-const noCandidateFound = {
-  errors: [
-    {
-      title: 'Address Validation Error',
-      detail: {
-        messages: [
-          {
-            code: 'ADDRVAL108',
-            key: 'CandidateAddressNotFound',
-            text: 'No Candidate Address Found',
-            severity: 'INFO',
-          },
-        ],
-      },
-      code: 'VET360_AV_ERROR',
-      status: '400',
-    },
-  ],
-};
-
-const downstreamError = {
-  errors: [
-    {
-      title: 'Address Validation Error',
-      detail: {
-        messages: [
-          {
-            code: 'ADDRVAL101',
-            key: 'SpectrumServiceError',
-            text:
-              'The Spectrum Service returned an error. This error cannot be used in conjunction with an address override indicator.',
-            severity: 'FATAL',
-          },
-        ],
-      },
-      code: 'VET360_AV_ERROR',
-      status: '400',
-    },
-  ],
 };
 
 module.exports = {
@@ -166,6 +124,4 @@ module.exports = {
   homeAddressUpdateSuccess,
   homeAddressDeleteReceived,
   addressValidation,
-  noCandidateFound,
-  downstreamError,
 };

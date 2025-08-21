@@ -66,10 +66,6 @@ describe('<ConfirmationDigitalSubmission>', () => {
 
   context('when print button is clicked', () => {
     it('should call window.print', () => {
-      // Stub window.print if it doesn't exist in the test environment
-      if (!window.print) {
-        window.print = () => {};
-      }
       const printSpy = sinon.spy(window, 'print');
 
       const printButton = container.querySelector('va-button');

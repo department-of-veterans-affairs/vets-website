@@ -21,9 +21,8 @@ const ApplicationDownloadLink = ({ formConfig }) => {
   ]);
   const name = useMemo(
     () => {
-      const {
-        veteranFullName = { first: 'Applicant', last: 'Submission' },
-      } = form.data;
+      const { veteranFullName = { first: 'Applicant', last: 'Submission' } } =
+        form.data ?? {};
       return veteranFullName;
     },
     [form.data],
@@ -59,7 +58,9 @@ const ApplicationDownloadLink = ({ formConfig }) => {
           headers: { 'Content-Type': 'application/json' },
         });
 
-        if (!response.ok) throw new Error();
+        if (!response.ok) {
+          throw new Error();
+        }
 
         const blob = await response.blob();
         handlePdfDownload(blob);
@@ -92,21 +93,23 @@ const ApplicationDownloadLink = ({ formConfig }) => {
     );
   }
 
+  // render error alert if file cannot download
+  if (errorMessage) {
+    return (
+      <div className="caregiver-download-error">
+        <va-alert status="error">{errorMessage}</va-alert>
+      </div>
+    );
+  }
+
   return (
-    <>
-      {errorMessage && (
-        <div className="caregiver-download-error vads-u-margin-y--1">
-          <va-alert status="error">{errorMessage}</va-alert>
-        </div>
-      )}
-      <va-link
-        text={content['button-download']}
-        onClick={fetchPdf}
-        filetype="PDF"
-        href="#"
-        download
-      />
-    </>
+    <va-link
+      text={content['button-download']}
+      onClick={fetchPdf}
+      filetype="PDF"
+      href="#"
+      download
+    />
   );
 };
 

@@ -29,21 +29,21 @@ const { dependents: DEPENDENT_PATHS } = SHARED_PATHS;
 const DEPENDENT_SUBPAGES = [
   {
     id: 'basic',
-    title: content['dependent-info--basic-title'],
+    title: content['household-dependent-info-basic-title'],
   },
   {
     id: 'additional',
-    title: content['dependent-info--addtl-title'],
+    title: content['household-dependent-info-addtl-title'],
   },
   {
     id: 'support',
-    title: content['dependent-info--support-title'],
+    title: content['household-dependent-info-support-title'],
     depends: { cohabitedLastYear: false },
   },
   {
     id: 'income',
     title: replaceStrValues(
-      content['dependent-info--income-title'],
+      content['household-dependent-info-income-title'],
       LAST_YEAR,
       '%d',
     ),
@@ -51,7 +51,7 @@ const DEPENDENT_SUBPAGES = [
   },
   {
     id: 'education',
-    title: content['dependent-info--education-title'],
+    title: content['household-dependent-info-education-title'],
     depends: canHaveEducationExpenses,
   },
 ];

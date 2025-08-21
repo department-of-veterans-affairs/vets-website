@@ -43,10 +43,15 @@ describe(`${pageTitle} page`, () => {
     return { selectors };
   };
 
-  it('should render the correct elements before upload', () => {
+  it('should render the correct number of fields', () => {
     const { selectors } = subject();
-    const { inputs, vaAlert } = selectors();
+    const { inputs } = selectors();
     expect(inputs).to.have.lengthOf(1);
+  });
+
+  it('should not render document upload warning by default', () => {
+    const { selectors } = subject();
+    const { vaAlert } = selectors();
     expect(vaAlert).to.not.exist;
   });
 

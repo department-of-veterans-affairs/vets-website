@@ -52,7 +52,7 @@ export default function TypeOfVisitSection({ data }) {
             href={visitType.url}
             onClick={handleClick(history, home, visitType)}
             text="Edit"
-            label="Edit how you want to attend"
+            aria-label="Edit how you want to attend"
           />
         </div>
       </div>

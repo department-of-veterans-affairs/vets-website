@@ -1,4 +1,4 @@
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import MilitaryPrefillMessage from 'platform/forms/save-in-progress/MilitaryPrefillMessage';
 import dateUI from 'platform/forms-system/src/js/definitions/date';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import {
@@ -7,7 +7,6 @@ import {
 } from '../../../utils/constants';
 import { validateServiceDates } from '../../../utils/validation';
 import { FULL_SCHEMA } from '../../../utils/imports';
-import content from '../../../locales/en/content.json';
 
 const {
   dischargeType,
@@ -18,19 +17,17 @@ const {
 
 export default {
   uiSchema: {
-    ...titleUI(content['service-info--last-period-title']),
+    'ui:description': MilitaryPrefillMessage,
     lastServiceBranch: {
-      'ui:title': content['service-info--last-period-branch-label'],
+      'ui:title': 'Last branch of service',
       'ui:options': {
         labels: SERVICE_BRANCH_LABELS,
       },
     },
-    lastEntryDate: currentOrPastDateUI(
-      content['service-info--service-start-date-label'],
-    ),
-    lastDischargeDate: dateUI(content['service-info--service-end-date-label']),
+    lastEntryDate: currentOrPastDateUI('Service start date'),
+    lastDischargeDate: dateUI('Service end date'),
     dischargeType: {
-      'ui:title': content['service-info--last-period-character-label'],
+      'ui:title': 'Character of service',
       'ui:options': {
         labels: DISCHARGE_TYPE_LABELS,
       },

@@ -14,10 +14,7 @@ import featureFlags from '../../services/mocks/featureFlags';
  * @param {Object} [toggles={}] Feature flags to set/unset
  */
 export function mockFeatureToggles(
-  toggles = {
-    vaOnlineSchedulingRecentLocationsFilter: false,
-    vaOnlineSchedulingCCDirectScheduling: false,
-  },
+  toggles = { vaOnlineSchedulingRecentLocationsFilter: false },
 ) {
   cy.intercept(
     {
@@ -297,14 +294,12 @@ export function mockFacilitiesApi({ response: data, responseCode = 200 }) {
  * @param {string=} [arguments.typeOfCareId] - Type of care id.
  * @param {boolean} [arguments.isDirect=false] - Toggle if facility supports direct scheduling or not.
  * @param {boolean} [arguments.isRequest=false] - Toggle if facility supports request scheduling or not.
- * @param {Object} [arguments.overrideDirect={}] - Override the direct scheduling configuration value.
  */
 export function mockSchedulingConfigurationApi({
   facilityIds,
   typeOfCareId = null,
   isDirect = false,
   isRequest = false,
-  overrideDirect = {},
 } = {}) {
   cy.intercept(
     {
@@ -328,11 +323,7 @@ export function mockSchedulingConfigurationApi({
                   service.id === typeOfCareId
                     ? {
                         ...service,
-                        direct: {
-                          ...service.direct,
-                          enabled: isDirect,
-                          ...overrideDirect,
-                        },
+                        direct: { ...service.direct, enabled: isDirect },
                         request: { ...service.request, enabled: isRequest },
                       }
                     : null,

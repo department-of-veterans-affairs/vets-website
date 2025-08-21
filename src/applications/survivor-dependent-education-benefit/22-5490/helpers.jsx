@@ -163,7 +163,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
     relativeSsn: formData?.relativeSocialSecurityNumber || formData?.ssn,
     highSchoolDiploma: formData?.highSchoolDiploma,
     graduationDate: formData?.graduationDate,
-    claimantDateOfBirth: profile?.dob || claimant?.dateOfBirth,
+    relativeDateOfBirth: profile?.dob || claimant?.dateOfBirth,
     marriageStatus: formData?.marriageStatus,
     marriageDate: formData?.marriageDate,
     remarriageStatus: formData?.remarriageStatus,
@@ -186,10 +186,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
         street2: address?.addressLine2 || undefined,
         city: address?.city,
         state: address?.stateCode || address?.province,
-        postalCode:
-          address?.zipcode ||
-          address?.postalCode ||
-          address?.internationalPostalCode,
+        postalCode: address?.zipcode || address?.internationalPostalCode,
         country: getSchemaCountryCode(
           address?.countryCodeIso3 || address?.countryCode,
         ),

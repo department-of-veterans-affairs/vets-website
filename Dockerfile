@@ -10,11 +10,6 @@ RUN groupadd -g $userid vets-website \
 ENV YARN_VERSION 1.19.1
 ENV NODE_ENV production
 
-# Fix for Debian Buster EOL - use archive repositories
-RUN echo "deb http://archive.debian.org/debian buster main" > /etc/apt/sources.list && \
-    echo "deb http://archive.debian.org/debian-security buster/updates main" >> /etc/apt/sources.list && \
-    echo "Acquire::Check-Valid-Until \"false\";" > /etc/apt/apt.conf.d/100disablechecks
-
 RUN apt-get update
 
 # Install specific version of Chrome to match ChromeDriver installation.

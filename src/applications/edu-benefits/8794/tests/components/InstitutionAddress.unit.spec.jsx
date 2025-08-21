@@ -13,13 +13,13 @@ describe('InstitutionAddress component', () => {
       form: {
         data: {
           institutionDetails: {
-            institutionAddress: {
-              street: '18952 East Fisher Road',
-              street2: 'Bldg 4',
-              street3: 'Suite 200',
+            address: {
+              address1: '18952 East Fisher Road',
+              address2: 'Bldg 4',
+              address3: 'Suite 200',
               city: 'St Marys City',
               state: 'MD',
-              postalCode: '20686',
+              zip: '20686',
               country: 'USA',
             },
           },
@@ -75,7 +75,7 @@ describe('InstitutionAddress component', () => {
     const store = mockStore({
       form: {
         data: {
-          institutionDetails: { institutionAddress: {} },
+          institutionDetails: { address: {} },
         },
       },
     });

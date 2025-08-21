@@ -1,10 +1,13 @@
 import React from 'react';
 import { expect } from 'chai';
-import { fireEvent, render, waitFor } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import sinon from 'sinon';
+
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
+
 import formConfig from '../../config/form';
+
 import { ExtensionReasonReviewField } from '../../content/extensionReason';
 
 const {
@@ -32,7 +35,7 @@ describe('extension request page', () => {
     expect($('va-textarea', container)).to.exist;
   });
 
-  it('should not allow submit with no value (required)', async () => {
+  it('should not allow submit with no value (required)', () => {
     const onSubmit = sinon.spy();
     const { container } = render(
       <DefinitionTester
@@ -44,17 +47,14 @@ describe('extension request page', () => {
         onSubmit={onSubmit}
       />,
     );
-
     fireEvent.submit($('form', container));
 
-    await waitFor(() => {
-      expect($('va-textarea', container).outerHTML).to.contain('value=""');
-      expect($('va-textarea[error]', container)).to.exist;
-      expect(onSubmit.called).to.be.false;
-    });
+    expect($('va-textarea', container).outerHTML).to.contain('value=""');
+    expect($('va-textarea[error]', container)).to.exist;
+    expect(onSubmit.called).to.be.false;
   });
 
-  it('should allow submit with some text', async () => {
+  it('should allow submit with some text', () => {
     const onSubmit = sinon.spy();
     const { container } = render(
       <DefinitionTester
@@ -66,16 +66,12 @@ describe('extension request page', () => {
         onSubmit={onSubmit}
       />,
     );
-
     fireEvent.submit($('form', container));
-
-    await waitFor(() => {
-      expect($('va-textarea', container).outerHTML).to.contain(
-        'value="Lorem ipsum"',
-      );
-      expect($('va-textarea[error]', container)).to.not.exist;
-      expect(onSubmit.called).to.be.true;
-    });
+    expect($('va-textarea', container).outerHTML).to.contain(
+      'value="Lorem ipsum"',
+    );
+    expect($('va-textarea[error]', container)).to.not.exist;
+    expect(onSubmit.called).to.be.true;
   });
 });
 

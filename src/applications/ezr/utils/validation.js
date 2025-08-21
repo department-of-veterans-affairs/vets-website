@@ -43,13 +43,11 @@ export function validateDependentDate(errors, fieldData, { dateOfBirth }) {
  * Validate insurance information to ensure either a policy number or group
  * code is provided
  * @param {Object} - errors - the error handling object from the forms system
- * @param {Object} - formData - the form data object that may contain the feature toggle
+ * @param {String} - fieldData - the value from the view field
  */
-export function validatePolicyNumberGroupCode(errors, formData) {
-  const policyNumber = formData.insurancePolicyNumber?.trim();
-  const groupCode = formData.insuranceGroupCode?.trim();
-
-  if (!policyNumber && !groupCode) {
+export function validatePolicyNumberGroupCode(errors, fieldData) {
+  const { insurancePolicyNumber, insuranceGroupCode } = fieldData;
+  if (!insurancePolicyNumber && !insuranceGroupCode) {
     errors.insuranceGroupCode.addError(
       content['validation-insurance-group-code'],
     );

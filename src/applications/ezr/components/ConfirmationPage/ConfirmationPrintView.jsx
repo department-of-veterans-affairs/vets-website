@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { format } from 'date-fns';
+import moment from 'moment';
 import content from '../../locales/en/content.json';
 
 const ConfirmationPrintView = ({ name, timestamp }) => {
@@ -47,7 +47,7 @@ const ConfirmationPrintView = ({ name, timestamp }) => {
             {content['confirm-app-list-date']}
           </h3>
           <p className="ezr-application-date">
-            {format(new Date(timestamp), 'MMM. d, yyyy')}
+            {moment(timestamp).format('MMM D, YYYY')}
           </p>
         </>
       ) : null}

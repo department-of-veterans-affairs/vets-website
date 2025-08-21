@@ -16,13 +16,11 @@ export const information = {
     fullName: fullNameNoSuffixUI(title => `Child’s ${title}`),
     birthDate: currentOrPastDateUI({
       title: 'Child’s date of birth',
-      dataDogHidden: true,
       required: () => true,
     }),
   },
   schema: {
     type: 'object',
-    required: ['fullName', 'birthDate'],
     properties: {
       fullName: fullNameNoSuffixSchema,
       birthDate: currentOrPastDateSchema,

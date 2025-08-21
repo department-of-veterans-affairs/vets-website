@@ -3,6 +3,7 @@ import {
   militaryServiceLoading,
   militaryServiceSuccessfulDownload,
   militaryServiceFailedDownload,
+  militaryServiceError,
 } from '../../selectors';
 import { appName } from '../../manifest.json';
 
@@ -79,6 +80,32 @@ describe(`${appName} -- militaryServicePdf selectors`, () => {
         },
       };
       const result = militaryServiceFailedDownload(state);
+      expect(result).to.be.false;
+    });
+  });
+  describe('militaryServiceError', () => {
+    it('returns string "error" value', () => {
+      const errorText = 'test error';
+      const state = {
+        myHealth: {
+          militaryServicePdf: {
+            error: errorText,
+          },
+        },
+      };
+      const result = militaryServiceError(state);
+      expect(result).to.eq(errorText);
+    });
+
+    it('returns boolean "error" value', () => {
+      const state = {
+        myHealth: {
+          militaryServicePdf: {
+            error: false,
+          },
+        },
+      };
+      const result = militaryServiceError(state);
       expect(result).to.be.false;
     });
   });

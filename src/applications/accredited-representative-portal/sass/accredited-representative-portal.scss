@@ -48,8 +48,7 @@
     margin: 0 auto 20px;
   }
 
-  h3,
-  h2 {
+  h3,h2 {
     margin: 0 0 16px 0;
   }
 
@@ -271,11 +270,9 @@
 }
 
 #poa-request__search-form {
-  margin-bottom: 0;
   .poa-request-search__form-buttons-container {
     display: inline-block;
-    margin-top: 24px;
-    margin-bottom: 0;
+    margin-top: 30px;
   }
   .poa-request-search__form-submit {
     height: 40px;
@@ -291,37 +288,9 @@
   width: 100%;
 }
 .yellow-warning {
-  color: var(--vads-color-warning-dark);
+  color: var(--vads-color-yellow);
 }
 hr.claimant-search {
-  border-color: var(--vads-color-base-light);
-  border-bottom: 0px;
-  margin: 16px 0;
-}
-h2.claimant-name {
-  margin-bottom: 5px;
-  margin-top: 24px;
-}
-.poa-status-cta {
-  margin-bottom: 16px;
-}
-
-.login {
-  button {
-    width: 100% !important;
-    max-width: 330px !important;
-    padding: 0.75em;
-    font-size: 16px;
-    margin: 1em 0;
-    white-space: normal !important;
-
-    &::before {
-      display: none;
-    }
-
-    img {
-      height: 1em;
-      padding: 0 0.25em;
-    }
-  }
+  margin-top: 28px;
+  margin-bottom: 20px;
 }

@@ -38,12 +38,13 @@ import {
 } from './redux/actions';
 import { startNewVaccineFlow } from '../appointment-list/redux/actions';
 
+const AUDIOLOGY = '203';
 const VA_FACILITY_V2_KEY = 'vaFacilityV2';
 
 function isCCAudiology(state) {
   return (
     getFormData(state).facilityType === FACILITY_TYPES.COMMUNITY_CARE &&
-    getFormData(state).typeOfCareId === TYPE_OF_CARE_IDS.AUDIOLOGY_ID
+    getFormData(state).typeOfCareId === AUDIOLOGY
   );
 }
 
@@ -265,7 +266,6 @@ export default function getNewAppointmentFlow(state) {
       url: 'provider',
       label: 'Which provider do you want to schedule with?',
       next: 'preferredDate',
-      requestAppointment: 'requestDateTime',
     },
     typeOfCare: {
       url: '/schedule/type-of-care',

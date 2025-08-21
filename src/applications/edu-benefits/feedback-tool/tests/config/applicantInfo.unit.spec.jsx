@@ -2,29 +2,18 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
-import { render, waitFor } from '@testing-library/react';
 
 import {
   DefinitionTester,
   fillData,
-  getFormDOM,
 } from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
 
 describe('feedback tool applicant info', () => {
-  let sandbox;
   const {
     schema,
     uiSchema,
   } = formConfig.chapters.applicantInformation.pages.applicantInformation;
-
-  beforeEach(() => {
-    sandbox = sinon.createSandbox();
-  });
-
-  afterEach(() => {
-    sandbox.restore();
-  });
 
   it('should render myself', () => {
     const form = mount(
@@ -60,9 +49,9 @@ describe('feedback tool applicant info', () => {
     form.unmount();
   });
 
-  it('should not submit without required information for myself', async () => {
-    const onSubmit = sandbox.spy();
-    const { container } = render(
+  it('should not submit without required information for myself', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
@@ -74,18 +63,15 @@ describe('feedback tool applicant info', () => {
       />,
     );
 
-    const formDOM = getFormDOM({ container });
-    formDOM.submitForm();
-
-    await waitFor(() => {
-      expect(container.querySelectorAll('.usa-input-error').length).to.equal(3);
-      expect(onSubmit.called).to.be.false;
-    });
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error').length).to.equal(3);
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
-  it('should not submit without required information for someone else', async () => {
-    const onSubmit = sandbox.spy();
-    const { container } = render(
+  it('should not submit without required information for someone else', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
@@ -97,17 +83,14 @@ describe('feedback tool applicant info', () => {
       />,
     );
 
-    const formDOM = getFormDOM({ container });
-    formDOM.submitForm();
-
-    await waitFor(() => {
-      expect(container.querySelectorAll('.usa-input-error').length).to.equal(2);
-      expect(onSubmit.called).to.be.false;
-    });
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error').length).to.equal(2);
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('should submit with required information for myself', () => {
-    const onSubmit = sandbox.spy();
+    const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
         schema={schema}
@@ -133,7 +116,7 @@ describe('feedback tool applicant info', () => {
   });
 
   it('should submit with required information for someone else', () => {
-    const onSubmit = sandbox.spy();
+    const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
         schema={schema}

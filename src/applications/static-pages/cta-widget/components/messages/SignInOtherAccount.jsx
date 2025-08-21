@@ -11,11 +11,11 @@ import { VerifyButton } from 'platform/user/authentication/components/VerifyButt
 const SignInOtherAccount = ({ headerLevel }) => {
   return (
     <VaAlertSignIn variant="signInEither" visible headingLevel={headerLevel}>
-      <span slot="IdMeSignInButton">
-        <VerifyButton csp="idme" />
-      </span>
       <span slot="LoginGovSignInButton">
         <VerifyButton csp="logingov" />
+      </span>
+      <span slot="IdMeSignInButton">
+        <VerifyButton csp="idme" />
       </span>
     </VaAlertSignIn>
   );

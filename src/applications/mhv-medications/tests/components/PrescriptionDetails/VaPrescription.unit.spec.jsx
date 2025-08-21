@@ -196,56 +196,18 @@ describe('vaPrescription details container', () => {
     expect(docLink).to.not.exist;
   });
 
-  it('does not display refill history if there is one record with dispensedDate undefined', () => {
+  it('displays "You haven’t filled this prescription yet" if there is no refill history', () => {
     const rxWithNoRefillHistory = {
       ...prescription,
-      dispensedDate: undefined,
-      rxRfRecords: [
-        { ...prescription.rxRfRecords[0], dispensedDate: undefined },
-      ],
-    };
-    const screen = setup(rxWithNoRefillHistory);
-    const refillSubHeader = screen.queryByText('Refill history');
-
-    expect(refillSubHeader).to.not.exist;
-  });
-
-  it('displays refill history if there is one record with dispensedDate not undefined', () => {
-    const rxWithNoRefillHistory = {
-      ...prescription,
-      dispensedDate: undefined,
-      rxRfRecords: [{ ...prescription.rxRfRecords[0] }],
-    };
-    const screen = setup(rxWithNoRefillHistory);
-    const refillSubHeader = screen.queryByText('Refill history');
-
-    expect(refillSubHeader).to.exist;
-  });
-
-  it('does not display refill history if there is no records', () => {
-    const rxWithNoRefillHistory = {
-      ...prescription,
-      dispensedDate: undefined,
       rxRfRecords: [],
-    };
-    const screen = setup(rxWithNoRefillHistory);
-    const refillSubHeader = screen.queryByText('Refill history');
-
-    expect(refillSubHeader).to.not.exist;
-  });
-
-  it('displays refill history if there are 2 records', () => {
-    const rxWithNoRefillHistory = {
-      ...prescription,
       dispensedDate: undefined,
-      rxRfRecords: [
-        { ...prescription.rxRfRecords[0], ...prescription.rxRfRecords[0] },
-      ],
     };
     const screen = setup(rxWithNoRefillHistory);
-    const refillSubHeader = screen.queryByText('Refill history');
+    const haventFilledRxNotification = screen.getByText(
+      'You haven’t filled this prescription yet.',
+    );
 
-    expect(refillSubHeader).to.exist;
+    expect(haventFilledRxNotification).to.exist;
   });
 
   it('displays pending med content if prescription source is PD and dispStatus is NewOrder', () => {

@@ -175,7 +175,7 @@ const changeDisabilityName = (oldData, newData, changedIndex) => {
   const newId = sippableId(newData.newDisabilities[changedIndex]?.condition);
 
   let result = removeDisability(oldData.newDisabilities[changedIndex], newData);
-  // TODO make this also update the value in the providerFacilities
+
   // Add in the new property with the old value
   const facilitiesPath = 'vaTreatmentFacilities';
   const facilities = get(facilitiesPath, result);

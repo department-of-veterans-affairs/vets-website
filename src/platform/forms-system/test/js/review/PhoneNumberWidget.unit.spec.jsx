@@ -1,19 +1,20 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import SkinDeep from 'skin-deep';
 
 import PhoneNumberWidget from '../../../src/js/review/PhoneNumberWidget';
 
 describe('Schemaform review <PhoneNumberWidget>', () => {
   it('should format phone number', () => {
-    const { container } = render(<PhoneNumberWidget value="1234567890" />);
-    expect(container.innerHTML).to.contain(
-      'va-telephone contact="1234567890" not-clickable',
+    const tree = SkinDeep.shallowRender(
+      <PhoneNumberWidget value="1234567890" />,
     );
-  });
 
+    expect(tree.text()).to.equal('(123) 456-7890');
+  });
   it('should render empty value', () => {
-    const { container } = render(<PhoneNumberWidget />);
-    expect(container.textContent).to.equal('');
+    const tree = SkinDeep.shallowRender(<PhoneNumberWidget />);
+
+    expect(tree.text()).to.equal('');
   });
 });

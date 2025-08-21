@@ -2,9 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom-v5-compat';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
+import { useGetRefillAlertPrescriptionsQuery } from '../../api/prescriptionsApi';
 
 const RefillAlert = props => {
-  const { dataDogActionName, refillStatus, refillAlertList } = props;
+  const { dataDogActionName, refillStatus } = props;
+
+  // Get the refill alert list from the RTK Query hook
+  const { data } = useGetRefillAlertPrescriptionsQuery();
+  const refillAlertList = data?.prescriptions || [];
 
   // Don't display the alert when refills are in progress or completed
   const hideAlert =
@@ -23,13 +28,8 @@ const RefillAlert = props => {
         Some refills are taking longer than expected
       </h2>
       <p>Go to your medication details to find out what to do next:</p>
-      {[...(refillAlertList || [])]
-        ?.sort((rxA, rxB) => {
-          const nameA = rxA.prescriptionName || rxA.orderableItem || '';
-          const nameB = rxB.prescriptionName || rxB.orderableItem || '';
-          return nameA.localeCompare(nameB);
-        })
-        .map(rx => (
+      {refillAlertList?.map(rx => {
+        return (
           <p
             className="vads-u-margin-bottom--0"
             key={rx.prescriptionId}
@@ -46,19 +46,14 @@ const RefillAlert = props => {
               {rx.prescriptionName}
             </Link>
           </p>
-        ))}
+        );
+      })}
     </VaAlert>
   );
 };
 
 RefillAlert.propTypes = {
   dataDogActionName: PropTypes.string,
-  refillAlertList: PropTypes.arrayOf(
-    PropTypes.shape({
-      prescriptionId: PropTypes.number.isRequired,
-      prescriptionName: PropTypes.string.isRequired,
-    }),
-  ),
   refillStatus: PropTypes.string,
 };
 

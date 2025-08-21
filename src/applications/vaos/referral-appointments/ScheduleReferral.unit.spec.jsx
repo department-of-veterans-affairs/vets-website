@@ -30,9 +30,6 @@ describe('VAOS Component: ScheduleReferral', () => {
     const details = await screen.findByTestId('referral-details');
     const facility = await screen.findByTestId('referral-facility');
     const helpText = await screen.findByTestId('help-text');
-    const informationalText = await screen.findByTestId(
-      'referral-informational-text',
-    );
 
     const expectedDate = format(
       new Date(referral.attributes.expirationDate),
@@ -44,7 +41,6 @@ describe('VAOS Component: ScheduleReferral', () => {
     expect(helpText).to.exist;
 
     expect(facility).to.exist;
-    expect(informationalText).to.exist;
   });
   it('should reset slot selection', async () => {
     const referral = createReferralById(referralDate, '222');
@@ -65,98 +61,5 @@ describe('VAOS Component: ScheduleReferral', () => {
     await waitFor(() => {
       expect(sessionStorage.getItem(selectedSlotKey)).to.be.null;
     });
-  });
-  it('should display warning alert when provider name is not available', async () => {
-    const referral = createReferralById(referralDate, '333');
-    // Ensure provider is defined but name is not available
-    referral.attributes.provider = {};
-
-    const store = createTestStore();
-
-    const screen = renderWithStoreAndRouter(
-      <ScheduleReferral currentReferral={referral} />,
-      {
-        store,
-      },
-    );
-
-    const alert = await screen.findByTestId('referral-alert');
-    expect(alert).to.exist;
-    expect(alert).to.contain.text(
-      'Online scheduling is not available for this referral at this time',
-    );
-
-    // Verify that the schedule appointment button is not rendered
-    const scheduleButton = screen.queryByTestId('schedule-appointment-button');
-    expect(scheduleButton).to.be.null;
-
-    // Verify provider info shows "Not available"
-    const details = await screen.findByTestId('referral-details');
-    expect(details).to.contain.text('Provider: Not available');
-    expect(details).to.contain.text('Location: Not available');
-  });
-
-  it('should display schedule appointment button when provider name is available', async () => {
-    const referral = createReferralById(referralDate, '444');
-    // Add provider data
-    referral.attributes.provider = {
-      name: 'Dr. Jane Smith',
-      facilityName: 'Community Care Clinic',
-    };
-
-    const store = createTestStore();
-
-    const screen = renderWithStoreAndRouter(
-      <ScheduleReferral currentReferral={referral} />,
-      {
-        store,
-      },
-    );
-
-    // Verify that the schedule appointment button is rendered
-    const scheduleButton = await screen.findByTestId(
-      'schedule-appointment-button',
-    );
-    expect(scheduleButton).to.exist;
-    expect(scheduleButton).to.have.attribute(
-      'text',
-      'Schedule your appointment',
-    );
-
-    // Verify warning alert is not displayed
-    const alert = screen.queryByTestId('referral-alert');
-    expect(alert).to.be.null;
-
-    // Verify provider info shows correct values
-    const details = await screen.findByTestId('referral-details');
-    expect(details).to.contain.text('Provider: Dr. Jane Smith');
-    expect(details).to.contain.text('Location: Community Care Clinic');
-  });
-
-  it('should handle undefined provider field gracefully', async () => {
-    const referral = createReferralById(referralDate, '555');
-    // Ensure provider is undefined (removed completely)
-    delete referral.attributes.provider;
-
-    const store = createTestStore();
-
-    const screen = renderWithStoreAndRouter(
-      <ScheduleReferral currentReferral={referral} />,
-      {
-        store,
-      },
-    );
-
-    const alert = await screen.findByTestId('referral-alert');
-    expect(alert).to.exist;
-
-    // Verify that the schedule appointment button is not rendered
-    const scheduleButton = screen.queryByTestId('schedule-appointment-button');
-    expect(scheduleButton).to.be.null;
-
-    // Verify provider info shows "Not available"
-    const details = await screen.findByTestId('referral-details');
-    expect(details).to.contain.text('Provider: Not available');
-    expect(details).to.contain.text('Location: Not available');
   });
 });

@@ -1,36 +1,3 @@
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
 @import "../../../../platform/forms/sass/m-schemaform";
 @import "../../../../platform/forms/sass/m-form-confirmation";
-@import "../../shared/sass/dependents";
-
-.contact-info-error {
-  border-left: 4px solid var(--vads-color-error-dark);
-  padding-left: 1rem;
-
-  .schemaform-required-span {
-    /* needs to override vads-u-font-weight--normal */
-    font-weight: 700 !important;
-  }
-
-  va-card {
-    border: 4px solid var(--vads-color-error-dark);
-  }
-
-  .usa-error-message {
-    color: var(--vads-color-error-dark);
-    padding-bottom: 0.25rem;
-    padding-top: 0.25rem;
-    display: block;
-    font-weight: 700;
-  }
-}
-
-/* Hide 0538 H1 & progress bar on exit-form page */
-article[data-location="exit-form"] .schemaform-title:not(.internal-page-title),
-article[data-location="exit-form"] va-segmented-progress-bar,
-
-/* hide SSN input on Vet info page */
-#root_veteranInformation_ssnLastFour-label,
-#root_veteranInformation_ssnLastFour-label + div {
-  display: none !important;
-}

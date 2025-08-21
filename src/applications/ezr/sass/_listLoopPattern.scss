@@ -13,5 +13,6 @@ legend.schemaform-block-title:focus { outline: none !important; }
 // the forms pattern forces display of the field
 va-select[name$="_contactType"] { display: none; }
 
-// Hide the delete button for the financial information list & loop
-va-card[name^="income and deductible"] va-button-icon[data-action="remove"] { display: none; }
+// Hack to hide DELETE button in the list loop for EC/NoK until we implement Delete
+va-card[name^="next of kin"] va-button-icon[data-action="remove"] { display: none; }
+va-card[name^="emergency contact"] va-button-icon[data-action="remove"] { display: none; }

@@ -226,7 +226,7 @@ describe('VAOS upcoming appointment flow', () => {
       AppointmentListPageObject.visit();
 
       // Assert
-      cy.findByText(/We can’t access your appointments right now/i);
+      cy.findByText(/We.re sorry\. We.ve run into a problem/i);
       cy.axeCheckBestPractice();
     });
 

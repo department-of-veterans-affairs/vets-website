@@ -26,7 +26,7 @@ const requireExplanation = characterOfDischarge =>
   explanationRequired.includes(characterOfDischarge);
 
 /** @type {ArrayBuilderOptions} */
-export const arrayBuilderOptions = {
+const arrayBuilderOptions = {
   arrayPath: 'militaryServiceExperiences',
   nounSingular: 'military service experience',
   nounPlural: 'military service experiences',
@@ -72,15 +72,8 @@ const branchAndDateRangePage = {
       currentLabel:
         'I am currently serving in this military service experience.',
       currentKey: 'currentlyServing',
-      isCurrentChecked: (formData, index, fullData) => {
-        // Adding a check for formData and fullData since formData is sometimes undefined on load
-        // and we cant rely on fullData for testing
-        const militaryServiceExperiences =
-          formData.militaryServiceExperiences ??
-          fullData.militaryServiceExperiences;
-        const militaryServiceExperience = militaryServiceExperiences?.[index];
-        return militaryServiceExperience?.currentlyServing === true;
-      },
+      isCurrentChecked: (formData, index) =>
+        formData?.militaryServiceExperiences?.[index]?.currentlyServing,
     }),
   },
   schema: {

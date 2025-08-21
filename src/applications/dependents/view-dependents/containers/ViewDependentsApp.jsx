@@ -12,8 +12,6 @@ import titleCase from 'platform/utilities/data/titleCase';
 
 import { fetchAllDependents as fetchAllDependentsAction } from '../actions/index';
 import ViewDependentsLayout from '../layouts/ViewDependentsLayout';
-import ViewDependentsLayoutV2 from '../layouts/ViewDependentsLayoutV2';
-
 import { PAGE_TITLE, TITLE_SUFFIX } from '../util';
 
 const ViewDependentsApp = ({
@@ -23,7 +21,6 @@ const ViewDependentsApp = ({
   onAwardDependents,
   notOnAwardDependents,
   manageDependentsToggle,
-  dependentsVerificationFormToggle,
   dependencyVerificationToggle,
   updateDiariesStatus,
   fetchAllDependents,
@@ -36,48 +33,33 @@ const ViewDependentsApp = ({
     [fetchAllDependents],
   );
 
-  const layout = dependentsVerificationFormToggle ? (
-    <ViewDependentsLayoutV2
-      loading={loading}
-      error={error}
-      onAwardDependents={onAwardDependents}
-      notOnAwardDependents={notOnAwardDependents}
-      manageDependentsToggle={manageDependentsToggle}
-      dependencyVerificationToggle={dependencyVerificationToggle}
-      updateDiariesStatus={updateDiariesStatus}
-    />
-  ) : (
-    <ViewDependentsLayout
-      loading={loading}
-      error={error}
-      onAwardDependents={onAwardDependents}
-      notOnAwardDependents={notOnAwardDependents}
-      manageDependentsToggle={manageDependentsToggle}
-      dependencyVerificationToggle={dependencyVerificationToggle}
-      updateDiariesStatus={updateDiariesStatus}
-    />
-  );
   return (
-    <div className="row">
-      <div className="usa-width-two-thirds medium-8 columns print-full-width">
-        <DowntimeNotification
-          appTitle="view dependents tool"
-          dependencies={[
-            externalServices.bgs,
-            externalServices.global,
-            externalServices.mvi,
-            externalServices.vaProfile,
-            externalServices.vbms,
-          ]}
+    <div className="vads-l-grid-container vads-u-padding--2">
+      <DowntimeNotification
+        appTitle="view dependents tool"
+        dependencies={[
+          externalServices.bgs,
+          externalServices.global,
+          externalServices.mvi,
+          externalServices.vaProfile,
+          externalServices.vbms,
+        ]}
+      >
+        <RequiredLoginView
+          serviceRequired={backendServices.USER_PROFILE}
+          user={user}
         >
-          <RequiredLoginView
-            serviceRequired={backendServices.USER_PROFILE}
-            user={user}
-          >
-            {layout}
-          </RequiredLoginView>
-        </DowntimeNotification>
-      </div>
+          <ViewDependentsLayout
+            loading={loading}
+            error={error}
+            onAwardDependents={onAwardDependents}
+            notOnAwardDependents={notOnAwardDependents}
+            manageDependentsToggle={manageDependentsToggle}
+            dependencyVerificationToggle={dependencyVerificationToggle}
+            updateDiariesStatus={updateDiariesStatus}
+          />
+        </RequiredLoginView>
+      </DowntimeNotification>
     </div>
   );
 };
@@ -88,9 +70,6 @@ const mapStateToProps = state => ({
   error: state.allDependents.error,
   manageDependentsToggle: toggleValues(state)[
     FEATURE_FLAG_NAMES.manageDependents
-  ],
-  dependentsVerificationFormToggle: toggleValues(state)[
-    FEATURE_FLAG_NAMES.vaDependentsVerification
   ],
   dependencyVerificationToggle: toggleValues(state)[
     FEATURE_FLAG_NAMES.dependencyVerification
@@ -113,8 +92,8 @@ ViewDependentsApp.propTypes = {
   fetchAllDependents: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
+
   dependencyVerificationToggle: PropTypes.bool,
-  dependentsVerificationFormToggle: PropTypes.bool,
   error: PropTypes.object,
   manageDependentsToggle: PropTypes.bool,
   notOnAwardDependents: PropTypes.array,

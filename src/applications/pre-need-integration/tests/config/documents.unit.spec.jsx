@@ -8,7 +8,7 @@ import {
   DefinitionTester,
   getFormDOM,
 } from 'platform/testing/unit/schemaform-utils.jsx';
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import formConfig from '../../config/form';
 
 describe('Pre-need attachments', () => {
@@ -55,9 +55,9 @@ describe('Pre-need attachments', () => {
     expect(onSubmit.called).to.be.true;
   });
 
-  it('should not submit without attachment id', async () => {
+  it('should not submit without attachment id', () => {
     const onSubmit = sinon.spy();
-    const { container } = render(
+    const form = render(
       <Provider store={uploadStore}>
         <DefinitionTester
           schema={schema}
@@ -77,18 +77,16 @@ describe('Pre-need attachments', () => {
       </Provider>,
     );
 
-    fireEvent.submit(container.querySelector('form'));
+    const formDOM = getFormDOM(form);
 
-    await waitFor(() => {
-      const errorElements = container.querySelectorAll('.usa-input-error');
-      expect(errorElements.length).to.equal(1);
-      expect(onSubmit.called).to.be.false;
-    });
+    formDOM.submitForm();
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
   });
 
-  it('should not submit without required fields', async () => {
+  it('should not submit without required fields', () => {
     const onSubmit = sinon.spy();
-    const { container } = render(
+    const form = render(
       <Provider store={uploadStore}>
         <DefinitionTester
           schema={schema}
@@ -108,13 +106,11 @@ describe('Pre-need attachments', () => {
       </Provider>,
     );
 
-    fireEvent.submit(container.querySelector('form'));
+    const formDOM = getFormDOM(form);
 
-    await waitFor(() => {
-      const errorElements = container.querySelectorAll('.usa-input-error');
-      expect(errorElements.length).to.equal(1);
-      expect(onSubmit.called).to.be.false;
-    });
+    formDOM.submitForm();
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
   });
   it('should submit with valid data', () => {
     const onSubmit = sinon.spy();

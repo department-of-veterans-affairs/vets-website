@@ -212,9 +212,7 @@ export const insurancePages = arrayBuilderPages(
     insuranceIntro: pageBuilder.introPage({
       path: 'insurance-intro',
       title: '[noun plural]',
-      depends: formData =>
-        get('hasOhi', formData) &&
-        get('claimStatus', formData) !== 'resubmission',
+      depends: formData => get('hasOhi', formData),
       uiSchema: {
         ...titleUI('Health insurance information', ({ formData }) => (
           <p>
@@ -237,25 +235,19 @@ export const insurancePages = arrayBuilderPages(
     insuranceSummary: pageBuilder.summaryPage({
       title: 'Review your [noun plural]',
       path: 'insurance-review',
-      depends: formData =>
-        get('hasOhi', formData) &&
-        get('claimStatus', formData) !== 'resubmission',
+      depends: formData => get('hasOhi', formData),
       ...summaryPage,
     }),
     insurancePolicy: pageBuilder.itemPage({
       title: 'Policy information',
       path: 'policy-info/:index',
-      depends: formData =>
-        get('hasOhi', formData) &&
-        get('claimStatus', formData) !== 'resubmission',
+      depends: formData => get('hasOhi', formData),
       ...policyPage,
     }),
     insuranceType: pageBuilder.itemPage({
       title: 'Type',
       path: 'insurance-type/:index',
-      depends: formData =>
-        get('hasOhi', formData) &&
-        get('claimStatus', formData) !== 'resubmission',
+      depends: formData => get('hasOhi', formData),
       ...insuranceProviderPage,
     }),
   }),

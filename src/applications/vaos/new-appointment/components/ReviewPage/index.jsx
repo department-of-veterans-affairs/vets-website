@@ -54,8 +54,8 @@ export default function ReviewPage() {
   const isDirectSchedule = flowType === FLOW_TYPES.DIRECT;
   const submissionType = isDirectSchedule ? 'appointment' : 'request';
   const alertHeadline = isDirectSchedule
-    ? 'We can’t schedule your appointment right now'
-    : 'We can’t submit your request right now';
+    ? 'We couldn’t schedule this appointment'
+    : 'We can’t submit your request';
   const facilityDetails = facility || parentFacility;
 
   return (
@@ -112,13 +112,11 @@ export default function ReviewPage() {
                   </p>
                 )}
               {!submitStatusVaos400 && (
-                <>
-                  <p>
-                    We’re sorry. There’s a problem with our system. Refresh this
-                    page to start over or try again later.
-                  </p>
-                  <p>If you need to schedule now, call your VA facility.</p>
-                </>
+                <p>
+                  We’re sorry. Something went wrong when we tried to submit your{' '}
+                  {submissionType}. You can try again later, or call your VA
+                  medical center to help with your {submissionType}.
+                </p>
               )}
               <>
                 {!!facilityDetails && (
@@ -126,7 +124,6 @@ export default function ReviewPage() {
                     name={facilityDetails.name}
                     facility={facilityDetails}
                     showDirectionsLink
-                    level={3}
                   />
                 )}
               </>

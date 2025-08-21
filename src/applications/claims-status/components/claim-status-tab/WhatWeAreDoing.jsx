@@ -9,7 +9,7 @@ import {
   getClaimStatusDescription,
   getClaimPhaseTypeHeaderText,
   getClaimPhaseTypeDescription,
-  getShowEightPhases,
+  isDisabilityCompensationClaim,
 } from '../../utils/helpers';
 
 const getPhaseChangeDateText = phaseChangeDate => {
@@ -27,11 +27,11 @@ export default function WhatWeAreDoing({
 }) {
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
   const cstClaimPhasesEnabled = useToggleValue(TOGGLE_NAMES.cstClaimPhases);
-  const showEightPhases = getShowEightPhases(
-    claimTypeCode,
-    cstClaimPhasesEnabled,
-  );
-
+  // When feature flag cstClaimPhases is enabled and claim type code is for a disability
+  // compensation claim we show 8 phases instead of 5 with updated description, link text
+  // and statuses
+  const showEightPhases =
+    cstClaimPhasesEnabled && isDisabilityCompensationClaim(claimTypeCode);
   const humanStatus = showEightPhases
     ? getClaimPhaseTypeHeaderText(claimPhaseType)
     : getStatusDescription(status);

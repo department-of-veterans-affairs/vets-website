@@ -23,7 +23,6 @@ describe('ClaimDetailsContent', () => {
     hasStatusFeatureFlag = true,
     hasDetailsFeatureFlag = true,
     hasClaimsManagementFlag = true,
-    hasClaimsManagementDecisionReasonFlag = true,
   } = {}) => ({
     featureToggles: {
       loading: featureTogglesAreLoading,
@@ -31,7 +30,6 @@ describe('ClaimDetailsContent', () => {
       travel_pay_power_switch: hasStatusFeatureFlag,
       travel_pay_view_claim_details: hasDetailsFeatureFlag,
       travel_pay_claims_management: hasClaimsManagementFlag,
-      travel_pay_claims_management_decision_reason: hasClaimsManagementDecisionReasonFlag,
       /* eslint-enable camelcase */
     },
   });
@@ -54,7 +52,7 @@ describe('ClaimDetailsContent', () => {
     expect(screen.getByText('Claim status: Claim submitted')).to.exist;
   });
 
-  it('renders secure messaging link for denied claims', () => {
+  it('renders appeal link for denied claims', () => {
     const screen = renderWithStoreAndRouter(
       <ClaimDetailsContent {...claimDetailsProps} claimStatus="Denied" />,
       {
@@ -65,7 +63,7 @@ describe('ClaimDetailsContent', () => {
     expect(screen.getByText('Claim status: Denied')).to.exist;
     expect(
       $(
-        'va-link[text="Send a secure message"][href="/health-care/send-receive-messages/"]',
+        'va-link-action[text="Appeal the claim decision"][href="/decision-reviews"]',
       ),
     ).to.exist;
   });
@@ -79,6 +77,7 @@ describe('ClaimDetailsContent', () => {
     );
 
     expect(screen.getByText('Claim status: Claim submitted')).to.exist;
+    expect(screen.getByText('What does this status mean')).to.exist;
     expect(screen.getByText(/You submitted this claim for review/i)).to.exist;
   });
 
@@ -94,6 +93,7 @@ describe('ClaimDetailsContent', () => {
     );
 
     expect(screen.getByText('Claim status: Unexpected status')).to.exist;
+    expect(screen.queryByText('What does this status mean')).to.not.exist;
     expect(screen.getByText(/If you need help understanding your claim/i)).to
       .exist;
   });
@@ -123,6 +123,7 @@ describe('ClaimDetailsContent', () => {
     expect(
       $('va-link[text="Appeal the claim decision"][href="/decision-reviews"]'),
     ).to.not.exist;
+    expect(screen.queryByText('What does this status mean')).to.not.exist;
     expect(screen.queryByText('Reimbursement amount of $46.93')).to.not.exist;
     expect($('va-link[text="Download your decision letter"]')).to.not.exist;
     expect($('va-link[text="screenshot.png"]')).to.not.exist;
@@ -223,9 +224,8 @@ describe('ClaimDetailsContent', () => {
         },
       );
 
-      expect(
-        $('va-link[download="true"][text="Get VA Form 10-0998 to download"]'),
-      ).to.exist;
+      expect($('va-link[download="true"][text="VA Form 10-0998 (PDF)"]')).to
+        .exist;
       expect(screen.queryByText('Documents you submitted')).to.not.exist;
     });
   });
@@ -339,76 +339,6 @@ describe('ClaimDetailsContent', () => {
           /The VA travel pay deductible is \$3 for a one-way trip/i,
         ),
       ).to.not.exist;
-    });
-  });
-
-  describe('Decision reason', () => {
-    it('does not show decision reason section with flag off', () => {
-      const screen = renderWithStoreAndRouter(
-        <ClaimDetailsContent
-          {...claimDetailsProps}
-          claimStatus="Denied"
-          decisionLetterReason="Your claim was denied because of reasons. Authority 38 CFR 70.10"
-        />,
-        {
-          initialState: getState({
-            hasClaimsManagementDecisionReasonFlag: false,
-          }),
-        },
-      );
-
-      expect(
-        screen.getByText(
-          'We denied your claim. You can review the decision letter for more information and how to appeal.',
-        ),
-      ).to.exist;
-      expect(screen.queryByText('Your claim was denied because of reasons.')).to
-        .not.exist;
-    });
-
-    it('shows decision reason section with flag on and decisionLetterReason provided', () => {
-      const screen = renderWithStoreAndRouter(
-        <ClaimDetailsContent
-          {...claimDetailsProps}
-          claimStatus="Denied"
-          decisionLetterReason="Your claim was denied because of reasons. Authority 38 CFR 70.10"
-        />,
-        {
-          initialState: getState(),
-        },
-      );
-
-      expect(
-        screen.getByText(
-          'We denied your claim. You can review the decision letter for more information and how to appeal.',
-        ),
-      ).to.exist;
-      expect(
-        screen.getByText(
-          'Your claim was denied because of reasons. Authority 38 CFR 70.10',
-        ),
-      ).to.exist;
-    });
-
-    it('shows partial payment specific copy for status', () => {
-      const screen = renderWithStoreAndRouter(
-        <ClaimDetailsContent
-          {...claimDetailsProps}
-          claimStatus="Partial payment"
-          decisionLetterReason="We only paid some of your requested amount"
-        />,
-        {
-          initialState: getState(),
-        },
-      );
-
-      expect(
-        screen.getByText(
-          'Some of the expenses you submitted aren’t eligible for reimbursement. You can review the decision letter for more information.',
-        ),
-      ).to.exist;
-      expect(screen.getByText('We only paid some of your requested amount')).to
-        .exist;
     });
   });
 });

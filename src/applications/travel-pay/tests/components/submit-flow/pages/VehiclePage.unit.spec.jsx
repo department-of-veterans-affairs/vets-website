@@ -1,8 +1,7 @@
 import React from 'react';
 import sinon from 'sinon';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { render, fireEvent } from '@testing-library/react';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import * as recordEventModule from 'platform/monitoring/record-event';
 
@@ -53,9 +52,12 @@ describe('Vehicle page', () => {
     ).to.be.true;
     expect($('va-radio')).to.not.have.attribute('error');
     expect($('va-button-pair')).to.exist;
-    const additionalInfoElement = screen.getByTestId('vehicle-help-text');
-    expect(additionalInfoElement).to.exist;
-    userEvent.click(additionalInfoElement);
+
+    fireEvent.click(
+      $(
+        `va-additional-info[trigger="If you didn't travel in your own vehicle"]`,
+      ),
+    );
     expect(
       screen.getByText(
         /bus, train, taxi, or other authorized public transportation/i,

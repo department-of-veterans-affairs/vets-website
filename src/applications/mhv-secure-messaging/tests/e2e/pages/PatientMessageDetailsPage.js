@@ -47,8 +47,8 @@ class PatientMessageDetailsPage {
   };
 
   expandAllThreadMessages = () => {
-    cy.findByTestId(Locators.ALERTS.THREAD_EXPAND).should('be.visible');
-    cy.findByTestId(Locators.ALERTS.THREAD_EXPAND)
+    cy.get(Locators.ALERTS.THREAD_EXPAND).should('be.visible');
+    cy.get(Locators.ALERTS.THREAD_EXPAND)
       .shadow()
       .find('button')
       .click({ force: true });
@@ -369,7 +369,7 @@ class PatientMessageDetailsPage {
   };
 
   verifyAccordionStatus = value => {
-    cy.findByTestId(Locators.BUTTONS.THREAD_EXPAND)
+    cy.get(Locators.BUTTONS.THREAD_EXPAND)
       .find(`va-accordion-item`)
       .each(el => {
         cy.wrap(el)

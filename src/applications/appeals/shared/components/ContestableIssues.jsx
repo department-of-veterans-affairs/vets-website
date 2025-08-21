@@ -240,6 +240,7 @@ const ContestableIssues = props => {
           onPrimaryButtonClick={handlers.onRemoveIssue}
           onSecondaryButtonClick={handlers.onRemoveModalClose}
           visible={showRemoveModal}
+          uswds
         >
           <p>
             {removeIndex !== null

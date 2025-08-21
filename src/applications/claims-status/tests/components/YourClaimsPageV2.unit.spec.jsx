@@ -120,74 +120,23 @@ describe('<YourClaimsPageV2>', () => {
     expect($('.claims-unavailable', container)).to.exist;
   });
 
-  it('should render a loading skeleton if all requests loading - with smooth loading enabled', () => {
+  it('should render a loading indicator if all requests loading', () => {
     const props = cloneDeep(defaultProps);
     props.appealsLoading = true;
     props.claimsLoading = true;
     props.stemClaimsLoading = true;
-    props.isSmoothLoadingEnabled = true;
-    const wrapper = shallow(<YourClaimsPageV2 {...props} />);
-    expect(wrapper.find('ClaimCardLoadingSkeleton').length).to.equal(1);
-    wrapper.unmount();
-  });
-
-  it('should render a loading indicator if all requests loading - with smooth loading disabled', () => {
-    const props = cloneDeep(defaultProps);
-    props.appealsLoading = true;
-    props.claimsLoading = true;
-    props.stemClaimsLoading = true;
-    props.isSmoothLoadingEnabled = false;
     const wrapper = shallow(<YourClaimsPageV2 {...props} />);
     expect(wrapper.find('va-loading-indicator').length).to.equal(1);
     wrapper.unmount();
   });
 
-  it('should render a loading skeleton if one list empty and other loading - with smooth loading enabled', () => {
+  it('should render a loading indicator if one list empty and other loading', () => {
     const props = cloneDeep(defaultProps);
     props.stemClaimsLoading = true;
     props.list = [];
-    props.isSmoothLoadingEnabled = true;
-    const wrapper = shallow(<YourClaimsPageV2 {...props} />);
-    expect(wrapper.find('ClaimCardLoadingSkeleton').length).to.equal(1);
-    wrapper.unmount();
-  });
-
-  it('should render a loading indicator if one list empty and other loading - with smooth loading disabled', () => {
-    const props = cloneDeep(defaultProps);
-    props.stemClaimsLoading = true;
-    props.list = [];
-    props.isSmoothLoadingEnabled = false;
     const wrapper = shallow(<YourClaimsPageV2 {...props} />);
     expect(wrapper.find('va-loading-indicator').length).to.equal(1);
     wrapper.unmount();
-  });
-
-  it('should not show visible loading skeleton but announce content loaded when claims have loaded - with smooth loading enabled', () => {
-    const props = cloneDeep(defaultProps);
-    props.isSmoothLoadingEnabled = true;
-    props.claimsLoading = false;
-    props.appealsLoading = false;
-    props.stemClaimsLoading = false;
-
-    const { getByTestId } = renderWithRouter(
-      <Provider store={mockStore}>
-        <YourClaimsPageV2 {...props} />
-      </Provider>,
-    );
-
-    // Find the loading skeleton by its test id
-    const loadingSkeleton = getByTestId('claim-card-loading-skeleton');
-    expect(loadingSkeleton).to.exist;
-
-    // Verify no skeleton rows are rendered (they only appear when isLoading=true)
-    const skeletonRows = loadingSkeleton.querySelectorAll(
-      '.loading-skeleton--row',
-    );
-    expect(skeletonRows.length).to.equal(0);
-
-    // Verify it announces to screen readers that content has loaded
-    const srText = getByTestId('claim-card-loading-skeleton-sr-text');
-    expect(srText.textContent).to.equal('Claims and appeals have loaded');
   });
 
   it('should render a list of claims and appeals', () => {

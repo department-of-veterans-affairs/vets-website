@@ -4,6 +4,7 @@ import {
   getPrescriptionById,
   getPrescriptionsList,
   getRefillablePrescriptions,
+  getRefillAlertPrescriptions,
 } from '../api/prescriptionsApi';
 import {
   rxListSortingOptions,
@@ -56,9 +57,13 @@ export const prescriptionsLoader = ({ params }) => {
   // For refill pages, load refillable prescriptions
   if (window.location.pathname.endsWith('/refill')) {
     fetchPromises.push(store.dispatch(getRefillablePrescriptions.initiate()));
+    fetchPromises.push(store.dispatch(getRefillAlertPrescriptions.initiate()));
   } else if (!rxId) {
     const state = store.getState();
     const prefs = buildQueryParams(state.rx.preferences);
+
+    // Load the refill alert list
+    fetchPromises.push(store.dispatch(getRefillAlertPrescriptions.initiate()));
     fetchPromises.push(store.dispatch(getPrescriptionsList.initiate(prefs)));
   } else if (rxId) {
     // If on a prescription detail page, fetch that specific prescription

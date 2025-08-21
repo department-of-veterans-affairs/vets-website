@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, waitFor } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
@@ -81,7 +81,7 @@ describe('Herbicide Location', () => {
     expect(onSubmit.calledOnce).to.be.true;
   });
 
-  it('should display error when location and "none"', async () => {
+  it('should display error when location and "none"', () => {
     const formData = {};
     const { container, getByText } = render(
       <DefinitionTester schema={schema} uiSchema={uiSchema} data={formData} />,
@@ -91,9 +91,7 @@ describe('Herbicide Location', () => {
     checkVaCheckbox(checkboxGroup, 'none');
 
     userEvent.click(getByText('Submit'));
-    await waitFor(() => {
-      expect($('va-checkbox-group').error).to.equal(noneAndLocationError);
-    });
+    expect($('va-checkbox-group').error).to.equal(noneAndLocationError);
   });
 
   it('should submit with `none` and `notsure` selected', async () => {
@@ -115,7 +113,7 @@ describe('Herbicide Location', () => {
     expect(onSubmit.calledOnce).to.be.true;
   });
 
-  it('should display error when other location and "none"', async () => {
+  it('should display error when other location and "none"', () => {
     const formData = {};
     const { container, getByText } = render(
       <DefinitionTester schema={schema} uiSchema={uiSchema} data={formData} />,
@@ -130,12 +128,10 @@ describe('Herbicide Location', () => {
     );
 
     userEvent.click(getByText('Submit'));
-    await waitFor(() => {
-      expect($('va-checkbox-group').error).to.equal(noneAndLocationError);
-    });
+    expect($('va-checkbox-group').error).to.equal(noneAndLocationError);
   });
 
-  it('should display error when other location does not match pattern', async () => {
+  it('should display error when other location does not match pattern', () => {
     const formData = {};
     const onSubmit = sinon.spy();
     const { container, getByText } = render(
@@ -154,10 +150,8 @@ describe('Herbicide Location', () => {
     );
 
     userEvent.click(getByText('Submit'));
-    await waitFor(() => {
-      expect($('va-textarea').error).to.equal(otherInvalidCharError);
-      expect(onSubmit.called).to.be.false;
-    });
+    expect($('va-textarea').error).to.equal(otherInvalidCharError);
+    expect(onSubmit.called).to.be.false;
   });
 
   it('should submit with "notsure" and other locations selected', async () => {

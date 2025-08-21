@@ -2,9 +2,11 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
-import { render, fireEvent, waitFor } from '@testing-library/react';
 
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  // fillData,
+} from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
 describe('Pre-need applicant non veteran applicant details', () => {
@@ -22,14 +24,14 @@ describe('Pre-need applicant non veteran applicant details', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(5);
-    expect(form.find('VaMemorableDate').length).to.equal(1);
+    expect(form.find('input').length).to.equal(6);
+    expect(form.find('select').length).to.equal(3);
     form.unmount();
   });
 
-  it('should not submit empty form', async () => {
+  it('should not submit empty form', () => {
     const onSubmit = sinon.spy();
-    const { container } = render(
+    const form = mount(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
@@ -37,12 +39,11 @@ describe('Pre-need applicant non veteran applicant details', () => {
         uiSchema={uiSchema}
       />,
     );
-    fireEvent.submit(container.querySelector('form'));
 
-    await waitFor(() => {
-      const errorElements = container.querySelectorAll('.usa-input-error');
-      expect(errorElements.length).to.equal(3);
-      expect(onSubmit.called).to.be.false;
-    });
+    form.find('form').simulate('submit');
+
+    expect(form.find('.usa-input-error').length).to.equal(4);
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 });

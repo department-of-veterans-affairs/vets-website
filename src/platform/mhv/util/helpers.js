@@ -4,7 +4,6 @@ import {
 } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { format } from 'date-fns';
 import * as Sentry from '@sentry/browser';
-import { datadogRum } from '@datadog/browser-rum';
 import { reportGeneratedBy } from './constants';
 
 /**
@@ -207,7 +206,7 @@ export const makePdf = async (
   } catch (error) {
     // Reset the pdfModulePromise so subsequent calls can try again
     pdfModulePromise = null;
-    datadogRum.addError(error, sentryErrorLabel);
+
     sendErrorToSentry(error, sentryErrorLabel);
   }
 };

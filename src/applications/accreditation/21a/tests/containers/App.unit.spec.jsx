@@ -28,7 +28,6 @@ const getState = ({
   user: {
     profile: {
       loading: profileLoading,
-      loa: { current: 1 },
     },
   },
 });
@@ -61,21 +60,23 @@ describe('<App>', () => {
     });
   });
 
-  context.skip(
-    // TODO: Remove skip when migration to Node 22 is complete
+  context(
     'when isProduction and accredited_representative_portal_frontend is false',
     () => {
       let isProduction;
-      let replaceSpy;
+      let oldLocation;
 
       beforeEach(() => {
         isProduction = sinon.stub(constants, 'isProduction').returns(true);
-        replaceSpy = sinon.stub(window.location, 'replace');
+        oldLocation = global.window.location;
+        global.window.location = {
+          replace: sinon.spy(),
+        };
       });
 
       afterEach(() => {
         isProduction.restore();
-        replaceSpy.restore();
+        global.window.location = oldLocation;
       });
 
       it('should exit app', () => {
@@ -84,46 +85,48 @@ describe('<App>', () => {
             ...getState({ accreditedRepresentativePortalFrontend: false }),
           },
         });
-        expect(replaceSpy.calledWith('/')).to.be.true;
+        expect(window.location.replace.calledWith('/')).to.be.true;
       });
     },
   );
 
-  context.skip(
-    // TODO: Remove skip when migration to Node 22 is complete
-    'when accredited_representative_portal_form_21a is false',
-    () => {
-      let replaceSpy;
-
-      beforeEach(() => {
-        replaceSpy = sinon.stub(window.location, 'replace');
-      });
-
-      afterEach(() => {
-        replaceSpy.restore();
-      });
-
-      it('should go to Accredited Representative Portal', () => {
-        renderWithStoreAndRouter(<App />, {
-          initialState: {
-            ...getState({ accreditedRepresentativePortalForm21a: false }),
-          },
-        });
-        expect(replaceSpy.calledWith('/representative')).to.be.true;
-      });
-    },
-  );
-
-  // TODO: Remove skip when migration to Node 22 is complete
-  context.skip('when selectShouldGoToSignIn is true', () => {
-    let assignSpy;
+  context('when accredited_representative_portal_form_21a is false', () => {
+    let oldLocation;
 
     beforeEach(() => {
-      assignSpy = sinon.stub(window.location, 'assign');
+      oldLocation = global.window.location;
+      global.window.location = {
+        replace: sinon.spy(),
+      };
     });
 
     afterEach(() => {
-      assignSpy.restore();
+      global.window.location = oldLocation;
+    });
+
+    it('should go to Accredited Representative Portal', () => {
+      renderWithStoreAndRouter(<App />, {
+        initialState: {
+          ...getState({ accreditedRepresentativePortalForm21a: false }),
+        },
+      });
+      expect(window.location.replace.calledWith('/representative')).to.be.true;
+    });
+  });
+
+  context('when selectShouldGoToSignIn is true', () => {
+    let oldLocation;
+
+    beforeEach(() => {
+      oldLocation = global.window.location;
+      global.window.location = {
+        replace: sinon.spy(),
+        assign: sinon.spy(),
+      };
+    });
+
+    afterEach(() => {
+      global.window.location = oldLocation;
     });
 
     it('should go to the sign in page', () => {
@@ -134,7 +137,7 @@ describe('<App>', () => {
           }),
         },
       });
-      expect(assignSpy.called).to.be.true;
+      expect(window.location.assign.called).to.be.true;
     });
   });
 

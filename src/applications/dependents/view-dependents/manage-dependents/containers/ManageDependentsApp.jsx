@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import ErrorMessage from 'platform/forms/components/common/alerts/ErrorMessage';
-
 import * as actions from '../redux/actions';
 import { SCHEMAS } from '../schemas';
 import {
@@ -50,7 +50,6 @@ const ManageDependents = props => {
         stateKey,
       );
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [dependentsState],
   );
 
@@ -74,7 +73,6 @@ const ManageDependents = props => {
 
   useEffect(() => {
     initialize();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(
@@ -86,12 +84,6 @@ const ManageDependents = props => {
     },
     [dependentsState, stateKey],
   );
-
-  const fullName = `${userInfo.fullName?.firstName || ''} ${userInfo.fullName
-    ?.lastName || ''}`;
-  const isLoading = schema
-    ? dependentsState[stateKey].status === LOADING_STATUS.pending
-    : false;
 
   return schema ? (
     <div>
@@ -110,27 +102,26 @@ const ManageDependents = props => {
               <ServerErrorFragment />
             </ErrorMessage>
           )}
-          <va-button
-            submit="prevent"
-            label={`Submit VA Form 686c to remove ${fullName} as a dependent`}
-            loading={
+          <LoadingButton
+            className="usa-button usa-button-primary"
+            aria-label="Submit VA Form 686c to remove this dependent"
+            isLoading={
               dependentsState[stateKey].status === LOADING_STATUS.pending
-                ? true
-                : null
             }
-            text={
-              isLoading
-                ? 'Removing dependent from award...'
-                : 'Remove dependent'
+            loadingText="Removing dependent from award..."
+            disabled={
+              dependentsState[stateKey].status === LOADING_STATUS.pending
             }
-            disabled={isLoading || null}
-          />
-          <va-button
+          >
+            Remove dependent
+          </LoadingButton>
+          <button
+            type="button"
             onClick={handleFormClose}
-            secondary
-            text="Cancel"
-            label={`Cancel removing ${fullName} as a dependent`}
-          />
+            className="usa-button usa-button-secondary"
+          >
+            Cancel
+          </button>
         </div>
       </SchemaForm>
     </div>
@@ -155,13 +146,12 @@ export default connect(
 export { ManageDependents };
 
 ManageDependents.propTypes = {
+  relationship: PropTypes.string,
+  updateFormData: PropTypes.func,
+  dependentsState: PropTypes.object,
+  veteranContactInformation: PropTypes.object,
   cleanupFormData: PropTypes.func,
   closeFormHandler: PropTypes.func,
-  dependentsState: PropTypes.object,
-  relationship: PropTypes.string,
   stateKey: PropTypes.number,
-  submitFormData: PropTypes.func,
-  updateFormData: PropTypes.func,
   userInfo: PropTypes.object,
-  veteranContactInformation: PropTypes.object,
 };

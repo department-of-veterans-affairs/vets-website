@@ -2,7 +2,9 @@ import { expect } from 'chai';
 import { subDays } from 'date-fns';
 import React from 'react';
 import MockAddress from '../../tests/fixtures/MockAddress';
+import { MockAppointment } from '../../tests/fixtures/MockAppointment';
 import MockAppointmentResponse from '../../tests/fixtures/MockAppointmentResponse';
+import MockCommunityCareProvider from '../../tests/fixtures/MockCommunityCareProvider';
 import {
   createTestStore,
   renderWithStoreAndRouter,
@@ -17,16 +19,36 @@ describe('VAOS Component: CCLayout', () => {
     it('should not display heading and text for empty data', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const response = MockAppointmentResponse.createCCResponse({
-        localStartTime: new Date(),
-      })
-        .setCCLocation(null)
-        .setCCTreatingSpecialty(null)
-        .setPatientComments(null)
-        .setTypeOfCare(null);
-      const appointment = MockAppointmentResponse.getTransformedResponse(
-        response,
-      );
+      const appointment = {
+        type: 'COMMUNITY_CARE_APPOINTMENT',
+        modality: 'communityCare',
+        communityCareProvider: {
+          telecom: [{ system: 'phone', value: '123-456-7890' }],
+          providers: [
+            {
+              name: {
+                familyName: 'Test',
+                lastName: 'User',
+              },
+              providerName: 'Test User',
+            },
+          ],
+        },
+        location: {},
+        minutesDuration: 60,
+        startUtc: new Date(),
+        videoData: {},
+        vaos: {
+          isCommunityCare: true,
+          isCompAndPenAppointment: false,
+          isCOVIDVaccine: false,
+          isPendingAppointment: false,
+          isUpcomingAppointment: true,
+          isCerner: false,
+          apiData: {},
+        },
+        status: 'booked',
+      };
       const nullAttributes = {
         type: 'COMMUNITY_CARE_APPOINTMENT',
         modality: 'communityCare',
@@ -70,17 +92,47 @@ describe('VAOS Component: CCLayout', () => {
     it('should display CC layout', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const response = MockAppointmentResponse.createCCResponse({
-        localStartTime: new Date(),
-      })
-        .setCCLocation(new MockAddress())
-        .setCCTelecom('123-456-7890')
-        .setCCTreatingSpecialty('Optometrist')
-        .setPatientComments('This is a test:Additional information')
-        .setPractitioner();
-      const appointment = MockAppointmentResponse.getTransformedResponse(
-        response,
-      );
+      const appointment = {
+        type: 'COMMUNITY_CARE_APPOINTMENT',
+        modality: 'communityCare',
+        patientComments: 'This is a test:Additional information',
+        communityCareProvider: {
+          address: {
+            line: ['line 1'],
+            city: 'City',
+            state: 'State',
+            postalCode: '12345',
+          },
+          telecom: [{ system: 'phone', value: '123-456-7890' }],
+          providers: [
+            {
+              name: {
+                familyName: 'Test',
+                lastName: 'User',
+              },
+              providerName: 'Test User',
+            },
+          ],
+          providerName: ['Test User'],
+          treatmentSpecialty: 'Optometrist',
+        },
+        location: {},
+        minutesDuration: 60,
+        startUtc: new Date(),
+        videoData: {},
+        vaos: {
+          isCommunityCare: true,
+          isCompAndPenAppointment: false,
+          isCOVIDVaccine: false,
+          isPendingAppointment: false,
+          isUpcomingAppointment: true,
+          isCerner: false,
+          apiData: {
+            serviceType: 'primaryCare',
+          },
+        },
+        status: 'booked',
+      };
       const nullAttributes = {
         type: 'COMMUNITY_CARE_APPOINTMENT',
         modality: 'communityCare',
@@ -110,7 +162,7 @@ describe('VAOS Component: CCLayout', () => {
       expect(screen.getByText(/Primary care/i));
 
       expect(screen.getByRole('heading', { level: 2, name: /Provider/ }));
-      expect(screen.getByText(/Test Prov/i));
+      expect(screen.getByText(/Test User/i));
       expect(screen.getByText(/Optometrist/i));
       expect(screen.getByText(/line 1/i));
       expect(screen.container.querySelector('va-icon[icon="directions"]')).to.be
@@ -144,7 +196,7 @@ describe('VAOS Component: CCLayout', () => {
       );
       expect(
         screen.getByText(
-          /Bring your insurance cards, a list of your medications, and other things to share with your provider/i,
+          /Bring your insurance cards. And bring a list of your medications and other information to share with your provider./i,
         ),
       );
       expect(
@@ -154,7 +206,7 @@ describe('VAOS Component: CCLayout', () => {
       ).to.be.ok;
       expect(
         screen.container.querySelector(
-          'va-link[text="Find out what to bring to your appointment"]',
+          'va-link[text="Find a full list of things to bring to your appointment"]',
         ),
       ).to.be.ok;
 
@@ -177,18 +229,16 @@ describe('VAOS Component: CCLayout', () => {
     it('should display CC layout', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const response = MockAppointmentResponse.createCCResponse({
-        localStartTime: subDays(new Date(), 1),
-        past: true,
+      const appointment = new MockAppointment({
+        start: subDays(new Date(), 1),
       })
-        .setCCLocation(new MockAddress())
-        .setCCTelecom('123-456-7890')
-        .setCCTreatingSpecialty('Optometrist')
-        .setPatientComments('This is a test:Additional information')
-        .setPractitioner();
-      const appointment = MockAppointmentResponse.getTransformedResponse(
-        response,
-      );
+        .setApiData(new MockAppointmentResponse())
+        .setCommunityCareProvider(
+          new MockCommunityCareProvider({
+            address: new MockAddress(),
+          }),
+        )
+        .setIsPastAppointment(true);
 
       // Act
       const screen = renderWithStoreAndRouter(<CCLayout data={appointment} />, {
@@ -215,13 +265,13 @@ describe('VAOS Component: CCLayout', () => {
       expect(screen.getByText(/Primary care/i));
 
       expect(screen.getByRole('heading', { level: 2, name: /Provider/ }));
-      expect(screen.getByText(/Test Prov/i));
+      expect(screen.getByText(/Test User/i));
       expect(screen.getByText(/Optometrist/i));
       expect(screen.getByText(/line 1/i));
       screen.getByText((content, element) => {
         return (
-          element.tagName?.toLowerCase() === 'span' &&
-          content === 'City, State 12345'
+          element.tagName.toLowerCase() === 'span' &&
+          content === 'City, State Postal code'
         );
       });
 
@@ -262,19 +312,18 @@ describe('VAOS Component: CCLayout', () => {
     it('should display CC layout when in the future', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const response = MockAppointmentResponse.createCCResponse({
-        localStartTime: new Date(),
-        future: true,
+      const appointment = new MockAppointment({
+        start: subDays(new Date(), 1),
         status: APPOINTMENT_STATUS.cancelled,
       })
-        .setCCLocation(new MockAddress())
-        .setCCTelecom('123-456-7890')
-        .setCCTreatingSpecialty('Optometrist')
-        .setPatientComments('This is a test:Additional information')
-        .setPractitioner();
-      const appointment = MockAppointmentResponse.getTransformedResponse(
-        response,
-      );
+        .setApiData(new MockAppointmentResponse())
+        .setCommunityCareProvider(
+          new MockCommunityCareProvider({
+            address: new MockAddress(),
+          }),
+        )
+        .setIsUpcomingAppointment(true)
+        .setType('COMMUNITY_CARE_APPOINTMENT');
 
       // Act
       const screen = renderWithStoreAndRouter(<CCLayout data={appointment} />, {
@@ -309,13 +358,13 @@ describe('VAOS Component: CCLayout', () => {
       expect(screen.getByText(/Primary care/i));
 
       expect(screen.getByRole('heading', { level: 2, name: /Provider/ }));
-      expect(screen.getByText(/Test Prov/i));
+      expect(screen.getByText(/Test User/i));
       expect(screen.getByText(/Optometrist/i));
       expect(screen.getByText(/line 1/i));
       screen.getByText((content, element) => {
         return (
           element.tagName.toLowerCase() === 'span' &&
-          content === 'City, State 12345'
+          content === 'City, State Postal code'
         );
       });
 
@@ -346,7 +395,7 @@ describe('VAOS Component: CCLayout', () => {
       );
       expect(
         screen.getByText(
-          /Bring your insurance cards, a list of your medications, and other things to share with your provider/i,
+          /Bring your insurance cards. And bring a list of your medications and other information to share with your provider./i,
         ),
       );
       expect(
@@ -356,7 +405,7 @@ describe('VAOS Component: CCLayout', () => {
       ).to.be.ok;
       expect(
         screen.container.querySelector(
-          'va-link[text="Find out what to bring to your appointment"]',
+          'va-link[text="Find a full list of things to bring to your appointment"]',
         ),
       ).to.be.ok;
 
@@ -366,23 +415,21 @@ describe('VAOS Component: CCLayout', () => {
         screen.container.querySelector('va-button[text="Cancel appointment"]'),
       ).not.exist;
     });
-
     it('should display CC layout when in the past', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const response = MockAppointmentResponse.createCCResponse({
-        localStartTime: subDays(new Date(), 1),
-        past: true,
+      const appointment = new MockAppointment({
+        start: subDays(new Date(), 1),
         status: APPOINTMENT_STATUS.cancelled,
       })
-        .setCCLocation(new MockAddress())
-        .setCCTelecom('123-456-7890')
-        .setCCTreatingSpecialty('Optometrist')
-        .setPatientComments('This is a test:Additional information')
-        .setPractitioner();
-      const appointment = MockAppointmentResponse.getTransformedResponse(
-        response,
-      );
+        .setApiData(new MockAppointmentResponse())
+        .setCommunityCareProvider(
+          new MockCommunityCareProvider({
+            address: new MockAddress(),
+          }),
+        )
+        .setIsUpcomingAppointment(true)
+        .setType('COMMUNITY_CARE_APPOINTMENT');
 
       // Act
       const screen = renderWithStoreAndRouter(<CCLayout data={appointment} />, {
@@ -417,13 +464,13 @@ describe('VAOS Component: CCLayout', () => {
       expect(screen.getByText(/Primary care/i));
 
       expect(screen.getByRole('heading', { level: 2, name: /Provider/ }));
-      expect(screen.getByText(/Test Prov/i));
+      expect(screen.getByText(/Test User/i));
       expect(screen.getByText(/Optometrist/i));
       expect(screen.getByText(/line 1/i));
       screen.getByText((content, element) => {
         return (
           element.tagName.toLowerCase() === 'span' &&
-          content === 'City, State 12345'
+          content === 'City, State Postal code'
         );
       });
 

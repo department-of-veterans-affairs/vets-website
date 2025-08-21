@@ -3,7 +3,7 @@ import { expect } from 'chai';
 // navigation helpers
 export const goToNextPage = pagePath => {
   // clicks Continue button, and optionally checks destination path.
-  cy.clickFormContinue();
+  cy.findAllByText(/continue/i, { selector: 'button' }).click();
   if (pagePath) {
     cy.location('pathname').should('include', pagePath);
   }

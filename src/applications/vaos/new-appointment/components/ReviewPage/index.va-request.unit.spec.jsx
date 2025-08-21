@@ -225,18 +225,15 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
 
     userEvent.click(screen.getByText(/Submit request/i));
 
-    await screen.findByText('We can’t submit your request right now');
+    await screen.findByText('We can’t submit your request');
 
     expect(screen.baseElement).contain.text(
-      'We’re sorry. There’s a problem with our system. Refresh this page to start over or try again later.',
-    );
-    expect(screen.baseElement).contain.text(
-      'If you need to schedule now, call your VA facility.',
+      'Something went wrong when we tried to submit your request. You can try again later, or call your VA medical center to help with your request.',
     );
 
     expect(
       screen.getByRole('heading', {
-        level: 3,
+        level: 4,
         name: /Cheyenne VA Medical Center/i,
       }),
     );

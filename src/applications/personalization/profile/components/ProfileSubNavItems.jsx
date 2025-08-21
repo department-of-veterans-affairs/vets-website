@@ -21,16 +21,18 @@ function ProfileSubNavItems({ routes, isLOA3, isInMVI, clickHandler = null }) {
     // mvi check
     return !(route.requiresMVI && !isInMVI);
   });
-  const recordNavUserEvent = () => {
+  const recordNavUserEvent = routePath => () => {
     recordEvent({
-      event: 'nav-sidenav',
+      event: 'navigation',
+      'link-location': 'sidebar',
+      'page-path': routePath,
     });
     if (clickHandler) {
       clickHandler();
     }
   };
   return (
-    <ul className="vads-u-margin-top--0">
+    <ul>
       {filteredRoutes.map(route => {
         return (
           <li key={route.path}>
@@ -38,7 +40,7 @@ function ProfileSubNavItems({ routes, isLOA3, isInMVI, clickHandler = null }) {
               activeClassName="is-active"
               exact
               to={route.path}
-              onClick={recordNavUserEvent}
+              onClick={recordNavUserEvent(route.path)}
             >
               {route.name}
             </NavLink>

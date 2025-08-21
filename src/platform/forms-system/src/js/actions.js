@@ -4,7 +4,7 @@ import localStorage from 'platform/utilities/storage/localStorage';
 import { displayFileSize } from 'platform/utilities/ui/index';
 import { FILE_UPLOAD_NETWORK_ERROR_MESSAGE } from 'platform/forms-system/src/js/constants';
 import { timeFromNow } from '../../../utilities/date';
-import { transformForSubmit, handleSessionRefresh } from './helpers';
+import { transformForSubmit } from './helpers';
 
 export const SET_EDIT_MODE = 'SET_EDIT_MODE';
 export const SET_DATA = 'SET_DATA';
@@ -104,10 +104,8 @@ export function submitToUrl(body, submitUrl, trackingPrefix, eventData) {
   const csrfTokenStored = localStorage.getItem('csrfToken');
   return new Promise((resolve, reject) => {
     const req = new XMLHttpRequest();
-    req.url = submitToUrl;
     req.open('POST', submitUrl);
     req.addEventListener('load', () => {
-      handleSessionRefresh(req, csrfTokenStored);
       if (req.status >= 200 && req.status < 300) {
         recordEvent({
           event: `${trackingPrefix}-submission-successful`,
@@ -322,10 +320,9 @@ export function uploadFile(
     );
 
     const req = new XMLHttpRequest();
-    req.url = uiOptions.fileUploadUrl;
-    req.open('POST', req.url);
+
+    req.open('POST', uiOptions.fileUploadUrl);
     req.addEventListener('load', () => {
-      handleSessionRefresh(req, csrfTokenStored);
       if (req.status >= 200 && req.status < 300) {
         const body = 'response' in req ? req.response : req.responseText;
         const fileData = uiOptions.parseResponse(JSON.parse(body), file);
@@ -336,8 +333,7 @@ export function uploadFile(
         let errorMessage = req.statusText;
         try {
           // detail contains a better error message
-          errorMessage =
-            JSON.parse(req?.response)?.errors?.[0]?.detail ?? errorMessage;
+          errorMessage = JSON.parse(req?.response)?.errors?.[0]?.detail;
         } catch (error) {
           // intentionally empty
         }

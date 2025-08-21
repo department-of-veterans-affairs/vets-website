@@ -4,7 +4,7 @@ import {
   checkboxGroupUI,
   checkboxGroupSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { scrollTo } from 'platform/utilities/scroll';
+import { generateHelpText } from '../../helpers';
 
 const CommonEvidenceInfo = (
   <>
@@ -43,74 +43,57 @@ export const relationshipPartTwo = {
     ...titleUI({
       title: 'Your relationship to this child',
     }),
-    relationshipToChild: {
-      ...checkboxGroupUI({
-        title: 'What’s your relationship to this child?',
-        hint: 'Check all that apply',
-        labels: {
-          adopted: 'They’re my adopted child',
-          stepchild: 'They’re my stepchild',
-        },
-        required: () => true,
-        errorMessages: {
-          required: 'Select at least one relationship.',
-        },
-      }),
-      'ui:options': {
-        classNames: 'relationship-checkbox-group',
-        updateSchema: (formData, schema) => {
-          const rel = formData?.relationshipToChild || {};
-          const shouldShowEvidence = rel.adopted || rel.stepchild;
-
-          setTimeout(() => {
-            if (shouldShowEvidence) {
-              const el = document.querySelector('.relationship-checkbox-group');
-              if (el) {
-                const rect = el.getBoundingClientRect();
-                if (rect.top < 0 || rect.bottom > window.innerHeight) {
-                  scrollTo('.relationship-checkbox-group');
-                }
-              }
-            }
-          }, 0);
-
-          return schema;
-        },
+    relationshipToChild: checkboxGroupUI({
+      title: 'What’s your relationship to this child?',
+      description: generateHelpText('Check all that apply'),
+      labels: {
+        adopted: 'They’re my adopted child',
+        stepchild: 'They’re my stepchild',
       },
-    },
+      required: () => true,
+      errorMessages: {
+        required: 'Select at least one relationship.',
+      },
+    }),
     'view:commonEvidenceInfo': {
       'ui:description': CommonEvidenceInfo,
       'ui:options': {
-        hideIf: (formData, index) => {
-          const addMode = formData?.childrenToAdd?.[index]?.relationshipToChild;
-          const editMode = formData?.relationshipToChild;
-
-          if (!addMode && !editMode) return true;
-
-          const isAdopted = addMode?.adopted || editMode?.adopted;
-          const isStepchild = addMode?.stepchild || editMode?.stepchild;
-
-          return !(isAdopted || isStepchild);
+        hideIf: (rawForm, rawIndex) => {
+          const index = parseInt(rawIndex, 10);
+          let form = rawForm;
+          if (Number.isFinite(index)) {
+            form = rawForm?.childrenToAdd?.[index];
+          }
+          return !(
+            form?.relationshipToChild?.adopted ||
+            form?.relationshipToChild?.stepchild
+          );
         },
       },
     },
     'view:stepchildAdditionalEvidenceDescription': {
       'ui:description': StepchildAdditionalEvidence,
       'ui:options': {
-        hideIf: (formData, index) => {
-          const addMode = formData?.childrenToAdd?.[index]?.relationshipToChild;
-          const editMode = formData?.relationshipToChild;
-          return !(addMode?.stepchild || editMode?.stepchild);
+        hideIf: (rawForm, rawIndex) => {
+          const index = parseInt(rawIndex, 10);
+          let form = rawForm;
+          if (Number.isFinite(index)) {
+            form = rawForm?.childrenToAdd?.[index];
+          }
+          return !form?.relationshipToChild?.stepchild;
         },
       },
     },
     'view:adoptedAdditionalEvidenceDescription': {
       'ui:description': AdoptedAdditionalEvidence,
       'ui:options': {
-        hideIf: (formData, index) => {
-          const addMode = formData?.childrenToAdd?.[index]?.relationshipToChild;
-          const editMode = formData?.relationshipToChild;
-          return !(addMode?.adopted || editMode?.adopted);
+        hideIf: (rawForm, rawIndex) => {
+          const index = parseInt(rawIndex, 10);
+          let form = rawForm;
+          if (Number.isFinite(index)) {
+            form = rawForm?.childrenToAdd?.[index];
+          }
+          return !form?.relationshipToChild?.adopted;
         },
       },
     },

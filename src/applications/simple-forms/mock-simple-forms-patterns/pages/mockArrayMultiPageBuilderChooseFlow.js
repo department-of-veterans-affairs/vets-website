@@ -16,17 +16,8 @@ export default {
       },
       descriptions: {
         required:
-          'User must provide at least one item. Starts with an "intro" page of text explaining that the user will be going through a loop.',
-        optional:
-          'User can skip the array entirely, starting with a yes/no question.',
-      },
-    }),
-    arrayBuilderPatternInteractionType: radioUI({
-      title: 'Choose array builder pattern interaction type',
-      labels: {
-        yesNoQuestion: 'Yes/no question',
-        addButton: 'Add button',
-        addLink: 'Add link',
+          'Must provide at least one item. Starts with an "intro" page of text explaining that the user will be going through a loop.',
+        optional: 'User can skip the array starting with a yes/no question.',
       },
     }),
   },
@@ -34,15 +25,7 @@ export default {
     type: 'object',
     properties: {
       arrayBuilderPatternFlowType: radioSchema(['required', 'optional']),
-      arrayBuilderPatternInteractionType: radioSchema([
-        'yesNoQuestion',
-        'addButton',
-        'addLink',
-      ]),
     },
-    required: [
-      'arrayBuilderPatternFlowType',
-      'arrayBuilderPatternInteractionType',
-    ],
+    required: ['arrayBuilderPatternFlowType'],
   },
 };

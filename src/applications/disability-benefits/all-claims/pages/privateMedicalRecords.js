@@ -8,53 +8,41 @@ import {
   patientAcknowledgmentTitle,
   patientAcknowledgmentText,
   patientAcknowledgmentError,
-  recordsConfirmAlertBanner,
-  authorizationNotes,
 } from '../content/privateMedicalRecords';
 import { standardTitle } from '../content/form0781';
-import { isCompletingModern4142 } from '../utils';
 
 const isNotUploadingPrivateRecords = data =>
   data?.['view:hasPrivateRecordsToUpload'] === false;
 
 export const uiSchema = {
-  'ui:title': standardTitle('Options for providing non-VA treatment records'),
-  'view:recordsConfirmAlertBanner': {
-    'ui:description': recordsConfirmAlertBanner,
-  },
+  'ui:title': standardTitle('Private medical records'),
+  'ui:description':
+    'Now we’ll ask you about your private medical records for your condition.',
   'view:uploadPrivateRecordsQualifier': {
     'view:hasPrivateRecordsToUpload': yesNoUI({
       title: 'Do you want to upload your private medical records?',
       labels: {
-        Y: 'Yes, I’ll upload my non-VA treatment records',
-        N: 'No, get my non-VA treatment records from my providers',
+        Y: 'Yes',
+        N: 'No, please get my records from my provider.',
       },
     }),
-    'view:AuthorizationNotes': {
-      'ui:description': authorizationNotes,
-    },
     'view:privateRecordsChoiceHelp': {
-      'ui:title': 'What else to know about these options',
       'ui:description': privateRecordsChoiceHelp,
     },
   },
-
   'view:patientAcknowledgement': {
     'ui:title': patientAcknowledgmentTitle,
     'ui:options': {
       expandUnder: 'view:uploadPrivateRecordsQualifier',
       expandUnderCondition: isNotUploadingPrivateRecords,
       showFieldLabel: true,
-      preserveHiddenData: true,
-      hideIf: formData => isCompletingModern4142(formData),
     },
-    'ui:required': formData => !isCompletingModern4142(formData),
     'ui:validations': [
       (errors, fieldData, formData) => {
         const shouldValidate =
           formData?.['view:uploadPrivateRecordsQualifier']?.[
             'view:hasPrivateRecordsToUpload'
-          ] === false && !isCompletingModern4142(formData);
+          ] === false;
 
         if (shouldValidate) {
           return validateBooleanGroup(errors, fieldData, null, null, {
@@ -78,7 +66,6 @@ export const uiSchema = {
       expandUnder: 'view:uploadPrivateRecordsQualifier',
       expandUnderCondition: isNotUploadingPrivateRecords,
       forceDivWrapper: true,
-      hideIf: formData => isCompletingModern4142(formData),
     },
   },
 };
@@ -86,10 +73,6 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    'view:recordsConfirmAlertBanner': {
-      type: 'object',
-      properties: {},
-    },
     'view:uploadPrivateRecordsQualifier': {
       required: ['view:hasPrivateRecordsToUpload'],
       type: 'object',
@@ -99,10 +82,6 @@ export const schema = {
           properties: {},
         },
         'view:hasPrivateRecordsToUpload': yesNoSchema,
-        'view:AuthorizationNotes': {
-          type: 'object',
-          properties: {},
-        },
         'view:privateRecordsChoiceHelp': {
           type: 'object',
           properties: {},

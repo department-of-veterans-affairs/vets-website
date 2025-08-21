@@ -10,8 +10,8 @@ export const generateVaccinesIntro = (records, lastUpdated) => {
   };
 };
 
-export const generateVaccineItem = record => {
-  const items = [
+export const generateVaccineItem = record => ({
+  items: [
     {
       title: 'Date received',
       value: record.date,
@@ -19,54 +19,11 @@ export const generateVaccineItem = record => {
     },
     {
       title: 'Location',
-      value: record.location || 'None recorded',
+      value: record.location,
       inline: true,
     },
-  ];
-
-  // Add additional fields if they exist (for accelerated vaccines)
-  if (record.shortDescription) {
-    items.push({
-      title: 'Type and dosage',
-      value: record.shortDescription,
-      inline: true,
-    });
-  }
-
-  if (record.manufacturer) {
-    items.push({
-      title: 'Manufacturer',
-      value: record.manufacturer,
-      inline: true,
-    });
-  }
-
-  if (record.doseDisplay) {
-    items.push({
-      title: 'Series status',
-      value: record.doseDisplay,
-      inline: true,
-    });
-  }
-
-  if (record.reaction) {
-    items.push({
-      title: 'Reactions',
-      value: record.reaction,
-      inline: false,
-    });
-  }
-
-  if (record.note) {
-    items.push({
-      title: 'Notes',
-      value: record.note,
-      inline: false,
-    });
-  }
-
-  return { items };
-};
+  ],
+});
 
 export const generateVaccinesContent = records => ({
   results: {

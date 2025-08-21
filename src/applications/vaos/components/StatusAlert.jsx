@@ -96,10 +96,7 @@ export default function StatusAlert({ appointment, facility }) {
             </div>
           </>
         ) : (
-          <p>
-            You requested this appointment on{' '}
-            <span data-dd-privacy="mask">{createdDate}</span>.
-          </p>
+          <p>You requested this appointment on {createdDate}.</p>
         )}
       </InfoAlert>
     );
@@ -109,22 +106,25 @@ export default function StatusAlert({ appointment, facility }) {
     const who = canceler.get(appointment?.cancelationReason) || 'Facility';
     let message;
     let linkText;
+    let displayScheduleLink = false;
     if (appointment.type === 'COMMUNITY_CARE_APPOINTMENT') {
       message = `${who} canceled this appointment. If you still want this appointment, call your community care provider to schedule.`;
     } else if (appointment.vaos.isCompAndPenAppointment) {
       message = `${who} canceled this appointment. If you still want this appointment, call your VA health facility’s compensation and pension office to schedule.`;
     } else if (appointment.vaos.isPendingAppointment) {
       message = `${who} canceled this request. If you still want this appointment, call your VA health facility or submit another request online.`;
+      displayScheduleLink = true;
       linkText = 'Request a new appointment';
     } else {
       message = `${who} canceled this appointment. If you still want this appointment, call your VA health facility to schedule.`;
+      displayScheduleLink = appointment.showScheduleLink;
       linkText = 'Schedule a new appointment';
     }
     return (
       <>
         <InfoAlert status="error" backgroundOnly>
           {message}
-          {appointment.showScheduleLink && (
+          {displayScheduleLink && (
             <>
               <br />
               <br />
@@ -181,9 +181,9 @@ StatusAlert.propTypes = {
     created: PropTypes.string,
     avsPath: PropTypes.string,
     vaos: PropTypes.shape({
-      isCompAndPenAppointment: PropTypes.bool,
-      isPastAppointment: PropTypes.bool,
-      isPendingAppointment: PropTypes.bool,
+      isCompAndPenAppointment: PropTypes.bool.isRequired,
+      isPastAppointment: PropTypes.bool.isRequired,
+      isPendingAppointment: PropTypes.bool.isRequired,
     }),
   }),
   facility: PropTypes.shape({

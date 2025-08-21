@@ -671,7 +671,7 @@ describe('Schemaform <FileField>', () => {
       />,
     );
 
-    expect($('.upload-wrap', container).className).to.include('display--none');
+    expect($('#upload-wrap', container).className).to.include('display--none');
   });
 
   it('should not render upload or delete button on review & submit page while in review mode', () => {

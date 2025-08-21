@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import {
-  testComponentFieldsMarkedAsRequired,
+  testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfWebComponentFields,
   testSubmitsWithoutErrors,
   testShowAlert,
@@ -25,13 +25,12 @@ describe('pension social security disability page', () => {
     pageTitle,
   );
 
-  testComponentFieldsMarkedAsRequired(
+  const expectedNumberOfErrors = 1;
+  testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     schema,
     uiSchema,
-    [
-      `va-radio[label="Do you currently receive Social Security disability payments?"]`,
-    ],
+    expectedNumberOfErrors,
     pageTitle,
   );
 

@@ -20,7 +20,7 @@ const missingAllContactInfoContent = (
   <>
     <p>
       To get started managing your notification settings, add an email address
-      or US based mobile phone number to your profile.
+      or phone number to your profile.{' '}
     </p>
 
     <p>

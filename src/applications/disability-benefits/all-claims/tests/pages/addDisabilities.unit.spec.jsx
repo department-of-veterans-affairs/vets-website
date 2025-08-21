@@ -59,20 +59,60 @@ const simulateInputChange = (selector, value) => {
 
   const event = new Event('input', {
     bubbles: true,
-    composed: true,
-  });
-
-  const customEvent = new CustomEvent('input', {
-    detail: { value },
-    bubbles: true,
-    composed: true,
   });
 
   vaTextInput.dispatchEvent(event);
-  vaTextInput.dispatchEvent(customEvent);
-  if (vaTextInput.onInput) {
-    vaTextInput.onInput({ target: { value } });
-  }
+};
+
+const addAConditionWithMouse = async (
+  getAllByRole,
+  getByTestId,
+  searchTerm,
+  searchResult,
+) => {
+  const input = getByTestId('autocomplete-input');
+  simulateInputChange(input, searchTerm);
+
+  await waitFor(() => {
+    const listResults = getAllByRole('option');
+
+    for (const result of listResults) {
+      if (result.textContent === searchResult) {
+        fireEvent.click(result);
+        const saveButton = getVaButtonByText('Save');
+        fireEvent.click(saveButton);
+      }
+    }
+  });
+};
+
+const addAConditionWithKeyboard = async (
+  getAllByRole,
+  getByTestId,
+  getByText,
+  searchTerm,
+  searchResult,
+) => {
+  const input = getByTestId('autocomplete-input');
+  simulateInputChange(input, searchTerm);
+
+  fireEvent.keyDown(input, { key: 'ArrowDown' });
+
+  await waitFor(() => {
+    const listResults = getAllByRole('option');
+
+    for (const result of listResults) {
+      if (result.textContent !== searchResult) {
+        fireEvent.keyDown(result, { key: 'ArrowDown' });
+      } else if (result.textContent === searchResult) {
+        fireEvent.keyDown(input, { key: 'Enter' });
+        break;
+      }
+    }
+  });
+
+  const saveButton = getVaButtonByText('Save');
+  fireEvent.click(saveButton);
 };
 
 describe('Add Disabilities Page', () => {
@@ -164,27 +204,23 @@ describe('Add Disabilities Page', () => {
       expect(input).to.have.attribute('required');
     });
 
-    it('should render error message on result and alert on page if no new conditions are added', async () => {
+    it('should render error message on result and alert on page if no new conditions are added', () => {
       const { getByText } = createScreen();
 
       const submitButton = getByText('Submit');
       fireEvent.click(submitButton);
 
-      await waitFor(() => {
-        const errorMessage = getByText(
-          'Enter a condition, diagnosis, or short description of your symptoms',
-        );
-        const alertHeading = getByText(
-          'Enter a condition to submit your claim',
-        );
-        const alertText = getByText(
-          'You’ll need to enter a condition, diagnosis, or short description of your symptoms to submit your claim.',
-        );
+      const errorMessage = getByText(
+        'Enter a condition, diagnosis, or short description of your symptoms',
+      );
+      const alertHeading = getByText('Enter a condition to submit your claim');
+      const alertText = getByText(
+        'You’ll need to enter a condition, diagnosis, or short description of your symptoms to submit your claim.',
+      );
 
-        expect(errorMessage).to.be.visible;
-        expect(alertHeading).to.be.visible;
-        expect(alertText).to.be.visible;
-      });
+      expect(errorMessage).to.be.visible;
+      expect(alertHeading).to.be.visible;
+      expect(alertText).to.be.visible;
     });
   });
 
@@ -205,142 +241,207 @@ describe('Add Disabilities Page', () => {
 
     it('should be able to add value to AutoComplete input ', async () => {
       const searchTerm = 'a';
-      const { getByTestId } = createScreen();
+      const searchResults = fullStringSimilaritySearch(searchTerm, items);
+      const freeTextAndFilteredItemsCount = searchResults.length + 1;
+      const { getByTestId, queryByTestId } = createScreen();
 
       const input = getByTestId('autocomplete-input');
       simulateInputChange(input, searchTerm);
 
-      // Just verify the input value was set
-      expect(input.value).to.equal(searchTerm);
-      expect(input).to.have.attribute('data-testid', 'autocomplete-input');
-      expect(input).to.have.attribute('required');
+      await waitFor(() => {
+        const list = getByTestId('autocomplete-list');
+
+        expect(list).to.have.length(freeTextAndFilteredItemsCount);
+      });
+
+      fireEvent.mouseDown(document.body);
+
+      await waitFor(() => {
+        const list = queryByTestId('autocomplete-list');
+
+        expect(list).to.not.exist;
+      });
     });
 
     it('should render AutoComplete list items in alignment with string similarity search', async () => {
       const searchTerm = 'ACL';
       const searchResults = fullStringSimilaritySearch(searchTerm, items);
-      const { getByTestId } = createScreen();
+      const { getAllByRole, getByTestId } = createScreen();
 
       const input = getByTestId('autocomplete-input');
       simulateInputChange(input, searchTerm);
 
-      // Just verify the search algorithm works
-      expect(searchResults).to.be.an('array');
-      expect(searchResults.length).to.be.greaterThan(0);
-      expect(input.value).to.equal(searchTerm);
+      await waitFor(() => {
+        const listResults = getAllByRole('option');
+
+        listResults.forEach((result, index) => {
+          if (index === 0) {
+            expect(result.textContent).to.eq(
+              `Enter your condition as "${searchTerm}"`,
+            );
+          } else {
+            const searchResult = searchResults[index - 1];
+            expect(result.textContent).to.eq(searchResult);
+          }
+        });
+      });
     });
   });
 
   describe('Mouse Interactions', () => {
     it('should be able to add a free-text condition', async () => {
       const searchTerm = 'Tinnitus';
+      const {
+        container,
+        getAllByRole,
+        getByTestId,
+        getByText,
+        queryByTestId,
+      } = createScreen();
 
-      const { getByTestId, container } = createScreen();
-      const input = getByTestId('autocomplete-input');
-      simulateInputChange(input, searchTerm);
-      expect(input.value).to.equal(searchTerm);
-
-      const saveButton = getVaButtonByText('Save', container);
-      expect(saveButton).to.exist;
-
-      // In Node 22, the web components don't properly handle the save
-      // Test with a pre-saved condition instead
-      const savedScreen = createScreen(true, false, [
-        { condition: searchTerm },
-      ]);
-
-      const savedCondition = savedScreen.getByText(searchTerm);
-      const savedConditionEditButton = getVaButtonByText(
-        'Edit',
-        savedScreen.container,
+      addAConditionWithMouse(
+        getAllByRole,
+        getByTestId,
+        searchTerm,
+        `Enter your condition as "${searchTerm}"`,
       );
-      expect(savedCondition).to.be.visible;
-      expect(savedConditionEditButton).to.be.visible;
+
+      await waitFor(() => {
+        const savedConditionEditButton = getVaButtonByText('Edit', container);
+        const savedCondition = getByText(searchTerm);
+
+        expect(savedConditionEditButton).to.be.visible;
+        expect(savedCondition).to.be.visible;
+
+        const input = queryByTestId('autocomplete-input');
+        expect(input).to.not.exist;
+      });
     });
 
     it('should be able to select a condition', async () => {
       const searchTerm = 'Tinn';
-      const expectedResult = 'tinnitus (ringing or hissing in ears)';
+      const searchResult = 'tinnitus (ringing or hissing in ears)';
+      const {
+        container,
+        getAllByRole,
+        getByTestId,
+        getByText,
+      } = createScreen();
 
-      const { getByTestId } = createScreen();
-      const input = getByTestId('autocomplete-input');
-      simulateInputChange(input, searchTerm);
-
-      // Verify search algorithm works
-      const searchResults = fullStringSimilaritySearch(searchTerm, items);
-      expect(searchResults).to.be.an('array');
-      expect(searchResults.length).to.be.greaterThan(0);
-      // The search result should be in the results (case insensitive check)
-      const hasMatch = searchResults.some(
-        r => r.toLowerCase() === expectedResult.toLowerCase(),
+      addAConditionWithMouse(
+        getAllByRole,
+        getByTestId,
+        searchTerm,
+        searchResult,
       );
-      expect(hasMatch).to.be.true;
 
-      // Verify we can create a screen with pre-saved condition
-      const { container, getByText } = createScreen(true, false, [
-        { condition: 'tinnitus (ringing or hissing in ears)' },
-      ]);
+      await waitFor(() => {
+        const savedConditionEditButton = getVaButtonByText('Edit', container);
+        const savedCondition = getByText(searchResult);
 
-      const savedConditionEditButton = getVaButtonByText('Edit', container);
-      const savedCondition = getByText('tinnitus (ringing or hissing in ears)');
-
-      expect(savedConditionEditButton).to.be.visible;
-      expect(savedCondition).to.be.visible;
+        expect(savedConditionEditButton).to.be.visible;
+        expect(savedCondition).to.be.visible;
+      });
     });
 
     it('should be able to edit a condition', async () => {
-      const initialCondition = 'asthma';
-      const { container, getByText, getByTestId } = createScreen(true, false, [
-        { condition: initialCondition },
-      ]);
+      const searchTerm = 'Tinn';
+      const searchResult = 'tinnitus (ringing or hissing in ears)';
+      const newSearchTerm = 'Neck strain';
+      const newSearchResult = 'neck strain (cervical strain)';
+      const {
+        container,
+        getAllByRole,
+        getByTestId,
+        getByText,
+      } = createScreen();
 
-      const savedConditionEditButton = getVaButtonByText('Edit', container);
-      const savedCondition = getByText(initialCondition);
-
-      expect(savedConditionEditButton).to.be.visible;
-      expect(savedCondition).to.be.visible;
-
-      fireEvent.click(savedConditionEditButton);
+      addAConditionWithMouse(
+        getAllByRole,
+        getByTestId,
+        searchTerm,
+        searchResult,
+      );
 
       await waitFor(() => {
-        const editInput = getByTestId('autocomplete-input');
-        expect(editInput).to.exist;
+        const savedConditionEditButton = getVaButtonByText('Edit', container);
+        const savedCondition = getByText(searchResult);
+
+        expect(savedConditionEditButton).to.be.visible;
+        expect(savedCondition).to.be.visible;
+
+        fireEvent.click(savedConditionEditButton);
       });
 
-      const editInput = getByTestId('autocomplete-input');
-      const newValue = 'bronchitis';
-      simulateInputChange(editInput, newValue);
-      expect(editInput.value).to.equal(newValue);
+      addAConditionWithMouse(
+        getAllByRole,
+        getByTestId,
+        newSearchTerm,
+        newSearchResult,
+      );
+
+      await waitFor(() => {
+        const newCondition = getByText(newSearchResult);
+
+        expect(newCondition).to.be.visible;
+      });
     });
 
     it('should be able to select two conditions then remove one', async () => {
-      const { container, getByText, queryByText } = createScreen(true, false, [
-        { condition: 'asthma' },
-        { condition: 'bronchitis' },
-      ]);
+      const searchTerm1 = 'Tinn';
+      const searchResult1 = 'tinnitus (ringing or hissing in ears)';
+      const searchTerm2 = 'Hear';
+      const searchResult2 = 'hearing loss';
+      const {
+        container,
+        getAllByRole,
+        getByTestId,
+        getByText,
+        queryByText,
+      } = createScreen();
 
-      const savedCondition1 = getByText('asthma');
-      const savedCondition2 = getByText('bronchitis');
-      const editButtons = getAllVaButtonsByText('Edit', container);
-
-      expect(savedCondition1).to.be.visible;
-      expect(savedCondition2).to.be.visible;
-      expect(editButtons).to.have.lengthOf(2);
-
-      fireEvent.click(editButtons[1]);
+      addAConditionWithMouse(
+        getAllByRole,
+        getByTestId,
+        searchTerm1,
+        searchResult1,
+      );
 
       await waitFor(() => {
-        const removeButton = getVaButtonByText('Remove', container);
-        expect(removeButton).to.exist;
-        fireEvent.click(removeButton);
+        const savedConditionEditButton1 = getVaButtonByText('Edit', container);
+        const savedCondition1 = getByText(searchResult1);
+
+        expect(savedConditionEditButton1).to.be.visible;
+        expect(savedCondition1).to.be.visible;
+
+        const addAnotherConditionButton = getByText('Add another condition');
+        fireEvent.click(addAnotherConditionButton);
       });
 
-      await waitFor(() => {
-        const savedCondition2After = queryByText('bronchitis');
-        expect(savedCondition2After).not.to.exist;
+      addAConditionWithMouse(
+        getAllByRole,
+        getByTestId,
+        searchTerm2,
+        searchResult2,
+      );
 
-        const savedCondition1After = getByText('asthma');
-        expect(savedCondition1After).to.be.visible;
+      await waitFor(() => {
+        const savedConditionEditButton2 = getAllVaButtonsByText(
+          'Edit',
+          container,
+        )[1];
+        let savedCondition2 = getByText(searchResult2);
+
+        expect(savedConditionEditButton2).to.be.visible;
+        expect(savedCondition2).to.be.visible;
+
+        fireEvent.click(savedConditionEditButton2);
+        const removeButton = getVaButtonByText('Remove', container);
+        fireEvent.click(removeButton);
+
+        savedCondition2 = queryByText(searchResult2);
+
+        expect(savedCondition2).not.to.exist;
       });
     });
 
@@ -371,121 +472,163 @@ describe('Add Disabilities Page', () => {
   describe('Keyboard Interactions', () => {
     it('should be able to add a free-text condition', async () => {
       const searchTerm = 'Tinnitus';
+      const {
+        container,
+        getAllByRole,
+        getByTestId,
+        getByText,
+        queryByTestId,
+      } = createScreen();
 
-      const { getByTestId } = createScreen();
-      const input = getByTestId('autocomplete-input');
-      simulateInputChange(input, searchTerm);
-
-      fireEvent.keyDown(input, { key: 'ArrowDown' });
-      fireEvent.keyDown(input, { key: 'Enter' });
-
-      expect(input.value).to.equal(searchTerm);
-
-      // Test with pre-saved condition in separate screen instance
-      const savedScreen = createScreen(true, false, [
-        { condition: searchTerm },
-      ]);
-
-      const savedConditionEditButton = getVaButtonByText(
-        'Edit',
-        savedScreen.container,
+      addAConditionWithKeyboard(
+        getAllByRole,
+        getByTestId,
+        getByText,
+        searchTerm,
+        `Enter your condition as "${searchTerm}"`,
       );
-      const savedCondition = savedScreen.getByText(searchTerm);
 
-      expect(savedConditionEditButton).to.be.visible;
-      expect(savedCondition).to.be.visible;
+      await waitFor(() => {
+        const savedConditionEditButton = getVaButtonByText('Edit', container);
+        const savedCondition = getByText(searchTerm);
+
+        expect(savedConditionEditButton).to.be.visible;
+        expect(savedCondition).to.be.visible;
+
+        const input = queryByTestId('autocomplete-input');
+        expect(input).to.not.exist;
+      });
     });
 
     it('should be able to select a condition', async () => {
       const searchTerm = 'Tinn';
-      const expectedResult = 'tinnitus (ringing or hissing in ears)';
+      const searchResult = 'tinnitus (ringing or hissing in ears)';
+      const {
+        container,
+        getAllByRole,
+        getByTestId,
+        getByText,
+      } = createScreen();
 
-      const { getByTestId } = createScreen();
-      const input = getByTestId('autocomplete-input');
-      simulateInputChange(input, searchTerm);
-
-      fireEvent.keyDown(input, { key: 'ArrowDown' });
-      fireEvent.keyDown(input, { key: 'ArrowDown' });
-      fireEvent.keyDown(input, { key: 'Enter' });
-
-      const searchResults = fullStringSimilaritySearch(searchTerm, items);
-      expect(searchResults).to.be.an('array');
-      expect(searchResults.length).to.be.greaterThan(0);
-      // The search result should be in the results (case insensitive check)
-      const hasMatch = searchResults.some(
-        r => r.toLowerCase() === expectedResult.toLowerCase(),
+      addAConditionWithKeyboard(
+        getAllByRole,
+        getByTestId,
+        getByText,
+        searchTerm,
+        searchResult,
       );
-      expect(hasMatch).to.be.true;
 
-      // Verify we can create a screen with pre-saved condition
-      const { container, getByText } = createScreen(true, false, [
-        { condition: 'tinnitus (ringing or hissing in ears)' },
-      ]);
+      await waitFor(() => {
+        const savedConditionEditButton = getVaButtonByText('Edit', container);
+        const savedCondition = getByText(searchResult);
 
-      const savedConditionEditButton = getVaButtonByText('Edit', container);
-      const savedCondition = getByText('tinnitus (ringing or hissing in ears)');
-
-      expect(savedConditionEditButton).to.be.visible;
-      expect(savedCondition).to.be.visible;
+        expect(savedConditionEditButton).to.be.visible;
+        expect(savedCondition).to.be.visible;
+      });
     });
 
     it('should be able to edit a condition', async () => {
-      const initialCondition = 'asthma';
-      const { container, getByText, getByTestId } = createScreen(true, false, [
-        { condition: initialCondition },
-      ]);
+      const searchTerm = 'Tinn';
+      const searchResult = 'tinnitus (ringing or hissing in ears)';
+      const newSearchTerm = 'Neck strain';
+      const newSearchResult = 'neck strain (cervical strain)';
+      const {
+        container,
+        getAllByRole,
+        getByTestId,
+        getByText,
+      } = createScreen();
 
-      const savedConditionEditButton = getVaButtonByText('Edit', container);
-      const savedCondition = getByText(initialCondition);
-
-      expect(savedConditionEditButton).to.be.visible;
-      expect(savedCondition).to.be.visible;
-
-      userEvent.type(savedConditionEditButton, '{enter}');
+      addAConditionWithKeyboard(
+        getAllByRole,
+        getByTestId,
+        getByText,
+        searchTerm,
+        searchResult,
+      );
 
       await waitFor(() => {
-        const editInput = getByTestId('autocomplete-input');
-        expect(editInput).to.exist;
-        expect(editInput.value).to.equal(initialCondition);
+        const savedConditionEditButton = getVaButtonByText('Edit', container);
+        const savedCondition = getByText(searchResult);
+
+        expect(savedConditionEditButton).to.be.visible;
+        expect(savedCondition).to.be.visible;
+
+        userEvent.type(savedConditionEditButton, '{enter}');
       });
 
-      const editInput = getByTestId('autocomplete-input');
-      const newValue = 'neck strain';
-      simulateInputChange(editInput, newValue);
+      addAConditionWithKeyboard(
+        getAllByRole,
+        getByTestId,
+        getByText,
+        newSearchTerm,
+        newSearchResult,
+      );
 
-      // In Node 22, the form doesn't update without dropdown selection
-      // So we just verify the input value was changed
-      expect(editInput.value).to.equal(newValue);
+      await waitFor(() => {
+        const newCondition = getByText(newSearchResult);
+
+        expect(newCondition).to.be.visible;
+      });
     });
 
     it('should be able to select two conditions then remove one', async () => {
-      const { container, getByText, queryByText } = createScreen(true, false, [
-        { condition: 'asthma' },
-        { condition: 'bronchitis' },
-      ]);
+      const searchTerm1 = 'Tinn';
+      const searchResult1 = 'tinnitus (ringing or hissing in ears)';
+      const searchTerm2 = 'Hear';
+      const searchResult2 = 'hearing loss';
+      const {
+        container,
+        getAllByRole,
+        getByTestId,
+        getByText,
+        queryByText,
+      } = createScreen();
 
-      const savedCondition1 = getByText('asthma');
-      const savedCondition2 = getByText('bronchitis');
-      const editButtons = getAllVaButtonsByText('Edit', container);
-
-      expect(savedCondition1).to.be.visible;
-      expect(savedCondition2).to.be.visible;
-      expect(editButtons).to.have.lengthOf(2);
-
-      userEvent.type(editButtons[1], '{enter}');
+      addAConditionWithKeyboard(
+        getAllByRole,
+        getByTestId,
+        getByText,
+        searchTerm1,
+        searchResult1,
+      );
 
       await waitFor(() => {
-        const removeButton = getVaButtonByText('Remove', container);
-        expect(removeButton).to.exist;
-        userEvent.type(removeButton, '{enter}');
+        const savedConditionEditButton1 = getVaButtonByText('Edit', container);
+        const savedCondition1 = getByText(searchResult1);
+
+        expect(savedConditionEditButton1).to.be.visible;
+        expect(savedCondition1).to.be.visible;
+
+        const addAnotherConditionButton = getByText('Add another condition');
+        userEvent.type(addAnotherConditionButton, '{enter}');
       });
 
-      await waitFor(() => {
-        const savedCondition2After = queryByText('bronchitis');
-        expect(savedCondition2After).not.to.exist;
+      addAConditionWithKeyboard(
+        getAllByRole,
+        getByTestId,
+        getByText,
+        searchTerm2,
+        searchResult2,
+      );
 
-        const savedCondition1After = getByText('asthma');
-        expect(savedCondition1After).to.be.visible;
+      await waitFor(() => {
+        const savedConditionEditButton2 = getAllVaButtonsByText(
+          'Edit',
+          container,
+        )[1];
+        let savedCondition2 = getByText(searchResult2);
+
+        expect(savedConditionEditButton2).to.be.visible;
+        expect(savedCondition2).to.be.visible;
+
+        userEvent.type(savedConditionEditButton2, '{enter}');
+        const removeButton = getVaButtonByText('Remove', container);
+        userEvent.type(removeButton, '{enter}');
+
+        savedCondition2 = queryByText(searchResult2);
+
+        expect(savedCondition2).not.to.exist;
       });
     });
 
@@ -514,7 +657,7 @@ describe('Add Disabilities Page', () => {
   });
 
   describe('Accessibility', () => {
-    it('should announce errors to screen readers when a required field is not filled', async () => {
+    it('should announce errors to screen readers when a required field is not filled', () => {
       const { getByTestId, getByText } = createScreen();
 
       const input = getByTestId('autocomplete-input');
@@ -522,51 +665,46 @@ describe('Add Disabilities Page', () => {
       simulateInputChange(input, '');
       fireEvent.click(submitButton);
 
-      await waitFor(() => {
-        const errorMessage = getByText(
-          'Enter a condition, diagnosis, or short description of your symptoms',
-        );
-        expect(errorMessage).to.have.attribute('role', 'alert');
-      });
+      const errorMessage = getByText(
+        'Enter a condition, diagnosis, or short description of your symptoms',
+      );
+      expect(errorMessage).to.have.attribute('role', 'alert');
     });
   });
 
   describe('User is claiming a new condition AND claiming an increase', () => {
-    it('should display alert on page if no conditions exist', async () => {
+    it('should display alert on page if no conditions exist', () => {
       const { getByText } = createScreen(true, true, null);
 
       const submitButton = getByText('Submit');
       fireEvent.click(submitButton);
-      await waitFor(() => {
-        const alertHeading = getByText('We need you to add a condition');
-        const alertText = getByText(
-          'You’ll need to add a new condition or choose a rated disability to claim. We can’t process your claim without a disability or new condition selected. Please add a new condition or choose a rated disability for increased compensation.',
-        );
-        const disabilityLink = getByText('Choose a rated disability');
 
-        expect(alertHeading).to.exist;
-        expect(alertText).to.exist;
-        expect(disabilityLink).to.exist;
-      });
+      const alertHeading = getByText('We need you to add a condition');
+      const alertText = getByText(
+        'You’ll need to add a new condition or choose a rated disability to claim. We can’t process your claim without a disability or new condition selected. Please add a new condition or choose a rated disability for increased compensation.',
+      );
+      const disabilityLink = getByText('Choose a rated disability');
+
+      expect(alertHeading).to.exist;
+      expect(alertText).to.exist;
+      expect(disabilityLink).to.exist;
     });
 
-    it('should display helpful error if no new conditions are added', async () => {
+    it('should display helpful error if no new conditions are added', () => {
       const { getByText } = createScreen(true, true, null);
 
       const submitButton = getByText('Submit');
       fireEvent.click(submitButton);
 
-      await waitFor(() => {
-        const alertHeading = getByText('We need you to add a condition');
-        const alertText = getByText(
-          'You’ll need to add a new condition or choose a rated disability to claim. We can’t process your claim without a disability or new condition selected. Please add a new condition or choose a rated disability for increased compensation.',
-        );
-        const disabilityLink = getByText('Choose a rated disability');
+      const alertHeading = getByText('We need you to add a condition');
+      const alertText = getByText(
+        'You’ll need to add a new condition or choose a rated disability to claim. We can’t process your claim without a disability or new condition selected. Please add a new condition or choose a rated disability for increased compensation.',
+      );
+      const disabilityLink = getByText('Choose a rated disability');
 
-        expect(alertHeading).to.exist;
-        expect(alertText).to.exist;
-        expect(disabilityLink).to.exist;
-      });
+      expect(alertHeading).to.exist;
+      expect(alertText).to.exist;
+      expect(disabilityLink).to.exist;
     });
   });
 

@@ -1,12 +1,12 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
-import sinon from 'sinon';
+
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
+
 import formConfig from '../../config/form';
 import { EVIDENCE_LIMIT } from '../../constants';
-import * as helpers from '../../../shared/utils/helpers';
 
 describe('Supplemental Claims private limitation request page', () => {
   const {
@@ -36,16 +36,12 @@ describe('Supplemental Claims private limitation request page', () => {
 
   it('should call updateUiSchema and updateSchema and return US phone patterns when checkbox is false', () => {
     const options = uiSchema[EVIDENCE_LIMIT]['ui:options'];
-    const isOnReviewPageStub = sinon
-      .stub(helpers, 'isOnReviewPage')
-      .returns(true);
+    window.location = { pathname: '/review-and-submit' };
 
     expect(options.updateUiSchema()).to.deep.equal({
       'ui:options': {
         labelHeaderLevel: 4,
       },
     });
-
-    isOnReviewPageStub.restore();
   });
 });

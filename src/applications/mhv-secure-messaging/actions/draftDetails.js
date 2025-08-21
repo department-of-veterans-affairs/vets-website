@@ -79,11 +79,7 @@ export const saveDraft = (messageData, type, id) => async dispatch => {
   if (response.ok) {
     dispatch({
       type: Actions.Thread.UPDATE_DRAFT_IN_THREAD,
-      payload: {
-        messageId: id,
-        draftDate: Date.now(),
-        ...messageData,
-      },
+      payload: { messageId: id, draftDate: Date.now(), ...messageData },
     });
   }
 };

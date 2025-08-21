@@ -6,12 +6,11 @@ import sinon from 'sinon';
 import { Provider } from 'react-redux';
 import { combineReducers, createStore } from 'redux';
 
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import { commonReducer } from 'platform/startup/store';
 
-import { waitFor } from '@testing-library/dom';
-import formConfig from '../../config/form';
-import initialData from '../initialData';
+import formConfig from '../../config/form.js';
+import initialData from '../initialData.js';
 import reducers from '../../reducers';
 import { ERR_MSG_CSS_CLASS } from '../../constants';
 
@@ -72,7 +71,7 @@ describe('Select related disabilities for unemployability', () => {
     form.unmount();
   });
 
-  it('should not submit without at least one disability selected', async () => {
+  it('should not submit without at least one disability selected', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <Provider store={fakeStore}>
@@ -86,12 +85,10 @@ describe('Select related disabilities for unemployability', () => {
       </Provider>,
     );
 
-    await waitFor(() => {
-      form.find('form').simulate('submit');
-      expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(2);
-      expect(onSubmit.called).to.be.false;
-      form.unmount();
-    });
+    form.find('form').simulate('submit');
+    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(2);
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('renders the information about each disability', () => {

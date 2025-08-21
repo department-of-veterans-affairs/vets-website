@@ -2,15 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
 import recordEvent from '~/platform/monitoring/record-event';
-import classNames from 'classnames';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import CTALink from '../CTALink';
 
 export const PaymentsCard = ({ lastPayment }) => {
-  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const myVaAuthExpRedesignEnabled = useToggleValue(
-    TOGGLE_NAMES.myVaAuthExpRedesignEnabled,
-  );
   const paymentDate = new Date(lastPayment.payCheckDt);
 
   const content = (
@@ -51,14 +45,8 @@ export const PaymentsCard = ({ lastPayment }) => {
     </>
   );
 
-  const wrapperClasses = classNames(
-    'vads-u-display--flex vads-u-flex-direction--column desktop-lg:vads-u-flex--1',
-    {
-      'vads-u-margin-bottom--3': !myVaAuthExpRedesignEnabled,
-    },
-  );
   return (
-    <div className={wrapperClasses}>
+    <div className="vads-u-margin-bottom--3 vads-u-display--flex vads-u-flex-direction--column desktop-lg:vads-u-flex--1">
       <va-card>
         <div className="vads-u-padding--1" data-testid="payment-card">
           {content}

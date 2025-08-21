@@ -25,7 +25,6 @@ import scheduleReferral from '../../referrals/page-objects/ScheduleReferral';
 import chooseDateAndTime from '../../referrals/page-objects/ChooseDateAndTime';
 import reviewAndConfirm from '../../referrals/page-objects/ReviewAndConfirm';
 import completeReferral from '../../referrals/page-objects/CompleteReferral';
-import { mockToday } from '../../../mocks/constants';
 
 describe('VAOS Referral API Error Handling', () => {
   // Common error cases for all API tests
@@ -213,9 +212,6 @@ describe('VAOS Referral API Error Handling', () => {
 
     errorCases.forEach(({ errorType, responseCode }) => {
       it(`should display an error message when submit appointment returns ${responseCode}`, () => {
-        // Use cy.clock() to control time and ensure consistent appointment slot dates
-        cy.clock(mockToday, ['Date']);
-
         // Mock error response
         const submitAppointmentResponse = new MockReferralSubmitAppointmentResponse(
           {
@@ -314,9 +310,6 @@ describe('VAOS Referral API Error Handling', () => {
 
     errorCases.forEach(({ errorType, responseCode }) => {
       it(`should display an error message when appointment details returns ${responseCode}`, () => {
-        // Use cy.clock() to control time and ensure consistent appointment slot dates
-        cy.clock(mockToday, ['Date']);
-
         // Mock error response
         const appointmentDetailsResponse = new MockReferralAppointmentDetailsResponse(
           {
@@ -393,7 +386,7 @@ describe('VAOS Referral API Error Handling', () => {
       });
 
       // Use cy.clock() to control time and speed up the polling timeout test
-      cy.clock(mockToday, ['Date']);
+      cy.clock(new Date('2025-06-02T12:00:00Z'), ['Date']);
 
       // Navigate to the Referrals and Requests page
       appointmentList.navigateToReferralsAndRequests();

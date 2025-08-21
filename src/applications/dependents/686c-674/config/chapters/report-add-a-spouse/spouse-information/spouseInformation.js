@@ -39,6 +39,8 @@ export const uiSchema = {
     },
   },
   'view:cancelAddSpouse': {
-    'ui:description': <CancelButton dependentType="spouse" isAddChapter />,
+    'ui:description': (
+      <CancelButton dependentType="spouse" isAddChapter altMessage />
+    ),
   },
 };

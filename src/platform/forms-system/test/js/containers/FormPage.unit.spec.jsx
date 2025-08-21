@@ -12,7 +12,6 @@ import { FormPage } from '../../../src/js/containers/FormPage';
 // Build our mock objects
 function makeRoute(obj, pageConfig = {}) {
   return {
-    formConfig: { formOptions: {} },
     pageConfig: {
       pageKey: 'testPage',
       schema: {},

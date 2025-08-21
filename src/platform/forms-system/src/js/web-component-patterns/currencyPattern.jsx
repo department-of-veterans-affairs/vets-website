@@ -6,7 +6,7 @@ import CurrencyWidget from '../review/CurrencyWidget';
 import { minMaxValidation } from './numberPattern';
 
 /**
- * uiSchema for currency based input which uses VaTextInputField
+ * Web component v3 uiSchema for currency based input which uses VaTextInputField
  *
  * Used for simple number amounts containing only digits
  *
@@ -83,7 +83,6 @@ export const currencyUI = options => {
 };
 
 /**
- * schema for currencyUI with type number
  * ```js
  * schema: {
  *    exampleIncome: numberSchema
@@ -95,9 +94,6 @@ export const currencySchema = {
   pattern: CURRENCY_PATTERN,
 };
 
-/**
- * schema for currencyUI with type string
- */
 export const currencyStringSchema = {
   type: 'string',
   pattern: CURRENCY_PATTERN,

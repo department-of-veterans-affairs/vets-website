@@ -25,6 +25,7 @@ export const EvidenceFacilityAddress = ({
         onVaSelect={handlers.onChange}
         onBlur={handlers.onBlur}
         error={showError('country')}
+        uswds
       >
         {countries.map(country => (
           <option key={country.value} value={country.value}>
@@ -43,6 +44,7 @@ export const EvidenceFacilityAddress = ({
         onBlur={handlers.onBlur}
         error={showError('street')}
         autocomplete="section-provider address-line1"
+        uswds
       />
       <VaTextInput
         id="street2"
@@ -52,6 +54,7 @@ export const EvidenceFacilityAddress = ({
         value={currentData.providerFacilityAddress?.street2}
         onInput={handlers.onChange}
         autocomplete="section-provider address-line2"
+        uswds
       />
       <VaTextInput
         id="city"
@@ -64,6 +67,7 @@ export const EvidenceFacilityAddress = ({
         onBlur={handlers.onBlur}
         error={showError('city')}
         autocomplete="section-provider address-level2"
+        uswds
       />
       {hasStates.length ? (
         <VaSelect
@@ -75,6 +79,7 @@ export const EvidenceFacilityAddress = ({
           onVaSelect={handlers.onChange}
           onBlur={handlers.onBlur}
           error={showError('state')}
+          uswds
         >
           {hasStates.map(state => (
             <option key={state.value} value={state.value}>
@@ -94,6 +99,7 @@ export const EvidenceFacilityAddress = ({
           onBlur={handlers.onBlur}
           error={showError('state')}
           autocomplete="section-provider address-level1"
+          uswds
         />
       )}
 
@@ -109,6 +115,7 @@ export const EvidenceFacilityAddress = ({
         error={showError('postal')}
         inputmode="numeric"
         autocomplete="section-provider postal-code"
+        uswds
       />
     </>
   );

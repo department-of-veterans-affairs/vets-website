@@ -10,6 +10,7 @@ export default function PageLayout({
   children,
   showBreadcrumbs,
   showNeedHelp,
+  isDetailPage,
 }) {
   const location = useLocation();
 
@@ -22,11 +23,10 @@ export default function PageLayout({
         {showBreadcrumbs && <Breadcrumbs />}
         <div className="vads-l-row">
           <div
-            className={classNames(
-              'vads-u-margin-bottom--2',
-              'vads-l-col--12',
-              'medium-screen:vads-l-col--8',
-            )}
+            className={classNames('vads-u-margin-bottom--2', {
+              'medium-screen:vads-l-col--8': isDetailPage,
+              'vads-l-col--12': !isDetailPage,
+            })}
           >
             {children}
             {showNeedHelp && <NeedHelp />}
@@ -39,6 +39,7 @@ export default function PageLayout({
 
 PageLayout.propTypes = {
   children: PropTypes.node,
+  isDetailPage: PropTypes.bool,
   showBreadcrumbs: PropTypes.bool,
   showNeedHelp: PropTypes.bool,
   style: PropTypes.object,

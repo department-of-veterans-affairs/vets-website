@@ -13,13 +13,15 @@ const goToNextPage = () => {
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
-    dataDir: path.join(__dirname, 'fixtures', 'data'),
+    dataDir: path.join(__dirname, 'data'),
     dataSets: ['test-data'],
     setupPerTest: () => {},
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.get('[data-testid="get-started"]').click();
+          cy.findAllByText(/Get started/i, { selector: 'button' })
+            .last()
+            .click();
         });
       },
       goals: ({ afterHook }) => {
@@ -28,7 +30,10 @@ const testConfig = createTestConfig(
             const fieldName = 'checkboxGroupGoals_setACareerPath';
             const fieldData = data[fieldName];
             if (fieldData) {
-              cy.get(`input[name="root_goals_${fieldData}"]`).check();
+              cy.get(`input[name="root_${fieldName}"]`)
+                .shadow()
+                .find('label')
+                .click();
             }
             cy.injectAxeThenAxeCheck();
             goToNextPage();
@@ -79,7 +84,10 @@ const testConfig = createTestConfig(
           cy.get('@testData').then(data => {
             const fieldName = 'characterOfDischarge';
             const fieldData = data[fieldName];
-            cy.get(`select[name="root_${fieldName}"]`).select(fieldData);
+            cy.get(`select[name="root_${fieldName}"]`)
+              .shadow()
+              .find('select')
+              .select(fieldData);
             cy.injectAxeThenAxeCheck();
             goToNextPage();
           });
@@ -104,6 +112,9 @@ const testConfig = createTestConfig(
           .then($el => cy.selectVaCheckbox($el, true));
       },
     },
+    // Skip tests in CI until the form is released.
+    // Remove this setting when the form has a content page in production.
+    skip: Cypress.env('CI'),
   },
   manifest,
   formConfig,

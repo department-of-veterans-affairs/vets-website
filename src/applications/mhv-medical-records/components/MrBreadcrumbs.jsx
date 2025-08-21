@@ -37,7 +37,7 @@ const MrBreadcrumbs = () => {
   const page = searchIndex.get('page');
   const { labId, vaccineId, summaryId, allergyId, conditionId } = useParams();
 
-  const urlTimeFrame = searchIndex.get('timeFrame');
+  const urlVitalsDate = searchIndex.get('timeFrame');
 
   useEffect(
     () => {
@@ -69,12 +69,12 @@ const MrBreadcrumbs = () => {
             )}?page=${pageNumber}`,
           };
           dispatch(setBreadcrumbs([backToPageNumCrumb, detailCrumb]));
-        } else if (urlTimeFrame) {
+        } else if (urlVitalsDate) {
           const backToVitalsDateCrumb = {
             ...Breadcrumbs[feature],
             href: `${removeTrailingSlash(
               Breadcrumbs[feature].href,
-            )}?timeFrame=${urlTimeFrame}`,
+            )}?timeFrame=${urlVitalsDate}`,
           };
           dispatch(setBreadcrumbs([backToVitalsDateCrumb, detailCrumb]));
         } else {
@@ -96,7 +96,7 @@ const MrBreadcrumbs = () => {
       locationChildPath,
       textContent,
       pageNumber,
-      urlTimeFrame,
+      urlVitalsDate,
     ],
   );
 
@@ -124,13 +124,6 @@ const MrBreadcrumbs = () => {
         conditionId}`,
     )
   ) {
-    const url = `${backToImagesBreadcrumb}${
-      urlTimeFrame
-        ? `${
-            backToImagesBreadcrumb?.includes('?') ? '&' : '?'
-          }timeFrame=${urlTimeFrame}`
-        : ''
-    }`;
     return (
       <div
         className="vads-l-row vads-u-padding-y--3 breadcrumbs-container no-print"
@@ -141,7 +134,7 @@ const MrBreadcrumbs = () => {
           <va-icon icon="arrow_back" size={1} style={{ color: '#808080' }} />
         </span>
         <Link
-          to={url}
+          to={backToImagesBreadcrumb}
           onClick={() => {
             handleDataDogAction({ locationBasePath, locationChildPath });
             backToAllergiesBreadcrumb();
@@ -164,7 +157,7 @@ const MrBreadcrumbs = () => {
         </span>
         <Link
           to={`${backToImagesBreadcrumb}${
-            urlTimeFrame ? `?timeFrame=${urlTimeFrame}` : ''
+            urlVitalsDate ? `?timeFrame=${urlVitalsDate}` : ''
           }`}
           onClick={() => {
             handleDataDogAction({ locationBasePath, locationChildPath });

@@ -13,8 +13,6 @@ import grayTaskConfig from './patterns/pattern2/TaskGray/form/config/form';
 import blueFormConfig from './patterns/pattern2/TaskBlue/config/form';
 import { formConfigForOrangeTask } from './patterns/pattern2/TaskOrange/config/form';
 
-import maritalStatusConfig from './patterns/pattern6/config/form';
-
 import ReviewPage from './patterns/pattern2/post-study/ReviewPage';
 
 import { LandingPage } from './shared/components/pages/LandingPage';
@@ -128,22 +126,9 @@ const pattern2Routes = [
   },
 ];
 
-const pattern6Routes = [
-  {
-    path: '/6/marital-information',
-    component: routeHoc(App),
-    indexRoute: {
-      onEnter: (nextState, replace) =>
-        replace('/6/marital-information/introduction?loggedIn=true'),
-    },
-    childRoutes: createRoutesWithSaveInProgress(maritalStatusConfig),
-  },
-];
-
 const routes = [
   ...pattern1Routes,
   ...pattern2Routes,
-  ...pattern6Routes,
   {
     path: '/vadx',
     component: routeHoc(withLayout(Servers)),

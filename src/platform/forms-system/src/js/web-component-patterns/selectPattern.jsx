@@ -1,7 +1,7 @@
 import VaSelectField from '../web-component-fields/VaSelectField';
 
 /**
- * uiSchema for generic select field
+ * Web component v3 uiSchema for generic select field
  *
  * ```js
  * // uiSchema
@@ -59,7 +59,6 @@ export const selectUI = options => {
 };
 
 /**
- * schema for selectUI
  * ```js
  * exampleSelect: selectSchema(['Cat', 'Dog', 'Octopus'])
  * exampleSelect: selectSchema(['cat', 'dog', 'octopus'])

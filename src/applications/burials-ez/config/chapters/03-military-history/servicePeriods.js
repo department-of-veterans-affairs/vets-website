@@ -10,7 +10,7 @@ import {
 import { validateDateRange } from '@department-of-veterans-affairs/platform-forms-system/validation';
 import { VaSelectField } from 'platform/forms-system/src/js/web-component-fields';
 
-import { generateTitle, DateReviewField } from '../../../utils/helpers';
+import { generateTitle } from '../../../utils/helpers';
 import ListItemView from '../../../components/ListItemView';
 
 const { toursOfDuty } = fullSchemaBurials.properties;
@@ -31,18 +31,8 @@ export function dateRangeUI(
       pattern: rangeError,
       required: 'Please enter a date',
     },
-    from: {
-      ...currentOrPastDateUI(from),
-      'ui:reviewField': props => (
-        <DateReviewField {...props} title="Service start date" />
-      ),
-    },
-    to: {
-      ...currentOrPastDateUI(to),
-      'ui:reviewField': props => (
-        <DateReviewField {...props} title="Service end date" />
-      ),
-    },
+    from: currentOrPastDateUI(from),
+    to: currentOrPastDateUI(to),
   };
 }
 

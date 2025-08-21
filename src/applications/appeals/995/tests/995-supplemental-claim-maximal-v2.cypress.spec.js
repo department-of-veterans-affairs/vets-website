@@ -29,10 +29,6 @@ const testConfig = createTestConfig(
           name: 'scNewForm',
           value: true,
         },
-        {
-          name: 'decision_reviews_4142_banner',
-          value: true,
-        },
       ];
       setupPerTest(data, toggles);
     },

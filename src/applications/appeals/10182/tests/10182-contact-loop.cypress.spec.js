@@ -69,7 +69,7 @@ describe('NOD contact info loop', () => {
     cy.axeCheck();
 
     // cancel phone change
-    cy.findByTestId('cancel-edit-button').click();
+    cy.findByText('Cancel').click();
     cy.location('pathname').should('eq', MAIN_CONTACT_PATH);
 
     // update phone
@@ -95,7 +95,7 @@ describe('NOD contact info loop', () => {
     cy.axeCheck();
 
     // cancel email change
-    cy.findByTestId('cancel-edit-button').click();
+    cy.findByText('Cancel').click();
     cy.location('pathname').should('eq', MAIN_CONTACT_PATH);
 
     // update email
@@ -121,7 +121,7 @@ describe('NOD contact info loop', () => {
     cy.axeCheck();
 
     // cancel address change
-    cy.findByTestId('cancel-edit-button').click();
+    cy.findByText('Cancel').click();
     cy.location('pathname').should('eq', MAIN_CONTACT_PATH);
 
     // update address
@@ -160,7 +160,9 @@ describe('NOD contact info loop', () => {
 
     cy.get('va-text-input[value="5109224444"]');
 
-    cy.findByTestId('save-edit-button').click({ waitForAnimations: true });
+    cy.findAllByText(/update/i, { selector: 'button' })
+      .first()
+      .click({ waitForAnimations: true });
 
     cy.location('pathname').should('eq', MAIN_CONTACT_PATH);
 

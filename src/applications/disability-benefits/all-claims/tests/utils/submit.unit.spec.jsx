@@ -369,7 +369,6 @@ describe('addForm4142', () => {
       {
         name: 'Facility A',
         treatmentDateRange: [undefined],
-        treatedDisabilityNames: [],
       },
     ];
     const stub = sinon

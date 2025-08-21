@@ -186,6 +186,3 @@ export const EVIDENCE_LIMITATION_PATH2 = 'supporting-evidence/limitation';
 export const EVIDENCE_ADDITIONAL_PATH =
   'supporting-evidence/will-add-supporting-evidence';
 export const EVIDENCE_UPLOAD_PATH = 'supporting-evidence/upload-evidence';
-
-export const AUTHORIZATION_LABEL =
-  'I acknowledge and authorize this release of information';

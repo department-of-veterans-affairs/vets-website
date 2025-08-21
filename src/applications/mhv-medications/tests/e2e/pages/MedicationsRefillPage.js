@@ -107,6 +107,13 @@ class MedicationsRefillPage {
     });
   };
 
+  clickMedicationsLandingPageBreadcrumbsOnRefillPage = () => {
+    cy.get('[data-testid="rx-breadcrumb"]').should('be.visible');
+    cy.get('[data-testid="rx-breadcrumb"]')
+      .find(`[href="${medicationsUrls.MEDICATIONS_ABOUT}"]`)
+      .click({ waitForAnimations: true });
+  };
+
   verifyShippedMedicationOnRefillPage = () => {
     cy.get('[data-testid="refill-prescription-checkbox-0"]')
       .invoke('attr', 'checkbox-description')

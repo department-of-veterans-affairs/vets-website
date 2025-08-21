@@ -1,7 +1,3 @@
-import {
-  arrayBuilderYesNoUI,
-  arrayBuilderYesNoSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
 import fullNameUI from 'platform/forms/definitions/fullName';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
@@ -196,22 +192,3 @@ export const dependentSchema = {
     },
   },
 };
-
-/**
- * Declare schema attributes for summary page
- * @returns {PageSchema}
- */
-export const summaryPage = options => ({
-  uiSchema: {
-    'view:reportDependents': arrayBuilderYesNoUI(options, {
-      hint: null,
-    }),
-  },
-  schema: {
-    type: 'object',
-    required: ['view:reportDependents'],
-    properties: {
-      'view:reportDependents': arrayBuilderYesNoSchema,
-    },
-  },
-});

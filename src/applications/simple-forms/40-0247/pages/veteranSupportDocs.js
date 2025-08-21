@@ -11,9 +11,9 @@ import {
   supportingDocsDescription,
 } from '../helpers';
 
-const uiTitle = 'Upload the Veteran’s or Reservist’s files';
+const uiTitle = 'Upload the Veteran’s or Reservist’s files (preferably DD214)';
 const uiDescription =
-  'We encourage you to submit military records or discharge documents if you have them. We prefer a DD214.';
+  'We don’t require that you submit anything with this form. But to speed up the process, we encourage you to submit military records or discharge documents if they’re available.';
 
 /** @type {PageSchema} */
 export default {

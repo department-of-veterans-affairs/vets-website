@@ -355,7 +355,7 @@ describe('VAOS newAppointmentFlow', () => {
           newAppointment: {
             data: {
               facilityType: FACILITY_TYPES.COMMUNITY_CARE,
-              typeOfCareId: TYPE_OF_CARE_IDS.AUDIOLOGY_ID,
+              typeOfCareId: '203',
             },
           },
         };
@@ -393,7 +393,7 @@ describe('VAOS newAppointmentFlow', () => {
           newAppointment: {
             data: {
               facilityType: 'va',
-              typeOfCareId: TYPE_OF_CARE_IDS.AUDIOLOGY_ID,
+              typeOfCareId: '203',
             },
           },
           featureToggles: {

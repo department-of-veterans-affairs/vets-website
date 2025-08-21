@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { recordCustomProfileEvent } from '@@vap-svc/util/analytics';
 import AddressView from '@@vap-svc/components/AddressField/AddressView';
+import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 
 const CopyAddressModalPrompt = ({
   visible,
@@ -79,23 +80,26 @@ const CopyAddressModalPrompt = ({
       </va-summary-box>
 
       <div className="vads-u-display--flex vads-u-flex-wrap--wrap vads-u-margin-top--3">
-        <va-button
-          loading={isLoading}
+        <LoadingButton
           data-action="save-edit"
           data-testid="save-edit-button"
+          isLoading={isLoading}
+          loadingText="Saving changes"
+          className="vads-u-margin-top--0"
           onClick={handleClick('yes')}
-          text={isLoading ? '' : 'Yes'}
-          class="vads-u-margin-top--1 vads-u-margin-bottom--1 vads-u-width--full mobile-lg:vads-u-width--auto"
-        />
+        >
+          Yes
+        </LoadingButton>
 
         {!isLoading && (
-          <va-button
+          <button
             data-testid="cancel-edit-button"
+            type="button"
+            className="usa-button-secondary mobile-lg:vads-u-margin-top--0"
             onClick={handleClick('no')}
-            text="No"
-            class="vads-u-margin-top--1 vads-u-width--full mobile-lg:vads-u-width--auto"
-            secondary
-          />
+          >
+            No
+          </button>
         )}
       </div>
     </VaModal>

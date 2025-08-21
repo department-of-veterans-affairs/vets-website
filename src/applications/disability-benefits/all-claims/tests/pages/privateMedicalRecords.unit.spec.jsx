@@ -1,16 +1,14 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { mount } from 'enzyme';
 import userEvent from '@testing-library/user-event';
 import { render } from '@testing-library/react';
 import {
   $,
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
-import { waitFor } from '@testing-library/dom';
-import formConfig from '../../config/form';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
+import formConfig from '../../config/form.js';
 
 describe('526 All Claims Private medical records', () => {
   const page =
@@ -30,7 +28,7 @@ describe('526 All Claims Private medical records', () => {
     expect($$('va-radio-option').length).to.equal(2);
   });
 
-  it('should error when user makes no selection', async () => {
+  it('should error when user makes no selection', () => {
     const onSubmit = sinon.spy();
     const { getByText } = render(
       <DefinitionTester
@@ -45,10 +43,8 @@ describe('526 All Claims Private medical records', () => {
 
     const submitButton = getByText('Submit');
     userEvent.click(submitButton);
-    await waitFor(() => {
-      expect(onSubmit.calledOnce).to.be.false;
-      expect($('va-radio').error).to.eq('You must provide a response');
-    });
+    expect(onSubmit.calledOnce).to.be.false;
+    expect($('va-radio').error).to.eq('You must provide a response');
   });
 
   it('should submit when user selects "yes" to upload', () => {
@@ -75,7 +71,7 @@ describe('526 All Claims Private medical records', () => {
     expect($$('va-checkbox').length).to.equal(0); // Expect the acknowledgment to NOT be on screen
   });
 
-  // TODO: Implementing 4142 and will need flipper
+  // TODO: This will change once 4142 is integrated
   it('should not submit when user selects "no" to upload and does NOT check the acknowledgment', () => {
     const onSubmit = sinon.spy();
     const { getByText } = render(
@@ -125,46 +121,5 @@ describe('526 All Claims Private medical records', () => {
     userEvent.click(submitButton);
     expect(onSubmit.calledOnce).to.be.true;
     expect($('va-radio').error).to.be.null;
-  });
-
-  it('should render the auth question section when disability526Enable2024Form4142 is false', () => {
-    const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{
-          'view:uploadPrivateRecordsQualifier': {
-            'view:hasPrivateRecordsToUpload': false,
-          },
-          disability526Enable2024Form4142: false, // Simulating the condition
-        }}
-        formData={{}}
-      />,
-    );
-    // checkbox should be rendered
-    expect(form.find('input[type="checkbox"]').length).to.equal(1);
-    form.unmount();
-  });
-
-  // When the disability526Enable2024Form4142 is true, the auth section should not render on this page because it is
-  // present on the next page instead in the new experience.
-  it('should NOT render the auth section when disability526Enable2024Form4142 is true', () => {
-    const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{
-          'view:uploadPrivateRecordsQualifier': {
-            'view:hasPrivateRecordsToUpload': false,
-          },
-          disability526Enable2024Form4142: true, // Simulating the condition
-        }}
-        formData={{}}
-      />,
-    );
-    expect(form.find('input[type="checkbox"]').length).to.equal(0);
-    form.unmount();
   });
 });

@@ -252,21 +252,7 @@ const createNoDebtsSuccess = () => {
   };
 };
 
-const createDebtsFailure = () => {
-  return {
-    errors: [
-      {
-        title: 'Internal Server Error',
-        detail: 'An unexpected error occurred while processing your request.',
-        code: '500',
-        status: '500',
-      },
-    ],
-  };
-};
-
 module.exports = {
-  createDebtsFailure,
   createDebtsSuccess,
   createNoDebtsSuccess,
 };

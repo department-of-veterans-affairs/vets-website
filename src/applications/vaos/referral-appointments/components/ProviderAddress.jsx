@@ -32,28 +32,25 @@ const ProviderAddress = props => {
       <p className="vads-u-margin--0">
         {!isAddressString ? (
           <>
-            <span data-dd-privacy="mask">{normalizedAddress.street1}</span>
-            <br />
+            {normalizedAddress.street1} <br />
             {normalizedAddress.street2 && (
-              <span data-dd-privacy="mask" data-testid="street2">
+              <span data-testid="street2">
                 {normalizedAddress.street2}
                 <br />
               </span>
             )}
             {normalizedAddress.street3 && (
-              <span data-dd-privacy="mask" data-testid="street3">
+              <span data-testid="street3">
                 {normalizedAddress.street3}
                 <br />
               </span>
             )}
-            <span data-dd-privacy="mask">
-              {normalizedAddress.city},{' '}
-              {normalizedAddress.state && `${normalizedAddress.state},`}{' '}
-              {normalizedAddress.zip}
-            </span>
+            {normalizedAddress.city},{' '}
+            {normalizedAddress.state && `${normalizedAddress.state},`}{' '}
+            {normalizedAddress.zip}
           </>
         ) : (
-          <span data-dd-privacy="mask">{normalizedAddress}</span>
+          <>{normalizedAddress}</>
         )}
       </p>
       {showDirections &&
@@ -84,9 +81,7 @@ const ProviderAddress = props => {
             <strong>Main phone:</strong>
           </p>
           <p className="vads-u-margin--0">
-            <span data-dd-privacy="mask">
-              <va-telephone contact={phone} data-testid="provider-telephone" />
-            </span>
+            <va-telephone contact={phone} data-testid="provider-telephone" />
           </p>
         </div>
       )}

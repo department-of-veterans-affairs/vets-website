@@ -44,8 +44,6 @@ import {
   showPtsdCombat,
   showPtsdNonCombat,
   showSeparationLocation,
-  isCompletingModern4142,
-  onFormLoaded,
 } from '../utils';
 
 import captureEvents from '../analytics-functions';
@@ -83,7 +81,6 @@ import {
   prisonerOfWar,
   privateMedicalRecords,
   privateMedicalRecordsAttachments,
-  privateMedicalAuthorizeRelease,
   privateMedicalRecordsRelease,
   ptsd781aChangesIntro,
   ptsdBypassCombat,
@@ -120,7 +117,6 @@ import { ancillaryFormsWizardDescription } from '../content/ancillaryFormsWizard
 
 import { ptsd781NameTitle } from '../content/ptsdClassification';
 import { ptsdFirstIncidentIntro } from '../content/ptsdFirstIncidentIntro';
-import PrivateRecordsAuthorization from '../components/Authorization';
 
 import { createFormConfig781, createFormConfig781a } from './781';
 
@@ -151,12 +147,7 @@ const formConfig = {
   trackingPrefix: 'disability-526EZ-',
   downtime: {
     requiredForPrefill: true,
-    dependencies: [
-      services.evss,
-      services.mvi,
-      services.vaProfile,
-      services.disabilityCompensationForm,
-    ],
+    dependencies: [services.evss, services.mvi, services.vaProfile],
   },
   formId: VA_FORM_IDS.FORM_21_526EZ,
   wizardStorageKey: WIZARD_STATUS,
@@ -193,7 +184,6 @@ const formConfig = {
   errorText: ErrorText,
   showReviewErrors: true,
   reviewErrors,
-  onFormLoaded,
   defaultDefinitions: {
     ...fullSchema.definitions,
   },
@@ -369,12 +359,7 @@ const formConfig = {
           depends: claimingNew,
           path: 'new-disabilities/follow-up/:index',
           showPagePerItem: true,
-          itemFilter: (item, formData) => {
-            if (formData?.syncModern0781Flow === true) {
-              return !!item.condition;
-            }
-            return !isDisabilityPtsd(item.condition);
-          },
+          itemFilter: item => !isDisabilityPtsd(item.condition),
           arrayPath: 'newDisabilities',
           uiSchema: newDisabilityFollowUp.uiSchema,
           schema: newDisabilityFollowUp.schema,
@@ -684,14 +669,14 @@ const formConfig = {
           schema: vaMedicalRecords.schema,
         },
         privateMedicalRecords: {
-          title: 'Non-VA treatment records',
+          title: 'Private medical records',
           path: 'supporting-evidence/private-medical-records',
           depends: hasPrivateEvidence,
           uiSchema: privateMedicalRecords.uiSchema,
           schema: privateMedicalRecords.schema,
         },
         privateMedicalRecordsAttachments: {
-          title: 'Non-VA treatment records',
+          title: 'Private medical records',
           path: 'supporting-evidence/private-medical-records-upload',
           depends: formData =>
             hasPrivateEvidence(formData) &&
@@ -699,21 +684,8 @@ const formConfig = {
           uiSchema: privateMedicalRecordsAttachments.uiSchema,
           schema: privateMedicalRecordsAttachments.schema,
         },
-        // 2024 authorization
-        privateMedicalAuthorizeRelease: {
-          title: 'Non-VA treatment records',
-          path: 'supporting-evidence/private-medical-records-authorize-release',
-          depends: formData =>
-            hasPrivateEvidence(formData) &&
-            isNotUploadingPrivateMedical(formData) &&
-            isCompletingModern4142(formData),
-          CustomPage: PrivateRecordsAuthorization,
-          CustomPageReview: null,
-          uiSchema: privateMedicalAuthorizeRelease.uiSchema,
-          schema: privateMedicalAuthorizeRelease.schema,
-        },
         privateMedicalRecordsRelease: {
-          title: 'Non-VA treatment records',
+          title: 'Private medical records',
           path: 'supporting-evidence/private-medical-records-release',
           depends: formData =>
             hasPrivateEvidence(formData) &&

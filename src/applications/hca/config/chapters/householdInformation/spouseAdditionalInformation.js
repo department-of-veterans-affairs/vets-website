@@ -1,27 +1,22 @@
-import {
-  titleUI,
-  descriptionUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
-import { LAST_YEAR, replaceStrValues } from '../../../utils/helpers';
+import { LAST_YEAR } from '../../../utils/helpers';
 import { FULL_SCHEMA } from '../../../utils/imports';
-import { SpouseAdditionalInformationDescription } from '../../../components/FormDescriptions';
-import content from '../../../locales/en/content.json';
+import {
+  SpouseAdditionalInformationDescription,
+  SpouseAdditionalInformationTitle,
+} from '../../../components/FormDescriptions';
 
 const { cohabitedLastYear, sameAddress } = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {
-    ...titleUI(content['household-info--spouse-addtl-info-title']),
-    ...descriptionUI(SpouseAdditionalInformationDescription),
+    'ui:title': SpouseAdditionalInformationTitle,
+    'ui:description': SpouseAdditionalInformationDescription,
     cohabitedLastYear: {
-      'ui:title': replaceStrValues(
-        content['household-info--spouse-addtl-info-cohabitate-label'],
-        LAST_YEAR,
-      ),
+      'ui:title': `Did you live with your spouse for all or part of ${LAST_YEAR}?`,
       'ui:widget': 'yesNo',
     },
     sameAddress: {
-      'ui:title': content['household-info--spouse-addtl-info-address-label'],
+      'ui:title': 'Do you currently have the same address as your spouse?',
       'ui:widget': 'yesNo',
     },
   },

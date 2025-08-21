@@ -10,7 +10,7 @@ export default {
     goals: checkboxGroupUI({
       enableAnalytics: true,
       title: 'What goals do you want to accomplish?',
-      hint: 'Select all that apply.',
+      hint: 'Check all that apply.',
       required: () => true,
       labels: goalTypeLabels,
     }),

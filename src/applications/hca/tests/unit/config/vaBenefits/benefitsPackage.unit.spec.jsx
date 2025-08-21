@@ -1,33 +1,56 @@
-import formConfig from '../../../../config/form';
+import React from 'react';
+import ReactTestUtils from 'react-dom/test-utils';
+import { findDOMNode } from 'react-dom';
+import { expect } from 'chai';
+import sinon from 'sinon';
 import {
-  testNumberOfErrorsOnSubmit,
-  testNumberOfFormFields,
-} from '../../../helpers.spec';
+  submitForm,
+  DefinitionTester,
+} from 'platform/testing/unit/schemaform-utils';
+import formConfig from '../../../../config/form';
+import { simulateInputChange } from '../../../helpers';
 
 describe('hca VaBenefitsPackage config', () => {
-  const {
-    title: pageTitle,
-    schema,
-    uiSchema,
-  } = formConfig.chapters.vaBenefits.pages.vaBenefitsPackage;
+  const { vaBenefitsPackage } = formConfig.chapters.vaBenefits.pages;
+  const { schema, uiSchema } = vaBenefitsPackage;
+  const { defaultDefinitions: definitions } = formConfig;
+  const subject = ({ onSubmit = () => {} }) => {
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+        schema={schema}
+        definitions={definitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}
+      />,
+    );
+    const formDOM = findDOMNode(form);
+    const selectors = () => ({
+      inputs: formDOM.querySelectorAll('input'),
+      errors: formDOM.querySelectorAll('.usa-input-error'),
+    });
+    return { form, formDOM, selectors };
+  };
 
-  // run test for correct number of fields on the page
-  const expectedNumberOfFields = 2;
-  testNumberOfFormFields(
-    formConfig,
-    schema,
-    uiSchema,
-    expectedNumberOfFields,
-    pageTitle,
-  );
+  it('should render correct number of inputs', () => {
+    const { selectors } = subject({});
+    expect(selectors().inputs.length).to.equal(2);
+  });
 
-  // run test for correct number of error messages on submit
-  const expectedNumberOfErrors = 1;
-  testNumberOfErrorsOnSubmit(
-    formConfig,
-    schema,
-    uiSchema,
-    expectedNumberOfErrors,
-    pageTitle,
-  );
+  it('should not submit empty form', () => {
+    const onSubmit = sinon.spy();
+    const { form, selectors } = subject({ onSubmit });
+    submitForm(form);
+    expect(selectors().errors.length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
+  });
+
+  it('should submit with valid data', () => {
+    const onSubmit = sinon.spy();
+    const { form, formDOM, selectors } = subject({ onSubmit });
+    const inputID = '#root_view\\3A vaBenefitsPackage_1';
+    simulateInputChange(formDOM, inputID, 'regOnly');
+    submitForm(form);
+    expect(selectors().errors.length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
+  });
 });

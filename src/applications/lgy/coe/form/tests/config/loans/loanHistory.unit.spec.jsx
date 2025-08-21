@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import sinon from 'sinon';
@@ -53,7 +53,7 @@ describe('COE applicant loan history', () => {
     expect($$('select', container).length).to.equal(3);
   });
 
-  it('Should not submit without required fields', async () => {
+  it('Should not submit without required fields', () => {
     const onSubmit = sinon.spy();
     const { container } = render(
       <Provider store={defaultStore}>
@@ -67,16 +67,13 @@ describe('COE applicant loan history', () => {
       </Provider>,
     );
 
-    fireEvent.submit($('form', container));
+    fireEvent.submit($('form'));
 
-    await waitFor(() => {
-      expect($$('.usa-input-error', container).length).to.equal(6);
-    });
-
+    expect($$('.usa-input-error', container).length).to.equal(6);
     expect(onSubmit.called).to.be.false;
   });
 
-  it('Should not submit without required fields', async () => {
+  it('Should not submit without required fields', () => {
     const onSubmit = sinon.spy();
     const { container } = render(
       <Provider store={defaultStore}>
@@ -90,20 +87,14 @@ describe('COE applicant loan history', () => {
       </Provider>,
     );
 
-    fireEvent.submit($('form', container));
+    fireEvent.submit($('form'));
 
-    await waitFor(() => {
-      expect($$('.usa-input-error', container).length).to.equal(6);
-    });
-
+    expect($$('.usa-input-error', container).length).to.equal(6);
     fireEvent.click(
       $('#root_relevantPriorLoans_0_propertyOwnedYes', container),
     );
 
-    await waitFor(() => {
-      expect($$('.usa-input-error', container).length).to.equal(6);
-    });
-
+    expect($$('.usa-input-error', container).length).to.equal(6);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -137,7 +128,7 @@ describe('COE applicant loan history', () => {
       </Provider>,
     );
 
-    fireEvent.submit($('form', container));
+    fireEvent.submit($('form'));
 
     expect($$('.usa-input-error', container).length).to.equal(0);
     expect(onSubmit.called).to.be.true;
@@ -163,11 +154,11 @@ describe('COE applicant loan history', () => {
       </Provider>,
     );
 
-    fireEvent.submit($('form', container));
+    fireEvent.submit($('form'));
 
     expect($$('.usa-input-error', container).length).to.equal(0);
   });
-  it('Should not allow loan number with a leading dash', async () => {
+  it('Should not allow loan number with a leading dash', () => {
     const { container } = render(
       <Provider store={defaultStore}>
         <DefinitionTester
@@ -187,15 +178,12 @@ describe('COE applicant loan history', () => {
       </Provider>,
     );
 
-    fireEvent.submit($('form', container));
-
-    await waitFor(() => {
-      const error = $$('.usa-input-error', container)?.[0];
-      expect(error).to.exist;
-      expect(error.textContent).to.contain('numbers only');
-    });
+    fireEvent.submit($('form'));
+    const error = $$('.usa-input-error', container)?.[0];
+    expect(error).to.exist;
+    expect(error.textContent).to.contain('numbers only');
   });
-  it('Should not allow non-digits in loan number', async () => {
+  it('Should not allow non-digits in loan number', () => {
     const { container } = render(
       <Provider store={defaultStore}>
         <DefinitionTester
@@ -215,13 +203,10 @@ describe('COE applicant loan history', () => {
       </Provider>,
     );
 
-    fireEvent.submit($('form', container));
-
-    await waitFor(() => {
-      const error = $$('.usa-input-error', container)?.[0];
-      expect(error).to.exist;
-      expect(error.textContent).to.contain('numbers only');
-    });
+    fireEvent.submit($('form'));
+    const error = $$('.usa-input-error', container)?.[0];
+    expect(error).to.exist;
+    expect(error.textContent).to.contain('numbers only');
   });
 
   it('Should allow same month/year closing & paid off dates', () => {
@@ -255,7 +240,7 @@ describe('COE applicant loan history', () => {
       </Provider>,
     );
 
-    fireEvent.submit($('form', container));
+    fireEvent.submit($('form'));
 
     expect($$('.usa-input-error', container).length).to.equal(0);
     expect(onSubmit.called).to.be.true;

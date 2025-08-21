@@ -4,9 +4,9 @@ import featureFlagNames from '~/platform/utilities/feature-toggles/featureFlagNa
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { getAppUrl } from '~/platform/utilities/registry-helpers';
 
-export const viewDependentsUrl = getAppUrl('dependents-view-dependents');
+const viewDependentsUrl = getAppUrl('dependents-view-dependents');
 
-export const disabilityBenefitsUrls = {
+const disabilityBenefitsUrls = {
   '686c': getAppUrl('686C-674'),
   'view-payments': getAppUrl('view-payments'),
 };
@@ -121,30 +121,6 @@ export const ctaWidgetsLookup = {
     mhvToolName: null,
     requiredServices: null,
     serviceDescription: 'view your VA disability rating',
-  },
-  [CTA_WIDGET_TYPES.EDUCATION_LETTERS]: {
-    id: CTA_WIDGET_TYPES.EDUCATION_LETTERS,
-    deriveToolUrlDetails: () => ({
-      url: 'education/download-letters',
-      redirect: false,
-    }),
-    hasRequiredMhvAccount: () => false,
-    isHealthTool: false,
-    mhvToolName: null,
-    requiredServices: null,
-    serviceDescription: 'check your VA education letter',
-  },
-  [CTA_WIDGET_TYPES.ENROLLMENT_VERIFICATION]: {
-    id: CTA_WIDGET_TYPES.ENROLLMENT_VERIFICATION,
-    deriveToolUrlDetails: () => ({
-      url: 'education/verify-school-enrollment',
-      redirect: false,
-    }),
-    hasRequiredMhvAccount: () => false,
-    isHealthTool: false,
-    mhvToolName: null,
-    requiredServices: null,
-    serviceDescription: 'verify your school enrollment',
   },
   [CTA_WIDGET_TYPES.GI_BILL_BENEFITS]: {
     id: CTA_WIDGET_TYPES.GI_BILL_BENEFITS,
@@ -291,5 +267,29 @@ export const ctaWidgetsLookup = {
     mhvToolName: null,
     requiredServices: null,
     serviceDescription: 'view your VA payment history',
+  },
+  [CTA_WIDGET_TYPES.EDUCATION_LETTERS]: {
+    id: CTA_WIDGET_TYPES.EDUCATION_LETTERS,
+    deriveToolUrlDetails: () => ({
+      url: 'education/download-letters',
+      redirect: false,
+    }),
+    hasRequiredMhvAccount: () => false,
+    isHealthTool: false,
+    mhvToolName: null,
+    requiredServices: null,
+    serviceDescription: 'check your VA education letter',
+  },
+  [CTA_WIDGET_TYPES.ENROLLMENT_VERIFICATION]: {
+    id: CTA_WIDGET_TYPES.ENROLLMENT_VERIFICATION,
+    deriveToolUrlDetails: () => ({
+      url: 'education/verify-school-enrollment',
+      redirect: false,
+    }),
+    hasRequiredMhvAccount: () => false,
+    isHealthTool: false,
+    mhvToolName: null,
+    requiredServices: null,
+    serviceDescription: 'verify your school enrollment',
   },
 };

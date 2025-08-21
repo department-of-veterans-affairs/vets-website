@@ -4,7 +4,7 @@ import {
   textSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import {
-  testComponentFieldsMarkedAsRequired,
+  testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfFieldsByType,
   testNumberOfWebComponentFields,
   testSubmitsWithoutErrors,
@@ -24,13 +24,12 @@ describe('federal medical centers summary page', () => {
     pageTitle,
   );
 
-  testComponentFieldsMarkedAsRequired(
+  const expectedNumberOfErrors = 1;
+  testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     federalMedicalCentersSummary.schema,
     federalMedicalCentersSummary.uiSchema,
-    [
-      `va-radio[label="Have you received treatment from any non-VA federal medical facilities within the past year?"]`,
-    ],
+    expectedNumberOfErrors,
     pageTitle,
   );
 
@@ -79,11 +78,12 @@ describe('pension add federal medical centers page', () => {
     pageTitle,
   );
 
-  testComponentFieldsMarkedAsRequired(
+  const expectedNumberOfErrors = 1;
+  testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     federalMedicalCenterPage.schema,
     federalMedicalCenterPage.uiSchema,
-    [`va-text-input[label="Federal medical center"]`],
+    expectedNumberOfErrors,
     pageTitle,
   );
 

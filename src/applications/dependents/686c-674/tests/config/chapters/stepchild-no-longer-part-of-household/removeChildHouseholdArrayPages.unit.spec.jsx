@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
 import createCommonStore from '@department-of-veterans-affairs/platform-startup/store';
@@ -26,10 +26,9 @@ describe('686 Remove child no longer in household array options', () => {
 
     it('should return true if any required fields are missing', () => {
       const incompleteItem = {
-        fullName: { first: 'John' }, // Missing last name
+        fullName: { first: 'John' },
         birthDate: '1990-01-01',
         ssn: '123-45-6789',
-        // dateStepchildLeftHousehold: missing
         supportingStepchild: true,
         livingExpensesPaid: '1000',
         whoDoesTheStepchildLiveWith: { first: 'Jane', last: 'Doe' },
@@ -50,7 +49,6 @@ describe('686 Remove child no longer in household array options', () => {
         fullName: { first: 'John', last: 'Doe' },
         birthDate: '1990-01-01',
         ssn: '123-45-6789',
-        dateStepchildLeftHousehold: '2023-01-01',
         supportingStepchild: false,
         whoDoesTheStepchildLiveWith: { first: 'Jane', last: 'Doe' },
         address: {
@@ -70,9 +68,7 @@ describe('686 Remove child no longer in household array options', () => {
         fullName: { first: 'John', last: 'Doe' },
         birthDate: '1990-01-01',
         ssn: '123-45-6789',
-        dateStepchildLeftHousehold: '2023-01-01',
         supportingStepchild: true,
-        // livingExpensesPaid: missing
         whoDoesTheStepchildLiveWith: { first: 'Jane', last: 'Doe' },
         address: {
           country: 'USA',
@@ -202,30 +198,6 @@ describe('686 Remove child no longer in household: Child information ', () => {
   });
 });
 
-describe('686 Remove child no longer in household: When did stepchild leave household', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.reportStepchildNotInHousehold.pages.stepchildLeftHouseholdDate;
-
-  it('should render', () => {
-    const { container } = render(
-      <Provider store={defaultStore}>
-        <DefinitionTester
-          schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}
-          data={formData}
-          arrayPath={arrayPath}
-          pagePerItemIndex={0}
-        />
-      </Provider>,
-    );
-
-    expect($$('va-memorable-date', container).length).to.equal(1);
-  });
-});
-
 describe('686 Remove child no longer in household: Veteran’s support of child', () => {
   const {
     schema,
@@ -326,39 +298,6 @@ describe('686 Remove child no longer in household: Stepchild’s address', () =>
     expect($$('va-checkbox', container).length).to.equal(1);
     expect($$('va-text-input', container).length).to.equal(6);
     expect($$('va-select', container).length).to.equal(1);
-  });
-
-  it('should render custom city error', async () => {
-    const { container } = render(
-      <Provider store={defaultStore}>
-        <DefinitionTester
-          schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}
-          data={{
-            'view:selectable686Options': {
-              reportStepchildNotInHousehold: true,
-            },
-            stepChildren: [{ address: { city: 'APO', isMilitary: false } }],
-          }}
-          arrayPath={arrayPath}
-          pagePerItemIndex={0}
-        />
-      </Provider>,
-    );
-
-    const form = container?.querySelector('form');
-    fireEvent.submit(form);
-
-    await waitFor(() => {
-      const cityInput = container.querySelector(
-        'va-text-input[name*="_address_city"]',
-      );
-      expect(cityInput).to.exist;
-      expect(cityInput.getAttribute('error')).to.equal(
-        'Enter a valid city name',
-      );
-    });
   });
 });
 

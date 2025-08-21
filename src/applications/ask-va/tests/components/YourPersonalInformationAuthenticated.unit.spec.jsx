@@ -121,7 +121,7 @@ describe('YourPersonalInformationAuthenticated', () => {
       </Provider>,
     );
 
-    expect(getByText('Date of birth: None provided')).to.exist;
+    expect(getByText('Date of birth: -')).to.exist;
   });
 
   it('should redirect if not logged in', () => {
@@ -133,7 +133,6 @@ describe('YourPersonalInformationAuthenticated', () => {
           last: 'User',
         },
       },
-      currentlyLoggedIn: false,
     });
 
     render(
@@ -142,6 +141,7 @@ describe('YourPersonalInformationAuthenticated', () => {
           router={mockRouterProps}
           goForward={goForwardSpy}
           goBack={() => {}}
+          isLoggedIn={false}
         />
       </Provider>,
     );

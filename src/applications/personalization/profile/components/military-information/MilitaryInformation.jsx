@@ -11,11 +11,13 @@ import DowntimeNotification, {
 } from '~/platform/monitoring/DowntimeNotification';
 import { focusElement } from '~/platform/utilities/ui';
 import { selectVeteranStatus } from '~/platform/user/selectors';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import ProofOfVeteranStatus from '../proof-of-veteran-status/ProofOfVeteranStatus';
 
 import LoadFail from '../alerts/LoadFail';
 import Headline from '../ProfileSectionHeadline';
 import { transformServiceHistoryEntryIntoTableRow } from '../../helpers';
-import { ProfileInfoSection } from '../ProfileInfoSection';
+import { ProfileInfoCard } from '../ProfileInfoCard';
 
 // Alert to show when a user does not appear to be a Veteran
 const NotAVeteranAlert = () => {
@@ -157,7 +159,7 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
 
   return (
     <>
-      <ProfileInfoSection
+      <ProfileInfoCard
         data={serviceHistory.map(item =>
           transformServiceHistoryEntryIntoTableRow(item),
         )}
@@ -204,6 +206,9 @@ MilitaryInformationContent.propTypes = {
 };
 
 const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const vetStatusCardToggle = useToggleValue(TOGGLE_NAMES.vetStatusStage1);
+
   useEffect(() => {
     document.title = `Military Information | Veterans Affairs`;
   }, []);
@@ -236,20 +241,22 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
         active
       />
 
-      <va-alert
-        class="vads-u-margin-top--3"
-        close-btn-aria-label="Close notification"
-        slim="true"
-        status="info"
-        visible
-      >
-        Your Veteran Status Card has moved.{' '}
-        <va-link
-          href="/profile/veteran-status-card"
-          text="Access your Veteran Status Card"
-        />
-      </va-alert>
+      {vetStatusCardToggle && (
+        <p className="vads-u-margin-y--1">
+          <va-link
+            href="/profile/veteran-status-card"
+            text="Access your Veteran Status Card"
+            active
+          />
+        </p>
+      )}
 
+      {!vetStatusCardToggle &&
+        militaryInformation?.serviceHistory?.serviceHistory && (
+          <div className="vads-u-margin-y--4">
+            <ProofOfVeteranStatus />
+          </div>
+        )}
       <DevTools devToolsData={{ militaryInformation, veteranStatus }} panel>
         <p>Profile devtools test, please ignore.</p>
       </DevTools>

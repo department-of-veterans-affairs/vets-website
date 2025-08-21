@@ -168,7 +168,7 @@ describe('focusEvidence', () => {
     render(
       <div id="main">
         <h3>Title</h3>
-        {hasError ? <div role="alert" error="true" /> : <div />}
+        {hasError ? <div error="true" /> : <div />}
       </div>,
     );
 
@@ -181,12 +181,10 @@ describe('focusEvidence', () => {
       expect(document.activeElement).to.eq(target);
     });
   });
-
   it('should focus on error', async () => {
     const { container } = await renderPage(true);
 
     await focusEvidence(null, container);
-
     await waitFor(() => {
       const target = $('[error]', container);
       expect(document.activeElement).to.eq(target);

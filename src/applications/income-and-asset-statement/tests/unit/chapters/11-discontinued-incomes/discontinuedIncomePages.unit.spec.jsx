@@ -15,7 +15,7 @@ import {
 } from '../multiPageTests.spec';
 import {
   testNumberOfFieldsByType,
-  testComponentFieldsMarkedAsRequired,
+  testNumberOfErrorsOnSubmitForWebComponents,
   testSubmitsWithoutErrors,
   testSelectAndValidateField,
 } from '../pageTests.spec';
@@ -74,13 +74,11 @@ describe('discontinued income list and loop pages', () => {
       { 'va-radio': 1 },
       'summary page',
     );
-    testComponentFieldsMarkedAsRequired(
+    testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
       uiSchema,
-      [
-        'va-radio[label="Did you or your dependents receive income that has stopped or is no longer being received within the last calendar year?"]',
-      ],
+      1,
       'summary page',
     );
     testSubmitsWithoutErrors(
@@ -108,11 +106,11 @@ describe('discontinued income list and loop pages', () => {
       { 'va-radio': 1 },
       'relationship',
     );
-    testComponentFieldsMarkedAsRequired(
+    testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
       uiSchema,
-      ['va-radio[name="root_recipientRelationship"]'],
+      1,
       'relationship',
     );
     testSubmitsWithoutErrors(
@@ -147,14 +145,11 @@ describe('discontinued income list and loop pages', () => {
       { 'va-text-input': 3 },
       'recipient',
     );
-    testComponentFieldsMarkedAsRequired(
+    testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
       uiSchema,
-      [
-        'va-text-input[label="Income recipient’s first name"]',
-        'va-text-input[label="Income recipient’s last name"]',
-      ],
+      2,
       'recipient',
     );
     testSubmitsWithoutErrors(
@@ -182,11 +177,11 @@ describe('discontinued income list and loop pages', () => {
       { 'va-text-input': 1 },
       'payer',
     );
-    testComponentFieldsMarkedAsRequired(
+    testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
       uiSchema,
-      ['va-text-input[label="Income payer name"]'],
+      1,
       'payer',
     );
     testSubmitsWithoutErrors(
@@ -214,11 +209,11 @@ describe('discontinued income list and loop pages', () => {
       { 'va-text-input': 1 },
       'type',
     );
-    testComponentFieldsMarkedAsRequired(
+    testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
       uiSchema,
-      ['va-text-input[label="What is the type of income received?"]'],
+      1,
       'type',
     );
     testSubmitsWithoutErrors(
@@ -246,11 +241,11 @@ describe('discontinued income list and loop pages', () => {
       { 'va-radio': 1 },
       'frequency',
     );
-    testComponentFieldsMarkedAsRequired(
+    testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
       uiSchema,
-      ['va-radio[name="root_incomeFrequency"]'],
+      1,
       'frequency',
     );
     testSubmitsWithoutErrors(
@@ -278,11 +273,11 @@ describe('discontinued income list and loop pages', () => {
       { 'va-memorable-date': 1 },
       'date',
     );
-    testComponentFieldsMarkedAsRequired(
+    testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
       uiSchema,
-      ['va-memorable-date[name="root_incomeLastReceivedDate"]'],
+      1,
       'date',
     );
     testSubmitsWithoutErrors(

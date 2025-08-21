@@ -4,7 +4,7 @@ export const SUBMISSIONS_BC_LABEL = 'submissions breadcrumb';
 export const submissionsBC = [
   {
     href: '/representative',
-    label: 'VA.gov/representative home',
+    label: 'Representative.va.gov home',
   },
   {
     href: window.location.href,
@@ -30,10 +30,10 @@ export const SORT_OPTIONS = {
 };
 
 export const SORT_DEFAULTS = {
-  SORT_BY: 'created_at',
+  SORT_BY: 'submittedDate',
   SORT_ORDER: 'desc',
   // default is 20 per page
-  SIZE: 20,
+  SIZE: '20',
   // default is page 1
-  NUMBER: 1,
+  NUMBER: '1',
 };

@@ -11,7 +11,7 @@ import {
 
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import {
-  testComponentFieldsMarkedAsRequired,
+  testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfFieldsByType,
   testNumberOfWebComponentFields,
 } from '../pageTests.spec';
@@ -34,15 +34,12 @@ describe('web component tests', () => {
     pageTitle,
   );
 
-  testComponentFieldsMarkedAsRequired(
+  const expectedNumberOfErrors = 3;
+  testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     schema,
     uiSchema,
-    [
-      `va-radio[label="Account type"]`,
-      `va-text-input[label="Account number"]`,
-      `va-text-input[label="Routing number"]`,
-    ],
+    expectedNumberOfErrors,
     pageTitle,
   );
 

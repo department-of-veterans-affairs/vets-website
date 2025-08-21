@@ -1,34 +1,15 @@
-import { useEffect } from 'react';
 import {
   arrayBuilderItemSubsequentPageTitleUI,
   currentOrPastDateSchema,
   currentOrPastDateUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import {
-  addStyleToShadowDomOnPages,
-  ForceFieldBlur,
-  validateApproximateDate,
-} from './utils';
-
-// Hides the built-in “For example: January 19 2000”
-const HideDefaultDateHint = () => {
-  useEffect(() => {
-    // Inject the style into every <va-memorable-date> on the page
-    addStyleToShadowDomOnPages(
-      [''],
-      ['va-memorable-date'],
-      '#dateHint {display:none}',
-    );
-  }, []);
-
-  return null; // nothing visual – side-effect only
-};
+import { ForceFieldBlur, validateApproximateDate } from './utils';
 
 const baseDateUI = currentOrPastDateUI({
-  title: 'When did your condition get worse?',
+  title: 'Around what date did your disability get worse?',
   hint:
-    "You can share an approximate date. If your condition started in the winter of 2020, you'd enter December 1, 2020.",
+    'You may share an exact date or an approximate date. For example, if you noticed your back pain getting worse in the winter of 2020, you would enter December 1, 2020.',
 });
 
 /** @returns {PageSchema} */
@@ -36,12 +17,11 @@ const ratedDisabilityDatePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        `${formData?.ratedDisability || 'service-connected disability'}`,
+        `Approximate date of ${formData?.ratedDisability ||
+          'service-connected disability'} worsening`,
     ),
     conditionDate: {
       ...baseDateUI,
-      // run the effect here
-      'ui:description': HideDefaultDateHint,
       'ui:validations': [validateApproximateDate],
     },
     // Aim is to trigger internal VA form field update logic

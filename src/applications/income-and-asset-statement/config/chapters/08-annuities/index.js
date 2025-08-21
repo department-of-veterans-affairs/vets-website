@@ -1,6 +1,6 @@
 import { annuityPages } from './annuityPages';
 
 export default {
-  title: 'Annuities',
+  title: 'Annuities information',
   pages: annuityPages,
 };

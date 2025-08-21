@@ -47,7 +47,7 @@ describe('Profile NameTag', () => {
     it('should render the name, service branch, and not show disability rating', () => {
       mockFeatureToggles();
       cy.visit(PROFILE_PATHS.PROFILE_ROOT);
-      nameTagRendersWithFallbackLink();
+      nameTagRendersWithoutDisabilityRating();
     });
   });
   context('when there is a 403 fetching the disability rating', () => {
@@ -60,7 +60,7 @@ describe('Profile NameTag', () => {
     it('should render the name, service branch, and not show disability rating', () => {
       mockFeatureToggles();
       cy.visit(PROFILE_PATHS.PROFILE_ROOT);
-      nameTagRendersWithFallbackLink();
+      nameTagRendersWithoutDisabilityRating();
     });
   });
   context('when there is a 500 fetching the disability rating', () => {
@@ -73,7 +73,7 @@ describe('Profile NameTag', () => {
     it('should render the name, service branch, and show a fallback link for disability rating', () => {
       mockFeatureToggles();
       cy.visit(PROFILE_PATHS.PROFILE_ROOT);
-      nameTagRendersWithoutDisabilityRating();
+      nameTagRendersWithFallbackLink();
     });
   });
 });

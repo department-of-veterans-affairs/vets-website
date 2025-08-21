@@ -1,8 +1,8 @@
 import { expect } from 'chai';
-import { subDays } from 'date-fns';
 import React from 'react';
+import { MockAppointment } from '../../tests/fixtures/MockAppointment';
 import MockAppointmentResponse from '../../tests/fixtures/MockAppointmentResponse';
-import MockFacilityResponse from '../../tests/fixtures/MockFacilityResponse';
+import MockFacility from '../../tests/fixtures/MockFacility';
 import {
   createTestStore,
   renderWithStoreAndRouter,
@@ -46,16 +46,33 @@ describe('VAOS Component: ClaimExamLayout', () => {
       };
 
       const store = createTestStore(state);
-      const response = MockAppointmentResponse.createCompPensionResponse({
-        localStartTime: new Date(),
-      })
-        .setClinicPhoneNumber('500-500-5000')
-        .setPhysicalLocation('CHEYENNE')
-        .setPractitioner()
-        .setServiceName('Clinic 1');
-      const appointment = MockAppointmentResponse.getTransformedResponse(
-        response,
-      );
+
+      const appointment = {
+        location: {
+          vistaId: '983',
+          clinicId: '848',
+          stationId: '983',
+          clinicName: 'CHY PC VAR2',
+        },
+        minutesDuration: 60,
+        startUtc: new Date(),
+        videoData: {},
+        vaos: {
+          isCommunityCare: false,
+          isCompAndPenAppointment: true,
+          isCOVIDVaccine: false,
+          isPendingAppointment: false,
+          isUpcomingAppointment: true,
+          apiData: {
+            serviceCategory: [
+              {
+                text: 'COMPENSATION & PENSION',
+              },
+            ],
+          },
+        },
+        status: 'booked',
+      };
 
       // Act
       const screen = renderWithStoreAndRouter(
@@ -88,16 +105,28 @@ describe('VAOS Component: ClaimExamLayout', () => {
         },
       };
       const store = createTestStore(state);
-      const response = MockAppointmentResponse.createCompPensionResponse({
-        localStartTime: new Date(),
-      })
-        .setLocationId(null)
-        .setClinicPhoneNumber('500-500-5000')
-        .setPractitioner()
-        .setServiceName('Clinic 1');
-      const appointment = MockAppointmentResponse.getTransformedResponse(
-        response,
-      );
+
+      const appointment = {
+        location: {},
+        minutesDuration: 60,
+        startUtc: new Date(),
+        videoData: {},
+        vaos: {
+          isCommunityCare: false,
+          isCompAndPenAppointment: true,
+          isCOVIDVaccine: false,
+          isPendingAppointment: false,
+          isUpcomingAppointment: true,
+          apiData: {
+            serviceCategory: [
+              {
+                text: 'COMPENSATION & PENSION',
+              },
+            ],
+          },
+        },
+        status: 'booked',
+      };
 
       // Act
       const screen = renderWithStoreAndRouter(
@@ -106,7 +135,6 @@ describe('VAOS Component: ClaimExamLayout', () => {
           store,
         },
       );
-
       // Assert
       expect(
         screen.getByRole('heading', { level: 2, name: /Where to attend/i }),
@@ -124,22 +152,30 @@ describe('VAOS Component: ClaimExamLayout', () => {
     it('should not display heading and text for empty data', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const response = MockAppointmentResponse.createCompPensionResponse({
-        localStartTime: new Date(),
-        future: true,
-      })
-        .setLocationId(null)
-        .setTypeOfCare(null);
-      const appointment = MockAppointmentResponse.getTransformedResponse(
-        response,
-      );
+      const appointment = {
+        type: 'VA',
+        modality: 'claimExamAppointment',
+        minutesDuration: 60,
+        startUtc: new Date(),
+        videoData: {},
+        vaos: {
+          isCommunityCare: false,
+          isCompAndPenAppointment: true,
+          isCOVIDVaccine: false,
+          isPendingAppointment: false,
+          isUpcomingAppointment: true,
+          isCerner: false,
+          apiData: {},
+        },
+        status: 'booked',
+      };
       const nullAttributes = {
         type: 'VA',
         modality: 'claimExamAppointment',
         isCerner: false,
-        'fields-load-success': 'type-of-care',
+        'fields-load-success': '',
         'fields-load-fail':
-          'clinic-phone,facility-id,facility-details,facility-phone',
+          'type-of-care,clinic-phone,facility-id,facility-details,facility-phone',
       };
 
       // Act
@@ -149,8 +185,9 @@ describe('VAOS Component: ClaimExamLayout', () => {
           store,
         },
       );
-
       // Assert
+      expect(screen.queryByRole('heading', { level: 2, name: /What/i })).not.to
+        .exist;
       expect(screen.queryByRole('heading', { level: 2, name: /Who/i })).not.to
         .exist;
       expect(
@@ -170,12 +207,23 @@ describe('VAOS Component: ClaimExamLayout', () => {
     it('should display facility phone when clinic phone is missing', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const response = MockAppointmentResponse.createCompPensionResponse({
-        localStartTime: new Date(),
-      }).setLocation(new MockFacilityResponse());
-      const appointment = MockAppointmentResponse.getTransformedResponse(
-        response,
-      );
+      const appointment = {
+        location: {
+          stationId: '983',
+        },
+        minutesDuration: 60,
+        startUtc: new Date(),
+        videoData: {},
+        vaos: {
+          isCommunityCare: false,
+          isCompAndPenAppointment: true,
+          isCOVIDVaccine: false,
+          isPendingAppointment: false,
+          isUpcomingAppointment: true,
+          apiData: {},
+        },
+        status: 'booked',
+      };
 
       // Act
       const screen = renderWithStoreAndRouter(
@@ -193,12 +241,21 @@ describe('VAOS Component: ClaimExamLayout', () => {
     it('should display VA main phone when facility id is missing', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const response = MockAppointmentResponse.createCompPensionResponse({
-        localStartTime: new Date(),
-      }).setLocationId(null);
-      const appointment = MockAppointmentResponse.getTransformedResponse(
-        response,
-      );
+      const appointment = {
+        location: {},
+        minutesDuration: 60,
+        startUtc: new Date(),
+        videoData: {},
+        vaos: {
+          isCommunityCare: false,
+          isCompAndPenAppointment: true,
+          isCOVIDVaccine: false,
+          isPendingAppointment: false,
+          isUpcomingAppointment: true,
+          apiData: {},
+        },
+        status: 'booked',
+      };
 
       // Act
       const screen = renderWithStoreAndRouter(
@@ -218,17 +275,44 @@ describe('VAOS Component: ClaimExamLayout', () => {
     it('should display claim exam layout', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const response = MockAppointmentResponse.createCompPensionResponse({
-        localStartTime: new Date(),
-      })
-        .setClinicPhoneNumber('500-500-5000')
-        .setClinicPhoneNumberExtension('1234')
-        .setPhysicalLocation('CHEYENNE')
-        .setPractitioner()
-        .setServiceName('Clinic 1');
-      const appointment = MockAppointmentResponse.getTransformedResponse(
-        response,
-      );
+      const appointment = {
+        type: 'VA',
+        modality: 'claimExamAppointment',
+        location: {
+          stationId: '983',
+          clinicName: 'Clinic 1',
+          clinicPhysicalLocation: 'CHEYENNE',
+          clinicPhone: '500-500-5000',
+          clinicPhoneExtension: '1234',
+        },
+        minutesDuration: 60,
+        startUtc: new Date(),
+        practitioners: [
+          {
+            name: {
+              family: 'User',
+              given: ['Test'],
+            },
+          },
+        ],
+        videoData: {},
+        vaos: {
+          isCommunityCare: false,
+          isCompAndPenAppointment: true,
+          isCOVIDVaccine: false,
+          isPendingAppointment: false,
+          isUpcomingAppointment: true,
+          isCerner: false,
+          apiData: {
+            serviceCategory: [
+              {
+                text: 'COMPENSATION & PENSION',
+              },
+            ],
+          },
+        },
+        status: 'booked',
+      };
       const nullAttributes = {
         type: 'VA',
         modality: 'claimExamAppointment',
@@ -245,7 +329,6 @@ describe('VAOS Component: ClaimExamLayout', () => {
           store,
         },
       );
-
       // Assert
       expect(
         screen.getByRole('heading', {
@@ -259,12 +342,10 @@ describe('VAOS Component: ClaimExamLayout', () => {
       ).to.be.ok;
 
       expect(screen.getByRole('heading', { level: 2, name: /What/i }));
-      const typeOfCare = screen.container.querySelector('.typeOfCareName');
-      expect(typeOfCare).to.exist;
-      expect(typeOfCare.textContent).to.equal('Claim exam');
+      expect(screen.queryByText('Claim exam'), { exact: true });
 
       expect(screen.getByRole('heading', { level: 2, name: /Who/i }));
-      expect(screen.getByText(/Test Prov/i));
+      expect(screen.getByText(/Test User/i));
 
       expect(
         screen.getByRole('heading', { level: 2, name: /Where to attend/i }),
@@ -298,11 +379,11 @@ describe('VAOS Component: ClaimExamLayout', () => {
         }),
       );
       expect(
-        screen.getByText(/You don.t need to bring anything to your exam/i),
+        screen.getByText(/You don't need to bring anything to your exam./i),
       );
       expect(
         screen.getByText(
-          /If you have any new non-VA medical records \(like records from a recent surgery or illness\), be sure to submit them before your appointment/i,
+          /If you have any new non-VA medical records \(like records from a recent surgery or illness\), be sure to submit them before your appointment./i,
         ),
       );
       expect(
@@ -343,17 +424,11 @@ describe('VAOS Component: ClaimExamLayout', () => {
     it('should display claim exam layout', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const response = MockAppointmentResponse.createCompPensionResponse({
-        localStartTime: subDays(new Date(), 1),
-        past: true,
-      })
-        .setClinicPhoneNumber('500-500-5000')
-        .setPhysicalLocation('CHEYENNE')
-        .setPractitioner()
-        .setServiceName('Clinic 1');
-      const appointment = MockAppointmentResponse.getTransformedResponse(
-        response,
-      );
+      const appointment = new MockAppointment()
+        .setApiData(new MockAppointmentResponse())
+        .setIsCompAndPenAppointment(true)
+        .setIsPastAppointment(true)
+        .setLocation(new MockFacility());
 
       // Act
       const screen = renderWithStoreAndRouter(
@@ -383,7 +458,7 @@ describe('VAOS Component: ClaimExamLayout', () => {
       ).not.to.exist;
 
       expect(screen.getByRole('heading', { level: 2, name: /What/i }));
-      // expect(screen.getByText(/Claim exam/i, { exact: true }));
+      expect(screen.getByText(/Primary care/i));
 
       expect(screen.getByRole('heading', { level: 2, name: /Where/i }));
       expect(screen.getByText(/2360 East Pershing Boulevard/i));
@@ -432,18 +507,13 @@ describe('VAOS Component: ClaimExamLayout', () => {
     it('should display claim exam layout when in the future', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const response = MockAppointmentResponse.createCompPensionResponse({
-        localStartTime: subDays(new Date(), 1),
-        future: true,
+      const appointment = new MockAppointment({
         status: APPOINTMENT_STATUS.cancelled,
       })
-        .setClinicPhoneNumber('500-500-5000')
-        .setPhysicalLocation('CHEYENNE')
-        .setPractitioner()
-        .setServiceName('Clinic 1');
-      const appointment = MockAppointmentResponse.getTransformedResponse(
-        response,
-      );
+        .setApiData(new MockAppointmentResponse())
+        .setIsCompAndPenAppointment(true)
+        .setIsUpcomingAppointment(true)
+        .setLocation(new MockFacility());
 
       // Act
       const screen = renderWithStoreAndRouter(
@@ -481,6 +551,7 @@ describe('VAOS Component: ClaimExamLayout', () => {
       ).not.to.exist;
 
       expect(screen.getByRole('heading', { level: 2, name: /What/i }));
+      expect(screen.getByText(/Primary care/i));
 
       expect(screen.getByRole('heading', { level: 2, name: /Where/i }));
       expect(screen.getByText(/2360 East Pershing Boulevard/i));
@@ -511,11 +582,11 @@ describe('VAOS Component: ClaimExamLayout', () => {
         }),
       );
       expect(
-        screen.getByText(/You don.t need to bring anything to your exam/i),
+        screen.getByText(/You don't need to bring anything to your exam./i),
       );
       expect(
         screen.getByText(
-          /If you have any new non-VA medical records \(like records from a recent surgery or illness\), be sure to submit them before your appointment/i,
+          /If you have any new non-VA medical records \(like records from a recent surgery or illness\), be sure to submit them before your appointment./i,
         ),
       );
       expect(
@@ -537,22 +608,16 @@ describe('VAOS Component: ClaimExamLayout', () => {
         screen.container.querySelector('va-button[text="Cancel appointment"]'),
       ).to.not.exist;
     });
-
     it('should display claim exam layout when in the past', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const response = MockAppointmentResponse.createCompPensionResponse({
-        localStartTime: subDays(new Date(), 1),
-        past: true,
+      const appointment = new MockAppointment({
         status: APPOINTMENT_STATUS.cancelled,
       })
-        .setClinicPhoneNumber('500-500-5000')
-        .setPhysicalLocation('CHEYENNE')
-        .setPractitioner()
-        .setServiceName('Clinic 1');
-      const appointment = MockAppointmentResponse.getTransformedResponse(
-        response,
-      );
+        .setApiData(new MockAppointmentResponse())
+        .setIsCompAndPenAppointment(true)
+        .setIsPastAppointment(true)
+        .setLocation(new MockFacility());
 
       // Act
       const screen = renderWithStoreAndRouter(
@@ -590,7 +655,7 @@ describe('VAOS Component: ClaimExamLayout', () => {
       ).not.to.exist;
 
       expect(screen.getByRole('heading', { level: 2, name: /What/i }));
-      // expect(screen.getByText(/Primary care/i));
+      expect(screen.getByText(/Primary care/i));
 
       expect(screen.getByRole('heading', { level: 2, name: /Where/i }));
       expect(screen.getByText(/2360 East Pershing Boulevard/i));

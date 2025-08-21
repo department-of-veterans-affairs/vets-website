@@ -40,7 +40,7 @@
       "pHCernerPatientId": null,
       "pHCernerAccountNumber": null,
       "pHIcnNumber": null,
-      "pHAccountNumber": "534 1001 0051 54223 HSMITH",
+      "pHAccountNumber": 2000000000000000,
       "pHLargeFontIndcator": 0,
       "details": [
         {
@@ -136,7 +136,7 @@
       "pHCernerPatientId": "                ",
       "pHCernerAccountNumber": "                ",
       "pHIcnNumber": "                 ",
-      "pHAccountNumber": "534 1001 0051 54223 HSMITH",
+      "pHAccountNumber": 2000000000000000,
       "pHLargeFontIndcator": 0,
       "details": [
         {
@@ -331,7 +331,7 @@
       "pHCernerPatientId": "                ",
       "pHCernerAccountNumber": "                ",
       "pHIcnNumber": "                 ",
-      "pHAccountNumber": "534 1001 0051 54223 HSMITH",
+      "pHAccountNumber": 2000000000000000,
       "pHLargeFontIndcator": 0,
       "details": [
         {
@@ -508,7 +508,7 @@
       "pHCernerPatientId": null,
       "pHCernerAccountNumber": null,
       "pHIcnNumber": null,
-      "pHAccountNumber": "534 1001 0051 54223 HSMITH",
+      "pHAccountNumber": 2000000000000000,
       "pHLargeFontIndcator": 0,
       "details": [
         {
@@ -568,7 +568,7 @@
       "pHAmtDue": 0,
       "pSStatementDate": "12052021",
       "pSStatementDateOutput": "12/05/2021",
-      "pHAccountNumber": "3000000000000000",
+      "pHAccountNumber": 3000000000000000,
       "station": {
         "facilitYNum": "508",
         "city": "DECATUR"

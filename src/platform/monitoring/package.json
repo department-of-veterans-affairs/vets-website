@@ -19,13 +19,13 @@
       "react": "*",
       "react-redux": "*",
       "prop-types": "*",
-      "date-fns": "*",
-      "@sentry/browser": "*",
-      "chai": "*",
+      "moment": "*",
+      "@sentry/browser": "*", 
+      "chai": "*", 
       "sinon": "*",
       "enzyme": "*"
     },
     "license": "MIT",
     "private": true
   }
-
+  

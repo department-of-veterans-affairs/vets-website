@@ -133,21 +133,13 @@ function VAFacilityPage({
   if (loadingFacilities || (singleValidVALocation && loadingClinics)) {
     return (
       <div>
-        <va-loading-indicator
-          set-focus
-          message="Finding locations"
-          label="Finding locations"
-        />
+        <va-loading-indicator message="Finding locations" />
       </div>
     );
   }
   if (loadingClinics) {
     return (
       <va-loading-indicator
-        set-focus
-        label="We’re checking if we can create an appointment for you at this
-                facility. This may take up to a minute. Thank you for your
-                patience."
         message="We’re checking if we can create an appointment for you at this
                 facility. This may take up to a minute. Thank you for your
                 patience."
@@ -295,11 +287,7 @@ function VAFacilityPage({
       )}
       {requestingLocation && (
         <div className="vads-u-padding-bottom--2">
-          <va-loading-indicator
-            set-focus
-            label="Finding your location. Be sure to allow your browser to find your current location."
-            message="Finding your location. Be sure to allow your browser to find your current location."
-          />
+          <va-loading-indicator message="Finding your location. Be sure to allow your browser to find your current location." />
         </div>
       )}
       {facilitiesStatus === FETCH_STATUS.succeeded &&

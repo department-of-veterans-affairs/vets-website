@@ -1,64 +1,21 @@
 import { expect } from 'chai';
+import { randomFillSync } from 'crypto';
 import {
   sha256,
   base64UrlEncode,
   generateRandomString,
 } from '../../oauth/crypto';
-import { mockCrypto } from '../../oauth/mockCrypto';
 
 describe('OAuth - Crypto', () => {
-  beforeEach(() => {
-    let hasNodeCrypto = false;
-    try {
-      // eslint-disable-next-line import/no-unresolved
-      require('node:crypto');
-      hasNodeCrypto = true;
-    } catch {
-      hasNodeCrypto = false;
-    }
-
-    if (!hasNodeCrypto) {
-      window.crypto = mockCrypto;
-    }
-  });
-
   describe('sha256', async () => {
     const rs = generateRandomString(64);
-
     it('returns a Promise <ArrayBuffer>', async () => {
       const promisedArrBuff = await sha256(rs);
-      expect(promisedArrBuff).to.be.instanceOf(ArrayBuffer);
+      expect(promisedArrBuff).to.be.a('string');
       expect(promisedArrBuff.byteLength).to.eql(32);
     });
-
-    it('should throw an error if parameter is empty or undefined', async () => {
-      try {
-        await sha256();
-        expect.fail('Should have thrown an error for undefined input');
-      } catch (error) {
-        expect(error).to.be.an('error');
-      }
-
-      try {
-        // Empty string is valid input, should return ArrayBuffer
-        const result = await sha256('');
-        expect(result).to.be.instanceOf(ArrayBuffer);
-      } catch (error) {
-        // If it throws, that's also acceptable behavior
-        expect(error).to.be.an('error');
-      }
-    });
-
-    it('should produce consistent hash for same input', async () => {
-      const input = 'test-string';
-      const hash1 = await sha256(input);
-      const hash2 = await sha256(input);
-
-      // Convert to base64 to compare easily
-      const hash1Base64 = base64UrlEncode(hash1);
-      const hash2Base64 = base64UrlEncode(hash2);
-
-      expect(hash1Base64).to.equal(hash2Base64);
+    it('should return null if parameter is empty', () => {
+      expect(sha256()).to.be.null;
     });
   });
 
@@ -74,12 +31,19 @@ describe('OAuth - Crypto', () => {
     });
   });
   describe('generateRandomString', () => {
+    const mockCrypto = {
+      getRandomValues(buffer) {
+        return randomFillSync(buffer);
+      },
+    };
     it('should generate a random string given a length', () => {
+      window.crypto = mockCrypto;
       expect(generateRandomString(28).length).to.eql(56);
       expect(generateRandomString(64).length).to.eql(128);
       expect(generateRandomString(128).length).to.eql(256);
     });
     it('should not generate the same string twice', () => {
+      window.crypto = mockCrypto;
       const tempStr = generateRandomString(16);
       const tempArr = Array.from({ length: 28 }).map(_ =>
         generateRandomString(16),

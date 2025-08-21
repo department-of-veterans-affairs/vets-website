@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, waitFor } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../config/form';
@@ -33,7 +33,7 @@ describe('Conflict of Interest Step 3 - Page 4', () => {
     expect($$('va-memorable-date', container).length).to.equal(2);
   });
 
-  it('should render an error message if no start date is given', async () => {
+  it('should render an error message if no start date is given', () => {
     const { container, getByRole } = render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -44,8 +44,6 @@ describe('Conflict of Interest Step 3 - Page 4', () => {
 
     expect($$('va-memorable-date[error]', container).length).to.equal(0);
     getByRole('button', { name: /submit/i }).click();
-    await waitFor(() => {
-      expect($$('va-memorable-date[error]', container).length).to.equal(1);
-    });
+    expect($$('va-memorable-date[error]', container).length).to.equal(1);
   });
 });

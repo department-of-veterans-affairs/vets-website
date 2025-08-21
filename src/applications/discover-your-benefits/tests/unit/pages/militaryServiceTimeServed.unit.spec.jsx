@@ -6,7 +6,6 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { Provider } from 'react-redux';
 import { getData } from '../mocks/mockFormData';
 import militaryServiceTotalTimeServedConfig from '../../../pages/militaryServiceTimeServed';
-import { timeServedTypes, timeServedLabels } from '../../../constants/benefits';
 
 describe('Military Service Total Time Served Form', () => {
   let wrapper;
@@ -35,30 +34,11 @@ describe('Military Service Total Time Served Form', () => {
     expect(title).to.exist;
   });
 
-  it('should render the correct hint for militaryServiceTotalTimeServed', () => {
-    const hint = document.querySelector(
-      'va-radio[hint="If you have served multiple periods, please choose the answer that reflects your total amount of service."]',
-    );
-    expect(hint).to.exist;
-  });
-
   it('should not display any error message by default', () => {
     const errorMessage = wrapper.queryByText(
       'Please select an option for total time served in the military',
     );
     expect(errorMessage).to.not.exist;
-  });
-
-  it('should render the correct labels and values in radio select', () => {
-    const types = Object.values(timeServedTypes);
-    const labels = Object.values(timeServedLabels);
-    for (let i = 0; i < types.length; i++) {
-      const queryString = `va-radio-option[label='${labels[i]}'][value=${
-        types[i]
-      }]`.replace('+', '+\\');
-      const radioOption = document.querySelector(queryString);
-      expect(radioOption).to.exist;
-    }
   });
 
   it('should render the correct radio component', () => {

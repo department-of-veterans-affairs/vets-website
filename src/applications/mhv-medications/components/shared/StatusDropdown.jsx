@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ACTIVE_NON_VA, dispStatusObj } from '../../util/constants';
+import { dispStatusObj } from '../../util/constants';
 import { dataDogActionNames } from '../../util/dataDogConstants';
 
 const StatusDropdown = props => {
@@ -82,7 +82,7 @@ const StatusDropdown = props => {
         };
         return (
           <>
-            {displayStatus(ACTIVE_NON_VA)}
+            {displayStatus('Active: Non-VA')}
             <va-additional-info
               data-testid="status-dropdown"
               uswds

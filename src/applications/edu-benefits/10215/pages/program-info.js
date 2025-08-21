@@ -55,47 +55,16 @@ const programInfo = {
           'Please enter the total number of supported students enrolled in the program',
       },
     }),
-    'view:fewerThan10Alert': {
-      'ui:description': (
-        <va-alert status="info" uswds visible>
-          <h3 slot="headline">Fewer than 10 supported students</h3>
-          <p>
-            <strong>Note:</strong> This program has fewer than 10 supported
-            students. You don’t need to enter any additional information,{' '}
-            <strong>
-              but please continue adding this program so it’s included in your
-              report.
-            </strong>
-          </p>
-          <p>
-            If you entered this number in error, you can go back and adjust it
-            now.
-          </p>
-        </va-alert>
-      ),
-      'ui:options': {
-        hideIf: (formData, index) => {
-          const value = getSupportedStudents(formData, index);
-          return (!value || value >= 10) && value !== 0;
-        },
-      },
-    },
     fte: {
-      'view:fteNote': {
-        'ui:description': (
-          <p>
-            <strong>Note: </strong>
-            If there are fewer than 10 supported students enrolled in this
-            program, you do not have to fill out the information below, and the
-            Total enrolled FTE and supported student percentage FTE will not be
-            calculated or submitted.
-          </p>
-        ),
-        'ui:options': {
-          hideIf: (formData, index) =>
-            getSupportedStudents(formData, index) < 10,
-        },
-      },
+      'ui:description': (
+        <p>
+          <strong>Note: </strong>
+          If there are fewer than 10 supported students enrolled in this
+          program, you do not have to fill out the information below, and the
+          Total enrolled FTE and supported student percentage FTE will not be
+          calculated or submitted.
+        </p>
+      ),
       supported: _.merge(
         numberUI({
           title: 'Number of supported students FTE',
@@ -106,10 +75,6 @@ const programInfo = {
         {
           'ui:required': (formData, index) =>
             getSupportedStudents(formData, index) >= 10,
-          'ui:options': {
-            hideIf: (formData, index) =>
-              getSupportedStudents(formData, index) < 10,
-          },
         },
       ),
       nonSupported: _.merge(
@@ -122,18 +87,11 @@ const programInfo = {
         {
           'ui:required': (formData, index) =>
             getSupportedStudents(formData, index) >= 10,
-          'ui:options': {
-            hideIf: (formData, index) =>
-              getSupportedStudents(formData, index) < 10,
-          },
         },
       ),
     },
     'view:calcs': {
       'ui:description': Calcs,
-      'ui:options': {
-        hideIf: (formData, index) => getSupportedStudents(formData, index) < 10,
-      },
     },
   },
   schema: {
@@ -142,11 +100,9 @@ const programInfo = {
       programName: { ...textSchema, pattern: noSpaceOnlyPattern },
       studentsEnrolled: numberSchema,
       supportedStudents: numberSchema,
-      'view:fewerThan10Alert': { type: 'object', properties: {} },
       fte: {
         type: 'object',
         properties: {
-          'view:fteNote': { type: 'object', properties: {} },
           supported: decimalSchema,
           nonSupported: decimalSchema,
         },

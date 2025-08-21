@@ -1,11 +1,11 @@
 {
-   "claimId": "7519378a-e9ef-4a84-8673-591776c8f06b",
+  "claimId": "73611905-71bf-46ed-b1ec-e790593b8565",
   "claimNumber": "TC0000000000001",
   "claimName": "Claim created for NOLLE BARAKAT",
   "claimantFirstName": "Nolle",
   "claimantMiddleName": "Polite",
   "claimantLastName": "Barakat",
-  "claimStatus": "Denied",
+  "claimStatus": "Approved for payment",
   "appointmentDate": "2024-01-01T16:45:34.465Z",
   "facilityName": "Cheyenne VA Medical Center",
   "totalCostRequested": 20.0,
@@ -22,7 +22,7 @@
     "serviceConnectedDisability": 30,
     "appointmentStatus": "Complete",
     "externalAppointmentId": "12345",
-    "associatedClaimId": "7519378a-e9ef-4a84-8673-591776c8f06b",
+    "associatedClaimId": "73611905-71bf-46ed-b1ec-e790593b8565",
     "associatedClaimNumber": "TC0000000000001",
     "isCompleted": true
   },

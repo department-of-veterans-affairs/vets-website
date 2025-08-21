@@ -1,11 +1,11 @@
 {
-  "claimId": "7519378a-e9ef-4a84-8673-591776c8f06b",
+  "claimId": "73611905-71bf-46ed-b1ec-e790593b8565",
   "claimNumber": "TC0000000000001",
   "claimName": "Claim created for NOLLE BARAKAT",
   "claimantFirstName": "Nolle",
   "claimantMiddleName": "Polite",
   "claimantLastName": "Barakat",
-  "claimStatus": "Denied",
+  "claimStatus": "Approved for payment",
   "appointmentDate": "2024-01-01T16:45:34.465Z",
   "facilityName": "Cheyenne VA Medical Center",
   "totalCostRequested": 20.05,
@@ -22,7 +22,7 @@
     "serviceConnectedDisability": 30,
     "appointmentStatus": "Complete",
     "externalAppointmentId": "12345",
-    "associatedClaimId": "7519378a-e9ef-4a84-8673-591776c8f06b",
+    "associatedClaimId": "73611905-71bf-46ed-b1ec-e790593b8565",
     "associatedClaimNumber": "TC0000000000001",
     "isCompleted": true
   },
@@ -46,7 +46,6 @@
       "costSubmitted": 10.0
     }
   ],
-  "decisionLetterReason": "You are a Service Connected Veteran with a rating of less than 30%, with income above the established low-income threshold or not on file to determine if a low-income status exists, and your medical appointment was not coded as treating your service connected condition(s).  Authority 38 CFR 70.10 (a)(2),(5) The appointment(s) associated with your date of travel does not qualify for payment.  For payment, an appointment must be in relation to care or services that you are eligible for, must be authorized in advance for a non-VA care appointment; and it must be completed unless due to actions other than yourself. Authority 38 CFR 70.4 (1)-(2)",
   "documents": [
     {
       "documentId": "4f6f751b-87ff-ef11-9341-001dd809b68c",

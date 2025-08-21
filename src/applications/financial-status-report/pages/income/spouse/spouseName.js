@@ -47,7 +47,6 @@ export const schema = {
             },
             last: {
               type: 'string',
-              maxLength: 30,
             },
           },
         },

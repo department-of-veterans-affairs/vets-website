@@ -160,31 +160,31 @@ export const fillField = ({
     ? filterPagePerItemPath(elementPath)
     : elementPath;
 
-  // if (path.includes('dateOfMarriage') || path.includes('dateOfSeparation')) {
-  //   tabToElementByPath(path, 'Month');
-  //   fillDate(fieldData, path.join('_'));
-  //   return;
-  // }
+  if (path.includes('dateOfMarriage') || path.includes('dateOfSeparation')) {
+    tabToElementByPath(path, 'Month');
+    fillDate(fieldData, path.join('_'));
+    return;
+  }
 
-  // if (type === 'date') {
-  //   const name = `root_${path.join('_')}`;
-  //   const date = fieldData.split('-').map(v => parseInt(v, 10).toString());
-  //   tabToElement(`#${name}Month`);
-  //   const monthString = new Date(fieldData).toLocaleString('en-US', {
-  //     month: 'long',
-  //     timeZone: 'UTC',
-  //   });
-  //   fillSelectByTyping(monthString, str => {
-  //     throw new Error(`Failed to enter ${str} in 'date'`);
-  //   });
-  //   cy.tabToElement(`#${name}Day`);
-  //   fillSelectByTyping(date[2], str => {
-  //     throw new Error(`Failed to enter ${str} in 'date'`);
-  //   });
-  //   cy.tabToElement(`input[name="${name}Year"]`);
-  //   typeEachChar(date[0]);
-  //   return;
-  // }
+  if (type === 'date') {
+    const name = `root_${path.join('_')}`;
+    const date = fieldData.split('-').map(v => parseInt(v, 10).toString());
+    tabToElement(`#${name}Month`);
+    const monthString = new Date(fieldData).toLocaleString('en-US', {
+      month: 'long',
+      timeZone: 'UTC',
+    });
+    fillSelectByTyping(monthString, str => {
+      throw new Error(`Failed to enter ${str} in 'date'`);
+    });
+    cy.tabToElement(`#${name}Day`);
+    fillSelectByTyping(date[2], str => {
+      throw new Error(`Failed to enter ${str} in 'date'`);
+    });
+    cy.tabToElement(`input[name="${name}Year"]`);
+    typeEachChar(date[0]);
+    return;
+  }
 
   if (path.includes('powDateRange')) {
     cy.get('input#root_powStatusYesinput').should('be.checked');
@@ -202,7 +202,7 @@ export const fillField = ({
     fillSelectByTyping(enumName, str => {
       throw new Error(`Failed to enter ${str} in 'VaSelectField'`);
     });
-  } else if (type === 'VaMemorableDateField' || type === 'date') {
+  } else if (type === 'VaMemorableDateField') {
     fillDate(fieldData, path.join('_'));
   } else if (type === 'YesNoField' || type === 'yesNo') {
     cy.chooseRadio(fieldData ? 'Y' : 'N');
@@ -382,7 +382,7 @@ export const keyboardTestPage = (page, data) => {
 export const startForm = () => {
   cy.url().should('include', '/introduction');
 
-  cy.tabToElement('va-link-action');
+  cy.tabToElement('.schemaform-start-button, .vads-c-action-link--green');
   cy.realPress('Enter');
 };
 

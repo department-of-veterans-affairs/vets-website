@@ -1,6 +1,5 @@
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
@@ -139,12 +138,12 @@ describe('RecipientsSelect', () => {
   });
 
   it('displays the CantFindYourTeam component', () => {
-    const { getByText, container } = setup({});
-    const cantFindYourTeam = container.querySelector(`va-additional-info`);
-    expect(cantFindYourTeam).to.have.attribute(
-      'trigger',
-      "If you can't find your team",
+    const { getByText } = setup({});
+    const cantFindYourTeam = document.querySelector(
+      'va-additional-info[trigger="If you can\'t find your team"]',
     );
+    expect(cantFindYourTeam).to.exist;
+
     const showMoreTeamsLink = getByText('Show more teams in your contact list');
 
     expect(showMoreTeamsLink).to.exist;
@@ -177,57 +176,5 @@ describe('RecipientsSelect', () => {
     const optionTwo = optgroups[1].querySelector('option');
     expect(optionTwo.value).to.equal('1');
     expect(optionTwo.text).to.equal('Recipient 1');
-  });
-
-  it('displays correct content in pilot environment OH facility', () => {
-    const customState = {
-      ...initialState,
-      sm: {
-        recipients: {
-          activeFacility: {
-            ehr: 'cerner',
-            vamcSystemName: 'Test OH Facility Health Care',
-          },
-        },
-      },
-      featureToggles: {
-        [FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot]: true,
-      },
-    };
-    const screen = setup({ state: customState });
-
-    const comboBox = screen.getByTestId('compose-recipient-combobox');
-    expect(comboBox).to.exist;
-
-    const options = comboBox.querySelectorAll('option');
-    expect(options).to.have.lengthOf(2);
-    expect(options[0].textContent).to.equal('Recipient 1');
-    expect(options[1].textContent).to.equal('Recipient 2');
-  });
-
-  it('displays correct content in pilot environment vista facility', () => {
-    const customState = {
-      ...initialState,
-      sm: {
-        recipients: {
-          activeFacility: {
-            ehr: 'vista',
-            vamcSystemName: 'Test Vista Facility Health Care',
-          },
-        },
-      },
-      featureToggles: {
-        [FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot]: true,
-      },
-    };
-    const screen = setup({ state: customState });
-
-    const comboBox = screen.getByTestId('compose-recipient-combobox');
-    expect(comboBox).to.exist;
-
-    const options = comboBox.querySelectorAll('option');
-    expect(options).to.have.lengthOf(2);
-    expect(options[0].textContent).to.equal('Recipient 1');
-    expect(options[1].textContent).to.equal('Recipient 2');
   });
 });

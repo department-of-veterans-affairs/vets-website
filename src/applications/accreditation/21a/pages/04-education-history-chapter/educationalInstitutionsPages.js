@@ -18,7 +18,7 @@ import {
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
 import EducationHistoryIntro from '../../components/04-education-history-chapter/EducationHistoryIntro';
-import { degreeOptions, institutionTypeOptions } from '../../constants/options';
+import { degreeOptions } from '../../constants/options';
 import { createDateRangeText } from '../helpers/createDateRangeText';
 import { createName } from '../helpers/createName';
 import {
@@ -27,7 +27,7 @@ import {
 } from '../helpers/dateRangeWithCurrentCheckboxPattern';
 
 /** @type {ArrayBuilderOptions} */
-export const arrayBuilderOptions = {
+const arrayBuilderOptions = {
   arrayPath: 'educationalInstitutions',
   nounSingular: 'educational institution',
   nounPlural: 'educational institutions',
@@ -71,18 +71,9 @@ const institutionAndDegreePage = {
       toLabel: 'End date',
       currentLabel: 'I still go to school here.',
       currentKey: 'currentlyEnrolled',
-      isCurrentChecked: (formData, index, fullData) => {
-        // Adding a check for formData and fullData since formData is sometimes undefined on load
-        // and we cant rely on fullData for testing
-        const institutions =
-          formData?.educationalInstitutions ??
-          fullData?.educationalInstitutions;
-        const institution = institutions?.[index];
-
-        return institution?.currentlyEnrolled === true;
-      },
+      isCurrentChecked: (formData, index) =>
+        formData?.educationalInstitutions?.[index]?.currentlyEnrolled,
     }),
-    institution: selectUI('Institution type'),
     degreeReceived: yesNoUI('Degree received?'),
     major: textUI('Major'),
   },
@@ -90,12 +81,11 @@ const institutionAndDegreePage = {
     type: 'object',
     properties: {
       name: textSchema,
-      institution: selectSchema(institutionTypeOptions),
       ...dateRangeWithCurrentCheckboxSchema('currentlyEnrolled'),
       degreeReceived: yesNoSchema,
       major: textSchema,
     },
-    required: ['name', 'dateRange', 'degreeReceived', 'major'],
+    required: ['name', 'dateRange', 'degreeReceived'],
   },
 };
 
@@ -104,49 +94,17 @@ const degreeInformationPage = {
   uiSchema: {
     degree: selectUI({
       title: 'Type of degree',
-      hideIf: (formData, index, fullData) => {
-        // Adding a check for formData and fullData since formData is sometimes undefined on load
-        // and we cant rely on fullData for testing
-        const institutions =
-          formData?.educationalInstitutions ??
-          fullData?.educationalInstitutions;
-        const institution = institutions?.[index];
-
-        return institution?.degreeReceived === false;
-      },
-      required: (formData, index, fullData) => {
-        // Adding a check for formData and fullData since formData is sometimes undefined on load
-        // and we cant rely on fullData for testing
-        const institutions =
-          formData?.educationalInstitutions ??
-          fullData?.educationalInstitutions;
-        const institution = institutions?.[index];
-
-        return institution?.degreeReceived === true;
-      },
+      hideIf: (formData, index) =>
+        !formData?.educationalInstitutions?.[index]?.degreeReceived,
+      required: (formData, index) =>
+        formData?.educationalInstitutions?.[index]?.degreeReceived,
     }),
     reasonForNotCompleting: textareaUI({
       title: 'Explain why you did not complete this degree.',
-      hideIf: (formData, index, fullData) => {
-        // Adding a check for formData and fullData since formData is sometimes undefined on load
-        // and we cant rely on fullData for testing
-        const institutions =
-          formData?.educationalInstitutions ??
-          fullData?.educationalInstitutions;
-        const institution = institutions?.[index];
-
-        return institution?.degreeReceived === true;
-      },
-      required: (formData, index, fullData) => {
-        // Adding a check for formData and fullData since formData is sometimes undefined on load
-        // and we cant rely on fullData for testing
-        const institutions =
-          formData?.educationalInstitutions ??
-          fullData?.educationalInstitutions;
-        const institution = institutions?.[index];
-
-        return institution?.degreeReceived === false;
-      },
+      hideIf: (formData, index) =>
+        !formData?.educationalInstitutions?.[index]?.degreeReceived === false,
+      required: (formData, index) =>
+        formData?.educationalInstitutions?.[index]?.degreeReceived === false,
     }),
   },
   schema: {

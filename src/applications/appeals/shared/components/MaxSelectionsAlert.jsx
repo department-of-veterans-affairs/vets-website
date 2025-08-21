@@ -11,6 +11,7 @@ export const MaxSelectionsAlert = ({ closeModal, appName }) => (
     status="warning"
     onCloseEvent={closeModal}
     visible
+    uswds
   >
     You are limited to {MAX_LENGTH.SELECTIONS} selected issues for each{' '}
     {appName} request. If you would like to select more than{' '}

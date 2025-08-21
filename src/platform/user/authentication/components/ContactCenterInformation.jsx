@@ -1,14 +1,18 @@
 import React from 'react';
-import HelpdeskInfo from 'platform/static-data/SubmitSignInForm';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 export default function ContactCenterInformation({
-  startSentence,
+  startSentance,
   className = '',
   children = '',
 }) {
   return (
-    <p className={className}>
-      {children} <HelpdeskInfo startSentence={startSentence} />
-    </p>
+    <span className={className}>
+      {children}
+      {startSentance ? 'Call' : ' call'} us at{' '}
+      <va-telephone contact={CONTACTS.VA_411} /> and select 0 (
+      <va-telephone contact={CONTACTS[711]} tty />
+      ).
+    </span>
   );
 }

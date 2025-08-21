@@ -1,9 +1,13 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import { getDisplayFriendlyName } from '../utils/helpers';
 
 export function NeedHelp({ item }) {
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const cstFriendlyEvidenceRequests = useToggleValue(
+    TOGGLE_NAMES.cstFriendlyEvidenceRequests,
+  );
   const alias =
     item && item.supportAliases?.length > 0
       ? item.supportAliases.map((name, index) => {
@@ -35,12 +39,13 @@ export function NeedHelp({ item }) {
           We're here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET. If you
           have hearing loss, <va-telephone contact="711" tty="true" />.
         </p>
-        {alias && (
-          <p>
-            The VA benefits hotline may refer to the “
-            {getDisplayFriendlyName(item)}” request as {alias}
-          </p>
-        )}
+        {cstFriendlyEvidenceRequests &&
+          alias && (
+            <p>
+              The VA benefits hotline may refer to the “
+              {getDisplayFriendlyName(item)}” request as {alias}
+            </p>
+          )}
       </div>
     </va-need-help>
   );

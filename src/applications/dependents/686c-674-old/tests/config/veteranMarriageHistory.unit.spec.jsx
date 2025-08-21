@@ -53,23 +53,23 @@ describe('686 veteran former partner names', () => {
     form.unmount();
   });
 
-  // it('should not submit without required fields when a veteran has been married before', () => {
-  //   const onSubmit = sinon.spy();
-  //   const form = mount(
-  //     <DefinitionTester
-  //       schema={schema}
-  //       uiSchema={uiSchema}
-  //       data={formData}
-  //       definitions={formConfig.defaultDefinitions}
-  //       onSubmit={onSubmit}
-  //     />,
-  //   );
-  //   selectRadio(form, 'root_veteranWasMarriedBefore', 'Y');
-  //   form.find('form').simulate('submit');
-  //   expect(form.find('.usa-input-error').length).to.equal(2);
-  //   expect(onSubmit.called).to.be.false;
-  //   form.unmount();
-  // });
+  it('should not submit without required fields when a veteran has been married before', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        data={formData}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+      />,
+    );
+    selectRadio(form, 'root_veteranWasMarriedBefore', 'Y');
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error').length).to.equal(2);
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
+  });
 
   it('should submit with all required fields when a veteran has been married before', () => {
     const onSubmit = sinon.spy();

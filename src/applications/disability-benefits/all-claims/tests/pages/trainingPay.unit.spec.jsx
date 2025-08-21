@@ -8,7 +8,6 @@ import {
   $,
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
-import { waitFor } from '@testing-library/dom';
 import formConfig from '../../config/form';
 
 describe('Training Pay', () => {
@@ -45,7 +44,7 @@ describe('Training Pay', () => {
       .exist;
   });
 
-  it('should fail to submit if no answers provided', async () => {
+  it('should fail to submit if no answers provided', () => {
     const onSubmit = sinon.spy();
     const { getByText } = render(
       <DefinitionTester
@@ -61,10 +60,8 @@ describe('Training Pay', () => {
     const submitButton = getByText(/submit/i);
     userEvent.click(submitButton);
     // Check that form is not submitted due to missing answer.
-    await waitFor(() => {
-      expect(onSubmit.called).to.be.false;
-      expect($('va-radio').error).to.equal('You must provide a response');
-    });
+    expect(onSubmit.called).to.be.false;
+    expect($('va-radio').error).to.equal('You must provide a response');
   });
 
   it('should submit if question answered with a no', () => {

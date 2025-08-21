@@ -1,25 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { dateFormat, rxSourceIsNonVA } from '../../util/helpers';
+import { dateFormat } from '../../util/helpers';
+import { dispStatusObj } from '../../util/constants';
 
 const LastFilledInfo = rx => {
-  const { orderedDate, sortedDispensedDate } = rx;
-
-  const nonVA = rxSourceIsNonVA(rx);
-  const showLastFilledDate = !nonVA && !!sortedDispensedDate;
-
+  const { dispStatus, orderedDate, sortedDispensedDate } = rx;
+  let nonVA = false;
+  let showLastFilledDate = false;
+  if (dispStatus === dispStatusObj.nonVA) {
+    nonVA = true;
+  } else if (sortedDispensedDate) {
+    showLastFilledDate = true;
+  }
   return (
     <>
-      {nonVA && (
-        <p data-testid="rx-last-filled-info" data-dd-privacy="mask">
-          {dateFormat(
-            orderedDate,
-            'MMMM D, YYYY',
-            'Documented on: Date not available',
-            'Documented on ',
-          )}
-        </p>
-      )}
+      {nonVA &&
+        orderedDate && (
+          <p data-testid="rx-last-filled-info" data-dd-privacy="mask">
+            {dateFormat(
+              orderedDate,
+              'MMMM D, YYYY',
+              'Documented date not available',
+              'Documented on ',
+            )}
+          </p>
+        )}
       {showLastFilledDate && (
         <p data-testid="rx-last-filled-date" data-dd-privacy="mask">
           {dateFormat(

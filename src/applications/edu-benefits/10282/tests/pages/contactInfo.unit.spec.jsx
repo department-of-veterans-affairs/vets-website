@@ -2,7 +2,6 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
-import { waitFor } from '@testing-library/react';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
@@ -10,15 +9,6 @@ import formConfig from '../../config/form';
 const definitions = formConfig.defaultDefinitions;
 
 describe('Edu 10282 contact information', () => {
-  let sandbox;
-
-  beforeEach(() => {
-    sandbox = sinon.createSandbox();
-  });
-
-  afterEach(() => {
-    sandbox.restore();
-  });
   const {
     schema,
     uiSchema,
@@ -35,7 +25,7 @@ describe('Edu 10282 contact information', () => {
     form.unmount();
   });
 
-  it('should show errors when required fields are empty', async () => {
+  it('should show errors when required fields are empty', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -46,10 +36,7 @@ describe('Edu 10282 contact information', () => {
       />,
     );
     form.find('form').simulate('submit');
-    await waitFor(() => {
-      form.update();
-      expect(form.find('va-text-input[error]').length).to.equal(1);
-    });
+    expect(form.find('va-text-input[error]').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });

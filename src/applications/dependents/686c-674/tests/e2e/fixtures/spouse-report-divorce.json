@@ -1,133 +1,159 @@
 {
-  "householdIncome": false,
   "reportDivorce": {
     "spouseIncome": "NA",
-    "date": "2020-08-03",
-    "divorceLocation": {
-      "location": {
-        "city": "Fakesville",
-        "state": "AZ"
-      }
-    },
-    "reasonMarriageEnded": "Divorce",
     "fullName": {
-      "first": "Jane",
+      "first": "John",
+      "middle": "S",
       "last": "Doe"
     },
-    "birthDate": "1991-03-19",
-    "view:cancelDivorce": {}
+    "birthDate": "1991-05-04",
+    "date": "1991-07-07",
+    "divorceLocation": {
+      "outsideUsa": false,
+      "location": {
+        "state": "MD",
+        "city": "Army Post Office"
+      }
+    },
+    "reasonMarriageEnded": "Other",
+    "explanationOfOther": "Other reason"
   },
-  "view:veteranMarriageHistoryMissingInformation": {},
-  "view:completedVeteranFormerMarriage": false,
-  "view:spouseMarriageHistoryMissingInformation": {},
-  "view:completedSpouseFormerMarriage": false,
   "currentMarriageInformation": {
-    "typeOfMarriage": "COMMON-LAW",
-    "view:marriageTypeInformation": {},
+    "typeOfMarriage": "PROXY",
+    "typeOther": "other",
     "outsideUsa": true,
     "location": {
       "city": "Fakesville",
       "country": "AUS"
     },
-    "date": "2025-07-19"
+    "date": "2009-04-01",
+    "view:marriageTypeInformation": {}
   },
   "doesLiveWithSpouse": {
-    "spouseIncome": "N",
-    "spouseDoesLiveWithVeteran": true,
+    "spouseIncome": "NA",
+    "spouseDoesLiveWithVeteran": false,
+    "currentSpouseReasonForSeparation": "OTHER",
     "address": {
-      "view:militaryBaseDescription": {}
-    }
+      "view:livesOnMilitaryBaseInfo": {},
+      "country": "USA",
+      "street": "1600 Pennsylvania Ave",
+      "city": "Washington",
+      "state": "DC",
+      "postalCode": "20500"
+    },
+    "other": "Other reason"
   },
   "spouseInformation": {
-    "ssn": "333445555",
-    "birthDate": "1991-02-19",
-    "isVeteran": false,
     "fullName": {
-      "first": "John",
+      "first": "Jane",
       "last": "Doe"
-    }
+    },
+    "ssn": "123211234",
+    "birthDate": "1991-02-03",
+    "isVeteran": false,
+    "vaFileNumber": "12321345",
+    "serviceNumber": "12321345"
   },
-  "view:cancelAddSpouse": {},
+  "veteranWasMarriedBefore": true,
+  "view:completedVeteranFormerMarriage": false,
+  "veteranMarriageHistory": [
+    {
+      "reasonMarriageEnded": "Other",
+      "otherReasonMarriageEnded": "other",
+      "fullName": {
+        "first": "Jake",
+        "last": "Doe"
+      },
+      "startDate": "2005-08-09",
+      "endDate": "2007-09-08",
+      "reasonMarriageEndedOther": "Other reason",
+      "startLocation": {
+        "outsideUsa": true,
+        "location": {
+          "city": "Foreign city",
+          "country": "AUS"
+        }
+      },
+      "endLocation": {
+        "outsideUsa": false,
+        "location": {
+          "state": "NV",
+          "city": "Las Vegas"
+        }
+      }
+    }
+  ],
+  "spouseWasMarriedBefore": true,
+  "view:completedSpouseFormerMarriage": false,
+  "spouseMarriageHistory": [
+    {
+      "reasonMarriageEnded": "Other",
+      "otherReasonMarriageEnded": "other way",
+      "fullName": {
+        "first": "Jake",
+        "last": "Doe"
+      },
+      "startDate": "2005-08-09",
+      "endDate": "2007-09-08",
+      "reasonMarriageEndedOther": "Other reason",
+      "startLocation": {
+        "outsideUsa": true,
+        "location": {
+          "city": "Fakesville",
+          "country": "AUS"
+        }
+      },
+      "endLocation": {
+        "outsideUsa": false,
+        "location": {
+          "state": "NV",
+          "city": "Las Vegas"
+        }
+      }
+    }
+  ],
   "veteranContactInformation": {
-    "phoneNumber": "8008675309",
-    "internationalPhoneNumber": "18008885555",
-    "emailAddress": "nope@nope.com",
-    "electronicCorrespondence": true,
     "veteranAddress": {
-      "view:militaryBaseDescription": {},
+      "view:livesOnMilitaryBase": false,
+      "view:livesOnMilitaryBaseInfo": {},
       "country": "USA",
-      "street": "123 Fake St.",
-      "city": "Fakesville",
-      "state": "AL",
-      "postalCode": "12345"
-    }
+      "street": "1600 Fakesville Ave",
+      "city": "Washington",
+      "state": "DC",
+      "postalCode": "20500"
+    },
+    "phoneNumber": "1231231234",
+    "emailAddress": "nope@nope.org"
   },
-  "view:removeDependentOptions": {
-    "reportDivorce": true
-  },
+  "view:686Information": {},
   "view:addOrRemoveDependents": {
     "add": true,
     "remove": true
   },
-  "view:addDependentOptions": {
-    "addSpouse": true
-  },
-  "view:addDependentOptionsDescription": {},
-  "useV2": true,
-  "veteranMarriageHistory": [
-    {
-      "endLocation": {
-        "location": {
-          "city": "Fakesville",
-          "state": "CT"
-        }
-      },
-      "startLocation": {
-        "location": {
-          "city": "Fakesville",
-          "state": "AZ"
-        }
-      },
-      "endDate": "2020-06-19",
-      "startDate": "2016-08-03",
-      "reasonMarriageEnded": "Divorce",
-      "fullName": {
-        "first": "Jane",
-        "last": "Doe"
-      }
-    }
-  ],
-  "view:additionalEvidenceDescription": {},
   "view:selectable686Options": {
     "addSpouse": true,
     "reportDivorce": true
   },
-  "veteranInformation": {
-      "fullName": {
-        "first": "Pauline",
-        "middle": "E",
-        "last": "Foster"
-      },
-      "ssn": "796330625",
-      "birthDate": "1976-06-09",
-      "ssnLastFour": "0625",
-      "vaFileLastFour": "0625"
-    },
-  "statementOfTruthSignature": "Pauline E Foster",
-  "statementOfTruthCertified": true,
-  "daysTillExpires": 365,
+  "view:addDependentOptions": {
+    "addSpouse": true
+  },
+  "view:removeDependentOptions": {
+    "reportDivorce": true
+  },
+  "childSupportingDocuments": [
+    {
+      "name": "Screenshot from 2025-02-03 13-37-07.png",
+      "confirmationCode": "14b02a60-7825-4978-96b1-5d3cc4b1803d",
+      "attachmentId": "",
+      "isEncrypted": false
+    }
+  ],
   "spouseSupportingDocuments": [
-      {
-        "name": "Screenshot from 2025-04-23 13-28-43.png",
-        "confirmationCode": "0a6fc362-f125-4796-84c9-c13435363329",
-        "attachmentId": "",
-        "isEncrypted": false
-      },
-      {
-        "name": "Screenshot from 2025-04-23 13-28-59.png",
-        "confirmationCode": "9a267bd7-f459-47e5-903e-baab21953ffd",
-        "attachmentId": "",
-        "isEncrypted": false
-      }
-    ]
+    {
+      "name": "Screenshot from 2025-02-03 13-37-07.png",
+      "confirmationCode": "14b02a60-7825-4978-96b1-5d3cc4b1803d",
+      "attachmentId": "",
+      "isEncrypted": false
+    }
+  ]
 }

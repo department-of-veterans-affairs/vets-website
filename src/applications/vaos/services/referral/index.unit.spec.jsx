@@ -16,6 +16,20 @@ describe('Referral Services', () => {
     sandbox.restore();
   });
 
+  it('getPatientReferrals calls the correct endpoint and returns data', async () => {
+    requestStub.resolves({ data: [{ id: 1 }] });
+
+    const result = await services.getPatientReferrals();
+
+    expect(
+      await requestStub.calledWith('/vaos/v2/referrals', {
+        method: 'GET',
+      }),
+    ).to.be.true;
+
+    expect(result).to.deep.equal([{ id: 1 }]);
+  });
+
   it('getPatientReferralById calls the correct endpoint and returns data', async () => {
     requestStub.resolves({ data: { id: 'abc' } });
 
@@ -42,6 +56,61 @@ describe('Referral Services', () => {
     ).to.be.true;
 
     expect(result).to.deep.equal({ name: 'Provider A' });
+  });
+
+  it('postReferralAppointment sends the correct payload and returns data', async () => {
+    const input = {
+      draftApppointmentId: 'd1',
+      referralNumber: 'r1',
+      slotId: 's1',
+      networkId: 'n1',
+      providerServiceId: 'p1',
+    };
+    const expectedBody = JSON.stringify({
+      id: 'd1',
+      referralNumber: 'r1',
+      slotId: 's1',
+      networkId: 'n1',
+      providerServiceId: 'p1',
+    });
+
+    requestStub.resolves({ data: { success: true } });
+
+    const result = await services.postReferralAppointment(input);
+
+    expect(
+      requestStub.calledWith('/vaos/v2/appointments/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: expectedBody,
+      }),
+    ).to.be.true;
+
+    expect(result).to.deep.equal({ success: true });
+  });
+
+  it('postDraftReferralAppointment sends the correct payload and returns data', async () => {
+    requestStub.resolves({ data: { draft: true } });
+
+    const result = await services.postDraftReferralAppointment(
+      'ref-id-123',
+      '1234',
+    );
+
+    expect(
+      requestStub.calledWith('/vaos/v2/appointments/draft', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          // eslint-disable-next-line camelcase
+          referral_number: 'ref-id-123',
+          // eslint-disable-next-line camelcase
+          referral_consult_id: '1234',
+        }),
+      }),
+    ).to.be.true;
+
+    expect(result).to.deep.equal({ draft: true });
   });
 
   it('getAppointmentInfo calls the correct endpoint and returns data', async () => {

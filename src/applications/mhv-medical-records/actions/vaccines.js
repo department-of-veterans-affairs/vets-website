@@ -1,10 +1,5 @@
 import { Actions } from '../util/actionTypes';
-import {
-  getVaccine,
-  getVaccineList,
-  getAcceleratedImmunizations,
-  getAcceleratedImmunization,
-} from '../api/MrApi';
+import { getVaccine, getVaccineList } from '../api/MrApi';
 import * as Constants from '../util/constants';
 import { addAlert } from './alerts';
 import { dispatchDetails } from '../util/helpers';
@@ -14,22 +9,16 @@ export const getVaccinesList = (
   isCurrent = false,
   page,
   useBackendPagination = false,
-  isAccelerating = false,
 ) => async dispatch => {
   dispatch({
     type: Actions.Vaccines.UPDATE_LIST_STATE,
     payload: Constants.loadStates.FETCHING,
   });
   try {
-    const getData = isAccelerating
-      ? getAcceleratedImmunizations
-      : getVaccineList;
+    const response = await getListWithRetry(dispatch, getVaccineList, page);
 
-    const response = await getListWithRetry(dispatch, getData);
     dispatch({
-      type: isAccelerating
-        ? Actions.Vaccines.GET_UNIFIED_LIST
-        : Actions.Vaccines.GET_LIST,
+      type: Actions.Vaccines.GET_LIST,
       response,
       isCurrent,
       useBackendPagination,
@@ -52,22 +41,15 @@ export const checkForVaccineUpdates = () => async dispatch => {
   }
 };
 
-export const getVaccineDetails = (
-  vaccineId,
-  vaccineList,
-  isAccelerating,
-) => async dispatch => {
+export const getVaccineDetails = (vaccineId, vaccineList) => async dispatch => {
   try {
-    const getData = isAccelerating ? getAcceleratedImmunization : getVaccine;
     await dispatchDetails(
       vaccineId,
       vaccineList,
       dispatch,
-      getData,
+      getVaccine,
       Actions.Vaccines.GET_FROM_LIST,
-      isAccelerating
-        ? Actions.Vaccines.GET_UNIFIED_VACCINE
-        : Actions.Vaccines.GET,
+      Actions.Vaccines.GET,
     );
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));

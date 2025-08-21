@@ -279,7 +279,7 @@ function getHearingType(type) {
  * @returns {Contents}
  */
 export function getStatusContents(appeal, name = {}) {
-  const { status, aoj } = appeal.attributes;
+  const { status, aoj, programArea } = appeal.attributes;
   const appealType = appeal.type;
   const statusType = status.type || status;
   const details = status.details || {};
@@ -734,39 +734,70 @@ export function getStatusContents(appeal, name = {}) {
     // TODO: Remove this if Caseflow fixes the typo issue on their end
     case 'sc_recieved':
     case STATUS_TYPES.scReceived:
-      contents.title = 'We received your supplemental claim';
+      contents.title = 'A reviewer is examining your new evidence';
       contents.description = (
         <div>
           <p>
-            To get the latest information—like whether your claim has been
-            assigned to a reviewer or if we’re gathering evidence—call the VA
-            benefits hotline at <va-telephone contact="8008271000" /> (
-            <va-telephone contact="711" tty="true" />
-            ).
+            A Supplemental Claim allows you to add new and relevant evidence to
+            your case. When you filed a Supplemental Claim, you included new
+            evidence or identified evidence that the {aojDescription} should
+            obtain.
           </p>
+          {programArea !== 'compensation' && (
+            <p>
+              If you have more evidence to submit, you should do so as soon as
+              possible.
+            </p>
+          )}
+          {programArea === 'compensation' && (
+            <div>
+              <p>
+                If you have more evidence to submit, you should do so as soon as
+                possible. You can send new evidence to the {aojDescription} at:
+              </p>
+              <p className="va-address-block">
+                Department of Veterans Affairs
+                <br />
+                Evidence Intake Center
+                <br />
+                PO Box 4444
+                <br />
+                Janesville, WI 53547-4444
+              </p>
+            </div>
+          )}
           <p>
-            Right now, we can't share detailed updates about supplemental claims
-            in this tool. We're looking into ways to make this possible in the
-            future.
+            A reviewer will look at this new evidence, as well as evidence VA
+            already had, and determine whether it changes the decision. If
+            needed, they may contact you to ask for more evidence or to schedule
+            a new medical exam.
           </p>
         </div>
       );
       break;
     case STATUS_TYPES.hlrReceived:
-      contents.title = 'We received your higher level review';
+      contents.title =
+        'A higher-level reviewer is taking a new look at your case';
       contents.description = (
         <div>
           <p>
-            To get the latest information—like whether your higher level review
-            has been assigned to a reviewer—call the VA benefits hotline at{' '}
-            <va-telephone contact="8008271000" /> (
-            <va-telephone contact="711" tty="true" />
-            ).
+            By requesting a Higher-Level Review, you asked for a higher-level
+            reviewer at the {aojDescription} to look at your case and determine
+            whether they can change the decision based on a difference of
+            opinion or because VA made an error.
           </p>
+          {details.informalConference && (
+            <p>
+              You requested an informal conference. The reviewer will contact
+              you at the phone number you provided to schedule a time to speak
+              to you and/or your representative. When you speak to the reviewer,
+              you can say why you think the decision should be changed and
+              identify errors.
+            </p>
+          )}
           <p>
-            Right now, we can't share detailed updates about higher level
-            reviews in this tool. We're looking into ways to make this possible
-            in the future.
+            <strong>Note:</strong> Please don’t submit additional evidence. The
+            reviewer will only consider evidence that VA already has.
           </p>
         </div>
       );
@@ -1521,7 +1552,6 @@ export function getNextEvents(appeal) {
           },
         ],
       };
-    case 'sc_recieved':
     case STATUS_TYPES.scReceived: {
       return {
         header: '', // intentionally empty

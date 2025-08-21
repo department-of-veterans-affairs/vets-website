@@ -1,19 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import { getFacilityPhone } from '../../../services/location';
 import FacilityPhone from '../../../components/FacilityPhone';
 import { ELIGIBILITY_REASONS } from '../../../utils/constants';
-import { routeToRequestAppointmentPage } from '../../redux/actions';
 
 export default function ScheduleWithDifferentProvider({
   eligibility,
   selectedFacility,
 }) {
-  const history = useHistory();
-  const dispatch = useDispatch();
-  const pageKey = 'selectProvider';
   const facilityPhone = getFacilityPhone(selectedFacility);
   const overRequestLimit =
     eligibility.requestReasons[0] === ELIGIBILITY_REASONS.overRequestLimit;
@@ -53,16 +47,7 @@ export default function ScheduleWithDifferentProvider({
       <p className="vads-u-margin-top--0">
         We’ll contact you and help you finish scheduling your appointment.
       </p>
-      <va-link
-        active
-        href="my-health/appointments/schedule/va-request/"
-        text="Request an appointment"
-        data-testid="request-appointment-link"
-        onClick={e => {
-          e.preventDefault();
-          dispatch(routeToRequestAppointmentPage(history, pageKey));
-        }}
-      />
+      <va-link active href="#" text="Request an appointment" />
       <hr aria-hidden="true" className="vads-u-margin-y--2" />
     </>
   );

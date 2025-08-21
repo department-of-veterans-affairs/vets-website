@@ -25,7 +25,7 @@ import {
 import { TYPE_OF_CARE_IDS } from '../../../utils/constants';
 import VAFacilityPage from './VAFacilityPageV2';
 
-describe.skip('VAOS Page: VAFacilityPage', () => {
+describe('VAOS Page: VAFacilityPage', () => {
   describe('when there are multiple facilities to choose from', () => {
     const initialState = {
       featureToggles: {
@@ -518,7 +518,7 @@ describe.skip('VAOS Page: VAFacilityPage', () => {
       // Assert
       expect(
         await screen.findByText(
-          /We can’t schedule your appointment right now/i,
+          /You can.t schedule an appointment online right now/i,
         ),
       ).to.exist;
     });

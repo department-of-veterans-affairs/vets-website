@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
@@ -33,7 +33,7 @@ describe('COE applicant service history', () => {
     expect($$('select', container).length).to.equal(5);
   });
 
-  it('Should not submit without required fields', async () => {
+  it('Should not submit without required fields', () => {
     const onSubmit = sinon.spy();
     const { container } = render(
       <Provider store={defaultStore}>
@@ -47,12 +47,9 @@ describe('COE applicant service history', () => {
       </Provider>,
     );
 
-    fireEvent.submit($('form', container));
+    fireEvent.submit($('form'));
 
-    await waitFor(() => {
-      expect($$('.usa-input-error', container).length).to.equal(2);
-    });
-
+    expect($$('.usa-input-error', container).length).to.equal(2);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -80,7 +77,7 @@ describe('COE applicant service history', () => {
       </Provider>,
     );
 
-    fireEvent.submit($('form', container));
+    fireEvent.submit($('form'));
 
     expect($$('.usa-input-error', container).length).to.equal(0);
     expect(onSubmit.called).to.be.true;

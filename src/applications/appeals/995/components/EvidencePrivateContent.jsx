@@ -4,9 +4,12 @@ import readableList from 'platform/forms-system/src/js/utilities/data/readableLi
 import BasicLink from '../../shared/components/web-component-wrappers/BasicLink';
 import { title4142WithId } from '../content/title';
 import { content } from '../content/evidenceSummary';
+import {
+  authorizationLabel,
+  authorizationError,
+} from '../content/evidencePrivateRecordsAuthorization';
 import { content as limitContent } from '../content/evidencePrivateLimitation';
 import {
-  AUTHORIZATION_LABEL,
   EVIDENCE_PRIVATE_PATH,
   EVIDENCE_PRIVATE_AUTHORIZATION,
   EVIDENCE_LIMITATION_PATH,
@@ -49,7 +52,6 @@ export const EvidencePrivateContent = ({
     return null;
   }
   const Header = isOnReviewPage ? 'h5' : 'h4';
-  const SubHeader = isOnReviewPage ? 'h6' : 'h5';
 
   const showAddress = (
     { street, street2, city, state, postalCode, country },
@@ -80,21 +82,20 @@ export const EvidencePrivateContent = ({
       <ul className="evidence-summary remove-bullets" role="list">
         {showScNewForm && (
           <li className={listClassNames(!showListOnly)}>
-            <SubHeader
-              className={`private-authorization vads-u-margin-y--0 ${confirmationPageLabel(
+            <div
+              className={`private-authorization ${confirmationPageLabel(
                 showListOnly,
               )}`}
             >
               {title4142WithId}
-            </SubHeader>
+            </div>
             <div>
               {privacyAgreementAccepted ? (
-                AUTHORIZATION_LABEL
+                authorizationLabel
               ) : (
                 // including non-empty error attribute for focus management
                 <span className="usa-input-error-message" error="error">
-                  You must give us authorization for us to get your non-VA
-                  medical records
+                  {authorizationError}
                 </span>
               )}
             </div>
@@ -115,13 +116,13 @@ export const EvidencePrivateContent = ({
         )}
         {showScNewForm && (
           <li className={listClassNames(!showListOnly)}>
-            <SubHeader
-              className={`private-limitation-yn vads-u-margin-y--0 ${confirmationPageLabel(
+            <div
+              className={`private-limitation-yn ${confirmationPageLabel(
                 showListOnly,
               )}`}
             >
               {limitContent.title}
-            </SubHeader>
+            </div>
             <div>{showLimitedConsentYN ? 'Yes' : 'No'}</div>
             {!reviewMode && (
               <div className="vads-u-margin-top--1p5">
@@ -140,13 +141,13 @@ export const EvidencePrivateContent = ({
         )}
         {showLimitedConsentYN && (
           <li key={LIMITATION_KEY} className={listClassNames(!showListOnly)}>
-            <SubHeader
-              className={`private-limitation
-                vads-u-margin-y--0
-                ${confirmationPageLabel(showListOnly)}`}
+            <div
+              className={`private-limitation ${confirmationPageLabel(
+                showListOnly,
+              )}`}
             >
               {limitContent.textAreaTitle}
-            </SubHeader>
+            </div>
             <div>{limitedConsent}</div>
             {!reviewMode && (
               <div className="vads-u-margin-top--1p5">
@@ -200,12 +201,12 @@ export const EvidencePrivateContent = ({
             >
               <div className={hasErrors ? errorClassNames : ''}>
                 {errors.name || (
-                  <SubHeader
-                    className="private-facility dd-privacy-hidden overflow-wrap-word vads-u-margin-y--0 vads-u-font-weight--bold"
+                  <strong
+                    className="private-facility dd-privacy-hidden overflow-wrap-word"
                     data-dd-action-name="Non-VA facility name"
                   >
                     {providerFacilityName}
-                  </SubHeader>
+                  </strong>
                 )}
                 {showListOnly ? (
                   showAddress(providerFacilityAddress, errors)
@@ -255,12 +256,13 @@ export const EvidencePrivateContent = ({
         })}
         {!showScNewForm && (
           <li key={LIMITATION_KEY} className={listClassNames(!showListOnly)}>
-            <SubHeader
-              className={`private-limitation vads-u-margin-y--0
-                ${confirmationPageLabel(showListOnly)}`}
+            <strong
+              className={`private-limitation ${confirmationPageLabel(
+                showListOnly,
+              )}`}
             >
               {limitContent.title}
-            </SubHeader>
+            </strong>
 
             <div>{limitContent.review[limitedConsent.length ? 'y' : 'n']}</div>
 

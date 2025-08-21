@@ -37,7 +37,6 @@ export const EvidenceVaContent = ({
     return null;
   }
   const Header = isOnReviewPage ? 'h5' : 'h4';
-  const SubHeader = isOnReviewPage ? 'h6' : 'h5';
 
   return (
     <>
@@ -86,12 +85,12 @@ export const EvidenceVaContent = ({
             >
               <div className={hasErrors ? errorClassNames : ''}>
                 {errors.name || (
-                  <SubHeader
-                    className="va-location dd-privacy-hidden overflow-wrap-word vads-u-margin-y--0 vads-u-font-weight--bold"
+                  <strong
+                    className="va-location dd-privacy-hidden overflow-wrap-word"
                     data-dd-action-name="VA location name"
                   >
                     {locationAndName}
-                  </SubHeader>
+                  </strong>
                 )}
                 <div
                   className="dd-privacy-hidden overflow-wrap-word"

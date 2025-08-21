@@ -17,7 +17,7 @@ describe('Compose a new message with attachments', () => {
     PatientComposePage.getMessageSubjectField().type(Data.TEST_SUBJECT);
     PatientComposePage.getMessageBodyField().type(Data.TEST_MESSAGE_BODY, {
       force: true,
-      waitForAnimations: true,
+      waitforanimations: true,
     });
     PatientComposePage.attachMessageFromFile(Data.SAMPLE_PDF);
     PatientComposePage.sendMessage();
@@ -38,7 +38,7 @@ describe('Compose a new message with attachments', () => {
     cy.axeCheck(AXE_CONTEXT);
   });
 
-  it('verify user can delete attachment', () => {
+  it('verify use can delete attachment', () => {
     PatientComposePage.attachMessageFromFile(Data.SAMPLE_PDF);
     PatientComposePage.removeAttachedFile();
 

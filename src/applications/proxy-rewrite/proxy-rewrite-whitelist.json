@@ -191,16 +191,6 @@
       "cookieOnly": true
     },
     {
-      "hostname": "www.squares.va.gov",
-      "pathnameBeginning": "/",
-      "cookieOnly": true
-    },
-    {
-      "hostname": "squares.va.gov",
-      "pathnameBeginning": "/",
-      "cookieOnly": true
-    },
-    {
       "hostname": "www.telehealth.va.gov",
       "pathnameBeginning": "/",
       "cookieOnly": true

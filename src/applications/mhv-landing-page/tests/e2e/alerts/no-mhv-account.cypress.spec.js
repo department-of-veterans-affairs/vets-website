@@ -1,6 +1,8 @@
 import { appName } from '../../../manifest.json';
 import ApiInitializer from '../utilities/ApiInitializer';
 import LandingPage from '../pages/LandingPage';
+import AlertMhvUserAction from '../../../components/alerts/AlertMhvUserAction.jsx';
+import AlertMhvNoAction from '../../../components/alerts/AlertMhvNoAction.jsx';
 
 describe(`${appName} - MHV Registration Alert - `, () => {
   beforeEach(() => {
@@ -48,6 +50,17 @@ describe(`${appName} - MHV Registration Alert - `, () => {
     beforeEach(() => {
       ApiInitializer.initializeAccountStatus.with500();
       LandingPage.visit({ mhvAccountState: 'NONE' });
+    });
+
+    it(`shows a 'try again later' alert`, () => {
+      cy.injectAxeThenAxeCheck();
+      cy.findByText(AlertMhvNoAction.defaultProps.title, {
+        exact: false,
+      }).should.exist;
+
+      // Check the cards and hubs are visible
+      cy.findAllByTestId(/^mhv-link-group-card-/).should.exist;
+      cy.findAllByTestId(/^mhv-link-group-hub-/).should.exist;
     });
 
     it('should reference a specific error', () => {
@@ -126,6 +139,9 @@ describe(`${appName} - MHV Registration Alert - `, () => {
   it(`alert not shown for user with MHV account`, () => {
     LandingPage.visit({ mhvAccountState: 'OK' });
     cy.injectAxeThenAxeCheck();
+    cy.findByText(AlertMhvUserAction.defaultProps.title, {
+      exact: false,
+    }).should('not.exist');
 
     // Check the cards and hubs are visible
     cy.findAllByTestId(/^mhv-link-group-card-/).should.exist;
@@ -136,6 +152,9 @@ describe(`${appName} - MHV Registration Alert - `, () => {
     ApiInitializer.initializeAccountStatus.withSuccess();
     LandingPage.visit({ mhvAccountState: 'NOT OK' });
     cy.injectAxeThenAxeCheck();
+    cy.findByText(AlertMhvUserAction.defaultProps.title, {
+      exact: false,
+    }).should('not.exist');
 
     // Check the cards and hubs are visible
     cy.findAllByTestId(/^mhv-link-group-card-/).should.exist;

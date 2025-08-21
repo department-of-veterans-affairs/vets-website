@@ -1,8 +1,6 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema.json';
 import { merge } from 'lodash';
-import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
 import phoneUI from '../../components/Phone';
 import emailUI from '../../definitions/email';
 import * as address from '../../definitions/address';
@@ -17,21 +15,9 @@ import {
 
 const { claimant } = fullSchemaPreNeed.properties.application.properties;
 
-export function DynamicStateSelectFieldApplicant(props) {
-  const formData = useSelector(state => state.form.data || {});
-
-  const dynamicLabel = MailingAddressStateTitle({
-    elementPath: 'application.claimant.address.country',
-    formData,
-  });
-
-  const modifiedProps = {
-    ...props,
-    label: dynamicLabel,
-  };
-
-  return <VaSelectField {...modifiedProps} />;
-}
+export const applicantMailingAddressStateTitleWrapper = (
+  <MailingAddressStateTitle elementPath="application.claimant.address.country" />
+);
 
 export function uiSchema(
   addressTitle = applicantContactInfoAddressTitle,
@@ -42,12 +28,6 @@ export function uiSchema(
     application: {
       claimant: {
         address: merge({}, address.uiSchema(addressTitle), {
-          country: {
-            'ui:webComponentField': VaSelectField,
-            'ui:options': {
-              classNames: 'selectNonImposter',
-            },
-          },
           street: {
             'ui:title': 'Street address',
           },
@@ -55,10 +35,9 @@ export function uiSchema(
             'ui:title': 'Street address line 2',
           },
           state: {
-            'ui:webComponentField': DynamicStateSelectFieldApplicant,
+            'ui:title': applicantMailingAddressStateTitleWrapper,
             'ui:options': {
               hideIf: formData => !applicantsMailingAddressHasState(formData),
-              classNames: 'selectNonImposter',
             },
           },
         }),

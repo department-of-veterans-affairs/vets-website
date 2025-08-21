@@ -1,7 +1,7 @@
 import VaRadioField from '../web-component-fields/VaRadioField';
 
 /**
- * uiSchema for generic radio field
+ * Web component v3 uiSchema for generic radio field
  *
  * Usage uiSchema:
  * ```js
@@ -40,7 +40,6 @@ import VaRadioField from '../web-component-fields/VaRadioField';
  *  title?: UISchemaOptions['ui:title'],
  *  labels?: UISchemaOptions['ui:options']['labels'],
  *  description?: UISchemaOptions['ui:description'],
- *  descriptions?: { [key: string]: string },
  *  required?: UISchemaOptions['ui:required'],
  *  errorMessages?: UISchemaOptions['ui:errorMessages'],
  *  labelHeaderLevel?: UISchemaOptions['ui:options']['labelHeaderLevel'],
@@ -70,7 +69,6 @@ export const radioUI = ({
 };
 
 /**
- * schema for radioUI
  * ```js
  * exampleRadio: radioSchema(['cat', 'dog', 'octopus'])
  * exampleRadio: radioSchema(['none', 'email', 'mobile', 'home', 'all'])

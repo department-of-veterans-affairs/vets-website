@@ -42,32 +42,28 @@ export const advanceToInsurancePolicies = testData => {
   cy.get(`[name="root_${DEPENDENT_VIEW_FIELDS.add}"]`).check('N');
 
   goToNextPage('/household-information/veteran-annual-income');
-  fillTextWebComponent(
-    'view:veteranGrossIncome_veteranGrossIncome',
+  cy.get('[name="root_view:veteranGrossIncome_veteranGrossIncome"]').type(
     testData['view:veteranGrossIncome'].veteranGrossIncome,
   );
-  fillTextWebComponent(
-    'view:veteranNetIncome_veteranNetIncome',
+  cy.get('[name="root_view:veteranNetIncome_veteranNetIncome"]').type(
     testData['view:veteranNetIncome'].veteranNetIncome,
   );
-  fillTextWebComponent(
-    'view:veteranOtherIncome_veteranOtherIncome',
+  cy.get('[name="root_view:veteranOtherIncome_veteranOtherIncome"]').type(
     testData['view:veteranOtherIncome'].veteranOtherIncome,
   );
 
   goToNextPage('/household-information/deductible-expenses');
-  fillTextWebComponent(
-    'view:deductibleMedicalExpenses_deductibleMedicalExpenses',
-    testData['view:deductibleMedicalExpenses'].deductibleMedicalExpenses,
-  );
-  fillTextWebComponent(
-    'view:deductibleEducationExpenses_deductibleEducationExpenses',
+  cy.get(
+    '[name="root_view:deductibleMedicalExpenses_deductibleMedicalExpenses',
+  ).type(testData['view:deductibleMedicalExpenses'].deductibleMedicalExpenses);
+  cy.get(
+    '[name="root_view:deductibleEducationExpenses_deductibleEducationExpenses',
+  ).type(
     testData['view:deductibleEducationExpenses'].deductibleEducationExpenses,
   );
-  fillTextWebComponent(
-    'view:deductibleFuneralExpenses_deductibleFuneralExpenses',
-    testData['view:deductibleFuneralExpenses'].deductibleFuneralExpenses,
-  );
+  cy.get(
+    '[name="root_view:deductibleFuneralExpenses_deductibleFuneralExpenses',
+  ).type(testData['view:deductibleFuneralExpenses'].deductibleFuneralExpenses);
 
   goToNextPage('/insurance-information/medicaid-eligibility');
   selectYesNoWebComponent('view:isMedicaidEligible_isMedicaidEligible', false);

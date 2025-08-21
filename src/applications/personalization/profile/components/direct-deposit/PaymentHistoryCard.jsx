@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import recordEvent from '~/platform/monitoring/record-event';
 
-import { ProfileInfoSection } from '../ProfileInfoSection';
+import { ProfileInfoCard } from '../ProfileInfoCard';
 
 export const PaymentHistoryCard = ({ recordEventImpl }) => {
   const tableData = [
@@ -32,7 +32,7 @@ export const PaymentHistoryCard = ({ recordEventImpl }) => {
   ];
 
   return (
-    <ProfileInfoSection
+    <ProfileInfoCard
       className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
       data={tableData}
       level={2}

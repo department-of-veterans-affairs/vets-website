@@ -83,8 +83,8 @@ const POARequestSearchPage = title => {
       </h1>
       <p className="poa-request__copy">
         You can accept or decline representation requests (power of attorney) in
-        the Accredited Representative Portal. Requests will expire after 60
-        days. Expired requests will be removed from the portal.
+        the Accredited Representative Portal. Requests will expire and be
+        removed from the portal after 60 days.
       </p>
       <p className="poa-request__copy vads-u-margin--0">
         <strong>Note:</strong> Claimants need to submit requests using the

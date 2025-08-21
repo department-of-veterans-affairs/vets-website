@@ -1,5 +1,5 @@
 import {
-  testComponentFieldsMarkedAsRequired,
+  testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfFieldsByType,
   testNumberOfWebComponentFields,
   testSubmitsWithoutErrors,
@@ -19,13 +19,12 @@ describe('income sources summary page', () => {
     pageTitle,
   );
 
-  testComponentFieldsMarkedAsRequired(
+  const expectedNumberOfErrors = 1;
+  testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     incomeSourcesSummary.schema,
     incomeSourcesSummary.uiSchema,
-    [
-      `va-radio[label="Do you, your spouse, or your dependents receive income?"]`,
-    ],
+    expectedNumberOfErrors,
     pageTitle,
   );
 

@@ -53,7 +53,7 @@ function exitBankInfoForm() {
 }
 
 function saveNewBankInfo() {
-  cy.findByTestId('save-direct-deposit').click({ force: true });
+  cy.findByRole('button', { name: /save/i }).click({ force: true });
   cy.axeCheck();
 }
 

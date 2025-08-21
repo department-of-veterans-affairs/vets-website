@@ -2,6 +2,7 @@ import { Actions } from '../util/actionTypes';
 import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
 import { getThreadList } from '../api/SmApi';
+import { getIsPilotFromState } from '.';
 
 export const setThreadSortOrder = ({
   value,
@@ -37,16 +38,18 @@ export const getListOfThreads = (
   pageNumber,
   threadSort,
   update = false,
-) => async dispatch => {
+) => async (dispatch, getState) => {
   if (!update) {
     dispatch({ type: Actions.Thread.IS_LOADING, payload: true });
   }
   try {
+    const isPilot = getIsPilotFromState(getState);
     let response = await getThreadList({
       folderId,
       pageSize,
       pageNumber,
       threadSort,
+      isPilot,
     });
     if (response.data.length === 0 && pageNumber > 1) {
       // in a scenario when the last thread on a page is deleted,
@@ -58,6 +61,7 @@ export const getListOfThreads = (
         pageSize,
         decrementPage,
         threadSort,
+        isPilot,
       });
     }
     dispatch({

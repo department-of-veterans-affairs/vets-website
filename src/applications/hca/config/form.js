@@ -34,8 +34,10 @@ import {
   includeSpousalInformation,
   spouseDidNotCohabitateWithVeteran,
   spouseAddressDoesNotMatchVeterans,
+  includeDependentInformation,
   collectMedicareInformation,
 } from '../utils/helpers';
+import { SHARED_PATHS } from '../utils/constants';
 import { FULL_SCHEMA } from '../utils/imports';
 import migrations from './migrations';
 import manifest from '../manifest.json';
@@ -93,14 +95,16 @@ import SpouseBasicInformation from './chapters/householdInformation/spouseBasicI
 import SpouseContactInformation from './chapters/householdInformation/spouseContactInformation';
 import SpouseAdditionalInformation from './chapters/householdInformation/spouseAdditionalInformation';
 import SpouseFinancialSupport from './chapters/householdInformation/spouseFinancialSupport';
+import DependentSummary from './chapters/householdInformation/dependentSummary';
 import SpouseAnnualIncome from './chapters/householdInformation/spouseAnnualIncome';
 import VeteranAnnualIncome from './chapters/householdInformation/veteranAnnualIncome';
 import DeductibleExpenses from './chapters/householdInformation/deductibleExpenses';
 import FinancialOnboarding from '../components/FormPages/FinancialOnboarding';
 import FinancialConfirmation from '../components/FormPages/FinancialConfirmation';
 import FinancialInformation from '../components/FormPages/FinancialInformation';
-import Dependents from './chapters/householdInformation/dependents';
-import DependentsInformationPage from '../components/FormPages/DependentsInformation';
+import DependentInformationPage from '../components/FormPages/DependentInformation';
+import DependentSummaryPage from '../components/FormPages/DependentSummary';
+import DependentsReviewPage from '../components/FormReview/DependentsReviewPage';
 
 // chapter 5 Insurance Information
 import medicaid from './chapters/insuranceInformation/medicaid';
@@ -108,8 +112,11 @@ import medicare from './chapters/insuranceInformation/medicare';
 import medicarePartAEffectiveDate from './chapters/insuranceInformation/medicarePartAEffectiveDate';
 import general from './chapters/insuranceInformation/general';
 import insurancePolicyPages from './chapters/insuranceInformation/insurancePolicies';
-import vaFacilityPage from './chapters/insuranceInformation/vaFacility';
+import vaFacilityApiPage from './chapters/insuranceInformation/vaFacility_api';
 import InsuranceInformationPage from '../components/FormPages/InsuranceInformation';
+
+// declare shared paths for custom form page navigation
+const { dependents: DEPENDENT_PATHS } = SHARED_PATHS;
 
 // declare schema definitions
 const { date } = FULL_SCHEMA.definitions;
@@ -269,7 +276,7 @@ const formConfig = {
           path: 'va-benefits/benefits-package',
           title: 'VA benefits package',
           depends: includeRegOnlyGuestQuestions,
-          CustomPageReview: null,
+          CustomPageReview: () => null,
           uiSchema: benefitsPackage.uiSchema,
           schema: benefitsPackage.schema,
         },
@@ -481,16 +488,24 @@ const formConfig = {
           uiSchema: SpouseContactInformation.uiSchema,
           schema: SpouseContactInformation.schema,
         },
-        dependentsIntro: {
-          path: 'household-information/your-dependents',
-          title: 'Your dependents',
+        DependentSummary: {
+          path: DEPENDENT_PATHS.summary,
+          title: 'Dependents',
           depends: includeHouseholdInformation,
-          CustomPage: DependentsInformationPage,
+          CustomPage: DependentSummaryPage,
+          CustomPageReview: DependentsReviewPage,
+          uiSchema: DependentSummary.uiSchema,
+          schema: DependentSummary.schema,
+        },
+        DependentInformation: {
+          path: DEPENDENT_PATHS.info,
+          title: 'Dependent information',
+          depends: includeDependentInformation,
+          CustomPage: DependentInformationPage,
           CustomPageReview: null,
           uiSchema: {},
           schema: { type: 'object', properties: {} },
         },
-        ...Dependents,
         VeteranAnnualIncome: {
           path: 'household-information/veteran-annual-income',
           title: 'Your annual income',
@@ -558,12 +573,22 @@ const formConfig = {
           uiSchema: general.uiSchema,
           schema: general.schema,
         },
-        ...insurancePolicyPages,
-        vaFacility: {
-          path: 'insurance-information/va-facility',
+        healthInsurancePolicySummary: {
+          ...insurancePolicyPages.healthInsurancePolicySummary,
+          depends: formData => formData['view:isInsuranceV2Enabled'],
+        },
+        healthInsurancePolicyInformation: {
+          ...insurancePolicyPages.healthInsurancePolicyInformation,
+          depends: formData => formData['view:isInsuranceV2Enabled'],
+        },
+        vaFacilityLighthouse: {
+          path: 'insurance-information/va-facility-api',
           title: 'VA Facility',
-          uiSchema: vaFacilityPage.uiSchema,
-          schema: vaFacilityPage.schema,
+          initialData: {
+            isEssentialAcaCoverage: false,
+          },
+          uiSchema: vaFacilityApiPage.uiSchema,
+          schema: vaFacilityApiPage.schema,
         },
       },
     },

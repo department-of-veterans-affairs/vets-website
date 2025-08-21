@@ -2,9 +2,9 @@ import {
   emailToSendNotificationsSchema,
   emailToSendNotificationsUI,
   phoneUI,
-  internationalPhoneDeprecatedUI,
+  internationalPhoneUI,
   phoneSchema,
-  internationalPhoneDeprecatedSchema,
+  internationalPhoneSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
@@ -13,7 +13,7 @@ export default {
   uiSchema: {
     ...titleUI('Phone and email address'),
     veteranPhone: phoneUI('Phone number'),
-    veteranInternationalPhone: internationalPhoneDeprecatedUI(
+    veteranInternationalPhone: internationalPhoneUI(
       'International phone number',
     ),
     veteranEmail: emailToSendNotificationsUI(),
@@ -22,7 +22,7 @@ export default {
     type: 'object',
     properties: {
       veteranPhone: phoneSchema,
-      veteranInternationalPhone: internationalPhoneDeprecatedSchema,
+      veteranInternationalPhone: internationalPhoneSchema,
       veteranEmail: emailToSendNotificationsSchema,
     },
     required: ['veteranPhone', 'veteranEmail'],

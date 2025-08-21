@@ -222,6 +222,17 @@ export default function TermsOfUse() {
               <li>Refill your prescriptions</li>
               <li>Update your personal information</li>
             </ul>
+            <h4>If you have a My HealtheVet user ID and password</h4>
+            <p>
+              If you decline these terms, you’ll no longer be able to use your{' '}
+              <strong>My HealtheVet</strong> user ID and password.
+            </p>
+            <p>
+              To manage your benefits and care online again, you’ll need to sign
+              in with a <strong>Login.gov</strong> or <strong>ID.me</strong>{' '}
+              account and accept these terms. If you don’t have one of these
+              accounts, you’ll need to create one.
+            </p>
           </va-alert>
           <TermsAcceptance
             error={error}
@@ -251,6 +262,10 @@ export default function TermsOfUse() {
               {error.message}
             </va-alert>
           )}
+          <p>
+            Remember, if you have a <strong>My HealtheVet</strong> user ID and
+            password, you’ll no longer be able to use it.
+          </p>
           <p>
             To manage your benefits and care online again, you’ll need to sign
             in with a <strong>Login.gov</strong> or <strong>ID.me</strong>{' '}

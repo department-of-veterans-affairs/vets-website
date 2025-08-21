@@ -1,7 +1,7 @@
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { expect } from 'chai';
 import {
-  testComponentFieldsMarkedAsRequired,
+  testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfFieldsByType,
   testNumberOfWebComponentFields,
   testShowAlert,
@@ -24,13 +24,12 @@ describe('Financial information total net worth pension page', () => {
     pageTitle,
   );
 
-  testComponentFieldsMarkedAsRequired(
+  const expectedNumberOfErrors = 1;
+  testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     schema,
     uiSchema,
-    [
-      `va-radio[label="Do you and your dependents have over $25,000 in assets?"]`,
-    ],
+    expectedNumberOfErrors,
     pageTitle,
   );
 

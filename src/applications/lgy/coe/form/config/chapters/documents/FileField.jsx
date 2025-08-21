@@ -128,7 +128,7 @@ class FileField extends React.Component {
 
       // Check if the file is an encrypted PDF
       if (
-        currentFile.name?.toLowerCase().endsWith('pdf') &&
+        currentFile.name?.endsWith('pdf') &&
         !password &&
         checkResults.checkIsEncryptedPdf
       ) {

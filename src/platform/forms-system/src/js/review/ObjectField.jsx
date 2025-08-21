@@ -8,7 +8,6 @@ import {
   shouldRender,
   getDefaultRegistry,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
-import { isMinimalHeaderApp } from 'platform/forms-system/src/js/patterns/minimal-header';
 
 import { showReviewField } from '../helpers';
 import { isReactComponent } from '../../../../utilities/ui';
@@ -184,20 +183,15 @@ class ObjectField extends React.Component {
       <>
         {!formContext?.hideHeaderRow && (
           <div className="form-review-panel-page-header-row">
-            {(() => {
-              const shouldShowTitle =
-                ((titleString && title?.trim()) || !titleString) &&
-                !formContext?.hideTitle;
-              if (!shouldShowTitle || !title) {
-                return <div className="form-review-panel-page-header" />;
-              }
-              const HeaderTag = isMinimalHeaderApp() ? 'h3' : 'h4';
-              return (
-                <HeaderTag className="form-review-panel-page-header vads-u-font-size--h5">
-                  {title}
-                </HeaderTag>
-              );
-            })()}
+            {((titleString && title.trim()) || !titleString) &&
+            !formContext?.hideTitle &&
+            title ? (
+              <h4 className="form-review-panel-page-header vads-u-font-size--h5">
+                {title}
+              </h4>
+            ) : (
+              <div className="form-review-panel-page-header" />
+            )}
             <div className="vads-u-justify-content--flex-end">
               {defaultEditButton()}
             </div>

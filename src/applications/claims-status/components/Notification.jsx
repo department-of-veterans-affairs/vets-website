@@ -10,16 +10,13 @@ export default function Notification({
   onSetFocus,
 }) {
   const closeable = !!onClose;
-  useEffect(
-    () => {
-      if (typeof onSetFocus === 'function') {
-        setTimeout(() => {
-          onSetFocus();
-        });
-      }
-    },
-    [title, body, onSetFocus],
-  );
+  useEffect(() => {
+    if (typeof onSetFocus === 'function') {
+      setTimeout(() => {
+        onSetFocus();
+      });
+    }
+  });
 
   return (
     <VaAlert

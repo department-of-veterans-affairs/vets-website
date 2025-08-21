@@ -13,7 +13,7 @@
       "state": "CA",
       "postalCode": "12345"
     },
-    "vaFileNumber": "99999999",
+    "email": "john@veteran.com",
     "veteranSsn": "234232345",
     "uploadedFile": {
       "confirmationCode": "123456"

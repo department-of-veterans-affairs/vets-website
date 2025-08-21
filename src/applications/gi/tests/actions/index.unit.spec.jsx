@@ -419,11 +419,11 @@ describe('actionCreators', () => {
       );
       searchCriteriaFromCoordsStub.resolves(mockQuery);
 
-      const mockGeolocation = {
-        getCurrentPosition: getCurrentPositionStub,
+      global.navigator = {
+        geolocation: {
+          getCurrentPosition: getCurrentPositionStub,
+        },
       };
-
-      global.navigator.geolocation = mockGeolocation;
 
       const dispatch = sinon.stub();
       await actions.geolocateUser()(dispatch);
@@ -435,12 +435,11 @@ describe('actionCreators', () => {
       const mockError = { code: 1 };
       const getCurrentPositionStub = sinon.stub();
       const dispatch = sinon.stub();
-
-      const mockGeolocation = {
-        getCurrentPosition: getCurrentPositionStub,
+      global.navigator = {
+        geolocation: {
+          getCurrentPosition: getCurrentPositionStub,
+        },
       };
-      global.navigator.geolocation = mockGeolocation;
-
       getCurrentPositionStub.callsFake((_, error) => {
         error(mockError);
       });
@@ -460,8 +459,7 @@ describe('actionCreators', () => {
 
   it('should dispatch GEOCODE_LOCATION_FAILED when navigator.geolocation.getCurrentPosition is not available', () => {
     const dispatch = sinon.spy();
-    // const mockNavigator = {};
-    // global.navigator = mockNavigator;
+    global.navigator = {};
 
     actions.geolocateUser()(dispatch);
 

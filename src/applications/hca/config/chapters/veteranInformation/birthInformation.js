@@ -1,14 +1,9 @@
-import {
-  titleUI,
-  descriptionUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { BirthInfoDescription } from '../../../components/FormDescriptions';
 import { FULL_SCHEMA, STATES_50_AND_DC } from '../../../utils/imports';
 import content from '../../../locales/en/content.json';
 
 const { cityOfBirth } = FULL_SCHEMA.properties;
-const stateValues = [...STATES_50_AND_DC.map(object => object.value), 'Other'];
-const stateLabels = [...STATES_50_AND_DC.map(object => object.label), 'Other'];
 
 export default {
   uiSchema: {
@@ -16,13 +11,13 @@ export default {
       content['vet-info--birthplace-title'],
       content['vet-info--birthplace-description'],
     ),
-    ...descriptionUI(BirthInfoDescription),
+    'ui:description': BirthInfoDescription,
     'view:placeOfBirth': {
       cityOfBirth: {
-        'ui:title': content['vet-info--birthplace-city-label'],
+        'ui:title': 'City',
       },
       stateOfBirth: {
-        'ui:title': content['vet-info--birthplace-state-label'],
+        'ui:title': 'State/Province/Region',
       },
     },
   },
@@ -35,8 +30,11 @@ export default {
           cityOfBirth,
           stateOfBirth: {
             type: 'string',
-            enum: stateValues,
-            enumNames: stateLabels,
+            enum: [...STATES_50_AND_DC.map(object => object.value), 'Other'],
+            enumNames: [
+              ...STATES_50_AND_DC.map(object => object.label),
+              'Other',
+            ],
           },
         },
       },

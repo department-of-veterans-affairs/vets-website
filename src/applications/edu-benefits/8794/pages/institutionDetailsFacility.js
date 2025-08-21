@@ -1,9 +1,8 @@
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
 import {
-  addressSchema,
-  titleUI,
   textUI,
   textSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from 'platform/forms-system/src/js/web-component-patterns/textPatterns';
 import InstitutionName from '../components/InstitutionName';
 import InstitutionAddress from '../components/InstitutionAddress';
 
@@ -62,23 +61,7 @@ const schema = {
           type: 'string',
         },
         institutionAddress: {
-          type: 'object',
-          properties: {
-            country: addressSchema().properties.country,
-            street: addressSchema().properties.street,
-            street2: {
-              ...addressSchema().properties.street2,
-              minLength: 0,
-            },
-            street3: {
-              ...addressSchema().properties.street3,
-              minLength: 0,
-            },
-            city: addressSchema().properties.city,
-            state: addressSchema().properties.state,
-            postalCode: addressSchema().properties.postalCode,
-          },
-          required: ['street', 'city', 'state', 'postalCode', 'country'],
+          type: 'string',
         },
       },
       required: ['facilityCode'],

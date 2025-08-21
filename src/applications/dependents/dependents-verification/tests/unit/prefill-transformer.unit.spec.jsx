@@ -1,42 +1,55 @@
 import { expect } from 'chai';
 import prefillTransformer from '../../prefill-transformer';
 
-describe('DV prefill transformer', () => {
-  const prefillData = (ssnLastFour = '', ssn = '', vaFileNumber = '') => ({
+const buildData = ({ ssnLastFour = '', vaFileLastFour = '' }) => ({
+  prefill: {
+    data: {},
+    nonPrefill: {
+      veteranSsnLastFour: ssnLastFour,
+      veteranVaFileNumberLastFour: vaFileLastFour,
+    },
+  },
+  result: {
+    veteranInformation: {
+      ssnLastFour,
+      vaFileLastFour,
+    },
+  },
+});
+
+describe('NOD prefill transformer', () => {
+  const noTransformData = {
     metadata: { test: 'Test Metadata' },
-    formData: { veteranInformation: { ssnLastFour, ssn, vaFileNumber } },
+    formData: {
+      testData: 'This is not getting transformed',
+      data: {},
+    },
     pages: { testPage: 'Page 1' },
-  });
+  };
 
   it('should return built out template from prefill data', () => {
-    const { pages, formData, metadata } = prefillData();
-    const transformResult = prefillTransformer(pages, formData, metadata);
+    const { pages, formData, metadata } = noTransformData;
+    const noTransformActual = prefillTransformer(pages, formData, metadata);
 
-    expect(transformResult).to.deep.equal(prefillData());
+    expect(noTransformActual).to.not.equal(noTransformData);
+    expect(noTransformActual).to.deep.equal({
+      metadata: noTransformData.metadata,
+      formData: buildData({}).result,
+      pages: noTransformData.pages,
+    });
   });
 
   describe('prefill veteran information', () => {
     it('should transform contact info when present', () => {
-      const { pages, formData, metadata } = prefillData('6789');
-      const transformedData = prefillTransformer(pages, formData, metadata)
+      const { pages, metadata } = noTransformData;
+      const data = buildData({
+        ssnLastFour: '9876',
+        vaFileLastFour: '7654',
+      });
+      const transformedData = prefillTransformer(pages, data.prefill, metadata)
         .formData;
 
-      expect(transformedData).to.deep.equal(formData);
-    });
-
-    it('should transform contact info when not present', () => {
-      const { pages, metadata } = prefillData('6789');
-      const expectedFormData = { veteranInformation: { ssnLastFour: '' } };
-      const prefillEmptyVetInfo = prefillTransformer(
-        pages,
-        { veteranInformation: {} },
-        metadata,
-      ).formData;
-      const prefillNoFormData = prefillTransformer(pages, {}, metadata)
-        .formData;
-
-      expect(prefillEmptyVetInfo).to.deep.equal(expectedFormData);
-      expect(prefillNoFormData).to.deep.equal(expectedFormData);
+      expect(transformedData).to.deep.equal(data.result);
     });
   });
 });

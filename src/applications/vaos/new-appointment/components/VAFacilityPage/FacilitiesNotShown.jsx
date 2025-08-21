@@ -1,17 +1,28 @@
-import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
-import React, { useEffect, useState } from 'react';
-import NewTabAnchor from '../../../components/NewTabAnchor';
-import { GA_PREFIX } from '../../../utils/constants';
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 
-export default function FacilitiesNotShown() {
-  const [infoClicked, setInfoClicked] = useState(false);
+// eslint-disable-next-line import/no-unresolved
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import { GA_PREFIX } from '../../../utils/constants';
+import NewTabAnchor from '../../../components/NewTabAnchor';
+
+export default function FacilitiesNotShown({ sortMethod }) {
+  const [isOpen, setIsOpen] = useState(false);
   useEffect(
     () => {
-      if (infoClicked) {
-        recordEvent({ event: `${GA_PREFIX}-facilities-not-listed-click` });
+      setIsOpen(false);
+    },
+    [sortMethod],
+  );
+  useEffect(
+    () => {
+      if (isOpen) {
+        recordEvent({
+          event: `${GA_PREFIX}-facilities-not-listed-click`,
+        });
       }
     },
-    [infoClicked],
+    [isOpen],
   );
 
   return (
@@ -20,7 +31,6 @@ export default function FacilitiesNotShown() {
         <va-additional-info
           data-testid="facility-not-listed"
           trigger="If you can't find your facility on the list"
-          onClick={() => setInfoClicked(true)}
           uswds
         >
           <p className="vads-u-margin-top--0">
@@ -41,3 +51,9 @@ export default function FacilitiesNotShown() {
     </div>
   );
 }
+FacilitiesNotShown.propTypes = {
+  cernerSiteIds: PropTypes.array,
+  facilities: PropTypes.array,
+  sortMethod: PropTypes.string,
+  typeOfCareId: PropTypes.string,
+};

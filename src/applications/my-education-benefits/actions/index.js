@@ -78,6 +78,10 @@ export function fetchPersonalInformation(selectedChapter) {
     dispatch({ type: FETCH_PERSONAL_INFORMATION });
     return apiRequest(`${CLAIMANT_INFO_ENDPOINT}?type=${selectedChapter}`)
       .then(response => {
+        if (!response?.data?.attributes?.claimant) {
+          window.location.href =
+            '/education/apply-for-education-benefits/application/1990/';
+        }
         dispatch({
           type: FETCH_PERSONAL_INFORMATION_SUCCESS,
           response,

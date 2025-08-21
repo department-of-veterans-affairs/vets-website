@@ -60,8 +60,6 @@ const defaultUser = {
             is_cerner: false,
           },
         ],
-        va_patient: true,
-        mhv_account_state: 'OK',
       },
     },
   },

@@ -37,11 +37,10 @@ describe('HCA-Household: Full disclosure', () => {
     cy.selectRadio('root_cohabitedLastYear', 'Y');
     cy.selectRadio('root_sameAddress', 'Y');
 
-    goToNextPage('/household-information/your-dependents');
     goToNextPage('/household-information/dependents');
-    cy.selectYesNoVaRadioOption('root_view:reportDependents', true);
+    cy.selectRadio('root_view:reportDependents', 'Y');
 
-    goToNextPage();
+    goToNextPage('/household-information/dependent-information');
     fillDependentBasicInformation(testData.dependents[0]);
 
     goToNextPage();
@@ -63,7 +62,7 @@ describe('HCA-Household: Full disclosure', () => {
     );
 
     goToNextPage('/household-information/dependents');
-    cy.selectYesNoVaRadioOption('root_view:reportDependents', false);
+    cy.selectRadio('root_view:reportDependents', 'N');
 
     goToNextPage('/household-information/veteran-annual-income');
     fillVeteranIncome(testData);

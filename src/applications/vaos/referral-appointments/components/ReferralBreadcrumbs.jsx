@@ -1,25 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation, useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import { selectCurrentPage } from '../redux/selectors';
 import { getReferralUrlLabel, routeToPreviousReferralPage } from '../flow';
 import Breadcrumbs from '../../components/Breadcrumbs';
 
-export default function ReferralBreadcrumbs() {
+export default function ReferralBreadcrumbs({ categoryOfCare = '' }) {
   const location = useLocation();
   const history = useHistory();
   const currentPage = useSelector(selectCurrentPage);
 
   const [breadcrumb, setBreadcrumb] = useState(
-    getReferralUrlLabel(currentPage),
+    getReferralUrlLabel(currentPage, categoryOfCare),
   );
 
   useEffect(
     () => {
-      setBreadcrumb(() => getReferralUrlLabel(currentPage));
+      setBreadcrumb(() => getReferralUrlLabel(currentPage, categoryOfCare));
     },
-    [location, currentPage],
+    [location, categoryOfCare, currentPage],
   );
 
   const isBackLink = breadcrumb?.startsWith('Back');
@@ -46,3 +47,7 @@ export default function ReferralBreadcrumbs() {
     <Breadcrumbs labelOverride={breadcrumb} />
   );
 }
+
+ReferralBreadcrumbs.propTypes = {
+  categoryOfCare: PropTypes.string,
+};

@@ -70,12 +70,9 @@ export default function CancelPageLayout() {
     <>
       <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">{heading}</h2>
       <When level={3}>
-        <AppointmentDate date={startDate} timezone={appointment?.timezone} />
+        <AppointmentDate date={startDate} />
         <br />
-        <AppointmentTime
-          appointment={appointment}
-          timezone={appointment.timezone}
-        />
+        <AppointmentTime appointment={appointment} />
         <br />
       </When>
       <What level={3}>{typeOfCareName}</What>
@@ -113,15 +110,13 @@ export default function CancelPageLayout() {
               </>
             )}
           {!!facility && (
-            <span data-dd-privacy="mask">
+            <>
               {facility.name}
               <br />
               <Address address={facility?.address} />
-            </span>
+            </>
           )}
-          <span data-dd-privacy="mask">
-            {clinicName ? `Clinic: ${clinicName}` : 'Clinic not available'}
-          </span>
+          {clinicName ? `Clinic: ${clinicName}` : 'Clinic not available'}
           <br />
           <ClinicOrFacilityPhone
             clinicPhone={clinicPhone}
@@ -171,13 +166,8 @@ export default function CancelPageLayout() {
                 <FacilityDirectionsLink location={facility} icon />
               </div>
               <br />
-              <span data-dd-privacy="mask">
-                Clinic: {clinicName || 'Not available'}
-              </span>{' '}
-              <br />
-              <span data-dd-privacy="mask">
-                Location: {clinicPhysicalLocation || 'Not available'}
-              </span>
+              <span>Clinic: {clinicName || 'Not available'}</span> <br />
+              <span>Location: {clinicPhysicalLocation || 'Not available'}</span>
               <br />
             </>
           )}

@@ -95,22 +95,11 @@ export const ConfirmationPage = ({ router, route }) => {
         rejection in the letter and provide further instructions for
         resubmission or additional steps.
       </p>
-      {isAccredited ? (
-        <va-link
-          href="/"
-          text="Go to VA.gov"
-          class="vads-u-margin-top--1p5 vads-u-margin-bottom--2"
-          data-testid="va-home-link"
-        />
-      ) : (
-        <va-link
-          href="/school-administrators/85-15-rule-enrollment-ratio"
-          text="Go to VA Form 22-10215 now"
-          class="vads-u-margin-top--1p5 vads-u-margin-bottom--2"
-          data-testid="22-10215-link"
-          external
-        />
-      )}
+      <va-link-action
+        href="/school-administrators/85-15-rule-enrollment-ratio"
+        text="Go to VA Form 22-10215 now"
+        class="vads-u-margin-top--1p5 vads-u-margin-bottom--2"
+      />
     </div>
   );
 

@@ -23,6 +23,7 @@ export default {
           Y: 'Yes',
           N: 'No',
         },
+        uswds: true,
       }),
       'ui:reviewField': homelessReviewField,
     },

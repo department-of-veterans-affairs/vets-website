@@ -7,10 +7,10 @@ import {
   fillTextWebComponent,
   goToNextPage,
   selectDropdownWebComponent,
-  fillNameWithKeyboard,
   selectYesNoWebComponent,
+  fillNameWithKeyboard,
 } from './helpers';
-import { MOCK_ENROLLMENT_RESPONSE, API_ENDPOINTS } from '../../utils/constants';
+import { MOCK_ENROLLMENT_RESPONSE } from '../../utils/constants';
 import { advanceToEmergencyContacts } from './helpers/emergency-contacts';
 
 const { data: testData } = maxTestData;
@@ -21,7 +21,7 @@ describe('EZR TERA flow', () => {
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
       'mockFeatures',
     );
-    cy.intercept('GET', `/v0${API_ENDPOINTS.enrollmentStatus}*`, {
+    cy.intercept('GET', '/v0/health_care_applications/enrollment_status*', {
       statusCode: 200,
       body: MOCK_ENROLLMENT_RESPONSE,
     }).as('mockEnrollmentStatus');
@@ -41,7 +41,6 @@ describe('EZR TERA flow', () => {
     cy.injectAxeThenAxeCheck();
 
     selectYesNoWebComponent('view:hasEmergencyContacts', true);
-
     goToNextPage(
       '/update-benefits-information-form-10-10ezr/veteran-information/emergency-contacts/0/contact',
     );
@@ -51,12 +50,14 @@ describe('EZR TERA flow', () => {
     fillNameWithKeyboard('fullName', contact.fullName);
     fillTextWebComponent('primaryPhone', contact.primaryPhone);
     selectDropdownWebComponent('relationship', contact.relationship);
+    selectYesNoWebComponent('view:hasEmergencyContactAddress', true);
 
     // ec 1 address
     goToNextPage(
       '/update-benefits-information-form-10-10ezr/veteran-information/emergency-contacts/0/contact-address',
     );
-    cy.selectVaSelect(`root_address_country`, contact.address.country);
+    cy.tabToElement(`[name="root_address_country"]`);
+    cy.chooseSelectOptionUsingValue(contact.address.country);
     fillTextWebComponent('address_street', contact.address.street);
     fillTextWebComponent('address_city', contact.address.city);
     selectDropdownWebComponent('address_state', contact.address.state);

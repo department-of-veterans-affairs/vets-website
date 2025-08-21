@@ -8,7 +8,6 @@ import sinon from 'sinon';
 import createCommonStore from 'platform/startup/store';
 import createSchemaFormReducer from 'platform/forms-system/src/js/state';
 import reducers from 'platform/forms-system/src/js/state/reducers';
-import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import Pending from 'platform/forms-system/src/js/review/submit-states/Pending';
 
@@ -46,7 +45,7 @@ const createformReducer = (options = {}) =>
     reducers,
   );
 
-const getFormConfig = (useWebComponents = false) => ({
+const getFormConfig = (options = {}) => ({
   ariaDescribedBySubmit: '22-0994-submit-application',
   preSubmitInfo: {
     required: true,
@@ -72,204 +71,90 @@ const getFormConfig = (useWebComponents = false) => ({
       },
     },
   },
-  formOptions: {
-    useWebComponentForNavigation: useWebComponents,
-  },
+  ...options,
 });
 
 describe('Schemaform review: <Pending />', () => {
-  context('with React components', () => {
-    it('has a back button', () => {
-      const onBack = sinon.spy();
-      const onSubmit = sinon.spy();
+  it('has a back button', () => {
+    const onBack = sinon.spy();
+    const onSubmit = sinon.spy();
 
-      const form = createForm();
-      const formConfig = getFormConfig();
+    const form = createForm();
+    const formConfig = getFormConfig();
 
-      const formReducer = createformReducer({
-        formConfig: form,
-      });
-
-      const store = createStore();
-      store.injectReducer('form', formReducer);
-
-      const tree = render(
-        <Provider store={store}>
-          <Pending
-            formConfig={formConfig}
-            onBack={onBack}
-            onSubmit={onSubmit}
-          />
-        </Provider>,
-      );
-
-      const backButton = tree.getByText('Back');
-      expect(backButton).to.not.be.null;
-      fireEvent.click(backButton);
-      expect(onBack.called).to.be.true;
-
-      tree.unmount();
+    const formReducer = createformReducer({
+      formConfig: form,
     });
 
-    it('has a pre-submit section', () => {
-      const onBack = sinon.spy();
-      const onSubmit = sinon.spy();
+    const store = createStore();
+    store.injectReducer('form', formReducer);
 
-      const form = createForm();
-      const formConfig = getFormConfig();
+    const tree = render(
+      <Provider store={store}>
+        <Pending formConfig={formConfig} onBack={onBack} onSubmit={onSubmit} />
+      </Provider>,
+    );
 
-      const formReducer = createformReducer({
-        formConfig: form,
-      });
+    const backButton = tree.getByText('Back');
+    expect(backButton).to.not.be.null;
+    fireEvent.click(backButton);
+    expect(onBack.called).to.be.true;
 
-      const store = createStore();
-      store.injectReducer('form', formReducer);
-
-      const tree = render(
-        <Provider store={store}>
-          <Pending
-            formConfig={formConfig}
-            onBack={onBack}
-            onSubmit={onSubmit}
-          />
-        </Provider>,
-      );
-
-      expect(tree.container.querySelector('va-privacy-agreement')).does.exist;
-
-      tree.unmount();
-    });
-
-    it('has a disabled in-progress submit button', () => {
-      const onBack = sinon.spy();
-      const onSubmit = sinon.spy();
-
-      const form = createForm();
-      const formConfig = getFormConfig();
-
-      const formReducer = createformReducer({
-        formConfig: form,
-      });
-
-      const store = createStore();
-      store.injectReducer('form', formReducer);
-
-      const tree = render(
-        <Provider store={store}>
-          <Pending
-            formConfig={formConfig}
-            onBack={onBack}
-            onSubmit={onSubmit}
-          />
-        </Provider>,
-      );
-
-      const submitButton = tree.getByText('Sending...');
-      expect(submitButton).to.not.be.null;
-      expect(submitButton).to.have.attribute('disabled');
-      expect(submitButton).to.have.attr;
-      fireEvent.click(submitButton);
-      expect(onBack.called).to.be.false;
-
-      tree.unmount();
-    });
+    tree.unmount();
   });
 
-  context('with Web components', () => {
-    const useWebComponents = true;
-    it('has a back button', () => {
-      const onBack = sinon.spy();
-      const onSubmit = sinon.spy();
+  it('has a pre-submit section', () => {
+    const onBack = sinon.spy();
+    const onSubmit = sinon.spy();
 
-      const form = createForm();
-      const formConfig = getFormConfig(useWebComponents);
+    const form = createForm();
+    const formConfig = getFormConfig();
 
-      const formReducer = createformReducer({
-        formConfig: form,
-      });
-
-      const store = createStore();
-      store.injectReducer('form', formReducer);
-
-      const tree = render(
-        <Provider store={store}>
-          <Pending
-            formConfig={formConfig}
-            onBack={onBack}
-            onSubmit={onSubmit}
-          />
-        </Provider>,
-      );
-
-      const backButton = $('va-button[text="Back"]', tree.container);
-      expect(backButton).to.not.be.null;
-      fireEvent.click(backButton);
-      expect(onBack.called).to.be.true;
-
-      tree.unmount();
+    const formReducer = createformReducer({
+      formConfig: form,
     });
 
-    it('has a pre-submit section', () => {
-      const onBack = sinon.spy();
-      const onSubmit = sinon.spy();
+    const store = createStore();
+    store.injectReducer('form', formReducer);
 
-      const form = createForm();
-      const formConfig = getFormConfig(useWebComponents);
+    const tree = render(
+      <Provider store={store}>
+        <Pending formConfig={formConfig} onBack={onBack} onSubmit={onSubmit} />
+      </Provider>,
+    );
 
-      const formReducer = createformReducer({
-        formConfig: form,
-      });
+    expect(tree.container.querySelector('va-privacy-agreement')).does.exist;
 
-      const store = createStore();
-      store.injectReducer('form', formReducer);
+    tree.unmount();
+  });
 
-      const tree = render(
-        <Provider store={store}>
-          <Pending
-            formConfig={formConfig}
-            onBack={onBack}
-            onSubmit={onSubmit}
-          />
-        </Provider>,
-      );
+  it('has a disabled in-progress submit button', () => {
+    const onBack = sinon.spy();
+    const onSubmit = sinon.spy();
 
-      expect($('va-privacy-agreement', tree.container)).does.exist;
+    const form = createForm();
+    const formConfig = getFormConfig();
 
-      tree.unmount();
+    const formReducer = createformReducer({
+      formConfig: form,
     });
 
-    it('has a disabled in-progress submit button', () => {
-      const onBack = sinon.spy();
-      const onSubmit = sinon.spy();
+    const store = createStore();
+    store.injectReducer('form', formReducer);
 
-      const form = createForm();
-      const formConfig = getFormConfig(useWebComponents);
+    const tree = render(
+      <Provider store={store}>
+        <Pending formConfig={formConfig} onBack={onBack} onSubmit={onSubmit} />
+      </Provider>,
+    );
 
-      const formReducer = createformReducer({
-        formConfig: form,
-      });
+    const submitButton = tree.getByText('Sending...');
+    expect(submitButton).to.not.be.null;
+    expect(submitButton).to.have.attribute('disabled');
+    expect(submitButton).to.have.attr;
+    fireEvent.click(submitButton);
+    expect(onBack.called).to.be.false;
 
-      const store = createStore();
-      store.injectReducer('form', formReducer);
-
-      const tree = render(
-        <Provider store={store}>
-          <Pending
-            formConfig={formConfig}
-            onBack={onBack}
-            onSubmit={onSubmit}
-          />
-        </Provider>,
-      );
-
-      const submitButton = $('va-button[text="Sending..."]', tree.container);
-      expect(submitButton).to.not.be.null;
-      expect(submitButton).to.have.attribute('disabled');
-      expect(submitButton).to.have.attr;
-      fireEvent.click(submitButton);
-      expect(onBack.called).to.be.false;
-
-      tree.unmount();
-    });
+    tree.unmount();
   });
 });

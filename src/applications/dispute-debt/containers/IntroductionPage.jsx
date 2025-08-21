@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { focusElement } from 'platform/utilities/ui/focus';
 import { scrollToTop } from 'platform/utilities/scroll';
 import environment from 'platform/utilities/environment';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
@@ -19,13 +20,8 @@ export const IntroductionPage = props => {
     downtime,
   } = formConfig;
 
-  const {
-    useToggleValue,
-    useToggleLoadingValue,
-    TOGGLE_NAMES,
-  } = useFeatureToggle();
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const disputeDebtActive = useToggleValue(TOGGLE_NAMES.disputeDebt);
-  const isLoadingFeatures = useToggleLoadingValue();
 
   const sipOptions = {
     formId,
@@ -44,48 +40,42 @@ export const IntroductionPage = props => {
 
   useEffect(() => {
     scrollToTop();
+    focusElement('h1');
   }, []);
-
-  // Show loading indicator while feature flags are loading
-  if (isLoadingFeatures) {
-    return (
-      <va-loading-indicator
-        label="Loading"
-        message="Loading application..."
-        set-focus
-      />
-    );
-  }
 
   return (
     <article className="schemaform-intro">
       <FormTitle title={TITLE} />
       {disputeDebtActive ? (
         <>
-          <p className="va-introtext">
-            Use this form if you’d like to dispute all or part of the debt.
-          </p>
+          <h3 className="vads-u-font-weight--normal">
+            If you think your VA debt is an error, use this form to dispute all
+            or part of the debt.{' '}
+          </h3>
+          <ShowAlertOrSip
+            user={user}
+            basename={location?.basename || ''}
+            sipOptions={sipOptions}
+            pageList={pageList}
+            formConfig={formConfig}
+          />
           <h2>What to know before you fill out this form</h2>
           <div>
             <ul>
               <li>
                 Right now, you can only use this form to dispute debts from
                 benefit overpayments. You can’t use it to dispute copay bills at
-                this time.
-                <span className="vads-u-display--block">
-                  <va-link
-                    href="https://www.va.gov/health-care/pay-copay-bill/dispute-charges/"
-                    text="Learn how to dispute copay bills"
-                  />
-                </span>
-              </li>
-              <li>
-                You may need to make payments on your debt while we review your
-                dispute.
+                this time.{' '}
+                <a href="https://www.va.gov/health-care/pay-copay-bill/dispute-charges/">
+                  Learn how to dispute copay bills
+                </a>
+                . You may need to make payments on your debt while we review
+                your dispute.
               </li>
             </ul>
           </div>
           <br />
+
           <ShowAlertOrSip
             user={user}
             basename={location?.basename || ''}

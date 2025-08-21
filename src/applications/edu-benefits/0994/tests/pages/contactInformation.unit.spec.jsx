@@ -1,14 +1,13 @@
 import React from 'react';
 import { expect } from 'chai';
-import sinon from 'sinon';
-import { waitFor } from '@testing-library/react';
 import { mount } from 'enzyme';
+import sinon from 'sinon';
 
 import {
   DefinitionTester,
   fillData,
-} from 'platform/testing/unit/schemaform-utils';
-import formConfig from '../../config/form';
+} from 'platform/testing/unit/schemaform-utils.jsx';
+import formConfig from '../../config/form.js';
 
 import { ERR_MSG_CSS_CLASS } from '../../constants';
 
@@ -29,19 +28,10 @@ const initialData = {
 };
 
 describe('Contact Information', () => {
-  let sandbox;
   const {
     schema,
     uiSchema,
   } = formConfig.chapters.personalInformation.pages.contactInformation;
-
-  beforeEach(() => {
-    sandbox = sinon.createSandbox();
-  });
-
-  afterEach(() => {
-    sandbox.restore();
-  });
 
   it('renders the contact information with prefill data', () => {
     const form = mount(
@@ -71,7 +61,7 @@ describe('Contact Information', () => {
       postalCode,
     } = initialData.mailingAddress;
 
-    const onSubmit = sandbox.spy();
+    const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
         onSubmit={onSubmit}
@@ -111,8 +101,8 @@ describe('Contact Information', () => {
     form.unmount();
   });
 
-  it('should not allow submission without required fields', async () => {
-    const onSubmit = sandbox.spy();
+  it('should not allow submission without required fields', () => {
+    const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
         onSubmit={onSubmit}
@@ -123,13 +113,8 @@ describe('Contact Information', () => {
     );
 
     form.find('form').simulate('submit');
-
-    await waitFor(() => {
-      form.update();
-      expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(2);
-      expect(onSubmit.called).to.be.false;
-    });
-
+    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(2);
+    expect(onSubmit.called).to.be.false;
     form.unmount();
   });
 });

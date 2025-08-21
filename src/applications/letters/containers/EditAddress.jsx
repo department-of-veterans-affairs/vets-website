@@ -79,7 +79,7 @@ export function EditAddress() {
           </va-additional-info>
         </>
       )}
-      <div className="vads-u-margin-bottom--1 letters--edit-address">
+      <div className="vads-u-margin-bottom--1">
         <InitializeVAPServiceID>
           <ProfileInformationFieldController
             forceEditView

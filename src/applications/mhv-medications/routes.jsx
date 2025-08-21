@@ -2,7 +2,7 @@ import React, { lazy, Suspense } from 'react';
 import { createBrowserRouter, useParams } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
 import { authenticatedLoader } from '@department-of-veterans-affairs/platform-startup/exports';
-import { MhvPageNotFound } from '@department-of-veterans-affairs/mhv/exports';
+import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import { useMyHealthAccessGuard } from '~/platform/mhv/hooks/useMyHealthAccessGuard';
 
 import manifest from './manifest.json';
@@ -14,6 +14,7 @@ import { prescriptionsLoader } from './loaders/prescriptionsLoader';
 
 // Lazy-loaded components
 const Prescriptions = lazy(() => import('./containers/Prescriptions'));
+const LandingPage = lazy(() => import('./containers/LandingPage'));
 const RefillPrescriptions = lazy(() =>
   import('./containers/RefillPrescriptions'),
 );
@@ -58,10 +59,26 @@ AppWrapper.propTypes = {
 };
 
 const routes = [
+  // TODO: remove about routes once mhvMedicationsRemoveLandingPage is turned on in prod
+  {
+    path: 'about/*',
+    element: <AppWrapper Component={LandingPage} />,
+  },
+  {
+    path: 'about',
+    element: <AppWrapper Component={LandingPage} />,
+  },
   {
     path: 'refill',
     element: <AppWrapper Component={RefillPrescriptions} />,
     loader: authenticatedLoader({ loader: prescriptionsLoader }),
+  },
+  {
+    path: ':page',
+    element: <AppWrapper Component={Prescriptions} />,
+    loader: (...args) => {
+      return Promise.all([prescriptionsLoader(...args)]);
+    },
   },
   {
     path: '/',
@@ -89,7 +106,7 @@ const routes = [
   },
   {
     path: '*',
-    element: <MhvPageNotFound />,
+    element: <PageNotFound />,
   },
 ];
 

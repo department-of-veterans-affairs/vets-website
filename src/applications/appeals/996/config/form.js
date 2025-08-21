@@ -67,6 +67,7 @@ const formConfig = {
     requiredForPrefill: true,
     dependencies: [
       services.vaProfile, // for contact info
+      services.bgs, // submission
       services.mvi, // contestable issues
       services.appeals, // LOA3 & SSN
     ],

@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import { datadogRum } from '@datadog/browser-rum';
 import {
   dateFormat,
-  displayProviderName,
   fromToNumbs,
   validateIfAvailable,
 } from '../../util/helpers';
@@ -103,10 +102,11 @@ const GroupedMedications = props => {
                   )}
                 </dd>
                 <dd data-testid="provider-name">
-                  {`Prescribed by ${displayProviderName(
-                    rx?.providerFirstName,
-                    rx?.providerLastName,
-                  )}`}
+                  {rx.providerFirstName && rx.providerLastName
+                    ? `Prescribed by ${rx.providerLastName}, ${
+                        rx.providerFirstName
+                      }`
+                    : validateIfAvailable('Provider name')}
                 </dd>
               </dl>
             );

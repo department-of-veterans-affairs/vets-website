@@ -15,13 +15,6 @@ class TypeOfVisitPageObject extends PageObject {
     return this;
   }
 
-  assertTypeOfVisitValidationErrors() {
-    this.clickNextButton();
-    this.assertValidationError('Select an option');
-
-    return this;
-  }
-
   selectVisitType(label) {
     return super.selectRadioButtonShadow(label);
   }

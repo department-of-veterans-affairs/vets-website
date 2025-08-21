@@ -39,26 +39,12 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.clickStartForm();
+          cy.get('a.vads-c-action-link--green')
+            .contains('Start the Income and Asset Statement application')
+            .click({ force: true });
         });
       },
-      'claimant/reporting-period': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            const { incomeNetWorthDateRange } = data;
-            fillDateWebComponentPattern(
-              'incomeNetWorthDateRange_from',
-              incomeNetWorthDateRange.from,
-            );
-            fillDateWebComponentPattern(
-              'incomeNetWorthDateRange_to',
-              incomeNetWorthDateRange.to,
-            );
-            cy.clickFormContinue();
-          });
-        });
-      },
-      'recurring-income-summary': ({ afterHook }) => {
+      'unassociated-incomes-summary': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             let isAddingUnassociatedIncomes =
@@ -73,11 +59,13 @@ const testConfig = createTestConfig(
               isAddingUnassociatedIncomes,
             );
 
-            cy.clickFormContinue();
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
           });
         });
       },
-      'recurring-income/:index/income-type': ({ afterHook }) => {
+      'unassociated-incomes/0/income-type': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             const { unassociatedIncomes } = data;
@@ -93,11 +81,13 @@ const testConfig = createTestConfig(
 
             addedUnassociatedIncomeItem = true;
 
-            cy.clickFormContinue();
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
           });
         });
       },
-      'financial-accounts-summary': ({ afterHook }) => {
+      'associated-incomes-summary': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             let isAddingAssociatedIncomes =
@@ -112,11 +102,13 @@ const testConfig = createTestConfig(
               isAddingAssociatedIncomes,
             );
 
-            cy.clickFormContinue();
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
           });
         });
       },
-      'financial-accounts/:index/income-type': ({ afterHook }) => {
+      'associated-incomes/0/income-type': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             const { associatedIncomes } = data;
@@ -134,11 +126,13 @@ const testConfig = createTestConfig(
 
             addedAssociatedIncomeItem = true;
 
-            cy.clickFormContinue();
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
           });
         });
       },
-      'property-and-business-summary': ({ afterHook }) => {
+      'owned-assets-summary': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             let isAddingOwnedAssets = data['view:isAddingOwnedAssets'];
@@ -152,11 +146,13 @@ const testConfig = createTestConfig(
               isAddingOwnedAssets,
             );
 
-            cy.clickFormContinue();
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
           });
         });
       },
-      'property-and-business/:index/income-type': ({ afterHook }) => {
+      'owned-assets/0/income-type': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             const { ownedAssets } = data;
@@ -172,11 +168,13 @@ const testConfig = createTestConfig(
 
             addedOwnedAssetItem = true;
 
-            cy.clickFormContinue();
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
           });
         });
       },
-      'royalties-summary': ({ afterHook }) => {
+      'royalties-and-other-properties-summary': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             let isAddingRoyalties = data['view:isAddingRoyalties'];
@@ -190,11 +188,13 @@ const testConfig = createTestConfig(
               isAddingRoyalties,
             );
 
-            cy.clickFormContinue();
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
           });
         });
       },
-      'royalties/:index/income-type': ({ afterHook }) => {
+      'royalties-and-other-properties/0/income-type': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             const { royaltiesAndOtherProperties } = data;
@@ -215,7 +215,9 @@ const testConfig = createTestConfig(
 
             addedRoyaltiesItem = true;
 
-            cy.clickFormContinue();
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
           });
         });
       },
@@ -233,12 +235,14 @@ const testConfig = createTestConfig(
               isAddingAssetTransfers,
             );
 
-            cy.clickFormContinue();
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
           });
         });
       },
 
-      'asset-transfers/:index/transfer-date': ({ afterHook }) => {
+      'asset-transfers/0/transfer-date': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             const { assetTransfers } = data;
@@ -246,12 +250,16 @@ const testConfig = createTestConfig(
 
             fillDateWebComponentPattern('transferDate', transferDate);
 
-            cy.clickFormContinue();
+            addedTrustItem = true;
+
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
           });
         });
       },
 
-      'asset-transfers/:index/market-value': ({ afterHook }) => {
+      'asset-transfers/0/market-value': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             const { assetTransfers } = data;
@@ -267,7 +275,9 @@ const testConfig = createTestConfig(
 
             addedAssetTransferItem = true;
 
-            cy.clickFormContinue();
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
           });
         });
       },
@@ -282,11 +292,13 @@ const testConfig = createTestConfig(
 
             selectYesNoWebComponent('view:isAddingTrusts', isAddingTrusts);
 
-            cy.clickFormContinue();
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
           });
         });
       },
-      'trusts/:index/added-funds': ({ afterHook }) => {
+      'trusts/0/added-funds': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             const { trusts } = data;
@@ -297,7 +309,9 @@ const testConfig = createTestConfig(
 
             addedTrustItem = true;
 
-            cy.clickFormContinue();
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
           });
         });
       },
@@ -315,11 +329,13 @@ const testConfig = createTestConfig(
               isAddingAnnuities,
             );
 
-            cy.clickFormContinue();
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
           });
         });
       },
-      'annuities/:index/added-funds': ({ afterHook }) => {
+      'annuities/0/added-funds': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             const { annuities } = data;
@@ -330,7 +346,9 @@ const testConfig = createTestConfig(
 
             addedAnnuityItem = true;
 
-            cy.clickFormContinue();
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
           });
         });
       },
@@ -349,11 +367,13 @@ const testConfig = createTestConfig(
               isAddingUnreportedAssets,
             );
 
-            cy.clickFormContinue();
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
           });
         });
       },
-      'unreported-assets/:index/asset-type': ({ afterHook }) => {
+      'unreported-assets/0/asset-type': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             const { unreportedAssets } = data;
@@ -369,7 +389,9 @@ const testConfig = createTestConfig(
 
             addedUnreportedAssetItem = true;
 
-            cy.clickFormContinue();
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
           });
         });
       },
@@ -388,11 +410,13 @@ const testConfig = createTestConfig(
               isAddingDiscontinuedIncomes,
             );
 
-            cy.clickFormContinue();
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
           });
         });
       },
-      'discontinued-incomes/:index/amount': ({ afterHook }) => {
+      'discontinued-incomes/0/amount': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             const { discontinuedIncomes } = data;
@@ -402,11 +426,13 @@ const testConfig = createTestConfig(
 
             addedDiscontinuedIncomeItem = true;
 
-            cy.clickFormContinue();
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
           });
         });
       },
-      'waived-income-summary': ({ afterHook }) => {
+      'income-receipt-waivers-summary': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             let isAddingIncomeReceiptWaivers =
@@ -421,18 +447,22 @@ const testConfig = createTestConfig(
               isAddingIncomeReceiptWaivers,
             );
 
-            cy.clickFormContinue();
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
           });
         });
       },
-      'waived-income/:index/payments': ({ afterHook }) => {
+      'income-receipt-waivers/0/payments': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(() => {
             selectYesNoWebComponent('view:paymentsWillResume', false);
 
             addedIncomeReceiptWaiverItem = true;
 
-            cy.clickFormContinue();
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
           });
         });
       },
@@ -449,7 +479,9 @@ const testConfig = createTestConfig(
               .shadow()
               .find('input')
               .click({ force: true });
-            cy.clickFormContinue(); // Submit
+            cy.findAllByText(/Submit application/i, {
+              selector: 'button',
+            }).click();
           });
         });
       },

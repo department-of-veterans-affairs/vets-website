@@ -16,11 +16,7 @@ import {
   titleUI,
   titleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import {
-  nameWording,
-  privWrapper,
-  PrivWrappedReview,
-} from '../../shared/utilities';
+import { nameWording } from '../../shared/utilities';
 import {
   validAddressCharsOnly,
   validObjectCharsOnly,
@@ -56,20 +52,16 @@ export const applicantNameDobSchema = {
 
 export const applicantSsnSchema = {
   uiSchema: {
-    ...titleUI(({ formData }) =>
-      privWrapper(
+    ...titleUI(
+      ({ formData }) =>
         `${nameWording(
           formData,
           undefined,
           undefined,
           true,
         )} identification information`,
-      ),
     ),
     applicantSsn: ssnUI(),
-    'ui:options': {
-      itemAriaLabel: () => 'identification information',
-    },
   },
   schema: {
     type: 'object',
@@ -85,14 +77,7 @@ export const applicantAddressInfoSchema = {
   uiSchema: {
     ...titleUI(
       ({ formData }) =>
-        privWrapper(
-          `${nameWording(
-            formData,
-            undefined,
-            undefined,
-            true,
-          )} mailing address`,
-        ),
+        `${nameWording(formData, undefined, undefined, true)} mailing address`,
       'We’ll send any important information about this form to this address.',
     ),
     applicantAddress: merge({}, addressUI(), {
@@ -135,13 +120,6 @@ export const applicantAddressInfoSchema = {
       (errors, formData) =>
         validAddressCharsOnly(errors, null, formData, 'applicantAddress'),
     ],
-    'ui:options': {
-      itemAriaLabel: () => 'mailing address',
-      classNames: ['dd-privacy-hidden'],
-    },
-    'ui:objectViewField': props => {
-      return PrivWrappedReview(props);
-    },
   },
   schema: {
     type: 'object',
@@ -158,9 +136,7 @@ export const applicantContactInfoSchema = {
   uiSchema: {
     ...titleUI(
       ({ formData }) =>
-        privWrapper(
-          `${nameWording(formData, undefined, undefined, true)} phone number`,
-        ),
+        `${nameWording(formData, undefined, undefined, true)} phone number`,
       'We’ll contact this phone number if we need to follow up about this form.',
     ),
     applicantPhone: phoneUI(),
@@ -181,7 +157,6 @@ export const applicantContactInfoSchema = {
         }
         return fs;
       },
-      itemAriaLabel: () => 'phone number',
     },
   },
   schema: {
@@ -197,15 +172,14 @@ export const applicantContactInfoSchema = {
 
 export const applicantGenderSchema = {
   uiSchema: {
-    ...titleUI(({ formData }) =>
-      privWrapper(
+    ...titleUI(
+      ({ formData }) =>
         `${nameWording(
           formData,
           undefined,
           undefined,
           true,
         )} sex listed at birth`,
-      ),
     ),
     applicantGender: {
       ...radioUI({
@@ -223,7 +197,6 @@ export const applicantGenderSchema = {
               true,
             )} sex listed at birth?`,
             'ui:options': {
-              classNames: ['dd-privacy-hidden'],
               labels,
               hint: `Enter the sex that appears on ${nameWording(
                 formData,
@@ -235,12 +208,6 @@ export const applicantGenderSchema = {
           };
         },
       }),
-    },
-    'ui:options': {
-      itemAriaLabel: () => 'sex',
-    },
-    'ui:objectViewField': props => {
-      return PrivWrappedReview(props);
     },
   },
   schema: {

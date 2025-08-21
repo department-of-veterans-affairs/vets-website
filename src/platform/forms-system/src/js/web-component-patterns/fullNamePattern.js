@@ -29,7 +29,7 @@ export function validateNameSymbols(errors, value, uiSchema, schema, messages) {
 }
 
 /**
- * uiSchema for `first`, `middle`, and `last name`
+ * Web component v3 uiSchema for `first`, `middle`, and `last name`
  *
  * ```js
  * fullName: fullNameNoSuffixUI()
@@ -82,7 +82,7 @@ const fullNameNoSuffixUI = (formatTitle, uiOptions = {}) => {
 };
 
 /**
- * uiSchema for `first` and `last name` only
+ * Web component uiSchema for `first`, `last name` [no middle name]
  *
  * ```js
  * fullName: fullNameNoSuffixUI()
@@ -125,7 +125,7 @@ const firstNameLastNameNoSuffixUI = (formatTitle, uiOptions = {}) => {
 };
 
 /**
- * uiSchema for `first`, `middle`, `last name`, and `suffix`
+ * Web component uiSchema for `first`, `middle`, `last name`, and `suffix`
  * ```js
  * fullName: fullNameUI()
  * fullName: fullNameUI((title) => `Your ${title}`))
@@ -151,7 +151,7 @@ const fullNameUI = (formatTitle, uiOptions = {}) => {
 };
 
 /**
- * uiSchema for `first`, `last name`, and `suffix`
+ * Web component uiSchema for `first`, `last name`, and `suffix`
  * [no middle name]
  * ```js
  * fullName: fullNameUI()
@@ -178,7 +178,7 @@ const firstNameLastNameUI = (formatTitle, uiOptions = {}) => {
 };
 
 /**
- * uiSchema for `first`, `middle`, `last name`, `suffix`, and `maiden name`
+ * Web component uiSchema for `first`, `middle`, `last name`, `suffix`, and `maiden name`
  * ```js
  * fullName: fullNameWithMaidenNameUI()
  * fullName: fullNameWithMaidenNameUI((title) => `Your ${title}`))
@@ -203,7 +203,6 @@ const fullNameWithMaidenNameUI = (formatTitle, uiOptions) => {
 };
 
 /**
- * schema for `fullNameUI`
  * @returns `commonDefinitions.fullName`
  */
 const fullNameSchema = commonDefinitions.fullName;
@@ -216,7 +215,6 @@ delete firstNameLastNameDef.properties.middle;
 const firstNameLastNameSchema = firstNameLastNameDef;
 
 /**
- * schema for `fullNameNoSuffixUI`
  * @returns `commonDefinitions.fullNameNoSuffix`
  */
 const fullNameNoSuffixSchema = {
@@ -248,7 +246,6 @@ delete firstNameLastNameNoSuffixDef.properties.middle;
 const firstNameLastNameNoSuffixSchema = firstNameLastNameNoSuffixDef;
 
 /**
- * schema for `fullNameWithMaidenNameUI`
  * @returns `commonDefinitions.fullName + maiden`
  */
 const fullNameWithMaidenNameSchema = {

@@ -7,7 +7,7 @@ import BalanceQuestions from '../components/BalanceQuestions';
 import DisputeCharges from '../components/DisputeCharges';
 import HowToPay from '../components/HowToPay';
 import FinancialHelp from '../components/FinancialHelp';
-import Modals from '../../combined/components/Modals';
+import Modals from '../components/Modals';
 import Alert from '../../combined/components/MCPAlerts';
 import {
   formatDate,

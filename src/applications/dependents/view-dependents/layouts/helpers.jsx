@@ -19,8 +19,8 @@ export const errorFragment = (
   </>
 );
 
-export const noDependentsAlert = (
-  <va-alert status="info">
+export const infoFragment = (
+  <>
     <h2 slot="headline" className="vads-u-margin-top--0 vads-u-font-size--h3">
       We don’t have dependents information on file for you
     </h2>
@@ -30,23 +30,13 @@ export const noDependentsAlert = (
       of 30%, you may be eligible for additional disability compensation for a
       spouse, child, and/or parent.
     </p>
-    <va-link
-      class="vads-u-font-size--base"
+    <a
+      className="vads-u-font-size--base"
       href="/disability/add-remove-dependent/"
-      text="Find out how to add a dependent to your disability claim"
-    />
-  </va-alert>
-);
-
-export const noDependentsAlertV2 = (
-  <va-alert status="info">
-    <h3 slot="headline" className="vads-u-margin-top--0">
-      We don’t have dependents information on file for you
-    </h3>
-    <p className="vads-u-font-size--base">
-      We can’t find any dependents added to your disability award.
-    </p>
-  </va-alert>
+    >
+      Find out how to add a dependent to your disability claim
+    </a>
+  </>
 );
 
 export const breadcrumbLinks = [

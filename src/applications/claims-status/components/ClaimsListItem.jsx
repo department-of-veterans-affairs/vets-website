@@ -6,8 +6,8 @@ import {
   getClaimPhaseTypeHeaderText,
   buildDateFormatter,
   getStatusDescription,
+  isDisabilityCompensationClaim,
   generateClaimTitle,
-  getShowEightPhases,
 } from '../utils/helpers';
 import ClaimCard from './ClaimCard';
 
@@ -61,10 +61,11 @@ export default function ClaimsListItem({ claim }) {
 
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
   const cstClaimPhasesEnabled = useToggleValue(TOGGLE_NAMES.cstClaimPhases);
-  const showEightPhases = getShowEightPhases(
-    claimTypeCode,
-    cstClaimPhasesEnabled,
-  );
+  // When feature flag cstClaimPhases is enabled and claim type code is for a disability
+  // compensation claim we show 8 phases instead of 5 with updated description, link text
+  // and statuses
+  const showEightPhases =
+    cstClaimPhasesEnabled && isDisabilityCompensationClaim(claimTypeCode);
 
   const inProgress = !isClaimComplete(claim);
   const showPrecomms = showPreDecisionCommunications(claim);

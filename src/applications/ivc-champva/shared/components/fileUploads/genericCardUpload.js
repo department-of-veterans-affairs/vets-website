@@ -39,12 +39,9 @@ export const createCardUploadSchema = ({
       key="sample-container"
       className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-display--flex vads-u-flex-direction--column vads-u-align-items--center"
     >
-      <h2
-        key="sample-title"
-        className="vads-u-margin-top--0 vads-u-font-size--h3"
-      >
+      <h3 key="sample-title" className="vads-u-margin-top--0">
         {cardTitle}
-      </h2>
+      </h3>
       <div
         key="sample-images"
         className="vads-u-display--flex vads-u-flex-direction--column"

@@ -8,7 +8,7 @@ import allRecipientsTriageTeams from '../fixtures/mock-api-responses/all-triage-
 import { RecipientStatus } from '../../util/constants';
 
 describe('allRecipients reducers', () => {
-  const mockStore = (initialState = { featureToggles: {} }) => {
+  const mockStore = (initialState = {}) => {
     return createStore(recipientsReducer, initialState, applyMiddleware(thunk));
   };
 

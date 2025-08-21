@@ -1,20 +1,20 @@
-import { formatInTimeZone } from 'date-fns-tz';
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import FullWidthLayout from '../../../components/FullWidthLayout';
+import moment from 'moment';
 import InfoAlert from '../../../components/InfoAlert';
+import ErrorMessage from '../../../components/ErrorMessage';
+import FullWidthLayout from '../../../components/FullWidthLayout';
 import CCLayout from '../../../components/layouts/CCLayout';
 import VideoLayout from '../../../components/layouts/VideoLayout';
 import {
   isAtlasVideoAppointment,
   isClinicVideoAppointment,
-  isInPersonVisit,
   isVAPhoneAppointment,
+  isInPersonVisit,
 } from '../../../services/appointment';
 import { FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import AppointmentDetailsErrorMessage from '../../components/AppointmentDetailsErrorMessage';
 import PageLayout from '../../components/PageLayout';
 import {
   closeCancelAppointment,
@@ -42,6 +42,7 @@ export default function UpcomingAppointmentsDetailsPage() {
   const isInPerson = isInPersonVisit(appointment);
   const isPast = selectIsPast(appointment);
   const isCanceled = selectIsCanceled(appointment);
+  const appointmentDate = moment.parseZone(appointment?.start);
   const isVideo = appointment?.vaos?.isVideo;
   const isCommunityCare = appointment?.vaos?.isCommunityCare;
   const isVA = !isVideo && !isCommunityCare;
@@ -86,16 +87,22 @@ export default function UpcomingAppointmentsDetailsPage() {
         pageTitle = `${prefix} Phone Appointment On`;
       }
 
-      if (appointment && appointment.start) {
-        document.title = `${pageTitle} ${formatInTimeZone(
-          appointment.start,
-          appointment.timezone,
-          'EEEE, MMMM d, yyyy',
+      if (appointment && appointmentDate) {
+        document.title = `${pageTitle} ${appointmentDate.format(
+          'dddd, MMMM D, YYYY',
         )} | Veterans Affairs`;
         scrollAndFocus();
       }
     },
-    [appointment, isCommunityCare, isCanceled, isInPerson, isPast, isVideo],
+    [
+      appointment,
+      appointmentDate,
+      isCommunityCare,
+      isCanceled,
+      isInPerson,
+      isPast,
+      isVideo,
+    ],
   );
 
   useEffect(
@@ -139,7 +146,7 @@ export default function UpcomingAppointmentsDetailsPage() {
   ) {
     return (
       <PageLayout showBreadcrumbs showNeedHelp>
-        <AppointmentDetailsErrorMessage />
+        <ErrorMessage level={1} />
       </PageLayout>
     );
   }
@@ -152,7 +159,7 @@ export default function UpcomingAppointmentsDetailsPage() {
   }
 
   return (
-    <PageLayout showNeedHelp>
+    <PageLayout isDetailPage showNeedHelp>
       {isVA && (
         <DetailsVA appointment={appointment} facilityData={facilityData} />
       )}

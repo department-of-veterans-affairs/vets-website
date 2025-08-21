@@ -22,7 +22,7 @@ export class ReviewAndConfirmPageObject extends PageObject {
    * Validates provider information is displayed correctly
    */
   assertProviderInfo() {
-    cy.findByText(/provider/).should('exist');
+    cy.findByText(/Provider/).should('exist');
     return this;
   }
 

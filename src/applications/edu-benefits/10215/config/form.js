@@ -43,10 +43,7 @@ export const arrayBuilderOptions = {
     getItemName: item => item.programName,
     cardDescription: item => {
       const percent = getFTECalcs(item).supportedFTEPercent;
-
-      return parseInt(item?.supportedStudents, 10) < 10
-        ? 'Fewer than 10 supported students'
-        : convertPercentageToText(percent);
+      return convertPercentageToText(percent);
     },
     summaryTitle: props =>
       `Review your ${

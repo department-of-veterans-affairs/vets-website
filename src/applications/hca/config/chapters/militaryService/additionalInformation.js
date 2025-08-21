@@ -1,6 +1,5 @@
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { FULL_SCHEMA } from '../../../utils/imports';
-import content from '../../../locales/en/content.json';
 
 const {
   disabledInLineOfDuty,
@@ -12,25 +11,25 @@ const {
 
 export default {
   uiSchema: {
-    ...titleUI(
-      content['service-info--history-title'],
-      content['service-info--history-description'],
-    ),
+    ...titleUI('Service history', 'Check all that apply to you.'),
     'view:serviceHistory': {
       purpleHeartRecipient: {
-        'ui:title': content['service-info--history-purple-heart-label'],
+        'ui:title': 'Purple Heart award recipient',
       },
       isFormerPow: {
-        'ui:title': content['service-info--history-pow-label'],
+        'ui:title': 'Former Prisoner of War',
       },
       postNov111998Combat: {
-        'ui:title': content['service-info--history-combat-theater-label'],
+        'ui:title':
+          'Served in combat theater of operations after November 11, 1998',
       },
       disabledInLineOfDuty: {
-        'ui:title': content['service-info--history-disability-label'],
+        'ui:title':
+          'Discharged or retired from the military for a disability incurred in the line of duty',
       },
       swAsiaCombat: {
-        'ui:title': content['service-info--history-sw-asia-label'],
+        'ui:title':
+          'Served in Southwest Asia during the Gulf War between August 2, 1990, and November 11, 1998',
       },
     },
   },

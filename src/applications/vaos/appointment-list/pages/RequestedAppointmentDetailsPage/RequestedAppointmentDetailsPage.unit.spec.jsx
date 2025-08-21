@@ -44,7 +44,6 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     // Arrange
     const response = new MockAppointmentResponse({
       status: APPOINTMENT_STATUS.proposed,
-      pending: true,
     });
     mockAppointmentsApi({
       end: addDays(new Date(), 2),
@@ -94,7 +93,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     expect(
       screen.getByRole('heading', {
         level: 1,
-        name: 'We can’t access your appointment details right now',
+        name: 'We’re sorry. We’ve run into a problem',
       }),
     ).to.be.ok;
   });
@@ -103,8 +102,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     // Arrange
     const response = new MockAppointmentResponse({
       status: APPOINTMENT_STATUS.proposed,
-      pending: true,
-    }).setType('REQUEST');
+    });
 
     mockAppointmentApi({ response });
 
@@ -122,14 +120,12 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     });
   });
 
-  it('should display CC document title', async () => {
+  it('should display CC document title, vaOnlineSchedulingFeSourceOfTruthCC=false', async () => {
     // Arrange
-    const response = new MockAppointmentResponse({
-      status: APPOINTMENT_STATUS.proposed,
-    })
-      .setKind('cc')
-      .setType('COMMUNITY_CARE_REQUEST')
-      .setPending(true);
+    const response = MockAppointmentResponse.createCCResponse();
+    response
+      .setStatus(APPOINTMENT_STATUS.proposed)
+      .setTypeOfCare('audiology-hearing aid support');
 
     mockAppointmentApi({ response });
 
@@ -147,12 +143,41 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     });
   });
 
+  it('should display CC document title, vaOnlineSchedulingFeSourceOfTruthCC=true', async () => {
+    // Arrange
+    const response = new MockAppointmentResponse({
+      status: APPOINTMENT_STATUS.proposed,
+    })
+      .setKind('cc')
+      .setStatus(APPOINTMENT_STATUS.proposed);
+
+    mockAppointmentApi({ response });
+
+    // Act
+    renderWithStoreAndRouter(<AppointmentList />, {
+      initialState: {
+        ...initialState,
+        featureToggles: {
+          ...initialState.featureToggles,
+          vaOnlineSchedulingFeSourceOfTruthCC: true,
+        },
+      },
+      path: `/pending/${response.id}`,
+    });
+
+    // Assert
+    await waitFor(() => {
+      expect(global.document.title).to.equal(
+        `Pending Request For Community Care Appointment | Veterans Affairs`,
+      );
+    });
+  });
+
   it('should display cancel document title', async () => {
     // Arrange
     const response = new MockAppointmentResponse({
       status: APPOINTMENT_STATUS.cancelled,
-      pending: true,
-    }).setType('REQUEST');
+    });
     response.setRequestedPeriods([new Date()]);
 
     mockAppointmentApi({ response });
@@ -177,11 +202,9 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     const requestedPeriods = [new Date()];
     const response = new MockAppointmentResponse({
       status: APPOINTMENT_STATUS.proposed,
-      pending: true,
-    }).setType('REQUEST');
+    });
     const canceledResponse = MockAppointmentResponse.createCCResponse();
     canceledResponse
-      .setType('REQUEST')
       .setCancelationReason('pat')
       .setRequestedPeriods(requestedPeriods)
       .setStatus(APPOINTMENT_STATUS.cancelled);
@@ -216,11 +239,9 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     const requestedPeriods = [new Date()];
     const response = new MockAppointmentResponse({
       status: APPOINTMENT_STATUS.proposed,
-      pending: true,
-    }).setType('REQUEST');
+    });
     const canceledResponse = MockAppointmentResponse.createCCResponse();
     canceledResponse
-      .setType('REQUEST')
       .setCancelationReason('pat')
       .setRequestedPeriods(requestedPeriods)
       .setStatus(APPOINTMENT_STATUS.cancelled);
@@ -259,6 +280,49 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     });
   });
 
+  describe('When FE source of truth toggle is on', () => {
+    const defaultState = {
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingFeSourceOfTruth: true,
+      },
+    };
+    it('should go back to requests page when clicking top link', async () => {
+      // Arrange
+      const response = new MockAppointmentResponse({
+        status: APPOINTMENT_STATUS.proposed,
+        pending: true,
+      });
+
+      mockAppointmentsApi({
+        end: addDays(new Date(), 2),
+        start: subDays(new Date(), 120),
+        statuses: ['proposed', 'cancelled'],
+        response: [response],
+      });
+
+      // Act
+      const screen = renderWithStoreAndRouter(<AppointmentList />, {
+        initialState: defaultState,
+        path: '/pending',
+      });
+
+      // Assert
+      const detailLinks = await screen.findByRole('link', { name: /Details/i });
+
+      fireEvent.click(detailLinks);
+      expect(await screen.findByText('Request for appointment')).to.be.ok;
+      const link = screen.container.querySelector(
+        'va-link[text="Back to pending appointments"]',
+      );
+      userEvent.click(link);
+      expect(screen.history.push.called).to.be.true;
+      await waitFor(() => {
+        expect(screen.history.push.lastCall.args[0]).to.equal('/pending');
+      });
+    });
+  });
+
   describe('When on cancel warning page', () => {
     it('should go back to pending appointments detail page when breadcrumb is clicked', async () => {
       // Arrange
@@ -266,11 +330,9 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
       const requestedPeriods = [new Date()];
       const response = new MockAppointmentResponse({
         status: APPOINTMENT_STATUS.proposed,
-        pending: true,
-      }).setType('REQUEST');
+      });
       const canceledResponse = MockAppointmentResponse.createCCResponse();
       canceledResponse
-        .setType('REQUEST')
         .setCancelationReason('pat')
         .setRequestedPeriods(requestedPeriods)
         .setStatus(APPOINTMENT_STATUS.cancelled);
@@ -332,15 +394,12 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
       const requestedPeriods = [new Date()];
       const response = new MockAppointmentResponse({
         status: APPOINTMENT_STATUS.proposed,
-        pending: true,
-      }).setType('COMMUNITY_CARE_REQUEST');
+      });
       const canceledResponse = MockAppointmentResponse.createCCResponse();
       canceledResponse
         .setCancelationReason('pat')
         .setRequestedPeriods(requestedPeriods)
-        .setStatus(APPOINTMENT_STATUS.cancelled)
-        .setPending(true)
-        .setType('COMMUNITY_CARE_REQUEST');
+        .setStatus(APPOINTMENT_STATUS.cancelled);
 
       mockAppointmentApi({ response });
 
@@ -401,8 +460,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
       const store = createTestStore(initialState);
       const response = new MockAppointmentResponse({
         status: APPOINTMENT_STATUS.proposed,
-        pending: true,
-      }).setType('REQUEST');
+      });
 
       mockAppointmentApi({ response });
 

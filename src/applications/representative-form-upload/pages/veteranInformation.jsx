@@ -5,25 +5,26 @@ import {
   addressUI,
   firstNameLastNameNoSuffixSchema,
   firstNameLastNameNoSuffixUI,
-  vaFileNumberUI,
-  vaFileNumberSchema,
+  emailSchema,
+  emailToSendNotificationsUI,
   ssnSchema,
   ssnUI,
   dateOfBirthUI,
   dateOfBirthSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { MUST_MATCH_ALERT } from '../config/constants';
+import { onCloseAlert } from '../helpers';
 import {
+  CustomAlertPage,
   emptyObjectSchema,
   claimantTitleAndDescription,
-  CustomAlertPage,
+  representativeTitleAndDescription,
 } from './helpers';
-import ClaimantInfoViewField from '../components/ClaimantInfoViewField';
 
 /** @type {PageSchema} */
 export const veteranInformationPage = {
   uiSchema: {
     ...claimantTitleAndDescription,
-    'ui:objectViewField': ClaimantInfoViewField,
     veteranFullName: firstNameLastNameNoSuffixUI(),
     address: addressUI({
       labels: {
@@ -42,10 +43,11 @@ export const veteranInformationPage = {
     }),
     veteranSsn: ssnUI(),
     veteranDateOfBirth: dateOfBirthUI(),
-    vaFileNumber: {
-      ...vaFileNumberUI,
-      'ui:title': 'VA file number',
-    },
+    ...representativeTitleAndDescription,
+    email: emailToSendNotificationsUI({
+      hint:
+        "Changes to information here won't apply to your VA Office of General Counsel (OGC) profile.",
+    }),
   },
   schema: {
     type: 'object',
@@ -53,8 +55,6 @@ export const veteranInformationPage = {
       'view:claimantTitle': emptyObjectSchema,
       'view:claimantDescription': emptyObjectSchema,
       veteranFullName: firstNameLastNameNoSuffixSchema,
-      veteranSsn: ssnSchema,
-      veteranDateOfBirth: dateOfBirthSchema,
       address: addressSchema({
         omit: [
           'country',
@@ -66,22 +66,33 @@ export const veteranInformationPage = {
           'street3',
         ],
       }),
-      vaFileNumber: vaFileNumberSchema,
+      veteranSsn: ssnSchema,
+      veteranDateOfBirth: dateOfBirthSchema,
+      'view:representativeTitle': emptyObjectSchema,
+      'view:representativeDescription': emptyObjectSchema,
+      email: emailSchema,
     },
     required: [
       'veteranSsn',
       'veteranDateOfBirth',
+      'email',
       'address',
       'veteranFullName',
     ],
   },
 };
+
 /** @type {CustomPageType} */
 export function VeteranInformationPage(props) {
-  return <CustomAlertPage {...props} />;
+  const alert = MUST_MATCH_ALERT(
+    'veteran-information',
+    onCloseAlert,
+    props.data,
+  );
+  return <CustomAlertPage {...props} alert={alert} />;
 }
 
-VeteranInformationPage.propTypes = {
+veteranInformationPage.propTypes = {
   name: PropTypes.string.isRequired,
   schema: PropTypes.object.isRequired,
   uiSchema: PropTypes.object.isRequired,

@@ -10,13 +10,14 @@ import {
 } from 'platform/testing/unit/msw-adapter';
 
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import MyVAHealth from '../components/MyVAHealth';
 
-const oldLocation = window.location;
+const oldLocation = global.window.location;
 
 describe('MyVAHealth', () => {
-  const ssoeTarget = `https://staging-patientportal.myhealth.va.gov/`;
-  const altSsoeTarget = `https://sandbox-patientportal.myhealth.va.gov/`;
+  const ssoeTarget = `https://staging-patientportal.myhealth.va.gov`;
+  const altSsoeTarget = `https://sandbox-patientportal.myhealth.va.gov`;
   const server = setupServer();
 
   before(() => server.listen());
@@ -24,7 +25,7 @@ describe('MyVAHealth', () => {
   afterEach(() => {
     server.resetHandlers();
     cleanup();
-    window.location = oldLocation;
+    global.window.location = oldLocation;
   });
 
   after(() => server.close());
@@ -32,21 +33,13 @@ describe('MyVAHealth', () => {
   it('should render', () => {
     const { container } = render(<MyVAHealth />);
 
-    const loadingIndicator = container.querySelector(
-      'va-loading-indicator',
-      container,
-    );
+    const loadingIndicator = $('va-loading-indicator', container);
     expect(loadingIndicator).to.not.be.null;
   });
 
   [ssoeTarget, altSsoeTarget].forEach(targetUrl => {
     it(`should redirect formatted redirect url (${targetUrl}) when api returns 200`, async () => {
-      const startingLocation = `https://dev.va.gov/terms-of-use/myvahealth/?ssoeTarget=${targetUrl}`;
-      if (Window.prototype.href) {
-        window.location.href = startingLocation;
-      } else {
-        window.location = startingLocation;
-      }
+      global.window.location = `https://dev.va.gov/terms-of-use/myvahealth/?ssoeTarget=${targetUrl}`;
 
       server.use(
         createPutHandler(
@@ -58,19 +51,14 @@ describe('MyVAHealth', () => {
       render(<MyVAHealth />);
 
       await waitFor(() => {
-        const location = window.location.href || window.location;
-        expect(location).to.eql(targetUrl);
+        expect(global.window.location).to.eql(targetUrl);
       });
     });
   });
 
   it('should redirect to error page 111 when 200 & `provisioned:false`', async () => {
     const startingLocation = `https://dev.va.gov/terms-of-use/myvahealth/?ssoeTarget=${ssoeTarget}`;
-    if (Window.prototype.href) {
-      window.location.href = startingLocation;
-    } else {
-      window.location = startingLocation;
-    }
+    global.window.location = startingLocation;
 
     server.use(
       createPutHandler(
@@ -82,18 +70,13 @@ describe('MyVAHealth', () => {
     render(<MyVAHealth />);
 
     await waitFor(() => {
-      const location = window.location.href || window.location;
-      expect(location).to.not.eql(startingLocation);
+      expect(global.window.location).to.not.eql(startingLocation);
     });
   });
 
   it('should redirect to error page 110 when apiRequest in handleTouClick fails', async () => {
     const startingLocation = `https://dev.va.gov/terms-of-use/myvahealth/?ssoeTarget=${ssoeTarget}`;
-    if (Window.prototype.href) {
-      window.location.href = startingLocation;
-    } else {
-      window.location = startingLocation;
-    }
+    global.window.location = startingLocation;
 
     server.use(
       createPutHandler(
@@ -119,20 +102,15 @@ describe('MyVAHealth', () => {
     fireEvent.click(acceptButton);
 
     await waitFor(() => {
-      const location = window.location.href || window.location;
-      expect(location).to.include('code=110');
-      expect(location).to.not.eql(startingLocation);
+      expect(global.window.location.includes('code=110')).to.be.true;
+      expect(global.window.location).to.not.eql(startingLocation);
     });
   });
 
   context('`update_provisioning` returns an error', () => {
     it('display terms when `Agreement not accepted`', async () => {
       const startingLocation = `https://dev.va.gov/terms-of-use/myvahealth/?ssoeTarget=${ssoeTarget}`;
-      if (Window.prototype.href) {
-        window.location.href = startingLocation;
-      } else {
-        window.location = startingLocation;
-      }
+      global.window.location = startingLocation;
 
       server.use(
         createPutHandler(
@@ -157,11 +135,7 @@ describe('MyVAHealth', () => {
 
     it('redirect to error page 111 when `Account not Provisioned`', async () => {
       const startingLocation = `https://dev.va.gov/terms-of-use/myvahealth/?ssoeTarget=${ssoeTarget}`;
-      if (Window.prototype.href) {
-        window.location.href = startingLocation;
-      } else {
-        window.location = startingLocation;
-      }
+      global.window.location = startingLocation;
 
       server.use(
         createPutHandler(
@@ -174,19 +148,14 @@ describe('MyVAHealth', () => {
       render(<MyVAHealth />);
 
       await waitFor(() => {
-        const location = window.location.href || window.location;
-        expect(location).to.include(`code=111`);
-        expect(location).to.not.eql(startingLocation);
+        expect(global.window.location.includes(`code=111`)).to.be.true;
+        expect(global.window.location).to.not.eql(startingLocation);
       });
     });
 
     it('redirect to error page 110 if any other error', async () => {
       const startingLocation = `https://dev.va.gov/terms-of-use/myvahealth/?ssoeTarget=${ssoeTarget}`;
-      if (Window.prototype.href) {
-        window.location.href = startingLocation;
-      } else {
-        window.location = startingLocation;
-      }
+      global.window.location = startingLocation;
 
       server.use(
         createPutHandler(
@@ -198,9 +167,8 @@ describe('MyVAHealth', () => {
       render(<MyVAHealth />);
 
       await waitFor(() => {
-        const location = window.location.href || window.location;
-        expect(location).to.include(`code=110`);
-        expect(location).to.not.eql(startingLocation);
+        expect(global.window.location.includes(`code=110`)).to.be.true;
+        expect(global.window.location).to.not.eql(startingLocation);
       });
     });
   });
@@ -208,11 +176,7 @@ describe('MyVAHealth', () => {
   context(`user actions`, () => {
     it('display terms + click `accept`', async () => {
       const startingLocation = `https://dev.va.gov/terms-of-use/myvahealth/?ssoeTarget=${ssoeTarget}`;
-      if (Window.prototype.href) {
-        window.location.href = startingLocation;
-      } else {
-        window.location = startingLocation;
-      }
+      global.window.location = startingLocation;
 
       server.use(
         createPutHandler(
@@ -238,18 +202,13 @@ describe('MyVAHealth', () => {
       fireEvent.click(acceptButton);
 
       await waitFor(() => {
-        const location = window.location.href || window.location;
-        expect(location).to.not.eql(startingLocation);
+        expect(global.window.location).to.not.eql(startingLocation);
       });
     });
 
     it('display terms + click `deny`', async () => {
       const startingLocation = `https://dev.va.gov/terms-of-use/myvahealth/?ssoeTarget=${ssoeTarget}`;
-      if (Window.prototype.href) {
-        window.location.href = startingLocation;
-      } else {
-        window.location = startingLocation;
-      }
+      global.window.location = startingLocation;
 
       server.use(
         createPutHandler(
@@ -268,22 +227,17 @@ describe('MyVAHealth', () => {
         },
       });
 
-      const modal = container.querySelector('va-modal', container);
+      const modal = $('va-modal', container);
       modal.__events.primaryButtonClick();
 
       await waitFor(() => {
-        const location = window.location.href || window.location;
-        expect(location).to.not.eql(startingLocation);
+        expect(global.window.location).to.not.eql(startingLocation);
       });
     });
 
     it('display terms + network error', async () => {
       const startingLocation = `https://dev.va.gov/terms-of-use/myvahealth/?ssoeTarget=${ssoeTarget}`;
-      if (Window.prototype.href) {
-        window.location.href = startingLocation;
-      } else {
-        window.location = startingLocation;
-      }
+      global.window.location = startingLocation;
 
       server.use(
         createPutHandler(
@@ -303,19 +257,14 @@ describe('MyVAHealth', () => {
       });
 
       await waitFor(() => {
-        const location = window.location.href || window.location;
-        expect(location).to.include('code=110');
-        expect(location).to.not.eql(startingLocation);
+        expect(global.window.location.includes('code=110')).to.be.true;
+        expect(global.window.location).to.not.eql(startingLocation);
       });
     });
 
     it('display terms + close deny', async () => {
       const startingLocation = `https://dev.va.gov/terms-of-use/myvahealth/?ssoeTarget=${ssoeTarget}`;
-      if (Window.prototype.href) {
-        window.location.href = startingLocation;
-      } else {
-        window.location = startingLocation;
-      }
+      global.window.location = startingLocation;
 
       server.use(
         createPutHandler(

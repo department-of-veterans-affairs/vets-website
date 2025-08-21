@@ -101,6 +101,7 @@ describe('Landing Page', () => {
       /* eslint-disable camelcase */
       featureToggles: {
         loading: false,
+        mhv_medical_records_display_conditions: true,
         mhv_medical_records_display_labs_and_tests: true,
         mhv_medical_records_display_notes: true,
         mhv_medical_records_display_vaccines: true,

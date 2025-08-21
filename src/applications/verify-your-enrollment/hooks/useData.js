@@ -1,29 +1,22 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectProfile } from '~/platform/user/selectors';
-import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import {
   getCurrentDateFormatted,
   remainingBenefits,
   translateDateIntoMonthDayYearFormat,
 } from '../helpers';
-import { doDGIBCall, fetchPersonalInfo } from '../actions';
+import { fetchPersonalInfo } from '../actions';
 
 export const useData = () => {
   // This custom hook is for fetching and preparing user data from the Redux state.
   const dispatch = useDispatch();
   const response = useSelector(state => state.personalInfo);
   const profile = useSelector(selectProfile);
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const toggleValue = useToggleValue(TOGGLE_NAMES.isDgibCallOnly);
   useEffect(() => {
     const fetchData = async () => {
       if (!response?.personalInfo && !response?.isLoading && !response?.error) {
-        if (toggleValue) {
-          await dispatch(doDGIBCall(true));
-        } else {
-          await dispatch(fetchPersonalInfo());
-        }
+        await dispatch(fetchPersonalInfo());
       }
     };
     fetchData();

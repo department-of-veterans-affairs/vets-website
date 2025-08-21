@@ -1,14 +1,15 @@
 export const rxListSortingOptions = {
   alphabeticallyByStatus: {
-    API_ENDPOINT: '&sort=alphabetical-status',
+    API_ENDPOINT:
+      '&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
     LABEL: 'Alphabetically by status',
   },
   lastFilledFirst: {
-    API_ENDPOINT: '&sort=last-fill-date',
+    API_ENDPOINT: '&sort[]=-dispensed_date&sort[]=prescription_name',
     LABEL: 'Last filled first',
   },
   alphabeticalOrder: {
-    API_ENDPOINT: '&sort=alphabetical-rx-name',
+    API_ENDPOINT: '&sort[]=prescription_name&sort[]=dispensed_date',
     LABEL: 'Alphabetically by name',
   },
 };
@@ -18,10 +19,16 @@ export const medicationsUrls = {
   MHV_HOME: '/../../my-health',
   MEDICATIONS_URL: '/my-health/medications',
   MEDICATIONS_LOGIN: '/my-health/medications?next=loginModal&oauth=true',
+  // TODO: remove once mhvMedicationsRemoveLandingPage is turned on in prod
+  MEDICATIONS_ABOUT: '/my-health/medications/about',
+  MEDICATIONS_ABOUT_ACCORDION_RENEW:
+    '/my-health/medications/about#accordion-renew-rx',
   MEDICATIONS_REFILL: '/my-health/medications/refill',
   PRESCRIPTION_DETAILS: '/my-health/medications/prescription',
   subdirectories: {
     BASE: '/',
+    // TODO: remove once mhvMedicationsRemoveLandingPage is turned on in prod
+    ABOUT: '/about',
     REFILL: '/refill',
     DETAILS: '/prescription',
     DOCUMENTATION: '/documentation',
@@ -185,8 +192,6 @@ export const nonVAMedicationTypes = `* Prescriptions you filled through a non-VA
 * Sample medications a provider gave you
 * Other drugs you’re taking that you don’t have a prescription for, including recreational drugs`;
 
-export const ACTIVE_NON_VA = 'Active: Non-VA';
-
 export const dispStatusObj = {
   unknown: 'Unknown',
   active: 'Active',
@@ -195,7 +200,7 @@ export const dispStatusObj = {
   expired: 'Expired',
   discontinued: 'Discontinued',
   transferred: 'Transferred',
-  nonVA: ACTIVE_NON_VA,
+  nonVA: 'Active: Non-VA',
   onHold: 'Active: On Hold',
   activeParked: 'Active: Parked',
 };
@@ -237,11 +242,6 @@ export const allergyTypes = {
 
 export const FIELD_NONE_NOTED = 'None noted';
 export const FIELD_NOT_AVAILABLE = 'Not available';
-export const NO_PROVIDER_NAME = 'Provider name not available';
-
-export const downtimeNotificationParams = {
-  appTitle: 'this medications tool',
-};
 
 export const trackingConfig = {
   dhl: {
@@ -273,5 +273,3 @@ export const tooltipHintContent = {
     HINT: 'Filter your list to find a specific medication.',
   },
 };
-
-export const recordNotFoundMessage = 'Record not found';

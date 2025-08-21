@@ -12,11 +12,7 @@ import {
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import {
-  nameWording,
-  privWrapper,
-  PrivWrappedReview,
-} from '../../shared/utilities';
+import { nameWording } from '../../shared/utilities';
 import { nameWordingExt } from '../helpers/utilities';
 import { fileUploadBlurb } from '../../shared/components/fileUploads/attachments';
 import {
@@ -51,12 +47,11 @@ export function applicantHasInsuranceSchema(isPrimary) {
   const keyname = isPrimary ? 'applicantHasPrimary' : 'applicantHasSecondary';
   return {
     uiSchema: {
-      ...titleUI(({ formData }) =>
-        privWrapper(
+      ...titleUI(
+        ({ formData }) =>
           `${nameWording(formData, undefined, undefined, true)} ${
             isPrimary ? '' : 'additional'
           } health insurance`,
-        ),
       ),
       [keyname]: {
         ...yesNoUI({
@@ -73,13 +68,6 @@ export function applicantHasInsuranceSchema(isPrimary) {
             };
           },
         }),
-      },
-      'ui:options': {
-        itemAriaLabel: () => 'health insurance',
-        classNames: ['dd-privacy-hidden'],
-      },
-      'ui:objectViewField': props => {
-        return PrivWrappedReview(props);
       },
     },
     schema: {
@@ -104,15 +92,14 @@ export function applicantProviderSchema(isPrimary) {
     : 'applicantSecondaryExpirationDate';
   return {
     uiSchema: {
-      ...titleUI(({ formData }) =>
-        privWrapper(
+      ...titleUI(
+        ({ formData }) =>
           `${nameWording(
             formData,
             undefined,
             undefined,
             true,
           )} health insurance information`,
-        ),
       ),
       [keyname1]: textUI('Name of insurance provider'),
       [keyname2]: currentOrPastDateUI({
@@ -128,9 +115,6 @@ export function applicantProviderSchema(isPrimary) {
         (errors, formData) =>
           validFieldCharsOnly(errors, null, formData, keyname1),
       ],
-      'ui:options': {
-        itemAriaLabel: () => 'health insurance information',
-      },
     },
     schema: {
       type: 'object',
@@ -154,15 +138,14 @@ export function applicantInsuranceThroughEmployerSchema(isPrimary) {
     : 'applicantSecondaryProvider';
   return {
     uiSchema: {
-      ...titleUI(({ formData }) =>
-        privWrapper(
+      ...titleUI(
+        ({ formData }) =>
           `${nameWording(
             formData,
             undefined,
             undefined,
             true,
           )} type of insurance for ${formData[provider]}`,
-        ),
       ),
       [keyname]: {
         ...yesNoUI({
@@ -177,13 +160,6 @@ export function applicantInsuranceThroughEmployerSchema(isPrimary) {
             };
           },
         }),
-      },
-      'ui:options': {
-        itemAriaLabel: () => 'insurance type',
-        classNames: ['dd-privacy-hidden'],
-      },
-      'ui:objectViewField': props => {
-        return PrivWrappedReview(props);
       },
     },
     schema: {
@@ -206,12 +182,11 @@ export function applicantInsurancePrescriptionSchema(isPrimary) {
     : 'applicantSecondaryProvider';
   return {
     uiSchema: {
-      ...titleUI(({ formData }) =>
-        privWrapper(
+      ...titleUI(
+        ({ formData }) =>
           `${nameWording(formData, undefined, undefined, true)} ${
             formData[provider]
           } prescription coverage`,
-        ),
       ),
       [keyname]: {
         ...yesNoUI({
@@ -230,13 +205,6 @@ export function applicantInsurancePrescriptionSchema(isPrimary) {
             };
           },
         }),
-      },
-      'ui:options': {
-        itemAriaLabel: () => 'prescription coverage',
-        classNames: ['dd-privacy-hidden'],
-      },
-      'ui:objectViewField': props => {
-        return PrivWrappedReview(props);
       },
     },
     schema: {
@@ -257,12 +225,11 @@ export function applicantInsuranceEobSchema(isPrimary) {
     : 'applicantSecondaryProvider';
   return {
     uiSchema: {
-      ...titleUI(({ formData }) =>
-        privWrapper(
+      ...titleUI(
+        ({ formData }) =>
           `${nameWording(formData, undefined, undefined, true)} ${
             formData[provider]
           } explanation of benefits`,
-        ),
       ),
       [keyname]: {
         ...yesNoUI({
@@ -277,17 +244,10 @@ export function applicantInsuranceEobSchema(isPrimary) {
               'ui:options': {
                 hint:
                   "If you're not sure, you can call the phone number listed on the back of your health insurance card.",
-                classNames: ['dd-privacy-hidden'],
               },
             };
           },
         }),
-      },
-      'ui:options': {
-        itemAriaLabel: () => 'explanation of benefits',
-      },
-      'ui:objectViewField': props => {
-        return PrivWrappedReview(props);
       },
     },
     schema: {
@@ -309,21 +269,19 @@ export function applicantInsuranceSOBSchema(isPrimary) {
     uiSchema: {
       ...titleUI(
         ({ formData }) =>
-          privWrapper(
-            `Upload ${
-              isPrimary
-                ? formData?.applicantPrimaryProvider
-                : formData?.applicantSecondaryProvider
-            } schedule of benefits`,
-          ),
+          `Upload ${
+            isPrimary
+              ? formData?.applicantPrimaryProvider
+              : formData?.applicantSecondaryProvider
+          } schedule of benefits`,
         () => {
           return (
             <>
-              You'll need to submit a copy of the card or document that shows
+              You’ll need to submit a copy of the card or document that shows
               the schedule of benefits that lists your co-payments.
               <br />
               <br />
-              If you don't have a copy to upload now, you can send it by mail or
+              If you don’t have a copy to upload now, you can send it by mail or
               fax.
             </>
           );
@@ -334,9 +292,6 @@ export function applicantInsuranceSOBSchema(isPrimary) {
         label: 'Upload schedule of benefits document',
         attachmentId: 'Schedule of benefits document',
       }),
-      'ui:options': {
-        itemAriaLabel: () => 'schedule of benefits',
-      },
     },
     schema: {
       type: 'object',
@@ -355,12 +310,11 @@ export function applicantInsuranceTypeSchema(isPrimary) {
     : 'applicantSecondaryInsuranceType';
   return {
     uiSchema: {
-      ...titleUI(({ formData }) =>
-        privWrapper(
+      ...titleUI(
+        ({ formData }) =>
           `${nameWording(formData, undefined, undefined, true)} ${
             isPrimary ? '' : 'additional'
           } insurance plan`,
-        ),
       ),
       [keyname]: {
         ...radioUI({
@@ -389,13 +343,6 @@ export function applicantInsuranceTypeSchema(isPrimary) {
           },
         }),
       },
-      'ui:options': {
-        itemAriaLabel: () => 'insurance plan',
-        classNames: ['dd-privacy-hidden'],
-      },
-      'ui:objectViewField': props => {
-        return PrivWrappedReview(props);
-      },
     },
     schema: {
       type: 'object',
@@ -419,12 +366,11 @@ export function applicantMedigapSchema(isPrimary) {
   const keyname = isPrimary ? 'primaryMedigapPlan' : 'secondaryMedigapPlan';
   return {
     uiSchema: {
-      ...titleUI(({ formData }) =>
-        privWrapper(
+      ...titleUI(
+        ({ formData }) =>
           `${nameWording(formData, undefined, undefined, true)} ${
             isPrimary ? '' : 'additional'
           } Medigap information`,
-        ),
       ),
       [keyname]: {
         ...radioUI({
@@ -437,18 +383,9 @@ export function applicantMedigapSchema(isPrimary) {
               'ui:title': `Select the Medigap plan ${
                 wording.beingVerb
               } enrolled in`,
-              'ui:options': {
-                classNames: ['dd-privacy-hidden'],
-              },
             };
           },
         }),
-      },
-      'ui:options': {
-        itemAriaLabel: () => 'Medigap information',
-      },
-      'ui:objectViewField': props => {
-        return PrivWrappedReview(props);
       },
     },
     schema: {
@@ -468,14 +405,13 @@ export function applicantInsuranceCommentsSchema(isPrimary) {
     : 'secondaryAdditionalComments';
   return {
     uiSchema: {
-      ...titleUI(({ formData }) =>
-        privWrapper(
+      ...titleUI(
+        ({ formData }) =>
           `${nameWording(formData, undefined, undefined, true)} ${
             isPrimary
               ? formData?.applicantPrimaryProvider
               : formData?.applicantSecondaryProvider
           } health insurance additional comments`,
-        ),
       ),
       [keyname]: textareaUI({
         updateUiSchema: formData => {
@@ -490,13 +426,6 @@ export function applicantInsuranceCommentsSchema(isPrimary) {
         },
         charcount: true,
       }),
-      'ui:options': {
-        itemAriaLabel: () => 'health insurance additional comments',
-        classNames: ['dd-privacy-hidden'],
-      },
-      'ui:objectViewField': props => {
-        return PrivWrappedReview(props);
-      },
       'ui:validations': [
         (errors, formData) =>
           validFieldCharsOnly(errors, null, formData, keyname),
@@ -518,21 +447,19 @@ export function applicantInsuranceCardSchema(isPrimary) {
     uiSchema: {
       ...titleUI(
         ({ formData }) =>
-          privWrapper(
-            `Upload ${
-              isPrimary
-                ? formData?.applicantPrimaryProvider
-                : formData?.applicantSecondaryProvider
-            } health insurance card`,
-          ),
+          `Upload ${
+            isPrimary
+              ? formData?.applicantPrimaryProvider
+              : formData?.applicantSecondaryProvider
+          } health insurance card`,
         () => {
           return (
             <>
-              You'll need to submit a copy of the front and back of this health
+              You’ll need to submit a copy of the front and back of this health
               insurance card.
               <br />
               <br />
-              If you don't have a copy to upload now, you can send it by mail or
+              If you don’t have a copy to upload now, you can send it by mail or
               fax.
             </>
           );
@@ -547,9 +474,6 @@ export function applicantInsuranceCardSchema(isPrimary) {
         label: 'Upload back of insurance card',
         attachmentId: 'Back of insurance card', // used behind the scenes
       }),
-      'ui:options': {
-        itemAriaLabel: () => 'health insurance card uploads',
-      },
     },
     schema: {
       type: 'object',

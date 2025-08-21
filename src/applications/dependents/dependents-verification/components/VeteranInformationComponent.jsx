@@ -4,68 +4,79 @@ import PropTypes from 'prop-types';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
-import { selectProfile } from 'platform/user/selectors';
+import { selectProfile } from '~/platform/user/selectors';
+
+import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
 import { formatDateParsedZoneLong } from 'platform/utilities/date/index';
 
-import { maskID, getFullName } from '../../shared/utils';
+// separate each number so the screen reader reads "number ending with 1 2 3 4"
+// instead of "number ending with 1,234"
+const mask = value => {
+  const number = (value || '').toString().slice(-4);
+  return srSubstitute(`${number}`, `ending with ${number.split('').join(' ')}`);
+};
 
 export const VeteranInformation = ({ formData }) => {
   const { ssnLastFour } = formData?.veteranInformation || {};
   const { dob, userFullName = {} } = useSelector(selectProfile);
+  const { first, middle, last, suffix } = userFullName;
 
-  const dobDate = dob ? formatDateParsedZoneLong(dob) : null;
+  const dobDateObj = dob ? formatDateParsedZoneLong(dob) : null;
 
   return (
     <>
+      <va-alert close-btn-aria-label="Close notification" status="info" visible>
+        <h3>We’ve prefilled some information for you</h3>
+        <p>
+          Since you’re signed in, we’ve prefilled part of your application based
+          on your profile details. You can also save your application in
+          progress and come back later to finish filling it out.
+        </p>
+      </va-alert>
       <h3>Your personal information</h3>
       <p>
         This is part of the information we’ll submit on your behalf for your
-        verification of dependents (VA Form 21-0538).
+        verification of dependents (VA Form 21-0538)
       </p>
       <va-card>
         <h4 className="vads-u-font-size--h3 vads-u-margin-top--1">
           Personal information
         </h4>
-        <dl>
-          <div className="item vads-u-display--flex vads-u-justify-content--start">
-            <dt className="vads-u-margin-bottom--1">
-              <strong>Name:&nbsp;</strong>
-            </dt>
-            <dd
-              className="name dd-privacy-hidden"
-              data-dd-action-name="Veteran’s name"
+        <p
+          className="name dd-privacy-hidden"
+          data-dd-action-name="Veteran's name"
+        >
+          <strong>Name:</strong>{' '}
+          {[first, middle, last].filter(Boolean).join(' ')}
+          {suffix ? `, ${suffix}` : null}
+        </p>
+        {ssnLastFour ? (
+          <p className="ssn">
+            <strong>Last 4 digits of Social Security number:</strong>{' '}
+            <span
+              className="dd-privacy-mask"
+              data-dd-action-name="Veteran's SSN"
             >
-              {getFullName(userFullName)}
-            </dd>
-          </div>
-          {ssnLastFour ? (
-            <div className="item vads-u-display--flex vads-u-justify-content--start">
-              <dt className="ssn vads-u-margin-bottom--1">
-                <strong>Last 4 digits of Social Security number:&nbsp;</strong>
-              </dt>
-              <dd
-                className="dd-privacy-mask"
-                data-dd-action-name="Veteran’s SSN"
-              >
-                {maskID(ssnLastFour, '')}
-              </dd>
-            </div>
-          ) : null}
-          <div className="item vads-u-display--flex vads-u-justify-content--start">
-            <dt>
-              <strong>Date of birth:&nbsp;</strong>
-            </dt>
-            <dd
+              {mask(ssnLastFour)}
+            </span>
+          </p>
+        ) : null}
+        <p>
+          <strong>Date of birth:</strong>{' '}
+          {dobDateObj ? (
+            <span
               className="dob dd-privacy-mask"
-              data-dd-action-name="Veteran’s date of birth"
+              data-dd-action-name="Veteran's date of birth"
             >
-              {dobDate}
-            </dd>
-          </div>
-        </dl>
+              {dobDateObj}
+            </span>
+          ) : null}
+        </p>
       </va-card>
 
-      <p className="vads-u-margin-top--2">
+      <br role="presentation" />
+
+      <p>
         <strong>Note:</strong> To protect your personal information, we don’t
         allow online changes to your name, date of birth, or Social Security
         number. If you need to change this information, call us at{' '}
@@ -82,7 +93,6 @@ export const VeteranInformation = ({ formData }) => {
         external
         text="Find more detailed instructions for how to change your legal name"
       />
-      <div className="vads-u-padding-bottom--2" />
     </>
   );
 };
@@ -91,6 +101,7 @@ VeteranInformation.propTypes = {
   formData: PropTypes.shape({
     veteranInformation: PropTypes.shape({
       ssnLastFour: PropTypes.string,
+      vaFileLastFour: PropTypes.string,
     }),
   }),
 };

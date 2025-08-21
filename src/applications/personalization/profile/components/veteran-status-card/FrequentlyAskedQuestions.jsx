@@ -19,33 +19,37 @@ const FrequentlyAskedQuestions = ({ createPdf, pdfError = false }) => (
         ).
       </va-accordion-item>
       <va-accordion-item header="How can I use the Veteran Status Card?">
-        This card is for identification only and doesn’t entitle you to any VA
-        benefits.
-        <p />
-        You can use this card to prove your Veteran status to businesses and
-        organizations offering discounts. Acceptance may vary, so check with
-        specific entities in advance. Additional documentation may be required.
+        You can use the Veteran Status Card to prove your Veteran status to
+        businesses and organizations offering discounts. Acceptance may vary, so
+        check with specific entities in advance.
       </va-accordion-item>
-      {createPdf && (
-        <va-accordion-item header="How do I get a physical version of my Veteran Status Card?">
-          You can print a copy of your Veteran Status Card and cut it out to
-          keep in your wallet.
-          <p />
-          <va-link
-            filetype="PDF"
-            // exception to eslint: the url is a dynamically generated blob url
-            // eslint-disable-next-line no-script-url
-            href="javascript:void(0)"
-            text="Print your Veteran Status Card (PDF)"
-            onClick={createPdf}
-          />
-          {pdfError && (
-            <div className="vads-u-margin-top--4">
-              <PDFErrorAlert />
-            </div>
-          )}
-        </va-accordion-item>
-      )}
+      <va-accordion-item header="How do I get a physical version of my Veteran Status Card?">
+        You can print a copy of your Veteran Status Card and cut it out to keep
+        in your wallet.
+        {createPdf && (
+          <>
+            <p />
+            <va-link
+              filetype="PDF"
+              // exception to eslint: the url is a dynamically generated blob url
+              // eslint-disable-next-line no-script-url
+              href="javascript:void(0)"
+              text="Print your Veteran Status Card (PDF)"
+              onClick={createPdf}
+            />
+          </>
+        )}
+        {pdfError && (
+          <div className="vads-u-margin-top--4">
+            <PDFErrorAlert />
+          </div>
+        )}
+        <p />
+        Note: The Veteran Status Card is for identification only and does not
+        guarantee benefits. Additional documentation may be required. You may be
+        unable to print your Veteran Status Card if you are ineligible, if there
+        are issues with your records, or if a system error occurs.
+      </va-accordion-item>
       <va-accordion-item header="What other types of Veteran ID are available?">
         Other options include the Veteran Health Identification Card (VHIC),
         Department of Defense (DoD) ID Card, and Veteran designation on

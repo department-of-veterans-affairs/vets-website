@@ -356,6 +356,7 @@ const EvidencePrivateRecords = ({
           // ignore submitted & dirty state when showing unique error
           error={showError('name') || errors.unique || null}
           autocomplete="section-provider name"
+          uswds
         />
 
         <EvidenceFacilityAddress

@@ -9,7 +9,7 @@ const ARRAY_ITEM_SELECTOR =
   'div[name^="topOfTable_"] ~ div.va-growable-background';
 const FIELD_SELECTOR = 'input, select, textarea';
 const WEB_COMPONENT_SELECTORS =
-  'va-text-input, va-select, va-textarea, va-radio-option, va-checkbox, va-date, va-memorable-date, va-telephone-input';
+  'va-text-input, va-select, va-textarea, va-radio-option, va-checkbox, va-date, va-memorable-date';
 
 const LOADING_SELECTOR = 'va-loading-indicator';
 
@@ -225,7 +225,7 @@ const defaultPostHook = pathname => {
         }
       });
 
-      cy.clickFormContinue();
+      cy.findByText(/submit/i, { selector: 'button' }).click(FORCE_OPTION);
     };
   }
 
@@ -236,7 +236,12 @@ const defaultPostHook = pathname => {
 
   // Everything else should click on the 'Continue' button.
   return () => {
-    cy.clickFormContinue();
+    cy.findByText(/continue/i, {
+      selector: 'button',
+      timeout: 30000,
+    })
+      .should('be.visible')
+      .click(FORCE_OPTION);
   };
 };
 

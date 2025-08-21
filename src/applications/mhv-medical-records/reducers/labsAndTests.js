@@ -1,4 +1,4 @@
-import { parseISO, format } from 'date-fns';
+import { parseISO } from 'date-fns';
 import { Actions } from '../util/actionTypes';
 import {
   concatObservationInterpretations,
@@ -494,43 +494,6 @@ export const convertLabsAndTestsRecord = record => {
     : { ...record, type: labTypes.OTHER };
 };
 
-export function formatDateTime(datetimeString) {
-  const dateTime = new Date(datetimeString);
-  if (Number.isNaN(dateTime.getTime())) {
-    return { formattedDate: '', formattedTime: '' };
-  }
-  const formattedDate = format(dateTime, 'MMMM d, yyyy');
-  const formattedTime = format(dateTime, 'h:mm a');
-
-  return { formattedDate, formattedTime };
-}
-
-export const convertUnifiedLabsAndTestRecord = record => {
-  const { formattedDate, formattedTime } = formatDateTime(
-    record.attributes.dateCompleted,
-  );
-  const date = formattedDate ? `${formattedDate}, ${formattedTime}` : '';
-  return {
-    id: record.id,
-    date,
-    name: record.attributes.display,
-    location: record.attributes.location,
-    observations: record.attributes.observations,
-    orderedBy: record.attributes.orderedBy,
-    sampleTested: record.attributes.sampleTested,
-    bodySite: record.attributes.bodySite,
-    testCode: record.attributes.testCode,
-    type: record.attributes.testCode,
-    comments: record.attributes.comments,
-    result: record.attributes.encodedData
-      ? decodeBase64Report(record.attributes.encodedData)
-      : null,
-    base: {
-      ...record,
-    },
-  };
-};
-
 function sortByDate(array) {
   return array.sort((a, b) => {
     const dateA = parseISO(a.sortDate);
@@ -566,35 +529,10 @@ export const labsAndTestsReducer = (state = initialState, action) => {
         labsAndTestsDetails: convertLabsAndTestsRecord(action.response),
       };
     }
-    case Actions.LabsAndTests.GET_UNIFIED_ITEM_FROM_LIST: {
-      return {
-        ...state,
-        labsAndTestsDetails: action.response.data.id
-          ? convertUnifiedLabsAndTestRecord(action.response.data)
-          : { ...action.response.data },
-      };
-    }
     case Actions.LabsAndTests.GET_FROM_LIST: {
       return {
         ...state,
         labsAndTestsDetails: action.response,
-      };
-    }
-    case Actions.LabsAndTests.GET_UNIFIED_LIST: {
-      const data = action.labsAndTestsResponse;
-      return {
-        ...state,
-        listCurrentAsOf: action.isCurrent ? new Date() : null,
-        listState: loadStates.FETCHED,
-        labsAndTestsList: data
-          .map(record => convertUnifiedLabsAndTestRecord(record))
-          .sort((a, b) => {
-            if (!a.base?.attributes?.dateCompleted) return 1; // Push nulls to the end
-            if (!b.base?.attributes?.dateCompleted) return -1; // Keep non-nulls at the front
-            const dateA = parseISO(a.base.attributes.dateCompleted);
-            const dateB = parseISO(b.base.attributes.dateCompleted);
-            return dateB - dateA;
-          }),
       };
     }
     case Actions.LabsAndTests.GET_LIST: {

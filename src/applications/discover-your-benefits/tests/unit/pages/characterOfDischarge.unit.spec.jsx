@@ -6,8 +6,6 @@ import { Provider } from 'react-redux';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import characterOfDischargeConfig from '../../../pages/characterOfDischarge';
 import { getData } from '../mocks/mockFormData';
-import { characterOfDischargeTypes } from '../../../constants/benefits';
-import 'css.escape';
 
 describe('Character of Discharge Form', () => {
   let wrapper;
@@ -46,23 +44,6 @@ describe('Character of Discharge Form', () => {
     expect(select.getAttribute('hint')).to.contain(hint);
   });
 
-  it('should render the correct hint', () => {
-    const escapedHint = CSS.escape(
-      'If you served multiple times with different characters of discharge, please select the "highest" of your discharge statuses. If you feel your character of discharge is unjust, you can apply for a discharge upgrade.',
-    );
-    const hint = document.querySelector(`va-select[hint=${escapedHint}]`);
-    expect(hint).to.exist;
-  });
-
-  it('should render the correct radio options for character of discharge', () => {
-    const types = Object.values(characterOfDischargeTypes);
-
-    types.forEach(type => {
-      const selectOption = document.querySelector(`option[value="${type}"]`);
-      expect(selectOption).to.exist;
-    });
-  });
-
   it('should require characterOfDischarge and show an error message when not selected', async () => {
     const submitButton = $('button[type="submit"]', container);
 
@@ -84,16 +65,5 @@ describe('Character of Discharge Form', () => {
     expect(link).to.exist;
     expect(link.getAttribute('text')).to.equal(linkText);
     expect(link.getAttribute('href')).to.equal(href);
-  });
-
-  it('should allow different options to be selected', () => {
-    const options = Object.values(characterOfDischargeTypes);
-
-    const option = document.querySelector(`option[value="${options[0]}"]`);
-
-    option.checked = true;
-
-    fireEvent(option, new CustomEvent('click'));
-    expect(option.checked).to.be.true;
   });
 });

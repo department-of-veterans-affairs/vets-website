@@ -37,21 +37,14 @@ import { fixDateFormat } from '../../../shared/utils/replace';
  */
 export const getTreatmentDate = (type, showNewFormContent, location) => {
   const { treatmentDate = '', evidenceDates = {}, noDate } = location;
-  const yearRegex = /^(19[2-9][6-9]|20[0-1][0-9]|202[0-5])$/;
-  const isValidYear = showNewFormContent && yearRegex.test(treatmentDate);
-
-  if (
-    (showNewFormContent && noDate) ||
-    (showNewFormContent && treatmentDate.length < 7 && !isValidYear)
-  ) {
+  if (showNewFormContent && noDate) {
     return '';
   }
-
-  const date = showNewFormContent
-    ? `${treatmentDate}-01`
-    : evidenceDates[type] || '';
-
-  return fixDateFormat(date, treatmentDate.length === 4);
+  const date =
+    showNewFormContent && treatmentDate.length === 7
+      ? `${treatmentDate}-01`
+      : evidenceDates[type] || '';
+  return fixDateFormat(date);
 };
 
 export const hasDuplicateLocation = (
@@ -194,14 +187,11 @@ export const getEvidence = formData => {
           if (showNewFormContent) {
             // Only startDate (from) is required, remove evidenceDates if
             // undefined
-            const noTreatmentDates = location.noDate || !from;
-
-            if (noTreatmentDates) {
+            if (location.noDate || !from) {
               delete entry.attributes.evidenceDates;
             }
-
             // noDate can be undefined; so fallback to false due to LH schema
-            entry.attributes.noTreatmentDates = noTreatmentDates || false;
+            entry.attributes.noTreatmentDates = location.noDate || false;
           }
           list.push(entry);
         }

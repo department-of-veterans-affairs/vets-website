@@ -35,20 +35,26 @@ const checkModals = options => {
   const { otherSectionName, editLineId, sectionName } = options;
 
   // Open edit view
-  cy.get(`va-button[label="Edit ${sectionName}"]`).click({ force: true });
+  cy.findByRole('button', {
+    name: new RegExp(`edit ${sectionName}`, 'i'),
+  }).click({
+    force: true,
+  });
 
   // Make an edit
   cy.fillVaTextInput(editLineId, 'test');
 
   // Click on a different section to edit
-  cy.get(`va-button[label="Edit ${otherSectionName}"]`).click({ force: true });
+  cy.findByRole('button', {
+    name: new RegExp(`edit ${otherSectionName}`, 'i'),
+  }).click({
+    force: true,
+  });
 
   // Modal appears
   cy.findByTestId('cannot-edit-modal')
     .shadow()
-    .findByText(
-      `Save or cancel your edits to your ${sectionName.toLowerCase()}`,
-    )
+    .findByText(`Save or cancel your edits to your ${sectionName}`)
     .should('exist');
 
   cy.findByTestId('cannot-edit-modal')
@@ -61,7 +67,7 @@ const checkModals = options => {
     .click();
 
   // Click on cancel in the current section
-  cy.findByTestId('cancel-edit-button').click({ force: true });
+  cy.findByText('Cancel').click({ force: true });
 
   // Confirmation modal appears, confirm cancel
 
@@ -84,20 +90,24 @@ const checkRemovalWhileEditingModal = options => {
   const { editSectionName, editLineId, removalSectionName } = options;
 
   // Open edit view
-  cy.get(`va-button[label="Edit ${editSectionName}"]`).click({ force: true });
+  cy.findByRole('button', {
+    name: new RegExp(`edit ${editSectionName}`, 'i'),
+  }).click({
+    force: true,
+  });
 
   cy.fillVaTextInput(editLineId, '1234');
 
   // Attempt to remove a different field
-  cy.get(`va-button[label="Remove ${removalSectionName}"]`).click({
+  cy.findByRole('button', {
+    name: new RegExp(`remove ${removalSectionName}`, 'i'),
+  }).click({
     force: true,
   });
 
   cy.findByTestId('cannot-edit-modal')
     .shadow()
-    .findByText(
-      `Save or cancel your edits to your ${editSectionName.toLowerCase()}`,
-    )
+    .findByText(`Save or cancel your edits to your ${editSectionName}`)
     .should('exist');
 
   cy.findByTestId('cannot-edit-modal')
@@ -109,7 +119,7 @@ const checkRemovalWhileEditingModal = options => {
     .findByText(/ok/i)
     .click();
 
-  cy.findByTestId('cancel-edit-button').click();
+  cy.findByText('Cancel').click();
 
   cy.findByTestId('confirm-cancel-modal')
     .shadow()
@@ -125,9 +135,9 @@ describe('Modals for removal of field', () => {
   it('should show edit notice modal when attempting to remove field after editing another field', () => {
     setup(false);
     checkRemovalWhileEditingModal({
-      editSectionName: 'Mailing address',
+      editSectionName: 'mailing address',
       editLineId: 'root_addressLine1',
-      removalSectionName: 'Home address',
+      removalSectionName: 'home address',
     });
     cy.axeCheck();
   });
@@ -135,9 +145,9 @@ describe('Modals for removal of field', () => {
   it('should show edit notice modal when attempting to remove field after editing another field', () => {
     setup(false);
     checkRemovalWhileEditingModal({
-      editSectionName: 'Home phone number',
+      editSectionName: 'home phone number',
       editLineId: 'root_inputPhoneNumber',
-      removalSectionName: 'Mobile phone number',
+      removalSectionName: 'mobile phone number',
     });
     cy.axeCheck();
   });
@@ -145,9 +155,9 @@ describe('Modals for removal of field', () => {
   it('should show edit notice modal when attempting to remove field after editing another field', () => {
     setup(false);
     checkRemovalWhileEditingModal({
-      editSectionName: 'Mailing address',
+      editSectionName: 'mailing address',
       editLineId: 'root_addressLine1',
-      removalSectionName: 'Contact email address',
+      removalSectionName: 'contact email address',
     });
 
     cy.axeCheck();
@@ -159,9 +169,9 @@ describe('Modals on the contact information and content page', () => {
     setup();
     // should appear when editing mailing address
     checkModals({
-      otherSectionName: 'Home address',
+      otherSectionName: 'home address',
       editLineId: 'root_addressLine3',
-      sectionName: 'Mailing address',
+      sectionName: 'mailing address',
     });
     cy.axeCheck();
   });
@@ -170,9 +180,9 @@ describe('Modals on the contact information and content page', () => {
     setup();
     // should appear when editing residential address
     checkModals({
-      otherSectionName: 'Mailing address',
+      otherSectionName: 'mailing address',
       editLineId: 'root_addressLine3',
-      sectionName: 'Home address',
+      sectionName: 'home address',
     });
     cy.axeCheck();
   });
@@ -181,9 +191,9 @@ describe('Modals on the contact information and content page', () => {
     setup();
     // should appear when editing home phone number
     checkModals({
-      otherSectionName: 'Mailing address',
+      otherSectionName: 'mailing address',
       editLineId: 'root_extension',
-      sectionName: 'Home phone number',
+      sectionName: 'home phone number',
     });
     cy.axeCheck();
   });
@@ -192,9 +202,9 @@ describe('Modals on the contact information and content page', () => {
     setup();
     // should appear when editing email address
     checkModals({
-      otherSectionName: 'Mailing address',
+      otherSectionName: 'mailing address',
       editLineId: 'root_emailAddress',
-      sectionName: 'Contact email address',
+      sectionName: 'contact email address',
     });
 
     cy.axeCheck();
@@ -205,9 +215,9 @@ describe('Modals on the contact information and content page', () => {
 
     // should appear when editing mailing address
     checkModals({
-      otherSectionName: 'Home address',
+      otherSectionName: 'home address',
       editLineId: 'root_addressLine3',
-      sectionName: 'Mailing address',
+      sectionName: 'mailing address',
     });
     cy.axeCheck();
   });
@@ -216,9 +226,9 @@ describe('Modals on the contact information and content page', () => {
     setup(true);
     // should appear when editing residential address
     checkModals({
-      otherSectionName: 'Mailing address',
+      otherSectionName: 'mailing address',
       editLineId: 'root_addressLine3',
-      sectionName: 'Home address',
+      sectionName: 'home address',
     });
     cy.axeCheck();
   });
@@ -227,9 +237,9 @@ describe('Modals on the contact information and content page', () => {
     setup(true);
     // should appear when editing home phone number
     checkModals({
-      otherSectionName: 'Mailing address',
+      otherSectionName: 'mailing address',
       editLineId: 'root_extension',
-      sectionName: 'Home phone number',
+      sectionName: 'home phone number',
     });
     cy.axeCheck();
   });
@@ -238,9 +248,9 @@ describe('Modals on the contact information and content page', () => {
     setup(true);
     // should appear when editing email address
     checkModals({
-      otherSectionName: 'Mailing address',
+      otherSectionName: 'mailing address',
       editLineId: 'root_emailAddress',
-      sectionName: 'Contact email address',
+      sectionName: 'contact email address',
     });
 
     cy.axeCheck();
@@ -251,7 +261,7 @@ describe('Modals on the contact information and content page after editing', () 
   it('should allow the ability to reopen the edit modal when the transaction completes', () => {
     setup();
 
-    const sectionName = 'Contact email address';
+    const sectionName = 'contact email address';
 
     cy.intercept(
       '/v0/profile/email_addresses',
@@ -259,7 +269,11 @@ describe('Modals on the contact information and content page after editing', () 
     );
 
     // Open edit view
-    cy.get(`va-button[label="Edit ${sectionName}"]`).click({ force: true });
+    cy.findByRole('button', {
+      name: new RegExp(`edit ${sectionName}`, 'i'),
+    }).click({
+      force: true,
+    });
 
     // Click on Update in the current section
     cy.findByTestId('save-edit-button').click({
@@ -267,7 +281,11 @@ describe('Modals on the contact information and content page after editing', () 
     });
 
     // find edit button and click it
-    cy.get(`va-button[label="Edit ${sectionName}"]`).click({ force: true });
+    cy.findByRole('button', {
+      name: new RegExp(`edit ${sectionName}`, 'i'),
+    }).click({
+      force: true,
+    });
 
     // verify input exists
     cy.get('va-text-input[label="Email address" i]');
@@ -280,7 +298,7 @@ describe('when moving to other profile pages', () => {
   it('should exit edit mode if opened', () => {
     setup();
 
-    const sectionName = 'Contact email address';
+    const sectionName = 'contact email address';
 
     cy.intercept(
       '/v0/profile/email_addresses',
@@ -288,7 +306,11 @@ describe('when moving to other profile pages', () => {
     );
 
     // Open edit view
-    cy.get(`va-button[label="Edit ${sectionName}"]`).click({ force: true });
+    cy.findByRole('button', {
+      name: new RegExp(`edit ${sectionName}`, 'i'),
+    }).click({
+      force: true,
+    });
 
     cy.findByRole('link', {
       name: /military information/i,
@@ -300,7 +322,9 @@ describe('when moving to other profile pages', () => {
     }).click({
       force: true,
     });
-    cy.get(`va-button[label="Edit ${sectionName}"]`).should('exist');
+    cy.findByRole('button', {
+      name: new RegExp(`edit ${sectionName}`, 'i'),
+    }).should('exist');
 
     cy.axeCheck();
   });
@@ -311,22 +335,28 @@ describe('when editing other profile fields on the same page', () => {
     setup();
 
     // Open edit view for email address
-    cy.get(`va-button[label="Edit Contact email address"]`).click({
+    cy.findByRole('button', {
+      name: new RegExp(`edit contact email address`, 'i'),
+    }).click({
       force: true,
     });
 
     // Open another field in edit view
-    cy.get(`va-button[label="Edit Mobile phone number"]`).click({
+    cy.findByRole('button', {
+      name: new RegExp(`edit mobile phone number`, 'i'),
+    }).click({
       force: true,
     });
 
     cy.get('[name="root_inputPhoneNumber"]').should('exist');
 
     // Cancel edit should also exist the edit mode with no modal
-    cy.findByTestId('cancel-edit-button').click({ force: true });
+    cy.findByText('Cancel').click({ force: true });
 
     // edit button should reappear once edit mode is exited
-    cy.get(`va-button[label="Edit Mobile phone number"]`).should('exist');
+    cy.findByRole('button', {
+      name: new RegExp(`edit mobile phone number`, 'i'),
+    }).should('exist');
 
     cy.axeCheck();
   });
@@ -336,12 +366,16 @@ describe('Modals on the contact information and content page when they error', (
   it('should exist', () => {
     setup();
 
-    const sectionName = 'Contact email address';
+    const sectionName = 'contact email address';
 
     cy.intercept('/v0/profile/email_addresses', transactionCompletedWithError);
 
     // Open edit view
-    cy.get(`va-button[label="Edit ${sectionName}"]`).click({ force: true });
+    cy.findByRole('button', {
+      name: new RegExp(`edit ${sectionName}`, 'i'),
+    }).click({
+      force: true,
+    });
 
     // Click on Update in the current section
     cy.findByTestId('save-edit-button').click({

@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import React from 'react';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import * as prescriptionsApiModule from '../../../api/prescriptionsApi';
 import RefillAlert from '../../../components/shared/RefillAlert';
 import reducer from '../../../reducers';
 
@@ -16,20 +17,29 @@ const refillAlertList = [
   },
 ];
 const setup = () => {
-  return renderWithStoreAndRouterV6(
-    <RefillAlert refillAlertList={refillAlertList} />,
-    {
-      initialState: {},
-      reducers: reducer,
-    },
-  );
+  return renderWithStoreAndRouterV6(<RefillAlert />, {
+    initialState: {},
+    reducers: reducer,
+    additionalMiddlewares: [prescriptionsApiModule.prescriptionsApi.middleware],
+  });
 };
-
 let sandbox;
 
 describe('Alert if refill is taking longer than expected', () => {
   beforeEach(() => {
     sandbox = sinon.createSandbox();
+
+    sandbox
+      .stub(prescriptionsApiModule, 'useGetRefillAlertPrescriptionsQuery')
+      .returns({
+        data: {
+          prescriptions: refillAlertList,
+          meta: {},
+        },
+        error: undefined,
+        isLoading: false,
+        isFetching: false,
+      });
   });
 
   afterEach(() => {

@@ -104,11 +104,9 @@ function Description(props) {
       </p>
       <ul>
         <li>
-          <va-link
-            href="/find-forms/about-form-21-4138/"
-            text="Get VA Form 21-4138 to download"
-            external
-          />
+          <a href="/find-forms/about-form-21-4138/" target="_blank">
+            Get VA Form 21-4138 to download (opens in new tab)
+          </a>{' '}
         </li>
       </ul>
 
@@ -133,24 +131,16 @@ function Description(props) {
         <li>
           Authorization to Disclose Information to the Department of Veterans
           Affairs (VA Form 21-4142)
-          <div>
-            <va-link
-              href="/find-forms/about-form-21-4142/"
-              text="Get VA Form 21-4142 to download"
-              external
-            />
-          </div>
+          <a href="/find-forms/about-form-21-4142/" target="_blank">
+            Get VA Form 21-4142 to download (opens in new tab)
+          </a>
         </li>
         <li>
           General Release for Medical Provider Information to the Department of
           Veterans Affairs (VA Form 21-4142a)
-          <div>
-            <va-link
-              href="/find-forms/about-form-21-4142a/"
-              text="Get VA Form 21-4142a to download"
-              external
-            />
-          </div>
+          <a href="/find-forms/about-form-21-4142a/" target="_blank">
+            Get VA Form 21-4142a to download (opens in new tab)
+          </a>
         </li>
       </ul>
     </>

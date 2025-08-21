@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 import { Provider } from 'react-redux';
@@ -11,16 +11,6 @@ import formConfig from '../../config/form';
 const mockStore = configureStore([]);
 
 describe('22-8894 - Institution Details Facility', () => {
-  let sandbox;
-
-  beforeEach(() => {
-    sandbox = sinon.createSandbox();
-  });
-
-  afterEach(() => {
-    sandbox.restore();
-  });
-
   const {
     schema,
     uiSchema,
@@ -69,7 +59,7 @@ describe('22-8894 - Institution Details Facility', () => {
     validate(errors, '12345678');
     expect(errors.messages).to.be.empty;
   });
-  it('shows errors when required field is empty', async () => {
+  it('shows errors when required field is empty', () => {
     const store = mockStore({
       form: {
         data: {
@@ -79,7 +69,7 @@ describe('22-8894 - Institution Details Facility', () => {
         },
       },
     });
-    const onSubmit = sandbox.spy();
+    const onSubmit = sinon.spy();
 
     const { container, getByRole } = render(
       <Provider store={store}>
@@ -94,11 +84,7 @@ describe('22-8894 - Institution Details Facility', () => {
     );
 
     fireEvent.click(getByRole('button', { name: /submit/i }));
-
-    await waitFor(() => {
-      expect($$('va-text-input[error]', container).length).to.equal(1);
-    });
-
+    expect($$('va-text-input[error]', container).length).to.equal(1);
     expect(onSubmit.called).to.be.false;
   });
 });

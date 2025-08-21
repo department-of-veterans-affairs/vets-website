@@ -87,7 +87,7 @@
       "createdAt": "2025-01-04T20:25:43.742Z",
       "type": "decision",
       "decisionType": "declination",
-      "declinationReason": "Didn't authorize treatment record disclosure",
+      "reason": "Didn't authorize treatment record disclosure",
       "creatorId": "61d86989-2a13-4c72-9ae0-c3c6cb09260b",
       "id": "a5bf6a40-ac6f-49df-b18f-b6d11db18936"
     },

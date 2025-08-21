@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { format } from 'date-fns';
+import moment from 'moment';
+
 import { focusElement } from 'platform/utilities/ui';
 import { scrollToTop } from 'platform/utilities/scroll';
-import { useSelector } from 'react-redux';
-import ApplicationDownloadLink from '../ApplicationDownloadLink';
 import content from '../../locales/en/content.json';
 
 const ConfirmationScreenView = ({ name, timestamp }) => {
@@ -12,8 +11,6 @@ const ConfirmationScreenView = ({ name, timestamp }) => {
     focusElement('.ezr-success-message');
     scrollToTop();
   }, []);
-
-  const { data: formData } = useSelector(state => state.form);
 
   return (
     <>
@@ -46,7 +43,7 @@ const ConfirmationScreenView = ({ name, timestamp }) => {
           <>
             <h4>{content['confirm-app-list-date']}</h4>
             <p className="ezr-submission-date">
-              {format(new Date(timestamp), 'MMM. d, yyyy')}
+              {moment(timestamp).format('MMM D, YYYY')}
             </p>
           </>
         ) : null}
@@ -54,7 +51,7 @@ const ConfirmationScreenView = ({ name, timestamp }) => {
         <h4>{content['confirm-app-list-confirm']}</h4>
         <p>{content['confirm-app-list-print']}</p>
 
-        <div className="vads-u-margin-y--2">
+        <div className="vads-u-margin-top--2">
           <va-button
             text={content['button-print']}
             onClick={() => window.print()}
@@ -62,13 +59,6 @@ const ConfirmationScreenView = ({ name, timestamp }) => {
             uswds
           />
         </div>
-        {formData['view:isDownloadPdfEnabled'] && (
-          <div className="ezr-application--download">
-            <ApplicationDownloadLink
-              linkText={content['button-pdf-download']}
-            />
-          </div>
-        )}
       </va-summary-box>
     </>
   );

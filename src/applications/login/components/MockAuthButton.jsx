@@ -22,21 +22,16 @@ export default function MockAuthButton() {
         value={authType}
         onVaSelect={({ detail: { value } }) => setAuthType(value)}
       >
-        {Object.values(SERVICE_PROVIDERS)
-          .filter(
-            provider =>
-              provider.policy === 'idme' || provider.policy === 'logingov',
-          )
-          .map(provider => (
-            <option key={provider.policy} value={provider.policy}>
-              {provider.label}
-            </option>
-          ))}
+        {Object.values(SERVICE_PROVIDERS).map(provider => (
+          <option key={provider.policy} value={provider.policy}>
+            {provider.label}
+          </option>
+        ))}
       </VaSelect>
-      <va-button
+      <button
+        type="button"
         aria-label="Mock Authentication"
-        className="mauth-button vads-u-margin-y--1p5 vads-u-padding-y--2"
-        text="Sign in with mocked authentication"
+        className="usa-button mauth-button vads-u-margin-y--1p5 vads-u-padding-y--2"
         onClick={async () => {
           try {
             await mockLogin({ type: authType });
@@ -44,7 +39,9 @@ export default function MockAuthButton() {
             setMockLoginError(error.toString());
           }
         }}
-      />
+      >
+        Sign in with mocked authentication
+      </button>
     </>
   ) : null;
 }

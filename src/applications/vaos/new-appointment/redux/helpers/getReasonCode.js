@@ -8,11 +8,11 @@
  * @returns {string} The created reason text
  */
 
-import { format } from 'date-fns';
+import moment from '../../../lib/moment-tz';
 import {
   PURPOSE_TEXT_V2,
-  REASON_MAX_CHARS,
   TYPE_OF_VISIT,
+  REASON_MAX_CHARS,
 } from '../../../utils/constants';
 
 export function getReasonCode({ data, isCC, isDS }) {
@@ -34,8 +34,8 @@ export function getReasonCode({ data, isCC, isDS }) {
   if (!isCC) {
     const formattedDates = data.selectedDates.map(
       date =>
-        `${format(new Date(date), 'MM/dd/yyyy')}${
-          new Date(date).getHours() >= 12 ? ' PM' : ' AM'
+        `${moment(date).format('MM/DD/YYYY')}${
+          moment(date).hour() >= 12 ? ' PM' : ' AM'
         }`,
     );
     const facility = `station id: ${data.vaFacility}`;

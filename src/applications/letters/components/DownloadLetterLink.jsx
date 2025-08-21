@@ -23,12 +23,9 @@ export class DownloadLetterLink extends React.Component {
 
     const benefitSummaryOptionList = document.getElementById('va-bsl-options');
     if (benefitSummaryOptionList) {
-      // TODO: when the feature flag for the new design is removed, the
-      // input[type="checkbox"]:checked selector can be removed as well
-      const checkedInputs = benefitSummaryOptionList.querySelectorAll(
-        'input[type="checkbox"]:checked, va-checkbox[checked="true"]',
-      );
-      this.benefitSummaryOptionsLength = checkedInputs.length;
+      this.benefitSummaryOptionsLength = benefitSummaryOptionList.querySelectorAll(
+        'input[type="checkbox"]:checked',
+      ).length;
     }
 
     recordEvent({
@@ -65,7 +62,7 @@ export class DownloadLetterLink extends React.Component {
                   class="vads-u-margin-bottom--4"
                   role="alert"
                 >
-                  <h4 slot="headline">You downloaded your benefit letter</h4>
+                  <h4 slot="headline">You’ve downloaded your benefit letter</h4>
                   <p>
                     {getDownloadSuccessMessage(
                       this.benefitSummaryOptionsLength,
@@ -73,8 +70,8 @@ export class DownloadLetterLink extends React.Component {
                   </p>
                   <p>
                     If you want to create a new letter with different
-                    information, select different topics and download your
-                    letter again.
+                    information, update your selections and download your letter
+                    again.
                   </p>
                 </va-alert>
               ) : (

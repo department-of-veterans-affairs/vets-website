@@ -122,18 +122,15 @@ export default function EpsAppointmentDetailsPage() {
           />
         </div>
         <h1 className="vaos__dynamic-font-size--h2">
-          <span data-dd-privacy="mask">Community Care Appointment</span>
+          Community Care Appointment
         </h1>
         <Section heading="When">
-          <span data-dd-privacy="mask">{appointmentDate}</span>
+          {appointmentDate}
           <br />
-          <AppointmentTime
-            appointment={appointment}
-            timezone={appointment.timezone}
-          />
+          <AppointmentTime appointment={appointment} />
         </Section>
         <Section heading="Provider">
-          <span data-dd-privacy="mask">
+          <span>
             {`${appointment.provider.location.name ||
               'Provider information not available'}`}
           </span>
@@ -149,12 +146,12 @@ export default function EpsAppointmentDetailsPage() {
         </Section>
         <Section heading="Prepare for your appointment">
           <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-            Bring your insurance cards, a list of your medications, and other
-            things to share with your provider
+            Bring your insurance cards. And bring a list of your medications
+            other information to share with your provider.
           </p>
           <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
             <va-link
-              text="Find out what to bring to your appointment"
+              text="Find a full list of things to bring to your appointment"
               href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"
             />
           </p>

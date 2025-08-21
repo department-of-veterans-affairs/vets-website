@@ -22,16 +22,21 @@ const ui = (
 let view;
 let server;
 
-// helper function that returns the Edit or Remove va-button
-// since RTL doesn't support getByRole/getByText queries for web components
-function getVaButton(action, addressName) {
-  const label = `${action} ${addressName}`;
-  return view.container.querySelector(`va-button[label="${label}"]`);
+function getEditButton(addressName) {
+  // Need to use `queryByRole` since the visible label is simply `Edit`, but
+  // the aria-label is more descriptive
+  return view.queryByRole('button', {
+    name: new RegExp(`edit.*${addressName}`, 'i'),
+  });
 }
 
 function deleteAddress(addressName) {
   // delete
-  getVaButton('Remove', addressName).click();
+  view
+    .getByLabelText(new RegExp(`remove ${addressName}`, 'i'), {
+      selector: 'button',
+    })
+    .click();
   const confirmDeleteButton = view.getByText('Yes, remove my information', {
     selector: 'button',
   });
@@ -67,7 +72,9 @@ async function testSlowSuccess(addressName) {
   await view.findByText('Update saved.');
 
   // the edit button should exist
-  expect(getVaButton('Edit', addressName)).to.exist;
+  view.getByRole('button', { name: new RegExp(`edit.*${addressName}`, 'i') });
+  // and the add address text should exist
+  expect(view.getByText(new RegExp(`add.*${addressName}`, 'i'))).to.exist;
 }
 
 // When the initial transaction creation request fails
@@ -82,7 +89,8 @@ async function testTransactionCreationFails(addressName) {
     { exact: false },
   );
 
-  expect(getVaButton('Edit', addressName)).to.exist;
+  const editButton = getEditButton(addressName);
+  expect(editButton).to.exist;
 }
 
 // When the update fails but not until after the Delete Modal has exited and the
@@ -112,8 +120,8 @@ async function testSlowFailure(addressName) {
     ),
   ).to.exist;
 
-  // and the edit button should be back
-  expect(getVaButton('Edit', addressName)).to.exist;
+  // and the add/edit button should be back
+  expect(getEditButton(addressName)).to.exist;
 }
 
 describe('Deleting', () => {
@@ -155,8 +163,12 @@ describe('Deleting', () => {
 
   it('should not be supported for mailing address', () => {
     const addressName = FIELD_TITLES[FIELD_NAMES.MAILING_ADDRESS];
-    getVaButton('Edit', addressName).click();
+    getEditButton(addressName).click();
 
-    expect(getVaButton('Remove', addressName)).to.not.exist;
+    expect(
+      view.queryByText(new RegExp(`remove ${addressName}`, 'i'), {
+        selector: 'button',
+      }),
+    ).to.not.exist;
   });
 });

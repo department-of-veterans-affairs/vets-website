@@ -1,6 +1,6 @@
 import {
-  testNumberOfErrorsOnSubmitForWebComponents,
-  testNumberOfWebComponentFields,
+  testNumberOfErrorsOnSubmit,
+  testNumberOfFields,
 } from '../../../../shared/tests/pages/pageTests.spec';
 import formConfig from '../../../config/form';
 
@@ -11,20 +11,20 @@ const {
 
 const pageTitle = 'preparer identification';
 
-const numberOfWebComponentFields = 2;
-testNumberOfWebComponentFields(
+const expectedNumberOfFields = 8;
+testNumberOfFields(
   formConfig,
   schema,
   uiSchema,
-  numberOfWebComponentFields,
+  expectedNumberOfFields,
   pageTitle,
 );
 
-const numberOfWebComponentErrors = 0;
-testNumberOfErrorsOnSubmitForWebComponents(
+const expectedNumberOfErrors = 0;
+testNumberOfErrorsOnSubmit(
   formConfig,
   schema,
   uiSchema,
-  numberOfWebComponentErrors,
+  expectedNumberOfErrors,
   pageTitle,
 );

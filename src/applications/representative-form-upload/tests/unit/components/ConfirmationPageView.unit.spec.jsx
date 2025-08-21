@@ -22,8 +22,7 @@ describe('ConfirmationPageView', () => {
       'status',
       'success',
     );
-    expect(getByText('Your confirmation number is:')).to.exist;
-    expect(getByText('123456')).to.exist;
+    expect(getByText(/Your confirmation number is:\s*123456/i)).to.exist;
     expect(getByText('You submitted the form and supporting evidence on')).to
       .exist;
     expect(getByText(/May 21, 2025/)).to.exist;

@@ -3,12 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import {
-  FIELD_IDS,
-  FIELD_NAMES,
-  FIELD_TITLES,
-  FIELD_TITLE_DESCRIPTIONS,
-} from '@@vap-svc/constants';
+import { FIELD_IDS, FIELD_NAMES } from '@@vap-svc/constants';
 import ProfileInformationFieldController from '@@vap-svc/components/ProfileInformationFieldController';
 
 import { signInServiceName as signInServiceNameSelector } from '~/platform/user/authentication/selectors';
@@ -17,7 +12,7 @@ import {
   CSP_IDS,
 } from '~/platform/user/authentication/constants';
 
-import { ProfileInfoSection } from '../../ProfileInfoSection';
+import { ProfileInfoCard } from '../../ProfileInfoCard';
 
 /**
  * only id.me and login.gov use email for sign in / show the sign-in email section.
@@ -31,15 +26,19 @@ const signInServiceUsesEmail = signInServiceName => {
   return servicesUsingEmailSignIn.includes(signInServiceName);
 };
 
-const formatEmailTitle = title => title.replace('address', '').trim();
-
 const generateRows = signInServiceName => {
   const { link, label: buttonText } =
     SERVICE_PROVIDERS[signInServiceName] || {};
   return [
     {
-      title: formatEmailTitle(FIELD_TITLES[FIELD_NAMES.EMAIL]),
-      description: FIELD_TITLE_DESCRIPTIONS[FIELD_NAMES.EMAIL],
+      title: (
+        <>
+          Contact email
+          <span className="vads-u-color--gray-medium vads-u-display--block vads-u-font-weight--normal">
+            We use this email to send you information.
+          </span>
+        </>
+      ),
       id: FIELD_IDS[FIELD_NAMES.EMAIL],
       value: (
         <ProfileInformationFieldController fieldName={FIELD_NAMES.EMAIL} />
@@ -73,16 +72,15 @@ const generateRows = signInServiceName => {
   ];
 };
 
-// TODO: Why is this section sitting outside the other sections?
 const EmailInformationSection = ({ className, signInServiceName }) => {
   return (
     <div className={className}>
-      <ProfileInfoSection
+      <ProfileInfoCard
         title="Email addresses"
         level={2}
         namedAnchor="email-address"
         data={generateRows(signInServiceName)}
-        className="vads-u-margin-bottom--4"
+        className="vads-u-margin-y--4"
       />
     </div>
   );

@@ -3,20 +3,19 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
+import { ERR_MSG_CSS_CLASS } from '../../constants';
+
 import {
   DefinitionTester,
   fillData,
-} from 'platform/testing/unit/schemaform-utils';
-import { waitFor } from '@testing-library/dom';
-import { ERR_MSG_CSS_CLASS } from '../../constants';
-
+} from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
 describe('PTSD Incident location', () => {
   const page = formConfig.chapters.disabilities.pages.incidentLocation0;
   const { schema, uiSchema } = page;
 
-  it('should render', async () => {
+  it('should render', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
@@ -29,7 +28,7 @@ describe('PTSD Incident location', () => {
     form.unmount();
   });
 
-  it('should fill in incident location', async () => {
+  it('should fill in incident location', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -47,16 +46,14 @@ describe('PTSD Incident location', () => {
       'textarea#root_incident0_incidentLocation_additionalDetails',
       'Detail text',
     );
-    await waitFor(() => {
-      form.find('form').simulate('submit');
+    form.find('form').simulate('submit');
 
-      expect(form.find('.usa-input-error-message').length).to.equal(0);
-      expect(onSubmit.called).to.be.true;
-    });
+    expect(form.find('.usa-input-error-message').length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
     form.unmount();
   });
 
-  it('should submit without validation errors', async () => {
+  it('should submit without validation errors', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -67,12 +64,10 @@ describe('PTSD Incident location', () => {
       />,
     );
 
-    await waitFor(() => {
-      form.find('form').simulate('submit');
+    form.find('form').simulate('submit');
 
-      expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
-      expect(onSubmit.called).to.be.true;
-    });
+    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
     form.unmount();
   });
 });

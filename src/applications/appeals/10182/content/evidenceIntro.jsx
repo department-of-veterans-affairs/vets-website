@@ -22,7 +22,7 @@ export const evidenceUploadIntroDescription = (
       receive this request.
     </p>
     <div className="vads-u-margin-top--2">
-      <va-additional-info trigger="How do I submit evidence later?">
+      <va-additional-info trigger="How do I submit evidence later?" uswds>
         You can submit more evidence by mailing it to this address:
         {bvaAddressAndFax}
       </va-additional-info>

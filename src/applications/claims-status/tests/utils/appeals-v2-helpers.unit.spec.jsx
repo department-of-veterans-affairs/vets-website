@@ -751,11 +751,17 @@ describe('functions', () => {
       };
 
       const contents = getStatusContents(appeal);
-      expect(contents.title).to.eql('We received your supplemental claim');
+      expect(contents.title).to.eql(
+        'A reviewer is examining your new evidence',
+      );
       // Get the description from the <p/>
       const description = contents.description.props.children;
-      expect(description[0].props.children[0]).to.contain(
-        'To get the latest information—like whether your claim has been assigned to a reviewer or if we’re gathering evidence—call the VA benefits hotline at',
+      expect(description[0].props.children).to.contain(
+        'Agency of Original Jurisdiction',
+      );
+      expect(description[1]).to.be.false; // if statement should be false since programArea is compensation
+      expect(description[2].props.children[0].props.children).to.contain(
+        'Agency of Original Jurisdiction',
       );
     });
 
@@ -774,11 +780,13 @@ describe('functions', () => {
       };
 
       const contents = getStatusContents(appeal);
-      expect(contents.title).to.eql('We received your higher level review');
+      expect(contents.title).to.eql(
+        'A higher-level reviewer is taking a new look at your case',
+      );
       // Get the description from the <p/>
       const description = contents.description.props.children;
-      expect(description[0].props.children[0]).to.contain(
-        'To get the latest information—like whether your higher level review has been assigned to a reviewer—call the VA benefits hotline at',
+      expect(description[0].props.children).to.contain(
+        'Agency of Original Jurisdiction',
       );
     });
 

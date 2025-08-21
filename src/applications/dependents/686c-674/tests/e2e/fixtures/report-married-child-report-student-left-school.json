@@ -1,25 +1,10 @@
 {
   "householdIncome": false,
-  "view:childStoppedAttendingSchoolMissingInformation": {},
   "view:completedChildStoppedAttendingSchool": false,
-  "view:childMarriageMissingInformation": {},
   "view:completedMarriedChild": false,
-  "veteranInformation": {
-      "fullName": {
-        "first": "Pauline",
-        "middle": "E",
-        "last": "Foster"
-      },
-      "ssn": "796330625",
-      "birthDate": "1976-06-09",
-      "ssnLastFour": "0625",
-      "vaFileLastFour": "0625"
-    },
   "veteranContactInformation": {
     "phoneNumber": "8008885555",
-    "internationalPhoneNumber": "18008885555",
     "emailAddress": "nope@nope.com",
-    "electronicCorrespondence": true,
     "veteranAddress": {
       "view:militaryBaseDescription": {},
       "country": "USA",
@@ -30,15 +15,14 @@
     }
   },
   "view:removeDependentOptions": {
+    "reportStepchildNotInHousehold": false,
     "reportMarriageOfChildUnder18": true,
     "reportChild18OrOlderIsNotAttendingSchool": true
   },
   "view:addOrRemoveDependents": {
     "remove": true
   },
-  "useV2": true,
   "view:addDependentOptions": {},
-  "view:addDependentOptionsDescription": {},
   "spouseInformation": {
     "fullName": {}
   },
@@ -62,35 +46,44 @@
   },
   "childMarriage": [
     {
-      "dependentIncome": "N",
-      "dateMarried": "2025-01-19",
       "fullName": {
         "first": "John",
         "middle": "C",
         "last": "Doe"
       },
       "ssn": "333445555",
-      "birthDate": "2004-03-19"
+      "birthDate": "2008-06-19",
+      "dateMarried": "2025-02-19"
     }
   ],
   "childStoppedAttendingSchool": [
     {
-      "dependentIncome": "N",
-      "dateChildLeftSchool": "2025-06-19",
+      "dateChildLeftSchool": "2025-01-19",
       "fullName": {
-        "first": "John",
+        "first": "Jane",
         "last": "Doe"
       },
-      "ssn": "333445555",
-      "birthDate": "2012-03-19"
+      "ssn": "333445556",
+      "birthDate": "2005-08-21"
     }
   ],
   "view:additionalEvidenceDescription": {},
   "view:selectable686Options": {
+    "reportStepchildNotInHousehold": false,
     "reportMarriageOfChildUnder18": true,
     "reportChild18OrOlderIsNotAttendingSchool": true
   },
-  "daysTillExpires": 365,
-  "statementOfTruthSignature": "Pauline E Foster",
-  "statementOfTruthCertified": true
+  "veteranInformation": {
+    "fullName": {
+      "first": "Pauline",
+      "middle": "E",
+      "last": "Foster"
+    },
+    "ssn": "796330625",
+    "birthDate": "1976-06-09",
+    "ssnLastFour": "0625",
+    "vaFileLastFour": "0625"
+  },
+  "useV2": true,
+  "daysTillExpires": 365
 }

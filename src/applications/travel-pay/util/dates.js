@@ -1,12 +1,14 @@
 import {
   endOfQuarter,
+  endOfYear,
   format,
-  formatISO,
   getQuarter,
   getYear,
   startOfQuarter,
+  startOfYear,
   subMonths,
   subQuarters,
+  subYears,
 } from 'date-fns';
 
 import { utcToZonedTime } from 'date-fns-tz';
@@ -32,8 +34,10 @@ export function formatDateTime(datetimeString, stripUTCIndicator = false) {
 /**
  * Returns an array of the following date range filters:
  *  - The past 3 months from today's date
- *  - The previous 7 full quarters (e.g. if today falls in Q2 2024,
- *  return Q1 2024, Q4 2023, and Q3 2023, etc. through Q3 2022, i.e. 2 years ago)
+ *  - The previous full quarters (e.g. if today falls in Q2 2024,
+ *  return Q1 2024, Q4 2023, and Q3 2023 )
+ *  - All of the current year to date
+ *  - All of the previous year
  */
 export function getDateFilters() {
   const today = utcToZonedTime(new Date());
@@ -43,16 +47,12 @@ export function getDateFilters() {
 
   dateRanges.push({
     label: 'Past 3 Months',
-    value: 'pastThreeMonths',
-    start: `${formatISO(subMonths(today, 3), {
-      representation: 'date',
-    })}T00:00:00`,
-    end: `${formatISO(today, { representation: 'date' })}T23:59:59`,
+    start: subMonths(today, 3),
+    end: today,
   });
 
-  // Calculate the last 7 complete quarters
-  // e.g. up to 2 years ago
-  for (let i = 1; i < 7; i++) {
+  // Calculate the last 3 complete quarters
+  for (let i = 1; i < 4; i++) {
     quarter -= 1;
     if (quarter < 1) {
       quarter = 4;
@@ -64,13 +64,21 @@ export function getDateFilters() {
       quarterEnd,
       'MMM yyyy',
     )}`;
-    const quarterValue = `Q${quarter}_${getYear(quarterStart)}`;
 
     dateRanges.push({
       label: quarterLabel,
-      value: quarterValue,
-      start: stripTZOffset(formatISO(quarterStart)),
-      end: stripTZOffset(formatISO(quarterEnd)),
+      start: quarterStart,
+      end: quarterEnd,
+    });
+  }
+
+  // Calculate the last 2 complete years
+  for (let i = 0; i < 2; i++) {
+    const previousYear = subYears(today, i);
+    dateRanges.push({
+      label: `All of ${getYear(previousYear)}`,
+      start: startOfYear(previousYear),
+      end: endOfYear(previousYear),
     });
   }
 

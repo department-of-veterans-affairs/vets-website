@@ -251,12 +251,8 @@ describe('[TOGGLER ON]: <DownloadLetterLink>', () => {
     expect(tree.getElement('va-button').text).to.equal(
       'Commissary Letter (PDF)',
     );
-    expect(tree.textContent).to.contain('You downloaded your benefit letter');
     expect(tree.textContent).to.contain(
-      'Your letter includes the 0 topics you selected.',
-    );
-    expect(tree.textContent).to.contain(
-      'If you want to create a new letter with different information, select different topics and download your letter again.',
+      'You’ve downloaded your benefit letterYour letter includes the 0 items you selected.If you want to create a new letter with different information, update your selections and download your letter again.',
     );
   });
 

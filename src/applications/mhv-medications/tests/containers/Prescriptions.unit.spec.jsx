@@ -9,6 +9,7 @@ import * as prescriptionsApiModule from '../../api/prescriptionsApi';
 import { stubAllergiesApi, stubPrescriptionsListApi } from '../testing-utils';
 import Prescriptions from '../../containers/Prescriptions';
 import emptyPrescriptionsList from '../e2e/fixtures/empty-prescriptions-list.json';
+import { medicationsUrls } from '../../util/constants';
 
 let sandbox;
 
@@ -24,7 +25,14 @@ describe('Medications Prescriptions container', () => {
   });
 
   const initialState = {
-    rx: {},
+    rx: {
+      breadcrumbs: {
+        list: [
+          { url: medicationsUrls.MEDICATIONS_ABOUT },
+          { label: 'About medications' },
+        ],
+      },
+    },
   };
 
   const setup = (state = initialState) => {
@@ -44,7 +52,16 @@ describe('Medications Prescriptions container', () => {
   });
 
   it('should display loading message when loading prescriptions', async () => {
-    const screen = setup();
+    const screen = setup({
+      rx: {
+        breadcrumbs: {
+          list: [
+            { url: medicationsUrls.MEDICATIONS_ABOUT },
+            { label: 'About medications' },
+          ],
+        },
+      },
+    });
     waitFor(() => {
       expect(screen.getByTestId('loading-indicator')).to.exist;
       expect(screen.getByText('Loading your medications...')).to.exist;
@@ -53,7 +70,9 @@ describe('Medications Prescriptions container', () => {
 
   it('displays intro text ', async () => {
     const screen = setup();
-    await screen.getByTestId('Title-Notes');
+    expect(await screen.getByTestId('Title-Notes').textContent).to.contain(
+      'When you share your medications list with providers, make sure you also tell them about your allergies and reactions to medications',
+    );
   });
 
   it('shows title ', async () => {
@@ -154,8 +173,17 @@ describe('Medications Prescriptions container', () => {
     });
   });
 
-  it('displays text inside refill box "find a list of prescriptions you can refill online."', async () => {
-    const screen = setup(initialState);
+  it('displays text inside refill box "find a list of prescriptions you can refill online." when refill flag is true', async () => {
+    const screen = setup({
+      ...initialState,
+      breadcrumbs: {
+        list: [],
+      },
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        mhv_medications_display_refill_content: true,
+      },
+    });
     expect(
       screen.findByText('find a list of prescriptions you can refill online..'),
     );
@@ -172,24 +200,21 @@ describe('Medications Prescriptions container', () => {
   });
 
   it('Simulates print button click', async () => {
-    if (!window.print) {
-      window.print = () => {};
-    }
-    const printStub = sinon.stub(window, 'print');
     const screen = setup();
     const button = await screen.findByTestId('download-print-button');
     expect(button).to.exist;
     expect(button).to.have.text('Print this page of the list');
-    fireEvent.click(button);
     await waitFor(() => {
-      fireEvent.click(button);
+      button.click();
     });
-    printStub.restore();
   });
 
   it('displays link for allergies if mhv_medications_display_allergies feature flag is set to true', async () => {
     const screen = setup({
       ...initialState,
+      breadcrumbs: {
+        list: [],
+      },
       featureToggles: {
         // eslint-disable-next-line camelcase
         mhv_medications_display_allergies: true,
@@ -201,17 +226,25 @@ describe('Medications Prescriptions container', () => {
   it('displays "If you print or download this list, we\'ll include a list of your allergies." if mhv_medications_display_allergies feature flag is set to false', async () => {
     const screen = setup({
       ...initialState,
+      breadcrumbs: {
+        list: [],
+      },
       featureToggles: {
         // eslint-disable-next-line camelcase
         mhv_medications_display_allergies: false,
       },
     });
-    expect(await screen.getByTestId('Title-Notes').textContent).to.match(
-      /If you print or download this list, we’ll include a list of your allergies./,
+    expect(await screen.getByTestId('Title-Notes').textContent).to.contain(
+      'When you share your medications list with providers, make sure you also tell them about your allergies and reactions to medications. If you print or download this list, we’ll include a list of your allergies.',
     );
   });
   it('displays filter accordion', async () => {
-    const screen = setup();
+    const screen = setup({
+      ...initialState,
+      breadcrumbs: {
+        list: [],
+      },
+    });
     expect(await screen.getByTestId('filter-accordion')).to.exist;
   });
 });

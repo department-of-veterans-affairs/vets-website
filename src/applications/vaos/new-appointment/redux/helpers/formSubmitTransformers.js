@@ -1,15 +1,16 @@
-import { addHours, format, subMinutes } from 'date-fns';
-import { selectVAPResidentialAddress } from 'platform/user/selectors';
 import titleCase from 'platform/utilities/data/titleCase';
-import { getClinicId } from '../../../services/healthcare-service';
-import { DATE_FORMATS, LANGUAGES } from '../../../utils/constants';
+import { selectVAPResidentialAddress } from 'platform/user/selectors';
+import moment from '../../../lib/moment-tz';
+import { LANGUAGES } from '../../../utils/constants';
 import {
+  getTypeOfCare,
+  getFormData,
   getChosenCCSystemById,
   getChosenClinicInfo,
   getChosenSlot,
-  getFormData,
-  getTypeOfCare,
 } from '../selectors';
+import { getClinicId } from '../../../services/healthcare-service';
+import { getTimezoneByFacilityId } from '../../../utils/timezone';
 import { getReasonCode } from './getReasonCode';
 
 export function transformFormToVAOSCCRequest(state) {
@@ -50,7 +51,7 @@ export function transformFormToVAOSCCRequest(state) {
       city: residentialAddress.city,
       state: residentialAddress.stateCode,
     };
-  } else if (parentFacility?.address) {
+  } else if (parentFacility.address) {
     preferredLocation = {
       city: parentFacility.address.city,
       state: parentFacility.address.state,
@@ -58,6 +59,7 @@ export function transformFormToVAOSCCRequest(state) {
   }
 
   const typeOfCare = getTypeOfCare(data);
+  const facilityTimezone = getTimezoneByFacilityId(data.communityCareSystemId);
   return {
     kind: 'cc',
     status: 'proposed',
@@ -82,11 +84,16 @@ export function transformFormToVAOSCCRequest(state) {
       ],
     },
     requestedPeriods: data.selectedDates.map(date => ({
-      start: format(new Date(date), DATE_FORMATS.ISODateTimeUTC),
-      end: format(
-        addHours(subMinutes(new Date(date), 1), 12),
-        DATE_FORMATS.ISODateTimeUTC,
-      ),
+      start: moment
+        .tz(date, facilityTimezone)
+        .utc()
+        .format(),
+      end: moment
+        .tz(date, facilityTimezone)
+        .utc()
+        .add(12, 'hours')
+        .subtract(1, 'minute')
+        .format(),
     })),
     // These four fields aren't in the current schema, but probably should be
     preferredTimesForPhoneCall: Object.entries(data.bestTimeToCall || {})
@@ -118,14 +125,12 @@ export function transformFormToVAOSVARequest(state) {
     // comment: data.reasonAdditionalInfo,
     requestedPeriods: [
       {
-        start: format(
-          new Date(data.selectedDates[0]),
-          DATE_FORMATS.ISODateTimeUTC,
-        ),
-        end: format(
-          addHours(subMinutes(new Date(data.selectedDates[0]), 1), 12),
-          DATE_FORMATS.ISODateTimeUTC,
-        ),
+        start: moment.utc(data.selectedDates[0]).format(),
+        end: moment
+          .utc(data.selectedDates[0])
+          .add(12, 'hours')
+          .subtract(1, 'minute')
+          .format(),
       },
     ],
     // This field isn't in the schema yet

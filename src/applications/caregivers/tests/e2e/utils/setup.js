@@ -1,4 +1,3 @@
-import { LABELS } from '../../../hooks/useSignatureSync';
 import content from '../../../locales/en/content.json';
 import mockFacilities from '../fixtures/mocks/facilities.json';
 import mockFeatures from '../fixtures/mocks/feature-toggles.json';
@@ -8,7 +7,7 @@ import mockPdfDownload from '../fixtures/mocks/pdf-download.json';
 import mockSubmission from '../fixtures/mocks/submission.json';
 import mockUpload from '../fixtures/mocks/upload.json';
 import mockVamc from '../fixtures/mocks/vamc-ehr.json';
-import { fillVaFacilitySearch } from './fillers';
+import { fillStatementOfTruthPattern, fillVaFacilitySearch } from './fillers';
 import { goToNextPage, startAsGuestUser } from './helpers';
 
 const APIs = {
@@ -50,6 +49,13 @@ export const pageHooks = {
   },
   'review-and-submit': () => {
     cy.get('@testData').then(testData => {
+      const labels = {
+        veteran: content['vet-input-label'],
+        primary: content['primary-signature-label'],
+        representative: content['sign-as-rep-signature-label'],
+        secondaryOne: content['secondary-one-signature-label'],
+        secondaryTwo: content['secondary-two-signature-label'],
+      };
       const parties = {
         veteran: testData.veteranSignature,
         primary: testData.primarySignature,
@@ -74,10 +80,7 @@ export const pageHooks = {
         const signatures =
           statementOfTruthActions[testKey] || statementOfTruthActions.default;
         signatures.forEach(role =>
-          cy.fillVaStatementOfTruth(LABELS[role], {
-            fullName: role === 'representative' ? parties[role] : undefined,
-            checked: true,
-          }),
+          fillStatementOfTruthPattern(labels[role], parties[role]),
         );
       });
     });

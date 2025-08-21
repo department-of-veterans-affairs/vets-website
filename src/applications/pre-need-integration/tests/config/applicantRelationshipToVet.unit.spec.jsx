@@ -2,9 +2,11 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
-import { render, fireEvent, waitFor } from '@testing-library/react';
 
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  fillData,
+} from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
 describe('Pre-need applicant relationship to vet', () => {
@@ -22,14 +24,14 @@ describe('Pre-need applicant relationship to vet', () => {
       />,
     );
 
-    expect(form.find('va-select').length).to.equal(1);
+    expect(form.find('select').length).to.equal(1);
     expect(form.find('va-additional-info').length).to.equal(1);
     form.unmount();
   });
-  // Rework Test
-  it('should not submit empty form', async () => {
+
+  it('should not submit empty form', () => {
     const onSubmit = sinon.spy();
-    const { container } = render(
+    const form = mount(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
@@ -37,13 +39,12 @@ describe('Pre-need applicant relationship to vet', () => {
         uiSchema={uiSchema}
       />,
     );
-    fireEvent.submit(container.querySelector('form'));
 
-    await waitFor(() => {
-      const errorElements = container.querySelectorAll('.usa-input-error');
-      expect(errorElements.length).to.equal(0);
-      expect(onSubmit.called).to.be.false;
-    });
+    form.find('form').simulate('submit');
+
+    expect(form.find('.usa-input-error').length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('should submit with required information', () => {
@@ -54,20 +55,16 @@ describe('Pre-need applicant relationship to vet', () => {
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}
-        data={{
-          application: {
-            claimant: {
-              relationshipToVet: 'veteran',
-            },
-          },
-        }}
       />,
     );
-
+    fillData(
+      form,
+      'select#root_application_claimant_relationshipToVet',
+      'veteran',
+    );
     form.find('form').simulate('submit');
 
     expect(onSubmit.called).to.be.true;
-    expect(form.find('va-select').prop('error')).to.not.exist;
     form.unmount();
   });
 });

@@ -1,14 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { format } from 'date-fns';
 
 const CalendarNavigation = ({
   prevOnClick,
   nextOnClick,
   prevDisabled,
   nextDisabled,
-  date,
+  momentMonth,
 }) => (
   <div role="rowgroup">
     <div
@@ -43,10 +42,10 @@ const CalendarNavigation = ({
 
       <span role="cell">
         <h2
-          id={`h2-${format(date, 'yyyy-MM')}`}
+          id={`h2-${momentMonth.format('YYYY-MM')}`}
           className="vads-u-font-size--h4 mobile-lg:vads-u-font-size--h3 vads-u-margin-top--0p5 vads-u-font-weight--bold vads-u-text-align--center vads-u-align-items--center vads-u-margin-bottom--0 vads-u-display--block vads-u-font-family--serif"
         >
-          {format(date, 'MMMM yyyy')}
+          {momentMonth.format('MMMM YYYY')}
         </h2>
       </span>
 
@@ -74,15 +73,23 @@ const CalendarNavigation = ({
             <va-icon icon="navigate_next" size="3" aria-hidden="true" />
           </span>
         </button>
+        <div
+          className="sr-only"
+          id={`vaos-calendar-instructions-${momentMonth.month()}`}
+        >
+          Press the Enter key to expand the day you want to schedule an
+          appointment. Then press the Tab key or form shortcut key to select an
+          appointment time.
+        </div>
       </span>
     </div>
   </div>
 );
 
 CalendarNavigation.propTypes = {
-  date: PropTypes.instanceOf(Date).isRequired,
   nextOnClick: PropTypes.func.isRequired,
   prevOnClick: PropTypes.func.isRequired,
+  momentMonth: PropTypes.object,
   nextDisabled: PropTypes.bool,
   prevDisabled: PropTypes.bool,
 };

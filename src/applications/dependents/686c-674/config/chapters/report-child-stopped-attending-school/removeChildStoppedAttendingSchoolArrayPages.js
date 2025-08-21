@@ -50,7 +50,6 @@ export const removeChildStoppedAttendingSchoolIntroPage = {
         </p>
         <CancelButton
           dependentType="children who left school"
-          dependentButtonType="children"
           isAddChapter={false}
         />
       </>
@@ -106,15 +105,13 @@ export const childInformationPage = {
       ...ssnUI('Child’s Social Security number'),
       'ui:required': () => true,
     },
-    birthDate: currentOrPastDateUI({
-      title: 'Child’s date of birth',
-      dataDogHidden: true,
-      required: () => true,
-    }),
+    birthDate: {
+      ...currentOrPastDateUI('Child’s date of birth'),
+      'ui:required': () => true,
+    },
   },
   schema: {
     type: 'object',
-    required: ['fullName', 'ssn', 'birthDate'],
     properties: {
       fullName: fullNameNoSuffixSchema,
       ssn: ssnSchema,
@@ -136,7 +133,6 @@ export const dateChildLeftSchoolPage = {
   },
   schema: {
     type: 'object',
-    required: ['dateChildLeftSchool'],
     properties: {
       dateChildLeftSchool: currentOrPastDateSchema,
     },

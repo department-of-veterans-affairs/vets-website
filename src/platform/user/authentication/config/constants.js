@@ -3,8 +3,8 @@ import { CLIENT_IDS } from '../../../utilities/oauth/constants';
 import { EXTERNAL_APPS } from '../constants';
 
 export const defaultSignInProviders = {
-  idme: true,
   logingov: true,
+  idme: true,
 };
 
 export const legacySignInProviders = {

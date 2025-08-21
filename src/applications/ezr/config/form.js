@@ -22,6 +22,7 @@ import {
   includeOtherExposureDates,
   includeOtherExposureDetails,
   isEmergencyContactsEnabled,
+  isNextOfKinEnabled,
   showFinancialStatusAlert,
   spouseDidNotCohabitateWithVeteran,
   spouseAddressDoesNotMatchVeterans,
@@ -33,10 +34,6 @@ import {
   canVeteranProvidePostSept11ServiceResponse,
   canVeteranProvideCombatOperationsResponse,
   canVeteranProvideAgentOrangeResponse,
-  includeHouseholdInformationWithV1Prefill,
-  includeHouseholdInformationWithV2Prefill,
-  includeSpousalInformationWithV1Prefill,
-  includeSpousalInformationWithV2Prefill,
 } from '../utils/helpers/form-config';
 import { prefillTransformer } from '../utils/helpers/prefill-transformer';
 import { submitTransformer } from '../utils/helpers/submit-transformer';
@@ -65,14 +62,13 @@ import spouseAdditionalInformation from './chapters/householdInformation/spouseA
 import spouseFinancialSupport from './chapters/householdInformation/spouseFinancialSupport';
 import spouseContactInformation from './chapters/householdInformation/spouseContactInformation';
 import dependentSummary from './chapters/householdInformation/dependentSummary';
+import veteranAnnualIncome from './chapters/householdInformation/veteranAnnualIncome';
+import spouseAnnualIncome from './chapters/householdInformation/spouseAnnualIncome';
+import deductibleExpenses from './chapters/householdInformation/deductibleExpenses';
 import DependentSummaryPage from '../components/FormPages/DependentSummary';
 import DependentInformationPage from '../components/FormPages/DependentInformation';
 import DependentsReviewPage from '../components/FormReview/DependentsReviewPage';
 import FinancialConfirmationPage from '../components/FormPages/FinancialStatusConfirmation';
-import veteranAnnualIncome from './chapters/householdInformation/veteranAnnualIncome';
-import spouseAnnualIncome from './chapters/householdInformation/spouseAnnualIncome';
-import deductibleExpenses from './chapters/householdInformation/deductibleExpenses';
-import FinancialInformationPages from './chapters/householdInformation/financialInformation';
 
 // chapter 3 Military Service
 import toxicExposure from './chapters/militaryService/toxicExposure';
@@ -226,15 +222,15 @@ const formConfig = {
         },
         nextOfKinSummary: {
           ...nextOfKinPages.nextOfKinSummary,
-          depends: isEmergencyContactsEnabled,
+          depends: isNextOfKinEnabled,
         },
         nextOfKinPage: {
           ...nextOfKinPages.nextOfKinPage,
-          depends: isEmergencyContactsEnabled,
+          depends: isNextOfKinEnabled,
         },
         nextOfKinAddressPage: {
           ...nextOfKinPages.nextOfKinAddressPage,
-          depends: isEmergencyContactsEnabled,
+          depends: isNextOfKinEnabled,
         },
         /** NOTE: this page needs to live in the "Veteran Info" section to avoid
          * having an empty/inactive "Household Info" accordion on the review page
@@ -390,7 +386,7 @@ const formConfig = {
         },
         dependentSummary: {
           path: DEPENDENT_PATHS.summary,
-          title: 'Your Dependents',
+          title: 'Dependents',
           CustomPage: DependentSummaryPage,
           CustomPageReview: DependentsReviewPage,
           depends: includeHouseholdInformation,
@@ -406,49 +402,29 @@ const formConfig = {
           uiSchema: {},
           schema: VIEW_FIELD_SCHEMA,
         },
-        financialInformationIntroduction: {
-          ...FinancialInformationPages.financialInformationIntroduction,
-          depends: includeHouseholdInformationWithV2Prefill,
-        },
-        financialInformationSummary: {
-          ...FinancialInformationPages.financialInformationSummary,
-          depends: includeHouseholdInformationWithV2Prefill,
-        },
         veteranAnnualIncome: {
           path: 'household-information/veteran-annual-income',
           title: 'Your annual income',
           initialData: {},
-          depends: includeHouseholdInformationWithV1Prefill,
+          depends: includeHouseholdInformation,
           uiSchema: veteranAnnualIncome.uiSchema,
           schema: veteranAnnualIncome.schema,
-        },
-        veteranAnnualIncomeV2: {
-          ...FinancialInformationPages.veteranAnnualIncome,
-          depends: includeHouseholdInformationWithV2Prefill,
         },
         spouseAnnualIncome: {
           path: 'household-information/spouse-annual-income',
           title: 'Spouse\u2019s annual income',
           initialData: {},
-          depends: includeSpousalInformationWithV1Prefill,
+          depends: includeSpousalInformation,
           uiSchema: spouseAnnualIncome.uiSchema,
           schema: spouseAnnualIncome.schema,
-        },
-        spouseAnnualIncomeV2: {
-          ...FinancialInformationPages.spouseAnnualIncome,
-          depends: includeSpousalInformationWithV2Prefill,
         },
         deductibleExpenses: {
           path: 'household-information/deductible-expenses',
           title: 'Deductible expenses',
           initialData: {},
-          depends: includeHouseholdInformationWithV1Prefill,
+          depends: includeHouseholdInformation,
           uiSchema: deductibleExpenses.uiSchema,
           schema: deductibleExpenses.schema,
-        },
-        deductibleExpensesV2: {
-          ...FinancialInformationPages.veteranDeductible,
-          depends: includeHouseholdInformationWithV2Prefill,
         },
       },
     },

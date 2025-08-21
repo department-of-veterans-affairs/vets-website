@@ -31,66 +31,59 @@ describe('Contact info fields', () => {
     setup();
     cy.injectAxe();
 
-    cy.get('va-button[label="Edit Mailing address"]').click();
+    cy.findByRole('button', { name: /edit mailing address/i }).click();
     cy.get('va-checkbox[name="root_view:livesOnMilitaryBase"]').should(
       'be.focused',
     );
     cy.axeCheck();
-    cy.findByTestId('cancel-edit-button').click();
-    cy.get('va-button[label="Edit Mailing address"]')
-      .shadow()
-      .find('button')
-      .should('be.focused');
+    cy.findByText('Cancel').click();
+    cy.findByRole('button', { name: /edit mailing address/i }).should(
+      'be.focused',
+    );
 
-    cy.get('va-button[label="Edit Home address"]').click();
+    cy.findByRole('button', { name: /edit home address/i }).click();
     cy.findByLabelText(/use my mailing address for my home address/i).should(
       'be.focused',
     );
     cy.axeCheck();
-    cy.findByTestId('cancel-edit-button').click();
-    cy.get('va-button[label="Edit Home address"]')
-      .shadow()
-      .find('button')
-      .should('be.focused');
+    cy.findByText('Cancel').click();
+    cy.findByRole('button', { name: /edit home address/i }).should(
+      'be.focused',
+    );
 
-    cy.get('va-button[label="Edit Home phone number"]').click();
-
+    cy.findByRole('button', { name: /edit home.*number/i }).click();
     cy.findByTestId('homePhone').should('exist');
     cy.get('va-text-input[name="root_inputPhoneNumber"]').should('be.focused');
     cy.axeCheck();
-    cy.findByTestId('cancel-edit-button').click();
-    cy.get('va-button[label="Edit Home phone number"]')
-      .shadow()
-      .find('button')
-      .should('be.focused');
+    cy.findByText('Cancel').click();
+    cy.findByRole('button', { name: /edit home.*number/i }).should(
+      'be.focused',
+    );
 
-    cy.get('va-button[label="Edit Work phone number"]').click();
+    cy.findByRole('button', { name: /edit work.*number/i }).click();
     cy.findByTestId('workPhone').should('exist');
     cy.axeCheck();
-    cy.findByTestId('cancel-edit-button').click();
-    cy.get('va-button[label="Edit Work phone number"]')
-      .shadow()
-      .find('button')
-      .should('be.focused');
+    cy.findByText('Cancel').click();
+    cy.findByRole('button', { name: /edit work.*number/i }).should(
+      'be.focused',
+    );
 
-    cy.get('va-button[label="Edit Mobile phone number"]').click();
+    cy.findByRole('button', { name: /edit mobile.*number/i }).click();
     cy.findByTestId('mobilePhone').should('exist');
     cy.get('va-text-input[name="root_inputPhoneNumber"]').should('be.focused');
     cy.axeCheck();
-    cy.findByTestId('cancel-edit-button').click();
-    cy.get('va-button[label="Edit Mobile phone number"]')
-      .shadow()
-      .find('button')
-      .should('be.focused');
+    cy.findByText('Cancel').click();
+    cy.findByRole('button', { name: /edit mobile.*number/i }).should(
+      'be.focused',
+    );
 
-    cy.get('va-button[label="Edit Contact email address"]').click();
+    cy.findByRole('button', { name: /edit contact email/i }).click();
     cy.findByTestId('email').should('exist');
     cy.get('va-text-input[name="root_emailAddress"]').should('be.focused');
     cy.axeCheck();
-    cy.findByTestId('cancel-edit-button').click();
-    cy.get('va-button[label="Edit Contact email address"]')
-      .shadow()
-      .find('button')
-      .should('be.focused');
+    cy.findByText('Cancel').click();
+    cy.findByRole('button', { name: /edit contact email/i }).should(
+      'be.focused',
+    );
   });
 });

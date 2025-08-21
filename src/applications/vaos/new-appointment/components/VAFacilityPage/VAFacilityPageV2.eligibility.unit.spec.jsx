@@ -207,7 +207,9 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       });
 
       expect(
-        await screen.findByText(/We can’t schedule your appointment right now/),
+        await screen.findByText(
+          /You can.t schedule an appointment online right now/,
+        ),
       ).to.exist;
 
       // expect(await screen.findByText(/Continue/)).to.have.attribute('disabled');

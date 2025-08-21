@@ -7,8 +7,7 @@ const PaginationMeta = ({ meta, results, resultType, defaults }) => {
   const [searchParams] = useSearchParams();
   const pageSize = Number(searchParams.get('pageSize')) || defaults.SIZE;
   const pageNumber = Number(searchParams.get('pageNumber')) || defaults.NUMBER;
-  const sortOrder =
-    searchParams.get(SEARCH_PARAMS.SORTORDER) || defaults.SORT_ORDER;
+  const sortOrder = searchParams.get(SEARCH_PARAMS.SORTORDER);
   const searchStatus = searchParams.get('status') || '';
   let initCount;
   let pageSizeCount = pageSize * pageNumber;
@@ -27,7 +26,7 @@ const PaginationMeta = ({ meta, results, resultType, defaults }) => {
   }
   return (
     <p className="poa-request__meta">
-      Showing {initCount}-{pageSizeCount} of {totalCount} {searchStatus || ''}{' '}
+      Showing {initCount}-{pageSizeCount} of {totalCount} {searchStatus}{' '}
       {resultType || ''} sorted by “
       <strong>
         {searchStatus === 'processed' ? 'Processed' : 'Submitted'} date (

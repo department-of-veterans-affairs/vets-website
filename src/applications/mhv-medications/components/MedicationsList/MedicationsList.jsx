@@ -15,8 +15,6 @@ import PrescriptionPrintOnly from '../PrescriptionDetails/PrescriptionPrintOnly'
 import { fromToNumbs } from '../../util/helpers';
 import { selectGroupingFlag } from '../../util/selectors';
 import { dataDogActionNames } from '../../util/dataDogConstants';
-import { selectPrescriptionId } from '../../selectors/selectPrescription';
-import { selectFilterOption } from '../../selectors/selectPreferences';
 
 const MAX_PAGE_LIST_LENGTH = 6;
 const MedicationsList = props => {
@@ -33,7 +31,9 @@ const MedicationsList = props => {
     selectedSortOption
   ]?.LABEL.toLowerCase();
   const totalMedications = pagination.totalEntries;
-  const prescriptionId = useSelector(selectPrescriptionId);
+  const prescriptionId = useSelector(
+    state => state.rx.prescriptions?.prescriptionDetails?.prescriptionId,
+  );
   const showGroupingFlag = useSelector(selectGroupingFlag);
 
   const perPage = showGroupingFlag ? 10 : 20;
@@ -43,6 +43,7 @@ const MedicationsList = props => {
 
   const onPageChange = page => {
     datadogRum.addAction(dataDogActionNames.medicationsListPage.PAGINATION);
+    document.getElementById('showingRx').scrollIntoView();
     navigate(`/?page=${page}`, {
       replace: true,
     });
@@ -57,7 +58,9 @@ const MedicationsList = props => {
     perPage,
   );
 
-  const selectedFilterOption = useSelector(selectFilterOption);
+  const selectedFilterOption = useSelector(
+    state => state.rx.preferences.filterOption,
+  );
   const selectedFilterDisplay =
     filterOptions[selectedFilterOption]?.showingContentDisplayName;
 

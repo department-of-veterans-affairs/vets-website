@@ -1,13 +1,9 @@
-import { expect } from 'chai';
 import React from 'react';
+import { expect } from 'chai';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
-import { AppointmentList } from '../..';
-import MockAppointmentResponse from '../../../tests/fixtures/MockAppointmentResponse';
-import MockFacilityResponse from '../../../tests/fixtures/MockFacilityResponse';
-import { createTestStore } from '../../../tests/mocks/setup';
-import { Facility } from '../../../tests/mocks/unit-test-helpers';
-import { APPOINTMENT_STATUS } from '../../../utils/constants';
 import DetailsVA from './DetailsVA';
+import { Facility } from '../../../tests/mocks/unit-test-helpers';
+import { createTestStore } from '../../../tests/mocks/setup';
 
 const facilityData = new Facility();
 
@@ -18,16 +14,29 @@ describe('VAOS Component: DetailsVA', () => {
     it('should display comp and pension appointment layout', async () => {
       // Arrange
       const store = createTestStore(initialState);
+      const appointment = {
+        location: {},
+        minutesDuration: 60,
+        startUtc: new Date(),
+        videoData: {},
+        vaos: {
+          isCommunityCare: false,
+          isCompAndPenAppointment: true,
+          isCOVIDVaccine: false,
+          isPendingAppointment: false,
+          isUpcomingAppointment: true,
+          apiData: {
+            serviceCategory: [
+              {
+                text: 'COMPENSATION & PENSION',
+              },
+            ],
+          },
+        },
+        status: 'booked',
+      };
 
       // Act
-      const response = MockAppointmentResponse.createCompPensionResponse({
-        localStartTime: new Date(),
-        status: APPOINTMENT_STATUS.booked,
-      });
-      const appointment = MockAppointmentResponse.getTransformedResponse(
-        response,
-      );
-
       const props = { appointment, facilityData };
       const screen = renderWithStoreAndRouter(<DetailsVA {...props} />, {
         store,
@@ -45,16 +54,27 @@ describe('VAOS Component: DetailsVA', () => {
     it('should display phone appointment layout', async () => {
       // Arrange
       const store = createTestStore(initialState);
+      const appointment = {
+        location: {},
+        minutesDuration: 60,
+        startUtc: new Date(),
+        videoData: {},
+        vaos: {
+          isCommunityCare: false,
+          isCompAndPenAppointment: false,
+          isCOVIDVaccine: false,
+          isPendingAppointment: false,
+          isUpcomingAppointment: true,
+          isPhoneAppointment: true,
+          isCancellable: true,
+          apiData: {
+            serviceType: 'primaryCare',
+          },
+        },
+        status: 'booked',
+      };
 
       // Act
-      const response = MockAppointmentResponse.createPhoneResponse({
-        localStartTime: new Date(),
-        status: APPOINTMENT_STATUS.booked,
-      }).setLocation(new MockFacilityResponse());
-      const appointment = MockAppointmentResponse.getTransformedResponse(
-        response,
-      );
-
       const props = { appointment, facilityData };
       const screen = renderWithStoreAndRouter(<DetailsVA {...props} />, {
         store,
@@ -72,16 +92,26 @@ describe('VAOS Component: DetailsVA', () => {
     it('should display in-person appointment layout', async () => {
       // Arrange
       const store = createTestStore(initialState);
+      const appointment = {
+        location: {},
+        minutesDuration: 60,
+        startUtc: new Date(),
+        videoData: {},
+        vaos: {
+          isCommunityCare: false,
+          isCompAndPenAppointment: false,
+          isCOVIDVaccine: false,
+          isPendingAppointment: false,
+          isUpcomingAppointment: true,
+          isCancellable: true,
+          apiData: {
+            serviceType: 'primaryCare',
+          },
+        },
+        status: 'booked',
+      };
 
       // Act
-      const response = MockAppointmentResponse.createVAResponse({
-        localStartTime: new Date(),
-        status: APPOINTMENT_STATUS.booked,
-      });
-      const appointment = MockAppointmentResponse.getTransformedResponse(
-        response,
-      );
-
       const props = { appointment, facilityData };
       const screen = renderWithStoreAndRouter(<DetailsVA {...props} />, {
         store,
@@ -100,13 +130,24 @@ describe('VAOS Component: DetailsVA', () => {
   describe('When canceling an appointment', () => {
     it('should display cancel warning page', async () => {
       // Arrange
-      const response = MockAppointmentResponse.createVAResponse({
-        localStartTime: new Date(),
-        status: APPOINTMENT_STATUS.booked,
-      }).setLocation(new MockFacilityResponse());
-      const appointment = MockAppointmentResponse.getTransformedResponse(
-        response,
-      );
+      const appointment = {
+        id: '1',
+        location: {},
+        videoData: {},
+        vaos: {
+          isCommunityCare: false,
+          isCompAndPenAppointment: false,
+          isCOVIDVaccine: false,
+          isPendingAppointment: false,
+          isUpcomingAppointment: true,
+          isCancellable: true,
+          apiData: {
+            serviceType: 'primaryCare',
+          },
+        },
+        status: 'booked',
+      };
+
       const store = createTestStore({
         appointments: {
           appointmentToCancel: null,
@@ -120,9 +161,8 @@ describe('VAOS Component: DetailsVA', () => {
 
       // Act
       const props = { appointment, facilityData };
-      const screen = renderWithStoreAndRouter(<AppointmentList {...props} />, {
+      const screen = renderWithStoreAndRouter(<DetailsVA {...props} />, {
         store,
-        path: '/1',
       });
 
       // Assert
@@ -136,13 +176,23 @@ describe('VAOS Component: DetailsVA', () => {
 
     it('should display cancel confirmation page', async () => {
       // Arrange
-      const response = MockAppointmentResponse.createVAResponse({
-        localStartTime: new Date(),
-        status: APPOINTMENT_STATUS.booked,
-      }).setLocation(new MockFacilityResponse());
-      const appointment = MockAppointmentResponse.getTransformedResponse(
-        response,
-      );
+      const appointment = {
+        id: '1',
+        location: {},
+        videoData: {},
+        vaos: {
+          isCommunityCare: false,
+          isCompAndPenAppointment: false,
+          isCOVIDVaccine: false,
+          isPendingAppointment: false,
+          isUpcomingAppointment: true,
+          isCancellable: true,
+          apiData: {
+            serviceType: 'primaryCare',
+          },
+        },
+        status: 'booked',
+      };
 
       const store = createTestStore({
         appointments: {
@@ -157,9 +207,8 @@ describe('VAOS Component: DetailsVA', () => {
 
       // Act
       const props = { appointment, facilityData };
-      const screen = renderWithStoreAndRouter(<AppointmentList {...props} />, {
+      const screen = renderWithStoreAndRouter(<DetailsVA {...props} />, {
         store,
-        path: '/1',
       });
 
       // Assert
@@ -173,13 +222,24 @@ describe('VAOS Component: DetailsVA', () => {
 
     it('should display cancel alert page on failure', async () => {
       // Arrange
-      const response = MockAppointmentResponse.createVAResponse({
-        localStartTime: new Date(),
-        status: APPOINTMENT_STATUS.booked,
-      }).setLocation(new MockFacilityResponse());
-      const appointment = MockAppointmentResponse.getTransformedResponse(
-        response,
-      );
+      const appointment = {
+        id: '1',
+        location: {},
+        videoData: {},
+        vaos: {
+          isCommunityCare: false,
+          isCompAndPenAppointment: false,
+          isCOVIDVaccine: false,
+          isPendingAppointment: false,
+          isUpcomingAppointment: true,
+          isCancellable: true,
+          apiData: {
+            serviceType: 'primaryCare',
+          },
+        },
+        status: 'booked',
+      };
+
       const store = createTestStore({
         appointments: {
           appointmentToCancel: null,
@@ -193,9 +253,8 @@ describe('VAOS Component: DetailsVA', () => {
 
       // Act
       const props = { appointment, facilityData };
-      const screen = renderWithStoreAndRouter(<AppointmentList {...props} />, {
+      const screen = renderWithStoreAndRouter(<DetailsVA {...props} />, {
         store,
-        path: '/1',
       });
 
       // Assert

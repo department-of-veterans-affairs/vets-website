@@ -218,9 +218,7 @@ export const pageHooks = {
         });
         testData.contestedIssues.forEach(issue => {
           if (issue[SELECTED]) {
-            cy.get(
-              `label:contains("${issue.attributes.ratingIssueSubjectText}")`,
-            )
+            cy.get(`h4:contains("${issue.attributes.ratingIssueSubjectText}")`)
               .closest('li')
               .find('input[type="checkbox"]')
               .click({ force: true });

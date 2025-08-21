@@ -121,7 +121,7 @@ describe('<VAPServiceProfileField/>', () => {
       ...{ user: { profile: { vapContactInfo: {} } } },
     };
     props = { ...props, isEmpty: true };
-    const { queryByRole, getByTestId } = renderInReduxProvider(
+    const { queryByRole, getByText } = renderInReduxProvider(
       <VAPServiceProfileField {...props} />,
       {
         initialState: state,
@@ -130,7 +130,7 @@ describe('<VAPServiceProfileField/>', () => {
     );
 
     expect(queryByRole('heading', { name: /Content/i })).to.be.null;
-    expect(getByTestId('save-edit-button')).to.be.visible;
+    expect(getByText('Save')).to.be.visible;
   });
 
   it('renders the edit link and handles click', () => {

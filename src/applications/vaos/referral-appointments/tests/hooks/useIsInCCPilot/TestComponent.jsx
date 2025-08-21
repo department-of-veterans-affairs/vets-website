@@ -1,13 +1,13 @@
 /* istanbul ignore file */
 import React from 'react';
-import { useIsInPilotUserStations } from '../../../hooks/useIsInPilotUserStations';
+import { useIsInCCPilot } from '../../../hooks/useIsInCCPilot';
 
 export default function TestComponent() {
-  const { isInPilotUserStations } = useIsInPilotUserStations();
+  const { isInCCPilot } = useIsInCCPilot();
   return (
     <div>
       <p>Test component</p>
-      <p data-testid="pilot-value">{isInPilotUserStations.toString()}</p>
+      <p data-testid="pilot-value">{isInCCPilot.toString()}</p>
     </div>
   );
 }

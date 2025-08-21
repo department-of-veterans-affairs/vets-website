@@ -1,12 +1,14 @@
 export default function prefillTransformer(pages, formData, metadata) {
-  const { ssnLastFour = '' } = formData?.veteranInformation || {};
+  const { veteranSsnLastFour = '', veteranVaFileNumberLastFour = '' } =
+    formData?.nonPrefill || {};
 
   return {
     pages,
     formData: {
       veteranInformation: {
         ...formData?.veteranInformation,
-        ssnLastFour,
+        ssnLastFour: veteranSsnLastFour,
+        vaFileLastFour: veteranVaFileNumberLastFour,
       },
     },
     metadata,

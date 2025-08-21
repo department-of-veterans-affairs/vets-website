@@ -5,9 +5,10 @@ import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 
 import { uploadStore } from 'platform/forms-system/test/config/helpers';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
-import { waitFor } from '@testing-library/dom';
-import formConfig from '../../config/form';
+import {
+  DefinitionTester, // selectCheckbox
+} from 'platform/testing/unit/schemaform-utils.jsx';
+import formConfig from '../../config/form.js';
 import { ERR_MSG_CSS_CLASS } from '../../constants';
 
 describe('8940 supporting documents upload', () => {
@@ -16,7 +17,7 @@ describe('8940 supporting documents upload', () => {
       .uploadUnemployabilitySupportingDocuments;
   const { schema, uiSchema, arrayPath } = page;
 
-  it('should render', async () => {
+  it('should render', () => {
     const form = mount(
       <Provider store={uploadStore}>
         <DefinitionTester
@@ -37,7 +38,7 @@ describe('8940 supporting documents upload', () => {
     form.unmount();
   });
 
-  it('should submit without required upload', async () => {
+  it('should submit without required upload', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <Provider store={uploadStore}>
@@ -56,15 +57,13 @@ describe('8940 supporting documents upload', () => {
       </Provider>,
     );
 
-    await waitFor(() => {
-      form.find('form').simulate('submit');
-      expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
-      expect(onSubmit.called).to.be.true;
-    });
+    form.find('form').simulate('submit');
+    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
     form.unmount();
   });
 
-  it('should submit with uploaded documents', async () => {
+  it('should submit with uploaded documents', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <Provider store={uploadStore}>
@@ -88,11 +87,9 @@ describe('8940 supporting documents upload', () => {
       </Provider>,
     );
 
-    await waitFor(() => {
-      form.find('form').simulate('submit');
-      expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
-      expect(onSubmit.called).to.be.true;
-    });
+    form.find('form').simulate('submit');
+    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
     form.unmount();
   });
 });

@@ -19,7 +19,7 @@ import {
 import { threadSortingOptions } from '../../util/constants';
 
 describe('threads reducer', () => {
-  const mockStore = (initialState = { featureToggles: {} }) => {
+  const mockStore = (initialState = {}) => {
     return createStore(threadsReducer, initialState, applyMiddleware(thunk));
   };
 
@@ -28,7 +28,6 @@ describe('threads reducer', () => {
     mockApiRequest(inboxThreadResponse);
     store.dispatch(getListOfThreads(0, 10, 1));
     expect(store.getState()).to.deep.equal({
-      featureToggles: {},
       isLoading: true,
     });
   });
@@ -40,7 +39,6 @@ describe('threads reducer', () => {
     await store.dispatch(getListOfThreads(0, 10, 1));
 
     expect(store.getState()).to.deep.equal({
-      featureToggles: {},
       threadList: inboxThreadResponse.data.map(thread => {
         const thrdAttr = thread.attributes;
         return { ...thrdAttr };
@@ -55,7 +53,6 @@ describe('threads reducer', () => {
 
     await store.dispatch(getListOfThreads(0, 10, 1));
     expect(store.getState()).to.deep.equal({
-      featureToggles: {},
       threadList: [],
       isLoading: false,
     });
@@ -66,7 +63,6 @@ describe('threads reducer', () => {
     await store.dispatch(clearListOfThreads());
 
     expect(store.getState()).to.deep.equal({
-      featureToggles: {},
       threadList: undefined,
     });
   });
@@ -77,7 +73,6 @@ describe('threads reducer', () => {
     await store.dispatch(setThreadPage(page));
 
     expect(store.getState()).to.deep.equal({
-      featureToggles: {},
       threadSort: { page },
     });
   });
@@ -87,7 +82,6 @@ describe('threads reducer', () => {
     await store.dispatch(resetThreadSortOrder());
 
     expect(store.getState()).to.deep.equal({
-      featureToggles: {},
       threadSort: {
         value: threadSortingOptions.SENT_DATE_DESCENDING.value,
         folderId: undefined,
@@ -104,7 +98,6 @@ describe('threads reducer', () => {
       response: { ...errorResponse },
     });
     expect(store.getState()).to.deep.equal({
-      featureToggles: {},
       threadList: undefined,
       isLoading: false,
       hasError: true,

@@ -271,20 +271,18 @@ export const convertAccountSummary = data => {
 
   // Map facilities
   const mappedFacilities = facilities
-    ? facilities
-        .filter(facility => facility?.facilityInfo?.treatment)
-        .map(facility => ({
-          facilityName: facility.facilityInfo?.name || 'Unknown facility',
-          stationNumber: facility.facilityInfo?.stationNumber || 'Unknown ID',
-          type: facility.facilityInfo?.treatment ? 'Treatment' : 'VAMC',
-        }))
-    : [];
+    .filter(facility => facility.facilityInfo.treatment)
+    .map(facility => ({
+      facilityName: facility.facilityInfo?.name || 'Unknown facility',
+      stationNumber: facility.facilityInfo?.stationNumber || 'Unknown ID',
+      type: facility.facilityInfo?.treatment ? 'Treatment' : 'VAMC',
+    }));
 
   // Extract user profile details
   const ipa = ipas && ipas[0];
   const authenticatingFacility =
     ipa?.authenticatingFacilityId &&
-    facilities?.find(
+    facilities.find(
       facility => facility.facilityInfo?.id === ipa.authenticatingFacilityId,
     );
 

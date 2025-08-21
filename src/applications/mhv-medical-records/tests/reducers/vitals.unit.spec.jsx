@@ -115,9 +115,9 @@ describe('vitalReducer', () => {
   it('creates a list', () => {
     const response = {
       entry: [
-        { resource: { id: 1, code: { coding: [{ code: '8310-5' }] } } },
-        { resource: { id: 2, code: { coding: [{ code: '8310-5' }] } } },
-        { resource: { id: 3, code: { coding: [{ code: '8310-5' }] } } },
+        { resource: { id: 1 } },
+        { resource: { id: 2 } },
+        { resource: { id: 3 } },
       ],
       resourceType: 'Observation',
     };
@@ -132,9 +132,9 @@ describe('vitalReducer', () => {
   it('puts updated records in updatedList', () => {
     const response = {
       entry: [
-        { resource: { id: 1, code: { coding: [{ code: '8310-5' }] } } },
-        { resource: { id: 2, code: { coding: [{ code: '8310-5' }] } } },
-        { resource: { id: 3, code: { coding: [{ code: '8310-5' }] } } },
+        { resource: { id: 1 } },
+        { resource: { id: 2 } },
+        { resource: { id: 3 } },
       ],
       resourceType: 'Observation',
     };
@@ -146,25 +146,6 @@ describe('vitalReducer', () => {
     );
     expect(newState.vitalsList.length).to.equal(2);
     expect(newState.updatedList.length).to.equal(3);
-  });
-
-  it('ignores records without allowed types', () => {
-    const response = {
-      entry: [
-        { resource: { id: 1, code: { coding: [{ code: '1234-5' }] } } },
-        { resource: { id: 2, code: { coding: [{ code: '1234-5' }] } } },
-        { resource: { id: 3, code: { coding: [{ code: '1234-5' }] } } },
-      ],
-      resourceType: 'Observation',
-    };
-    const newState = vitalReducer(
-      {
-        vitalsList: [{ resource: { id: 1 } }, { resource: { id: 2 } }],
-      },
-      { type: Actions.Vitals.GET_LIST, response },
-    );
-    expect(newState.vitalsList.length).to.equal(2);
-    expect(newState.updatedList.length).to.equal(0);
   });
 
   it('moves updatedList into vitalsList on request', () => {

@@ -60,7 +60,7 @@ describe('Prescription details container', () => {
       user: {
         profile: {
           userFullName: { first: 'test', last: 'last', suffix: 'jr' },
-          dob: '2000-01-01',
+          dob: 'January, 01, 2000',
         },
       },
     });

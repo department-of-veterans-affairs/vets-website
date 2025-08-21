@@ -1,9 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import { mount } from 'enzyme';
-import { waitFor } from '@testing-library/dom';
 import formConfig from '../../config/form';
 
 describe('Unemployability Additional Information form', () => {
@@ -12,7 +11,7 @@ describe('Unemployability Additional Information form', () => {
     uiSchema,
   } = formConfig.chapters.disabilities.pages.unemployabilityAdditionalInformation;
 
-  it('should render textarea', async () => {
+  it('should render textarea', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig}
@@ -27,7 +26,7 @@ describe('Unemployability Additional Information form', () => {
     form.unmount();
   });
 
-  it('should submit without user input', async () => {
+  it('should submit without user input', () => {
     const onSubmit = sinon.spy();
 
     const form = mount(
@@ -41,11 +40,9 @@ describe('Unemployability Additional Information form', () => {
       />,
     );
 
-    await waitFor(() => {
-      form.find('form').simulate('submit');
-      expect(form.find('.usa-input-error-message').length).to.equal(0);
-      expect(onSubmit.called).to.be.true;
-    });
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error-message').length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
     form.unmount();
   });
 });

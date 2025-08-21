@@ -13,8 +13,6 @@ export default function VaMemorableDateField(props) {
     onDateBlur,
   } = useVaDateCommon(props);
 
-  const customYearErrorMessage = props.uiOptions?.customYearErrorMessage;
-
   return (
     <VaMemorableDate
       {...mappedProps}
@@ -22,9 +20,6 @@ export default function VaMemorableDateField(props) {
       onDateChange={onDateChange}
       onDateBlur={onDateBlur}
       value={formattedValue}
-      {...customYearErrorMessage && {
-        customYearErrorMessage,
-      }}
     />
   );
 }

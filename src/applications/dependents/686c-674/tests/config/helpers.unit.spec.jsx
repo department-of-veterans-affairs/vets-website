@@ -91,12 +91,6 @@ describe('CancelButton Component (Web Components)', () => {
       await waitFor(() => {
         const modal = getByTestId('cancel-modal');
         expect(modal.getAttribute('modal-title')).to.include(expectedString);
-        expect(modal.getAttribute('primary-button-text')).to.equal(
-          'Yes, cancel',
-        );
-        expect(modal.getAttribute('secondary-button-text')).to.include(
-          `No, continue ${addOrRemove} spouse`,
-        );
       });
     });
 
@@ -107,27 +101,13 @@ describe('CancelButton Component (Web Components)', () => {
         : '/options-selection/remove-dependents';
       const props = {
         isAddChapter,
-        dependentType: 'children who got married',
-        dependentButtonType: 'children',
+        dependentType: 'spouse',
         router: { push: pushSpy },
       };
       const { getByTestId } = render(<CancelButton {...props} />);
 
       fireEvent.click(getByTestId('cancel-btn'));
       const modal = getByTestId('cancel-modal');
-
-      expect(modal.getAttribute('modal-title')).to.include(
-        `Cancel ${isAddChapter ? 'adding' : 'removing'} ${
-          props.dependentType
-        }?`,
-      );
-      expect(modal.getAttribute('primary-button-text')).to.equal('Yes, cancel');
-      expect(modal.getAttribute('secondary-button-text')).to.include(
-        `No, continue ${isAddChapter ? 'adding' : 'removing'} ${
-          props.dependentButtonType
-        }`,
-      );
-
       modal.__events.primaryButtonClick();
 
       await waitFor(() => {

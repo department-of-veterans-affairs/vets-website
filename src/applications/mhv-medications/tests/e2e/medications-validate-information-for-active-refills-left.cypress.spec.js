@@ -10,6 +10,6 @@ describe('Medications List Page Information based on Medication Status', () => {
     listPage.visitMedicationsListPageURL(rxList);
     cy.injectAxe();
     cy.axeCheck('main');
-    listPage.verifyNumberOfRefillsLeftNotDisplayedOnMedicationCard();
+    listPage.verifyInformationBasedOnStatusActiveRefillsLeft();
   });
 });

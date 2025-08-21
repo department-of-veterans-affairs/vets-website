@@ -2,7 +2,6 @@
 import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
-import PreSubmitInfo from '../containers/PreSubmitInfo';
 
 import manifest from '../manifest.json';
 import prefillTransformer from './prefill-transformer';
@@ -38,10 +37,6 @@ const formConfig = {
   confirmation: ConfirmationPage,
   showReviewErrors: !environment.isProduction() && !environment.isStaging(),
   formId: VA_FORM_IDS.FORM_21P_0969,
-  formOptions: {
-    focusOnAlertRole: true,
-    useWebComponentForNavigation: true,
-  },
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your benefits application (21P-0969) is in progress.',
@@ -55,45 +50,24 @@ const formConfig = {
   dev: {
     disableWindowUnloadInCI: true,
   },
-  ...minimalHeaderFormConfigOptions({
-    breadcrumbList: [
-      {
-        href: '/',
-        label: 'VA.gov home',
-      },
-      {
-        href: '/supporting-forms-for-claims',
-        label: 'Supporting forms for VA claims',
-      },
-      {
-        href:
-          '/supporting-forms-for-claims/submit-income-and-asset-statement-form-21p-0969',
-        label: 'Submit a pension or DIC income and asset statement',
-      },
-    ],
-  }),
+  ...minimalHeaderFormConfigOptions(),
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',
   },
   preSubmitInfo: {
-    CustomComponent: PreSubmitInfo,
     statementOfTruth: {
       body:
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       messageAriaDescribedby:
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      fullNamePath: formData => {
-        if (formData?.claimantType === 'VETERAN') {
-          return formData?.isLoggedIn
-            ? 'veteranFullName'
-            : 'otherVeteranFullName';
-        }
-        return 'claimantFullName';
-      },
+      fullNamePath: formData =>
+        formData?.claimantType === 'VETERAN'
+          ? 'veteranFullName'
+          : 'claimantFullName',
     },
   },
-  title: 'Pension or DIC Income and Asset Statement',
+  title: 'Income and Asset Statement',
   subTitle: 'VA Form 21P-0969',
   defaultDefinitions: {},
   chapters: {

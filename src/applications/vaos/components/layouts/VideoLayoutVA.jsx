@@ -77,12 +77,9 @@ export default function VideoLayoutVA({ data: appointment }) {
           </Section>
         )}
       <When>
-        <AppointmentDate date={startDate} timezone={appointment.timezone} />
+        <AppointmentDate date={startDate} />
         <br />
-        <AppointmentTime
-          appointment={appointment}
-          timezone={appointment.timezone}
-        />
+        <AppointmentTime appointment={appointment} />
         <br />
         {APPOINTMENT_STATUS.cancelled !== status &&
           !isPastAppointment && (
@@ -95,14 +92,8 @@ export default function VideoLayoutVA({ data: appointment }) {
           )}
       </When>
 
-      <What>
-        {typeOfCareName && <span data-dd-privacy="mask">{typeOfCareName}</span>}
-      </What>
-      <Who>
-        {videoProviderName && (
-          <span data-dd-privacy="mask">{videoProviderName}</span>
-        )}
-      </Who>
+      <What>{typeOfCareName}</What>
+      <Who>{videoProviderName}</Who>
       <Section heading="Where to attend">
         {/* When the services return a null value for the facility (no facility ID) for all appointment types */}
         {!facility &&
@@ -142,13 +133,8 @@ export default function VideoLayoutVA({ data: appointment }) {
               <FacilityDirectionsLink location={facility} icon />
             </div>
             <br />
-            <span data-dd-privacy="mask">
-              Clinic: {clinicName || 'Not available'}
-            </span>{' '}
-            <br />
-            <span data-dd-privacy="mask">
-              Location: {clinicPhysicalLocation || 'Not available'}
-            </span>
+            <span>Clinic: {clinicName || 'Not available'}</span> <br />
+            <span>Location: {clinicPhysicalLocation || 'Not available'}</span>
             <br />
           </>
         )}
@@ -163,12 +149,12 @@ export default function VideoLayoutVA({ data: appointment }) {
           APPOINTMENT_STATUS.cancelled === status) && (
           <Prepare>
             <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-              Bring your insurance cards, a list of your medications, and other
-              things to share with your provider
+              Bring your insurance cards. And bring a list of your medications
+              and other information to share with your provider.
             </p>
             <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
               <va-link
-                text="Find out what to bring to your appointment"
+                text="Find a full list of things to bring to your appointment"
                 href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"
               />
             </p>

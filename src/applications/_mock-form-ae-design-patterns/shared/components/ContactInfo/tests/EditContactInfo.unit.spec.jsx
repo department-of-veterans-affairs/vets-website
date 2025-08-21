@@ -50,8 +50,8 @@ describe('EditContactInfo', () => {
       const extension = $('va-text-input[label^="Extension"]', container);
       expect(extension).to.exist;
 
-      expect(container.querySelector('va-button[text="Update"]')).to.exist;
-      expect(container.querySelector('va-button[text="Cancel"]')).to.exist;
+      expect(getByText('Update')).to.exist;
+      expect(getByText('Cancel')).to.exist;
     });
 
     it('should save', async () => {
@@ -73,15 +73,13 @@ describe('EditContactInfo', () => {
       const saveButton = getByTestId('save-edit-button');
       await fireEvent.click(saveButton);
 
-      // See note in forms-system/test/js/components/EditContactInfo.unit.spec.jsx
-      // expect(saveButton.textContent).to.contain('Saving changes');
-
+      expect(saveButton.textContent).to.contain('Saving changes');
       // success callback not called until after API call
       // expect(getReturnState()).to.eq('home-phone,updated');
     });
 
     it('should cancel', async () => {
-      const { container } = renderInReduxProvider(
+      const { container, getByText } = renderInReduxProvider(
         <EditHomePhone {...props} />,
         {
           initialState: { user: { profile: { vapContactInfo: vapProfile } } },
@@ -95,7 +93,7 @@ describe('EditContactInfo', () => {
       phoneNumber.value = '8005551212';
       await fireEvent.input(phoneNumber, { target: { name: 'name' } });
 
-      const cancelButton = container.querySelector('va-button[text="Cancel"]');
+      const cancelButton = getByText('Cancel');
       await fireEvent.click(cancelButton);
 
       expect(getReturnState()).to.eq('home-phone,canceled');

@@ -2,6 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { format } from 'date-fns';
+import { VaDate } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   updatePageTitle,
   usePrintTitle,
@@ -16,12 +17,10 @@ import {
   ALERT_TYPE_ERROR,
   accessAlertTypes,
   refreshExtractTypes,
-  loadStates,
-  statsdFrontEndActions,
-  CernerAlertContent,
 } from '../util/constants';
 import { getMonthFromSelectedDate } from '../util/helpers';
 import { Actions } from '../util/actionTypes';
+import * as Constants from '../util/constants';
 import useAlerts from '../hooks/use-alerts';
 import PrintHeader from '../components/shared/PrintHeader';
 import useListRefresh from '../hooks/useListRefresh';
@@ -29,10 +28,8 @@ import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import useAcceleratedData from '../hooks/useAcceleratedData';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import RecordListSection from '../components/shared/RecordListSection';
-import DatePicker from '../components/shared/DatePicker';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import TrackedSpinner from '../components/shared/TrackedSpinner';
-import { useTrackAction } from '../hooks/useTrackAction';
 
 const Vitals = () => {
   const dispatch = useDispatch();
@@ -60,7 +57,7 @@ const Vitals = () => {
 
   const { isLoading, isAcceleratingVitals } = useAcceleratedData();
   const isLoadingAcceleratedData =
-    isAcceleratingVitals && listState === loadStates.FETCHING;
+    isAcceleratingVitals && listState === Constants.loadStates.FETCHING;
 
   const dispatchAction = useMemo(
     () => {
@@ -74,9 +71,6 @@ const Vitals = () => {
     },
     [acceleratedVitalsDate, isAcceleratingVitals],
   );
-
-  useTrackAction(statsdFrontEndActions.VITALS_LIST);
-
   useListRefresh({
     listState,
     listCurrentAsOf: vitalsCurrentAsOf,
@@ -129,11 +123,24 @@ const Vitals = () => {
     updatePageTitle,
   );
 
+  const VITAL_TYPES = useMemo(
+    () => {
+      if (isAcceleratingVitals) {
+        return { ...vitalTypes };
+      }
+      // remove PAIN_SEVERITY from the list of vital types
+      const vitalTypesCopy = { ...vitalTypes };
+      delete vitalTypesCopy.PAIN_SEVERITY;
+      return vitalTypesCopy;
+    },
+    [isAcceleratingVitals],
+  );
+
   const PER_PAGE = useMemo(
     () => {
-      return Object.keys(vitalTypes).length;
+      return Object.keys(VITAL_TYPES).length;
     },
-    [vitalTypes],
+    [VITAL_TYPES],
   );
 
   useEffect(
@@ -141,7 +148,7 @@ const Vitals = () => {
       if (vitals?.length) {
         // create vital type cards based on the types of records present
         const firstOfEach = [];
-        for (const [key, types] of Object.entries(vitalTypes)) {
+        for (const [key, types] of Object.entries(VITAL_TYPES)) {
           const firstOfType = vitals.find(item => types.includes(item.type));
           if (firstOfType) firstOfEach.push(firstOfType);
           else firstOfEach.push({ type: key, noRecords: true });
@@ -149,7 +156,7 @@ const Vitals = () => {
         setCards(firstOfEach);
       }
     },
-    [vitals, vitalTypes],
+    [vitals, VITAL_TYPES],
   );
 
   const content = () => {
@@ -229,8 +236,33 @@ const Vitals = () => {
     setDisplayDate(acceleratedVitalsDate);
     dispatch({
       type: Actions.Vitals.UPDATE_LIST_STATE,
-      payload: loadStates.PRE_FETCH,
+      payload: Constants.loadStates.PRE_FETCH,
     });
+  };
+
+  const datePicker = () => {
+    return (
+      <div className="vads-u-display--flex vads-u-flex-direction--column">
+        <div style={{ flex: 'inherit' }}>
+          <VaDate
+            label="Choose a month and year"
+            name="vitals-date-picker"
+            monthYearOnly
+            onDateChange={updateDate}
+            value={acceleratedVitalsDate}
+            data-testid="date-picker"
+          />
+        </div>
+        <div className="vads-u-margin-top--2">
+          <va-button
+            text="Update time frame"
+            onClick={triggerApiUpdate}
+            disabled={isLoadingAcceleratedData}
+            data-testid="update-time-frame-button"
+          />
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -244,7 +276,9 @@ const Vitals = () => {
         appointments.`}
       </p>
 
-      <AcceleratedCernerFacilityAlert {...CernerAlertContent.VITALS} />
+      <AcceleratedCernerFacilityAlert
+        {...Constants.CernerAlertContent.VITALS}
+      />
 
       {isLoading && (
         <div className="vads-u-margin-y--8">
@@ -258,18 +292,7 @@ const Vitals = () => {
       )}
       {!isLoading && (
         <>
-          {isAcceleratingVitals && (
-            <>
-              <DatePicker
-                {...{
-                  updateDate,
-                  triggerApiUpdate,
-                  isLoadingAcceleratedData,
-                  dateValue: acceleratedVitalsDate,
-                }}
-              />
-            </>
-          )}
+          {isAcceleratingVitals && datePicker()}
           {isLoadingAcceleratedData && (
             <>
               <div className="vads-u-margin-y--8">

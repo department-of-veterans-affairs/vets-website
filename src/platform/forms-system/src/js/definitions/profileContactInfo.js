@@ -67,8 +67,6 @@ const profileContactInfo = ({
   emailSchema,
   phoneSchema,
 
-  allowInternationalPhones = false,
-
   // keys to use in form data
   wrapperKey = 'veteran',
   addressKey = 'mailingAddress',
@@ -134,7 +132,6 @@ const profileContactInfo = ({
           content,
           contactPath,
           editContactInfoHeadingLevel,
-          allowInternationalPhones,
         }),
       CustomPageReview: null, // not shown on review & submit
       depends: () => false, // accessed from contact info page
@@ -156,7 +153,6 @@ const profileContactInfo = ({
           content,
           contactPath,
           editContactInfoHeadingLevel,
-          allowInternationalPhones,
         }),
       CustomPageReview: null, // not shown on review & submit
       depends: () => false, // accessed from contact info page

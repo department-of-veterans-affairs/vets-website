@@ -43,13 +43,7 @@ const sanitizeDependents = dependents => {
  * @param {Object} form - the state object that holds the form data
  * @returns {Object} - an object containing the form submission payload
  */
-export const submitTransformer = (
-  formConfig,
-  form,
-  disableAnalytics = false,
-) => {
-  const logErrorToDatadog = error =>
-    window.DD_LOGS?.logger.error('HCA Submit Transformer error', {}, error);
+export const submitTransformer = (formConfig, form) => {
   let dataToMap = JSON.parse(transformForSubmit(formConfig, form));
 
   // map Veteran address data if mailing and home addresses match
@@ -79,45 +73,38 @@ export const submitTransformer = (
     dataToMap = set('dependents', [], dataToMap);
   }
 
-  let gaClientId;
-  if (!disableAnalytics) {
-    // add logging to track user volume of forms submitted with specific questions answered
-    const { lastDischargeDate } = form.data;
-    const isDischargeAfterToday = isAfter(
-      new Date(lastDischargeDate),
-      new Date(),
-    );
-    if (isDischargeAfterToday) {
-      recordEvent({
-        event: 'hca-future-discharge-date-submission',
-      });
-    }
+  // add logging to track user volume of forms submitted with specific questions answered
+  const { lastDischargeDate } = form.data;
+  const isDischargeAfterToday = isAfter(
+    new Date(lastDischargeDate),
+    new Date(),
+  );
+  if (isDischargeAfterToday) {
+    recordEvent({
+      event: 'hca-future-discharge-date-submission',
+    });
+  }
 
-    // populate Google Analytics data
-    try {
-      // eslint-disable-next-line no-undef
-      gaClientId = ga.getAll()[0].get('clientId');
-    } catch (e) {
-      // lets not break submission because of any GA issues
-    }
+  // populate Google Analytics data
+  let gaClientId;
+  try {
+    // eslint-disable-next-line no-undef
+    gaClientId = ga.getAll()[0].get('clientId');
+  } catch (e) {
+    // lets not break submission because of any GA issues
   }
 
   // stringify form data for submission
   // NOTE: we don’t to remove dependents in the normal empty value clean up
-  try {
-    const replacer = (key, value) => {
-      if (key === 'dependents') return value;
-      return stringifyFormReplacer(key, value);
-    };
-    const dataToSubmit = JSON.stringify(dataToMap, replacer) || '{}';
+  const replacer = (key, value) => {
+    if (key === 'dependents') return value;
+    return stringifyFormReplacer(key, value);
+  };
+  const dataToSubmit = JSON.stringify(dataToMap, replacer) || '{}';
 
-    return JSON.stringify({
-      form: dataToSubmit,
-      asyncCompatible: true,
-      gaClientId,
-    });
-  } catch (error) {
-    logErrorToDatadog(error);
-    return '{}';
-  }
+  return JSON.stringify({
+    form: dataToSubmit,
+    asyncCompatible: true,
+    gaClientId,
+  });
 };

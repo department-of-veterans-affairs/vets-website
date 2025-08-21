@@ -1,11 +1,8 @@
 import React from 'react';
-import { datadogRum } from '@datadog/browser-rum';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import recordEvent from '~/platform/monitoring/record-event';
 import WelcomeContainer from '../containers/WelcomeContainer';
-import { myVAHealthPortalLink } from '../utilities/data';
 
 const learnMoreLink = {
   text: 'Learn more about My HealtheVet on VA.gov',
@@ -17,7 +14,7 @@ const ledeContent = `Welcome. You can now manage your health care
   here on VA.gov. Here, you’ll find new, improved versions of your trusted
   health tools and more features.`;
 
-const HeaderLayout = ({ showWelcomeMessage = false, isCerner = false }) => (
+const HeaderLayout = ({ showWelcomeMessage = false }) => (
   <>
     <div
       className={classnames(
@@ -34,38 +31,18 @@ const HeaderLayout = ({ showWelcomeMessage = false, isCerner = false }) => (
             <div className="vads-l-col-6 ">
               <h1 className="vads-u-margin-y--0">My HealtheVet</h1>
             </div>
+            <div className="vads-l-col-2 vads-u-margin-left--2 vads-u-margin-top--2">
+              <span className="usa-label vads-u-background-color--primary">
+                New
+              </span>
+            </div>
           </div>
         </div>
         <div>
-          <p className="vads-u-font-family--serif vads-u-line-height--5 medium-screen:vads-u-font-size--lg medium-screen:vads-u-line-height--6 vads-u-margin-top--1 vads-u-margin-bottom--2">
+          <p className="vads-u-font-family--serif vads-u-line-height--5 medium-screen:vads-u-font-size--lg medium-screen:vads-u-line-height--6">
             {ledeContent}
           </p>
-        </div>
-        {isCerner && (
-          <p className="vads-u-font-family--serif vads-u-line-height--5 medium-screen:vads-u-font-size--lg medium-screen:vads-u-line-height--6 vads-u-margin-y--2">
-            Does your facility use the My VA Health portal?
-            <br />
-            <a
-              onClick={() => {
-                datadogRum.addAction('Click on My VA Health portal link');
-                recordEvent({
-                  event: 'nav-link-click',
-                  action: 'click',
-                  'link-label': 'Go to the My VA Health portal',
-                  'link-destination': myVAHealthPortalLink,
-                  'link-origin': window.location.href,
-                });
-              }}
-              className="vads-u-font-family--serif medium-screen:vads-u-font-size--lg"
-              data-testid="mhv-go-back-1"
-              href={myVAHealthPortalLink}
-            >
-              Go to the My VA Health portal
-            </a>
-          </p>
-        )}
-        <div>
-          <p className="vads-u-margin-y--2">
+          <p className="vads-u-font-family--serif vads-u-line-height--5 medium-screen:vads-u-font-size--lg medium-screen:vads-u-line-height--6">
             Want to learn more about what’s new? <VaLink {...learnMoreLink} />
           </p>
         </div>
@@ -101,9 +78,9 @@ const HeaderLayout = ({ showWelcomeMessage = false, isCerner = false }) => (
 );
 
 HeaderLayout.propTypes = {
-  isCerner: PropTypes.bool,
   showMhvGoBack: PropTypes.bool,
   showWelcomeMessage: PropTypes.bool,
+  ssoe: PropTypes.bool,
 };
 
 export default HeaderLayout;

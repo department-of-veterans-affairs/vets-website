@@ -51,6 +51,7 @@ export default function VAFacilityPageV2() {
   const {
     address,
     canScheduleAtChosenFacility,
+    cernerSiteIds,
     childFacilitiesStatus,
     data,
     eligibility,
@@ -67,6 +68,7 @@ export default function VAFacilityPageV2() {
     sortMethod,
     typeOfCare,
     fetchRecentLocationStatus,
+    recentLocations,
   } = useSelector(state => getFacilityPageV2Info(state), shallowEqual);
 
   const sortOptions = useMemo(
@@ -82,19 +84,15 @@ export default function VAFacilityPageV2() {
         },
         { value: 'alphabetical', label: 'Alphabetically' },
       ];
-      if (featureRecentLocationsFilter) {
-        // Add recentLocations to the top of the list
-        return [
-          {
-            value: 'recentLocations',
-            label: 'By recent locations',
-          },
-          ...options,
-        ];
+      if (featureRecentLocationsFilter && recentLocations?.length) {
+        options.push({
+          value: 'recentLocations',
+          label: 'By recent locations',
+        });
       }
       return options;
     },
-    [featureRecentLocationsFilter],
+    [featureRecentLocationsFilter, recentLocations],
   );
 
   const uiSchema = {
@@ -170,11 +168,10 @@ export default function VAFacilityPageV2() {
         <InfoAlert
           status="error"
           level={2}
-          headline="We can’t schedule your appointment right now"
+          headline="You can't schedule an appointment online right now"
         >
           <p>
-            We’re sorry. There’s a problem with our system. Refresh this page to
-            start over or try again later.
+            We're sorry. There's a problem with our system. Try again later.
           </p>
           <p>
             If you need to schedule now, call your VA facility.
@@ -188,19 +185,15 @@ export default function VAFacilityPageV2() {
 
   if (isLoading) {
     return (
-      <va-loading-indicator
-        set-focus
-        label="Finding available locations for your appointment"
-        message="Finding available locations for your appointment..."
-      />
+      <va-loading-indicator message="Finding available locations for your appointment..." />
     );
   }
   if (loadingEligibility) {
     return (
       <va-loading-indicator
-        set-focus
-        label="We’re checking if we can create an appointment for you at this facility. This may take up to a minute. Thank you for your patience."
-        message="We’re checking if we can create an appointment for you at this facility. This may take up to a minute. Thank you for your patience."
+        message="We’re checking if we can create an appointment for you at this
+                facility. This may take up to a minute. Thank you for your
+                patience."
       />
     );
   }
@@ -264,7 +257,12 @@ export default function VAFacilityPageV2() {
           sortMethod={sortMethod}
           typeOfCareName={typeOfCare.name}
         />
-        <FacilitiesNotShown />
+        <FacilitiesNotShown
+          facilities={facilities}
+          sortMethod={sortMethod}
+          typeOfCareId={typeOfCare?.id}
+          cernerSiteIds={cernerSiteIds}
+        />
         <FormButtons
           onBack={() =>
             dispatch(routeToPreviousAppointmentPage(history, pageKey))
@@ -284,11 +282,7 @@ export default function VAFacilityPageV2() {
       {pageHeader}
       {requestingLocation && (
         <div className="vads-u-padding-bottom--2">
-          <va-loading-indicator
-            set-focus
-            label="Finding your location. Be sure to allow your browser to find your current location."
-            message="Finding your location. Be sure to allow your browser to find your current location."
-          />
+          <va-loading-indicator message="Finding your location. Be sure to allow your browser to find your current location." />
         </div>
       )}
       {childFacilitiesStatus === FETCH_STATUS.succeeded &&
@@ -311,14 +305,19 @@ export default function VAFacilityPageV2() {
                 dispatch(updateFacilitySortMethod(value, uiSchema)).then(
                   recordEvent({
                     event: `${GA_PREFIX}-updated-locations-sort--${
-                      sortOptions.find(option => option.value === value)?.label
+                      sortOptions.find(option => option.value === value).label
                     }`,
                   }),
                 ),
             }}
             data={data}
           >
-            <FacilitiesNotShown />
+            <FacilitiesNotShown
+              facilities={facilities}
+              sortMethod={sortMethod}
+              typeOfCareId={typeOfCare?.id}
+              cernerSiteIds={cernerSiteIds}
+            />
             <FormButtons
               continueLabel=""
               pageChangeInProgress={pageChangeInProgress}

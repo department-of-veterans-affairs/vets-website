@@ -61,24 +61,24 @@ describe('686 stepchild information', () => {
     form.unmount();
   });
 
-  // it('should not allow you to proceed without required fields filled', () => {
-  //   const onSubmit = sinon.spy();
-  //   const form = mount(
-  //     <DefinitionTester
-  //       pagePerItemIndex={0}
-  //       arrayPath={arrayPath}
-  //       schema={schema}
-  //       uiSchema={uiSchema}
-  //       data={formData}
-  //       onSubmit={onSubmit}
-  //       definitions={formConfig.defaultDefinitions}
-  //     />,
-  //   );
-  //   form.find('form').simulate('submit');
-  //   expect(form.find('.usa-input-error').length).to.equal(6);
-  //   expect(onSubmit.called).to.be.false;
-  //   form.unmount();
-  // });
+  it('should not allow you to proceed without required fields filled', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        pagePerItemIndex={0}
+        arrayPath={arrayPath}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={formData}
+        onSubmit={onSubmit}
+        definitions={formConfig.defaultDefinitions}
+      />,
+    );
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error').length).to.equal(6);
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
+  });
 
   it('should submit with required fields filled', () => {
     const onSubmit = sinon.spy();
@@ -116,33 +116,33 @@ describe('686 stepchild information', () => {
     form.unmount();
   });
 
-  // it('should display an error if the veteran lists APO, FPO, or DPO as their city', () => {
-  //   const onSubmit = sinon.spy();
-  //   const form = mount(
-  //     <DefinitionTester
-  //       pagePerItemIndex={0}
-  //       arrayPath={arrayPath}
-  //       schema={schema}
-  //       uiSchema={uiSchema}
-  //       data={formData}
-  //       onSubmit={onSubmit}
-  //       definitions={formConfig.defaultDefinitions}
-  //       updateFormData={updateFormData}
-  //     />,
-  //   );
-  //   fillData(form, 'input#root_whoDoesTheStepchildLiveWith_first', 'Bill');
-  //   fillData(form, 'input#root_whoDoesTheStepchildLiveWith_last', 'Bob');
-  //   changeDropdown(form, 'select#root_address_countryName', 'USA');
-  //   fillData(form, 'input#root_address_addressLine1', '112 Some Street');
-  //   fillData(form, 'input#root_address_city', 'FPO');
-  //   fillData(form, 'input#root_address_zipCode', '12345');
-  //   changeDropdown(form, 'select#root_address_stateCode', 'AL');
-  //   selectRadio(form, 'root_supportingStepchild', 'N');
-  //   form.find('form').simulate('submit');
-  //   expect(form.find('.usa-input-error').text()).to.include(
-  //     'For FPO addresses, check the "They receive mail outside of the United States on a U.S. military base" checkbox. If you live on a military base in the United States, enter your city.',
-  //   );
-  //   expect(onSubmit.called).to.be.false;
-  //   form.unmount();
-  // });
+  it('should display an error if the veteran lists APO, FPO, or DPO as their city', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        pagePerItemIndex={0}
+        arrayPath={arrayPath}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={formData}
+        onSubmit={onSubmit}
+        definitions={formConfig.defaultDefinitions}
+        updateFormData={updateFormData}
+      />,
+    );
+    fillData(form, 'input#root_whoDoesTheStepchildLiveWith_first', 'Bill');
+    fillData(form, 'input#root_whoDoesTheStepchildLiveWith_last', 'Bob');
+    changeDropdown(form, 'select#root_address_countryName', 'USA');
+    fillData(form, 'input#root_address_addressLine1', '112 Some Street');
+    fillData(form, 'input#root_address_city', 'FPO');
+    fillData(form, 'input#root_address_zipCode', '12345');
+    changeDropdown(form, 'select#root_address_stateCode', 'AL');
+    selectRadio(form, 'root_supportingStepchild', 'N');
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error').text()).to.include(
+      'For FPO addresses, check the "They receive mail outside of the United States on a U.S. military base" checkbox. If you live on a military base in the United States, enter your city.',
+    );
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
+  });
 });

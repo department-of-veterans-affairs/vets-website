@@ -17,7 +17,7 @@ describe('Personal and contact information', () => {
       addressPage.validateSavedForm({
         ...formFields,
         address: '400 NW 65th St',
-        zipCode: 98117,
+        zipCode: 12345,
       });
     });
   });

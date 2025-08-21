@@ -1,9 +1,11 @@
 import React from 'react';
-import { Toggler } from '~/platform/utilities/feature-toggles';
 
-const MissingApplicationHelp = () => {
-  const content = (
-    <>
+const MissingApplicationHelp = () => (
+  <va-accordion open-single="true" data-testid="missing-application-help">
+    <va-accordion-item
+      header="If you can't find your application or form"
+      bordered="true"
+    >
       <p>
         <span className="vads-u-font-weight--bold">
           If you can’t find a draft application or form
@@ -58,31 +60,8 @@ const MissingApplicationHelp = () => {
         <va-telephone contact="711" tty />
         ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
-    </>
-  );
-
-  return (
-    <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
-      <Toggler.Enabled>
-        <va-additional-info
-          trigger="If you can’t find your application or form"
-          data-testid="missing-application-help-additional-info"
-        >
-          {content}
-        </va-additional-info>
-      </Toggler.Enabled>
-      <Toggler.Disabled>
-        <va-accordion open-single="true" data-testid="missing-application-help">
-          <va-accordion-item
-            header="If you can't find your application or form"
-            bordered="true"
-          >
-            {content}
-          </va-accordion-item>
-        </va-accordion>
-      </Toggler.Disabled>
-    </Toggler>
-  );
-};
+    </va-accordion-item>
+  </va-accordion>
+);
 
 export default MissingApplicationHelp;

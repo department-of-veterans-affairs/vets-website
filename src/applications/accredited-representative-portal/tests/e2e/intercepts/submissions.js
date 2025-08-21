@@ -1,5 +1,5 @@
 export const setSubmissions = () => {
-  cy.intercept('/accredited_representative_portal/v0/claim_submissions**', {
+  cy.intercept('/accredited_representative_portal/v0/submissions**', {
     data: [
       {
         submittedDate: '2025-04-09',
@@ -31,17 +31,6 @@ export const setSubmissions = () => {
         packet: false,
         confirmationNumber: 'f344d484-8b4b-4e81-93dc-5f6b6ef52bac',
         vbmsStatus: 'processing_error',
-        vbmsReceivedDate: '2025-04-15',
-        url: null,
-      },
-      {
-        submittedDate: '2025-04-04',
-        firstName: 'Brooks',
-        lastName: 'Davis',
-        formType: '21-686c',
-        packet: true,
-        confirmationNumber: 'b4d7ae1d-6aa9-4231-930c-e3b3e73f0e31',
-        vbmsStatus: 'awaiting_receipt_warning',
         vbmsReceivedDate: '2025-04-15',
         url: null,
       },

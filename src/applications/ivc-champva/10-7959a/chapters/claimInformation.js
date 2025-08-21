@@ -10,10 +10,14 @@ import {
 import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
 import { fileUploadBlurb } from '../../shared/components/fileUploads/attachments';
 import { nameWording, privWrapper } from '../../shared/utilities';
-import { FileFieldCustomSimple } from '../../shared/components/fileUploads/FileUpload';
+import FileFieldCustom from '../../shared/components/fileUploads/FileUpload';
 import { blankSchema } from './sponsorInformation';
-import { LLM_UPLOAD_WARNING } from '../components/llmUploadWarning';
-import { LLM_RESPONSE } from '../components/llmUploadResponse';
+
+// Wrap shared fileFieldCustom so we can pass the form-specific
+// list of required uploads (for use with MissingFileOverview)
+function FileFieldWrapped(props) {
+  return FileFieldCustom({ ...props, requiredFiles: [] });
+}
 
 const additionalMedicalClaimInfo = () => {
   return (
@@ -151,7 +155,7 @@ export const claimAutoSchema = {
 };
 
 export const medicalClaimUploadSchema = {
-  CustomPage: FileFieldCustomSimple,
+  CustomPage: FileFieldWrapped,
   CustomPageReview: null,
   uiSchema: {
     ...titleUI('Upload supporting documents', ({ formData }) => (
@@ -235,13 +239,10 @@ export const medicalClaimUploadSchema = {
         return additionalNotesClaims(formData?.formContext?.fullData);
       },
     },
-    ...LLM_UPLOAD_WARNING,
     medicalUpload: fileUploadUI({
       label: 'Upload supporting document',
       attachmentName: true,
-      attachmentId: 'medical invoice', // hard-set for LLM verification
     }),
-    ...LLM_RESPONSE,
   },
   schema: {
     type: 'object',
@@ -250,8 +251,6 @@ export const medicalClaimUploadSchema = {
       titleSchema,
       'view:fileUploadBlurb': blankSchema,
       'view:notes': blankSchema,
-      // schema for LLM message
-      'view:fileClaim': blankSchema,
       medicalUpload: {
         type: 'array',
         minItems: 1,
@@ -264,7 +263,6 @@ export const medicalClaimUploadSchema = {
           },
         },
       },
-      'view:uploadAlert': blankSchema,
     },
   },
 };
@@ -272,7 +270,7 @@ export const medicalClaimUploadSchema = {
 export const eobUploadSchema = isPrimary => {
   const keyName = isPrimary ? 'primaryEob' : 'secondaryEob';
   return {
-    CustomPage: FileFieldCustomSimple,
+    CustomPage: FileFieldWrapped,
     CustomPageReview: null,
     uiSchema: {
       ...titleUI(
@@ -345,13 +343,10 @@ export const eobUploadSchema = isPrimary => {
           return additionalNotesClaims(formData?.formContext?.fullData);
         },
       },
-      ...LLM_UPLOAD_WARNING,
       [keyName]: fileUploadUI({
         label: 'Upload explanation of benefits',
         attachmentName: true,
-        attachmentId: 'EOB', // hard-set for LLM verification
       }),
-      ...LLM_RESPONSE,
     },
     schema: {
       type: 'object',
@@ -360,8 +355,6 @@ export const eobUploadSchema = isPrimary => {
         titleSchema,
         'view:fileUploadBlurb': blankSchema,
         'view:notes': blankSchema,
-        // schema for LLM message
-        'view:fileClaim': blankSchema,
         [keyName]: {
           type: 'array',
           minItems: 1,
@@ -374,14 +367,13 @@ export const eobUploadSchema = isPrimary => {
             },
           },
         },
-        'view:uploadAlert': blankSchema,
       },
     },
   };
 };
 
 export const pharmacyClaimUploadSchema = {
-  CustomPage: FileFieldCustomSimple,
+  CustomPage: FileFieldWrapped,
   CustomPageReview: null,
   uiSchema: {
     ...titleUI(
@@ -446,13 +438,10 @@ export const pharmacyClaimUploadSchema = {
         return additionalNotesClaims(formData?.formContext?.fullData);
       },
     },
-    ...LLM_UPLOAD_WARNING,
     pharmacyUpload: fileUploadUI({
       label: 'Upload supporting document',
       attachmentName: true,
-      attachmentId: 'pharmacy invoice', // hard-set for LLM verification
     }),
-    ...LLM_RESPONSE,
   },
   schema: {
     type: 'object',
@@ -461,8 +450,6 @@ export const pharmacyClaimUploadSchema = {
       titleSchema,
       'view:fileUploadBlurb': blankSchema,
       'view:notes': blankSchema,
-      // schema for LLM message
-      'view:fileClaim': blankSchema,
       pharmacyUpload: {
         type: 'array',
         minItems: 1,
@@ -475,7 +462,6 @@ export const pharmacyClaimUploadSchema = {
           },
         },
       },
-      'view:uploadAlert': blankSchema,
     },
   },
 };

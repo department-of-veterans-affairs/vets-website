@@ -30,9 +30,7 @@ const getData = ({
           },
         },
         data: {
-          veteranInformation: {
-            fullName: { first: 'Jane', last: 'Doe' },
-          },
+          veteranFullName: { first: 'Jane', last: 'Doe' },
         },
       },
     }),
@@ -55,9 +53,6 @@ describe('Dependents Form (686c-674) confirmation page', () => {
     expect($$('va-alert[status="success', container).length).to.equal(1);
     expect($('va-button', container).getAttribute('text')).to.eq(
       'Print this page for your records',
-    );
-    expect($('.dd-privacy-hidden', container).textContent).to.include(
-      'Jane Doe',
     );
 
     const sections = $$('section');

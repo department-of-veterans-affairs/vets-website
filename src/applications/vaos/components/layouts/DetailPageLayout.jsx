@@ -23,7 +23,7 @@ import ErrorAlert from '../ErrorAlert';
 export function When({ children, level = 2 }) {
   return (
     <Section heading="When" level={level}>
-      <span data-dd-privacy="mask">{children}</span>
+      {children}
     </Section>
   );
 }
@@ -38,7 +38,7 @@ export function What({ children, level = 2 }) {
   }
   return (
     <Section heading="What" level={level}>
-      <span data-dd-privacy="mask">{children}</span>
+      {children}
     </Section>
   );
 }
@@ -53,7 +53,7 @@ export function Who({ children, level = 2 }) {
   }
   return (
     <Section heading="Who" level={level}>
-      <span data-dd-privacy="mask">{children}</span>
+      {children}
     </Section>
   );
 }
@@ -65,7 +65,7 @@ Who.propTypes = {
 export function Where({ children, heading = 'Where', level = 2 } = {}) {
   return (
     <Section heading={heading} level={level}>
-      <span data-dd-privacy="mask">{children}</span>
+      {children}
     </Section>
   );
 }
@@ -88,7 +88,7 @@ export function CCDetails({ otherDetails, request, level = 2 }) {
     : 'Details you shared with your provider';
   return (
     <Section heading={heading} level={level}>
-      <span className="vaos-u-word-break--break-word" data-dd-privacy="mask">
+      <span className="vaos-u-word-break--break-word">
         Other details: {`${otherDetails || 'Not available'}`}
       </span>
     </Section>
@@ -106,11 +106,11 @@ export function Details({ reason, otherDetails, request, level = 2 }) {
     : 'Details you shared with your provider';
   return (
     <Section heading={heading} level={level}>
-      <span data-dd-privacy="mask">
+      <span>
         Reason: {`${reason && reason !== 'none' ? reason : 'Not available'}`}
       </span>
       <br />
-      <span className="vaos-u-word-break--break-word" data-dd-privacy="mask">
+      <span className="vaos-u-word-break--break-word">
         Other details: {`${otherDetails || 'Not available'}`}
       </span>
     </Section>
@@ -204,9 +204,7 @@ export default function DetailPageLayout({
     <>
       <BackLink appointment={appointment} />
       <AppointmentCard appointment={appointment}>
-        <h1 className="vaos__dynamic-font-size--h2">
-          <span data-dd-privacy="mask">{heading}</span>
-        </h1>
+        <h1 className="vaos__dynamic-font-size--h2">{heading}</h1>
         {featureTravelPayViewClaimDetails && (
           <ErrorAlert appointment={appointment} />
         )}

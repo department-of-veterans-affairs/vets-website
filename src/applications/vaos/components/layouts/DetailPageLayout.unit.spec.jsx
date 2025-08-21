@@ -34,7 +34,7 @@ describe('VAOS Component: DetailPageLayout', () => {
         .setIsInPersonVisit(true)
         .setIsPastAppointment(true)
         .setLocation(new MockFacility());
-      appointment.start = subDays(new Date(), 1);
+
       // Act
       const screen = renderWithStoreAndRouter(
         <DetailPageLayout data={appointment} facility={facilityData} />,
@@ -69,7 +69,7 @@ describe('VAOS Component: DetailPageLayout', () => {
         .setIsInPersonVisit(true)
         .setIsPastAppointment(true)
         .setLocation(new MockFacility());
-      appointment.start = subDays(new Date(), 1);
+
       // Act
       const screen = renderWithStoreAndRouter(
         <DetailPageLayout data={appointment} facility={facilityData} />,

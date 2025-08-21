@@ -41,18 +41,7 @@ describe('OAuth - Utilities', () => {
   let validCookie;
 
   beforeEach(() => {
-    let hasNodeCrypto = false;
-    try {
-      // eslint-disable-next-line import/no-unresolved
-      require('node:crypto');
-      hasNodeCrypto = true;
-    } catch {
-      hasNodeCrypto = false;
-    }
-
-    if (!hasNodeCrypto) {
-      window.crypto = mockCrypto;
-    }
+    window.crypto = mockCrypto;
 
     document.cookie.split(';').forEach(cookie => {
       document.cookie = cookie
@@ -797,7 +786,7 @@ describe('OAuth - Utilities', () => {
       });
 
       it(`should generate the default URL for signup 'type=${policy}&acr=<loa3|ial2>' OAuth | config: vamobile`, async () => {
-        global.window.location.search = `?oauth=true&application=vamobile&client_id=vamobile&code_challenge=some_random_code_challenge`;
+        global.window.location.search = `?oauth=true&application=vamobile&client_id=vamobile`;
         const acrType = { idme: 'loa3', logingov: 'ial2' };
         const url = await signupOrVerify({
           policy,
@@ -811,6 +800,7 @@ describe('OAuth - Utilities', () => {
         expect(url).to.include('/authorize');
         expect(url).to.include('response_type=code');
         expect(url).to.include('code_challenge=');
+        expect(url).to.include('state=');
       });
 
       it(`should generate a verified URL for signup 'type=${policy}&acr=<loa3|ial2>' OAuth | config: default`, async () => {

@@ -1,34 +1,68 @@
-import {
-  testNumberOfErrorsOnSubmit,
-  testNumberOfFields,
-} from '../helpers.spec';
+import React from 'react';
+import { findDOMNode } from 'react-dom';
+import { expect } from 'chai';
+import sinon from 'sinon';
+import ReactTestUtils from 'react-dom/test-utils';
 
+import {
+  DefinitionTester,
+  submitForm,
+} from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../../../config/form';
+import { simulateInputChange } from '../../../helpers';
 
 describe('ezr Toxic Exposure config', () => {
   const {
     schema,
     uiSchema,
-    title: pageTitle,
   } = formConfig.chapters.militaryService.pages.toxicExposure;
-  const expectedNumberOfFields = 2;
-  const expectedNumberOfSubmissionErrors = 1;
+  const { defaultDefinitions: definitions } = formConfig;
 
-  // run test for correct number of fields on the page
-  testNumberOfFields(
-    formConfig,
-    schema,
-    uiSchema,
-    expectedNumberOfFields,
-    pageTitle,
-  );
+  it('should render', () => {
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+        schema={schema}
+        definitions={definitions}
+        uiSchema={uiSchema}
+      />,
+    );
+    const formDOM = findDOMNode(form);
+    expect(formDOM.querySelectorAll('input').length).to.equal(2);
+  });
 
-  // run test for correct number of error messages on submit
-  testNumberOfErrorsOnSubmit(
-    formConfig,
-    schema,
-    uiSchema,
-    expectedNumberOfSubmissionErrors,
-    pageTitle,
-  );
+  it('should not submit empty form', () => {
+    const onSubmit = sinon.spy();
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+        schema={schema}
+        definitions={definitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}
+      />,
+    );
+    const formDOM = findDOMNode(form);
+    submitForm(form);
+
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
+  });
+
+  it('should submit with valid data', () => {
+    const onSubmit = sinon.spy();
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+        schema={schema}
+        definitions={definitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}
+      />,
+    );
+    const formDOM = findDOMNode(form);
+
+    simulateInputChange(formDOM, '#root_hasTeraResponseYes', 'Y');
+    submitForm(form);
+
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
+  });
 });

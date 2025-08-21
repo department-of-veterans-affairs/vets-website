@@ -1,4 +1,4 @@
-import { waitFor } from '@testing-library/react';
+import { fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import './dom-extensions';
 
@@ -9,28 +9,17 @@ export const inputVaSearchInput = ({
   selector = 'va-search-input',
 }) => {
   const vaSearchInput = container.querySelector(selector);
-  if (!vaSearchInput) throw new Error(`Element not found: ${selector}`);
-
-  // set the value on the component instance
   vaSearchInput.value = query;
 
-  // create and dispatch a native 'input' event
-  const inputEvent = new container.ownerDocument.defaultView.InputEvent(
-    'input',
-    {
-      bubbles: true,
-      composed: true,
-      data: query,
-    },
-  );
-  vaSearchInput.dispatchEvent(inputEvent);
+  const event = new CustomEvent('input', {
+    bubbles: true,
+    detail: { value: query },
+  });
+  vaSearchInput.dispatchEvent(event);
 
   if (submit) {
-    const submitEvent = new CustomEvent('submit', {
-      bubbles: true,
-      composed: true,
-    });
-    vaSearchInput.dispatchEvent(submitEvent);
+    const submitEvent = new CustomEvent('submit', { bubbles: true });
+    fireEvent(vaSearchInput, submitEvent);
   }
 };
 

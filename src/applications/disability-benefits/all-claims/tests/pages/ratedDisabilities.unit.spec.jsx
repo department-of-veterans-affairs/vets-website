@@ -3,11 +3,10 @@ import { expect } from 'chai';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
-import { waitFor } from '@testing-library/dom';
-import formConfig from '../../config/form';
-import initialData from '../initialData';
-import { NULL_CONDITION_STRING } from '../../constants';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
+import formConfig from '../../config/form.js';
+import initialData from '../initialData.js';
+import { NULL_CONDITION_STRING } from '../../constants.js';
 
 describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
   const {
@@ -32,7 +31,7 @@ describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
     dispatch: () => {},
   };
 
-  it('renders the rated disabilities selection field', async () => {
+  it('renders the rated disabilities selection field', () => {
     const form = mount(
       <Provider store={store}>
         <DefinitionTester
@@ -50,7 +49,7 @@ describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
     form.unmount();
   });
 
-  it('successfully submits when at least one condition is selected', async () => {
+  it('successfully submits when at least one condition is selected', () => {
     const form = mount(
       <Provider store={store}>
         <DefinitionTester
@@ -67,14 +66,12 @@ describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
       .find('input#root_ratedDisabilities_0')
       .props()
       .onChange({ target: { checked: true } });
-    await waitFor(() => {
-      form.find('form').simulate('submit');
-      expect(form.find('.usa-input-error').length).to.equal(0);
-    });
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error').length).to.equal(0);
     form.unmount();
   });
 
-  it('successfully submits when no conditions selected', async () => {
+  it('successfully submits when no conditions selected', () => {
     const form = mount(
       <Provider store={store}>
         <DefinitionTester
@@ -86,14 +83,12 @@ describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
       </Provider>,
     );
 
-    await waitFor(() => {
-      form.find('form').simulate('submit');
-      expect(form.find('.usa-input-error').length).to.equal(0);
-    });
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error').length).to.equal(0);
     form.unmount();
   });
 
-  it('renders the information about each disability', async () => {
+  it('renders the information about each disability', () => {
     const form = mount(
       <Provider store={store}>
         <DefinitionTester
@@ -165,7 +160,7 @@ describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
     form.unmount();
   });
 
-  it('renders and submits when unknown condition', async () => {
+  it('renders and submits when unknown condition', () => {
     const testData = JSON.parse(JSON.stringify(initialData));
     testData.ratedDisabilities[0].name = undefined;
 
@@ -200,10 +195,8 @@ describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
       .find('input#root_ratedDisabilities_0')
       .props()
       .onChange({ target: { checked: true } });
-    await waitFor(() => {
-      form.find('form').simulate('submit');
-      expect(form.find('.usa-input-error').length).to.equal(0);
-    });
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error').length).to.equal(0);
     form.unmount();
   });
 });

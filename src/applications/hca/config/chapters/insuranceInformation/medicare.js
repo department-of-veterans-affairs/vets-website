@@ -1,17 +1,13 @@
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { FULL_SCHEMA } from '../../../utils/imports';
-import content from '../../../locales/en/content.json';
+import { MedicarePartADescription } from '../../../components/FormDescriptions';
 
 const { isEnrolledMedicarePartA } = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {
-    ...titleUI(
-      content['insurance-info--medicare-enrollment-title'],
-      content['insurance-info--medicare-enrollment-description'],
-    ),
+    'ui:description': MedicarePartADescription,
     isEnrolledMedicarePartA: {
-      'ui:title': content['insurance-info--medicare-enrollment-label'],
+      'ui:title': 'Are you enrolled in Medicare Part A (hospital insurance)?',
       'ui:widget': 'yesNo',
     },
   },

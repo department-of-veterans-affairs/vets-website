@@ -1,8 +1,6 @@
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { FULL_SCHEMA } from '../../../utils/imports';
 import DemographicField from '../../../components/FormFields/DemographicViewField';
-import { DemographicInfoTitle } from '../../../components/FormDescriptions';
-import content from '../../../locales/en/content.json';
+import { DemographicInfoDescription } from '../../../components/FormDescriptions';
 
 const {
   isAmericanIndianOrAlaskanNative,
@@ -16,30 +14,30 @@ const {
 
 export default {
   uiSchema: {
-    ...titleUI(content['vet-info--demographic-info-title']),
     'view:demographicCategories': {
-      'ui:title': DemographicInfoTitle,
+      'ui:title': ' ',
+      'ui:description': DemographicInfoDescription,
       'ui:field': DemographicField,
       isAmericanIndianOrAlaskanNative: {
-        'ui:title': content['vet-info--demographic-info-indian-label'],
+        'ui:title': 'American Indian or Alaskan Native',
       },
       isSpanishHispanicLatino: {
-        'ui:title': content['vet-info--demographic-info-latino-label'],
+        'ui:title': 'Hispanic, Latino, or Spanish',
       },
       isAsian: {
-        'ui:title': content['vet-info--demographic-info-asian-label'],
+        'ui:title': 'Asian',
       },
       isBlackOrAfricanAmerican: {
-        'ui:title': content['vet-info--demographic-info-black-label'],
+        'ui:title': 'Black or African American',
       },
       isNativeHawaiianOrOtherPacificIslander: {
-        'ui:title': content['vet-info--demographic-info-hawaiian-label'],
+        'ui:title': 'Native Hawaiian or Other Pacific Islander',
       },
       isWhite: {
-        'ui:title': content['vet-info--demographic-info-white-label'],
+        'ui:title': 'White',
       },
       hasDemographicNoAnswer: {
-        'ui:title': content['vet-info--demographic-info-no-answer-label'],
+        'ui:title': 'Prefer not to answer',
       },
     },
   },

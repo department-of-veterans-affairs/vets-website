@@ -6,7 +6,7 @@ import ARNReviewWidget from '../review/ARNWidget';
 const ARN_DEFAULT_TITLE = 'Alien registration number';
 
 /**
- * uiSchema for Alien registration number (ARN)
+ * Web component v3 for Alien registration number (ARN)
  *
  * Pattern recommendation: Use the applicable person in the title
  * rather than in the field names.
@@ -35,7 +35,7 @@ const arnUI = title => {
 };
 
 /**
- * schema for arnUI
+ * Schema for Alien registration number
  *
  * ```js
  * // uiSchema
@@ -51,7 +51,7 @@ const arnSchema = {
 };
 
 /**
- * uiSchema for Alien registration number or VA File Number. Includes two fields.
+ * Web components for Alien registration number or VA File Number
  *
  * Pattern recommendation: Use the applicable person in the title
  * rather than in the field names.
@@ -91,7 +91,7 @@ const arnOrVaFileNumberUI = () => {
 };
 
 /**
- * Schema for arnOrVaFileNumberUI
+ * Schema for ARN or VA File Number
  *
  * ```js
  * // uiSchema

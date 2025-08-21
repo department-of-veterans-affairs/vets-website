@@ -1,8 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { fireEvent, render, waitFor } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import { Provider } from 'react-redux';
+
 import { uploadStore } from 'platform/forms-system/test/config/helpers';
 import {
   DefinitionTester, // selectCheckbox
@@ -33,7 +34,7 @@ describe('Additional evidence upload', () => {
     expect($('input[type="file"]', container)).to.exist;
   });
 
-  it('should not submit without required upload', async () => {
+  it('should not submit without required upload', () => {
     const onSubmit = sinon.spy();
     const { container } = render(
       <Provider store={uploadStore}>
@@ -50,14 +51,11 @@ describe('Additional evidence upload', () => {
     );
 
     fireEvent.submit($('form', container));
-
-    await waitFor(() => {
-      expect($$('.usa-input-error-message', container).length).to.equal(1);
-      expect(onSubmit.called).to.be.false;
-    });
+    expect($$('.usa-input-error-message', container).length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
   });
 
-  it('should submit with uploaded form', async () => {
+  it('should submit with uploaded form', () => {
     const onSubmit = sinon.spy();
     const { container } = render(
       <Provider store={uploadStore}>
@@ -86,16 +84,13 @@ describe('Additional evidence upload', () => {
     fireEvent.submit($('form', container));
     const content = container.textContent;
     const select = $('va-select[value="L049"]', container);
-
-    await waitFor(() => {
-      expect($('.usa-input-error-message', container)).to.not.exist;
-      expect(onSubmit.called).to.be.true;
-      expect(content).to.contain('test.pdf');
-      expect(content).to.contain('98KB');
-      expect(select).to.exist;
-      expect(select.getAttribute('message-aria-describedby')).to.eq(
-        'Choose a document type for test.pdf',
-      );
-    });
+    expect($('.usa-input-error-message', container)).to.not.exist;
+    expect(onSubmit.called).to.be.true;
+    expect(content).to.contain('test.pdf');
+    expect(content).to.contain('98KB');
+    expect(select).to.exist;
+    expect(select.getAttribute('message-aria-describedby')).to.eq(
+      'Choose a document type for test.pdf',
+    );
   });
 });

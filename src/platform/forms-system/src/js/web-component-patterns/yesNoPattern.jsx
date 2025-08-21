@@ -1,7 +1,7 @@
 import YesNoField from '../web-component-fields/YesNoField';
 
 /**
- * uiSchema for yes or no questions. yesNoUI is an abstraction of radioUI tailored for binary yes/no questions.
+ * Web component v3 uiSchema for yes or no questions
  *
  * ```js
  * hasHealthInsurance: yesNoUI('Do you have health insurance coverage?')

@@ -2,15 +2,13 @@ import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { format } from 'date-fns';
 import CalendarWidget from '../../components/calendar/CalendarWidget';
-import { setSelectedSlotStartTime } from '../redux/actions';
+import { setSelectedSlot } from '../redux/actions';
 import FormButtons from '../../components/FormButtons';
 import { routeToNextReferralPage, routeToPreviousReferralPage } from '../flow';
-import {
-  selectCurrentPage,
-  getSelectedSlotStartTime,
-} from '../redux/selectors';
-import { getSlotByDate } from '../utils/provider';
+import { selectCurrentPage, getSelectedSlot } from '../redux/selectors';
+import { getSlotByDate, hasConflict } from '../utils/provider';
 import { getDriveTimeString } from '../../utils/appointment';
 import {
   getTimezoneDescByFacilityId,
@@ -19,19 +17,16 @@ import {
 import { getReferralSlotKey } from '../utils/referrals';
 import { titleCase } from '../../utils/formatters';
 import ProviderAddress from './ProviderAddress';
-import { scrollAndFocus } from '../../utils/scrollAndFocus';
 
 export const DateAndTimeContent = props => {
   const { currentReferral, draftAppointmentInfo, appointmentsByMonth } = props;
   const dispatch = useDispatch();
   const history = useHistory();
 
-  // Add a counter state to trigger focusing
-  const [focusTrigger, setFocusTrigger] = useState(0);
-
-  const selectedSlotStartTime = useSelector(getSelectedSlotStartTime);
+  const selectedSlot = useSelector(state => getSelectedSlot(state));
   const currentPage = useSelector(selectCurrentPage);
   const [error, setError] = useState('');
+  const [selectedDate, setSelectedDate] = useState('');
   const facilityTimeZone = getTimezoneByFacilityId(
     currentReferral.referringFacility.code,
   );
@@ -44,28 +39,17 @@ export const DateAndTimeContent = props => {
       }),
     ),
   );
-  const onChange = useCallback(
-    (value, hasConflict = false) => {
-      if (hasConflict) {
-        setError(
-          'You already have an appointment at this time. Please select another day or time.',
+  useEffect(
+    () => {
+      if (selectedSlot) {
+        setSelectedDate(
+          getSlotByDate(draftAppointmentInfo.attributes.slots, selectedSlot)
+            .start,
         );
       }
-      const newSlot = getSlotByDate(
-        draftAppointmentInfo.attributes.slots,
-        value[0],
-      );
-      if (!hasConflict && newSlot) {
-        setError('');
-        sessionStorage.setItem(selectedSlotKey, newSlot.start);
-      }
-      if (newSlot) {
-        dispatch(setSelectedSlotStartTime(newSlot.start));
-      }
     },
-    [dispatch, draftAppointmentInfo.attributes.slots, selectedSlotKey],
+    [draftAppointmentInfo.attributes.slots, selectedSlot],
   );
-
   useEffect(
     () => {
       const savedSelectedSlot = sessionStorage.getItem(selectedSlotKey);
@@ -76,41 +60,49 @@ export const DateAndTimeContent = props => {
       if (!savedSlot) {
         return;
       }
-      onChange(savedSlot.start);
+      dispatch(setSelectedSlot(savedSlot.start));
     },
-    [
-      dispatch,
-      selectedSlotKey,
-      draftAppointmentInfo.attributes.slots,
-      appointmentsByMonth,
-      onChange,
-    ],
+    [dispatch, selectedSlotKey, draftAppointmentInfo.attributes.slots],
+  );
+  const onChange = useCallback(
+    value => {
+      const newSlot = getSlotByDate(
+        draftAppointmentInfo.attributes.slots,
+        value[0],
+      );
+      if (newSlot) {
+        setError('');
+        dispatch(setSelectedSlot(newSlot.start));
+        setSelectedDate(newSlot.start);
+        sessionStorage.setItem(selectedSlotKey, newSlot.start);
+      }
+    },
+    [dispatch, draftAppointmentInfo.attributes.slots, selectedSlotKey],
   );
   const onBack = () => {
     routeToPreviousReferralPage(history, currentPage, currentReferral.uuid);
   };
   const onSubmit = () => {
     if (error) {
-      // Increment the focus trigger to force re-focusing the validation message
-      setFocusTrigger(prev => prev + 1);
       return;
     }
-    if (!selectedSlotStartTime) {
+    if (!selectedSlot) {
       setError(
         'Please choose your preferred date and time for your appointment',
       );
       return;
     }
+    if (
+      appointmentsByMonth &&
+      hasConflict(selectedDate, appointmentsByMonth, facilityTimeZone)
+    ) {
+      setError(
+        'You already have an appointment at this time. Please select another day or time.',
+      );
+      return;
+    }
     routeToNextReferralPage(history, currentPage, currentReferral.uuid);
   };
-
-  // Effect to focus on validation message whenever error state changes
-  useEffect(
-    () => {
-      scrollAndFocus('.vaos-input-error-message');
-    },
-    [error, focusTrigger],
-  );
 
   const noSlotsAvailable = !draftAppointmentInfo.attributes.slots.length;
 
@@ -137,17 +129,13 @@ export const DateAndTimeContent = props => {
     <>
       <div>
         <p className="vads-u-font-weight--bold vads-u-margin--0">
-          <span data-dd-privacy="mask">{currentReferral.provider.name}</span>
+          {currentReferral.provider.name}
         </p>
         <p className="vads-u-margin-top--0">
-          <span data-dd-privacy="mask">
-            {titleCase(currentReferral.categoryOfCare)}
-          </span>
+          {titleCase(currentReferral.categoryOfCare)}
         </p>
         <p className="vads-u-margin--0 vads-u-font-weight--bold">
-          <span data-dd-privacy="mask">
-            {draftAppointmentInfo.attributes.provider.providerOrganization.name}
-          </span>
+          {draftAppointmentInfo.attributes.provider.providerOrganization.name}
         </p>
         <ProviderAddress
           address={draftAppointmentInfo.attributes.provider.location.address}
@@ -194,7 +182,7 @@ export const DateAndTimeContent = props => {
             <CalendarWidget
               maxSelections={1}
               availableSlots={draftAppointmentInfo.attributes.slots}
-              value={[selectedSlotStartTime || '']}
+              value={[selectedDate]}
               id="dateTime"
               timezone={facilityTimeZone}
               additionalOptions={{
@@ -205,15 +193,14 @@ export const DateAndTimeContent = props => {
               onChange={onChange}
               onNextMonth={null}
               onPreviousMonth={null}
-              minDate={new Date()}
-              maxDate={latestAvailableSlot}
+              minDate={format(new Date(), 'yyyy-MM-dd')}
+              maxDate={format(latestAvailableSlot, 'yyyy-MM-dd')}
               required
               requiredMessage={error}
-              startMonth={new Date()}
+              startMonth={format(new Date(), 'yyyy-MM')}
               showValidation={error.length > 0}
               showWeekends
               overrideMaxDays
-              upcomingAppointments={appointmentsByMonth}
             />
           </div>
           <FormButtons

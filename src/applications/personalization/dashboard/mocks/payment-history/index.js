@@ -131,34 +131,4 @@ const createSuccessPayment = (hasRecentPayment = false) => {
   };
 };
 
-const createEmptyPayment = () => {
-  return {
-    data: {
-      id: '',
-      type: 'bgs_va_payment_history_response',
-      attributes: {
-        payments: [],
-        returnPayments: [],
-      },
-    },
-  };
-};
-
-const createFailurePayment = () => {
-  return {
-    errors: [
-      {
-        title: 'Internal Server Error',
-        detail: 'An unexpected error occurred while processing your request.',
-        code: '500',
-        status: '500',
-      },
-    ],
-  };
-};
-
-module.exports = {
-  createEmptyPayment,
-  createFailurePayment,
-  createSuccessPayment,
-};
+module.exports = { createSuccessPayment };

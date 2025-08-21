@@ -45,34 +45,34 @@ http://localhost:3001/my-health/appointment-travel-claim/?id=46bebc0a-b99c-464f-
 ## Mock UUIDs
 There are several different mock UUIDs that can be used as a value for the `id` URL param.
 ### Check-in
-  - defaultUUID: `http://localhost:3001/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287`
-  - aboutToExpireUUID: `http://localhost:3001/health-care/appointment-check-in/?id=25165847-2c16-4c8b-8790-5de37a7f427f`
-  - pacificTimezoneUUID: `http://localhost:3001/health-care/appointment-check-in/?id=6c72b801-74ac-47fe-82af-cfe59744b45f`
-  - allAppointmentTypesUUID: `http://localhost:3001/health-care/appointment-check-in/?id=bb48c558-7b35-44ec-8ab7-32b7d49364fc`
-  - missingUUID: `http://localhost:3001/health-care/appointment-check-in/?id=a5895713-ca42-4244-9f38-f8b5db020d04`
-  - noFacilityAddressUUID: `http://localhost:3001/health-care/appointment-check-in/?id=5d5a26cd-fb0b-4c5b-931e-2957bfc4b9d3`
-  - demographicsConfirmedUUID: `http://localhost:3001/health-care/appointment-check-in/?id=3f93c0e0-319a-4642-91b3-750e0aec0388`
-  - noUpcomingAppointments: `http://localhost:3001/health-care/appointment-check-in/?id=34de41ed-014c-4734-a4a4-3a4738f5e0d8`
+  - defaultUUID: `46bebc0a-b99c-464f-a5c5-560bc9eae287`
+  - aboutToExpireUUID: `25165847-2c16-4c8b-8790-5de37a7f427f`
+  - pacificTimezoneUUID: `6c72b801-74ac-47fe-82af-cfe59744b45f`
+  - allAppointmentTypesUUID: `bb48c558-7b35-44ec-8ab7-32b7d49364fc`
+  - missingUUID: `a5895713-ca42-4244-9f38-f8b5db020d04`
+  - noFacilityAddressUUID: `5d5a26cd-fb0b-4c5b-931e-2957bfc4b9d3`
+  - demographicsConfirmedUUID: `3f93c0e0-319a-4642-91b3-750e0aec0388`
+  - noUpcomingAppointments: `34de41ed-014c-4734-a4a4-3a4738f5e0d8`
 
 ### Pre-check-in
-  - defaultUUID: `http://localhost:3001/health-care/appointment-pre-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287`
-  - phoneApptUUID: `http://localhost:3001/health-care/appointment-pre-check-in/?id=258d753c-262a-4ab2-b618-64b645884daf`
-  - cvtApptUUID = `http://localhost:3001/health-care/appointment-pre-check-in/?id=f4b9f1a7-4e3d-4d0c-8b8c-3f9b3d0f9e9b`
-  - vvcApptUUID = `http://localhost:3001/health-care/appointment-pre-check-in/?id=cc8bd49c-5ac8-4ad2-880a-b96645cdea64`
-  - alreadyPreCheckedInUUID: `http://localhost:3001/health-care/appointment-pre-check-in/?id=4d523464-c450-49dc-9a18-c04b3f1642ee`
-  - canceledAppointmentUUID: `http://localhost:3001/health-care/appointment-pre-check-in/?id=9d7b7c15-d539-4624-8d15-b740b84e8548`
-  - canceledPhoneAppointmentUUID: `http://localhost:3001/health-care/appointment-pre-check-in/?id=1448d690-fd5f-11ec-b939-0242ac120002`
-  - expiredUUID: `http://localhost:3001/health-care/appointment-pre-check-in/?id=354d5b3a-b7b7-4e5c-99e4-8d563f15c521`
-  - expiredPhoneUUID: `http://localhost:3001/health-care/appointment-pre-check-in/?id=08ba56a7-68b7-4b9f-b779-53ba609140ef`
-  - missingUUID: `http://localhost:3001/health-care/appointment-pre-check-in/?id=a5895713-ca42-4244-9f38-f8b5db020d04`
-  - noFacilityAddressUUID: `http://localhost:3001/health-care/appointment-pre-check-in/?id=5d5a26cd-fb0b-4c5b-931e-2957bfc4b9d3`
-  - allDemographicsCurrentUUID: `http://localhost:3001/health-care/appointment-pre-check-in/?id=e544c217-6fe8-44c5-915f-6c3d9908a678`
-  - onlyDemographicsCurrentUUID: `http://localhost:3001/health-care/appointment-pre-check-in/?id=7397abc0-fb4d-4238-a3e2-32b0e47a1527` (NoK and Emergency Contact not current)
-  - noUpcomingAppointments: `http://localhost:3001/health-care/appointment-pre-check-in/?id=34de41ed-014c-4734-a4a4-3a4738f5e0d8`
+  - defaultUUID: `46bebc0a-b99c-464f-a5c5-560bc9eae287`
+  - phoneApptUUID: `258d753c-262a-4ab2-b618-64b645884daf`
+  - cvtApptUUID = `f4b9f1a7-4e3d-4d0c-8b8c-3f9b3d0f9e9b`
+  - vvcApptUUID = `cc8bd49c-5ac8-4ad2-880a-b96645cdea64`
+  - alreadyPreCheckedInUUID: `4d523464-c450-49dc-9a18-c04b3f1642ee`
+  - canceledAppointmentUUID: `9d7b7c15-d539-4624-8d15-b740b84e8548`
+  - canceledPhoneAppointmentUUID: `1448d690-fd5f-11ec-b939-0242ac120002`
+  - expiredUUID: `354d5b3a-b7b7-4e5c-99e4-8d563f15c521`
+  - expiredPhoneUUID: `08ba56a7-68b7-4b9f-b779-53ba609140ef`
+  - missingUUID: `a5895713-ca42-4244-9f38-f8b5db020d04`
+  - noFacilityAddressUUID: `5d5a26cd-fb0b-4c5b-931e-2957bfc4b9d3`
+  - allDemographicsCurrentUUID: `e544c217-6fe8-44c5-915f-6c3d9908a678`
+  - onlyDemographicsCurrentUUID: `7397abc0-fb4d-4238-a3e2-32b0e47a1527` (NoK and Emergency Contact not current)
+  - noUpcomingAppointments: `34de41ed-014c-4734-a4a4-3a4738f5e0d8`
 
 ### Travel-claim
-  - defaultUUID: `http://localhost:3001/my-health/appointment-travel-claim/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287`
-  - multiOHAppointmentsUUID: `http://localhost:3001/my-health/appointment-travel-claim/?id=d80ade2e-7a96-4a30-9edc-efc08b4d157d`
+  - defaultUUID: `46bebc0a-b99c-464f-a5c5-560bc9eae287`
+  - multiOHAppointmentsUUID: `d80ade2e-7a96-4a30-9edc-efc08b4d157d`
 
 ## Design system
 99% of the styling comes from the VA design system [component library](https://design.va.gov/components/) and [utility classes](https://design.va.gov/foundation/utilities/). For the remaining 1% of styling there is an scss file in the `sass` directory in the project root.

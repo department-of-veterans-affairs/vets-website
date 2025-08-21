@@ -1,21 +1,22 @@
-import classNames from 'classnames';
-import { formatInTimeZone } from 'date-fns-tz';
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { useSelector } from 'react-redux';
-import AppointmentColumn from '../../../components/AppointmentColumn';
+import moment from 'moment';
+import { selectFeatureFeSourceOfTruth } from '../../../redux/selectors';
 import AppointmentRow from '../../../components/AppointmentRow';
 import {
   selectAppointmentLocality,
-  selectApptDateAriaText,
-  selectApptDetailAriaText,
   selectIsCanceled,
-  selectIsCommunityCare,
-  selectModalityIcon,
   selectModalityText,
+  selectModalityIcon,
   selectStartDate,
   selectTimeZoneAbbr,
+  selectApptDetailAriaText,
+  selectApptDateAriaText,
+  selectIsCommunityCare,
 } from '../../redux/selectors';
+import AppointmentColumn from '../../../components/AppointmentColumn';
 
 export default function AppointmentColumnLayout({
   data,
@@ -26,11 +27,17 @@ export default function AppointmentColumnLayout({
   const appointmentLocality = useSelector(() =>
     selectAppointmentLocality(data),
   );
+  const useFeSourceOfTruth = useSelector(state =>
+    selectFeatureFeSourceOfTruth(state),
+  );
   const isCanceled = useSelector(() => selectIsCanceled(data));
   const isCommunityCare = useSelector(() => selectIsCommunityCare(data));
   const modalityText = useSelector(() => selectModalityText(data));
   const modalityIcon = useSelector(() => selectModalityIcon(data));
-  const startDate = useSelector(() => selectStartDate(data));
+  const startDate = useSelector(() =>
+    selectStartDate(data, useFeSourceOfTruth),
+  );
+  const parsedDate = moment.parseZone(startDate);
   const timezoneAbbr = useSelector(() => selectTimeZoneAbbr(data));
 
   const detailAriaLabel = useSelector(() => selectApptDetailAriaText(data));
@@ -75,9 +82,7 @@ export default function AppointmentColumnLayout({
                 { 'vads-u-display--none': !first },
               )}
             >
-              <span aria-hidden="false" data-dd-privacy="mask">
-                {formatInTimeZone(startDate, data.timezone, 'd')}
-              </span>
+              <span aria-hidden="false">{parsedDate.format('D')}</span>
             </h3>
           </AppointmentColumn>
           <AppointmentColumn
@@ -97,9 +102,8 @@ export default function AppointmentColumnLayout({
               className={classNames({ 'vads-u-display--none': !first })}
               aria-hidden="true"
               data-testid="day"
-              data-dd-privacy="mask"
             >
-              {formatInTimeZone(startDate, data.timezone, 'EEE')}
+              {parsedDate.format('ddd')}
             </span>
           </AppointmentColumn>
         </AppointmentRow>
@@ -132,12 +136,10 @@ export default function AppointmentColumnLayout({
             canceled={isCanceled}
             style={{ minWidth: '100px', maxWidth: '100px' }}
           >
-            <span aria-hidden="true" data-dd-privacy="mask">
-              {`${formatInTimeZone(
-                startDate,
-                data.timezone,
-                'h:mm aaaa',
-              )} ${timezoneAbbr || ''}`}{' '}
+            <span aria-hidden="true">
+              {`${parsedDate.format('h:mm')} ${parsedDate.format(
+                'a',
+              )} ${timezoneAbbr}`}{' '}
             </span>
           </AppointmentColumn>
 
@@ -159,7 +161,6 @@ export default function AppointmentColumnLayout({
                     'vaos-appts__display--table-cell',
                     'vaos-appts__text--truncate',
                   )}
-                  data-dd-privacy="mask"
                 >
                   {appointmentLocality}
                 </span>

@@ -1,18 +1,21 @@
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { format } from 'date-fns';
-import { dismissDowntimeWarning } from 'platform/monitoring/DowntimeNotification/actions';
-import externalServiceStatus from 'platform/monitoring/DowntimeNotification/config/externalServiceStatus';
-import PropTypes from 'prop-types';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import externalServiceStatus from 'platform/monitoring/DowntimeNotification/config/externalServiceStatus';
+import { dismissDowntimeWarning } from 'platform/monitoring/DowntimeNotification/actions';
+import PropTypes from 'prop-types';
 import FullWidthLayout from '../FullWidthLayout';
 import InfoAlert from '../InfoAlert';
-import { getUserTimezoneAbbr, stripDST } from '../../utils/timezone';
 
 const appTitle = 'VA appointments tool';
 
-export default function DowntimeMessage(props) {
-  const { startTime, endTime, status, children, description } = props;
+export default function DowntimeMessage({
+  startTime,
+  endTime,
+  status,
+  children,
+  description,
+}) {
   const dispatch = useDispatch();
   const isDowntimeWarningDismissed = useSelector(state =>
     state.scheduledDowntime.dismissedDowntimeWarnings.includes(appTitle),
@@ -38,17 +41,11 @@ export default function DowntimeMessage(props) {
             <p>{descriptionBody}</p>
           ) : (
             <p>
-              We’re making updates to the tool between{' '}
-              {`${format(startTime, "EEEE, MMMM do 'at' h:mm aaaa")} ${stripDST(
-                getUserTimezoneAbbr(),
-              )}`}{' '}
-              and{' '}
-              {`${format(endTime, "EEEE, MMMM do 'at' h:mm aaaa")} ${stripDST(
-                getUserTimezoneAbbr(),
-              )}`}
-              . We’re sorry it’s not working right now. If you need to request
-              or confirm an appointment during this time, please call your local
-              VA medical center. Use the{' '}
+              We’re making updates to the tool on {startTime.format('MMMM Do')}{' '}
+              between {startTime.format('LT')} and {endTime.format('LT')}. We’re
+              sorry it’s not working right now. If you need to request or
+              confirm an appointment during this time, please call your local VA
+              medical center. Use the{' '}
               <a href="/find-locations">VA facility locator</a> to find contact
               information for your medical center.
             </p>
@@ -80,18 +77,12 @@ export default function DowntimeMessage(props) {
             <p>{descriptionBody}</p>
           ) : (
             <p>
-              We’re doing work on the VA appointments tool between{' '}
-              {`${format(startTime, "EEEE, MMMM do 'at' h:mm aaaa")} ${stripDST(
-                getUserTimezoneAbbr(),
-              )}`}{' '}
-              and{' '}
-              {`${format(endTime, "EEEE, MMMM do 'at' h:mm aaaa")} ${stripDST(
-                getUserTimezoneAbbr(),
-              )}`}
-              . If you need to request or confirm an appointment during this
-              time, please call your local VA medical center. Use the{' '}
-              <a href="/find-locations">VA facility locator</a> to find contact
-              information for your medical center.
+              We’re doing work on the VA appointments tool on{' '}
+              {startTime.format('MMMM Do')} between {startTime.format('LT')} and{' '}
+              {endTime.format('LT')}. If you need to request or confirm an
+              appointment during this time, please call your local VA medical
+              center. Use the <a href="/find-locations">VA facility locator</a>{' '}
+              to find contact information for your medical center.
             </p>
           )}
         </VaModal>
@@ -103,7 +94,7 @@ export default function DowntimeMessage(props) {
 DowntimeMessage.propTypes = {
   children: PropTypes.node,
   description: PropTypes.string,
-  endTime: PropTypes.instanceOf(Date),
-  startTime: PropTypes.instanceOf(Date),
+  endTime: PropTypes.object,
+  startTime: PropTypes.object,
   status: PropTypes.string,
 };

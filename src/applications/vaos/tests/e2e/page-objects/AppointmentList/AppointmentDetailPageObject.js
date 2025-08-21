@@ -1,8 +1,8 @@
 import { addMinutes } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
 import { getICSTokens } from '../../../../utils/calendar';
-import { DATE_FORMATS, VIDEO_TYPES } from '../../../../utils/constants';
 import PageObject from '../PageObject';
+import { VIDEO_TYPES, DATE_FORMATS } from '../../../../utils/constants';
 
 function assertDescription(type, tokens) {
   // Description text longer than 74 characters should start on newline beginning
@@ -162,20 +162,6 @@ class AppointmentDetailPageObject extends PageObject {
   assertUrl() {
     cy.url().should('include', '/1', { timeout: 5000 });
     cy.axeCheckBestPractice();
-
-    return this;
-  }
-
-  assertDaysLeftToFile() {
-    // Verify that the days left is a valid number
-    cy.findAllByTestId('days-left-to-file').each(el => {
-      const text = el.text();
-      const parts = text.split(':');
-      // Is it a valid number
-      expect(Number.isInteger(parseInt(parts[1].trim(), 10))).to.equal(true);
-      // Is it a positive number
-      expect(parseInt(parts[1], 10)).to.be.at.least(0);
-    });
 
     return this;
   }

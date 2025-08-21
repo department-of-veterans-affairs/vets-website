@@ -4,6 +4,7 @@ import { render, fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import Declined from '../components/Declined';
 
@@ -17,7 +18,7 @@ const generateStore = dispatch => ({
   dispatch,
 });
 
-const oldLocation = window.location;
+const oldLocation = global.window.location;
 
 describe('Declined', () => {
   let store;
@@ -34,7 +35,7 @@ describe('Declined', () => {
   });
 
   after(() => {
-    window.location = oldLocation;
+    global.window.location = oldLocation;
   });
 
   it('should render', () => {
@@ -44,11 +45,8 @@ describe('Declined', () => {
       </Provider>,
     );
 
-    expect(container.querySelector('h1', container).textContent).to.eql(
-      'We’ve signed you out',
-    );
-    expect(container.querySelector('va-button[text="Sign in"]', container)).to
-      .not.be.null;
+    expect($('h1', container).textContent).to.eql('We’ve signed you out');
+    expect($('va-button[text="Sign in"]', container)).to.not.be.null;
   });
 
   context('sign in button clicked', () => {
@@ -59,7 +57,7 @@ describe('Declined', () => {
         </Provider>,
       );
 
-      const signInButton = container.querySelector('va-button', container);
+      const signInButton = $('va-button', container);
       fireEvent.click(signInButton);
 
       expect(dispatchStub.calledOnce).to.be.true;
@@ -74,12 +72,13 @@ describe('Declined', () => {
         </Provider>,
       );
 
-      const signInButton = container.querySelector('va-button', container);
+      const signInButton = $('va-button', container);
       fireEvent.click(signInButton);
 
       await waitFor(() => {
-        const location = window.location.href || window.location;
-        expect(location).to.eql('vamobile://login-terms-rejected');
+        expect(global.window.location).to.eql(
+          'vamobile://login-terms-rejected',
+        );
       });
       sessionStorage.removeItem('ci');
     });

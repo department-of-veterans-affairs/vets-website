@@ -64,10 +64,11 @@ const wrapperClasses = prefixUtilityClasses([
   'align-items--flex-start',
 ]);
 
+const editButtonClasses = [...prefixUtilityClasses(['margin-top--1p5'])];
+
 const classes = {
   wrapper: wrapperClasses.join(' '),
-  buttons:
-    'vads-u-margin-bottom--1 vads-u-width--full mobile-lg:vads-u-width--auto',
+  editButton: editButtonClasses.join(' '),
 };
 
 class ProfileInformationFieldController extends React.Component {
@@ -78,7 +79,6 @@ class ProfileInformationFieldController extends React.Component {
     this.state = {
       showCannotEditModal: false,
       showConfirmCancelModal: false,
-      shouldFocusCancelButton: false,
     };
   }
 
@@ -125,31 +125,13 @@ class ProfileInformationFieldController extends React.Component {
         if (forceEditView && typeof successCallback === 'function') {
           successCallback();
         }
-        // Focus on the edit button after the update success alert is shown
-        waitForRenderThenFocus(
-          `#${getEditButtonId(fieldName)}`,
-          document,
-          50,
-          'button',
-        );
       } else if (!forceEditView) {
         if (prevProps.showRemoveModal && !this.props.showRemoveModal) {
-          // Focus on the remove button if it exists, otherwise focus on the edit button
-          if (document.querySelector(`#${getRemoveButtonId(fieldName)}`)) {
-            waitForRenderThenFocus(
-              `#${getRemoveButtonId(fieldName)}`,
-              document,
-              50,
-              'button',
-            );
-          } else {
-            waitForRenderThenFocus(
-              `#${getEditButtonId(fieldName)}`,
-              document,
-              50,
-              'button',
-            );
-          }
+          waitForRenderThenFocus(
+            `#${getRemoveButtonId(fieldName)}`,
+            document,
+            50,
+          );
         } else {
           // forcesEditView will result in now standard edit button being rendered, so we don't want to focus on it
           // focusElement did not work here on iphone or safari, so using waitForRenderThenFocus
@@ -157,7 +139,6 @@ class ProfileInformationFieldController extends React.Component {
             `#${getEditButtonId(fieldName)}`,
             document,
             50,
-            'button',
           );
         }
       }
@@ -357,12 +338,6 @@ class ProfileInformationFieldController extends React.Component {
         this.props?.prefillPatternEnabled &&
         this.props?.fieldName === FIELD_NAMES.MAILING_ADDRESS,
       successCallback: this.props.successCallback,
-      // shouldFocusCancelButton and onCancelButtonFocused are used to set focus on the
-      // cancel button after the user returns to edit view from the confirm/cancel modal
-      shouldFocusCancelButton: this.state.shouldFocusCancelButton,
-      onCancelButtonFocused: () =>
-        this.setState({ shouldFocusCancelButton: false }),
-      allowInternationalPhones: this.props.allowInternationalPhones,
     };
 
     // Add flag for email/phone fields to indicate they should use formOnlyUpdate
@@ -447,32 +422,36 @@ class ProfileInformationFieldController extends React.Component {
           title={title}
           id={ariaDescribedBy}
         />
+
         <div className="vads-u-width--full">
           <div>
             {this.isEditLinkVisible() && (
-              <va-button
-                text="Edit"
-                label={`Edit ${title}`}
-                message-aria-describedby={ariaDescribedBy}
+              <button
+                aria-label={`Edit ${title}`}
+                type="button"
+                data-action="edit"
+                aria-describedby={ariaDescribedBy}
                 onClick={() => {
                   this.onEdit(isEmpty ? 'add-link' : 'edit-link');
                 }}
                 id={getEditButtonId(fieldName)}
-                class={`vads-u-margin-top--1p5 ${classes.buttons}`}
-                primary
-              />
+                className={classes.editButton}
+              >
+                Edit
+              </button>
             )}
             {data &&
               !isDeleteDisabled &&
               fieldName !== FIELD_NAMES.MAILING_ADDRESS && (
-                <va-button
-                  text="Remove"
-                  label={`Remove ${title}`}
+                <button
+                  aria-label={`Remove ${title}`}
+                  type="button"
                   id={getRemoveButtonId(fieldName)}
-                  class={`vads-u-margin-top--1 ${classes.buttons}`}
+                  className="mobile-lg:vads-u-margin--0 usa-button-secondary"
                   onClick={this.handleDeleteInitiated}
-                  secondary
-                />
+                >
+                  Remove
+                </button>
               )}
           </div>
         </div>
@@ -514,26 +493,18 @@ class ProfileInformationFieldController extends React.Component {
         data-testid={fieldName}
       >
         {CustomConfirmCancelModal ? (
-          <CustomConfirmCancelModal
-            activeSection={activeSection}
-            isVisible={this.state.showConfirmCancelModal}
-            onHide={() =>
-              this.setState({
-                showConfirmCancelModal: false,
-                shouldFocusCancelButton: true,
-              })
-            }
-          />
+          <>
+            <CustomConfirmCancelModal
+              activeSection={activeSection}
+              isVisible={this.state.showConfirmCancelModal}
+              onHide={() => this.setState({ showConfirmCancelModal: false })}
+            />
+          </>
         ) : (
           <ConfirmCancelModal
             activeSection={activeSection}
             closeModal={this.closeModal}
-            onHide={() =>
-              this.setState({
-                showConfirmCancelModal: false,
-                shouldFocusCancelButton: true,
-              })
-            }
+            onHide={() => this.setState({ showConfirmCancelModal: false })}
             isVisible={this.state.showConfirmCancelModal}
           />
         )}
@@ -597,7 +568,6 @@ ProfileInformationFieldController.propTypes = {
     PropTypes.node,
   ]),
   activeEditView: PropTypes.string,
-  allowInternationalPhones: PropTypes.bool, // "opt-in" param for international phone numbers
   ariaDescribedBy: PropTypes.string,
   cancelButtonText: PropTypes.string,
   cancelCallback: PropTypes.func,
@@ -611,7 +581,6 @@ ProfileInformationFieldController.propTypes = {
   refreshTransaction: PropTypes.func,
   refreshTransactionRequest: PropTypes.func,
   saveButtonText: PropTypes.string,
-  shouldFocusCancelButton: PropTypes.bool,
   showRemoveModal: PropTypes.bool,
   showUpdateSuccessAlert: PropTypes.bool,
   successCallback: PropTypes.func,
@@ -619,16 +588,10 @@ ProfileInformationFieldController.propTypes = {
   transaction: PropTypes.object,
   transactionRequest: PropTypes.object,
   updateMessagingSignature: PropTypes.func,
-  onCancelButtonFocused: PropTypes.func,
 };
 
 export const mapStateToProps = (state, ownProps) => {
-  const { fieldName, allowInternationalPhones = false } = ownProps;
-
-  const internationalPhonesToggleValue =
-    state.featureToggles?.profileInternationalPhoneNumbers || false;
-  const enableInternationalPhones =
-    allowInternationalPhones && internationalPhonesToggleValue;
+  const { fieldName } = ownProps;
 
   const { transaction, transactionRequest } = selectVAPServiceTransaction(
     state,
@@ -652,9 +615,7 @@ export const mapStateToProps = (state, ownProps) => {
     uiSchema,
     formSchema,
     title,
-  } = getProfileInfoFieldAttributes(fieldName, {
-    allowInternationalPhones: enableInternationalPhones,
-  });
+  } = getProfileInfoFieldAttributes(fieldName);
 
   const hasUnsavedEdits = state.vapService?.hasUnsavedEdits;
   return {

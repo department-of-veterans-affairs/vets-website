@@ -8,6 +8,9 @@ import {
 export default {
   title: 'Current email',
   path: 'claimant/email',
+  depends: formData => {
+    return formData?.claimantType !== 'VETERAN';
+  },
   uiSchema: {
     ...titleUI('Current email'),
     email: emailUI({

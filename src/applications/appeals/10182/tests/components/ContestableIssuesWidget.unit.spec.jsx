@@ -3,11 +3,16 @@ import { Provider } from 'react-redux';
 import { expect } from 'chai';
 import { render, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
+
+import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
+
 import { ContestableIssuesWidget } from '../../components/ContestableIssuesWidget';
+
 import {
   FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
   FETCH_CONTESTABLE_ISSUES_FAILED,
 } from '../../../shared/actions';
+
 import { getRandomDate } from '../../../shared/tests/cypress.helpers';
 
 describe('<ContestableIssuesWidget>', () => {
@@ -72,7 +77,7 @@ describe('<ContestableIssuesWidget>', () => {
     };
   };
 
-  it('should render ContestableIssues shared component', () => {
+  it('should render a list of check boxes (IssueCard component)', () => {
     const { props, mockStore } = getProps();
 
     const { container } = render(
@@ -80,8 +85,10 @@ describe('<ContestableIssuesWidget>', () => {
         <ContestableIssuesWidget {...props} />
       </Provider>,
     );
-
-    expect(container.querySelectorAll('va-checkbox')).to.have.lengthOf(3);
+    expect($$('input[type="checkbox"]', container).length).to.equal(
+      issues.length + additional.length,
+    );
+    expect($('.widget-title', container).textContent).to.equal('issue-1');
   });
 
   it('should call getContestableIssues only once, if there was a previous failure', async () => {

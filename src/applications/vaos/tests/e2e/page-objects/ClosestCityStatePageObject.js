@@ -15,13 +15,6 @@ class ClosestCityStatePageObject extends PageObject {
     return this;
   }
 
-  assertClosestCityStateValidationErrors() {
-    this.clickNextButton();
-    this.assertValidationError('Select a city');
-
-    return this;
-  }
-
   selectFacility({ label }) {
     return super.selectRadioButtonShadow(label);
   }

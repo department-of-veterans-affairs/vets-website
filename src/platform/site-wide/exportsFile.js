@@ -24,6 +24,8 @@ import { mhvUrl, mhvBaseUrl } from './mhv/utilities';
 
 import startMobileMenuButton from './mobile-menu-button';
 
+import { sitemapURLs } from './tests/sitemap/sitemap-helpers';
+
 import {
   TOGGLE_FORM_SIGN_IN_MODAL,
   TOGGLE_LOGIN_MODAL,
@@ -71,6 +73,7 @@ export {
   mhvUrl,
   mhvBaseUrl,
   startMobileMenuButton,
+  sitemapURLs,
   TOGGLE_FORM_SIGN_IN_MODAL,
   TOGGLE_LOGIN_MODAL,
   UPDATE_SEARCH_HELP_USER_MENU,

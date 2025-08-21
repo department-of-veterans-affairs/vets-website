@@ -11,12 +11,11 @@ const formatStatus = submission => {
           <va-icon
             class="submissions__inline-status-icon submissions__card-check"
             icon="check_circle"
-            size="3"
+            size="2"
           />
           {` Received ${formatDateParsedZoneLong(submission.vbmsReceivedDate)}`}
         </span>
       );
-    case 'awaiting_receipt_warning':
     case 'processing_error':
       return (
         <>
@@ -24,25 +23,17 @@ const formatStatus = submission => {
             <va-icon
               icon="warning"
               class="submissions__inline-status-icon submissions__card-error"
-              size="3"
+              size="2"
             />
             {' Processing error'}
           </span>
-          <span>Contact 800-827-1000 for assistance</span>
+          <br />
+          <span>Resubmit or contact 800-827-1000 for assistance</span>
         </>
       );
     case 'awaiting_receipt':
     default:
-      return (
-        <span className="submissions__awaiting">
-          <va-icon
-            class="submissions__inline-status-icon submissions__card-check"
-            icon="loop"
-            size="3"
-          />
-          <span>Awaiting receipt</span>
-        </span>
-      );
+      return <span>Awaiting receipt</span>;
   }
 };
 
@@ -50,15 +41,13 @@ const SubmissionCard = ({ submission }) => {
   return (
     <li>
       <va-card class="submission__card">
-        <p className="submission__card-date">
-          Submitted {formatDateParsedZoneLong(submission.submittedDate)}
-        </p>
-        <h3 className="submission__card-name vads-u-font-size--h3 vads-u-font-family--serif">
+        <p>Submitted {formatDateParsedZoneLong(submission.submittedDate)}</p>
+        <h3 className="submission__card-name">
           {submission.url ? (
             <Link
               to={`/submissions/${submission.id}`}
               data-testid={`submission-card-${submission.id}-name`}
-              className="submission__card-title"
+              className="submission__card-title vads-u-font-size--h4 vads-u-font-family--serif"
             >
               {`${submission.lastName}, ${submission.firstName}`}
             </Link>
@@ -66,26 +55,17 @@ const SubmissionCard = ({ submission }) => {
             `${submission.lastName}, ${submission.firstName}`
           )}
         </h3>
-        <p className="submission__card-form-name vads-u-font-size--h5 vads-u-font-family--serif">
+        <p>
           <strong>
             {submission.formType}
             {submission.packet ? ' packet' : ''}
           </strong>
         </p>
-        <p className="submission__card-status">
-          <span className="submission__card-attribute-text">
-            {'Confirmation: '}
-          </span>
-          {submission.confirmationNumber}
+        <p>
+          {`Confirmation: ${submission.confirmationNumber}`}
           <br />
-          <span
-            className={`submission__card-status--row ${submission.vbmsStatus}`}
-          >
-            <span className="submission__card-attribute-text">
-              {'VBMS eFolder status: '}
-            </span>
-            {formatStatus(submission)}
-          </span>
+          {'VBMS efolder status: '}
+          {formatStatus(submission)}
         </p>
       </va-card>
     </li>

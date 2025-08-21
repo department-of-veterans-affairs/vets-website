@@ -145,18 +145,7 @@ const FormStartControls = props => {
     );
   }
 
-  return formConfig?.formOptions?.useWebComponentForNavigation ? (
-    <va-link-action
-      href="#start"
-      onClick={event => {
-        event.preventDefault();
-        handleLoadPrefill();
-      }}
-      label={ariaLabel}
-      message-aria-describedby={ariaDescribedby}
-      text={startText}
-    />
-  ) : (
+  return (
     <a
       href="#start"
       className="vads-c-action-link--green"

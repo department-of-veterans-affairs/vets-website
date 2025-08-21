@@ -4,26 +4,211 @@
  */
 import React, { useState } from 'react';
 import classNames from 'classnames';
+import moment from 'moment';
 import PropTypes from 'prop-types';
-import {
-  addMonths,
-  format,
-  isSameDay,
-  parseISO,
-  startOfDay,
-  startOfMonth,
-} from 'date-fns';
-import { CalendarContext } from './CalendarContext';
+
 import CalendarNavigation from './CalendarNavigation';
 import CalendarRow from './CalendarRow';
 import CalendarWeekdayHeader from './CalendarWeekdayHeader';
-import {
-  getAppointmentConflict,
-  getMaxMonth,
-  handleNext,
-  handlePrev,
-  getCalendarWeeks,
-} from './utils';
+import { CalendarContext } from './CalendarContext';
+
+/**
+ * @const {number} DEFAULT_MAX_DAYS_AHEAD
+ * @default 90
+ */
+const DEFAULT_MAX_DAYS_AHEAD = 90;
+
+/**
+ * Pads single digit number with zero
+ *
+ * @param {number} num A given number
+ * @param {number} size A given size
+ * @returns {string} A string e.g. 03
+ */
+function pad(num, size) {
+  let s = num.toString();
+  while (s.length < size) s = `0${s}`;
+  return s;
+}
+
+/**
+ * Gets the first day of the month
+ *
+ * @param {Moment} momentDate A given moment date
+ * @returns {number} A number of the first day of the month
+ */
+function getFirstDayOfMonth(momentDate) {
+  return Number(momentDate.startOf('month').format('d'));
+}
+
+/**
+ * Gets the maximum month based on inputs
+ *
+ * @param {string} maxDate YYYY-DD-MM
+ * @returns {string} YYYY-MM
+ */
+function getMaxMonth(maxDate, overrideMaxDays) {
+  const defaultMaxMonth = moment()
+    .add(DEFAULT_MAX_DAYS_AHEAD, 'days')
+    .format('YYYY-MM');
+  const maxMonth = moment(maxDate).startOf('month');
+
+  if (maxDate && (maxMonth.isAfter(defaultMaxMonth) || overrideMaxDays)) {
+    return maxMonth.format('YYYY-MM');
+  }
+  // If no available dates array provided, set max to default from now
+  return defaultMaxMonth;
+}
+
+/**
+ * Gets the initial blank cells
+ *
+ * @param {Moment} momentDate A given moment date
+ * @param {boolean} [showWeekends] Whether to show full weekend slots or not
+ * @returns {Array} Array of blanks to push start day position
+ */
+function getInitialBlankCells(momentDate, showWeekends) {
+  const firstDay = getFirstDayOfMonth(momentDate);
+  const blanks = [];
+
+  if (!showWeekends && (firstDay === 0 || firstDay === 6)) {
+    return blanks;
+  }
+
+  const weekStart = showWeekends ? 0 : 1;
+  for (let i = weekStart; i < firstDay; i++) {
+    blanks.push(null);
+  }
+
+  return blanks;
+}
+
+/**
+ * Gets the days of the week
+ *
+ * @param {Moment} momentDate A given moment date
+ * @param {boolean} [showWeekend] Whether to show full weekend slots or not
+ * @returns {Array} Array of days
+ */
+function getDaysOfTheWeek(momentDate, showWeekend) {
+  const daysToShow = [];
+  let dayOfWeek;
+
+  if (!showWeekend) {
+    dayOfWeek = getFirstDayOfMonth(momentDate);
+  }
+
+  /**
+   * Create array of days of the week. If the showing the weekend, don't check
+   * for Sunday (0) or Saturday (6)
+   */
+  for (let i = 1; i <= momentDate.daysInMonth(); i++) {
+    if (showWeekend) {
+      daysToShow.push(
+        `${momentDate.format('YYYY')}-${momentDate.format('MM')}-${pad(i, 2)}`,
+      );
+    } else {
+      if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+        daysToShow.push(
+          `${momentDate.format('YYYY')}-${momentDate.format('MM')}-${pad(
+            i,
+            2,
+          )}`,
+        );
+      }
+      dayOfWeek = dayOfWeek + 1 > 6 ? 0 : dayOfWeek + 1;
+    }
+  }
+  return daysToShow;
+}
+
+/**
+ * Gets cells for days of a week
+ *
+ * @param {Moment} momentDate A given moment date
+ * @param {boolean} [showWeekend] Whether to show full weekend slots or not
+ * @returns {Array} Array of cells
+ */
+function getCells(momentDate, showWeekend) {
+  const cells = [...getInitialBlankCells(momentDate, showWeekend)];
+  const daysToShow = showWeekend ? 7 : 5;
+
+  cells.push(...getDaysOfTheWeek(momentDate, showWeekend));
+
+  // Add blank cells to end of month
+  while (cells.length % daysToShow !== 0) cells.push(null);
+
+  return cells;
+}
+
+/**
+ * Parses calendar weeks and returns array
+ *
+ * @param {Moment} momentDate A given moment date
+ * @param {boolean} [showWeekend] Whether to show full weekend slots or not
+ * @returns {Array} Array of weeks
+ */
+function getCalendarWeeks(momentDate, showWeekend) {
+  const dateCells = getCells(momentDate, showWeekend);
+  const weeks = [];
+  const daysToShow = showWeekend ? 7 : 5;
+  let currentWeek = [];
+
+  for (let index = 0; index < dateCells.length; index++) {
+    if (index > 0 && index % daysToShow === 0) {
+      weeks.push(currentWeek);
+      currentWeek = [dateCells[index]];
+    } else {
+      currentWeek.push(dateCells[index]);
+    }
+  }
+  weeks.push(currentWeek);
+  return weeks;
+}
+
+/**
+ * Click event handler for previous calendar entries
+ *
+ * @param {Function} onClickPrev Given function when clicking previous button
+ * on calendar
+ * @param {Array} months Given months array
+ * @param {Function} setMonths Given months array
+ */
+function handlePrev(onClickPrev, months, setMonths) {
+  const updatedMonths = months.map(m => m.subtract(1, 'months'));
+
+  if (onClickPrev) {
+    onClickPrev(
+      updatedMonths[0].format('YYYY-MM-DD'),
+      updatedMonths[updatedMonths.length - 1]
+        .endOf('month')
+        .format('YYYY-MM-DD'),
+    );
+  }
+  setMonths(updatedMonths);
+}
+
+/**
+ * Handle Next Function
+ *
+ * @param {Function} onClickNext Given function when clicking next button
+ * on calendar
+ * @param {Array} months Given months array
+ * @param {Function} setMonths Months to set array
+ */
+function handleNext(onClickNext, months, setMonths) {
+  const updatedMonths = months.map(m => m.add(1, 'months'));
+
+  if (onClickNext) {
+    onClickNext(
+      updatedMonths[0].format('YYYY-MM-DD'),
+      updatedMonths[updatedMonths.length - 1]
+        .endOf('month')
+        .format('YYYY-MM-DD'),
+    );
+  }
+  setMonths(updatedMonths);
+}
 
 /**
  * Calendar widget
@@ -33,10 +218,10 @@ import {
  * @param {string} props.id
  * @param {boolean} props.disabled
  * @param {string} props.disabledMessage
- * @param {Date} props.maxDate
+ * @param {string} props.maxDate YYYY-MM-DD
  * @param {number} props.maxSelections
  * @param {string} props.maxSelectionsError
- * @param {Date} props.minDate
+ * @param {string} props.minDate YYYY-MM-DD
  * @param {Function} props.onChange
  * @param {Function} props.onNextMonth
  * @param {Function} props.onPreviousMonth
@@ -46,12 +231,11 @@ import {
  * @param {boolean} props.required
  * @param {string} props.requiredMessage
  * @param {boolean} props.showValidation
- * @param {Date} props.startMonth
+ * @param {string} props.startMonth YYYY-MM
  * @param {string} props.timezone America/Denver
  * @param {Array<string>} props.value
  * @param {boolean} [props.showWeekends=false] Whether to show full weekend slots or not
  * @param {boolean} [props.overrideMaxDays=false] Disables the default max days value
- * @param {boolean} [props.hideWhileDisabled=false] Whether to show the calendar while disabled
  * @returns {JSX.Element} props.Calendar Calendar Widget
  */
 function CalendarWidget({
@@ -62,6 +246,7 @@ function CalendarWidget({
   disabledMessage,
   maxDate,
   maxSelections = 1,
+  maxSelectionsError = "You've exceeded the maximum number of selections",
   minDate,
   onChange,
   onNextMonth,
@@ -73,52 +258,39 @@ function CalendarWidget({
   required,
   requiredMessage = 'Please select a date',
   showValidation,
-  startMonth: startDate,
+  startMonth,
   timezone,
   value = [],
   showWeekends = false,
   upcomingAppointments = [],
   isAppointmentSelectionError,
-  hideWhileDisabled = false,
-  alertTrigger = 0,
-  setAlertTrigger = () => {},
 }) {
-  const [currentlySelectedDate, setCurrentlySelectedDate] = useState(date => {
-    if (date) {
-      return date.split('T')[0];
+  const [currentlySelectedDate, setCurrentlySelectedDate] = useState(() => {
+    if (value.length > 0) {
+      return value[0].split('T')[0];
     }
 
     return null;
   });
-  const currentDate = new Date();
+  const currentDate = moment();
   const maxMonth = getMaxMonth(maxDate, overrideMaxDays);
-  const [dates, setDates] = useState([startDate || minDate]);
+  const [months, setMonths] = useState([moment(startMonth || minDate)]);
   const exceededMaximumSelections = value.length > maxSelections;
   const hasError = (required && showValidation) || exceededMaximumSelections;
-  let maxSelectionsError;
-  if (exceededMaximumSelections) {
-    const deselect =
-      value.length === maxSelections + 1
-        ? `the ${value.length}th time`
-        : `${value.length - maxSelections} times`;
-    maxSelectionsError = `You can only select ${maxSelections} times for your appointment. Deselect ${deselect} to continue.`;
-  }
 
-  // Undefined allows to unset aria-hidden
-  const hideCalendar = (disabled && hideWhileDisabled) || undefined;
   const calendarCss = classNames('vaos-calendar__calendars vads-u-flex--1', {
     'vaos-calendar__disabled': disabled,
     'usa-input-error': hasError,
-    'vads-u-visibility--hidden': hideCalendar,
   });
 
   // declare const from renderMonth here
-  const nextMonthToDisplay = startOfMonth(
-    addMonths(dates[dates.length - 1], 1),
-  );
+  const nextMonthToDisplay = months[months.length - 1]
+    ?.clone()
+    .add(1, 'months')
+    .format('YYYY-MM');
 
   const prevDisabled =
-    disabled || startOfDay(dates[0]) <= startOfDay(currentDate);
+    disabled || months[0].format('YYYY-MM') <= currentDate.format('YYYY-MM');
   const nextDisabled = disabled || nextMonthToDisplay > maxMonth;
 
   return (
@@ -134,50 +306,35 @@ function CalendarWidget({
             {disabledMessage}
           </div>
         )}
-        <div
-          data-testid="vaos-calendar"
-          className={calendarCss}
-          aria-hidden={hideCalendar}
-        >
+        <div className={calendarCss}>
           {hasError && (
             <span
-              className="vaos-calendar__validation-msg usa-input-error-message vaos-input-error-message"
+              className="vaos-calendar__validation-msg usa-input-error-message"
               role="alert"
             >
               {showValidation && requiredMessage}
+              {exceededMaximumSelections && maxSelectionsError}
             </span>
           )}
-          {exceededMaximumSelections && (
-            <span
-              className="usa-input-error-message"
-              role="alert"
-              id="vaos-calendar-max-selections-error"
-              key={alertTrigger}
-            >
-              {maxSelectionsError}
-            </span>
-          )}
-          {dates.map(
-            (date, index) =>
-              date <= maxMonth ? (
+          {months.map(
+            (month, index) =>
+              month.format('YYYY-MM') <= maxMonth ? (
                 <div
                   key={`month-${index}`}
                   className="vaos-calendar__container vads-u-margin-bottom--3"
-                  aria-labelledby={`h2-${format(date, 'yyyy-MM')}`}
+                  aria-labelledby={`h2-${month.format('YYYY-MM')}`}
                   role="table"
                 >
                   <>
                     {index === 0 && (
                       <CalendarNavigation
-                        prevOnClick={() => {
-                          setAlertTrigger();
-                          handlePrev(onPreviousMonth, dates, setDates);
-                        }}
-                        nextOnClick={() => {
-                          setAlertTrigger();
-                          handleNext(onNextMonth, dates, setDates);
-                        }}
-                        date={date}
+                        prevOnClick={() =>
+                          handlePrev(onPreviousMonth, months, setMonths)
+                        }
+                        nextOnClick={() =>
+                          handleNext(onNextMonth, months, setMonths)
+                        }
+                        momentMonth={month}
                         prevDisabled={prevDisabled}
                         nextDisabled={nextDisabled}
                       />
@@ -185,7 +342,7 @@ function CalendarWidget({
                     <hr aria-hidden="true" className="vads-u-margin-y--1" />
                     <CalendarWeekdayHeader showFullWeek={showWeekends} />
                     <div role="rowgroup">
-                      {getCalendarWeeks(date, showWeekends).map(
+                      {getCalendarWeeks(month, showWeekends).map(
                         (week, weekIndex) => (
                           <CalendarRow
                             availableSlots={availableSlots}
@@ -193,49 +350,33 @@ function CalendarWidget({
                             id={id}
                             timezone={timezone}
                             currentlySelectedDate={currentlySelectedDate}
-                            handleSelectDate={dateSelection => {
+                            handleSelectDate={date => {
                               if (maxSelections === 1) {
                                 onChange([]);
                               }
 
-                              if (
-                                exceededMaximumSelections &&
-                                (dateSelection === currentlySelectedDate ||
-                                  (value?.length > 0 &&
-                                    !value.some(selectedDate =>
-                                      isSameDay(
-                                        parseISO(dateSelection),
-                                        parseISO(selectedDate),
-                                      ),
-                                    )))
-                              ) {
-                                setAlertTrigger();
-                              }
-
                               setCurrentlySelectedDate(
-                                dateSelection === currentlySelectedDate
-                                  ? null
-                                  : dateSelection,
+                                date === currentlySelectedDate ? null : date,
                               );
                             }}
-                            handleSelectOption={aDate => {
+                            handleSelectOption={date => {
                               if (maxSelections > 1) {
-                                if (value.includes(aDate)) {
+                                if (value.includes(date)) {
                                   onChange(
                                     value.filter(
-                                      selectedDate => selectedDate !== aDate,
+                                      selectedDate => selectedDate !== date,
                                     ),
                                   );
                                 } else {
-                                  onChange(value.concat(aDate));
+                                  onChange(value.concat(date));
                                 }
                               } else {
-                                const hasConflict = getAppointmentConflict(
-                                  aDate,
+                                onChange(
+                                  [date],
+                                  maxSelections,
                                   upcomingAppointments,
                                   availableSlots,
                                 );
-                                onChange([aDate], hasConflict);
                               }
                             }}
                             hasError={hasError}
@@ -266,7 +407,6 @@ function CalendarWidget({
 
 CalendarWidget.propTypes = {
   id: PropTypes.string.isRequired,
-  alertTrigger: PropTypes.number,
   appointmentSelectionErrorMsg: PropTypes.string,
   availableSlots: PropTypes.arrayOf(
     PropTypes.shape({
@@ -276,22 +416,20 @@ CalendarWidget.propTypes = {
   ),
   disabled: PropTypes.bool,
   disabledMessage: PropTypes.object,
-  hideWhileDisabled: PropTypes.bool,
   isAppointmentSelectionError: PropTypes.bool,
-  maxDate: PropTypes.instanceOf(Date),
+  maxDate: PropTypes.string,
   maxSelections: PropTypes.number,
   maxSelectionsError: PropTypes.string,
-  minDate: PropTypes.instanceOf(Date),
+  minDate: PropTypes.string,
   overrideMaxDays: PropTypes.bool,
   renderIndicator: PropTypes.func,
   renderOptions: PropTypes.func,
   renderSelectedLabel: PropTypes.func,
   required: PropTypes.bool,
   requiredMessage: PropTypes.string,
-  setAlertTrigger: PropTypes.func,
   showValidation: PropTypes.bool,
   showWeekends: PropTypes.bool,
-  startMonth: PropTypes.instanceOf(Date),
+  startMonth: PropTypes.string,
   timezone: PropTypes.string,
   upcomingAppointments: PropTypes.object,
   value: PropTypes.array,

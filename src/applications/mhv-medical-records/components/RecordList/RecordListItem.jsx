@@ -10,9 +10,10 @@ import AllergyListItem from './AllergyListItem';
 
 const RecordListItem = props => {
   const { record, type, domainOptions } = props;
+
   switch (type) {
     case recordType.LABS_AND_TESTS:
-      return <LabsAndTestsListItem record={record} options={domainOptions} />;
+      return <LabsAndTestsListItem record={record} />;
     case recordType.CARE_SUMMARIES_AND_NOTES:
       return <CareSummariesAndNotesListItem record={record} />;
     case recordType.VACCINES:

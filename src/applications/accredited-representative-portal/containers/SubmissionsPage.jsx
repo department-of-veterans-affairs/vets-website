@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   useLoaderData,
   useSearchParams,
   useNavigation,
-  redirect,
 } from 'react-router-dom';
 import {
   VaLoadingIndicator,
   VaBreadcrumbs,
-  VaAlert,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { Toggler } from 'platform/utilities/feature-toggles';
 import { focusElement } from 'platform/utilities/ui';
@@ -18,7 +16,6 @@ import {
   submissionsBC,
   SORT_DEFAULTS,
 } from '../utilities/submissions';
-import { SORT_BY, PENDING_SORT_DEFAULTS } from '../utilities/poaRequests';
 import { SEARCH_PARAMS } from '../utilities/constants';
 import SortForm from '../components/SortForm';
 import Pagination from '../components/Pagination';
@@ -26,7 +23,6 @@ import PaginationMeta from '../components/PaginationMeta';
 import SubmissionsPageResults from '../components/SubmissionsPageResults';
 
 const SubmissionsPage = title => {
-  const [visibleAlert, setVisibleAlert] = useState(true);
   useEffect(
     () => {
       focusElement('h1.submissions__search-header');
@@ -38,6 +34,7 @@ const SubmissionsPage = title => {
   const meta = useLoaderData().meta.page || {};
   const searchStatus = useSearchParams()[0].get('status');
   const navigation = useNavigation();
+
   return (
     <Toggler
       toggleName={
@@ -45,90 +42,61 @@ const SubmissionsPage = title => {
       }
     >
       <Toggler.Enabled>
-        <section className="poa-request submissions">
+        <section className="poa-request">
           <VaBreadcrumbs
             breadcrumbList={submissionsBC}
             label={SUBMISSIONS_BC_LABEL}
             homeVeteransAffairs={false}
           />
-          <VaAlert
-            close-btn-aria-label="Close notification"
-            status="info"
-            closeable
-            uswds
-            onCloseEvent={() => setVisibleAlert(false)}
-            visible={visibleAlert}
+          <va-banner
+            data-label="Info banner"
+            headline="We are working to improve this tool."
+            type="info"
+            className="home__banner"
+            visible
           >
-            <h2 id="track-your-status-on-mobile" slot="headline">
-              We are working to improve this tool.
-            </h2>
-            <p className="vads-u-margin-y--0">
+            <p>
               This early version of the Accredited Representative Portal has
               limited functionality.
             </p>
-          </VaAlert>
+          </va-banner>
           <h1
             data-testid="submissions-header"
             className="submissions__search-header"
           >
             Submissions
           </h1>
-          <p className="submissions-subtext__copy vads-u-font-family--serif">
+          <p className="submissions-subtext__copy">
             Start here to submit VA forms for your claimants.
           </p>
-          <h2 className="submissions__form-name vads-u-font-size--h3 vads-u-font-family--serif">
-            Form 21-686c
-          </h2>
-          <p className="submissions__form-description vads-u-font-size--h4 vads-u-font-family--serif">
+          <p className="submissions-21-686-c__form-name">Form 21-686c</p>
+          <h2 className="vads-u-font-size--h3">
             Application Request to Add and/or Remove Dependents
-          </p>
-          <p className="submissions__subtext submissions__subtext">
+          </h2>
+          <p className="submissions-21-686-c__subtext">
             The form will be processed by VA Centralized Mail after you submit
             it.
+            <va-link-action
+              href="/representative/representative-form-upload/21-686c"
+              text="Upload and submit VA Form 21-686c"
+            />
           </p>
-          <va-link-action
-            href="/representative/representative-form-upload/21-686c"
-            text="Upload and submit VA Form 21-686c"
-          />
-          <Toggler
-            toggleName={
-              Toggler.TOGGLE_NAMES.accreditedRepresentativePortalForm526ez
-            }
-          >
-            <Toggler.Enabled>
-              <h2 className="submissions__form-name vads-u-font-size--h3 vads-u-font-family--serif submissions__margin-top">
-                Form 21-526EZ
-              </h2>
-              <p className="submissions__form-description vads-u-font-size--h4 vads-u-font-family--serif">
-                Application for Disability Compensation and Related Compensation
-                Benefits
-              </p>
-              <p className="submissions__subtext submissions__subtext">
-                The form will be processed by VA Centralized Mail after you
-                submit it.
-              </p>
-              <va-link-action
-                href="/representative/representative-form-upload/21-526EZ"
-                text="Upload and submit VA Form 21-526EZ"
-              />
-            </Toggler.Enabled>
-          </Toggler>
           <hr />
 
-          <h2 className="submissions__search-header">Recent Submissions</h2>
-          <p className="submissions-subtext__copy--secondary vads-u-font-family--serif">
+          <h1>Recent Submissions</h1>
+          <p className="submissions-subtext__copy">
             This list shows only your submissions sent through this portal from
             the past 60 days.
           </p>
           <SortForm
             options={[
               {
-                sortBy: 'created_at',
+                sortBy: 'submittedDate',
                 sortOrder: 'desc',
                 label: 'Submitted date (newest)',
               },
               {
-                sortBy: 'created_at',
+                sortBy: 'submittedDate',
                 sortOrder: 'asc',
                 label: 'Submitted date (oldest)',
               },
@@ -172,12 +140,11 @@ SubmissionsPage.loader = async ({ request }) => {
   const sortBy = searchParams.get(SEARCH_PARAMS.SORTBY);
   const size = searchParams.get(SEARCH_PARAMS.SIZE);
   const number = searchParams.get(SEARCH_PARAMS.NUMBER);
-  if (!Object.values(SORT_BY).includes(sortBy)) {
-    searchParams.set(SEARCH_PARAMS.SORTORDER, SORT_BY.DESC);
-    searchParams.set(SEARCH_PARAMS.SORTBY, SORT_BY.CREATED);
-    searchParams.set(SEARCH_PARAMS.SIZE, PENDING_SORT_DEFAULTS.SIZE);
-    searchParams.set(SEARCH_PARAMS.NUMBER, PENDING_SORT_DEFAULTS.NUMBER);
-    throw redirect(`?${searchParams}`);
+  if (!['asc', 'desc'].includes(sort)) {
+    searchParams.set(SEARCH_PARAMS.SORTORDER, SORT_DEFAULTS.SORT_ORDER);
+    searchParams.set(SEARCH_PARAMS.SORTBY, SORT_DEFAULTS.SORT_BY);
+    searchParams.set(SEARCH_PARAMS.SIZE, SORT_DEFAULTS.SIZE);
+    searchParams.set(SEARCH_PARAMS.NUMBER, SORT_DEFAULTS.NUMBER);
   }
 
   // Wait for the Promise-based Response object

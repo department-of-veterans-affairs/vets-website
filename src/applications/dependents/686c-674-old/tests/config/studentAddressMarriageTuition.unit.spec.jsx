@@ -51,22 +51,22 @@ describe('Report 674 student address and marriage information', () => {
     form.unmount();
   });
 
-  // it('should not progress without the required fields', () => {
-  //   const onSubmit = sinon.spy();
-  //   const form = mount(
-  //     <DefinitionTester
-  //       schema={schema}
-  //       uiSchema={uiSchema}
-  //       definitions={formConfig.defaultDefinitions}
-  //       data={formData}
-  //       onSubmit={onSubmit}
-  //     />,
-  //   );
-  //   form.find('form').simulate('submit');
-  //   expect(form.find('.usa-input-error').length).to.equal(5);
-  //   expect(onSubmit.called).to.be.false;
-  //   form.unmount();
-  // });
+  it('should not progress without the required fields', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        definitions={formConfig.defaultDefinitions}
+        data={formData}
+        onSubmit={onSubmit}
+      />,
+    );
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error').length).to.equal(5);
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
+  });
 
   it('should submit with a valid domestic US address', () => {
     const onSubmit = sinon.spy();
@@ -295,75 +295,75 @@ describe('Report 674 student address and marriage information', () => {
     form.unmount();
   });
 
-  // it('should display an error if the veteran lists APO, FPO, or DPO as their city, but does not check the military base checkbox', () => {
-  //   const onSubmit = sinon.spy();
-  //   const form = mount(
-  //     <DefinitionTester
-  //       schema={schema}
-  //       uiSchema={uiSchema}
-  //       definitions={formConfig.defaultDefinitions}
-  //       data={formData}
-  //       onSubmit={onSubmit}
-  //     />,
-  //   );
-  //   selectCheckbox(
-  //     form,
-  //     'root_studentAddressMarriageTuition_address_view:livesOnMilitaryBase',
-  //     false,
-  //   );
-  //   changeDropdown(
-  //     form,
-  //     'select#root_studentAddressMarriageTuition_address_countryName',
-  //     'USA',
-  //   );
-  //   fillData(
-  //     form,
-  //     'input#root_studentAddressMarriageTuition_address_addressLine1',
-  //     '1600',
-  //   );
-  //   fillData(
-  //     form,
-  //     'input#root_studentAddressMarriageTuition_address_city',
-  //     'APO',
-  //   );
-  //   changeDropdown(
-  //     form,
-  //     'select#root_studentAddressMarriageTuition_address_stateCode',
-  //     'DC',
-  //   );
-  //   fillData(
-  //     form,
-  //     'input#root_studentAddressMarriageTuition_address_zipCode',
-  //     '20500',
-  //   );
-  //   selectRadio(form, 'root_studentAddressMarriageTuition_wasMarried', 'Y');
-  //   changeDropdown(
-  //     form,
-  //     'select#root_studentAddressMarriageTuition_marriageDateMonth',
-  //     1,
-  //   );
-  //   changeDropdown(
-  //     form,
-  //     'select#root_studentAddressMarriageTuition_marriageDateDay',
-  //     1,
-  //   );
-  //   fillData(
-  //     form,
-  //     'input#root_studentAddressMarriageTuition_marriageDateYear',
-  //     2010,
-  //   );
-  //   selectRadio(
-  //     form,
-  //     'root_studentAddressMarriageTuition_tuitionIsPaidByGovAgency',
-  //     'Y',
-  //   );
-  //   form.find('form').simulate('submit');
-  //   expect(form.find('.usa-input-error').text()).to.include(
-  //     'For APO addresses, check the "They receive mail outside of the United States on a U.S. military base" checkbox. If you live on a military base in the United States, enter your city.',
-  //   );
-  //   expect(onSubmit.called).to.be.false;
-  //   form.unmount();
-  // });
+  it('should display an error if the veteran lists APO, FPO, or DPO as their city, but does not check the military base checkbox', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        definitions={formConfig.defaultDefinitions}
+        data={formData}
+        onSubmit={onSubmit}
+      />,
+    );
+    selectCheckbox(
+      form,
+      'root_studentAddressMarriageTuition_address_view:livesOnMilitaryBase',
+      false,
+    );
+    changeDropdown(
+      form,
+      'select#root_studentAddressMarriageTuition_address_countryName',
+      'USA',
+    );
+    fillData(
+      form,
+      'input#root_studentAddressMarriageTuition_address_addressLine1',
+      '1600',
+    );
+    fillData(
+      form,
+      'input#root_studentAddressMarriageTuition_address_city',
+      'APO',
+    );
+    changeDropdown(
+      form,
+      'select#root_studentAddressMarriageTuition_address_stateCode',
+      'DC',
+    );
+    fillData(
+      form,
+      'input#root_studentAddressMarriageTuition_address_zipCode',
+      '20500',
+    );
+    selectRadio(form, 'root_studentAddressMarriageTuition_wasMarried', 'Y');
+    changeDropdown(
+      form,
+      'select#root_studentAddressMarriageTuition_marriageDateMonth',
+      1,
+    );
+    changeDropdown(
+      form,
+      'select#root_studentAddressMarriageTuition_marriageDateDay',
+      1,
+    );
+    fillData(
+      form,
+      'input#root_studentAddressMarriageTuition_marriageDateYear',
+      2010,
+    );
+    selectRadio(
+      form,
+      'root_studentAddressMarriageTuition_tuitionIsPaidByGovAgency',
+      'Y',
+    );
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error').text()).to.include(
+      'For APO addresses, check the "They receive mail outside of the United States on a U.S. military base" checkbox. If you live on a military base in the United States, enter your city.',
+    );
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
+  });
 
   it('should not display an error if the veteran lists APO, FPO, or DPO as their city and checks the military base checkbox', () => {
     const onSubmit = sinon.spy();

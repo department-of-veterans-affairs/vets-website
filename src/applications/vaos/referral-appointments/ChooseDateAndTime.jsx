@@ -7,12 +7,11 @@ import ReferralLayout from './components/ReferralLayout';
 import { getUpcomingAppointmentListInfo } from '../appointment-list/redux/selectors';
 import {
   setFormCurrentPage,
-  cacheDraftReferralAppointment,
+  createDraftReferralAppointment,
 } from './redux/actions';
-import { getCachedDraftAppointmentInfo } from './redux/selectors';
 // eslint-disable-next-line import/no-restricted-paths
 import { fetchFutureAppointments } from '../appointment-list/redux/actions';
-import { usePostDraftReferralAppointmentMutation } from '../redux/api/vaosApi';
+import { getDraftAppointmentInfo } from './redux/selectors';
 import { FETCH_STATUS } from '../utils/constants';
 import DateAndTimeContent from './components/DateAndTimeContent';
 
@@ -21,64 +20,53 @@ export const ChooseDateAndTime = props => {
   const dispatch = useDispatch();
   const location = useLocation();
 
-  const [
-    postDraftReferralAppointment,
-    {
-      data: draftAppointmentData,
-      isError: isDraftError,
-      isLoading: isDraftLoading,
-      isUninitialized: isDraftUninitialized,
-      isSuccess: isDraftSuccess,
-    },
-  ] = usePostDraftReferralAppointmentMutation();
-  const draftAppointmentInfo = useSelector(state =>
-    getCachedDraftAppointmentInfo(state),
+  const { draftAppointmentInfo, draftAppointmentCreateStatus } = useSelector(
+    state => getDraftAppointmentInfo(state),
+    shallowEqual,
   );
   const { futureStatus, appointmentsByMonth } = useSelector(
     state => getUpcomingAppointmentListInfo(state),
     shallowEqual,
   );
+
   const [loading, setLoading] = useState(true);
   const [failed, setFailed] = useState(false);
   useEffect(
     () => {
-      if (draftAppointmentInfo?.attributes) {
-        if (futureStatus === FETCH_STATUS.notStarted) {
-          dispatch(fetchFutureAppointments({ includeRequests: false }));
-        }
-        if (futureStatus === FETCH_STATUS.succeeded) {
-          setLoading(false);
-        }
-      } else if (
-        isDraftUninitialized ||
+      if (
+        draftAppointmentCreateStatus === FETCH_STATUS.notStarted ||
         futureStatus === FETCH_STATUS.notStarted
       ) {
-        if (isDraftUninitialized) {
-          postDraftReferralAppointment({
-            referralNumber: currentReferral.referralNumber,
-            referralConsultId: currentReferral.referralConsultId,
-          });
+        if (draftAppointmentCreateStatus === FETCH_STATUS.notStarted) {
+          dispatch(
+            createDraftReferralAppointment(
+              currentReferral.referralNumber,
+              currentReferral.referralConsultId,
+            ),
+          );
         }
         if (futureStatus === FETCH_STATUS.notStarted) {
           dispatch(fetchFutureAppointments({ includeRequests: false }));
         }
-      } else if (isDraftSuccess) {
-        dispatch(cacheDraftReferralAppointment(draftAppointmentData));
-      } else if (isDraftError || futureStatus === FETCH_STATUS.failed) {
+      } else if (
+        draftAppointmentCreateStatus === FETCH_STATUS.succeeded &&
+        futureStatus === FETCH_STATUS.succeeded
+      ) {
+        setLoading(false);
+      } else if (
+        draftAppointmentCreateStatus === FETCH_STATUS.failed ||
+        futureStatus === FETCH_STATUS.failed
+      ) {
         setLoading(false);
         setFailed(true);
       }
     },
     [
-      currentReferral,
+      currentReferral.referralNumber,
+      currentReferral.uuid,
       dispatch,
-      draftAppointmentData,
-      draftAppointmentInfo,
+      draftAppointmentCreateStatus,
       futureStatus,
-      isDraftError,
-      isDraftSuccess,
-      isDraftUninitialized,
-      postDraftReferralAppointment,
     ],
   );
   useEffect(
@@ -88,11 +76,11 @@ export const ChooseDateAndTime = props => {
     [location, dispatch],
   );
 
-  if (loading || isDraftLoading) {
+  if (loading) {
     return (
       <ReferralLayout
         data-testid="loading"
-        loadingMessage="Loading available appointment times..."
+        loadingMessage="Loading available appointments times..."
         hasEyebrow
         heading="Schedule an appointment with your provider"
       />

@@ -13,8 +13,6 @@ export default function Default({
 }) {
   const ariaDescribedBy = formConfig?.ariaDescribedBySubmit ?? null;
   const hideBackButton = formConfig?.useTopBackLink || false;
-  const useWebComponents =
-    formConfig?.formOptions?.useWebComponentForNavigation;
 
   return (
     <>
@@ -28,7 +26,6 @@ export default function Default({
                 onButtonClick={onSubmit}
                 buttonText={buttonText}
                 buttonClass="usa-button-primary"
-                useWebComponents={useWebComponents}
               />
             </Column>
             <Column classNames="vads-u-flex--1" />
@@ -36,10 +33,7 @@ export default function Default({
         ) : (
           <>
             <Column classNames="vads-u-flex--1">
-              <Back
-                onButtonClick={onBack}
-                useWebComponents={useWebComponents}
-              />
+              <Back onButtonClick={onBack} />
             </Column>
             <Column classNames="vads-u-flex--1">
               <ProgressButton
@@ -47,7 +41,6 @@ export default function Default({
                 onButtonClick={onSubmit}
                 buttonText={buttonText}
                 buttonClass="usa-button-primary"
-                useWebComponents={useWebComponents}
               />
             </Column>
           </>

@@ -18,9 +18,7 @@ describe('<DowntimeMessage>', () => {
 
   it('should render with window message', () => {
     const endTime = moment().add(2, 'days');
-    const { container } = render(
-      <DowntimeMessage downtime={{ endTime: endTime.toDate() }} />,
-    );
+    const { container } = render(<DowntimeMessage downtime={{ endTime }} />);
 
     expect(container.querySelector('va-alert p')).to.contain.text(
       `We’re sorry it’s not working right now, and we hope to be finished by ${endTime.format(

@@ -31,11 +31,23 @@ const subject = (featureToggles = {}) => {
 };
 
 describe('hca <SubmissionErrorAlert>', () => {
-  it('should render download link and `va-alert` with status of `error`', () => {
-    const { selectors } = subject();
-    const { vaAlert, downloadLink } = selectors();
-    expect(vaAlert).to.exist;
-    expect(vaAlert).to.have.attr('status', 'error');
-    expect(downloadLink).to.exist;
+  describe('when the component renders', () => {
+    it('should render `va-alert` with status of `error`', () => {
+      const { selectors } = subject();
+      const { vaAlert, downloadLink } = selectors();
+      expect(vaAlert).to.exist;
+      expect(vaAlert).to.have.attr('status', 'error');
+      expect(downloadLink).to.not.exist;
+    });
+
+    it('should render download link when `hca_download_completed_pdf` is true', () => {
+      const { selectors } = subject({
+        // eslint-disable-next-line camelcase
+        hca_download_completed_pdf: true,
+      });
+      const { downloadLink, vaAlert } = selectors();
+      expect(vaAlert).to.exist;
+      expect(downloadLink).to.exist;
+    });
   });
 });

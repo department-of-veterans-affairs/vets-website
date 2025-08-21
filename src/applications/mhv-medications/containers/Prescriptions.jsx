@@ -13,12 +13,14 @@ import PropTypes from 'prop-types';
 import {
   usePrintTitle,
   updatePageTitle,
+  reportGeneratedBy,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import MedicationsList from '../components/MedicationsList/MedicationsList';
 import MedicationsListSort from '../components/MedicationsList/MedicationsListSort';
 import {
   dateFormat,
+  generateMedicationsPDF,
   generateTextFile,
   getErrorTypeFromFormat,
 } from '../util/helpers';
@@ -43,7 +45,9 @@ import Alert from '../components/shared/Alert';
 import {
   selectAllergiesFlag,
   selectGroupingFlag,
+  selectRefillContentFlag,
   selectRefillProgressFlag,
+  selectRemoveLandingPageFlag,
   selectIPEContentFlag,
 } from '../util/selectors';
 import PrescriptionsPrintOnly from './PrescriptionsPrintOnly';
@@ -64,33 +68,30 @@ import {
   setFilterOption,
   setPageNumber,
 } from '../redux/preferencesSlice';
-import { selectUserDob, selectUserFullName } from '../selectors/selectUser';
-import { selectPrescriptionId } from '../selectors/selectPrescription';
-import {
-  selectSortOption,
-  selectFilterOption,
-  selectPageNumber,
-} from '../selectors/selectPreferences';
-import { buildPdfData } from '../util/buildPdfData';
-import { generateMedicationsPdfFile } from '../util/generateMedicationsPdfFile';
 
 const Prescriptions = () => {
   const { search } = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const ssoe = useSelector(isAuthenticatedWithSSOe);
-  const userName = useSelector(selectUserFullName);
-  const dob = useSelector(selectUserDob);
+  const userName = useSelector(state => state.user.profile.userFullName);
+  const dob = useSelector(state => state.user.profile.dob);
 
   // Get sort/filter selections from store.
-  const selectedSortOption = useSelector(selectSortOption);
-  const selectedFilterOption = useSelector(selectFilterOption);
-  const currentPage = useSelector(selectPageNumber);
+  const selectedSortOption = useSelector(
+    state => state.rx.preferences.sortOption,
+  );
+  const selectedFilterOption = useSelector(
+    state => state.rx.preferences.filterOption,
+  );
+  const currentPage = useSelector(state => state.rx.preferences.pageNumber);
 
   // Get feature flags
   const showGroupingContent = useSelector(selectGroupingFlag);
+  const showRefillContent = useSelector(selectRefillContentFlag);
   const showAllergiesContent = useSelector(selectAllergiesFlag);
   const showRefillProgressContent = useSelector(selectRefillProgressFlag);
+  const removeLandingPage = useSelector(selectRemoveLandingPageFlag);
   const showIPEContent = useSelector(selectIPEContentFlag);
 
   // Track if we've initialized from session storage
@@ -157,7 +158,9 @@ const Prescriptions = () => {
     [filteredList],
   );
 
-  const prescriptionId = useSelector(selectPrescriptionId);
+  const prescriptionId = useSelector(
+    state => state.rx.prescriptions?.prescriptionDetails?.prescriptionId,
+  );
   const [prescriptionsFullList, setPrescriptionsFullList] = useState([]);
   const [shouldPrint, setShouldPrint] = useState(false);
   const [printedList, setPrintedList] = useState([]);
@@ -175,8 +178,6 @@ const Prescriptions = () => {
   });
   const scrollLocation = useRef();
   const { data: allergies, error: allergiesError } = useGetAllergiesQuery();
-
-  const refillAlertList = prescriptionsData?.refillAlertList || [];
 
   const updateLoadingStatus = (newIsLoading, newLoadingMessage) => {
     if (newIsLoading !== null) setLoading(newIsLoading);
@@ -197,15 +198,6 @@ const Prescriptions = () => {
     if (isFiltering) {
       updates.filterOption = filterOptions[newFilterOption]?.url || '';
       updates.page = 1;
-
-      if (newFilterOption === selectedFilterOption) {
-        document.getElementById('showingRx').scrollIntoView({
-          behavior: 'smooth',
-          block: 'start',
-          inline: 'nearest',
-        });
-      }
-
       dispatch(setFilterOption(newFilterOption));
       dispatch(setPageNumber(1));
     }
@@ -291,16 +283,8 @@ const Prescriptions = () => {
 
   useEffect(
     () => {
-      if (!isFirstLoad && !isLoading) {
-        const showingRx = document.getElementById('showingRx');
-        if (showingRx) {
-          focusElement(showingRx);
-          showingRx.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start',
-            inline: 'nearest',
-          });
-        }
+      if (!isFirstLoad) {
+        focusElement(document.getElementById('showingRx'));
         return;
       }
 
@@ -308,7 +292,7 @@ const Prescriptions = () => {
         setIsFirstLoad(false);
       }
     },
-    [isLoading, filteredList],
+    [isLoading],
   );
 
   // Update page title
@@ -366,6 +350,86 @@ const Prescriptions = () => {
     [dispatch, selectedFilterOption],
   );
 
+  const pdfData = useCallback(
+    (rxList, allergiesList) => {
+      return {
+        subject: 'Full Medications List',
+        headerBanner: [
+          {
+            text:
+              'If you’re ever in crisis and need to talk with someone right away, call the Veterans Crisis Line at ',
+          },
+          {
+            text: '988',
+            weight: 'bold',
+          },
+          {
+            text: '. Then select 1.',
+          },
+        ],
+        headerLeft: userName.first
+          ? `${userName.last}, ${userName.first}`
+          : `${userName.last || ' '}`,
+        headerRight: `Date of birth: ${dateFormat(dob, 'MMMM D, YYYY')}`,
+        footerLeft: reportGeneratedBy,
+        footerRight: 'Page %PAGE_NUMBER% of %TOTAL_PAGES%',
+        title: 'Medications',
+        preface: [
+          {
+            value: `This is a list of prescriptions and other medications in your VA medical records. When you download medication records, we also include a list of allergies and reactions in your VA medical records.`,
+          },
+        ],
+        results: [
+          {
+            header: 'Medications list',
+            preface: `Showing ${
+              rxList?.length
+            } medications, ${rxListSortingOptions[
+              selectedSortOption
+            ].LABEL.toLowerCase()}`,
+            list: rxList,
+          },
+          {
+            header: 'Allergies',
+            ...(allergiesList &&
+              allergiesList.length > 0 && {
+                preface: [
+                  {
+                    value:
+                      'This list includes all allergies, reactions, and side effects in your VA medical records. This includes medication side effects (also called adverse drug reactions). If you have allergies or reactions that are missing from this list, tell your care team at your next appointment.',
+                  },
+                  {
+                    value: `Showing ${
+                      allergiesList.length
+                    } records from newest to oldest`,
+                  },
+                ],
+              }),
+            list: allergiesList || [],
+            ...(allergiesList &&
+              !allergiesList.length && {
+                preface:
+                  'There are no allergies or reactions in your VA medical records. If you have allergies or reactions that are missing from your records, tell your care team at your next appointment.',
+              }),
+            ...(!allergiesList && {
+              preface: [
+                {
+                  value:
+                    'We couldn’t access your allergy records when you downloaded this list. We’re sorry. There was a problem with our system. Try again later.',
+                },
+                {
+                  value:
+                    'If it still doesn’t work, call us at 877-327-0022 (TTY: 711). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.',
+                },
+              ],
+            }),
+          },
+        ],
+      };
+    },
+    [userName, dob, selectedSortOption, selectedFilterOption],
+  );
+
   const txtData = useCallback(
     (rxList, allergiesList) => {
       return (
@@ -389,22 +453,28 @@ const Prescriptions = () => {
         ].LABEL.toLowerCase()}\n\n${rxList}${allergiesList ?? ''}`
       );
     },
-    [userName, dob, selectedSortOption, prescriptionsFullList],
+    [
+      userName,
+      dob,
+      selectedSortOption,
+      selectedFilterOption,
+      prescriptionsFullList,
+    ],
   );
 
   const generatePDF = useCallback(
-    async (rxList, allergiesList) => {
-      const pdfDataObj = buildPdfData({
-        userName,
-        dob,
-        selectedSortOption,
-        rxList,
-        allergiesList,
+    (rxList, allergiesList) => {
+      generateMedicationsPDF(
+        'medications',
+        `VA-medications-list-${
+          userName.first ? `${userName.first}-${userName.last}` : userName.last
+        }-${dateFormat(Date.now(), 'M-D-YYYY_hmmssa').replace(/\./g, '')}`,
+        pdfData(rxList, allergiesList),
+      ).then(() => {
+        setPdfTxtGenerateStatus({ status: PDF_TXT_GENERATE_STATUS.Success });
       });
-      await generateMedicationsPdfFile({ userName, pdfData: pdfDataObj });
-      setPdfTxtGenerateStatus({ status: PDF_TXT_GENERATE_STATUS.Success });
     },
-    [userName, dob, selectedSortOption, setPdfTxtGenerateStatus],
+    [userName, pdfData, setPdfTxtGenerateStatus],
   );
 
   const generateTXT = useCallback(
@@ -550,7 +620,7 @@ const Prescriptions = () => {
   }
 
   const renderLoadingIndicator = () => (
-    <div className="vads-u-padding-y--9">
+    <div className="vads-u-height--viewport vads-u-padding-top--3">
       <va-loading-indicator
         message={loadingMessage || 'Loading your medications...'}
         setFocus
@@ -605,6 +675,8 @@ const Prescriptions = () => {
   };
 
   const renderRefillCard = () => {
+    if (!showRefillContent) return null;
+
     return (
       <va-card background>
         <div className="vads-u-padding-x--1">
@@ -635,7 +707,6 @@ const Prescriptions = () => {
           dataDogActionNames.medicationsListPage.REFILL_ALERT_LINK
         }
         activeRefills={activeRefills}
-        refillAlertList={refillAlertList}
       />
     );
   };
@@ -662,12 +733,19 @@ const Prescriptions = () => {
         className="vads-u-margin-top--0 vads-u-margin-bottom--4"
         data-testid="Title-Notes"
       >
-        <>
-          Bring your medications list to each appointment. And tell your
-          provider about any new allergies or reactions. If you use Meds by
-          Mail, you can also call your servicing center and ask them to update
-          your records.
-        </>
+        {removeLandingPage ? (
+          <>
+            Bring your medications list to each appointment. And tell your
+            provider about any new allergies or reactions. If you use Meds by
+            Mail, you can also call your servicing center and ask them to update
+            your records.
+          </>
+        ) : (
+          <>
+            When you share your medications list with providers, make sure you
+            also tell them about your allergies and reactions to medications.
+          </>
+        )}
         {!showAllergiesContent && (
           <>
             {' '}
@@ -780,7 +858,7 @@ const Prescriptions = () => {
             {renderMedicationsContent()}
           </>
         )}
-        <NeedHelp page={pageType.LIST} />
+        {removeLandingPage && <NeedHelp page={pageType.LIST} />}
       </div>
     );
   };

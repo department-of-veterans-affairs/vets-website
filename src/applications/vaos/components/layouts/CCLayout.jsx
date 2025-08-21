@@ -63,12 +63,9 @@ export default function CCLayout({ data: appointment }) {
     <>
       <DetailPageLayout heading={heading} data={appointment}>
         <When>
-          <AppointmentDate date={startDate} timezone={appointment.timezone} />
+          <AppointmentDate date={startDate} />
           <br />
-          <AppointmentTime
-            appointment={appointment}
-            timezone={appointment.timezone}
-          />
+          <AppointmentTime appointment={appointment} />
           <br />
           {APPOINTMENT_STATUS.cancelled !== status &&
             !isPastAppointment && (
@@ -80,17 +77,13 @@ export default function CCLayout({ data: appointment }) {
               </div>
             )}
         </When>
-        <What>
-          {typeOfCareName && (
-            <span data-dd-privacy="mask">{typeOfCareName}</span>
-          )}
-        </What>
+        <What>{typeOfCareName}</What>
         <Section heading="Provider">
-          <span data-dd-privacy="mask">
+          <span>
             {`${providerName || 'Provider information not available'}`}
           </span>
           <br />
-          <span data-dd-privacy="mask">
+          <span>
             {`${treatmentSpecialty || 'Treatment specialty not available'}`}
           </span>
           <br />
@@ -116,12 +109,12 @@ export default function CCLayout({ data: appointment }) {
             APPOINTMENT_STATUS.cancelled === status) && (
             <Prepare>
               <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-                Bring your insurance cards, a list of your medications, and
-                other things to share with your provider
+                Bring your insurance cards. And bring a list of your medications
+                and other information to share with your provider.
               </p>
               <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
                 <va-link
-                  text="Find out what to bring to your appointment"
+                  text="Find a full list of things to bring to your appointment"
                   href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"
                 />
               </p>

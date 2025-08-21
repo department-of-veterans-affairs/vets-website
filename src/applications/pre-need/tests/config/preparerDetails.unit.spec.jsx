@@ -2,7 +2,6 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
-import { render, fireEvent, waitFor } from '@testing-library/react';
 
 import {
   DefinitionTester,
@@ -29,12 +28,12 @@ describe('Pre-need preparer Details info', () => {
     form.unmount();
   });
 
-  it('should not submit empty form', async () => {
+  it('should not submit empty form', () => {
     const onSubmit = sinon.spy();
     uiSchema.application.applicant.name.first['ui:required'] = () => true;
     uiSchema.application.applicant.name.last['ui:required'] = () => true;
 
-    const { container } = render(
+    const form = mount(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
@@ -42,13 +41,11 @@ describe('Pre-need preparer Details info', () => {
         uiSchema={uiSchema}
       />,
     );
-    fireEvent.submit(container.querySelector('form'));
 
-    await waitFor(() => {
-      const errorElements = container.querySelectorAll('.usa-input-error');
-      expect(errorElements.length).to.equal(2);
-      expect(onSubmit.called).to.be.false;
-    });
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error').length).to.equal(2);
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('should submit with required fields filled in', () => {

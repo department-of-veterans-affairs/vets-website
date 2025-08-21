@@ -2,7 +2,6 @@ import { apiRequest } from 'platform/utilities/api';
 import {
   ENROLLMENT_STATUS_ACTIONS,
   MOCK_ENROLLMENT_RESPONSE,
-  API_ENDPOINTS,
 } from '../constants';
 
 /**
@@ -36,8 +35,9 @@ export function callAPI(dispatch) {
     FETCH_ENROLLMENT_STATUS_SUCCEEDED,
     FETCH_ENROLLMENT_STATUS_FAILED,
   } = ENROLLMENT_STATUS_ACTIONS;
+  const requestUrl = `/health_care_applications/enrollment_status`;
 
-  return apiRequest(API_ENDPOINTS.enrollmentStatus)
+  return apiRequest(requestUrl)
     .then(response =>
       dispatch({ type: FETCH_ENROLLMENT_STATUS_SUCCEEDED, response }),
     )

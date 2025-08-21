@@ -10,7 +10,6 @@ const initialState = {
   personalInfo: null,
   isLoading: false,
   error: null,
-  isDGIBOnly: false, // This flag indicates if the data is only from the DGIB call
 };
 
 const defaultUserInfo = {
@@ -26,14 +25,12 @@ const personalInfo = (state = initialState, action) => {
       return {
         ...state,
         isLoading: true,
-        isDGIBOnly: false,
         error: null,
       };
     case FETCH_PERSONAL_INFO_SUCCESS:
       return {
         ...state,
         personalInfo: action.response,
-        isDGIBOnly: action.isDGIBOnly || false,
         isLoading: false,
       };
     case UPDATE_PENDING_VERIFICATIONS:

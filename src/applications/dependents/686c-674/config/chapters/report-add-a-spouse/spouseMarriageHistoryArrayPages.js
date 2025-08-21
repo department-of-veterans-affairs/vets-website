@@ -48,7 +48,6 @@ export const spouseMarriageHistoryOptions = {
   maxItems: 20,
   text: {
     summaryTitle: 'Review your spouse’s marital history',
-    summaryTitleWithoutItems: 'Spouse’s former marriages',
     getItemName: item => getFullName(item.fullName),
   },
 };
@@ -57,16 +56,25 @@ export const spouseMarriageHistoryOptions = {
 export const spouseMarriageHistorySummaryPage = {
   uiSchema: {
     'view:completedSpouseFormerMarriage': {
-      ...arrayBuilderYesNoUI(spouseMarriageHistoryOptions, {
-        title: 'Has your spouse been married before?',
-        hint:
-          'If yes, you’ll need to add at least one former marriage. You can add up to 20.',
-        labels: {
-          Y: 'Yes',
-          N: 'No',
+      ...arrayBuilderYesNoUI(
+        spouseMarriageHistoryOptions,
+        {
+          title: 'Does your spouse have any former marriages to add?',
+          hint:
+            'If yes, you’ll need to add at least one former marriage. You can add up to 20.',
+          labels: {
+            Y: 'Yes',
+            N: 'No',
+          },
         },
-        labelHeaderLevel: 4,
-      }),
+        {
+          title: 'Does your spouse have any other marriages to add?',
+          labels: {
+            Y: 'Yes',
+            N: 'No',
+          },
+        },
+      ),
     },
   },
   schema: {
@@ -89,7 +97,6 @@ export const formerMarriagePersonalInfoPage = {
   },
   schema: {
     type: 'object',
-    required: ['fullName'],
     properties: {
       fullName: fullNameNoSuffixSchema,
     },
@@ -154,7 +161,6 @@ export const formerMarriageStartDatePage = {
   },
   schema: {
     type: 'object',
-    required: ['startDate'],
     properties: {
       startDate: currentOrPastDateSchema,
     },
@@ -191,7 +197,6 @@ export const formerMarriageEndDatePage = {
   },
   schema: {
     type: 'object',
-    required: ['endDate'],
     properties: {
       endDate: currentOrPastDateSchema,
     },
@@ -258,7 +263,6 @@ export const formerMarriageStartLocationPage = {
   },
   schema: {
     type: 'object',
-    required: ['startLocation'],
     properties: {
       startLocation: customLocationSchema,
     },
@@ -332,7 +336,6 @@ export const formerMarriageEndLocationPage = {
   },
   schema: {
     type: 'object',
-    required: ['endLocation'],
     properties: {
       endLocation: customLocationSchema,
     },

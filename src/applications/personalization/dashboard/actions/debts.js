@@ -81,10 +81,11 @@ export const fetchDebts = (debtsCount = false) => async dispatch => {
       'api-name': 'GET debts',
       'api-status': 'failed',
     });
-    return dispatch({
+    dispatch({
       type: DEBTS_FETCH_FAILURE,
       errors: [error],
     });
+    throw new Error(error);
   }
 };
 
@@ -141,9 +142,10 @@ export const fetchCopays = () => async dispatch => {
       'api-name': 'GET copays',
       'api-status': 'failed',
     });
-    return dispatch({
+    dispatch({
       type: COPAYS_FETCH_FAILURE,
       errors: [error],
     });
+    throw new Error(error);
   }
 };

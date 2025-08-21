@@ -15,6 +15,7 @@ import {
   isOlderThan,
   decodeHtmlEntities,
 } from '../util/helpers';
+import { getIsPilotFromState } from '.';
 
 export const clearThread = () => async dispatch => {
   dispatch({ type: Actions.Thread.CLEAR_THREAD });
@@ -48,10 +49,14 @@ export const markMessageAsReadInThread = messageId => async dispatch => {
  * @returns
  *
  */
-export const retrieveMessageThread = messageId => async dispatch => {
+export const retrieveMessageThread = messageId => async (
+  dispatch,
+  getState,
+) => {
+  const isPilot = getIsPilotFromState(getState);
   try {
     dispatch(clearThread());
-    const response = await getMessageThreadWithFullBody({ messageId });
+    const response = await getMessageThreadWithFullBody({ messageId, isPilot });
 
     // finding last sent message in a thread to check if it is not too old for replies
     const lastSentDate = getLastSentMessage(response.data)?.attributes.sentDate;
@@ -78,8 +83,6 @@ export const retrieveMessageThread = messageId => async dispatch => {
         ?.attributes.folderId.toString() ||
       response.data[0].attributes.folderId;
 
-    const { isOhMessage } = response.data[0].attributes;
-
     dispatch({
       type: Actions.Thread.GET_THREAD,
       payload: {
@@ -97,7 +100,6 @@ export const retrieveMessageThread = messageId => async dispatch => {
           body: decodeHtmlEntities(m.attributes.body),
           messageBody: decodeHtmlEntities(m.attributes.body),
         })),
-        isOhMessage,
       },
     });
   } catch (e) {

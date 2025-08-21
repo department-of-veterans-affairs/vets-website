@@ -80,8 +80,6 @@ describe('MHV Secure Messaging helpers', () => {
     input.value = 'test';
     document.body.appendChild(input);
     input.focus();
-    // Node v22 sets caret to end by default, so set it to 0 explicitly
-    input.setSelectionRange(0, 0);
     expect(input.selectionStart).to.equal(0);
     expect(input.selectionEnd).to.equal(0);
     setCaretToPos(input, 2);

@@ -1,16 +1,11 @@
-import {
-  titleUI,
-  descriptionUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { validateCurrency } from '../../../utils/validation';
-import { LAST_YEAR, replaceStrValues } from '../../../utils/helpers';
+import { LAST_YEAR } from '../../../utils/helpers';
 import { FULL_SCHEMA } from '../../../utils/imports';
 import {
   GrossIncomeDescription,
   OtherIncomeDescription,
 } from '../../../components/FormDescriptions';
-import content from '../../../locales/en/content.json';
 
 const {
   spouseGrossIncome,
@@ -20,48 +15,34 @@ const {
 
 export default {
   uiSchema: {
-    ...titleUI(
-      replaceStrValues(
-        content['household-info--spouse-income-title'],
-        LAST_YEAR,
-      ),
-    ),
+    'ui:title': `Spouse\u2019s annual income from ${LAST_YEAR}`,
     'view:spouseGrossIncome': {
-      'ui:title': content['household-info--spouse-income-gross-title'],
-      ...descriptionUI(GrossIncomeDescription),
+      'ui:title': 'Gross income from work',
+      'ui:description': GrossIncomeDescription,
       spouseGrossIncome: {
         ...currencyUI(
-          replaceStrValues(
-            content['household-info--spouse-income-gross-label'],
-            LAST_YEAR,
-          ),
+          `Enter your spouse\u2019s gross annual income from ${LAST_YEAR}`,
         ),
         'ui:validations': [validateCurrency],
       },
     },
     'view:spouseNetIncome': {
-      'ui:title': content['household-info--spouse-income-net-title'],
+      'ui:title': 'Net income from a farm, property, or business',
       'ui:description':
-        content['household-info--spouse-income-net-description'],
+        'Net income is income after any taxes and other deductions are subtracted.',
       spouseNetIncome: {
         ...currencyUI(
-          replaceStrValues(
-            content['household-info--spouse-income-net-label'],
-            LAST_YEAR,
-          ),
+          `Enter your spouse\u2019s net annual income from a farm, ranch, property or business from ${LAST_YEAR}`,
         ),
         'ui:validations': [validateCurrency],
       },
     },
     'view:spouseOtherIncome': {
-      'ui:title': content['household-info--spouse-income-other-title'],
+      'ui:title': 'Other income',
       'ui:description': OtherIncomeDescription,
       spouseOtherIncome: {
         ...currencyUI(
-          replaceStrValues(
-            content['household-info--spouse-income-other-label'],
-            LAST_YEAR,
-          ),
+          `Enter your spouse\u2019s other annual income from ${LAST_YEAR}`,
         ),
         'ui:validations': [validateCurrency],
       },

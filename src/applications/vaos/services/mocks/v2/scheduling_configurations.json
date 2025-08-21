@@ -9,29 +9,19 @@
           {
             "id": "amputation",
             "name": "Amputation Services",
-            "stopCodes": [
-              {
-                "primary": "211"
-              }
-            ],
+            "stopCodes": [{ "primary": "211" }],
             "direct": {
               "patientHistoryRequired": true,
               "patientHistoryDuration": 365,
               "canCancel": true,
               "enabled": false
             },
-            "request": {
-              "enabled": false
-            }
+            "request": { "enabled": false }
           },
           {
             "id": "covid",
             "name": "COVID Vaccine",
-            "stopCodes": [
-              {
-                "secondary": "710"
-              }
-            ],
+            "stopCodes": [{ "secondary": "710" }],
             "char4": "CDQC",
             "direct": {
               "patientHistoryRequired": false,
@@ -46,10 +36,7 @@
             "request": {
               "enabled": false,
               "schedulingDays": [
-                {
-                  "day": "MONDAY",
-                  "canSchedule": false
-                },
+                { "day": "MONDAY", "canSchedule": false },
                 {
                   "day": "TUESDAY",
                   "canSchedule": true,
@@ -74,14 +61,8 @@
                   "startTime": "09:00",
                   "endTime": "18:01"
                 },
-                {
-                  "day": "SATURDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "SUNDAY",
-                  "canSchedule": false
-                }
+                { "day": "SATURDAY", "canSchedule": false },
+                { "day": "SUNDAY", "canSchedule": false }
               ]
             }
           },
@@ -89,41 +70,15 @@
             "id": "outpatientMentalHealth",
             "name": "Outpatient Mental Health",
             "stopCodes": [
-              {
-                "primary": "502",
-                "secondary": "125"
-              },
-              {
-                "primary": "502",
-                "secondary": "179"
-              },
-              {
-                "primary": "502",
-                "secondary": "185"
-              },
-              {
-                "primary": "502",
-                "secondary": "186"
-              },
-              {
-                "primary": "502",
-                "secondary": "187"
-              },
-              {
-                "primary": "502",
-                "secondary": "509"
-              },
-              {
-                "primary": "502",
-                "secondary": "510"
-              }
+              { "primary": "502", "secondary": "125" },
+              { "primary": "502", "secondary": "179" },
+              { "primary": "502", "secondary": "185" },
+              { "primary": "502", "secondary": "186" },
+              { "primary": "502", "secondary": "187" },
+              { "primary": "502", "secondary": "509" },
+              { "primary": "502", "secondary": "510" }
             ],
-            "direct": {
-              "patientHistoryRequired": true,
-              "patientHistoryDuration": 730,
-              "canCancel": true,
-              "enabled": true
-            },
+            "direct": { "canCancel": true, "enabled": false },
             "request": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 365,
@@ -135,11 +90,7 @@
           {
             "id": "audiology",
             "name": "Audiology",
-            "stopCodes": [
-              {
-                "primary": "203"
-              }
-            ],
+            "stopCodes": [{ "primary": "203" }],
             "direct": {
               "patientHistoryRequired": true,
               "patientHistoryDuration": 730,
@@ -157,12 +108,7 @@
           {
             "id": "clinicalPharmacyPrimaryCare",
             "name": "Clinical Pharmacy-Primary Care",
-            "stopCodes": [
-              {
-                "primary": "160",
-                "secondary": "323"
-              }
-            ],
+            "stopCodes": [{ "primary": "160", "secondary": "323" }],
             "direct": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 0,
@@ -181,15 +127,9 @@
             "id": "primaryCare",
             "name": "Primary Care",
             "stopCodes": [
-              {
-                "primary": "322"
-              },
-              {
-                "primary": "323"
-              },
-              {
-                "primary": "350"
-              }
+              { "primary": "322" },
+              { "primary": "323" },
+              { "primary": "350" }
             ],
             "direct": {
               "patientHistoryRequired": false,
@@ -207,14 +147,7 @@
           {
             "id": "moveProgram",
             "name": "MOVE! program",
-            "stopCodes": [
-              {
-                "primary": "372"
-              },
-              {
-                "primary": "373"
-              }
-            ],
+            "stopCodes": [{ "primary": "372" }, { "primary": "373" }],
             "direct": {
               "patientHistoryRequired": true,
               "patientHistoryDuration": 730,
@@ -232,16 +165,8 @@
           {
             "id": "cpap",
             "name": "CPAP Clinic",
-            "stopCodes": [
-              {
-                "primary": "349",
-                "secondary": "116"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
+            "stopCodes": [{ "primary": "349", "secondary": "116" }],
+            "direct": { "canCancel": true, "enabled": false },
             "request": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 365,
@@ -253,85 +178,50 @@
           {
             "id": "socialWork",
             "name": "Social Work",
-            "stopCodes": [
-              {
-                "primary": "125",
-                "secondary": "323"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "125", "secondary": "323" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "411",
             "name": "Podiatry",
-            "stopCodes": [
-              {
-                "primary": "411"
-              }
-            ],
+            "stopCodes": [{ "primary": "411" }],
             "direct": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 0,
               "canCancel": true,
               "enabled": true
             },
-            "request": {
-              "enabled": false
-            }
+            "request": { "enabled": false }
           },
           {
             "id": "foodAndNutrition",
             "name": "Food and Nutrition",
-            "stopCodes": [
-              {
-                "primary": "123"
-              },
-              {
-                "primary": "124"
-              }
-            ],
+            "stopCodes": [{ "primary": "123" }, { "primary": "124" }],
             "direct": {
               "patientHistoryRequired": true,
               "patientHistoryDuration": 365,
               "canCancel": true,
               "enabled": true
             },
-            "request": {
-              "enabled": false
-            }
+            "request": { "enabled": false }
           },
           {
             "id": "ophthalmology",
             "name": "Ophthalmology",
-            "stopCodes": [
-              {
-                "primary": "407"
-              }
-            ],
+            "stopCodes": [{ "primary": "407" }],
             "direct": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 0,
               "canCancel": true,
               "enabled": true
             },
-            "request": {
-              "enabled": false
-            }
+            "request": { "enabled": false }
           },
           {
             "id": "optometry",
             "name": "Optometry",
-            "stopCodes": [
-              {
-                "primary": "408"
-              }
-            ],
+            "stopCodes": [{ "primary": "408" }],
             "direct": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 0,
@@ -349,16 +239,8 @@
           {
             "id": "homeSleepTesting",
             "name": "Sleep Medicine – Home Sleep Testing",
-            "stopCodes": [
-              {
-                "primary": "143",
-                "secondary": "189"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
+            "stopCodes": [{ "primary": "143", "secondary": "189" }],
+            "direct": { "canCancel": true, "enabled": false },
             "request": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 365,
@@ -380,27 +262,14 @@
           {
             "id": "amputation",
             "name": "Amputation Services",
-            "stopCodes": [
-              {
-                "primary": "211"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "211" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "covid",
             "name": "COVID Vaccine",
-            "stopCodes": [
-              {
-                "secondary": "710"
-              }
-            ],
+            "stopCodes": [{ "secondary": "710" }],
             "char4": "CDQC",
             "direct": {
               "patientHistoryRequired": false,
@@ -415,34 +284,13 @@
             "request": {
               "enabled": false,
               "schedulingDays": [
-                {
-                  "day": "MONDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "TUESDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "WEDNESDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "THURSDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "FRIDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "SATURDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "SUNDAY",
-                  "canSchedule": false
-                }
+                { "day": "MONDAY", "canSchedule": false },
+                { "day": "TUESDAY", "canSchedule": false },
+                { "day": "WEDNESDAY", "canSchedule": false },
+                { "day": "THURSDAY", "canSchedule": false },
+                { "day": "FRIDAY", "canSchedule": false },
+                { "day": "SATURDAY", "canSchedule": false },
+                { "day": "SUNDAY", "canSchedule": false }
               ]
             }
           },
@@ -450,34 +298,13 @@
             "id": "outpatientMentalHealth",
             "name": "Outpatient Mental Health",
             "stopCodes": [
-              {
-                "primary": "502",
-                "secondary": "125"
-              },
-              {
-                "primary": "502",
-                "secondary": "179"
-              },
-              {
-                "primary": "502",
-                "secondary": "185"
-              },
-              {
-                "primary": "502",
-                "secondary": "186"
-              },
-              {
-                "primary": "502",
-                "secondary": "187"
-              },
-              {
-                "primary": "502",
-                "secondary": "509"
-              },
-              {
-                "primary": "502",
-                "secondary": "510"
-              }
+              { "primary": "502", "secondary": "125" },
+              { "primary": "502", "secondary": "179" },
+              { "primary": "502", "secondary": "185" },
+              { "primary": "502", "secondary": "186" },
+              { "primary": "502", "secondary": "187" },
+              { "primary": "502", "secondary": "509" },
+              { "primary": "502", "secondary": "510" }
             ],
             "direct": {
               "patientHistoryRequired": true,
@@ -496,199 +323,97 @@
           {
             "id": "audiology",
             "name": "Audiology",
-            "stopCodes": [
-              {
-                "primary": "203"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "203" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "clinicalPharmacyPrimaryCare",
             "name": "Clinical Pharmacy-Primary Care",
-            "stopCodes": [
-              {
-                "primary": "160",
-                "secondary": "323"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "160", "secondary": "323" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "primaryCare",
             "name": "Primary Care",
             "stopCodes": [
-              {
-                "primary": "322"
-              },
-              {
-                "primary": "323"
-              },
-              {
-                "primary": "350"
-              }
+              { "primary": "322" },
+              { "primary": "323" },
+              { "primary": "350" }
             ],
             "direct": {
               "patientHistoryRequired": false,
               "canCancel": true,
               "enabled": true
             },
-            "request": {
-              "enabled": false
-            }
+            "request": { "enabled": false }
           },
           {
             "id": "moveProgram",
             "name": "MOVE! program",
-            "stopCodes": [
-              {
-                "primary": "372"
-              },
-              {
-                "primary": "373"
-              }
-            ],
+            "stopCodes": [{ "primary": "372" }, { "primary": "373" }],
             "direct": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 0,
               "canCancel": true,
               "enabled": true
             },
-            "request": {
-              "enabled": false
-            }
+            "request": { "enabled": false }
           },
           {
             "id": "cpap",
             "name": "CPAP Clinic",
-            "stopCodes": [
-              {
-                "primary": "349",
-                "secondary": "116"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "349", "secondary": "116" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "socialWork",
             "name": "Social Work",
-            "stopCodes": [
-              {
-                "primary": "125",
-                "secondary": "323"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "125", "secondary": "323" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "411",
             "name": "Podiatry",
-            "stopCodes": [
-              {
-                "primary": "411"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "411" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "foodAndNutrition",
             "name": "Food and Nutrition",
-            "stopCodes": [
-              {
-                "primary": "123"
-              },
-              {
-                "primary": "124"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "123" }, { "primary": "124" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "ophthalmology",
             "name": "Ophthalmology",
-            "stopCodes": [
-              {
-                "primary": "407"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "407" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "optometry",
             "name": "Optometry",
-            "stopCodes": [
-              {
-                "primary": "408"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "408" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "homeSleepTesting",
             "name": "Sleep Medicine – Home Sleep Testing",
-            "stopCodes": [
-              {
-                "primary": "143",
-                "secondary": "189"
-              }
-            ],
+            "stopCodes": [{ "primary": "143", "secondary": "189" }],
             "direct": {
               "patientHistoryRequired": true,
               "patientHistoryDuration": 365,
               "canCancel": true,
               "enabled": true
             },
-            "request": {
-              "enabled": false
-            }
+            "request": { "enabled": false }
           }
         ],
         "communityCare": true
@@ -703,11 +428,7 @@
           {
             "id": "amputation",
             "name": "Amputation Services",
-            "stopCodes": [
-              {
-                "primary": "211"
-              }
-            ],
+            "stopCodes": [{ "primary": "211" }],
             "direct": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 0,
@@ -725,11 +446,7 @@
           {
             "id": "covid",
             "name": "COVID Vaccine",
-            "stopCodes": [
-              {
-                "secondary": "710"
-              }
-            ],
+            "stopCodes": [{ "secondary": "710" }],
             "char4": "CDQC",
             "direct": {
               "patientHistoryRequired": false,
@@ -744,34 +461,13 @@
             "request": {
               "enabled": false,
               "schedulingDays": [
-                {
-                  "day": "MONDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "TUESDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "WEDNESDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "THURSDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "FRIDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "SATURDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "SUNDAY",
-                  "canSchedule": false
-                }
+                { "day": "MONDAY", "canSchedule": false },
+                { "day": "TUESDAY", "canSchedule": false },
+                { "day": "WEDNESDAY", "canSchedule": false },
+                { "day": "THURSDAY", "canSchedule": false },
+                { "day": "FRIDAY", "canSchedule": false },
+                { "day": "SATURDAY", "canSchedule": false },
+                { "day": "SUNDAY", "canSchedule": false }
               ]
             }
           },
@@ -779,39 +475,15 @@
             "id": "outpatientMentalHealth",
             "name": "Outpatient Mental Health",
             "stopCodes": [
-              {
-                "primary": "502",
-                "secondary": "125"
-              },
-              {
-                "primary": "502",
-                "secondary": "179"
-              },
-              {
-                "primary": "502",
-                "secondary": "185"
-              },
-              {
-                "primary": "502",
-                "secondary": "186"
-              },
-              {
-                "primary": "502",
-                "secondary": "187"
-              },
-              {
-                "primary": "502",
-                "secondary": "509"
-              },
-              {
-                "primary": "502",
-                "secondary": "510"
-              }
+              { "primary": "502", "secondary": "125" },
+              { "primary": "502", "secondary": "179" },
+              { "primary": "502", "secondary": "185" },
+              { "primary": "502", "secondary": "186" },
+              { "primary": "502", "secondary": "187" },
+              { "primary": "502", "secondary": "509" },
+              { "primary": "502", "secondary": "510" }
             ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
+            "direct": { "canCancel": true, "enabled": false },
             "request": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 365,
@@ -823,49 +495,24 @@
           {
             "id": "audiology",
             "name": "Audiology",
-            "stopCodes": [
-              {
-                "primary": "203"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "203" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "clinicalPharmacyPrimaryCare",
             "name": "Clinical Pharmacy-Primary Care",
-            "stopCodes": [
-              {
-                "primary": "160",
-                "secondary": "323"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "160", "secondary": "323" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "primaryCare",
             "name": "Primary Care",
             "stopCodes": [
-              {
-                "primary": "322"
-              },
-              {
-                "primary": "323"
-              },
-              {
-                "primary": "350"
-              }
+              { "primary": "322" },
+              { "primary": "323" },
+              { "primary": "350" }
             ],
             "direct": {
               "patientHistoryRequired": false,
@@ -883,14 +530,7 @@
           {
             "id": "moveProgram",
             "name": "MOVE! program",
-            "stopCodes": [
-              {
-                "primary": "372"
-              },
-              {
-                "primary": "373"
-              }
-            ],
+            "stopCodes": [{ "primary": "372" }, { "primary": "373" }],
             "direct": {
               "patientHistoryRequired": true,
               "patientHistoryDuration": 730,
@@ -908,88 +548,46 @@
           {
             "id": "cpap",
             "name": "CPAP Clinic",
-            "stopCodes": [
-              {
-                "primary": "349",
-                "secondary": "116"
-              }
-            ],
+            "stopCodes": [{ "primary": "349", "secondary": "116" }],
             "direct": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 0,
               "canCancel": true,
               "enabled": true
             },
-            "request": {
-              "enabled": false
-            }
+            "request": { "enabled": false }
           },
           {
             "id": "socialWork",
             "name": "Social Work",
-            "stopCodes": [
-              {
-                "primary": "125",
-                "secondary": "323"
-              }
-            ],
+            "stopCodes": [{ "primary": "125", "secondary": "323" }],
             "direct": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 0,
               "canCancel": true,
               "enabled": true
             },
-            "request": {
-              "enabled": false
-            }
+            "request": { "enabled": false }
           },
           {
             "id": "411",
             "name": "Podiatry",
-            "stopCodes": [
-              {
-                "primary": "411"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "411" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "foodAndNutrition",
             "name": "Food and Nutrition",
-            "stopCodes": [
-              {
-                "primary": "123"
-              },
-              {
-                "primary": "124"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "123" }, { "primary": "124" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "ophthalmology",
             "name": "Ophthalmology",
-            "stopCodes": [
-              {
-                "primary": "407"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
+            "stopCodes": [{ "primary": "407" }],
+            "direct": { "canCancel": true, "enabled": false },
             "request": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 365,
@@ -1001,32 +599,15 @@
           {
             "id": "optometry",
             "name": "Optometry",
-            "stopCodes": [
-              {
-                "primary": "408"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "408" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "homeSleepTesting",
             "name": "Sleep Medicine – Home Sleep Testing",
-            "stopCodes": [
-              {
-                "primary": "143",
-                "secondary": "189"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
+            "stopCodes": [{ "primary": "143", "secondary": "189" }],
+            "direct": { "canCancel": true, "enabled": false },
             "request": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 365,
@@ -1048,11 +629,7 @@
           {
             "id": "amputation",
             "name": "Amputation Services",
-            "stopCodes": [
-              {
-                "primary": "211"
-              }
-            ],
+            "stopCodes": [{ "primary": "211" }],
             "direct": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 0,
@@ -1070,16 +647,9 @@
           {
             "id": "covid",
             "name": "COVID Vaccine",
-            "stopCodes": [
-              {
-                "secondary": "710"
-              }
-            ],
+            "stopCodes": [{ "secondary": "710" }],
             "char4": "CDQC",
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            }
+            "direct": { "canCancel": true, "enabled": false }
           },
           {
             "id": "CR1",
@@ -1087,34 +657,13 @@
             "request": {
               "enabled": false,
               "schedulingDays": [
-                {
-                  "day": "MONDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "TUESDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "WEDNESDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "THURSDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "FRIDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "SATURDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "SUNDAY",
-                  "canSchedule": false
-                }
+                { "day": "MONDAY", "canSchedule": false },
+                { "day": "TUESDAY", "canSchedule": false },
+                { "day": "WEDNESDAY", "canSchedule": false },
+                { "day": "THURSDAY", "canSchedule": false },
+                { "day": "FRIDAY", "canSchedule": false },
+                { "day": "SATURDAY", "canSchedule": false },
+                { "day": "SUNDAY", "canSchedule": false }
               ]
             }
           },
@@ -1122,39 +671,15 @@
             "id": "outpatientMentalHealth",
             "name": "Outpatient Mental Health",
             "stopCodes": [
-              {
-                "primary": "502",
-                "secondary": "125"
-              },
-              {
-                "primary": "502",
-                "secondary": "179"
-              },
-              {
-                "primary": "502",
-                "secondary": "185"
-              },
-              {
-                "primary": "502",
-                "secondary": "186"
-              },
-              {
-                "primary": "502",
-                "secondary": "187"
-              },
-              {
-                "primary": "502",
-                "secondary": "509"
-              },
-              {
-                "primary": "502",
-                "secondary": "510"
-              }
+              { "primary": "502", "secondary": "125" },
+              { "primary": "502", "secondary": "179" },
+              { "primary": "502", "secondary": "185" },
+              { "primary": "502", "secondary": "186" },
+              { "primary": "502", "secondary": "187" },
+              { "primary": "502", "secondary": "509" },
+              { "primary": "502", "secondary": "510" }
             ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
+            "direct": { "canCancel": true, "enabled": false },
             "request": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 730,
@@ -1166,54 +691,26 @@
           {
             "id": "audiology",
             "name": "Audiology",
-            "stopCodes": [
-              {
-                "primary": "203"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "203" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "clinicalPharmacyPrimaryCare",
             "name": "Clinical Pharmacy-Primary Care",
-            "stopCodes": [
-              {
-                "primary": "160",
-                "secondary": "323"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "160", "secondary": "323" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "primaryCare",
             "name": "Primary Care",
             "stopCodes": [
-              {
-                "primary": "322"
-              },
-              {
-                "primary": "323"
-              },
-              {
-                "primary": "350"
-              }
+              { "primary": "322" },
+              { "primary": "323" },
+              { "primary": "350" }
             ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
+            "direct": { "canCancel": true, "enabled": false },
             "request": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 0,
@@ -1225,14 +722,7 @@
           {
             "id": "moveProgram",
             "name": "MOVE! program",
-            "stopCodes": [
-              {
-                "primary": "372"
-              },
-              {
-                "primary": "373"
-              }
-            ],
+            "stopCodes": [{ "primary": "372" }, { "primary": "373" }],
             "direct": {
               "patientHistoryRequired": true,
               "patientHistoryDuration": 730,
@@ -1250,86 +740,41 @@
           {
             "id": "cpap",
             "name": "CPAP Clinic",
-            "stopCodes": [
-              {
-                "primary": "349",
-                "secondary": "116"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "349", "secondary": "116" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "socialWork",
             "name": "Social Work",
-            "stopCodes": [
-              {
-                "primary": "125",
-                "secondary": "323"
-              }
-            ],
+            "stopCodes": [{ "primary": "125", "secondary": "323" }],
             "direct": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 0,
               "canCancel": true,
               "enabled": true
             },
-            "request": {
-              "enabled": false
-            }
+            "request": { "enabled": false }
           },
           {
             "id": "411",
             "name": "Podiatry",
-            "stopCodes": [
-              {
-                "primary": "411"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "411" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "foodAndNutrition",
             "name": "Food and Nutrition",
-            "stopCodes": [
-              {
-                "primary": "123"
-              },
-              {
-                "primary": "124"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "123" }, { "primary": "124" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "ophthalmology",
             "name": "Ophthalmology",
-            "stopCodes": [
-              {
-                "primary": "407"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
+            "stopCodes": [{ "primary": "407" }],
+            "direct": { "canCancel": true, "enabled": false },
             "request": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 730,
@@ -1341,15 +786,8 @@
           {
             "id": "optometry",
             "name": "Optometry",
-            "stopCodes": [
-              {
-                "primary": "408"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
+            "stopCodes": [{ "primary": "408" }],
+            "direct": { "canCancel": true, "enabled": false },
             "request": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 730,
@@ -1361,16 +799,8 @@
           {
             "id": "homeSleepTesting",
             "name": "Sleep Medicine – Home Sleep Testing",
-            "stopCodes": [
-              {
-                "primary": "143",
-                "secondary": "189"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
+            "stopCodes": [{ "primary": "143", "secondary": "189" }],
+            "direct": { "canCancel": true, "enabled": false },
             "request": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 730,
@@ -1392,32 +822,16 @@
           {
             "id": "amputation",
             "name": "Amputation Services",
-            "stopCodes": [
-              {
-                "primary": "211"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "211" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "covid",
             "name": "COVID Vaccine",
-            "stopCodes": [
-              {
-                "secondary": "710"
-              }
-            ],
+            "stopCodes": [{ "secondary": "710" }],
             "char4": "CDQC",
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            }
+            "direct": { "canCancel": true, "enabled": false }
           },
           {
             "id": "CR1",
@@ -1425,34 +839,13 @@
             "request": {
               "enabled": false,
               "schedulingDays": [
-                {
-                  "day": "MONDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "TUESDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "WEDNESDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "THURSDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "FRIDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "SATURDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "SUNDAY",
-                  "canSchedule": false
-                }
+                { "day": "MONDAY", "canSchedule": false },
+                { "day": "TUESDAY", "canSchedule": false },
+                { "day": "WEDNESDAY", "canSchedule": false },
+                { "day": "THURSDAY", "canSchedule": false },
+                { "day": "FRIDAY", "canSchedule": false },
+                { "day": "SATURDAY", "canSchedule": false },
+                { "day": "SUNDAY", "canSchedule": false }
               ]
             }
           },
@@ -1460,39 +853,15 @@
             "id": "outpatientMentalHealth",
             "name": "Outpatient Mental Health",
             "stopCodes": [
-              {
-                "primary": "502",
-                "secondary": "125"
-              },
-              {
-                "primary": "502",
-                "secondary": "179"
-              },
-              {
-                "primary": "502",
-                "secondary": "185"
-              },
-              {
-                "primary": "502",
-                "secondary": "186"
-              },
-              {
-                "primary": "502",
-                "secondary": "187"
-              },
-              {
-                "primary": "502",
-                "secondary": "509"
-              },
-              {
-                "primary": "502",
-                "secondary": "510"
-              }
+              { "primary": "502", "secondary": "125" },
+              { "primary": "502", "secondary": "179" },
+              { "primary": "502", "secondary": "185" },
+              { "primary": "502", "secondary": "186" },
+              { "primary": "502", "secondary": "187" },
+              { "primary": "502", "secondary": "509" },
+              { "primary": "502", "secondary": "510" }
             ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
+            "direct": { "canCancel": true, "enabled": false },
             "request": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 365,
@@ -1504,11 +873,7 @@
           {
             "id": "audiology",
             "name": "Audiology",
-            "stopCodes": [
-              {
-                "primary": "203"
-              }
-            ],
+            "stopCodes": [{ "primary": "203" }],
             "direct": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 0,
@@ -1526,38 +891,19 @@
           {
             "id": "clinicalPharmacyPrimaryCare",
             "name": "Clinical Pharmacy-Primary Care",
-            "stopCodes": [
-              {
-                "primary": "160",
-                "secondary": "323"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "160", "secondary": "323" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "primaryCare",
             "name": "Primary Care",
             "stopCodes": [
-              {
-                "primary": "322"
-              },
-              {
-                "primary": "323"
-              },
-              {
-                "primary": "350"
-              }
+              { "primary": "322" },
+              { "primary": "323" },
+              { "primary": "350" }
             ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
+            "direct": { "canCancel": true, "enabled": false },
             "request": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 0,
@@ -1569,14 +915,7 @@
           {
             "id": "moveProgram",
             "name": "MOVE! program",
-            "stopCodes": [
-              {
-                "primary": "372"
-              },
-              {
-                "primary": "373"
-              }
-            ],
+            "stopCodes": [{ "primary": "372" }, { "primary": "373" }],
             "direct": {
               "patientHistoryRequired": true,
               "patientHistoryDuration": 730,
@@ -1594,100 +933,52 @@
           {
             "id": "cpap",
             "name": "CPAP Clinic",
-            "stopCodes": [
-              {
-                "primary": "349",
-                "secondary": "116"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "349", "secondary": "116" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "socialWork",
             "name": "Social Work",
-            "stopCodes": [
-              {
-                "primary": "125",
-                "secondary": "323"
-              }
-            ],
+            "stopCodes": [{ "primary": "125", "secondary": "323" }],
             "direct": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 0,
               "canCancel": true,
               "enabled": true
             },
-            "request": {
-              "enabled": false
-            }
+            "request": { "enabled": false }
           },
           {
             "id": "411",
             "name": "Podiatry",
-            "stopCodes": [
-              {
-                "primary": "411"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "411" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "foodAndNutrition",
             "name": "Food and Nutrition",
-            "stopCodes": [
-              {
-                "primary": "123"
-              },
-              {
-                "primary": "124"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "123" }, { "primary": "124" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "ophthalmology",
             "name": "Ophthalmology",
-            "stopCodes": [
-              {
-                "primary": "407"
-              }
-            ],
+            "stopCodes": [{ "primary": "407" }],
             "direct": {
               "patientHistoryRequired": true,
               "patientHistoryDuration": 730,
               "canCancel": true,
               "enabled": true
             },
-            "request": {
-              "enabled": false
-            }
+            "request": { "enabled": false }
           },
           {
             "id": "optometry",
             "name": "Optometry",
-            "stopCodes": [
-              {
-                "primary": "408"
-              }
-            ],
+            "stopCodes": [{ "primary": "408" }],
             "direct": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 0,
@@ -1705,19 +996,9 @@
           {
             "id": "homeSleepTesting",
             "name": "Sleep Medicine – Home Sleep Testing",
-            "stopCodes": [
-              {
-                "primary": "143",
-                "secondary": "189"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "143", "secondary": "189" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           }
         ],
         "communityCare": false
@@ -1732,34 +1013,21 @@
           {
             "id": "amputation",
             "name": "Amputation Services",
-            "stopCodes": [
-              {
-                "primary": "211"
-              }
-            ],
+            "stopCodes": [{ "primary": "211" }],
             "direct": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 0,
               "canCancel": true,
               "enabled": false
             },
-            "request": {
-              "enabled": false
-            }
+            "request": { "enabled": false }
           },
           {
             "id": "covid",
             "name": "COVID Vaccine",
-            "stopCodes": [
-              {
-                "secondary": "710"
-              }
-            ],
+            "stopCodes": [{ "secondary": "710" }],
             "char4": "CDQC",
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            }
+            "direct": { "canCancel": true, "enabled": false }
           },
           {
             "id": "CR1",
@@ -1779,28 +1047,16 @@
                   "startTime": "08:33",
                   "endTime": "23:33"
                 },
-                {
-                  "day": "WEDNESDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "THURSDAY",
-                  "canSchedule": false
-                },
+                { "day": "WEDNESDAY", "canSchedule": false },
+                { "day": "THURSDAY", "canSchedule": false },
                 {
                   "day": "FRIDAY",
                   "canSchedule": true,
                   "startTime": "09:31",
                   "endTime": "17:31"
                 },
-                {
-                  "day": "SATURDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "SUNDAY",
-                  "canSchedule": false
-                }
+                { "day": "SATURDAY", "canSchedule": false },
+                { "day": "SUNDAY", "canSchedule": false }
               ]
             }
           },
@@ -1808,34 +1064,13 @@
             "id": "outpatientMentalHealth",
             "name": "Outpatient Mental Health",
             "stopCodes": [
-              {
-                "primary": "502",
-                "secondary": "125"
-              },
-              {
-                "primary": "502",
-                "secondary": "179"
-              },
-              {
-                "primary": "502",
-                "secondary": "185"
-              },
-              {
-                "primary": "502",
-                "secondary": "186"
-              },
-              {
-                "primary": "502",
-                "secondary": "187"
-              },
-              {
-                "primary": "502",
-                "secondary": "509"
-              },
-              {
-                "primary": "502",
-                "secondary": "510"
-              }
+              { "primary": "502", "secondary": "125" },
+              { "primary": "502", "secondary": "179" },
+              { "primary": "502", "secondary": "185" },
+              { "primary": "502", "secondary": "186" },
+              { "primary": "502", "secondary": "187" },
+              { "primary": "502", "secondary": "509" },
+              { "primary": "502", "secondary": "510" }
             ],
             "direct": {
               "patientHistoryRequired": false,
@@ -1854,11 +1089,7 @@
           {
             "id": "audiology",
             "name": "Audiology",
-            "stopCodes": [
-              {
-                "primary": "203"
-              }
-            ],
+            "stopCodes": [{ "primary": "203" }],
             "direct": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 0,
@@ -1876,12 +1107,7 @@
           {
             "id": "clinicalPharmacyPrimaryCare",
             "name": "Clinical Pharmacy-Primary Care",
-            "stopCodes": [
-              {
-                "primary": "160",
-                "secondary": "323"
-              }
-            ],
+            "stopCodes": [{ "primary": "160", "secondary": "323" }],
             "direct": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 0,
@@ -1900,15 +1126,9 @@
             "id": "primaryCare",
             "name": "Primary Care",
             "stopCodes": [
-              {
-                "primary": "322"
-              },
-              {
-                "primary": "323"
-              },
-              {
-                "primary": "350"
-              }
+              { "primary": "322" },
+              { "primary": "323" },
+              { "primary": "350" }
             ],
             "direct": {
               "patientHistoryRequired": false,
@@ -1926,14 +1146,7 @@
           {
             "id": "moveProgram",
             "name": "MOVE! program",
-            "stopCodes": [
-              {
-                "primary": "372"
-              },
-              {
-                "primary": "373"
-              }
-            ],
+            "stopCodes": [{ "primary": "372" }, { "primary": "373" }],
             "direct": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 0,
@@ -1951,31 +1164,19 @@
           {
             "id": "cpap",
             "name": "CPAP Clinic",
-            "stopCodes": [
-              {
-                "primary": "349",
-                "secondary": "116"
-              }
-            ],
+            "stopCodes": [{ "primary": "349", "secondary": "116" }],
             "direct": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 0,
               "canCancel": true,
               "enabled": true
             },
-            "request": {
-              "enabled": false
-            }
+            "request": { "enabled": false }
           },
           {
             "id": "socialWork",
             "name": "Social Work",
-            "stopCodes": [
-              {
-                "primary": "125",
-                "secondary": "323"
-              }
-            ],
+            "stopCodes": [{ "primary": "125", "secondary": "323" }],
             "direct": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 0,
@@ -1993,50 +1194,31 @@
           {
             "id": "411",
             "name": "Podiatry",
-            "stopCodes": [
-              {
-                "primary": "411"
-              }
-            ],
+            "stopCodes": [{ "primary": "411" }],
             "direct": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 0,
               "canCancel": true,
               "enabled": true
             },
-            "request": {
-              "enabled": false
-            }
+            "request": { "enabled": false }
           },
           {
             "id": "foodAndNutrition",
             "name": "Food and Nutrition",
-            "stopCodes": [
-              {
-                "primary": "123"
-              },
-              {
-                "primary": "124"
-              }
-            ],
+            "stopCodes": [{ "primary": "123" }, { "primary": "124" }],
             "direct": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 0,
               "canCancel": true,
               "enabled": true
             },
-            "request": {
-              "enabled": false
-            }
+            "request": { "enabled": false }
           },
           {
             "id": "ophthalmology",
             "name": "Ophthalmology",
-            "stopCodes": [
-              {
-                "primary": "407"
-              }
-            ],
+            "stopCodes": [{ "primary": "407" }],
             "direct": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 0,
@@ -2054,11 +1236,7 @@
           {
             "id": "optometry",
             "name": "Optometry",
-            "stopCodes": [
-              {
-                "primary": "408"
-              }
-            ],
+            "stopCodes": [{ "primary": "408" }],
             "direct": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 0,
@@ -2076,21 +1254,14 @@
           {
             "id": "homeSleepTesting",
             "name": "Sleep Medicine – Home Sleep Testing",
-            "stopCodes": [
-              {
-                "primary": "143",
-                "secondary": "189"
-              }
-            ],
+            "stopCodes": [{ "primary": "143", "secondary": "189" }],
             "direct": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 0,
               "canCancel": true,
               "enabled": true
             },
-            "request": {
-              "enabled": false
-            }
+            "request": { "enabled": false }
           }
         ],
         "communityCare": false
@@ -2105,33 +1276,16 @@
           {
             "id": "amputation",
             "name": "Amputation Services",
-            "stopCodes": [
-              {
-                "primary": "211"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "canCancel": true,
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "211" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "canCancel": true, "enabled": false }
           },
           {
             "id": "covid",
             "name": "COVID Vaccine",
-            "stopCodes": [
-              {
-                "secondary": "710"
-              }
-            ],
+            "stopCodes": [{ "secondary": "710" }],
             "char4": "CDQC",
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            }
+            "direct": { "canCancel": true, "enabled": false }
           },
           {
             "id": "CR1",
@@ -2139,34 +1293,13 @@
             "request": {
               "enabled": false,
               "schedulingDays": [
-                {
-                  "day": "MONDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "TUESDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "WEDNESDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "THURSDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "FRIDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "SATURDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "SUNDAY",
-                  "canSchedule": false
-                }
+                { "day": "MONDAY", "canSchedule": false },
+                { "day": "TUESDAY", "canSchedule": false },
+                { "day": "WEDNESDAY", "canSchedule": false },
+                { "day": "THURSDAY", "canSchedule": false },
+                { "day": "FRIDAY", "canSchedule": false },
+                { "day": "SATURDAY", "canSchedule": false },
+                { "day": "SUNDAY", "canSchedule": false }
               ]
             }
           },
@@ -2174,39 +1307,15 @@
             "id": "outpatientMentalHealth",
             "name": "Outpatient Mental Health",
             "stopCodes": [
-              {
-                "primary": "502",
-                "secondary": "125"
-              },
-              {
-                "primary": "502",
-                "secondary": "179"
-              },
-              {
-                "primary": "502",
-                "secondary": "185"
-              },
-              {
-                "primary": "502",
-                "secondary": "186"
-              },
-              {
-                "primary": "502",
-                "secondary": "187"
-              },
-              {
-                "primary": "502",
-                "secondary": "509"
-              },
-              {
-                "primary": "502",
-                "secondary": "510"
-              }
+              { "primary": "502", "secondary": "125" },
+              { "primary": "502", "secondary": "179" },
+              { "primary": "502", "secondary": "185" },
+              { "primary": "502", "secondary": "186" },
+              { "primary": "502", "secondary": "187" },
+              { "primary": "502", "secondary": "509" },
+              { "primary": "502", "secondary": "510" }
             ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
+            "direct": { "canCancel": true, "enabled": false },
             "request": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 0,
@@ -2219,56 +1328,26 @@
           {
             "id": "audiology",
             "name": "Audiology",
-            "stopCodes": [
-              {
-                "primary": "203"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "canCancel": true,
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "203" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "canCancel": true, "enabled": false }
           },
           {
             "id": "clinicalPharmacyPrimaryCare",
             "name": "Clinical Pharmacy-Primary Care",
-            "stopCodes": [
-              {
-                "primary": "160",
-                "secondary": "323"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "canCancel": true,
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "160", "secondary": "323" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "canCancel": true, "enabled": false }
           },
           {
             "id": "primaryCare",
             "name": "Primary Care",
             "stopCodes": [
-              {
-                "primary": "322"
-              },
-              {
-                "primary": "323"
-              },
-              {
-                "primary": "350"
-              }
+              { "primary": "322" },
+              { "primary": "323" },
+              { "primary": "350" }
             ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
+            "direct": { "canCancel": true, "enabled": false },
             "request": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 0,
@@ -2281,149 +1360,63 @@
           {
             "id": "moveProgram",
             "name": "MOVE! program",
-            "stopCodes": [
-              {
-                "primary": "372"
-              },
-              {
-                "primary": "373"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "canCancel": true,
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "372" }, { "primary": "373" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "canCancel": true, "enabled": false }
           },
           {
             "id": "cpap",
             "name": "CPAP Clinic",
-            "stopCodes": [
-              {
-                "primary": "349",
-                "secondary": "116"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "canCancel": true,
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "349", "secondary": "116" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "canCancel": true, "enabled": false }
           },
           {
             "id": "socialWork",
             "name": "Social Work",
-            "stopCodes": [
-              {
-                "primary": "125",
-                "secondary": "323"
-              }
-            ],
+            "stopCodes": [{ "primary": "125", "secondary": "323" }],
             "direct": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 0,
               "canCancel": true,
               "enabled": true
             },
-            "request": {
-              "canCancel": true,
-              "enabled": false
-            }
+            "request": { "canCancel": true, "enabled": false }
           },
           {
             "id": "411",
             "name": "Podiatry",
-            "stopCodes": [
-              {
-                "primary": "411"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "canCancel": true,
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "411" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "canCancel": true, "enabled": false }
           },
           {
             "id": "foodAndNutrition",
             "name": "Food and Nutrition",
-            "stopCodes": [
-              {
-                "primary": "123"
-              },
-              {
-                "primary": "124"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "canCancel": true,
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "123" }, { "primary": "124" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "canCancel": true, "enabled": false }
           },
           {
             "id": "ophthalmology",
             "name": "Ophthalmology",
-            "stopCodes": [
-              {
-                "primary": "407"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "canCancel": true,
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "407" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "canCancel": true, "enabled": false }
           },
           {
             "id": "optometry",
             "name": "Optometry",
-            "stopCodes": [
-              {
-                "primary": "408"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "canCancel": true,
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "408" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "canCancel": true, "enabled": false }
           },
           {
             "id": "homeSleepTesting",
             "name": "Sleep Medicine – Home Sleep Testing",
-            "stopCodes": [
-              {
-                "primary": "143",
-                "secondary": "189"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "canCancel": true,
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "143", "secondary": "189" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "canCancel": true, "enabled": false }
           }
         ],
         "communityCare": false
@@ -2438,32 +1431,16 @@
           {
             "id": "amputation",
             "name": "Amputation Services",
-            "stopCodes": [
-              {
-                "primary": "211"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "211" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "covid",
             "name": "COVID Vaccine",
-            "stopCodes": [
-              {
-                "secondary": "710"
-              }
-            ],
+            "stopCodes": [{ "secondary": "710" }],
             "char4": "CDQC",
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            }
+            "direct": { "canCancel": true, "enabled": false }
           },
           {
             "id": "CR1",
@@ -2471,34 +1448,13 @@
             "request": {
               "enabled": false,
               "schedulingDays": [
-                {
-                  "day": "MONDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "TUESDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "WEDNESDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "THURSDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "FRIDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "SATURDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "SUNDAY",
-                  "canSchedule": false
-                }
+                { "day": "MONDAY", "canSchedule": false },
+                { "day": "TUESDAY", "canSchedule": false },
+                { "day": "WEDNESDAY", "canSchedule": false },
+                { "day": "THURSDAY", "canSchedule": false },
+                { "day": "FRIDAY", "canSchedule": false },
+                { "day": "SATURDAY", "canSchedule": false },
+                { "day": "SUNDAY", "canSchedule": false }
               ]
             }
           },
@@ -2506,39 +1462,15 @@
             "id": "outpatientMentalHealth",
             "name": "Outpatient Mental Health",
             "stopCodes": [
-              {
-                "primary": "502",
-                "secondary": "125"
-              },
-              {
-                "primary": "502",
-                "secondary": "179"
-              },
-              {
-                "primary": "502",
-                "secondary": "185"
-              },
-              {
-                "primary": "502",
-                "secondary": "186"
-              },
-              {
-                "primary": "502",
-                "secondary": "187"
-              },
-              {
-                "primary": "502",
-                "secondary": "509"
-              },
-              {
-                "primary": "502",
-                "secondary": "510"
-              }
+              { "primary": "502", "secondary": "125" },
+              { "primary": "502", "secondary": "179" },
+              { "primary": "502", "secondary": "185" },
+              { "primary": "502", "secondary": "186" },
+              { "primary": "502", "secondary": "187" },
+              { "primary": "502", "secondary": "509" },
+              { "primary": "502", "secondary": "510" }
             ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
+            "direct": { "canCancel": true, "enabled": false },
             "request": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 365,
@@ -2550,54 +1482,26 @@
           {
             "id": "audiology",
             "name": "Audiology",
-            "stopCodes": [
-              {
-                "primary": "203"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "203" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "clinicalPharmacyPrimaryCare",
             "name": "Clinical Pharmacy-Primary Care",
-            "stopCodes": [
-              {
-                "primary": "160",
-                "secondary": "323"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "160", "secondary": "323" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "primaryCare",
             "name": "Primary Care",
             "stopCodes": [
-              {
-                "primary": "322"
-              },
-              {
-                "primary": "323"
-              },
-              {
-                "primary": "350"
-              }
+              { "primary": "322" },
+              { "primary": "323" },
+              { "primary": "350" }
             ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
+            "direct": { "canCancel": true, "enabled": false },
             "request": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 0,
@@ -2609,139 +1513,58 @@
           {
             "id": "moveProgram",
             "name": "MOVE! program",
-            "stopCodes": [
-              {
-                "primary": "372"
-              },
-              {
-                "primary": "373"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "372" }, { "primary": "373" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "cpap",
             "name": "CPAP Clinic",
-            "stopCodes": [
-              {
-                "primary": "349",
-                "secondary": "116"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "349", "secondary": "116" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "socialWork",
             "name": "Social Work",
-            "stopCodes": [
-              {
-                "primary": "125",
-                "secondary": "323"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "125", "secondary": "323" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "411",
             "name": "Podiatry",
-            "stopCodes": [
-              {
-                "primary": "411"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "411" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "foodAndNutrition",
             "name": "Food and Nutrition",
-            "stopCodes": [
-              {
-                "primary": "123"
-              },
-              {
-                "primary": "124"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "123" }, { "primary": "124" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "ophthalmology",
             "name": "Ophthalmology",
-            "stopCodes": [
-              {
-                "primary": "407"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "407" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "optometry",
             "name": "Optometry",
-            "stopCodes": [
-              {
-                "primary": "408"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "408" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "homeSleepTesting",
             "name": "Sleep Medicine – Home Sleep Testing",
-            "stopCodes": [
-              {
-                "primary": "143",
-                "secondary": "189"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "143", "secondary": "189" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           }
         ],
         "communityCare": false
@@ -2756,27 +1579,14 @@
           {
             "id": "amputation",
             "name": "Amputation Services",
-            "stopCodes": [
-              {
-                "primary": "211"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "211" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "covid",
             "name": "COVID Vaccine",
-            "stopCodes": [
-              {
-                "secondary": "710"
-              }
-            ],
+            "stopCodes": [{ "secondary": "710" }],
             "char4": "CDQC",
             "direct": {
               "patientHistoryRequired": false,
@@ -2791,34 +1601,13 @@
             "request": {
               "enabled": false,
               "schedulingDays": [
-                {
-                  "day": "MONDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "TUESDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "WEDNESDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "THURSDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "FRIDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "SATURDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "SUNDAY",
-                  "canSchedule": false
-                }
+                { "day": "MONDAY", "canSchedule": false },
+                { "day": "TUESDAY", "canSchedule": false },
+                { "day": "WEDNESDAY", "canSchedule": false },
+                { "day": "THURSDAY", "canSchedule": false },
+                { "day": "FRIDAY", "canSchedule": false },
+                { "day": "SATURDAY", "canSchedule": false },
+                { "day": "SUNDAY", "canSchedule": false }
               ]
             }
           },
@@ -2826,39 +1615,15 @@
             "id": "outpatientMentalHealth",
             "name": "Outpatient Mental Health",
             "stopCodes": [
-              {
-                "primary": "502",
-                "secondary": "125"
-              },
-              {
-                "primary": "502",
-                "secondary": "179"
-              },
-              {
-                "primary": "502",
-                "secondary": "185"
-              },
-              {
-                "primary": "502",
-                "secondary": "186"
-              },
-              {
-                "primary": "502",
-                "secondary": "187"
-              },
-              {
-                "primary": "502",
-                "secondary": "509"
-              },
-              {
-                "primary": "502",
-                "secondary": "510"
-              }
+              { "primary": "502", "secondary": "125" },
+              { "primary": "502", "secondary": "179" },
+              { "primary": "502", "secondary": "185" },
+              { "primary": "502", "secondary": "186" },
+              { "primary": "502", "secondary": "187" },
+              { "primary": "502", "secondary": "509" },
+              { "primary": "502", "secondary": "510" }
             ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
+            "direct": { "canCancel": true, "enabled": false },
             "request": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 365,
@@ -2870,200 +1635,98 @@
           {
             "id": "audiology",
             "name": "Audiology",
-            "stopCodes": [
-              {
-                "primary": "203"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "203" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "clinicalPharmacyPrimaryCare",
             "name": "Clinical Pharmacy-Primary Care",
-            "stopCodes": [
-              {
-                "primary": "160",
-                "secondary": "323"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "160", "secondary": "323" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "primaryCare",
             "name": "Primary Care",
             "stopCodes": [
-              {
-                "primary": "322"
-              },
-              {
-                "primary": "323"
-              },
-              {
-                "primary": "350"
-              }
+              { "primary": "322" },
+              { "primary": "323" },
+              { "primary": "350" }
             ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "moveProgram",
             "name": "MOVE! program",
-            "stopCodes": [
-              {
-                "primary": "372"
-              },
-              {
-                "primary": "373"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "372" }, { "primary": "373" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "cpap",
             "name": "CPAP Clinic",
-            "stopCodes": [
-              {
-                "primary": "349",
-                "secondary": "116"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "349", "secondary": "116" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "socialWork",
             "name": "Social Work",
-            "stopCodes": [
-              {
-                "primary": "125",
-                "secondary": "323"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "125", "secondary": "323" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "411",
             "name": "Podiatry",
-            "stopCodes": [
-              {
-                "primary": "411"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "411" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "foodAndNutrition",
             "name": "Food and Nutrition",
-            "stopCodes": [
-              {
-                "primary": "123"
-              },
-              {
-                "primary": "124"
-              }
-            ],
+            "stopCodes": [{ "primary": "123" }, { "primary": "124" }],
             "direct": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 0,
               "canCancel": true,
               "enabled": true
             },
-            "request": {
-              "enabled": false
-            }
+            "request": { "enabled": false }
           },
           {
             "id": "ophthalmology",
             "name": "Ophthalmology",
-            "stopCodes": [
-              {
-                "primary": "407"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "407" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "optometry",
             "name": "Optometry",
-            "stopCodes": [
-              {
-                "primary": "408"
-              }
-            ],
+            "stopCodes": [{ "primary": "408" }],
             "direct": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 0,
               "canCancel": true,
               "enabled": true
             },
-            "request": {
-              "enabled": false
-            }
+            "request": { "enabled": false }
           },
           {
             "id": "homeSleepTesting",
             "name": "Sleep Medicine – Home Sleep Testing",
-            "stopCodes": [
-              {
-                "primary": "143",
-                "secondary": "189"
-              }
-            ],
+            "stopCodes": [{ "primary": "143", "secondary": "189" }],
             "direct": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 0,
               "canCancel": true,
               "enabled": true
             },
-            "request": {
-              "enabled": false
-            }
+            "request": { "enabled": false }
           }
         ],
         "communityCare": false
@@ -3078,34 +1741,21 @@
           {
             "id": "amputation",
             "name": "Amputation Services",
-            "stopCodes": [
-              {
-                "primary": "211"
-              }
-            ],
+            "stopCodes": [{ "primary": "211" }],
             "direct": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 0,
               "canCancel": true,
               "enabled": false
             },
-            "request": {
-              "enabled": false
-            }
+            "request": { "enabled": false }
           },
           {
             "id": "covid",
             "name": "COVID Vaccine",
-            "stopCodes": [
-              {
-                "secondary": "710"
-              }
-            ],
+            "stopCodes": [{ "secondary": "710" }],
             "char4": "CDQC",
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            }
+            "direct": { "canCancel": true, "enabled": false }
           },
           {
             "id": "CR1",
@@ -3113,34 +1763,13 @@
             "request": {
               "enabled": false,
               "schedulingDays": [
-                {
-                  "day": "MONDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "TUESDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "WEDNESDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "THURSDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "FRIDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "SATURDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "SUNDAY",
-                  "canSchedule": false
-                }
+                { "day": "MONDAY", "canSchedule": false },
+                { "day": "TUESDAY", "canSchedule": false },
+                { "day": "WEDNESDAY", "canSchedule": false },
+                { "day": "THURSDAY", "canSchedule": false },
+                { "day": "FRIDAY", "canSchedule": false },
+                { "day": "SATURDAY", "canSchedule": false },
+                { "day": "SUNDAY", "canSchedule": false }
               ]
             }
           },
@@ -3148,39 +1777,15 @@
             "id": "outpatientMentalHealth",
             "name": "Outpatient Mental Health",
             "stopCodes": [
-              {
-                "primary": "502",
-                "secondary": "125"
-              },
-              {
-                "primary": "502",
-                "secondary": "179"
-              },
-              {
-                "primary": "502",
-                "secondary": "185"
-              },
-              {
-                "primary": "502",
-                "secondary": "186"
-              },
-              {
-                "primary": "502",
-                "secondary": "187"
-              },
-              {
-                "primary": "502",
-                "secondary": "509"
-              },
-              {
-                "primary": "502",
-                "secondary": "510"
-              }
+              { "primary": "502", "secondary": "125" },
+              { "primary": "502", "secondary": "179" },
+              { "primary": "502", "secondary": "185" },
+              { "primary": "502", "secondary": "186" },
+              { "primary": "502", "secondary": "187" },
+              { "primary": "502", "secondary": "509" },
+              { "primary": "502", "secondary": "510" }
             ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
+            "direct": { "canCancel": true, "enabled": false },
             "request": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 365,
@@ -3192,54 +1797,26 @@
           {
             "id": "audiology",
             "name": "Audiology",
-            "stopCodes": [
-              {
-                "primary": "203"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "203" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "clinicalPharmacyPrimaryCare",
             "name": "Clinical Pharmacy-Primary Care",
-            "stopCodes": [
-              {
-                "primary": "160",
-                "secondary": "323"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "160", "secondary": "323" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "primaryCare",
             "name": "Primary Care",
             "stopCodes": [
-              {
-                "primary": "322"
-              },
-              {
-                "primary": "323"
-              },
-              {
-                "primary": "350"
-              }
+              { "primary": "322" },
+              { "primary": "323" },
+              { "primary": "350" }
             ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
+            "direct": { "canCancel": true, "enabled": false },
             "request": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 0,
@@ -3251,139 +1828,58 @@
           {
             "id": "moveProgram",
             "name": "MOVE! program",
-            "stopCodes": [
-              {
-                "primary": "372"
-              },
-              {
-                "primary": "373"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "372" }, { "primary": "373" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "cpap",
             "name": "CPAP Clinic",
-            "stopCodes": [
-              {
-                "primary": "349",
-                "secondary": "116"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "349", "secondary": "116" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "socialWork",
             "name": "Social Work",
-            "stopCodes": [
-              {
-                "primary": "125",
-                "secondary": "323"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "125", "secondary": "323" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "411",
             "name": "Podiatry",
-            "stopCodes": [
-              {
-                "primary": "411"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "411" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "foodAndNutrition",
             "name": "Food and Nutrition",
-            "stopCodes": [
-              {
-                "primary": "123"
-              },
-              {
-                "primary": "124"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "123" }, { "primary": "124" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "ophthalmology",
             "name": "Ophthalmology",
-            "stopCodes": [
-              {
-                "primary": "407"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "407" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "optometry",
             "name": "Optometry",
-            "stopCodes": [
-              {
-                "primary": "408"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "408" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "homeSleepTesting",
             "name": "Sleep Medicine – Home Sleep Testing",
-            "stopCodes": [
-              {
-                "primary": "143",
-                "secondary": "189"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "143", "secondary": "189" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           }
         ],
         "communityCare": false
@@ -3398,32 +1894,16 @@
           {
             "id": "amputation",
             "name": "Amputation Services",
-            "stopCodes": [
-              {
-                "primary": "211"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "211" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "covid",
             "name": "COVID Vaccine",
-            "stopCodes": [
-              {
-                "secondary": "710"
-              }
-            ],
+            "stopCodes": [{ "secondary": "710" }],
             "char4": "CDQC",
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            }
+            "direct": { "canCancel": true, "enabled": false }
           },
           {
             "id": "CR1",
@@ -3431,34 +1911,13 @@
             "request": {
               "enabled": false,
               "schedulingDays": [
-                {
-                  "day": "MONDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "TUESDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "WEDNESDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "THURSDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "FRIDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "SATURDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "SUNDAY",
-                  "canSchedule": false
-                }
+                { "day": "MONDAY", "canSchedule": false },
+                { "day": "TUESDAY", "canSchedule": false },
+                { "day": "WEDNESDAY", "canSchedule": false },
+                { "day": "THURSDAY", "canSchedule": false },
+                { "day": "FRIDAY", "canSchedule": false },
+                { "day": "SATURDAY", "canSchedule": false },
+                { "day": "SUNDAY", "canSchedule": false }
               ]
             }
           },
@@ -3466,34 +1925,13 @@
             "id": "outpatientMentalHealth",
             "name": "Outpatient Mental Health",
             "stopCodes": [
-              {
-                "primary": "502",
-                "secondary": "125"
-              },
-              {
-                "primary": "502",
-                "secondary": "179"
-              },
-              {
-                "primary": "502",
-                "secondary": "185"
-              },
-              {
-                "primary": "502",
-                "secondary": "186"
-              },
-              {
-                "primary": "502",
-                "secondary": "187"
-              },
-              {
-                "primary": "502",
-                "secondary": "509"
-              },
-              {
-                "primary": "502",
-                "secondary": "510"
-              }
+              { "primary": "502", "secondary": "125" },
+              { "primary": "502", "secondary": "179" },
+              { "primary": "502", "secondary": "185" },
+              { "primary": "502", "secondary": "186" },
+              { "primary": "502", "secondary": "187" },
+              { "primary": "502", "secondary": "509" },
+              { "primary": "502", "secondary": "510" }
             ],
             "direct": {
               "patientHistoryRequired": true,
@@ -3512,28 +1950,14 @@
           {
             "id": "audiology",
             "name": "Audiology",
-            "stopCodes": [
-              {
-                "primary": "203"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "203" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "clinicalPharmacyPrimaryCare",
             "name": "Clinical Pharmacy-Primary Care",
-            "stopCodes": [
-              {
-                "primary": "160",
-                "secondary": "323"
-              }
-            ],
+            "stopCodes": [{ "primary": "160", "secondary": "323" }],
             "direct": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 0,
@@ -3552,20 +1976,11 @@
             "id": "primaryCare",
             "name": "Primary Care",
             "stopCodes": [
-              {
-                "primary": "322"
-              },
-              {
-                "primary": "323"
-              },
-              {
-                "primary": "350"
-              }
+              { "primary": "322" },
+              { "primary": "323" },
+              { "primary": "350" }
             ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
+            "direct": { "canCancel": true, "enabled": false },
             "request": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 0,
@@ -3577,14 +1992,7 @@
           {
             "id": "moveProgram",
             "name": "MOVE! program",
-            "stopCodes": [
-              {
-                "primary": "372"
-              },
-              {
-                "primary": "373"
-              }
-            ],
+            "stopCodes": [{ "primary": "372" }, { "primary": "373" }],
             "direct": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 0,
@@ -3602,120 +2010,51 @@
           {
             "id": "cpap",
             "name": "CPAP Clinic",
-            "stopCodes": [
-              {
-                "primary": "349",
-                "secondary": "116"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "349", "secondary": "116" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "socialWork",
             "name": "Social Work",
-            "stopCodes": [
-              {
-                "primary": "125",
-                "secondary": "323"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "125", "secondary": "323" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "411",
             "name": "Podiatry",
-            "stopCodes": [
-              {
-                "primary": "411"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "411" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "foodAndNutrition",
             "name": "Food and Nutrition",
-            "stopCodes": [
-              {
-                "primary": "123"
-              },
-              {
-                "primary": "124"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "123" }, { "primary": "124" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "ophthalmology",
             "name": "Ophthalmology",
-            "stopCodes": [
-              {
-                "primary": "407"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "407" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "optometry",
             "name": "Optometry",
-            "stopCodes": [
-              {
-                "primary": "408"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "408" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           },
           {
             "id": "homeSleepTesting",
             "name": "Sleep Medicine – Home Sleep Testing",
-            "stopCodes": [
-              {
-                "primary": "143",
-                "secondary": "189"
-              }
-            ],
-            "direct": {
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "enabled": false
-            }
+            "stopCodes": [{ "primary": "143", "secondary": "189" }],
+            "direct": { "canCancel": true, "enabled": false },
+            "request": { "enabled": false }
           }
         ],
         "communityCare": false
@@ -3725,381 +2064,381 @@
       "id": "692",
       "type": "scheduling_configuration",
       "attributes": {
-        "facilityId": "692",
-        "services": [
-          {
-            "id": "amputation",
-            "name": "Amputation Services",
-            "stopCodes": [
+          "facilityId": "692",
+          "services": [
               {
-                "primary": "211",
-                "defaultForRequests": false
-              }
-            ],
-            "direct": {
-              "patientHistoryRequired": false,
-              "patientHistoryDuration": 0,
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "patientHistoryRequired": false,
-              "patientHistoryDuration": 0,
-              "canCancel": true,
-              "submittedRequestLimit": 2,
-              "enterpriseSubmittedRequestLimit": 2,
-              "enabled": false
-            }
-          },
-          {
-            "id": "covid",
-            "name": "COVID Vaccine",
-            "stopCodes": [
-              {
-                "secondary": "710",
-                "defaultForRequests": false
-              }
-            ],
-            "char4": "CDQC",
-            "direct": {
-              "patientHistoryRequired": false,
-              "patientHistoryDuration": 0,
-              "canCancel": true,
-              "enabled": false
-            }
-          },
-          {
-            "id": "CR1",
-            "name": "Express Care",
-            "request": {
-              "patientHistoryRequired": false,
-              "submittedRequestLimit": 2,
-              "enterpriseSubmittedRequestLimit": 2,
-              "enabled": false,
-              "schedulingDays": [
-                {
-                  "day": "MONDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "TUESDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "WEDNESDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "THURSDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "FRIDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "SATURDAY",
-                  "canSchedule": false
-                },
-                {
-                  "day": "SUNDAY",
-                  "canSchedule": false
-                }
-              ]
-            }
-          },
-          {
-            "id": "outpatientMentalHealth",
-            "name": "Outpatient Mental Health",
-            "stopCodes": [
-              {
-                "primary": "502",
-                "defaultForRequests": false
-              }
-            ],
-            "direct": {
-              "patientHistoryRequired": false,
-              "patientHistoryDuration": 0,
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "patientHistoryRequired": false,
-              "patientHistoryDuration": 0,
-              "canCancel": true,
-              "submittedRequestLimit": 2,
-              "enterpriseSubmittedRequestLimit": 2,
-              "enabled": false
-            }
-          },
-          {
-            "id": "audiology",
-            "name": "Audiology",
-            "stopCodes": [
-              {
-                "primary": "203",
-                "defaultForRequests": false
-              }
-            ],
-            "direct": {
-              "patientHistoryRequired": false,
-              "patientHistoryDuration": 0,
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "patientHistoryRequired": false,
-              "patientHistoryDuration": 0,
-              "canCancel": true,
-              "submittedRequestLimit": 2,
-              "enterpriseSubmittedRequestLimit": 2,
-              "enabled": false
-            }
-          },
-          {
-            "id": "clinicalPharmacyPrimaryCare",
-            "name": "Clinical Pharmacy-Primary Care",
-            "stopCodes": [
-              {
-                "primary": "160",
-                "secondary": "323",
-                "defaultForRequests": false
-              }
-            ],
-            "direct": {
-              "patientHistoryRequired": false,
-              "patientHistoryDuration": 0,
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "patientHistoryRequired": false,
-              "patientHistoryDuration": 0,
-              "canCancel": true,
-              "submittedRequestLimit": 2,
-              "enterpriseSubmittedRequestLimit": 2,
-              "enabled": false
-            }
-          },
-          {
-            "id": "primaryCare",
-            "name": "Primary Care",
-            "stopCodes": [
-              {
-                "primary": "322",
-                "defaultForRequests": false
+                  "id": "amputation",
+                  "name": "Amputation Services",
+                  "stopCodes": [
+                      {
+                          "primary": "211",
+                          "defaultForRequests": false
+                      }
+                  ],
+                  "direct": {
+                      "patientHistoryRequired": false,
+                      "patientHistoryDuration": 0,
+                      "canCancel": true,
+                      "enabled": false
+                  },
+                  "request": {
+                      "patientHistoryRequired": false,
+                      "patientHistoryDuration": 0,
+                      "canCancel": true,
+                      "submittedRequestLimit": 2,
+                      "enterpriseSubmittedRequestLimit": 2,
+                      "enabled": false
+                  }
               },
               {
-                "primary": "323",
-                "defaultForRequests": false
+                  "id": "covid",
+                  "name": "COVID Vaccine",
+                  "stopCodes": [
+                      {
+                          "secondary": "710",
+                          "defaultForRequests": false
+                      }
+                  ],
+                  "char4": "CDQC",
+                  "direct": {
+                      "patientHistoryRequired": false,
+                      "patientHistoryDuration": 0,
+                      "canCancel": true,
+                      "enabled": false
+                  }
               },
               {
-                "primary": "350",
-                "defaultForRequests": false
-              }
-            ],
-            "direct": {
-              "patientHistoryRequired": false,
-              "patientHistoryDuration": 0,
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "patientHistoryRequired": false,
-              "patientHistoryDuration": 0,
-              "canCancel": true,
-              "submittedRequestLimit": 1,
-              "enterpriseSubmittedRequestLimit": 1,
-              "enabled": false
-            }
-          },
-          {
-            "id": "moveProgram",
-            "name": "MOVE! program",
-            "stopCodes": [
-              {
-                "primary": "372",
-                "defaultForRequests": false
+                  "id": "CR1",
+                  "name": "Express Care",
+                  "request": {
+                      "patientHistoryRequired": false,
+                      "submittedRequestLimit": 2,
+                      "enterpriseSubmittedRequestLimit": 2,
+                      "enabled": false,
+                      "schedulingDays": [
+                          {
+                              "day": "MONDAY",
+                              "canSchedule": false
+                          },
+                          {
+                              "day": "TUESDAY",
+                              "canSchedule": false
+                          },
+                          {
+                              "day": "WEDNESDAY",
+                              "canSchedule": false
+                          },
+                          {
+                              "day": "THURSDAY",
+                              "canSchedule": false
+                          },
+                          {
+                              "day": "FRIDAY",
+                              "canSchedule": false
+                          },
+                          {
+                              "day": "SATURDAY",
+                              "canSchedule": false
+                          },
+                          {
+                              "day": "SUNDAY",
+                              "canSchedule": false
+                          }
+                      ]
+                  }
               },
               {
-                "primary": "373",
-                "defaultForRequests": false
-              }
-            ],
-            "direct": {
-              "patientHistoryRequired": false,
-              "patientHistoryDuration": 0,
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "patientHistoryRequired": false,
-              "patientHistoryDuration": 0,
-              "canCancel": true,
-              "submittedRequestLimit": 2,
-              "enterpriseSubmittedRequestLimit": 2,
-              "enabled": false
-            }
-          },
-          {
-            "id": "cpap",
-            "name": "CPAP Clinic",
-            "stopCodes": [
-              {
-                "primary": "349",
-                "secondary": "116",
-                "defaultForRequests": false
-              }
-            ],
-            "direct": {
-              "patientHistoryRequired": false,
-              "patientHistoryDuration": 0,
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "patientHistoryRequired": false,
-              "patientHistoryDuration": 0,
-              "canCancel": true,
-              "submittedRequestLimit": 2,
-              "enterpriseSubmittedRequestLimit": 2,
-              "enabled": false
-            }
-          },
-          {
-            "id": "socialWork",
-            "name": "Social Work",
-            "stopCodes": [
-              {
-                "primary": "125",
-                "secondary": "323",
-                "defaultForRequests": false
-              }
-            ],
-            "direct": {
-              "patientHistoryRequired": false,
-              "patientHistoryDuration": 0,
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "patientHistoryRequired": false,
-              "patientHistoryDuration": 0,
-              "canCancel": true,
-              "submittedRequestLimit": 2,
-              "enterpriseSubmittedRequestLimit": 2,
-              "enabled": false
-            }
-          },
-          {
-            "id": "foodAndNutrition",
-            "name": "Food and Nutrition",
-            "stopCodes": [
-              {
-                "primary": "123",
-                "defaultForRequests": false
+                  "id": "outpatientMentalHealth",
+                  "name": "Outpatient Mental Health",
+                  "stopCodes": [
+                      {
+                          "primary": "502",
+                          "defaultForRequests": false
+                      }
+                  ],
+                  "direct": {
+                      "patientHistoryRequired": false,
+                      "patientHistoryDuration": 0,
+                      "canCancel": true,
+                      "enabled": false
+                  },
+                  "request": {
+                      "patientHistoryRequired": false,
+                      "patientHistoryDuration": 0,
+                      "canCancel": true,
+                      "submittedRequestLimit": 2,
+                      "enterpriseSubmittedRequestLimit": 2,
+                      "enabled": false
+                  }
               },
               {
-                "primary": "124",
-                "defaultForRequests": false
-              }
-            ],
-            "direct": {
-              "patientHistoryRequired": true,
-              "patientHistoryDuration": 0,
-              "relationshipAge": 0,
-              "requireVisitWithinDays": 365,
-              "canCancel": true,
-              "enabled": true
-            },
-            "request": {
-              "patientHistoryRequired": true,
-              "patientHistoryDuration": 0,
-              "relationshipAge": 0,
-              "requireVisitWithinDays": 365,
-              "canCancel": true,
-              "submittedRequestLimit": 2,
-              "enterpriseSubmittedRequestLimit": 2,
-              "enabled": true
-            }
-          },
-          {
-            "id": "ophthalmology",
-            "name": "Ophthalmology",
-            "stopCodes": [
+                  "id": "audiology",
+                  "name": "Audiology",
+                  "stopCodes": [
+                      {
+                          "primary": "203",
+                          "defaultForRequests": false
+                      }
+                  ],
+                  "direct": {
+                      "patientHistoryRequired": false,
+                      "patientHistoryDuration": 0,
+                      "canCancel": true,
+                      "enabled": false
+                  },
+                  "request": {
+                      "patientHistoryRequired": false,
+                      "patientHistoryDuration": 0,
+                      "canCancel": true,
+                      "submittedRequestLimit": 2,
+                      "enterpriseSubmittedRequestLimit": 2,
+                      "enabled": false
+                  }
+              },
               {
-                "primary": "407",
-                "defaultForRequests": false
-              }
-            ],
-            "direct": {
-              "patientHistoryRequired": false,
-              "patientHistoryDuration": 0,
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "patientHistoryRequired": false,
-              "patientHistoryDuration": 0,
-              "canCancel": true,
-              "submittedRequestLimit": 2,
-              "enterpriseSubmittedRequestLimit": 2,
-              "enabled": false
-            }
-          },
-          {
-            "id": "optometry",
-            "name": "Optometry",
-            "stopCodes": [
+                  "id": "clinicalPharmacyPrimaryCare",
+                  "name": "Clinical Pharmacy-Primary Care",
+                  "stopCodes": [
+                      {
+                          "primary": "160",
+                          "secondary": "323",
+                          "defaultForRequests": false
+                      }
+                  ],
+                  "direct": {
+                      "patientHistoryRequired": false,
+                      "patientHistoryDuration": 0,
+                      "canCancel": true,
+                      "enabled": false
+                  },
+                  "request": {
+                      "patientHistoryRequired": false,
+                      "patientHistoryDuration": 0,
+                      "canCancel": true,
+                      "submittedRequestLimit": 2,
+                      "enterpriseSubmittedRequestLimit": 2,
+                      "enabled": false
+                  }
+              },
               {
-                "primary": "408",
-                "defaultForRequests": false
-              }
-            ],
-            "direct": {
-              "patientHistoryRequired": false,
-              "patientHistoryDuration": 0,
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "patientHistoryRequired": false,
-              "patientHistoryDuration": 0,
-              "canCancel": true,
-              "submittedRequestLimit": 2,
-              "enterpriseSubmittedRequestLimit": 2,
-              "enabled": false
-            }
-          },
-          {
-            "id": "homeSleepTesting",
-            "name": "Sleep Medicine – Home Sleep Testing",
-            "stopCodes": [
+                  "id": "primaryCare",
+                  "name": "Primary Care",
+                  "stopCodes": [
+                      {
+                          "primary": "322",
+                          "defaultForRequests": false
+                      },
+                      {
+                          "primary": "323",
+                          "defaultForRequests": false
+                      },
+                      {
+                          "primary": "350",
+                          "defaultForRequests": false
+                      }
+                  ],
+                  "direct": {
+                      "patientHistoryRequired": false,
+                      "patientHistoryDuration": 0,
+                      "canCancel": true,
+                      "enabled": false
+                  },
+                  "request": {
+                      "patientHistoryRequired": false,
+                      "patientHistoryDuration": 0,
+                      "canCancel": true,
+                      "submittedRequestLimit": 1,
+                      "enterpriseSubmittedRequestLimit": 1,
+                      "enabled": false
+                  }
+              },
               {
-                "primary": "143",
-                "secondary": "189",
-                "defaultForRequests": false
+                  "id": "moveProgram",
+                  "name": "MOVE! program",
+                  "stopCodes": [
+                      {
+                          "primary": "372",
+                          "defaultForRequests": false
+                      },
+                      {
+                          "primary": "373",
+                          "defaultForRequests": false
+                      }
+                  ],
+                  "direct": {
+                      "patientHistoryRequired": false,
+                      "patientHistoryDuration": 0,
+                      "canCancel": true,
+                      "enabled": false
+                  },
+                  "request": {
+                      "patientHistoryRequired": false,
+                      "patientHistoryDuration": 0,
+                      "canCancel": true,
+                      "submittedRequestLimit": 2,
+                      "enterpriseSubmittedRequestLimit": 2,
+                      "enabled": false
+                  }
+              },
+              {
+                  "id": "cpap",
+                  "name": "CPAP Clinic",
+                  "stopCodes": [
+                      {
+                          "primary": "349",
+                          "secondary": "116",
+                          "defaultForRequests": false
+                      }
+                  ],
+                  "direct": {
+                      "patientHistoryRequired": false,
+                      "patientHistoryDuration": 0,
+                      "canCancel": true,
+                      "enabled": false
+                  },
+                  "request": {
+                      "patientHistoryRequired": false,
+                      "patientHistoryDuration": 0,
+                      "canCancel": true,
+                      "submittedRequestLimit": 2,
+                      "enterpriseSubmittedRequestLimit": 2,
+                      "enabled": false
+                  }
+              },
+              {
+                  "id": "socialWork",
+                  "name": "Social Work",
+                  "stopCodes": [
+                      {
+                          "primary": "125",
+                          "secondary": "323",
+                          "defaultForRequests": false
+                      }
+                  ],
+                  "direct": {
+                      "patientHistoryRequired": false,
+                      "patientHistoryDuration": 0,
+                      "canCancel": true,
+                      "enabled": false
+                  },
+                  "request": {
+                      "patientHistoryRequired": false,
+                      "patientHistoryDuration": 0,
+                      "canCancel": true,
+                      "submittedRequestLimit": 2,
+                      "enterpriseSubmittedRequestLimit": 2,
+                      "enabled": false
+                  }
+              },
+              {
+                  "id": "foodAndNutrition",
+                  "name": "Food and Nutrition",
+                  "stopCodes": [
+                      {
+                          "primary": "123",
+                          "defaultForRequests": false
+                      },
+                      {
+                          "primary": "124",
+                          "defaultForRequests": false
+                      }
+                  ],
+                  "direct": {
+                      "patientHistoryRequired": true,
+                      "patientHistoryDuration": 0,
+                      "relationshipAge": 0,
+                      "requireVisitWithinDays": 365,
+                      "canCancel": true,
+                      "enabled": true
+                  },
+                  "request": {
+                      "patientHistoryRequired": true,
+                      "patientHistoryDuration": 0,
+                      "relationshipAge": 0,
+                      "requireVisitWithinDays": 365,
+                      "canCancel": true,
+                      "submittedRequestLimit": 2,
+                      "enterpriseSubmittedRequestLimit": 2,
+                      "enabled": true
+                  }
+              },
+              {
+                  "id": "ophthalmology",
+                  "name": "Ophthalmology",
+                  "stopCodes": [
+                      {
+                          "primary": "407",
+                          "defaultForRequests": false
+                      }
+                  ],
+                  "direct": {
+                      "patientHistoryRequired": false,
+                      "patientHistoryDuration": 0,
+                      "canCancel": true,
+                      "enabled": false
+                  },
+                  "request": {
+                      "patientHistoryRequired": false,
+                      "patientHistoryDuration": 0,
+                      "canCancel": true,
+                      "submittedRequestLimit": 2,
+                      "enterpriseSubmittedRequestLimit": 2,
+                      "enabled": false
+                  }
+              },
+              {
+                  "id": "optometry",
+                  "name": "Optometry",
+                  "stopCodes": [
+                      {
+                          "primary": "408",
+                          "defaultForRequests": false
+                      }
+                  ],
+                  "direct": {
+                      "patientHistoryRequired": false,
+                      "patientHistoryDuration": 0,
+                      "canCancel": true,
+                      "enabled": false
+                  },
+                  "request": {
+                      "patientHistoryRequired": false,
+                      "patientHistoryDuration": 0,
+                      "canCancel": true,
+                      "submittedRequestLimit": 2,
+                      "enterpriseSubmittedRequestLimit": 2,
+                      "enabled": false
+                  }
+              },
+              {
+                  "id": "homeSleepTesting",
+                  "name": "Sleep Medicine – Home Sleep Testing",
+                  "stopCodes": [
+                      {
+                          "primary": "143",
+                          "secondary": "189",
+                          "defaultForRequests": false
+                      }
+                  ],
+                  "direct": {
+                      "patientHistoryRequired": false,
+                      "patientHistoryDuration": 0,
+                      "canCancel": true,
+                      "enabled": false
+                  },
+                  "request": {
+                      "patientHistoryRequired": false,
+                      "patientHistoryDuration": 0,
+                      "canCancel": true,
+                      "submittedRequestLimit": 2,
+                      "enterpriseSubmittedRequestLimit": 2,
+                      "enabled": false
+                  }
               }
-            ],
-            "direct": {
-              "patientHistoryRequired": false,
-              "patientHistoryDuration": 0,
-              "canCancel": true,
-              "enabled": false
-            },
-            "request": {
-              "patientHistoryRequired": false,
-              "patientHistoryDuration": 0,
-              "canCancel": true,
-              "submittedRequestLimit": 2,
-              "enterpriseSubmittedRequestLimit": 2,
-              "enabled": false
-            }
-          }
-        ],
-        "communityCare": false
+          ],
+          "communityCare": false
       }
-    }
+  }
   ],
   "meta": {
     "pagination": {

@@ -15,23 +15,6 @@ export const uiSchema = {
             'I live on a United States military base outside of the U.S.',
         },
       }),
-      city: {
-        ...addressUI().city,
-        'ui:validations': [
-          (errors, city, formData) => {
-            const address = formData?.veteranContactInformation?.veteranAddress;
-            const cityStr = city?.trim().toUpperCase();
-
-            if (
-              address &&
-              ['APO', 'FPO', 'DPO'].includes(cityStr) &&
-              address.isMilitary !== true
-            ) {
-              errors.addError('Enter a valid city name');
-            }
-          },
-        ],
-      },
     },
   },
 };

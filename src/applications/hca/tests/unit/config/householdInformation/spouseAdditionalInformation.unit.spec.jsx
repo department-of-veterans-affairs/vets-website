@@ -1,33 +1,68 @@
-import formConfig from '../../../../config/form';
+import React from 'react';
+import { findDOMNode } from 'react-dom';
+import { expect } from 'chai';
+import sinon from 'sinon';
+import ReactTestUtils from 'react-dom/test-utils';
 import {
-  testNumberOfErrorsOnSubmit,
-  testNumberOfFormFields,
-} from '../../../helpers.spec';
+  submitForm,
+  DefinitionTester,
+} from 'platform/testing/unit/schemaform-utils';
+import formConfig from '../../../../config/form';
+import { simulateInputChange } from '../../../helpers';
 
 describe('hca SpouseAdditionalInformation config', () => {
   const {
-    title: pageTitle,
     schema,
     uiSchema,
   } = formConfig.chapters.householdInformation.pages.SpouseAdditionalInformation;
+  const { defaultDefinitions: definitions } = formConfig;
 
-  // run test for correct number of fields on the page
-  const expectedNumberOfFields = 4;
-  testNumberOfFormFields(
-    formConfig,
-    schema,
-    uiSchema,
-    expectedNumberOfFields,
-    pageTitle,
-  );
+  it('should render', () => {
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+        schema={schema}
+        definitions={definitions}
+        uiSchema={uiSchema}
+      />,
+    );
+    const formDOM = findDOMNode(form);
+    expect(formDOM.querySelectorAll('input, select').length).to.equal(4);
+  });
 
-  // run test for correct number of error messages on submit
-  const expectedNumberOfErrors = 1;
-  testNumberOfErrorsOnSubmit(
-    formConfig,
-    schema,
-    uiSchema,
-    expectedNumberOfErrors,
-    pageTitle,
-  );
+  it('should not submit empty form', () => {
+    const onSubmit = sinon.spy();
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+        schema={schema}
+        definitions={definitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}
+      />,
+    );
+    const formDOM = findDOMNode(form);
+    submitForm(form);
+
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
+  });
+
+  it('should submit with valid data', () => {
+    const onSubmit = sinon.spy();
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+        schema={schema}
+        definitions={definitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}
+      />,
+    );
+    const formDOM = findDOMNode(form);
+
+    simulateInputChange(formDOM, '#root_sameAddressYes', 'Y');
+    simulateInputChange(formDOM, '#root_cohabitedLastYearNo', 'Y');
+    submitForm(form);
+
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
+  });
 });

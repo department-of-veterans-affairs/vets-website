@@ -1,30 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
-import { dslogonButtonDisabled } from 'platform/user/selectors';
 import { externalApplicationsConfig } from '../usip-config';
 import { reduceAllowedProviders, getQueryParams } from '../utilities';
 import LoginButton from './LoginButton';
 
-const renderRetiredNotice = (id, label) => (
-  <div>
-    <h3 id={id} className="vads-u-margin-top--3">
-      {label}
-      <span className="vads-u-display--block vads-u-font-size--md vads-u-font-family--sans">
-        This option is no longer available
-      </span>
-    </h3>
-    <va-link
-      text="Learn how to access your benefits and set up your new account"
-      href="/resources/what-to-do-if-you-havent-switched-to-logingov-or-idme-yet"
-    />
-  </div>
-);
-
 export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
   const [useOAuth, setOAuth] = useState();
   const { OAuth, clientId, codeChallenge, state } = getQueryParams();
-
   const {
     OAuthEnabled,
     allowedSignInProviders,
@@ -33,12 +15,6 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
     externalApplicationsConfig[externalApplication] ??
     externalApplicationsConfig.default;
 
-  const dslogonIsDisabled = useSelector(dslogonButtonDisabled);
-  const dslogonEnabled = dslogon && !dslogonIsDisabled;
-  const dslogonRetired = dslogon && dslogonIsDisabled;
-
-  const actionLocation = isUnifiedSignIn ? 'usip' : 'modal';
-
   useEffect(
     () => {
       setOAuth(OAuthEnabled && OAuth === 'true');
@@ -46,28 +22,41 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
     [OAuth, OAuthEnabled],
   );
 
+  const actionLocation = isUnifiedSignIn ? 'usip' : 'modal';
+  const isValid = dslogon;
+
   return (
     <div className="row">
       <div className="columns print-full-width sign-in-wrapper">
         {reduceAllowedProviders(allowedSignInProviders).map(csp => (
           <LoginButton
-            key={csp}
             csp={csp}
+            key={csp}
             useOAuth={useOAuth}
             actionLocation={actionLocation}
             queryParams={{ clientId, codeChallenge, state }}
           />
         ))}
-
         <a href="https://www.va.gov/resources/creating-an-account-for-vagov">
           Learn about creating a Login.gov or ID.me account
         </a>
-
-        {(dslogonEnabled || dslogonRetired) && (
-          <>
+        {isValid && (
+          <div>
+            {/* Remove this hardcoded message for MHV */}
             <h2>Other sign-in options</h2>
-
-            {dslogonEnabled && (
+            <div>
+              <h3 id="mhvH3" className="vads-u-margin-top--3">
+                My HealtheVet sign-in option
+                <span className="vads-u-display--block vads-u-font-size--md vads-u-font-family--sans">
+                  This option is no longer available
+                </span>
+              </h3>
+              <va-link
+                text="Learn how to access your benefits and set up your new account"
+                href="/resources/what-to-do-if-you-havent-switched-to-logingov-or-idme-yet"
+              />
+            </div>
+            {dslogon && (
               <>
                 <h3
                   id="dslogonH3"
@@ -75,7 +64,7 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
                 >
                   DS Logon sign-in option
                   <span className="vads-u-display--block vads-u-font-size--md vads-u-font-family--sans">
-                    We’ll remove this option after September 30, 2025
+                    Available through September 30, 2025
                   </span>
                 </h3>
                 <p>
@@ -90,10 +79,7 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
                 />
               </>
             )}
-
-            {dslogonRetired &&
-              renderRetiredNotice('dslogonH3', 'DS Logon sign-in option')}
-          </>
+          </div>
         )}
       </div>
     </div>

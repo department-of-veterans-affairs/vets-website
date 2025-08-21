@@ -1,5 +1,5 @@
 import {
-  testComponentFieldsMarkedAsRequired,
+  testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfFieldsByType,
   testNumberOfWebComponentFields,
   testSubmitsWithoutErrors,
@@ -18,11 +18,12 @@ describe('marital status page', () => {
     pageTitle,
   );
 
-  testComponentFieldsMarkedAsRequired(
+  const expectedNumberOfErrors = 1;
+  testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     maritalStatus.schema,
     maritalStatus.uiSchema,
-    [`va-radio[label="What’s your current marital status?"]`],
+    expectedNumberOfErrors,
     pageTitle,
   );
 

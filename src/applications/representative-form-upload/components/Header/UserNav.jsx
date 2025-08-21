@@ -14,10 +14,10 @@ const UserHelpLinks = () => {
             <a
               data-testid="user-nav-poa-search-link"
               className="vads-u-color--white"
-              href="/representative/claimant-search"
+              href="/representative/poa-search"
             >
               <va-icon icon="search" size={2} className="people-search-icon" />
-              Find Claimant
+              Search People
             </a>
           </li>
         </Toggler.Enabled>
@@ -28,7 +28,7 @@ const UserHelpLinks = () => {
           className="vads-u-color--white"
           href="/representative/poa-requests"
         >
-          Representation Requests
+          Power of Attorney Requests
         </a>
       </li>
       <Toggler

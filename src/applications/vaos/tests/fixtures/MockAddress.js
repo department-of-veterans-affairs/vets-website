@@ -13,6 +13,6 @@ export default class MockAddress {
     this.line = ['line 1'];
     this.city = 'City';
     this.state = 'State';
-    this.postalCode = '12345';
+    this.postalCode = 'Postal code';
   }
 }

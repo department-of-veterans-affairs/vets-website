@@ -221,7 +221,7 @@ describe('authenticated experience -- profile -- unified direct deposit', () => 
     });
 
     it('renders AccountUpdateView when isEditing is true', async () => {
-      const { getByTestId, container } = renderWithProfileReducersAndRouter(
+      const { getByRole, container } = renderWithProfileReducersAndRouter(
         <DirectDeposit />,
         {
           initialState: createInitialState(),
@@ -233,7 +233,7 @@ describe('authenticated experience -- profile -- unified direct deposit', () => 
       fireEvent.click(button);
 
       // save button is shown when update view is rendered
-      expect(getByTestId('save-direct-deposit')).to.exist;
+      expect(getByRole('button', { name: /save/i })).to.exist;
     });
   });
   describe('Montgomery GI Bill', () => {

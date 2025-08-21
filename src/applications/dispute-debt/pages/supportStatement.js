@@ -7,7 +7,7 @@ const supportStatement = {
       items: {
         'ui:title': DebtTitle,
         supportStatement: {
-          'ui:title': `Tell us why you’re disputing this debt. Share any information you think will support your dispute.`,
+          'ui:title': `Tell us why you're disputing this debt: `,
           'ui:webComponentField': VaTextareaField,
           'ui:required': () => true,
           'ui:errorMessages': {

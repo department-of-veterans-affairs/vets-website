@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, waitFor } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import { expect } from 'chai';
@@ -92,9 +92,7 @@ describe('Gulf War 1990 Locations', () => {
     checkVaCheckbox(checkboxGroup, 'none');
 
     userEvent.click(getByText('Submit'));
-    await waitFor(() => {
-      expect($('va-checkbox-group').error).to.equal(noneAndLocationError);
-    });
+    expect($('va-checkbox-group').error).to.equal(noneAndLocationError);
   });
 
   it('should submit with `none` and `notsure` selected', async () => {

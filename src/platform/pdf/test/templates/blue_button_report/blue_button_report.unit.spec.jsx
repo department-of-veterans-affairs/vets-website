@@ -115,15 +115,7 @@ describe('Blue Button report PDF template', () => {
       const listItemsText = listItems
         .filter(item => item.str)
         .map(item => item.str);
-      let recordSetsLength = data.recordSets.length;
-      const hasBothAppointmentTypes = data.recordSets.some(
-        item =>
-          item.type === 'appointments' &&
-          item.records.length === 2 &&
-          item.records.every(type => type.results.items.length),
-      );
-      if (hasBothAppointmentTypes) recordSetsLength += 1;
-      expect(listItemsText.length).to.equal(recordSetsLength);
+      expect(listItemsText.length).to.equal(data.recordSets.length);
     });
 
     it('Displays the Records not in this report section when some sections have no records', async () => {
@@ -132,10 +124,7 @@ describe('Blue Button report PDF template', () => {
       // Mark some sections as having no records.
       data.recordSets[0].records = []; // lab and test results
       data.recordSets[3].records = []; // allergies
-      data.recordSets[7].records = [
-        { title: 'Past appointments', results: { items: [] } },
-        { title: 'Upcoming appointments', results: { items: [] } },
-      ]; // appointments
+      data.recordSets[7].records = []; // appointments
 
       const { pdf } = await generateAndParsePdf(data);
 
@@ -192,114 +181,7 @@ describe('Blue Button report PDF template', () => {
       const unavailableListItemsText = unavailableListItems
         .filter(item => item.str)
         .map(item => item.str);
-      expect(unavailableListItemsText.length).to.equal(4);
-    });
-
-    it("Displays the Information we can't access right now section when some domains fail", async () => {
-      const data = cloneDeep(require('./fixtures/all_sections.json'));
-      // simulate domains we couldn’t fetch
-      data.failedDomains = ['Lab and test results', 'VA appointments'];
-
-      const { pdf } = await generateAndParsePdf(data);
-      const page = await pdf.getPage(1);
-      const content = await page.getTextContent({ includeMarkedContent: true });
-
-      // find the H2 for the failed-records section
-      const headingIndex = content.items.findIndex(
-        item => item.str === "Information we can't access right now",
-      );
-      expect(content.items[headingIndex - 2].tag).to.equal('H2');
-
-      // grab the bullet list under that heading
-      const listStart = content.items.findIndex(
-        (item, idx) => idx > headingIndex && item.tag === 'List',
-      );
-      const listEnd = content.items.findIndex(
-        (item, idx) => idx > listStart && item.type === 'endMarkedContent',
-      );
-      const failedList = content.items
-        .slice(listStart + 1, listEnd)
-        .filter(i => i.str)
-        .map(i => i.str);
-
-      // Expect "Lab and test results" plus past/upcoming appointments
-      expect(failedList).to.include('Lab and test results');
-      expect(failedList).to.include('Past appointments');
-      expect(failedList).to.include('Upcoming appointments');
-      expect(failedList.length).to.equal(3);
-    });
-
-    it('includes demographics in the "Records not in this report" list when it has no records and hasn’t failed', async () => {
-      const data = cloneDeep(require('./fixtures/all_sections.json'));
-      // zero‐out demographics
-      const demoSet = data.recordSets.find(r => r.type === 'demographics');
-      demoSet.records = [];
-      data.failedDomains = []; // ensure no failures
-
-      const { pdf } = await generateAndParsePdf(data);
-      const page = await pdf.getPage(1);
-      const content = await page.getTextContent({ includeMarkedContent: true });
-
-      // locate the empty‐records list
-      const noRecIdx = content.items.findIndex(
-        item => item.str === 'Records not in this report',
-      );
-      const listStart = content.items.findIndex(
-        (item, i) => i > noRecIdx && item.tag === 'List',
-      );
-      const listEnd = content.items.findIndex(
-        (item, i) => i > listStart && item.type === 'endMarkedContent',
-      );
-      const emptyTitles = content.items
-        .slice(listStart + 1, listEnd)
-        .filter(i => i.str)
-        .map(i => i.str);
-
-      expect(emptyTitles).to.include(demoSet.title);
-    });
-
-    it('moves demographics into the failed list when "VA demographics records" is in failedDomains', async () => {
-      const data = cloneDeep(require('./fixtures/all_sections.json'));
-      // zero‐out demographics
-      const demoSet = data.recordSets.find(r => r.type === 'demographics');
-      demoSet.records = [];
-      data.failedDomains = ['VA demographics records'];
-
-      const { pdf } = await generateAndParsePdf(data);
-      const page = await pdf.getPage(1);
-      const content = await page.getTextContent({ includeMarkedContent: true });
-
-      // it should no longer appear in the empty‐records list
-      const noRecIdx = content.items.findIndex(
-        item => item.str === 'Records not in this report',
-      );
-      const listStart = content.items.findIndex(
-        (item, i) => i > noRecIdx && item.tag === 'List',
-      );
-      const listEnd = content.items.findIndex(
-        (item, i) => i > listStart && item.type === 'endMarkedContent',
-      );
-      const emptyTitles = content.items
-        .slice(listStart + 1, listEnd)
-        .filter(i => i.str)
-        .map(i => i.str);
-      expect(emptyTitles).to.not.include(demoSet.title);
-
-      // and it should show up under the failed‐domains section
-      const failHeading = content.items.findIndex(
-        item => item.str === "Information we can't access right now",
-      );
-      const failListStart = content.items.findIndex(
-        (item, i) => i > failHeading && item.tag === 'List',
-      );
-      const failListEnd = content.items.findIndex(
-        (item, i) => i > failListStart && item.type === 'endMarkedContent',
-      );
-      const failedTitles = content.items
-        .slice(failListStart + 1, failListEnd)
-        .filter(i => i.str)
-        .map(i => i.str);
-      expect(failedTitles).to.include('VA demographics records');
+      expect(unavailableListItemsText.length).to.equal(3);
     });
   });
 

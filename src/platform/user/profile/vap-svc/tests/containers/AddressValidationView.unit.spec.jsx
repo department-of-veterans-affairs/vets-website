@@ -64,17 +64,17 @@ const baseData = {
 };
 const getStore = data => createStore(() => data);
 // Helper function to check multiple buttons
-function expectVaButtons(container, expectedButtons) {
-  const vaButtons = container.querySelectorAll('va-button');
-  expect(vaButtons.length).to.equal(expectedButtons.length);
+function expectButtons(container, expectedButtons) {
+  const buttons = container.querySelectorAll('button');
+  expect(buttons.length).to.equal(expectedButtons.length);
   expectedButtons.forEach((expectedButton, index) => {
-    const vaButton = vaButtons[index];
-    expect(vaButton).to.have.attribute('text', expectedButton.text);
-    if (expectedButton.submit) {
-      expect(vaButton).to.have.attribute('submit', expectedButton.submit);
+    const button = buttons[index];
+    expect(button).to.have.text(expectedButton.text);
+    if (expectedButton.type) {
+      expect(button).to.have.attribute('type', expectedButton.type);
     }
     if (expectedButton.dataTestId) {
-      expect(vaButton).to.have.attribute(
+      expect(button).to.have.attribute(
         'data-testid',
         expectedButton.dataTestId,
       );
@@ -108,13 +108,13 @@ describe('<AddressValidationView/>', () => {
       </Provider>,
     );
 
-    expectVaButtons(container, [
+    expectButtons(container, [
       {
-        submit: 'prevent',
+        type: 'submit',
         text: 'Use address you entered',
         dataTestId: 'confirm-address-button',
       },
-      { text: 'Edit address' },
+      { text: 'Edit address', type: 'button' },
     ]);
   });
 
@@ -184,9 +184,9 @@ describe('<AddressValidationView/>', () => {
       </Provider>,
     );
 
-    expectVaButtons(container, [
-      { text: 'Edit address' },
-      { text: 'Edit address' },
+    expectButtons(container, [
+      { text: 'Edit Address', type: 'submit' },
+      { text: 'Edit address', type: 'button' },
     ]);
   });
 
@@ -212,7 +212,7 @@ describe('<AddressValidationView/>', () => {
       </Provider>,
     );
 
-    expectVaButtons(container, [{ text: 'Edit address' }]);
+    expectButtons(container, [{ text: 'Edit Address', type: 'submit' }]);
   });
 
   it('renders "Use suggested address" button when a suggested address is selected', () => {
@@ -258,13 +258,13 @@ describe('<AddressValidationView/>', () => {
       </Provider>,
     );
 
-    expectVaButtons(container, [
+    expectButtons(container, [
       {
-        submit: 'prevent',
+        type: 'submit',
         text: 'Use suggested address',
         dataTestId: 'confirm-address-button',
       },
-      { text: 'Edit address' },
+      { text: 'Edit address', type: 'button' },
     ]);
   });
 
@@ -344,13 +344,13 @@ describe('<AddressValidationView/>', () => {
         '1600 Pennsylvania Ave NW\nWashington, DC 20502',
       );
 
-      expectVaButtons(container, [
+      expectButtons(container, [
         {
-          submit: 'prevent',
+          type: 'submit',
           text: 'Use address you entered',
           dataTestId: 'confirm-address-button',
         },
-        { text: 'Edit address' },
+        { text: 'Edit address', type: 'button' },
       ]);
     });
 
@@ -452,10 +452,7 @@ describe('<AddressValidationView/>', () => {
       expect(alertMessage).to.exist;
 
       // Validate correct buttons are getting displayed
-      expectVaButtons(container, [
-        { text: 'Edit address' },
-        { text: 'Edit address' },
-      ]);
+      expectButtons(container, [{ text: 'Edit address', type: 'button' }]);
     });
 
     it('renders the alert with the correct headline and message for NO validationKey and has suggestedAddresses', () => {
@@ -531,9 +528,9 @@ describe('<AddressValidationView/>', () => {
       expect(alertMessage).to.exist;
 
       // Validate correct buttons are getting displayed
-      expectVaButtons(container, [
-        { text: 'Use suggested address', submit: 'prevent' },
-        { text: 'Edit address' },
+      expectButtons(container, [
+        { text: 'Use suggested address', type: 'submit' },
+        { text: 'Edit address', type: 'button' },
       ]);
     });
   });

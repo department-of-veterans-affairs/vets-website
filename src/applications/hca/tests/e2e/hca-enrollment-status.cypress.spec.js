@@ -4,14 +4,9 @@ import {
 } from '../../utils/constants';
 import { setupForAuth } from './utils';
 
-// NOTE: These tests are skipped in CI as they are simply a way to visually-review
-// alert content. The display conditions are tested in unit testing and fully covered.
 Object.values(HCA_ENROLLMENT_STATUSES).forEach(status => {
   describe(`HCA-Enrollment-Status: ${status}`, () => {
-    // eslint-disable-next-line func-names
-    beforeEach(function() {
-      if (Cypress.env('CI')) this.skip();
-
+    beforeEach(() => {
       const enrollmentStatus = {
         statusCode: 200,
         body: {
@@ -39,10 +34,7 @@ Object.values(HCA_ENROLLMENT_STATUSES).forEach(status => {
 });
 
 describe('HCA-Enrollment-Status: Server Error', () => {
-  // eslint-disable-next-line func-names
-  beforeEach(function() {
-    if (Cypress.env('CI')) this.skip();
-
+  beforeEach(() => {
     const enrollmentStatus = {
       statusCode: 500,
       body: {

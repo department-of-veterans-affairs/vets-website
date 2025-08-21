@@ -54,11 +54,8 @@ To run the IVC-CHAMPVA form apps locally:
     documentation, simply
     start the server by running the following in a shell at the root of the `vets-website` repository (this will open a new browser window):
     ```bash
-    # Run from root of `vets-website` repo - opens local VA.gov in web browser (this builds ALL applications)
+    # Run from root of `vets-website` repo - opens local VA.gov in web browser 
     yarn watch --open
-
-    # Alternatively, run this to only build a specific application (significantly faster)
-    yarn watch --env entry=10-10D # entry can be any application's entryname (found in its manifest file)
     ```
 
 3.  Then, in the newly opened browser window append the specific

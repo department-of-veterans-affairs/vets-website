@@ -21,7 +21,9 @@ const MessageThreadForPrint = props => {
       <VaAccordion bordered>
         {messageHistory?.map(m => {
           return (
-            <MessageThreadItem key={m.messageId} message={m} open forPrint />
+            <>
+              <MessageThreadItem key={m.messageId} message={m} open forPrint />
+            </>
           );
         })}
       </VaAccordion>

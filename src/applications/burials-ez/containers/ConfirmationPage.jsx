@@ -234,11 +234,9 @@ const ConfirmationPage = ({ form, isLoggedIn, route }) => {
         Form 21-4138). Mail this form to the address listed on this page.
       </p>
       <p>
-        <va-link
-          href="/find-forms/about-form-21-4138/"
-          text="Get VA Form 21-4138 to download"
-          external
-        />
+        <a href="/find-forms/about-form-21-4138/" target="_blank">
+          Get VA Form 21-4138 to download (opens in new tab)
+        </a>
       </p>
       <p>
         <strong>
@@ -249,10 +247,13 @@ const ConfirmationPage = ({ form, isLoggedIn, route }) => {
       </p>
       <p>You can authorize the release of their medical records online.</p>
       <p>
-        <va-link-action
+        <a
           href="/supporting-forms-for-claims/release-information-to-va-form-21-4142/"
-          text="Authorize the release of non-VA medical records"
-        />
+          target="_blank"
+          className="vads-c-action-link--green"
+        >
+          Authorize the release of non-VA medical records (opens in new tab)
+        </a>
       </p>
       <p>
         Or, you can fill out both of these forms and mail them to the address
@@ -263,21 +264,17 @@ const ConfirmationPage = ({ form, isLoggedIn, route }) => {
           Authorization to Disclose Information to the Department of Veterans
           Affairs (VA Form 21-4142)
           <br />
-          <va-link
-            href="/find-forms/about-form-21-4142/"
-            text="Get VA Form 21-4142 to download"
-            external
-          />
+          <a href="/find-forms/about-form-21-4142/" target="_blank">
+            Get VA Form 21-4142 to download (opens in new tab)
+          </a>
         </li>
         <li>
           General Release for Medical Provider Information to the Department of
           Veterans Affairs (VA Form 21-4142a)
           <br />
-          <va-link
-            href="/find-forms/about-form-21-4142a/"
-            text="Get VA Form 21-4142a to download"
-            external
-          />
+          <a href="/find-forms/about-form-21-4142a/" target="_blank">
+            Get VA Form 21-4142a to download (opens in new tab)
+          </a>
         </li>
       </ul>
     </>
@@ -364,22 +361,25 @@ const ConfirmationPage = ({ form, isLoggedIn, route }) => {
             <strong>Note:</strong> It may take 7 to 10 days after you apply for
             the status of your claim to show online.
           </p>
-          <va-link-action
+          <a
             href="/claim-or-appeal-status/"
-            text="Check the status of your claim"
-            class="vads-u-margin-bottom--4"
-          />
+            rel="noopener noreferrer"
+            target="_blank"
+            className="vads-c-action-link--green vads-u-margin-bottom--4"
+          >
+            Check the status of your claim (opens in new tab)
+          </a>
           <br />
-          <va-link-action
-            href="https://www.va.gov/"
-            text="Go back to VA.gov"
-            type="secondary"
-          />
+          <a className="vads-c-action-link--blue" href="https://www.va.gov/">
+            Go back to VA.gov
+          </a>
         </>
       )}
       {!isLoggedIn && (
         <>
-          <va-link-action href="https://www.va.gov/" text="Go back to VA.gov" />
+          <a className="vads-c-action-link--green" href="https://www.va.gov/">
+            Go back to VA.gov
+          </a>
         </>
       )}
 

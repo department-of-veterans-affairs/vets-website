@@ -63,13 +63,13 @@ describe('<ContestableIssues>', () => {
 
   it('should render a list of check boxes (IssueCard component)', () => {
     const props = getProps();
-    const { container } = render(<ContestableIssues {...props} />);
 
-    expect($$('va-checkbox', container).length).to.equal(
+    const { container } = render(<ContestableIssues {...props} />);
+    expect($$('input[type="checkbox"]', container).length).to.equal(
       props.formData.contestedIssues.length +
         props.formData.additionalIssues.length,
     );
-    expect(container.querySelectorAll('[label="issue-1"]')).to.have.lengthOf(1);
+    expect($('.widget-title', container).textContent).to.equal('issue-1');
   });
   it('should render edit link & remove button', () => {
     const props = getProps();
@@ -88,10 +88,7 @@ describe('<ContestableIssues>', () => {
     expect($$('fieldset', container).length).to.equal(1);
   });
 
-  // Skipping this test as it requires interaction with the shadow DOM now that the
-  // checkbox has been converted to a web component. This is not supported until we get
-  // the Node 22 release implemented. Ticket created to revisit https://github.com/department-of-veterans-affairs/va.gov-team/issues/115083
-  xit('should call onChange when the checkbox is toggled', () => {
+  it('should call onChange when the checkbox is toggled', () => {
     const testChange = sinon.spy();
     const props = getProps({ testChange });
     const { container } = render(<ContestableIssues {...props} />);
@@ -118,10 +115,7 @@ describe('<ContestableIssues>', () => {
     });
   });
 
-  // Skipping this test as it requires interaction with the shadow DOM now that the
-  // checkbox has been converted to a web component. This is not supported until we get
-  // the Node 22 release implemented. Ticket created to revisit https://github.com/department-of-veterans-affairs/va.gov-team/issues/115083
-  xit('should call set form data when an api loaded checkbox is toggled', () => {
+  it('should call set form data when an api loaded checkbox is toggled', () => {
     const setFormDataSpy = sinon.spy();
     const props = getProps({ setFormData: setFormDataSpy, testChange: null });
     const { container } = render(<ContestableIssues {...props} />);
@@ -139,10 +133,7 @@ describe('<ContestableIssues>', () => {
     });
   });
 
-  // Skipping this test as it requires interaction with the shadow DOM now that the
-  // checkbox has been converted to a web component. This is not supported until we get
-  // the Node 22 release implemented. Ticket created to revisit https://github.com/department-of-veterans-affairs/va.gov-team/issues/115083
-  xit('should call set form data when an additional issue checkbox is toggled', () => {
+  it('should call set form data when an additional issue checkbox is toggled', () => {
     const setFormDataSpy = sinon.spy();
     const props = getProps({
       loadedIssues: [],
@@ -164,10 +155,7 @@ describe('<ContestableIssues>', () => {
     });
   });
 
-  // Skipping this test as it requires interaction with the shadow DOM now that the
-  // checkbox has been converted to a web component. This is not supported until we get
-  // the Node 22 release implemented. Ticket created to revisit https://github.com/department-of-veterans-affairs/va.gov-team/issues/115083
-  xit('should show max selection error modal', async () => {
+  it('should show max selection error modal', async () => {
     const props = getProps({
       loadedIssues: new Array(100).fill({ [SELECTED]: true }),
     });

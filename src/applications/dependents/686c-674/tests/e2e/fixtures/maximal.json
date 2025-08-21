@@ -86,8 +86,6 @@
     },
     "spouseInformation": {
       "ssn": "333445555",
-      "vaFileNumber": "987654321",
-      "serviceNumber": "W123456",
       "birthDate": "1991-02-19",
       "isVeteran": true,
       "fullName": {
@@ -139,7 +137,7 @@
         "incomeInLastYear": "NA",
         "marriageEndDescription": "Other",
         "marriageEndDate": "2021-08-18",
-        "marriageEndReason": "Other",
+        "marriageEndReason": "other",
         "doesChildLiveWithYou": true,
         "hasChildEverBeenMarried": true,
         "doesChildHaveDisability": false,
@@ -203,6 +201,7 @@
     "metadata": {
       "former marriagesForceRenderTimestamp": 1745275642611
     },
+    "privacyAgreementAccepted": true,
     "studentInformation": [
       {
         "studentNetworthInformation": {
@@ -295,7 +294,6 @@
     ],
     "stepChildren": [
       {
-        "dateStepchildLeftHousehold": "2000-02-02",
         "whoDoesTheStepchildLiveWith": {
           "first": "John",
           "last": "Doe"

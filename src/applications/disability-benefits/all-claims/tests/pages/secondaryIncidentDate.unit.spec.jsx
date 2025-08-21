@@ -7,7 +7,6 @@ import {
   DefinitionTester,
   fillDate,
 } from 'platform/testing/unit/schemaform-utils';
-import { waitFor } from '@testing-library/dom';
 import formConfig from '../../config/form';
 import { ERR_MSG_CSS_CLASS } from '../../constants';
 
@@ -15,7 +14,7 @@ describe('781a Incident Date', () => {
   const page = formConfig.chapters.disabilities.pages.secondaryIncidentDate0;
   const { schema, uiSchema, arrayPath } = page;
 
-  it('should render', async () => {
+  it('should render', () => {
     const form = mount(
       <DefinitionTester
         arrayPath={arrayPath}
@@ -31,7 +30,7 @@ describe('781a Incident Date', () => {
     form.unmount();
   });
 
-  it('should fill in incident date', async () => {
+  it('should fill in incident date', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -45,15 +44,13 @@ describe('781a Incident Date', () => {
     );
 
     fillDate(form, 'root_secondaryIncident0_incidentDate', '2016-07-10');
-    await waitFor(() => {
-      form.find('form').simulate('submit');
+    form.find('form').simulate('submit');
 
-      expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
-      expect(onSubmit.called).to.be.true;
-    });
+    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
     form.unmount();
   });
-  it('should allow submission if no incident date submitted', async () => {
+  it('should allow submission if no incident date submitted', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -67,11 +64,9 @@ describe('781a Incident Date', () => {
       />,
     );
 
-    await waitFor(() => {
-      form.find('form').simulate('submit');
-      expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
-      expect(onSubmit.called).to.be.true;
-    });
+    form.find('form').simulate('submit');
+    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
     form.unmount();
   });
 });

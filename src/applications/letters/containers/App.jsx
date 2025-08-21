@@ -21,12 +21,7 @@ export function App({ featureFlagsLoading, user }) {
       <AppContent featureFlagsLoading={featureFlagsLoading}>
         <DowntimeBanner
           appTitle="Letters Generator"
-          dependencies={[
-            externalServices.evss,
-            externalServices.lighthouseBenefitsClaims,
-            externalServices.vaProfile,
-            externalServices.global,
-          ]}
+          dependencies={[externalServices.evss]}
         />
         <Outlet />
       </AppContent>

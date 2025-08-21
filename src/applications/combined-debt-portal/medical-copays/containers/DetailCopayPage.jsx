@@ -3,9 +3,9 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 
-import Modals from '../../combined/components/Modals';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import Modals from '../components/Modals';
 import Alert from '../../combined/components/MCPAlerts';
 import StatementTable from '../components/StatementTable';
 import DownloadStatement from '../components/DownloadStatement';
@@ -21,9 +21,6 @@ const DetailCopayPage = ({ match }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const showVHAPaymentHistory = useToggleValue(
     TOGGLE_NAMES.showVHAPaymentHistory,
-  );
-  const showCDPOneThingPerPage = useToggleValue(
-    TOGGLE_NAMES.showCDPOneThingPerPage,
   );
 
   // Get the selected copay statement ID from the URL
@@ -119,8 +116,7 @@ const DetailCopayPage = ({ match }) => {
         <h1 data-testid="detail-page-title" className="vads-u-margin-bottom--2">
           {title}
         </h1>
-
-        {showCDPOneThingPerPage && (
+        {showVHAPaymentHistory ? null : (
           <p className="va-introtext">
             Updated on {statementDate}. Payments after this date will not be
             reflected here.

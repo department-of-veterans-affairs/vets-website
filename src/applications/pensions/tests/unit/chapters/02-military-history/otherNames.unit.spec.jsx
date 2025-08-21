@@ -4,7 +4,7 @@ import { render } from '@testing-library/react';
 
 import {
   FakeProvider,
-  testComponentFieldsMarkedAsRequired,
+  testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfFieldsByType,
   testNumberOfWebComponentFields,
   testSubmitsWithoutErrors,
@@ -27,11 +27,12 @@ describe('pensions list of other service names', () => {
     pageTitle,
   );
 
-  testComponentFieldsMarkedAsRequired(
+  const expectedNumberOfErrors = 2;
+  testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     schema,
     uiSchema,
-    [`va-text-input[label="First name"]`, `va-text-input[label="Last name"]`],
+    expectedNumberOfErrors,
     pageTitle,
   );
 

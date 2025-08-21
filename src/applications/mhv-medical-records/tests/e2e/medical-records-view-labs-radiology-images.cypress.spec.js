@@ -25,7 +25,7 @@ describe('Medical Records - Radiology images are shown when requested', () => {
     const studyId = statusResponseComplete[0].studyIdUrn;
     RadiologyDetailsPage.clickViewImages(studyId, viewImagesResponse);
 
-    RadiologyDetailsPage.verifyH1Focus();
+    RadiologyDetailsPage.verifyFocus();
 
     RadiologyDetailsPage.verifyRadiologyImageCount(10);
 

@@ -25,6 +25,7 @@ export const EvidenceIssueAndDates = ({
       onBlur={handlers.onBlur}
       error={showError('issues')}
       required
+      uswds
     >
       {availableIssues.length ? (
         availableIssues.map((issue, index) => (
@@ -36,6 +37,7 @@ export const EvidenceIssueAndDates = ({
             label={issue}
             value={issue}
             checked={(currentData?.issues || []).includes(issue)}
+            uswds
           />
         ))
       ) : (
@@ -79,6 +81,7 @@ export const EvidenceIssueAndDates = ({
           invalidDay={isInvalid('from', 'day')}
           invalidYear={isInvalid('from', 'year')}
           month-select={false}
+          uswds
         />
         <VaMemorableDate
           id="to-date"
@@ -93,6 +96,7 @@ export const EvidenceIssueAndDates = ({
           invalidDay={isInvalid('to', 'day')}
           invalidYear={isInvalid('to', 'year')}
           month-select={false}
+          uswds
         />
       </>
     )}

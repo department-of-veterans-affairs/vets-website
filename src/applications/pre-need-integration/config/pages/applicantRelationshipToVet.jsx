@@ -1,7 +1,6 @@
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema.json';
 
 import { merge, pick } from 'lodash';
-import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
 
 import {
   applicantInformationDescription,
@@ -22,7 +21,6 @@ export function uiSchema(
         'ui:description': description,
         relationshipToVet: {
           'ui:title': title,
-          'ui:webComponentField': VaSelectField,
           'ui:options': options,
         },
         'view:applicantInformationDescription': {

@@ -2,9 +2,7 @@
  * @module services/Slot/transformers
  */
 
-import { isValid, parseISO } from 'date-fns';
-import { formatInTimeZone } from 'date-fns-tz';
-import { DATE_FORMATS } from '../../utils/constants';
+import moment from 'moment';
 
 /**
  * Transforms /vaos/v2/locations/${facilityId}/clinics/${clinicId}/slots?start=${startDate}&end=${endDate} to
@@ -18,19 +16,11 @@ export function transformV2Slots(slots) {
   return (
     slots
       // moved over from action creator
-      .filter(slot => !!slot.start && isValid(new Date(slot.start)))
+      .filter(slot => !!slot.start && moment(slot.start).isValid())
       .map(slot => ({
         id: slot.id,
-        start: formatInTimeZone(
-          parseISO(slot.start),
-          'UTC',
-          DATE_FORMATS.ISODateTimeUTC,
-        ),
-        end: formatInTimeZone(
-          parseISO(slot.end),
-          'UTC',
-          DATE_FORMATS.ISODateTimeUTC,
-        ),
+        start: slot.start,
+        end: slot.end,
       }))
   );
 }

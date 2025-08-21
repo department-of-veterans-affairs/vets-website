@@ -2,37 +2,24 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import {
   fieldsMustMatchValidation,
-  validateMarriageAfterDob,
-  validateMarriageAfterSponsorDob,
+  noDash,
+  validateApplicantSsnIsUnique,
+  validateSponsorSsnIsUnique,
 } from '../../../helpers/validations';
 import {
   certifierAddressCleanValidation,
   applicantAddressCleanValidation,
   validFieldCharsOnly,
   validObjectCharsOnly,
-  noDash,
-  validateApplicantSsnIsUnique,
-  validateSponsorSsnIsUnique,
 } from '../../../../shared/validations';
 
 const REVIEW_PATH =
   'http://localhost:3001/family-and-caregiver-benefits/health-and-disability/champva/apply-form-10-10d/review-and-submit';
 
 function stubWindowLocation(url) {
-  const originalLocation = window.location;
-
-  // Use defineProperty instead of direct assignment
-  Object.defineProperty(window, 'location', {
-    writable: true,
-    value: { href: url },
-  });
-
-  return () => {
-    Object.defineProperty(window, 'location', {
-      writable: true,
-      value: originalLocation,
-    });
-  };
+  const originalHref = window.location.href;
+  window.location = { href: url };
+  return originalHref;
 }
 
 describe('fieldsMustMatchValidation helper', () => {
@@ -51,7 +38,7 @@ describe('fieldsMustMatchValidation helper', () => {
   it('should add error message when certifierPhone does not match applicantPhone', () => {
     // Set window.location.href to be review-and-submit since this validation
     // only fires on review page:
-    const restoreLocation = stubWindowLocation(REVIEW_PATH);
+    const hrefBeforeMock = stubWindowLocation(REVIEW_PATH);
 
     expect(errorMessage[0]).to.be.undefined;
 
@@ -77,7 +64,7 @@ describe('fieldsMustMatchValidation helper', () => {
     expect(errorMessage.length > 0).to.be.true;
 
     // Restore original href
-    restoreLocation();
+    window.location = { href: hrefBeforeMock };
   });
 
   it('should add error message when certifierName does not match veteransFullName', () => {
@@ -497,77 +484,5 @@ describe('SSN validation helpers', () => {
       validateApplicantSsnIsUnique(errors, page);
       expect(errors.applicantSSN.addError.called).to.be.false;
     });
-
-    it('should return undefined when `view:pagePerItemIndex` is undefined', () => {
-      const page = {
-        applicantSSN: '987-65-4321',
-        'view:sponsorSSN': '123-45-6789',
-        'view:applicantSSNArray': ['987-65-4321', '234-56-7890'],
-      };
-
-      const res = validateApplicantSsnIsUnique(errors, page);
-      expect(errors.applicantSSN.addError.called).to.be.false;
-      expect(res).to.be.undefined;
-    });
-
-    it('should return undefined when `view:applicantSSNArray` is undefined', () => {
-      const page = {
-        applicantSSN: '987-65-4321',
-        'view:sponsorSSN': '123-45-6789',
-        'view:applicantSSNArray': ['987-65-4321', '234-56-7890'],
-      };
-
-      const res = validateApplicantSsnIsUnique(errors, page);
-      expect(errors.applicantSSN.addError.called).to.be.false;
-      expect(res).to.be.undefined;
-    });
-  });
-});
-
-describe('validateMarriageAfterDob', () => {
-  let errors;
-
-  beforeEach(() => {
-    errors = {
-      addError: sinon.spy(),
-    };
-  });
-
-  it('should set an error if applicant date of birth after applicant date of marriage', () => {
-    validateMarriageAfterDob(errors, '2000-01-01', {
-      applicantDob: '2001-01-01',
-    });
-    expect(errors.addError.calledOnce).to.be.true;
-  });
-
-  it('should NOT set an error if applicant date of birth before applicant date of marriage', () => {
-    validateMarriageAfterDob(errors, '2000-01-01', {
-      applicantDob: '1980-01-01',
-    });
-    expect(errors.addError.calledOnce).to.be.false;
-  });
-});
-
-describe('validateMarriageAfterSponsorDob', () => {
-  let errors;
-
-  beforeEach(() => {
-    errors = {
-      addError: sinon.spy(),
-    };
-  });
-
-  it('should set an error if sponsor date of birth after applicant date of marriage', () => {
-    validateMarriageAfterSponsorDob(errors, '2000-01-01', {
-      'view:sponsorDob': '2001-01-01',
-    });
-    expect(errors.addError.calledOnce).to.be.true;
-  });
-
-  it('should NOT set an error if sponsor date of birth before applicant date of marriage', () => {
-    validateMarriageAfterSponsorDob(errors, '2000-01-01', {
-      'view:sponsorDob': '1980-01-01',
-    });
-    expect(errors.addError.calledOnce).to.be.false;
   });
 });

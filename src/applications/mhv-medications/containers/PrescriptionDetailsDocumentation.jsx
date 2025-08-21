@@ -2,10 +2,8 @@ import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom-v5-compat';
 import { useSelector } from 'react-redux';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import {
-  MhvPageNotFound,
-  updatePageTitle,
-} from '@department-of-veterans-affairs/mhv/exports';
+import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
+import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import {
@@ -29,11 +27,6 @@ import CallPharmacyPhone from '../components/shared/CallPharmacyPhone';
 import { selectGroupingFlag } from '../util/selectors';
 import { useGetPrescriptionDocumentationQuery } from '../api/prescriptionsApi';
 import { usePrescriptionData } from '../hooks/usePrescriptionData';
-import {
-  selectSortOption,
-  selectFilterOption,
-  selectPageNumber,
-} from '../selectors/selectPreferences';
 
 const PrescriptionDetailsDocumentation = () => {
   const { prescriptionId } = useParams();
@@ -58,9 +51,13 @@ const PrescriptionDetailsDocumentation = () => {
   } = useGetPrescriptionDocumentationQuery(prescriptionId);
 
   // Get sort/filter selections from store.
-  const selectedSortOption = useSelector(selectSortOption);
-  const selectedFilterOption = useSelector(selectFilterOption);
-  const currentPage = useSelector(selectPageNumber);
+  const selectedSortOption = useSelector(
+    state => state.rx.preferences.sortOption,
+  );
+  const selectedFilterOption = useSelector(
+    state => state.rx.preferences.filterOption,
+  );
+  const currentPage = useSelector(state => state.rx.preferences.pageNumber);
   // Consolidate query parameters into a single state object to avoid multiple re-renders
   const showGroupingContent = useSelector(selectGroupingFlag);
   const [queryParams] = useState({
@@ -143,7 +140,7 @@ const PrescriptionDetailsDocumentation = () => {
           'medications',
           `medication-information-${prescription.prescriptionName}-${dateFormat(
             Date.now(),
-            'M-D-YYYY_hmmssa',
+            'M-D-YYYY',
           ).replace(/\./g, '')}`,
           setup,
         );
@@ -155,7 +152,7 @@ const PrescriptionDetailsDocumentation = () => {
             userName.first
               ? `${userName.first}-${userName.last}`
               : userName.last
-          }-${dateFormat(Date.now(), 'M-D-YYYY_hmmssa').replace(/\./g, '')}`,
+          }-${dateFormat(Date.now(), 'M-D-YYYY').replace(/\./g, '')}`,
         );
       }
       setIsSuccess(true);
@@ -177,7 +174,7 @@ const PrescriptionDetailsDocumentation = () => {
   );
 
   if (!isDisplayingDocumentation) {
-    return <MhvPageNotFound />;
+    return <PageNotFound />;
   }
   if (hasDocApiError || prescriptionApiError) {
     return (

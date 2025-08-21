@@ -20,9 +20,7 @@ describe('VAOS appointment helpers', () => {
     ];
     testCases.forEach(([daysAgo, expected]) => {
       it(`should return ${expected} if the start date was ${daysAgo} days ago`, () => {
-        const today = new Date();
-        today.setHours(12, 0, 0, 0); // Set to noon to avoid time-of-day issues
-        const appointmentStart = subDays(today, daysAgo);
+        const appointmentStart = subDays(new Date(), daysAgo).toISOString();
         expect(getDaysRemainingToFileClaim(appointmentStart)).to.equal(
           expected,
         );

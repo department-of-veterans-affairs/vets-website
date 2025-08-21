@@ -1,217 +1,219 @@
 {
-  "householdIncome": false,
-  "view:childrenToAddMissingInformation": {},
-  "view:completedAddChild": false,
-  "view:veteranMarriageHistoryMissingInformation": {},
-  "view:completedVeteranFormerMarriage": false,
-  "view:spouseMarriageHistoryMissingInformation": {},
-  "view:completedSpouseFormerMarriage": false,
-  "currentMarriageInformation": {
-    "typeOfMarriage": "OTHER",
-    "typeOther": "Married by the Captain of the Black Pearl",
-    "view:marriageTypeInformation": {},
-    "outsideUsa": true,
-    "location": {
-      "city": "Fakesville",
-      "country": "AUS"
-    },
-    "date": "2025-01-19"
-  },
-  "doesLiveWithSpouse": {
-    "spouseIncome": "Y",
-    "currentSpouseReasonForSeparation": "OTHER",
-    "other": "Work and property management reasons",
-    "address": {
-      "view:militaryBaseDescription": {},
-      "country": "USA",
-      "street": "123 Fake St.",
-      "street2": "Street 2",
-      "street3": "Street 3",
-      "city": "Fakesville",
-      "state": "AL",
-      "postalCode": "12345"
-    },
-    "spouseDoesLiveWithVeteran": false
-  },
-  "spouseInformation": {
-    "ssn": "333445555",
-    "birthDate": "1979-02-19",
-    "isVeteran": false,
-    "fullName": {
-      "first": "John",
-      "middle": "H",
-      "last": "Doe"
-    }
-  },
-  "view:cancelAddSpouse": {},
-  "veteranInformation": {
-      "fullName": {
-        "first": "Pauline",
-        "middle": "E",
-        "last": "Foster"
-      },
-      "ssn": "796330625",
-      "birthDate": "1976-06-09",
-      "ssnLastFour": "0625",
-      "vaFileLastFour": "0625"
-    },
-  "veteranContactInformation": {
-    "phoneNumber": "8008885555",
-    "internationalPhoneNumber": "18008885555",
-    "emailAddress": "nope@nope.com",
-    "electronicCorrespondence": false,
-    "veteranAddress": {
-      "view:militaryBaseDescription": {},
-      "country": "USA",
-      "street": "123 Fake St.",
-      "city": "Fakesville",
-      "state": "AL",
-      "postalCode": "12345"
-    }
-  },
-  "view:addDependentOptions": {
-    "addSpouse": true,
-    "addChild": true
-  },
-  "view:addDependentOptionsDescription": {},
-  "view:addOrRemoveDependents": {
-    "add": true
-  },
-  "useV2": true,
-  "view:removeDependentOptions": {},
-  "spouseMarriageHistory": [
-    {
-      "endLocation": {
-        "location": {
-          "city": "Fakesville",
-          "state": "GA"
-        }
-      },
-      "startLocation": {
-        "location": {
-          "city": "Fakesville",
-          "state": "CT"
-        }
-      },
-      "endDate": "2007-07-19",
-      "startDate": "2005-04-19",
-      "reasonMarriageEnded": "Divorce",
-      "fullName": {
-        "first": "John-Name",
-        "middle": "J",
-        "last": "Doe"
-      }
-    }
-  ],
-  "veteranMarriageHistory": [
-    {
-      "endLocation": {
-        "location": {
-          "city": "North Las Vegas",
-          "state": "NV"
-        }
-      },
-      "startLocation": {
-        "location": {
-          "city": "Fakesville",
-          "state": "AZ"
-        }
-      },
-      "endDate": "2007-04-19",
-      "startDate": "2000-03-19",
-      "reasonMarriageEnded": "Divorce",
-      "fullName": {
-        "first": "Sally",
-        "middle": "Mae",
-        "last": "Doe"
-      }
-    }
-  ],
+  "householdIncome": true,
   "childrenToAdd": [
     {
-      "livingWith": {
-        "first": "John",
-        "middle": "G",
-        "last": "Doe"
-      },
       "address": {
         "view:militaryBaseDescription": {},
         "country": "USA",
         "street": "123 Fake St.",
         "city": "Fakesville",
-        "state": "MO",
-        "postalCode": "12345"
+        "state": "AL",
+        "postalCode": "43242"
       },
-      "incomeInLastYear": "N",
-      "marriageEndDate": "2025-02-18",
-      "marriageEndReason": "Other",
-      "marriageEndDescription": "Other way",
-      "doesChildLiveWithYou": false,
-      "hasChildEverBeenMarried": true,
-      "doesChildHavePermanentDisability": true,
-      "view:disabilityInfo": {},
-      "doesChildHaveDisability": true,
-      "isBiologicalChildOfSpouse": false,
-      "dateEnteredHousehold": "2023-04-19",
+      "isBiologicalChildOfSpouse": true,
+      "dateEnteredHousehold": "2023-02-01",
       "view:biologicalParentInfo": {},
       "biologicalParentName": {
-        "first": "John",
+        "first": "Jane",
         "last": "Doe"
       },
-      "biologicalParentSsn": "333445555",
-      "biologicalParentDob": "1991-09-19",
+      "biologicalParentSsn": "432432432",
+      "biologicalParentDob": "1990-02-01",
+      "incomeInLastYear": "Y",
+      "livingWith": {
+        "first": "John",
+        "last": "Doe II"
+      },
+      "doesChildHaveDisability": false,
+      "doesChildLiveWithYou": false,
+      "hasChildEverBeenMarried": false,
+      "isBiologicalChild": true,
       "relationshipToChild": {
         "stepchild": true
       },
-      "view:commonEvidenceInfo": {},
-      "view:stepchildAdditionalEvidenceDescription": {},
-      "isBiologicalChild": false,
       "birthLocation": {
         "location": {
           "city": "Fakesville",
-          "state": "ID",
-          "postalCode": "12345"
+          "state": "AK",
+          "postalCode": "43222"
         }
       },
-      "ssn": "333445555",
+      "ssn": "432432432",
       "fullName": {
-        "first": "Child",
-        "middle": "M",
+        "first": "John",
         "last": "Doe"
       },
-      "birthDate": "2012-04-19"
+      "birthDate": "2000-02-01",
+      "view:isUnmarriedAndInSchool": "Y",
+      "view:hasReceivedBenefits": "N"
     }
   ],
-
-  "spouseSupportingDocuments": [
-      {
-        "name": "Screenshot from 2025-04-23 13-28-43.png",
-        "confirmationCode": "0a6fc362-f125-4796-84c9-c13435363329",
-        "attachmentId": "",
-        "isEncrypted": false
+  "veteranWasMarriedBefore": false,
+  "view:completedVeteranFormerMarriage": false,
+  "veteranMarriageHistory": [
+    {
+      "endLocation": {
+        "location": {
+          "city": "Fakesville",
+          "state": "GA"
+        },
+        "isOutsideUs": false,
+        "state": "AL",
+        "city": "birmingham"
       },
-      {
-        "name": "Screenshot from 2025-04-23 13-28-59.png",
-        "confirmationCode": "9a267bd7-f459-47e5-903e-baab21953ffd",
-        "attachmentId": "",
-        "isEncrypted": false
+      "startLocation": {
+        "location": {
+          "city": "Fakesville",
+          "state": "GA"
+        },
+        "isOutsideUs": false,
+        "state": "FL",
+        "city": "ft lauderdale"
+      },
+      "fullName": {
+        "first": "Jasmine",
+        "last": "Doe"
+      },
+      "startDate": "2006-09-03",
+      "reasonMarriageEnded": "Divorce",
+      "endDate": "2009-08-09"
+    }
+  ],
+  "spouseWasMarriedBefore": false,
+  "view:completedSpouseFormerMarriage": false,
+  "spouseMarriageHistory": [
+    {
+      "reasonMarriageEnded": "Other",
+      "otherReasonMarriageEnded": "other way",
+      "fullName": {
+        "first": "Jake",
+        "last": "Doe"
+      },
+      "startDate": "2005-08-09",
+      "endDate": "2007-09-08",
+      "reasonMarriageEndedOther": "Other reason",
+      "startLocation": {
+        "outsideUsa": true,
+        "location": {
+          "city": "Foreign city",
+          "country": "AUS"
+        }
+      },
+      "endLocation": {
+        "outsideUsa": false,
+        "location": {
+          "state": "NV",
+          "city": "Las Vegas"
+        }
       }
-    ],
-
-    "childSupportingDocuments": [
-      {
-        "name": "Screenshot from 2025-04-21 12-47-33.png",
-        "confirmationCode": "e13a641a-23e0-4e08-aa0f-bfc1b3e61519",
-        "attachmentId": "",
-        "isEncrypted": false
-      }
-    ],
-  
-  "view:additionalEvidenceDescription": {},
+    }
+  ],
+  "doesLiveWithSpouse": {
+    "spouseDoesLiveWithVeteran": false,
+    "currentSpouseReasonForSeparation": "OTHER",
+    "address": {
+      "view:livesOnMilitaryBaseInfo": {},
+      "country": "USA",
+      "street": "1600 Pennsylvania Ave",
+      "city": "Washington",
+      "state": "DC",
+      "postalCode": "20500"
+    },
+    "other": "Other reason"
+  },
+  "currentMarriageInformation": {
+    "outsideUsa": true,
+    "location": {
+      "city": "Fakesville",
+      "country": "AUS"
+    },
+    "date": "2009-04-01",
+    "typeOfMarriage": "CIVIL",
+    "view:marriageTypeInformation": {}
+  },
+  "spouseInformation": {
+    "fullName": {
+      "first": "jane",
+      "last": "doe"
+    },
+    "ssn": "123211234",
+    "birthDate": "1991-02-03",
+    "isVeteran": false,
+    "vaFileNumber": "12321345",
+    "serviceNumber": "12321345"
+  },
+  "veteranContactInformation": {
+    "veteranAddress": {
+      "view:livesOnMilitaryBase": false,
+      "view:livesOnMilitaryBaseInfo": {},
+      "country": "USA",
+      "street": "1600 Fakesville Ave",
+      "city": "Washington",
+      "state": "DC",
+      "postalCode": "20500"
+    },
+    "phoneNumber": "1231231234",
+    "emailAddress": "nope@nope.org"
+  },
+  "view:686Information": {},
+  "view:addOrRemoveDependents": {
+    "add": true,
+    "remove": false
+  },
   "view:selectable686Options": {
     "addSpouse": true,
     "addChild": true
   },
-  "statementOfTruthSignature": "Pauline E Foster",
-  "statementOfTruthCertified": true
+  "view:addDependentOptions": {
+    "addSpouse": true,
+    "addChild": true
+  },
+  "view:removeDependentOptions": {},
+  "view:additionalEvidenceDescription": {},
+  "studentNameAndSsn": {
+    "view:674Information": {},
+    "fullName": {}
+  },
+  "studentAddressMarriageTuition": {
+    "address": {
+      "view:livesOnMilitaryBaseInfo": {}
+    }
+  },
+  "schoolInformation": {
+    "address": {}
+  },
+  "currentTermDates": {},
+  "programInformation": {},
+  "reportDivorce": {
+    "fullName": {},
+    "divorceLocation": {
+      "outsideUsa": false
+    }
+  },
+  "view:completedMarriedChild": false,
+  "childMarriage": [
+    {}
+  ],
+  "childStoppedAttendingSchool": [
+    {
+      "fullName": {}
+    }
+  ],
+  "childSupportingDocuments": [
+    {
+      "name": "Screenshot from 2025-02-03 13-37-07.png",
+      "confirmationCode": "14b02a60-7825-4978-96b1-5d3cc4b1803d",
+      "attachmentId": "",
+      "isEncrypted": false
+    }
+  ],
+  "spouseSupportingDocuments": [
+    {
+      "name": "Screenshot from 2025-02-03 13-37-07.png",
+      "confirmationCode": "14b02a60-7825-4978-96b1-5d3cc4b1803d",
+      "attachmentId": "",
+      "isEncrypted": false
+    }
+  ],
+  "view:completedAddChild": false
 }

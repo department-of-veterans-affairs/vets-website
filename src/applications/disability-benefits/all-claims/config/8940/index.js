@@ -35,7 +35,7 @@ import captureEvents from '../../analytics-functions';
 
 import formConfig4192 from '../4192';
 
-export default function createformConfig8940() {
+export default function() {
   if (
     // need this environment check for unit tests to work
     environment.isProduction() &&

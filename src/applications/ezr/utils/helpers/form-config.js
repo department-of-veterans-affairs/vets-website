@@ -1,9 +1,5 @@
 import { isBefore, subYears, isWithinInterval } from 'date-fns';
-import {
-  DEPENDENT_VIEW_FIELDS,
-  INSURANCE_VIEW_FIELDS,
-  MAX_DEPENDENTS,
-} from '../constants';
+import { DEPENDENT_VIEW_FIELDS, INSURANCE_VIEW_FIELDS } from '../constants';
 
 /**
  * Helper that determines if the form data is missing the Veteran's date of birth
@@ -12,6 +8,15 @@ import {
  */
 export function isMissingVeteranDob(formData) {
   return !formData['view:userDob'];
+}
+
+/**
+ * Helper that determines if the form data has emergency contact address enabled
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the viewfield is empty
+ */
+export function hasEmergencyContactAddress(formData) {
+  return formData['view:hasEmergencyContactAddress'];
 }
 
 /**
@@ -30,6 +35,15 @@ export function isMissingVeteranGender(formData) {
  */
 export function isEmergencyContactsEnabled(formData) {
   return formData['view:isEmergencyContactsEnabled'];
+}
+
+/**
+ * Helper that determines if next of kin is enabled
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the viewfield is empty
+ */
+export function isNextOfKinEnabled(formData) {
+  return formData['view:isNextOfKinEnabled'];
 }
 
 /**
@@ -256,10 +270,8 @@ export function spouseAddressDoesNotMatchVeterans(formData) {
  * @returns {Boolean} - true if viewfield is set to `false`
  */
 export function includeDependentInformation(formData) {
-  const hasMaxDependents = formData.dependents?.length >= MAX_DEPENDENTS;
   return (
     includeHouseholdInformation(formData) &&
-    !hasMaxDependents &&
     !formData[DEPENDENT_VIEW_FIELDS.skip]
   );
 }
@@ -281,36 +293,4 @@ export function collectMedicareInformation(formData) {
  */
 export function includeInsuranceInformation(formData) {
   return !formData[INSURANCE_VIEW_FIELDS.skip];
-}
-
-export function includeHouseholdInformationWithV1Prefill(formData) {
-  return (
-    includeHouseholdInformation(formData) &&
-    !formData['view:isProvidersAndDependentsPrefillEnabled']
-  );
-}
-
-export function includeHouseholdInformationWithV2Prefill(formData) {
-  return (
-    includeHouseholdInformation(formData) &&
-    formData['view:isProvidersAndDependentsPrefillEnabled']
-  );
-}
-
-export function includeSpousalInformationWithV1Prefill(formData) {
-  if (!includeHouseholdInformationWithV1Prefill(formData)) return false;
-  const { maritalStatus } = formData['view:maritalStatus'];
-  return (
-    maritalStatus?.toLowerCase() === 'married' ||
-    maritalStatus?.toLowerCase() === 'separated'
-  );
-}
-
-export function includeSpousalInformationWithV2Prefill(formData) {
-  if (!includeHouseholdInformationWithV2Prefill(formData)) return false;
-  const { maritalStatus } = formData['view:maritalStatus'];
-  return (
-    maritalStatus?.toLowerCase() === 'married' ||
-    maritalStatus?.toLowerCase() === 'separated'
-  );
 }

@@ -1,9 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, waitFor } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
 const yesLabel = 'Yes, I have uploaded all my supporting documents.';
@@ -44,7 +44,7 @@ describe('Fully Developed Claim', () => {
     getByLabelText(noLabel);
   });
 
-  it('should display error when missing required field', async () => {
+  it('should display error when missing required field', () => {
     const onSubmit = sinon.spy();
     const { getByText } = render(
       <DefinitionTester
@@ -58,10 +58,8 @@ describe('Fully Developed Claim', () => {
     );
 
     userEvent.click(getByText('Submit'));
-    await waitFor(() => {
-      getByText('You must provide a response');
-      expect(onSubmit.calledOnce).to.be.false;
-    });
+    getByText('You must provide a response');
+    expect(onSubmit.calledOnce).to.be.false;
   });
 
   it('should display alert when selecting yes', () => {

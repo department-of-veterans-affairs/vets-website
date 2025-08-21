@@ -51,7 +51,7 @@ const DownloadStatement = ({ statementId, statementDate, fullName }) => {
             Download {formattedStatementDate} dated medical copay statement{' '}
           </span>
           <dfn>
-            <abbr title="Portable Document Format"> (PDF)</abbr>
+            <abbr title="Portable Document Format">(PDF)</abbr>
           </dfn>
         </a>
       </div>

@@ -1,9 +1,18 @@
+import appendQuery from 'append-query';
 import { apiRequest } from 'platform/utilities/api';
 import {
   API_ENDPOINTS,
   ENROLLMENT_STATUS_ACTIONS,
   MOCK_ENROLLMENT_RESPONSE,
 } from '../constants';
+
+const createRequestUrl = ({ dob, firstName, lastName, ssn }) =>
+  appendQuery(API_ENDPOINTS.enrollmentStatus, {
+    'userAttributes[veteranDateOfBirth]': dob,
+    'userAttributes[veteranFullName][first]': firstName,
+    'userAttributes[veteranFullName][last]': lastName,
+    'userAttributes[veteranSocialSecurityNumber]': ssn,
+  });
 
 const sleep = delay => new Promise(resolve => setTimeout(resolve, delay));
 
@@ -52,22 +61,10 @@ export const callAPI = async (dispatch, formData = {}) => {
     FETCH_ENROLLMENT_STATUS_SUCCEEDED,
     FETCH_ENROLLMENT_STATUS_FAILED,
   } = ENROLLMENT_STATUS_ACTIONS;
+  const requestUrl = createRequestUrl({ dob, firstName, lastName, ssn });
 
   try {
-    const response = await apiRequest(API_ENDPOINTS.enrollmentStatus, {
-      method: 'POST',
-      body: JSON.stringify({
-        userAttributes: {
-          veteranDateOfBirth: dob,
-          veteranFullName: {
-            first: firstName,
-            last: lastName,
-          },
-          veteranSocialSecurityNumber: ssn,
-        },
-      }),
-      headers: { 'Content-Type': 'application/json' },
-    });
+    const response = await apiRequest(requestUrl);
     dispatch({ type: FETCH_ENROLLMENT_STATUS_SUCCEEDED, response });
   } catch ({ errors }) {
     dispatch({ type: FETCH_ENROLLMENT_STATUS_FAILED, errors });

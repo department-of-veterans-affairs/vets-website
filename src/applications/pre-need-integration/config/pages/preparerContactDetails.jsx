@@ -1,7 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { merge } from 'lodash';
-import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
 
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema.json';
 import get from 'platform/utilities/data/get';
@@ -24,22 +22,9 @@ import {
 
 const { applicant } = fullSchemaPreNeed.properties.application.properties;
 
-export function DynamicStateSelectFieldPreparer(props) {
-  const formData = useSelector(state => state.form.data || {});
-
-  const dynamicLabel = MailingAddressStateTitle({
-    elementPath:
-      'application.applicant.view:applicantInfo.mailingAddress.country',
-    formData,
-  });
-
-  const modifiedProps = {
-    ...props,
-    label: dynamicLabel,
-  };
-
-  return <VaSelectField {...modifiedProps} />;
-}
+const preparerMailingAddressStateTitleWrapper = (
+  <MailingAddressStateTitle elementPath="application.applicant.view:applicantInfo.mailingAddress.country" />
+);
 
 export const uiSchema = {
   application: {
@@ -47,10 +32,6 @@ export const uiSchema = {
       'view:applicantInfo': {
         mailingAddress: merge({}, address.uiSchema(MailingAddressTitle), {
           country: {
-            'ui:webComponentField': VaSelectField,
-            'ui:options': {
-              classNames: 'selectNonImposter',
-            },
             'ui:required': isAuthorizedAgent,
             'ui:errorMessages': {
               required: 'Select Country',
@@ -73,11 +54,10 @@ export const uiSchema = {
             },
           },
           state: {
-            'ui:webComponentField': DynamicStateSelectFieldPreparer,
+            'ui:title': preparerMailingAddressStateTitleWrapper,
             'ui:required': isAuthorizedAgent,
             'ui:options': {
               hideIf: formData => !preparerAddressHasState(formData),
-              classNames: 'selectNonImposter',
             },
             'ui:errorMessages': {
               enum: 'Select a state or territory',

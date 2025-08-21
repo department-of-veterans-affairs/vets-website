@@ -4,9 +4,6 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import DowntimeNotification, {
-  externalServices,
-} from 'platform/monitoring/DowntimeNotification';
 import BreadCrumbs from '../components/BreadCrumbs';
 import ProgressBar from '../components/ProgressBar';
 import formConfig from '../config/form';
@@ -62,15 +59,10 @@ export default function App({ location, children }) {
   return !isLoadingFeatureFlags ? (
     <>
       <BreadCrumbs currentLocation={location.pathname} />
-      <DowntimeNotification
-        appTitle="Ask VA"
-        dependencies={[externalServices.askva]}
-      >
-        <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-          <ProgressBar pathname={location.pathname} />
-          {children}
-        </RoutedSavableApp>
-      </DowntimeNotification>
+      <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+        <ProgressBar pathname={location.pathname} />
+        {children}
+      </RoutedSavableApp>
     </>
   ) : (
     <></>

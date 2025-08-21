@@ -4,12 +4,8 @@ import configureMockStore from 'redux-mock-store';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
-import { render, fireEvent, waitFor } from '@testing-library/react';
 import { mockFetch } from 'platform/testing/unit/helpers';
-import {
-  DefinitionTester,
-  selectRadio,
-} from 'platform/testing/unit/schemaform-utils';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
 
 const mockStore = configureMockStore();
@@ -48,7 +44,7 @@ describe('Pre-need burial benefits', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.burialBenefits.pages.burialBenefitsVeteran;
+  } = formConfig.chapters.burialBenefits.pages.burialBenefits;
 
   it('should render', () => {
     const form = mount(
@@ -65,9 +61,9 @@ describe('Pre-need burial benefits', () => {
     form.unmount();
   });
 
-  it('should not submit empty form', async () => {
+  it('should not submit empty form', () => {
     const onSubmit = sinon.spy();
-    const { container } = render(
+    const form = mount(
       <Provider store={store}>
         <DefinitionTester
           schema={schema}
@@ -78,33 +74,10 @@ describe('Pre-need burial benefits', () => {
       </Provider>,
     );
 
-    fireEvent.submit(container.querySelector('form'));
-
-    await waitFor(() => {
-      const errorElements = container.querySelectorAll('.usa-input-error');
-      expect(errorElements.length).to.equal(1);
-      expect(onSubmit.called).to.be.false;
-    });
-  });
-
-  it('should submit with required information', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <Provider store={store}>
-        <DefinitionTester
-          schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          onSubmit={onSubmit}
-          uiSchema={uiSchema}
-        />{' '}
-      </Provider>,
-    );
-
-    selectRadio(form, 'root_application_hasCurrentlyBuried', '1');
-
     form.find('form').simulate('submit');
 
-    expect(onSubmit.called).to.be.true;
+    expect(form.find('.usa-input-error').length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
     form.unmount();
   });
 });

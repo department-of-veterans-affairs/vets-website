@@ -77,12 +77,8 @@ export const HelpTextModalities = () => {
   );
 };
 
-export const HelpTextOptions = ({ trigger, headline, dataTestId }) => (
-  <va-additional-info
-    class="vads-u-margin-y--3"
-    trigger={trigger}
-    data-testid={dataTestId}
-  >
+export const HelpTextOptions = ({ trigger, headline }) => (
+  <va-additional-info class="vads-u-margin-y--3" trigger={trigger}>
     <p>
       <strong>{headline}</strong> But you can file your claim online through the
       <va-link
@@ -102,7 +98,6 @@ export const HelpTextOptions = ({ trigger, headline, dataTestId }) => (
 );
 
 HelpTextOptions.propTypes = {
-  dataTestId: PropTypes.string,
   headline: PropTypes.string,
   trigger: PropTypes.string,
 };

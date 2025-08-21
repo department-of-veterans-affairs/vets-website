@@ -17,7 +17,7 @@ describe('<RenderClaimsWidgetDowntimeNotification />', () => {
   it('should render the downtime message when external service status is down', () => {
     const downtime = {
       status: externalServiceStatus.down,
-      endTime: addHours(new Date(), 30),
+      endTime: { toDate: () => addHours(new Date(), 30) },
     };
 
     const view = render(
@@ -31,7 +31,7 @@ describe('<RenderClaimsWidgetDowntimeNotification />', () => {
       .exist;
     expect(view.queryByTestId('test-children')).to.not.exist;
     expect(
-      view.getByText(format(downtime.endTime, 'PPPp'), {
+      view.getByText(format(downtime.endTime.toDate(), 'PPPp'), {
         exact: false,
       }),
     ).to.exist;

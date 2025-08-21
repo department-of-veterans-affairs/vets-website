@@ -37,23 +37,6 @@ const retryOn = async (attempt, error, response) => {
   return false;
 };
 
-export function handleSessionUpdates(response) {
-  const apiURL = environment.API_URL;
-  if (response.url.includes(apiURL)) {
-    /**
-     * Sets sessionExpiration
-     * SAML - Response headers `X-Session-Expiration`
-     * OAuth - Cookie set by response
-     * */
-    checkOrSetSessionExpiration(response);
-
-    // SSOe session is independent of vets-api, and must be kept alive for cross-session continuity
-    if (response.ok || response.status === 304) {
-      checkAndUpdateSSOeSession();
-    }
-  }
-}
-
 export function fetchAndUpdateSessionExpiration(url, settings) {
   // use regular fetch if stubbed by sinon or cypress
   if (fetch.isSinonProxy) {
@@ -69,7 +52,21 @@ export function fetchAndUpdateSessionExpiration(url, settings) {
   };
 
   return _fetch(url, mergedSettings).then(response => {
-    handleSessionUpdates(response);
+    const apiURL = environment.API_URL;
+
+    if (response.url.includes(apiURL)) {
+      /**
+       * Sets sessionExpiration
+       * SAML - Response headers `X-Session-Expiration`
+       * OAuth - Cookie set by response
+       * */
+      checkOrSetSessionExpiration(response);
+
+      // SSOe session is independent of vets-api, and must be kept alive for cross-session continuity
+      if (response.ok || response.status === 304) {
+        checkAndUpdateSSOeSession();
+      }
+    }
     return response;
   });
 }

@@ -22,9 +22,6 @@ const ClaimStatusExplainerPage = () => {
 
   const toggleIsLoading = useToggleLoadingValue();
   const appEnabled = useToggleValue(TOGGLE_NAMES.travelPayPowerSwitch);
-  const claimsMgmtToggle = useToggleValue(
-    TOGGLE_NAMES.travelPayClaimsManagement,
-  );
 
   if (toggleIsLoading) {
     return (
@@ -40,13 +37,6 @@ const ClaimStatusExplainerPage = () => {
 
   if (!appEnabled) {
     window.location.replace('/');
-    return null;
-  }
-
-  // TODO: Once claimsMgmtToggle is on permanently, this page can be
-  // removed along with its route definition
-  if (claimsMgmtToggle) {
-    window.location.replace('/my-health/travel-pay/claims/');
     return null;
   }
 

@@ -2,7 +2,6 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
-import { render, fireEvent, waitFor } from '@testing-library/react';
 
 import {
   DefinitionTester,
@@ -26,9 +25,9 @@ describe('Pre-need service periods', () => {
       form.unmount();
     });
 
-    it('should not submit empty form', async () => {
+    it('should not submit empty form', () => {
       const onSubmit = sinon.spy();
-      const { container } = render(
+      const form = mount(
         <DefinitionTester
           schema={schema}
           definitions={formConfig.defaultDefinitions}
@@ -37,13 +36,11 @@ describe('Pre-need service periods', () => {
         />,
       );
 
-      fireEvent.submit(container.querySelector('form'));
+      form.find('form').simulate('submit');
 
-      await waitFor(() => {
-        const errorElements = container.querySelectorAll('.usa-input-error');
-        expect(errorElements.length).to.equal(1);
-        expect(onSubmit.called).to.be.false;
-      });
+      expect(form.find('.usa-input-error').length).to.equal(1);
+      expect(onSubmit.called).to.be.false;
+      form.unmount();
     });
 
     it('should add another service period', () => {
@@ -123,10 +120,10 @@ describe('Pre-need service periods', () => {
     });
   }
 
-  const { sponsorMilitaryHistory } = formConfig.chapters.militaryHistory.pages;
-  const {
-    applicantMilitaryHistory,
-  } = formConfig.chapters.militaryHistory.pages;
+  const sponsorMilitaryHistory =
+    formConfig.chapters.militaryHistory.pages.sponsorMilitaryHistory;
+  const applicantMilitaryHistory =
+    formConfig.chapters.militaryHistory.pages.applicantMilitaryHistory;
 
   describe('sponsor', () => {
     servicePeriodsTests(sponsorMilitaryHistory);

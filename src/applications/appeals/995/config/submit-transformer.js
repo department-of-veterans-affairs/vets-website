@@ -6,13 +6,11 @@ import {
   getEmail,
   getEvidence,
   getForm4142,
+  getPhone,
   getMstData,
 } from '../utils/submit';
-import {
-  getPhone,
-  addIncludedIssues,
-  getTimeZone,
-} from '../../shared/utils/submit';
+
+import { addIncludedIssues, getTimeZone } from '../../shared/utils/submit';
 
 export function transform(formConfig, form) {
   // https://developer.va.gov/explore/appeals/docs/decision_reviews?version=current
@@ -33,7 +31,7 @@ export function transform(formConfig, form) {
       veteran: {
         timezone: getTimeZone(),
         address: getAddress(formData),
-        phone: getPhone(formData, true),
+        phone: getPhone(formData),
         email: getEmail(formData),
       },
       ...getEvidence(formData),

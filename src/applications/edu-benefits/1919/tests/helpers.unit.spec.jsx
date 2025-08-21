@@ -2,11 +2,10 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import {
-  allProprietaryProfitConflictsArrayOptions,
+  conflictOfInterestArrayOptions,
   getCardTitle,
   getCardDescription,
   showConflictOfInterestText,
-  getTitle,
 } from '../helpers';
 
 describe('helpers ', () => {
@@ -110,7 +109,7 @@ describe('helpers ', () => {
     });
   });
 
-  describe('allProprietaryProfitConflictsArrayOptions', () => {
+  describe('conflictOfInterestArrayOptions', () => {
     it('should return correct card description using getItemName', () => {
       const item = {
         certifyingOfficial: {
@@ -119,60 +118,21 @@ describe('helpers ', () => {
           title: 'Director',
         },
       };
-      expect(
-        allProprietaryProfitConflictsArrayOptions.text.getItemName(item),
-      ).to.equal('Jane Smith');
+      expect(conflictOfInterestArrayOptions.text.getItemName(item)).to.equal(
+        'Jane Smith',
+      );
     });
 
     it('should have text fields set for custom messages', () => {
-      expect(
-        allProprietaryProfitConflictsArrayOptions.text.cancelAddYes,
-      ).to.equal('Yes, cancel');
-      expect(
-        allProprietaryProfitConflictsArrayOptions.text.cancelAddNo,
-      ).to.equal('No, continue adding information');
-      expect(
-        allProprietaryProfitConflictsArrayOptions.text.summaryTitle,
-      ).to.equal(
+      expect(conflictOfInterestArrayOptions.text.cancelAddYes).to.equal(
+        'Yes, cancel',
+      );
+      expect(conflictOfInterestArrayOptions.text.cancelAddNo).to.equal(
+        'No, continue adding information',
+      );
+      expect(conflictOfInterestArrayOptions.text.summaryTitle).to.equal(
         'Review the individuals with a potential conflict of interest that receive VA educational benefits',
       );
-    });
-  });
-
-  describe('getTitle', () => {
-    it('should return "Certifying official" for certifyingOfficial role', () => {
-      const role = { level: 'certifyingOfficial' };
-      expect(getTitle(role)).to.equal('Certifying official');
-    });
-
-    it('should return "Owner" for owner role', () => {
-      const role = { level: 'owner' };
-      expect(getTitle(role)).to.equal('Owner');
-    });
-
-    it('should return "Officer" for officer role', () => {
-      const role = { level: 'officer' };
-      expect(getTitle(role)).to.equal('Officer');
-    });
-
-    it('should return custom title when other is provided', () => {
-      const role = { other: 'Custom Title' };
-      expect(getTitle(role)).to.equal('Custom Title');
-    });
-
-    it('should prioritize other over level when both are provided', () => {
-      const role = { level: 'owner', other: 'Custom Title' };
-      expect(getTitle(role)).to.equal('Custom Title');
-    });
-
-    it('should return undefined for unknown role level', () => {
-      const role = { level: 'unknown' };
-      expect(getTitle(role)).to.equal(undefined);
-    });
-
-    it('should handle empty role object', () => {
-      const role = {};
-      expect(getTitle(role)).to.equal(undefined);
     });
   });
 });

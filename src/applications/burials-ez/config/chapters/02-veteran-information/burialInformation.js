@@ -6,17 +6,32 @@ import {
   dateOfDeathSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import differenceInCalendarMonths from 'date-fns/differenceInCalendarMonths';
-import { generateTitle, DateReviewField } from '../../../utils/helpers';
+import { generateTitle } from '../../../utils/helpers';
+
+export const ReviewField = ({ children }) => (
+  <div className="review-row">
+    <dt>Date of burial</dt>
+    <dd>
+      {children.props.formData && (
+        <>
+          {new Date(`${children.props.formData}T00:00:00`).toLocaleDateString(
+            'en-us',
+            {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            },
+          )}
+        </>
+      )}
+    </dd>
+  </div>
+);
 
 export default {
   uiSchema: {
     'ui:title': generateTitle('Burial information'),
-    deathDate: {
-      ...dateOfDeathUI('Date of death'),
-      'ui:reviewField': props => (
-        <DateReviewField {...props} title="Date of death" />
-      ),
-    },
+    deathDate: dateOfDeathUI('Date of death'),
     burialDate: {
       ...currentOrPastDateUI({
         title: 'Date of burial (includes cremation or interment)',
@@ -40,9 +55,7 @@ export default {
           return errors;
         },
       ],
-      'ui:reviewField': props => (
-        <DateReviewField {...props} title="Date of burial" />
-      ),
+      'ui:reviewField': ReviewField,
     },
   },
   schema: {

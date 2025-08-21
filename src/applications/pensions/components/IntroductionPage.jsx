@@ -23,7 +23,7 @@ const IntroductionPage = props => {
         title="Apply for Veterans Pension benefits"
         subTitle="Application for Veterans Pension (VA Form 21P-527EZ)"
       />
-      <p className="va-introtext">
+      <p>
         Use our online tool to fill out and submit your application for Veterans
         Pension benefits. If you’re a wartime Veteran and you’re at least 65
         years old, or if you have a permanent and total disability, you may be
@@ -129,28 +129,7 @@ const IntroductionPage = props => {
           </va-additional-info>
         </va-process-list-item>
         <va-process-list-item header="Start your application">
-          <p>
-            When you start this application, we automatically record your intent
-            to file for pension benefits.
-          </p>
-          <p>
-            We use your intent to file date to help set a start date (or
-            effective date) for your benefits. If we approve your claim, you may
-            be able to get retroactive payments for the time between your intent
-            to file date and the date we approve your claim.
-          </p>
-          <va-link
-            external="true"
-            href="/resources/your-intent-to-file-a-va-claim/"
-            text="Learn more about intent to file"
-          />
-          <p>
-            We’ll take you through each step of the process. The time it takes
-            to complete the application varies. It depends on what supporting
-            documents you’re required to submit. We’ll let you know what
-            supporting documents are required for you as you fill out the
-            application.
-          </p>
+          <p>We’ll take you through each step of the process.</p>
           <va-additional-info
             trigger="What happens after you apply"
             disable-border
@@ -171,7 +150,6 @@ const IntroductionPage = props => {
         </va-process-list-item>
       </va-process-list>
       <SaveInProgressIntro
-        formConfig={formConfig}
         prefillEnabled={formConfig.prefillEnabled}
         pageList={pageList}
         downtime={route.formConfig.downtime}

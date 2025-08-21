@@ -78,7 +78,7 @@ export default function SelectedProviderSection({ data, vaCityState }) {
           <va-link
             href={ccPreferences.url}
             onClick={handleClick(history, home, ccPreferences)}
-            label="Edit provider preference"
+            aria-label="Edit provider preference"
             text="Edit"
             data-testid="edit-new-appointment"
           />

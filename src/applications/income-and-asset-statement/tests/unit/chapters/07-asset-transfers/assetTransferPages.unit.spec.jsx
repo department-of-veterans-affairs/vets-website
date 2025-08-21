@@ -16,7 +16,7 @@ import {
 } from '../multiPageTests.spec';
 import {
   testNumberOfFieldsByType,
-  testComponentFieldsMarkedAsRequired,
+  testNumberOfErrorsOnSubmitForWebComponents,
   testSelectAndValidateField,
   testSubmitsWithoutErrors,
 } from '../pageTests.spec';
@@ -84,13 +84,11 @@ describe('asset transfer list and loop pages', () => {
       { 'va-radio': 1 },
       'summary page',
     );
-    testComponentFieldsMarkedAsRequired(
+    testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
       uiSchema,
-      [
-        'va-radio[label="In this year or in the past 3 tax years, did you or your dependents transfer any assets?"]',
-      ],
+      1,
       'summary page',
     );
     testSubmitsWithoutErrors(
@@ -118,13 +116,11 @@ describe('asset transfer list and loop pages', () => {
       { 'va-radio': 1 },
       'relationship',
     );
-    testComponentFieldsMarkedAsRequired(
+    testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
       uiSchema,
-      [
-        'va-radio[label="What is the asset’s original owner’s relationship to the Veteran?"]',
-      ],
+      1,
       'relationship',
     );
     testSubmitsWithoutErrors(
@@ -158,14 +154,11 @@ describe('asset transfer list and loop pages', () => {
       { 'va-radio': 1, 'va-text-input': 1 },
       'type',
     );
-    testComponentFieldsMarkedAsRequired(
+    testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
       uiSchema,
-      [
-        'va-radio[label="How was the asset transferred?"]',
-        'va-text-input[label="What asset was transferred?"]',
-      ],
+      2,
       'type',
     );
     testSubmitsWithoutErrors(
@@ -195,16 +188,11 @@ describe('asset transfer list and loop pages', () => {
       },
       'new owner information',
     );
-    testComponentFieldsMarkedAsRequired(
+    testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
       uiSchema,
-      [
-        'va-text-input[label="First name"]',
-        'va-text-input[label="Last name"]',
-        'va-text-input[label="What is the relationship to the new owner?"]',
-        'va-radio[label="Was the sale of the asset reported to the IRS?"]',
-      ],
+      4,
       'new owner information',
     );
     testSubmitsWithoutErrors(
@@ -232,11 +220,11 @@ describe('asset transfer list and loop pages', () => {
       },
       'date',
     );
-    testComponentFieldsMarkedAsRequired(
+    testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
       uiSchema,
-      ['va-memorable-date[label="When was the asset transferred?"]'],
+      1,
       'date',
     );
     testSubmitsWithoutErrors(
@@ -265,13 +253,11 @@ describe('asset transfer list and loop pages', () => {
       },
       'value',
     );
-    testComponentFieldsMarkedAsRequired(
+    testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
       uiSchema,
-      [
-        'va-radio[label="Was the asset transferred for less than fair market value?"]',
-      ],
+      1,
       'value',
     );
     testSubmitsWithoutErrors(

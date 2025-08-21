@@ -173,24 +173,24 @@ describe('arrayBuilderOptions', () => {
       expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
     });
 
-    // it('should return true if child was married but no end date or reason provided', () => {
-    //   const item = {
-    //     fullName: { first: 'Bob', last: 'Ross' },
-    //     birthDate: '1999-01-01',
-    //     ssn: '999-88-7777',
-    //     isBiologicalChild: true,
-    //     birthLocation: {
-    //       location: { city: 'Happy Town', state: 'NM', postalCode: '13232' },
-    //       outsideUsa: false,
-    //     },
-    //     relationshipToChild: {},
-    //     doesChildLiveWithYou: true,
-    //     hasChildEverBeenMarried: true,
-    //     doesChildHaveDisability: false,
-    //     doesChildHavePermanentDisability: false,
-    //   };
-    //   expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
-    // });
+    it('should return true if child was married but no end date or reason provided', () => {
+      const item = {
+        fullName: { first: 'Bob', last: 'Ross' },
+        birthDate: '1999-01-01',
+        ssn: '999-88-7777',
+        isBiologicalChild: true,
+        birthLocation: {
+          location: { city: 'Happy Town', state: 'NM', postalCode: '13232' },
+          outsideUsa: false,
+        },
+        relationshipToChild: {},
+        doesChildLiveWithYou: true,
+        hasChildEverBeenMarried: true,
+        doesChildHaveDisability: false,
+        doesChildHavePermanentDisability: false,
+      };
+      expect(arrayBuilderOptions.isItemIncomplete(item)).to.be.true;
+    });
 
     it('should return true if marriageEndReason is "other" but no description provided', () => {
       const item = {

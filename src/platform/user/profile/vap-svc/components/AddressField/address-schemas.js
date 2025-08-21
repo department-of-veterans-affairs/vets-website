@@ -37,9 +37,6 @@ const MILITARY_STATES = Object.entries(ADDRESS_DATA.states).reduce(
   {},
 );
 
-const CITY_MAX_LENGTH = 100;
-const INTL_POSTAL_CODE_MAX_LENGTH = 100;
-const STATE_MAX_LENGTH = 255;
 const STREET_LINE_MAX_LENGTH = 35;
 const MILITARY_BASE_DATA_INFO = `${MILITARY_BASE_DATA}Info`;
 
@@ -78,8 +75,6 @@ const formSchema = {
     },
     city: {
       type: 'string',
-      minLength: 1,
-      maxLength: CITY_MAX_LENGTH,
       pattern: blockURLsRegEx,
     },
     stateCode: {
@@ -89,7 +84,6 @@ const formSchema = {
     },
     province: {
       type: 'string',
-      maxLength: STATE_MAX_LENGTH,
       pattern: blockURLsRegEx,
     },
     zipCode: {
@@ -98,7 +92,6 @@ const formSchema = {
     },
     internationalPostalCode: {
       type: 'string',
-      maxLength: INTL_POSTAL_CODE_MAX_LENGTH,
       pattern: blockURLsRegEx,
     },
   },
@@ -186,7 +179,7 @@ const uiSchema = {
     'ui:autocomplete': 'address-level2',
     'ui:errorMessages': {
       required: 'City is required',
-      pattern: `Please enter a valid city under ${CITY_MAX_LENGTH} characters`,
+      pattern: `Please enter a valid city under 100 characters`,
     },
     'ui:validations': [validateAsciiCharacters],
     'ui:options': {
@@ -217,12 +210,11 @@ const uiSchema = {
     },
   },
   stateCode: {
-    'ui:title': 'State or territory',
+    'ui:title': 'State',
     'ui:webComponentField': VaSelectField,
     'ui:autocomplete': 'address-level1',
     'ui:errorMessages': {
-      required: 'State or territory is required',
-      pattern: `Please enter a valid state or territory`,
+      required: 'State is required',
     },
     'ui:options': {
       hideIf: formData => formData.countryCodeIso3 !== USA.COUNTRY_ISO3_CODE,
@@ -255,7 +247,7 @@ const uiSchema = {
     'ui:webComponentField': VaTextInputField,
     'ui:autocomplete': 'address-level1',
     'ui:errorMessages': {
-      pattern: `Please enter a valid state, province, or region under ${STATE_MAX_LENGTH} characters`,
+      pattern: `Please enter a valid state, province, or region`,
     },
     'ui:options': {
       hideIf: formData => formData.countryCodeIso3 === USA.COUNTRY_ISO3_CODE,
@@ -284,7 +276,7 @@ const uiSchema = {
     'ui:autocomplete': 'postal-code',
     'ui:errorMessages': {
       required: 'Postal code is required',
-      pattern: `Please enter a valid postal code under ${INTL_POSTAL_CODE_MAX_LENGTH} characters`,
+      pattern: 'Please enter a valid postal code',
     },
     'ui:options': {
       widgetClassNames: 'usa-input-medium',

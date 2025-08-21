@@ -29,7 +29,6 @@ import {
   nameFormat,
   processList,
   removeTrailingSlash,
-  formatDateAndTimeWithGenericZone,
 } from '../../util/helpers';
 import { refreshPhases, VALID_REFRESH_DURATION } from '../../util/constants';
 
@@ -958,49 +957,5 @@ describe('getAppointmentsDateRange', () => {
 
     assertDateComponents(startDate, 2020, 0, 1, 0, 0, 0); // 2020-01-01T00:00:00 local time
     assertDateComponents(endDate, 2023, 1, 1, 23, 59, 59); // 2023-02-01T23:59:59 local time
-  });
-});
-
-describe('formatDateAndTimeWithGenericZone', () => {
-  let tzStub;
-
-  before(() => {
-    // Force user timezone to UTC for deterministic output
-    tzStub = sinon
-      .stub(Intl.DateTimeFormat.prototype, 'resolvedOptions')
-      .returns({ timeZone: 'UTC' });
-  });
-
-  after(() => {
-    tzStub.restore();
-  });
-
-  it('returns full date, time with “a.m.”/“p.m.” and generic zone for UTC', () => {
-    const date = parseISO('2025-02-17T14:30:00Z');
-    const { date: fullDate, time, timeZone } = formatDateAndTimeWithGenericZone(
-      date,
-    );
-
-    expect(fullDate).to.equal('February 17, 2025');
-    expect(time).to.equal('2:30 p.m.');
-    expect(timeZone).to.equal('UTC');
-  });
-
-  it('formats midnight correctly as “12:00 a.m.”', () => {
-    const date = parseISO('2025-02-17T00:00:00Z');
-    const { time } = formatDateAndTimeWithGenericZone(date);
-
-    expect(time).to.equal('12:00 a.m.');
-  });
-
-  it('strips “ST”/“DT” for other zones (e.g. PST→PT)', () => {
-    // change stub to a DST-aware zone
-    tzStub.returns({ timeZone: 'America/Los_Angeles' });
-    // 2025-07-01T15:45:00Z is 08:45 a.m. PDT → “8:45 a.m. PT”
-    const date = parseISO('2025-07-01T15:45:00Z');
-    const { time, timeZone } = formatDateAndTimeWithGenericZone(date);
-
-    expect(time).to.equal('8:45 a.m.');
-    expect(timeZone).to.equal('PT');
   });
 });

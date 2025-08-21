@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { getLabsAndTestsDetails } from '../actions/labsAndTests';
+import { getlabsAndTestsDetails } from '../actions/labsAndTests';
 import PrintHeader from '../components/shared/PrintHeader';
 import ImageGallery from '../components/shared/ImageGallery';
 import DateSubheading from '../components/shared/DateSubheading';
@@ -16,12 +16,10 @@ import {
   accessAlertTypes,
   ALERT_TYPE_ERROR,
   pageTitles,
-  statsdFrontEndActions,
   studyJobStatus,
 } from '../util/constants';
 import { sendDataDogAction } from '../util/helpers';
 import TrackedSpinner from '../components/shared/TrackedSpinner';
-import { useTrackAction } from '../hooks/useTrackAction';
 
 const RadiologyImagesList = ({ isTesting }) => {
   const apiImagingPath = `${
@@ -40,7 +38,6 @@ const RadiologyImagesList = ({ isTesting }) => {
   );
   const imageList = useSelector(state => state.mr.images.imageList);
   const studyJobs = useSelector(state => state.mr.images.imageStatus);
-  useTrackAction(statsdFrontEndActions.RADIOLOGY_IMAGES_LIST);
 
   const [isRadiologyDetailsLoaded, setRadiologyDetailsLoaded] = useState(
     isTesting || false,
@@ -71,7 +68,7 @@ const RadiologyImagesList = ({ isTesting }) => {
   useEffect(
     () => {
       if (labId) {
-        dispatch(getLabsAndTestsDetails(labId)).then(() => {
+        dispatch(getlabsAndTestsDetails(labId)).then(() => {
           setRadiologyDetailsLoaded(true);
         });
       }

@@ -13,25 +13,26 @@ const generateStore = () => ({
 describe('CreateAccount', () => {
   it('renders the static content correctly', () => {
     const store = generateStore();
-    const { getByText } = render(
+    const screen = render(
       <Provider store={store}>
         <CreateAccount />
       </Provider>,
     );
 
-    expect(getByText(/Create a different account now/i)).to.exist;
-    expect(getByText(/Create an identity-verified/i)).to.exist;
+    expect(screen.getByText(/Create a different account now/i)).to.exist;
+
+    expect(screen.getByText(/Create an identity-verified/i)).to.exist;
   });
 
   it('renders two LoginButton components with correct csp prop', () => {
     const store = generateStore();
-    const { getAllByRole } = render(
+    const screen = render(
       <Provider store={store}>
         <CreateAccount />
       </Provider>,
     );
 
-    const buttons = getAllByRole('button');
+    const buttons = screen.getAllByRole('button');
     expect(buttons).to.have.lengthOf(2);
   });
 });

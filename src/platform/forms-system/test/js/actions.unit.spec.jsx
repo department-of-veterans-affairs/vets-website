@@ -198,10 +198,10 @@ describe('Schemaform actions:', () => {
 
       const promise = thunk(dispatch).then(() => {
         const sentryReports = testkit.reports();
-        expect(sentryReports.length).to.equal(2);
-        expect(sentryReports[1].extra.inProgressFormId).to.equal('123');
-        expect(sentryReports[1].extra.errorType).to.equal('serverError');
-        expect(sentryReports[1].extra.statusText).to.equal('Bad Request');
+        expect(sentryReports.length).to.equal(1);
+        expect(sentryReports[0].extra.inProgressFormId).to.equal('123');
+        expect(sentryReports[0].extra.errorType).to.equal('serverError');
+        expect(sentryReports[0].extra.statusText).to.equal('Bad Request');
       });
 
       requests[0].respond(400, null, JSON.stringify(response));

@@ -20,22 +20,21 @@ import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fie
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
   formatCurrency,
-  formatPossessiveString,
+  formatFullNameNoSuffix,
   generateDeleteDescription,
   isDefined,
   isRecipientInfoIncomplete,
   otherGeneratedIncomeTypeExplanationRequired,
   otherRecipientRelationshipExplanationRequired,
   recipientNameRequired,
-  resolveRecipientFullName,
 } from '../../../helpers';
 import { relationshipLabels, generatedIncomeTypeLabels } from '../../../labels';
 
 /** @type {ArrayBuilderOptions} */
 export const options = {
   arrayPath: 'royaltiesAndOtherProperties',
-  nounSingular: 'royalty',
-  nounPlural: 'royalties',
+  nounSingular: 'royalty and other property',
+  nounPlural: 'royalties and other properties',
   required: false,
   isItemIncomplete: item =>
     isRecipientInfoIncomplete(item) ||
@@ -44,14 +43,13 @@ export const options = {
     !isDefined(item.fairMarketValue) ||
     !isDefined(item.incomeGenerationMethod), // include all required fields here
   text: {
-    getItemName: (item, index, formData) => {
-      if (!isDefined(item?.recipientRelationship)) {
-        return undefined;
-      }
-      const fullName = resolveRecipientFullName(item, formData);
-      const possessiveName = formatPossessiveString(fullName);
-      return `${possessiveName} income`;
-    },
+    getItemName: (item, index, formData) =>
+      isDefined(item?.recipientRelationship) &&
+      `${
+        item?.recipientRelationship === 'VETERAN'
+          ? formatFullNameNoSuffix(formData?.veteranFullName)
+          : formatFullNameNoSuffix(item?.recipientName)
+      }’s income`,
     cardDescription: item =>
       isDefined(item?.grossMonthlyIncome) &&
       isDefined(item?.fairMarketValue) && (
@@ -76,18 +74,20 @@ export const options = {
           </li>
         </ul>
       ),
-    reviewAddButtonText: 'Add another royalty',
-    alertItemUpdated: 'Your royalty information has been updated',
-    alertItemDeleted: 'Your royalty information has been deleted',
-    cancelAddTitle: 'Cancel adding this royalty',
-    cancelAddButtonText: 'Cancel adding this royalty',
-    cancelAddYes: 'Yes, cancel adding this royalty',
+    reviewAddButtonText: 'Add another royalty and other property',
+    alertItemUpdated:
+      'Your royalty and other property information has been updated',
+    alertItemDeleted:
+      'Your royalty and other property information has been deleted',
+    cancelAddTitle: 'Cancel adding this royalty and other property',
+    cancelAddButtonText: 'Cancel adding this royalty and other property',
+    cancelAddYes: 'Yes, cancel adding this royalty and other property',
     cancelAddNo: 'No',
-    cancelEditTitle: 'Cancel editing this royalty',
-    cancelEditYes: 'Yes, cancel editing this royalty',
+    cancelEditTitle: 'Cancel editing this royalty and other property',
+    cancelEditYes: 'Yes, cancel editing this royalty and other property',
     cancelEditNo: 'No',
-    deleteTitle: 'Delete this royalty',
-    deleteYes: 'Yes, delete this royalty',
+    deleteTitle: 'Delete this royalty and other property',
+    deleteYes: 'Yes, delete this royalty and other property',
     deleteNo: 'No',
     deleteDescription: props =>
       generateDeleteDescription(props, options.text.getItemName),
@@ -108,16 +108,19 @@ const summaryPage = {
           'Are you or your dependents receiving or expecting to receive any income and intellectual property royalties, mineral royalties, land use, or other royalties/properties?',
         hint: 'If yes, you’ll need to report at least one income',
         labels: {
-          Y: 'Yes',
-          N: 'No',
+          Y: 'Yes, I have income from royalties and other properties to report',
+          N:
+            'No, I don’t have income from royalties and other properties to report',
         },
       },
       {
         title:
-          'Do you have more income from royalties and other properties to report?',
+          'Do you have any more income from royalties and other properties to report?',
         labels: {
-          Y: 'Yes',
-          N: 'No',
+          Y:
+            'Yes, I have more income from royalties and other properties to report',
+          N:
+            'No, I don’t have any more income from royalties and other properties to report',
         },
       },
     ),
@@ -135,15 +138,17 @@ const summaryPage = {
 const royaltyRecipientPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Royalty relationship',
+      title:
+        'Income and net worth associated with royalties and other properties',
       nounSingular: options.nounSingular,
     }),
     recipientRelationship: radioUI({
-      title: 'Who receives the income?',
+      title:
+        'What is the type of income recipient’s relationship to the Veteran?',
       labels: relationshipLabels,
     }),
     otherRecipientRelationshipType: {
-      'ui:title': 'Describe their relationship to the Veteran',
+      'ui:title': 'Tell us the type of relationship',
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
         expandUnder: 'recipientRelationship',
@@ -170,7 +175,9 @@ const royaltyRecipientPage = {
 /** @returns {PageSchema} */
 const recipientNamePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Royalty recipient'),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      'Income and net worth associated with royalties and other properties',
+    ),
     recipientName: fullNameNoSuffixUI(title => `Income recipient’s ${title}`),
   },
   schema: {
@@ -184,7 +191,9 @@ const recipientNamePage = {
 /** @returns {PageSchema} */
 const generatedIncomeTypePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Royalty income information'),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      'Income and net worth associated with royalties and other properties',
+    ),
     incomeGenerationMethod: radioUI({
       title: 'How is the income generated from this asset?',
       labels: generatedIncomeTypeLabels,
@@ -238,27 +247,27 @@ export const royaltiesAndOtherPropertyPages = arrayBuilderPages(
     royaltyPagesSummary: pageBuilder.summaryPage({
       title:
         'Income and net worth associated with royalties and other properties',
-      path: 'royalties-summary',
+      path: 'royalties-and-other-properties-summary',
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
     royaltyRecipientPage: pageBuilder.itemPage({
-      title: 'Royalty recipient',
-      path: 'royalties/:index/income-recipient',
+      title: 'Royalties and other properties recipient',
+      path: 'royalties-and-other-properties/:index/income-recipient',
       uiSchema: royaltyRecipientPage.uiSchema,
       schema: royaltyRecipientPage.schema,
     }),
     royaltyRecipientNamePage: pageBuilder.itemPage({
-      title: 'Royalty recipient',
-      path: 'royalties/:index/recipient-name',
+      title: 'Royalties and other properties recipient name',
+      path: 'royalties-and-other-properties/:index/recipient-name',
       depends: (formData, index) =>
         recipientNameRequired(formData, index, 'royaltiesAndOtherProperties'),
       uiSchema: recipientNamePage.uiSchema,
       schema: recipientNamePage.schema,
     }),
     generatedIncomeTypePage: pageBuilder.itemPage({
-      title: 'Royalty income information',
-      path: 'royalties/:index/income-type',
+      title: 'Royalties and other properties type',
+      path: 'royalties-and-other-properties/:index/income-type',
       uiSchema: generatedIncomeTypePage.uiSchema,
       schema: generatedIncomeTypePage.schema,
     }),

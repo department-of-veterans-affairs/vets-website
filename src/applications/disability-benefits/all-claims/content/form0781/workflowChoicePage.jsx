@@ -7,14 +7,13 @@ import {
   VaAlert,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { scrollToFirstError, scrollTo } from 'platform/utilities/scroll';
-import {
-  form0781HeadingTag,
-  titleWithTag,
-  mentalHealthSupportAlert,
-} from '../form0781';
+import { form0781HeadingTag, titleWithTag } from '../form0781';
+/**
+ * TODO: tech-debt(import/no-cycle): Fix upstream import cycle
+ * @see https://github.com/department-of-veterans-affairs/va.gov-team/issues/110538
+ */
+// eslint-disable-next-line import/no-cycle
 import { checkValidations } from '../../utils/submit';
-
-import { form0781WorkflowChoices } from './workflowChoices';
 
 export const workflowChoicePageTitle =
   'Option to add a statement in support of mental health conditions';
@@ -46,8 +45,64 @@ const conditionSelections = formData => {
   );
 };
 
+export const workflowChoicePageDescription = formData => {
+  return (
+    <>
+      {conditionSelections(formData)}
+      <h4>When to consider adding this statement to your claim</h4>
+      <p>
+        If you added a new mental health condition that’s related to your
+        military service, we encourage you to submit a statement. Mental health
+        conditions include conditions like PTSD or depression.
+      </p>
+      <p>
+        <strong>What to expect if you add a statement</strong>
+        <br />
+        We’ll ask you questions about:
+      </p>
+      <ul>
+        <li>
+          <strong>Traumatic events from your military service</strong>
+        </li>
+        <li>
+          <strong>Behavioral changes you experienced as a result</strong>
+        </li>
+      </ul>
+
+      <p>
+        You will also be able to add{' '}
+        <strong>medical records, provider information,</strong> and{' '}
+        <strong> supporting documents </strong> later in the{' '}
+        <strong>Supporting Evidence </strong> section.
+      </p>
+      <p>
+        Answer as many or as few questions you feel comfortable answering. We’ll
+        use any information you share to support your claim.
+      </p>
+      <p>
+        To answer all the questions, you’ll likely need about 45 minutes. You
+        can answer the questions online. Or, you can fill out a PDF version of
+        the form and upload it as part of your online submission.
+      </p>
+      <p>
+        <va-link
+          external
+          href="https://www.va.gov/find-forms/about-form-21-0781/"
+          text="Get VA Form 21-0781 to download"
+        />
+      </p>
+    </>
+  );
+};
+
 export const form0781WorkflowChoiceDescription =
   'Do you want to add a statement in support of mental health conditions?';
+
+export const form0781WorkflowChoices = {
+  COMPLETE_ONLINE_FORM: 'optForOnlineForm0781',
+  SUBMIT_PAPER_FORM: 'optForPaperForm0781Upload',
+  OPT_OUT_OF_FORM0781: 'optOutOfForm0781',
+};
 
 export const form0781WorkflowChoiceLabels = Object.freeze({
   [form0781WorkflowChoices.COMPLETE_ONLINE_FORM]:
@@ -58,49 +113,6 @@ export const form0781WorkflowChoiceLabels = Object.freeze({
     'No, I don’t want to add this form to my claim.',
 });
 
-export const workflowChoicePageDescription = formData => {
-  return (
-    <>
-      {conditionSelections(formData)}
-      <p>
-        We encourage you to submit this optional statement for any new mental
-        health conditions related to a traumatic event that happened during your
-        military service. We’ll use the information to support your claim.
-      </p>
-      <p>
-        <strong>Here’s what to know before you decide:</strong>
-      </p>
-      <ul>
-        <li>
-          You can submit this statement in 1 of 2 ways: Answer questions online
-          or upload a PDF version of the questions.
-        </li>
-        <li>
-          We’ll ask you to describe the traumatic events you experienced and how
-          they relate to your mental health conditions. You’ll likely need about
-          45 minutes to answer all the questions.
-        </li>
-        <li>
-          You can skip questions you can’t or don’t want to answer. And you can
-          save your in-progress online form anytime if you need a break.
-        </li>
-        <li>
-          We’ll ask you to share supporting evidence (like health records) later
-          in the form.
-        </li>
-      </ul>
-    </>
-  );
-};
-
-export const serviceRecordNotification = (
-  <div className="usa-alert usa-alert-warning background-color-only">
-    <span>
-      <strong>Note:</strong> If you would rather upload a DD214 than enter dates
-      here, you can do that later in the form.
-    </span>
-  </div>
-);
 export const traumaticEventsExamples = (
   <va-accordion open-single>
     <va-accordion-item class="vads-u-margin-y--3" id="first" bordered>
@@ -183,6 +195,38 @@ export const traumaticEventsExamples = (
     </va-accordion-item>
   </va-accordion>
 );
+
+export const mstAlert = () => {
+  return (
+    <>
+      <va-alert-expandable
+        status="info"
+        trigger="Learn more about treatment for military sexual trauma"
+      >
+        <p>
+          If you experienced military sexual trauma (MST), we provide treatment
+          for any physical or mental health conditions related to your
+          experiences.
+        </p>
+        <br />
+        <p>
+          You don’t need to file a disability claim or have a disability rating
+          to get care. These services are available to Veterans regardless of
+          discharge status. You may be able to receive MST-related health care
+          even if you’re not eligible for other VA health care.
+        </p>
+        <br />
+        <p>
+          <va-link
+            external
+            href="https://www.va.gov/health-care/health-needs-conditions/military-sexual-trauma/"
+            text="Learn more about MST-related benefits and services"
+          />
+        </p>
+      </va-alert-expandable>
+    </>
+  );
+};
 
 export const sectionsOfMentalHealthStatement = [
   'Traumatic events from your military service',
@@ -374,7 +418,13 @@ const WorkflowChoicePage = props => {
         goForward(data);
       }
     },
-    [data, goForward, selectedMentalHealthWorkflowChoice, shouldGoForward],
+
+    /**
+     * TODO: tech-debt(react-hooks/exhaustive-deps): Validate this rule exception is needed and why
+     * @see https://github.com/department-of-veterans-affairs/va.gov-team/issues/110539
+     */
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [data?.mentalHealthWorkflowChoice, shouldGoForward],
   );
 
   const missingSelectionErrorMessage =
@@ -591,24 +641,11 @@ const WorkflowChoicePage = props => {
                 }
               />
             </VaRadio>
-            <div>
-              <p>
-                <strong>Note:</strong> If you choose to fill out the PDF
-                version, you can download the PDF now.
-              </p>
-              <p>
-                <va-link
-                  external
-                  href="https://www.va.gov/find-forms/about-form-21-0781/"
-                  text="Download VA Form 21-0781"
-                />
-              </p>
-            </div>
           </div>
           {!onReviewPage ? (
             <>
               {traumaticEventsExamples}
-              {mentalHealthSupportAlert()}
+              {mstAlert()}
             </>
           ) : null}
         </div>

@@ -164,7 +164,14 @@ const formConfig = {
     },
     recordsRequested: {
       title: 'Treatment records',
-      pages: recordsRequested,
+      pages: {
+        recordsRequested: {
+          path: 'records-requested',
+          title: 'Records requested',
+          uiSchema: recordsRequested.uiSchema,
+          schema: recordsRequested.schema,
+        },
+      },
     },
     limitations: {
       title: 'Limitations',

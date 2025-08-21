@@ -1,10 +1,5 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
-import navigationState from 'platform/forms-system/src/js/utilities/navigation/navigationState';
-import {
-  subscribeToArrayBuilderEvent,
-  ARRAY_BUILDER_EVENTS,
-} from 'platform/forms-system/src/js/patterns/array-builder/ArrayBuilderEvents';
 import { DEFAULT_ARRAY_BUILDER_TEXT } from '../arrayBuilderText';
 import * as helpers from '../helpers';
 
@@ -256,35 +251,20 @@ describe('arrayBuilder helpers', () => {
 });
 
 describe('arrayBuilderText', () => {
-  it('should match expected types', () => {
-    const getText = helpers.initGetText({
-      getItemName: item => item?.name,
-      nounPlural: 'employers',
-      nounSingular: 'employer',
-      cancelEditDescription: 'cancelEditDescription',
-      cancelAddDescription: props => props.nounPlural,
-    });
-    Object.keys(DEFAULT_ARRAY_BUILDER_TEXT).forEach(key => {
-      if (key === 'getItemName') {
-        return;
-      }
-      expect(getText(key)).to.be.a('string');
-    });
-    expect(getText).to.be.a('function');
+  const getText = helpers.initGetText({
+    getItemName: item => item?.name,
+    nounPlural: 'employers',
+    nounSingular: 'employer',
+    cancelEditDescription: 'cancelEditDescription',
+    cancelAddDescription: props => props.nounPlural,
   });
-
-  it('should gracefully fail type errors for cardDescription', () => {
-    const getText = helpers.initGetText({
-      // getItemName is already gracefully handled in arrayBuilder.jsx
-      getItemName: () => 'test',
-      cardDescription: data => data.not.a.real.value,
-      nounPlural: 'employers',
-      nounSingular: 'employer',
-    });
-
-    expect(getText('getItemName')).to.eq('test');
-    expect(getText('cardDescription')).to.eq('');
+  Object.keys(DEFAULT_ARRAY_BUILDER_TEXT).forEach(key => {
+    if (key === 'getItemName') {
+      return;
+    }
+    expect(getText(key)).to.be.a('string');
   });
+  expect(getText).to.be.a('function');
 });
 
 describe('maxItemsHint', () => {
@@ -428,122 +408,5 @@ describe('replaceItemInFormData', () => {
 
     expect(formData.employers).to.equal(undefined);
     expect(newFormData.employers).to.equal(undefined);
-  });
-});
-
-describe('slugifyText', () => {
-  it('should return a slugified version of the noun singular', () => {
-    let text = 'Treatment records';
-    let slugified = helpers.slugifyText(text);
-    expect(slugified).to.equal('treatment-records');
-
-    text = 'employer';
-    slugified = helpers.slugifyText(text);
-    expect(slugified).to.equal('employer');
-
-    text = 'traumatic event';
-    slugified = helpers.slugifyText(text);
-    expect(slugified).to.equal('traumatic-event');
-  });
-});
-
-describe('validateIncompleteItems', () => {
-  it('should be valid if array is undefined', () => {
-    const arrayData = undefined;
-    const isItemIncomplete = item => !item?.name;
-
-    const isValid = helpers.validateIncompleteItems({
-      arrayData,
-      isItemIncomplete,
-      arrayPath: 'testArray',
-    });
-
-    expect(isValid).to.be.true;
-  });
-
-  it('should be valid if the array is empty', () => {
-    const arrayData = [];
-    const isItemIncomplete = item => !item?.name;
-
-    const isValid = helpers.validateIncompleteItems({
-      arrayData,
-      isItemIncomplete,
-      arrayPath: 'testArray',
-    });
-
-    expect(isValid).to.be.true;
-  });
-
-  it('should not be valid if the one of the items is invalid', () => {
-    const arrayData = [{ name: 'Test' }, { name: '' }];
-    const isItemIncomplete = item => !item?.name;
-
-    const isValid = helpers.validateIncompleteItems({
-      arrayData,
-      isItemIncomplete,
-      arrayPath: 'testArray',
-    });
-
-    expect(isValid).to.be.false;
-  });
-
-  it('should fire an array builder event if invalid index 0', () => {
-    const arrayData = [{ name: '' }, { name: 'Test' }];
-    const isItemIncomplete = item => !item?.name;
-    let eventData;
-
-    const unsubscribe = subscribeToArrayBuilderEvent(
-      ARRAY_BUILDER_EVENTS.INCOMPLETE_ITEM_ERROR,
-      event => {
-        eventData = event;
-      },
-    );
-
-    // Similar to clicking "continue" on a form page
-    navigationState.setNavigationEvent();
-
-    const isValid = helpers.validateIncompleteItems({
-      arrayData,
-      isItemIncomplete,
-      arrayPath: 'testArray',
-    });
-
-    expect(isValid).to.be.false;
-    expect(eventData).to.deep.eq({
-      index: 0,
-      arrayPath: 'testArray',
-    });
-
-    unsubscribe();
-  });
-
-  it('should fire an array builder event if invalid index 1', () => {
-    const arrayData = [{ name: 'Test' }, { name: '' }];
-    const isItemIncomplete = item => !item?.name;
-    let eventData;
-
-    const unsubscribe = subscribeToArrayBuilderEvent(
-      ARRAY_BUILDER_EVENTS.INCOMPLETE_ITEM_ERROR,
-      event => {
-        eventData = event;
-      },
-    );
-
-    // Similar to clicking "continue" on a form page
-    navigationState.setNavigationEvent();
-
-    const isValid = helpers.validateIncompleteItems({
-      arrayData,
-      isItemIncomplete,
-      arrayPath: 'testArray',
-    });
-
-    expect(isValid).to.be.false;
-    expect(eventData).to.deep.eq({
-      index: 1,
-      arrayPath: 'testArray',
-    });
-
-    unsubscribe();
   });
 });

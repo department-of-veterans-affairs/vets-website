@@ -98,16 +98,10 @@ const logCoverage = coverageResults => {
   const data = JSON.stringify(coverageResults, null, 4);
   console.log(data);
   // write coverageResults string to file
-  const outputDir = path.join(
+  const outputFile = path.join(
     __dirname,
-    '../qa-standards-dashboard-data/coverage',
+    '../qa-standards-dashboard-data/coverage/test-coverage-report.json',
   );
-
-  // Ensure the directory exists (local runs may not have it)
-  fs.mkdirSync(outputDir, { recursive: true });
-
-  const outputFile = path.join(outputDir, 'test-coverage-report.json');
-
   fs.writeFile(outputFile, data, err => {
     if (err) {
       throw err;
@@ -119,39 +113,15 @@ const logCoverage = coverageResults => {
 // Root directory of application folders
 const applicationDir = path.join(__dirname, '../src/applications/');
 
-// Determine which coverage summary to use (CI artifact first, then local, then legacy merged file)
-const qaCoveragePath = path.join(
-  __dirname,
-  '../qa-standards-dashboard-data/coverage/coverage-summary.json',
-);
-const localCoveragePath = path.join(
-  __dirname,
-  '../coverage/coverage-summary.json',
-);
-const legacyMergedCoveragePath = path.join(
-  __dirname,
-  '../merged-coverage-report.json',
-);
-
-let selectedCoveragePath = null;
-if (fs.existsSync(qaCoveragePath)) {
-  selectedCoveragePath = qaCoveragePath;
-} else if (fs.existsSync(localCoveragePath)) {
-  selectedCoveragePath = localCoveragePath;
-} else if (fs.existsSync(legacyMergedCoveragePath)) {
-  selectedCoveragePath = legacyMergedCoveragePath;
-}
-
-if (selectedCoveragePath) {
-  const coverageSummaryJson = JSON.parse(fs.readFileSync(selectedCoveragePath));
+// Check if coverage-summary.json exists before generating coverage
+if (fs.existsSync(path.join(__dirname, '../merged-coverage-report.json'))) {
+  const coverageSummaryJson = JSON.parse(
+    fs.readFileSync(path.join(__dirname, '../merged-coverage-report.json')),
+  );
+  // Generate and print coverage
   const appCoverages = generateCoverage(applicationDir, coverageSummaryJson);
   logCoverage(appCoverages);
   printCoverage(appCoverages);
 } else {
-  console.log(
-    'No coverage summary found at expected locations. Checked: \n' +
-      ` - ${qaCoveragePath}\n` +
-      ` - ${localCoveragePath}\n` +
-      ` - ${legacyMergedCoveragePath}`,
-  );
+  console.log('./merged-coverage-report.json not found.');
 }

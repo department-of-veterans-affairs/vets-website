@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import environment from 'platform/utilities/environment';
 import { isLoggedIn } from 'platform/user/selectors';
-import { formatDateLong, formatDowntime } from 'platform/utilities/date';
+import { formatDowntime } from 'platform/utilities/date';
 import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
 import { focusElement } from 'platform/utilities/ui/focus';
 import { scrollTo } from 'platform/utilities/scroll';
@@ -82,7 +82,6 @@ const IntentToFile = ({
   location = window.location,
   WrapAlert = WrapContent,
   WrapPage = WrapPageWithButtons, // required if customizing page replacement
-  disableAutoFocus = false,
 } = {}) => {
   const loggedIn = useSelector(state => isLoggedIn(state));
 
@@ -97,7 +96,6 @@ const IntentToFile = ({
   const apiUrl = `${environment.API_URL}${itfApi}/${itfType}`;
 
   const focusAlertHeader = () => {
-    if (disableAutoFocus) return;
     const header = children ? 'h2' : 'va-alert';
     setTimeout(() => {
       scrollTo('topContentElement');
@@ -185,11 +183,9 @@ const IntentToFile = ({
     );
   }
 
-  const { creationDate, expirationDate } = localItf?.currentITF;
+  const { expirationDate } = localItf?.currentITF;
   const renderProps = {
     itfType,
-    creationDateString: creationDate,
-    creationDateFormatted: creationDate ? formatDateLong(creationDate) : null,
     expirationDateString: expirationDate,
     expirationDateFormatted: expirationDate
       ? formatDowntime(expirationDate, DAY_YEAR_PATTERN)
@@ -227,7 +223,6 @@ IntentToFile.propTypes = {
   WrapPage: PropTypes.func,
   baseUrl: PropTypes.string,
   children: PropTypes.any,
-  disableAutoFocus: PropTypes.bool,
   itfApi: PropTypes.string,
   itfCreated: PropTypes.func,
   itfCreating: PropTypes.func,

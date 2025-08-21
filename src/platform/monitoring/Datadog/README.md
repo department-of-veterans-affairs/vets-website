@@ -34,7 +34,7 @@ In your application's main file (usually `App.jsx`), add the following:
 import { useBrowserMonitoring } from 'platform/monitoring/Datadog';
 import environment from 'platform/utilities/environment';
 
-const DATA_DOG_TOGGLE = '{APP_NAME}BrowserMonitoringEnabled'; // typical name
+const DATA_DOG_TOGGLE = '{APP_NAME}BrowserMonitoringEnabled}'; // typical name
 const DATA_DOG_ID = '{APP_UUID}';
 const DATA_DOG_SERVICE = '{APP_DASHBOARD_NAME}';
 const DATA_DOG_TOKEN = 'pub{TOKEN_ID}';

@@ -8,7 +8,7 @@ import {
   isPopulatedClaim,
   generateClaimTitle,
 } from '../utils/helpers';
-import { setFocus, focusNotificationAlert } from '../utils/page';
+import { setFocus } from '../utils/page';
 import AddingDetails from './AddingDetails';
 import NeedHelp from './NeedHelp';
 import ClaimsBreadcrumbs from './ClaimsBreadcrumbs';
@@ -19,6 +19,9 @@ import TabNav from './TabNav';
 
 const focusHeader = () => {
   setFocus('.claim-contentions-header');
+};
+const focusNotificationAlert = () => {
+  setFocus('.claims-alert');
 };
 
 export default function ClaimDetailLayout(props) {

@@ -7,6 +7,7 @@ import { connect, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { clearFormData, removeAskVaForm } from '../actions';
+import { hasPrefillInformation } from '../constants';
 
 const PersonalAuthenticatedInformation = ({
   goForward,
@@ -19,7 +20,7 @@ const PersonalAuthenticatedInformation = ({
 
   useEffect(
     () => {
-      if (!isLoggedIn) {
+      if (!hasPrefillInformation(formData)) {
         goForward(formData);
       }
     },
@@ -37,20 +38,13 @@ const PersonalAuthenticatedInformation = ({
 
   const { ssn, serviceNumber } = socialOrServiceNum || {};
 
-  const nameDisplay = first || last ? `${first} ${last}` : 'No name provided';
   const dateOfBirthFormatted = !dateOfBirth
-    ? 'None provided'
+    ? '-'
     : format(parseISO(dateOfBirth.split('T')[0]), 'MMMM d, yyyy');
 
-  let ssnOrServiceNumDisplay = '';
+  let ssnLastFour = '-';
   if (ssn) {
-    ssnOrServiceNumDisplay = `Social Security number: ●●●–●●–${ssn.substr(
-      ssn.length - 4,
-    )}`;
-  } else if (serviceNumber) {
-    ssnOrServiceNumDisplay = `Service number: ${serviceNumber}`;
-  } else {
-    ssnOrServiceNumDisplay = 'Social Security number: None provided';
+    ssnLastFour = ssn.substr(ssn.length - 4);
   }
 
   useEffect(
@@ -69,13 +63,15 @@ const PersonalAuthenticatedInformation = ({
           <div className="vads-u-border-left--4px vads-u-border-color--primary vads-u-margin-top--4 vads-u-margin-bottom--4">
             <div className="vads-u-padding-left--1">
               <p className="vads-u-margin--1px vads-u-font-weight--bold dd-privacy-mask">
-                {nameDisplay}
+                {first} {last}
               </p>
               <p
                 className="vads-u-margin--1px dd-privacy-mask"
                 data-dd-action-name="Veteran's SSN"
               >
-                {ssnOrServiceNumDisplay}
+                {ssn
+                  ? `Social Security number: ●●●–●●–${ssnLastFour}`
+                  : `Service number: ${serviceNumber}`}
               </p>
               <p className="vads-u-margin--1px dd-privacy-mask">
                 Date of birth: {dateOfBirthFormatted}

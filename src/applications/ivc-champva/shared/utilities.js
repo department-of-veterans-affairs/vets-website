@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import React from 'react';
-import PropTypes from 'prop-types';
 import { waitForShadowRoot } from 'platform/utilities/ui/webComponents';
 
 /**
@@ -209,15 +208,17 @@ export function toHash(val) {
 
 /**
  * Converts date string in YYYY-MM-DD fmt to MM/DD/YYYY
+ * TODO: replace other functions in ivc module that do this type of thing
  * @param {String} date date in format YYYY-MM-DD
  * @returns d reformatted as MM/DD/YYYY
  */
 export function fmtDate(date) {
-  if (!date || !/^\d{4}-\d{2}-\d{2}$/.test(date)) {
-    return '';
-  }
-  const [year, month, day] = date.split('-');
-  return `${month}/${day}/${year}`;
+  const dt = new Date(date);
+  return new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).format(dt);
 }
 
 /**
@@ -228,45 +229,3 @@ export function fmtDate(date) {
 export function privWrapper(children) {
   return <span className="dd-privacy-hidden">{children}</span>;
 }
-
-/**
- * Displays a standard ui:objectViewField but with individual keys/values
- * wrapped in the `dd-privacy-hidden` class to prevent PII entering RUM replays.
- * Helpful for cleaning up review page PII when setting classNames in `ui:options`
- * doesn't work (typically because of an `updateUiSchema` being used)
- * @param {Object} props Props passed to standard ui:objectViewField
- * @returns
- */
-export function PrivWrappedReview(props) {
-  // IMPORTANT: props.title could have PII, so exercise caution. Override
-  // with an explicit `itemAriaLabel` as needed.
-  const title = typeof props.title === 'function' ? props.title() : props.title;
-  const ariaLabel = props?.uiSchema?.['ui:options']?.itemAriaLabel() ?? title;
-  const editAriaLabel = `Edit ${ariaLabel}`;
-
-  return (
-    <div className="form-review-panel-page">
-      <div className="form-review-panel-page-header-row">
-        <h4 className="form-review-panel-page-header vads-u-font-size--h5">
-          {privWrapper(title)}
-        </h4>
-        <div className="vads-u-justify-content--flex-end">
-          {props.defaultEditButton({ label: editAriaLabel })}
-        </div>
-      </div>
-      <dl className="review dd-privacy-hidden">
-        {props.renderedProperties.map(p => {
-          return p;
-        })}
-      </dl>
-    </div>
-  );
-}
-
-PrivWrappedReview.propTypes = {
-  defaultEditButton: PropTypes.any,
-  formData: PropTypes.object,
-  renderedProperties: PropTypes.any,
-  title: PropTypes.string,
-  uiSchema: PropTypes.object,
-};

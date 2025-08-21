@@ -3,11 +3,10 @@ import { Provider } from 'react-redux';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
-import { waitFor } from '@testing-library/dom';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 
-import formConfig from '../../config/form';
+import formConfig from '../../config/form.js';
 
 const {
   schema,
@@ -67,7 +66,7 @@ describe('526 -- paymentInformation', () => {
     form.unmount();
   });
 
-  it('should submit with all required info', async () => {
+  it('should submit with all required info', () => {
     const onSubmit = sinon.spy();
     const fakeStore = {
       getState: () => ({ form: { data: {} } }),
@@ -95,11 +94,9 @@ describe('526 -- paymentInformation', () => {
       </Provider>,
     );
 
-    await waitFor(() => {
-      form.find('form').simulate('submit');
-      expect(onSubmit.calledOnce).to.be.true;
-      expect(form.find('.usa-input-error-message').length).to.equal(0);
-    });
+    form.find('form').simulate('submit');
+    expect(onSubmit.calledOnce).to.be.true;
+    expect(form.find('.usa-input-error-message').length).to.equal(0);
 
     const alert = form.find('va-alert');
     expect(alert.length).to.equal(1);
@@ -110,7 +107,7 @@ describe('526 -- paymentInformation', () => {
     form.unmount();
   });
 
-  it('should not submit without required info', async () => {
+  it('should not submit without required info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -127,15 +124,13 @@ describe('526 -- paymentInformation', () => {
       />,
     );
 
-    await waitFor(() => {
-      form.find('form').simulate('submit');
-      expect(onSubmit.called).to.be.false;
-      expect(form.find('.usa-input-error-message').length).to.equal(3);
-      form.unmount();
-    });
+    form.find('form').simulate('submit');
+    expect(onSubmit.called).to.be.false;
+    expect(form.find('.usa-input-error-message').length).to.equal(3);
+    form.unmount();
   });
 
-  it('should submit with no info', async () => {
+  it('should submit with no info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -148,11 +143,9 @@ describe('526 -- paymentInformation', () => {
       />,
     );
 
-    await waitFor(() => {
-      form.find('form').simulate('submit');
-      expect(onSubmit.calledOnce).to.be.true;
-      expect(form.find('.usa-input-error-message').length).to.equal(0);
-      form.unmount();
-    });
+    form.find('form').simulate('submit');
+    expect(onSubmit.calledOnce).to.be.true;
+    expect(form.find('.usa-input-error-message').length).to.equal(0);
+    form.unmount();
   });
 });

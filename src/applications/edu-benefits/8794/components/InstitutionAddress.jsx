@@ -3,50 +3,32 @@ import { useSelector } from 'react-redux';
 
 const InstitutionAddress = () => {
   const formData = useSelector(state => state.form?.data);
-  const institutionAddress =
-    formData?.institutionDetails?.institutionAddress || {};
+  const address = formData?.institutionDetails?.address || {};
 
-  const {
-    street,
-    street2,
-    street3,
-    city,
-    state,
-    postalCode,
-    country,
-  } = institutionAddress;
-  const hasAddress = [
-    street,
-    street2,
-    street3,
-    city,
-    state,
-    postalCode,
-    country,
-  ].some(Boolean);
+  const hasAddress = Object.values(address).some(Boolean);
 
   return (
     <div aria-live="polite">
       {hasAddress ? (
         <>
           <p className="va-address-block" id="institutionAddress">
-            {street}
-            {street2 && (
+            {address.address1}
+            {address.address2 && (
               <>
                 <br />
-                {street2}
+                {address.address2}
               </>
             )}
-            {street3 && (
+            {address.address3 && (
               <>
                 <br />
-                {street3}
+                {address.address3}
               </>
             )}
             <br />
-            {city}, {state} {postalCode}
+            {address.city}, {address.state} {address.zip}
             <br />
-            {country}
+            {address.country}
           </p>
 
           <va-additional-info trigger="What to do if this name or address looks incorrect">
@@ -66,12 +48,14 @@ const InstitutionAddress = () => {
           </va-additional-info>
         </>
       ) : (
-        <span
-          aria-hidden="true"
-          className="vads-u-font-weight--normal vads-u-font-size--h4 vads-u-margin-top--0p5"
-        >
-          --
-        </span>
+        <>
+          <span
+            aria-hidden="true"
+            className="vads-u-font-weight--normal vads-u-font-size--h4 vads-u-margin-top--0p5"
+          >
+            --
+          </span>
+        </>
       )}
     </div>
   );

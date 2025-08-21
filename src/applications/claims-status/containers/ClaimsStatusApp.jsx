@@ -15,20 +15,6 @@ import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
 import { isLoadingFeatures } from '../selectors';
 import { useBrowserMonitoring } from '../utils/datadog-rum/useBrowserMonitoring';
 
-const AppLoadingIndicator = ({ id }) => (
-  <div className="loading-indicator-full-page-container">
-    <va-loading-indicator
-      data-testid={id}
-      message="Loading your claims and appeals..."
-      set-focus
-    />
-  </div>
-);
-
-AppLoadingIndicator.propTypes = {
-  id: PropTypes.string,
-};
-
 // This needs to be a React component for RequiredLoginView to pass down
 // the isDataAvailable prop, which is only passed on failure.
 function AppContent({ featureFlagsLoading, isDataAvailable }) {
@@ -37,7 +23,14 @@ function AppContent({ featureFlagsLoading, isDataAvailable }) {
   const isAppReady = canUseApp && !featureFlagsLoading;
 
   if (!isAppReady) {
-    return <AppLoadingIndicator id="feature-flags-loader" />;
+    return (
+      <div className="vads-u-margin-y--5">
+        <va-loading-indicator
+          data-testid="feature-flags-loading"
+          message="Loading your information..."
+        />
+      </div>
+    );
   }
 
   return (
@@ -78,7 +71,6 @@ function ClaimsStatusApp({
 
   return (
     <RequiredLoginView
-      loadingIndicator={<AppLoadingIndicator id="required-login-view-loader" />}
       verify
       serviceRequired={[
         backendServices.EVSS_CLAIMS,
@@ -92,15 +84,11 @@ function ClaimsStatusApp({
           appTitle="Claim Status"
           dependencies={[
             externalServices.evss,
-            externalServices.lighthouseBenefitsClaims,
             externalServices.global,
             externalServices.mvi,
             externalServices.vaProfile,
             externalServices.vbms,
           ]}
-          loadingIndicator={
-            <AppLoadingIndicator id="downtime-notification-loader" />
-          }
         >
           <AppContent featureFlagsLoading={featureFlagsLoading} />
         </DowntimeNotification>

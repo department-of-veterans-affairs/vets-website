@@ -1,6 +1,8 @@
 import VaRadioField from 'platform/forms-system/src/js/web-component-fields/VaRadioField';
 import DebtTitle from '../components/DebtTitle';
-import { DISPUTE_REASONS } from '../constants';
+
+const EXISTENCE = `I don't think I owe this debt to VA`;
+const AMOUNT = `I don't think the amount is correct on this debt`;
 
 const disputeReason = {
   uiSchema: {
@@ -13,8 +15,10 @@ const disputeReason = {
           'ui:required': () => true,
           'ui:options': {
             labels: {
-              EXISTENCE: DISPUTE_REASONS.EXISTENCE,
-              AMOUNT: DISPUTE_REASONS.AMOUNT,
+              // eslint-disable-next-line object-shorthand
+              EXISTENCE: EXISTENCE,
+              // eslint-disable-next-line object-shorthand
+              AMOUNT: AMOUNT,
             },
           },
           'ui:errorMessages': {
@@ -34,7 +38,7 @@ const disputeReason = {
           properties: {
             disputeReason: {
               type: 'string',
-              enum: [DISPUTE_REASONS.EXISTENCE, DISPUTE_REASONS.AMOUNT],
+              enum: [EXISTENCE, AMOUNT],
             },
           },
           required: ['disputeReason'],

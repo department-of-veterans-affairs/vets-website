@@ -1,6 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-
 import ViewDependentsList from '../components/ViewDependentsList/ViewDependentsList';
 
 function ViewDependentsLists(props) {
@@ -43,13 +41,5 @@ function ViewDependentsLists(props) {
     </div>
   );
 }
-
-ViewDependentsLists.propTypes = {
-  dependencyVerificationToggle: PropTypes.bool,
-  loading: PropTypes.bool,
-  manageDependentsToggle: PropTypes.bool,
-  notOnAwardDependents: PropTypes.array,
-  onAwardDependents: PropTypes.array,
-};
 
 export default ViewDependentsLists;

@@ -15,14 +15,14 @@ import './sass/GetHelp.scss';
 import './sass/SubmissionsPage.scss';
 
 import routes from './routes';
-import store from './utilities/store';
+import createReduxStore from './utilities/store';
 
 const router = createBrowserRouter(routes, {
   basename: '/representative',
 });
 
 startReactApp(
-  <Provider store={store}>
+  <Provider store={createReduxStore()}>
     <RouterProvider router={router} />
   </Provider>,
 );

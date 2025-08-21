@@ -1,4 +1,3 @@
-/* eslint-disable @department-of-veterans-affairs/prefer-button-component */
 /* eslint-disable react/button-has-type */
 import React, { useState } from 'react';
 import recordEvent from '~/platform/monitoring/record-event';

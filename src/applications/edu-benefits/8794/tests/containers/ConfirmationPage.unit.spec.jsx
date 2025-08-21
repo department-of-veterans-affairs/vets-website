@@ -1,83 +1,58 @@
 import React from 'react';
-import { expect } from 'chai';
+import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { render, fireEvent } from '@testing-library/react';
 import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
-import sinon from 'sinon';
-import {
-  ConfirmationPage,
-  setClaimIdInLocalStage,
-  getClaimIdFromLocalStage,
-} from '../../containers/ConfirmationPage';
+import { expect } from 'chai';
+import ConnectedConfirmationPage from '../../containers/ConfirmationPage';
 
-const storeBase = {
-  form: {
-    submission: {
-      timestamp: false,
-      status: false,
-    },
-    data: {},
-  },
-};
+const mockStore = configureStore([]);
 
-describe('<ConfirmationPage>', () => {
-  let sandbox;
-
-  beforeEach(() => {
-    sandbox = sinon.createSandbox();
-    localStorage.clear();
-  });
-
-  afterEach(() => {
-    sandbox.restore();
-  });
-
-  const middleware = [thunk];
-  const mockStore = configureStore(middleware);
-  it('should set claim id in local stage', () => {
-    const submission = {
-      response: {
-        id: 1,
+describe('<ConfirmationPage> conditional render', () => {
+  it('shows full name + formatted date when both are present', () => {
+    const store = mockStore({
+      form: {
+        submission: { timestamp: '2025-05-23T12:00:00Z' },
+        formId: '22-8794',
+        data: {
+          fullName: {
+            first: 'Jane',
+            middle: 'A',
+            last: 'Doe',
+            suffix: 'Jr.',
+          },
+        },
       },
-    };
-    setClaimIdInLocalStage(submission);
-    const result = getClaimIdFromLocalStage();
-    expect(result).to.equal(submission.response.id);
-  });
-  it('should render with data', () => {
-    const router = {
-      push: () => {},
-    };
-    const { getByTestId } = render(
-      <Provider store={mockStore(storeBase)}>
-        <ConfirmationPage router={router} />
+    });
+
+    const { getByText } = render(
+      <Provider store={store}>
+        <ConnectedConfirmationPage />
       </Provider>,
     );
-    expect(getByTestId('download-link')).to.exist;
+
+    // name line
+    expect(getByText(/for Jane A Doe, Jr\./i)).to.exist;
+
+    // date line
+    expect(getByText('May 23, 2025')).to.exist;
   });
-  it('should call window.print when print button is clicked', () => {
-    window.print = window.print || (() => {});
-    const printStub = sandbox.stub(window, 'print');
-    const { getByTestId } = render(
-      <Provider store={mockStore(storeBase)}>
-        <ConfirmationPage />
+
+  it('hides name & date blocks when missing/invalid', () => {
+    const store = mockStore({
+      form: {
+        submission: { timestamp: '' }, // ← empty string = Invalid Date
+        formId: '22-8794',
+        data: {}, // fullName missing
+      },
+    });
+
+    const { queryByText } = render(
+      <Provider store={store}>
+        <ConnectedConfirmationPage />
       </Provider>,
     );
-    fireEvent.click(getByTestId('print-page'));
-    expect(printStub.calledOnce).to.be.true;
-  });
-  it("should call router.push('/review-and-submit') when back button is clicked", () => {
-    const router = {
-      push: sandbox.spy(),
-    };
-    const { getByTestId } = render(
-      <Provider store={mockStore(storeBase)}>
-        <ConfirmationPage router={router} />
-      </Provider>,
-    );
-    fireEvent.click(getByTestId('back-button'));
-    expect(router.push.calledOnce).to.be.true;
-    expect(router.push.calledWith('/review-and-submit')).to.be.true;
+
+    expect(queryByText(/for .*Doe/i)).to.be.null; // no name line
+    expect(queryByText(/Date submitted/i)).to.be.null; // no date block
   });
 });

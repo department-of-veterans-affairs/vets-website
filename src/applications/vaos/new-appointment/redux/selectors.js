@@ -1,31 +1,29 @@
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
 
-import { parseISO } from 'date-fns';
-import { formatInTimeZone } from 'date-fns-tz';
-import {
-  selectFeatureCommunityCare,
-  selectFeatureDirectScheduling,
-  selectFeatureRemovePodiatry,
-  selectHasVAPResidentialAddress,
-  selectRegisteredCernerFacilityIds,
-} from '../../redux/selectors';
-import { getSiteIdFromFacilityId } from '../../services/location';
-import {
-  AUDIOLOGY_TYPES_OF_CARE,
-  DATE_FORMATS,
-  FACILITY_SORT_METHODS,
-  FACILITY_TYPES,
-  FETCH_STATUS,
-  TYPE_OF_CARE_IDS,
-  TYPES_OF_CARE,
-  TYPES_OF_EYE_CARE,
-  TYPES_OF_SLEEP_CARE,
-} from '../../utils/constants';
-import { removeDuplicateId } from '../../utils/data';
 import {
   getTimezoneByFacilityId,
   getTimezoneDescByFacilityId,
 } from '../../utils/timezone';
+import {
+  FACILITY_TYPES,
+  TYPE_OF_CARE_IDS,
+  TYPES_OF_CARE,
+  TYPES_OF_SLEEP_CARE,
+  TYPES_OF_EYE_CARE,
+  FETCH_STATUS,
+  AUDIOLOGY_TYPES_OF_CARE,
+  FACILITY_SORT_METHODS,
+} from '../../utils/constants';
+import { getSiteIdFromFacilityId } from '../../services/location';
+import {
+  selectHasVAPResidentialAddress,
+  selectFeatureCommunityCare,
+  selectFeatureDirectScheduling,
+  selectRegisteredCernerFacilityIds,
+  selectFeatureRemovePodiatry,
+  selectFeatureDirectScheduleAppointmentConflict,
+} from '../../redux/selectors';
+import { removeDuplicateId } from '../../utils/data';
 
 export function getNewAppointment(state) {
   return state.newAppointment;
@@ -51,6 +49,8 @@ export function getFormPageInfo(state, pageKey) {
   };
 }
 
+const AUDIOLOGY = '203';
+
 export function getTypeOfCare(data) {
   if (data.typeOfCareId === TYPE_OF_CARE_IDS.SLEEP_MEDICINE_ID) {
     return TYPES_OF_SLEEP_CARE.find(care => care.id === data.typeOfSleepCareId);
@@ -61,7 +61,7 @@ export function getTypeOfCare(data) {
   }
 
   if (
-    data.typeOfCareId === TYPE_OF_CARE_IDS.AUDIOLOGY_ID &&
+    data.typeOfCareId === AUDIOLOGY &&
     data.facilityType === FACILITY_TYPES.COMMUNITY_CARE
   ) {
     return AUDIOLOGY_TYPES_OF_CARE.find(
@@ -135,19 +135,13 @@ export function getChosenSlot(state) {
   const { availableSlots } = getNewAppointment(state);
   const selectedTime = getFormData(state).selectedDates?.[0];
 
-  // Convert to UTC since slots are in UTC.
-  return availableSlots?.find(
-    slot =>
-      slot.start ===
-      formatInTimeZone(
-        parseISO(selectedTime),
-        'UTC',
-        DATE_FORMATS.ISODateTimeUTC,
-      ),
-  );
+  return availableSlots?.find(slot => slot.start === selectedTime);
 }
 
 export function getDateTimeSelect(state, pageKey) {
+  const featureDirectScheduleAppointmentConflict = selectFeatureDirectScheduleAppointmentConflict(
+    state,
+  );
   const newAppointment = getNewAppointment(state);
   const {
     appointmentSlotsStatus,
@@ -164,20 +158,7 @@ export function getDateTimeSelect(state, pageKey) {
 
   return {
     ...formInfo,
-    availableSlots: availableSlots?.map(slot => {
-      return {
-        start: formatInTimeZone(
-          new Date(slot.start),
-          timezone,
-          DATE_FORMATS.ISODateTimeLocal,
-        ),
-        end: formatInTimeZone(
-          new Date(slot.end),
-          timezone,
-          DATE_FORMATS.ISODateTimeLocal,
-        ),
-      };
-    }),
+    availableSlots,
     eligibleForRequests: eligibilityStatus.request,
     facilityId: data.vaFacility,
     appointmentSlotsStatus,
@@ -185,7 +166,9 @@ export function getDateTimeSelect(state, pageKey) {
     timezone,
     timezoneDescription,
     typeOfCareId,
-    isAppointmentSelectionError,
+    isAppointmentSelectionError: featureDirectScheduleAppointmentConflict
+      ? isAppointmentSelectionError
+      : false,
   };
 }
 
@@ -256,6 +239,10 @@ export function selectRecentLocationsStatus(state) {
   return getNewAppointment(state).fetchRecentLocationStatus;
 }
 
+export function selectRecentLocations(state) {
+  return getNewAppointment(state).recentLocations;
+}
+
 export function getFacilityPageV2Info(state) {
   const formInfo = getFormPageInfo(state, 'vaFacilityV2');
   const data = getFormData(state);
@@ -292,6 +279,7 @@ export function getFacilityPageV2Info(state) {
     typeOfCare,
     cernerSiteIds: selectRegisteredCernerFacilityIds(state),
     fetchRecentLocationStatus: selectRecentLocationsStatus(state),
+    recentLocations: selectRecentLocations(state),
   };
 }
 

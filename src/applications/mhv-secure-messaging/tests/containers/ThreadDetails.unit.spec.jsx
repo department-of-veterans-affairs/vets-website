@@ -7,9 +7,9 @@ import {
   mockMultipleApiRequests,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import { subDays } from 'date-fns';
+import moment from 'moment';
 import ThreadDetails from '../../containers/ThreadDetails';
-import { Alerts, PageTitles } from '../../util/constants';
+import { PageTitles } from '../../util/constants';
 import reducer from '../../reducers';
 import { inbox } from '../fixtures/folder-inbox-response.json';
 import singleDraftThread from '../fixtures/threads/single-draft-thread-reducer.json';
@@ -28,19 +28,6 @@ import noAssociationsAtAll from '../fixtures/json-triage-mocks/triage-teams-no-a
 import lostAssociation from '../fixtures/json-triage-mocks/triage-teams-lost-association.json';
 
 describe('Thread Details container', () => {
-  let stub;
-  afterEach(() => {
-    if (stub) {
-      stub.restore();
-      stub = null;
-    }
-  });
-  const stubUseFeatureToggles = value => {
-    const useFeatureToggles = require('../../hooks/useFeatureToggles');
-    stub = sinon.stub(useFeatureToggles, 'default').returns(value);
-    return stub;
-  };
-
   const setup = state => {
     return renderWithStoreAndRouter(<ThreadDetails testing />, {
       initialState: state,
@@ -144,20 +131,17 @@ describe('Thread Details container', () => {
         threadDetails,
       },
     };
-    if (!window.print) {
-      window.print = () => {};
-    }
-    const printStub = sinon.stub(window, 'print');
     const screen = setup(state);
     const printButton = screen.getByTestId('print-button');
+    const printSpy = sinon.spy(window, 'print');
 
     expect(printButton).to.exist;
 
-    fireEvent.click(printButton);
     await waitFor(() => {
-      expect(printStub.called).to.be.true;
+      fireEvent.click(printButton);
+      expect(printSpy.calledOnce).to.equal(true);
+      printSpy.restore();
     });
-    printStub.restore();
     expect(screen.getByTestId('message-thread-for-print')).to.be.visible;
   });
 
@@ -227,13 +211,6 @@ describe('Thread Details container', () => {
           replyToName: 'SM_TO_VA_GOV_TRIAGE_GROUP_TEST',
           threadFolderId: -2,
           cannotReply: false,
-          draftInProgress: {
-            recipientId: singleDraftThread.draftMessage.recipientId,
-            recipientName: singleDraftThread.draftMessage.recipientName,
-            category: singleDraftThread.draftMessage.category,
-            subject: singleDraftThread.draftMessage.subject,
-            body: singleDraftThread.draftMessage.body,
-          },
         },
         recipients: {
           allRecipients: noBlockedRecipients.mockAllRecipients,
@@ -246,6 +223,7 @@ describe('Thread Details container', () => {
           noAssociations: noBlockedRecipients.noAssociations,
           allTriageGroupsBlocked: noBlockedRecipients.allTriageGroupsBlocked,
         },
+        messageDetails: { message: singleDraftThread.draftMessage },
       },
     };
 
@@ -295,7 +273,9 @@ describe('Thread Details container', () => {
           messages: [
             {
               ...replyMessage,
-              sentDate: subDays(new Date(), 46).toISOString(),
+              sentDate: moment()
+                .subtract(46, 'days')
+                .format(),
             },
             olderMessage,
           ],
@@ -310,103 +290,27 @@ describe('Thread Details container', () => {
 
     expect(await screen.queryByText('Continue to reply')).to.not.exist;
 
-    expect(
-      await screen.findByText(`Messages: ${category} - ${subject}`, {
-        exact: false,
-      }),
-    ).to.exist;
-
-    expect(global.document.title).to.equal(
-      `Messages: ${PageTitles.CONVERSATION_TITLE_TAG}`,
-    );
-
-    expect(document.querySelector('va-textarea')).to.not.exist;
-
-    expect(document.querySelector('section.old-reply-message-body')).to.exist;
-
-    expect(
-      document.querySelector('span[data-testid=draft-reply-to]').textContent,
-    ).to.equal(
-      'Draft To: FREEMAN, GORDON\n(Team: SM_TO_VA_GOV_TRIAGE_GROUP_TEST)',
-    );
-
-    expect(screen.getByTestId('not-for-print-header').textContent).to.contain(
-      '2 messages in this conversation',
-    );
-
-    expect(
-      screen.getByTestId(`message-body-${olderMessage.messageId}`).textContent,
-    ).to.contain(olderMessage.body);
-    expect(screen.queryByTestId('send-button')).to.be.null;
-    expect(screen.queryByTestId('save-draft-button')).to.be.null;
-    expect(screen.getByTestId('delete-draft-button')).to.exist;
-  });
-
-  it('with a reply draft message on a replied to message is MORE than 45 days OH message', async () => {
-    const { category, subject } = replyDraftThread.threadDetails.messages[0];
-
-    const state = {
-      sm: {
-        folders: {
-          folder: inbox,
-        },
-        triageTeams: {
-          triageTeams: recipients,
-        },
-        threadDetails: {
-          cannotReply: isOlderThan(getLastSentMessage(messages).sentDate, 45),
-          drafts: [
-            {
-              ...replyDraftMessage,
-              draftDate: new Date(),
-            },
-          ],
-          messages: [
-            {
-              ...replyMessage,
-              isOhMessage: true,
-              sentDate: subDays(new Date(), 46).toISOString(),
-            },
-            olderMessage,
-          ],
-          isLoading: false,
-          replyToName: replyMessage.senderName,
-          threadFolderId: '0',
-          replyToMessageId: replyMessage.messageId,
-        },
-      },
-    };
-
-    const screen = setup(state);
-
-    expect(await screen.queryByText('Continue to reply')).to.not.exist;
-
-    expect(
-      await screen.findByText(`Messages: ${category} - ${subject}`, {
-        exact: false,
-      }),
-    ).to.exist;
-
-    expect(global.document.title).to.equal(
-      `Messages: ${PageTitles.CONVERSATION_TITLE_TAG}`,
-    );
-
-    expect(document.querySelector('va-textarea')).to.not.exist;
-
-    expect(document.querySelector('section.old-reply-message-body')).to.exist;
-
-    expect(
-      document.querySelector('span[data-testid=draft-reply-to]').textContent,
-    ).to.equal(
-      'Draft To: FREEMAN, GORDON\n(Team: SM_TO_VA_GOV_TRIAGE_GROUP_TEST)',
-    );
-
-    expect(screen.getByTestId('not-for-print-header').textContent).to.contain(
-      '2 messages in this conversation',
-    );
-    expect(screen.getByText('Find your VA health facility', { selector: 'a' }))
+    expect(await screen.findByText(`${category}: ${subject}`, { exact: false }))
       .to.exist;
-    expect(screen.getByText(Alerts.Message.CANNOT_REPLY_BODY.OH)).to.exist;
+
+    expect(global.document.title).to.equal(
+      `Messages: ${PageTitles.CONVERSATION_TITLE_TAG}`,
+    );
+
+    expect(document.querySelector('va-textarea')).to.not.exist;
+
+    expect(document.querySelector('section.old-reply-message-body')).to.exist;
+
+    expect(
+      document.querySelector('span[data-testid=draft-reply-to]').textContent,
+    ).to.equal(
+      'Draft To: FREEMAN, GORDON\n(Team: SM_TO_VA_GOV_TRIAGE_GROUP_TEST)',
+    );
+
+    expect(screen.getByTestId('not-for-print-header').textContent).to.contain(
+      '2 messages in this conversation',
+    );
+
     expect(
       screen.getByTestId(`message-body-${olderMessage.messageId}`).textContent,
     ).to.contain(olderMessage.body);
@@ -421,7 +325,9 @@ describe('Thread Details container', () => {
     const draftMessageHistoryUpdated = [
       {
         ...replyMessage,
-        sentDate: subDays(new Date(), 44).toISOString(),
+        sentDate: moment()
+          .subtract(44, 'days')
+          .format(),
       },
       olderMessage,
     ];
@@ -514,7 +420,9 @@ describe('Thread Details container', () => {
     const draftMessageHistoryUpdated = [
       {
         ...replyMessage,
-        sentDate: subDays(new Date(), 44).toISOString(),
+        sentDate: moment()
+          .subtract(44, 'days')
+          .format(),
       },
       olderMessage,
     ];
@@ -714,11 +622,6 @@ describe('Thread Details container', () => {
   });
 
   it('renders the sending message spinner when sent', async () => {
-    const useFeatureTogglesStub = stubUseFeatureToggles({
-      largeAttachmentsEnabled: false,
-    });
-    useFeatureTogglesStub;
-
     const folderId = '112233';
     const state = {
       sm: {
@@ -753,58 +656,8 @@ describe('Thread Details container', () => {
     mockApiRequest({ method: 'POST', data: {}, status: 200 });
     fireEvent.click(screen.getByTestId('send-button'));
     await waitFor(() => {
-      expect(screen.getByTestId('sending-indicator')).to.have.attribute(
-        'message',
-        'Sending message...',
-      );
+      expect(screen.getByTestId('sending-indicator')).to.exist;
     });
-  });
-
-  it('renders the sending message spinner when sent with largeAttachmentsEnabled feature flag', async () => {
-    const useFeatureTogglesStub = stubUseFeatureToggles({
-      largeAttachmentsEnabled: true,
-    });
-    useFeatureTogglesStub;
-    const folderId = '112233';
-    const state = {
-      sm: {
-        threadDetails: {
-          drafts: [
-            {
-              ...replyDraftMessage,
-              threadFolderId: folderId,
-              replyToMessageId: 1234,
-            },
-          ],
-          messages: [replyMessage],
-        },
-        recipients: {
-          allRecipients: noBlockedRecipients.mockAllRecipients,
-          allowedRecipients: noBlockedRecipients.mockAllowedRecipients,
-          blockedRecipients: noBlockedRecipients.mockBlockedRecipients,
-          associatedTriageGroupsQty:
-            noBlockedRecipients.associatedTriageGroupsQty,
-          associatedBlockedTriageGroupsQty:
-            noBlockedRecipients.associatedBlockedTriageGroupsQty,
-          noAssociations: noBlockedRecipients.noAssociations,
-          allTriageGroupsBlocked: noBlockedRecipients.allTriageGroupsBlocked,
-        },
-      },
-    };
-    const screen = setup(state);
-    await waitFor(() => {
-      screen.getByTestId('send-button');
-    });
-    expect(screen.getByTestId('send-button')).to.exist;
-    mockApiRequest({ method: 'POST', data: {}, status: 200 });
-    fireEvent.click(screen.getByTestId('send-button'));
-    await waitFor(() => {
-      expect(screen.getByTestId('sending-indicator')).to.have.attribute(
-        'message',
-        'Do not refresh the page. Sending message...',
-      );
-    });
-    useFeatureTogglesStub.restore();
   });
 
   it('responds to Save Draft button click on Reply Form', async () => {
@@ -945,62 +798,6 @@ describe('Thread Details container', () => {
     expect(blockedTriageGroupAlert).to.have.attribute(
       'trigger',
       'Your account is no longer connected to SM_TO_VA_GOV_TRIAGE_GROUP_TEST',
-    );
-  });
-
-  it('allows reply if message is from unassociated OH sender', async () => {
-    const state = {
-      sm: {
-        folders: {
-          folder: inbox,
-        },
-        threadDetails: {
-          ...threadDetails,
-          messages: threadDetails.messages.map(m => ({
-            ...m,
-            isOhMessage: true,
-          })),
-        },
-        recipients: {
-          allRecipients: lostAssociation.mockAllRecipients,
-          allowedRecipients: lostAssociation.mockAllowedRecipients,
-          blockedRecipients: lostAssociation.mockBlockedRecipients,
-          associatedTriageGroupsQty: lostAssociation.associatedTriageGroupsQty,
-          associatedBlockedTriageGroupsQty:
-            lostAssociation.associatedBlockedTriageGroupsQty,
-          noAssociations: lostAssociation.noAssociations,
-          allTriageGroupsBlocked: lostAssociation.allTriageGroupsBlocked,
-        },
-      },
-      drupalStaticData: {
-        vamcEhrData: {
-          data: {
-            ehrDataByVhaId: [
-              {
-                facilityId: '662',
-                isCerner: false,
-              },
-              {
-                facilityId: '636',
-                isCerner: false,
-              },
-            ],
-          },
-        },
-      },
-      featureToggles: {},
-    };
-
-    const screen = setup(state);
-
-    const blockedTriageGroupAlert = await screen.queryByTestId(
-      'blocked-triage-group-alert',
-    );
-
-    expect(blockedTriageGroupAlert).to.not.exist;
-    expect(screen.getByTestId('reply-button-body')).to.exist;
-    expect(screen.getByTestId('reply-button-body').textContent).to.contain(
-      'Reply',
     );
   });
 

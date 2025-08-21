@@ -26,6 +26,7 @@ export const fillContactPersonalInfo = contact => {
   fillTextWebComponent('fullName_last', contact.fullName.last);
   fillTextWebComponent('primaryPhone', contact.primaryPhone);
   selectDropdownWebComponent('relationship', contact.relationship);
+  selectYesNoWebComponent('view:hasNextOfKinAddress', true);
   cy.injectAxeThenAxeCheck();
   goToNextPage();
 };

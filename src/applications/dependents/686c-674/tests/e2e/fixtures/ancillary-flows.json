@@ -1,38 +1,95 @@
 {
-  "householdIncome": false,
-  "view:childStoppedAttendingSchoolMissingInformation": {},
+  "householdIncome": true,
   "view:completedChildStoppedAttendingSchool": false,
-  "view:childMarriageMissingInformation": {},
-  "view:completedMarriedChild": false,
-  "view:deathsMissingInformation": {},
-  "view:completedDependent": false,
-  "view:stepChildrenMissingInformation": {},
-  "view:completedHouseholdChild": false,
-  "veteranInformation": {
+  "childStoppedAttendingSchool": [
+    {
       "fullName": {
-        "first": "Pauline",
-        "middle": "E",
-        "last": "Foster"
+        "first": "jack",
+        "last": "doe"
       },
-      "ssn": "796330625",
-      "birthDate": "1976-06-09",
-      "ssnLastFour": "0625",
-      "vaFileLastFour": "0625"
-    },
-  "veteranContactInformation": {
-    "phoneNumber": "8008675309",
-    "internationalPhoneNumber": "18008675309",
-    "emailAddress": "nope@nope.com",
-    "electronicCorrespondence": true,
-    "veteranAddress": {
-      "view:militaryBaseDescription": {},
-      "country": "USA",
-      "street": "123 Fake St.",
-      "city": "Fakesville",
-      "state": "AL",
-      "postalCode": "12345"
+      "ssn": "126321853",
+      "birthDate": "1991-03-04",
+      "dateChildLeftSchool": "2009-04-04"
     }
+  ],
+  "view:completedMarriedChild": false,
+  "childMarriage": [
+    {
+      "dependentIncome": "NA",
+      "dateMarried": "1991-01-19",
+      "fullName": {
+        "first": "John",
+        "last": "Doe"
+      },
+      "ssn": "333445555",
+      "birthDate": "1991-02-19"
+    }
+  ],
+  "view:completedDependent": false,
+  "deaths": [
+    {
+      "dependentDeathLocation": {
+        "outsideUsa": false,
+        "location": {
+          "city": "Fakesville",
+          "state": "AK"
+        }
+      },
+      "dependentDeathDate": "1991-01-19",
+      "childStatus": {
+        "childUnder18": false,
+        "stepChild": true,
+        "disabled": false,
+        "childOver18InSchool": true
+      },
+      "dependentType": "CHILD",
+      "fullName": {
+        "first": "Tom",
+        "last": "Riddle"
+      },
+      "ssn": "333445555",
+      "birthDate": "1991-01-19"
+    }
+  ],
+  "view:completedHouseholdChild": false,
+  "stepChildren": [
+    {
+      "livingExpensesPaid": "More than half",
+      "supportingStepchild": true,
+      "whoDoesTheStepchildLiveWith": {
+        "first": "Jane",
+        "last": "Doe"
+      },
+      "address": {
+        "view:militaryBaseDescription": {},
+        "country": "USA",
+        "street": "123 Fake St.",
+        "city": "Fakesville",
+        "state": "AL",
+        "postalCode": "12345"
+      },
+      "fullName": {
+        "first": "Tom",
+        "last": "Riddle"
+      },
+      "ssn": "333445555",
+      "birthDate": "1991-10-19"
+    }
+  ],
+  "veteranContactInformation": {
+    "veteranAddress": {
+      "view:livesOnMilitaryBase": false,
+      "view:livesOnMilitaryBaseInfo": {},
+      "country": "USA",
+      "street": "1600 Fakesville Ave",
+      "city": "Washington",
+      "state": "DC",
+      "postalCode": "20500"
+    },
+    "phoneNumber": "1231231234",
+    "emailAddress": "nope@nope.org"
   },
+  "view:686Information": {},
   "view:addOrRemoveDependents": {
     "add": false,
     "remove": true
@@ -50,74 +107,53 @@
     "reportMarriageOfChildUnder18": true,
     "reportChild18OrOlderIsNotAttendingSchool": true
   },
-  "stepChildren": [
+  "spouseInformation": {
+    "fullName": {}
+  },
+  "currentMarriageInformation": {
+    "location": {
+      "isOutsideUs": false
+    },
+    "view:marriageTypeInformation": {}
+  },
+  "doesLiveWithSpouse": {},
+  "view:additionalEvidenceDescription": {},
+  "studentNameAndSsn": {
+    "view:674Information": {},
+    "fullName": {}
+  },
+  "studentAddressMarriageTuition": {
+    "address": {
+      "view:livesOnMilitaryBaseInfo": {}
+    }
+  },
+  "schoolInformation": {
+    "address": {}
+  },
+  "currentTermDates": {},
+  "programInformation": {},
+  "reportDivorce": {
+    "fullName": {},
+    "divorceLocation": {
+      "outsideUsa": false,
+      "location": {}
+    },
+    "spouseIncome": false
+  },
+  "childSupportingDocuments": [
     {
-      "whoDoesTheStepchildLiveWith": {
-        "first": "John",
-        "middle": "Middle",
-        "last": "Doe"
-      },
-      "address": {
-        "view:militaryBaseDescription": {},
-        "country": "USA",
-        "street": "123 Fake St.",
-        "city": "North Las Vegas",
-        "state": "NV",
-        "postalCode": "89084"
-      },
-      "livingExpensesPaid": "Less than half",
-      "supportingStepchild": true,
-      "dateStepchildLeftHousehold": "2025-02-19",
-      "fullName": {
-        "first": "John",
-        "last": "Doe"
-      },
-      "ssn": "333445555",
-      "birthDate": "2012-02-19"
+      "name": "Screenshot from 2025-02-03 13-37-07.png",
+      "confirmationCode": "14b02a60-7825-4978-96b1-5d3cc4b1803d",
+      "attachmentId": "",
+      "isEncrypted": false
     }
   ],
-  "deaths": [
+  "spouseSupportingDocuments": [
     {
-      "deceasedDependentIncome": "NA",
-      "dependentDeathLocation": {
-        "location": {
-          "city": "Fakesville",
-          "state": "CA"
-        }
-      },
-      "dependentDeathDate": "2025-04-19",
-      "dependentType": "SPOUSE",
-      "fullName": {
-        "first": "John",
-        "last": "Doe"
-      },
-      "ssn": "333445555",
-      "birthDate": "1991-02-19"
-    }
-  ],
-  "childMarriage": [
-    {
-      "dependentIncome": "N",
-      "dateMarried": "2025-05-19",
-      "fullName": {
-        "first": "Jane",
-        "middle": "C",
-        "last": "Doe"
-      },
-      "ssn": "333445555",
-      "birthDate": "2008-04-21"
-    }
-  ],
-  "childStoppedAttendingSchool": [
-    {
-      "dependentIncome": "N",
-      "dateChildLeftSchool": "2025-03-19",
-      "fullName": {
-        "first": "John",
-        "last": "Doe"
-      },
-      "ssn": "333445555",
-      "birthDate": "2004-03-19"
+      "name": "Screenshot from 2025-02-03 13-37-07.png",
+      "confirmationCode": "14b02a60-7825-4978-96b1-5d3cc4b1803d",
+      "attachmentId": "",
+      "isEncrypted": false
     }
   ],
   "statementOfTruthSignature": "Pauline E Foster",

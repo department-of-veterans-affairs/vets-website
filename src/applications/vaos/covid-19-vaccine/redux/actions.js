@@ -1,23 +1,25 @@
-import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import {
+  selectVAPResidentialAddress,
   selectVAPEmailAddress,
   selectVAPHomePhoneString,
   selectVAPMobilePhoneString,
-  selectVAPResidentialAddress,
 } from '@department-of-veterans-affairs/platform-user/exports';
-import { format, isAfter, isDate, parseISO, startOfMinute } from 'date-fns';
-import { selectSystemIds } from '../../redux/selectors';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import { startOfMonth, endOfMonth, format, isAfter } from 'date-fns';
+
 import {
-  STARTED_NEW_APPOINTMENT_FLOW,
-  VACCINE_FORM_SUBMIT_SUCCEEDED,
-} from '../../redux/sitewide';
-import { createAppointment } from '../../services/appointment';
+  selectSystemIds,
+  selectFeatureFeSourceOfTruth,
+  selectFeatureFeSourceOfTruthCC,
+  selectFeatureFeSourceOfTruthVA,
+  selectFeatureFeSourceOfTruthModality,
+  selectFeatureConvertSlotsToUTC,
+} from '../../redux/selectors';
 import { getAvailableHealthcareServices } from '../../services/healthcare-service';
 import {
   getLocationsByTypeOfCareAndSiteIds,
   getSiteIdFromFacilityId,
 } from '../../services/location';
-import { getSlots } from '../../services/slot';
 import { getPreciseLocation } from '../../utils/address';
 import {
   FACILITY_SORT_METHODS,
@@ -31,11 +33,17 @@ import {
   recordItemsRetrieved,
   resetDataLayer,
 } from '../../utils/events';
-import { transformFormToVAOSAppointment } from './helpers/formSubmitTransformers';
 import {
-  selectCovid19VaccineFormData,
   selectCovid19VaccineNewBooking,
+  selectCovid19VaccineFormData,
 } from './selectors';
+import { getSlots } from '../../services/slot';
+import {
+  VACCINE_FORM_SUBMIT_SUCCEEDED,
+  STARTED_NEW_APPOINTMENT_FLOW,
+} from '../../redux/sitewide';
+import { createAppointment } from '../../services/appointment';
+import { transformFormToVAOSAppointment } from './helpers/formSubmitTransformers';
 
 export const FORM_PAGE_OPENED = 'covid19Vaccine/FORM_PAGE_OPENED';
 export const FORM_DATA_UPDATED = 'covid19Vaccine/FORM_DATA_UPDATED';
@@ -251,7 +259,7 @@ export function updateFacilitySortMethod(sortMethod, uiSchema) {
   };
 }
 
-export function getAppointmentSlots(start, end, initialFetch = false) {
+export function getAppointmentSlots(startDate, endDate, initialFetch = false) {
   return async (dispatch, getState) => {
     const state = getState();
     const siteId = getSiteIdFromFacilityId(
@@ -259,17 +267,10 @@ export function getAppointmentSlots(start, end, initialFetch = false) {
     );
     const newBooking = selectCovid19VaccineNewBooking(state);
     const { data } = newBooking;
+    const featureConvertSlotsToUTC = selectFeatureConvertSlotsToUTC(state);
 
-    let startDate = start;
-    let endDate = end;
-
-    if (!isDate(start)) {
-      startDate = parseISO(start);
-    }
-
-    if (!isDate(end)) {
-      endDate = parseISO(end);
-    }
+    const startDateMonth = format(new Date(startDate), 'yyyy-MM');
+    const endDateMonth = format(new Date(endDate), 'yyyy-MM');
 
     let fetchedAppointmentSlotMonths = [];
     let fetchedStartMonth = false;
@@ -281,12 +282,8 @@ export function getAppointmentSlots(start, end, initialFetch = false) {
         ...newBooking.fetchedAppointmentSlotMonths,
       ];
 
-      fetchedStartMonth = fetchedAppointmentSlotMonths.includes(
-        format(startDate, 'yyyy-MM'),
-      );
-      fetchedEndMonth = fetchedAppointmentSlotMonths.includes(
-        format(endDate, 'yyyy-MM'),
-      );
+      fetchedStartMonth = fetchedAppointmentSlotMonths.includes(startDateMonth);
+      fetchedEndMonth = fetchedAppointmentSlotMonths.includes(endDateMonth);
       availableSlots = newBooking.availableSlots || [];
     }
 
@@ -295,32 +292,38 @@ export function getAppointmentSlots(start, end, initialFetch = false) {
       dispatch({ type: FORM_CALENDAR_FETCH_SLOTS });
 
       try {
+        const startDateString = !fetchedStartMonth
+          ? format(new Date(startDate), 'yyyy-MM-dd')
+          : format(startOfMonth(new Date(endDate)), 'yyyy-MM-dd');
+        const endDateString = !fetchedEndMonth
+          ? format(new Date(endDate), 'yyyy-MM-dd')
+          : format(endOfMonth(new Date(startDate)), 'yyyy-MM-dd');
+
         const fetchedSlots = await getSlots({
           siteId,
           clinicId: data.clinicId,
-          startDate,
-          endDate,
+          startDate: startDateString,
+          endDate: endDateString,
+          convertToUtc: featureConvertSlotsToUTC,
         });
 
         if (initialFetch) {
           recordItemsRetrieved('covid_slots', fetchedSlots?.length);
         }
 
-        mappedSlots = fetchedSlots.filter(slot => {
-          return isAfter(
-            startOfMinute(new Date(slot.start)),
-            startOfMinute(new Date(new Date().toISOString())),
-          );
-        });
+        const now = new Date();
+        mappedSlots = fetchedSlots.filter(slot =>
+          isAfter(new Date(slot.start), now),
+        );
 
         // Keep track of which months we've fetched already so we don't
         // make duplicate calls
         if (!fetchedStartMonth) {
-          fetchedAppointmentSlotMonths.push(format(startDate, 'yyyy-MM'));
+          fetchedAppointmentSlotMonths.push(startDateMonth);
         }
 
         if (!fetchedEndMonth) {
-          fetchedAppointmentSlotMonths.push(format(endDate, 'yyyy-MM'));
+          fetchedAppointmentSlotMonths.push(endDateMonth);
         }
 
         const sortedSlots = [...availableSlots, ...mappedSlots].sort((a, b) =>
@@ -380,6 +383,14 @@ export function prefillContactInfo() {
 
 export function confirmAppointment(history) {
   return async (dispatch, getState) => {
+    const state = getState();
+    const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
+    const useFeSourceOfTruthCC = selectFeatureFeSourceOfTruthCC(state);
+    const useFeSourceOfTruthVA = selectFeatureFeSourceOfTruthVA(state);
+    const useFeSourceOfTruthModality = selectFeatureFeSourceOfTruthModality(
+      state,
+    );
+
     dispatch({
       type: FORM_SUBMIT,
     });
@@ -397,6 +408,10 @@ export function confirmAppointment(history) {
     try {
       const appointment = await createAppointment({
         appointment: transformFormToVAOSAppointment(getState()),
+        useFeSourceOfTruth,
+        useFeSourceOfTruthCC,
+        useFeSourceOfTruthVA,
+        useFeSourceOfTruthModality,
       });
 
       const data = selectCovid19VaccineFormData(getState());

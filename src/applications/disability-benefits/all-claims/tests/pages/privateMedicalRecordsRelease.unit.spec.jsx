@@ -7,11 +7,10 @@ import {
   DefinitionTester,
   fillData,
   fillDate,
-} from 'platform/testing/unit/schemaform-utils';
-import { waitFor } from '@testing-library/dom';
-import { form0781WorkflowChoices } from '../../content/form0781/workflowChoices';
-import formConfig from '../../config/form';
-import initialData from '../initialData';
+} from 'platform/testing/unit/schemaform-utils.jsx';
+import formConfig from '../../config/form.js';
+import initialData from '../initialData.js';
+import { form0781WorkflowChoices } from '../../content/form0781/workflowChoicePage';
 
 const {
   schema,
@@ -54,16 +53,14 @@ const newDisabilities = [
 ];
 
 describe('Disability benefits 4142 provider medical records facility information', () => {
-  it('should render 4142 form', async () => {
+  it('should render 4142 form', () => {
     const form = mount(
       <DefinitionTester
         arrayPath={arrayPath}
         pagePerItemIndex={0}
         definitions={formConfig.defaultDefinitions}
         schema={schema}
-        data={{
-          initialData,
-        }}
+        data={initialData}
         uiSchema={uiSchema}
       />,
     );
@@ -75,9 +72,8 @@ describe('Disability benefits 4142 provider medical records facility information
     form.unmount();
   });
 
-  it('should add a provider facility', async () => {
+  it('should add a provider facility', () => {
     const onSubmit = sinon.spy();
-
     const form = mount(
       <DefinitionTester
         arrayPath={arrayPath}
@@ -85,27 +81,8 @@ describe('Disability benefits 4142 provider medical records facility information
         onSubmit={onSubmit}
         definitions={formConfig.defaultDefinitions}
         schema={schema}
-        data={{
-          initialData,
-          ...claimType,
-          ratedDisabilities,
-          providerFacility: [
-            {
-              treatmentCenterName: 'Sommerset VA Clinic',
-              treatedDisabilityNames: {
-                diabetesmelitus: true,
-              },
-              treatmentDateRange: {
-                from: '2010-04-XX',
-              },
-              treatmentCenterAddress: {
-                country: 'USA',
-                city: 'APO',
-                state: 'VA',
-              },
-            },
-          ],
-        }}
+        data={initialData}
+        formData={initialData}
         uiSchema={uiSchema}
       />,
     );
@@ -148,15 +125,13 @@ describe('Disability benefits 4142 provider medical records facility information
       '29414',
     );
 
-    await waitFor(() => {
-      form.find('form').simulate('submit');
-      expect(onSubmit.called).to.be.true;
-      expect(form.find('.usa-input-error').length).to.equal(0);
-    });
+    form.find('form').simulate('submit');
+    expect(onSubmit.called).to.be.true;
+    expect(form.find('.usa-input-error').length).to.equal(0);
     form.unmount();
   });
 
-  it('does not submit (and renders error messages) when no fields touched', async () => {
+  it('does not submit (and renders error messages) when no fields touched', () => {
     const submit = sinon.spy();
 
     const form = mount(
@@ -171,20 +146,18 @@ describe('Disability benefits 4142 provider medical records facility information
       />,
     );
 
-    await waitFor(() => {
-      form.find('form').simulate('submit');
-      expect(submit.called).to.be.false;
+    form.find('form').simulate('submit');
+    expect(submit.called).to.be.false;
 
-      expect(form.find('.usa-input-error').length).to.equal(7);
+    expect(form.find('.usa-input-error').length).to.equal(7);
 
-      expect(form.find('select').length).to.equal(6);
-      expect(form.find('input').length).to.equal(7); // non-checkbox inputs
-      expect(form.find('va-checkbox').length).to.equal(1);
-    });
+    expect(form.find('select').length).to.equal(6);
+    expect(form.find('input').length).to.equal(7); // non-checkbox inputs
+    expect(form.find('va-checkbox').length).to.equal(1);
     form.unmount();
   });
 
-  it('does not submit (and renders error messages) when limited consent option chosen and no fields touched', async () => {
+  it('does not submit (and renders error messages) when limited consent option chosen and no fields touched', () => {
     const submit = sinon.spy();
 
     const form = mount(
@@ -201,80 +174,12 @@ describe('Disability benefits 4142 provider medical records facility information
       />,
     );
 
-    await waitFor(() => {
-      form.find('form').simulate('submit');
-      expect(submit.called).to.be.false;
+    form.find('form').simulate('submit');
+    expect(submit.called).to.be.false;
 
-      expect(form.find('.usa-input-error').length).to.equal(8);
+    expect(form.find('.usa-input-error').length).to.equal(8);
 
-      expect(form.find('input').length).to.equal(8); // non-checkbox inputs
-      expect(form.find('va-checkbox').length).to.equal(1);
-    });
-    form.unmount();
-  });
-
-  it('should render with rated disabilities', () => {
-    const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{
-          ...claimType,
-          ratedDisabilities,
-          'view:selectableEvidenceTypes': {
-            'view:hasPrivateMedicalRecords': true,
-          },
-          disability526Enable2024Form4142: true,
-        }}
-      />,
-    );
-    expect(form.find('va-checkbox').length).to.equal(4);
-    expect(form.find('select').length).to.equal(6);
-    form.unmount();
-  });
-});
-
-describe('updated 4142 provider medical records release', () => {
-  it('should render the treated disability checkboxes section when disability526Enable2024Form4142 is true', () => {
-    const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{
-          'view:uploadPrivateRecordsQualifier': {
-            'view:hasPrivateRecordsToUpload': false,
-          },
-          ...claimType,
-          ratedDisabilities,
-          disability526Enable2024Form4142: true, // Simulating the condition
-        }}
-        formData={{}}
-      />,
-    );
-    // 1 for the limited consent checkbox, 3 for the treated disabilities
-    expect(form.find('va-checkbox').length).to.equal(4);
-    form.unmount();
-  });
-  it('should not render the treated disability checkboxes section when disability526Enable2024Form4142 is false', () => {
-    const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{
-          'view:uploadPrivateRecordsQualifier': {
-            'view:hasPrivateRecordsToUpload': false,
-          },
-          ...claimType,
-          ratedDisabilities,
-          disability526Enable2024Form4142: false, // Simulating the condition
-        }}
-        formData={{}}
-      />,
-    );
-    // 1 for the limited consent checkbox, 0 for the treated disabilities
+    expect(form.find('input').length).to.equal(8); // non-checkbox inputs
     expect(form.find('va-checkbox').length).to.equal(1);
     form.unmount();
   });

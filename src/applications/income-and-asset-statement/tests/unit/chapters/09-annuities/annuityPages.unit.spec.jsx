@@ -14,7 +14,7 @@ import {
 } from '../multiPageTests.spec';
 import {
   testNumberOfFieldsByType,
-  testComponentFieldsMarkedAsRequired,
+  testNumberOfErrorsOnSubmitForWebComponents,
   testSelectAndValidateField,
   testSubmitsWithoutErrors,
 } from '../pageTests.spec';
@@ -100,11 +100,11 @@ describe('annuity list and loop pages', () => {
       { 'va-radio': 1 },
       'annuity summary page',
     );
-    testComponentFieldsMarkedAsRequired(
+    testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
       uiSchema,
-      ['va-radio[label="Have you or your dependents established an annuity?"]'],
+      1,
       'annuity summary page',
     );
     testSubmitsWithoutErrors(
@@ -133,14 +133,11 @@ describe('annuity list and loop pages', () => {
       },
       'information',
     );
-    testComponentFieldsMarkedAsRequired(
+    testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
       uiSchema,
-      [
-        'va-memorable-date[label="When was the annuity established?"]',
-        'va-text-input[label="What was the market value of the asset at the time of purchase?"]',
-      ],
+      2,
       'information',
     );
     testSubmitsWithoutErrors(
@@ -165,11 +162,11 @@ describe('annuity list and loop pages', () => {
       { 'va-radio': 1 },
       'revocable',
     );
-    testComponentFieldsMarkedAsRequired(
+    testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
       uiSchema,
-      ['va-radio[label="Is the annuity revocable or irrevocable?"]'],
+      1,
       'revocable',
     );
     testSubmitsWithoutErrors(
@@ -194,11 +191,11 @@ describe('annuity list and loop pages', () => {
       { 'va-radio': 1 },
       'income',
     );
-    testComponentFieldsMarkedAsRequired(
+    testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
       uiSchema,
-      ['va-radio[label="Do you receive income from the annuity?"]'],
+      1,
       'income',
     );
     testSubmitsWithoutErrors(
@@ -233,11 +230,11 @@ describe('annuity list and loop pages', () => {
       { 'va-radio': 1 },
       'liquidation',
     );
-    testComponentFieldsMarkedAsRequired(
+    testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
       uiSchema,
-      ['va-radio[label="Can the annuity be liquidated?"]'],
+      1,
       'liquidation',
     );
     testSubmitsWithoutErrors(
@@ -272,13 +269,11 @@ describe('annuity list and loop pages', () => {
       { 'va-radio': 1 },
       'funds',
     );
-    testComponentFieldsMarkedAsRequired(
+    testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
       uiSchema,
-      [
-        'va-radio[label="Have you added funds to the annuity in the current or prior three years?"]',
-      ],
+      1,
       'funds',
     );
     testSubmitsWithoutErrors(
@@ -304,14 +299,11 @@ describe('annuity list and loop pages', () => {
       { 'va-memorable-date': 1, 'va-text-input': 1 },
       'added funds',
     );
-    testComponentFieldsMarkedAsRequired(
+    testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
       uiSchema,
-      [
-        'va-memorable-date[label="When did you add funds?"]',
-        'va-text-input[label="How much did you add?"]',
-      ],
+      2,
       'added funds',
     );
     testSubmitsWithoutErrors(

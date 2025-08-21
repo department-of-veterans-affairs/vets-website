@@ -4,7 +4,7 @@ import { render } from '@testing-library/react';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import {
   FakeProvider,
-  testComponentFieldsMarkedAsRequired,
+  testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfFieldsByType,
   testNumberOfWebComponentFields,
   testSubmitsWithoutErrors,
@@ -17,9 +17,6 @@ import {
 
 const { schema, uiSchema } = generateEmployersSchemas({
   showJobTitleField: true,
-  jobTypeFieldLabel: 'What kind of work did you do?',
-  jobHoursWeekFieldLabel: 'How many hours per week did you work on average?',
-  jobTitleFieldLabel: 'What was your job title?',
 });
 
 describe('pensions employment history', () => {
@@ -33,15 +30,12 @@ describe('pensions employment history', () => {
     pageTitle,
   );
 
-  testComponentFieldsMarkedAsRequired(
+  const expectedNumberOfErrors = 3;
+  testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     schema,
     uiSchema,
-    [
-      `va-text-input[label="What kind of work did you do?"]`,
-      `va-text-input[label="How many hours per week did you work on average?"]`,
-      `va-text-input[label="What was your job title?"]`,
-    ],
+    expectedNumberOfErrors,
     pageTitle,
   );
 

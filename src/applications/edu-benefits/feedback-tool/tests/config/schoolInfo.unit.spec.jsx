@@ -2,30 +2,19 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
-import { render, waitFor } from '@testing-library/react';
 import _ from 'lodash';
 import {
   DefinitionTester,
   fillData,
-  getFormDOM,
-} from 'platform/testing/unit/schemaform-utils';
+} from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
 describe('feedback tool school info', () => {
-  let sandbox;
   const {
     schema,
     uiSchema,
   } = formConfig.chapters.schoolInformation.pages.schoolInformation;
   _.unset(uiSchema, 'educationDetails.school.view:searchSchoolSelect');
-
-  beforeEach(() => {
-    sandbox = sinon.createSandbox();
-  });
-
-  afterEach(() => {
-    sandbox.restore();
-  });
 
   it('should render', () => {
     const form = mount(
@@ -74,9 +63,9 @@ describe('feedback tool school info', () => {
     form.unmount();
   });
 
-  it('should not submit without required information', async () => {
-    const onSubmit = sandbox.spy();
-    const { container } = render(
+  it('should not submit without required information', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
       <DefinitionTester
         schema={schema}
         data={{
@@ -99,18 +88,15 @@ describe('feedback tool school info', () => {
       />,
     );
 
-    const formDOM = getFormDOM({ container });
-    formDOM.submitForm();
-
-    await waitFor(() => {
-      expect(container.querySelectorAll('.usa-input-error').length).to.equal(5);
-      expect(onSubmit.called).to.be.false;
-    });
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error').length).to.equal(5);
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
-  it('should not submit without required international address information', async () => {
-    const onSubmit = sandbox.spy();
-    const { container } = render(
+  it('should not submit without required international address information', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
       <DefinitionTester
         schema={schema}
         data={{
@@ -128,17 +114,14 @@ describe('feedback tool school info', () => {
       />,
     );
 
-    const formDOM = getFormDOM({ container });
-    formDOM.submitForm();
-
-    await waitFor(() => {
-      expect(container.querySelectorAll('.usa-input-error').length).to.equal(3);
-      expect(onSubmit.called).to.be.false;
-    });
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error').length).to.equal(3);
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('should submit with required information', () => {
-    const onSubmit = sandbox.spy();
+    const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
         schema={schema}

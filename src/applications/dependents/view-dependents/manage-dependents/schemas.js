@@ -1,12 +1,6 @@
 import constants from 'vets-json-schema/dist/constants.json';
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import addressUiSchema from 'platform/forms-system/src/js/definitions/profileAddress';
-import { currentOrPastDateUI } from 'platform/forms-system/src/js/web-component-patterns';
-import {
-  VaSelectField,
-  VaRadioField,
-  VaCheckboxField,
-  VaTextInputField,
-} from 'platform/forms-system/src/js/web-component-fields';
 
 const validateAtLeastOneSelected = (errors, fieldData, formData) => {
   if (
@@ -50,10 +44,8 @@ const locationUiSchema = uiRequiredCallback => {
   return {
     isOutsideUs: {
       'ui:title': 'This happened outside of the U.S.',
-      'ui:webComponentField': VaCheckboxField,
     },
     state: {
-      'ui:webComponentField': VaSelectField,
       'ui:required': uiRequiredCallback,
       'ui:errorMessages': {
         required: 'Please select where this happened',
@@ -83,7 +75,6 @@ const locationUiSchema = uiRequiredCallback => {
     },
     city: {
       'ui:title': 'City where this happened',
-      'ui:webComponentField': VaTextInputField,
       'ui:required': uiRequiredCallback,
       'ui:errorMessages': {
         required: 'Please enter a city',
@@ -103,25 +94,6 @@ const isNotRemovingStepchild = value => {
 
 const checkBoxTitle =
   'This is on a United States military base outside of the U.S.';
-
-// Update address UI schema to use web components. Trying to use the existing
-// web component address UI Schema causes issues due to form data & naming
-// mismatch
-const addressUI = addressUiSchema(
-  'address',
-  checkBoxTitle,
-  formData => formData.reasonForRemoval === 'reportStepchildNotInHousehold',
-);
-
-// Update address UI schema to use web components
-addressUI.isMilitary['ui:webComponentField'] = VaCheckboxField;
-addressUI.country['ui:webComponentField'] = VaSelectField;
-addressUI.street['ui:webComponentField'] = VaTextInputField;
-addressUI.street2['ui:webComponentField'] = VaTextInputField;
-addressUI.street3['ui:webComponentField'] = VaTextInputField;
-addressUI.city['ui:webComponentField'] = VaTextInputField;
-addressUI.state['ui:webComponentField'] = VaSelectField;
-addressUI.postalCode['ui:webComponentField'] = VaTextInputField;
 
 export const SCHEMAS = {
   Spouse: {
@@ -149,7 +121,7 @@ export const SCHEMAS = {
     uiSchema: {
       reasonMarriageEnded: {
         'ui:title': 'Reason marriage ended:',
-        'ui:webComponentField': VaRadioField,
+        'ui:widget': 'radio',
         'ui:errorMessages': {
           required: 'Please select an option',
         },
@@ -184,7 +156,7 @@ export const SCHEMAS = {
     uiSchema: {
       reasonForRemoval: {
         'ui:title': 'Reason for removing dependent:',
-        'ui:webComponentField': VaRadioField,
+        'ui:widget': 'radio',
         'ui:errorMessages': {
           required: 'Please select an option',
         },
@@ -296,7 +268,7 @@ export const SCHEMAS = {
     uiSchema: {
       reasonForRemoval: {
         'ui:title': 'Reason for removing this dependent',
-        'ui:webComponentField': VaRadioField,
+        'ui:widget': 'radio',
         'ui:errorMessages': {
           required: 'Please select an option',
         },
@@ -313,7 +285,7 @@ export const SCHEMAS = {
       },
       livingExpensesPaid: {
         'ui:title': 'How much of this stepchild’s living expenses do you pay?',
-        'ui:webComponentField': VaRadioField,
+        'ui:widget': 'radio',
         'ui:required': formData =>
           formData.reasonForRemoval === 'reportStepchildNotInHousehold',
         'ui:options': {
@@ -329,13 +301,11 @@ export const SCHEMAS = {
         },
         first: {
           'ui:title': 'First name',
-          'ui:webComponentField': VaTextInputField,
           'ui:required': formData =>
             formData.reasonForRemoval === 'reportStepchildNotInHousehold',
         },
         last: {
           'ui:title': 'Last name',
-          'ui:webComponentField': VaTextInputField,
           'ui:required': formData =>
             formData.reasonForRemoval === 'reportStepchildNotInHousehold',
         },
@@ -346,7 +316,12 @@ export const SCHEMAS = {
           hideIf: formData =>
             formData.reasonForRemoval !== 'reportStepchildNotInHousehold',
         },
-        ...addressUI,
+        ...addressUiSchema(
+          'address',
+          checkBoxTitle,
+          formData =>
+            formData.reasonForRemoval === 'reportStepchildNotInHousehold',
+        ),
       },
       childStatus: {
         'ui:title': 'Child’s status (Check all that apply)',
@@ -358,23 +333,18 @@ export const SCHEMAS = {
         'ui:validations': [validateAtLeastOneSelected],
         childUnder18: {
           'ui:title': 'Child under 18',
-          'ui:webComponentField': VaCheckboxField,
         },
         stepChild: {
           'ui:title': 'Stepchild',
-          'ui:webComponentField': VaCheckboxField,
         },
         adopted: {
           'ui:title': 'Adopted child',
-          'ui:webComponentField': VaCheckboxField,
         },
         disabled: {
           'ui:title': 'Child incapable of self-support',
-          'ui:webComponentField': VaCheckboxField,
         },
         childOver18InSchool: {
           'ui:title': 'Child 18-23 and in school',
-          'ui:webComponentField': VaCheckboxField,
         },
       },
     },

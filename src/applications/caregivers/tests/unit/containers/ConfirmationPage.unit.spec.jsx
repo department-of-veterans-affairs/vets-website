@@ -35,13 +35,6 @@ describe('CG <ConfirmationPage>', () => {
     return { selectors };
   };
 
-  beforeEach(() => {
-    Object.defineProperty(window, 'print', {
-      value: () => {},
-      configurable: true,
-    });
-  });
-
   it('should contain sections that will not be displayed in print view', () => {
     const { selectors } = subject();
     const { wrapper, printContainers } = selectors();

@@ -15,12 +15,11 @@ import {
   addressSchema,
   emailUI,
   emailSchema,
-  internationalPhoneUI,
-  internationalPhoneSchema,
+  phoneUI,
+  phoneSchema,
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { expandPhoneNumberToInternational } from './migrations';
 import transformForSubmit from './submitTransformer';
 import manifest from '../manifest.json';
 import SubmissionError from '../../shared/components/SubmissionError';
@@ -81,8 +80,7 @@ const formConfig = {
       saved: 'Your FMP benefits registration has been saved.',
     },
   },
-  version: 1,
-  migrations: [expandPhoneNumberToInternational],
+  version: 0,
   prefillEnabled: true,
   savedFormMessages: {
     notFound: 'Please start over to register for FMP benefits.',
@@ -103,10 +101,7 @@ const formConfig = {
           uiSchema: {
             ...titleUI('Name and date of birth'),
             veteranFullName: veteranFullNameUI,
-            veteranDateOfBirth: dateOfBirthUI({
-              required: () => true,
-              dataDogHidden: true,
-            }),
+            veteranDateOfBirth: dateOfBirthUI({ required: () => true }),
             'ui:validations': [
               (errors, formData) =>
                 validObjectCharsOnly(errors, null, formData, 'veteranFullName'),
@@ -260,7 +255,7 @@ const formConfig = {
             ),
             messageAriaDescribedby:
               'Please include this information so that we can contact you with questions or updates.',
-            veteranPhoneNumber: internationalPhoneUI({}),
+            veteranPhoneNumber: phoneUI(),
             veteranEmailAddress: emailUI(),
           },
           schema: {
@@ -268,7 +263,7 @@ const formConfig = {
             required: ['veteranPhoneNumber', 'veteranEmailAddress'],
             properties: {
               titleSchema,
-              veteranPhoneNumber: internationalPhoneSchema({ required: true }),
+              veteranPhoneNumber: phoneSchema,
               veteranEmailAddress: emailSchema,
             },
           },

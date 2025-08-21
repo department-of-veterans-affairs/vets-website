@@ -263,18 +263,12 @@ const createTestHistory = (path = '/') => {
  */
 const inputVaTextInput = (container, value, selector = 'va-text-input') => {
   const vaTextInput = $(selector, container);
-  if (!vaTextInput) throw new Error(`Element not found: ${selector}`);
-
-  // set the value on the component instance
   vaTextInput.value = value;
 
-  // create and dispatch a native 'input' event
-  const event = new container.ownerDocument.defaultView.InputEvent('input', {
+  const event = new CustomEvent('input', {
     bubbles: true,
-    composed: true,
-    data: value,
+    detail: { value },
   });
-
   vaTextInput.dispatchEvent(event);
 };
 
@@ -293,12 +287,6 @@ const checkVaCheckbox = (checkboxGroup, keyName) => {
   });
 };
 
-/**
- * Coerces Node major version into a number and verifies its greater than 20
- */
-const isNode20OrHigher =
-  parseInt(process.versions.node.split('.')[0], 10) >= 20;
-
 export {
   chai,
   checkVaCheckbox,
@@ -313,5 +301,4 @@ export {
   resetFetch,
   wrapWithContext,
   wrapWithRouterContext,
-  isNode20OrHigher,
 };

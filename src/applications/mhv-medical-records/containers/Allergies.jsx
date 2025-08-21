@@ -23,7 +23,6 @@ import {
   accessAlertTypes,
   refreshExtractTypes,
   CernerAlertContent,
-  statsdFrontEndActions,
 } from '../util/constants';
 import { getAllergiesList, reloadRecords } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
@@ -42,7 +41,6 @@ import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import useAcceleratedData from '../hooks/useAcceleratedData';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
-import { useTrackAction } from '../hooks/useTrackAction';
 
 const Allergies = props => {
   const { runningUnitTest } = props;
@@ -82,8 +80,6 @@ const Allergies = props => {
     dispatchAction,
     dispatch,
   });
-
-  useTrackAction(statsdFrontEndActions.ALLERGIES_LIST);
 
   useEffect(
     /**

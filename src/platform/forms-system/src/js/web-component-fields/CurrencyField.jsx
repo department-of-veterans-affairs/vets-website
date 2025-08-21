@@ -34,7 +34,7 @@ export default function CurrencyField(fieldProps) {
     // highlight like there's an error, but no error message will show.
     // Returning null will show the error message
     if (value === '' || typeof value === 'undefined') {
-      props.onChange(schemaType === 'number' ? null : '');
+      props.onChange();
       // Needs to look like a currency
     } else if (!CURRENCY_REGEXP.test(value)) {
       props.onChange(value);
@@ -62,7 +62,7 @@ export default function CurrencyField(fieldProps) {
       setDisplayVal(roundedString);
       props.onChange(schemaType === 'number' ? roundedValue : roundedString);
     } else {
-      props.onChange(schemaType === 'number' && value === '' ? null : value);
+      props.onChange(value);
     }
   };
 

@@ -137,28 +137,6 @@ export const convertNewVaccine = vaccine => {
   return null;
 };
 
-export const convertUnifiedVaccine = record => {
-  if (!record) {
-    return null;
-  }
-  return {
-    id: record.id,
-    name: record.attributes?.groupName || EMPTY_FIELD,
-    date: formatDate(record.attributes?.date),
-    location: record.attributes?.location || EMPTY_FIELD,
-    shortDescription: record.attributes?.shortDescription || EMPTY_FIELD,
-    manufacturer: record.attributes?.manufacturer || EMPTY_FIELD,
-    reaction: record.attributes?.reaction || EMPTY_FIELD,
-    note: record.attributes?.note || EMPTY_FIELD,
-    doseNumber: record.attributes?.doseNumber,
-    seriesDoses: record.attributes?.seriesDoses,
-    doseDisplay:
-      record.attributes?.doseNumber && record.attributes?.seriesDoses
-        ? `${record.attributes.doseNumber} of ${record.attributes.seriesDoses}`
-        : EMPTY_FIELD,
-  };
-};
-
 export const vaccineReducer = (state = initialState, action) => {
   switch (action.type) {
     case Actions.Vaccines.GET: {
@@ -180,36 +158,6 @@ export const vaccineReducer = (state = initialState, action) => {
       return {
         ...state,
         vaccineDetails: action.response,
-      };
-    }
-    case Actions.Vaccines.GET_UNIFIED_VACCINE: {
-      const vaccine = action.response.data;
-      // Convert the unified vaccine to the
-      return {
-        ...state,
-        vaccineDetails: convertUnifiedVaccine(vaccine),
-      };
-    }
-    case Actions.Vaccines.GET_UNIFIED_LIST: {
-      const oldList = state.vaccinesList;
-      const metadata = action.response.meta;
-      const newList =
-        action.response.data
-          ?.map(convertUnifiedVaccine)
-          .filter(record => record !== null)
-          .sort((a, b) => new Date(b.date) - new Date(a.date)) || [];
-
-      const vaccinesList = typeof oldList === 'undefined' ? newList : oldList;
-      const updatedList = typeof oldList !== 'undefined' ? newList : undefined;
-
-      return {
-        ...state,
-        listCurrentAsOf: action.isCurrent ? new Date() : null,
-        listState: loadStates.FETCHED,
-        vaccinesList,
-        updatedList,
-        listMetadata: metadata,
-        updateNeeded: false,
       };
     }
     case Actions.Vaccines.GET_LIST: {

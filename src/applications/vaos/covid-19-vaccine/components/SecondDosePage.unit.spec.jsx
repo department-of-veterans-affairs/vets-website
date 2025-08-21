@@ -4,7 +4,6 @@ import React from 'react';
 
 import { waitFor } from '@testing-library/dom';
 import { addDays, addMinutes, format } from 'date-fns';
-import { formatInTimeZone } from 'date-fns-tz';
 import {
   createTestStore,
   renderWithStoreAndRouter,
@@ -20,14 +19,14 @@ const initialState = {
 };
 
 describe('VAOS vaccine flow: SecondDosePage', () => {
-  const start = new Date('2025-08-05T08:00:00-06:00');
+  const start = new Date();
   const store = createTestStore({
     ...initialState,
     covid19Vaccine: {
       newBooking: {
         previousPages: {},
         data: {
-          vaFacility: '983var', // the substring (0,3) of the facility ID is used for TimeZone
+          vaFacility: 'var983',
           clinicId: '455',
           date1: [format(start, DATE_FORMATS.ISODateTime)],
         },
@@ -40,7 +39,7 @@ describe('VAOS vaccine flow: SecondDosePage', () => {
         clinics: {},
         facilities: [
           {
-            id: '983var',
+            id: 'var983',
             name: 'Cheyenne VA Medical Center',
           },
         ],
@@ -52,11 +51,6 @@ describe('VAOS vaccine flow: SecondDosePage', () => {
     const screen = renderWithStoreAndRouter(<SecondDosePage />, {
       store,
     });
-    const expectedDate = formatInTimeZone(
-      start,
-      'America/Denver',
-      DATE_FORMATS.friendlyWeekdayDate,
-    );
 
     expect(
       await screen.getByText(/When to plan for a second dose/i),
@@ -67,8 +61,11 @@ describe('VAOS vaccine flow: SecondDosePage', () => {
         new RegExp(`If you get your first dose of a 2-dose vaccine on`, 'i'),
       ),
     ).to.be.ok;
-
-    expect(screen.getByText(new RegExp(expectedDate, 'i'))).to.be.ok;
+    expect(
+      screen.getByText(
+        new RegExp(`${format(start, 'EEEE, MMMM d, yyyy')}`, 'i'),
+      ),
+    ).to.be.ok;
     expect(
       screen.getByText(
         new RegExp(
@@ -83,11 +80,7 @@ describe('VAOS vaccine flow: SecondDosePage', () => {
     expect(
       screen.getByText(
         new RegExp(
-          `after ${formatInTimeZone(
-            addDays(start, 21),
-            'America/Denver',
-            DATE_FORMATS.friendlyWeekdayDate,
-          )}`,
+          `after ${format(addDays(start, 21), 'EEEE, MMMM d, yyyy')}`,
           'i',
         ),
       ),
@@ -95,11 +88,7 @@ describe('VAOS vaccine flow: SecondDosePage', () => {
     expect(
       screen.getByText(
         new RegExp(
-          `after ${formatInTimeZone(
-            addDays(start, 28),
-            'America/Denver',
-            DATE_FORMATS.friendlyWeekdayDate,
-          )}`,
+          `after ${format(addDays(start, 28), 'EEEE, MMMM d, yyyy')}`,
           'i',
         ),
       ),

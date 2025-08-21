@@ -61,7 +61,9 @@ const testConfig = createTestConfig(
       introduction: ({ afterHook }) => {
         afterHook(() => {
           cy.wait('@mockVaFileNumber');
-          cy.clickStartForm();
+          cy.get('a.vads-c-action-link--green')
+            .first()
+            .click();
         });
       },
 
@@ -77,7 +79,7 @@ const testConfig = createTestConfig(
           cy.get(
             'select#options[name="root_veteranContactInformation_veteranAddress_state"]',
           ).select('AL');
-          cy.clickFormContinue();
+          cy.get('.usa-button-primary').click();
         });
       },
 
@@ -93,7 +95,7 @@ const testConfig = createTestConfig(
           cy.get(
             'select#options[name="root_currentMarriageInformation_location_country"]',
           ).select('AUS');
-          cy.clickFormContinue();
+          cy.get('.usa-button-primary').click();
         });
       },
 
@@ -109,14 +111,14 @@ const testConfig = createTestConfig(
           cy.get(
             'select#options[name="root_doesLiveWithSpouse_address_state"]',
           ).select('AL');
-          cy.clickFormContinue();
+          cy.get('.usa-button-primary').click();
         });
       },
 
       '686-report-marriage-of-child/0/date-child-married': ({ afterHook }) => {
         afterHook(() => {
           cy.fillPage();
-          cy.clickFormContinue();
+          cy.get('.usa-button-primary').click();
         });
       },
 
@@ -125,7 +127,7 @@ const testConfig = createTestConfig(
       }) => {
         afterHook(() => {
           cy.fillPage();
-          cy.clickFormContinue();
+          cy.get('.usa-button-primary').click();
         });
       },
 
@@ -138,20 +140,20 @@ const testConfig = createTestConfig(
             .should('be.visible')
             .should('not.be.disabled');
           cy.get('select#options[name="root_address_state"]').select('AL');
-          cy.clickFormContinue();
+          cy.get('.usa-button-primary').click();
         });
       },
 
       '686-report-dependent-death/0/date-of-death': ({ afterHook }) => {
         afterHook(() => {
           cy.fillPage();
-          cy.clickFormContinue();
+          cy.get('.usa-button-primary').click();
         });
       },
 
       '686-report-add-child/introduction': ({ afterHook }) => {
         afterHook(() => {
-          cy.clickFormContinue();
+          cy.get('.usa-button-primary').click();
         });
       },
 
@@ -159,32 +161,14 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('va-radio-option[value="N"]').click();
 
-          cy.clickFormContinue();
+          cy.get('.usa-button-primary').click();
         });
       },
 
       'add-child/0/additional-information': ({ afterHook }) => {
         afterHook(() => {
           cy.get('#root_doesChildLiveWithYouYes').click();
-          cy.clickFormContinue();
-        });
-      },
-
-      '686-stepchild-no-longer-part-of-household/0/date-child-left-household': ({
-        afterHook,
-      }) => {
-        afterHook(() => {
-          cy.fillPage();
-          cy.get(
-            'select#options[name="root_dateStepchildLeftHouseholdMonth"]',
-            { timeout: 1000 },
-          )
-            .should('be.visible')
-            .should('not.be.disabled');
-          cy.get(
-            'select#options[name="root_dateStepchildLeftHouseholdMonth"]',
-          ).select('2');
-          cy.clickFormContinue();
+          cy.get('.usa-button-primary').click();
         });
       },
 
@@ -200,7 +184,7 @@ const testConfig = createTestConfig(
             .find('input[type="checkbox"]')
             .check({ force: true });
 
-          cy.clickFormContinue();
+          cy.get('.usa-button-primary').click();
         });
       },
     },

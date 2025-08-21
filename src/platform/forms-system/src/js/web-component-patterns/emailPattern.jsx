@@ -35,7 +35,7 @@ export const emailValidation = (
 };
 
 /**
- * uiSchema for email
+ * Web component v3 uiSchema for email
  * ```js
  * email: emailUI() // 'Email address'
  * email: emailUI('Your email address')
@@ -83,7 +83,6 @@ const emailUI = options => {
 };
 
 /**
- * uiSchema for email which also has an additional hint explaining it will be used for notifications about form submission. Preferred if it is the only email field in the form. Generally required.
  * @param {UIOptions & {
  *  required?: (formData) => boolean
  * }} [options]
@@ -98,7 +97,6 @@ const emailToSendNotificationsUI = (options = {}) => {
 };
 
 /**
- * schema for emailUI
  * ```js
  * schema: {
  *    exampleEmail: emailSchema
@@ -110,9 +108,6 @@ const emailSchema = {
   maxLength: 256,
 };
 
-/**
- * schema for emailToSendNotificationsUI
- * */
 const emailToSendNotificationsSchema = emailSchema;
 
 export {

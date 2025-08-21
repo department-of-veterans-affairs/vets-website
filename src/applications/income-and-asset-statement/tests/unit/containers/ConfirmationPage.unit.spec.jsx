@@ -1,66 +1,44 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
+import configureStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
 import { expect } from 'chai';
 import formConfig from '../../../config/form';
 import ConfirmationPage from '../../../containers/ConfirmationPage';
 
-const getData = ({
-  loggedIn = true,
-  hasResponse = true,
-  timestamp = new Date('09/07/2025'),
-  confirmationNumber = 'CNF-1234-5678-VA',
-  claimantType = 'VETERAN',
-} = {}) => ({
-  mockStore: {
-    getState: () => ({
-      user: {
-        login: {
-          currentlyLoggedIn: loggedIn,
-        },
-        profile: {
-          savedForms: [],
-          prefillsAvailable: [],
-          verified: false,
-        },
+const storeBase = {
+  form: {
+    formId: formConfig.formId,
+    submission: {
+      response: {
+        confirmationNumber: '123456',
       },
-      form: {
-        formId: formConfig.formId,
-        submission: {
-          ...(hasResponse && {
-            response: {
-              attributes: {
-                confirmationNumber,
-              },
-            },
-            timestamp,
-          }),
-        },
-        data: {
-          claimantType,
-          claimantFullName: {
-            first: 'Jane',
-            middle: 'C',
-            last: 'ClaimantLastName',
-          },
-          veteranFullName: {
-            first: 'John',
-            middle: '',
-            last: 'VeteranLastName',
-          },
-        },
+      timestamp: Date.now(),
+    },
+    data: {
+      claimantType: 'VETERAN',
+      claimantFullName: {
+        first: 'Jane',
+        middle: 'C',
+        last: 'ClaimantLastName',
       },
-    }),
-    subscribe: () => {},
-    dispatch: () => {},
+      veteranFullName: {
+        first: 'John',
+        middle: '',
+        last: 'VeteranLastName',
+      },
+    },
   },
-});
+};
 
 describe('Confirmation page', () => {
+  const middleware = [thunk];
+  const mockStore = configureStore(middleware);
+
   it('it should show status success', () => {
-    const { mockStore } = getData();
     const { container } = render(
-      <Provider store={mockStore}>
+      <Provider store={mockStore(storeBase)}>
         <ConfirmationPage route={{ formConfig }} />
       </Provider>,
     );
@@ -71,9 +49,10 @@ describe('Confirmation page', () => {
   });
 
   it('should not show the claimant name if the applicant is the veteran', () => {
-    const { mockStore } = getData();
+    const store = { ...storeBase };
+
     const { queryByText } = render(
-      <Provider store={mockStore}>
+      <Provider store={mockStore(store)}>
         <ConfirmationPage route={{ formConfig }} />
       </Provider>,
     );
@@ -83,71 +62,16 @@ describe('Confirmation page', () => {
   });
 
   it('should show the claimant name if the applicant is not the veteran', () => {
-    const { mockStore } = getData({ claimantType: 'SPOUSE' });
+    const store = { ...storeBase };
+    store.form.data.claimantType = 'SPOUSE';
 
     const { getByText } = render(
-      <Provider store={mockStore}>
+      <Provider store={mockStore(store)}>
         <ConfirmationPage route={{ formConfig }} />
       </Provider>,
     );
 
     getByText(/Jane/);
     getByText(/ClaimantLastName/);
-  });
-
-  it('should show the confirmation number if it is provided', () => {
-    const { mockStore } = getData();
-
-    const { queryByText } = render(
-      <Provider store={mockStore}>
-        <ConfirmationPage route={{ formConfig }} />
-      </Provider>,
-    );
-
-    expect(queryByText(/Your confirmation number is/i)).to.exist;
-  });
-
-  it('should not show the confirmation number if none is provided', () => {
-    const { mockStore } = getData({ hasResponse: false });
-
-    const { queryByText } = render(
-      <Provider store={mockStore}>
-        <ConfirmationPage route={{ formConfig }} />
-      </Provider>,
-    );
-
-    expect(queryByText(/Your confirmation number is/i)).to.be.null;
-  });
-
-  it('should show the "Check the status of your form on My VA" link when user is logged in', () => {
-    const { mockStore } = getData();
-
-    const { container } = render(
-      <Provider store={mockStore}>
-        <ConfirmationPage route={{ formConfig }} />
-      </Provider>,
-    );
-
-    const link = container.querySelector(
-      'va-link[text="Check the status of your form on My VA"][href="/my-va#benefit-applications"]',
-    );
-
-    expect(link).to.not.be.null;
-  });
-
-  it('should not show the "Check the status of your form on My VA" link when user is not logged in', () => {
-    const { mockStore } = getData({ loggedIn: false });
-
-    const { container } = render(
-      <Provider store={mockStore}>
-        <ConfirmationPage route={{ formConfig }} />
-      </Provider>,
-    );
-
-    const link = container.querySelector(
-      'va-link[text="Check the status of your form on My VA"][href="/my-va#benefit-applications"]',
-    );
-
-    expect(link).to.be.null;
   });
 });

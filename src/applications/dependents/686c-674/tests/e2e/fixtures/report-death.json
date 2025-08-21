@@ -1,31 +1,15 @@
 {
   "householdIncome": false,
-  "view:deathsMissingInformation": {},
   "view:completedDependent": false,
-  "veteranInformation": {
-      "fullName": {
-        "first": "Pauline",
-        "middle": "E",
-        "last": "Foster"
-      },
-      "ssn": "796330625",
-      "birthDate": "1976-06-09",
-      "ssnLastFour": "0625",
-      "vaFileLastFour": "0625"
-    },
   "veteranContactInformation": {
     "phoneNumber": "8008885555",
-    "internationalPhoneNumber": "18008675309",
-    "emailAddress": "nope@nope.org",
-    "electronicCorrespondence": true,
+    "emailAddress": "nope@nope.com",
     "veteranAddress": {
       "view:militaryBaseDescription": {},
       "country": "USA",
       "street": "123 Fake St.",
-      "street2": "Building 7",
-      "street3": "Suite C",
       "city": "Fakesville",
-      "state": "KS",
+      "state": "AL",
       "postalCode": "12345"
     }
   },
@@ -35,9 +19,7 @@
   "view:addOrRemoveDependents": {
     "remove": true
   },
-  "useV2": true,
   "view:addDependentOptions": {},
-  "view:addDependentOptionsDescription": {},
   "spouseInformation": {
     "fullName": {}
   },
@@ -61,33 +43,43 @@
   },
   "deaths": [
     {
-      "deceasedDependentIncome": "N",
+      "deceasedDependentIncome": "NA",
       "dependentDeathLocation": {
         "location": {
           "city": "Fakesville",
-          "state": "NV"
+          "state": "AL"
         }
       },
-      "dependentDeathDate": "2025-02-19",
+      "dependentDeathDate": "2025-04-19",
       "childStatus": {
-        "childUnder18": true,
-        "stepChild": true,
-        "adopted": true
+        "childUnder18": false,
+        "adopted": true,
+        "disabled": true
       },
       "dependentType": "CHILD",
       "fullName": {
         "first": "John",
-        "middle": "J",
         "last": "Doe"
       },
       "ssn": "333445555",
-      "birthDate": "2015-02-19"
+      "birthDate": "2005-10-31"
     }
   ],
   "view:additionalEvidenceDescription": {},
   "view:selectable686Options": {
     "reportDeath": true
   },
-  "statementOfTruthSignature": "Pauline E Foster",
-  "statementOfTruthCertified": true
+  "veteranInformation": {
+    "fullName": {
+      "first": "Pauline",
+      "middle": "E",
+      "last": "Foster"
+    },
+    "ssn": "796330625",
+    "birthDate": "1976-06-09",
+    "ssnLastFour": "0625",
+    "vaFileLastFour": "0625"
+  },
+  "useV2": true,
+  "daysTillExpires": 365
 }

@@ -1,6 +1,6 @@
-import { formatInTimeZone } from 'date-fns-tz';
-import PropTypes from 'prop-types';
 import React from 'react';
+import moment from 'moment';
+import PropTypes from 'prop-types';
 import {
   getTimezoneAbbrByFacilityId,
   getTimezoneByFacilityId,
@@ -25,27 +25,40 @@ export default function AppointmentDate({
         >
           Date and time
         </Heading>
-        {dates?.map((date, index) => {
+        {dates?.map(selected => {
+          const dateTime =
+            selected.endsWith('Z') && timezone
+              ? moment(selected).tz(timezone)
+              : moment(selected, 'YYYY-MM-DDTHH:mm:ssZ');
           return (
-            <React.Fragment key={index}>
-              <span>
-                {formatInTimeZone(date, timezone, 'EEEE, MMMM d, yyyy')}
-              </span>
+            <>
+              <span>{dateTime.format('dddd, MMMM D, YYYY')}</span>
               <br />
               <span>
-                {formatInTimeZone(date, timezone, 'h:mm aaaa')} {timezoneAbbr}
+                {dateTime.format('h:mm a')} {timezoneAbbr}
               </span>
-            </React.Fragment>
+            </>
           );
         })}
       </>
     );
   }
 
-  return dates?.map((date, i) => (
+  if (dates[0].endsWith('Z') && timezone) {
+    return dates?.map((selected, i) => (
+      <Heading key={i} className={classes || 'vaos-appts__block-label'}>
+        {moment(selected)
+          .tz(timezone)
+          .format('dddd, MMMM D, YYYY [at] h:mm a ') +
+          getTimezoneAbbrByFacilityId(facilityId)}
+      </Heading>
+    ));
+  }
+  return dates?.map((selected, i) => (
     <h3 key={i} className="vaos-appts__block-label">
-      {formatInTimeZone(date, timezone, "EEEE, MMMM d, yyyy 'at' h:mm aaaa ") +
-        getTimezoneAbbrByFacilityId(facilityId)}
+      {moment(selected, 'YYYY-MM-DDTHH:mm:ssZ').format(
+        'dddd, MMMM D, YYYY [at] h:mm a ',
+      ) + getTimezoneAbbrByFacilityId(facilityId)}
     </h3>
   ));
 }
@@ -55,5 +68,5 @@ AppointmentDate.propTypes = {
   facilityId: PropTypes.string.isRequired,
   classes: PropTypes.string,
   directSchedule: PropTypes.bool,
-  level: PropTypes.number,
+  level: PropTypes.oneOf([PropTypes.string, PropTypes.number]),
 };

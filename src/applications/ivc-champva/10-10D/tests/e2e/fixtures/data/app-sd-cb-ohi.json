@@ -71,7 +71,9 @@
     "sponsorDOD": "2000-01-01",
     "sponsorDeathConditions": true,
     "sponsorIsDeceased": true,
-    "ssn": "123123123",
+    "ssn": {
+      "ssn": "123123123"
+    },
     "certifierRole": "other",
     "certifierRelationship": {
       "relationshipToVeteran": {

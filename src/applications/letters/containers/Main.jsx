@@ -12,6 +12,7 @@ import {
 } from '../actions/letters';
 import NoAddressBanner from '../components/NoAddressBanner';
 import systemDownMessage from '../components/systemDownMessage';
+import { lettersUseLighthouse, lettersCheckDiscrepancies } from '../selectors';
 import { AVAILABILITY_STATUSES } from '../utils/constants';
 import {
   recordsNotFound,
@@ -32,12 +33,17 @@ const {
 
 export class Main extends React.Component {
   componentDidMount() {
+    const { shouldUseLighthouse, shouldUseLettersDiscrepancies } = this.props;
+
     // eslint-disable-next-line -- LH_MIGRATION
-    const LH_MIGRATION__options = LH_MIGRATION__getOptions();
+    const LH_MIGRATION__options = LH_MIGRATION__getOptions(shouldUseLighthouse);
 
     if (!this.props.emptyAddress) {
       // eslint-disable-next-line -- LH_MIGRATION
-      return this.props.getLetterListAndBSLOptions(LH_MIGRATION__options);
+      return this.props.getLetterListAndBSLOptions(
+        LH_MIGRATION__options,
+        shouldUseLettersDiscrepancies,
+      );
     }
     return this.props.profileHasEmptyAddress();
   }
@@ -76,7 +82,7 @@ export class Main extends React.Component {
 
         <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.lettersPageNewDesign}>
           {toggleValue =>
-            toggleValue && (
+            toggleValue ? (
               <>
                 <h2 slot="headline">
                   Other sources of VA benefit documentation
@@ -139,7 +145,7 @@ export class Main extends React.Component {
                   </div>
                 </va-need-help>
               </>
-            )
+            ) : null
           }
         </Toggler.Hoc>
       </div>
@@ -153,6 +159,8 @@ Main.propTypes = {
   getLetterListAndBSLOptions: PropTypes.func,
   lettersAvailability: PropTypes.string,
   profileHasEmptyAddress: PropTypes.func,
+  shouldUseLettersDiscrepancies: PropTypes.bool,
+  shouldUseLighthouse: PropTypes.bool,
 };
 
 function mapStateToProps(state) {
@@ -166,6 +174,9 @@ function mapStateToProps(state) {
     },
     optionsAvailable: letterState.optionsAvailable,
     emptyAddress: isAddressEmpty(selectVAPContactInfo(state)?.mailingAddress),
+    shouldUseLettersDiscrepancies: lettersCheckDiscrepancies(state),
+    // TODO: change to conform to LH_MIGRATION style
+    shouldUseLighthouse: lettersUseLighthouse(state),
   };
 }
 

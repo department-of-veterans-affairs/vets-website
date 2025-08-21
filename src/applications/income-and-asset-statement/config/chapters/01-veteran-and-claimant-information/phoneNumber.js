@@ -8,10 +8,13 @@ import {
 export default {
   title: 'Preferred phone number',
   path: 'claimant/phone',
+  depends: formData => {
+    return formData?.claimantType !== 'VETERAN';
+  },
   uiSchema: {
     ...titleUI('Preferred phone number'),
     claimantPhone: phoneUI({
-      title: 'Current phone number (optional)',
+      title: 'Phone number',
       hint: 'Enter a 10-digit phone number',
     }),
   },

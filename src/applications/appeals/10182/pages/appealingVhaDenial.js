@@ -15,6 +15,7 @@ const appealingVhaDenial = {
         Y: 'Yes',
         N: 'No',
       },
+      uswds: true,
     }),
   },
 

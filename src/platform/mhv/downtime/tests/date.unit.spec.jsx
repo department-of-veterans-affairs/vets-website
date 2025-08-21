@@ -64,7 +64,7 @@ describe('formatDatetime', () => {
 
     // Test must run in context of expected timezone
     expect(result).to.match(
-      /January 1, 2024 at (\d:\d{2} (a|p)\.m\.|noon|midnight) [A-Z]{1,2}T/,
+      /January 1, 2024 at \d:\d{2} (a|p)\.m\. [A-Z]{1,2}T/,
     );
   });
 });

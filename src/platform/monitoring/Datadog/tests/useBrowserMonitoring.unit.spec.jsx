@@ -130,16 +130,14 @@ describe('Datadog RUM & monitoring initialization', () => {
       expect(window.DD_LOGS).to.exist;
     });
 
-    it('it should show an error in console when missing settings', async () => {
+    it('it should show an error in console when missing settings', () => {
       render(
         <Provider store={getStore()}>
           <TestComponent />
         </Provider>,
       );
 
-      await waitFor(() => {
-        expect(stubConsole.called).to.be.true;
-      });
+      expect(stubConsole.called).to.be.true;
       expect(stubConsole.args[0][0]).to.equal(
         'Datadog RUM & monitoring initialization requires applicationId, clientToken, service, and version.',
       );
@@ -149,7 +147,7 @@ describe('Datadog RUM & monitoring initialization', () => {
       expect(window.DD_LOGS).to.exist;
     });
 
-    it('it should return & remove Datadog when toggles are disabled', async () => {
+    it('it should return & remove Datadog when toggles are disabled', () => {
       render(
         <Provider store={getStore(false)}>
           <TestComponent options={settings} />
@@ -159,10 +157,8 @@ describe('Datadog RUM & monitoring initialization', () => {
       expect(stubConsole.notCalled).to.be.true;
       expect(stubRum.notCalled).to.be.true;
       expect(stubLog.notCalled).to.be.true;
-      await waitFor(() => {
-        expect(window.DD_RUM).to.not.exist;
-        expect(window.DD_LOGS).to.not.exist;
-      });
+      expect(window.DD_RUM).to.not.exist;
+      expect(window.DD_LOGS).to.not.exist;
     });
 
     it('it should call initialize RUM & LOGS', () => {

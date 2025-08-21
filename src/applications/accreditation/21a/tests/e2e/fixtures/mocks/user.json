@@ -8,8 +8,7 @@
     "verified": true,
     "signIn": {
       "serviceName": "idme"
-    },
-    "loa": { "current": 3 }
+    }
   },
   "prefillsAvailable": [],
   "inProgressForms": []

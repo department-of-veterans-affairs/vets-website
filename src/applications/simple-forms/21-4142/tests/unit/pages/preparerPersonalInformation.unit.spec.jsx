@@ -1,6 +1,6 @@
 import {
-  testNumberOfErrorsOnSubmitForWebComponents,
-  testNumberOfWebComponentFields,
+  testNumberOfErrorsOnSubmit,
+  testNumberOfFields,
 } from '../../../../shared/tests/pages/pageTests.spec';
 import {
   preparerIdentificationFields,
@@ -31,7 +31,7 @@ const mockDataForThirdParty = {
 };
 
 const expectedNumberOfFieldsForDirectRelative = 4;
-testNumberOfWebComponentFields(
+testNumberOfFields(
   formConfig,
   schema,
   uiSchema,
@@ -41,7 +41,7 @@ testNumberOfWebComponentFields(
 );
 
 const expectedNumberOfFieldsForThirdParty = 7;
-testNumberOfWebComponentFields(
+testNumberOfFields(
   formConfig,
   schema,
   uiSchema,
@@ -51,7 +51,7 @@ testNumberOfWebComponentFields(
 );
 
 const expectedNumberOfErrorsForDirectRelative = 2;
-testNumberOfErrorsOnSubmitForWebComponents(
+testNumberOfErrorsOnSubmit(
   formConfig,
   schema,
   uiSchema,
@@ -61,7 +61,7 @@ testNumberOfErrorsOnSubmitForWebComponents(
 );
 
 const expectedNumberOfErrorsForThirdParty = 4;
-testNumberOfErrorsOnSubmitForWebComponents(
+testNumberOfErrorsOnSubmit(
   formConfig,
   schema,
   uiSchema,

@@ -55,7 +55,6 @@ export const stepchild = {
     },
     biologicalParentDob: currentOrPastDateUI({
       title: 'Child’s biological parent’s date of birth',
-      dataDogHidden: true,
       required,
       'ui:errorMessages': {
         required: 'Enter the date.',
@@ -64,13 +63,6 @@ export const stepchild = {
   },
   schema: {
     type: 'object',
-    required: [
-      'isBiologicalChildOfSpouse',
-      'dateEnteredHousehold',
-      'biologicalParentName',
-      'biologicalParentSsn',
-      'biologicalParentDob',
-    ],
     properties: {
       isBiologicalChildOfSpouse: yesNoSchema,
       dateEnteredHousehold: currentOrPastDateSchema,

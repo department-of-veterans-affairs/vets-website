@@ -1,6 +1,6 @@
 import {
-  testNumberOfErrorsOnSubmitForWebComponents,
-  testNumberOfWebComponentFields,
+  testNumberOfErrorsOnSubmit,
+  testNumberOfFields,
 } from '../../../../shared/tests/pages/pageTests.spec';
 import {
   preparerIdentificationFields,
@@ -22,22 +22,22 @@ const mockData = {
   },
 };
 
-const numberOfWebComponentFields = 6;
-testNumberOfWebComponentFields(
+const expectedNumberOfFields = 6;
+testNumberOfFields(
   formConfig,
   schema,
   uiSchema,
-  numberOfWebComponentFields,
+  expectedNumberOfFields,
   pageTitle,
   mockData,
 );
 
-const numberOfWebComponentErrors = 4;
-testNumberOfErrorsOnSubmitForWebComponents(
+const expectedNumberOfErrors = 4;
+testNumberOfErrorsOnSubmit(
   formConfig,
   schema,
   uiSchema,
-  numberOfWebComponentErrors,
+  expectedNumberOfErrors,
   pageTitle,
   mockData,
 );

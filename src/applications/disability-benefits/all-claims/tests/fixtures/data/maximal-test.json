@@ -85,12 +85,6 @@
         "name": "image.png",
         "confirmationCode": "fa0c0f47-a42f-4bbc-88f3-873c5bea6ce7",
         "attachmentId": "L023"
-      },
-       {
-        "name": "foo_protected.PDF",
-        "isEncrypted": true,
-        "confirmationCode": "9f153a64-29f7-4b5b-9053-c788f45942cd",
-        "attachmentId": "L049"
       }
     ],
     "view:vaMedicalRecordsIntro": {},
@@ -147,6 +141,10 @@
         {
           "from": "2016-01-01",
           "to": "2017-01-01"
+        },
+        {
+          "from": "2017-01-06",
+          "to": "2017-04-01"
         }
       ],
       "powDisabilities": {

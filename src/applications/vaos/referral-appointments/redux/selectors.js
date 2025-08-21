@@ -1,6 +1,5 @@
 export const selectCurrentPage = state => state.referral.currentPage;
-export const getSelectedSlotStartTime = state =>
-  state.referral.selectedSlotStartTime;
+export const getSelectedSlot = state => state.referral.selectedSlot;
 
 export function getProviderInfo(state) {
   return {
@@ -22,8 +21,11 @@ export function getReferralAppointmentInfo(state) {
   };
 }
 
-export function getCachedDraftAppointmentInfo(state) {
-  return state.referral.draftAppointmentInfo;
+export function getDraftAppointmentInfo(state) {
+  return {
+    draftAppointmentInfo: state.referral.draftAppointmentInfo,
+    draftAppointmentCreateStatus: state.referral.draftAppointmentCreateStatus,
+  };
 }
 
 export function getReferrals(state) {

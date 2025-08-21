@@ -28,15 +28,4 @@ describe('<OmbInfo>', () => {
     );
     expect(privacyActStatement).to.exist;
   });
-
-  it('should render the respondent burden text', () => {
-    const { container } = render(<OmbInfo />);
-    const respondentBurden = container.querySelector(
-      '[data-testid="respondent-burden"]',
-    );
-    expect(respondentBurden).to.exist;
-    expect(respondentBurden.innerHTML).to.contain('Respondent Burden:');
-    expect(respondentBurden.innerHTML).to.contain('2900-0657');
-    expect(respondentBurden.innerHTML).to.contain('03/31/2027');
-  });
 });

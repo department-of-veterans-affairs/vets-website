@@ -1,24 +1,24 @@
-import { addDays, addMonths, lastDayOfMonth, startOfMonth } from 'date-fns';
-import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-
 import { useHistory } from 'react-router-dom';
-import CalendarWidget from '../../components/calendar/CalendarWidget';
-import FormButtons from '../../components/FormButtons';
-import InfoAlert from '../../components/InfoAlert';
-import NewTabAnchor from '../../components/NewTabAnchor';
-import useIsInitialLoad from '../../hooks/useIsInitialLoad';
-import { getRealFacilityId } from '../../utils/appointment';
-import { FETCH_STATUS } from '../../utils/constants';
-import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import { getDateTimeSelect } from '../redux/selectors';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
+import { addDays, addMonths, startOfMonth, endOfMonth, format } from 'date-fns';
 
+import FormButtons from '../../components/FormButtons';
+import { scrollAndFocus } from '../../utils/scrollAndFocus';
+import CalendarWidget from '../../components/calendar/CalendarWidget';
+import { FETCH_STATUS } from '../../utils/constants';
+import { getDateTimeSelect } from '../redux/selectors';
+import { getRealFacilityId } from '../../utils/appointment';
+import NewTabAnchor from '../../components/NewTabAnchor';
+import InfoAlert from '../../components/InfoAlert';
+import useIsInitialLoad from '../../hooks/useIsInitialLoad';
+
+import { getAppointmentSlots, onCalendarChange } from '../redux/actions';
 import {
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
 } from '../flow';
-import { getAppointmentSlots, onCalendarChange } from '../redux/actions';
 
 const pageKey = 'selectDate1';
 const pageTitle = 'Choose a date and time';
@@ -104,7 +104,7 @@ export default function SelectDate1Page() {
     () => {
       const now = new Date();
       const startDateObj = startOfMonth(now);
-      const endDateObj = lastDayOfMonth(addMonths(now, 1));
+      const endDateObj = endOfMonth(addMonths(now, 1));
       dispatch(getAppointmentSlots(startDateObj, endDateObj, true));
       document.title = `${pageTitle} | Veterans Affairs`;
     },
@@ -174,28 +174,24 @@ export default function SelectDate1Page() {
             id="dateTime"
             timezone={timezone}
             disabled={loadingSlots}
-            hideWhileDisabled
             disabledMessage={
               // eslint-disable-next-line react/jsx-wrap-multilines
               <va-loading-indicator
                 data-testid="loadingIndicator"
                 set-focus
                 message="Finding appointment availability..."
-                label="Finding appointment availability"
               />
             }
             onChange={dates => {
               validate({ dates, setValidationError });
               dispatch(onCalendarChange(dates, pageKey));
             }}
-            onNextMonth={(...args) => {
-              dispatch(getAppointmentSlots(...args));
-            }}
+            onNextMonth={(...args) => dispatch(getAppointmentSlots(...args))}
             onPreviousMonth={(...args) =>
               dispatch(getAppointmentSlots(...args))
             }
-            minDate={addDays(new Date(), 1)}
-            maxDate={addDays(new Date(), 395)}
+            minDate={format(addDays(new Date(), 1), 'yyyy-MM-dd')}
+            maxDate={format(addDays(new Date(), 395), 'yyyy-MM-dd')}
             validationError={submitted ? validationError : null}
             required
             requiredMessage="Please choose your preferred date and time for your appointment"

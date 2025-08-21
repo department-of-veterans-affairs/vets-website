@@ -49,7 +49,7 @@ export const schemaFields = {
 
 export const veteranIsSelfText = 'I am the Veteran';
 export const alternateSigner =
-  'Alternate signer (a person certified to file claim forms for the Veteran or non-Veteran) ';
+  'Alternate signer (a person certified to file a claim forms for the Veteran or non-Veteran) ';
 
 export const veteranDirectRelative = ['Spouse', 'Child'];
 
@@ -61,13 +61,3 @@ export const relationshipToVeteranEnum = [
   alternateSigner,
   'Third-party',
 ];
-
-export const relationshipToVeteranLabels = Object.freeze({
-  veteran: veteranIsSelfText,
-  spouse: 'Spouse',
-  child: 'Child',
-  fiduciary: 'Fiduciary',
-  veteranServiceOfficer: 'Veteran Service Officer',
-  alternateSigner,
-  thirdParty: 'Third Party',
-});

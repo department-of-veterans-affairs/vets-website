@@ -16,6 +16,7 @@ const initialState = {
   featureToggles: {
     vaOnlineScheduling: true,
     vaOnlineSchedulingCancel: true,
+    vaOnlineSchedulingMHVRouteGuards: false,
     loading: false,
   },
   user: {
@@ -41,17 +42,14 @@ describe('VAOS Component: EnrolledRoute', () => {
 
   beforeEach(() => {
     replaceStub = sinon.stub();
-    const desc =
-      Object.getOwnPropertyDescriptor(window.location, 'replace') || {};
-    if (desc.writable) {
-      window.location.replace = replaceStub;
-      window.location.href = 'http://localhost';
-    } else {
-      Object.defineProperty(window, 'location', {
-        configurable: true,
-        value: { replace: replaceStub, origin: 'http://localhost' },
-      });
-    }
+    Object.defineProperty(window, 'location', {
+      configurable: true,
+      value: { replace: replaceStub, origin: 'http://localhost' },
+    });
+  });
+
+  afterEach(() => {
+    window.location = { replace: () => {}, origin: 'http://localhost' };
   });
 
   it('renders route content when logged in and registered', async () => {
@@ -93,9 +91,40 @@ describe('VAOS Component: EnrolledRoute', () => {
     });
   });
 
-  it('redirects to /my-health when user has no facilities', async () => {
+  it('shows no registration message when not registered', async () => {
     const myInitialState = {
       ...initialState,
+      user: {
+        ...initialState.user,
+        profile: { ...initialState.user.profile, facilities: [] },
+      },
+    };
+    const store = createTestStore(myInitialState);
+    const screen = renderWithStoreAndRouter(
+      <>
+        <Switch>
+          <EnrolledRoute component={() => <div>Child content</div>} />
+        </Switch>
+      </>,
+      { store },
+    );
+    await waitFor(() => {
+      expect(
+        screen.getByText(
+          /We’re sorry. We can’t find any VA medical facility registrations for you/,
+        ),
+      ).to.be.ok;
+    });
+    expect(screen.queryByText('Child content')).not.to.exist;
+  });
+
+  it('redirects to /my-health when feature flag is enabled and no facilities', async () => {
+    const myInitialState = {
+      ...initialState,
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingMHVRouteGuards: true,
+      },
       user: {
         ...initialState.user,
         profile: {
@@ -106,7 +135,7 @@ describe('VAOS Component: EnrolledRoute', () => {
       },
     };
     const store = createTestStore(myInitialState);
-    const screen = renderWithStoreAndRouter(
+    renderWithStoreAndRouter(
       <>
         <Switch>
           <EnrolledRoute component={() => <div>Child content</div>} />
@@ -114,15 +143,18 @@ describe('VAOS Component: EnrolledRoute', () => {
       </>,
       { store },
     );
-    expect(screen.queryByText('Child content')).not.to.exist;
     await waitFor(() => {
       expect(replaceStub.calledWith('http://localhost/my-health')).to.be.true;
     });
   });
 
-  it('redirects to /my-health when user is not LOA3', async () => {
+  it('redirects to /my-health when feature flag is enabled and user is not LOA3', async () => {
     const myInitialState = {
       ...initialState,
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingMHVRouteGuards: true,
+      },
       user: {
         ...initialState.user,
         profile: {
@@ -133,7 +165,7 @@ describe('VAOS Component: EnrolledRoute', () => {
       },
     };
     const store = createTestStore(myInitialState);
-    const screen = renderWithStoreAndRouter(
+    renderWithStoreAndRouter(
       <>
         <Switch>
           <EnrolledRoute component={() => <div>Child content</div>} />
@@ -141,7 +173,6 @@ describe('VAOS Component: EnrolledRoute', () => {
       </>,
       { store },
     );
-    expect(screen.queryByText('Child content')).not.to.exist;
     await waitFor(() => {
       expect(replaceStub.calledWith('http://localhost/my-health')).to.be.true;
     });

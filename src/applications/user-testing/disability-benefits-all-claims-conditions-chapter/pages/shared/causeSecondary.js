@@ -29,13 +29,14 @@ const getOtherConditions = (fullData, currentIndex) => {
 const causeSecondaryPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) => createNewConditionName(formData, true),
-      undefined,
-      false,
+      ({ formData }) =>
+        `Details of the service-connected disability or condition that caused ${createNewConditionName(
+          formData,
+        )}`,
     ),
     causedByCondition: selectUI({
       title:
-        'Choose the service-connected disability that caused your new condition.',
+        'Choose the service-connected disability or condition that caused your new condition.',
       updateUiSchema: (_formData, fullData, index) => ({
         'ui:title': `Choose the service-connected disability or condition that caused ${createNewConditionName(
           fullData?.[arrayBuilderOptions.arrayPath]?.[index],
@@ -45,7 +46,8 @@ const causeSecondaryPage = {
         selectSchema(getOtherConditions(fullData, index)),
     }),
     causedByConditionDescription: textareaUI({
-      title: 'Briefly describe how this disability led to your new condition. ',
+      title:
+        'Briefly describe how this disability or condition caused your new condition. ',
       updateUiSchema: (_formData, fullData, index) => ({
         'ui:title': `Briefly describe how this disability or condition caused ${createNewConditionName(
           fullData?.[arrayBuilderOptions.arrayPath]?.[index],

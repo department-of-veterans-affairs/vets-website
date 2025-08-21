@@ -10,7 +10,7 @@ import DowntimeNotification, {
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
 import { hasVAPServiceConnectionError } from '~/platform/user/selectors';
-import { focusElement, waitForRenderThenFocus } from '~/platform/utilities/ui';
+import { focusElement } from '~/platform/utilities/ui';
 
 import Headline from '../ProfileSectionHeadline';
 
@@ -88,22 +88,7 @@ const ContactInformation = () => {
           scrollTarget.scrollIntoView();
         }
         if (focusTarget) {
-          // If the focus target is the edit button, which is a va-button,
-          // we need to wait for the native button inside the web component
-          // to render before we can focus it
-          if (
-            focusTarget.tagName.toLowerCase().startsWith('va-button') &&
-            focusTarget.shadowRoot
-          ) {
-            waitForRenderThenFocus(
-              window.location.hash,
-              document,
-              50,
-              'button',
-            );
-          } else {
-            focusElement(focusTarget);
-          }
+          focusElement(focusTarget);
           return;
         }
       }

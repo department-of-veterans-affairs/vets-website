@@ -6,16 +6,14 @@ import finishedTransaction from '@@profile/tests/fixtures/transactions/finished-
 import noChangesTransaction from '@@profile/tests/fixtures/transactions/no-changes-transaction.json';
 
 import set from 'lodash/set';
-import { generateFeatureToggles } from '~/applications/personalization/profile/mocks/endpoints/feature-toggles';
-import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import { createAddressValidationResponse } from './addressValidation';
 import { createUserResponse } from './user';
+import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
+import { generateFeatureToggles } from '~/applications/personalization/profile/mocks/endpoints/feature-toggles';
 
-export const setUp = (type, toggles = {}) => {
-  const statusCode = type === 'validation-error' ? 400 : 200;
-
+export const setUp = type => {
   cy.intercept('POST', '/v0/profile/address_validation', {
-    statusCode,
+    statusCode: 200,
     body: createAddressValidationResponse(type),
   });
 
@@ -51,7 +49,7 @@ export const setUp = (type, toggles = {}) => {
 
   cy.intercept('GET', '/v0/feature_toggles?*', {
     statusCode: 200,
-    body: generateFeatureToggles(toggles),
+    body: generateFeatureToggles(),
   });
 
   disableFTUXModals();
@@ -60,8 +58,8 @@ export const setUp = (type, toggles = {}) => {
 
   cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
 
-  cy.get('va-button[label="Edit Mailing address"]', { timeout: 10000 })
-    .shadow()
-    .find('button')
-    .click({ force: true });
+  cy.findByRole('button', { name: /edit mailing address/i }).click({
+    force: true,
+    timeout: 10000,
+  });
 };

@@ -720,64 +720,6 @@ const registerVaGovFonts = async doc => {
   ]);
 };
 
-/**
- * Draw a semantic List struct with perfectly centered bullets.
- *
- * @param {Object} section     The parent struct (e.g. infoSection)
- * @param {PDFDocument} doc
- * @param {string[]} items     Array of list‐item strings
- * @param {Object} config      Your layout config (for fonts, indents, margins)
- * @param {Object} [opts]
- * @param {number} [opts.bulletRadius=2]
- * @param {number} [opts.bulletIndent=config.indents.one]
- * @param {number} [opts.paragraphGap=4]
- * @param {number} [opts.textOffset=4]
- */
-export const addBulletList = (
-  section,
-  doc,
-  items,
-  config,
-  {
-    bulletRadius = 2,
-    bulletIndent = config.margins.left,
-    paragraphGap = 4,
-    textOffset = 4, // space after the bullet
-  } = {},
-) => {
-  // wrap everything in a List struct for accessibility
-  section.add(
-    doc.struct('List', () => {
-      // set the font/size once
-      doc.font(config.text.font).fontSize(config.text.size);
-
-      // grab safe starting coords
-      const startX = getBoundedXPosition(doc);
-      let y = getBoundedYPosition(doc);
-
-      items.forEach(text => {
-        const lineHeight = doc.currentLineHeight();
-        const centerY = y + lineHeight / 2;
-
-        // draw the bullet
-        doc.circle(startX + bulletIndent, centerY, bulletRadius).fill('black');
-
-        // draw & wrap the text
-        const textX = startX + bulletIndent + bulletRadius * 2 + textOffset;
-        const maxWidth = doc.page.width - doc.page.margins.right - textX;
-        doc.text(text, textX, y, { width: maxWidth });
-
-        // move down for next item
-        y += lineHeight + paragraphGap;
-      });
-
-      // update cursor for whatever comes next
-      // eslint-disable-next-line no-param-reassign
-      doc.y = y;
-    }),
-  );
-};
-
 export {
   addHorizontalRule,
   createAccessibleDoc,

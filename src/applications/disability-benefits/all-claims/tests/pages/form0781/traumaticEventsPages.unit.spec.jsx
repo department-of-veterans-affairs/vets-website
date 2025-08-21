@@ -106,7 +106,9 @@ describe('Traumatic Events Pages', () => {
   it('should render mentalHealthSupportAlert in ContentBeforeButtons', () => {
     const { container } = render(<div>{ContentBeforeButtons}</div>);
     const { textContent } = container;
-    const expectedText = `We can connect you with free, confidential support for mental health care or military sexual trauma anytime. We can connect you with support even if you don’t file a claim for disability compensation or you aren’t eligible for compensation.`;
+    const expectedText =
+      'We understand that some of the questions may be difficult to answer.';
+
     expect(textContent).to.include(expectedText);
   });
 });

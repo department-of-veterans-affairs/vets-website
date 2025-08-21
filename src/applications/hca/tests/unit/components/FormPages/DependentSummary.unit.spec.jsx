@@ -164,7 +164,7 @@ describe('hca Dependent Summary page', () => {
       const { props } = getData({});
       const { container } = render(<DependentSummary {...props} />);
       const selector = container.querySelector(
-        '#root_view\\:reportDependentsNo',
+        '#root_view\\3A reportDependentsNo',
       );
       fireEvent.click(selector);
       expect(props.setFormData.called).to.be.true;

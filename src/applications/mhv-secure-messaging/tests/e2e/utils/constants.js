@@ -5,6 +5,7 @@ export const AXE_CONTEXT = '.secure-messaging-container';
 export const Paths = {
   MHV_MAIN: '/my-health/',
   UI_MAIN: '/my-health/secure-messages',
+  UI_PILOT: '/my-health/secure-messages-pilot',
   SM_API_BASE: '/my_health/v1/messaging',
   SM_API_EXTENDED: '/my_health/v1/messaging/messages',
   INBOX: '/inbox/',
@@ -49,7 +50,6 @@ export const Paths = {
     SELECTED_RECIPIENTS: `/my_health/v1/messaging/preferences/recipients`,
     MAINTENANCE_WINDOWS: `/v0/maintenance_windows/`,
     DRAFT_AUTO_SAVE: `/my_health/v1/messaging/message_drafts`,
-    SENT_THREADS: '/my_health/v1/messaging/folders/-1/threads*',
   },
 };
 
@@ -96,7 +96,6 @@ export const Locators = {
   COMBO_BOX: '.usa-combo-box',
   SEARCH_RESULT: `[data-testid="search-messages"]`,
   PAGE_NOT_FOUND: `mhv-page-not-found`,
-  CARE_SYSTEM: '[data-testid^="care-system-"]',
   FOLDERS: {
     FOLDER_NAME: '[label="Folder name"]',
     FOLDER_REMOVE: '[text="Yes, remove this folder"]',
@@ -114,7 +113,7 @@ export const Locators = {
   },
   BUTTONS: {
     SECURE_MESSAGING: '[data-testid="secure-messaging"]',
-    THREAD_EXPAND: 'thread-expand-all',
+    THREAD_EXPAND: '[data-testid="thread-expand-all"]',
     THREAD_EXPAND_MESSAGES:
       '[data-testid="thread-expand-all"] va-accordion-item',
     ADDITIONAL_FILTER: `.va-accordion__header`,
@@ -178,7 +177,7 @@ export const Locators = {
     CLOSE_NOTIFICATION: '.va-alert',
     REPT_SELECT: '[data-testid="compose-recipient-select"]',
     DRAFT_MODAL: '[data-testid="delete-draft-modal"]',
-    THREAD_EXPAND: 'thread-expand-all',
+    THREAD_EXPAND: '[data-testid="thread-expand-all"]',
     SEARCH_DROPDOWN: '#select-search-folder-dropdown',
     TEXT_INPUT: '[data-testid="search-keyword-text-input"]',
     PAGIN_LIST: '.usa-pagination__list li',
@@ -306,13 +305,11 @@ export const Alerts = {
     LOAD_API_ERROR: `We can’t load your contact list right now`,
   },
   ATTACHMENT: {
-    TYPES: `We can't attach this file type.`,
+    TYPES: `We can't attach this file type. Try attaching a DOC, DOCX, GIF, JPG, PDF, PNG, RTF, TXT, XLS XLSX, JPEG, JFIF, PJPEG, or PJP.`,
     EMPTY: `Your file is empty. Try attaching a different file.`,
-    VISTA_TOO_LARGE:
+    FILE_IS_TOO_LARGE_TEXT:
       'Your file is too large. Try attaching a file smaller than 6MB.',
-    OH_TOO_LARGE:
-      'Your file is too large. Try attaching a file smaller than 25MB.',
-    ALREADY_ATTACHED: 'You have already attached this file.',
+    ALREADY_ATTACHED_FILE: 'You have already attached this file.',
   },
   MAINTENANCE: {
     ACTIVE: `Maintenance on My HealtheVet`,
@@ -323,12 +320,6 @@ export const Alerts = {
     EMPTY_END_DATE: `Error Please enter an end date.`,
     INVALID_START_DATE: `Start date must be on or before end date.`,
     INVALID_END_DATE: `End date must be on or after start date.`,
-  },
-  OH_OLD_MSG: {
-    HEADER: 'This conversation is too old for new replies',
-    P_1: `The last message in this conversation is more than 45 days old.`,
-    P_2: `If you want to continue this conversation directly with your provider, call your VA health facility. Ask to speak to the My HealtheVet coordinator or secure messaging administrator.`,
-    P_3: `Or you can send a message to other care teams in your contact list.`,
   },
   OUTAGE: 'We’re sorry. We couldn’t load this page. Try again later.',
   OLD_MSG_HEAD: 'This conversation is too old for new replies',
@@ -353,16 +344,11 @@ export const Data = {
   TEST_SUBJECT: 'Test Subject',
   TEST_IMAGE: 'test_image.jpg',
   TEST_LARGE_IMAGE: 'test_image_10mb.jpg',
-  TEST_VIDEO_MKV: 'test_video.mkv',
   MESSAGE_WAS_SAVED: 'message was saved',
   TEST_MESSAGE_SUBJECT: 'Test Message Subject',
   SAMPLE_DOC: 'sample_docx.docx',
-  SAMPLE_XLS: 'sample_XLS.xls',
   SAMPLE_PDF: 'sample_pdf.pdf',
-  SAMPLE_TXT_1: 'test_txt_1.txt',
-  SAMPLE_TXT_2: 'test_txt_2.txt',
-  SAMPLE_TXT_3: 'test_txt_3.txt',
-  SAMPLE_TXT_4: 'test_txt_4.txt',
+  SAMPLE_XLS: 'sample_XLS.xls',
   SAMPLE_IMG: 'test_image.gif',
   START_NEW_MSG: 'Start a new message',
   EDIT_DRAFT: 'Edit draft',
@@ -383,7 +369,6 @@ export const Data = {
   CONTINUE_EDITING: 'Continue editing',
   MESSAGE_MOVED_TO_TRASH:
     'Message conversation was successfully moved to Trash.',
-  MESSAGE_SENT: `Message Sent.`,
   TEST_VIDEO: 'test_video.mp4',
   CREATE_FOLDER_TEST: 'create folder test',
   IS_ACTIVE: 'is-active',
@@ -395,7 +380,7 @@ export const Data = {
     "You can't send messages to your care teams right now",
   REMOVE_FOLDER: 'Remove folder',
   CANNOT_REMOVE_FOLDER: `You can't remove a folder with messages in it. Move all the messages to another folder. Then try removing it again.`,
-  HCS_SELECT: `Select care team`,
+  HCS_SELECT: `Which VA health care system do you want to send a message to?`,
   REPLY_HEADER: `Only use messages for non-urgent needs`,
   ATTACH_INFO: [
     'You may attach up to 4 files to each message',
@@ -403,27 +388,10 @@ export const Data = {
     'The maximum size for each file is 6 MB',
     'The maximum total size for all files attached to 1 message is 10 MB',
   ],
-  VISTA_LARGE_ATTACH_INFO: [
-    'You can attach up to 10 files to each message',
-    'You can attach only these file types: doc, docx, gif, jpg, pdf, png, rtf, txt, xls, xlxs, jpeg, jfif, pjpeg, pjp, bmp, tiff, ppt, pptx, pps, ppsx, odt, mp4, m4v, mov, wmv, mpg',
-    'The maximum size for each file is 6 MB',
-    'The maximum total size for all files attached to 1 message is 10 MB',
-  ],
-  OH_LARGE_ATTACH_INFO: [
-    'You can attach up to 10 files to each message',
-    'You can attach only these file types: doc, docx, gif, jpg, pdf, png, rtf, txt, xls, xlxs, jpeg, jfif, pjpeg, pjp, bmp, tiff, ppt, pptx, pps, ppsx, odt, mp4, m4v, mov, wmv, mpg',
-    'The maximum size for each file is 6 MB',
-    'The maximum total size for all files attached to 1 message is 25 MB',
-  ],
   EL_SIGN_CHECK: `I certify that the above is correct and true to the best of my knowledge and belief.`,
   EDIT_SIGNATURE: `Edit signature for all messages`,
   READ_RECEIPT: `Opened by your care team`,
   UNREAD_RECEIPT: `Not yet opened by your care team`,
-  CURATED_LIST: {
-    CANT_FIND_TEAM: `What to do if you can’t find your care team`,
-    CONTACT_LIST_UPDATE: `Update your contact list`,
-    SELECT_CARE_TEAM: `Select a different care team`,
-  },
   BUTTONS: {
     ATTACH_FILE: 'Attach file',
     SEND: `Send`,
@@ -442,9 +410,6 @@ export const Data = {
   },
   LINKS: {
     PROFILE_SIGNATURE: `/profile/personal-information#messaging-signature`,
-    HOME: '/my-health/secure-messages/',
-    CONTACT_LIST: '/my-health/secure-messages/contact-list/',
-    SELECT_CARE_TEAM: '/my-health/secure-messages/new-message/select-care-team',
   },
   CL_LINK_TEXT: 'Show more teams in your contact list',
   URL: {
@@ -481,9 +446,11 @@ export const Data = {
 
   NOT_FOUND: {
     H2: `Or try these other health resources`,
-    P_O: `If you typed or copied the URL into your web browser, check that it’s correct.`,
-    P_1: `If that doesn’t work, try going to the My HealtheVet homepage.`,
-    LINK: `Go to the My HealtheVet on VA.gov homepage`,
+    P_O: `If you typed or copied the web address, check that it’s correct.`,
+    P_1: `If you still can’t find what you’re looking for, try visiting the My HealtheVet homepage.`,
+    LINK_0: `Go to our My HealtheVet on VA.gov homepage`,
+    LINK_1: `Chat live with a health professional on VA health chat`,
+    LINK_2: `Find a VA facility`,
   },
 };
 

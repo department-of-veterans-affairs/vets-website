@@ -15,9 +15,11 @@ import {
 import { APPOINTMENT_STATUS, TYPE_OF_CARE_IDS } from '../../../utils/constants';
 import RequestedAppointmentsPage from './RequestedAppointmentsPage';
 
-const initialState = {
+const initialStateVAOSService = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
+    vaOnlineSchedulingFeSourceOfTruth: true,
+    vaOnlineSchedulingFeSourceOfTruthVA: true,
   },
 };
 
@@ -50,7 +52,7 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
 
     // When veteran selects the Requested dropdown selection
     const screen = renderWithStoreAndRouter(<RequestedAppointmentsPage />, {
-      initialState,
+      initialState: initialStateVAOSService,
       reducers,
     });
     // Then it should display the requested appointments
@@ -68,7 +70,6 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
 
     const ccAppointmentRequest = MockAppointmentResponse.createCCResponse({
       pending: true,
-      status: APPOINTMENT_STATUS.proposed,
     })
       .setLocation(new MockFacilityResponse())
       .setTypeOfCare(TYPE_OF_CARE_IDS.AUDIOLOGY_ID);
@@ -82,7 +83,7 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
     });
     // When veteran selects the Requested dropdown selection
     const screen = renderWithStoreAndRouter(<RequestedAppointmentsPage />, {
-      initialState,
+      initialState: initialStateVAOSService,
       reducers,
     });
 
@@ -117,7 +118,9 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
 
     // When veteran selects requested appointments
     const screen = renderWithStoreAndRouter(<RequestedAppointmentsPage />, {
-      initialState,
+      initialState: {
+        ...initialStateVAOSService,
+      },
       reducers,
     });
 
@@ -153,7 +156,7 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
 
     // When veteran selects the Requested dropdown selection
     const screen = renderWithStoreAndRouter(<RequestedAppointmentsPage />, {
-      initialState,
+      initialState: initialStateVAOSService,
       reducers,
     });
 
@@ -183,7 +186,9 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
 
     // When veteran selects requested appointments
     const screen = renderWithStoreAndRouter(<RequestedAppointmentsPage />, {
-      initialState,
+      initialState: {
+        ...initialStateVAOSService,
+      },
       reducers,
     });
 
@@ -218,7 +223,9 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
 
     // When veteran selects requested appointments
     const screen = renderWithStoreAndRouter(<RequestedAppointmentsPage />, {
-      initialState,
+      initialState: {
+        ...initialStateVAOSService,
+      },
       reducers,
     });
 
@@ -248,7 +255,9 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
 
     // When veteran selects requested appointments
     const screen = renderWithStoreAndRouter(<RequestedAppointmentsPage />, {
-      initialState,
+      initialState: {
+        ...initialStateVAOSService,
+      },
       reducers,
     });
 
@@ -279,7 +288,7 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
     });
 
     const screen = renderWithStoreAndRouter(<RequestedAppointmentsPage />, {
-      initialState,
+      initialState: initialStateVAOSService,
       reducers,
     });
 
@@ -288,5 +297,44 @@ describe('VAOS Component: RequestedAppointmentsPage', () => {
         /We’re having trouble getting your appointment requests/i,
       ),
     ).to.be.ok;
+  });
+
+  describe('When FE Source of Truth is off', () => {
+    const defaultState = {
+      featureToggles: {
+        ...initialStateVAOSService.featureToggles,
+        vaOnlineSchedulingFeSourceOfTruth: false,
+        vaOnlineSchedulingFeSourceOfTruthVA: true,
+      },
+    };
+
+    it('should show va request', async () => {
+      // Given a veteran has VA appointment request
+      const appointment = MockAppointmentResponse.createVAResponse({
+        pending: true,
+      }).setLocation(new MockFacilityResponse());
+
+      // And developer is using the v2 API
+      mockAppointmentsApi({
+        start: subDays(new Date(), 120),
+        end: addDays(new Date(), 2),
+        statuses: ['proposed', 'cancelled'],
+        response: [appointment],
+      });
+
+      // When veteran selects the Requested dropdown selection
+      const screen = renderWithStoreAndRouter(<RequestedAppointmentsPage />, {
+        initialState: defaultState,
+        reducers,
+      });
+      // Then it should display the requested appointments
+      expect(await screen.findByText('Primary care')).to.be.ok;
+      expect(await screen.findByText('Cheyenne VA Medical Center')).to.be.ok;
+      expect(screen.queryByText(/You don’t have any appointments/i)).not.to
+        .exist;
+      expect(screen.baseElement).to.contain.text(
+        'Appointments that you request will show here until staff review and schedule them.',
+      );
+    });
   });
 });

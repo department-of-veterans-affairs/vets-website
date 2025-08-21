@@ -302,35 +302,35 @@ describe('Helpers unit tests', () => {
     it('should throw an error when given an invalid date string', () => {
       const invalidDateString = 'invalid-date';
       expect(() => parseStringOrDate(invalidDateString)).to.throw(
-        `Could not parse date string (sanitized): AAAAAAA-AAAA. Please ensure that you provide a Date object, Unix timestamp with milliseconds, or ISO 8601 date string.`,
+        `Could not parse date string: ${invalidDateString}. Please ensure that you provide a Date object, Unix timestamp with milliseconds, or ISO 8601 date string.`,
       );
     });
 
     it('should throw an error when given a date in an invalid format', () => {
       const nonDateString = 'Sun Jun 11 2012 00:00:00 GMT-0700 (PDT)';
       expect(() => parseStringOrDate(nonDateString)).to.throw(
-        `Could not parse date string (sanitized): AAA AAA 11 1111 11:11:11 AAA-1111 (AAA). Please ensure that you provide a Date object, Unix timestamp with milliseconds, or ISO 8601 date string.`,
+        `Could not parse date string: ${nonDateString}. Please ensure that you provide a Date object, Unix timestamp with milliseconds, or ISO 8601 date string.`,
       );
     });
 
     it('should throw an error when given a non-date string', () => {
       const nonDateString = 'not-a-date';
       expect(() => parseStringOrDate(nonDateString)).to.throw(
-        `Could not parse date string (sanitized): AAA-A-AAAA. Please ensure that you provide a Date object, Unix timestamp with milliseconds, or ISO 8601 date string.`,
+        `Could not parse date string: ${nonDateString}. Please ensure that you provide a Date object, Unix timestamp with milliseconds, or ISO 8601 date string.`,
       );
     });
 
     it('should throw an error when given null', () => {
       const nonDateString = null;
       expect(() => parseStringOrDate(nonDateString)).to.throw(
-        `Could not parse date string (sanitized): null. Please ensure that you provide a Date object, Unix timestamp with milliseconds, or ISO 8601 date string.`,
+        `Could not parse date string: ${nonDateString}. Please ensure that you provide a Date object, Unix timestamp with milliseconds, or ISO 8601 date string.`,
       );
     });
 
     it('should throw an error when given a non-date string', () => {
       const nonDateString = undefined;
       expect(() => parseStringOrDate(nonDateString)).to.throw(
-        `Could not parse date string (sanitized): undefined. Please ensure that you provide a Date object, Unix timestamp with milliseconds, or ISO 8601 date string.`,
+        `Could not parse date string: ${nonDateString}. Please ensure that you provide a Date object, Unix timestamp with milliseconds, or ISO 8601 date string.`,
       );
     });
   });

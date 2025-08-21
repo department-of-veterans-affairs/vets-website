@@ -73,11 +73,7 @@ describe('Schemaform review: ReviewPage', () => {
     tree.unmount();
   });
 
-  // Temporarily skipping this test due to inconsistent CI failures.
-  // The test checks DOM-based logic dependent on `document.getElementById('header-minimal')`,
-  // which behaves inconsistently in headless environments with shallow rendering.
-  // Consider replacing with a stub for `isMinimalHeaderApp()` or converting to `mount()`
-  it.skip('should render h1 header if minimal header is present', () => {
+  it('should render h1 header if minimal header is present', () => {
     minimalHeader = document.createElement('div');
     minimalHeader.id = 'header-minimal';
     document.body.appendChild(minimalHeader);

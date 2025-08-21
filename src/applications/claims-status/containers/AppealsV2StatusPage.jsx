@@ -11,11 +11,11 @@ import {
   STATUS_TYPES,
 } from '../utils/appeals-v2-helpers';
 
+import Timeline from '../components/appeals-v2/Timeline';
 import CurrentStatus from '../components/appeals-v2/CurrentStatus';
 import AlertsList from '../components/appeals-v2/AlertsList';
 import WhatsNext from '../components/appeals-v2/WhatsNext';
 import Docket from '../components/appeals-v2/Docket';
-import PastEventsSection from '../components/appeals-v2/PastEventsSection';
 
 /**
  * AppealsV2StatusPage is in charge of the layout of the status page
@@ -96,6 +96,7 @@ export default function AppealsV2StatusPage() {
 
   return (
     <div id="tabPanelv2status">
+      <Timeline events={events} missingEvents={incompleteHistory} />
       <CurrentStatus
         title={currentStatus.title}
         description={currentStatus.description}
@@ -112,7 +113,6 @@ export default function AppealsV2StatusPage() {
         </div>
       )}
       {afterNextAlerts}
-      <PastEventsSection events={events} missingEvents={incompleteHistory} />
     </div>
   );
 }

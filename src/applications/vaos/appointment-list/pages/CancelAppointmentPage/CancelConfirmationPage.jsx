@@ -5,11 +5,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import AppointmentCard from '../../../components/AppointmentCard';
 import BackLink from '../../../components/BackLink';
-import { GA_PREFIX } from '../../../utils/constants';
+import { APPOINTMENT_TYPES, GA_PREFIX } from '../../../utils/constants';
 import { startNewAppointmentFlow } from '../../redux/actions';
 // eslint-disable-next-line import/no-restricted-paths
 import getNewAppointmentFlow from '../../../new-appointment/newAppointmentFlow';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
+import { selectAppointmentType } from '../../redux/selectors';
+import { selectFeatureFeSourceOfTruth } from '../../../redux/selectors';
 
 import CancelPageContent from './CancelPageContent';
 
@@ -29,9 +31,16 @@ function handleClick(history, dispatch, url) {
 export default function CancelConfirmationPage({ appointment, cancelInfo }) {
   const dispatch = useDispatch();
   const history = useHistory();
+  const useFeSourceOfTruth = useSelector(state =>
+    selectFeatureFeSourceOfTruth(state),
+  );
   const { typeOfCare: page } = useSelector(getNewAppointmentFlow);
   const { showCancelModal } = cancelInfo;
-  const isRequest = appointment.vaos.isPendingAppointment;
+  const type = selectAppointmentType(appointment);
+  const isRequest = useFeSourceOfTruth
+    ? appointment.vaos.isPendingAppointment
+    : APPOINTMENT_TYPES.request === type ||
+      APPOINTMENT_TYPES.ccRequest === type;
 
   let heading = 'You have canceled your appointment';
   if (isRequest) heading = 'You have canceled your request';
@@ -57,7 +66,7 @@ export default function CancelConfirmationPage({ appointment, cancelInfo }) {
         href="/"
         onClick={handleClick(history, dispatch, page.url)}
       >
-        Schedule a new appointment
+        Scheduling a new appointment
       </a>
       <AppointmentCard appointment={appointment}>
         <CancelPageContent isRequest={isRequest} />

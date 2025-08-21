@@ -4,7 +4,6 @@ import sinon from 'sinon';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
-import formConfig from '../config/form';
 
 /**
  * Helper to verify a page submits or does not submit successfully based on given form data
@@ -19,7 +18,6 @@ export function pageSubmitTest(schemaDefinition, formData, isSuccessfulSubmit) {
     <DefinitionTester
       schema={schemaDefinition?.schema}
       uiSchema={schemaDefinition?.uiSchema}
-      definitions={formConfig.defaultDefinitions}
       data={formData}
       onSubmit={onSubmit}
     />,

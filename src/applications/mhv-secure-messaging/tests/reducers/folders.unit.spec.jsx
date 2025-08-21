@@ -13,7 +13,7 @@ import {
 } from '../../actions/folders';
 
 describe('folders reducer', () => {
-  const mockStore = (initialState = { featureToggles: {} }) => {
+  const mockStore = (initialState = {}) => {
     return createStore(foldersReducer, initialState, applyMiddleware(thunk));
   };
 
@@ -22,7 +22,6 @@ describe('folders reducer', () => {
     mockApiRequest(foldersListResponse);
     await store.dispatch(getFolders());
     expect(store.getState()).to.deep.equal({
-      featureToggles: {},
       folderList: foldersListResponse.data.map(folder => {
         return {
           id: folder.attributes.folderId,
@@ -40,7 +39,6 @@ describe('folders reducer', () => {
     mockApiRequest(createFolderResponse);
     await store.dispatch(newFolder(createFolderResponse.data.attributes.name));
     expect(store.getState()).to.deep.equal({
-      featureToggles: {},
       folder: createFolderResponse.data.attributes,
     });
   });
@@ -52,10 +50,7 @@ describe('folders reducer', () => {
     };
     const store = mockStore();
     await store.dispatch(clearFolder());
-    expect(store.getState()).to.deep.equal({
-      featureToggles: {},
-      folder: initialState,
-    });
+    expect(store.getState()).to.deep.equal({ folder: initialState });
   });
 
   it('should dispatch an action of delFolder', async () => {

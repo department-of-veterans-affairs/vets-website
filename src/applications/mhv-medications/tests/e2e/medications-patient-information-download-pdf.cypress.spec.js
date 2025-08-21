@@ -30,10 +30,10 @@ describe('Medications Details Page Medication Information pdf download', () => {
     medInfoPage.verifyDownloadSuccessAlertContentOnMedInfoPage(
       Data.DOWNLOAD_SUCCESS_ALERT_CONTENT,
     );
-    // medInfoPage.verifyMedicationDescriptionInDownload(
-    //   rxTrackingDetails.data.attributes.prescriptionName,
-    //   'pdf',
-    // );
+    medInfoPage.verifyMedicationDescriptionInDownload(
+      rxTrackingDetails.data.attributes.prescriptionName,
+      'pdf',
+    );
     cy.injectAxe();
     cy.axeCheck('main');
   });

@@ -1,30 +1,50 @@
 import React from 'react';
-import { render, waitFor } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { PreSubmitInfo } from '../../../containers/PreSubmitInfo';
+import PreSubmitInfo from '../../../containers/PreSubmitInfo';
+import formConfig from '../../../config/form';
 
 describe('<PreSubmitInfo>', () => {
-  let setPreSubmitSpy;
-  const getProps = () => ({
+  const getData = () => ({
     props: {
       formData: {
         privacyAgreementAccepted: false,
       },
-      setPreSubmit: setPreSubmitSpy,
+      formConfig,
+      route: {
+        path: 'introduction',
+      },
+      router: {
+        push: sinon.spy(),
+      },
+      setPreSubmit: sinon.mock(),
       showError: sinon.mock(),
     },
+    mockStore: {
+      getState: () => ({
+        form: {
+          formId: 'T-QSTNR',
+          data: {},
+        },
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
+    },
   });
+  const subject = ({ mockStore, props }) =>
+    render(
+      <Provider store={mockStore}>
+        <PreSubmitInfo {...props} />
+      </Provider>,
+    );
 
-  beforeEach(() => {
-    setPreSubmitSpy = sinon.spy();
-  });
-
-  context('when the component renders', () => {
-    it('contains the privacy agreement', () => {
-      const { props } = getProps();
-      const { container } = render(<PreSubmitInfo {...props} />);
+  context('when the container renders', () => {
+    it('should contain the privacy agreement', () => {
+      const { mockStore, props } = getData();
+      const { container } = subject({ mockStore, props });
       const selectors = {
         privacyAgreement: container.querySelector(
           '[name="privacyAgreementAccepted"]',
@@ -34,32 +54,16 @@ describe('<PreSubmitInfo>', () => {
       expect(selectors.privacyAgreement).to.exist;
     });
 
-    it('sets privacyAgreementAccepted to false on mount', () => {
-      const { props } = getProps();
-      render(<PreSubmitInfo {...props} />);
+    it('should handle checkbox clicked', async () => {
+      const { mockStore, props } = getData();
+      const { container } = subject({ mockStore, props });
 
-      expect(setPreSubmitSpy.calledWith('privacyAgreementAccepted', false)).to
-        .be.true;
-    });
+      const selector = container.querySelector('va-privacy-agreement');
 
-    it('calls setPreSubmit with true when user accepts the agreement', async () => {
-      const { props } = getProps();
-      const { container } = render(<PreSubmitInfo {...props} />);
-
-      const vaPrivacyAgreement = container.querySelector(
-        'va-privacy-agreement',
-      );
-
-      const customEvent = new CustomEvent('vaChange', {
-        detail: { checked: true },
-        bubbles: true,
-      });
-
-      vaPrivacyAgreement.dispatchEvent(customEvent);
+      fireEvent.change(selector, { target: { checked: true } });
 
       await waitFor(() => {
-        expect(setPreSubmitSpy.calledWith('privacyAgreementAccepted', true)).to
-          .be.true;
+        expect(selector.checked).to.be.true;
       });
     });
   });

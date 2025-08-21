@@ -4,8 +4,6 @@ import {
   radioUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import { createNewConditionName } from './utils';
-
 const sideOfBodyOptions = {
   RIGHT: 'Right',
   LEFT: 'Left',
@@ -16,9 +14,8 @@ const sideOfBodyOptions = {
 const sideOfBodyPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) => createNewConditionName(formData, true),
-      undefined,
-      false,
+      ({ formData }) =>
+        `Side of the body for ${formData?.newCondition || 'new condition'}`,
     ),
     sideOfBody: radioUI({
       title: 'Which side of the body is your condition on?',

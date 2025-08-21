@@ -1,22 +1,12 @@
+import { pageNotFoundHeading } from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import manifest from '../../manifest.json';
+
 import features from '../fixtures/features';
 
 const avsId = '9A7AF40B2BC2471EA116891839113252';
 const testUrl = `${manifest.rootUrl}/${avsId}`;
-const mhvPageNotFoundHeading = 'Page not found';
-const mhvUnauthorizedHeading = 'We can’t give you access to this page';
 
 import avsData from '../fixtures/9A7AF40B2BC2471EA116891839113252.json';
-
-const avs = require('../../api/mocks/avs');
-
-const getAvsApiResponse = apiStatus => {
-  if (apiStatus === 200) return avsData;
-  if (apiStatus === 400) return avs.badRequestError;
-  if (apiStatus === 401) return avs.unauthorizedError;
-  if (apiStatus === 404) return avs.notFoundError;
-  return {};
-};
 
 const setup = ({
   featureToggleDelay = 0,
@@ -34,7 +24,7 @@ const setup = ({
   cy.intercept('GET', `/avs/v0/avs/*`, {
     statusCode: apiStatus,
     delay: avsDelay,
-    body: getAvsApiResponse(apiStatus),
+    body: apiStatus === 200 ? avsData : {},
   });
 
   if (login) {
@@ -108,10 +98,10 @@ describe('After-visit Summary - Happy Path', () => {
   it('child paths past an ID get page not found', () => {
     cy.visit(`${testUrl}/path1`);
     cy.injectAxeThenAxeCheck();
-    cy.findByRole('heading', { name: mhvPageNotFoundHeading }).should.exist;
+    cy.findByRole('heading', { name: pageNotFoundHeading }).should.exist;
 
     cy.visit(`${testUrl}/path1/path2`);
-    cy.findByRole('heading', { name: mhvPageNotFoundHeading }).should.exist;
+    cy.findByRole('heading', { name: pageNotFoundHeading }).should.exist;
   });
 });
 
@@ -157,27 +147,6 @@ describe('After-visit Summary - API', () => {
     cy.get('body').contains(
       'We can’t access your after-visit summary right now',
     );
-    cy.injectAxeThenAxeCheck();
-  });
-
-  it('MhvPageNotFound page is render on API failure 400 bad_request', () => {
-    setup({ apiStatus: 400 });
-    cy.visit(testUrl);
-    cy.get('body').contains(mhvPageNotFoundHeading);
-    cy.injectAxeThenAxeCheck();
-  });
-
-  it('MhvUnauthorized page is render on API failure 401 unauthorized', () => {
-    setup({ apiStatus: 401 });
-    cy.visit(testUrl);
-    cy.get('body').contains(mhvUnauthorizedHeading);
-    cy.injectAxeThenAxeCheck();
-  });
-
-  it('MhvPageNotFound is render on API failure 404 not_found', () => {
-    setup({ apiStatus: 404 });
-    cy.visit(testUrl);
-    cy.get('body').contains(mhvPageNotFoundHeading);
     cy.injectAxeThenAxeCheck();
   });
 });

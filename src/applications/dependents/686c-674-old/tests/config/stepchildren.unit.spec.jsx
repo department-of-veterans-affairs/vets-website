@@ -35,22 +35,22 @@ describe('686 stepchildren', () => {
     form.unmount();
   });
 
-  // it('should not allow you to proceed without required fields filled', () => {
-  //   const onSubmit = sinon.spy();
-  //   const form = mount(
-  //     <DefinitionTester
-  //       schema={schema}
-  //       uiSchema={uiSchema}
-  //       data={formData}
-  //       onSubmit={onSubmit}
-  //       definitions={formConfig.defaultDefinitions}
-  //     />,
-  //   );
-  //   form.find('form').simulate('submit');
-  //   expect(form.find('.usa-input-error').length).to.equal(4);
-  //   expect(onSubmit.called).to.be.false;
-  //   form.unmount();
-  // });
+  it('should not allow you to proceed without required fields filled', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        data={formData}
+        onSubmit={onSubmit}
+        definitions={formConfig.defaultDefinitions}
+      />,
+    );
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error').length).to.equal(4);
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
+  });
 
   it('should should submit with required fields filled out', () => {
     const onSubmit = sinon.spy();

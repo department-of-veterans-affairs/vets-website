@@ -46,21 +46,13 @@ describe('Redux - actions', () => {
       const mockDispatch = sinon.spy();
       apiStub.resolves({ data: { message: 'success!' } });
 
-      await getTravelClaims({
-        label: 'Jan 2024 - Mar 2024',
-        value: 'Q1_2024',
-        start: '2024-01-01T00:00:00-06:00',
-        end: '2024-03-31T23:59:59-05:00',
-      })(mockDispatch);
+      await getTravelClaims()(mockDispatch);
 
       expect(
         mockDispatch.calledWithMatch({ type: 'FETCH_TRAVEL_CLAIMS_STARTED' }),
       ).to.be.true;
       expect(
-        mockDispatch.calledWithMatch({
-          type: 'FETCH_TRAVEL_CLAIMS_SUCCESS',
-          dateRangeId: 'Q1_2024',
-        }),
+        mockDispatch.calledWithMatch({ type: 'FETCH_TRAVEL_CLAIMS_SUCCESS' }),
       ).to.be.true;
     });
 
@@ -68,21 +60,13 @@ describe('Redux - actions', () => {
       const mockDispatch = sinon.spy();
       apiStub.rejects(new Error('nope'));
 
-      await getTravelClaims({
-        label: 'Jan 2024 - Mar 2024',
-        value: 'Q1_2024',
-        start: '2024-01-01T00:00:00-06:00',
-        end: '2024-03-31T23:59:59-05:00',
-      })(mockDispatch);
+      await getTravelClaims()(mockDispatch);
 
       expect(
         mockDispatch.calledWithMatch({ type: 'FETCH_TRAVEL_CLAIMS_STARTED' }),
       ).to.be.true;
       expect(
-        mockDispatch.calledWithMatch({
-          type: 'FETCH_TRAVEL_CLAIMS_FAILURE',
-          dateRangeId: 'Q1_2024',
-        }),
+        mockDispatch.calledWithMatch({ type: 'FETCH_TRAVEL_CLAIMS_FAILURE' }),
       ).to.be.true;
     });
   });

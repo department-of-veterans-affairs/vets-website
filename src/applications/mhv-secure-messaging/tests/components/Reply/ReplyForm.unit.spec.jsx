@@ -1,10 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import {
-  mockApiRequest,
-  inputVaTextInput,
-} from '@department-of-veterans-affairs/platform-testing/helpers';
+import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import ReplyForm from '../../../components/ComposeForm/ReplyForm';
@@ -13,12 +10,12 @@ import threadDetailsReducer from '../../fixtures/threads/reply-draft-thread-redu
 import folders from '../../fixtures/folder-inbox-response.json';
 import signatureReducers from '../../fixtures/signature-reducers.json';
 import { ErrorMessages } from '../../../util/constants';
+import { inputVaTextInput } from '../../../util/testUtils';
 import saveDraftResponse from '../../e2e/fixtures/draftsResponse/drafts-single-message-response.json';
 import oneBlockedRecipient from '../../fixtures/json-triage-mocks/triage-teams-one-blocked-mock.json';
 import twoBlockedRecipients from '../../fixtures/json-triage-mocks/triage-teams-two-blocked-mock.json';
 import noBlockedRecipients from '../../fixtures/json-triage-mocks/triage-teams-mock.json';
 import noAssociationsAtAll from '../../fixtures/json-triage-mocks/triage-teams-no-associations-at-all-mock.json';
-import lostAssociation from '../../fixtures/json-triage-mocks/triage-teams-lost-association.json';
 
 describe('Reply form component', () => {
   const { signature } = signatureReducers.signatureEnabled;
@@ -182,11 +179,11 @@ describe('Reply form component', () => {
   });
 
   it('renders the attachments component when adding a file', async () => {
-    const { getByTestId, container } = render();
+    const screen = render();
     const fileName = 'test.png';
     const file = new File(['(⌐□_□)'], fileName, { type: 'image/png' });
 
-    const uploader = getByTestId('attach-file-input');
+    const uploader = screen.getByTestId('attach-file-input');
 
     await waitFor(() =>
       fireEvent.change(uploader, {
@@ -196,15 +193,15 @@ describe('Reply form component', () => {
 
     expect(uploader.files[0].name).to.equal('test.png');
     expect(uploader.files.length).to.equal(1);
-    fireEvent.click(getByTestId('save-draft-button'));
+    fireEvent.click(screen.getByTestId('save-draft-button'));
     await waitFor(() => {
-      const modals = container.querySelectorAll('va-modal');
-      const modal = Array.from(modals).find(
-        m =>
-          m.getAttribute('modal-title') ===
-          ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.title,
-      );
-      expect(modal).to.exist;
+      expect(
+        document.querySelector(
+          `va-modal[modal-title="${
+            ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.title
+          }"]`,
+        ),
+      ).to.have.attribute('visible', 'true');
     });
   });
 
@@ -212,15 +209,8 @@ describe('Reply form component', () => {
     const customState = {
       sm: {
         ...initialState.sm,
-        threadDetails: {
-          ...initialState.sm.threadDetails,
-          messages: [replyMessage],
-          drafts: [],
-          isLoading: false,
-          cannotReply: false,
-          replyToName: replyMessage.recipientName,
-          threadFolderId: 0,
-          replyToMessageId: replyMessage.id,
+        messagedetails: {
+          message: replyMessage,
         },
       },
     };
@@ -342,60 +332,6 @@ describe('Reply form component', () => {
     expect(blockedTriageGroupAlert).to.have.attribute(
       'trigger',
       'Your account is no longer connected to SM_TO_VA_GOV_TRIAGE_GROUP_TEST',
-    );
-  });
-
-  it('allows reply if OH message and not associated with recipient', async () => {
-    const customState = {
-      ...initialState,
-      sm: {
-        ...initialState.sm,
-        recipients: {
-          allRecipients: lostAssociation.mockAllRecipients,
-          allowedRecipients: lostAssociation.mockAllowedRecipients,
-          blockedRecipients: lostAssociation.mockBlockedRecipients,
-          associatedTriageGroupsQty: lostAssociation.associatedTriageGroupsQty,
-          associatedBlockedTriageGroupsQty:
-            lostAssociation.associatedBlockedTriageGroupsQty,
-          noAssociations: lostAssociation.noAssociations,
-          allTriageGroupsBlocked: lostAssociation.allTriageGroupsBlocked,
-        },
-      },
-    };
-    const ohDrafts = threadDetails.drafts.map(draft => ({
-      ...draft,
-      isOhMessage: true,
-      recipientId: 111111,
-      recipientName: 'not_SM_TO_VA_GOV_TRIAGE_GROUP_TEST',
-      triageGroupName: 'not_SM_TO_VA_GOV_TRIAGE_GROUP_TEST',
-    }));
-
-    const ohMessages = threadDetails.messages.map(message => ({
-      ...message,
-      isOhMessage: true,
-      recipientId: 111111,
-      recipientName: 'not_SM_TO_VA_GOV_TRIAGE_GROUP_TEST',
-      triageGroupName: 'not_SM_TO_VA_GOV_TRIAGE_GROUP_TEST',
-    }));
-
-    const screen = render(
-      customState,
-      {
-        drafts: ohDrafts,
-        recipients: customState.sm.recipients,
-        messages: ohMessages,
-      },
-      ohDrafts[0],
-    );
-
-    const blockedTriageGroupAlert = await screen.queryByTestId(
-      'blocked-triage-group-alert',
-    );
-    expect(blockedTriageGroupAlert).to.not.exist;
-
-    expect(screen.getByTestId('edit-draft-button-body')).to.exist;
-    expect(screen.getByTestId('edit-draft-button-body').textContent).to.contain(
-      'Edit draft reply',
     );
   });
 });

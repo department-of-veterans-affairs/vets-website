@@ -1,5 +1,6 @@
 import {
   testSubmitsWithoutErrors,
+  testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfWebComponentFields,
   testNumberOfFieldsByType,
 } from '../pageTests.spec';
@@ -16,6 +17,15 @@ describe('financial information home acreage value page', () => {
     schema,
     uiSchema,
     expectedNumberOfFields,
+    pageTitle,
+  );
+
+  const expectedNumberOfErrors = 0;
+  testNumberOfErrorsOnSubmitForWebComponents(
+    formConfig,
+    schema,
+    uiSchema,
+    expectedNumberOfErrors,
     pageTitle,
   );
 

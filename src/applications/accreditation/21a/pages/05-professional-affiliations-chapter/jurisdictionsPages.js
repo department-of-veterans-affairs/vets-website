@@ -15,7 +15,7 @@ import { jurisdictionOptions } from '../../constants/jurisdictions';
 import { formatReviewDate } from '../helpers/formatReviewDate';
 
 /** @type {ArrayBuilderOptions} */
-export const arrayBuilderOptions = {
+const arrayBuilderOptions = {
   arrayPath: 'jurisdictions',
   nounSingular: 'jurisdiction',
   nounPlural: 'jurisdictions',

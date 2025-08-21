@@ -111,7 +111,7 @@ export const childContent = (pdfUrl, trackingPrefix, goBack) => (
                     event: `${trackingPrefix}confirmation-pdf-download`,
                   })
                 }
-                text="Download completed VA Form 22-10215"
+                text="Download VA Form 22-10215"
               />
             </span>
           </p>

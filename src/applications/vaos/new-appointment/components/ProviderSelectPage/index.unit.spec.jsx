@@ -22,12 +22,12 @@ const defaultState = {
       typeOfCareId: TYPE_OF_CARE_IDS.FOOD_AND_NUTRITION_ID,
     },
     facilities: {
-      [TYPE_OF_CARE_IDS.FOOD_AND_NUTRITION_ID]: [
+      '123': [
         {
           vistaId: '692',
           legacyVAR: {
             settings: {
-              [TYPE_OF_CARE_IDS.FOOD_AND_NUTRITION_ID]: {
+              '123': {
                 id: TYPE_OF_CARE_IDS.FOOD_AND_NUTRITION_ID,
                 name: 'Food and Nutrition',
                 stopCodes: [

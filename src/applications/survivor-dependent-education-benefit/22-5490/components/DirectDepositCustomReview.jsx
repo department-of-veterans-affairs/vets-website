@@ -31,7 +31,7 @@ const DirectDepositCustomReview = ({ formData, editPage }) => {
       <dl className="review">
         <div className="review-row">
           <dt>Account type</dt>
-          <dd>{titleCase(accountType || 'Not provided')}</dd>
+          <dd>{titleCase(accountType) || 'Not provided'}</dd>
         </div>
         <div className="review-row">
           <dt>Bank routing number</dt>

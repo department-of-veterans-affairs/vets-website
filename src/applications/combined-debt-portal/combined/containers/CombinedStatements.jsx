@@ -13,7 +13,7 @@ import {
 import environment from 'platform/utilities/environment';
 import last from 'lodash/last';
 import { parse, format } from 'date-fns';
-import Modals from '../components/Modals';
+import Modals from '../../medical-copays/components/Modals';
 import {
   currency,
   setPageFocus,
@@ -30,11 +30,11 @@ const cleanHtmlEntities = text => {
   if (!text) return '';
   return text
     .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>')
     .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
-    .replace(/&amp;/g, '&');
+    .replace(/&#39;/g, "'");
 };
 
 const CombinedStatements = () => {

@@ -31,10 +31,26 @@ export default function Declined() {
           out.
         </p>
         <h2>What you can do</h2>
-        <p>
-          You can sign in again anytime to accept the terms. As soon as you
-          accept the terms, you can manage your benefits and care online again.
-        </p>
+        <ul>
+          <li>
+            You can sign in again anytime to accept the terms. As soon as you
+            accept the terms, you can manage your benefits and care online
+            again.
+          </li>
+          <li>
+            If you have a <strong>My HealtheVet</strong> user ID and password,
+            you’ll no longer be able to use it. To manage your benefits and care
+            online again, you’ll need to sign in with a{' '}
+            <strong>Login.gov</strong> or <strong>ID.me</strong> account and
+            accept these terms. If you don’t have one of these accounts, you’ll
+            need to create one.
+            <br />
+            <br />
+            <a href="https://va.gov/resources/creating-an-account-for-vagov/">
+              Learn how to create a Login.gov or ID.me account for VA
+            </a>
+          </li>
+        </ul>
         <p>
           <strong>Note:</strong> You can still access your VA benefits and
           health care without using our online services. If you need help or

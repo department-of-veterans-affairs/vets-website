@@ -15,30 +15,11 @@ describe('fetchDrupalStaticDataFile', () => {
     expectation = mock.expects('fetch').once();
   });
 
-  afterEach(() => {
-    mock.restore();
-  });
-
   it('uses the environment base URL by default', async () => {
     expectation = expectation.withArgs(
       `${environment.BASE_URL}/${DATA_FILES_PATH}/${filename}`,
     );
-    await fetchDrupalStaticDataFile({
-      fileName: filename,
-      useLocalOverride: false,
-    });
-
-    mock.verify();
-  });
-
-  it('uses API_URL for localhost', async () => {
-    expectation = expectation.withArgs(
-      `${environment.API_URL}/${DATA_FILES_PATH}/${filename}`,
-    );
-    await fetchDrupalStaticDataFile({
-      fileName: filename,
-      useLocalOverride: true,
-    });
+    await fetchDrupalStaticDataFile(filename);
 
     mock.verify();
   });
@@ -49,11 +30,7 @@ describe('fetchDrupalStaticDataFile', () => {
       `${testServer}/${DATA_FILES_PATH}/${filename}`,
     );
 
-    await fetchDrupalStaticDataFile({
-      fileName: filename,
-      server: testServer,
-      useLocalOverride: false,
-    });
+    await fetchDrupalStaticDataFile(filename, testServer);
 
     mock.verify();
   });

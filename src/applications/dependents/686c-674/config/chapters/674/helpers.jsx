@@ -43,11 +43,14 @@ export const AccreditedSchool = (
       You can go to the U.S. Department of Education’s website to check if a
       school is accredited.
     </p>
-    <va-link
+    <a
       href="https://ope.ed.gov/dapip/#/home"
-      external
-      text="Go to the U.S. Department of Education’s website"
-    />
+      rel="noopener noreferrer"
+      aria-label="Go to the U.S. Department of Education’s website (opens in new tab)"
+      target="_blank"
+    >
+      Go to the U.S. Department of Education’s website (opens in new tab)
+    </a>
   </va-additional-info>
 );
 

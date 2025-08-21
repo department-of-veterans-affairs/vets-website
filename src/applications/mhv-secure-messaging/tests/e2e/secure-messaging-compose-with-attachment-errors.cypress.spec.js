@@ -1,7 +1,6 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
-import PatientErrorPage from './pages/PatientErrorPage';
 import { AXE_CONTEXT, Data, Alerts, Locators } from './utils/constants';
 
 describe('Verify compose message attachments errors', () => {
@@ -16,7 +15,7 @@ describe('Verify compose message attachments errors', () => {
 
   it('verify attachments types error', () => {
     PatientComposePage.attachMessageFromFile(Data.TEST_VIDEO);
-    PatientErrorPage.verifyAttachmentErrorMessage(Alerts.ATTACHMENT.TYPES);
+    PatientComposePage.verifyAttachmentErrorMessage(Alerts.ATTACHMENT.TYPES);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
@@ -24,7 +23,7 @@ describe('Verify compose message attachments errors', () => {
 
   it('verify empty attachment error', () => {
     PatientComposePage.attachMessageFromFile('empty.txt');
-    PatientErrorPage.verifyAttachmentErrorMessage(Alerts.ATTACHMENT.EMPTY);
+    PatientComposePage.verifyAttachmentErrorMessage(Alerts.ATTACHMENT.EMPTY);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
@@ -34,8 +33,9 @@ describe('Verify compose message attachments errors', () => {
     PatientComposePage.attachMessageFromFile(Data.SAMPLE_PDF);
     PatientComposePage.attachMessageFromFile(Data.SAMPLE_PDF);
 
-    PatientErrorPage.verifyAttachmentErrorMessage(
-      Alerts.ATTACHMENT.ALREADY_ATTACHED,
+    cy.get(Locators.ALERTS.ERROR_MESSAGE).should(
+      'have.text',
+      Alerts.ATTACHMENT.ALREADY_ATTACHED_FILE,
     );
 
     cy.injectAxe();
@@ -44,8 +44,8 @@ describe('Verify compose message attachments errors', () => {
 
   it(`verify large attachment error`, () => {
     PatientComposePage.attachMessageFromFile(Data.TEST_LARGE_IMAGE);
-    PatientErrorPage.verifyAttachmentErrorMessage(
-      Alerts.ATTACHMENT.VISTA_TOO_LARGE,
+    PatientComposePage.verifyAttachmentErrorMessage(
+      Alerts.ATTACHMENT.FILE_IS_TOO_LARGE_TEXT,
     );
 
     cy.injectAxe();

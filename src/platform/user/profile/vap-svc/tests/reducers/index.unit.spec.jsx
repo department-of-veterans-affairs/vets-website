@@ -336,7 +336,6 @@ describe('vapService reducer', () => {
         type: 'ADDRESS_VALIDATION_ERROR',
         addressFromUser: { street: '987 main' },
         addressValidationError: true,
-        addressValidationErrorCode: 'ADDRVAL108',
         fieldName: 'mailingAddress',
         error: 'Foo',
       };
@@ -344,7 +343,6 @@ describe('vapService reducer', () => {
         ...state,
         addressValidation: {
           addressValidationError: true,
-          addressValidationErrorCode: 'ADDRVAL108',
           addressValidationType: 'mailingAddress',
           addressFromUser: { street: '987 main' },
           selectedAddress: {},
@@ -408,7 +406,6 @@ describe('vapService reducer', () => {
             countryCodeIso3: '',
           },
           addressValidationError: false,
-          addressValidationErrorCode: null,
           validationKey: null,
           selectedAddress: {},
           selectedAddressId: null,
@@ -469,7 +466,6 @@ describe('vapService reducer', () => {
             countryCodeIso3: '',
           },
           addressValidationError: false,
-          addressValidationErrorCode: null,
           addressValidationType: '',
           confirmedSuggestions: [],
           selectedAddress: {},

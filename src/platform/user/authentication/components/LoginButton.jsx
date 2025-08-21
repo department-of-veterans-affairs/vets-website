@@ -10,7 +10,7 @@ export function loginHandler(loginType, isOAuth, oktaParams = {}) {
   const isOAuthAttempt = isOAuth && '-oauth';
   const { codeChallenge = '', clientId = '', state = '' } = oktaParams;
 
-  if (TEST_APPS.OKTA?.includes(clientId) && !environment.isProduction()) {
+  if (clientId === TEST_APPS.OKTA && !environment.isProduction()) {
     const url = createOktaOAuthRequest({
       clientId,
       codeChallenge,

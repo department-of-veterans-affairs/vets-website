@@ -24,7 +24,6 @@ const teardown = () => {
 };
 
 describe('getRemainingEntitlement', () => {
-  let sandbox;
   const successResponse = {
     data: {
       id: 'string',
@@ -38,25 +37,18 @@ describe('getRemainingEntitlement', () => {
     },
   };
 
-  beforeEach(() => {
-    sandbox = sinon.createSandbox();
-    setup();
-  });
-
-  afterEach(() => {
-    sandbox.restore();
-    teardown();
-  });
+  beforeEach(setup);
+  afterEach(teardown);
 
   it('dispatches GET_REMAINING_ENTITLEMENT_SUCCESS on successful fetch', done => {
     setFetchJSONResponse(global.fetch.onCall(0), successResponse);
     const thunk = getRemainingEntitlement();
-    const dispatch = sandbox.spy();
+    const dispatch = sinon.spy();
     thunk(dispatch)
       .then(() => {
         const action = dispatch.firstCall.args[0];
         expect(action.type).to.equal(GET_REMAINING_ENTITLEMENT_SUCCESS);
-        expect(action.data.remainingEntitlement).to.deep.equal(
+        expect(action.data.remainingEntitlement).to.equal(
           successResponse.data.attributes.remainingEntitlement,
         );
       })

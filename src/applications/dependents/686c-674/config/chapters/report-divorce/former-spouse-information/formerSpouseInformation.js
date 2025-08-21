@@ -6,6 +6,7 @@ import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import NoHintReviewField from '../../../../components/CustomReviewFields';
 import { CancelButton } from '../../../helpers';
 
 export const schema = {
@@ -31,14 +32,18 @@ export const uiSchema = {
     fullName: {
       ...fullNameNoSuffixUI(title => `Former spouse’s ${title}`),
     },
-    birthDate: currentOrPastDateUI({
-      title: 'Former spouse’s date of birth',
-      dataDogHidden: true,
-      required: () => true,
-    }),
+    birthDate: {
+      ...currentOrPastDateUI('Former spouse’s date of birth'),
+      'ui:required': () => true,
+      'ui:reviewField': NoHintReviewField,
+    },
     'view:cancelDivorce': {
       'ui:description': (
-        <CancelButton dependentType="divorced spouse" isAddChapter={false} />
+        <CancelButton
+          dependentType="divorced spouse"
+          isAddChapter={false}
+          altMessage
+        />
       ),
     },
   },

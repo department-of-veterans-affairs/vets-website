@@ -437,7 +437,6 @@ const formConfig = {
           title: 'Your net worth',
           uiSchema: householdIncome.uiSchema,
           schema: householdIncome.schema,
-          depends: () => !environment.isProduction(),
         },
       },
     },

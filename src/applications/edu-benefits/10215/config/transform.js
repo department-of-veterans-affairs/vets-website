@@ -24,20 +24,18 @@ export default function transform(form) {
         0;
     }
     if (program.fte) {
-      program.fte.nonSupported = Number(program.fte.nonSupported) || 0;
-      program.fte.supported = Number(program.fte.supported) || 0;
+      program.fte.nonSupported = parseInt(program.fte.nonSupported, 10) || 0;
+      program.fte.supported = parseInt(program.fte.supported, 10) || 0;
     }
     return program;
   });
 
-  // Strip view fields and statement of truth checkbox value
+  // Strip view fieldds and statement of truth checkbox value
   for (const i of formData.data.programs) {
     delete i['view:calcs'];
   }
   delete formData.data.statementOfTruthCertified;
   delete formData.data['view:programsSummary'];
-  // Added by arrayBuilder platform change
-  delete formData.data['view:programsMissingInformation'];
 
   // Send date signed
   let today = new Date();

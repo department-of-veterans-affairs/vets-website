@@ -148,7 +148,7 @@ describe('ezr InsuranceSummary', () => {
       const { props } = getData({});
       const { container } = render(<InsuranceSummary {...props} />);
       const selector = container.querySelector(
-        '#root_view\\:addInsurancePolicyNo',
+        '#root_view\\3A addInsurancePolicyNo',
       );
       fireEvent.click(selector);
       expect(props.setFormData.called).to.be.true;

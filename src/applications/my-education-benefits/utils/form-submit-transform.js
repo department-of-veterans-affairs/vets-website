@@ -348,7 +348,7 @@ export function createMilitaryClaimant(submissionForm) {
   const formFieldUserFullName =
     submissionForm['view:userFullName']?.userFullName;
   const viewComponentUserFullName = submissionForm?.userFullName;
-  const formFieldDateOfBirth = submissionForm?.dateOfBirth;
+  const formFieldDateOfBirth = submissionForm['view:dateOfBirth'];
   const viewComponentDateOfBirth = submissionForm?.veteranDateOfBirth;
   // Explicitly check if formField sources are not undefined and not empty, otherwise use viewComponent
   const userFullName =

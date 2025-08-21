@@ -2,7 +2,7 @@ import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/Pag
 import React from 'react';
 import { Route, Switch, Redirect, useLocation } from 'react-router-dom';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
-import { useIsInPilotUserStations } from '../referral-appointments/hooks/useIsInPilotUserStations';
+import { useIsInCCPilot } from '../referral-appointments/hooks/useIsInCCPilot';
 import ReferralsAndRequests from '../referral-appointments/ReferralsAndRequests';
 import UpcomingAppointmentsDetailsPage from './pages/UpcomingAppointmentsDetailsPage';
 import EpsAppointmentDetailsPage from '../referral-appointments/EpsAppointmentDetailsPage';
@@ -12,7 +12,7 @@ import RequestedAppointmentDetailsPage from './pages/RequestedAppointmentDetails
 function AppointmentListSection() {
   useManualScrollRestoration();
 
-  const { isInPilotUserStations } = useIsInPilotUserStations();
+  const { isInCCPilot } = useIsInCCPilot();
   const location = useLocation();
 
   // Parse the query parameters
@@ -27,18 +27,13 @@ function AppointmentListSection() {
           component={RequestedAppointmentDetailsPage}
         />
 
-        {isInPilotUserStations && (
-          <Redirect from="/pending" to="/referrals-requests" />
-        )}
-        {!isInPilotUserStations && (
-          <Redirect from="/referrals-requests" to="/pending" />
-        )}
+        {isInCCPilot && <Redirect from="/pending" to="/referrals-requests" />}
 
         <Route path="/pending" component={AppointmentsPage} />
-        {isInPilotUserStations &&
+        {isInCCPilot &&
           eps && <Route path="/:id" component={EpsAppointmentDetailsPage} />}
 
-        {isInPilotUserStations && (
+        {isInCCPilot && (
           <Route path="/referrals-requests" component={ReferralsAndRequests} />
         )}
         <Route path="/past/:id" component={UpcomingAppointmentsDetailsPage} />

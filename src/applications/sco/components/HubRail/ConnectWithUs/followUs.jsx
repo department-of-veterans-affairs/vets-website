@@ -16,11 +16,9 @@ const FollowUs = () => {
           text="Instagram"
           iconName="instagram"
         />
-        <LiVaIconAndVaLink
-          href="https://www.threads.net/@vabenefits"
-          text="Threads"
-          iconName="threads"
-        />
+        <li>
+          <va-link href="https://www.threads.net/@vabenefits" text="Threads" />
+        </li>
         <LiVaIconAndVaLink
           href="https://x.com/DeptVetAffairs"
           text="X"

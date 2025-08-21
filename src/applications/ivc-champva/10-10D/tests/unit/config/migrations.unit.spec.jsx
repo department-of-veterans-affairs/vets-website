@@ -3,7 +3,6 @@ import {
   flattenApplicantSSN,
   migrateCardUploadKeys,
   removeOtherRelationshipSpecification,
-  flattenSponsorSSN,
 } from '../../../config/migrations';
 
 const EXAMPLE_SIP_METADATA = {
@@ -128,58 +127,6 @@ describe('flattenApplicantSSN', () => {
     const migrated = flattenApplicantSSN(props);
     expect(typeof migrated.formData).to.equal('object');
     expect(Object.keys(migrated.formData).length).to.equal(0);
-  });
-});
-
-describe('flattenSponsorSSN', () => {
-  it('should not modify sponsorSSN if it is a string', () => {
-    const props = {
-      formData: { ssn: '123123123' },
-      metadata: EXAMPLE_SIP_METADATA,
-      formId: '10-10D',
-    };
-    // Deep copying since migration operates on input data
-    const propsDeepCopy = JSON.parse(JSON.stringify(props));
-    const migrated = flattenSponsorSSN(propsDeepCopy);
-    expect(migrated.formData.ssn).to.equal(props.formData.ssn);
-  });
-
-  it('should flatten ssn + va file number object down to single ssn string', () => {
-    const props = {
-      formData: {
-        ssn: { ssn: '111222333', vaFileNumber: '' },
-      },
-      metadata: EXAMPLE_SIP_METADATA,
-      formId: '10-10D',
-    };
-    const propsDeepCopy = JSON.parse(JSON.stringify(props));
-    const migrated = flattenSponsorSSN(propsDeepCopy);
-    expect(migrated.formData.ssn).to.equal(props.formData.ssn.ssn);
-  });
-
-  it('should fall back to va file number when user did not enter ssn', () => {
-    const props = {
-      formData: {
-        ssn: { ssn: '', vaFileNumber: '111222333' },
-      },
-      metadata: EXAMPLE_SIP_METADATA,
-      formId: '10-10D',
-    };
-    const propsDeepCopy = JSON.parse(JSON.stringify(props));
-    const migrated = flattenSponsorSSN(propsDeepCopy);
-    expect(migrated.formData.ssn).to.equal(props.formData.ssn.vaFileNumber);
-  });
-
-  it('should set ssn to an empty string if no ssn or va file number exists', () => {
-    const props = {
-      formData: {
-        ssn: { ssn: '', vaFileNumber: '' },
-      },
-      metadata: EXAMPLE_SIP_METADATA,
-      formId: '10-10D',
-    };
-    const migrated = flattenSponsorSSN(props);
-    expect(migrated.formData.ssn).to.equal('');
   });
 });
 

@@ -1,6 +1,6 @@
 import {
-  testNumberOfErrorsOnSubmit,
-  testNumberOfFormFields,
+  testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfWebComponentFields,
 } from '../helpers.spec';
 import formConfig from '../../../../config/form';
 
@@ -14,21 +14,21 @@ const {
 const { title: pageTitle, schema, uiSchema } = primaryMailingAddress;
 
 // run test for correct number of fields on the page
-const expectedNumberOfFields = 7;
-testNumberOfFormFields(
+const expectedNumberOfWebComponentFields = 7;
+testNumberOfWebComponentFields(
   formConfig,
   schema,
   uiSchema,
-  expectedNumberOfFields,
+  expectedNumberOfWebComponentFields,
   pageTitle,
 );
 
 // run test for correct number of error messages on submit
-const expectedNumberOfErrors = 3;
-testNumberOfErrorsOnSubmit(
+const expectedNumberOfWebComponentErrors = 3;
+testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,
   uiSchema,
-  expectedNumberOfErrors,
+  expectedNumberOfWebComponentErrors,
   pageTitle,
 );

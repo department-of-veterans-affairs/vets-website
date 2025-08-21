@@ -11,10 +11,6 @@ import ApplicantRelationshipPage, {
   ApplicantRelationshipReviewPage,
   appRelBoilerplate,
 } from '../../shared/components/applicantLists/ApplicantRelationshipPage';
-import {
-  validateMarriageAfterDob,
-  validateMarriageAfterSponsorDob,
-} from '../helpers/validations';
 import ApplicantField from '../../shared/components/applicantLists/ApplicantField';
 
 const KEYNAME = 'applicantSponsorMarriageDetails';
@@ -134,7 +130,6 @@ const dateOfMarriageToSponsor = {
   /* Using the depends functions to prevent silent validation failures
           on the review page */
   'ui:required': (formData, index) => depends18f3(formData, index),
-  'ui:validations': [validateMarriageAfterDob, validateMarriageAfterSponsorDob],
 };
 
 /*

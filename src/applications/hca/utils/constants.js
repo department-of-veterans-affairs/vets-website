@@ -1,6 +1,6 @@
 // declare API endpoint routes
 export const API_ENDPOINTS = {
-  csrfCheck: '/csrf_token',
+  csrfCheck: '/maintenance_windows',
   downloadPdf: '/health_care_applications/download_pdf',
   enrollmentStatus: '/health_care_applications/enrollment_status',
   facilities: '/health_care_applications/facilities',

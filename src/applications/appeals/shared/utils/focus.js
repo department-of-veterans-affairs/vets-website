@@ -100,7 +100,7 @@ export const focusAddAnotherButton = root => {
   // Add a timeout to allow for the upload button to reappear in the DOM
   // before trying to focus on it
   setTimeout(() => {
-    scrollTo('.upload-wrap');
+    scrollTo($('#upload-wrap', root));
     // focus on upload button, not the label
     focusElement(
       // including `#upload-button` because RTL can't access the shadowRoot

@@ -34,18 +34,17 @@ describe('Goals Form', () => {
 
   it('should render the correct hint for goals checkbox group', () => {
     const hint = document.querySelector(
-      'va-checkbox-group[hint="Select all that apply."]',
+      'va-checkbox-group[hint="Check all that apply."]',
     );
     expect(hint).to.exist;
   });
 
   it('should render the correct checkbox options for goals', () => {
     const options = Object.values(goalTypeLabels);
-    const checkboxes = [...document.querySelectorAll('va-checkbox')];
 
     options.forEach(option => {
-      const checkboxOption = checkboxes.find(
-        el => el.getAttribute('label') === option,
+      const checkboxOption = document.querySelector(
+        `va-checkbox[label="${option}"]`,
       );
       expect(checkboxOption).to.exist;
     });

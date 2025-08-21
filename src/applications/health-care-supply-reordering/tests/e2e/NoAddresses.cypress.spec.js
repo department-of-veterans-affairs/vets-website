@@ -45,12 +45,10 @@ describe(`${appName} -- Veteran w/o address`, () => {
     cy.injectAxeThenAxeCheck();
     heading = {
       level: 1,
-      name: /^Order hearing aid and CPAP supplies/,
+      name: /^Order hearing aid/,
     };
     cy.findByRole('heading', heading); // .should('have.focus');
-    cy.findAllByRole('link', {
-      name: /^Start your hearing aid and CPAP supplies order/,
-    })
+    cy.findAllByRole('link', { name: /^Order hearing aid/ })
       .first()
       .click();
 

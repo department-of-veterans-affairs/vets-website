@@ -132,9 +132,9 @@ describe('Introduction page', () => {
     });
 
     expect(screen.getByText('File a travel reimbursement claim')).to.exist;
-    expect($('va-link-action[text="Start a mileage-only claim"]')).to.exist;
+    expect($('va-link-action[text="File a mileage-only claim"]')).to.exist;
 
-    fireEvent.click($('va-link-action[text="Start a mileage-only claim"]'));
+    fireEvent.click($('va-link-action[text="File a mileage-only claim"]'));
     expect(onStartSpy.called).to.be.true;
   });
 
@@ -164,7 +164,7 @@ describe('Introduction page', () => {
         'We’re sorry, we can’t access your appointment details right now',
       ),
     ).to.exist;
-    expect($('va-link-action[text="Start a mileage only claim"]')).to.not.exist;
+    expect($('va-link-action[text="File a mileage only claim"]')).to.not.exist;
   });
 
   it('should show future appt alert if appointment is not past', () => {
@@ -195,7 +195,7 @@ describe('Introduction page', () => {
     });
 
     expect(screen.getByText('We need to wait to file your claim')).to.exist;
-    expect($('va-link-action[text="Start a mileage only claim"]')).to.not.exist;
+    expect($('va-link-action[text="File a mileage only claim"]')).to.not.exist;
   });
 
   it('should show warning alert if appointment was >30 days ago', () => {
@@ -226,7 +226,7 @@ describe('Introduction page', () => {
     });
 
     expect(screen.getByText('Your appointment is older than 30 days')).to.exist;
-    expect($('va-link-action[text="Start a mileage only claim"]')).to.not.exist;
+    expect($('va-link-action[text="File a mileage only claim"]')).to.not.exist;
   });
 
   it('should hide entry point if claim exists for appointment', () => {
@@ -259,6 +259,6 @@ describe('Introduction page', () => {
       reducers: reducer,
     });
 
-    expect($('va-link-action[text="Start a mileage-only claim"]')).to.not.exist;
+    expect($('va-link-action[text="File a mileage-only claim"]')).to.not.exist;
   });
 });

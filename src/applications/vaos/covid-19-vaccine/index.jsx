@@ -91,7 +91,6 @@ export function NewBookingSection() {
         <va-loading-indicator
           set-focus
           message="Checking for online appointment availability"
-          label="Checking for online appointment availability"
         />
       </FormLayout>
     );

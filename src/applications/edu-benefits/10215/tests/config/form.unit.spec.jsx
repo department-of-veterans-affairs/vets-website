@@ -78,14 +78,4 @@ describe('22-10215 Form Config', () => {
 
     delete global.getFTECalcs;
   });
-
-  it('card description should read "Fewer than 10 supported students" when supported students is less than 10', () => {
-    const item = {
-      programName: 'Test Program',
-      supportedStudents: '5',
-    };
-
-    const description = arrayBuilderOptions.text.cardDescription(item);
-    expect(description).to.equal('Fewer than 10 supported students');
-  });
 });

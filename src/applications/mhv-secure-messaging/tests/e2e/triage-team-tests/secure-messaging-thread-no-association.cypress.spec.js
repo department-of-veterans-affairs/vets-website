@@ -6,7 +6,7 @@ import mockSingleMessage from '../fixtures/inboxResponse/single-message-response
 import mockRecipients from '../fixtures/recipientsResponse/recipients-response.json';
 import mockThread from '../fixtures/thread-response.json';
 
-describe('SM NO ASSOCIATION WITH PARTICULAR TG', () => {
+describe('Verify thread - No association with particular Triage Group', () => {
   const updatedData = mockRecipients.data.slice(1);
   const updatedMeta = { ...mockRecipients.meta, associatedTriageGroups: 6 };
   const removedFirstRecipientsList = {
@@ -22,17 +22,21 @@ describe('SM NO ASSOCIATION WITH PARTICULAR TG', () => {
       mockSingleMessage,
       removedFirstRecipientsList,
     );
-
-    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT, {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
 
     cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click({
       waitForAnimations: true,
     });
-
     cy.findByTestId(Locators.BUTTONS.CONTINUE).click({
       waitForAnimations: true,
     });
-
     cy.get(Locators.ALERTS.REPT_SELECT).should(
       'not.contain',
       mockRecipients.data[0].attributes.name,
@@ -64,7 +68,14 @@ describe('SM NO ASSOCIATION WITH PARTICULAR TG', () => {
     );
     PatientInboxPage.loadSingleThread(threadWithNoAssociatedTG);
 
-    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT, {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .shadow()

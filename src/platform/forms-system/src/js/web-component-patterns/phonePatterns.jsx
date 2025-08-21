@@ -2,7 +2,7 @@ import VaTextInputField from '../web-component-fields/VaTextInputField';
 import PhoneNumberReviewWidget from '../review/PhoneNumberWidget';
 
 /**
- * uiSchema for a phone number - a single text input field
+ * Web component v3 uiSchema for phone number
  *
  * ```js
  * examplePhone: phoneUI() // Phone number
@@ -10,10 +10,6 @@ import PhoneNumberReviewWidget from '../review/PhoneNumberWidget';
  * examplePhone: phoneUI({
  *   title: 'Cell phone number',
  *   hint: 'This is a hint'
- *   errorMessages: {
- *    required: 'This is a required input'
- *    pattern: 'Enter a valid phone number'
- * },
  * })
  * examplePhone: {
  *  ...phoneUI('Main phone number')
@@ -26,7 +22,7 @@ import PhoneNumberReviewWidget from '../review/PhoneNumberWidget';
  * @returns {UISchemaOptions}
  */
 const phoneUI = options => {
-  const { title, errorMessages = {}, ...uiOptions } =
+  const { title, ...uiOptions } =
     typeof options === 'object' ? options : { title: options };
 
   return {
@@ -41,7 +37,6 @@ const phoneUI = options => {
     'ui:errorMessages': {
       required: 'Please enter a 10-digit phone number (with or without dashes)',
       pattern: 'Please enter a 10-digit phone number (with or without dashes)',
-      ...errorMessages,
     },
   };
 };
@@ -50,14 +45,14 @@ const phoneUI = options => {
  * Web component v3 uiSchema for international phone number
  *
  * ```js
- * examplePhone: internationalPhoneDeprecatedUI() // Phone number
- * examplePhone: internationalPhoneDeprecatedUI('Cell phone number')
- * examplePhone: internationalPhoneDeprecatedUI({
+ * examplePhone: internationalPhoneUI() // Phone number
+ * examplePhone: internationalPhoneUI('Cell phone number')
+ * examplePhone: internationalPhoneUI({
  *   title: 'Cell phone number',
  *   hint: 'This is a hint'
  * })
  * examplePhone: {
- *  ...internationalPhoneDeprecatedUI('Main phone number')
+ *  ...internationalPhoneUI('Main phone number')
  * }
  * ```
  * @param {string | UIOptions & {
@@ -66,7 +61,7 @@ const phoneUI = options => {
  * }} [options] accepts a single string for title, or an object of options
  * @returns {UISchemaOptions}
  */
-const internationalPhoneDeprecatedUI = options => {
+const internationalPhoneUI = options => {
   const { title, ...uiOptions } =
     typeof options === 'object' ? options : { title: options };
 
@@ -95,14 +90,9 @@ const phoneSchema = {
 // The regex pattern allows starting with a plus sign
 // It allows up to 15 digits (max digits in an international phone number)
 // It allows optional dashes in between
-const internationalPhoneDeprecatedSchema = {
+const internationalPhoneSchema = {
   type: 'string',
   pattern: '^\\+?[0-9](?:-?[0-9]){0,14}$',
 };
 
-export {
-  phoneUI,
-  internationalPhoneDeprecatedUI,
-  phoneSchema,
-  internationalPhoneDeprecatedSchema,
-};
+export { phoneUI, internationalPhoneUI, phoneSchema, internationalPhoneSchema };

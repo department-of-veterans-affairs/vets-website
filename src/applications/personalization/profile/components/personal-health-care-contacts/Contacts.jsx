@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ProfileInfoSection } from '@@profile/components/ProfileInfoSection';
+import { ProfileInfoCard } from '@@profile/components/ProfileInfoCard';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import Contact from './Contact';
@@ -61,14 +61,14 @@ const Contacts = ({ data }) => {
         ask a staff member at your next appointment.
       </p>
 
-      <ProfileInfoSection
+      <ProfileInfoCard
         title="Emergency contacts"
         data={renderEmergencyContacts}
         namedAnchor="emergency-contacts"
         level={2}
       />
 
-      <ProfileInfoSection
+      <ProfileInfoCard
         title="Next of kin contacts"
         data={renderNextOfKin}
         namedAnchor="next-of-kin-contacts"

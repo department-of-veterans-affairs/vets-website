@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
@@ -27,7 +28,11 @@ import {
   ALERT_TYPE_IMAGE_STATUS_ERROR,
   radiologyErrors,
 } from '../../util/constants';
-import { generateTextFile, sendDataDogAction } from '../../util/helpers';
+import {
+  generateTextFile,
+  formatDateAndTime,
+  sendDataDogAction,
+} from '../../util/helpers';
 import DateSubheading from '../shared/DateSubheading';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
 import {
@@ -40,7 +45,6 @@ import useAlerts from '../../hooks/use-alerts';
 import HeaderSection from '../shared/HeaderSection';
 import LabelValue from '../shared/LabelValue';
 import TrackedSpinner from '../shared/TrackedSpinner';
-import JobCompleteAlert from '../shared/JobsCompleteAlert';
 
 const RadiologyDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -308,6 +312,33 @@ ${record.results}`;
     );
   };
 
+  const jobCompleteAlert = () => {
+    const endDateParts = formatDateAndTime(
+      new Date(studyJob.endDate + 3 * 24 * 60 * 60 * 1000), // Add 3 days
+    );
+    return (
+      <>
+        <p>
+          You have until {endDateParts.date} at {endDateParts.time}{' '}
+          {endDateParts.timeZone} to view and download your images. After that,
+          you’ll need to request them again.
+        </p>
+        <p>
+          <Link
+            to={`/labs-and-tests/${record.id}/images`}
+            className="vads-c-action-link--blue"
+            data-testid="radiology-view-all-images"
+            onClick={() => {
+              sendDataDogAction('View all images');
+            }}
+          >
+            View all {radiologyDetails.imageCount} images
+          </Link>
+        </p>
+      </>
+    );
+  };
+
   const imageAlert = message => (
     <va-alert
       class="vads-u-margin-bottom--2"
@@ -390,12 +421,6 @@ ${record.results}`;
     </>
   );
 
-  const renderJobCompleteAlert = () => {
-    return (
-      <JobCompleteAlert records={[radiologyDetails]} studyJobs={[studyJob]} />
-    );
-  };
-
   const imageStatusContent = () => {
     if (radiologyDetails.studyId) {
       if (processingRequest) {
@@ -427,7 +452,7 @@ ${record.results}`;
         <>
           {nillOrLimitReached && imagesNotRequested(studyJob)}
           {newOrProcessing && jobProcessingAlert(studyJob)}
-          {jobComplete && renderJobCompleteAlert()}
+          {jobComplete && jobCompleteAlert()}
           {requestFailedOrError && imageAlertError(studyJob)}
           {notificationContent()}
         </>
@@ -461,8 +486,10 @@ ${record.results}`;
             role="alert"
             data-testid="alert-download-started"
           >
-            <h3 className="vads-u-font-size--lg no-print">Images ready</h3>
-            {renderJobCompleteAlert()}
+            <h3 className="vads-u-font-size--lg vads-u-font-family--sans no-print">
+              Images ready
+            </h3>
+            {jobCompleteAlert()}
           </VaAlert>
         )}
         {downloadStarted && <DownloadSuccessAlert />}

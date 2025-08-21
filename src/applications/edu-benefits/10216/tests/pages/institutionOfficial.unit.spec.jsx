@@ -3,7 +3,6 @@ import { expect } from 'chai';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { Provider } from 'react-redux';
 import { mount } from 'enzyme';
-import { waitFor } from '@testing-library/react';
 import { uploadStore } from 'platform/forms-system/test/config/helpers';
 import { certifyingOfficial } from '../../pages/institutionOfficial';
 
@@ -25,17 +24,14 @@ describe('Institution Official Page', () => {
     form.unmount();
   });
 
-  it('should render error messages when required fields are empty', async () => {
+  it('should render error messages when required fields are empty', () => {
     const form = mount(
       <Provider store={uploadStore}>
         <DefinitionTester schema={schema} uiSchema={uiSchema} data={{}} />
       </Provider>,
     );
     form.find('form').simulate('submit');
-    await waitFor(() => {
-      form.update();
-      expect(form.find('va-text-input[error]').length).to.equal(3);
-    });
+    expect(form.find('va-text-input[error]').length).to.equal(3);
     form.unmount();
   });
 

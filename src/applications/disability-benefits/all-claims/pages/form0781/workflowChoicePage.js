@@ -3,12 +3,12 @@ import { form0781HeadingTag, titleWithTag } from '../../content/form0781';
 import {
   form0781WorkflowChoiceDescription,
   form0781WorkflowChoiceLabels,
+  form0781WorkflowChoices,
   traumaticEventsExamples,
   workflowChoicePageDescription,
   workflowChoicePageTitle,
+  mstAlert,
 } from '../../content/form0781/workflowChoicePage';
-
-import { form0781WorkflowChoices } from '../../content/form0781/workflowChoices';
 
 /** @type {PageSchema} */
 export default {
@@ -27,6 +27,9 @@ export default {
     'view:traumaticEventsInfo': {
       'ui:description': traumaticEventsExamples,
     },
+    'view:mstAlertInfo': {
+      'ui:description': mstAlert,
+    },
   },
 
   schema: {
@@ -40,6 +43,10 @@ export default {
         ),
       },
       'view:traumaticEventsInfo': {
+        type: 'object',
+        properties: {},
+      },
+      'view:mstAlertInfo': {
         type: 'object',
         properties: {},
       },

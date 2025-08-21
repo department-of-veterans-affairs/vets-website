@@ -6,7 +6,6 @@ import { render } from '@testing-library/react';
 import {
   healthInsurancePages,
   generateParticipantNames,
-  healthInsuranceOptions,
 } from '../../../chapters/healthInsuranceInformation';
 import { selectHealthcareParticipantsOnGoForward } from '../../../chapters/SelectHealthcareParticipantsPage';
 
@@ -49,7 +48,8 @@ describe('healthInsurancePages title functions', () => {
   it('should compute title text for each page title function in uiSchema', () => {
     const funcTitles = Object.keys(healthInsurancePages).filter(
       page =>
-        typeof healthInsurancePages[page]?.uiSchema?.healthInsurance?.items[
+        page.includes('page') &&
+        typeof healthInsurancePages[page].uiSchema.healthInsurance.items[
           'ui:title'
         ] === 'function',
     );
@@ -191,43 +191,5 @@ describe('generateParticipantNames', () => {
   });
   it('should produce a default value when no arguments are passed', () => {
     expect(generateParticipantNames()).to.eq('No participants');
-  });
-});
-
-describe('healthInsuranceOptions', () => {
-  describe('isItemIncomplete', () => {
-    it('should mark item incomplete if provider is missing', () => {
-      const res = healthInsuranceOptions.isItemIncomplete({
-        insuranceType: 'some name',
-        effectiveDate: '2000-01-01',
-      });
-      expect(res).to.be.true;
-    });
-    it('should mark item complete if provider, insuranceType, and effectiveDate are present', () => {
-      const res = healthInsuranceOptions.isItemIncomplete({
-        provider: 'bcbs',
-        insuranceType: 'some name',
-        effectiveDate: '2000-01-01',
-      });
-      expect(res).to.be.false;
-    });
-  });
-  describe('text.getItemName', () => {
-    it('should compute title from provider name', () => {
-      const res = healthInsuranceOptions.text.getItemName({
-        provider: 'bcbs',
-      });
-      expect(res).to.equal('bcbs');
-    });
-  });
-
-  describe('text.cardDescription', () => {
-    it('should return JSX containing an unordered list', () => {
-      const res = healthInsuranceOptions.text.cardDescription({});
-      const { container } = render(
-        <Provider store={minimalStore}>{res}</Provider>,
-      );
-      expect(container.querySelector('ul')).to.not.be.undefined;
-    });
   });
 });

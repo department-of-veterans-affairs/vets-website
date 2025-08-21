@@ -1,24 +1,22 @@
-import {
-  titleUI,
-  descriptionUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { ExposureCategoriesLink } from '../../../components/FormDescriptions/OtherExposureDescriptions';
 import { FULL_SCHEMA } from '../../../utils/imports';
-import content from '../../../locales/en/content.json';
 
 const { otherToxicExposure } = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {
     ...titleUI(
-      content['service-info--exposures-title'],
-      content['service-info--exposures-description'],
+      'Other toxic exposures',
+      'You selected that you think you may have been exposed to other toxins or hazards.',
     ),
-    ...descriptionUI(ExposureCategoriesLink),
+    'ui:description': ExposureCategoriesLink,
     otherToxicExposure: {
-      'ui:title': content['service-info--exposures-other-input-label'],
+      'ui:title':
+        'Enter any toxins or hazards you think you may have been exposed to',
       'ui:errorMessages': {
-        pattern: content['validation-error--other-exposures'],
+        pattern:
+          'You entered a character we can\u2019t accept. You can use only these characters: . , ! ?',
       },
     },
   },

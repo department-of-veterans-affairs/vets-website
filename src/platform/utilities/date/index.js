@@ -58,17 +58,8 @@ export function parseStringOrDate(date) {
     }
   }
 
-  const sanitizedDate = inputDate => {
-    if (inputDate == null) return String(inputDate); // handles null & undefined
-    return String(inputDate)
-      .replace(/[A-Za-z]/g, 'A')
-      .replace(/\d/g, '1');
-  };
-
   throw new Error(
-    `Could not parse date string (sanitized): ${sanitizedDate(
-      date,
-    )}. Please ensure that you provide a Date object, Unix timestamp with milliseconds, or ISO 8601 date string.`,
+    `Could not parse date string: ${date}. Please ensure that you provide a Date object, Unix timestamp with milliseconds, or ISO 8601 date string.`,
   );
 }
 

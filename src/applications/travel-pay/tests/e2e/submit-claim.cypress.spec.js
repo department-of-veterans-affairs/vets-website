@@ -26,7 +26,7 @@ describe('Submit Mileage Only Claims', () => {
   it('should handle validation and answering "No" and navigate through the flow', () => {
     ApiInitializer.submitClaim.happyPath();
 
-    cy.get('va-link-action[text="Start a mileage-only claim"]')
+    cy.get('va-link-action[text="File a mileage-only claim"]')
       .first()
       .click();
 
@@ -106,7 +106,7 @@ describe('Submit Mileage Only Claims', () => {
   it('should handle a failed submission', () => {
     ApiInitializer.submitClaim.errorPath();
 
-    cy.get('va-link-action[text="Start a mileage-only claim"]')
+    cy.get('va-link-action[text="File a mileage-only claim"]')
       .first()
       .click();
 

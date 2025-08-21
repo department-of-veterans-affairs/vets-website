@@ -31,10 +31,6 @@ describe('NoHintReviewField component', () => {
     const dd = container.querySelector('dd');
     expect(dd).to.exist;
     expect(dd.textContent).to.equal('');
-    expect(dd.className).to.include('dd-privacy-hidden');
-    expect(dd.getAttribute('data-dd-action-name')).to.equal(
-      'Sample Field Title',
-    );
   });
 
   it('should render correctly when ui:title is missing', () => {

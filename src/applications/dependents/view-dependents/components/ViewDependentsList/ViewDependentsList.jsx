@@ -33,7 +33,7 @@ function ViewDependentsList(props) {
     mainContent = (
       <p className="vads-u-background-color--gray-lightest vads-u-padding--2p5">
         {props?.isAward
-          ? 'You have no dependents on your VA benefits.'
+          ? `There are no dependents associated with your VA benefits`
           : `We have no record of dependents who are not on your VA benefits.`}
       </p>
     );
@@ -45,11 +45,12 @@ function ViewDependentsList(props) {
         {props.header}
       </h2>
       <p>{props.subHeader}</p>
-      <va-link
-        class="vads-u-display--block vads-u-margin-bottom--4"
+      <a
+        className="vads-u-display--block vads-u-margin-bottom--4"
         href={props.link}
-        text={props.linkText}
-      />
+      >
+        {props.linkText}
+      </a>
       {manageDependentsToggle &&
         props?.submittedDependents?.length > 0 && (
           <RemoveDependentSuccessMessage />
@@ -72,11 +73,7 @@ export { ViewDependentsList };
 ViewDependentsList.propTypes = {
   dependents: PropTypes.array,
   header: PropTypes.string,
-  isAward: PropTypes.bool,
-  link: PropTypes.string,
-  linkText: PropTypes.string,
-  loading: PropTypes.bool,
-  manageDependentsToggle: PropTypes.bool,
   subHeader: PropTypes.object,
+  manageDependentsToggle: PropTypes.bool,
   submittedDependents: PropTypes.array,
 };

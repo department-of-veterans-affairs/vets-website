@@ -6,20 +6,8 @@ import recordEvent from 'platform/monitoring/record-event';
 
 export const heading = 'We’re missing some of your personal information';
 
-// Helper function to get form name based on formId
-const getFormName = formId => {
-  const formNames = {
-    '10182': 'Board Appeal',
-    '20-0995': 'Supplemental Claim',
-    '20-0996': 'Higher-Level Review',
-  };
-
-  return formNames[formId] ? `a ${formNames[formId]}` : `an appeal`;
-};
-
-const NeedsMissingInfoAlert = ({ missing, formId }) => {
+const NeedsMissingInfoAlert = ({ missing }) => {
   const alertRef = useRef(null);
-  const formName = getFormName(formId);
 
   useEffect(
     () => {
@@ -46,10 +34,10 @@ const NeedsMissingInfoAlert = ({ missing, formId }) => {
       <h2 slot="headline">{heading}</h2>
       <p>
         You’ll need to provide us with the missing information before you can
-        fill out {formName} request. Call the Defense Manpower Data Center
-        (DMDC) support office at <va-telephone contact="8005389552" /> to make
-        sure we have your {missing}. They’re open Monday through Friday, 8:00
-        a.m. to 8:00 p.m.{' '}
+        fill out a Supplemental Claim request. Call the Defense Manpower Data
+        Center (DMDC) support office at <va-telephone contact="8005389552" /> to
+        make sure we have your {missing}. They’re open Monday through Friday,
+        8:00 a.m. to 8:00 p.m.{' '}
         <dfn>
           <abbr title="Eastern Time">ET</abbr>
         </dfn>
@@ -61,7 +49,6 @@ const NeedsMissingInfoAlert = ({ missing, formId }) => {
 };
 
 NeedsMissingInfoAlert.propTypes = {
-  formId: PropTypes.string,
   missing: PropTypes.string,
 };
 

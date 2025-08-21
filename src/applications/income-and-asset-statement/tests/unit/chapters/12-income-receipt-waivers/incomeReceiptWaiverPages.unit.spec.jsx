@@ -15,7 +15,7 @@ import {
 } from '../multiPageTests.spec';
 import {
   testNumberOfFieldsByType,
-  testComponentFieldsMarkedAsRequired,
+  testNumberOfErrorsOnSubmitForWebComponents,
   testSelectAndValidateField,
   testSubmitsWithoutErrors,
 } from '../pageTests.spec';
@@ -48,39 +48,10 @@ describe('income receipt waiver list and loop pages', () => {
   });
 
   describe('text getItemName function', () => {
-    const mockFormData = {
-      isLoggedIn: true,
-      veteranFullName: { first: 'John', last: 'Doe' },
-      otherVeteranFullName: { first: 'Alex', last: 'Smith' },
-    };
-    it('should return "John Doe’s income receipt waiver" if recipient is Veteran', () => {
-      const item = {
-        recipientRelationship: 'VETERAN',
-        recipientName: { first: 'Jane', last: 'Smith' },
-      };
-      expect(options.text.getItemName(item, 0, mockFormData)).to.equal(
-        'John Doe’s waived income',
-      );
-    });
-    it('should return "Alex Smith’s income receipt waiver" if recipient is Veteran and not logged in', () => {
-      const item = {
-        recipientRelationship: 'VETERAN',
-        recipientName: { first: 'Jane', last: 'Smith' },
-      };
-      expect(
-        options.text.getItemName(item, 0, {
-          ...mockFormData,
-          isLoggedIn: false,
-        }),
-      ).to.equal('Alex Smith’s waived income');
-    });
-    it('should return "Jane Smith’s income receipt waiver" if recipient is not Veteran', () => {
-      const item = {
-        recipientRelationship: 'SPOUSE',
-        recipientName: { first: 'Jane', last: 'Smith' },
-      };
-      expect(options.text.getItemName(item, 0, mockFormData)).to.equal(
-        'Jane Smith’s waived income',
+    it('should return "`recipientName`s income receipt waiver', () => {
+      const item = testData.data.incomeReceiptWaivers[0];
+      expect(options.text.getItemName(item)).to.equal(
+        'Jane Smith’s income receipt waiver',
       );
     });
   });
@@ -122,13 +93,11 @@ describe('income receipt waiver list and loop pages', () => {
       { 'va-radio': 1 },
       'annuity summary page',
     );
-    testComponentFieldsMarkedAsRequired(
+    testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
       uiSchema,
-      [
-        'va-radio[label="Did you or your dependents waive or expect to waive any receipt of income in the next 12 months?"]',
-      ],
+      1,
       'annuity summary page',
     );
     testSubmitsWithoutErrors(
@@ -156,11 +125,11 @@ describe('income receipt waiver list and loop pages', () => {
       { 'va-radio': 1 },
       'relationship',
     );
-    testComponentFieldsMarkedAsRequired(
+    testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
       uiSchema,
-      ['va-radio[label="Who has waived income to report?"]'],
+      1,
       'relationship',
     );
     testSubmitsWithoutErrors(
@@ -195,14 +164,11 @@ describe('income receipt waiver list and loop pages', () => {
       { 'va-text-input': 3 },
       'recipient',
     );
-    testComponentFieldsMarkedAsRequired(
+    testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
       uiSchema,
-      [
-        'va-text-input[label="Income recipient’s first name"]',
-        'va-text-input[label="Income recipient’s last name"]',
-      ],
+      2,
       'recipient',
     );
     testSubmitsWithoutErrors(
@@ -230,11 +196,11 @@ describe('income receipt waiver list and loop pages', () => {
       { 'va-text-input': 1 },
       'payer',
     );
-    testComponentFieldsMarkedAsRequired(
+    testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
       uiSchema,
-      ['va-text-input[label="Income payer name"]'],
+      1,
       'payer',
     );
     testSubmitsWithoutErrors(
@@ -287,11 +253,11 @@ describe('income receipt waiver list and loop pages', () => {
       { 'va-radio': 1 },
       'payments',
     );
-    testComponentFieldsMarkedAsRequired(
+    testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
       uiSchema,
-      ['va-radio[label="Do you expect the payments to resume?"]'],
+      1,
       'payments',
     );
     testSubmitsWithoutErrors(
@@ -319,11 +285,11 @@ describe('income receipt waiver list and loop pages', () => {
       { 'va-memorable-date': 1 },
       'date',
     );
-    testComponentFieldsMarkedAsRequired(
+    testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
       schema,
       uiSchema,
-      ['va-memorable-date[label="When will the payments resume?"]'],
+      1,
       'date',
     );
     testSubmitsWithoutErrors(

@@ -2,6 +2,9 @@
 // START lighthouse_migration
 import featureToggleClaimDetailV2Enabled from '../fixtures/mocks/lighthouse/feature-toggle-claim-detail-v2-enabled.json';
 import featureToggleClaimPhasesEnabled from '../fixtures/mocks/lighthouse/feature-toggle-claim-phases-enabled.json';
+import featureToggle5103UpdateEnabled from '../fixtures/mocks/lighthouse/feature-toggle-5103-update-enabled.json';
+import featureToggle5103UpdateEnabledV2 from '../fixtures/mocks/lighthouse/feature-toggle-5103-update-enabled-v2.json';
+import featureToggleFriendlyEvidenceRequests from '../fixtures/mocks/lighthouse/feature-toggle-cst-friendly-evidence-requests.json';
 // END lighthouse_migration
 
 const Timeouts = require('platform/testing/e2e/timeouts.js');
@@ -13,6 +16,9 @@ class TrackClaimsPageV2 {
     mock = null,
     submitForm = false,
     cstClaimPhasesToggleEnabled = false,
+    cst5103UpdateEnabled = false,
+    cst5103UpdateEnabledV2 = false,
+    cstFriendlyEvidenceRequest = false,
   ) {
     if (submitForm) {
       cy.intercept('POST', `/v0/benefits_claims/189685/submit5103`, {
@@ -32,6 +38,27 @@ class TrackClaimsPageV2 {
         'GET',
         '/v0/feature_toggles?*',
         featureToggleClaimPhasesEnabled,
+      );
+    } else if (cst5103UpdateEnabled) {
+      // When cst_use_claim_details_v2 is disabled, cst_5103_update_enabled is enabled
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles?*',
+        featureToggle5103UpdateEnabled,
+      );
+    } else if (cst5103UpdateEnabledV2) {
+      // When cst_use_claim_details_v2 and cst_5103_update_enabled are enabled
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles?*',
+        featureToggle5103UpdateEnabledV2,
+      );
+    } else if (cstFriendlyEvidenceRequest) {
+      // When cst_use_claim_details_v2 and cst_friendly_evidence_requests are enabled
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles?*',
+        featureToggleFriendlyEvidenceRequests,
       );
     } else {
       cy.intercept(
@@ -279,95 +306,57 @@ class TrackClaimsPageV2 {
     cy.axeCheck();
   }
 
-  submitFilesForReview() {
-    cy.intercept('POST', `/v0/benefits_claims/189685/benefits_documents`, {
+  submitFilesForReview(isOldVersion = false) {
+    cy.intercept('POST', `/v0/evss_claims/189685/documents`, {
       body: {},
     }).as('documents');
-
-    const fileName = 'file-upload-test.txt';
-    const docType = 'L029';
-
-    // Upload file to va-file-input-multiple
-    cy.get('va-file-input-multiple')
+    cy.get('#file-upload')
       .shadow()
-      .find('va-file-input')
-      .first()
-      .shadow()
-      .find('input[type="file"]')
-      .selectFile({
-        contents: Cypress.Buffer.from('test file contents'),
-        fileName,
-        mimeType: 'text/plain',
+      .find('input')
+      .selectFile(
+        {
+          contents: Cypress.Buffer.from('test file contents'),
+          fileName: 'file-upload-test.txt',
+          mimeType: 'text/plain',
+          lastModified: Date.now(),
+        },
+        { force: true },
+      )
+      .then(() => {
+        cy.get('.document-item-container va-select')
+          .shadow()
+          .find('select')
+          .select('L029');
       });
 
-    // Wait for file processing and select document type
-    cy.get('va-file-input-multiple')
-      .shadow()
-      .find('va-file-input')
-      .first()
-      .find('va-select')
-      .should('be.visible')
-      .shadow()
-      .find('select')
-      .should('not.be.disabled')
-      .should('be.visible')
-      .select(docType);
-
-    // Capture URL before clicking submit (since navigation happens after)
-    cy.url().then(currentUrl => {
-      const trackedItemMatch = currentUrl.match(
-        /\/(document-request|needed-from-you|needed-from-others)\/(\d+)/,
-      );
-
-      // Click submit button
-      cy.get('va-button[text="Submit documents for review"]')
+    if (isOldVersion) {
+      cy.get('va-button.submit-files-button')
         .shadow()
         .find('button')
         .click();
+    } else {
+      cy.get('va-button#submit')
+        .shadow()
+        .find('button')
+        .click();
+    }
 
-      cy.wait('@documents').then(interception => {
-        const formData = interception.request.body;
-
-        // Always verify file name and document type
-        expect(formData).to.contain(`name="qqfilename"`);
-        expect(formData).to.contain(fileName);
-        expect(formData).to.contain(`name="document_type"`);
-        expect(formData).to.contain(docType);
-
-        if (trackedItemMatch) {
-          // DocumentRequest flow - should have tracked item ID
-          const expectedTrackedItemId = trackedItemMatch[2];
-          expect(formData).to.contain('tracked_item_ids');
-          expect(formData).to.contain(`[${expectedTrackedItemId}]`);
-        } else {
-          // General files flow - should have tracked_item_ids with null value
-          expect(formData).to.contain('tracked_item_ids');
-          expect(formData).to.contain('[null]');
-        }
-      });
-    });
-
-    cy.get('va-alert h2').should('contain', 'We received your file upload');
+    cy.wait('@documents');
+    cy.get('va-alert h2').should('contain', 'We have your evidence');
   }
 
   submitFilesShowsError() {
-    // Click submit without selecting any files to trigger validation error
-    cy.get('va-button[text="Submit documents for review"]')
+    cy.get('va-button#submit')
       .shadow()
       .find('button')
-      .click();
-
-    // Check for error message in va-file-input-multiple
-    cy.get('va-file-input-multiple')
-      .shadow()
-      .find('va-file-input')
-      .first()
-      .shadow()
-      .find('#file-input-error-alert')
-      .should('be.visible')
-      .and('contain.text', 'Please select a file first');
-
-    cy.injectAxeThenAxeCheck();
+      .click()
+      .then(() => {
+        cy.get('va-file-input')
+          .shadow()
+          .find('#error-message')
+          .should('contain', 'Please select a file first');
+        cy.injectAxeThenAxeCheck();
+      });
   }
 
   verifyContentions() {
@@ -423,11 +412,11 @@ class TrackClaimsPageV2 {
         // Verify some tracked items on page 1
         cy.get('.recent-activity-container > ol > li > p').should(
           'contain',
-          'We completed a review for the request: “List of evidence we may need (5103 notice)”',
+          'We completed a review for the request: “Automated 5103 Notice Response”',
         );
         cy.get('.recent-activity-container > ol > li > p').should(
           'contain',
-          'We opened a request: “List of evidence we may need (5103 notice)”',
+          'We opened a request: “Automated 5103 Notice Response”',
         );
         cy.get('.recent-activity-container > ol > li > p').should(
           'contain',
@@ -475,11 +464,11 @@ class TrackClaimsPageV2 {
       // Verify some tracked items on page 1
       cy.get('.recent-activity-container > ol > li > p').should(
         'contain',
-        'We completed a review for the request: “List of evidence we may need (5103 notice)”',
+        'We completed a review for the request: “Automated 5103 Notice Response”',
       );
       cy.get('.recent-activity-container > ol > li > p').should(
         'contain',
-        'We opened a request: “List of evidence we may need (5103 notice)”',
+        'We opened a request: “Automated 5103 Notice Response”',
       );
       cy.get('.recent-activity-container > ol > li > p').should(
         'contain',
@@ -542,7 +531,7 @@ class TrackClaimsPageV2 {
       .first()
       .shadow()
       .get('va-alert.primary-alert:first-of-type a')
-      .should('contain', 'About this request');
+      .should('contain', 'Details');
     cy.get('va-alert.primary-alert')
       .first()
       .shadow()
@@ -550,7 +539,7 @@ class TrackClaimsPageV2 {
       .click();
     cy.url().should(
       'contain',
-      '/track-claims/your-claims/189685/needed-from-you/2',
+      '/track-claims/your-claims/189685/document-request/2',
     );
   }
 
@@ -559,7 +548,13 @@ class TrackClaimsPageV2 {
     cy.get('[data-testid="item-2"]')
       .shadow()
       .get('[data-testid="item-2"]:first-of-type a')
-      .should('contain', 'About this request');
+      .should('contain', 'Details');
+    cy.get('[data-testid="item-2"]')
+      .find('.due-date-header')
+      .should(
+        'contain',
+        'Needed from you by February 4, 2022 - Due 3 years ago',
+      );
     cy.get('[data-testid="item-2"]')
       .find('.alert-description')
       .should('contain', 'Submit Buddy Statement(s)');
@@ -569,7 +564,7 @@ class TrackClaimsPageV2 {
       .click();
     cy.url().should(
       'contain',
-      '/track-claims/your-claims/189685/needed-from-you/2',
+      '/track-claims/your-claims/189685/document-request/2',
     );
   }
 
@@ -581,7 +576,7 @@ class TrackClaimsPageV2 {
       : '[data-testid="item-13"]';
     const url = isStandard
       ? '/track-claims/your-claims/189685/5103-evidence-notice'
-      : '/track-claims/your-claims/189685/needed-from-you/13';
+      : '/track-claims/your-claims/189685/document-request/13';
     cy.get(testId).should('be.visible');
     if (isStandard || is5103Update) {
       cy.get(testId)
@@ -590,11 +585,11 @@ class TrackClaimsPageV2 {
     } else {
       cy.get(testId)
         .find('h4')
-        .should('contain', 'Request for evidence');
+        .should('contain', 'Automated 5103 Notice Response');
     }
     cy.get(testId)
       .find('a')
-      .should('contain', 'About this request');
+      .should('contain', 'Details');
     cy.get(testId)
       .find('.alert-description')
       .first()
@@ -608,8 +603,20 @@ class TrackClaimsPageV2 {
     cy.url().should('contain', url);
   }
 
-  verifyDocRequestforDefaultPage() {
+  verifyDocRequestforDefaultPage(is5103Notice = false) {
     cy.get('#default-page').should('be.visible');
+    if (is5103Notice) {
+      cy.get('.due-date-header').should(
+        'contain',
+        'Needed from you by July 14, 2024',
+      );
+    } else {
+      cy.get('.due-date-header').should(
+        'contain',
+        'Needed from you by February 4, 2022 - Due 3 years ago',
+      );
+    }
+    cy.get('va-additional-info').should('be.visible');
   }
 
   // Not currently using Standard 5103 Notice. Was being used on WhatYouNeedToDo and AdditionalEvidence.
@@ -662,7 +669,7 @@ class TrackClaimsPageV2 {
     } else {
       cy.get('.usa-breadcrumb__list > li:nth-child(4) a').should(
         'contain',
-        'Request for evidence',
+        'Submit Buddy Statement(s)',
       );
     }
   }
@@ -706,7 +713,7 @@ class TrackClaimsPageV2 {
       .shadow()
       .get('va-alert[status="info"] a')
       .first()
-      .should('contain', 'About this notice');
+      .should('contain', 'add it here');
     cy.get('va-alert[status="info"]')
       .first()
       .shadow()
@@ -715,7 +722,7 @@ class TrackClaimsPageV2 {
       .click();
     cy.url().should(
       'contain',
-      '/track-claims/your-claims/189685/needed-from-others/4',
+      '/track-claims/your-claims/189685/document-request/4',
     );
   }
 
@@ -727,7 +734,7 @@ class TrackClaimsPageV2 {
       .first()
       .shadow()
       .get('.recent-activity-container va-alert[status="info"]:first-of-type a')
-      .should('contain', 'About this notice');
+      .should('contain', 'add it here');
     cy.get('.recent-activity-container va-alert[status="info"]')
       .first()
       .shadow()
@@ -736,7 +743,7 @@ class TrackClaimsPageV2 {
       .click();
     cy.url().should(
       'contain',
-      '/track-claims/your-claims/189685/needed-from-others/4',
+      '/track-claims/your-claims/189685/document-request/4',
     );
   }
 
@@ -822,12 +829,15 @@ class TrackClaimsPageV2 {
       .as('friendlyMessage');
     cy.assertChildText('@friendlyMessage', 'h1', 'Submit Buddy Statement(s)');
     cy.assertChildText('@friendlyMessage', 'h2', 'What we need from you');
-    cy.assertChildText('@friendlyMessage', 'h2', 'Next steps');
-    cy.assertChildText('@friendlyMessage', 'p', 'To respond to this request:');
+    cy.assertChildText(
+      '@friendlyMessage',
+      'h3',
+      'Learn about this request in your claim letter',
+    );
     cy.assertChildText(
       '@friendlyMessage',
       'p:last-of-type',
-      'You can find blank copies of many VA forms online.',
+      'On January 1, 2022, we mailed you a letter titled “Request for Specific Evidence or Information,” which may include more details about this request. You can access this and all your claim letters online.',
     );
   }
 

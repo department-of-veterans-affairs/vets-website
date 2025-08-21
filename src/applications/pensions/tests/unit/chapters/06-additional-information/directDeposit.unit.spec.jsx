@@ -1,7 +1,7 @@
 import fullSchemaPensions from '../../../../config/form';
 
 import {
-  testComponentFieldsMarkedAsRequired,
+  testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfFieldsByType,
   testNumberOfWebComponentFields,
   testSubmitsWithoutErrors,
@@ -23,11 +23,12 @@ describe('Pensions directDeposit', () => {
     pageTitle,
   );
 
-  testComponentFieldsMarkedAsRequired(
+  const expectedNumberOfErrors = 1;
+  testNumberOfErrorsOnSubmitForWebComponents(
     fullSchemaPensions,
     schema,
     uiSchema,
-    [`va-radio[label="Do you have a bank account to use for direct deposit?"]`],
+    expectedNumberOfErrors,
     pageTitle,
   );
 

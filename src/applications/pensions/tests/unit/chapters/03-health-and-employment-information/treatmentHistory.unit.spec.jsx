@@ -1,5 +1,5 @@
 import {
-  testComponentFieldsMarkedAsRequired,
+  testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfFieldsByType,
   testNumberOfWebComponentFields,
   testSubmitsWithoutErrors,
@@ -19,11 +19,12 @@ describe('pension treatment history page', () => {
     pageTitle,
   );
 
-  testComponentFieldsMarkedAsRequired(
+  const expectedNumberOfErrors = 1;
+  testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     treatmentHistory.schema,
     treatmentHistory.uiSchema,
-    [`va-radio[label="Have you received treatment from a VA medical center?"]`],
+    expectedNumberOfErrors,
     pageTitle,
   );
 
@@ -46,13 +47,7 @@ describe('pension treatment history page', () => {
 });
 
 describe('pension add medical centers page', () => {
-  const medicalCenters = generateMedicalCentersSchemas(
-    'medicalCenters',
-    'VA medical centers',
-    'Enter all VA medical centers where you have received treatment',
-    'VA medical center',
-    'VA medical centers',
-  );
+  const medicalCenters = generateMedicalCentersSchemas();
   const pageTitle = 'medical centers';
   const expectedNumberOfFields = 1;
   testNumberOfWebComponentFields(
@@ -63,11 +58,12 @@ describe('pension add medical centers page', () => {
     pageTitle,
   );
 
-  testComponentFieldsMarkedAsRequired(
+  const expectedNumberOfErrors = 1;
+  testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     medicalCenters.schema,
     medicalCenters.uiSchema,
-    [`va-text-input[label="VA medical center"]`],
+    expectedNumberOfErrors,
     pageTitle,
   );
 

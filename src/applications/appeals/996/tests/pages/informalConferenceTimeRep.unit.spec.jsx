@@ -1,11 +1,14 @@
 import React from 'react';
 import { expect } from 'chai';
-import { fireEvent, render, waitFor } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import sinon from 'sinon';
+
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
+
 import formConfig from '../../config/form';
+
 import { mockStore } from '../../../shared/tests/test-helpers';
 
 describe('HLR conference times page', () => {
@@ -30,7 +33,7 @@ describe('HLR conference times page', () => {
     expect($$('va-radio-option', container).length).to.equal(2);
   });
 
-  it('should allow submit', async () => {
+  it('should allow submit', () => {
     const onSubmit = sinon.spy();
     const { container } = render(
       <Provider store={mockStore()}>
@@ -48,17 +51,13 @@ describe('HLR conference times page', () => {
       detail: { value: 'time0800to1200' },
     });
     $('va-radio', container).__events.vaValueChange(changeEvent);
-
     fireEvent.submit($('form', container));
-
-    await waitFor(() => {
-      expect($('[error]', container)).to.not.exist;
-      expect(onSubmit.called).to.be.true;
-    });
+    expect($('[error]', container)).to.not.exist;
+    expect(onSubmit.called).to.be.true;
   });
 
   // board option is required
-  it('should prevent continuing', async () => {
+  it('should prevent continuing', () => {
     const onSubmit = sinon.spy();
     const { container } = render(
       <Provider store={mockStore()}>
@@ -74,10 +73,7 @@ describe('HLR conference times page', () => {
     );
 
     fireEvent.submit($('form', container));
-
-    await waitFor(async () => {
-      expect($$('[error]', container).length).to.equal(1);
-      expect(onSubmit.called).to.be.false;
-    });
+    expect($$('[error]', container).length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
   });
 });

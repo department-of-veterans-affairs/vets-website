@@ -8,9 +8,9 @@ export function LetterPage() {
   const success = location.state?.success;
 
   return (
-    <div className="letters vads-u-margin-top--neg2 ">
+    <div className="usa-width-three-fourths letters vads-u-margin-top--neg2 ">
       <NewAddressSection success={success} />
-      <h2>Benefit letters and documents</h2>
+      <h2>Benefit letters and document</h2>
       <LetterList />
     </div>
   );

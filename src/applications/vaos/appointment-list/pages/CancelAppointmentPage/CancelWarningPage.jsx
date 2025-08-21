@@ -1,14 +1,17 @@
 /* eslint-disable @department-of-veterans-affairs/prefer-button-component */
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import AppointmentCard from '../../../components/AppointmentCard';
 import BackLink from '../../../components/BackLink';
+import { APPOINTMENT_TYPES } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import {
   closeCancelAppointment,
   confirmCancelAppointment,
 } from '../../redux/actions';
+import { selectAppointmentType } from '../../redux/selectors';
+import { selectFeatureFeSourceOfTruth } from '../../../redux/selectors';
 
 import CancelPageContent from './CancelPageContent';
 
@@ -22,11 +25,19 @@ function handleClose(dispatch) {
 
 export default function CancelWarningPage({ appointment, cancelInfo }) {
   const dispatch = useDispatch();
+  const useFeSourceOfTruth = useSelector(state =>
+    selectFeatureFeSourceOfTruth(state),
+  );
+
   const { showCancelModal } = cancelInfo;
-  const isRequest = appointment.vaos.isPendingAppointment;
+  const type = selectAppointmentType(appointment);
 
   let heading = 'Would you like to cancel this appointment?';
   let buttonText = 'Yes, cancel appointment';
+  const isRequest = useFeSourceOfTruth
+    ? appointment.vaos.isPendingAppointment
+    : APPOINTMENT_TYPES.request === type ||
+      APPOINTMENT_TYPES.ccRequest === type;
   if (isRequest) {
     heading = 'Would you like to cancel this request?';
     buttonText = 'Yes, cancel request';

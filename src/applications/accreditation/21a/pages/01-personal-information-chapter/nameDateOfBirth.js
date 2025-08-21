@@ -17,6 +17,13 @@ export default {
     ),
     fullName: {
       ...fullNameUI(),
+      middle: {
+        ...fullNameUI().middle,
+        'ui:required': () => true,
+        'ui:options': {
+          hint: 'If you do not have a middle name, enter “N/A.”',
+        },
+      },
     },
     dateOfBirth: dateOfBirthUI(),
   },

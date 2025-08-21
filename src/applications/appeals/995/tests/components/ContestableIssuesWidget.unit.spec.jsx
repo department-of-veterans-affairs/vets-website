@@ -2,6 +2,9 @@ import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
+
+import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
+
 import ContestableIssuesWidget from '../../components/ContestableIssuesWidget';
 
 describe('<ContestableIssuesWidget>', () => {
@@ -38,7 +41,8 @@ describe('<ContestableIssuesWidget>', () => {
         <ContestableIssuesWidget />
       </Provider>,
     );
-
-    expect(container.querySelectorAll('va-checkbox')).to.have.lengthOf(3);
+    // contestIssues.length + additionalIssues.length === 3
+    expect($$('input[type="checkbox"]', container).length).to.equal(3);
+    expect($('.widget-title', container).textContent).to.equal('issue-1');
   });
 });

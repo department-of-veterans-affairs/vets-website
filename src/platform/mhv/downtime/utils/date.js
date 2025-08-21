@@ -1,4 +1,5 @@
 // Date parsing
+// DowntimeNotification uses momentjs, which is deprecated.
 import { formatDuration, differenceInHours } from 'date-fns';
 import { format } from 'date-fns-tz';
 
@@ -64,8 +65,8 @@ function formatDatetime(input) {
 
 /*
  * Create a string representing estimated elapsed hours. Rounds to nearest hour
- * @param {Date} start
- * @param {Date} end
+ * @param {Date|Moment} start
+ * @param {Date|Moment} end
  * @returns {?string} - Elapsed hours as a human-readable string
  */
 function formatElapsedHours(start, end) {

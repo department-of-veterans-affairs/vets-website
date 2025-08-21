@@ -41,9 +41,8 @@ function autoGenerateBreadcrumbList() {
   return createBreadcrumbListFromPath(window.location?.pathname);
 }
 
-const Breadcrumbs = ({ breadcrumbList, homeVeteransAffairs, wrapping }) => (
+const Breadcrumbs = ({ breadcrumbList, homeVeteransAffairs }) => (
   <VaBreadcrumbs
-    wrapping={wrapping}
     className="breadcrumbs-container"
     breadcrumbList={breadcrumbList}
     label="Breadcrumb"
@@ -106,14 +105,12 @@ const minimalHeaderScrollAndFocus = () => {
  * @param {{ href: string, label: string }[]} [props.breadcrumbList]
  * @param {boolean} [props.homeVeteransAffairs] - For breadcrumbs. When true, the first breadcrumb label will be "VA.gov home".
  * @param {React.FC<{ currentLocation: Location }>} [props.CustomTopContent] - Any additional content in addition to breadcrumbs / back link
- * @param {boolean} [props.wrapping] - For breadcrumbs. When true, sets breadcrumb list to wrap on the page.
  * @returns {FormConfig}
  */
 export const minimalHeaderFormConfigOptions = ({
   breadcrumbList,
   homeVeteransAffairs,
   CustomTopContent,
-  wrapping,
 } = {}) => {
   if (!isMinimalHeaderApp()) {
     return {};
@@ -124,7 +121,6 @@ export const minimalHeaderFormConfigOptions = ({
       <Breadcrumbs
         breadcrumbList={breadcrumbList || autoGenerateBreadcrumbList()}
         homeVeteransAffairs={homeVeteransAffairs}
-        wrapping={wrapping}
       />
     );
 
@@ -137,10 +133,6 @@ export const minimalHeaderFormConfigOptions = ({
       );
     }
     return ConditionalBreadcrumbs;
-  };
-
-  TopContent.propTypes = {
-    currentLocation: PropTypes.object,
   };
 
   return {
@@ -165,5 +157,4 @@ Breadcrumbs.propTypes = {
     }),
   ),
   homeVeteransAffairs: PropTypes.bool,
-  wrapping: PropTypes.bool,
 };

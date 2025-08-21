@@ -5,9 +5,8 @@ import {
   DefinitionTester,
   selectRadio,
   fillData,
-} from 'platform/testing/unit/schemaform-utils';
+} from 'platform/testing/unit/schemaform-utils.jsx';
 import { mount } from 'enzyme';
-import { waitFor } from '@testing-library/dom';
 import formConfig from '../../config/form';
 
 // 445 characters
@@ -174,7 +173,7 @@ describe('New disabilities follow up info', () => {
     form.unmount();
   });
 
-  it('should not submit when data not filled in', async () => {
+  it('should not submit when data not filled in', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -195,15 +194,13 @@ describe('New disabilities follow up info', () => {
       />,
     );
 
-    await waitFor(() => {
-      form.find('form').simulate('submit');
-      expect(form.find('.usa-input-error-message').length).to.equal(1);
-      expect(onSubmit.called).to.be.false;
-    });
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error-message').length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
     form.unmount();
   });
 
-  it('should submit when data filled in', async () => {
+  it('should submit when data filled in', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -227,15 +224,13 @@ describe('New disabilities follow up info', () => {
     selectRadio(form, 'root_cause', 'NEW');
     fillData(form, 'textarea#root_primaryDescription', 'Testing');
 
-    await waitFor(() => {
-      form.find('form').simulate('submit');
-      expect(form.find('.usa-input-error-message').length).to.equal(0);
-      expect(onSubmit.calledOnce).to.be.true;
-    });
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error-message').length).to.equal(0);
+    expect(onSubmit.calledOnce).to.be.true;
     form.unmount();
   });
 
-  it('should not submit when primaryDescription is too long', async () => {
+  it('should not submit when primaryDescription is too long', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -259,15 +254,13 @@ describe('New disabilities follow up info', () => {
     selectRadio(form, 'root_cause', 'NEW');
     fillData(form, 'textarea#root_primaryDescription', longText);
 
-    await waitFor(() => {
-      form.find('form').simulate('submit');
-      expect(form.find('.usa-input-error-message').length).to.equal(1);
-      expect(onSubmit.called).to.be.false;
-    });
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error-message').length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
     form.unmount();
   });
 
-  it('should not submit when worsened followup descriptions are too long', async () => {
+  it('should not submit when worsened followup descriptions are too long', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -300,15 +293,13 @@ describe('New disabilities follow up info', () => {
       longText,
     );
 
-    await waitFor(() => {
-      form.find('form').simulate('submit');
-      expect(form.find('.usa-input-error-message').length).to.equal(2);
-      expect(onSubmit.called).to.be.false;
-    });
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error-message').length).to.equal(2);
+    expect(onSubmit.called).to.be.false;
     form.unmount();
   });
 
-  it('should not submit when causedByDisabilityDescription is too long', async () => {
+  it('should not submit when causedByDisabilityDescription is too long', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -342,15 +333,13 @@ describe('New disabilities follow up info', () => {
       longText,
     );
 
-    await waitFor(() => {
-      form.find('form').simulate('submit');
-      expect(form.find('.usa-input-error-message').length).to.equal(1);
-      expect(onSubmit.called).to.be.false;
-    });
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error-message').length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
     form.unmount();
   });
 
-  it('should not submit when VA mistreatment fields are too long', async () => {
+  it('should not submit when VA mistreatment fields are too long', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -388,11 +377,9 @@ describe('New disabilities follow up info', () => {
       longText,
     );
 
-    await waitFor(() => {
-      form.find('form').simulate('submit');
-      expect(form.find('.usa-input-error-message').length).to.equal(3);
-      expect(onSubmit.called).to.be.false;
-    });
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error-message').length).to.equal(3);
+    expect(onSubmit.called).to.be.false;
     form.unmount();
   });
 });

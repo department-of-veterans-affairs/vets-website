@@ -49,10 +49,6 @@ import {
   getAcceleratedAllergies,
   getAcceleratedAllergy,
   getAcceleratedVitals,
-  getAcceleratedLabsAndTests,
-  getAcceleratedImmunizations,
-  getAcceleratedImmunization,
-  postRecordDatadogAction,
 } from '../../api/MrApi';
 
 describe('Get labs and tests api call', () => {
@@ -89,6 +85,35 @@ describe('Get radiology tests from MHV api call', () => {
 });
 
 describe('Get radiology details from MHV api call', () => {
+  beforeEach(() => {
+    // Create a simple hash function for the mock (non-cryptographic)
+    const simpleHash = data => {
+      let hash = 0;
+      for (let i = 0; i < data.length; i++) {
+        hash = Math.imul(31, hash) + data[i]; // Use Math.imul for safe 32-bit multiplication
+        hash = Math.abs(hash % 2 ** 32); // Ensure hash stays within 32-bit bounds
+      }
+      // Convert hash to Uint8Array
+      const buffer = new Uint8Array([
+        hash % 256,
+        Math.floor(hash / 256) % 256,
+        Math.floor(hash / 65536) % 256,
+        Math.floor(hash / 16777216) % 256,
+      ]);
+      return buffer.buffer;
+    };
+
+    // Mock the global crypto.subtle.digest function
+    global.crypto = {
+      subtle: {
+        digest: (algorithm, data) => {
+          // Simulate digest based on the input data
+          return Promise.resolve(simpleHash(new Uint8Array(data)));
+        },
+      },
+    };
+  });
+
   it('should make an api call to get MHV radiology tests and pick based on ID', () => {
     const mockData = radiologyListMhv;
     mockApiRequest(mockData);
@@ -296,12 +321,10 @@ describe('Get military service info api call', () => {
     const fetchStub = Sinon.stub(global, 'fetch');
     fetchStub.callsFake(url => {
       const response = new Response();
-      Object.defineProperty(response, 'ok', { value: false });
-      Object.defineProperty(response, 'url', { value: url });
-      Object.defineProperty(response, 'status', { value: 500 });
-      Object.defineProperty(response, 'error', {
-        value: 'No EDIPI found for the current user',
-      });
+      response.ok = false;
+      response.url = url;
+      response.status = 500;
+      response.error = 'No EDIPI found for the current user';
 
       return Promise.reject(response);
     });
@@ -314,10 +337,10 @@ describe('Get military service info api call', () => {
     const fetchStub = Sinon.stub(global, 'fetch');
     fetchStub.callsFake(url => {
       const response = new Response();
-      Object.defineProperty(response, 'ok', { value: false });
-      Object.defineProperty(response, 'url', { value: url });
-      Object.defineProperty(response, 'status', { value: 500 });
-      Object.defineProperty(response, 'statusText', { value: 'Server Error' });
+      response.ok = false;
+      response.url = url;
+      response.status = 500;
+      response.statusText = 'Server Error';
 
       return Promise.reject(response);
     });
@@ -371,99 +394,5 @@ describe('Accelerated OH API calls', () => {
         expect(res.mock).to.equal('data');
       });
     });
-  });
-  describe('getAcceleratedLabsAndTests', () => {
-    it('should make an api call to get all labs and tests', () => {
-      const mockData = { mock: 'data' };
-      mockApiRequest(mockData);
-
-      return getAcceleratedLabsAndTests().then(res => {
-        expect(res.mock).to.equal('data');
-      });
-    });
-    it('should make an api call to get all labs and tests with a date', () => {
-      const mockData = { mock: 'data' };
-      mockApiRequest(mockData);
-
-      return getAcceleratedLabsAndTests({
-        startDate: '2023-01-01',
-        endDate: '2023-01-31',
-      }).then(res => {
-        expect(res.mock).to.equal('data');
-        // expect fetch to be called with the correct date
-        const expectedUrl = `${
-          environment.API_URL
-        }/my_health/v2/medical_records/labs_and_tests?start_date=2023-01-01&end_date=2023-01-31`;
-        expect(global.fetch.firstCall.args[0]).to.equal(expectedUrl);
-      });
-    });
-  });
-  describe('getAcceleratedImmunizations', () => {
-    it('should make an api call to get all immunizations', () => {
-      const mockData = { mock: 'data' };
-      mockApiRequest(mockData);
-
-      return getAcceleratedImmunizations().then(res => {
-        expect(res.mock).to.equal('data');
-      });
-    });
-  });
-  describe('getAcceleratedImmunization', () => {
-    it('should make an api call to get a single immunization', () => {
-      const mockData = { mock: 'data' };
-      mockApiRequest(mockData);
-
-      return getAcceleratedImmunization('123').then(res => {
-        expect(res.mock).to.equal('data');
-      });
-    });
-  });
-});
-
-describe('postRecordDatadogAction', () => {
-  const endpoint = `${environment.API_URL}/v0/datadog_action`;
-
-  it('should make an api call to record datadog action and return the response', () => {
-    const mockData = { status: 'ok' };
-    mockApiRequest(mockData);
-
-    return postRecordDatadogAction('TestAction', ['tag1', 'tag2']).then(res => {
-      expect(res.status).to.equal('ok');
-    });
-  });
-
-  it('should call the correct endpoint with correct method, headers, and body, including the "mr." prefix', async () => {
-    const fetchStub = Sinon.stub(global, 'fetch');
-    const mockResponse = new Response(JSON.stringify({ result: 'done' }), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' },
-    });
-    fetchStub.resolves(mockResponse);
-
-    const metricName = 'MyMetric';
-    const result = await postRecordDatadogAction(metricName, ['foo', 'bar']);
-
-    // ensure we hit the right URL once
-    expect(fetchStub.calledOnce, 'fetch was called once').to.be.true;
-    const [url, options] = fetchStub.firstCall.args;
-    expect(url).to.equal(endpoint);
-
-    // verify it includes the Content-Type we set
-    expect(options.headers).to.have.property(
-      'Content-Type',
-      'application/json',
-    );
-
-    // verify body payload
-    const parsed = JSON.parse(options.body);
-    // explicit check for "mr." prefix
-    expect(parsed.metric).to.equal(`mr.${metricName}`);
-    expect(parsed.metric.startsWith('mr.')).to.be.true;
-    expect(parsed.tags).to.deep.equal(['foo', 'bar']);
-
-    // and that apiRequest returns the parsed JSON
-    expect(result.result).to.equal('done');
-
-    fetchStub.restore();
   });
 });

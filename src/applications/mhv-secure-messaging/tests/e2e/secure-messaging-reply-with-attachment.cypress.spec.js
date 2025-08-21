@@ -92,7 +92,7 @@ describe('SM ATTACH FILE BUTTON BEHAVIOR', () => {
 
     cy.get(Locators.ALERTS.ERROR_MESSAGE).should(
       'have.text',
-      Alerts.ATTACHMENT.ALREADY_ATTACHED,
+      Alerts.ATTACHMENT.ALREADY_ATTACHED_FILE,
     );
 
     cy.injectAxe();

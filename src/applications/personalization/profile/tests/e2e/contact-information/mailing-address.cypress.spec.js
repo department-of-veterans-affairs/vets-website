@@ -22,29 +22,27 @@ const setup = (mobile = false) => {
   mockFeatureToggles();
   cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
 
-  // Sometimes the page loads too quickly for Cypress to find
-  // the loading indicator, so we first check if it exists
-  cy.get('body').then($body => {
-    if ($body.find('va-loading-indicator').length) {
-      // should show a loading indicator
-      cy.get('va-loading-indicator')
-        .should('exist')
-        .then($container => {
-          cy.wrap($container)
-            .shadow()
-            .findByRole('progressbar')
-            .should('contain', /loading your information/i);
-        });
+  // should show a loading indicator
+  cy.get('va-loading-indicator')
+    .should('exist')
+    .then($container => {
+      cy.wrap($container)
+        .shadow()
+        .findByRole('progressbar')
+        .should('contain', /loading your information/i);
+    });
 
-      // and then the loading indicator should be removed
-      cy.get('va-loading-indicator').should('not.exist');
-    }
-  });
+  // and then the loading indicator should be removed
+  cy.get('va-loading-indicator').should('not.exist');
 };
 
 const editMailingAddress = () => {
   // Open edit view
-  cy.get('va-button[label="Edit Mailing address"]').click({ force: true });
+  cy.findByRole('button', {
+    name: new RegExp(`edit mailing address`, 'i'),
+  }).click({
+    force: true,
+  });
 };
 
 const SELECTORS = {
@@ -83,10 +81,7 @@ const confirmWebAddressesAreBlocked = () => {
 
   cy.fillVaTextInput(SELECTORS.STREET1, 'x.com');
 
-  cy.findByTestId('save-edit-button')
-    .shadow()
-    .find('button')
-    .focus();
+  cy.findByRole('button', { name: 'Save' }).focus();
 
   cy.get(`[name="${SELECTORS.STREET1}"][error*="valid street address"]`);
 
@@ -95,10 +90,7 @@ const confirmWebAddressesAreBlocked = () => {
   cy.get('[error]').should('not.exist');
 
   cy.fillVaTextInput(SELECTORS.STREET2, 'www.x.blah');
-  cy.findByTestId('save-edit-button')
-    .shadow()
-    .find('button')
-    .focus();
+  cy.findByRole('button', { name: 'Save' }).focus();
 
   cy.get(`[name="${SELECTORS.STREET2}"][error*="valid street address"]`);
 
@@ -110,10 +102,7 @@ const confirmWebAddressesAreBlocked = () => {
   // street lines on this form with identical labels :(
   cy.fillVaTextInput(SELECTORS.STREET3, 'x.net');
 
-  cy.findByTestId('save-edit-button')
-    .shadow()
-    .find('button')
-    .focus();
+  cy.findByRole('button', { name: 'Save' }).focus();
 
   cy.get(`[name="${SELECTORS.STREET3}"][error*="valid street address"]`);
 
@@ -123,10 +112,7 @@ const confirmWebAddressesAreBlocked = () => {
 
   cy.fillVaTextInput(SELECTORS.CITY, 'http://');
 
-  cy.findByTestId('save-edit-button')
-    .shadow()
-    .find('button')
-    .focus();
+  cy.findByRole('button', { name: 'Save' }).focus();
 
   cy.get(`[name="${SELECTORS.CITY}"][error*="valid city"]`);
 
@@ -136,19 +122,13 @@ const confirmWebAddressesAreBlocked = () => {
 
   cy.fillVaTextInput(SELECTORS.PROVINCE, 'Paris');
 
-  cy.findByTestId('save-edit-button')
-    .shadow()
-    .find('button')
-    .focus();
+  cy.findByRole('button', { name: 'Save' }).focus();
 
   cy.get('[error]').should('not.exist');
 
   cy.fillVaTextInput(SELECTORS.POSTAL, 'x.edu');
 
-  cy.findByTestId('save-edit-button')
-    .shadow()
-    .find('button')
-    .focus();
+  cy.findByRole('button', { name: 'Save' }).focus();
 
   cy.get(`[name="${SELECTORS.POSTAL}"][error*="valid postal code"]`);
 
@@ -157,7 +137,7 @@ const confirmWebAddressesAreBlocked = () => {
   cy.get('[error]').should('not.exist');
 
   // cancel out of edit mode and discard unsaved changes
-  cy.findByTestId('cancel-edit-button').click();
+  cy.findByText('Cancel').click();
 
   cy.findByTestId('confirm-cancel-modal')
     .shadow()

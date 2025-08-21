@@ -1,7 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { waitFor, waitForElementToBeRemoved } from '@testing-library/dom';
 import {
   renderWithStoreAndRouter,
   createTestStore,
@@ -10,12 +9,12 @@ import ChooseDateAndTime from './ChooseDateAndTime';
 import { createReferralById } from './utils/referrals';
 import { createDraftAppointmentInfo } from './utils/provider';
 import confirmedV2 from '../services/mocks/v2/confirmed.json';
+import * as postDraftReferralAppointmentModule from '../services/referral';
 import * as fetchAppointmentsModule from '../services/appointment';
 import * as flow from './flow';
 import { FETCH_STATUS } from '../utils/constants';
-import * as utils from '../services/utils';
 
-describe('VAOS ChooseDateAndTime component', () => {
+describe('VAOS ChoseDateAndTime component', () => {
   const sandbox = sinon.createSandbox();
   const confirmed = [
     {
@@ -97,6 +96,7 @@ describe('VAOS ChooseDateAndTime component', () => {
     },
     referral: {
       draftAppointmentInfo: createDraftAppointmentInfo(1),
+      draftAppointmentCreateStatus: FETCH_STATUS.succeeded,
     },
     appointments: {
       confirmed,
@@ -112,7 +112,7 @@ describe('VAOS ChooseDateAndTime component', () => {
       draftAppointmentCreateStatus: FETCH_STATUS.notStarted,
     },
     appointments: {
-      confirmed,
+      confirmed: [],
       confirmedStatus: FETCH_STATUS.notStarted,
     },
   };
@@ -120,13 +120,9 @@ describe('VAOS ChooseDateAndTime component', () => {
     featureToggles: {
       vaOnlineSchedulingCCDirectScheduling: true,
     },
-    appointmentApi: {
-      mutations: {
-        postDraftReferralAppointmentCache: {
-          status: 'uninitialized',
-          data: null,
-        },
-      },
+    referral: {
+      draftAppointmentInfo: {},
+      draftAppointmentCreateStatus: FETCH_STATUS.failed,
     },
     appointments: {
       confirmed,
@@ -135,7 +131,9 @@ describe('VAOS ChooseDateAndTime component', () => {
   };
   beforeEach(() => {
     global.XMLHttpRequest = sinon.useFakeXMLHttpRequest();
-
+    sandbox
+      .stub(postDraftReferralAppointmentModule, 'postDraftReferralAppointment')
+      .resolves({ data: createDraftAppointmentInfo(1) });
     sandbox
       .stub(fetchAppointmentsModule, 'fetchAppointments')
       .resolves(confirmedV2);
@@ -147,9 +145,6 @@ describe('VAOS ChooseDateAndTime component', () => {
     sandbox.restore();
   });
   it('should fetch provider or appointments from store if it exists and not call API', async () => {
-    sandbox
-      .stub(utils, 'apiRequestWithUrl')
-      .resolves({ data: createDraftAppointmentInfo(1) });
     renderWithStoreAndRouter(
       <ChooseDateAndTime
         currentReferral={createReferralById('2024-09-09', 'UUID')}
@@ -158,13 +153,12 @@ describe('VAOS ChooseDateAndTime component', () => {
         store: createTestStore(initialFullState),
       },
     );
-    sandbox.assert.notCalled(utils.apiRequestWithUrl);
+    sandbox.assert.notCalled(
+      postDraftReferralAppointmentModule.postDraftReferralAppointment,
+    );
     sandbox.assert.notCalled(fetchAppointmentsModule.fetchAppointments);
   });
   it('should call API for provider or appointment data if not in store', async () => {
-    sandbox
-      .stub(utils, 'apiRequestWithUrl')
-      .resolves({ data: createDraftAppointmentInfo(1) });
     const screen = renderWithStoreAndRouter(
       <ChooseDateAndTime
         currentReferral={createReferralById('2024-09-09', 'UUID')}
@@ -173,28 +167,13 @@ describe('VAOS ChooseDateAndTime component', () => {
         store: createTestStore(initialEmptyState),
       },
     );
-    await waitForElementToBeRemoved(() =>
-      screen.queryByTestId('loading-container'),
-    );
-    sandbox.assert.calledWith(
-      utils.apiRequestWithUrl,
-      '/vaos/v2/appointments/draft',
-      {
-        body: JSON.stringify({
-          /* eslint-disable camelcase */
-          referral_number: 'VA0000007241',
-          referral_consult_id: '984_646907',
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        method: 'POST',
-      },
+    expect(await screen.getByTestId('loading')).to.exist;
+    sandbox.assert.calledOnce(
+      postDraftReferralAppointmentModule.postDraftReferralAppointment,
     );
     sandbox.assert.calledOnce(fetchAppointmentsModule.fetchAppointments);
   });
   it('should show error if any fetch fails', async () => {
-    sandbox.stub(utils, 'apiRequestWithUrl').throws();
     const screen = renderWithStoreAndRouter(
       <ChooseDateAndTime
         currentReferral={createReferralById('2024-09-09', 'UUID')}
@@ -203,8 +182,6 @@ describe('VAOS ChooseDateAndTime component', () => {
         store: createTestStore(failedState),
       },
     );
-    waitFor(() => {
-      expect(screen.getByTestId('error')).to.exist;
-    });
+    expect(await screen.getByTestId('error')).to.exist;
   });
 });

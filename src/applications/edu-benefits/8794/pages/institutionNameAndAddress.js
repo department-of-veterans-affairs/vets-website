@@ -12,13 +12,10 @@ const noSpaceOnlyPattern = '^(?!\\s*$).+';
 
 const DynamicMilitaryInfo = () => {
   const formData = useSelector(state => state.form?.data);
-  const isMilitary =
-    formData?.institutionDetails?.institutionAddress?.isMilitary;
+  const isMilitary = formData?.institutionDetails?.isMilitary;
 
-  const checkedText =
-    'The United States is automatically chosen as your country if you live on a military base outside of the country.';
-  const uncheckedText =
-    'The United States is automatically chosen as your country if your institution is on a military base outside of the U.S.';
+  const checkedText = `The United States is automatically chosen as your country if you live on a military base outside of the country.`;
+  const uncheckedText = `The United States is automatically chosen as your country if your institution is on a military base outside of the U.S.`;
 
   return (
     <va-additional-info trigger="Learn more about military base addresses">
@@ -39,19 +36,18 @@ const uiSchema = {
       },
     }),
 
-    institutionAddress: {
-      ...addressUI({
-        labels: {
-          street: 'Street address',
-          street2: 'Street address line 2',
-          street3: 'Street address line 3',
-          militaryCheckbox:
-            'My institution is on a United States military base outside of the U.S.',
-        },
-      }),
-      'view:militaryBaseDescription': {
-        'ui:description': <DynamicMilitaryInfo />,
+    ...addressUI({
+      labels: {
+        street: 'Street address',
+        street2: 'Street address line 2',
+        street3: 'Street address line 3',
+        militaryCheckbox:
+          'My institution is on a United States military base outside of the U.S.',
       },
+    }),
+
+    'view:militaryBaseDescription': {
+      'ui:description': <DynamicMilitaryInfo />,
     },
   },
 };
@@ -61,29 +57,29 @@ const schema = {
   properties: {
     institutionDetails: {
       type: 'object',
-
       properties: {
         institutionName: { ...textSchema, pattern: noSpaceOnlyPattern },
-        institutionAddress: {
+        isMilitary: addressSchema().properties.isMilitary,
+        'view:militaryBaseDescription': {
           type: 'object',
-          properties: {
-            isMilitary: addressSchema().properties.isMilitary,
-            'view:militaryBaseDescription': {
-              type: 'object',
-              properties: {},
-            },
-            country: addressSchema().properties.country,
-            street: addressSchema().properties.street,
-            street2: addressSchema().properties.street2,
-            street3: addressSchema().properties.street3,
-            city: addressSchema().properties.city,
-            state: addressSchema().properties.state,
-            postalCode: addressSchema().properties.postalCode,
-          },
-          required: ['street', 'city', 'state', 'postalCode', 'country'],
+          properties: {},
         },
+        country: addressSchema().properties.country,
+        street: addressSchema().properties.street,
+        street2: addressSchema().properties.street2,
+        street3: addressSchema().properties.street3,
+        city: addressSchema().properties.city,
+        state: addressSchema().properties.state,
+        postalCode: addressSchema().properties.postalCode,
       },
-      required: ['institutionName', 'institutionAddress'],
+      required: [
+        'institutionName',
+        'street',
+        'city',
+        'state',
+        'postalCode',
+        'country',
+      ],
     },
   },
 };

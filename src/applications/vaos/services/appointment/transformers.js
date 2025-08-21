@@ -1,26 +1,58 @@
 import { isEmpty } from 'lodash';
-import { getProviderName } from '../../utils/appointment';
+import moment from 'moment';
+import { getProviderName, getTypeOfCareById } from '../../utils/appointment';
 import {
   APPOINTMENT_TYPES,
+  TYPE_OF_CARE_IDS,
   PURPOSE_TEXT_V2,
   TYPE_OF_VISIT,
 } from '../../utils/constants';
 import { getTimezoneByFacilityId } from '../../utils/timezone';
 import { transformFacilityV2 } from '../location/transformers';
 
-export function getAppointmentType(appt) {
-  if (appt?.type === 'VA') {
-    return APPOINTMENT_TYPES.vaAppointment;
+export function getAppointmentType(
+  appt,
+  useFeSourceOfTruthCC,
+  useFeSourceOfTruthVA,
+) {
+  // TODO: Update APPOINTMENT_TYPES enum to match API response values.
+  const isCerner = appt?.id?.startsWith('CERN');
+
+  if (useFeSourceOfTruthVA) {
+    if (appt?.type === 'VA') {
+      return APPOINTMENT_TYPES.vaAppointment;
+    }
+
+    if (appt?.type === 'REQUEST') {
+      return APPOINTMENT_TYPES.request;
+    }
   }
-  if (appt?.type === 'REQUEST') {
+
+  if (useFeSourceOfTruthCC) {
+    if (appt?.type === 'COMMUNITY_CARE_APPOINTMENT') {
+      return APPOINTMENT_TYPES.ccAppointment;
+    }
+    if (appt?.type === 'COMMUNITY_CARE_REQUEST') {
+      return APPOINTMENT_TYPES.ccRequest;
+    }
+  }
+
+  if (isCerner && isEmpty(appt?.end)) {
     return APPOINTMENT_TYPES.request;
   }
-  if (appt?.type === 'COMMUNITY_CARE_APPOINTMENT') {
+  if (isCerner && !isEmpty(appt?.end)) {
+    return APPOINTMENT_TYPES.vaAppointment;
+  }
+  if (appt?.kind === 'cc' && appt?.start) {
     return APPOINTMENT_TYPES.ccAppointment;
   }
-  if (appt?.type === 'COMMUNITY_CARE_REQUEST') {
+  if (appt?.kind === 'cc' && appt?.requestedPeriods?.length) {
     return APPOINTMENT_TYPES.ccRequest;
   }
+  if (appt?.kind !== 'cc' && appt?.requestedPeriods?.length) {
+    return APPOINTMENT_TYPES.request;
+  }
+
   return APPOINTMENT_TYPES.vaAppointment;
 }
 /**
@@ -31,6 +63,48 @@ export function getAppointmentType(appt) {
  */
 function getTypeOfVisit(id) {
   return TYPE_OF_VISIT.find(type => type.id === id)?.name;
+}
+
+/**
+ * Finds the datetime of the appointment depending on vista site location
+ * and returns it as a moment object
+ *
+ * @param {Object} appt VAOS Service appointment object
+ * @returns {Object} Returns appointment datetime as moment object
+ */
+function getMomentConfirmedDate(appt) {
+  const timezone = getTimezoneByFacilityId(appt.locationId);
+
+  return timezone
+    ? moment(appt.localStartTime).tz(timezone)
+    : moment(appt.localStartTime);
+}
+
+/**
+ *  Determines whether current time is less than appointment time
+ *  +60 min or +240 min in the case of video
+ * @param {*} appt VAOS Service appointment object
+ */
+function isPastAppointment(appt) {
+  const isVideo = appt.kind === 'telehealth';
+  const threshold = isVideo ? 240 : 60;
+  const apptDateTime = moment(getMomentConfirmedDate(appt));
+  return apptDateTime.add(threshold, 'minutes').isBefore(moment());
+}
+
+/**
+ *  Determines whether current time is before appointment time
+ * @param {*} appt VAOS Service appointment object
+ * @param {*} isRequest is appointment a request
+ */
+function isFutureAppointment(appt, isRequest) {
+  const apptDateTime = moment(appt.start);
+  return (
+    !isRequest &&
+    !isPastAppointment(appt) &&
+    apptDateTime.isValid() &&
+    apptDateTime.isAfter(moment().startOf('day'))
+  );
 }
 
 /**
@@ -57,30 +131,49 @@ function getAtlasLocation(appt) {
   };
 }
 
-export function transformVAOSAppointment(appt) {
-  const appointmentType = getAppointmentType(appt);
+export function transformVAOSAppointment(
+  appt,
+  useFeSourceOfTruth,
+  useFeSourceOfTruthCC,
+  useFeSourceOfTruthVA,
+  useFeSourceOfTruthModality,
+) {
+  const appointmentType = getAppointmentType(
+    appt,
+    useFeSourceOfTruthCC,
+    useFeSourceOfTruthVA,
+  );
   const isCerner = appt?.id?.startsWith('CERN');
   const isCC = appt.kind === 'cc';
-  const isPast = appt.past;
-  const isRequest = appt.pending;
-  const isUpcoming = appt.future;
-  const isCCRequest = appointmentType === APPOINTMENT_TYPES.ccRequest;
+  const isVideo = appt.kind === 'telehealth' && !!appt.telehealth?.vvsKind;
+  const isAtlas = !!appt.telehealth?.atlas;
+  const isPast = useFeSourceOfTruth ? appt.past : isPastAppointment(appt);
+  const isRequest = useFeSourceOfTruth
+    ? appt.pending
+    : appointmentType === APPOINTMENT_TYPES.request ||
+      appointmentType === APPOINTMENT_TYPES.ccRequest;
+  const isUpcoming = useFeSourceOfTruth
+    ? appt.future
+    : isFutureAppointment(appt, isRequest);
+  const isCCRequest = useFeSourceOfTruthCC
+    ? appointmentType === APPOINTMENT_TYPES.ccRequest
+    : isCC && isRequest;
   const providers = appt.practitioners;
-  const start = new Date(appt.start);
-  const isAtlas = appt.modality === 'vaVideoCareAtAnAtlasLocation';
-  const isVideoAtHome = appt.modality === 'vaVideoCareAtHome';
-  const isVideoAtVA = appt.modality === 'vaVideoCareAtAVaLocation';
-  const isVideo = isAtlas || isVideoAtHome || isVideoAtVA;
-  const isCompAndPen = appt.modality === 'claimExamAppointment';
-  const isPhone = appt.modality === 'vaPhone';
-  const isCovid = appt.modality === 'vaInPersonVaccine';
-  const isInPersonVisit =
-    isCompAndPen || isCovid || appt.modality === 'vaInPerson';
+  const start = moment(appt.localStartTime, 'YYYY-MM-DDTHH:mm:ss');
+  const serviceCategoryName = appt.serviceCategory?.[0]?.text;
+  let isCompAndPen = serviceCategoryName === 'COMPENSATION & PENSION';
+  let isPhone = appt.kind === 'phone';
+  let isCovid = appt.serviceType === TYPE_OF_CARE_IDS.COVID_VACCINE_ID;
+  let isInPersonVisit = !isVideo && !isCC && !isPhone;
+  if (useFeSourceOfTruthModality) {
+    isCompAndPen = appt.modality === 'claimExamAppointment';
+    isPhone = appt.modality === 'vaPhone';
+    isCovid = appt.modality === 'vaInPersonVaccine';
+    isInPersonVisit = isCompAndPen || isCovid || appt.modality === 'vaInPerson';
+  }
 
   const isCancellable = appt.cancellable;
-  const appointmentTZ = appt.location
-    ? appt.location?.attributes?.timezone?.timeZoneId
-    : getTimezoneByFacilityId(appt.locationId);
+  const appointmentTZ = appt.location?.attributes?.timezone?.timeZoneId;
 
   let videoData = { isVideo };
   if (isVideo) {
@@ -103,6 +196,7 @@ export function transformVAOSAppointment(appt) {
           };
         })
         .filter(Boolean),
+      isAtlas,
       atlasLocation: isAtlas ? getAtlasLocation(appt) : null,
       atlasConfirmationCode: appt.telehealth?.atlas?.confirmationCode,
       extension: appt.extension,
@@ -113,11 +207,17 @@ export function transformVAOSAppointment(appt) {
 
   if (isRequest) {
     const { requestedPeriods, created } = appt;
-    const reqPeriods = requestedPeriods?.map(d => {
-      return {
-        start: new Date(d.start),
-      };
-    });
+    const reqPeriods = requestedPeriods?.map(d => ({
+      // by passing the format into the moment constructor, we are
+      // preventing the local time zone conversion from occuring
+      // which was causing incorrect dates to be displayed
+      start: `${moment(d.start, 'YYYY-MM-DDTHH:mm:ss').format(
+        'YYYY-MM-DDTHH:mm:ss',
+      )}.000`,
+      end: `${moment(d.end, 'YYYY-MM-DDTHH:mm:ss').format(
+        'YYYY-MM-DDTHH:mm:ss',
+      )}.999`,
+    }));
 
     // hasReasonCode is only applicable to v0 appointments
     const hasReasonCode = appt.reasonCode?.coding?.length > 0;
@@ -138,6 +238,14 @@ export function transformVAOSAppointment(appt) {
       reasonForAppointment,
       preferredTimesForPhoneCall: appt.preferredTimesForPhoneCall,
       requestVisitType: getTypeOfVisit(appt.kind),
+      type: {
+        coding: [
+          {
+            code: appt.serviceType || null,
+            display: getTypeOfCareById(appt.serviceType)?.name,
+          },
+        ],
+      },
       contact: appt.contact,
       preferredDates: appt?.preferredDates || [],
       preferredModality: appt?.preferredModality,
@@ -168,7 +276,9 @@ export function transformVAOSAppointment(appt) {
     cancelationReason: appt.cancelationReason?.coding?.[0].code || null,
     showScheduleLink: appt.showScheduleLink,
     avsPath: isPast ? appt.avsPath : null,
-    start: !isRequest ? start : null,
+    // NOTE: Timezone will be converted to the local timezone when using 'format()'.
+    // So use format without the timezone information.
+    start: !isRequest ? start.format('YYYY-MM-DDTHH:mm:ss') : null,
     startUtc: !isRequest ? appt.start : null,
     reasonForAppointment,
     patientComments,
@@ -224,7 +334,6 @@ export function transformVAOSAppointment(appt) {
       isPendingAppointment: isRequest,
       isUpcomingAppointment: isUpcoming,
       isVideo,
-      isAtlas,
       isPastAppointment: isPast,
       isCompAndPenAppointment: isCompAndPen,
       isCancellable,
@@ -234,8 +343,6 @@ export function transformVAOSAppointment(appt) {
       isPhoneAppointment: isPhone,
       isCOVIDVaccine: isCovid,
       isInPersonVisit,
-      isVideoAtHome,
-      isVideoAtVA,
       isCerner,
       apiData: appt,
       timeZone: appointmentTZ,
@@ -245,6 +352,20 @@ export function transformVAOSAppointment(appt) {
   };
 }
 
-export function transformVAOSAppointments(appts) {
-  return appts.map(appt => transformVAOSAppointment(appt));
+export function transformVAOSAppointments(
+  appts,
+  useFeSourceOfTruth,
+  useFeSourceOfTruthCC,
+  useFeSourceOfTruthVA,
+  useFeSourceOfTruthModality,
+) {
+  return appts.map(appt =>
+    transformVAOSAppointment(
+      appt,
+      useFeSourceOfTruth,
+      useFeSourceOfTruthCC,
+      useFeSourceOfTruthVA,
+      useFeSourceOfTruthModality,
+    ),
+  );
 }

@@ -80,7 +80,6 @@ describe('VAOS direct schedule flow - Multiple clinics dead ends', () => {
           .clickNextButton();
 
         ClinicChoicePageObject.assertUrl()
-          .assertClinicChoiceValidationErrors()
           .selectClinic({
             selection: /I need a different clinic/i,
           })

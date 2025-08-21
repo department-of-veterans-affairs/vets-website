@@ -9,7 +9,6 @@ import DowntimeNotification, {
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
 import Contacts from './Contacts';
-import Headline from '../ProfileSectionHeadline';
 import Loading from './Loading';
 import LoadFail from '../alerts/LoadFail';
 import NonVAPatientMessage from './NonVAPatientMessage';
@@ -36,8 +35,14 @@ const PersonalHealthCareContacts = ({
   useEffect(() => !loading && focusElement('[data-focus-target]'), [loading]);
 
   return (
-    <>
-      <Headline>Personal health care contacts</Headline>
+    <div className="vads-u-padding-bottom--4">
+      <h1
+        tabIndex="-1"
+        className="vads-u-font-size--h2 vads-u-margin-y--2 medium-screen:vads-u-margin-bottom--4 medium-screen:vads-u-margin-top--3"
+        data-focus-target
+      >
+        Personal health care contacts
+      </h1>
       <DowntimeNotification
         appTitle="personal health care contacts page"
         dependencies={[externalServices.VAPRO_HEALTH_CARE_CONTACTS]}
@@ -52,7 +57,7 @@ const PersonalHealthCareContacts = ({
           <NonVAPatientMessage />
         )}
       </DowntimeNotification>
-    </>
+    </div>
   );
 };
 

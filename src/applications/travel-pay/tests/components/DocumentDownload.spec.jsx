@@ -19,9 +19,7 @@ const defaultProps = {
 describe('DocumentDownload', () => {
   let apiStub;
   beforeEach(() => {
-    apiStub = sinon
-      .stub(api, 'apiRequest')
-      .callsFake(() => new Promise(resolve => setTimeout(resolve, 100)));
+    apiStub = sinon.stub(api, 'apiRequest');
   });
   afterEach(() => {
     apiStub.restore();
@@ -58,23 +56,6 @@ describe('DocumentDownload', () => {
           'We were unable to get your file to download. Please try again later.',
         ),
       ).to.exist;
-    });
-  });
-
-  it('does not call apiRequest if isLoading is true', async () => {
-    render(<DocumentDownload {...defaultProps} />);
-    const link = $('va-link[text="Download file.pdf"]');
-
-    fireEvent.click(link);
-
-    await waitFor(() => {
-      expect($('va-icon[icon="autorenew"]')).to.exist;
-    });
-
-    fireEvent.click(link);
-
-    await waitFor(() => {
-      expect(apiStub.calledOnce).to.be.true;
     });
   });
 });

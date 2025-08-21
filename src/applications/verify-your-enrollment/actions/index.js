@@ -57,7 +57,6 @@ export const updateToggleEnrollmentCard = toggleEnrollmentErrorStatement => ({
 });
 
 const API_URL = `${environment.API_URL}/vye/v1`;
-// const API_URL = 'http://localhost:8080/vye/v1';
 // Action Creators
 export const updatePendingVerifications = pendingVerifications => ({
   type: UPDATE_PENDING_VERIFICATIONS,
@@ -78,44 +77,36 @@ export const updateVerifications = verifications => ({
  *  2) POST /dgib_verifications/verification_record with that claimantId
  * Then dispatches FETCH_PERSONAL_INFO_SUCCESS upon success.
  */
-export const doDGIBCall = (val = false) => {
-  return async dispatch => {
-    try {
-      const claimantRes = await apiRequest(
-        `${API_URL}/dgib_verifications/claimant_lookup`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        },
-      );
-      const verificationRecordRes = await apiRequest(
-        `${API_URL}/dgib_verifications/verification_record`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ claimantId: claimantRes.claimantId }),
-        },
-      );
-      dispatch({
-        type: FETCH_PERSONAL_INFO_SUCCESS,
-        isDGIBOnly: val,
-        response: {
-          claimantLookup: claimantRes,
-          verificationRecord: verificationRecordRes,
-        },
-      });
-    } catch (error) {
-      dispatch({
-        type: FETCH_PERSONAL_INFO_FAILED,
-        errors: error.toString(),
-      });
-    }
-  };
-};
+async function doDGIBCall(dispatch) {
+  const claimantRes = await apiRequest(
+    `${API_URL}/dgib_verifications/claimant_lookup`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    },
+  );
+  const verificationRecordRes = await apiRequest(
+    `${API_URL}/dgib_verifications/verification_record`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ claimantId: claimantRes.claimantId }),
+    },
+  );
+
+  // Dispatch success with both results
+  dispatch({
+    type: FETCH_PERSONAL_INFO_SUCCESS,
+    response: {
+      claimantLookup: claimantRes,
+      verificationRecord: verificationRecordRes,
+    },
+  });
+}
 /**
  * fetchPersonalInfo
  * 1) It tries apiRequest(API_URL, ...) first.
@@ -143,12 +134,12 @@ export const fetchPersonalInfo = () => {
         });
       } else {
         // when the status is 204 (no content) do fallback calls
-        await dispatch(doDGIBCall());
+        await doDGIBCall(dispatch);
       }
     } catch (error) {
       // If there's an error in the first call, do the  doDGIBCall fallback
       try {
-        await dispatch(doDGIBCall());
+        await doDGIBCall(dispatch);
       } catch (fallbackError) {
         dispatch({
           type: FETCH_PERSONAL_INFO_FAILED,
@@ -215,7 +206,6 @@ export const verifyEnrollmentAction = verifications => {
   return async (dispatch, getState) => {
     dispatch({ type: VERIFY_ENROLLMENT });
     const { personalInfo } = getState();
-    const isDGIBOnly = personalInfo?.isDGIBOnly;
     const claimantId = personalInfo?.personalInfo?.claimantLookup?.claimantId;
     const enrollmentVerifications =
       personalInfo?.personalInfo?.verificationRecord?.enrollmentVerifications ||
@@ -257,12 +247,7 @@ export const verifyEnrollmentAction = verifications => {
         type: VERIFY_ENROLLMENT_SUCCESS,
         response,
       });
-      // dispatch(fetchPersonalInfo());
-      if (isDGIBOnly) {
-        await dispatch(doDGIBCall());
-      } else {
-        dispatch(fetchPersonalInfo());
-      }
+      dispatch(fetchPersonalInfo());
     } catch (error) {
       dispatch({
         type: VERIFY_ENROLLMENT_FAILURE,

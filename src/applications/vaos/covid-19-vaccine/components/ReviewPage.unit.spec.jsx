@@ -9,8 +9,7 @@ import {
 } from '@department-of-veterans-affairs/platform-testing/helpers';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
-import { addMinutes } from 'date-fns';
-import { formatInTimeZone } from 'date-fns-tz';
+import { addMinutes, format } from 'date-fns';
 import {
   createTestStore,
   renderWithStoreAndRouter,
@@ -18,9 +17,9 @@ import {
 
 import MockAppointmentResponse from '../../tests/fixtures/MockAppointmentResponse';
 import { mockAppointmentSubmitApi } from '../../tests/mocks/mockApis';
-import { DATE_FORMATS } from '../../utils/constants';
 import { onCalendarChange } from '../redux/actions';
 import ReviewPage from './ReviewPage';
+import { DATE_FORMATS } from '../../utils/constants';
 
 describe('VAOS vaccine flow: ReviewPage', () => {
   let store;
@@ -59,18 +58,10 @@ describe('VAOS vaccine flow: ReviewPage', () => {
           ],
           availableSlots: [
             {
-              start: formatInTimeZone(
-                start,
-                'UTC',
-                DATE_FORMATS.ISODateTimeUTC,
-              ),
+              start: format(start, DATE_FORMATS.ISODateTime),
 
               id: 'test',
-              end: formatInTimeZone(
-                addMinutes(start, 30),
-                'UTC',
-                DATE_FORMATS.ISODateTimeUTC,
-              ),
+              end: format(addMinutes(start, 30), DATE_FORMATS.ISODateTime),
             },
           ],
           clinics: {
@@ -86,15 +77,7 @@ describe('VAOS vaccine flow: ReviewPage', () => {
         },
       },
     });
-    store.dispatch(
-      onCalendarChange([
-        formatInTimeZone(
-          start,
-          'America/Denver',
-          DATE_FORMATS.ISODateTimeLocal,
-        ),
-      ]),
-    );
+    store.dispatch(onCalendarChange([format(start, DATE_FORMATS.ISODateTime)]));
   });
 
   it('should submit successfully', async () => {
@@ -155,11 +138,7 @@ describe('VAOS vaccine flow: ReviewPage', () => {
     expect(descHeading).to.have.tagName('h2');
 
     expect(dateHeading).to.contain.text(
-      formatInTimeZone(
-        start,
-        'America/Denver',
-        "EEEE, MMMM d, yyyy 'at' h:mm aaaa",
-      ),
+      format(start, "EEEE, MMMM d, yyyy 'at' h:mm aaaa"),
     );
     expect(dateHeading).to.have.tagName('h3');
 

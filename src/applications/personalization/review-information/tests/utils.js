@@ -10,7 +10,7 @@ import mockProfilePhone from './fixtures/mocks/profile-phone.json';
 // import mockProfileAddress from './fixtures/mocks/profile-address.json';
 // import mockProfileAddressValidation from './fixtures/mocks/profile-address-validation.json';
 
-export const cypressSetup = ({ internationalPhonesEnabled = false } = {}) => {
+export const cypressSetup = () => {
   Cypress.config({ scrollBehavior: 'nearest' });
 
   cy.intercept('/v0/in_progress_forms/WELCOME_VA_SETUP_REVIEW_INFORMATION', {
@@ -18,28 +18,9 @@ export const cypressSetup = ({ internationalPhonesEnabled = false } = {}) => {
     body: mockPrefill,
   });
 
-  if (internationalPhonesEnabled) {
-    cy.intercept('GET', '/v0/feature_toggles*', {
-      data: {
-        type: 'feature_toggles',
-        features: [
-          {
-            name: 'profile_international_phone_numbers',
-            value: true,
-          },
-          {
-            name: 'profileInternationalPhoneNumbers',
-            value: true,
-          },
-        ],
-      },
-    });
-  } else {
-    cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles).as(
-      'features',
-    );
-  }
-
+  cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles).as(
+    'features',
+  );
   cy.intercept('GET', '/v0/maintenance_windows', []).as('maintenanceWindows');
   cy.intercept('GET', '/data/cms/vamc-ehr.json', mockVamc).as('mockVamc');
 

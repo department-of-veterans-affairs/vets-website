@@ -1,8 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
+
 import { renderWithProfileReducersAndRouter } from '@@profile/tests/unit-test-helpers';
 import { Hub } from '@@profile/components/hub/Hub';
-import FEATURE_FLAGS from '~/platform/utilities/feature-toggles/featureFlagNames';
 import { SERVICE_PROVIDERS } from '~/platform/user/authentication/constants';
 import { PROFILE_PATHS } from '../../../constants';
 
@@ -64,28 +64,6 @@ describe('<Hub />', () => {
   it('should not render BadAddressAlert when hasBadAddress is false', () => {
     const { queryByTestId } = setup({ badAddress: false });
     expect(queryByTestId('bad-address-profile-alert')).to.not.exist;
-  });
-
-  it('should render Paperless Delivery link when profileShowPaperlessDelivery is true', () => {
-    const { getByRole } = setup({
-      toggles: { [FEATURE_FLAGS.profileShowPaperlessDelivery]: true },
-    });
-    expect(
-      getByRole('link', {
-        name: 'Update paperless delivery settings',
-      }),
-    ).to.exist;
-  });
-
-  it('should not render Paperless Delivery link when profileShowPaperlessDelivery is false', () => {
-    const { queryByRole } = setup({
-      toggles: { [FEATURE_FLAGS.profileShowPaperlessDelivery]: false },
-    });
-    expect(
-      queryByRole('link', {
-        name: 'Update paperless delivery settings',
-      }),
-    ).to.not.exist;
   });
 
   Object.values(SERVICE_PROVIDERS).forEach(service => {

@@ -1,15 +1,14 @@
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 import { genderLabels } from 'platform/static-data/labels';
 import { FULL_SCHEMA } from '../../../utils/imports';
-import content from '../../../locales/en/content.json';
 
 const { gender } = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {
-    ...titleUI(content['vet-info--birth-sex-title']),
+    'ui:description': PrefillMessage,
     gender: {
-      'ui:title': content['vet-info--birth-sex-label'],
+      'ui:title': 'What sex were you assigned at birth?',
       'ui:widget': 'radio',
       'ui:options': {
         labels: genderLabels,

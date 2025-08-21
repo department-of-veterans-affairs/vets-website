@@ -426,7 +426,7 @@ export const flowPages = (obj, list, path) => {
 
 // Form flows
 const aboutMyselfRelationshipVeteran = [
-  // 'aboutYourself',
+  'aboutYourself',
   'yourBranchOfService',
   'schoolInYourProfile',
   'searchSchools',

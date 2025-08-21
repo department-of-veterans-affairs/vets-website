@@ -6,7 +6,6 @@ import { DefinitionTester } from '@department-of-veterans-affairs/platform-testi
 import { fireEvent, render } from '@testing-library/react';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import Sinon from 'sinon';
-import { wait } from '@testing-library/dom/dist/wait-for';
 import * as manualUploadPage from '../../../pages/form0781/manualUploadPage';
 
 describe('Form 0781 manual upload page', () => {
@@ -46,7 +45,7 @@ describe('Form 0781 manual upload page', () => {
       expect(onSubmit.called).to.be.true;
     });
 
-    it('should not submit without required upload', async () => {
+    it('should not submit without required upload', () => {
       const onSubmit = Sinon.spy();
       const { container, getByText } = render(
         <Provider store={uploadStore}>
@@ -59,10 +58,8 @@ describe('Form 0781 manual upload page', () => {
       );
 
       fireEvent.submit($('form', container));
-      await wait(() => {
-        getByText('You must upload a file');
-        expect(onSubmit.called).to.be.false;
-      });
+      getByText('You must upload a file');
+      expect(onSubmit.called).to.be.false;
     });
   });
 });

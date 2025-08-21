@@ -13,14 +13,11 @@ import { getFileSize } from '../../../helpers/utilities';
 import { isRequiredFile } from '../../../components/Applicant/applicantFileUpload';
 import { REQUIRED_FILES } from '../../../config/constants';
 import { ApplicantAddressCopyPage } from '../../../../shared/components/applicantLists/ApplicantAddressPage';
-import { PassThroughPage } from '../../../../shared/components/PassThroughPage';
 
-import FileFieldCustom, {
-  FileFieldCustomSimple,
-} from '../../../../shared/components/fileUploads/FileUpload';
+import FileFieldCustom from '../../../../shared/components/fileUploads/FileUpload';
 
 import mockData from '../../e2e/fixtures/data/test-data.json';
-import { CustomApplicantSSNPage } from '../../../../shared/components/CustomApplicantSSNPage';
+import { CustomApplicantSSNPage } from '../../../pages/CustomApplicantSSNPage';
 
 const applicants = [
   {
@@ -75,9 +72,9 @@ testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.sponsorInformation.pages.page7.schema,
   formConfig.chapters.sponsorInformation.pages.page7.uiSchema,
-  1,
-  'Sponsor - SSN',
-  { ssn: '123123123' },
+  2,
+  'Sponsor - SSN (with VA File Number)',
+  { ssn: { vaFileNumber: '123123123' } },
 );
 
 testNumberOfWebComponentFields(
@@ -220,12 +217,6 @@ testNumberOfWebComponentFields(
   { ...marriageData.data },
 );
 
-testComponentRender('PassThroughPage', <PassThroughPage data={{}} />);
-testComponentRender(
-  'PassThroughPage',
-  <PassThroughPage data={{}} onReviewPage />,
-);
-
 testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.applicantInformation.pages.page20a.schema,
@@ -277,10 +268,6 @@ testComponentRender(
 );
 
 testComponentRender('FileFieldCustom', <FileFieldCustom data={{}} />);
-testComponentRender(
-  'FileFieldCustomSimple',
-  <FileFieldCustomSimple data={{}} />,
-);
 
 testComponentRender(
   'ApplicantAddressCopyPage',

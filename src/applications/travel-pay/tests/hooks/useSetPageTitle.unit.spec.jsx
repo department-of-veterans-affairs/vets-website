@@ -4,7 +4,7 @@ import useSetPageTitle from '../../hooks/useSetPageTitle';
 
 const originalTitle = document.title;
 
-const appendTitle = title => `${title} - Travel Pay | Veterans Affairs`;
+const appendTitle = title => `${title} | Veterans Affairs`;
 
 describe('useSetPageTitle', () => {
   afterEach(() => {

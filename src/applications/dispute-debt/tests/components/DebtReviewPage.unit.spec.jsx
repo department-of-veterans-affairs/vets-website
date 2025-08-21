@@ -11,7 +11,7 @@ describe('DebtReviewPage Component', () => {
       data: { selectedDebts: [] },
       editPage: mockEditPage,
       pagePerItemIndex: 0,
-      name: 'supportStatement',
+      name: 'disputeReason',
     };
 
     const { container } = render(<DebtReviewPage {...props} />);
@@ -33,7 +33,7 @@ describe('DebtReviewPage Component', () => {
       },
       editPage: mockEditPage,
       pagePerItemIndex: 0,
-      name: 'supportStatement',
+      name: 'disputeReason',
     };
 
     const { container } = render(<DebtReviewPage {...props} />);
@@ -79,7 +79,7 @@ describe('DebtReviewPage Component', () => {
       },
       editPage: mockEditPage,
       pagePerItemIndex: 0,
-      name: 'supportStatement',
+      name: 'disputeReason',
     };
 
     const { container } = render(<DebtReviewPage {...props} />);
@@ -101,7 +101,7 @@ describe('DebtReviewPage Component', () => {
       },
       editPage: mockEditPage,
       pagePerItemIndex: 0,
-      name: 'supportStatement',
+      name: 'disputeReason',
     };
 
     const { container } = render(<DebtReviewPage {...props} />);
@@ -122,7 +122,7 @@ describe('DebtReviewPage Component', () => {
       },
       editPage: mockEditPage,
       pagePerItemIndex: 1,
-      name: 'supportStatement',
+      name: 'disputeReason',
     };
 
     const { container } = render(<DebtReviewPage {...props} />);
@@ -132,32 +132,7 @@ describe('DebtReviewPage Component', () => {
     );
   });
 
-  it('should show both dispute reason and support statement fields when both exist', () => {
-    const props = {
-      data: {
-        selectedDebts: [
-          {
-            deductionCode: '30',
-            currentAr: 1000,
-            disputeReason: 'Test dispute reason',
-            supportStatement: 'Test support statement',
-          },
-        ],
-      },
-      editPage: mockEditPage,
-      pagePerItemIndex: 0,
-      name: 'supportStatement',
-    };
-
-    const { container } = render(<DebtReviewPage {...props} />);
-
-    expect(container.textContent).to.include('Reason for dispute');
-    expect(container.textContent).to.include('Test dispute reason');
-    expect(container.textContent).to.include('disputing this debt');
-    expect(container.textContent).to.include('Test support statement');
-  });
-
-  it('should return null when name includes disputeReason', () => {
+  it('should only show dispute reason fields for disputeReason page', () => {
     const props = {
       data: {
         selectedDebts: [
@@ -176,6 +151,34 @@ describe('DebtReviewPage Component', () => {
 
     const { container } = render(<DebtReviewPage {...props} />);
 
-    expect(container.textContent).to.equal('');
+    expect(container.textContent).to.include('Reason for dispute');
+    expect(container.textContent).to.include('Test dispute reason');
+    expect(container.textContent).to.not.include('disputing this debt');
+    expect(container.textContent).to.not.include('Test support statement');
+  });
+
+  it('should only show support statement fields for supportStatement page', () => {
+    const props = {
+      data: {
+        selectedDebts: [
+          {
+            deductionCode: '30',
+            currentAr: 1000,
+            disputeReason: 'Test dispute reason',
+            supportStatement: 'Test support statement',
+          },
+        ],
+      },
+      editPage: mockEditPage,
+      pagePerItemIndex: 0,
+      name: 'supportStatement',
+    };
+
+    const { container } = render(<DebtReviewPage {...props} />);
+
+    expect(container.textContent).to.include('disputing this debt');
+    expect(container.textContent).to.include('Test support statement');
+    expect(container.textContent).to.not.include('Reason for dispute');
+    expect(container.textContent).to.not.include('Test dispute reason');
   });
 });

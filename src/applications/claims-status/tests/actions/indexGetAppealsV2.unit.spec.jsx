@@ -1,6 +1,9 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
+import {
+  mockFetch,
+  setFetchJSONResponse,
+} from '@department-of-veterans-affairs/platform-testing/helpers';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { getAppealsV2 } from '../../actions';
 
@@ -65,9 +68,12 @@ describe('getAppealsV2', () => {
     it(`Dispatches ${
       appealsErrors[code]
     } when GET fails with ${code}`, done => {
-      global.fetch.onCall(0).rejects({
-        errors: [{ status: `${code}` }],
-      });
+      setFetchJSONResponse(
+        global.fetch.onCall(0),
+        Promise.reject({
+          errors: [{ status: `${code}` }],
+        }),
+      );
       const thunk = getAppealsV2();
       const dispatch = sinon.spy();
       thunk(dispatch)

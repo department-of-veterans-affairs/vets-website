@@ -388,7 +388,7 @@ describe('VAOS Page: TypeOfCarePage', () => {
             id: '139',
             type: 'maintenance_windows',
             attributes: {
-              externalService: 'vaoswarning',
+              externalService: 'vaosWarning',
               description: 'My description',
               startTime: format(
                 subDays(new Date(), '1'),

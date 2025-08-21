@@ -15,7 +15,7 @@ const ApplicationDownloadLink = ({ formConfig }) => {
 
   // define local use variables
   const form = useSelector(state => state.form);
-  const formData = useMemo(() => submitTransformer(formConfig, form, true), [
+  const formData = useMemo(() => submitTransformer(formConfig, form), [
     formConfig,
     form,
   ]);
@@ -96,21 +96,23 @@ const ApplicationDownloadLink = ({ formConfig }) => {
     );
   }
 
+  // render error alert if file cannot download
+  if (errorMessage) {
+    return (
+      <div className="hca-download-error">
+        <va-alert status="error">{errorMessage}</va-alert>
+      </div>
+    );
+  }
+
   return (
-    <>
-      {errorMessage && (
-        <div className="hca-download-error vads-u-margin-y--1">
-          <va-alert status="error">{errorMessage}</va-alert>
-        </div>
-      )}
-      <va-link
-        text={content['button-download']}
-        onClick={fetchPdf}
-        filetype="PDF"
-        href="#"
-        download
-      />
-    </>
+    <va-link
+      text={content['button-download']}
+      onClick={fetchPdf}
+      filetype="PDF"
+      href="#"
+      download
+    />
   );
 };
 

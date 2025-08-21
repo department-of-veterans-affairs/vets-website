@@ -48,7 +48,7 @@ describe('<AppealsV2StatusPage>', () => {
     expect($('#tabPanelv2status', container)).to.exist;
   });
 
-  it('should render the <PastEventsSection> component', () => {
+  it('should render the <Timeline> component', () => {
     const { container } = render(
       <MemoryRouter>
         <Routes>
@@ -59,7 +59,7 @@ describe('<AppealsV2StatusPage>', () => {
       </MemoryRouter>,
     );
 
-    expect($('ol.appeal-past-events', container)).to.exist;
+    expect($('ol#appeal-timeline', container)).to.exist;
   });
 
   it('should render a <CurrentStatus> component', () => {

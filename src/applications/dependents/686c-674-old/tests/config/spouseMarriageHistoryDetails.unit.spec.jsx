@@ -49,24 +49,24 @@ describe('686 spouse marriage history details', () => {
     form.unmount();
   });
 
-  // it('should not submit without required fields', () => {
-  //   const onSubmit = sinon.spy();
-  //   const form = mount(
-  //     <DefinitionTester
-  //       pagePerItemIndex={0}
-  //       schema={schema}
-  //       uiSchema={uiSchema}
-  //       data={formData}
-  //       arrayPath={arrayPath}
-  //       definitions={formConfig.defaultDefinitions}
-  //       onSubmit={onSubmit}
-  //     />,
-  //   );
-  //   form.find('form').simulate('submit');
-  //   expect(form.find('.usa-input-error').length).to.equal(7);
-  //   expect(onSubmit.called).to.be.false;
-  //   form.unmount();
-  // });
+  it('should not submit without required fields', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        pagePerItemIndex={0}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={formData}
+        arrayPath={arrayPath}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+      />,
+    );
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error').length).to.equal(7);
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
+  });
 
   it('should submit with required fields filled', () => {
     const onSubmit = sinon.spy();

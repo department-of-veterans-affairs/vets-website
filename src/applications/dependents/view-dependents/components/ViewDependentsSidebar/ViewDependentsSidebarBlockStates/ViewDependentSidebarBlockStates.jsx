@@ -16,10 +16,9 @@ export const firstSidebarBlock = {
         <li>If a child becomes seriously disabled</li>
         <li>If your child is over 18 and is not attending school</li>
       </ul>
-      <va-link
-        href="/disability/add-remove-dependent/"
-        text="Find out more about dependents and your benefits"
-      />
+      <a href="/disability/add-remove-dependent/">
+        Find out more about dependents and your benefits
+      </a>
     </>
   ),
 };
@@ -34,10 +33,9 @@ export const secondSidebarBlock = {
         claims and appeals process. A VSO can answer your questions or even file
         a claim for you.
       </p>
-      <va-link
-        href="/disability/get-help-filing-claim/"
-        text="Get help filing your claim or appeal"
-      />
+      <a href="/disability/get-help-filing-claim/">
+        Get help filing your claim or appeal
+      </a>
     </>
   ),
 };

@@ -16,11 +16,14 @@ import {
   bslHelpInstructions,
   //  eslint-disable-next-line -- LH_MIGRATION
   LH_MIGRATION__getOptions,
-  newLetterContent,
 } from '../utils/helpers';
 import { AVAILABILITY_STATUSES, LETTER_TYPES } from '../utils/constants';
 
-import { lettersPageNewDesign, togglesAreLoaded } from '../selectors';
+import {
+  lettersUseLighthouse,
+  lettersPageNewDesign,
+  togglesAreLoaded,
+} from '../selectors';
 
 export class LetterList extends React.Component {
   constructor(props) {
@@ -31,11 +34,11 @@ export class LetterList extends React.Component {
   }
 
   componentDidMount() {
-    const { lettersNewDesign } = this.props;
-    focusElement(lettersNewDesign ? '#letters-title-id' : 'h2#nav-form-header');
+    const { shouldUseLighthouse } = this.props;
+    focusElement('h2#nav-form-header');
     this.setState({
       // eslint-disable-next-line -- LH_MIGRATION
-      LH_MIGRATION__options: LH_MIGRATION__getOptions(),
+      LH_MIGRATION__options: LH_MIGRATION__getOptions(shouldUseLighthouse),
     });
   }
 
@@ -65,37 +68,10 @@ export class LetterList extends React.Component {
         helpText = bslHelpInstructions;
       } else if (letter.letterType === LETTER_TYPES.proofOfService) {
         letterTitle = 'Proof of Service Card';
-        content = (
-          <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.lettersPageNewDesign}>
-            {toggleValue =>
-              toggleValue
-                ? newLetterContent[letter.letterType] || ''
-                : letterContent[letter.letterType] || ''
-            }
-          </Toggler.Hoc>
-        );
-      } else if (letter.letterType === LETTER_TYPES.benefitSummaryDependent) {
-        letterTitle = 'Benefit Summary Letter';
-        content = (
-          <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.lettersPageNewDesign}>
-            {toggleValue =>
-              toggleValue
-                ? newLetterContent[letter.letterType] || ''
-                : letterContent[letter.letterType] || ''
-            }
-          </Toggler.Hoc>
-        );
+        content = letterContent[letter.letterType] || '';
       } else {
         letterTitle = letter.name;
-        content = (
-          <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.lettersPageNewDesign}>
-            {toggleValue =>
-              toggleValue
-                ? newLetterContent[letter.letterType] || ''
-                : letterContent[letter.letterType] || ''
-            }
-          </Toggler.Hoc>
-        );
+        content = letterContent[letter.letterType] || '';
       }
 
       // OLD conditional download button
@@ -219,9 +195,7 @@ export class LetterList extends React.Component {
         </Toggler.Hoc>
 
         {letterItems.length !== 0 && (
-          <va-accordion data-test-id="letters-accordion" bordered>
-            {letterItems}
-          </va-accordion>
+          <va-accordion bordered>{letterItems}</va-accordion>
         )}
         {eligibilityMessage}
 
@@ -310,6 +284,7 @@ function mapStateToProps(state) {
     lettersAvailability: letterState.lettersAvailability,
     letterDownloadStatus: letterState.letterDownloadStatus,
     optionsAvailable: letterState.optionsAvailable,
+    shouldUseLighthouse: lettersUseLighthouse(state),
     togglesLoaded,
     lettersNewDesign,
   };
@@ -326,6 +301,7 @@ LetterList.propTypes = {
   lettersAvailability: PropTypes.string,
   lettersNewDesign: PropTypes.bool,
   optionsAvailable: PropTypes.bool,
+  shouldUseLighthouse: PropTypes.bool,
   togglesLoaded: PropTypes.bool,
 };
 

@@ -151,7 +151,7 @@ describe('<ReplaceAccreditedRepresentative>', () => {
       'You’ll replace this current accredited representative:',
     );
     expect(container.querySelector('p')).to.contain.text(
-      'You’ll replace your current accredited representative with the new one you’ve selected. If you have any appeals currently pending at the Board of Veterans’ Appeals, the Board may need to approve this change in representation before your new representative can assist you with any appeals.',
+      'You’ll replace your current accredited representative with the new one you’ve selected.',
     );
   });
 

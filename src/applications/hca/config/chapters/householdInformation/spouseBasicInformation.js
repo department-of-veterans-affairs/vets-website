@@ -1,9 +1,8 @@
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import fullNameUI from 'platform/forms/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import { FULL_SCHEMA } from '../../../utils/imports';
-import content from '../../../locales/en/content.json';
+import { SpouseBasicInformationDescription } from '../../../components/FormDescriptions';
 
 const {
   dateOfMarriage,
@@ -14,42 +13,41 @@ const {
 
 export default {
   uiSchema: {
-    ...titleUI(
-      content['household-info--spouse-basic-info-title'],
-      content['household-info--spouse-basic-info-description'],
-    ),
+    'ui:title': SpouseBasicInformationDescription,
     spouseFullName: {
       ...fullNameUI,
       first: {
         ...fullNameUI.first,
-        'ui:title':
-          content['household-info--spouse-basic-info-first-name-label'],
+        'ui:title': 'Spouse\u2019s first name',
+        'ui:errorMessages': {
+          required: 'Please enter a first name',
+        },
       },
       middle: {
         ...fullNameUI.middle,
-        'ui:title':
-          content['household-info--spouse-basic-info-middle-name-label'],
+        'ui:title': 'Spouse\u2019s middle name',
       },
       last: {
         ...fullNameUI.last,
-        'ui:title':
-          content['household-info--spouse-basic-info-last-name-label'],
+        'ui:title': 'Spouse\u2019s last name',
+        'ui:errorMessages': {
+          required: 'Please enter a last name',
+        },
       },
       suffix: {
         ...fullNameUI.suffix,
-        'ui:title': content['household-info--spouse-basic-info-suffix-label'],
+        'ui:title': 'Spouse\u2019s suffix',
+        'ui:options': {
+          widgetClassNames: 'form-select-medium',
+        },
       },
     },
     spouseSocialSecurityNumber: {
       ...ssnUI,
-      'ui:title': content['household-info--spouse-basic-info-ssn-label'],
+      'ui:title': 'Spouse\u2019s Social Security number',
     },
-    spouseDateOfBirth: currentOrPastDateUI(
-      content['household-info--spouse-basic-info-birthdate-label'],
-    ),
-    dateOfMarriage: currentOrPastDateUI(
-      content['household-info--spouse-basic-info-marriage-date-label'],
-    ),
+    spouseDateOfBirth: currentOrPastDateUI('Spouse\u2019s date of birth'),
+    dateOfMarriage: currentOrPastDateUI('Date of marriage'),
   },
   schema: {
     type: 'object',

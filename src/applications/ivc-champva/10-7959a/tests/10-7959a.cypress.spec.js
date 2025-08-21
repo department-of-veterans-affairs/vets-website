@@ -31,7 +31,6 @@ const testConfig = createTestConfig(
 
     // Rename and modify the test data as needed.
     dataSets: [
-      'basic-resubmission.json',
       'test-data.json',
       'military-address-no-ohi-pharmacy-work.json',
       'third-party-foreign-address-ohi-medical-claim-work-auto.json',
@@ -66,31 +65,34 @@ const testConfig = createTestConfig(
       // once we land here, change `certifierReceivedPacket` to `true`
       // and click '<< Back' so that we can proceed past the screener
       [ALL_PAGES.page1a2.path]: ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            cy.injectAxeThenAxeCheck();
+            cy.axeCheck();
             if (data.certifierReceivedPacket === false) {
               // eslint-disable-next-line no-param-reassign
               data.certifierReceivedPacket = true;
               // This targets the '<< Back' button
-              cy.get('[data-testid="btn-back"]').click();
+              cy.get('va-button').click();
             }
           });
         });
       },
       [ALL_PAGES.page1b.path]: ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
             cy.fillAddressWebComponentPattern(
               'certifierAddress',
               data.certifierAddress,
             );
-            cy.injectAxeThenAxeCheck();
+            cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
         });
       },
       [ALL_PAGES.page2d.path]: ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
             cy.fillAddressWebComponentPattern(
@@ -101,21 +103,23 @@ const testConfig = createTestConfig(
               'applicantNewAddress',
               data.applicantNewAddress,
             );
-            cy.injectAxeThenAxeCheck();
+            cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
         });
       },
       [ALL_PAGES.page2c.path]: ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(() => {
             cy.get('select').select(1);
-            cy.injectAxeThenAxeCheck();
+            cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
         });
       },
       [ALL_PAGES.page7.path]: ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('input[type="file"]')
             .upload(
@@ -124,11 +128,12 @@ const testConfig = createTestConfig(
             )
             .get('.schemaform-file-uploading')
             .should('not.exist');
-          cy.injectAxeThenAxeCheck();
+          cy.axeCheck();
           cy.findByText(/continue/i, { selector: 'button' }).click();
         });
       },
       [ALL_PAGES.page8.path]: ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('input[type="file"]')
             .upload(
@@ -137,25 +142,12 @@ const testConfig = createTestConfig(
             )
             .get('.schemaform-file-uploading')
             .should('not.exist');
-          cy.injectAxeThenAxeCheck();
-          cy.findByText(/continue/i, { selector: 'button' }).click();
-        });
-      },
-      // Resubmission pharmacy upload path
-      [ALL_PAGES.page1k.path]: ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('input[type="file"]')
-            .upload(
-              path.join(__dirname, 'e2e/fixtures/data/example_upload.png'),
-              'testing',
-            )
-            .get('.schemaform-file-uploading')
-            .should('not.exist');
-          cy.injectAxeThenAxeCheck();
+          cy.axeCheck();
           cy.findByText(/continue/i, { selector: 'button' }).click();
         });
       },
       [ALL_PAGES.page9.path]: ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('input[type="file"]')
             .upload(
@@ -164,7 +156,7 @@ const testConfig = createTestConfig(
             )
             .get('.schemaform-file-uploading')
             .should('not.exist');
-          cy.injectAxeThenAxeCheck();
+          cy.axeCheck();
           cy.findByText(/continue/i, { selector: 'button' }).click();
         });
       },
@@ -178,7 +170,7 @@ const testConfig = createTestConfig(
             attributes: {
               confirmationCode: '1b39d28c-5d38-4467-808b-9da252b6e95a',
               isEncrypted: 'false',
-              name: 'example_upload.png',
+              name: 'file.png',
               size: '123',
             },
           },

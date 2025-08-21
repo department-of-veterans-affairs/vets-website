@@ -17,8 +17,7 @@ const initializeDatadogRum = () => {
       site: 'ddog-gov.com',
       service: 'va.gov-appointments',
       env: environment.vspEnvironment(),
-      // record 100% of staging sessions, but only 50% of production
-      sessionSampleRate: environment.vspEnvironment() === 'staging' ? 100 : 50,
+      sessionSampleRate: 100,
       sessionReplaySampleRate: 10,
       trackInteractions: true,
       trackFrustrations: true,

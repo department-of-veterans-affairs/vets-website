@@ -1,8 +1,7 @@
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema.json';
 
 import { merge, pick } from 'lodash';
-import { currentOrPastDateUI } from 'platform/forms-system/src/js/web-component-patterns';
-import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 
 import fullNameUI from 'platform/forms/definitions/fullName';
 import {
@@ -37,8 +36,6 @@ export const uiSchema = {
         },
         suffix: {
           'ui:title': 'Sponsor’s suffix',
-          'ui:webComponentField': VaSelectField,
-          'ui:options': { classNames: 'form-select-medium' },
         },
         maiden: {
           'ui:title': 'Sponsor’s maiden name',

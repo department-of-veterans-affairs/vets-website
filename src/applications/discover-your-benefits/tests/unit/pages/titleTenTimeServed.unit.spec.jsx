@@ -6,7 +6,6 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { Provider } from 'react-redux';
 import { getData } from '../mocks/mockFormData';
 import titleTenTimeServedConfig from '../../../pages/titleTenTimeServed';
-import { timeServedTypes, timeServedLabels } from '../../../constants/benefits';
 
 describe('Military Service Total Time Served Form', () => {
   let wrapper;
@@ -28,18 +27,11 @@ describe('Military Service Total Time Served Form', () => {
     wrapper && wrapper.unmount();
   });
 
-  it('should render the correct title for titleTenTimeServed', () => {
+  it('should render the correct title for militaryServiceTotalTimeServed', () => {
     const title = document.querySelector(
       'va-radio[label="How long were you called up to active-duty (Title 10) orders while serving in the Reserve or National Guard?"]',
     );
     expect(title).to.exist;
-  });
-
-  it('should render the correct hint for titleTenTimeServed', () => {
-    const hint = document.querySelector(
-      'va-radio[hint="This includes activations, deployments, and mobilizations under Title 10 orders."]',
-    );
-    expect(hint).to.exist;
   });
 
   it('should not display any error message by default', () => {
@@ -64,17 +56,5 @@ describe('Military Service Total Time Served Form', () => {
     );
 
     expect($('va-radio', container)).to.exist;
-  });
-
-  it('should render the correct labels and values in radio select', () => {
-    const types = Object.values(timeServedTypes);
-    const labels = Object.values(timeServedLabels);
-    for (let i = 0; i < types.length; i++) {
-      const queryString = `va-radio-option[label='${labels[i]}'][value=${
-        types[i]
-      }]`.replace('+', '+\\');
-      const radioOption = document.querySelector(queryString);
-      expect(radioOption).to.exist;
-    }
   });
 });

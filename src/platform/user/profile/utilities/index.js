@@ -30,7 +30,7 @@ export function mapRawUserDataToState(json) {
   const {
     data: {
       attributes: {
-        userAccount: { id: accountUuid } = {},
+        account: { accountUuid } = {},
         inProgressForms: savedForms,
         prefillsAvailable,
         profile: {

@@ -20,9 +20,9 @@ describe('Medications Details Page Download TXT Refill History field', () => {
       Data.DOWNLOAD_SUCCESS_ALERT_CONTENT,
     );
     listPage.verifyFocusOnDownloadAlertSuccessBanner();
-    // detailsPage.verifyMedicationDescriptionInTxtDownload(
-    //   Data.DOWNLOAD_TXT_REFILL_HISTORY,
-    // );
+    detailsPage.verifyMedicationDescriptionInTxtDownload(
+      Data.DOWNLOAD_TXT_REFILL_HISTORY,
+    );
     cy.injectAxe();
     cy.axeCheck('main');
   });

@@ -71,28 +71,6 @@ describe('Certifier relationship (other) page', () => {
   );
 });
 
-describe('Certifier enrolled in CHAMPVA page', () => {
-  testNumberOfWebComponentFields(
-    formConfig,
-    formConfig.chapters.signerInformation.pages.page1e.schema,
-    formConfig.chapters.signerInformation.pages.page1e.uiSchema,
-    1,
-    'Certifier is claim resubmission',
-    { ...mockData.data },
-  );
-});
-
-describe('Certifier enrolled in CHAMPVA page', () => {
-  testNumberOfWebComponentFields(
-    formConfig,
-    formConfig.chapters.signerInformation.pages.page1e.schema,
-    formConfig.chapters.signerInformation.pages.page1e.uiSchema,
-    1,
-    'Certifier is claim resubmission (applicant)',
-    { ...mockData.data, certifierRole: 'applicant' },
-  );
-});
-
 describe('Applicant Name/DOB page', () => {
   testNumberOfWebComponentFields(
     formConfig,

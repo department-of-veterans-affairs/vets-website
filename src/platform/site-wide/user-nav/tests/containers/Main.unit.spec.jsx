@@ -54,6 +54,7 @@ describe('<Main>', () => {
   it('should render', () => {
     const wrapper = shallow(<Main {...props} />, { context: { store: {} } });
     expect(wrapper.find('SearchHelpSignIn').exists()).to.be.true;
+    expect(wrapper.find('SignInModal').exists()).to.be.true;
     wrapper.unmount();
   });
 

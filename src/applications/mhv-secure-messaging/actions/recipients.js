@@ -1,5 +1,6 @@
 import { Actions } from '../util/actionTypes';
 import { getAllRecipients, updatePreferredRecipients } from '../api/SmApi';
+import { getIsPilotFromState } from '.';
 import { addAlert } from './alerts';
 import {
   ALERT_TYPE_ERROR,
@@ -24,9 +25,10 @@ const isSignatureRequired = recipients => {
   });
 };
 
-export const getAllTriageTeamRecipients = () => async dispatch => {
+export const getAllTriageTeamRecipients = () => async (dispatch, getState) => {
+  const isPilot = getIsPilotFromState(getState);
   try {
-    const response = await getAllRecipients();
+    const response = await getAllRecipients(isPilot);
     const updatedResponse = {
       ...response,
       data: isSignatureRequired(response.data),
@@ -61,31 +63,4 @@ export const updateTriageTeamRecipients = recipients => async dispatch => {
     });
     dispatch(addAlert(ALERT_TYPE_ERROR, null, Alerts.ContactList.CANNOT_SAVE));
   }
-};
-
-export const setActiveCareSystem = selectedCareSystem => dispatch => {
-  dispatch({
-    type: Actions.AllRecipients.SELECT_HEALTH_CARE_SYSTEM,
-    payload: {
-      careSystem: selectedCareSystem,
-    },
-  });
-};
-
-export const setActiveCareTeam = selectedCareTeam => dispatch => {
-  dispatch({
-    type: Actions.AllRecipients.SELECT_CARE_TEAM,
-    payload: {
-      careTeam: selectedCareTeam,
-    },
-  });
-};
-
-export const setActiveDraftId = draftId => dispatch => {
-  dispatch({
-    type: Actions.AllRecipients.SET_ACTIVE_DRAFT_ID,
-    payload: {
-      activeDraftId: draftId,
-    },
-  });
 };

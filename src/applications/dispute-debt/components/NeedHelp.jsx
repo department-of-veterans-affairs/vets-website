@@ -6,8 +6,8 @@ const NeedHelp = () => (
     <footer slot="content">
       <p>
         If you have trouble using this online form, call our MyVA411 main
-        information line at <va-telephone contact={CONTACTS.HELP_DESK} /> (
-        <va-telephone contact={CONTACTS['711']} tty />
+        information line at <va-telephone contact="8006982411" /> (TTY:{' '}
+        <va-telephone contact="711" tty="true" />
         ).
       </p>
       <p>
@@ -26,8 +26,8 @@ const NeedHelp = () => (
       </p>
       <p>
         If you have questions about your copay bills, call us at{' '}
-        <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} />. We’re here
-        Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+        <va-telephone contact="8664001238" />. We’re here Monday through Friday,
+        8:00 a.m. to 8:00 p.m. ET.
       </p>
     </footer>
   </div>

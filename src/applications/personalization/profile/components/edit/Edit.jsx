@@ -1,8 +1,6 @@
 import React, { useMemo, useEffect, useState } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { useFeatureToggle } from 'platform/utilities/feature-toggles';
-import { focusElement } from 'platform/utilities/ui/focus';
 
 import { FIELD_NAMES, FIELD_TITLES } from '@@vap-svc/constants';
 import { selectVAPContactInfoField } from '@@vap-svc/selectors';
@@ -77,7 +75,6 @@ export const Edit = () => {
 
   const returnPath = returnRouteInfo?.path;
   const returnPathName = returnRouteInfo?.name;
-  const formattedReturnPathName = returnPathName.toUpperCase();
 
   const hasVAPServiceError = useSelector(state =>
     hasVAPServiceConnectionError(state),
@@ -102,33 +99,10 @@ export const Edit = () => {
     [fieldData, fieldInfo],
   );
 
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const internationalPhonesToggleValue = useToggleValue(
-    TOGGLE_NAMES.profileInternationalPhoneNumbers,
-  );
-
-  useEffect(
-    () => {
-      // Set initial focus on the page heading for keyboard navigation
-      if (fieldInfo && !hasVAPServiceError) {
-        const headingElement = document.querySelector('h1');
-        if (headingElement) {
-          // Only call scrollIntoView if it exists (not in test environment)
-          if (headingElement.scrollIntoView) {
-            headingElement.scrollIntoView();
-          }
-          focusElement(headingElement);
-        }
-      }
-    },
-    [fieldInfo, hasVAPServiceError],
-  );
-
   useEffect(() => {
     if (fieldInfo?.fieldName && !hasVAPServiceError) {
       const { uiSchema, formSchema } = getProfileInfoFieldAttributes(
         fieldInfo.fieldName,
-        { allowInternationalPhones: internationalPhonesToggleValue },
       );
 
       const initialFormData = getInitialFormValues({
@@ -154,7 +128,6 @@ export const Edit = () => {
         ),
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(
@@ -214,7 +187,10 @@ export const Edit = () => {
             activeSection={fieldInfo.fieldName.toLowerCase()}
             onHide={() => setShowConfirmCancelModal(false)}
           />
-          <div className="vads-u-display--block medium-screen:vads-u-display--block">
+          <div
+            className="vads-u-display--block medium-screen:vads-u-display--block"
+            id="profile-edit-field-page"
+          >
             <EditBreadcrumb
               className="vads-u-margin-top--2 vads-u-margin-bottom--3"
               onClickHandler={handlers.breadCrumbClick}
@@ -223,9 +199,7 @@ export const Edit = () => {
               {`Back to ${returnPathName}`}
             </EditBreadcrumb>
 
-            <p className="vads-u-margin-bottom--0p5">
-              {formattedReturnPathName}
-            </p>
+            <p className="vads-u-margin-bottom--0p5">NOTIFICATION SETTINGS</p>
 
             <h1 className="vads-u-font-size--h2 vads-u-margin-bottom--2">
               {editPageHeadingString}
@@ -242,7 +216,6 @@ export const Edit = () => {
                 successCallback={handlers.success}
                 cancelCallback={handlers.cancel}
                 CustomConfirmCancelModal={EditConfirmCancelModal}
-                allowInternationalPhones
               />
             </InitializeVAPServiceIDContainer>
           </div>

@@ -92,7 +92,7 @@ export function removeDependents(state = initialState, action) {
         [action.stateKey]: {
           ...state.dependentsState[action.stateKey],
           status: action.status,
-          error: action.error.errors?.[0],
+          error: action.error.errors[0],
         },
       },
     };

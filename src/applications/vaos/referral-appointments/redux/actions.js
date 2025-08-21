@@ -1,13 +1,28 @@
 import { formatISO, differenceInMilliseconds } from 'date-fns';
 
 import { captureError } from '../../utils/error';
-import { getProviderById, getAppointmentInfo } from '../../services/referral';
+import {
+  postReferralAppointment,
+  postDraftReferralAppointment,
+  getProviderById,
+  getPatientReferrals,
+  getAppointmentInfo,
+} from '../../services/referral';
 // import { filterReferrals } from '../utils/referrals';
 import { STARTED_NEW_APPOINTMENT_FLOW } from '../../redux/sitewide';
 
 export const SET_FORM_CURRENT_PAGE = 'SET_FORM_CURRENT_PAGE';
-export const CACHE_DRAFT_REFERRAL_APPOINTMENT =
-  'CACHE_DRAFT_REFERRAL_APPOINTMENT';
+export const CREATE_REFERRAL_APPOINTMENT = 'CREATE_REFERRAL_APPOINTMENT';
+export const CREATE_REFERRAL_APPOINTMENT_SUCCEEDED =
+  'CREATE_REFERRAL_APPOINTMENT_SUCCEEDED';
+export const CREATE_REFERRAL_APPOINTMENT_FAILED =
+  'CREATE_REFERRAL_APPOINTMENT_FAILED';
+export const CREATE_DRAFT_REFERRAL_APPOINTMENT =
+  'CREATE_DRAFT_REFERRAL_APPOINTMENT';
+export const CREATE_DRAFT_REFERRAL_APPOINTMENT_SUCCEEDED =
+  'CREATE_DRAFT_REFERRAL_APPOINTMENT_SUCCEEDED';
+export const CREATE_DRAFT_REFERRAL_APPOINTMENT_FAILED =
+  'CREATE_DRAFT_REFERRAL_APPOINTMENT_FAILED';
 export const FETCH_PROVIDER_DETAILS = 'FETCH_PROVIDER_DETAILS';
 export const FETCH_PROVIDER_DETAILS_SUCCEEDED =
   'FETCH_PROVIDER_DETAILS_SUCCEEDED';
@@ -18,8 +33,11 @@ export const FETCH_REFERRAL_APPOINTMENT_INFO_SUCCEEDED =
   'FETCH_REFERRAL_APPOINTMENT_INFO_SUCCEEDED';
 export const FETCH_REFERRAL_APPOINTMENT_INFO_FAILED =
   'FETCH_REFERRAL_APPOINTMENT_INFO_FAILED';
+export const FETCH_REFERRALS = 'FETCH_REFERRALS';
+export const FETCH_REFERRALS_SUCCEEDED = 'FETCH_REFERRALS_SUCCEEDED';
+export const FETCH_REFERRALS_FAILED = 'FETCH_REFERRALS_FAILED';
 export const FETCH_REFERRAL = 'FETCH_REFERRAL';
-export const SET_SELECTED_SLOT_START_TIME = 'SET_SELECTED_SLOT_START_TIME';
+export const SET_SELECTED_SLOT = 'SET_SELECTED_SLOT';
 export const SET_INIT_REFERRAL_FLOW = 'SET_INIT_REFERRAL_FLOW';
 
 export function setFormCurrentPage(currentPage) {
@@ -29,12 +47,32 @@ export function setFormCurrentPage(currentPage) {
   };
 }
 
-export function cacheDraftReferralAppointment(data) {
+export function createDraftReferralAppointment(
+  referralNumber,
+  referralConsultId,
+) {
   return async dispatch => {
-    dispatch({
-      type: CACHE_DRAFT_REFERRAL_APPOINTMENT,
-      data,
-    });
+    try {
+      dispatch({
+        type: CREATE_DRAFT_REFERRAL_APPOINTMENT,
+      });
+
+      const providerDetails = await postDraftReferralAppointment(
+        referralNumber,
+        referralConsultId,
+      );
+
+      dispatch({
+        type: CREATE_DRAFT_REFERRAL_APPOINTMENT_SUCCEEDED,
+        data: providerDetails,
+      });
+      return providerDetails;
+    } catch (error) {
+      dispatch({
+        type: CREATE_DRAFT_REFERRAL_APPOINTMENT_FAILED,
+      });
+      return captureError(error);
+    }
   };
 }
 
@@ -54,6 +92,29 @@ export function fetchProviderDetails(id) {
     } catch (error) {
       dispatch({
         type: FETCH_PROVIDER_DETAILS_FAILED,
+      });
+      return captureError(error);
+    }
+  };
+}
+
+export function fetchReferrals() {
+  return async dispatch => {
+    try {
+      dispatch({
+        type: FETCH_REFERRALS,
+      });
+      const referrals = await getPatientReferrals();
+      // TODO: need to add this back in for production
+      // const filteredReferrals = filterReferrals(referrals);
+      dispatch({
+        type: FETCH_REFERRALS_SUCCEEDED,
+        data: referrals,
+      });
+      return referrals;
+    } catch (error) {
+      dispatch({
+        type: FETCH_REFERRALS_FAILED,
       });
       return captureError(error);
     }
@@ -140,10 +201,10 @@ export function fetchAppointmentInfo(appointmentId) {
   };
 }
 
-export function setSelectedSlotStartTime(slotStartTime) {
+export function setSelectedSlot(slot) {
   return {
-    type: SET_SELECTED_SLOT_START_TIME,
-    payload: slotStartTime,
+    type: SET_SELECTED_SLOT,
+    payload: slot,
   };
 }
 
@@ -156,5 +217,40 @@ export function setInitReferralFlow() {
 export function startNewAppointmentFlow() {
   return {
     type: STARTED_NEW_APPOINTMENT_FLOW,
+  };
+}
+
+export function createReferralAppointment({
+  draftApppointmentId,
+  referralNumber,
+  slotId,
+  networkId,
+  providerServiceId,
+}) {
+  return async dispatch => {
+    try {
+      dispatch({
+        type: CREATE_REFERRAL_APPOINTMENT,
+      });
+
+      const appointmentInfo = await postReferralAppointment({
+        draftApppointmentId,
+        referralNumber,
+        slotId,
+        networkId,
+        providerServiceId,
+      });
+
+      dispatch({
+        type: CREATE_REFERRAL_APPOINTMENT_SUCCEEDED,
+      });
+
+      return appointmentInfo;
+    } catch (error) {
+      dispatch({
+        type: CREATE_REFERRAL_APPOINTMENT_FAILED,
+      });
+      return captureError(error);
+    }
   };
 }

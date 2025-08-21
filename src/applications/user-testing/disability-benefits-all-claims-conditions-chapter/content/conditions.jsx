@@ -1,6 +1,8 @@
 import React from 'react';
 import { format } from 'date-fns';
 
+import { createSecondaryEnhancedDescriptionString } from './secondaryEnhanced';
+
 export const ConditionsIntroDescription = () => (
   <p>
     On the following screens, we’ll ask you about the disabilities and
@@ -11,14 +13,11 @@ export const ConditionsIntroDescription = () => (
 
 export const NewConditionDescription = () => (
   <>
-    <p>
-      Add a condition that you haven’t claimed before. You can add more
-      conditions later.
-    </p>
+    <p>Add a condition below. You can add more conditions later.</p>
     <h4>If your condition isn’t listed</h4>
     <p>
-      You can claim a condition that isn’t listed in the automatic suggestions.
-      Enter your condition, diagnosis or short description of your symptoms.
+      You can claim a condition that isn’t listed. Enter your condition,
+      diagnosis or short description of your symptoms.
     </p>
     <h4>Examples of conditions</h4>
     <ul>
@@ -40,6 +39,13 @@ const createCauseFollowUpDescriptions = (item, fullData = {}) => {
       return 'caused by an injury, event, disease or exposure during my service';
 
     case 'SECONDARY': {
+      if (typeof item.causedByCondition === 'object') {
+        return createSecondaryEnhancedDescriptionString(
+          item.causedByCondition,
+          fullData,
+        );
+      }
+
       const target = item.causedByCondition?.toLowerCase()?.trim();
       const foundInConditions = conditions.some(
         c => c.newCondition?.toLowerCase()?.trim() === target,

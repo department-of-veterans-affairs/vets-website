@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 
-import { ProfileInfoSection } from '../../components/ProfileInfoSection';
+import { ProfileInfoCard } from '../../components/ProfileInfoCard';
 
 describe('ProfileInfoCard', () => {
   context('as `sections` layout', () => {
@@ -15,7 +15,7 @@ describe('ProfileInfoCard', () => {
       const defaultHeadingLevel = 3;
 
       const tree = render(
-        <ProfileInfoSection
+        <ProfileInfoCard
           title="Card Title"
           fieldName="profileField"
           data={data}
@@ -38,7 +38,7 @@ describe('ProfileInfoCard', () => {
       const baseHeadingLevel = 2;
 
       const tree = render(
-        <ProfileInfoSection
+        <ProfileInfoCard
           title="Card Title"
           fieldName="profileField"
           data={data}
@@ -69,7 +69,7 @@ describe('ProfileInfoCard', () => {
       const defaultHeadingLevel = 3;
 
       const tree = render(
-        <ProfileInfoSection
+        <ProfileInfoCard
           title="Card Title"
           fieldName="profileField"
           data={data}
@@ -95,7 +95,7 @@ describe('ProfileInfoCard', () => {
       const defaultHeadingLevel = 3;
 
       const tree = render(
-        <ProfileInfoSection
+        <ProfileInfoCard
           title="Card Title"
           fieldName="profileField"
           data={<Content />}

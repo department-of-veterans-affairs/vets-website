@@ -644,7 +644,7 @@ describe('BehaviorIntroCombatPage', () => {
 
   describe('Page content', () => {
     const mentalHealthDropdownSelector =
-      'va-alert-expandable[status="info"][trigger="Get mental health and military sexual trauma support anytime"]';
+      'va-alert-expandable[status="info"][trigger="Learn how to get mental health help now"]';
 
     describe('When rendered on the Behavior Intro Combat Page', () => {
       it('Displays a Mental Health Alert Dropdown', () => {

@@ -8,24 +8,26 @@ import { fetchDuplicateContactInfo, updateGlobalPhoneNumber } from '../actions';
 
 function CustomPhoneNumberField(props) {
   function handleChange(event) {
-    props?.updateGlobalPhoneNumber(event);
-    if (event?.length > 9) {
-      props.fetchDuplicateContactInfo(props.duplicateEmail, [
-        { value: event, dupe: '' },
-      ]);
-    }
+    if (props?.toeDupContactInfoCall) {
+      props?.updateGlobalPhoneNumber(event);
+      if (event?.length > 9) {
+        props.fetchDuplicateContactInfo(props.duplicateEmail, [
+          { value: event, dupe: '' },
+        ]);
+      }
 
-    props?.setFormData({
-      ...props?.formData,
-      duplicatePhone: [{ value: '', dupe: '' }],
-      'view:phoneNumbers': {
-        ...props.formData['view:phoneNumbers'],
-        mobilePhoneNumber: {
-          ...props.formData['view:phoneNumbers'].mobilePhoneNumber,
-          phone: event,
+      props?.setFormData({
+        ...props?.formData,
+        duplicatePhone: [{ value: '', dupe: '' }],
+        'view:phoneNumbers': {
+          ...props.formData['view:phoneNumbers'],
+          mobilePhoneNumber: {
+            ...props.formData['view:phoneNumbers'].mobilePhoneNumber,
+            phone: event,
+          },
         },
-      },
-    });
+      });
+    }
   }
 
   return (
@@ -50,6 +52,7 @@ const mapStateToProps = state => ({
   duplicatePhone: state?.data?.duplicatePhone,
   email: state?.form?.data?.email?.email,
   duplicateEmail: state?.data?.duplicateEmail,
+  toeDupContactInfoCall: state?.featureToggles?.toeDupContactInfoCall,
   formData: state?.form?.data,
 });
 

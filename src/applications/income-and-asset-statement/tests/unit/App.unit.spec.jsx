@@ -13,8 +13,7 @@ const appLocation = {
   hash: '',
   action: 'POP',
   key: null,
-  basename:
-    '/supporting-forms-for-claims/submit-income-and-asset-statement-form-21p-0969',
+  basename: '/income-and-asset-statement-form-21p-0969',
   query: '{}',
 };
 

@@ -9,7 +9,7 @@ import {
 } from '../validation';
 
 /**
- * uiSchema for a generic current or past date
+ * Web component v3 uiSchema for current or past dates
  *
  * ```js
  * exampleDate: currentOrPastDateUI('Date of event')
@@ -88,7 +88,7 @@ const currentOrPastDateUI = options => {
 };
 
 /**
- * uiSchema for a current or past month and year
+ * Web component v3 uiSchema for current or past month and year only dates
  *
  * ```js
  * exampleDate: currentOrPastDateUI('Date of event')
@@ -118,7 +118,7 @@ const currentOrPastMonthYearDateUI = options => {
 };
 
 /**
- * uiSchema for a "from" and "to" date range with current or past dates. Includes two fields.
+ * Web component v3 uiSchema for current or past date range
  *
  * ```js
  * // Simple usage:
@@ -187,7 +187,7 @@ const currentOrPastDateRangeUI = (fromOptions, toOptions, errorMessage) => {
 };
 
 /**
- * uiSchema for month and year only date range. Includes two fields for "from" and "to" dates.
+ * Web component v3 uiSchema for month and year only date range
  *
  * ```js
  * // Simple usage:
@@ -234,7 +234,7 @@ const currentOrPastMonthYearDateRangeUI = (
 };
 
 /**
- * uiSchema for current or past dates with digit select for month
+ * Web component v3 uiSchema for current or past dates with digit select for month
  *
  * ```js
  * exampleDate: currentOrPastDateDigitsUI('Date of event')
@@ -264,7 +264,7 @@ const currentOrPastDateDigitsUI = options => {
 };
 
 /**
- * uiSchema for date of birth
+ * Web component v3 uiSchema for date of birth
  *
  * ```js
  * dateOfBirth: dateOfBirthUI()
@@ -295,7 +295,7 @@ const dateOfBirthUI = options => {
 };
 
 /**
- * uiSchema for date of death
+ * Web component v3 uiSchema for date of death
  *
  * ```js
  * dateOfDeath: dateOfDeathUI()
@@ -353,8 +353,6 @@ const dateOfBirthSchema = commonDefinitions.date;
 const dateOfDeathSchema = commonDefinitions.date;
 
 /**
- * Schema for currentOrPastDateRangeUI
- *
  * Usage:
  * ```
  * dateRange: currentOrPastDateRangeSchema
@@ -374,8 +372,6 @@ const currentOrPastDateRangeSchema = {
 };
 
 /**
- * Schema for currentOrPastMonthYearDateRangeUI
- *
  * Usage:
  * ```
  * dateRange: currentOrPastMonthYearDateRangeSchema

@@ -1,21 +1,16 @@
-import {
-  titleUI,
-  descriptionUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
 import environment from 'platform/utilities/environment';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import DischargePapersDescription from '../../../components/FormDescriptions/DischargePapersDescription';
 import { createPayload, parseResponse } from '../../../utils/helpers';
 import { attachmentsSchema } from '../../../definitions/attachments';
-import content from '../../../locales/en/content.json';
 
 export default {
   uiSchema: {
-    ...titleUI(content['service-info--attachments-title']),
-    ...descriptionUI(DischargePapersDescription),
+    'ui:title': 'Upload your discharge papers',
+    'ui:description': DischargePapersDescription,
     attachments: fileUploadUI('', {
-      buttonText: content['button-upload'],
-      addAnotherLabel: content['service-info--attachments-add-another-label'],
+      buttonText: 'Upload a document',
+      addAnotherLabel: 'Upload another document',
       fileUploadUrl: `${environment.API_URL}/v0/hca_attachments`,
       fileTypes: ['pdf', 'doc', 'docx', 'jpg', 'jpeg', 'rtf', 'png'],
       maxSize: 1024 * 1024 * 10,
@@ -23,10 +18,10 @@ export default {
       createPayload,
       parseResponse,
       attachmentSchema: {
-        'ui:title': content['service-info--attachments-type-label'],
+        'ui:title': 'Document type',
       },
       attachmentName: {
-        'ui:title': content['service-info--attachments-name-label'],
+        'ui:title': 'Document name',
       },
     }),
   },

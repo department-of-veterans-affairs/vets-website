@@ -102,7 +102,41 @@ describe('VAOS Backend Service Alert', () => {
       .exist;
   });
 
-  it('should not display BackendAppointmentServiceAlert if there is no failure returned on the past appointments list', async () => {
+  it('should display BackendAppointmentServiceAlert if there is a failure returned on the past appointments list, useFeSourceOfTruthVA=false', async () => {
+    // Arrange
+    const start = subMonths(now, 3);
+    const end = addMinutes(now.setMinutes(0), 30);
+    const appointment = new MockAppointmentResponse({
+      localStartTime: yesterday,
+      status: APPOINTMENT_STATUS.booked,
+    }).setLocation(new MockFacilityResponse());
+
+    mockAppointmentsApi({
+      backendServiceFailures: true,
+      end,
+      includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
+      response: [appointment],
+      start,
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+    });
+
+    // Act
+    const screen = renderWithStoreAndRouter(<PastAppointmentsPage />, {
+      initialState,
+    });
+
+    // Assert
+    await waitFor(() => {
+      expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
+    });
+
+    await waitFor(() => {
+      expect(screen.queryByTestId('backend-appointment-service-alert')).to
+        .exist;
+    });
+  });
+
+  it('should not display BackendAppointmentServiceAlert if there is no failure returned on the past appointments list, useFeSourceOfTruthVA=true', async () => {
     // Arrange
     const start = subMonths(now, 3);
     const end = addMinutes(now.setMinutes(0), 30);
@@ -173,7 +207,6 @@ describe('VAOS Backend Service Alert', () => {
     const appointment = new MockAppointmentResponse({
       localStartTime: yesterday,
       status: APPOINTMENT_STATUS.proposed,
-      pending: true,
     }).setLocation(new MockFacilityResponse());
 
     mockAppointmentsApi({
@@ -206,7 +239,6 @@ describe('VAOS Backend Service Alert', () => {
     const appointment = new MockAppointmentResponse({
       localStartTime: yesterday,
       status: APPOINTMENT_STATUS.proposed,
-      pending: true,
     }).setLocation(new MockFacilityResponse());
 
     mockAppointmentsApi({

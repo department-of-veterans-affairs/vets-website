@@ -1,8 +1,8 @@
 import {
+  testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfFieldsByType,
   testNumberOfWebComponentFields,
   testSubmitsWithoutErrors,
-  testComponentFieldsMarkedAsRequired,
 } from '../pageTests.spec';
 import formConfig from '../../../../config/form';
 import contactInformation from '../../../../config/chapters/01-applicant-information/contactInformation';
@@ -30,11 +30,12 @@ describe('pension contact information page', () => {
     pageTitle,
   );
 
-  testComponentFieldsMarkedAsRequired(
+  const expectedNumberOfErrors = 2;
+  testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     schema,
     uiSchema,
-    [`va-text-input[label="Email"]`, `va-text-input[label="Mobile number"]`],
+    expectedNumberOfErrors,
     pageTitle,
   );
 

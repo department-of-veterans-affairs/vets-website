@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import {
-  testComponentFieldsMarkedAsRequired,
+  testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfWebComponentFields,
   testSubmitsWithoutErrors,
   testShowAlert,
@@ -25,11 +25,12 @@ describe('pension special monthly pension page', () => {
     pageTitle,
   );
 
-  testComponentFieldsMarkedAsRequired(
+  const expectedNumberOfErrors = 1;
+  testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     schema,
     uiSchema,
-    [`va-radio[label="Are you claiming special monthly pension?"]`],
+    expectedNumberOfErrors,
     pageTitle,
   );
 

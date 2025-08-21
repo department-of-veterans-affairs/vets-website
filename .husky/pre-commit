@@ -1,19 +1,4 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-# Regenerate docs/catalogs if relevant files are staged
-changed_files=$(git diff --cached --name-only)
-
-# Regenerate web component catalog if web component pattern changes are detected
-if echo "$changed_files" | grep -q '^src/platform/forms-system/src/js/web-component-patterns/'; then
-  echo "Changes detected in web-component-patterns. Regenerating web component patterns catalog..."
-  yarn generate-web-component-patterns-catalog
-fi
-
-# Regenerate manifest catalog if any manifest.json is touched
-if echo "$changed_files" | grep -q 'manifest.json$'; then
-  echo "Changes detected in manifest.json. Regenerating manifest catalog..."
-  yarn generate-manifest-catalog
-fi
-
 ./node_modules/.bin/lint-staged

@@ -8,7 +8,7 @@ inputs:
     default: ' '
 
   output-type:
-    description: 'Comma delimited list of changed application details to retrieve. Output types include: `entry_name`, `folder`, `slack_group`, `slack_channel`, `url`, `continuous_deployment`.'
+    description: 'Comma delimited list of changed application details to retrieve. Output types include: `entry_name`, `folder`, `slack_group`, `url`, `continuous_deployment`.'
     required: false
     default: ''
 
@@ -32,10 +32,6 @@ outputs:
   slack_groups:
     description: 'Slack user groups of changed applications.'
     value: ${{ steps.get-slack-groups.outputs.slack_groups }}
-
-  slack_channels:
-    description: 'Slack channel IDs of changed applications.'
-    value: ${{ steps.get-slack-channels.outputs.slack_channels }}
 
   urls:
     description: 'Root URLs of changed applications.'
@@ -75,14 +71,6 @@ runs:
       if: contains(inputs.output-type, 'slack_group')
       shell: bash
       run: echo slack_groups=$(node script/github-actions/get-changed-apps.js --output-type slack-group -d "${{ inputs.delimiter }}") >> $GITHUB_OUTPUT
-      env:
-        CHANGED_FILE_PATHS: ${{ steps.get-changed-files.outputs.changed_files }}
-
-    - name: Get Slack channels
-      id: get-slack-channels
-      if: contains(inputs.output-type, 'slack_channel')
-      shell: bash
-      run: echo slack_channels=$(node script/github-actions/get-changed-apps.js --output-type slack-channel -d "${{ inputs.delimiter }}") >> $GITHUB_OUTPUT
       env:
         CHANGED_FILE_PATHS: ${{ steps.get-changed-files.outputs.changed_files }}
 

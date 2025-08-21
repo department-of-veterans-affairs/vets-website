@@ -5,7 +5,7 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 import recordEvent from 'platform/monitoring/record-event';
 import { scrollToFirstError } from 'platform/utilities/scroll';
 
-import { getFormattedPhone } from '../../shared/utils/contactInfo';
+import { getFormattedPhone } from '../utils/contactInfo';
 import { missingPrimaryPhone } from '../validations';
 import {
   PRIMARY_PHONE,
@@ -97,6 +97,7 @@ export const PrimaryPhone = ({
           error={hasError && errorMessages.missingPrimaryPhone}
           onVaValueChange={handlers.onSelection}
           required
+          uswds
         >
           {PRIMARY_PHONE_TYPES.map(type => (
             <va-radio-option
@@ -107,6 +108,7 @@ export const PrimaryPhone = ({
               name="primary"
               checked={primary === type}
               description={getFormattedPhone(veteran?.[`${type}Phone`])}
+              uswds
             />
           ))}
         </VaRadio>

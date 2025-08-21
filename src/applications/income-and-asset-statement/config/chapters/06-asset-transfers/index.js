@@ -1,6 +1,6 @@
 import { assetTransferPages } from './assetTransferPages';
 
 export default {
-  title: 'Asset transfers',
+  title: 'Asset transfers information',
   pages: assetTransferPages,
 };

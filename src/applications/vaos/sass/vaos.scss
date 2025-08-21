@@ -53,9 +53,20 @@
   }
 }
 
-.vaos__form-button {
+.vaos__form-button-back {
+  order: 2;
   width: 100%;
   @media (min-width: $xsmall-screen) {
+    order: 1;
+    width: auto;
+  }
+}
+
+.vaos__form-button-next {
+  order: 1;
+  width: 100%;
+  @media (min-width: $xsmall-screen) {
+    order: 2;
     width: auto;
   }
 }
@@ -94,14 +105,4 @@ body {
 
 va-textarea::part(input-type-textarea) {
   box-sizing: border-box;
-}
-
-.vaos-input-error-message:focus {
-  outline: 2px solid var(--vads-color-action-focus-on-light);
-  outline-offset: 2px;
-}
-
-.usa-input-error:focus {
-  outline: 2px solid var(--vads-color-action-focus-on-light);
-  outline-offset: 2px;
 }

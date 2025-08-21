@@ -12,11 +12,14 @@ export const DirectDepositOtherOptions = (
       <va-telephone contact="8003331795" />.
     </p>
     <p>
-      <va-link
+      <a
         href="https://www.usdirectexpress.com/how_it_works.html"
-        external
-        text="Go to the Direct Express Debit Mastercard website to learn more"
-      />
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        Go to the Direct Express Debit Mastercard website to learn more (opens
+        in new tab)
+      </a>
     </p>
     <p>
       <strong>Note:</strong> If you choose to get payments through a Direct
@@ -37,11 +40,13 @@ export const DirectDepositOtherOptions = (
       Banking Program.
     </p>
     <p>
-      <va-link
+      <a
         href="https://veteransbenefitsbanking.org/find-bank-credit-union/"
-        external
-        text="Go to the VBBP website"
-      />
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        Go to the VBBP website (opens in new tab)
+      </a>
     </p>
   </div>
 );

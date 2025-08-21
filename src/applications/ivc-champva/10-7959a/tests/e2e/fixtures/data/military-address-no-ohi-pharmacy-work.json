@@ -1,7 +1,6 @@
 {
   "description": "Military base sponsor address, no OHI, pharmacy claim, work related, NOT auto related",
   "data": {
-    "claimStatus": "new",
     "view:hasPolicies": false,
     "pharmacyUpload": [
       {
@@ -43,6 +42,14 @@
     },
     "certifierRole": "applicant",
     "certifierReceivedPacket": true,
+    "missingUploads": [
+      {
+        "name": "pharmacyUpload",
+        "path": "pharmacy-claim-upload",
+        "required": false,
+        "uploaded": true
+      }
+    ],
     "statementOfTruthSignature": "Beneficiary Terry Jones",
     "statementOfTruthCertified": true
   }

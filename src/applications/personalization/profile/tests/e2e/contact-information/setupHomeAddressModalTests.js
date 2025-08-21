@@ -7,9 +7,9 @@ import errorTransaction from '@@profile/tests/fixtures/transactions/error-transa
 import set from 'lodash/set';
 import personalInfo from '@@profile/tests/fixtures/personal-information-success-enhanced.json';
 import fullName from '@@profile/tests/fixtures/full-name-success.json';
-import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import { createAddressValidationResponse } from '../address-validation/addressValidation';
 import { createUserResponse } from '../address-validation/user';
+import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import { generateFeatureToggles } from '../../../mocks/endpoints/feature-toggles';
 
 export const setupHomeAddressModalBase = type => {
@@ -80,7 +80,9 @@ export const setupHomeAddressModalBase = type => {
 
   cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
 
-  cy.get('va-button[label="Edit Home address"]').click({ force: true });
+  cy.findByRole('button', { name: /edit home address/i }).click({
+    force: true,
+  });
 };
 
 export const setupHomeAddressModalUpdateFailure = type => {

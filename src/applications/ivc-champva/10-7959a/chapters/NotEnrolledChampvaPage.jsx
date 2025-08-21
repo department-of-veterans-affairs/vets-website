@@ -54,7 +54,7 @@ export function NotEnrolledChampvaPage({ goBack }) {
           text="Learn about CHAMPVA benefits"
         />
         <div className="vads-u-margin-top--4">
-          <va-button data-testid="btn-back" onClick={goBack} back full-width />
+          <va-button back onClick={goBack} full-width />
         </div>
       </div>
     </>

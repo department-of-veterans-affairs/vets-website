@@ -77,14 +77,10 @@ const generateUser = ({
   loa = 3,
   mhvAccountState = 'OK',
   vaPatient = true,
-  oracleHealth = false,
   firstName = 'Gina',
   preferredName = 'Ginny',
   edipi = null,
 } = {}) => {
-  const facilities = defaultUser.data.attributes.va_profile.facilities.map(
-    facility => ({ ...facility, is_cerner: oracleHealth }),
-  );
   return {
     ...defaultUser,
     data: {
@@ -95,7 +91,6 @@ const generateUser = ({
           ...defaultUser.data.attributes.va_profile,
           mhv_account_state: mhvAccountState,
           va_patient: vaPatient,
-          facilities,
         },
         profile: {
           ...defaultUser.data.attributes.profile,
@@ -142,7 +137,6 @@ const USER_MOCKS = Object.freeze({
   NO_MHV_ACCOUNT: generateUser({ mhvAccountState: 'NONE' }),
   MHV_BASIC_ACCOUNT: generateUser({ loa: 1, serviceName: CSP_IDS.MHV }),
   DEFAULT: generateUser(),
-  ORACLE_HEALTH_USER: generateUser({ oracleHealth: true }),
 });
 
 module.exports = {

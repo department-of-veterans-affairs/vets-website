@@ -1,7 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { waitFor } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { mount } from 'enzyme';
 import formConfig from '../../config/form';
@@ -9,19 +8,13 @@ import formConfig from '../../config/form';
 const definitions = formConfig.defaultDefinitions;
 
 describe('Form Configuration', () => {
-  let sandbox;
   const {
     institutionDetails,
   } = formConfig.chapters.institutionDetailsChapter.pages;
   const { schema, uiSchema } = institutionDetails;
 
   beforeEach(() => {
-    sandbox = sinon.createSandbox();
     window.localStorage.clear();
-  });
-
-  afterEach(() => {
-    sandbox.restore();
   });
 
   it('should have the correct uiSchema and schema for institutionDetails', () => {
@@ -30,7 +23,7 @@ describe('Form Configuration', () => {
   });
 
   it('should navigate to service history if accredited', async () => {
-    const goPath = sandbox.spy();
+    const goPath = sinon.spy();
     const formData = {
       facilityCode: '45769814',
       institutionName: 'test',
@@ -44,7 +37,7 @@ describe('Form Configuration', () => {
   });
 
   it('should navigate to additional form if not accredited', async () => {
-    const goPath = sandbox.spy();
+    const goPath = sinon.spy();
     const formData = {
       facilityCode: '09101909',
       institutionName: 'test',
@@ -107,10 +100,10 @@ describe('Form Configuration', () => {
       formConfig.chapters.institutionDetailsChapter.pages.institutionDetails
         .uiSchema.institutionDetails.termStartDate['ui:validations'][0];
     const today = new Date();
-    const futureDate = new Date(today.getTime() + 24 * 60 * 60 * 1000);
-    const day = futureDate.getDate();
-    const month = futureDate.getMonth() + 1;
-    const year = futureDate.getFullYear();
+    const futureDate = today.getDate() + 1;
+    const day = String(futureDate).padStart(2, '0');
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const year = today.getFullYear();
 
     validateTermStartDate(errors, `${year}-${month}-${day}`);
     expect(errors.messages).to.include(
@@ -118,8 +111,8 @@ describe('Form Configuration', () => {
     );
   });
 
-  it('should show errors when required field is empty', async () => {
-    const onSubmit = sandbox.spy();
+  it('should show errors when required field is empty', () => {
+    const onSubmit = sinon.spy();
     delete uiSchema.institutionDetails.institutionName;
     delete schema.properties.institutionDetails.properties.institutionName;
     const form = mount(
@@ -132,14 +125,9 @@ describe('Form Configuration', () => {
       />,
     );
     form.find('form').simulate('submit');
-
-    await waitFor(() => {
-      form.update();
-      expect(form.find('va-text-input[error]').length).to.equal(1);
-      expect(form.find('va-memorable-date[error]').length).to.equal(1);
-      expect(onSubmit.called).to.be.false;
-    });
-
+    expect(form.find('va-text-input[error]').length).to.equal(1);
+    expect(form.find('va-memorable-date[error]').length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
     form.unmount();
   });
 });

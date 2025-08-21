@@ -1,7 +1,7 @@
 import React from 'react';
 import sinon from 'sinon';
 import { expect } from 'chai';
-import { render, waitFor } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import * as ReactReduxModule from 'react-redux';
 import { Provider } from 'react-redux';
 import { act } from 'react-dom/test-utils';
@@ -29,13 +29,20 @@ const mockStore = {
 
 describe('Bot', () => {
   let sandbox;
+  let clock;
 
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
+    // Even though we don't use clearTimeout, setInterval, and clearInterval,
+    // if we don't fake them, the tests will hang after they're complete. -.-
+    clock = sinon.useFakeTimers({
+      toFake: ['setTimeout', 'clearTimeout', 'setInterval', 'clearInterval'],
+    });
   });
 
   afterEach(() => {
     sandbox.restore();
+    clock.restore();
   });
 
   describe('Bot', () => {
@@ -112,15 +119,10 @@ describe('Bot', () => {
 
       await act(async () => {
         window.dispatchEvent(new Event('webchat-auth-activity'));
+        clock.tick(10000);
       });
 
-      // Wait for the 2-second timeout in webAuthActivityEventListener
-      await waitFor(
-        () => {
-          expect(getByTestId('sign-in-modal')).to.exist;
-        },
-        { timeout: 3000 },
-      );
+      expect(getByTestId('sign-in-modal')).to.exist;
     });
     it('should return the App if user accepts disclaimer and does not need to sign in', () => {
       sandbox
@@ -169,14 +171,8 @@ describe('Bot', () => {
 
       await act(async () => {
         window.dispatchEvent(new Event('webchat-auth-activity'));
+        clock.tick(2000);
       });
-
-      await waitFor(
-        () => {
-          expect(getByTestId('sign-in-modal')).to.exist;
-        },
-        { timeout: 3000 },
-      );
 
       getByTestId('va-modal-close').click();
       expect(setLoggedInFlowStub.calledTwice).to.be.true;

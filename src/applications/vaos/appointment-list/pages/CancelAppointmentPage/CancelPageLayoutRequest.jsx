@@ -71,13 +71,9 @@ export default function CancelPageLayoutRequest() {
             {facility?.name}
           </Section>
           <Section heading="Preferred community care provider" level={3}>
-            <span dd-data-privacy="mask">
-              {`${providerName || 'Provider name not available'}`}
-            </span>
+            <span>{`${providerName || 'Provider name not available'}`}</span>
             <br />
-            {providerAddress && (
-              <span dd-data-privacy="mask">{providerAddress.line[0]}</span>
-            )}
+            {providerAddress && <span>{providerAddress.line[0]}</span>}
             {!providerAddress && <span>Address not available</span>}
             <br />
           </Section>

@@ -12,9 +12,12 @@ export default function NoFormPage() {
               status="info"
               visible
             >
-              <h2 slot="headline">You can’t use our online form right now</h2>
+              <h2 slot="headline">
+                You can’t use our online application right now
+              </h2>
               <p className="vads-u-margin-y--0">
-                This form is currently in development. Please check back later.
+                This application is currently in development. Please check back
+                later.
               </p>
             </va-alert>
           </div>

@@ -1,7 +1,7 @@
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { expect } from 'chai';
 import {
-  testComponentFieldsMarkedAsRequired,
+  testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfFieldsByType,
   testNumberOfWebComponentFields,
   testShowAlert,
@@ -24,13 +24,12 @@ describe('Pensions: Financial information transferred assets page', () => {
     pageTitle,
   );
 
-  testComponentFieldsMarkedAsRequired(
+  const expectedNumberOfErrors = 1;
+  testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     schema,
     uiSchema,
-    [
-      `va-radio[label="Did you, your spouse, or your dependents transfer any assets in the last 3 calendar years?"]`,
-    ],
+    expectedNumberOfErrors,
     pageTitle,
   );
 

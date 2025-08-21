@@ -12,14 +12,13 @@ import {
   mockVamcEhrApi,
   vaosSetup,
 } from '../../vaos-cypress-helpers';
-import AppointmentDetailPageObject from '../../page-objects/AppointmentList/AppointmentDetailPageObject';
 
 describe('VAOS past appointment flow', () => {
   describe('When veteran has past appointments', () => {
     beforeEach(() => {
       vaosSetup();
 
-      mockFeatureToggles({});
+      mockFeatureToggles({ vaOnlineSchedulingFeSourceOfTruth: false });
       mockVamcEhrApi();
 
       cy.login(new MockUser());
@@ -75,8 +74,6 @@ describe('VAOS past appointment flow', () => {
         .assertAppointmentList({ numberOfAppointments: 1 })
         .selectListItem()
         .assertLink({ name: /Back to past appointments/i, useShadowDOM: true });
-
-      AppointmentDetailPageObject.assertDaysLeftToFile();
 
       cy.axeCheckBestPractice();
     });
@@ -134,7 +131,7 @@ describe('VAOS past appointment flow', () => {
       PastAppointmentListPageObject.visit();
 
       // Assert
-      cy.findByText(/We can’t access your appointments right now/i);
+      cy.findByText(/We.re sorry\. We.ve run into a problem/i);
       cy.axeCheckBestPractice();
     });
   });

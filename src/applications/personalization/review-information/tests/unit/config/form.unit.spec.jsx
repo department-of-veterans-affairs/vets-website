@@ -65,16 +65,7 @@ describe('formConfig', () => {
       const originalLocation = window.location;
 
       contactInfoPage.onNavBack();
-
-      // Node 14 with jsdom sets window.location directly as a string
-      // Node 22 with happy-dom sets window.location.href
-      // TODO: Remove the string check after Node 14 upgrade is complete
-      const actualLocation =
-        typeof window.location === 'string'
-          ? window.location
-          : window.location.href;
-
-      expect(actualLocation).to.include('/my-va/');
+      expect(window.location).to.equal('https://dev.va.gov/my-va/');
 
       global.window.location = originalLocation;
     });

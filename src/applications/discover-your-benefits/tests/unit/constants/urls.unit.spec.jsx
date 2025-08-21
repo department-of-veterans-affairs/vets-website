@@ -2,27 +2,22 @@ import { expect } from 'chai';
 import fetch from 'node-fetch';
 import { URLS } from '../../../constants/urls';
 
-async function pingURI(uri) {
+async function checkURI(key, uri) {
   try {
-    return await fetch(uri);
+    const response = await fetch(uri);
+    return expect(response.ok).is.true;
   } catch (error) {
-    return null;
+    throw new Error(
+      `URI does not exist: ${uri}\nKey:${key}\nFull Error Message: ${error}`,
+    );
   }
-}
-
-async function checkPingResponse(uri, key) {
-  const response = await pingURI(uri);
-  describe(key, () => {
-    it('should not throw an error', () => {
-      expect(response).to.not.be.null;
-    });
-    it('should return ok response', () => {
-      expect(response.ok).to.be.true;
-    });
-  });
 }
 
 // Only run these tests locally.
 if (!process.env.GITHUB_ACTIONS) {
-  Object.keys(URLS).forEach(key => checkPingResponse(URLS[key], key));
+  describe('URLS', () => {
+    it('should link to live site.', () => {
+      Object.keys(URLS).forEach(key => checkURI(key, URLS[key]));
+    });
+  });
 }

@@ -57,8 +57,9 @@ describe('App', () => {
   };
 
   beforeEach(() => {
-    global.window.location = {};
-    global.window.location.replace = sinon.spy();
+    global.window.location = {
+      replace: sinon.spy(),
+    };
   });
 
   afterEach(() => {

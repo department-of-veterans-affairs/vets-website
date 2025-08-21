@@ -9,7 +9,6 @@ import labsAndTests from '../fixtures/labsAndTests.json';
 import { convertLabsAndTestsRecord } from '../../reducers/labsAndTests';
 import radiologyTests from '../fixtures/radiologyRecordsMhv.json';
 import user from '../fixtures/user.json';
-import { studyJobStatus } from '../../util/constants';
 
 describe('LabsAndTests list container', () => {
   const labsAndTestsFhir = labsAndTests.entry.map(item =>
@@ -151,59 +150,6 @@ describe('Labs and tests list container with errors', () => {
           },
         ),
       ).to.exist;
-    });
-  });
-});
-
-describe('Labs and tests list container with radiology images ready', () => {
-  const radiologyTestsMhv = radiologyTests.map(item =>
-    convertLabsAndTestsRecord(item),
-  );
-
-  it('displays the images ready alert and download links', async () => {
-    const stateWithRadiology = {
-      user,
-      mr: {
-        labsAndTests: {
-          labsAndTestsList: radiologyTestsMhv,
-        },
-        images: {
-          imageStatus: radiologyTestsMhv.map(r => ({
-            studyIdUrn: r.studyId,
-            status: studyJobStatus.COMPLETE,
-            endDate: Date.now(),
-          })),
-        },
-        alerts: { alertList: [] },
-      },
-    };
-
-    const { getByTestId, getAllByTestId, getByText } = renderWithStoreAndRouter(
-      <LabsAndTests />,
-      {
-        initialState: stateWithRadiology,
-        reducers: reducer,
-        path: '/labs-and-tests',
-      },
-    );
-
-    await waitFor(() => {
-      // the single VaAlert wrapper
-      expect(getByTestId('alert-images-ready')).to.exist;
-      // the heading inside it
-      expect(getByText(/Images ready/i)).to.exist;
-
-      // now grab *all* the download links
-      const links = getAllByTestId('radiology-view-all-images');
-      // we should get one per record in our list
-      expect(links.length).to.equal(
-        stateWithRadiology.mr.labsAndTests.labsAndTestsList.length,
-      );
-
-      // (optional) spot-check the first href
-      expect(links[0].getAttribute('href')).to.equal(
-        `/labs-and-tests/${radiologyTestsMhv[0].id}/images`,
-      );
     });
   });
 });

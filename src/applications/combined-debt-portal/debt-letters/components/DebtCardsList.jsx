@@ -8,11 +8,14 @@ const DebtCardsList = () => {
   );
 
   return (
-    <div className="vads-u-margin-top--3" data-testid="current-va-debt-list">
+    <ul
+      className="vads-u-margin-top--3 no-bullets vads-u-padding-x--0"
+      data-testid="current-va-debt-list"
+    >
       {debts.map((debt, index) => (
         <DebtSummaryCard key={`${index}-${debt.compositeDebtId}`} debt={debt} />
       ))}
-    </div>
+    </ul>
   );
 };
 

@@ -97,7 +97,7 @@ const NameTag = ({
   latestBranchOfService,
   showBadgeImage,
   totalDisabilityRating,
-  totalDisabilityRatingError,
+  totalDisabilityRatingServerError,
 }) => {
   const fullName = formatFullName({ first, middle, last, suffix });
 
@@ -219,7 +219,7 @@ const NameTag = ({
             )}
             <DisabilityRating
               rating={totalDisabilityRating}
-              showFallbackLink={totalDisabilityRatingError}
+              showFallbackLink={totalDisabilityRatingServerError}
             />
           </dl>
         </div>
@@ -256,7 +256,7 @@ NameTag.propTypes = {
   latestBranchOfService: PropTypes.string,
   showBadgeImage: PropTypes.bool,
   totalDisabilityRating: PropTypes.number,
-  totalDisabilityRatingError: PropTypes.bool,
+  totalDisabilityRatingServerError: PropTypes.bool,
   userFullName: PropTypes.shape({
     first: PropTypes.string,
     middle: PropTypes.string,

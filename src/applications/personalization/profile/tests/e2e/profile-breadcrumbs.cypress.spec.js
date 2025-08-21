@@ -31,7 +31,6 @@ describe('Profile Breadcrumbs', () => {
         data: {
           features: [
             { name: 'representative_status_enable_v2_features', value: true },
-            { name: 'profile_show_paperless_delivery', value: true },
           ],
         },
       });

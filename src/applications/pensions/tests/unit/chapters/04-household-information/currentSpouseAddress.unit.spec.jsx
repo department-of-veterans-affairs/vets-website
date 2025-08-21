@@ -1,5 +1,5 @@
 import {
-  testComponentFieldsMarkedAsRequired,
+  testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfFieldsByType,
   testNumberOfWebComponentFields,
   testSubmitsWithoutErrors,
@@ -18,16 +18,12 @@ describe('current spouse address page', () => {
     pageTitle,
   );
 
-  testComponentFieldsMarkedAsRequired(
+  const expectedNumberOfErrors = 4;
+  testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     currentSpouseAddress.schema,
     currentSpouseAddress.uiSchema,
-    [
-      `va-select[label="Country"]`,
-      `va-text-input[label="Street address"]`,
-      `va-text-input[label="City"]`,
-      `va-text-input[label="Postal code"]`,
-    ],
+    expectedNumberOfErrors,
     pageTitle,
   );
 

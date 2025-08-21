@@ -87,8 +87,6 @@ class PersonalInformationPage {
         'You can add a signature and signature title to be automatically added to all outgoing secure messages.',
       );
     cy.get('#edit-messages-signature')
-      .shadow()
-      .find(`button`)
       .should('be.visible')
       .and('have.text', 'Edit');
   };
@@ -104,13 +102,9 @@ class PersonalInformationPage {
         'You can add a signature and signature title to be automatically added to all outgoing secure messages.',
       );
     cy.get('#edit-messages-signature')
-      .shadow()
-      .find(`button`)
       .should('be.visible')
       .and('have.text', 'Edit');
     cy.get(`#remove-messages-signature`)
-      .shadow()
-      .find(`button`)
       .should('be.visible')
       .and('have.text', 'Remove');
     cy.get(`[data-testid="messagingSignature"]`).should(

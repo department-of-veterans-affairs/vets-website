@@ -1,30 +1,6 @@
 import { addDays, parse, parseISO, isValid } from 'date-fns';
 import { formatDateLong } from 'platform/utilities/date';
-import {
-  focusElement,
-  scrollTo,
-  scrollToFirstError,
-} from '~/platform/utilities/ui';
-import { $ } from '~/platform/forms-system/src/js/utilities/ui';
-
 import { deductionCodes } from '../constants';
-
-export const focusFirstError = (_index, root) => {
-  const error = $('[error], .usa-input-error', root);
-  if (error) {
-    scrollToFirstError({ focusOnAlertRole: true });
-    return true;
-  }
-  return false;
-};
-
-export const focusH3 = (index, root) => {
-  scrollTo('topContentElement');
-  if (!focusFirstError(index, root)) {
-    focusElement('#main h3');
-  }
-};
-
 /**
  * parseDateToDateObj from ISO8601 or JS number date (not unix time)
  * @param {string, number, Date} date - date to format

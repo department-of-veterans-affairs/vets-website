@@ -21,7 +21,6 @@
         "country": "USA"
       }
     },
-    "view:hasTreatmentRecords": false,
     "providerFacility": [
       {
         "providerFacilityName": "Hospital 1",

@@ -7,11 +7,9 @@ export default function Address({ address }) {
     return (
       <>
         {/* removes falsy values from address array */}
-        <span data-dd-privacy="mask">
-          {address?.line.filter(Boolean).join(', ')}
-        </span>
+        <span>{address?.line.filter(Boolean).join(', ')}</span>
         <br />
-        <span data-dd-privacy="mask">
+        <span>
           {address.city}, <State state={address.state} /> {address.postalCode}
         </span>
         <br />

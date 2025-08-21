@@ -4,9 +4,7 @@ import {
   getCardDescription,
   getDeleteTitle,
   getDeleteYes,
-  getDeleteNo,
   getDeleteDescription,
-  isItemIncomplete,
 } from '../../../utils/helpers/nextOfKinUtils';
 import content from '../../../locales/en/content.json';
 import {
@@ -15,7 +13,6 @@ import {
   nextOfKinSummaryPage,
 } from '../../../definitions/nextOfKin';
 import { MAX_NEXT_OF_KINS } from '../../../utils/constants';
-import NextOfKinsMaxAlert from '../../../components/FormAlerts/NextOfKinsMaxAlert';
 
 /**
  * Declare attributes for array builder pattern
@@ -24,16 +21,20 @@ import NextOfKinsMaxAlert from '../../../components/FormAlerts/NextOfKinsMaxAler
 const arrayBuilderOptions = {
   arrayPath: 'nextOfKins',
   nounSingular: 'next of kin',
-  nounPlural: 'next of kins',
+  nounPlural: 'next of kin',
   required: false,
   maxItems: MAX_NEXT_OF_KINS,
-  isItemIncomplete,
+  hideMaxItemsAlert: true,
+  isItemIncomplete: item =>
+    !item?.fullName?.first ||
+    !item?.fullName?.last ||
+    !item?.primaryPhone ||
+    !item?.relationship,
   text: {
     getItemName,
     cardDescription: getCardDescription,
     deleteTitle: getDeleteTitle,
     deleteYes: getDeleteYes,
-    deleteNo: getDeleteNo,
     deleteDescription: getDeleteDescription,
     cancelAddDescription: () =>
       content['next-of-kin-cancel-add-description-text'],
@@ -48,7 +49,6 @@ const arrayBuilderOptions = {
     yesNoBlankReviewQuestion: () =>
       content['next-of-kin-summary-yes-no-blank-review-question'],
     reviewAddButtonText: () => content['next-of-kin-summary-add-button-text'],
-    alertMaxItems: NextOfKinsMaxAlert,
   },
 };
 
@@ -61,25 +61,35 @@ const addressPageSchemas = nextOfKinAddressPage(arrayBuilderOptions);
  * build list of pages to populate in the form config
  * @returns {ArrayBuilderPages}
  */
-const nextOfKinPages = arrayBuilderPages(arrayBuilderOptions, pageBuilder => ({
-  nextOfKinSummary: pageBuilder.summaryPage({
-    title: content['next-of-kin-summary-title'],
-    path: 'veteran-information/next-of-kin-summary',
-    uiSchema: summaryPageSchemas.uiSchema,
-    schema: summaryPageSchemas.schema,
+const nextOfKinPages = arrayBuilderPages(
+  arrayBuilderOptions,
+  (pageBuilder, helpers) => ({
+    nextOfKinSummary: pageBuilder.summaryPage({
+      title: content['next-of-kin-summary-title'],
+      path: 'veteran-information/next-of-kin-summary',
+      uiSchema: summaryPageSchemas.uiSchema,
+      schema: summaryPageSchemas.schema,
+    }),
+    nextOfKinPage: pageBuilder.itemPage({
+      title: content['next-of-kin-title'],
+      path: 'veteran-information/next-of-kin/:index/contact',
+      uiSchema: pageSchemas.uiSchema,
+      schema: pageSchemas.schema,
+      onNavForward: props => {
+        return props.formData.nextOfKins[props.index][
+          'view:hasNextOfKinAddress'
+        ]
+          ? helpers.navForwardKeepUrlParams(props) // go to next page
+          : helpers.navForwardFinishedItem(props); // return to summary
+      },
+    }),
+    nextOfKinAddressPage: pageBuilder.itemPage({
+      title: content['next-of-kin-address-title'],
+      path: 'veteran-information/next-of-kin/:index/contact-address',
+      uiSchema: addressPageSchemas.uiSchema,
+      schema: addressPageSchemas.schema,
+    }),
   }),
-  nextOfKinPage: pageBuilder.itemPage({
-    title: content['next-of-kin-title'],
-    path: 'veteran-information/next-of-kin/:index/contact',
-    uiSchema: pageSchemas.uiSchema,
-    schema: pageSchemas.schema,
-  }),
-  nextOfKinAddressPage: pageBuilder.itemPage({
-    title: content['next-of-kin-address-title'],
-    path: 'veteran-information/next-of-kin/:index/contact-address',
-    uiSchema: addressPageSchemas.uiSchema,
-    schema: addressPageSchemas.schema,
-  }),
-}));
+);
 
 export default nextOfKinPages;

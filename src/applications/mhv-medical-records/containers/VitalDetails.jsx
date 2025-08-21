@@ -41,7 +41,6 @@ import {
   accessAlertTypes,
   refreshExtractTypes,
   loadStates as LOAD_STATES,
-  statsdFrontEndActions,
 } from '../util/constants';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
@@ -58,7 +57,6 @@ import HeaderSection from '../components/shared/HeaderSection';
 import LabelValue from '../components/shared/LabelValue';
 
 import useAcceleratedData from '../hooks/useAcceleratedData';
-import { useTrackAction } from '../hooks/useTrackAction';
 
 const VitalDetails = props => {
   const { runningUnitTest } = props;
@@ -95,8 +93,6 @@ const VitalDetails = props => {
   );
 
   const { isAcceleratingVitals, isLoading } = useAcceleratedData();
-
-  useTrackAction(statsdFrontEndActions.VITALS_DETAILS);
 
   const urlVitalsDate = new URLSearchParams(location.search).get('timeFrame');
   const dispatchAction = isCurrent => {

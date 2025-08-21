@@ -108,13 +108,8 @@ export const scrollToFirstError = async (options = {}) => {
         const position = getElementPosition(el);
         scrollTo(position - 10, options);
 
-        if (focusOnAlertRole) {
-          // Adding a delay so that the shadow DOM needs to render and attach
-          // before we try to focus on the element; without the setTimeout,
-          // focus ends up staying on the "Continue" button
-          requestAnimationFrame(() => {
-            focusElement('[role="alert"]', {}, el?.shadowRoot);
-          });
+        if (focusOnAlertRole && el.tagName.startsWith('VA-')) {
+          focusElement('[role="alert"]', {}, el.shadowRoot);
         } else {
           focusElement(el);
         }

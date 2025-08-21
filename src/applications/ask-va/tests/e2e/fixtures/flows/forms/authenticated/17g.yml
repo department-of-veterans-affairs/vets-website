@@ -8,10 +8,6 @@ flow:
 
     - action: include
       target: page
-      value: your-personal-information
-
-    - action: include
-      target: page
       value: select-category-burials-and-memorials
 
     - action: include
@@ -20,19 +16,15 @@ flow:
 
     - action: include
       target: page
-      value: who-is-your-question-about-myself
+      value: who-is-your-question-about-general-question
 
     - action: include
       target: page
-      value: what-is-your-relationship-to-the-veteran-veteran
+      value: tell-us-about-yourself-general-empty
 
     - action: include
       target: page
-      value: your-branch-of-service-air-force
-    
-    - action: include
-      target: page
-      value: your-contact-information-radio-buttons-email
+      value: your-contact-information-radio-buttons-phone-call
 
     - action: include
       target: page

@@ -5,6 +5,7 @@ import {
   currentOrPastDateSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import NoHintReviewField from '../../../../components/CustomReviewFields';
 
 export const schema = {
   type: 'object',
@@ -36,13 +37,13 @@ export const uiSchema = {
     }),
   },
   currentMarriageInformation: {
-    date: currentOrPastDateUI({
-      title: 'When did you get married?',
-      dataDogHidden: true,
-      required: () => true,
-      errorMessages: {
+    date: {
+      ...currentOrPastDateUI('When did you get married?'),
+      'ui:required': () => true,
+      'ui:errorMessages': {
         required: 'Enter the date you got married',
       },
-    }),
+      'ui:reviewField': NoHintReviewField,
+    },
   },
 };

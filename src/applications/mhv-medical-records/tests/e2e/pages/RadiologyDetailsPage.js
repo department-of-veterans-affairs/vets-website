@@ -110,7 +110,7 @@ class RadiologyDetailsPage extends BaseDetailsPage {
     cy.get('a:contains("Next")').should('be.visible');
   };
 
-  verifyH1Focus = () => {
+  verifyFocus = () => {
     cy.get('h1').should('have.focus');
   };
 

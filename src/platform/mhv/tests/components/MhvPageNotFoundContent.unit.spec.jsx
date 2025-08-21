@@ -8,6 +8,7 @@ import {
   mhvPageNotFoundTitle,
   mhvPageNotFoundTestId,
   mhvPageNotFoundEvent,
+  healthResources,
 } from '../../components/MhvPageNotFound';
 
 let sandbox;
@@ -56,6 +57,13 @@ describe('MhvPageNotFound Component', () => {
       expect(recordEvent.calledOnce).to.be.true;
       expect(recordEvent.calledWith({ event: mhvPageNotFoundEvent })).to.be
         .true;
+    });
+  });
+
+  it('renders links to health resources', () => {
+    const { findByRole } = render(<MhvPageNotFoundContent />);
+    healthResources.forEach(({ href, text }) => {
+      findByRole('link', { name: text, href });
     });
   });
 });

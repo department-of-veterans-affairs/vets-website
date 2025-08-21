@@ -110,13 +110,13 @@ class IntroductionPage extends React.Component {
             <va-omb-info
               res-burden={15}
               omb-number="2900-0797"
-              exp-date="11/30/2027"
+              exp-date="08/31/2024"
             />
           ) : (
             <va-omb-info
               res-burden={15}
               omb-number="2900-0797"
-              exp-date="11/30/2027"
+              exp-date="08/31/2024"
             >
               <EducationModalContent resBurden={15} ombNumber="2900-0797" />
             </va-omb-info>

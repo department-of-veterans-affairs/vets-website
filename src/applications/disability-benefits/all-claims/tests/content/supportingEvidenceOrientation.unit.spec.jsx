@@ -23,8 +23,7 @@ describe('supportingEvidenceOrientation', () => {
       },
     };
     const result = render(supportingEvidenceOrientation({ formData }));
-    const expectedString =
-      'Rated service-connected conditions that have gotten worse';
+    const expectedString = 'Your rated service-connected conditions';
     result.getByText(expectedString);
   });
 
@@ -35,8 +34,7 @@ describe('supportingEvidenceOrientation', () => {
         'view:claimingIncrease': false,
       },
     };
-    const expectedString =
-      'New claims for conditions related to your military service';
+    const expectedString = 'Your new service-connected conditions';
     const result = render(supportingEvidenceOrientation({ formData }));
     result.getByText(expectedString);
   });

@@ -26,16 +26,10 @@ const MessageThreadHeader = props => {
     cannotReply,
     isCreateNewModalVisible,
     setIsCreateNewModalVisible,
+    recipients,
   } = props;
 
-  const {
-    threadId,
-    category,
-    subject,
-    sentDate,
-    recipientId,
-    isOhMessage = false,
-  } = message;
+  const { threadId, category, subject, sentDate, recipientId } = message;
 
   const { customFoldersRedesignEnabled } = useFeatureToggles();
 
@@ -70,7 +64,7 @@ const MessageThreadHeader = props => {
 
       // The Blocked Triage Group alert should stay visible until the user navigates away
     },
-    [message, messages, recipientId],
+    [message, recipients],
   );
 
   useEffect(
@@ -124,7 +118,6 @@ const MessageThreadHeader = props => {
 
         <CannotReplyAlert
           visible={cannotReply && !showBlockedTriageGroupAlert}
-          isOhMessage={isOhMessage}
         />
       </header>
 
@@ -135,7 +128,6 @@ const MessageThreadHeader = props => {
             parentComponent={ParentComponent.MESSAGE_THREAD}
             currentRecipient={currentRecipient}
             setShowBlockedTriageGroupAlert={setShowBlockedTriageGroupAlert}
-            isOhMessage={isOhMessage}
           />
         </div>
       )}
@@ -161,6 +153,7 @@ MessageThreadHeader.propTypes = {
   cannotReply: PropTypes.bool,
   isCreateNewModalVisible: PropTypes.bool,
   message: PropTypes.object,
+  recipients: PropTypes.object,
   setIsCreateNewModalVisible: PropTypes.func,
   onReply: PropTypes.func,
 };

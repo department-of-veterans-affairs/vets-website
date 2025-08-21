@@ -10,11 +10,7 @@ import PaymentViewObjectField, {
 const getProps = ({ onEdit, newValues = '12345', origValues = '9876' }) => {
   const props = {
     renderedProperties: <div />,
-    defaultEditButton: () => (
-      <va-button type="button" onClick={onEdit}>
-        Edit
-      </va-button>
-    ),
+    defaultEditButton: () => <button onClick={onEdit}>Edit</button>,
     title: 'Faboo',
   };
   props.formData = Object.keys(paymentRows).reduce(

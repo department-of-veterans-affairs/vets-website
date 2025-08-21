@@ -9,7 +9,6 @@ import ConnectedApplications from './components/connected-apps/ConnectedApps';
 import NotificationSettings from './components/notification-settings/NotificationSettings';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from './constants';
 import PersonalHealthCareContacts from './components/personal-health-care-contacts';
-import { PaperlessDelivery } from './components/paperless-delivery/PaperlessDelivery';
 
 // the routesForNav array is used in the routes file to build the routes
 // the edit and hub routes are not present in the routesForNav array because
@@ -72,13 +71,6 @@ export const routesForNav = [
     requiresMVI: true,
   },
   {
-    component: PaperlessDelivery,
-    name: PROFILE_PATH_NAMES.PAPERLESS_DELIVERY,
-    path: PROFILE_PATHS.PAPERLESS_DELIVERY,
-    requiresLOA3: true,
-    requiresMVI: true,
-  },
-  {
     component: AccountSecurity,
     name: PROFILE_PATH_NAMES.ACCOUNT_SECURITY,
     path: PROFILE_PATHS.ACCOUNT_SECURITY,
@@ -94,18 +86,8 @@ export const routesForNav = [
   },
 ];
 
-export const getRoutesForNav = (
-  { profileShowPaperlessDelivery = false } = {
-    profileShowPaperlessDelivery: false,
-  },
-) => {
+export const getRoutesForNav = () => {
   return routesForNav.reduce((acc, route) => {
-    if (
-      !profileShowPaperlessDelivery &&
-      route.name === PROFILE_PATH_NAMES.PAPERLESS_DELIVERY
-    ) {
-      return acc;
-    }
     acc.push(route);
     return acc;
   }, []);

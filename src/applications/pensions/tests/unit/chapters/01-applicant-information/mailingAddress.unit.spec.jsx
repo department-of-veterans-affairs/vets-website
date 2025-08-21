@@ -1,8 +1,8 @@
 import {
+  testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfFieldsByType,
   testNumberOfWebComponentFields,
   testSubmitsWithoutErrors,
-  testComponentFieldsMarkedAsRequired,
 } from '../pageTests.spec';
 import formConfig from '../../../../config/form';
 import mailingAddress from '../../../../config/chapters/01-applicant-information/mailingAddress';
@@ -20,16 +20,12 @@ describe('pension mailing address page', () => {
     pageTitle,
   );
 
-  testComponentFieldsMarkedAsRequired(
+  const expectedNumberOfErrors = 4;
+  testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     schema,
     uiSchema,
-    [
-      `va-select[label="Country"]`,
-      `va-text-input[label="Street address"]`,
-      `va-text-input[label="City"]`,
-      `va-text-input[label="Postal code"]`,
-    ],
+    expectedNumberOfErrors,
     pageTitle,
   );
 

@@ -30,10 +30,7 @@ export const formLoadingFailed = error => {
 };
 
 export const fetchDrupalDigitalForms = () =>
-  fetchDrupalStaticDataFile({
-    fileName: DIGITAL_FORMS_FILENAME,
-    server: environment.BASE_URL,
-  });
+  fetchDrupalStaticDataFile(DIGITAL_FORMS_FILENAME, environment.BASE_URL);
 
 /**
  * Mocks a fetch of content-build forms data.

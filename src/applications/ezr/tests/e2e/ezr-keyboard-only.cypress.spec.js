@@ -5,7 +5,7 @@ import mockUser from './fixtures/mocks/mock-user';
 import mockPrefill from './fixtures/mocks/mock-prefill.json';
 import maxTestData from './fixtures/data/maximal-test.json';
 import featureToggles from './fixtures/mocks/mock-features.json';
-import { MOCK_ENROLLMENT_RESPONSE, API_ENDPOINTS } from '../../utils/constants';
+import { MOCK_ENROLLMENT_RESPONSE } from '../../utils/constants';
 import {
   fillAddressWithKeyboard,
   fillNameWithKeyboard,
@@ -16,7 +16,7 @@ import {
 } from './helpers';
 
 describe('Form 10-10EZR Keyboard Only', () => {
-  // NOTE: This test is skipped in CI due to a limitation with Electron not allowing
+  // NOTE: This test is skipped in CI due to a limitiation with Electron not allowing
   // `realPress` to be utilized
   // eslint-disable-next-line func-names
   beforeEach(function() {
@@ -25,7 +25,7 @@ describe('Form 10-10EZR Keyboard Only', () => {
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
       'mockFeatures',
     );
-    cy.intercept('GET', `/v0${API_ENDPOINTS.enrollmentStatus}*`, {
+    cy.intercept('GET', '/v0/health_care_applications/enrollment_status*', {
       statusCode: 200,
       body: MOCK_ENROLLMENT_RESPONSE,
     }).as('mockEnrollmentStatus');
@@ -94,10 +94,16 @@ describe('Form 10-10EZR Keyboard Only', () => {
 
       // Fill in primary phone number
       fillPhoneNumberWithKeyboard('primaryPhone', contact.primaryPhone);
-      cy.tabToContinueForm();
 
-      // Fill in address
-      fillAddressWithKeyboard('address', contact.address);
+      // Indicate whether the contact has an address
+      if (contact.address) {
+        selectRadioWithKeyboard('view:hasEmergencyContactAddress', 'Y');
+        cy.tabToContinueForm();
+        fillAddressWithKeyboard('address', contact.address);
+      } else {
+        selectRadioWithKeyboard('view:hasEmergencyContactAddress', 'N');
+        cy.tabToElementAndPressSpace('.usa-button-primary'); // Proceed without address
+      }
 
       // Save the contact
       cy.tabToElementAndPressSpace('.usa-button-primary'); // Save contact
@@ -118,10 +124,16 @@ describe('Form 10-10EZR Keyboard Only', () => {
 
       // Fill in primary phone number
       fillPhoneNumberWithKeyboard('primaryPhone', contact.primaryPhone);
-      cy.tabToContinueForm();
 
-      // Fill in address
-      fillAddressWithKeyboard('address', contact.address);
+      // Indicate whether the contact has an address
+      if (contact.address) {
+        selectRadioWithKeyboard('view:hasNextOfKinAddress', 'Y');
+        cy.tabToContinueForm();
+        fillAddressWithKeyboard('address', contact.address);
+      } else {
+        selectRadioWithKeyboard('view:hasNextOfKinAddress', 'N');
+        cy.tabToElementAndPressSpace('.usa-button-primary'); // Proceed without address
+      }
 
       // Save the contact
       cy.tabToElementAndPressSpace('.usa-button-primary'); // Save contact
@@ -403,211 +415,6 @@ describe('Form 10-10EZR Keyboard Only', () => {
 
       // Confirmation
       cy.location('pathname').should('include', '/confirmation');
-    });
-  });
-});
-
-describe("Form 10-10EZR Keyboard Only, with the 'ezrProvidersAndDependentsPrefillEnabled' toggle enabled", () => {
-  const updatedFeatureToggles = {
-    data: {
-      type: 'feature_toggles',
-      features: [
-        {
-          name: 'ezrProdEnabled',
-          value: true,
-        },
-        {
-          name: 'ezrProvidersAndDependentsPrefillEnabled',
-          value: true,
-        },
-      ],
-    },
-  };
-
-  // NOTE: This test is skipped in CI due to a limitation with Electron not allowing
-  // `realPress` to be utilized
-  // eslint-disable-next-line func-names
-  beforeEach(function() {
-    if (Cypress.env('CI')) this.skip();
-    cy.login(mockUser);
-    cy.intercept('GET', '/v0/feature_toggles*', updatedFeatureToggles).as(
-      'mockFeatures',
-    );
-    cy.intercept('GET', `/v0${API_ENDPOINTS.enrollmentStatus}*`, {
-      statusCode: 200,
-      body: MOCK_ENROLLMENT_RESPONSE,
-    }).as('mockEnrollmentStatus');
-    cy.intercept('GET', '/v0/in_progress_forms/10-10EZR', {
-      statusCode: 200,
-      body: mockPrefill,
-    }).as('mockSip');
-    cy.intercept('PUT', '/v0/in_progress_forms/10-10EZR', {});
-    cy.intercept('POST', formConfig.submitUrl, {
-      statusCode: 200,
-      body: {
-        formSubmissionId: '123fake-submission-id-567',
-        timestamp: '2023-11-01',
-      },
-    }).as('mockSubmit');
-  });
-
-  it('should navigate and input V2 financial information using only a keyboard', () => {
-    cy.wrap(maxTestData.data).as('testData');
-    cy.get('@testData').then(data => {
-      cy.visit(manifest.rootUrl);
-
-      cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
-      cy.injectAxeThenAxeCheck();
-
-      cy.tabToElement('[href="#start"]');
-      cy.realPress('Enter');
-
-      cy.wait('@mockSip');
-      cy.tabToElementAndPressSpace('.usa-button-primary');
-
-      // Mailing address
-      const mailingAddress = data.veteranAddress;
-      fillAddressWithKeyboard('veteranAddress', mailingAddress);
-      selectRadioWithKeyboard('view:doesMailingMatchHomeAddress', 'Y');
-      cy.tabToContinueForm();
-
-      // Contact information
-      const { email, homePhone, mobilePhone } = data['view:contactInformation'];
-      cy.typeInIfDataExists(
-        '[name="root_view:contactInformation_email"]',
-        email,
-      );
-      cy.typeInIfDataExists(
-        '[name="root_view:contactInformation_homePhone"]',
-        homePhone,
-      );
-      cy.typeInIfDataExists(
-        '[name="root_view:contactInformation_mobilePhone"]',
-        mobilePhone,
-      );
-      cy.tabToContinueForm();
-
-      // Skip toxic exposure
-      selectRadioWithKeyboard('hasTeraResponse', 'N');
-      cy.tabToContinueForm();
-
-      // Marital status
-      const { maritalStatus } = data['view:maritalStatus'];
-      selectDropdownWithKeyboard(
-        'view:maritalStatus_maritalStatus',
-        maritalStatus,
-      );
-      cy.tabToContinueForm();
-
-      // Spouse's basic info
-      fillNameWithKeyboard('spouseFullName', data.spouseFullName);
-      cy.typeInIfDataExists(
-        '[name="root_spouseSocialSecurityNumber"]',
-        data.spouseSocialSecurityNumber,
-      );
-      fillDateWithKeyboard('spouseDateOfBirth', data.spouseDateOfBirth);
-      fillDateWithKeyboard('dateOfMarriage', data.dateOfMarriage);
-      cy.tabToContinueForm();
-
-      // Spouse's addt'l info
-      selectRadioWithKeyboard('cohabitedLastYear', 'Y');
-      selectRadioWithKeyboard('sameAddress', 'Y');
-      cy.tabToContinueForm();
-
-      // Skip dependents
-      selectRadioWithKeyboard('view:reportDependents', 'N');
-      cy.tabToElementAndPressSpace('.usa-button-primary');
-
-      // --- V2 financial section start ---
-      // Financial introduction
-      cy.tabToContinueForm();
-
-      // Add financial information
-      selectRadioWithKeyboard('view:hasFinancialInformationToAdd', 'Y');
-      cy.tabToContinueForm();
-
-      let prefix = '';
-      // Veteran's income
-      prefix = '[name="root_view:veteranGrossIncome_veteran';
-      cy.typeInIfDataExists(`${prefix}GrossIncome"]`, '3242434');
-
-      prefix = '[name="root_view:veteranNetIncome_veteran';
-      cy.typeInIfDataExists(`${prefix}NetIncome"]`, '23424');
-
-      prefix = '[name="root_view:veteranOtherIncome_veteran';
-      cy.typeInIfDataExists(`${prefix}OtherIncome"]`, '23424');
-      cy.tabToContinueForm();
-
-      // Spouse's income
-      prefix = '[name="root_view:spouseGrossIncome_spouse';
-      cy.typeInIfDataExists(`${prefix}GrossIncome"]`, '23424');
-
-      prefix = '[name="root_view:spouseNetIncome_spouse';
-      cy.typeInIfDataExists(`${prefix}NetIncome"]`, '23424');
-
-      prefix = '[name="root_view:spouseOtherIncome_spouse';
-      cy.typeInIfDataExists(`${prefix}OtherIncome"]`, '23424');
-      cy.tabToContinueForm();
-
-      // Deductible expenses
-      prefix = '[name="root_view:deductibleMedicalExpenses_deductible';
-      cy.typeInIfDataExists(`${prefix}MedicalExpenses"]`, '234');
-
-      prefix = '[name="root_view:deductibleEducationExpenses_deductible';
-      cy.typeInIfDataExists(`${prefix}EducationExpenses"]`, '11');
-
-      prefix = '[name="root_view:deductibleFuneralExpenses_deductible';
-      cy.typeInIfDataExists(`${prefix}FuneralExpenses"]`, '10');
-      cy.tabToContinueForm();
-
-      // On review page, edit the financial information
-      cy.tabToElement('va-card a');
-      cy.realPress('Enter');
-
-      // Veteran's income
-      prefix = '[name="root_view:veteranGrossIncome_veteran';
-      cy.typeInIfDataExists(`${prefix}GrossIncome"]`, '654');
-
-      prefix = '[name="root_view:veteranNetIncome_veteran';
-      cy.typeInIfDataExists(`${prefix}NetIncome"]`, '343');
-
-      prefix = '[name="root_view:veteranOtherIncome_veteran';
-      cy.typeInIfDataExists(`${prefix}OtherIncome"]`, '631');
-      cy.tabToContinueForm();
-
-      // Spouse's income
-      prefix = '[name="root_view:spouseGrossIncome_spouse';
-      cy.typeInIfDataExists(`${prefix}GrossIncome"]`, '235');
-
-      prefix = '[name="root_view:spouseNetIncome_spouse';
-      cy.typeInIfDataExists(`${prefix}NetIncome"]`, '254');
-
-      prefix = '[name="root_view:spouseOtherIncome_spouse';
-      cy.typeInIfDataExists(`${prefix}OtherIncome"]`, '674');
-      cy.tabToContinueForm();
-
-      // Deductible expenses
-      prefix = '[name="root_view:deductibleMedicalExpenses_deductible';
-      cy.typeInIfDataExists(`${prefix}MedicalExpenses"]`, '456');
-
-      prefix = '[name="root_view:deductibleEducationExpenses_deductible';
-      cy.typeInIfDataExists(`${prefix}EducationExpenses"]`, '645');
-
-      prefix = '[name="root_view:deductibleFuneralExpenses_deductible';
-      cy.typeInIfDataExists(`${prefix}FuneralExpenses"]`, '454');
-      cy.tabToContinueForm();
-
-      // Review page
-      cy.tabToContinueForm();
-
-      // --- V2 financial section end ---
-
-      // Medicaid eligibility
-      selectRadioWithKeyboard(
-        'view:isMedicaidEligible_isMedicaidEligible',
-        'Y',
-      );
-      cy.tabToContinueForm();
     });
   });
 });

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   VaModal,
@@ -34,7 +34,7 @@ const SipsDevModal = props => {
   const [sipsData, setSipsData] = useState(data);
   const [availablePaths, setAvailablePaths] = useState(null);
   const [sipsUrl, setSipsUrl] = useState(null);
-  const errorMessage = useRef('');
+  const [errorMessage, setError] = useState('');
 
   // Only show SipsDevModal when url hash includes "#dev-(on|off)"
   checkHash();
@@ -64,27 +64,18 @@ const SipsDevModal = props => {
       toggleModal(false);
     },
     onChange: value => {
-      // Don't show an error when the text area is empty,
-      // but do reset the data and then short-circuit
-      if (value === '') {
-        errorMessage.current = '';
-        setTextData(value);
-        return;
-      }
-
       let parsedData = null;
-
       try {
         parsedData = JSON.parse(value);
-        errorMessage.current = '';
+        setError('');
       } catch (err) {
-        errorMessage.current = err?.message || err?.name;
+        setError(err?.message || err?.name);
       }
       setTextData(value);
 
       // only update sipsData when valid. This will dynamically update the
       // return url options
-      if (parsedData && !errorMessage.current) {
+      if (parsedData && !errorMessage) {
         // maximal-data.json is wrapped in `{ "data": {...} }
         // lets extract that out to make it easier for users
         const keys = Object.keys(parsedData);
@@ -95,12 +86,12 @@ const SipsDevModal = props => {
         setSipsData(newData);
       }
     },
-    saveData: event => {
+    saveData: (event, type) => {
       event.preventDefault();
-      errorMessage.current = '';
+      setError('');
       props.saveAndRedirectToReturnUrl(
         formId,
-        sipsData,
+        type === 'merge' ? { ...data, ...sipsData } : sipsData,
         version,
         sipsUrl,
         submission,
@@ -113,7 +104,6 @@ const SipsDevModal = props => {
     <>
       {isModalVisible ? (
         <VaModal
-          class="vads-u-width--full"
           modalTitle="Save in progress data"
           id="sip-menu"
           visible={isModalVisible}
@@ -121,7 +111,7 @@ const SipsDevModal = props => {
         >
           <>
             <va-textarea
-              error={errorMessage.current}
+              error={errorMessage}
               label="Form data"
               name="sips_data"
               class="resize-y"
@@ -144,26 +134,41 @@ const SipsDevModal = props => {
             <p />
             <va-link href={docsPage} text="How to use this menu" />
             <p />
-            <div className="vads-u-display--flex">
-              <va-button
-                class="vads-u-margin-right--1"
-                disabled={!!errorMessage.current || !textData}
-                text="Update"
-                label="Update save-in-progress data"
-                onClick={e => handlers.saveData(e)}
-                full-width
-              />
+            <div className="row">
+              <div className="small-6 columns">
+                <button
+                  type="button"
+                  disabled={!!errorMessage}
+                  className="usa-button-primary"
+                  title="Replace all save-in-progress data"
+                  onClick={e => handlers.saveData(e, 'replace')}
+                >
+                  Replace
+                </button>
+              </div>
+              <div className="small-6 columns end">
+                <button
+                  type="button"
+                  disabled={!!errorMessage}
+                  className="usa-button-secondary"
+                  title="Merge new data into existing save-in-progress data"
+                  onClick={e => handlers.saveData(e, 'merge')}
+                >
+                  Merge
+                </button>
+              </div>
             </div>
           </>
         </VaModal>
       ) : null}{' '}
-      <va-link
+      <button
         key={showLink}
-        class="vads-u-margin-left--2"
+        type="button"
+        className="va-button-link vads-u-margin-left--2"
         onClick={handlers.openSipsModal}
-        icon-name="settings"
-        text="Open save-in-progress menu"
-      />
+      >
+        <va-icon icon="settings" /> Open save-in-progress menu
+      </button>
     </>
   );
 };

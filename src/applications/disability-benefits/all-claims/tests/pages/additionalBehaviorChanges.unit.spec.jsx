@@ -1,9 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import { mount } from 'enzyme';
-import { waitFor } from '@testing-library/dom';
 import formConfig from '../../config/form';
 
 describe('Additional Changes 781a', () => {
@@ -12,7 +11,7 @@ describe('Additional Changes 781a', () => {
     uiSchema,
   } = formConfig.chapters.disabilities.pages.additionalBehaviorChanges;
 
-  it('should render', async () => {
+  it('should render', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig}
@@ -27,7 +26,7 @@ describe('Additional Changes 781a', () => {
     form.unmount();
   });
 
-  it('should submit if no options selected', async () => {
+  it('should submit if no options selected', () => {
     const onSubmit = sinon.spy();
 
     const form = mount(
@@ -41,11 +40,9 @@ describe('Additional Changes 781a', () => {
       />,
     );
 
-    await waitFor(() => {
-      form.find('form').simulate('submit');
-      expect(form.find('.usa-input-error-message').length).to.equal(0);
-      expect(onSubmit.called).to.be.true;
-    });
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error-message').length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
     form.unmount();
   });
 });

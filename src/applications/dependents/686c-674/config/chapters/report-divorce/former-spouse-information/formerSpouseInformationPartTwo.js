@@ -33,7 +33,6 @@ export const uiSchema = {
     ...titleUI('When, where, and why did this marriage end?'),
     date: currentOrPastDateUI({
       title: 'Date of divorce',
-      dataDogHidden: true,
       required: () => true,
     }),
     divorceLocation: {

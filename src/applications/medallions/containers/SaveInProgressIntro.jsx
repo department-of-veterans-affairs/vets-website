@@ -563,7 +563,7 @@ const mapDispatchToProps = {
  *   messages: any,
  *   migrations: any[],
  *   pathname: string,
- *   prefillEnabled: boolean,
+ *   prefillEnabled: bullion,
  *   prefillTransformer: any,
  *   renderSignInMessage: any,
  *   resumeOnly: boolean,

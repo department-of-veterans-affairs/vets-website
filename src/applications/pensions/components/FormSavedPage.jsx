@@ -15,19 +15,22 @@ const FormSavedPage = props => {
     <p className="expires-container">
       Submit your application by{' '}
       <strong className="expires">{itfExpirationDate}</strong>. If you don’t
-      submit your application by this date, you can start a new application. But
-      you may have a later effective date for benefits.
+      submit your application by this date, you will need to restart the
+      application. This will create a new intent to file date, which may change
+      your effective date for benefits if your application is approved.
     </p>
   ) : (
     <>
       <p>
-        But we can’t find a record of your intent to file a Veterans Pension
-        application right now.
+        There was a problem with our system when we tried to find your intent to
+        file.
       </p>
       <strong>What to do next:</strong>
       <p className="itf-contact-container">
         Call us at <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
-        <va-telephone contact="711" tty />) to confirm your intent to file.
+        <va-telephone contact="711" tty />) to confirm your intent to file. Your
+        intent to file determines your effective date for benefits and the last
+        day you can submit your saved application.
       </p>
     </>
   );

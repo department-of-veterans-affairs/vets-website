@@ -9,7 +9,6 @@ import { goToNextPage } from './helpers';
 import {
   DEPENDENT_VIEW_FIELDS,
   MOCK_ENROLLMENT_RESPONSE,
-  API_ENDPOINTS,
 } from '../../utils/constants';
 import {
   advanceFromDependentsToReview,
@@ -55,7 +54,7 @@ describe('EZR Dependents', () => {
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
       'mockFeatures',
     );
-    cy.intercept('GET', `/v0${API_ENDPOINTS.enrollmentStatus}*`, {
+    cy.intercept('GET', '/v0/health_care_applications/enrollment_status*', {
       statusCode: 200,
       body: MOCK_ENROLLMENT_RESPONSE,
     }).as('mockEnrollmentStatus');

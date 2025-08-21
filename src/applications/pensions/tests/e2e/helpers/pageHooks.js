@@ -40,7 +40,9 @@ const pageHooks = returnUrl => ({
 
       cy.get('va-button[data-testid="continue-your-application"]').click();
     } else {
-      cy.clickStartForm();
+      cy.findAllByText(/start the pension application/i)
+        .first()
+        .click();
     }
   },
   ...Object.keys(pagePaths).reduce((paths, pagePath) => ({
@@ -214,7 +216,9 @@ const pageHooks = returnUrl => ({
           .shadow()
           .find('input')
           .click({ force: true });
-        cy.clickFormContinue();
+        cy.findAllByText(/Submit application/i, {
+          selector: 'button',
+        }).click();
         shouldNotHaveValidationErrors();
       });
     });

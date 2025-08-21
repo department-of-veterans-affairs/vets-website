@@ -223,14 +223,3 @@ label + div {
 .edit-link {
   margin: 0.5em 0;
 }
-
-.letters--edit-address va-radio::part(legend) {
-  margin-top: 0;
-}
-
-va-checkbox-group::part(header) {
-  font-weight: bold;
-  font-family: var(--font-family-sans);
-  font-size: var(--font-size-h4);
-  margin-bottom: 0;
-}

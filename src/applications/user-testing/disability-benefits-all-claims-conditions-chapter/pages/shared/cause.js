@@ -11,7 +11,7 @@ export const causeOptions = {
     'An exposure, event, injury, or onset of disease during my military service',
   SECONDARY: 'A service-connected disability or condition I already have',
   WORSENED:
-    'An existing condition I had before I served but that worsened because of my service',
+    'An existing condition I had before I served, but that got worse because of my service',
   VA: 'An exposure, event, or injury while I was receiving VA care',
 };
 
@@ -19,9 +19,7 @@ export const causeOptions = {
 const causePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) => createNewConditionName(formData, true),
-      undefined,
-      false,
+      ({ formData }) => `Cause of ${createNewConditionName(formData)}`,
     ),
     cause: radioUI({
       title: 'What caused your condition?',

@@ -5,7 +5,7 @@ import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/
 import { Alerts, Paths } from '../../util/constants';
 
 const CannotReplyAlert = props => {
-  const { visible, isOhMessage = false } = props;
+  const { visible } = props;
   return (
     <>
       {visible && (
@@ -13,28 +13,7 @@ const CannotReplyAlert = props => {
           <h2 slot="headline" data-testid="expired-alert-message">
             {Alerts.Message.CANNOT_REPLY_INFO_HEADER}
           </h2>
-          {!isOhMessage ? (
-            <p>
-              {`${Alerts.Message.CANNOT_REPLY_BODY.MAIN} ${
-                Alerts.Message.CANNOT_REPLY_BODY.VISTA
-              }`}
-            </p>
-          ) : (
-            <>
-              <p>{Alerts.Message.CANNOT_REPLY_BODY.MAIN}</p>
-              <p>{Alerts.Message.CANNOT_REPLY_BODY.OH}</p>
-              <p>
-                <a
-                  href="/find-locations"
-                  target="_blank"
-                  data-dd-action-name="cannot-reply-find-facility"
-                >
-                  Find your VA health facility
-                </a>
-              </p>
-              <p>{Alerts.Message.CANNOT_REPLY_BODY.OH_CONTACT}</p>
-            </>
-          )}
+          <p>{Alerts.Message.CANNOT_REPLY_BODY}</p>
           <p className="vads-u-margin-top--neg1 vads-u-margin-bottom--1 vads-u-font-weight--bold">
             <Link
               className="alertbox-link vads-c-action-link--green"
@@ -52,7 +31,6 @@ const CannotReplyAlert = props => {
 };
 
 CannotReplyAlert.propTypes = {
-  isOhMessage: PropTypes.bool,
   visible: PropTypes.bool,
 };
 

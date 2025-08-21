@@ -224,7 +224,6 @@ describe('VAOS Component: VARequestLayout', () => {
           },
         },
         status: 'cancelled',
-        showScheduleLink: true,
       };
 
       // Act

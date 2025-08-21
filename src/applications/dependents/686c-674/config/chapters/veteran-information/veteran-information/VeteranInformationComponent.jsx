@@ -7,13 +7,21 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 
 import { selectProfile } from '~/platform/user/selectors';
 
+import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
+
 import {
   FORMAT_YMD_DATE_FNS,
   FORMAT_READABLE_DATE_FNS,
 } from '../../../constants';
 
 import { parseDateToDateObj } from '../../../utilities';
-import { maskID } from '../../../../../shared/utils';
+
+// separate each number so the screen reader reads "number ending with 1 2 3 4"
+// instead of "number ending with 1,234"
+const mask = value => {
+  const number = (value || '').toString().slice(-4);
+  return srSubstitute(`${number}`, `ending with ${number.split('').join(' ')}`);
+};
 
 export const VeteranInformation = ({ formData }) => {
   const { ssnLastFour } = formData?.veteranInformation || {};
@@ -43,7 +51,7 @@ export const VeteranInformation = ({ formData }) => {
               className="dd-privacy-mask"
               data-dd-action-name="Veteran's SSN"
             >
-              {maskID(ssnLastFour, '')}
+              {mask(ssnLastFour)}
             </span>
           </p>
         ) : null}
@@ -74,11 +82,14 @@ export const VeteranInformation = ({ formData }) => {
         </dfn>
         .
       </p>
-      <va-link
+      <a
         href="/resources/how-to-change-your-legal-name-on-file-with-va/"
-        external
-        text="Find more detailed instructions for how to change your legal name"
-      />
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Find more detailed instructions for how to change your legal name (opens
+        in new tab)
+      </a>
     </>
   );
 };

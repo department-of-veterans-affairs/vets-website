@@ -36,6 +36,7 @@ import * as applicantDemographics2 from './pages/applicantDemographics2';
 import * as applicantDemographics2Preparer from './pages/applicantDemographics2Preparer';
 import * as militaryDetailsSelf from './pages/militaryDetailsSelf';
 import * as militaryDetailsPreparer from './pages/militaryDetailsPreparer';
+import * as currentlyBuriedPersons from './pages/currentlyBuriedPersons';
 import * as burialCemetery from './pages/burialCemetery';
 import {
   servicePeriodsPagesVeteran,
@@ -43,12 +44,6 @@ import {
   servicePeriodsPagesPreparerVeteran,
   servicePeriodsPagesPreparerNonVeteran,
 } from './pages/servicePeriodsPages';
-import {
-  burialBenefitsPagesVeteran,
-  burialBenefitsPagesNonVeteran,
-  burialBenefitsPagesPreparerVeteran,
-  burialBenefitsPagesPreparerNonVeteran,
-} from './pages/burialBenefitsPages';
 
 import transformForSubmit from './transformForSubmit';
 import prefillTransformer from './prefill-transformer';
@@ -107,7 +102,6 @@ import {
   isApplicantTheSponsor,
   militaryDetailsReviewHeader,
   previousNameReviewHeader,
-  addConditionalDependency,
 } from '../utils/helpers';
 import SupportingFilesDescription from '../components/SupportingFilesDescription';
 import {
@@ -683,7 +677,7 @@ const formConfig = {
     burialBenefits: {
       title: 'Burial benefits',
       pages: {
-        burialBenefitsVeteran: {
+        burialBenefits: {
           path: 'burial-benefits',
           depends: formData =>
             isVeteran(formData) && !isAuthorizedAgent(formData),
@@ -703,26 +697,14 @@ const formConfig = {
           uiSchema: burialBenefits.uiSchema('sponsor’s cemetery'),
           schema: burialBenefits.schema,
         },
-        // If the user selects Yes in burialbenfits, the burialBenefitsPages are displayed
-        // If they select No or I don't know, it skips to burialCemetery
-        ...addConditionalDependency(
-          burialBenefitsPagesVeteran,
-          buriedWSponsorsEligibility,
-        ),
-        ...addConditionalDependency(
-          burialBenefitsPagesPreparerVeteran,
-          buriedWSponsorsEligibility,
-        ),
-        ...addConditionalDependency(
-          burialBenefitsPagesNonVeteran,
-          buriedWSponsorsEligibility,
-        ),
-        ...addConditionalDependency(
-          burialBenefitsPagesPreparerNonVeteran,
-          buriedWSponsorsEligibility,
-        ),
+        currentlyBuriedPersons: {
+          path: 'current-burial-benefits',
+          depends: formData => buriedWSponsorsEligibility(formData),
+          editModeOnReviewPage: true,
+          uiSchema: currentlyBuriedPersons.uiSchema,
+          schema: currentlyBuriedPersons.schema,
+        },
         burialCemetery: {
-          title: 'Preferred cemetery',
           path: 'burial-cemetery',
           uiSchema: burialCemetery.uiSchema,
           schema: burialCemetery.schema,

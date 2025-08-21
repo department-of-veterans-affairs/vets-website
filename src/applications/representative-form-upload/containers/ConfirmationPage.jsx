@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { ConfirmationPageView } from '../components/ConfirmationPageView';
@@ -15,13 +15,9 @@ const ConfirmationPage = () => {
   const form = useSelector(state => state.form || {});
   const { submission } = form;
   const submitDate = submission.timestamp;
-  const confirmationNumber = submission.response?.confirmationNumber;
+  const confirmationNumber = submission.response?.confirmation_number;
 
   const { formNumber } = getFormContent();
-
-  useEffect(() => {
-    sessionStorage.removeItem('formIncompleteARP');
-  }, []);
 
   return (
     <ConfirmationPageView

@@ -80,20 +80,6 @@ describe('CurrencyField', () => {
     expect(onChange.args[0][0]).to.equal(1234.56);
   });
 
-  it('should handle input blur and return a null (numeric) value', async () => {
-    const onBlur = sinon.spy();
-    const onChange = sinon.spy(); // onChange is also called on blur
-    const props = getProps({ onBlur, onChange, schema: currencySchema });
-
-    const { container } = render(<CurrencyField {...props} />);
-    const input = $('va-text-input', container);
-    await fireEvent.blur(input, { target: { name: '' } });
-
-    expect(onBlur.calledOnce).to.be.true;
-    expect(onBlur.args[0][0]).to.equal('test'); // field name
-    expect(onChange.args[0][0]).to.equal(null); // return null for empty value
-  });
-
   it('should handle input blur and return a string value', async () => {
     const onBlur = sinon.spy();
     const onChange = sinon.spy(); // onChange is also called on blur
@@ -120,20 +106,6 @@ describe('CurrencyField', () => {
 
     expect(onChange.calledOnce).to.be.true;
     expect(onChange.args[0][0]).to.equal(1234.56);
-  });
-
-  it('should handle input change (submit without blur) and return a null value', async () => {
-    const onChange = sinon.spy();
-    const props = getProps({ onChange });
-
-    const { container } = render(<CurrencyField {...props} />);
-    const input = $('va-text-input', container);
-    // Simulate clearing the input
-    input.value = '';
-    await fireEvent.input(input, { target: { name: '' } });
-
-    expect(onChange.calledOnce).to.be.true;
-    expect(onChange.args[0][0]).to.equal(null);
   });
 
   it('should handle input change (submit without blur) and return a string value', async () => {

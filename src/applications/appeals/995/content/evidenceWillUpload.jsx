@@ -7,6 +7,7 @@ export const evidenceWillUploadInfo = (
   <va-additional-info
     trigger="Types of supporting evidence"
     class="vads-u-margin-top--2 vads-u-margin-bottom--4"
+    uswds
   >
     <div>
       Supporting evidence can include private medical records or a buddy/lay

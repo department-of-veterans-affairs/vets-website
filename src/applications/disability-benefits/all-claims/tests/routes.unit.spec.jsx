@@ -9,12 +9,12 @@ import { WIZARD_STATUS } from '../constants';
 describe('Form 526 routes', () => {
   const { onEnter } = routes[1].indexRoute;
   afterEach(() => {
-    window.sessionStorage.removeItem(WIZARD_STATUS);
+    sessionStorage.removeItem(WIZARD_STATUS);
   });
 
   it('should redirect from the root to /introduction', () => {
     const replace = sinon.spy();
-    window.sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
     onEnter(null, replace);
     expect(replace.calledWith('/introduction')).to.be.true;
   });

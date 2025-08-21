@@ -1,6 +1,6 @@
 import { incomeReceiptWaiverPages } from './incomeReceiptWaiverPages';
 
 export default {
-  title: 'Waived income',
+  title: 'Income receipt waivers information',
   pages: incomeReceiptWaiverPages,
 };

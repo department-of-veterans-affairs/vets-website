@@ -14,17 +14,13 @@ const Documents = ({ formData }) => {
 
   const showAnyDocs = hasTrust || hasFarm || hasBusiness;
 
-  let contentPhrase = '';
-
-  if (showAnyDocs) {
-    const parts = [];
-    if (hasFarm) parts.push('a farm');
-    if (hasBusiness) parts.push('a business');
-    if (hasTrust) parts.push('a trust');
-
-    const listPhrase = parts.join(', ').replace(/, ([^,]*)$/, ', and $1');
-
-    contentPhrase = `Because you’ve indicated you have ${listPhrase}, you’ll need to submit these supporting documents:`;
+  let businessFarmPhrase = '';
+  if (hasBusiness && hasFarm) {
+    businessFarmPhrase = 'a business and a farm';
+  } else if (hasBusiness) {
+    businessFarmPhrase = 'a business';
+  } else if (hasFarm) {
+    businessFarmPhrase = 'a farm';
   }
 
   return (
@@ -37,36 +33,49 @@ const Documents = ({ formData }) => {
 
       {showAnyDocs ? (
         <>
-          <p>{contentPhrase}</p>
-          <ul className="usa-list">
-            {hasBusiness && (
-              <li>
-                A completed Report of Income from Property or Business (VA Form
-                21P-4185){' '}
-                <a
-                  href="https://www.va.gov/find-forms/about-form-21p-4185/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Get VA Form 21P-4185 (opens in new tab)
-                </a>
-              </li>
-            )}
-            {hasFarm && (
-              <li>
-                A completed Pension Claim Questionnaire for Farm Income (VA Form
-                21P-4165){' '}
-                <a
-                  href="https://www.va.gov/find-forms/about-form-21p-4165/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Get VA Form 21P-4165 (opens in new tab)
-                </a>
-              </li>
-            )}
-            {hasTrust && (
-              <>
+          {(hasBusiness || hasFarm) && (
+            <>
+              <p>
+                Because you’ve indicated you have {businessFarmPhrase}, you’ll
+                need to submit these supporting documents:
+              </p>
+              <ul className="usa-list">
+                {hasBusiness && (
+                  <li>
+                    A completed Report of Income from Property or Business (VA
+                    Form 21P-4185){' '}
+                    <a
+                      href="https://www.va.gov/find-forms/about-form-21p-4185/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Get VA Form 21P-4185 (opens in new tab)
+                    </a>
+                  </li>
+                )}
+                {hasFarm && (
+                  <li>
+                    A completed Pension Claim Questionnaire for Farm Income (VA
+                    Form 21P-4165){' '}
+                    <a
+                      href="https://www.va.gov/find-forms/about-form-21p-4165/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Get VA Form 21P-4165 (opens in new tab)
+                    </a>
+                  </li>
+                )}
+              </ul>
+            </>
+          )}
+          {hasTrust && (
+            <>
+              <p>
+                Because you’ve indicated you have a trust, you’ll need to submit
+                the following supporting documents:
+              </p>
+              <ul className="usa-list">
                 <li>
                   Initial contract from financial institution establishing the
                   trust
@@ -75,9 +84,9 @@ const Documents = ({ formData }) => {
                   Current statement showing surrender value and monthly payments
                 </li>
                 <li>Schedule of assets</li>
-              </>
-            )}
-          </ul>
+              </ul>
+            </>
+          )}
         </>
       ) : (
         <p>

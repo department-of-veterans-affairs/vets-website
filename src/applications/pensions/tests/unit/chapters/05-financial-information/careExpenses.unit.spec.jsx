@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import {
   testNumberOfWebComponentFields,
-  testComponentFieldsMarkedAsRequired,
+  testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfErrorsOnSubmit,
   testNumberOfFields,
   testSubmitsWithoutErrors,
@@ -46,18 +46,12 @@ describe('Unreimbursed care expenses pension page', () => {
     pageTitle,
   );
 
-  testComponentFieldsMarkedAsRequired(
+  const expectedNumberOfErrorsForWebComponents = 6;
+  testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     schema,
     uiSchema,
-    [
-      `va-radio[label="Who receives care?"]`,
-      `va-text-input[label="What’s the name of the care provider?"]`,
-      `va-radio[label="Choose the type of care:"]`,
-      `va-memorable-date[label="Care start date"]`,
-      `va-radio[label="How often are the payments?"]`,
-      `va-text-input[label="How much is each payment?"]`,
-    ],
+    expectedNumberOfErrorsForWebComponents,
     pageTitle,
   );
 

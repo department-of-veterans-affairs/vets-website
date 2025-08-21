@@ -10,7 +10,6 @@ const EducationHistoryIntro = () => (
     </p>
     <ul>
       <li>Name of institution</li>
-      <li>Institution type</li>
       <li>Start and end date (month/year)</li>
       <li>Type of degree (if applicable)</li>
       <li>Major (if applicable)</li>

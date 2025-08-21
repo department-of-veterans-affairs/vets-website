@@ -53,19 +53,21 @@ const testConfig = createTestConfig(
       // once we land here, change `champvaBenefitStatus` to `true`
       // and click '<< Back' so that we can proceed past the screener
       [ALL_PAGES.benefitApp.path]: ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            cy.injectAxeThenAxeCheck();
+            cy.axeCheck();
             if (data.champvaBenefitStatus === false) {
               // eslint-disable-next-line no-param-reassign
               data.champvaBenefitStatus = true;
               // This targets the '<< Back' button
-              cy.get('[data-testid="btn-back"]').click();
+              cy.get('va-button').click();
             }
           });
         });
       },
       [ALL_PAGES.applicantAddressInfo.path]: ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
             cy.fillAddressWebComponentPattern(
@@ -76,43 +78,46 @@ const testConfig = createTestConfig(
               'applicantNewAddress',
               data.applicantNewAddress,
             );
-            cy.injectAxeThenAxeCheck();
+            cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
         });
       },
       [ALL_PAGES.missingFileConsent.path]: ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
             cy.selectVaCheckbox(
               `consent-checkbox`,
               data.consentToMailMissingRequiredFiles,
             );
-            cy.injectAxeThenAxeCheck();
+            cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
         });
       },
       [ALL_PAGES.primaryComments.path]: ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
             cy.get('va-textarea')
               .shadow()
               .get('#input-type-textarea')
               .type(data.primaryAdditionalComments, { force: true });
-            cy.injectAxeThenAxeCheck();
+            cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
         });
       },
       [ALL_PAGES.secondaryComments.path]: ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
             cy.get('va-textarea')
               .shadow()
               .get('#input-type-textarea')
               .type(data.secondaryAdditionalComments, { force: true });
-            cy.injectAxeThenAxeCheck();
+            cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
         });

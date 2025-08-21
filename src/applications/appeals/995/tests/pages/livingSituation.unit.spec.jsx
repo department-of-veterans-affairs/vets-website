@@ -1,11 +1,13 @@
 import React from 'react';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import { render, fireEvent, waitFor } from '@testing-library/react';
+
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
+
 import formConfig from '../../config/form';
+
 import {
   livingSituationList,
   livingSituationReviewField as ReviewField,
@@ -13,7 +15,6 @@ import {
   livingSituationChoicesShortened,
   livingSituationError,
 } from '../../content/livingSituation';
-import * as helpers from '../../../shared/utils/helpers';
 
 describe('Supplemental Claims living situation page', () => {
   const {
@@ -43,10 +44,7 @@ describe('Supplemental Claims living situation page', () => {
   });
 
   it('should render an h4 on the review & submit page', () => {
-    const isOnReviewPageStub = sinon
-      .stub(helpers, 'isOnReviewPage')
-      .returns(true);
-
+    window.location = { pathname: '/review-and-submit' };
     const { container } = render(
       <DefinitionTester
         definitions={{}}
@@ -66,7 +64,6 @@ describe('Supplemental Claims living situation page', () => {
     expect($('va-additional-info', container)).to.exist;
 
     expect($('button[type="submit"]', container)).to.exist;
-    isOnReviewPageStub.restore();
   });
 
   it('should prevent submission & show error if none & any other option selected', () => {

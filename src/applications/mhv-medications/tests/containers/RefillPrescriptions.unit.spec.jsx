@@ -3,6 +3,7 @@ import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/plat
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/react';
+import { pageNotFoundHeading } from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import * as allergiesApiModule from '../../api/allergiesApi';
 import * as prescriptionsApiModule from '../../api/prescriptionsApi';
 import { stubAllergiesApi } from '../testing-utils';
@@ -55,7 +56,10 @@ describe('Refill Prescriptions Component', () => {
         ],
       },
     },
-    featureToggles: {},
+    featureToggles: {
+      // eslint-disable-next-line camelcase
+      mhv_medications_display_refill_content: true,
+    },
     user: {
       login: {
         currentlyLoggedIn: true,
@@ -90,7 +94,10 @@ describe('Refill Prescriptions Component', () => {
   it('Shows 404 page if feature toggle is disabled', async () => {
     const screen = setup({
       ...initialState,
-      featureToggles: {},
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        mhv_medications_display_refill_content: false,
+      },
       rx: {
         ...initialState.rx,
         prescriptions: {
@@ -98,7 +105,7 @@ describe('Refill Prescriptions Component', () => {
         },
       },
     });
-    expect(screen.findByTestId('mhv-page-not-found')).to.exist;
+    expect(screen.getByText(pageNotFoundHeading)).to.exist;
   });
 
   it('Mocks API Request', async () => {

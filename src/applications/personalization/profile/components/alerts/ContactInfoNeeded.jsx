@@ -24,7 +24,7 @@ export const ContactInfoNeeded = () => {
     !mobilePhone?.phoneNumber;
 
   return contactInfoIsNeeded ? (
-    <div className="vads-u-margin-top--4 vads-u-margin-bottom--4 vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3 small-desktop-screen:vads-l-col--6">
+    <div className="vads-u-margin-top--4 vads-u-margin-bottom--4">
       <VaAlert data-testid="account-blocked-alert" status="info" uswds>
         <h2 slot="headline">We need your contact information</h2>
         <p>

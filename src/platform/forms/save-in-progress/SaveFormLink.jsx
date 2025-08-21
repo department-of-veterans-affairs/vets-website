@@ -7,7 +7,6 @@ import {
   scrollToTop,
 } from 'platform/utilities/scroll';
 import { focusElement } from 'platform/utilities/ui/focus';
-import recordEvent from '../../monitoring/record-event';
 
 import { SAVE_STATUSES, saveErrors } from './actions';
 import { APP_TYPE_DEFAULT } from '../../forms-system/src/js/constants';
@@ -24,13 +23,8 @@ class SaveFormLink extends React.Component {
   handleSave = event => {
     event.preventDefault();
     const { route = {}, form, locationPathname } = this.props;
-    const { formId, version, submission, trackingPrefix } = form;
+    const { formId, version, submission } = form;
     let { data } = form;
-    if (trackingPrefix) {
-      recordEvent({
-        event: `${trackingPrefix}sip-form-save-intent`,
-      });
-    }
 
     // Save form on a specific page form exit callback
     if (typeof route.pageConfig?.onFormExit === 'function') {
@@ -60,7 +54,6 @@ class SaveFormLink extends React.Component {
     const { savedStatus } = this.props.form;
     const { formConfig } = this.props;
     const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
-    const { useWebComponentForNavigation } = formConfig?.formOptions || {};
 
     return (
       <div
@@ -81,38 +74,30 @@ class SaveFormLink extends React.Component {
             {savedStatus === SAVE_STATUSES.noAuth && (
               <span>
                 Sorry, you’re signed out. Please{' '}
-                <va-link
-                  class="sign-in-link"
+                <button
+                  type="button"
+                  className="va-button-link"
                   onClick={this.openLoginModal}
-                  text="sign in"
-                  href="#"
-                />{' '}
+                >
+                  sign in
+                </button>{' '}
                 again to save your {appType}.
               </span>
             )}
           </div>
         )}
         {savedStatus !== SAVE_STATUSES.noAuth && (
-          <div className="vads-u-display--flex vads-u-margin-top--2">
-            {useWebComponentForNavigation ? (
-              <va-link
-                href={`${formConfig.rootUrl}/form-saved`}
-                onClick={this.handleSave}
-                class="schemaform-sip-save-link"
-                text={this.props.children || `Finish this ${appType} later`}
-              />
-            ) : (
-              <button
-                type="button"
-                className="va-button-link schemaform-sip-save-link"
-                onClick={this.handleSave}
-              >
-                {this.props.children || `Finish this ${appType} later`}
-              </button>
-            )}
+          <span>
+            <button
+              type="button"
+              className="va-button-link schemaform-sip-save-link"
+              onClick={this.handleSave}
+            >
+              {this.props.children || `Finish this ${appType} later`}
+            </button>
             {!this.props.children && '.'}
             <SipsDevModal {...this.props} />
-          </div>
+          </span>
         )}
       </div>
     );
@@ -134,10 +119,6 @@ SaveFormLink.propTypes = {
   user: PropTypes.object.isRequired,
   children: PropTypes.any,
   formConfig: PropTypes.shape({
-    rootUrl: PropTypes.string,
-    formOptions: PropTypes.shape({
-      useWebComponentForNavigation: PropTypes.bool,
-    }),
     customText: PropTypes.shape({
       appType: PropTypes.string,
     }),

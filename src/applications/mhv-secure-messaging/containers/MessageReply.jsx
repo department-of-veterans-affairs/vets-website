@@ -14,10 +14,7 @@ import useFeatureToggles from '../hooks/useFeatureToggles';
 const MessageReply = () => {
   const dispatch = useDispatch();
   const { replyId } = useParams();
-  const {
-    customFoldersRedesignEnabled,
-    largeAttachmentsEnabled,
-  } = useFeatureToggles();
+  const { customFoldersRedesignEnabled } = useFeatureToggles();
   const { drafts, error, messages } = useSelector(
     state => state.sm.threadDetails,
   );
@@ -115,11 +112,7 @@ const MessageReply = () => {
       ) : (
         <>
           <va-loading-indicator
-            message={
-              largeAttachmentsEnabled
-                ? 'Do not refresh the page. Sending message...'
-                : 'Sending message...'
-            }
+            message="Sending message..."
             data-testid="sending-indicator"
             style={{ display: isSending ? 'block' : 'none' }}
           />

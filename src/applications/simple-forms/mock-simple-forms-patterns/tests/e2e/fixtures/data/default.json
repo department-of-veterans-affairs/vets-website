@@ -6,7 +6,6 @@
       "arraySinglePage": true,
       "checkbox": true,
       "date": true,
-      "internationalPhone": true,
       "fileInput": true,
       "formsPattern": true,
       "miscellaneous": true,
@@ -43,9 +42,6 @@
     "wcv3SelectValues": "Option 1",
     "wcv3SelectKeyValues": "option1",
     "wcv3TextEmailNew": "abc@abc.com",
-    "wcV3SimpleCheckbox": true,
-    "wcV3SimpleCheckboxRequired": true,
-    "wcV3DynamicRequiredCheckbox": true,
     "rjsfCheckSimpleTextInput": "Lorem ipsum dolor sit amet",
     "rjsfCheckRequiredCheckbox": true,
     "rjsfCheckSsn": "454544545",
@@ -116,7 +112,6 @@
     "formsPatternMultiple": "Test",
     "formsPatternOtherField": "Test",
     "arrayBuilderPatternFlowType": "optional",
-    "arrayBuilderPatternInteractionType": "yesNoQuestion",
     "exampleArrayOne": [
       {
         "facilityName": "facility a",
@@ -146,7 +141,6 @@
           "country": "USA",
           "street": "street",
           "city": "city",
-          "state": "AL",
           "postalCode": "11111"
         },
         "fullName": {
@@ -169,13 +163,6 @@
       }
     ],
     "view:hasEmployment": false,
-    "nameCustom": "Test",
-    "wcv3InternationalPhone": {
-      "countryCode": "US",
-      "contact": "(234) 567-8910",
-      "callingCode": "1",
-      "isValid": true,
-      "error": null
-    }
+    "nameCustom": "Test"
   }
 }

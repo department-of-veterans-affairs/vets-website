@@ -202,6 +202,19 @@ describe('findMatchingCvixReport', () => {
 });
 
 describe('findMatchingPhrAndCvixStudies', () => {
+  beforeEach(() => {
+    // Mock the global crypto.subtle.digest function to always return all zeroes.
+    global.crypto = {
+      subtle: {
+        digest: () => {
+          // Return a static hash value (e.g., 16-byte ArrayBuffer)
+          const staticHash = new Uint8Array(16).fill(0).buffer;
+          return Promise.resolve(staticHash);
+        },
+      },
+    };
+  });
+
   it('should return the PHR response by ID', async () => {
     const phrResponse = [{ id: '12345', eventDate: '2022-01-01' }];
     const cvixResponse = [{ id: 'YYYYY', performedDatePrecise: 1700000000000 }];

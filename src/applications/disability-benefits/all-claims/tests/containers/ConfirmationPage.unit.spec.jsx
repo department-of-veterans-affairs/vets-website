@@ -4,17 +4,12 @@ import { render } from '@testing-library/react';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
-import { Toggler } from '~/platform/utilities/feature-toggles';
 import ConfirmationPage from '../../containers/ConfirmationPage';
 import { submissionStatuses } from '../../constants';
 import { bddConfirmationHeadline } from '../../content/bddConfirmationAlert';
 import formConfig from '../../config/form';
 
-const getData = ({
-  renderName = true,
-  suffix = 'Esq.',
-  featureToggles = {},
-} = {}) => ({
+const getData = ({ renderName = true, suffix = 'Esq.' } = {}) => ({
   user: {
     profile: {
       userFullName: renderName
@@ -22,7 +17,6 @@ const getData = ({
         : {},
     },
   },
-  featureToggles,
   form: {
     data: {},
   },
@@ -52,20 +46,11 @@ describe('ConfirmationPage', () => {
    * @param {string} claimId - if claimId has a value, verify the label and value are on the page
    * @param {boolean} isBdd - if true, verify BDD alert is present, otherwise verify it is not present
    * @param {string} submissionStatus - used to verify logic based on success or non success status
-   * @param {boolean} showCopyofSubmission - if true (toggle on), verify copy of submission section is shown
    */
-  const verifyConfirmationPage = (
-    claimId,
-    isBdd = false,
-    submissionStatus,
-    showCopyofSubmission = false,
-  ) => {
+  const verifyConfirmationPage = (claimId, isBdd = false, submissionStatus) => {
     const store = mockStore(
       getData({
-        featureToggles: {
-          [Toggler.TOGGLE_NAMES
-            .disability526ShowConfirmationReview]: showCopyofSubmission,
-        },
+        disability526NewConfirmationPage: true,
       }),
     );
     const props = {
@@ -79,13 +64,7 @@ describe('ConfirmationPage', () => {
       props.isSubmittingBDD = true;
     }
 
-    const {
-      container,
-      getByText,
-      queryByText,
-      getByTestId,
-      queryByTestId,
-    } = render(
+    const { container, getByText, queryByText } = render(
       <Provider store={store}>
         <ConfirmationPage {...props} />
       </Provider>,
@@ -95,12 +74,6 @@ describe('ConfirmationPage', () => {
       getByText(bddConfirmationHeadline);
     } else {
       expect(queryByText(bddConfirmationHeadline)).to.not.exist;
-    }
-
-    if (showCopyofSubmission) {
-      expect(getByTestId('new-confirmation-review-component')).to.exist;
-    } else {
-      expect(queryByTestId('new-confirmation-review-component')).to.be.null;
     }
 
     // success alert
@@ -166,14 +139,5 @@ describe('ConfirmationPage', () => {
   it('should render success when form submitted successfully but submission status has non retryable error', () => {
     // status code 200, but response has "status: non_retryable_error"
     verifyConfirmationPage('', false, submissionStatuses.failed);
-  });
-
-  it('should render confirmation review section when toggle is on', () => {
-    verifyConfirmationPage(
-      '12345678',
-      false,
-      submissionStatuses.succeeded,
-      true, // disability526ShowConfirmationReview toggle
-    );
   });
 });

@@ -4,7 +4,7 @@ import get from '../../../utilities/data/get';
 import omit from '../../../utilities/data/omit';
 import set from '../../../utilities/data/set';
 import unset from '../../../utilities/data/unset';
-import navigationState from './utilities/navigation/navigationState';
+
 import { isActivePage, parseISODate, minYear, maxYear } from './helpers';
 import {
   isValidSSN,
@@ -650,24 +650,5 @@ export function validateAutosuggestOption(errors, formData) {
     formData.label
   ) {
     errors.addError('Please select an option from the suggestions');
-  }
-}
-
-export function validateTelephoneInput(
-  errors,
-  { _isValid, _error, _touched, _required, contact },
-) {
-  // was validation triggered by navigation attempt
-  const navState = navigationState.getNavigationEventStatus();
-
-  let valid = _isValid;
-  const notRequiredEmpty = !_required && !contact;
-  const requiredUntouchedNotNav = (!_touched || !contact) && !navState;
-  if (notRequiredEmpty || requiredUntouchedNotNav) {
-    valid = true;
-  }
-
-  if (!valid) {
-    errors.addError(_error);
   }
 }

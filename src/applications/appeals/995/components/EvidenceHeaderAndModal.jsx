@@ -27,6 +27,7 @@ export const EvidenceHeaderAndModal = ({
       onPrimaryButtonClick={handlers.onModalYes}
       onSecondaryButtonClick={handlers.onModalNo}
       visible={currentState.showModal}
+      uswds
     >
       <p>{content.modal.description}</p>
     </VaModal>

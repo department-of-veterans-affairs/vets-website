@@ -7,7 +7,6 @@ import {
   updatePageTitle,
   reportGeneratedBy,
   usePrintTitle,
-  MhvPageNotFoundContent,
 } from '@department-of-veterans-affairs/mhv/exports';
 import PrintOnlyPage from './PrintOnlyPage';
 import {
@@ -39,7 +38,6 @@ import {
   filterOptions,
   PDF_TXT_GENERATE_STATUS,
   DOWNLOAD_FORMAT,
-  recordNotFoundMessage,
 } from '../util/constants';
 import PrescriptionPrintOnly from '../components/PrescriptionDetails/PrescriptionPrintOnly';
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
@@ -49,20 +47,18 @@ import { selectGroupingFlag } from '../util/selectors';
 import { useGetAllergiesQuery } from '../api/allergiesApi';
 import { usePrescriptionData } from '../hooks/usePrescriptionData';
 import { usePrefetch } from '../api/prescriptionsApi';
-import { selectUserDob, selectUserFullName } from '../selectors/selectUser';
-import {
-  selectSortOption,
-  selectFilterOption,
-  selectPageNumber,
-} from '../selectors/selectPreferences';
 
 const PrescriptionDetails = () => {
   const { prescriptionId } = useParams();
 
   // Get sort/filter selections from store.
-  const selectedSortOption = useSelector(selectSortOption);
-  const selectedFilterOption = useSelector(selectFilterOption);
-  const currentPage = useSelector(selectPageNumber);
+  const selectedSortOption = useSelector(
+    state => state.rx.preferences.sortOption,
+  );
+  const selectedFilterOption = useSelector(
+    state => state.rx.preferences.filterOption,
+  );
+  const currentPage = useSelector(state => state.rx.preferences.pageNumber);
   // Consolidate query parameters into a single state object to avoid multiple re-renders
   const showGroupingContent = useSelector(selectGroupingFlag);
   const [queryParams] = useState({
@@ -82,8 +78,8 @@ const PrescriptionDetails = () => {
 
   const nonVaPrescription = prescription?.prescriptionSource === 'NV';
 
-  const userName = useSelector(selectUserFullName);
-  const dob = useSelector(selectUserDob);
+  const userName = useSelector(state => state.user.profile.userFullName);
+  const dob = useSelector(state => state.user.profile.dob);
   const { data: allergies, error: allergiesError } = useGetAllergiesQuery();
 
   const [prescriptionPdfList, setPrescriptionPdfList] = useState([]);
@@ -91,9 +87,13 @@ const PrescriptionDetails = () => {
     status: PDF_TXT_GENERATE_STATUS.NotStarted,
     format: undefined,
   });
+  // const showGroupingContent = useSelector(selectGroupingFlag);
 
   const prescriptionHeader =
-    prescription?.prescriptionName || prescription?.orderableItem;
+    prescription?.prescriptionName ||
+    (prescription?.dispStatus === 'Active: Non-VA'
+      ? prescription?.orderableItem
+      : '');
   const refillHistory = getRefillHistory(prescription);
 
   // Prefetch prescription documentation for faster loading when
@@ -239,7 +239,7 @@ const PrescriptionDetails = () => {
         'medications',
         `${nonVaPrescription ? 'Non-VA' : 'VA'}-medications-details-${
           userName.first ? `${userName.first}-${userName.last}` : userName.last
-        }-${dateFormat(Date.now(), 'M-D-YYYY_hmmssa').replace(/\./g, '')}`,
+        }-${dateFormat(Date.now(), 'M-D-YYYY').replace(/\./g, '')}`,
         pdfData(allergiesList),
       ).then(() => {
         setPdfTxtGenerateStatus({ status: PDF_TXT_GENERATE_STATUS.Success });
@@ -254,7 +254,7 @@ const PrescriptionDetails = () => {
         txtData(allergiesList),
         `${nonVaPrescription ? 'Non-VA' : 'VA'}-medications-details-${
           userName.first ? `${userName.first}-${userName.last}` : userName.last
-        }-${dateFormat(Date.now(), 'M-D-YYYY_hmmssa').replace(/\./g, '')}`,
+        }-${dateFormat(Date.now(), 'M-D-YYYY').replace(/\./g, '')}`,
       );
       setPdfTxtGenerateStatus({ status: PDF_TXT_GENERATE_STATUS.Success });
     },
@@ -406,10 +406,6 @@ const PrescriptionDetails = () => {
           data-testid="loading-indicator"
         />
       );
-    }
-
-    if (prescriptionApiError.message === recordNotFoundMessage) {
-      return <MhvPageNotFoundContent />;
     }
 
     if (prescription || prescriptionApiError) {

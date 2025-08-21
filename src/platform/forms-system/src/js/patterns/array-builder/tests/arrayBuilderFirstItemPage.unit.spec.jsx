@@ -84,7 +84,6 @@ describe('ArrayBuilderFirstItemPage', () => {
     lowerCase = true,
     hasMultipleItemPages = true,
     required = () => false,
-    useWebComponent = false,
   }) {
     const setFormData = sinon.spy();
     const goToPath = sinon.spy();
@@ -148,43 +147,12 @@ describe('ArrayBuilderFirstItemPage', () => {
           appStateData={{}}
           pagePerItemIndex={index}
           formContext={{}}
-          formOptions={{ useWebComponentForNavigation: useWebComponent }}
         />
       </Provider>,
     );
 
     return { setFormData, goToPath, getText, container, queryByText };
   }
-
-  it('should display React FormNav buttons', () => {
-    const { container, queryByText } = setupArrayBuilderItemPage({
-      title: 'Single page employer',
-      index: 0,
-      urlParams: '?add=true',
-      arrayData: [{ name: 'Employer One' }],
-      hasMultipleItemPages: false,
-      useWebComponent: false,
-    });
-    expect(
-      container.querySelector(
-        '.form-progress-buttons button.usa-button-primary',
-      ),
-    ).to.exist;
-  });
-
-  it('should display web component FormNav buttons', () => {
-    const { container, queryByText } = setupArrayBuilderItemPage({
-      title: 'Single page employer',
-      index: 0,
-      urlParams: '?add=true',
-      arrayData: [{ name: 'Employer One' }],
-      hasMultipleItemPages: false,
-      useWebComponent: true,
-    });
-    expect(
-      container.querySelector('.form-progress-buttons va-button[continue]'),
-    ).to.exist;
-  });
 
   it('should display correctly with add query parameter', () => {
     const { getText, container, queryByText } = setupArrayBuilderItemPage({

@@ -1,27 +1,17 @@
 import React from 'react';
 import { expect } from 'chai';
-import sinon from 'sinon';
-import { waitFor } from '@testing-library/react';
 import { mount } from 'enzyme';
+import sinon from 'sinon';
 
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 
-import formConfig from '../../config/form';
+import formConfig from '../../../0994/config/form.js';
 
 describe('High tech industry page', () => {
-  let sandbox;
   const {
     schema,
     uiSchema,
   } = formConfig.chapters.highTechWorkExp.pages.highTechIndustry;
-
-  beforeEach(() => {
-    sandbox = sinon.createSandbox();
-  });
-
-  afterEach(() => {
-    sandbox.restore();
-  });
 
   it('renders the work experience page', () => {
     const form = mount(
@@ -39,8 +29,8 @@ describe('High tech industry page', () => {
     form.unmount();
   });
 
-  it('fails to submit when no answer selected', async () => {
-    const onSubmit = sandbox.spy();
+  it('fails to submit when no answer selected', () => {
+    const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -53,12 +43,8 @@ describe('High tech industry page', () => {
     );
     form.find('form').simulate('submit');
 
-    await waitFor(() => {
-      form.update();
-      expect(form.find('.usa-input-error-message').length).to.equal(1);
-      expect(onSubmit.called).to.be.false;
-    });
-
+    expect(form.find('.usa-input-error-message').length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
     form.unmount();
   });
 
@@ -96,8 +82,8 @@ describe('High tech industry page', () => {
     form.unmount();
   });
 
-  it('fails to submit when no answer selected with the second question', async () => {
-    const onSubmit = sandbox.spy();
+  it('fails to submit when no answer selected with the second question', () => {
+    const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -112,12 +98,8 @@ describe('High tech industry page', () => {
     );
     form.find('form').simulate('submit');
 
-    await waitFor(() => {
-      form.update();
-      expect(form.find('.usa-input-error-message').length).to.equal(1);
-      expect(onSubmit.called).to.be.false;
-    });
-
+    expect(form.find('.usa-input-error-message').length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
     form.unmount();
   });
 
@@ -140,7 +122,7 @@ describe('High tech industry page', () => {
   });
 
   it('successfully submits when required questions answered', () => {
-    const onSubmit = sandbox.spy();
+    const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}

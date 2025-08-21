@@ -93,20 +93,11 @@ export const replaceSubmittedData = text =>
  * @param {String} dateString YYYY-M-D or YYYY-MM-DD date string
  * @returns {String} YYYY-MM-DD date string
  */
-export const fixDateFormat = (date, yearOnly = false) => {
+export const fixDateFormat = date => {
   const dateString = coerceStringValue(date).replace(REGEXP.WHITESPACE, '');
-
   if (dateString.length === 10 || dateString === '') {
     return dateString;
   }
-
-  // Stopgap solution to properly format a year only when provided for a VA treatment date "before 2005"
-  // Coming into this function it will have a format of {year}-01. Here we'll add a day of 01
-  // Remove this when the new date components are implemented and the fields are required
-  if (yearOnly) {
-    return `${dateString}-01`;
-  }
-
   const { day, month, year } = parseISODate(dateString);
   return `${year}-${addLeadingZero(month)}-${addLeadingZero(day)}`;
 };

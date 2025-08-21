@@ -29,7 +29,7 @@ describe('FileField', () => {
       attachmentType: 'Discharge or separation papers (DD214)',
       confirmationCode: 'asdfasfd',
       isEncrypted: false,
-      name: 'Test.PDF',
+      name: 'Test.pdf',
       size: 33016,
     },
   ];
@@ -249,7 +249,7 @@ describe('FileField', () => {
   it('should upload unencrypted pdf file', () => {
     const uploadFile = sinon.spy();
     const mockFile = {
-      name: 'test.PDF',
+      name: 'test.pdf',
       type: fileTypeSignatures.pdf.mime,
     };
     const newUiSchema = {
@@ -313,7 +313,7 @@ describe('FileField', () => {
     );
     const formDOM = getFormDOM(form);
 
-    formDOM.files('input[type=file]', [{ name: 'test-pw.PDF' }]);
+    formDOM.files('input[type=file]', [{ name: 'test-pw.pdf' }]);
 
     expect(uploadFile.notCalled).to.be.true;
   });
@@ -331,7 +331,7 @@ describe('FileField', () => {
     );
 
     const fileText = $('li', container).textContent;
-    expect(fileText).to.contain('Test.PDF');
+    expect(fileText).to.contain('Test.pdf');
     expect(fileText).to.contain('32KB');
     const label = $('label[id="root_files_0_attachmentType-label"]', container);
     expect(label.textContent).to.contain('Document type');
@@ -349,7 +349,7 @@ describe('FileField', () => {
     );
 
     const fileText = $('li', container).textContent;
-    expect(fileText).to.contain('Test.PDF');
+    expect(fileText).to.contain('Test.pdf');
     expect(fileText).to.contain('32KB');
     const labelType = $(
       'label[id="root_files_0_attachmentType-label"]',

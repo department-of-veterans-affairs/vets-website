@@ -30,7 +30,7 @@ export function minMaxValidation(min, max) {
 }
 
 /**
- * uiSchema for a number based input which uses VaTextInputField
+ * Web component v3 uiSchema for a number based input which uses VaTextInputField
  *
  * Used for simple number amounts containing only digits
  *
@@ -97,7 +97,6 @@ export const numberUI = options => {
 };
 
 /**
- * schema for numberUI
  * ```js
  * schema: {
  *    exampleNumber: numberSchema

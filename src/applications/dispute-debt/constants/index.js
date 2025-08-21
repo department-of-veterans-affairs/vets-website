@@ -1,11 +1,5 @@
 export const TITLE = 'Dispute your VA debt';
 
-// currently only 2, but could be expanded in the future?
-export const DISPUTE_REASONS = {
-  EXISTENCE: `I don't think I owe this debt to VA`,
-  AMOUNT: `I don't think the amount is correct on this debt`,
-};
-
 // Date formats
 export const FORMAT_YMD_DATE_FNS = 'yyyy-MM-dd';
 export const FORMAT_READABLE_DATE_FNS = 'MMMM d, yyyy';

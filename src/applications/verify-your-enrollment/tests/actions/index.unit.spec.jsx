@@ -35,7 +35,6 @@ import {
   handleSuggestedAddressPicked,
   SET_SUGGESTED_ADDRESS_PICKED,
 } from '../../actions';
-import personalInfo from '../../reducers/personalInfo';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -128,15 +127,12 @@ describe('actions creator', () => {
     });
   });
   it('should FETCH_PERSONAL_INFO and FETCH_PERSONAL_INFO_FAILED when api call is successful', async () => {
-    const errors = { message: 'some error message' };
-    expect(
-      personalInfo(undefined, { type: FETCH_PERSONAL_INFO_FAILED, errors }),
-    ).to.deep.equal({
-      personalInfo: null,
-      isLoading: false,
-      isDGIBOnly: false,
-      error: errors,
-    });
+    const errors = { erros: 'some error' };
+    apiRequestStub.rejects(errors);
+    await fetchPersonalInfo()(dispatch, () => mockGetState(null));
+    expect(dispatch.calledWith({ type: FETCH_PERSONAL_INFO })).to.be.true;
+    expect(dispatch.calledWith({ type: FETCH_PERSONAL_INFO_FAILED, errors })).to
+      .be.true;
   });
   it('dispatch UPDATE_BANK_INFO_SUCCESS after a sucessful api request', async () => {
     const response = { status: 204, data: 'test data', ok: true };

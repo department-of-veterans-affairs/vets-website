@@ -3,12 +3,11 @@ import { Provider } from 'react-redux';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
-import navigationState from 'platform/forms-system/src/js/utilities/navigation/navigationState.js';
 
 const expectedFieldTypes = 'input, select, textarea';
 
 const expectedFieldTypesWebComponents =
-  'va-text-input, va-file-input, va-select, va-textarea, va-radio, va-checkbox, va-memorable-date, va-telephone-input';
+  'va-text-input, va-file-input, va-select, va-textarea, va-radio, va-checkbox, va-memorable-date';
 
 const wrapperWebComponents = 'va-checkbox-group, va-memorable-date';
 
@@ -66,7 +65,7 @@ export const testNumberOfErrorsOnSubmit = (
   data = {},
 ) => {
   describe(`${pageTitle} page`, () => {
-    it('should show the correct number of errors on submit', async () => {
+    it('should show the correct number of errors on submit', () => {
       const { mockStore } = getProps();
 
       const { getByRole, queryAllByRole } = render(
@@ -82,10 +81,6 @@ export const testNumberOfErrorsOnSubmit = (
       );
 
       getByRole('button', { name: /submit/i }).click();
-
-      // Wait for the DOM to update after form validation
-      await new Promise(resolve => setTimeout(resolve, 0));
-
       const errors = queryAllByRole('alert');
       expect(errors).to.have.lengthOf(expectedNumberOfErrors);
     });
@@ -132,7 +127,7 @@ export const testNumberOfErrorsOnSubmitForWebComponents = (
   data = {},
 ) => {
   describe(`${pageTitle} page`, () => {
-    it('should show the correct number of errors on submit for web components', async () => {
+    it('should show the correct number of errors on submit for web components', () => {
       const { mockStore } = getProps();
 
       const { container, getByRole } = render(
@@ -147,13 +142,7 @@ export const testNumberOfErrorsOnSubmitForWebComponents = (
         </Provider>,
       );
 
-      // this is only relevant for pages with components whose validation relies on navigation state, e.g. va-telephone-input
-      navigationState.setNavigationEvent();
       getByRole('button', { name: /submit/i }).click();
-
-      // Wait for the DOM to update after form validation
-      await new Promise(resolve => setTimeout(resolve, 0));
-
       const nodes = Array.from(
         container.querySelectorAll(
           `${expectedFieldTypesWebComponents}, ${wrapperWebComponents}`,

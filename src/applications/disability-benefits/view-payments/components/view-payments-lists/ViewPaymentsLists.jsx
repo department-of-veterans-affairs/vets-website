@@ -21,7 +21,6 @@ import {
   filterReturnPayments,
   reformatReturnPaymentDates,
   reformatPaymentDates,
-  normalizePaymentData,
 } from './helpers';
 import Payments from './payments/Payments';
 
@@ -71,9 +70,7 @@ class ViewPaymentsLists extends Component {
     if (payments.length > 0) {
       // remove all entries with all null property values
       const filteredPayments = filterReturnPayments(payments);
-      // Normalize payment data to ensure all expected fields are present
-      const normalizedPayments = normalizePaymentData(filteredPayments);
-      const reformattedPayments = reformatPaymentDates(normalizedPayments);
+      const reformattedPayments = reformatPaymentDates(filteredPayments);
       paymentsReceivedTable = (
         <Payments
           tableVersion="received"

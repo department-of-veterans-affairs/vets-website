@@ -90,11 +90,6 @@ export function focusByOrder(selectors, root) {
   }
 }
 
-const noAsyncFocusWhenCypressRunningInCiOrLocally =
-  typeof Cypress !== 'undefined' &&
-  (Cypress.env('CI') || environment.isLocalhost());
-const defaultTime = noAsyncFocusWhenCypressRunningInCiOrLocally ? 0 : 250;
-
 /**
  * Web components may not have their shadow DOM rendered right away, so we need
  * to wait & check before setting focus on the selector; if not found after max
@@ -107,6 +102,11 @@ const defaultTime = noAsyncFocusWhenCypressRunningInCiOrLocally ? 0 : 250;
  *  component we're waiting for (could be an element in shadow DOM)
  * @example waitForRenderThenFocus('h3', document.querySelector('va-radio').shadowRoot);
  */
+const noAsyncFocusWhenCypressRunningInCiOrLocally =
+  typeof Cypress !== 'undefined' &&
+  (Cypress.env('CI') || environment.isLocalhost());
+const defaultTime = noAsyncFocusWhenCypressRunningInCiOrLocally ? 0 : 250;
+
 export function waitForRenderThenFocus(
   selector,
   root = document,

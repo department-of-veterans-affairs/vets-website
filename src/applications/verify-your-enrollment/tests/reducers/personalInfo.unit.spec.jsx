@@ -10,7 +10,6 @@ describe('personalInfo Reducer', () => {
   it('should return initial State', () => {
     expect(personalInfo(undefined, {})).to.deep.equal({
       personalInfo: null,
-      isDGIBOnly: false,
       isLoading: false,
       error: null,
     });
@@ -20,7 +19,6 @@ describe('personalInfo Reducer', () => {
       personalInfo(undefined, { type: FETCH_PERSONAL_INFO }),
     ).to.deep.equal({
       personalInfo: null,
-      isDGIBOnly: false,
       isLoading: true,
       error: null,
     });
@@ -31,7 +29,6 @@ describe('personalInfo Reducer', () => {
       personalInfo(undefined, { type: FETCH_PERSONAL_INFO_SUCCESS, response }),
     ).to.deep.equal({
       personalInfo: response,
-      isDGIBOnly: false,
       isLoading: false,
       error: null,
     });
@@ -42,7 +39,6 @@ describe('personalInfo Reducer', () => {
       personalInfo(undefined, { type: FETCH_PERSONAL_INFO_FAILED, errors }),
     ).to.deep.equal({
       personalInfo: null,
-      isDGIBOnly: false,
       isLoading: false,
       error: errors,
     });

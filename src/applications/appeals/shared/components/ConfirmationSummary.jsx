@@ -12,7 +12,7 @@ export const chapterHeaderClass = [
 export const ConfirmationSummary = ({ name, downloadUrl }) => (
   <div className="screen-only">
     {downloadUrl && (
-      <va-summary-box class="vads-u-margin-top--2">
+      <va-summary-box uswds class="vads-u-margin-top--2">
         <h3 slot="headline" className="vads-u-margin-top--0">
           {`Save a PDF copy of your ${name} request`}
         </h3>
