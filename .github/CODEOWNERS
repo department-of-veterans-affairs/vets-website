@@ -93,7 +93,7 @@ src/applications/appeals @department-of-veterans-affairs/benefits-decision-revie
 # Benefits Non-Disability
 src/applications/vre @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/lgy @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/static-pages/vre-chapter-31 @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/my-education-benefits @department-of-veterans-affairs/va-platform-cop-frontend 
+src/applications/static-pages/vre-chapter-31 @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend 
 src/applications/static-pages/vre-chapter-36 @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/coe-access @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/sah @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
