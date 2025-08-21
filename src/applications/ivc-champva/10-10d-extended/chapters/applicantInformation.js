@@ -12,7 +12,6 @@ import {
   fullNameUI,
   fullNameSchema,
   titleUI,
-  titleSchema,
   ssnUI,
   ssnSchema,
   withEditTitle,
@@ -709,7 +708,10 @@ export const applicantPages = arrayBuilderPages(
           </>,
         ),
       },
-      schema: titleSchema,
+      schema: {
+        type: 'object',
+        properties: {},
+      },
     }),
     applicantSummary: pageBuilder.summaryPage({
       path: 'applicant-summary',

@@ -11,7 +11,6 @@ import {
   phoneUI,
   phoneSchema,
   titleUI,
-  titleSchema,
   ssnUI,
   ssnSchema,
   yesNoSchema,
@@ -40,7 +39,10 @@ export const sponsorIntroSchema = {
       </>,
     ),
   },
-  schema: titleSchema,
+  schema: {
+    type: 'object',
+    properties: {},
+  },
 };
 
 export const sponsorNameDobSchema = {
