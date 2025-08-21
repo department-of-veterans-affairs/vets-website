@@ -5,10 +5,9 @@ import {
 
 export const uiSchema = {
   'view:checkVeteranPension': yesNoUI({
-    title:
-      "Are you claiming or do you already receive Veteran Pension or Survivor's Pension benefits?",
+    title: 'Do you receive Veteran Pension or Survivors benefits?',
     hint:
-      "If yes, we'll ask you questions about your dependent's income. If no, we'll skip questions about your dependent's income.",
+      "If yes, we'll ask you questions about your dependents' income. If no, we'll skip questions about your dependents' income.",
     hideOnReview: true,
   }),
 };
