@@ -164,8 +164,9 @@ describe('ProfileSubNav', () => {
     });
 
     it('filters out LOA3 routes if user is blocked', () => {
+      mockState.directDeposit.controlInformation = { isCompetent: false };
       const { container } = renderSubNav(
-        <ProfileSubNav routes={defaultRoutes} isLOA3={false} isInMVI />,
+        <ProfileSubNav routes={defaultRoutes} isLOA3 isInMVI />,
         {
           store,
         },
