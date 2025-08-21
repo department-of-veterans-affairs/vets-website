@@ -111,7 +111,7 @@ export const formConfig = {
         ...getBranchComponentPages(),
         titleTenActiveDuty: {
           path: 'service/active-duty',
-          title: 'Active Duty',
+          title: 'Title 10 service',
           uiSchema: activeDuty.uiSchema,
           schema: activeDuty.schema,
           depends: formData => {
@@ -129,7 +129,7 @@ export const formConfig = {
         },
         titleTenTimeServed: {
           path: 'service/title-ten',
-          title: 'Title Ten',
+          title: 'Length of Title 10 service',
           uiSchema: titleTenServiceTime.uiSchema,
           schema: titleTenServiceTime.schema,
           depends: formData => {
@@ -138,7 +138,7 @@ export const formConfig = {
         },
         militaryService: {
           path: 'service/current',
-          title: 'Current Service',
+          title: 'Military Service',
           uiSchema: militaryService.uiSchema,
           schema: militaryService.schema,
           onNavForward: ({ formData, goPath }) => {
