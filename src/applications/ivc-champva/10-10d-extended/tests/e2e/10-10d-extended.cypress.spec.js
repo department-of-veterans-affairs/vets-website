@@ -57,9 +57,25 @@ const testConfig = createTestConfig(
           });
         });
       },
+      'review-and-submit': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            cy.get('va-statement-of-truth')
+              .shadow()
+              .within(() => {
+                cy.get('va-text-input').then($el =>
+                  cy.fillVaTextInput($el, data.statementOfTruthSignature),
+                );
+                cy.get('va-checkbox').then($el =>
+                  cy.selectVaCheckbox($el, true),
+                );
+              });
+            cy.findByText(/submit/i, { selector: 'button' }).click();
+          });
+        });
+      },
     },
     setupPerTest: () => setupBasicTest(),
-    skip: Cypress.env('CI'),
   },
   manifest,
   formConfig,
