@@ -62,10 +62,12 @@ const ConfirmationApproved = ({
       </va-alert>
 
       <va-summary-box class="vads-u-margin-y--3">
-        <h3 slot="headline">
+        <h3 slot="headline" className="vads-u-margin-top--1">
           Application for VA education benefits (Form 22-1990)
         </h3>
-        <h3 slot="headline">Post-9/11 GI Bill, Chapter 33</h3>
+        <h3 slot="headline" className="vads-u-margin-top--0">
+          Post-9/11 GI Bill, Chapter 33
+        </h3>
 
         <div className="vads-u-margin-bottom--2">
           <h4 className="vads-u-margin-bottom--0p5 vads-u-font-weight--bold">
@@ -89,7 +91,7 @@ const ConfirmationApproved = ({
           <h4 className="vads-u-margin-bottom--0p5 vads-u-font-weight--bold">
             Confirmation for your records
           </h4>
-          <p className="vads-u-margin-bottom--2">
+          <p className="vads-u-margin-bottom--1">
             You can print this confirmation page for your records. You can also
             download your completed application as a PDF.
           </p>
@@ -104,7 +106,12 @@ const ConfirmationApproved = ({
         </div>
 
         <div>
-          <va-icon icon="file_download" className="vads-u-margin-right--1" />
+          <va-icon
+            aria-hidden="true"
+            icon="file_download"
+            size={3}
+            className="vads-u-margin-right--1"
+          />
           <a href={LETTER_URL} download className="vads-u-font-weight--bold">
             Download your completed application (PDF)
           </a>

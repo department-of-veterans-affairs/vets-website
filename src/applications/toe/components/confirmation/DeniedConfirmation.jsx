@@ -66,7 +66,7 @@ const DeniedConfirmation = ({
               href={LETTER_ENDPOINT}
             >
               <span className="vads-u-display--inline-block vads-u-margin-right--1">
-                <va-icon icon="file_download" size={3} />
+                <va-icon aria-hidden="true" icon="file_download" size={3} />
               </span>
               Download your decision letter (PDF)
             </a>
@@ -82,7 +82,7 @@ const DeniedConfirmation = ({
           visible
         >
           <div>
-            <h3 slot="headline" style={{ marginTop: '0.625rem' }}>
+            <h3 slot="headline" className="vads-u-margin-top--0p5">
               Application for VA education benefits (Form 22-1990e)
             </h3>
             <div className="vads-u-margin-bottom--2">
@@ -103,7 +103,7 @@ const DeniedConfirmation = ({
               <h4 className="vads-u-margin-bottom--0p5 vads-u-font-weight--bold">
                 Confirmation for your records
               </h4>
-              <p className="vads-u-margin-bottom--2">
+              <p className="vads-u-margin-bottom--1">
                 You can print this confirmation page for your records.
               </p>
             </div>
