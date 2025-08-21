@@ -2,12 +2,11 @@ import React, { useMemo } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
-
 import { useLocation } from 'react-router-dom';
+import classNames from 'classnames';
 import NameTag from '~/applications/personalization/components/NameTag';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { hasTotalDisabilityError } from '../../common/selectors/ratedDisabilities';
-
 import ProfileSubNav from './ProfileSubNav';
 import { PROFILE_PATHS } from '../constants';
 import { ProfileFullWidthContainer } from './ProfileFullWidthContainer';
@@ -15,6 +14,7 @@ import { getRoutesForNav } from '../routesForNav';
 import { normalizePath } from '../../common/helpers';
 import { ProfileBreadcrumbs } from './ProfileBreadcrumbs';
 import { ProfilePrivacyPolicy } from './ProfilePrivacyPolicy';
+import ProfileMobileSubNav from './ProfileMobileSubNav';
 
 const LAYOUTS = {
   SIDEBAR: 'sidebar',
@@ -66,6 +66,13 @@ const ProfileWrapper = ({
     [location.pathname],
   );
 
+  const mobileWrapperClassnames = classNames(
+    'medium-screen:vads-u-display--none',
+    {
+      'vads-u-margin--1 vads-u-margin-bottom--2': paperlessDeliveryToggle,
+    },
+  );
+
   return (
     <>
       {showNameTag && (
@@ -77,12 +84,20 @@ const ProfileWrapper = ({
 
       {layout === LAYOUTS.SIDEBAR && (
         <>
-          <div className="medium-screen:vads-u-display--none vads-u-margin--1 vads-u-margin-bottom--2">
-            <ProfileSubNav
-              routes={routesForNav}
-              isLOA3={isLOA3}
-              isInMVI={isInMVI}
-            />
+          <div className={mobileWrapperClassnames}>
+            {paperlessDeliveryToggle ? (
+              <ProfileSubNav
+                routes={routesForNav}
+                isLOA3={isLOA3}
+                isInMVI={isInMVI}
+              />
+            ) : (
+              <ProfileMobileSubNav
+                routes={routesForNav}
+                isLOA3={isLOA3}
+                isInMVI={isInMVI}
+              />
+            )}
           </div>
 
           <div className="vads-l-grid-container vads-u-padding-x--0">

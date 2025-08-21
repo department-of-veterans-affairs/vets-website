@@ -6,7 +6,7 @@ import * as ReactRedux from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import sinon from 'sinon';
 
-import ProfileSubNavItems from './ProfileSubNavItems';
+import ProfileSubNav from '../../components/ProfileSubNav';
 
 const defaultRoutes = [
   { path: '/profile/personal-information', name: 'Personal Info' },
@@ -30,7 +30,7 @@ function renderSubNav(ui, { store }) {
   );
 }
 
-describe('ProfileSubNavItems', () => {
+describe('ProfileSubNav', () => {
   let store;
   let useSelectorStub;
   beforeEach(() => {
@@ -49,7 +49,7 @@ describe('ProfileSubNavItems', () => {
   it('renders all routes when requirements are met', () => {
     useSelectorStub.returns(false);
     const { container } = renderSubNav(
-      <ProfileSubNavItems routes={defaultRoutes} isLOA3 isInMVI />,
+      <ProfileSubNav routes={defaultRoutes} isLOA3 isInMVI />,
       {
         store,
       },
@@ -66,7 +66,7 @@ describe('ProfileSubNavItems', () => {
   it('filters out LOA3 routes if not LOA3', () => {
     useSelectorStub.returns(false);
     const { container } = renderSubNav(
-      <ProfileSubNavItems routes={defaultRoutes} isLOA3={false} isInMVI />,
+      <ProfileSubNav routes={defaultRoutes} isLOA3={false} isInMVI />,
       {
         store,
       },
@@ -82,7 +82,7 @@ describe('ProfileSubNavItems', () => {
   it('filters out LOA3 routes if user is blocked', () => {
     useSelectorStub.returns(true);
     const { container } = renderSubNav(
-      <ProfileSubNavItems routes={defaultRoutes} isLOA3={false} isInMVI />,
+      <ProfileSubNav routes={defaultRoutes} isLOA3={false} isInMVI />,
       {
         store,
       },
@@ -98,7 +98,7 @@ describe('ProfileSubNavItems', () => {
   it('filters out MVI routes if not in MVI', () => {
     useSelectorStub.returns(false);
     const { container } = renderSubNav(
-      <ProfileSubNavItems routes={defaultRoutes} isLOA3 isInMVI={false} />,
+      <ProfileSubNav routes={defaultRoutes} isLOA3 isInMVI={false} />,
       {
         store,
       },
