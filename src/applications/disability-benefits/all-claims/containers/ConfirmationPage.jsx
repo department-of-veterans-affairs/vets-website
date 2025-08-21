@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { Toggler } from 'platform/utilities/feature-toggles';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
-import environment from 'platform/utilities/environment';
 import {
   submissionStatuses,
   WIZARD_STATUS,
@@ -19,14 +18,6 @@ import { alertBody } from '../content/confirmation-poll';
 import { ClaimConfirmationInfo } from '../components/ClaimConfirmationInfo';
 import { BddConfirmationAlert } from '../content/bddConfirmationAlert';
 
-// set up for local development
-let mockData;
-if (!environment.isProduction() && !environment.isStaging()) {
-  mockData = require('../tests/fixtures/data/maximal-modern-0781-test.json');
-  // mockData = require('../tests/fixtures/data/maximal-toxic-exposure-test.json');
-  mockData = mockData?.data;
-}
-
 export default class ConfirmationPage extends React.Component {
   componentDidMount() {
     setTimeout(() => focusElement('va-alert h2'), 100);
@@ -36,10 +27,6 @@ export default class ConfirmationPage extends React.Component {
     <ConfirmationView
       submitDate={props.submittedAt}
       formConfig={props.route?.formConfig}
-      devOnly={{
-        showButtons: true,
-        mockData,
-      }}
     >
       <ConfirmationView.SubmissionAlert actions={<></>} content={alertBody} />
       {props.isSubmittingBDD && <BddConfirmationAlert />}

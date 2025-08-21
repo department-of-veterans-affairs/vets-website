@@ -25,7 +25,7 @@ const getData = ({
   featureToggles,
   form: {
     data: {
-      // Form data cannot be null for review section. TODO: use fixture files for future tests
+      // Form data cannot be null for review section accordion
       standardClaim: true,
       isVaEmployee: true,
       homelessOrAtRisk: 'homeless',
@@ -171,7 +171,7 @@ describe('ConfirmationPage', () => {
     verifyConfirmationPage('', false, submissionStatuses.failed);
   });
 
-  it('should render confirmation review section when toggle is on', () => {
+  it('should render confirmation review section accordion when toggle is on', () => {
     verifyConfirmationPage(
       '12345678',
       false,
