@@ -1,6 +1,5 @@
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import categories from '../../fixtures/categories-response.json';
@@ -10,233 +9,126 @@ import { Paths, ErrorMessages } from '../../../util/constants';
 import { Categories } from '../../../util/inputContants';
 
 describe('CategoryInput component', () => {
-  const baseInitialState = {
+  const initialState = {
     sm: {},
   };
 
-  describe('when feature flag is disabled (radio buttons)', () => {
-    const initialState = {
-      ...baseInitialState,
-      featureToggles: {
-        [FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot]: false,
+  it('renders without errors', () => {
+    const screen = renderWithStoreAndRouter(
+      <CategoryInput categories={categories} />,
+      {
+        initialState,
+        reducers: reducer,
+        path: Paths.COMPOSE,
       },
-    };
-
-    it('renders without errors', () => {
-      const screen = renderWithStoreAndRouter(
-        <CategoryInput categories={categories} />,
-        {
-          initialState,
-          reducers: reducer,
-          path: Paths.COMPOSE,
-        },
-      );
-      expect(screen);
-    });
-
-    it('should contain va radio button component', () => {
-      const screen = renderWithStoreAndRouter(
-        <CategoryInput categories={categories} />,
-        {
-          initialState,
-          reducers: reducer,
-          path: Paths.COMPOSE,
-        },
-      );
-      const categoryRadioInputs = screen.getByTestId(
-        'compose-message-categories',
-      );
-      expect(categoryRadioInputs).not.to.be.empty;
-    });
-
-    it('should contain all category options', async () => {
-      const screen = renderWithStoreAndRouter(
-        <CategoryInput categories={categories} />,
-        {
-          initialState,
-          reducers: reducer,
-          path: Paths.COMPOSE,
-        },
-      );
-      const values = await screen
-        .getAllByTestId('compose-category-dropdown-select')
-        ?.map(el => el.value);
-      expect(values).to.be.not.empty;
-      expect(values).deep.equal(categories);
-    });
-
-    it('should contain same category name for all options', async () => {
-      const screen = renderWithStoreAndRouter(
-        <CategoryInput categories={categories} />,
-        {
-          initialState,
-          reducers: reducer,
-          path: Paths.COMPOSE,
-        },
-      );
-      const selectElement = await screen.getByTestId(
-        'compose-message-categories',
-      );
-      const name = selectElement.getAttribute('name');
-
-      expect(name).to.equal('compose-message-categories');
-    });
-
-    it('should have category selected when category prop is present', async () => {
-      const selectedCategory = Categories.OTHER.value;
-      const screen = await renderWithStoreAndRouter(
-        <CategoryInput category={selectedCategory} categories={categories} />,
-        {
-          initialState,
-          reducers: reducer,
-          path: Paths.COMPOSE,
-        },
-      );
-      const selectElement = screen.getByTestId('compose-message-categories');
-
-      expect(selectElement).to.have.attribute('value', selectedCategory);
-    });
-
-    it('should display an error when error prop is present', async () => {
-      const categoryError = ErrorMessages.ComposeForm.CATEGORY_REQUIRED;
-      const screen = await renderWithStoreAndRouter(
-        <CategoryInput categoryError={categoryError} categories={categories} />,
-        {
-          initialState,
-          reducers: reducer,
-          path: Paths.COMPOSE,
-        },
-      );
-      const vaRadio = screen.getByTestId('compose-message-categories');
-      expect(vaRadio).to.have.attribute('error', categoryError);
-    });
+    );
+    expect(screen);
   });
 
-  describe('when feature flag is enabled (dropdown)', () => {
-    const initialState = {
-      ...baseInitialState,
-      featureToggles: {
-        [FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot]: true,
+  it('should contain va select dropdown component', () => {
+    const screen = renderWithStoreAndRouter(
+      <CategoryInput categories={categories} />,
+      {
+        initialState,
+        reducers: reducer,
+        path: Paths.COMPOSE,
       },
-    };
+    );
+    const categorySelect = screen.getByTestId('compose-message-categories');
+    expect(categorySelect).not.to.be.empty;
+  });
 
-    it('renders without errors', () => {
-      const screen = renderWithStoreAndRouter(
-        <CategoryInput categories={categories} />,
-        {
-          initialState,
-          reducers: reducer,
-          path: Paths.COMPOSE,
-        },
-      );
-      expect(screen);
+  it('should contain all category options', async () => {
+    const screen = renderWithStoreAndRouter(
+      <CategoryInput categories={categories} />,
+      {
+        initialState,
+        reducers: reducer,
+        path: Paths.COMPOSE,
+      },
+    );
+    const values = await screen
+      .getAllByTestId('compose-category-dropdown-select')
+      ?.map(el => el.value);
+    expect(values).to.be.not.empty;
+    expect(values).deep.equal(categories);
+  });
+
+  it('should have correct name attribute on select element', async () => {
+    const screen = renderWithStoreAndRouter(
+      <CategoryInput categories={categories} />,
+      {
+        initialState,
+        reducers: reducer,
+        path: Paths.COMPOSE,
+      },
+    );
+    const selectElement = screen.getByTestId('compose-message-categories');
+
+    expect(selectElement).to.have.attribute(
+      'name',
+      'compose-message-categories',
+    );
+  });
+
+  it('should have category selected when category prop is present', async () => {
+    const selectedCategory = Categories.OTHER.value;
+    const screen = await renderWithStoreAndRouter(
+      <CategoryInput category={selectedCategory} categories={categories} />,
+      {
+        initialState,
+        reducers: reducer,
+        path: Paths.COMPOSE,
+      },
+    );
+    const selectElement = screen.getByTestId('compose-message-categories');
+
+    expect(selectElement).to.have.attribute('value', selectedCategory);
+  });
+
+  it('should display an error when error prop is present', async () => {
+    const categoryError = ErrorMessages.ComposeForm.CATEGORY_REQUIRED;
+    const screen = await renderWithStoreAndRouter(
+      <CategoryInput categoryError={categoryError} categories={categories} />,
+      {
+        initialState,
+        reducers: reducer,
+        path: Paths.COMPOSE,
+      },
+    );
+    const vaSelect = screen.getByTestId('compose-message-categories');
+    expect(vaSelect).to.have.attribute('error', categoryError);
+  });
+
+  it('should call setCategory when a selection is made', async () => {
+    const setCategory = sinon.spy();
+    const setCategoryError = sinon.spy();
+    const setUnsavedNavigationError = sinon.spy();
+
+    const screen = renderWithStoreAndRouter(
+      <CategoryInput
+        categories={categories}
+        setCategory={setCategory}
+        setCategoryError={setCategoryError}
+        setUnsavedNavigationError={setUnsavedNavigationError}
+      />,
+      {
+        initialState,
+        reducers: reducer,
+        path: Paths.COMPOSE,
+      },
+    );
+
+    const selectElement = screen.getByTestId('compose-message-categories');
+
+    // Simulate selection event
+    const event = new CustomEvent('vaSelect', {
+      detail: { value: 'COVID' },
     });
 
-    it('should contain va select dropdown component', () => {
-      const screen = renderWithStoreAndRouter(
-        <CategoryInput categories={categories} />,
-        {
-          initialState,
-          reducers: reducer,
-          path: Paths.COMPOSE,
-        },
-      );
-      const categorySelect = screen.getByTestId('compose-message-categories');
-      expect(categorySelect).not.to.be.empty;
-    });
+    selectElement.dispatchEvent(event);
 
-    it('should contain all category options', async () => {
-      const screen = renderWithStoreAndRouter(
-        <CategoryInput categories={categories} />,
-        {
-          initialState,
-          reducers: reducer,
-          path: Paths.COMPOSE,
-        },
-      );
-      const values = await screen
-        .getAllByTestId('compose-category-dropdown-select')
-        ?.map(el => el.value);
-      expect(values).to.be.not.empty;
-      expect(values).deep.equal(categories);
-    });
-
-    it('should have correct name attribute on select element', async () => {
-      const screen = renderWithStoreAndRouter(
-        <CategoryInput categories={categories} />,
-        {
-          initialState,
-          reducers: reducer,
-          path: Paths.COMPOSE,
-        },
-      );
-      const selectElement = screen.getByTestId('compose-message-categories');
-
-      expect(selectElement).to.have.attribute(
-        'name',
-        'compose-message-categories',
-      );
-    });
-
-    it('should have category selected when category prop is present', async () => {
-      const selectedCategory = Categories.OTHER.value;
-      const screen = await renderWithStoreAndRouter(
-        <CategoryInput category={selectedCategory} categories={categories} />,
-        {
-          initialState,
-          reducers: reducer,
-          path: Paths.COMPOSE,
-        },
-      );
-      const selectElement = screen.getByTestId('compose-message-categories');
-
-      expect(selectElement).to.have.attribute('value', selectedCategory);
-    });
-
-    it('should display an error when error prop is present', async () => {
-      const categoryError = ErrorMessages.ComposeForm.CATEGORY_REQUIRED;
-      const screen = await renderWithStoreAndRouter(
-        <CategoryInput categoryError={categoryError} categories={categories} />,
-        {
-          initialState,
-          reducers: reducer,
-          path: Paths.COMPOSE,
-        },
-      );
-      const vaSelect = screen.getByTestId('compose-message-categories');
-      expect(vaSelect).to.have.attribute('error', categoryError);
-    });
-
-    it('should call setCategory when a selection is made', async () => {
-      const setCategory = sinon.spy();
-      const setCategoryError = sinon.spy();
-      const setUnsavedNavigationError = sinon.spy();
-
-      const screen = renderWithStoreAndRouter(
-        <CategoryInput
-          categories={categories}
-          setCategory={setCategory}
-          setCategoryError={setCategoryError}
-          setUnsavedNavigationError={setUnsavedNavigationError}
-        />,
-        {
-          initialState,
-          reducers: reducer,
-          path: Paths.COMPOSE,
-        },
-      );
-
-      const selectElement = screen.getByTestId('compose-message-categories');
-
-      // Simulate selection event
-      const event = new CustomEvent('vaSelect', {
-        detail: { value: 'COVID' },
-      });
-
-      selectElement.dispatchEvent(event);
-
-      expect(setCategory.calledWith('COVID')).to.be.true;
-      expect(setUnsavedNavigationError.called).to.be.true;
-    });
+    expect(setCategory.calledWith('COVID')).to.be.true;
+    expect(setUnsavedNavigationError.called).to.be.true;
   });
 });
