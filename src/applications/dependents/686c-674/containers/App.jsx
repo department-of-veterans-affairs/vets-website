@@ -42,8 +42,15 @@ function App({
     sessionSampleRate: 50,
   });
 
-  const { useFormFeatureToggleSync } = useFeatureToggle();
+  const {
+    useFormFeatureToggleSync,
+    useToggleValue,
+    TOGGLE_NAMES,
+  } = useFeatureToggle();
   useFormFeatureToggleSync(['vaDependentsNetWorthAndPension']);
+  const dependentsModuleEnabled = useToggleValue(
+    TOGGLE_NAMES.dependentsModuleEnabled,
+  );
 
   // Handle loading
   if (isLoading) {
@@ -69,6 +76,9 @@ function App({
     },
   ];
   const rawBreadcrumbs = JSON.stringify(breadcrumbs);
+  formConfig.submitUrl = dependentsModuleEnabled
+    ? '/dependents_benefits/v0/dependents_claims'
+    : `${environment.API_URL}/v0/dependents_applications`;
 
   const content = (
     <article id="form-686c" data-location={`${location?.pathname?.slice(1)}`}>
