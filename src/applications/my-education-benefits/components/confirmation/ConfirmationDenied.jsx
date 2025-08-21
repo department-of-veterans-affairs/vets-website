@@ -109,6 +109,7 @@ const ConfirmationDenied = ({
         <div>
           <va-icon
             aria-hidden="true"
+            role="presentation"
             icon="file_download"
             size={3}
             className="vads-u-margin-right--1"

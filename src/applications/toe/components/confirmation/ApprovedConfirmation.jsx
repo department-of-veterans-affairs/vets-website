@@ -60,7 +60,12 @@ const ApprovedConfirmation = ({
               href={LETTER_ENDPOINT}
             >
               <span className="vads-u-display--inline-block vads-u-margin-right--1">
-                <va-icon aria-hidden="true" icon="file_download" size={3} />
+                <va-icon
+                  aria-hidden="true"
+                  role="presentation"
+                  icon="file_download"
+                  size={3}
+                />
               </span>
               Download your decision letter (PDF).
             </a>
@@ -116,6 +121,7 @@ const ApprovedConfirmation = ({
             <div>
               <va-icon
                 aria-hidden="true"
+                role="presentation"
                 icon="file_download"
                 size={3}
                 className="vads-u-margin-right--1"
