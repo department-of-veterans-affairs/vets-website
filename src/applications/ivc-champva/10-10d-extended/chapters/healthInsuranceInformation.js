@@ -306,40 +306,40 @@ export const healthInsurancePages = arrayBuilderPages(
   healthInsuranceOptions,
   pageBuilder => ({
     healthInsuranceSummary: pageBuilder.summaryPage({
-      path: 'health-insurance-summary',
+      path: 'health-insurance-information/summary',
       title: 'Review your plans',
       uiSchema: healthInsuranceSummaryPage.uiSchema,
       schema: healthInsuranceSummaryPage.schema,
     }),
     healthInsuranceType: pageBuilder.itemPage({
-      path: 'health-insurance-type/:index',
+      path: 'health-insurance-information/:index/plan-type',
       title: 'Plan type',
       ...healthInsuranceIntroPage,
     }),
     medigapType: pageBuilder.itemPage({
-      path: 'medigap-type/:index',
+      path: 'health-insurance-information/:index/medigap-information',
       title: 'Plan type',
       depends: (formData, index) =>
         get('insuranceType', formData.healthInsurance?.[index]) === 'medigap',
       ...medigapInformation,
     }),
     provider: pageBuilder.itemPage({
-      path: 'insurance-info/:index',
+      path: 'health-insurance-information/:index/provider-information',
       title: 'Health insurance information',
       ...providerInformation,
     }),
     throughEmployer: pageBuilder.itemPage({
-      path: 'through-employer/:index',
+      path: 'health-insurance-information/:index/employer-sponsorship',
       title: 'Type of insurance - through employer',
       ...employer,
     }),
     comments: pageBuilder.itemPage({
-      path: 'insurance-comments/:index',
+      path: 'health-insurance-information/:index/additional-comments',
       title: 'Type of insurance',
       ...additionalComments,
     }),
     participants: pageBuilder.itemPage({
-      path: 'select-participants/:index',
+      path: 'health-insurance-information/:index/participants',
       title: 'Select healthcare participants',
       ...selectHealthcareParticipantsPage,
       CustomPage: props =>
@@ -351,7 +351,7 @@ export const healthInsurancePages = arrayBuilderPages(
       CustomPageReview: () => <></>,
     }),
     insuranceCard: pageBuilder.itemPage({
-      path: 'health-insurance-card/:index',
+      path: 'health-insurance-information/:index/insurance-card',
       title: 'Upload health insurance card',
       CustomPage: FileFieldCustom,
       ...healthInsuranceCardUploadPage,
