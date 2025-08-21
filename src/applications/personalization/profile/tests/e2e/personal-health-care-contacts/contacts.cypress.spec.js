@@ -34,7 +34,9 @@ describe('Personal health care contacts', () => {
     cy.intercept('GET', '/v0/profile/contacts', contacts);
     cy.login(loa3User72);
     cy.visit(PROFILE_PATHS.CONTACTS);
-    cy.get('va-sidenav-item[href="/profile/contacts"').should('exist');
+    cy.get('a[href$="/profile/contacts"]').should('exist');
+    // uncomment when Paperless Delivery is ready for production
+    // cy.get('va-sidenav-item[href="/profile/contacts"').should('exist');
     cy.injectAxeThenAxeCheck();
   });
 

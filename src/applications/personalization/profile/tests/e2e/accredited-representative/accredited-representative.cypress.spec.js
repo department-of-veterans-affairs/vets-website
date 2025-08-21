@@ -39,9 +39,11 @@ describe('Accredited representative', () => {
   it('links from the nav', () => {
     cy.login(loa3User72);
     cy.visit(PROFILE_PATHS.ACCREDITED_REPRESENTATIVE);
-    cy.get('va-sidenav-item[href="/profile/accredited-representative"]').should(
-      'exist',
-    );
+    cy.get('a[href$="/profile/accredited-representative"]').should('exist');
+    // uncomment when Paperless Delivery is ready for production
+    // cy.get('va-sidenav-item[href="/profile/accredited-representative"]').should(
+    //   'exist',
+    // );
     cy.injectAxeThenAxeCheck();
   });
 });

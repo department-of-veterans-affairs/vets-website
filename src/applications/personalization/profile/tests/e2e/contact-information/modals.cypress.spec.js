@@ -290,12 +290,23 @@ describe('when moving to other profile pages', () => {
     // Open edit view
     cy.get(`va-button[label="Edit ${sectionName}"]`).click({ force: true });
 
-    cy.get('va-sidenav-item[label="Military information"]')
-      .filter(':visible')
-      .click();
-    cy.get('va-sidenav-item[label="Contact information"]')
-      .filter(':visible')
-      .click();
+    cy.findByRole('link', {
+      name: /military information/i,
+    }).click({
+      force: true,
+    });
+    cy.findByRole('link', {
+      name: /contact.*information/i,
+    }).click({
+      force: true,
+    });
+    // uncomment when Paperless Delivery is ready for production
+    //  cy.get('va-sidenav-item[label="Military information"]')
+    //   .filter(':visible')
+    //   .click();
+    // cy.get('va-sidenav-item[label="Contact information"]')
+    //   .filter(':visible')
+    //   .click();
     cy.get(`va-button[label="Edit ${sectionName}"]`).should('exist');
 
     cy.axeCheck();

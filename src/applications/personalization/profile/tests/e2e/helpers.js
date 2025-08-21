@@ -13,13 +13,22 @@ import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../constants';
 
 export function subNavOnlyContainsAccountSecurity(mobile) {
   if (mobile) {
-    cy.get('va-sidenav')
-      .filter(':visible')
-      .click();
+    cy.findByRole('button', { name: /profile menu/i }).click();
+    // uncomment when Paperless Delivery is ready for production
+    // cy.get('va-sidenav')
+    //   .filter(':visible')
+    //   .click();
   }
-  cy.get(
-    `va-sidenav-item[label="${PROFILE_PATH_NAMES.ACCOUNT_SECURITY}"]`,
-  ).should('exist');
+  cy.findByRole('navigation', { name: /profile/i }).within(() => {
+    cy.findAllByRole('link').should('have.length', 1);
+    cy.findByRole('link', {
+      name: PROFILE_PATH_NAMES.ACCOUNT_SECURITY,
+    }).should('exist');
+  });
+  // uncomment when Paperless Delivery is ready for production
+  // cy.get(
+  //   `va-sidenav-item[label="${PROFILE_PATH_NAMES.ACCOUNT_SECURITY}"]`,
+  // ).should('exist');
 }
 
 export function onlyAccountSecuritySectionIsAccessible() {

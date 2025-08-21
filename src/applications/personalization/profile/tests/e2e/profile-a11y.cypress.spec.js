@@ -6,13 +6,17 @@ import mockPaymentInfo from '../fixtures/dd4cnp/dd4cnp-is-set-up.json';
 
 function clickSubNavButton(buttonLabel, mobile) {
   if (mobile) {
-    cy.get('va-sidenav')
-      .filter(':visible')
-      .click();
+    cy.findByRole('button', { name: /profile menu/i }).click();
+    // uncomment when Paperless Delivery is ready for production
+    // cy.get('va-sidenav')
+    //   .filter(':visible')
+    //   .click();
   }
-  cy.get(`va-sidenav-item[label="${buttonLabel}"]`)
-    .filter(':visible')
-    .click();
+  cy.findByRole('link', { name: buttonLabel }).click();
+  // uncomment when Paperless Delivery is ready for production
+  //   cy.get(`va-sidenav-item[label="${buttonLabel}"]`)
+  //     .filter(':visible')
+  //     .click();
 }
 
 /**
@@ -24,19 +28,21 @@ function clickSubNavButton(buttonLabel, mobile) {
  *   performs an aXe scan, and checks that focus is managed correctly
  * - clicks through each item in the sub-nav and:
  *   - checks that the URL is correct
- *   - checks that the document title is correctq
+ *   - checks that the document title is correct
  *   - performs an aXe scan
  *   - checks that focus is managed correctly
  */
 function checkSubNavFocus(mobile = false) {
-  cy.intercept('GET', 'v0/feature_toggles*', {
-    data: {
-      features: [
-        ...mockProfileEnhancementsToggles.data.features,
-        { name: 'profile_show_paperless_delivery', value: true },
-      ],
-    },
-  });
+  cy.intercept('v0/feature_toggles*', mockProfileEnhancementsToggles);
+  // uncomment when Paperless Delivery is ready for production
+  // cy.intercept('GET', 'v0/feature_toggles*', {
+  //   data: {
+  //     features: [
+  //       ...mockProfileEnhancementsToggles.data.features,
+  //       { name: 'profile_show_paperless_delivery', value: true },
+  //     ],
+  //   },
+  // });
   cy.visit(PROFILE_PATHS.PERSONAL_INFORMATION);
   if (mobile) {
     cy.viewport('iphone-4');
@@ -131,14 +137,15 @@ function checkSubNavFocus(mobile = false) {
     `${Cypress.config().baseUrl}${PROFILE_PATHS.CONTACT_INFORMATION}`,
   );
 
+  // uncomment when Paperless Delivery is ready for production
   // a11y and focus management check for Paperless Delivery
-  clickSubNavButton(PROFILE_PATH_NAMES.PAPERLESS_DELIVERY, mobile);
-  cy.url().should(
-    'eq',
-    `${Cypress.config().baseUrl}${PROFILE_PATHS.PAPERLESS_DELIVERY}`,
-  );
-  cy.title().should('eq', 'Paperless Delivery | Veterans Affairs');
-  cy.axeCheck();
+  // clickSubNavButton(PROFILE_PATH_NAMES.PAPERLESS_DELIVERY, mobile);
+  // cy.url().should(
+  //   'eq',
+  //   `${Cypress.config().baseUrl}${PROFILE_PATHS.PAPERLESS_DELIVERY}`,
+  // );
+  // cy.title().should('eq', 'Paperless Delivery | Veterans Affairs');
+  // cy.axeCheck();
 }
 
 describe('Profile Navigation - Accessibility', () => {
