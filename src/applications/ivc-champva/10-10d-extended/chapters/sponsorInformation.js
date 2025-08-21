@@ -6,12 +6,13 @@ import {
   dateOfBirthSchema,
   dateOfDeathSchema,
   dateOfDeathUI,
+  emailUI,
+  emailSchema,
   fullNameUI,
   fullNameSchema,
   phoneUI,
   phoneSchema,
   titleUI,
-  titleSchema,
   ssnUI,
   ssnSchema,
   yesNoSchema,
@@ -42,9 +43,7 @@ export const sponsorIntroSchema = {
   },
   schema: {
     type: 'object',
-    properties: {
-      titleSchema,
-    },
+    properties: {},
   },
 };
 
@@ -68,7 +67,6 @@ export const sponsorNameDobSchema = {
     type: 'object',
     required: ['sponsorName', 'sponsorDob'],
     properties: {
-      titleSchema,
       sponsorName: fullNameSchema,
       sponsorDob: dateOfBirthSchema,
     },
@@ -88,7 +86,6 @@ export const sponsorIdentificationSchema = {
     type: 'object',
     required: ['sponsorSsn'],
     properties: {
-      titleSchema,
       sponsorSsn: ssnSchema,
     },
   },
@@ -112,7 +109,6 @@ export const sponsorStatus = {
     type: 'object',
     required: ['sponsorIsDeceased'],
     properties: {
-      titleSchema,
       sponsorIsDeceased: yesNoSchema,
     },
   },
@@ -136,7 +132,6 @@ export const sponsorStatusDetails = {
     type: 'object',
     required: ['sponsorDOD', 'sponsorDeathConditions'],
     properties: {
-      titleSchema,
       sponsorDOD: dateOfDeathSchema,
       sponsorDeathConditions: yesNoSchema,
     },
@@ -164,7 +159,6 @@ export const sponsorAddress = {
     type: 'object',
     required: ['sponsorAddress'],
     properties: {
-      titleSchema,
       sponsorAddress: addressSchema(),
     },
   },
@@ -181,13 +175,16 @@ export const sponsorContactInfo = {
       ...phoneUI(),
       'ui:required': () => true,
     },
+    sponsorEmail: {
+      ...emailUI(),
+    },
   },
   schema: {
     type: 'object',
     required: ['sponsorPhone'],
     properties: {
-      titleSchema,
       sponsorPhone: phoneSchema,
+      sponsorEmail: emailSchema,
     },
   },
 };

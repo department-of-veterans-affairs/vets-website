@@ -12,7 +12,6 @@ import {
   fullNameUI,
   fullNameSchema,
   titleUI,
-  titleSchema,
   ssnUI,
   ssnSchema,
   withEditTitle,
@@ -156,7 +155,6 @@ const applicantIntroPage = {
   schema: {
     type: 'object',
     properties: {
-      titleSchema,
       applicantName: fullNameSchema,
       applicantDob: dateOfBirthSchema,
     },
@@ -221,7 +219,6 @@ const applicantMailingAddressPage = {
   schema: {
     type: 'object',
     properties: {
-      titleSchema,
       applicantAddress: addressSchema(),
     },
     required: ['applicantAddress'],
@@ -259,7 +256,6 @@ const applicantContactInfoPage = {
   schema: {
     type: 'object',
     properties: {
-      titleSchema,
       applicantPhone: phoneSchema,
       applicantEmailAddress: emailSchema,
     },
@@ -307,8 +303,6 @@ const applicantRelationshipOriginPage = {
   schema: {
     type: 'object',
     properties: {
-      titleSchema,
-      'ui:description': blankSchema,
       applicantRelationshipOrigin: {
         type: 'object',
         properties: {
@@ -361,7 +355,6 @@ const applicantBirthCertUploadPage = {
     type: 'object',
     required: ['applicantBirthCertOrSocialSecCard'],
     properties: {
-      titleSchema,
       'view:fileUploadBlurb': blankSchema,
       applicantBirthCertOrSocialSecCard: {
         type: 'array',
@@ -401,7 +394,6 @@ const applicantAdoptionUploadPage = {
     type: 'object',
     required: ['applicantAdoptionPapers'],
     properties: {
-      titleSchema,
       'view:fileUploadBlurb': blankSchema,
       applicantAdoptionPapers: fileWithMetadataSchema(
         acceptableFiles.adoptionCert,
@@ -450,7 +442,6 @@ const applicantStepChildUploadPage = {
     type: 'object',
     required: ['applicantStepMarriageCert'],
     properties: {
-      titleSchema,
       'view:fileUploadBlurb': blankSchema,
       applicantStepMarriageCert: {
         type: 'array',
@@ -546,7 +537,6 @@ const applicantSchoolCertUploadPage = {
     type: 'object',
     required: ['applicantSchoolCert'],
     properties: {
-      titleSchema,
       'view:fileUploadBlurb': blankSchema,
       applicantSchoolCert: fileWithMetadataSchema(acceptableFiles.schoolCert),
     },
@@ -558,8 +548,6 @@ const applicantDependentStatusPage = {
   schema: {
     type: 'object',
     properties: {
-      titleSchema,
-      'ui:description': blankSchema,
       applicantDependentStatus: {
         type: 'object',
         properties: {
@@ -618,7 +606,6 @@ const applicantRemarriedPage = {
     type: 'object',
     required: ['applicantRemarried'],
     properties: {
-      titleSchema,
       applicantRemarried: yesNoSchema,
     },
   },
@@ -670,7 +657,6 @@ const applicantReMarriageCertUploadPage = {
     type: 'object',
     required: ['applicantRemarriageCert'],
     properties: {
-      titleSchema,
       'view:fileUploadBlurb': blankSchema,
       applicantRemarriageCert: {
         type: 'array',
@@ -704,7 +690,7 @@ export const applicantPages = arrayBuilderPages(
   applicantOptions,
   pageBuilder => ({
     applicantIntro: pageBuilder.introPage({
-      path: 'applicant-intro',
+      path: 'applicant-information/overview',
       title: '[noun plural]',
       // initialData: mockData.data,
       uiSchema: {
@@ -725,56 +711,53 @@ export const applicantPages = arrayBuilderPages(
       },
       schema: {
         type: 'object',
-        properties: {
-          titleSchema,
-        },
+        properties: {},
       },
     }),
     applicantSummary: pageBuilder.summaryPage({
-      path: 'applicant-summary',
+      path: 'applicant-information/summary',
       title: 'Review your applicants',
       uiSchema: applicantSummaryPage.uiSchema,
       schema: applicantSummaryPage.schema,
     }),
     page13: pageBuilder.itemPage({
-      path: 'applicant-name-dob/:index',
+      path: 'applicant-information/:index/name-and-date-of-birth',
       title: 'Applicant name and date of birth',
       ...applicantIntroPage,
     }),
     page14: pageBuilder.itemPage({
-      path: 'applicant-identification/:index',
+      path: 'applicant-information/:index/social-security-number',
       title: 'Identification',
       CustomPage: CustomApplicantSSNPage,
       CustomPageReview: null,
       ...applicantIdentificationPage,
     }),
     page15a: pageBuilder.itemPage({
-      path: 'applicant-address-selection/:index',
+      path: 'applicant-information/:index/address',
       title: 'Address selection',
       ...applicantAddressSelectionPage,
       CustomPage: ApplicantAddressCopyPage,
       depends: (formData, index) => page15aDepends(formData, index),
     }),
     page15: pageBuilder.itemPage({
-      path: 'applicant-mailing-address/:index',
+      path: 'applicant-information/:index/mailing-address',
       title: 'Mailing address',
       ...applicantMailingAddressPage,
     }),
     page16: pageBuilder.itemPage({
-      path: 'applicant-contact-info/:index',
+      path: 'applicant-information/:index/contact-information',
       title: 'Contact information',
       ...applicantContactInfoPage,
     }),
     page17: pageBuilder.itemPage({
-      path: 'applicant-gender/:index',
+      path: 'applicant-information/:index/birth-sex',
       title: 'Applicant sex listed at birth',
       ...applicantGenderPage,
       CustomPage: ApplicantGenderPage,
     }),
     page18: pageBuilder.itemPage({
-      path: 'applicant-relationship/:index',
-      title: item =>
-        `What’s ${applicantWording(item)} relationship to the Veteran?`,
+      path: 'applicant-information/:index/relationship-to-veteran',
+      title: item => `What”s ${applicantWording(item)} relationship to the Veteran`,
       ...applicantRelationshipPage,
       CustomPage: props =>
         ApplicantRelationshipPage({
@@ -786,7 +769,7 @@ export const applicantPages = arrayBuilderPages(
         }),
     }),
     page18c: pageBuilder.itemPage({
-      path: 'applicant-relationship-child/:index',
+      path: 'applicant-information/:index/dependent-status',
       title: item => `${applicantWording(item)} dependent status`,
       depends: (formData, index) =>
         get(
@@ -797,7 +780,7 @@ export const applicantPages = arrayBuilderPages(
       CustomPage: ApplicantRelOriginPage,
     }),
     page18a: pageBuilder.itemPage({
-      path: 'applicant-relationship-child-upload/:index',
+      path: 'applicant-information/:index/birth-certificate',
       title: item => `${applicantWording(item)} birth certificate`,
       depends: (formData, index) =>
         get(
@@ -816,7 +799,7 @@ export const applicantPages = arrayBuilderPages(
       ...applicantBirthCertUploadPage,
     }),
     page18d: pageBuilder.itemPage({
-      path: 'applicant-child-adoption-file/:index',
+      path: 'applicant-information/:index/adoption-documents',
       title: item => `${applicantWording(item)} adoption documents`,
       depends: (formData, index) =>
         get(
@@ -831,7 +814,7 @@ export const applicantPages = arrayBuilderPages(
       ...applicantAdoptionUploadPage,
     }),
     page18e: pageBuilder.itemPage({
-      path: 'applicant-child-marriage-file/:index',
+      path: 'applicant-information/:index/proof-of-marriage-or-legal-union',
       title: 'Upload proof of parent’s marriage or legal union',
       depends: (formData, index) =>
         get(
@@ -846,7 +829,7 @@ export const applicantPages = arrayBuilderPages(
       ...applicantStepChildUploadPage,
     }),
     page18b1: pageBuilder.itemPage({
-      path: 'applicant-dependent-status/:index',
+      path: 'applicant-information/:index/dependent-status-details',
       title: item => `${applicantWording(item)} dependent status`,
       depends: (formData, index) =>
         formData.applicants[index]?.applicantRelationshipToSponsor
@@ -860,7 +843,7 @@ export const applicantPages = arrayBuilderPages(
       ...applicantDependentStatusPage,
     }),
     page18b: pageBuilder.itemPage({
-      path: 'applicant-child-school-upload/:index',
+      path: 'applicant-information/:index/proof-of-school-enrollment',
       title: item => `${applicantWording(item)} school documents`,
       depends: (formData, index) =>
         formData.applicants[index]?.applicantRelationshipToSponsor
@@ -877,7 +860,7 @@ export const applicantPages = arrayBuilderPages(
       ...applicantSchoolCertUploadPage,
     }),
     page18f3: pageBuilder.itemPage({
-      path: 'applicant-marriage-date/:index',
+      path: 'applicant-information/:index/marriage-date',
       title: item => `${applicantWording(item)} marriage dates`,
       depends: (formData, index) =>
         get(
@@ -887,7 +870,7 @@ export const applicantPages = arrayBuilderPages(
       ...applicantMarriageDatesPage,
     }),
     page18f4: pageBuilder.itemPage({
-      path: 'applicant-remarried/:index',
+      path: 'applicant-information/:index/marriage-status',
       title: 'Marriage status',
       depends: (formData, index) =>
         get(
@@ -897,7 +880,7 @@ export const applicantPages = arrayBuilderPages(
       ...applicantRemarriedPage,
     }),
     page18g: pageBuilder.itemPage({
-      path: 'applicant-remarriage-upload/:index',
+      path: 'applicant-information/:index/proof-of-remarriage',
       title: 'Upload proof of remarriage',
       depends: (formData, index) =>
         get(

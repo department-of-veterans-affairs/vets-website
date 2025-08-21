@@ -4,8 +4,10 @@
 // - arrayBuilderHelpers.js (ArrayBuilder-specific logic and utilities)
 // - sessionHelpers.js (localStorage/sessionStorage/browser-based logic)
 
-import get from 'platform/utilities/data/get';
 import { capitalize } from 'lodash';
+import { fullNameNoSuffixUI } from '~/platform/forms-system/src/js/web-component-patterns';
+
+import get from '@department-of-veterans-affairs/platform-utilities/data/get';
 
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 
@@ -184,4 +186,22 @@ export function resolveRecipientFullName(item, formData) {
   }
 
   return formatFullNameNoSuffix(recipientName);
+}
+
+export function fullNameUIHelper() {
+  return {
+    ...fullNameNoSuffixUI(),
+    first: {
+      ...fullNameNoSuffixUI().first,
+      'ui:title': 'First or given name',
+    },
+    middle: {
+      ...fullNameNoSuffixUI().middle,
+      'ui:title': 'Middle name',
+    },
+    last: {
+      ...fullNameNoSuffixUI().last,
+      'ui:title': 'Last or family name',
+    },
+  };
 }
