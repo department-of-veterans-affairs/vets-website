@@ -99,11 +99,11 @@ const DeniedConfirmation = ({
               <p className="vads-u-margin--0">{dateReceived}</p>
             </div>
 
-            <div className="vads-u-margin-bottom--3">
+            <div className="vads-u-margin-bottom--1p5">
               <h4 className="vads-u-margin-bottom--0p5 vads-u-font-weight--bold">
                 Confirmation for your records
               </h4>
-              <p className="vads-u-margin-bottom--1">
+              <p className="vads-u-margin-bottom--0p5">
                 You can print this confirmation page for your records.
               </p>
             </div>
