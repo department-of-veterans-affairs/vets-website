@@ -39,13 +39,8 @@ import {
   relationshipLabels,
 } from '../../../labels';
 
-const customDependentDescription = props => {
-  return props.formData.unassociatedIncomes?.length ? (
-    <></>
-  ) : (
-    <DependentDescription />
-  ); // render the dependent description component if no recurring incomes are present
-};
+const renderAdditionalInfo = props =>
+  !props.formData.unassociatedIncomes?.length && <DependentDescription />;
 
 /** @type {ArrayBuilderOptions} */
 export const options = {
@@ -315,15 +310,19 @@ const custodianIncomeRecipientPage = {
       ...sharedRecipientRelationshipBase,
       labels: Object.fromEntries(
         Object.entries(relationshipLabels)
-          .filter(([key]) =>
-            ['SPOUSE', 'CHILD', 'CUSTODIAN', 'OTHER'].includes(key),
+          .filter(
+            ([key]) =>
+              key === 'SPOUSE' ||
+              key === 'CHILD' ||
+              key === 'CUSTODIAN' ||
+              key === 'OTHER',
           )
           .map(([key, value]) => {
             if (key === 'SPOUSE') {
               return [key, 'Custodian’s spouse'];
             }
             if (key === 'CHILD') {
-              return [key, 'Veteran’s surviving child '];
+              return [key, 'Veteran’s surviving child'];
             }
             if (key === 'CUSTODIAN') {
               return [key, 'Child’s custodian'];
@@ -496,9 +495,7 @@ export const unassociatedIncomePages = arrayBuilderPages(
       schema: summaryPage.schema,
     }),
     unassociatedIncomePagesUpdatedSummary: pageBuilder.summaryPage({
-      ContentBeforeButtons: showUpdatedContent()
-        ? customDependentDescription
-        : null,
+      ContentBeforeButtons: showUpdatedContent() ? renderAdditionalInfo : null,
       title: 'Recurring income',
       path: 'recurring-income-summary-updated',
       depends: formData =>
@@ -510,9 +507,7 @@ export const unassociatedIncomePages = arrayBuilderPages(
       schema: summaryPage.schema,
     }),
     unassociatedIncomePagesUpdatedSpouseSummary: pageBuilder.summaryPage({
-      ContentBeforeButtons: showUpdatedContent()
-        ? customDependentDescription
-        : null,
+      ContentBeforeButtons: showUpdatedContent() ? renderAdditionalInfo : null,
       title: 'Recurring income',
       path: 'recurring-income-summary-spouse',
       depends: formData =>
@@ -521,9 +516,7 @@ export const unassociatedIncomePages = arrayBuilderPages(
       schema: summaryPage.schema,
     }),
     unassociatedIncomePagesUpdatedChildSummary: pageBuilder.summaryPage({
-      ContentBeforeButtons: showUpdatedContent()
-        ? customDependentDescription
-        : null,
+      ContentBeforeButtons: showUpdatedContent() ? renderAdditionalInfo : null,
       title: 'Recurring income',
       path: 'recurring-income-summary-child',
       depends: formData =>
@@ -532,9 +525,7 @@ export const unassociatedIncomePages = arrayBuilderPages(
       schema: summaryPage.schema,
     }),
     unassociatedIncomePagesUpdatedCustodianSummary: pageBuilder.summaryPage({
-      ContentBeforeButtons: showUpdatedContent()
-        ? customDependentDescription
-        : null,
+      ContentBeforeButtons: showUpdatedContent() ? renderAdditionalInfo : null,
       title: 'Recurring income',
       path: 'recurring-income-summary-custodian',
       depends: formData =>
