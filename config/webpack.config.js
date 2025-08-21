@@ -478,6 +478,11 @@ module.exports = async (env = {}) => {
         },
       },
     },
+    performance: {
+      hints: buildOptions.watch ? false : 'warning', // Disable for watch mode
+      maxAssetSize: 1024 * 1024, // 1MB instead of 244KB
+      maxEntrypointSize: 1024 * 1024, // 1MB instead of 244KB
+    },
     plugins: [
       new webpack.DefinePlugin({
         __BUILDTYPE__: JSON.stringify(buildtype),

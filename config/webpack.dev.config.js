@@ -52,7 +52,13 @@ function generateWebpackDevConfig(buildOptions) {
     },
     port: buildOptions.port,
     host: buildOptions.host,
-    client: { webSocketURL },
+    client: {
+      webSocketURL,
+      overlay: {
+        warnings: false,
+        errors: true,
+      },
+    },
     devMiddleware: {
       publicPath: '/generated/',
       stats: {
@@ -66,7 +72,7 @@ function generateWebpackDevConfig(buildOptions) {
         entrypoints: false,
         children: false,
         modules: false,
-        warnings: true,
+        warnings: false,
       },
       // Needed to write the landing pages to disk so webpack-dev-server will actually serve them
       writeToDisk: true,
