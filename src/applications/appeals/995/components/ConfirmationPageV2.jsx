@@ -24,7 +24,7 @@ import {
   getPrivateEvidence,
   getOtherEvidence,
 } from '../utils/evidence';
-import { SC_NEW_FORM_DATA, EVIDENCE_LIMIT } from '../constants';
+import { EVIDENCE_LIMIT } from '../constants';
 import { getReadableDate } from '../../shared/utils/dates';
 
 // Components
@@ -55,7 +55,6 @@ export const ConfirmationPageV2 = () => {
   const otherEvidence = getOtherEvidence(data);
   const noEvidence =
     vaEvidence.length + privateEvidence.length + otherEvidence.length === 0;
-  const showScNewForm = data[SC_NEW_FORM_DATA];
 
   let mstOptionText = '';
   if (typeof data.mstOption === 'boolean') {
@@ -192,12 +191,7 @@ export const ConfirmationPageV2 = () => {
       )}
 
       {vaEvidence.length ? (
-        <EvidenceVaContent
-          list={vaEvidence}
-          reviewMode
-          showListOnly
-          showScNewForm={showScNewForm}
-        />
+        <EvidenceVaContent list={vaEvidence} reviewMode showListOnly />
       ) : null}
 
       {privateEvidence.length ? (
