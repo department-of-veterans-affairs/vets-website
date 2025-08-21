@@ -199,6 +199,13 @@ export const formConfig = {
     optionSelection: {
       title: 'Add or remove dependents',
       pages: {
+        checkVeteranPension: {
+          depends: formData => showPensionBackupPath(formData),
+          path: 'check-veteran-pension',
+          title: 'Check Veteran Pension',
+          uiSchema: checkVeteranPension.uiSchema,
+          schema: checkVeteranPension.schema,
+        },
         addOrRemoveDependents: {
           title: 'What would you like to do?',
           path: 'options-selection',
@@ -247,13 +254,6 @@ export const formConfig = {
           title: 'Veteran contact information',
           uiSchema: veteranContactInformation.uiSchema,
           schema: veteranContactInformation.schema,
-        },
-        checkVeteranPension: {
-          depends: formData => showPensionBackupPath(formData),
-          path: 'check-veteran-pension',
-          title: 'Check Veteran Pension',
-          uiSchema: checkVeteranPension.uiSchema,
-          schema: checkVeteranPension.schema,
         },
       },
     },
@@ -684,8 +684,8 @@ export const formConfig = {
             schema: claimsOrReceivesPensionPage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674) &&
-              formData?.['view:addOrRemoveDependents']?.add,
-            // showPensionRelatedQuestions(formData),
+              formData?.['view:addOrRemoveDependents']?.add &&
+              showPensionRelatedQuestions(formData),
           }),
           addStudentsPartSeventeen: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
@@ -717,7 +717,8 @@ export const formConfig = {
             depends: (formData, index) =>
               isChapterFieldRequired(formData, TASK_KEYS.report674) &&
               formData?.['view:addOrRemoveDependents']?.add &&
-              formData?.studentInformation?.[index]?.claimsOrReceivesPension,
+              formData?.studentInformation?.[index]?.claimsOrReceivesPension &&
+              showPensionRelatedQuestions(formData),
           }),
           addStudentsPartTwenty: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
