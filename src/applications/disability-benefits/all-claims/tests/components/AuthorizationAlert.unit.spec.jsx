@@ -2,6 +2,7 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import { BrowserRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import AuthorizationAlert, {
   EVIDENCE_PRIVATE_MEDICAL_RECORDS,
 } from '../../components/AuthorizationAlert';
@@ -120,3 +121,10 @@ describe('AuthorizationAlert Component', () => {
     });
   });
 });
+
+MockBasicLink.propTypes = {
+  className: PropTypes.string,
+  path: PropTypes.string,
+  text: PropTypes.string,
+  onClick: PropTypes.func,
+};
