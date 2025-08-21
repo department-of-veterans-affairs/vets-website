@@ -13,6 +13,7 @@ import { getFileSize } from '../../../helpers/utilities';
 import { isRequiredFile } from '../../../components/Applicant/applicantFileUpload';
 import { REQUIRED_FILES } from '../../../config/constants';
 import { ApplicantAddressCopyPage } from '../../../../shared/components/applicantLists/ApplicantAddressPage';
+import { PassThroughPage } from '../../../../shared/components/PassThroughPage';
 
 import FileFieldCustom, {
   FileFieldCustomSimple,
@@ -217,6 +218,12 @@ testNumberOfWebComponentFields(
   1,
   'Applicant - marriage dates (to sponsor)',
   { ...marriageData.data },
+);
+
+testComponentRender('PassThroughPage', <PassThroughPage data={{}} />);
+testComponentRender(
+  'PassThroughPage',
+  <PassThroughPage data={{}} onReviewPage />,
 );
 
 testNumberOfWebComponentFields(

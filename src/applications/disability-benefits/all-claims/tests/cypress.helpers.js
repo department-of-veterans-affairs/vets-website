@@ -9,6 +9,7 @@ import mockSubmit from './fixtures/mocks/application-submit.json';
 import mockUpload from './fixtures/mocks/document-upload.json';
 import mockServiceBranches from './fixtures/mocks/service-branches.json';
 import mockUser from './fixtures/mocks/user.json';
+import { capitalizeEachWord } from '../utils';
 
 import {
   MOCK_SIPS_API,
@@ -346,9 +347,138 @@ export const pageHooks = (cy, testOptions) => ({
                 .should('have.value', selectedOption);
             });
         }
-
         // click save
         cy.get('va-button[text="Save"]').click();
+      });
+    });
+  },
+
+  'new-disabilities/follow-up': () => {
+    cy.location('pathname').should(
+      'eq',
+      '/disability/file-disability-claim-form-21-526ez/new-disabilities/follow-up',
+    );
+
+    cy.findByText(/continue/i, { selector: 'button' }).click();
+    cy.get('@testData').then(data => {
+      data.newDisabilities.forEach((disability, index) => {
+        // Loop through each new disability and verify the follow-up pages
+        if (!data.standardClaim) {
+          // BDD Claim
+          cy.fillPage();
+          cy.findByText(/continue/i, { selector: 'button' }).click();
+        } else {
+          // Standard Claim
+          cy.log(`Processing disability ${index + 1}: ${disability.condition}`);
+          cy.get(
+            'legend[class="schemaform-block-title schemaform-title-underline"]',
+          ).should('contain', capitalizeEachWord(disability.condition));
+          cy.url().should('match', /new-disabilities\/follow-up\/\d+/);
+          // Check that we're on the correct follow-up page
+          if (disability.cause === 'NEW') {
+            // NEW conditions (asthma, PTSD) should show primary description page
+            cy.get(`input[value="NEW"]`).click();
+
+            // Fill in the primary description
+            cy.get('textarea[id="root_primaryDescription"]')
+              .should('be.visible')
+              .clear();
+            cy.get('textarea[id="root_primaryDescription"]').click();
+            cy.get('textarea[id="root_primaryDescription"]').type(
+              disability.primaryDescription,
+            );
+            cy.findByText(/continue/i, { selector: 'button' }).should(
+              'be.visible',
+            );
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          } else if (disability.cause === 'SECONDARY') {
+            // SECONDARY conditions should show secondary follow-up page
+            cy.get(`input[value="SECONDARY"]`).click();
+
+            // Select the disability that caused this one
+            cy.get(
+              'select[id="root_view:secondaryFollowUp_causedByDisability"]',
+            )
+              .should('be.visible')
+              .select(disability['view:secondaryFollowUp'].causedByDisability);
+
+            // .select(disability['view:secondaryFollowUp'].causedByDisability);
+
+            // Fill in the description
+            cy.get(
+              'textarea[id="root_view:secondaryFollowUp_causedByDisabilityDescription"]',
+            )
+              .should('be.visible')
+              .clear();
+            cy.get(
+              'textarea[id="root_view:secondaryFollowUp_causedByDisabilityDescription"]',
+            ).type(
+              disability['view:secondaryFollowUp']
+                .causedByDisabilityDescription,
+            );
+
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          } else if (disability.cause === 'WORSENED') {
+            // WORSENED conditions should show worsened follow-up page
+            cy.get(`input[value="WORSENED"]`).click();
+
+            // Fill in worsened description
+            cy.get(
+              'input[name="root_view:worsenedFollowUp_worsenedDescription"]',
+            )
+              .should('be.visible')
+              .clear();
+            cy.get(
+              'input[name="root_view:worsenedFollowUp_worsenedDescription"]',
+            ).type(disability['view:worsenedFollowUp'].worsenedDescription);
+
+            cy.get('textarea[id="root_view:worsenedFollowUp_worsenedEffects"]')
+              .should('be.visible')
+              .clear();
+            cy.get(
+              'textarea[id="root_view:worsenedFollowUp_worsenedEffects"]',
+            ).type(disability['view:worsenedFollowUp'].worsenedEffects);
+
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          } else if (disability.cause === 'VA') {
+            // VA conditions should show VA mistreatment follow-up page
+            cy.get(`input[value="VA"]`).click();
+
+            // Fill in VA mistreatment details
+            cy.get(
+              'textarea[id="root_view:vaFollowUp_vaMistreatmentDescription"]',
+            )
+              .should('be.visible')
+              .clear();
+            cy.get(
+              'textarea[id="root_view:vaFollowUp_vaMistreatmentDescription"]',
+            ).type(disability['view:vaFollowUp'].vaMistreatmentDescription);
+
+            cy.get('input[id="root_view:vaFollowUp_vaMistreatmentLocation"]')
+              .should('be.visible')
+              .clear();
+            cy.get(
+              'input[id="root_view:vaFollowUp_vaMistreatmentLocation"]',
+            ).type(disability['view:vaFollowUp'].vaMistreatmentLocation);
+
+            cy.get('input[id="root_view:vaFollowUp_vaMistreatmentDate"]')
+              .should('be.visible')
+              .clear();
+            cy.get('input[id="root_view:vaFollowUp_vaMistreatmentDate"]').type(
+              disability['view:vaFollowUp'].vaMistreatmentDate,
+            );
+
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          }
+          // Verify we've moved to the next page or completed the flow
+          if (index < data.newDisabilities.length - 1) {
+            // Should be on the next disability's follow-up page
+            cy.url().should('match', /new-disabilities\/follow-up\/\d+/);
+          } else {
+            // Should have moved past all follow-up pages
+            cy.url().should('not.match', /new-disabilities\/follow-up/);
+          }
+        }
       });
     });
   },

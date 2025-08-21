@@ -1,3 +1,5 @@
+import { showUpdatedContent } from './helpers';
+
 // Always name keys with uppercase snake_casing
 // Always use keys for data storage
 export const relationshipLabels = {
@@ -13,6 +15,7 @@ export const relationshipLabelDescriptions = {
   SPOUSE:
     'Unless you’re estranged, live apart, and don’t contribute to their support',
   CHILD: 'Unless you don’t have custody and don’t provide financial support',
+  CUSTODIAN: 'Unless the child’s custodian is an institution',
 };
 
 export const transferMethodLabels = {
@@ -49,7 +52,7 @@ export const incomeTypeLabels = {
 export const incomeTypeEarnedLabels = {
   INTEREST: 'Interest',
   DIVIDENDS: 'Dividends',
-  OTHER: 'Other',
+  OTHER: showUpdatedContent() ? 'Other financial asset income' : 'Other',
 };
 
 export const ownedAssetTypeLabels = {
