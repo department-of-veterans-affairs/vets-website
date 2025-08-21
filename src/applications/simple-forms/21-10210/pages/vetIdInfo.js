@@ -1,20 +1,15 @@
-import definitions from 'vets-json-schema/dist/definitions.json';
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import { maskSSN } from 'platform/forms-system/src/js/web-component-fields/SsnField';
+import {
+  ssnUI,
+  ssnSchema,
+  vaFileNumberUI,
+  vaFileNumberSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    veteranSSN: {
-      ...ssnUI,
-      'ui:confirmationField': ({ formData }) => ({ data: maskSSN(formData) }),
-    },
-    veteranVaFileNumber: {
-      'ui:title': 'VA file number (if available)',
-      'ui:errorMessages': {
-        pattern: 'Your VA file number must be 8 or 9 digits',
-      },
-    },
+    veteranSSN: ssnUI(),
+    veteranVaFileNumber: vaFileNumberUI(),
     veteranVaInsuranceFileNumber: {
       'ui:title': 'VA Insurance File number (if available)',
       'ui:errorMessages': {
@@ -26,8 +21,8 @@ export default {
     type: 'object',
     required: ['veteranSSN'],
     properties: {
-      veteranSSN: definitions.ssn,
-      veteranVaFileNumber: definitions.centralMailVaFile,
+      veteranSSN: ssnSchema,
+      veteranVaFileNumber: vaFileNumberSchema,
       veteranVaInsuranceFileNumber: {
         type: 'string',
         maxLength: 20,
