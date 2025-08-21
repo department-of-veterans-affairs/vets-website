@@ -1,3 +1,5 @@
+import { showUpdatedContent } from './helpers';
+
 // Always name keys with uppercase snake_casing
 // Always use keys for data storage
 export const relationshipLabels = {
@@ -50,7 +52,7 @@ export const incomeTypeLabels = {
 export const incomeTypeEarnedLabels = {
   INTEREST: 'Interest',
   DIVIDENDS: 'Dividends',
-  OTHER: 'Other',
+  OTHER: showUpdatedContent() ? 'Other financial asset income' : 'Other',
 };
 
 export const ownedAssetTypeLabels = {
