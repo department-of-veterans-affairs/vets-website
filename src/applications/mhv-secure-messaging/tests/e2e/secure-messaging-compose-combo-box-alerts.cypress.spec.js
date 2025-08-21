@@ -45,8 +45,4 @@ describe('SM MESSAGING COMBO BOX ALERTS', () => {
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
-
-  afterEach(() => {
-    PatientComposePage.deleteUnsavedDraft();
-  });
 });
