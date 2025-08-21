@@ -31,12 +31,11 @@ export default function App({ location, children }) {
       label: 'Home',
     },
     {
-      href: '/view-change-dependents',
+      href: '/manage-dependents',
       label: 'Manage dependents',
     },
     {
-      href:
-        '/view-change-dependents/verify-dependents-form-21-0538/introduction',
+      href: '/manage-dependents/verify-dependents-form-21-0538/introduction',
       label:
         pageUrl === 'exit-form'
           ? 'Update your dependents in a different form'
