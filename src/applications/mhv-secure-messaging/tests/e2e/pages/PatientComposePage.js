@@ -76,9 +76,24 @@ class PatientComposePage {
       .select(index, { force: true });
   };
 
+  getComboBox = () => {
+    return cy
+      .get('va-combo-box')
+      .shadow()
+      .find(`#options`);
+  };
+
+  getComboBoxDropdown = () => {
+    return cy
+      .get('va-combo-box')
+      .shadow()
+      .find(Locators.DROPDOWN.RECIPIENTS_COMBO);
+  };
+
   selectComboBoxRecipient = text => {
-    cy.get(`#options`).clear();
-    cy.get(`#options`).type(text);
+    const comboBox = this.getComboBox();
+    comboBox.clear();
+    comboBox.type(text, { waitForAnimations: true });
   };
 
   selectCategory = (category = 'OTHER') => {

@@ -21,8 +21,8 @@ describe('SM MESSAGING COMBO BOX', () => {
 
   it('verify drop down list behavior', () => {
     PatientComposePage.verifyHeader(Data.START_NEW_MSG);
-    cy.get(Locators.FIELDS.RECIPIENTS_COMBO).click();
-    cy.get(Locators.DROPDOWN.RECIPIENTS_COMBO).should('be.visible');
+    PatientComposePage.getComboBox().click();
+    PatientComposePage.getComboBoxDropdown().should('be.visible');
 
     PatientComposePage.selectComboBoxRecipient('TG');
     PatientComposePage.verifyRecipientsDropdownList('TG');

@@ -20,6 +20,5 @@ describe('Validate the category', () => {
     cy.axeCheck(AXE_CONTEXT);
 
     PatientComposePage.backToInbox();
-    PatientComposePage.clickDeleteDraftModalButton();
   });
 });
