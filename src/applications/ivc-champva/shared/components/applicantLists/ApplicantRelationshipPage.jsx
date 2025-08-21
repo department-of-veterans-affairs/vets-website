@@ -254,7 +254,7 @@ export default function ApplicantRelationshipPage(props) {
         );
         if (hasExistingSpouse) {
           setCheckError(
-            'Only one applicant can have a spousal relationship to the Veteran',
+            'Only one applicant can have a spousal or partner relationship to the Veteran',
           );
           isValid = false;
         }
