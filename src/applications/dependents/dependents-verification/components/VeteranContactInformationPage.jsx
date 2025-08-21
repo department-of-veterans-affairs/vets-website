@@ -156,6 +156,7 @@ const VeteranContactInformationPage = ({
         if (updateAlertRef?.current && name && action === 'update') {
           setTimeout(() => {
             scrollAndFocus(updateAlertRef.current);
+            removeEditContactInformation();
           });
         } else if (action === 'cancel') {
           setTimeout(() => {
@@ -166,6 +167,7 @@ const VeteranContactInformationPage = ({
               scrollTo(card);
               focusElement('a', {}, card.querySelector('va-link'));
             }
+            removeEditContactInformation();
           });
         }
       }
