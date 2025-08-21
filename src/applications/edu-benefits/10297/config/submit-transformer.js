@@ -22,14 +22,7 @@ export function transform(formConfig, form) {
   const eligibilityTransform = formData => {
     const clonedData = _.cloneDeep(formData);
 
-    delete clonedData.dutyRequirement;
-    delete clonedData.otherThanDishonorableDischarge;
-
-    // if (!clonedData.hasCompletedActiveDuty) {
-    //   delete clonedData.dateReleasedFromActiveDuty;
-    // }
-
-    return {
+    const finalData = {
       ...clonedData,
       dateSigned: dateSigned(),
       dateReleasedFromActiveDuty: clonedData.dateReleasedFromActiveDuty
@@ -38,6 +31,11 @@ export function transform(formConfig, form) {
       hasCompletedByDischarge: clonedData.dutyRequirement === 'byDischarge',
       hasCompletedActiveDuty: clonedData.dutyRequirement === 'atLeast3Years',
     };
+
+    delete finalData.dutyRequirement;
+    delete finalData.otherThanDishonorableDischarge;
+
+    return finalData;
   };
 
   const identificationTransform = formData => {
@@ -52,21 +50,34 @@ export function transform(formConfig, form) {
 
   const trainingProviderTransform = formData => {
     const clonedData = _.cloneDeep(formData);
-    const { trainingProviders } = clonedData;
+    const parsedData = JSON.parse(clonedData);
 
-    delete clonedData.plannedStartDate;
+    const { trainingProviders } = parsedData;
 
-    return {
-      ...clonedData,
-      trainingProviders: {
-        providers: trainingProviders
-          ? trainingProviders.map(provider => ({
-              ...provider,
-            }))
-          : [],
-        plannedStartDate: clonedData.plannedStartDate || '2025-08-20',
-      },
-    };
+    let finalData;
+
+    if (trainingProviders && trainingProviders.length > 0) {
+      finalData = {
+        ...parsedData,
+        trainingProviders: {
+          providers: trainingProviders.map(provider => ({
+            ...provider,
+          })),
+          plannedStartDate: parsedData.plannedStartDate || '2025-08-20',
+        },
+      };
+    } else {
+      finalData = {
+        ...parsedData,
+        trainingProviders: {
+          providers: [],
+          plannedStartDate: parsedData.plannedStartDate || '2025-08-20',
+        },
+      };
+    }
+
+    delete finalData.plannedStartDate;
+    return JSON.stringify(finalData);
   };
 
   const employmentDetailsTransform = formData => {
@@ -101,8 +112,8 @@ export function transform(formConfig, form) {
     identificationTransform,
     employmentDetailsTransform,
     privacyAgreementTransform,
-    trainingProviderTransform,
     usFormTransform,
+    trainingProviderTransform,
   ].reduce((formData, transformer) => {
     return transformer(formData);
   }, form.data);
