@@ -382,17 +382,7 @@ describe('VAOS Services: Appointment ', () => {
     });
   });
 
-  //--------
-
   describe('getVAAppointmentLocationId', () => {
-    beforeEach(() => {
-      // Setup before each test
-    });
-
-    afterEach(() => {
-      // Cleanup after each test
-    });
-
     it('should return null for undefined appointment', () => {
       expect(getVAAppointmentLocationId(undefined)).to.be.null;
     });
