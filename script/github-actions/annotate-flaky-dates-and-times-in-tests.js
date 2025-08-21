@@ -24,7 +24,7 @@ const dateTimeHelpers = [
   'Date.UTC()',
   'Date.UTC(0, 0',
   'dayjs()',
-  'moment()',
+  'moment(',
   'moment().format(',
   'DateTime.now()',
   'cy.tick(',
