@@ -27,7 +27,9 @@ export default function StudentFeedbackCardGrid({
               >
                 <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-height--full">
                   <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--3">
-                    {card.label}
+                    {String(card.key).toLowerCase() === 'other'
+                      ? 'Other Topics'
+                      : card.label}
                   </h3>
 
                   {card.coCategories.length > 0 && (

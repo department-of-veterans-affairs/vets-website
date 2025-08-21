@@ -1185,3 +1185,20 @@ export const deriveInstitutionTitle = localType => {
   }
   return `${capitalize(localType)} Institution`;
 };
+
+export const norm = s => String(s || '').toLowerCase();
+
+export const toSnakeLower = s =>
+  String(s)
+    .replace(/([A-Z])/g, '_$1')
+    .toLowerCase();
+
+// title case and space underscores for display fallbacks
+export const humanize = s =>
+  String(s || '')
+    .replace(/_/g, ' ')
+    .replace(/\b\w/g, m => m.toUpperCase());
+
+// de-dupe + lowercase the record’s categories
+export const tagsForRecord = rec =>
+  Array.from(new Set((rec?.categories || []).map(norm)));
