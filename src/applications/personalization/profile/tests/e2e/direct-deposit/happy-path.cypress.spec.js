@@ -85,4 +85,32 @@ describe('Direct Deposit - Happy Path', () => {
       cy.injectAxeThenAxeCheck();
     });
   });
+
+  describe('when profileShowPaperlessDelivery is true', () => {
+    it('should show new unified page when profileShowDirectDepositSingleForm is true', () => {
+      directDeposit.setup();
+      directDeposit.visitPage();
+      directDeposit.confirmDirectDepositInSubnav({
+        profileShowPaperlessDelivery: true,
+      });
+      cy.findAllByTestId('unified-direct-deposit').should('exist');
+      cy.findByRole('heading', { name: 'Direct deposit information' }).should(
+        'exist',
+      );
+      cy.injectAxeThenAxeCheck();
+    });
+
+    it('should show the direct deposit account information when present and eligible', () => {
+      directDeposit.setup();
+      directDeposit.visitPage();
+      directDeposit.confirmDirectDepositInSubnav({
+        profileShowPaperlessDelivery: true,
+      });
+      cy.findAllByTestId('unified-direct-deposit').should('exist');
+      cy.findByRole('heading', { name: 'Direct deposit information' }).should(
+        'exist',
+      );
+      cy.injectAxeThenAxeCheck();
+    });
+  });
 });
