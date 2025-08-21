@@ -1,4 +1,5 @@
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
+import { format } from 'date-fns';
 import { Actions } from '../util/actionTypes';
 import {
   EMPTY_FIELD,
@@ -230,7 +231,38 @@ const notesAndSummariesConverterMap = {
   [noteTypes.PHYSICIAN_PROCEDURE_NOTE]: convertProgressNote,
   [noteTypes.CONSULT_RESULT]: convertProgressNote,
 };
+// TODO: this is wet
+export function formatDateTime(datetimeString) {
+  const dateTime = new Date(datetimeString);
+  if (Number.isNaN(dateTime.getTime())) {
+    return { formattedDate: '', formattedTime: '' };
+  }
+  const formattedDate = format(dateTime, 'MMMM d, yyyy');
+  const formattedTime = format(dateTime, 'h:mm a');
 
+  return { formattedDate, formattedTime };
+}
+
+const convertUnifiedCareSummariesAndNotesRecord = record => {
+  const { formattedDate, formattedTime } = formatDateTime(
+    record.attributes.date,
+  );
+  const date = formattedDate ? `${formattedDate}, ${formattedTime}` : '';
+  return {
+    id: record.id,
+    name: record.attributes.name || EMPTY_FIELD,
+    type: record.attributes.loincCodes
+      ? record.attributes.loincCodes[0]
+      : EMPTY_FIELD,
+    loincCodes: record.attributes.loincCodes || [],
+    date: date || EMPTY_FIELD,
+    dateSigned: record.attributes.dateSigned || EMPTY_FIELD,
+    writtenBy: record.attributes.writtenBy || EMPTY_FIELD,
+    signedBy: record.attributes.signedBy || EMPTY_FIELD,
+    location: record.attributes.location || EMPTY_FIELD,
+    note: record.attributes.note || EMPTY_FIELD,
+  };
+};
 /**
  * @param {Object} record - A FHIR DocumentReference object
  * @returns the appropriate frontend object for display
@@ -257,6 +289,29 @@ export const careSummariesAndNotesReducer = (state = initialState, action) => {
       return {
         ...state,
         careSummariesAndNotesDetails: action.response,
+      };
+    }
+    case Actions.CareSummariesAndNotes.GET_UNIFIED_LIST: {
+      const data = action.response || [];
+      const oldList = state.careSummariesAndNotesList;
+      const newList =
+        data
+          ?.map(note => {
+            return convertUnifiedCareSummariesAndNotesRecord(note);
+          })
+          .filter(record => record.type !== noteTypes.OTHER)
+          .sort((a, b) => {
+            if (!a.sortByDate) return 1; // Push nulls to the end
+            if (!b.sortByDate) return -1; // Keep non-nulls at the front
+            return b.sortByDate.getTime() - a.sortByDate.getTime();
+          }) || [];
+      return {
+        ...state,
+        listCurrentAsOf: action.isCurrent ? new Date() : null,
+        listState: loadStates.FETCHED,
+        careSummariesAndNotesList:
+          typeof oldList === 'undefined' ? newList : oldList,
+        updatedList: typeof oldList !== 'undefined' ? newList : undefined,
       };
     }
     case Actions.CareSummariesAndNotes.GET_LIST: {

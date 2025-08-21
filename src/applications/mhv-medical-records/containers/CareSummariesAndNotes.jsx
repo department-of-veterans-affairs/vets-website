@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
@@ -14,6 +14,7 @@ import {
   accessAlertTypes,
   pageTitles,
   recordType,
+  loadStates,
   refreshExtractTypes,
   statsdFrontEndActions,
 } from '../util/constants';
@@ -23,6 +24,7 @@ import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import { useTrackAction } from '../hooks/useTrackAction';
+import useAcceleratedData from '../hooks/useAcceleratedData';
 
 const CareSummariesAndNotes = () => {
   const dispatch = useDispatch();
@@ -42,12 +44,22 @@ const CareSummariesAndNotes = () => {
   const activeAlert = useAlerts(dispatch);
   useTrackAction(statsdFrontEndActions.CARE_SUMMARIES_AND_NOTES_LIST);
 
+  const { isAcceleratingCareNotes } = useAcceleratedData();
+  const dispatchAction = useMemo(
+    () => {
+      return isCurrent => {
+        return getCareSummariesAndNotesList(isCurrent, isAcceleratingCareNotes);
+      };
+    },
+    [isAcceleratingCareNotes],
+  );
+
   useListRefresh({
     listState,
     listCurrentAsOf: careSummariesAndNotesCurrentAsOf,
     refreshStatus: refresh.status,
     extractType: refreshExtractTypes.VPR,
-    dispatchAction: getCareSummariesAndNotesList,
+    dispatchAction,
     dispatch,
   });
 
@@ -71,6 +83,9 @@ const CareSummariesAndNotes = () => {
     [dispatch],
   );
 
+  const isLoadingAcceleratedData =
+    isAcceleratingCareNotes && listState === loadStates.FETCHING;
+
   return (
     <div id="care-summaries-and-notes">
       <h1 data-testid="care-summaries-and-notes" className="page-title">
@@ -91,21 +106,37 @@ const CareSummariesAndNotes = () => {
         listCurrentAsOf={careSummariesAndNotesCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
-        <NewRecordsIndicator
-          refreshState={refresh}
-          extractType={refreshExtractTypes.VPR}
-          newRecordsFound={
-            Array.isArray(careSummariesAndNotes) &&
-            Array.isArray(updatedRecordList) &&
-            careSummariesAndNotes.length !== updatedRecordList.length
-          }
-          reloadFunction={() => {
-            dispatch(reloadRecords());
-          }}
-        />
-        {careSummariesAndNotes?.length ? (
+        {!isAcceleratingCareNotes && (
+          <NewRecordsIndicator
+            refreshState={refresh}
+            extractType={refreshExtractTypes.VPR}
+            newRecordsFound={
+              Array.isArray(careSummariesAndNotes) &&
+              Array.isArray(updatedRecordList) &&
+              careSummariesAndNotes.length !== updatedRecordList.length
+            }
+            reloadFunction={() => {
+              dispatch(reloadRecords());
+            }}
+          />
+        )}
+        {isLoadingAcceleratedData && (
+          <>
+            <div className="vads-u-margin-y--8">
+              <va-loading-indicator
+                message="We’re loading your records."
+                setFocus
+                data-testid="loading-indicator"
+              />
+            </div>
+          </>
+        )}
+        {!isLoadingAcceleratedData && careSummariesAndNotes?.length ? (
           <RecordList
             records={careSummariesAndNotes}
+            domainOptions={{
+              isAcceleratingCareNotes,
+            }}
             type="care summaries and notes"
             hideRecordsLabel
           />
