@@ -17,7 +17,13 @@ describe("22-1919 Institution's name and address", () => {
     uiSchema,
   } = formConfig.chapters.institutionDetailsChapter.pages.institutionNameAndAddress;
 
-  const renderPage = (data = {}) =>
+  const renderPage = (
+    data = {
+      institutionDetails: {
+        institutionAddress: { country: 'USA' },
+      },
+    },
+  ) =>
     render(
       <Provider store={mockStore({ form: { data } })}>
         <DefinitionTester
@@ -63,10 +69,9 @@ describe("22-1919 Institution's name and address", () => {
         container,
       ).length,
     ).to.equal(1);
-    // state is a va-text-input in default view before USA is selected by default
     expect(
       $$(
-        'va-text-input[name="root_institutionDetails_institutionAddress_state"]',
+        'va-select[name="root_institutionDetails_institutionAddress_state"]',
         container,
       ).length,
     ).to.equal(1);
@@ -81,7 +86,7 @@ describe("22-1919 Institution's name and address", () => {
   it('renders separate fields when the military checkbox is checked', () => {
     const { container } = renderPage({
       institutionDetails: {
-        institutionAddress: { isMilitary: true },
+        institutionAddress: { country: 'USA', isMilitary: true },
       },
     });
 
@@ -117,7 +122,8 @@ describe("22-1919 Institution's name and address", () => {
     await waitFor(() => {
       // at least 4 form errors (institution name, street, city, postalCode)
       expect($$('va-text-input[error]', container).length).to.equal(4);
-      // state does not show as error in default view before USA is selected by default
+      // state error
+      expect($$('va-select[error]', container).length).to.equal(1);
     });
   });
 });

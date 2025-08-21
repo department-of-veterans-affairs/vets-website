@@ -9,13 +9,15 @@ const updateFormData = (oldData, formData) => {
   const curr = formData?.aboutYourInstitution;
 
   if (prev !== curr) {
+    // sets default country to USA when 'Not yet' is selected for facilty code
+    const institutionAddress = !curr ? { country: 'USA' } : {};
     return {
       ...formData,
       institutionDetails: {
         ...formData.institutionDetails,
         facilityCode: '',
         institutionName: '',
-        institutionAddress: {},
+        institutionAddress,
       },
     };
   }
