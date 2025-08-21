@@ -2,13 +2,12 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useHistory } from 'react-router-dom';
-import { format } from 'date-fns';
-import { formatInTimeZone } from 'date-fns-tz';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { titleCase } from '../utils/formatters';
-import { stripDST } from '../utils/timezone';
 import ReferralLayout from './components/ReferralLayout';
 import ProviderAddress from './components/ProviderAddress';
+import AppointmentDate from '../components/AppointmentDate';
+import AppointmentTime from '../components/AppointmentTime';
 import { routeToNextReferralPage } from './flow';
 import {
   pollFetchAppointmentInfo,
@@ -128,18 +127,6 @@ export const CompleteReferral = props => {
 
   const { attributes } = referralAppointmentInfo;
 
-  const appointmentDate = format(
-    new Date(attributes.start),
-    'EEEE, MMMM do, yyyy',
-  );
-
-  const appointmentTime = stripDST(
-    formatInTimeZone(
-      new Date(attributes.start),
-      attributes.provider.location.timezone,
-      'h:mm aaaa zzz',
-    ),
-  );
   return (
     <ReferralLayout
       hasEyebrow
@@ -163,15 +150,18 @@ export const CompleteReferral = props => {
           >
             <p
               className="vads-u-margin-bottom--0 vads-u-font-family--serif"
-              data-testid="appointment-date"
+              data-testid="appointment-date-container"
             >
-              <span data-dd-privacy="mask">{appointmentDate}</span>
+              <AppointmentDate date={attributes.start} />
             </p>
             <h2
               className="vads-u-margin-top--0 vads-u-margin-bottom-1"
-              data-testid="appointment-time"
+              data-testid="appointment-time-container"
             >
-              <span data-dd-privacy="mask">{appointmentTime}</span>
+              <AppointmentTime
+                date={attributes.start}
+                timezone={attributes.provider.location.timezone}
+              />
             </h2>
             <strong data-dd-privacy="mask" data-testid="appointment-type">
               {titleCase(currentReferral.categoryOfCare)} with{' '}
