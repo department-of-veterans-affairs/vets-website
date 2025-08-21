@@ -331,6 +331,18 @@ const responses = {
       data: slots,
     });
   },
+  'GET /vaos/v2/locations/:facility_id/slots': (req, res) => {
+    // For OH slot queries, no clinicId is passed
+    const start = new Date(req.query.start);
+    const end = new Date(req.query.end);
+    const slots = appointmentSlotsV2.data.filter(slot => {
+      const slotStartDate = new Date(slot.attributes.start);
+      return isWithinInterval(slotStartDate, { start, end });
+    });
+    return res.json({
+      data: slots,
+    });
+  },
   'GET /vaos/v2/patients': (req, res) => {
     return res.json({
       data: {
