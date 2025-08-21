@@ -1,5 +1,5 @@
+import { logErrorToDatadog } from '../utils/logging';
 import { clearBotSessionStorage } from '../utils/sessionStorage';
-import logger from '../utils/logger';
 
 export default function signOutEventListener() {
   const links = document.querySelectorAll('div#account-menu ul li a');
@@ -15,5 +15,5 @@ export default function signOutEventListener() {
   const error = new TypeError(
     'Virtual Agent chatbot could not find sign out link in menu',
   );
-  logger.error(error.message, error);
+  logErrorToDatadog(true, error.message, error);
 }

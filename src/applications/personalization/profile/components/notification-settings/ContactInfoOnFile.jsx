@@ -95,7 +95,7 @@ const ContactInfoOnFile = ({
         <va-alert-expandable
           status="info"
           trigger="You won’t receive text notifications"
-          class="vads-u-margin-top--2"
+          class="vads-u-margin-top--3"
           data-testid="international-mobile-number-info-alert"
         >
           <p className="vads-u-padding-bottom--2">
@@ -120,6 +120,7 @@ const ContactInfoOnFile = ({
       <va-additional-info
         data-testid="data-encryption-notice"
         trigger="By setting up notifications, you agree to receive unsecure emails and texts"
+        class="vads-u-margin-top--3"
       >
         <p>
           Data encryption is a way of making data hard to read by people other

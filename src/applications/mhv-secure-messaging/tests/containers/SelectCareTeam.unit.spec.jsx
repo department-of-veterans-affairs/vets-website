@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import reducer from '../../reducers';
-import { Paths } from '../../util/constants';
+import { ErrorMessages, Paths } from '../../util/constants';
 import SelectCareTeam from '../../containers/SelectCareTeam';
 import noBlockedRecipients from '../fixtures/json-triage-mocks/triage-teams-mock.json';
 import noBlocked6Recipients from '../fixtures/json-triage-mocks/triage-teams-mock-6-teams.json';
@@ -230,7 +230,6 @@ describe('SelectCareTeam', () => {
       sm: {
         ...initialState.sm,
         threadDetails: {
-          acceptIntersticial: false,
           draftInProgress: {
             recipientId: initialState.sm.recipients.allowedRecipients[0].id,
             recipientName: initialState.sm.recipients.allowedRecipients[0].name,
@@ -371,6 +370,81 @@ describe('SelectCareTeam', () => {
     expect(callArgs).to.include({
       careSystemVhaId: '662',
       careSystemName: 'Test Facility 1',
+    });
+  });
+
+  it('dispatches CONT_SAVING_DRAFT_CHANGES navigation error when draft has body, subject, and category', async () => {
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        threadDetails: {
+          draftInProgress: {
+            body: 'Draft message body',
+            subject: 'Draft subject',
+            category: 'GENERAL',
+          },
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+      initialState: customState,
+      reducers: reducer,
+      path: Paths.SELECT_CARE_TEAM,
+    });
+
+    await waitFor(() => {
+      const val = customState.sm.recipients.allowedRecipients[0].id;
+      selectVaSelect(screen.container, val);
+    });
+
+    await waitFor(() => {
+      const calls = updateDraftInProgressSpy.getCalls();
+      const navigationErrorCall = calls.find(
+        call => call.args[0]?.navigationError,
+      );
+      expect(navigationErrorCall).to.exist;
+      expect(navigationErrorCall.args[0].navigationError).to.deep.equal(
+        ErrorMessages.ComposeForm.CONT_SAVING_DRAFT_CHANGES,
+      );
+    });
+  });
+
+  it('dispatches UNABLE_TO_SAVE navigation error when draft is missing body, subject, or category', async () => {
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        threadDetails: {
+          draftInProgress: {
+            body: 'Draft message body',
+            // missing subject and category
+          },
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+      initialState: customState,
+      reducers: reducer,
+      path: Paths.SELECT_CARE_TEAM,
+    });
+
+    await waitFor(() => {
+      const val = customState.sm.recipients.allowedRecipients[0].id;
+      selectVaSelect(screen.container, val);
+    });
+
+    await waitFor(() => {
+      const calls = updateDraftInProgressSpy.getCalls();
+      const navigationErrorCall = calls.find(
+        call => call.args[0]?.navigationError,
+      );
+      expect(navigationErrorCall).to.exist;
+      expect(navigationErrorCall.args[0].navigationError).to.deep.equal(
+        ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
+      );
     });
   });
 

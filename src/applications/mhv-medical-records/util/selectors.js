@@ -31,8 +31,6 @@ export const selectNotesFlag = state =>
   state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayNotes];
 export const selectVitalsFlag = state =>
   state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayVitals];
-export const selectConditionsFlag = state =>
-  state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayConditions];
 export const selectLabsAndTestsFlag = state =>
   state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayLabsAndTests];
 export const selectSettingsPageFlag = state =>

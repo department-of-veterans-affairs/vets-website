@@ -6,6 +6,8 @@ import {
   dateOfBirthSchema,
   dateOfDeathSchema,
   dateOfDeathUI,
+  emailUI,
+  emailSchema,
   fullNameUI,
   fullNameSchema,
   phoneUI,
@@ -196,6 +198,9 @@ export const sponsorContactInfo = {
       ...phoneUI(),
       'ui:required': () => true,
     },
+    sponsorEmail: {
+      ...emailUI(),
+    },
   },
   schema: {
     type: 'object',
@@ -203,6 +208,7 @@ export const sponsorContactInfo = {
     properties: {
       titleSchema,
       sponsorPhone: phoneSchema,
+      sponsorEmail: emailSchema,
     },
   },
 };
