@@ -13,7 +13,7 @@ const vaFileInputFieldMapping = props => {
   const _accept = uiOptions?.accept;
   const accept = Array.isArray(_accept)
     ? _accept.join(',')
-    : DEFAULT_ACCEPT_TYPES;
+    : _accept || DEFAULT_ACCEPT_TYPES;
 
   let uploadedFiles = null;
   if (Array.isArray(childrenProps.formData)) {

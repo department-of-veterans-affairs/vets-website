@@ -16,13 +16,13 @@ export default {
       //   environment.API_URL
       //   }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
       fileUploadUrl: 'http://localhost:3000/upload',
-      accept: '.png,.pdf',
+      accept: '.png,.pdf,.txt',
       hint: 'Upload a file that is between 1KB and 5MB',
       headerSize: '3',
       formNumber: '31-4159',
       // skipUpload: true, // mock-forms does not have a backend for upload
       maxFileSize: 1024 * 1024 * 5,
-      minFileSize: 1024,
+      minFileSize: 1,
       errorMessages: {
         additionalInput: 'Choose a document status',
       },

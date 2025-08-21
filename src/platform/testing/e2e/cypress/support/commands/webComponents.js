@@ -191,11 +191,14 @@ Cypress.Commands.add('fillVaFileInputMultiple', (field, value) => {
       const detail = {
         action: 'FILE_ADDED',
         file: pngFile,
-        state: [],
+        state: [{ file: pngFile, password: undefined, changed: true }],
         mockFormData: {
           confirmationCode: 'abc123',
           name: 'placeholder.png',
           size: 123,
+          additionalData: {
+            documentStatus: 'public',
+          },
         },
       };
 
@@ -205,7 +208,7 @@ Cypress.Commands.add('fillVaFileInputMultiple', (field, value) => {
         composed: true,
       };
 
-      const event = new CustomEvent('vaFileInputMultiple', options);
+      const event = new CustomEvent('vaMultipleChange', options);
       el.dispatchEvent(event);
     });
   }

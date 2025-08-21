@@ -26,6 +26,7 @@ const VaFileInputMultipleField = props => {
   const [errors, setErrors] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [percentsUploaded, setPercentsUploaded] = useState([]);
+  const [initPoll, setInitPoll] = useState(true);
   const dispatch = useDispatch();
   const { percentUploaded, handleUpload } = useFileUpload(
     uiOptions.fileUploadUrl,
@@ -63,49 +64,66 @@ const VaFileInputMultipleField = props => {
   // update the additional inputs with prefill data and/or set errors on additional inputs
   useEffect(
     () => {
-      // using a delay because the slot content does not render immediatley
-      // TODO: find a cleaner solution than setTimeout
-      const id = setTimeout(() => {
-        if (
-          componentRef.current &&
-          componentRef.current.shadowRoot &&
-          uiOptions.additionalInputUpdate
-        ) {
-          childrenProps.formData.forEach((_, index) => {
-            const instance = componentRef.current.shadowRoot.getElementById(
-              `instance-${index}`,
-            );
-            if (instance) {
-              const slotContent = instance.shadowRoot
-                .querySelector('slot')
-                ?.assignedNodes()[0]?.firstElementChild;
-              if (slotContent) {
-                const file = childrenProps.formData[index];
-                const _isEmpty =
-                  !file || (file && isEmpty(file.additionalData));
-                // component missing additional data and has been touched and instance not already in error state
-                const error =
-                  _isEmpty &&
-                  index < errorManager.getLastTouched() &&
-                  !instance.getAttribute('error')
-                    ? MISSING_ADDITIONAL_INFO
-                    : '';
-                const additionalData = file?.additionalData || null;
-                uiOptions.additionalInputUpdate(
-                  slotContent,
-                  error,
-                  additionalData,
-                );
-              }
+      function updateAdditionalInputs() {
+        childrenProps.formData.forEach((_, index) => {
+          const instance = componentRef.current.shadowRoot.getElementById(
+            `instance-${index}`,
+          );
+          if (instance) {
+            const slot = instance.shadowRoot.querySelector('slot');
+            const [slotContent] =
+              slot.assignedElements?.({ flatten: true }) ||
+              slot.assignedNodes().filter(n => n.nodeType === 1);
+            if (slotContent) {
+              setInitPoll(false);
+              const file = childrenProps.formData[index];
+              const _isEmpty = !file || (file && isEmpty(file.additionalData));
+              // component missing additional data and has been touched and instance not already in error state
+              const additionalInputError =
+                _isEmpty &&
+                index < errorManager.getLastTouched() &&
+                !instance.getAttribute('error')
+                  ? MISSING_ADDITIONAL_INFO
+                  : '';
+              const additionalData = file?.additionalData || null;
+              uiOptions.additionalInputUpdate(
+                slotContent.firstElementChild,
+                additionalInputError,
+                additionalData,
+              );
             }
-          });
-        }
-      }, 150);
+          }
+        });
+      }
 
-      return () => {
-        clearTimeout(id);
-      };
+      function sleep(delay) {
+        return new Promise(resolve => setTimeout(resolve, delay));
+      }
+
+      // poll on load until slot content renders
+      async function poll() {
+        const WAIT = 50;
+        const MAXLOOP = 1500 / WAIT;
+        for (let attempt = 0; attempt < MAXLOOP; attempt++) {
+          const ready = !!componentRef.current?.shadowRoot
+            ?.querySelector('va-file-input')
+            ?.shadowRoot?.querySelector('slot');
+          if (ready) {
+            updateAdditionalInputs();
+            return;
+          }
+          // eslint-disable-next-line no-await-in-loop
+          await sleep(WAIT);
+        }
+      }
+
+      if (initPoll) {
+        poll();
+      } else {
+        updateAdditionalInputs();
+      }
     },
+
     [childrenProps.formData, mappedProps.error],
   );
 
@@ -196,7 +214,7 @@ const VaFileInputMultipleField = props => {
 
     // cypress test / skip the network call and its callbacks
     if (environment.isTest() && !environment.isUnitTest()) {
-      childrenProps.onChange([...mockFormData]);
+      childrenProps.onChange([mockFormData]);
       return;
     }
 

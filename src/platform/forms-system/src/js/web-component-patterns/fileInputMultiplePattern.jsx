@@ -1,3 +1,4 @@
+// import React from 'react';
 import { isEmpty } from 'lodash';
 import { VaFileInputMultiple } from '../web-component-fields';
 import navigationState from '../utilities/navigation/navigationState';
@@ -101,7 +102,13 @@ export const fileInputMultipleUI = options => {
     ],
     'ui:options': {
       ...uiOptions,
+      keepInPageOnReview: true,
     },
+    // items: {
+    //   'ui:options': {
+    //     viewField: fileView,
+    //   }
+    // },
     // 'ui:reviewField': ({ children }) => {
     //   return (
     //     <div className="review-row">
@@ -110,10 +117,14 @@ export const fileInputMultipleUI = options => {
     //     </div>
     //   );
     // },
-    // 'ui:confirmationField': ({ formData }) => ({
-    //   data: formData?.name,
-    //   label: title,
-    // }),
+    // 'ui:confirmationField': ({ formData = [] }) => {
+    //   if (!formData.length) {
+    //     return null;
+    //   }
+    //   return (
+    //     <div>Testing!</div>
+    //   )
+    // },
     // warnings: {
     //   'ui:options': {
     //     keepInPageOnReview: true,

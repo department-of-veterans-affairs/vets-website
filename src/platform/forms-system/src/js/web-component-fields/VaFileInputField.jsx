@@ -8,7 +8,10 @@ import {
   FILE_TYPE_MISMATCH_ERROR,
 } from 'platform/forms-system/src/js/utilities/file';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { UNSUPPORTED_ENCRYPTED_FILE_ERROR } from '../validation';
+import {
+  UNSUPPORTED_ENCRYPTED_FILE_ERROR,
+  UTF8_ENCODING_ERROR,
+} from '../validation';
 import vaFileInputFieldMapping from './vaFileInputFieldMapping';
 import { useFileUpload } from './vaFileInputFieldHelpers';
 
@@ -141,18 +144,20 @@ const VaFileInputField = props => {
   };
 
   // upload after debounce
-  const debouncePassword = useMemo(() =>
-    debounce(500, password => {
-      if (fileWithPassword) {
-        passwordErrorManager.setHasPassword(password.length > 0);
-        childrenProps.onChange({
-          ...childrenProps.formData,
-          _id,
-        });
-        passwordError = null;
-        handleUpload(fileWithPassword, handleFileProcessing, password);
-      }
-    }),
+  const debouncePassword = useMemo(
+    () =>
+      debounce(500, password => {
+        if (fileWithPassword) {
+          passwordErrorManager.setHasPassword(password.length > 0);
+          childrenProps.onChange({
+            ...childrenProps.formData,
+            _id,
+          });
+          passwordError = null;
+          handleUpload(fileWithPassword, handleFileProcessing, password);
+        }
+      }),
+    [handleUpload],
   );
 
   const handleVaChange = async e => {
@@ -165,15 +170,21 @@ const VaFileInputField = props => {
     }
 
     const checks = await standardFileChecks(fileFromEvent);
-
+    let fileCheckError = null;
     if (!checks.checkTypeAndExtensionMatches) {
-      setError(FILE_TYPE_MISMATCH_ERROR);
-      childrenProps.onChange({});
-      return;
+      fileCheckError = FILE_TYPE_MISMATCH_ERROR;
     }
 
     if (!!checks.checkIsEncryptedPdf && uiOptions.disallowEncryptedPdfs) {
-      setError(UNSUPPORTED_ENCRYPTED_FILE_ERROR);
+      fileCheckError = UNSUPPORTED_ENCRYPTED_FILE_ERROR;
+    }
+
+    if (!checks.checkUTF8Encoding) {
+      fileCheckError = UTF8_ENCODING_ERROR;
+    }
+
+    if (fileCheckError) {
+      setError(fileCheckError);
       childrenProps.onChange({});
       return;
     }
@@ -214,6 +225,13 @@ const VaFileInputField = props => {
     }
   };
 
+  const handleInternalError = e => {
+    const { error: _error } = e.detail;
+    if (_error) {
+      setError(_error);
+    }
+  };
+
   const _error = error || mappedProps.error;
   const fileHasBeenAdded =
     (childrenProps.formData.name &&
@@ -226,6 +244,7 @@ const VaFileInputField = props => {
       encrypted={encrypted}
       resetVisualState={!!_error}
       uploadedFile={mappedProps.uploadedFile}
+      onVaFileInputError={handleInternalError}
       onVaChange={handleVaChange}
       onVaPasswordChange={handleVaPasswordChange}
       percentUploaded={percentUploaded || null}

@@ -4,6 +4,11 @@ import { scrollAndFocus } from 'platform/utilities/scroll';
 import { VaFileInputField } from '../web-component-fields';
 import navigationState from '../utilities/navigation/navigationState';
 import errorStates from '../utilities/file/passwordErrorState';
+import {
+  MISSING_PASSWORD_ERROR,
+  MISSING_FILE,
+  MISSING_ADDITIONAL_INFO,
+} from '../validation';
 
 export const filePresenceValidation = (
   errors,
@@ -119,7 +124,7 @@ export const fileInputUI = options => {
     'ui:webComponentField': VaFileInputField,
     'ui:required': typeof required === 'function' ? required : () => !!required,
     'ui:errorMessages': {
-      required: 'A file is required to submit your application',
+      required: MISSING_FILE,
       ...errorMessages,
     },
     'ui:validations': [
@@ -153,7 +158,7 @@ export const fileInputUI = options => {
         const passwordError = passwordErrorManager.hasPasswordError();
         const touched = passwordErrorManager.touched();
         if ((isNavigationEvent || touched) && passwordError) {
-          errors.isEncrypted.addError('Encrypted file requires a password.');
+          errors.isEncrypted.addError(MISSING_PASSWORD_ERROR);
           scrollAndFocus(`va-file-input[name=${_id}]`);
         } else {
           passwordErrorManager.setTouched(true);
@@ -165,7 +170,7 @@ export const fileInputUI = options => {
           (isNavigationEvent || touched)
         ) {
           const errorMessage =
-            uiErrorMessages.additionalInput || 'Enter additional input';
+            uiErrorMessages.additionalInput || MISSING_ADDITIONAL_INFO;
           errors.additionalData.addError(errorMessage);
 
           // prevents the clearing of a password error (if one exists) after this error is cleared
