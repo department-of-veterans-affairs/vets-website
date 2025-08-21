@@ -284,21 +284,25 @@ const ArrayBuilderCards = ({
                 label = dismissedInMetadata ? null : <DuplicateLabel />;
                 alert = dismissedInMetadata ? (
                   <DuplicateInformationAlert status="info">
-                    {getText(
-                      'duplicateCardInfoAlert',
-                      itemData,
-                      formData,
-                      index,
-                    )}
+                    {duplicateChecks.duplicateCardInfoAlert?.({ itemData }) ||
+                      getText(
+                        'duplicateCardInfoAlert',
+                        itemData,
+                        formData,
+                        index,
+                      )}
                   </DuplicateInformationAlert>
                 ) : (
                   <DuplicateInformationAlert status="warning">
-                    {getText(
-                      'duplicateCardWarningAlert',
+                    {duplicateChecks.duplicateCardWarningAlert?.({
                       itemData,
-                      formData,
-                      index,
-                    )}
+                    }) ||
+                      getText(
+                        'duplicateCardWarningAlert',
+                        itemData,
+                        formData,
+                        index,
+                      )}
                   </DuplicateInformationAlert>
                 );
               }
@@ -415,8 +419,10 @@ ArrayBuilderCards.propTypes = {
     arrayData: PropTypes.arrayOf(PropTypes.object).isRequired,
   }),
   duplicateChecks: PropTypes.shape({
+    allowDuplicates: PropTypes.bool,
     comparisons: PropTypes.arrayOf(PropTypes.string),
-    duplicatesAllowed: PropTypes.bool,
+    duplicateCardInfoAlert: PropTypes.func,
+    duplicateCardWarningAlert: PropTypes.func,
     externalComparisonData: PropTypes.func,
   }),
   titleHeaderLevel: PropTypes.string,

@@ -498,7 +498,10 @@ export const processArrayData = array => {
   if (!Array.isArray(array)) {
     throw new Error('Processing array data requires an array', array);
   }
-  return slugifyText(array.join(';'));
+  // Make sure we're not slugifying strings with only spaces
+  return slugifyText(
+    array.map(item => (item || '').toString().trim()).join(';'),
+  );
 };
 
 /**
@@ -516,13 +519,16 @@ export const processArrayData = array => {
 /**
  * Duplicate checks object
  * @typedef {Object} DuplicateChecks
+ * @property {boolean} allowDuplicates - Whether to allow duplicates. If false,
+ * the inter-page modal will prevent continuing, and the summary page will block
+ * navigation until the duplicate is resolved
  * @property {Array<String>} comparisons - The array paths to compare for
  * duplicates
  * @property {externalComparisonFunction} externalComparisonData - A function to
  * collect and return external data for comparison
  * @example
  * {
- *   arrayPath: 'childrenToAdd',
+ *   allowDuplicates: true,
  *   comparisons: ['fullName.first', 'fullName.last', 'birthDate', 'ssn'],
  *   externalComparisonData: ({ formData, arrayData }) => {
  *     // return array of array strings to be used for duplicate comparisons
@@ -565,18 +571,19 @@ export const getItemDuplicateDismissedName = ({
   itemIndex,
   itemString = '',
   fullData = {},
-}) =>
-  [
-    arrayPath,
+}) => {
+  const data =
     itemString ||
-      getItemDataFromPath({
-        arrayPath,
-        duplicateChecks,
-        itemIndex,
-        fullData,
-      }),
-    'allowDuplicate',
-  ].join(';');
+    getItemDataFromPath({
+      arrayPath,
+      duplicateChecks,
+      itemIndex,
+      fullData,
+    }) ||
+    '';
+
+  return data ? [arrayPath, data, 'allowDuplicate'].join(';') : '';
+};
 
 /**
  * Get array data using duplicate checks comparisons
@@ -637,10 +644,11 @@ export const checkIfArrayHasDuplicateData = ({
     });
   }
 
+  // Join all data & strip out empty strings & arrays of empty strings
   const allItems = [
     ...arrayData,
     ...externalComparisonData.map(processArrayData),
-  ];
+  ].filter(item => item.replace(/;/g, '').length > 0);
   const duplicates = allItems.filter(
     (item, itemIndex) => allItems.indexOf(item) !== itemIndex,
   );

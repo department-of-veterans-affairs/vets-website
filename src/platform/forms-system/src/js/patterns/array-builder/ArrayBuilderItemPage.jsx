@@ -41,7 +41,6 @@ export default function ArrayBuilderItemPage({
   reviewRoute,
   getText,
   required,
-  duplicateChecks,
 }) {
   /** @type {CustomPageType} */
   function CustomPage(props) {
@@ -52,6 +51,8 @@ export default function ArrayBuilderItemPage({
     const currentItem = get(arrayPath, props.fullData)?.[
       props.pagePerItemIndex
     ];
+
+    const duplicateChecks = props.uiSchema['ui:duplicateChecks'] || {};
     const [showDuplicateModal, setShowDuplicateModal] = useState(null);
     const itemDuplicateDismissedName = getItemDuplicateDismissedName({
       arrayPath,
@@ -79,7 +80,6 @@ export default function ArrayBuilderItemPage({
         ? parseInt(props.pagePerItemIndex, 10)
         : null,
       arrayPath,
-      duplicateChecks,
     });
 
     if (!props.onReviewPage && !isEdit && !isAdd) {
@@ -183,35 +183,53 @@ export default function ArrayBuilderItemPage({
           !props.fullData?.[META_DATA_KEY]?.[itemDuplicateDismissedName] && (
             <VaModal
               status="warning"
-              modalTitle={getText(
-                'duplicateModalTitle',
-                props.data,
-                props.fullData,
-                props.pagePerItemIndex,
-              )}
+              modalTitle={
+                duplicateChecks.duplicateModalTitle?.({
+                  itemData: props.data,
+                }) ||
+                getText(
+                  'duplicateModalTitle',
+                  props.data,
+                  props.fullData,
+                  props.pagePerItemIndex,
+                )
+              }
               onCloseEvent={handlers.onDuplicateModalClose}
               onPrimaryButtonClick={handlers.onDuplicateModalPrimaryClick}
               onSecondaryButtonClick={handlers.onDuplicateModalSecondaryClick}
-              primaryButtonText={getText(
-                'duplicateModalPrimaryButtonText',
-                props.data,
-                props.fullData,
-                props.pagePerItemIndex,
-              )}
-              secondaryButtonText={getText(
-                'duplicateModalSecondaryButtonText',
-                props.data,
-                props.fullData,
-                props.pagePerItemIndex,
-              )}
+              primaryButtonText={
+                duplicateChecks.duplicateModalPrimaryButtonText?.({
+                  itemData: props.data,
+                }) ||
+                getText(
+                  'duplicateModalPrimaryButtonText',
+                  props.data,
+                  props.fullData,
+                  props.pagePerItemIndex,
+                )
+              }
+              secondaryButtonText={
+                duplicateChecks.duplicateModalSecondaryButtonText?.({
+                  itemData: props.data,
+                }) ||
+                getText(
+                  'duplicateModalSecondaryButtonText',
+                  props.data,
+                  props.fullData,
+                  props.pagePerItemIndex,
+                )
+              }
               visible={showDuplicateModal !== false}
             >
-              {getText(
-                'duplicateModalDescription',
-                props.data,
-                props.fullData,
-                props.pagePerItemIndex,
-              )}
+              {duplicateChecks.duplicateModalDescription?.({
+                itemData: props.data,
+              }) ||
+                getText(
+                  'duplicateModalDescription',
+                  props.data,
+                  props.fullData,
+                  props.pagePerItemIndex,
+                )}
             </VaModal>
           )}
         <SchemaForm
@@ -290,7 +308,17 @@ export default function ArrayBuilderItemPage({
   CustomPage.propTypes = {
     name: PropTypes.string.isRequired,
     schema: PropTypes.object.isRequired,
-    uiSchema: PropTypes.object.isRequired,
+    uiSchema: PropTypes.shape({
+      'ui:duplicateChecks': PropTypes.shape({
+        allowDuplicates: PropTypes.bool,
+        comparisons: PropTypes.arrayOf(PropTypes.string),
+        duplicateModalTitle: PropTypes.func,
+        duplicateModalPrimaryButtonText: PropTypes.func,
+        duplicateModalSecondaryButtonText: PropTypes.func,
+        duplicateModalDescription: PropTypes.func,
+        externalComparisonData: PropTypes.func,
+      }),
+    }).isRequired,
     appStateData: PropTypes.object,
     contentAfterButtons: PropTypes.node,
     contentBeforeButtons: PropTypes.node,

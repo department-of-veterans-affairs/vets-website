@@ -359,6 +359,53 @@ export const nounPluralReplaceMePages = arrayBuilderPages( options,
 );
 ```
 
+### Example checking for duplicate content
+If you need to prevent adding duplicate data within the array, include the following duplicate checks.
+
+```js
+/** @type {ArrayBuilderOptions} */
+const options = {
+  arrayPath: 'childrenToAdd',
+  nounSingular: 'child',
+  nounPlural: 'children',
+  required: true,
+  // ...
+  text: {
+    getItemName: (item, index, fullData) => item.name,
+    // Default duplicate messages shown
+    duplicateModalTitle: props => 'Is this a duplicate?',
+    duplicateModalDescription: props =>
+      `You already have a ${props.nounSingular} with this information`,
+    duplicateModalPrimaryButtonText: props => 'Yes, cancel',
+    duplicateModalSecondaryButtonText: props =>
+      `No, continue adding ${props.nounSingular}`,
+    duplicateCardWarningAlert: props =>
+      `This ${props.nounSingular} may be a duplicate item. Edit or remove this ${
+        props.nounSingular
+      }’s information before continuing.`,
+    duplicateCardInfoAlert: props =>
+      `This ${props.nounSingular} may be a duplicate entry.`,
+  },
+  duplicateChecks: {
+    // path to comparison data within the arrayPath
+    comparisons: ['fullName.first', 'fullName.last', 'birthDate', 'ssn'],
+    externalComparisonData: ({ formData, arrayData }) => {
+      /* formData = Full form data; API loaded external data needs to be added
+       *  into the form data to get this to work
+       * arrayData = data gathered from internal arrayPath based on comparisons
+       * return array of array strings for comparison with arrayData
+       * example: (first name, last name, birth date, ssn)
+       * [
+       *   ['John', 'Doe', '1990-01-01', '123-45-6789'],
+       *   ['Jane', 'Smith', '1992-02-02', '987-65-4321']
+       * ]
+       */
+      return [];
+    },
+  },
+};
+```
+
 
 ## Web Component Patterns
 | Pattern | Description |
@@ -429,6 +476,12 @@ const options = {
 | `deleteNo` |
 | `deleteTitle` |
 | `deleteYes` |
+| `duplicateModalTitle` |
+| `duplicateModalDescription` |
+| `duplicateModalPrimaryButtonText` |
+| `duplicateModalSecondaryButtonText` |
+| `duplicateCardWarningAlert` |
+| `duplicateCardInfoAlert` |
 | `reviewAddButtonText` |
 | `summaryTitle` |
 | `summaryTitleWithoutItems` |

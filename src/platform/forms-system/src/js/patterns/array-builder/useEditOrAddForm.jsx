@@ -40,7 +40,6 @@ export function useEditOrAddForm({
   onSubmit,
   index,
   arrayPath,
-  duplicateChecks,
 }) {
   // These states are only used in edit mode
   const [localData, setLocalData] = useState(null);
@@ -51,6 +50,7 @@ export function useEditOrAddForm({
     hasDuplicate: false,
     duplicates: [],
   });
+  const duplicateChecks = uiSchema['ui:duplicateChecks'];
   const itemDuplicateDismissedName = getItemDuplicateDismissedName({
     arrayPath,
     duplicateChecks,

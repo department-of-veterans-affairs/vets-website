@@ -113,7 +113,6 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     titleHeaderLevel,
     useLinkInsteadOfYesNo,
     useButtonInsteadOfYesNo,
-    duplicateChecks = {},
   } = arrayBuilderOptions;
 
   // use closure variable rather than useRef to
@@ -152,6 +151,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     const isMaxItemsReached = arrayData?.length >= maxItems;
     const hasReviewError =
       isReviewPage && checkHasYesNoReviewError(props.reviewErrors, hasItemsKey);
+    const duplicateChecks = uiSchema['ui:duplicateChecks'] || {};
 
     const duplicateCheckResult = checkIfArrayHasDuplicateData({
       arrayPath,
@@ -703,7 +703,17 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
   CustomPage.propTypes = {
     name: PropTypes.string.isRequired,
     schema: PropTypes.object,
-    uiSchema: PropTypes.object,
+    uiSchema: PropTypes.shape({
+      'ui:duplicateChecks': PropTypes.shape({
+        allowDuplicates: PropTypes.bool,
+        comparisons: PropTypes.arrayOf(PropTypes.string),
+        duplicateModalTitle: PropTypes.func,
+        duplicateModalPrimaryButtonText: PropTypes.func,
+        duplicateModalSecondaryButtonText: PropTypes.func,
+        duplicateModalDescription: PropTypes.func,
+        externalComparisonData: PropTypes.func,
+      }),
+    }).isRequired,
     appStateData: PropTypes.object,
     contentAfterButtons: PropTypes.node,
     contentBeforeButtons: PropTypes.node,
