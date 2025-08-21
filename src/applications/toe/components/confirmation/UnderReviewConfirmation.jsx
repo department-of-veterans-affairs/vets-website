@@ -62,18 +62,39 @@ const UnderReviewConfirmation = ({
             >
               Application for VA education benefits (Form 22-1990e)
             </h3>
-            For {user}
-            <div className="vads-u-display--flex vads-u-flex-direction--column">
-              <strong>Date received</strong>
-              {dateReceived}
+            <h4>Transfer of Entitlement</h4>
+
+            <div className="vads-u-margin-bottom--2">
+              <p className="vads-u-margin-bottom--1 vads-u-font-weight--bold">
+                Who submitted this form
+              </p>
+              <p className="vads-u-margin--0">{user || 'Not provided'}</p>
             </div>
-            <br />
-            <va-button
-              uswds
-              className="usa-button vads-u-margin-top--3 vads-u-width--auto"
-              text="Print this page"
-              onClick={printPage}
-            />
+
+            <div className="vads-u-margin-bottom--2">
+              <p className="vads-u-margin-bottom--1 vads-u-font-weight--bold">
+                Date received
+              </p>
+              <p className="vads-u-margin--0">{dateReceived}</p>
+            </div>
+
+            <div className="vads-u-margin-bottom--3">
+              <p className="vads-u-margin-bottom--1 vads-u-font-weight--bold">
+                Confirmation for your records
+              </p>
+              <p className="vads-u-margin-bottom--2">
+                You can print this confirmation page for your records.
+              </p>
+            </div>
+
+            <div className="vads-u-margin-bottom--2">
+              <va-button
+                uswds
+                className="usa-button vads-u-margin-top--3 vads-u-width--auto"
+                text="Print this page"
+                onClick={printPage}
+              />
+            </div>
           </div>
         </va-alert>
       </div>

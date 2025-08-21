@@ -69,7 +69,9 @@ const ConfirmationDenied = ({
         <h3 slot="headline">Post-9/11 GI Bill, Chapter 33</h3>
 
         <div className="vads-u-margin-bottom--2">
-          <h4 className="vads-u-margin-bottom--1">Who submitted this form</h4>
+          <p className="vads-u-margin-bottom--1 vads-u-font-weight--bold">
+            Who submitted this form
+          </p>
           {claimantName.trim() ? (
             <p className="vads-u-margin--0">{claimantName}</p>
           ) : (
@@ -78,14 +80,16 @@ const ConfirmationDenied = ({
         </div>
 
         <div className="vads-u-margin-bottom--2">
-          <h4 className="vads-u-margin-bottom--1">Date received</h4>
+          <p className="vads-u-margin-bottom--1 vads-u-font-weight--bold">
+            Date received
+          </p>
           <p className="vads-u-margin--0">{confirmationDate}</p>
         </div>
 
         <div className="vads-u-margin-bottom--3">
-          <h4 className="vads-u-margin-bottom--1">
+          <p className="vads-u-margin-bottom--1 vads-u-font-weight--bold">
             Confirmation for your records
-          </h4>
+          </p>
           <p className="vads-u-margin-bottom--2">
             You can print this confirmation page for your records. You can also
             download your completed application as a PDF.

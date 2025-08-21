@@ -22,16 +22,41 @@ const UnderReviewChapter30 = ({
           Application for VA education benefits (VA Form 22-1990)
         </h3>
         <h3 slot="headline">MGIB-AD, Chapter 30</h3>
-        {claimantName.trim() ? <p>For {claimantName}</p> : <></>}
-        <dl>
-          <dt>Date received</dt>
-          <dd>{confirmationDate}</dd>
-        </dl>
-        <va-button
-          class="meb-print"
-          text="Print this page"
-          onClick={printPage}
-        />
+
+        <div className="vads-u-margin-bottom--2">
+          <p className="vads-u-margin-bottom--1 vads-u-font-weight--bold">
+            Who submitted this form
+          </p>
+          {claimantName.trim() ? (
+            <p className="vads-u-margin--0">{claimantName}</p>
+          ) : (
+            <p className="vads-u-margin--0">Not provided</p>
+          )}
+        </div>
+
+        <div className="vads-u-margin-bottom--2">
+          <p className="vads-u-margin-bottom--1 vads-u-font-weight--bold">
+            Date received
+          </p>
+          <p className="vads-u-margin--0">{confirmationDate}</p>
+        </div>
+
+        <div className="vads-u-margin-bottom--3">
+          <p className="vads-u-margin-bottom--1 vads-u-font-weight--bold">
+            Confirmation for your records
+          </p>
+          <p className="vads-u-margin-bottom--2">
+            You can print this confirmation page for your records.
+          </p>
+        </div>
+
+        <div className="vads-u-margin-bottom--2">
+          <va-button
+            class="meb-print"
+            text="Print this page"
+            onClick={printPage}
+          />
+        </div>
       </va-summary-box>
 
       <h2>When will I hear back about my application?</h2>
