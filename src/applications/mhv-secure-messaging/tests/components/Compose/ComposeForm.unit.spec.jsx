@@ -1325,33 +1325,33 @@ describe('Compose form component', () => {
   });
 
   it('should display an error message when attaching a new file increases total attachments size over 10MB', async () => {
-    const useFeatureTogglesStub = stubUseFeatureToggles({
+    const useFeatureTogglesStub10MB = stubUseFeatureToggles({
       largeAttachmentsEnabled: false,
     });
 
+    mockApiRequest({});
+
     const oneMB = 1024 * 1024;
 
-    // Create first 4MB file with actual content
-    const file1Content = new Uint8Array(4 * oneMB);
-    file1Content.fill(1); // Fill with data to ensure actual size
+    // Create multiple files under 6MB each that total over 10MB
+    const file1Content = new Uint8Array(4 * oneMB); // 4MB
+    file1Content.fill(1);
     const file1 = new File([file1Content], 'test1.png', {
       type: 'image/png',
       lastModified: new Date().getTime(),
     });
 
-    // Create second 4MB file with actual content
-    const file2Content = new Uint8Array(4 * oneMB);
-    file2Content.fill(2); // Fill with data to ensure actual size
+    const file2Content = new Uint8Array(4 * oneMB); // 4MB
+    file2Content.fill(2);
     const file2 = new File([file2Content], 'test2.png', {
       type: 'image/png',
       lastModified: new Date().getTime(),
     });
 
-    // Create third 3MB file with actual content (this will exceed 10MB limit)
-    const file3Content = new Uint8Array(3 * oneMB);
-    file3Content.fill(3); // Fill with data to ensure actual size
+    const file3Content = new Uint8Array(3 * oneMB); // 3MB - this will push total over 10MB (4+4+3 = 11MB)
+    file3Content.fill(3);
     const file3 = new File([file3Content], 'test3.txt', {
-      type: 'application/octet-stream',
+      type: 'text/plain',
       lastModified: new Date().getTime(),
     });
 
@@ -1360,37 +1360,16 @@ describe('Compose form component', () => {
     expect(file2.size).to.equal(4 * oneMB);
     expect(file3.size).to.equal(3 * oneMB);
 
-    const customDraftMessage = {
-      ...draftMessage,
-      recipientId: 1013155,
-      recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
-      triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
-      attachments: [],
-    };
-
     const customState = {
-      ...draftState,
-      sm: {
-        ...draftState.sm,
-        threadDetails: {
-          ...draftState.sm.threadDetails,
-          drafts: [customDraftMessage],
-        },
-      },
+      ...initialState,
     };
 
-    const screen = renderWithStoreAndRouter(
-      <ComposeForm
-        draft={customDraftMessage}
-        recipients={customState.sm.recipients}
-      />,
-      {
-        initialState: customState,
-        reducers: reducer,
-        path: `/draft/${draftMessage.id}`,
-      },
-    );
+    const screen = setup(customState, Paths.COMPOSE);
 
+    // Wait for component to fully render
+    await waitFor(() => {
+      expect(screen.getByTestId('attach-file-input')).to.exist;
+    });
     const uploader = screen.getByTestId('attach-file-input');
 
     // Upload first 4MB file
@@ -1415,79 +1394,135 @@ describe('Compose form component', () => {
     );
     // Check that error message appears
     await waitFor(() => {
-      screen.getByTestId('file-input-error-message');
+      const errorMessage = screen.getByTestId('file-input-error-message');
+      expect(errorMessage.textContent).to.equal(
+        ErrorMessages.ComposeForm.ATTACHMENTS.TOTAL_MAX_FILE_SIZE_EXCEEDED,
+      );
     });
-    expect(screen.getByTestId('file-input-error-message').textContent).to.equal(
-      ErrorMessages.ComposeForm.ATTACHMENTS.TOTAL_MAX_FILE_SIZE_EXCEEDED,
-    );
 
-    useFeatureTogglesStub.restore();
+    useFeatureTogglesStub10MB.restore();
   });
 
   it('should display an error message when attaching a new file increases total attachments size over 25MB with largeAttachmentsEnabled feature flag', async () => {
-    const useFeatureTogglesStub = stubUseFeatureToggles({
+    const useFeatureTogglesStub25MB = stubUseFeatureToggles({
       largeAttachmentsEnabled: true,
+      cernerPilotSmFeatureFlag: true,
     });
-    useFeatureTogglesStub;
+
+    mockApiRequest({});
+
     const oneMB = 1024 * 1024;
-    const customAttachments = [
-      { name: 'test1.png', size: 4 * oneMB, type: 'image/png' },
-      { name: 'test2.png', size: 4 * oneMB, type: 'image/png' },
-      { name: 'test3.png', size: 4 * oneMB, type: 'image/png' },
-      { name: 'test4.png', size: 11 * oneMB, type: 'image/png' },
-    ];
-    const largeFileSizeInBytes = 3 * oneMB; // 3MB
-    // Use Uint8Array to ensure the file is actually 3MB
-    const largeFileContent = new Uint8Array(largeFileSizeInBytes);
-    largeFileContent.fill(1);
-    const largeFile = new File([largeFileContent], 'large_file.txt', {
-      type: 'application/octet-stream',
+
+    // Create multiple files under 6MB each that total over 25MB
+    const file1Content = new Uint8Array(5 * oneMB); // 5MB
+    file1Content.fill(1);
+    const file1 = new File([file1Content], 'test1.pdf', {
+      type: 'application/pdf',
       lastModified: new Date().getTime(),
     });
-    expect(largeFile.size).to.equal(largeFileSizeInBytes);
 
-    const customDraftMessage = {
-      ...draftMessage,
-      recipientId: 1013155,
-      recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
-      triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
-      attachments: [...customAttachments],
-    };
+    const file2Content = new Uint8Array(5 * oneMB); // 5MB
+    file2Content.fill(2);
+    const file2 = new File([file2Content], 'test2.pdf', {
+      type: 'application/pdf',
+      lastModified: new Date().getTime(),
+    });
+
+    const file3Content = new Uint8Array(5 * oneMB); // 5MB
+    file3Content.fill(3);
+    const file3 = new File([file3Content], 'test3.pdf', {
+      type: 'application/pdf',
+      lastModified: new Date().getTime(),
+    });
+
+    const file4Content = new Uint8Array(5 * oneMB); // 5MB
+    file4Content.fill(4);
+    const file4 = new File([file4Content], 'test4.pdf', {
+      type: 'application/pdf',
+      lastModified: new Date().getTime(),
+    });
+
+    const file5Content = new Uint8Array(5 * oneMB); // 5MB
+    file5Content.fill(5);
+    const file5 = new File([file5Content], 'test5.pdf', {
+      type: 'application/pdf',
+      lastModified: new Date().getTime(),
+    });
+
+    const file6Content = new Uint8Array(2 * oneMB); // 2MB - this will push total over 25MB (5+5+5+5+5+2 = 27MB)
+    file6Content.fill(6);
+    const file6 = new File([file6Content], 'test6.txt', {
+      type: 'text/plain',
+      lastModified: new Date().getTime(),
+    });
+
+    // Verify the files have the correct sizes (all under 6MB)
+    expect(file1.size).to.equal(5 * oneMB);
+    expect(file2.size).to.equal(5 * oneMB);
+    expect(file3.size).to.equal(5 * oneMB);
+    expect(file4.size).to.equal(5 * oneMB);
+    expect(file5.size).to.equal(5 * oneMB);
+    expect(file6.size).to.equal(2 * oneMB);
 
     const customState = {
-      ...draftState,
-      sm: {
-        ...draftState.sm,
-        threadDetails: {
-          ...draftState.sm.threadDetails,
-          drafts: [customDraftMessage],
-          draftInProgress: {},
-        },
+      ...initialState,
+      featureToggles: {
+        ...initialState.featureToggles,
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingLargeAttachments]: true,
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot]: true,
       },
     };
 
-    const screen = renderWithStoreAndRouter(
-      <ComposeForm
-        draft={customDraftMessage}
-        recipients={customState.sm.recipients}
-      />,
-      {
-        initialState: customState,
-        reducers: reducer,
-        path: `/draft/${draftMessage.id}`,
-      },
-    );
-
+    const screen = setup(customState, Paths.COMPOSE);
+    await waitFor(() => {
+      expect(screen.getByTestId('attach-file-input')).to.exist;
+    });
     const uploader = screen.getByTestId('attach-file-input');
+
+    // Upload first 5 files (25MB total)
     await waitFor(() =>
       fireEvent.change(uploader, {
-        target: { files: [largeFile] },
+        target: { files: [file1] },
       }),
     );
-    const error = screen.getByTestId('file-input-error-message');
-    expect(error.textContent).to.equal(
-      ErrorMessages.ComposeForm.ATTACHMENTS.TOTAL_MAX_FILE_SIZE_EXCEEDED,
+    await waitFor(() =>
+      fireEvent.change(uploader, {
+        target: { files: [file2] },
+      }),
     );
+    await waitFor(() =>
+      fireEvent.change(uploader, {
+        target: { files: [file3] },
+      }),
+    );
+    await waitFor(() =>
+      fireEvent.change(uploader, {
+        target: { files: [file4] },
+      }),
+    );
+    await waitFor(() =>
+      fireEvent.change(uploader, {
+        target: { files: [file5] },
+      }),
+    );
+
+    // Upload sixth file - this should trigger the error (total: 27MB > 25MB)
+    await waitFor(() =>
+      fireEvent.change(uploader, {
+        target: { files: [file6] },
+      }),
+    );
+
+    // Check that error message appears
+    await waitFor(() => {
+      const errorMessage = screen.getByTestId('file-input-error-message');
+      expect(errorMessage.textContent).to.equal(
+        ErrorMessages.ComposeForm.ATTACHMENTS
+          .TOTAL_MAX_FILE_SIZE_EXCEEDED_LARGE,
+      );
+    });
+
+    useFeatureTogglesStub25MB.restore();
   });
 
   it('should contain Edit Signature Link', () => {

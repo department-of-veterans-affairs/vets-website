@@ -121,7 +121,7 @@ const summaryPage = {
         },
       },
       {
-        title: 'Do you have more recurring income to report?',
+        title: 'Do you have more financial accounts to report?',
         labels: {
           Y: 'Yes',
           N: 'No',
