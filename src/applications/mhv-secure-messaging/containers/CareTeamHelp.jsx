@@ -1,34 +1,26 @@
 import React, { useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
-import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
+import {
+  selectCernerFacilities,
+  selectVistaFacilities,
+} from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { Paths, PageTitles } from '../util/constants';
 
 const CareTeamHelp = () => {
-  const { allFacilities } = useSelector(state => state.sm.recipients);
-  const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
+  const cernerFacilities = useSelector(selectCernerFacilities);
+  const vistaFacilities = useSelector(selectVistaFacilities);
   const history = useHistory();
 
   // Determine what types of health systems the user has
-  const userSystemTypes = useMemo(
-    () => {
-      if (!allFacilities || !ehrDataByVhaId) {
-        return { hasOracle: false, hasVista: false };
-      }
+  const userSystemTypes = useMemo(() => {
+    const hasOracle = cernerFacilities.length > 0;
+    const hasVista = vistaFacilities.length > 0;
 
-      const hasOracle = allFacilities.some(
-        facility => ehrDataByVhaId[facility]?.ehr === 'cerner',
-      );
-      const hasVista = allFacilities.some(
-        facility => ehrDataByVhaId[facility]?.ehr !== 'cerner',
-      );
-
-      return { hasOracle, hasVista };
-    },
-    [allFacilities, ehrDataByVhaId],
-  );
+    return { hasOracle, hasVista };
+  });
 
   // Set page title
   useEffect(() => {
