@@ -441,7 +441,7 @@ const Dashboard = ({
                       </li>
                       <li className="vads-u-padding-y--1">
                         <va-link
-                          href="/view-change-dependents/view"
+                          href="/manage-dependents/view"
                           text="View or change VA dependents"
                         />
                       </li>
