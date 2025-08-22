@@ -9,7 +9,7 @@ const { runCommand } = require('../utils');
 
 // Configuration
 const DEFAULT_SPEC_PATTERN = '{src,script}/**/*.unit.spec.js?(x)';
-const STATIC_PAGES_PATTERN = 'src/platform/**/*.unit.spec.js?(x)';
+const STATIC_PAGES_PATTERN = 'src/platform/static-pages/**/*.unit.spec.js?(x)';
 const MAX_MEMORY = '8192'; // Reduced from 32768 to prevent memory issues
 
 // Command line options
@@ -39,6 +39,20 @@ const options = commandLineArgs(COMMAND_LINE_OPTIONS);
 function getTestPaths() {
   if (options['full-suite']) {
     return glob.sync(DEFAULT_SPEC_PATTERN);
+  }
+
+  // If a specific path/glob was provided on the CLI, honor it directly.
+  // Detect this by checking if it differs from the default pattern.
+  const userProvidedPaths = Array.isArray(options.path) ? options.path : [];
+  const userProvidedCustomPath =
+    userProvidedPaths.length > 0 &&
+    !(
+      userProvidedPaths.length === 1 &&
+      userProvidedPaths[0] === DEFAULT_SPEC_PATTERN
+    );
+
+  if (userProvidedCustomPath) {
+    return userProvidedPaths.flatMap(pattern => glob.sync(pattern));
   }
 
   const changedFiles = process.env.CHANGED_FILES
