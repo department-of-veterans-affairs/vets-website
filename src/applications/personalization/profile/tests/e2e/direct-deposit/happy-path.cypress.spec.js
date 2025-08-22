@@ -88,12 +88,12 @@ describe('Direct Deposit - Happy Path', () => {
   });
 
   describe('when profileShowPaperlessDelivery is true', () => {
-    it('should show new unified page when profileShowDirectDepositSingleForm is true', () => {
-      directDeposit.setup(
-        generateFeatureToggles({
+    it('should show new unified page', () => {
+      directDeposit.setup({
+        featureToggles: generateFeatureToggles({
           profileShowPaperlessDelivery: true,
         }),
-      );
+      });
       directDeposit.visitPage();
       directDeposit.confirmDirectDepositInSubnav({
         profileShowPaperlessDelivery: true,
@@ -106,11 +106,11 @@ describe('Direct Deposit - Happy Path', () => {
     });
 
     it('should show the direct deposit account information when present and eligible', () => {
-      directDeposit.setup(
-        generateFeatureToggles({
+      directDeposit.setup({
+        featureToggles: generateFeatureToggles({
           profileShowPaperlessDelivery: true,
         }),
-      );
+      });
       directDeposit.visitPage();
       directDeposit.confirmDirectDepositInSubnav({
         profileShowPaperlessDelivery: true,
