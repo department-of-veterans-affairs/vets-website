@@ -1,4 +1,5 @@
 {
+    "vaDependentsNetWorthAndPension": false,
     "view:additionalEvidenceDescription": {},
     "spouseSupportingDocuments": [
       {
@@ -47,7 +48,7 @@
     ],
     "householdIncome": false,
     "reportDivorce": {
-      "spouseIncome": "NA",
+      "spouseIncome": "N",
       "date": "2019-03-02",
       "divorceLocation": {
         "outsideUsa": true,
@@ -78,7 +79,7 @@
       "date": "1991-03-19"
     },
     "doesLiveWithSpouse": {
-      "spouseIncome": "NA",
+      "spouseIncome": "N",
       "spouseDoesLiveWithVeteran": true,
       "address": {
         "view:militaryBaseDescription": {}
@@ -136,7 +137,7 @@
     ],
     "childrenToAdd": [
       {
-        "incomeInLastYear": "NA",
+        "incomeInLastYear": "N",
         "marriageEndDescription": "Other",
         "marriageEndDate": "2021-08-18",
         "marriageEndReason": "Other",
@@ -197,7 +198,7 @@
       "birthDate": "1976-06-09",
       "ssnLastFour": "0625",
       "vaFileLastFour": "0625",
-      "isInReceiptOfPension": -1
+      "isInReceiptOfPension": 1
     },
     "useV2": true,
     "daysTillExpires": 365,
@@ -262,7 +263,7 @@
         "remarks": "asdf",
         "benefitPaymentDate": "2021-01-19",
         "marriageDate": "1991-01-19",
-        "studentIncome": "NA",
+        "studentIncome": "N",
         "fullName": {
           "first": "John",
           "last": "Doe"
@@ -328,7 +329,7 @@
             "state": "CO"
           }
         },
-        "deceasedDependentIncome": "NA",
+        "deceasedDependentIncome": "N",
         "dependentDeathDate": "1991-05-19",
         "dependentType": "SPOUSE",
         "fullName": {
@@ -341,7 +342,7 @@
     ],
     "childMarriage": [
       {
-        "dependentIncome": "NA",
+        "dependentIncome": "N",
         "dateMarried": "1991-01-19",
         "fullName": {
           "first": "John",
@@ -353,7 +354,7 @@
     ],
     "childStoppedAttendingSchool": [
       {
-        "dependentIncome": "NA",
+        "dependentIncome": "N",
         "dateChildLeftSchool": "1991-03-19",
         "fullName": {
           "first": "John",
