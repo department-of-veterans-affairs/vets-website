@@ -6,7 +6,6 @@ import {
   arrayBuilderItemSubsequentPageTitleUI,
   radioSchema,
   radioUI,
-  titleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { CustomPageNavButtons } from '../../shared/components/CustomPageNavButtons';
 import { nameWording, toHash } from '../../shared/utilities';
@@ -116,7 +115,6 @@ export const selectMedicareParticipantPage = {
     type: 'object',
     required: ['medicareParticipant'],
     properties: {
-      titleSchema,
       medicareParticipant: radioSchema(['na']),
     },
   },

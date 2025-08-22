@@ -2076,10 +2076,11 @@ jobs:
           -H "Accept: application/vnd.github.v3+json" \
           -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
           https://api.github.com/repos/${{ github.repository }}/dispatches \
-          -d "$(jq -n --arg sha "${{ github.sha }}" \
-          --arg ref "${{ github.ref }}" \
-          --arg entry "${{ needs.build.outputs.entry_names }}" \
-          '{event_type: "cd-production-deploy", client_payload: {github_sha: $sha, github_ref: $ref, entry_app: $entry}}')"
+          -d "$(jq -n --arg sha \"${{ github.sha }}\" \
+          --arg ref \"${{ github.ref }}\" \
+          --arg entry \"${{ needs.build.outputs.entry_names }}\" \
+          --arg slack_channel \"${{ steps.determine-channel.outputs.channel }}\" \
+          '{event_type: \"cd-production-deploy\", client_payload: {github_sha: $sha, github_ref: $ref, entry_app: $entry, slack_channel: $slack_channel}}')"
                          
   notify-failure:
     name: Notify Failure

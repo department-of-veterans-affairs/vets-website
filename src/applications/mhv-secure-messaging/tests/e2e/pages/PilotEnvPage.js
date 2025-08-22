@@ -214,21 +214,23 @@ class PilotEnvPage {
       .and('have.text', Data.CURATED_LIST.CONTACT_LIST_UPDATE);
   };
 
-  selectCareTeam = (index = 0) => {
+  selectCareSystem = (index = 0) => {
     cy.get(Locators.CARE_SYSTEM)
       .eq(index)
       .click();
   };
 
   selectTriageGroup = (index = 0) => {
-    cy.get('.usa-combo-box')
+    cy.get('va-combo-box')
+      .shadow()
+      .find('#options')
       .should('be.visible')
-      .click();
+      .click({ force: true });
 
     cy.get(`.usa-combo-box__list > li`)
       .eq(index)
       .should('be.visible')
-      .click();
+      .click({ force: true });
   };
 }
 

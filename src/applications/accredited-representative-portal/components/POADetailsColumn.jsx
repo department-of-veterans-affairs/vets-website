@@ -44,7 +44,7 @@ const POADetailsColumn = ({ poaRequest, poaStatus }) => {
     <>
       <ul className="poa-request-details__list poa-request-details__list--col">
         <li className="poa-request-details__list-item">
-          <p className="poa-request-details__title">Requested representative</p>
+          <p className="poa-request-details__title">Requested organization</p>
           <p className="poa-request-details__subtitle">
             {poaRequest?.powerOfAttorneyHolder?.name}
           </p>
@@ -55,8 +55,7 @@ const POADetailsColumn = ({ poaRequest, poaStatus }) => {
               <p className="poa-request-details__title">
                 Preferred representative
               </p>
-              {poaRequest?.resolution?.accreditedIndividual?.fullName ||
-                'None selected'}
+              {poaRequest?.accreditedIndividual?.fullName || 'None selected'}
             </>
           )}
         </li>
