@@ -119,7 +119,6 @@ const SelectCareTeam = () => {
       draftInProgress?.subject,
       draftInProgress?.category,
     ],
-
   );
 
   useEffect(() => {
