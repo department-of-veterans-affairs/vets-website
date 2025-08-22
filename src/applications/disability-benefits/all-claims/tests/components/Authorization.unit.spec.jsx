@@ -7,7 +7,6 @@ import PrivateRecordsAuthorization from '../../components/Authorization';
 
 describe('PrivateRecordsAuthorization', () => {
   let defaultProps;
-  let wrappers = [];
 
   beforeEach(() => {
     defaultProps = {
@@ -20,99 +19,111 @@ describe('PrivateRecordsAuthorization', () => {
       updatePage: sinon.spy(),
       onReviewPage: false,
     };
-    wrappers = [];
   });
-
-  afterEach(() => {
-    wrappers.forEach(wrapper => {
-      if (wrapper && wrapper.unmount) {
-        wrapper.unmount();
-      }
-    });
-    wrappers = [];
-  });
-
-  // Helper function to track wrappers
-  const createWrapper = (renderFn, component, props) => {
-    const wrapper = renderFn(component, props);
-    wrappers.push(wrapper);
-    return wrapper;
-  };
 
   describe('component rendering', () => {
     it('should render without crashing', () => {
-      const wrapper = createWrapper(shallow, <PrivateRecordsAuthorization {...defaultProps} />);
+      const wrapper = shallow(
+        <PrivateRecordsAuthorization {...defaultProps} />,
+      );
       expect(wrapper.exists()).to.be.true;
+      wrapper.unmount();
     });
 
     it('should render the main heading', () => {
-      const wrapper = createWrapper(shallow, <PrivateRecordsAuthorization {...defaultProps} />);
+      const wrapper = shallow(
+        <PrivateRecordsAuthorization {...defaultProps} />,
+      );
       const heading = wrapper.find('h3').first();
-      expect(heading.text()).to.equal('Authorize the release of non-VA medical records to VA');
+      expect(heading.text()).to.equal(
+        'Authorize the release of non-VA medical records to VA',
+      );
+      wrapper.unmount();
     });
 
     it('should render the authorization checkbox', () => {
-      const wrapper = createWrapper(shallow, <PrivateRecordsAuthorization {...defaultProps} />);
+      const wrapper = shallow(
+        <PrivateRecordsAuthorization {...defaultProps} />,
+      );
       const checkbox = wrapper.find('[id="privacy-agreement"]');
       expect(checkbox).to.have.lengthOf(1);
+      wrapper.unmount();
     });
 
     it('should render the privacy modal', () => {
-      const wrapper = createWrapper(shallow, <PrivateRecordsAuthorization {...defaultProps} />);
+      const wrapper = shallow(
+        <PrivateRecordsAuthorization {...defaultProps} />,
+      );
       const modal = wrapper.find('[modalTitle="Privacy Act Statement"]');
       expect(modal).to.have.lengthOf(1);
+      wrapper.unmount();
     });
 
     it('should render all accordion sections', () => {
-      const wrapper = createWrapper(shallow, <PrivateRecordsAuthorization {...defaultProps} />);
+      const wrapper = shallow(
+        <PrivateRecordsAuthorization {...defaultProps} />,
+      );
       const accordionItems = wrapper.find('va-accordion-item');
       expect(accordionItems).to.have.lengthOf(6);
+      wrapper.unmount();
     });
 
     it('should not show AuthorizationAlert by default', () => {
-      const wrapper = createWrapper(shallow, <PrivateRecordsAuthorization {...defaultProps} />);
+      const wrapper = shallow(
+        <PrivateRecordsAuthorization {...defaultProps} />,
+      );
       const alert = wrapper.find('AuthorizationAlert');
       expect(alert).to.have.lengthOf(0);
+      wrapper.unmount();
     });
   });
 
   describe('checkbox interactions', () => {
     it('should update form data when checkbox is checked', () => {
-      const wrapper = createWrapper(mount, <PrivateRecordsAuthorization {...defaultProps} />);
+      const wrapper = mount(<PrivateRecordsAuthorization {...defaultProps} />);
       const checkbox = wrapper.find('[id="privacy-agreement"]').first();
-      
+
       // Simulate the VA checkbox change event
       checkbox.prop('onVaChange')({ target: { checked: true } });
-      
+
       expect(defaultProps.setFormData.calledOnce).to.be.true;
-      expect(defaultProps.setFormData.calledWith({
-        ...defaultProps.data,
-        patient4142Acknowledgement: true
-      })).to.be.true;
+      expect(
+        defaultProps.setFormData.calledWith({
+          ...defaultProps.data,
+          patient4142Acknowledgement: true,
+        }),
+      ).to.be.true;
+      wrapper.unmount();
     });
 
     it('should update form data when checkbox is unchecked', () => {
-      const wrapper = createWrapper(mount, <PrivateRecordsAuthorization {...defaultProps} />);
+      const wrapper = mount(<PrivateRecordsAuthorization {...defaultProps} />);
       const checkbox = wrapper.find('[id="privacy-agreement"]').first();
-      
+
       checkbox.prop('onVaChange')({ target: { checked: false } });
-      
+
       expect(defaultProps.setFormData.calledOnce).to.be.true;
-      expect(defaultProps.setFormData.calledWith({
-        ...defaultProps.data,
-        patient4142Acknowledgement: false
-      })).to.be.true;
+      expect(
+        defaultProps.setFormData.calledWith({
+          ...defaultProps.data,
+          patient4142Acknowledgement: false,
+        }),
+      ).to.be.true;
+      wrapper.unmount();
     });
 
     it('should reflect the checked state from props', () => {
       const propsWithChecked = {
         ...defaultProps,
-        data: { patient4142Acknowledgement: true }
+        data: { patient4142Acknowledgement: true },
       };
-      const wrapper = createWrapper(mount, <PrivateRecordsAuthorization {...propsWithChecked} />);
+      const wrapper = mount(
+        <PrivateRecordsAuthorization {...propsWithChecked} />,
+      );
       const checkbox = wrapper.find('[id="privacy-agreement"]').first();
-      
+
       expect(checkbox.prop('checked')).to.be.true;
+      wrapper.unmount();
     });
   });
 
@@ -120,43 +131,49 @@ describe('PrivateRecordsAuthorization', () => {
     it('should call goForward when Continue is clicked and checkbox is checked', () => {
       const propsWithChecked = {
         ...defaultProps,
-        data: { patient4142Acknowledgement: true }
+        data: { patient4142Acknowledgement: true },
       };
-      const wrapper = createWrapper(mount, <PrivateRecordsAuthorization {...propsWithChecked} />);
+      const wrapper = mount(
+        <PrivateRecordsAuthorization {...propsWithChecked} />,
+      );
       const navButtons = wrapper.find('FormNavButtons');
-      
+
       navButtons.prop('goForward')();
-      
+
       expect(defaultProps.goForward.calledOnce).to.be.true;
-      expect(defaultProps.goForward.calledWith(propsWithChecked.data)).to.be.true;
+      expect(defaultProps.goForward.calledWith(propsWithChecked.data)).to.be
+        .true;
+      wrapper.unmount();
     });
 
     it('should show error when Continue is clicked and checkbox is not checked', () => {
-      const wrapper = createWrapper(mount, <PrivateRecordsAuthorization {...defaultProps} />);
+      const wrapper = mount(<PrivateRecordsAuthorization {...defaultProps} />);
       const navButtons = wrapper.find('FormNavButtons');
-      
+
       navButtons.prop('goForward')();
-      
+
       expect(defaultProps.goForward.called).to.be.false;
       // Check that error alert is shown
       wrapper.update();
       const alert = wrapper.find('AuthorizationAlert');
       expect(alert).to.have.lengthOf(1);
+      wrapper.unmount();
     });
 
     it('should call goBack when Back is clicked', () => {
-      const wrapper = createWrapper(mount, <PrivateRecordsAuthorization {...defaultProps} />);
+      const wrapper = mount(<PrivateRecordsAuthorization {...defaultProps} />);
       const navButtons = wrapper.find('FormNavButtons');
-      
+
       navButtons.prop('goBack')();
-      
+
       expect(defaultProps.goBack.calledOnce).to.be.true;
+      wrapper.unmount();
     });
   });
 
   describe('review page functionality', () => {
     let reviewPageProps;
-    
+
     beforeEach(() => {
       reviewPageProps = {
         ...defaultProps,
@@ -166,190 +183,225 @@ describe('PrivateRecordsAuthorization', () => {
     });
 
     it('should render Update button instead of FormNavButtons on review page', () => {
-      const wrapper = createWrapper(mount, <PrivateRecordsAuthorization {...reviewPageProps} />);
+      const wrapper = mount(
+        <PrivateRecordsAuthorization {...reviewPageProps} />,
+      );
       const navButtons = wrapper.find('FormNavButtons');
       const updateButton = wrapper.find('[text="Update page"]');
-      
+
       expect(navButtons).to.have.lengthOf(0);
       expect(updateButton).to.have.lengthOf(1);
+      wrapper.unmount();
     });
 
     it('should call updatePage when Update is clicked and checkbox is checked', () => {
       const propsWithChecked = {
         ...reviewPageProps,
-        data: { patient4142Acknowledgement: true }
+        data: { patient4142Acknowledgement: true },
       };
-      const wrapper = createWrapper(mount, <PrivateRecordsAuthorization {...propsWithChecked} />);
+      const wrapper = mount(
+        <PrivateRecordsAuthorization {...propsWithChecked} />,
+      );
       const updateButton = wrapper.find('[text="Update page"]');
-      
+
       updateButton.prop('onClick')();
-      
+
       expect(reviewPageProps.updatePage.calledOnce).to.be.true;
+      wrapper.unmount();
     });
 
     it('should show error when Update is clicked and checkbox is not checked', () => {
-      const wrapper = createWrapper(mount, <PrivateRecordsAuthorization {...reviewPageProps} />);
+      const wrapper = mount(
+        <PrivateRecordsAuthorization {...reviewPageProps} />,
+      );
       const updateButton = wrapper.find('[text="Update page"]');
-      
+
       updateButton.prop('onClick')();
-      
+
       expect(reviewPageProps.updatePage.called).to.be.false;
       // Check that error alert is shown
       wrapper.update();
       const alert = wrapper.find('AuthorizationAlert');
       expect(alert).to.have.lengthOf(1);
+      wrapper.unmount();
     });
   });
 
   describe('modal functionality', () => {
     it('should show modal when visible prop is true', () => {
-      const wrapper = createWrapper(mount, <PrivateRecordsAuthorization {...defaultProps} />);
-      
+      const wrapper = mount(<PrivateRecordsAuthorization {...defaultProps} />);
+
       // Find and click the privacy button to open modal
-      const modalButton = wrapper.find('[text="Review Privacy Act Statement"]').first();
+      const modalButton = wrapper
+        .find('[text="Review Privacy Act Statement"]')
+        .first();
       modalButton.prop('onClick')();
-      
+
       wrapper.update();
-      const modal = wrapper.find('[modalTitle="Privacy Act Statement"]').first();
+      const modal = wrapper
+        .find('[modalTitle="Privacy Act Statement"]')
+        .first();
       expect(modal.prop('visible')).to.be.true;
+      wrapper.unmount();
     });
 
     it('should close modal when close event is triggered', () => {
-      const wrapper = createWrapper(mount, <PrivateRecordsAuthorization {...defaultProps} />);
-      
+      const wrapper = mount(<PrivateRecordsAuthorization {...defaultProps} />);
+
       // Open modal first
-      const modalButton = wrapper.find('[text="Review Privacy Act Statement"]').first();
+      const modalButton = wrapper
+        .find('[text="Review Privacy Act Statement"]')
+        .first();
       modalButton.prop('onClick')();
       wrapper.update();
-      
+
       // Close modal
-      const modal = wrapper.find('[modalTitle="Privacy Act Statement"]').first();
+      const modal = wrapper
+        .find('[modalTitle="Privacy Act Statement"]')
+        .first();
       modal.prop('onCloseEvent')();
-      
+
       wrapper.update();
-      const modalAfterClose = wrapper.find('[modalTitle="Privacy Act Statement"]').first();
+      const modalAfterClose = wrapper
+        .find('[modalTitle="Privacy Act Statement"]')
+        .first();
       expect(modalAfterClose.prop('visible')).to.be.false;
+      wrapper.unmount();
     });
   });
 
   describe('form submit handler', () => {
     it('should handle form submission by calling validation', () => {
-      const wrapper = createWrapper(mount, <PrivateRecordsAuthorization {...defaultProps} />);
+      const wrapper = mount(<PrivateRecordsAuthorization {...defaultProps} />);
       const form = wrapper.find('form');
-      
+
       expect(form).to.have.lengthOf(1);
       expect(form.prop('onSubmit')).to.be.a('function');
-      
+
       // The form submit should trigger the validation logic
       form.prop('onSubmit')();
       wrapper.update();
-      
+
       // Should show error since checkbox is not checked
       const alert = wrapper.find('AuthorizationAlert');
       expect(alert).to.have.lengthOf(1);
+      wrapper.unmount();
     });
   });
 
   describe('error handling', () => {
     it('should show error state on checkbox when error exists', () => {
-      const wrapper = createWrapper(mount, <PrivateRecordsAuthorization {...defaultProps} />);
-      
+      const wrapper = mount(<PrivateRecordsAuthorization {...defaultProps} />);
+
       // Trigger error by trying to submit without checkbox
       const navButtons = wrapper.find('FormNavButtons');
       navButtons.prop('goForward')();
       wrapper.update();
-      
+
       const checkbox = wrapper.find('[id="privacy-agreement"]').first();
       expect(checkbox.prop('error')).to.equal(' ');
+      wrapper.unmount();
     });
 
     it('should not show error state on checkbox initially', () => {
-      const wrapper = createWrapper(mount, <PrivateRecordsAuthorization {...defaultProps} />);
+      const wrapper = mount(<PrivateRecordsAuthorization {...defaultProps} />);
       const checkbox = wrapper.find('[id="privacy-agreement"]').first();
-      
+
       expect(checkbox.prop('error')).to.equal('');
+      wrapper.unmount();
     });
   });
 
   describe('content sections', () => {
     it('should render contentBeforeButtons when provided', () => {
       const contentBeforeButtons = <div className="before-content">Before</div>;
-      const wrapper = createWrapper(mount,
-        <PrivateRecordsAuthorization 
-          {...defaultProps} 
+      const wrapper = mount(
+        <PrivateRecordsAuthorization
+          {...defaultProps}
           contentBeforeButtons={contentBeforeButtons}
-        />
+        />,
       );
-      
+
       expect(wrapper.find('.before-content')).to.have.lengthOf(1);
+      wrapper.unmount();
     });
 
     it('should render contentAfterButtons when provided', () => {
       const contentAfterButtons = <div className="after-content">After</div>;
-      const wrapper = createWrapper(mount,
-        <PrivateRecordsAuthorization 
-          {...defaultProps} 
+      const wrapper = mount(
+        <PrivateRecordsAuthorization
+          {...defaultProps}
           contentAfterButtons={contentAfterButtons}
-        />
+        />,
       );
-      
+
       expect(wrapper.find('.after-content')).to.have.lengthOf(1);
+      wrapper.unmount();
     });
   });
 
   describe('link interactions', () => {
     it('should have links that reference accordion sections', () => {
-      const wrapper = createWrapper(mount, <PrivateRecordsAuthorization {...defaultProps} />);
+      const wrapper = mount(<PrivateRecordsAuthorization {...defaultProps} />);
       const sectionTwoLinks = wrapper.find('[href="#section-two"]');
-      
+
       expect(sectionTwoLinks.length).to.be.greaterThan(0);
+      wrapper.unmount();
     });
 
     it('should have acknowledgement link', () => {
-      const wrapper = createWrapper(mount, <PrivateRecordsAuthorization {...defaultProps} />);
+      const wrapper = mount(<PrivateRecordsAuthorization {...defaultProps} />);
       const acknowledgementLink = wrapper.find('[href="#acknowledgement"]');
-      
+
       expect(acknowledgementLink).to.have.lengthOf(1);
+      wrapper.unmount();
     });
 
     it('should have section one link', () => {
-      const wrapper = createWrapper(mount, <PrivateRecordsAuthorization {...defaultProps} />);
+      const wrapper = mount(<PrivateRecordsAuthorization {...defaultProps} />);
       const sectionOneLink = wrapper.find('[href="#section-one"]');
-      
+
       expect(sectionOneLink).to.have.lengthOf(1);
+      wrapper.unmount();
     });
   });
 
   describe('analytics and accessibility', () => {
     it('should have enable-analytics on checkbox', () => {
-      const wrapper = createWrapper(mount, <PrivateRecordsAuthorization {...defaultProps} />);
+      const wrapper = mount(<PrivateRecordsAuthorization {...defaultProps} />);
       const checkbox = wrapper.find('[id="privacy-agreement"]').first();
-      
+
       expect(checkbox.prop('enable-analytics')).to.be.true;
+      wrapper.unmount();
     });
 
     it('should have required attribute on checkbox', () => {
-      const wrapper = createWrapper(mount, <PrivateRecordsAuthorization {...defaultProps} />);
+      const wrapper = mount(<PrivateRecordsAuthorization {...defaultProps} />);
       const checkbox = wrapper.find('[id="privacy-agreement"]').first();
-      
+
       expect(checkbox.prop('required')).to.be.true;
+      wrapper.unmount();
     });
 
     it('should have proper id and name on checkbox', () => {
-      const wrapper = createWrapper(mount, <PrivateRecordsAuthorization {...defaultProps} />);
+      const wrapper = mount(<PrivateRecordsAuthorization {...defaultProps} />);
       const checkbox = wrapper.find('[id="privacy-agreement"]').first();
-      
+
       expect(checkbox.prop('id')).to.equal('privacy-agreement');
       expect(checkbox.prop('name')).to.equal('privacy-agreement');
+      wrapper.unmount();
     });
   });
 
   describe('checkbox label', () => {
     it('should have correct authorization label', () => {
-      const wrapper = createWrapper(mount, <PrivateRecordsAuthorization {...defaultProps} />);
+      const wrapper = mount(<PrivateRecordsAuthorization {...defaultProps} />);
       const checkbox = wrapper.find('[id="privacy-agreement"]').first();
-      
-      expect(checkbox.prop('label')).to.equal('I acknowledge and authorize this release of information');
+
+      expect(checkbox.prop('label')).to.equal(
+        'I acknowledge and authorize this release of information',
+      );
+      wrapper.unmount();
     });
   });
 });
