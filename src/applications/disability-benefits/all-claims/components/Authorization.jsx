@@ -508,7 +508,7 @@ const PrivateRecordsAuthorization = ({
   );
 };
 
-PrivateRecordsAuthorization.prototype = {
+PrivateRecordsAuthorization.propTypes = {
   contentAfterButtons: PropTypes.element,
   contentBeforeButtons: PropTypes.element,
   goBack: PropTypes.func,
@@ -516,7 +516,9 @@ PrivateRecordsAuthorization.prototype = {
   goToPath: PropTypes.func,
   pagePerItemIndex: PropTypes.number,
   setFormData: PropTypes.func,
-  data: PropTypes.object.isRequired,
+  data: PropTypes.shape({
+    patient4142Acknowledgement: PropTypes.bool,
+  }).isRequired,
   formData: PropTypes.object,
   testingIndex: PropTypes.number,
   updatePage: PropTypes.func,
