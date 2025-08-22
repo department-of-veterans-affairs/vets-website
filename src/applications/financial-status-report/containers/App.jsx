@@ -9,7 +9,6 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
 import { setData } from 'platform/forms-system/src/js/actions';
-// Legacy wizard fully removed; no site-wide wizard usage
 
 import formConfig from '../config/form';
 import { fetchFormStatus } from '../actions';
@@ -72,8 +71,6 @@ const App = ({
 
   const { email = {}, mobilePhone = {}, mailingAddress = {} } = contactData;
 
-  // Legacy wizard removed; no wizard state handling required
-
   // Contact information data
   useEffect(
     () => {
@@ -104,10 +101,6 @@ const App = ({
     },
     [email, formData, isLoggedIn, mobilePhone, mailingAddress, setFormData],
   );
-
-  // Removed legacy wizard restart redirect
-
-  // No wizard status to reset
 
   useEffect(
     () => {
@@ -161,8 +154,6 @@ const App = ({
   if (isLoggedIn && isError) {
     return <ErrorAlert />;
   }
-
-  // Legacy wizard removed; always render form when available
 
   return showFSR ? (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
