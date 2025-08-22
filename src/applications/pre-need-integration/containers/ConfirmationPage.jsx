@@ -56,8 +56,11 @@ const ConfirmationPage = props => {
         content="You'll receive a confirmation email shortly. We'll let you know by mail or phone if we need more details."
         actions={null}
       />
-      <ConfirmationView.SavePdfDownload />
-      <ConfirmationView.ChapterSectionCollection />
+      <ConfirmationView.SavePdfDownload
+        title="Save a copy of your application"
+        content="If you’d like a PDF copy of your completed application, you can download it."
+      />
+      <ConfirmationView.ChapterSectionCollection header="Information you submitted on this application" />
       <ConfirmationView.PrintThisPage />
       <ConfirmationView.WhatsNextProcessList
         item1Header="We’ll review your application"
@@ -66,7 +69,7 @@ const ConfirmationPage = props => {
         item2Header="We’ll reach a decision"
         item2Content="You’ll receive a pre-need decision letter notifying you of your eligibility for burial in a VA national cemetery."
       />
-      <h3>If you need to submit supporting documents</h3>
+      <h2>If you need to submit supporting documents</h2>
       <p className="mail-or-fax-message">
         You can mail your supporting documents to this address:
       </p>
@@ -80,6 +83,18 @@ const ConfirmationPage = props => {
       <p>
         Or you can fax your supporting documents to{' '}
         <va-telephone contact="8558408299" />.
+      </p>
+      <p>
+        <strong>Note: </strong>
+        Don’t submit your original documents. We can’t return them. Submit
+        copies of your documents only.
+      </p>
+      <p>
+        <va-link
+          external
+          href="https://www.cem.va.gov/hmm/discharge_documents.asp"
+          text="Learn more about the supporting documents you can submit"
+        />
       </p>
       <ConfirmationView.HowToContact content={<HowToContactContent />} />
       <ConfirmationView.GoBackLink />
