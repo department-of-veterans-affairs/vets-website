@@ -52,7 +52,7 @@ const SelectCareTeam = () => {
       if (!acceptInterstitial && !validDraft)
         window.location.replace(`${manifest.rootUrl}${Paths.COMPOSE}`);
     },
-    [acceptInterstitial],
+    [acceptInterstitial, validDraft],
   );
 
   // On initial load, always clear the active care system
