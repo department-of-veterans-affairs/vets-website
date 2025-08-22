@@ -47,7 +47,7 @@ describe('New letters page design', () => {
       .should('be.visible');
     cy.title().should(
       'contain',
-      'Download VA Letters and Documents | Veterans Affair',
+      'Your VA benefit letters and documents | Veterans Affairs',
     );
     cy.axeCheck('main');
     cy.get('@lettersAccordion')
