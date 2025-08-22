@@ -4,23 +4,28 @@ import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../constants';
 import mockUser from '../fixtures/users/user-36.json';
 import mockPaymentInfo from '../fixtures/dd4cnp/dd4cnp-is-set-up.json';
 
-function clickSubNavButton(buttonLabel, mobile) {
+function clickSubNavButton(buttonLabel, mobile, profileShowPaperlessDelivery) {
   if (mobile) {
-    cy.findByRole('button', { name: /profile menu/i }).click();
-    // uncomment when Paperless Delivery is ready for production
-    // cy.get('va-sidenav')
-    //   .filter(':visible')
-    //   .click();
+    if (profileShowPaperlessDelivery) {
+      cy.get('va-sidenav')
+        .filter(':visible')
+        .click();
+    } else {
+      cy.findByRole('button', { name: /profile menu/i }).click();
+    }
   }
-  cy.findByRole('link', { name: buttonLabel }).click();
-  // uncomment when Paperless Delivery is ready for production
-  //   cy.get(`va-sidenav-item[label="${buttonLabel}"]`)
-  //     .filter(':visible')
-  //     .click();
+  if (profileShowPaperlessDelivery) {
+    cy.get(`va-sidenav-item[label="${buttonLabel}"]`)
+      .filter(':visible')
+      .click();
+  } else {
+    cy.findByRole('link', { name: buttonLabel }).click();
+  }
 }
 
 /**
  *
+ * @param {boolean} profileShowPaperlessDelivery - feature
  * @param {boolean} mobile - test on a mobile viewport or not
  *
  * This helper:
@@ -32,17 +37,22 @@ function clickSubNavButton(buttonLabel, mobile) {
  *   - performs an aXe scan
  *   - checks that focus is managed correctly
  */
-function checkSubNavFocus(mobile = false) {
-  cy.intercept('v0/feature_toggles*', mockProfileEnhancementsToggles);
-  // uncomment when Paperless Delivery is ready for production
-  // cy.intercept('GET', 'v0/feature_toggles*', {
-  //   data: {
-  //     features: [
-  //       ...mockProfileEnhancementsToggles.data.features,
-  //       { name: 'profile_show_paperless_delivery', value: true },
-  //     ],
-  //   },
-  // });
+function checkSubNavFocus({
+  profileShowPaperlessDelivery = false,
+  mobile = false,
+} = {}) {
+  if (profileShowPaperlessDelivery) {
+    cy.intercept('GET', 'v0/feature_toggles*', {
+      data: {
+        features: [
+          ...mockProfileEnhancementsToggles.data.features,
+          { name: 'profile_show_paperless_delivery', value: true },
+        ],
+      },
+    });
+  } else {
+    cy.intercept('v0/feature_toggles*', mockProfileEnhancementsToggles);
+  }
   cy.visit(PROFILE_PATHS.PERSONAL_INFORMATION);
   if (mobile) {
     cy.viewport('iphone-4');
@@ -137,15 +147,20 @@ function checkSubNavFocus(mobile = false) {
     `${Cypress.config().baseUrl}${PROFILE_PATHS.CONTACT_INFORMATION}`,
   );
 
-  // uncomment when Paperless Delivery is ready for production
-  // a11y and focus management check for Paperless Delivery
-  // clickSubNavButton(PROFILE_PATH_NAMES.PAPERLESS_DELIVERY, mobile);
-  // cy.url().should(
-  //   'eq',
-  //   `${Cypress.config().baseUrl}${PROFILE_PATHS.PAPERLESS_DELIVERY}`,
-  // );
-  // cy.title().should('eq', 'Paperless Delivery | Veterans Affairs');
-  // cy.axeCheck();
+  if (profileShowPaperlessDelivery) {
+    // a11y and focus management check for Paperless Delivery
+    clickSubNavButton(
+      PROFILE_PATH_NAMES.PAPERLESS_DELIVERY,
+      mobile,
+      profileShowPaperlessDelivery,
+    );
+    cy.url().should(
+      'eq',
+      `${Cypress.config().baseUrl}${PROFILE_PATHS.PAPERLESS_DELIVERY}`,
+    );
+    cy.title().should('eq', 'Paperless Delivery | Veterans Affairs');
+    cy.axeCheck();
+  }
 }
 
 describe('Profile Navigation - Accessibility', () => {
@@ -154,10 +169,20 @@ describe('Profile Navigation - Accessibility', () => {
     cy.intercept('GET', '/v0/ppiu/payment_information', mockPaymentInfo);
   });
   it('check focus for navigating between profile pages via menu on desktop', () => {
-    checkSubNavFocus(false);
+    checkSubNavFocus({ mobile: false });
   });
 
   it('check focus for navigating between profile pages via menu on mobile', () => {
-    checkSubNavFocus(true);
+    checkSubNavFocus({ mobile: true });
+  });
+
+  describe('when feature profileShowPaperlessDelivery is true', () => {
+    it('check focus for navigating between profile pages via menu on desktop', () => {
+      checkSubNavFocus({ profileShowPaperlessDelivery: true, mobile: false });
+    });
+
+    it('check focus for navigating between profile pages via menu on mobile', () => {
+      checkSubNavFocus({ profileShowPaperlessDelivery: true, mobile: true });
+    });
   });
 });
