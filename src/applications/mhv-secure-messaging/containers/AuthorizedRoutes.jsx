@@ -145,9 +145,11 @@ const AuthorizedRoutes = () => {
             <Compose />
           </AppRoute>
         )}
-        <AppRoute exact path={Paths.CARE_TEAM_HELP} key="CareTeamHelp">
-          <CareTeamHelp />
-        </AppRoute>
+        {!cernerPilotSmFeatureFlag && (
+          <AppRoute exact path={Paths.CARE_TEAM_HELP} key="CareTeamHelp">
+            <CareTeamHelp />
+          </AppRoute>
+        )}
         <Route>
           <MhvPageNotFoundContent />
         </Route>

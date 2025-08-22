@@ -32,9 +32,7 @@ const CareTeamHelp = () => {
 
   // Set page title
   useEffect(() => {
-    document.title = `Can't find your care team? - Messages ${
-      PageTitles.DEFAULT_PAGE_TITLE_TAG
-    }`;
+    document.title = PageTitles.CARE_TEAM_HELP_TITLE_TAG;
   }, []);
 
   const renderContent = () => {
@@ -98,9 +96,6 @@ const CareTeamHelp = () => {
             onClick={() => history.goBack()}
             text="Back"
           />
-          <div className="bottom-container">
-            <va-back-to-top />
-          </div>
         </div>
       );
     }
@@ -165,9 +160,6 @@ const CareTeamHelp = () => {
             onClick={() => history.goBack()}
             text="Back"
           />
-          <div className="bottom-container">
-            <va-back-to-top />
-          </div>
         </div>
       );
     }
@@ -231,9 +223,6 @@ const CareTeamHelp = () => {
           onClick={() => history.goBack()}
           text="Back"
         />
-        <div className="bottom-container">
-          <va-back-to-top />
-        </div>
       </div>
     );
   };

@@ -471,6 +471,8 @@ export const PageTitles = {
   CONVERSATION_TITLE_TAG: 'Conversation | Veterans Affairs',
   EDIT_DRAFT_PAGE_TITLE_TAG:
     'Edit draft - MHV Secure Messaging | Veterans Affairs',
+  CARE_TEAM_HELP_TITLE_TAG:
+    'Can’t find your care team? - Messages | Veterans Affairs',
 };
 
 export const Recipients = {
