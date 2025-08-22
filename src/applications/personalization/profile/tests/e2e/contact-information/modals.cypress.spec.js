@@ -3,7 +3,6 @@ import { mockUser } from '@@profile/tests/fixtures/users/user';
 import transactionCompletedWithNoChanges from '@@profile/tests/fixtures/transactions/no-changes-transaction.json';
 import transactionCompletedWithError from '@@profile/tests/fixtures/transactions/error-transaction.json';
 import { mockFeatureToggles } from '../helpers';
-import { generateFeatureToggles } from '../../../mocks/endpoints/feature-toggles';
 
 const setup = ({
   profileShowPaperlessDelivery = false,
@@ -15,11 +14,11 @@ const setup = ({
 
   cy.login(mockUser);
   if (profileShowPaperlessDelivery) {
-    mockFeatureToggles(
-      generateFeatureToggles({
-        profileShowPaperlessDelivery: true,
-      }),
-    );
+    cy.intercept('GET', 'v0/feature_toggles*', {
+      data: {
+        features: [{ name: 'profile_show_paperless_delivery', value: true }],
+      },
+    });
   } else {
     mockFeatureToggles();
   }
