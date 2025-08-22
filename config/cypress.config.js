@@ -15,6 +15,10 @@ function ghAnnotate({ file, title, message, line = 1 }) {
 }
 const touchedSpecs = new Set();
 
+const dynamicBaseUrl =
+  process.env.CYPRESS_BASE_URL ||
+  (process.env.CI ? 'http://localhost:3001' : undefined);
+
 const cypressConfig = {
   viewportWidth: 1920,
   viewportHeight: 1080,
@@ -228,7 +232,7 @@ const cypressConfig = {
 
       return nodeConfig || config;
     },
-    baseUrl: 'http://localhost:3001',
+    baseUrl: dynamicBaseUrl,
     specPattern: 'src/**/tests/**/*.cypress.spec.js?(x)',
     supportFile: 'src/platform/testing/e2e/cypress/support/index.js',
     includeShadowDom: true,
