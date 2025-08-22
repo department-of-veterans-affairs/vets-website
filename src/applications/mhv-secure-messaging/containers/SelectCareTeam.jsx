@@ -13,7 +13,6 @@ import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-dat
 import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import { populatedDraft } from '../selectors';
 import { ErrorMessages, Paths } from '../util/constants';
-import manifest from '../manifest.json';
 import RecipientsSelect from '../components/ComposeForm/RecipientsSelect';
 import EmergencyNote from '../components/EmergencyNote';
 import { updateDraftInProgress } from '../actions/threadDetails';
@@ -49,21 +48,23 @@ const SelectCareTeam = () => {
 
   useEffect(
     () => {
-      if (!acceptInterstitial && !validDraft)
-        window.location.replace(`${manifest.rootUrl}${Paths.COMPOSE}`);
+      if (!acceptInterstitial && !validDraft) history.push(Paths.COMPOSE);
     },
-    [acceptInterstitial, validDraft],
+    [acceptInterstitial, validDraft, history],
   );
 
   // On initial load, always clear the active care system
   // This ensures that if the user navigates back to this page, they will see
   // all care teams without being filtered by the active care system
   // If they have an active care team, we set that as the selected care team
-  useEffect(() => {
-    if (draftInProgress?.recipientId) {
-      setSelectedCareTeamId(draftInProgress.recipientId);
-    }
-  }, []);
+  useEffect(
+    () => {
+      if (draftInProgress?.recipientId) {
+        setSelectedCareTeamId(draftInProgress.recipientId);
+      }
+    },
+    [draftInProgress.recipientId],
+  );
 
   const careTeamHandler = useCallback(
     recipient => {
@@ -111,7 +112,7 @@ const SelectCareTeam = () => {
       }
       // Do nothing if the id hasn't changed
     },
-    [dispatch, selectedCareTeamId],
+    [dispatch, selectedCareTeamId, draftInProgress],
   );
 
   useEffect(() => {
