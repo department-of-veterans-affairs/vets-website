@@ -9,10 +9,10 @@ import {
 } from './helpers';
 
 /**
- *
+ * @param {boolean} profileShowPaperlessDelivery - feature
  * @param {boolean} mobile - test on a mobile viewport or not
  */
-function test(mobile = false) {
+function test({ profileShowPaperlessDelivery = false, mobile = false } = {}) {
   cy.visit(PROFILE_PATHS.PROFILE_ROOT);
   if (mobile) {
     cy.viewport('iphone-4');
@@ -49,7 +49,7 @@ function test(mobile = false) {
     .closest('va-alert[status="warning"]')
     .should('exist');
 
-  subNavOnlyContainsAccountSecurity(mobile);
+  subNavOnlyContainsAccountSecurity({ profileShowPaperlessDelivery, mobile });
 
   onlyAccountSecuritySectionIsAccessible();
 }
@@ -71,6 +71,31 @@ describe('When user is LOA3 with 2FA turned on but we cannot connect to MPI', ()
     test();
   });
   it('should only have access to the Account Security section at mobile size', () => {
-    test(true);
+    test({ mobile: true });
+  });
+});
+
+describe('When user is LOA3 with 2FA turned on but we cannot connect to MPI and feature profileShowPaperlessDelivery is true', () => {
+  beforeEach(() => {
+    cy.login(mockMPIErrorUser);
+    mockGETEndpoints([
+      'v0/mhv_account',
+      'v0/profile/ch33_bank_accounts',
+      'v0/profile/full_name',
+      'v0/profile/personal_information',
+      'v0/profile/service_history',
+      'v0/disability_compensation_form/rating_info',
+    ]);
+    cy.intercept('GET', 'v0/feature_toggles*', {
+      data: {
+        features: [{ name: 'profile_show_paperless_delivery', value: true }],
+      },
+    });
+  });
+  it('should only have access to the Account Security section at desktop size', () => {
+    test();
+  });
+  it('should only have access to the Account Security section at mobile size', () => {
+    test({ profileShowPaperlessDelivery: true, mobile: true });
   });
 });
