@@ -569,8 +569,11 @@ class PatientComposePage {
   };
 
   deleteUnsavedDraft = () => {
-    cy.get(Locators.BUTTONS.DELETE_DRAFT).click();
-    cy.get(Locators.BUTTONS.DELETE_CONFIRM).click();
+    // We need to delete the draft, so Cypress does not get stuck
+    // with a warning dialog when the browser is closed.
+    cy.findByRole('button', { name: 'Delete draft' }).click();
+    // Click the confirm button in the confirmation modal.
+    cy.findByTestId('confirm-delete-draft').click();
   };
 
   interceptSentFolder = () => {

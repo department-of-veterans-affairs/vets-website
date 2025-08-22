@@ -46,6 +46,7 @@ describe('SM MESSAGING COMBO BOX', () => {
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
+    // must include this because it prevents the test from getting stuck on the warning dialog when the browser is closed.
     PatientComposePage.deleteUnsavedDraft();
   });
 
