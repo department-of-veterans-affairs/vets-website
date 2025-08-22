@@ -37,6 +37,55 @@ function makeNetWrappedFns(mod) {
       return origFetch(...args);
     };
   }
+
+  try {
+    // eslint-disable-next-line global-require, import/no-extraneous-dependencies
+    const nodeFetchMaybe = require('node-fetch');
+    const nodeFetchFn =
+      (typeof nodeFetchMaybe === 'function' && nodeFetchMaybe) ||
+      (nodeFetchMaybe && nodeFetchMaybe.default);
+
+    if (typeof nodeFetchFn === 'function') {
+      const wrappedNF = (...args) => {
+        netTouched = true;
+        return nodeFetchFn(...args);
+      };
+
+      try {
+        const modId = require.resolve('node-fetch');
+        if (require.cache[modId]) {
+          const exp = require.cache[modId].exports;
+          if (typeof exp === 'function') {
+            require.cache[modId].exports = wrappedNF;
+          } else if (exp && typeof exp === 'object') {
+            exp.default = wrappedNF;
+          }
+        }
+      } catch (e) {
+        // ignore
+      }
+    }
+  } catch (e) {
+    // ignore
+  }
+
+  const XHR = globalThis.XMLHttpRequest;
+  if (XHR?.prototype?.open) {
+    const origOpen = XHR.prototype.open;
+    XHR.prototype.open = function patchedXHROpen(...args) {
+      netTouched = true;
+      return origOpen.apply(this, args);
+    };
+  }
+
+  const n = globalThis.navigator;
+  if (typeof n?.sendBeacon === 'function') {
+    const origSB = n.sendBeacon.bind(n);
+    n.sendBeacon = (...args) => {
+      netTouched = true;
+      return origSB(...args);
+    };
+  }
 })();
 
 function ghAnnotate({ file, title, message, line = 1 }) {
