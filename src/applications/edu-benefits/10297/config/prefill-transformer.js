@@ -3,24 +3,31 @@ import { viewifyFields } from '../helpers';
 
 export default function prefillTransformer(pages, formData, metadata, state) {
   const prefillContactInformation = data => {
-    const {
-      mailingAddress: userMailingAddress,
-      mobilePhone,
-      homePhone: phone,
-    } = state.user.vet360ContactInformation || {};
+    const { mailingAddress: userMailingAddress, mobilePhone, homePhone } =
+      state.user.vet360ContactInformation || {};
+    const homePhoneNumber = homePhone?.phoneNumber;
+    const cellphoneNumber = mobilePhone?.phoneNumber;
 
-    const { applicantFullName, homePhone, email, ssn, mailingAddress } = data;
+    const {
+      applicantFullName,
+      homePhone: phoneNumber,
+      email,
+      ssn,
+      mailingAddress,
+      mobilePhone: cellPhone,
+      dateOfBirth,
+    } = data;
     const { dob, email: emailAddress, userFullName } = state.user.profile;
 
     const emailAddresses = email || emailAddress || undefined;
 
-    const newData = _.omit(['homePhone', 'email', 'dob'], data);
+    const newData = _.omit(data, ['homePhone', 'mobilePhone', 'email', 'dob']);
     newData.contactInfo = {
-      homePhone: homePhone || phone || '',
-      mobilePhone: mobilePhone || '',
+      homePhone: phoneNumber || homePhoneNumber,
+      mobilePhone: cellPhone || cellphoneNumber,
       emailAddress: emailAddresses,
     };
-    newData.dateOfBirth = dob;
+    newData.dateOfBirth = dateOfBirth || dob;
     newData.applicantFullName = applicantFullName || userFullName;
     newData.mailingAddress = mailingAddress || userMailingAddress;
     newData.ssn = ssn;
@@ -59,7 +66,6 @@ export default function prefillTransformer(pages, formData, metadata, state) {
   };
 
   const finalFormData = transformations.reduce(applyTransformations, formData);
-
   return {
     metadata,
     formData: finalFormData,
