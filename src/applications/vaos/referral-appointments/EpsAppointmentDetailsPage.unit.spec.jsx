@@ -11,7 +11,7 @@ import {
 import { createMockEpsAppointment } from './utils/appointment';
 import * as epsAppointmentUtils from './utils/appointment';
 
-describe.skip('EpsAppointmentDetailsPage', () => {
+describe('EpsAppointmentDetailsPage', () => {
   const appointmentId = 'test-appointment-id';
   const referralAppointmentInfo = createMockEpsAppointment(
     appointmentId,
@@ -258,5 +258,61 @@ describe.skip('EpsAppointmentDetailsPage', () => {
     );
 
     expect(getByTestId('provider-telephone')).to.exist;
+  });
+
+  it('should display correct time with timezone conversion', () => {
+    // Create appointment with specific UTC time and timezone
+    const appointmentWithTimeZone = {
+      ...referralAppointmentInfo,
+      attributes: {
+        ...referralAppointmentInfo.attributes,
+        start: '2024-11-18T18:30:00Z', // 6:30 PM UTC
+        provider: {
+          ...referralAppointmentInfo.attributes.provider,
+          location: {
+            ...referralAppointmentInfo.attributes.provider.location,
+            timeZone: 'America/New_York', // EST/EDT
+          },
+        },
+      },
+    };
+
+    const stateWithTimeZone = {
+      referral: {
+        ...initialState.referral,
+        referralAppointmentInfo: appointmentWithTimeZone,
+      },
+    };
+
+    const container = renderWithStoreAndRouter(<EpsAppointmentDetailsPage />, {
+      store: createTestStore(stateWithTimeZone),
+      path: `/${appointmentId}`,
+    });
+
+    // The AppointmentTime component should display the time in the provider's timezone
+    // 18:30 UTC should convert to either:
+    // - 1:30 PM EST (during standard time)
+    // - 2:30 PM EDT (during daylight time)
+    const timeElement = container.getByTestId('appointment-time');
+    expect(timeElement).to.exist;
+
+    // Check that the time displayed is either 1:30 PM or 2:30 PM (depending on DST)
+    const timeText = timeElement.textContent;
+    const hasCorrectTime =
+      timeText.includes('1:30') || timeText.includes('2:30');
+    expect(hasCorrectTime).to.be.true;
+
+    // Verify it's p.m. time
+    const hasPM = timeText.includes('p.m.');
+    expect(hasPM).to.be.true;
+
+    // Verify timezone abbreviation is displayed
+    const abbreviation = container.getByTestId('appointment-time-abbreviation');
+    expect(abbreviation).to.exist;
+    expect(abbreviation.textContent).to.include('ET'); // ET should appear
+
+    const description = container.getByTestId('appointment-time-description');
+    expect(description).to.exist;
+    expect(description.textContent).to.include('Eastern Standard Time'); // Full timezone description
   });
 });

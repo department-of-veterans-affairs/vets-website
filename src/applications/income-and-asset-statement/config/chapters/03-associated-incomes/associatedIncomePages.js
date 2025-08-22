@@ -73,6 +73,15 @@ export const options = {
               {formatCurrency(item.grossMonthlyIncome)}
             </span>
           </li>
+
+          {showUpdatedContent() && (
+            <li>
+              Current value of the account:{' '}
+              <span className="vads-u-font-weight--bold">
+                {formatCurrency(item.accountValue)}
+              </span>
+            </li>
+          )}
         </ul>
       ),
     reviewAddButtonText: 'Add another financial account',
@@ -112,7 +121,7 @@ const summaryPage = {
         },
       },
       {
-        title: 'Do you have more recurring income to report?',
+        title: 'Do you have more financial accounts to report?',
         labels: {
           Y: 'Yes',
           N: 'No',

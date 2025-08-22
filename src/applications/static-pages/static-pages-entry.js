@@ -96,6 +96,7 @@ import create400247Access from './simple-forms/40-0247/entry';
 import createFormUploadAccess from './simple-forms/form-upload/entry';
 import createBurialHowDoIApplyWidget from './burial-how-do-i-apply-widget';
 import createPensionApp from './pension-how-do-i-apply-widget';
+import create21P0969Access from './income-and-asset';
 import createVYEEnrollmentWidget from './vye-enrollment-login-widget/createVYEEnrollmentWidget';
 
 import create1010DExtendedAccess from './ivc-champva/10-10d-extended/entry';
@@ -137,6 +138,7 @@ connectFeatureToggle(store.dispatch);
 
 // Create widgets.
 createPensionApp(store, widgetTypes.PENSION_APP_STATUS);
+create21P0969Access(store, widgetTypes.INCOME_AND_ASSET_STATEMENT_STAGED_ENTRY);
 
 createApplicationStatus(store, {
   formId: VA_FORM_IDS.FORM_10_10EZ,
