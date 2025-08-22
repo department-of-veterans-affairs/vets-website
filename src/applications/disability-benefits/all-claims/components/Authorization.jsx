@@ -13,12 +13,13 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from 'platform/monitoring/record-event';
 import PropTypes from 'prop-types';
-import AuthorizationAlert from './AuthorizationAlert';
 import { PrivacyActStatementContent } from './privacyActStatementContent';
 
 const AUTHORIZATION_LABEL =
   'I acknowledge and authorize this release of information';
 
+const AUTH_ERROR =
+  'Select the checkbox to authorize us to get your non-VA medical records';
 const PrivateRecordsAuthorization = ({
   data,
   goBack,
@@ -55,11 +56,6 @@ const PrivateRecordsAuthorization = ({
     [hasError],
   );
 
-  const focusOnAlert = () => {
-    scrollTo('topScrollElement');
-    waitForRenderThenFocus('va-alert h3');
-  };
-
   const handlers = {
     onSubmit: event => {
       // This prevents this nested form submit event from passing to the
@@ -85,7 +81,6 @@ const PrivateRecordsAuthorization = ({
         updatePage();
       } else {
         setHasError(true);
-        focusOnAlert();
       }
     },
     onGoForward: () => {
@@ -96,7 +91,6 @@ const PrivateRecordsAuthorization = ({
       } else {
         // Show error and move focus ONLY when Continue is clicked without checkbox
         setHasError(true);
-        focusOnAlert();
       }
     },
   };
@@ -104,11 +98,10 @@ const PrivateRecordsAuthorization = ({
   const focusSection = (_, element) => {
     const focusedElement = document.querySelector(element);
 
-    focusElement(element);
-
     if (focusedElement.getAttribute('open') === 'false') {
       focusedElement.setAttribute('open', 'true');
     }
+    focusElement(element);
   };
 
   const privacyModalButton = (
@@ -135,12 +128,6 @@ const PrivateRecordsAuthorization = ({
 
   return (
     <>
-      {hasError && (
-        <AuthorizationAlert
-          hasError={hasError}
-          onAnchorClick={handlers.onAnchorClick}
-        />
-      )}
       <h3>Authorize the release of non-VA medical records to VA</h3>
       <p>
         Only provide this authorization if you want The Department of Veterans
@@ -419,7 +406,7 @@ const PrivateRecordsAuthorization = ({
                 information may be re-disclosed to other parties (review{' '}
                 <va-link
                   href="#acknowledgement"
-                  onClick={e => focusElement(e, '#acknowledgement')}
+                  onClick={e => focusSection(e, '#acknowledgement')}
                   text="Acknowledgment and HIPAA compliance"
                 />
                 ).
@@ -429,7 +416,7 @@ const PrivateRecordsAuthorization = ({
                 at any time (review{' '}
                 <va-link
                   href="#section-one"
-                  onClick={e => focusElement(e, '#section-one')}
+                  onClick={e => focusSection(e, '#section-one')}
                   text="Section 1. Expiration and
               how to cancel authorization"
                 />
@@ -454,7 +441,7 @@ const PrivateRecordsAuthorization = ({
                 className="vads-u-font-weight--bold vads-u-margin-top--3"
                 id="privacy-agreement"
                 name="privacy-agreement"
-                error={hasError ? ' ' : ''}
+                error={hasError ? AUTH_ERROR : ''}
                 label={AUTHORIZATION_LABEL}
                 checked={data?.patient4142Acknowledgement || false}
                 onVaChange={handlers.onChange}
