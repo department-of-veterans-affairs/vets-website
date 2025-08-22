@@ -98,7 +98,13 @@ const SelectCareTeam = () => {
       }
       // Do nothing if the id hasn't changed
     },
-    [dispatch, selectedCareTeamId],
+    [
+      dispatch,
+      selectedCareTeamId,
+      draftInProgress?.body,
+      draftInProgress?.subject,
+      draftInProgress?.category,
+    ],
   );
 
   useEffect(() => {
