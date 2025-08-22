@@ -501,14 +501,14 @@ describe('SelectCareTeam', () => {
       },
     };
 
-    renderWithStoreAndRouter(<SelectCareTeam />, {
+    const { history } = renderWithStoreAndRouter(<SelectCareTeam />, {
       initialState: customState,
       reducers: reducer,
       path: Paths.SELECT_CARE_TEAM,
     });
 
     await waitFor(() => {
-      expect(window.location.replace.called).to.be.true;
+      expect(history.location.pathname).to.equal('/new-message/');
     });
 
     global.window.location = oldLocation;
