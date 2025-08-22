@@ -3,18 +3,12 @@ import { viewifyFields } from '../helpers';
 
 export default function prefillTransformer(pages, formData, metadata, state) {
   const prefillContactInformation = data => {
-    const { mailingAddress: userMailingAddress, mobilePhone, homePhone } =
-      state.user.vet360ContactInformation || {};
-    const homePhoneNumber = homePhone?.phoneNumber;
-    const cellphoneNumber = mobilePhone?.phoneNumber;
-
     const {
       applicantFullName,
-      homePhone: phoneNumber,
+      contactInfo: { homePhone, mobilePhone } = {},
       email,
       ssn,
       mailingAddress,
-      mobilePhone: cellPhone,
       dateOfBirth,
     } = data;
     const { dob, email: emailAddress, userFullName } = state.user.profile;
@@ -23,13 +17,13 @@ export default function prefillTransformer(pages, formData, metadata, state) {
 
     const newData = _.omit(data, ['homePhone', 'mobilePhone', 'email', 'dob']);
     newData.contactInfo = {
-      homePhone: phoneNumber || homePhoneNumber,
-      mobilePhone: cellPhone || cellphoneNumber,
+      homePhone,
+      mobilePhone,
       emailAddress: emailAddresses,
     };
     newData.dateOfBirth = dateOfBirth || dob;
     newData.applicantFullName = applicantFullName || userFullName;
-    newData.mailingAddress = mailingAddress || userMailingAddress;
+    newData.mailingAddress = mailingAddress;
     newData.ssn = ssn;
     return newData;
   };
