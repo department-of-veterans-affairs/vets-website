@@ -141,12 +141,25 @@ export function deleteNestedProperty(obj, pathString) {
   }
 
   for (let i = 0; i < parts.length - 1; i++) {
-    const next = current?.[parts[i]];
+    const segment = parts[i];
+    const next = current?.[segment];
     if (next === null || typeof next !== 'object') return;
     current = next;
   }
+
+  const last = parts[parts.length - 1];
+
+  if (Array.isArray(current) && /^\d+$/.test(last)) {
+    const idx = Number(last);
+    if (idx >= 0 && idx < current.length) {
+      // remove the element without creating a sparse array
+      current.splice(idx, 1);
+    }
+    return;
+  }
+
   if (current && typeof current === 'object') {
-    delete current[parts[parts.length - 1]];
+    delete current[last];
   }
 }
 

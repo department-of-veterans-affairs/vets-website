@@ -20,6 +20,7 @@ import {
   getActiveProperties,
   deleteNestedProperty,
   filterInactivePageData,
+  createFormPageList,
 } from '../../src/js/helpers';
 
 describe('Schemaform helpers:', () => {
@@ -487,7 +488,6 @@ describe('Schemaform helpers:', () => {
         anotherField: 'testing3',
       });
     });
-
     it('should remove empty addresses', () => {
       const formConfig = {
         chapters: {
@@ -510,7 +510,6 @@ describe('Schemaform helpers:', () => {
 
       expect(output.address).to.be.undefined;
     });
-
     it('should not remove empty addresses if allowPartialAddress is true', () => {
       const formConfig = {
         chapters: {
@@ -537,7 +536,6 @@ describe('Schemaform helpers:', () => {
 
       expect(output.address.country).to.eql('testing');
     });
-
     it('should remove empty objects, null fields, and undefined fields', () => {
       const formConfig = {
         chapters: {
@@ -564,7 +562,6 @@ describe('Schemaform helpers:', () => {
 
       expect(output).to.deep.equal({});
     });
-
     it('should remove nested empty objects, null fields, and undefined fields', () => {
       const formConfig = {
         chapters: {
@@ -641,7 +638,6 @@ describe('Schemaform helpers:', () => {
         },
       });
     });
-
     it('should remove empty objects, null fields, and undefined fields within an array', () => {
       const formConfig = {
         chapters: {
@@ -789,6 +785,75 @@ describe('Schemaform helpers:', () => {
       const output = JSON.parse(transformForSubmit(formConfig, formData));
 
       expect(output.testArray).to.be.undefined;
+    });
+    it('should serialize without `null` array entries after inactive pruning', () => {
+      // Minimal form config with one active array page & one inactive array page
+      const formConfig = {
+        urlPrefix: '/test/',
+        chapters: {
+          c1: {
+            pages: {
+              employers: {
+                path: 'employers/:index',
+                showPagePerItem: true,
+                arrayPath: 'currentEmployers',
+                schema: {
+                  type: 'object',
+                  properties: {
+                    currentEmployers: {
+                      type: 'array',
+                      items: {
+                        type: 'object',
+                        properties: {
+                          name: { type: 'string' },
+                          phone: { type: 'string' },
+                        },
+                      },
+                    },
+                  },
+                },
+                depends: () => true, // active
+              },
+              centers: {
+                path: 'centers/:index',
+                showPagePerItem: true,
+                arrayPath: 'vaMedicalCenters',
+                schema: {
+                  type: 'object',
+                  properties: {
+                    vaMedicalCenters: {
+                      type: 'array',
+                      items: {
+                        type: 'object',
+                        properties: {
+                          facility: { type: 'string' },
+                          city: { type: 'string' },
+                        },
+                      },
+                    },
+                  },
+                },
+                depends: () => false, // inactive
+              },
+            },
+          },
+        },
+      };
+
+      const form = {
+        data: {
+          currentEmployers: [{ name: 'Acme', phone: '555-1234' }],
+          vaMedicalCenters: [{ facility: 'ABC', city: 'X' }],
+        },
+      };
+
+      // Build page list to ensure expandArrayPages behaves
+      const pageList = createFormPageList(formConfig);
+      expect(pageList).to.have.length(2); // sanity
+
+      const json = transformForSubmit(formConfig, form);
+      expect(json).to.be.a('string');
+      expect(json).to.not.include('[null]');
     });
   });
   describe('setArrayRecordTouched', () => {
@@ -1492,6 +1557,26 @@ describe('Schemaform helpers:', () => {
     it('should return empty array if no schema', () => {
       expect(getPageProperties({})).to.eql([]);
     });
+    it('should return indexed child keys for an array page', () => {
+      const page = {
+        schema: {
+          properties: {
+            previousNames: {
+              items: {
+                properties: { first: {}, last: {} },
+              },
+            },
+          },
+        },
+        arrayPath: 'previousNames',
+        index: 0,
+      };
+      const props = getPageProperties(page);
+      expect(props).to.have.members([
+        'previousNames.0.first',
+        'previousNames.0.last',
+      ]);
+    });
   });
   describe('getActiveProperties', () => {
     it('should return unique flattened props across pages', () => {
@@ -1578,6 +1663,23 @@ describe('Schemaform helpers:', () => {
       const obj = { a: { b: { prototype: 1, c: 2 } } };
       deleteNestedProperty(obj, 'a.b.prototype');
       expect(obj).to.eql({ a: { b: { prototype: 1, c: 2 } } });
+    });
+    it('should guard against prototype pollution anywhere in the path', () => {
+      const obj = {};
+      deleteNestedProperty(obj, '__proto__.polluted');
+      expect(Object.prototype).to.not.have.property('polluted');
+    });
+    it('should remove an array element without creating a sparse array', () => {
+      const obj = { arr: [{ a: 1 }, { b: 2 }, { c: 3 }] };
+      deleteNestedProperty(obj, 'arr.1');
+      expect(obj.arr).to.deep.equal([{ a: 1 }, { c: 3 }]);
+      expect(JSON.stringify(obj.arr)).to.equal('[{"a":1},{"c":3}]');
+    });
+    it('should delete a nested property inside an array item and keeps the item', () => {
+      const obj = { arr: [{ a: 1, keep: true }] };
+      deleteNestedProperty(obj, 'arr.0.a');
+      expect(obj.arr).to.deep.equal([{ keep: true }]);
+      expect(JSON.stringify(obj.arr)).to.equal('[{"keep":true}]');
     });
   });
   describe('filterInactivePageData', () => {
@@ -1900,6 +2002,55 @@ describe('Schemaform helpers:', () => {
 
       filterInactivePageData(inactivePages, activePages, form);
       expect(form.data).to.eql(before); // original untouched
+    });
+    it('should prune inactive array children without leaving null entries', () => {
+      const form = {
+        data: {
+          currentEmployers: [{ name: 'Acme', phone: '555-1234' }],
+          vaMedicalCenters: [{ facility: 'ABC', city: 'X' }],
+        },
+      };
+
+      // Inactive page points to vaMedicalCenters children (to be removed)
+      const inactivePages = [
+        {
+          schema: {
+            properties: {
+              vaMedicalCenters: {
+                items: { properties: { facility: {}, city: {} } },
+              },
+            },
+          },
+          arrayPath: 'vaMedicalCenters',
+          index: 0,
+        },
+      ];
+
+      // Active page keeps only currentEmployers
+      const activePages = [
+        {
+          schema: {
+            properties: {
+              currentEmployers: {
+                items: { properties: { name: {}, phone: {} } },
+              },
+            },
+          },
+          arrayPath: 'currentEmployers',
+          index: 0,
+        },
+      ];
+
+      const filtered = filterInactivePageData(inactivePages, activePages, form);
+
+      // Array remains an array, but must not serialize with [null]
+      expect(Array.isArray(filtered.vaMedicalCenters)).to.equal(true);
+      expect(JSON.stringify(filtered.vaMedicalCenters)).to.not.include('null');
+
+      // Active array untouched
+      expect(filtered.currentEmployers).to.deep.equal([
+        { name: 'Acme', phone: '555-1234' },
+      ]);
     });
   });
 });
