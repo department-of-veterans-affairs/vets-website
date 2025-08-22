@@ -31,6 +31,33 @@ export interface AvsMetadata {
   pageHeader?: string;
   generatedDate: string;
   timeZone: string;
+  stationNo?: string;
+}
+
+// Medication types
+export interface Medication {
+  name?: string;
+  prescriptionType?: string;
+  medicationSource?: string;
+  patientTaking?: boolean;
+  stationNo?: string;
+  sig?: string;
+  indication?: string;
+  description?: string;
+  rxNumber?: string;
+  comment?: string;
+  stationName?: string;
+  facilityPhone?: string;
+  orderingProvider?: string;
+  status?: string;
+  quantity?: string | number;
+  daysSupply?: string | number;
+  refillsRemaining?: string | number;
+  dateExpires?: string;
+  dateLastFilled?: string;
+  dateLastReleased?: string;
+  documentingFacility?: string;
+  documentor?: string;
 }
 
 export interface AvsData {
@@ -40,6 +67,8 @@ export interface AvsData {
   clinic?: string;
   clinicsVisited: ClinicVisited[];
   meta: AvsMetadata;
+  vaMedications?: Medication[];
+  nonvaMedications?: Medication[];
   // Add more AVS-specific fields as needed
   [key: string]: any;
 }
