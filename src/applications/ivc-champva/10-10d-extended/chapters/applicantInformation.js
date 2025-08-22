@@ -116,7 +116,7 @@ export const applicantOptions = {
           <b>Phone number:</b> {item?.applicantPhone}
         </li>
         <li>
-          <b>Relationship to sponsor:</b>{' '}
+          <b>Relationship to Veteran:</b>{' '}
           {capitalize(
             item?.applicantRelationshipToSponsor?.relationshipToVeteran !==
             'other'
@@ -140,13 +140,12 @@ const applicantIntroPage = {
         return formContext.pagePerItemIndex === '0' ? (
           <>
             <p>
-              Enter your information and the information for any other
-              applicants you want to enroll in CHAMPVA benefits.
+              Enter this information for each applicant you’re applying for.
             </p>
             {CustomPrefillMessage(formData, 'applicant')}
           </>
         ) : (
-          <p>Enter the information for the applicant you’re applying for.</p>
+          <p>Enter this information for each applicant you’re applying for.</p>
         );
       },
     ),
@@ -414,7 +413,7 @@ const applicantStepChildUploadPage = {
           <b className="dd-privacy-hidden">
             {applicantWording(formData, true, false)}
           </b>{' '}
-          sponsor and{' '}
+          Veteran and{' '}
           <b className="dd-privacy-hidden">
             {applicantWording(formData, true, false)}
           </b>{' '}
@@ -569,8 +568,8 @@ const applicantMarriageDatesPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        `${applicantWording(formData)} date of marriage to the sponsor`,
-      'If you don’t know the exact date, enter your best guess. We won’t need the marriage certificate unless we can’t find a record of the marriage in our system.',
+        `${applicantWording(formData)} date of marriage to the Veteran`,
+      'If you don’t know the exact date, enter your best guess. We won’t need the marriage certificate unless we can’t find a record of the marriage in our system when the form is processed.',
       false,
     ),
     dateOfMarriageToSponsor: currentOrPastDateUI('Date of marriage'),
@@ -619,7 +618,7 @@ const applicantReMarriageCertUploadPage = {
       ({ formData }) => (
         <>
           If {applicantWording(formData, false)} remarried after the death of
-          the sponsor, you can help us process your application faster by
+          the Veteran, you can help us process your application faster by
           submitting documents showing proof of that remarriage.
           <br />
           <br />
@@ -698,9 +697,11 @@ export const applicantPages = arrayBuilderPages(
         ...titleUI(
           'Add applicants',
           <>
-            Next we’ll ask you to enter the information about each applicant.
-            This includes social security number, mailing address, contact
-            information and relationship to the sponsor.
+            Next we’ll ask you for information about the applicant. The
+            applicant is the person who needs the CHAMPVA benefit.
+            <br />
+            We’ll ask for the applicant’s Social Security number, mailing
+            address, contact information, and relationship to the Veteran.
             <br />
             <br />
             {/* TODO: use constant for this value */}
@@ -756,7 +757,8 @@ export const applicantPages = arrayBuilderPages(
     }),
     page18: pageBuilder.itemPage({
       path: 'applicant-information/:index/relationship-to-veteran',
-      title: item => `${applicantWording(item)} relationship to the sponsor`,
+      title: item =>
+        `What's ${applicantWording(item)} relationship to the Veteran`,
       ...applicantRelationshipPage,
       CustomPage: props =>
         ApplicantRelationshipPage({

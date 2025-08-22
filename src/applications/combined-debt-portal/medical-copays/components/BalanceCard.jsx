@@ -64,15 +64,9 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
   );
 
   const isCurrentBalance = verifyCurrentBalance(date);
-  let linkText = '';
-
-  if (isCurrentBalance) {
-    linkText = 'Check details and resolve this bill';
-  } else if (showCDPOneThingPerPage) {
-    linkText = 'Review details';
-  } else {
-    linkText = 'Check details';
-  }
+  const linkText = isCurrentBalance
+    ? `Check details and resolve this bill`
+    : `Check details`;
 
   // give features a chance to fully load before we conditionally render
   if (togglesLoading) {
@@ -116,25 +110,29 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
           />
         )}
       </div>
-      <Link
-        className="vads-u-font-weight--bold"
-        to={`/copay-balances/${id}/detail`}
-        data-testid={`detail-link-${id}`}
-        aria-label={`Check details and resolve this debt for ${facility}`}
-        onClick={() => {
-          recordEvent({ event: 'cta-link-click-copay-balance-card' });
-        }}
-      >
-        {showCDPOneThingPerPage ? `Review details` : linkText}
-        <va-icon icon="navigate_next" size={2} class="cdp-link-icon--active" />
-      </Link>
-      {showCDPOneThingPerPage && (
-        <div className="vads-u-margin-top--1">
+      {showCDPOneThingPerPage ? (
+        <div className="vads-u-display--flex vads-u-flex-direction--column">
           <Link
-            className="vads-u-font-weight--bold"
+            className="vads-u-font-weight--bold vads-u-margin-top--1"
+            to={`/copay-balances/${id}/detail`}
+            data-testid={`detail-link-${id}`}
+            aria-label={`Review details for ${facility}`}
+            onClick={() => {
+              recordEvent({ event: 'cta-link-click-copay-balance-card' });
+            }}
+          >
+            Review details
+            <va-icon
+              icon="navigate_next"
+              size={2}
+              class="cdp-link-icon--active"
+            />
+          </Link>
+          <Link
+            className="vads-u-font-weight--bold vads-u-margin-top--1"
             to={`/copay-balances/${id}/resolve`}
             data-testid={`resolve-link-${id}`}
-            aria-label={`Resolve this debt for ${facility}`}
+            aria-label={`Resolve this bill for ${facility}`}
             onClick={() => {
               recordEvent({ event: 'cta-link-click-copay-balance-card' });
             }}
@@ -147,6 +145,23 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
             />
           </Link>
         </div>
+      ) : (
+        <Link
+          className="vads-u-font-weight--bold"
+          to={`/copay-balances/${id}/detail`}
+          data-testid={`detail-link-${id}`}
+          aria-label={`Check details and resolve this bill for ${facility}`}
+          onClick={() => {
+            recordEvent({ event: 'cta-link-click-copay-balance-card' });
+          }}
+        >
+          {linkText}
+          <va-icon
+            icon="navigate_next"
+            size={2}
+            class="cdp-link-icon--active"
+          />
+        </Link>
       )}
     </va-card>
   );
