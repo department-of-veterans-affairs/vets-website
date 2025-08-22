@@ -6,8 +6,10 @@ import configureMockStore from 'redux-mock-store';
 import sinon from 'sinon';
 
 import App from '../../containers/App';
+import formConfig from '../../config/form';
 
 const mockStore = configureMockStore();
+const originalSubmitUrl = formConfig.submitUrl;
 
 function getDefaultState({
   featureToggles = { loading: false },
@@ -141,11 +143,7 @@ describe('App container logic', () => {
     delete window.location;
     window.location = { replace: mockReplace };
 
-    renderApp({
-      pathname: '/introduction',
-      hasSession: true,
-      dependentsLoading: true,
-    });
+    renderApp();
 
     expect(mockReplace.called).to.be.false;
   });
@@ -155,12 +153,34 @@ describe('App container logic', () => {
     delete window.location;
     window.location = { replace: mockReplace };
 
-    renderApp({
-      pathname: '/introduction',
-      hasSession: false,
-      dependentsLoading: true,
-    });
+    renderApp({ hasSession: false });
 
     expect(mockReplace.called).to.be.false;
+  });
+
+  it('should use the module route with toggle on', () => {
+    const featureToggles = { dependentsModuleEnabled: true };
+    // eslint-disable-next-line dot-notation
+    featureToggles['dependents_module_enabled'] = true;
+
+    renderApp({ featureToggles });
+
+    expect(formConfig.submitUrl).to.contain('/dependents_benefits/v0/claims');
+
+    // Reset to original value for other tests
+    formConfig.submitUrl = originalSubmitUrl;
+  });
+
+  it('should not use the module route with toggle off', () => {
+    const featureToggles = { dependentsModuleEnabled: false };
+    // eslint-disable-next-line dot-notation
+    featureToggles['dependents_module_enabled'] = false;
+
+    renderApp({ featureToggles });
+
+    expect(formConfig.submitUrl).to.contain('/v0/dependents_applications');
+
+    // Reset to original value for other tests
+    formConfig.submitUrl = originalSubmitUrl;
   });
 });

@@ -77,7 +77,7 @@ function App({
   ];
   const rawBreadcrumbs = JSON.stringify(breadcrumbs);
   formConfig.submitUrl = dependentsModuleEnabled
-    ? '/dependents_benefits/v0/dependents_claims'
+    ? `${environment.API_URL}/dependents_benefits/v0/claims`
     : `${environment.API_URL}/v0/dependents_applications`;
 
   const content = (
