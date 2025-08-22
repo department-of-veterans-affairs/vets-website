@@ -173,4 +173,12 @@
       }
     }
   }
+
+  &__checkbox {
+    margin: 8px 0;
+    @media (min-width: $small-desktop-screen) {
+      margin-left: 32px;
+      margin-bottom: 7px;
+    }
+  }
 }
