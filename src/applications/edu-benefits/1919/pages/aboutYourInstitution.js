@@ -16,7 +16,7 @@ const updateFormData = (oldData, formData) => {
       institutionDetails: {
         ...formData.institutionDetails,
         facilityCode: '',
-        institutionName: '',
+        institutionName: null,
         institutionAddress,
       },
     };
