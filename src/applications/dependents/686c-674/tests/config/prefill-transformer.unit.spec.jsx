@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import prefillTransformer from '../../config/prefill-transformer';
+import { NETWORTH_VALUE } from '../../config/constants';
 
 const buildData = ({
   ssnLastFour = '',
@@ -8,6 +9,7 @@ const buildData = ({
   city = 'Decatur',
   useV2 = true,
   daysTillExpires = 365,
+  netWorthLimit = NETWORTH_VALUE,
 }) => ({
   prefill: {
     data: {},
@@ -15,6 +17,7 @@ const buildData = ({
       veteranSsnLastFour: ssnLastFour,
       veteranVaFileNumberLastFour: vaFileLastFour,
       isInReceiptOfPension,
+      netWorthLimit,
     },
     veteranContactInformation: {
       veteranAddress: {
@@ -33,6 +36,7 @@ const buildData = ({
   result: {
     useV2,
     daysTillExpires,
+    netWorthLimit,
     veteranInformation: {
       ssnLastFour,
       vaFileLastFour,
@@ -74,6 +78,7 @@ describe('NOD prefill transformer', () => {
       formData: {
         useV2: true,
         daysTillExpires: 365,
+        netWorthLimit: NETWORTH_VALUE,
         veteranInformation: {
           isInReceiptOfPension: -1,
           ssnLastFour: '',
@@ -83,15 +88,15 @@ describe('NOD prefill transformer', () => {
           veteranAddress: {
             isMilitary: false,
             country: 'USA',
-            street: '',
-            street2: '',
-            street3: '',
-            city: '',
-            state: '',
-            postalCode: '',
+            street: null,
+            street2: null,
+            street3: null,
+            city: null,
+            state: null,
+            postalCode: null,
           },
-          phoneNumber: '',
-          emailAddress: '',
+          phoneNumber: null,
+          emailAddress: null,
         },
       },
       pages: noTransformData.pages,
@@ -125,6 +130,35 @@ describe('NOD prefill transformer', () => {
         .formData;
 
       expect(transformedData).to.deep.equal(data.result);
+    });
+  });
+
+  describe('prefill with netWorthValue', () => {
+    it('should use netWorthValue when present', () => {
+      const { pages, metadata } = noTransformData;
+      const data = buildData({
+        ssnLastFour: '9876',
+        vaFileLastFour: '7654',
+        city: 'APO',
+        netWorthLimit: '200,000',
+      });
+      const transformedData = prefillTransformer(pages, data.prefill, metadata)
+        .formData;
+
+      expect(transformedData).to.deep.equal(data.result);
+    });
+    it('should use default value for netWorthValue when absent', () => {
+      const { pages, metadata } = noTransformData;
+      const data = buildData({
+        ssnLastFour: '9876',
+        vaFileLastFour: '7654',
+        city: 'APO',
+      });
+      const transformedData = prefillTransformer(pages, data.prefill, metadata)
+        .formData;
+
+      expect(transformedData).to.deep.equal(data.result);
+      expect(transformedData.netWorthLimit).to.equal(NETWORTH_VALUE);
     });
   });
 
