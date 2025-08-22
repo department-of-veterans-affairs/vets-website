@@ -22,7 +22,6 @@ const dateTimeHelpers = [
   'Date.now()',
   'Date.parse(',
   'Date.UTC()',
-  'Date.UTC(0, 0',
   'dayjs()',
   'moment().calendar()',
   'moment().format(',
