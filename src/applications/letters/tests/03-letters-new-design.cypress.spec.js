@@ -37,7 +37,7 @@ describe('New letters page design', () => {
     cy.intercept('POST', 'v0/letters_generator/download/*', '@letterPDFBlob');
 
     cy.login(mockUserData);
-    cy.visit('/records/download-va-letters/letters/letter-page');
+    cy.visit('/records/download-va-letters/letters/');
   });
 
   it('confirms non-BSL letters load asynchronously', () => {
