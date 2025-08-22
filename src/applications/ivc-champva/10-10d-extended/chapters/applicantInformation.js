@@ -758,7 +758,7 @@ export const applicantPages = arrayBuilderPages(
     page18: pageBuilder.itemPage({
       path: 'applicant-information/:index/relationship-to-veteran',
       title: item =>
-        `What”s ${applicantWording(item)} relationship to the Vetera`,
+        `What's ${applicantWording(item)} relationship to the Veteran`,
       ...applicantRelationshipPage,
       CustomPage: props =>
         ApplicantRelationshipPage({
