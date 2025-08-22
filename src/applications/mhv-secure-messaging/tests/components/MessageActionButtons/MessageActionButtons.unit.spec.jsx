@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import MessageActionButtons from '../../../components/MessageActionButtons';
 import reducer from '../../../reducers';
@@ -23,7 +23,7 @@ describe('MessageActionButtons component', () => {
   };
 
   const setup = (state = initialState, props = initialProps) => {
-    return renderWithStoreAndRouter(
+    return renderWithStoreAndRouterV6(
       <MessageActionButtons threadId={threadId} {...props} />,
       {
         initialState: state,

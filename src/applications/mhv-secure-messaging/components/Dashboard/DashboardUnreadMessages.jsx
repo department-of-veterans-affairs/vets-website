@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom-v5-compat';
 import { Paths, ErrorMessages } from '../../util/constants';
 import HorizontalRule from '../shared/HorizontalRule';
 

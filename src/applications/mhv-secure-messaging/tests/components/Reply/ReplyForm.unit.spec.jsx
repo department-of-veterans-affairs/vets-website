@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import {
   mockApiRequest,
   inputVaTextInput,
@@ -66,12 +66,12 @@ describe('Reply form component', () => {
   const { category, subject, senderName, triageGroupName } = replyMessage;
 
   const render = (state = initialState, props = {}, message = replyMessage) => {
-    return renderWithStoreAndRouter(
+    return renderWithStoreAndRouterV6(
       <ReplyForm replyMessage={message} drafts={[]} {...props} />,
       {
         initialState: state,
         reducers: reducer,
-        path: `/reply/7171715`,
+        initialEntries: ['/reply/7171715'],
       },
     );
   };

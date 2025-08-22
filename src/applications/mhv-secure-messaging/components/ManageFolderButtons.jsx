@@ -3,7 +3,7 @@ import {
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React, { useState, useEffect, useRef } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom-v5-compat';
 import { useSelector, useDispatch } from 'react-redux';
 import { datadogRum } from '@datadog/browser-rum';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';

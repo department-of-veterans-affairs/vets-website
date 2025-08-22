@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
-import { useLocation, useParams, useHistory } from 'react-router-dom';
+import { useLocation, useParams, useHistory } from 'react-router-dom-v5-compat';
 import { addUserProperties } from '@department-of-veterans-affairs/mhv/exports';
 
 import { clearThread } from '../actions/threadDetails';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import reducers from '../../../reducers';
 import DraftSavedInfo from '../../../components/ComposeForm/DraftSavedInfo';
@@ -22,10 +22,10 @@ describe('DraftSavedInfo component', () => {
   };
 
   const setup = (state = initialState, props = intialProps) => {
-    return renderWithStoreAndRouter(<DraftSavedInfo {...props} />, {
+    return renderWithStoreAndRouterV6(<DraftSavedInfo {...props} />, {
       initialState: state,
       reducers,
-      path: '/new-message/',
+      initialEntries: ['/new-message/'],
     });
   };
 

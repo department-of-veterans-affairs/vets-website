@@ -6,7 +6,8 @@ import {
   mockApiRequest,
   mockMultipleApiRequests,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { useLocation } from 'react-router-dom-v5-compat';
 import { subDays } from 'date-fns';
 import ThreadDetails from '../../containers/ThreadDetails';
 import { Alerts, PageTitles } from '../../util/constants';
@@ -41,11 +42,16 @@ describe('Thread Details container', () => {
     return stub;
   };
 
+  const PathCapture = () => {
+    const loc = useLocation();
+    return <div data-testid="current-path">{loc.pathname}</div>;
+  };
+
   const setup = state => {
-    return renderWithStoreAndRouter(<ThreadDetails testing />, {
+    return renderWithStoreAndRouterV6(<><ThreadDetails testing /><PathCapture /></>, {
       initialState: state,
       reducers: reducer,
-      path: `/thread/2713217`,
+      initialEntries: ['/thread/2713217'],
     });
   };
   const { drafts, messages } = replyDraftThread.threadDetails;
@@ -707,7 +713,7 @@ describe('Thread Details container', () => {
       expect(screen.getByText('Message sent.'));
     });
     await waitFor(() => {
-      expect(screen.history.location.pathname).to.equal(
+      expect(screen.getByTestId('current-path').textContent).to.equal(
         `/folders/${folderId}/`,
       );
     });

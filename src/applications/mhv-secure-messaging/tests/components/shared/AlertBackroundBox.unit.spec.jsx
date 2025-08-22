@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { waitFor } from '@testing-library/dom';
 import reducer from '../../../reducers';
 import AlertBackgroundBox from '../../../components/shared/AlertBackgroundBox';
@@ -24,10 +24,10 @@ describe('Alert Backround Box component', () => {
       },
     };
     const setup = ({ state = initialState }) =>
-      renderWithStoreAndRouter(<AlertBackgroundBox closeable />, {
-        state,
+      renderWithStoreAndRouterV6(<AlertBackgroundBox closeable />, {
+        initialState: state,
         reducers: reducer,
-        path: Paths.INBOX,
+        initialEntries: [Paths.INBOX],
       });
     const { findByText } = setup({});
     expect(findByText(Alerts.Message.DELETE_MESSAGE_ERROR));
@@ -59,10 +59,12 @@ describe('Alert Backround Box component', () => {
       },
     };
     const setup = initialState =>
-      renderWithStoreAndRouter(<AlertBackgroundBox closeable />, {
+      renderWithStoreAndRouterV6(<AlertBackgroundBox closeable />, {
         initialState,
         reducers: reducer,
-        path: `${Paths.FOLDERS}${customState.sm.folders.folder.folderId}/`,
+        initialEntries: [
+          `${Paths.FOLDERS}${customState.sm.folders.folder.folderId}/`,
+        ],
       });
 
     const screen = setup(customState);
@@ -98,10 +100,10 @@ describe('Alert Backround Box component', () => {
       },
     };
     const setup = initialState =>
-      renderWithStoreAndRouter(<AlertBackgroundBox closeable />, {
+      renderWithStoreAndRouterV6(<AlertBackgroundBox closeable />, {
         initialState,
         reducers: reducer,
-        path: `${Paths.FOLDERS}`,
+        initialEntries: [`${Paths.FOLDERS}`],
       });
 
     const screen = setup(customState);
@@ -146,12 +148,14 @@ describe('Alert Backround Box component', () => {
       },
     };
     const setup = initialState =>
-      renderWithStoreAndRouter(<AlertBackgroundBox closeable />, {
+      renderWithStoreAndRouterV6(<AlertBackgroundBox closeable />, {
         initialState,
         reducers: reducer,
-        path: `${Paths.MESSAGE_THREAD}${
-          customState.sm.threadDetails.messages[0].messageId
-        }/`,
+        initialEntries: [
+          `${Paths.MESSAGE_THREAD}${
+            customState.sm.threadDetails.messages[0].messageId
+          }/`,
+        ],
       });
 
     const screen = setup(customState);
@@ -200,12 +204,12 @@ describe('Alert Backround Box component', () => {
       },
     };
     const setup = initialState =>
-      renderWithStoreAndRouter(<AlertBackgroundBox closeable />, {
+      renderWithStoreAndRouterV6(<AlertBackgroundBox closeable />, {
         initialState,
         reducers: reducer,
-        path: `${Paths.REPLY}${
-          customState.sm.threadDetails.messages[0].messageId
-        }/`,
+        initialEntries: [
+          `${Paths.REPLY}${customState.sm.threadDetails.messages[0].messageId}/`,
+        ],
       });
 
     const screen = setup(customState);

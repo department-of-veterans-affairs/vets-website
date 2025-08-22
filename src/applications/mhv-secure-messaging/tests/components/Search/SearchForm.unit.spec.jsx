@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import { fireEvent } from '@testing-library/dom';
 import searchResults from '../../fixtures/search-response.json';
@@ -29,10 +29,10 @@ describe('Search form', () => {
   };
 
   const setup = (props = defaultProps) => {
-    return renderWithStoreAndRouter(<SearchForm {...props} />, {
+    return renderWithStoreAndRouterV6(<SearchForm {...props} />, {
       initialState,
       reducers: reducer,
-      path: `/inbox`,
+      initialEntries: ['/inbox'],
     });
   };
 
@@ -63,7 +63,7 @@ describe('Search form', () => {
       toDate: '2022-12-19T21:55:17.766Z',
       queryData: { searchTerm },
     };
-    const screen = renderWithStoreAndRouter(
+    const screen = renderWithStoreAndRouterV6(
       <SearchForm
         folder={folder}
         keyword={searchTerm}
@@ -74,7 +74,7 @@ describe('Search form', () => {
       {
         initialState,
         reducers: reducer,
-        path: `/search`,
+        initialEntries: ['/search'],
       },
     );
 
@@ -96,7 +96,7 @@ describe('Search form', () => {
       toDate: '2022-12-19T21:55:17.766Z',
       queryData: {},
     };
-    const screen = renderWithStoreAndRouter(
+    const screen = renderWithStoreAndRouterV6(
       <SearchForm
         folder={folder}
         resultsCount={searchResults.length}
@@ -106,7 +106,7 @@ describe('Search form', () => {
       {
         initialState,
         reducers: reducer,
-        path: `/search`,
+        initialEntries: ['/search'],
       },
     );
 

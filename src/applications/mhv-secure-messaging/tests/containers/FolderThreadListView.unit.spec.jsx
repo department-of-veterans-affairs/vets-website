@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { expect } from 'chai';
 import { fireEvent, waitFor } from '@testing-library/dom';
@@ -49,10 +49,10 @@ describe('Folder Thread List View container', () => {
   };
 
   const setup = (state = initialState, path = Paths.INBOX) => {
-    return renderWithStoreAndRouter(<FolderThreadListView testing />, {
+    return renderWithStoreAndRouterV6(<FolderThreadListView testing />, {
       initialState: state,
       reducers: reducer,
-      path,
+      initialEntries: [path],
     });
   };
 
@@ -223,10 +223,10 @@ describe('Folder Thread List View container', () => {
         state = initialStateCustomFolder,
         path = `/folders/${customFolder.folderId}/`,
       ) => {
-        return renderWithStoreAndRouter(<FolderThreadListView testing />, {
+        return renderWithStoreAndRouterV6(<FolderThreadListView testing />, {
           initialState: state,
           reducers: reducer,
-          path,
+          initialEntries: [path],
         });
       };
 

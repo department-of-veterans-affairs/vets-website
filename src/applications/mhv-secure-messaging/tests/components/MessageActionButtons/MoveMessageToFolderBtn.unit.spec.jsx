@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import { expect } from 'chai';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { cleanup } from '@testing-library/react';
 import {
   mockApiRequest,
@@ -41,7 +41,7 @@ describe('Move button', () => {
   };
 
   const setup = () => {
-    return renderWithStoreAndRouter(
+    return renderWithStoreAndRouterV6(
       <MoveMessageToFolderBtn
         activeFolder={activeFolder}
         key="moveMessageToFolderBtn"
@@ -55,7 +55,7 @@ describe('Move button', () => {
       {
         initialState,
         reducers,
-        path: `/thread/${id}`,
+        initialEntries: [`/thread/${id}`],
       },
     );
   };

@@ -1,6 +1,6 @@
 import React from 'react';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import { cleanup, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
@@ -45,6 +45,8 @@ import {
 import { drupalStaticData } from '../../fixtures/cerner-facility-mock-data.json';
 
 describe('Compose form component', () => {
+  // Back-compat alias so existing calls use the v6 helper
+  const renderWithStoreAndRouter = renderWithStoreAndRouterV6;
   let stub;
   afterEach(() => {
     if (stub) {
@@ -110,7 +112,7 @@ describe('Compose form component', () => {
     featureToggles: {},
   };
   const setup = (customState, path, props) => {
-    return renderWithStoreAndRouter(
+    return renderWithStoreAndRouterV6(
       <ComposeForm
         recipients={initialState.sm.recipients}
         categories={categories}
@@ -119,7 +121,7 @@ describe('Compose form component', () => {
       {
         initialState: customState,
         reducers: reducer,
-        path,
+        initialEntries: [path],
       },
     );
   };
@@ -195,7 +197,7 @@ describe('Compose form component', () => {
       },
     };
 
-    const screen = renderWithStoreAndRouter(
+    const screen = renderWithStoreAndRouterV6(
       <ComposeForm
         draft={customDraftMessage}
         recipients={customState.sm.recipients}
@@ -203,7 +205,7 @@ describe('Compose form component', () => {
       {
         initialState: customState,
         reducers: reducer,
-        path: `/draft/${customDraftMessage.id}`,
+        initialEntries: [`/draft/${customDraftMessage.id}`],
       },
     );
 

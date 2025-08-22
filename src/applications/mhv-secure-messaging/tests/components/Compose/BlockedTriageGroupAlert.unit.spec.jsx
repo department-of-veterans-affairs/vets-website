@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import { cleanup, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
@@ -37,7 +37,7 @@ describe('BlockedTriageGroupAlert component', () => {
   };
 
   const setup = (customState, props) => {
-    return renderWithStoreAndRouter(<BlockedTriageGroupAlert {...props} />, {
+    return renderWithStoreAndRouterV6(<BlockedTriageGroupAlert {...props} />, {
       initialState: customState,
       reducers: reducer,
     });

@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import sinon from 'sinon';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { inbox } from '../fixtures/folder-inbox-response.json';
@@ -35,10 +35,10 @@ describe('Cerner Facility Alert', () => {
     path = Paths.INBOX,
     facilities = { facilities: [] },
   ) => {
-    return renderWithStoreAndRouter(<FolderThreadListView testing />, {
+    return renderWithStoreAndRouterV6(<FolderThreadListView testing />, {
       initialState: { ...state, user: { ...state.user, profile: facilities } },
       reducers: reducer,
-      path,
+      initialEntries: [path],
     });
   };
 

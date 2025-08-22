@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
@@ -101,7 +101,7 @@ const initialState = {
 };
 
 const setup = (folder, sortOrder, path, messages = mockMessages) => {
-  return renderWithStoreAndRouter(
+  return renderWithStoreAndRouterV6(
     <MessageList
       messages={messages}
       folder={folder}
@@ -110,7 +110,7 @@ const setup = (folder, sortOrder, path, messages = mockMessages) => {
       page={1}
     />,
     {
-      path,
+      initialEntries: [path],
       initialState,
       reducers,
     },

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useLocation, useParams, useHistory } from 'react-router-dom';
+import { useLocation, useParams, useHistory } from 'react-router-dom-v5-compat';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui/index';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import PropTypes from 'prop-types';

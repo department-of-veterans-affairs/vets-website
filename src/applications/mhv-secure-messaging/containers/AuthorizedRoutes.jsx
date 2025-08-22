@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Switch, Route, useLocation } from 'react-router-dom';
+import { Switch, Route, useLocation } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { MhvPageNotFoundContent } from 'platform/mhv/components/MhvPageNotFound';

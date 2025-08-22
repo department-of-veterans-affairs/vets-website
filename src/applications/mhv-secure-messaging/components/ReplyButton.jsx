@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom-v5-compat';
 import { Paths } from '../util/constants';
 import useFeatureToggles from '../hooks/useFeatureToggles';
 

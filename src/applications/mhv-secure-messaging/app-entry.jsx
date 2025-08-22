@@ -7,14 +7,21 @@ import './sass/secure-messaging.scss';
 import './sass/message-thread.scss';
 import './sass/dashboard.scss';
 
-import startApp from 'platform/startup/router';
-import routes from './routes';
-import reducer from './reducers';
-import manifest from './manifest.json';
+import React from 'react';
+import { Provider } from 'react-redux';
+import { RouterProvider } from 'react-router-dom-v5-compat';
 
-startApp({
-  url: manifest.rootUrl,
-  entryName: manifest.entryName,
-  reducer,
-  routes,
-});
+import startReactApp from 'platform/startup/react';
+
+import router from './routes';
+import { store } from './store';
+
+const App = () => (
+  <Provider store={store}>
+    <RouterProvider router={router} />
+  </Provider>
+);
+
+startReactApp(<App />);
+
+export { store };

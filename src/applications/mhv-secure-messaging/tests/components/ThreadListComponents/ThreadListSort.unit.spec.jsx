@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import reducers from '../../../reducers';
 import ThreadListSort from '../../../components/ThreadList/ThreadListSort';
 import { Paths, threadSortingOptions } from '../../../util/constants';
@@ -21,10 +21,10 @@ describe('Thread List Sort component', () => {
     sortCallback: () => {},
   };
   const setup = (path, defaultProps = props) => {
-    return renderWithStoreAndRouter(<ThreadListSort {...defaultProps} />, {
+    return renderWithStoreAndRouterV6(<ThreadListSort {...defaultProps} />, {
       sm: {},
       reducers,
-      path,
+      initialEntries: [path],
     });
   };
 

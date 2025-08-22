@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
-import { Prompt } from 'react-router-dom';
+import { Prompt } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { resetUserSession } from '../../util/helpers';

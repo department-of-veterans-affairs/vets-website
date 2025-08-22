@@ -8,7 +8,7 @@ import React, {
 import PropTypes from 'prop-types';
 import { validateNameSymbols } from 'platform/forms-system/src/js/web-component-patterns/fullNamePattern';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom-v5-compat';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   DowntimeNotification,

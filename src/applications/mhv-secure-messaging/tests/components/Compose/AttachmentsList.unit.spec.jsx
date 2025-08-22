@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import { cleanup, fireEvent, waitFor } from '@testing-library/react';
 import triageTeams from '../../fixtures/recipients.json';
@@ -30,7 +30,7 @@ describe('Attachments List component', () => {
   };
 
   const setup = (customState, path, props) => {
-    return renderWithStoreAndRouter(
+    return renderWithStoreAndRouterV6(
       <ComposeForm
         recipients={initialState.sm.recipients}
         categories={categories}
@@ -39,7 +39,7 @@ describe('Attachments List component', () => {
       {
         initialState: customState,
         reducers: reducer,
-        path,
+        initialEntries: [path],
       },
     );
   };
@@ -68,12 +68,12 @@ describe('Attachments List component', () => {
       attachmentScanError: false,
       editingEnabled: false,
     };
-    const screen = renderWithStoreAndRouter(
+    const screen = renderWithStoreAndRouterV6(
       <AttachmentsList {...customProps} />,
       {
         initialState,
         reducers: reducer,
-        path: Paths.MESSAGE_THREAD,
+        initialEntries: [Paths.MESSAGE_THREAD],
       },
     );
     expect(document.querySelector('.message-body-attachments-label')).to.exist;
@@ -207,12 +207,12 @@ describe('Attachments List component', () => {
       attachmentScanError: true,
       editingEnabled: true,
     };
-    const screen = renderWithStoreAndRouter(
+    const screen = renderWithStoreAndRouterV6(
       <AttachmentsList {...customProps} />,
       {
         initialState,
         reducers: reducer,
-        path: Paths.MESSAGE_THREAD,
+        initialEntries: [Paths.MESSAGE_THREAD],
       },
     );
 
@@ -243,12 +243,12 @@ describe('Attachments List component', () => {
       attachmentScanError: true,
       editingEnabled: true,
     };
-    const screen = renderWithStoreAndRouter(
+    const screen = renderWithStoreAndRouterV6(
       <AttachmentsList {...customProps} />,
       {
         initialState,
         reducers: reducer,
-        path: Paths.MESSAGE_THREAD,
+        initialEntries: [Paths.MESSAGE_THREAD],
       },
     );
 

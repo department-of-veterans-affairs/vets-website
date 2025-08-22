@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import searchResults from '../fixtures/search-response.json';
 import folder from '../fixtures/folder-inbox-metadata.json';
@@ -24,10 +24,10 @@ describe('Search results', () => {
   };
 
   const setup = (state = initialState) => {
-    return renderWithStoreAndRouter(<SearchResults />, {
+    return renderWithStoreAndRouterV6(<SearchResults />, {
       initialState: state,
       reducers: reducer,
-      path: `/search/results`,
+      initialEntries: ['/search/results'],
     });
   };
 

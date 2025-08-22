@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/dom';
@@ -31,10 +31,10 @@ describe('Folders Landing Page', () => {
 
   const folderCount = customFolderList?.length;
   const setup = (state = initialState, path = Paths.FOLDERS) => {
-    return renderWithStoreAndRouter(<Folders />, {
+    return renderWithStoreAndRouterV6(<Folders />, {
       initialState: state,
       reducers: reducer,
-      path,
+      initialEntries: [path],
     });
   };
 

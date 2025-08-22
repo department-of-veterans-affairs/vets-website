@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom-v5-compat';
 import { folderPathByFolderId, isCustomFolder } from '../util/helpers';
 import { DefaultFolders as Folders } from '../util/constants';
 

@@ -1,5 +1,6 @@
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { useLocation } from 'react-router-dom-v5-compat';
 import { expect } from 'chai';
 import { fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
@@ -13,6 +14,10 @@ import { selectVaRadio, selectVaSelect } from '../../util/testUtils';
 import * as threadDetailsActions from '../../actions/threadDetails';
 
 describe('SelectCareTeam', () => {
+  const PathCapture = () => {
+    const loc = useLocation();
+    return <div data-testid="current-path">{loc.pathname}</div>;
+  };
   let updateDraftInProgressSpy;
 
   beforeEach(() => {
@@ -82,10 +87,10 @@ describe('SelectCareTeam', () => {
   };
 
   it('renders the heading and radio options', () => {
-    const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+    const screen = renderWithStoreAndRouterV6(<SelectCareTeam />, {
       initialState,
       reducers: reducer,
-      path: Paths.SELECT_CARE_TEAM,
+      initialEntries: [Paths.SELECT_CARE_TEAM],
     });
 
     expect(
@@ -107,10 +112,10 @@ describe('SelectCareTeam', () => {
   });
 
   it('displays health care system facilities as radio button options', async () => {
-    const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+    const screen = renderWithStoreAndRouterV6(<SelectCareTeam />, {
       initialState,
       reducers: reducer,
-      path: Paths.SELECT_CARE_TEAM,
+      initialEntries: [Paths.SELECT_CARE_TEAM],
     });
     expect(screen.getByTestId('care-system-636')).to.exist; // VA Boston
     expect(screen.getByTestId('care-system-662')).to.exist; // VA Seattle
@@ -137,10 +142,10 @@ describe('SelectCareTeam', () => {
         },
       },
     };
-    const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+    const screen = renderWithStoreAndRouterV6(<><SelectCareTeam /><PathCapture /></>, {
       initialState: customState,
       reducers: reducer,
-      path: Paths.SELECT_CARE_TEAM,
+      initialEntries: [Paths.SELECT_CARE_TEAM],
     });
 
     await waitFor(() => {
@@ -175,10 +180,10 @@ describe('SelectCareTeam', () => {
         },
       },
     };
-    const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+    const screen = renderWithStoreAndRouterV6(<SelectCareTeam />, {
       initialState: customState,
       reducers: reducer,
-      path: Paths.SELECT_CARE_TEAM,
+      initialEntries: [Paths.SELECT_CARE_TEAM],
     });
 
     selectVaSelect(
@@ -194,10 +199,10 @@ describe('SelectCareTeam', () => {
   });
 
   it('updates care team selection options when a care system radio is selected', async () => {
-    const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+    const screen = renderWithStoreAndRouterV6(<SelectCareTeam />, {
       initialState,
       reducers: reducer,
-      path: Paths.SELECT_CARE_TEAM,
+      initialEntries: [Paths.SELECT_CARE_TEAM],
     });
 
     selectVaRadio(screen.container, '636');
@@ -210,10 +215,10 @@ describe('SelectCareTeam', () => {
   });
 
   it('updates care team on care team selection', async () => {
-    const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+    const screen = renderWithStoreAndRouterV6(<SelectCareTeam />, {
       initialState,
       reducers: reducer,
-      path: Paths.SELECT_CARE_TEAM,
+      initialEntries: [Paths.SELECT_CARE_TEAM],
     });
 
     await waitFor(() => {
@@ -238,10 +243,10 @@ describe('SelectCareTeam', () => {
       },
     };
 
-    const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+    const screen = renderWithStoreAndRouterV6(<SelectCareTeam />, {
       initialState: customState,
       reducers: reducer,
-      path: Paths.SELECT_CARE_TEAM,
+      initialEntries: [Paths.SELECT_CARE_TEAM],
     });
 
     await waitFor(() => {
@@ -252,7 +257,7 @@ describe('SelectCareTeam', () => {
       expect(continueButton).to.exist;
       fireEvent.click(continueButton);
 
-      expect(screen.history.location.pathname).to.equal(
+      expect(screen.getByTestId('current-path').textContent).to.equal(
         `${Paths.COMPOSE}${Paths.START_MESSAGE}`,
       );
     });
@@ -273,10 +278,10 @@ describe('SelectCareTeam', () => {
       },
     };
 
-    const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+    const screen = renderWithStoreAndRouterV6(<><SelectCareTeam /><PathCapture /></>, {
       initialState: customState,
       reducers: reducer,
-      path: Paths.SELECT_CARE_TEAM,
+      initialEntries: [Paths.SELECT_CARE_TEAM],
     });
 
     await waitFor(() => {
@@ -287,7 +292,7 @@ describe('SelectCareTeam', () => {
       expect(continueButton).to.exist;
       fireEvent.click(continueButton);
 
-      expect(screen.history.location.pathname).to.equal(
+      expect(screen.getByTestId('current-path').textContent).to.equal(
         `${Paths.MESSAGE_THREAD}${
           customState.sm.threadDetails.draftInProgress.messageId
         }`,
@@ -311,10 +316,10 @@ describe('SelectCareTeam', () => {
       },
     };
 
-    const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+    const screen = renderWithStoreAndRouterV6(<SelectCareTeam />, {
       initialState: customState,
       reducers: reducer,
-      path: Paths.SELECT_CARE_TEAM,
+      initialEntries: [Paths.SELECT_CARE_TEAM],
     });
 
     await waitFor(() => {
@@ -356,10 +361,10 @@ describe('SelectCareTeam', () => {
       },
     };
 
-    renderWithStoreAndRouter(<SelectCareTeam />, {
+    renderWithStoreAndRouterV6(<SelectCareTeam />, {
       initialState: customState,
       reducers: reducer,
-      path: Paths.SELECT_CARE_TEAM,
+      initialEntries: [Paths.SELECT_CARE_TEAM],
     });
 
     await waitFor(() => {

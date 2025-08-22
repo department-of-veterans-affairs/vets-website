@@ -7,7 +7,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { datadogRum } from '@datadog/browser-rum';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom-v5-compat';
 import { moveMessageThread } from '../../actions/messages';
 import { getFolders, newFolder } from '../../actions/folders';
 import { navigateToFolderByFolderId } from '../../util/helpers';

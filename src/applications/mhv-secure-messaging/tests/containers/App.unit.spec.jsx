@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { createServiceMap } from '@department-of-veterans-affairs/platform-monitoring';
@@ -69,7 +69,7 @@ describe('App', () => {
 
   it('user is not logged in', () => {
     // expected behavior is be redirected to the home page with next in the url
-    renderWithStoreAndRouter(<App />, {
+    renderWithStoreAndRouterV6(<App />, {
       initialState: {
         ...initialState,
         user: {
@@ -81,28 +81,28 @@ describe('App', () => {
           },
         },
       },
-      path: `/`,
+      initialEntries: ['/'],
       reducers: reducer,
     });
     waitFor(() => expect(window.location.replace.called).to.be.true);
   });
 
   it('feature flags are still loading', () => {
-    const screen = renderWithStoreAndRouter(<App />, {
+    const screen = renderWithStoreAndRouterV6(<App />, {
       initialState: {
         featureToggles: {
           loading: true,
         },
         ...initialState,
       },
-      path: `/`,
+      initialEntries: ['/'],
       reducers: reducer,
     });
     expect(screen.getByTestId('feature-flag-loading-indicator'));
   });
 
   it.skip('renders the global downtime notification', () => {
-    const screen = renderWithStoreAndRouter(<App />, {
+    const screen = renderWithStoreAndRouterV6(<App />, {
       initialState: {
         scheduledDowntime: {
           globalDowntime: true,
@@ -114,7 +114,7 @@ describe('App', () => {
         ...initialState,
       },
       reducers: reducer,
-      path: `/`,
+      initialEntries: ['/'],
     });
     expect(
       screen.getByText('This tool is down for maintenance', {
@@ -130,7 +130,7 @@ describe('App', () => {
   });
 
   it('renders the downtime notification', async () => {
-    const screen = renderWithStoreAndRouter(<App />, {
+    const screen = renderWithStoreAndRouterV6(<App />, {
       initialState: {
         scheduledDowntime: {
           globalDowntime: null,
@@ -142,7 +142,7 @@ describe('App', () => {
         ...initialState,
       },
       reducers: reducer,
-      path: `/`,
+      initialEntries: ['/'],
     });
     await waitFor(() => {
       expect(
@@ -163,7 +163,7 @@ describe('App', () => {
   });
 
   it('renders the downtime notification for multiple configured services', async () => {
-    const screen = renderWithStoreAndRouter(<App />, {
+    const screen = renderWithStoreAndRouterV6(<App />, {
       initialState: {
         scheduledDowntime: {
           globalDowntime: null,
@@ -175,7 +175,7 @@ describe('App', () => {
         ...initialState,
       },
       reducers: reducer,
-      path: `/`,
+      initialEntries: ['/'],
     });
     await waitFor(() => {
       expect(
@@ -196,7 +196,7 @@ describe('App', () => {
   });
 
   it('renders the downtime notification for mixed services', async () => {
-    const screen = renderWithStoreAndRouter(<App />, {
+    const screen = renderWithStoreAndRouterV6(<App />, {
       initialState: {
         scheduledDowntime: {
           globalDowntime: null,
@@ -208,7 +208,7 @@ describe('App', () => {
         ...initialState,
       },
       reducers: reducer,
-      path: `/`,
+      initialEntries: ['/'],
     });
     await waitFor(() => {
       expect(
@@ -229,7 +229,7 @@ describe('App', () => {
   });
 
   it('does NOT render the downtime notification WHEN unrelated services are down', () => {
-    const screen = renderWithStoreAndRouter(<App />, {
+    const screen = renderWithStoreAndRouterV6(<App />, {
       initialState: {
         scheduledDowntime: {
           globalDowntime: null,
@@ -241,7 +241,7 @@ describe('App', () => {
         ...initialState,
       },
       reducers: reducer,
-      path: `/`,
+      initialEntries: ['/'],
     });
     const downtimeComponent = screen.queryByText(
       'Maintenance on My HealtheVet',
@@ -268,10 +268,10 @@ describe('App', () => {
     customState.featureToggles[
       FEATURE_FLAG_NAMES.mhvBypassDowntimeNotification
     ] = true;
-    const screen = renderWithStoreAndRouter(<App />, {
+    const screen = renderWithStoreAndRouterV6(<App />, {
       initialState: customState,
       reducers: reducer,
-      path: `/`,
+      initialEntries: ['/'],
     });
     const downtimeComponent = screen.queryByText(
       'Maintenance on My HealtheVet',
@@ -297,10 +297,10 @@ describe('App', () => {
       },
       ...noDowntime,
     };
-    renderWithStoreAndRouter(<App />, {
+    renderWithStoreAndRouterV6(<App />, {
       initialState: customState,
       reducers: reducer,
-      path: `/`,
+      initialEntries: ['/'],
     });
     await waitFor(() => {
       expect(window.location.replace.called).to.be.true;
@@ -311,10 +311,10 @@ describe('App', () => {
     window.location.replace = sinon.spy();
     const customState = { ...initialState, featureToggles: [] };
 
-    await renderWithStoreAndRouter(<App />, {
+    await renderWithStoreAndRouterV6(<App />, {
       initialState: customState,
       reducers: reducer,
-      path: `/`,
+      initialEntries: ['/'],
     });
 
     await waitFor(() => {
@@ -326,10 +326,10 @@ describe('App', () => {
   });
 
   it('displays Page Not Found component if bad url', async () => {
-    const screen = renderWithStoreAndRouter(<App />, {
+    const screen = renderWithStoreAndRouterV6(<App />, {
       initialState,
       reducers: reducer,
-      path: `/sdfsdf`,
+      initialEntries: ['/sdfsdf'],
     });
     await waitFor(() => {
       expect(screen.getByTestId('mhv-page-not-found')).to.exist;
@@ -356,7 +356,7 @@ describe('App', () => {
     });
     useFeatureTogglesStub;
 
-    renderWithStoreAndRouter(<App />, {
+    renderWithStoreAndRouterV6(<App />, {
       initialState,
       reducers: reducer,
     });

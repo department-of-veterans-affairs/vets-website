@@ -1,5 +1,6 @@
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { useLocation } from 'react-router-dom-v5-compat';
 import { expect } from 'chai';
 import { cleanup, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
@@ -16,6 +17,10 @@ import { ErrorMessages, Paths } from '../../util/constants';
 import { checkVaCheckbox, getProps } from '../../util/testUtils';
 
 describe('Edit Contact List container', async () => {
+  const PathCapture = () => {
+    const loc = useLocation();
+    return <div data-testid="current-path">{loc.pathname}</div>;
+  };
   const initialState = {
     drupalStaticData,
     sm: {
@@ -36,10 +41,10 @@ describe('Edit Contact List container', async () => {
   };
 
   const setup = (state = initialState, path = Paths.CONTACT_LIST) => {
-    return renderWithStoreAndRouter(<EditContactList />, {
+    return renderWithStoreAndRouterV6(<><EditContactList /><PathCapture /></>, {
       initialState: state,
       reducers: reducer,
-      path,
+      initialEntries: [path],
     });
   };
 
@@ -455,7 +460,7 @@ describe('Edit Contact List container', async () => {
     const cancelButton = await screen.findByTestId('contact-list-go-back');
     fireEvent.click(cancelButton);
 
-    expect(screen.history.location.pathname).to.equal(
+    expect(screen.getByTestId('current-path').textContent).to.equal(
       `${Paths.MESSAGE_THREAD}123123/`,
     );
 

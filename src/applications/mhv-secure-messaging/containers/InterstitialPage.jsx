@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom-v5-compat';
 import PropType from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import CrisisLineConnectButton from '../components/CrisisLineConnectButton';

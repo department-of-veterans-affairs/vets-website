@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import { within } from '@testing-library/dom';
 import reducer from '../../../reducers';
@@ -33,7 +33,7 @@ describe('ReplyDrafts component', () => {
     },
   };
   const setup = ({ initialState = defaultState, props = defaultProps }) =>
-    renderWithStoreAndRouter(<ReplyDrafts {...props} />, {
+    renderWithStoreAndRouterV6(<ReplyDrafts {...props} />, {
       initialState,
       reducers: reducer,
     });

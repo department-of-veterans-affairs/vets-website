@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom-v5-compat';
 import { useDispatch, useSelector } from 'react-redux';
 import PropType from 'prop-types';
 import {

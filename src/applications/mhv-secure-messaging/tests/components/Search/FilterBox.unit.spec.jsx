@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/dom';
 import folderList from '../../fixtures/folder-inbox-response.json';
@@ -32,10 +32,10 @@ describe('Filter box', () => {
   };
 
   const setup = (state = initialState, props = initialProps) => {
-    return renderWithStoreAndRouter(<FilterBox {...props} />, {
+    return renderWithStoreAndRouterV6(<FilterBox {...props} />, {
       initialState: state,
       reducers: reducer,
-      path: Paths.INBOX,
+      initialEntries: [Paths.INBOX],
     });
   };
 

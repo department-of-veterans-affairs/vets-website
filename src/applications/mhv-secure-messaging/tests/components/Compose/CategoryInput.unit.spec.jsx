@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import categories from '../../fixtures/categories-response.json';
 import reducer from '../../../reducers';
@@ -13,24 +13,24 @@ describe('CategoryInput component', () => {
   };
 
   it('renders without errors', () => {
-    const screen = renderWithStoreAndRouter(
+    const screen = renderWithStoreAndRouterV6(
       <CategoryInput categories={categories} />,
       {
         initialState,
         reducers: reducer,
-        path: Paths.COMPOSE,
+        initialEntries: [Paths.COMPOSE],
       },
     );
     expect(screen);
   });
 
   it('should contain va radio button component', () => {
-    const screen = renderWithStoreAndRouter(
+    const screen = renderWithStoreAndRouterV6(
       <CategoryInput categories={categories} />,
       {
         initialState,
         reducers: reducer,
-        path: Paths.COMPOSE,
+        initialEntries: [Paths.COMPOSE],
       },
     );
     const categoryRadioInputs = screen.getByTestId(
@@ -40,12 +40,12 @@ describe('CategoryInput component', () => {
   });
 
   it('should contain all category options', async () => {
-    const screen = renderWithStoreAndRouter(
+    const screen = renderWithStoreAndRouterV6(
       <CategoryInput categories={categories} />,
       {
         initialState,
         reducers: reducer,
-        path: Paths.COMPOSE,
+        initialEntries: [Paths.COMPOSE],
       },
     );
     const values = await screen
@@ -56,12 +56,12 @@ describe('CategoryInput component', () => {
   });
 
   it('should contain same category name for all options', async () => {
-    const screen = renderWithStoreAndRouter(
+    const screen = renderWithStoreAndRouterV6(
       <CategoryInput categories={categories} />,
       {
         initialState,
         reducers: reducer,
-        path: Paths.COMPOSE,
+        initialEntries: [Paths.COMPOSE],
       },
     );
     const name = await screen
@@ -75,12 +75,12 @@ describe('CategoryInput component', () => {
 
   it('should have category checked when category prop is present', async () => {
     const selectedCategory = RadioCategories.OTHER.value;
-    await renderWithStoreAndRouter(
+    await renderWithStoreAndRouterV6(
       <CategoryInput category={selectedCategory} categories={categories} />,
       {
         initialState,
         reducers: reducer,
-        path: Paths.COMPOSE,
+        initialEntries: [Paths.COMPOSE],
       },
     );
     const selectedRadioOption = document.querySelector(
@@ -99,12 +99,12 @@ describe('CategoryInput component', () => {
 
   it('should display an error when error prop is present', async () => {
     const categoryError = ErrorMessages.ComposeForm.CATEGORY_REQUIRED;
-    const screen = await renderWithStoreAndRouter(
+    const screen = await renderWithStoreAndRouterV6(
       <CategoryInput categoryError={categoryError} categories={categories} />,
       {
         initialState,
         reducers: reducer,
-        path: Paths.COMPOSE,
+        initialEntries: [Paths.COMPOSE],
       },
     );
     const vaRadio = screen.getByTestId('compose-message-categories');

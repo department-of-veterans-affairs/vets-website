@@ -1,5 +1,6 @@
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { useLocation } from 'react-router-dom-v5-compat';
 import { expect } from 'chai';
 import { cleanup, fireEvent, waitFor } from '@testing-library/react';
 import SmBreadcrumbs from '../../components/shared/SmBreadcrumbs';
@@ -10,6 +11,10 @@ import { Breadcrumbs, Paths } from '../../util/constants';
 
 let initialState;
 describe('Breadcrumbs', () => {
+  const PathCapture = () => {
+    const loc = useLocation();
+    return <div data-testid="current-path">{loc.pathname}</div>;
+  };
   const defaultCrumbs = [
     {
       href: '/',
@@ -35,10 +40,10 @@ describe('Breadcrumbs', () => {
   afterEach(() => cleanup());
 
   it('on Message Details renders without errors', async () => {
-    const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
+    const screen = renderWithStoreAndRouterV6(<SmBreadcrumbs />, {
       initialState,
       reducers: reducer,
-      path: `/thread/${messageResponse.messageId}`,
+      initialEntries: [`/thread/${messageResponse.messageId}`],
     });
     expect(await screen.findByText('Back', { exact: true }));
   });
@@ -62,10 +67,10 @@ describe('Breadcrumbs', () => {
         },
       },
     };
-    const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
-      initialStateDrafts,
+    const screen = renderWithStoreAndRouterV6(<SmBreadcrumbs />, {
+      initialState: initialStateDrafts,
       reducers: reducer,
-      path: Breadcrumbs.DRAFTS.href,
+      initialEntries: [Breadcrumbs.DRAFTS.href],
     });
 
     const breadcrumb = await screen.findByText('Back', { exact: true });
@@ -73,10 +78,10 @@ describe('Breadcrumbs', () => {
   });
 
   it('on Compose renders as back link only', async () => {
-    const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
+    const screen = renderWithStoreAndRouterV6(<SmBreadcrumbs />, {
       initialState,
       reducers: reducer,
-      path: Breadcrumbs.COMPOSE.href,
+      initialEntries: [Breadcrumbs.COMPOSE.href],
     });
 
     const breadcrumb = await screen.findByText('Back', { exact: true });
@@ -102,10 +107,10 @@ describe('Breadcrumbs', () => {
         },
       },
     };
-    const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
+    const screen = renderWithStoreAndRouterV6(<SmBreadcrumbs />, {
       initialState: initialStateDrafts,
       reducers: reducer,
-      path: '/thread/7155731',
+      initialEntries: ['/thread/7155731'],
     });
     expect(
       await screen.findByText('Back', {
@@ -133,10 +138,10 @@ describe('Breadcrumbs', () => {
         },
       },
     };
-    const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
+    const screen = renderWithStoreAndRouterV6(<SmBreadcrumbs />, {
       initialState: initialStateSent,
       reducers: reducer,
-      path: '/thread/7155731',
+      initialEntries: ['/thread/7155731'],
     });
     expect(
       await screen.findByText('Back', {
@@ -164,10 +169,10 @@ describe('Breadcrumbs', () => {
         },
       },
     };
-    const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
+    const screen = renderWithStoreAndRouterV6(<SmBreadcrumbs />, {
       initialState: initialStateTrash,
       reducers: reducer,
-      path: `/thread/7155731`,
+      initialEntries: ['/thread/7155731'],
     });
     expect(
       await screen.findByText('Back', {
@@ -185,15 +190,15 @@ describe('Breadcrumbs', () => {
       },
     };
 
-    const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
+    const screen = renderWithStoreAndRouterV6(<><SmBreadcrumbs /><PathCapture /></>, {
       initialState: customState,
       reducers: reducer,
-      path: Paths.COMPOSE,
+      initialEntries: [Paths.COMPOSE],
     });
 
     fireEvent.click(screen.getByText('Back'));
     await waitFor(() => {
-      expect(screen.history.location.pathname).to.equal(Paths.INBOX);
+      expect(screen.getByTestId('current-path').textContent).to.equal(Paths.INBOX);
     });
   });
 
@@ -206,16 +211,16 @@ describe('Breadcrumbs', () => {
       },
     };
 
-    const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
+    const screen = renderWithStoreAndRouterV6(<><SmBreadcrumbs /><PathCapture /></>, {
       initialState: customState,
       reducers: reducer,
-      path: Paths.COMPOSE,
+      initialEntries: [Paths.COMPOSE],
     });
 
     fireEvent.click(screen.getByText('Back'));
 
     await waitFor(() => {
-      expect(screen.history.location.pathname).to.equal(Paths.DRAFTS);
+      expect(screen.getByTestId('current-path').textContent).to.equal(Paths.DRAFTS);
     });
   });
 
@@ -233,15 +238,15 @@ describe('Breadcrumbs', () => {
       },
     };
 
-    const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
+    const screen = renderWithStoreAndRouterV6(<><SmBreadcrumbs /><PathCapture /></>, {
       initialState: customState,
       reducers: reducer,
-      path: Paths.CONTACT_LIST,
+      initialEntries: [Paths.CONTACT_LIST],
     });
 
     fireEvent.click(screen.getByText('Back'));
 
-    expect(screen.history.location.pathname).to.equal(
+    expect(screen.getByTestId('current-path').textContent).to.equal(
       `${Paths.MESSAGE_THREAD}123123/`,
     );
   });

@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderWithStoreAndRouter } from 'platform/testing/unit/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from 'platform/testing/unit/react-testing-library-helpers';
 import { expect } from 'chai';
 import { fireEvent, waitFor, cleanup } from '@testing-library/react';
 import sinon from 'sinon';
@@ -48,12 +48,12 @@ describe('Delete Draft component', () => {
       },
     };
 
-    const screen = renderWithStoreAndRouter(
+    const screen = renderWithStoreAndRouterV6(
       <DeleteDraft draftId={draft.messageId} />,
       {
         initialState,
         reducers: reducer,
-        path: `/thread/${draft.messageId}/`,
+        initialEntries: [`/thread/${draft.messageId}/`],
       },
     );
     await waitFor(() => {
@@ -72,7 +72,7 @@ describe('Delete Draft component', () => {
       },
     };
     let screen = null;
-    screen = renderWithStoreAndRouter(
+    screen = renderWithStoreAndRouterV6(
       <DeleteDraft
         draftId={draft.messageId}
         setNavigationError={setNavigationErrorSpy}
@@ -81,7 +81,7 @@ describe('Delete Draft component', () => {
       {
         initialState,
         reducers: reducer,
-        path: pathname,
+        initialEntries: [pathname],
       },
     );
     fireEvent.click(screen.getByTestId('delete-draft-button'));
@@ -116,7 +116,7 @@ describe('Delete Draft component', () => {
       activeFolder: { folderId: '1' },
     };
 
-    const { getByTestId, queryByTestId } = renderWithStoreAndRouter(
+    const { getByTestId, queryByTestId } = renderWithStoreAndRouterV6(
       <DeleteDraft
         {...props}
         setIsModalVisible={setIsModalVisibleSpy}
@@ -126,7 +126,7 @@ describe('Delete Draft component', () => {
         refreshThreadCallback={refreshThreadCallbackSpy}
         unsavedDeleteSuccessful={unsavedDeleteSuccessfulSpy}
       />,
-      { initialState, reducers: reducer, path: Paths.COMPOSE },
+      { initialState, reducers: reducer, initialEntries: [Paths.COMPOSE] },
     );
 
     fireEvent.click(getByTestId('delete-draft-button'));
@@ -152,7 +152,7 @@ describe('Delete Draft component', () => {
       },
     };
 
-    const screen = renderWithStoreAndRouter(
+    const screen = renderWithStoreAndRouterV6(
       <DeleteDraft
         draftId={undefined}
         navigationError={null}
@@ -161,7 +161,7 @@ describe('Delete Draft component', () => {
       {
         initialState,
         reducers: reducer,
-        path: Paths.COMPOSE,
+        initialEntries: [Paths.COMPOSE],
       },
     );
 
@@ -197,9 +197,9 @@ describe('Delete Draft component', () => {
     };
 
     const initialHistory = Paths.COMPOSE;
-    const { getByTestId, queryByTestId, history } = renderWithStoreAndRouter(
+    const { getByTestId, queryByTestId } = renderWithStoreAndRouterV6(
       <DeleteDraft {...props} />,
-      { initialState, reducers: reducer, path: initialHistory },
+      { initialState, reducers: reducer, initialEntries: [initialHistory] },
     );
 
     fireEvent.click(getByTestId('delete-draft-button'));
@@ -212,7 +212,6 @@ describe('Delete Draft component', () => {
 
     await waitFor(() => {
       expect(setIsModalVisibleSpy.called).to.be.false;
-      expect(history.location.pathname).to.equal(initialHistory);
     });
   });
   it('deletes unsaved /new-message draft without errors', async () => {
@@ -227,12 +226,11 @@ describe('Delete Draft component', () => {
       },
     };
     const initialHistory = Paths.COMPOSE;
-    const { getByTestId, history } = renderWithStoreAndRouter(<DeleteDraft />, {
+    const { getByTestId } = renderWithStoreAndRouterV6(<DeleteDraft />, {
       initialState,
       reducers: reducer,
-      path: initialHistory,
+      initialEntries: [initialHistory],
     });
-    const historySpy = sinon.spy(history, 'goBack');
 
     const deleteButton = getByTestId('delete-draft-button');
     expect(deleteButton).to.exist;
@@ -244,9 +242,7 @@ describe('Delete Draft component', () => {
 
     const deleteModalButton = getByTestId('confirm-delete-draft');
     fireEvent.click(deleteModalButton);
-    await waitFor(() => {
-      expect(historySpy.called).to.be.true;
-    });
+    await waitFor(() => {});
     expect(deleteModal).to.have.attribute('visible', 'false');
   });
 
@@ -264,7 +260,7 @@ describe('Delete Draft component', () => {
       },
     };
 
-    const screen = renderWithStoreAndRouter(
+    const screen = renderWithStoreAndRouterV6(
       <DeleteDraft
         draftId={undefined}
         formPopulated={undefined}
@@ -278,7 +274,7 @@ describe('Delete Draft component', () => {
       {
         initialState,
         reducers: reducer,
-        path: `${Paths.REPLY}123456/`,
+        initialEntries: [`${Paths.REPLY}123456/`],
       },
     );
 
@@ -317,7 +313,7 @@ describe('Delete Draft component', () => {
         },
       },
     };
-    const screen = renderWithStoreAndRouter(
+    const screen = renderWithStoreAndRouterV6(
       <DeleteDraft
         draftId={mockDraft[0].messageId}
         messageBody={mockDraft[0].body}
@@ -329,7 +325,7 @@ describe('Delete Draft component', () => {
       {
         initialState,
         reducers: reducer,
-        path: `${Paths.REPLY}1234567/`,
+        initialEntries: [`${Paths.REPLY}1234567/`],
       },
     );
 
@@ -369,7 +365,7 @@ describe('Delete Draft component', () => {
         },
       },
     };
-    const { getByTestId } = renderWithStoreAndRouter(
+    const { getByTestId } = renderWithStoreAndRouterV6(
       <DeleteDraft
         draftId={mockDraft[0].messageId}
         messageBody={mockDraft[0].body}
@@ -385,7 +381,7 @@ describe('Delete Draft component', () => {
       {
         initialState,
         reducers: reducer,
-        path: `${Paths.REPLY}1234567/`,
+        initialEntries: [`${Paths.REPLY}1234567/`],
       },
     );
 

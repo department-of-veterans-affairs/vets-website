@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Switch } from 'react-router-dom';
+import { Switch } from 'react-router-dom-v5-compat';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';

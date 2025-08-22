@@ -1,6 +1,6 @@
 import React from 'react';
 import { fireEvent, waitFor } from '@testing-library/react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import sinon from 'sinon';
 import { expect } from 'chai';
 import RouteLeavingGuard from '../../../components/shared/RouteLeavingGuard';
@@ -38,7 +38,7 @@ describe('RouteLeavingGuard component', () => {
   };
 
   const setup = (props = initialProps) => {
-    return renderWithStoreAndRouter(
+    return renderWithStoreAndRouterV6(
       <>
         <Navigation />
         <RouteLeavingGuard {...props} />
@@ -46,7 +46,7 @@ describe('RouteLeavingGuard component', () => {
       {
         initialState,
         reducers: reducer,
-        path: '/compose',
+        initialEntries: ['/compose'],
       },
     );
   };

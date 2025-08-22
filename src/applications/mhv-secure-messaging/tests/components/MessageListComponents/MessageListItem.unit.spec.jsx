@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 // import categories from '../../fixtures/categories-response.json';
 import reducer from '../../../reducers';
@@ -35,29 +35,29 @@ describe('MessageListItem component', () => {
   };
 
   it('renders without errors', () => {
-    const screen = renderWithStoreAndRouter(<MessageListItem {...props} />, {
+    const screen = renderWithStoreAndRouterV6(<MessageListItem {...props} />, {
       initialState,
       reducers: reducer,
-      path: `/search/results`,
+      initialEntries: ['/search/results'],
     });
     expect(screen);
   });
 
   it('should have contents within main div', () => {
-    const screen = renderWithStoreAndRouter(<MessageListItem {...props} />, {
+    const screen = renderWithStoreAndRouterV6(<MessageListItem {...props} />, {
       initialState,
       reducers: reducer,
-      path: `/search/results`,
+      initialEntries: ['/search/results'],
     });
     const messageListItemMainDiv = screen.getByTestId('message-list-item');
     expect(messageListItemMainDiv).not.to.be.empty;
   });
 
   it('should highlight a keyword when one is passed', async () => {
-    const screen = renderWithStoreAndRouter(<MessageListItem {...props} />, {
+    const screen = renderWithStoreAndRouterV6(<MessageListItem {...props} />, {
       initialState,
       reducers: reducer,
-      path: `/search/results`,
+      initialEntries: ['/search/results'],
     });
 
     const highlightedText = await screen.getAllByTestId('highlighted-text');
@@ -90,12 +90,12 @@ describe('MessageListItem component', () => {
       },
     };
 
-    const screen = renderWithStoreAndRouter(
+    const screen = renderWithStoreAndRouterV6(
       <MessageListItem {...customProps} />,
       {
-        customState,
+        initialState: customState,
         reducers: reducer,
-        path: `/sent`,
+        initialEntries: ['/sent'],
       },
     );
 

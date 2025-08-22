@@ -1,7 +1,7 @@
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom-v5-compat';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { datadogRum } from '@datadog/browser-rum';
 import { Paths, threadSortingOptions } from '../../util/constants';

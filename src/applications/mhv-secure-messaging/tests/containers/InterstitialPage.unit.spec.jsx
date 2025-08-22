@@ -1,6 +1,7 @@
 import React from 'react';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { useLocation } from 'react-router-dom-v5-compat';
 import userEvent from '@testing-library/user-event';
 import { waitFor } from '@testing-library/dom';
 import { expect } from 'chai';
@@ -18,16 +19,23 @@ describe('Interstitial page header', () => {
     };
   };
 
-  const setup = ({
-    customState = initialState(),
-    path = '/new-message/',
-    props,
-  }) => {
-    return renderWithStoreAndRouter(<InterstitialPage {...props} />, {
-      initialState: customState,
-      reducers: reducer,
-      path,
-    });
+  const PathCapture = () => {
+    const loc = useLocation();
+    return <div data-testid="current-path">{loc.pathname}</div>;
+  };
+
+  const setup = ({ customState = initialState(), props }) => {
+    return renderWithStoreAndRouterV6(
+      <>
+        <InterstitialPage {...props} />
+        <PathCapture />
+      </>,
+      {
+        initialState: customState,
+        reducers: reducer,
+        initialEntries: ['/new-message/'],
+      },
+    );
   };
 
   it('renders without errors', async () => {
@@ -107,23 +115,24 @@ describe('Interstitial page header', () => {
 
   it('when isPilot is true, clicking the continue button navigates to the select health care system page', async () => {
     const acknowledgeSpy = sinon.spy();
-    const { history, getByTestId } = renderWithStoreAndRouter(
-      <InterstitialPage acknowledge={acknowledgeSpy} />,
+    const screen = renderWithStoreAndRouterV6(
+      <>
+        <InterstitialPage acknowledge={acknowledgeSpy} />
+        <PathCapture />
+      </>, 
       {
         initialState: initialState(true),
         reducers: reducer,
-        path: '/new-message/',
-      },
+        initialEntries: ['/new-message/'],
+      }
     );
 
-    const continueButton = getByTestId('continue-button');
+    const continueButton = screen.getByTestId('continue-button');
     userEvent.click(continueButton);
 
     await waitFor(() => {
       expect(acknowledgeSpy.called).to.be.false;
-      expect(history.location.pathname).to.equal(
-        '/new-message/select-care-team',
-      );
+      expect(screen.getByTestId('current-path').textContent).to.equal('/new-message/select-care-team');
     });
   });
 });

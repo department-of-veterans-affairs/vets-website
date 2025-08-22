@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import sinon from 'sinon';
@@ -33,24 +33,24 @@ describe('Manage Folder Buttons component', () => {
   };
 
   it('renders without errors', () => {
-    const screen = renderWithStoreAndRouter(
+    const screen = renderWithStoreAndRouterV6(
       <ManageFolderButtons folder={folders.customFolder} />,
       {
         initialState,
         reducers: reducer,
-        path: Paths.FOLDERS,
+        initialEntries: [Paths.FOLDERS],
       },
     );
     expect(screen).to.exist;
   });
 
   it('"Remove folder" button opens a confirmation modal when no threads contained', async () => {
-    const screen = renderWithStoreAndRouter(
+    const screen = renderWithStoreAndRouterV6(
       <ManageFolderButtons folder={folders.customFolder} />,
       {
         initialState,
         reducers: reducer,
-        path: Paths.FOLDERS,
+        initialEntries: [Paths.FOLDERS],
       },
     );
     fireEvent.click(screen.getByTestId('remove-folder-button'));
@@ -79,7 +79,7 @@ describe('Manage Folder Buttons component', () => {
 
   it('confirming removal of a folder with no threads contained triggers a call', async () => {
     const deleteFolderSpy = sinon.spy(foldersActions, 'delFolder');
-    const screen = renderWithStoreAndRouter(
+    const screen = renderWithStoreAndRouterV6(
       <ManageFolderButtons folder={folder} />,
       {
         initialState,
@@ -94,7 +94,7 @@ describe('Manage Folder Buttons component', () => {
   });
 
   it("displays a modal when 'Rename folder' button is clicked", async () => {
-    const screen = renderWithStoreAndRouter(
+    const screen = renderWithStoreAndRouterV6(
       <ManageFolderButtons folder={folder} />,
       {
         initialState,
@@ -110,7 +110,7 @@ describe('Manage Folder Buttons component', () => {
   });
 
   it('Rename modal accepts specific characters in folder name', async () => {
-    const screen = renderWithStoreAndRouter(
+    const screen = renderWithStoreAndRouterV6(
       <ManageFolderButtons folder={folder} />,
       {
         initialState,

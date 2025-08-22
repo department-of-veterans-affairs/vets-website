@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import reducer from '../../../reducers';
 import ReplyDraftItem from '../../../components/ComposeForm/ReplyDraftItem';
@@ -49,7 +49,7 @@ describe('ReplyDraftItem component', () => {
   };
 
   const setup = ({ initialState = defaultState, props = defaultProps }) =>
-    renderWithStoreAndRouter(
+    renderWithStoreAndRouterV6(
       <ReplyDraftItem
         {...props}
         draftId={draft.messageId}

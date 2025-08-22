@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import configureStore from 'redux-mock-store';
 import { waitFor } from '@testing-library/react';
 import ThreadsList from '../../../components/ThreadList/ThreadsList';
@@ -41,7 +41,7 @@ describe('Thread List component', () => {
     threadsOnPage = threadsPerPage,
     path = Paths.INBOX,
   ) => {
-    return renderWithStoreAndRouter(
+    return renderWithStoreAndRouterV6(
       <ThreadsList
         threadList={threads}
         folder={inbox}
@@ -51,8 +51,8 @@ describe('Thread List component', () => {
         threadsPerPage={threadsOnPage}
       />,
       {
-        path,
-        state: initialState,
+        initialEntries: [path],
+        initialState,
         reducers,
         store,
       },
