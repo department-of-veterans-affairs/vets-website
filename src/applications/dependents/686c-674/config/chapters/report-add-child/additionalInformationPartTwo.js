@@ -12,14 +12,30 @@ export const additionalInformationPartTwo = {
       labels: {
         Y: 'Yes',
         N: 'No',
+        NA: 'This question does not apply to me',
       },
-      required: () => true,
+      'ui:options': {
+        updateSchema: (formData = {}, formSchema) => {
+          const { vaDependentsNetWorthAndPension } = formData;
+          if (!vaDependentsNetWorthAndPension) {
+            return formSchema;
+          }
+          return {
+            ...formSchema,
+            required: ['incomeInLastYear'],
+            properties: {
+              ...formSchema.properties,
+              incomeInLastYear: radioSchema(['Y', 'N']),
+            },
+          };
+        },
+      },
     }),
   },
   schema: {
     type: 'object',
     properties: {
-      incomeInLastYear: radioSchema(['Y', 'N']),
+      incomeInLastYear: radioSchema(['Y', 'N', 'NA']),
     },
   },
 };

@@ -187,14 +187,30 @@ export const studentIncomePage = {
       labels: {
         Y: 'Yes',
         N: 'No',
+        NA: 'This question does not apply to me',
       },
-      required: () => true,
+      'ui:options': {
+        updateSchema: (formData = {}, formSchema) => {
+          const { vaDependentsNetWorthAndPension } = formData;
+          if (!vaDependentsNetWorthAndPension) {
+            return formSchema;
+          }
+          return {
+            ...formSchema,
+            required: ['studentIncome'],
+            properties: {
+              ...formSchema.properties,
+              studentIncome: radioSchema(['Y', 'N']),
+            },
+          };
+        },
+      },
     }),
   },
   schema: {
     type: 'object',
     properties: {
-      studentIncome: radioSchema(['Y', 'N']),
+      studentIncome: radioSchema(['Y', 'N', 'NA']),
     },
   },
 };

@@ -10,7 +10,7 @@ export const schema = {
     reportDivorce: {
       type: 'object',
       properties: {
-        spouseIncome: radioSchema(['Y', 'N']),
+        spouseIncome: radioSchema(['Y', 'N', 'NA']),
       },
     },
   },
@@ -24,8 +24,30 @@ export const uiSchema = {
       labels: {
         Y: 'Yes',
         N: 'No',
+        NA: 'This question does not apply to me',
       },
-      required: () => true,
+      'ui:options': {
+        updateSchema: (formData = {}, formSchema) => {
+          const { vaDependentsNetWorthAndPension } = formData;
+          if (!vaDependentsNetWorthAndPension) {
+            return formSchema;
+          }
+          return {
+            ...formSchema,
+            properties: {
+              ...formSchema.properties,
+              reportDivorce: {
+                ...formSchema.properties.reportDivorce,
+                required: ['spouseIncome'],
+                properties: {
+                  ...formSchema.properties.reportDivorce.properties,
+                  spouseIncome: radioSchema(['Y', 'N']),
+                },
+              },
+            },
+          };
+        },
+      },
     }),
   },
 };

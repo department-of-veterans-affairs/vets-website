@@ -148,14 +148,30 @@ export const marriedChildIncomeQuestionPage = {
       labels: {
         Y: 'Yes',
         N: 'No',
+        NA: 'This question does not apply to me',
       },
-      required: () => true,
+      'ui:options': {
+        updateSchema: (formData = {}, formSchema) => {
+          const { vaDependentsNetWorthAndPension } = formData;
+          if (!vaDependentsNetWorthAndPension) {
+            return formSchema;
+          }
+          return {
+            ...formSchema,
+            required: ['dependentIncome'],
+            properties: {
+              ...formSchema.properties,
+              dependentIncome: radioSchema(['Y', 'N']),
+            },
+          };
+        },
+      },
     }),
   },
   schema: {
     type: 'object',
     properties: {
-      dependentIncome: radioSchema(['Y', 'N']),
+      dependentIncome: radioSchema(['Y', 'N', 'NA']),
     },
   },
 };

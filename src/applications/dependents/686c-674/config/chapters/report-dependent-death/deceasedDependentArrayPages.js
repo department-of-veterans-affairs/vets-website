@@ -312,14 +312,30 @@ export const deceasedDependentIncomePage = {
       labels: {
         Y: 'Yes',
         N: 'No',
+        NA: 'This question does not apply to me',
       },
-      required: () => true,
+      'ui:options': {
+        updateSchema: (formData = {}, formSchema) => {
+          const { vaDependentsNetWorthAndPension } = formData;
+          if (!vaDependentsNetWorthAndPension) {
+            return formSchema;
+          }
+          return {
+            ...formSchema,
+            required: ['deceasedDependentIncome'],
+            properties: {
+              ...formSchema.properties,
+              deceasedDependentIncome: radioSchema(['Y', 'N']),
+            },
+          };
+        },
+      },
     }),
   },
   schema: {
     type: 'object',
     properties: {
-      deceasedDependentIncome: radioSchema(['Y', 'N']),
+      deceasedDependentIncome: radioSchema(['Y', 'N', 'NA']),
     },
   },
 };

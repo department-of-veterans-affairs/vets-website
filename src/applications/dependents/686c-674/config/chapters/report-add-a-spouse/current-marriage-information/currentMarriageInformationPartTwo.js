@@ -41,10 +41,8 @@ export const uiSchema = {
               doesLiveWithSpouse: {
                 ...formSchema.properties.doesLiveWithSpouse,
                 required: ['spouseIncome'],
-                spouseIncome: radioSchema(['Y', 'N']),
-                labels: {
-                  Y: 'Yes',
-                  N: 'No',
+                properties: {
+                  spouseIncome: radioSchema(['Y', 'N']),
                 },
               },
             },
