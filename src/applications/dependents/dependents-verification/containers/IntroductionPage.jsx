@@ -18,17 +18,21 @@ const ProcessList = () => {
     <va-process-list>
       <va-process-list-item header="Check your eligibility">
         <p>
-          You must have previously added dependents to your disability benefits
-          in order to use this form to verify your VA dependents.
+          You can only use this form if you have dependents on your VA
+          disability benefits.
         </p>
+        <va-link
+          text=" Not sure? Check your VA dependents."
+          href="/manage-dependents/"
+        />
       </va-process-list-item>
       <va-process-list-item header="Review your active dependents and your information">
-        <p>Here’s what you will need to review:</p>
+        <p>Here’s what you’ll need to review:</p>
         <ul>
           <li>
-            Your active VA dependents currently listed under your disability
-            benefits, including any recent life events (such as recent marriage,
-            divorce, or a child reaching adulthood).
+            Your active VA dependents currently listed on your benefits,
+            including any recent life events (such as recent marriage, divorce,
+            or a child reaching adulthood).
           </li>
           <li>
             Your personal information, including your date of birth, Social
@@ -49,7 +53,7 @@ const ProcessList = () => {
       <va-process-list-item header="After you submit">
         <p>
           You don’t need to do anything else. But you’ll need to verify your
-          dependents' information on your disability benefits each year.
+          dependents’ information on your benefits each year.
         </p>
         <p>
           Verifying your dependents each year makes sure you get your full
@@ -72,14 +76,14 @@ export const IntroductionPage = props => {
   return (
     <article className="schemaform-intro">
       <FormTitle title={TITLE} subTitle={SUBTITLE} />
-      <p>
+      <Gateway route={route} top />
+      <p className="va-introtext">
         Use our online tool to submit your dependent verification form for VA
         disability benefits.
       </p>
-      <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-        Follow the steps below to get started:
+      <h2 className="vads-u-margin-top--0">
+        Follow these steps to get started
       </h2>
-      <Gateway route={route} top />
       <ProcessList />
       <Gateway route={route} />
       <div className="vads-u-margin-top--3">

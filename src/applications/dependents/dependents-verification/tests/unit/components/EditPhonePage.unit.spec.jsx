@@ -28,6 +28,7 @@ const mockUiSchema = {
 };
 
 const mockData = {
+  'view:phoneSource': 'home',
   phone: '8005556666',
 };
 
@@ -54,7 +55,7 @@ describe('EditPhonePage', () => {
     const textInputs = container.querySelectorAll('input[type="text"]');
     expect(textInputs.length).to.equal(1);
     expect(container.textContent).to.include('Phone number');
-    expect(container.textContent).to.include('Edit phone number');
+    expect(container.textContent).to.include('Edit home phone number');
     expect(textInputs[0].value).to.equal('8005556666');
   });
 
@@ -110,6 +111,9 @@ describe('EditPhonePage', () => {
     await waitFor(() => {
       expect(goToPathSpy.called).to.be.true;
       expect(goToPathSpy.calledWith('/review-and-submit')).to.be.true;
+      expect(sessionStorage.getItem('editContactInformation')).to.eq(
+        'phone,cancel',
+      );
     });
   });
 
@@ -172,6 +176,9 @@ describe('EditPhonePage', () => {
 
       const lastCallArg = setFormDataSpy.lastCall.args[0];
       expect(lastCallArg.phone).to.equal('8005556667');
+      expect(sessionStorage.getItem('editContactInformation')).to.eq(
+        'phone,update',
+      );
     });
   });
 

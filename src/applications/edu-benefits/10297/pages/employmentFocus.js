@@ -19,7 +19,7 @@ const uiSchema = {
   technologyAreaOfFocus: {
     ...radioUI({
       title: 'What’s your main area of focus in the technology industry?',
-      required: () => true,
+      required: formData => formData.isInTechnologyIndustry === true,
       labels: employmentFocusOptions,
     }),
   },
