@@ -8,7 +8,6 @@ import {
   createPutHandler,
   createPostHandler,
   jsonResponse,
-  networkError,
   setupServer,
 } from 'platform/testing/unit/msw-adapter';
 import { handleTokenRequest } from '../helpers';
@@ -441,7 +440,7 @@ describe('handleTokenRequest', () => {
   it('should NOT call generateOAuthError when `requestToken` fails', async () => {
     server.use(
       createPostHandler('https://dev-api.va.gov/v0/sign_in/token?*', () => {
-        return networkError('failure');
+        return jsonResponse({ errors: [{ code: '100' }] }, { status: 401 });
       }),
     );
     const handleTokenSpy = sinon.spy();
