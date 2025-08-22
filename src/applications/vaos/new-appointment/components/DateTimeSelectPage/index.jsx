@@ -259,6 +259,7 @@ export default function DateTimeSelectPage() {
                 data-testid="loadingIndicator"
                 set-focus
                 message="Finding appointment availability..."
+                label="Finding appointment availability"
               />
             }
             onChange={(...args) => dispatch(onCalendarChange(...args))}

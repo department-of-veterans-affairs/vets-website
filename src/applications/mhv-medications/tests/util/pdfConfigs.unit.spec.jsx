@@ -104,7 +104,7 @@ describe('Non VA prescription Config', () => {
       providerLastName: 'test',
     };
     const pdfList = buildNonVAPrescriptionPDFList(blankPrescription);
-    expect(pdfList[0].sections[0].items[6].value).to.equal('test, ');
+    expect(pdfList[0].sections[0].items[6].value).to.equal('test');
   });
 });
 

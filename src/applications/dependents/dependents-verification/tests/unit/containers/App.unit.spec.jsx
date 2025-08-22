@@ -1,8 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, waitFor } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
+import sinon from 'sinon';
 
 import App from '../../../containers/App';
 
@@ -12,6 +13,7 @@ function getDefaultState({
   featureToggle = true,
   loading = false,
   hasSession = true,
+  dependentsLoading = false,
 } = {}) {
   if (typeof localStorage !== 'undefined') {
     localStorage.setItem('hasSession', JSON.stringify(hasSession));
@@ -66,6 +68,9 @@ function getDefaultState({
     externalServiceStatus: {
       loading,
     },
+    dependents: {
+      loading: dependentsLoading,
+    },
   };
 }
 
@@ -76,8 +81,14 @@ function renderApp({
   featureToggle,
   loading,
   hasSession,
+  dependentsLoading,
 } = {}) {
-  const state = getDefaultState({ featureToggle, loading, hasSession });
+  const state = getDefaultState({
+    featureToggle,
+    loading,
+    hasSession,
+    dependentsLoading,
+  });
   const store = mockStore(state);
 
   const _location = {
@@ -120,20 +131,19 @@ describe('App container logic', () => {
     );
   });
 
-  it('should redirect', async () => {
-    const { container } = renderApp({
-      pathname: '/add',
-      hasSession: false,
+  it('should render RoutedSavableApp with children when on intro page (with session)', () => {
+    const { getByTestId } = renderApp({
+      pathname: '/introduction',
+      hasSession: true,
     });
-
-    await waitFor(() => {
-      const loadingIndicator = container.querySelector('va-loading-indicator');
-      expect(loadingIndicator).to.not.be.null;
-    });
+    expect(getByTestId('children-content')).to.exist;
   });
 
-  it('should render RoutedSavableApp with children if all conditions pass', () => {
-    const { getByTestId } = renderApp();
+  it('should render RoutedSavableApp with children when on intro page (without session)', () => {
+    const { getByTestId } = renderApp({
+      pathname: '/introduction',
+      hasSession: false,
+    });
     expect(getByTestId('children-content')).to.exist;
   });
 
@@ -141,5 +151,33 @@ describe('App container logic', () => {
     const { container } = renderApp();
     const breadcrumbs = container.querySelector('va-breadcrumbs');
     expect(breadcrumbs).to.exist;
+  });
+
+  it('should not redirect when on intro page (with session)', () => {
+    const mockReplace = sinon.stub();
+    delete window.location;
+    window.location = { replace: mockReplace };
+
+    renderApp({
+      pathname: '/introduction',
+      hasSession: true,
+      dependentsLoading: true,
+    });
+
+    expect(mockReplace.called).to.be.false;
+  });
+
+  it('should not redirect when on intro page (without session)', () => {
+    const mockReplace = sinon.stub();
+    delete window.location;
+    window.location = { replace: mockReplace };
+
+    renderApp({
+      pathname: '/introduction',
+      hasSession: false,
+      dependentsLoading: true,
+    });
+
+    expect(mockReplace.called).to.be.false;
   });
 });

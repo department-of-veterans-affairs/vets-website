@@ -17,14 +17,16 @@ import {
 } from '../../util/constants';
 import { dataDogActionNames } from '../../util/dataDogConstants';
 import { setFilterOpen, setFilterOption } from '../../redux/preferencesSlice';
+import {
+  selectFilterOpenByDefault,
+  selectFilterOption,
+} from '../../selectors/selectPreferences';
 
 const MedicationsListFilter = ({ updateFilter, filterCount }) => {
   const dispatch = useDispatch();
   const ref = useRef(null);
-  const filterOpenByDefault = useSelector(
-    state => state.rx.preferences.filterOpenByDefault,
-  );
-  const filterOption = useSelector(state => state.rx.preferences.filterOption);
+  const filterOpenByDefault = useSelector(selectFilterOpenByDefault);
+  const filterOption = useSelector(selectFilterOption);
   const [selectedFilterOption, setSelectedFilterOption] = useState(
     filterOption,
   );

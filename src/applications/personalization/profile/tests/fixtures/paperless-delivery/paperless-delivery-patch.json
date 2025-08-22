@@ -1,0 +1,18 @@
+{
+  "txAuditId": "7679d362-5d63-4a9a-8b09-3e286fc79435",
+  "status": "COMPLETED_SUCCESS",
+  "bio": {
+    "createDate": "2025-08-13T19:37:24Z",
+    "updateDate": "2025-08-18T21:07:48Z",
+    "txAuditId": "7679d362-5d63-4a9a-8b09-3e286fc79435",
+    "sourceSystem": "VETSGOV",
+    "sourceDate": "2025-08-18T21:07:47Z",
+    "communicationPermissionId": 82064,
+    "vaProfileId": 1273674,
+    "communicationChannelId": 3,
+    "communicationItemId": 15,
+    "communicationChannelName": "Digital Delivery",
+    "communicationItemCommonName": "1095-B Proof of Health Care",
+    "allowed": false
+  }
+}

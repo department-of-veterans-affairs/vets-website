@@ -111,6 +111,9 @@ describe('EditInternationalPhonePage', () => {
     await waitFor(() => {
       expect(goToPathSpy.called).to.be.true;
       expect(goToPathSpy.calledWith('/review-and-submit')).to.be.true;
+      expect(sessionStorage.getItem('editContactInformation')).to.eq(
+        'internationalPhone,cancel',
+      );
     });
   });
 
@@ -172,6 +175,9 @@ describe('EditInternationalPhonePage', () => {
       expect(setFormDataSpy.called).to.be.true;
       const lastCallArg = setFormDataSpy.lastCall.args[0];
       expect(lastCallArg.internationalPhone).to.equal('18005556667');
+      expect(sessionStorage.getItem('editContactInformation')).to.eq(
+        'internationalPhone,update',
+      );
     });
   });
 
