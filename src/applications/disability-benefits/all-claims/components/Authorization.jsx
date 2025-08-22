@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { fromUnixTime } from 'date-fns';
-import { formatInTimeZone } from 'date-fns-tz';
 import { scrollTo } from 'platform/utilities/scroll';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
@@ -17,22 +15,6 @@ import recordEvent from 'platform/monitoring/record-event';
 import PropTypes from 'prop-types';
 import AuthorizationAlert from './AuthorizationAlert';
 import { PrivacyActStatementContent } from './privacyActStatementContent';
-
-export const lastUpdatedIsBeforeCutoff = lastUpdated => {
-  const formattedLastUpdated = formatInTimeZone(
-    fromUnixTime(lastUpdated),
-    'America/Chicago',
-    'yyyy-MM-dd HH:mm:ss',
-  );
-
-  if (!formattedLastUpdated) {
-    return false;
-  }
-
-  const CUTOFF_DATE_4142 = '2025-06-25 09:00:00'; // CST
-
-  return formattedLastUpdated < CUTOFF_DATE_4142;
-};
 
 const AUTHORIZATION_LABEL =
   'I acknowledge and authorize this release of information';
@@ -509,6 +491,9 @@ const PrivateRecordsAuthorization = ({
 };
 
 PrivateRecordsAuthorization.propTypes = {
+  data: PropTypes.shape({
+    patient4142Acknowledgement: PropTypes.bool,
+  }).isRequired,
   contentAfterButtons: PropTypes.element,
   contentBeforeButtons: PropTypes.element,
   goBack: PropTypes.func,
@@ -516,9 +501,6 @@ PrivateRecordsAuthorization.propTypes = {
   goToPath: PropTypes.func,
   pagePerItemIndex: PropTypes.number,
   setFormData: PropTypes.func,
-  data: PropTypes.shape({
-    patient4142Acknowledgement: PropTypes.bool,
-  }).isRequired,
   formData: PropTypes.object,
   testingIndex: PropTypes.number,
   updatePage: PropTypes.func,
