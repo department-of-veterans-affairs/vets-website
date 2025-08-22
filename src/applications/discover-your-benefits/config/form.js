@@ -104,7 +104,7 @@ export const formConfig = {
         },
         militaryBranch: {
           path: 'service/branch-served',
-          title: 'Military Branch Served',
+          title: 'Branch',
           uiSchema: militaryBranch.uiSchema,
           schema: militaryBranch.schema,
         },
@@ -138,7 +138,7 @@ export const formConfig = {
         },
         militaryService: {
           path: 'service/current',
-          title: 'Military Service',
+          title: 'Military service',
           uiSchema: militaryService.uiSchema,
           schema: militaryService.schema,
           onNavForward: ({ formData, goPath }) => {
