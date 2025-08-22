@@ -30,7 +30,7 @@ const SelectCareTeam = () => {
     allowedRecipients,
   } = useSelector(state => state.sm.recipients);
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
-  const { draftInProgress, acceptIntersticial } = useSelector(
+  const { draftInProgress, acceptInterstitial } = useSelector(
     state => state.sm.threadDetails,
   );
   const validDraft = useSelector(populatedDraft);
@@ -49,10 +49,10 @@ const SelectCareTeam = () => {
 
   useEffect(
     () => {
-      if (!acceptIntersticial && !validDraft)
+      if (!acceptInterstitial && !validDraft)
         window.location.replace(`${manifest.rootUrl}${Paths.COMPOSE}`);
     },
-    [acceptIntersticial],
+    [acceptInterstitial],
   );
 
   // On initial load, always clear the active care system

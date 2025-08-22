@@ -29,7 +29,7 @@ const Compose = () => {
 
   const dispatch = useDispatch();
   const recipients = useSelector(state => state.sm.recipients);
-  const { drafts, saveError, acceptIntersticial } = useSelector(
+  const { drafts, saveError, acceptInterstitial } = useSelector(
     state => state.sm.threadDetails,
   );
   const signature = useSelector(state => state.sm.preferences.signature);
@@ -216,7 +216,7 @@ const Compose = () => {
         )}
 
       {draftType &&
-      !acceptIntersticial &&
+      !acceptInterstitial &&
       (noAssociations === (undefined || false) && !allTriageGroupsBlocked) ? (
         <InterstitialPage type={draftType} />
       ) : (

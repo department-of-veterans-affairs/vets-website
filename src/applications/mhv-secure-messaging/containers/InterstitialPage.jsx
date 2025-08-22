@@ -6,7 +6,7 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import CrisisLineConnectButton from '../components/CrisisLineConnectButton';
 import { Paths } from '../util/constants';
 import featureToggles from '../hooks/useFeatureToggles';
-import { acceptIntersticial } from '../actions/threadDetails';
+import { acceptInterstitial } from '../actions/threadDetails';
 
 const InterstitialPage = props => {
   const { acknowledge, type } = props;
@@ -34,7 +34,7 @@ const InterstitialPage = props => {
 
   const handleContinueButton = useCallback(
     () => {
-      dispatch(acceptIntersticial());
+      dispatch(acceptInterstitial());
       if (cernerPilotSmFeatureFlag && type !== 'reply') {
         history.push(`${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`);
       } else {
@@ -56,15 +56,13 @@ const InterstitialPage = props => {
           reply.
         </p>
 
-        <button
+        <va-button
           className="continue-button vads-u-padding-y--1p5 vads-u-padding-x--2p5 vads-u-margin-top--0 vads-u-margin-bottom--3"
+          text=". Page content will change."
           data-testid="continue-button"
           onClick={handleContinueButton}
           data-dd-action-name={`${continueButtonText} button on Interstitial Page`}
-        >
-          {continueButtonText}
-          <span className="sr-only">. Page content will change.</span>
-        </button>
+        />
 
         <h2 className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-margin-bottom--2">
           If you need help sooner, use one of these urgent communications

@@ -460,7 +460,7 @@ describe('SelectCareTeam', () => {
       sm: {
         ...initialState.sm,
         threadDetails: {
-          acceptIntersticial: false,
+          acceptInterstitial: false,
           draftInProgress: {},
         },
       },
@@ -491,7 +491,7 @@ describe('SelectCareTeam', () => {
       sm: {
         ...initialState.sm,
         threadDetails: {
-          acceptIntersticial: true,
+          acceptInterstitial: true,
           draftInProgress: {},
         },
       },
