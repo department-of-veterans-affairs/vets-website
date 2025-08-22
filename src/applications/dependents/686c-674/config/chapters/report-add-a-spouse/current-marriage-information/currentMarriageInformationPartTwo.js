@@ -10,7 +10,7 @@ export const schema = {
     doesLiveWithSpouse: {
       type: 'object',
       properties: {
-        spouseIncome: radioSchema(['Y', 'N']),
+        spouseIncome: radioSchema(['Y', 'N', 'NA']),
       },
     },
   },
@@ -26,8 +26,31 @@ export const uiSchema = {
       labels: {
         Y: 'Yes',
         N: 'No',
+        NA: 'This question doesn’t apply to me',
       },
-      required: () => true,
+      'ui:options': {
+        updateSchema: (formData = {}, formSchema) => {
+          const { vaDependentsNetWorthAndPension } = formData;
+          if (!vaDependentsNetWorthAndPension) {
+            return formSchema;
+          }
+          return {
+            ...formSchema,
+            properties: {
+              ...formSchema.properties,
+              doesLiveWithSpouse: {
+                ...formSchema.properties.doesLiveWithSpouse,
+                required: ['spouseIncome'],
+                spouseIncome: radioSchema(['Y', 'N']),
+                labels: {
+                  Y: 'Yes',
+                  N: 'No',
+                },
+              },
+            },
+          };
+        },
+      },
     }),
   },
 };
