@@ -1,3 +1,4 @@
+import { generateFeatureToggles } from '../../../mocks/endpoints/feature-toggles';
 import { mockGETEndpoints } from '../helpers';
 import DirectDepositPage from './page-objects/DirectDeposit';
 
@@ -88,7 +89,11 @@ describe('Direct Deposit - Happy Path', () => {
 
   describe('when profileShowPaperlessDelivery is true', () => {
     it('should show new unified page when profileShowDirectDepositSingleForm is true', () => {
-      directDeposit.setup();
+      directDeposit.setup(
+        generateFeatureToggles({
+          profileShowPaperlessDelivery: true,
+        }),
+      );
       directDeposit.visitPage();
       directDeposit.confirmDirectDepositInSubnav({
         profileShowPaperlessDelivery: true,
@@ -101,7 +106,11 @@ describe('Direct Deposit - Happy Path', () => {
     });
 
     it('should show the direct deposit account information when present and eligible', () => {
-      directDeposit.setup();
+      directDeposit.setup(
+        generateFeatureToggles({
+          profileShowPaperlessDelivery: true,
+        }),
+      );
       directDeposit.visitPage();
       directDeposit.confirmDirectDepositInSubnav({
         profileShowPaperlessDelivery: true,

@@ -1,9 +1,9 @@
 import { PROFILE_PATHS } from '@@profile/constants';
-
 import { mockUser } from '@@profile/tests/fixtures/users/user';
 import transactionCompletedWithNoChanges from '@@profile/tests/fixtures/transactions/no-changes-transaction.json';
 import transactionCompletedWithError from '@@profile/tests/fixtures/transactions/error-transaction.json';
 import { mockFeatureToggles } from '../helpers';
+import { generateFeatureToggles } from '../../../mocks/endpoints/feature-toggles';
 
 const setup = ({
   profileShowPaperlessDelivery = false,
@@ -15,9 +15,11 @@ const setup = ({
 
   cy.login(mockUser);
   if (profileShowPaperlessDelivery) {
-    mockFeatureToggles({
-      profileShowPaperlessDelivery: true,
-    });
+    mockFeatureToggles(
+      generateFeatureToggles({
+        profileShowPaperlessDelivery: true,
+      }),
+    );
   } else {
     mockFeatureToggles();
   }
@@ -321,7 +323,7 @@ describe('when moving to other profile pages', () => {
     cy.axeCheck();
   });
 
-  it('should exit edit mode if opened', () => {
+  it('should exit edit mode if opened (profileShowPaperlessDelivery)', () => {
     setup({ profileShowPaperlessDelivery: true });
 
     const sectionName = 'Contact email address';

@@ -87,7 +87,11 @@ function checkSubNavFocus({
   cy.axeCheck();
 
   // make the a11y and focus management check on the Military Info section
-  clickSubNavButton(PROFILE_PATH_NAMES.MILITARY_INFORMATION, mobile);
+  clickSubNavButton(
+    PROFILE_PATH_NAMES.MILITARY_INFORMATION,
+    mobile,
+    profileShowPaperlessDelivery,
+  );
   cy.url().should(
     'eq',
     `${Cypress.config().baseUrl}${PROFILE_PATHS.MILITARY_INFORMATION}`,
@@ -96,7 +100,11 @@ function checkSubNavFocus({
   cy.axeCheck();
 
   // make the a11y and focus management check on the Veteran Status Card section
-  clickSubNavButton(PROFILE_PATH_NAMES.VETERAN_STATUS_CARD, mobile);
+  clickSubNavButton(
+    PROFILE_PATH_NAMES.VETERAN_STATUS_CARD,
+    mobile,
+    profileShowPaperlessDelivery,
+  );
   cy.url().should(
     'eq',
     `${Cypress.config().baseUrl}${PROFILE_PATHS.VETERAN_STATUS_CARD}`,
@@ -105,7 +113,11 @@ function checkSubNavFocus({
   cy.axeCheck();
 
   // make the a11y and focus management check on the Direct Deposit section
-  clickSubNavButton(PROFILE_PATH_NAMES.DIRECT_DEPOSIT, mobile);
+  clickSubNavButton(
+    PROFILE_PATH_NAMES.DIRECT_DEPOSIT,
+    mobile,
+    profileShowPaperlessDelivery,
+  );
   cy.url().should(
     'eq',
     `${Cypress.config().baseUrl}${PROFILE_PATHS.DIRECT_DEPOSIT}`,
@@ -114,7 +126,11 @@ function checkSubNavFocus({
   cy.axeCheck();
 
   // make the a11y and focus management check on the Account Security section
-  clickSubNavButton(PROFILE_PATH_NAMES.ACCOUNT_SECURITY, mobile);
+  clickSubNavButton(
+    PROFILE_PATH_NAMES.ACCOUNT_SECURITY,
+    mobile,
+    profileShowPaperlessDelivery,
+  );
   cy.url().should(
     'eq',
     `${Cypress.config().baseUrl}${PROFILE_PATHS.ACCOUNT_SECURITY}`,
@@ -123,7 +139,11 @@ function checkSubNavFocus({
   cy.axeCheck();
 
   // make the a11y and focus management check on the Connected Apps section
-  clickSubNavButton(PROFILE_PATH_NAMES.CONNECTED_APPLICATIONS, mobile);
+  clickSubNavButton(
+    PROFILE_PATH_NAMES.CONNECTED_APPLICATIONS,
+    mobile,
+    profileShowPaperlessDelivery,
+  );
   cy.url().should(
     'eq',
     `${Cypress.config().baseUrl}${PROFILE_PATHS.CONNECTED_APPLICATIONS}`,
@@ -134,14 +154,22 @@ function checkSubNavFocus({
   cy.axeCheck();
 
   // navigate directly to the Personal Info section via the sub-nav to confirm focus is managed correctly
-  clickSubNavButton(PROFILE_PATH_NAMES.PERSONAL_INFORMATION, mobile);
+  clickSubNavButton(
+    PROFILE_PATH_NAMES.PERSONAL_INFORMATION,
+    mobile,
+    profileShowPaperlessDelivery,
+  );
   cy.url().should(
     'eq',
     `${Cypress.config().baseUrl}${PROFILE_PATHS.PERSONAL_INFORMATION}`,
   );
 
   // navigate directly to the Contact Info section via the sub-nav to confirm focus is managed correctly
-  clickSubNavButton(PROFILE_PATH_NAMES.CONTACT_INFORMATION, mobile);
+  clickSubNavButton(
+    PROFILE_PATH_NAMES.CONTACT_INFORMATION,
+    mobile,
+    profileShowPaperlessDelivery,
+  );
   cy.url().should(
     'eq',
     `${Cypress.config().baseUrl}${PROFILE_PATHS.CONTACT_INFORMATION}`,
