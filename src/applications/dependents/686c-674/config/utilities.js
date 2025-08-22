@@ -109,6 +109,128 @@ export {
   isClientError,
 };
 
+function cleanFormData(payload) {
+  if (!payload?.data) {
+    return payload;
+  }
+
+  const data = { ...payload.data };
+
+  // Get control flags
+  const addEnabled = data['view:addOrRemoveDependents']?.add === true;
+  const removeEnabled = data['view:addOrRemoveDependents']?.remove === true;
+
+  const addOptions = data['view:addDependentOptions'] || {};
+  const removeOptions = data['view:removeDependentOptions'] || {};
+
+  // Define mappings between control flags and their data fields
+  const addMappings = {
+    addSpouse: [
+      'currentMarriageInformation',
+      'doesLiveWithSpouse',
+      'spouseInformation',
+      'spouseSupportingDocuments',
+      'spouseMarriageHistory',
+      'veteranMarriageHistory',
+    ],
+    addChild: ['childrenToAdd', 'childSupportingDocuments'],
+    addDisabledChild: ['childrenToAdd', 'childSupportingDocuments'],
+    report674: ['studentInformation'],
+  };
+
+  const removeMappings = {
+    reportDivorce: ['reportDivorce'],
+    reportDeath: ['deaths'],
+    reportStepchildNotInHousehold: ['stepChildren'],
+    reportMarriageOfChildUnder18: ['childMarriage'],
+    reportChild18OrOlderIsNotAttendingSchool: ['childStoppedAttendingSchool'],
+  };
+
+  const removeDataFields = (mappings, options, enabled) => {
+    if (!enabled) {
+      // Remove all fields if the main flag is disabled
+      Object.values(mappings)
+        .flat()
+        .forEach(field => delete data[field]);
+      return {};
+    }
+
+    const cleanOptions = {};
+    const fieldsToKeep = new Set();
+
+    // Determine which fields to keep based on enabled options
+    Object.entries(mappings).forEach(([option, fields]) => {
+      if (options[option] === true) {
+        cleanOptions[option] = true;
+        fields.forEach(field => fieldsToKeep.add(field));
+      }
+    });
+
+    // Remove fields that aren't needed
+    Object.values(mappings)
+      .flat()
+      .forEach(field => {
+        if (!fieldsToKeep.has(field)) {
+          delete data[field];
+        }
+      });
+
+    return cleanOptions;
+  };
+
+  const cleanAddOptions = removeDataFields(addMappings, addOptions, addEnabled);
+  const cleanRemoveOptions = removeDataFields(
+    removeMappings,
+    removeOptions,
+    removeEnabled,
+  );
+
+  // Update control objects
+  if (Object.keys(cleanAddOptions).length > 0) {
+    data['view:addDependentOptions'] = cleanAddOptions;
+  } else {
+    delete data['view:addDependentOptions'];
+  }
+
+  if (Object.keys(cleanRemoveOptions).length > 0) {
+    data['view:removeDependentOptions'] = cleanRemoveOptions;
+  } else {
+    delete data['view:removeDependentOptions'];
+  }
+
+  // Clean main control object
+  const cleanMainOptions = {};
+  if (addEnabled && Object.keys(cleanAddOptions).length > 0) {
+    cleanMainOptions.add = true;
+  }
+  if (removeEnabled && Object.keys(cleanRemoveOptions).length > 0) {
+    cleanMainOptions.remove = true;
+  }
+
+  if (Object.keys(cleanMainOptions).length > 0) {
+    data['view:addOrRemoveDependents'] = cleanMainOptions;
+  } else {
+    delete data['view:addOrRemoveDependents'];
+  }
+
+  // Clean selectable options (combine both add and remove)
+  const cleanSelectableOptions = { ...cleanAddOptions, ...cleanRemoveOptions };
+  if (Object.keys(cleanSelectableOptions).length > 0) {
+    data['view:selectable686Options'] = cleanSelectableOptions;
+  } else {
+    delete data['view:selectable686Options'];
+  }
+
+  // Remove empty arrays
+  Object.keys(data).forEach(key => {
+    if (Array.isArray(data[key]) && data[key].length === 0) {
+      delete data[key];
+    }
+  });
+
+  return { ...payload, data };
+}
+
 export function customTransformForSubmit(formConfig, form) {
   const payload = cloneDeep(form);
   if (!payload.data) {
@@ -116,6 +238,7 @@ export function customTransformForSubmit(formConfig, form) {
   }
   payload.data.useV2 = true;
   payload.data.daysTillExpires = 365;
+
   const expandedPages = expandArrayPages(
     createFormPageList(formConfig),
     payload.data,
@@ -128,7 +251,9 @@ export function customTransformForSubmit(formConfig, form) {
     payload,
   );
 
-  return JSON.stringify(withoutInactivePages, customFormReplacer) || '{}';
+  const cleanedPayload = cleanFormData(withoutInactivePages);
+
+  return JSON.stringify(cleanedPayload, customFormReplacer) || '{}';
 }
 
 /**
