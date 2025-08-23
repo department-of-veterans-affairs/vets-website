@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createContext } from 'react';
 import { Link, useLoaderData } from 'react-router-dom';
 import { Toggler } from 'platform/utilities/feature-toggles';
 import { recordDatalayerEvent } from '../../utilities/analytics';
@@ -16,9 +16,12 @@ function SignInButton() {
     </a>
   );
 }
-
+export const ProfileContext = createContext();
+// eslint-disable-next-line import/no-mutable-exports
+export let profileUser = null;
 export const Nav = () => {
   const profile = useLoaderData()?.profile;
+  profileUser = createContext(profile);
 
   return (
     <nav className="nav">

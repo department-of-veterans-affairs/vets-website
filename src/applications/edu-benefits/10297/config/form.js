@@ -2,7 +2,8 @@ import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import environment from 'platform/utilities/environment';
-import { TITLE, SUBTITLE } from '../constants';
+import { TITLE, SUBTITLE, SUBMIT_URL } from '../constants';
+
 import manifest from '../manifest.json';
 import testData from '../tests/fixtures/data/maximal-test.json';
 import submitForm from './submitForm';
@@ -36,6 +37,7 @@ import { trainingProviderArrayOptions } from '../helpers';
 import dateReleasedFromActiveDuty from '../pages/dateReleasedFromActiveDuty';
 import activeDutyStatus from '../pages/activeDutyStatus';
 import createDirectDepositPage from '../pages/DirectDeposit';
+import prefillTransformer from './prefill-transformer';
 
 export const submitFormLogic = (form, formConfig) => {
   if (environment.isDev() || environment.isLocalhost()) {
@@ -48,7 +50,7 @@ export const submitFormLogic = (form, formConfig) => {
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/api',
+  submitUrl: SUBMIT_URL,
   submit: submitFormLogic,
   trackingPrefix: 'edu-10297',
   introduction: IntroductionPage,
@@ -63,6 +65,7 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   savedFormMessages: {
     notFound: 'Please start over to apply for education benefits.',
     noAuth:
