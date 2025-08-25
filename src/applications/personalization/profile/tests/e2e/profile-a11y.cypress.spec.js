@@ -2,7 +2,6 @@ import mockProfileEnhancementsToggles from '@@profile/tests/fixtures/personal-in
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../constants';
 
 import mockUser from '../fixtures/users/user-36.json';
-import mockPaymentInfo from '../fixtures/dd4cnp/dd4cnp-is-set-up.json';
 
 function clickSubNavButton(buttonLabel, mobile) {
   if (mobile) {
@@ -124,13 +123,14 @@ function checkSubNavFocus(mobile = false) {
 describe('Profile Navigation - Accessibility', () => {
   beforeEach(() => {
     cy.login(mockUser);
-    cy.intercept('GET', '/v0/ppiu/payment_information', mockPaymentInfo);
   });
   it('check focus for navigating between profile pages via menu on desktop', () => {
     checkSubNavFocus(false);
+    cy.injectAxeThenAxeCheck();
   });
 
   it('check focus for navigating between profile pages via menu on mobile', () => {
     checkSubNavFocus(true);
+    cy.injectAxeThenAxeCheck();
   });
 });

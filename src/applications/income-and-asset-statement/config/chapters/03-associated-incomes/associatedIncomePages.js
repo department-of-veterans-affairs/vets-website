@@ -16,6 +16,7 @@ import {
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
+import { DependentDescription } from '../../../components/DependentDescription';
 import {
   formatCurrency,
   formatPossessiveString,
@@ -336,6 +337,9 @@ export const associatedIncomePages = arrayBuilderPages(
       schema: summaryPage.schema,
     }),
     associatedIncomeVeteranRecipientPage: pageBuilder.itemPage({
+      ContentBeforeButtons: showUpdatedContent() ? (
+        <DependentDescription />
+      ) : null,
       title: 'Financial account recipient',
       path: 'financial-accounts/:index/veteran-income-recipient',
       depends: formData =>
@@ -344,6 +348,9 @@ export const associatedIncomePages = arrayBuilderPages(
       schema: veteranIncomeRecipientPage.schema,
     }),
     associatedIncomeSpouseRecipientPage: pageBuilder.itemPage({
+      ContentBeforeButtons: showUpdatedContent() ? (
+        <DependentDescription />
+      ) : null,
       title: 'Financial account recipient',
       path: 'financial-accounts/:index/spouse-income-recipient',
       depends: formData =>
