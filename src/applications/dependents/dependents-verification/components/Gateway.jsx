@@ -82,7 +82,7 @@ const Gateway = ({ route, top = false }) => {
           </h2>
           <p>We can’t find any dependents added to your disability award.</p>
           <va-link
-            href="/view-change-dependents"
+            href="/manage-dependents"
             text="Find out how to add a dependent to your disability claim"
           />
         </va-alert>

@@ -46,7 +46,7 @@ describe('Dependents Verification 0538', () => {
   it('should navigate through the form to the confirmation page', () => {
     cypressSetup();
 
-    cy.visit('/view-change-dependents/verify-dependents-form-21-0538');
+    cy.visit('/manage-dependents/verify-dependents-form-21-0538');
     cy.injectAxeThenAxeCheck();
 
     cy.url().should('include', '/introduction');
@@ -79,7 +79,7 @@ describe('Dependents Verification 0538', () => {
   it('should navigate through the form to the exit page and then to 686c-674 intro page', () => {
     cypressSetup();
 
-    cy.visit('/view-change-dependents/verify-dependents-form-21-0538');
+    cy.visit('/manage-dependents/verify-dependents-form-21-0538');
     cy.injectAxeThenAxeCheck();
 
     cy.url().should('include', '/introduction');

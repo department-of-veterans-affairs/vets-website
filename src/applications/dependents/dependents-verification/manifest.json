@@ -2,6 +2,6 @@
   "appName": "21-0538 Dependents verification",
   "entryFile": "./app-entry.jsx",
   "entryName": "0538-dependents-verification",
-  "rootUrl": "/view-change-dependents/verify-dependents-form-21-0538",
+  "rootUrl": "/manage-dependents/verify-dependents-form-21-0538",
   "productId": "34b9f018-c72d-4788-9cce-b73c8f234116"
 }
