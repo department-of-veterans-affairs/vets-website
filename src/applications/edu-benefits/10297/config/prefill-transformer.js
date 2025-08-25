@@ -53,14 +53,12 @@ export default function prefillTransformer(pages, formData, metadata, state) {
       routingNumber,
     };
 
-    // Also add the view fields for the bank widget
     newData['view:originalBankAccount'] = viewifyFields({
       accountType,
       accountNumber,
       routingNumber,
     });
 
-    // start the bank section in 'review' mode
     newData['view:bankAccount'] = { 'view:hasPrefilledBank': true };
     return newData;
   };
@@ -72,9 +70,6 @@ export default function prefillTransformer(pages, formData, metadata, state) {
   };
 
   const finalFormData = transformations.reduce(applyTransformations, formData);
-
-  // eslint-disable-next-line no-console
-  console.log('Final formData:', finalFormData);
 
   return {
     metadata,
