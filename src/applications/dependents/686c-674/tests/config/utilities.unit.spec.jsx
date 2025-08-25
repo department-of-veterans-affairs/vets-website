@@ -13,6 +13,7 @@ import {
   validateName,
   spouseEvidence,
   childEvidence,
+  cleanFormData,
 } from '../../config/utilities';
 
 describe('Utilities', () => {
@@ -248,6 +249,250 @@ describe('childEvidence', () => {
       hasAdoptedChild: false,
       hasDisabledChild: true,
       needsChildUpload: true,
+    });
+  });
+});
+
+describe('cleanFormData', () => {
+  const createTestData = (overrides = {}) => ({
+    data: {
+      'view:addOrRemoveDependents': { add: true, remove: true },
+      'view:addDependentOptions': {
+        addSpouse: false,
+        addChild: false,
+        report674: true,
+        addDisabledChild: true,
+      },
+      'view:removeDependentOptions': {
+        reportDivorce: true,
+        reportDeath: true,
+        reportStepchildNotInHousehold: true,
+        reportMarriageOfChildUnder18: true,
+        reportChild18OrOlderIsNotAttendingSchool: true,
+      },
+      'view:selectable686Options': {
+        addSpouse: false,
+        addChild: false,
+        report674: true,
+        addDisabledChild: true,
+        reportDivorce: true,
+        reportDeath: true,
+        reportStepchildNotInHousehold: true,
+        reportMarriageOfChildUnder18: true,
+        reportChild18OrOlderIsNotAttendingSchool: true,
+      },
+
+      currentMarriageInformation: { typeOfMarriage: 'CIVIL' },
+      doesLiveWithSpouse: { spouseDoesLiveWithVeteran: true },
+      spouseInformation: { fullName: { first: 'John', last: 'Doe' } },
+      spouseSupportingDocuments: [{ name: 'doc.pdf' }],
+      spouseMarriageHistory: [{ fullName: { first: 'Ex', last: 'Spouse' } }],
+      veteranMarriageHistory: [{ fullName: { first: 'Ex', last: 'Spouse' } }],
+      childrenToAdd: [{ fullName: { first: 'Child', last: 'Doe' } }],
+      childSupportingDocuments: [{ name: 'child-doc.pdf' }],
+      studentInformation: [{ fullName: { first: 'Student', last: 'Doe' } }],
+      reportDivorce: { fullName: { first: 'Ex', last: 'Spouse' } },
+      deaths: [{ fullName: { first: 'Deceased', last: 'Dependent' } }],
+      stepChildren: [{ fullName: { first: 'Step', last: 'Child' } }],
+      childMarriage: [{ fullName: { first: 'Married', last: 'Child' } }],
+      childStoppedAttendingSchool: [
+        { fullName: { first: 'School', last: 'Child' } },
+      ],
+      emptyArray: [],
+      veteranInformation: { fullName: { first: 'Veteran', last: 'Name' } },
+      ...overrides,
+    },
+  });
+
+  it('should return unchanged payload when no data property exists', () => {
+    const payload = { metadata: { version: 1 } };
+    const result = cleanFormData(payload);
+    expect(result).to.deep.equal(payload);
+  });
+
+  it('should remove spouse-related data when addSpouse is false', () => {
+    const payload = createTestData();
+    const result = cleanFormData(payload);
+
+    expect(result.data.currentMarriageInformation).to.be.undefined;
+    expect(result.data.doesLiveWithSpouse).to.be.undefined;
+    expect(result.data.spouseInformation).to.be.undefined;
+    expect(result.data.spouseSupportingDocuments).to.be.undefined;
+    expect(result.data.spouseMarriageHistory).to.be.undefined;
+    expect(result.data.veteranMarriageHistory).to.be.undefined;
+  });
+
+  it('should keep spouse-related data when addSpouse is true', () => {
+    const payload = createTestData({
+      'view:addDependentOptions': {
+        addSpouse: true,
+        addChild: false,
+        report674: true,
+        addDisabledChild: true,
+      },
+    });
+    const result = cleanFormData(payload);
+
+    expect(result.data.currentMarriageInformation).to.not.be.undefined;
+    expect(result.data.doesLiveWithSpouse).to.not.be.undefined;
+    expect(result.data.spouseInformation).to.not.be.undefined;
+  });
+
+  it('should keep child data when either addChild or addDisabledChild is true', () => {
+    const payload = createTestData();
+    const result = cleanFormData(payload);
+
+    expect(result.data.childrenToAdd).to.not.be.undefined;
+    expect(result.data.childSupportingDocuments).to.not.be.undefined;
+  });
+
+  it('should remove child data when both addChild and addDisabledChild are false', () => {
+    const payload = createTestData({
+      'view:addDependentOptions': {
+        addSpouse: false,
+        addChild: false,
+        report674: true,
+        addDisabledChild: false,
+      },
+    });
+    const result = cleanFormData(payload);
+
+    expect(result.data.childrenToAdd).to.be.undefined;
+    expect(result.data.childSupportingDocuments).to.be.undefined;
+  });
+
+  it('should keep student data when report674 is true', () => {
+    const payload = createTestData();
+    const result = cleanFormData(payload);
+
+    expect(result.data.studentInformation).to.not.be.undefined;
+  });
+
+  it('should remove student data when report674 is false', () => {
+    const payload = createTestData({
+      'view:addDependentOptions': {
+        addSpouse: false,
+        addChild: false,
+        report674: false,
+        addDisabledChild: true,
+      },
+    });
+    const result = cleanFormData(payload);
+
+    expect(result.data.studentInformation).to.be.undefined;
+  });
+
+  it('should remove all add-related data when add is false', () => {
+    const payload = createTestData({
+      'view:addOrRemoveDependents': { add: false, remove: true },
+    });
+    const result = cleanFormData(payload);
+
+    expect(result.data['view:addDependentOptions']).to.be.undefined;
+    expect(result.data.currentMarriageInformation).to.be.undefined;
+    expect(result.data.childrenToAdd).to.be.undefined;
+    expect(result.data.studentInformation).to.be.undefined;
+  });
+
+  it('should remove all remove-related data when remove is false', () => {
+    const payload = createTestData({
+      'view:addOrRemoveDependents': { add: true, remove: false },
+    });
+    const result = cleanFormData(payload);
+
+    expect(result.data['view:removeDependentOptions']).to.be.undefined;
+    expect(result.data.reportDivorce).to.be.undefined;
+    expect(result.data.deaths).to.be.undefined;
+    expect(result.data.stepChildren).to.be.undefined;
+    expect(result.data.childMarriage).to.be.undefined;
+    expect(result.data.childStoppedAttendingSchool).to.be.undefined;
+  });
+
+  it('should clean control objects to only include true values', () => {
+    const payload = createTestData();
+    const result = cleanFormData(payload);
+
+    expect(result.data['view:addDependentOptions']).to.deep.equal({
+      report674: true,
+      addDisabledChild: true,
+    });
+
+    expect(result.data['view:selectable686Options']).to.include({
+      report674: true,
+      addDisabledChild: true,
+      reportDivorce: true,
+      reportDeath: true,
+      reportStepchildNotInHousehold: true,
+      reportMarriageOfChildUnder18: true,
+      reportChild18OrOlderIsNotAttendingSchool: true,
+    });
+
+    expect(result.data['view:selectable686Options'].addSpouse).to.be.undefined;
+    expect(result.data['view:selectable686Options'].addChild).to.be.undefined;
+  });
+
+  it('should remove empty arrays', () => {
+    const payload = createTestData();
+    const result = cleanFormData(payload);
+
+    expect(result.data.emptyArray).to.be.undefined;
+  });
+
+  it('should preserve non-mapped data', () => {
+    const payload = createTestData();
+    const result = cleanFormData(payload);
+
+    expect(result.data.veteranInformation).to.not.be.undefined;
+  });
+
+  it('should remove view:addOrRemoveDependents when no valid options remain', () => {
+    const payload = createTestData({
+      'view:addDependentOptions': {
+        addSpouse: false,
+        addChild: false,
+        report674: false,
+        addDisabledChild: false,
+      },
+      'view:addOrRemoveDependents': { add: true, remove: false },
+    });
+    const result = cleanFormData(payload);
+
+    expect(result.data['view:addOrRemoveDependents']).to.be.undefined;
+  });
+
+  it('should handle complex scenarios with mixed enabled/disabled options', () => {
+    const payload = createTestData({
+      'view:addDependentOptions': {
+        addSpouse: true,
+        addChild: false,
+        report674: false,
+        addDisabledChild: false,
+      },
+      'view:removeDependentOptions': {
+        reportDivorce: true,
+        reportDeath: false,
+        reportStepchildNotInHousehold: false,
+        reportMarriageOfChildUnder18: false,
+        reportChild18OrOlderIsNotAttendingSchool: false,
+      },
+    });
+    const result = cleanFormData(payload);
+
+    expect(result.data.spouseInformation).to.not.be.undefined;
+    expect(result.data.childrenToAdd).to.be.undefined;
+    expect(result.data.studentInformation).to.be.undefined;
+
+    expect(result.data.reportDivorce).to.not.be.undefined;
+    expect(result.data.deaths).to.be.undefined;
+    expect(result.data.stepChildren).to.be.undefined;
+    expect(result.data.childMarriage).to.be.undefined;
+    expect(result.data.childStoppedAttendingSchool).to.be.undefined;
+
+    expect(result.data['view:addDependentOptions']).to.deep.equal({
+      addSpouse: true,
+    });
+    expect(result.data['view:removeDependentOptions']).to.deep.equal({
+      reportDivorce: true,
     });
   });
 });
