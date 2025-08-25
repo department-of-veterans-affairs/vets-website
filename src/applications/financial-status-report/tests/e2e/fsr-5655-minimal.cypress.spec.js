@@ -2,7 +2,6 @@ import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
-import { WIZARD_STATUS } from '../../wizard/constants';
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import mockUser from './fixtures/mocks/mockUser.json';
@@ -22,7 +21,7 @@ const testConfig = createTestConfig(
     fixtures: { data: path.join(__dirname, 'fixtures', 'data') },
 
     setupPerTest: () => {
-      sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+      sessionStorage.setItem('wizardStatus', WIZARD_STATUS_COMPLETE);
       cy.intercept('GET', '/v0/feature_toggles*', {
         data: {
           features: [

@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import ShowAlertOrSip from '../components/shared/ShowAlertOrSip';
 import IntroProcessList from '../components/shared/IntroProcessList';
@@ -19,12 +18,6 @@ const IntroductionPage = ({
     focusElement('h1');
     clearJobIndex();
   }, []);
-
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const showLegacyWizard = useToggleValue(
-    TOGGLE_NAMES.showFinancialStatusReportWizard,
-  );
-  const showStaticWizard = useToggleValue(TOGGLE_NAMES.fsrWizard);
 
   if (!route || !route.formConfig || !route.pageList) {
     return <VaLoadingIndicator message="Loading..." />;
@@ -59,25 +52,11 @@ const IntroductionPage = ({
         title="Request help with VA debt for overpayments and copay bills"
         subTitle="Financial Status Report (VA Form 5655)"
       />
-      {showStaticWizard ? (
-        <p>
-          If you’re a Veteran who needs to request certain types of help with a
-          VA benefit overpayment or health care copay debt, you can request help
-          online now.
-        </p>
-      ) : (
-        <>
-          <p>
-            You can use this form to request these types of help with your VA
-            debt:
-          </p>
-          <ul>
-            <li>Waiver (debt forgiveness)</li>
-            <li>Compromise offer</li>
-            <li>Payment plan (if you need longer than 5 years to repay)</li>
-          </ul>
-        </>
-      )}
+      <p>
+        If you’re a Veteran who needs to request certain types of help with a VA
+        benefit overpayment or health care copay debt, you can request help
+        online now.
+      </p>
       <ShowAlertOrSip
         basename={location?.basename || ''}
         sipOptions={sipOptions}
@@ -85,10 +64,7 @@ const IntroductionPage = ({
       <h2 className="vads-u-font-size--h3">
         Follow these steps to request help
       </h2>
-      <IntroProcessList
-        showLegacyWizard={showLegacyWizard}
-        showStaticWizard={showStaticWizard}
-      />
+      <IntroProcessList />
       <div className="vads-u-margin-y--4">
         <ShowAlertOrSip
           user={user}
