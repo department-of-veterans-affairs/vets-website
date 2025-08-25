@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { VaFileInputMultiple } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { uploadFile } from 'platform/forms-system/src/js/actions';
@@ -13,32 +14,9 @@ const CustomFileInputField = props => {
   const dispatch = useDispatch();
 
   // Ensure formData is always an array
-  const files = Array.isArray(formData) ? formData : [];
+  const files = formData || [];
 
-  // Check if formData is valid and clear it if not
-  const hasValidFiles =
-    files.length > 0 &&
-    files.every(
-      file =>
-        file &&
-        file.name &&
-        file.name !== 'NaN undefined' &&
-        file.confirmationCode,
-    );
-
-  // Clear invalid data on component mount
-  React.useEffect(() => {
-    if (!Array.isArray(formData) || (formData.length > 0 && !hasValidFiles)) {
-      onChange([]);
-    }
-  }, []);
-
-  // Ensure we have the required props
-  if (!onChange || typeof onChange !== 'function') {
-    return <div>Error: File upload component not properly configured</div>;
-  }
-
-  const handleFileUpload = async fileToUpload => {
+  const handleFileUpload = async (fileToUpload, replaceIndex = null) => {
     setIsUploading(true);
     setError(null);
 
@@ -71,8 +49,15 @@ const CustomFileInputField = props => {
       if (uploadedFile.errorMessage) {
         setError(uploadedFile.errorMessage);
       } else {
-        // Add the new file to the existing array
-        const updatedFiles = [...files, uploadedFile];
+        let updatedFiles;
+        if (replaceIndex !== null) {
+          // Replace the file at the specified index
+          updatedFiles = [...files];
+          updatedFiles[replaceIndex] = uploadedFile;
+        } else {
+          // Add the new file to the existing array
+          updatedFiles = [...files, uploadedFile];
+        }
         onChange(updatedFiles);
       }
     };
@@ -91,44 +76,6 @@ const CustomFileInputField = props => {
     uploadRequest(dispatch, () => ({ form: { formId: '21-526EZ-ALLCLAIMS' } }));
   };
 
-  const handleVaChange = e => {
-    const file = e.detail.files[0];
-    if (!file) {
-      setError(null);
-      return;
-    }
-
-    // File size validation
-    if (file.size > MAX_FILE_SIZE_BYTES) {
-      setError(
-        `File size cannot be greater than ${Math.round(
-          MAX_FILE_SIZE_BYTES / 1000000,
-        )} MB`,
-      );
-      return;
-    }
-
-    if (file.size < 1) {
-      setError('File size must be at least 1 byte');
-      return;
-    }
-
-    // File type validation
-    const allowedTypes = ['pdf', 'jpg', 'jpeg', 'png', 'gif', 'bmp', 'txt'];
-    const fileExtension = file.name
-      .split('.')
-      .pop()
-      ?.toLowerCase();
-    if (!allowedTypes.includes(fileExtension)) {
-      setError(
-        'File type not supported. Please upload a PDF, image, or text file.',
-      );
-      return;
-    }
-
-    handleFileUpload(file);
-  };
-
   return (
     <div>
       {/* Use VaFileInputMultiple for proper multiple file upload interface */}
@@ -137,10 +84,44 @@ const CustomFileInputField = props => {
         buttonText="Upload evidence"
         error={error}
         uploadedFiles={files}
-        onVaChange={handleVaChange}
-        onRemoveFile={index => {
-          const updatedFiles = files.filter((_, i) => i !== index);
-          onChange(updatedFiles);
+        onVaChange={e => {
+          // Handle file selection for both initial uploads and additional files
+          const file = e.detail.files?.[0];
+          if (file && !file.confirmationCode) {
+            // Handle any new file selection
+            handleFileUpload(file);
+          }
+        }}
+        onVaMultipleChange={e => {
+          const { action, state } = e.detail;
+
+          if (action === 'FILE_REMOVED' && state && Array.isArray(state)) {
+            // Convert VaFileInputMultiple state back to our file format
+            const updatedFiles = state
+              .map(fileInfo => ({
+                name: fileInfo.name || fileInfo.file?.name,
+                size: fileInfo.size || fileInfo.file?.size,
+                confirmationCode: fileInfo.confirmationCode,
+                isEncrypted: fileInfo.isEncrypted || false,
+              }))
+              .filter(file => file.name && file.confirmationCode);
+
+            onChange(updatedFiles);
+          } else if (
+            action === 'FILE_UPDATED' &&
+            state &&
+            Array.isArray(state) &&
+            files.length > 0 &&
+            state.length > 0
+          ) {
+            // Handle file replacement
+            // Since VaFileInputMultiple doesn't give us the complete state during updates,
+            // we'll replace the first existing file in our formData
+            const newFile = state[0];
+
+            // Upload the new file to replace the existing one
+            if (newFile.file) handleFileUpload(newFile.file, 0);
+          }
         }}
       >
         {isUploading && (
@@ -151,6 +132,11 @@ const CustomFileInputField = props => {
       </VaFileInputMultiple>
     </div>
   );
+};
+
+CustomFileInputField.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  formData: PropTypes.array,
 };
 
 export default {
