@@ -105,7 +105,7 @@ export const applicantOptions = {
     cardDescription: item => (
       <ul className="no-bullets">
         <li>
-          <b>Date of Birth:</b>{' '}
+          <b>Date of birth:</b>{' '}
           {item?.applicantDob ? fmtDate(item?.applicantDob) : ''}
         </li>
         <li>
@@ -116,7 +116,7 @@ export const applicantOptions = {
           <b>Phone number:</b> {item?.applicantPhone}
         </li>
         <li>
-          <b>Relationship to sponsor:</b>{' '}
+          <b>Relationship to Veteran:</b>{' '}
           {capitalize(
             item?.applicantRelationshipToSponsor?.relationshipToVeteran !==
             'other'
@@ -140,13 +140,12 @@ const applicantIntroPage = {
         return formContext.pagePerItemIndex === '0' ? (
           <>
             <p>
-              Enter your information and the information for any other
-              applicants you want to enroll in CHAMPVA benefits.
+              Enter this information for each applicant you’re applying for.
             </p>
             {CustomPrefillMessage(formData, 'applicant')}
           </>
         ) : (
-          <p>Enter the information for the applicant you’re applying for.</p>
+          <p>Enter this information for each applicant you’re applying for.</p>
         );
       },
     ),
@@ -213,7 +212,7 @@ const applicantMailingAddressPage = {
     applicantAddress: addressUI({
       labels: {
         militaryCheckbox:
-          'Address is on a United States military base outside the country.',
+          'Address is on a military base outside the United States.',
       },
     }),
   },
@@ -232,12 +231,12 @@ const applicantContactInfoPage = {
       ({ formData }) =>
         editTitleWrapper(`${applicantWording(formData)} contact information`),
       ({ formData, formContext }) => {
-        const txt = `We will use this information to contact ${applicantWording(
+        const txt = `We’ll use this information to contact ${applicantWording(
           formData,
           false,
           false,
           true,
-        )} if we have more questions`;
+        )} if we have any questions about this application.`;
         // Prefill message conditionally displays based on `certifierRole`
         return formContext.pagePerItemIndex === '0' ? (
           <>
@@ -335,9 +334,9 @@ const applicantBirthCertUploadPage = {
           certifierRole: index === 0 ? formData?.['view:certifierRole'] : '',
         };
         const posessiveName = (
-          <b className="dd-privacy-hidden">
+          <p className="dd-privacy-hidden">
             {nameWording(tmpFormData, true, false)}
-          </b>
+          </p>
         );
 
         return (
@@ -349,7 +348,7 @@ const applicantBirthCertUploadPage = {
     ),
     ...fileUploadBlurbCustom(),
     applicantBirthCertOrSocialSecCard: fileUploadUI({
-      label: 'Upload a copy of birth certificate',
+      label: 'Upload copy of birth certificate',
     }),
   },
   schema: {
@@ -414,7 +413,7 @@ const applicantStepChildUploadPage = {
           <b className="dd-privacy-hidden">
             {applicantWording(formData, true, false)}
           </b>{' '}
-          sponsor and{' '}
+          Veteran and{' '}
           <b className="dd-privacy-hidden">
             {applicantWording(formData, true, false)}
           </b>{' '}
@@ -498,24 +497,23 @@ const applicantSchoolCertUploadPage = {
             <p>
               <b>If {nameBeingVerb} already enrolled in school</b>
             </p>
-            <p>You’ll need to submit a letter on the school’s letterhead.</p>
             <p>
-              Ask the school to write us a letter on school letterhead that
-              includes all of these pieces of information:
+              Ask the school to write us a letter on their letterhead that
+              includes this information:
             </p>
             <ul>
-              <li>{posessiveName} first and last name</li>
+              <li>{posessiveName} first and last name, and</li>
               <li>
-                The last 4 digits of {posessiveName} Social Security number
+                Last 4 digits of {posessiveName} Social Security number, and
               </li>
               <li>
-                The start and end dates for each semester or enrollment term
+                Start and end dates for each semester or enrollment term, and
               </li>
-              <li>Enrollment status (full-time or part-time)</li>
-              <li>Expected graduation date</li>
+              <li>Enrollment status (full-time or part-time), and</li>
+              <li>Expected graduation date, and</li>
               <li>
-                Signature and title of a school official (like a director or
-                principal)
+                Signature and title of a school official, such as director or
+                principal
               </li>
             </ul>
             <p>
@@ -569,8 +567,8 @@ const applicantMarriageDatesPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        `${applicantWording(formData)} date of marriage to the sponsor`,
-      'If you don’t know the exact date, enter your best guess. We won’t need the marriage certificate unless we can’t find a record of the marriage in our system.',
+        `${applicantWording(formData)} date of marriage to the Veteran`,
+      'If you don’t know the exact date, enter your best guess. We won’t need the marriage certificate unless we can’t find a record of the marriage in our system when the form is processed.',
       false,
     ),
     dateOfMarriageToSponsor: currentOrPastDateUI('Date of marriage'),
@@ -619,7 +617,7 @@ const applicantReMarriageCertUploadPage = {
       ({ formData }) => (
         <>
           If {applicantWording(formData, false)} remarried after the death of
-          the sponsor, you can help us process your application faster by
+          the Veteran, you can help us process your application faster by
           submitting documents showing proof of that remarriage.
           <br />
           <br />
@@ -698,9 +696,11 @@ export const applicantPages = arrayBuilderPages(
         ...titleUI(
           'Add applicants',
           <>
-            Next we’ll ask you to enter the information about each applicant.
-            This includes social security number, mailing address, contact
-            information and relationship to the sponsor.
+            Next we’ll ask you for information about the applicant. The
+            applicant is the person who needs the CHAMPVA benefit.
+            <br />
+            We’ll ask for the applicant’s Social Security number, mailing
+            address, contact information, and relationship to the Veteran.
             <br />
             <br />
             {/* TODO: use constant for this value */}
@@ -756,7 +756,8 @@ export const applicantPages = arrayBuilderPages(
     }),
     page18: pageBuilder.itemPage({
       path: 'applicant-information/:index/relationship-to-veteran',
-      title: item => `${applicantWording(item)} relationship to the sponsor`,
+      title: item =>
+        `What's ${applicantWording(item)} relationship to the Veteran`,
       ...applicantRelationshipPage,
       CustomPage: props =>
         ApplicantRelationshipPage({
