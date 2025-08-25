@@ -95,7 +95,7 @@ const AdditionalInstructions = ({ formResponses }) => {
             <a
               target="_blank"
               rel="noopener noreferrer"
-              href="http://arba.army.pentagon.mil"
+              href="https://www.army.mil/arbal"
             >
               Army Review Boards Agency (opens in a new tab)
             </a>
@@ -119,7 +119,7 @@ const AdditionalInstructions = ({ formResponses }) => {
               <a
                 target="_blank"
                 rel="noopener noreferrer"
-                href="http://arba.army.pentagon.mil/abcmr-overview.html"
+                href="https://www.army.mil/arba#org-other-military-records-corrections"
               >
                 Army Board for Correction of Military Records (opens in a new
                 tab)
