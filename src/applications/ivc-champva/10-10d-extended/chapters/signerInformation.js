@@ -9,7 +9,6 @@ import {
   fullNameUI,
   fullNameSchema,
   titleUI,
-  titleSchema,
   radioUI,
   radioSchema,
   phoneUI,
@@ -55,11 +54,11 @@ export const certifierRoleSchema = {
       title: 'Which of these best describes you?',
       required: () => true,
       labels: {
-        applicant: 'I’m applying for benefits for myself',
+        applicant:
+          'I’m the spouse, dependent, or survivor of a Veteran applying for benefits for myself',
         sponsor:
           'I’m a Veteran applying for benefits for my spouse, dependents, or both',
-        other:
-          'I’m a representative applying for benefits on behalf of someone else',
+        other: 'I’m applying for benefits on behalf of someone else',
       },
       // Changing this data on review messes up the ad hoc prefill
       // mapping of certifier -> applicant|sponsor:
@@ -70,7 +69,6 @@ export const certifierRoleSchema = {
     type: 'object',
     required: ['certifierRole'],
     properties: {
-      titleSchema,
       certifierRole: radioSchema(['applicant', 'sponsor', 'other']),
     },
   },
@@ -87,7 +85,6 @@ export const certifierNameSchema = {
     type: 'object',
     required: ['certifierName'],
     properties: {
-      titleSchema,
       certifierName: fullNameSchema,
     },
   },
@@ -117,7 +114,6 @@ export const certifierAddressSchema = {
     type: 'object',
     required: ['certifierAddress'],
     properties: {
-      titleSchema,
       certifierAddress: addressSchema(),
     },
   },
@@ -138,7 +134,6 @@ export const signerContactInfoPage = {
     type: 'object',
     required: ['certifierPhone', 'certifierEmail'],
     properties: {
-      titleSchema,
       certifierPhone: phoneSchema,
       certifierEmail: emailSchema,
     },
@@ -243,7 +238,6 @@ export const certifierContactSchema = {
     type: 'object',
     required: ['certifierPhone', 'certifierEmail'],
     properties: {
-      titleSchema,
       certifierPhone: phoneSchema,
       certifierEmail: emailSchema,
     },
@@ -307,7 +301,6 @@ export const certifierRelationshipSchema = {
     type: 'object',
     required: ['certifierRelationship'],
     properties: {
-      titleSchema,
       certifierRelationship: {
         type: 'object',
         properties: {
