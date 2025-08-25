@@ -48,7 +48,7 @@ export const uiSchema = {
   },
   providerFacility: {
     'ui:options': {
-      itemName: 'Provider Facility',
+      itemName: 'Provider or hospital',
       viewField: PrivateProviderTreatmentView,
       hideTitle: true,
     },

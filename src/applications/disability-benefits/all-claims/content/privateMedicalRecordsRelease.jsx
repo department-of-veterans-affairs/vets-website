@@ -4,10 +4,12 @@ import { recordEventOnce } from 'platform/monitoring/record-event';
 import { ANALYTICS_EVENTS, HELP_TEXT_CLICKED_EVENT } from '../constants';
 
 export const limitedConsentTitle =
-  'I want to limit my consent for VA to retrieve only specific information from my private medical provider(s).';
+  'I want to limit my consent for VA to retrieve only specific information from my private medical providers.';
 
 export const limitedConsentTextTitle = (
-  <p>Describe the limitation below (treatment dates, disability type, etc.).</p>
+  <p>
+    Describe what you want to limit (treatment dates, condition type, etc.).
+  </p>
 );
 
 const { openedLimitedConsentHelp } = ANALYTICS_EVENTS;
