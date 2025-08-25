@@ -20,7 +20,7 @@ export const IntroductionPage = ({
     <article className="schemaform-intro">
       <FormTitle
         title="Apply for education benefits as an eligible dependent"
-        subTitle="Form 22-5490 (Dependent's Application for VA Education Benefits)"
+        subTitle="Form 22-5490 (Dependents' Application for VA Education Benefits)"
       />
       <p>
         Use VA Form 22-5490 if you are a spouse or dependent applying for
@@ -45,7 +45,7 @@ export const IntroductionPage = ({
             href="https://www.va.gov/education/other-va-education-benefits"
             rel="noreferrer"
           >
-            Learn more about other other education benefits
+            Learn more about other education benefits
           </a>
         </div>
       </va-alert>
@@ -82,7 +82,7 @@ export const IntroductionPage = ({
                 service-connected disability on or after September 11, 2001,{' '}
                 <strong>and</strong>
               </li>
-              <li>You meet other requirements</li>
+              <li>You meet other requirements.</li>
             </ul>
           </va-additional-info>
 
@@ -124,7 +124,7 @@ export const IntroductionPage = ({
                 disability and is likely to be discharged for the disability,{' '}
                 <strong>and</strong>
               </li>
-              <li>You meet other requirements</li>
+              <li>You meet other requirements.</li>
             </ul>
           </va-additional-info>
         </va-process-list-item>
@@ -159,7 +159,7 @@ export const IntroductionPage = ({
               <strong>Note:</strong> In some cases, we may need more time to
               make a decision. If you don’t get an automatic decision right
               after you apply, you’ll receive a decision letter in the mail in
-              about 30 days. And we’ll contact you if we need more information.
+              about 30 days. We’ll contact you if we need more information.
             </p>
           </va-additional-info>
         </va-process-list-item>
@@ -174,7 +174,7 @@ export const IntroductionPage = ({
             prefillEnabled={route.formConfig.prefillEnabled}
             messages={route.formConfig.savedFormMessages}
             pageList={route.pageList}
-            startText="Start the Application"
+            startText="Start your benefits application"
           >
             Please complete the 22-5490 form to apply for DEPENDENTS&#39;
             APPLICATION FOR VA EDUCATION BENEFITS .

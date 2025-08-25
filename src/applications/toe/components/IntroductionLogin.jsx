@@ -22,7 +22,6 @@ function IntroductionLogin({
   showHideLoginModal,
   showMeb1990EMaintenanceAlert,
   showMeb1990ER6MaintenanceMessage,
-  showMeb54901990eTextUpdate,
   user,
 }) {
   const apiCallsComplete = isLOA3 === false || isPersonalInfoFetchComplete;
@@ -52,9 +51,7 @@ function IntroductionLogin({
 
       {(isLoggedIn || user?.login?.hasCheckedKeepAlive) && (
         <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--3">
-          {showMeb54901990eTextUpdate
-            ? 'Start your application for application benefits'
-            : 'Begin your application for education benefits'}
+          Start your application for benefits
         </h2>
       )}
 
@@ -131,7 +128,6 @@ IntroductionLogin.propTypes = {
   showHideLoginModal: PropTypes.func,
   showMeb1990EMaintenanceAlert: PropTypes.bool,
   showMeb1990ER6MaintenanceMessage: PropTypes.bool,
-  showMeb54901990eTextUpdate: PropTypes.bool,
   user: PropTypes.object,
 };
 
@@ -143,8 +139,6 @@ const mapStateToProps = state => ({
     state.featureToggles[featureFlagNames.showMeb1990EMaintenanceAlert],
   showMeb1990ER6MaintenanceMessage:
     state.featureToggles[featureFlagNames.showMeb1990ER6MaintenanceMessage],
-  showMeb54901990eTextUpdate:
-    state.featureToggles[featureFlagNames.showMeb54901990eTextUpdate],
 });
 
 const mapDispatchToProps = {

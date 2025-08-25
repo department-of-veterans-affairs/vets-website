@@ -109,10 +109,19 @@ export default {
           formData: action?.response || {},
         };
       case FETCH_CLAIM_STATUS_SUCCESS:
-      case FETCH_CLAIM_STATUS_FAILURE:
         return {
           ...state,
           claimStatus: action?.response?.attributes || {},
+          claimStatusError: null,
+        };
+      case FETCH_CLAIM_STATUS_FAILURE:
+        return {
+          ...state,
+          claimStatus: {
+            claimStatus: 'ERROR',
+            receivedDate: new Date().toISOString().split('T')[0],
+          },
+          claimStatusError: action?.errors || true,
         };
       case FETCH_DIRECT_DEPOSIT:
         return {
