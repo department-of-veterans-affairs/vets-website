@@ -109,7 +109,7 @@ export {
   isClientError,
 };
 
-function cleanFormData(payload) {
+export function cleanFormData(payload) {
   if (!payload?.data) {
     return payload;
   }
