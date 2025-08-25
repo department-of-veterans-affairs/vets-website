@@ -64,7 +64,7 @@ describe('PrivateRecordsAuthorization', () => {
         <PrivateRecordsAuthorization {...defaultProps} />,
       );
       const accordionItems = wrapper.find('va-accordion-item');
-      expect(accordionItems).to.have.lengthOf(6);
+      expect(accordionItems).to.have.lengthOf(5);
       wrapper.unmount();
     });
   });
