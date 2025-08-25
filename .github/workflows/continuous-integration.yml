@@ -734,8 +734,8 @@ jobs:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-      # - name: Init Dashboard Data Repo
-      #   uses: ./.github/workflows/init-data-repo
+      - name: Init Dashboard Data Repo
+        uses: ./.github/workflows/init-data-repo
 
       # Replacement job to force the use of my branch with the fix
       - name: Force QA repo to test ref
@@ -1025,8 +1025,8 @@ jobs:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-      # - name: Init Dashboard Data Repo
-      #   uses: ./.github/workflows/init-data-repo
+      - name: Init Dashboard Data Repo
+        uses: ./.github/workflows/init-data-repo
 
       # Replacement job to force the use of my branch with the fix
       - name: Force QA repo to test ref
