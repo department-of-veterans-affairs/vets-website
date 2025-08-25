@@ -35,6 +35,8 @@ const CategoryInput = props => {
         <VaSelect
           enable-analytics
           data-testid="compose-message-categories"
+          data-dd-privacy="mask"
+          data-dd-action-name="Category Dropdown Select"
           className="composeSelect"
           error={categoryError}
           id="category-select-dropdown"
