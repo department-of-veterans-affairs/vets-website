@@ -14,8 +14,8 @@ const setup = () => {
     'v0/profile/full_name',
     'v0/profile/ch33_bank_accounts',
     'v0/profile/status',
+    'v0/profile/direct_deposits',
     'v0/mhv_account',
-    'v0/ppiu/payment_information',
   ]);
   mockFeatureToggles();
   cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
@@ -36,7 +36,7 @@ describe('Contact info fields', () => {
       'be.focused',
     );
     cy.axeCheck();
-    cy.findByText('Cancel').click();
+    cy.findByTestId('cancel-edit-button').click();
     cy.get('va-button[label="Edit Mailing address"]')
       .shadow()
       .find('button')
@@ -47,7 +47,7 @@ describe('Contact info fields', () => {
       'be.focused',
     );
     cy.axeCheck();
-    cy.findByText('Cancel').click();
+    cy.findByTestId('cancel-edit-button').click();
     cy.get('va-button[label="Edit Home address"]')
       .shadow()
       .find('button')
@@ -58,7 +58,7 @@ describe('Contact info fields', () => {
     cy.findByTestId('homePhone').should('exist');
     cy.get('va-text-input[name="root_inputPhoneNumber"]').should('be.focused');
     cy.axeCheck();
-    cy.findByText('Cancel').click();
+    cy.findByTestId('cancel-edit-button').click();
     cy.get('va-button[label="Edit Home phone number"]')
       .shadow()
       .find('button')
@@ -67,7 +67,7 @@ describe('Contact info fields', () => {
     cy.get('va-button[label="Edit Work phone number"]').click();
     cy.findByTestId('workPhone').should('exist');
     cy.axeCheck();
-    cy.findByText('Cancel').click();
+    cy.findByTestId('cancel-edit-button').click();
     cy.get('va-button[label="Edit Work phone number"]')
       .shadow()
       .find('button')
@@ -77,7 +77,7 @@ describe('Contact info fields', () => {
     cy.findByTestId('mobilePhone').should('exist');
     cy.get('va-text-input[name="root_inputPhoneNumber"]').should('be.focused');
     cy.axeCheck();
-    cy.findByText('Cancel').click();
+    cy.findByTestId('cancel-edit-button').click();
     cy.get('va-button[label="Edit Mobile phone number"]')
       .shadow()
       .find('button')
@@ -87,7 +87,7 @@ describe('Contact info fields', () => {
     cy.findByTestId('email').should('exist');
     cy.get('va-text-input[name="root_emailAddress"]').should('be.focused');
     cy.axeCheck();
-    cy.findByText('Cancel').click();
+    cy.findByTestId('cancel-edit-button').click();
     cy.get('va-button[label="Edit Contact email address"]')
       .shadow()
       .find('button')

@@ -27,7 +27,13 @@ import Pagination from '../components/Pagination';
 import PaginationMeta from '../components/PaginationMeta';
 import POARequestSearchPageResults from '../components/POARequestSearchPageResults';
 
-const StatusTabLink = ({ tabStatus, searchStatus, tabSort, children }) => {
+const StatusTabLink = ({
+  tabStatus,
+  searchStatus,
+  tabSort,
+  selectedIndividual,
+  children,
+}) => {
   const active = tabStatus === searchStatus;
   const classNames = ['poa-request__tab-link'];
   if (active) classNames.push('active');
@@ -35,7 +41,7 @@ const StatusTabLink = ({ tabStatus, searchStatus, tabSort, children }) => {
     <Link
       to={`?status=${tabStatus}&sortBy=${
         tabStatus === 'pending' ? 'created_at' : 'resolved_at'
-      }&sortOrder=${tabSort}&pageSize=20&pageNumber=1`}
+      }&sortOrder=${tabSort}&pageSize=20&pageNumber=1&as_selected_individual=${selectedIndividual}`}
       className={classNames.join(' ')}
       role="tab"
       id={`tab-${tabStatus}`}
@@ -52,11 +58,13 @@ const StatusTabLink = ({ tabStatus, searchStatus, tabSort, children }) => {
 StatusTabLink.propTypes = {
   children: PropTypes.node,
   searchStatus: PropTypes.string,
+  selectedIndividual: PropTypes.string,
   tabSort: PropTypes.string,
   tabStatus: PropTypes.string,
 };
 
 const POARequestSearchPage = title => {
+  const [searchParams] = useSearchParams();
   useEffect(
     () => {
       document.title = title.title;
@@ -65,7 +73,8 @@ const POARequestSearchPage = title => {
   );
   const poaRequests = useLoaderData().data;
   const meta = useLoaderData().meta.page;
-  const searchStatus = useSearchParams()[0].get('status');
+  const searchStatus = searchParams.get('status');
+  const selectedIndividual = searchParams.get('as_selected_individual');
   const navigation = useNavigation();
 
   return (
@@ -83,8 +92,8 @@ const POARequestSearchPage = title => {
       </h1>
       <p className="poa-request__copy">
         You can accept or decline representation requests (power of attorney) in
-        the Accredited Representative Portal. Requests will expire and be
-        removed from the portal after 60 days.
+        the Accredited Representative Portal. Requests will expire after 60
+        days. Expired requests will be removed from the portal.
       </p>
       <p className="poa-request__copy vads-u-margin--0">
         <strong>Note:</strong> Claimants need to submit requests using the
@@ -102,6 +111,7 @@ const POARequestSearchPage = title => {
             tabStatus={STATUSES.PENDING}
             searchStatus={searchStatus}
             tabSort={SORT_BY.DESC}
+            selectedIndividual={selectedIndividual}
           >
             Pending
           </StatusTabLink>
@@ -109,6 +119,7 @@ const POARequestSearchPage = title => {
             tabStatus={STATUSES.PROCESSED}
             searchStatus={searchStatus}
             tabSort={SORT_BY.DESC}
+            selectedIndividual={selectedIndividual}
           >
             Processed
           </StatusTabLink>
@@ -213,6 +224,9 @@ POARequestSearchPage.loader = ({ request }) => {
   const sortBy = searchParams.get(SEARCH_PARAMS.SORTBY);
   const size = searchParams.get(SEARCH_PARAMS.SIZE);
   const number = searchParams.get(SEARCH_PARAMS.NUMBER);
+  const selectedIndividual = searchParams.get(
+    SEARCH_PARAMS.SELECTED_INDIVIDUAL,
+  );
   if (
     !Object.values(STATUSES).includes(status) &&
     !Object.values(STATUSES).includes(sort)
@@ -221,12 +235,15 @@ POARequestSearchPage.loader = ({ request }) => {
     searchParams.set(SEARCH_PARAMS.SORTORDER, SORT_BY.DESC);
     searchParams.set(SEARCH_PARAMS.SORTBY, SORT_BY.CREATED);
     searchParams.set(SEARCH_PARAMS.SIZE, PENDING_SORT_DEFAULTS.SIZE);
-    searchParams.set(SEARCH_PARAMS.NUMBER, PENDING_SORT_DEFAULTS.NUMBER);
+    searchParams.set(
+      SEARCH_PARAMS.SELECTED_INDIVIDUAL,
+      PENDING_SORT_DEFAULTS.SELECTED_INDIVIDUAL,
+    );
     throw redirect(`?${searchParams}`);
   }
 
   return api.getPOARequests(
-    { status, sort, size, number, sortBy },
+    { status, sort, size, number, sortBy, selectedIndividual },
     {
       signal: request.signal,
     },

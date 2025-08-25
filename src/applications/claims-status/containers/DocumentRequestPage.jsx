@@ -1,27 +1,20 @@
 import React from 'react';
-import { merge } from 'lodash';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Toggler } from '~/platform/utilities/feature-toggles';
 
-import { Element, scrollTo, scrollToTop } from 'platform/utilities/scroll';
+import { scrollToTop } from 'platform/utilities/scroll';
 
 import NeedHelp from '../components/NeedHelp';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import Notification from '../components/Notification';
 import DefaultPage from '../components/claim-document-request-pages/DefaultPage';
 import {
-  addFile,
   cancelUpload,
   clearNotification,
   getClaim as getClaimAction,
-  removeFile,
   resetUploads,
-  setFieldsDirty,
   submitFiles,
-  updateField,
 } from '../actions';
-import { cstFriendlyEvidenceRequests } from '../selectors';
 import {
   setDocumentRequestPageTitle,
   getClaimType,
@@ -29,14 +22,9 @@ import {
   setPageTitle,
   getLabel,
 } from '../utils/helpers';
-import { setUpPage, setPageFocus } from '../utils/page';
+import { setUpPage, setPageFocus, focusNotificationAlert } from '../utils/page';
 import withRouter from '../utils/withRouter';
 import Default5103EvidenceNotice from '../components/claim-document-request-pages/Default5103EvidenceNotice';
-
-const scrollToError = () => {
-  const options = merge({}, window.VetsGov.scroll, { offset: -25 });
-  scrollTo('uploadError', options);
-};
 
 const filesPath = '../files';
 const statusPath = '../status';
@@ -44,7 +32,7 @@ const statusPath = '../status';
 class DocumentRequestPage extends React.Component {
   componentDidMount() {
     this.props.resetUploads();
-    setPageTitle(this.props.trackedItem, this.props.friendlyEvidenceRequests);
+    setPageTitle(this.props.trackedItem);
     if (!this.props.loading) {
       setUpPage(true, 'h1');
     } else {
@@ -65,13 +53,9 @@ class DocumentRequestPage extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.message && !prevProps.message) {
-      document.querySelector('.claims-alert').focus();
-      scrollToError();
-    }
     if (!this.props.loading && prevProps.loading) {
       setPageFocus('h1');
-      setPageTitle(this.props.trackedItem, this.props.friendlyEvidenceRequests);
+      setPageTitle(this.props.trackedItem);
     }
   }
 
@@ -79,23 +63,15 @@ class DocumentRequestPage extends React.Component {
     return (
       <>
         <DefaultPage
-          backUrl={this.props.lastPage ? `/${this.props.lastPage}` : filesPath}
-          field={this.props.uploadField}
-          files={this.props.files}
           item={this.props.trackedItem}
-          onAddFile={this.props.addFile}
           onCancel={this.props.cancelUpload}
-          onDirtyFields={this.props.setFieldsDirty}
-          onFieldChange={this.props.updateField}
-          onSubmit={() => {
-            // Always use Lighthouse endpoint (no more feature flag checks)
+          onSubmit={files =>
             this.props.submitFiles(
               this.props.claim.id,
               this.props.trackedItem,
-              this.props.files,
-            );
-          }}
-          onRemoveFile={this.props.removeFile}
+              files,
+            )
+          }
           progress={this.props.progress}
           uploading={this.props.uploading}
         />
@@ -132,83 +108,64 @@ class DocumentRequestPage extends React.Component {
       ? filesBreadcrumb
       : statusBreadcrumb;
 
-    return (
-      <Toggler.Hoc
-        toggleName={Toggler.TOGGLE_NAMES.cstFriendlyEvidenceRequests}
-      >
-        {toggleValue => {
-          const crumbs = [
-            previousPageBreadcrumb,
-            {
-              href: toggleValue
-                ? `../${
-                    trackedItem?.status === 'NEEDED_FROM_YOU'
-                      ? 'needed-from-you'
-                      : 'needed-from-others'
-                  }/${params.trackedItemId}`
-                : `../document-request/${params.trackedItemId}`,
-              label: setDocumentRequestPageTitle(
-                getLabel(toggleValue, trackedItem),
-              ),
-              isRouterLink: true,
-            },
-          ];
+    const crumbs = [
+      previousPageBreadcrumb,
+      {
+        href: `../${
+          trackedItem?.status === 'NEEDED_FROM_YOU'
+            ? 'needed-from-you'
+            : 'needed-from-others'
+        }/${params.trackedItemId}`,
+        label: setDocumentRequestPageTitle(getLabel(trackedItem)),
+        isRouterLink: true,
+      },
+    ];
 
-          let content;
-          if (this.props.loading) {
-            content = (
-              <div>
-                <va-loading-indicator
-                  set-focus
-                  message="Loading your claim information..."
-                />
-              </div>
-            );
-          } else {
-            const { message } = this.props;
+    let content;
+    if (this.props.loading) {
+      content = (
+        <div>
+          <va-loading-indicator
+            set-focus
+            message="Loading your claim information..."
+          />
+        </div>
+      );
+    } else {
+      const { message } = this.props;
 
-            content = (
-              <>
-                {message && (
-                  <div>
-                    <Element name="uploadError" />
-                    <Notification
-                      title={message.title}
-                      body={message.body}
-                      type={message.type}
-                    />
-                  </div>
-                )}
-                <Toggler toggleName={Toggler.TOGGLE_NAMES.cst5103UpdateEnabled}>
-                  <Toggler.Enabled>
-                    {isAutomated5103Notice(trackedItem.displayName) ? (
-                      <Default5103EvidenceNotice item={trackedItem} />
-                    ) : (
-                      <>{this.getDefaultPage()}</>
-                    )}
-                  </Toggler.Enabled>
-                  <Toggler.Disabled>
-                    <>{this.getDefaultPage()}</>
-                  </Toggler.Disabled>
-                </Toggler>
-              </>
-            );
-          }
-
-          return (
+      content = (
+        <>
+          {message && (
             <div>
-              <div name="topScrollElement" />
-              <div className="row">
-                <div className="usa-width-two-thirds medium-8 columns">
-                  <ClaimsBreadcrumbs crumbs={crumbs} />
-                  <div>{content}</div>
-                  <NeedHelp item={trackedItem} />
-                </div>
-              </div>
+              <Notification
+                title={message.title}
+                body={message.body}
+                type={message.type}
+                onSetFocus={focusNotificationAlert}
+              />
             </div>
-          );
-        }}
-      </Toggler.Hoc>
+          )}
+
+          {isAutomated5103Notice(trackedItem.displayName) ? (
+            <Default5103EvidenceNotice item={trackedItem} />
+          ) : (
+            <>{this.getDefaultPage()}</>
+          )}
+        </>
+      );
+    }
+    return (
+      <div>
+        <div name="topScrollElement" />
+        <div className="row">
+          <div className="usa-width-two-thirds medium-8 columns">
+            <ClaimsBreadcrumbs crumbs={crumbs} />
+            <div>{content}</div>
+            <NeedHelp item={trackedItem} />
+          </div>
+        </div>
+      </div>
     );
   }
 }
@@ -228,30 +185,22 @@ function mapStateToProps(state, ownProps) {
 
   return {
     claim: claimDetail.detail,
-    files: uploads.files,
-    lastPage: claimsState.routing.lastPage,
     loading: claimDetail.loading,
     message: claimsState.notifications.additionalEvidenceMessage,
     progress: uploads.progress,
     trackedItem,
     uploadComplete: uploads.uploadComplete,
     uploadError: uploads.uploadError,
-    uploadField: uploads.uploadField,
     uploading: uploads.uploading,
-    friendlyEvidenceRequests: cstFriendlyEvidenceRequests(state),
   };
 }
 
 const mapDispatchToProps = {
-  addFile,
   cancelUpload,
   clearNotification,
   getClaim: getClaimAction,
-  removeFile,
   resetUploads,
-  setFieldsDirty,
   submitFiles,
-  updateField,
 };
 
 export default withRouter(
@@ -262,27 +211,19 @@ export default withRouter(
 );
 
 DocumentRequestPage.propTypes = {
-  addFile: PropTypes.func,
   cancelUpload: PropTypes.func,
   claim: PropTypes.object,
   clearNotification: PropTypes.func,
-  files: PropTypes.array,
-  friendlyEvidenceRequests: PropTypes.bool,
   getClaim: PropTypes.func,
-  lastPage: PropTypes.string,
   loading: PropTypes.bool,
   message: PropTypes.object,
   navigate: PropTypes.func,
   params: PropTypes.object,
   progress: PropTypes.number,
-  removeFile: PropTypes.func,
   resetUploads: PropTypes.func,
-  setFieldsDirty: PropTypes.func,
   submitFiles: PropTypes.func,
   trackedItem: PropTypes.object,
-  updateField: PropTypes.func,
   uploadComplete: PropTypes.bool,
-  uploadField: PropTypes.object,
   uploading: PropTypes.bool,
 };
 

@@ -9,6 +9,7 @@ import mockSubmit from './fixtures/mocks/application-submit.json';
 import mockUpload from './fixtures/mocks/document-upload.json';
 import mockServiceBranches from './fixtures/mocks/service-branches.json';
 import mockUser from './fixtures/mocks/user.json';
+import { capitalizeEachWord } from '../utils';
 
 import {
   MOCK_SIPS_API,
@@ -129,7 +130,9 @@ export const setup = (cy, testOptions = {}) => {
   // because fixtures don't evaluate JS.
   cy.intercept('GET', '/v0/intent_to_file', mockItf);
 
-  cy.intercept('PUT', `${MOCK_SIPS_API}*`, mockInProgress);
+  cy.intercept('PUT', `${MOCK_SIPS_API}*`, mockInProgress).as(
+    'saveInProgressForm',
+  );
 
   cy.intercept(
     'GET',
@@ -139,7 +142,9 @@ export const setup = (cy, testOptions = {}) => {
 
   cy.intercept('GET', '/v0/ppiu/payment_information', mockPayment);
 
-  cy.intercept('POST', '/v0/upload_supporting_evidence', mockUpload);
+  cy.intercept('POST', '/v0/upload_supporting_evidence', mockUpload).as(
+    'uploadFile',
+  );
 
   cy.intercept(
     'POST',
@@ -261,16 +266,16 @@ export const pageHooks = (cy, testOptions) => ({
           'view:isTitle10Activated'
         ]
       ) {
-        const todayPlus120 = format(
-          add(new Date(), { days: 120 }),
-          'yyyy-M-d',
-        ).split('-');
+        const futureDate = add(new Date(), { days: 120 });
+        const year = format(futureDate, 'yyyy');
+        const month = format(futureDate, 'M'); // Single digit month (1-12)
+        const day = format(futureDate, 'd'); // Single digit day (1-31)
+
         // active title 10 activation puts this into BDD flow
-        cy.get('select[name$="SeparationDateMonth"]').select(todayPlus120[1]);
-        cy.get('select[name$="SeparationDateDay"]').select(todayPlus120[2]);
-        cy.get('input[name$="SeparationDateYear"]')
-          .clear()
-          .type(todayPlus120[0]);
+        cy.get('select[name$="SeparationDateMonth"]').select(month);
+        cy.get('select[name$="SeparationDateDay"]').select(day);
+        cy.get('input[name$="SeparationDateYear"]').clear();
+        cy.get('input[name$="SeparationDateYear"]').type(year);
       }
     });
   },
@@ -342,11 +347,217 @@ export const pageHooks = (cy, testOptions) => ({
                 .should('have.value', selectedOption);
             });
         }
-
         // click save
         cy.get('va-button[text="Save"]').click();
       });
     });
+  },
+
+  'new-disabilities/follow-up': () => {
+    cy.location('pathname').should(
+      'eq',
+      '/disability/file-disability-claim-form-21-526ez/new-disabilities/follow-up',
+    );
+
+    cy.findByText(/continue/i, { selector: 'button' }).click();
+    cy.get('@testData').then(data => {
+      data.newDisabilities.forEach((disability, index) => {
+        // Loop through each new disability and verify the follow-up pages
+        if (!data.standardClaim) {
+          // BDD Claim
+          cy.fillPage();
+          cy.findByText(/continue/i, { selector: 'button' }).click();
+        } else {
+          // Standard Claim
+          cy.log(`Processing disability ${index + 1}: ${disability.condition}`);
+          cy.get(
+            'legend[class="schemaform-block-title schemaform-title-underline"]',
+          ).should('contain', capitalizeEachWord(disability.condition));
+          cy.url().should('match', /new-disabilities\/follow-up\/\d+/);
+          // Check that we're on the correct follow-up page
+          if (disability.cause === 'NEW') {
+            // NEW conditions (asthma, PTSD) should show primary description page
+            cy.get(`input[value="NEW"]`).click();
+
+            // Fill in the primary description
+            cy.get('textarea[id="root_primaryDescription"]')
+              .should('be.visible')
+              .clear();
+            cy.get('textarea[id="root_primaryDescription"]').click();
+            cy.get('textarea[id="root_primaryDescription"]').type(
+              disability.primaryDescription,
+            );
+            cy.findByText(/continue/i, { selector: 'button' }).should(
+              'be.visible',
+            );
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          } else if (disability.cause === 'SECONDARY') {
+            // SECONDARY conditions should show secondary follow-up page
+            cy.get(`input[value="SECONDARY"]`).click();
+
+            // Select the disability that caused this one
+            cy.get(
+              'select[id="root_view:secondaryFollowUp_causedByDisability"]',
+            )
+              .should('be.visible')
+              .select(disability['view:secondaryFollowUp'].causedByDisability);
+
+            // .select(disability['view:secondaryFollowUp'].causedByDisability);
+
+            // Fill in the description
+            cy.get(
+              'textarea[id="root_view:secondaryFollowUp_causedByDisabilityDescription"]',
+            )
+              .should('be.visible')
+              .clear();
+            cy.get(
+              'textarea[id="root_view:secondaryFollowUp_causedByDisabilityDescription"]',
+            ).type(
+              disability['view:secondaryFollowUp']
+                .causedByDisabilityDescription,
+            );
+
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          } else if (disability.cause === 'WORSENED') {
+            // WORSENED conditions should show worsened follow-up page
+            cy.get(`input[value="WORSENED"]`).click();
+
+            // Fill in worsened description
+            cy.get(
+              'input[name="root_view:worsenedFollowUp_worsenedDescription"]',
+            )
+              .should('be.visible')
+              .clear();
+            cy.get(
+              'input[name="root_view:worsenedFollowUp_worsenedDescription"]',
+            ).type(disability['view:worsenedFollowUp'].worsenedDescription);
+
+            cy.get('textarea[id="root_view:worsenedFollowUp_worsenedEffects"]')
+              .should('be.visible')
+              .clear();
+            cy.get(
+              'textarea[id="root_view:worsenedFollowUp_worsenedEffects"]',
+            ).type(disability['view:worsenedFollowUp'].worsenedEffects);
+
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          } else if (disability.cause === 'VA') {
+            // VA conditions should show VA mistreatment follow-up page
+            cy.get(`input[value="VA"]`).click();
+
+            // Fill in VA mistreatment details
+            cy.get(
+              'textarea[id="root_view:vaFollowUp_vaMistreatmentDescription"]',
+            )
+              .should('be.visible')
+              .clear();
+            cy.get(
+              'textarea[id="root_view:vaFollowUp_vaMistreatmentDescription"]',
+            ).type(disability['view:vaFollowUp'].vaMistreatmentDescription);
+
+            cy.get('input[id="root_view:vaFollowUp_vaMistreatmentLocation"]')
+              .should('be.visible')
+              .clear();
+            cy.get(
+              'input[id="root_view:vaFollowUp_vaMistreatmentLocation"]',
+            ).type(disability['view:vaFollowUp'].vaMistreatmentLocation);
+
+            cy.get('input[id="root_view:vaFollowUp_vaMistreatmentDate"]')
+              .should('be.visible')
+              .clear();
+            cy.get('input[id="root_view:vaFollowUp_vaMistreatmentDate"]').type(
+              disability['view:vaFollowUp'].vaMistreatmentDate,
+            );
+
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          }
+          // Verify we've moved to the next page or completed the flow
+          if (index < data.newDisabilities.length - 1) {
+            // Should be on the next disability's follow-up page
+            cy.url().should('match', /new-disabilities\/follow-up\/\d+/);
+          } else {
+            // Should have moved past all follow-up pages
+            cy.url().should('not.match', /new-disabilities\/follow-up/);
+          }
+        }
+      });
+    });
+  },
+
+  'supporting-evidence/evidence-types': () => {
+    cy.get('@testData').then(data => {
+      data.privateMedicalRecordAttachments?.forEach(attachment => {
+        if (attachment.name.endsWith('.PDF')) {
+          cy.get(
+            '[type="radio"][id="root_view:hasEvidenceYesinput"][value="Y"]',
+          ).check({ force: true });
+          cy.get(
+            'input[type="checkbox"][name="root_view:selectableEvidenceTypes_view:hasPrivateMedicalRecords"]',
+          ).check({
+            force: true,
+          });
+          cy.findByText(/continue/i, { selector: 'button' }).click();
+        }
+      });
+      cy.fillPage();
+    });
+  },
+
+  'supporting-evidence/private-medical-records': () => {
+    cy.get('[type="radio"][value="Y"]').check({ force: true });
+    cy.findByText(/continue/i, { selector: 'button' }).click();
+  },
+
+  'supporting-evidence/private-medical-records-upload': () => {
+    cy.get('input[type="file"]').selectFile(
+      'src/applications/disability-benefits/all-claims/tests/fixtures/data/foo_protected.PDF',
+      { force: true },
+    );
+    cy.findByText(/foo_protected.PDF/i).should('exist');
+
+    cy.get('.schemaform-file-uploading').should('not.exist');
+
+    cy.findByText(
+      /This is an encrypted PDF document. In order for us to be able to view the document, we will need the password to decrypt it./,
+    ).should('exist');
+    cy.get('input[name="get_password_0"]').focus();
+    cy.get('input[name="get_password_0"]').should('exist');
+    cy.get('input[name="get_password_0"]').blur();
+
+    cy.get('input[name="get_password_0"]').should('be.visible');
+    cy.get('va-button[text="Add password"]').should('be.visible');
+
+    // Enter password
+    cy.get('input[name="get_password_0"]').clear();
+    cy.get('input[name="get_password_0"]').type('dancing');
+
+    cy.get('va-button[text="Add password"]').then($btn => {
+      const webComponent = $btn[0];
+      const shadowButton = webComponent.shadowRoot.querySelector('button');
+      cy.get(shadowButton).should('be.visible');
+      cy.get(shadowButton).focus();
+      shadowButton.click({ force: true });
+      cy.log('shadow button');
+    });
+
+    cy.wait('@uploadFile').then(({ _request, response }) => {
+      expect(response.statusCode).to.eq(200);
+      cy.log('File upload successful');
+    });
+    cy.get('strong')
+      .contains('The PDF password has been added.')
+      .should('be.visible');
+
+    cy.get('select')
+      .contains('option', 'Medical Treatment Record - Non-Government Facility')
+      .parent()
+      .select('L049');
+
+    cy.wait('@saveInProgressForm').then(({ _request, response }) => {
+      expect(response.statusCode).to.eq(200);
+      cy.log('File Type selection successful');
+    });
+
+    cy.findByText(/continue/i, { selector: 'button' }).click();
   },
 
   'disabilities/rated-disabilities': () => {

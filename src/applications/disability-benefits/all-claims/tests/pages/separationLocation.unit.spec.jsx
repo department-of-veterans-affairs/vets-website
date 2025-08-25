@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import moment from 'moment';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { mount } from 'enzyme';
 import { waitFor } from '@testing-library/dom';
 import formConfig from '../../config/form';

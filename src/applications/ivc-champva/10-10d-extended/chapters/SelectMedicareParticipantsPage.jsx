@@ -1,14 +1,13 @@
 /* eslint-disable react/sort-prop-types */
 import PropTypes from 'prop-types';
 import React from 'react';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import {
   arrayBuilderItemSubsequentPageTitleUI,
   radioSchema,
   radioUI,
-  titleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { CustomPageNavButtons } from '../../shared/components/CustomPageNavButtons';
 import { nameWording, toHash } from '../../shared/utilities';
 
 // similar to `toSpliced`, but simpler and actually works in testing framework
@@ -72,7 +71,7 @@ export const selectMedicareParticipantPage = {
       ...radioUI({
         title: 'Which applicant would you like to add Medicare insurance for?',
         hint:
-          'If you have more applicants with Medicare plans you can add them later in this form.',
+          'If you have more applicants with Medicare plans, you can add them later in this form.',
         required: () => true,
         labels: {
           na: 'NA',
@@ -116,7 +115,6 @@ export const selectMedicareParticipantPage = {
     type: 'object',
     required: ['medicareParticipant'],
     properties: {
-      titleSchema,
       medicareParticipant: radioSchema(['na']),
     },
   },
@@ -137,6 +135,12 @@ export function selectMedicareParticipantOnGoForward(props) {
 
 /** @type {CustomPageType} */
 export function SelectMedicareParticipantPage(props) {
+  const navButtons = CustomPageNavButtons({
+    ...props,
+    onContinue: () => {
+      return selectMedicareParticipantOnGoForward(props);
+    },
+  });
   return (
     <SchemaForm
       name={props.name}
@@ -157,11 +161,7 @@ export function SelectMedicareParticipantPage(props) {
     >
       <>
         {props.contentBeforeButtons}
-        <FormNavButtons
-          goBack={props.goBack}
-          goForward={() => selectMedicareParticipantOnGoForward(props)}
-          submitToContinue
-        />
+        {navButtons}
         {props.contentAfterButtons}
       </>
     </SchemaForm>

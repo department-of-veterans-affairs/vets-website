@@ -13,7 +13,7 @@ import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import { currentOrPastDateUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { countries } from 'platform/forms/address';
 
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
@@ -651,6 +651,13 @@ export function hasServiceRecord(item) {
   return !(serviceRecords === undefined || serviceRecords.length === 0);
 }
 
+export function hasDeceasedPersons(item) {
+  const deceasedPersons =
+    get('currentlyBuriedPersons', item) ||
+    get('formData.currentlyBuriedPersons', item);
+  return !(deceasedPersons === undefined || deceasedPersons.length === 0);
+}
+
 export function formatName(name) {
   const { first, middle, last, suffix } = name;
   return (
@@ -781,10 +788,22 @@ export function transform(formConfig, form) {
 }
 
 export const fullMaidenNameUI = merge({}, fullNameUI, {
-  first: { 'ui:title': 'First name' },
-  middle: { 'ui:title': 'Middle name' },
-  last: { 'ui:title': 'Last name' },
-  maiden: { 'ui:title': 'Maiden name' },
+  first: {
+    'ui:title': 'First name',
+  },
+  middle: {
+    'ui:title': 'Middle name',
+  },
+  last: {
+    'ui:title': 'Last name',
+  },
+  suffix: {
+    'ui:webComponentField': VaSelectField,
+    'ui:options': { classNames: 'form-select-medium' },
+  },
+  maiden: {
+    'ui:title': 'Maiden name',
+  },
   'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
 });
 
@@ -1381,9 +1400,11 @@ export function getCemeteries() {
 }
 
 export function MailingAddressStateTitle(props) {
-  const { elementPath } = props;
-  const data = useSelector(state => state.form.data || {});
+  const { elementPath, formData } = props;
+  const reduxFormData = useSelector(state => state.form.data || {});
+  const data = formData || reduxFormData;
   const country = get(elementPath, data);
+
   if (country === 'CAN') {
     return 'Province';
   }
@@ -1473,4 +1494,18 @@ export const addressConfirmationRenderLine = content => {
       <br />
     </>
   ) : null;
+};
+
+// This function ensures the `depends` function of each page is called with the correct form data
+// in the burialBenefits section of the form
+export const addConditionalDependency = (pages, condition) => {
+  return Object.fromEntries(
+    Object.entries(pages).map(([key, page]) => [
+      key,
+      {
+        ...page,
+        depends: formData => page.depends?.(formData) && condition(formData),
+      },
+    ]),
+  );
 };

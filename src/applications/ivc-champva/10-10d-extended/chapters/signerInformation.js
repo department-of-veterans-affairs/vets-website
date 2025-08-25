@@ -9,7 +9,6 @@ import {
   fullNameUI,
   fullNameSchema,
   titleUI,
-  titleSchema,
   radioUI,
   radioSchema,
   phoneUI,
@@ -20,7 +19,7 @@ import {
 import React from 'react';
 import PropTypes from 'prop-types';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
-import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+import { CustomPageNavButtons } from '../../shared/components/CustomPageNavButtons';
 import { populateFirstApplicant } from '../helpers/utilities';
 import manifest from '../manifest.json';
 
@@ -55,11 +54,11 @@ export const certifierRoleSchema = {
       title: 'Which of these best describes you?',
       required: () => true,
       labels: {
-        applicant: 'I’m applying for benefits for myself',
+        applicant:
+          'I’m the spouse, dependent, or survivor of a Veteran applying for benefits for myself',
         sponsor:
-          'I’m a Veteran applying for benefits for my spouse or dependents',
-        other:
-          'I’m a representative applying for benefits on behalf of someone else',
+          'I’m a Veteran applying for benefits for my spouse, dependents, or both',
+        other: 'I’m applying for benefits on behalf of someone else',
       },
       // Changing this data on review messes up the ad hoc prefill
       // mapping of certifier -> applicant|sponsor:
@@ -70,7 +69,6 @@ export const certifierRoleSchema = {
     type: 'object',
     required: ['certifierRole'],
     properties: {
-      titleSchema,
       certifierRole: radioSchema(['applicant', 'sponsor', 'other']),
     },
   },
@@ -87,7 +85,6 @@ export const certifierNameSchema = {
     type: 'object',
     required: ['certifierName'],
     properties: {
-      titleSchema,
       certifierName: fullNameSchema,
     },
   },
@@ -97,9 +94,14 @@ export const certifierAddressSchema = {
   uiSchema: {
     ...titleUI(
       'Your mailing address',
-      'We’ll send any important information about this application to your address',
+      'We’ll send any important information about this application to your address.',
     ),
-    certifierAddress: addressUI(),
+    certifierAddress: addressUI({
+      labels: {
+        militaryCheckbox:
+          'Address is on military base outside of the United States.',
+      },
+    }),
     // TODO: get these validations back in place
     /*
     'ui:validations': [
@@ -112,7 +114,6 @@ export const certifierAddressSchema = {
     type: 'object',
     required: ['certifierAddress'],
     properties: {
-      titleSchema,
       certifierAddress: addressSchema(),
     },
   },
@@ -133,7 +134,6 @@ export const signerContactInfoPage = {
     type: 'object',
     required: ['certifierPhone', 'certifierEmail'],
     properties: {
-      titleSchema,
       certifierPhone: phoneSchema,
       certifierEmail: emailSchema,
     },
@@ -174,6 +174,11 @@ export function SignerContactInfoPage(props) {
     </button>
   );
 
+  const navButtons = CustomPageNavButtons({
+    ...props,
+    onContinue: () => signerContactOnGoForward(props),
+  });
+
   return (
     <SchemaForm
       name={props.name}
@@ -191,15 +196,7 @@ export function SignerContactInfoPage(props) {
       <>
         {/* contentBeforeButtons = save-in-progress links */}
         {props.contentBeforeButtons}
-        {props.onReviewPage ? (
-          updateButton
-        ) : (
-          <FormNavButtons
-            goBack={props.goBack}
-            goForward={() => signerContactOnGoForward(props)}
-            submitToContinue
-          />
-        )}
+        {props.onReviewPage ? updateButton : navButtons}
         {props.contentAfterButtons}
       </>
     </SchemaForm>
@@ -241,7 +238,6 @@ export const certifierContactSchema = {
     type: 'object',
     required: ['certifierPhone', 'certifierEmail'],
     properties: {
-      titleSchema,
       certifierPhone: phoneSchema,
       certifierEmail: emailSchema,
     },
@@ -255,7 +251,7 @@ export const certifierRelationshipSchema = {
       relationshipToVeteran: checkboxGroupUI({
         title: 'Which of these best describes you?',
         hint:
-          'If you’re applying on behalf of multiple applicants, you can select all applicable options',
+          'If you’re applying for multiple applicants, select all that apply.',
         required: () => true,
         labels: {
           spouse: 'I’m an applicant’s spouse',
@@ -305,7 +301,6 @@ export const certifierRelationshipSchema = {
     type: 'object',
     required: ['certifierRelationship'],
     properties: {
-      titleSchema,
       certifierRelationship: {
         type: 'object',
         properties: {

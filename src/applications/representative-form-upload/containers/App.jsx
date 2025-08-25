@@ -6,7 +6,7 @@ import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-li
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import { isLoggedIn } from 'platform/user/selectors';
-import { addStyleToShadowDomOnPages } from '../helpers/index';
+import { addStyleToShadowDomOnPages, getFormNumber } from '../helpers/index';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import { SIGN_IN_URL } from '../constants';
@@ -30,8 +30,10 @@ const App = ({ children }) => {
   const shouldGoToSignIn = useSelector(selectShouldGoToSignIn);
   const isUserLoading = useSelector(selectIsUserLoading);
   const userLoggedIn = useSelector(state => isLoggedIn(state));
+  const formNumber = getFormNumber();
 
   useEffect(() => {
+    document.title = `Submit VA Form ${formNumber}  | Veterans Affairs`;
     // Insert CSS to hide 'For example: January 19 2000' hint on memorable dates
     // (can't be overridden by passing 'hint' to uiOptions):
     addStyleToShadowDomOnPages(
@@ -43,6 +45,23 @@ const App = ({ children }) => {
 
   const dispatch = useDispatch();
   useEffect(() => dispatch(fetchUser()), [dispatch]);
+
+  useEffect(() => {
+    const handleBeforeUnload = e => {
+      const event = e || window.event;
+      const isIncomplete =
+        sessionStorage.getItem('formIncompleteARP') === 'true';
+      if (isIncomplete) {
+        event.preventDefault();
+        event.returnValue = ''; // Required for most browsers
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, []);
 
   if (isAppToggleLoading) {
     return (
@@ -79,7 +98,7 @@ const App = ({ children }) => {
     <AccessTokenManager userLoggedIn={userLoggedIn}>
       <div className="container">
         <Header />
-        <div className="form_container row form-686c">{content}</div>
+        <div className={`form_container row form-${formNumber}`}>{content}</div>
         <Footer />
       </div>
     </AccessTokenManager>

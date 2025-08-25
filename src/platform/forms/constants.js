@@ -64,8 +64,9 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_22_8794: '22-8794',
   FORM_26_1880: '26-1880',
   FORM_26_4555: '26-4555',
+  FORM_27_8832: '27-8832',
   FORM_28_1900: '28-1900',
-  FORM_28_1900_V2: '28-1900_V2',
+  FORM_28_1900_V2: '28-1900-V2',
   FORM_28_8832: '28-8832',
   FORM_40_0247: '40-0247',
   FORM_40_10007: '40-10007',
@@ -103,6 +104,8 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_21_651_UPLOAD: '21-651-UPLOAD',
   FORM_21P_4185_UPLOAD: '21P-4185-UPLOAD',
   FORM_22_10297: '22-10297',
+  FORM_22_0839: '22-0839',
+  FORM_22_10275: '22-10275',
 });
 
 export const VA_FORM_IDS_SKIP_INFLECTION = Object.freeze([
@@ -175,6 +178,7 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_22_1995]: `${tryGetAppUrl('1995-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_26_1880]: `${tryGetAppUrl('coe')}/`,
     [VA_FORM_IDS.FORM_26_4555]: `${tryGetAppUrl('4555-adapted-housing')}/`,
+    [VA_FORM_IDS.FORM_27_8832]: `${tryGetAppUrl('new-chapter-36-form')}/`,
     [VA_FORM_IDS.FORM_28_1900]: `${tryGetAppUrl('28-1900-chapter-31')}/`,
     [VA_FORM_IDS.FORM_28_1900_V2]: `${tryGetAppUrl('new-28-1900-chapter-31')}/`,
     [VA_FORM_IDS.FORM_28_8832]: `${tryGetAppUrl(
@@ -191,8 +195,12 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_1330M]: `${tryGetAppUrl('1330M')}/`,
     [VA_FORM_IDS.FORM_22_10216]: `${tryGetAppUrl('10216-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_10_10D_EXTENDED]: `${tryGetAppUrl('10-10D-EXTENDED')}/`,
-    [VA_FORM_IDS.FORM_21_0538]: `${tryGetAppUrl('21-0538')}/`,
+    [VA_FORM_IDS.FORM_21_0538]: `${tryGetAppUrl(
+      '0538-dependents-verification',
+    )}/`,
     [VA_FORM_IDS.FORM_22_10297]: `${tryGetAppUrl('22-10297')}/`,
+    [VA_FORM_IDS.FORM_22_0839]: `${tryGetAppUrl('22-0839')}/`,
+    [VA_FORM_IDS.FORM_22_10275]: `${tryGetAppUrl('22-10275')}/`,
   };
 };
 
@@ -636,6 +644,14 @@ export const MY_VA_SIP_FORMS = [
     trackingPrefix: 'adapted-housing-4555-',
   },
   {
+    id: VA_FORM_IDS.FORM_27_8832,
+    benefit: 'personalized career planning and guidance',
+    title: 'Personalized career planning and guidance (27-8832)',
+    description:
+      'personalized career planning and guidance application (27-8832)',
+    trackingPrefix: '27-8832-',
+  },
+  {
     id: VA_FORM_IDS.FORM_28_1900,
     benefit: 'Veteran Readiness and Employment Benefits',
     title: 'Veteran Readiness and Employment Benefits (28-1900)',
@@ -713,9 +729,9 @@ export const MY_VA_SIP_FORMS = [
   },
   {
     id: VA_FORM_IDS.FORM_21_0538,
-    benefit: 'dependent-benefits',
-    title: '21-0538 Dependents verification',
-    description: 'dependent-benefits',
+    benefit: 'verifying your dependents for disability benefits',
+    title: 'verifying your dependents for disability benefits (21-0538)',
+    description: 'verifying your dependents for disability benefits (21-0538)',
     trackingPrefix: '0538-dependents-verification-',
   },
   {
@@ -724,6 +740,20 @@ export const MY_VA_SIP_FORMS = [
     title: '10297',
     description: 'education benefits',
     trackingPrefix: 'edu-10297',
+  },
+  {
+    id: VA_FORM_IDS.FORM_22_0839,
+    benefit: 'education benefits',
+    title: '0839',
+    description: 'education benefits',
+    trackingPrefix: '0839-edu-benefits',
+  },
+  {
+    id: VA_FORM_IDS.FORM_22_10275,
+    benefit: 'education benefits',
+    title: '10275',
+    description: 'education benefits',
+    trackingPrefix: '10275-edu-benefits',
   },
 ];
 

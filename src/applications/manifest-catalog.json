@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 132,
+  "totalApplications": 134,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -44,6 +44,12 @@
       "appName": "Request for Higher-Level Review",
       "entryName": "0996-higher-level-review",
       "rootUrl": "/decision-reviews/higher-level-review/request-higher-level-review-form-20-0996"
+    },
+    {
+      "directoryPath": "src/applications/appeals/onramp",
+      "appName": "Decision Reviews Onramp Tool",
+      "entryName": "onramp",
+      "rootUrl": "/decision-reviews/onramp-to-dr"
     },
     {
       "directoryPath": "src/applications/appeals/testing/download",
@@ -220,6 +226,12 @@
       "rootUrl": "/ds-v3-playground"
     },
     {
+      "directoryPath": "src/applications/edu-benefits/0839",
+      "appName": "0839",
+      "entryName": "0839-edu-benefits",
+      "rootUrl": "/school-administrators/submit-yellow-ribbon-program-agreement-form-22-0839"
+    },
+    {
       "directoryPath": "src/applications/edu-benefits/0994",
       "appName": "22-0994 Education benefits form",
       "entryName": "0994-edu-benefits",
@@ -244,6 +256,12 @@
       "rootUrl": "/school-administrators/35-percent-exemption"
     },
     {
+      "directoryPath": "src/applications/edu-benefits/10275",
+      "appName": "10275",
+      "entryName": "10275-edu-benefits",
+      "rootUrl": "/school-administrators/commit-principles-of-excellence-form-22-10275"
+    },
+    {
       "directoryPath": "src/applications/edu-benefits/10282",
       "appName": "22-10282 IBM Skillsbuild Training Program Intake Application",
       "entryName": "10282-edu-benefits",
@@ -253,7 +271,7 @@
       "directoryPath": "src/applications/edu-benefits/10297",
       "appName": "10297",
       "entryName": "10297-edu-benefits",
-      "rootUrl": "/education/apply-for-high-technology-veterans-education/application/10297"
+      "rootUrl": "/education/other-va-education-benefits/high-technology-program/apply-for-high-technology-program-form-22-10297"
     },
     {
       "directoryPath": "src/applications/edu-benefits/1919",
@@ -271,7 +289,7 @@
       "directoryPath": "src/applications/edu-benefits/8794",
       "appName": "Designation Of Certifying Official(S)",
       "entryName": "8794-edu-benefits",
-      "rootUrl": "/education/apply-for-education-benefits/application/8794"
+      "rootUrl": "/school-administrators/update-certifying-officials"
     },
     {
       "directoryPath": "src/applications/edu-benefits/feedback-tool",
@@ -337,7 +355,7 @@
       "directoryPath": "src/applications/income-and-asset-statement",
       "appName": "21P-0969 Income and Asset Statement Form",
       "entryName": "income-and-asset-statement",
-      "rootUrl": "/income-and-asset-statement-form-21p-0969"
+      "rootUrl": "/supporting-forms-for-claims/submit-income-and-asset-statement-form-21p-0969"
     },
     {
       "directoryPath": "src/applications/income-limits",
@@ -448,12 +466,6 @@
       "rootUrl": "/my-health/secure-messages"
     },
     {
-      "directoryPath": "src/applications/mhv-secure-messaging/pilot",
-      "appName": "MHV Secure Messaging - OH Pilot",
-      "entryName": "mhv-secure-messaging-pilot",
-      "rootUrl": "/my-health/secure-messages-pilot"
-    },
-    {
       "directoryPath": "src/applications/mhv-supply-reordering",
       "appName": "Order medical supplies",
       "entryName": "mhv-supply-reordering",
@@ -476,6 +488,12 @@
       "appName": "New 28-1900 Veteran Readiness",
       "entryName": "new-28-1900-chapter-31",
       "rootUrl": "/temporary/apply-vre-form-28-1900"
+    },
+    {
+      "directoryPath": "src/applications/new-chapter-36-form",
+      "appName": "Personalized Career Planning and Guidance/Chapter 36 (VA Form 27-8832)",
+      "entryName": "new-chapter-36-form",
+      "rootUrl": "/temporary/apply-career-guidance-form-27-8832"
     },
     {
       "directoryPath": "src/applications/office-directory",

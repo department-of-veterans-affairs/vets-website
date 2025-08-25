@@ -62,9 +62,12 @@ const wrapApiRequest = fn => {
         // Don't redirect to login for our app's root / landing page experience.
         // People are allowed to be unauthenticated there.
         // TODO: probably need a more sound & principled solution here.
-        ![manifest.rootUrl, `${manifest.rootUrl}/`].includes(
-          window.location.pathname,
-        )
+        ![
+          manifest.rootUrl,
+          `${manifest.rootUrl}/`,
+          `${manifest.rootUrl}/sign-in`,
+          `${manifest.rootUrl}/auth/login/callback`,
+        ].includes(window.location.pathname)
       ) {
         window.location = getSignInUrl({
           returnUrl: window.location.href,
@@ -96,7 +99,10 @@ const api = {
     const sort = query.sort
       ? `&sort[by]=${query.sortBy}&sort[order]=${query.sort}`
       : '';
-    const params = `${status}${size}${number}${sort}`;
+    const selectedIndividual = query.selectedIndividual
+      ? `&as_selected_individual=${query.selectedIndividual}`
+      : '';
+    const params = `${status + size + number + sort + selectedIndividual}`;
     return [`/power_of_attorney_requests${params ? '?' : ''}${params}`];
   }),
   getSubmissions: wrapApiRequest(query => {
