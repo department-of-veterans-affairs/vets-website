@@ -11,6 +11,7 @@ export default function useStudentFeedbackCards({
     () => {
       const map = {};
       (complaintData || []).forEach(({ key, type, definition }) => {
+        if (!key) return;
         map[toSnakeLower(key)] = {
           label: type,
           definition: definition || '',
