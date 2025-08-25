@@ -128,46 +128,29 @@ const routes = (
         >
           <VitalDetails />
         </FeatureFlagRoute>
-        <FeatureFlagRoute
-          exact
-          path="/labs-and-tests"
-          key="LabsAndTests"
-          featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayLabsAndTests}
-        >
+        <AppRoute exact path="/labs-and-tests" key="LabsAndTests">
           <LabsAndTests />
-        </FeatureFlagRoute>
-        <FeatureFlagRoute
-          exact
-          path="/labs-and-tests/:labId"
-          key="LabAndTestDetails"
-          featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayLabsAndTests}
-        >
+        </AppRoute>
+        <AppRoute exact path="/labs-and-tests/:labId" key="LabAndTestDetails">
           <LabAndTestDetails />
-        </FeatureFlagRoute>
-        <FeatureFlagRoute
+        </AppRoute>
+        <AppRoute
           exact
           path="/labs-and-tests/:labId/images"
           key="RadiologyImagesList"
-          featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayLabsAndTests}
         >
           <RadiologyImagesList />
-        </FeatureFlagRoute>
-        <FeatureFlagRoute
+        </AppRoute>
+        <AppRoute
           exact
           path="/labs-and-tests/:labId/images/:imageId"
           key="RadiologySingleImage"
-          featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayLabsAndTests}
         >
           <RadiologySingleImage />
-        </FeatureFlagRoute>
-        <FeatureFlagRoute
-          exact
-          path="/settings"
-          key="Settings"
-          featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplaySettingsPage}
-        >
+        </AppRoute>
+        <AppRoute exact path="/settings" key="Settings">
           <SettingsPage />
-        </FeatureFlagRoute>
+        </AppRoute>
         <AppRoute exact path="/download" key="Download">
           <DownloadReportPage />
         </AppRoute>
