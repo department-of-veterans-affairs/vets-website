@@ -104,6 +104,7 @@ import {
   studentTermDatesPage,
   previousTermQuestionPage,
   previousTermDatesPage,
+  claimsOrReceivesPensionPage,
   studentEarningsPage,
   studentFutureEarningsPage,
   studentAssetsPage,
@@ -675,6 +676,16 @@ export const formConfig = {
               formData?.['view:addOrRemoveDependents']?.add &&
               formData?.studentInformation?.[index]?.schoolInformation
                 ?.studentDidAttendSchoolLastTerm,
+          }),
+          addStudentsPartSixteen: pageBuilder.itemPage({
+            title: 'Add one or more students between ages 18 and 23',
+            path: 'report-674/add-students/:index/additional-student-income',
+            uiSchema: claimsOrReceivesPensionPage.uiSchema,
+            schema: claimsOrReceivesPensionPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(formData, TASK_KEYS.report674) &&
+              formData?.['view:addOrRemoveDependents']?.add &&
+              !formData?.vaDependentsNetWorthAndPension,
           }),
           addStudentsPartSeventeen: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',

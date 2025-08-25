@@ -690,6 +690,28 @@ export const previousTermDatesPage = {
   },
 };
 
+export const claimsOrReceivesPensionPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(() => 'Student’s income'),
+    claimsOrReceivesPension: {
+      ...yesNoUI(
+        'Are you claiming or do you already receive Veterans Pension or Survivors Pension benefits?',
+      ),
+      'ui:description': generateHelpText(
+        'If yes, we’ll ask you questions about the student’s income. If no, we’ll skip questions about the student’s income',
+      ),
+      'ui:required': () => true,
+    },
+  },
+  schema: {
+    type: 'object',
+    required: ['claimsOrReceivesPension'],
+    properties: {
+      claimsOrReceivesPension: yesNoSchema,
+    },
+  },
+};
+
 export const studentEarningsPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
