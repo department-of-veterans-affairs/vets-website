@@ -16999,11 +16999,6 @@ ora@^5.4.1:
     strip-ansi "^6.0.0"
     wcwidth "^1.0.1"
 
-os-browserify@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/os-browserify/-/os-browserify-0.3.0.tgz#854373c7f5c2315914fc9bfc6bd8238fdda1ec27"
-  integrity sha512-gjcpUc3clBf9+210TRaDWbf+rZZZEshZ+DlXMRCeAjp0xhTrnQsKHypIy1J3d5hKdUzj69t708EHtU8P6bUn0A==
-
 os-browserify@~0.1.1:
   version "0.1.2"
   resolved "https://registry.npmjs.org/os-browserify/-/os-browserify-0.1.2.tgz#49ca0293e0b19590a5f5de10c7f265a617d8fe54"
@@ -22659,9 +22654,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#c2e33402fd8f59eddb55c2f630ec199ff9584897":
-  version "25.1.8"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#c2e33402fd8f59eddb55c2f630ec199ff9584897"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#588b8df101da76bd8c99194ad88ee33a3cc261ef":
+  version "25.1.9"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#588b8df101da76bd8c99194ad88ee33a3cc261ef"
   dependencies:
     minimist "^1.2.3"
 

@@ -55,7 +55,23 @@ const formConfig = {
   dev: {
     disableWindowUnloadInCI: true,
   },
-  ...minimalHeaderFormConfigOptions(),
+  ...minimalHeaderFormConfigOptions({
+    breadcrumbList: [
+      {
+        href: '/',
+        label: 'VA.gov home',
+      },
+      {
+        href: '/supporting-forms-for-claims',
+        label: 'Supporting forms for VA claims',
+      },
+      {
+        href:
+          '/supporting-forms-for-claims/submit-income-and-asset-statement-form-21p-0969',
+        label: 'Submit a pension or DIC income and asset statement',
+      },
+    ],
+  }),
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',

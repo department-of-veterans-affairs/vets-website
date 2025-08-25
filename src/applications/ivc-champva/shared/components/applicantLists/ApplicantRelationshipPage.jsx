@@ -25,7 +25,7 @@ const SECONDARY = 'otherRelationshipToVeteran';
 export function appRelBoilerplate({ data, pagePerItemIndex }) {
   const { keyname = KEYNAME } = data;
   const currentListItem = data?.applicants?.[pagePerItemIndex];
-  const personTitle = 'Sponsor';
+  const personTitle = 'Veteran';
   const applicant = applicantWording(currentListItem, false);
 
   const relativePossessive = applicantWording(currentListItem, true, false);
