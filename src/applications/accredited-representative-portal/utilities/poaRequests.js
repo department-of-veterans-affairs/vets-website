@@ -163,6 +163,7 @@ export const SEARCH_PARAMS = {
   SORTORDER: 'sortOrder',
   SIZE: 'pageSize',
   NUMBER: 'pageNumber',
+  SELECTED_INDIVIDUAL: 'as_selected_individual',
 };
 export const SORT_BY = {
   CREATED: 'created_at',
@@ -183,6 +184,7 @@ export const PROCESSED_SORT_DEFAULTS = {
   SIZE: '20',
   // default is page 1
   NUMBER: '1',
+  SELECTED_INDIVIDUAL: 'false',
 };
 
 export const PENDING_SORT_DEFAULTS = {
@@ -192,6 +194,7 @@ export const PENDING_SORT_DEFAULTS = {
   SIZE: '20',
   // default is page 1
   NUMBER: '1',
+  SELECTED_INDIVIDUAL: 'false',
 };
 
 export async function addStyleToShadowDomOnPages(

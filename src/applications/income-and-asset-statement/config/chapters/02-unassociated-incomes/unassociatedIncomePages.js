@@ -17,6 +17,7 @@ import {
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { SummaryDescription } from '../../../components/RecurringIncomeSummaryDescription';
+import { DependentDescription } from '../../../components/DependentDescription';
 import {
   formatCurrency,
   formatPossessiveString,
@@ -309,11 +310,17 @@ const custodianIncomeRecipientPage = {
         Object.entries(relationshipLabels)
           .filter(
             ([key]) =>
-              key === 'SPOUSE' || key === 'CUSTODIAN' || key === 'OTHER',
+              key === 'SPOUSE' ||
+              key === 'CHILD' ||
+              key === 'CUSTODIAN' ||
+              key === 'OTHER',
           )
           .map(([key, value]) => {
             if (key === 'SPOUSE') {
               return [key, 'Custodian’s spouse'];
+            }
+            if (key === 'CHILD') {
+              return [key, 'Veteran’s surviving child'];
             }
             if (key === 'CUSTODIAN') {
               return [key, 'Child’s custodian'];
@@ -334,7 +341,12 @@ const custodianIncomeRecipientPage = {
   schema: {
     type: 'object',
     properties: {
-      recipientRelationship: radioSchema(['CUSTODIAN', 'SPOUSE', 'OTHER']),
+      recipientRelationship: radioSchema([
+        'CUSTODIAN',
+        'SPOUSE',
+        'CHILD',
+        'OTHER',
+      ]),
       otherRecipientRelationshipType: { type: 'string' },
     },
     required: ['recipientRelationship'],
@@ -516,6 +528,9 @@ export const unassociatedIncomePages = arrayBuilderPages(
       schema: summaryPage.schema,
     }),
     unassociatedIncomeVeteranRecipientPage: pageBuilder.itemPage({
+      ContentBeforeButtons: showUpdatedContent() ? (
+        <DependentDescription />
+      ) : null,
       title: 'Recurring income recipient',
       path: 'recurring-income/:index/veteran-income-recipient',
       depends: formData =>
@@ -527,6 +542,9 @@ export const unassociatedIncomePages = arrayBuilderPages(
       schema: veteranIncomeRecipientPage.schema,
     }),
     unassociatedIncomeSpouseRecipientPage: pageBuilder.itemPage({
+      ContentBeforeButtons: showUpdatedContent() ? (
+        <DependentDescription />
+      ) : null,
       title: 'Recurring income recipient',
       path: 'recurring-income/:index/spouse-income-recipient',
       depends: formData =>
@@ -535,6 +553,9 @@ export const unassociatedIncomePages = arrayBuilderPages(
       schema: spouseIncomeRecipientPage.schema,
     }),
     unassociatedIncomeCustodianRecipientPage: pageBuilder.itemPage({
+      ContentBeforeButtons: showUpdatedContent() ? (
+        <DependentDescription />
+      ) : null,
       title: 'Recurring income recipient',
       path: 'recurring-income/:index/custodian-income-recipient',
       depends: formData =>
@@ -543,6 +564,9 @@ export const unassociatedIncomePages = arrayBuilderPages(
       schema: custodianIncomeRecipientPage.schema,
     }),
     unassociatedIncomeParentRecipientPage: pageBuilder.itemPage({
+      ContentBeforeButtons: showUpdatedContent() ? (
+        <DependentDescription />
+      ) : null,
       title: 'Recurring income recipient',
       path: 'recurring-income/:index/parent-income-recipient',
       depends: formData =>
