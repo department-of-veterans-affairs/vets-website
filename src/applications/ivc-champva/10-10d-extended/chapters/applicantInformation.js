@@ -106,7 +106,7 @@ export const applicantOptions = {
     cardDescription: item => (
       <ul className="no-bullets">
         <li>
-          <b>Date of Birth:</b>{' '}
+          <b>Date of birth:</b>{' '}
           {item?.applicantDob ? fmtDate(item?.applicantDob) : ''}
         </li>
         <li>
@@ -215,7 +215,7 @@ const applicantMailingAddressPage = {
     applicantAddress: addressUI({
       labels: {
         militaryCheckbox:
-          'Address is on a United States military base outside the country.',
+          'Address is on military base outside the United States.',
       },
     }),
   },
@@ -235,12 +235,12 @@ const applicantContactInfoPage = {
       ({ formData }) =>
         editTitleWrapper(`${applicantWording(formData)} contact information`),
       ({ formData, formContext }) => {
-        const txt = `We will use this information to contact ${applicantWording(
+        const txt = `We’ll use this information to contact ${applicantWording(
           formData,
           false,
           false,
           true,
-        )} if we have more questions`;
+        )} if we have any questions about this application.`;
         // Prefill message conditionally displays based on `certifierRole`
         return formContext.pagePerItemIndex === '0' ? (
           <>
@@ -341,9 +341,9 @@ const applicantBirthCertUploadPage = {
           certifierRole: index === 0 ? formData?.['view:certifierRole'] : '',
         };
         const posessiveName = (
-          <b className="dd-privacy-hidden">
+          <p className="dd-privacy-hidden">
             {nameWording(tmpFormData, true, false)}
-          </b>
+          </p>
         );
 
         return (
@@ -355,7 +355,7 @@ const applicantBirthCertUploadPage = {
     ),
     ...fileUploadBlurbCustom(),
     applicantBirthCertOrSocialSecCard: fileUploadUI({
-      label: 'Upload a copy of birth certificate',
+      label: 'Upload copy of birth certificate',
     }),
   },
   schema: {
@@ -507,33 +507,29 @@ const applicantSchoolCertUploadPage = {
             <p>
               <b>If {nameBeingVerb} already enrolled in school</b>
             </p>
-            <p>You’ll need to submit a letter on the school’s letterhead.</p>
             <p>
-              Ask the school to write us a letter on school letterhead that
-              includes all of these pieces of information:
+              Ask the school to write us a letter on their letterhead that
+              includes this information:
             </p>
             <ul>
-              <li>{posessiveName} first and last name</li>
+              <li>{posessiveName} first and last name, and</li>
               <li>
-                The last 4 digits of {posessiveName} Social Security number
+                Last 4 digits of {posessiveName} Social Security number, and
               </li>
               <li>
-                The start and end dates for each semester or enrollment term
+                Start and end dates for each semester or enrollment term, and
               </li>
-              <li>Enrollment status (full-time or part-time)</li>
-              <li>Expected graduation date</li>
+              <li>Enrollment status (full-time or part-time), and</li>
+              <li>Expected graduation date, and</li>
               <li>
-                Signature and title of a school official (like a director or
-                principal)
+                Signature and title of a school official, such as director or
+                principal
               </li>
             </ul>
             <p>
               <b>If {nameBeingVerb} planning to enroll</b>
             </p>
-            <p>
-              Submit a copy of {posessiveName} acceptance letter from the
-              school.
-            </p>
+            <p>Submit a copy of {posessiveName} school acceptance letter.</p>
           </>
         );
       },

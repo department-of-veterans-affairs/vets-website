@@ -66,7 +66,7 @@ function dynamicSchema(data, item) {
       ),
       healthcareParticipants: checkboxGroupUI({
         title,
-        hint: 'Check all that apply',
+        hint: 'Select all that apply',
         required: () => true,
         labels,
       }),

@@ -72,7 +72,7 @@ export const selectMedicareParticipantPage = {
       ...radioUI({
         title: 'Which applicant would you like to add Medicare insurance for?',
         hint:
-          'If you have more applicants with Medicare plans you can add them later in this form.',
+          'If you have more applicants with Medicare plans, you can add them later in this form.',
         required: () => true,
         labels: {
           na: 'NA',

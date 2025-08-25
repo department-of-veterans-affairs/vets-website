@@ -46,10 +46,9 @@ const INSURANCE_TYPE_LABELS = {
   hmo: 'Health Maintenance Organization (HMO) program',
   ppo: 'Preferred Provider Organization (PPO) program',
   medicaid: 'Medicaid or a State Assistance program',
-  rxDiscount: 'Prescription Discount program',
+  medigap: 'Medigap policy',
   other:
     'Other (specialty, limited coverage, or exclusively CHAMPVA supplemental) insurance',
-  medigap: 'Medigap program',
 };
 
 export function generateParticipantNames(item) {
@@ -76,14 +75,13 @@ const yesNoOptions = {
   labelHeaderLevel: '5',
   labelHeaderLevelStyle: '5',
   hint:
-    'If any applicants have other health insurance, it is required to report it to process your application for CHAMPVA benefits.',
+    'If so, you must report this information for us to process your application.',
 };
 const yesNoOptionsMore = {
-  title: 'Do you have any other health insurance to report?',
-  labelHeaderLevel: '5',
-  labelHeaderLevelStyle: '5',
+  title: '',
+  description: 'Do you have any other health insurance to report?',
   hint:
-    'If any applicants have other health insurance, it is required to report it to process your application for CHAMPVA benefits.',
+    'If so, you must report this information for us to process your application.',
 };
 export const healthInsuranceOptions = {
   arrayPath: 'healthInsurance',
@@ -124,10 +122,14 @@ const healthInsuranceIntroPage = {
     insuranceType: {
       ...radioUI({
         labels: INSURANCE_TYPE_LABELS,
-        title:
-          'Select the type of insurance plan or program the applicant(s) are enrolled in',
-        hint:
-          'You may find this information on the front of the health insurance card.',
+        title: `Which type of insurance plan or program are the applicant(s) enrolled in?`,
+        hint: 'This information is on the front of the health insurance card.',
+        description: (
+          <p>
+            <b> Note:</b> You can add more insurance plans later in the
+            application.
+          </p>
+        ),
         required: () => true,
       }),
     },
@@ -141,7 +143,6 @@ const healthInsuranceIntroPage = {
         'hmo',
         'ppo',
         'medicaid',
-        'rxDiscount',
         'other',
         'medigap',
       ]),
@@ -171,7 +172,7 @@ const medigapInformation = {
     ...arrayBuilderItemSubsequentPageTitleUI('Medigap information'),
     medigapPlan: {
       ...radioUI({
-        title: 'Which type of Medigap plan are the applicant(s) enrolled in?',
+        title: 'Select the Medigap policy the applicants are enrolled in',
         required: () => true,
         labels: MEDIGAP,
       }),
@@ -193,8 +194,7 @@ const providerInformation = {
     provider: textUI('Name of insurance provider'),
     effectiveDate: currentOrPastDateUI({
       title: 'Insurance start date',
-      hint:
-        'You may find the start date on the declarations page of your insurance policy.',
+      hint: 'This information is on the insurance policy declarations pages.',
     }),
     expirationDate: currentOrPastDateUI({
       title: 'Insurance termination date',
@@ -244,7 +244,8 @@ const additionalComments = {
         `${formData?.provider} health insurance additional comments`,
     ),
     additionalComments: textareaUI({
-      title: 'Any additional comments about the applicant(s) health insurance?',
+      title:
+        'Do you have any additional comments about the applicant(s) health insurance?',
       charcount: true,
     }),
     'ui:validations': [
@@ -270,6 +271,7 @@ const healthInsuranceCardUploadPage = {
     ...fileUploadBlurb,
     insuranceCardFront: fileUploadUI({
       label: 'Upload front of the health insurance card',
+      'ui:hint': 'Upload front and back as separate files.',
     }),
     insuranceCardBack: fileUploadUI({
       label: 'Upload back of the health insurance card',
