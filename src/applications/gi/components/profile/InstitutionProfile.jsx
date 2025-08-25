@@ -6,7 +6,8 @@ import { VaLink } from '@department-of-veterans-affairs/component-library/dist/r
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import ProfilePageHeader from '../../containers/ProfilePageHeader';
 import SchoolLocations from './SchoolLocations';
-import CautionaryInformation from './CautionaryInformationUpdate';
+import CautionaryInformationLegacy from './CautionaryInformation';
+import CautionaryInformationUpdate from './CautionaryInformationUpdate';
 import JumpLink from './JumpLink';
 import ProfileSection from './ProfileSection';
 import ContactInformation from './ContactInformation';
@@ -52,6 +53,12 @@ export default function InstitutionProfile({
   const isShowRatingsToggle = useToggleValue(
     TOGGLE_NAMES.giComparisonToolShowRatings,
   );
+  const showNewCautionary = useToggleValue(
+    TOGGLE_NAMES.giComparisonToolCautionaryInfoUpdate,
+  );
+  const CautionaryInformationCmp = showNewCautionary
+    ? CautionaryInformationUpdate
+    : CautionaryInformationLegacy;
 
   let stars = false;
   let ratingCount = 0;
@@ -121,12 +128,13 @@ export default function InstitutionProfile({
           <h2 className="vads-u-padding-top--2 small-screen-header">
             On this page
           </h2>
-          {showSchoolContentBasedOnType(type) && type !== 'FOREIGN' && (
-            <JumpLink
-              label="Calculate your benefits"
-              jumpToId="calculate-your-benefits"
-            />
-          )}
+          {showSchoolContentBasedOnType(type) &&
+            type !== 'FOREIGN' && (
+              <JumpLink
+                label="Calculate your benefits"
+                jumpToId="calculate-your-benefits"
+              />
+            )}
           {institution.yr === true && (
             <JumpLink
               label="Yellow Ribbon Program information"
@@ -137,9 +145,10 @@ export default function InstitutionProfile({
             label="Getting started with benefits"
             jumpToId="getting-started-with-benefits"
           />
-          {displayStars && isShowRatingsToggle && (
-            <JumpLink label="Veteran ratings" jumpToId="veteran-ratings" />
-          )}
+          {displayStars &&
+            isShowRatingsToggle && (
+              <JumpLink label="Veteran ratings" jumpToId="veteran-ratings" />
+            )}
           <JumpLink
             label="Cautionary information"
             jumpToId="cautionary-information"
@@ -173,17 +182,18 @@ export default function InstitutionProfile({
           onClose={() => setVisibleAlert(false)}
         />
       )}
-      {showSchoolContentBasedOnType(type) && type !== 'FOREIGN' && (
-        <ProfileSection
-          label="Calculate your benefits"
-          id="calculate-your-benefits"
-        >
-          <CalculateYourBenefits
-            gibctEybBottomSheet={gibctEybBottomSheet}
-            isOJT={isOJT}
-          />
-        </ProfileSection>
-      )}
+      {showSchoolContentBasedOnType(type) &&
+        type !== 'FOREIGN' && (
+          <ProfileSection
+            label="Calculate your benefits"
+            id="calculate-your-benefits"
+          >
+            <CalculateYourBenefits
+              gibctEybBottomSheet={gibctEybBottomSheet}
+              isOJT={isOJT}
+            />
+          </ProfileSection>
+        )}
 
       {type === 'FOREIGN' && (
         <p>
@@ -239,24 +249,27 @@ export default function InstitutionProfile({
       >
         <GettingStartedWithBenefits />
       </ProfileSection>
-      {displayStars && isShowRatingsToggle && (
-        <ProfileSection label="Veteran ratings" id="veteran-ratings">
-          <div>
-            <SchoolRatings
-              ratingAverage={institution.institutionRating.overallAvg}
-              ratingCount={institution.institutionRating.institutionRatingCount}
-              institutionCategoryRatings={institution.institutionRating}
-            />
-          </div>
-        </ProfileSection>
-      )}
+      {displayStars &&
+        isShowRatingsToggle && (
+          <ProfileSection label="Veteran ratings" id="veteran-ratings">
+            <div>
+              <SchoolRatings
+                ratingAverage={institution.institutionRating.overallAvg}
+                ratingCount={
+                  institution.institutionRating.institutionRatingCount
+                }
+                institutionCategoryRatings={institution.institutionRating}
+              />
+            </div>
+          </ProfileSection>
+        )}
 
       <ProfileSection
         label="Cautionary information"
         id="cautionary-information"
       >
         <CautionaryInformationLearMore />
-        <CautionaryInformation
+        <CautionaryInformationCmp
           institution={institution}
           showModal={showModal}
         />

@@ -345,5 +345,6 @@
   "accreditedRepresentativePortalSelfServiceAuth": "accredited_representative_portal_self_service_auth",
   "accreditedRepresentativePortalForm": "accredited_representative_portal_form",
   "isDgibCallOnly": "is_dgib_call_only",
-  "showVyeDowntimeAlert": "show_vye_downtime_alert"
+  "showVyeDowntimeAlert": "show_vye_downtime_alert",
+  "giComparisonToolCautionaryInfoUpdate": "gi_comparison_tool_cautionary_info_update"
 }

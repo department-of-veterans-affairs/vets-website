@@ -52,19 +52,19 @@ const GiBillBreadcrumbs = () => {
     { href: '/education', label: 'Education and training' },
     {
       href: '/education/gi-bill-comparison-tool/',
-      label: `GI Bill® Comparison Tool${
+      label: `GI Bill® Comparison Tool ${
         searchByName &&
         !nationalExamsMatch &&
         !lcMatch &&
         !schoolsEmployersMatch &&
         !location.pathname.includes('institution')
-          ? ' (Search by name)'
+          ? '(Search by name)'
           : ''
       }${
         searchByLocationPage &&
         !schoolsEmployersMatch &&
         !location.pathname.includes('institution')
-          ? ' (Search by location)'
+          ? '(Search by location)'
           : ''
       }`,
     },
@@ -73,11 +73,11 @@ const GiBillBreadcrumbs = () => {
   if (schoolsEmployersMatch) {
     crumbs.push({
       href: '/education/gi-bill-comparison-tool/schools-and-employers',
-      label: `Schools and employers${
+      label: `Schools and employers ${
         searchByName && !location.pathname.includes('institution')
-          ? ' (Search by name)'
+          ? '(Search by name)'
           : ''
-      }${searchByLocationPage ? ' (Search by location)' : ''}`,
+      }${searchByLocationPage ? '(Search by location}' : ''}`,
     });
   }
 
@@ -158,7 +158,6 @@ const GiBillBreadcrumbs = () => {
     });
   }
 
-  // NEW: final crumb for the filter page
   if (seFilterFeedbackMatch) {
     crumbs.push({
       href: `/education/gi-bill-comparison-tool/schools-and-employers/institution/${
