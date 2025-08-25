@@ -38,6 +38,7 @@ const MessageActionButtons = props => {
     >
       {showEditDraftButton ? (
         <div className="reply-button-container vads-u-flex--3 vads-u-flex--auto">
+          {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
           <button
             type="button"
             className="usa-button
