@@ -99,7 +99,10 @@ const api = {
     const sort = query.sort
       ? `&sort[by]=${query.sortBy}&sort[order]=${query.sort}`
       : '';
-    const params = `${status}${size}${number}${sort}`;
+    const selectedIndividual = query.selectedIndividual
+      ? `&as_selected_individual=${query.selectedIndividual}`
+      : '';
+    const params = `${status + size + number + sort + selectedIndividual}`;
     return [`/power_of_attorney_requests${params ? '?' : ''}${params}`];
   }),
   getSubmissions: wrapApiRequest(query => {

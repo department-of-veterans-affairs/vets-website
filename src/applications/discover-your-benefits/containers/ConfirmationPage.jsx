@@ -2,31 +2,52 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { scrollToTop } from 'platform/utilities/scroll';
-import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { setSubmission as setSubmissionAction } from 'platform/forms-system/src/js/actions';
-import { VaSelect } from '@department-of-veterans-affairs/web-components/react-bindings';
+import {
+  VaPagination,
+  VaSearchFilter,
+  VaSelect,
+} from '@department-of-veterans-affairs/web-components/react-bindings';
 import appendQuery from 'append-query';
 import { browserHistory } from 'react-router';
 import { displayResults as displayResultsAction } from '../reducers/actions';
 import GetFormHelp from '../components/GetFormHelp';
-import CopyResultsModal from '../components/CopyResultsModal';
 import { BENEFITS_LIST } from '../constants/benefits';
-import Benfits from './components/Benefits';
+import Benefits from './components/Benefits';
 
 export class ConfirmationPage extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      hasResults: false,
       resultsCount: 0,
       benefitIds: {},
       sortValue: 'alphabetical',
-      filterValue: 'All',
+      filterValues: [],
       filterText: '',
       benefits: [],
       benefitsList: BENEFITS_LIST,
+      filterOptions: [
+        {
+          id: 1,
+          label: 'Benefit type',
+          category: [
+            { id: 'Burials', label: 'Burials and memorials' },
+            { id: 'Careers', label: 'Careers and employment' },
+            { id: 'Disability', label: 'Disability' },
+            { id: 'Education', label: 'Education' },
+            { id: 'Health Care', label: 'Health care' },
+            { id: 'Housing', label: 'Housing assistance' },
+            { id: 'Life Insurance', label: 'Life insurance' },
+            { id: 'Support', label: 'More support' },
+            { id: 'Pension', label: 'Pension' },
+            { id: 'isTimeSensitive', label: 'Time-sensitive' },
+          ],
+        },
+      ],
+      currentPage: 1,
+      pageSize: 10,
     };
 
     this.applyInitialSort = this.applyInitialSort.bind(this);
@@ -40,8 +61,32 @@ export class ConfirmationPage extends React.Component {
   componentDidMount() {
     this.initializePage();
     this.handleResults();
+
+    if (this.props.location.query.allBenefits) {
+      const benefitsCopy = [...BENEFITS_LIST];
+
+      const sortedBenefits = this.sortBenefitObj(benefitsCopy, 'name');
+
+      this.setState(
+        {
+          benefits: sortedBenefits,
+          benefitsList: sortedBenefits,
+          resultsCount: sortedBenefits.length,
+          benefitIds: sortedBenefits.reduce((acc, b) => {
+            acc[b.id] = true;
+            return acc;
+          }, {}),
+          sortValue: 'alphabetical',
+          currentPage: 1,
+        },
+        () => {
+          this.setState({ filterText: this.createFilterText() });
+        },
+      );
+      return;
+    }
+
     this.resetSubmissionStatus();
-    this.sortBenefits();
   }
 
   componentDidUpdate(prevProps) {
@@ -56,6 +101,10 @@ export class ConfirmationPage extends React.Component {
 
   handleResults() {
     const { results, location, displayResults } = this.props;
+
+    if (location.query?.allBenefits) {
+      return;
+    }
 
     if (results.data && results.data.length > 0) {
       this.handleResultsData();
@@ -91,7 +140,7 @@ export class ConfirmationPage extends React.Component {
       category: 'category',
       isTimeSensitive: 'isTimeSensitive',
     };
-    this.setState({ sortValue: sortStrings[key] });
+    this.setState({ sortValue: sortStrings[key] }, this.sortBenefits);
   };
 
   sortBenefitObj = (benefitObj, sortKey) => {
@@ -120,72 +169,143 @@ export class ConfirmationPage extends React.Component {
   sortBenefits = () => {
     const key = this.state.sortValue;
     const sortKey = key === 'alphabetical' ? 'name' : key;
+
     this.setState(
       prevState => {
-        if (!prevState.benefits || !Array.isArray(prevState.benefits)) {
+        if (!Array.isArray(prevState.benefitsList)) {
           return { benefits: [], benefitsList: [] };
         }
 
-        const sortedBenefits = this.sortBenefitObj(prevState.benefits, sortKey);
-        const sortedBenefitsList = this.sortBenefitObj(
-          prevState.benefitsList,
-          sortKey,
-        );
+        const sortedList = this.sortBenefitObj(prevState.benefitsList, sortKey);
 
         return {
-          benefits: sortedBenefits,
-          benefitsList: sortedBenefitsList,
+          benefits: sortedList,
+          benefitsList: sortedList,
+          currentPage: 1,
         };
       },
-      () => this.setState(() => ({ filterText: this.createFilterText() })),
+      () => {
+        this.setState({ filterText: this.createFilterText() });
+      },
     );
   };
 
-  handleFilterSelect = e => {
-    const key = e.target.value;
+  handleFilterApply = event => {
+    const activeFilters = event.detail;
 
-    this.setState(() => ({ filterValue: key }));
+    this.setState(prevState => {
+      const updatedFilterOptions = prevState.filterOptions.map(facet => {
+        const activeFacet = activeFilters.find(af => af.label === facet.label);
+        if (!activeFacet) {
+          return {
+            ...facet,
+            category: facet.category.map(cat => ({ ...cat, active: false })),
+          };
+        }
+
+        return {
+          ...facet,
+          category: facet.category.map(cat => {
+            const isActive = activeFacet.category.some(
+              activeCat => activeCat.id === cat.id,
+            );
+            return { ...cat, active: isActive };
+          }),
+        };
+      });
+
+      const selectedFilterFacet = activeFilters.find(
+        f => f.label === 'Benefit type',
+      );
+      const selectedSortFacet = activeFilters.find(f => f.label === 'Sort');
+
+      const selectedFilter =
+        selectedFilterFacet?.category?.length > 0
+          ? selectedFilterFacet.category.map(cat => cat.id)
+          : [];
+
+      const selectedSort =
+        selectedSortFacet?.category?.[0]?.id || 'alphabetical';
+
+      return {
+        filterValues: selectedFilter,
+        sortValue: selectedSort,
+        filterOptions: updatedFilterOptions,
+      };
+    }, this.filterAndSort);
+  };
+
+  handleFilterClearAll = () => {
+    this.setState(prevState => {
+      const resetFilterOptions = prevState.filterOptions.map(facet => ({
+        ...facet,
+        category: facet.category.map(cat => ({ ...cat, active: false })),
+      }));
+
+      return {
+        filterValues: [],
+        sortValue: 'alphabetical',
+        filterOptions: resetFilterOptions,
+      };
+    }, this.filterAndSort);
+  };
+
+  matchesFilters = (benefit, keys) => {
+    return keys.some(
+      key =>
+        key === 'isTimeSensitive'
+          ? benefit.isTimeSensitive
+          : benefit.category.includes(key),
+    );
   };
 
   filterBenefits = sortingCallback => {
-    const key = this.state.filterValue;
-    if (key === 'All') {
+    const keys = this.state.filterValues;
+
+    const isAllBenefits = this.props.location.query?.allBenefits;
+
+    const sourceData = isAllBenefits ? BENEFITS_LIST : this.props.results.data;
+
+    if (!keys || keys.length === 0) {
+      const resultsCount = sourceData.length;
+      const benefitIds = sourceData.reduce((acc, b) => {
+        acc[b.id] = true;
+        return acc;
+      }, {});
+
       this.setState(
-        () => ({
-          benefits: this.props.results.data,
-          benefitsList: BENEFITS_LIST,
-          resultsCount: this.props.results.data.length,
-        }),
+        {
+          benefits: sourceData,
+          benefitsList: sourceData,
+          resultsCount,
+          benefitIds,
+          currentPage: 1,
+        },
         sortingCallback,
       );
       return;
     }
 
-    let filteredBenefitsList;
-    let filteredBenefits;
-    if (key === 'isTimeSensitive') {
-      filteredBenefitsList = BENEFITS_LIST.filter(benefit => {
-        return benefit.isTimeSensitive;
-      });
-      filteredBenefits = this.props.results.data.filter(benefit => {
-        return benefit.isTimeSensitive;
-      });
-    } else {
-      filteredBenefitsList = BENEFITS_LIST.filter(benefit => {
-        return benefit.category.includes(key);
-      });
-      filteredBenefits = this.props.results.data.filter(benefit => {
-        return benefit.category.includes(key);
-      });
-    }
+    const filteredBenefits = sourceData.filter(benefit =>
+      this.matchesFilters(benefit, keys),
+    );
 
-    this.setState(() => {
-      return {
+    const resultsCount = filteredBenefits.length;
+    const benefitIds = filteredBenefits.reduce((acc, b) => {
+      acc[b.id] = true;
+      return acc;
+    }, {});
+
+    this.setState(
+      {
         benefits: filteredBenefits,
-        benefitsList: filteredBenefitsList,
-        resultsCount: filteredBenefits.length,
-      };
-    }, sortingCallback);
+        benefitsList: filteredBenefits,
+        resultsCount,
+        benefitIds,
+        currentPage: 1,
+      },
+      sortingCallback,
+    );
   };
 
   displayResultsFromQuery = (query, displayResults) => {
@@ -197,34 +317,41 @@ export class ConfirmationPage extends React.Component {
     }
   };
 
+  getPaginatedBenefits = () => {
+    const { currentPage, pageSize, benefits } = this.state;
+    const startIndex = (currentPage - 1) * pageSize;
+    return benefits.slice(startIndex, startIndex + pageSize);
+  };
+
+  handlePageChange = event => {
+    const newPage = event.detail.page;
+    this.setState({ currentPage: newPage }, () => {
+      this.setState({ filterText: this.createFilterText() });
+      scrollToTop();
+    });
+  };
+
   initializePage = () => {
     focusElement('h1');
     scrollToTop('topScrollElement');
   };
 
   createFilterText() {
-    const resultsText = this.state.resultsCount === 1 ? 'result' : 'results';
-    const filterValue =
-      this.state.filterValue === 'isTimeSensitive'
-        ? 'time-sensitive'
-        : this.state.filterValue;
-    let sortValue;
-    if (this.state.sortValue === 'alphabetical') {
-      sortValue = 'alphabetically by benefit name';
-    } else if (this.state.sortValue === 'isTimeSensitive') {
-      sortValue = 'by time-sensitive';
-    } else {
-      sortValue = `alphabetically by benefit ${this.state.sortValue}`;
-    }
+    const { currentPage, pageSize, resultsCount, filterValues } = this.state;
 
-    const count =
-      this.props.location.query.allBenefits === 'true'
-        ? this.state.benefitsList.length
-        : this.state.resultsCount;
+    const totalResults = resultsCount || 0;
+
+    const start = totalResults === 0 ? 0 : (currentPage - 1) * pageSize + 1;
+    const end =
+      totalResults === 0 ? 0 : Math.min(currentPage * pageSize, totalResults);
+
     return (
       <>
-        Showing {count} {resultsText}, filtered to show{' '}
-        <b>{filterValue} results</b>, sorted {sortValue}
+        Showing {start}–{end} of {totalResults} results
+        {filterValues.length > 0 &&
+          ` with ${filterValues.length} filter${
+            filterValues.length > 1 ? 's' : ''
+          } applied`}
       </>
     );
   }
@@ -238,23 +365,30 @@ export class ConfirmationPage extends React.Component {
   }
 
   applyInitialSort() {
-    const hasResults = !!this.props.results.data;
-    const resultsCount = hasResults ? this.props.results.data.length : 0;
-    const benefitIds = hasResults
-      ? this.props.results.data.reduce((acc, curr) => {
-          acc[curr.id] = true;
-          return acc;
-        }, {})
-      : {};
+    const data = this.props.results.data?.length
+      ? this.props.results.data
+      : this.state.benefits;
+
+    const resultsCount = data.length || 0;
+    const benefitIds = data.reduce((acc, curr) => {
+      acc[curr.id] = true;
+      return acc;
+    }, {});
+
+    const sortKey =
+      this.state.sortValue === 'alphabetical' ? 'name' : this.state.sortValue;
+    const sortedData = this.sortBenefitObj(data, sortKey);
 
     this.setState(
       {
-        hasResults,
         resultsCount,
         benefitIds,
-        benefits: this.props.results.data,
+        benefits: sortedData,
+        benefitsList: sortedData,
       },
-      () => this.setState(() => ({ filterText: this.createFilterText() })),
+      () => {
+        this.setState({ filterText: this.createFilterText() });
+      },
     );
   }
 
@@ -263,13 +397,42 @@ export class ConfirmationPage extends React.Component {
     focusElement('#filter-text');
   }
 
+  titleParagraph = () => {
+    return (
+      <>
+        {window.history.length > 2 ? (
+          <>
+            <p className="vads-u-margin-bottom--0">
+              Based on your answers, we've suggested some benefits for you to
+              explore. If you need to, you can&nbsp;
+              <va-link
+                data-testid="back-link"
+                href="#"
+                onClick={this.handleBackClick}
+                text="go back and review your entries"
+              />
+              . Remember to check your eligibility before you apply.
+            </p>
+          </>
+        ) : (
+          <>
+            <p className="vads-u-margin-bottom--0">
+              Based on your answers, we've suggested some benefits for you to
+              explore. Remember to check your eligibility before you apply.
+            </p>
+          </>
+        )}
+      </>
+    );
+  };
+
   render() {
     return (
       <div>
-        <article>
-          <div>
+        <article className="description-article vads-u-padding--0 vads-u-margin--0">
+          <div className="description-padding-btm">
             {this.props.location.query.allBenefits ? (
-              <>
+              <div>
                 <p>
                   Below are all of the benefits that this tool can recommend.
                   Remember to check your eligibility before you apply.
@@ -278,151 +441,62 @@ export class ConfirmationPage extends React.Component {
                   These aren’t your personalized benefit recommendations, but
                   you can go back to your recommendations if you’d like.
                 </p>
-                <p>
+                <p className="vads-u-margin-bottom--0">
                   We're also planning to add more benefits and resources to this
                   tool. Check back soon to find more benefits you may want to
                   apply for.
                 </p>
-              </>
+              </div>
             ) : (
-              <>
-                <p>
-                  Based on your answers, we’ve suggested some benefits for you
-                  to explore. Remember to check your eligibility before you
-                  apply.
-                </p>
-              </>
+              this.titleParagraph()
             )}
           </div>
+
+          <va-alert
+            close-btn-aria-label="Close notification"
+            status="info"
+            visible
+          >
+            <h2>Benefits for transitioning service members</h2>
+            <p>
+              We can help guide you as you transition from active-duty service
+              or from service in the Guard or Reserve. You’ll need to act
+              quickly to take advantage of certain time-sensitive benefits.
+              <br />
+              <va-link
+                href="https://www.va.gov/service-member-benefits/"
+                external
+                text="Learn more about VA benefits for service members"
+                type="secondary"
+                label="Learn more about VA benefits for service members"
+              />
+            </p>
+          </va-alert>
         </article>
-        <va-alert
-          close-btn-aria-label="Close notification"
-          status="info"
-          visible
+
+        <div
+          id="results-container"
+          className="vads-u-margin-top--4 medium-screen:vads-u-margin-top--6 "
         >
-          <h2>Benefits for transitioning service members</h2>
-          <p>
-            We can help guide you as you transition from active-duty service or
-            from service in the Guard or Reserve. You’ll need to act quickly to
-            take advantage of certain time-sensitive benefits.
-            <br />
-            <va-link
-              href="https://www.va.gov/service-member-benefits/"
-              external
-              text="Learn more about VA benefits for service members"
-              type="secondary"
-              label="Learn more about VA benefits for service members"
-            />
-          </p>
-        </va-alert>
-
-        <h2 className="vads-u-font-size--h3">
-          {this.props.location.query.allBenefits
-            ? 'All benefits'
-            : 'Recommended benefits for you'}
-        </h2>
-
-        <div id="results-container" className="vads-l-grid-container">
-          <div className="vads-l-row vads-u-margin-y--2 vads-u-margin-x--neg2p5">
-            {!this.props.location.query.allBenefits && (
-              <div className="vads-l-col--12">
-                <CopyResultsModal />
-              </div>
-            )}
-            <div
-              id="filters-section-desktop"
-              className={classNames({
-                'vads-l-col--12': true,
-                'medium-screen:vads-l-col--4': true,
-                'large-screen:vads-l-col--3': true,
-              })}
-            >
-              <span>
-                <b>Filters</b>
-              </span>
-              <VaSelect
-                enableAnalytics
-                aria-label="Filter Benefits"
-                label="Filter by benefit type"
-                name="filter-benefits"
-                value={this.state.filterValue}
-                onVaSelect={this.handleFilterSelect}
-                className="filter-benefits"
-              >
-                <option key="All" value="All">
-                  All
-                </option>
-                <option key="Burials" value="Burials">
-                  Burials and memorials
-                </option>
-                <option key="Careers" value="Careers">
-                  Careers and employment
-                </option>
-                <option key="Disability" value="Disability">
-                  Disability
-                </option>
-                <option key="Education" value="Education">
-                  Education
-                </option>
-                <option key="Health Care" value="Health Care">
-                  Health care
-                </option>
-                <option key="Housing" value="Housing">
-                  Housing assistance
-                </option>
-                <option key="Life Insurance" value="Life Insurance">
-                  Life insurance
-                </option>
-                <option key="Support" value="Support">
-                  More support
-                </option>
-                <option key="Pension" value="Pension">
-                  Pension
-                </option>
-                <option key="isTimeSensitive" value="isTimeSensitive">
-                  Time-sensitive
-                </option>
-              </VaSelect>
-              <br />
-              <span>
-                <b>Sort</b>
-              </span>
-              <VaSelect
-                enableAnalytics
-                aria-label="Sort Benefits"
-                label="Sort results by"
-                name="sort-benefits"
-                value={this.state.sortValue}
-                onVaSelect={this.handleSortSelect}
-              >
-                <option key="alphabetical" value="alphabetical">
-                  Alphabetical
-                </option>
-                <option key="type" value="category">
-                  Type
-                </option>
-                <option key="isTimeSensitive" value="isTimeSensitive">
-                  Time-sensitive
-                </option>
-              </VaSelect>
-              <br />
-              <va-button
-                id="update-results"
-                message-aria-describedby="Update Results"
-                text="Update Results"
-                onClick={this.filterAndSort}
+          <div className="vads-l-row vads-u-margin-y--2">
+            <div id="filters-section-desktop">
+              <VaSearchFilter
+                filterOptions={this.state.filterOptions}
+                header="Filters"
+                onVaFilterApply={this.handleFilterApply}
+                onVaFilterClearAll={this.handleFilterClearAll}
               />
               {!this.props.location.query.allBenefits && (
                 <div className="all-benefits">
                   <span>
                     If you'd like to explore all of the benefits that this tool
-                    can recommend, select the link below.
+                    can recommend, select the link below.&nbsp;
                   </span>
                   <va-link
                     href="/discover-your-benefits/confirmation?allBenefits=true"
                     external
                     message-aria-describedby="Show every benefit in this tool"
-                    text="Show every benefit&#10;in this tool"
+                    text="Show every benefit in this tool"
                     data-testid="show-all-benefits"
                     type="secondary"
                     className=""
@@ -430,47 +504,56 @@ export class ConfirmationPage extends React.Component {
                 </div>
               )}
             </div>
-            <div
-              id="results-section"
-              className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8 large-screen:vads-l-col--9"
-            >
+            <div id="results-section">
+              <h2 className="vads-u-font-size--h2 vads-u-margin-top--0">
+                {this.props.location.query.allBenefits
+                  ? 'All benefits'
+                  : 'Recommended benefits for you'}
+              </h2>
+              <VaSelect
+                enableAnalytics
+                full-width
+                aria-label="Sort Benefits"
+                label="Sort"
+                name="sort-benefits"
+                value={this.state.sortValue}
+                onVaSelect={this.handleSortSelect}
+                style={{ maxWidth: '288px' }}
+              >
+                <option key="alphabetical" value="alphabetical">
+                  Name (A-Z)
+                </option>
+                <option key="type" value="category">
+                  Type of benefit (A-Z)
+                </option>
+                <option key="isTimeSensitive" value="isTimeSensitive">
+                  Time-sensitive
+                </option>
+              </VaSelect>
               {this.state.filterText && (
                 <div id="filter-text">{this.state.filterText}</div>
               )}
-              {!this.props.location.query.allBenefits &&
-                window.history.length > 2 && (
-                  <>
-                    <p>
-                      <va-link
-                        data-testid="back-link"
-                        href="#"
-                        onClick={this.handleBackClick}
-                        text="Go back and review your entries"
-                      />
-                    </p>
-                    <p className="start-over-link-container">
-                      <va-link
-                        data-testid="start-over-link"
-                        href="/discover-your-benefits/goals"
-                        text="Start over"
-                      />
-                    </p>
-                  </>
-                )}
-
-              <Benfits
+              <Benefits
                 results={this.props.results}
-                benefits={this.state.benefits}
+                benefits={this.getPaginatedBenefits()}
                 benefitsList={this.state.benefitsList}
                 handleBackClick={this.handleBackClick}
                 benefitIds={this.state.benefitIds}
                 queryString={this.props.location.query}
               />
+              <VaPagination
+                onPageSelect={this.handlePageChange}
+                page={this.state.currentPage}
+                pages={Math.ceil(
+                  this.state.benefits.length / this.state.pageSize,
+                )}
+                className="vads-u-padding-top--0 vads-u-justify-content--flex-start vads-u-border-top--0"
+              />
             </div>
           </div>
         </div>
         <div className="row vads-u-margin-bottom--2">
-          <div className="usa-width-one-whole medium-8 columns">
+          <div className="vads-u-padding-x--0 vads-u-margin-x--0">
             <va-need-help>
               <div slot="content">
                 <GetFormHelp formConfig={this.props.formConfig} />

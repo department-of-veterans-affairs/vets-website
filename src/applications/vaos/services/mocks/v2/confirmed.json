@@ -1355,6 +1355,25 @@
       }
     },
     {
+      "id": "qdm61cJ5",
+      "type": "appointments",
+      "attributes": {
+        "id": "qdm61cJ5",
+        "status": "booked",
+        "patientIcn": null,
+        "created": "2025-02-10T14:35:44Z",
+        "locationId": "sandbox-network-5vuTac8v",
+        "clinic": "Aq7wgAux",
+        "start": "2025-08-22T18:00:00Z",
+        "referralId": "12345",
+        "referral": {
+          "referralNumber": "12345"
+        },
+        "providerServiceId": "Aq7wgAux",
+        "providerName": "unknown"
+      }
+    },
+    {
       "id": "05aa456vvd",
       "type": "Appointment",
       "attributes": {

@@ -23,7 +23,7 @@ describe('Prescription details documentation container', () => {
     user: {
       profile: {
         userFullName: { first: 'test', last: 'last', suffix: 'jr' },
-        dob: 'January, 01, 2000',
+        dob: '2000-01-01',
       },
       login: {
         currentlyLoggedIn: true,
@@ -213,12 +213,15 @@ describe('Prescription details documentation container', () => {
     it.skip('should call downloadFile with PDF format and generate PDF file', async () => {
       const screen = setup();
 
-      await waitFor(() => {
-        const downloadPdfBtn = screen.getByTestId('download-pdf-button');
-        expect(downloadPdfBtn).to.exist;
-        downloadPdfBtn.click();
-        expect(screen.getByText('Download started')).to.exist;
-      });
+      await waitFor(
+        () => {
+          const downloadPdfBtn = screen.getByTestId('download-pdf-button');
+          expect(downloadPdfBtn).to.exist;
+          downloadPdfBtn.click();
+          expect(screen.getByText('Download started')).to.exist;
+        },
+        { timeout: 3000 },
+      );
     });
   });
 });

@@ -51,22 +51,30 @@ const ResolvePage = ({ match }) => {
         wrapping
       />
       <div className="medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">
-        <h1 data-testid="detail-page-title" className="vads-u-margin-bottom--2">
+        <h1
+          data-testid="resolve-page-title"
+          className="vads-u-margin-bottom--2"
+        >
           {title}
         </h1>
+        <p className="va-introtext">
+          You can pay your balance, request financial help, or dispute this
+          bill.
+        </p>
         <va-on-this-page class="medium-screen:vads-u-margin-top--0" />
         <HowToPay
           acctNum={acctNum}
           facility={selectedCopay?.station}
           amtDue={amtDue}
         />
-        <FinancialHelp />
-        <DisputeCharges />
+        <FinancialHelp showOneThingPerPage />
+        <DisputeCharges showOneThingPerPage />
         <va-need-help id="needHelp">
           <div slot="content">
             <p>
-              You can contact us online through Ask VA or call the VA Health
-              Resource Center at{' '}
+              You can contact us online through{' '}
+              <va-link text="Ask VA" href="https://ask.va.gov" /> or call the VA
+              Health Resource Center at{' '}
               <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} /> (
               <va-telephone contact="711" tty="true" />
               ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
