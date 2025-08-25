@@ -111,6 +111,8 @@ const ManageFolderButtons = props => {
     }
   };
 
+  // Adding comment again to trigger change
+
   return (
     <>
       {folder.folderId > 0 && (
@@ -123,26 +125,24 @@ const ManageFolderButtons = props => {
           "
         >
           {/* TODO add GA event for both buttons */}
-          <button
-            type="button"
-            className="usa-button-secondary"
+          <va-button
+            className=""
+            variant="secondary"
+            text="Edit folder name"
             data-testid="edit-folder-button"
             onClick={openRenameModal}
             ref={renameModalReference}
             data-dd-action-name="Edit Folder Name Button"
-          >
-            Edit folder name
-          </button>
-          <button
-            type="button"
-            className="usa-button-secondary"
+          />
+          <va-button
+            className=""
+            variant="secondary"
+            text="Remove folder"
             data-testid="remove-folder-button"
             onClick={openDelModal}
             data-dd-action-name="Remove Folder Button"
             ref={removeFolderRef}
-          >
-            Remove folder
-          </button>
+          />
         </div>
       )}
       {isEmptyWarning && (
