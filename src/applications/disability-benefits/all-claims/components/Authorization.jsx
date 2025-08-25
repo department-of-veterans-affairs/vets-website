@@ -131,10 +131,10 @@ const PrivateRecordsAuthorization = ({
       <h3>Authorize the release of non-VA medical records to VA</h3>
       <p>
         Only provide this authorization if you want The Department of Veterans
-        Affairs (VA) to obtain non-VA medical records on your behalf. If you’ve
+        Affairs (VA) to get your non-VA treatment records for you. If you’ve
         already provided these records or intend to get them yourself, there’s
-        no need to fill out this authorization. Doing so will lengthen your
-        claim processing time.
+        no need to fill out this authorization. Doing so may increase your claim
+        processing time.
       </p>
       <va-accordion>
         <va-accordion-item
@@ -238,36 +238,6 @@ const PrivateRecordsAuthorization = ({
             section 1707).
           </p>
         </va-accordion-item>
-        <va-accordion-item
-          header="6. Submitting evidence and other mail"
-          level="4"
-          open
-        >
-          <p className="vads-u-margin-top--0">
-            You’ll have the option to upload documents later in this form. Or,
-            you can upload them later on{' '}
-            <va-link href="https://www.va.gov" text="VA.gov" />.
-          </p>
-          <p>
-            Documents may be submitted by mail, in person at a VA regional
-            office, or electronically. However, VA recommends submitting
-            correspondence electronically as this is the fastest method of
-            receipt.
-          </p>
-          <h5>Send by mail</h5>
-          <p className="va-address-block vads-u-margin-top--3">
-            Department of Veterans Affairs
-            <br />
-            Evidence Intake Center
-            <br />
-            PO Box 4444
-            <br />
-            Janesville, WI 53547-4444
-          </p>
-          <p className="vads-u-margin-bottom--0">
-            This address serves all United States and foreign locations.
-          </p>
-        </va-accordion-item>
       </va-accordion>
       <div className="hipaa-privacy-agreement vads-u-padding-x--3 vads-u-padding-top--3 vads-u-padding-bottom--2 vads-u-margin-top--3">
         <form onSubmit={handlers.onGoForward}>
@@ -324,7 +294,7 @@ const PrivateRecordsAuthorization = ({
             <p>
               I voluntarily authorize and request disclosure (including paper,
               oral, and electronic interchange) of:{' '}
-              <strong>All my medical records</strong>; including information
+              <strong>All my treatment records</strong>; including information
               related to my ability to perform tasks of daily living. This
               includes specific permission to release:
             </p>
