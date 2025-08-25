@@ -18,6 +18,18 @@ const getAvsApiResponse = apiStatus => {
   return {};
 };
 
+const verifySecondaryNav = () => {
+  cy.get('[data-testid="mhv-sec-nav-item"]')
+    .eq(4)
+    .find('a')
+    .contains('Records')
+    .should('be.visible');
+  cy.get('[data-testid="mhv-sec-nav-item"]')
+    .eq(4)
+    .find('a')
+    .should('have.attr', 'href', '/my-health/medical-records');
+};
+
 const setup = ({
   featureToggleDelay = 0,
   avsDelay = 0,
@@ -58,6 +70,7 @@ describe('After-visit Summary - Happy Path', () => {
   it('only the top accordion is open by default', () => {
     cy.visit(testUrl);
     cy.get('h1').contains('After-visit summary');
+    verifySecondaryNav();
     cy.get("[header='Your appointment on January 1, 2023'][open='true']")
       .get('.avs-accordion-item')
       .contains('You were diagnosed with')
