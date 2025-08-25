@@ -482,4 +482,66 @@ describe('SelectCareTeam', () => {
       );
     });
   });
+
+  it('redirects users to interstitial page if interstitial not accepted', async () => {
+    const oldLocation = global.window.location;
+    global.window.location = {
+      replace: sinon.spy(),
+    };
+    window.location.replace = sinon.spy();
+
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        threadDetails: {
+          acceptInterstitial: false,
+          draftInProgress: {},
+        },
+      },
+    };
+
+    const { history } = renderWithStoreAndRouter(<SelectCareTeam />, {
+      initialState: customState,
+      reducers: reducer,
+      path: Paths.SELECT_CARE_TEAM,
+    });
+
+    await waitFor(() => {
+      expect(history.location.pathname).to.equal('/new-message/');
+    });
+
+    global.window.location = oldLocation;
+  });
+
+  it('wont redirect users if interstitial accepted', async () => {
+    const oldLocation = global.window.location;
+    global.window.location = {
+      replace: sinon.spy(),
+    };
+    window.location.replace = sinon.spy();
+
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        threadDetails: {
+          acceptInterstitial: true,
+          draftInProgress: {},
+        },
+      },
+    };
+
+    renderWithStoreAndRouter(<SelectCareTeam />, {
+      initialState: customState,
+      reducers: reducer,
+      path: Paths.SELECT_CARE_TEAM,
+    });
+
+    await waitFor(() => {
+      expect(window.location.replace.called).to.be.false;
+    });
+
+    global.window.location = oldLocation;
+  });
 });
