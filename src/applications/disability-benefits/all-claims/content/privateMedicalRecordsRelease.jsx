@@ -4,10 +4,12 @@ import { recordEventOnce } from 'platform/monitoring/record-event';
 import { ANALYTICS_EVENTS, HELP_TEXT_CLICKED_EVENT } from '../constants';
 
 export const limitedConsentTitle =
-  'I want to limit my consent for VA to retrieve only specific information from my private medical provider(s).';
+  'I want to limit my consent for VA to retrieve only specific information from my private medical providers.';
 
 export const limitedConsentTextTitle = (
-  <p>Describe the limitation below (treatment dates, disability type, etc.).</p>
+  <p>
+    Describe what you want to limit (treatment dates, condition type, etc.).
+  </p>
 );
 
 const { openedLimitedConsentHelp } = ANALYTICS_EVENTS;
@@ -30,9 +32,8 @@ export const limitedConsentDescription = (
 export const recordReleaseDescription = () => (
   <div>
     <p>
-      Please let us know where and when you received treatment. We’ll request
-      your private medical records for you. If you have records available, you
-      can upload them later in the application.
+      Tell us where you were treated for your condition. We’ll use the
+      information you provide to get the records needed to support your claim.
     </p>
   </div>
 );

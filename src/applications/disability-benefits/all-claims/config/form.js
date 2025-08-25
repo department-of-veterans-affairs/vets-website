@@ -712,6 +712,7 @@ const formConfig = {
           uiSchema: privateMedicalAuthorizeRelease.uiSchema,
           schema: privateMedicalAuthorizeRelease.schema,
         },
+        // PMR Facilities Page
         privateMedicalRecordsRelease: {
           title: 'Non-VA treatment records',
           path: 'supporting-evidence/private-medical-records-release',

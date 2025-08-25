@@ -461,7 +461,7 @@ export const getHomelessOrAtRisk = formData => {
 export const isNotUploadingPrivateMedical = formData =>
   _.get(DATA_PATHS.hasPrivateRecordsToUpload, formData) === false;
 
-export const hasCompletedAuthorization = value => value;
+export const hasCompletedAuthorization = value => value === true;
 
 export const needsToEnterUnemployability = formData =>
   _.get('view:unemployable', formData, false);

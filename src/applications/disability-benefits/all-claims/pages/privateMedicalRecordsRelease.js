@@ -48,7 +48,7 @@ export const uiSchema = {
   },
   providerFacility: {
     'ui:options': {
-      itemName: 'Provider Facility',
+      itemName: 'Provider or hospital',
       viewField: PrivateProviderTreatmentView,
       hideTitle: true,
     },
@@ -84,11 +84,12 @@ export const uiSchema = {
       },
       'ui:validations': [validateDate],
       treatmentDateRange: dateRangeUI(
-        'First treatment date (you can provide an estimated date)',
-        'Last treatment date (you can provide an estimated date)',
+        'When did your treatment start? (You can provide an estimated date)',
+        'When did your treatment end? (You can provide an estimated date)',
         'End of treatment must be after start of treatment',
       ),
       providerFacilityAddress: {
+        'ui:title': 'Address of provider or hospital',
         'ui:order': [
           'country',
           'street',
