@@ -119,7 +119,7 @@ export const HelpBC = [
   },
   {
     href: '/representative/get-help',
-    label: 'Get help using the portal',
+    label: 'Get help with the Accredited Representative Portal',
   },
 ];
 
