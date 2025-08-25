@@ -26,7 +26,7 @@ describe('Active duty Form', () => {
 
   it('renders the correct title', () => {
     const title = document.querySelector(
-      'va-radio[label="Were you ever called up to active-duty (Title 10) orders while serving in the Reserve or National Guard?"]',
+      'va-radio[label="Were you ever called up to active-duty (Title 10) orders while serving in the National Guard or Reserves?"]',
     );
     expect(title).to.exist;
   });
