@@ -247,10 +247,10 @@ export default function ApplicantRelationshipPage(props) {
 
       // spouse validation - only one spouse allowed
       if (checkValue[primary] === 'spouse') {
-        const hasExistingSpouse = fullData.applicants.some(
+        const hasExistingSpouse = fullOrItemData.applicants?.some(
           (item, idx) =>
             item?.applicantRelationshipToSponsor?.relationshipToVeteran ===
-              'spouse' && idx !== pagePerItemIndex,
+              'spouse' && idx !== parseInt(pagePerItemIndex, 10),
         );
         if (hasExistingSpouse) {
           setCheckError(
