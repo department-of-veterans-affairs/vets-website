@@ -42,7 +42,8 @@ export default function prefillTransformer(pages, formData, metadata, state) {
 
     const bankInfo = state.data?.bankAccountInfo?.bankAccount || {};
     const accountType =
-      data?.bankAccount?.bankAccountType || bankInfo.accountType;
+      data?.bankAccount?.bankAccountType.toLowerCase() ||
+      bankInfo.accountType.toLowerCase();
     const accountNumber =
       data?.bankAccount?.bankAccountNumber || bankInfo.accountNumber;
     const routingNumber =
