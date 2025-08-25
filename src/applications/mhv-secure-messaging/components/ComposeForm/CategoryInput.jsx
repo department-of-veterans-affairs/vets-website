@@ -33,10 +33,9 @@ const CategoryInput = props => {
 
       {categories?.length > 0 && (
         <VaSelect
-          required
           enable-analytics
           data-testid="compose-message-categories"
-          className="fieldset-input message-category"
+          className="composeSelect"
           error={categoryError}
           id="category-select-dropdown"
           label="Category"
