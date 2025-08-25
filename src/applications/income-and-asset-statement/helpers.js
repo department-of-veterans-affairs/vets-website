@@ -99,6 +99,19 @@ export const otherTransferMethodExplanationRequired = (form, index) =>
 export const recipientNameRequired = (form, index, arrayKey) =>
   get([arrayKey, index, 'recipientRelationship'], form) !== 'VETERAN';
 
+export const updatedRecipientNameRequired = (form, index, arrayKey) => {
+  if (!showUpdatedContent()) {
+    return recipientNameRequired(form, index, arrayKey);
+  }
+  const recipientRelationship = get(
+    [arrayKey, index, 'recipientRelationship'],
+    form,
+  );
+  return (
+    recipientRelationship !== 'VETERAN' && recipientRelationship !== 'SPOUSE'
+  );
+};
+
 export const surrenderValueRequired = (form, index) =>
   get(['annuities', index, 'canBeLiquidated'], form);
 
@@ -182,6 +195,46 @@ export function resolveRecipientFullName(item, formData) {
   if (isVeteran) {
     const veteranName = isLoggedIn ? veteranFullName : otherVeteranFullName;
     return formatFullNameNoSuffix(veteranName);
+  }
+
+  return formatFullNameNoSuffix(recipientName);
+}
+
+/**
+ * Resolve the recipient's full name to display on summary cards.
+ * Post-MVP updates
+ *
+ * - If the recipientRelationship is "VETERAN":
+ *   - Use `veteranFullName` when the user is logged in
+ *   - Use `otherVeteranFullName` when the user is not logged in
+ * - If the recipientRelationship is "SPOUSE":
+ *   - Use "Spouse"
+ * - If the recipient is not the Veteran, use `recipientName`
+ *
+ * This helper is useful across multiple arrayBuilder pages where we conditionally display
+ * either the Veteran's name or the name of another recipient.
+ *
+ * @param {object} item - The array item object containing recipient data.
+ * @param {object} formData - The overall form data, which may include veteran names and logged in.
+ * @returns {string} The formatted full name string or undefined if no name is resolvable
+ */
+export function updatedResolveRecipientFullName(item, formData) {
+  const { recipientRelationship, recipientName } = item;
+  const {
+    veteranFullName,
+    otherVeteranFullName,
+    isLoggedIn = false,
+  } = formData;
+
+  const isVeteran = recipientRelationship === 'VETERAN';
+
+  if (isVeteran) {
+    const veteranName = isLoggedIn ? veteranFullName : otherVeteranFullName;
+    return formatFullNameNoSuffix(veteranName);
+  }
+  const isSpouse = recipientRelationship === 'SPOUSE';
+  if (showUpdatedContent() && isSpouse) {
+    return 'Spouse';
   }
 
   return formatFullNameNoSuffix(recipientName);

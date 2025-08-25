@@ -27,8 +27,8 @@ import {
   isRecipientInfoIncomplete,
   otherIncomeTypeExplanationRequired,
   otherRecipientRelationshipTypeUI,
-  recipientNameRequired,
-  resolveRecipientFullName,
+  updatedRecipientNameRequired,
+  updatedResolveRecipientFullName,
   sharedRecipientRelationshipBase,
   showUpdatedContent,
 } from '../../../helpers';
@@ -37,6 +37,7 @@ import {
   relationshipLabelDescriptions,
   relationshipLabels,
 } from '../../../labels';
+import { DependentDescription } from '../../../components/DependentDescription';
 
 /** @type {ArrayBuilderOptions} */
 export const options = {
@@ -61,7 +62,7 @@ export const options = {
       if (!isDefined(item?.recipientRelationship) || !isDefined(item?.payer)) {
         return undefined;
       }
-      const fullName = resolveRecipientFullName(item, formData);
+      const fullName = updatedResolveRecipientFullName(item, formData);
       const possessiveName = formatPossessiveString(fullName);
       return `${possessiveName} income from ${item.payer}`;
     },
@@ -519,6 +520,9 @@ export const unassociatedIncomePages = arrayBuilderPages(
       path: 'recurring-income/:index/veteran-income-recipient',
       depends: formData =>
         showUpdatedContent() && formData.claimantType === 'VETERAN',
+      ContentBeforeButtons: showUpdatedContent() ? (
+        <DependentDescription />
+      ) : null,
       uiSchema: veteranIncomeRecipientPage.uiSchema,
       schema: veteranIncomeRecipientPage.schema,
     }),
@@ -559,7 +563,7 @@ export const unassociatedIncomePages = arrayBuilderPages(
       title: 'Recurring income recipient',
       path: 'recurring-income/:index/recipient-name',
       depends: (formData, index) =>
-        recipientNameRequired(formData, index, 'unassociatedIncomes'),
+        updatedRecipientNameRequired(formData, index, 'unassociatedIncomes'),
       uiSchema: recipientNamePage.uiSchema,
       schema: recipientNamePage.schema,
     }),
