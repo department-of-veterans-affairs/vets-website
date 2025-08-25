@@ -111,10 +111,9 @@ export const errorManager = {
 
   removeInstance(index) {
     this.passwordInstances = [...this.passwordInstances].toSpliced(index, 1);
-    // this.additionalInputErrors = [...this.additionalInputErrors].toSpliced(
-    //   index,
-    //   1,
-    // );
+    if (typeof this.touched === 'number') {
+      this.setTouched();
+    }
   },
 
   addAdditionalInputErrors(error) {

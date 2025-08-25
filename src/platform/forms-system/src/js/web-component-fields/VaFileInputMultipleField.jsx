@@ -30,7 +30,7 @@ const VaFileInputMultipleField = props => {
   const dispatch = useDispatch();
   const { percentUploaded, handleUpload } = useFileUpload(
     uiOptions.fileUploadUrl,
-    '.pdf,.jpeg,.png',
+    uiOptions.accept,
     uiOptions.formNumber,
     dispatch,
   );
@@ -71,6 +71,7 @@ const VaFileInputMultipleField = props => {
           );
           if (instance) {
             const slot = instance.shadowRoot.querySelector('slot');
+            if (!slot) return;
             const [slotContent] =
               slot.assignedElements?.({ flatten: true }) ||
               slot.assignedNodes().filter(n => n.nodeType === 1);
@@ -238,6 +239,7 @@ const VaFileInputMultipleField = props => {
 
     setErrors(removeOneFromArray(errors, index));
     errorManager.removeInstance(index);
+
     setEncrypted(removeOneFromArray(encrypted, index));
     setPercentsUploaded(removeOneFromArray(percentsUploaded, index));
 
@@ -260,10 +262,11 @@ const VaFileInputMultipleField = props => {
   const handleChange = e => {
     const { detail } = e;
     const { action, state, file, mockFormData } = detail;
-    const findFileIndex = () =>
-      state.findIndex(
-        f => f.file.name === file.name && f.file.size === file.size,
+    const findFileIndex = (_state, _file) => {
+      return _state.findIndex(
+        f => f.file.name === _file.name && f.file.size === _file.size,
       );
+    };
     const _file = state.at(-1);
     switch (action) {
       case 'FILE_ADDED': {
@@ -274,13 +277,13 @@ const VaFileInputMultipleField = props => {
         break;
       }
       case 'FILE_UPDATED': {
-        const index = findFileIndex();
+        const index = findFileIndex(state, file);
         handleFileAdded(_file, index);
         setCurrentIndex(index);
         break;
       }
       case 'PASSWORD_UPDATE': {
-        const index = findFileIndex();
+        const index = findFileIndex(state, file);
         setCurrentIndex(index);
         const passwordFile = state[index];
         debouncePassword(passwordFile, index);
@@ -327,6 +330,9 @@ const VaFileInputMultipleField = props => {
   const handleInternalFileInputError = e => {
     const index = getFileInputInstanceIndex(e);
     errorManager.setInternalFileInputErrors(index, true);
+    const _errors = [...errors];
+    _errors[index] = e.detail.error;
+    setErrors(_errors);
   };
 
   // get the password errors for any relevant instances

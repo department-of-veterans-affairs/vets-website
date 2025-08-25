@@ -1,9 +1,10 @@
-// import React from 'react';
+import React from 'react';
 import { isEmpty } from 'lodash';
 import { VaFileInputMultiple } from '../web-component-fields';
 import navigationState from '../utilities/navigation/navigationState';
 import { errorManager } from '../utilities/file/passwordErrorState';
 import { MISSING_FILE } from '../validation';
+import ReviewField from '../review/FileInputMultiple';
 
 export const fileInputMultipleUI = options => {
   const { title, description, errorMessages, required, ...uiOptions } = options;
@@ -109,22 +110,28 @@ export const fileInputMultipleUI = options => {
     //     viewField: fileView,
     //   }
     // },
-    // 'ui:reviewField': ({ children }) => {
+    'ui:reviewField': ReviewField,
+    // 'ui:confirmationField': (data) => {
+    //   console.log('the data is....', data);
     //   return (
-    //     <div className="review-row">
-    //       <dt>{title}</dt>
-    //       <dd>{children.props?.formData?.name}</dd>
-    //     </div>
-    //   );
-    // },
-    // 'ui:confirmationField': ({ formData = [] }) => {
-    //   if (!formData.length) {
-    //     return null;
-    //   }
-    //   return (
-    //     <div>Testing!</div>
+    //     <li>Testing!</li>
     //   )
     // },
+    'ui:confirmationField': ({ formData }) => {
+      if (!formData) {
+        return null;
+      }
+
+      const data = (
+        <ul>
+          {formData.map((file, i) => (
+            <li key={i}>{file.name}</li>
+          ))}
+        </ul>
+      );
+      return { data };
+    },
+
     // warnings: {
     //   'ui:options': {
     //     keepInPageOnReview: true,
