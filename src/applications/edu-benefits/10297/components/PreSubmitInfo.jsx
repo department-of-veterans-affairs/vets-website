@@ -4,6 +4,35 @@ import { VaModal } from '@department-of-veterans-affairs/component-library/dist/
 import FormSignature from 'platform/forms-system/src/js/components/FormSignature';
 import PrivacyActStatement from './PrivacyActStatement';
 
+const validateSignature = (signatureValue, formData) => {
+  if (!formData?.applicantFullName) {
+    return 'Unable to validate signature - applicant name not found';
+  }
+
+  const { first, last } = formData.applicantFullName;
+
+  // Build the full name from the form data
+  const fullName = [first, last]
+    .filter(part => part && part.trim())
+    .join(' ')
+    .trim();
+
+  if (!fullName) {
+    return 'Unable to validate signature - applicant name is incomplete';
+  }
+
+  const normalizeName = name => name.replace(/\s+/g, '').toLowerCase();
+
+  const normalizedSignature = normalizeName(signatureValue);
+  const normalizedFullName = normalizeName(fullName);
+
+  if (normalizedSignature !== normalizedFullName) {
+    return `Please enter your full name exactly as entered on the form: ${fullName}`;
+  }
+
+  return undefined;
+};
+
 function PreSubmitInfo({
   formData,
   showError,
@@ -85,6 +114,7 @@ function PreSubmitInfo({
             signaturePath="statementOfTruthSignature"
             checkboxLabel="I certify that the information above is true and correct to the best of my knowledge and belief."
             required
+            validations={[validateSignature]}
           />
         </section>
       </div>
