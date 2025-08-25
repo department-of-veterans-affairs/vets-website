@@ -1,4 +1,5 @@
 import { isEmpty } from 'lodash';
+import { isAfter, isBefore, parseISO } from 'date-fns';
 import { getProviderName } from '../../utils/appointment';
 import {
   APPOINTMENT_TYPES,
@@ -58,15 +59,26 @@ function getAtlasLocation(appt) {
 }
 
 export function transformVAOSAppointment(appt) {
-  const appointmentType = getAppointmentType(appt);
+  const start = parseISO(appt.start);
+  const today = new Date();
+
+  let isCC = appt.kind === 'cc';
+  let isPast = appt.past;
+  let isUpcoming = appt.future;
+  let appointmentType = getAppointmentType(appt);
+
+  // EPS appointments have a referralNumber and require special handling due to limited data
+  if (appt.referral?.referralNumber) {
+    isCC = true;
+    appointmentType = APPOINTMENT_TYPES.ccAppointment;
+    isPast = isAfter(today, start);
+    isUpcoming = isBefore(today, start);
+  }
+
   const isCerner = appt?.id?.startsWith('CERN');
-  const isCC = appt.kind === 'cc';
-  const isPast = appt.past;
   const isRequest = appt.pending;
-  const isUpcoming = appt.future;
   const isCCRequest = appointmentType === APPOINTMENT_TYPES.ccRequest;
   const providers = appt.practitioners;
-  const start = new Date(appt.start);
   const isAtlas = appt.modality === 'vaVideoCareAtAnAtlasLocation';
   const isVideoAtHome = appt.modality === 'vaVideoCareAtHome';
   const isVideoAtVA = appt.modality === 'vaVideoCareAtAVaLocation';
@@ -162,7 +174,10 @@ export function transformVAOSAppointment(appt) {
   return {
     resourceType: 'Appointment',
     id: appt.id,
-    type: appt.type,
+    type:
+      appt.referral?.referralNumber && !appt.type
+        ? 'COMMUNITY_CARE_APPOINTMENT'
+        : appt.type,
     modality: appt.modality,
     status: appt.status,
     cancelationReason: appt.cancelationReason?.coding?.[0].code || null,
