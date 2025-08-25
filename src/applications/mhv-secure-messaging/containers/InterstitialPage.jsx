@@ -18,6 +18,8 @@ const InterstitialPage = props => {
     focusElement(document.querySelector('h1'));
   }, []);
 
+  // Adding arbitrary comment to see if commit triggers auto changes from linter.
+
   const continueButtonText = useMemo(
     () => {
       switch (type) {
@@ -54,15 +56,13 @@ const InterstitialPage = props => {
           reply.
         </p>
 
-        <button
+        <va-button
           className="continue-button vads-u-padding-y--1p5 vads-u-padding-x--2p5 vads-u-margin-top--0 vads-u-margin-bottom--3"
+          text=". Page content will change."
           data-testid="continue-button"
           onClick={handleContinueButton}
           data-dd-action-name={`${continueButtonText} button on Interstitial Page`}
-        >
-          {continueButtonText}
-          <span className="sr-only">. Page content will change.</span>
-        </button>
+        />
 
         <h2 className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-margin-bottom--2">
           If you need help sooner, use one of these urgent communications
