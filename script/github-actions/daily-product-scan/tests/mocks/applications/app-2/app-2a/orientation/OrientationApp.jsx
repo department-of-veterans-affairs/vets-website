@@ -23,9 +23,6 @@ const OrientationApp = props => {
     [step],
   );
 
-  // Adding another change in a file using <button> to see if this auto changes
-  // happen here as well
-
   return (
     <>
       <article
@@ -42,21 +39,23 @@ const OrientationApp = props => {
         <StepComponent step={step} clickHandler={wizardStateHandler} />
         <div>
           {step > 0 && (
-            <va-button
+            <button
               onClick={() => (step === 0 ? step : setStep(step - 1))}
-              className="vads-u-padding-x--4"
-              variant="secondary"
-              text="Previous slide"
-            />
+              className="usa-button usa-button-secondary vads-u-padding-x--4"
+            >
+              Previous slide
+            </button>
           )}
           {step < orientationSteps.length - 1 && (
-            <va-button
+            <button
               onClick={() => {
                 setStep(step + 1);
               }}
-              className=""
-              text=""
-            />
+              type="button"
+              className="usa-button-primary"
+            >
+              {step === 0 ? 'Start VR&E orientation slideshow' : 'Next slide'}
+            </button>
           )}
         </div>
       </article>
