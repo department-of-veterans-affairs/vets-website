@@ -4,25 +4,26 @@ import { viewifyFields } from '../helpers';
 export default function prefillTransformer(pages, formData, metadata, state) {
   const prefillContactInformation = data => {
     const {
-      mailingAddress: userMailingAddress,
-      mobilePhone,
-      homePhone: phone,
-    } = state.user.vet360ContactInformation || {};
-
-    const { applicantFullName, homePhone, email, ssn, mailingAddress } = data;
+      applicantFullName,
+      contactInfo: { homePhone, mobilePhone } = {},
+      email,
+      ssn,
+      mailingAddress,
+      dateOfBirth,
+    } = data;
     const { dob, email: emailAddress, userFullName } = state.user.profile;
 
     const emailAddresses = email || emailAddress || undefined;
 
-    const newData = _.omit(['homePhone', 'email', 'dob'], data);
+    const newData = _.omit(data, ['homePhone', 'mobilePhone', 'email', 'dob']);
     newData.contactInfo = {
-      homePhone: homePhone || phone || '',
-      mobilePhone: mobilePhone || '',
+      homePhone,
+      mobilePhone,
       emailAddress: emailAddresses,
     };
-    newData.dateOfBirth = dob;
+    newData.dateOfBirth = dateOfBirth || dob;
     newData.applicantFullName = applicantFullName || userFullName;
-    newData.mailingAddress = mailingAddress || userMailingAddress;
+    newData.mailingAddress = mailingAddress;
     newData.ssn = ssn;
     return newData;
   };
@@ -59,7 +60,6 @@ export default function prefillTransformer(pages, formData, metadata, state) {
   };
 
   const finalFormData = transformations.reduce(applyTransformations, formData);
-
   return {
     metadata,
     formData: finalFormData,

@@ -123,7 +123,7 @@ const AuthorizedRoutes = () => {
             path={`${Paths.COMPOSE}${Paths.START_MESSAGE}`}
             key="Compose"
           >
-            <Compose skipInterstitial />
+            <Compose />
           </AppRoute>
         )}
         {cernerPilotSmFeatureFlag && (

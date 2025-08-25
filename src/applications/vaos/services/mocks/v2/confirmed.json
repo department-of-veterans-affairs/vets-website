@@ -2128,7 +2128,7 @@
         "station": null,
         "ien": null,
         "avsPath": null,
-        "preferredDates": ["Wed, August 21, 2024 in the afternoon"],
+        "preferredDates": ["Wednesday, August 21, 2024 in the afternoon"],
         "location": {
           "id": "668",
           "type": "appointments",
