@@ -76,15 +76,31 @@ class PatientComposePage {
       .select(index, { force: true });
   };
 
+  getComboBox = () => {
+    return cy
+      .get('va-combo-box')
+      .shadow()
+      .find(`#options`);
+  };
+
+  getComboBoxDropdown = () => {
+    return cy
+      .get('va-combo-box')
+      .shadow()
+      .find(Locators.DROPDOWN.RECIPIENTS_COMBO);
+  };
+
   selectComboBoxRecipient = text => {
-    cy.get(`#options`).clear();
-    cy.get(`#options`).type(text);
+    const comboBox = this.getComboBox();
+    comboBox.clear();
+    comboBox.type(text, { waitForAnimations: true });
   };
 
   selectCategory = (category = 'OTHER') => {
-    cy.get(`#compose-message-categories${category}input`).click({
-      force: true,
-    });
+    cy.get('[data-testid="compose-message-categories"]')
+      .shadow()
+      .find('select')
+      .select(category, { force: true });
   };
 
   getMessageSubjectField = () => {
@@ -161,9 +177,10 @@ class PatientComposePage {
       .shadow()
       .find('select')
       .select(1, { force: true });
-    cy.tabToElement(Locators.BUTTONS.CATEGORY_RADIO_BUTTON)
-      .first()
-      .click();
+    // Tab to category select and verify it's focusable
+    cy.tabToElement('[data-testid="compose-message-categories"]')
+      .should('be.visible')
+      .invoke('attr', 'value', 'OTHER');
     cy.tabToElement(Locators.MESSAGE_SUBJECT)
       .shadow()
       .find('#inputField')
@@ -552,8 +569,11 @@ class PatientComposePage {
   };
 
   deleteUnsavedDraft = () => {
-    cy.get(Locators.BUTTONS.DELETE_DRAFT).click();
-    cy.get(Locators.BUTTONS.DELETE_CONFIRM).click();
+    // We need to delete the draft, so Cypress does not get stuck
+    // with a warning dialog when the browser is closed.
+    cy.findByRole('button', { name: 'Delete draft' }).click();
+    // Click the confirm button in the confirmation modal.
+    cy.findByTestId('confirm-delete-draft').click();
   };
 
   interceptSentFolder = () => {

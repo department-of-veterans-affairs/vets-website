@@ -41,7 +41,7 @@ export const SelectCategories = [
   },
 ];
 
-export const RadioCategories = {
+export const Categories = {
   OTHER: {
     id: 'category-general',
     value: 'OTHER',
