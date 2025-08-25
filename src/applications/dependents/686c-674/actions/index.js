@@ -27,3 +27,21 @@ export const verifyVaFileNumber = () => async dispatch => {
     });
   }
 };
+
+export const getDependentsInformation = () => async (dispatch, getState) => {
+  const response = await getData('/dependents_applications/show', {
+    headers: { 'content-type': 'application/json' },
+  });
+
+  const data = getState()?.form?.data;
+
+  if (response?.persons) {
+    dispatch({
+      type: 'SET_DATA',
+      data: {
+        ...data,
+        'view:dependentsInformation': response?.persons ?? {},
+      },
+    });
+  }
+};
