@@ -3,6 +3,11 @@
 .poa-request {
   max-width: 627px;
 
+  &__user-name {
+    text-transform: capitalize;
+    font-weight: bold;
+  }
+
   va-pagination {
     padding: 0;
     border: 0;

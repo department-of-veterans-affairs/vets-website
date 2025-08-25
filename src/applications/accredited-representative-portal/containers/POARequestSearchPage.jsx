@@ -205,7 +205,7 @@ const POARequestSearchPage = title => {
             })()}
 
             <POARequestSearchPageResults poaRequests={poaRequests} />
-            <Pagination meta={meta} />
+            <Pagination meta={meta} defaults={PENDING_SORT_DEFAULTS} />
           </div>
         )}
       </div>
