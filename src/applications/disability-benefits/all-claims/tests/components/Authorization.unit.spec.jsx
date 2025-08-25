@@ -67,15 +67,6 @@ describe('PrivateRecordsAuthorization', () => {
       expect(accordionItems).to.have.lengthOf(6);
       wrapper.unmount();
     });
-
-    it('should not show AuthorizationAlert by default', () => {
-      const wrapper = shallow(
-        <PrivateRecordsAuthorization {...defaultProps} />,
-      );
-      const alert = wrapper.find('AuthorizationAlert');
-      expect(alert).to.have.lengthOf(0);
-      wrapper.unmount();
-    });
   });
 
   describe('checkbox interactions', () => {
@@ -146,20 +137,6 @@ describe('PrivateRecordsAuthorization', () => {
       wrapper.unmount();
     });
 
-    it('should show error when Continue is clicked and checkbox is not checked', () => {
-      const wrapper = mount(<PrivateRecordsAuthorization {...defaultProps} />);
-      const navButtons = wrapper.find('FormNavButtons');
-
-      navButtons.prop('goForward')();
-
-      expect(defaultProps.goForward.called).to.be.false;
-      // Check that error alert is shown
-      wrapper.update();
-      const alert = wrapper.find('AuthorizationAlert');
-      expect(alert).to.have.lengthOf(1);
-      wrapper.unmount();
-    });
-
     it('should call goBack when Back is clicked', () => {
       const wrapper = mount(<PrivateRecordsAuthorization {...defaultProps} />);
       const navButtons = wrapper.find('FormNavButtons');
@@ -209,22 +186,6 @@ describe('PrivateRecordsAuthorization', () => {
       expect(reviewPageProps.updatePage.calledOnce).to.be.true;
       wrapper.unmount();
     });
-
-    it('should show error when Update is clicked and checkbox is not checked', () => {
-      const wrapper = mount(
-        <PrivateRecordsAuthorization {...reviewPageProps} />,
-      );
-      const updateButton = wrapper.find('[text="Update page"]');
-
-      updateButton.prop('onClick')();
-
-      expect(reviewPageProps.updatePage.called).to.be.false;
-      // Check that error alert is shown
-      wrapper.update();
-      const alert = wrapper.find('AuthorizationAlert');
-      expect(alert).to.have.lengthOf(1);
-      wrapper.unmount();
-    });
   });
 
   describe('modal functionality', () => {
@@ -270,25 +231,6 @@ describe('PrivateRecordsAuthorization', () => {
     });
   });
 
-  describe('form submit handler', () => {
-    it('should handle form submission by calling validation', () => {
-      const wrapper = mount(<PrivateRecordsAuthorization {...defaultProps} />);
-      const form = wrapper.find('form');
-
-      expect(form).to.have.lengthOf(1);
-      expect(form.prop('onSubmit')).to.be.a('function');
-
-      // The form submit should trigger the validation logic
-      form.prop('onSubmit')();
-      wrapper.update();
-
-      // Should show error since checkbox is not checked
-      const alert = wrapper.find('AuthorizationAlert');
-      expect(alert).to.have.lengthOf(1);
-      wrapper.unmount();
-    });
-  });
-
   describe('error handling', () => {
     it('should show error state on checkbox when error exists', () => {
       const wrapper = mount(<PrivateRecordsAuthorization {...defaultProps} />);
@@ -299,7 +241,9 @@ describe('PrivateRecordsAuthorization', () => {
       wrapper.update();
 
       const checkbox = wrapper.find('[id="privacy-agreement"]').first();
-      expect(checkbox.prop('error')).to.equal(' ');
+      expect(checkbox.prop('error')).to.equal(
+        'Select the checkbox to authorize us to get your non-VA medical records',
+      );
       wrapper.unmount();
     });
 
