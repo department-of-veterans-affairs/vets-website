@@ -107,7 +107,7 @@ const AdditionalInstructions = ({ formResponses }) => {
               <a
                 target="_blank"
                 rel="noopener noreferrer"
-                href="http://arba.army.pentagon.mil/adrb-overview.html"
+                href="https://www.army.mil/arba#org-Discharge-Review"
               >
                 Army Discharge Review Board (opens in a new tab)
               </a>
