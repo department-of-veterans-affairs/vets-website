@@ -84,22 +84,23 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
     [resultsCount, currentPage, pageSize, filterValues],
   );
 
+  const resultsData = useMemo(() => results.data || [], [results.data]);
+
   const applyInitialSort = useCallback(
     () => {
-      const data = results?.data?.length ? results.data : [];
+      const data = resultsData?.length ? resultsData : [];
 
-      const newResultsCount = data.length || 0;
-      const newBenefitIds = data.reduce((acc, curr) => {
-        acc[curr.id] = true;
-        return acc;
-      }, {});
-
-      setResultsCount(newResultsCount);
-      setBenefitIds(newBenefitIds);
+      setResultsCount(data.length);
+      setBenefitIds(
+        data.reduce((acc, curr) => {
+          acc[curr.id] = true;
+          return acc;
+        }, {}),
+      );
       setBenefits(data);
-      setCurrentPage(1);
+      setCurrentPage(prevPage => (prevPage === 1 ? prevPage : 1));
     },
-    [results.data],
+    [resultsData],
   );
 
   const displayResults = useCallback(
@@ -122,7 +123,7 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
   const filterAndSortBenefits = useCallback(
     () => {
       const filterKeys = filterValues;
-      const sourceData = isAllBenefits ? BENEFITS_LIST : results.data || [];
+      const sourceData = isAllBenefits ? BENEFITS_LIST : resultsData || [];
 
       let filtered = sourceData;
       if (filterKeys && filterKeys.length > 0) {
@@ -153,9 +154,9 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
           return acc;
         }, {}),
       );
-      setCurrentPage(1);
+      setCurrentPage(prevPage => (prevPage === 1 ? prevPage : 1));
     },
-    [filterValues, isAllBenefits, results.data, sortValue],
+    [filterValues, isAllBenefits, resultsData, sortValue],
   );
 
   const getPaginatedBenefits = useCallback(
@@ -209,9 +210,9 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
 
   const handleResultsData = useCallback(
     () => {
-      if (!results?.data?.length) return;
+      if (!resultsData?.length) return;
 
-      const benefitIdsQueryString = results.data.map(r => r.id).join(',');
+      const benefitIdsQueryString = resultsData.map(r => r.id).join(',');
       const queryParams = { benefits: benefitIdsQueryString };
       const queryStringObj = appendQuery(
         `${location.basename}${location.pathname}`,
@@ -221,14 +222,14 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
       browserHistory.replace(queryStringObj);
       applyInitialSort();
     },
-    [results.data, location.pathname, location.basename, applyInitialSort],
+    [resultsData, location.pathname, location.basename, applyInitialSort],
   );
 
   const handleResults = useCallback(
     () => {
       if (isAllBenefits) return;
 
-      if (Array.isArray(results?.data) && results.data.length > 0) {
+      if (Array.isArray(resultsData) && resultsData.length > 0) {
         handleResultsData();
       } else if (query && Object.keys(query).length > 0) {
         displayResultsFromQuery(query, displayResults);
@@ -236,7 +237,7 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
     },
     [
       isAllBenefits,
-      results?.data,
+      resultsData,
       query,
       handleResultsData,
       displayResultsFromQuery,
@@ -245,7 +246,7 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
   );
 
   const handleSortSelect = useCallback(e => {
-    const selectedSortKey = e.target.value;
+    const selectedSortKey = e.detail?.value;
     setSortValue(selectedSortKey);
   }, []);
 
@@ -299,7 +300,7 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
           BENEFITS_LIST.reduce((acc, b) => ({ ...acc, [b.id]: true }), {}),
         );
         setSortValue('alphabetical');
-        setCurrentPage(1);
+        setCurrentPage(prevPage => (prevPage === 1 ? prevPage : 1));
       } else {
         handleResults();
         resetSubmissionStatus();
@@ -404,6 +405,7 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
               {isAllBenefits ? 'All benefits' : 'Recommended benefits for you'}
             </h2>
             <VaSelect
+              data-testid="sort-select"
               enableAnalytics
               full-width
               aria-label="Sort Benefits"
