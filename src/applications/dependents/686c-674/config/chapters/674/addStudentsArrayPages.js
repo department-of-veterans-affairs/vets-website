@@ -68,8 +68,6 @@ export const addStudentsOptions = {
     !item?.schoolInformation?.currentTermDates?.expectedGraduationDate ||
     (item?.schoolInformation?.studentDidAttendSchoolLastTerm === true &&
       !item?.schoolInformation?.studentDidAttendSchoolLastTerm) ||
-    (item?.claimsOrReceivesPension === true &&
-      !item?.claimsOrReceivesPension) ||
     (item?.schoolInformation?.studentDidAttendSchoolLastTerm === true &&
       (!item?.schoolInformation?.lastTermSchoolInformation?.termBegin ||
         !item?.schoolInformation?.lastTermSchoolInformation?.dateTermEnded)) ||
@@ -189,9 +187,26 @@ export const studentIncomePage = {
       labels: {
         Y: 'Yes',
         N: 'No',
-        NA: 'This question doesn’t apply to me',
+        NA: 'This question does not apply to me',
       },
-      required: () => false,
+      required: (_chapterData, _index, formData) =>
+        formData?.vaDependentsNetWorthAndPension,
+      updateUiSchema: () => ({
+        'ui:options': {
+          hint: '',
+        },
+      }),
+      updateSchema: (formData = {}, formSchema) => {
+        const { vaDependentsNetWorthAndPension } = formData;
+
+        if (!vaDependentsNetWorthAndPension) {
+          return formSchema;
+        }
+
+        return {
+          ...radioSchema(['Y', 'N']),
+        };
+      },
     }),
   },
   schema: {
@@ -705,8 +720,12 @@ export const studentEarningsPage = {
     'ui:options': {
       updateSchema: (formData, schema, _uiSchema, index) => {
         const itemData = formData?.studentInformation?.[index];
+        const { vaDependentsNetWorthAndPension } = formData;
 
-        if (itemData?.claimsOrReceivesPension === false) {
+        const resetItemData = vaDependentsNetWorthAndPension
+          ? !formData?.['view:checkVeteranPension']
+          : !itemData?.claimsOrReceivesPension;
+        if (resetItemData) {
           itemData.studentEarningsFromSchoolYear = undefined;
           itemData.studentExpectedEarningsNextYear = undefined;
           itemData.studentNetworthInformation = undefined;

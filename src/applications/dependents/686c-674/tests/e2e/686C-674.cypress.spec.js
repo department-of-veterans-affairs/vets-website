@@ -24,6 +24,10 @@ const testConfig = createTestConfig(
               name: 'vaDependentsV2',
               value: true,
             },
+            {
+              name: 'vaDependentsNetWorthAndPension',
+              value: true,
+            },
           ],
         },
       });
@@ -75,6 +79,13 @@ const testConfig = createTestConfig(
           cy.get('.progress-box va-telephone')
             .contains('800-827-1000')
             .should('have.prop', 'href');
+          cy.clickFormContinue();
+        });
+      },
+
+      'check-veteran-pension': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
           cy.clickFormContinue();
         });
       },
