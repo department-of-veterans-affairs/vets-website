@@ -42,7 +42,7 @@ const CategoryInput = props => {
           id="category-select-dropdown"
           label="Category"
           name="compose-message-categories"
-          value={category}
+          value={category || ''}
           onVaSelect={categoryChangeHandler}
         >
           {categories?.map((item, i) => (
