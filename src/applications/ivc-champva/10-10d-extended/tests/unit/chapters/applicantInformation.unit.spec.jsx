@@ -266,11 +266,11 @@ describe('generateParticipantName', () => {
         'view:applicantObjects': [
           {
             applicantSSN: '123123123',
-            applicantName: { first: 'App1', last: 'Jones’s' },
+            applicantName: { first: 'App1', last: 'Jones' },
           },
           {
             applicantSSN: '234234234',
-            applicantName: { first: 'App2', last: 'Jones’s' },
+            applicantName: { first: 'App2', last: 'Jones' },
           },
         ],
       }),
