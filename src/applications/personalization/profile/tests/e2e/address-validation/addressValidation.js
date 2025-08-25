@@ -328,7 +328,6 @@ export const createAddressValidationResponse = type => {
           },
         },
       ],
-      // Does the response send null or nothing for validationKey?
       validationKey: null,
     };
   }
@@ -357,9 +356,7 @@ export const createAddressValidationResponse = type => {
     };
   }
 
-  // validation-error also applies to the NO_SUGGESTIONS_NO_OVERRIDE case
-  // when the profileShowNoValidationKeyAddressAlert flag is enabled
-  if (type === 'validation-error') {
+  if (type === 'no-suggestions-no-override') {
     return {
       errors: [
         {

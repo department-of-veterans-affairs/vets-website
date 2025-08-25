@@ -90,36 +90,23 @@ describe('getValidationMessageKey', () => {
     ).to.equal('missingUnitNumberOverride');
   });
 
-  it('returns validationError key', () => {
-    const suggestedAddresses = [
-      {
-        address: {
-          addressLine1: '400 NE 65th St',
-          addressType: 'DOMESTIC',
-          city: 'Seattle',
-          countryName: 'USA',
-          countryCodeIso3: 'USA',
-          countyCode: '53033',
-          countyName: 'King',
-          stateCode: 'WA',
-          zipCode: '98115',
-          zipCodeSuffix: '6463',
-        },
-        addressMetaData: {
-          confidenceScore: 98.0,
-          addressType: 'Domestic',
-          deliveryPointValidation:
-            'STREET_NUMBER_VALIDATED_BUT_MISSING_UNIT_NUMBER',
-          residentialDeliveryIndicator: 'RESIDENTIAL',
-        },
-      },
-    ];
+  it('returns systemError key', () => {
     expect(
       getValidationMessageKey({
-        suggestedAddresses,
+        suggestedAddresses: [],
+        addressValidationError: true,
+        addressValidationErrorCode: 'ADDRVAL101',
+      }),
+    ).to.equal(ADDRESS_VALIDATION_TYPES.SYSTEM_ERROR);
+  });
+
+  it('returns noSuggestionsNoOverride key', () => {
+    expect(
+      getValidationMessageKey({
+        suggestedAddresses: [],
         addressValidationError: true,
       }),
-    ).to.equal(ADDRESS_VALIDATION_TYPES.VALIDATION_ERROR);
+    ).to.equal(ADDRESS_VALIDATION_TYPES.NO_SUGGESTIONS_NO_OVERRIDE);
   });
 });
 

@@ -8,9 +8,7 @@ describe('Personal and contact information', () => {
   describe('when there are no suggestions and no validation key', () => {
     it('shows the NO_SUGGESTIONS_NO_OVERRIDE alert', () => {
       const addressPage = new AddressPage();
-      addressPage.loadPage('validation-error', {
-        profileShowNoValidationKeyAddressAlert: true,
-      });
+      addressPage.loadPage('no-suggestions-no-override');
       addressPage.fillAddressForm({
         address: '999 Nowhere Rd',
         city: 'Nowhere',
