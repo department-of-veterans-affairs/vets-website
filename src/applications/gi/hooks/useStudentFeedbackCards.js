@@ -1,5 +1,10 @@
 import { useMemo } from 'react';
-import { toSnakeLower, humanize, tagsForRecord } from '../utils/helpers';
+import {
+  toSnakeLower,
+  humanize,
+  tagsForRecord,
+  upperCaseFirstLetterOnly,
+} from '../utils/helpers';
 
 export default function useStudentFeedbackCards({
   allOpe6Complaints,
@@ -13,7 +18,7 @@ export default function useStudentFeedbackCards({
       (complaintData || []).forEach(({ key, type, definition }) => {
         if (!key) return;
         map[toSnakeLower(key)] = {
-          label: type,
+          label: upperCaseFirstLetterOnly(type),
           definition: definition || '',
         };
       });

@@ -17,6 +17,7 @@ import StudentFeedbackCardGrid from '../components/profile/StudentFeedbackCardGr
 import { fetchProfile } from '../actions';
 import ServiceError from '../components/ServiceError';
 import { complaintData } from '../constants';
+import { upperCaseFirstLetterOnly } from '../utils/helpers';
 
 import useStudentFeedbackCards from '../hooks/useStudentFeedbackCards';
 
@@ -256,9 +257,9 @@ export default function FilterStudentFeedbackPage() {
                     <VaCheckbox
                       key={tag}
                       uswds
-                      label={tag
-                        .replace(/_/g, ' ')
-                        .replace(/\b\w/g, m => m.toUpperCase())}
+                      label={upperCaseFirstLetterOnly(
+                        tag.replace(/_/g, ' ').trim(),
+                      )}
                       checked={uiTypes.has(tag)}
                       onVaChange={e => toggleUiType(tag, e.detail.checked)}
                     />
@@ -287,7 +288,7 @@ export default function FilterStudentFeedbackPage() {
           </div>
 
           <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-            <h2 className="vads-u-margin-bottom--3">Filter Results</h2>
+            <h2 className="vads-u-margin-bottom--3">Filter results</h2>
 
             <div className="vads-u-display--flex vads-u-align-items--center vads-u-margin-bottom--1">
               <span className="vads-u-margin-right--1">Sort</span>

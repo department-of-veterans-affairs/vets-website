@@ -28,7 +28,7 @@ export default function StudentFeedbackCardGrid({
                 <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-height--full">
                   <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--3">
                     {String(card.key).toLowerCase() === 'other'
-                      ? 'Other Topics'
+                      ? 'Other topics'
                       : card.label}
                   </h3>
 
@@ -72,7 +72,7 @@ export default function StudentFeedbackCardGrid({
 
                     <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-margin-bottom--1">
                       <span className="vads-u-font-weight--bold">
-                        Complaints at this Campus:
+                        Complaints at this location:
                       </span>
                       <span className="vads-u-font-weight--bold">
                         {card.campusCount}
@@ -81,7 +81,7 @@ export default function StudentFeedbackCardGrid({
 
                     <div className="vads-u-display--flex vads-u-justify-content--space-between">
                       <span className="vads-u-font-weight--bold">
-                        Complaints at all Campuses:
+                        Complaints at all locations:
                       </span>
                       <span className="vads-u-font-weight--bold">
                         {card.allCampusCount}

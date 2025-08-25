@@ -62,7 +62,7 @@ export function CautionaryInformation({ institution, showModal }) {
       <hr />
       <div className="student-complaints">
         <h3 className="small-screen-font">
-          Filter student feedback and complaints data for all campuses
+          Filter student feedback and complaints data for all locations
         </h3>
 
         <div className="link-header">
@@ -84,8 +84,8 @@ export function CautionaryInformation({ institution, showModal }) {
         {complaints.mainCampusRollUp > 0 && (
           <>
             <p className="small-screen-font vads-u-margin-top--1">
-              To filter student feedback and complaints data for all campuses
-              associated with this institution, use the link below.{' '}
+              To filter student feedback and complaints data for additional
+              locations associated with this institution, use the link below.{' '}
               <LearnMoreLabel
                 onClick={() => {
                   showModal('aboutAllCampuses');
@@ -94,7 +94,7 @@ export function CautionaryInformation({ institution, showModal }) {
                 buttonId="about-all-campuses"
                 buttonClassName="small-screen-font"
               />{' '}
-              about all campuses.
+              about additional locations.
             </p>
             <VaLinkAction
               href={`/schools-and-employers/institution/${
