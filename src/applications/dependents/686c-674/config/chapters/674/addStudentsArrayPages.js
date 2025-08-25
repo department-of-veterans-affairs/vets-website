@@ -720,8 +720,12 @@ export const studentEarningsPage = {
     'ui:options': {
       updateSchema: (formData, schema, _uiSchema, index) => {
         const itemData = formData?.studentInformation?.[index];
+        const { vaDependentsNetWorthAndPension } = formData;
 
-        if (formData?.['view:checkVeteranPension']) {
+        const resetItemData = vaDependentsNetWorthAndPension
+          ? !formData?.['view:checkVeteranPension']
+          : !itemData?.claimsOrReceivesPension;
+        if (resetItemData) {
           itemData.studentEarningsFromSchoolYear = undefined;
           itemData.studentExpectedEarningsNextYear = undefined;
           itemData.studentNetworthInformation = undefined;

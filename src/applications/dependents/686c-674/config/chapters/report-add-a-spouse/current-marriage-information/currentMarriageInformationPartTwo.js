@@ -28,26 +28,23 @@ export const uiSchema = {
         N: 'No',
         NA: 'This question doesn’t apply to me',
       },
-      'ui:options': {
-        updateSchema: (formData = {}, formSchema) => {
-          const { vaDependentsNetWorthAndPension } = formData;
-          if (!vaDependentsNetWorthAndPension) {
-            return formSchema;
-          }
-          return {
-            ...formSchema,
-            properties: {
-              ...formSchema.properties,
-              doesLiveWithSpouse: {
-                ...formSchema.properties.doesLiveWithSpouse,
-                required: ['spouseIncome'],
-                properties: {
-                  spouseIncome: radioSchema(['Y', 'N']),
-                },
-              },
-            },
-          };
+      required: (_chapterData, _index, formData) =>
+        formData?.vaDependentsNetWorthAndPension,
+      updateUiSchema: () => ({
+        'ui:options': {
+          hint: '',
         },
+      }),
+      updateSchema: (formData = {}, formSchema) => {
+        const { vaDependentsNetWorthAndPension } = formData;
+
+        if (!vaDependentsNetWorthAndPension) {
+          return formSchema;
+        }
+
+        return {
+          ...radioSchema(['Y', 'N']),
+        };
       },
     }),
   },

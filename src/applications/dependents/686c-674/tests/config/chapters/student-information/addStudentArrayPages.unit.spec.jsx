@@ -607,6 +607,31 @@ describe('674 Add students: Previous term dates', () => {
   });
 });
 
+describe('674 Add students: Veteran claims pension', () => {
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.report674.pages.addStudentsPartSixteen;
+
+  it('should render', () => {
+    const { container } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={formData()}
+          arrayPath={arrayPath}
+          pagePerItemIndex={0}
+        />
+      </Provider>,
+    );
+
+    expect($$('va-radio', container).length).to.equal(1);
+    expect($$('va-radio-option', container).length).to.equal(2);
+  });
+});
+
 describe('674 Add students: Current term student income', () => {
   const {
     schema,
