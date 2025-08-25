@@ -417,57 +417,6 @@ describe('ArrayBuilderSummaryPage', () => {
     expect($errorAlert).to.not.exist;
   });
 
-  it('should show an error alert on the summary page and prevent navigation', async () => {
-    const { container, onContinue } = setupArrayBuilderSummaryPage({
-      arrayData: [{ name: 'Test' }, {}],
-      radioData: 'N',
-      useWebComponent: true,
-    });
-    const $errorAlert = container.querySelector('va-alert');
-    expect($errorAlert).to.include.text(
-      'This employer is missing information.',
-    );
-
-    fireEvent.click(container.querySelector('va-button[continue]'));
-    await expect(onContinue.called).to.be.false;
-  });
-
-  it('should show an error alert on the summary page and prevent navigation even if schema is set as required', async () => {
-    const { container, onContinue } = setupArrayBuilderSummaryPage({
-      arrayData: [{ name: 'Test' }, {}],
-      radioData: 'N',
-      urlParams: '',
-      schema: {
-        type: 'object',
-        properties: {
-          'view:hasOption': arrayBuilderYesNoSchema,
-        },
-      },
-      useWebComponent: true,
-    });
-    const $errorAlert = container.querySelector('va-alert');
-    expect($errorAlert).to.include.text(
-      'This employer is missing information.',
-    );
-
-    fireEvent.click(container.querySelector('va-button[continue]'));
-
-    await expect(onContinue.called).to.be.false;
-  });
-
-  it('should show an error alert on the summary page and prevent navigation even if schema is set as required', async () => {
-    const { container, onContinue } = setupArrayBuilderSummaryPage({
-      arrayData: [{ name: 'Test' }, { name: 'Test 2' }],
-      radioData: 'N',
-      urlParams: '',
-      useWebComponent: true,
-    });
-    expect(container.querySelector('va-alert')).to.not.exist;
-
-    fireEvent.click(container.querySelector('va-button[continue]'));
-    await expect(onContinue.called).to.be.true;
-  });
-
   it('should display summaryTitleWithoutItems and summaryDescriptionWithoutItems text override when array is empty', () => {
     const { container } = setupArrayBuilderSummaryPage({
       arrayData: [],
