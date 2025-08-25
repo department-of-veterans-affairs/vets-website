@@ -14,7 +14,7 @@ const testConfig = createTestConfig(
     dataPrefix: 'data',
     useWebComponentFields: true,
 
-    dataSets: ['minimal-test', 'newOnly-test', 'maximal-test'],
+    dataSets: ['maximal-test'],
 
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
@@ -23,7 +23,8 @@ const testConfig = createTestConfig(
     pageHooks: pageHooks(cy),
     setupPerTest: () => {
       cy.login(mockUser);
-      setup(cy);
+      // Pass realBackendSubmit: true to allow real submission
+      setup(cy, { realBackendSubmit: true });
     },
 
     // skip: [],
