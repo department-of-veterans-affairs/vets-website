@@ -8,6 +8,8 @@ import VerifyAlert from 'platform/user/authorization/components/VerifyAlert';
 import { isLOA3, isLoggedIn } from 'platform/user/selectors';
 
 import { fetchDependents } from '../actions';
+import manifest from '../manifest.json';
+import { getRootParentUrl } from '../../shared/utils';
 
 const Gateway = ({ route, top = false }) => {
   const userLoggedIn = useSelector(state => isLoggedIn(state));
@@ -82,7 +84,7 @@ const Gateway = ({ route, top = false }) => {
           </h2>
           <p>We can’t find any dependents added to your disability award.</p>
           <va-link
-            href="/manage-dependents"
+            href={getRootParentUrl(manifest.rootUrl)}
             text="Find out how to add a dependent to your disability claim"
           />
         </va-alert>

@@ -1,6 +1,9 @@
 import React from 'react';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
+import manifest from '../manifest.json';
+import { getRootParentUrl } from '../../shared/utils';
+
 export const errorFragment = (
   <>
     <h2 slot="headline" className="vads-u-font-size--h3">
@@ -52,10 +55,10 @@ export const noDependentsAlertV2 = (
 export const breadcrumbLinks = [
   <va-link href="/" label="Back to VA Home page" text="Home" key="1" />,
   <va-link
-    href="/manage-dependents/"
+    href={getRootParentUrl(manifest.rootUrl)}
     label="Back to the Add or remove dependents page"
     text="Add or remove dependents"
     key="3"
   />,
-  <va-link href="/manage-dependents/view" text="Your Dependents" key="4" />,
+  <va-link href={manifest.rootUrl} text="Your Dependents" key="4" />,
 ];

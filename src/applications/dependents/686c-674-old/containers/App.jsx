@@ -10,6 +10,8 @@ import formConfig from '../config/form';
 import { DOC_TITLE } from '../config/constants';
 import { getShouldUseV2 } from '../../686c-674/utils/redirect';
 
+import { getRootParentUrl } from '../../shared/utils';
+
 function App({
   location,
   children,
@@ -50,7 +52,9 @@ function App({
   // (flipperV2 && hasV1Form && isGreaterThan60Days);
 
   if (getShouldUseV2(flipperV2, savedForms)) {
-    window.location.href = '/manage-dependents/add-remove-form-21-686c-674/';
+    window.location.href = `${getRootParentUrl(
+      manifest.rootUrl,
+    )}/add-remove-form-21-686c-674/`;
     return <></>;
   }
 
