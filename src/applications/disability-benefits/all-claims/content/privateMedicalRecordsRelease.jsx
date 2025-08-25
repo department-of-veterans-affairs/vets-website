@@ -30,9 +30,8 @@ export const limitedConsentDescription = (
 export const recordReleaseDescription = () => (
   <div>
     <p>
-      Please let us know where and when you received treatment. We’ll request
-      your private medical records for you. If you have records available, you
-      can upload them later in the application.
+      Tell us where you were treated for your condition. We’ll use the
+      information you provide to get the records needed to support your claim.
     </p>
   </div>
 );
