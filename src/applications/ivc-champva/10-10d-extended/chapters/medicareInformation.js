@@ -462,6 +462,7 @@ const medicarePartADenialPage = {
   },
 };
 
+// if they don't qualify for medicare
 const medicarePartADenialProofUploadPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
