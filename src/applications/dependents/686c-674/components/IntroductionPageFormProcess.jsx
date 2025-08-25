@@ -1,4 +1,6 @@
 import React from 'react';
+import manifest from '../manifest.json';
+import { getRootParentUrl } from '../../shared/utils';
 
 export const IntroductionPageFormProcess = () => (
   <>
@@ -89,7 +91,7 @@ export const IntroductionPageFormProcess = () => (
           other information or supporting documents.
         </p>
         <va-link
-          href="/view-change-dependents/"
+          href={getRootParentUrl(manifest.rootUrl)}
           text="Find out which documents you need to add or remove dependents"
         />
         <p>
