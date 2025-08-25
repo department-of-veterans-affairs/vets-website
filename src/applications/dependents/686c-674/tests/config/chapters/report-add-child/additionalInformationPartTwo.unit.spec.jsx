@@ -38,6 +38,6 @@ describe('686 add child additional information part two', () => {
     );
 
     const formDOM = getFormDOM(form);
-    expect(formDOM.querySelectorAll('va-radio-option').length).to.eq(2);
+    expect(formDOM.querySelectorAll('va-radio-option').length).to.eq(3);
   });
 });
