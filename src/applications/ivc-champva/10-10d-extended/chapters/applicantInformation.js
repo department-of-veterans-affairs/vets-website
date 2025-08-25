@@ -12,6 +12,7 @@ import {
   fullNameUI,
   fullNameSchema,
   titleUI,
+  titleSchema,
   ssnUI,
   ssnSchema,
   withEditTitle,
@@ -116,7 +117,7 @@ export const applicantOptions = {
           <b>Phone number:</b> {item?.applicantPhone}
         </li>
         <li>
-          <b>Relationship to Veteran:</b>{' '}
+          <b>Relationship to sponsor:</b>{' '}
           {capitalize(
             item?.applicantRelationshipToSponsor?.relationshipToVeteran !==
             'other'
@@ -140,12 +141,13 @@ const applicantIntroPage = {
         return formContext.pagePerItemIndex === '0' ? (
           <>
             <p>
-              Enter this information for each applicant you’re applying for.
+              Enter your information and the information for any other
+              applicants you want to enroll in CHAMPVA benefits.
             </p>
             {CustomPrefillMessage(formData, 'applicant')}
           </>
         ) : (
-          <p>Enter this information for each applicant you’re applying for.</p>
+          <p>Enter the information for the applicant you’re applying for.</p>
         );
       },
     ),
@@ -155,6 +157,7 @@ const applicantIntroPage = {
   schema: {
     type: 'object',
     properties: {
+      titleSchema,
       applicantName: fullNameSchema,
       applicantDob: dateOfBirthSchema,
     },
@@ -219,6 +222,7 @@ const applicantMailingAddressPage = {
   schema: {
     type: 'object',
     properties: {
+      titleSchema,
       applicantAddress: addressSchema(),
     },
     required: ['applicantAddress'],
@@ -256,6 +260,7 @@ const applicantContactInfoPage = {
   schema: {
     type: 'object',
     properties: {
+      titleSchema,
       applicantPhone: phoneSchema,
       applicantEmailAddress: emailSchema,
     },
@@ -303,6 +308,8 @@ const applicantRelationshipOriginPage = {
   schema: {
     type: 'object',
     properties: {
+      titleSchema,
+      'ui:description': blankSchema,
       applicantRelationshipOrigin: {
         type: 'object',
         properties: {
@@ -355,6 +362,7 @@ const applicantBirthCertUploadPage = {
     type: 'object',
     required: ['applicantBirthCertOrSocialSecCard'],
     properties: {
+      titleSchema,
       'view:fileUploadBlurb': blankSchema,
       applicantBirthCertOrSocialSecCard: {
         type: 'array',
@@ -394,6 +402,7 @@ const applicantAdoptionUploadPage = {
     type: 'object',
     required: ['applicantAdoptionPapers'],
     properties: {
+      titleSchema,
       'view:fileUploadBlurb': blankSchema,
       applicantAdoptionPapers: fileWithMetadataSchema(
         acceptableFiles.adoptionCert,
@@ -413,7 +422,7 @@ const applicantStepChildUploadPage = {
           <b className="dd-privacy-hidden">
             {applicantWording(formData, true, false)}
           </b>{' '}
-          Veteran and{' '}
+          sponsor and{' '}
           <b className="dd-privacy-hidden">
             {applicantWording(formData, true, false)}
           </b>{' '}
@@ -442,6 +451,7 @@ const applicantStepChildUploadPage = {
     type: 'object',
     required: ['applicantStepMarriageCert'],
     properties: {
+      titleSchema,
       'view:fileUploadBlurb': blankSchema,
       applicantStepMarriageCert: {
         type: 'array',
@@ -533,6 +543,7 @@ const applicantSchoolCertUploadPage = {
     type: 'object',
     required: ['applicantSchoolCert'],
     properties: {
+      titleSchema,
       'view:fileUploadBlurb': blankSchema,
       applicantSchoolCert: fileWithMetadataSchema(acceptableFiles.schoolCert),
     },
@@ -544,6 +555,8 @@ const applicantDependentStatusPage = {
   schema: {
     type: 'object',
     properties: {
+      titleSchema,
+      'ui:description': blankSchema,
       applicantDependentStatus: {
         type: 'object',
         properties: {
@@ -564,8 +577,8 @@ const applicantMarriageDatesPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        `${applicantWording(formData)} date of marriage to the Veteran`,
-      'If you don’t know the exact date, enter your best guess. We won’t need the marriage certificate unless we can’t find a record of the marriage in our system when the form is processed.',
+        `${applicantWording(formData)} date of marriage to the sponsor`,
+      'If you don’t know the exact date, enter your best guess. We won’t need the marriage certificate unless we can’t find a record of the marriage in our system.',
       false,
     ),
     dateOfMarriageToSponsor: currentOrPastDateUI('Date of marriage'),
@@ -602,6 +615,7 @@ const applicantRemarriedPage = {
     type: 'object',
     required: ['applicantRemarried'],
     properties: {
+      titleSchema,
       applicantRemarried: yesNoSchema,
     },
   },
@@ -614,7 +628,7 @@ const applicantReMarriageCertUploadPage = {
       ({ formData }) => (
         <>
           If {applicantWording(formData, false)} remarried after the death of
-          the Veteran, you can help us process your application faster by
+          the sponsor, you can help us process your application faster by
           submitting documents showing proof of that remarriage.
           <br />
           <br />
@@ -653,6 +667,7 @@ const applicantReMarriageCertUploadPage = {
     type: 'object',
     required: ['applicantRemarriageCert'],
     properties: {
+      titleSchema,
       'view:fileUploadBlurb': blankSchema,
       applicantRemarriageCert: {
         type: 'array',
@@ -686,18 +701,16 @@ export const applicantPages = arrayBuilderPages(
   applicantOptions,
   pageBuilder => ({
     applicantIntro: pageBuilder.introPage({
-      path: 'applicant-information/overview',
+      path: 'applicant-intro',
       title: '[noun plural]',
       // initialData: mockData.data,
       uiSchema: {
         ...titleUI(
           'Add applicants',
           <>
-            Next we’ll ask you for information about the applicant. The
-            applicant is the person who needs the CHAMPVA benefit.
-            <br />
-            We’ll ask for the applicant’s Social Security number, mailing
-            address, contact information, and relationship to the Veteran.
+            Next we’ll ask you to enter the information about each applicant.
+            This includes social security number, mailing address, contact
+            information and relationship to the sponsor.
             <br />
             <br />
             {/* TODO: use constant for this value */}
@@ -707,54 +720,55 @@ export const applicantPages = arrayBuilderPages(
       },
       schema: {
         type: 'object',
-        properties: {},
+        properties: {
+          titleSchema,
+        },
       },
     }),
     applicantSummary: pageBuilder.summaryPage({
-      path: 'applicant-information/summary',
+      path: 'applicant-summary',
       title: 'Review your applicants',
       uiSchema: applicantSummaryPage.uiSchema,
       schema: applicantSummaryPage.schema,
     }),
     page13: pageBuilder.itemPage({
-      path: 'applicant-information/:index/name-and-date-of-birth',
+      path: 'applicant-name-dob/:index',
       title: 'Applicant name and date of birth',
       ...applicantIntroPage,
     }),
     page14: pageBuilder.itemPage({
-      path: 'applicant-information/:index/social-security-number',
+      path: 'applicant-identification/:index',
       title: 'Identification',
       CustomPage: CustomApplicantSSNPage,
       CustomPageReview: null,
       ...applicantIdentificationPage,
     }),
     page15a: pageBuilder.itemPage({
-      path: 'applicant-information/:index/address',
+      path: 'applicant-address-selection/:index',
       title: 'Address selection',
       ...applicantAddressSelectionPage,
       CustomPage: ApplicantAddressCopyPage,
       depends: (formData, index) => page15aDepends(formData, index),
     }),
     page15: pageBuilder.itemPage({
-      path: 'applicant-information/:index/mailing-address',
+      path: 'applicant-mailing-address/:index',
       title: 'Mailing address',
       ...applicantMailingAddressPage,
     }),
     page16: pageBuilder.itemPage({
-      path: 'applicant-information/:index/contact-information',
+      path: 'applicant-contact-info/:index',
       title: 'Contact information',
       ...applicantContactInfoPage,
     }),
     page17: pageBuilder.itemPage({
-      path: 'applicant-information/:index/birth-sex',
+      path: 'applicant-gender/:index',
       title: 'Applicant sex listed at birth',
       ...applicantGenderPage,
       CustomPage: ApplicantGenderPage,
     }),
     page18: pageBuilder.itemPage({
-      path: 'applicant-information/:index/relationship-to-veteran',
-      title: item =>
-        `What's ${applicantWording(item)} relationship to the Veteran`,
+      path: 'applicant-relationship/:index',
+      title: item => `${applicantWording(item)} relationship to the sponsor`,
       ...applicantRelationshipPage,
       CustomPage: props =>
         ApplicantRelationshipPage({
@@ -766,7 +780,7 @@ export const applicantPages = arrayBuilderPages(
         }),
     }),
     page18c: pageBuilder.itemPage({
-      path: 'applicant-information/:index/dependent-status',
+      path: 'applicant-relationship-child/:index',
       title: item => `${applicantWording(item)} dependent status`,
       depends: (formData, index) =>
         get(
@@ -777,7 +791,7 @@ export const applicantPages = arrayBuilderPages(
       CustomPage: ApplicantRelOriginPage,
     }),
     page18a: pageBuilder.itemPage({
-      path: 'applicant-information/:index/birth-certificate',
+      path: 'applicant-relationship-child-upload/:index',
       title: item => `${applicantWording(item)} birth certificate`,
       depends: (formData, index) =>
         get(
@@ -796,7 +810,7 @@ export const applicantPages = arrayBuilderPages(
       ...applicantBirthCertUploadPage,
     }),
     page18d: pageBuilder.itemPage({
-      path: 'applicant-information/:index/adoption-documents',
+      path: 'applicant-child-adoption-file/:index',
       title: item => `${applicantWording(item)} adoption documents`,
       depends: (formData, index) =>
         get(
@@ -811,7 +825,7 @@ export const applicantPages = arrayBuilderPages(
       ...applicantAdoptionUploadPage,
     }),
     page18e: pageBuilder.itemPage({
-      path: 'applicant-information/:index/proof-of-marriage-or-legal-union',
+      path: 'applicant-child-marriage-file/:index',
       title: 'Upload proof of parent’s marriage or legal union',
       depends: (formData, index) =>
         get(
@@ -826,7 +840,7 @@ export const applicantPages = arrayBuilderPages(
       ...applicantStepChildUploadPage,
     }),
     page18b1: pageBuilder.itemPage({
-      path: 'applicant-information/:index/dependent-status-details',
+      path: 'applicant-dependent-status/:index',
       title: item => `${applicantWording(item)} dependent status`,
       depends: (formData, index) =>
         formData.applicants[index]?.applicantRelationshipToSponsor
@@ -840,7 +854,7 @@ export const applicantPages = arrayBuilderPages(
       ...applicantDependentStatusPage,
     }),
     page18b: pageBuilder.itemPage({
-      path: 'applicant-information/:index/proof-of-school-enrollment',
+      path: 'applicant-child-school-upload/:index',
       title: item => `${applicantWording(item)} school documents`,
       depends: (formData, index) =>
         formData.applicants[index]?.applicantRelationshipToSponsor
@@ -857,7 +871,7 @@ export const applicantPages = arrayBuilderPages(
       ...applicantSchoolCertUploadPage,
     }),
     page18f3: pageBuilder.itemPage({
-      path: 'applicant-information/:index/marriage-date',
+      path: 'applicant-marriage-date/:index',
       title: item => `${applicantWording(item)} marriage dates`,
       depends: (formData, index) =>
         get(
@@ -867,7 +881,7 @@ export const applicantPages = arrayBuilderPages(
       ...applicantMarriageDatesPage,
     }),
     page18f4: pageBuilder.itemPage({
-      path: 'applicant-information/:index/marriage-status',
+      path: 'applicant-remarried/:index',
       title: 'Marriage status',
       depends: (formData, index) =>
         get(
@@ -877,7 +891,7 @@ export const applicantPages = arrayBuilderPages(
       ...applicantRemarriedPage,
     }),
     page18g: pageBuilder.itemPage({
-      path: 'applicant-information/:index/proof-of-remarriage',
+      path: 'applicant-remarriage-upload/:index',
       title: 'Upload proof of remarriage',
       depends: (formData, index) =>
         get(
