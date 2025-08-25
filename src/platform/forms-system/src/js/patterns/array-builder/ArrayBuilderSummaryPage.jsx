@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/sort-prop-types */
 import classNames from 'classnames';
-import React, { forwardRef, useEffect, useMemo, useRef, useState } from 'react';
+import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui/focus';
 import { scrollAndFocus } from 'platform/utilities/scroll';
@@ -10,7 +10,6 @@ import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/Sc
 import get from '~/platform/utilities/data/get';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { setData } from '~/platform/forms-system/src/js/actions';
-import { isMinimalHeaderPath } from '~/platform/forms-system/src/js/patterns/minimal-header';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import ArrayBuilderCards from './ArrayBuilderCards';
 import ArrayBuilderSummaryReviewPage from './ArrayBuilderSummaryReviewPage';
@@ -21,6 +20,7 @@ import {
   getUpdatedItemFromPath,
   isDeepEmpty,
   slugifyText,
+  useHeadingLevels,
   validateIncompleteItems,
 } from './helpers';
 
@@ -71,24 +71,6 @@ function getYesNoReviewErrorMessage(reviewErrors, hasItemsKey) {
     hasItemsKey && reviewErrors?.errors?.find(obj => obj.name === hasItemsKey);
   return error?.message;
 }
-
-export const useHeadingLevels = (userHeaderLevel, isReviewPage) => {
-  const isMinimalHeader = useMemo(() => isMinimalHeaderPath(), []);
-  let defaultLevel;
-
-  if (isMinimalHeader) {
-    defaultLevel = isReviewPage ? '3' : '1';
-  } else {
-    defaultLevel = isReviewPage ? '4' : '3';
-  }
-
-  const headingLevel = userHeaderLevel ?? defaultLevel;
-  const headingStyle = {
-    'vads-u-font-size--h2': isMinimalHeader && !isReviewPage,
-  };
-
-  return { headingLevel, headingStyle };
-};
 
 /**
  * @param {{
@@ -329,7 +311,8 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     }
 
     function onRemoveItem(index, item, newFormData) {
-      props.onChange(newFormData);
+      const onUpdate = isReviewPage ? props.setData : props.onChange;
+      onUpdate(newFormData);
       // updated alert may be from initial state (URL path)
       // so we can go ahead and remove it if there is a new
       // alert
