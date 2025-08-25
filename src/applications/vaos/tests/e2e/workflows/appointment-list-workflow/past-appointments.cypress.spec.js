@@ -104,7 +104,7 @@ describe('VAOS past appointment flow', () => {
       cy.findByTestId(
         `appointment-list-${format(subMonths(new Date(), 6), 'yyyy-MM')}`,
       ).within(() => {
-        cy.findAllByTestId('appointment-list-item').should($list => {
+        cy.findAllByTestId('appointment-list-itemsssss').should($list => {
           expect($list.length).to.equal(1);
         });
       });

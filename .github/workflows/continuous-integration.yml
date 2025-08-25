@@ -1577,10 +1577,35 @@ jobs:
           TEST_EXECUTIONS_TABLE_NAME: cypress_test_suite_executions
           TEST_RESULTS_TABLE_NAME: cypress_test_results
 
-      - name: Upload Cypress E2E test videos to s3
-        if: ${{ needs.cypress-tests.result == 'failure' }}
-        run: aws s3 cp qa-standards-dashboard-data/videos/${{ env.UUID }} s3://testing-tools-testing-reports/vets-website-cypress-reports/videos/${{ env.UUID }} --acl public-read --region us-gov-west-1 --recursive
+      # - name: Upload Cypress E2E test videos to s3
+      #   if: ${{ needs.cypress-tests.result == 'failure' }}
+      #   run: aws s3 cp qa-standards-dashboard-data/videos/${{ env.UUID }} s3://testing-tools-testing-reports/vets-website-cypress-reports/videos/${{ env.UUID }} --acl public-read --region us-gov-west-1 --recursive
 
+      - name: Upload Cypress E2E videos to S3 (with log)
+        # NOTE: if your upstream job is actually "stress-test-cypress-tests",
+        # change cypress-tests -> stress-test-cypress-tests below.
+        if: ${{ needs.cypress-tests.result == 'failure' }}
+        env:
+          DST: s3://testing-tools-testing-reports/vets-website-cypress-reports/videos/${{ env.UUID }}
+        run: |
+          set -euo pipefail
+          SRC="qa-standards-dashboard-data/videos/${UUID}"
+          echo "SRC=$SRC"
+          echo "DST=$DST"
+
+          LOCAL_COUNT=$(find "$SRC" -type f -name '*.mp4' | wc -l | tr -d ' ')
+          echo "Local .mp4 files: $LOCAL_COUNT"
+
+          if [ "$LOCAL_COUNT" -gt 0 ]; then
+            aws s3 cp "$SRC" "$DST" --recursive --region us-gov-west-1 --acl public-read --content-type video/mp4
+            S3_COUNT=$(aws s3 ls "$DST/" --recursive --region us-gov-west-1 | wc -l | tr -d ' ')
+            echo "✅ Uploaded $S3_COUNT video(s) to $DST"
+            echo "✅ Videos uploaded: $S3_COUNT → $DST" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "ℹ️ No local videos found; nothing to upload."
+            echo "ℹ️ Videos: 0 local files — skipped" >> "$GITHUB_STEP_SUMMARY"
+          fi
+      
       - name: Upload Cypress E2E test report to s3
         if: needs.tests-prep.outputs.cypress-tests-to-stress-test == 'true'
         run: aws s3 cp qa-standards-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/vets-website-cypress-reports --acl public-read --region us-gov-west-1 --recursive
