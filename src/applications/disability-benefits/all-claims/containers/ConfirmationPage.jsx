@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Toggler } from 'platform/utilities/feature-toggles';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
 import {
@@ -37,18 +36,6 @@ export default class ConfirmationPage extends React.Component {
         fullName={props.fullName}
         isSubmittingBDD={props.isSubmittingBDD}
       />
-      <Toggler
-        toggleName={Toggler.TOGGLE_NAMES.disability526ShowConfirmationReview}
-      >
-        <Toggler.Enabled>
-          <div
-            hidden
-            aria-hidden
-            id="new-confirmation-review-component"
-            data-testid="new-confirmation-review-component"
-          />
-        </Toggler.Enabled>
-      </Toggler>
       <ConfirmationView.PrintThisPage />
       <ConfirmationView.WhatsNextProcessList
         item1Header="We’ll send you an email to confirm your submission"

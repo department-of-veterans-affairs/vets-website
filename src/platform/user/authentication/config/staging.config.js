@@ -65,8 +65,8 @@ export default {
   },
   [EXTERNAL_APPS.VA_OCC_MOBILE]: {
     allowedSignInProviders: {
-      idme: true,
       logingov: true,
+      idme: true,
     },
     legacySignInProviders,
     isMobile: true,

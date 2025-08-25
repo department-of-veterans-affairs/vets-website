@@ -47,7 +47,6 @@ export default function FacilityDirectionsLink({ location, icon }) {
   return (
     <span>
       <a
-        aria-label="Get directions on Google Maps"
         href={`https://maps.google.com?saddr=Current+Location&daddr=${address}`}
       >
         {icon && <va-icon icon="directions" size="3" />}

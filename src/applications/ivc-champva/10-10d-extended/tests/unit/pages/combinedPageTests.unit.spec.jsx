@@ -98,7 +98,7 @@ testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.sponsorInformation.pages.page11.schema,
   formConfig.chapters.sponsorInformation.pages.page11.uiSchema,
-  2,
+  1,
   'Sponsor Information - Contact info',
   {},
 );
@@ -106,7 +106,7 @@ testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.sponsorInformation.pages.page11.schema,
   formConfig.chapters.sponsorInformation.pages.page11.uiSchema,
-  2,
+  1,
   'Sponsor Information - Contact info (role: sponsor)',
   { certifierRole: 'sponsor' },
 );

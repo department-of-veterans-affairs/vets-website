@@ -12,10 +12,6 @@ const storeBase1 = {
     formId: formConfig.formId,
     submission: {
       submittedAt: 'Oct. 25, 2023',
-      timestamp: 'Oct. 25, 2023',
-      response: {
-        confirmationNumber: 'TEST-123',
-      },
     },
     data: {
       application: {
@@ -39,22 +35,18 @@ describe('Pre-need ConfirmationPage component', () => {
   it('it should render', () => {
     const screen = render(
       <Provider store={mockStore(storeBase1)}>
-        <ConfirmationPage route={{ formConfig }} />
+        <ConfirmationPage />
       </Provider>,
     );
-    expect(
-      screen.getByText(
-        'Your pre-need determination request has been submitted',
-      ),
-    ).to.exist;
+    expect(screen.getByText('You’ve submitted your application')).to.exist;
   });
 
   it('it should show response dependent text', () => {
     const screen = render(
       <Provider store={mockStore(storeBase1)}>
-        <ConfirmationPage route={{ formConfig }} />
+        <ConfirmationPage />
       </Provider>,
     );
-    expect(screen.getByText('Applicant information')).to.exist;
+    expect(screen.getByText('Oct. 25, 2023')).to.exist;
   });
 });

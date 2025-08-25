@@ -156,7 +156,6 @@ const VeteranContactInformationPage = ({
         if (updateAlertRef?.current && name && action === 'update') {
           setTimeout(() => {
             scrollAndFocus(updateAlertRef.current);
-            removeEditContactInformation();
           });
         } else if (action === 'cancel') {
           setTimeout(() => {
@@ -167,7 +166,6 @@ const VeteranContactInformationPage = ({
               scrollTo(card);
               focusElement('a', {}, card.querySelector('va-link'));
             }
-            removeEditContactInformation();
           });
         }
       }
@@ -240,9 +238,9 @@ const VeteranContactInformationPage = ({
         </va-alert>
       ) : null}
       <p>
-        If you notice any errors, correct them now. Changes made here apply only
-        to this form. If you want to update your contact information in our
-        system, go to your VA profile.
+        If you notice any errors, correct them now.{' '}
+        <strong>Changes made here apply only to this form.</strong> If you want
+        to update your contact information in our system, go to your VA profile.
       </p>
       <va-link
         text="Update your contact information in your VA profile"

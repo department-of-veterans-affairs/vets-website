@@ -2,7 +2,6 @@ import React, { useMemo, useEffect, useState } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
-import { focusElement } from 'platform/utilities/ui/focus';
 
 import { FIELD_NAMES, FIELD_TITLES } from '@@vap-svc/constants';
 import { selectVAPContactInfoField } from '@@vap-svc/selectors';
@@ -107,23 +106,6 @@ export const Edit = () => {
     TOGGLE_NAMES.profileInternationalPhoneNumbers,
   );
 
-  useEffect(
-    () => {
-      // Set initial focus on the page heading for keyboard navigation
-      if (fieldInfo && !hasVAPServiceError) {
-        const headingElement = document.querySelector('h1');
-        if (headingElement) {
-          // Only call scrollIntoView if it exists (not in test environment)
-          if (headingElement.scrollIntoView) {
-            headingElement.scrollIntoView();
-          }
-          focusElement(headingElement);
-        }
-      }
-    },
-    [fieldInfo, hasVAPServiceError],
-  );
-
   useEffect(() => {
     if (fieldInfo?.fieldName && !hasVAPServiceError) {
       const { uiSchema, formSchema } = getProfileInfoFieldAttributes(
@@ -214,7 +196,10 @@ export const Edit = () => {
             activeSection={fieldInfo.fieldName.toLowerCase()}
             onHide={() => setShowConfirmCancelModal(false)}
           />
-          <div className="vads-u-display--block medium-screen:vads-u-display--block">
+          <div
+            className="vads-u-display--block medium-screen:vads-u-display--block"
+            id="profile-edit-field-page"
+          >
             <EditBreadcrumb
               className="vads-u-margin-top--2 vads-u-margin-bottom--3"
               onClickHandler={handlers.breadCrumbClick}

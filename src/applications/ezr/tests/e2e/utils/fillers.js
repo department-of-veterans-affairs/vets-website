@@ -2,7 +2,6 @@ import {
   clearVeteranIncome,
   clearSpousalIncome,
   clearDeductibleExpenses,
-  fillTextWebComponent,
 } from '../helpers';
 
 export const fillVeteranIncome = (testData, clearInput = false) => {
@@ -10,18 +9,16 @@ export const fillVeteranIncome = (testData, clearInput = false) => {
     clearVeteranIncome();
   }
 
-  fillTextWebComponent(
-    'view:veteranGrossIncome_veteranGrossIncome',
+  cy.fill(
+    '[name="root_view:veteranGrossIncome_veteranGrossIncome"]',
     testData['view:veteranGrossIncome'].veteranGrossIncome,
   );
-
-  fillTextWebComponent(
-    'view:veteranNetIncome_veteranNetIncome',
+  cy.fill(
+    '[name="root_view:veteranNetIncome_veteranNetIncome"]',
     testData['view:veteranNetIncome'].veteranNetIncome,
   );
-
-  fillTextWebComponent(
-    'view:veteranOtherIncome_veteranOtherIncome',
+  cy.fill(
+    '[name="root_view:veteranOtherIncome_veteranOtherIncome"]',
     testData['view:veteranOtherIncome'].veteranOtherIncome,
   );
 };
@@ -31,18 +28,16 @@ export const fillSpousalIncome = (testData, clearInput = false) => {
     clearSpousalIncome();
   }
 
-  fillTextWebComponent(
-    'view:spouseGrossIncome_spouseGrossIncome',
+  cy.fill(
+    '[name="root_view:spouseGrossIncome_spouseGrossIncome"]',
     testData['view:spouseGrossIncome'].spouseGrossIncome,
   );
-
-  fillTextWebComponent(
-    'view:spouseNetIncome_spouseNetIncome',
+  cy.fill(
+    '[name="root_view:spouseNetIncome_spouseNetIncome"]',
     testData['view:spouseNetIncome'].spouseNetIncome,
   );
-
-  fillTextWebComponent(
-    'view:spouseOtherIncome_spouseOtherIncome',
+  cy.fill(
+    '[name="root_view:spouseOtherIncome_spouseOtherIncome"]',
     testData['view:spouseOtherIncome'].spouseOtherIncome,
   );
 };
@@ -52,16 +47,16 @@ export const fillDeductibleExpenses = (testData, clearInput = false) => {
     clearDeductibleExpenses();
   }
 
-  fillTextWebComponent(
-    'view:deductibleMedicalExpenses_deductibleMedicalExpenses',
+  cy.fill(
+    '[name="root_view:deductibleMedicalExpenses_deductibleMedicalExpenses',
     testData['view:deductibleMedicalExpenses'].deductibleMedicalExpenses,
   );
-  fillTextWebComponent(
-    'view:deductibleEducationExpenses_deductibleEducationExpenses',
+  cy.fill(
+    '[name="root_view:deductibleEducationExpenses_deductibleEducationExpenses',
     testData['view:deductibleEducationExpenses'].deductibleEducationExpenses,
   );
-  fillTextWebComponent(
-    'view:deductibleFuneralExpenses_deductibleFuneralExpenses',
+  cy.fill(
+    '[name="root_view:deductibleFuneralExpenses_deductibleFuneralExpenses',
     testData['view:deductibleFuneralExpenses'].deductibleFuneralExpenses,
   );
 };

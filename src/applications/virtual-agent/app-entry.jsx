@@ -1,12 +1,11 @@
-import '@department-of-veterans-affairs/virtual-agent/sass/virtual-agent';
 import 'platform/polyfills';
+import '@department-of-veterans-affairs/virtual-agent/sass/virtual-agent';
 
 import startApp from 'platform/startup';
 
-import manifest from './manifest.json';
-import reducer from './reducers';
 import routes from './routes';
-import { initLogging } from './utils/logging';
+import reducer from './reducers';
+import manifest from './manifest.json';
 
 const script = document.createElement('script');
 script.nonce = '**CSP_NONCE**';
@@ -18,8 +17,6 @@ script.text =
   '  return false;\n' +
   '};';
 document.body.appendChild(script);
-
-initLogging();
 
 startApp({
   entryName: manifest.entryName,

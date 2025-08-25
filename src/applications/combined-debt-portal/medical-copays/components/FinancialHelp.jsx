@@ -1,16 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-export const FinancialHelp = ({ showOneThingPerPage = false }) => (
+export const FinancialHelp = () => (
   <article className="vads-u-padding--0" data-testid="financial-help">
     <h2 id="how-to-get-financial-help">How to request financial help</h2>
-    {showOneThingPerPage ? null : (
-      <p>
-        If you’re struggling because of life situations like losing your job,
-        having a sudden decrease in income, or having an increase in
-        out-of-pocket family health care expenses, we can help.
-      </p>
-    )}
+    <p>
+      If you’re struggling because of life situations like losing your job,
+      having a sudden decrease in income, or having an increase in out-of-pocket
+      family health care expenses, we can help.
+    </p>
     <h3>Request help for your current bills</h3>
     <p>You can request these debt relief options:</p>
     <ul>
@@ -37,7 +34,7 @@ export const FinancialHelp = ({ showOneThingPerPage = false }) => (
         Request help with your debt
       </a>
     </p>
-    <h3>Request help for your future health care</h3>
+    <h3>Request help for your future health</h3>
     <p>
       You may be eligible for a hardship determination, which would qualify you
       for a copay exemption. This means we’ll assign you to a higher priority
@@ -54,9 +51,5 @@ export const FinancialHelp = ({ showOneThingPerPage = false }) => (
     </p>
   </article>
 );
-
-FinancialHelp.propTypes = {
-  showOneThingPerPage: PropTypes.bool,
-};
 
 export default FinancialHelp;

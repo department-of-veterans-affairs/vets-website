@@ -27,13 +27,7 @@ import Pagination from '../components/Pagination';
 import PaginationMeta from '../components/PaginationMeta';
 import POARequestSearchPageResults from '../components/POARequestSearchPageResults';
 
-const StatusTabLink = ({
-  tabStatus,
-  searchStatus,
-  tabSort,
-  selectedIndividual,
-  children,
-}) => {
+const StatusTabLink = ({ tabStatus, searchStatus, tabSort, children }) => {
   const active = tabStatus === searchStatus;
   const classNames = ['poa-request__tab-link'];
   if (active) classNames.push('active');
@@ -41,7 +35,7 @@ const StatusTabLink = ({
     <Link
       to={`?status=${tabStatus}&sortBy=${
         tabStatus === 'pending' ? 'created_at' : 'resolved_at'
-      }&sortOrder=${tabSort}&pageSize=20&pageNumber=1&as_selected_individual=${selectedIndividual}`}
+      }&sortOrder=${tabSort}&pageSize=20&pageNumber=1`}
       className={classNames.join(' ')}
       role="tab"
       id={`tab-${tabStatus}`}
@@ -58,13 +52,11 @@ const StatusTabLink = ({
 StatusTabLink.propTypes = {
   children: PropTypes.node,
   searchStatus: PropTypes.string,
-  selectedIndividual: PropTypes.string,
   tabSort: PropTypes.string,
   tabStatus: PropTypes.string,
 };
 
 const POARequestSearchPage = title => {
-  const [searchParams] = useSearchParams();
   useEffect(
     () => {
       document.title = title.title;
@@ -73,8 +65,7 @@ const POARequestSearchPage = title => {
   );
   const poaRequests = useLoaderData().data;
   const meta = useLoaderData().meta.page;
-  const searchStatus = searchParams.get('status');
-  const selectedIndividual = searchParams.get('as_selected_individual');
+  const searchStatus = useSearchParams()[0].get('status');
   const navigation = useNavigation();
 
   return (
@@ -111,7 +102,6 @@ const POARequestSearchPage = title => {
             tabStatus={STATUSES.PENDING}
             searchStatus={searchStatus}
             tabSort={SORT_BY.DESC}
-            selectedIndividual={selectedIndividual}
           >
             Pending
           </StatusTabLink>
@@ -119,7 +109,6 @@ const POARequestSearchPage = title => {
             tabStatus={STATUSES.PROCESSED}
             searchStatus={searchStatus}
             tabSort={SORT_BY.DESC}
-            selectedIndividual={selectedIndividual}
           >
             Processed
           </StatusTabLink>
@@ -224,9 +213,6 @@ POARequestSearchPage.loader = ({ request }) => {
   const sortBy = searchParams.get(SEARCH_PARAMS.SORTBY);
   const size = searchParams.get(SEARCH_PARAMS.SIZE);
   const number = searchParams.get(SEARCH_PARAMS.NUMBER);
-  const selectedIndividual = searchParams.get(
-    SEARCH_PARAMS.SELECTED_INDIVIDUAL,
-  );
   if (
     !Object.values(STATUSES).includes(status) &&
     !Object.values(STATUSES).includes(sort)
@@ -235,15 +221,12 @@ POARequestSearchPage.loader = ({ request }) => {
     searchParams.set(SEARCH_PARAMS.SORTORDER, SORT_BY.DESC);
     searchParams.set(SEARCH_PARAMS.SORTBY, SORT_BY.CREATED);
     searchParams.set(SEARCH_PARAMS.SIZE, PENDING_SORT_DEFAULTS.SIZE);
-    searchParams.set(
-      SEARCH_PARAMS.SELECTED_INDIVIDUAL,
-      PENDING_SORT_DEFAULTS.SELECTED_INDIVIDUAL,
-    );
+    searchParams.set(SEARCH_PARAMS.NUMBER, PENDING_SORT_DEFAULTS.NUMBER);
     throw redirect(`?${searchParams}`);
   }
 
   return api.getPOARequests(
-    { status, sort, size, number, sortBy, selectedIndividual },
+    { status, sort, size, number, sortBy },
     {
       signal: request.signal,
     },

@@ -1,7 +1,7 @@
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
-import { cleanup, fireEvent, waitFor } from '@testing-library/react';
+import { fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import reducer from '../../reducers';
 import { ErrorMessages, Paths } from '../../util/constants';
@@ -16,9 +16,6 @@ describe('SelectCareTeam', () => {
   let updateDraftInProgressSpy;
 
   beforeEach(() => {
-    if (updateDraftInProgressSpy && updateDraftInProgressSpy.restore) {
-      updateDraftInProgressSpy.restore();
-    }
     updateDraftInProgressSpy = sinon.spy(
       threadDetailsActions,
       'updateDraftInProgress',
@@ -26,11 +23,7 @@ describe('SelectCareTeam', () => {
   });
 
   afterEach(() => {
-    if (updateDraftInProgressSpy && updateDraftInProgressSpy.restore) {
-      updateDraftInProgressSpy.restore();
-      updateDraftInProgressSpy = null;
-    }
-    cleanup();
+    updateDraftInProgressSpy.restore();
   });
 
   const initialState = {
@@ -46,9 +39,6 @@ describe('SelectCareTeam', () => {
           noBlockedRecipients.associatedBlockedTriageGroupsQty,
         noAssociations: noBlockedRecipients.noAssociations,
         allTriageGroupsBlocked: noBlockedRecipients.allTriageGroupsBlocked,
-      },
-      threadDetails: {
-        draftInProgress: {},
       },
     },
     drupalStaticData: {
@@ -386,9 +376,6 @@ describe('SelectCareTeam', () => {
   it('dispatches CONT_SAVING_DRAFT_CHANGES navigation error when draft has body, subject, and category', async () => {
     const customState = {
       ...initialState,
-      featureToggles: {
-        loading: false,
-      },
       sm: {
         ...initialState.sm,
         threadDetails: {
@@ -407,38 +394,21 @@ describe('SelectCareTeam', () => {
       path: Paths.SELECT_CARE_TEAM,
     });
 
-    const val = String(customState.sm.recipients.allowedRecipients[0].id);
-
-    await waitFor(async () => {
-      const selectElement = screen.getByTestId('compose-recipient-select');
+    await waitFor(() => {
+      const val = customState.sm.recipients.allowedRecipients[0].id;
       selectVaSelect(screen.container, val);
-
-      // Wait a bit for the component to process the selection
-      await new Promise(resolve => setTimeout(resolve, 100));
-
-      expect(selectElement).to.have.attribute('value', val);
     });
 
-    // Check that the spy was called with navigationError
-    const getNavigationErrorCall = () => {
-      return updateDraftInProgressSpy
-        .getCalls()
-        .find(call => call.args[0]?.navigationError);
-    };
-    let navigationErrorCall;
-    await waitFor(
-      () => {
-        navigationErrorCall = getNavigationErrorCall();
-        expect(navigationErrorCall).to.exist;
-      },
-      { timeout: 5000 },
-    );
-    const actualError = navigationErrorCall.args[0].navigationError;
-    const isValidError =
-      actualError.title ===
-        ErrorMessages.ComposeForm.CONT_SAVING_DRAFT_CHANGES.title ||
-      actualError.title === ErrorMessages.ComposeForm.UNABLE_TO_SAVE.title;
-    expect(isValidError).to.be.true;
+    await waitFor(() => {
+      const calls = updateDraftInProgressSpy.getCalls();
+      const navigationErrorCall = calls.find(
+        call => call.args[0]?.navigationError,
+      );
+      expect(navigationErrorCall).to.exist;
+      expect(navigationErrorCall.args[0].navigationError).to.deep.equal(
+        ErrorMessages.ComposeForm.CONT_SAVING_DRAFT_CHANGES,
+      );
+    });
   });
 
   it('dispatches UNABLE_TO_SAVE navigation error when draft is missing body, subject, or category', async () => {
@@ -461,14 +431,9 @@ describe('SelectCareTeam', () => {
       path: Paths.SELECT_CARE_TEAM,
     });
 
-    await waitFor(async () => {
-      const val = String(customState.sm.recipients.allowedRecipients[0].id);
-      const selectElement = screen.getByTestId('compose-recipient-select');
+    await waitFor(() => {
+      const val = customState.sm.recipients.allowedRecipients[0].id;
       selectVaSelect(screen.container, val);
-
-      await new Promise(resolve => setTimeout(resolve, 100));
-
-      expect(selectElement).to.have.attribute('value', val);
     });
 
     await waitFor(() => {

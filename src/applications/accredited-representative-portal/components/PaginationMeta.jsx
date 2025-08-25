@@ -1,23 +1,18 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useSearchParams } from 'react-router-dom';
-import { profileUser } from './Header/Nav';
 import { SEARCH_PARAMS } from '../utilities/constants';
 
 const PaginationMeta = ({ meta, results, resultType, defaults }) => {
-  const user = useContext(profileUser);
   const [searchParams] = useSearchParams();
   const pageSize = Number(searchParams.get('pageSize')) || defaults.SIZE;
   const pageNumber = Number(searchParams.get('pageNumber')) || defaults.NUMBER;
   const sortOrder =
     searchParams.get(SEARCH_PARAMS.SORTORDER) || defaults.SORT_ORDER;
-  const selectedIndividual =
-    searchParams.get('as_selected_individual') || defaults.SELECTED_INDIVIDUAL;
   const searchStatus = searchParams.get('status') || '';
   let initCount;
   let pageSizeCount = pageSize * pageNumber;
   const totalCount = meta.total;
-
   if (pageSizeCount > totalCount) {
     pageSizeCount = pageSize + (totalCount - pageSize);
   }
@@ -33,12 +28,7 @@ const PaginationMeta = ({ meta, results, resultType, defaults }) => {
   return (
     <p className="poa-request__meta">
       Showing {initCount}-{pageSizeCount} of {totalCount} {searchStatus || ''}{' '}
-      {resultType || ''} {selectedIndividual === 'true' && 'for'}{' '}
-      <strong>
-        {selectedIndividual === 'true' &&
-          `"You (${user.firstName} ${user.lastName})"`}
-      </strong>{' '}
-      sorted by “
+      {resultType || ''} sorted by “
       <strong>
         {searchStatus === 'processed' ? 'Processed' : 'Submitted'} date (
         {sortOrder === 'asc' ? 'oldest' : 'newest'})
@@ -51,8 +41,8 @@ const PaginationMeta = ({ meta, results, resultType, defaults }) => {
 PaginationMeta.propTypes = {
   defaults: PropTypes.object,
   meta: PropTypes.object,
-  resultType: PropTypes.string,
   results: PropTypes.arrayOf(PropTypes.object),
+  resultType: PropTypes.string,
 };
 
 export default PaginationMeta;

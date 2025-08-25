@@ -16,7 +16,7 @@ const DeselectAll = ({ formData, setFormData }) => {
   return <va-button text="Deselect all" onClick={onClick} uswds />;
 };
 
-/** @type {PageSchema}  */
+/** @type {PageSchema} */
 export default {
   ContentBeforeButtons: DeselectAll,
   uiSchema: {

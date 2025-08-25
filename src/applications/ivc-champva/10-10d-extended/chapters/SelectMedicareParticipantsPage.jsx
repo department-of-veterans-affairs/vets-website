@@ -6,6 +6,7 @@ import {
   arrayBuilderItemSubsequentPageTitleUI,
   radioSchema,
   radioUI,
+  titleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { CustomPageNavButtons } from '../../shared/components/CustomPageNavButtons';
 import { nameWording, toHash } from '../../shared/utilities';
@@ -71,7 +72,7 @@ export const selectMedicareParticipantPage = {
       ...radioUI({
         title: 'Which applicant would you like to add Medicare insurance for?',
         hint:
-          'If you have more applicants with Medicare plans you can add them later in this form.',
+          'If you have more applicants with Medicare plans, you can add them later in this form.',
         required: () => true,
         labels: {
           na: 'NA',
@@ -115,6 +116,7 @@ export const selectMedicareParticipantPage = {
     type: 'object',
     required: ['medicareParticipant'],
     properties: {
+      titleSchema,
       medicareParticipant: radioSchema(['na']),
     },
   },

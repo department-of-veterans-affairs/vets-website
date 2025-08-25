@@ -50,9 +50,6 @@ const useFeatureToggles = () => {
     state => state.featureToggles,
   );
 
-  if (featureTogglesLoading) {
-    return { featureTogglesLoading };
-  }
   return {
     featureTogglesLoading,
     isComboBoxEnabled,

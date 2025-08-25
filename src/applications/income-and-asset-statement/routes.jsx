@@ -1,7 +1,6 @@
-import { createRoutesWithSaveInProgress } from '@department-of-veterans-affairs/platform-forms/save-in-progress/helpers';
-
+import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
 import formConfig from './config/form';
-import App from './containers/App';
+import App from './containers/App.jsx';
 
 const route = {
   path: '/',

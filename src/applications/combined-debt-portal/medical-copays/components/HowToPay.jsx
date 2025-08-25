@@ -8,7 +8,17 @@ export const HowToPay = ({ isOverview, acctNum, facility, amtDue }) => (
     <h3>Pay online</h3>
     <p>
       Pay directly from your bank account or by debit or credit card on the
-      secure pay.gov website.
+      secure
+      <a
+        className="vads-u-margin-left--0p25"
+        href="https://www.pay.gov/public/form/start/25987221"
+        aria-label="Pay.gov - Opens in new window"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Pay.gov website
+      </a>
+      .
     </p>
     <p>You’ll need the following details to pay this bill online:</p>
     {!isOverview && (
@@ -25,7 +35,7 @@ export const HowToPay = ({ isOverview, acctNum, facility, amtDue }) => (
       </div>
     )}
     <a
-      className="vads-c-action-link--green"
+      className="vads-c-action-link--blue"
       href="https://www.pay.gov/public/form/start/25987221"
       aria-label="Pay.gov - Opens in new window"
       target="_blank"

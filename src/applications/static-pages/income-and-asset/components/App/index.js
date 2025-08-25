@@ -1,5 +1,5 @@
 import React from 'react';
-import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 
 const START_URL =
   'supporting-forms-for-claims/submit-income-and-asset-statement-form-21p-0969';

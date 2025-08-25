@@ -22,9 +22,7 @@ const mockGADefaultArgs = {
   throwGAError: false,
 };
 
-const csps = Object.values(SERVICE_PROVIDERS).filter(
-  provider => provider.policy === 'idme' || provider.policy === 'logingov',
-);
+const csps = Object.values(SERVICE_PROVIDERS);
 
 const setup = ({ path, mockGA = mockGADefaultArgs }) => {
   const startingLocation = path ? new URL(`${base}${path}`) : originalLocation;
@@ -112,7 +110,7 @@ describe('MockAuthButton', () => {
   it('should be rendered on the mocked auth page', () => {
     __BUILDTYPE__ = environments.LOCALHOST;
     const { container } = render(<MockAuth />);
-    expect(container.querySelector('va-button')).to.exist;
+    expect(container.querySelector('.mauth-button', container)).to.exist;
   });
 
   it('does not, cannot show up on staging or production stacks', () => {
@@ -139,7 +137,7 @@ describe('MockAuthButton', () => {
         detail: { value: null },
       }),
     );
-    const button = container.querySelector('va-button');
+    const button = container.querySelector('button');
     fireEvent.click(button);
     await waitFor(() => {
       expect(select.getAttribute('error')).to.not.equal('');

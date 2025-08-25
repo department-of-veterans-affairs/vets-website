@@ -1,16 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { subDays } from 'date-fns';
+import { subMonths } from 'date-fns';
 import { formatDate } from '../../combined/utils/helpers';
 
-const StatementCharges = ({
-  copay,
-  showCurrentStatementHeader = false,
-  showOneThingPerPage = false,
-}) => {
-  const initialDate = new Date(copay.pSStatementDateOutput);
-  const statementDate = formatDate(initialDate);
-  const previousCopayStartDate = formatDate(subDays(initialDate, 30));
+const StatementCharges = ({ copay }) => {
+  const initialDate = new Date();
+  const today = formatDate(initialDate);
+  const previousCopaysStartDate = formatDate(subMonths(initialDate, 1));
 
   const tableData = copay.details.map(item => {
     return (
@@ -36,17 +32,15 @@ const StatementCharges = ({
   return (
     <article className="vads-u-padding-x--0">
       <h2 data-testid="statement-charges-head" id="statement-charges">
-        {showCurrentStatementHeader
-          ? 'Most recent statement charges'
-          : 'Statement Charges'}
+        Statement Charges
       </h2>
       <p className="vads-u-margin-bottom--0">
         This statement shows charges you received between{' '}
-        {previousCopayStartDate} and {statementDate}.
+        {previousCopaysStartDate} and {today}.
       </p>
       <va-table
         data-testid="statement-charges-table"
-        table-title={showOneThingPerPage ? null : 'Transaction history'}
+        table-title="Transaction history"
         uswds
         table-type="bordered"
       >
@@ -63,8 +57,6 @@ const StatementCharges = ({
 
 StatementCharges.propTypes = {
   copay: PropTypes.object,
-  showCurrentStatementHeader: PropTypes.bool,
-  showOneThingPerPage: PropTypes.bool,
 };
 
 export default StatementCharges;

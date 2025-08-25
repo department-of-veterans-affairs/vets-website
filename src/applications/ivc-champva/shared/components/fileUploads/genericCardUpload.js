@@ -105,7 +105,7 @@ export const createCardUploadSchema = ({
           {frontLabel}
           <br key="front-upload-br" />
           <span key="front-upload-hint" className="usa-hint">
-            Upload front and back as separate files
+            Upload front and back as separate files.
           </span>
         </div>
       ),
@@ -120,7 +120,7 @@ export const createCardUploadSchema = ({
           {backLabel}
           <br key="back-upload-br" />
           <span key="back-upload-hint" className="usa-hint">
-            Upload front and back as separate files
+            Upload front and back as separate files.
           </span>
         </div>
       ),

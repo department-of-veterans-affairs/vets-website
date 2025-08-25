@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import {
   titleUI,
+  titleSchema,
   checkboxGroupSchema,
   checkboxGroupUI,
   arrayBuilderItemSubsequentPageTitleUI,
@@ -30,6 +31,7 @@ export const selectHealthcareParticipantsPage = {
     type: 'object',
     required: [],
     properties: {
+      titleSchema,
       healthcareParticipants: checkboxGroupSchema(['na']),
     },
   },
@@ -64,7 +66,7 @@ function dynamicSchema(data, item) {
       ),
       healthcareParticipants: checkboxGroupUI({
         title,
-        hint: 'Check all that apply',
+        hint: 'Select all that apply',
         required: () => true,
         labels,
       }),
@@ -73,6 +75,7 @@ function dynamicSchema(data, item) {
       type: 'object',
       required: ['healthcareParticipants'],
       properties: {
+        titleSchema,
         healthcareParticipants: checkboxGroupSchema(Object.keys(labels)),
       },
     },
