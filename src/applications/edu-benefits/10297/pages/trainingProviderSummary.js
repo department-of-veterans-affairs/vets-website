@@ -3,12 +3,21 @@ import {
   arrayBuilderYesNoSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
-import { trainingProviderArrayOptions } from '../helpers';
+const arrayBuilderOptions = {
+  arrayPath: 'trainingProviders',
+  nounSingular: 'training provider',
+  nounPlural: 'training providers',
+  required: true,
+  text: {
+    getItemName: item =>
+      item?.providerName ? `${item?.providerName}`.trim() : 'training provider',
+  },
+};
 
 const trainingProviderSummaryPage = {
   uiSchema: {
     trainingProviders: arrayBuilderYesNoUI(
-      trainingProviderArrayOptions,
+      arrayBuilderOptions,
       {
         title: 'Do you have a training provider to add?',
         labels: {
