@@ -78,6 +78,7 @@ export const renderSingleOrList = (
     return (
       <p className={paragraphClass || ''} data-testid={`${testId}-0`}>
         {items[0]}
+        {includeAnds && '.'}
       </p>
     );
   }
