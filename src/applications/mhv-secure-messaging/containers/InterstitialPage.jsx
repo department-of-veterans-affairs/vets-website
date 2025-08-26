@@ -42,6 +42,8 @@ const InterstitialPage = props => {
     [history, cernerPilotSmFeatureFlag, type, dispatch],
   );
 
+  // Arbitrary comment to test if auto-fix has stopped.
+
   return (
     <div className="interstitial-page">
       <h1 className="vads-u-margin-bottom--2">
