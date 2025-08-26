@@ -358,6 +358,30 @@ export const createAddressValidationResponse = type => {
 
   if (type === 'no-suggestions-no-override') {
     return {
+      addresses: [
+        {
+          address: {
+            addressLine1: '999 Unknown Ave',
+            city: 'Springfield',
+            stateCode: 'IL',
+            zipCode: '62704',
+            countryName: 'United States',
+            addressType: 'DOMESTIC',
+          },
+          addressMetaData: {
+            confidenceScore: 40,
+            addressType: 'Domestic',
+            deliveryPointValidation: 'UNDELIVERABLE',
+            residentialDeliveryIndicator: 'RESIDENTIAL',
+          },
+        },
+      ],
+      validationKey: null,
+    };
+  }
+
+  if (type === 'validation-error') {
+    return {
       errors: [
         {
           title: 'Address Validation Error',
