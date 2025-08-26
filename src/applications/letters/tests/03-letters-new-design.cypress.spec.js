@@ -9,7 +9,6 @@ import {
   mockUserData,
   benefitSummaryLetter,
 } from './e2e/fixtures/mocks/lh_letters';
-import featureToggleLettersNewDesign from './e2e/fixtures/mocks/featureToggleLettersNewDesign.json';
 
 describe('New letters page design', () => {
   beforeEach(() => {
@@ -18,7 +17,6 @@ describe('New letters page design', () => {
       'binary',
     ).as('letterPDFBlob');
 
-    cy.intercept('GET', '/v0/feature_toggles?*', featureToggleLettersNewDesign);
     cy.intercept(
       'GET',
       '/v0/letters_generator/beneficiary',

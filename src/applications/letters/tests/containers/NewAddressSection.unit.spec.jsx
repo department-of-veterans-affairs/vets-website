@@ -9,12 +9,8 @@ import thunk from 'redux-thunk';
 import { NewAddressSection } from '../../containers/NewAddressSection';
 
 const mockReducer = (state = {}) => state;
-const getStore = (lettersPageNewDesign = true) => {
+const getStore = () => {
   const initialState = {
-    featureToggles: {
-      // eslint-disable-next-line camelcase
-      letters_page_new_design: lettersPageNewDesign,
-    },
     vapService: {
       hasUnsavedEdits: false,
       initialFormFields: {},
