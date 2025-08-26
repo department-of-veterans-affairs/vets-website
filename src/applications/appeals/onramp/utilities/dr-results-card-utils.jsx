@@ -3,7 +3,10 @@ import OutsideDROption from '../components/dr-results-screens/OutsideDROption';
 import * as c from '../constants/results-content/dr-screens/card-content';
 import { DISPLAY_CONDITIONS } from '../constants/display-conditions';
 import { displayConditionsMet } from './display-conditions';
-import { renderSingleOrList } from '../constants/results-content/common';
+import {
+  HORIZ_RULE,
+  renderSingleOrList,
+} from '../constants/results-content/common';
 
 /**
  * Content is defined with SNAKE_CASE prefixes by type, e.g.:
@@ -69,7 +72,9 @@ export const getCardContent = (card, formResponses, goodFit) => {
     return null;
   });
 
-  return renderSingleOrList(toDisplay, true);
+  const testId = goodFit ? 'gf' : 'ngf';
+
+  return renderSingleOrList(toDisplay, true, null, null, `${testId}-content`);
 };
 
 /**
@@ -146,7 +151,12 @@ export const showOutsideDROption = formResponses => {
   const displayConditions = DISPLAY_CONDITIONS?.[c.CARD_COURT_OF_APPEALS] || {};
 
   if (displayConditionsMet(formResponses, displayConditions)) {
-    return <OutsideDROption />;
+    return (
+      <>
+        {HORIZ_RULE}
+        <OutsideDROption />
+      </>
+    );
   }
 
   return null;

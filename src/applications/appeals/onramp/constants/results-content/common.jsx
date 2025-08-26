@@ -70,17 +70,26 @@ export const renderSingleOrList = (
   includeAnds,
   paragraphClass = null,
   listItemClasses = null,
+  testId = null,
 ) => {
   if (!items?.length) return null;
 
   if (items.length === 1) {
-    return <p className={paragraphClass || ''}>{items[0]}</p>;
+    return (
+      <p className={paragraphClass || ''} data-testid={`${testId}-0`}>
+        {items[0]}
+      </p>
+    );
   }
 
   return (
     <ul>
       {items.map((item, index) => (
-        <li className={listItemClasses} key={index}>
+        <li
+          className={listItemClasses}
+          data-testid={`${testId}-${index}`}
+          key={index}
+        >
           {item}
           {includeAnds && index <= items.length - 2 ? (
             <>

@@ -61,16 +61,21 @@ const displayCards = (formResponses, goodFit) => {
 const displayNotGoodFitCards = formResponses => {
   const cardsToDisplay = displayCards(formResponses, false);
 
-  return (
-    <>
-      <h3>All other decision review options</h3>
-      <p>
-        Based on your answers, these choices may not fit your situation. You are
-        always free to submit any claim you choose.
-      </p>
-      {cardsToDisplay}
-    </>
-  );
+  if (cardsToDisplay.length) {
+    return (
+      <>
+        {HORIZ_RULE}
+        <h3>All other decision review options</h3>
+        <p>
+          Based on your answers, these choices may not fit your situation. You
+          are always free to submit any claim you choose.
+        </p>
+        {cardsToDisplay}
+      </>
+    );
+  }
+
+  return null;
 };
 
 const getCardProps = formResponses => {
@@ -82,9 +87,7 @@ const getCardProps = formResponses => {
         <OverviewPanel formResponses={formResponses} />
         {PRINT_RESULTS}
         {displayCards(formResponses, true)}
-        {HORIZ_RULE}
         {showOutsideDROption(formResponses)}
-        {HORIZ_RULE}
         {displayNotGoodFitCards(formResponses)}
         {HORIZ_RULE}
         {RESTART_GUIDE}
