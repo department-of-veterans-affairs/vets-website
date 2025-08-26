@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 134,
+  "totalApplications": 139,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -172,6 +172,30 @@
       "rootUrl": "/view-change-dependents/verify-dependents-form-21-0538"
     },
     {
+      "directoryPath": "src/applications/dependents/temp-url-change/686c-674",
+      "appName": "686C-674-v2-new-url",
+      "entryName": "686C-674-v2-new-url",
+      "rootUrl": "/manage-dependents/add-remove-form-21-686c-674"
+    },
+    {
+      "directoryPath": "src/applications/dependents/temp-url-change/686c-674-old",
+      "appName": "686C-674-new-url",
+      "entryName": "686C-674-new-url",
+      "rootUrl": "/manage-dependents/add-remove-form-21-686c"
+    },
+    {
+      "directoryPath": "src/applications/dependents/temp-url-change/dependents-verification",
+      "appName": "21-0538 Dependents verification new-url",
+      "entryName": "0538-dependents-verification-new-url",
+      "rootUrl": "/manage-dependents/verify-dependents-form-21-0538"
+    },
+    {
+      "directoryPath": "src/applications/dependents/temp-url-change/view-dependents",
+      "appName": "View Dependents new-url",
+      "entryName": "dependents-view-dependents-new-url",
+      "rootUrl": "/manage-dependents/view"
+    },
+    {
       "directoryPath": "src/applications/dependents/view-dependents",
       "appName": "View Dependents",
       "entryName": "dependents-view-dependents",
@@ -271,7 +295,7 @@
       "directoryPath": "src/applications/edu-benefits/10297",
       "appName": "10297",
       "entryName": "10297-edu-benefits",
-      "rootUrl": "/education/other-va-education-benefits/high-technology-program/apply-for-high-technology-program-form-22-10297"
+      "rootUrl": "/education/other-va-education-benefits/high-technology-education-courses-vet-tec-2/apply-for-program-form-22-10297"
     },
     {
       "directoryPath": "src/applications/edu-benefits/1919",
