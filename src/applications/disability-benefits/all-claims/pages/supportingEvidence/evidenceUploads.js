@@ -2,37 +2,21 @@ import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { VaFileInputMultiple } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import {
-  readAndCheckFile,
-  checkIsEncryptedPdf,
-} from 'platform/forms-system/src/js/utilities/file';
 
 // Constants for this implementation
 const LABEL_TEXT = 'Upload supporting evidence';
 const HINT_TEXT =
   'You can upload a .pdf, .gif, .jpg, .jpeg, .bmp, or .txt file. Your file should be no larger than 50 MB (non-PDF) or 99 MB (PDF only).';
 const VALIDATION_ERROR = 'Please select a file first';
-const PASSWORD_ERROR = 'Please provide a password to decrypt this file';
 
-// File encryption utilities
-const checkFileEncryption = async file => {
-  if (!file.name?.toLowerCase().endsWith('.pdf')) {
-    return false;
-  }
-
-  try {
-    const checks = { checkIsEncryptedPdf };
-    const checkResults = await readAndCheckFile(file, checks);
-    return checkResults.checkIsEncryptedPdf;
-  } catch (error) {
-    return false;
-  }
-};
-
-const createEncryptedFilesList = async files => {
-  return Promise.all(
-    files.map(async fileInfo => checkFileEncryption(fileInfo.file)),
-  );
+// Utility function to format file sizes
+const formatFileSize = bytes => {
+  if (bytes === 0) return '0 B';
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  if (bytes < 1024 * 1024 * 1024)
+    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  return `${(bytes / (1024 * 1024 * 1024)).toFixed(1)} GB`;
 };
 
 // Error handling utilities
@@ -44,25 +28,6 @@ const clearNoFilesError = prevErrors => {
     return [];
   }
   return prevErrors;
-};
-
-const clearSpecificErrors = (prevErrors, errorType, shouldClear) => {
-  // Ensure prevErrors is an array
-  if (!Array.isArray(prevErrors)) {
-    return [];
-  }
-
-  const newErrors = [...prevErrors];
-  let hasChanges = false;
-
-  prevErrors.forEach((error, index) => {
-    if (error === errorType && shouldClear(index)) {
-      newErrors[index] = null;
-      hasChanges = true;
-    }
-  });
-
-  return hasChanges ? newErrors : prevErrors;
 };
 
 const rebuildErrorsAfterFileDeletion = (currentFiles, newFiles, prevErrors) => {
@@ -99,14 +64,6 @@ const updateErrorsOnFileChange = (
   // If files were removed, rebuild error array to match current files
   if (newFiles.length < previousFileCount) {
     updatedErrors = rebuildErrorsAfterFileDeletion(files, newFiles, prevErrors);
-  } else {
-    // Clear password errors when passwords are provided
-    updatedErrors = clearSpecificErrors(
-      updatedErrors,
-      PASSWORD_ERROR,
-      index =>
-        newFiles[index]?.password && newFiles[index].password.trim() !== '',
-    );
   }
 
   return updatedErrors;
@@ -117,14 +74,13 @@ const EvidenceUploadsField = props => {
   const { onChange, formData = [] } = props;
   const [files, setFiles] = useState([]);
   const [errors, setErrors] = useState([]);
-  const [encrypted, setEncrypted] = useState([]);
   const fileInputRef = useRef(null);
 
-  // Initialize files state from formData when component mounts or formData changes
+  // Initialize files state from formData when component mounts
   useEffect(
     () => {
       if (Array.isArray(formData) && formData.length > 0) {
-        // Convert formData back to the format VaFileInputMultiple expects
+        // Convert formData back to File objects for display
         const existingFiles = formData.map(fileInfo => ({
           file: new File([''], fileInfo.name || '', {
             type: fileInfo.type || 'application/octet-stream',
@@ -137,6 +93,8 @@ const EvidenceUploadsField = props => {
           confirmationCode: fileInfo.confirmationCode || '',
         }));
         setFiles(existingFiles);
+      } else {
+        setFiles([]);
       }
     },
     [formData],
@@ -152,7 +110,7 @@ const EvidenceUploadsField = props => {
     const previousFileCount = files.length;
     const newFiles = Array.isArray(state) ? state : [];
 
-    // Update local state
+    // Update local state with the actual File objects
     setFiles(newFiles);
 
     if (newFiles.length > 0) {
@@ -165,13 +123,9 @@ const EvidenceUploadsField = props => {
           previousFileCount,
         );
       });
-
-      const encryptedStatus = await createEncryptedFilesList(newFiles);
-      setEncrypted(encryptedStatus);
     } else {
       // Clear all errors when all files are removed
       setErrors([]);
-      setEncrypted([]);
     }
 
     // Convert File objects to plain objects for form data
@@ -197,24 +151,51 @@ const EvidenceUploadsField = props => {
   return (
     <div className="add-files-form">
       <VaFileInputMultiple
-        key={files.length > 0 ? 'has-files' : 'no-files'}
+        key={`files-${files.length}`}
         accept=".pdf,.jpg,.jpeg,.png,.gif,.bmp,.txt"
         ref={fileInputRef}
-        hint={HINT_TEXT}
+        hint={
+          files.length === 0
+            ? HINT_TEXT
+            : 'Drag an additional file here or choose from folder'
+        }
         label={LABEL_TEXT}
         onVaMultipleChange={handleFileChange}
         errors={errors}
-        encrypted={encrypted}
-        uploadedFiles={files.map((fileInfo, index) => ({
-          key: fileInfo.confirmationCode || `file-${index}`,
-          name: fileInfo.name,
-          size: fileInfo.size,
-          type: fileInfo.type,
-          confirmationCode: fileInfo.confirmationCode || `temp-${Date.now()}`,
-          lastModified: fileInfo.lastModified,
-        }))}
+        uploadedFiles={
+          files.length > 0
+            ? files.map((fileInfo, index) => {
+                // Get the most accurate size value
+                const accurateSize = fileInfo.isRestored
+                  ? fileInfo.size // Use stored metadata for restored files
+                  : fileInfo.file?.size || fileInfo.size || 0; // Use File object size for fresh files
+
+                return {
+                  key: fileInfo.confirmationCode || `file-${index}`,
+                  name: fileInfo.isRestored
+                    ? fileInfo.name
+                    : fileInfo.name || fileInfo.file?.name || '',
+                  size: formatFileSize(accurateSize),
+                  type: fileInfo.isRestored
+                    ? fileInfo.type
+                    : fileInfo.type || fileInfo.file?.type || '',
+                  confirmationCode:
+                    fileInfo.confirmationCode || `temp-${Date.now()}`,
+                  lastModified: fileInfo.isRestored
+                    ? fileInfo.lastModified
+                    : fileInfo.lastModified ||
+                      fileInfo.file?.lastModified ||
+                      Date.now(),
+                };
+              })
+            : undefined
+        }
         value={
-          files.length > 0 ? files.map(fileInfo => fileInfo.file) : undefined
+          files.length > 0
+            ? files
+                .filter(fileInfo => fileInfo.file)
+                .map(fileInfo => fileInfo.file)
+            : undefined
         }
       />
     </div>
