@@ -1,6 +1,8 @@
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
+import { fireEvent } from '@testing-library/react';
+import sinon from 'sinon';
 import reducer from '../../reducers';
 import { Paths } from '../../util/constants';
 import CareTeamHelp from '../../containers/CareTeamHelp';
@@ -67,6 +69,12 @@ describe('CareTeamHelp', () => {
     // Ensure hybrid-specific content is NOT present (should only have one "Update your contact list" link)
     const updateLinks = screen.getAllByText(/Update your contact list/);
     expect(updateLinks).to.have.length(1);
+
+    // Back navigation works
+    const historySpy = sinon.spy(screen.history, 'goBack');
+    const backButton = screen.container.querySelector('va-button[text="Back"]');
+    fireEvent.click(backButton);
+    expect(historySpy.calledOnce).to.be.true;
   });
 
   it('shows Oracle-only content when user has only Oracle Health systems', () => {
@@ -98,6 +106,12 @@ describe('CareTeamHelp', () => {
     // Should only have one "Update your contact list" link (not hybrid's two)
     const updateLinks = screen.getAllByText(/Update your contact list/);
     expect(updateLinks).to.have.length(1);
+
+    // Back navigation works
+    const historySpy = sinon.spy(screen.history, 'goBack');
+    const backButton = screen.container.querySelector('va-button[text="Back"]');
+    fireEvent.click(backButton);
+    expect(historySpy.calledOnce).to.be.true;
   });
 
   it('shows hybrid content when user has both Oracle and VistA systems', () => {
@@ -116,6 +130,12 @@ describe('CareTeamHelp', () => {
 
     // Ensure VistA-only specific content is NOT present
     expect(screen.queryByText(/Enter the first few letters/)).to.not.exist;
+
+    // Back navigation works
+    const historySpy = sinon.spy(screen.history, 'goBack');
+    const backButton = screen.container.querySelector('va-button[text="Back"]');
+    fireEvent.click(backButton);
+    expect(historySpy.calledOnce).to.be.true;
   });
 
   it('includes back button', () => {

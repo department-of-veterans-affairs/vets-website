@@ -15,12 +15,15 @@ const CareTeamHelp = () => {
   const history = useHistory();
 
   // Determine what types of health systems the user has
-  const userSystemTypes = useMemo(() => {
-    const hasOracle = cernerFacilities.length > 0;
-    const hasVista = vistaFacilities.length > 0;
+  const userSystemTypes = useMemo(
+    () => {
+      const hasOracle = cernerFacilities.length > 0;
+      const hasVista = vistaFacilities.length > 0;
 
-    return { hasOracle, hasVista };
-  });
+      return { hasOracle, hasVista };
+    },
+    [cernerFacilities, vistaFacilities],
+  );
 
   // Set page title
   useEffect(() => {
