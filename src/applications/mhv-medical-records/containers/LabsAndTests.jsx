@@ -254,13 +254,12 @@ const LabsAndTests = () => {
             </div>
           </>
         )}
-
         {!isLoadingAcceleratedData && (
           <>
             {labsAndTests?.length ? (
               <>
-                {radRecordsWithImagesReady?.length &&
-                  studyJobs?.length && (
+                {radRecordsWithImagesReady?.length > 0 &&
+                  studyJobs?.length > 0 && (
                     <VaAlert
                       status="success"
                       visible
@@ -277,6 +276,7 @@ const LabsAndTests = () => {
                       />
                     </VaAlert>
                   )}
+
                 <RecordList
                   type={recordType.LABS_AND_TESTS}
                   records={labsAndTests?.map(data => ({
