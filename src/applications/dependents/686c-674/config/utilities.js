@@ -109,22 +109,58 @@ export {
   isClientError,
 };
 
-export function cleanFormData(payload) {
+function copyDataFields(sourceData, cleanData, fields) {
+  fields.forEach(field => {
+    const value = sourceData[field];
+    if (Array.isArray(value) ? value.length > 0 : value) {
+      // eslint-disable-next-line no-param-reassign
+      cleanData[field] = value;
+    }
+  });
+}
+
+export function buildSubmissionData(payload) {
   if (!payload?.data) {
     return payload;
   }
 
-  const data = { ...payload.data };
+  const sourceData = payload.data;
+  const cleanData = {};
 
-  // Get control flags
-  const addEnabled = data['view:addOrRemoveDependents']?.add === true;
-  const removeEnabled = data['view:addOrRemoveDependents']?.remove === true;
+  const addEnabled = sourceData['view:addOrRemoveDependents']?.add === true;
+  const removeEnabled =
+    sourceData['view:addOrRemoveDependents']?.remove === true;
+  const addOptions = sourceData['view:addDependentOptions'] || {};
+  const removeOptions = sourceData['view:removeDependentOptions'] || {};
 
-  const addOptions = data['view:addDependentOptions'] || {};
-  const removeOptions = data['view:removeDependentOptions'] || {};
+  // Always include these - needed for BE
+  Object.assign(cleanData, {
+    useV2: true,
+    daysTillExpires: 365,
+  });
 
-  // Define mappings between control flags and their data fields
-  const addMappings = {
+  const essentialFields = [
+    'veteranInformation',
+    'veteranContactInformation',
+    'statementOfTruthSignature',
+    'statementOfTruthCertified',
+    'metadata',
+  ];
+
+  essentialFields.forEach(field => {
+    if (sourceData[field]) {
+      cleanData[field] = sourceData[field];
+    }
+  });
+
+  // Handle fields that can be undefined/false - vaDependentsNetWorthAndPension recently added to formData
+  ['householdIncome', 'vaDependentsNetWorthAndPension'].forEach(field => {
+    if (sourceData[field] !== undefined) {
+      cleanData[field] = sourceData[field];
+    }
+  });
+
+  const addDataMappings = {
     addSpouse: [
       'currentMarriageInformation',
       'doesLiveWithSpouse',
@@ -138,7 +174,7 @@ export function cleanFormData(payload) {
     report674: ['studentInformation'],
   };
 
-  const removeMappings = {
+  const removeDataMappings = {
     reportDivorce: ['reportDivorce'],
     reportDeath: ['deaths'],
     reportStepchildNotInHousehold: ['stepChildren'],
@@ -146,89 +182,54 @@ export function cleanFormData(payload) {
     reportChild18OrOlderIsNotAttendingSchool: ['childStoppedAttendingSchool'],
   };
 
-  const removeDataFields = (mappings, options, enabled) => {
-    if (!enabled) {
-      // Remove all fields if the main flag is disabled
-      Object.values(mappings)
-        .flat()
-        .forEach(field => delete data[field]);
-      return {};
-    }
-
-    const cleanOptions = {};
-    const fieldsToKeep = new Set();
-
-    // Determine which fields to keep based on enabled options
-    Object.entries(mappings).forEach(([option, fields]) => {
-      if (options[option] === true) {
-        cleanOptions[option] = true;
-        fields.forEach(field => fieldsToKeep.add(field));
+  // Add options
+  const enabledAddOptions = {};
+  if (addEnabled) {
+    Object.entries(addDataMappings).forEach(([option, fields]) => {
+      if (addOptions[option] === true) {
+        enabledAddOptions[option] = true;
+        copyDataFields(sourceData, cleanData, fields);
       }
     });
-
-    // Remove fields that aren't needed
-    Object.values(mappings)
-      .flat()
-      .forEach(field => {
-        if (!fieldsToKeep.has(field)) {
-          delete data[field];
-        }
-      });
-
-    return cleanOptions;
-  };
-
-  const cleanAddOptions = removeDataFields(addMappings, addOptions, addEnabled);
-  const cleanRemoveOptions = removeDataFields(
-    removeMappings,
-    removeOptions,
-    removeEnabled,
-  );
-
-  // Update control objects
-  if (Object.keys(cleanAddOptions).length > 0) {
-    data['view:addDependentOptions'] = cleanAddOptions;
-  } else {
-    delete data['view:addDependentOptions'];
   }
 
-  if (Object.keys(cleanRemoveOptions).length > 0) {
-    data['view:removeDependentOptions'] = cleanRemoveOptions;
-  } else {
-    delete data['view:removeDependentOptions'];
+  // Remove options
+  const enabledRemoveOptions = {};
+  if (removeEnabled) {
+    Object.entries(removeDataMappings).forEach(([option, fields]) => {
+      if (removeOptions[option] === true) {
+        enabledRemoveOptions[option] = true;
+        copyDataFields(sourceData, cleanData, fields);
+      }
+    });
   }
 
-  // Clean main control object
-  const cleanMainOptions = {};
-  if (addEnabled && Object.keys(cleanAddOptions).length > 0) {
-    cleanMainOptions.add = true;
-  }
-  if (removeEnabled && Object.keys(cleanRemoveOptions).length > 0) {
-    cleanMainOptions.remove = true;
+  if (Object.keys(enabledAddOptions).length > 0) {
+    cleanData['view:addDependentOptions'] = enabledAddOptions;
   }
 
-  if (Object.keys(cleanMainOptions).length > 0) {
-    data['view:addOrRemoveDependents'] = cleanMainOptions;
-  } else {
-    delete data['view:addOrRemoveDependents'];
+  if (Object.keys(enabledRemoveOptions).length > 0) {
+    cleanData['view:removeDependentOptions'] = enabledRemoveOptions;
   }
 
-  // Clean selectable options (combine both add and remove)
-  const cleanSelectableOptions = { ...cleanAddOptions, ...cleanRemoveOptions };
-  if (Object.keys(cleanSelectableOptions).length > 0) {
-    data['view:selectable686Options'] = cleanSelectableOptions;
-  } else {
-    delete data['view:selectable686Options'];
+  const mainControl = {};
+  if (addEnabled && Object.keys(enabledAddOptions).length > 0) {
+    mainControl.add = true;
+  }
+  if (removeEnabled && Object.keys(enabledRemoveOptions).length > 0) {
+    mainControl.remove = true;
   }
 
-  // Remove empty arrays
-  Object.keys(data).forEach(key => {
-    if (Array.isArray(data[key]) && data[key].length === 0) {
-      delete data[key];
-    }
-  });
+  if (Object.keys(mainControl).length > 0) {
+    cleanData['view:addOrRemoveDependents'] = mainControl;
+  }
 
-  return { ...payload, data };
+  const selectableOptions = { ...enabledAddOptions, ...enabledRemoveOptions };
+  if (Object.keys(selectableOptions).length > 0) {
+    cleanData['view:selectable686Options'] = selectableOptions;
+  }
+
+  return { ...payload, data: cleanData };
 }
 
 export function customTransformForSubmit(formConfig, form) {
@@ -251,7 +252,7 @@ export function customTransformForSubmit(formConfig, form) {
     payload,
   );
 
-  const cleanedPayload = cleanFormData(withoutInactivePages);
+  const cleanedPayload = buildSubmissionData(withoutInactivePages);
 
   return JSON.stringify(cleanedPayload, customFormReplacer) || '{}';
 }
