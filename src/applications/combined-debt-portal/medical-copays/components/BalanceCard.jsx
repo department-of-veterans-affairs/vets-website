@@ -130,7 +130,7 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
 
           <VaLinkAction
             data-testid={`resolve-link-${id}`}
-            aria-label={`Review details for ${facility}`}
+            aria-label={`Resolve this bill for ${facility}`}
             href={`/copay-balances/${id}/resolve`}
             onClick={event => {
               event.preventDefault();
