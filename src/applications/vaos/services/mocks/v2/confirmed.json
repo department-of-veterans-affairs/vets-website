@@ -17,7 +17,12 @@
         },
         "providerServiceId": "9L5WE4aN",
         "providerName": "A&D HEALTH CARE PROFESSIONALS, INC.",
-        "location": "Error fetching facility details"
+        "location": "Error fetching facility details",
+        "kind": "cc",
+        "type": "COMMUNITY_CARE_APPOINTMENT",
+        "pending": false,
+        "past": true,
+        "future": false
       }
     },
     {
@@ -37,7 +42,12 @@
         },
         "providerServiceId": "C64bNrfc",
         "providerName": "HUME PHARMACY",
-        "location": "Error fetching facility details"
+        "location": "Error fetching facility details",
+        "kind": "cc",
+        "type": "COMMUNITY_CARE_APPOINTMENT",
+        "pending": false,
+        "past": true,
+        "future": false
       }
     },
     {
@@ -56,7 +66,12 @@
           "referralNumber": "12345"
         },
         "providerServiceId": "Aq7wgAux",
-        "providerName": "unknown"
+        "providerName": "unknown",
+        "kind": "cc",
+        "type": "COMMUNITY_CARE_APPOINTMENT",
+        "pending": false,
+        "past": true,
+        "future": false
       }
     },
     {
