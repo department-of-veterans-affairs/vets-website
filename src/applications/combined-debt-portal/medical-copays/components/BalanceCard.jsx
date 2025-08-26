@@ -116,6 +116,7 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
       {showCDPOneThingPerPage ? (
         <div className="vads-u-display--flex vads-u-flex-direction--column">
           <VaLinkAction
+            active
             data-testid={`detail-link-${id}`}
             aria-label={`Review details for ${facility}`}
             href={`/copay-balances/${id}/detail`}
@@ -129,6 +130,7 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
           />
 
           <VaLinkAction
+            active
             data-testid={`resolve-link-${id}`}
             aria-label={`Resolve this bill for ${facility}`}
             href={`/copay-balances/${id}/resolve`}
