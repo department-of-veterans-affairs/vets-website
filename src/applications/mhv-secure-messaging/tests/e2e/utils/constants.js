@@ -13,6 +13,8 @@ export const Paths = {
   DRAFT: '/draft/',
   DELETED: '/trash/',
   COMPOSE: '/new-message/',
+  START_MESSAGE: '/start-message',
+  SELECT_CARE_TEAM: '/select-care-team',
   MESSAGE: '/message/',
   MESSAGE_THREAD: '/thread/',
   FOLDERS: '/folders',
