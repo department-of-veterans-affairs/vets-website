@@ -1,4 +1,5 @@
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
+import { format } from 'date-fns';
 import { Actions } from '../util/actionTypes';
 import { EMPTY_FIELD, loadStates } from '../util/constants';
 import {
@@ -113,6 +114,37 @@ export const convertNewCondition = condition => {
   return null;
 };
 
+// TODO: Copied from unifiedCareSummariesAndNotes. Is this still necessary?
+export function formatDateTime(datetimeString) {
+  const dateTime = new Date(datetimeString);
+  if (Number.isNaN(dateTime.getTime())) {
+    return { formattedDate: '', formattedTime: '' };
+  }
+  const formattedDate = format(dateTime, 'MMMM d, yyyy');
+  const formattedTime = format(dateTime, 'h:mm a');
+
+  return { formattedDate, formattedTime };
+}
+
+// TODO: Confirm data structure
+export const convertUnifiedConditionRecord = record => {
+  const formatConditionDate = formatDateTime(record.attributes.date);
+  const conditionDate = formatConditionDate
+    ? `${formatConditionDate.formattedDate}, ${
+        formatConditionDate.formattedTime
+      }`
+    : '';
+
+  return {
+    id: record.id,
+    date: conditionDate || EMPTY_FIELD,
+    name: record?.attribute.name || EMPTY_FIELD,
+    provider: record.attribute.provider || EMPTY_FIELD,
+    facility: record.attribute.facility || EMPTY_FIELD,
+    comments: record.attribute.comments || EMPTY_FIELD,
+  };
+};
+
 export const conditionReducer = (state = initialState, action) => {
   switch (action.type) {
     case Actions.Conditions.GET: {
@@ -152,6 +184,27 @@ export const conditionReducer = (state = initialState, action) => {
           convertNewCondition(record.attributes),
         );
       }
+      return {
+        ...state,
+        listCurrentAsOf: action.isCurrent ? new Date() : null,
+        listState: loadStates.FETCHED,
+        conditionsList: typeof oldList === 'undefined' ? newList : oldList,
+        updatedList: typeof oldList !== 'undefined' ? newList : undefined,
+      };
+    }
+    case Actions.Conditions.GET_UNIFIED_LIST: {
+      const data = action.response || [];
+      const oldList = state.conditionsList;
+      const newList =
+        data
+          ?.map(condition => {
+            return convertUnifiedConditionRecord(condition);
+          })
+          .sort((a, b) => {
+            if (!a.sortByDate) return 1; // Push nulls to the end
+            if (!b.sortByDate) return -1; // Keep non-nulls at the front
+            return b.sortByDate.getTime() - a.sortByDate.getTime();
+          }) || [];
       return {
         ...state,
         listCurrentAsOf: action.isCurrent ? new Date() : null,
