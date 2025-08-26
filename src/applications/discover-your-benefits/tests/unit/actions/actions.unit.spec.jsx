@@ -1388,4 +1388,84 @@ describe('actions', () => {
       expect(result).to.be.false;
     });
   });
+
+  describe('VA national cemetery burial - BUR', () => {
+    const benefit = getBenefitById('BUR');
+    const validGoals = [goalTypes.UNDERSTAND, goalTypes.PLAN];
+    const invalidGoals = getInvalidMappingValues(validGoals, goalTypes);
+    const validDischarge = [
+      characterOfDischargeTypes.HONORABLE,
+      characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
+      characterOfDischargeTypes.UNDER_OTHER_THAN_HONORABLE_CONDITIONS,
+      characterOfDischargeTypes.UNCHARACTERIZED,
+      characterOfDischargeTypes.BAD_CONDUCT,
+      characterOfDischargeTypes.NOT_SURE,
+      characterOfDischargeTypes.STILL_SERVING,
+    ];
+    const invalidDischarge = getInvalidMappingValues(
+      validDischarge,
+      characterOfDischargeTypes,
+    );
+
+    validGoals.forEach(goal => {
+      const formData = {
+        [mappingTypes.GOALS]: { [goal]: true },
+        [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: true,
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
+        [militaryBranchTypes.ARMY]: {
+          [militaryBranchComponentTypes.ACTIVE_DUTY]: true,
+        },
+      };
+      it(`should return true with goal: ${goal}`, () => {
+        const result = actions.mapBenefitFromFormInputData(benefit, formData);
+        expect(result).to.be.true;
+      });
+    });
+
+    validDischarge.forEach(discharge => {
+      const formData = {
+        [mappingTypes.GOALS]: formatData(validGoals),
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: discharge,
+        [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: true,
+      };
+      it(`should return true with discharge: ${discharge}`, () => {
+        const result = actions.mapBenefitFromFormInputData(benefit, formData);
+        expect(result).to.be.true;
+      });
+    });
+
+    it('should return false with incorrect goals', () => {
+      const formData = {
+        [mappingTypes.GOALS]: formatData(invalidGoals),
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
+        [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: true,
+      };
+      const result = actions.mapBenefitFromFormInputData(benefit, formData);
+      expect(result).to.be.false;
+    });
+
+    it('should return false with incorrect discharge', () => {
+      const formData = {
+        [mappingTypes.GOALS]: formatData(validGoals),
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(invalidDischarge),
+        [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: true,
+      };
+      const result = actions.mapBenefitFromFormInputData(benefit, formData);
+      expect(result).to.be.false;
+    });
+
+    it('should return false with no title ten and no active duty', () => {
+      const formData = {
+        [mappingTypes.GOALS]: formatData(validGoals),
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
+        [mappingTypes.BRANCH_COMPONENT.TITLE_TEN_ACTIVE_DUTY]: false,
+        [militaryBranchTypes.ARMY]: {
+          [militaryBranchComponentTypes.NATIONAL_GUARD_SERVICE]: true,
+          [militaryBranchComponentTypes.RESERVE_SERVICE]: true,
+        },
+      };
+      const result = actions.mapBenefitFromFormInputData(benefit, formData);
+      expect(result).to.be.false;
+    });
+  });
 });
