@@ -55,6 +55,16 @@ export const getValidationMessageKey = ({
         MISSING_UNIT_NUMBER,
     ).length > 0;
 
+  if (addressValidationError) {
+    if (
+      ADDRESS_VALIDATION_SERVICE_FAILURE_CODES.has(addressValidationErrorCode)
+    ) {
+      return ADDRESS_VALIDATION_TYPES.SYSTEM_ERROR;
+    }
+
+    return ADDRESS_VALIDATION_TYPES.NO_SUGGESTIONS_NO_OVERRIDE;
+  }
+
   if (isNoValidationKeyAlertEnabled) {
     if (!validationKey && confirmedSuggestions.length) {
       return ADDRESS_VALIDATION_TYPES.SHOW_SUGGESTIONS_NO_OVERRIDE;
@@ -63,16 +73,6 @@ export const getValidationMessageKey = ({
     if (!validationKey && !confirmedSuggestions.length) {
       return ADDRESS_VALIDATION_TYPES.NO_SUGGESTIONS_NO_OVERRIDE;
     }
-  }
-
-  if (addressValidationError) {
-    if (
-      ADDRESS_VALIDATION_SERVICE_FAILURE_CODES.has(addressValidationErrorCode)
-    ) {
-      return ADDRESS_VALIDATION_TYPES.SYSTEM_ERROR;
-    }
-
-    return ADDRESS_VALIDATION_TYPES.VALIDATION_ERROR;
   }
 
   if (singleSuggestion && containsBadUnitNumber) {
