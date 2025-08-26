@@ -145,18 +145,26 @@ const LabsAndTests = () => {
 
   useEffect(
     () => {
-      // Only update if there is no time frame. This is only for on initial page load.
-      const timeFrame = new URLSearchParams(location.search).get('timeFrame');
-      if (!timeFrame) {
-        const searchParams = new URLSearchParams(location.search);
-        searchParams.set('timeFrame', acceleratedLabsAndTestDate);
-        history.push({
-          pathname: location.pathname,
-          search: searchParams.toString(),
-        });
+      if (isAcceleratingLabsAndTests) {
+        // Only update if there is no time frame. This is only for on initial page load.
+        const timeFrame = new URLSearchParams(location.search).get('timeFrame');
+        if (!timeFrame) {
+          const searchParams = new URLSearchParams(location.search);
+          searchParams.set('timeFrame', acceleratedLabsAndTestDate);
+          history.push({
+            pathname: location.pathname,
+            search: searchParams.toString(),
+          });
+        }
       }
     },
-    [acceleratedLabsAndTestDate, history, location.pathname, location.search],
+    [
+      acceleratedLabsAndTestDate,
+      history,
+      isAcceleratingLabsAndTests,
+      location.pathname,
+      location.search,
+    ],
   );
   const updateDate = event => {
     const [year, month] = event.target.value.split('-');
