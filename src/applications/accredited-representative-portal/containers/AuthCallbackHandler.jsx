@@ -108,7 +108,7 @@ AuthCallbackHandler.loader = async () => {
   const searchParams = new URLSearchParams(window.location.search);
   const code = searchParams.get('code');
   const state = searchParams.get('state');
-  const to = searchParams.get('to') || '/poa-requests';
+  const to = searchParams.get('to') || '/representative/poa-requests';
 
   // If we have code and state, process the OAuth callback
   if (code && state) {
@@ -133,7 +133,8 @@ AuthCallbackHandler.loader = async () => {
       // Set hasSession flag to ensure page refreshes recognize the user is authenticated
       localStorage.setItem('hasSession', 'true');
 
-      window.location.replace('/representative/poa-requests');
+      // Redirect to the destination computed earlier (defaults to POA requests)
+      window.location.replace(to);
       return null; // Return null since the page will reload
     } catch (error) {
       // Get detailed error information

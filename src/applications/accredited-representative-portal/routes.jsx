@@ -14,6 +14,7 @@ import ErrorBoundary from './components/Error/ErrorBoundary';
 import GetHelpPage from './containers/GetHelpPage';
 import LoginContainer from './containers/LoginContainer';
 import AuthCallbackHandler from './containers/AuthCallbackHandler';
+import DashboardPage from './containers/DashboardPage';
 import { ProfileContext, profileUser } from './components/Header/Nav';
 
 import { userPromise } from './utilities/auth';
@@ -88,6 +89,10 @@ const routes = [
           forEachRoute(addSignInRedirection, {
             element: <SignedInLayout />,
             children: [
+              {
+                path: 'dashboard',
+                element: <DashboardPage />,
+              },
               {
                 path: 'poa-requests',
                 element: (
