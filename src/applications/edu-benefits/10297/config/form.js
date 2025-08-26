@@ -27,7 +27,7 @@ import {
   employmentFocus,
   salaryDetails,
   educationDetails,
-  trainingProviderSummary,
+  trainingProviderSummaryPage,
   trainingProviderDetails,
   trainingProviderStartDate,
 } from '../pages';
@@ -150,8 +150,8 @@ const formConfig = {
           trainingProviderSummary: pageBuilder.summaryPage({
             title: 'Tell us about your training provider',
             path: 'training-provider',
-            uiSchema: trainingProviderSummary.uiSchema,
-            schema: trainingProviderSummary.schema,
+            uiSchema: trainingProviderSummaryPage.uiSchema,
+            schema: trainingProviderSummaryPage.schema,
           }),
           trainingProviderDetails: pageBuilder.itemPage({
             title: 'Training provider name and mailing address',

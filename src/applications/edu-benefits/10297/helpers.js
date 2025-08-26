@@ -2,6 +2,7 @@ import React from 'react';
 
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import { trainingProviderIntro } from './pages/trainingProviderIntro';
 
 export const ConfirmationWhatsNextProcessList = () => (
   <>
@@ -123,6 +124,20 @@ export const trainingProviderArrayOptions = {
   nounSingular: 'training provider',
   nounPlural: 'training providers',
   required: false,
+  text: {
+    getItemName: item =>
+      item?.providerName ? `${item?.providerName}`.trim() : 'training provider',
+    summaryTitleWithoutItems: 'Tell us about your training provider',
+    summaryTitle: 'Review your training provider information',
+    summaryDescriptionWithoutItems: props => {
+      const count = props.formData?.trainingProviders?.length ?? 0;
+      return count > 0 ? null : trainingProviderIntro;
+    },
+    cardDescription: item => getCardDescription(item),
+    cancelAddYes: 'Yes, cancel',
+    cancelAddNo: 'No, continue adding information',
+    cancelAddButtonText: 'Cancel adding this training provider',
+  },
   isItemIncomplete: item => {
     return (
       !item?.providerName ||
@@ -133,15 +148,6 @@ export const trainingProviderArrayOptions = {
     );
   },
   maxItems: 4,
-  text: {
-    getItemName: item =>
-      item?.providerName ? `${item?.providerName}`.trim() : 'training provider',
-    cardDescription: item => getCardDescription(item),
-    cancelAddYes: 'Yes, cancel',
-    cancelAddNo: 'No, continue adding information',
-    summaryTitle: 'Review your training provider information',
-    cancelAddButtonText: 'Cancel adding this training provider',
-  },
 };
 
 const MS_IN_DAY = 86_400_000;

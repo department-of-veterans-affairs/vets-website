@@ -8,7 +8,7 @@ import * as employmentDetails from './employmentDetails';
 import * as employmentFocus from './employmentFocus';
 import * as salaryDetails from './salaryDetails';
 import * as educationDetails from './educationDetails';
-import * as trainingProviderSummary from './trainingProviderSummary';
+import { trainingProviderSummaryPage } from './trainingProviderSummary';
 import * as trainingProviderDetails from './trainingProviderDetails';
 import * as trainingProviderStartDate from './trainingProviderStartDate';
 
@@ -23,7 +23,7 @@ export {
   employmentFocus,
   salaryDetails,
   educationDetails,
-  trainingProviderSummary,
+  trainingProviderSummaryPage,
   trainingProviderDetails,
   trainingProviderStartDate,
 };
