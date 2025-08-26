@@ -1,7 +1,12 @@
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 
-import { getFullName, maskID, isEmptyObject } from '../../utils';
+import {
+  getFullName,
+  maskID,
+  isEmptyObject,
+  getRootParentUrl,
+} from '../../utils';
 
 describe('getFullName', () => {
   it('should return empty string for undefined name object', () => {
@@ -83,5 +88,23 @@ describe('isEmptyObject', () => {
   it('should return false for an object with non-empty nested objects', () => {
     const result = isEmptyObject({ a: { b: 'value' } });
     expect(result).to.be.false;
+  });
+});
+
+describe('getRootParentUrl', () => {
+  it('should return the root parent URL for a URL without trailing slash', () => {
+    expect(getRootParentUrl('/root/app-name/')).to.equal('/root');
+    expect(
+      getRootParentUrl('/view-change-dependents/add-remove-form-21-686c-674'),
+    ).to.equal('/view-change-dependents');
+    expect(
+      getRootParentUrl('/manage-dependents/add-remove-form-21-686c-674'),
+    ).to.equal('/manage-dependents');
+    expect(
+      getRootParentUrl('/view-change-dependents/add-remove-form-21-686c-674/'),
+    ).to.equal('/view-change-dependents');
+    expect(
+      getRootParentUrl('/manage-dependents/add-remove-form-21-686c-674/'),
+    ).to.equal('/manage-dependents');
   });
 });
