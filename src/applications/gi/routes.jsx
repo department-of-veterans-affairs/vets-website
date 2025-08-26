@@ -58,12 +58,20 @@ const BuildRoutes = () => {
                 from="/institution/:facilityCode"
                 to="/schools-and-employers/institution/:facilityCode"
               />
-              {giComparisonToolCautionaryInfoUpdate && (
-                <Route
-                  path="/schools-and-employers/institution/:facilityCode/filter-student-feedback"
-                  component={FilterStudentFeedbackPage}
-                />
-              )}
+              <Route
+                path="/schools-and-employers/institution/:facilityCode/filter-student-feedback"
+                render={({ match }) =>
+                  giComparisonToolCautionaryInfoUpdate ? (
+                    <FilterStudentFeedbackPage />
+                  ) : (
+                    <Redirect
+                      to={`/schools-and-employers/institution/${
+                        match.params.facilityCode
+                      }`}
+                    />
+                  )
+                }
+              />
               <Route
                 path="/schools-and-employers/institution/:facilityCode/:programType"
                 render={({ match }) => <ProgramsList match={match} />}
