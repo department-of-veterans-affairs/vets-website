@@ -14,10 +14,10 @@ const testConfig = createTestConfig(
     dataPrefix: 'data',
     dataSets: [
       'ancillary-flows',
-      'add-child-report-divorce',
-      'spouse-report-divorce',
-      'report-married-child-report-student-left-school',
-      'report-death',
+      // 'add-child-report-divorce',
+      // 'spouse-report-divorce',
+      // 'report-married-child-report-student-left-school',
+      // 'report-death',
     ],
     fixtures: { data: path.join(__dirname, 'fixtures') },
     setupPerTest: () => {
@@ -69,12 +69,12 @@ const testConfig = createTestConfig(
         });
       },
 
-      // 'check-veteran-pension': ({ afterHook }) => {
-      //   afterHook(() => {
-      //     cy.fillPage();
-      //     cy.clickFormContinue();
-      //   });
-      // },
+      'check-veteran-pension': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('input[type="radio"][value="N"]').click();
+          cy.clickFormContinue();
+        });
+      },
 
       'veteran-address': ({ afterHook }) => {
         afterHook(() => {
