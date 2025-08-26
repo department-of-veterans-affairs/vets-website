@@ -65,12 +65,14 @@ export const getValidationMessageKey = ({
     return ADDRESS_VALIDATION_TYPES.NO_SUGGESTIONS_NO_OVERRIDE;
   }
 
-  if (
-    isNoValidationKeyAlertEnabled &&
-    !validationKey &&
-    confirmedSuggestions.length
-  ) {
-    return ADDRESS_VALIDATION_TYPES.SHOW_SUGGESTIONS_NO_OVERRIDE;
+  if (isNoValidationKeyAlertEnabled) {
+    if (!validationKey && confirmedSuggestions.length) {
+      return ADDRESS_VALIDATION_TYPES.SHOW_SUGGESTIONS_NO_OVERRIDE;
+    }
+
+    if (!validationKey && !confirmedSuggestions.length) {
+      return ADDRESS_VALIDATION_TYPES.NO_SUGGESTIONS_NO_OVERRIDE;
+    }
   }
 
   if (singleSuggestion && containsBadUnitNumber) {

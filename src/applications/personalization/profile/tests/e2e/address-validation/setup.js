@@ -12,7 +12,7 @@ import { createAddressValidationResponse } from './addressValidation';
 import { createUserResponse } from './user';
 
 export const setUp = (type, toggles = {}) => {
-  const statusCode = type === 'no-suggestions-no-override' ? 400 : 200;
+  const statusCode = type === 'validation-error' ? 400 : 200;
 
   cy.intercept('POST', '/v0/profile/address_validation', {
     statusCode,
