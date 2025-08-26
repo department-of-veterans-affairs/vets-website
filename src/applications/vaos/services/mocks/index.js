@@ -1,9 +1,15 @@
 /* istanbul ignore file */
 /* eslint-disable camelcase */
 const delay = require('mocker-api/lib/delay');
-const moment = require('moment');
 
 // v2
+const { formatInTimeZone } = require('date-fns-tz');
+const {
+  isAfter,
+  isValid,
+  isWithinInterval,
+  differenceInMinutes,
+} = require('date-fns');
 const ccProviders = require('./v2/cc_providers.json');
 const facilitiesV2 = require('./v2/facilities.json');
 const schedulingConfigurationsCC = require('./v2/scheduling_configurations_cc.json');
@@ -12,6 +18,7 @@ const appointmentSlotsV2 = require('./v2/slots.json');
 const clinicsV2 = require('./v2/clinics.json');
 const patientProviderRelationships = require('./v2/patient_provider_relationships.json');
 const recentLocations = require('./v2/recent_locations.json');
+const vamcEhr = require('./v2/vamc_ehr.json');
 
 // To locally test appointment details null state behavior, comment out
 // the inclusion of confirmed.json and uncomment the inclusion of
@@ -35,7 +42,6 @@ const epsAppointmentUtils = require('../../referral-appointments/utils/appointme
 
 // Returns the meta object without any backend service errors
 const meta = require('./v2/meta.json');
-const momentTz = require('../../lib/moment-tz');
 const features = require('./featureFlags');
 
 const mockAppts = [];
@@ -83,9 +89,14 @@ const responses = {
       .filter(slot => slot.id === req.body.slot?.id)
       .map(slot => slot.attributes.start);
     // convert to local time in America/Denver timezone
-    const localTime = momentTz(selectedTime[0])
-      .tz('America/Denver')
-      .format('YYYY-MM-DDTHH:mm:ss');
+    let localTime;
+    if (selectedTime && selectedTime.length) {
+      localTime = formatInTimeZone(
+        selectedTime[0],
+        'America/Denver',
+        'yyyy-MM-ddTHH:mm:ss',
+      );
+    }
     const pending = req.body.status === 'proposed';
     const future = req.body.status === 'booked';
     let reasonForAppointment;
@@ -157,8 +168,9 @@ const responses = {
       appt.attributes.cancelationReason = { coding: [{ code: 'pat' }] };
       appt.attributes.cancellable = false;
       if (appt.attributes.start) {
-        appt.attributes.future = moment(appt.attributes.start).isAfter(
-          moment(),
+        appt.attributes.future = isAfter(
+          new Date(appt.attributes.start),
+          new Date(),
         );
       }
     }
@@ -178,14 +190,15 @@ const responses = {
     const appointments = confirmedV2.data.concat(requestsV2.data, mockAppts);
     for (const appointment of appointments) {
       if (appointment.attributes.start) {
-        appointment.attributes.future = moment(
-          appointment.attributes.start,
-        ).isAfter(moment());
+        appointment.attributes.future = isAfter(
+          new Date(appointment.attributes.start),
+          new Date(),
+        );
 
         if (appointment.attributes.modality === 'vaVideoCareAtHome') {
-          const diff = moment().diff(
-            moment(appointment.attributes.start),
-            'minutes',
+          const diff = differenceInMinutes(
+            new Date(),
+            new Date(appointment.attributes.start),
           );
           if (!appointment.attributes.telehealth) {
             appointment.attributes.telehealth = {};
@@ -206,24 +219,25 @@ const responses = {
             return true;
 
           const { requestedPeriods } = appointment.attributes;
-          let date = moment.invalid();
+          let date;
 
           if (status === 'proposed') {
-            // Must check for valid data since creating a moment object with invalid
-            // data defaults to creating a moment object using the current date.
             if (
               Array.isArray(requestedPeriods) &&
               requestedPeriods.length > 0
             ) {
-              date = moment(requestedPeriods[0].start);
+              date = new Date(requestedPeriods[0].start);
             }
           } else if (status === 'booked') {
-            date = moment(appointment.attributes.start);
+            date = new Date(appointment.attributes.start);
           }
 
           if (
-            date.isValid() &&
-            date.isBetween(req.query.start, req.query.end, 'day', '(]')
+            isValid(date) &&
+            isWithinInterval(date, {
+              start: new Date(req.query.start),
+              end: new Date(req.query.end),
+            })
           ) {
             return true;
           }
@@ -252,7 +266,7 @@ const responses = {
     );
 
     if (appointment?.start) {
-      appointment.future = moment(appointment.start).isAfter(moment());
+      appointment.future = isAfter(new Date(appointment.start), new Date());
     }
     return res.json({
       data: appointment,
@@ -307,11 +321,11 @@ const responses = {
     req,
     res,
   ) => {
-    const start = moment(req.query.start);
-    const end = moment(req.query.end);
+    const start = new Date(req.query.start);
+    const end = new Date(req.query.end);
     const slots = appointmentSlotsV2.data.filter(slot => {
-      const slotStartDate = moment(slot.attributes.start);
-      return slotStartDate.isBetween(start, end, '[]');
+      const slotStartDate = new Date(slot.attributes.start);
+      return isWithinInterval(slotStartDate, { start, end });
     });
     return res.json({
       data: slots,
@@ -549,6 +563,9 @@ const responses = {
     return res.status(201).json({
       data: { id },
     });
+  },
+  'GET /data/cms/vamc-ehr.json': (req, res) => {
+    return res.json(vamcEhr);
   },
   // Required v0 APIs
   'GET /v0/user': {

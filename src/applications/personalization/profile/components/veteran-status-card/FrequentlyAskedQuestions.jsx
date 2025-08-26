@@ -7,30 +7,47 @@ const FrequentlyAskedQuestions = ({ createPdf, pdfError = false }) => (
   <>
     <h2 className="vads-u-margin-top--2">Frequently asked questions</h2>
     <va-accordion>
-      <va-accordion-item header="What if my Veteran Status Card displays incorrect information?">
-        To fix an error in your disability rating, call us at{' '}
-        <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
-        <va-telephone contact={CONTACTS[711]} tty />
-        ).
-        <p />
-        To correct your service history information, call the Defense Manpower
-        Data Center at <va-telephone contact={CONTACTS.DS_LOGON} /> (
-        <va-telephone contact={CONTACTS[711]} tty />
-        ).
+      <va-accordion-item
+        level={3}
+        header="What if my Veteran Status Card displays incorrect information?"
+      >
+        <p>
+          To fix an error in your disability rating, call us at{' '}
+          <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
+          <va-telephone contact={CONTACTS[711]} tty />
+          ).
+        </p>
+        <p>
+          To correct your service history information, call the Defense Manpower
+          Data Center at <va-telephone contact={CONTACTS.DS_LOGON} /> (
+          <va-telephone contact={CONTACTS[711]} tty />
+          ).
+        </p>
       </va-accordion-item>
-      <va-accordion-item header="How can I use the Veteran Status Card?">
-        This card is for identification only and doesn’t entitle you to any VA
-        benefits.
-        <p />
-        You can use this card to prove your Veteran status to businesses and
-        organizations offering discounts. Acceptance may vary, so check with
-        specific entities in advance. Additional documentation may be required.
+      <va-accordion-item
+        level={3}
+        header="How can I use the Veteran Status Card?"
+      >
+        <p>
+          This card is for identification only and doesn’t entitle you to any VA
+          benefits.
+        </p>
+        <p>
+          You can use this card to prove your Veteran status to businesses and
+          organizations offering discounts. Acceptance may vary, so check with
+          specific entities in advance. Additional documentation may be
+          required.
+        </p>
       </va-accordion-item>
       {createPdf && (
-        <va-accordion-item header="How do I get a physical version of my Veteran Status Card?">
-          You can print a copy of your Veteran Status Card and cut it out to
-          keep in your wallet.
-          <p />
+        <va-accordion-item
+          level={3}
+          header="How do I get a physical version of my Veteran Status Card?"
+        >
+          <p>
+            You can print a copy of your Veteran Status Card and cut it out to
+            keep in your wallet.
+          </p>
           <va-link
             filetype="PDF"
             // exception to eslint: the url is a dynamically generated blob url
@@ -46,11 +63,15 @@ const FrequentlyAskedQuestions = ({ createPdf, pdfError = false }) => (
           )}
         </va-accordion-item>
       )}
-      <va-accordion-item header="What other types of Veteran ID are available?">
-        Other options include the Veteran Health Identification Card (VHIC),
-        Department of Defense (DoD) ID Card, and Veteran designation on
-        state-issued IDs or driver’s licenses.
-        <p />
+      <va-accordion-item
+        level={3}
+        header="What other types of Veteran ID are available?"
+      >
+        <p>
+          Other options include the Veteran Health Identification Card (VHIC),
+          Department of Defense (DoD) ID Card, and Veteran designation on
+          state-issued IDs or driver’s licenses.
+        </p>
         <va-link
           href="/records/get-veteran-id-cards/"
           text="Learn about other types of Veteran ID cards"

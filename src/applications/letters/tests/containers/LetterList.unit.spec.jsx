@@ -1,11 +1,13 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom-v5-compat';
 
+import * as focusUtils from '~/platform/utilities/ui/focus';
 import { LetterList } from '../../containers/LetterList';
 import {
   AVAILABILITY_STATUSES,
@@ -64,6 +66,50 @@ const getStore = (lettersPageNewDesign = false) =>
   }));
 
 describe('<LetterList>', () => {
+  describe('focus setting tests', () => {
+    let focusElementSpy;
+
+    beforeEach(() => {
+      focusElementSpy = sinon.spy(focusUtils, 'focusElement');
+    });
+
+    afterEach(() => {
+      focusElementSpy.restore();
+    });
+
+    it('sets focus to h2 when lettersNewDesign is false', () => {
+      render(
+        <Provider store={getStore()}>
+          <MemoryRouter>
+            <LetterList {...defaultProps} lettersNewDesign={false} />
+          </MemoryRouter>
+        </Provider>,
+      );
+
+      // Check that focusElement was called
+      expect(focusElementSpy.callCount).to.equal(1);
+      // Check what it was called with - when lettersNewDesign is false, it should call with nav header
+      const lastCall = focusElementSpy.getCall(0);
+      expect(lastCall.args[0]).to.equal('h2#nav-form-header');
+    });
+
+    it('sets focus to letters title when lettersNewDesign is true', () => {
+      render(
+        <Provider store={getStore(true)}>
+          <MemoryRouter>
+            <LetterList {...defaultProps} lettersNewDesign />
+          </MemoryRouter>
+        </Provider>,
+      );
+
+      // Check that focusElement was called
+      expect(focusElementSpy.callCount).to.equal(1);
+      // Check what it was called with
+      const lastCall = focusElementSpy.getCall(0);
+      expect(lastCall.args[0]).to.equal('#letters-title-id');
+    });
+  });
+
   it('renders', () => {
     const tree = SkinDeep.shallowRender(<LetterList {...defaultProps} />);
     expect(tree.type).to.equal('div');
@@ -282,7 +328,7 @@ describe('<LetterList>', () => {
     expect(getByText('Proof of Service Card')).to.exist;
     expect(
       getByText(
-        'The Proof of Service Card documents that you served honorably in the Armed Forces.',
+        'The Proof of Service Card shows that you served honorably in the Armed Forces.',
       ),
     ).to.exist;
   });
@@ -328,22 +374,22 @@ describe('<LetterList>', () => {
     expect(getByText('Proof of Service Card')).to.exist;
     expect(
       getByText(
-        'The Proof of Service Card documents that you served honorably in the Armed Forces.',
+        'The Proof of Service Card shows that you served honorably in the Armed Forces.',
       ),
     ).to.exist;
     expect(
       getByText(
-        `The Commissary Letter certifies that you’re eligible to receive commissary store and exchange privileges from the Armed Forces.`,
+        `The Commissary Letter shows that you’re eligible to receive commissary store and exchange privileges from the Armed Forces.`,
       ),
     ).to.exist;
     expect(
       getByText(
-        'A prescription drug coverage letter proves that you qualify for Medicare Part D prescription drug coverage.',
+        'The Proof of Creditable Prescription Drug Coverage Letter proves that you qualify for Medicare Part D prescription drug coverage.',
       ),
     ).to.exist;
     expect(
       getByText(
-        'A minimum essential coverage letter proves that you have the right amount of healthcare coverage required by the Affordable Care Act (ACA).',
+        'The Proof of Minimum Essential Coverage Letter proves that you have the right amount of health care coverage required by the Affordable Care Act (ACA).',
       ),
     ).to.exist;
     expect(
@@ -353,7 +399,7 @@ describe('<LetterList>', () => {
     ).to.exist;
     expect(
       getByText(
-        'The Benefit Verification Letter documents your VA financial benefits.',
+        'The Benefit Verification Letter shows your VA financial benefits.',
       ),
     ).to.exist;
   });
