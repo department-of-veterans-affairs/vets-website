@@ -1240,4 +1240,68 @@ describe('actions', () => {
       expect(result).to.be.false;
     });
   });
+
+  describe('Disability compensation - DIS', () => {
+    const benefit = getBenefitById('DIS');
+    const validGoals = [
+      goalTypes.FINANCIAL,
+      goalTypes.RETIREMENT,
+      goalTypes.HEALTH,
+      goalTypes.UNDERSTAND,
+    ];
+    const invalidGoals = getInvalidMappingValues(validGoals, goalTypes);
+    const validDischarge = [
+      characterOfDischargeTypes.HONORABLE,
+      characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
+      characterOfDischargeTypes.UNDER_OTHER_THAN_HONORABLE_CONDITIONS,
+      characterOfDischargeTypes.UNCHARACTERIZED,
+      characterOfDischargeTypes.BAD_CONDUCT,
+      characterOfDischargeTypes.NOT_SURE,
+      characterOfDischargeTypes.STILL_SERVING,
+    ];
+    const invalidDischarge = getInvalidMappingValues(
+      validDischarge,
+      characterOfDischargeTypes,
+    );
+
+    validGoals.forEach(goal => {
+      const formData = {
+        [mappingTypes.GOALS]: { [goal]: true },
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
+      };
+      it(`should return true with goal: ${goal}`, () => {
+        const result = actions.mapBenefitFromFormInputData(benefit, formData);
+        expect(result).to.be.true;
+      });
+    });
+
+    validDischarge.forEach(discharge => {
+      const formData = {
+        [mappingTypes.GOALS]: formatData(validGoals),
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: discharge,
+      };
+      it(`should return true with discharge: ${discharge}`, () => {
+        const result = actions.mapBenefitFromFormInputData(benefit, formData);
+        expect(result).to.be.true;
+      });
+    });
+
+    it('should return false with incorrect goals', () => {
+      const formData = {
+        [mappingTypes.GOALS]: formatData(invalidGoals),
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
+      };
+      const result = actions.mapBenefitFromFormInputData(benefit, formData);
+      expect(result).to.be.false;
+    });
+
+    it('should return false with incorrect discharge', () => {
+      const formData = {
+        [mappingTypes.GOALS]: formatData(validGoals),
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(invalidDischarge),
+      };
+      const result = actions.mapBenefitFromFormInputData(benefit, formData);
+      expect(result).to.be.false;
+    });
+  });
 });
