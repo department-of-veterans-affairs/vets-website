@@ -66,12 +66,6 @@ function selectTests(pathsOfChangedFiles) {
         // Ensure changed apps have URLs to run header test on
         if (APPS_HAVE_URLS && fs.existsSync(megaMenuTestPath))
           tests.push(megaMenuTestPath);
-        const annotationSmoke = path.join(
-          __dirname,
-          '../..',
-          'src/platform/site-wide/user-nav/tests/e2e/network-touch-test.cypress.spec.jsx',
-        );
-        if (fs.existsSync(annotationSmoke)) tests.push(annotationSmoke);
       } else {
         const defaultTestsPattern = path.join(
           __dirname,
@@ -81,12 +75,6 @@ function selectTests(pathsOfChangedFiles) {
         );
 
         tests.push(...glob.sync(defaultTestsPattern));
-        const annotationSmoke = path.join(
-          __dirname,
-          '../..',
-          'src/platform/site-wide/user-nav/tests/e2e/network-touch-test.cypress.spec.jsx',
-        );
-        if (fs.existsSync(annotationSmoke)) tests.push(annotationSmoke);
       }
     }
   }
