@@ -41,12 +41,7 @@ export default class ConfirmationPage extends React.Component {
         toggleName={Toggler.TOGGLE_NAMES.disability526ShowConfirmationReview}
       >
         <Toggler.Enabled>
-          <div
-            hidden
-            aria-hidden
-            id="new-confirmation-review-component"
-            data-testid="new-confirmation-review-component"
-          />
+          <ConfirmationView.ChapterSectionCollection />
         </Toggler.Enabled>
       </Toggler>
       <ConfirmationView.PrintThisPage />
