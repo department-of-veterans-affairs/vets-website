@@ -58,6 +58,8 @@ export default {
   HOMEPAGE_HERO_RANDOMIZER: 'homepage-hero-randomizer',
   HOMEPAGE_SEARCH: 'homepage-search',
   I_18_SELECT: 'i18-select',
+  INCOME_AND_ASSET_STATEMENT_STAGED_ENTRY:
+    'income-and-asset-statement-staged-entry',
   MAINTENANCE_BANNER: 'maintenance-banner',
   MANAGE_VA_DEBT_CTA: 'manage-va-debt-cta',
   MEDICAL_COPAYS_CTA: 'medical-copays-cta',

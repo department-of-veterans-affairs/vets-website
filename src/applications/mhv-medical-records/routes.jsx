@@ -106,22 +106,12 @@ const routes = (
         >
           <CareSummariesDetails />
         </FeatureFlagRoute>
-        <FeatureFlagRoute
-          exact
-          path="/conditions"
-          key="Health Conditions"
-          featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayConditions}
-        >
+        <AppRoute exact path="/conditions" key="Health Conditions">
           <HealthConditions />
-        </FeatureFlagRoute>
-        <FeatureFlagRoute
-          exact
-          path="/conditions/:conditionId"
-          key="Condition Details"
-          featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayConditions}
-        >
+        </AppRoute>
+        <AppRoute exact path="/conditions/:conditionId" key="Condition Details">
           <ConditionDetails />
-        </FeatureFlagRoute>
+        </AppRoute>
         <FeatureFlagRoute
           exact
           path="/vitals"
