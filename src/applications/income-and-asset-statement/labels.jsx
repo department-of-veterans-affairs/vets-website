@@ -1,3 +1,5 @@
+import { showUpdatedContent } from './helpers';
+
 // Always name keys with uppercase snake_casing
 // Always use keys for data storage
 export const relationshipLabels = {
@@ -22,6 +24,23 @@ export const transferMethodLabels = {
   CONVEYED: 'Conveyed',
   TRADED: 'Traded',
   OTHER: 'Other',
+};
+
+export const custodianRelationshipLabels = {
+  CUSTODIAN: 'Child’s custodian',
+  SPOUSE: 'Custodian’s spouse',
+  CHILD: 'Veteran’s surviving child',
+  OTHER: 'Another dependent not listed here',
+};
+
+export const parentRelationshipLabels = {
+  PARENT: 'Me',
+  SPOUSE: 'My spouse',
+  OTHER: 'Another dependent not listed here',
+};
+
+export const parentRelationshipLabelDescriptions = {
+  SPOUSE: 'The Veteran’s other parent should file a separate claim',
 };
 
 export const claimantTypeLabels = {
@@ -50,7 +69,7 @@ export const incomeTypeLabels = {
 export const incomeTypeEarnedLabels = {
   INTEREST: 'Interest',
   DIVIDENDS: 'Dividends',
-  OTHER: 'Other',
+  OTHER: showUpdatedContent() ? 'Other financial asset income' : 'Other',
 };
 
 export const ownedAssetTypeLabels = {
@@ -70,4 +89,13 @@ export const trustTypeLabels = {
   REVOCABLE: 'Revocable',
   IRREVOCABLE: 'Irrevocable',
   BURIAL: 'Burial trust',
+};
+
+export const yesNoLabelsIncome = {
+  Y: 'Yes, I have income to report',
+  N: 'No, I don’t have any income to report',
+};
+export const yesNoLabels = {
+  Y: 'Yes',
+  N: 'No',
 };

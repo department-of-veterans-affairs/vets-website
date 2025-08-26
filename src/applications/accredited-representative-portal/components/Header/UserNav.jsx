@@ -95,6 +95,25 @@ const UserNavLinks = () => {
           </li>
         </Toggler.Enabled>
       </Toggler>
+      <Toggler
+        toggleName={
+          Toggler.TOGGLE_NAMES.accreditedRepresentativePortalDashboardLink
+        }
+      >
+        <Toggler.Enabled>
+          <li>
+            <Link
+              data-testid="user-nav-profile-link"
+              className="vads-u-color--black"
+              to="/dashboard"
+              onClick={recordDatalayerEvent}
+              data-eventname="nav-link-click"
+            >
+              Dashboard
+            </Link>
+          </li>
+        </Toggler.Enabled>
+      </Toggler>
       <li>
         <a
           data-testid="user-nav-sign-out-link"

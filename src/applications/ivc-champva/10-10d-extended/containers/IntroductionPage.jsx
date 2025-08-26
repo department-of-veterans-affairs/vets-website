@@ -9,7 +9,7 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { TITLE, SUBTITLE } from '../constants';
 
-const OMB_RES_BURDEN = 10;
+const OMB_RES_BURDEN = 24;
 const OMB_NUMBER = '2900-0219';
 const OMB_EXP_DATE = '12/31/2027';
 
@@ -25,22 +25,30 @@ const ProcessList = () => {
       </va-process-list-item>
       <va-process-list-item header="Gather your information">
         <p>
-          <b>Here’s what you need to apply:</b>
+          <b>You’ll need to provide personal information for these people:</b>
         </p>
         <ul>
+          <li>Yourself, and</li>
+          <li>Anyone you’re applying for, and</li>
           <li>
-            <b>Personal information about you</b> and anyone else you’re
-            applying for
-          </li>
-          <li>
-            <b>Personal information about your sponsor</b> (the Veteran or
-            service member you’re connected to)
+            Your sponsor (the Veteran or service member you’re connected to)
           </li>
         </ul>
         <p>
-          This includes dates of birth, Social Security numbers, and contact
-          information.
+          Personal information may include dates of birth, Social Security
+          numbers, and contact information.
         </p>
+        <p>
+          You’ll also need to submit these supporting documents if appropriate:
+        </p>
+        <ul>
+          <li>Health insurance cards</li>
+          <li>Medicare cards</li>
+          <li>Proof of school enrollment</li>
+          <li>Proof of marriage or legal union</li>
+          <li>Proof of adoption</li>
+          <li>Birth certificate of dependent(s)</li>
+        </ul>
         <p>
           You may also need to submit supporting documents, like copies of your
           health insurance cards or proof of school enrollment.
@@ -74,8 +82,14 @@ export const IntroductionPage = props => {
   return (
     <article className="schemaform-intro">
       <FormTitle title={TITLE} subTitle={SUBTITLE} />
+      <p>
+        If you’re the spouse, dependant, or survivor of a Veteran or service
+        member who meets certain requirements, you may qualify for health
+        insurance through the Civilian Health and Medical Program of the
+        Department of Veterans Affairs (CHAMPVA).
+      </p>
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-        Follow the steps to apply for CHAMPVA benefits
+        Follow these steps to get started
       </h2>
       <ProcessList />
       <va-alert-sign-in variant="signInOptionalNoPrefill" visible>
@@ -98,6 +112,9 @@ export const IntroductionPage = props => {
         </span>
       </va-alert-sign-in>
       <p />
+      <h3>Additional form you may need to complete</h3>
+      <h3>CHAMPVA other health insurance (OHI) certification</h3>
+      <p>VA form 10-7959c</p>
       <va-omb-info
         res-burden={OMB_RES_BURDEN}
         omb-number={OMB_NUMBER}
