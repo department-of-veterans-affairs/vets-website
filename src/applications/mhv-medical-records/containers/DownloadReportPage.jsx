@@ -353,19 +353,19 @@ const DownloadReportPage = ({ runningUnitTest }) => {
                   <va-link
                     download
                     href="#"
-                    onClick={e => handleDownloadCCD(e, 'html')}
-                    text="Download Continuity of Care Document (HTML)"
-                    data-testid="generateCcdButtonHtml"
-                    data-dd-action-name="Download CCD HTML"
+                    onClick={e => handleDownloadCCD(e, 'pdf')}
+                    text="Download Continuity of Care Document (PDF)"
+                    data-testid="generateCcdButtonPdf"
+                    data-dd-action-name="Download CCD PDF"
                     class="vads-u-margin-top--1"
                   />
                   <va-link
                     download
                     href="#"
-                    onClick={e => handleDownloadCCD(e, 'pdf')}
-                    text="Download Continuity of Care Document (PDF)"
-                    data-testid="generateCcdButtonPdf"
-                    data-dd-action-name="Download CCD PDF"
+                    onClick={e => handleDownloadCCD(e, 'html')}
+                    text="Download Continuity of Care Document (HTML)"
+                    data-testid="generateCcdButtonHtml"
+                    data-dd-action-name="Download CCD HTML"
                     class="vads-u-margin-top--1"
                   />
                 </>
