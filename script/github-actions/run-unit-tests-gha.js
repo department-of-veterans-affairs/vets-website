@@ -41,20 +41,6 @@ function getTestPaths() {
     return glob.sync(DEFAULT_SPEC_PATTERN);
   }
 
-  // If a specific path/glob was provided on the CLI, honor it directly.
-  // Detect this by checking if it differs from the default pattern.
-  const userProvidedPaths = Array.isArray(options.path) ? options.path : [];
-  const userProvidedCustomPath =
-    userProvidedPaths.length > 0 &&
-    !(
-      userProvidedPaths.length === 1 &&
-      userProvidedPaths[0] === DEFAULT_SPEC_PATTERN
-    );
-
-  if (userProvidedCustomPath) {
-    return userProvidedPaths.flatMap(pattern => glob.sync(pattern));
-  }
-
   const changedFiles = process.env.CHANGED_FILES
     ? process.env.CHANGED_FILES.split(' ').filter(
         file => !file.endsWith('.md') && !file.startsWith('.github/workflows'),

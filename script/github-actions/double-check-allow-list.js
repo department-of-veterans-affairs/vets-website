@@ -1,13 +1,7 @@
 /* eslint-disable no-console */
 const fs = require('fs');
 const path = require('path');
-
-let core;
-try {
-  core = require('@actions/core');
-} catch (e) {
-  core = { exportVariable: () => {} };
-}
+const core = require('@actions/core');
 
 const TESTS_LIST = fs.existsSync(
   path.resolve(`${process.env.TEST_TYPE}_tests_to_test.json`),
