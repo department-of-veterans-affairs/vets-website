@@ -347,6 +347,9 @@
   "myVaAuthExpRedesignEnabled": "my_va_auth_exp_redesign_enabled",
   "accreditedRepresentativePortalSelfServiceAuth": "accredited_representative_portal_self_service_auth",
   "accreditedRepresentativePortalForm": "accredited_representative_portal_form",
+  "accreditedRepresentativePortalDashboardLink": "accredited_representative_portal_dashboard_link",
   "isDgibCallOnly": "is_dgib_call_only",
-  "showVyeDowntimeAlert": "show_vye_downtime_alert"
+  "showVyeDowntimeAlert": "show_vye_downtime_alert",
+  "giComparisonToolCautionaryInfoUpdate": "gi_comparison_tool_cautionary_info_update",
+  "discoverYourBenefitsBrowserMonitoringEnabled": "discover_your_benefits_browser_monitoring_enabled"
 }

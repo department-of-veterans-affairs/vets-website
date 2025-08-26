@@ -171,6 +171,11 @@ export const validateTrainingProviderStartDate = (errors, dateString) => {
       'Training must start on or after 1/2/2025 to qualify for VET TEC 2.0',
     );
 };
+export const dateSigned = () => {
+  const date = new Date();
+  date.setDate(date.getDate() + 365);
+  return date.toISOString().split('T')[0];
+};
 
 export const viewifyFields = formData => {
   const newFormData = {};

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams, useHistory } from 'react-router-dom';
 import { addUserProperties } from '@department-of-veterans-affairs/mhv/exports';
@@ -25,12 +24,14 @@ import { getRecentThreads } from '../util/threads';
 import { getUniqueTriageGroups } from '../util/recipients';
 import featureToggles from '../hooks/useFeatureToggles';
 
-const Compose = ({ skipInterstitial }) => {
+const Compose = () => {
   const { cernerPilotSmFeatureFlag } = featureToggles();
 
   const dispatch = useDispatch();
   const recipients = useSelector(state => state.sm.recipients);
-  const { drafts, saveError } = useSelector(state => state.sm.threadDetails);
+  const { drafts, saveError, acceptInterstitial } = useSelector(
+    state => state.sm.threadDetails,
+  );
   const signature = useSelector(state => state.sm.preferences.signature);
   const { noAssociations } = useSelector(state => state.sm.recipients);
 
@@ -42,7 +43,6 @@ const Compose = ({ skipInterstitial }) => {
   const { draftId } = useParams();
   const { allTriageGroupsBlocked } = recipients;
 
-  const [acknowledged, setAcknowledged] = useState(skipInterstitial);
   const [draftType, setDraftType] = useState('');
   const [pageTitle, setPageTitle] = useState(
     cernerPilotSmFeatureFlag ? 'Start message' : 'Start a new message',
@@ -216,14 +216,9 @@ const Compose = ({ skipInterstitial }) => {
         )}
 
       {draftType &&
-      !acknowledged &&
+      !acceptInterstitial &&
       (noAssociations === (undefined || false) && !allTriageGroupsBlocked) ? (
-        <InterstitialPage
-          acknowledge={() => {
-            setAcknowledged(true);
-          }}
-          type={draftType}
-        />
+        <InterstitialPage type={draftType} />
       ) : (
         <>
           {draftType &&
@@ -237,10 +232,6 @@ const Compose = ({ skipInterstitial }) => {
       )}
     </>
   );
-};
-
-Compose.propTypes = {
-  skipInterstitial: PropTypes.bool,
 };
 
 export default Compose;
