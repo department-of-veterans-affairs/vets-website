@@ -95,7 +95,7 @@ const AdditionalInstructions = ({ formResponses }) => {
             <a
               target="_blank"
               rel="noopener noreferrer"
-              href="https://www.army.mil/arbal"
+              href="https://www.army.mil/arba"
             >
               Army Review Boards Agency (opens in a new tab)
             </a>
