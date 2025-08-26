@@ -1,39 +1,16 @@
 import React from 'react';
 import { expect } from 'chai';
-import { Provider } from 'react-redux';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
-import Authorization, {
-  lastUpdatedIsBeforeCutoff,
-} from '../../../components/4142/Authorization';
-
-const createMockStore = (initialState = {}) => ({
-  getState: () => initialState,
-  subscribe: () => {},
-  dispatch: () => {},
-});
+import Authorization from '../../../components/4142/Authorization';
 
 describe('<Authorization>', () => {
-  let mockStore;
-
-  beforeEach(() => {
-    mockStore = createMockStore({
-      form: {
-        loadedData: {
-          metadata: {
-            lastUpdated: 1640995200, // Unix timestamp
-          },
-        },
-      },
-    });
-  });
-
   it('should render', () => {
     const { container } = render(
-      <Provider store={mockStore}>
+      <div>
         <Authorization />
-      </Provider>,
+      </div>,
     );
 
     const checkbox = $('va-checkbox', container);
@@ -44,9 +21,9 @@ describe('<Authorization>', () => {
     const goSpy = sinon.spy();
     const setFormDataSpy = sinon.spy();
     const { container } = render(
-      <Provider store={mockStore}>
+      <div>
         <Authorization goForward={goSpy} setFormData={setFormDataSpy} />
-      </Provider>,
+      </div>,
     );
 
     $('#privacy-agreement', container).__events.vaChange({
@@ -69,13 +46,13 @@ describe('<Authorization>', () => {
     const setFormDataSpy = sinon.spy();
     const data = { privacyAgreementAccepted: true };
     const { container, rerender } = render(
-      <Provider store={mockStore}>
+      <div>
         <Authorization
           goForward={goSpy}
           data={{}}
           setFormData={setFormDataSpy}
         />
-      </Provider>,
+      </div>,
     );
 
     $('#privacy-agreement', container).__events.vaChange({
@@ -83,13 +60,13 @@ describe('<Authorization>', () => {
     });
 
     rerender(
-      <Provider store={mockStore}>
+      <div>
         <Authorization
           goForward={goSpy}
           data={data}
           setFormData={setFormDataSpy}
         />
-      </Provider>,
+      </div>,
     );
 
     fireEvent.click($('button.usa-button-primary', container));
@@ -105,9 +82,9 @@ describe('<Authorization>', () => {
       privacyAgreementAccepted: true,
     };
     const { container } = render(
-      <Provider store={mockStore}>
+      <div>
         <Authorization goForward={goSpy} data={data} />
-      </Provider>,
+      </div>,
     );
 
     fireEvent.click($('button.usa-button-primary', container));
@@ -118,9 +95,9 @@ describe('<Authorization>', () => {
     it('should NOT show error immediately when unchecking checkbox', () => {
       const setFormDataSpy = sinon.spy();
       const { container } = render(
-        <Provider store={mockStore}>
+        <div>
           <Authorization setFormData={setFormDataSpy} />
-        </Provider>,
+        </div>,
       );
 
       $('#privacy-agreement', container).__events.vaChange({
@@ -139,13 +116,13 @@ describe('<Authorization>', () => {
       const goSpy = sinon.spy();
       const setFormDataSpy = sinon.spy();
       const { container } = render(
-        <Provider store={mockStore}>
+        <div>
           <Authorization
             goForward={goSpy}
             setFormData={setFormDataSpy}
             data={{ privacyAgreementAccepted: false }}
           />
-        </Provider>,
+        </div>,
       );
 
       const alert = $('va-alert[visible="true"]', container);
@@ -163,13 +140,13 @@ describe('<Authorization>', () => {
       const goSpy = sinon.spy();
       const setFormDataSpy = sinon.spy();
       const { container } = render(
-        <Provider store={mockStore}>
+        <div>
           <Authorization
             goForward={goSpy}
             setFormData={setFormDataSpy}
             data={{ privacyAgreementAccepted: false }}
           />
-        </Provider>,
+        </div>,
       );
 
       fireEvent.click($('button.usa-button-primary', container));
@@ -186,9 +163,9 @@ describe('<Authorization>', () => {
     it('should allow multiple check/uncheck cycles without showing errors', () => {
       const setFormDataSpy = sinon.spy();
       const { container } = render(
-        <Provider store={mockStore}>
+        <div>
           <Authorization setFormData={setFormDataSpy} />
-        </Provider>,
+        </div>,
       );
 
       $('#privacy-agreement', container).__events.vaChange({
@@ -209,32 +186,6 @@ describe('<Authorization>', () => {
 
       const alert = $('va-alert[visible="true"]', container);
       expect(alert).to.not.exist;
-    });
-  });
-
-  describe('lastUpdatedIsBeforeCutoff', () => {
-    it('should return true if last updated is before cutoff date', () => {
-      const lastUpdated = 1750704000; // '2025-06-23 00:00:00' CST
-
-      expect(lastUpdatedIsBeforeCutoff(lastUpdated)).to.be.true;
-    });
-
-    it('should return true if last updated is before cutoff date', () => {
-      const lastUpdated = 1750786800; // '2025-06-23 22:00:00' CST
-
-      expect(lastUpdatedIsBeforeCutoff(lastUpdated)).to.be.true;
-    });
-
-    it('should return false if last updated is after cutoff date', () => {
-      const lastUpdated = 1751328060; // '2025-06-25 09:01:00' CST
-
-      expect(lastUpdatedIsBeforeCutoff(lastUpdated)).to.be.false;
-    });
-
-    it('should return false if last updated is exactly the cutoff date', () => {
-      const lastUpdated = 1751328000; // '2025-06-25 09:00:00' CST
-
-      expect(lastUpdatedIsBeforeCutoff(lastUpdated)).to.be.false;
     });
   });
 });
