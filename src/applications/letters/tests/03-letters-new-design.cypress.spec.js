@@ -37,7 +37,7 @@ describe('New letters page design', () => {
     cy.intercept('POST', 'v0/letters_generator/download/*', '@letterPDFBlob');
 
     cy.login(mockUserData);
-    cy.visit('/records/download-va-letters/letters/letter-page');
+    cy.visit('/records/download-va-letters/letters/');
   });
 
   it('confirms non-BSL letters load asynchronously', () => {
@@ -47,7 +47,7 @@ describe('New letters page design', () => {
       .should('be.visible');
     cy.title().should(
       'contain',
-      'Download VA Letters and Documents | Veterans Affair',
+      'Your VA benefit letters and documents | Veterans Affairs',
     );
     cy.axeCheck('main');
     cy.get('@lettersAccordion')
