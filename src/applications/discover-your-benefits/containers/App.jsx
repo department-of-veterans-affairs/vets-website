@@ -8,7 +8,7 @@ import formConfig from '../config/form';
 
 export default function App({ location, children }) {
   return (
-    <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0 discover-your-benefits">
+    <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0">
       <VaBreadcrumbs
         breadcrumbList={[
           {
