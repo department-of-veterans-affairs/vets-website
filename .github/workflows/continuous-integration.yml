@@ -294,7 +294,6 @@ jobs:
     needs: [fetch-allow-lists, tests-prep]
     timeout-minutes: 30
     runs-on: ubuntu-16-cores-22.04
-    continue-on-error: true
     outputs:
       tests_ran: ${{ steps.run-tests.outputs.tests_ran }}
 
