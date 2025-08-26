@@ -11,6 +11,7 @@ import {
   getCardDescription,
   validateWithin180Days,
   validateTrainingProviderStartDate,
+  validateSignature,
 } from '../helpers';
 
 describe('10297 Helpers', () => {
@@ -256,6 +257,28 @@ describe('10297 Helpers', () => {
       const errors = { addError: sinon.spy() };
       validateTrainingProviderStartDate(errors, undefined);
       expect(errors.addError.called).to.be.false;
+    });
+  });
+
+  describe('validateSignature()', () => {
+    it('should return error when signature does not match full name', () => {
+      const formData = { applicantFullName: { first: 'John', last: 'Doe' } };
+      const result = validateSignature('Jane Smith', formData);
+      expect(result).to.equal(
+        'Please enter your full name exactly as entered on the form: John Doe',
+      );
+    });
+
+    it('should return undefined when signature matches exactly', () => {
+      const formData = { applicantFullName: { first: 'John', last: 'Doe' } };
+      const result = validateSignature('John Doe', formData);
+      expect(result).to.be.undefined;
+    });
+
+    it('should return undefined when signature matches with different case', () => {
+      const formData = { applicantFullName: { first: 'John', last: 'Doe' } };
+      const result = validateSignature('JOHN DOE', formData);
+      expect(result).to.be.undefined;
     });
   });
 });

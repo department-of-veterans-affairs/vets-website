@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FormSignature from 'platform/forms-system/src/js/components/FormSignature';
 import PrivacyActStatement from './PrivacyActStatement';
+import { validateSignature } from '../helpers';
 
 function PreSubmitInfo({
   formData,
@@ -85,6 +86,7 @@ function PreSubmitInfo({
             signaturePath="statementOfTruthSignature"
             checkboxLabel="I certify that the information above is true and correct to the best of my knowledge and belief."
             required
+            validations={[validateSignature]}
           />
         </section>
       </div>

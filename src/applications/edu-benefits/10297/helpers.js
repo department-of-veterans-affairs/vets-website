@@ -189,3 +189,31 @@ export const viewifyFields = formData => {
   });
   return newFormData;
 };
+
+export const validateSignature = (signatureValue, formData) => {
+  if (!formData?.applicantFullName) {
+    return 'Unable to validate signature - applicant name not found';
+  }
+
+  const { first, last } = formData.applicantFullName;
+
+  const fullName = [first, last]
+    .filter(part => part && part.trim())
+    .join(' ')
+    .trim();
+
+  if (!fullName) {
+    return 'Unable to validate signature - applicant name is incomplete';
+  }
+
+  const normalizeName = name => name.replace(/\s+/g, '').toLowerCase();
+
+  const normalizedSignature = normalizeName(signatureValue);
+  const normalizedFullName = normalizeName(fullName);
+
+  if (normalizedSignature !== normalizedFullName) {
+    return `Please enter your full name exactly as entered on the form: ${fullName}`;
+  }
+
+  return undefined;
+};
