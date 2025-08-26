@@ -4,7 +4,7 @@ import { dashboardBC, DASHBOARD_BC_LABEL } from '../utilities/poaRequests';
 import Unauthorized from '../components/Dashboard/Unauthorized';
 import Authorized from '../components/Dashboard/Authorized';
 
-const Dashboard = title => {
+const DashboardPage = title => {
   useEffect(
     () => {
       document.title = title.title;
@@ -19,7 +19,6 @@ const Dashboard = title => {
           label={DASHBOARD_BC_LABEL}
           homeVeteransAffairs={false}
         />
-        {/* import this is user is unauthorized */}
         <Unauthorized />
         <Authorized />
       </div>
@@ -27,4 +26,4 @@ const Dashboard = title => {
   );
 };
 
-export default Dashboard;
+export default DashboardPage;
