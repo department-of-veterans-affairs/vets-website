@@ -10,10 +10,10 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 const HowToContactContent = () => (
   <>
     <p>
-      Call us at <va-telephone contact={CONTACTS.VA_BENEFITS} />. (
-      <va-telephone tty="true" contact={CONTACTS[711]} />) We’re here Monday
-      through Friday, 8:00 a.m. to 7:30 p.m. ET, and Saturday 9:00 a.m. to 5:30
-      p.m. E.T.
+      Call us at <va-telephone contact="8005351117" /> (
+      <va-telephone tty="true" contact={CONTACTS[711]} />
+      ). We’re here Monday through Friday, 8:00 a.m. to 7:30 p.m. ET, and
+      Saturday 9:00 a.m. to 5:30 p.m. E.T.
     </p>
     <p>
       Or, check our resources and support section for answers to common
