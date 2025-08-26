@@ -63,6 +63,13 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsMilestoneTwo],
   );
 
+  const ccdExtendedFileTypeFlag = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsCcdExtendedFileTypes
+      ],
+  );
+
   const useUnifiedSelfEnteredAPI = useSelector(
     state =>
       state.featureToggles[
@@ -176,16 +183,17 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     [refreshStatus],
   );
 
-  const handleDownloadCCD = e => {
+  const handleDownloadCCD = (e, fileType) => {
     e.preventDefault();
     dispatch(
       genAndDownloadCCD(
         userProfile?.userFullName?.first,
         userProfile?.userFullName?.last,
+        fileType, // 'xml' | 'html' | 'pdf'
       ),
     );
     postRecordDatadogAction(statsdFrontEndActions.DOWNLOAD_CCD);
-    sendDataDogAction('Download Continuity of Care Document xml Link');
+    sendDataDogAction(`Download Continuity of Care Document ${fileType} link`);
   };
 
   const handleDownloadSelfEnteredPdf = e => {
@@ -331,13 +339,38 @@ const DownloadReportPage = ({ runningUnitTest }) => {
               />
             </div>
           ) : (
-            <va-link
-              download
-              href="#"
-              onClick={handleDownloadCCD}
-              text="Download Continuity of Care Document (XML)"
-              data-testid="generateCcdButton"
-            />
+            <div className="vads-u-display--flex vads-u-flex-direction--column">
+              <va-link
+                download
+                href="#"
+                onClick={e => handleDownloadCCD(e, 'xml')}
+                text="Download Continuity of Care Document (XML)"
+                data-testid="generateCcdButtonXml"
+                data-dd-action-name="Download CCD XML"
+              />
+              {ccdExtendedFileTypeFlag && (
+                <>
+                  <va-link
+                    download
+                    href="#"
+                    onClick={e => handleDownloadCCD(e, 'html')}
+                    text="Download Continuity of Care Document (HTML)"
+                    data-testid="generateCcdButtonHtml"
+                    data-dd-action-name="Download CCD HTML"
+                    class="vads-u-margin-top--1"
+                  />
+                  <va-link
+                    download
+                    href="#"
+                    onClick={e => handleDownloadCCD(e, 'pdf')}
+                    text="Download Continuity of Care Document (PDF)"
+                    data-testid="generateCcdButtonPdf"
+                    data-dd-action-name="Download CCD PDF"
+                    class="vads-u-margin-top--1"
+                  />
+                </>
+              )}
+            </div>
           )}
         </va-accordion-item>
         <va-accordion-item

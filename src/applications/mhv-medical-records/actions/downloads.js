@@ -11,6 +11,7 @@ const MAX_DURATION = 60000; // 1 minute total
 export const genAndDownloadCCD = (
   firstName,
   lastName,
+  fileType = 'xml',
   backoff = INITIAL_BACKOFF,
   startTime = Date.now(),
 ) => async dispatch => {
@@ -25,17 +26,32 @@ export const genAndDownloadCCD = (
       // getting the timestamp and filename for download
       const timestamp = generate[0].dateGenerated;
       const timestampDate = new Date(timestamp);
+
+      const extension = fileType.toLowerCase();
       const fileName = `VA-Continuity-of-care-document-${
         firstName ? `${firstName}-` : ''
-      }${lastName}-${format(timestampDate, 'M-d-yyyy_hhmmssaaa')}`;
+      }${lastName}-${format(timestampDate, 'M-d-yyyy_hhmmssaaa')}.${extension}`;
 
       // get the xml data from the api
-      const response = await downloadCCD(timestamp);
-      const xmlString = await response.text();
+      const response = await downloadCCD(timestamp, fileType);
+
+      // decide how to read response
+      let blob;
+      if (fileType === 'xml') {
+        const xmlString = await response.text();
+        blob = new Blob([xmlString], { type: 'application/xml' });
+      } else if (fileType === 'html') {
+        blob = await response.blob();
+        // ensure mime type
+        blob = new Blob([blob], { type: 'text/html' });
+      } else if (fileType === 'pdf') {
+        blob = await response.blob();
+        // ensure mime type
+        blob = new Blob([blob], { type: 'application/pdf' });
+      }
 
       // download the xml to the user
       dispatch({ type: Actions.Downloads.DOWNLOAD_CCD, response: timestamp });
-      const blob = new Blob([xmlString], { type: 'application/xml' });
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
