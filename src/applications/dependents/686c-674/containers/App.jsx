@@ -120,7 +120,7 @@ App.propTypes = {
   isLoading: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   location: PropTypes.object,
-  savedForms: PropTypes.object,
+  savedForms: PropTypes.array,
   vaFileNumber: PropTypes.object,
 };
 
