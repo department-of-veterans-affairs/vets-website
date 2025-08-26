@@ -99,6 +99,10 @@ export const otherTransferMethodExplanationRequired = (form, index) =>
 export const recipientNameRequired = (form, index, arrayKey) =>
   get([arrayKey, index, 'recipientRelationship'], form) !== 'VETERAN';
 
+// updated version of above function
+// needed a separate function and not just a showUpdatedContent check because
+// these functions are reused across the app and i'm unsure that the same
+// functionality is needed everywhere
 export const updatedRecipientNameRequired = (form, index, arrayKey) => {
   if (!showUpdatedContent()) {
     return recipientNameRequired(form, index, arrayKey);
@@ -122,11 +126,14 @@ export const isRecipientInfoIncomplete = item =>
   (!isDefined(item?.otherRecipientRelationshipType) &&
     item?.recipientRelationship === 'OTHER');
 
+// updated version of above function
+// needed a separate function and not just a showUpdatedContent check because
+// these functions are reused across the app and i'm unsure that the same
+// functionality is needed everywhere
 export const updatedIsRecipientInfoIncomplete = item => {
   if (!showUpdatedContent()) {
     return isRecipientInfoIncomplete(item);
   }
-
   return (
     !isDefined(item?.recipientRelationship) ||
     (!isDefined(item?.recipientName) &&
@@ -136,6 +143,7 @@ export const updatedIsRecipientInfoIncomplete = item => {
       item?.recipientRelationship === 'OTHER')
   );
 };
+
 export const isIncomeTypeInfoIncomplete = item =>
   !isDefined(item?.incomeType) ||
   (!isDefined(item?.otherIncomeType) && item?.incomeType === 'OTHER');
@@ -214,6 +222,10 @@ export function resolveRecipientFullName(item, formData) {
   return formatFullNameNoSuffix(recipientName);
 }
 
+// updated version of above function
+// needed a separate function and not just a showUpdatedContent check because
+// these functions are reused across the app and i'm unsure that the same
+// functionality is needed everywhere
 /**
  * Resolve the recipient's full name to display on summary cards.
  * Post-MVP updates
