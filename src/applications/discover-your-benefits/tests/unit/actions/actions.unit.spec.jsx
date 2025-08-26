@@ -1012,7 +1012,7 @@ describe('actions', () => {
       disabilityTypes.APPLIED_AND_RECEIVED,
       disabilityTypes.STARTED,
     ];
-    const inValidDisabilityRating = getInvalidMappingValues(
+    const invalidDisabilityRating = getInvalidMappingValues(
       validDisabilityRating,
       disabilityTypes,
     );
@@ -1077,7 +1077,67 @@ describe('actions', () => {
       const formData = {
         [mappingTypes.GOALS]: formatData(validGoals),
         [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
-        [mappingTypes.DISABILITY_RATING]: formatData(inValidDisabilityRating),
+        [mappingTypes.DISABILITY_RATING]: formatData(invalidDisabilityRating),
+      };
+      const result = actions.mapBenefitFromFormInputData(benefit, formData);
+      expect(result).to.be.false;
+    });
+  });
+
+  describe("'Veterans' Group Life Insurance - VGLI", () => {
+    const benefit = getBenefitById('VGL');
+    const validGoals = [
+      goalTypes.RETIREMENT,
+      goalTypes.UNDERSTAND,
+      goalTypes.PLAN,
+    ];
+    const invalidGoals = getInvalidMappingValues(validGoals, goalTypes);
+    const validSeperation = [
+      separationTypes.UP_TO_3_MONTHS,
+      separationTypes.UP_TO_6_MONTHS,
+      separationTypes.UP_TO_1_YEAR,
+      separationTypes.UP_TO_2_YEARS,
+    ];
+    const invalidSeperation = getInvalidMappingValues(
+      validSeperation,
+      separationTypes,
+    );
+
+    validGoals.forEach(goal => {
+      const formData = {
+        [mappingTypes.GOALS]: { [goal]: true },
+        [mappingTypes.SEPARATION]: formatData(validSeperation),
+      };
+      it(`should return true with goal: ${goal}`, () => {
+        const result = actions.mapBenefitFromFormInputData(benefit, formData);
+        expect(result).to.be.true;
+      });
+    });
+
+    validSeperation.forEach(seperation => {
+      const formData = {
+        [mappingTypes.GOALS]: formatData(validGoals),
+        [mappingTypes.SEPARATION]: seperation,
+      };
+      it(`should return true with seperation: ${seperation}`, () => {
+        const result = actions.mapBenefitFromFormInputData(benefit, formData);
+        expect(result).to.be.true;
+      });
+    });
+
+    it('should return false with incorrect goals', () => {
+      const formData = {
+        [mappingTypes.GOALS]: formatData(invalidGoals),
+        [mappingTypes.SEPARATION]: formatData(validSeperation),
+      };
+      const result = actions.mapBenefitFromFormInputData(benefit, formData);
+      expect(result).to.be.false;
+    });
+
+    it('should return false with incorrect seperation', () => {
+      const formData = {
+        [mappingTypes.GOALS]: formatData(validGoals),
+        [mappingTypes.SEPARATION]: formatData(invalidSeperation),
       };
       const result = actions.mapBenefitFromFormInputData(benefit, formData);
       expect(result).to.be.false;
