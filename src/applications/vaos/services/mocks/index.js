@@ -189,10 +189,7 @@ const responses = {
     // merge arrays together
     const appointments = confirmedV2.data.concat(requestsV2.data, mockAppts);
     for (const appointment of appointments) {
-      if (
-        appointment.attributes.start &&
-        !appointment.attributes.referral?.referralNumber
-      ) {
+      if (appointment.attributes.start) {
         appointment.attributes.future = isAfter(
           new Date(appointment.attributes.start),
           new Date(),
@@ -268,7 +265,7 @@ const responses = {
       appt => appt.id === req.params.id,
     );
 
-    if (appointment?.start && !appointment.referral?.referralNumber) {
+    if (appointment?.start) {
       appointment.future = isAfter(new Date(appointment.start), new Date());
     }
     return res.json({
