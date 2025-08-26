@@ -10,10 +10,10 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 const HowToContactContent = () => (
   <>
     <p>
-      Call us at <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
+      Call us at <va-telephone contact={CONTACTS.VA_BENEFITS} />. (
       <va-telephone tty="true" contact={CONTACTS[711]} />) We’re here Monday
       through Friday, 8:00 a.m. to 7:30 p.m. ET, and Saturday 9:00 a.m. to 5:30
-      p.m E.T.
+      p.m. E.T.
     </p>
     <p>
       Or, check our resources and support section for answers to common
@@ -52,8 +52,8 @@ const ConfirmationPage = props => {
       }
     >
       <ConfirmationView.SubmissionAlert
-        title="You've submitted your application"
-        content="You'll receive a confirmation email shortly. We'll let you know by mail or phone if we need more details."
+        title="You’ve submitted your application"
+        content="You’ll receive a confirmation email shortly. We’ll let you know by mail or phone if we need more details."
         actions={null}
       />
       <ConfirmationView.SavePdfDownload
@@ -81,7 +81,7 @@ const ConfirmationPage = props => {
         <br />
       </p>
       <p>
-        Or you can fax your supporting documents to{' '}
+        Or, you can fax your supporting documents to{' '}
         <va-telephone contact="8558408299" />.
       </p>
       <p>
