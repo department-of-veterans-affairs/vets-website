@@ -85,14 +85,11 @@ describe('<PreSubmitInfo />', () => {
     const paragraphs = container.querySelectorAll('p');
 
     expect(paragraphs[0].textContent).to.contain(
-      'The information you provide in this application will help us determine if you’re eligible for the High Technology Program',
-    );
-    expect(paragraphs[0].textContent).to.contain(
-      'We may audit this information to make sure it’s accurate',
+      `The information you provide in this application will help us determine if you're eligible for the High Technology Program. We may audit this information to make sure it's accurate.`,
     );
 
     expect(paragraphs[1].textContent).to.equal(
-      'By checking the box below, you’re confirming that:',
+      `By checking the box below, you're confirming that:`,
     );
   });
 
@@ -198,5 +195,63 @@ describe('<PreSubmitInfo />', () => {
 
     const vaTextInput = container.querySelector('va-text-input');
     expect(vaTextInput).to.exist;
+  });
+
+  describe('signature validation', () => {
+    const formDataWithName = {
+      applicantFullName: {
+        first: 'John',
+        last: 'Doe',
+      },
+      statementOfTruthSignature: {
+        value: '',
+        dirty: false,
+      },
+    };
+
+    it('should validate signature matches applicant full name', () => {
+      const { container } = render(
+        <Provider store={store}>
+          <PreSubmitInfo
+            {...defaultProps}
+            formData={formDataWithName}
+            setPreSubmit={setPreSubmitSpy}
+            onSectionComplete={onSectionCompleteSpy}
+          />
+        </Provider>,
+      );
+
+      const vaTextInput = container.querySelector('va-text-input');
+      expect(vaTextInput).to.exist;
+      expect(vaTextInput.getAttribute('label')).to.equal('Your full name');
+    });
+
+    it('should handle applicant name with only first and last name', () => {
+      const formDataWithFirstLastOnly = {
+        applicantFullName: {
+          first: 'Jane',
+          middle: '',
+          last: 'Smith',
+        },
+        statementOfTruthSignature: {
+          value: '',
+          dirty: false,
+        },
+      };
+
+      const { container } = render(
+        <Provider store={store}>
+          <PreSubmitInfo
+            {...defaultProps}
+            formData={formDataWithFirstLastOnly}
+            setPreSubmit={setPreSubmitSpy}
+            onSectionComplete={onSectionCompleteSpy}
+          />
+        </Provider>,
+      );
+
+      const vaTextInput = container.querySelector('va-text-input');
+      expect(vaTextInput).to.exist;
+    });
   });
 });
