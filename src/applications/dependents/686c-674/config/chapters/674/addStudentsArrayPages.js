@@ -68,6 +68,8 @@ export const addStudentsOptions = {
     !item?.schoolInformation?.currentTermDates?.expectedGraduationDate ||
     (item?.schoolInformation?.studentDidAttendSchoolLastTerm === true &&
       !item?.schoolInformation?.studentDidAttendSchoolLastTerm) ||
+    (item?.claimsOrReceivesPension !== undefined &&
+      ![true, false].includes(item?.claimsOrReceivesPension)) ||
     (item?.schoolInformation?.studentDidAttendSchoolLastTerm === true &&
       (!item?.schoolInformation?.lastTermSchoolInformation?.termBegin ||
         !item?.schoolInformation?.lastTermSchoolInformation?.dateTermEnded)) ||
@@ -718,13 +720,14 @@ export const studentEarningsPage = {
       () => 'Student’s income in the year their current school term began',
     ),
     'ui:options': {
-      updateSchema: (formData, schema, _uiSchema, index) => {
-        const itemData = formData?.studentInformation?.[index];
-        const { vaDependentsNetWorthAndPension } = formData;
+      updateSchema: (_formData, schema, _uiSchema, index, _path, fullData) => {
+        const itemData = fullData?.studentInformation?.[index];
+        const { vaDependentsNetWorthAndPension } = fullData;
 
         const resetItemData = vaDependentsNetWorthAndPension
-          ? !formData?.['view:checkVeteranPension']
+          ? !fullData?.['view:checkVeteranPension']
           : !itemData?.claimsOrReceivesPension;
+
         if (resetItemData) {
           itemData.studentEarningsFromSchoolYear = undefined;
           itemData.studentExpectedEarningsNextYear = undefined;
