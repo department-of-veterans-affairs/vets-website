@@ -49,6 +49,14 @@ export const incomeTypeLabels = {
   OTHER: 'Other',
 };
 
+export const updatedIncomeTypeLabels = {
+  WAGES: 'Wage from a job',
+  RETIREMENT_PENSION: 'Pension or retirement',
+  SOCIAL_SECURITY: 'Social Security',
+  UNEMPLOYMENT: 'Unemployment',
+  OTHER: 'Another type of income',
+};
+
 export const incomeTypeEarnedLabels = {
   INTEREST: 'Interest',
   DIVIDENDS: 'Dividends',

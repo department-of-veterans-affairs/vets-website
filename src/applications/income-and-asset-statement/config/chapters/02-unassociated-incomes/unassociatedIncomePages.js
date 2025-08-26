@@ -35,6 +35,7 @@ import {
 } from '../../../helpers';
 import {
   incomeTypeLabels,
+  updatedIncomeTypeLabels,
   relationshipLabelDescriptions,
   relationshipLabels,
 } from '../../../labels';
@@ -72,7 +73,12 @@ export const options = {
           <li>
             Income type:{' '}
             <span className="vads-u-font-weight--bold">
-              {incomeTypeLabels[item.incomeType]}
+              {
+                (showUpdatedContent()
+                  ? updatedIncomeTypeLabels
+                  : incomeTypeLabels,
+                [item.incomeType])
+              }
             </span>
           </li>
           <li>
@@ -444,13 +450,19 @@ const recipientNamePage = {
 /** @returns {PageSchema} */
 const incomeTypePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Recurring income type'),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      showUpdatedContent() ? 'Income information' : 'Recurring income type',
+    ),
     incomeType: radioUI({
-      title: 'What is the type of income?',
-      labels: incomeTypeLabels,
+      title: showUpdatedContent()
+        ? 'What type of income is it?'
+        : 'What is the type of income?',
+      labels: showUpdatedContent() ? updatedIncomeTypeLabels : incomeTypeLabels,
     }),
     otherIncomeType: {
-      'ui:title': 'Tell us the type of income',
+      'ui:title': showUpdatedContent()
+        ? 'Describe the type of income'
+        : 'Tell us the type of income',
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
         expandUnder: 'incomeType',
@@ -463,16 +475,35 @@ const incomeTypePage = {
           'unassociatedIncomes',
         ),
     },
-    grossMonthlyIncome: currencyUI('Gross monthly income'),
-    payer: textUI({
-      title: 'Income payer name',
-      hint: 'Name of business, financial institution, or program, etc.',
-    }),
+    grossMonthlyIncome: currencyUI(
+      showUpdatedContent()
+        ? {
+            title: `What's the gross monthly income from this financial account?`,
+            hint:
+              'Gross income is income before taxes and any other deductions.',
+          }
+        : 'Gross monthly income',
+    ),
+    payer: textUI(
+      showUpdatedContent()
+        ? {
+            title: 'Who pays the income?',
+            hint: 'Name of business, agency, or program',
+          }
+        : {
+            title: 'Income payer name',
+            hint: 'Name of business, financial institution, or program, etc.',
+          },
+    ),
   },
   schema: {
     type: 'object',
     properties: {
-      incomeType: radioSchema(Object.keys(incomeTypeLabels)),
+      incomeType: radioSchema(
+        Object.keys(
+          showUpdatedContent() ? updatedIncomeTypeLabels : incomeTypeLabels,
+        ),
+      ),
       otherIncomeType: { type: 'string' },
       grossMonthlyIncome: currencySchema,
       payer: textSchema,
