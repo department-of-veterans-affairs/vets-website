@@ -67,10 +67,18 @@ const LandingPage = title => {
                     <h2 data-testid="landing-page-portal-hdr">
                       What you can do in the portal
                     </h2>
-                    {/* <va-link
-                      href="/representative/get-help"
-                      text="Learn more about the portal"
-                    /> */}
+                    <Toggler
+                      toggleName={
+                        Toggler.TOGGLE_NAMES.accreditedRepresentativePortalHelp
+                      }
+                    >
+                      <Toggler.Enabled>
+                        <va-link
+                          href="/representative/get-help"
+                          text="Learn more about the portal"
+                        />
+                      </Toggler.Enabled>
+                    </Toggler>
                     {/* <va-link
                       href="https://www.va.gov"
                       text="Watch a video of how the portal works"
