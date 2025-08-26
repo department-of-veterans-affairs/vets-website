@@ -211,15 +211,30 @@ const cypressConfig = {
 
       on('task', {
         recordNetworkTouch(specAbs) {
-          touchedSpecs.add(specAbs);
+          try {
+            const workspace = process.env.GITHUB_WORKSPACE || process.cwd();
+            const abs = path.resolve(String(specAbs));
+            const rel = path.relative(workspace, abs).replace(/\\/g, '/');
+            touchedSpecs.add(abs);
+            touchedSpecs.add(rel);
+          } catch (_) {
+            touchedSpecs.add(String(specAbs));
+          }
           return null;
         },
       });
 
       on('after:spec', spec => {
-        if (!touchedSpecs.has(spec.absolute)) return;
         const workspace = process.env.GITHUB_WORKSPACE || process.cwd();
-        const rel = path.relative(workspace, spec.absolute).replace(/\\/g, '/');
+        const abs = spec.absolute;
+        const rel = path.relative(workspace, abs).replace(/\\/g, '/');
+        const matched =
+          touchedSpecs.has(abs) ||
+          touchedSpecs.has(rel) ||
+          [...touchedSpecs].some(s => String(s).endsWith(rel));
+        if (!matched) return;
+        touchedSpecs.delete(abs);
+        touchedSpecs.delete(rel);
         ghAnnotate({
           file: rel,
           line: 1,
@@ -227,7 +242,6 @@ const cypressConfig = {
           message:
             'This spec made real network requests—add cy.intercept() or stubs.',
         });
-        touchedSpecs.delete(spec.absolute);
       });
 
       return nodeConfig || config;
