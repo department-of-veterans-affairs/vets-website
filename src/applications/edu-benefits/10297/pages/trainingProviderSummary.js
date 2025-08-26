@@ -46,18 +46,36 @@ const uiSchema = {
       hideIf: formData => formData?.trainingProviders?.length > 0,
     },
   },
-  'view:summary': arrayBuilderYesNoUI(trainingProviderArrayOptions, {
-    title: 'Do you have a training provider to add?',
-    labels: {
-      Y: 'Yes, I have a training provider to add.',
-      N: 'No, I do not have a training provider to add.',
-    },
-    hint: () =>
-      'Select yes if you would like to add a training provider. You can add up to 4.',
-    errorMessages: {
-      required: 'Select yes if you have a training provider to add.',
-    },
-  }),
+  'view:summary': {
+    ...arrayBuilderYesNoUI(trainingProviderArrayOptions, {
+      title: 'Do you have a training provider to add?',
+      labels: {
+        Y: 'Yes, I have a training provider to add.',
+        N: 'No, I do not have a training provider to add.',
+      },
+      hint: () =>
+        'Select yes if you would like to add a training provider. You can add up to 4.',
+      errorMessages: {
+        required: 'Select yes if you have a training provider to add.',
+      },
+    }),
+    'ui:required': () => true,
+    'ui:validations': [
+      (errors, value) => {
+        if (!value) {
+          errors.addError('Select yes if you have a training provider to add.');
+        }
+      },
+    ],
+  },
+  // 'ui:required': () => true,
+  // 'ui:validations': [
+  //   (errors, value) => {
+  //     if (!value) {
+  //       errors.addError('Select yes if you have a training provider to add.');
+  //     }
+  //   },
+  // ],
 };
 const schema = {
   type: 'object',
