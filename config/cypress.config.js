@@ -222,6 +222,19 @@ const cypressConfig = {
           }
           return null;
         },
+        emitAnnotationNow(specPath) {
+          const workspace = process.env.GITHUB_WORKSPACE || process.cwd();
+          const abs = path.resolve(String(specPath));
+          const rel = path.relative(workspace, abs).replace(/\\/g, '/');
+          ghAnnotate({
+            file: rel,
+            line: 1,
+            title: 'Unhandled network calls',
+            message:
+              'This spec made real network requests—add cy.intercept() or stubs.',
+          });
+          return null;
+        },
       });
 
       on('after:spec', spec => {
