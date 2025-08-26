@@ -31,12 +31,12 @@ const PaginationMeta = ({ meta, results, resultType, defaults }) => {
     initCount = 1;
   }
 
-  const userName = (
+  const userName = user ? (
     <span className="poa-request__user-name">
       "You ({user.firstName.toLowerCase()} {user.lastName.toLowerCase()}
       )"
     </span>
-  );
+  ) : null;
   return (
     <p className="poa-request__meta">
       Showing {initCount}-{pageSizeCount} of {totalCount} {searchStatus || ''}{' '}
