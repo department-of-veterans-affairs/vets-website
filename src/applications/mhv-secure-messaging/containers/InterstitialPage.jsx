@@ -14,6 +14,8 @@ const InterstitialPage = props => {
   const { cernerPilotSmFeatureFlag } = featureToggles();
   const dispatch = useDispatch();
 
+  // Adding arbitrary comment to see if commit triggers auto changes from linter.
+
   useEffect(() => {
     focusElement(document.querySelector('h1'));
   }, []);
