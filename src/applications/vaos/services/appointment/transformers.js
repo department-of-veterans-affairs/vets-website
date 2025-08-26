@@ -1,5 +1,5 @@
 import { isEmpty } from 'lodash';
-import { isAfter, isBefore, parseISO, startOfMinute } from 'date-fns';
+import { isAfter, isBefore, parseISO } from 'date-fns';
 import { getProviderName } from '../../utils/appointment';
 import {
   APPOINTMENT_TYPES,
@@ -71,10 +71,8 @@ export function transformVAOSAppointment(appt) {
   if (appt.referral?.referralNumber) {
     isCC = true;
     appointmentType = APPOINTMENT_TYPES.ccAppointment;
-    const compareToday = startOfMinute(today);
-    const compareStart = startOfMinute(start);
-    isPast = isAfter(compareToday, compareStart);
-    isUpcoming = isBefore(compareToday, compareStart);
+    isPast = isAfter(today, start);
+    isUpcoming = isBefore(today, start);
   }
 
   const isCerner = appt?.id?.startsWith('CERN');
