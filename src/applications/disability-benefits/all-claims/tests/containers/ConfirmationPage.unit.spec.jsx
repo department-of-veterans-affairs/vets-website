@@ -24,7 +24,12 @@ const getData = ({
   },
   featureToggles,
   form: {
-    data: {},
+    data: {
+      // Form data cannot be null for review section accordion
+      standardClaim: true,
+      isVaEmployee: true,
+      homelessOrAtRisk: 'homeless',
+    },
   },
 });
 
@@ -79,13 +84,7 @@ describe('ConfirmationPage', () => {
       props.isSubmittingBDD = true;
     }
 
-    const {
-      container,
-      getByText,
-      queryByText,
-      getByTestId,
-      queryByTestId,
-    } = render(
+    const { container, getByText, queryByText } = render(
       <Provider store={store}>
         <ConfirmationPage {...props} />
       </Provider>,
@@ -97,10 +96,14 @@ describe('ConfirmationPage', () => {
       expect(queryByText(bddConfirmationHeadline)).to.not.exist;
     }
 
+    // copy of submission section
+    const accordionItem = container.querySelector(
+      'va-accordion-item[header="Information you submitted on this form"]',
+    );
     if (showCopyofSubmission) {
-      expect(getByTestId('new-confirmation-review-component')).to.exist;
+      expect(accordionItem).to.exist;
     } else {
-      expect(queryByTestId('new-confirmation-review-component')).to.be.null;
+      expect(accordionItem).to.be.null;
     }
 
     // success alert
@@ -168,7 +171,7 @@ describe('ConfirmationPage', () => {
     verifyConfirmationPage('', false, submissionStatuses.failed);
   });
 
-  it('should render confirmation review section when toggle is on', () => {
+  it('should render confirmation review section accordion when toggle is on', () => {
     verifyConfirmationPage(
       '12345678',
       false,
