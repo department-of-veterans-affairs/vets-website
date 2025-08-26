@@ -11,7 +11,7 @@ const Authorized = () => {
 
       <ul className="dashboard__list">
         <li>
-          <va-card icon-name="search" icon-size={5} size={5}>
+          <va-card icon-name="search">
             <div>
               <va-link
                 class="dashboard__card-link vads-u-font-family--serif"
