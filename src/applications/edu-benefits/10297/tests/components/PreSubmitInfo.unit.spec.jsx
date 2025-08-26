@@ -85,11 +85,11 @@ describe('<PreSubmitInfo />', () => {
     const paragraphs = container.querySelectorAll('p');
 
     expect(paragraphs[0].textContent).to.contain(
-      `The information you provide in this application will help us determine if you're eligible for the High Technology Program. We may audit this information to make sure it's accurate.`,
+      "The information you provide in this application will help us determine if you're eligible for the High Technology Program. We may audit this information to make sure it's accurate.",
     );
 
     expect(paragraphs[1].textContent).to.equal(
-      `By checking the box below, you're confirming that:`,
+      "By checking the box below, you're confirming that:",
     );
   });
 

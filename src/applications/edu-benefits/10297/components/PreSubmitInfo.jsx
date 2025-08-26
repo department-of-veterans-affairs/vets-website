@@ -89,7 +89,7 @@ function PreSubmitInfo({
         </li>
         <li>
           Everything you’ve shared here is true and correct to the best of your
-          knowledge
+          knowledge.
         </li>
       </ul>
       {privacyPolicyContent}
