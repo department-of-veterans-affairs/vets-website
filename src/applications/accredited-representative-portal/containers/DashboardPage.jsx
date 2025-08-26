@@ -1,15 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { dashboardBC, DASHBOARD_BC_LABEL } from '../utilities/poaRequests';
+import Unauthorized from '../components/Dashboard/Unauthorized';
+import Authorized from '../components/Dashboard/Authorized';
 
-// Authorized dashboard placeholder page. Content to be implemented later.
-const DashboardPage = () => {
+const DashboardPage = title => {
+  useEffect(
+    () => {
+      document.title = title.title;
+    },
+    [title],
+  );
   return (
-    <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
-      <div className="vads-l-row">
-        <div className="vads-l-col--12 vads-u-padding-y--5">
-          <h1>/representative/dashboard (authorized)</h1>
-        </div>
+    <section className="dashboard">
+      <div className="arp-container">
+        <VaBreadcrumbs
+          breadcrumbList={dashboardBC}
+          label={DASHBOARD_BC_LABEL}
+          homeVeteransAffairs={false}
+        />
+        <Unauthorized />
+        <Authorized />
       </div>
-    </div>
+    </section>
   );
 };
 

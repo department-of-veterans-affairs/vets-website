@@ -1,0 +1,6 @@
+{
+  "appName": "View Dependents new-url",
+  "entryFile": "../../view-dependents/view-dependents-entry.jsx",
+  "entryName": "dependents-view-dependents-new-url",
+  "rootUrl": "/manage-dependents/view"
+}
