@@ -3,10 +3,8 @@ import OutsideDROption from '../components/dr-results-screens/OutsideDROption';
 import * as c from '../constants/results-content/dr-screens/card-content';
 import { DISPLAY_CONDITIONS } from '../constants/display-conditions';
 import { displayConditionsMet } from './display-conditions';
-import {
-  HORIZ_RULE,
-  renderSingleOrList,
-} from '../constants/results-content/common';
+import { HORIZ_RULE } from '../constants/results-content/common';
+import { renderSingleOrList } from '.';
 
 /**
  * Content is defined with SNAKE_CASE prefixes by type, e.g.:
