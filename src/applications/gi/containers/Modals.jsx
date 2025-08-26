@@ -1047,4 +1047,7 @@ Modals.propTypes = {
   profile: PropTypes.object.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Modals);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Modals);
