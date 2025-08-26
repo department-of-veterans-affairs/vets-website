@@ -3,7 +3,7 @@ import {
   getConditions,
   getCondition,
   getAcceleratedConditions,
-  // getAcceleratedCondition,
+  getAcceleratedCondition,
 } from '../api/MrApi';
 import * as Constants from '../util/constants';
 import { addAlert } from './alerts';
@@ -37,15 +37,18 @@ export const getConditionsList = (
 export const getConditionDetails = (
   conditionId,
   conditionList,
+  isAccelerating = false,
 ) => async dispatch => {
   try {
     await dispatchDetails(
       conditionId,
       conditionList,
       dispatch,
-      getCondition,
+      isAccelerating ? getAcceleratedCondition : getCondition,
       Actions.Conditions.GET_FROM_LIST,
-      Actions.Conditions.GET,
+      isAccelerating
+        ? Actions.Conditions.GET_UNIFIED_ITEM
+        : Actions.Conditions.GET,
     );
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));

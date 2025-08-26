@@ -127,8 +127,8 @@ export function formatDateTime(datetimeString) {
 }
 
 // TODO: Confirm data structure
-export const convertUnifiedConditionRecord = record => {
-  const formatConditionDate = formatDateTime(record.attributes.date);
+export const convertUnifiedCondition = condition => {
+  const formatConditionDate = formatDateTime(condition?.date);
   const conditionDate = formatConditionDate
     ? `${formatConditionDate.formattedDate}, ${
         formatConditionDate.formattedTime
@@ -136,12 +136,14 @@ export const convertUnifiedConditionRecord = record => {
     : '';
 
   return {
-    id: record.id,
+    id: condition?.id,
+    name: condition?.name || EMPTY_FIELD,
     date: conditionDate || EMPTY_FIELD,
-    name: record?.attribute.name || EMPTY_FIELD,
-    provider: record.attribute.provider || EMPTY_FIELD,
-    facility: record.attribute.facility || EMPTY_FIELD,
-    comments: record.attribute.comments || EMPTY_FIELD,
+    provider: condition?.provider || EMPTY_FIELD,
+    facility: condition?.facility || EMPTY_FIELD,
+    comments: isArrayAndHasItems(condition?.comments)
+      ? condition.comments
+      : EMPTY_FIELD,
   };
 };
 
@@ -192,13 +194,24 @@ export const conditionReducer = (state = initialState, action) => {
         updatedList: typeof oldList !== 'undefined' ? newList : undefined,
       };
     }
+    case Actions.Conditions.GET_UNIFIED_ITEM: {
+      const condition = action.response;
+      const conditionDetails = convertUnifiedCondition(
+        condition.data?.attributes,
+      );
+
+      return {
+        ...state,
+        conditionDetails,
+      };
+    }
     case Actions.Conditions.GET_UNIFIED_LIST: {
       const data = action.response || [];
       const oldList = state.conditionsList;
       const newList =
         data
           ?.map(condition => {
-            return convertUnifiedConditionRecord(condition);
+            return convertUnifiedCondition(condition);
           })
           .sort((a, b) => {
             if (!a.sortByDate) return 1; // Push nulls to the end
