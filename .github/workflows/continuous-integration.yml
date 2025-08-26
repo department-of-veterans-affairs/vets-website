@@ -1532,7 +1532,7 @@ jobs:
       - name: Init Dashboard Data Repo
         uses: ./.github/workflows/init-data-repo
 
-              # Replacement job to force the use of my branch with the fix
+      # Replacement job to force the use of my branch with the fix
       - name: Force QA repo to test ref
         run: |
           git -C qa-standards-dashboard-data fetch origin --tags --prune
