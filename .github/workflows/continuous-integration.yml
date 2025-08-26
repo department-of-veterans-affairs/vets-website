@@ -735,15 +735,8 @@ jobs:
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
       - name: Init Dashboard Data Repo
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
         uses: ./.github/workflows/init-data-repo
-
-      # Replacement job to force the use of my branch with the fix
-      - name: Force QA repo to test ref
-        run: |
-          git -C qa-standards-dashboard-data fetch origin --tags --prune
-          git -C qa-standards-dashboard-data checkout fix-mochawesome-cypress-video-links
-          git -C qa-standards-dashboard-data rev-parse HEAD
-          yarn --cwd qa-standards-dashboard-data install --frozen-lockfile
 
       - name: Set Up BigQuery Creds
         if: needs.tests-prep.outputs.cypress-tests != '[]'
@@ -1027,14 +1020,6 @@ jobs:
 
       - name: Init Dashboard Data Repo
         uses: ./.github/workflows/init-data-repo
-
-      # Replacement job to force the use of my branch with the fix
-      - name: Force QA repo to test ref
-        run: |
-          git -C qa-standards-dashboard-data fetch origin --tags --prune
-          git -C qa-standards-dashboard-data checkout fix-mochawesome-cypress-video-links
-          git -C qa-standards-dashboard-data rev-parse HEAD
-          yarn --cwd qa-standards-dashboard-data install --frozen-lockfile
 
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
@@ -1531,14 +1516,6 @@ jobs:
 
       - name: Init Dashboard Data Repo
         uses: ./.github/workflows/init-data-repo
-
-      # Replacement job to force the use of my branch with the fix
-      - name: Force QA repo to test ref
-        run: |
-          git -C qa-standards-dashboard-data fetch origin --tags --prune
-          git -C qa-standards-dashboard-data checkout fix-mochawesome-cypress-video-links
-          git -C qa-standards-dashboard-data rev-parse HEAD
-          yarn --cwd qa-standards-dashboard-data install --frozen-lockfile
 
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
