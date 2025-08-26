@@ -120,13 +120,24 @@ export const verifyOverviewPanelItems = (index, expectedItem) =>
     .should('have.text', expectedItem);
 
 export const verifyGoodFitCardCount = expectedCount =>
-  cy.get(`[data-testid*="${GOOD_FIT}"]`).should('have.length', expectedCount);
+  cy.get(`[data-testid^="${GOOD_FIT}"]`).should('have.length', expectedCount);
 
 export const verifyGoodFitCardPresent = card =>
   cy.findByTestId(`${GOOD_FIT}-${card}`).should('be.visible');
 
+export const verifyNotGoodFitCardCount = expectedCount =>
+  cy
+    .get(`[data-testid*="${NOT_GOOD_FIT}"]`)
+    .should('have.length', expectedCount);
+
+export const verifyNotGoodFitCardPresent = card =>
+  cy.findByTestId(`${NOT_GOOD_FIT}-${card}`).should('be.visible');
+
 export const verifyNotGoodFitCardsNotPresent = () =>
-  cy.get(`[data-testid*="${NOT_GOOD_FIT}"]`).should('not.exist');
+  cy.get(`[data-testid^="${NOT_GOOD_FIT}"]`).should('not.exist');
+
+export const verifyOutsideDROptionPresent = () =>
+  cy.findByTestId(OUTSIDE_DR).should('be.visible');
 
 export const verifyOutsideDROptionNotPresent = () =>
   cy.findByTestId(OUTSIDE_DR).should('not.exist');

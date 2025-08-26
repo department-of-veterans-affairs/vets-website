@@ -3,45 +3,88 @@ import * as c from '../results-content/dr-screens/card-content';
 
 const { BOARD, HLR, INIT, NO, SC, YES } = RESPONSES;
 
-// Refer to the README in this directory for an explanation of display conditions
-export const resultsDynamicContentDCs = Object.freeze({
-  [c.TITLE_SC]: {
-    ONE_OF: {
-      Q_1_2B_LAW_POLICY_CHANGE: YES,
-      Q_1_2C_NEW_EVIDENCE: YES,
-      Q_2_IS_1A_LAW_POLICY_CHANGE: YES,
-      Q_2_IS_1B_NEW_EVIDENCE: YES,
-      Q_2_S_1_NEW_EVIDENCE: YES,
-      Q_2_H_1_EXISTING_BOARD_APPEAL: YES,
-      Q_2_H_2_NEW_EVIDENCE: YES,
-    },
+const GOOD_FIT_SC = {
+  NONE_OF: {
+    Q_2_IS_1B_NEW_EVIDENCE: NO,
+    Q_2_S_1_NEW_EVIDENCE: NO,
+    Q_2_H_2_NEW_EVIDENCE: NO,
   },
-  [c.TITLE_HLR]: {
-    ONE_OF: {
-      Q_2_IS_1B_NEW_EVIDENCE: NO,
-      Q_2_S_1_NEW_EVIDENCE: NO,
-    },
+};
+
+const GOOD_FIT_HLR = {
+  Q_1_3_CLAIM_CONTESTED: NO,
+  ONE_OF: {
+    Q_2_IS_1B_NEW_EVIDENCE: NO,
+    Q_2_S_1_NEW_EVIDENCE: NO,
   },
-  [c.TITLE_BOARD_DIRECT]: {
-    Q_2_H_2B_JUDGE_HEARING: NO,
-  },
-  [c.TITLE_BOARD_EVIDENCE]: {
-    Q_2_H_2A_JUDGE_HEARING: NO,
-  },
-  [c.TITLE_BOARD_HEARING]: {
-    ONE_OF: {
-      Q_2_H_2A_JUDGE_HEARING: YES,
-      Q_2_H_2B_JUDGE_HEARING: YES,
-    },
-  },
-  CARD_SC: {
-    GOOD_FIT: {
-      NONE_OF: {
+};
+
+const GOOD_FIT_BOARD_DIRECT = {
+  FORK: {
+    A: {
+      Q_2_0_CLAIM_TYPE: [INIT, SC, HLR],
+      ONE_OF: {
         Q_2_IS_1B_NEW_EVIDENCE: NO,
         Q_2_S_1_NEW_EVIDENCE: NO,
         Q_2_H_2_NEW_EVIDENCE: NO,
       },
     },
+    B: {
+      Q_1_3A_FEWER_60_DAYS: YES,
+    },
+  },
+};
+
+const GOOD_FIT_BOARD_EVIDENCE = {
+  FORK: {
+    A: {
+      Q_2_0_CLAIM_TYPE: [INIT, SC, HLR],
+      ONE_OF: {
+        Q_2_IS_1B_NEW_EVIDENCE: YES,
+        Q_2_S_1_NEW_EVIDENCE: YES,
+        Q_2_H_2_NEW_EVIDENCE: YES,
+      },
+    },
+    B: {
+      Q_1_3A_FEWER_60_DAYS: YES,
+    },
+  },
+};
+
+const GOOD_FIT_BOARD_HEARING = {
+  FORK: {
+    A: {
+      Q_2_0_CLAIM_TYPE: [INIT, SC, HLR],
+      Q_2_H_2_NEW_EVIDENCE: YES,
+      Q_2_H_2A_JUDGE_HEARING: YES,
+    },
+    B: {
+      Q_2_0_CLAIM_TYPE: [INIT, SC, HLR],
+      Q_2_H_2_NEW_EVIDENCE: NO,
+      Q_2_H_2B_JUDGE_HEARING: YES,
+    },
+    C: {
+      Q_1_3A_FEWER_60_DAYS: YES,
+      Q_2_H_2_NEW_EVIDENCE: YES,
+      Q_2_H_2A_JUDGE_HEARING: YES,
+    },
+    D: {
+      Q_1_3A_FEWER_60_DAYS: YES,
+      Q_2_H_2_NEW_EVIDENCE: NO,
+      Q_2_H_2B_JUDGE_HEARING: YES,
+    },
+  },
+};
+
+// Refer to the README in this directory for an explanation of display conditions
+export const resultsDynamicContentDCs = Object.freeze({
+  [c.TITLE_SC]: GOOD_FIT_SC,
+  [c.TITLE_HLR]: GOOD_FIT_HLR,
+  [c.TITLE_BOARD_DIRECT]: GOOD_FIT_BOARD_DIRECT,
+  [c.TITLE_BOARD_EVIDENCE]: GOOD_FIT_BOARD_EVIDENCE,
+  [c.TITLE_BOARD_HEARING]: GOOD_FIT_BOARD_HEARING,
+  CARD_SC: {
+    GOOD_FIT: GOOD_FIT_SC,
     NOT_GOOD_FIT: {
       ONE_OF: {
         Q_2_IS_1B_NEW_EVIDENCE: NO,
@@ -51,13 +94,7 @@ export const resultsDynamicContentDCs = Object.freeze({
     },
   },
   CARD_HLR: {
-    GOOD_FIT: {
-      Q_1_3_CLAIM_CONTESTED: NO,
-      ONE_OF: {
-        Q_2_IS_1B_NEW_EVIDENCE: NO,
-        Q_2_S_1_NEW_EVIDENCE: NO,
-      },
-    },
+    GOOD_FIT: GOOD_FIT_HLR,
     NOT_GOOD_FIT: {
       ONE_OF: {
         Q_1_3_CLAIM_CONTESTED: YES,
@@ -68,21 +105,7 @@ export const resultsDynamicContentDCs = Object.freeze({
     },
   },
   CARD_BOARD_DIRECT: {
-    GOOD_FIT: {
-      FORK: {
-        A: {
-          Q_2_0_CLAIM_TYPE: [INIT, SC, HLR],
-          ONE_OF: {
-            Q_2_IS_1B_NEW_EVIDENCE: NO,
-            Q_2_S_1_NEW_EVIDENCE: NO,
-            Q_2_H_2_NEW_EVIDENCE: NO,
-          },
-        },
-        B: {
-          Q_1_3A_FEWER_60_DAYS: YES,
-        },
-      },
-    },
+    GOOD_FIT: GOOD_FIT_BOARD_DIRECT,
     NOT_GOOD_FIT: {
       ONE_OF: {
         Q_2_H_1_EXISTING_BOARD_APPEAL: YES,
@@ -92,21 +115,7 @@ export const resultsDynamicContentDCs = Object.freeze({
     },
   },
   CARD_BOARD_EVIDENCE: {
-    GOOD_FIT: {
-      FORK: {
-        A: {
-          Q_2_0_CLAIM_TYPE: [INIT, SC, HLR],
-          ONE_OF: {
-            Q_2_IS_1B_NEW_EVIDENCE: YES,
-            Q_2_S_1_NEW_EVIDENCE: YES,
-            Q_2_H_2_NEW_EVIDENCE: YES,
-          },
-        },
-        B: {
-          Q_1_3A_FEWER_60_DAYS: YES,
-        },
-      },
-    },
+    GOOD_FIT: GOOD_FIT_BOARD_EVIDENCE,
     NOT_GOOD_FIT: {
       ONE_OF: {
         Q_2_H_1_EXISTING_BOARD_APPEAL: YES,
@@ -116,34 +125,12 @@ export const resultsDynamicContentDCs = Object.freeze({
     },
   },
   CARD_BOARD_HEARING: {
-    GOOD_FIT: {
-      FORK: {
-        A: {
-          Q_2_0_CLAIM_TYPE: [INIT, SC, HLR],
-          Q_2_H_2_NEW_EVIDENCE: YES,
-          Q_2_H_2A_JUDGE_HEARING: YES,
-        },
-        B: {
-          Q_2_0_CLAIM_TYPE: [INIT, SC, HLR],
-          Q_2_H_2_NEW_EVIDENCE: NO,
-          Q_2_H_2B_JUDGE_HEARING: YES,
-        },
-        C: {
-          Q_1_3A_FEWER_60_DAYS: YES,
-          Q_2_H_2_NEW_EVIDENCE: YES,
-          Q_2_H_2A_JUDGE_HEARING: YES,
-        },
-        D: {
-          Q_1_3A_FEWER_60_DAYS: YES,
-          Q_2_H_2_NEW_EVIDENCE: NO,
-          Q_2_H_2B_JUDGE_HEARING: YES,
-        },
-      },
-    },
+    GOOD_FIT: GOOD_FIT_BOARD_HEARING,
     NOT_GOOD_FIT: {
       ONE_OF: {
         Q_2_H_1_EXISTING_BOARD_APPEAL: YES,
-        Q_2_H_2B_JUDGE_HEARING: YES,
+        Q_2_H_2A_JUDGE_HEARING: NO,
+        Q_2_H_2B_JUDGE_HEARING: NO,
       },
     },
   },
