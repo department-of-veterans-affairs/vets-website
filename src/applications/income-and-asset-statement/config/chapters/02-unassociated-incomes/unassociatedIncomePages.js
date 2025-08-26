@@ -25,7 +25,7 @@ import {
   generateDeleteDescription,
   isDefined,
   isIncomeTypeInfoIncomplete,
-  isRecipientInfoIncomplete,
+  updatedIsRecipientInfoIncomplete,
   otherIncomeTypeExplanationRequired,
   otherRecipientRelationshipTypeUI,
   updatedRecipientNameRequired,
@@ -38,7 +38,6 @@ import {
   relationshipLabelDescriptions,
   relationshipLabels,
 } from '../../../labels';
-import { DependentDescription } from '../../../components/DependentDescription';
 
 /** @type {ArrayBuilderOptions} */
 export const options = {
@@ -47,7 +46,7 @@ export const options = {
   nounPlural: 'recurring income',
   required: false,
   isItemIncomplete: item =>
-    isRecipientInfoIncomplete(item) ||
+    updatedIsRecipientInfoIncomplete(item) ||
     isIncomeTypeInfoIncomplete(item) ||
     !isDefined(item?.grossMonthlyIncome) ||
     !isDefined(item?.payer), // include all required fields here
@@ -535,9 +534,6 @@ export const unassociatedIncomePages = arrayBuilderPages(
       path: 'recurring-income/:index/veteran-income-recipient',
       depends: formData =>
         showUpdatedContent() && formData.claimantType === 'VETERAN',
-      ContentBeforeButtons: showUpdatedContent() ? (
-        <DependentDescription />
-      ) : null,
       uiSchema: veteranIncomeRecipientPage.uiSchema,
       schema: veteranIncomeRecipientPage.schema,
     }),

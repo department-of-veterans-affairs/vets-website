@@ -4,10 +4,9 @@
 // - arrayBuilderHelpers.js (ArrayBuilder-specific logic and utilities)
 // - sessionHelpers.js (localStorage/sessionStorage/browser-based logic)
 
+import get from 'platform/utilities/data/get';
 import { capitalize } from 'lodash';
 import { fullNameNoSuffixUI } from '~/platform/forms-system/src/js/web-component-patterns';
-
-import get from '@department-of-veterans-affairs/platform-utilities/data/get';
 
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 
@@ -123,6 +122,20 @@ export const isRecipientInfoIncomplete = item =>
   (!isDefined(item?.otherRecipientRelationshipType) &&
     item?.recipientRelationship === 'OTHER');
 
+export const updatedIsRecipientInfoIncomplete = item => {
+  if (!showUpdatedContent()) {
+    return isRecipientInfoIncomplete(item);
+  }
+
+  return (
+    !isDefined(item?.recipientRelationship) ||
+    (!isDefined(item?.recipientName) &&
+      item?.recipientRelationship !== 'VETERAN' &&
+      item?.recipientRelationship !== 'SPOUSE') ||
+    (!isDefined(item?.otherRecipientRelationshipType) &&
+      item?.recipientRelationship === 'OTHER')
+  );
+};
 export const isIncomeTypeInfoIncomplete = item =>
   !isDefined(item?.incomeType) ||
   (!isDefined(item?.otherIncomeType) && item?.incomeType === 'OTHER');
