@@ -110,6 +110,9 @@ export const postItf = () => ({
   },
 });
 
+const regexNonWord = /[^\w]/g;
+export const sippableId = str =>
+  (str || 'blank').replace(regexNonWord, '').toLowerCase();
 /**
  * Setup for the e2e test, including any cleanup and mocking api responses
  * @param {object} cy
@@ -120,11 +123,47 @@ export const setup = (cy, testOptions = {}) => {
   window.sessionStorage.removeItem(WIZARD_STATUS);
   window.sessionStorage.removeItem(FORM_STATUS_BDD);
 
-  cy.intercept(
-    'GET',
-    '/v0/feature_toggles*',
-    testOptions?.toggles || mockFeatureToggles,
-  );
+  if (testOptions?.prefillData?.disability526Enable2024Form4142 === true) {
+    cy.intercept('GET', '/v0/feature_toggles*', {
+      statusCode: 200,
+      body: {
+        data: {
+          features: [
+            {
+              name: 'disability_526_form4142_use_2024_version',
+              value: true,
+            },
+            {
+              name: 'show526Wizard',
+              value: true,
+            },
+            {
+              name: 'form526_confirmation_email',
+              value: true,
+            },
+            {
+              name: 'form526_confirmation_email_show_copy',
+              value: true,
+            },
+            {
+              name: 'subform_8940_4192',
+              value: true,
+            },
+            {
+              name: 'allowEncryptedFiles',
+              value: true,
+            },
+          ],
+        },
+      },
+    });
+  } else {
+    cy.intercept(
+      'GET',
+      '/v0/feature_toggles*',
+      testOptions?.toggles || mockFeatureToggles,
+    );
+  }
 
   // `mockItf` is not a fixture; it can't be loaded as a fixture
   // because fixtures don't evaluate JS.
@@ -187,6 +226,10 @@ export const setup = (cy, testOptions = {}) => {
       formData.syncModern0781Flow = testOptions.prefillData.syncModern0781Flow;
     }
 
+    if (testOptions?.prefillData?.disability526Enable2024Form4142) {
+      formData.disability526Enable2024Form4142 =
+        testOptions.prefillData.disability526Enable2024Form4142;
+    }
     cy.intercept('GET', `${MOCK_SIPS_API}*`, {
       formData,
       metadata: mockPrefill.metadata,
@@ -428,6 +471,7 @@ export const pageHooks = (cy, testOptions) => ({
             )
               .should('be.visible')
               .clear();
+
             cy.get(
               'input[name="root_view:worsenedFollowUp_worsenedDescription"]',
             ).type(disability['view:worsenedFollowUp'].worsenedDescription);
@@ -435,6 +479,7 @@ export const pageHooks = (cy, testOptions) => ({
             cy.get('textarea[id="root_view:worsenedFollowUp_worsenedEffects"]')
               .should('be.visible')
               .clear();
+
             cy.get(
               'textarea[id="root_view:worsenedFollowUp_worsenedEffects"]',
             ).type(disability['view:worsenedFollowUp'].worsenedEffects);
@@ -503,8 +548,55 @@ export const pageHooks = (cy, testOptions) => ({
   },
 
   'supporting-evidence/private-medical-records': () => {
-    cy.get('[type="radio"][value="Y"]').check({ force: true });
+    cy.get('@testData').then(data => {
+      if (
+        data['view:uploadPrivateRecordsQualifier'][
+          'view:hasPrivateRecordsToUpload'
+        ] === true
+      ) {
+        cy.get('[type="radio"][value="Y"]').check({ force: true });
+        cy.fillPage();
+      } else {
+        cy.get('[type="radio"][value="N"]').check({ force: true });
+      }
+      cy.findByText(/continue/i, { selector: 'button' }).click();
+    });
+  },
+
+  'supporting-evidence/private-medical-records-authorize-release': () => {
+    cy.get('@testData').then(data => {
+      if (data.disability526Enable2024Form4142 !== true) {
+        throw new Error(`Unexpectedly showing new 4142 page`);
+      }
+      if (data.patient4142Acknowledgement === true) {
+        cy.get('h3')
+          .invoke('text')
+          .then(textValue => {
+            expect(textValue).to.include(
+              'Authorize the release of non-VA medical records to VA',
+            );
+          });
+        cy.get('input[name="privacy-agreement"]').focus();
+        cy.get('input[name="privacy-agreement"]').click({ force: true });
+      }
+    });
     cy.findByText(/continue/i, { selector: 'button' }).click();
+  },
+
+  'supporting-evidence/private-medical-records-release': () => {
+    cy.get('@testData').then(data => {
+      if (data.disability526Enable2024Form4142 === true) {
+        data.newDisabilities.map(disability => {
+          const condition = sippableId(disability.condition);
+          return cy
+            .get(
+              `input[name="root_providerFacility_0_treatedDisabilityNames_${condition}`,
+            )
+            .should('be.visible');
+        });
+        cy.fillPage();
+      }
+    });
   },
 
   'supporting-evidence/private-medical-records-upload': () => {
