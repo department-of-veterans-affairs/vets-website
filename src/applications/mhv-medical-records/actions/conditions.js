@@ -42,8 +42,32 @@ export const getConditionDetails = (
   conditionList,
   isAccelerating = false,
 ) => async dispatch => {
+  // Workaround: GET_UNIFIED_ITEM is not ready for deployment yet
+  // For accelerated conditions, attempt to find the item in the existing list
+  // If not found, fetch the full list and dispatch the matching item
+  // TODO: Remove this workaround once GET_UNIFIED_ITEM endpoint is available
+  if (isAccelerating) {
+    const matchingItem =
+      conditionList && conditionList.find(item => item.id === conditionId);
+
+    // This dispatches a placeholder response until the proper API endpoint is ready
+    if (!matchingItem) {
+      // Fetch updated conditions list since the item wasn't found locally
+      await dispatch(getConditionsList(false, isAccelerating));
+    }
+
+    // Item found in local list, dispatch it directly
+    dispatch({
+      type: Actions.Conditions.GET_FROM_LIST,
+      response: matchingItem,
+    });
+    return; // Exit early for accelerated path
+  }
+
   try {
-    const getFunction = isAccelerating ? getAcceleratedCondition : getCondition;
+    const getDataFunction = isAccelerating
+      ? getAcceleratedCondition
+      : getCondition;
     const actionType = isAccelerating
       ? Actions.Conditions.GET_UNIFIED_ITEM
       : Actions.Conditions.GET;
@@ -52,7 +76,7 @@ export const getConditionDetails = (
       conditionId,
       conditionList,
       dispatch,
-      getFunction,
+      getDataFunction,
       Actions.Conditions.GET_FROM_LIST,
       actionType,
     );
