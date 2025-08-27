@@ -64,17 +64,39 @@ describe('Decision Reviews Onramp', () => {
       // RESULTS
       h.verifyUrl(ROUTES.RESULTS);
       h.verifyDrResultsHeader(RESULTS_BOARD_DIRECT);
-      h.verifyOverviewPanelItemCount(2);
-      h.verifyOverviewPanelItems(0, c.TITLE_BOARD_DIRECT);
-      h.verifyOverviewPanelItems(1, c.TITLE_BOARD_EVIDENCE);
-      h.verifyGoodFitCardCount(2);
-      h.verifyGoodFitCardPresent(c.CARD_BOARD_DIRECT);
-      h.verifyGoodFitCardPresent(c.CARD_BOARD_EVIDENCE);
-      h.verifyNotGoodFitCardCount(4);
-      h.verifyNotGoodFitCardPresent(c.CARD_SC);
-      h.verifyNotGoodFitCardPresent(c.CARD_HLR);
-      h.verifyNotGoodFitCardPresent(c.CARD_BOARD_EVIDENCE);
-      h.verifyNotGoodFitCardPresent(c.CARD_BOARD_HEARING);
+      h.checkOverviewPanel([c.TITLE_BOARD_DIRECT, c.TITLE_BOARD_EVIDENCE]);
+      h.checkGoodFitCards([
+        {
+          type: c.CARD_BOARD_DIRECT,
+          content: [
+            c.CARD_NO_NEW_EVIDENCE,
+            c.CARD_BOARD_ONLY_OPTION,
+            c.CARD_NO_HEARING,
+          ],
+        },
+        {
+          type: c.CARD_BOARD_EVIDENCE,
+          content: [c.CARD_BOARD_ONLY_OPTION, c.CARD_NO_HEARING],
+        },
+      ]);
+      h.checkNotGoodFitCards([
+        {
+          type: c.CARD_SC,
+          content: [c.CARD_NEED_EVIDENCE, c.CARD_CLAIM_CONTESTED],
+        },
+        {
+          type: c.CARD_HLR,
+          content: [c.CARD_CLAIM_CONTESTED],
+        },
+        {
+          type: c.CARD_BOARD_EVIDENCE,
+          content: [c.CARD_NEED_EVIDENCE],
+        },
+        {
+          type: c.CARD_BOARD_HEARING,
+          content: [c.CARD_HEARING_NOT_DESIRED],
+        },
+      ]);
       h.verifyOutsideDROptionNotPresent();
       cy.go('back');
 

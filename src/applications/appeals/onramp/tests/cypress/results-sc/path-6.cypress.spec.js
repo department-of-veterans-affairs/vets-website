@@ -57,15 +57,35 @@ describe('Decision Reviews Onramp', () => {
       // RESULTS
       h.verifyUrl(ROUTES.RESULTS);
       h.verifyDrResultsHeader(RESULTS_SC);
-      h.verifyOverviewPanelItemCount(1);
-      h.verifyOverviewPanelItems(0, c.TITLE_SC);
-      h.verifyGoodFitCardCount(1);
-      h.verifyGoodFitCardPresent(c.CARD_SC);
-      h.verifyNotGoodFitCardCount(4);
-      h.verifyNotGoodFitCardPresent(c.CARD_HLR);
-      h.verifyNotGoodFitCardPresent(c.CARD_BOARD_DIRECT);
-      h.verifyNotGoodFitCardPresent(c.CARD_BOARD_EVIDENCE);
-      h.verifyNotGoodFitCardPresent(c.CARD_BOARD_HEARING);
+      h.checkOverviewPanel([c.TITLE_SC]);
+      h.checkGoodFitCards([
+        {
+          type: c.CARD_SC,
+          content: [
+            c.CARD_REVIEW_HLR,
+            c.CARD_NOT_CONTESTED,
+            c.CARD_SUBMITTED_BOARD_APPEAL,
+          ],
+        },
+      ]);
+      h.checkNotGoodFitCards([
+        {
+          type: c.CARD_HLR,
+          content: [c.CARD_HLR_NOT_AVAILABLE],
+        },
+        {
+          type: c.CARD_BOARD_DIRECT,
+          content: [c.CARD_RECEIVED_BOARD_DECISION],
+        },
+        {
+          type: c.CARD_BOARD_EVIDENCE,
+          content: [c.CARD_RECEIVED_BOARD_DECISION],
+        },
+        {
+          type: c.CARD_BOARD_HEARING,
+          content: [c.CARD_RECEIVED_BOARD_DECISION],
+        },
+      ]);
       h.verifyOutsideDROptionNotPresent();
       cy.go('back');
 

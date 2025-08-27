@@ -71,15 +71,35 @@ describe('Decision Reviews Onramp', () => {
       // RESULTS
       h.verifyUrl(ROUTES.RESULTS);
       h.verifyDrResultsHeader(RESULTS_BOARD_DIRECT);
-      h.verifyOverviewPanelItemCount(1);
-      h.verifyOverviewPanelItems(0, c.TITLE_BOARD_DIRECT);
-      h.verifyGoodFitCardCount(1);
-      h.verifyGoodFitCardPresent(c.CARD_BOARD_DIRECT);
-      h.verifyNotGoodFitCardCount(4);
-      h.verifyNotGoodFitCardPresent(c.CARD_SC);
-      h.verifyNotGoodFitCardPresent(c.CARD_HLR);
-      h.verifyNotGoodFitCardPresent(c.CARD_BOARD_EVIDENCE);
-      h.verifyNotGoodFitCardPresent(c.CARD_BOARD_HEARING);
+      h.checkOverviewPanel([c.TITLE_BOARD_DIRECT]);
+      h.checkGoodFitCards([
+        {
+          type: c.CARD_BOARD_DIRECT,
+          content: [
+            c.CARD_REVIEW_HLR,
+            c.CARD_NO_NEW_EVIDENCE,
+            c.CARD_NO_HEARING,
+          ],
+        },
+      ]);
+      h.checkNotGoodFitCards([
+        {
+          type: c.CARD_SC,
+          content: [c.CARD_NEED_EVIDENCE],
+        },
+        {
+          type: c.CARD_HLR,
+          content: [c.CARD_HLR_NOT_AVAILABLE],
+        },
+        {
+          type: c.CARD_BOARD_EVIDENCE,
+          content: [c.CARD_NEED_EVIDENCE],
+        },
+        {
+          type: c.CARD_BOARD_HEARING,
+          content: [c.CARD_HEARING_NOT_DESIRED],
+        },
+      ]);
       h.verifyOutsideDROptionNotPresent();
       cy.go('back');
 

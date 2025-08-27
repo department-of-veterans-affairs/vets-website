@@ -71,16 +71,35 @@ describe('Decision Reviews Onramp', () => {
       // RESULTS
       h.verifyUrl(ROUTES.RESULTS);
       h.verifyDrResultsHeader(RESULTS_BOARD_EVIDENCE);
-      h.verifyOverviewPanelItemCount(2);
-      h.verifyOverviewPanelItems(0, c.TITLE_SC);
-      h.verifyOverviewPanelItems(1, c.TITLE_BOARD_EVIDENCE);
-      h.verifyGoodFitCardCount(2);
-      h.verifyGoodFitCardPresent(c.CARD_SC);
-      h.verifyGoodFitCardPresent(c.CARD_BOARD_EVIDENCE);
-      h.verifyNotGoodFitCardCount(3);
-      h.verifyNotGoodFitCardPresent(c.CARD_HLR);
-      h.verifyNotGoodFitCardPresent(c.CARD_BOARD_DIRECT);
-      h.verifyNotGoodFitCardPresent(c.CARD_BOARD_HEARING);
+      h.checkOverviewPanel([c.TITLE_SC, c.TITLE_BOARD_EVIDENCE]);
+      h.checkGoodFitCards([
+        {
+          type: c.CARD_SC,
+          content: [
+            c.CARD_REVIEW_HLR,
+            c.CARD_NEW_EVIDENCE,
+            c.CARD_NOT_CONTESTED,
+          ],
+        },
+        {
+          type: c.CARD_BOARD_EVIDENCE,
+          content: [c.CARD_REVIEW_HLR, c.CARD_NEW_EVIDENCE, c.CARD_NO_HEARING],
+        },
+      ]);
+      h.checkNotGoodFitCards([
+        {
+          type: c.CARD_HLR,
+          content: [c.CARD_HLR_NOT_AVAILABLE],
+        },
+        {
+          type: c.CARD_BOARD_DIRECT,
+          content: [], // Note that nothing currently shows up, we'll need further guidance on the logic from UX but it can wait for now
+        },
+        {
+          type: c.CARD_BOARD_HEARING,
+          content: [c.CARD_HEARING_NOT_DESIRED],
+        },
+      ]);
       h.verifyOutsideDROptionNotPresent();
       cy.go('back');
 
