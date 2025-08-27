@@ -145,7 +145,9 @@ const summaryPage = {
         labels: yesNoLabels,
       },
       {
-        title: 'Do you have more financial accounts to report?',
+        title: showUpdatedContent()
+          ? 'Do you have more financial accounts to report?'
+          : 'Do you have more recurring income to report?',
         labels: yesNoLabels,
       },
     ),
