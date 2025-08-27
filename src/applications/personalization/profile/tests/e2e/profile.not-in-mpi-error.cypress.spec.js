@@ -10,9 +10,10 @@ import {
 
 /**
  *
+ * @param {boolean} profileShowPaperlessDelivery - feature
  * @param {boolean} mobile - test on a mobile viewport or not
  */
-function test(mobile = false) {
+function test({ profileShowPaperlessDelivery = false, mobile = false } = {}) {
   cy.visit(PROFILE_PATHS.PROFILE_ROOT);
   if (mobile) {
     cy.viewport('iphone-4');
@@ -42,7 +43,7 @@ function test(mobile = false) {
 
   cy.injectAxeThenAxeCheck();
 
-  subNavOnlyContainsAccountSecurity(mobile);
+  subNavOnlyContainsAccountSecurity({ profileShowPaperlessDelivery, mobile });
 
   onlyAccountSecuritySectionIsAccessible();
 }
@@ -90,10 +91,65 @@ describe('When user is LOA3 with 2FA turned on but we cannot connect to MPI', ()
     test();
   });
   it('should only have access to the Account Security section at mobile size', () => {
-    test(true);
+    test({ mobile: true });
   });
   it('should not call profile apis', () => {
     test();
+    cy.should(() => {
+      expect(getDD4EDUBankInfoStub).not.to.be.called;
+      expect(getFullNameStub).not.to.be.called;
+      expect(getPersonalInfoStub).not.to.be.called;
+      expect(getServiceHistoryStub).not.to.be.called;
+      expect(getDisabilityInfoStub).not.to.be.called;
+    });
+  });
+});
+
+describe('When user is LOA3 with 2FA turned on but we cannot connect to MPI and feature profileShowPaperlessDelivery is true', () => {
+  beforeEach(() => {
+    cy.login(mockUserNotInMPI);
+    mockGETEndpoints([
+      'v0/mhv_account',
+      'v0/profile/ch33_bank_accounts',
+      'v0/profile/full_name',
+      'v0/profile/personal_information',
+      'v0/profile/service_history',
+      'v0/disability_compensation_form/rating_info',
+    ]);
+    cy.intercept('GET', 'v0/feature_toggles*', {
+      data: {
+        features: [{ name: 'profile_show_paperless_delivery', value: true }],
+      },
+    });
+    getDD4EDUBankInfoStub = cy.stub();
+    getFullNameStub = cy.stub();
+    getPersonalInfoStub = cy.stub();
+    getServiceHistoryStub = cy.stub();
+    getDisabilityInfoStub = cy.stub();
+    cy.intercept('GET', 'v0/profile/ch33_bank_accounts', () => {
+      getDD4EDUBankInfoStub();
+    });
+    cy.intercept('GET', 'v0/profile/full_name', () => {
+      getFullNameStub();
+    });
+    cy.intercept('GET', 'v0/profile/personal_information', () => {
+      getPersonalInfoStub();
+    });
+    cy.intercept('GET', 'v0/profile/service_history', () => {
+      getServiceHistoryStub();
+    });
+    cy.intercept('GET', 'v0/disability_compensation_form/rating_info', () => {
+      getDisabilityInfoStub();
+    });
+  });
+  it('should only have access to the Account Security section at desktop size', () => {
+    test({ profileShowPaperlessDelivery: true });
+  });
+  it('should only have access to the Account Security section at mobile size', () => {
+    test({ profileShowPaperlessDelivery: true, mobile: true });
+  });
+  it('should not call profile apis', () => {
+    test({ profileShowPaperlessDelivery: true });
     cy.should(() => {
       expect(getDD4EDUBankInfoStub).not.to.be.called;
       expect(getFullNameStub).not.to.be.called;
