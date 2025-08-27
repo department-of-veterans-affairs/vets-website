@@ -1,9 +1,12 @@
 import * as Sentry from '@sentry/browser';
 import merge from 'lodash/merge';
 import { fetchAndUpdateSessionExpiration } from 'platform/utilities/api';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import environment from 'platform/utilities/environment';
 import localStorage from 'platform/utilities/storage/localStorage';
 import manifest from '../manifest.json';
+import store from './store';
 import { getSignInUrl } from './constants';
 import { SORT_DEFAULTS } from './submissions';
 
@@ -73,6 +76,23 @@ const wrapApiRequest = fn => {
           returnUrl: window.location.href,
         });
         return null;
+      }
+
+      // For 403s, optionally redirect to the unauthorized dashboard view behind flag
+      if (response.status === 403) {
+        // Only redirect for in-app paths and when the dashboard feature is enabled
+        const state = store.getState();
+        const dashboardEnabled = !!toggleValues(state)[
+          FEATURE_FLAG_NAMES.accreditedRepresentativePortalDashboardLink
+        ];
+        const inAppPath = window.location.pathname.startsWith(manifest.rootUrl);
+
+        if (dashboardEnabled && inAppPath) {
+          window.location.replace(
+            `${manifest.rootUrl}/dashboard?unauthorized=1`,
+          );
+          return null;
+        }
       }
 
       // For errors, preserve the Response object

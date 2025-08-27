@@ -1,13 +1,20 @@
 import React, { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { dashboardBC, DASHBOARD_BC_LABEL } from '../utilities/poaRequests';
 import Unauthorized from '../components/Dashboard/Unauthorized';
 import Authorized from '../components/Dashboard/Authorized';
 
-const DashboardPage = title => {
+const DashboardPage = props => {
+  const { title } = props || {};
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const unauthorizedParam = (params.get('unauthorized') || '').toLowerCase();
+  const isUnauthorized = ['1', 'true', 'yes'].includes(unauthorizedParam);
+
   useEffect(
     () => {
-      document.title = title.title;
+      if (title) document.title = title;
     },
     [title],
   );
@@ -19,8 +26,7 @@ const DashboardPage = title => {
           label={DASHBOARD_BC_LABEL}
           homeVeteransAffairs={false}
         />
-        <Unauthorized />
-        <Authorized />
+        {isUnauthorized ? <Unauthorized /> : <Authorized />}
       </div>
     </section>
   );
