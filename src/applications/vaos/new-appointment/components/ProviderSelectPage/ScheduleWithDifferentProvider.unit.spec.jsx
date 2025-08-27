@@ -105,7 +105,7 @@ describe('ScheduleWithDifferentProvider', () => {
 
   it('should render correct facility phone number', () => {
     const store = createTestStore(defaultState);
-    const eligibility = { request: true, requestReasons: [] };
+    const eligibility = { requestReasons: [] };
     const selectedFacility = {
       id: '692',
       name: 'White City VA Medical Center',
