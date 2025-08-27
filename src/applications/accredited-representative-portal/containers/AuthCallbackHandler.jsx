@@ -6,6 +6,7 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { AUTH_ERRORS } from 'platform/user/authentication/errors';
 import store from '../utilities/store';
 import { userPromise } from '../utilities/auth';
+import manifest from '../manifest.json';
 
 /**
  * Component to handle OAuth callback from Login.gov
@@ -117,11 +118,29 @@ AuthCallbackHandler.loader = async () => {
   const dashboardEnabled = !!toggles[
     FEATURE_FLAG_NAMES.accreditedRepresentativePortalDashboardLink
   ];
-  let to =
-    toParam ||
-    (dashboardEnabled
-      ? '/representative/dashboard'
-      : '/representative/poa-requests');
+  const fallback = dashboardEnabled
+    ? '/representative/dashboard'
+    : '/representative/poa-requests';
+
+  // Sanitize untrusted redirect target to prevent open redirects
+  const sanitizeReturnPath = (untrusted, defaultPath) => {
+    if (!untrusted) return defaultPath;
+    try {
+      // Disallow protocol-relative and external URLs
+      if (/^\s*(?:[a-z][a-z0-9+.-]*:)?\/\//i.test(untrusted)) {
+        return defaultPath;
+      }
+      const url = new URL(untrusted, window.location.origin);
+      // Require same-origin and that the path stays within this app
+      if (url.origin !== window.location.origin) return defaultPath;
+      if (!url.pathname.startsWith(manifest.rootUrl)) return defaultPath;
+      return `${url.pathname}${url.search}${url.hash}`;
+    } catch (e) {
+      return defaultPath;
+    }
+  };
+
+  let to = sanitizeReturnPath(toParam, fallback);
 
   // If we have code and state, process the OAuth callback
   if (code && state) {
@@ -170,11 +189,10 @@ AuthCallbackHandler.loader = async () => {
         const dashboardNow = !!togglesNow[
           FEATURE_FLAG_NAMES.accreditedRepresentativePortalDashboardLink
         ];
-        to =
-          toParam ||
-          (dashboardNow
-            ? '/representative/dashboard'
-            : '/representative/poa-requests');
+        const newFallback = dashboardNow
+          ? '/representative/dashboard'
+          : '/representative/poa-requests';
+        to = sanitizeReturnPath(toParam, newFallback);
       }
 
       // Redirect to the destination computed earlier (defaults to POA requests)
