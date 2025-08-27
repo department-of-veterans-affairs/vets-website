@@ -1,37 +1,20 @@
-import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { render } from '@testing-library/react';
 import {
   getCardContent,
   getCardTitle,
+  getDecisionTimeline,
+  getLearnMoreLink,
+  getLimitOneText,
+  getStartLink,
+  showOutsideDROption,
   swapPrefix,
 } from '../../utilities/dr-results-card-utils';
 import { RESPONSES } from '../../constants/question-data-map';
 import * as c from '../../constants/results-content/dr-screens/card-content';
 
-const { HLR, INIT, NO, SC, YES } = RESPONSES;
-
-// Mocks for imported modules/constants
-const mockContent = {
-  TITLE_SC: 'Supplemental Claim',
-  CARD_CONTENT_GF_SC: ['GF_ITEM_1', 'GF_ITEM_2'],
-  CARD_CONTENT_NGF_SC: ['NGF_ITEM_1'],
-  LEARN_MORE_SC: { url: 'https://va.gov/sc', text: 'Learn more SC' },
-  START_SC: { url: 'https://va.gov/start-sc', text: 'Start SC' },
-  CARD_HLR: 'CARD_HLR',
-  TITLE_HLR: 'Higher-Level Review',
-  CARD_BOARD: 'CARD_BOARD',
-  TITLE_BOARD: 'Board Appeal',
-  CARD_COURT_OF_APPEALS: 'CARD_COURT_OF_APPEALS',
-  DECISION_TIMELINES: { SC: 'SC Timeline', HLR: 'HLR Timeline' },
-};
-const mockDisplayConditions = {
-  GF_ITEM_1: {},
-  GF_ITEM_2: {},
-  NGF_ITEM_1: {},
-  CARD_COURT_OF_APPEALS: {},
-};
+const { BOARD, INIT, NO, SC, YES } = RESPONSES;
 
 describe('card utilities', () => {
   describe('swapPrefix', () => {
@@ -115,62 +98,84 @@ describe('card utilities', () => {
   });
 
   describe('getLearnMoreLink', () => {
-    it('returns a va-link element for SC', () => {
-      const link = utils.getLearnMoreLink('CARD_SC');
-      expect(link.props.href).to.equal('https://va.gov/sc');
-      expect(link.props.text).to.equal('Learn more SC');
+    it('returns a va-link element for Board Evidence', () => {
+      const link = getLearnMoreLink('CARD_SC');
+      expect(link.props.href).to.equal('/decision-reviews/supplemental-claim/');
+      expect(link.props.text).to.equal('Learn more about Supplemental Claims');
     });
-    it('returns null if no linkInfo', () => {
-      utils.c.LEARN_MORE_SC = undefined;
-      expect(utils.getLearnMoreLink('CARD_SC')).to.be.null;
+
+    it('returns null if a card that does not exist is provided', () => {
+      expect(getLearnMoreLink('CARD_SOMETHING')).to.be.null;
     });
   });
 
-  // describe('getStartLink', () => {
-  //   it('returns a va-link-action element for SC', () => {
-  //     const link = utils.getStartLink('CARD_SC');
-  //     expect(link.props.href).to.equal('https://va.gov/start-sc');
-  //     expect(link.props.text).to.equal('Start SC');
-  //   });
-  //   it('returns null if no startLink', () => {
-  //     utils.c.START_SC = undefined;
-  //     expect(utils.getStartLink('CARD_SC')).to.be.null;
-  //   });
-  // });
+  describe('getStartLink', () => {
+    it('returns a va-link-action element for Board - Evidence', () => {
+      const link = getStartLink('CARD_BOARD_EVIDENCE');
+      expect(link.props.href).to.equal(
+        '/decision-reviews/board-appeal/request-board-appeal-form-10182/start',
+      );
+      expect(link.props.text).to.equal('Start Board Appeal Request');
+    });
 
-  // describe('getLimitOneText', () => {
-  //   it('returns TITLE_HLR for CARD_HLR', () => {
-  //     expect(utils.getLimitOneText('CARD_HLR')).to.equal('Higher-Level Review');
-  //   });
-  //   it('returns TITLE_BOARD for BOARD', () => {
-  //     expect(utils.getLimitOneText('CARD_BOARD')).to.equal('Board Appeal');
-  //   });
-  //   it('returns null for unknown', () => {
-  //     expect(utils.getLimitOneText('CARD_SC')).to.be.null;
-  //   });
-  // });
+    it('returns null if a card that does not exist is provided', () => {
+      expect(getStartLink('CARD_SOMETHING')).to.be.null;
+    });
+  });
 
-  // describe('showOutsideDROption', () => {
-  //   it('returns JSX if displayConditionsMet is true', () => {
-  //     const result = utils.showOutsideDROption({});
-  //     expect(result.props.children[1].type).to.equal(utils.OutsideDROption);
-  //   });
-  //   it('returns null if displayConditionsMet is false', () => {
-  //     utils.displayConditionsMet.returns(false);
-  //     expect(utils.showOutsideDROption({})).to.be.null;
-  //   });
-  // });
+  describe('getLimitOneText', () => {
+    it('returns the correct title for HLR', () => {
+      expect(getLimitOneText('CARD_HLR')).to.equal('Higher-Level Review');
+    });
 
-  // describe('getDecisionTimeline', () => {
-  //   it('returns timeline string for SC', () => {
-  //     expect(utils.getDecisionTimeline('CARD_SC')).to.equal('SC Timeline');
-  //   });
-  //   it('returns empty string for unknown', () => {
-  //     expect(utils.getDecisionTimeline('CARD_UNKNOWN')).to.equal('');
-  //   });
-  //   it('returns null if swapPrefix returns empty', () => {
-  //     utils.swapPrefix.returns('');
-  //     expect(utils.getDecisionTimeline('CARD_SC')).to.be.null;
-  //   });
-  // });
+    it('returns the correct title for BOARD', () => {
+      expect(getLimitOneText('CARD_BOARD')).to.equal('Board Appeal');
+    });
+
+    it('returns null for unknown', () => {
+      expect(getLimitOneText('CARD_SOMETHING')).to.be.null;
+    });
+  });
+
+  describe('showOutsideDROption', () => {
+    it('returns the proper markup if the display conditions are met', () => {
+      const formResponses = {
+        Q_1_1_CLAIM_DECISION: YES,
+        Q_1_2_CLAIM_DECISION: YES,
+        Q_1_3_CLAIM_CONTESTED: NO,
+        Q_2_0_CLAIM_TYPE: BOARD,
+        Q_2_IS_1_SERVICE_CONNECTED: NO,
+        Q_2_IS_1A_LAW_POLICY_CHANGE: NO,
+        Q_2_IS_1B_NEW_EVIDENCE: NO,
+      };
+
+      const screen = render(showOutsideDROption(formResponses));
+      expect(screen.getByText(/US Court of Appeals for Veterans Claims/)).to
+        .exist;
+    });
+
+    it('returns null if the display conditions are not met', () => {
+      const formResponses = {
+        Q_1_1_CLAIM_DECISION: YES,
+        Q_1_2_CLAIM_DECISION: YES,
+        Q_1_3_CLAIM_CONTESTED: NO,
+        Q_2_0_CLAIM_TYPE: INIT,
+        Q_2_IS_1_SERVICE_CONNECTED: NO,
+        Q_2_IS_1A_LAW_POLICY_CHANGE: NO,
+        Q_2_IS_1B_NEW_EVIDENCE: NO,
+      };
+
+      expect(showOutsideDROption(formResponses)).to.be.null;
+    });
+  });
+
+  describe('getDecisionTimeline', () => {
+    it('returns timeline string for SC', () => {
+      expect(getDecisionTimeline('CARD_SC')).to.equal('86.4 days');
+    });
+
+    it('returns empty string for unknown', () => {
+      expect(getDecisionTimeline('CARD_UNKNOWN')).to.equal('');
+    });
+  });
 });
