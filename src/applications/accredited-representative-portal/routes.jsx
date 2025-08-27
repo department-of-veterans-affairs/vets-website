@@ -92,6 +92,7 @@ const routes = [
               {
                 path: 'dashboard',
                 element: <DashboardPage />,
+                loader: DashboardPage.loader,
               },
               {
                 path: 'poa-requests',

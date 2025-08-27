@@ -1,16 +1,19 @@
 import React, { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useLoaderData } from 'react-router-dom';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { dashboardBC, DASHBOARD_BC_LABEL } from '../utilities/poaRequests';
 import Unauthorized from '../components/Dashboard/Unauthorized';
 import Authorized from '../components/Dashboard/Authorized';
+import api from '../utilities/api';
 
 const DashboardPage = props => {
   const { title } = props || {};
   const location = useLocation();
+  const loaderData = useLoaderData();
   const params = new URLSearchParams(location.search);
   const unauthorizedParam = (params.get('unauthorized') || '').toLowerCase();
-  const isUnauthorized = ['1', 'true', 'yes'].includes(unauthorizedParam);
+  const isUnauthorizedQuery = ['1', 'true', 'yes'].includes(unauthorizedParam);
+  const isAuthorized = loaderData?.authorized === true;
 
   useEffect(
     () => {
@@ -26,10 +29,31 @@ const DashboardPage = props => {
           label={DASHBOARD_BC_LABEL}
           homeVeteransAffairs={false}
         />
-        {isUnauthorized ? <Unauthorized /> : <Authorized />}
+        {isUnauthorizedQuery || !isAuthorized ? (
+          <Unauthorized />
+        ) : (
+          <Authorized />
+        )}
       </div>
     </section>
   );
+};
+
+DashboardPage.loader = async () => {
+  try {
+    const res = await api.checkAuthorized();
+    // Bubble up 401 to the route guard so it can redirect to sign-in
+    if (res.status === 401) throw res;
+    // 403 → unauthorized
+    if (res.status === 403) return { authorized: false };
+    // 200/204/304 → authorized
+    if (res.ok || res.status === 304) return { authorized: true };
+    // On other/unexpected status, render Unauthorized to be safe
+    return { authorized: false };
+  } catch (e) {
+    // Network or unexpected error → Unauthorized to be safe
+    return { authorized: false };
+  }
 };
 
 export default DashboardPage;
