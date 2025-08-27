@@ -202,16 +202,17 @@ export default function ContactInformation({ institution, showModal }) {
             {institution.ope || 'N/A'}
           </li>
         )}
-        <li>
-          <va-link
-            external
-            text="View this school's profile on College Navigator"
-            href={`https://nces.ed.gov/collegenavigator/?q=${
-              institution.facilityCode
-            }&s=all&id=${institution.facilityCode}`}
-            //  href={`https://nces.ed.gov/collegenavigator/?id=${institution.facilityCode}`}
-          />
-        </li>
+        {institution.cross && (
+          <li>
+            <va-link
+              external
+              text="View this school's profile on College Navigator"
+              href={`https://nces.ed.gov/collegenavigator/?q=${
+                institution.cross
+              }&s=all&id=${institution.cross}`}
+            />
+          </li>
+        )}
       </ul>
     </div>
   );
