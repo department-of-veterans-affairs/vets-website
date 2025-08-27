@@ -29,7 +29,6 @@ import {
   selectGroupingFlag,
   selectPartialFillContentFlag,
   selectRefillProgressFlag,
-  // selectIsDisplayingDocumentation,
 } from '../../util/selectors';
 import VaPharmacyText from '../shared/VaPharmacyText';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
@@ -42,9 +41,6 @@ const VaPrescription = prescription => {
   const showGroupingContent = useSelector(selectGroupingFlag);
   const showRefillProgressContent = useSelector(selectRefillProgressFlag);
   const showPartialFillContent = useSelector(selectPartialFillContentFlag);
-  // const isDisplayingDocumentation = useSelector(
-  //   selectIsDisplayingDocumentation,
-  // );
   const refillHistory = getRefillHistory(prescription);
   const showRefillHistory = getShowRefillHistory(refillHistory);
   const pharmacyPhone = pharmacyPhoneNumber(prescription);
