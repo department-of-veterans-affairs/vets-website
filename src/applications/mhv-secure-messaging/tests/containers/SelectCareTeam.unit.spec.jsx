@@ -514,11 +514,6 @@ describe('SelectCareTeam', () => {
   });
 
   it('wont redirect users if interstitial accepted', async () => {
-    const oldLocation = global.window.location;
-    global.window.location = {
-      replace: sinon.spy(),
-    };
-
     const customState = {
       ...initialState,
       sm: {
@@ -530,16 +525,14 @@ describe('SelectCareTeam', () => {
       },
     };
 
-    renderWithStoreAndRouter(<SelectCareTeam />, {
+    const { history } = renderWithStoreAndRouter(<SelectCareTeam />, {
       initialState: customState,
       reducers: reducer,
       path: Paths.SELECT_CARE_TEAM,
     });
 
     await waitFor(() => {
-      expect(window.location.replace.called).to.be.false;
+      expect(history.location.pathname).to.equal('select-care-team');
     });
-
-    global.window.location = oldLocation;
   });
 });

@@ -256,11 +256,6 @@ describe('CareTeamHelp', () => {
   });
 
   it('does not redirect users to interstitial page if interstitial not accepted', async () => {
-    const oldLocation = global.window.location;
-    global.window.location = {
-      replace: sinon.spy(),
-    };
-
     const customState = {
       ...baseState,
       sm: {
@@ -272,12 +267,10 @@ describe('CareTeamHelp', () => {
       },
     };
 
-    setup(customState);
+    const { history } = setup(customState);
 
     await waitFor(() => {
-      expect(window.location.replace.called).to.be.false;
+      expect(history.location.pathname).to.equal('/new-message/care-team-help');
     });
-
-    global.window.location = oldLocation;
   });
 });
