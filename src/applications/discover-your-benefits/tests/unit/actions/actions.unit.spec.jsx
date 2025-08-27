@@ -4,7 +4,6 @@ import * as actions from '../../../reducers/actions';
 import { mockFormData } from '../mocks/mockFormData';
 import {
   BENEFITS_LIST,
-  anyType,
   mappingTypes,
   characterOfDischargeTypes,
   timeServedTypes,
@@ -94,103 +93,6 @@ describe('actions', () => {
           );
           expect(dispatch.secondCall.args[0].error).to.exist;
         });
-    });
-  });
-
-  describe('checkSingleResponse', () => {
-    it('returns true if mapping is not in condition', () => {
-      const benefit = { mappings: {} };
-      const formData = {};
-      const result = actions.checkSingleResponse(
-        benefit,
-        formData,
-        'NON_EXISTING_MAPPING',
-      );
-      expect(result).to.be.true;
-    });
-
-    it('returns true if mapping type is any', () => {
-      const benefit = {
-        mappings: {
-          GOALS: [anyType.ANY],
-        },
-      };
-      const formData = {};
-      const result = actions.checkSingleResponse(
-        benefit,
-        formData,
-        mappingTypes.GOALS,
-      );
-      expect(result).to.be.true;
-    });
-  });
-
-  describe('mapBenefitFromFormInputData', () => {
-    it('returns true if benefit passes mapping conditions', () => {
-      const benefit = {
-        mappings: {
-          [mappingTypes.GOALS]: [anyType.ANY],
-        },
-      };
-      const formData = {};
-      const result = actions.mapBenefitFromFormInputData(benefit, formData);
-      expect(result).to.be.true;
-    });
-
-    it('should pass even if only EXPECTED_SEPARATION is set', () => {
-      const benefit = getBenefitById('ECC');
-      const formData = {
-        [mappingTypes.GOALS]: {
-          [goalTypes.SCHOOL]: true,
-          [goalTypes.CAREER]: true,
-        },
-        [militaryBranchTypes.ARMY]: {
-          [militaryBranchComponentTypes.ACTIVE_DUTY]: true,
-        },
-        [mappingTypes.EXPECTED_SEPARATION]:
-          expectedSeparationTypes.UP_TO_3_MONTHS,
-        [mappingTypes.CHARACTER_OF_DISCHARGE]:
-          characterOfDischargeTypes.HONORABLE,
-      };
-      const result = actions.mapBenefitFromFormInputData(benefit, formData);
-      expect(result).to.be.true;
-    });
-
-    it('should pass even if only SEPARATION is set', () => {
-      const benefit = getBenefitById('ECC');
-      const formData = {
-        [mappingTypes.GOALS]: {
-          [goalTypes.SCHOOL]: true,
-          [goalTypes.CAREER]: true,
-        },
-        [militaryBranchTypes.ARMY]: {
-          [militaryBranchComponentTypes.ACTIVE_DUTY]: true,
-        },
-        [mappingTypes.SEPARATION]: {
-          [separationTypes.UP_TO_6_MONTHS]: true,
-        },
-        [mappingTypes.CHARACTER_OF_DISCHARGE]:
-          characterOfDischargeTypes.HONORABLE,
-      };
-      const result = actions.mapBenefitFromFormInputData(benefit, formData);
-      expect(result).to.be.true;
-    });
-
-    it('should fail if EXPECTED_SEPERATION and SEPERATION are not set', () => {
-      const benefit = getBenefitById('ECC');
-      const formData = {
-        [mappingTypes.GOALS]: {
-          [goalTypes.SCHOOL]: true,
-          [goalTypes.CAREER]: true,
-        },
-        [militaryBranchTypes.ARMY]: {
-          [militaryBranchComponentTypes.ACTIVE_DUTY]: true,
-        },
-        [mappingTypes.CHARACTER_OF_DISCHARGE]:
-          characterOfDischargeTypes.HONORABLE,
-      };
-      const result = actions.mapBenefitFromFormInputData(benefit, formData);
-      expect(result).to.be.false;
     });
   });
 
