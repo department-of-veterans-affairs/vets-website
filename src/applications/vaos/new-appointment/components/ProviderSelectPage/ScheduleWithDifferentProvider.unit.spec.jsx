@@ -46,7 +46,6 @@ describe('ScheduleWithDifferentProvider', () => {
   it('should only display Call and ask to schedule with provider option when over request limit', () => {
     const store = createTestStore(defaultState);
     const eligibility = {
-      request: false,
       requestReasons: ['overRequestLimit'],
     };
     const selectedFacility = {
