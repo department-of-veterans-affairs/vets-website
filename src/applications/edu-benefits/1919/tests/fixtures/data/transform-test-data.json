@@ -9,13 +9,13 @@
     "institutionDetails": {
       "facilityCode": "25007120",
       "institutionName": "AVEDA INSTITUTE MARYLAND",
-      "address": {
-        "address1": "227 ARCHER STREET",
-        "address2": null,
-        "address3": null,
+      "institutionAddress": {
+        "street": "227 ARCHER STREET",
+        "street2": null,
+        "street3": null,
         "city": "BEL AIR",
         "state": "MD",
-        "zip": "21014",
+        "postalCode": "21014",
         "country": "USA"
       },
       "loader": false
@@ -36,14 +36,11 @@
     "institutionDetails": {
       "facilityCode": "25007120",
       "institutionName": "AVEDA INSTITUTE MARYLAND",
-      "loader": false,
       "institutionAddress": {
-        "address1": "227 ARCHER STREET",
-        "address2": null,
-        "address3": null,
+        "street": "227 ARCHER STREET",
         "city": "BEL AIR",
         "state": "MD",
-        "zip": "21014",
+        "postalCode": "21014",
         "country": "USA"
       }
     },
@@ -68,9 +65,19 @@
     "proprietaryProfitConflicts": [],
     "isProprietaryProfit": true,
     "institutionDetails": {
-      "facilityCode": null,
-      "institutionName": null,
-      "address": null
+      "facilityCode": "",
+      "institutionName": "Test Institution",
+      "institutionAddress": {
+        "street": "Test Street",
+        "street2": null,
+        "street3": null,
+        "city": "Test City",
+        "state": "MD",
+        "postalCode": "54321",
+        "country": "USA",
+        "isMilitary": null,
+        "view:militaryBaseDescription": {}
+      }
     },
     "aboutYourInstitution": true,
     "certifyingOfficial": {
@@ -89,8 +96,14 @@
     "isProprietaryProfit": true,
     "institutionDetails": {
       "facilityCode": "12345678",
-      "institutionName": "",
-      "institutionAddress": {}
+      "institutionName": "Test Institution",
+      "institutionAddress": {
+        "street": "Test Street",
+        "city": "Test City",
+        "state": "MD",
+        "postalCode": "54321",
+        "country": "USA"
+      }
     },
     "aboutYourInstitution": true,
     "certifyingOfficial": {

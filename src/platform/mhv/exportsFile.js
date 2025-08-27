@@ -7,7 +7,10 @@ export { default as MHVDowntime } from './downtime/containers/MHVDowntime';
 export {
   default as MhvSecondaryNav,
 } from './secondary-nav/containers/MhvSecondaryNav';
-export { default as MhvPageNotFound } from './components/MhvPageNotFound';
+export {
+  default as MhvPageNotFound,
+  MhvPageNotFoundContent,
+} from './components/MhvPageNotFound';
 export { default as MhvUnauthorized } from './components/MhvUnauthorized';
 export { renderMHVDowntime } from './downtime';
 export {

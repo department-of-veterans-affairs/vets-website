@@ -25,19 +25,12 @@ export default function transform(formConfig, form) {
   const institutionTransform = formData => {
     const clonedData = cloneDeep(formData);
 
-    // Populate institution address
-    const institutionAddress = cloneDeep(clonedData.institutionDetails.address);
-    clonedData.institutionDetails.institutionAddress = institutionAddress;
-    delete clonedData.institutionDetails.address;
-
     // Handle facility code that has not been assigned
     if (!clonedData.institutionDetails.facilityCode) {
-      clonedData.institutionDetails = {
-        facilityCode: '12345678',
-        institutionName: '',
-        institutionAddress: {},
-      };
+      clonedData.institutionDetails.facilityCode = '12345678';
     }
+    // Remove loader flag
+    delete clonedData.institutionDetails.loader;
 
     return clonedData;
   };
@@ -74,7 +67,7 @@ export default function transform(formConfig, form) {
     transformForSubmit(
       formConfig,
       { ...form, data: formData },
-      (key_, value) => value, // return all values (including empty object arrays)
+      (_key, value) => value, // return all values (including empty object arrays)
     );
 
   const transformedData = [
