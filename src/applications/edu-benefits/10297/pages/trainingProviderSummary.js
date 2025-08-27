@@ -7,7 +7,7 @@ const arrayBuilderOptions = {
   arrayPath: 'trainingProviders',
   nounSingular: 'training provider',
   nounPlural: 'training providers',
-  required: true,
+  required: false,
   text: {
     getItemName: item =>
       item?.providerName ? `${item?.providerName}`.trim() : 'training provider',
@@ -16,7 +16,7 @@ const arrayBuilderOptions = {
 
 const trainingProviderSummaryPage = {
   uiSchema: {
-    trainingProviders: arrayBuilderYesNoUI(
+    hasTrainingProvider: arrayBuilderYesNoUI(
       arrayBuilderOptions,
       {
         title: 'Do you have a training provider to add?',
@@ -45,9 +45,9 @@ const trainingProviderSummaryPage = {
   schema: {
     type: 'object',
     properties: {
-      trainingProviders: arrayBuilderYesNoSchema,
+      hasTrainingProvider: arrayBuilderYesNoSchema,
     },
-    required: ['trainingProviders'],
+    required: ['hasTrainingProvider'],
   },
 };
 
