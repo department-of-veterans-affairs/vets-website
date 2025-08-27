@@ -129,6 +129,16 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
       !!document.getElementById('header-minimal'),
     );
 
+    // Debug the isMinimalHeaderApp function itself
+    const {
+      isMinimalHeaderApp,
+    } = require('platform/forms-system/src/js/patterns/minimal-header');
+    console.log('isMinimalHeaderApp() returns:', isMinimalHeaderApp());
+    console.log(
+      'document.getElementById("header-minimal"):',
+      document.getElementById('header-minimal'),
+    );
+
     const treeWithMinimalHeader = shallow(
       <RoutedSavableReviewPage
         form={form}
