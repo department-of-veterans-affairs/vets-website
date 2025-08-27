@@ -208,24 +208,46 @@ const cypressConfig = {
         on,
         config,
       );
-
-      on('task', {
-        recordNetworkTouch(specAbs) {
-          try {
+      if (typeof process.env.IS_STRESS_TEST === 'undefined') {
+        on('task', {
+          recordNetworkTouch(specAbs) {
+            try {
+              const workspace = process.env.GITHUB_WORKSPACE || process.cwd();
+              const abs = path.resolve(String(specAbs));
+              const rel = path.relative(workspace, abs).replace(/\\/g, '/');
+              touchedSpecs.add(abs);
+              touchedSpecs.add(rel);
+            } catch (_) {
+              touchedSpecs.add(String(specAbs));
+            }
+            return null;
+          },
+          emitAnnotationNow(specPath) {
             const workspace = process.env.GITHUB_WORKSPACE || process.cwd();
-            const abs = path.resolve(String(specAbs));
+            const abs = path.resolve(String(specPath));
             const rel = path.relative(workspace, abs).replace(/\\/g, '/');
-            touchedSpecs.add(abs);
-            touchedSpecs.add(rel);
-          } catch (_) {
-            touchedSpecs.add(String(specAbs));
-          }
-          return null;
-        },
-        emitAnnotationNow(specPath) {
+            ghAnnotate({
+              file: rel,
+              line: 1,
+              title: 'Unhandled network calls',
+              message:
+                'This spec made real network requests. Use cy.intercept() or stubs.',
+            });
+            return null;
+          },
+        });
+
+        on('after:spec', spec => {
           const workspace = process.env.GITHUB_WORKSPACE || process.cwd();
-          const abs = path.resolve(String(specPath));
+          const abs = spec.absolute;
           const rel = path.relative(workspace, abs).replace(/\\/g, '/');
+          const matched =
+            touchedSpecs.has(abs) ||
+            touchedSpecs.has(rel) ||
+            [...touchedSpecs].some(s => String(s).endsWith(rel));
+          if (!matched) return;
+          touchedSpecs.delete(abs);
+          touchedSpecs.delete(rel);
           ghAnnotate({
             file: rel,
             line: 1,
@@ -233,29 +255,8 @@ const cypressConfig = {
             message:
               'This spec made real network requests—add cy.intercept() or stubs.',
           });
-          return null;
-        },
-      });
-
-      on('after:spec', spec => {
-        const workspace = process.env.GITHUB_WORKSPACE || process.cwd();
-        const abs = spec.absolute;
-        const rel = path.relative(workspace, abs).replace(/\\/g, '/');
-        const matched =
-          touchedSpecs.has(abs) ||
-          touchedSpecs.has(rel) ||
-          [...touchedSpecs].some(s => String(s).endsWith(rel));
-        if (!matched) return;
-        touchedSpecs.delete(abs);
-        touchedSpecs.delete(rel);
-        ghAnnotate({
-          file: rel,
-          line: 1,
-          title: 'Unhandled network calls',
-          message:
-            'This spec made real network requests—add cy.intercept() or stubs.',
         });
-      });
+      }
 
       return nodeConfig || config;
     },
