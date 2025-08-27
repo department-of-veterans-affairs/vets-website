@@ -76,8 +76,7 @@ export const options = {
               {
                 (showUpdatedContent()
                   ? updatedIncomeTypeLabels
-                  : incomeTypeLabels,
-                [item.incomeType])
+                  : incomeTypeLabels)[item.incomeType]
               }
             </span>
           </li>
