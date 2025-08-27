@@ -1,4 +1,5 @@
 import {
+  addressSchema,
   textSchema,
   textUI,
   titleUI,
@@ -59,9 +60,7 @@ const schema = {
         institutionName: {
           type: 'string',
         },
-        institutionAddress: {
-          type: 'string',
-        },
+        institutionAddress: addressSchema(),
       },
     },
   },
