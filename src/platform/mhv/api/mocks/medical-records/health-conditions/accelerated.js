@@ -2,23 +2,21 @@ const all = [
   {
     id: 'I2-2BCP5BAI6N7NQSAPSVIJ6INQ4A000000',
     attributes: {
-      name: 'Discharge Summary',
-      date: '2019-03-12T16:30:00Z',
-      // TODO: To check with backend
-      // attribute :provider
-      // attribute :facility
-      // attribute :comments
+      date: '2025-01-15T10:30:00Z',
+      name: 'Essential hypertension',
+      provider: 'Dr. Smith, John',
+      facility: 'VA Medical Center',
+      comments: 'Blood pressure well controlled.',
     },
   },
   {
     id: 'I2-2BCP5BAI6N7NQSAPSVIJ6INQ4A000000',
     attributes: {
-      name: ' Consult Result',
-      date: '2019-03-12T16:30:00Z',
-      // TODO: To check with backend
-      // attribute :provider
-      // attribute :facility
-      // attribute :comments
+      date: '2024-12-01T14:20:00Z',
+      name: 'Type 2 diabetes mellitus',
+      provider: 'SILVA, MARIA GONZALEZ',
+      facility: 'Oracle Health Medical Center',
+      comments: 'Diabetes management ongoing.',
     },
   },
 ];
