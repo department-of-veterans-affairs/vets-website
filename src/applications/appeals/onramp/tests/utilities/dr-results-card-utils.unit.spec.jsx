@@ -53,7 +53,7 @@ describe('card utilities', () => {
   });
 
   describe('getCardContent', () => {
-    it('returns filtered content as list', () => {
+    it('returns filtered content as list for a good fit card', () => {
       const stub = sinon
         .stub(c, 'CARD_CONTENT_GF_SC')
         .value(['Test item 1', 'Test item 2']);
@@ -70,6 +70,26 @@ describe('card utilities', () => {
 
       expect(screen.getByText('Test item 1', { exact: false })).to.exist;
       expect(screen.getByText('Test item 2')).to.exist;
+      stub.restore();
+    });
+
+    it('returns filtered content as list for a not good fit card', () => {
+      const stub = sinon
+        .stub(c, 'CARD_CONTENT_NGF_SC')
+        .value(['Test item A', 'Test item B']);
+
+      const formResponses = {
+        Q_1_1_CLAIM_DECISION: YES,
+        Q_1_2_CLAIM_DECISION: YES,
+        Q_1_3_CLAIM_CONTESTED: NO,
+        Q_2_0_CLAIM_TYPE: SC,
+        Q_2_S_1_NEW_EVIDENCE: YES,
+      };
+
+      const screen = render(getCardContent('CARD_SC', formResponses, false));
+
+      expect(screen.getByText('Test item A', { exact: false })).to.exist;
+      expect(screen.getByText('Test item B')).to.exist;
       stub.restore();
     });
 
@@ -98,10 +118,16 @@ describe('card utilities', () => {
   });
 
   describe('getLearnMoreLink', () => {
-    it('returns a va-link element for Board Evidence', () => {
+    it('returns a va-link element for Supplemental Claims', () => {
       const link = getLearnMoreLink('CARD_SC');
       expect(link.props.href).to.equal('/decision-reviews/supplemental-claim/');
       expect(link.props.text).to.equal('Learn more about Supplemental Claims');
+    });
+
+    it('returns a va-link element for Board Evidence', () => {
+      const link = getLearnMoreLink('CARD_BOARD_EVIDENCE');
+      expect(link.props.href).to.equal('/decision-reviews/board-appeal/');
+      expect(link.props.text).to.equal('Learn more about Board Appeals');
     });
 
     it('returns null if a card that does not exist is provided', () => {
@@ -175,6 +201,7 @@ describe('card utilities', () => {
     });
 
     it('returns empty string for unknown', () => {
+      expect(getDecisionTimeline('UNKNOWN')).to.equal(null);
       expect(getDecisionTimeline('CARD_UNKNOWN')).to.equal('');
     });
   });

@@ -57,12 +57,23 @@ describe('Decision Reviews Onramp', () => {
       // RESULTS
       h.verifyUrl(ROUTES.RESULTS);
       h.verifyDrResultsHeader(RESULTS_HLR);
-      h.verifyOverviewPanelItemCount(1);
-      h.verifyOverviewPanelItems(0, c.TITLE_HLR);
-      h.verifyGoodFitCardCount(1);
-      h.verifyGoodFitCardPresent(c.CARD_HLR);
-      h.verifyNotGoodFitCardCount(1);
-      h.verifyNotGoodFitCardPresent(c.CARD_SC);
+      h.checkOverviewPanel([c.TITLE_HLR]);
+      h.checkGoodFitCards([
+        {
+          type: c.CARD_HLR,
+          content: [
+            c.CARD_REVIEW_BOARD,
+            c.CARD_NO_NEW_EVIDENCE,
+            c.CARD_NOT_CONTESTED,
+          ],
+        },
+      ]);
+      h.checkNotGoodFitCards([
+        {
+          type: c.CARD_SC,
+          content: [c.CARD_NEED_EVIDENCE],
+        },
+      ]);
       h.verifyOutsideDROptionPresent();
       cy.go('back');
 

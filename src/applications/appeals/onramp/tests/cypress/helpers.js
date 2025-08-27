@@ -83,6 +83,8 @@ export const OVERVIEW_OPTION = 'overview-option';
 export const GOOD_FIT = 'good-fit';
 export const NOT_GOOD_FIT = 'not-good-fit';
 export const OUTSIDE_DR = 'outside-dr-option';
+export const GOOD_FIT_CONTENT = 'gf-content';
+export const NOT_GOOD_FIT_CONTENT = 'ngf-content';
 
 export const GOOD_FIT_SC_CARD = `${GOOD_FIT}-CARD_SC`;
 export const GOOD_FIT_HLR_CARD = `${GOOD_FIT}-CARD_HLR`;
@@ -108,30 +110,65 @@ export const verifyDrResultsHeader = expectedPage =>
     .should('be.visible')
     .should('have.text', DR_HEADING);
 
-export const verifyOverviewPanelItemCount = expectedCount =>
-  cy
-    .get(`[data-testid*="${OVERVIEW_OPTION}"]`)
-    .should('have.length', expectedCount);
+export const checkOverviewPanel = expectedItems => {
+  const expectedCount = expectedItems?.length;
 
-export const verifyOverviewPanelItems = (index, expectedItem) =>
-  cy
-    .findByTestId(`${OVERVIEW_OPTION}-${index}`)
-    .should('be.visible')
-    .should('have.text', expectedItem);
+  cy.get(`[data-testid*="${OVERVIEW_OPTION}"]`).should(
+    'have.length',
+    expectedCount,
+  );
 
-export const verifyGoodFitCardCount = expectedCount =>
+  expectedItems.forEach((item, index) => {
+    cy.findByTestId(`${OVERVIEW_OPTION}-${index}`)
+      .should('be.visible')
+      .should('have.text', item);
+  });
+};
+
+export const checkGoodFitCards = expectedCards => {
+  const expectedCount = expectedCards?.length;
+
   cy.get(`[data-testid^="${GOOD_FIT}"]`).should('have.length', expectedCount);
 
-export const verifyGoodFitCardPresent = card =>
-  cy.findByTestId(`${GOOD_FIT}-${card}`).should('be.visible');
+  expectedCards.forEach(card => {
+    const { type, content } = card;
+    const cardContainer = `${GOOD_FIT}-${type}`;
 
-export const verifyNotGoodFitCardCount = expectedCount =>
-  cy
-    .get(`[data-testid*="${NOT_GOOD_FIT}"]`)
-    .should('have.length', expectedCount);
+    cy.findByTestId(cardContainer)
+      .should('be.visible')
+      .within(() => {
+        content.forEach((item, index) => {
+          cy.findByTestId(`${GOOD_FIT_CONTENT}-${index}`)
+            .should('be.visible')
+            .should('contain.text', item);
+        });
+      });
+  });
+};
 
-export const verifyNotGoodFitCardPresent = card =>
-  cy.findByTestId(`${NOT_GOOD_FIT}-${card}`).should('be.visible');
+export const checkNotGoodFitCards = expectedCards => {
+  const expectedCount = expectedCards?.length;
+
+  cy.get(`[data-testid^="${NOT_GOOD_FIT}"]`).should(
+    'have.length',
+    expectedCount,
+  );
+
+  expectedCards.forEach(card => {
+    const { type, content } = card;
+    const cardContainer = `${NOT_GOOD_FIT}-${type}`;
+
+    cy.findByTestId(cardContainer)
+      .should('be.visible')
+      .within(() => {
+        content.forEach((item, index) => {
+          cy.findByTestId(`${NOT_GOOD_FIT_CONTENT}-${index}`)
+            .should('be.visible')
+            .should('contain.text', item);
+        });
+      });
+  });
+};
 
 export const verifyNotGoodFitCardsNotPresent = () =>
   cy.get(`[data-testid^="${NOT_GOOD_FIT}"]`).should('not.exist');

@@ -71,17 +71,39 @@ describe('Decision Reviews Onramp', () => {
       // RESULTS
       h.verifyUrl(ROUTES.RESULTS);
       h.verifyDrResultsHeader(RESULTS_BOARD_HEARING);
-      h.verifyOverviewPanelItemCount(3);
-      h.verifyOverviewPanelItems(0, c.TITLE_SC);
-      h.verifyOverviewPanelItems(1, c.TITLE_BOARD_EVIDENCE);
-      h.verifyOverviewPanelItems(2, c.TITLE_BOARD_HEARING);
-      h.verifyGoodFitCardCount(3);
-      h.verifyGoodFitCardPresent(c.CARD_SC);
-      h.verifyGoodFitCardPresent(c.CARD_BOARD_EVIDENCE);
-      h.verifyGoodFitCardPresent(c.CARD_BOARD_HEARING);
-      h.verifyNotGoodFitCardCount(2);
-      h.verifyNotGoodFitCardPresent(c.CARD_HLR);
-      h.verifyNotGoodFitCardPresent(c.CARD_BOARD_DIRECT);
+      h.checkOverviewPanel([
+        c.TITLE_SC,
+        c.TITLE_BOARD_EVIDENCE,
+        c.TITLE_BOARD_HEARING,
+      ]);
+      h.checkGoodFitCards([
+        {
+          type: c.CARD_SC,
+          content: [
+            c.CARD_REVIEW_HLR,
+            c.CARD_NEW_EVIDENCE,
+            c.CARD_NOT_CONTESTED,
+          ],
+        },
+        {
+          type: c.CARD_BOARD_EVIDENCE,
+          content: [c.CARD_REVIEW_HLR, c.CARD_NEW_EVIDENCE],
+        },
+        {
+          type: c.CARD_BOARD_HEARING,
+          content: [c.CARD_REVIEW_HLR, c.CARD_NEW_EVIDENCE, c.CARD_HEARING],
+        },
+      ]);
+      h.checkNotGoodFitCards([
+        {
+          type: c.CARD_HLR,
+          content: [c.CARD_HLR_NOT_AVAILABLE, c.CARD_HEARING_NOT_INCLUDED],
+        },
+        {
+          type: c.CARD_BOARD_DIRECT,
+          content: [c.CARD_HEARING_NOT_INCLUDED],
+        },
+      ]);
       h.verifyOutsideDROptionNotPresent();
       cy.go('back');
 
