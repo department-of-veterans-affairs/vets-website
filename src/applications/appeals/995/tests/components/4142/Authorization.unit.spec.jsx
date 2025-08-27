@@ -7,11 +7,7 @@ import Authorization from '../../../components/4142/Authorization';
 
 describe('<Authorization>', () => {
   it('should render', () => {
-    const { container } = render(
-      <div>
-        <Authorization />
-      </div>,
-    );
+    const { container } = render(<Authorization />);
 
     const checkbox = $('va-checkbox', container);
     expect(checkbox).to.exist;
@@ -21,9 +17,11 @@ describe('<Authorization>', () => {
     const goSpy = sinon.spy();
     const setFormDataSpy = sinon.spy();
     const { container } = render(
-      <div>
-        <Authorization goForward={goSpy} setFormData={setFormDataSpy} />
-      </div>,
+      <Authorization
+        goForward={goSpy}
+        data={{}}
+        setFormData={setFormDataSpy}
+      />,
     );
 
     $('#privacy-agreement', container).__events.vaChange({
@@ -46,13 +44,11 @@ describe('<Authorization>', () => {
     const setFormDataSpy = sinon.spy();
     const data = { privacyAgreementAccepted: true };
     const { container, rerender } = render(
-      <div>
-        <Authorization
-          goForward={goSpy}
-          data={{}}
-          setFormData={setFormDataSpy}
-        />
-      </div>,
+      <Authorization
+        goForward={goSpy}
+        data={{}}
+        setFormData={setFormDataSpy}
+      />,
     );
 
     $('#privacy-agreement', container).__events.vaChange({
@@ -60,13 +56,11 @@ describe('<Authorization>', () => {
     });
 
     rerender(
-      <div>
-        <Authorization
-          goForward={goSpy}
-          data={data}
-          setFormData={setFormDataSpy}
-        />
-      </div>,
+      <Authorization
+        goForward={goSpy}
+        data={data}
+        setFormData={setFormDataSpy}
+      />,
     );
 
     fireEvent.click($('button.usa-button-primary', container));
@@ -82,9 +76,7 @@ describe('<Authorization>', () => {
       privacyAgreementAccepted: true,
     };
     const { container } = render(
-      <div>
-        <Authorization goForward={goSpy} data={data} />
-      </div>,
+      <Authorization goForward={goSpy} data={data} />,
     );
 
     fireEvent.click($('button.usa-button-primary', container));
@@ -116,13 +108,11 @@ describe('<Authorization>', () => {
       const goSpy = sinon.spy();
       const setFormDataSpy = sinon.spy();
       const { container } = render(
-        <div>
-          <Authorization
-            goForward={goSpy}
-            setFormData={setFormDataSpy}
-            data={{ privacyAgreementAccepted: false }}
-          />
-        </div>,
+        <Authorization
+          goForward={goSpy}
+          setFormData={setFormDataSpy}
+          data={{ privacyAgreementAccepted: false }}
+        />,
       );
 
       const alert = $('va-alert[visible="true"]', container);
@@ -140,13 +130,11 @@ describe('<Authorization>', () => {
       const goSpy = sinon.spy();
       const setFormDataSpy = sinon.spy();
       const { container } = render(
-        <div>
-          <Authorization
-            goForward={goSpy}
-            setFormData={setFormDataSpy}
-            data={{ privacyAgreementAccepted: false }}
-          />
-        </div>,
+        <Authorization
+          goForward={goSpy}
+          setFormData={setFormDataSpy}
+          data={{ privacyAgreementAccepted: false }}
+        />,
       );
 
       fireEvent.click($('button.usa-button-primary', container));
@@ -163,9 +151,7 @@ describe('<Authorization>', () => {
     it('should allow multiple check/uncheck cycles without showing errors', () => {
       const setFormDataSpy = sinon.spy();
       const { container } = render(
-        <div>
-          <Authorization setFormData={setFormDataSpy} />
-        </div>,
+        <Authorization setFormData={setFormDataSpy} />,
       );
 
       $('#privacy-agreement', container).__events.vaChange({
