@@ -323,6 +323,157 @@ describe('actions', () => {
     });
   });
 
+  describe('Educational and career counseling (Chapter 36) - ECC', () => {
+    const benefit = getBenefitById('ECC');
+    const validGoals = [
+      goalTypes.SCHOOL,
+      goalTypes.CAREER,
+      goalTypes.RETIREMENT,
+      goalTypes.UNDERSTAND,
+    ];
+    const invalidGoals = getInvalidMappingValues(validGoals, goalTypes);
+    const validExpectedSeperation = [
+      expectedSeparationTypes.UP_TO_3_MONTHS,
+      expectedSeparationTypes.MORE_THAN_3_MONTHS_LESS_THAN_6_MONTHS,
+    ];
+    const invalidExpectedSeperation = getInvalidMappingValues(
+      validExpectedSeperation,
+      expectedSeparationTypes,
+    );
+    const validSeperation = [
+      separationTypes.UP_TO_3_MONTHS,
+      separationTypes.UP_TO_6_MONTHS,
+      separationTypes.UP_TO_1_YEAR,
+    ];
+    const invalidSeperation = getInvalidMappingValues(
+      validSeperation,
+      separationTypes,
+    );
+    const validDischarge = [
+      characterOfDischargeTypes.HONORABLE,
+      characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
+      characterOfDischargeTypes.UNDER_OTHER_THAN_HONORABLE_CONDITIONS,
+      characterOfDischargeTypes.UNCHARACTERIZED,
+      characterOfDischargeTypes.STILL_SERVING,
+      blankType.BLANK,
+    ];
+    const invalidDischarge = getInvalidMappingValues(
+      validDischarge,
+      characterOfDischargeTypes,
+    );
+
+    validGoals.forEach(goal => {
+      const formData = {
+        [mappingTypes.GOALS]: { [goal]: true },
+        [militaryBranchTypes.ARMY]: {
+          [militaryBranchComponentTypes.ACTIVE_DUTY]: true,
+        },
+        [mappingTypes.SEPARATION]: formatData(validSeperation),
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
+      };
+      it(`should return true with goal: ${goal}`, () => {
+        const result = actions.mapBenefitFromFormInputData(benefit, formData);
+        expect(result).to.be.true;
+      });
+    });
+
+    validDischarge.forEach(discharge => {
+      const formData = {
+        [mappingTypes.GOALS]: formatData(validGoals),
+        [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: true,
+        [mappingTypes.EXPECTED_SEPARATION]: formatData(validExpectedSeperation),
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: discharge,
+      };
+      it(`should return true with discharge: ${discharge}`, () => {
+        const result = actions.mapBenefitFromFormInputData(benefit, formData);
+        expect(result).to.be.true;
+      });
+    });
+
+    validSeperation.forEach(seperation => {
+      const formData = {
+        [mappingTypes.GOALS]: formatData(validGoals),
+        [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: true,
+        [mappingTypes.SEPARATION]: seperation,
+        [mappingTypes.EXPECTED_SEPARATION]: formatData(
+          invalidExpectedSeperation,
+        ),
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
+      };
+      it(`should return true with valid seperation: ${seperation}`, () => {
+        const result = actions.mapBenefitFromFormInputData(benefit, formData);
+        expect(result).to.be.true;
+      });
+    });
+
+    validExpectedSeperation.forEach(seperation => {
+      const formData = {
+        [mappingTypes.GOALS]: formatData(validGoals),
+        [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: true,
+        [mappingTypes.SEPARATION]: formatData(invalidSeperation),
+        [mappingTypes.EXPECTED_SEPARATION]: seperation,
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
+      };
+      it(`should return true with valid expected seperation: ${seperation}`, () => {
+        const result = actions.mapBenefitFromFormInputData(benefit, formData);
+        expect(result).to.be.true;
+      });
+    });
+
+    it('should return false with incorrect goals', () => {
+      const formData = {
+        [mappingTypes.GOALS]: formatData(invalidGoals),
+        [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: true,
+        [mappingTypes.SEPARATION]: formatData(validSeperation),
+        [mappingTypes.EXPECTED_SEPARATION]: formatData(validSeperation),
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
+      };
+      const result = actions.mapBenefitFromFormInputData(benefit, formData);
+      expect(result).to.be.false;
+    });
+
+    it('should return false with incorrect discharge', () => {
+      const formData = {
+        [mappingTypes.GOALS]: formatData(validGoals),
+        [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: true,
+        [mappingTypes.SEPARATION]: formatData(validSeperation),
+        [mappingTypes.EXPECTED_SEPARATION]: formatData(validSeperation),
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(invalidDischarge),
+      };
+      const result = actions.mapBenefitFromFormInputData(benefit, formData);
+      expect(result).to.be.false;
+    });
+
+    it('should return false with incorrect seperation', () => {
+      const formData = {
+        [mappingTypes.GOALS]: formatData(validGoals),
+        [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: true,
+        [mappingTypes.SEPARATION]: formatData(invalidSeperation),
+        [mappingTypes.EXPECTED_SEPARATION]: formatData(invalidSeperation),
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
+      };
+      const result = actions.mapBenefitFromFormInputData(benefit, formData);
+      expect(result).to.be.false;
+    });
+
+    it('should return false with no title ten or acticve duty', () => {
+      const formData = {
+        [mappingTypes.GOALS]: formatData(validGoals),
+        [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: false,
+        [mappingTypes.SEPARATION]: formatData(validSeperation),
+        [mappingTypes.EXPECTED_SEPARATION]: formatData(validSeperation),
+        [militaryBranchTypes.ARMY]: {
+          [militaryBranchComponentTypes.ACTIVE_DUTY]: false,
+          [militaryBranchComponentTypes.NATIONAL_GUARD_SERVICE]: true,
+          [militaryBranchComponentTypes.RESERVE_SERVICE]: true,
+        },
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
+      };
+      const result = actions.mapBenefitFromFormInputData(benefit, formData);
+      expect(result).to.be.false;
+    });
+  });
+
   describe("Veterans' Preference in federal hiring - FHV", () => {
     const benefit = getBenefitById('FHV');
     const validGoals = [
