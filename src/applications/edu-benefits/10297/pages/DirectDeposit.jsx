@@ -5,9 +5,14 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { isValidRoutingNumber } from 'platform/forms/validations';
+import MaskedBankAccountInfo from '../components/MaskedBankAccountInfo';
 
 const validateRoutingNumber = (errors, routingNumber) => {
-  if (!isValidRoutingNumber(routingNumber)) {
+  if (!routingNumber) {
+    return;
+  }
+  const cleanValue = routingNumber.toString().replace(/[^\d]/g, '');
+  if (!isValidRoutingNumber(cleanValue)) {
     errors.addError('Please enter a valid 9 digit routing number');
   }
 };
@@ -99,6 +104,7 @@ export default function createDirectDepositPage() {
       routingNumber: {
         ...baseUIWithoutDesc.routingNumber,
         'ui:title': 'Bank’s 9-digit routing number',
+        'ui:webComponentField': MaskedBankAccountInfo,
         'ui:validations': [validateRoutingNumber],
         'ui:errorMessages': {
           required: 'Enter a 9-digit routing number',
@@ -107,6 +113,7 @@ export default function createDirectDepositPage() {
       },
       accountNumber: {
         ...baseUIWithoutDesc.accountNumber,
+        'ui:webComponentField': MaskedBankAccountInfo,
         'ui:errorMessages': { required: 'Enter your account number' },
       },
       'view:bankInfoHelpText': {

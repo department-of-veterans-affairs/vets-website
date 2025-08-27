@@ -54,7 +54,7 @@ export default function prefillTransformer(pages, formData, metadata, state) {
     };
 
     newData['view:originalBankAccount'] = viewifyFields({
-      accountType,
+      accountType: accountType?.toLowerCase(),
       accountNumber,
       routingNumber,
     });
