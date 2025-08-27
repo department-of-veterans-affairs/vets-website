@@ -80,6 +80,14 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
 
   it('should render h1 header if minimal header is present', () => {
     // creating divs not reliable in ci
+    try {
+      if (headerFns.isMinimalHeaderApp.isSinonProxy) {
+        headerFns.isMinimalHeaderApp.restore?.();
+      }
+    } catch {
+      // ignore error
+    }
+
     const stub = sinon.stub(headerFns, 'isMinimalHeaderApp').returns(true);
 
     const formConfig = {
