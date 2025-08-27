@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
@@ -78,6 +79,12 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
   });
 
   it('should render h1 header if minimal header is present', () => {
+    // Clean up any existing minimal header first
+    const existingMinimalHeader = document.getElementById('header-minimal');
+    if (existingMinimalHeader) {
+      document.body.removeChild(existingMinimalHeader);
+    }
+
     const formConfig = {
       chapters: {
         chapter1: {
@@ -111,9 +118,16 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
       },
     };
 
+    // Create the minimal header FIRST, before component renders
     const minimalHeader = document.createElement('div');
     minimalHeader.id = 'header-minimal';
     document.body.appendChild(minimalHeader);
+
+    // Verify it's actually there
+    console.log(
+      'Minimal header exists before render:',
+      !!document.getElementById('header-minimal'),
+    );
 
     const treeWithMinimalHeader = shallow(
       <RoutedSavableReviewPage
@@ -135,9 +149,18 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
       />,
     );
 
+    console.log('=== COMPONENT OUTPUT ===');
+    console.log(treeWithMinimalHeader.debug());
+    console.log('H1 elements found:', treeWithMinimalHeader.find('h1').length);
+
     expect(treeWithMinimalHeader.find('h1').exists()).to.be.true;
 
     treeWithMinimalHeader.unmount();
+
+    // Clean up the header
+    if (document.getElementById('header-minimal')) {
+      document.body.removeChild(document.getElementById('header-minimal'));
+    }
   });
   it('should not render h1 header if minimal header is not present', () => {
     const formConfig = {
