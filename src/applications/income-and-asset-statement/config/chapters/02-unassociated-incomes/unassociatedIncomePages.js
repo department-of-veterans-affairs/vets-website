@@ -36,6 +36,7 @@ import {
 import {
   custodianRelationshipLabels,
   incomeTypeLabels,
+  parentRelationshipLabels,
   relationshipLabelDescriptions,
   relationshipLabels,
 } from '../../../labels';
@@ -341,21 +342,7 @@ const parentIncomeRecipientPage = {
     }),
     recipientRelationship: radioUI({
       ...sharedRecipientRelationshipBase,
-      labels: Object.fromEntries(
-        Object.entries(relationshipLabels)
-          .filter(
-            ([key]) => key === 'SPOUSE' || key === 'PARENT' || key === 'OTHER',
-          )
-          .map(([key, value]) => {
-            if (key === 'SPOUSE') {
-              return [key, 'My spouse'];
-            }
-            if (key === 'PARENT') {
-              return [key, 'Me'];
-            }
-            return [key, value];
-          }),
-      ),
+      labels: parentRelationshipLabels,
       descriptions: {
         SPOUSE: 'The Veteran’s other parent should file a separate claim',
       },
