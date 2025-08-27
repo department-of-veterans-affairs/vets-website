@@ -1,3 +1,4 @@
+import { cloneDeep } from 'lodash';
 import merge from 'lodash/merge';
 import fullSchema from 'vets-json-schema/dist/FEEDBACK-TOOL-schema.json';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
@@ -21,7 +22,7 @@ const { get, omit, set } = dataUtils;
 import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import SchoolSelectField from '../components/SchoolSelectField.jsx';
+import SchoolSelectField from '../components/SchoolSelectField';
 
 import {
   conditionallyShowPrefillMessage,
@@ -132,6 +133,19 @@ function isUS(formData) {
 function manualSchoolEntryIsCheckedAndIsUS(formData) {
   return manualSchoolEntryIsChecked(formData) && isUS(formData);
 }
+
+/**
+ * Filters education benefits programs based on the fetched feature toggle.
+ * The (VET TEC 2.0) program will only appear if the feature toggle is enabled.
+ * @returns education benefits programs
+ */
+const updateProgramsSchema = formData => {
+  const clonedPrograms = cloneDeep(programs);
+  if (formData.giFeedbackToolVetTecEducationBenefit !== true) {
+    delete clonedPrograms.properties.vetTec;
+  }
+  return clonedPrograms;
+};
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -350,6 +364,7 @@ const formConfig = {
                 'ui:validations': [validateBooleanGroup],
                 'ui:options': {
                   showFieldLabel: true,
+                  updateSchema: formData => updateProgramsSchema(formData),
                 },
                 'ui:errorMessages': {
                   atLeastOne: 'Please select at least one',

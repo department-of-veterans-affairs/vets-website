@@ -206,7 +206,7 @@ describe('Notification Settings', () => {
               .shadow()
               .within(() => {
                 cy.findByRole('link', {
-                  name: 'Add a phone number to your profile',
+                  name: 'Add a US based mobile number to your profile',
                 }).should('exist');
               });
 
@@ -249,7 +249,7 @@ describe('Notification Settings', () => {
             .shadow()
             .within(() => {
               cy.findByRole('link', {
-                name: 'Add a phone number to your profile',
+                name: 'Add a US based mobile number to your profile',
               }).should('exist');
             });
 

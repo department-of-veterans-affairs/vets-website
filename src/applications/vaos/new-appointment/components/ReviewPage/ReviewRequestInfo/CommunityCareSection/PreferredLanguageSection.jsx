@@ -39,7 +39,7 @@ export default function PreferredLanguageSection({ data }) {
           <va-link
             href={ccLanguage.url}
             onClick={handleClick(history, home, ccLanguage)}
-            aria-label="Edit preferred language"
+            label="Edit preferred language"
             text="Edit"
             data-testid="edit-preferred-language"
           />

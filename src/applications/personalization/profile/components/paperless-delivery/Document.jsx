@@ -22,7 +22,10 @@ export const Document = ({ document }) => {
   const channel = useSelector(state =>
     selectChannelById(state.communicationPreferences, item.channels[0]),
   );
-
+  const channelId = useSelector(
+    state =>
+      state.communicationPreferences.items.entities[document].channels[0],
+  );
   const {
     channelType,
     defaultSendIndicator,
@@ -31,7 +34,6 @@ export const Document = ({ document }) => {
     permissionId,
     ui: { updateStatus } = {},
   } = channel || {};
-
   const error = updateStatus === LOADING_STATES.error;
   const loading = updateStatus === LOADING_STATES.pending;
   const success = updateStatus === LOADING_STATES.loaded;
@@ -39,13 +41,12 @@ export const Document = ({ document }) => {
   const parentItemId = parentItem
     ? parseInt(parentItem.replace(/\D+/g, ''), 10)
     : null;
-
   const checkboxClassName = classNames('vads-u-margin-bottom--0', {
     'vads-u-display--none': loading,
   });
 
   const handleChange = e => {
-    const newValue = e.target.checked;
+    const newValue = e.detail.checked;
     if (newValue === isAllowed) {
       return;
     }
@@ -64,7 +65,7 @@ export const Document = ({ document }) => {
     };
     recordEvent(eventPayload);
     dispatch(
-      saveCommunicationPreferenceChannel(channel, model.getApiCallObject()),
+      saveCommunicationPreferenceChannel(channelId, model.getApiCallObject()),
     );
   };
 
@@ -73,8 +74,8 @@ export const Document = ({ document }) => {
       <CheckboxAlert error={error} success={success} />
       {loading && <LoadingButton />}
       <VaCheckbox
-        className={checkboxClassName}
         checked={checked}
+        className={checkboxClassName}
         disabled={loading}
         id={`paperless-checkbox-${item.name}`}
         label={item.name}

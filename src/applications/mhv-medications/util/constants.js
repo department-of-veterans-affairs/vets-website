@@ -185,6 +185,8 @@ export const nonVAMedicationTypes = `* Prescriptions you filled through a non-VA
 * Sample medications a provider gave you
 * Other drugs you’re taking that you don’t have a prescription for, including recreational drugs`;
 
+export const ACTIVE_NON_VA = 'Active: Non-VA';
+
 export const dispStatusObj = {
   unknown: 'Unknown',
   active: 'Active',
@@ -193,7 +195,7 @@ export const dispStatusObj = {
   expired: 'Expired',
   discontinued: 'Discontinued',
   transferred: 'Transferred',
-  nonVA: 'Active: Non-VA',
+  nonVA: ACTIVE_NON_VA,
   onHold: 'Active: On Hold',
   activeParked: 'Active: Parked',
 };

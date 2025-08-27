@@ -13,10 +13,12 @@ const mockStore = data => ({
   subscribe: () => {},
   dispatch: sinon.spy(),
 });
+
 describe('InstitutionAddress component', () => {
   beforeEach(() => {
     sinon.stub(api, 'focusElement');
   });
+
   it('should show institution address when available', () => {
     const store = mockStore({
       institutionDetails: {
@@ -37,8 +39,10 @@ describe('InstitutionAddress component', () => {
         <InstitutionAddress />
       </Provider>,
     );
+
     expect(getByText('123 Main St')).to.exist;
   });
+
   it('should show placeholder when institution address is not found', () => {
     const store = mockStore({
       institutionDetails: {
@@ -51,8 +55,10 @@ describe('InstitutionAddress component', () => {
         <InstitutionAddress />
       </Provider>,
     );
+
     expect(getByText('--')).to.exist;
   });
+
   it('should show institution address3 when available', () => {
     const store = mockStore({
       institutionDetails: {
@@ -73,6 +79,7 @@ describe('InstitutionAddress component', () => {
         <InstitutionAddress />
       </Provider>,
     );
+
     expect(getByText('north st')).to.exist;
   });
 });

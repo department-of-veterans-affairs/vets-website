@@ -1,8 +1,8 @@
 import {
+  addressSchema,
   textSchema,
   textUI,
   titleUI,
-  addressSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import InstitutionName from '../components/InstitutionName';
 import InstitutionAddress from '../components/InstitutionAddress';

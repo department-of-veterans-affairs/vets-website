@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { useBrowserMonitoring } from 'platform/monitoring/Datadog/';
 import environment from 'platform/utilities/environment';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
 import manifest from '../manifest.json';
 import formConfig from '../config/form';
@@ -41,6 +42,16 @@ function App({
     sessionSampleRate: 50,
   });
 
+  const {
+    useFormFeatureToggleSync,
+    useToggleValue,
+    TOGGLE_NAMES,
+  } = useFeatureToggle();
+  useFormFeatureToggleSync(['vaDependentsNetWorthAndPension']);
+  const dependentsModuleEnabled = useToggleValue(
+    TOGGLE_NAMES.dependentsModuleEnabled,
+  );
+
   // Handle loading
   if (isLoading) {
     return <va-loading-indicator message="Loading your information..." />;
@@ -49,22 +60,25 @@ function App({
   const flipperV2 = featureToggles.vaDependentsV2;
 
   if (!getShouldUseV2(flipperV2, savedForms)) {
-    window.location.href = '/view-change-dependents/add-remove-form-21-686c/';
+    window.location.href = `/${manifest.rootUrl}/add-remove-form-21-686c/`;
     return <></>;
   }
 
   const breadcrumbs = [
     { href: '/', label: 'Home' },
     {
-      href: '/view-change-dependents',
+      href: `/${manifest.rootUrl}`,
       label: 'View or change dependents on your VA disability benefits',
     },
     {
-      href: '/view-change-dependents/add-remove-form-21-686c-674/introduction',
+      href: `/${manifest.rootUrl}/add-remove-form-21-686c-674/introduction`,
       label: 'Add or remove dependents on VA benefits',
     },
   ];
   const rawBreadcrumbs = JSON.stringify(breadcrumbs);
+  formConfig.submitUrl = dependentsModuleEnabled
+    ? `${environment.API_URL}/dependents_benefits/v0/claims`
+    : `${environment.API_URL}/v0/dependents_applications`;
 
   const content = (
     <article id="form-686c" data-location={`${location?.pathname?.slice(1)}`}>
@@ -116,7 +130,7 @@ App.propTypes = {
   isLoading: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   location: PropTypes.object,
-  savedForms: PropTypes.object,
+  savedForms: PropTypes.array,
   vaFileNumber: PropTypes.object,
 };
 

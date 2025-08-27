@@ -18,7 +18,6 @@ export default function EditPageButtons(props) {
           message-aria-describedby={`Cancel updating ${props.pageName.toLowerCase()}`}
           onClick={props.handlers.onCancel}
           secondary
-          submit="prevent"
           full-width
         />
       </div>

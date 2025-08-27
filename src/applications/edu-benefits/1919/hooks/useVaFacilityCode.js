@@ -30,20 +30,21 @@ export const useVaFacilityCode = () => {
               },
             },
           );
+          const { attributes } = response?.data || {};
           dispatch(
             setData({
               ...formData,
               institutionDetails: {
                 ...formData.institutionDetails,
-                institutionName: response?.data?.attributes?.name,
+                institutionName: attributes?.name,
                 institutionAddress: {
-                  street: response?.data?.attributes?.address1,
-                  street2: response?.data?.attributes?.address2,
-                  street3: response?.data?.attributes?.address3,
-                  city: response?.data?.attributes?.city,
-                  state: response?.data?.attributes?.state,
-                  postalCode: response?.data?.attributes?.zip,
-                  country: response?.data?.attributes?.country,
+                  street: attributes?.address1,
+                  street2: attributes?.address2,
+                  street3: attributes?.address3,
+                  city: attributes?.city,
+                  state: attributes?.state,
+                  postalCode: attributes?.zip,
+                  country: attributes?.country,
                 },
                 loader: false,
               },

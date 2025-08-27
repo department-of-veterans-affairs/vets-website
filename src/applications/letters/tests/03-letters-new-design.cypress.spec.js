@@ -37,7 +37,7 @@ describe('New letters page design', () => {
     cy.intercept('POST', 'v0/letters_generator/download/*', '@letterPDFBlob');
 
     cy.login(mockUserData);
-    cy.visit('/records/download-va-letters/letters/letter-page');
+    cy.visit('/records/download-va-letters/letters/');
   });
 
   it('confirms non-BSL letters load asynchronously', () => {
@@ -47,7 +47,7 @@ describe('New letters page design', () => {
       .should('be.visible');
     cy.title().should(
       'contain',
-      'Download VA Letters and Documents | Veterans Affair',
+      'Your VA benefit letters and documents | Veterans Affairs',
     );
     cy.axeCheck('main');
     cy.get('@lettersAccordion')
@@ -102,7 +102,7 @@ describe('New letters page design', () => {
     cy.get('@successAlert')
       .find('p')
       .first()
-      .should('have.text', 'Your letter includes the 5 items you selected.');
+      .should('have.text', 'Your letter includes the 5 topics you selected.');
     cy.axeCheck('main');
   });
 
@@ -136,7 +136,7 @@ describe('New letters page design', () => {
     cy.get('@successAlert')
       .find('p')
       .first()
-      .should('have.text', 'Your letter includes the one item you selected.');
+      .should('have.text', 'Your letter includes the one topic you selected.');
     cy.axeCheck('main');
   });
 });

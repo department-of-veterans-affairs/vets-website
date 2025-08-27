@@ -103,7 +103,7 @@ function PreSubmitInfo({
 PreSubmitInfo.propTypes = {
   formData: PropTypes.object.isRequired,
   onSectionComplete: PropTypes.func.isRequired,
-  setPreSubmit: PropTypes.func.isRequired,
+  setPreSubmit: PropTypes.func,
   showError: PropTypes.bool,
 };
 

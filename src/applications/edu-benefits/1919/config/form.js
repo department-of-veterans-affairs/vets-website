@@ -20,6 +20,7 @@ import {
   certifyingOfficials,
   aboutYourInstitution,
   institutionDetails,
+  institutionNameAndAddress,
   isProprietaryProfit,
   conflictOfInterestCertifyingOfficial,
   conflictOfInterestSummary,
@@ -60,7 +61,6 @@ const formConfig = {
   //   Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   submitUrl: SUBMIT_URL,
   submit: submitFormLogic,
-  transformForSubmit: transform,
   trackingPrefix: 'Edu-1919-',
   introduction: IntroductionPage,
   confirmation: confirmFormLogic,
@@ -101,6 +101,7 @@ const formConfig = {
       messageAriaDescribedBy: 'I have read and accept the privacy policy.',
     },
   },
+  transformForSubmit: transform,
   chapters: {
     institutionDetailsChapter: {
       title: 'Institution details',
@@ -116,6 +117,7 @@ const formConfig = {
           title: 'About your institution',
           uiSchema: aboutYourInstitution.uiSchema,
           schema: aboutYourInstitution.schema,
+          updateFormData: aboutYourInstitution.updateFormData,
         },
         institutionDetails: {
           path: 'institution-information',
@@ -124,6 +126,15 @@ const formConfig = {
           schema: institutionDetails.schema,
           depends: formData => {
             return formData?.aboutYourInstitution === true;
+          },
+        },
+        institutionNameAndAddress: {
+          path: 'institution-name-and-address',
+          title: 'Institution name and address',
+          uiSchema: institutionNameAndAddress.uiSchema,
+          schema: institutionNameAndAddress.schema,
+          depends: formData => {
+            return formData?.aboutYourInstitution !== true;
           },
         },
       },
