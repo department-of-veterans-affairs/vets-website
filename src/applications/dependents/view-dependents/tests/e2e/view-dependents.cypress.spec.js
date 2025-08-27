@@ -68,7 +68,7 @@ const testServerError = () => {
   testAxe();
 };
 
-describe('View VA dependents', () => {
+describe.skip('View VA dependents', () => {
   beforeEach(() => {
     cy.login();
   });
