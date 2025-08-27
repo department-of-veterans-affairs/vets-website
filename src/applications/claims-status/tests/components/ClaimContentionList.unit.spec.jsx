@@ -29,11 +29,10 @@ describe('ClaimContentionList', () => {
     expect($('.show-all-button', container)).to.exist;
   });
 
-  it('renders a message when there are no contentions', () => {
-    const { getByText } = render(<ClaimContentionList contentions={[]} />);
-    const noContentionsMessage = getByText('Not Available');
+  it('renders nothing when there are no contentions', () => {
+    const { container } = render(<ClaimContentionList contentions={[]} />);
 
-    expect(noContentionsMessage).to.exist;
+    expect(container.firstChild).to.be.null;
   });
 
   it('should mask contentions in DataDog (no PII)', () => {
