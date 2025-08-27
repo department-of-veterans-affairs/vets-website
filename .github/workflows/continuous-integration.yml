@@ -1554,7 +1554,7 @@ jobs:
         if: ${{ needs.cypress-tests.result == 'failure' }}
         uses: ./.github/workflows/download-artifact
         with:
-          pattern: cypress-mochawesome-test-results-*
+          pattern: cypress-video-artifacts-*
           path: qa-standards-dashboard-data/videos/${{ env.UUID }}
           merge-multiple: true
 
