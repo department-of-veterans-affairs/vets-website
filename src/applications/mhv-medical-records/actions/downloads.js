@@ -83,7 +83,13 @@ export const genAndDownloadCCD = (
       const nextBackoff = backoff * BACKOFF_FACTOR;
       setTimeout(() => {
         dispatch(
-          genAndDownloadCCD(firstName, lastName, nextBackoff, startTime),
+          genAndDownloadCCD(
+            firstName,
+            lastName,
+            fileType,
+            nextBackoff,
+            startTime,
+          ),
         );
       }, backoff);
     }
