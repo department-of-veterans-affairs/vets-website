@@ -2,7 +2,6 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
-
 import { RoutedSavableReviewPage } from '../../save-in-progress/RoutedSavableReviewPage';
 
 describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
@@ -120,6 +119,18 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
         form={form}
         user={user}
         formConfig={formConfig}
+        formContext={{}}
+        pageList={[]}
+        path="test-path"
+        route={{
+          formConfig,
+          pageConfig: {},
+          pageList: [],
+        }}
+        location={{ pathname: '/test' }}
+        showLoginModal={false}
+        autoSaveForm={() => {}}
+        toggleLoginModal={() => {}}
         setPrivacyAgreement={f => f}
       />,
     );
@@ -133,6 +144,18 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
         form={form}
         user={user}
         formConfig={formConfig}
+        formContext={{}}
+        pageList={[]}
+        path="test-path"
+        route={{
+          formConfig,
+          pageConfig: {},
+          pageList: [],
+        }}
+        location={{ pathname: '/test' }}
+        showLoginModal={false}
+        autoSaveForm={() => {}}
+        toggleLoginModal={() => {}}
         setPrivacyAgreement={f => f}
       />,
     );
