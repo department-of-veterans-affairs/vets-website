@@ -335,9 +335,11 @@ const custodianIncomeRecipientPage = {
     }),
     recipientRelationship: radioUI({
       ...sharedRecipientRelationshipBase,
-      labels: Object.fromEntries(Object.entries(custodianRelationshipLabels)),
-      descriptions: Object.keys(relationshipLabelDescriptions).filter(
-        key => key !== 'CHILD',
+      labels: custodianRelationshipLabels,
+      descriptions: Object.fromEntries(
+        Object.entries(relationshipLabelDescriptions).filter(
+          ([key]) => key !== 'CHILD',
+        ),
       ),
     }),
     otherRecipientRelationshipType: otherRecipientRelationshipTypeUI(
@@ -347,11 +349,12 @@ const custodianIncomeRecipientPage = {
   schema: {
     type: 'object',
     properties: {
-      recipientRelationship: radioSchema(
-        Object.keys(relationshipLabels).filter(
-          key => key !== 'VETERAN' && key !== 'PARENT',
-        ),
-      ),
+      recipientRelationship: radioSchema([
+        'CUSTODIAN',
+        'SPOUSE',
+        'CHILD',
+        'OTHER',
+      ]),
       otherRecipientRelationshipType: { type: 'string' },
     },
     required: ['recipientRelationship'],

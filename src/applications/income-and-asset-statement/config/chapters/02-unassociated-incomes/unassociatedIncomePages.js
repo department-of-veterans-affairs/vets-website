@@ -34,6 +34,7 @@ import {
   showUpdatedContent,
 } from '../../../helpers';
 import {
+  custodianRelationshipLabels,
   incomeTypeLabels,
   relationshipLabelDescriptions,
   relationshipLabels,
@@ -305,28 +306,7 @@ const custodianIncomeRecipientPage = {
     }),
     recipientRelationship: radioUI({
       ...sharedRecipientRelationshipBase,
-      labels: Object.fromEntries(
-        Object.entries(relationshipLabels)
-          .filter(
-            ([key]) =>
-              key === 'SPOUSE' ||
-              key === 'CHILD' ||
-              key === 'CUSTODIAN' ||
-              key === 'OTHER',
-          )
-          .map(([key, value]) => {
-            if (key === 'SPOUSE') {
-              return [key, 'Custodian’s spouse'];
-            }
-            if (key === 'CHILD') {
-              return [key, 'Veteran’s surviving child'];
-            }
-            if (key === 'CUSTODIAN') {
-              return [key, 'Child’s custodian'];
-            }
-            return [key, value];
-          }),
-      ),
+      labels: custodianRelationshipLabels,
       descriptions: Object.fromEntries(
         Object.entries(relationshipLabelDescriptions).filter(
           ([key]) => key !== 'CHILD',
