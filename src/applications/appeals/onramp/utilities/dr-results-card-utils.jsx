@@ -19,7 +19,9 @@ import { renderSingleOrList } from '.';
  * @param {String} to - The Prefix to swap to (e.g. TITLE)
  * @returns {String}
  */
-const swapPrefix = (string, from, to, keepUnderscore = true) => {
+export const swapPrefix = (string, from, to, keepUnderscore = true) => {
+  if (!string.includes(from)) return '';
+
   if (!keepUnderscore) {
     return string.replace(`${from}_`, to);
   }
@@ -69,6 +71,8 @@ export const getCardContent = (card, formResponses, goodFit) => {
 
     return null;
   });
+
+  if (!toDisplay.length) return null;
 
   const testId = goodFit ? 'gf' : 'ngf';
 
