@@ -20,11 +20,14 @@ export const getConditionsList = (
   });
   try {
     const getData = isAccelerating ? getAcceleratedConditions : getConditions;
+    const actionType = isAccelerating
+      ? Actions.Conditions.GET_UNIFIED_LIST
+      : Actions.Conditions.GET_LIST;
+
     const response = await getListWithRetry(dispatch, getData);
+
     dispatch({
-      type: isAccelerating
-        ? Actions.Conditions.GET_UNIFIED_LIST
-        : Actions.Conditions.GET_LIST,
+      type: actionType,
       response,
       isCurrent,
     });
@@ -40,15 +43,18 @@ export const getConditionDetails = (
   isAccelerating = false,
 ) => async dispatch => {
   try {
+    const getFunction = isAccelerating ? getAcceleratedCondition : getCondition;
+    const actionType = isAccelerating
+      ? Actions.Conditions.GET_UNIFIED_ITEM
+      : Actions.Conditions.GET;
+
     await dispatchDetails(
       conditionId,
       conditionList,
       dispatch,
-      isAccelerating ? getAcceleratedCondition : getCondition,
+      getFunction,
       Actions.Conditions.GET_FROM_LIST,
-      isAccelerating
-        ? Actions.Conditions.GET_UNIFIED_ITEM
-        : Actions.Conditions.GET,
+      actionType,
     );
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
