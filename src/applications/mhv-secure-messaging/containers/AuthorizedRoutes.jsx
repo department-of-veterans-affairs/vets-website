@@ -145,7 +145,7 @@ const AuthorizedRoutes = () => {
             <Compose />
           </AppRoute>
         )}
-        {!cernerPilotSmFeatureFlag && (
+        {cernerPilotSmFeatureFlag && (
           <AppRoute exact path={Paths.CARE_TEAM_HELP} key="CareTeamHelp">
             <CareTeamHelp />
           </AppRoute>
