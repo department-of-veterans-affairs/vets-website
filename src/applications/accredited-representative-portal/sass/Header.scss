@@ -43,6 +43,22 @@
       margin: 4px 0;
     }
   }
+
+  .heading-right {
+    display: inline-flex;
+    margin-left: auto;
+    align-items: baseline;
+    .heading-help-link {
+      border: none;
+      color: var(--vads-color-base);
+      padding: 8px 12px 8px 12px;
+      font-size: 16.96px;
+      font-weight: 700;
+      text-decoration: none;
+      margin-right: 12px;
+      border-radius: 4px;
+    }
+  }
 }
 .user-nav {
   margin-left: auto;

@@ -52,7 +52,25 @@ export const Nav = () => {
             alt="VA Accredited Representative Portal, U.S. Department of Veterans Affairs"
           />
         </Link>
-        {profile ? <UserNav profile={profile} /> : <SignInButton />}
+
+        <div className="heading-right">
+          <Toggler
+            toggleName={Toggler.TOGGLE_NAMES.accreditedRepresentativePortalHelp}
+          >
+            <Toggler.Enabled>
+              <Link
+                to="/get-help"
+                className="usa-button-secondary heading-help-link"
+                data-testid="heading-help-link"
+                onClick={recordDatalayerEvent}
+                data-eventname="nav-link-click"
+              >
+                Help
+              </Link>
+            </Toggler.Enabled>
+          </Toggler>
+          {profile ? <UserNav profile={profile} /> : <SignInButton />}
+        </div>
       </div>
 
       {profile && (
@@ -101,23 +119,6 @@ export const Nav = () => {
                   data-testid="desktop-search-link"
                 >
                   Submissions
-                </Link>
-              </Toggler.Enabled>
-            </Toggler>
-            <Toggler
-              toggleName={
-                Toggler.TOGGLE_NAMES.accreditedRepresentativePortalHelp
-              }
-            >
-              <Toggler.Enabled>
-                <Link
-                  to="/get-help"
-                  className="nav__btn desktop"
-                  data-testid="desktop-help-link"
-                  onClick={recordDatalayerEvent}
-                  data-eventname="nav-link-click"
-                >
-                  Get Help
                 </Link>
               </Toggler.Enabled>
             </Toggler>
