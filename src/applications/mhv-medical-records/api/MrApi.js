@@ -363,7 +363,7 @@ export const downloadCCD = (timestamp, format = 'html') => {
     `${apiBasePath}/medical_records/ccd/download.${lowerFormat}?date=${encodeURIComponent(
       timestamp,
     )}`,
-    headers,
+    { headers },
   );
 };
 
