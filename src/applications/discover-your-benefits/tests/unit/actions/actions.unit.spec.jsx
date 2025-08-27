@@ -1389,6 +1389,156 @@ describe('actions', () => {
     });
   });
 
+  describe('VA-backed home loans - COE', () => {
+    const benefit = getBenefitById('COE');
+    const validGoals = [goalTypes.RETIREMENT, goalTypes.UNDERSTAND];
+    const validLengthOfService = [
+      timeServedTypes.UP_TO_6_MONTHS,
+      timeServedTypes.UP_TO_1_YEAR,
+      timeServedTypes.UP_TO_2_YEARS,
+      timeServedTypes.UP_TO_3_YEARS,
+      timeServedTypes.OVER_3_YEARS,
+    ];
+    const invalidLengthOfService = getInvalidMappingValues(
+      validLengthOfService,
+      timeServedTypes,
+    );
+    const invalidGoals = getInvalidMappingValues(validGoals, goalTypes);
+    const validDischarge = [
+      characterOfDischargeTypes.HONORABLE,
+      characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
+      characterOfDischargeTypes.UNDER_OTHER_THAN_HONORABLE_CONDITIONS,
+      characterOfDischargeTypes.UNCHARACTERIZED,
+      characterOfDischargeTypes.BAD_CONDUCT,
+      characterOfDischargeTypes.NOT_SURE,
+      characterOfDischargeTypes.STILL_SERVING,
+    ];
+    const invalidDischarge = getInvalidMappingValues(
+      validDischarge,
+      characterOfDischargeTypes,
+    );
+
+    validGoals.forEach(goal => {
+      const formData = {
+        [mappingTypes.GOALS]: { [goal]: true },
+        [militaryBranchTypes.ARMY]: {
+          [militaryBranchComponentTypes.ACTIVE_DUTY]: true,
+        },
+        [mappingTypes.LENGTH_OF_SERVICE]: formatData(validLengthOfService),
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
+      };
+      it(`should return true with goal: ${goal}`, () => {
+        const result = actions.mapBenefitFromFormInputData(benefit, formData);
+        expect(result).to.be.true;
+      });
+    });
+
+    validDischarge.forEach(discharge => {
+      const formData = {
+        [mappingTypes.GOALS]: formatData(validGoals),
+        [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: true,
+        [mappingTypes.LENGTH_OF_TITLE_TEN_SERVICE]: formatData(
+          validLengthOfService,
+        ),
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: discharge,
+      };
+      it(`should return true with discharge: ${discharge}`, () => {
+        const result = actions.mapBenefitFromFormInputData(benefit, formData);
+        expect(result).to.be.true;
+      });
+    });
+
+    validLengthOfService.forEach(service => {
+      const formData = {
+        [mappingTypes.GOALS]: formatData(validGoals),
+        [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: true,
+        [mappingTypes.LENGTH_OF_TITLE_TEN_SERVICE]: service,
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
+      };
+      it(`should return true with title ten length of service: ${service}`, () => {
+        const result = actions.mapBenefitFromFormInputData(benefit, formData);
+        expect(result).to.be.true;
+      });
+    });
+
+    validLengthOfService.forEach(service => {
+      const formData = {
+        [mappingTypes.GOALS]: formatData(validGoals),
+        [militaryBranchTypes.ARMY]: {
+          [militaryBranchComponentTypes.ACTIVE_DUTY]: true,
+        },
+        [mappingTypes.LENGTH_OF_SERVICE]: service,
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
+      };
+      it(`should return true with length of service: ${service}`, () => {
+        const result = actions.mapBenefitFromFormInputData(benefit, formData);
+        expect(result).to.be.true;
+      });
+    });
+
+    it('should return false with incorrect goals', () => {
+      const formData = {
+        [mappingTypes.GOALS]: formatData(invalidGoals),
+        [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: true,
+        [mappingTypes.LENGTH_OF_TITLE_TEN_SERVICE]: formatData(
+          validLengthOfService,
+        ),
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
+      };
+      const result = actions.mapBenefitFromFormInputData(benefit, formData);
+      expect(result).to.be.false;
+    });
+
+    it('should return false with incorrect discharge', () => {
+      const formData = {
+        [mappingTypes.GOALS]: formatData(validGoals),
+        [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: true,
+        [mappingTypes.LENGTH_OF_TITLE_TEN_SERVICE]: formatData(
+          validLengthOfService,
+        ),
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(invalidDischarge),
+      };
+      const result = actions.mapBenefitFromFormInputData(benefit, formData);
+      expect(result).to.be.false;
+    });
+
+    it('should return false with incorrect length of service', () => {
+      const formData = {
+        [mappingTypes.GOALS]: formatData(validGoals),
+        [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: true,
+        [mappingTypes.LENGTH_OF_TITLE_TEN_SERVICE]: formatData(
+          invalidLengthOfService,
+        ),
+        [militaryBranchTypes.ARMY]: {
+          [militaryBranchComponentTypes.ACTIVE_DUTY]: true,
+        },
+        [mappingTypes.LENGTH_OF_SERVICE]: formatData(invalidLengthOfService),
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
+      };
+      const result = actions.mapBenefitFromFormInputData(benefit, formData);
+      expect(result).to.be.false;
+    });
+
+    it('should return false with no title ten or acticve duty', () => {
+      const formData = {
+        [mappingTypes.GOALS]: formatData(validGoals),
+        [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: false,
+        [mappingTypes.LENGTH_OF_TITLE_TEN_SERVICE]: formatData(
+          validLengthOfService,
+        ),
+        [militaryBranchTypes.ARMY]: {
+          [militaryBranchComponentTypes.ACTIVE_DUTY]: false,
+          [militaryBranchComponentTypes.NATIONAL_GUARD_SERVICE]: true,
+          [militaryBranchComponentTypes.RESERVE_SERVICE]: true,
+        },
+        [mappingTypes.LENGTH_OF_SERVICE]: formatData(validLengthOfService),
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: formatData(validDischarge),
+      };
+      const result = actions.mapBenefitFromFormInputData(benefit, formData);
+      expect(result).to.be.false;
+    });
+  });
+
   describe('VA national cemetery burial - BUR', () => {
     const benefit = getBenefitById('BUR');
     const validGoals = [goalTypes.UNDERSTAND, goalTypes.PLAN];
