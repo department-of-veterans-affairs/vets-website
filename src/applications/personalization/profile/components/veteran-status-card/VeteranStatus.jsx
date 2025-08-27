@@ -154,11 +154,11 @@ const VeteranStatus = ({
       totalDisabilityRating,
       edipi,
       image: {
-        title: 'V-A logo',
+        title: 'VA logo',
         url: '/img/design/logo/logo-black-and-white.png',
       },
       seal: {
-        title: 'V-A Seal',
+        title: 'VA Seal',
         url: '/img/design/logo/seal-black-and-white.png',
       },
       scissors: {

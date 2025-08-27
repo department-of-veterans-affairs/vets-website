@@ -112,6 +112,8 @@ export const resolutionDate = (date, requestId) => {
 export const DETAILS_BC_LABEL = 'details breadcrumb';
 export const SEARCH_BC_LABEL = 'search breadcrumb';
 export const HELP_BC_LABEL = 'search breadcrumb';
+export const DASHBOARD_BC_LABEL = 'dashboard breadcrumb';
+
 export const HelpBC = [
   {
     href: '/representative',
@@ -119,7 +121,7 @@ export const HelpBC = [
   },
   {
     href: '/representative/get-help',
-    label: 'Get help using the portal',
+    label: 'Get help with the Accredited Representative Portal',
   },
 ];
 
@@ -157,12 +159,25 @@ export const poaDetailsBreadcrumbs = [
     label: 'Representation request',
   },
 ];
+
+export const dashboardBC = [
+  {
+    href: '/representative',
+    label: 'VA.gov/representative home',
+  },
+  {
+    href: window.location.href,
+    label: 'Dashboard',
+  },
+];
+
 export const SEARCH_PARAMS = {
   STATUS: 'status',
   SORTBY: 'sortBy',
   SORTORDER: 'sortOrder',
   SIZE: 'pageSize',
   NUMBER: 'pageNumber',
+  SELECTED_INDIVIDUAL: 'as_selected_individual',
 };
 export const SORT_BY = {
   CREATED: 'created_at',
@@ -183,6 +198,7 @@ export const PROCESSED_SORT_DEFAULTS = {
   SIZE: '20',
   // default is page 1
   NUMBER: '1',
+  SELECTED_INDIVIDUAL: 'false',
 };
 
 export const PENDING_SORT_DEFAULTS = {
@@ -192,6 +208,7 @@ export const PENDING_SORT_DEFAULTS = {
   SIZE: '20',
   // default is page 1
   NUMBER: '1',
+  SELECTED_INDIVIDUAL: 'false',
 };
 
 export async function addStyleToShadowDomOnPages(

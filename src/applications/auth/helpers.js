@@ -61,12 +61,12 @@ export const handleTokenRequest = async ({
     });
   } else {
     // Matches - requestToken exchange
-    try {
-      await requestToken({ code, csp });
-    } catch (error) {
-      const { errors } = await error.json();
-      const oauthErrorCode = OAUTH_ERROR_RESPONSES[errors];
-      const event = OAUTH_EVENTS[errors] ?? OAUTH_EVENTS.ERROR_DEFAULT;
+    const response = await requestToken({ code, csp });
+
+    if (!response.ok) {
+      const data = await response?.json();
+      const oauthErrorCode = OAUTH_ERROR_RESPONSES[(data?.errors)];
+      const event = OAUTH_EVENTS[(data?.errors)] ?? OAUTH_EVENTS.ERROR_DEFAULT;
       generateOAuthError({ oauthErrorCode, event });
     }
   }
