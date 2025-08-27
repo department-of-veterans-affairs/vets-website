@@ -43,6 +43,7 @@
   "checkInExperiencePreCheckInEnabled": "check_in_experience_pre_check_in_enabled",
   "checkInExperienceTranslationDisclaimerSpanishEnabled": "check_in_experience_translation_disclaimer_spanish_enabled",
   "checkInExperienceTranslationDisclaimerTagalogEnabled": "check_in_experience_translation_disclaimer_tagalog_enabled",
+  "checkInExperienceTravelPayApi": "check_in_experience_travel_pay_api",
   "checkInExperienceTravelReimbursement": "check_in_experience_travel_reimbursement",
   "checkInExperienceUpcomingAppointmentsEnabled": "check_in_experience_upcoming_appointments_enabled",
   "checkInExperienceUpdatedApptPresentation": "check_in_experience_updated_appt_presentation",
