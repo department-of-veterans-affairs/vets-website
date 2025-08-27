@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
+
 import { RoutedSavableReviewPage } from '../../save-in-progress/RoutedSavableReviewPage';
 
 describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
@@ -77,12 +78,6 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
   });
 
   it('should render h1 header if minimal header is present', () => {
-    // Ensure clean state before test
-    const existingMinimalHeader = document.getElementById('header-minimal');
-    if (existingMinimalHeader) {
-      document.body.removeChild(existingMinimalHeader);
-    }
-
     const formConfig = {
       chapters: {
         chapter1: {
@@ -116,81 +111,94 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
       },
     };
 
-    // Test WITH minimal header
     const minimalHeader = document.createElement('div');
     minimalHeader.id = 'header-minimal';
     document.body.appendChild(minimalHeader);
 
-    let treeWithMinimalHeader;
-    let hasH1WithHeader;
-    try {
-      treeWithMinimalHeader = shallow(
-        <RoutedSavableReviewPage
-          form={form}
-          user={user}
-          formConfig={formConfig}
-          formContext={{}}
-          pageList={[]}
-          path="test-path"
-          route={{
-            formConfig,
-            pageConfig: {},
-            pageList: [],
-          }}
-          location={{ pathname: '/test' }}
-          showLoginModal={false}
-          autoSaveForm={() => {}}
-          toggleLoginModal={() => {}}
-        />,
-      );
+    const treeWithMinimalHeader = shallow(
+      <RoutedSavableReviewPage
+        form={form}
+        user={user}
+        formConfig={formConfig}
+        formContext={{}}
+        pageList={[]}
+        path="test-path"
+        route={{
+          formConfig,
+          pageConfig: {},
+          pageList: [],
+        }}
+        location={{ pathname: '/test' }}
+        showLoginModal={false}
+        autoSaveForm={() => {}}
+        toggleLoginModal={() => {}}
+      />,
+    );
 
-      hasH1WithHeader = treeWithMinimalHeader.find('h1').exists();
-    } finally {
-      if (treeWithMinimalHeader) {
-        treeWithMinimalHeader.unmount();
-      }
-      // Clean up DOM
-      if (document.getElementById('header-minimal')) {
-        document.body.removeChild(document.getElementById('header-minimal'));
-      }
+    expect(treeWithMinimalHeader.find('h1').exists()).to.be.true;
+
+    treeWithMinimalHeader.unmount();
+  });
+  it('should not render h1 header if minimal header is not present', () => {
+    const formConfig = {
+      chapters: {
+        chapter1: {
+          pages: {
+            page1: {},
+          },
+        },
+        chapter2: {
+          pages: {
+            page2: {},
+          },
+        },
+      },
+    };
+
+    const form = {
+      submission: {
+        hasAttemptedSubmit: false,
+      },
+      data: {
+        privacyAgreementAccepted: false,
+      },
+    };
+
+    const user = {
+      profile: {
+        savedForms: [],
+      },
+      login: {
+        currentlyLoggedIn: true,
+      },
+    };
+
+    const minimalHeaderDiv = document.getElementById('header-minimal');
+    if (minimalHeaderDiv) {
+      document.body.removeChild(minimalHeaderDiv);
     }
 
-    // Assertion OUTSIDE try block so it can fail the test
-    expect(hasH1WithHeader).to.be.true;
-
-    // Test WITHOUT minimal header
-    let treeWithoutMinimalHeader;
-    let hasH1WithoutHeader;
-    try {
-      treeWithoutMinimalHeader = shallow(
-        <RoutedSavableReviewPage
-          form={form}
-          user={user}
-          formConfig={formConfig}
-          formContext={{}}
-          pageList={[]}
-          path="test-path"
-          route={{
-            formConfig,
-            pageConfig: {},
-            pageList: [],
-          }}
-          location={{ pathname: '/test' }}
-          showLoginModal={false}
-          autoSaveForm={() => {}}
-          toggleLoginModal={() => {}}
-        />,
-      );
-
-      hasH1WithoutHeader = treeWithoutMinimalHeader.find('h1').exists();
-    } finally {
-      if (treeWithoutMinimalHeader) {
-        treeWithoutMinimalHeader.unmount();
-      }
-    }
-
-    // Assertion OUTSIDE try block so it can fail the test
-    expect(hasH1WithoutHeader).to.be.false;
+    const treeWithoutMinimalHeader = shallow(
+      <RoutedSavableReviewPage
+        form={form}
+        user={user}
+        formConfig={formConfig}
+        formContext={{}}
+        pageList={[]}
+        path="test-path"
+        route={{
+          formConfig,
+          pageConfig: {},
+          pageList: [],
+        }}
+        location={{ pathname: '/test' }}
+        showLoginModal={false}
+        autoSaveForm={() => {}}
+        toggleLoginModal={() => {}}
+      />,
+    );
+    treeWithoutMinimalHeader.unmount();
+    expect(treeWithoutMinimalHeader.find('h1').exists()).to.be.false;
   });
 
   it('should auto save after change', () => {
