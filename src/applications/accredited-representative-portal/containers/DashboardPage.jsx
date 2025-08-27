@@ -40,20 +40,15 @@ const DashboardPage = props => {
 };
 
 DashboardPage.loader = async () => {
-  try {
-    const res = await api.checkAuthorized();
-    // Bubble up 401 to the route guard so it can redirect to sign-in
-    if (res.status === 401) throw res;
-    // 403 → unauthorized
-    if (res.status === 403) return { authorized: false };
-    // 200/204/304 → authorized
-    if (res.ok || res.status === 304) return { authorized: true };
-    // On other/unexpected status, render Unauthorized to be safe
-    return { authorized: false };
-  } catch (e) {
-    // Network or unexpected error → Unauthorized to be safe
-    return { authorized: false };
-  }
+  const res = await api.checkAuthorized();
+  // Bubble up 401 to the route guard so it can redirect to sign-in
+  if (res.status === 401) throw res;
+  // 403 → unauthorized
+  if (res.status === 403) return { authorized: false };
+  // 204 → authorized
+  if (res.status === 204) return { authorized: true };
+  // On other/unexpected status, render Unauthorized to be safe
+  return { authorized: false };
 };
 
 export default DashboardPage;

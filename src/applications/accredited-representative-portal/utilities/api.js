@@ -112,6 +112,24 @@ const wrapApiRequest = fn => {
 };
 
 const api = {
+  // Lightweight authorization check used by Dashboard loader
+  checkAuthorized: async () => {
+    const baseUrl = `${environment.API_URL}/${API_VERSION}`;
+    const url = `${baseUrl}/authorize_as_representative`;
+    const csrfTokenStored = localStorage.getItem('csrfToken');
+    const settings = {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        'X-Key-Inflection': 'camel',
+        'Source-App-Name': window.appName,
+        'X-CSRF-Token': csrfTokenStored,
+        'Content-Type': 'application/json',
+      },
+    };
+
+    return fetchAndUpdateSessionExpiration(url, settings);
+  },
   getPOARequests: wrapApiRequest(query => {
     const status = query.status ? `status=${query.status}` : '';
     const size = query.size ? `&page[size]=${query.size}` : '';
