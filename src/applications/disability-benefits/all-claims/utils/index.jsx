@@ -33,6 +33,7 @@ import {
   CHAR_LIMITS,
 } from '../constants';
 import { getBranches } from './serviceBranches';
+import { getSharedVariable, setSharedVariable } from './sharedState';
 
 /**
  * Returns an object where all the fields are prefixed with `view:` if they aren't already
@@ -460,6 +461,8 @@ export const getHomelessOrAtRisk = formData => {
 export const isNotUploadingPrivateMedical = formData =>
   _.get(DATA_PATHS.hasPrivateRecordsToUpload, formData) === false;
 
+export const hasCompletedAuthorization = value => value === true;
+
 export const needsToEnterUnemployability = formData =>
   _.get('view:unemployable', formData, false);
 
@@ -852,4 +855,66 @@ export const formatFullName = (fullName = {}) => {
   }
 
   return res.trim();
+};
+
+/**
+ * Checks if
+ * 1. The flag for the modern 4142 flow is enabled
+ *
+ * @param {object} formData
+ * @returns {boolean} true if disability526Enable2024Form4142 is present, false otherwise
+ */
+export function isCompletingModern4142(formData) {
+  return formData?.disability526Enable2024Form4142 === true;
+}
+
+export const baseDoNew4142Logic = formData => {
+  return (
+    // If flipper is enabled
+    formData.disability526Enable2024Form4142 === true &&
+    // And the user has previously acknowledged the 4142 authorization
+    formData['view:patientAcknowledgement']?.['view:acknowledgement'] ===
+      true &&
+    // And the user has not switched to another 4142 option (e.g. upload)
+    formData?.['view:uploadPrivateRecordsQualifier']?.[
+      'view:hasPrivateRecordsToUpload'
+    ] !== true &&
+    // And the user has not already acknowledged the NEW 4142
+    formData?.patient4142Acknowledgement !== true
+    // then we must redirect them and show the alert
+  );
+};
+
+export function needs4142AlertShown(formData) {
+  return (
+    baseDoNew4142Logic(formData) &&
+    getSharedVariable('alertNeedsShown4142') === true
+  );
+}
+
+export const onFormLoaded = props => {
+  const { returnUrl, formData, router } = props;
+  const shouldRedirectToModern4142Choice = baseDoNew4142Logic(formData);
+  const redirectUrl = '/supporting-evidence/private-medical-records';
+
+  if (shouldRedirectToModern4142Choice === true) {
+    // if we should redirect to the modern 4142 choice page, we set the shared variable
+    // and redirect to the redirectUrl (the modern 4142 choice page)
+    setSharedVariable('alertNeedsShown4142', shouldRedirectToModern4142Choice);
+    router.push(redirectUrl);
+  } else if (
+    // if the returnUrl is the modern 4142 choice page and the flipper is not enabled,
+    // then we toggled flipper on, the user got to this page, then we turned the flipper off
+    // this happens a lot in development and testing but would only happen if we do a rollback in production
+    // if the user is set to redirect to a page that is set to be hidden they get stuck in a loop so we must place them on the previous page
+    shouldRedirectToModern4142Choice === false &&
+    returnUrl ===
+      '/supporting-evidence/private-medical-records-authorize-release' &&
+    formData.disability526Enable2024Form4142 !== true
+  ) {
+    router.push(redirectUrl);
+  } else {
+    // otherwise, we just redirect to the returnUrl as usual when resuming a form
+    router.push(returnUrl);
+  }
 };

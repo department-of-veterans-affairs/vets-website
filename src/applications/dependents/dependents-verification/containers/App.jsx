@@ -6,6 +6,12 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import formConfig from '../config/form';
 import NoFormPage from '../components/NoFormPage';
 import manifest from '../manifest.json';
+import { TITLE } from '../constants';
+
+import { getRootParentUrl } from '../../shared/utils';
+
+// Must match the H1
+document.title = TITLE;
 
 export default function App({ location, children }) {
   const featureToggle = useSelector(
@@ -27,12 +33,11 @@ export default function App({ location, children }) {
       label: 'Home',
     },
     {
-      href: '/view-change-dependents',
+      href: getRootParentUrl(manifest.rootUrl),
       label: 'Manage dependents',
     },
     {
-      href:
-        '/view-change-dependents/verify-dependents-form-21-0538/introduction',
+      href: `${manifest.rootUrl}/introduction`,
       label:
         pageUrl === 'exit-form'
           ? 'Update your dependents in a different form'

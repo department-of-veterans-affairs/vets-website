@@ -48,7 +48,7 @@ describe('Decision Reviews Onramp', () => {
 
       // RESULTS
       h.verifyUrl(ROUTES.RESULTS);
-      h.verifyText(h.RESULTS_HEADER, RESULTS_SC);
+      h.verifyDrResultsHeader(RESULTS_SC);
       cy.go('back');
 
       // Q_1_2B_LAW_POLICY_CHANGE

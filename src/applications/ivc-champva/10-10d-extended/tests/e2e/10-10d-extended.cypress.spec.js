@@ -24,30 +24,33 @@ const testConfig = createTestConfig(
       introduction: ({ afterHook }) => {
         afterHook(() => startAsGuestUser());
       },
-      'signer-mailing-address': ({ afterHook }) => {
+      'your-information/mailing-address': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             fillAddressAndGoToNext('certifierAddress', data.certifierAddress);
           });
         });
       },
-      'sponsor-mailing-same': ({ afterHook }) => {
+      'veteran-information/address': ({ afterHook }) => {
         afterHook(() => selectSharedAddressAndGoToNext('not-shared'));
       },
-      'sponsor-mailing-address': ({ afterHook }) => {
+      'veteran-information/mailing-address': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             fillAddressAndGoToNext('sponsorAddress', data.sponsorAddress);
           });
         });
       },
-      'applicant-summary': ({ afterHook }) => {
+      'applicant-information/summary': ({ afterHook }) => {
         afterHook(() => handleApplicantSummary());
       },
-      'applicant-address-selection/:index': ({ afterHook }) => {
+      'applicant-information/:index/address': ({ afterHook }) => {
         afterHook(() => selectSharedAddressAndGoToNext('not-shared'));
       },
-      'applicant-mailing-address/:index': ({ afterHook, index }) => {
+      'applicant-information/:index/mailing-address': ({
+        afterHook,
+        index,
+      }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             fillAddressAndGoToNext(
@@ -57,9 +60,25 @@ const testConfig = createTestConfig(
           });
         });
       },
+      'review-and-submit': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            cy.get('va-statement-of-truth')
+              .shadow()
+              .within(() => {
+                cy.get('va-text-input').then($el =>
+                  cy.fillVaTextInput($el, data.statementOfTruthSignature),
+                );
+                cy.get('va-checkbox').then($el =>
+                  cy.selectVaCheckbox($el, true),
+                );
+              });
+            cy.findByText(/submit/i, { selector: 'button' }).click();
+          });
+        });
+      },
     },
     setupPerTest: () => setupBasicTest(),
-    skip: Cypress.env('CI'),
   },
   manifest,
   formConfig,
