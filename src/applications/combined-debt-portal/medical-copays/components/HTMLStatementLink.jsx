@@ -12,7 +12,6 @@ const HTMLStatementLink = ({ id, statementDate }) => {
   return (
     <li>
       <VaLink
-        active
         data-testid={`balance-details-${id}-statement-view`}
         onClick={event => {
           event.preventDefault();
