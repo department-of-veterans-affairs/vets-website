@@ -208,6 +208,7 @@ const cypressConfig = {
         on,
         config,
       );
+      // We only want Cypress specs annotated while being run outside of stress test jobs
       if (typeof process.env.IS_STRESS_TEST === 'undefined') {
         on('task', {
           recordNetworkTouch(specAbs) {
