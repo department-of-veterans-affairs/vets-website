@@ -2,7 +2,8 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
-import { VaLinkAction } from '@department-of-veterans-affairs/web-components/react-bindings';
+import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
 import { formatDate } from '../../combined/utils/helpers';
 
 const HTMLStatementLink = ({ id, statementDate }) => {
@@ -10,16 +11,16 @@ const HTMLStatementLink = ({ id, statementDate }) => {
 
   return (
     <li>
-      <VaLinkAction
+      <VaLink
+        active
         data-testid={`balance-details-${id}-statement-view`}
-        href={`/copay-balances/${id}/detail/statement`}
         onClick={event => {
           event.preventDefault();
           recordEvent({ event: 'cta-link-click-copay-statement-link' });
           history.push(`/copay-balances/${id}/detail/statement`);
         }}
+        href={`/copay-balances/${id}/detail/statement`}
         text={`${formatDate(statementDate)} statement`}
-        type="primary"
       />
     </li>
   );

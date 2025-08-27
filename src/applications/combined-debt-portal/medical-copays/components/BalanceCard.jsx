@@ -3,9 +3,12 @@ import { Link, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
-import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaLoadingIndicator,
+  VaLink,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-import { VaLinkAction } from '@department-of-veterans-affairs/web-components/react-bindings';
+
 import {
   currency,
   calcDueDate,
@@ -115,32 +118,30 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
       </div>
       {showCDPOneThingPerPage ? (
         <div className="vads-u-display--flex vads-u-flex-direction--column">
-          <VaLinkAction
+          <VaLink
             active
             data-testid={`detail-link-${id}`}
-            aria-label={`Review details for ${facility}`}
-            href={`/copay-balances/${id}/detail`}
             onClick={event => {
               event.preventDefault();
               recordEvent({ event: 'cta-link-click-copay-balance-card' });
               history.push(`/copay-balances/${id}/detail`);
             }}
+            href={`/copay-balances/${id}/detail`}
             text="Review details"
-            type="primary"
+            aria-label={`Review details for ${facility}`}
           />
 
-          <VaLinkAction
+          <VaLink
             active
             data-testid={`resolve-link-${id}`}
-            aria-label={`Resolve this bill for ${facility}`}
-            href={`/copay-balances/${id}/resolve`}
             onClick={event => {
               event.preventDefault();
               recordEvent({ event: 'cta-link-click-copay-balance-card' });
               history.push(`/copay-balances/${id}/resolve`);
             }}
+            href={`/copay-balances/${id}/resolve`}
             text="Resolve this bill"
-            type="primary"
+            aria-label={`Resolve this bill for ${facility}`}
           />
         </div>
       ) : (
