@@ -157,6 +157,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     const removedAlertRef = useRef(null);
     const reviewErrorAlertRef = useRef(null);
     const maxItemsAlertRef = useRef(null);
+    const dataRef = useRef(props.data);
     const { uiSchema, schema } = props;
     const { headingLevel, headingStyle } = useHeadingLevels(
       titleHeaderLevel,
@@ -166,6 +167,15 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     const isMaxItemsReached = arrayData?.length >= maxItems;
     const hasReviewError =
       isReviewPage && checkHasYesNoReviewError(props.reviewErrors, hasItemsKey);
+
+    const setDataFromRef = data => {
+      const curr = dataRef.current || {};
+      props.setData({ ...curr, ...data });
+    };
+
+    useEffect(() => {
+      dataRef.current = props.data;
+    });
 
     useEffect(() => {
       const cleanupEmptyItems = () => {
@@ -177,7 +187,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
         if (arrayData?.length) {
           const newArrayData = filterEmptyItems(arrayData);
           if (newArrayData?.length !== arrayData.length) {
-            props.setData({ ...props.data, [arrayPath]: newArrayData });
+            setDataFromRef({ [arrayPath]: newArrayData });
           }
         }
       };
@@ -194,8 +204,8 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
         // We shouldn't persist the 'yes' answer after an item is entered/cancelled
         // We should ask the yes/no question again after an item is entered/cancelled
         // Since it is required, it shouldn't be left null/undefined
-        if (!isReviewPage && props.data?.[hasItemsKey]) {
-          props.setData({ ...props.data, [hasItemsKey]: undefined });
+        if (!isReviewPage && dataRef.current?.[hasItemsKey]) {
+          setDataFromRef({ [hasItemsKey]: undefined });
         }
       };
 
@@ -249,22 +259,31 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
 
     useEffect(
       () => {
-        if (
-          (uiSchema &&
-            schema?.properties &&
-            isMaxItemsReached &&
-            props.data?.[hasItemsKey] !== false) ||
-          (isReviewPage && props.data?.[hasItemsKey] == null)
-        ) {
-          // 1. If the user has reached the max items, we want to make sure the
-          //    yes/no field is set to false because it will be hidden yet required.
-          //    So we need to make sure it's false so it doesn't block the continue button.
-          // 2. the yes/no field should never be null/undefined on the final review page,
-          //    or it could cause a hidden validation error.
-          props.setData({ ...props.data, [hasItemsKey]: false });
-        }
+        const length = Array.isArray(arrayData) ? arrayData.length : 0;
+        const reachedMax =
+          Number.isFinite(maxItems) && maxItems > 0 && length >= maxItems;
+
+        const id = requestAnimationFrame(() => {
+          const curr = dataRef.current || {};
+          const val = curr?.[hasItemsKey];
+
+          const setFalseForReview = isReviewPage && typeof val === 'undefined';
+          const setFalseForMax = !isReviewPage && reachedMax && val !== false;
+
+          if (setFalseForMax || setFalseForReview) {
+            setDataFromRef({ [hasItemsKey]: false });
+          }
+        });
+
+        return () => cancelAnimationFrame(id);
       },
-      [isReviewPage, arrayData?.length],
+      [
+        isReviewPage,
+        hasItemsKey,
+        maxItems,
+        props.data?.[hasItemsKey],
+        Array.isArray(arrayData) ? arrayData.length : 0,
+      ],
     );
 
     function forceRerender(data = props.data) {
