@@ -42,13 +42,7 @@ const SaveInProgressInfo = ({ formConfig, pageList }) => {
     devOnly: { forceShowFormControls: true },
   };
 
-  const sipIntro = (
-    <SaveInProgressIntro {...sipProps}>
-      <p>
-        Select <b>Continue your form</b> to use our updated form.
-      </p>
-    </SaveInProgressIntro>
-  );
+  const sipIntro = <SaveInProgressIntro {...sipProps} />;
 
   // set the correct alert to render based on enrollment status
   const LoggedInAlertToRender = () => {
