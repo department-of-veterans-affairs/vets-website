@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import { App } from '.';
+import { App } from '../components/App';
 
 describe('Dependents Verification Widget <App>', () => {
   it('renders the dependents verification widget app', () => {
