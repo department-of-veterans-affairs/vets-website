@@ -13,7 +13,7 @@ const HowToContactContent = () => (
       Call us at <va-telephone contact="8005351117" /> (
       <va-telephone tty="true" contact={CONTACTS[711]} />
       ). We’re here Monday through Friday, 8:00 a.m. to 7:30 p.m. ET, and
-      Saturday 9:00 a.m. to 5:30 p.m. E.T.
+      Saturday 9:00 a.m. to 5:30 p.m. ET.
     </p>
     <p>
       Or, check our resources and support section for answers to common
