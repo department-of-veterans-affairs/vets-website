@@ -3,6 +3,22 @@ import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
+export const ConfirmationSubmissionAlert = ({ confirmationNumber }) => (
+  <>
+    <p>Your submission is in progress.</p>
+    <p>
+      It can take up to 30 days for us to review your application and make a
+      decision.
+      {confirmationNumber &&
+        ` Your confirmation number is ${confirmationNumber}.`}
+    </p>
+  </>
+);
+
+ConfirmationSubmissionAlert.propTypes = {
+  confirmationNumber: PropTypes.string,
+};
+
 export const ConfirmationWhatsNextProcessList = () => (
   <>
     <h2>What to expect next</h2>
