@@ -1536,4 +1536,42 @@ describe('actions', () => {
       expect(result).to.be.false;
     });
   });
+
+  describe('Apply for a discharge upgrade - DCU', () => {
+    const benefit = getBenefitById('DCU');
+    const validDischarge = [
+      characterOfDischargeTypes.UNDER_OTHER_THAN_HONORABLE_CONDITIONS,
+      characterOfDischargeTypes.BAD_CONDUCT,
+      characterOfDischargeTypes.DISHONORABLE,
+      characterOfDischargeTypes.NOT_SURE,
+      characterOfDischargeTypes.STILL_SERVING,
+    ];
+    const invalidDischarge = getInvalidMappingValues(validDischarge, goalTypes);
+    validDischarge.forEach(discharge => {
+      const formData = {
+        [mappingTypes.CHARACTER_OF_DISCHARGE]: discharge,
+      };
+      it(`should return true with discharge: ${discharge}`, () => {
+        const result = actions.mapBenefitFromFormInputData(benefit, formData);
+        expect(result).to.be.true;
+      });
+    });
+
+    it('should return false with incorrect discharge', () => {
+      const formData = {
+        [mappingTypes.GOALS]: formatData(invalidDischarge),
+      };
+      const result = actions.mapBenefitFromFormInputData(benefit, formData);
+      expect(result).to.be.false;
+    });
+  });
+
+  describe("State Veterans' Benefits - SVB", () => {
+    const benefit = getBenefitById('SVB');
+    const formData = {};
+    it('should return true with any input', () => {
+      const result = actions.mapBenefitFromFormInputData(benefit, formData);
+      expect(result).to.be.true;
+    });
+  });
 });
