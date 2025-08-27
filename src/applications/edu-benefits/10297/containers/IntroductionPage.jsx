@@ -53,7 +53,7 @@ const IntroductionPage = props => {
 
   return (
     <article className="schemaform-intro form-10297-introduction-page">
-      <FormTitle title="Apply for the High Technology Program" />
+      <FormTitle title="Apply for VET TEC 2.0 (high-tech program)" />
       <div>
         <p className="vads-u-margin-y--2">
           High Technology Veterans Education, Training and Skills (HITECH VETS)
