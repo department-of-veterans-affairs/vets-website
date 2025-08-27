@@ -1,5 +1,4 @@
 import React from 'react';
-import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import { cleanup, fireEvent, waitFor } from '@testing-library/react';
@@ -37,7 +36,6 @@ import * as threadDetailsActions from '../../../actions/threadDetails';
 import threadDetailsReducer from '../../fixtures/threads/reply-draft-thread-reducer.json';
 import {
   getProps,
-  selectVaRadio,
   selectVaSelect,
   checkVaCheckbox,
   comboBoxVaSelect,
@@ -137,14 +135,14 @@ describe('Compose form component', () => {
     const screen = setup(initialState, Paths.COMPOSE);
 
     const recipient = await screen.getByTestId('compose-recipient-select');
-    const categoryRadioButtons = await screen.getAllByTestId(
-      'compose-category-radio-button',
+    const categoryDropdown = await screen.getByTestId(
+      'compose-message-categories',
     );
     const subject = await screen.getByTestId('message-subject-field');
     const body = await screen.getByTestId('message-body-field');
 
     expect(recipient).to.exist;
-    expect(categoryRadioButtons.length).to.equal(6);
+    expect(categoryDropdown).to.exist;
     expect(subject).to.exist;
     expect(body).to.exist;
   });
@@ -509,10 +507,12 @@ describe('Compose form component', () => {
     );
 
     await waitFor(() => {
-      selectVaRadio(screen.container, 'COVID');
-      expect(
-        $('va-radio-option[value="COVID"]', screen.container),
-      ).to.have.attribute('checked', 'true');
+      selectVaSelect(
+        screen.container,
+        'COVID',
+        'va-select[data-testid="compose-message-categories"]',
+      );
+      expect(screen.getByTestId('compose-message-categories')).to.exist;
     });
   });
 
