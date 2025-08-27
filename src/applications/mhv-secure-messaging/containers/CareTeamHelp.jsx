@@ -1,29 +1,18 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import {
-  selectCernerFacilities,
-  selectVistaFacilities,
-} from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
+  selectIsCernerPatient,
+  selectIsCernerOnlyPatient,
+} from 'platform/user/cerner-dsot/selectors';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { Paths, PageTitles } from '../util/constants';
 
 const CareTeamHelp = () => {
-  const cernerFacilities = useSelector(selectCernerFacilities);
-  const vistaFacilities = useSelector(selectVistaFacilities);
+  const isCerner = useSelector(selectIsCernerPatient);
+  const isCernerOnly = useSelector(selectIsCernerOnlyPatient);
   const history = useHistory();
-
-  // Determine what types of health systems the user has
-  const userSystemTypes = useMemo(
-    () => {
-      const hasOracle = cernerFacilities.length > 0;
-      const hasVista = vistaFacilities.length > 0;
-
-      return { hasOracle, hasVista };
-    },
-    [cernerFacilities, vistaFacilities],
-  );
 
   // Set page title
   useEffect(() => {
@@ -31,10 +20,8 @@ const CareTeamHelp = () => {
   }, []);
 
   const renderContent = () => {
-    const { hasOracle, hasVista } = userSystemTypes;
-
     // Hybrid user - has both Oracle Health and VistA systems
-    if (hasOracle && hasVista) {
+    if (isCerner && !isCernerOnly) {
       return (
         <div>
           <h1>Can’t find your care team?</h1>
@@ -96,7 +83,7 @@ const CareTeamHelp = () => {
     }
 
     // User ONLY has Oracle Health systems
-    if (hasOracle && !hasVista) {
+    if (isCerner && isCernerOnly) {
       return (
         <div>
           <h1>Can’t find your care team?</h1>

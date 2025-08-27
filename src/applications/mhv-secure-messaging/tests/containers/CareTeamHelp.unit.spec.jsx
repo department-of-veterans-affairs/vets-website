@@ -12,6 +12,20 @@ describe('CareTeamHelp', () => {
     drupalStaticData: {
       vamcEhrData: {
         data: {
+          ehrDataByVhaId: {
+            '662': {
+              vhaId: '662',
+              vamcFacilityName: 'San Francisco VA Medical Center',
+              vamcSystemName: 'VA San Francisco health care',
+              ehr: 'vista',
+            },
+            '757': {
+              vhaId: '757',
+              vamcFacilityName: 'Chalmers P. Wylie Veterans Outpatient Clinic',
+              vamcSystemName: 'VA Central Ohio health care',
+              ehr: 'cerner',
+            },
+          },
           vistaFacilities: [
             { vhaId: '662', vamcSystemName: 'Test VistA Facility' },
           ],
@@ -19,6 +33,48 @@ describe('CareTeamHelp', () => {
             { vhaId: '757', vamcSystemName: 'Test Oracle Facility' },
           ],
         },
+      },
+    },
+    user: {
+      profile: {
+        facilities: [
+          {
+            facilityId: '662',
+            isCerner: false,
+          },
+          {
+            facilityId: '757',
+            isCerner: true,
+          },
+        ],
+      },
+    },
+  };
+
+  const oracleOnlyState = {
+    ...baseState,
+    user: {
+      profile: {
+        facilities: [
+          {
+            facilityId: '757',
+            isCerner: true,
+          },
+        ],
+      },
+    },
+  };
+
+  const vistaOnlyState = {
+    ...baseState,
+    user: {
+      profile: {
+        facilities: [
+          {
+            facilityId: '662',
+            isCerner: false,
+          },
+        ],
       },
     },
   };
@@ -42,19 +98,6 @@ describe('CareTeamHelp', () => {
   });
 
   it('shows VistA-only content when user has only VistA systems', () => {
-    const vistaOnlyState = {
-      drupalStaticData: {
-        vamcEhrData: {
-          data: {
-            vistaFacilities: [
-              { vhaId: '662', vamcSystemName: 'Test VistA Facility' },
-            ],
-            cernerFacilities: [],
-          },
-        },
-      },
-    };
-
     const screen = setup(vistaOnlyState);
 
     // Check for VistA-specific content
@@ -78,19 +121,6 @@ describe('CareTeamHelp', () => {
   });
 
   it('shows Oracle-only content when user has only Oracle Health systems', () => {
-    const oracleOnlyState = {
-      drupalStaticData: {
-        vamcEhrData: {
-          data: {
-            vistaFacilities: [],
-            cernerFacilities: [
-              { vhaId: '757', vamcSystemName: 'Test Oracle Facility' },
-            ],
-          },
-        },
-      },
-    };
-
     const screen = setup(oracleOnlyState);
 
     // Check for Oracle-specific content
@@ -169,8 +199,11 @@ describe('CareTeamHelp', () => {
 
   it('handles edge case when vamcEhrData is missing', () => {
     const missingEhrDataState = {
-      drupalStaticData: {
-        vamcEhrData: {},
+      ...baseState,
+      user: {
+        profile: {
+          facilities: [],
+        },
       },
     };
 
@@ -185,23 +218,7 @@ describe('CareTeamHelp', () => {
   });
 
   it('renders content for mixed EHR systems with multiple facilities', () => {
-    const mixedSystemsState = {
-      drupalStaticData: {
-        vamcEhrData: {
-          data: {
-            vistaFacilities: [
-              { vhaId: '662', vamcSystemName: 'Test VistA Facility' },
-              { vhaId: '123', vamcSystemName: 'Test Unknown Facility' },
-            ],
-            cernerFacilities: [
-              { vhaId: '757', vamcSystemName: 'Test Oracle Facility' },
-            ],
-          },
-        },
-      },
-    };
-
-    const screen = setup(mixedSystemsState);
+    const screen = setup(baseState);
 
     // Verify the page renders correctly with mixed systems
     expect(screen.getByRole('heading', { level: 1 })).to.exist;
