@@ -1,7 +1,7 @@
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
-import { fireEvent } from '@testing-library/react';
+import { fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import reducer from '../../reducers';
 import { Paths } from '../../util/constants';
@@ -227,5 +227,57 @@ describe('CareTeamHelp', () => {
     // Should have at least one "Update your contact list" link
     const updateLinks = screen.getAllByText(/Update your contact list/);
     expect(updateLinks.length).to.be.greaterThan(0);
+  });
+
+  it('redirects users to interstitial page if interstitial not accepted', async () => {
+    const oldLocation = global.window.location;
+    global.window.location = {
+      replace: sinon.spy(),
+    };
+
+    const customState = {
+      ...baseState,
+      sm: {
+        ...baseState.sm,
+        threadDetails: {
+          acceptInterstitial: false,
+          draftInProgress: {},
+        },
+      },
+    };
+
+    const { history } = setup(customState);
+
+    await waitFor(() => {
+      expect(history.location.pathname).to.equal('/new-message/');
+    });
+
+    global.window.location = oldLocation;
+  });
+
+  it('does not redirect users to interstitial page if interstitial not accepted', async () => {
+    const oldLocation = global.window.location;
+    global.window.location = {
+      replace: sinon.spy(),
+    };
+
+    const customState = {
+      ...baseState,
+      sm: {
+        ...baseState.sm,
+        threadDetails: {
+          acceptInterstitial: true,
+          draftInProgress: {},
+        },
+      },
+    };
+
+    setup(customState);
+
+    await waitFor(() => {
+      expect(window.location.replace.called).to.be.false;
+    });
+
+    global.window.location = oldLocation;
   });
 });

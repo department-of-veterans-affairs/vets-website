@@ -488,7 +488,6 @@ describe('SelectCareTeam', () => {
     global.window.location = {
       replace: sinon.spy(),
     };
-    window.location.replace = sinon.spy();
 
     const customState = {
       ...initialState,
@@ -519,7 +518,6 @@ describe('SelectCareTeam', () => {
     global.window.location = {
       replace: sinon.spy(),
     };
-    window.location.replace = sinon.spy();
 
     const customState = {
       ...initialState,
