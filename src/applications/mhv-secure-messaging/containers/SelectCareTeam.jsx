@@ -11,6 +11,7 @@ import {
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
 import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
+import { populatedDraft } from '../selectors';
 import { ErrorMessages, Paths } from '../util/constants';
 import RecipientsSelect from '../components/ComposeForm/RecipientsSelect';
 import EmergencyNote from '../components/EmergencyNote';
@@ -28,7 +29,10 @@ const SelectCareTeam = () => {
     allowedRecipients,
   } = useSelector(state => state.sm.recipients);
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
-  const { draftInProgress } = useSelector(state => state.sm.threadDetails);
+  const { draftInProgress, acceptInterstitial } = useSelector(
+    state => state.sm.threadDetails,
+  );
+  const validDraft = useSelector(populatedDraft);
 
   const [careTeamError, setCareTeamError] = useState('');
   const [careTeamsList, setCareTeamsList] = useState([]);
@@ -42,15 +46,25 @@ const SelectCareTeam = () => {
 
   const MAX_RADIO_OPTIONS = 6;
 
+  useEffect(
+    () => {
+      if (!acceptInterstitial && !validDraft) history.push(Paths.COMPOSE);
+    },
+    [acceptInterstitial, validDraft, history],
+  );
+
   // On initial load, always clear the active care system
   // This ensures that if the user navigates back to this page, they will see
   // all care teams without being filtered by the active care system
   // If they have an active care team, we set that as the selected care team
-  useEffect(() => {
-    if (draftInProgress?.recipientId) {
-      setSelectedCareTeamId(draftInProgress.recipientId);
-    }
-  }, []);
+  useEffect(
+    () => {
+      if (draftInProgress?.recipientId) {
+        setSelectedCareTeamId(draftInProgress.recipientId);
+      }
+    },
+    [draftInProgress.recipientId],
+  );
 
   const careTeamHandler = useCallback(
     recipient => {
@@ -378,7 +392,9 @@ const SelectCareTeam = () => {
         </div>
         <div className="vads-u-margin-top--2">
           <p className="vads-u-margin-bottom--1">
-            <Link to="/">What to do if you can’t find your care team</Link>
+            <Link to={Paths.CARE_TEAM_HELP}>
+              What to do if you can’t find your care team
+            </Link>
           </p>
         </div>
         {showContactListLink && (

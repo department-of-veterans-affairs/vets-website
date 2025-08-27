@@ -2,11 +2,12 @@ import { formatInTimeZone } from 'date-fns-tz';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { getAppointmentTimezone } from '../../services/appointment';
+import { DATE_FORMATS } from '../../utils/constants';
 
 export function AppointmentDate({
   date,
   timezone,
-  format = 'EEEE, MMMM d, yyyy',
+  format = DATE_FORMATS.friendlyWeekdayDate,
 }) {
   return (
     <span data-dd-privacy="mask">

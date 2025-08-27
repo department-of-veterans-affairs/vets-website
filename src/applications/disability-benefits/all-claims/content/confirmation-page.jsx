@@ -53,7 +53,7 @@ export const dependentsAdditionalBenefits = (
       additional payments.
     </p>
     <va-link-action
-      href="https://www.va.gov/view-change-dependents/"
+      href="https://www.va.gov/manage-dependents/"
       text="Apply online to add a dependent"
       type="secondary"
     />

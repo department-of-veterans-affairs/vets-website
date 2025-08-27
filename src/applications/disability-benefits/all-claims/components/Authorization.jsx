@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { fromUnixTime } from 'date-fns';
-import { formatInTimeZone } from 'date-fns-tz';
 import { scrollTo } from 'platform/utilities/scroll';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
@@ -15,28 +13,13 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from 'platform/monitoring/record-event';
 import PropTypes from 'prop-types';
-import AuthorizationAlert from './AuthorizationAlert';
 import { PrivacyActStatementContent } from './privacyActStatementContent';
-
-export const lastUpdatedIsBeforeCutoff = lastUpdated => {
-  const formattedLastUpdated = formatInTimeZone(
-    fromUnixTime(lastUpdated),
-    'America/Chicago',
-    'yyyy-MM-dd HH:mm:ss',
-  );
-
-  if (!formattedLastUpdated) {
-    return false;
-  }
-
-  const CUTOFF_DATE_4142 = '2025-06-25 09:00:00'; // CST
-
-  return formattedLastUpdated < CUTOFF_DATE_4142;
-};
 
 const AUTHORIZATION_LABEL =
   'I acknowledge and authorize this release of information';
 
+const AUTH_ERROR =
+  'Select the checkbox to authorize us to get your non-VA medical records';
 const PrivateRecordsAuthorization = ({
   data,
   goBack,
@@ -73,11 +56,6 @@ const PrivateRecordsAuthorization = ({
     [hasError],
   );
 
-  const focusOnAlert = () => {
-    scrollTo('topScrollElement');
-    waitForRenderThenFocus('va-alert h3');
-  };
-
   const handlers = {
     onSubmit: event => {
       // This prevents this nested form submit event from passing to the
@@ -97,6 +75,14 @@ const PrivateRecordsAuthorization = ({
         setHasError(false);
       }
     },
+    reviewAndSubmitUpdate: () => {
+      if (data?.patient4142Acknowledgement) {
+        setHasError(false);
+        updatePage();
+      } else {
+        setHasError(true);
+      }
+    },
     onGoForward: () => {
       // Validation ONLY happens on form submission attempt
       if (data?.patient4142Acknowledgement) {
@@ -105,7 +91,6 @@ const PrivateRecordsAuthorization = ({
       } else {
         // Show error and move focus ONLY when Continue is clicked without checkbox
         setHasError(true);
-        focusOnAlert();
       }
     },
   };
@@ -113,11 +98,10 @@ const PrivateRecordsAuthorization = ({
   const focusSection = (_, element) => {
     const focusedElement = document.querySelector(element);
 
-    focusElement(element);
-
     if (focusedElement.getAttribute('open') === 'false') {
       focusedElement.setAttribute('open', 'true');
     }
+    focusElement(element);
   };
 
   const privacyModalButton = (
@@ -132,7 +116,7 @@ const PrivateRecordsAuthorization = ({
     <>
       {onReviewPage ? (
         <va-button
-          onClick={updatePage}
+          onClick={handlers.reviewAndSubmitUpdate}
           label="Update behavior questions choice"
           text="Update page"
         />
@@ -144,19 +128,13 @@ const PrivateRecordsAuthorization = ({
 
   return (
     <>
-      {hasError && (
-        <AuthorizationAlert
-          hasError={hasError}
-          onAnchorClick={handlers.onAnchorClick}
-        />
-      )}
       <h3>Authorize the release of non-VA medical records to VA</h3>
       <p>
         Only provide this authorization if you want The Department of Veterans
-        Affairs (VA) to obtain non-VA medical records on your behalf. If you’ve
+        Affairs (VA) to get your non-VA treatment records for you. If you’ve
         already provided these records or intend to get them yourself, there’s
-        no need to fill out this authorization. Doing so will lengthen your
-        claim processing time.
+        no need to fill out this authorization. Doing so may increase your claim
+        processing time.
       </p>
       <va-accordion>
         <va-accordion-item
@@ -260,36 +238,6 @@ const PrivateRecordsAuthorization = ({
             section 1707).
           </p>
         </va-accordion-item>
-        <va-accordion-item
-          header="6. Submitting evidence and other mail"
-          level="4"
-          open
-        >
-          <p className="vads-u-margin-top--0">
-            You’ll have the option to upload documents later in this form. Or,
-            you can upload them later on{' '}
-            <va-link href="https://www.va.gov" text="VA.gov" />.
-          </p>
-          <p>
-            Documents may be submitted by mail, in person at a VA regional
-            office, or electronically. However, VA recommends submitting
-            correspondence electronically as this is the fastest method of
-            receipt.
-          </p>
-          <h5>Send by mail</h5>
-          <p className="va-address-block vads-u-margin-top--3">
-            Department of Veterans Affairs
-            <br />
-            Evidence Intake Center
-            <br />
-            PO Box 4444
-            <br />
-            Janesville, WI 53547-4444
-          </p>
-          <p className="vads-u-margin-bottom--0">
-            This address serves all United States and foreign locations.
-          </p>
-        </va-accordion-item>
       </va-accordion>
       <div className="hipaa-privacy-agreement vads-u-padding-x--3 vads-u-padding-top--3 vads-u-padding-bottom--2 vads-u-margin-top--3">
         <form onSubmit={handlers.onGoForward}>
@@ -346,7 +294,7 @@ const PrivateRecordsAuthorization = ({
             <p>
               I voluntarily authorize and request disclosure (including paper,
               oral, and electronic interchange) of:{' '}
-              <strong>All my medical records</strong>; including information
+              <strong>All my treatment records</strong>; including information
               related to my ability to perform tasks of daily living. This
               includes specific permission to release:
             </p>
@@ -428,7 +376,7 @@ const PrivateRecordsAuthorization = ({
                 information may be re-disclosed to other parties (review{' '}
                 <va-link
                   href="#acknowledgement"
-                  onClick={e => focusElement(e, '#acknowledgement')}
+                  onClick={e => focusSection(e, '#acknowledgement')}
                   text="Acknowledgment and HIPAA compliance"
                 />
                 ).
@@ -438,7 +386,7 @@ const PrivateRecordsAuthorization = ({
                 at any time (review{' '}
                 <va-link
                   href="#section-one"
-                  onClick={e => focusElement(e, '#section-one')}
+                  onClick={e => focusSection(e, '#section-one')}
                   text="Section 1. Expiration and
               how to cancel authorization"
                 />
@@ -463,7 +411,7 @@ const PrivateRecordsAuthorization = ({
                 className="vads-u-font-weight--bold vads-u-margin-top--3"
                 id="privacy-agreement"
                 name="privacy-agreement"
-                error={hasError ? ' ' : ''}
+                error={hasError ? AUTH_ERROR : ''}
                 label={AUTHORIZATION_LABEL}
                 checked={data?.patient4142Acknowledgement || false}
                 onVaChange={handlers.onChange}
@@ -499,7 +447,10 @@ const PrivateRecordsAuthorization = ({
   );
 };
 
-PrivateRecordsAuthorization.prototype = {
+PrivateRecordsAuthorization.propTypes = {
+  data: PropTypes.shape({
+    patient4142Acknowledgement: PropTypes.bool,
+  }).isRequired,
   contentAfterButtons: PropTypes.element,
   contentBeforeButtons: PropTypes.element,
   goBack: PropTypes.func,
@@ -507,7 +458,6 @@ PrivateRecordsAuthorization.prototype = {
   goToPath: PropTypes.func,
   pagePerItemIndex: PropTypes.number,
   setFormData: PropTypes.func,
-  data: PropTypes.object.isRequired,
   formData: PropTypes.object,
   testingIndex: PropTypes.number,
   updatePage: PropTypes.func,

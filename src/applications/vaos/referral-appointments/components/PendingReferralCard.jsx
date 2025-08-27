@@ -83,7 +83,7 @@ const PendingReferralCard = ({ referral, index }) => {
                 id={`ref-desc-${index}`}
                 className="vaos-appts__display--table-cell vads-u-display--flex vads-u-align-items--center"
               >
-                {`We’ve approved your community care referral. You must schedule all appointments for this referral by ${expiration}.`}
+                {`You must schedule all appointments for this referral by ${expiration}.`}
               </span>
             </div>
             <div className="vaos-hide-for-print vads-u-padding--0p5">
