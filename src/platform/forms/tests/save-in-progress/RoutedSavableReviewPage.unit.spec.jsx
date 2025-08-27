@@ -77,9 +77,11 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
   });
 
   it('should render h1 header if minimal header is present', () => {
-    const minimalHeader = document.createElement('div');
-    minimalHeader.id = 'header-minimal';
-    document.body.appendChild(minimalHeader);
+    // Ensure clean state before test
+    const existingMinimalHeader = document.getElementById('header-minimal');
+    if (existingMinimalHeader) {
+      document.body.removeChild(existingMinimalHeader);
+    }
 
     const formConfig = {
       chapters: {
@@ -114,54 +116,81 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
       },
     };
 
-    const treeWithMinimalHeader = shallow(
-      <RoutedSavableReviewPage
-        form={form}
-        user={user}
-        formConfig={formConfig}
-        formContext={{}}
-        pageList={[]}
-        path="test-path"
-        route={{
-          formConfig,
-          pageConfig: {},
-          pageList: [],
-        }}
-        location={{ pathname: '/test' }}
-        showLoginModal={false}
-        autoSaveForm={() => {}}
-        toggleLoginModal={() => {}}
-        setPrivacyAgreement={f => f}
-      />,
-    );
+    // Test WITH minimal header
+    const minimalHeader = document.createElement('div');
+    minimalHeader.id = 'header-minimal';
+    document.body.appendChild(minimalHeader);
 
-    expect(treeWithMinimalHeader.find('h1').exists()).to.be.true;
-    treeWithMinimalHeader.unmount();
-    document.body.removeChild(minimalHeader);
+    let treeWithMinimalHeader;
+    let hasH1WithHeader;
+    try {
+      treeWithMinimalHeader = shallow(
+        <RoutedSavableReviewPage
+          form={form}
+          user={user}
+          formConfig={formConfig}
+          formContext={{}}
+          pageList={[]}
+          path="test-path"
+          route={{
+            formConfig,
+            pageConfig: {},
+            pageList: [],
+          }}
+          location={{ pathname: '/test' }}
+          showLoginModal={false}
+          autoSaveForm={() => {}}
+          toggleLoginModal={() => {}}
+        />,
+      );
 
-    const treeWithoutMinimalHeader = shallow(
-      <RoutedSavableReviewPage
-        form={form}
-        user={user}
-        formConfig={formConfig}
-        formContext={{}}
-        pageList={[]}
-        path="test-path"
-        route={{
-          formConfig,
-          pageConfig: {},
-          pageList: [],
-        }}
-        location={{ pathname: '/test' }}
-        showLoginModal={false}
-        autoSaveForm={() => {}}
-        toggleLoginModal={() => {}}
-        setPrivacyAgreement={f => f}
-      />,
-    );
+      hasH1WithHeader = treeWithMinimalHeader.find('h1').exists();
+    } finally {
+      if (treeWithMinimalHeader) {
+        treeWithMinimalHeader.unmount();
+      }
+      // Clean up DOM
+      if (document.getElementById('header-minimal')) {
+        document.body.removeChild(document.getElementById('header-minimal'));
+      }
+    }
 
-    expect(treeWithoutMinimalHeader.find('h1').exists()).to.be.false;
-    treeWithoutMinimalHeader.unmount();
+    // Assertion OUTSIDE try block so it can fail the test
+    expect(hasH1WithHeader).to.be.true;
+
+    // Test WITHOUT minimal header
+    let treeWithoutMinimalHeader;
+    let hasH1WithoutHeader;
+    try {
+      treeWithoutMinimalHeader = shallow(
+        <RoutedSavableReviewPage
+          form={form}
+          user={user}
+          formConfig={formConfig}
+          formContext={{}}
+          pageList={[]}
+          path="test-path"
+          route={{
+            formConfig,
+            pageConfig: {},
+            pageList: [],
+          }}
+          location={{ pathname: '/test' }}
+          showLoginModal={false}
+          autoSaveForm={() => {}}
+          toggleLoginModal={() => {}}
+        />,
+      );
+
+      hasH1WithoutHeader = treeWithoutMinimalHeader.find('h1').exists();
+    } finally {
+      if (treeWithoutMinimalHeader) {
+        treeWithoutMinimalHeader.unmount();
+      }
+    }
+
+    // Assertion OUTSIDE try block so it can fail the test
+    expect(hasH1WithoutHeader).to.be.false;
   });
 
   it('should auto save after change', () => {
