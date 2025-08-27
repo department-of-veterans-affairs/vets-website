@@ -1,8 +1,8 @@
-/* eslint-disable no-console */
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
+import * as headerFns from 'platform/forms-system/src/js/patterns/minimal-header';
 
 import { RoutedSavableReviewPage } from '../../save-in-progress/RoutedSavableReviewPage';
 
@@ -79,11 +79,8 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
   });
 
   it('should render h1 header if minimal header is present', () => {
-    // Clean up any existing minimal header first
-    const existingMinimalHeader = document.getElementById('header-minimal');
-    if (existingMinimalHeader) {
-      document.body.removeChild(existingMinimalHeader);
-    }
+    // creating divs not reliable in ci
+    const stub = sinon.stub(headerFns, 'isMinimalHeaderApp').returns(true);
 
     const formConfig = {
       chapters: {
@@ -118,58 +115,31 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
       },
     };
 
-    // Create the minimal header FIRST, before component renders
-    const minimalHeader = document.createElement('div');
-    minimalHeader.id = 'header-minimal';
-    document.body.appendChild(minimalHeader);
+    try {
+      const treeWithMinimalHeader = shallow(
+        <RoutedSavableReviewPage
+          form={form}
+          user={user}
+          formConfig={formConfig}
+          formContext={{}}
+          pageList={[]}
+          path="test-path"
+          route={{
+            formConfig,
+            pageConfig: {},
+            pageList: [],
+          }}
+          location={{ pathname: '/test' }}
+          showLoginModal={false}
+          autoSaveForm={() => {}}
+          toggleLoginModal={() => {}}
+        />,
+      );
 
-    // Verify it's actually there
-    console.log(
-      'Minimal header exists before render:',
-      !!document.getElementById('header-minimal'),
-    );
-
-    // Debug the isMinimalHeaderApp function itself
-    const {
-      isMinimalHeaderApp,
-    } = require('platform/forms-system/src/js/patterns/minimal-header');
-    console.log('isMinimalHeaderApp() returns:', isMinimalHeaderApp());
-    console.log(
-      'document.getElementById("header-minimal"):',
-      document.getElementById('header-minimal'),
-    );
-
-    const treeWithMinimalHeader = shallow(
-      <RoutedSavableReviewPage
-        form={form}
-        user={user}
-        formConfig={formConfig}
-        formContext={{}}
-        pageList={[]}
-        path="test-path"
-        route={{
-          formConfig,
-          pageConfig: {},
-          pageList: [],
-        }}
-        location={{ pathname: '/test' }}
-        showLoginModal={false}
-        autoSaveForm={() => {}}
-        toggleLoginModal={() => {}}
-      />,
-    );
-
-    console.log('=== COMPONENT OUTPUT ===');
-    console.log(treeWithMinimalHeader.debug());
-    console.log('H1 elements found:', treeWithMinimalHeader.find('h1').length);
-
-    expect(treeWithMinimalHeader.find('h1').exists()).to.be.true;
-
-    treeWithMinimalHeader.unmount();
-
-    // Clean up the header
-    if (document.getElementById('header-minimal')) {
-      document.body.removeChild(document.getElementById('header-minimal'));
+      expect(treeWithMinimalHeader.find('h1').exists()).to.be.true;
+      treeWithMinimalHeader.unmount();
+    } finally {
+      stub.restore();
     }
   });
   it('should not render h1 header if minimal header is not present', () => {
