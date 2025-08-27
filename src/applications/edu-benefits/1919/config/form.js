@@ -1,12 +1,10 @@
 import React from 'react';
 
+import environment from 'platform/utilities/environment';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
-import environment from 'platform/utilities/environment';
 import { focusElement } from 'platform/utilities/ui';
 import { scrollToTop } from 'platform/utilities/scroll';
-import submitForm from './submitForm';
-import transform from './transform';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -33,6 +31,17 @@ import {
 } from '../pages';
 import SubmissionInstructions from '../components/SubmissionInstructions';
 
+import { SUBMIT_URL } from './constants';
+import submitForm from './submitForm';
+import { transform } from './submit-transformer';
+
+export const submitFormLogic = (form, formConfig) => {
+  if (environment.isDev() || environment.isLocalhost()) {
+    return Promise.resolve({ attributes: { confirmationNumber: '123123123' } });
+  }
+  return submitForm(form, formConfig);
+};
+
 export const confirmFormLogic = ({ router, route }) => (
   <ConfirmationPage router={router} route={route} />
 );
@@ -47,8 +56,11 @@ const scrollAndFocusTarget = () => {
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/v0/education_benefits_claims/1919`,
-  submit: submitForm,
+  // submitUrl: '/v0/api',
+  // submit: () =>
+  //   Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: SUBMIT_URL,
+  submit: submitFormLogic,
   trackingPrefix: 'Edu-1919-',
   introduction: IntroductionPage,
   confirmation: confirmFormLogic,

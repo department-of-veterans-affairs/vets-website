@@ -46,7 +46,7 @@ describe('InstitutionAddress component', () => {
   it('should show placeholder when institution address is not found', () => {
     const store = mockStore({
       institutionDetails: {
-        address: {},
+        institutionAddress: {},
         loader: false,
       },
     });

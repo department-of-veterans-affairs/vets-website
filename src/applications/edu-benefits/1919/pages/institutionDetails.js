@@ -60,7 +60,7 @@ const schema = {
         institutionName: {
           type: 'string',
         },
-        institutionAddress: addressSchema(),
+        institutionAddress: addressSchema({ omit: ['isMilitary'] }),
       },
     },
   },
