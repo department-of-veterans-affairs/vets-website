@@ -11,6 +11,7 @@ import { waitFor } from '@testing-library/dom';
 import App from '../../containers/App';
 import * as SmApi from '../../api/SmApi';
 import reducer from '../../reducers';
+import { Paths } from '../../util/constants';
 
 describe('App', () => {
   let oldLocation;
@@ -331,6 +332,57 @@ describe('App', () => {
       reducers: reducer,
       path: `/sdfsdf`,
     });
+    await waitFor(() => {
+      expect(screen.getByTestId('mhv-page-not-found')).to.exist;
+      expect(
+        screen.getByText(pageNotFoundHeading, {
+          selector: 'h1',
+          exact: true,
+        }),
+      ).to.exist;
+    });
+  });
+
+  it('renders CareTeamHelp when cerner pilot feature flag is enabled', async () => {
+    const customState = {
+      ...initialState,
+      featureToggles: {},
+    };
+    customState.featureToggles[
+      FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot
+    ] = true;
+
+    const screen = renderWithStoreAndRouter(<App />, {
+      initialState: customState,
+      reducers: reducer,
+      path: Paths.CARE_TEAM_HELP,
+    });
+
+    await waitFor(() => {
+      expect(
+        screen.getByRole('heading', {
+          // Avoid exact apostrophe issues by using a regex
+          name: /can.?t find your care team\?/i,
+        }),
+      ).to.exist;
+    });
+  });
+
+  it('does not render CareTeamHelp when cerner pilot feature flag is disabled', async () => {
+    const customState = {
+      ...initialState,
+      featureToggles: {},
+    };
+    customState.featureToggles[
+      FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot
+    ] = false;
+
+    const screen = renderWithStoreAndRouter(<App />, {
+      initialState: customState,
+      reducers: reducer,
+      path: Paths.CARE_TEAM_HELP,
+    });
+
     await waitFor(() => {
       expect(screen.getByTestId('mhv-page-not-found')).to.exist;
       expect(
