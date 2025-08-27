@@ -48,7 +48,7 @@ import EmergencyNote from '../EmergencyNote';
 import ComposeFormActionButtons from './ComposeFormActionButtons';
 import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
 import ViewOnlyDraftSection from './ViewOnlyDraftSection';
-import { RadioCategories } from '../../util/inputContants';
+import { Categories } from '../../util/inputContants';
 import { getCategories } from '../../actions/categories';
 import ElectronicSignature from './ElectronicSignature';
 import RecipientsSelect from './RecipientsSelect';
@@ -924,8 +924,8 @@ const ComposeForm = props => {
             {noAssociations || allTriageGroupsBlocked ? (
               <ViewOnlyDraftSection
                 title={FormLabels.CATEGORY}
-                body={`${RadioCategories[(draft?.category)].label}: ${
-                  RadioCategories[(draft?.category)].description
+                body={`${Categories[(draft?.category)].label}: ${
+                  Categories[(draft?.category)].description
                 }`}
               />
             ) : (
