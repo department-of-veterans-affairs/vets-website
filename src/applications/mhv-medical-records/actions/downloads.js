@@ -36,19 +36,20 @@ export const genAndDownloadCCD = (
       const response = await downloadCCD(timestamp, fileType);
 
       // decide how to read response
-      let blob;
-      if (fileType === 'xml') {
-        const xmlString = await response.text();
-        blob = new Blob([xmlString], { type: 'application/xml' });
-      } else if (fileType === 'html') {
-        blob = await response.blob();
-        // ensure mime type
-        blob = new Blob([blob], { type: 'text/html' });
-      } else if (fileType === 'pdf') {
-        blob = await response.blob();
-        // ensure mime type
-        blob = new Blob([blob], { type: 'application/pdf' });
+      const ext = String(fileType).toLowerCase();
+      const mediaTypeMap = {
+        xml: 'application/xml;charset=utf-8',
+        html: 'text/html;charset=utf-8',
+        pdf: 'application/pdf',
+      };
+      if (!mediaTypeMap[ext]) {
+        throw new Error(`Unsupported file type: ${ext}`);
       }
+
+      let blob = await response.blob();
+      blob = blob.type
+        ? blob
+        : blob.slice(0, blob.size, mediaTypeMap[fileType]);
 
       // download the xml to the user
       dispatch({ type: Actions.Downloads.DOWNLOAD_CCD, response: timestamp });
