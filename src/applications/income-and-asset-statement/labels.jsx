@@ -26,6 +26,23 @@ export const transferMethodLabels = {
   OTHER: 'Other',
 };
 
+export const custodianRelationshipLabels = {
+  CUSTODIAN: 'Child’s custodian',
+  SPOUSE: 'Custodian’s spouse',
+  CHILD: 'Veteran’s surviving child',
+  OTHER: 'Another dependent not listed here',
+};
+
+export const parentRelationshipLabels = {
+  PARENT: 'Me',
+  SPOUSE: 'My spouse',
+  OTHER: 'Another dependent not listed here',
+};
+
+export const parentRelationshipLabelDescriptions = {
+  SPOUSE: 'The Veteran’s other parent should file a separate claim',
+};
+
 export const claimantTypeLabels = {
   VETERAN: "I'm a Veteran submitting this form to support my own claim",
   SPOUSE: "I'm the Veteran's surviving spouse",
@@ -72,4 +89,13 @@ export const trustTypeLabels = {
   REVOCABLE: 'Revocable',
   IRREVOCABLE: 'Irrevocable',
   BURIAL: 'Burial trust',
+};
+
+export const yesNoLabelsIncome = {
+  Y: 'Yes, I have income to report',
+  N: 'No, I don’t have any income to report',
+};
+export const yesNoLabels = {
+  Y: 'Yes',
+  N: 'No',
 };
