@@ -126,25 +126,6 @@ export const getStartLink = card => {
 };
 
 /**
- * Used to determine the correct text for the
- * "You cannot request more than 1 ___ on the same issue"
- * text on "Good Fit" cards
- * @param {String} card - The card type (e.g. CARD_HLR)
- * @returns {String} - The matching title (e.g. Higher-Level Review)
- */
-export const getLimitOneText = card => {
-  if (card === c.CARD_HLR) {
-    return c.TITLE_HLR;
-  }
-
-  if (card.includes('BOARD')) {
-    return c.TITLE_BOARD;
-  }
-
-  return null;
-};
-
-/**
  * Used for determining whether the Court of Appeals card should show
  * @param {Object} formResponses - All the form answers in the Redux store
  * @returns {JSX|null}
