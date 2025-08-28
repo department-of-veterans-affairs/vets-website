@@ -106,7 +106,7 @@ import create107959F2Access from './ivc-champva/10-7959f-2/entry';
 
 import './mhv-signin-cta/sass/mhv-signin-cta.scss';
 import createMhvSigninCallToAction from './mhv-signin-cta/createMhvSigninCTA';
-import createDependentsVerificationHowToVerify from './dependents-verification/createDependentsVerificationHowToVerify';
+import createDependentsVerificationHowToVerify from './dependents-verification';
 
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';

@@ -1,9 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { getAppUrl } from 'platform/utilities/registry-helpers';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 
-export const App = ({ formEnabled }) => {
+export const App = () => {
+  const {
+    useToggleValue,
+    useToggleLoadingValue,
+    TOGGLE_NAMES,
+  } = useFeatureToggle();
+  const isLoadingFeatures = useToggleLoadingValue();
+  const formEnabled = useToggleValue(TOGGLE_NAMES.vaDependentsVerification);
+
+  if (isLoadingFeatures) {
+    return <va-loading-indicator label="Loading" message="Loading..." />;
+  }
   return (
     <div className="dependents-verification-widget">
       {formEnabled ? (
@@ -80,10 +91,4 @@ App.propTypes = {
   formEnabled: PropTypes.bool,
 };
 
-const mapStateToProps = state => {
-  return {
-    formEnabled: state.featureToggles.vaDependentsVerification || false,
-  };
-};
-
-export default connect(mapStateToProps)(App);
+export default App;

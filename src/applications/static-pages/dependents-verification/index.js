@@ -8,7 +8,7 @@ export default function createDependentsVerificationHowToVerify(
 ) {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
   if (root) {
-    import(/* webpackChunkName: "burial-how-do-i-apply-widget" */
+    import(/* webpackChunkName: "dependents-verification-how-to-verify" */
     './components/App').then(module => {
       const App = module.default;
       ReactDOM.render(
