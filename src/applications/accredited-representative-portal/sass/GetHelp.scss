@@ -4,10 +4,7 @@
   }
 
   .left-section {
-    padding-right: 24px;
-    @media screen and (min-width: 768px) {
-      min-width: 634px;
-    }
+    padding-right: 7px;
   }
 
   h1 {
@@ -47,9 +44,7 @@
   }
 
   .contact-us {
-    @media screen and (min-width: 768px) {
-      min-width: 316px;
-    }
+    padding-left: 17px;
     h3.no-spacing-top {
       margin-top: 0px;
     }

@@ -60,7 +60,9 @@ export const Nav = () => {
             <Toggler.Enabled>
               <Link
                 to="/get-help"
-                className="usa-button-secondary heading-help-link"
+                className={`usa-button-secondary heading-help-link ${
+                  profile ? 'logged-in' : ''
+                }`}
                 data-testid="heading-help-link"
                 onClick={recordDatalayerEvent}
                 data-eventname="nav-link-click"

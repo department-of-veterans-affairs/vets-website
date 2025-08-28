@@ -2,6 +2,12 @@
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 
 .header {
+  @media screen and (max-width: 428px) {
+    button.nav__btn--user {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+  }
   min-height: auto;
   -webkit-font-smoothing: antialiased;
 
@@ -57,6 +63,16 @@
       text-decoration: none;
       margin-right: 12px;
       border-radius: 4px;
+
+      &.logged-in {
+        @media screen and (max-width: 768px) {
+          transform: translateY(-6px);
+        }
+        @media screen and (max-width: 425px) {
+          padding-right: 0px;
+          margin-right: 0px;
+        }
+      }
     }
 
     .arp-profile-dropdown {
