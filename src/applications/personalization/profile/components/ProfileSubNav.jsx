@@ -48,7 +48,6 @@ const ProfileSubNav = ({ isInMVI, isLOA3, routes, clickHandler = null }) => {
       const button = mobileNavRef.current.shadowRoot
         ?.querySelector('va-accordion > va-accordion-item')
         ?.shadowRoot?.querySelector('button');
-
       button.click();
     }
   };
