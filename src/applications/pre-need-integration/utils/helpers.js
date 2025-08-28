@@ -1393,6 +1393,9 @@ export function getCemeteries() {
         Sentry.captureException(error);
         Sentry.captureMessage('vets_preneed_cemeteries_error');
       }
+
+      // May change this to a reject later, depending on how we want
+      // to surface errors in autosuggest field (Kenny)
       return Promise.resolve([]);
     });
 }
