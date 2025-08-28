@@ -223,6 +223,22 @@ export const getRecordType = record => {
   return noteTypes.OTHER;
 };
 
+export const getRecordTypeFromLiocCodes = codes => {
+  const typeMapping = {
+    [loincCodes.DISCHARGE_SUMMARY]: noteTypes.DISCHARGE_SUMMARY,
+    [loincCodes.PHYSICIAN_PROCEDURE_NOTE]: noteTypes.PHYSICIAN_PROCEDURE_NOTE,
+    [loincCodes.CONSULT_RESULT]: noteTypes.CONSULT_RESULT,
+  };
+
+  for (const [code, noteType] of Object.entries(typeMapping)) {
+    if (codes.includes(code)) {
+      return noteType;
+    }
+  }
+
+  return noteTypes.OTHER;
+};
+
 /**
  * Maps each record type to a converter function
  */
@@ -264,13 +280,11 @@ const convertUnifiedCareSummariesAndNotesRecord = record => {
         formattedDischargeDate.formattedTime
       }`
     : '';
-
+  const entryType = getRecordTypeFromLiocCodes(record.attributes.loincCodes);
   return {
     id: record.id,
     name: record.attributes.name || EMPTY_FIELD,
-    type: record.attributes.loincCodes
-      ? record.attributes.loincCodes[0]
-      : EMPTY_FIELD,
+    type: entryType || EMPTY_FIELD,
     loincCodes: record.attributes.loincCodes || [],
     date: noteDate || EMPTY_FIELD,
     dateSigned: record.attributes.dateSigned || EMPTY_FIELD,
