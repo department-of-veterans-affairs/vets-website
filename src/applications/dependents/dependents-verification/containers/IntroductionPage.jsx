@@ -9,6 +9,10 @@ import Gateway from '../components/Gateway';
 import { TITLE, SUBTITLE } from '../constants';
 import { PRIVACY_ACT_NOTICE } from '../helpers';
 
+import manifest from '../manifest.json';
+
+import { getRootParentUrl } from '../../shared/utils';
+
 const OMB_RES_BURDEN = 10;
 const OMB_NUMBER = '2900-0500';
 const OMB_EXP_DATE = '1/31/2027';
@@ -23,7 +27,7 @@ const ProcessList = () => {
         </p>
         <va-link
           text=" Not sure? Check your VA dependents."
-          href="/manage-dependents/"
+          href={getRootParentUrl(manifest.rootUrl)}
         />
       </va-process-list-item>
       <va-process-list-item header="Review your active dependents and your information">

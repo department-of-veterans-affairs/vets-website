@@ -29,7 +29,7 @@ const ProcessList = () => {
           </li>
           <li>
             The names and addresses of the training providers that you wish to
-            attend
+            attend (this information is optional)
           </li>
         </ul>
       </va-process-list-item>
