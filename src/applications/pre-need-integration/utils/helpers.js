@@ -1395,7 +1395,7 @@ export function getCemeteries() {
       }
 
       // May change this to a reject later, depending on how we want
-      // to surface errors in autosuggest field (Kenny)
+      // to surface errors in autosuggest field
       return Promise.resolve([]);
     });
 }
