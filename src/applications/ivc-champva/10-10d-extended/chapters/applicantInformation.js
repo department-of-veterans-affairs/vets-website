@@ -290,7 +290,6 @@ const applicantRelationshipPage = {
         type: 'object',
         properties: {
           relationshipToVeteran: { type: 'string' },
-          otherRelationshipToVeteran: { type: 'string' },
         },
       },
     },
@@ -307,7 +306,6 @@ const applicantRelationshipOriginPage = {
         type: 'object',
         properties: {
           relationshipToVeteran: radioSchema(['blood', 'adoption', 'step']),
-          otherRelationshipToVeteran: { type: 'string' },
         },
       },
     },
