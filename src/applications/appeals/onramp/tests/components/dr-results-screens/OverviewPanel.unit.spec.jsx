@@ -13,13 +13,14 @@ describe('OverviewPanel', () => {
       Q_1_2_CLAIM_DECISION: YES,
       Q_1_3_CLAIM_CONTESTED: YES,
       Q_1_3A_FEWER_60_DAYS: YES,
-      Q_2_H_2_NEW_EVIDENCE: YES,
-      Q_2_H_2A_JUDGE_HEARING: NO,
+      Q_2_H_2_NEW_EVIDENCE: NO,
+      Q_2_H_2B_JUDGE_HEARING: YES,
     };
 
     const expectedOptions = [
-      'Supplemental Claim',
+      'Board Appeal: Direct Review',
       'Board Appeal: Evidence Submission',
+      'Board Appeal: Hearing',
     ];
 
     const screen = render(<OverviewPanel formResponses={formResponses} />);

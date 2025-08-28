@@ -1,4 +1,4 @@
-import { getCardProps } from '../../../utilities/dr-results-card-utils';
+import { getCardProps } from '../../../utilities/dr-results-card-display-utils';
 
 export const DR_RESULTS_CONTENT = formResponses =>
   Object.freeze({
