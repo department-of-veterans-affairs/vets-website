@@ -25,9 +25,7 @@ const GoodFitCard = ({ card, formResponses }) => {
       {content}
       {timeline && (
         <>
-          <h4 className="vads-u-margin-top--0">
-            Average time to receive a decision:
-          </h4>
+          <h4 className="vads-u-margin-top--0">Timeframe goal</h4>
           <p>{timeline}</p>
         </>
       )}
