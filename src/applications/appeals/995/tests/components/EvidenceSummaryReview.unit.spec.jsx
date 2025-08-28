@@ -28,13 +28,11 @@ const records = () => ({
     {
       locationAndName: 'VAMC Location 1',
       issues: ['Test'],
-      evidenceDates: { from: '2001-01-01', to: '2011-01-01' },
       treatmentDate: '2002-05',
     },
     {
       locationAndName: 'VAMC Location 2',
       issues: ['Test 2'],
-      evidenceDates: { from: '2002-02-02', to: '2012-02-02' },
       treatmentDate: '2002-07',
     },
   ],
@@ -114,12 +112,8 @@ describe('<EvidenceSummaryReview>', () => {
     const items = $$('li', container);
 
     expect(items.length).to.eq(9);
-    expect(items[0].textContent).to.contain(
-      'VAMC Location 1TestJan 1, 2001 – Jan 1, 2011',
-    );
-    expect(items[1].textContent).to.contain(
-      'VAMC Location 2Test 2Feb 2, 2002 – Feb 2, 2012',
-    );
+    expect(items[0].textContent).to.contain('VAMC Location 1TestMay 2002');
+    expect(items[1].textContent).to.contain('VAMC Location 2Test 2July 2002');
 
     expect(items[2].textContent).to.contain(
       'Authorize the release of non-VA medical records',
@@ -178,12 +172,8 @@ describe('<EvidenceSummaryReview>', () => {
 
     const items = $$('li', container);
     expect(items.length).to.eq(2);
-    expect(items[0].textContent).to.contain(
-      'VAMC Location 1TestJan 1, 2001 – Jan 1, 2011',
-    );
-    expect(items[1].textContent).to.contain(
-      'VAMC Location 2Test 2Feb 2, 2002 – Feb 2, 2012',
-    );
+    expect(items[0].textContent).to.contain('VAMC Location 1TestMay 2002');
+    expect(items[1].textContent).to.contain('VAMC Location 2Test 2July 2002');
   });
 
   it('should render missing evidence alert', () => {

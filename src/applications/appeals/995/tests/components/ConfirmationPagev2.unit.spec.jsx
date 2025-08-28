@@ -116,7 +116,7 @@ describe('ConfirmationPageV2', () => {
     expect($$('li', container).length).to.eq(25);
 
     const items = $$('.dd-privacy-hidden[data-dd-action-name]', container);
-    expect(items.length).to.eq(33);
+    expect(items.length).to.eq(32);
     expect(
       items.map(
         (el, index) => el[[4, 5].includes(index) ? 'innerHTML' : 'textContent'],
@@ -138,10 +138,8 @@ describe('ConfirmationPageV2', () => {
       'None selected',
       'VAMC Location 1',
       'Test and Test 2',
-      'Jan 1, 2001 – Jan 1, 2011',
       'VAMC Location 2',
       'Test 2',
-      'Feb 2, 2002 – Feb 2, 2012',
       'Private Doctor',
       '123 maincity, AK 90210',
       'Test and Test 2',

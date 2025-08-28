@@ -108,7 +108,7 @@ describe('<EvidenceVaRecords>', () => {
 
   const getErrorElements = container =>
     $$(
-      'va-text-input[error], va-checkbox-group[error], va-date[error], va-memorable-date[error]',
+      'va-text-input[error], va-checkbox-group[error], va-date[error]',
       container,
     );
 
@@ -118,8 +118,7 @@ describe('<EvidenceVaRecords>', () => {
     expect($('va-modal', container)).to.exist;
     expect($('va-text-input', container)).to.exist;
     expect($('va-checkbox-group', container)).to.exist;
-    expect($$('va-checkbox', container).length).to.eq(2);
-    expect($$('va-memorable-date', container).length).to.eq(2);
+    expect($$('va-checkbox', container).length).to.eq(3);
     // check Datadog classes
     expect(
       $$('.dd-privacy-hidden[data-dd-action-name]', container).length,
@@ -719,114 +718,6 @@ describe('<EvidenceVaRecords>', () => {
         expect(input.error).to.contain(
           errorMessages.evidence.locationMaxLength,
         );
-      });
-    });
-
-    it('should show error when start treatment date is in the future', async () => {
-      const from = parseDateWithOffset({ years: 1 });
-      const data = {
-        ...mockData,
-        [EVIDENCE_VA]: true,
-        locations: [{ evidenceDates: { from } }],
-      };
-      const page = setup({ index: 0, data });
-      const { container } = render(page);
-
-      // blur date from input
-      await $('va-memorable-date').__events.dateBlur(fromBlurEvent);
-
-      waitFor(async () => {
-        const dateFrom = await $('va-memorable-date', container);
-        expect(dateFrom.error).to.contain(errorMessages.evidence.pastDate);
-        expect(dateFrom.invalidMonth).to.be.false;
-        expect(dateFrom.invalidDay).to.be.false;
-        expect(dateFrom.invalidYear).to.be.true;
-      });
-    });
-
-    it('should show error when last treatment date is in the future', async () => {
-      const to = parseDateWithOffset({ years: 1 });
-      const data = {
-        ...mockData,
-        [EVIDENCE_VA]: true,
-        locations: [{ evidenceDates: { to } }],
-      };
-      const page = setup({ index: 0, data });
-      const { container } = render(page);
-
-      // blur date to input
-      await $('va-memorable-date').__events.dateBlur(toBlurEvent);
-
-      waitFor(async () => {
-        const dateTo = await $$('va-memorable-date', container)[1];
-        expect(dateTo.error).to.contain(errorMessages.evidence.pastDate);
-        expect(dateTo.invalidMonth).to.be.false;
-        expect(dateTo.invalidDay).to.be.false;
-        expect(dateTo.invalidYear).to.be.true;
-      });
-    });
-
-    it('should show an error when the start treament date is too far in the past', async () => {
-      const from = parseDateWithOffset({ years: -(MAX_YEARS_PAST + 1) });
-      const data = {
-        ...mockData,
-        [EVIDENCE_VA]: true,
-        locations: [{ evidenceDates: { from } }],
-      };
-      const page = setup({ index: 0, data });
-      const { container } = render(page);
-
-      // blur date from input
-      await $('va-memorable-date').__events.dateBlur(fromBlurEvent);
-
-      waitFor(async () => {
-        const dateFrom = await $('va-memorable-date', container);
-        expect(dateFrom.error).to.contain(errorMessages.evidence.newerDate);
-        expect(dateFrom.invalidMonth).to.be.false;
-        expect(dateFrom.invalidDay).to.be.false;
-        expect(dateFrom.invalidYear).to.be.true;
-      });
-    });
-
-    it('should show an error when the last treatment date is too far in the past', async () => {
-      const to = parseDateWithOffset({ years: -(MAX_YEARS_PAST + 1) });
-      const data = {
-        ...mockData,
-        [EVIDENCE_VA]: true,
-        locations: [{ evidenceDates: { to } }],
-      };
-      const page = setup({ index: 0, data });
-      const { container } = render(page);
-
-      // blur date to input
-      await $('va-memorable-date').__events.dateBlur(toBlurEvent);
-
-      waitFor(async () => {
-        const dateTo = await $$('va-memorable-date', container)[1];
-        expect(dateTo.error).to.contain(errorMessages.evidence.newerDate);
-        expect(dateTo.invalidMonth).to.be.false;
-        expect(dateTo.invalidDay).to.be.false;
-        expect(dateTo.invalidYear).to.be.true;
-      });
-    });
-
-    it('should show an error when the last treatment date is before the start', async () => {
-      const from = parseDateWithOffset({ years: -5 });
-      const to = parseDateWithOffset({ years: -10 });
-      const data = {
-        ...mockData,
-        [EVIDENCE_VA]: true,
-        locations: [{ evidenceDates: { from, to } }],
-      };
-      const page = setup({ index: 0, data });
-      const { container } = render(page);
-
-      const dateTo = await $$('va-memorable-date', container)[1];
-      // blur date to input
-      await $('va-memorable-date').__events.dateBlur(toBlurEvent);
-
-      waitFor(() => {
-        expect(dateTo.error).to.contain(sharedErrorMessage.endDateBeforeStart);
       });
     });
 

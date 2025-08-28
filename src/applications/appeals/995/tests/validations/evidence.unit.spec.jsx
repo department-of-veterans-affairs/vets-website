@@ -193,191 +193,91 @@ describe('VA evidence', () => {
   });
 
   describe('buildVaLocationString', () => {
-    describe('current form', () => {
-      const getLocation = ({
-        name = 'name',
-        issues = ['1', '2'],
-        from = '2022-01-01',
-        to = '2023-02-02',
-      } = {}) => ({
-        locationAndName: name,
-        issues,
-        evidenceDates: { from, to },
+    const getLocation = ({
+      name = 'name',
+      issues = ['1', '2'],
+      date = '2024-05-06',
+      noDate = '',
+    } = {}) => ({
+      locationAndName: name,
+      issues,
+      treatmentDate: date,
+      noDate,
+    });
+    const setup = ({
+      data,
+      name,
+      issues,
+      date,
+      noDate,
+      joiner = '',
+      includeIssues = true,
+      wrapped = false,
+    } = {}) =>
+      buildVaLocationString({
+        data: data || getLocation({ name, issues, date, noDate }),
+        joiner,
+        includeIssues,
+        newForm: true,
+        wrapped,
       });
-      const setup = ({
-        data,
-        name,
-        issues,
-        from,
-        to,
-        joiner = '',
-        includeIssues = true,
-      } = {}) =>
-        buildVaLocationString({
-          data: data || getLocation({ name, issues, from, to }),
-          joiner,
-          includeIssues,
-          wrapped: false,
-        });
-
-      it('should return an empty string', () => {
-        expect(buildVaLocationString()).to.eq('');
-        expect(setup({ data: {} })).to.eq('');
-        expect(setup({ data: { evidenceDates: {} } })).to.eq('');
-      });
-      it('should add different joiners', () => {
-        expect(setup()).to.eq('name122022-01-012023-02-02');
-        expect(setup({ joiner: ',' })).to.eq('name,1,2,2022-01-01,2023-02-02');
-        expect(setup({ joiner: ';' })).to.eq('name;1;2;2022-01-01;2023-02-02');
-      });
-      it('should return expected strings for original form', () => {
-        expect(setup({ data: {} })).to.eq('');
-        expect(setup({ data: {}, joiner: ',' })).to.eq(',,');
-        expect(
-          setup({
-            issues: [],
-            from: '',
-            to: '',
-            joiner: ',',
-          }),
-        ).to.eq('name,,');
-        expect(setup({ from: '', to: '', joiner: ',' })).to.eq('name,1,2,,');
-        expect(setup({ to: '', joiner: ',' })).to.eq('name,1,2,2022-01-01,');
-        expect(setup({ joiner: ',' })).to.eq('name,1,2,2022-01-01,2023-02-02');
-      });
-
-      it('should remove empty dates', () => {
-        expect(setup({ from: '--', joiner: ',' })).to.eq(
-          'name,1,2,,2023-02-02',
-        );
-        expect(setup({ from: '-00-00', joiner: ',' })).to.eq(
-          'name,1,2,,2023-02-02',
-        );
-        expect(setup({ to: '--', joiner: ',' })).to.eq('name,1,2,2022-01-01,');
-        expect(setup({ to: '-00-00', joiner: ',' })).to.eq(
-          'name,1,2,2022-01-01,',
-        );
-      });
-      it('should add leading zeros to dates', () => {
-        expect(setup({ from: '2021-12-4', joiner: ',' })).to.eq(
-          'name,1,2,2021-12-04,2023-02-02',
-        );
-        expect(setup({ from: '2022-1-16', joiner: ',' })).to.eq(
-          'name,1,2,2022-01-16,2023-02-02',
-        );
-        expect(setup({ from: '2022-1-5', joiner: ',' })).to.eq(
-          'name,1,2,2022-01-05,2023-02-02',
-        );
-
-        expect(setup({ to: '2022-12-3', joiner: ',' })).to.eq(
-          'name,1,2,2022-01-01,2022-12-03',
-        );
-        expect(setup({ to: '2022-3-17', joiner: ',' })).to.eq(
-          'name,1,2,2022-01-01,2022-03-17',
-        );
-        expect(setup({ to: '2022-3-3', joiner: ',' })).to.eq(
-          'name,1,2,2022-01-01,2022-03-03',
-        );
-      });
-
-      it('should not include issues', () => {
-        expect(
-          setup({
-            joiner: ',',
-            includeIssues: false,
-          }),
-        ).to.eq('name,2022-01-01,2023-02-02');
-      });
+    it('should add different joiners', () => {
+      expect(setup()).to.eq('name122024-05-06false');
+      expect(setup({ noDate: false })).to.eq('name122024-05-06false');
+      expect(setup({ noDate: false, joiner: ',' })).to.eq(
+        'name,1,2,2024-05-06,false',
+      );
+      expect(setup({ noDate: true, joiner: ';' })).to.eq('name;1;2;;true');
+    });
+    it('should return expected strings for original form', () => {
+      expect(setup({ data: {} })).to.eq('false');
+      expect(setup({ data: {}, joiner: ',' })).to.eq(',,false');
+      expect(
+        setup({
+          issues: [],
+          noDate: false,
+          joiner: ',',
+        }),
+      ).to.eq('name,2024-05-06,false');
+      expect(
+        setup({
+          issues: [],
+          noDate: true,
+          joiner: ',',
+        }),
+      ).to.eq('name,,true');
+      expect(setup({ date: '', joiner: ',' })).to.eq('name,1,2,,false');
+      expect(setup({ noDate: false, joiner: ',' })).to.eq(
+        'name,1,2,2024-05-06,false',
+      );
     });
 
-    describe('new form', () => {
-      const getLocation = ({
-        name = 'name',
-        issues = ['1', '2'],
-        date = '2024-05-06',
-        noDate = '',
-      } = {}) => ({
-        locationAndName: name,
-        issues,
-        treatmentDate: date,
-        noDate,
-      });
-      const setup = ({
-        data,
-        name,
-        issues,
-        date,
-        noDate,
-        joiner = '',
-        includeIssues = true,
-        wrapped = false,
-      } = {}) =>
+    it('should remove empty dates', () => {
+      expect(setup({ date: '-', joiner: ',' })).to.eq('name,1,2,,false');
+    });
+    it('should add leading zeros to month', () => {
+      expect(setup({ date: '2022-3', joiner: ',' })).to.eq(
+        'name,1,2,2022-03-01,false',
+      );
+    });
+    it('should get correct no date value', () => {
+      expect(
         buildVaLocationString({
-          data: data || getLocation({ name, issues, date, noDate }),
-          joiner,
-          includeIssues,
-          newForm: true,
-          wrapped,
-        });
-      it('should add different joiners', () => {
-        expect(setup()).to.eq('name122024-05-06false');
-        expect(setup({ noDate: false })).to.eq('name122024-05-06false');
-        expect(setup({ noDate: false, joiner: ',' })).to.eq(
-          'name,1,2,2024-05-06,false',
-        );
-        expect(setup({ noDate: true, joiner: ';' })).to.eq('name;1;2;;true');
-      });
-      it('should return expected strings for original form', () => {
-        expect(setup({ data: {} })).to.eq('false');
-        expect(setup({ data: {}, joiner: ',' })).to.eq(',,false');
-        expect(
-          setup({
-            issues: [],
-            noDate: false,
-            joiner: ',',
-          }),
-        ).to.eq('name,2024-05-06,false');
-        expect(
-          setup({
-            issues: [],
-            noDate: true,
-            joiner: ',',
-          }),
-        ).to.eq('name,,true');
-        expect(setup({ date: '', joiner: ',' })).to.eq('name,1,2,,false');
-        expect(setup({ noDate: false, joiner: ',' })).to.eq(
-          'name,1,2,2024-05-06,false',
-        );
-      });
+          data: { ...getLocation(), noTreatmentDates: true },
+          joiner: ',',
+          wrapped: true,
+        }),
+      ).to.eq('name,1,2,,true');
+    });
 
-      it('should remove empty dates', () => {
-        expect(setup({ date: '-', joiner: ',' })).to.eq('name,1,2,,false');
-      });
-      it('should add leading zeros to month', () => {
-        expect(setup({ date: '2022-3', joiner: ',' })).to.eq(
-          'name,1,2,2022-03-01,false',
-        );
-      });
-      it('should get correct no date value', () => {
-        expect(
-          buildVaLocationString({
-            data: { ...getLocation(), noTreatmentDates: true },
-            joiner: ',',
-            wrapped: true,
-            newForm: true,
-          }),
-        ).to.eq('name,1,2,,true');
-      });
-
-      it('should not include issues', () => {
-        expect(
-          setup({
-            noDate: true,
-            joiner: ',',
-            includeIssues: false,
-          }),
-        ).to.eq('name,,true');
-      });
+    it('should not include issues', () => {
+      expect(
+        setup({
+          noDate: true,
+          joiner: ',',
+          includeIssues: false,
+        }),
+      ).to.eq('name,,true');
     });
   });
 
@@ -388,54 +288,18 @@ describe('VA evidence', () => {
       expect(isEmptyVaEntry({ locationAndName: '' })).to.be.true;
       expect(isEmptyVaEntry({ issues: null })).to.be.true;
       expect(isEmptyVaEntry({ issues: [] })).to.be.true;
-      // current form
-      expect(isEmptyVaEntry({ evidenceDates: null })).to.be.true;
-      expect(isEmptyVaEntry({ evidenceDates: {} })).to.be.true;
-      expect(isEmptyVaEntry({ evidenceDates: { from: '--', to: '--' } })).to.be
-        .true;
-      expect(isEmptyVaEntry({ evidenceDates: { from: '-0-0', to: '-0-0' } })).to
-        .be.true;
-      expect(isEmptyVaEntry({ evidenceDates: { from: '-00-00', to: '--' } })).to
-        .be.true;
-      expect(
-        isEmptyVaEntry({
-          locationAndName: '',
-          issues: [''],
-          evidenceDates: { from: '', to: '' },
-        }),
-      ).to.be.true;
-
-      expect(
-        isEmptyVaEntry(
-          { treatmentDate: null, noDate: null, newForm: true },
-          true,
-        ),
-      ).to.be.true;
-      expect(isEmptyVaEntry({ treatmentDate: null }, true)).to.be.true;
+      expect(isEmptyVaEntry({ treatmentDate: null, noDate: null })).to.be.true;
+      expect(isEmptyVaEntry({ treatmentDate: null })).to.be.true;
 
       // unknown keys are ignored
       expect(isEmptyVaEntry({ foo: 'bar' })).to.be.true;
     });
+
     it('should return false for filled or partially filled entries', () => {
       expect(isEmptyVaEntry({ locationAndName: 'bar' })).to.be.false;
       expect(isEmptyVaEntry({ issues: ['bar'] })).to.be.false;
-      expect(isEmptyVaEntry({ evidenceDates: { from: '2020-01-01' } })).to.be
+      expect(isEmptyVaEntry({ treatmentDate: null, noDate: true }, true)).to.be
         .false;
-      expect(isEmptyVaEntry({ evidenceDates: { to: '2020-01-01' } })).to.be
-        .false;
-      expect(
-        isEmptyVaEntry({
-          locationAndName: 'bar',
-          issues: ['test'],
-          evidenceDates: { from: '2020-01-01', to: '2020-02-02' },
-        }),
-      ).to.be.false;
-      expect(
-        isEmptyVaEntry(
-          { treatmentDate: null, noDate: true, newForm: true },
-          true,
-        ),
-      ).to.be.false;
     });
   });
 

@@ -36,10 +36,11 @@
             "type": "retrievalEvidence",
             "attributes": {
               "locationAndName": "VAMC Location 1",
+              "noTreatmentDates": false,
               "evidenceDates": [
                 {
-                  "startDate": "2001-01-01",
-                  "endDate": "2011-01-01"
+                  "startDate": "2002-02-01",
+                  "endDate": "2002-02-01"
                 }
               ]
             }
@@ -48,12 +49,7 @@
             "type": "retrievalEvidence",
             "attributes": {
               "locationAndName": "VAMC Location 2",
-              "evidenceDates": [
-                {
-                  "startDate": "2002-02-02",
-                  "endDate": "2012-02-02"
-                }
-              ]
+              "noTreatmentDates": true
             }
           }
         ]

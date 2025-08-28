@@ -4,12 +4,9 @@ import { VaTextInput } from '@department-of-veterans-affairs/component-library/d
 import { EVIDENCE_VA_PATH } from '../constants';
 import { content } from '../content/evidenceVaRecords';
 import { getIndex, getVAEvidence, hasErrors } from '../utils/evidence';
-import { showScNewForm as newFormToggle } from '../utils/toggle';
 import {
   validateVaLocation,
   validateVaIssues,
-  validateVaFromDate, // YYYY-MM-DD
-  validateVaToDate, // YYYY-MM-DD
   validateVaDate, // YYYY-MM
   validateVaUnique,
   isEmptyVaEntry,
@@ -55,7 +52,6 @@ const EvidenceVaRecords = ({
   contentAfterButtons,
 }) => {
   const locations = getVAEvidence(data || {});
-  const showScNewForm = newFormToggle(data);
 
   // *** state ***
   // currentIndex is zero-based
@@ -71,8 +67,7 @@ const EvidenceVaRecords = ({
 
   const [currentState, setCurrentState] = useState(defaultState);
 
-  const getPageType = entry =>
-    isEmptyVaEntry(entry, showScNewForm) ? 'add' : 'edit';
+  const getPageType = entry => (isEmptyVaEntry(entry) ? 'add' : 'edit');
   const [addOrEdit, setAddOrEdit] = useState(getPageType(currentData));
 
   const availableIssues = getSelected(data).map(getIssueName);
@@ -92,17 +87,9 @@ const EvidenceVaRecords = ({
       data,
       currentIndex,
     )[0],
-    from: showScNewForm
+    treatmentDate: currentData.noDate
       ? null
-      : checkValidations([validateVaFromDate], currentData, data),
-    to: showScNewForm
-      ? null
-      : checkValidations([validateVaToDate], currentData, data),
-    treatmentDate:
-      showScNewForm &&
-      (currentData.noDate
-        ? null
-        : checkValidations([validateVaDate], currentData, data)),
+      : checkValidations([validateVaDate], currentData, data),
   };
 
   useEffect(
@@ -167,10 +154,12 @@ const EvidenceVaRecords = ({
 
   const addAndGoToPageIndex = index => {
     const newLocations = [...locations];
-    if (!isEmptyVaEntry(locations[index], showScNewForm)) {
+
+    if (!isEmptyVaEntry(locations[index])) {
       // only insert a new entry if the existing entry isn't empty
       newLocations.splice(index, 0, defaultData);
     }
+
     setFormData({ ...data, locations: newLocations });
     goToPageIndex(index);
   };
@@ -188,11 +177,12 @@ const EvidenceVaRecords = ({
     onChange: event => {
       const { target = {} } = event;
       const fieldName = target.name;
-      // target.value from va-text-input, va-memorable-date, & va-date
+      // target.value from va-text-input & va-date
       const value =
-        showScNewForm && fieldName === 'nodate'
+        fieldName === 'nodate'
           ? target.checked // I don't have a date checkbox
           : target.value || '';
+
       updateCurrentLocation({ [fieldName]: value });
     },
 
@@ -250,7 +240,7 @@ const EvidenceVaRecords = ({
     onGoBack: () => {
       // show modal if there are errors; don't show _immediately after_ adding
       // a new empty entry
-      if (isEmptyVaEntry(currentData, showScNewForm)) {
+      if (isEmptyVaEntry(currentData)) {
         updateCurrentLocation({ remove: true });
       } else if (hasErrors(errors)) {
         updateState({ submitted: true, showModal: true });

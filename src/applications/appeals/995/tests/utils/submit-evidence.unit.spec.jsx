@@ -16,206 +16,126 @@ import {
 } from '../../utils/submit';
 
 describe('getTreatmentDate', () => {
-  describe('showNewFormContent is false', () => {
-    it('should return empty when the proper data is not given', () => {
-      const location = {
-        evidenceDates: {
-          from: '',
-        },
-      };
+  it('should return empty when the proper data is not given', () => {
+    const location = {
+      treatmentDate: '1-01',
+    };
 
-      expect(getTreatmentDate('to', false, location)).to.eq('');
-      expect(getTreatmentDate('from', false, location)).to.eq('');
-      expect(getTreatmentDate('', false, location)).to.eq('');
-      expect(getTreatmentDate('to', false, {})).to.eq('');
-      expect(getTreatmentDate('to', null, {})).to.eq('');
-    });
-
-    it('should return a properly formatted date when the proper data is given', () => {
-      const location = {
-        evidenceDates: {
-          from: '2020-03-04',
-          to: '2020-03-04',
-        },
-      };
-
-      expect(getTreatmentDate('to', false, location)).to.eq('2020-03-04');
-      expect(getTreatmentDate('from', false, location)).to.eq('2020-03-04');
-    });
+    expect(getTreatmentDate(location)).to.eq('');
   });
 
-  describe('showNewFormContent is true', () => {
-    it('should return empty when the proper data is not given', () => {
-      const location = {
-        treatmentDate: '1-01',
-      };
+  it('should return empty when the proper data is not given', () => {
+    const location = {
+      treatmentDate: '01-01',
+    };
 
-      expect(getTreatmentDate('to', true, location)).to.eq('');
-      expect(getTreatmentDate('from', true, location)).to.eq('');
-    });
+    expect(getTreatmentDate(location)).to.eq('');
+  });
 
-    it('should return empty when the proper data is not given', () => {
-      const location = {
-        treatmentDate: '01-01',
-      };
+  it('should return empty when the proper data is not given', () => {
+    const location = {
+      treatmentDate: '1',
+    };
 
-      expect(getTreatmentDate('to', true, location)).to.eq('');
-      expect(getTreatmentDate('from', true, location)).to.eq('');
-    });
+    expect(getTreatmentDate(location)).to.eq('');
+  });
 
-    it('should return empty when the proper data is not given', () => {
-      const location = {
-        treatmentDate: '1',
-      };
+  it('should return empty when the proper data is not given', () => {
+    const location = {
+      treatmentDate: '1923',
+    };
 
-      expect(getTreatmentDate('to', true, location)).to.eq('');
-      expect(getTreatmentDate('from', true, location)).to.eq('');
-    });
+    expect(getTreatmentDate(location)).to.eq('');
+  });
 
-    it('should return empty when the proper data is not given', () => {
-      const location = {
-        treatmentDate: '1923',
-      };
+  it('should return empty when the proper data is not given', () => {
+    const location = {
+      treatmentDate: '101-01',
+    };
 
-      expect(getTreatmentDate('to', true, location)).to.eq('');
-      expect(getTreatmentDate('from', true, location)).to.eq('');
-    });
+    expect(getTreatmentDate(location)).to.eq('');
+  });
 
-    it('should return empty when the proper data is not given', () => {
-      const location = {
-        treatmentDate: '101-01',
-      };
+  it('should return the date when a proper data is given', () => {
+    const location = {
+      treatmentDate: '1926-01',
+    };
 
-      expect(getTreatmentDate('to', true, location)).to.eq('');
-      expect(getTreatmentDate('from', true, location)).to.eq('');
-    });
+    expect(getTreatmentDate(location)).to.eq('1926-01-01');
+  });
 
-    it('should return the date when a proper data is given', () => {
-      const location = {
-        treatmentDate: '1926-01',
-      };
+  it('should return the date when a proper data is given', () => {
+    const location = {
+      treatmentDate: '2001-01',
+    };
 
-      expect(getTreatmentDate('to', true, location)).to.eq('1926-01-01');
-      expect(getTreatmentDate('from', true, location)).to.eq('1926-01-01');
-    });
-
-    it('should return the date when a proper data is given', () => {
-      const location = {
-        treatmentDate: '2001-01',
-      };
-
-      expect(getTreatmentDate('to', true, location)).to.eq('2001-01-01');
-      expect(getTreatmentDate('from', true, location)).to.eq('2001-01-01');
-    });
+    expect(getTreatmentDate(location)).to.eq('2001-01-01');
   });
 });
 
 describe('hasDuplicateLocation', () => {
-  describe('original form', () => {
-    const getLocation = ({
-      wrap = false,
-      name = 'test 1',
-      from = '2022-01-01',
-      to = '2022-02-02',
-    } = {}) => {
-      const location = {
-        locationAndName: name,
-        issues: ['1', '2'],
-        evidenceDates: wrap ? [{ startDate: from, endDate: to }] : { from, to },
-      };
-      return wrap ? { attributes: location } : location;
+  const getLocation = ({
+    wrap = false,
+    name = 'test 1',
+    date = '2024-03',
+    noDate = false,
+  } = {}) => {
+    const evidenceDates = { from: '2022-01-01', to: '2022-02-02' };
+    const location = {
+      locationAndName: name,
+      issues: ['1', '2'],
+      noDate,
+      evidenceDates: wrap ? [evidenceDates] : evidenceDates,
+      treatmentDate: date,
     };
-    const list = [
-      getLocation({ wrap: true }),
-      getLocation({ name: 'test 2', wrap: true }),
-    ];
 
-    it('should not find any duplicates', () => {
-      const blank = getLocation();
-      expect(hasDuplicateLocation([{ attributes: {} }], blank)).to.be.false;
-      const name = getLocation({ name: 'test 3' });
-      expect(hasDuplicateLocation(list, name)).to.be.false;
-      const to = getLocation({ to: '2022-03-03' });
-      expect(hasDuplicateLocation(list, to)).to.be.false;
-      const from = getLocation({ from: '2022-03-03' });
-      expect(hasDuplicateLocation(list, from)).to.be.false;
-    });
-    it('should report duplicate location', () => {
-      const first = getLocation();
-      expect(hasDuplicateLocation(list, first)).to.be.true;
-      const second = getLocation({ name: 'test 2' });
-      expect(hasDuplicateLocation(list, second)).to.be.true;
+    return wrap ? { attributes: location } : location;
+  };
 
-      // check date format without leading zeros
-      const first2 = getLocation({ from: '2022-1-1', to: '2022-2-2' });
-      expect(hasDuplicateLocation(list, first2)).to.be.true;
-    });
+  const list = [
+    getLocation({ wrap: true }),
+    getLocation({ name: 'test 2', wrap: true }),
+  ];
+
+  it('should not find any duplicates in new form', () => {
+    const name = getLocation({ name: 'test 3' });
+    expect(hasDuplicateLocation(list, name)).to.be.false;
+    const from = getLocation({ date: '2022-03' });
+    expect(hasDuplicateLocation(list, from)).to.be.false;
   });
-  describe('new form', () => {
-    const getLocation = ({
-      wrap = false,
-      name = 'test 1',
-      date = '2024-03',
-      noDate = false,
-    } = {}) => {
-      const evidenceDates = { from: '2022-01-01', to: '2022-02-02' };
-      const location = {
-        locationAndName: name,
-        issues: ['1', '2'],
-        noDate,
-        evidenceDates: wrap ? [evidenceDates] : evidenceDates,
-        treatmentDate: date,
-      };
-      return wrap ? { attributes: location } : location;
-    };
-    const list = [
-      getLocation({ wrap: true }),
-      getLocation({ name: 'test 2', wrap: true }),
-    ];
 
-    it('should not find any duplicates in new form', () => {
-      const name = getLocation({ name: 'test 3' });
-      expect(hasDuplicateLocation(list, name, true)).to.be.false;
-      const from = getLocation({ date: '2022-03' });
-      expect(hasDuplicateLocation(list, from, true)).to.be.false;
-    });
-    it('should report duplicate location', () => {
-      const first = getLocation();
-      expect(hasDuplicateLocation(list, first, true)).to.be.true;
-      const second = getLocation({ name: 'test 2' });
-      expect(hasDuplicateLocation(list, second, true)).to.be.true;
+  it('should report duplicate location', () => {
+    const first = getLocation();
+    expect(hasDuplicateLocation(list, first)).to.be.true;
+    const second = getLocation({ name: 'test 2' });
+    expect(hasDuplicateLocation(list, second)).to.be.true;
 
-      // check date format without leading zeros
-      expect(hasDuplicateLocation(list, first, true)).to.be.true;
-    });
+    // check date format without leading zeros
+    expect(hasDuplicateLocation(list, first)).to.be.true;
   });
 });
 
 describe('getEvidence', () => {
-  const getData = ({ hasVa = true, showScNewForm = false } = {}) => ({
+  const getData = ({ hasVa = true } = {}) => ({
     data: {
       [EVIDENCE_VA]: hasVa,
-      showScNewForm,
       form5103Acknowledged: true,
       locations: [
         {
           locationAndName: 'test 1',
           issues: ['1', '2'],
-          evidenceDates: { from: '2022-01-05', to: '2022-02-02' },
           treatmentDate: '2002-05',
           noDate: false,
         },
         {
           locationAndName: 'test 2',
           issues: ['1', '2'],
-          evidenceDates: { from: '2022-03-03', to: '2022-04-04' },
           treatmentDate: '2002-07',
           noDate: false,
         },
         {
           locationAndName: 'test 3',
           issues: ['2'],
-          evidenceDates: { from: '2022-05-05', to: '2022-06-06' },
           treatmentDate: '2002', // incomplete date
           noDate: true,
         },
@@ -300,10 +220,12 @@ describe('getEvidence', () => {
       },
     });
   });
+
   it('should process evidence when available', () => {
     const evidence = getData();
     expect(getEvidence(evidence.data)).to.deep.equal(evidence.result());
   });
+
   it('should add "upload" to evidence type when available', () => {
     const { data } = getData();
     const evidence = {
@@ -315,6 +237,7 @@ describe('getEvidence', () => {
       ['retrieval', 'upload'],
     );
   });
+
   it('should only include "upload" when documents were uploaded with no VA evidence', () => {
     const { data } = getData({ hasVa: false });
     const evidence = {
@@ -326,6 +249,7 @@ describe('getEvidence', () => {
       ['upload'],
     );
   });
+
   it('should combine duplicate VA locations & dates', () => {
     const evidence = getData();
     evidence.data.locations.push(evidence.data.locations[0]);
@@ -335,45 +259,43 @@ describe('getEvidence', () => {
     expect(getEvidence(evidence.data)).to.deep.equal(evidence.result());
   });
 
-  describe('when showScNewForm is true', () => {
-    // TODO: Replace this test once Lighthouse provides an endpoint for the new
-    // form data
-    it('should temporarily process VA evidence treatment dates into an evidence date range', () => {
-      const evidence = getData({ showScNewForm: true });
-      expect(getEvidence(evidence.data)).to.deep.equal(evidence.result(true));
-    });
+  // TODO: Replace this test once Lighthouse provides an endpoint for the new
+  // form data
+  it('should temporarily process VA evidence treatment dates into an evidence date range', () => {
+    const evidence = getData();
+    expect(getEvidence(evidence.data)).to.deep.equal(evidence.result(true));
+  });
 
-    it('should send noTreatmentDates as true when no date is provided', () => {
-      const evidence = {
-        [EVIDENCE_VA]: true,
-        showScNewForm: true,
-        form5103Acknowledged: true,
-        locations: [
+  it('should send noTreatmentDates as true when no date is provided', () => {
+    const evidence = {
+      [EVIDENCE_VA]: true,
+      showScNewForm: true,
+      form5103Acknowledged: true,
+      locations: [
+        {
+          locationAndName: 'test 1',
+          issues: ['1', '2'],
+          evidenceDates: { from: '', to: '' },
+          treatmentDate: '',
+          noDate: false,
+        },
+      ],
+    };
+
+    expect(getEvidence(evidence)).to.deep.equal({
+      evidenceSubmission: {
+        evidenceType: ['retrieval'],
+        retrieveFrom: [
           {
-            locationAndName: 'test 1',
-            issues: ['1', '2'],
-            evidenceDates: { from: '', to: '' },
-            treatmentDate: '',
-            noDate: false,
+            attributes: {
+              locationAndName: 'test 1',
+              noTreatmentDates: true,
+            },
+            type: 'retrievalEvidence',
           },
         ],
-      };
-
-      expect(getEvidence(evidence)).to.deep.equal({
-        evidenceSubmission: {
-          evidenceType: ['retrieval'],
-          retrieveFrom: [
-            {
-              attributes: {
-                locationAndName: 'test 1',
-                noTreatmentDates: true,
-              },
-              type: 'retrievalEvidence',
-            },
-          ],
-        },
-        form5103Acknowledged: true,
-      });
+      },
+      form5103Acknowledged: true,
     });
   });
 });

@@ -91,41 +91,26 @@ export const buildVaLocationString = ({
   data = {},
   joiner = '',
   includeIssues = true,
-  newForm = false,
   wrapped = false,
 } = {}) => {
   const issues = includeIssues ? sortIssues(data.issues || []) : [];
+  const noDate = (wrapped ? data.noTreatmentDates : data.noDate) || false;
+  const treatmentDate = (data.treatmentDate || '').replace(
+    REGEXP.EMPTY_DATE,
+    '',
+  );
 
-  if (newForm) {
-    const noDate = (wrapped ? data.noTreatmentDates : data.noDate) || false;
-    const treatmentDate = (data.treatmentDate || '').replace(
-      REGEXP.EMPTY_DATE,
-      '',
-    );
-
-    return [
-      data.locationAndName || '',
-      ...issues,
-      fixDateFormat(!noDate && treatmentDate ? `${treatmentDate}-01` : ''),
-      noDate,
-    ].join(joiner);
-  }
   return [
     data.locationAndName || '',
     ...issues,
-    fixDateFormat(data.evidenceDates?.from || '').replace(
-      REGEXP.EMPTY_DATE,
-      '',
-    ),
-    fixDateFormat(data.evidenceDates?.to || '').replace(REGEXP.EMPTY_DATE, ''),
+    fixDateFormat(!noDate && treatmentDate ? `${treatmentDate}-01` : ''),
+    noDate,
   ].join(joiner);
 };
 
 // Check if VA evidence object is empty
-// an empty va-memorable-date value may equal '--'
-export const isEmptyVaEntry = (data = {}, newForm) => {
-  const emptyData = newForm ? 'false' : '';
-  return buildVaLocationString({ data, newForm }).trim() === emptyData;
+export const isEmptyVaEntry = (data = {}) => {
+  return buildVaLocationString({ data }).trim() === 'false';
 };
 
 export const validateVaUnique = (
