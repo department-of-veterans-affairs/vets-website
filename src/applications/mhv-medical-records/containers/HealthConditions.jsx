@@ -138,7 +138,7 @@ const HealthConditions = () => {
               <va-loading-indicator
                 message="We’re loading your records."
                 setFocus
-                data-testid="loading-indicator"
+                data-testid="accelerated-loading-indicator"
               />
             </div>
           </>
