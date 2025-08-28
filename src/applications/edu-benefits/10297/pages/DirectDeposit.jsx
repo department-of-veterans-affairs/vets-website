@@ -63,7 +63,9 @@ export default function createDirectDepositPage() {
 
   // Strip out any object-level ui:order/description from the pattern to avoid conflicts
   const {
+    // eslint-disable-next-line no-unused-vars
     'ui:order': _dropOrder,
+    // eslint-disable-next-line no-unused-vars
     'ui:description': _dropDesc,
     ...baseBankAccountUI
   } = baseUIAll;
