@@ -1,7 +1,7 @@
 const all = [
   {
-    id: 'I2-2BCP5BAI6N7NQSAPSVIJ6INQ4A000000',
     attributes: {
+      id: 'I3-3BCP5BAI6N7NQSAPSVIJ6INQ4A000003',
       date: '2025-01-15T10:30:00Z',
       name: 'Essential hypertension',
       provider: 'Dr. Smith, John',
@@ -10,8 +10,8 @@ const all = [
     },
   },
   {
-    id: 'I2-2BCP5BAI6N7NQSAPSVIJ6INQ4A000000',
     attributes: {
+      id: 'I2-2BCP5BAI6N7NQSAPSVIJ6INQ4A000000',
       date: '2024-12-01T14:20:00Z',
       name: 'Type 2 diabetes mellitus',
       provider: 'SILVA, MARIA GONZALEZ',

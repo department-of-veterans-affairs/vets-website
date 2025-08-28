@@ -195,7 +195,7 @@ export const conditionReducer = (state = initialState, action) => {
       };
     }
     case Actions.Conditions.GET_UNIFIED_ITEM: {
-      const data = action.response?.data || [];
+      const data = action.response || [];
       const conditionDetails = convertUnifiedCondition(data?.attributes);
 
       return {
@@ -204,11 +204,11 @@ export const conditionReducer = (state = initialState, action) => {
       };
     }
     case Actions.Conditions.GET_UNIFIED_LIST: {
-      const data = action.response?.data || [];
+      const data = action.response || [];
       const oldList = state.conditionsList;
       const newList =
         data
-          ?.map(condition => {
+          .map(condition => {
             return convertUnifiedCondition(condition.attributes);
           })
           .sort((a, b) => {
