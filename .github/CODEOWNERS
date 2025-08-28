@@ -19,8 +19,8 @@
 
 # Platform Design System
 
-src/platform/forms @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/platform-va-product-forms @department-of-veterans-affairs/va-platform-cop-frontend
-src/platform/forms-system @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/platform-va-product-forms @department-of-veterans-affairs/va-platform-cop-frontend
+src/platform/forms @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/platform-va-product-forms
+src/platform/forms-system @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/platform-va-product-forms
 src/applications/_mock-form @department-of-veterans-affairs/platform-va-product-forms @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/simple-forms @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/platform-va-product-forms @department-of-veterans-affairs/va-platform-cop-frontend
 src/platform/static-pages/simple-forms @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/platform-va-product-forms @department-of-veterans-affairs/va-platform-cop-frontend
@@ -152,14 +152,17 @@ src/applications/static-pages/facilities @department-of-veterans-affairs/vfs-fac
 src/applications/static-pages/tests/facilities @department-of-veterans-affairs/vfs-facilities-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/situation-updates-banner @department-of-veterans-affairs/vfs-facilities-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 
-# 10-10 Health Apps
+# Caregiver
 
 src/applications/caregivers @department-of-veterans-affairs/1010-health-apps-frontend @department-of-veterans-affairs/va-platform-cop-frontend
+
+# Health Care Applications
+
 src/applications/hca @department-of-veterans-affairs/1010-health-apps-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/ezr @department-of-veterans-affairs/1010-health-apps-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/hca-performance-warning @department-of-veterans-affairs/1010-health-apps-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/ezr-submission-options @department-of-veterans-affairs/1010-health-apps-frontend @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/ivc-champv @department-of-veterans-affairs/1010-health-apps-frontend @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/ivc-champva @department-of-veterans-affairs/champva-engineering @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Healthcare Experience
 

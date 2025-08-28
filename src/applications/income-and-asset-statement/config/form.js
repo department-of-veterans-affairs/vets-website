@@ -39,6 +39,7 @@ const formConfig = {
   showReviewErrors: !environment.isProduction() && !environment.isStaging(),
   formId: VA_FORM_IDS.FORM_21P_0969,
   formOptions: {
+    focusOnAlertRole: true,
     useWebComponentForNavigation: true,
   },
   saveInProgress: {
@@ -54,7 +55,23 @@ const formConfig = {
   dev: {
     disableWindowUnloadInCI: true,
   },
-  ...minimalHeaderFormConfigOptions(),
+  ...minimalHeaderFormConfigOptions({
+    breadcrumbList: [
+      {
+        href: '/',
+        label: 'VA.gov home',
+      },
+      {
+        href: '/supporting-forms-for-claims',
+        label: 'Supporting forms for VA claims',
+      },
+      {
+        href:
+          '/supporting-forms-for-claims/submit-income-and-asset-statement-form-21p-0969',
+        label: 'Submit a pension or DIC income and asset statement',
+      },
+    ],
+  }),
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',
@@ -66,13 +83,17 @@ const formConfig = {
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       messageAriaDescribedby:
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      fullNamePath: formData =>
-        formData?.claimantType === 'VETERAN'
-          ? 'veteranFullName'
-          : 'claimantFullName',
+      fullNamePath: formData => {
+        if (formData?.claimantType === 'VETERAN') {
+          return formData?.isLoggedIn
+            ? 'veteranFullName'
+            : 'otherVeteranFullName';
+        }
+        return 'claimantFullName';
+      },
     },
   },
-  title: 'Income and Asset Statement',
+  title: 'Pension or DIC Income and Asset Statement',
   subTitle: 'VA Form 21P-0969',
   defaultDefinitions: {},
   chapters: {

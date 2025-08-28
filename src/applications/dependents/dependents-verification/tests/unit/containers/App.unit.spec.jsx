@@ -3,9 +3,8 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
-// import sinon from 'sinon';
+import sinon from 'sinon';
 
-// import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import App from '../../../containers/App';
 
 const mockStore = configureMockStore();
@@ -14,6 +13,7 @@ function getDefaultState({
   featureToggle = true,
   loading = false,
   hasSession = true,
+  dependentsLoading = false,
 } = {}) {
   if (typeof localStorage !== 'undefined') {
     localStorage.setItem('hasSession', JSON.stringify(hasSession));
@@ -68,6 +68,9 @@ function getDefaultState({
     externalServiceStatus: {
       loading,
     },
+    dependents: {
+      loading: dependentsLoading,
+    },
   };
 }
 
@@ -78,11 +81,17 @@ function renderApp({
   featureToggle,
   loading,
   hasSession,
+  dependentsLoading,
 } = {}) {
-  const state = getDefaultState({ featureToggle, loading, hasSession });
+  const state = getDefaultState({
+    featureToggle,
+    loading,
+    hasSession,
+    dependentsLoading,
+  });
   const store = mockStore(state);
 
-  const location = {
+  const _location = {
     ...window.location,
     pathname,
     search,
@@ -91,7 +100,7 @@ function renderApp({
 
   return render(
     <Provider store={store}>
-      <App location={location}>
+      <App location={_location}>
         <div data-testid="children-content">Child content</div>
       </App>
     </Provider>,
@@ -99,17 +108,20 @@ function renderApp({
 }
 
 describe('App container logic', () => {
+  const oldLocation = global.window.location;
+
   afterEach(() => {
+    global.window.location = oldLocation;
     localStorage.removeItem('hasSession');
   });
 
-  // it('should show loading indicator when externalServiceStatus is loading', () => {
-  //   const screen = renderApp({ loading: true });
+  it('should show loading indicator when externalServiceStatus is loading', () => {
+    const { container, queryByTestId } = renderApp({ loading: true });
 
-  //   const loadingIndicator = $('va-loading-indicator', screen.container);
-  //   expect(loadingIndicator).to.not.be.null;
-  //   expect(screen.queryByTestId('children-content')).to.be.null;
-  // });
+    const loadingIndicator = container.querySelector('va-loading-indicator');
+    expect(loadingIndicator).to.not.be.null;
+    expect(queryByTestId('children-content')).to.be.null;
+  });
 
   it('should render NoFormPage if feature toggle is off', () => {
     const { container } = renderApp({ featureToggle: false });
@@ -119,32 +131,19 @@ describe('App container logic', () => {
     );
   });
 
-  // it('should redirect if session is missing and pathname is not introduction', async () => {
-  //   const replaceSpy = sinon.spy();
+  it('should render RoutedSavableApp with children when on intro page (with session)', () => {
+    const { getByTestId } = renderApp({
+      pathname: '/introduction',
+      hasSession: true,
+    });
+    expect(getByTestId('children-content')).to.exist;
+  });
 
-  //   const originalLocation = window.location;
-  //   delete window.location;
-
-  //   window.location = {
-  //     ...originalLocation,
-  //     replace: replaceSpy,
-  //   };
-
-  //   renderApp({ pathname: '/form-page-1', hasSession: false });
-
-  //   await waitFor(() => {
-  //     expect(
-  //       replaceSpy.calledWith(
-  //         '/view-change-dependents/verify-dependents-form-21-0538/introduction',
-  //       ),
-  //     ).to.be.true;
-  //   });
-
-  //   window.location = originalLocation;
-  // });
-
-  it('should render RoutedSavableApp with children if all conditions pass', () => {
-    const { getByTestId } = renderApp();
+  it('should render RoutedSavableApp with children when on intro page (without session)', () => {
+    const { getByTestId } = renderApp({
+      pathname: '/introduction',
+      hasSession: false,
+    });
     expect(getByTestId('children-content')).to.exist;
   });
 
@@ -152,5 +151,33 @@ describe('App container logic', () => {
     const { container } = renderApp();
     const breadcrumbs = container.querySelector('va-breadcrumbs');
     expect(breadcrumbs).to.exist;
+  });
+
+  it('should not redirect when on intro page (with session)', () => {
+    const mockReplace = sinon.stub();
+    delete window.location;
+    window.location = { replace: mockReplace };
+
+    renderApp({
+      pathname: '/introduction',
+      hasSession: true,
+      dependentsLoading: true,
+    });
+
+    expect(mockReplace.called).to.be.false;
+  });
+
+  it('should not redirect when on intro page (without session)', () => {
+    const mockReplace = sinon.stub();
+    delete window.location;
+    window.location = { replace: mockReplace };
+
+    renderApp({
+      pathname: '/introduction',
+      hasSession: false,
+      dependentsLoading: true,
+    });
+
+    expect(mockReplace.called).to.be.false;
   });
 });

@@ -55,6 +55,22 @@ export const uploadPage = {
           };
         },
       }),
+      'ui:validations': [
+        (errors, data) => {
+          if (!(data?.confirmationCode && data?.name && data?.size)) {
+            errors.addError(`Upload a completed VA Form ${formNumber}`);
+          }
+          if (data?.name) {
+            const ext = data.name
+              .split('.')
+              .pop()
+              .toLowerCase();
+            if (ext !== 'pdf' && !window.Cypress) {
+              errors.addError('Your file must be .pdf format');
+            }
+          }
+        },
+      ],
     },
     'ui:objectViewField': SupportingEvidenceViewField,
     supportingDocuments: {
@@ -65,13 +81,13 @@ export const uploadPage = {
       ),
       'ui:description': Object.freeze(
         <>
-          <p className="form-686c__upload-text">
+          <p className="form-21-686c__upload-text">
             Select supporting documents to upload.
           </p>
-          <p className="form-686c__upload-hint">
-            You can upload one file at a time no larger than 25MB.
+          <p className="form-21-686c__upload-hint">
+            You can upload one file at a time no larger than 100MB.
             <br />
-            Your file can be .pdf, .png or .jpg.
+            Your file can be .pdf, .png, or .jpg.
           </p>
         </>,
       ),

@@ -1,5 +1,5 @@
 import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
-import { focusByOrder } from 'platform/utilities/ui/focus';
+import { focusElement } from 'platform/utilities/ui';
 import { waitForShadowRoot } from 'platform/utilities/ui/webComponents';
 import { scrollTo } from 'platform/utilities/scroll';
 import {
@@ -13,12 +13,17 @@ const formMappings = {
     subTitle: 'Application Request to Add and/or Remove Dependents',
     pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-686c-ARE.pdf',
   },
+  '21-526EZ': {
+    subTitle:
+      'Application for Disability Compensation and Related Compensation Benefits',
+    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-526EZ-ARE.pdf',
+  },
 };
 
 export const getFormNumber = (pathname = null) => {
   const path = pathname || window?.location?.pathname;
   const regex = /upload\/([^/]+)/;
-  const match = path.match(regex)?.[1];
+  const match = path.match(regex)?.[1]?.toLowerCase();
   return (
     Object.keys(formMappings).find(key => key.toLowerCase() === match) || ''
   );
@@ -59,7 +64,7 @@ export const getFileSize = num => {
 
 export const scrollAndFocusTarget = () => {
   scrollTo('topScrollElement');
-  focusByOrder(['va-segmented-progress-bar', 'h2']);
+  focusElement('h1');
 };
 
 // separate each number so the screenreader reads "number ending with 1 2 3 4"
@@ -103,6 +108,11 @@ export const onClickContinue = (props, setContinueClicked) => {
 export const getAlert = (props, continueClicked) => {
   const warnings = props.data?.uploadedFile?.warnings;
   const fileUploading = props.data?.uploadedFile?.name === 'uploading';
+  // omit 'wrong_form' until reliable form validation is done in vets-api
+  const wrongFormIndex = (warnings || []).indexOf('wrong_form');
+  if (wrongFormIndex > -1) {
+    warnings.splice(wrongFormIndex, 1);
+  }
   const formNumber = getFormNumber();
   if (warnings?.length > 0) {
     return FORM_UPLOAD_OCR_ALERT(formNumber, onCloseAlert, warnings);

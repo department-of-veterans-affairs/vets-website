@@ -1,10 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
-import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
-import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import {
   DowntimeNotification,
   externalServices,
@@ -19,12 +15,14 @@ import {
   renderMHVDowntime,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { useLocation } from 'react-router-dom-v5-compat';
-import MhvServiceRequiredGuard from 'platform/mhv/components/MhvServiceRequiredGuard';
-import { medicationsUrls, downtimeNotificationParams } from '../util/constants';
+import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
+import { downtimeNotificationParams } from '../util/constants';
+import { selectBypassDowntime } from '../util/selectors';
 import {
-  selectRemoveLandingPageFlag,
-  selectBypassDowntime,
-} from '../util/selectors';
+  selectGlobalDowntime,
+  selectScheduledDowntimeIsReady,
+  selectScheduledDowntime,
+} from '../selectors/selectDowntime';
 
 const App = ({ children }) => {
   const dispatch = useDispatch();
@@ -35,30 +33,15 @@ const App = ({ children }) => {
 
   const user = useSelector(selectUser);
   const isBypassDowntime = useSelector(selectBypassDowntime);
-  const removeLandingPage = useSelector(selectRemoveLandingPageFlag);
 
-  const { featureTogglesLoading, appEnabled } = useSelector(
-    state => {
-      return {
-        featureTogglesLoading: state.featureToggles.loading,
-        appEnabled:
-          state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicationsToVaGovRelease],
-      };
-    },
+  const { featureTogglesLoading } = useSelector(
+    state => ({ featureTogglesLoading: state.featureToggles.loading }),
     state => state.featureToggles,
   );
 
-  const globalDowntime = useSelector(
-    state => state.scheduledDowntime?.globalDowntime,
-  );
-
-  const scheduledDownTimeIsReady = useSelector(
-    state => state.scheduledDowntime?.isReady,
-  );
-
-  const scheduledDowntimes = useSelector(
-    state => state.scheduledDowntime?.serviceMap || [],
-  );
+  const globalDowntime = useSelector(selectGlobalDowntime);
+  const scheduledDownTimeIsReady = useSelector(selectScheduledDowntimeIsReady);
+  const scheduledDowntimes = useSelector(selectScheduledDowntime);
 
   useEffect(
     () => {
@@ -122,51 +105,37 @@ const App = ({ children }) => {
     );
   }
 
-  const homeURL = removeLandingPage
-    ? medicationsUrls.MEDICATIONS_URL
-    : medicationsUrls.MEDICATIONS_ABOUT;
-
-  if (!appEnabled && window.location.pathname !== homeURL) {
-    window.location.replace(homeURL);
-    return <></>;
-  }
-
   return (
-    <RequiredLoginView user={user} serviceRequired={[backendServices.RX]}>
-      <MhvServiceRequiredGuard
-        user={user}
-        serviceRequired={[backendServices.RX]}
-      >
-        <MhvSecondaryNav />
-        <div ref={measuredRef} className="routes-container usa-grid">
-          <div className={`${contentClasses}`}>
-            {mhvRxDown === externalServiceStatus.down && !isBypassDowntime ? (
-              <>
-                <h1 className="vads-u-margin-top--3">Medications</h1>
-                <DowntimeNotification
-                  appTitle={downtimeNotificationParams.appTitle}
-                  dependencies={[
-                    externalServices.mhvPlatform,
-                    externalServices.mhvMeds,
-                    externalServices.global,
-                  ]}
-                  render={renderMHVDowntime}
-                />
-              </>
-            ) : (
-              children
-            )}
-            <va-back-to-top
-              class="no-print"
-              hidden={isHidden}
-              data-dd-privacy="mask"
-              data-dd-action-name="Back to top"
-              data-testid="rx-back-to-top"
-            />
-          </div>
+    <>
+      <MhvSecondaryNav />
+      <div ref={measuredRef} className="routes-container usa-grid">
+        <div className={contentClasses}>
+          {mhvRxDown === externalServiceStatus.down && !isBypassDowntime ? (
+            <>
+              <h1 className="vads-u-margin-top--3">Medications</h1>
+              <DowntimeNotification
+                appTitle={downtimeNotificationParams.appTitle}
+                dependencies={[
+                  externalServices.mhvPlatform,
+                  externalServices.mhvMeds,
+                  externalServices.global,
+                ]}
+                render={renderMHVDowntime}
+              />
+            </>
+          ) : (
+            children
+          )}
+          <va-back-to-top
+            class="no-print"
+            hidden={isHidden}
+            data-dd-privacy="mask"
+            data-dd-action-name="Back to top"
+            data-testid="rx-back-to-top"
+          />
         </div>
-      </MhvServiceRequiredGuard>
-    </RequiredLoginView>
+      </div>
+    </>
   );
 };
 

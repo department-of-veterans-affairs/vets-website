@@ -5,7 +5,7 @@ import { mfa } from '~/platform/user/authentication/utilities';
 import { AUTH_EVENTS } from '~/platform/user/authentication/constants';
 
 import SignInServiceUpdateLink from '../contact-information/email-addresses/SignInServiceUpdateLink';
-import { ProfileInfoCard } from '../ProfileInfoCard';
+import { ProfileInfoSection } from '../ProfileInfoSection';
 import { useSignInServiceProvider } from '../../hooks';
 
 const mfaHandler = () => {
@@ -81,7 +81,7 @@ export const AccountSecurityTables = ({
   );
   return (
     <>
-      <ProfileInfoCard
+      <ProfileInfoSection
         title="Sign-in information"
         level={2}
         data={
@@ -90,7 +90,7 @@ export const AccountSecurityTables = ({
         className="vads-u-margin-bottom--2"
       />
 
-      <ProfileInfoCard level={2} title="Account setup" data={data} />
+      <ProfileInfoSection level={2} title="Account setup" data={data} />
     </>
   );
 };

@@ -105,6 +105,19 @@ describe('profile utilities', () => {
       expect(vaPhone.getAttribute('extension')).to.eq('45678');
       expect(vaPhone.getAttribute('not-clickable')).to.eq('true');
     });
+    it('should return international telephone object', () => {
+      const phoneObj = {
+        countryCode: '44',
+        phoneNumber: '2045675000',
+        isInternational: true,
+      };
+      const { container } = render(<div>{renderTelephone(phoneObj)}</div>);
+      const vaPhone = $('va-telephone', container);
+      expect(vaPhone.getAttribute('country-code')).to.eq('44');
+      expect(vaPhone.getAttribute('contact')).to.eq('2045675000');
+      expect(vaPhone.getAttribute('extension')).to.be.null;
+      expect(vaPhone.getAttribute('not-clickable')).to.eq('true');
+    });
   });
 
   describe('getMissingInfo', () => {

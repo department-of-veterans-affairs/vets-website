@@ -1,5 +1,6 @@
 import _ from 'platform/utilities/data';
 import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
+import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import { validateDate } from 'platform/forms-system/src/js/validation';
@@ -12,10 +13,12 @@ import {
 } from '../content/privateMedicalRecordsRelease';
 import { isCompletingForm0781 } from '../utils/form0781';
 import { standardTitle } from '../content/form0781';
+import { makeSchemaForAllDisabilities } from '../utils/schemas';
+import { isCompletingModern4142 } from '../utils';
 
 import PrivateProviderTreatmentView from '../components/PrivateProviderTreatmentView';
 
-import { validateZIP } from '../validations';
+import { validateBooleanGroup, validateZIP } from '../validations';
 
 const { form4142 } = fullSchema.properties;
 
@@ -62,6 +65,22 @@ export const uiSchema = {
           hideIf: formData => !isCompletingForm0781(formData),
         },
         'ui:required': formData => isCompletingForm0781(formData),
+      },
+      treatedDisabilityNames: {
+        'ui:title': 'What conditions were you treated for?',
+        'ui:webComponentField': VaCheckboxGroupField,
+        'ui:options': {
+          updateSchema: makeSchemaForAllDisabilities,
+          itemAriaLabel: data => data.treatmentCenterName,
+          showFieldLabel: true,
+          hideIf: formData => !isCompletingModern4142(formData),
+        },
+        'ui:validations': [validateBooleanGroup],
+        'ui:errorMessages': {
+          atLeastOne: 'Please select at least one condition',
+          required: 'Please select at least one condition',
+        },
+        'ui:required': formData => isCompletingModern4142(formData),
       },
       'ui:validations': [validateDate],
       treatmentDateRange: dateRangeUI(
@@ -129,11 +148,16 @@ export const schema = {
           'treatmentDateRange',
           'providerFacilityAddress',
           'treatmentLocation0781Related',
+          'treatedDisabilityNames',
         ],
         properties: {
           providerFacilityName,
           treatmentLocation0781Related: {
             type: 'boolean',
+            properties: {},
+          },
+          treatedDisabilityNames: {
+            type: 'object',
             properties: {},
           },
           treatmentDateRange: {

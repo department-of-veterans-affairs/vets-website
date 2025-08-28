@@ -207,9 +207,7 @@ export const fileInputUI = options => {
  * Schema for fileInputUI
  *
  * ```js
- * exampleFileInput: {
- *   type: 'object',
- * }
+ * exampleFileInput: fileInputSchema()
  * ```
  */
 export const fileInputSchema = (options = {}) => {

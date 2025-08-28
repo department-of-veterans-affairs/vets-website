@@ -4,10 +4,6 @@
       {
         "name": "profile_enhancements",
         "value": true
-      },
-      {
-        "name": "vet_status_stage_1",
-        "value": true
       }
     ]
   }

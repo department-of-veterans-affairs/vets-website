@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom-v5-compat';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
   VaAccordion,
   VaAlert,
@@ -25,11 +24,12 @@ import TrackingInfo from '../shared/TrackingInfo';
 import FillRefillButton from '../shared/FillRefillButton';
 import StatusDropdown from '../shared/StatusDropdown';
 import ExtraDetails from '../shared/ExtraDetails';
+import MedicationDescription from '../shared/MedicationDescription';
 import {
   selectGroupingFlag,
   selectPartialFillContentFlag,
-  selectRefillContentFlag,
   selectRefillProgressFlag,
+  selectIsDisplayingDocumentation,
 } from '../../util/selectors';
 import VaPharmacyText from '../shared/VaPharmacyText';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
@@ -39,15 +39,11 @@ import ProcessList from '../shared/ProcessList';
 import { landMedicationDetailsAal } from '../../api/rxApi';
 
 const VaPrescription = prescription => {
-  const showRefillContent = useSelector(selectRefillContentFlag);
   const showGroupingContent = useSelector(selectGroupingFlag);
   const showRefillProgressContent = useSelector(selectRefillProgressFlag);
   const showPartialFillContent = useSelector(selectPartialFillContentFlag);
   const isDisplayingDocumentation = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvMedicationsDisplayDocumentationContent
-      ],
+    selectIsDisplayingDocumentation,
   );
   const refillHistory = getRefillHistory(prescription);
   const showRefillHistory = getShowRefillHistory(refillHistory);
@@ -187,7 +183,7 @@ const VaPrescription = prescription => {
             {/* TODO: clean after refill progress content flag is gone */}
             {!showRefillProgressContent && (
               <>
-                {showRefillContent && prescription?.isRefillable ? (
+                {prescription?.isRefillable ? (
                   <Link
                     // TODO: clean after grouping flag is gone
                     className={`${
@@ -274,7 +270,7 @@ const VaPrescription = prescription => {
                 {/* TODO: clean after refill progress content flag is gone */}
                 {showRefillProgressContent && (
                   <>
-                    {showRefillContent && prescription?.isRefillable ? (
+                    {prescription?.isRefillable ? (
                       <Link
                         // TODO: clean after grouping flag is gone
                         className={`${
@@ -643,60 +639,13 @@ const VaPrescription = prescription => {
                               Medication description
                             </h4>
                             <div data-testid="rx-description">
-                              {shape?.trim() &&
-                              color?.trim() &&
-                              frontImprint?.trim() ? (
-                                <>
-                                  <p className="vads-u-margin--0">
-                                    <strong>Note:</strong> If the medication
-                                    you’re taking doesn’t match this
-                                    description, call{' '}
-                                    <VaPharmacyText phone={pharmacyPhone} />.
-                                  </p>
-                                  <ul className="vads-u-margin--0">
-                                    <li
-                                      className="vads-u-margin-y--0"
-                                      data-testid="rx-shape"
-                                    >
-                                      <strong>Shape:</strong>{' '}
-                                      {shape[0].toUpperCase()}
-                                      {shape.slice(1).toLowerCase()}
-                                    </li>
-                                    <li
-                                      className="vads-u-margin-y--0"
-                                      data-testid="rx-color"
-                                    >
-                                      <strong>Color:</strong>{' '}
-                                      {color[0].toUpperCase()}
-                                      {color.slice(1).toLowerCase()}
-                                    </li>
-                                    <li
-                                      className="vads-u-margin-y--0"
-                                      data-testid="rx-front-marking"
-                                    >
-                                      <strong>Front marking:</strong>{' '}
-                                      {frontImprint}
-                                    </li>
-                                    {backImprint ? (
-                                      <li
-                                        className="vads-u-margin-y--0"
-                                        data-testid="rx-back-marking"
-                                      >
-                                        <strong>Back marking:</strong>{' '}
-                                        {backImprint}
-                                      </li>
-                                    ) : (
-                                      <></>
-                                    )}
-                                  </ul>
-                                </>
-                              ) : (
-                                <>
-                                  No description available. Call{' '}
-                                  <VaPharmacyText phone={pharmacyPhone} /> if
-                                  you need help identifying this medication.
-                                </>
-                              )}
+                              <MedicationDescription
+                                shape={shape}
+                                color={color}
+                                frontImprint={frontImprint}
+                                backImprint={backImprint}
+                                pharmacyPhone={pharmacyPhone}
+                              />
                             </div>
                           </div>
                         );
@@ -845,66 +794,13 @@ const VaPrescription = prescription => {
                                       Medication description
                                     </h4>
                                     <div data-testid="rx-description">
-                                      {shape?.trim() &&
-                                      color?.trim() &&
-                                      frontImprint?.trim() ? (
-                                        <>
-                                          <p className="vads-u-margin--0">
-                                            <strong>Note:</strong> If the
-                                            medication you’re taking doesn’t
-                                            match this description, call{' '}
-                                            <VaPharmacyText
-                                              phone={pharmacyPhone}
-                                            />
-                                            .
-                                          </p>
-                                          <ul className="vads-u-margin--0">
-                                            <li
-                                              className="vads-u-margin-y--0"
-                                              data-testid="rx-shape"
-                                            >
-                                              <strong>Shape:</strong>{' '}
-                                              {shape[0].toUpperCase()}
-                                              {shape.slice(1).toLowerCase()}
-                                            </li>
-                                            <li
-                                              className="vads-u-margin-y--0"
-                                              data-testid="rx-color"
-                                            >
-                                              <strong>Color:</strong>{' '}
-                                              {color[0].toUpperCase()}
-                                              {color.slice(1).toLowerCase()}
-                                            </li>
-                                            <li
-                                              className="vads-u-margin-y--0"
-                                              data-testid="rx-front-marking"
-                                            >
-                                              <strong>Front marking:</strong>{' '}
-                                              {frontImprint}
-                                            </li>
-                                            {backImprint ? (
-                                              <li
-                                                className="vads-u-margin-y--0"
-                                                data-testid="rx-back-marking"
-                                              >
-                                                <strong>Back marking:</strong>{' '}
-                                                {backImprint}
-                                              </li>
-                                            ) : (
-                                              <></>
-                                            )}
-                                          </ul>
-                                        </>
-                                      ) : (
-                                        <>
-                                          No description available. If you need
-                                          help identifying this medication, call{' '}
-                                          <VaPharmacyText
-                                            phone={pharmacyPhone}
-                                          />
-                                          .
-                                        </>
-                                      )}
+                                      <MedicationDescription
+                                        shape={shape}
+                                        color={color}
+                                        frontImprint={frontImprint}
+                                        backImprint={backImprint}
+                                        pharmacyPhone={pharmacyPhone}
+                                      />
                                     </div>
                                   </>
                                 )}

@@ -1,5 +1,18 @@
-import get from 'platform/utilities/data/get';
+// TODO: Break this file into smaller modules.
+// Suggested organization:
+// - sharedUtils.js (formatting, name helpers, conditional required checks)
+// - arrayBuilderHelpers.js (ArrayBuilder-specific logic and utilities)
+// - sessionHelpers.js (localStorage/sessionStorage/browser-based logic)
+
 import { capitalize } from 'lodash';
+import { fullNameNoSuffixUI } from '~/platform/forms-system/src/js/web-component-patterns';
+
+import get from '@department-of-veterans-affairs/platform-utilities/data/get';
+
+import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
+
+export const showUpdatedContent = () =>
+  window.sessionStorage.getItem('showUpdatedContent') === 'true';
 
 export const annualReceivedIncomeFromAnnuityRequired = (form, index) =>
   get(['annuities', index, 'receivingIncomeFromAnnuity'], form);
@@ -29,12 +42,28 @@ export const formatFullNameNoSuffix = name => {
   }
 
   const first = capitalize(name.first);
-  const middleInitial = name.middle
-    ? `${capitalize(name.middle.charAt(0))}.`
+  const trimmedMiddle = name.middle?.trim();
+  const middleInitial = trimmedMiddle
+    ? `${capitalize(trimmedMiddle.charAt(0))}.`
     : '';
   const last = capitalize(name.last);
 
   return [first, middleInitial, last].filter(Boolean).join(' ');
+};
+
+/**
+ * Converts any string (e.g., a person's name or noun) to its possessive form.
+ * - "Johnson" -> "Johnson’s"
+ * - "Williams" -> "Williams’"
+ * - "Business" -> "Business’"
+ * - "Emma Lee" -> "Emma Lee’s"
+ *
+ * @param {string} str - The string to convert (e.g., full name or label)
+ * @returns {string} - Possessive form of the string
+ */
+export const formatPossessiveString = str => {
+  if (!str || typeof str !== 'string') return '';
+  return str.endsWith('s') ? `${str}’` : `${str}’s`;
 };
 
 export const isDefined = value => {
@@ -85,6 +114,31 @@ export const isIncomeTypeInfoIncomplete = item =>
   !isDefined(item?.incomeType) ||
   (!isDefined(item?.otherIncomeType) && item?.incomeType === 'OTHER');
 
+export const sharedRecipientRelationshipBase = {
+  title: 'Who receives this income?',
+  hint: 'You’ll be able to add individual incomes separately',
+  labelHeaderLevel: '2',
+  labelHeaderLevelStyle: '3',
+};
+
+/**
+ * Returns a reusable UI schema config for the "otherRecipientRelationshipType" field.
+ *
+ * @param {string} arrayKey - The array key this field belongs to (e.g., 'unassociatedIncomes')
+ */
+export function otherRecipientRelationshipTypeUI(arrayKey) {
+  return {
+    'ui:title': 'Describe their relationship to the Veteran',
+    'ui:webComponentField': VaTextInputField,
+    'ui:options': {
+      expandUnder: 'recipientRelationship',
+      expandUnderCondition: 'OTHER',
+    },
+    'ui:required': (formData, index) =>
+      otherRecipientRelationshipExplanationRequired(formData, index, arrayKey),
+  };
+}
+
 /**
  * Generates the delete description text for an array item.
  *
@@ -100,3 +154,54 @@ export const generateDeleteDescription = (props, getItemName) => {
         props.nounPlural
       }.`;
 };
+
+/**
+ * Resolve the recipient's full name to display on summary cards.
+ *
+ * - If the recipientRelationship is "VETERAN":
+ *   - Use `veteranFullName` when the user is logged in
+ *   - Use `otherVeteranFullName` when the user is not logged in
+ * - If the recipient is not the Veteran, use `recipientName`
+ *
+ * This helper is useful across multiple arrayBuilder pages where we conditionally display
+ * either the Veteran's name or the name of another recipient.
+ *
+ * @param {object} item - The array item object containing recipient data.
+ * @param {object} formData - The overall form data, which may include veteran names and logged in.
+ * @returns {string} The formatted full name string or undefined if no name is resolvable
+ */
+export function resolveRecipientFullName(item, formData) {
+  const { recipientRelationship, recipientName } = item;
+  const {
+    veteranFullName,
+    otherVeteranFullName,
+    isLoggedIn = false,
+  } = formData;
+
+  const isVeteran = recipientRelationship === 'VETERAN';
+
+  if (isVeteran) {
+    const veteranName = isLoggedIn ? veteranFullName : otherVeteranFullName;
+    return formatFullNameNoSuffix(veteranName);
+  }
+
+  return formatFullNameNoSuffix(recipientName);
+}
+
+export function fullNameUIHelper() {
+  return {
+    ...fullNameNoSuffixUI(),
+    first: {
+      ...fullNameNoSuffixUI().first,
+      'ui:title': 'First or given name',
+    },
+    middle: {
+      ...fullNameNoSuffixUI().middle,
+      'ui:title': 'Middle name',
+    },
+    last: {
+      ...fullNameNoSuffixUI().last,
+      'ui:title': 'Last or family name',
+    },
+  };
+}

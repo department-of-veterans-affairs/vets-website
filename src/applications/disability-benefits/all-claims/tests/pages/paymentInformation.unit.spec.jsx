@@ -7,7 +7,7 @@ import { waitFor } from '@testing-library/dom';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 
-import formConfig from '../../config/form.js';
+import formConfig from '../../config/form';
 
 const {
   schema,

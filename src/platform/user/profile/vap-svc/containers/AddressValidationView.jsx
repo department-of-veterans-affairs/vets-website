@@ -15,7 +15,6 @@ import {
 } from 'platform/user/profile/vap-svc/selectors';
 import VAPServiceEditModalErrorMessage from 'platform/user/profile/vap-svc/components/base/VAPServiceEditModalErrorMessage';
 import { formatAddress } from 'platform/forms/address/helpers';
-import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement, waitForRenderThenFocus } from 'platform/utilities/ui';
 import { setData } from 'platform/forms-system/exportsFile';
@@ -243,25 +242,23 @@ class AddressValidationView extends React.Component {
       (!confirmedSuggestions.length && !validationKey)
     ) {
       return (
-        <button
+        <va-button
+          data-testid="edit-address-button"
           onClick={this.onEditClick}
-          type="button"
-          className="vads-u-margin-top--1p5 vads-u-width--full mobile-lg:vads-u-width--auto"
-        >
-          Edit address
-        </button>
+          text="Edit address"
+          class="vads-u-margin-top--1 vads-u-width--full mobile-lg:vads-u-width--auto"
+        />
       );
     }
 
     return (
-      <LoadingButton
-        isLoading={isLoading}
-        type="submit"
+      <va-button
         data-testid="confirm-address-button"
-        aria-label={isLoading ? 'Loading' : buttonText}
-      >
-        {buttonText}
-      </LoadingButton>
+        loading={isLoading}
+        submit="prevent"
+        text={isLoading ? '' : buttonText}
+        class="vads-u-margin-top--1 vads-u-margin-bottom--1 vads-u-width--full mobile-lg:vads-u-width--auto"
+      />
     );
   };
 
@@ -359,6 +356,7 @@ class AddressValidationView extends React.Component {
     const {
       addressFromUser,
       addressValidationError,
+      addressValidationErrorCode,
       confirmedSuggestions,
       suggestedAddresses,
       transaction,
@@ -373,6 +371,7 @@ class AddressValidationView extends React.Component {
       addressValidationError,
       confirmedSuggestions,
       validationKey,
+      addressValidationErrorCode,
       isNoValidationKeyAlertEnabled, // remove when profileShowNoValidationKeyAddressAlert flag is retired
     });
 
@@ -394,10 +393,13 @@ class AddressValidationView extends React.Component {
             status={addressValidationError ? 'error' : 'warning'}
             visible
             uswds
+            slim={addressValidationMessage?.slim}
           >
-            <h4 id="address-validation-alert-heading" slot="headline">
-              {addressValidationMessage.headline}
-            </h4>
+            {addressValidationMessage.headline && (
+              <h4 id="address-validation-alert-heading" slot="headline">
+                {addressValidationMessage.headline}
+              </h4>
+            )}
             <addressValidationMessage.ModalText
               editFunction={this.onEditClick}
             />
@@ -416,13 +418,13 @@ class AddressValidationView extends React.Component {
             {this.renderPrimaryButton()}
             {!addressValidationError &&
               !isLoading && (
-                <button
-                  type="button"
-                  className="usa-button-secondary vads-u-margin-top--1p4 mobile-lg:vads-u-margin-top--1p5 vads-u-width--full mobile-lg:vads-u-width--auto"
+                <va-button
+                  data-testid="edit-address-button"
                   onClick={this.onEditClick}
-                >
-                  Edit address
-                </button>
+                  text="Edit address"
+                  class="vads-u-margin-top--1 vads-u-width--full mobile-lg:vads-u-width--auto"
+                  secondary
+                />
               )}
           </div>
         </form>
@@ -441,6 +443,7 @@ const mapStateToProps = (state, ownProps) => {
   const {
     addressFromUser,
     addressValidationError,
+    addressValidationErrorCode,
     addressValidationType,
     confirmedSuggestions,
     selectedAddress,
@@ -461,6 +464,7 @@ const mapStateToProps = (state, ownProps) => {
       isPendingTransaction(transaction),
     addressFromUser,
     addressValidationError,
+    addressValidationErrorCode,
     addressValidationType,
     confirmedSuggestions,
     selectedAddress,
@@ -496,6 +500,7 @@ AddressValidationView.propTypes = {
   suggestedAddresses: PropTypes.array.isRequired,
   updateSelectedAddress: PropTypes.func.isRequired,
   updateValidationKeyAndSave: PropTypes.func.isRequired,
+  addressValidationErrorCode: PropTypes.string,
   analyticsSectionName: PropTypes.string,
   confirmedSuggestions: PropTypes.arrayOf(
     PropTypes.shape({

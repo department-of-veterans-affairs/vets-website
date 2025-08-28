@@ -144,7 +144,7 @@ export default function prefillTransformer(pages, formData, metadata, state) {
   };
 
   const prefillSyncModern0781Flow = data => {
-    const newData = _.omit(['syncModern0781Flow™'], data);
+    const newData = _.omit(['syncModern0781Flow'], data);
     const { syncModern0781Flow } = data;
 
     if (syncModern0781Flow) {

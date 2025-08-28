@@ -4,12 +4,11 @@ import PropTypes from 'prop-types';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import {
   titleUI,
-  titleSchema,
   checkboxGroupSchema,
   checkboxGroupUI,
   arrayBuilderItemSubsequentPageTitleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+import { CustomPageNavButtons } from '../../shared/components/CustomPageNavButtons';
 import { toHash, nameWording } from '../../shared/utilities';
 
 // This is the original schema that will be dynamically overrulled as soon
@@ -31,7 +30,6 @@ export const selectHealthcareParticipantsPage = {
     type: 'object',
     required: [],
     properties: {
-      titleSchema,
       healthcareParticipants: checkboxGroupSchema(['na']),
     },
   },
@@ -66,7 +64,7 @@ function dynamicSchema(data, item) {
       ),
       healthcareParticipants: checkboxGroupUI({
         title,
-        hint: 'Check all that apply',
+        hint: 'Select all that apply',
         required: () => true,
         labels,
       }),
@@ -75,7 +73,6 @@ function dynamicSchema(data, item) {
       type: 'object',
       required: ['healthcareParticipants'],
       properties: {
-        titleSchema,
         healthcareParticipants: checkboxGroupSchema(Object.keys(labels)),
       },
     },
@@ -95,6 +92,10 @@ export function selectHealthcareParticipantsOnGoForward(props) {
 /** @type {CustomPageType} */
 export function SelectHealthcareParticipantsPage(props) {
   const sch = dynamicSchema(props?.fullData, props?.data);
+  const navButtons = CustomPageNavButtons({
+    ...props,
+    onContinue: () => selectHealthcareParticipantsOnGoForward(props),
+  });
 
   return (
     <SchemaForm
@@ -113,11 +114,7 @@ export function SelectHealthcareParticipantsPage(props) {
       <>
         {/* contentBeforeButtons = save-in-progress links */}
         {props.contentBeforeButtons}
-        <FormNavButtons
-          goBack={props.goBack}
-          goForward={() => selectHealthcareParticipantsOnGoForward(props)}
-          submitToContinue
-        />
+        {navButtons}
         {props.contentAfterButtons}
       </>
     </SchemaForm>

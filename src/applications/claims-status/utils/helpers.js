@@ -1239,32 +1239,27 @@ export const getDisplayFriendlyName = item => {
   return item.friendlyName;
 };
 
-export const getLabel = (toggleValue, trackedItem) => {
+export const getLabel = trackedItem => {
   if (isAutomated5103Notice(trackedItem?.displayName)) {
     return trackedItem?.displayName;
   }
-  if (toggleValue) {
-    if (
-      trackedItem?.friendlyName &&
-      trackedItem?.status === 'NEEDED_FROM_YOU'
-    ) {
-      return trackedItem.friendlyName;
-    }
-    if (
-      !trackedItem?.friendlyName &&
-      trackedItem?.status === 'NEEDED_FROM_YOU'
-    ) {
-      return 'Request for evidence';
-    }
-    if (trackedItem?.displayName.toLowerCase().includes('dbq')) {
-      return 'Request for an exam';
-    }
-    if (trackedItem?.friendlyName) {
-      return `Your ${getDisplayFriendlyName(trackedItem)}`;
-    }
-    return 'Request for evidence outside VA';
+
+  if (evidenceDictionary[(trackedItem?.displayName)]?.isSensitive) {
+    return 'Request for evidence';
   }
-  return trackedItem?.displayName;
+  if (trackedItem?.friendlyName && trackedItem?.status === 'NEEDED_FROM_YOU') {
+    return trackedItem.friendlyName;
+  }
+  if (!trackedItem?.friendlyName && trackedItem?.status === 'NEEDED_FROM_YOU') {
+    return 'Request for evidence';
+  }
+  if (trackedItem?.displayName.toLowerCase().includes('dbq')) {
+    return 'Request for an exam';
+  }
+  if (trackedItem?.friendlyName) {
+    return `Your ${getDisplayFriendlyName(trackedItem)}`;
+  }
+  return 'Request for evidence outside VA';
 };
 
 // Use this function to set the Document Request Page Title, Page Tab and Page Breadcrumb Title
@@ -1280,11 +1275,9 @@ export function setTabDocumentTitle(claim, tabName) {
   setDocumentTitle(generateClaimTitle(claim, 'document', tabName));
 }
 
-export const setPageTitle = (trackedItem, toggleValue) => {
+export const setPageTitle = trackedItem => {
   if (trackedItem) {
-    const pageTitle = setDocumentRequestPageTitle(
-      getLabel(toggleValue, trackedItem),
-    );
+    const pageTitle = setDocumentRequestPageTitle(getLabel(trackedItem));
     setDocumentTitle(pageTitle);
   } else {
     setDocumentTitle('Document Request');
@@ -1337,7 +1330,7 @@ export const renderDefaultThirdPartyMessage = displayName => {
     </>
   ) : (
     <>
-      <strong>You don’t have to do anything.</strong> We asked someone outside
+      <strong>You don’t need to do anything.</strong> We asked someone outside
       VA for documents related to your claim.
       <br />
     </>
@@ -1351,7 +1344,7 @@ export const renderOverrideThirdPartyMessage = item => {
   if (item.shortDescription) {
     return (
       <>
-        <strong>You don’t have to do anything.</strong> {item.shortDescription}
+        <strong>You don’t need to do anything.</strong> {item.shortDescription}
       </>
     );
   }
@@ -1370,6 +1363,26 @@ export const getUploadErrorMessage = (error, claimId) => {
             href={`/track-claims/your-claims/${claimId}/files`}
           />
           . Try checking back later before uploading again.
+        </>
+      ),
+      type: 'error',
+    };
+  }
+  if (error?.errors?.[0]?.detail === 'DOC_UPLOAD_INVALID_CLAIMANT') {
+    return {
+      title: `You can’t upload files for this claim here`,
+      body: (
+        <>
+          <>
+            Only the Veteran with the claim can upload files on this page. We’re
+            sorry for the inconvenience.
+            <br />
+            <va-link
+              active
+              text="Upload files with QuickSubmit"
+              href="https://eauth.va.gov/accessva/?cspSelectFor=quicksubmit"
+            />
+          </>
         </>
       ),
       type: 'error',

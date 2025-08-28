@@ -54,133 +54,79 @@ export class IntroductionPageUpdate extends React.Component {
         itemType="http://schema.org/HowTo"
       >
         <FormTitle title="Change your education benefits" />
-        <p itemProp="description">
+        <p itemProp="description" className="vads-u-font-size--lg">
           Equal to VA Form 22-1995 (Request for Change of Benefit, Program or
           Place of Training).
         </p>
-
-        <p>
-          {' '}
+        <p className="vads-u-font-size--lg">
           <span className="vads-u-font-weight--bold">Note: </span>
-          As of August 12, 2024, VA Form-22-1995 has been combined with form
-          22-5495 to better serve Veterans and their families.
+          As of August 12, 2024, we combined VA Form-22-1995 with VA Form
+          22-5495 to better serve you and your families.
         </p>
+        <h2 className="vads-u-margin-top--4">
+          What to know before you fill out this form
+        </h2>
+        <p>Here’s what you’ll need to change your education benefits:</p>
+        <ul>
+          <li>Social Security number</li>
+          <li>
+            Basic information about the school or training facility you want to
+            attend
+          </li>
+          <li>
+            Bank account direct deposit information (if adding or changing an
+            account)
+          </li>
+          <li>Military history</li>
+          <li>
+            Benefit you have most recently used and benefit you want to change
+            to
+          </li>
+        </ul>
+        <p>
+          Depending on your situation, you may need to include these details:
+        </p>
+        <ul>
+          <li>
+            Sponsor information for the DEA Chapter 35 benefit if you use it or
+            want to use it
+          </li>
+          <li>Guardian information for applicants under the age of 18</li>
+        </ul>
+        <h2 className="vads-u-margin-top--4">
+          What if I need help filling out this form?
+        </h2>
+        <p>
+          An accredited representative can help you. You can work with a
+          Veterans Service Organization (VSO) representative or a Veteran
+          representative at your school. <br />
+          <va-link
+            text="Learn more about getting help from an accredited representative"
+            href="https://www.va.gov/get-help-from-accredited-representative/"
+          />
+        </p>
+        <h2 className="vads-u-margin-top--4">What happens next</h2>
+        <p>
+          After submitting your request, we’ll send you a confirmation message
+          you can print for your records.{' '}
+        </p>
+        <p>
+          We usually process requests within 30 days. We’ll let you know by mail
+          if we need more information.
+        </p>
+        <p>
+          If we approve your request, you’ll get a Certificate of Eligibility
+          (COE) in the mail. Bring this COE to the VA certifying official at
+          your school. This person is usually in the Registrar or Financial Aid
+          office at your school.
+        </p>
+        <p>
+          You’ll only get a COE if we approve your request. If we don’t approve
+          your request, you’ll get a denial letter instead.
+        </p>
+
         <div className="subway-map">
           {this.renderSaveInProgressIntro()}
-          <h3 className="vads-u-font-size--h4">
-            Follow the steps below to apply for education benefits.
-          </h3>
-          <div className="process schemaform-process">
-            <ol>
-              <li
-                className="process-step list-one"
-                itemProp="steps"
-                itemScope
-                itemType="http://schema.org/HowToSection"
-              >
-                <div itemProp="name">
-                  <h4 className="vads-u-font-size--h5">Prepare</h4>
-                </div>
-                <div itemProp="itemListElement">
-                  <div>
-                    <h5 className="vads-u-font-size--h6 vads-u-font-family--sans vads-u-margin--0 vads-u-padding-top--1p5 vads-u-line-height--4">
-                      To fill out this application, you’ll need your:
-                    </h5>
-                  </div>
-                  <ul>
-                    <li>Social Security number (required)</li>
-                    <li>
-                      Basic information about the school or training facility
-                      you want to attend
-                    </li>
-                    <li>
-                      Bank account direct deposit information (if adding or
-                      changing an account)
-                    </li>
-                    <li>Military history</li>
-                    <li>
-                      Benefit you have most recently used and benefit you want
-                      to change to
-                    </li>
-                    <li>
-                      Sponsor information if using or want to use DEA Chapter 35
-                      benefit
-                    </li>
-                    <li>
-                      Guardian information if applicant is under the age of 18{' '}
-                    </li>
-                  </ul>
-                  <p>
-                    <strong>
-                      What if I need help filling out my application?{' '}
-                    </strong>
-                    An accredited individual, like a Veterans Service Officer
-                    (VSO), or a Veteran representative at your school, can help
-                    you fill out your claim.{' '}
-                    <a href="/disability/get-help-filing-claim/">
-                      Get help filing your claim
-                    </a>
-                  </p>
-                  <p>
-                    See what benefits you’ll get at the school you want to
-                    attend.{' '}
-                    <a href="/education/gi-bill-comparison-tool/">
-                      Use the GI Bill Comparison Tool
-                    </a>
-                  </p>
-                </div>
-              </li>
-              <li className="process-step list-two">
-                <div>
-                  <h4 className="vads-u-font-size--h5">Apply</h4>
-                </div>
-                <p>Complete this education benefits form.</p>
-                <p>
-                  After submitting the form, you’ll get a confirmation message.
-                  You can print this for your records.
-                </p>
-              </li>
-              <li
-                className="process-step list-three"
-                itemProp="steps"
-                itemScope
-                itemType="http://schema.org/HowToSection"
-              >
-                <div itemProp="name">
-                  <h4 className="vads-u-font-size--h5">VA review</h4>
-                </div>
-                <div itemProp="itemListElement">
-                  <p>
-                    We usually process claims within 30 days. We’ll let you know
-                    by mail if we need more information.
-                  </p>
-                  <p>
-                    We offer tools and counseling programs to help you make the
-                    most of your educational options.{' '}
-                    <a href="/education/about-gi-bill-benefits/how-to-use-benefits/">
-                      Learn about career counseling options
-                    </a>
-                  </p>
-                </div>
-              </li>
-              <li className="process-step list-four">
-                <div>
-                  <h4 className="vads-u-font-size--h5">Decision</h4>
-                </div>
-                <p>
-                  If we approve your application, you’ll get a Certificate of
-                  Eligibility (COE) in the mail. Bring this COE to the VA
-                  certifying official at your school. This person is usually in
-                  the Registrar or Financial Aid office at the school.
-                </p>
-                <p>
-                  If your application isn’t approved, you’ll get a denial letter
-                  in the mail.
-                </p>
-              </li>
-            </ol>
-          </div>
-          {this.renderSaveInProgressIntro(true)}
           <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
             <va-omb-info
               res-burden={20}

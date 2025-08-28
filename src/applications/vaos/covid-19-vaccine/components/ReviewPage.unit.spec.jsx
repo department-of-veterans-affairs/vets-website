@@ -9,7 +9,7 @@ import {
 } from '@department-of-veterans-affairs/platform-testing/helpers';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
-import { addMinutes, format } from 'date-fns';
+import { addMinutes } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
 import {
   createTestStore,
@@ -155,7 +155,11 @@ describe('VAOS vaccine flow: ReviewPage', () => {
     expect(descHeading).to.have.tagName('h2');
 
     expect(dateHeading).to.contain.text(
-      format(start, "EEEE, MMMM d, yyyy 'at' h:mm aaaa"),
+      formatInTimeZone(
+        start,
+        'America/Denver',
+        `${DATE_FORMATS.friendlyWeekdayDate} 'at' h:mm aaaa`,
+      ),
     );
     expect(dateHeading).to.have.tagName('h3');
 
