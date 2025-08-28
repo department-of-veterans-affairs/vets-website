@@ -11,10 +11,13 @@ import {
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
 import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
-import { Paths } from '../util/constants';
+import { populatedDraft } from '../selectors';
+import { ErrorMessages, Paths } from '../util/constants';
 import RecipientsSelect from '../components/ComposeForm/RecipientsSelect';
 import EmergencyNote from '../components/EmergencyNote';
 import { updateDraftInProgress } from '../actions/threadDetails';
+import RouteLeavingGuard from '../components/shared/RouteLeavingGuard';
+import { saveDraft } from '../actions/draftDetails';
 
 const SelectCareTeam = () => {
   const dispatch = useDispatch();
@@ -26,7 +29,10 @@ const SelectCareTeam = () => {
     allowedRecipients,
   } = useSelector(state => state.sm.recipients);
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
-  const { draftInProgress } = useSelector(state => state.sm.threadDetails);
+  const { draftInProgress, acceptInterstitial } = useSelector(
+    state => state.sm.threadDetails,
+  );
+  const validDraft = useSelector(populatedDraft);
 
   const [careTeamError, setCareTeamError] = useState('');
   const [careTeamsList, setCareTeamsList] = useState([]);
@@ -40,25 +46,32 @@ const SelectCareTeam = () => {
 
   const MAX_RADIO_OPTIONS = 6;
 
+  useEffect(
+    () => {
+      if (!acceptInterstitial && !validDraft) history.push(Paths.COMPOSE);
+    },
+    [acceptInterstitial, validDraft, history],
+  );
+
   // On initial load, always clear the active care system
   // This ensures that if the user navigates back to this page, they will see
   // all care teams without being filtered by the active care system
   // If they have an active care team, we set that as the selected care team
-  useEffect(() => {
-    dispatch(
-      updateDraftInProgress({ careSystemVhaId: null, careSystemName: null }),
-    );
-    if (draftInProgress?.recipientId) {
-      setSelectedCareTeamId(draftInProgress.recipientId);
-    }
-  }, []);
+  useEffect(
+    () => {
+      if (draftInProgress?.recipientId) {
+        setSelectedCareTeamId(draftInProgress.recipientId);
+      }
+    },
+    [draftInProgress.recipientId],
+  );
 
   const careTeamHandler = useCallback(
     recipient => {
       const newId = recipient?.id ? recipient.id.toString() : null;
 
       // Only update if the value actually changes
-      if (selectedCareTeamId !== newId) {
+      if (String(selectedCareTeamId) !== String(newId)) {
         setSelectedCareTeamId(newId);
 
         if (recipient.id && recipient.id !== '0') {
@@ -69,6 +82,24 @@ const SelectCareTeam = () => {
               recipientName: recipient.suggestedNameDisplay || recipient.name,
             }),
           );
+          if (
+            draftInProgress?.body &&
+            draftInProgress?.subject &&
+            draftInProgress?.category
+          ) {
+            dispatch(
+              updateDraftInProgress({
+                navigationError:
+                  ErrorMessages.ComposeForm.CONT_SAVING_DRAFT_CHANGES,
+              }),
+            );
+          } else {
+            dispatch(
+              updateDraftInProgress({
+                navigationError: ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
+              }),
+            );
+          }
         } else if (!recipient.id) {
           dispatch(
             updateDraftInProgress({
@@ -81,7 +112,13 @@ const SelectCareTeam = () => {
       }
       // Do nothing if the id hasn't changed
     },
-    [dispatch, selectedCareTeamId],
+    [
+      dispatch,
+      selectedCareTeamId,
+      draftInProgress?.body,
+      draftInProgress?.subject,
+      draftInProgress?.category,
+    ],
   );
 
   useEffect(() => {
@@ -265,6 +302,15 @@ const SelectCareTeam = () => {
     [allFacilities, ehrDataByVhaId],
   );
 
+  const saveDraftHandler = useCallback(
+    () => {
+      dispatch(
+        saveDraft(draftInProgress, 'manual', draftInProgress?.messageId),
+      );
+    },
+    [dispatch, draftInProgress],
+  );
+
   const renderCareSystems = () => {
     if (
       allFacilities?.length > 1 &&
@@ -323,6 +369,7 @@ const SelectCareTeam = () => {
     <div className="choose-va-health-care-system">
       <h1 className="vads-u-margin-bottom--2">Select care team</h1>
       <EmergencyNote dropDownFlag />
+      <RouteLeavingGuard saveDraftHandler={saveDraftHandler} type="compose" />
       <div>
         {renderCareSystems()}
 
@@ -345,7 +392,9 @@ const SelectCareTeam = () => {
         </div>
         <div className="vads-u-margin-top--2">
           <p className="vads-u-margin-bottom--1">
-            <Link to="/">What to do if you can’t find your care team</Link>
+            <Link to={Paths.CARE_TEAM_HELP}>
+              What to do if you can’t find your care team
+            </Link>
           </p>
         </div>
         {showContactListLink && (

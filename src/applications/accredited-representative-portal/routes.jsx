@@ -14,6 +14,8 @@ import ErrorBoundary from './components/Error/ErrorBoundary';
 import GetHelpPage from './containers/GetHelpPage';
 import LoginContainer from './containers/LoginContainer';
 import AuthCallbackHandler from './containers/AuthCallbackHandler';
+import DashboardPage from './containers/DashboardPage';
+import { ProfileContext, profileUser } from './components/Header/Nav';
 
 import { userPromise } from './utilities/auth';
 import { getSignInUrl } from './utilities/constants';
@@ -88,9 +90,17 @@ const routes = [
             element: <SignedInLayout />,
             children: [
               {
+                path: 'dashboard',
+                element: <DashboardPage />,
+                loader: DashboardPage.loader,
+              },
+              {
                 path: 'poa-requests',
                 element: (
-                  <POARequestSearchPage title="Representation requests | Veterans Affairs" />
+                  // eslint-disable-next-line no-undef
+                  <ProfileContext.Provider value={profileUser}>
+                    <POARequestSearchPage title="Representation requests | Veterans Affairs" />
+                  </ProfileContext.Provider>
                 ),
                 loader: POARequestSearchPage.loader,
               },

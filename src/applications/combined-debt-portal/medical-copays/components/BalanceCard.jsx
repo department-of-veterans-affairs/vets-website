@@ -1,10 +1,14 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
-import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaLoadingIndicator,
+  VaLink,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+
 import {
   currency,
   calcDueDate,
@@ -51,6 +55,8 @@ PastDueContent.propTypes = {
 };
 
 const BalanceCard = ({ id, amount, facility, city, date }) => {
+  const history = useHistory();
+
   const {
     useToggleValue,
     useToggleLoadingValue,
@@ -64,15 +70,9 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
   );
 
   const isCurrentBalance = verifyCurrentBalance(date);
-  let linkText = '';
-
-  if (isCurrentBalance) {
-    linkText = 'Check details and resolve this bill';
-  } else if (showCDPOneThingPerPage) {
-    linkText = 'Review details';
-  } else {
-    linkText = 'Check details';
-  }
+  const linkText = isCurrentBalance
+    ? `Check details and resolve this bill`
+    : `Check details`;
 
   // give features a chance to fully load before we conditionally render
   if (togglesLoading) {
@@ -116,37 +116,51 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
           />
         )}
       </div>
-      <Link
-        className="vads-u-font-weight--bold"
-        to={`/copay-balances/${id}/detail`}
-        data-testid={`detail-link-${id}`}
-        aria-label={`Check details and resolve this debt for ${facility}`}
-        onClick={() => {
-          recordEvent({ event: 'cta-link-click-copay-balance-card' });
-        }}
-      >
-        {showCDPOneThingPerPage ? `Review details` : linkText}
-        <va-icon icon="navigate_next" size={2} class="cdp-link-icon--active" />
-      </Link>
-      {showCDPOneThingPerPage && (
-        <div className="vads-u-margin-top--1">
-          <Link
-            className="vads-u-font-weight--bold"
-            to={`/copay-balances/${id}/resolve`}
-            data-testid={`resolve-link-${id}`}
-            aria-label={`Resolve this debt for ${facility}`}
-            onClick={() => {
+      {showCDPOneThingPerPage ? (
+        <div className="vads-u-display--flex vads-u-flex-direction--column">
+          <VaLink
+            active
+            data-testid={`detail-link-${id}`}
+            onClick={event => {
+              event.preventDefault();
               recordEvent({ event: 'cta-link-click-copay-balance-card' });
+              history.push(`/copay-balances/${id}/detail`);
             }}
-          >
-            Resolve this bill
-            <va-icon
-              icon="navigate_next"
-              size={2}
-              class="cdp-link-icon--active"
-            />
-          </Link>
+            href={`/copay-balances/${id}/detail`}
+            text="Review details"
+            aria-label={`Review details for ${facility}`}
+          />
+
+          <VaLink
+            active
+            data-testid={`resolve-link-${id}`}
+            onClick={event => {
+              event.preventDefault();
+              recordEvent({ event: 'cta-link-click-copay-balance-card' });
+              history.push(`/copay-balances/${id}/resolve`);
+            }}
+            href={`/copay-balances/${id}/resolve`}
+            text="Resolve this bill"
+            aria-label={`Resolve this bill for ${facility}`}
+          />
         </div>
+      ) : (
+        <Link
+          className="vads-u-font-weight--bold"
+          to={`/copay-balances/${id}/detail`}
+          data-testid={`detail-link-${id}`}
+          aria-label={`Check details and resolve this bill for ${facility}`}
+          onClick={() => {
+            recordEvent({ event: 'cta-link-click-copay-balance-card' });
+          }}
+        >
+          {linkText}
+          <va-icon
+            icon="navigate_next"
+            size={2}
+            class="cdp-link-icon--active"
+          />
+        </Link>
       )}
     </va-card>
   );

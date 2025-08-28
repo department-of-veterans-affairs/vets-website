@@ -119,9 +119,17 @@ const ApplicationsInProgress = ({
               // otherwise use "VA Form {formId}" for non-SiP forms
               const formMeta = MY_VA_SIP_FORMS.find(e => e.id === formId);
               const hasBenefit = !!formMeta?.benefit;
+              // Temporary custom label for 21-4142 via 526 claim
+              // and for 686C-674-v2 so they can be user-friendly
+              let formIdLabel;
+              if (formId === 'form526_form4142') {
+                formIdLabel = '21-4142 submitted with VA Form 21-526EZ';
+              } else {
+                formIdLabel = form.form.replace(/-V2$/i, '');
+              }
               const formTitle = hasBenefit
                 ? `application for ${formMeta.benefit}`
-                : `VA Form ${form.form}`;
+                : `VA Form ${formIdLabel}`;
               const presentableFormId = presentableFormIDs[formId] || '';
               const { lastUpdated } = form || {};
               const lastSavedDate = format(

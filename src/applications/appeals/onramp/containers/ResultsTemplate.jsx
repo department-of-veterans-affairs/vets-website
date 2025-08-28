@@ -2,8 +2,11 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { ROUTES } from '../constants';
+import { RESULTS_CONTENT } from '../constants/results-data-map';
 
 const ResultsTemplate = ({ resultPage, router, viewedIntroPage }) => {
+  const { h1, bodyContent } = RESULTS_CONTENT?.[resultPage] || {};
+
   useEffect(
     () => {
       if (!viewedIntroPage) {
@@ -13,7 +16,16 @@ const ResultsTemplate = ({ resultPage, router, viewedIntroPage }) => {
     [router, viewedIntroPage],
   );
 
-  return <h1 data-testid="onramp-results-header">{resultPage}</h1>;
+  if (h1 && bodyContent) {
+    return (
+      <>
+        <h1 data-testid={`onramp-results-header-${resultPage}`}>{h1}</h1>
+        {bodyContent}
+      </>
+    );
+  }
+
+  return null;
 };
 
 const mapStateToProps = state => ({

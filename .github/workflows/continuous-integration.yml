@@ -1409,7 +1409,18 @@ jobs:
    # --------------------------------------
       # | Publish Unit Test Coverage Report       |
       # -------------------------------------
+      - name: Generate full coverage on main
+        if: ${{ github.ref == 'refs/heads/main' }}
+        run: yarn test:unit:gha --full-suite --coverage --log-level verbose
+
+      - name: Prepare coverage artifact (main)
+        if: ${{ github.ref == 'refs/heads/main' }}
+        run: |
+          mkdir -p qa-standards-dashboard-data/coverage
+          cp coverage/coverage-summary.json qa-standards-dashboard-data/coverage/coverage-summary.json
+
       - name: Download Unit Test coverage results
+        if: ${{ github.ref != 'refs/heads/main' }}
         uses: ./.github/workflows/download-artifact
         with:
           name: unit-test-coverage
@@ -1543,7 +1554,7 @@ jobs:
         if: ${{ needs.cypress-tests.result == 'failure' }}
         uses: ./.github/workflows/download-artifact
         with:
-          pattern: cypress-mochawesome-test-results-*
+          pattern: cypress-video-artifacts-*
           path: qa-standards-dashboard-data/videos/${{ env.UUID }}
           merge-multiple: true
 
@@ -2065,10 +2076,11 @@ jobs:
           -H "Accept: application/vnd.github.v3+json" \
           -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
           https://api.github.com/repos/${{ github.repository }}/dispatches \
-          -d "$(jq -n --arg sha "${{ github.sha }}" \
-          --arg ref "${{ github.ref }}" \
-          --arg entry "${{ needs.build.outputs.entry_names }}" \
-          '{event_type: "cd-production-deploy", client_payload: {github_sha: $sha, github_ref: $ref, entry_app: $entry}}')"
+          -d "$(jq -n --arg sha \"${{ github.sha }}\" \
+          --arg ref \"${{ github.ref }}\" \
+          --arg entry \"${{ needs.build.outputs.entry_names }}\" \
+          --arg slack_channel \"${{ steps.determine-channel.outputs.channel }}\" \
+          '{event_type: \"cd-production-deploy\", client_payload: {github_sha: $sha, github_ref: $ref, entry_app: $entry, slack_channel: $slack_channel}}')"
                          
   notify-failure:
     name: Notify Failure
