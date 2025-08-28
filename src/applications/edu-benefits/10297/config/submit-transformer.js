@@ -71,7 +71,7 @@ export function transform(formConfig, form) {
         ...parsedData,
         trainingProviders: {
           providers: [],
-          plannedStartDate: parsedData.plannedStartDate || 'XXZZ-XX-XX',
+          plannedStartDate: parsedData.plannedStartDate || 'XXXX-XX-XX',
         },
       };
     }
