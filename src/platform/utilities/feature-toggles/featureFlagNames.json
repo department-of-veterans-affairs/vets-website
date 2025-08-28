@@ -319,6 +319,7 @@
   "vaOnlineSchedulingRequests": "va_online_scheduling_requests",
   "vaOnlineSchedulingRemovePodiatry": "vaos_online_scheduling_remove_podiatry",
   "vaOnlineSchedulingMentalHealthHistoryFiltering": "va_online_scheduling_mental_health_history_filtering",
+  "vaOnlineSchedulingAddSubstanceUseDisorder": "vaos_add_substance_use_disorder",
   "veteranOnboardingBetaFlow": "veteran_onboarding_beta_flow",
   "vetStatusPdfLogging": "vet_status_pdf_logging",
   "veteranOnboardingShowWelcomeMessageToNewUsers": "veteran_onboarding_show_welcome_message_to_new_users",
