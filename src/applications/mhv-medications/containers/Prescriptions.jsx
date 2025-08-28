@@ -41,7 +41,6 @@ import {
 import { buildPrescriptionsTXT, buildAllergiesTXT } from '../util/txtConfigs';
 import Alert from '../components/shared/Alert';
 import {
-  selectAllergiesFlag,
   selectGroupingFlag,
   selectRefillProgressFlag,
   selectIPEContentFlag,
@@ -89,7 +88,6 @@ const Prescriptions = () => {
 
   // Get feature flags
   const showGroupingContent = useSelector(selectGroupingFlag);
-  const showAllergiesContent = useSelector(selectAllergiesFlag);
   const showRefillProgressContent = useSelector(selectRefillProgressFlag);
   const showIPEContent = useSelector(selectIPEContentFlag);
 
@@ -668,24 +666,15 @@ const Prescriptions = () => {
           Mail, you can also call your servicing center and ask them to update
           your records.
         </>
-        {!showAllergiesContent && (
-          <>
-            {' '}
-            If you print or download this list, we’ll include a list of your
-            allergies.
-          </>
-        )}
       </p>
-      {showAllergiesContent && (
-        <a
-          href="/my-health/medical-records/allergies"
-          rel="noreferrer"
-          className="vads-u-display--block vads-u-margin-bottom--3"
-          data-testid="allergies-link"
-        >
-          Go to your allergies and reactions
-        </a>
-      )}
+      <a
+        href="/my-health/medical-records/allergies"
+        rel="noreferrer"
+        className="vads-u-display--block vads-u-margin-bottom--3"
+        data-testid="allergies-link"
+      >
+        Go to your allergies and reactions
+      </a>
     </>
   );
 
