@@ -5,6 +5,11 @@ import { Paths } from '../../util/constants';
 
 const SelectedRecipientTitle = props => {
   const { draftInProgress } = props;
+
+  // Handle cases where draftInProgress is undefined or null
+  const careSystemName = draftInProgress?.careSystemName || '';
+  const recipientName = draftInProgress?.recipientName || '';
+
   return (
     <div className="vads-u-margin-top--3">
       <p className="vads-u-margin-bottom--0">To</p>
@@ -12,7 +17,7 @@ const SelectedRecipientTitle = props => {
         className="vads-u-font-weight--bold vads-u-margin-y--0"
         data-testid="compose-recipient-title"
       >
-        {draftInProgress.careSystemName} - {draftInProgress.recipientName}
+        {careSystemName} - {recipientName}
       </p>
       <Link
         to={`${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`}
