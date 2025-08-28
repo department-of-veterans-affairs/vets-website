@@ -77,11 +77,11 @@ describe('526 summary shared page', () => {
     const onSubmit = sinon.spy();
     const { container } = mountPage({}, onSubmit);
     const view = within(container);
-
     const group = container.querySelector('va-radio');
     const yesOpt = container.querySelector('va-radio-option[value="Y"]');
-    expect(group).to.exist;
-    expect(yesOpt).to.exist;
+
+    expect(group, 'va-radio not found').to.exist;
+    expect(yesOpt, 'va-radio-option[value="Y"] not found').to.exist;
 
     Object.defineProperty(yesOpt, 'value', {
       configurable: true,
@@ -92,19 +92,24 @@ describe('526 summary shared page', () => {
       get: () => true,
     });
 
-    fireEvent(
-      yesOpt,
-      new MouseEvent('click', { bubbles: true, composed: true }),
-    );
+    const payload = {
+      bubbles: true,
+      composed: true,
+      detail: { value: 'Y', checked: true },
+    };
 
-    fireEvent(
-      yesOpt,
-      new CustomEvent('vaValueChange', {
-        bubbles: true,
-        composed: true,
-        detail: { value: 'Y', checked: true },
-      }),
-    );
+    fireEvent.click(yesOpt);
+
+    fireEvent(yesOpt, new CustomEvent('vaChange', payload));
+    fireEvent(yesOpt, new CustomEvent('vaValueChange', payload));
+
+    fireEvent(group, new CustomEvent('vaChange', payload));
+    fireEvent(group, new CustomEvent('vaValueChange', payload));
+
+    await waitFor(() => {
+      expect(group.getAttribute('error')).to.not.be.ok;
+      expect(group.getAttribute('aria-invalid')).to.not.equal('true');
+    });
 
     view.getByRole('button', { name: /submit/i }).click();
 
