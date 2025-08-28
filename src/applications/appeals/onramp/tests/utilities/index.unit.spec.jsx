@@ -29,7 +29,7 @@ describe('utilities', () => {
     });
 
     describe('single item', () => {
-      it('should render in a <p> without a period if includeAnds is false', () => {
+      it('should render in a <p> without a period if useSentenceFormat is false', () => {
         const cardContent = ['You have new or relevant evidence'];
         const screen = render(
           renderSingleOrList(cardContent, false, 'test-class', null, 'testid'),
@@ -40,7 +40,7 @@ describe('utilities', () => {
         expect(p).to.have.text(cardContent[0]);
       });
 
-      it('should render in a <p> with a period if includeAnds is true', () => {
+      it('should render in a <p> with a period if useSentenceFormat is true', () => {
         const cardContent = ['You have new or relevant evidence'];
         const screen = render(
           renderSingleOrList(cardContent, true, null, null, 'testid'),
@@ -53,7 +53,7 @@ describe('utilities', () => {
     });
 
     describe('multiple items', () => {
-      it('should render a list of items correctly if includeAnds is false', () => {
+      it('should render a list of items correctly if useSentenceFormat is false', () => {
         const cardContent = ['Supplemental Claims', 'Higher-Level Reviews'];
         const screen = render(
           renderSingleOrList(cardContent, false, null, 'test-class', 'testid'),
@@ -67,7 +67,7 @@ describe('utilities', () => {
         expect(items[1]).to.have.text(cardContent[1]);
       });
 
-      it('should include comma and "and" for all but last item if includeAnds is true', () => {
+      it('should include comma and "and" for all but last item if useSentenceFormat is true', () => {
         const cardContent = [
           'You have new or relevant evidence',
           'Your claim is not contested',

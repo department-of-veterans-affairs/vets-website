@@ -9,14 +9,14 @@ export const printErrorMessage = message =>
  * Takes a list of 0 or more items and returns the proper markup
  *
  * @param {*} items List of 0 or more items to render
- * @param {*} includeAnds Flag indicating whether to include ', and'
+ * @param {*} useSentenceFormat Flag indicating whether to include ', and'
  * after each list item except the last one
  * @param {*} paragraphClass Optional param for class name(s) for the single item
  * @param {*} listItemClasses Optional param for class name(s) for each list item
  */
 export const renderSingleOrList = (
   items,
-  includeAnds,
+  useSentenceFormat,
   paragraphClass = null,
   listItemClasses = null,
   testId = null,
@@ -27,7 +27,7 @@ export const renderSingleOrList = (
     return (
       <p className={paragraphClass || ''} data-testid={`${testId}-0`}>
         {items[0]}
-        {includeAnds && '.'}
+        {useSentenceFormat && '.'}
       </p>
     );
   }
@@ -41,7 +41,7 @@ export const renderSingleOrList = (
           key={index}
         >
           {item}
-          {includeAnds && index <= items.length - 2 ? (
+          {useSentenceFormat && index <= items.length - 2 ? (
             <>
               , <strong>and</strong>
             </>
