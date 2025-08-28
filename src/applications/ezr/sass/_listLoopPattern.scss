@@ -15,3 +15,6 @@ va-select[name$="_contactType"] { display: none; }
 
 // Hide the delete button for the financial information list & loop
 va-card[name^="income and deductible"] va-button-icon[data-action="remove"] { display: none; }
+
+// Hide the delete button for the spousal information summary card.
+va-card[name^="spouse_"] va-button-icon[data-action="remove"] { display: none; }
