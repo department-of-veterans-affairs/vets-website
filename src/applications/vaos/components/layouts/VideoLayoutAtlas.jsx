@@ -26,6 +26,7 @@ import {
   NULL_STATE_FIELD,
   recordAppointmentDetailsNullStates,
 } from '../../utils/events';
+import ClinicName from './ClinicName';
 
 export default function VideoLayoutAtlas({ data: appointment }) {
   const {
@@ -193,11 +194,7 @@ export default function VideoLayoutAtlas({ data: appointment }) {
             ) : (
               'Facility not available'
             )}
-            <br />
-            <span data-dd-privacy="mask">
-              {clinicName ? `Clinic: ${clinicName}` : 'Clinic not available'}
-            </span>
-            <br />
+            <ClinicName name={clinicName} /> <br />
             <ClinicOrFacilityPhone
               clinicPhone={clinicPhone}
               clinicPhoneExtension={clinicPhoneExtension}

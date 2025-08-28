@@ -25,6 +25,8 @@ import {
   NULL_STATE_FIELD,
   recordAppointmentDetailsNullStates,
 } from '../../utils/events';
+import ClinicPhysicalLocation from './ClinicPhysicalLocation';
+import ClinicName from './ClinicName';
 
 export default function VideoLayoutVA({ data: appointment }) {
   const {
@@ -141,15 +143,8 @@ export default function VideoLayoutVA({ data: appointment }) {
             <div className="vads-u-margin-top--1 vads-u-color--link-default">
               <FacilityDirectionsLink location={facility} icon />
             </div>
-            <br />
-            <span data-dd-privacy="mask">
-              Clinic: {clinicName || 'Not available'}
-            </span>{' '}
-            <br />
-            <span data-dd-privacy="mask">
-              Location: {clinicPhysicalLocation || 'Not available'}
-            </span>
-            <br />
+            <ClinicName name={clinicName} />{' '}
+            <ClinicPhysicalLocation location={clinicPhysicalLocation} /> <br />
           </>
         )}
         <ClinicOrFacilityPhone

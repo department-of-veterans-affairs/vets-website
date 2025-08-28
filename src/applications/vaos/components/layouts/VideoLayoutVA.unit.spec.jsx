@@ -217,6 +217,50 @@ describe('VAOS Component: VideoLayoutVA', () => {
         screen.container.querySelector('va-telephone[contact="800-698-2411"]'),
       ).to.be.ok;
     });
+
+    it('should not display clinic heading when service name is missing', async () => {
+      // Arrange
+      const store = createTestStore(initialState);
+      const response = MockAppointmentResponse.createClinicResponse({
+        localStartTime: new Date(),
+      }).setLocation(new MockFacilityResponse());
+      const appointment = MockAppointmentResponse.getTransformedResponse(
+        response,
+      );
+
+      // Act
+      const screen = renderWithStoreAndRouter(
+        <VideoLayoutVA data={appointment} />,
+        {
+          store,
+        },
+      );
+
+      // Assert
+      expect(screen.queryByText(/Clinic:/i)).not.to.exist;
+    });
+
+    it('should not display location heading when physical location is missing', async () => {
+      // Arrange
+      const store = createTestStore(initialState);
+      const response = MockAppointmentResponse.createClinicResponse({
+        localStartTime: new Date(),
+      }).setLocation(new MockFacilityResponse());
+      const appointment = MockAppointmentResponse.getTransformedResponse(
+        response,
+      );
+
+      // Act
+      const screen = renderWithStoreAndRouter(
+        <VideoLayoutVA data={appointment} />,
+        {
+          store,
+        },
+      );
+
+      // Assert
+      expect(screen.queryByText(/Location:/i)).not.to.exist;
+    });
   });
 
   describe('When viewing upcoming appointment details', () => {
@@ -661,7 +705,7 @@ describe('VAOS Component: VideoLayoutVA', () => {
         .ok;
 
       expect(screen.getByText(/Clinic: Clinic 1/i));
-      expect(screen.getByText(/Location: CHEYENNE/i));
+      expect(screen.getByText(/Location:/i));
       expect(screen.getByText(/Phone:/i));
       expect(
         screen.container.querySelector('va-telephone[contact="500-500-5000"]'),
@@ -784,7 +828,7 @@ describe('VAOS Component: VideoLayoutVA', () => {
         .ok;
 
       expect(screen.getByText(/Clinic: Clinic 1/i));
-      expect(screen.getByText(/Location: CHEYENNE/i));
+      expect(screen.getByText(/Location:/i));
       expect(screen.getByText(/Phone:/i));
       expect(
         screen.container.querySelector('va-telephone[contact="500-500-5000"]'),

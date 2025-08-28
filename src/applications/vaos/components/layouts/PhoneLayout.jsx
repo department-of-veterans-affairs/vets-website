@@ -24,6 +24,7 @@ import {
   NULL_STATE_FIELD,
   recordAppointmentDetailsNullStates,
 } from '../../utils/events';
+import ClinicName from './ClinicName';
 
 export default function PhoneLayout({ data: appointment }) {
   const {
@@ -119,11 +120,7 @@ export default function PhoneLayout({ data: appointment }) {
             <Address address={facility?.address} />
           </>
         )}
-        <span>
-          Clinic:{' '}
-          <span data-dd-privacy="mask">{clinicName || 'Not available'}</span>
-        </span>{' '}
-        <br />
+        <ClinicName name={clinicName} /> <br />
         <ClinicOrFacilityPhone
           clinicPhone={clinicPhone}
           clinicPhoneExtension={clinicPhoneExtension}
