@@ -9,7 +9,7 @@ import {
   getStartLink,
   showOutsideDROption,
   swapPrefix,
-} from '../../utilities/dr-results-card-utils';
+} from '../../utilities/dr-results-content-utils';
 import { RESPONSES } from '../../constants/question-data-map';
 import * as c from '../../constants/results-content/dr-screens/card-content';
 

@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import sinon from 'sinon';
 import GoodFitCard from '../../../components/dr-results-screens/GoodFitCard';
-import * as utils from '../../../utilities/dr-results-card-utils';
+import * as utils from '../../../utilities/dr-results-content-utils';
 import * as c from '../../../constants/results-content/dr-screens/card-content';
 
 describe('GoodFitCard', () => {

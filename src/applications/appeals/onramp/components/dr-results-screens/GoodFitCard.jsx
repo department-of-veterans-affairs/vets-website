@@ -6,7 +6,7 @@ import {
   getLearnMoreLink,
   getStartLink,
   getDecisionTimeline,
-} from '../../utilities/dr-results-card-utils';
+} from '../../utilities/dr-results-content-utils';
 
 const GoodFitCard = ({ card, formResponses }) => {
   const H3 = getCardTitle(card);

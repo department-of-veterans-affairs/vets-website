@@ -4,7 +4,7 @@ import {
   getCardTitle,
   getCardContent,
   getLearnMoreLink,
-} from '../../utilities/dr-results-card-utils';
+} from '../../utilities/dr-results-content-utils';
 
 const NotGoodFitCard = ({ card, formResponses }) => {
   const H3 = getCardTitle(card);
