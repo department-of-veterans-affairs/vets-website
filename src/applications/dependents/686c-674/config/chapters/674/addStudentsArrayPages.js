@@ -30,6 +30,8 @@ import VaMemorableDateField from 'platform/forms-system/src/js/web-component-fie
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import { validateCurrentOrFutureDate } from 'platform/forms-system/src/js/validation';
 
+import TotalAssetValue from '../../../components/TotalAssetValue';
+
 import {
   AccreditedSchool,
   AddStudentsIntro,
@@ -788,7 +790,42 @@ export const studentAssetsPage = {
         ),
       },
       otherAssets: currencyUI('All other assets'),
-      totalValue: currencyUI('Total value'),
+      totalValue: {
+        'ui:description': TotalAssetValue,
+      },
+    },
+    'ui:options': {
+      updateSchema: (formData, schema, _uiSchema) => {
+        const parseCurrency = value => {
+          if (!value) return 0;
+          return parseFloat(value) || 0;
+        };
+
+        const calculateTotal = (data = {}) => {
+          return (
+            parseCurrency(data.otherAssets) +
+            parseCurrency(data.realEstate) +
+            parseCurrency(data.savings) +
+            parseCurrency(data.securities)
+          );
+        };
+
+        const total = calculateTotal(formData?.studentNetworthInformation);
+
+        console.log(
+          'Calculated total:',
+          formData?.studentNetworthInformation?.totalValue,
+        );
+
+        console.log(formData?.studentNetworthInformation);
+
+        if (formData?.studentNetworthInformation) {
+          // eslint-disable-next-line no-param-reassign
+          formData.studentNetworthInformation.totalValue = total.toString();
+        }
+
+        return schema;
+      },
     },
   },
   schema: {
@@ -801,7 +838,10 @@ export const studentAssetsPage = {
           securities: currencyStringSchema,
           realEstate: currencyStringSchema,
           otherAssets: currencyStringSchema,
-          totalValue: currencyStringSchema,
+          totalValue: {
+            type: 'object',
+            properties: {},
+          },
         },
       },
     },
