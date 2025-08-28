@@ -54,25 +54,6 @@ export class LetterList extends React.Component {
         content = newLetterContent[letter.letterType];
       }
 
-      // OLD conditional download button
-      // TODO: Remove after feature flag is turned off.
-      // let conditionalDownloadButton;
-      // if (
-      //   letter.letterType !== LETTER_TYPES.benefitSummary ||
-      //   this.props.optionsAvailable
-      // ) {
-      //   conditionalDownloadButton = (
-      //     <DownloadLetterLink
-      //       letterType={letter.letterType}
-      //       letterTitle={letterTitle}
-      //       downloadStatus={downloadStatus[letter.letterType]}
-      //       // eslint-disable-next-line -- LH_MIGRATION
-      //       LH_MIGRATION__options={this.state.LH_MIGRATION__options}
-      //       key={`download-link-${index}`}
-      //     />
-      //   );
-      // }
-
       // NEW conditional download link (KEEP)
       let conditionalDownloadElem;
       if (letter.letterType === LETTER_TYPES.benefitSummary) {
