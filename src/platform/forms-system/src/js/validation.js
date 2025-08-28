@@ -674,3 +674,24 @@ export function validateTelephoneInput(
     errors.addError(_error);
   }
 }
+
+/**
+ * @param {Object | Object[]} data - object or array containing file data
+ * @returns {Boolean} is there a file
+ */
+export function filePresenceValidation(data) {
+  // file input multiple
+  if (Array.isArray(data)) {
+    let hasFile = false;
+    for (const file of data) {
+      const _hasFile = file.confirmationCode && file.name && file.size;
+      if (_hasFile) {
+        hasFile = true;
+        break;
+      }
+    }
+    return hasFile;
+  }
+  // file input single
+  return !!data.confirmationCode && !!data.name && !!data.size;
+}

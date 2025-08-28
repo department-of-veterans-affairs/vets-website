@@ -1,6 +1,14 @@
 import { useState } from 'react';
 import { isEmpty } from 'lodash';
 import { uploadFile } from 'platform/forms-system/src/js/actions';
+import {
+  standardFileChecks,
+  FILE_TYPE_MISMATCH_ERROR,
+} from 'platform/forms-system/src/js/utilities/file';
+import {
+  UNSUPPORTED_ENCRYPTED_FILE_ERROR,
+  UTF8_ENCODING_ERROR,
+} from '../validation';
 
 const MAX_FILE_SIZE_MB = 25;
 const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1000 ** 2;
@@ -94,3 +102,28 @@ export const useFileUpload = (fileUploadUrl, accept, formNumber, dispatch) => {
 
   return { isUploading, percentUploaded, handleUpload };
 };
+
+/**
+ *
+ * @param {File} file the file to upload
+ * @returns {string | null} the error if one present else null
+ */
+export async function getFileError(file, uiOptions) {
+  const checks = await standardFileChecks(file);
+  let fileError = null;
+  if (!checks.checkTypeAndExtensionMatches) {
+    fileError = FILE_TYPE_MISMATCH_ERROR;
+  }
+
+  if (!!checks.checkIsEncryptedPdf && uiOptions.disallowEncryptedPdfs) {
+    fileError = UNSUPPORTED_ENCRYPTED_FILE_ERROR;
+  }
+
+  if (!checks.checkUTF8Encoding) {
+    fileError = UTF8_ENCODING_ERROR;
+  }
+
+  return { fileError, encryptedCheck: !!checks.checkIsEncryptedPdf };
+}
+
+export const DEBOUNCE_WAIT = 500;

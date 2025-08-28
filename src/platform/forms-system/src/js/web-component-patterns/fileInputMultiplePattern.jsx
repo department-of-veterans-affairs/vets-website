@@ -3,7 +3,7 @@ import { isEmpty } from 'lodash';
 import { VaFileInputMultiple } from '../web-component-fields';
 import navigationState from '../utilities/navigation/navigationState';
 import { errorManager } from '../utilities/file/passwordErrorState';
-import { MISSING_FILE } from '../validation';
+import { MISSING_FILE, filePresenceValidation } from '../validation';
 import ReviewField from '../review/FileInputMultiple';
 
 export const fileInputMultipleUI = options => {
@@ -50,20 +50,10 @@ export const fileInputMultipleUI = options => {
             isNavigationEvent &&
             !_encryptedFileWaitingForPassword;
 
-          if (_required) {
-            let hasFile = false;
-            for (const file of data) {
-              const _hasFile = file.confirmationCode && file.name && file.size;
-              if (_hasFile) {
-                hasFile = true;
-                break;
-              }
-            }
-            if (!hasFile) {
-              errors.addError(MISSING_FILE);
-              // don't do additional validation if missing file
-              return;
-            }
+          if (_required && !filePresenceValidation(data)) {
+            errors.addError(MISSING_FILE);
+            // don't do additional validation if missing file
+            return;
           }
 
           errorManager.setTouched();
@@ -105,38 +95,31 @@ export const fileInputMultipleUI = options => {
       ...uiOptions,
       keepInPageOnReview: true,
     },
-    // items: {
-    //   'ui:options': {
-    //     viewField: fileView,
-    //   }
-    // },
     'ui:reviewField': ReviewField,
-    // 'ui:confirmationField': (data) => {
-    //   console.log('the data is....', data);
-    //   return (
-    //     <li>Testing!</li>
-    //   )
-    // },
     'ui:confirmationField': ({ formData }) => {
       if (!formData) {
         return null;
       }
 
       const data = (
-        <ul>
+        <>
           {formData.map((file, i) => (
-            <li key={i}>{file.name}</li>
+            <ul key={i}>
+              <li>
+                <span className="vads-u-color--gray">name</span>: {file.name}
+              </li>
+              <li>
+                <span className="vads-u-color--gray">size</span>: {file.size}B
+              </li>
+              <li>
+                <span className="vads-u-color--gray">type</span>: {file.type}
+              </li>
+            </ul>
           ))}
-        </ul>
+        </>
       );
       return { data };
     },
-
-    // warnings: {
-    //   'ui:options': {
-    //     keepInPageOnReview: true,
-    //   },
-    // },
   };
 };
 

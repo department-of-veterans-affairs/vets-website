@@ -1,21 +1,20 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { VaFileInputMultiple } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import {
-  standardFileChecks,
-  FILE_TYPE_MISMATCH_ERROR,
-} from 'platform/forms-system/src/js/utilities/file';
+
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import debounce from 'platform/utilities/data/debounce';
 import { isEmpty } from 'lodash';
 import {
   MISSING_PASSWORD_ERROR,
-  UNSUPPORTED_ENCRYPTED_FILE_ERROR,
   MISSING_FILE,
-  UTF8_ENCODING_ERROR,
   MISSING_ADDITIONAL_INFO,
 } from '../validation';
-import { useFileUpload } from './vaFileInputFieldHelpers';
+import {
+  useFileUpload,
+  DEBOUNCE_WAIT,
+  getFileError,
+} from './vaFileInputFieldHelpers';
 import vaFileInputFieldMapping from './vaFileInputFieldMapping';
 
 import { errorManager } from '../utilities/file/passwordErrorState';
@@ -42,7 +41,9 @@ const VaFileInputMultipleField = props => {
     const doPrefill =
       Array.isArray(mappedProps.uploadedFiles) && componentRef.current;
     if (doPrefill) {
-      setErrors(new Array(childrenProps.formData.length).fill(null));
+      const nulls = new Array(childrenProps.formData.length).fill(null);
+      setErrors([...nulls]);
+      setEncrypted([...nulls]);
       childrenProps.formData.forEach((_, i) =>
         errorManager.addPasswordInstance(i),
       );
@@ -61,7 +62,21 @@ const VaFileInputMultipleField = props => {
     [percentUploaded],
   );
 
-  // update the additional inputs with prefill data and/or set errors on additional inputs
+  function getSlotContent() {
+    const slot = componentRef.current?.shadowRoot
+      ?.querySelector('va-file-input')
+      ?.shadowRoot?.querySelector('slot');
+    if (slot) {
+      const [slotContent] =
+        slot?.assignedElements?.({ flatten: true }) ||
+        slot?.assignedNodes().filter(n => n.nodeType === 1);
+      return !!slotContent;
+    }
+    return false;
+  }
+
+  // update the additional inputs with prefill data (if present)
+  // set errors on additional inputs (if present)
   useEffect(
     () => {
       function updateAdditionalInputs() {
@@ -73,8 +88,8 @@ const VaFileInputMultipleField = props => {
             const slot = instance.shadowRoot.querySelector('slot');
             if (!slot) return;
             const [slotContent] =
-              slot.assignedElements?.({ flatten: true }) ||
-              slot.assignedNodes().filter(n => n.nodeType === 1);
+              slot?.assignedElements?.({ flatten: true }) ||
+              slot?.assignedNodes().filter(n => n.nodeType === 1);
             if (slotContent) {
               setInitPoll(false);
               const file = childrenProps.formData[index];
@@ -104,11 +119,9 @@ const VaFileInputMultipleField = props => {
       // poll on load until slot content renders
       async function poll() {
         const WAIT = 50;
-        const MAXLOOP = 1500 / WAIT;
+        const MAXLOOP = 2000 / WAIT;
         for (let attempt = 0; attempt < MAXLOOP; attempt++) {
-          const ready = !!componentRef.current?.shadowRoot
-            ?.querySelector('va-file-input')
-            ?.shadowRoot?.querySelector('slot');
+          const ready = getSlotContent();
           if (ready) {
             updateAdditionalInputs();
             return;
@@ -182,23 +195,11 @@ const VaFileInputMultipleField = props => {
   };
 
   const handleFileAdded = async ({ file }, index, mockFormData) => {
-    const checks = await standardFileChecks(file);
-    let fileCheckError;
-    if (!checks.checkTypeAndExtensionMatches) {
-      fileCheckError = FILE_TYPE_MISMATCH_ERROR;
-    }
-
-    if (!!checks.checkIsEncryptedPdf && uiOptions.disallowEncryptedPdfs) {
-      fileCheckError = UNSUPPORTED_ENCRYPTED_FILE_ERROR;
-    }
-
-    if (!checks.checkUTF8Encoding) {
-      fileCheckError = UTF8_ENCODING_ERROR;
-    }
-
+    const { fileError, encryptedCheck } = await getFileError(file, uiOptions);
     const _errors = [...errors];
-    if (fileCheckError) {
-      _errors[index] = fileCheckError;
+
+    if (fileError) {
+      _errors[index] = fileError;
       setErrors(_errors);
       errorManager.setFileCheckError(index, true);
       return;
@@ -210,7 +211,7 @@ const VaFileInputMultipleField = props => {
     setErrors(_errors);
 
     const _encrypted = [...encrypted];
-    _encrypted[index] = !!checks.checkIsEncryptedPdf;
+    _encrypted[index] = encryptedCheck;
     setEncrypted(_encrypted);
 
     // cypress test / skip the network call and its callbacks
@@ -220,10 +221,10 @@ const VaFileInputMultipleField = props => {
     }
 
     // keep track of potential missisng password errors
-    errorManager.addPasswordInstance(index, !!checks.checkIsEncryptedPdf);
+    errorManager.addPasswordInstance(index, encryptedCheck);
 
     // this file not encrypted - upload right now
-    if (!checks.checkIsEncryptedPdf) {
+    if (!encryptedCheck) {
       handleUpload(file, handleFileProcessing, null, index);
     }
   };
@@ -250,10 +251,14 @@ const VaFileInputMultipleField = props => {
   // upload after debounce
   const debouncePassword = useMemo(
     () =>
-      debounce(500, ({ file, password }, index) => {
-        if (password.length > 0) {
+      debounce(DEBOUNCE_WAIT, ({ file, password }, index) => {
+        if (password && password.length > 0) {
           errorManager.resetInstance(index);
           handleUpload(file, handleFileProcessing, password, index);
+          const _encrypted = [...encrypted];
+          _encrypted[index] = null;
+          // don't show password input after password entered
+          setEncrypted(_encrypted);
         }
       }),
     [handleUpload],
