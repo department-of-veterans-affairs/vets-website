@@ -91,9 +91,6 @@ describe('CompleteReferral', () => {
       },
     );
     await sandbox.clock.tick(35000);
-    // await waitFor(() => {
-    //   expect(getByTestId('error-alert')).to.exist;
-    // });
     await waitFor(
       () => {
         expect(getByTestId('error-alert')).to.exist;
