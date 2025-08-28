@@ -36,7 +36,7 @@ class PasswordErrorState {
   }
 
   hasPasswordError() {
-    return this._needsPassword && !this._hasPassword && this._touched;
+    return this._needsPassword && !this._hasPassword;
   }
 
   reset() {

@@ -1,6 +1,5 @@
 import React from 'react';
 import { isEmpty } from 'lodash';
-import { scrollAndFocus } from 'platform/utilities/scroll';
 import { VaFileInputField } from '../web-component-fields';
 import navigationState from '../utilities/navigation/navigationState';
 import errorStates from '../utilities/file/passwordErrorState';
@@ -8,21 +7,8 @@ import {
   MISSING_PASSWORD_ERROR,
   MISSING_FILE,
   MISSING_ADDITIONAL_INFO,
+  filePresenceValidation,
 } from '../validation';
-
-export const filePresenceValidation = (
-  errors,
-  uploadedFile,
-  _uiSchema,
-  _schema,
-  errorMessages,
-) => {
-  if (
-    !(uploadedFile.confirmationCode && uploadedFile.name && uploadedFile.size)
-  ) {
-    errors.addError(errorMessages.required);
-  }
-};
 
 /**
  * uiSchema for file input field
@@ -129,54 +115,36 @@ export const fileInputUI = options => {
     },
     'ui:validations': [
       (errors, data, formData, schema, uiErrorMessages) => {
+        // don't enter error state unless navigation attempted
         const isNavigationEvent = navigationState.getNavigationEventStatus();
+        if (!isNavigationEvent) return;
+
         const isRequired =
           typeof required === 'function' ? required(formData) : !!required;
 
         const { additionalData, _id } = data;
+        const checkFilePresence = !uiOptions.skipUpload && isRequired;
+        const hasCompleteFile = filePresenceValidation(data);
 
-        if (
-          !uiOptions.skipUpload &&
-          isRequired &&
-          isNavigationEvent &&
-          data.name !== 'uploading'
-        ) {
-          filePresenceValidation(
-            errors,
-            data,
-            formData,
-            schema,
-            uiErrorMessages,
-          );
+        // if file is encrypted skip this check
+        // validation will not pass for an encrypted file unless password present, which will ensure file existence
+        if (checkFilePresence && !hasCompleteFile && !data.isEncrypted) {
+          errors.addError(uiErrorMessages.required);
+          return;
         }
 
-        // don't do any additional validation if user tries to advance
-        // without having interacted with component
-        if (!_id) return;
         const passwordErrorManager = errorStates.getInstance(_id);
 
         const passwordError = passwordErrorManager.hasPasswordError();
-        const touched = passwordErrorManager.touched();
-        if ((isNavigationEvent || touched) && passwordError) {
+        if (passwordError) {
           errors.isEncrypted.addError(MISSING_PASSWORD_ERROR);
-          scrollAndFocus(`va-file-input[name=${_id}]`);
-        } else {
-          passwordErrorManager.setTouched(true);
+          return;
         }
 
-        if (
-          uiOptions.additionalInputRequired &&
-          isEmpty(additionalData) &&
-          (isNavigationEvent || touched)
-        ) {
+        if (uiOptions.additionalInputRequired && isEmpty(additionalData)) {
           const errorMessage =
             uiErrorMessages.additionalInput || MISSING_ADDITIONAL_INFO;
           errors.additionalData.addError(errorMessage);
-
-          // prevents the clearing of a password error (if one exists) after this error is cleared
-          if (passwordError) {
-            passwordErrorManager.setTouched(true);
-          }
         }
       },
     ],

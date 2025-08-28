@@ -3,18 +3,13 @@ import { useDispatch } from 'react-redux';
 import { VaFileInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import debounce from 'platform/utilities/data/debounce';
-import {
-  standardFileChecks,
-  FILE_TYPE_MISMATCH_ERROR,
-} from 'platform/forms-system/src/js/utilities/file';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import {
-  UNSUPPORTED_ENCRYPTED_FILE_ERROR,
-  UTF8_ENCODING_ERROR,
-} from '../validation';
 import vaFileInputFieldMapping from './vaFileInputFieldMapping';
-import { useFileUpload } from './vaFileInputFieldHelpers';
-
+import {
+  useFileUpload,
+  getFileError,
+  DEBOUNCE_WAIT,
+} from './vaFileInputFieldHelpers';
 import passwordErrorState from '../utilities/file/passwordErrorState';
 
 /**
@@ -105,7 +100,7 @@ const VaFileInputField = props => {
 
   const getErrorMessage = field => {
     let errorMessage = null;
-    const errorArray = childrenProps.errorSchema[field].__errors;
+    const errorArray = childrenProps.errorSchema[field]?.__errors;
     if (errorArray && errorArray.length > 0) {
       errorMessage = errorArray[0];
     }
@@ -129,6 +124,8 @@ const VaFileInputField = props => {
       size,
       type,
       _id,
+      // reset additionalData when adding a file
+      additionalData: {},
     });
   };
 
@@ -146,7 +143,7 @@ const VaFileInputField = props => {
   // upload after debounce
   const debouncePassword = useMemo(
     () =>
-      debounce(500, password => {
+      debounce(DEBOUNCE_WAIT, password => {
         if (fileWithPassword) {
           passwordErrorManager.setHasPassword(password.length > 0);
           childrenProps.onChange({
@@ -169,41 +166,31 @@ const VaFileInputField = props => {
       return;
     }
 
-    const checks = await standardFileChecks(fileFromEvent);
-    let fileCheckError = null;
-    if (!checks.checkTypeAndExtensionMatches) {
-      fileCheckError = FILE_TYPE_MISMATCH_ERROR;
-    }
+    const { fileError, encryptedCheck } = await getFileError(
+      fileFromEvent,
+      uiOptions,
+    );
 
-    if (!!checks.checkIsEncryptedPdf && uiOptions.disallowEncryptedPdfs) {
-      fileCheckError = UNSUPPORTED_ENCRYPTED_FILE_ERROR;
-    }
-
-    if (!checks.checkUTF8Encoding) {
-      fileCheckError = UTF8_ENCODING_ERROR;
-    }
-
-    if (fileCheckError) {
-      setError(fileCheckError);
+    if (fileError) {
+      setError(fileError);
       childrenProps.onChange({});
       return;
     }
 
-    passwordErrorManager.setNeedsPassword(!!checks.checkIsEncryptedPdf);
-    setEncrypted(!!checks.checkIsEncryptedPdf);
-
-    childrenProps.onChange({
-      ...childrenProps.formData,
-      _id,
-      name: 'uploading',
-    });
+    // file ok
+    passwordErrorManager.setNeedsPassword(encryptedCheck);
+    setEncrypted(encryptedCheck);
 
     // cypress test / skip the network call and its callbacks
     if (environment.isTest() && !environment.isUnitTest()) {
       childrenProps.onChange(e.detail.mockFormData);
       // delay uploading for encrypted files until password is entered
-    } else if (checks.checkIsEncryptedPdf) {
+    } else if (encryptedCheck) {
       setFileWithPassword(fileFromEvent);
+      childrenProps.onChange({
+        isEncrypted: encryptedCheck,
+        _id,
+      });
     } else {
       handleUpload(fileFromEvent, handleFileProcessing);
     }
@@ -237,6 +224,7 @@ const VaFileInputField = props => {
     (childrenProps.formData.name &&
       childrenProps.formData.name !== 'uploading') ||
     fileWithPassword;
+
   return (
     <VaFileInput
       {...mappedProps}
