@@ -70,6 +70,7 @@ import {
 - `validateDateNotBeforeReference(errors, date, referenceDate, options)` - Validate date is not before reference
 - `validateSeparationDateWithRules(errors, dateString, options)` - Validate separation date with BDD/reserves rules
 - `validateTitle10ActivationDate(errors, activationDate, servicePeriods, reservesList)` - Validate Title 10 activation
+- `validateDateFormats(errors, startDate, endDate, options)` - Validate date format using date-fns isValid()
 
 ### Comparison Functions
 
@@ -182,6 +183,7 @@ The following functions provide disability-benefits specific functionality not a
 - **Partial Date Formats**: `isMonthOnly()`, `isYearOnly()`, `isYearMonth()`
 - **Age Validation**: `validateAge()` (13th birthday check)
 - **Custom Validations**: `isLessThan180DaysInFuture()`, `validateServicePeriod()`
+- **Format Validation**: `validateDateFormats()` - Robust date format validation using date-fns, critical for toxic exposure dates when form schema validation is removed
 
 ### MomentJS Usage
 
