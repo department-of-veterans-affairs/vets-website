@@ -6,6 +6,7 @@ import { renderSingleOrList } from '../../utilities';
 import * as c from '../../constants/results-content/dr-screens/card-content';
 
 const OverviewPanel = ({ formResponses }) => {
+  console.log('got here: ', formResponses);
   const availableOptions = c.OVERVIEW.filter(option => {
     const displayConditionsForOption = DISPLAY_CONDITIONS?.[option] || {};
 

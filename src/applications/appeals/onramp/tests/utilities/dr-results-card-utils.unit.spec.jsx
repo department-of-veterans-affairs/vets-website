@@ -1,3 +1,4 @@
+import React, { ErrorBoundary } from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { render } from '@testing-library/react';
@@ -7,7 +8,6 @@ import {
   getCardTitle,
   getDecisionTimeline,
   getLearnMoreLink,
-  getLimitOneText,
   getStartLink,
   showOutsideDROption,
   swapPrefix,
@@ -207,7 +207,22 @@ describe('card utilities', () => {
     });
   });
 
-  describe('getCardProps', () => {
-    it('should properly return a Supplemental Claims summary screen', () => {});
+  describe.only('getCardProps', () => {
+    it('should properly return a Supplemental Claims summary screen', () => {
+      const formResponses = {
+        Q_1_1_CLAIM_DECISION: YES,
+        Q_1_2_CLAIM_DECISION: YES,
+        Q_1_3_CLAIM_CONTESTED: NO,
+        Q_2_0_CLAIM_TYPE: INIT,
+        Q_2_IS_1_SERVICE_CONNECTED: NO,
+        Q_2_IS_1A_LAW_POLICY_CHANGE: YES,
+      };
+
+      const result = getCardProps(formResponses);
+      const { container } = render(result.bodyContent);
+      console.log('container: ', container.innerHTML);
+
+      // console.log('result: ', render(result.bodyContent).html());
+    });
   });
 });

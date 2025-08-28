@@ -250,6 +250,7 @@ const INTRO = (
 );
 
 export const getCardProps = formResponses => {
+  console.log('formResponses: ', formResponses);
   return {
     h1: DR_HEADING,
     bodyContent: (
