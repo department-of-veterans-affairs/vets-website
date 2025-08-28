@@ -16,6 +16,8 @@ const SelectedRecipientTitle = props => {
       <p
         className="vads-u-font-weight--bold vads-u-margin-y--0"
         data-testid="compose-recipient-title"
+        data-dd-privacy="mask"
+        data-dd-action-name="Care System - Team recipient title"
       >
         {careSystemName} - {recipientName}
       </p>
