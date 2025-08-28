@@ -178,9 +178,9 @@ export const convertAdmissionAndDischargeDetails = record => {
     type: getType(record),
     admissionDate: admissionDate ? formatDateLong(admissionDate) : EMPTY_FIELD,
     dischargeDate: dischargeDate ? formatDateLong(dischargeDate) : EMPTY_FIELD,
+    dischargedBy: extractAuthor(record) || EMPTY_FIELD,
     dateEntered: dateEntered ? formatDateLong(dateEntered) : EMPTY_FIELD,
     admittedBy: getAttending(summary) || EMPTY_FIELD,
-    dischargedBy: extractAuthor(record) || EMPTY_FIELD,
     location: extractLocation(record) || EMPTY_FIELD,
     summary: summary || EMPTY_FIELD,
     sortByDate,
@@ -248,18 +248,17 @@ const convertUnifiedCareSummariesAndNotesRecord = record => {
   const noteDate = formattedNoteDate
     ? `${formattedNoteDate.formattedDate}, ${formattedNoteDate.formattedTime}`
     : '';
+  const note = decodeBase64Report(record.attributes.note);
+  const admissionDateRaw = getAdmissionDate(record, note);
+  const dischargeDateRaw = getDischargeDate(record, note);
 
-  const formattedAdmissionDate = formatDateTime(
-    record.attributes.admissionDate,
-  );
+  const formattedAdmissionDate = formatDateTime(admissionDateRaw);
   const admissionDate = formattedAdmissionDate
     ? `${formattedAdmissionDate.formattedDate}, ${
         formattedAdmissionDate.formattedTime
       }`
     : '';
-  const formattedDischargeDate = formatDateTime(
-    record.attributes.dischargeDate,
-  );
+  const formattedDischargeDate = formatDateTime(dischargeDateRaw);
   const dischargedDate = formattedDischargeDate
     ? `${formattedDischargeDate.formattedDate}, ${
         formattedDischargeDate.formattedTime
@@ -278,7 +277,7 @@ const convertUnifiedCareSummariesAndNotesRecord = record => {
     writtenBy: record.attributes.writtenBy || EMPTY_FIELD,
     signedBy: record.attributes.signedBy || EMPTY_FIELD,
     location: record.attributes.location || EMPTY_FIELD,
-    note: record.attributes.note || EMPTY_FIELD,
+    note,
     dischargedBy: record.attributes.dischargedBy || EMPTY_FIELD,
     admissionDate,
     dischargedDate,
