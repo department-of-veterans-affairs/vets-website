@@ -109,12 +109,14 @@ const ProfileWrapper = ({
               <div className="vads-u-display--none medium-screen:vads-u-display--block vads-l-col--3 vads-u-padding-left--2">
                 <nav className="va-subnav" aria-labelledby="subnav-header">
                   <div>
-                    <h2
-                      id="subnav-header"
-                      className="vads-u-font-size--h4 vads-u-margin-top--0 vads-u-margin-bottom--0 vads-u-padding-y--2"
-                    >
-                      Profile <span className="sr-only">menu</span>
-                    </h2>
+                    {!paperlessDeliveryToggle && (
+                      <h2
+                        id="subnav-header"
+                        className="vads-u-font-size--h4 vads-u-margin-top--0 vads-u-margin-bottom--0 vads-u-padding-y--2"
+                      >
+                        Profile <span className="sr-only">menu</span>
+                      </h2>
+                    )}
                     <ProfileSubNav
                       routes={routesForNav}
                       isLOA3={isLOA3}

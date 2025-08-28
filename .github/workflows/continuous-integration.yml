@@ -1554,7 +1554,7 @@ jobs:
         if: ${{ needs.cypress-tests.result == 'failure' }}
         uses: ./.github/workflows/download-artifact
         with:
-          pattern: cypress-mochawesome-test-results-*
+          pattern: cypress-video-artifacts-*
           path: qa-standards-dashboard-data/videos/${{ env.UUID }}
           merge-multiple: true
 
@@ -2034,6 +2034,8 @@ jobs:
   cd-prod-deploy:
     name: CD Production Deploy
     runs-on: ubuntu-22.04
+    permissions:
+      contents: write
     needs: [build, set-deploy-environments]
     if: ${{ needs.build.outputs.entry_names != '' && needs.build.outputs.continuous_deployment == 'true' }}
     steps:
@@ -2069,6 +2071,12 @@ jobs:
           else
             echo "channel=$channel" >> $GITHUB_OUTPUT
           fi
+
+      - name: Debug CD gating values
+        run: |
+          echo "entry_names=${{ needs.build.outputs.entry_names }}"
+          echo "continuous_deployment=${{ needs.build.outputs.continuous_deployment }}"
+          echo "slack_channel=${{ steps.determine-channel.outputs.channel }}"
 
       - name: Dispatch Event to Next Workflow
         run: |
