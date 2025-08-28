@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from 'react';
+import React, { useMemo } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
@@ -46,7 +46,6 @@ const ProfileWrapper = ({
   totalDisabilityRatingError,
   showNameTag,
 }) => {
-  const mobileSidenavRef = useRef();
   const location = useLocation();
 
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
@@ -91,7 +90,6 @@ const ProfileWrapper = ({
                 routes={routesForNav}
                 isLOA3={isLOA3}
                 isInMVI={isInMVI}
-                ref={mobileSidenavRef}
               />
             ) : (
               <ProfileMobileSubNav
