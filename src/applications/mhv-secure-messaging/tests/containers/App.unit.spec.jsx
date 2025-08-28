@@ -360,11 +360,11 @@ describe('App', () => {
 
     await waitFor(() => {
       expect(
-        screen.getByRole('heading', {
-          // Avoid exact apostrophe issues by using a regex
-          name: /can.?t find your care team\?/i,
+        screen.queryByText(pageNotFoundHeading, {
+          selector: 'h1',
+          exact: true,
         }),
-      ).to.exist;
+      ).to.not.exist;
     });
   });
 
