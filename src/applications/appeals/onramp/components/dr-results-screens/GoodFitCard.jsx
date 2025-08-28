@@ -1,11 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import * as c from '../../constants/results-content/dr-screens/card-content';
 import {
   getCardTitle,
   getCardContent,
   getLearnMoreLink,
-  getLimitOneText,
   getStartLink,
   getDecisionTimeline,
 } from '../../utilities/dr-results-card-utils';
@@ -32,12 +30,6 @@ const GoodFitCard = ({ card, formResponses }) => {
           </h4>
           <p>{timeline}</p>
         </>
-      )}
-      {card !== c.CARD_SC && (
-        <p>
-          <strong>Note:</strong> You cannot request more than 1{' '}
-          {getLimitOneText(card)} on the same issue.
-        </p>
       )}
       {learnMoreLink}
       {startLink}

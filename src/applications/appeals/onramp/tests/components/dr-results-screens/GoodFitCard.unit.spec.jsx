@@ -27,7 +27,6 @@ describe('GoodFitCard', () => {
       .stub(utils, 'getStartLink')
       .returns(<va-link-action href="/start" text="Start" />);
 
-    sandbox.stub(utils, 'getLimitOneText').returns('Higher-Level Review');
     sandbox.stub(utils, 'getDecisionTimeline').returns('3-6 months');
     sandbox.stub(c, 'CARD_SC').value('CARD_SC');
   });
@@ -58,18 +57,6 @@ describe('GoodFitCard', () => {
     );
 
     expect(screen.getByText('3-6 months')).to.exist;
-  });
-
-  it('renders the note about only one request if not Supplemental Claims', () => {
-    const screen = render(
-      <GoodFitCard card={card} formResponses={formResponses} />,
-    );
-
-    expect(
-      screen.getByText(
-        /You cannot request more than 1 Higher-Level Review on the same issue/,
-      ),
-    ).to.exist;
   });
 
   it('does not render the note if card is Supplemental Claims', () => {
