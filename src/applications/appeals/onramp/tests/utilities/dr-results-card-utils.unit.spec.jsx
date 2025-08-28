@@ -3,6 +3,7 @@ import sinon from 'sinon';
 import { render } from '@testing-library/react';
 import {
   getCardContent,
+  getCardProps,
   getCardTitle,
   getDecisionTimeline,
   getLearnMoreLink,
@@ -204,5 +205,9 @@ describe('card utilities', () => {
       expect(getDecisionTimeline('UNKNOWN')).to.equal(null);
       expect(getDecisionTimeline('CARD_UNKNOWN')).to.equal('');
     });
+  });
+
+  describe('getCardProps', () => {
+    it('should properly return a Supplemental Claims summary screen', () => {});
   });
 });
