@@ -6,6 +6,12 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import formConfig from '../config/form';
 import NoFormPage from '../components/NoFormPage';
 import manifest from '../manifest.json';
+import { TITLE } from '../constants';
+
+import { getRootParentUrl } from '../../shared/utils';
+
+// Must match the H1
+document.title = TITLE;
 
 export default function App({ location, children }) {
   const featureToggle = useSelector(
@@ -14,7 +20,9 @@ export default function App({ location, children }) {
   const externalServicesLoading = useSelector(
     state => state?.externalServiceStatus?.loading,
   );
-  const hasSession = JSON.parse(localStorage.getItem('hasSession'));
+  const dependentsLoading = useSelector(state => {
+    return state?.dependents?.loading;
+  });
   const isIntroPage = location?.pathname?.endsWith('/introduction');
   const { pathname } = location || {};
   const pageUrl = pathname?.slice(1);
@@ -25,12 +33,11 @@ export default function App({ location, children }) {
       label: 'Home',
     },
     {
-      href: '/view-change-dependents',
+      href: getRootParentUrl(manifest.rootUrl),
       label: 'Manage dependents',
     },
     {
-      href:
-        '/view-change-dependents/verify-dependents-form-21-0538/introduction',
+      href: `${manifest.rootUrl}/introduction`,
       label:
         pageUrl === 'exit-form'
           ? 'Update your dependents in a different form'
@@ -40,22 +47,17 @@ export default function App({ location, children }) {
 
   const rawBreadcrumbs = JSON.stringify(breadcrumbs);
 
-  useEffect(
-    () => {
-      if (!hasSession && !isIntroPage) {
-        window.location.replace(`${manifest.rootUrl}/introduction`);
-      }
-    },
-    [hasSession, isIntroPage],
-  );
+  useEffect(() => {
+    if (!isIntroPage && dependentsLoading) {
+      window.location.replace(`${manifest.rootUrl}/introduction`);
+    }
+  }, []);
 
   let content;
 
   if (!featureToggle) {
     content = <NoFormPage />;
   } else if (externalServicesLoading) {
-    content = <va-loading-indicator message="Loading your information..." />;
-  } else if (!hasSession && !isIntroPage) {
     content = <va-loading-indicator message="Loading your information..." />;
   } else {
     content = (

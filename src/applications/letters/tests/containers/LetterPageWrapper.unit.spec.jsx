@@ -26,7 +26,7 @@ describe('<LetterPageWrapper>', () => {
     expect(getByText('Your VA benefit letters and documents').exist);
     expect(
       getByText(
-        `When you apply for a benefit based on your VA status, you may need to provide a VA benefit letter or other documentation to prove you’re eligible.`,
+        `When you apply for a benefit based on your VA status, you may need to provide a VA benefit letter or other documents to prove your eligibility.`,
       ).exist,
     );
   });

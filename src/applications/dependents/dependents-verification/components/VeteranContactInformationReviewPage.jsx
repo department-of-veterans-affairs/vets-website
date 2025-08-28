@@ -1,42 +1,94 @@
-import React from 'react';
+import React, { useEffect, useRef, useState, useMemo } from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+import { openReviewChapter } from 'platform/forms-system/src/js/actions';
+import { scrollTo } from 'platform/utilities/scroll';
 
 import { electronicCorrespondenceMessage } from '../config/chapters/veteran-contact-information/editEmailPage';
 
 const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
+  const dispatch = useDispatch();
   const {
     email,
-    electronicCorrespondence,
     phone,
     address = {},
     internationalPhone,
+    electronicCorrespondence,
   } = data || {};
-  sessionStorage.removeItem('onReviewPage');
 
-  const goEditPath = path => {
-    sessionStorage.setItem('onReviewPage', 'true');
+  const [focusSection, setFocusSection] = useState(null);
+  const didFocusRef = useRef(false);
+
+  const mailingAddressRef = useRef(null);
+  const emailRef = useRef(null);
+  const phoneRef = useRef(null);
+  const internationalPhoneRef = useRef(null);
+
+  const refsBySection = useMemo(
+    () => ({
+      mailingAddress: mailingAddressRef,
+      email: emailRef,
+      phone: phoneRef,
+      internationalPhone: internationalPhoneRef,
+    }),
+    [],
+  );
+
+  useEffect(() => {
+    const section = sessionStorage.getItem('onReviewPage');
+    if (section) {
+      setFocusSection(section);
+      sessionStorage.removeItem('onReviewPage');
+    }
+  }, []);
+
+  // open accordion + focus
+  useEffect(
+    () => {
+      if (focusSection && !didFocusRef.current) {
+        didFocusRef.current = true;
+        dispatch(openReviewChapter('veteranContactInformation'));
+
+        setTimeout(() => {
+          const vaBtn = refsBySection[focusSection]?.current;
+          if (vaBtn?.shadowRoot) {
+            const realBtn = vaBtn.shadowRoot.querySelector('button');
+            if (realBtn) {
+              scrollTo(realBtn, { offset: -20 });
+              realBtn.focus();
+            }
+          }
+        }, 300);
+
+        setFocusSection(null);
+      }
+    },
+    [focusSection, dispatch, refsBySection],
+  );
+
+  const goEditPath = (path, sectionKey) => {
+    sessionStorage.setItem('onReviewPage', sectionKey);
     goToPath(path, { force: true });
   };
 
   const handlers = {
-    editMailingAddress: () => {
-      goEditPath('/veteran-contact-information/mailing-address');
-    },
-    editEmail: () => {
-      goEditPath('veteran-contact-information/email');
-    },
-    editPhone: () => {
-      goEditPath('veteran-contact-information/phone');
-    },
-    editInternationalPhone: () => {
-      goEditPath('veteran-contact-information/international-phone');
-    },
+    editMailingAddress: () =>
+      goEditPath(
+        '/veteran-contact-information/mailing-address',
+        'mailingAddress',
+      ),
+    editEmail: () => goEditPath('veteran-contact-information/email', 'email'),
+    editPhone: () => goEditPath('veteran-contact-information/phone', 'phone'),
+    editInternationalPhone: () =>
+      goEditPath(
+        'veteran-contact-information/international-phone',
+        'internationalPhone',
+      ),
   };
 
   const showError = message => (
     <span className="usa-input-error-message">{message}</span>
   );
-
   const isUSA = address.country === 'USA';
 
   return (
@@ -51,12 +103,15 @@ const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
           onClick={handlers.editMailingAddress}
           label="Edit mailing address"
           text="Edit"
+          ref={mailingAddressRef}
         />
       </div>
       <dl className="review">
         <div className="review-row">
           <dt>Country</dt>
-          <dd>{address.country ?? showError('Missing country')}</dd>
+          <dd>
+            <strong>{address.country ?? showError('Missing country')}</strong>
+          </dd>
         </div>
         <div className="review-row">
           <dt>Street</dt>
@@ -69,7 +124,7 @@ const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
             </strong>
           </dd>
         </div>
-        {address.street2 ? (
+        {address.street2 && (
           <div className="review-row">
             <dt>Street address line 2</dt>
             <dd
@@ -79,8 +134,8 @@ const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
               <strong>{address.street2}</strong>
             </dd>
           </div>
-        ) : null}
-        {address.street3 ? (
+        )}
+        {address.street3 && (
           <div className="review-row">
             <dt>Street address line 3</dt>
             <dd
@@ -90,7 +145,7 @@ const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
               <strong>{address.street3}</strong>
             </dd>
           </div>
-        ) : null}
+        )}
         <div className="review-row">
           <dt>City</dt>
           <dd className="dd-privacy-hidden" data-dd-action-name="city">
@@ -101,7 +156,7 @@ const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
           <dt>{isUSA ? 'State' : 'Province'}</dt>
           <dd
             className="dd-privacy-hidden"
-            data-dd-action-name="state or provice"
+            data-dd-action-name="state or province"
           >
             <strong>
               {address.state ??
@@ -129,6 +184,7 @@ const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
           onClick={handlers.editEmail}
           label="Edit email address"
           text="Edit"
+          ref={emailRef}
         />
       </div>
       <dl className="review">
@@ -139,7 +195,7 @@ const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
           </dd>
         </div>
         <div className="review-row">
-          <dt>Email address</dt>
+          <dt>Electronic correspondence agreement</dt>
           <dd className="dd-privacy-hidden" data-dd-action-name="email address">
             <strong>
               {electronicCorrespondenceMessage(electronicCorrespondence)}
@@ -150,20 +206,24 @@ const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
 
       <div className="form-review-panel-page-header-row vads-u-margin-top--4">
         <h4 className="form-review-panel-page-header vads-u-font-size--h5 vads-u-margin--0">
-          Home phone number
+          {`${data['view:phoneSource']} phone number`}
         </h4>
         <va-button
           secondary
           class="edit-page float-right"
           onClick={handlers.editPhone}
-          label="Edit homne phone number"
+          label={`Edit ${data['view:phoneSource']} phone number`}
           text="Edit"
+          ref={phoneRef}
         />
       </div>
       <dl className="review">
         <div className="review-row">
-          <dt>Home phone number</dt>
-          <dd className="dd-privacy-hidden" data-dd-action-name="home phone">
+          <dt>{`${data['view:phoneSource']} phone number`}</dt>
+          <dd
+            className="dd-privacy-hidden"
+            data-dd-action-name={`${data['view:phoneSource']} phone number`}
+          >
             <strong>
               {phone ? (
                 <va-telephone contact={phone} not-clickable />
@@ -177,7 +237,7 @@ const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
 
       <div className="form-review-panel-page-header-row vads-u-margin-top--4">
         <h4 className="form-review-panel-page-header vads-u-font-size--h5 vads-u-margin--0">
-          International phone number
+          International number
         </h4>
         <va-button
           secondary
@@ -185,11 +245,12 @@ const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
           onClick={handlers.editInternationalPhone}
           label="Edit international phone number"
           text="Edit"
+          ref={internationalPhoneRef}
         />
       </div>
       <dl className="review">
         <div className="review-row">
-          <dt>International phone number</dt>
+          <dt>International number</dt>
           <dd
             className="dd-privacy-hidden"
             data-dd-action-name="international phone"
@@ -203,24 +264,22 @@ const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
 };
 
 VeteranContactInformationReviewPage.propTypes = {
+  goToPath: PropTypes.func.isRequired,
   data: PropTypes.shape({
     email: PropTypes.string,
+    'view:phoneSource': PropTypes.string,
     phone: PropTypes.string,
-    mailingAddress: PropTypes.shape({
-      countryCodeIso3: PropTypes.string,
-      countryName: PropTypes.string,
-      addressLine1: PropTypes.string,
-      addressLine2: PropTypes.string,
-      addressLine3: PropTypes.string,
+    address: PropTypes.shape({
+      country: PropTypes.string,
+      street: PropTypes.string,
+      street2: PropTypes.string,
+      street3: PropTypes.string,
       city: PropTypes.string,
-      stateCode: PropTypes.string,
-      province: PropTypes.string,
-      zipCode: PropTypes.string,
-      internationalPostalCode: PropTypes.string,
+      state: PropTypes.string,
+      postalCode: PropTypes.string,
     }),
     internationalPhone: PropTypes.string,
   }),
-  goToPath: PropTypes.func,
 };
 
 export default VeteranContactInformationReviewPage;

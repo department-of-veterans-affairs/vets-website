@@ -65,9 +65,10 @@ const VeteranContactInformationPage = ({
     profileMobilePhone,
   );
   const profileHomePhoneString = convertPhoneObjectToString(profileHomePhone);
-  const [phoneSource] = useState(
-    phone || profileMobilePhoneString ? 'Mobile' : 'Home',
-  );
+  const phoneSource =
+    data['view:phoneSource'] || phone || profileMobilePhoneString
+      ? 'Mobile'
+      : 'Home';
 
   // Get international phone from mobile or home, if it's international
   let profileInternationalPhone = null;
@@ -123,6 +124,7 @@ const VeteranContactInformationPage = ({
     }
 
     updateContactInfo({
+      'view:phoneSource': data['view:phoneSource'] || phoneSource,
       email: email || profileEmail?.emailAddress || '',
       phone: phone || profileMobilePhoneString || profileHomePhoneString || '',
       address: newAddress,
@@ -154,6 +156,7 @@ const VeteranContactInformationPage = ({
         if (updateAlertRef?.current && name && action === 'update') {
           setTimeout(() => {
             scrollAndFocus(updateAlertRef.current);
+            removeEditContactInformation();
           });
         } else if (action === 'cancel') {
           setTimeout(() => {
@@ -164,6 +167,7 @@ const VeteranContactInformationPage = ({
               scrollTo(card);
               focusElement('a', {}, card.querySelector('va-link'));
             }
+            removeEditContactInformation();
           });
         }
       }
@@ -236,10 +240,9 @@ const VeteranContactInformationPage = ({
         </va-alert>
       ) : null}
       <p>
-        If you notice any errors, correct them now.{' '}
-        <strong>Changes made here apply only to this application.</strong> If
-        you want to update your contact information in our system, go to your VA
-        profile.
+        If you notice any errors, correct them now. Changes made here apply only
+        to this form. If you want to update your contact information in our
+        system, go to your VA profile.
       </p>
       <va-link
         text="Update your contact information in your VA profile"
@@ -353,7 +356,7 @@ const VeteranContactInformationPage = ({
 
       <va-card class="vads-u-margin-top--3" data-field="phone">
         <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
-          {`${phoneSource} phone number`}
+          {`${data['view:phoneSource']} phone number`}
         </h4>
         <div className="phone vads-u-margin-y--2">
           {phone ? (
@@ -370,14 +373,14 @@ const VeteranContactInformationPage = ({
         <EditCardLink
           value={phone}
           name="phone"
-          type={phoneSource}
+          type={data['view:phoneSource']}
           onClick={handlers.editClick}
         />
       </va-card>
 
       <va-card class="vads-u-margin-top--3" data-field="internationalPhone">
         <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
-          International phone number
+          International number
         </h4>
         <div className="intl-phone vads-u-margin-y--2">
           {internationalPhone ? (
@@ -422,6 +425,7 @@ VeteranContactInformationPage.propTypes = {
   // updatePage: PropTypes.func,
   data: PropTypes.shape({
     email: PropTypes.string,
+    'view:phoneSource': PropTypes.string,
     phone: PropTypes.string,
     address: PropTypes.shape({
       street: PropTypes.string,

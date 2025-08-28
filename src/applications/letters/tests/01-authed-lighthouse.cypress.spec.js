@@ -8,11 +8,9 @@ import {
   states,
   mockUserData,
 } from './e2e/fixtures/mocks/lh_letters';
-import featureToggleEnabled from './e2e/fixtures/mocks/featureToggleEnabled.json';
 
 describe('Authed Letter Test', () => {
   it('confirms authed letter functionality', () => {
-    cy.intercept('GET', '/v0/feature_toggles?*', featureToggleEnabled);
     cy.intercept(
       'GET',
       '/v0/letters_generator/beneficiary',
@@ -31,7 +29,7 @@ describe('Authed Letter Test', () => {
     cy.injectAxeThenAxeCheck();
     cy.title().should(
       'contain',
-      'Download VA Letters and Documents | Veterans Affairs',
+      'Your VA benefit letters and documents | Veterans Affairs',
     );
     cy.get('.letters', { timeout: Timeouts.slow }).should('be.visible');
 

@@ -1,5 +1,15 @@
-import get from 'platform/utilities/data/get';
+// TODO: Break this file into smaller modules.
+// Suggested organization:
+// - sharedUtils.js (formatting, name helpers, conditional required checks)
+// - arrayBuilderHelpers.js (ArrayBuilder-specific logic and utilities)
+// - sessionHelpers.js (localStorage/sessionStorage/browser-based logic)
+
 import { capitalize } from 'lodash';
+import { fullNameNoSuffixUI } from '~/platform/forms-system/src/js/web-component-patterns';
+
+import get from '@department-of-veterans-affairs/platform-utilities/data/get';
+
+import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 
 export const showUpdatedContent = () =>
   window.sessionStorage.getItem('showUpdatedContent') === 'true';
@@ -104,6 +114,31 @@ export const isIncomeTypeInfoIncomplete = item =>
   !isDefined(item?.incomeType) ||
   (!isDefined(item?.otherIncomeType) && item?.incomeType === 'OTHER');
 
+export const sharedRecipientRelationshipBase = {
+  title: 'Who receives this income?',
+  hint: 'You’ll be able to add individual incomes separately',
+  labelHeaderLevel: '2',
+  labelHeaderLevelStyle: '3',
+};
+
+/**
+ * Returns a reusable UI schema config for the "otherRecipientRelationshipType" field.
+ *
+ * @param {string} arrayKey - The array key this field belongs to (e.g., 'unassociatedIncomes')
+ */
+export function otherRecipientRelationshipTypeUI(arrayKey) {
+  return {
+    'ui:title': 'Describe their relationship to the Veteran',
+    'ui:webComponentField': VaTextInputField,
+    'ui:options': {
+      expandUnder: 'recipientRelationship',
+      expandUnderCondition: 'OTHER',
+    },
+    'ui:required': (formData, index) =>
+      otherRecipientRelationshipExplanationRequired(formData, index, arrayKey),
+  };
+}
+
 /**
  * Generates the delete description text for an array item.
  *
@@ -151,4 +186,22 @@ export function resolveRecipientFullName(item, formData) {
   }
 
   return formatFullNameNoSuffix(recipientName);
+}
+
+export function fullNameUIHelper() {
+  return {
+    ...fullNameNoSuffixUI(),
+    first: {
+      ...fullNameNoSuffixUI().first,
+      'ui:title': 'First or given name',
+    },
+    middle: {
+      ...fullNameNoSuffixUI().middle,
+      'ui:title': 'Middle name',
+    },
+    last: {
+      ...fullNameNoSuffixUI().last,
+      'ui:title': 'Last or family name',
+    },
+  };
 }

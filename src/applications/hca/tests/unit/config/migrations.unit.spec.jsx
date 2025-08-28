@@ -285,7 +285,7 @@ describe('hca migrations', () => {
       const { formData, metadata } = migration(data);
       expect(formData.veteranAddress).to.eql({});
       expect(metadata.returnUrl).to.equal(
-        'veteran-information/veteran-address',
+        '/veteran-information/veteran-address',
       );
     });
   });
@@ -333,6 +333,16 @@ describe('hca migrations', () => {
       const returnUrl = '/insurance-information/va-facility-api';
       const desiredUrl = '/insurance-information/va-facility';
       const data = { formData: {}, metadata: { returnUrl } };
+      const { metadata } = migration(data);
+      expect(metadata.returnUrl).to.eq(desiredUrl);
+    });
+
+    it('should update the return URL when invalid insurance values are present in the form data', () => {
+      const desiredUrl = '/insurance-information/general';
+      const data = {
+        formData: { providers: [{ insuranceName: 'Dave Jones' }] },
+        metadata: { returnUrl: '/review-and-submit' },
+      };
       const { metadata } = migration(data);
       expect(metadata.returnUrl).to.eq(desiredUrl);
     });

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { COMPLETE, ERROR, LOADING } from '../utils/loadingStatus';
+import { logErrorToDatadog } from '../utils/logging';
 import useLoadWebChat from './useLoadWebChat';
-import logger from '../utils/logger';
 
 const TIMEOUT_DURATION_MS = 250;
 
@@ -14,7 +14,7 @@ function checkForWebchat(setLoadingStatus, MAX_INTERVAL_CALL_COUNT, timeout) {
       clearInterval(intervalId);
     } else if (intervalCallCount > MAX_INTERVAL_CALL_COUNT) {
       const errorMessage = new Error('Failed to load webchat framework');
-      logger.error(errorMessage.message, errorMessage);
+      logErrorToDatadog(true, errorMessage.message, errorMessage);
       setLoadingStatus(ERROR);
       clearInterval(intervalId);
     }

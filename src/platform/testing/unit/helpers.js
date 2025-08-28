@@ -310,6 +310,12 @@ const checkVaCheckbox = (checkboxGroup, keyName) => {
   });
 };
 
+/**
+ * Coerces Node major version into a number and verifies its greater than 20
+ */
+const isNode20OrHigher =
+  parseInt(process.versions.node.split('.')[0], 10) >= 20;
+
 export {
   chai,
   checkVaCheckbox,
@@ -324,4 +330,5 @@ export {
   resetFetch,
   wrapWithContext,
   wrapWithRouterContext,
+  isNode20OrHigher,
 };

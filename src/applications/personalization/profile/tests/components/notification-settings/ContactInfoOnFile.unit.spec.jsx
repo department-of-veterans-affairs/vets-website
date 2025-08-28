@@ -23,6 +23,7 @@ describe('ContactInfoOnFile', () => {
 
     expect(await view.findByTestId('mobile-phone-number-on-file')).to.exist;
     expect(await view.findByTestId('email-address-on-file')).to.exist;
+    expect(await view.findByTestId('data-encryption-notice')).to.exist;
   });
 
   it('does not render info when it is not available', () => {

@@ -18,6 +18,7 @@ const appointmentSlotsV2 = require('./v2/slots.json');
 const clinicsV2 = require('./v2/clinics.json');
 const patientProviderRelationships = require('./v2/patient_provider_relationships.json');
 const recentLocations = require('./v2/recent_locations.json');
+const vamcEhr = require('./v2/vamc_ehr.json');
 
 // To locally test appointment details null state behavior, comment out
 // the inclusion of confirmed.json and uncomment the inclusion of
@@ -188,7 +189,10 @@ const responses = {
     // merge arrays together
     const appointments = confirmedV2.data.concat(requestsV2.data, mockAppts);
     for (const appointment of appointments) {
-      if (appointment.attributes.start) {
+      if (
+        appointment.attributes.start &&
+        !appointment.attributes.referral?.referralNumber
+      ) {
         appointment.attributes.future = isAfter(
           new Date(appointment.attributes.start),
           new Date(),
@@ -264,7 +268,7 @@ const responses = {
       appt => appt.id === req.params.id,
     );
 
-    if (appointment?.start) {
+    if (appointment?.start && !appointment.referral?.referralNumber) {
       appointment.future = isAfter(new Date(appointment.start), new Date());
     }
     return res.json({
@@ -562,6 +566,9 @@ const responses = {
     return res.status(201).json({
       data: { id },
     });
+  },
+  'GET /data/cms/vamc-ehr.json': (req, res) => {
+    return res.json(vamcEhr);
   },
   // Required v0 APIs
   'GET /v0/user': {

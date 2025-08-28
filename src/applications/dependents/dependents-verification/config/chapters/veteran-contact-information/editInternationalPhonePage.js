@@ -13,7 +13,7 @@ const intPhoneSchema = {
 
 /** @type {PageSchema} */
 export default {
-  title: 'Edit international phone number',
+  title: 'Edit international number',
   path: 'veteran-contact-information/international-phone',
   hideNavButtons: true,
   CustomPage: EditInternationalPhonePage,
@@ -21,7 +21,7 @@ export default {
   uiSchema: {
     internationalPhone: {
       ...phoneUI({
-        title: 'International phone number',
+        title: 'International number',
         errorMessages: {
           pattern: `Enter an international phone number up to ${internationalPhoneDigitLimit} digits`,
         },
