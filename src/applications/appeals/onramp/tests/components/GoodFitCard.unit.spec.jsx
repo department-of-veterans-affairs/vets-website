@@ -27,7 +27,6 @@ describe('GoodFitCard', () => {
       .stub(utils, 'getStartLink')
       .returns(<va-link-action href="/start" text="Start" />);
 
-    sandbox.stub(utils, 'getLimitOneText').returns('Higher-Level Review');
     sandbox.stub(utils, 'getDecisionTimeline').returns('3-6 months');
     sandbox.stub(c, 'CARD_SC').value('CARD_SC');
   });
