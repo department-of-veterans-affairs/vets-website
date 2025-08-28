@@ -1,7 +1,8 @@
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema.json';
 
 import { merge, pick } from 'lodash';
-import { currentOrPastDateUI } from 'platform/forms-system/src/js/web-component-patterns';
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
 
 import fullNameUI from 'platform/forms/definitions/fullName';
@@ -28,12 +29,15 @@ export const uiSchema = {
       currentName: merge({}, fullNameUI, {
         first: {
           'ui:title': 'Sponsor’s first name',
+          'ui:webComponentField': VaTextInputField,
         },
         last: {
           'ui:title': 'Sponsor’s last name',
+          'ui:webComponentField': VaTextInputField,
         },
         middle: {
           'ui:title': 'Sponsor’s middle name',
+          'ui:webComponentField': VaTextInputField,
         },
         suffix: {
           'ui:title': 'Sponsor’s suffix',
@@ -42,6 +46,7 @@ export const uiSchema = {
         },
         maiden: {
           'ui:title': 'Sponsor’s maiden name',
+          'ui:webComponentField': VaTextInputField,
         },
         'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
       }),
@@ -52,9 +57,11 @@ export const uiSchema = {
       dateOfBirth: currentOrPastDateUI('Sponsor’s date of birth'),
       cityOfBirth: {
         'ui:title': 'Sponsor’s birth city',
+        'ui:webComponentField': VaTextInputField,
       },
       stateOfBirth: {
         'ui:title': 'Sponsor’s birth state',
+        'ui:webComponentField': VaTextInputField,
       },
     }),
   },
