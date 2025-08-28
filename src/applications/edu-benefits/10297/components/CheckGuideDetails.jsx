@@ -2,10 +2,10 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 export const CheckGuideDetails = () => {
-  const data = useSelector(state => state);
+  const data = useSelector(state => state.navigation.route);
   return (
     <>
-      {data.navigation.route.path === '/direct-deposit' && (
+      {data.path === '/direct-deposit' && (
         <>
           <img
             src="/img/direct-deposit-check-guide.svg"

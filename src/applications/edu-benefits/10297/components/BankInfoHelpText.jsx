@@ -21,11 +21,11 @@ const bankInfoHelpText = (
 );
 
 export const BankInfoHelpText = () => {
-  const data = useSelector(state => state);
+  const data = useSelector(state => state.navigation.route);
 
   return (
     <>
-      {data.navigation.route.path === '/direct-deposit' && (
+      {data.path === '/direct-deposit' && (
         <>
           <p>
             <strong>Note:</strong> Any bank account information you enter here
