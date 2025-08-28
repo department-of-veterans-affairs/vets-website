@@ -62,19 +62,19 @@ describe('Dependents Verification Widget <App>', () => {
   });
 
   it('displays correct mailing address in both states', () => {
-    const expectedAddress = 'U.S. Department of Veterans Affairs';
+    const expectedAddress = 'Department of Veterans Affairs';
 
     // Test enabled state
     const wrapperEnabled = shallow(<App formEnabled />);
     expect(wrapperEnabled.text()).to.include(expectedAddress);
-    expect(wrapperEnabled.text()).to.include('P.O. Box 4444');
+    expect(wrapperEnabled.text()).to.include('PO Box 4444');
     expect(wrapperEnabled.text()).to.include('Janesville, WI 53547-4444');
     wrapperEnabled.unmount();
 
     // Test disabled state
     const wrapperDisabled = shallow(<App formEnabled={false} />);
     expect(wrapperDisabled.text()).to.include(expectedAddress);
-    expect(wrapperDisabled.text()).to.include('P.O. Box 4444');
+    expect(wrapperDisabled.text()).to.include('PO Box 4444');
     expect(wrapperDisabled.text()).to.include('Janesville, WI 53547-4444');
     wrapperDisabled.unmount();
   });

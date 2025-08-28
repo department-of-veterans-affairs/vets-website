@@ -37,14 +37,12 @@ export const App = ({ formEnabled }) => {
             />
             <p>Then, mail your completed form to us at this address:</p>
             <p className="va-address-block">
-              U.S. Department of Veterans Affairs <br />
+              Department of Veterans Affairs <br />
               Evidence Intake Center
               <br />
-              P.O. Box 4444
+              PO Box 4444
               <br />
               Janesville, WI 53547-4444
-              <br />
-              United States of America
             </p>
           </div>
         </div>
@@ -65,14 +63,12 @@ export const App = ({ formEnabled }) => {
           <p>Then, mail your completed form to us at this address:</p>
 
           <p className="va-address-block">
-            U.S. Department of Veterans Affairs <br />
+            Department of Veterans Affairs <br />
             Evidence Intake Center
             <br />
-            P.O. Box 4444
+            PO Box 4444
             <br />
             Janesville, WI 53547-4444
-            <br />
-            United States of America
           </p>
         </div>
       )}
