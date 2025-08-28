@@ -73,7 +73,9 @@ export default function prefillTransformer(pages, formData, metadata, state) {
 
   return {
     metadata,
-    formData: finalFormData,
+    formData: {
+      ...finalFormData,
+    },
     pages,
   };
 }
