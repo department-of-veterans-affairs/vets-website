@@ -1,25 +1,21 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useHistory } from 'react-router-dom';
-import { format } from 'date-fns';
-import { formatInTimeZone } from 'date-fns-tz';
+import { formatISO, differenceInMilliseconds } from 'date-fns';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { titleCase } from '../utils/formatters';
-import { stripDST } from '../utils/timezone';
 import ReferralLayout from './components/ReferralLayout';
 import ProviderAddress from './components/ProviderAddress';
+import AppointmentDate from '../components/AppointmentDate';
+import AppointmentTime from '../components/AppointmentTime';
 import { routeToNextReferralPage } from './flow';
-import {
-  pollFetchAppointmentInfo,
-  setFormCurrentPage,
-  startNewAppointmentFlow,
-} from './redux/actions';
+import { useGetAppointmentInfoQuery } from '../redux/api/vaosApi';
+import { setFormCurrentPage, startNewAppointmentFlow } from './redux/actions';
 // eslint-disable-next-line import/no-restricted-paths
 import getNewAppointmentFlow from '../new-appointment/newAppointmentFlow';
 import {
   getAppointmentCreateStatus,
-  getReferralAppointmentInfo,
   selectCurrentPage,
 } from './redux/selectors';
 import { FETCH_STATUS, GA_PREFIX } from '../utils/constants';
@@ -33,6 +29,9 @@ function handleScheduleClick(dispatch) {
   };
 }
 
+const timeOut = 30000; // 30 seconds
+const pollingInterval = 1000; // 1 second
+
 export const CompleteReferral = props => {
   const { attributes: currentReferral } = props.currentReferral;
   const { pathname } = useLocation();
@@ -40,14 +39,11 @@ export const CompleteReferral = props => {
   const history = useHistory();
   const appointmentCreateStatus = useSelector(getAppointmentCreateStatus);
   const currentPage = useSelector(selectCurrentPage);
+  const [requestTime, setRequestTime] = useState(0);
+  const requestStart = useRef(formatISO(new Date()));
+  const [appointmentInfoTimeout, setAppointmentInfoTimeout] = useState(false);
   const [, appointmentId] = pathname.split('/schedule-referral/complete/');
   const { root, typeOfCare } = useSelector(getNewAppointmentFlow);
-  const {
-    appointmentInfoError,
-    appointmentInfoTimeout,
-    appointmentInfoLoading,
-    referralAppointmentInfo,
-  } = useSelector(getReferralAppointmentInfo);
 
   function goToDetailsView(e) {
     e.preventDefault();
@@ -63,33 +59,41 @@ export const CompleteReferral = props => {
     },
     [dispatch],
   );
+  const {
+    refetch: referralAppointmentRefetch,
+    data: referralAppointmentInfo,
+    isError: appointmentInfoError,
+    isLoading: appointmentInfoLoading,
+  } = useGetAppointmentInfoQuery(appointmentId);
+  const [booked, setBooked] = useState(
+    referralAppointmentInfo?.attributes?.status === 'booked',
+  );
   useEffect(
     () => {
-      if (
-        !appointmentInfoError &&
-        !appointmentInfoTimeout &&
-        !appointmentInfoLoading &&
-        referralAppointmentInfo?.attributes?.status !== 'booked'
-      ) {
-        dispatch(
-          pollFetchAppointmentInfo(appointmentId, {
-            timeOut: 30000,
-            retryCount: 3,
-            retryDelay: 1000,
-          }),
-        );
+      let requestInterval;
+      // Stop polling when appointment is booked.
+      if (referralAppointmentInfo?.attributes?.status === 'booked') {
+        setBooked(true);
+      } else if (requestTime > timeOut && !booked) {
+        // Stop polling if not booked after timeout.
+        setAppointmentInfoTimeout(true);
+      } else {
+        // Refetch data after polling interval and increment request time.
+        requestInterval = setInterval(() => {
+          referralAppointmentRefetch();
+          setRequestTime(
+            differenceInMilliseconds(
+              new Date(),
+              new Date(requestStart.current),
+            ),
+          );
+        }, pollingInterval);
       }
+      return () => clearInterval(requestInterval);
     },
-    [
-      dispatch,
-      appointmentId,
-      referralAppointmentInfo?.attributes?.status,
-      appointmentInfoError,
-      appointmentInfoTimeout,
-      appointmentCreateStatus,
-      appointmentInfoLoading,
-    ],
+    [booked, referralAppointmentInfo, referralAppointmentRefetch, requestTime],
   );
+
   if (appointmentInfoError || appointmentInfoTimeout) {
     return (
       <ReferralLayout
@@ -118,7 +122,11 @@ export const CompleteReferral = props => {
     );
   }
 
-  if (appointmentInfoLoading || !referralAppointmentInfo.attributes) {
+  if (
+    appointmentInfoLoading ||
+    !booked ||
+    !referralAppointmentInfo?.attributes
+  ) {
     return (
       <ReferralLayout loadingMessage="Confirming your appointment. This may take up to 30 seconds. Please don’t refresh the page." />
     );
@@ -128,18 +136,6 @@ export const CompleteReferral = props => {
 
   const { attributes } = referralAppointmentInfo;
 
-  const appointmentDate = format(
-    new Date(attributes.start),
-    'EEEE, MMMM do, yyyy',
-  );
-
-  const appointmentTime = stripDST(
-    formatInTimeZone(
-      new Date(attributes.start),
-      attributes.provider.location.timezone,
-      'h:mm aaaa zzz',
-    ),
-  );
   return (
     <ReferralLayout
       hasEyebrow
@@ -163,15 +159,18 @@ export const CompleteReferral = props => {
           >
             <p
               className="vads-u-margin-bottom--0 vads-u-font-family--serif"
-              data-testid="appointment-date"
+              data-testid="appointment-date-container"
             >
-              <span data-dd-privacy="mask">{appointmentDate}</span>
+              <AppointmentDate date={attributes.start} />
             </p>
             <h2
               className="vads-u-margin-top--0 vads-u-margin-bottom-1"
-              data-testid="appointment-time"
+              data-testid="appointment-time-container"
             >
-              <span data-dd-privacy="mask">{appointmentTime}</span>
+              <AppointmentTime
+                date={attributes.start}
+                timezone={attributes.provider.location.timezone}
+              />
             </h2>
             <strong data-dd-privacy="mask" data-testid="appointment-type">
               {titleCase(currentReferral.categoryOfCare)} with{' '}
