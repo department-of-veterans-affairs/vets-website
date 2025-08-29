@@ -45,6 +45,7 @@ import {
   toSnakeLower,
   humanize,
   tagsForRecord,
+  formatMDY,
 } from '../../utils/helpers';
 
 describe('GIBCT helpers:', () => {
@@ -1246,6 +1247,19 @@ describe('GIBCT helpers:', () => {
     it('handles non-string values in categories by stringifying then lowercasing', () => {
       const rec = { categories: [123, true, 'FiNaNcIaL'] };
       expect(tagsForRecord(rec)).to.deep.equal(['123', 'true', 'financial']);
+    });
+  });
+  describe('formatMDY (API dates YYYY-MM-DD)', () => {
+    it('formats API date strings like "2020-10-29" to "10/29/2020"', () => {
+      expect(formatMDY('2020-10-29')).to.equal('10/29/2020');
+      expect(formatMDY('1996-10-20')).to.equal('10/20/1996');
+      expect(formatMDY('2022-01-05')).to.equal('01/05/2022');
+    });
+
+    it('returns empty string for falsy inputs', () => {
+      expect(formatMDY('')).to.equal('');
+      expect(formatMDY(null)).to.equal('');
+      expect(formatMDY(undefined)).to.equal('');
     });
   });
 });
