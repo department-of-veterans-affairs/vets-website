@@ -245,4 +245,27 @@ describe('Breadcrumbs', () => {
       `${Paths.MESSAGE_THREAD}123123/`,
     );
   });
+
+  it('navigates back correctly from CARE_TEAM_HELP to Select care team (previousUrl)', async () => {
+    const previous = `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`;
+    const customState = {
+      sm: {
+        breadcrumbs: {
+          previousUrl: previous,
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
+      initialState: customState,
+      reducers: reducer,
+      path: Paths.CARE_TEAM_HELP,
+    });
+
+    fireEvent.click(screen.getByText('Back'));
+
+    await waitFor(() => {
+      expect(screen.history.location.pathname).to.equal(previous);
+    });
+  });
 });
