@@ -3,6 +3,22 @@ import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
+export const ConfirmationSubmissionAlert = ({ confirmationNumber }) => (
+  <>
+    <p>Your submission is in progress.</p>
+    <p>
+      It can take up to 30 days for us to review your application and make a
+      decision.
+      {confirmationNumber &&
+        ` Your confirmation number is ${confirmationNumber}.`}
+    </p>
+  </>
+);
+
+ConfirmationSubmissionAlert.propTypes = {
+  confirmationNumber: PropTypes.string,
+};
+
 export const ConfirmationWhatsNextProcessList = () => (
   <>
     <h2>What to expect next</h2>
@@ -188,4 +204,14 @@ export const viewifyFields = formData => {
         : formData[key];
   });
   return newFormData;
+};
+export const maskBankInformation = (string, unmaskedLength) => {
+  if (!string) {
+    return '';
+  }
+  const repeatCount =
+    string.length > unmaskedLength ? string.length - unmaskedLength : 0;
+  const maskedPart = '●'.repeat(repeatCount);
+  const unmaskedPart = string.slice(-unmaskedLength);
+  return `${maskedPart}${unmaskedPart}`;
 };
