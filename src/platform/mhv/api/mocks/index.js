@@ -71,7 +71,7 @@ const {
 
 const responses = {
   ...commonResponses,
-  'GET /v0/user': user.defaultUser,
+  'GET /v0/user': user.acceleratedCernerUser,
   'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({
     mhvAcceleratedDeliveryEnabled: true,
     mhvAcceleratedDeliveryAllergiesEnabled: true,
