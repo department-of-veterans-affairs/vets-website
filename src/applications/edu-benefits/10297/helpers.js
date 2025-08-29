@@ -182,11 +182,9 @@ export const validateTrainingProviderStartDate = (errors, dateString) => {
   const picked = new Date(`${dateString}T00:00:00`);
   const startDate = new Date('2025-01-02T00:00:00');
 
-  if (picked < startDate)
-    errors.addError(
-      'Training must start on or after 1/2/2025 to qualify for VET TEC 2.0',
-    );
+  if (picked < startDate) errors.addError('Enter a date after 1/2/2025');
 };
+
 export const dateSigned = () => {
   const date = new Date();
   date.setDate(date.getDate() + 365);
@@ -204,4 +202,14 @@ export const viewifyFields = formData => {
         : formData[key];
   });
   return newFormData;
+};
+export const maskBankInformation = (string, unmaskedLength) => {
+  if (!string) {
+    return '';
+  }
+  const repeatCount =
+    string.length > unmaskedLength ? string.length - unmaskedLength : 0;
+  const maskedPart = '●'.repeat(repeatCount);
+  const unmaskedPart = string.slice(-unmaskedLength);
+  return `${maskedPart}${unmaskedPart}`;
 };

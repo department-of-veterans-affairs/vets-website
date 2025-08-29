@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { NavLink, useHistory, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -13,6 +13,7 @@ import {
 import { selectIsBlocked } from '../selectors';
 
 const ProfileSubNav = ({ isInMVI, isLOA3, routes, clickHandler = null }) => {
+  const mobileNavRef = useRef();
   const history = useHistory();
   const { pathname } = useLocation();
   const isBlocked = useSelector(selectIsBlocked); // incompetent, fiduciary flag, deceased
@@ -43,6 +44,12 @@ const ProfileSubNav = ({ isInMVI, isLOA3, routes, clickHandler = null }) => {
     }
     const { href } = e.detail;
     history.push(href);
+    if (showPaperlessDelivery && mobileNavRef?.current) {
+      const accordionItem = mobileNavRef.current.shadowRoot?.querySelector(
+        'va-accordion > va-accordion-item',
+      );
+      accordionItem?.removeAttribute('open');
+    }
   };
 
   const isActive = path => (pathname === path ? true : undefined);
@@ -59,6 +66,7 @@ const ProfileSubNav = ({ isInMVI, isLOA3, routes, clickHandler = null }) => {
         icon-background-color="vads-color-primary"
         icon-name="account_circle"
         role="navigation"
+        ref={mobileNavRef}
       >
         {filteredRoutes.map(route => {
           // Checks if route should be rendered inside a submenu by looking for a subnavParent

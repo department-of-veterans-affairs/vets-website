@@ -262,7 +262,7 @@ describe('10297 Helpers', () => {
       validateTrainingProviderStartDate(errors, '2025-01-01');
       expect(errors.addError.calledOnce).to.be.true;
       expect(errors.addError.firstCall.args[0]).to.match(
-        /Training must start/i,
+        /Enter a date after 1\/2\/2025/i,
       );
     });
 

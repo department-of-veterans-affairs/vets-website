@@ -1,6 +1,10 @@
 .help {
+  a.content-link {
+    display: unset;
+  }
+
   .left-section {
-    padding-right: 24px;
+    padding-right: 7px;
   }
 
   h1 {
@@ -25,6 +29,7 @@
     margin-top: 0px;
   }
   .subtext {
+    font-family: var(--font-serif);
     margin-top: 0px;
     font-weight: 400;
     font-size: 20px;
@@ -39,18 +44,23 @@
   }
 
   .contact-us {
+    padding-left: 17px;
     h3.no-spacing-top {
       margin-top: 0px;
     }
   }
 
-  @media screen and (min-width: 753px) {
+  .mobile-view-divider {
+    margin-bottom: 16px;
+  }
+
+  @media screen and (min-width: 1202px) {
     .mobile-view-divider {
       display: none;
     }
   }
 
-  @media screen and (max-width: 752px) {
+  @media screen and (max-width: 1201px) {
     .contact-us {
       padding-right: 24px;
     }

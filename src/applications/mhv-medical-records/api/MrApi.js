@@ -357,12 +357,12 @@ export const generateCCD = () => {
   return apiRequest(`${apiBasePath}/medical_records/ccd/generate`, { headers });
 };
 
-export const downloadCCD = timestamp => {
+export const downloadCCD = (timestamp, format = 'html') => {
+  const lowerFormat = format.toLowerCase();
   return apiRequest(
-    `${apiBasePath}/medical_records/ccd/download?date=${timestamp}`,
-    {
-      'Content-Type': 'application/xml',
-    },
+    `${apiBasePath}/medical_records/ccd/download.${lowerFormat}?date=${encodeURIComponent(
+      timestamp,
+    )}`,
   );
 };
 

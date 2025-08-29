@@ -93,16 +93,13 @@ export default function useStudentFeedbackCards({
         return {
           id: `${rec.closed}-${rec.facilityCode}-${idx}`,
           year,
+          closed: rec.closed,
           key: primary,
           label: lookup.label || humanize(primary),
-          definition: lookup.definition || '',
-          // OPE6-wide total records in this year
-          totalYear: totalsByYearAllCampuses[year] || 0,
-          // count of records at THIS facility in this year that include this category
-          campusCount: countsByYearCatThisFacility.get(keyForCounts) || 0,
-          // count of records OPE6-wide in this year that include this category
-          allCampusCount: countsByYearCatAllCampuses.get(keyForCounts) || 0,
-          // tags on the card
+          definition: lookup.definition || '', // OPE6-wide total records in this year
+          totalYear: totalsByYearAllCampuses[year] || 0, // count of records at THIS facility in this year that include this category
+          campusCount: countsByYearCatThisFacility.get(keyForCounts) || 0, // count of records OPE6-wide in this year that include this category
+          allCampusCount: countsByYearCatAllCampuses.get(keyForCounts) || 0, // tags on the card
           coCategories: categories,
         };
       });

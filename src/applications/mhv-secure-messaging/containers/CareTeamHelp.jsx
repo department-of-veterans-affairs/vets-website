@@ -8,11 +8,21 @@ import {
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { Paths, PageTitles } from '../util/constants';
+import { populatedDraft } from '../selectors';
 
 const CareTeamHelp = () => {
   const isCerner = useSelector(selectIsCernerPatient);
   const isCernerOnly = useSelector(selectIsCernerOnlyPatient);
   const history = useHistory();
+  const { acceptInterstitial } = useSelector(state => state.sm.threadDetails);
+  const validDraft = useSelector(populatedDraft);
+
+  useEffect(
+    () => {
+      if (!acceptInterstitial && !validDraft) history.push(Paths.COMPOSE);
+    },
+    [acceptInterstitial, validDraft, history],
+  );
 
   // Set page title
   useEffect(() => {

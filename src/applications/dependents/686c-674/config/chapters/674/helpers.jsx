@@ -74,3 +74,17 @@ export const studentIncomeNote = (
     <strong>Note:</strong> Don’t report VA benefits as income
   </p>
 );
+
+export const calculateStudentAssetTotal = (studentNetworthInformation = {}) => {
+  const parseCurrency = value => {
+    if (!value) return 0;
+    return parseFloat(value) || 0;
+  };
+
+  return (
+    parseCurrency(studentNetworthInformation.otherAssets) +
+    parseCurrency(studentNetworthInformation.realEstate) +
+    parseCurrency(studentNetworthInformation.savings) +
+    parseCurrency(studentNetworthInformation.securities)
+  ).toFixed(2);
+};
