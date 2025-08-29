@@ -27,6 +27,7 @@ import {
   recordAppointmentDetailsNullStates,
   captureMissingModalityLogs,
 } from '../../utils/events';
+import ClinicName from './ClinicName';
 
 export default function VideoLayoutAtlas({ data: appointment }) {
   const {
@@ -197,10 +198,10 @@ export default function VideoLayoutAtlas({ data: appointment }) {
             ) : (
               'Facility not available'
             )}
-            <br />
-            <span data-dd-privacy="mask">
-              {clinicName ? `Clinic: ${clinicName}` : 'Clinic not available'}
-            </span>
+            <ClinicName
+              name={clinicName}
+              isCerner={appointment.vaos.isCerner}
+            />{' '}
             <br />
             <ClinicOrFacilityPhone
               clinicPhone={clinicPhone}

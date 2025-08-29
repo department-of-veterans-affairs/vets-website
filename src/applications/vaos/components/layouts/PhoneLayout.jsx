@@ -25,6 +25,7 @@ import {
   recordAppointmentDetailsNullStates,
   captureMissingModalityLogs,
 } from '../../utils/events';
+import ClinicName from './ClinicName';
 
 export default function PhoneLayout({ data: appointment }) {
   const {
@@ -123,10 +124,7 @@ export default function PhoneLayout({ data: appointment }) {
             <Address address={facility?.address} />
           </>
         )}
-        <span>
-          Clinic:{' '}
-          <span data-dd-privacy="mask">{clinicName || 'Not available'}</span>
-        </span>{' '}
+        <ClinicName name={clinicName} isCerner={appointment.vaos.isCerner} />{' '}
         <br />
         <ClinicOrFacilityPhone
           clinicPhone={clinicPhone}
