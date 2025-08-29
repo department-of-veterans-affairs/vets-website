@@ -1,89 +1,107 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
+import configureStore from 'redux-mock-store';
+import { Provider } from 'react-redux';
 import { App } from '../components/App';
 
-describe('Dependents Verification Widget <App>', () => {
-  it('renders the dependents verification widget app', () => {
-    const wrapper = shallow(<App formEnabled />);
-    expect(wrapper.find('.dependents-verification-widget').exists()).to.equal(
-      true,
+const mockStore = configureStore([]);
+
+function makeStore({ loading, enabled }) {
+  return mockStore({
+    featureToggles: {
+      loading,
+      // eslint-disable-next-line camelcase
+      va_dependents_verification: enabled,
+    },
+  });
+}
+
+describe('0538 Dependents Verification <App>', () => {
+  it('shows loading indicator while feature toggles are loading', () => {
+    const store = makeStore({ loading: true, enabled: false });
+    const wrapper = mount(
+      <Provider store={store}>
+        <App />
+      </Provider>,
     );
-    expect(wrapper.text()).to.include(
-      'You can submit this form in 1 of these 2 ways:',
-    );
+
+    expect(wrapper.find('va-loading-indicator')).to.have.lengthOf(1);
     wrapper.unmount();
   });
 
-  it('shows both online and mail options when form is enabled', () => {
-    const wrapper = shallow(<App formEnabled />);
+  describe('when the form is enabled', () => {
+    it('renders the online form link and the download link', () => {
+      const store = makeStore({ loading: false, enabled: true });
+      const wrapper = mount(
+        <Provider store={store}>
+          <App />
+        </Provider>,
+      );
 
-    // Check for both options
-    expect(wrapper.text()).to.include('Option 1: Verify online');
-    expect(wrapper.text()).to.include(
-      'Option 2: Mail us the verification form',
-    );
+      expect(
+        wrapper.contains(<p>You can submit this form in 1 of these 2 ways:</p>),
+      ).to.equal(true);
 
-    // Check for online verification link
-    expect(wrapper.find('va-link-action').exists()).to.equal(true);
-    expect(wrapper.find('va-link-action').prop('text')).to.equal(
-      'Verify your dependents on your disability benefits',
-    );
+      expect(wrapper.find('va-link-action')).to.have.lengthOf(1);
+      expect(wrapper.find('va-link')).to.have.lengthOf(1);
 
-    // Check for form download link
-    expect(wrapper.find('va-link').exists()).to.equal(true);
-    expect(wrapper.find('va-link').prop('text')).to.equal(
-      'Get VA Form 21-0538 to download',
-    );
+      // Check for Option 1 content
+      expect(wrapper.text()).to.include('Option 1: Verify online');
+      expect(wrapper.text()).to.include(
+        'You can verify your dependents online right now.',
+      );
 
-    wrapper.unmount();
+      // Check for Option 2 content
+      expect(wrapper.text()).to.include(
+        'Option 2: Mail us the verification form',
+      );
+      expect(wrapper.text()).to.include(
+        'Fill out the Mandatory Verification of Dependents (VA Form 21-0538).',
+      );
+
+      // Check for address block
+      expect(wrapper.text()).to.include('Department of Veterans Affairs');
+      expect(wrapper.text()).to.include('Evidence Intake Center');
+      expect(wrapper.text()).to.include('Janesville, WI 53547-4444');
+
+      wrapper.unmount();
+    });
   });
 
-  it('shows only mail option when form is disabled', () => {
-    const wrapper = shallow(<App formEnabled={false} />);
+  describe('when the form is disabled', () => {
+    it('renders only the download link (no online form link)', () => {
+      const store = makeStore({ loading: false, enabled: false });
+      const wrapper = mount(
+        <Provider store={store}>
+          <App />
+        </Provider>,
+      );
 
-    // Check that it shows mail-only content
-    expect(wrapper.text()).to.include('You can submit this form by mail.');
-    expect(wrapper.text()).to.not.include('Option 1: Verify online');
-    expect(wrapper.text()).to.not.include(
-      'Option 2: Mail us the verification form',
-    );
+      expect(
+        wrapper.contains(<p>You can submit this form by mail.</p>),
+      ).to.equal(true);
 
-    // Should not have online verification link
-    expect(wrapper.find('va-link-action').exists()).to.equal(false);
+      expect(wrapper.find('va-link-action')).to.have.lengthOf(0);
+      expect(wrapper.find('va-link')).to.have.lengthOf(1);
 
-    // Should still have form download link
-    expect(wrapper.find('va-link').exists()).to.equal(true);
-    expect(wrapper.find('va-link').prop('text')).to.equal(
-      'Get VA Form 21-0538 to download',
-    );
+      // Check that online option is not present
+      expect(wrapper.text()).to.not.include('Option 1: Verify online');
+      expect(wrapper.text()).to.not.include(
+        'You can verify your dependents online right now.',
+      );
 
-    wrapper.unmount();
-  });
+      // Check that mail instructions are present
+      expect(wrapper.text()).to.include(
+        'Fill out the Mandatory Verification of Dependents (VA Form 21-0538).',
+      );
 
-  it('displays correct mailing address in both states', () => {
-    const expectedAddress = 'Department of Veterans Affairs';
+      // Check for address block
+      expect(wrapper.text()).to.include('Department of Veterans Affairs');
+      expect(wrapper.text()).to.include('Evidence Intake Center');
+      expect(wrapper.text()).to.include('Janesville, WI 53547-4444');
 
-    // Test enabled state
-    const wrapperEnabled = shallow(<App formEnabled />);
-    expect(wrapperEnabled.text()).to.include(expectedAddress);
-    expect(wrapperEnabled.text()).to.include('PO Box 4444');
-    expect(wrapperEnabled.text()).to.include('Janesville, WI 53547-4444');
-    wrapperEnabled.unmount();
-
-    // Test disabled state
-    const wrapperDisabled = shallow(<App formEnabled={false} />);
-    expect(wrapperDisabled.text()).to.include(expectedAddress);
-    expect(wrapperDisabled.text()).to.include('PO Box 4444');
-    expect(wrapperDisabled.text()).to.include('Janesville, WI 53547-4444');
-    wrapperDisabled.unmount();
-  });
-
-  it('has correct form download link URL', () => {
-    const wrapper = shallow(<App formEnabled />);
-    expect(wrapper.find('va-link').prop('href')).to.equal(
-      '/find-forms/about-form-21-0538/',
-    );
-    wrapper.unmount();
+      wrapper.unmount();
+    });
   });
 });
