@@ -18,6 +18,7 @@ import radioRelationshipToVeteran from '../pages/mockRadioRelationshipToVeteran'
 import select from '../pages/mockSelect';
 import date from '../pages/mockDate';
 import fileInput from '../pages/mockFileInput';
+import fileInputMultiple from '../pages/mockFileInputMultiple';
 import dynamicFields from '../pages/mockDynamicFields';
 import formsPatternSingleRadio from '../pages/mockFormsPatternSingleRadio';
 import formsPatternSingleCheckboxGroup from '../pages/mockFormsPatternSingleCheckboxGroup';
@@ -45,6 +46,7 @@ const initialData = {
     checkbox: true,
     date: true,
     fileInput: true,
+    fileInputMultiple: true,
     internationalPhone: true,
     formsPattern: true,
     miscellaneous: true,
@@ -268,6 +270,18 @@ const formConfig = {
           uiSchema: fileInput.uiSchema,
           schema: fileInput.schema,
           depends: includeChapter('fileInput'),
+        },
+      },
+    },
+    fileInputMultiple: {
+      title: 'File input multiple',
+      pages: {
+        fileInputMultiple: {
+          title: 'File input multiple',
+          path: 'file-input-multiple',
+          uiSchema: fileInputMultiple.uiSchema,
+          schema: fileInputMultiple.schema,
+          depends: includeChapter('fileInputMultiple'),
         },
       },
     },

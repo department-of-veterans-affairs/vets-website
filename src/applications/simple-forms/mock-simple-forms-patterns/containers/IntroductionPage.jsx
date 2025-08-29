@@ -89,6 +89,9 @@ class IntroductionPage extends React.Component {
               <Link to="/file-input">File input</Link>
             </li>
             <li>
+              <Link to="/file-input-multiple">File input</Link>
+            </li>
+            <li>
               <Link to="/dynamic-fields">Dynamic fields</Link>
             </li>
             <li>
