@@ -1,11 +1,18 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import { TITLE, SUBTITLE } from '../constants';
+
+import {
+  TITLE,
+  SUBTITLE,
+  VET_SM_INFO_CHAPTER_CONSTANTS,
+  YOUR_INFORMATION_CHAPTER_CONSTANTS,
+} from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-
-import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
+import claimantAddressPage from '../pages/claimantAddress';
+import veteranAddressPage from '../pages/veteranAddress';
+import veteranServiceMemberInfoPage from '../pages/veteranServiceMemberInfo';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -49,14 +56,27 @@ const formConfig = {
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   chapters: {
-    personalInformationChapter: {
-      title: 'Your personal information',
+    veteranServiceMemberInfoChapter: {
+      title: VET_SM_INFO_CHAPTER_CONSTANTS.chapterTitle,
       pages: {
-        nameAndDateOfBirth: {
-          path: 'name-and-date-of-birth',
-          title: 'Name and date of birth',
-          uiSchema: nameAndDateOfBirth.uiSchema,
-          schema: nameAndDateOfBirth.schema,
+        claimantAddressPage: {
+          path: 'claimant-address',
+          title: YOUR_INFORMATION_CHAPTER_CONSTANTS.claimantAddressPageTitle,
+          uiSchema: claimantAddressPage.uiSchema,
+          schema: claimantAddressPage.schema,
+        },
+        veteranServiceMemberInfoPage: {
+          path: 'vet-sm-info',
+          title:
+            VET_SM_INFO_CHAPTER_CONSTANTS.veteranServiceMemberInfoPageTitle,
+          uiSchema: veteranServiceMemberInfoPage.uiSchema,
+          schema: veteranServiceMemberInfoPage.schema,
+        },
+        veteranAddressPage: {
+          path: 'veteran-address',
+          title: VET_SM_INFO_CHAPTER_CONSTANTS.veteranAddressPageTitle,
+          uiSchema: veteranAddressPage.uiSchema,
+          schema: veteranAddressPage.schema,
         },
       },
     },

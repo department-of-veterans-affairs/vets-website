@@ -1,7 +1,12 @@
 import manifest from '../../manifest.json';
+import {
+  DR_HEADING,
+  NON_DR_HEADING,
+} from '../../constants/results-content/common';
 
 export const ROOT = manifest.rootUrl;
 export const START_LINK = 'onramp-start';
+export const RESULTS_HEADER = 'onramp-results-header';
 
 export const clickStart = () =>
   cy
@@ -71,3 +76,15 @@ export const verifyText = (selector, expectedValue) =>
     .findByTestId(selector)
     .should('be.visible')
     .should('have.text', expectedValue);
+
+export const verifyNonDrResultsHeader = expectedPage =>
+  cy
+    .findByTestId(`${RESULTS_HEADER}-${expectedPage}`)
+    .should('be.visible')
+    .should('have.text', NON_DR_HEADING);
+
+export const verifyDrResultsHeader = expectedPage =>
+  cy
+    .findByTestId(`${RESULTS_HEADER}-${expectedPage}`)
+    .should('be.visible')
+    .should('have.text', DR_HEADING);

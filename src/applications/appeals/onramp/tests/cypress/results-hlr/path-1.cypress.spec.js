@@ -1,6 +1,7 @@
 import * as h from '../helpers';
 import { ROUTES } from '../../../constants';
 import { SHORT_NAME_MAP } from '../../../constants/question-data-map';
+import { RESULTS_NAME_MAP } from '../../../constants/results-data-map';
 
 const {
   Q_1_1_CLAIM_DECISION,
@@ -10,7 +11,9 @@ const {
   Q_2_IS_1_SERVICE_CONNECTED,
   Q_2_IS_2_CONDITION_WORSENED,
   Q_2_IS_1A_LAW_POLICY_CHANGE,
+  Q_2_IS_1B_NEW_EVIDENCE,
 } = SHORT_NAME_MAP;
+const { RESULTS_HLR } = RESULTS_NAME_MAP;
 
 // Results HLR: Higher-Level Review recommended
 // 1.1 - Yes
@@ -19,7 +22,8 @@ const {
 // 2.0 - Initial
 // 2.IS.1 - Yes
 // 2.IS.2 - No
-// 2.IS.1A - Yes
+// 2.IS.1A - No
+// 2.IS.1B - No
 describe('Decision Reviews Onramp', () => {
   describe('Results HLR (path 1)', () => {
     it('navigates through the flow forward and backward successfully', () => {
@@ -62,10 +66,22 @@ describe('Decision Reviews Onramp', () => {
 
       // Q_2_IS_1A_LAW_POLICY_CHANGE
       h.verifyUrl(ROUTES.Q_2_IS_1A_LAW_POLICY_CHANGE);
-      h.selectRadio(Q_2_IS_1A_LAW_POLICY_CHANGE, 0);
+      h.selectRadio(Q_2_IS_1A_LAW_POLICY_CHANGE, 1);
       h.clickContinue();
 
-      // TODO - Add results page check here
+      // Q_2_IS_1B_NEW_EVIDENCE
+      h.verifyUrl(ROUTES.Q_2_IS_1B_NEW_EVIDENCE);
+      h.selectRadio(Q_2_IS_1B_NEW_EVIDENCE, 1);
+      h.clickContinue();
+
+      // RESULTS
+      h.verifyUrl(ROUTES.RESULTS);
+      h.verifyDrResultsHeader(RESULTS_HLR);
+      cy.go('back');
+
+      // Q_2_IS_1B_NEW_EVIDENCE
+      h.verifyUrl(ROUTES.Q_2_IS_1B_NEW_EVIDENCE);
+      h.clickBack();
 
       // Q_2_IS_1A_LAW_POLICY_CHANGE
       h.verifyUrl(ROUTES.Q_2_IS_1A_LAW_POLICY_CHANGE);

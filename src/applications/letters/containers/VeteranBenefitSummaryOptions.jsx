@@ -104,7 +104,7 @@ const VeteranBenefitSummaryOptions = () => {
             depending on your needs.
           </p>
 
-          <p>Some of the ways you might be able to use this letter:</p>
+          <p>Here are some of the ways you might be able to use this letter:</p>
 
           <ul className="usa-list vads-u-margin-bottom--3">
             <li>Apply for housing assistance</li>
@@ -115,7 +115,7 @@ const VeteranBenefitSummaryOptions = () => {
 
           <VaCheckboxGroup
             id="va-bsl-options"
-            label="Choose what to include in your benefit letter:"
+            label="Select which topics to include in your benefit letter:"
             labelHeaderLevel={4}
           >
             {renderMilitaryServiceCheckbox()}

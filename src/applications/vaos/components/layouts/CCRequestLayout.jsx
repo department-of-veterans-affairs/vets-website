@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { shallowEqual } from 'recompose';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -66,7 +67,11 @@ export default function CCRequestLayout({ data: appointment }) {
         facility={facility}
       >
         <Section heading="Preferred date and time">
-          <ul className="usa-unstyled-list">
+          <ul
+            className={classNames({
+              'usa-unstyled-list': preferredDates.length === 1,
+            })}
+          >
             {preferredDates.map((date, index) => (
               <li key={`${appointment.id}-option-${index}`}>
                 <span data-dd-privacy="mask">{date}</span>
