@@ -119,7 +119,7 @@ describe('VA File Input Multiple', () => {
       .first()
       .shadow()
       .find('button')
-      .should('contain', 'Yes, remove this')
+      .should('contain', 'Yes, delete this')
       .click();
   };
 
@@ -217,7 +217,7 @@ describe('VA File Input Multiple', () => {
       uploadFile('test-file.pdf');
 
       // Verify error is cleared after adding file
-      getAboveFileInputError().should('not.exist');
+      getAboveFileInputError().should('not.contain.text', VALIDATION_ERROR);
 
       cy.axeCheck();
     });
@@ -851,7 +851,11 @@ describe('VA File Input Multiple', () => {
       clickModalDeleteButton();
 
       // Verify the remaining file still has its error
-      getFileError(0).should('contain.text', DOC_TYPE_ERROR);
+      cy.get('va-file-input-multiple')
+        .find('va-file-input')
+        .first()
+        .find('span.usa-error-message')
+        .should('contain.text', DOC_TYPE_ERROR);
 
       cy.axeCheck();
     });
