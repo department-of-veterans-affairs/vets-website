@@ -25,11 +25,11 @@ import {
   generateDeleteDescription,
   isDefined,
   isIncomeTypeInfoIncomplete,
-  isRecipientInfoIncomplete,
+  updatedIsRecipientInfoIncomplete,
   otherIncomeTypeExplanationRequired,
   otherRecipientRelationshipTypeUI,
-  recipientNameRequired,
-  resolveRecipientFullName,
+  updatedRecipientNameRequired,
+  updatedResolveRecipientFullName,
   sharedRecipientRelationshipBase,
   showUpdatedContent,
 } from '../../../helpers';
@@ -37,6 +37,7 @@ import {
   custodianRelationshipLabels,
   incomeTypeLabels,
   parentRelationshipLabels,
+  updatedIncomeTypeLabels,
   relationshipLabelDescriptions,
   relationshipLabels,
 } from '../../../labels';
@@ -48,7 +49,7 @@ export const options = {
   nounPlural: 'recurring income',
   required: false,
   isItemIncomplete: item =>
-    isRecipientInfoIncomplete(item) ||
+    updatedIsRecipientInfoIncomplete(item) ||
     isIncomeTypeInfoIncomplete(item) ||
     !isDefined(item?.grossMonthlyIncome) ||
     !isDefined(item?.payer), // include all required fields here
@@ -64,7 +65,7 @@ export const options = {
       if (!isDefined(item?.recipientRelationship) || !isDefined(item?.payer)) {
         return undefined;
       }
-      const fullName = resolveRecipientFullName(item, formData);
+      const fullName = updatedResolveRecipientFullName(item, formData);
       const possessiveName = formatPossessiveString(fullName);
       return `${possessiveName} income from ${item.payer}`;
     },
@@ -74,7 +75,11 @@ export const options = {
           <li>
             Income type:{' '}
             <span className="vads-u-font-weight--bold">
-              {incomeTypeLabels[item.incomeType]}
+              {
+                (showUpdatedContent()
+                  ? updatedIncomeTypeLabels
+                  : incomeTypeLabels)[item.incomeType]
+              }
             </span>
           </li>
           <li>
@@ -411,13 +416,19 @@ const recipientNamePage = {
 /** @returns {PageSchema} */
 const incomeTypePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Recurring income type'),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      showUpdatedContent() ? 'Income information' : 'Recurring income type',
+    ),
     incomeType: radioUI({
-      title: 'What is the type of income?',
-      labels: incomeTypeLabels,
+      title: showUpdatedContent()
+        ? 'What type of income is it?'
+        : 'What is the type of income?',
+      labels: showUpdatedContent() ? updatedIncomeTypeLabels : incomeTypeLabels,
     }),
     otherIncomeType: {
-      'ui:title': 'Tell us the type of income',
+      'ui:title': showUpdatedContent()
+        ? 'Describe the type of income'
+        : 'Tell us the type of income',
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
         expandUnder: 'incomeType',
@@ -430,16 +441,35 @@ const incomeTypePage = {
           'unassociatedIncomes',
         ),
     },
-    grossMonthlyIncome: currencyUI('Gross monthly income'),
-    payer: textUI({
-      title: 'Income payer name',
-      hint: 'Name of business, financial institution, or program, etc.',
-    }),
+    grossMonthlyIncome: currencyUI(
+      showUpdatedContent()
+        ? {
+            title: `What's the gross monthly income from this financial account?`,
+            hint:
+              'Gross income is income before taxes and any other deductions.',
+          }
+        : 'Gross monthly income',
+    ),
+    payer: textUI(
+      showUpdatedContent()
+        ? {
+            title: 'Who pays the income?',
+            hint: 'Name of business, agency, or program',
+          }
+        : {
+            title: 'Income payer name',
+            hint: 'Name of business, financial institution, or program, etc.',
+          },
+    ),
   },
   schema: {
     type: 'object',
     properties: {
-      incomeType: radioSchema(Object.keys(incomeTypeLabels)),
+      incomeType: radioSchema(
+        Object.keys(
+          showUpdatedContent() ? updatedIncomeTypeLabels : incomeTypeLabels,
+        ),
+      ),
       otherIncomeType: { type: 'string' },
       grossMonthlyIncome: currencySchema,
       payer: textSchema,
@@ -550,7 +580,7 @@ export const unassociatedIncomePages = arrayBuilderPages(
       title: 'Recurring income recipient',
       path: 'recurring-income/:index/recipient-name',
       depends: (formData, index) =>
-        recipientNameRequired(formData, index, 'unassociatedIncomes'),
+        updatedRecipientNameRequired(formData, index, 'unassociatedIncomes'),
       uiSchema: recipientNamePage.uiSchema,
       schema: recipientNamePage.schema,
     }),
