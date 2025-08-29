@@ -41,8 +41,12 @@ function AppointmentListSection() {
         {isInPilotUserStations && (
           <Route path="/referrals-requests" component={ReferralsAndRequests} />
         )}
-        <Route path="/past/:id" component={UpcomingAppointmentsDetailsPage} />
-        <Route path="/past" component={AppointmentsPage} />
+        <Route
+          exact
+          path="/past/:id"
+          component={UpcomingAppointmentsDetailsPage}
+        />
+        <Route exact path="/past" component={AppointmentsPage} />
         <Route exact path="/:id" component={UpcomingAppointmentsDetailsPage} />
         <Route
           exact
