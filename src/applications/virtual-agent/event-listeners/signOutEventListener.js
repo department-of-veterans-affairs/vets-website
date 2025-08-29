@@ -16,6 +16,6 @@ export default function signOutEventListener(isLoggedIn) {
     const error = new TypeError(
       'Virtual Agent chatbot could not find sign out link in menu, and user is logged in',
     );
-    logErrorToDatadog(true, error.message, error);
+    logErrorToDatadog(true, error);
   }
 }
