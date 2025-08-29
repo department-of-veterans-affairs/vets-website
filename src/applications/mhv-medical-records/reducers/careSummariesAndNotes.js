@@ -333,8 +333,7 @@ export const careSummariesAndNotesReducer = (state = initialState, action) => {
         data
           ?.map(note => {
             return convertUnifiedCareSummariesAndNotesRecord(note);
-          })
-          .filter(record => record.type !== noteTypes.OTHER)
+          }) // .filter(record => record.type !== noteTypes.OTHER)
           .sort((a, b) => {
             if (!a.sortByDate) return 1; // Push nulls to the end
             if (!b.sortByDate) return -1; // Keep non-nulls at the front
