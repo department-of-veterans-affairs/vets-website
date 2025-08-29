@@ -3,7 +3,7 @@ name: Continuous Integration
 on:
   push:
     branches:
-      - '**'
+      - debug-scd-tests-fails
     tags-ignore:
       - '**'
 
@@ -2083,6 +2083,7 @@ jobs:
           echo ${{ github.ref }}
           echo ${{ needs.build.outputs.entry_names }}
           echo ${{ steps.determine-channel.outputs.channel }}
+          echo ${{ steps.build.outputs.continuous_deployment }}
       # - name: Dispatch Event to Next Workflow
       #   run: |
       #     curl -X POST \
