@@ -4,6 +4,7 @@ export default function prefillTransformer(pages, formData, metadata) {
   const {
     veteranSsnLastFour = '',
     veteranVaFileNumberLastFour = '',
+    isInReceiptOfPension = -1,
     netWorthLimit = NETWORTH_VALUE,
   } = formData?.nonPrefill || {};
   const contact = formData?.veteranContactInformation || {};
@@ -19,6 +20,7 @@ export default function prefillTransformer(pages, formData, metadata) {
         ...formData?.veteranInformation,
         ssnLastFour: veteranSsnLastFour,
         vaFileLastFour: veteranVaFileNumberLastFour,
+        isInReceiptOfPension,
       },
       veteranContactInformation: {
         veteranAddress: {

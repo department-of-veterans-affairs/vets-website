@@ -51,6 +51,13 @@ const testConfig = createTestConfig(
         });
       },
 
+      'check-veteran-pension': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('va-radio-option[value="N"]').click();
+          cy.clickFormContinue();
+        });
+      },
+
       'veteran-information': ({ afterHook }) => {
         afterHook(() => {
           cy.fillPage();

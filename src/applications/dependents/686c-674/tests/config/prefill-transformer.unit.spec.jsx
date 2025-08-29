@@ -5,6 +5,7 @@ import { NETWORTH_VALUE } from '../../config/constants';
 const buildData = ({
   ssnLastFour = '',
   vaFileLastFour = '',
+  isInReceiptOfPension = -1,
   city = 'Decatur',
   useV2 = true,
   daysTillExpires = 365,
@@ -15,6 +16,7 @@ const buildData = ({
     nonPrefill: {
       veteranSsnLastFour: ssnLastFour,
       veteranVaFileNumberLastFour: vaFileLastFour,
+      isInReceiptOfPension,
       netWorthLimit,
     },
     veteranContactInformation: {
@@ -38,6 +40,7 @@ const buildData = ({
     veteranInformation: {
       ssnLastFour,
       vaFileLastFour,
+      isInReceiptOfPension,
     },
     veteranContactInformation: {
       veteranAddress: {
@@ -69,7 +72,6 @@ describe('NOD prefill transformer', () => {
   it('should return built out template from prefill data', () => {
     const { pages, formData, metadata } = noTransformData;
     const noTransformActual = prefillTransformer(pages, formData, metadata);
-
     expect(noTransformActual).to.not.equal(noTransformData);
     expect(noTransformActual).to.deep.equal({
       metadata: noTransformData.metadata,
@@ -78,6 +80,7 @@ describe('NOD prefill transformer', () => {
         daysTillExpires: 365,
         netWorthLimit: NETWORTH_VALUE,
         veteranInformation: {
+          isInReceiptOfPension: -1,
           ssnLastFour: '',
           vaFileLastFour: '',
         },
@@ -106,6 +109,7 @@ describe('NOD prefill transformer', () => {
       const data = buildData({
         ssnLastFour: '9876',
         vaFileLastFour: '7654',
+        isInReceiptOfPension: 1,
       });
       const transformedData = prefillTransformer(pages, data.prefill, metadata)
         .formData;
@@ -155,6 +159,45 @@ describe('NOD prefill transformer', () => {
 
       expect(transformedData).to.deep.equal(data.result);
       expect(transformedData.netWorthLimit).to.equal(NETWORTH_VALUE);
+    });
+  });
+
+  describe('prefill isInReceiptOfPension values', () => {
+    it('should default to -1 when not provided', () => {
+      const { pages, metadata } = noTransformData;
+      const data = buildData({});
+      const transformedData = prefillTransformer(pages, data.prefill, metadata)
+        .formData;
+
+      expect(transformedData.veteranInformation.isInReceiptOfPension).to.equal(
+        -1,
+      );
+    });
+
+    it('should transform isInReceiptOfPension: 0 (not in receipt of pension)', () => {
+      const { pages, metadata } = noTransformData;
+      const data = buildData({
+        isInReceiptOfPension: 0,
+      });
+      const transformedData = prefillTransformer(pages, data.prefill, metadata)
+        .formData;
+
+      expect(transformedData.veteranInformation.isInReceiptOfPension).to.equal(
+        0,
+      );
+    });
+
+    it('should transform isInReceiptOfPension: 1 (in receipt of pension)', () => {
+      const { pages, metadata } = noTransformData;
+      const data = buildData({
+        isInReceiptOfPension: 1,
+      });
+      const transformedData = prefillTransformer(pages, data.prefill, metadata)
+        .formData;
+
+      expect(transformedData.veteranInformation.isInReceiptOfPension).to.equal(
+        1,
+      );
     });
   });
 });

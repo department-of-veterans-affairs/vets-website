@@ -14,10 +14,10 @@ const testConfig = createTestConfig(
     dataPrefix: 'data',
     dataSets: [
       'ancillary-flows',
-      'add-child-report-divorce',
-      'spouse-report-divorce',
-      'report-married-child-report-student-left-school',
-      'report-death',
+      // 'add-child-report-divorce',
+      // 'spouse-report-divorce',
+      // 'report-married-child-report-student-left-school',
+      // 'report-death',
     ],
     fixtures: { data: path.join(__dirname, 'fixtures') },
     setupPerTest: () => {
@@ -29,6 +29,10 @@ const testConfig = createTestConfig(
             {
               name: 'vaDependentsV2',
               value: true,
+            },
+            {
+              name: 'vaDependentsNetWorthAndPension',
+              value: false,
             },
           ],
         },
@@ -64,6 +68,13 @@ const testConfig = createTestConfig(
           cy.clickStartForm();
         });
       },
+
+      // 'check-veteran-pension': ({ afterHook }) => {
+      //   afterHook(() => {
+      //     cy.get('va-radio-option[value="N"]').click();
+      //     cy.clickFormContinue();
+      //   });
+      // },
 
       'veteran-address': ({ afterHook }) => {
         afterHook(() => {
