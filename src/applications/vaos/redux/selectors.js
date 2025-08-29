@@ -110,3 +110,6 @@ export function getRequestedAppointmentListInfo(state) {
 
 export const selectFeatureMentalHealthHistoryFiltering = state =>
   toggleValues(state).vaOnlineSchedulingMentalHealthHistoryFiltering;
+
+export const selectFeatureSubstanceUseDisorder = state =>
+  toggleValues(state).vaOnlineSchedulingAddSubstanceUseDisorder;

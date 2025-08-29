@@ -16,4 +16,5 @@ module.exports = [
   { name: 'travelPayViewClaimDetails', value: true },
   { name: 'travelPaySubmitMileageExpense', value: true },
   { name: 'vaOnlineSchedulingMentalHealthHistoryFiltering', value: true },
+  { name: 'vaOnlineSchedulingAddSubstanceUseDisorder', value: true },
 ];
