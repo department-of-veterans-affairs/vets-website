@@ -18,6 +18,8 @@ import {
 import useAlerts from '../hooks/use-alerts';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import { useTrackAction } from '../hooks/useTrackAction';
+// import useAcceleratedData from '../hooks/useAcceleratedData';
+// import UnifiedCareNotes from '../components/CareSummaries/UnifiedCareNotes';
 
 const CareSummariesDetails = () => {
   const dispatch = useDispatch();
@@ -29,6 +31,8 @@ const CareSummariesDetails = () => {
   );
   const { summaryId } = useParams();
   const activeAlert = useAlerts(dispatch);
+  // const { isAcceleratingCareNotes, isLoading } = useAcceleratedData();
+
   useTrackAction(statsdFrontEndActions.CARE_SUMMARIES_AND_NOTES_DETAILS);
 
   useEffect(
@@ -60,6 +64,10 @@ const CareSummariesDetails = () => {
       />
     );
   }
+  // if (isAcceleratingCareNotes && careSummary && !isLoading) {
+  //   return <UnifiedCareNotes record={careSummary} />;
+  // }
+  // TODO: Delete after migration is complete
   if (careSummary?.type === loincCodes.DISCHARGE_SUMMARY) {
     return <AdmissionAndDischargeDetails record={careSummary} />;
   }
