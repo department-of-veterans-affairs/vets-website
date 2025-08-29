@@ -24,8 +24,9 @@ describe('Pre-need sponsor details', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(7);
-    expect(form.find('VaMemorableDate').length).to.equal(1);
+    expect(form.find('va-text-input').length).to.equal(7);
+    expect(form.find('input').length).to.equal(1);
+    expect(form.find('select').length).to.equal(2);
     expect(form.find('va-select').length).to.equal(1);
     form.unmount();
   });

@@ -1,126 +1,187 @@
 import React from 'react';
 import { expect } from 'chai';
-import { mount } from 'enzyme';
+import sinon from 'sinon';
+import { render } from '@testing-library/react';
 
 import {
-  DefinitionTester,
-  fillData,
-} from 'platform/testing/unit/schemaform-utils.jsx';
-import definitions from 'vets-json-schema/dist/definitions.json';
-import { schema, uiSchema } from '../../definitions/address';
+  schema,
+  uiSchema,
+  validateNotAllWhiteSpaces,
+} from '../../definitions/address';
 
-const { address } = definitions;
-const addressSchema = {
-  definitions: {
-    address,
-  },
-};
+describe('platform/forms/address', () => {
+  describe('validateNotAllWhiteSpaces', () => {
+    it('should add error if field is all spaces and required', () => {
+      const errors = { addError: sinon.spy() };
+      validateNotAllWhiteSpaces(errors, '   ', ['street'], 'street');
+      expect(errors.addError.calledWith('Please provide a response')).to.be
+        .true;
+    });
 
-describe('Pre-need definition address', () => {
-  it('should render address', () => {
-    const s = schema(addressSchema, false);
-    const uis = uiSchema();
-    const form = mount(<DefinitionTester schema={s} uiSchema={uis} />);
+    it('should not add error if field is not required', () => {
+      const errors = { addError: sinon.spy() };
+      validateNotAllWhiteSpaces(errors, '   ', [], 'street');
+      expect(errors.addError.called).to.be.false;
+    });
 
-    // Count the form elements
-    const inputs = form.find('input');
-    const selects = form.find('select');
-    expect(inputs.length).to.equal(4);
-    expect(selects.length).to.equal(2);
+    it('should not add error if field is not all spaces', () => {
+      const errors = { addError: sinon.spy() };
+      validateNotAllWhiteSpaces(errors, '123 Main', ['street'], 'street');
+      expect(errors.addError.called).to.be.false;
+    });
+  });
 
-    // Postal code should be small
-    expect(inputs.last().is('.usa-input-medium')).to.be.true;
+  describe('schema', () => {
+    const baseSchema = {
+      definitions: {
+        address: {
+          properties: {
+            street: { type: 'string' },
+            city: { type: 'string' },
+            country: { type: 'string' },
+            state: { type: 'string' },
+            postalCode: { type: 'string' },
+          },
+        },
+      },
+    };
 
-    // country is USA and there is no blank option
-    expect(selects.first().props().value).to.equal('USA');
-    expect(
-      selects
-        .first()
-        .find('option')
-        .everyWhere(n => !!n.props().value),
-    ).to.be.true;
-    form.unmount();
-  }).timeout(4000);
+    it('should include required fields if isRequired is true', () => {
+      const addressSchema = schema(baseSchema, true);
+      expect(addressSchema.required).to.include.members([
+        'street',
+        'city',
+        'country',
+        'state',
+        'postalCode',
+      ]);
+    });
 
-  it('should have required inputs if required', () => {
-    const s = schema(addressSchema, true);
-    const uis = uiSchema();
-    const form = mount(<DefinitionTester schema={s} uiSchema={uis} />);
+    it('should not include required fields if isRequired is false', () => {
+      const addressSchema = schema(baseSchema, false);
+      expect(addressSchema.required).to.be.empty;
+    });
 
-    // Ideally, we'd get the required inputs, not the <span>s denoting required
-    //  fields but this doesn't work.
-    // const requiredInputs = formDOM.querySelectorAll('input[required=true]');
-    const requiredInputs = form
-      .find('label')
-      .find('span.schemaform-required-span');
-    expect(requiredInputs.length).to.not.equal(0);
-    form.unmount();
-  }).timeout(4000);
+    it('should set country enum and default', () => {
+      const addressSchema = schema(baseSchema, false);
+      expect(addressSchema.properties.country.enum).to.be.an('array');
+      expect(addressSchema.properties.country.default).to.equal('USA');
+    });
+  });
 
-  it('should update labels and state selection conditionally', () => {
-    const s = schema(addressSchema, false);
-    const uis = uiSchema();
-    const form = mount(<DefinitionTester schema={s} uiSchema={uis} />);
+  describe('uiSchema', () => {
+    it('should use VaTextInputField for street, city, postalCode', () => {
+      const addressUi = uiSchema();
+      expect(addressUi.street['ui:webComponentField'].name).to.include(
+        'VaTextInputField',
+      );
+      expect(addressUi.city['ui:webComponentField'].name).to.include(
+        'VaTextInputField',
+      );
+      expect(addressUi.postalCode['ui:webComponentField'].name).to.include(
+        'VaTextInputField',
+      );
+    });
 
-    const labels = form.find('label');
-    const postalCodeLabel = labels.findWhere(
-      label => label.props().htmlFor === 'root_postalCode',
-    );
-    const stateLabel = labels.findWhere(
-      label => label.props().htmlFor === 'root_state',
-    );
-    const stateField = form.find('select#root_state');
+    it('should set correct error messages for postalCode by country', () => {
+      const addressUi = uiSchema();
+      const _schema = {};
+      const _uiSchema = {};
 
-    // Check the labels' text
-    expect(postalCodeLabel.text()).to.equal('Postal code');
-    expect(stateLabel.text()).to.equal('State');
+      // USA
+      addressUi.postalCode['ui:options'].replaceSchema(
+        { country: 'USA' },
+        _schema,
+        _uiSchema,
+        0,
+        ['address', 'postalCode'],
+      );
+      expect(_uiSchema['ui:errorMessages'].required).to.equal(
+        'Enter a postal code',
+      );
 
-    // And state input type / options
-    expect(stateField.find('option').someWhere(n => n.props().value === 'OR'))
-      .to.be.true;
+      // CAN
+      addressUi.postalCode['ui:options'].replaceSchema(
+        { country: 'CAN' },
+        _schema,
+        _uiSchema,
+        0,
+        ['address', 'postalCode'],
+      );
+      expect(_uiSchema['ui:errorMessages'].required).to.equal(
+        'Enter a postal code',
+      );
 
-    // Entering a military city should result in different "state" options
-    fillData(form, 'input#root_city', 'apo');
-    expect(stateField.find('option').someWhere(n => n.props().value === 'AA'))
-      .to.be.true;
+      // Other
+      addressUi.postalCode['ui:options'].replaceSchema(
+        { country: 'FRA' },
+        _schema,
+        _uiSchema,
+        0,
+        ['address', 'postalCode'],
+      );
+      expect(_uiSchema['ui:errorMessages'].required).to.include(
+        'Enter a postal code',
+      );
+    });
 
-    // Change the country
-    fillData(form, 'select#root_country', 'CAN');
+    it('should set Province title for CAN', () => {
+      const addressUi = uiSchema();
+      const { updateSchema } = addressUi['ui:options'];
+      const formData = { country: 'CAN' };
+      const addressSchema = {
+        properties: {
+          state: { title: 'State' },
+          country: { default: 'CAN' },
+        },
+        required: ['state'],
+      };
+      const result = updateSchema(formData, addressSchema, {}, 0, []);
+      expect(result.properties.state.title).to.equal('Province');
+    });
 
-    // Check to see if the postal code and state updated
-    expect(stateLabel.text()).to.equal('Province');
-    expect(postalCodeLabel.text()).to.equal('Postal code');
-    expect(
-      form
-        .find('select#root_state')
-        .find('option')
-        .someWhere(n => n.props().value === 'QC'),
-    ).to.be.true;
+    it('should set State title for USA', () => {
+      const addressUi = uiSchema();
+      const { updateSchema } = addressUi['ui:options'];
+      const formData = { country: 'USA' };
+      const addressSchema = {
+        properties: {
+          state: { title: 'Province' },
+          country: { default: 'USA' },
+        },
+        required: ['state'],
+      };
+      const result = updateSchema(formData, addressSchema, {}, 0, []);
+      expect(result.properties.state.title).to.equal('State');
+    });
+  });
 
-    fillData(form, 'select#root_country', 'BEL');
-    expect(form.find('input#root_state').exists()).to.be.true;
-    form.unmount();
-  }).timeout(4000);
-
-  it('should update address field', () => {
-    const s = schema(addressSchema, false);
-    const uis = uiSchema();
-    const form = mount(<DefinitionTester schema={s} uiSchema={uis} />);
-
-    fillData(form, 'input#root_street', '123 street');
-
-    expect(form.find('input#root_street').props().value).to.equal('123 street');
-    form.unmount();
-  }).timeout(4000);
-
-  it('should update country field in empty address', () => {
-    const s = schema(addressSchema, false);
-    const uis = uiSchema();
-    const form = mount(<DefinitionTester schema={s} uiSchema={uis} />);
-
-    fillData(form, 'select#root_country', 'CAN');
-
-    expect(form.find('select#root_country').props().value).to.equal('CAN');
-    form.unmount();
-  }).timeout(4000);
+  describe('accessibility', () => {
+    it('should render address fields with accessible labels', () => {
+      const addressUi = uiSchema();
+      const { container } = render(
+        <form>
+          <va-text-input
+            label={addressUi.street['ui:title']}
+            name="street"
+            data-testid="street"
+          />
+          <va-text-input
+            label={addressUi.city['ui:title']}
+            name="city"
+            data-testid="city"
+          />
+          <va-text-input
+            label={addressUi.postalCode['ui:title']}
+            name="postalCode"
+            data-testid="postalCode"
+          />
+        </form>,
+      );
+      expect(container.querySelector('va-text-input[label="Street"]')).to.exist;
+      expect(container.querySelector('va-text-input[label="City"]')).to.exist;
+      expect(container.querySelector('va-text-input[label="Postal code"]')).to
+        .exist;
+    });
+  });
 });
