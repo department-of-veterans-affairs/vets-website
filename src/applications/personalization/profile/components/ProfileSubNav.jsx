@@ -45,10 +45,10 @@ const ProfileSubNav = ({ isInMVI, isLOA3, routes, clickHandler = null }) => {
     const { href } = e.detail;
     history.push(href);
     if (showPaperlessDelivery && mobileNavRef?.current) {
-      const button = mobileNavRef.current.shadowRoot
-        ?.querySelector('va-accordion > va-accordion-item')
-        ?.shadowRoot?.querySelector('button');
-      button?.click();
+      const accordionItem = mobileNavRef.current.shadowRoot?.querySelector(
+        'va-accordion > va-accordion-item',
+      );
+      accordionItem?.removeAttribute('open');
     }
   };
 
