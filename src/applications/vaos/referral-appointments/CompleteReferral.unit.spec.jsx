@@ -90,9 +90,14 @@ describe('CompleteReferral', () => {
         store: createTestStore(errorState),
       },
     );
-    await waitFor(() => {
-      expect(getByTestId('error-alert')).to.exist;
-    });
+    await sandbox.clock.tick(35000);
+    await waitFor(
+      () => {
+        expect(getByTestId('error-alert')).to.exist;
+      },
+      { timeout: 3000, interval: 1000 },
+    );
+    expect(requestStub.calledOnce).to.be.true;
     expect(getByTestId('error-alert')).to.exist;
   });
 

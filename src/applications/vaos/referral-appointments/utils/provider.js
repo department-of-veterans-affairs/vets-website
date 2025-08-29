@@ -91,6 +91,9 @@ const createDraftAppointmentInfo = (
   if (referralNumber === 'details-retry-error') {
     draftApppointmentInfo.id = 'details-retry-error';
   }
+  if (referralNumber === 'eps-error-appointment-id') {
+    draftApppointmentInfo.id = 'eps-error-appointment-id';
+  }
 
   let hourFromNow = 12;
   for (let i = 0; i < numberOfSlots; i++) {
