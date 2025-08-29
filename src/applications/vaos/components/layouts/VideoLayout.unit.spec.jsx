@@ -7,6 +7,7 @@ import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../tests/mocks/setup';
+import { textMatcher } from '../../tests/utils';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 import VideoLayout from './VideoLayout';
 
@@ -87,7 +88,7 @@ describe('VAOS Component: VideoLayout', () => {
         }),
       ).not.to.exist;
 
-      expect(screen.getByText(/Clinic not available/i));
+      expect(screen.getByText(textMatcher({ text: 'Clinic: Not available' })));
       expect(screen.getByText(/Facility not available/i));
 
       expect(window.dataLayer).to.deep.include({
@@ -280,7 +281,7 @@ describe('VAOS Component: VideoLayout', () => {
       ).to.be.ok;
       expect(screen.queryByText(/2360 East Pershing Boulevard/i)).not.to.exist;
 
-      expect(screen.getByText(/Clinic:/i));
+      expect(screen.getByText(textMatcher({ text: 'Clinic: Clinic 1' })));
       expect(
         screen.container.querySelector('va-telephone[contact="500-500-5000"]'),
       ).to.be.ok;
@@ -409,7 +410,7 @@ describe('VAOS Component: VideoLayout', () => {
       expect(screen.getByText(/Cheyenne VA Medical Center/i));
       expect(screen.queryByText(/2360 East Pershing Boulevard/i)).not.to.exist;
 
-      expect(screen.getByText(/Clinic:/i));
+      expect(screen.getByText(textMatcher({ text: 'Clinic: Clinic 1' })));
       expect(screen.getByText(/Phone:/i));
       expect(
         screen.container.querySelector('va-telephone[contact="500-500-5000"]'),
@@ -517,7 +518,7 @@ describe('VAOS Component: VideoLayout', () => {
         expect(screen.queryByText(/2360 East Pershing Boulevard/i)).not.to
           .exist;
 
-        expect(screen.getByText(/Clinic:/i));
+        expect(screen.getByText(textMatcher({ text: 'Clinic: Clinic 1' })));
         expect(screen.getByText(/Phone:/i));
         expect(
           screen.container.querySelector(
@@ -624,7 +625,7 @@ describe('VAOS Component: VideoLayout', () => {
         expect(screen.queryByText(/2360 East Pershing Boulevard/i)).not.to
           .exist;
 
-        expect(screen.getByText(/Clinic:/i));
+        expect(screen.getByText(textMatcher({ text: 'Clinic: Clinic 1' })));
         expect(screen.getByText(/Phone:/i));
         expect(
           screen.container.querySelector(
@@ -758,7 +759,7 @@ describe('VAOS Component: VideoLayout', () => {
         expect(screen.queryByText(/2360 East Pershing Boulevard/i)).not.to
           .exist;
 
-        expect(screen.getByText(/Clinic:/i));
+        expect(screen.getByText(textMatcher({ text: 'Clinic: Clinic 1' })));
         expect(screen.getByText(/Phone:/i));
         expect(
           screen.container.querySelector(

@@ -8,6 +8,7 @@ import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../tests/mocks/setup';
+import { textMatcher } from '../../tests/utils';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 import VideoLayoutVA from './VideoLayoutVA';
 
@@ -239,7 +240,8 @@ describe('VAOS Component: VideoLayoutVA', () => {
         );
 
         // Assert
-        expect(screen.queryByText(/Clinic:/i));
+        expect(screen.queryByText(textMatcher({ text: 'Clinic: Clinic 1' })))
+          .not.to.exist;
       });
 
       it('should not display location heading when physical location is missing', async () => {
@@ -356,7 +358,7 @@ describe('VAOS Component: VideoLayoutVA', () => {
         expect(screen.container.querySelector('va-icon[icon="directions"]')).to
           .be.ok;
 
-        expect(screen.getByText(/Clinic:/i));
+        expect(screen.getByText(textMatcher({ text: 'Clinic: Clinic 1' })));
         expect(screen.getByText(/Phone:/i));
         expect(
           screen.container.querySelector(
@@ -477,7 +479,7 @@ describe('VAOS Component: VideoLayoutVA', () => {
         expect(screen.container.querySelector('va-icon[icon="directions"]')).to
           .be.ok;
 
-        expect(screen.getByText(/Clinic:/i));
+        expect(screen.getByText(textMatcher({ text: 'Clinic: Clinic 1' })));
         expect(screen.getByText(/Phone:/i));
         expect(
           screen.container.querySelector(
@@ -600,7 +602,7 @@ describe('VAOS Component: VideoLayoutVA', () => {
       expect(screen.container.querySelector('va-icon[icon="directions"]')).to.be
         .ok;
 
-      expect(screen.getByText(/Clinic:/i));
+      expect(screen.getByText(textMatcher({ text: 'Clinic: Clinic 1' })));
       expect(screen.getByText(/Phone:/i));
       expect(
         screen.container.querySelector('va-telephone[contact="500-500-5000"]'),
@@ -708,7 +710,7 @@ describe('VAOS Component: VideoLayoutVA', () => {
       expect(screen.container.querySelector('va-icon[icon="directions"]')).to.be
         .ok;
 
-      expect(screen.getByText(/Clinic:/i));
+      expect(screen.getByText(textMatcher({ text: 'Clinic: Clinic 1' })));
       expect(screen.getByText(/Location:/i));
       expect(screen.getByText(/Phone:/i));
       expect(
@@ -831,7 +833,7 @@ describe('VAOS Component: VideoLayoutVA', () => {
       expect(screen.container.querySelector('va-icon[icon="directions"]')).to.be
         .ok;
 
-      expect(screen.getByText(/Clinic:/i));
+      expect(screen.getByText(textMatcher({ text: 'Clinic: Clinic 1' })));
       expect(screen.getByText(/Location:/i));
       expect(screen.getByText(/Phone:/i));
       expect(

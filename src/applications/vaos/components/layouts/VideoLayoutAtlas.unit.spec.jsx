@@ -9,6 +9,7 @@ import {
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 import VideoLayoutAtlas from './VideoLayoutAtlas';
 import MockFacilityResponse from '../../tests/fixtures/MockFacilityResponse';
+import { textMatcher } from '../../tests/utils';
 
 describe('VAOS Component: VideoLayoutAtlas', () => {
   const initialState = {
@@ -97,7 +98,7 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
         screen.queryByRole('heading', { level: 2, name: /Where to attend/i }),
       ).not.to.exist;
 
-      expect(screen.getByText(/Clinic not available/i));
+      expect(screen.getByText(textMatcher({ text: 'Clinic: Not available' })));
       expect(screen.getByText(/Facility not available/i));
 
       expect(window.dataLayer).to.deep.include({
@@ -322,7 +323,7 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
       expect(screen.container.querySelector('va-icon[icon="directions"]')).to.be
         .ok;
 
-      expect(screen.getByText(/Clinic:/i));
+      expect(screen.getByText(textMatcher({ text: 'Clinic: Clinic 1' })));
       expect(screen.getByText(/Phone:/i));
       expect(
         screen.container.querySelector('va-telephone[contact="500-500-5000"]'),
