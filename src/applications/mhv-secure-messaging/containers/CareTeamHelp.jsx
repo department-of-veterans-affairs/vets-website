@@ -2,9 +2,12 @@ import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import {
+  selectPatientFacilities,
   selectIsCernerPatient,
   selectIsCernerOnlyPatient,
 } from 'platform/user/cerner-dsot/selectors';
+import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
+import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import EmergencyNote from '../components/EmergencyNote';
@@ -17,6 +20,10 @@ const CareTeamHelp = () => {
   const history = useHistory();
   const { acceptInterstitial } = useSelector(state => state.sm.threadDetails);
   const validDraft = useSelector(populatedDraft);
+  const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
+  const vistaFacilities = useSelector(state =>
+    (selectPatientFacilities(state) || []).filter(f => !f.isCerner),
+  );
 
   useEffect(
     () => {
@@ -61,11 +68,20 @@ const CareTeamHelp = () => {
             </li>
           </ul>
 
+          <h2>Update your contact list</h2>
+
           <p>
             Update your contact list if you can’t find your care team from these
             systems:
           </p>
-          <ul />
+          <ul>
+            {vistaFacilities?.map(facility => {
+              const id = facility.facilityId ?? facility; // supports object or string
+              const name = getVamcSystemNameFromVhaId(ehrDataByVhaId, id) || id;
+
+              return <li key={id}>{name}</li>;
+            })}
+          </ul>
 
           <p>
             If you still can’t find your care team, your account might not be
