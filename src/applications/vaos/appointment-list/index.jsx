@@ -22,36 +22,40 @@ function AppointmentListSection() {
   return (
     <>
       <Switch>
-        <Route
-          path="/pending/:id"
-          component={RequestedAppointmentDetailsPage}
-        />
-
+        {/* These are now exact so that you can still access the <whichever_route>/:id under each of them when linked */}
         {isInPilotUserStations && (
-          <Redirect from="/pending" to="/referrals-requests" />
+          <Redirect exact from="/pending" to="/referrals-requests" />
         )}
         {!isInPilotUserStations && (
-          <Redirect from="/referrals-requests" to="/pending" />
+          <Redirect exact from="/referrals-requests" to="/pending" />
         )}
-
-        <Route path="/pending" component={AppointmentsPage} />
-        {isInPilotUserStations &&
-          eps && <Route path="/:id" component={EpsAppointmentDetailsPage} />}
 
         {isInPilotUserStations && (
-          <Route path="/referrals-requests" component={ReferralsAndRequests} />
+          <Route
+            exact
+            path="/referrals-requests"
+            component={ReferralsAndRequests}
+          />
         )}
-        <Route
-          exact
-          path="/past/:id"
-          component={UpcomingAppointmentsDetailsPage}
-        />
-        <Route exact path="/:id" component={UpcomingAppointmentsDetailsPage} />
         <Route
           exact
           path={['/', '/pending', '/past']}
           component={AppointmentsPage}
         />
+        <Route
+          exact
+          path="/pending/:id"
+          component={RequestedAppointmentDetailsPage}
+        />
+        <Route
+          exact
+          path="/past/:id"
+          component={UpcomingAppointmentsDetailsPage}
+        />
+        {/* NOTE: eps should probably also be exact */}
+        {isInPilotUserStations &&
+          eps && <Route path="/:id" component={EpsAppointmentDetailsPage} />}
+        <Route exact path="/:id" component={UpcomingAppointmentsDetailsPage} />
         <Route component={PageNotFound} />
       </Switch>
     </>
