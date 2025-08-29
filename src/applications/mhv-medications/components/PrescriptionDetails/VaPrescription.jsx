@@ -29,7 +29,6 @@ import {
   selectGroupingFlag,
   selectPartialFillContentFlag,
   selectRefillProgressFlag,
-  selectIsDisplayingDocumentation,
 } from '../../util/selectors';
 import VaPharmacyText from '../shared/VaPharmacyText';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
@@ -42,9 +41,6 @@ const VaPrescription = prescription => {
   const showGroupingContent = useSelector(selectGroupingFlag);
   const showRefillProgressContent = useSelector(selectRefillProgressFlag);
   const showPartialFillContent = useSelector(selectPartialFillContentFlag);
-  const isDisplayingDocumentation = useSelector(
-    selectIsDisplayingDocumentation,
-  );
   const refillHistory = getRefillHistory(prescription);
   const showRefillHistory = getShowRefillHistory(refillHistory);
   const pharmacyPhone = pharmacyPhoneNumber(prescription);
@@ -462,22 +458,21 @@ const VaPrescription = prescription => {
                   Quantity
                 </h3>
                 <p>{validateIfAvailable('Quantity', prescription.quantity)}</p>
-                {isDisplayingDocumentation &&
-                  // Any of the Rx's NDC's will work here. They should all show the same information
-                  hasCmopNdcNumber(refillHistory) && (
-                    <Link
-                      to={`/prescription/${
-                        prescription.prescriptionId
-                      }/documentation`}
-                      data-testid="va-prescription-documentation-link"
-                      className="vads-u-margin-top--1 vads-u-display--inline-block vads-u-font-weight--bold"
-                      data-dd-action-name={
-                        dataDogActionNames.detailsPage.RX_DOCUMENTATION_LINK
-                      }
-                    >
-                      Learn more about this medication
-                    </Link>
-                  )}
+                {// Any of the Rx's NDC's will work here. They should all show the same information
+                hasCmopNdcNumber(refillHistory) && (
+                  <Link
+                    to={`/prescription/${
+                      prescription.prescriptionId
+                    }/documentation`}
+                    data-testid="va-prescription-documentation-link"
+                    className="vads-u-margin-top--1 vads-u-display--inline-block vads-u-font-weight--bold"
+                    data-dd-action-name={
+                      dataDogActionNames.detailsPage.RX_DOCUMENTATION_LINK
+                    }
+                  >
+                    Learn more about this medication
+                  </Link>
+                )}
               </div>
             </>
           )}
@@ -486,25 +481,24 @@ const VaPrescription = prescription => {
           {showGroupingContent && (
             <>
               <div className="medication-details-div vads-u-margin-bottom--3">
-                {isDisplayingDocumentation &&
-                  // Any of the Rx's NDC's will work here. They should all show the same information
-                  hasCmopNdcNumber(refillHistory) && (
-                    <Link
-                      to={`/prescription/${
-                        prescription.prescriptionId
-                      }/documentation`}
-                      data-testid="va-prescription-documentation-link"
-                      // TODO: clean after grouping flag is gone
-                      className={`${
-                        !showGroupingContent ? 'vads-u-margin-top--1 ' : ''
-                      }vads-u-display--inline-block vads-u-font-weight--bold`}
-                      data-dd-action-name={
-                        dataDogActionNames.detailsPage.RX_DOCUMENTATION_LINK
-                      }
-                    >
-                      Learn more about this medication
-                    </Link>
-                  )}
+                {// Any of the Rx's NDC's will work here. They should all show the same information
+                hasCmopNdcNumber(refillHistory) && (
+                  <Link
+                    to={`/prescription/${
+                      prescription.prescriptionId
+                    }/documentation`}
+                    data-testid="va-prescription-documentation-link"
+                    // TODO: clean after grouping flag is gone
+                    className={`${
+                      !showGroupingContent ? 'vads-u-margin-top--1 ' : ''
+                    }vads-u-display--inline-block vads-u-font-weight--bold`}
+                    data-dd-action-name={
+                      dataDogActionNames.detailsPage.RX_DOCUMENTATION_LINK
+                    }
+                  >
+                    Learn more about this medication
+                  </Link>
+                )}
               </div>
             </>
           )}
