@@ -8,7 +8,7 @@ import {
 } from '../util/constants';
 
 const isSignatureRequired = recipients => {
-  const regex = /.*\s*(Privacy Issue|Privacy Issues|Release of Information Medical Records|Record Amendment)\s*_*\s*Admin/i;
+  const regex = /.*\s*(Privacy Issue|Privacy Issues|Release of Information Medical Records|Record Amendment)\s*_*\s*Admin|.*\s*Release of Information/i;
 
   return recipients.map(recipient => {
     if (regex.test(recipient.attributes.name)) {
