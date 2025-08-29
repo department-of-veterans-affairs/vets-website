@@ -152,50 +152,54 @@ describe('VAOS Component: PhoneLayout', () => {
       ).to.be.ok;
     });
 
-    it('should not display clinic heading when service name is missing', async () => {
-      // Arrange
-      const store = createTestStore(initialState);
-      const response = MockAppointmentResponse.createPhoneResponse({
-        localStartTime: new Date(),
-        status: APPOINTMENT_STATUS.cancelled,
-      }).setLocation(new MockFacilityResponse());
-      const appointment = MockAppointmentResponse.getTransformedResponse(
-        response,
-      );
+    describe('And appointment is Cerner', () => {
+      it('should not display clinic heading when service name is missing', async () => {
+        // Arrange
+        const store = createTestStore(initialState);
+        const response = MockAppointmentResponse.createPhoneResponse({
+          isCerner: true,
+          localStartTime: new Date(),
+          status: APPOINTMENT_STATUS.cancelled,
+        }).setLocation(new MockFacilityResponse());
+        const appointment = MockAppointmentResponse.getTransformedResponse(
+          response,
+        );
 
-      // Act
-      const screen = renderWithStoreAndRouter(
-        <PhoneLayout data={appointment} />,
-        {
-          store,
-        },
-      );
+        // Act
+        const screen = renderWithStoreAndRouter(
+          <PhoneLayout data={appointment} />,
+          {
+            store,
+          },
+        );
 
-      // Assert
-      expect(screen.queryByText(/Clinic: Service name/i)).not.to.exist;
-    });
+        // Assert
+        expect(screen.queryByText(/Clinic: Service name/i)).not.to.exist;
+      });
 
-    it('should not display location heading when physical location is missing', async () => {
-      // Arrange
-      const store = createTestStore(initialState);
-      const response = MockAppointmentResponse.createPhoneResponse({
-        localStartTime: new Date(),
-        status: APPOINTMENT_STATUS.cancelled,
-      }).setLocation(new MockFacilityResponse());
-      const appointment = MockAppointmentResponse.getTransformedResponse(
-        response,
-      );
+      it('should not display location heading when physical location is missing', async () => {
+        // Arrange
+        const store = createTestStore(initialState);
+        const response = MockAppointmentResponse.createPhoneResponse({
+          isCerner: true,
+          localStartTime: new Date(),
+          status: APPOINTMENT_STATUS.cancelled,
+        }).setLocation(new MockFacilityResponse());
+        const appointment = MockAppointmentResponse.getTransformedResponse(
+          response,
+        );
 
-      // Act
-      const screen = renderWithStoreAndRouter(
-        <PhoneLayout data={appointment} />,
-        {
-          store,
-        },
-      );
+        // Act
+        const screen = renderWithStoreAndRouter(
+          <PhoneLayout data={appointment} />,
+          {
+            store,
+          },
+        );
 
-      // Assert
-      expect(screen.queryByText(/Location:/i)).not.to.exist;
+        // Assert
+        expect(screen.queryByText(/Location:/i)).not.to.exist;
+      });
     });
   });
 

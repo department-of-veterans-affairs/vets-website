@@ -194,7 +194,11 @@ export default function VideoLayoutAtlas({ data: appointment }) {
             ) : (
               'Facility not available'
             )}
-            <ClinicName name={clinicName} /> <br />
+            <ClinicName
+              name={clinicName}
+              isCerner={appointment.vaos.isCerner}
+            />{' '}
+            <br />
             <ClinicOrFacilityPhone
               clinicPhone={clinicPhone}
               clinicPhoneExtension={clinicPhoneExtension}

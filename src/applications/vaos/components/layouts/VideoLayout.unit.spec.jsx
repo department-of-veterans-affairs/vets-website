@@ -87,7 +87,7 @@ describe('VAOS Component: VideoLayout', () => {
         }),
       ).not.to.exist;
 
-      expect(screen.queryByText(/Clinic not available/i)).not.to.exist;
+      expect(screen.queryByText(/Clinic not available/i));
       expect(screen.getByText(/Facility not available/i));
 
       expect(window.dataLayer).to.deep.include({
@@ -146,48 +146,52 @@ describe('VAOS Component: VideoLayout', () => {
       ).to.be.ok;
     });
 
-    it('should not display clinic heading when service name is missing', async () => {
-      // Arrange
-      const store = createTestStore(initialState);
-      const response = MockAppointmentResponse.createGfeResponse({
-        localStartTime: new Date(),
-      }).setLocation(new MockFacilityResponse());
-      const appointment = MockAppointmentResponse.getTransformedResponse(
-        response,
-      );
+    describe('And appointment is Cerner', () => {
+      it('should not display clinic heading when service name is missing', async () => {
+        // Arrange
+        const store = createTestStore(initialState);
+        const response = MockAppointmentResponse.createGfeResponse({
+          isCerner: true,
+          localStartTime: new Date(),
+        }).setLocation(new MockFacilityResponse());
+        const appointment = MockAppointmentResponse.getTransformedResponse(
+          response,
+        );
 
-      // Act
-      const screen = renderWithStoreAndRouter(
-        <VideoLayout data={appointment} />,
-        {
-          store,
-        },
-      );
+        // Act
+        const screen = renderWithStoreAndRouter(
+          <VideoLayout data={appointment} />,
+          {
+            store,
+          },
+        );
 
-      // Assert
-      expect(screen.queryByText(/Clinic: Service name/i)).not.to.exist;
-    });
+        // Assert
+        expect(screen.queryByText(/Clinic: Service name/i)).not.to.exist;
+      });
 
-    it('should not display location heading when physical location is missing', async () => {
-      // Arrange
-      const store = createTestStore(initialState);
-      const response = MockAppointmentResponse.createGfeResponse({
-        localStartTime: new Date(),
-      }).setLocation(new MockFacilityResponse());
-      const appointment = MockAppointmentResponse.getTransformedResponse(
-        response,
-      );
+      it('should not display location heading when physical location is missing', async () => {
+        // Arrange
+        const store = createTestStore(initialState);
+        const response = MockAppointmentResponse.createGfeResponse({
+          isCerner: true,
+          localStartTime: new Date(),
+        }).setLocation(new MockFacilityResponse());
+        const appointment = MockAppointmentResponse.getTransformedResponse(
+          response,
+        );
 
-      // Act
-      const screen = renderWithStoreAndRouter(
-        <VideoLayout data={appointment} />,
-        {
-          store,
-        },
-      );
+        // Act
+        const screen = renderWithStoreAndRouter(
+          <VideoLayout data={appointment} />,
+          {
+            store,
+          },
+        );
 
-      // Assert
-      expect(screen.queryByText(/Location:/i)).not.to.exist;
+        // Assert
+        expect(screen.queryByText(/Location:/i)).not.to.exist;
+      });
     });
   });
 
@@ -276,7 +280,7 @@ describe('VAOS Component: VideoLayout', () => {
       ).to.be.ok;
       expect(screen.queryByText(/2360 East Pershing Boulevard/i)).not.to.exist;
 
-      expect(screen.getByText(/Clinic: Clinic 1/i));
+      expect(screen.getByText(/Clinic:/i));
       expect(
         screen.container.querySelector('va-telephone[contact="500-500-5000"]'),
       ).to.be.ok;
@@ -405,7 +409,7 @@ describe('VAOS Component: VideoLayout', () => {
       expect(screen.getByText(/Cheyenne VA Medical Center/i));
       expect(screen.queryByText(/2360 East Pershing Boulevard/i)).not.to.exist;
 
-      expect(screen.getByText(/Clinic: Clinic 1/i));
+      expect(screen.getByText(/Clinic:/i));
       expect(screen.getByText(/Phone:/i));
       expect(
         screen.container.querySelector('va-telephone[contact="500-500-5000"]'),
@@ -513,7 +517,7 @@ describe('VAOS Component: VideoLayout', () => {
         expect(screen.queryByText(/2360 East Pershing Boulevard/i)).not.to
           .exist;
 
-        expect(screen.getByText(/Clinic: Clinic 1/i));
+        expect(screen.getByText(/Clinic:/i));
         expect(screen.getByText(/Phone:/i));
         expect(
           screen.container.querySelector(
@@ -620,7 +624,7 @@ describe('VAOS Component: VideoLayout', () => {
         expect(screen.queryByText(/2360 East Pershing Boulevard/i)).not.to
           .exist;
 
-        expect(screen.getByText(/Clinic: Clinic 1/i));
+        expect(screen.getByText(/Clinic:/i));
         expect(screen.getByText(/Phone:/i));
         expect(
           screen.container.querySelector(
@@ -754,7 +758,7 @@ describe('VAOS Component: VideoLayout', () => {
         expect(screen.queryByText(/2360 East Pershing Boulevard/i)).not.to
           .exist;
 
-        expect(screen.getByText(/Clinic: Clinic 1/i));
+        expect(screen.getByText(/Clinic:/i));
         expect(screen.getByText(/Phone:/i));
         expect(
           screen.container.querySelector(

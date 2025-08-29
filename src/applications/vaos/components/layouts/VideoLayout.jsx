@@ -126,7 +126,8 @@ export default function VideoLayout({ data: appointment }) {
               </span>
             </>
           )}
-          <ClinicName name={clinicName} /> <br />
+          <ClinicName name={clinicName} isCerner={appointment.vaos.isCerner} />{' '}
+          <br />
           <ClinicOrFacilityPhone
             clinicPhone={clinicPhone}
             clinicPhoneExtension={clinicPhoneExtension}
@@ -179,7 +180,11 @@ export default function VideoLayout({ data: appointment }) {
             ) : (
               'Facility not available'
             )}
-            <ClinicName name={clinicName} /> <br />
+            <ClinicName
+              name={clinicName}
+              isCerner={appointment.vaos.isCerner}
+            />{' '}
+            <br />
             <ClinicOrFacilityPhone
               clinicPhone={clinicPhone}
               clinicPhoneExtension={clinicPhoneExtension}

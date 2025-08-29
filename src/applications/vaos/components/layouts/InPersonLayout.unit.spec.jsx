@@ -228,52 +228,56 @@ describe('VAOS Component: InPersonLayout', () => {
       ).to.be.ok;
     });
 
-    it('should not display clinic heading when service name is missing', async () => {
-      // Arrange
-      const store = createTestStore(initialState);
+    describe('And appointment is Cerner', () => {
+      it('should not display clinic heading when service name is missing', async () => {
+        // Arrange
+        const store = createTestStore(initialState);
 
-      // Act
-      const response = MockAppointmentResponse.createVAResponse({
-        localStartTime: new Date(),
-        status: APPOINTMENT_STATUS.booked,
-      }).setLocation(new MockFacilityResponse());
-      const appointment = MockAppointmentResponse.getTransformedResponse(
-        response,
-      );
+        // Act
+        const response = MockAppointmentResponse.createVAResponse({
+          isCerner: true,
+          localStartTime: new Date(),
+          status: APPOINTMENT_STATUS.booked,
+        }).setLocation(new MockFacilityResponse());
+        const appointment = MockAppointmentResponse.getTransformedResponse(
+          response,
+        );
 
-      const screen = renderWithStoreAndRouter(
-        <InPersonLayout data={appointment} />,
-        {
-          store,
-        },
-      );
+        const screen = renderWithStoreAndRouter(
+          <InPersonLayout data={appointment} />,
+          {
+            store,
+          },
+        );
 
-      // Assert
-      expect(screen.queryByText(/Clinic: Service name/i)).not.to.exist;
-    });
+        // Assert
+        expect(screen.queryByText(/Clinic: Service name/i)).not.to.exist;
+      });
 
-    it('should not display location heading when physical location is missing', async () => {
-      // Arrange
-      const store = createTestStore(initialState);
+      it('should not display location heading when physical location is missing', async () => {
+        // Arrange
+        const store = createTestStore(initialState);
 
-      // Act
-      const response = MockAppointmentResponse.createVAResponse({
-        localStartTime: new Date(),
-        status: APPOINTMENT_STATUS.booked,
-      }).setLocation(new MockFacilityResponse());
-      const appointment = MockAppointmentResponse.getTransformedResponse(
-        response,
-      );
+        // Act
+        const response = MockAppointmentResponse.createVAResponse({
+          isCerner: true,
+          localStartTime: new Date(),
+          status: APPOINTMENT_STATUS.booked,
+        }).setLocation(new MockFacilityResponse());
+        const appointment = MockAppointmentResponse.getTransformedResponse(
+          response,
+        );
 
-      const screen = renderWithStoreAndRouter(
-        <InPersonLayout data={appointment} />,
-        {
-          store,
-        },
-      );
+        const screen = renderWithStoreAndRouter(
+          <InPersonLayout data={appointment} />,
+          {
+            store,
+          },
+        );
 
-      // Assert
-      expect(screen.queryByText(/Location:/i)).not.to.exist;
+        // Assert
+        expect(screen.queryByText(/Location:/i)).not.to.exist;
+      });
     });
   });
 

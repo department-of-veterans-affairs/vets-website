@@ -15,11 +15,11 @@ export default function FacilitySection({ facility, clinic }) {
       <br />
       {facility.address?.city}, <State state={facility.address?.state} />
       {FLOW_TYPES.DIRECT === flowType &&
-        (clinic && clinic.serviceName) && (
+        clinic?.serviceName && (
           <>
             <br />
             <br />
-            <span>Clinic: {clinic.serviceName}</span>
+            <span>Clinic: {clinic?.serviceName || 'Not available'}</span>
           </>
         )}
     </>

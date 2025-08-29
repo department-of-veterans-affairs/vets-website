@@ -121,7 +121,8 @@ export default function CancelPageLayout() {
               <Address address={facility?.address} />
             </span>
           )}
-          <ClinicName name={clinicName} /> <br />
+          <ClinicName name={clinicName} isCerner={appointment.vaos.isCerner} />{' '}
+          <br />
           <ClinicOrFacilityPhone
             clinicPhone={clinicPhone}
             clinicPhoneExtension={clinicPhoneExtension}
@@ -169,8 +170,14 @@ export default function CancelPageLayout() {
               <div className="vads-u-margin-top--1 vads-u-color--link-default">
                 <FacilityDirectionsLink location={facility} icon />
               </div>
-              <ClinicName name={clinicName} />{' '}
-              <ClinicPhysicalLocation location={clinicPhysicalLocation} />{' '}
+              <ClinicName
+                name={clinicName}
+                isCerner={appointment.vaos.isCerner}
+              />{' '}
+              <ClinicPhysicalLocation
+                location={clinicPhysicalLocation}
+                isCerner={appointment.vaos.isCerner}
+              />{' '}
               <br />
             </>
           )}
