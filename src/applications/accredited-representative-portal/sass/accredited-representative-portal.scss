@@ -107,7 +107,7 @@
     .home__full-width--portal & {
       display: flex;
       align-items: center;
-      flex-direction: column-reverse;
+      flex-direction: column;
 
       @media (min-width: $small-desktop-screen) {
         padding: 0;
@@ -305,7 +305,8 @@
 
   &__full-width {
     h3 {
-      margin: 0;
+      margin: 0 0 4px 0;
+      padding-bottom: 8px
     }
     &.is--lighter {
       background-color: $vads-color-primary-lighter;
@@ -384,6 +385,9 @@
       @media (min-width: $medium-screen) {
         padding: 0;
         margin-left: 24px;
+      }
+      @media (max-width: $small-desktop-screen) {
+        order: -1;
       }
     }
     .is--redesign & {
@@ -504,4 +508,13 @@ h2.claimant-name {
       padding: 0 0.25em;
     }
   }
+}
+
+.arp__home__link--learn-more {
+  margin-bottom: 24px;
+  display: block;
+}
+
+.arp__landing__card-body {
+  margin: 0;
 }
