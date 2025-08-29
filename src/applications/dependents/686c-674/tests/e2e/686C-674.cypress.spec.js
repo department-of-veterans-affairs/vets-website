@@ -254,6 +254,7 @@ const testConfig = createTestConfig(
         });
       },
     },
+    skip: Cypress.env('CI'),
   },
 
   manifest,

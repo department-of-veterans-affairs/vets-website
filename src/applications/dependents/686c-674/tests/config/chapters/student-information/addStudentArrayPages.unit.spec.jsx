@@ -8,6 +8,7 @@ import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import formConfig from '../../../../config/form';
 import { addStudentsOptions } from '../../../../config/chapters/674/addStudentsArrayPages';
+import { calculateStudentAssetTotal } from '../../../../config/chapters/674/helpers';
 
 const defaultStore = createCommonStore();
 
@@ -142,6 +143,7 @@ describe('addStudentsOptions', () => {
       );
     });
   });
+
   describe('getItemName', () => {
     it('should return a full name when both first and last names are provided', () => {
       const item = { fullName: { first: 'John', last: 'Doe' } };
@@ -700,11 +702,12 @@ describe('674 Add students: Student assets', () => {
       </Provider>,
     );
 
-    expect($$('va-text-input', container).length).to.equal(5);
+    // Should only have 4 text inputs now (removed totalValue field)
+    expect($$('va-text-input', container).length).to.equal(4);
   });
 });
 
-describe('674 Add students: Student assets', () => {
+describe('674 Add students: Student remarks', () => {
   const {
     schema,
     uiSchema,
@@ -725,5 +728,33 @@ describe('674 Add students: Student assets', () => {
     );
 
     expect($$('va-textarea', container).length).to.equal(1);
+  });
+});
+
+describe('calculateStudentAssetTotal', () => {
+  it('should calculate total correctly', () => {
+    const assets = {
+      savings: '1000.00',
+      securities: '2000.50',
+      realEstate: '300000.75',
+      otherAssets: '5000.25',
+    };
+
+    expect(calculateStudentAssetTotal(assets)).to.equal('308001.50');
+  });
+
+  it('should handle empty or missing values', () => {
+    const assets = {
+      savings: '',
+      securities: null,
+      realEstate: '100.50',
+      otherAssets: undefined,
+    };
+
+    expect(calculateStudentAssetTotal(assets)).to.equal('100.50');
+  });
+
+  it('should handle empty object', () => {
+    expect(calculateStudentAssetTotal({})).to.equal('0.00');
   });
 });

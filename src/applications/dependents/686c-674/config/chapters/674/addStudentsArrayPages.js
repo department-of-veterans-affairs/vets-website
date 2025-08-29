@@ -37,6 +37,7 @@ import {
   benefitUiLabels,
   ProgramExamples,
   TermDateHint,
+  calculateStudentAssetTotal,
 } from './helpers';
 import { CancelButton, generateHelpText } from '../../helpers';
 import { getFullName } from '../../../../shared/utils';
@@ -810,7 +811,20 @@ export const studentAssetsPage = {
         ),
       },
       otherAssets: currencyUI('All other assets'),
-      totalValue: currencyUI('Total value'),
+    },
+    'ui:options': {
+      updateSchema: (formData, schema, _uiSchema) => {
+        const total = calculateStudentAssetTotal(
+          formData?.studentNetworthInformation,
+        );
+
+        if (formData?.studentNetworthInformation) {
+          // eslint-disable-next-line no-param-reassign
+          formData.studentNetworthInformation.totalValue = total;
+        }
+
+        return schema;
+      },
     },
   },
   schema: {
@@ -823,7 +837,6 @@ export const studentAssetsPage = {
           securities: currencyStringSchema,
           realEstate: currencyStringSchema,
           otherAssets: currencyStringSchema,
-          totalValue: currencyStringSchema,
         },
       },
     },

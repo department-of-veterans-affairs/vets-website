@@ -234,6 +234,13 @@ export const vetFormerMarriageStartLocationPage = {
             required: 'Enter the city where you were previously married',
           },
           'ui:webComponentField': VaTextInputField,
+          'ui:validations': [
+            (errors, city) => {
+              if (city?.length > 30) {
+                errors.addError('City must be 30 characters or less');
+              }
+            },
+          ],
         },
         state: {
           'ui:title': 'State',
@@ -305,6 +312,13 @@ export const vetFormerMarriageEndLocationPage = {
             required: 'Enter the city where this occurred',
           },
           'ui:webComponentField': VaTextInputField,
+          'ui:validations': [
+            (errors, city) => {
+              if (city?.length > 30) {
+                errors.addError('City must be 30 characters or less');
+              }
+            },
+          ],
         },
         state: {
           'ui:title': 'State',

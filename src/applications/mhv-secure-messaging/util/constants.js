@@ -19,6 +19,7 @@ export const Paths = {
   SELECT_HEALTH_CARE_SYSTEM: 'select-health-care-system',
   SELECT_CARE_TEAM: 'select-care-team',
   START_MESSAGE: 'start-message',
+  CARE_TEAM_HELP: '/new-message/care-team-help',
 };
 
 export const DefaultFolders = {
@@ -470,6 +471,8 @@ export const PageTitles = {
   CONVERSATION_TITLE_TAG: 'Conversation | Veterans Affairs',
   EDIT_DRAFT_PAGE_TITLE_TAG:
     'Edit draft - MHV Secure Messaging | Veterans Affairs',
+  CARE_TEAM_HELP_TITLE_TAG:
+    'Can’t find your care team? - Messages | Veterans Affairs',
 };
 
 export const Recipients = {
