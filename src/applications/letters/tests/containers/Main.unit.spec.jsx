@@ -4,8 +4,6 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { render } from '@testing-library/react';
 import { MemoryRouter, Routes, Route } from 'react-router-dom-v5-compat';
-import { createStore } from 'redux';
-import { Provider } from 'react-redux';
 import { Main } from '../../containers/Main';
 import { AVAILABILITY_STATUSES } from '../../utils/constants';
 
@@ -33,14 +31,6 @@ const defaultProps = {
   getLetterListAndBSLOptions: () => {},
 };
 
-const getStore = (lettersPageNewDesign = true) =>
-  createStore(() => ({
-    featureToggles: {
-      // eslint-disable-next-line camelcase
-      letters_page_new_design: lettersPageNewDesign,
-    },
-  }));
-
 describe('<Main>', () => {
   it('renders', () => {
     const tree = SkinDeep.shallowRender(<Main {...defaultProps} />);
@@ -56,15 +46,13 @@ describe('<Main>', () => {
   it('renders its children when letters are available', () => {
     const props = { ...defaultProps, lettersAvailability: available };
     const screen = render(
-      <Provider store={getStore()}>
-        <MemoryRouter>
-          <Routes>
-            <Route element={<Main {...props} />}>
-              <Route path="/" element={<TestComponent />} />
-            </Route>
-          </Routes>
-        </MemoryRouter>
-      </Provider>,
+      <MemoryRouter>
+        <Routes>
+          <Route element={<Main {...props} />}>
+            <Route path="/" element={<TestComponent />} />
+          </Route>
+        </Routes>
+      </MemoryRouter>,
     );
 
     expect(screen.getByTestId('children')).to.exist;
@@ -91,15 +79,13 @@ describe('<Main>', () => {
       lettersAvailability: letterEligibilityError,
     };
     const screen = render(
-      <Provider store={getStore()}>
-        <MemoryRouter>
-          <Routes>
-            <Route element={<Main {...props} />}>
-              <Route path="/" element={<TestComponent />} />
-            </Route>
-          </Routes>
-        </MemoryRouter>
-      </Provider>,
+      <MemoryRouter>
+        <Routes>
+          <Route element={<Main {...props} />}>
+            <Route path="/" element={<TestComponent />} />
+          </Route>
+        </Routes>
+      </MemoryRouter>,
     );
 
     expect(screen.getByTestId('children')).to.exist;
@@ -157,36 +143,17 @@ describe('<Main>', () => {
     expect(getLetterListAndBSLOptions.notCalled).to.be.true;
     expect(profileHasEmptyAddress.calledOnce).to.be.true;
   });
-  it('render Other resources section when lettersPageNewDesign is true', () => {
+  it('render Other resources section', () => {
     const { getByText } = render(
-      <Provider store={getStore()}>
-        <MemoryRouter>
-          <Routes>
-            <Route element={<Main {...defaultProps} />}>
-              <Route path="/" element={<TestComponent />} />
-            </Route>
-          </Routes>
-        </MemoryRouter>
-      </Provider>,
+      <MemoryRouter>
+        <Routes>
+          <Route element={<Main {...defaultProps} />}>
+            <Route path="/" element={<TestComponent />} />
+          </Route>
+        </Routes>
+      </MemoryRouter>,
     );
 
     expect(getByText('Other sources of VA benefit documentation').exist);
-  });
-  it('not render Other resources section when lettersPageNewDesign is false', () => {
-    const { queryByText } = render(
-      <Provider store={getStore(false)}>
-        <MemoryRouter>
-          <Routes>
-            <Route element={<Main {...defaultProps} />}>
-              <Route path="/" element={<TestComponent />} />
-            </Route>
-          </Routes>
-        </MemoryRouter>
-      </Provider>,
-    );
-    const otherResources = queryByText(
-      'Other sources of VA benefit documentation',
-    );
-    expect(otherResources).to.be.null;
   });
 });
