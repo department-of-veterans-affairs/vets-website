@@ -32,7 +32,7 @@ const testConfig = createTestConfig(
             },
             {
               name: 'vaDependentsNetWorthAndPension',
-              value: true,
+              value: false,
             },
           ],
         },
@@ -69,12 +69,12 @@ const testConfig = createTestConfig(
         });
       },
 
-      'check-veteran-pension': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('input[type="radio"][value="N"]').click();
-          cy.clickFormContinue();
-        });
-      },
+      // 'check-veteran-pension': ({ afterHook }) => {
+      //   afterHook(() => {
+      //     cy.get('va-radio-option[value="N"]').click();
+      //     cy.clickFormContinue();
+      //   });
+      // },
 
       'veteran-address': ({ afterHook }) => {
         afterHook(() => {

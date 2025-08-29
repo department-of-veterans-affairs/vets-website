@@ -19,10 +19,7 @@ const testConfig = createTestConfig(
       cy.intercept('GET', '/v0/feature_toggles?*', {
         data: {
           type: 'feature_toggles',
-          features: [
-            { name: 'vaDependentsV2', value: true },
-            { name: 'vaDependentsNetWorthAndPension', value: false },
-          ],
+          features: [{ name: 'vaDependentsV2', value: true }],
         },
       });
       cy.intercept('POST', '/v0/claim_attachments', {
@@ -54,12 +51,12 @@ const testConfig = createTestConfig(
         });
       },
 
-      // 'check-veteran-pension': ({ afterHook }) => {
-      //   afterHook(() => {
-      //     cy.fillPage();
-      //     cy.clickFormContinue();
-      //   });
-      // },
+      'check-veteran-pension': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('va-radio-option[value="N"]').click();
+          cy.clickFormContinue();
+        });
+      },
 
       'veteran-information': ({ afterHook }) => {
         afterHook(() => {
