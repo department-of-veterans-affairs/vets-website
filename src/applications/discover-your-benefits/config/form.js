@@ -192,7 +192,7 @@ export const formConfig = {
       pages: {
         characterOfDischarge: {
           path: 'discharge',
-          title: 'Character of Discharge',
+          title: 'Character of discharge',
           uiSchema: characterOfDischarge.uiSchema,
           schema: characterOfDischarge.schema,
           onNavBack: ({ formData, goPath }) => {
