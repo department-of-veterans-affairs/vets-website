@@ -28,28 +28,38 @@ export default function prefillTransformer(pages, formData, metadata, state) {
     return newData;
   };
 
+  /**
+   * Use this function in the prefillTransformer to move all bank account
+   * information into `view:originalBankAccount`. This is useful when using the
+   * PaymentView component, which will display either `bankAccount` or
+   * `view:originalBankAccount`.
+   *
+   * @param {object} data - All the pre-filled form data
+   * @returns {object} - A new pre-filled form data object after transformation.
+   */
   const prefillBankInformation = data => {
     const newData = { ...data };
 
-    const bankInfo = state.user.profile?.bankAccount || {};
-    const { accountType, accountNumber, routingNumber } = {
-      ...bankInfo,
-      ...data,
-    };
-
+    const bankInfo = state.data?.bankAccountInfo?.bankAccount || {};
+    const accountType =
+      data?.bankAccount?.bankAccountType || bankInfo.accountType;
+    const accountNumber =
+      data?.bankAccount?.bankAccountNumber || bankInfo.accountNumber;
+    const routingNumber =
+      data?.bankAccount?.bankRoutingNumber || bankInfo.routingNumber;
     newData.bankAccount = {
-      accountType,
+      accountType: accountType?.toLowerCase(),
       accountNumber,
       routingNumber,
     };
 
     newData['view:originalBankAccount'] = viewifyFields({
-      accountType: newData.bankAccount.accountType,
-      accountNumber: newData.bankAccount.accountNumber,
-      routingNumber: newData.bankAccount.routingNumber,
+      accountType: accountType?.toLowerCase(),
+      accountNumber,
+      routingNumber,
     });
-    newData['view:bankAccount'] = { 'view:hasPrefilledBank': true };
 
+    newData['view:bankAccount'] = { 'view:hasPrefilledBank': true };
     return newData;
   };
 
@@ -60,9 +70,12 @@ export default function prefillTransformer(pages, formData, metadata, state) {
   };
 
   const finalFormData = transformations.reduce(applyTransformations, formData);
+
   return {
     metadata,
-    formData: finalFormData,
+    formData: {
+      ...finalFormData,
+    },
     pages,
   };
 }

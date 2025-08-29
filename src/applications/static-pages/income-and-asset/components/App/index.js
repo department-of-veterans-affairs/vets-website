@@ -1,8 +1,7 @@
 import React from 'react';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
-const START_URL =
-  'supporting-forms-for-claims/submit-income-and-asset-statement-form-21p-0969';
+const START_PATH = 'submit-income-and-asset-statement-form-21p-0969';
 const DOWNLOAD_URL = 'https://www.va.gov/find-forms/about-form-21p-0969/';
 
 export const App = () => {
@@ -22,7 +21,7 @@ export const App = () => {
       <p>You can submit this form online or by mail.</p>
       <div className="vads-u-margin-y--2">
         <va-link-action
-          href={START_URL}
+          href={START_PATH}
           text="Submit a Pension or DIC income and asset statement"
           type="secondary"
         />
