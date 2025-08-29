@@ -17,7 +17,7 @@ import { EvidencePrivateContent } from './EvidencePrivateContent';
 import { EvidenceUploadContent } from './EvidenceUploadContent';
 import { EvidenceVaContent } from './EvidenceVaContent';
 
-import { EVIDENCE_LIMIT, LIMITATION_KEY, SC_NEW_FORM_DATA } from '../constants';
+import { EVIDENCE_LIMIT, LIMITATION_KEY } from '../constants';
 import { customPageProps995 } from '../../shared/props';
 import { focusFirstError } from '../../shared/utils/focus';
 
@@ -38,11 +38,9 @@ const EvidenceSummary = ({
   const containerRef = useRef(null);
 
   const { limitedConsent = '', privacyAgreementAccepted } = data;
-  const showScNewForm = data[SC_NEW_FORM_DATA];
   const vaEvidence = getVAEvidence(data);
   const privateEvidence = getPrivateEvidence(data);
   const otherEvidence = getOtherEvidence(data);
-  const showLimitedConsentYN = showScNewForm && data[EVIDENCE_LIMIT];
 
   const evidenceLength =
     vaEvidence.length + privateEvidence.length + otherEvidence.length;
@@ -159,7 +157,6 @@ const EvidenceSummary = ({
   const props = {
     handlers,
     isOnReviewPage: onReviewPage,
-    showScNewForm,
     testing: contentBeforeButtons === 'testing',
   };
 
@@ -221,7 +218,7 @@ const EvidenceSummary = ({
         <EvidenceVaContent list={vaEvidence} {...props} />
         <EvidencePrivateContent
           list={privateEvidence}
-          showLimitedConsentYN={showLimitedConsentYN}
+          showLimitedConsentYN={data[EVIDENCE_LIMIT]}
           limitedConsent={limitedConsent}
           privacyAgreementAccepted={privacyAgreementAccepted}
           {...props}

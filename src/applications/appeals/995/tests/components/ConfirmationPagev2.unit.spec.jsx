@@ -49,7 +49,7 @@ describe('ConfirmationPageV2', () => {
     expect($('va-alert[status="success"]', container)).to.exist;
 
     const items = $$('.dd-privacy-hidden[data-dd-action-name]', container);
-    expect(items.length).to.eq(7);
+    expect(items.length).to.eq(9);
     expect(
       items.map(
         (el, index) => el[[2, 3].includes(index) ? 'innerHTML' : 'textContent'],
@@ -62,6 +62,8 @@ describe('ConfirmationPageV2', () => {
       '',
       ',  ',
       'No, I didn’t certify',
+      'None selected',
+      '',
     ]);
     expect($('va-summary-box', container)).to.not.exist;
   });
@@ -90,13 +92,14 @@ describe('ConfirmationPageV2', () => {
     ]);
 
     const h3s = $$('h3', container);
-    expect(h3s.length).to.eq(4); // 5 with PDF download code added
+    expect(h3s.length).to.eq(5); // 5 with PDF download code added
     expect(h3s.map(el => el.textContent)).to.deep.equal([
       // 'Save a PDF copy of your Supplemental Claim request',
       'Print this confirmation page',
       'Personal information',
       'Issues for review',
       'New and relevant evidence',
+      'VHA indicator',
     ]);
 
     expect($('.va-title', container).textContent).to.eq(
@@ -109,11 +112,11 @@ describe('ConfirmationPageV2', () => {
       'You uploaded these documents:',
     );
 
-    expect($$('ul', container).length).to.eq(6);
-    expect($$('li', container).length).to.eq(22);
+    expect($$('ul', container).length).to.eq(7);
+    expect($$('li', container).length).to.eq(25);
 
     const items = $$('.dd-privacy-hidden[data-dd-action-name]', container);
-    expect(items.length).to.eq(31);
+    expect(items.length).to.eq(32);
     expect(
       items.map(
         (el, index) => el[[4, 5].includes(index) ? 'innerHTML' : 'textContent'],
@@ -132,12 +135,11 @@ describe('ConfirmationPageV2', () => {
       'TestDecision date: January 1, 2022',
       'Test 2Decision date: June 28, 2022',
       'Yes, I certify',
+      'None selected',
       'VAMC Location 1',
       'Test and Test 2',
-      'Jan 1, 2001 – Jan 1, 2011',
       'VAMC Location 2',
       'Test 2',
-      'Feb 2, 2002 – Feb 2, 2012',
       'Private Doctor',
       '123 maincity, AK 90210',
       'Test and Test 2',
@@ -150,6 +152,7 @@ describe('ConfirmationPageV2', () => {
       'x-rays.pdf',
       'buddy-statement.pdf',
       'photos.pdf',
+      '',
     ]);
   });
 
@@ -280,7 +283,7 @@ describe('ConfirmationPageV2', () => {
     ]);
 
     const h3s = $$('h3', container);
-    expect(h3s.length).to.eq(5); // 6 with PDF download code added
+    expect(h3s.length).to.eq(6); // 6 with PDF download code added
     expect(h3s.map(el => el.textContent)).to.deep.equal([
       // 'Save a PDF copy of your Supplemental Claim request',
       'Print this confirmation page',
@@ -288,17 +291,18 @@ describe('ConfirmationPageV2', () => {
       'Issues for review',
       'New and relevant evidence',
       'Review the evidence you’re submitting',
+      'VHA indicator',
     ]);
 
     expect($('.no-evidence', container).textContent).to.eq(
       'I didn’t add any evidence',
     );
 
-    expect($$('ul', container).length).to.eq(3);
-    expect($$('li', container).length).to.eq(13);
+    expect($$('ul', container).length).to.eq(4);
+    expect($$('li', container).length).to.eq(15);
 
     const items = $$('.dd-privacy-hidden[data-dd-action-name]', container);
-    expect(items.length).to.eq(13);
+    expect(items.length).to.eq(15);
     expect(
       items.map(
         (el, index) => el[[4, 5].includes(index) ? 'innerHTML' : 'textContent'],
@@ -317,6 +321,8 @@ describe('ConfirmationPageV2', () => {
       'TestDecision date: January 1, 2022',
       'Test 2Decision date: June 28, 2022',
       'Yes, I certify',
+      'None selected',
+      'No',
     ]);
   });
 

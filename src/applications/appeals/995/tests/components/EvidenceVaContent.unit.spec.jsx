@@ -14,7 +14,7 @@ describe('evidenceSummaryList', () => {
     it('should render editable VA content', () => {
       const vaEvidence = records().locations;
       const { container } = render(
-        <EvidenceVaContent list={vaEvidence} showScNewForm testing />,
+        <EvidenceVaContent list={vaEvidence} testing />,
       );
 
       expect($('.va-title', container).textContent).to.contain(content.vaTitle);
@@ -42,12 +42,7 @@ describe('evidenceSummaryList', () => {
     it('should render review-only VA content', () => {
       const vaEvidence = records().locations;
       const { container } = render(
-        <EvidenceVaContent
-          list={vaEvidence}
-          showScNewForm
-          reviewMode
-          testing
-        />,
+        <EvidenceVaContent list={vaEvidence} reviewMode testing />,
       );
 
       expect($('.va-title', container).textContent).to.contain(content.vaTitle);
@@ -61,13 +56,7 @@ describe('evidenceSummaryList', () => {
     it('should render list only for confirmation page content', () => {
       const vaEvidence = records().locations;
       const { container } = render(
-        <EvidenceVaContent
-          list={vaEvidence}
-          showScNewForm
-          reviewMode
-          showListOnly
-          testing
-        />,
+        <EvidenceVaContent list={vaEvidence} reviewMode showListOnly testing />,
       );
 
       expect($('.va-title', container).textContent).to.contain(content.vaTitle);
@@ -82,7 +71,7 @@ describe('evidenceSummaryList', () => {
     it('should show missing issues message', () => {
       const vaEvidence = records({ emptyIssue: true }).locations;
       const { container } = render(
-        <EvidenceVaContent list={vaEvidence} showScNewForm testing />,
+        <EvidenceVaContent list={vaEvidence} testing />,
       );
 
       const li = $$('li', container);
@@ -99,7 +88,7 @@ describe('evidenceSummaryList', () => {
         },
       ];
       const { container } = render(
-        <EvidenceVaContent list={vaEvidence} showScNewForm testing />,
+        <EvidenceVaContent list={vaEvidence} testing />,
       );
 
       const li = $('li', container);
@@ -109,7 +98,7 @@ describe('evidenceSummaryList', () => {
     it('should show missing location message with partial list', () => {
       const { container } = render(
         <div>
-          <EvidenceVaContent list={['']} showScNewForm testing />
+          <EvidenceVaContent list={['']} testing />
         </div>,
       );
 
@@ -119,7 +108,7 @@ describe('evidenceSummaryList', () => {
     it('should show missing treatment date', () => {
       const vaEvidence = [{ treatmentDate: '' }];
       const { container } = render(
-        <EvidenceVaContent list={vaEvidence} showScNewForm testing />,
+        <EvidenceVaContent list={vaEvidence} testing />,
       );
 
       const li = $('li', container);
@@ -129,7 +118,7 @@ describe('evidenceSummaryList', () => {
     it('should not show missing treatment date when no date checkbox is selected', () => {
       const vaEvidence = [{ treatmentDate: '', noDate: true }];
       const { container } = render(
-        <EvidenceVaContent list={vaEvidence} showScNewForm testing />,
+        <EvidenceVaContent list={vaEvidence} testing />,
       );
 
       const li = $('li', container);
@@ -140,7 +129,7 @@ describe('evidenceSummaryList', () => {
     it('should have edit links pointing to the appropriate VA indexed page', () => {
       const vaEvidence = records().locations;
       const { container } = render(
-        <EvidenceVaContent list={vaEvidence} showScNewForm testing />,
+        <EvidenceVaContent list={vaEvidence} testing />,
       );
 
       const links = $$('.edit-item', container);
@@ -156,12 +145,7 @@ describe('evidenceSummaryList', () => {
       const vaEvidence = records().locations;
       const handlers = { showModal: removeSpy };
       const { container } = render(
-        <EvidenceVaContent
-          list={vaEvidence}
-          handlers={handlers}
-          showScNewForm
-          testing
-        />,
+        <EvidenceVaContent list={vaEvidence} handlers={handlers} testing />,
       );
 
       const buttons = $$('.remove-item', container);
