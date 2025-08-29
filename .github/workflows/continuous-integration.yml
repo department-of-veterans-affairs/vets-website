@@ -1550,15 +1550,6 @@ jobs:
   #         path: qa-standards-dashboard-data/src/testing-reports/data
   #         merge-multiple: true
 
-<<<<<<< Updated upstream
-      - name: Download Cypress E2E video artifacts
-        if: ${{ needs.cypress-tests.result == 'failure' }}
-        uses: ./.github/workflows/download-artifact
-        with:
-          pattern: cypress-video-artifacts-*
-          path: qa-standards-dashboard-data/videos/${{ env.UUID }}
-          merge-multiple: true
-=======
   #     - name: Download Cypress E2E video artifacts
   #       if: ${{ needs.cypress-tests.result == 'failure' }}
   #       uses: ./.github/workflows/download-artifact
@@ -1566,7 +1557,6 @@ jobs:
   #         pattern: cypress-mochawesome-test-results-*
   #         path: qa-standards-dashboard-data/videos/${{ env.UUID }}
   #         merge-multiple: true
->>>>>>> Stashed changes
 
   #     - name: Create Cypress E2E Mochawesome report
   #       if: needs.tests-prep.outputs.cypress-tests-to-stress-test == 'true'
@@ -1971,7 +1961,7 @@ jobs:
   deploy:
     name: Deploy
     needs: [build, set-deploy-environments]
-    if: always() && github.ref == 'refs/heads/main' && needs.set-deploy-environments.result == 'success'
+    # if: always() && github.ref == 'refs/heads/main' && needs.set-deploy-environments.result == 'success'
     runs-on: ubuntu-22.04
     strategy:
       matrix: ${{ fromJson(needs.set-deploy-environments.outputs.environments) }}
@@ -2081,7 +2071,6 @@ jobs:
           else
             echo "channel=$channel" >> $GITHUB_OUTPUT
           fi
-<<<<<<< Updated upstream
 
       - name: Debug CD gating values
         run: |
@@ -2090,9 +2079,6 @@ jobs:
           echo "slack_channel=${{ steps.determine-channel.outputs.channel }}"
 
       - name: Dispatch Event to Next Workflow
-=======
-      - name: Log dispatch event
->>>>>>> Stashed changes
         run: |
           echo ${{ github.ref }}
           echo ${{ needs.build.outputs.entry_names }}
