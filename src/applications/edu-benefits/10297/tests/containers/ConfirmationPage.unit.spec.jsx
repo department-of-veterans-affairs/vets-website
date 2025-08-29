@@ -35,7 +35,9 @@ describe('<ConfirmationPage />', () => {
 
   it('shows success alert', () => {
     const { container } = getPage({
-      response: { confirmationNumber: '1234567890' },
+      response: {
+        attributes: { confirmationNumber: '1234567890' },
+      },
       timestamp: new Date(2025, 7, 1),
     });
     const successAlert = container.querySelector('va-alert');

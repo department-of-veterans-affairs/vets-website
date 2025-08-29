@@ -25,19 +25,12 @@ export default function transform(formConfig, form) {
   const institutionTransform = formData => {
     const clonedData = cloneDeep(formData);
 
-    // Populate institution address
-    const institutionAddress = cloneDeep(clonedData.institutionDetails.address);
-    clonedData.institutionDetails.institutionAddress = institutionAddress;
-    delete clonedData.institutionDetails.address;
-
     // Handle facility code that has not been assigned
     if (!clonedData.institutionDetails.facilityCode) {
-      clonedData.institutionDetails = {
-        facilityCode: '12345678',
-        institutionName: '',
-        institutionAddress: {},
-      };
+      clonedData.institutionDetails.facilityCode = '12345678';
     }
+    // Remove loader flag
+    delete clonedData.institutionDetails.loader;
 
     return clonedData;
   };
@@ -46,10 +39,10 @@ export default function transform(formConfig, form) {
   const conflictsTranform = formData => {
     const clonedData = cloneDeep(formData);
 
-    if (!clonedData.isProfitConflictOfInterest) {
+    if (!clonedData.proprietaryProfitConflicts) {
       clonedData.proprietaryProfitConflicts = [];
     }
-    if (!clonedData.allProprietaryConflictOfInterest) {
+    if (!clonedData.allProprietaryProfitConflicts) {
       clonedData.allProprietaryProfitConflicts = [];
     }
 
@@ -69,12 +62,37 @@ export default function transform(formConfig, form) {
     return clonedData;
   };
 
+  const proprietaryProfitConflictsTransform = formData => {
+    const clonedData = cloneDeep(formData);
+
+    if (clonedData.proprietaryProfitConflicts.length > 0) {
+      clonedData.proprietaryProfitConflicts.map(conflict => {
+        if (
+          conflict?.affiliatedIndividuals?.individualAssociationType ===
+          'vaEmployee'
+        ) {
+          // eslint-disable-next-line no-param-reassign
+          conflict.affiliatedIndividuals.individualAssociationType = 'va';
+        } else if (
+          conflict?.affiliatedIndividuals?.individualAssociationType ===
+          'saaEmployee'
+        ) {
+          // eslint-disable-next-line no-param-reassign
+          conflict.affiliatedIndividuals.individualAssociationType = 'saa';
+        }
+        return conflict;
+      });
+    }
+
+    return clonedData;
+  };
+
   // Removes view fields and stringifies the form data
   const viewTransform = formData =>
     transformForSubmit(
       formConfig,
       { ...form, data: formData },
-      (key_, value) => value, // return all values (including empty object arrays)
+      (_key, value) => value, // return all values (including empty object arrays)
     );
 
   const transformedData = [
@@ -83,6 +101,7 @@ export default function transform(formConfig, form) {
     institutionTransform,
     conflictsTranform,
     dateTransform,
+    proprietaryProfitConflictsTransform,
     viewTransform, // this must appear last
   ].reduce((formData, transformer) => transformer(formData), form.data);
 
