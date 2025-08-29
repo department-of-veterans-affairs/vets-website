@@ -204,6 +204,7 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
     event => {
       const newPage = event.detail.page;
       setCurrentPage(newPage);
+      scrollToTop('results-container');
     },
     [setCurrentPage],
   );
@@ -307,13 +308,6 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
       }
     },
     [isAllBenefits, handleResults, resetSubmissionStatus],
-  );
-
-  useEffect(
-    () => {
-      scrollToTop();
-    },
-    [currentPage],
   );
 
   useEffect(
