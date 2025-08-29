@@ -15,9 +15,21 @@ import {
   DefaultFolders,
 } from '../util/constants';
 
-const isSignatureRequired = recipient => {
-  const regex = /.*\s*(Privacy Issue|Privacy Issues|Release of Information Medical Records|Record Amendment)\s*_*\s*Admin/i;
-  return regex.test(recipient.attributes.name);
+const isSignatureRequired = recipients => {
+  const regex = /.*\s*(Privacy Issue|Privacy Issues|Release of Information Medical Records|Record Amendment)\s*_*\s*Admin|.*\s*Release of Information/i;
+
+  return recipients.map(recipient => {
+    if (regex.test(recipient.attributes.name)) {
+      return {
+        ...recipient,
+        attributes: {
+          ...recipient.attributes,
+          signatureRequired: true,
+        },
+      };
+    }
+    return recipient;
+  });
 };
 
 export const getAllTriageTeamRecipients = () => async (dispatch, getState) => {
