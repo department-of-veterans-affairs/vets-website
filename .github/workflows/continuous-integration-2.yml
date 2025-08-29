@@ -91,58 +91,58 @@ jobs:
           path: ${{ matrix.buildtype }}.tar.bz2
           retention-days: 1
 
-  # fetch-allow-lists:
-  #   name: Fetch Test Stability Allow Lists
-  #   runs-on: ubuntu-22.04
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+  fetch-allow-lists:
+    name: Fetch Test Stability Allow Lists
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
 
-  #     - name: Configure AWS credentials
-  #       uses: ./.github/workflows/configure-aws-credentials
-  #       with:
-  #         aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  #         aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  #         aws_region: us-gov-west-1
+      - name: Configure AWS credentials
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
           
 
-  #     - name: Get va-vsp-bot token
-  #       uses: ./.github/workflows/inject-secrets
-  #       with:
-  #         ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
-  #         env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+      - name: Get va-vsp-bot token
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-  #     - name: Init Dashboard Data Repo
-  #       uses: ./.github/workflows/init-data-repo
+      - name: Init Dashboard Data Repo
+        uses: ./.github/workflows/init-data-repo
 
-  #     - name: Set Up BigQuery Creds
-  #       uses: ./.github/workflows/configure-bigquery
+      - name: Set Up BigQuery Creds
+        uses: ./.github/workflows/configure-bigquery
 
-  #     - name: Fetch E2E Test Stability Allow List
-  #       run: yarn get-allow-list
-  #       working-directory: qa-standards-dashboard-data
-  #       env:
-  #         TEST_TYPE: e2e
+      - name: Fetch E2E Test Stability Allow List
+        run: yarn get-allow-list
+        working-directory: qa-standards-dashboard-data
+        env:
+          TEST_TYPE: e2e
 
-  #     - name: Fetch Unit Test Stability Allow List
-  #       run: yarn get-allow-list
-  #       working-directory: qa-standards-dashboard-data
-  #       env:
-  #         TEST_TYPE: unit_test
+      - name: Fetch Unit Test Stability Allow List
+        run: yarn get-allow-list
+        working-directory: qa-standards-dashboard-data
+        env:
+          TEST_TYPE: unit_test
 
-  #     - name: Archive E2E Test Stability Allow List
-  #       if: ${{ always() }}
-  #       uses: ./.github/workflows/upload-artifact
-  #       with:
-  #         name: e2e-allow-list
-  #         path: qa-standards-dashboard-data/e2e_allow_list.json
+      - name: Archive E2E Test Stability Allow List
+        if: ${{ always() }}
+        uses: ./.github/workflows/upload-artifact
+        with:
+          name: e2e-allow-list
+          path: qa-standards-dashboard-data/e2e_allow_list.json
 
-  #     - name: Archive Unit Test Stability Allow List
-  #       if: ${{ always() }}
-  #       uses: ./.github/workflows/upload-artifact
-  #       with:
-  #         name: unit-test-allow-list
-  #         path: qa-standards-dashboard-data/unit_test_allow_list.json
+      - name: Archive Unit Test Stability Allow List
+        if: ${{ always() }}
+        uses: ./.github/workflows/upload-artifact
+        with:
+          name: unit-test-allow-list
+          path: qa-standards-dashboard-data/unit_test_allow_list.json
 
   tests-prep:
     name: Tests Prep
