@@ -822,7 +822,7 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       screen.getByText(/Retry searching based on current location/i),
     );
 
-    // should eventually be one provder
+    // should eventually be one provider
     await waitFor(() =>
       expect(screen.getAllByRole('radio').length).to.equal(1),
     );
