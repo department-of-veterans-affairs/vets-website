@@ -6,7 +6,7 @@ import { waitForRenderThenFocus } from 'platform/utilities/ui/';
 import { scrollTo } from 'platform/utilities/scroll';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
-import { verifyVaFileNumber } from '../actions';
+import { getDependentsInformation, verifyVaFileNumber } from '../actions';
 import { IntroductionPageHeader } from '../components/IntroductionPageHeader';
 import { IntroductionPageFormProcess } from '../components/IntroductionPageFormProcess';
 import {
@@ -26,6 +26,7 @@ const IntroductionPage = props => {
   useEffect(() => {
     if (hasSession()) {
       dispatch(verifyVaFileNumber());
+      dispatch(getDependentsInformation());
     }
     waitForRenderThenFocus('.schemaform-title > h1');
     scrollTo('topContentElement');
