@@ -472,6 +472,7 @@ export const ChapterSectionCollectionWithContext = ({
   header,
   className,
   collapsible,
+  showPageTitles,
 }) => {
   const { formConfig } = useConfirmation();
 
@@ -481,6 +482,7 @@ export const ChapterSectionCollectionWithContext = ({
       header={header}
       className={className}
       collapsible={collapsible}
+      showPageTitles={showPageTitles}
     />
   );
 };
@@ -489,6 +491,7 @@ ChapterSectionCollectionWithContext.propTypes = {
   className: PropTypes.string,
   collapsible: PropTypes.bool,
   header: PropTypes.string,
+  showPageTitles: PropTypes.bool,
 };
 
 export { ChapterSectionCollection } from './ChapterSectionCollection';

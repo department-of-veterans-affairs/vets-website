@@ -36,7 +36,7 @@ const mockChapterRadio = {
   title: 'Radio chapter',
   pages: {
     radioPage: {
-      title: 'Radio page',
+      title: 'Radio page title',
       pageKey: 'radioPage',
       uiSchema: {
         widgetRadio: {
@@ -537,6 +537,48 @@ describe('confirmation page view helpers', () => {
 });
 
 describe('Component ChapterSectionCollection', () => {
+  it('renders page titles when showPageTitles is true', () => {
+    const { mockStore } = mockRedux({
+      formData: {
+        ...mockChapterRadioData,
+      },
+    });
+
+    const { getByText } = render(
+      <Provider store={mockStore}>
+        <ChapterSectionCollection
+          formConfig={{
+            chapters: {
+              radioChapter: mockChapterRadio,
+            },
+          }}
+          showPageTitles // linting note: value must be ommitted for boolean attributes
+        />
+      </Provider>,
+    );
+    expect(getByText('Radio page title')).to.exist;
+  });
+
+  it('defaults showPageTitles to false when not provided', () => {
+    const { mockStore } = mockRedux({
+      formData: {
+        ...mockChapterRadioData,
+      },
+    });
+
+    const { queryByText } = render(
+      <Provider store={mockStore}>
+        <ChapterSectionCollection
+          formConfig={{
+            chapters: {
+              radioChapter: mockChapterRadio,
+            },
+          }}
+        />
+      </Provider>,
+    );
+    expect(queryByText('Radio page title')).to.be.null;
+  });
   it('should display', () => {
     const { mockStore } = mockRedux({
       formData: {
