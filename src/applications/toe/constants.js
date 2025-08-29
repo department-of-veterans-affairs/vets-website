@@ -20,7 +20,7 @@ export const SPONSORS_TYPE = PropTypes.shape({
   someoneNotListed: PropTypes.bool,
 });
 
-export const START_APPLICATION_TEXT = 'Start your benefit application';
+export const START_APPLICATION_TEXT = 'Start your benefits application';
 
 export const YOUR_PROFILE_URL = '/profile';
 

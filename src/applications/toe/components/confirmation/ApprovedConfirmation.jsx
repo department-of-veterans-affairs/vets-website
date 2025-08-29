@@ -60,7 +60,12 @@ const ApprovedConfirmation = ({
               href={LETTER_ENDPOINT}
             >
               <span className="vads-u-display--inline-block vads-u-margin-right--1">
-                <va-icon icon="file_download" size={3} />
+                <va-icon
+                  aria-hidden="true"
+                  role="presentation"
+                  icon="file_download"
+                  size={3}
+                />
               </span>
               Download your decision letter (PDF).
             </a>
@@ -75,21 +80,60 @@ const ApprovedConfirmation = ({
           visible
         >
           <div>
-            <h3 slot="headline" style={{ marginTop: '0.625rem' }}>
+            <h3 slot="headline" className="vads-u-margin-top--0">
               Application for VA education benefits (Form 22-1990e)
             </h3>
-            For {user}
-            <div className="vads-u-display--flex vads-u-flex-direction--column">
-              <strong>Date received</strong>
-              {dateReceived}
+            <h4 className="vads-u-margin-top--0">Transfer of Entitlement</h4>
+
+            <div className="vads-u-margin-bottom--2">
+              <h4 className="vads-u-margin-bottom--0p5 vads-u-font-weight--bold">
+                Who submitted this form
+              </h4>
+              <p className="vads-u-margin--0">{user || 'Not provided'}</p>
             </div>
-            <br />
-            <va-button
-              uswds
-              className="usa-button vads-u-margin-top--3 vads-u-width--auto"
-              text="Print this page"
-              onClick={printPage}
-            />
+
+            <div className="vads-u-margin-bottom--2">
+              <h4 className="vads-u-margin-bottom--0p5 vads-u-font-weight--bold">
+                Date received
+              </h4>
+              <p className="vads-u-margin--0">{dateReceived}</p>
+            </div>
+
+            <div className="vads-u-margin-bottom--1">
+              <h4 className="vads-u-margin-bottom--0p5 vads-u-font-weight--bold">
+                Confirmation for your records
+              </h4>
+              <p className="vads-u-margin--0">
+                You can print this confirmation page for your records. You can
+                also download your completed application as a PDF.
+              </p>
+            </div>
+
+            <div className="vads-u-margin-bottom--1">
+              <va-button
+                uswds
+                className="usa-button vads-u-margin-top--3 vads-u-width--auto"
+                text="Print this page"
+                onClick={printPage}
+              />
+            </div>
+
+            <div>
+              <va-icon
+                aria-hidden="true"
+                role="presentation"
+                icon="file_download"
+                size={3}
+                className="vads-u-margin-right--1"
+              />
+              <a
+                href={encodeURI(LETTER_ENDPOINT)}
+                download
+                className="vads-u-font-weight--bold"
+              >
+                Download your completed application (PDF)
+              </a>
+            </div>
           </div>
         </va-alert>
       </div>
