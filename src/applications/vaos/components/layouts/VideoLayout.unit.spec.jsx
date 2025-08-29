@@ -87,7 +87,7 @@ describe('VAOS Component: VideoLayout', () => {
         }),
       ).not.to.exist;
 
-      expect(screen.queryByText(/Clinic not available/i));
+      expect(screen.getByText(/Clinic not available/i));
       expect(screen.getByText(/Facility not available/i));
 
       expect(window.dataLayer).to.deep.include({
