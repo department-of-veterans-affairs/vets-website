@@ -46,7 +46,6 @@ function AppointmentListSection() {
           path="/past/:id"
           component={UpcomingAppointmentsDetailsPage}
         />
-        <Route exact path="/past" component={AppointmentsPage} />
         <Route exact path="/:id" component={UpcomingAppointmentsDetailsPage} />
         <Route
           exact
