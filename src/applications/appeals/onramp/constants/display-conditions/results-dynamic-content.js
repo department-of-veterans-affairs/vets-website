@@ -223,6 +223,7 @@ export const resultsDynamicContentDCs = Object.freeze({
     ONE_OF: {
       Q_2_IS_1B_NEW_EVIDENCE: YES,
       Q_2_S_1_NEW_EVIDENCE: YES,
+      Q_2_H_2_NEW_EVIDENCE: YES,
     },
   },
   [c.CARD_RECEIVED_BOARD_DECISION]: {
