@@ -224,7 +224,28 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
   return reviewEntry(description, key, uiSchema, label, refinedData);
 };
 
-export const buildFields = (chapter, formData, pagesFromState) => {
+export const getPageTitle = (pageFormConfig, formData, formConfig) => {
+  // Check for review title first, fallback to page title
+  const onReviewPage = true;
+  let pageTitle = pageFormConfig.reviewTitle || pageFormConfig.title;
+
+  if (typeof pageTitle === 'function') {
+    pageTitle = pageTitle({
+      formData,
+      formConfig,
+      onReviewPage,
+    });
+  }
+
+  return pageTitle || '';
+};
+
+export const buildFields = (
+  chapter,
+  formData,
+  pagesFromState,
+  showPageTitles,
+) => {
   return chapter.expandedPages.flatMap(page => {
     // page level ui:confirmationField
     const ConfirmationField = page.uiSchema['ui:confirmationField'];
@@ -239,7 +260,7 @@ export const buildFields = (chapter, formData, pagesFromState) => {
       );
     }
 
-    return Object.entries(page.uiSchema).flatMap(
+    const fields = Object.entries(page.uiSchema).flatMap(
       ([uiSchemaKey, uiSchemaValue]) => {
         const data = formData[uiSchemaKey];
         return fieldEntries(
@@ -252,6 +273,23 @@ export const buildFields = (chapter, formData, pagesFromState) => {
         );
       },
     );
+
+    if (showPageTitles) {
+      const pageTitle = getPageTitle(page, formData, chapter.formConfig);
+      const pageTitleElement = (
+        <h4 key={`page-title-${page.pageKey}`}>{pageTitle}</h4>
+      );
+
+      // Remove null items, return the page title and fields if there are any
+      const presentFields = fields.filter(item => item != null);
+
+      if (presentFields.length > 0) {
+        return [pageTitleElement, ...presentFields];
+      }
+      return [];
+    }
+
+    return fields;
   });
 };
 
@@ -292,6 +330,7 @@ const useChapterSectionCollection = formConfig => {
  *   header?: string
  *   collapsible?: boolean
  *   className?: string
+ *   showPageTitles?: boolean
  * }} props
  * @returns {JSX.Element[]}
  */
@@ -300,6 +339,7 @@ export const ChapterSectionCollection = ({
   collapsible = true,
   header = 'Information you submitted on this form',
   className,
+  showPageTitles = false,
 }) => {
   const { chapters, formData, pagesFromState } = useChapterSectionCollection(
     formConfig,
@@ -314,9 +354,12 @@ export const ChapterSectionCollection = ({
       formData,
       formConfig,
     );
-    const fields = buildFields(chapter, formData, pagesFromState).filter(
-      item => item != null,
-    );
+    const fields = buildFields(
+      chapter,
+      formData,
+      pagesFromState,
+      showPageTitles,
+    ).filter(item => item != null);
 
     hasFields = hasFields || fields.length > 0;
 
@@ -366,4 +409,6 @@ ChapterSectionCollection.propTypes = {
   className: PropTypes.string,
   collapsible: PropTypes.bool,
   header: PropTypes.string,
+  pageTitles: PropTypes.bool,
+  showPageTitles: PropTypes.bool,
 };
