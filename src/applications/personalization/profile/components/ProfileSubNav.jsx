@@ -62,11 +62,9 @@ const ProfileSubNav = ({ isInMVI, isLOA3, routes, clickHandler = null }) => {
   if (showPaperlessDelivery) {
     return (
       <VaSidenav
-        aria-label="Profile menu"
         header="Profile"
         icon-background-color="vads-color-primary"
         icon-name="account_circle"
-        role="navigation"
         ref={mobileNavRef}
       >
         {filteredRoutes.map(route => {
