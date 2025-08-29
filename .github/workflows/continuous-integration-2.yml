@@ -1854,7 +1854,7 @@ jobs:
         buildtype: [vagovdev, vagovstaging, vagovprod]
 
     # needs: [build, tests-prep, cypress-tests, unit-tests, security-audit, linting]
-    needs: [build, linting]
+    needs: [build, tests-prep, linting]
     env:
       IS_SINGLE_APP_BUILD: ${{ needs.build.outputs.entry_names != '' }}
     if: always()
