@@ -106,7 +106,7 @@ export function captureMissingModalityLogs(appointment) {
           serviceCategory: appointment.vaos.apiData.serviceCategory,
           kind: appointment.vaos.apiData.kind,
           vvsKind: appointment.vaos.apiData.telehealth?.vvsKind,
-          atlas: appointment.vaos.apiData.telehealth?.atlas,
+          hasAtlas: !!appointment.vaos.apiData.telehealth?.atlas,
           vvsVideoAppt: appointment.vaos.apiData.extension?.vvsVistaVideoAppt,
           apiModality: appointment.vaos.apiData.modality,
           // Derived fields
