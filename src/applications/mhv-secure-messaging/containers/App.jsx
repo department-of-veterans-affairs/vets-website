@@ -116,7 +116,10 @@ const App = () => {
   return (
     // SM Patient API has its own check for facilities that a user is connected to.
     // It will not start a session if a user has no associated facilities.
-    <RequiredLoginView user={user}>
+    <RequiredLoginView
+      user={user}
+      serviceRequired={[backendServices.MESSAGING]}
+    >
       <MhvServiceRequiredGuard
         user={user}
         serviceRequired={[backendServices.MESSAGING]}

@@ -323,21 +323,18 @@ const SelectCareTeam = () => {
           onVaValueChange={onRadioChangeHandler}
         >
           {allFacilities.map(facility => (
-            <>
-              <VaRadioOption
-                data-testid={`care-system-${facility}`}
-                id={facility}
-                key={facility}
-                label={
-                  getVamcSystemNameFromVhaId(ehrDataByVhaId, facility) ||
-                  facility
-                }
-                name="va-health-care-system"
-                tile
-                value={facility}
-                radioOptionSelected={draftInProgress?.careSystemVhaId || ''}
-              />
-            </>
+            <VaRadioOption
+              data-testid={`care-system-${facility}`}
+              id={facility}
+              key={facility}
+              label={
+                getVamcSystemNameFromVhaId(ehrDataByVhaId, facility) || facility
+              }
+              name="va-health-care-system"
+              tile
+              value={facility}
+              radioOptionSelected={draftInProgress?.careSystemVhaId || ''}
+            />
           ))}
         </VaRadio>
       );
