@@ -110,7 +110,7 @@ export const errorManager = {
   },
 
   removeInstance(index) {
-    this.passwordInstances = [...this.passwordInstances].toSpliced(index, 1);
+    this.passwordInstances.splice(index, 1);
     if (typeof this.touched === 'number') {
       this.setTouched();
     }
@@ -121,9 +121,7 @@ export const errorManager = {
   },
 
   removeAdditionalInputErrors(index) {
-    this.addAdditionalInputErrors = [
-      ...this.addAdditionalInputErrors,
-    ].toSpliced(index, 1);
+    this.additionalInputErrors.splice(index, 1);
     // decrement last touched count
     const _touched =
       typeof this.touched === 'number' && this.touched > 0
@@ -133,7 +131,7 @@ export const errorManager = {
   },
 
   getAdditionalInputErrors() {
-    return this.addAdditionalInputErrors;
+    return this.additionalInputErrors;
   },
 
   getPasswordInstances() {
