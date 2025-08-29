@@ -108,6 +108,10 @@ describe('SelectCareTeam', () => {
     expect(vaRadio.getAttribute('label')).to.equal(
       'Select a VA health care system',
     );
+    expect(vaRadio.getAttribute('data-dd-action-name')).to.equal(
+      'Care System Radio button',
+    );
+    expect(vaRadio.getAttribute('data-dd-privacy')).to.equal('mask');
     const vaRadioOption = screen.container.querySelector('va-radio-option');
     expect(vaRadioOption).to.exist;
 

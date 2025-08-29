@@ -346,6 +346,18 @@ describe('App', () => {
   it('renders CareTeamHelp when cerner pilot feature flag is enabled', async () => {
     const customState = {
       ...initialState,
+      sm: {
+        ...initialState.sm,
+        threadDetails: {
+          acceptInterstitial: 'true',
+          draftInProgress: {
+            recipientId: '12345',
+            category: 'TEST',
+            subject: 'Test Subject',
+            body: 'Test Body',
+          },
+        },
+      },
       featureToggles: {},
     };
     customState.featureToggles[
@@ -365,6 +377,32 @@ describe('App', () => {
           name: /can.?t find your care team\?/i,
         }),
       ).to.exist;
+    });
+  });
+
+  it('renders CareTeamHelp when cerner pilot feature flag is enabled and redirects if interstitial is not acknowledged', async () => {
+    const customState = {
+      ...initialState,
+      featureToggles: {},
+    };
+    customState.featureToggles[
+      FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot
+    ] = true;
+
+    const screen = renderWithStoreAndRouter(<App />, {
+      initialState: customState,
+      reducers: reducer,
+      path: Paths.CARE_TEAM_HELP,
+    });
+
+    await waitFor(() => {
+      // validate that routing is handled properly and <PageNotFound> is not being rendered
+      expect(
+        screen.queryByText(pageNotFoundHeading, {
+          selector: 'h1',
+          exact: true,
+        }),
+      ).to.not.exist;
     });
   });
 

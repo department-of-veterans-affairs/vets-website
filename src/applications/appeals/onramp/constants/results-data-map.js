@@ -3,7 +3,7 @@ import manifest from '../manifest.json';
 import {
   DISABILITY_COMP_CARD,
   CLAIM_FOR_INCREASE_CARD,
-} from './results-content/cards';
+} from './results-content/non-dr-screens/cards';
 import {
   DIVIDED_BENES,
   DR_HEADING,
