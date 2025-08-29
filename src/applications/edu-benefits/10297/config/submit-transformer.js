@@ -95,6 +95,7 @@ export function transform(formConfig, form) {
   const privacyAgreementTransform = formData => {
     const clonedData = _.cloneDeep(formData);
 
+    delete clonedData.statementOfTruthCertified;
     delete clonedData.AGREED;
 
     return {
