@@ -464,7 +464,8 @@ const incomeTypePage = {
     grossMonthlyIncome: currencyUI(
       showUpdatedContent()
         ? {
-            title: `What's the gross monthly income from this financial account?`,
+            title:
+              'What’s the gross monthly income from this financial account?',
             hint:
               'Gross income is income before taxes and any other deductions.',
           }
@@ -472,7 +473,7 @@ const incomeTypePage = {
     ),
     accountValue: currencyUI(
       showUpdatedContent()
-        ? `What's the current value of the account?`
+        ? 'What’s the current value of the account?'
         : 'Value of account',
     ),
     payer: textUI(
