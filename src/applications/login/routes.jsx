@@ -4,6 +4,7 @@ import SignInWrapper from './components/SignInWrapper';
 import MockAuth from './containers/MockAuth';
 import ProdTestAccess from './containers/ProdTestAccess';
 import MhvTemporaryAccess from './containers/MhvTemporaryAccess';
+import PasskeysApp from './containers/PasskeysApp';
 
 const routes = {
   path: '/',
@@ -23,6 +24,10 @@ const routes = {
           {
             path: 'mhv',
             component: MhvTemporaryAccess,
+          },
+          {
+            path: 'passkeys',
+            component: PasskeysApp,
           },
         ]
       : [
