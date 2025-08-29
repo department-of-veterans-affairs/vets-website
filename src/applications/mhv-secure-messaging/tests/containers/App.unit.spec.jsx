@@ -345,23 +345,30 @@ describe('App', () => {
 
   it('renders CareTeamHelp when cerner pilot feature flag is enabled', async () => {
     const customState = {
-      ...initialState,
-      featureToggles: {},
+      user: initialState.user,
+      featureToggles: {
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot]: true,
+      },
     };
-    customState.featureToggles[
-      FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot
-    ] = true;
 
     const screen = renderWithStoreAndRouter(<App />, {
       initialState: customState,
       reducers: reducer,
-      path: Paths.CARE_TEAM_HELP,
+      path: Paths.COMPOSE,
     });
+
+    // Accept interstitial (sets acceptInterstitial internally)
+    const continueButton = await screen.findByRole('button', {
+      name: /Continue to start message/i,
+    });
+    continueButton.click();
+
+    // Navigate to Care Team Help route
+    screen.history.push(Paths.CARE_TEAM_HELP);
 
     await waitFor(() => {
       expect(
         screen.getByRole('heading', {
-          // Avoid exact apostrophe issues by using a regex
           name: /can.?t find your care team\?/i,
         }),
       ).to.exist;
