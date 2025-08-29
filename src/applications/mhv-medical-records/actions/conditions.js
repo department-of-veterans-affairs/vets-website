@@ -3,7 +3,6 @@ import {
   getConditions,
   getCondition,
   getAcceleratedConditions,
-  getAcceleratedCondition,
 } from '../api/MrApi';
 import * as Constants from '../util/constants';
 import { addAlert } from './alerts';
@@ -31,6 +30,7 @@ export const getConditionsList = (
       response,
       isCurrent,
     });
+    return response; // return fetched data for callers
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
     throw error;
@@ -41,44 +41,41 @@ export const getConditionDetails = (
   conditionId,
   conditionList,
   isAccelerating = false,
-) => async dispatch => {
-  // Workaround: GET_UNIFIED_ITEM is not ready for deployment yet
-  // For accelerated conditions, attempt to find the item in the existing list
-  // If not found, fetch the full list and dispatch the matching item
-  // TODO: Remove this workaround once GET_UNIFIED_ITEM endpoint is available
+) => async (dispatch, getState) => {
+  // Accelerated path: find locally; else fetch list and match.
+  // Remove when GET_UNIFIED_ITEM is available.
   if (isAccelerating) {
-    const matchingItem =
+    let matchingItem;
+    matchingItem =
       conditionList && conditionList.find(item => item.id === conditionId);
 
-    // This dispatches a placeholder response until the proper API endpoint is ready
     if (!matchingItem) {
-      // Fetch updated conditions list since the item wasn't found locally
-      await dispatch(getConditionsList(false, isAccelerating));
+      // No local match; fetch list
+      const resp = await dispatch(getConditionsList(false, isAccelerating));
+
+      // Use API response; fallback to store
+      const listFromResp = Array.isArray(resp) ? resp : resp?.data;
+      const list = listFromResp || getState().mr?.conditions?.conditionsList;
+      const retryMatchingItem =
+        list && list.find(item => item.attributes?.id === conditionId);
+      matchingItem = retryMatchingItem.attributes;
     }
 
-    // Item found in local list, dispatch it directly
     dispatch({
       type: Actions.Conditions.GET_FROM_LIST,
       response: matchingItem,
     });
-    return; // Exit early for accelerated path
+    return; // done (accelerated)
   }
 
   try {
-    const getDataFunction = isAccelerating
-      ? getAcceleratedCondition
-      : getCondition;
-    const actionType = isAccelerating
-      ? Actions.Conditions.GET_UNIFIED_ITEM
-      : Actions.Conditions.GET;
-
     await dispatchDetails(
       conditionId,
       conditionList,
       dispatch,
-      getDataFunction,
+      getCondition,
       Actions.Conditions.GET_FROM_LIST,
-      actionType,
+      Actions.Conditions.GET,
     );
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));

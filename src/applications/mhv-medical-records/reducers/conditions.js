@@ -126,7 +126,6 @@ export function formatDateTime(datetimeString) {
   return { formattedDate, formattedTime };
 }
 
-// TODO: Confirm data structure
 export const convertUnifiedCondition = condition => {
   const formatConditionDate = formatDateTime(condition?.date);
   const conditionDate = formatConditionDate
@@ -194,17 +193,8 @@ export const conditionReducer = (state = initialState, action) => {
         updatedList: typeof oldList !== 'undefined' ? newList : undefined,
       };
     }
-    case Actions.Conditions.GET_UNIFIED_ITEM: {
-      const data = action.response || [];
-      const conditionDetails = convertUnifiedCondition(data?.attributes);
-
-      return {
-        ...state,
-        conditionDetails,
-      };
-    }
     case Actions.Conditions.GET_UNIFIED_LIST: {
-      const data = action.response || [];
+      const data = action.response?.data || [];
       const oldList = state.conditionsList;
       const newList =
         data
