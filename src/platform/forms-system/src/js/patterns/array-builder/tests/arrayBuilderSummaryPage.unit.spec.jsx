@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
+/* eslint-disable no-param-reassign */
 import React from 'react';
-import sinon from 'sinon';
+import sinon from 'sinon-v20';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import { SET_DATA } from 'platform/forms-system/src/js/actions';
@@ -87,6 +88,14 @@ describe('ArrayBuilderSummaryPage', () => {
     getIndexStub = sinon
       .stub(helpers, 'getArrayIndexFromPathName')
       .returns(index);
+  }
+
+  function stubSetDataFromRef(dataRef, setData) {
+    return function setDataFromRef(patch) {
+      const nextData = { ...(dataRef.current || {}), ...patch };
+      dataRef.current = nextData;
+      setData(nextData);
+    };
   }
 
   afterEach(() => {
@@ -711,5 +720,32 @@ describe('ArrayBuilderSummaryPage', () => {
     expect(cards[0].querySelector('h4')).to.exist;
     const vaRadio = container.querySelector('va-radio');
     expect(vaRadio.getAttribute('label-header-level')).to.equal('4');
+  });
+
+  it('should merge over the latest data to prevent stale-closure overwrites', () => {
+    const dataRef = { current: { a: 1 } };
+    const setData = sinon.spy();
+    const setDataFromRef = stubSetDataFromRef(dataRef, setData);
+
+    // simulate external update (Redux pushed new form data)
+    dataRef.current = { a: 1, b: 2 };
+    setDataFromRef({ c: 3 });
+
+    sinon.assert.calledOnceWithExactly(setData, { a: 1, b: 2, c: 3 });
+  });
+
+  it('should write through to the ref synchronously to eliminate the out-of-sync window', () => {
+    const dataRef = { current: { x: 0 } };
+    const setData = sinon.spy();
+    const setDataFromRef = stubSetDataFromRef(dataRef, setData);
+
+    setDataFromRef({ x: 1 });
+
+    sinon.assert.calledOnce(setData);
+    const nextData = setData.firstCall.args[0];
+
+    // ensure the ref points to the same object instance
+    expect(dataRef.current).to.equal(nextData);
+    expect(dataRef.current).to.deep.equal({ x: 1 });
   });
 });

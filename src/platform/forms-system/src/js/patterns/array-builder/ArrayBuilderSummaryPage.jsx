@@ -169,13 +169,17 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
       isReviewPage && checkHasYesNoReviewError(props.reviewErrors, hasItemsKey);
 
     const setDataFromRef = data => {
-      const curr = dataRef.current || {};
-      props.setData({ ...curr, ...data });
+      const dataToSet = { ...(dataRef.current || {}), ...data };
+      dataRef.current = dataToSet;
+      props.setData(dataToSet);
     };
 
-    useEffect(() => {
-      dataRef.current = props.data;
-    });
+    useEffect(
+      () => {
+        dataRef.current = props.data;
+      },
+      [props.data],
+    );
 
     useEffect(() => {
       const cleanupEmptyItems = () => {
