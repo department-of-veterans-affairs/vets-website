@@ -1,5 +1,4 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   validateField,
@@ -7,28 +6,14 @@ import {
   displayProviderName,
 } from '../../util/helpers';
 import ExtraDetails from '../shared/ExtraDetails';
-import { selectGroupingFlag } from '../../util/selectors';
 import { dataDogActionNames } from '../../util/dataDogConstants';
 import { ACTIVE_NON_VA } from '../../util/constants';
 
 const NonVaPrescription = prescription => {
-  const showGroupingFlag = useSelector(selectGroupingFlag);
   const content = () => {
     return (
-      <div
-        className={`medication-details-div vads-u-margin-bottom--3 ${
-          showGroupingFlag
-            ? ''
-            : 'vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-margin-top--3 medium-screen:vads-u-margin-top--4'
-        }`}
-      >
-        <h2
-          className={`vads-u-margin-bottom--2 no-print ${
-            showGroupingFlag
-              ? 'vads-u-margin-top--neg2'
-              : 'vads-u-margin-top--3 medium-screen:vads-u-margin-top--4'
-          }`}
-        >
+      <div className="medication-details-div vads-u-margin-bottom--3">
+        <h2 className="vads-u-margin-bottom--2 no-print vads-u-margin-top--neg2">
           About this medication or supply
         </h2>
         {prescription && <ExtraDetails {...prescription} />}
