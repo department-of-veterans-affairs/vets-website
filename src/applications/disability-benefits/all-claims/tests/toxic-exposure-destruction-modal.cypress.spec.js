@@ -269,7 +269,6 @@ describe('Toxic Exposure Destruction Modal', () => {
       conditions: {
         asthma: true,
         bronchitis: true,
-        cancer: false, // This one won't be selected
       },
       gulfWar1990: { iraq: true },
     };
@@ -281,19 +280,17 @@ describe('Toxic Exposure Destruction Modal', () => {
     // Add conditions
     addConditionWithFollowUp('asthma', 0);
     addConditionWithFollowUp('bronchitis', 1);
-    addConditionWithFollowUp('cancer', 2);
 
     // Navigate through follow-up pages
     cy.findByRole('button', { name: /continue/i }).click();
     completeConditionFollowUp('Asthma description');
     completeConditionFollowUp('Bronchitis description');
-    completeConditionFollowUp('Cancer description');
 
     // Verify pre-selected conditions
     cy.get('va-checkbox[value="asthma"]').should('have.attr', 'checked');
     cy.get('va-checkbox[value="bronchitis"]').should('have.attr', 'checked');
 
-    // Uncheck two conditions
+    // Uncheck both conditions
     cy.get('va-checkbox[value="asthma"]').click();
     cy.get('va-checkbox[value="bronchitis"]').click();
     cy.findByText(/continue/i, { selector: 'button' }).click();
