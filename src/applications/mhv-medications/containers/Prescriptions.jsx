@@ -43,7 +43,7 @@ import {
 import { buildPrescriptionsTXT, buildAllergiesTXT } from '../util/txtConfigs';
 import Alert from '../components/shared/Alert';
 import {
-  selectGroupingFlag,
+  selectAllergiesFlag,
   selectRefillProgressFlag,
 } from '../util/selectors';
 import PrescriptionsPrintOnly from './PrescriptionsPrintOnly';
@@ -88,7 +88,7 @@ const Prescriptions = () => {
   const currentPage = useSelector(selectPageNumber);
 
   // Get feature flags
-  const showGroupingContent = useSelector(selectGroupingFlag);
+  const showAllergiesContent = useSelector(selectAllergiesFlag);
   const showRefillProgressContent = useSelector(selectRefillProgressFlag);
 
   // Track if we've initialized from session storage
@@ -97,7 +97,7 @@ const Prescriptions = () => {
   // Consolidate query parameters into a single state object to avoid multiple re-renders
   const [queryParams, setQueryParams] = useState({
     page: currentPage || 1,
-    perPage: showGroupingContent ? 10 : 20,
+    perPage: 10,
     sortEndpoint:
       rxListSortingOptions[selectedSortOption]?.API_ENDPOINT ||
       rxListSortingOptions[defaultSelectedSortOption].API_ENDPOINT,
