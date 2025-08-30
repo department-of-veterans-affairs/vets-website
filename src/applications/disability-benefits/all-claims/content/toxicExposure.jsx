@@ -1,4 +1,5 @@
 import React from 'react';
+import { NULL_CONDITION_STRING } from '../constants';
 import {
   capitalizeEachWord,
   formSubtitle,
@@ -9,7 +10,6 @@ import {
   sippableId,
   validateConditions,
 } from '../utils';
-import { NULL_CONDITION_STRING } from '../constants';
 
 /* ---------- content ----------*/
 export const conditionsPageTitle = 'Toxic exposure';
@@ -220,7 +220,7 @@ export function makeTEConditionsUISchema(formData) {
 }
 
 /**
- * Validates 'none' checkbox is not selected along with a new condition
+ * Validates 'none' checkbox is not selected along with another condition
  * @param {object} errors - Errors object from rjsf
  * @param {object} formData
  */
@@ -313,7 +313,6 @@ export function getSelectedCount(
   for (const [key, value] of Object.entries(
     formData.toxicExposure[checkboxObjectName],
   )) {
-    // Skip `none` and `notsure` as non-locations
     if (value === true && !ignoredItems.includes(key)) {
       count += 1;
     }

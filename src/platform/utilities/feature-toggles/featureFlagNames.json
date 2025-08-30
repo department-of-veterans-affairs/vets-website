@@ -301,6 +301,7 @@
   "travelPaySubmitMileageExpense": "travel_pay_submit_mileage_expense",
   "travelPayClaimsManagement": "travel_pay_claims_management",
   "travelPayClaimsManagementDecisionReason": "travel_pay_claims_management_decision_reason",
+  "disabilityCompensationToxicExposureDestructionModal": "disability_compensation_toxic_exposure_destruction_modal",
   "useFacilitiesApiV2ForCernerCTA": "use_facilities_api_v2_for_cerner_cta",
   "useLighthouseFormsSearchLogic": "new_va_forms_search",
   "vaDependentsNetWorthAndPension": "va_dependents_net_worth_and_pension",
