@@ -864,7 +864,8 @@ const filterSelectedDetails = (details, selections) => {
   if (!isValidObject(details) || !isValidObject(selections)) return {};
 
   return Object.keys(details).reduce((filtered, key) => {
-    if (selections[key]) {
+    // Only keep details if the selection is explicitly true
+    if (selections[key] === true) {
       return { ...filtered, [key]: details[key] };
     }
     return filtered;

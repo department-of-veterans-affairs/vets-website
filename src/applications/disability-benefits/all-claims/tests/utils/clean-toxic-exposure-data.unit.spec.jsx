@@ -1214,4 +1214,407 @@ describe('cleanToxicExposureData', () => {
       );
     });
   });
+
+  describe('edge cases with false values', () => {
+    it('should remove details for all false selections across all exposure types', () => {
+      const formData = {
+        toxicExposure: {
+          conditions: {
+            asthma: true,
+            chronicbronchitis: true,
+          },
+          gulfWar1990: {
+            afghanistan: true,
+            bahrain: true,
+            iraq: false,
+            kuwait: true,
+            oman: false,
+            qatar: false,
+            saudiarabia: true,
+            somalia: false,
+            turkey: false,
+            unitedarabemirates: false,
+            waters: true,
+            airspace: true,
+          },
+          gulfWar1990Details: {
+            // Should keep these (true values)
+            afghanistan: { startDate: '2001-10-01', endDate: '2003-05-15' },
+            bahrain: { startDate: '1990-08-15', endDate: '1991-06-30' },
+            kuwait: { startDate: '1991-01-20', endDate: '1991-03-15' },
+            saudiarabia: { startDate: '1990-08-02', endDate: '1991-07-31' },
+            waters: { startDate: '1990-09-01', endDate: '1991-04-30' },
+            airspace: { startDate: '1990-08-10', endDate: '1991-05-15' },
+            // Should remove these (false values)
+            iraq: { startDate: '1991-01-01', endDate: '1991-03-31' },
+            oman: { startDate: '1990-09-01', endDate: '1991-02-28' },
+            qatar: { startDate: '1990-10-01', endDate: '1991-01-31' },
+            somalia: { startDate: '1992-01-01', endDate: '1993-03-31' },
+            turkey: { startDate: '1991-01-17', endDate: '1991-02-28' },
+            unitedarabemirates: {
+              startDate: '1990-09-15',
+              endDate: '1991-04-15',
+            },
+          },
+          gulfWar2001: {
+            afghanistan: true,
+            bahrain: false,
+            djibouti: true,
+            egypt: false,
+            jordan: false,
+            lebanon: true,
+            oman: false,
+            pakistan: false,
+            philippines: false,
+            qatar: false,
+            saudiarabia: false,
+            somalia: true,
+            syria: false,
+            unitedarabemirates: false,
+            uzbekistan: true,
+            yemen: true,
+            airspace: true,
+          },
+          gulfWar2001Details: {
+            // Should keep these (true values)
+            afghanistan: { startDate: '2001-10-07', endDate: '2021-08-31' },
+            djibouti: { startDate: '2002-10-01', endDate: '2005-03-31' },
+            lebanon: { startDate: '2006-07-12', endDate: '2006-08-14' },
+            somalia: { startDate: '2007-01-01', endDate: '2009-12-31' },
+            uzbekistan: { startDate: '2001-10-15', endDate: '2003-05-20' },
+            yemen: { startDate: '2009-12-01', endDate: '2011-06-30' },
+            airspace: { startDate: '2020-01-30', endDate: '2023-06-21' },
+            // Should remove these (false values)
+            bahrain: { startDate: '2001-09-01', endDate: '2003-12-31' },
+            egypt: { startDate: '2011-01-01', endDate: '2011-12-31' },
+            jordan: { startDate: '2003-03-01', endDate: '2003-09-30' },
+            oman: { startDate: '2001-10-01', endDate: '2002-06-30' },
+            pakistan: { startDate: '2001-12-01', endDate: '2002-03-31' },
+            philippines: { startDate: '2002-01-01', endDate: '2002-07-31' },
+            qatar: { startDate: '2002-03-01', endDate: '2003-01-31' },
+            saudiarabia: { startDate: '2001-09-01', endDate: '2003-04-30' },
+            syria: { startDate: '2014-09-01', endDate: '2019-10-31' },
+            unitedarabemirates: {
+              startDate: '2001-10-01',
+              endDate: '2002-12-31',
+            },
+          },
+          herbicide: {
+            cambodia: true,
+            guam: false,
+            johnston: true,
+            koreandemilitarizedzone: false,
+            laos: true,
+            c123: false,
+            thailand: true,
+            vietnam: true,
+            none: false,
+          },
+          herbicideDetails: {
+            // Should keep these (true values)
+            cambodia: { startDate: '1969-05-01', endDate: '1970-06-30' },
+            johnston: { startDate: '1972-04-01', endDate: '1973-09-30' },
+            laos: { startDate: '1965-12-01', endDate: '1971-03-31' },
+            thailand: { startDate: '1967-02-01', endDate: '1975-05-31' },
+            vietnam: { startDate: '1965-01-09', endDate: '1975-04-30' },
+            // Should remove these (false values)
+            guam: { startDate: '1968-01-01', endDate: '1970-12-31' },
+            koreandemilitarizedzone: {
+              startDate: '1968-04-01',
+              endDate: '1969-07-31',
+            },
+            c123: { startDate: '1972-01-01', endDate: '1982-12-31' },
+          },
+          otherExposures: {
+            asbestos: true,
+            chemical: true,
+            chromium: false,
+            depleted: false,
+            water: true,
+            mos: false,
+            mustardgas: true,
+            radiation: true,
+            shad: false,
+            shipyard: false,
+            other: true,
+          },
+          otherExposuresDetails: {
+            // Should keep these (true values)
+            asbestos: { startDate: '1985-03-12', endDate: '1990-08-28' },
+            chemical: { startDate: '1998-06-15', endDate: '2000-09-30' },
+            water: { startDate: '1982-01-01', endDate: '1987-12-31' },
+            mustardgas: { startDate: '1991-02-01', endDate: '1991-04-15' },
+            radiation: { startDate: '1999-07-01', endDate: '2003-01-31' },
+            other: { startDate: '2010-01-01', endDate: '2015-12-31' },
+            // Should remove these (false values)
+            chromium: { startDate: '1990-01-01', endDate: '1995-12-31' },
+            depleted: { startDate: '1991-01-01', endDate: '1991-04-30' },
+            mos: { startDate: '1985-01-01', endDate: '1988-12-31' },
+            shad: { startDate: '1962-01-01', endDate: '1973-12-31' },
+            shipyard: { startDate: '1980-01-01', endDate: '1985-12-31' },
+          },
+          otherHerbicideLocations: {
+            description: 'Agent Orange testing facility in Nevada desert',
+          },
+          specifyOtherExposures: {
+            description: 'Exposed to experimental chemical agents',
+          },
+        },
+      };
+
+      const result = cleanToxicExposureData(formData);
+
+      // Verify conditions are kept
+      expect(result.toxicExposure.conditions).to.deep.equal({
+        asthma: true,
+        chronicbronchitis: true,
+      });
+
+      // Verify Gulf War 1990 - false values kept but their details removed
+      expect(result.toxicExposure.gulfWar1990).to.include({
+        iraq: false,
+        oman: false,
+        qatar: false,
+        somalia: false,
+        turkey: false,
+        unitedarabemirates: false,
+      });
+      expect(result.toxicExposure.gulfWar1990Details).to.not.have.any.keys(
+        'iraq',
+        'oman',
+        'qatar',
+        'somalia',
+        'turkey',
+        'unitedarabemirates',
+      );
+      expect(result.toxicExposure.gulfWar1990Details).to.have.all.keys(
+        'afghanistan',
+        'bahrain',
+        'kuwait',
+        'saudiarabia',
+        'waters',
+        'airspace',
+      );
+
+      // Verify Gulf War 2001 - false values kept but their details removed
+      expect(result.toxicExposure.gulfWar2001).to.include({
+        bahrain: false,
+        egypt: false,
+        jordan: false,
+        oman: false,
+        pakistan: false,
+        philippines: false,
+        qatar: false,
+        saudiarabia: false,
+        syria: false,
+        unitedarabemirates: false,
+      });
+      expect(result.toxicExposure.gulfWar2001Details).to.not.have.any.keys(
+        'bahrain',
+        'egypt',
+        'jordan',
+        'oman',
+        'pakistan',
+        'philippines',
+        'qatar',
+        'saudiarabia',
+        'syria',
+        'unitedarabemirates',
+      );
+      expect(result.toxicExposure.gulfWar2001Details).to.have.all.keys(
+        'afghanistan',
+        'djibouti',
+        'lebanon',
+        'somalia',
+        'uzbekistan',
+        'yemen',
+        'airspace',
+      );
+
+      // Verify Herbicide - false values kept but their details removed
+      expect(result.toxicExposure.herbicide).to.include({
+        guam: false,
+        koreandemilitarizedzone: false,
+        c123: false,
+        none: false,
+      });
+      expect(result.toxicExposure.herbicideDetails).to.not.have.any.keys(
+        'guam',
+        'koreandemilitarizedzone',
+        'c123',
+      );
+      expect(result.toxicExposure.herbicideDetails).to.have.all.keys(
+        'cambodia',
+        'johnston',
+        'laos',
+        'thailand',
+        'vietnam',
+      );
+
+      // Verify Other Exposures - false values kept but their details removed
+      expect(result.toxicExposure.otherExposures).to.include({
+        chromium: false,
+        depleted: false,
+        mos: false,
+        shad: false,
+        shipyard: false,
+      });
+      expect(result.toxicExposure.otherExposuresDetails).to.not.have.any.keys(
+        'chromium',
+        'depleted',
+        'mos',
+        'shad',
+        'shipyard',
+      );
+      expect(result.toxicExposure.otherExposuresDetails).to.have.all.keys(
+        'asbestos',
+        'chemical',
+        'water',
+        'mustardgas',
+        'radiation',
+        'other',
+      );
+
+      // Verify description fields are kept
+      expect(result.toxicExposure.otherHerbicideLocations).to.deep.equal({
+        description: 'Agent Orange testing facility in Nevada desert',
+      });
+      expect(result.toxicExposure.specifyOtherExposures).to.deep.equal({
+        description: 'Exposed to experimental chemical agents',
+      });
+    });
+
+    it('should handle mixed undefined and false values correctly', () => {
+      const formData = {
+        toxicExposure: {
+          conditions: { asthma: true },
+          gulfWar1990: {
+            afghanistan: true,
+            bahrain: false,
+            // iraq is undefined (not included)
+            kuwait: undefined,
+            oman: null,
+          },
+          gulfWar1990Details: {
+            afghanistan: { startDate: '2001-10-01' },
+            bahrain: { startDate: '1990-08-15' },
+            iraq: { startDate: '1991-01-01' },
+            kuwait: { startDate: '1991-01-20' },
+            oman: { startDate: '1990-09-01' },
+          },
+        },
+      };
+
+      const result = cleanToxicExposureData(formData);
+
+      // Only afghanistan should have details (true value)
+      expect(result.toxicExposure.gulfWar1990Details).to.deep.equal({
+        afghanistan: { startDate: '2001-10-01' },
+      });
+
+      // False value should be kept in main object
+      expect(result.toxicExposure.gulfWar1990.bahrain).to.equal(false);
+
+      // Details for false, undefined, and null values should be removed
+      expect(result.toxicExposure.gulfWar1990Details.bahrain).to.be.undefined;
+      expect(result.toxicExposure.gulfWar1990Details.iraq).to.be.undefined;
+      expect(result.toxicExposure.gulfWar1990Details.kuwait).to.be.undefined;
+      expect(result.toxicExposure.gulfWar1990Details.oman).to.be.undefined;
+    });
+
+    it('should handle case where all selections are false', () => {
+      const formData = {
+        toxicExposure: {
+          conditions: { asthma: true },
+          gulfWar1990: {
+            afghanistan: false,
+            bahrain: false,
+            iraq: false,
+          },
+          gulfWar1990Details: {
+            afghanistan: { startDate: '2001-10-01' },
+            bahrain: { startDate: '1990-08-15' },
+            iraq: { startDate: '1991-01-01' },
+          },
+        },
+      };
+
+      const result = cleanToxicExposureData(formData);
+
+      // All false values should be removed along with the entire section
+      expect(result.toxicExposure.gulfWar1990).to.be.undefined;
+      expect(result.toxicExposure.gulfWar1990Details).to.be.undefined;
+
+      // Only conditions should remain
+      expect(result.toxicExposure).to.deep.equal({
+        conditions: { asthma: true },
+      });
+    });
+
+    it('should properly clean a real-world payload with mixed true/false values', () => {
+      // Using a subset of the actual payload provided
+      const formData = {
+        toxicExposure: {
+          conditions: {
+            asthma: true,
+            chronicbronchitis: true,
+          },
+          herbicide: {
+            cambodia: true,
+            guam: false, // This is false
+            johnston: true,
+            koreandemilitarizedzone: false, // This is false
+            laos: true,
+            c123: false, // This is false
+            thailand: true,
+            vietnam: true,
+            none: false, // This is false
+          },
+          herbicideDetails: {
+            cambodia: { startDate: '1969-05-01', endDate: '1970-06-30' },
+            guam: { startDate: '1968-01-01', endDate: '1970-12-31' }, // Should be removed
+            johnston: { startDate: '1972-04-01', endDate: '1973-09-30' },
+            koreandemilitarizedzone: {
+              startDate: '1968-04-01',
+              endDate: '1969-07-31',
+            }, // Should be removed
+            laos: { startDate: '1965-12-01', endDate: '1971-03-31' },
+            c123: { startDate: '1972-01-01', endDate: '1982-12-31' }, // Should be removed
+            thailand: { startDate: '1967-02-01', endDate: '1975-05-31' },
+            vietnam: { startDate: '1965-01-09', endDate: '1975-04-30' },
+          },
+        },
+      };
+
+      const result = cleanToxicExposureData(formData);
+
+      // Verify false values are kept in main object
+      expect(result.toxicExposure.herbicide).to.deep.equal({
+        cambodia: true,
+        guam: false,
+        johnston: true,
+        koreandemilitarizedzone: false,
+        laos: true,
+        c123: false,
+        thailand: true,
+        vietnam: true,
+        none: false,
+      });
+
+      // Verify details for false values are removed
+      expect(result.toxicExposure.herbicideDetails).to.deep.equal({
+        cambodia: { startDate: '1969-05-01', endDate: '1970-06-30' },
+        johnston: { startDate: '1972-04-01', endDate: '1973-09-30' },
+        laos: { startDate: '1965-12-01', endDate: '1971-03-31' },
+        thailand: { startDate: '1967-02-01', endDate: '1975-05-31' },
+        vietnam: { startDate: '1965-01-09', endDate: '1975-04-30' },
+      });
+
+      // Explicitly verify removed entries
+      expect(result.toxicExposure.herbicideDetails.guam).to.be.undefined;
+      expect(result.toxicExposure.herbicideDetails.koreandemilitarizedzone).to
+        .be.undefined;
+      expect(result.toxicExposure.herbicideDetails.c123).to.be.undefined;
+    });
+  });
 });
