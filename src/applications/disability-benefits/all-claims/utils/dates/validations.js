@@ -7,10 +7,7 @@
 /* eslint-disable you-dont-need-momentjs/no-moment-constructor */
 /* eslint-disable you-dont-need-momentjs/start-of */
 /* eslint-disable you-dont-need-momentjs/add */
-import { isValid } from 'date-fns';
 import moment from 'moment';
-import { convertToDateField } from '~/platform/forms-system/src/js/validation';
-import { dateFieldToDate } from '~/platform/utilities/date';
 
 /**
  * Internal utility to safely create moment objects
@@ -154,42 +151,5 @@ export const validateTitle10ActivationDate = (
     errors.addError(
       'Your activation date must be after your earliest service start date for the Reserve or the National Guard',
     );
-  }
-};
-
-/**
- * Validates that dates are in valid format using date-fns
- * @param {Object} errors - Errors object with startDate and endDate properties
- * @param {string} startDate - Start date to validate
- * @param {string} endDate - End date to validate
- * @param {Object} options - Optional validation options
- */
-export const validateDateFormats = (
-  errors,
-  startDate,
-  endDate,
-  options = {},
-) => {
-  const {
-    errorMessage = 'Enter a valid date in the format YYYY-MM-DD',
-  } = options;
-
-  // Check if dates are in valid format before other validations
-  if (startDate) {
-    const startDateApproximate = convertToDateField(startDate);
-    const startDateObj = dateFieldToDate(startDateApproximate);
-
-    if (!isValid(startDateObj)) {
-      errors.startDate.addError(errorMessage);
-    }
-  }
-
-  if (endDate) {
-    const endDateApproximate = convertToDateField(endDate);
-    const endDateObj = dateFieldToDate(endDateApproximate);
-
-    if (!isValid(endDateObj)) {
-      errors.endDate.addError(errorMessage);
-    }
   }
 };

@@ -9,6 +9,7 @@ import {
   PTSD_MATCHES,
   SAVED_SEPARATION_DATE,
 } from '../../constants';
+import { showToxicExposureDestructionModal } from '../../content/toxicExposureChoiceContent';
 import {
   activeServicePeriods,
   capitalizeEachWord,
@@ -47,7 +48,6 @@ import {
   showPtsdCombat,
   showPtsdNonCombat,
   showSeparationLocation,
-  showToxicExposureDestructionModal,
   skip781,
   truncateDescriptions,
   validateConditions,

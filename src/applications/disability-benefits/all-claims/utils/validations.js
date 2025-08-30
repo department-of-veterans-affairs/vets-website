@@ -1,7 +1,5 @@
 import { convertToDateField } from '~/platform/forms-system/src/js/validation';
 import { isValidDateRange } from '~/platform/forms/validations';
-import { dateFieldToDate } from '~/platform/utilities/date';
-import { validateDateFormats } from './dates/validations';
 
 const messages = {
   invalidRange:
@@ -29,15 +27,11 @@ export function validateRange(errors, startDate, endDate) {
     errors.startDate.addError(messages.invalidRange);
   }
 
-  // Convert date field objects to Date objects for proper comparison
-  const startDateObj = dateFieldToDate(startDateApproximate);
-  const endDateObj = dateFieldToDate(endDateApproximate);
-
-  if (startDateObj > Date.now()) {
+  if (startDateApproximate > Date.now()) {
     errors.startDate.addError(messages.startServiceDate);
   }
 
-  if (endDateObj > Date.now()) {
+  if (endDateApproximate > Date.now()) {
     errors.endDate.addError(messages.endServiceDate);
   }
 }
@@ -77,7 +71,6 @@ export function validateToxicExposureGulfWar1990Dates(
   errors,
   { startDate, endDate },
 ) {
-  validateDateFormats(errors, startDate, endDate);
   validateRange(errors, startDate, endDate);
 
   if (new Date(endDate ?? '') <= new Date('1990-08-02')) {
@@ -91,7 +84,6 @@ export function validateToxicExposureGulfWar2001Dates(
   errors,
   { startDate, endDate },
 ) {
-  validateDateFormats(errors, startDate, endDate);
   validateRange(errors, startDate, endDate);
 
   if (new Date(endDate ?? '') <= new Date('2001-09-11')) {
@@ -105,7 +97,6 @@ export function validateToxicExposureHerbicideDates(
   errors,
   { startDate, endDate },
 ) {
-  validateDateFormats(errors, startDate, endDate);
   validateRange(errors, startDate, endDate);
 
   validateMissingValues(errors, startDate, endDate);
@@ -115,7 +106,6 @@ export function validateToxicExposureAdditionalExposuresDates(
   errors,
   { startDate, endDate },
 ) {
-  validateDateFormats(errors, startDate, endDate);
   validateRange(errors, startDate, endDate);
 
   validateMissingValues(errors, startDate, endDate);
