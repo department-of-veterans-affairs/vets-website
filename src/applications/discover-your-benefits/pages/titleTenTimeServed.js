@@ -9,7 +9,7 @@ export default {
     titleTenTimeServed: radioUI({
       enableAnalytics: true,
       title:
-        'How long were you called up to active-duty (Title 10) orders while serving in the Reserve or National Guard?',
+        'How long were you called up to active-duty (Title 10) orders while serving in the National Guard or Reserves?',
       hint:
         'This includes activations, deployments, and mobilizations under Title 10 orders.',
       labels: timeServedLabels,
