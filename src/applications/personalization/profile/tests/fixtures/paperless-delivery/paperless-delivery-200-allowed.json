@@ -1,0 +1,243 @@
+{
+  "data": {
+    "id": "",
+    "type": "hashes",
+    "attributes": {
+      "communicationGroups": [
+        {
+          "id": 1,
+          "name": "Board of Veterans' Appeals",
+          "description": null,
+          "communicationItems": [
+            {
+              "id": 6,
+              "name": "Appeal status updates",
+              "communicationChannels": [
+                {
+                  "id": 1,
+                  "name": "Text",
+                  "description": "SMS Notification",
+                  "defaultSendIndicator": true,
+                  "communicationPermission": {
+                    "id": 24123,
+                    "allowed": false
+                  }
+                }
+              ]
+            },
+            {
+              "id": 1,
+              "name": "Appeal hearing reminders",
+              "communicationChannels": [
+                {
+                  "id": 1,
+                  "name": "Text",
+                  "description": "SMS Notification",
+                  "defaultSendIndicator": true,
+                  "communicationPermission": {
+                    "id": 24124,
+                    "allowed": true
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "name": "Payments",
+          "description": "Payments to the Veteran",
+          "communicationItems": [
+            {
+              "id": 13,
+              "name": "New benefit overpayment debt notification",
+              "communicationChannels": [
+                {
+                  "id": 2,
+                  "name": "Email",
+                  "description": "Email Notification",
+                  "defaultSendIndicator": true,
+                  "communicationPermission": {
+                    "id": 57290,
+                    "allowed": true
+                  }
+                }
+              ]
+            },
+            {
+              "id": 14,
+              "name": "New health care copay bill",
+              "communicationChannels": [
+                {
+                  "id": 2,
+                  "name": "Email",
+                  "description": "Email Notification",
+                  "defaultSendIndicator": true
+                }
+              ]
+            },
+            {
+              "id": 5,
+              "name": "Disability and pension deposit notifications",
+              "communicationChannels": [
+                {
+                  "id": 1,
+                  "name": "Text",
+                  "description": "SMS Notification",
+                  "defaultSendIndicator": false,
+                  "communicationPermission": {
+                    "id": 24125,
+                    "allowed": true
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "name": "Health Care",
+          "description": null,
+          "communicationItems": [
+            {
+              "id": 1000,
+              "name": "Test Item for va.gov team",
+              "communicationChannels": [
+                {
+                  "id": 1,
+                  "name": "Text",
+                  "description": "SMS Notification",
+                  "defaultSendIndicator": true,
+                  "communicationPermission": {
+                    "id": 62765,
+                    "allowed": true
+                  }
+                },
+                {
+                  "id": 2,
+                  "name": "Email",
+                  "description": "Email Notification",
+                  "defaultSendIndicator": false,
+                  "communicationPermission": {
+                    "id": 82066,
+                    "allowed": true
+                  }
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "name": "Health appointment reminders",
+              "communicationChannels": [
+                {
+                  "id": 2,
+                  "name": "Email",
+                  "description": "Email Notification",
+                  "defaultSendIndicator": false,
+                  "communicationPermission": {
+                    "id": 82067,
+                    "allowed": true
+                  }
+                },
+                {
+                  "id": 1,
+                  "name": "Text",
+                  "description": "SMS Notification",
+                  "defaultSendIndicator": true,
+                  "communicationPermission": {
+                    "id": 24121,
+                    "allowed": true
+                  }
+                }
+              ]
+            },
+            {
+              "id": 4,
+              "name": "Prescription shipping notifications",
+              "communicationChannels": [
+                {
+                  "id": 2,
+                  "name": "Email",
+                  "description": "Email Notification",
+                  "defaultSendIndicator": false
+                },
+                {
+                  "id": 1,
+                  "name": "Text",
+                  "description": "SMS Notification",
+                  "defaultSendIndicator": true,
+                  "communicationPermission": {
+                    "id": 24122,
+                    "allowed": false
+                  }
+                }
+              ]
+            },
+            {
+              "id": 10,
+              "name": "Notifications when medical images you requested are available",
+              "communicationChannels": [
+                {
+                  "id": 2,
+                  "name": "Email",
+                  "description": "Email Notification",
+                  "defaultSendIndicator": false,
+                  "communicationPermission": {
+                    "id": 82065,
+                    "allowed": true
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 5,
+          "name": "QuickSubmit",
+          "description": "QuickSubmit Notifications",
+          "communicationItems": [
+            {
+              "id": 12,
+              "name": "QuickSubmit Upload Status",
+              "communicationChannels": [
+                {
+                  "id": 1,
+                  "name": "Text",
+                  "description": "SMS Notification",
+                  "defaultSendIndicator": true,
+                  "communicationPermission": {
+                    "id": 24126,
+                    "allowed": true
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 6,
+          "name": "Digital Delivery - Health Care",
+          "description": "Digital Delivery settings for health care related items",
+          "communicationItems": [
+            {
+              "id": 15,
+              "name": "1095-B Proof of Health Care",
+              "communicationChannels": [
+                {
+                  "id": 3,
+                  "name": "Digital Delivery",
+                  "description": "Delivered using digital delivery model",
+                  "defaultSendIndicator": false,
+                  "communicationPermission": {
+                    "id": 82064,
+                    "allowed": true
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
