@@ -107,23 +107,29 @@ const ProfileWrapper = ({
             />
             <div className="vads-l-row">
               <div className="vads-u-display--none medium-screen:vads-u-display--block vads-l-col--3 vads-u-padding-left--2">
-                <nav className="va-subnav" aria-labelledby="subnav-header">
-                  <div>
-                    {!paperlessDeliveryToggle && (
+                {paperlessDeliveryToggle ? (
+                  <ProfileSubNav
+                    routes={routesForNav}
+                    isLOA3={isLOA3}
+                    isInMVI={isInMVI}
+                  />
+                ) : (
+                  <nav className="va-subnav" aria-labelledby="subnav-header">
+                    <div>
                       <h2
                         id="subnav-header"
                         className="vads-u-font-size--h4 vads-u-margin-top--0 vads-u-margin-bottom--0 vads-u-padding-y--2"
                       >
                         Profile <span className="sr-only">menu</span>
                       </h2>
-                    )}
-                    <ProfileSubNav
-                      routes={routesForNav}
-                      isLOA3={isLOA3}
-                      isInMVI={isInMVI}
-                    />
-                  </div>
-                </nav>
+                      <ProfileSubNav
+                        routes={routesForNav}
+                        isLOA3={isLOA3}
+                        isInMVI={isInMVI}
+                      />
+                    </div>
+                  </nav>
+                )}
               </div>
               <div className="vads-l-col--12 vads-u-padding-bottom--4 vads-u-padding-x--1 medium-screen:vads-l-col--9 medium-screen:vads-u-padding-x--2 small-desktop-screen:vads-l-col--8">
                 {/* children will be passed in from React Router one level up */}
