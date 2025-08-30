@@ -29,6 +29,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvAcceleratedDeliveryEnabled = false,
     mhvAcceleratedDeliveryAllergiesEnabled = false,
     mhvAcceleratedDeliveryVitalSignsEnabled = false,
+    mhvAcceleratedDeliveryConditionsEnabled = false,
     mhvAcceleratedDeliveryVaccinesEnabled = false,
     mhvAcceleratedDeliveryLabsAndTestsEnabled = false,
 
@@ -61,6 +62,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_accelerated_delivery_allergies_enabled',
           value: mhvAcceleratedDeliveryAllergiesEnabled,
+        },
+        {
+          name: 'mhv_accelerated_delivery_conditions_enabled',
+          value: mhvAcceleratedDeliveryConditionsEnabled,
         },
         {
           name: 'mhv_accelerated_delivery_vaccines_enabled',

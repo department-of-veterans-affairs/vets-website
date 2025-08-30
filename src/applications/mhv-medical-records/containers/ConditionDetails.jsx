@@ -39,6 +39,7 @@ import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import HeaderSection from '../components/shared/HeaderSection';
 import LabelValue from '../components/shared/LabelValue';
 import { useTrackAction } from '../hooks/useTrackAction';
+import useAcceleratedData from '../hooks/useAcceleratedData';
 
 const ConditionDetails = props => {
   const { runningUnitTest } = props;
@@ -68,12 +69,20 @@ const ConditionDetails = props => {
     [dispatch],
   );
 
+  const { isAcceleratingConditions } = useAcceleratedData();
+
   useEffect(
     () => {
       if (conditionId)
-        dispatch(getConditionDetails(conditionId, conditionList));
+        dispatch(
+          getConditionDetails(
+            conditionId,
+            conditionList,
+            isAcceleratingConditions,
+          ),
+        );
     },
-    [conditionId, conditionList, dispatch],
+    [conditionId, conditionList, isAcceleratingConditions, dispatch],
   );
 
   useEffect(

@@ -15,6 +15,7 @@ describe('Accelerated Cerner Facility Alert', () => {
     isAcceleratingAllergies = false,
     isAcceleratingVitals = false,
     isAcceleratingVaccines = false,
+    isAcceleratingConditions = false,
   }) => ({
     // eslint-disable-next-line camelcase
     mhv_accelerated_delivery_enabled: isAccelerating,
@@ -24,6 +25,8 @@ describe('Accelerated Cerner Facility Alert', () => {
     mhv_accelerated_delivery_vital_signs_enabled: isAcceleratingVitals,
     // eslint-disable-next-line camelcase
     mhv_accelerated_delivery_vaccines_enabled: isAcceleratingVaccines,
+    // eslint-disable-next-line camelcase
+    mhv_accelerated_delivery_conditions_enabled: isAcceleratingConditions,
   });
   const initialState = {
     drupalStaticData,
@@ -61,6 +64,7 @@ describe('Accelerated Cerner Facility Alert', () => {
       CernerAlertContent.MR_LANDING_PAGE,
       CernerAlertContent.VITALS,
       CernerAlertContent.ALLERGIES,
+      CernerAlertContent.HEALTH_CONDITIONS,
     ].forEach(async page => {
       const screen = setup(
         {
@@ -69,6 +73,7 @@ describe('Accelerated Cerner Facility Alert', () => {
             isAccelerating: true,
             isAcceleratingAllergies: true,
             isAcceleratingVitals: true,
+            isAcceleratingConditions: true,
           }),
         },
         {
@@ -96,6 +101,7 @@ describe('Accelerated Cerner Facility Alert', () => {
             isAccelerating: true,
             isAcceleratingAllergies: true,
             isAcceleratingVitals: true,
+            isAcceleratingConditions: true,
           }),
         },
         {

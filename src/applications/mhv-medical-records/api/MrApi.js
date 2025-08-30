@@ -184,6 +184,18 @@ export const getCondition = id => {
   });
 };
 
+export const getAcceleratedConditions = async () => {
+  return apiRequest(`${API_BASE_PATH_V2}/medical_records/conditions`, {
+    headers,
+  });
+};
+
+export const getAcceleratedCondition = id => {
+  return apiRequest(`${API_BASE_PATH_V2}/medical_records/conditions/${id}`, {
+    headers,
+  });
+};
+
 export const getAllergies = async () => {
   return apiRequest(`${apiBasePath}/medical_records/allergies`, {
     headers,

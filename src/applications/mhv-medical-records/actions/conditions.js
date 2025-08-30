@@ -1,19 +1,32 @@
 import { Actions } from '../util/actionTypes';
-import { getConditions, getCondition } from '../api/MrApi';
+import {
+  getConditions,
+  getCondition,
+  getAcceleratedConditions,
+} from '../api/MrApi';
 import * as Constants from '../util/constants';
 import { addAlert } from './alerts';
 import { dispatchDetails } from '../util/helpers';
 import { getListWithRetry } from './common';
 
-export const getConditionsList = (isCurrent = false) => async dispatch => {
+export const getConditionsList = (
+  isCurrent = false,
+  isAccelerating = false,
+) => async dispatch => {
   dispatch({
     type: Actions.Conditions.UPDATE_LIST_STATE,
     payload: Constants.loadStates.FETCHING,
   });
   try {
-    const response = await getListWithRetry(dispatch, getConditions);
+    const getData = isAccelerating ? getAcceleratedConditions : getConditions;
+    const actionType = isAccelerating
+      ? Actions.Conditions.GET_UNIFIED_LIST
+      : Actions.Conditions.GET_LIST;
+
+    const response = await getListWithRetry(dispatch, getData);
+
     dispatch({
-      type: Actions.Conditions.GET_LIST,
+      type: actionType,
       response,
       isCurrent,
     });
@@ -26,7 +39,37 @@ export const getConditionsList = (isCurrent = false) => async dispatch => {
 export const getConditionDetails = (
   conditionId,
   conditionList,
-) => async dispatch => {
+  isAccelerating = false,
+) => async (dispatch, getState) => {
+  // Accelerated path: find locally; else fetch list and match.
+  // Remove when GET_UNIFIED_ITEM is available.
+  if (isAccelerating) {
+    let matchingItem;
+    matchingItem =
+      conditionList && conditionList.find(item => item.id === conditionId);
+
+    if (!matchingItem) {
+      // No local match; fetch list, then read from store
+      await dispatch(getConditionsList(false, isAccelerating));
+      // Read from store and normalize shape (array or { data: [] })
+      const raw = getState().mr?.conditions?.conditionsList;
+      const list = Array.isArray(raw) ? raw : raw?.data || [];
+      const found =
+        list.find(
+          item =>
+            item?.id === conditionId || item?.attributes?.id === conditionId,
+        ) || null;
+      // Prefer attributes payload if present
+      matchingItem = found?.attributes ?? found ?? undefined;
+    }
+
+    dispatch({
+      type: Actions.Conditions.GET_FROM_LIST,
+      response: matchingItem,
+    });
+    return; // done (accelerated)
+  }
+
   try {
     await dispatchDetails(
       conditionId,

@@ -52,6 +52,8 @@ import {
   getAcceleratedLabsAndTests,
   getAcceleratedImmunizations,
   getAcceleratedImmunization,
+  getAcceleratedConditions,
+  getAcceleratedCondition,
   postRecordDatadogAction,
 } from '../../api/MrApi';
 
@@ -414,6 +416,26 @@ describe('Accelerated OH API calls', () => {
       mockApiRequest(mockData);
 
       return getAcceleratedImmunization('123').then(res => {
+        expect(res.mock).to.equal('data');
+      });
+    });
+  });
+  describe('getAcceleratedConditions', () => {
+    it('should make an api call to get all Conditions', () => {
+      const mockData = { mock: 'data' };
+      mockApiRequest(mockData);
+
+      return getAcceleratedConditions().then(res => {
+        expect(res.mock).to.equal('data');
+      });
+    });
+  });
+  describe('getAcceleratedCondition', () => {
+    it('should make an api call to get a single Condition', () => {
+      const mockData = { mock: 'data' };
+      mockApiRequest(mockData);
+
+      return getAcceleratedCondition('123').then(res => {
         expect(res.mock).to.equal('data');
       });
     });
