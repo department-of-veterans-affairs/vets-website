@@ -1,5 +1,5 @@
-import constants from 'vets-json-schema/dist/constants.json';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
+import constants from 'vets-json-schema/dist/constants.json';
 
 const { formProfileStates: FORM_PROFILE_STATES } = constants;
 
@@ -347,6 +347,28 @@ export const OMB_CONTROL = '2900-0747';
 export const SHOW_TOXIC_EXPOSURE = 'showToxicExposure';
 
 export const TE_URL_PREFIX = 'toxic-exposure';
+
+/**
+ * Array of all toxic exposure data keys used in the form.
+ * Used for:
+ * - UI: Clearing toxic exposure data when conditions are deselected in toxicExposureChoicePage
+ * - Submit: Cleaning up unclaimed toxic exposure data before submission in cleanToxicExposureData
+ * Note: 'conditions' is the first key and represents the user's toxic exposure condition selections
+ * @constant {string[]}
+ */
+export const TOXIC_EXPOSURE_ALL_KEYS = [
+  'conditions',
+  'gulfWar1990',
+  'gulfWar1990Details',
+  'gulfWar2001',
+  'gulfWar2001Details',
+  'herbicide',
+  'herbicideDetails',
+  'otherHerbicideLocations',
+  'otherExposures',
+  'otherExposuresDetails',
+  'specifyOtherExposures',
+];
 
 export const GULF_WAR_1990_LOCATIONS = Object.freeze({
   afghanistan: 'Afghanistan',

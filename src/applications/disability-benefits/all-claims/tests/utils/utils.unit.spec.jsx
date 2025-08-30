@@ -1,27 +1,42 @@
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
 import moment from 'moment';
-import { minYear, maxYear } from 'platform/forms-system/src/js/helpers';
+import { maxYear, minYear } from 'platform/forms-system/src/js/helpers';
 import { checkboxGroupSchema } from 'platform/forms-system/src/js/web-component-patterns';
 
 import {
-  SAVED_SEPARATION_DATE,
-  PTSD_MATCHES,
   CHAR_LIMITS,
+  PTSD_MATCHES,
+  SAVED_SEPARATION_DATE,
 } from '../../constants';
+import { showToxicExposureDestructionModal } from '../../content/toxicExposureChoiceContent';
 import {
+  activeServicePeriods,
   capitalizeEachWord,
   fieldsHaveInput,
+  formatDate,
+  formatDateRange,
+  formatFullName,
+  formatMonthYearDate,
   hasGuardOrReservePeriod,
   hasHospitalCare,
+  hasNewPtsdDisability,
   hasOtherEvidence,
   increaseOnly,
   isAnswering781aQuestions,
   isAnswering781Questions,
+  isBDD,
+  isDisabilityPtsd,
+  isExpired,
+  isNotExpired,
+  isUndefined,
   isUploading781aForm,
   isUploading781aSupportingDocuments,
   isUploading781Form,
+  isValidFullDate,
+  isValidServicePeriod,
   isWithinRange,
+  makeConditionsSchema,
   needsToAnswerUnemployability,
   needsToEnter781,
   needsToEnter781a,
@@ -29,28 +44,14 @@ import {
   newConditionsOnly,
   ReservesGuardDescription,
   servedAfter911,
-  viewifyFields,
-  activeServicePeriods,
-  formatDate,
-  formatDateRange,
-  isNotExpired,
-  isValidFullDate,
-  isValidServicePeriod,
-  isBDD,
   show526Wizard,
-  isUndefined,
-  isDisabilityPtsd,
-  showSeparationLocation,
-  isExpired,
-  truncateDescriptions,
-  hasNewPtsdDisability,
   showPtsdCombat,
   showPtsdNonCombat,
+  showSeparationLocation,
   skip781,
-  formatMonthYearDate,
-  makeConditionsSchema,
+  truncateDescriptions,
   validateConditions,
-  formatFullName,
+  viewifyFields,
 } from '../../utils';
 import { testBranches } from '../../utils/serviceBranches';
 
@@ -141,9 +142,8 @@ describe('526 helpers', () => {
         },
       };
 
-      const renderedText = shallow(ReservesGuardDescription(form));
-      expect(renderedText.render().text()).to.contain('Marine Corps Reserves');
-      renderedText.unmount();
+      const { container } = render(ReservesGuardDescription(form));
+      expect(container.textContent).to.contain('Marine Corps Reserves');
     });
 
     it('should return null when no service periods present', () => {
@@ -497,7 +497,7 @@ describe('526 helpers', () => {
       prop1: {
         'view:nestedProp': {
           anotherNestedProp: 'value',
-          'view:doubleView': 'whoa, man--it’s like inception',
+          'view:doubleView': "whoa, man--it's like inception",
         },
         siblingProp: 'another value',
       },
@@ -509,7 +509,7 @@ describe('526 helpers', () => {
         'view:prop1': {
           'view:nestedProp': {
             'view:anotherNestedProp': 'value',
-            'view:doubleView': 'whoa, man--it’s like inception',
+            'view:doubleView': "whoa, man--it's like inception",
           },
           'view:siblingProp': 'another value',
         },
@@ -636,48 +636,6 @@ describe('isAnswering781Questions', () => {
   });
 });
 
-describe('isAnswering781Questions', () => {
-  it('should return true if user is answering first set of 781 incident questions', () => {
-    const formData = {
-      newDisabilities: [
-        {
-          condition: 'Ptsd personal trauma',
-        },
-      ],
-      'view:selectablePtsdTypes': {
-        'view:combatPtsdType': true,
-      },
-      'view:upload781Choice': 'answerQuestions',
-    };
-    expect(isAnswering781Questions(0)(formData)).to.be.true;
-  });
-  it('should return true if user has chosen to answer questions for a 781 PTSD incident', () => {
-    const formData = {
-      newDisabilities: [
-        {
-          condition: 'Ptsd personal trauma',
-        },
-      ],
-      'view:selectablePtsdTypes': {
-        'view:combatPtsdType': true,
-      },
-      'view:upload781Choice': 'answerQuestions',
-      'view:enterAdditionalEvents0': true,
-    };
-    expect(isAnswering781Questions(1)(formData)).to.be.true;
-  });
-  it('should return false if user has chosen not to enter another incident', () => {
-    const formData = {
-      'view:selectablePtsdTypes': {
-        'view:combatPtsdType': true,
-      },
-      'view:upload781Choice': 'answerQuestions',
-      'view:enterAdditionalEvents0': false,
-    };
-    expect(isAnswering781Questions(1)(formData)).to.be.false;
-  });
-});
-
 describe('isAnswering781aQuestions', () => {
   it('should return true if user is answering first set of 781a incident questions', () => {
     const formData = {
@@ -780,7 +738,7 @@ describe('isAnswering781aQuestions', () => {
 
       it('should return true so the legacy 0781a flow is visible', () => {
         expect(isAnswering781aQuestions(0)(ptsdFormDataModernFlowDisabled)).to
-          .true;
+          .be.true;
       });
     });
   });
@@ -1114,6 +1072,37 @@ describe('526 v2 depends functions', () => {
     it('should get wizard feature flag value of false', () => {
       expect(show526Wizard({ featureToggles: { show526Wizard: false } })).to.be
         .false;
+    });
+  });
+
+  describe('showToxicExposureDestructionModal', () => {
+    const TOXIC_EXPOSURE_TOGGLE_NAME =
+      'disabilityCompensationToxicExposureDestructionModal';
+    it('should get toxic exposure destruction modal feature flag value of true', () => {
+      const toggles = {};
+      toggles[TOXIC_EXPOSURE_TOGGLE_NAME] = true;
+      const state = {
+        featureToggles: toggles,
+      };
+      expect(showToxicExposureDestructionModal(state)).to.be.true;
+    });
+    it('should get toxic exposure destruction modal feature flag value of false', () => {
+      const toggles = {};
+      toggles[TOXIC_EXPOSURE_TOGGLE_NAME] = false;
+      const state = {
+        featureToggles: toggles,
+      };
+      expect(showToxicExposureDestructionModal(state)).to.be.false;
+    });
+    it('should return false when feature toggle is undefined', () => {
+      expect(showToxicExposureDestructionModal({ featureToggles: {} })).to.be
+        .false;
+    });
+    it('should return false when featureToggles object is undefined', () => {
+      expect(showToxicExposureDestructionModal({})).to.be.false;
+    });
+    it('should return false when state is undefined', () => {
+      expect(showToxicExposureDestructionModal(undefined)).to.be.false;
     });
   });
 
