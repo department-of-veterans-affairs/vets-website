@@ -30,7 +30,6 @@ export const getConditionsList = (
       response,
       isCurrent,
     });
-    return response; // return fetched data for callers
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
     throw error;
@@ -50,15 +49,18 @@ export const getConditionDetails = (
       conditionList && conditionList.find(item => item.id === conditionId);
 
     if (!matchingItem) {
-      // No local match; fetch list
-      const resp = await dispatch(getConditionsList(false, isAccelerating));
-
-      // Use API response; fallback to store
-      const listFromResp = Array.isArray(resp) ? resp : resp?.data;
-      const list = listFromResp || getState().mr?.conditions?.conditionsList;
-      const retryMatchingItem =
-        list && list.find(item => item.attributes?.id === conditionId);
-      matchingItem = retryMatchingItem.attributes;
+      // No local match; fetch list, then read from store
+      await dispatch(getConditionsList(false, isAccelerating));
+      // Read from store and normalize shape (array or { data: [] })
+      const raw = getState().mr?.conditions?.conditionsList;
+      const list = Array.isArray(raw) ? raw : raw?.data || [];
+      const found =
+        list.find(
+          item =>
+            item?.id === conditionId || item?.attributes?.id === conditionId,
+        ) || null;
+      // Prefer attributes payload if present
+      matchingItem = found?.attributes ?? found ?? undefined;
     }
 
     dispatch({

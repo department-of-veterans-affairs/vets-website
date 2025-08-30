@@ -110,12 +110,19 @@ describe('getConditionDetails - isAccelerating feature', () => {
 
   it('should dispatch getConditionsList (UPDATE_LIST_STATE then GET_UNIFIED_LIST) when item is not found', async () => {
     // Thunk-aware dispatch: executes inner thunks with (dispatch, getState)
-    const getState = () => ({
-      mr: { conditions: { conditionsList: [] } }, // empty so item stays missing
-    });
+    // Keep state mutable so getState reflects updates from dispatched actions
+    const state = { mr: { conditions: { conditionsList: [] } } };
+    const getState = () => state;
     const dispatch = sinon.spy(action => {
       if (typeof action === 'function') {
         return action(dispatch, getState);
+      }
+      // When the list action fires, update state so subsequent getState() returns the new list
+      if (action?.type === Actions.Conditions.GET_UNIFIED_LIST) {
+        const payload = Array.isArray(action.response)
+          ? action.response
+          : action.response?.data || [];
+        state.mr.conditions.conditionsList = payload;
       }
       return action;
     });
