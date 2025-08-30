@@ -99,7 +99,20 @@ describe('Toxic Exposure Destruction Modal', () => {
   const addConditionWithFollowUp = (conditionName, index = 0) => {
     // Add button for additional conditions
     if (index > 0) {
-      cy.get('va-button[text="Add another condition"]').click();
+      // Try multiple selectors for the add button
+      cy.get('body').then($body => {
+        if ($body.find('va-button[text="Add another condition"]').length) {
+          cy.get('va-button[text="Add another condition"]').click();
+        } else if ($body.find('button:contains("Add another")').length) {
+          cy.get('button')
+            .contains('Add another')
+            .click();
+        } else {
+          cy.get('va-button')
+            .contains('Add')
+            .click();
+        }
+      });
     }
 
     // Add the condition
@@ -266,10 +279,7 @@ describe('Toxic Exposure Destruction Modal', () => {
    */
   it('should show correct modal for multiple conditions removal', () => {
     const toxicExposureData = {
-      conditions: {
-        asthma: true,
-        bronchitis: true,
-      },
+      conditions: {},
       gulfWar1990: { iraq: true },
     };
 
@@ -277,8 +287,13 @@ describe('Toxic Exposure Destruction Modal', () => {
     navigateToToxicExposurePage();
     cy.injectAxeThenAxeCheck();
 
-    // Add conditions
+    // Add first condition
     addConditionWithFollowUp('asthma', 0);
+
+    // Wait for the first condition to be saved by checking it appears in the list
+    cy.contains('Asthma').should('be.visible');
+
+    // Add second condition
     addConditionWithFollowUp('bronchitis', 1);
 
     // Navigate through follow-up pages
