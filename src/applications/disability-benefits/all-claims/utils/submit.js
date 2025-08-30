@@ -1,16 +1,16 @@
 import _ from 'platform/utilities/data';
 import {
+  PTSD_INCIDENT_ITERATION,
+  PTSD_CHANGE_LABELS,
   ATTACHMENT_KEYS,
   causeTypes,
   disabilityActionTypes,
-  PTSD_CHANGE_LABELS,
-  PTSD_INCIDENT_ITERATION,
 } from '../constants';
 
 import {
+  isDisabilityPtsd,
   disabilityIsSelected,
   hasGuardOrReservePeriod,
-  isDisabilityPtsd,
   sippableId,
 } from './index';
 
@@ -19,33 +19,6 @@ import { migrateBranches } from './serviceBranches';
 import { ptsdBypassDescription } from '../content/ptsdBypassContent';
 
 import { form0781WorkflowChoices } from '../content/form0781/workflowChoices';
-
-/**
- * List of all toxic exposure related keys that need to be deleted
- * when user opts out of toxic exposure claims.
- * Shared between toxicExposureChoicePage and submit.js
- * @constant {string[]}
- */
-export const TOXIC_EXPOSURE_DATA_KEYS = [
-  'gulfWar1990',
-  'gulfWar1990Details',
-  'gulfWar2001',
-  'gulfWar2001Details',
-  'herbicide',
-  'herbicideDetails',
-  'otherHerbicideLocations',
-  'otherExposures',
-  'otherExposuresDetails',
-  'additionalExposures',
-  'additionalExposuresDetails',
-  'specifyOtherExposures',
-];
-
-// Include conditions in the page-specific list
-export const TOXIC_EXPOSURE_ALL_KEYS = [
-  'conditions',
-  ...TOXIC_EXPOSURE_DATA_KEYS,
-];
 
 /**
  * This is mostly copied from us-forms' own stringifyFormReplacer, but with
@@ -179,7 +152,6 @@ export function transformRelatedDisabilities(
       // name should already be lower-case, but just in case...no pun intended
       claimedName => sippableId(claimedName) === name.toLowerCase(),
     );
-
   return (
     Object.keys(conditionContainer)
       // The check box is checked
@@ -191,6 +163,11 @@ export function transformRelatedDisabilities(
   );
 }
 
+/**
+ * Cycles through the list of provider facilities and performs transformations on each property as needed
+ * @param {array} providerFacilities array of objects being transformed
+ * @returns {array} containing the new Provider Facility structure
+ */
 export function transformProviderFacilities(providerFacilities, clonedData) {
   // This map transforms treatedDisabilityNames back into the original condition names from the sippableIds
   return providerFacilities.map(facility => {
@@ -206,7 +183,6 @@ export function transformProviderFacilities(providerFacilities, clonedData) {
     };
   });
 }
-
 export const removeExtraData = formData => {
   // EVSS no longer accepts some keys
   const ratingKeysToRemove = [
@@ -377,8 +353,19 @@ export const addForm4142 = formData => {
   if (!formData.providerFacility) {
     return formData;
   }
+
+  // Flipper was on at submission time
+  const completed2024Form = formData?.disability526Enable2024Form4142 === true;
+
+  // If the 2024 form was completed but they revoke auth at some point and still somehow submit with the 4142 data
+  // protect against filling out the form
+  if (completed2024Form && formData?.patient4142Acknowledgement !== true) {
+    return formData;
+  }
+
   const clonedData = _.cloneDeep(formData);
   clonedData.form4142 = {
+    completed2024Form,
     ...(clonedData.limitedConsent && {
       limitedConsent: clonedData.limitedConsent,
     }),
@@ -763,141 +750,6 @@ export const addFileAttachments = formData => {
     delete clonedData[key];
   });
   return { ...clonedData, ...(attachments.length && { attachments }) };
-};
-
-/**
- * Clean and transform toxic exposure data comprehensively
- * This function handles both the "none" condition case and individual exposure cleanup
- * @param {object} formData - The form data being transformed
- * @returns {object} Form data with properly cleaned toxic exposure data
- */
-export const cleanToxicExposureData = formData => {
-  // If no toxic exposure data exists, return unchanged
-  if (!formData.toxicExposure) {
-    return formData;
-  }
-
-  const clonedData = _.cloneDeep(formData);
-  const { toxicExposure } = clonedData;
-  // Check if user selected only "none" for conditions
-  const conditions = toxicExposure.conditions || {};
-  const hasOnlyNoneSelected =
-    conditions.none === true &&
-    Object.keys(conditions).filter(
-      key => key !== 'none' && conditions[key] === true,
-    ).length === 0;
-
-  // If user selected only "none", remove all exposure data except conditions
-  if (hasOnlyNoneSelected) {
-    // Remove all toxic exposure data except conditions
-    TOXIC_EXPOSURE_DATA_KEYS.forEach(key => {
-      if (toxicExposure[key]) {
-        delete toxicExposure[key];
-      }
-    });
-
-    // Keep only the 'none' condition
-    toxicExposure.conditions = { none: true };
-
-    return clonedData;
-  }
-
-  // Otherwise, clean up individual exposures that were deselected
-
-  // Clean Gulf War 1990 details
-  if (toxicExposure.gulfWar1990Details && toxicExposure.gulfWar1990) {
-    Object.keys(toxicExposure.gulfWar1990Details).forEach(location => {
-      if (!toxicExposure.gulfWar1990[location]) {
-        delete toxicExposure.gulfWar1990Details[location];
-      }
-    });
-  }
-
-  // Clean Gulf War 2001 details
-  if (toxicExposure.gulfWar2001Details && toxicExposure.gulfWar2001) {
-    Object.keys(toxicExposure.gulfWar2001Details).forEach(location => {
-      if (!toxicExposure.gulfWar2001[location]) {
-        delete toxicExposure.gulfWar2001Details[location];
-      }
-    });
-  }
-
-  // Clean herbicide details
-  if (toxicExposure.herbicideDetails && toxicExposure.herbicide) {
-    Object.keys(toxicExposure.herbicideDetails).forEach(location => {
-      if (!toxicExposure.herbicide[location]) {
-        delete toxicExposure.herbicideDetails[location];
-      }
-    });
-  }
-
-  // Clean other herbicide locations if not provided
-  if (
-    toxicExposure.otherHerbicideLocations &&
-    !toxicExposure.otherHerbicideLocations.description?.trim()
-  ) {
-    delete toxicExposure.otherHerbicideLocations;
-  }
-
-  // Handle additionalExposures (legacy field that may still be in use)
-  // Clean up empty view fields
-  const viewFields = [
-    'view:herbicideAdditionalInfo',
-    'view:otherExposuresAdditionalInfo',
-    'view:additionalExposuresAdditionalInfo',
-  ];
-  viewFields.forEach(field => {
-    if (toxicExposure[field]) {
-      delete toxicExposure[field];
-    }
-  });
-
-  // Clean other exposures details if the exposure is not selected
-  if (toxicExposure.otherExposuresDetails && toxicExposure.otherExposures) {
-    Object.keys(toxicExposure.otherExposuresDetails).forEach(exposure => {
-      if (!toxicExposure.otherExposures[exposure]) {
-        delete toxicExposure.otherExposuresDetails[exposure];
-      }
-    });
-  }
-
-  // Clean additional exposures details if the exposure is not selected
-  if (
-    toxicExposure.additionalExposuresDetails &&
-    toxicExposure.additionalExposures
-  ) {
-    Object.keys(toxicExposure.additionalExposuresDetails).forEach(exposure => {
-      if (!toxicExposure.additionalExposures[exposure]) {
-        delete toxicExposure.additionalExposuresDetails[exposure];
-      }
-    });
-  }
-
-  // Clean specified other exposures if no description provided
-  // Handle both string and object formats
-  if (toxicExposure.specifyOtherExposures) {
-    const specifyOther = toxicExposure.specifyOtherExposures;
-    const hasContent =
-      typeof specifyOther === 'string'
-        ? specifyOther.trim()
-        : specifyOther.description?.trim();
-
-    if (!hasContent) {
-      delete toxicExposure.specifyOtherExposures;
-    }
-  }
-
-  // Clean up conditions - remove false values as they represent unchecked items
-  // Only keep conditions that are explicitly true
-  if (toxicExposure.conditions) {
-    Object.keys(toxicExposure.conditions).forEach(condition => {
-      if (!toxicExposure.conditions[condition]) {
-        delete toxicExposure.conditions[condition];
-      }
-    });
-  }
-
-  return clonedData;
 };
 
 /**

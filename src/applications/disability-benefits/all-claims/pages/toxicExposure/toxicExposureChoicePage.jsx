@@ -27,9 +27,9 @@ import {
   getRemovingConditions,
   hasValidData,
   showToxicExposureDestructionModal,
+  TOXIC_EXPOSURE_ALL_KEYS,
 } from '../../content/toxicExposureChoiceContent';
 import { formTitle } from '../../utils';
-import { TOXIC_EXPOSURE_ALL_KEYS } from '../../utils/submit';
 
 /** @constant {string} Page title for toxic exposure choice page */
 export const toxicExposureChoicePageTitle =

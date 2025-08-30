@@ -6,6 +6,27 @@ import React, { forwardRef, useMemo } from 'react';
 const CONDITION_ID_REGEX = /[^a-z0-9]/g;
 
 /**
+ * Array of all toxic exposure data keys used in the form
+ * Used for clearing toxic exposure data when conditions are deselected
+ * @constant {Array<string>}
+ */
+export const TOXIC_EXPOSURE_ALL_KEYS = [
+  'conditions',
+  'gulfWar1990',
+  'gulfWar1990Details',
+  'gulfWar2001',
+  'gulfWar2001Details',
+  'herbicide',
+  'herbicideDetails',
+  'herbicideOtherLocations',
+  'additionalExposures',
+  'additionalExposuresDetails',
+  'otherExposures',
+  'otherExposuresDetails',
+  'specifyOtherExposures',
+];
+
+/**
  * Redux selector to check if toxic exposure destruction modal feature is enabled
  * @param {Object} state - Redux state
  * @returns {boolean} True if the feature toggle is enabled
