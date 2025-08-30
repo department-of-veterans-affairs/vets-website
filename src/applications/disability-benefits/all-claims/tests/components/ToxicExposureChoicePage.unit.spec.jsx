@@ -419,7 +419,7 @@ describe('ToxicExposureChoicePage', () => {
     };
 
     describe('When the close button is clicked', () => {
-      it('closes the modal and reverts "none" selection if it was selected', async () => {
+      it('closes the modal without making changes when "none" was selected', async () => {
         const { setFormData, goForward, user } = renderPage({
           data: selectedNoneWithExistingEvidence,
           featureToggleEnabled: true,
@@ -441,10 +441,8 @@ describe('ToxicExposureChoicePage', () => {
           expect(document.querySelector('va-modal[visible="true"]')).not.to
             .exist;
 
-          // Should revert "none" selection
-          expect(setFormData.called).to.be.true;
-          const calledData = setFormData.lastCall.args[0];
-          expect(calledData.toxicExposure.conditions.none).to.be.false;
+          // Should not change form data when modal is closed
+          expect(setFormData.called).to.be.false;
 
           // Should not advance page
           expect(goForward.called).to.be.false;
@@ -492,7 +490,7 @@ describe('ToxicExposureChoicePage', () => {
     });
 
     describe('When the cancel button is clicked', () => {
-      it('closes the modal and reverts "none" selection if it was selected', async () => {
+      it('closes the modal without making changes when "none" was selected', async () => {
         const { setFormData, goForward, user } = renderPage({
           data: selectedNoneWithExistingEvidence,
           featureToggleEnabled: true,
@@ -512,10 +510,8 @@ describe('ToxicExposureChoicePage', () => {
           expect(document.querySelector('va-modal[visible="true"]')).not.to
             .exist;
 
-          // Should revert "none" selection
-          expect(setFormData.called).to.be.true;
-          const calledData = setFormData.lastCall.args[0];
-          expect(calledData.toxicExposure.conditions.none).to.be.false;
+          // Should not change form data when modal is closed
+          expect(setFormData.called).to.be.false;
 
           // Should not advance page
           expect(goForward.called).to.be.false;
