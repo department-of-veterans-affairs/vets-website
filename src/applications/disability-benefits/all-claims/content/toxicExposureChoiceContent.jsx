@@ -1,8 +1,20 @@
+import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
 import PropTypes from 'prop-types';
 import React, { forwardRef, useMemo } from 'react';
 
 /** @constant {RegExp} Regex pattern to normalize condition IDs by removing non-alphanumeric characters */
 const CONDITION_ID_REGEX = /[^a-z0-9]/g;
+
+/**
+ * Redux selector to check if toxic exposure destruction modal feature is enabled
+ * @param {Object} state - Redux state
+ * @returns {boolean} True if the feature toggle is enabled
+ */
+export const showToxicExposureDestructionModal = state =>
+  state
+    ? toggleValues(state)
+        ?.disabilityCompensationToxicExposureDestructionModal || false
+    : false;
 
 /** @constant {string} Default modal title for removing toxic exposure conditions */
 export const deleteToxicExposureModalTitle =
