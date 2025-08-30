@@ -34,7 +34,9 @@ import {
   showUpdatedContent,
 } from '../../../helpers';
 import {
+  custodianRelationshipLabels,
   incomeTypeLabels,
+  parentRelationshipLabels,
   updatedIncomeTypeLabels,
   relationshipLabelDescriptions,
   relationshipLabels,
@@ -310,28 +312,7 @@ const custodianIncomeRecipientPage = {
     }),
     recipientRelationship: radioUI({
       ...sharedRecipientRelationshipBase,
-      labels: Object.fromEntries(
-        Object.entries(relationshipLabels)
-          .filter(
-            ([key]) =>
-              key === 'SPOUSE' ||
-              key === 'CHILD' ||
-              key === 'CUSTODIAN' ||
-              key === 'OTHER',
-          )
-          .map(([key, value]) => {
-            if (key === 'SPOUSE') {
-              return [key, 'Custodian’s spouse'];
-            }
-            if (key === 'CHILD') {
-              return [key, 'Veteran’s surviving child'];
-            }
-            if (key === 'CUSTODIAN') {
-              return [key, 'Child’s custodian'];
-            }
-            return [key, value];
-          }),
-      ),
+      labels: custodianRelationshipLabels,
       descriptions: Object.fromEntries(
         Object.entries(relationshipLabelDescriptions).filter(
           ([key]) => key !== 'CHILD',
@@ -366,21 +347,7 @@ const parentIncomeRecipientPage = {
     }),
     recipientRelationship: radioUI({
       ...sharedRecipientRelationshipBase,
-      labels: Object.fromEntries(
-        Object.entries(relationshipLabels)
-          .filter(
-            ([key]) => key === 'SPOUSE' || key === 'PARENT' || key === 'OTHER',
-          )
-          .map(([key, value]) => {
-            if (key === 'SPOUSE') {
-              return [key, 'My spouse'];
-            }
-            if (key === 'PARENT') {
-              return [key, 'Me'];
-            }
-            return [key, value];
-          }),
-      ),
+      labels: parentRelationshipLabels,
       descriptions: {
         SPOUSE: 'The Veteran’s other parent should file a separate claim',
       },
