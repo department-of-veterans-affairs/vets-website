@@ -1,16 +1,20 @@
 import _ from 'platform/utilities/data';
 import {
-  PTSD_INCIDENT_ITERATION,
-  PTSD_CHANGE_LABELS,
   ATTACHMENT_KEYS,
   causeTypes,
   disabilityActionTypes,
+  GULF_WAR_1990_LOCATIONS,
+  GULF_WAR_2001_LOCATIONS,
+  HERBICIDE_LOCATIONS,
+  PTSD_CHANGE_LABELS,
+  PTSD_INCIDENT_ITERATION,
+  TOXIC_EXPOSURE_ALL_KEYS,
 } from '../constants';
 
 import {
-  isDisabilityPtsd,
   disabilityIsSelected,
   hasGuardOrReservePeriod,
+  isDisabilityPtsd,
   sippableId,
 } from './index';
 
@@ -152,6 +156,7 @@ export function transformRelatedDisabilities(
       // name should already be lower-case, but just in case...no pun intended
       claimedName => sippableId(claimedName) === name.toLowerCase(),
     );
+
   return (
     Object.keys(conditionContainer)
       // The check box is checked
@@ -164,9 +169,11 @@ export function transformRelatedDisabilities(
 }
 
 /**
- * Cycles through the list of provider facilities and performs transformations on each property as needed
- * @param {array} providerFacilities array of objects being transformed
- * @returns {array} containing the new Provider Facility structure
+ * Cycles through the list of provider facilities and performs transformations on each property as needed.
+ *
+ * @param {Object[]} providerFacilities - Array of provider facility objects being transformed
+ * @param {Object} clonedData - The cloned form data for reference
+ * @returns {Object[]} Array containing the new Provider Facility structure with transformed disability names
  */
 export function transformProviderFacilities(providerFacilities, clonedData) {
   // This map transforms treatedDisabilityNames back into the original condition names from the sippableIds
@@ -183,6 +190,7 @@ export function transformProviderFacilities(providerFacilities, clonedData) {
     };
   });
 }
+
 export const removeExtraData = formData => {
   // EVSS no longer accepts some keys
   const ratingKeysToRemove = [
@@ -297,8 +305,15 @@ export const cleanUpPersonsInvolved = (incident = {}) => {
   return personsInvolved?.length ? { ...incident, personsInvolved } : incident;
 };
 
-// Remove extra data that may be included
-// see https://github.com/department-of-veterans-affairs/va.gov-team/issues/19423
+/**
+ * Removes extra data that may be included in mailing address.
+ * Only keeps valid address fields.
+ * @see {@link https://github.com/department-of-veterans-affairs/va.gov-team/issues/19423}
+ *
+ * @param {Object} formData - The form data being transformed
+ * @param {Object} formData.mailingAddress - The mailing address object to clean
+ * @returns {Object} Form data with cleaned mailing address containing only valid keys
+ */
 export const cleanUpMailingAddress = formData => {
   const validKeys = [
     'country',
@@ -324,7 +339,16 @@ export const cleanUpMailingAddress = formData => {
   return { ...formData, mailingAddress };
 };
 
-// Add 'cause' of 'NEW' to new ptsd disabilities since form does not ask
+/**
+ * Adds 'cause' of 'NEW' to new PTSD disabilities since form does not ask.
+ * Also adds PTSD description for veterans bypassing form 781.
+ *
+ * @param {Object} formData - The form data being transformed
+ * @param {Object[]} formData.newDisabilities - Array of new disability claims
+ * @param {boolean} formData.skip781ForCombatReason - Whether form 781 is skipped for combat
+ * @param {boolean} formData.skip781ForNonCombatReason - Whether form 781 is skipped for non-combat
+ * @returns {Object} Form data with PTSD cause added to PTSD disabilities
+ */
 export const addPTSDCause = formData => {
   const clonedData = formData.newDisabilities
     ? _.set(
@@ -349,6 +373,16 @@ export const addPTSDCause = formData => {
   return clonedData;
 };
 
+/**
+ * Adds Form 4142 data to the submission if provider facilities are present.
+ * Validates 2024 form completion and patient acknowledgement before adding data.
+ *
+ * @param {Object} formData - The form data being transformed
+ * @param {Object[]} formData.providerFacility - Array of provider facilities
+ * @param {boolean} formData.disability526Enable2024Form4142 - Whether 2024 form was enabled
+ * @param {boolean} formData.patient4142Acknowledgement - Whether patient acknowledged form
+ * @returns {Object} Form data with form4142 section added if applicable
+ */
 export const addForm4142 = formData => {
   if (!formData.providerFacility) {
     return formData;
@@ -750,6 +784,321 @@ export const addFileAttachments = formData => {
     delete clonedData[key];
   });
   return { ...clonedData, ...(attachments.length && { attachments }) };
+};
+
+/**
+ * Map of exposure types to their details keys and location constants.
+ * Used to dynamically process all toxic exposure types.
+ *
+ * @constant {Object}
+ */
+const EXPOSURE_TYPE_MAPPING = {
+  gulfWar1990: {
+    detailsKey: 'gulfWar1990Details',
+    locations: GULF_WAR_1990_LOCATIONS,
+  },
+  gulfWar2001: {
+    detailsKey: 'gulfWar2001Details',
+    locations: GULF_WAR_2001_LOCATIONS,
+  },
+  herbicide: {
+    detailsKey: 'herbicideDetails',
+    locations: HERBICIDE_LOCATIONS,
+    otherLocationsKey: 'otherHerbicideLocations',
+  },
+  otherExposures: {
+    detailsKey: 'otherExposuresDetails',
+    specifyKey: 'specifyOtherExposures',
+  },
+};
+
+/**
+ * Validates that form data contains toxic exposure information.
+ *
+ * @param {Object} formData - The form data to validate
+ * @returns {boolean} True if form data is valid and contains toxic exposure data
+ */
+const isValidToxicExposureData = formData =>
+  formData && typeof formData === 'object' && formData.toxicExposure;
+
+/**
+ * Checks if a value is a valid non-array object.
+ *
+ * @param {*} obj - The value to check
+ * @returns {boolean} True if value is a non-null, non-array object
+ */
+const isValidObject = obj =>
+  obj && typeof obj === 'object' && !Array.isArray(obj);
+
+/**
+ * Checks if any conditions other than 'none' are selected.
+ * Used to determine if the veteran has actual toxic exposure conditions claimed.
+ *
+ * @param {Object} conditions - Object with condition selections as boolean values
+ * @returns {boolean} True if any non-'none' conditions are selected
+ */
+const hasSelectedConditions = conditions =>
+  Object.keys(conditions).some(
+    key => key !== 'none' && conditions[key] === true,
+  );
+
+/**
+ * Checks if only the 'none' condition is selected.
+ * When true, all toxic exposure data should be removed except the 'none' condition.
+ *
+ * @param {Object} conditions - Object with condition selections as boolean values
+ * @returns {boolean} True if 'none' is true and no other conditions are selected
+ */
+const hasOnlyNoneCondition = conditions =>
+  conditions.none === true && !hasSelectedConditions(conditions);
+
+/**
+ * Filters details object to only include entries with corresponding selections.
+ * Used to remove details for locations/exposures that were deselected by the user.
+ *
+ * @param {Object} details - Object containing detail information (e.g., dates, descriptions)
+ * @param {Object} selections - Object indicating which items are selected (boolean values)
+ * @returns {Object} Filtered details object containing only selected items
+ */
+const filterSelectedDetails = (details, selections) => {
+  if (!isValidObject(details) || !isValidObject(selections)) return {};
+
+  return Object.keys(details).reduce((filtered, key) => {
+    if (selections[key]) {
+      return { ...filtered, [key]: details[key] };
+    }
+    return filtered;
+  }, {});
+};
+
+/**
+ * Validates that an object or string contains a non-empty description.
+ * Handles both string format and object format with description property.
+ *
+ * @param {string|Object} obj - String or object potentially containing a description
+ * @param {string} [obj.description] - Description property if obj is an object
+ * @returns {boolean} True if a valid non-empty description exists
+ */
+const hasValidDescription = obj => {
+  if (!obj) return false;
+
+  const description = typeof obj === 'string' ? obj : obj?.description;
+  return (
+    description &&
+    typeof description === 'string' &&
+    description.trim().length > 0
+  );
+};
+
+/**
+ * Removes any keys that aren't in TOXIC_EXPOSURE_ALL_KEYS.
+ * Ensures only valid toxic exposure fields are submitted.
+ *
+ * @param {Object} toxicExposure - The toxic exposure object to clean
+ * @returns {Object} New object with only valid toxic exposure keys
+ */
+const removeInvalidKeys = toxicExposure => {
+  const validKeys = new Set(TOXIC_EXPOSURE_ALL_KEYS);
+
+  return Object.keys(toxicExposure).reduce((cleaned, key) => {
+    // Keep only keys that are in TOXIC_EXPOSURE_ALL_KEYS or view fields (which get removed separately)
+    if (validKeys.has(key) || key.startsWith('view:')) {
+      return { ...cleaned, [key]: toxicExposure[key] };
+    }
+    return cleaned;
+  }, {});
+};
+
+/**
+ * Removes view-only fields that shouldn't be submitted to the backend.
+ * These fields are used for UI display purposes only.
+ *
+ * @param {Object} toxicExposure - The toxic exposure object to clean
+ * @returns {Object} New object without view fields, maintaining immutability
+ */
+const removeViewFields = toxicExposure => {
+  return Object.keys(toxicExposure).reduce((cleaned, key) => {
+    if (!key.startsWith('view:')) {
+      return { ...cleaned, [key]: toxicExposure[key] };
+    }
+    return cleaned;
+  }, {});
+};
+
+/**
+ * Filters conditions to only include those explicitly checked (true).
+ * Removes conditions that are false or unchecked from the submission.
+ *
+ * @param {Object} conditions - Object with condition names as keys and boolean values
+ * @returns {Object} Object containing only conditions set to true
+ */
+const filterCheckedConditions = conditions => {
+  if (!isValidObject(conditions)) return {};
+
+  return Object.keys(conditions).reduce((filtered, condition) => {
+    if (conditions[condition] === true) {
+      return { ...filtered, [condition]: true };
+    }
+    return filtered;
+  }, {});
+};
+
+/**
+ * Determines if toxic exposure object contains no meaningful data.
+ * Used to decide whether to remove the entire toxic exposure section.
+ *
+ * @param {Object} toxicExposure - The toxic exposure object to check
+ * @returns {boolean} True if object is empty or contains only empty/null values
+ */
+const isEmptyToxicExposure = toxicExposure => {
+  return Object.keys(toxicExposure).every(key => {
+    const value = toxicExposure[key];
+    return (
+      !value || (typeof value === 'object' && Object.keys(value).length === 0)
+    );
+  });
+};
+
+/**
+ * Creates a toxic exposure object with only 'none' condition selected.
+ * Used when veteran indicates they have no toxic exposure conditions.
+ *
+ * @returns {Object} Object with conditions containing only none: true
+ */
+const createNoneOnlyCondition = () => ({
+  conditions: { none: true },
+});
+
+/**
+ * Cleans exposure details by removing unselected items and orphaned fields.
+ * Handles all related fields for an exposure type based on the mapping configuration.
+ *
+ * @param {Object} toxicExposure - The toxic exposure object containing selections and details
+ * @param {string} exposureType - Key for the exposure selections (e.g., 'gulfWar1990')
+ * @param {Object} mapping - The mapping configuration for this exposure type
+ * @returns {Object} New toxic exposure object with cleaned details and related fields
+ */
+const cleanExposureDetails = (toxicExposure, exposureType, mapping) => {
+  const { detailsKey, otherLocationsKey } = mapping;
+  const result = { ...toxicExposure };
+
+  // If details exist but main selection is missing, remove the details
+  if (detailsKey && result[detailsKey] && !result[exposureType]) {
+    delete result[detailsKey];
+    return result;
+  }
+
+  // If main selection exists but has no selected values, remove it and related fields
+  if (result[exposureType] && !hasSelectedConditions(result[exposureType])) {
+    delete result[exposureType];
+    if (detailsKey && result[detailsKey]) {
+      delete result[detailsKey];
+    }
+    if (otherLocationsKey && result[otherLocationsKey]) {
+      delete result[otherLocationsKey];
+    }
+    return result;
+  }
+
+  // Main selection exists with values, clean up the details
+  if (detailsKey && result[detailsKey] && result[exposureType]) {
+    const filteredDetails = filterSelectedDetails(
+      result[detailsKey],
+      result[exposureType],
+    );
+
+    if (Object.keys(filteredDetails).length === 0) {
+      delete result[detailsKey];
+    } else {
+      result[detailsKey] = filteredDetails;
+    }
+  }
+
+  // Clean other locations if herbicide.none is true
+  if (
+    otherLocationsKey &&
+    result[otherLocationsKey] &&
+    result[exposureType]?.none
+  ) {
+    delete result[otherLocationsKey];
+  }
+
+  return result;
+};
+
+/**
+ * Clean and transform toxic exposure data comprehensively.
+ * This function handles both the "none" condition case and individual exposure cleanup.
+ * Designed to be backwards compatible with different versions of the form.
+ *
+ * @param {Object} formData - The form data being transformed
+ * @param {Object} [formData.toxicExposure] - The toxic exposure data object (optional)
+ * @param {Object} [formData.toxicExposure.conditions] - Selected conditions object (optional)
+ * @param {boolean} [formData.toxicExposure.conditions.none] - Whether "none" is selected
+ * @returns {Object} Form data with properly cleaned toxic exposure data
+ */
+export const cleanToxicExposureData = formData => {
+  if (!isValidToxicExposureData(formData)) {
+    return formData;
+  }
+
+  const clonedData = _.cloneDeep(formData);
+  let { toxicExposure } = clonedData;
+
+  if (!isValidObject(toxicExposure)) {
+    return clonedData;
+  }
+
+  const conditions = toxicExposure.conditions || {};
+
+  // Handle "none" only selection - early return for simplicity
+  if (hasOnlyNoneCondition(conditions)) {
+    return { ...clonedData, toxicExposure: createNoneOnlyCondition() };
+  }
+
+  // Clean all exposure types dynamically using the mapping
+  Object.entries(EXPOSURE_TYPE_MAPPING).forEach(([exposureType, mapping]) => {
+    toxicExposure = cleanExposureDetails(toxicExposure, exposureType, mapping);
+  });
+
+  // Clean otherHerbicideLocations if it has no valid description
+  if (
+    toxicExposure.otherHerbicideLocations &&
+    !hasValidDescription(toxicExposure.otherHerbicideLocations)
+  ) {
+    delete toxicExposure.otherHerbicideLocations;
+  }
+
+  // Clean specifyOtherExposures if it has no valid description
+  if (
+    toxicExposure.specifyOtherExposures &&
+    !hasValidDescription(toxicExposure.specifyOtherExposures)
+  ) {
+    delete toxicExposure.specifyOtherExposures;
+  }
+
+  // Remove any keys that aren't in TOXIC_EXPOSURE_ALL_KEYS
+  toxicExposure = removeInvalidKeys(toxicExposure);
+
+  // Remove view fields that shouldn't be submitted
+  toxicExposure = removeViewFields(toxicExposure);
+
+  // Clean up unchecked conditions
+  if (toxicExposure.conditions) {
+    toxicExposure = {
+      ...toxicExposure,
+      conditions: filterCheckedConditions(toxicExposure.conditions),
+    };
+  }
+
+  // Remove entire toxicExposure if empty for backwards compatibility
+  if (isEmptyToxicExposure(toxicExposure)) {
+    delete clonedData.toxicExposure;
+
+    return clonedData;
+  }
+
+  return { ...clonedData, toxicExposure };
 };
 
 /**
