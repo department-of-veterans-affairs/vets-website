@@ -13,6 +13,8 @@ export default {
   COVID_VACCINE_UPDATES_CTA: 'va-covid-vaccine-updates-cta',
   CTA: 'cta',
   DEPENDENCY_VERIFICATION: 'dependency-verification',
+  DEPENDENTS_VERIFICATION_HOW_TO_VERIFY:
+    'dependents-verification-how-to-verify',
   DISABILITY_APP_STATUS: 'disability-app-status',
   DISABILITY_RATING_CALCULATOR: 'disability-rating-calculator',
   DISPUTE_DEBT_LINK: 'dispute-debt-link',

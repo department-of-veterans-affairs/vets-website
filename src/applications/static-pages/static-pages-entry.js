@@ -106,6 +106,7 @@ import create107959F2Access from './ivc-champva/10-7959f-2/entry';
 
 import './mhv-signin-cta/sass/mhv-signin-cta.scss';
 import createMhvSigninCallToAction from './mhv-signin-cta/createMhvSigninCTA';
+import createDependentsVerificationHowToVerify from './dependents-verification';
 
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
@@ -223,6 +224,10 @@ createChapter31CTA(store, widgetTypes.CHAPTER_31_CTA);
 createViewPaymentHistoryCTA(store, widgetTypes.VIEW_PAYMENT_HISTORY);
 createI18Select(store, widgetTypes.I_18_SELECT);
 createDependencyVerification(store, widgetTypes.DEPENDENCY_VERIFICATION);
+createDependentsVerificationHowToVerify(
+  store,
+  widgetTypes.DEPENDENTS_VERIFICATION_HOW_TO_VERIFY,
+);
 createCOEAccess(store, widgetTypes.COE_ACCESS);
 createHCAPerformanceWarning(store, widgetTypes.HCA_PERFORMANCE_WARNING);
 createManageVADebtCTA(store, widgetTypes.MANAGE_VA_DEBT_CTA);
