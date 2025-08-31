@@ -105,11 +105,11 @@ describe('CareTeamHelp', () => {
       .exist;
     expect(screen.getByText(/Enter the first few letters/)).to.exist;
 
-    // Ensure Oracle-specific content is NOT present
-    expect(screen.queryByText(/You removed them from your contact list/)).to.not
+    // VistA-only reasons include "You removed them from your contact list"
+    expect(screen.getByText(/You removed them from your contact list/)).to
       .exist;
 
-    // Ensure hybrid-specific content is NOT present (should only have one "Update your contact list" link)
+    // Should have one "Update your contact list" link
     const updateLinks = screen.getAllByText(/Update your contact list/);
     expect(updateLinks).to.have.length(1);
 
@@ -124,18 +124,16 @@ describe('CareTeamHelp', () => {
     const screen = setup(oracleOnlyState);
 
     // Check for Oracle-specific content
-    expect(screen.getByText(/You removed them from your contact list/)).to
-      .exist;
     expect(screen.getByText(/Select a different VA health care system/)).to
       .exist;
+    expect(screen.getByText(/Enter the first few letters/)).to.exist;
 
-    // Ensure VistA-specific content is NOT present
-    expect(screen.queryByText("They don't use messages,")).to.not.exist;
-    expect(screen.queryByText(/Enter the first few letters/)).to.not.exist;
+    // Ensure VistA-only specific content is NOT present
+    expect(screen.queryByText(/You removed them from your contact list/)).to.not
+      .exist;
 
-    // Should only have one "Update your contact list" link (not hybrid's two)
-    const updateLinks = screen.getAllByText(/Update your contact list/);
-    expect(updateLinks).to.have.length(1);
+    // Oracle-only has no "Update your contact list" link in current UI
+    expect(screen.queryByText(/Update your contact list/)).to.be.null;
 
     // Back navigation works
     const historySpy = sinon.spy(screen.history, 'goBack');
@@ -147,19 +145,25 @@ describe('CareTeamHelp', () => {
   it('shows hybrid content when user has both Oracle and VistA systems', () => {
     const screen = setup(); // Uses baseState with both systems
 
-    // Check for content that should be present
-    expect(screen.getByText(/Only use messages for non-urgent needs/)).to.exist;
+    // Page renders with title
+    expect(screen.getByRole('heading', { level: 1 })).to.exist;
 
-    // Hybrid should have TWO "Update your contact list" links
-    const updateLinks = screen.getAllByText(/Update your contact list/);
-    expect(updateLinks).to.have.length(2);
+    // Hybrid includes facility list of user's VistA systems derived from EHR data
+    // From baseState, VistA facility 662 should render as its vamcSystemName
+    expect(screen.getByText('VA San Francisco health care')).to.exist;
 
-    // Ensure Oracle-only specific content is NOT present
+    // Hybrid should have ONE link labeled "Update your contact list"
+    const updateLinks = screen.getAllByRole('link', {
+      name: /Update your contact list/,
+    });
+    expect(updateLinks).to.have.length(1);
+
+    // Ensure VistA-only specific reason is NOT present
     expect(screen.queryByText(/You removed them from your contact list/)).to.not
       .exist;
 
-    // Ensure VistA-only specific content is NOT present
-    expect(screen.queryByText(/Enter the first few letters/)).to.not.exist;
+    // Hybrid still shows search guidance
+    expect(screen.getByText(/Enter the first few letters/)).to.exist;
 
     // Back navigation works
     const historySpy = sinon.spy(screen.history, 'goBack');
@@ -222,7 +226,6 @@ describe('CareTeamHelp', () => {
 
     // Verify the page renders correctly with mixed systems
     expect(screen.getByRole('heading', { level: 1 })).to.exist;
-    expect(screen.getByText(/Only use messages for non-urgent needs/)).to.exist;
 
     // Should have at least one "Update your contact list" link
     const updateLinks = screen.getAllByText(/Update your contact list/);

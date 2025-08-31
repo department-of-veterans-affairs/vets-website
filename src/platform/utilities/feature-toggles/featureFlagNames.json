@@ -151,6 +151,7 @@
   "mhvLandingPagePersonalization": "mhv_landing_page_personalization",
   "mhvLandingPageShowShareMyHealthDataLink": "mhv_landing_page_show_share_my_health_data_link",
   "mhvMedicalRecordsAllowTxtDownloads": "mhv_medical_records_allow_txt_downloads",
+  "mhvMedicalRecordsCcdExtendedFileTypes": "mhv_medical_records_ccd_extended_file_types",
   "mhvMedicalRecordsDisplayDomains": "mhv_medical_records_display_domains",
   "mhvMedicalRecordsDisplayNotes": "mhv_medical_records_display_notes",
   "mhvMedicalRecordsDisplaySettingsPage": "mhv_medical_records_display_settings_page",
