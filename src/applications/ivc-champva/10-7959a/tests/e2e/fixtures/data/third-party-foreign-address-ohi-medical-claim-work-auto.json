@@ -82,26 +82,6 @@
       }
     ],
     "sharesAddressWith": "not-shared",
-    "missingUploads": [
-      {
-        "name": "medicalUpload",
-        "path": "medical-claim-upload",
-        "required": false,
-        "uploaded": true
-      },
-      {
-        "name": "primaryEob",
-        "path": "eob-upload",
-        "required": false,
-        "uploaded": true
-      },
-      {
-        "name": "secondaryEob",
-        "path": "additional-eob-upload",
-        "required": false,
-        "uploaded": true
-      }
-    ],
     "statementOfTruthSignature": "Certifier Middle Jones",
     "statementOfTruthCertified": true
   }
