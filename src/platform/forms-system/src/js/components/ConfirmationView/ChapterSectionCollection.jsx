@@ -276,15 +276,17 @@ export const buildFields = (
 
     if (showPageTitles) {
       const pageTitle = getPageTitle(page, formData, chapter.formConfig);
-      const pageTitleElement = (
-        <h4 key={`page-title-${page.pageKey}`}>{pageTitle}</h4>
-      );
-
-      // Remove null items, return the page title and fields if there are any
       const presentFields = fields.filter(item => item != null);
 
       if (presentFields.length > 0) {
-        return [pageTitleElement, ...presentFields];
+        return [
+          <li key={`page-li-${page.pageKey}`}>
+            <h4 key={`page-title-${page.pageKey}`}>{pageTitle}</h4>
+            <ul className="vads-u-padding--0" style={{ listStyle: 'none' }}>
+              {presentFields}
+            </ul>
+          </li>,
+        ];
       }
       return [];
     }
