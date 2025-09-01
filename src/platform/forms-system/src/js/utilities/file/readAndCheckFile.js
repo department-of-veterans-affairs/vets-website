@@ -50,10 +50,12 @@ export default function readAndCheckFile(file, checks) {
 /**
  * Perform standard checks on any file uploaded
  * @param {File} file
- * @returns {{checkIsEncryptedPdf?: boolean, checkTypeAndExtensionMatches: boolean}} Object with check results - whether the pdf is encrypted and if type and extension match
+ * @returns {{checkIsEncryptedPdf?: boolean, checkTypeAndExtensionMatches: boolean} | null} Object with check results - whether the pdf is encrypted and if type and extension match
  */
 export async function standardFileChecks(file) {
-  const isPdf = file.type === 'application/pdf';
+  if (!file) return {};
+
+  const isPdf = 'type' in file && file.type === 'application/pdf';
 
   const checks = {
     ...(isPdf ? { checkIsEncryptedPdf } : {}),
