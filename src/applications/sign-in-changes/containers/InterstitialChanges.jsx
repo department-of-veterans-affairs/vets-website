@@ -49,7 +49,7 @@ export default function InterstitialChanges() {
           id="interstitialH1"
           className="vads-u-margin-top--2 medium-screen:vads-u-margin-top--1 medium-screen:vads-u-margin-bottom--2"
         >
-          The DS Logon sign-in option is going away soon
+          We’ll remove the DS Logon sign-in option after September 30, 2025
         </h1>
         <p
           className="vads-u-font-size--base section-content vads-u-measure--5"
