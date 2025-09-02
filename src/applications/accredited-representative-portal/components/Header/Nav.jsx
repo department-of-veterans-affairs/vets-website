@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createContext } from 'react';
 import { Link, useLoaderData } from 'react-router-dom';
 import { Toggler } from 'platform/utilities/feature-toggles';
 import { recordDatalayerEvent } from '../../utilities/analytics';
@@ -16,9 +16,12 @@ function SignInButton() {
     </a>
   );
 }
-
+export const ProfileContext = createContext();
+// eslint-disable-next-line import/no-mutable-exports
+export let profileUser = null;
 export const Nav = () => {
   const profile = useLoaderData()?.profile;
+  profileUser = createContext(profile);
 
   return (
     <nav className="nav">
@@ -49,7 +52,27 @@ export const Nav = () => {
             alt="VA Accredited Representative Portal, U.S. Department of Veterans Affairs"
           />
         </Link>
-        {profile ? <UserNav profile={profile} /> : <SignInButton />}
+
+        <div className="heading-right">
+          <Toggler
+            toggleName={Toggler.TOGGLE_NAMES.accreditedRepresentativePortalHelp}
+          >
+            <Toggler.Enabled>
+              <Link
+                to="/get-help"
+                className={`usa-button-secondary heading-help-link ${
+                  profile ? 'logged-in' : ''
+                }`}
+                data-testid="heading-help-link"
+                onClick={recordDatalayerEvent}
+                data-eventname="nav-link-click"
+              >
+                Help
+              </Link>
+            </Toggler.Enabled>
+          </Toggler>
+          {profile ? <UserNav profile={profile} /> : <SignInButton />}
+        </div>
       </div>
 
       {profile && (
@@ -98,23 +121,6 @@ export const Nav = () => {
                   data-testid="desktop-search-link"
                 >
                   Submissions
-                </Link>
-              </Toggler.Enabled>
-            </Toggler>
-            <Toggler
-              toggleName={
-                Toggler.TOGGLE_NAMES.accreditedRepresentativePortalHelp
-              }
-            >
-              <Toggler.Enabled>
-                <Link
-                  to="/get-help"
-                  className="nav__btn desktop"
-                  data-testid="desktop-help-link"
-                  onClick={recordDatalayerEvent}
-                  data-eventname="nav-link-click"
-                >
-                  Get Help
                 </Link>
               </Toggler.Enabled>
             </Toggler>

@@ -168,11 +168,11 @@ export default [
     [
       {
         selector: 'veteranAddress.city',
-        returnUrl: 'veteran-information/veteran-address',
+        returnUrl: '/veteran-information/veteran-address',
       },
       {
         selector: 'veteranAddress.street',
-        returnUrl: 'veteran-information/veteran-address',
+        returnUrl: '/veteran-information/veteran-address',
       },
     ].forEach(({ selector, returnUrl }) => {
       if (!notBlankStringPattern.test(get(selector, newFormData))) {
@@ -201,7 +201,7 @@ export default [
           );
           newMetaData = set(
             'returnUrl',
-            'insurance-information/general',
+            '/insurance-information/general',
             newMetaData,
           );
         }
@@ -213,7 +213,7 @@ export default [
           );
           newMetaData = set(
             'returnUrl',
-            'insurance-information/general',
+            '/insurance-information/general',
             newMetaData,
           );
         }
@@ -254,7 +254,7 @@ export default [
     }
 
     // temp fix until we get insurance v2 enabled
-    (formData?.providers || []).forEach(policy => {
+    for (const policy of formData?.providers || []) {
       const isValid =
         policy.insuranceName &&
         policy.insurancePolicyHolderName &&
@@ -263,11 +263,12 @@ export default [
       if (!isValid) {
         newMetadata = set(
           'returnUrl',
-          'insurance-information/general',
+          '/insurance-information/general',
           newMetadata,
         );
+        break;
       }
-    });
+    }
 
     return { formData, metadata: newMetadata };
   },

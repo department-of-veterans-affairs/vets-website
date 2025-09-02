@@ -26,7 +26,6 @@ import {
   messageSignatureFormatter,
   setCaretToPos,
   navigateToFolderByFolderId,
-  resetUserSession,
   dateFormat,
   scrollToTop,
 } from '../../util/helpers';
@@ -49,11 +48,10 @@ import EmergencyNote from '../EmergencyNote';
 import ComposeFormActionButtons from './ComposeFormActionButtons';
 import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
 import ViewOnlyDraftSection from './ViewOnlyDraftSection';
-import { RadioCategories } from '../../util/inputContants';
+import { Categories } from '../../util/inputContants';
 import { getCategories } from '../../actions/categories';
 import ElectronicSignature from './ElectronicSignature';
 import RecipientsSelect from './RecipientsSelect';
-import { useSessionExpiration } from '../../hooks/use-session-expiration';
 import EditSignatureLink from './EditSignatureLink';
 import useFeatureToggles from '../../hooks/useFeatureToggles';
 import {
@@ -184,13 +182,31 @@ const ComposeForm = props => {
   const [attachments, setAttachments] = useState([]);
   const [fieldsString, setFieldsString] = useState('');
   const [messageInvalid, setMessageInvalid] = useState(false);
-  const [navigationError, setNavigationError] = useState(null);
-  const [saveError, setSaveError] = useState(null);
+  const navigationError = draftInProgress?.navigationError;
+  const setNavigationError = useCallback(
+    error => {
+      dispatch(updateDraftInProgress({ navigationError: error }));
+    },
+    [dispatch],
+  );
+  const setSaveError = useCallback(
+    error => {
+      dispatch(updateDraftInProgress({ saveError: error }));
+    },
+    [dispatch],
+  );
   const [lastFocusableElement, setLastFocusableElement] = useState(null);
-  const [modalVisible, updateModalVisible] = useState(false);
+  const navigationErrorModalVisible =
+    draftInProgress?.navigationErrorModalVisible;
   const [attachFileSuccess, setAttachFileSuccess] = useState(false);
   const [deleteButtonClicked, setDeleteButtonClicked] = useState(false);
-  const [savedDraft, setSavedDraft] = useState(false);
+  const savedDraft = draftInProgress?.savedDraft;
+  const setSavedDraft = useCallback(
+    value => {
+      dispatch(updateDraftInProgress({ savedDraft: value }));
+    },
+    [dispatch],
+  );
   const [currentRecipient, setCurrentRecipient] = useState(null);
   const [comboBoxInputValue, setComboBoxInputValue] = useState('');
 
@@ -221,21 +237,6 @@ const ComposeForm = props => {
       ).length > 0,
     [alertsList],
   );
-
-  const localStorageValues = useMemo(() => {
-    return {
-      atExpires: localStorage.atExpires,
-      hasSession: localStorage.hasSession,
-      sessionExpiration: localStorage.sessionExpiration,
-      userFirstName: localStorage.userFirstName,
-    };
-  }, []);
-
-  const { signOutMessage, timeoutId } = resetUserSession(localStorageValues);
-
-  const noTimeout = () => {
-    clearTimeout(timeoutId);
-  };
 
   useEffect(
     () => {
@@ -762,7 +763,7 @@ const ComposeForm = props => {
       setUnsavedNavigationError,
       draft?.body,
       draft,
-      modalVisible,
+      navigationErrorModalVisible,
     ],
   );
 
@@ -773,7 +774,7 @@ const ComposeForm = props => {
         debouncedCategory &&
         debouncedSubject &&
         debouncedMessageBody &&
-        !modalVisible
+        !navigationErrorModalVisible
       ) {
         saveDraftHandler('auto');
         setUnsavedNavigationError();
@@ -785,7 +786,7 @@ const ComposeForm = props => {
       debouncedSubject,
       debouncedRecipient,
       saveDraftHandler,
-      modalVisible,
+      navigationErrorModalVisible,
       setUnsavedNavigationError,
     ],
   );
@@ -844,40 +845,6 @@ const ComposeForm = props => {
     setCheckboxMarked(e.detail.checked);
   };
 
-  const beforeUnloadHandler = useCallback(
-    e => {
-      if (
-        selectedRecipientId?.toString() !==
-          (draft ? draft?.recipientId.toString() : '0') ||
-        category !== (draft ? draft?.category : null) ||
-        subject !== (draft ? draft?.subject : '') ||
-        messageBody !== (draft ? draft?.body : '') ||
-        attachments.length
-      ) {
-        e.preventDefault();
-        window.onbeforeunload = () => signOutMessage;
-        e.returnValue = true;
-      } else {
-        window.removeEventListener('beforeunload', beforeUnloadHandler);
-        window.onbeforeunload = null;
-        e.returnValue = false;
-        noTimeout();
-      }
-    },
-    [
-      selectedRecipientId,
-      draft,
-      category,
-      subject,
-      messageBody,
-      attachments,
-      signOutMessage,
-      noTimeout,
-    ],
-  );
-
-  useSessionExpiration(beforeUnloadHandler, noTimeout);
-
   if (sendMessageFlag === true) {
     return (
       <va-loading-indicator
@@ -915,46 +882,7 @@ const ComposeForm = props => {
       )}
 
       <form className="compose-form" id="sm-compose-form">
-        <RouteLeavingGuard
-          when={!!navigationError || !!saveError}
-          navigate={path => {
-            history.push(path);
-          }}
-          shouldBlockNavigation={() => {
-            return !!navigationError;
-          }}
-          // if save button is clicked, set saveErrors instead of NavigationErrors
-          title={
-            saveError && savedDraft ? saveError?.title : navigationError?.title
-          }
-          p1={saveError && savedDraft ? saveError?.p1 : navigationError?.p1}
-          p2={saveError && savedDraft ? saveError?.p2 : navigationError?.p2}
-          confirmButtonText={
-            saveError && savedDraft
-              ? saveError?.confirmButtonText
-              : navigationError?.confirmButtonText
-          }
-          cancelButtonText={
-            saveError && savedDraft
-              ? saveError?.cancelButtonText
-              : navigationError?.cancelButtonText
-          }
-          saveDraftHandler={saveDraftHandler}
-          savedDraft={savedDraft}
-          saveError={saveError}
-          setSetErrorModal={setSavedDraft}
-          setIsModalVisible={updateModalVisible}
-          confirmButtonDDActionName={
-            saveError && savedDraft
-              ? "Save draft without attachments button - Can't save with attachments modal"
-              : undefined
-          }
-          cancelButtonDDActionName={
-            saveError && savedDraft
-              ? "Edit draft button - Can't save with attachments modal"
-              : undefined
-          }
-        />
+        <RouteLeavingGuard saveDraftHandler={saveDraftHandler} type="compose" />
         <div>
           {!cernerPilotSmFeatureFlag &&
             !noAssociations &&
@@ -996,8 +924,8 @@ const ComposeForm = props => {
             {noAssociations || allTriageGroupsBlocked ? (
               <ViewOnlyDraftSection
                 title={FormLabels.CATEGORY}
-                body={`${RadioCategories[(draft?.category)].label}: ${
-                  RadioCategories[(draft?.category)].description
+                body={`${Categories[(draft?.category)].label}: ${
+                  Categories[(draft?.category)].description
                 }`}
               />
             ) : (

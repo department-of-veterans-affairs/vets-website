@@ -36,7 +36,7 @@ export const uiSchema = {
     },
     'view:hasVaMedicalRecords': { 'ui:title': 'VA medical records' },
     'view:hasPrivateMedicalRecords': {
-      'ui:title': 'Private medical records',
+      'ui:title': 'Non-VA treatment records',
     },
     'view:hasOtherEvidence': {
       'ui:title': 'Supporting (lay) statements or other evidence',
