@@ -397,3 +397,12 @@ const ClaimantSearchPage = () => {
 };
 
 export default ClaimantSearchPage;
+
+// Ensure the user is authorized before rendering; 403 is redirected centrally
+ClaimantSearchPage.loader = async ({ request }) => {
+  const res = await api.checkAuthorized({ signal: request.signal });
+  // Bubble 401 to route guard for sign-in redirect
+  if (res?.status === 401) throw res;
+  // Return no-op; page renders as usual on 204 or benign response
+  return null;
+};
