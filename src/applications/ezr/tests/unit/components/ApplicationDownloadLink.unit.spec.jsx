@@ -9,10 +9,13 @@ import content from '../../../locales/en/content.json';
 import { renderProviderWrappedComponent } from '../../helpers';
 
 describe('ezr <ApplicationDownloadLink>', () => {
-  const subject = ({ userFullName } = {}) => {
-    const expectedUserFullName = userFullName ?? {
-      userFullName: { first: 'John', last: 'Smith' },
-    };
+  const subject = (options = {}) => {
+    const hasUserFullNameParam = 'userFullName' in options;
+
+    const expectedUserFullName = hasUserFullNameParam
+      ? options.userFullName
+      : { first: 'John', last: 'Smith' };
+
     const mockStoreData = {
       form: {
         data: {
@@ -22,9 +25,7 @@ describe('ezr <ApplicationDownloadLink>', () => {
       },
       user: {
         profile: {
-          expectedUserFullName,
-          dob: null,
-          gender: null,
+          userFullName: expectedUserFullName,
         },
       },
     };
@@ -118,7 +119,7 @@ describe('ezr <ApplicationDownloadLink>', () => {
       });
 
       it('should still succeed when no veteranInformation is set', async () => {
-        const { selectors } = subject({ veteranInformation: {} });
+        const { selectors } = subject({ userFullName: {} });
         const { vaLink: link } = selectors();
         const createObjectStub = createStubObject();
         const revokeObjectStub = revokeObjectstub();

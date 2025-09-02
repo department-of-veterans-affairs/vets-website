@@ -20,25 +20,22 @@ const ApplicationDownloadLink = ({ formConfig, linkText, profile }) => {
     form,
   ]);
 
-  const { userFullName = { first: 'Applicant', last: 'Submission' } } =
+  const { userFullName: { first = 'Applicant', last = 'Submission' } = {} } =
     profile || {};
 
   const handlePdfDownload = useCallback(
     blob => {
       const downloadUrl = URL.createObjectURL(blob);
       const downloadLink = document.createElement('a');
-
       downloadLink.href = downloadUrl;
-      downloadLink.download = `10-10EZR_${userFullName.first}_${
-        userFullName.last
-      }.pdf`;
+      downloadLink.download = `10-10EZR_${first}_${last}.pdf`;
       document.body.appendChild(downloadLink);
 
       downloadLink.click();
       document.body.removeChild(downloadLink);
       URL.revokeObjectURL(downloadUrl);
     },
-    [userFullName],
+    [first, last],
   );
 
   const fetchPdf = useCallback(
