@@ -1,12 +1,8 @@
 import React from 'react';
 import { useAsyncError } from 'react-router-dom-v5-compat';
-// @ts-ignore - No type definitions available for this module
-import { MhvSecondaryNav } from '@department-of-veterans-affairs/mhv/exports';
 import ErrorBoundary from './ErrorBoundary';
-
-interface ErrorComponent {
-  statusCode?: string | number;
-}
+import MhvPageNotFound from '~/platform/mhv/components/MhvPageNotFound';
+import MhvUnauthorized from '~/platform/mhv/components/MhvUnauthorized';
 
 const errorType = {
   unauthorized: 'unauthorized',
@@ -18,35 +14,30 @@ interface AsyncError {
   errors?: Array<{
     status?: string;
   }>;
+  status?: number;
 }
 
 const AvsErrorElement: React.FC = () => {
   const err = useAsyncError() as AsyncError;
 
+  // Handle different error structures
   const status = err?.errors?.[0]?.status;
+  
+  // For Response objects from fetch (like 500 errors), get status from the response
+  const responseStatus = err?.status;
 
-  if (status === errorType.unauthorized) {
-    return (
-      <div>
-        <h1>Unauthorized Access</h1>
-        <p>You are not authorized to view this content.</p>
-      </div>
-    );
+  if (status === errorType.unauthorized || responseStatus === 401) {
+    return <MhvUnauthorized />;
   }
-  if (status === errorType.notFound || status === errorType.badRequest) {
-    return (
-      <div>
-        <h1>Page Not Found</h1>
-        <p>The requested page could not be found.</p>
-      </div>
-    );
+  
+  if (status === errorType.notFound || status === errorType.badRequest || 
+      responseStatus === 404 || responseStatus === 400) {
+    return <MhvPageNotFound />;
   }
 
   // Render the ErrorBoundary to handle any unexpected errors gracefully
   return (
-    <ErrorBoundary>
-      <div>An unexpected error occurred</div>
-    </ErrorBoundary>
+    <ErrorBoundary />
   );
 };
 

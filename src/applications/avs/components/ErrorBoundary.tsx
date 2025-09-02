@@ -7,11 +7,12 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
     super(props);
     this.state = {
       hasError: false,
+      error: undefined,
     };
   }
 
-  static getDerivedStateFromError(): ErrorBoundaryState {
-    return { hasError: true };
+  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
+    return { hasError: true, error };
   }
 
   componentDidCatch(error: Error): void {
@@ -27,7 +28,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
         <va-alert status="error" uswds>
           <h1>We can’t access your after-visit summary right now</h1>
           <p>
-            We're sorry. Something went wrong in our system. Refresh this page.
+            We’re sorry. Something went wrong in our system. Refresh this page.
             Or you can go back to your appointment details and try again.
           </p>
         </va-alert>

@@ -263,7 +263,7 @@ export interface AvsLoaderData {
 
 // Error boundary props
 export interface ErrorBoundaryProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 export interface ErrorBoundaryState {
