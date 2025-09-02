@@ -2,6 +2,7 @@ import * as h from '../helpers';
 import { ROUTES } from '../../../constants';
 import { SHORT_NAME_MAP } from '../../../constants/question-data-map';
 import { RESULTS_NAME_MAP } from '../../../constants/results-data-map';
+import * as c from '../../../constants/results-content/dr-screens/card-content';
 
 const {
   Q_1_1_CLAIM_DECISION,
@@ -77,6 +78,29 @@ describe('Decision Reviews Onramp', () => {
       // RESULTS
       h.verifyUrl(ROUTES.RESULTS);
       h.verifyDrResultsHeader(RESULTS_HLR);
+      h.checkOverviewPanel([c.TITLE_HLR, c.TITLE_BOARD_DIRECT]);
+      h.checkGoodFitCards([
+        {
+          type: c.CARD_HLR,
+          content: [
+            c.CARD_REVIEW_INIT,
+            c.CARD_NO_NEW_EVIDENCE,
+            c.CARD_NOT_CONTESTED,
+            c.CARD_NOT_LAW_POLICY_CHANGE,
+          ],
+        },
+        {
+          type: c.CARD_BOARD_DIRECT,
+          content: [c.CARD_REVIEW_INIT, c.CARD_NO_NEW_EVIDENCE],
+        },
+      ]);
+      h.checkNotGoodFitCards([
+        {
+          type: c.CARD_SC,
+          content: [c.CARD_NEED_EVIDENCE],
+        },
+      ]);
+      h.verifyOutsideDROptionNotPresent();
       cy.go('back');
 
       // Q_2_IS_1B_NEW_EVIDENCE

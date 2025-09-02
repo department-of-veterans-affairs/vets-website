@@ -1,4 +1,5 @@
 import { NON_DR_RESULTS_CONTENT } from './results-content/non-dr-screens';
+import { DR_RESULTS_CONTENT } from './results-content/dr-screens';
 
 const RESULTS_NAME_MAP = Object.freeze({
   RESULTS_1_1B: 'RESULTS_1_1B',
@@ -21,4 +22,9 @@ const isNonDR = Object.freeze([
   RESULTS_NAME_MAP.RESULTS_2_IS_3,
 ]);
 
-export { isNonDR, NON_DR_RESULTS_CONTENT, RESULTS_NAME_MAP };
+export {
+  DR_RESULTS_CONTENT,
+  isNonDR,
+  NON_DR_RESULTS_CONTENT,
+  RESULTS_NAME_MAP,
+};

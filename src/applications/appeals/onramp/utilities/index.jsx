@@ -25,7 +25,7 @@ export const renderSingleOrList = (
 
   if (items.length === 1) {
     return (
-      <p className={paragraphClass || ''} data-testid={`${testId}-0`}>
+      <p className={paragraphClass || null} data-testid={`${testId}-0`}>
         {items[0]}
         {useSentenceFormat && '.'}
       </p>
