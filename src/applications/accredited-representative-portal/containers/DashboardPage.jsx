@@ -41,7 +41,15 @@ const DashboardPage = props => {
   );
 };
 
-DashboardPage.loader = async () => {
+DashboardPage.loader = async ({ request }) => {
+  // If explicitly marked unauthorized in query params, skip server call
+  const { searchParams } = new URL(request.url);
+  const unauthorizedParam = (
+    searchParams.get('unauthorized') || ''
+  ).toLowerCase();
+  const isUnauthorizedQuery = ['1', 'true', 'yes'].includes(unauthorizedParam);
+  if (isUnauthorizedQuery) return { authorized: false };
+
   const res = await api.checkAuthorized();
   // Bubble up 401 to the route guard so it can redirect to sign-in
   if (res.status === 401) throw res;
