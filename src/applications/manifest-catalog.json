@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 134,
+  "totalApplications": 136,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -746,6 +746,12 @@
       "appName": "VA online services terms of use",
       "entryName": "terms-of-use",
       "rootUrl": "/terms-of-use"
+    },
+    {
+      "directoryPath": "src/applications/time-of-need",
+      "appName": "Apply for burial in a VA national cemetery",
+      "entryName": "4962-ton",
+      "rootUrl": "/burials-and-memorials/time-of-need"
     },
     {
       "directoryPath": "src/applications/toe",
