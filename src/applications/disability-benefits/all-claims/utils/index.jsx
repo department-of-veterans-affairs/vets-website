@@ -872,6 +872,8 @@ export const baseDoNew4142Logic = formData => {
   return (
     // If flipper is enabled
     formData.disability526Enable2024Form4142 === true &&
+    // And the user is still choosing to upload private records
+    formData?.['view:hasPrivateMedicalRecords'] === true &&
     // And the user has previously acknowledged the 4142 authorization
     formData['view:patientAcknowledgement']?.['view:acknowledgement'] ===
       true &&
