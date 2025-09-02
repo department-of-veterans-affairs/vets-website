@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useLocation, useLoaderData } from 'react-router-dom';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { focusElement } from 'platform/utilities/ui';
 import { dashboardBC, DASHBOARD_BC_LABEL } from '../utilities/poaRequests';
 import Unauthorized from '../components/Dashboard/Unauthorized';
 import Authorized from '../components/Dashboard/Authorized';
@@ -14,10 +15,11 @@ const DashboardPage = props => {
   const unauthorizedParam = (params.get('unauthorized') || '').toLowerCase();
   const isUnauthorizedQuery = ['1', 'true', 'yes'].includes(unauthorizedParam);
   const isAuthorized = loaderData?.authorized === true;
-
+  localStorage.setItem('userAuthorized', isAuthorized);
   useEffect(
     () => {
       if (title) document.title = title;
+      focusElement('h1');
     },
     [title],
   );
