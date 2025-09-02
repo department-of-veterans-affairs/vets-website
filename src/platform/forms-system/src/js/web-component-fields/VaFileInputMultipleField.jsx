@@ -99,7 +99,8 @@ const VaFileInputMultipleField = props => {
                 _isEmpty &&
                 index < errorManager.getLastTouched() &&
                 !instance.getAttribute('error')
-                  ? MISSING_ADDITIONAL_INFO
+                  ? childrenProps?.uiSchema?.['ui:errorMessages']
+                      ?.additionalInput || MISSING_ADDITIONAL_INFO
                   : '';
               const additionalData = file?.additionalData || null;
               uiOptions.additionalInputUpdate(

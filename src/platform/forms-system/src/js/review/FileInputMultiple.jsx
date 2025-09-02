@@ -5,7 +5,7 @@ const ReviewField = data => {
   if (files.length === 0) {
     return (
       <div className="review-row">
-        <dt>TITLE</dt>
+        <dt>Files</dt>
         <dd>No files uploaded</dd>
       </div>
     );
@@ -15,7 +15,6 @@ const ReviewField = data => {
     <>
       {files.map((file, index) => (
         <React.Fragment key={index}>
-          {/* // <div className='review vads-u-margin-bottom--5'> */}
           <div className="review-row">
             <dt>File name</dt>
             <dd>{file.name || 'No file name'}</dd>
@@ -38,7 +37,6 @@ const ReviewField = data => {
               <dd>{JSON.stringify(file.additionalData)}</dd>
             </div>
           )}
-          {/* // </div> */}
         </React.Fragment>
       ))}
     </>

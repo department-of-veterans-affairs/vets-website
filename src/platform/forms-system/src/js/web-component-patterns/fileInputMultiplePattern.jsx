@@ -81,11 +81,13 @@ export const fileInputMultipleUI = options => {
             .getFileCheckErrors()
             .some(error => !!error);
           if (fileCheckError) {
+            // add a placeholder error to force re-render
             errors.addError(`${Math.random()}`);
           }
 
           // was there an error due to a failed check inside a va-file-input instance?
           if (errorManager.getInternalFileInputErrors().some(error => error)) {
+            // add a placeholder error to force re-render
             errors.addError(`${Math.random()}`);
           }
         }
