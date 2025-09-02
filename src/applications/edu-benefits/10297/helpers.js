@@ -3,6 +3,22 @@ import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
+export const ConfirmationSubmissionAlert = ({ confirmationNumber }) => (
+  <>
+    <p>Your submission is in progress.</p>
+    <p>
+      It can take up to 30 days for us to review your application and make a
+      decision.
+      {confirmationNumber &&
+        ` Your confirmation number is ${confirmationNumber}.`}
+    </p>
+  </>
+);
+
+ConfirmationSubmissionAlert.propTypes = {
+  confirmationNumber: PropTypes.string,
+};
+
 export const ConfirmationWhatsNextProcessList = () => (
   <>
     <h2>What to expect next</h2>
@@ -166,8 +182,34 @@ export const validateTrainingProviderStartDate = (errors, dateString) => {
   const picked = new Date(`${dateString}T00:00:00`);
   const startDate = new Date('2025-01-02T00:00:00');
 
-  if (picked < startDate)
-    errors.addError(
-      'Training must start on or after 1/2/2025 to qualify for VET TEC 2.0',
-    );
+  if (picked < startDate) errors.addError('Enter a date after 1/2/2025');
+};
+
+export const dateSigned = () => {
+  const date = new Date();
+  date.setDate(date.getDate() + 365);
+  return date.toISOString().split('T')[0];
+};
+
+export const viewifyFields = formData => {
+  const newFormData = {};
+  Object.keys(formData).forEach(key => {
+    const viewKey = /^view:/.test(key) ? key : `view:${key}`;
+    // Recurse if necessary
+    newFormData[viewKey] =
+      typeof formData[key] === 'object' && !Array.isArray(formData[key])
+        ? viewifyFields(formData[key])
+        : formData[key];
+  });
+  return newFormData;
+};
+export const maskBankInformation = (string, unmaskedLength) => {
+  if (!string) {
+    return '';
+  }
+  const repeatCount =
+    string.length > unmaskedLength ? string.length - unmaskedLength : 0;
+  const maskedPart = '●'.repeat(repeatCount);
+  const unmaskedPart = string.slice(-unmaskedLength);
+  return `${maskedPart}${unmaskedPart}`;
 };

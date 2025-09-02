@@ -33,6 +33,15 @@ State change: ${state.value}
   }
 }
 
+function attemptContinueWithoutSelectingYesNo() {
+  cy.findByText(/continue/i, { selector: 'button' }).click();
+  cy.get('va-radio[name="root_view:hasEmployment"]').should(
+    'have.attr',
+    'error',
+    'Select yes if you have a employer to add',
+  );
+}
+
 function summaryAddMore(hasEmployment) {
   cy.selectYesNoVaRadioOption('root_view:hasEmployment', hasEmployment);
   cy.axeCheck();
@@ -136,6 +145,7 @@ const testConfig = createTestConfig(
           cy.get('@testData').then(() => {
             switch (nextState) {
               case 'SKIP_SUMMARY_NO_ITEMS':
+                attemptContinueWithoutSelectingYesNo();
                 summaryAddMore(false);
                 break;
               case 'ADDING_ITEM_1_NO_DEPENDS':

@@ -21,7 +21,9 @@ export default {
   depends: form =>
     hasNoSocialSecurityDisability(form) && showMedicalEvidenceClarification(),
   uiSchema: {
-    ...titleUI('Tell us about any medical conditions'),
+    ...titleUI(
+      'Tell us if you have a medical condition that prevents you from working',
+    ),
     'ui:description': MedicalConditionDescription,
     medicalCondition: yesNoUI({
       title: 'Do you have a medical condition that prevents you from working?',

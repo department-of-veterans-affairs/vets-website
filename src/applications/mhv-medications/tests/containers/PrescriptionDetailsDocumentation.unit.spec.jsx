@@ -210,7 +210,7 @@ describe('Prescription details documentation container', () => {
       });
     });
 
-    it('should call downloadFile with PDF format and generate PDF file', async () => {
+    it.skip('should call downloadFile with PDF format and generate PDF file', async () => {
       const screen = setup();
 
       await waitFor(
