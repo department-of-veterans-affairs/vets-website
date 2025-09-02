@@ -1,7 +1,6 @@
 import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 import manifest from '../../manifest.json';
 import mockUser from './fixtures/mocks/mockUser.json';
-import { WIZARD_STATUS } from '../../wizard/constants';
 
 describe(`Fetch Debts Successfully`, () => {
   Cypress.config({ requestTimeout: 10000 });
@@ -95,7 +94,7 @@ describe(`Fetch Debts Successfully`, () => {
       },
     });
 
-    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+    sessionStorage.setItem('wizardStatus', WIZARD_STATUS_COMPLETE);
 
     cy.login(mockUser);
     cy.intercept('GET', '/v0/user?*', mockUser);

@@ -59,7 +59,6 @@ function getAtlasLocation(appt) {
 
 export function transformVAOSAppointment(appt) {
   const appointmentType = getAppointmentType(appt);
-  const isCerner = appt?.id?.startsWith('CERN');
   const isCC = appt.kind === 'cc';
   const isPast = appt.past;
   const isRequest = appt.pending;
@@ -236,7 +235,7 @@ export function transformVAOSAppointment(appt) {
       isInPersonVisit,
       isVideoAtHome,
       isVideoAtVA,
-      isCerner,
+      isCerner: appt.isCerner || false,
       apiData: appt,
       timeZone: appointmentTZ,
       facilityData,

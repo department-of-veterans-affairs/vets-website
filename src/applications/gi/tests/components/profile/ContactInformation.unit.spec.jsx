@@ -222,25 +222,25 @@ describe('<ContactInformation>', () => {
         .find('.vads-u-margin-top--5')
         .at(1)
         .text(),
-    ).to.include('Institution codes');
+    ).to.include('School identifiers and profile');
     expect(
       wrapper
         .find('.vads-u-margin-top--5')
         .at(1)
         .text(),
-    ).to.include('Institution codes');
+    ).to.include('School identifiers and profile');
     expect(
       wrapper
         .find('.vads-u-margin-top--5')
         .at(1)
         .text(),
-    ).to.include('Institution codes');
+    ).to.include('School identifiers and profile');
     expect(
       wrapper
         .find('.vads-u-margin-top--5')
         .at(1)
         .text(),
-    ).to.include('Institution codes');
+    ).to.include('School identifiers and profile');
     wrapper.unmount();
   });
 });

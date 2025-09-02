@@ -14,6 +14,7 @@ import NationalExamDetails from './containers/NationalExamDetails';
 import NewGiApp from './updated-gi/containers/NewGiApp';
 import SchoolsAndEmployers from './updated-gi/containers/SchoolsAndEmployers';
 import HomePage from './updated-gi/components/Homepage';
+import FilterStudentFeedbackPage from './containers/FilterStudentFeedbackPage';
 
 const BuildRoutes = () => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
@@ -21,6 +22,9 @@ const BuildRoutes = () => {
   const isUpdatedGi = useToggleValue(TOGGLE_NAMES.isUpdatedGi);
   const lcToggleValue = useToggleValue(
     TOGGLE_NAMES.giComparisonToolLceToggleFlag,
+  );
+  const giComparisonToolCautionaryInfoUpdate = useToggleValue(
+    TOGGLE_NAMES.giComparisonToolCautionaryInfoUpdate,
   );
 
   return (
@@ -55,9 +59,24 @@ const BuildRoutes = () => {
                 to="/schools-and-employers/institution/:facilityCode"
               />
               <Route
+                path="/schools-and-employers/institution/:facilityCode/filter-student-feedback"
+                render={({ match }) =>
+                  giComparisonToolCautionaryInfoUpdate ? (
+                    <FilterStudentFeedbackPage />
+                  ) : (
+                    <Redirect
+                      to={`/schools-and-employers/institution/${
+                        match.params.facilityCode
+                      }`}
+                    />
+                  )
+                }
+              />
+              <Route
                 path="/schools-and-employers/institution/:facilityCode/:programType"
                 render={({ match }) => <ProgramsList match={match} />}
               />
+
               <Route
                 path="/schools-and-employers/institution/:facilityCode"
                 render={({ match }) => <ProfilePage match={match} />}
