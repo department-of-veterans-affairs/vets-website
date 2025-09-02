@@ -1,3 +1,4 @@
+import { isPlainObject } from 'lodash';
 import _ from 'platform/utilities/data';
 import {
   ATTACHMENT_KEYS,
@@ -829,15 +830,6 @@ const isValidToxicExposureData = formData =>
   formData && typeof formData === 'object' && formData.toxicExposure;
 
 /**
- * Checks if a value is a valid non-array object.
- *
- * @param {*} obj - The value to check
- * @returns {boolean} True if value is a non-null, non-array object
- */
-const isValidObject = obj =>
-  obj && typeof obj === 'object' && !Array.isArray(obj);
-
-/**
  * Checks if any conditions other than 'none' are selected.
  * Used to determine if the veteran has actual toxic exposure conditions claimed.
  *
@@ -868,7 +860,7 @@ const hasOnlyNoneCondition = conditions =>
  * @returns {Object} Filtered details object containing only selected items
  */
 const filterSelectedDetails = (details, selections) => {
-  if (!isValidObject(details) || !isValidObject(selections)) return {};
+  if (!isPlainObject(details) || !isPlainObject(selections)) return {};
 
   return Object.keys(details).reduce((filtered, key) => {
     // Only keep details if the selection is explicitly true
@@ -906,7 +898,7 @@ const hasValidDescription = obj => {
  * @returns {Object} Object containing only conditions set to true
  */
 const filterCheckedConditions = conditions => {
-  if (!isValidObject(conditions)) return {};
+  if (!isPlainObject(conditions)) return {};
 
   return Object.keys(conditions).reduce((filtered, condition) => {
     if (conditions[condition] === true) {
@@ -1018,7 +1010,7 @@ export const cleanToxicExposureData = formData => {
   const clonedData = _.cloneDeep(formData);
   let { toxicExposure } = clonedData;
 
-  if (!isValidObject(toxicExposure)) {
+  if (!isPlainObject(toxicExposure)) {
     return clonedData;
   }
 
