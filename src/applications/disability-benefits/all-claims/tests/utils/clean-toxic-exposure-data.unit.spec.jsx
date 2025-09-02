@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 import cloneDeep from 'platform/utilities/data/cloneDeep';
-import { TOXIC_EXPOSURE_ALL_KEYS } from '../../constants';
 import { cleanToxicExposureData } from '../../utils/submit';
 
 describe('cleanToxicExposureData', () => {
@@ -136,7 +135,7 @@ describe('cleanToxicExposureData', () => {
 
       expect(result).to.deep.equal(expectedResult);
 
-      // Verify that all TOXIC_EXPOSURE_ALL_KEYS except 'conditions' were removed
+      // Verify that all toxic exposure keys except 'conditions' were removed
       const remainingKeys = Object.keys(result.toxicExposure);
       expect(remainingKeys).to.deep.equal(['conditions']);
 
@@ -318,31 +317,6 @@ describe('cleanToxicExposureData', () => {
       expect(result.toxicExposure.otherHerbicideLocations).to.deep.equal({
         description: 'Thailand base camps',
       });
-    });
-
-    it('should remove view:* fields', () => {
-      const formData = {
-        toxicExposure: {
-          conditions: { asthma: true },
-          'view:herbicideAdditionalInfo': 'some info',
-          'view:otherExposuresAdditionalInfo': 'other info',
-          'view:additionalExposuresAdditionalInfo': 'additional info',
-          herbicide: { vietnam: true },
-        },
-      };
-
-      const result = cleanToxicExposureData(formData);
-
-      expect(result.toxicExposure).to.not.have.property(
-        'view:herbicideAdditionalInfo',
-      );
-      expect(result.toxicExposure).to.not.have.property(
-        'view:otherExposuresAdditionalInfo',
-      );
-      expect(result.toxicExposure).to.not.have.property(
-        'view:additionalExposuresAdditionalInfo',
-      );
-      expect(result.toxicExposure.herbicide).to.deep.equal({ vietnam: true });
     });
 
     it('should remove otherExposuresDetails for unselected exposures', () => {
@@ -695,136 +669,9 @@ describe('cleanToxicExposureData', () => {
         'shipyard',
       );
     });
-
-    it('should remove invalid AdditionalInfo fields that are not in TOXIC_EXPOSURE_ALL_KEYS', () => {
-      const formData = {
-        toxicExposure: {
-          conditions: { asthma: true },
-          herbicide: { vietnam: true },
-          // These fields should be removed as they're not in TOXIC_EXPOSURE_ALL_KEYS
-          herbicideAdditionalInfo: {},
-          otherExposuresAdditionalInfo: {},
-          additionalExposuresAdditionalInfo: {},
-        },
-      };
-
-      const result = cleanToxicExposureData(formData);
-
-      // Should remove all AdditionalInfo fields
-      expect(result.toxicExposure).to.not.have.property(
-        'herbicideAdditionalInfo',
-      );
-      expect(result.toxicExposure).to.not.have.property(
-        'otherExposuresAdditionalInfo',
-      );
-      expect(result.toxicExposure).to.not.have.property(
-        'additionalExposuresAdditionalInfo',
-      );
-
-      // Should keep valid fields
-      expect(result.toxicExposure.conditions).to.deep.equal({ asthma: true });
-      expect(result.toxicExposure.herbicide).to.deep.equal({ vietnam: true });
-    });
-
-    it('should handle mixed view fields and invalid fields comprehensively', () => {
-      const formData = {
-        toxicExposure: {
-          conditions: { bronchitis: true },
-          gulfWar1990: { kuwait: true },
-          // View fields - should be removed
-          'view:herbicideAdditionalInfo': {},
-          'view:otherExposuresAdditionalInfo': {},
-          'view:additionalExposuresAdditionalInfo': {},
-          'view:gulfWar1990AdditionalInfo': {},
-          'view:gulfWar2001AdditionalInfo': {},
-          // Invalid fields - should be removed
-          invalidField: 'This field is not in TOXIC_EXPOSURE_ALL_KEYS',
-          anotherInvalidField: {
-            nested: 'This entire object should be removed',
-          },
-          additionalExposures: { note: 'Invalid field name' },
-          additionalExposuresDetails: { note: 'Also invalid' },
-          // Valid field
-          gulfWar1990Details: {
-            kuwait: { startDate: '1991-01-20', endDate: '1991-03-15' },
-          },
-        },
-      };
-
-      const result = cleanToxicExposureData(formData);
-
-      // Should remove all view fields
-      expect(result.toxicExposure).to.not.have.property(
-        'view:herbicideAdditionalInfo',
-      );
-      expect(result.toxicExposure).to.not.have.property(
-        'view:otherExposuresAdditionalInfo',
-      );
-      expect(result.toxicExposure).to.not.have.property(
-        'view:additionalExposuresAdditionalInfo',
-      );
-      expect(result.toxicExposure).to.not.have.property(
-        'view:gulfWar1990AdditionalInfo',
-      );
-      expect(result.toxicExposure).to.not.have.property(
-        'view:gulfWar2001AdditionalInfo',
-      );
-
-      // Should remove all invalid fields
-      expect(result.toxicExposure).to.not.have.property('invalidField');
-      expect(result.toxicExposure).to.not.have.property('anotherInvalidField');
-      expect(result.toxicExposure).to.not.have.property('additionalExposures');
-      expect(result.toxicExposure).to.not.have.property(
-        'additionalExposuresDetails',
-      );
-
-      // Should keep valid fields
-      expect(result.toxicExposure.conditions).to.deep.equal({
-        bronchitis: true,
-      });
-      expect(result.toxicExposure.gulfWar1990).to.deep.equal({ kuwait: true });
-      expect(result.toxicExposure.gulfWar1990Details).to.have.property(
-        'kuwait',
-      );
-    });
   });
 
   describe('comprehensive edge cases for all toxic exposure keys', () => {
-    it('should remove keys that are not in TOXIC_EXPOSURE_ALL_KEYS', () => {
-      const formData = {
-        toxicExposure: {
-          conditions: { asthma: true },
-          gulfWar1990: { bahrain: true },
-          // Invalid keys that should be removed
-          invalidKey: 'should be removed',
-          anotherInvalidKey: { data: 'should also be removed' },
-          'view:someViewField': 'view fields should be removed',
-          // Valid key
-          gulfWar1990Details: {
-            bahrain: { startDate: '1990-01-01', endDate: '1990-12-31' },
-          },
-        },
-      };
-
-      const result = cleanToxicExposureData(formData);
-
-      // Should keep valid keys
-      expect(result.toxicExposure).to.have.property('conditions');
-      expect(result.toxicExposure).to.have.property('gulfWar1990');
-      expect(result.toxicExposure).to.have.property('gulfWar1990Details');
-
-      // Should remove invalid keys
-      expect(result.toxicExposure).to.not.have.property('invalidKey');
-      expect(result.toxicExposure).to.not.have.property('anotherInvalidKey');
-      expect(result.toxicExposure).to.not.have.property('view:someViewField');
-
-      // Verify only valid keys remain
-      const remainingKeys = Object.keys(result.toxicExposure);
-      remainingKeys.forEach(key => {
-        expect(TOXIC_EXPOSURE_ALL_KEYS).to.include(key);
-      });
-    });
-
     it('should remove all details when main selection is missing', () => {
       const formData = {
         toxicExposure: {
@@ -846,7 +693,7 @@ describe('cleanToxicExposureData', () => {
       expect(result.toxicExposure).to.not.have.property('herbicideDetails');
     });
 
-    it('should handle all toxic exposure keys from TOXIC_EXPOSURE_ALL_KEYS', () => {
+    it('should handle all toxic exposure keys from getAllToxicExposureKeys', () => {
       const formData = {
         toxicExposure: {
           conditions: { none: true },
@@ -1089,7 +936,6 @@ describe('cleanToxicExposureData', () => {
             burnpits: { startDate: '2003-01-01', endDate: '2004-01-01' },
           },
           specifyOtherExposures: { description: 'Chemical weapons testing' },
-          'view:herbicideAdditionalInfo': 'Should be removed',
         },
       };
 
@@ -1147,8 +993,8 @@ describe('cleanToxicExposureData', () => {
       );
     });
 
-    it('should handle validation of all TOXIC_EXPOSURE_ALL_KEYS fields', () => {
-      // This test ensures we handle all the keys mentioned in the constant
+    it('should handle validation of all toxic exposure fields', () => {
+      // This test ensures we handle all the keys from the mapping
       const allKeysData = {
         toxicExposure: {
           conditions: { asthma: true },

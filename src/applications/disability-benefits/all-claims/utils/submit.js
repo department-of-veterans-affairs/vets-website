@@ -8,7 +8,6 @@ import {
   HERBICIDE_LOCATIONS,
   PTSD_CHANGE_LABELS,
   PTSD_INCIDENT_ITERATION,
-  TOXIC_EXPOSURE_ALL_KEYS,
 } from '../constants';
 
 import {
@@ -760,6 +759,7 @@ export const addFileAttachments = formData => {
 /**
  * Map of exposure types to their details keys and location constants.
  * Used to dynamically process all toxic exposure types.
+ * This is the source of truth for all toxic exposure data structure.
  *
  * @constant {Object}
  */
@@ -781,6 +781,42 @@ const EXPOSURE_TYPE_MAPPING = {
     detailsKey: 'otherExposuresDetails',
     specifyKey: 'specifyOtherExposures',
   },
+};
+
+/**
+ * Derives all toxic exposure keys from EXPOSURE_TYPE_MAPPING.
+ * This includes 'conditions' and all exposure types with their associated keys.
+ *
+ * all derived toxic exposure keys:
+ * - 'conditions'
+ * - 'gulfWar1990'
+ * - 'gulfWar1990Details'
+ * - 'gulfWar2001'
+ * - 'gulfWar2001Details'
+ * - 'herbicide'
+ * - 'herbicideDetails'
+ * - 'otherHerbicideLocations'
+ * - 'otherExposures'
+ * - 'otherExposuresDetails'
+ * - 'specifyOtherExposures'
+ *
+ * @returns {string[]} An array containing all toxic exposure field keys.
+ */
+export const getAllToxicExposureKeys = () => {
+  const keys = ['conditions'];
+
+  Object.entries(EXPOSURE_TYPE_MAPPING).forEach(([exposureType, mapping]) => {
+    keys.push(exposureType);
+    keys.push(mapping.detailsKey);
+    if (mapping.otherLocationsKey) {
+      keys.push(mapping.otherLocationsKey);
+    }
+    if (mapping.specifyKey) {
+      keys.push(mapping.specifyKey);
+    }
+  });
+
+  return keys;
 };
 
 /**
@@ -860,41 +896,6 @@ const hasValidDescription = obj => {
     typeof description === 'string' &&
     description.trim().length > 0
   );
-};
-
-/**
- * Removes any keys that aren't in TOXIC_EXPOSURE_ALL_KEYS.
- * Ensures only valid toxic exposure fields are submitted.
- *
- * @param {Object} toxicExposure - The toxic exposure object to clean
- * @returns {Object} New object with only valid toxic exposure keys
- */
-const removeInvalidKeys = toxicExposure => {
-  const validKeys = new Set(TOXIC_EXPOSURE_ALL_KEYS);
-
-  return Object.keys(toxicExposure).reduce((cleaned, key) => {
-    // Keep only keys that are in TOXIC_EXPOSURE_ALL_KEYS or view fields (which get removed separately)
-    if (validKeys.has(key) || key.startsWith('view:')) {
-      return { ...cleaned, [key]: toxicExposure[key] };
-    }
-    return cleaned;
-  }, {});
-};
-
-/**
- * Removes view-only fields that shouldn't be submitted to the backend.
- * These fields are used for UI display purposes only.
- *
- * @param {Object} toxicExposure - The toxic exposure object to clean
- * @returns {Object} New object without view fields, maintaining immutability
- */
-const removeViewFields = toxicExposure => {
-  return Object.keys(toxicExposure).reduce((cleaned, key) => {
-    if (!key.startsWith('view:')) {
-      return { ...cleaned, [key]: toxicExposure[key] };
-    }
-    return cleaned;
-  }, {});
 };
 
 /**
@@ -1048,12 +1049,6 @@ export const cleanToxicExposureData = formData => {
   ) {
     delete toxicExposure.specifyOtherExposures;
   }
-
-  // Remove any keys that aren't in TOXIC_EXPOSURE_ALL_KEYS
-  toxicExposure = removeInvalidKeys(toxicExposure);
-
-  // Remove view fields that shouldn't be submitted
-  toxicExposure = removeViewFields(toxicExposure);
 
   // Clean up unchecked conditions
   if (toxicExposure.conditions) {
