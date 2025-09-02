@@ -27,7 +27,8 @@ const SortForm = ({ options, defaults }) => {
   const number = searchParams.get(SEARCH_PARAMS.NUMBER) || defaults.NUMBER;
   const size = searchParams.get(SEARCH_PARAMS.SIZE) || defaults.SIZE;
   const selectedIndividual =
-    searchParams.get('as_selected_individual') || defaults.SELECTED_INDIVIDUAL;
+    searchParams.get(SEARCH_PARAMS.SELECTED_INDIVIDUAL) ||
+    defaults.SELECTED_INDIVIDUAL;
 
   const handleChange = async e => {
     e.preventDefault();
@@ -41,7 +42,7 @@ const SortForm = ({ options, defaults }) => {
 
   const toggleRep = e => {
     navigate(
-      `?status=${status}&sortOrder=${sort}&sortBy=${sortby}&pageNumber=${number}&pageSize=${size}&as_selected_individual=${
+      `?status=${status}&sortOrder=${sort}&sortBy=${sortby}&pageNumber=1&pageSize=${size}&as_selected_individual=${
         e.detail.checked
       }`,
     );
