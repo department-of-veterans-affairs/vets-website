@@ -156,7 +156,6 @@ export function transformRelatedDisabilities(
       // name should already be lower-case, but just in case...no pun intended
       claimedName => sippableId(claimedName) === name.toLowerCase(),
     );
-
   return (
     Object.keys(conditionContainer)
       // The check box is checked
@@ -169,11 +168,9 @@ export function transformRelatedDisabilities(
 }
 
 /**
- * Cycles through the list of provider facilities and performs transformations on each property as needed.
- *
- * @param {Object[]} providerFacilities - Array of provider facility objects being transformed
- * @param {Object} clonedData - The cloned form data for reference
- * @returns {Object[]} Array containing the new Provider Facility structure with transformed disability names
+ * Cycles through the list of provider facilities and performs transformations on each property as needed
+ * @param {array} providerFacilities array of objects being transformed
+ * @returns {array} containing the new Provider Facility structure
  */
 export function transformProviderFacilities(providerFacilities, clonedData) {
   // This map transforms treatedDisabilityNames back into the original condition names from the sippableIds
@@ -305,15 +302,8 @@ export const cleanUpPersonsInvolved = (incident = {}) => {
   return personsInvolved?.length ? { ...incident, personsInvolved } : incident;
 };
 
-/**
- * Removes extra data that may be included in mailing address.
- * Only keeps valid address fields.
- * @see {@link https://github.com/department-of-veterans-affairs/va.gov-team/issues/19423}
- *
- * @param {Object} formData - The form data being transformed
- * @param {Object} formData.mailingAddress - The mailing address object to clean
- * @returns {Object} Form data with cleaned mailing address containing only valid keys
- */
+// Remove extra data that may be included
+// see https://github.com/department-of-veterans-affairs/va.gov-team/issues/19423
 export const cleanUpMailingAddress = formData => {
   const validKeys = [
     'country',
@@ -339,16 +329,7 @@ export const cleanUpMailingAddress = formData => {
   return { ...formData, mailingAddress };
 };
 
-/**
- * Adds 'cause' of 'NEW' to new PTSD disabilities since form does not ask.
- * Also adds PTSD description for veterans bypassing form 781.
- *
- * @param {Object} formData - The form data being transformed
- * @param {Object[]} formData.newDisabilities - Array of new disability claims
- * @param {boolean} formData.skip781ForCombatReason - Whether form 781 is skipped for combat
- * @param {boolean} formData.skip781ForNonCombatReason - Whether form 781 is skipped for non-combat
- * @returns {Object} Form data with PTSD cause added to PTSD disabilities
- */
+// Add 'cause' of 'NEW' to new ptsd disabilities since form does not ask
 export const addPTSDCause = formData => {
   const clonedData = formData.newDisabilities
     ? _.set(
@@ -373,16 +354,6 @@ export const addPTSDCause = formData => {
   return clonedData;
 };
 
-/**
- * Adds Form 4142 data to the submission if provider facilities are present.
- * Validates 2024 form completion and patient acknowledgement before adding data.
- *
- * @param {Object} formData - The form data being transformed
- * @param {Object[]} formData.providerFacility - Array of provider facilities
- * @param {boolean} formData.disability526Enable2024Form4142 - Whether 2024 form was enabled
- * @param {boolean} formData.patient4142Acknowledgement - Whether patient acknowledged form
- * @returns {Object} Form data with form4142 section added if applicable
- */
 export const addForm4142 = formData => {
   if (!formData.providerFacility) {
     return formData;

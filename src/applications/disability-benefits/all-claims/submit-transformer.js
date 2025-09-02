@@ -1,34 +1,34 @@
-import {
-  filterViewFields,
-  transformForSubmit,
-} from 'platform/forms-system/src/js/helpers';
 import _ from 'platform/utilities/data';
+import {
+  transformForSubmit,
+  filterViewFields,
+} from 'platform/forms-system/src/js/helpers';
 import removeDeeplyEmptyObjects from 'platform/utilities/data/removeDeeplyEmptyObjects';
 
 import {
   causeTypes,
+  specialIssueTypes,
   CHAR_LIMITS,
   defaultDisabilityDescriptions,
-  specialIssueTypes,
 } from './constants';
 
 import { isBDD, truncateDescriptions } from './utils';
 import {
-  addFileAttachments,
+  customReplacer,
+  getClaimedConditionNames,
+  setActionTypes,
+  transformRelatedDisabilities,
+  removeExtraData,
+  filterServicePeriods,
+  stringifyRelatedDisabilities,
+  cleanUpMailingAddress,
+  cleanToxicExposureData,
+  addPTSDCause,
+  addForm4142,
   addForm0781,
   addForm0781V2,
-  addForm4142,
   addForm8940,
-  addPTSDCause,
-  cleanToxicExposureData,
-  cleanUpMailingAddress,
-  customReplacer,
-  filterServicePeriods,
-  getClaimedConditionNames,
-  removeExtraData,
-  setActionTypes,
-  stringifyRelatedDisabilities,
-  transformRelatedDisabilities,
+  addFileAttachments,
 } from './utils/submit';
 
 export function transform(formConfig, form) {
