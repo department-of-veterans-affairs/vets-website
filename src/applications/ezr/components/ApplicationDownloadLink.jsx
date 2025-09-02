@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { selectProfile } from 'platform/user/selectors';
 import { apiRequest } from 'platform/utilities/api';
 import { focusElement } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
@@ -9,9 +10,13 @@ import { submitTransformer } from '../utils/helpers/submit-transformer';
 import { ensureValidCSRFToken } from '../utils/actions/ensureValidCSRFToken';
 import content from '../locales/en/content.json';
 
-const ApplicationDownloadLink = ({ formConfig, linkText, profile }) => {
+const ApplicationDownloadLink = ({ formConfig, linkText }) => {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
+
+  const {
+    userFullName: { first = 'Applicant', last = 'Submission' } = {},
+  } = useSelector(selectProfile);
 
   // define local use variables
   const form = useSelector(state => state.form);
@@ -19,9 +24,6 @@ const ApplicationDownloadLink = ({ formConfig, linkText, profile }) => {
     formConfig,
     form,
   ]);
-
-  const { userFullName: { first = 'Applicant', last = 'Submission' } = {} } =
-    profile || {};
 
   const handlePdfDownload = useCallback(
     blob => {
@@ -109,11 +111,6 @@ const ApplicationDownloadLink = ({ formConfig, linkText, profile }) => {
 ApplicationDownloadLink.propTypes = {
   formConfig: PropTypes.object,
   linkText: PropTypes.string,
-  profile: PropTypes.object,
 };
 
-const mapStateToProps = state => ({
-  profile: state.user.profile,
-});
-
-export default connect(mapStateToProps)(ApplicationDownloadLink);
+export default ApplicationDownloadLink;
