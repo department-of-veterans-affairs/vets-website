@@ -52,6 +52,9 @@ describe('utils', () => {
         'view:uploadPrivateRecordsQualifier': {
           'view:hasPrivateRecordsToUpload': false,
         },
+        'view:selectableEvidenceTypes': {
+          'view:hasPrivateMedicalRecords': true,
+        },
         patient4142Acknowledgement: false,
       };
       onFormLoaded({ formData, router });
