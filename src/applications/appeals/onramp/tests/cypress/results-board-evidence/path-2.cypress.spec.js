@@ -90,11 +90,11 @@ describe('Decision Reviews Onramp', () => {
       h.checkNotGoodFitCards([
         {
           type: c.CARD_HLR,
-          content: [c.CARD_CLAIM_CONTESTED],
+          content: [c.CARD_CANNOT_SUBMIT_EVIDENCE, c.CARD_CLAIM_CONTESTED],
         },
         {
           type: c.CARD_BOARD_DIRECT,
-          content: [], // Note that nothing currently shows up, we'll need further guidance on the logic from UX but it can wait for now
+          content: [c.CARD_CANNOT_SUBMIT_EVIDENCE],
         },
         {
           type: c.CARD_BOARD_HEARING,

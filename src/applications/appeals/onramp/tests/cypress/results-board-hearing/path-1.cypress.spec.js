@@ -97,11 +97,15 @@ describe('Decision Reviews Onramp', () => {
       h.checkNotGoodFitCards([
         {
           type: c.CARD_HLR,
-          content: [c.CARD_HLR_NOT_AVAILABLE, c.CARD_HEARING_NOT_INCLUDED],
+          content: [
+            c.CARD_HLR_NOT_AVAILABLE,
+            c.CARD_CANNOT_SUBMIT_EVIDENCE,
+            c.CARD_HEARING_NOT_INCLUDED,
+          ],
         },
         {
           type: c.CARD_BOARD_DIRECT,
-          content: [c.CARD_HEARING_NOT_INCLUDED],
+          content: [c.CARD_CANNOT_SUBMIT_EVIDENCE, c.CARD_HEARING_NOT_INCLUDED],
         },
       ]);
       h.verifyOutsideDROptionNotPresent();
