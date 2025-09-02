@@ -12,9 +12,6 @@ export const selectPendingMedsFlag = state =>
 export const selectRefillProgressFlag = state =>
   state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicationsDisplayRefillProgress]; // at 50% 2025/05/27
 
-export const selectIPEContentFlag = state =>
-  state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicationsShowIpeContent]; // fully enabled 2025/05/27
-
 export const selectPartialFillContentFlag = state =>
   state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicationsPartialFillContent];
 
