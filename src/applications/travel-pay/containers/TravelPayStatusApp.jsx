@@ -11,7 +11,6 @@ import { HelpTextGeneral, HelpTextManage } from '../components/HelpText';
 import { getTravelClaims } from '../redux/actions';
 import { getDateFilters } from '../util/dates';
 import { BTSSS_PORTAL_URL } from '../constants';
-import useSetPageTitle from '../hooks/useSetPageTitle';
 import DowntimeWindowAlert from './DownTimeWindowAlert';
 import TravelPayStatusList from '../components/TravelPayStatusList';
 import TravelPayDateRangeSelect from '../components/TravelPayDateRangeSelect';
@@ -118,8 +117,6 @@ export default function TravelPayStatusApp() {
   const title = smocEnabled
     ? 'Travel reimbursement claims'
     : 'Check your travel reimbursement claim status';
-
-  useSetPageTitle(title);
 
   if (toggleIsLoading) {
     return (
