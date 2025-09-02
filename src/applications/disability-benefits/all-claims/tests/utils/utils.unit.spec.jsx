@@ -1799,7 +1799,9 @@ describe('baseDoNew4142Logic', () => {
     it('should return true when user is still choosing to upload private medical records', () => {
       const formData = {
         ...baseFormData,
-        'view:hasPrivateMedicalRecords': true,
+        'view:selectableEvidenceTypes': {
+          'view:hasPrivateMedicalRecords': true,
+        },
       };
       expect(baseDoNew4142Logic(formData)).to.be.true;
     });
@@ -1809,7 +1811,17 @@ describe('baseDoNew4142Logic', () => {
     it('should return false when user is not choosing to upload private medical records', () => {
       const formData = {
         ...baseFormData,
-        'view:hasPrivateMedicalRecords': false,
+        'view:selectableEvidenceTypes': {
+          'view:hasPrivateMedicalRecords': false,
+        },
+      };
+      expect(baseDoNew4142Logic(formData)).to.be.false;
+    });
+
+    it('should return false when view:selectableEvidenceTypes is undefined', () => {
+      const formData = {
+        ...baseFormData,
+        // 'view:selectableEvidenceTypes' is not set
       };
       expect(baseDoNew4142Logic(formData)).to.be.false;
     });
@@ -1817,7 +1829,9 @@ describe('baseDoNew4142Logic', () => {
     it('should return false when view:hasPrivateMedicalRecords is undefined', () => {
       const formData = {
         ...baseFormData,
-        // 'view:hasPrivateMedicalRecords' is not set
+        'view:selectableEvidenceTypes': {
+          // 'view:hasPrivateMedicalRecords' is not set
+        },
       };
       expect(baseDoNew4142Logic(formData)).to.be.false;
     });
@@ -1825,7 +1839,9 @@ describe('baseDoNew4142Logic', () => {
     it('should return false when view:hasPrivateMedicalRecords is null', () => {
       const formData = {
         ...baseFormData,
-        'view:hasPrivateMedicalRecords': null,
+        'view:selectableEvidenceTypes': {
+          'view:hasPrivateMedicalRecords': null,
+        },
       };
       expect(baseDoNew4142Logic(formData)).to.be.false;
     });
@@ -1836,7 +1852,9 @@ describe('baseDoNew4142Logic', () => {
       const formData = {
         ...baseFormData,
         disability526Enable2024Form4142: false,
-        'view:hasPrivateMedicalRecords': true,
+        'view:selectableEvidenceTypes': {
+          'view:hasPrivateMedicalRecords': true,
+        },
       };
       expect(baseDoNew4142Logic(formData)).to.be.false;
     });
@@ -1846,7 +1864,9 @@ describe('baseDoNew4142Logic', () => {
     it('should return false even if user wants to upload private medical records', () => {
       const formData = {
         ...baseFormData,
-        'view:hasPrivateMedicalRecords': true,
+        'view:selectableEvidenceTypes': {
+          'view:hasPrivateMedicalRecords': true,
+        },
         'view:patientAcknowledgement': {
           'view:acknowledgement': false,
         },
@@ -1859,7 +1879,9 @@ describe('baseDoNew4142Logic', () => {
     it('should return false even if user wants to upload private medical records', () => {
       const formData = {
         ...baseFormData,
-        'view:hasPrivateMedicalRecords': true,
+        'view:selectableEvidenceTypes': {
+          'view:hasPrivateMedicalRecords': true,
+        },
         'view:uploadPrivateRecordsQualifier': {
           'view:hasPrivateRecordsToUpload': true,
         },
@@ -1872,7 +1894,9 @@ describe('baseDoNew4142Logic', () => {
     it('should return false even if user wants to upload private medical records', () => {
       const formData = {
         ...baseFormData,
-        'view:hasPrivateMedicalRecords': true,
+        'view:selectableEvidenceTypes': {
+          'view:hasPrivateMedicalRecords': true,
+        },
         patient4142Acknowledgement: true,
       };
       expect(baseDoNew4142Logic(formData)).to.be.false;
