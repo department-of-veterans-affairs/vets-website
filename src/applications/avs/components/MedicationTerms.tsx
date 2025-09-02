@@ -1,9 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import type { MedicationTermsProps } from '../types';
 
-const MedicationTerms = props => {
-  const { avs } = props;
-
+const MedicationTerms: React.FC<MedicationTermsProps> = ({ avs }) => {
   if (!avs.pharmacyTerms?.length) {
     return null;
   }
@@ -22,10 +20,6 @@ const MedicationTerms = props => {
       ))}
     </va-additional-info>
   );
-};
-
-MedicationTerms.propTypes = {
-  avs: PropTypes.object,
 };
 
 export default MedicationTerms;

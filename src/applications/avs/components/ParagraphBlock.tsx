@@ -1,13 +1,16 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-
+// @ts-ignore - No type definitions available for lodash
 import { kebabCase } from 'lodash';
+import type { ParagraphBlockProps } from '../types';
 
-const ParagraphBlock = props => {
-  const { content, heading, headingLevel = 3, htmlContent = false } = props;
-
+const ParagraphBlock: React.FC<ParagraphBlockProps> = ({ 
+  content, 
+  heading, 
+  headingLevel = 3, 
+  htmlContent = false 
+}) => {
   if (content) {
-    const Heading = `h${headingLevel}`;
+    const Heading = `h${headingLevel}` as keyof JSX.IntrinsicElements;
     const testId = kebabCase(heading.substring(0, 32));
     const paragraph = htmlContent ? (
       /* eslint-disable react/no-danger */
@@ -34,10 +37,3 @@ const ParagraphBlock = props => {
 };
 
 export default ParagraphBlock;
-
-ParagraphBlock.propTypes = {
-  content: PropTypes.string,
-  heading: PropTypes.string,
-  headingLevel: PropTypes.number,
-  htmlContent: PropTypes.bool,
-};

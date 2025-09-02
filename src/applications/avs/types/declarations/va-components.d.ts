@@ -22,5 +22,22 @@ declare namespace JSX {
       uswds?: boolean;
       children?: React.ReactNode;
     };
+    'va-telephone': {
+      contact?: string;
+      'not-clickable'?: boolean;
+      tty?: boolean;
+      children?: React.ReactNode;
+    };
+    'va-additional-info': {
+      trigger?: string;
+      uswds?: boolean;
+      children?: React.ReactNode;
+    };
+    'va-icon': {
+      icon?: string;
+      size?: number;
+      'data-testid'?: string;
+      children?: React.ReactNode;
+    };
   }
 }

@@ -1,14 +1,14 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-
+// @ts-ignore - No type definitions available for lodash
 import { kebabCase } from 'lodash';
 import { ORDER_TYPES } from '../utils/constants';
+import type { OrdersBlockProps, Order } from '../types';
 
-const getOrderItems = (type, orders) => {
-  return orders?.filter(order => order.type === type.label);
+const getOrderItems = (type: any, orders?: Order[]): Order[] => {
+  return orders?.filter(order => order.type === type.label) || [];
 };
 
-const getOrderListItemsByType = (type, orders) => {
+const getOrderListItemsByType = (type: any, orders?: Order[]): React.ReactNode[] => {
   const items = getOrderItems(type, orders);
   return (
     items?.map((item, idx) => {
@@ -19,9 +19,7 @@ const getOrderListItemsByType = (type, orders) => {
   );
 };
 
-const OrdersBlock = props => {
-  const { heading, intro, orders, type } = props;
-
+const OrdersBlock: React.FC<OrdersBlockProps> = ({ heading, intro, orders, type }) => {
   const orderListItems = getOrderListItemsByType(type, orders);
 
   if (orderListItems.length) {
@@ -40,10 +38,3 @@ const OrdersBlock = props => {
 };
 
 export default OrdersBlock;
-
-OrdersBlock.propTypes = {
-  heading: PropTypes.string,
-  intro: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
-  orders: PropTypes.array,
-  type: PropTypes.object,
-};

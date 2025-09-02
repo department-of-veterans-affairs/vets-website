@@ -1,17 +1,17 @@
 import React from 'react';
 
-const goBack = e => {
+const goBack = (e: React.MouseEvent<HTMLAnchorElement>): void => {
   e.preventDefault();
   const { history } = window;
   history.back();
 };
 
-const isPastAppointmentLink = url => {
+const isPastAppointmentLink = (url: string): boolean => {
   const { pathname } = new URL(url);
-  return pathname.match(/^\/my-health\/appointments\/past\/[^/]+$/);
+  return pathname.match(/^\/my-health\/appointments\/past\/[^/]+$/) !== null;
 };
 
-const BreadCrumb = () => {
+const BreadCrumb: React.FC = () => {
   const { referrer } = document;
   if (referrer && isPastAppointmentLink(referrer)) {
     return (
