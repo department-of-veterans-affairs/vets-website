@@ -114,7 +114,7 @@ export const getDateSigned = (record, noteSummary = null) => {
 
   if (!dateSigned && noteSummary) {
     // OH doesn't include date signed in the authenticator, so it'll need to be extracted from the note body
-    // IF we even get it there, which we might not...
+    // TODO: verify note structure once parsed - not sure this will work :/
     dateSigned =
       noteSummary
         ?.split('signed on:')[1]
@@ -154,12 +154,14 @@ export const getAdmissionDate = (record, noteSummary) => {
     ? new Date(record.context.period.start)
     : null;
   if (!admissionDate) {
+    // TODO: this probably won't work for new note structure
     admissionDate = getDateFromBody(noteSummary, 'DATE OF ADMISSION:');
   }
   return admissionDate;
 };
 
 export const getDischargeDate = (record, noteSummary) => {
+  // OH data will have this, VistA data won't
   let dischargeDate = record.attributes?.dischargeDate;
   if (!dischargeDate && record.context?.period?.end) {
     dischargeDate = record.context?.period?.end
@@ -167,6 +169,7 @@ export const getDischargeDate = (record, noteSummary) => {
       : null;
   }
   if (!dischargeDate) {
+    // TODO: this probably won't work for new note structure
     dischargeDate = getDateFromBody(noteSummary, 'DATE OF DISCHARGE:');
   }
   return dischargeDate;
@@ -240,7 +243,7 @@ export const getRecordType = record => {
   return noteTypes.OTHER;
 };
 
-export const getRecordTypeFromLiocCodes = codes => {
+export const getRecordTypeFromLoincCodes = codes => {
   const typeMapping = {
     [loincCodes.DISCHARGE_SUMMARY]: noteTypes.DISCHARGE_SUMMARY,
     [loincCodes.PHYSICIAN_PROCEDURE_NOTE]: noteTypes.PHYSICIAN_PROCEDURE_NOTE,
@@ -299,22 +302,22 @@ const convertUnifiedCareSummariesAndNotesRecord = record => {
         formattedDischargeDate.formattedTime
       }`
     : '';
-  const entryType = getRecordTypeFromLiocCodes(record.attributes.loincCodes);
+  const entryType = getRecordTypeFromLoincCodes(record.attributes.loincCodes); // record.attributes.noteType
   return {
     id: record.id,
     name: record.attributes.name || EMPTY_FIELD,
-    type: entryType || EMPTY_FIELD, // vets-api already maps the loincCodes to types
-    loincCodes: record.attributes.loincCodes || [], // TODO: single string or array of all possible codes?
+    type: entryType || EMPTY_FIELD, // noteType or get from LOINC codes
+    loincCodes: record.attributes.loincCodes || [],
     date: noteDate || EMPTY_FIELD,
-    dateSigned: getDateSigned(record, note) || EMPTY_FIELD, // TODO: we might be able to extract this from the note body?
+    dateSigned: getDateSigned(record, note) || EMPTY_FIELD, // TODO: OH will have this but VistA won't unless we can extract?
     writtenBy: record.attributes.writtenBy || EMPTY_FIELD,
     signedBy: record.attributes.signedBy || EMPTY_FIELD,
     location: record.attributes.location || EMPTY_FIELD,
     note,
-    dischargedBy: record.attributes.dischargedBy || EMPTY_FIELD, // We don't get this field, so it'll need to be extracted from the note body
+    dischargedBy: record.attributes.writtenBy || EMPTY_FIELD, // This is mapped to the author
     admissionDate,
     dischargedDate,
-    // summary: record.attributes.summary || EMPTY_FIELD, // a summary is just a note
+    summary: record.attributes.note || EMPTY_FIELD, // record.attributes.note
   };
 };
 /**

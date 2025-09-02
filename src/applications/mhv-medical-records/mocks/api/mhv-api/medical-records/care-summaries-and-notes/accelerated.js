@@ -5,7 +5,7 @@ const sample = [
     attributes: {
       id: '76ad925b-0c2c-4401-ac0a-13542d6b6ef5',
       name: 'CARE COORDINATION HOME TELEHEALTH DISCHARGE NOTE',
-      type: 'physician_procedure_note',
+      noteType: 'physician_procedure_note',
       loincCodes: ['11506-3'],
       date: '2025-01-14T09:18:00.000+00:00',
       dateSigned: '2025-01-14T09:29:26+00:00',
@@ -22,7 +22,7 @@ const sample = [
     attributes: {
       id: '2e1d581e-bb36-4041-9350-40dbb5651d5c',
       name: 'UROLOGY PROGRESS NOTE',
-      type: 'physician_procedure_note',
+      noteType: 'physician_procedure_note',
       loincCodes: ['11506-3'],
       date: '2024-12-18T05:22:40.000+00:00',
       dateSigned: '2024-12-18T05:25:10+00:00',
@@ -40,7 +40,7 @@ const sample = [
     attributes: {
       id: '51b17767-5226-4260-8fd3-7c9acf1675b0',
       name: 'AUDIOLOGY TEMPLATE CONSULT REPORT',
-      type: 'consult_result',
+      noteType: 'consult_result',
       loincCodes: ['11488-4'],
       date: '2024-12-12T10:21:24.000+00:00',
       dateSigned: '2024-12-12T10:22:32+00:00',
@@ -58,7 +58,7 @@ const sample = [
     attributes: {
       id: '1c0b0ba5-4ea3-4fac-b6ba-6ba089ac7175',
       name: 'C&P UROLOGY',
-      type: 'physician_procedure_note',
+      noteType: 'physician_procedure_note',
       loincCodes: ['11506-3'],
       date: '2024-12-17T11:07:00.000+00:00',
       dateSigned: '2024-12-17T11:09:35+00:00',
@@ -76,7 +76,7 @@ const sample = [
     attributes: {
       id: '15249697279',
       name: 'Clinical Summary',
-      type: 'discharge_summary',
+      noteType: 'discharge_summary',
       loincCodes: ['18842-5'],
       date: '2025-07-29T17:48:51Z',
       dateSigned: null,
@@ -94,7 +94,7 @@ const sample = [
     attributes: {
       id: '15249651570',
       name: 'Inpatient Discharge Instructions - VA',
-      type: 'other',
+      noteType: 'other',
       loincCodes: ['96339-7'],
       date: '2025-07-29T17:47:50Z',
       dateSigned: null,
