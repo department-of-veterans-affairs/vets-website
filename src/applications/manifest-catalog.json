@@ -172,30 +172,6 @@
       "rootUrl": "/view-change-dependents/verify-dependents-form-21-0538"
     },
     {
-      "directoryPath": "src/applications/dependents/temp-url-change/686c-674",
-      "appName": "686C-674-v2-new-url",
-      "entryName": "686C-674-v2-new-url",
-      "rootUrl": "/manage-dependents/add-remove-form-21-686c-674"
-    },
-    {
-      "directoryPath": "src/applications/dependents/temp-url-change/686c-674-old",
-      "appName": "686C-674-new-url",
-      "entryName": "686C-674-new-url",
-      "rootUrl": "/manage-dependents/add-remove-form-21-686c"
-    },
-    {
-      "directoryPath": "src/applications/dependents/temp-url-change/dependents-verification",
-      "appName": "21-0538 Dependents verification new-url",
-      "entryName": "0538-dependents-verification-new-url",
-      "rootUrl": "/manage-dependents/verify-dependents-form-21-0538"
-    },
-    {
-      "directoryPath": "src/applications/dependents/temp-url-change/view-dependents",
-      "appName": "View Dependents new-url",
-      "entryName": "dependents-view-dependents-new-url",
-      "rootUrl": "/manage-dependents/view"
-    },
-    {
       "directoryPath": "src/applications/dependents/view-dependents",
       "appName": "View Dependents",
       "entryName": "dependents-view-dependents",
