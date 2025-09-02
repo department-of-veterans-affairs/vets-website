@@ -101,15 +101,29 @@ export const getNote = record => {
   return null;
 };
 
-export const getDateSigned = record => {
-  if (isArrayAndHasItems(record.authenticator?.extension)) {
+export const getDateSigned = (record, noteSummary = null) => {
+  let dateSigned = record.attributes?.dateSigned;
+  if (!dateSigned && isArrayAndHasItems(record.authenticator?.extension)) {
     const ext = record.authenticator.extension.find(e => e.valueDateTime);
     if (ext) {
-      const formattedDate = formatDateLong(ext.valueDateTime);
-      return formattedDate !== 'Invalid date' ? formattedDate : null;
+      dateSigned = ext.valueDateTime;
+      // const formattedDate = formatDateLong(ext.valueDateTime);
+      // return formattedDate !== 'Invalid date' ? formattedDate : null;
     }
   }
-  return null;
+
+  if (!dateSigned && noteSummary) {
+    // OH doesn't include date signed in the authenticator, so it'll need to be extracted from the note body
+    // IF we even get it there, which we might not...
+    dateSigned =
+      noteSummary
+        ?.split('signed on:')[1]
+        ?.split('\n')[0]
+        ?.trim() || null;
+  }
+  const formattedDate = formatDateLong(dateSigned);
+  return formattedDate !== 'Invalid date' ? formattedDate : null;
+  // return null;
 };
 
 export const getAttending = noteSummary => {
@@ -146,9 +160,12 @@ export const getAdmissionDate = (record, noteSummary) => {
 };
 
 export const getDischargeDate = (record, noteSummary) => {
-  let dischargeDate = record.context?.period?.end
-    ? new Date(record.context.period.end)
-    : null;
+  let dischargeDate = record.attributes?.dischargeDate;
+  if (!dischargeDate && record.context?.period?.end) {
+    dischargeDate = record.context?.period?.end
+      ? new Date(record.context.period.end)
+      : null;
+  }
   if (!dischargeDate) {
     dischargeDate = getDateFromBody(noteSummary, 'DATE OF DISCHARGE:');
   }
@@ -248,6 +265,8 @@ const notesAndSummariesConverterMap = {
   [noteTypes.CONSULT_RESULT]: convertProgressNote,
 };
 // TODO: this is wet
+// TODO: need to adjust to handle the different formats
+// OH uses UTC ('2025-07-29T17:32:46.000Z'), VistA uses TZ offset ('2024-10-18T11:52:00+00:00')
 export function formatDateTime(datetimeString) {
   const dateTime = new Date(datetimeString);
   if (Number.isNaN(dateTime.getTime())) {
@@ -284,18 +303,18 @@ const convertUnifiedCareSummariesAndNotesRecord = record => {
   return {
     id: record.id,
     name: record.attributes.name || EMPTY_FIELD,
-    type: entryType || EMPTY_FIELD,
-    loincCodes: record.attributes.loincCodes || [],
+    type: entryType || EMPTY_FIELD, // vets-api already maps the loincCodes to types
+    loincCodes: record.attributes.loincCodes || [], // TODO: single string or array of all possible codes?
     date: noteDate || EMPTY_FIELD,
-    dateSigned: record.attributes.dateSigned || EMPTY_FIELD,
+    dateSigned: getDateSigned(record, note) || EMPTY_FIELD, // TODO: we might be able to extract this from the note body?
     writtenBy: record.attributes.writtenBy || EMPTY_FIELD,
     signedBy: record.attributes.signedBy || EMPTY_FIELD,
     location: record.attributes.location || EMPTY_FIELD,
     note,
-    dischargedBy: record.attributes.dischargedBy || EMPTY_FIELD,
+    dischargedBy: record.attributes.dischargedBy || EMPTY_FIELD, // We don't get this field, so it'll need to be extracted from the note body
     admissionDate,
     dischargedDate,
-    summary: record.attributes.summary || EMPTY_FIELD,
+    // summary: record.attributes.summary || EMPTY_FIELD, // a summary is just a note
   };
 };
 /**

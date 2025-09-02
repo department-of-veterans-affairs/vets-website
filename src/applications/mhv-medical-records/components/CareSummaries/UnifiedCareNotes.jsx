@@ -260,7 +260,7 @@ const UnifiedCareNotes = props => {
           {isDischargeSummary ? (
             <LabelValue
               label="Summary"
-              value={record.summary}
+              value={record.note} // No separate summary property, only "note"
               headerClass="test-results-header"
               testId="note-summary"
               actionName="[admission discharge summary - Summary]"
