@@ -3,6 +3,7 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 import {
   selectFeatureOHDirectSchedule,
   selectFeatureOHRequest,
+  selectFeatureSubstanceUseDisorder,
   selectRegisteredCernerFacilityIds,
 } from '../redux/selectors';
 import {
@@ -290,7 +291,11 @@ export default function getNewAppointmentFlow(state) {
           return 'typeOfEyeCare';
         }
         if (isMentalHealth(state)) {
-          return 'typeOfMentalHealth';
+          dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
+          if (selectFeatureSubstanceUseDisorder(state)) {
+            return 'typeOfMentalHealth';
+          }
+          return VA_FACILITY_V2_KEY;
         }
         if (isCommunityCare(state)) {
           const isEligible = await dispatch(checkCommunityCareEligibility());

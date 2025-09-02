@@ -62,6 +62,14 @@ export function getTypeOfCare(data) {
   }
 
   if (data.typeOfCareId === TYPE_OF_CARE_IDS.MENTAL_HEALTH_ID) {
+    // When featureSubstanceUseDisorder is off, there will be no typeOfMentalHealthId
+    // in the form data. In these cases, we should the existing Mental Health Services
+    // type of care (stop code 502). This can be removed once the feature is released.
+    if (!data.typeOfMentalHealthId) {
+      return TYPES_OF_MENTAL_HEALTH.find(
+        care => care.id === TYPE_OF_CARE_IDS.MENTAL_HEALTH_SERVICES_ID,
+      );
+    }
     return TYPES_OF_MENTAL_HEALTH.find(
       care => care.id === data.typeOfMentalHealthId,
     );
