@@ -53,6 +53,24 @@ describe('RecipientsSelect', () => {
       stationNumber: '402',
       signatureRequired: false,
     },
+    {
+      id: 3,
+      name: 'VHA 649 Release of Information (ROI)',
+      stationNumber: '649',
+      signatureRequired: true,
+    },
+    {
+      id: 4,
+      name: 'Ohio Columbus Release of Information – Medical Records',
+      stationNumber: '757',
+      signatureRequired: true,
+    },
+    {
+      id: 5,
+      name: 'Regular Cardiology Team',
+      stationNumber: '649',
+      signatureRequired: false,
+    },
   ];
 
   const defaultProps = {
@@ -137,6 +155,48 @@ describe('RecipientsSelect', () => {
     select.value = '2';
 
     expect(select.value).to.equal('2');
+    const alert = screen.queryByTestId('signature-alert');
+    expect(alert).to.be.null;
+  });
+
+  it('displays the signature alert when Oracle Health ROI recipient is selected', async () => {
+    const setAlertDisplayed = sinon.spy();
+    const customProps = {
+      setAlertDisplayed,
+    };
+    const screen = setup({ props: customProps });
+    const val = recipientsList[2].id; // Oracle Health ROI recipient (ID 3)
+    selectVaSelect(screen.container, val);
+    const select = screen.getByTestId('compose-recipient-select');
+
+    waitFor(() => {
+      expect(setAlertDisplayed).to.be.calledOnce;
+      expect(select).to.have.value(val);
+    });
+  });
+
+  it('displays the signature alert when Oracle Health Medical Records recipient is selected', async () => {
+    const setAlertDisplayed = sinon.spy();
+    const customProps = {
+      setAlertDisplayed,
+    };
+    const screen = setup({ props: customProps });
+    const val = recipientsList[3].id; // Oracle Health Medical Records recipient (ID 4)
+    selectVaSelect(screen.container, val);
+    const select = screen.getByTestId('compose-recipient-select');
+
+    waitFor(() => {
+      expect(setAlertDisplayed).to.be.calledOnce;
+      expect(select).to.have.value(val);
+    });
+  });
+
+  it('does not display the signature alert when regular team (non-Oracle Health) is selected', () => {
+    const screen = setup({});
+    const select = screen.getByTestId('compose-recipient-select');
+    select.value = '5'; // Regular Cardiology Team (matches existing pattern)
+
+    expect(select.value).to.equal('5');
     const alert = screen.queryByTestId('signature-alert');
     expect(alert).to.be.null;
   });
