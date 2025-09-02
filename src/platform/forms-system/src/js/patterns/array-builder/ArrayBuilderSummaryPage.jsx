@@ -263,6 +263,9 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
 
     useEffect(
       () => {
+        // Ensure yes/no field is never left in a bad state:
+        // - On summary page: force false when max items reached (field hidden but still required)
+        // - On review page: force false to avoid hidden validation error
         const length = Array.isArray(arrayData) ? arrayData.length : 0;
         const reachedMax =
           Number.isFinite(maxItems) && maxItems > 0 && length >= maxItems;
