@@ -1,11 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { scrollToTop } from 'platform/utilities/scroll';
 import { ROUTES } from '../constants';
-import { RESULTS_CONTENT } from '../constants/results-data-map';
+import { isNonDR, NON_DR_RESULTS_CONTENT } from '../constants/results-data-map';
 
 const ResultsTemplate = ({ resultPage, router, viewedIntroPage }) => {
-  const { h1, bodyContent } = RESULTS_CONTENT?.[resultPage] || {};
+  const hasScrolled = useRef(false);
+
+  if (!hasScrolled.current) {
+    scrollToTop();
+    hasScrolled.current = true;
+  }
 
   useEffect(
     () => {
@@ -15,6 +21,27 @@ const ResultsTemplate = ({ resultPage, router, viewedIntroPage }) => {
     },
     [router, viewedIntroPage],
   );
+
+  const isNonDrResultPage = isNonDR.includes(resultPage);
+  let resultsPageContent;
+
+  if (isNonDrResultPage) {
+    resultsPageContent = NON_DR_RESULTS_CONTENT?.[resultPage] || {};
+  } else {
+    // Temporary return
+    // TODO DR summary screen content
+    return (
+      <h1 data-testid={`onramp-results-header-${resultPage}`}>
+        Your decision review options
+      </h1>
+    );
+  }
+
+  if (!resultsPageContent) {
+    return null;
+  }
+
+  const { h1, bodyContent } = resultsPageContent;
 
   if (h1 && bodyContent) {
     return (

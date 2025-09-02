@@ -108,3 +108,71 @@ The utility functions that consume the display conditions always look **ahead** 
 The display conditions for results are identical in structure to questions, but they might be leaner when it comes to covering split paths. Unlike the questions, some results screens have more than one or two scenarios in which to display. When a results screen can be reached many ways, our primary concern is the answers to the questions immediately prior to that screen.
 
 Remember, as the user navigates through the flow, the questions' display conditions will direct them properly through the decision tree. By the time they reach a results screen, we will have verified every question against the decision tree, so the results decision tree won't need to do much additional validation.
+
+### Dynamic Results Screens Content
+
+For some dynamic results screen content (on Decision Reviews results screens), we want to show content UNLESS specific conditions are true. In that case, we use the key `NONE_OF`. For example:
+
+```
+CARD_SC: {
+  NONE_OF: {
+    Q_2_IS_1B_NEW_EVIDENCE: NO,
+    Q_2_S_1_NEW_EVIDENCE: NO,
+    Q_2_H_2_NEW_EVIDENCE: NO,
+  },
+}
+```
+
+We want to show the Supplemental Claims option card UNLESS any of those three conditions are true. This is the opposite behavior of `ONE_OF` which requires one of the contained conditions to be true in order for the item to show.
+
+#### Combined Behavior
+In some cases, `ONE_OF` behavior is combined with basic display conditions. For example:
+
+```
+CARD_HLR: {
+    Q_1_3_CLAIM_CONTESTED: NO,
+    ONE_OF: {
+      Q_2_IS_1B_NEW_EVIDENCE: NO,
+      Q_2_S_1_NEW_EVIDENCE: NO,
+    },
+  },
+```
+
+In this example, we want to show the content for `CARD_HLR` if the answer to `Q_1_3_CLAIM_CONTESTED` is 'No', but only if one of the below conditions is also true:
+
+1. `Q_2_IS_1B_NEW_EVIDENCE` is 'No'
+2. `Q_2_S_1_NEW_EVIDENCE` is 'No'
+
+#### Forks
+
+If an item has multiple groups of conditions, any of which could be true in order to show the item, we need to add a `FORK` to the display conditions. For example:
+
+```
+CARD_BOARD_DIRECT: {
+  FORK: {
+    A: {
+      Q_2_0_CLAIM_TYPE: [INIT, SC, HLR],
+      ONE_OF: {
+        Q_2_IS_1B_NEW_EVIDENCE: NO,
+        Q_2_S_1_NEW_EVIDENCE: NO,
+        Q_2_H_2_NEW_EVIDENCE: NO,
+      },
+    },
+    B: {
+      Q_1_3A_FEWER_60_DAYS: YES,
+    },
+  },
+},
+```
+
+In this example, we want to show the content for `CARD_BOARD_DIRECT` in two scenarios:
+
+Scenario A
+1. `Q_2_0_CLAIM_TYPE` has a response of 'Initial claim or claim for increase', 'Supplemental claim' or 'Higher-Level Review decision'.
+2. One of these is true:
+  - `Q_2_IS_1B_NEW_EVIDENCE` is 'No'
+  - `Q_2_S_1_NEW_EVIDENCE` is 'No'
+  - `Q_2_H_2_NEW_EVIDENCE` is 'No'
+
+Scenario B
+1. `Q_1_3A_FEWER_60_DAYS` is 'Yes'
