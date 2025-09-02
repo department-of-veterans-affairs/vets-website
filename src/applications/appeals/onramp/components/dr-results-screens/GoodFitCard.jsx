@@ -7,6 +7,7 @@ import {
   getStartLink,
   getDecisionTimeline,
 } from '../../utilities/dr-results-content-utils';
+import { CARD_SC } from '../../constants/results-content/dr-screens/card-content';
 
 const GoodFitCard = ({ card, formResponses }) => {
   const H3 = getCardTitle(card);
@@ -14,6 +15,8 @@ const GoodFitCard = ({ card, formResponses }) => {
   const learnMoreLink = getLearnMoreLink(card);
   const startLink = getStartLink(card);
   const timeline = getDecisionTimeline(card);
+  const timelineHeader =
+    card === CARD_SC ? 'Average time to receive a decision:' : 'Timeframe goal';
 
   return (
     <va-card
@@ -25,7 +28,7 @@ const GoodFitCard = ({ card, formResponses }) => {
       {content}
       {timeline && (
         <>
-          <h4 className="vads-u-margin-top--0">Timeframe goal</h4>
+          <h4 className="vads-u-margin-top--0">{timelineHeader}</h4>
           <p>{timeline}</p>
         </>
       )}
