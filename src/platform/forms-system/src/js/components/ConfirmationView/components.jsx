@@ -474,7 +474,7 @@ export const ChapterSectionCollectionWithContext = ({
   collapsible,
   showPageTitles,
 }) => {
-  const { formConfig } = useConfirmation();
+  const { formConfig, chapterSectionCollection } = useConfirmation();
 
   return (
     <ChapterSectionCollection
@@ -482,7 +482,9 @@ export const ChapterSectionCollectionWithContext = ({
       header={header}
       className={className}
       collapsible={collapsible}
-      showPageTitles={showPageTitles}
+      showPageTitles={
+        showPageTitles || chapterSectionCollection?.showPageTitles
+      }
     />
   );
 };
