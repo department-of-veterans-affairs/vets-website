@@ -74,25 +74,24 @@ const LandingPage = title => {
                     >
                       <Toggler.Enabled>
                         <va-link
+                          class="arp__home__link--learn-more"
                           href="/representative/get-help"
                           text="Learn more about the portal"
                         />
                       </Toggler.Enabled>
                     </Toggler>
-                    {/* <va-link
+                    <va-link
                       href="https://www.va.gov"
                       text="Watch a video of how the portal works"
                       video
-                    /> */}
+                    />
                   </div>
                   <ul>
                     <li>
                       <va-card className="home__card" icon-name="how_to_reg">
                         <div>
-                          <h3 className="vads-u-margin-top--1">
-                            Quickly establish representation
-                          </h3>
-                          <p>
+                          <h3>Quickly establish representation</h3>
+                          <p className="arp__landing__card-body">
                             Review and accept representation requests from
                             claimants. Within minutes of accepting a request,
                             you’ll have access to the claimant’s eFolder in
@@ -105,10 +104,8 @@ const LandingPage = title => {
                       {' '}
                       <va-card className="home__card" icon-name="search">
                         <div>
-                          <h3 className="vads-u-margin-top--1">
-                            Find claimants you represent
-                          </h3>
-                          <p>
+                          <h3>Find claimants you represent</h3>
+                          <p className="arp__landing__card-body">
                             Find claimants you represent and review their
                             contact information and representation status. Start
                             submitting forms on their behalf.
@@ -124,10 +121,8 @@ const LandingPage = title => {
                         icon-name="assignment_turned_in"
                       >
                         <div>
-                          <h3 className="vads-u-margin-top--1">
-                            Submit and track VA forms
-                          </h3>
-                          <p>
+                          <h3>Submit and track VA forms</h3>
+                          <p className="arp__landing__card-body">
                             Submit commonly used VA forms for your claimants and
                             track when they’ve been received in VBMS. Get
                             notified when forms are submitted, received, or need
@@ -140,7 +135,7 @@ const LandingPage = title => {
                 </div>
               </div>
             </div>
-            <div className="home__full-width home__full-width--portal vads-u-background-color--primary">
+            <div className="home__full-width home__full-width--portal vads-u-background-color--primary-dark">
               <div className="home__container home__container--portal">
                 <img
                   src="/img/arp-hp-card.png"
@@ -148,7 +143,7 @@ const LandingPage = title => {
                   alt="poa request search page"
                 />
 
-                <div className="home__content">
+                <div className="home__content vads-u-color--white">
                   <h2>Get started using the portal</h2>
                   <p>
                     To use the portal, you need to be a VA accredited Veterans
@@ -177,7 +172,7 @@ const LandingPage = title => {
                 </div>
               </div>
               <div className="home__container">
-                <div className="home__content">
+                <div className="home__content vads-u-color--white">
                   <h2>Help improve tools for representatives</h2>
                   <p>
                     Your input is valuable as we work to build the next
