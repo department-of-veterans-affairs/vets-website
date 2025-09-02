@@ -73,14 +73,34 @@ describe('Secure Messaging Compose', () => {
     );
     PatientComposePage.verifyElectronicSignatureAlert();
     PatientComposePage.selectCategory();
-    cy.findByLabelText(/subject/i).type(`Oracle Health ES test`);
-    cy.findByLabelText(/message body|message/i).type(
-      `\nOracle Health signature test`,
-    );
-    cy.findByLabelText(/your full name/i).type('Test User ');
-    cy.findByLabelText(/i certify|electronic signature/i).check();
+    PatientComposePage.getMessageSubjectField().type(`ES test`, {
+      force: true,
+    });
+    PatientComposePage.getMessageBodyField().type(`\nES tests text`, {
+      force: true,
+    });
+    PatientComposePage.getElectronicSignatureField().type('Dusty Dump ', {
+      force: true,
+    });
+    PatientComposePage.clickElectronicSignatureCheckbox();
 
-    PatientComposePage.sendMessage(mockRequestBody, mockResponseBody);
+    const customMockResponse = {
+      data: {
+        ...mockResponseBody.data,
+        id: '345678203847',
+        attributes: {
+          ...mockResponseBody.data.attributes,
+          recipientId: 345678203847,
+          recipientName: 'Medical Center Release of Information Team',
+        },
+      },
+    };
+
+    PatientComposePage.sendMessage(
+      // eslint-disable-next-line camelcase
+      { ...mockRequestBody, recipient_id: 345678203847 },
+      customMockResponse,
+    );
     PatientComposePage.verifySendMessageConfirmationMessageText();
 
     cy.injectAxe();
