@@ -44,4 +44,46 @@ describe('Secure Messaging Compose', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
+
+  it('verify Oracle Health ROI recipient requires electronic signature', () => {
+    PatientComposePage.selectRecipient('VHA 649 Release of Information ROI');
+    PatientComposePage.verifyElectronicSignatureAlert();
+    PatientComposePage.verifyElectronicSignature();
+    PatientComposePage.verifyElectronicSignatureRequired();
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
+  });
+
+  it('verify Oracle Health Medical Records recipient requires electronic signature', () => {
+    PatientComposePage.selectRecipient(
+      'Ohio Columbus Release of Information – Medical Records',
+    );
+    PatientComposePage.verifyElectronicSignatureAlert();
+    PatientComposePage.verifyElectronicSignature();
+    PatientComposePage.verifyElectronicSignatureRequired();
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
+  });
+
+  it('verify user can sign and send message to Oracle Health recipient', () => {
+    PatientComposePage.selectRecipient(
+      'Medical Center Release of Information Team',
+    );
+    PatientComposePage.verifyElectronicSignatureAlert();
+    PatientComposePage.selectCategory();
+    cy.findByLabelText(/subject/i).type(`Oracle Health ES test`);
+    cy.findByLabelText(/message body|message/i).type(
+      `\nOracle Health signature test`,
+    );
+    cy.findByLabelText(/your full name/i).type('Test User ');
+    cy.findByLabelText(/i certify|electronic signature/i).check();
+
+    PatientComposePage.sendMessage(mockRequestBody, mockResponseBody);
+    PatientComposePage.verifySendMessageConfirmationMessageText();
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
+  });
 });

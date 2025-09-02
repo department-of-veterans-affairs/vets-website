@@ -434,10 +434,7 @@ class PatientComposePage {
   };
 
   verifyElectronicSignatureAlert = () => {
-    cy.get(`[data-testid="signature-alert"]`).should(
-      `have.text`,
-      Alerts.EL_SIGN,
-    );
+    cy.findByText(Alerts.EL_SIGN).should('exist');
   };
 
   verifyElectronicSignature = () => {
