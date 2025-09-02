@@ -40,44 +40,27 @@ export const getConditionDetails = (
   conditionId,
   conditionList,
   isAccelerating = false,
-) => async (dispatch, getState) => {
-  // Accelerated path: find locally; else fetch list and match.
-  // Remove when GET_UNIFIED_ITEM is available.
-  if (isAccelerating) {
-    let matchingItem;
-    matchingItem =
-      conditionList && conditionList.find(item => item.id === conditionId);
-
-    if (!matchingItem) {
-      // No local match; fetch list, then read from store
-      await dispatch(getConditionsList(false, isAccelerating));
-      // Read from store and normalize shape (array or { data: [] })
-      const raw = getState().mr?.conditions?.conditionsList;
-      const list = Array.isArray(raw) ? raw : raw?.data || [];
-      const found =
-        list.find(
-          item =>
-            item?.id === conditionId || item?.attributes?.id === conditionId,
-        ) || null;
-      // Prefer attributes payload if present
-      matchingItem = found?.attributes ?? found ?? undefined;
-    }
-
-    dispatch({
-      type: Actions.Conditions.GET_FROM_LIST,
-      response: matchingItem,
-    });
-    return; // done (accelerated)
-  }
-
+) => async dispatch => {
   try {
+    const getDetailsFunc = isAccelerating
+      ? async () => {
+          // Return a notfound response because the downstream API
+          // does not support fetching a single condition
+          return { data: { notFound: true } };
+        }
+      : getCondition;
+
+    const detailsRequestActionType = isAccelerating
+      ? Actions.Conditions.GET_UNIFIED_ITEM_FROM_LIST
+      : Actions.Conditions.GET;
+
     await dispatchDetails(
       conditionId,
       conditionList,
       dispatch,
-      getCondition,
+      getDetailsFunc,
       Actions.Conditions.GET_FROM_LIST,
-      Actions.Conditions.GET,
+      detailsRequestActionType,
     );
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
