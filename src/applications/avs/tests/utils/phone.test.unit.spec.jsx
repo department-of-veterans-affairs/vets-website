@@ -1,5 +1,5 @@
 import { assert, expect } from 'chai';
-import { normalizePhoneNumber, numberIsClickable } from '../../utils/phone';
+import { normalizePhoneNumber, numberIsClickable } from '../../utils/phone.ts';
 
 describe('avs', () => {
   describe('phone utils', () => {

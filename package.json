@@ -124,6 +124,7 @@
     "@babel/plugin-syntax-import-meta": "^7.10.4",
     "@babel/preset-env": "^7.26.0",
     "@babel/preset-react": "^7.25.9",
+    "@babel/preset-typescript": "^7.27.1",
     "@babel/register": "^7.25.9",
     "@babel/traverse": "^7.25.9",
     "@bahmutov/cypress-esbuild-preprocessor": "^2.2.0",

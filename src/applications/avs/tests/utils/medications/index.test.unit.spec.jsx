@@ -1,14 +1,17 @@
 import { assert, expect } from 'chai';
 import { replacementFunctions } from '@department-of-veterans-affairs/platform-utilities';
 
-import { MEDICATION_SOURCES, MEDICATION_TYPES } from '../../../utils/constants';
+import {
+  MEDICATION_SOURCES,
+  MEDICATION_TYPES,
+} from '../../../utils/constants.ts';
 import {
   addMedicationSource,
   filterMedicationsByType,
   getCombinedMedications,
   getMedicationsNotTaking,
   getMedicationsTaking,
-} from '../../../utils/medications/index';
+} from '../../../utils/medications/index.ts';
 
 const testAvs = {
   meta: { stationNo: '500' },

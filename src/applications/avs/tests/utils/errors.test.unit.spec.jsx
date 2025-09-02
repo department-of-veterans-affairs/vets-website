@@ -3,7 +3,7 @@ import sinon from 'sinon';
 
 import { expect } from 'chai';
 
-import { captureError } from '../../utils/errors';
+import { captureError } from '../../utils/errors.ts';
 
 describe('capture error', () => {
   it('reports errors to sentry', () => {

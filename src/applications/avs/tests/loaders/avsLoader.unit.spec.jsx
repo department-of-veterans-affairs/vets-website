@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import { environment } from '@department-of-veterans-affairs/platform-utilities/exports';
 import * as platformApiUtils from '@department-of-veterans-affairs/platform-utilities/api';
 
-import { avsLoader } from '../../loaders/avsLoader';
+import { avsLoader } from '../../loaders/avsLoader.ts';
 
 describe('avsLoader', () => {
   const params = { id: '123' };

@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { replacementFunctions } from '@department-of-veterans-affairs/platform-utilities';
 
-import YourHealthInformation from '../../components/YourHealthInformation';
+import YourHealthInformation from '../../components/YourHealthInformation.tsx';
 
 import mockAvs from '../fixtures/9A7AF40B2BC2471EA116891839113252.json';
 

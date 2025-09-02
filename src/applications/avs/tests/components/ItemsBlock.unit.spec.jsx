@@ -4,7 +4,7 @@ import { render } from '@testing-library/react';
 import { within } from '@testing-library/dom';
 import { replacementFunctions } from '@department-of-veterans-affairs/platform-utilities';
 
-import ItemsBlock from '../../components/ItemsBlock';
+import ItemsBlock from '../../components/ItemsBlock.tsx';
 
 import mockAvs from '../fixtures/9A7AF40B2BC2471EA116891839113252.json';
 

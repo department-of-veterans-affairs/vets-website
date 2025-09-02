@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { replacementFunctions } from '@department-of-veterans-affairs/platform-utilities';
 
-import YourAppointment from '../../components/YourAppointment';
+import YourAppointment from '../../components/YourAppointment.tsx';
 
 import mockAvs from '../fixtures/9A7AF40B2BC2471EA116891839113252.json';
 
