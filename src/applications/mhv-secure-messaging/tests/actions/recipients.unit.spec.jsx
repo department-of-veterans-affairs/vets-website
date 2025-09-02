@@ -34,7 +34,7 @@ describe('triageTeam actions', () => {
   });
 
   describe('signature requirement logic', () => {
-    it('should add signatureRequired=true for Privacy Issue_Admin recipients', async () => {
+    it('should add signatureRequired=true for Privacy Issue_Admin recipients', () => {
       const mockResponse = {
         data: [
           {
@@ -47,15 +47,15 @@ describe('triageTeam actions', () => {
       const store = mockStore();
       mockApiRequest(mockResponse);
 
-      store.dispatch(getAllTriageTeamRecipients());
-      const actions = store.getActions();
-
-      expect(actions[0].response.data[0].attributes.signatureRequired).to.equal(
-        true,
-      );
+      return store.dispatch(getAllTriageTeamRecipients()).then(() => {
+        const actions = store.getActions();
+        expect(
+          actions[0].response.data[0].attributes.signatureRequired,
+        ).to.equal(true);
+      });
     });
 
-    it('should add signatureRequired=true for Record Amendment_Admin recipients', async () => {
+    it('should add signatureRequired=true for Record Amendment_Admin recipients', () => {
       const mockResponse = {
         data: [
           {
@@ -68,15 +68,15 @@ describe('triageTeam actions', () => {
       const store = mockStore();
       mockApiRequest(mockResponse);
 
-      store.dispatch(getAllTriageTeamRecipients());
-      const actions = store.getActions();
-
-      expect(actions[0].response.data[0].attributes.signatureRequired).to.equal(
-        true,
-      );
+      return store.dispatch(getAllTriageTeamRecipients()).then(() => {
+        const actions = store.getActions();
+        expect(
+          actions[0].response.data[0].attributes.signatureRequired,
+        ).to.equal(true);
+      });
     });
 
-    it('should add signatureRequired=true for Release of Information Medical Records_Admin recipients', async () => {
+    it('should add signatureRequired=true for Release of Information Medical Records_Admin recipients', () => {
       const mockResponse = {
         data: [
           {
@@ -91,15 +91,15 @@ describe('triageTeam actions', () => {
       const store = mockStore();
       mockApiRequest(mockResponse);
 
-      store.dispatch(getAllTriageTeamRecipients());
-      const actions = store.getActions();
-
-      expect(actions[0].response.data[0].attributes.signatureRequired).to.equal(
-        true,
-      );
+      return store.dispatch(getAllTriageTeamRecipients()).then(() => {
+        const actions = store.getActions();
+        expect(
+          actions[0].response.data[0].attributes.signatureRequired,
+        ).to.equal(true);
+      });
     });
 
-    it('should add signatureRequired=true for Oracle Health Release of Information patterns (without _Admin)', async () => {
+    it('should add signatureRequired=true for Oracle Health Release of Information patterns (without _Admin)', () => {
       const mockResponse = {
         data: [
           {
@@ -122,22 +122,23 @@ describe('triageTeam actions', () => {
       const store = mockStore();
       mockApiRequest(mockResponse);
 
-      store.dispatch(getAllTriageTeamRecipients());
-      const actions = store.getActions();
+      return store.dispatch(getAllTriageTeamRecipients()).then(() => {
+        const actions = store.getActions();
 
-      // All Oracle Health ROI patterns should require signature
-      expect(actions[0].response.data[0].attributes.signatureRequired).to.equal(
-        true,
-      );
-      expect(actions[0].response.data[1].attributes.signatureRequired).to.equal(
-        true,
-      );
-      expect(actions[0].response.data[2].attributes.signatureRequired).to.equal(
-        true,
-      );
+        // All Oracle Health ROI patterns should require signature
+        expect(
+          actions[0].response.data[0].attributes.signatureRequired,
+        ).to.equal(true);
+        expect(
+          actions[0].response.data[1].attributes.signatureRequired,
+        ).to.equal(true);
+        expect(
+          actions[0].response.data[2].attributes.signatureRequired,
+        ).to.equal(true);
+      });
     });
 
-    it('should NOT add signatureRequired for regular team names', async () => {
+    it('should NOT add signatureRequired for regular team names', () => {
       const mockResponse = {
         data: [
           {
@@ -158,19 +159,20 @@ describe('triageTeam actions', () => {
       const store = mockStore();
       mockApiRequest(mockResponse);
 
-      store.dispatch(getAllTriageTeamRecipients());
-      const actions = store.getActions();
+      return store.dispatch(getAllTriageTeamRecipients()).then(() => {
+        const actions = store.getActions();
 
-      // Regular teams should not have signatureRequired property
-      expect(actions[0].response.data[0].attributes.signatureRequired).to.be
-        .undefined;
-      expect(actions[0].response.data[1].attributes.signatureRequired).to.be
-        .undefined;
-      expect(actions[0].response.data[2].attributes.signatureRequired).to.be
-        .undefined;
+        // Regular teams should not have signatureRequired property
+        expect(actions[0].response.data[0].attributes.signatureRequired).to.be
+          .undefined;
+        expect(actions[0].response.data[1].attributes.signatureRequired).to.be
+          .undefined;
+        expect(actions[0].response.data[2].attributes.signatureRequired).to.be
+          .undefined;
+      });
     });
 
-    it('should handle mixed recipient types correctly', async () => {
+    it('should handle mixed recipient types correctly', () => {
       const mockResponse = {
         data: [
           {
@@ -191,17 +193,18 @@ describe('triageTeam actions', () => {
       const store = mockStore();
       mockApiRequest(mockResponse);
 
-      store.dispatch(getAllTriageTeamRecipients());
-      const actions = store.getActions();
+      return store.dispatch(getAllTriageTeamRecipients()).then(() => {
+        const actions = store.getActions();
 
-      expect(actions[0].response.data[0].attributes.signatureRequired).to.equal(
-        true,
-      );
-      expect(actions[0].response.data[1].attributes.signatureRequired).to.be
-        .undefined;
-      expect(actions[0].response.data[2].attributes.signatureRequired).to.equal(
-        true,
-      );
+        expect(
+          actions[0].response.data[0].attributes.signatureRequired,
+        ).to.equal(true);
+        expect(actions[0].response.data[1].attributes.signatureRequired).to.be
+          .undefined;
+        expect(
+          actions[0].response.data[2].attributes.signatureRequired,
+        ).to.equal(true);
+      });
     });
   });
 });
