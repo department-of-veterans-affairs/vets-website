@@ -16,14 +16,6 @@ export const showToxicExposureDestructionModal = state =>
         ?.disabilityCompensationToxicExposureDestructionModal || false
     : false;
 
-/** @constant {string} Default modal title for removing toxic exposure conditions */
-export const deleteToxicExposureModalTitle =
-  'Remove condition related to toxic exposure?';
-
-/** @constant {string} Default modal description for removing toxic exposure conditions */
-export const deleteToxicExposureModalDescription =
-  "If you choose to remove this as a condition related to toxic exposure, we'll delete information about:";
-
 /**
  * Validates if a value contains meaningful data
  * @param {*} value - The value to validate

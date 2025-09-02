@@ -3,8 +3,6 @@ import { expect } from 'chai';
 import React from 'react';
 import {
   DeleteToxicExposureModalContent,
-  deleteToxicExposureModalDescription,
-  deleteToxicExposureModalTitle,
   deletedToxicExposureAlertConfirmationContent,
   getRemovingConditions,
   hasValidData,
@@ -123,18 +121,6 @@ describe('Toxic Exposure Choice Content', () => {
   });
 
   describe('Modal content', () => {
-    it('should have correct modal title', () => {
-      expect(deleteToxicExposureModalTitle).to.equal(
-        'Remove condition related to toxic exposure?',
-      );
-    });
-
-    it('should have correct modal description', () => {
-      expect(deleteToxicExposureModalDescription).to.equal(
-        "If you choose to remove this as a condition related to toxic exposure, we'll delete information about:",
-      );
-    });
-
     it('should render dynamic modal content with single condition', () => {
       const mockFormData = {
         toxicExposure: {

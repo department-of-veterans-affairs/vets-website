@@ -24,13 +24,6 @@ export const uiSchema = {
     }),
   },
   'ui:validations': [validateTEConditions],
-  // Hidden view fields for state tracking, required by forms-system.
-  'view:previousToxicExposureConditions': {
-    'ui:hidden': true,
-  },
-  'view:selectedToxicExposureConditions': {
-    'ui:hidden': true,
-  },
 };
 
 export const schema = {
@@ -41,15 +34,6 @@ export const schema = {
       properties: {
         conditions: checkboxGroupSchema([]),
       },
-    },
-    // View fields for state tracking - required by forms-system
-    'view:previousToxicExposureConditions': {
-      type: 'object',
-      properties: {},
-    },
-    'view:selectedToxicExposureConditions': {
-      type: 'object',
-      properties: {},
     },
   },
 };
