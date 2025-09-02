@@ -74,6 +74,10 @@ function isCovidVaccine(state) {
   return getFormData(state).typeOfCareId === TYPE_OF_CARE_IDS.COVID_VACCINE_ID;
 }
 
+function isMentalHealth(state) {
+  return getFormData(state).typeOfCareId === TYPE_OF_CARE_IDS.MENTAL_HEALTH_ID;
+}
+
 async function vaFacilityNext(state, dispatch) {
   let eligibility = selectEligibility(state);
 
@@ -285,6 +289,9 @@ export default function getNewAppointmentFlow(state) {
         if (isEyeCare(state)) {
           return 'typeOfEyeCare';
         }
+        if (isMentalHealth(state)) {
+          return 'typeOfMentalHealth';
+        }
         if (isCommunityCare(state)) {
           const isEligible = await dispatch(checkCommunityCareEligibility());
 
@@ -346,6 +353,11 @@ export default function getNewAppointmentFlow(state) {
     typeOfSleepCare: {
       url: 'sleep-care',
       label: 'Choose the type of sleep care you need',
+      next: VA_FACILITY_V2_KEY,
+    },
+    typeOfMentalHealth: {
+      url: 'mental-health',
+      label: 'Which type of mental health care do you need?',
       next: VA_FACILITY_V2_KEY,
     },
     vaFacilityV2: {

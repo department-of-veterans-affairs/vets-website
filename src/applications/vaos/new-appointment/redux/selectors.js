@@ -19,6 +19,7 @@ import {
   TYPE_OF_CARE_IDS,
   TYPES_OF_CARE,
   TYPES_OF_EYE_CARE,
+  TYPES_OF_MENTAL_HEALTH,
   TYPES_OF_SLEEP_CARE,
 } from '../../utils/constants';
 import { removeDuplicateId } from '../../utils/data';
@@ -58,6 +59,12 @@ export function getTypeOfCare(data) {
 
   if (data.typeOfCareId === TYPE_OF_CARE_IDS.EYE_CARE_ID) {
     return TYPES_OF_EYE_CARE.find(care => care.id === data.typeOfEyeCareId);
+  }
+
+  if (data.typeOfCareId === TYPE_OF_CARE_IDS.MENTAL_HEALTH_ID) {
+    return TYPES_OF_MENTAL_HEALTH.find(
+      care => care.id === data.typeOfMentalHealthId,
+    );
   }
 
   if (

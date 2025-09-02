@@ -48,9 +48,9 @@ export default function useClinicFormState(pageTitle) {
   // primary care and mental health are exempt
   // NOTE: Same check is in ../services/patient/index.js:fetchFlowEligibilityAndClinics
   const isCheckTypeOfCare =
-    (initialData.typeOfCareId !== TYPE_OF_CARE_IDS.MENTAL_HEALTH ||
+    (selectedTypeOfCare !== TYPE_OF_CARE_IDS.MENTAL_HEALTH_SERVICES_ID ||
       usePastVisitMHFilter) &&
-    initialData.typeOfCareId !== TYPE_OF_CARE_IDS.PRIMARY_CARE &&
+    selectedTypeOfCare !== TYPE_OF_CARE_IDS.PRIMARY_CARE &&
     location?.legacyVAR?.settings?.[selectedTypeOfCare.id]?.direct
       ?.patientHistoryRequired === true;
   if (isCheckTypeOfCare) {

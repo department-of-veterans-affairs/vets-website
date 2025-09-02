@@ -5,6 +5,7 @@ import {
   TYPES_OF_CARE,
   TYPES_OF_EYE_CARE,
   TYPES_OF_SLEEP_CARE,
+  TYPES_OF_MENTAL_HEALTH,
 } from '../../utils/constants';
 
 /**
@@ -75,6 +76,7 @@ export class MockServiceConfiguration {
       ...TYPES_OF_EYE_CARE,
       ...TYPES_OF_SLEEP_CARE,
       ...AUDIOLOGY_TYPES_OF_CARE,
+      ...TYPES_OF_MENTAL_HEALTH,
       ...TYPES_OF_CARE,
     ];
 

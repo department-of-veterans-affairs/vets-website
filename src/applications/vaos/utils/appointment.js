@@ -10,6 +10,7 @@ import {
   TYPES_OF_EYE_CARE,
   TYPES_OF_SLEEP_CARE,
   AUDIOLOGY_TYPES_OF_CARE,
+  TYPES_OF_MENTAL_HEALTH,
   TYPES_OF_CARE,
   SERVICE_CATEGORY,
 } from './constants';
@@ -48,6 +49,7 @@ export function getTypeOfCareById(inputId) {
     ...TYPES_OF_EYE_CARE,
     ...TYPES_OF_SLEEP_CARE,
     ...AUDIOLOGY_TYPES_OF_CARE,
+    ...TYPES_OF_MENTAL_HEALTH,
     ...TYPES_OF_CARE,
     ...SERVICE_CATEGORY,
   ];
