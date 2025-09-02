@@ -9,16 +9,22 @@ import content from '../../../locales/en/content.json';
 import { renderProviderWrappedComponent } from '../../helpers';
 
 describe('ezr <ApplicationDownloadLink>', () => {
-  const subject = ({ veteranInformation } = {}) => {
-    const expectedVeteranInformation = veteranInformation ?? {
-      veteranFullName: { first: 'John', last: 'Smith' },
+  const subject = ({ userFullName } = {}) => {
+    const expectedUserFullName = userFullName ?? {
+      userFullName: { first: 'John', last: 'Smith' },
     };
     const mockStoreData = {
       form: {
         data: {
-          'view:veteranInformation': expectedVeteranInformation,
           veteranDateOfBirth: '1990-01-01',
           gender: 'M',
+        },
+      },
+      user: {
+        profile: {
+          expectedUserFullName,
+          dob: null,
+          gender: null,
         },
       },
     };

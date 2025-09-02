@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { apiRequest } from 'platform/utilities/api';
 import { focusElement } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
@@ -9,7 +9,7 @@ import { submitTransformer } from '../utils/helpers/submit-transformer';
 import { ensureValidCSRFToken } from '../utils/actions/ensureValidCSRFToken';
 import content from '../locales/en/content.json';
 
-const ApplicationDownloadLink = ({ formConfig, linkText }) => {
+const ApplicationDownloadLink = ({ formConfig, linkText, profile }) => {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
 
@@ -20,15 +20,8 @@ const ApplicationDownloadLink = ({ formConfig, linkText }) => {
     form,
   ]);
 
-  // Default name to Applicant Submission if view:veteranInformation is empty for some reason
-  const name = useMemo(
-    () => {
-      const { veteranFullName = { first: 'Applicant', last: 'Submission' } } =
-        form.data?.['view:veteranInformation'] ?? {};
-      return veteranFullName;
-    },
-    [form.data],
-  );
+  const { userFullName = { first: 'Applicant', last: 'Submission' } } =
+    profile || {};
 
   const handlePdfDownload = useCallback(
     blob => {
@@ -36,14 +29,16 @@ const ApplicationDownloadLink = ({ formConfig, linkText }) => {
       const downloadLink = document.createElement('a');
 
       downloadLink.href = downloadUrl;
-      downloadLink.download = `10-10EZR_${name.first}_${name.last}.pdf`;
+      downloadLink.download = `10-10EZR_${userFullName.first}_${
+        userFullName.last
+      }.pdf`;
       document.body.appendChild(downloadLink);
 
       downloadLink.click();
       document.body.removeChild(downloadLink);
       URL.revokeObjectURL(downloadUrl);
     },
-    [name],
+    [userFullName],
   );
 
   const fetchPdf = useCallback(
@@ -117,6 +112,11 @@ const ApplicationDownloadLink = ({ formConfig, linkText }) => {
 ApplicationDownloadLink.propTypes = {
   formConfig: PropTypes.object,
   linkText: PropTypes.string,
+  profile: PropTypes.object,
 };
 
-export default ApplicationDownloadLink;
+const mapStateToProps = state => ({
+  profile: state.user.profile,
+});
+
+export default connect(mapStateToProps)(ApplicationDownloadLink);
