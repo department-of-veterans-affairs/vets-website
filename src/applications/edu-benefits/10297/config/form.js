@@ -75,8 +75,12 @@ const formConfig = {
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   preSubmitInfo: {
-    CustomComponent: PreSubmitInfo,
-    required: true,
+    statementOfTruth: {
+      heading: 'Certification statement',
+      body: PreSubmitInfo,
+      messageAriaDescribedby: 'I have read and accept the privacy policy.',
+      fullNamePath: 'applicantFullName',
+    },
   },
   transformForSubmit: transform,
   chapters: {

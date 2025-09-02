@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import React from 'react';
 import { waitFor } from '@testing-library/react';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { fireEvent } from '@testing-library/dom';
@@ -23,6 +24,9 @@ describe('DownloadRecordsPage', () => {
         failedDomains: [],
       },
     },
+    featureToggles: {
+      [FEATURE_FLAG_NAMES.mhvMedicalRecordsCcdExtendedFileTypes]: true,
+    },
   };
 
   let screen;
@@ -39,12 +43,38 @@ describe('DownloadRecordsPage', () => {
     expect(screen.getByText('Download your medical records reports')).to.exist;
   });
 
-  it('generates ccd on button click', () => {
+  it('generates CCD (XML) on button click', () => {
     const ccdAccordion = screen.getByTestId('ccdAccordionItem');
     expect(ccdAccordion).to.exist;
 
     fireEvent.click(ccdAccordion);
-    const ccdGenerateButton = screen.getByTestId('generateCcdButton');
+    const ccdGenerateButton = screen.getByTestId('generateCcdButtonXml');
+    expect(ccdGenerateButton).to.exist;
+
+    fireEvent.click(ccdGenerateButton);
+    expect(screen.container.querySelector('#generating-ccd-indicator')).to
+      .exist;
+  });
+
+  it('generates CCD (PDF) on button click', () => {
+    const ccdAccordion = screen.getByTestId('ccdAccordionItem');
+    expect(ccdAccordion).to.exist;
+
+    fireEvent.click(ccdAccordion);
+    const ccdGenerateButton = screen.getByTestId('generateCcdButtonPdf');
+    expect(ccdGenerateButton).to.exist;
+
+    fireEvent.click(ccdGenerateButton);
+    expect(screen.container.querySelector('#generating-ccd-indicator')).to
+      .exist;
+  });
+
+  it('generates CCD (HTML) on button click', () => {
+    const ccdAccordion = screen.getByTestId('ccdAccordionItem');
+    expect(ccdAccordion).to.exist;
+
+    fireEvent.click(ccdAccordion);
+    const ccdGenerateButton = screen.getByTestId('generateCcdButtonHtml');
     expect(ccdGenerateButton).to.exist;
 
     fireEvent.click(ccdGenerateButton);
@@ -210,5 +240,47 @@ describe('DownloadRecordsPage with successful Blue Button download alert', () =>
   it('renders the Blue Button download success alert', () => {
     expect(screen.getByText('Your VA Blue Button report download has started'))
       .to.exist;
+  });
+});
+
+describe('DownloadRecordsPage with extended file types flag OFF', () => {
+  const baseState = {
+    user,
+    mr: {
+      downloads: {
+        generatingCCD: false,
+        ccdError: false,
+        bbDownloadSuccess: false,
+      },
+      blueButton: {
+        failedDomains: [],
+      },
+      featureToggles: {
+        [FEATURE_FLAG_NAMES.mhvMedicalRecordsCcdExtendedFileTypes]: false,
+      },
+    },
+  };
+
+  let screen;
+  beforeEach(() => {
+    screen = renderWithStoreAndRouter(<DownloadReportPage />, {
+      initialState: baseState,
+      reducers: reducer,
+      path: '/download-all',
+    });
+  });
+
+  it('does not render the CCD PDF button', () => {
+    const ccdAccordion = screen.getByTestId('ccdAccordionItem');
+    expect(ccdAccordion).to.exist;
+    fireEvent.click(ccdAccordion);
+    expect(screen.queryByTestId('generateCcdButtonPdf')).to.be.null;
+  });
+
+  it('does not render the CCD HTML button', () => {
+    const ccdAccordion = screen.getByTestId('ccdAccordionItem');
+    expect(ccdAccordion).to.exist;
+    fireEvent.click(ccdAccordion);
+    expect(screen.queryByTestId('generateCcdButtonHtml')).to.be.null;
   });
 });

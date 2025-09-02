@@ -16,6 +16,7 @@ describe('Medical Records View Labs and Tests', () => {
       statusResponseComplete,
       true,
     );
+    cy.url().should('not.include', `timeFrame`);
 
     LabsAndTestsListPage.verifyImagesReadyAlert();
     const studyId = statusResponseComplete[0].studyIdUrn;

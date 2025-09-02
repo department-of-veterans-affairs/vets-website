@@ -108,6 +108,10 @@ describe('SelectCareTeam', () => {
     expect(vaRadio.getAttribute('label')).to.equal(
       'Select a VA health care system',
     );
+    expect(vaRadio.getAttribute('data-dd-action-name')).to.equal(
+      'Care System Radio button',
+    );
+    expect(vaRadio.getAttribute('data-dd-privacy')).to.equal('mask');
     const vaRadioOption = screen.container.querySelector('va-radio-option');
     expect(vaRadioOption).to.exist;
 
@@ -480,6 +484,59 @@ describe('SelectCareTeam', () => {
       expect(navigationErrorCall.args[0].navigationError).to.deep.equal(
         ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
       );
+    });
+  });
+
+  it('redirects users to interstitial page if interstitial not accepted', async () => {
+    const oldLocation = global.window.location;
+    global.window.location = {
+      replace: sinon.spy(),
+    };
+
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        threadDetails: {
+          acceptInterstitial: false,
+          draftInProgress: {},
+        },
+      },
+    };
+
+    const { history } = renderWithStoreAndRouter(<SelectCareTeam />, {
+      initialState: customState,
+      reducers: reducer,
+      path: Paths.SELECT_CARE_TEAM,
+    });
+
+    await waitFor(() => {
+      expect(history.location.pathname).to.equal('/new-message/');
+    });
+
+    global.window.location = oldLocation;
+  });
+
+  it('wont redirect users if interstitial accepted', async () => {
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        threadDetails: {
+          acceptInterstitial: true,
+          draftInProgress: {},
+        },
+      },
+    };
+
+    const { history } = renderWithStoreAndRouter(<SelectCareTeam />, {
+      initialState: customState,
+      reducers: reducer,
+      path: Paths.SELECT_CARE_TEAM,
+    });
+
+    await waitFor(() => {
+      expect(history.location.pathname).to.equal('select-care-team');
     });
   });
 });

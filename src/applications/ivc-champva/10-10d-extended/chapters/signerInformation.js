@@ -94,9 +94,14 @@ export const certifierAddressSchema = {
   uiSchema: {
     ...titleUI(
       'Your mailing address',
-      'We’ll send any important information about this application to your address',
+      'We’ll send any important information about this application to your address.',
     ),
-    certifierAddress: addressUI(),
+    certifierAddress: addressUI({
+      labels: {
+        militaryCheckbox:
+          'Address is on military base outside of the United States.',
+      },
+    }),
     // TODO: get these validations back in place
     /*
     'ui:validations': [
@@ -246,7 +251,7 @@ export const certifierRelationshipSchema = {
       relationshipToVeteran: checkboxGroupUI({
         title: 'Which of these best describes you?',
         hint:
-          'If you’re applying on behalf of multiple applicants, you can select all applicable options',
+          'If you’re applying for multiple applicants, select all that apply.',
         required: () => true,
         labels: {
           spouse: 'I’m an applicant’s spouse',

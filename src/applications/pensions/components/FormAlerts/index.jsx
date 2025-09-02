@@ -25,7 +25,7 @@ export const AssetsInformation = () => (
         <li>Antique furniture</li>
         <li>Boats</li>
       </ul>
-      <h5>We don’t include items like these in your assets:</h5>
+      <h4>We don’t include items like these in your assets:</h4>
       <ul>
         <li>
           Your primary residence (the home where you live most or all of your
