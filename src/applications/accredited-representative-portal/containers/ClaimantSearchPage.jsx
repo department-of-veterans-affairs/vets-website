@@ -10,6 +10,8 @@ import SsnField from 'platform/forms-system/src/js/web-component-fields/SsnField
 import { useSearchParams, useNavigation } from 'react-router-dom';
 import { Toggler, useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { focusElement } from 'platform/utilities/ui';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import api from '../utilities/api';
 import {
   SEARCH_BC_LABEL,
@@ -396,13 +398,22 @@ const ClaimantSearchPage = () => {
   );
 };
 
-export default ClaimantSearchPage;
+import store from '../utilities/store';
 
-// Ensure the user is authorized before rendering; 403 is redirected centrally
 ClaimantSearchPage.loader = async ({ request }) => {
+  // Check feature flag
+  const state = store.getState();
+  const enabled = !!toggleValues(state)[
+    FEATURE_FLAG_NAMES.accreditedRepresentativePortalPilot
+  ];
+  if (!enabled) {
+    // If feature is off, just allow the page to render (no-op)
+    return null;
+  }
+  // Check authorization (403/401 handled by API wrapper)
   const res = await api.checkAuthorized({ signal: request.signal });
-  // Bubble 401 to route guard for sign-in redirect
   if (res?.status === 401) throw res;
-  // Return no-op; page renders as usual on 204 or benign response
   return null;
 };
+
+export default ClaimantSearchPage;
