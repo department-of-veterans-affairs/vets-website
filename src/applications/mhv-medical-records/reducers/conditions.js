@@ -1,11 +1,11 @@
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
-import { format } from 'date-fns';
 import { Actions } from '../util/actionTypes';
 import { EMPTY_FIELD, loadStates } from '../util/constants';
 import {
   isArrayAndHasItems,
   extractContainedResource,
   formatNameFirstToLast,
+  formatDateTime,
 } from '../util/helpers';
 
 const initialState = {
@@ -114,18 +114,6 @@ export const convertNewCondition = condition => {
   return null;
 };
 
-// TODO: Copied from unifiedCareSummariesAndNotes. Is this still necessary?
-export function formatDateTime(datetimeString) {
-  const dateTime = new Date(datetimeString);
-  if (Number.isNaN(dateTime.getTime())) {
-    return { formattedDate: '', formattedTime: '' };
-  }
-  const formattedDate = format(dateTime, 'MMMM d, yyyy');
-  const formattedTime = format(dateTime, 'h:mm a');
-
-  return { formattedDate, formattedTime };
-}
-
 export const convertUnifiedCondition = condition => {
   const formatConditionDate = formatDateTime(condition?.date);
   const conditionDate = formatConditionDate
@@ -133,11 +121,14 @@ export const convertUnifiedCondition = condition => {
         formatConditionDate.formattedTime
       }`
     : '';
+  // Ensure a finite timestamp
+  const ts = new Date(condition?.date).getTime();
 
   return {
     id: condition?.id,
     name: condition?.name || EMPTY_FIELD,
     date: conditionDate || EMPTY_FIELD,
+    sortKey: Number.isFinite(ts) ? ts : null,
     provider: condition?.provider || EMPTY_FIELD,
     facility: condition?.facility || EMPTY_FIELD,
     comments: isArrayAndHasItems(condition?.comments)
@@ -202,9 +193,9 @@ export const conditionReducer = (state = initialState, action) => {
             return convertUnifiedCondition(condition.attributes);
           })
           .sort((a, b) => {
-            if (!a.sortByDate) return 1; // Push nulls to the end
-            if (!b.sortByDate) return -1; // Keep non-nulls at the front
-            return b.sortByDate.getTime() - a.sortByDate.getTime();
+            const ak = Number.isFinite(a.sortKey) ? a.sortKey : -Infinity;
+            const bk = Number.isFinite(b.sortKey) ? b.sortKey : -Infinity;
+            return bk - ak; // desc, missing/invalid last
           }) || [];
       return {
         ...state,
