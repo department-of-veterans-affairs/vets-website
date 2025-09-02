@@ -48,6 +48,9 @@ export const toxicExposureChoicePageTitle =
  * @param {React.ReactElement} props.contentAfterButtons - Content to render after navigation buttons
  * @param {boolean} props.onReviewPage - Whether component is displayed on review page
  * @param {Function} props.updatePage - Function to update the current page
+ * @param {Object} props.uiSchema - UI schema containing validation functions
+ * @param {Object} props.schema - JSON schema for the form data
+ * @param {Object} props.formContext - Additional form context
  * @returns {React.ReactElement} Toxic exposure choice page component
  */
 const ToxicExposureChoicePage = ({
@@ -59,8 +62,37 @@ const ToxicExposureChoicePage = ({
   contentAfterButtons,
   onReviewPage,
   updatePage,
+  uiSchema,
 }) => {
   const showDestructiveModal = useSelector(showToxicExposureDestructionModal);
+
+  const validations = useMemo(() => uiSchema?.['ui:validations'] || [], [
+    uiSchema,
+  ]);
+
+  const runValidations = useCallback(
+    formData => {
+      const errors = { toxicExposure: { conditions: { __errors: [] } } };
+      const errorAccumulator = {
+        toxicExposure: {
+          conditions: {
+            addError: errorMsg => {
+              errors.toxicExposure.conditions.__errors.push(errorMsg);
+            },
+          },
+        },
+      };
+
+      validations.forEach(validation => {
+        if (typeof validation === 'function') {
+          validation(errorAccumulator, formData);
+        }
+      });
+
+      return errors.toxicExposure.conditions.__errors;
+    },
+    [validations],
+  );
 
   const [
     showDeleteToxicExposureModal,
@@ -70,8 +102,20 @@ const ToxicExposureChoicePage = ({
     showDeletedToxicExposureConfirmation,
     setShowDeletedToxicExposureConfirmation,
   ] = useState(false);
+  const [validationError, setValidationError] = useState(null);
 
   const deletedToxicExposureConfirmationRef = useRef(null);
+
+  // Check initial validation state when component mounts or data changes
+  useEffect(
+    () => {
+      if (data?.toxicExposure?.conditions) {
+        const initialErrors = runValidations(data);
+        setValidationError(initialErrors.length > 0 ? initialErrors[0] : null);
+      }
+    },
+    [data, runValidations],
+  );
 
   useEffect(
     () => {
@@ -167,7 +211,7 @@ const ToxicExposureChoicePage = ({
       const { target } = event;
       const selection = target?.getAttribute('value');
 
-      setFormData({
+      const updatedData = {
         ...data,
         toxicExposure: {
           ...data.toxicExposure,
@@ -176,9 +220,16 @@ const ToxicExposureChoicePage = ({
             [selection]: target.checked,
           },
         },
-      });
+      };
+
+      const validationErrors = runValidations(updatedData);
+      setValidationError(
+        validationErrors.length > 0 ? validationErrors[0] : null,
+      );
+
+      setFormData(updatedData);
     },
-    [data, setFormData],
+    [data, setFormData, runValidations],
   );
 
   /**
@@ -198,13 +249,30 @@ const ToxicExposureChoicePage = ({
     event => {
       event.preventDefault();
 
+      // Check for validation errors before proceeding
+      const validationErrors = runValidations(data);
+
+      if (validationErrors.length > 0) {
+        setValidationError(validationErrors[0]);
+        scrollAndFocus('va-checkbox-group');
+        return;
+      }
+
+      setValidationError(null);
+
       if (showDestructiveModal && shouldShowDeleteToxicExposureModal) {
         setShowDeleteToxicExposureModal(true);
       } else {
         goForward(data);
       }
     },
-    [showDestructiveModal, shouldShowDeleteToxicExposureModal, data, goForward],
+    [
+      showDestructiveModal,
+      shouldShowDeleteToxicExposureModal,
+      data,
+      goForward,
+      runValidations,
+    ],
   );
 
   /**
@@ -254,13 +322,30 @@ const ToxicExposureChoicePage = ({
     event => {
       event.preventDefault();
 
+      // Check for validation errors before proceeding
+      const validationErrors = runValidations(data);
+
+      if (validationErrors.length > 0) {
+        setValidationError(validationErrors[0]);
+        scrollAndFocus('va-checkbox-group');
+        return;
+      }
+
+      setValidationError(null);
+
       if (showDestructiveModal && shouldShowDeleteToxicExposureModal) {
         setShowDeleteToxicExposureModal(true);
       } else {
         updatePage(event);
       }
     },
-    [showDestructiveModal, shouldShowDeleteToxicExposureModal, updatePage],
+    [
+      showDestructiveModal,
+      shouldShowDeleteToxicExposureModal,
+      updatePage,
+      data,
+      runValidations,
+    ],
   );
 
   /**
@@ -351,6 +436,7 @@ const ToxicExposureChoicePage = ({
           <VaCheckboxGroup
             label={conditionsQuestion}
             onVaChange={handleSelectionChange}
+            error={validationError}
             uswds
           >
             {conditionsDescription}
@@ -397,9 +483,12 @@ ToxicExposureChoicePage.propTypes = {
   contentAfterButtons: PropTypes.element,
   contentBeforeButtons: PropTypes.element,
   data: PropTypes.object,
+  formContext: PropTypes.object,
   goBack: PropTypes.func,
   goForward: PropTypes.func,
+  schema: PropTypes.object,
   setFormData: PropTypes.func,
+  uiSchema: PropTypes.object,
   updatePage: PropTypes.func,
   onReviewPage: PropTypes.bool,
 };

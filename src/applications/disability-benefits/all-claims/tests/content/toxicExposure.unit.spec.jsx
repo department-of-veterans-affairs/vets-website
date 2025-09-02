@@ -250,6 +250,10 @@ describe('toxicExposure', () => {
       };
 
       const formData = {
+        newDisabilities: [
+          { condition: 'Anemia' },
+          { condition: 'Tinnitus (Ringing or hissing in ears)' },
+        ],
         toxicExposure: {
           conditions: {
             anemia: true,
@@ -263,6 +267,30 @@ describe('toxicExposure', () => {
       expect(errors.toxicExposure.conditions.addError.called).to.be.true;
     });
 
+    it('should not add error when selecting only none even if other conditions exist in data but not in newDisabilities', () => {
+      const errors = {
+        toxicExposure: {
+          conditions: {
+            addError: sinon.spy(),
+          },
+        },
+      };
+
+      const formData = {
+        newDisabilities: [{ condition: 'Anemia' }],
+        toxicExposure: {
+          conditions: {
+            anemia: false,
+            chronicbronchitis: true, // This is NOT in newDisabilities, so should be ignored
+            none: true,
+          },
+        },
+      };
+
+      validateTEConditions(errors, formData);
+      expect(errors.toxicExposure.conditions.addError.called).to.be.false;
+    });
+
     it('should not add error when selecting conditions', () => {
       const errors = {
         toxicExposure: {
@@ -273,6 +301,10 @@ describe('toxicExposure', () => {
       };
 
       const formData = {
+        newDisabilities: [
+          { condition: 'Anemia' },
+          { condition: 'Tinnitus (Ringing or hissing in ears)' },
+        ],
         toxicExposure: {
           conditions: {
             anemia: true,

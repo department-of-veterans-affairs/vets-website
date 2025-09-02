@@ -4,7 +4,9 @@ import { expect } from 'chai';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { TOXIC_EXPOSURE_ALL_KEYS } from '../../constants';
+import { noneAndConditionError } from '../../content/toxicExposure';
 import ToxicExposureChoicePage from '../../pages/toxicExposure/toxicExposureChoicePage';
+import { uiSchema } from '../../pages/toxicExposure/toxicExposureConditions';
 
 describe('ToxicExposureChoicePage', () => {
   const TOXIC_EXPOSURE_TOGGLE_NAME =
@@ -88,6 +90,7 @@ describe('ToxicExposureChoicePage', () => {
           goForward={goForwardFn}
           onReviewPage={onReviewPage}
           updatePage={updatePageFn}
+          uiSchema={uiSchema}
         />
       </Provider>,
     );
@@ -99,6 +102,7 @@ describe('ToxicExposureChoicePage', () => {
       setFormData: setFormDataFn,
       updatePage: updatePageFn,
       user: userEvent,
+      container: utils.container,
     };
   };
 
@@ -891,6 +895,255 @@ describe('ToxicExposureChoicePage', () => {
 
         const { container } = renderPage({ data: testData });
         expect(container).to.exist;
+      });
+    });
+  });
+
+  describe('Validation for none and condition selection', () => {
+    it('should show validation error when both "none" and another condition are selected', async () => {
+      const data = {
+        newDisabilities: [
+          { condition: 'Chronic Bronchitis' },
+          { condition: 'Asthma' },
+        ],
+        toxicExposure: {
+          conditions: {
+            chronicbronchitis: true,
+            none: true,
+          },
+        },
+      };
+
+      const { goForward, user, container } = renderPage({ data });
+
+      // Use RTL query for submit button
+      const submitButton = container.querySelector('[type="submit"]');
+      expect(submitButton).to.exist;
+
+      await user.click(submitButton);
+
+      await waitFor(() => {
+        // Should not navigate forward
+        expect(goForward.called).to.be.false;
+
+        // Check error using web component attribute
+        const checkboxGroup = container.querySelector('va-checkbox-group');
+        expect(checkboxGroup).to.exist;
+
+        const errorMessage = checkboxGroup.getAttribute('error');
+        expect(errorMessage).to.exist;
+        expect(errorMessage).to.equal(noneAndConditionError);
+      });
+    });
+
+    it('should clear validation error when only one type is selected', async () => {
+      // Test with only condition selected (no "none")
+      const dataOnlyCondition = {
+        newDisabilities: [{ condition: 'Chronic Bronchitis' }],
+        toxicExposure: {
+          conditions: {
+            chronicbronchitis: true,
+          },
+        },
+      };
+
+      const { goForward, user } = renderPage({ data: dataOnlyCondition });
+      const submitButton = document.querySelector('button[type="submit"]');
+      await user.click(submitButton);
+
+      await waitFor(() => {
+        // Should navigate forward without error
+        expect(goForward.calledOnce).to.be.true;
+        const checkboxGroup = document.querySelector('va-checkbox-group');
+        const errorMessage = checkboxGroup.getAttribute('error');
+        expect(errorMessage).to.be.null;
+      });
+    });
+
+    it('should prevent submission when both none and condition are selected', async () => {
+      const data = {
+        newDisabilities: [{ condition: 'Chronic Bronchitis' }],
+        toxicExposure: {
+          conditions: {
+            chronicbronchitis: true,
+            none: true,
+          },
+        },
+      };
+
+      const { goForward, user, container } = renderPage({ data });
+
+      // Try to submit with both selected
+      const submitButton = container.querySelector('[type="submit"]');
+      expect(submitButton).to.exist;
+
+      await user.click(submitButton);
+
+      await waitFor(() => {
+        // Should NOT navigate forward
+        expect(goForward.called).to.be.false;
+
+        // Should show error
+        const checkboxGroup = container.querySelector('va-checkbox-group');
+        expect(checkboxGroup).to.exist;
+
+        const errorMessage = checkboxGroup.getAttribute('error');
+        expect(errorMessage).to.exist;
+        expect(errorMessage).to.equal(noneAndConditionError);
+      });
+    });
+
+    it('should allow submission when only conditions are selected (no "none")', async () => {
+      const data = {
+        newDisabilities: [
+          { condition: 'Chronic Bronchitis' },
+          { condition: 'Asthma' },
+        ],
+        toxicExposure: {
+          conditions: {
+            chronicbronchitis: true,
+            asthma: true,
+          },
+        },
+      };
+
+      const { goForward, user } = renderPage({ data });
+      const submitButton = document.querySelector('button[type="submit"]');
+
+      await user.click(submitButton);
+
+      await waitFor(() => {
+        // Should navigate forward successfully
+        expect(goForward.calledOnce).to.be.true;
+        expect(goForward.calledWith(data)).to.be.true;
+
+        // Should not show error
+        const checkboxGroup = document.querySelector('va-checkbox-group');
+        const errorMessage = checkboxGroup.getAttribute('error');
+        expect(errorMessage).to.be.null;
+      });
+    });
+
+    it('should clear validation error when deselecting conditions and leaving only "none"', async () => {
+      // Start with both a condition and "none" selected (invalid state)
+      const data = {
+        newDisabilities: [
+          { condition: 'Chronic Bronchitis' },
+          { condition: 'Asthma' },
+        ],
+        toxicExposure: {
+          conditions: {
+            chronicbronchitis: true,
+            none: true,
+          },
+        },
+      };
+
+      const { container, setFormData } = renderPage({ data });
+
+      // Verify initial state shows error
+      let checkboxGroup = container.querySelector('va-checkbox-group');
+      expect(checkboxGroup.getAttribute('error')).to.equal(
+        noneAndConditionError,
+      );
+
+      // Create a mock target that simulates the unchecked checkbox
+      const mockTarget = {
+        checked: false,
+        getAttribute: attr => (attr === 'value' ? 'chronicbronchitis' : null),
+      };
+
+      // Create and dispatch a custom event with the target directly on the event
+      const changeEvent = new CustomEvent('vaChange', {
+        bubbles: true,
+      });
+
+      // Override the target property on the event
+      Object.defineProperty(changeEvent, 'target', {
+        value: mockTarget,
+        writable: false,
+        enumerable: true,
+        configurable: false,
+      });
+
+      checkboxGroup.dispatchEvent(changeEvent);
+
+      // Wait for the validation to clear
+      await waitFor(() => {
+        checkboxGroup = container.querySelector('va-checkbox-group');
+        const errorMessage = checkboxGroup.getAttribute('error');
+        expect(errorMessage).to.be.null;
+      });
+
+      // Verify setFormData was called with the updated data
+      expect(setFormData.called).to.be.true;
+      const updatedData = setFormData.lastCall.args[0];
+      expect(updatedData.toxicExposure.conditions.chronicbronchitis).to.be
+        .false;
+      expect(updatedData.toxicExposure.conditions.none).to.be.true;
+    });
+
+    it('should allow submission when only "none" is selected', async () => {
+      const data = {
+        newDisabilities: [{ condition: 'Chronic Bronchitis' }],
+        toxicExposure: {
+          conditions: {
+            none: true,
+          },
+        },
+      };
+
+      const { goForward, user } = renderPage({ data });
+      const submitButton = document.querySelector('button[type="submit"]');
+
+      await user.click(submitButton);
+
+      await waitFor(() => {
+        // Should navigate forward successfully
+        expect(goForward.calledOnce).to.be.true;
+
+        // Should not show error
+        const checkboxGroup = document.querySelector('va-checkbox-group');
+        const errorMessage = checkboxGroup.getAttribute('error');
+        expect(errorMessage).to.be.null;
+      });
+    });
+
+    it('should show validation error when updating page from review with invalid selection', async () => {
+      const data = {
+        newDisabilities: [{ condition: 'Chronic Bronchitis' }],
+        toxicExposure: {
+          conditions: {
+            chronicbronchitis: true,
+            none: true,
+          },
+        },
+      };
+
+      const { updatePage, user, container } = renderPage({
+        data,
+        onReviewPage: true,
+      });
+
+      // Find update button in review mode
+      const updateButton = container.querySelector(
+        'va-button[text="Update page"]',
+      );
+      expect(updateButton).to.exist;
+
+      await user.click(updateButton);
+
+      await waitFor(() => {
+        // Should not update page
+        expect(updatePage.called).to.be.false;
+
+        // Should show error message
+        const checkboxGroup = container.querySelector('va-checkbox-group');
+        expect(checkboxGroup).to.exist;
+
+        const errorMessage = checkboxGroup.getAttribute('error');
+        expect(errorMessage).to.exist;
+        expect(errorMessage).to.equal(noneAndConditionError);
       });
     });
   });

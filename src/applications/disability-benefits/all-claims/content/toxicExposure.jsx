@@ -220,15 +220,38 @@ export function makeTEConditionsUISchema(formData) {
 }
 
 /**
- * Validates 'none' checkbox is not selected along with another condition
- * @param {object} errors - Errors object from rjsf
- * @param {object} formData
+ * Validates toxic exposure conditions selection
+ * Ensures 'none' checkbox is not selected alongside other conditions
+ * Only validates conditions that are actually displayed to the user
+ * @param {Object} errors - RJSF errors accumulator object
+ * @param {Object} formData - Complete form data
+ * @param {Object} formData.toxicExposure - Toxic exposure data
+ * @param {Object} formData.toxicExposure.conditions - Selected conditions
+ * @param {Array} formData.newDisabilities - Array of new disabilities
+ * @returns {void}
  */
 export function validateTEConditions(errors, formData) {
   const { conditions = {} } = formData?.toxicExposure;
+  const { newDisabilities = [] } = formData;
+
+  // Only validate conditions that are actually displayed to the user
+  const displayedConditions = {};
+  newDisabilities.forEach(disability => {
+    const conditionId = sippableId(
+      disability.condition || NULL_CONDITION_STRING,
+    );
+    if (conditions[conditionId] !== undefined) {
+      displayedConditions[conditionId] = conditions[conditionId];
+    }
+  });
+
+  // Always include 'none' if it exists
+  if (conditions.none !== undefined) {
+    displayedConditions.none = conditions.none;
+  }
 
   validateConditions(
-    conditions,
+    displayedConditions,
     errors,
     'toxicExposure',
     noneAndConditionError,

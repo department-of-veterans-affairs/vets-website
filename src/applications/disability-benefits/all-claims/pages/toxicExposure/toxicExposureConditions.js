@@ -5,6 +5,7 @@ import {
   conditionsQuestion,
   makeTEConditionsSchema,
   makeTEConditionsUISchema,
+  validateTEConditions,
 } from '../../content/toxicExposure';
 import { formTitle, makeConditionsUI } from '../../utils';
 import ToxicExposureChoicePage from './toxicExposureChoicePage';
@@ -22,6 +23,7 @@ export const uiSchema = {
       updateUiSchema: makeTEConditionsUISchema,
     }),
   },
+  'ui:validations': [validateTEConditions],
   // Hidden view fields for state tracking, required by forms-system.
   'view:previousToxicExposureConditions': {
     'ui:hidden': true,
