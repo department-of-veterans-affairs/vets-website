@@ -240,7 +240,8 @@ describe('messages actions', () => {
         ),
       )
       .then(() => {
-        expect(store.getActions()).to.deep.include({
+        const actions = store.getActions();
+        expect(actions).to.deep.include({
           type: Actions.Alerts.ADD_ALERT,
           payload: {
             alertType: 'success',
@@ -251,6 +252,10 @@ describe('messages actions', () => {
             title: undefined,
             response: undefined,
           },
+        });
+        // Check that resetRecentRecipient is dispatched after successful send
+        expect(actions).to.deep.include({
+          type: Actions.AllRecipients.RESET_RECENT,
         });
       });
   });
@@ -271,7 +276,8 @@ describe('messages actions', () => {
         ),
       )
       .catch(() => {
-        expect(store.getActions()).to.deep.include({
+        const actions = store.getActions();
+        expect(actions).to.deep.include({
           type: Actions.Alerts.ADD_ALERT,
           payload: {
             alertType: 'error',
@@ -282,6 +288,10 @@ describe('messages actions', () => {
             title: undefined,
             response: undefined,
           },
+        });
+        // Ensure resetRecentRecipient is NOT called on error
+        expect(actions).to.not.deep.include({
+          type: Actions.AllRecipients.RESET_RECENT,
         });
       });
   });
@@ -334,7 +344,8 @@ describe('messages actions', () => {
         ),
       )
       .then(() => {
-        expect(store.getActions()).to.deep.include({
+        const actions = store.getActions();
+        expect(actions).to.deep.include({
           type: Actions.Alerts.ADD_ALERT,
           payload: {
             alertType: 'success',
@@ -345,6 +356,10 @@ describe('messages actions', () => {
             title: undefined,
             response: undefined,
           },
+        });
+        // Check that resetRecentRecipient is dispatched after successful reply
+        expect(actions).to.deep.include({
+          type: Actions.AllRecipients.RESET_RECENT,
         });
       });
   });
@@ -366,7 +381,8 @@ describe('messages actions', () => {
         ),
       )
       .catch(() => {
-        expect(store.getActions()).to.deep.include({
+        const actions = store.getActions();
+        expect(actions).to.deep.include({
           type: Actions.Alerts.ADD_ALERT,
           payload: {
             alertType: 'error',
@@ -377,6 +393,10 @@ describe('messages actions', () => {
             title: undefined,
             response: undefined,
           },
+        });
+        // Ensure resetRecentRecipient is NOT called on error
+        expect(actions).to.not.deep.include({
+          type: Actions.AllRecipients.RESET_RECENT,
         });
       });
   });
