@@ -121,17 +121,11 @@ describe('Curated list breadcrumb back navigation', () => {
       },
     });
 
-    const maybeBack = screen.queryByText('Back');
-    if (maybeBack) {
-      fireEvent.click(maybeBack);
-      await waitFor(() => {
-        expect(screen.history.location.pathname).to.equal(previous);
-      });
-    } else {
-      // Full breadcrumb mode (no single Back link) – just ensure breadcrumbs rendered
-      expect(screen.container.querySelector('[data-testid="sm-breadcrumbs"]'))
-        .to.exist;
-    }
+    fireEvent.click(await screen.findByText('Back'));
+
+    await waitFor(() => {
+      expect(screen.history.location.pathname).to.equal(previous);
+    });
   });
 
   it('Care team help page navigates correctly (previousUrl = compose)', async () => {
@@ -142,15 +136,10 @@ describe('Curated list breadcrumb back navigation', () => {
       },
     });
 
-    const maybeBack = screen.queryByText('Back');
-    if (maybeBack) {
-      fireEvent.click(maybeBack);
-      await waitFor(() => {
-        expect(screen.history.location.pathname).to.equal(previous);
-      });
-    } else {
-      expect(screen.container.querySelector('[data-testid="sm-breadcrumbs"]'))
-        .to.exist;
-    }
+    fireEvent.click(await screen.findByText('Back'));
+
+    await waitFor(() => {
+      expect(screen.history.location.pathname).to.equal(previous);
+    });
   });
 });
