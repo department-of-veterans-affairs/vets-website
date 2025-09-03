@@ -8,6 +8,8 @@ import NoFormPage from '../components/NoFormPage';
 import manifest from '../manifest.json';
 import { TITLE } from '../constants';
 
+import { getRootParentUrl } from '../../shared/utils';
+
 // Must match the H1
 document.title = TITLE;
 
@@ -31,12 +33,11 @@ export default function App({ location, children }) {
       label: 'Home',
     },
     {
-      href: '/view-change-dependents',
-      label: 'Manage dependents',
+      href: getRootParentUrl(manifest.rootUrl),
+      label: 'Manage dependents for disability, pension, or DIC benefits',
     },
     {
-      href:
-        '/view-change-dependents/verify-dependents-form-21-0538/introduction',
+      href: `${manifest.rootUrl}/introduction`,
       label:
         pageUrl === 'exit-form'
           ? 'Update your dependents in a different form'

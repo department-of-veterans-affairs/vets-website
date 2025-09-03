@@ -45,6 +45,20 @@ export const vaosApi = createApi({
         dispatch(cacheDraftReferralAppointment({}));
       },
     }),
+    getAppointmentInfo: builder.query({
+      async queryFn(appointmentId) {
+        try {
+          return await apiRequestWithUrl(
+            `/vaos/v2/eps_appointments/${appointmentId}`,
+          );
+        } catch (error) {
+          captureError(error, false, 'poll fetch appointment info');
+          return {
+            error: { status: error.status || 500, message: error.message },
+          };
+        }
+      },
+    }),
     postDraftReferralAppointment: builder.mutation({
       async queryFn({ referralNumber, referralConsultId }) {
         try {
@@ -104,6 +118,7 @@ export const vaosApi = createApi({
 export const {
   useGetReferralByIdQuery,
   useGetPatientReferralsQuery,
+  useGetAppointmentInfoQuery,
   usePostDraftReferralAppointmentMutation,
   usePostReferralAppointmentMutation,
 } = vaosApi;

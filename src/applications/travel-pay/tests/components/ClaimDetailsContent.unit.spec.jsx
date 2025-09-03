@@ -54,6 +54,16 @@ describe('ClaimDetailsContent', () => {
     expect(screen.getByText('Claim status: Claim submitted')).to.exist;
   });
 
+  it('sets the page title correctly', () => {
+    renderWithStoreAndRouter(<ClaimDetailsContent {...claimDetailsProps} />, {
+      initialState: getState(),
+    });
+
+    expect(document.title).to.equal(
+      'Travel Reimbursement Claim Details - Travel Pay | Veterans Affairs',
+    );
+  });
+
   it('renders secure messaging link for denied claims', () => {
     const screen = renderWithStoreAndRouter(
       <ClaimDetailsContent {...claimDetailsProps} claimStatus="Denied" />,

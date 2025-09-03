@@ -8,7 +8,7 @@ import {
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import { conflictOfInterestPolicy } from '../helpers';
 
-const noSpaceOnlyPattern = '^(?!\\s*$).+';
+const fileNumberPattern = '^[cC]{0,1}\\d{7,9}$';
 
 const uiSchema = {
   ...arrayBuilderItemSubsequentPageTitleUI(
@@ -22,7 +22,7 @@ const uiSchema = {
     required: () => true,
     errorMessages: {
       required: 'Please enter a VA file number',
-      pattern: 'You must provide a response',
+      pattern: 'You must provide a valid VA file number',
     },
   }),
 };
@@ -32,7 +32,7 @@ const schema = {
   properties: {
     fileNumber: {
       ...textSchema,
-      pattern: noSpaceOnlyPattern,
+      pattern: fileNumberPattern,
     },
   },
   required: ['fileNumber'],
