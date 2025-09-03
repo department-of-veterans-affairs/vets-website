@@ -481,13 +481,6 @@ const incomeTypePage = {
 export const unassociatedIncomePages = arrayBuilderPages(
   options,
   pageBuilder => ({
-    unassociatedIncomePagesSummary: pageBuilder.summaryPage({
-      title: 'Recurring income',
-      path: 'recurring-income-summary',
-      depends: () => !showUpdatedContent(),
-      uiSchema: summaryPage.uiSchema,
-      schema: summaryPage.schema,
-    }),
     unassociatedIncomePagesUpdatedSummary: pageBuilder.summaryPage({
       title: 'Recurring income',
       path: 'recurring-income-summary-updated',
@@ -521,6 +514,14 @@ export const unassociatedIncomePages = arrayBuilderPages(
       depends: formData =>
         showUpdatedContent() && formData.claimantType === 'CUSTODIAN',
       uiSchema: updatedCustodianSummaryPage.uiSchema,
+      schema: summaryPage.schema,
+    }),
+    // Ensure MVP summary page is listed last so it’s not accidentally overridden by claimantType-specific summary pages
+    unassociatedIncomePagesSummary: pageBuilder.summaryPage({
+      title: 'Recurring income',
+      path: 'recurring-income-summary',
+      depends: () => !showUpdatedContent(),
+      uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
     unassociatedIncomeVeteranRecipientPage: pageBuilder.itemPage({
