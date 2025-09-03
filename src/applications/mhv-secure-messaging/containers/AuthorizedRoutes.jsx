@@ -19,6 +19,7 @@ import SelectCareTeam from './SelectCareTeam';
 import CareTeamHelp from './CareTeamHelp';
 import { clearDraftInProgress } from '../actions/threadDetails';
 import featureToggles from '../hooks/useFeatureToggles';
+import RecentCareTeams from './RecentCareTeams';
 
 // Prepend SmBreadcrumbs to each route, except for PageNotFound
 const AppRoute = ({ children, ...rest }) => {
@@ -59,11 +60,11 @@ const AuthorizedRoutes = () => {
             ? path.test(location.pathname)
             : location.pathname.startsWith(path),
       );
-      if (!isDraftSafe && draftInProgress.recipientId) {
+      if (!isDraftSafe && draftInProgress?.recipientId) {
         dispatch(clearDraftInProgress());
       }
     },
-    [location.pathname, draftInProgress.recipientId, dispatch],
+    [location.pathname, draftInProgress?.recipientId, dispatch],
   );
 
   if (location.pathname === `/`) {
@@ -124,6 +125,11 @@ const AuthorizedRoutes = () => {
             key="Compose"
           >
             <Compose />
+          </AppRoute>
+        )}
+        {cernerPilotSmFeatureFlag && (
+          <AppRoute exact path={Paths.RECENT_CARE_TEAMS} key="RecentCareTeams">
+            <RecentCareTeams />
           </AppRoute>
         )}
         {cernerPilotSmFeatureFlag && (
