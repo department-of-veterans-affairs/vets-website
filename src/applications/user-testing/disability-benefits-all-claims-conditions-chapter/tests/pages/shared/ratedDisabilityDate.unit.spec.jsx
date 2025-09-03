@@ -184,8 +184,9 @@ describe('526 rated disability date shared page', () => {
       });
 
       const dateErrorMsg = getDateErrorMsg(container);
+      const maxYear = new Date(Date.now()).getUTCFullYear();
       expect(dateErrorMsg.getAttribute('error')).to.match(
-        /between 1900 and 2025/i,
+        new RegExp(`between\\s+1900\\s+and\\s+${maxYear}`, 'i'),
       );
     } finally {
       nowStub.restore();

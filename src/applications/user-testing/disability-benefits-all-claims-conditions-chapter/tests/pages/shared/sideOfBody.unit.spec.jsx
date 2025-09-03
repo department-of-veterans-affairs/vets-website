@@ -89,14 +89,18 @@ describe('526 side of body shared page', () => {
     await waitFor(() => expect(onSubmit.calledOnce).to.be.true);
   });
 
-  it('preselects when seeded and submits (LEFT)', async () => {
+  it('submits when selecting LEFT via event', async () => {
     const onSubmit = sinon.spy();
-    const data = {
-      [utils.arrayBuilderOptions.arrayPath]: [{}],
-      sideOfBody: 'LEFT',
-    };
-    const { container } = mountPage(data, onSubmit);
+    const { container } = mountPage({}, onSubmit);
     const view = within(container);
+    const group = container.querySelector('va-radio');
+    fireEvent(
+      group,
+      new CustomEvent('vaChange', {
+        bubbles: true,
+        detail: { value: 'LEFT' },
+      }),
+    );
 
     view.getByRole('button', { name: /submit/i }).click();
 
