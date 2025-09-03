@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Toggler } from 'platform/utilities/feature-toggles';
 import UserNav from './UserNav';
@@ -50,8 +49,8 @@ export const Nav = () => {
             toggleName={Toggler.TOGGLE_NAMES.accreditedRepresentativePortalHelp}
           >
             <Toggler.Enabled>
-              <Link
-                to="/get-help"
+              <a
+                href="/get-help"
                 className={`usa-button-secondary heading-help-link ${
                   profile ? 'logged-in' : ''
                 }`}
@@ -59,7 +58,7 @@ export const Nav = () => {
                 data-eventname="nav-link-click"
               >
                 Help
-              </Link>
+              </a>
             </Toggler.Enabled>
           </Toggler>
           {profile ? <UserNav profile={profile} /> : <SignInButton />}
