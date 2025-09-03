@@ -1,14 +1,16 @@
-import { fullNameDeprecatedUI } from '../../shared/definitions/rjsfPatterns';
+import {
+  fullNameNoSuffixUI,
+  fullNameNoSuffixSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import {
   RELATIONSHIP_TO_VETERAN_OPTIONS,
   RELATIONSHIP_TO_CLAIMANT_OPTIONS,
 } from '../definitions/constants';
-import { pdfFullNameNoSuffixSchema } from '../../shared/definitions/pdfFullNameNoSuffix';
 import GroupCheckboxWidget from '../../shared/components/GroupCheckboxWidget';
 
 /** @type {PageSchema} */
 const commonUiSchema = {
-  witnessFullName: fullNameDeprecatedUI,
+  witnessFullName: fullNameNoSuffixUI(),
   witnessRelationshipToClaimant: {
     // different ui:title between uiSchemaA & uiSchemaB
     'ui:description': 'You can select more than one.',
@@ -59,7 +61,7 @@ export default {
     type: 'object',
     required: ['witnessFullName', 'witnessRelationshipToClaimant'],
     properties: {
-      witnessFullName: pdfFullNameNoSuffixSchema(),
+      witnessFullName: fullNameNoSuffixSchema,
       witnessRelationshipToClaimant: {
         type: 'string',
       },
