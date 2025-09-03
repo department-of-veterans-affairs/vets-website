@@ -183,8 +183,7 @@ const GetHelpPage = title => {
               </Link>
               . If you receive a message saying that we can’t verify you’re an
               accredited representative, refer to the commonly asked questions
-              in this section for next steps. Note: You can’t sign in to the
-              portal while on the VA network.
+              in this section for next steps.
             </va-accordion-item>
             <va-accordion-item
               header="What if I have issues creating my login.gov account?"
@@ -291,7 +290,7 @@ const GetHelpPage = title => {
               Portal, you will be logged out of your VA.gov Veteran account.
             </va-accordion-item>
           </va-accordion>
-          <h2 id="establishing-representation">Establishing Representation</h2>
+          <h2 id="establishing-representation">Establishing representation</h2>
           <p>
             You can quickly establish representation with a Veteran by using the
             portal Representation Requests feature. The portal currently manages
@@ -316,9 +315,9 @@ const GetHelpPage = title => {
                 accredited with the appointed VSO.
               </p>
               <p>
-                <strong>Note:</strong>
-                We encourage you to test completing the online{' '}
-                {RepresentationLink()} to understand the Veteran experience.
+                <strong>Note:</strong> We encourage you to test completing the
+                online {RepresentationLink()} to understand the Veteran
+                experience.
               </p>
             </va-accordion-item>
             <va-accordion-item
