@@ -302,14 +302,21 @@ const convertUnifiedCareSummariesAndNotesRecord = record => {
         formattedDischargeDate.formattedTime
       }`
     : '';
-  const entryType = getRecordTypeFromLoincCodes(record.attributes.loincCodes); // record.attributes.noteType
+
+  const formattedDateEntered = formatDateTime(record.attributes.dateEntered);
+  const dateEntered = formattedDateEntered
+    ? `${formattedDateEntered.formattedDate}, ${
+        formattedDateEntered.formattedTime
+      }`
+    : '';
+
   return {
     id: record.id,
     name: record.attributes.name || EMPTY_FIELD,
-    type: entryType || EMPTY_FIELD, // noteType or get from LOINC codes
+    type: record.attributes.type || EMPTY_FIELD,
     loincCodes: record.attributes.loincCodes || [],
     date: noteDate || EMPTY_FIELD,
-    dateSigned: getDateSigned(record, note) || EMPTY_FIELD, // TODO: OH will have this but VistA won't unless we can extract?
+    dateSigned: getDateSigned(record, note) || EMPTY_FIELD,
     writtenBy: record.attributes.writtenBy || EMPTY_FIELD,
     signedBy: record.attributes.signedBy || EMPTY_FIELD,
     location: record.attributes.location || EMPTY_FIELD,
@@ -318,6 +325,8 @@ const convertUnifiedCareSummariesAndNotesRecord = record => {
     admissionDate,
     dischargedDate,
     summary: record.attributes.note || EMPTY_FIELD, // record.attributes.note
+    dateEntered,
+    admittedBy: getAttending(note) || EMPTY_FIELD,
   };
 };
 /**

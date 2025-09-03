@@ -8,6 +8,12 @@
   - Discharge
   - unit
   - e2e
+
+- discharge date and admin date are from the notes field
+  - in reducer
+    - decoded the summary
+    - populate discharge date, admission date, discharged by, other fields???
+
 - Detail
   - ???
   - refresh
