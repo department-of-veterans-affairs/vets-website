@@ -36,7 +36,7 @@ const InterstitialPage = props => {
     () => {
       dispatch(acceptInterstitial());
       if (cernerPilotSmFeatureFlag && type !== 'reply') {
-        history.push(`${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`);
+        history.push(`${Paths.RECENT_CARE_TEAMS}`);
       }
     },
     [history, cernerPilotSmFeatureFlag, type, dispatch],
