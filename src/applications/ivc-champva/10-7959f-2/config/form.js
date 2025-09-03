@@ -1,16 +1,14 @@
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { cloneDeep } from 'lodash';
-import merge from 'lodash/merge';
-import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import React from 'react';
+import { cloneDeep, merge } from 'lodash';
+import environment from 'platform/utilities/environment';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
 import {
-  ssnOrVaFileNumberNoHintSchema,
-  ssnOrVaFileNumberNoHintUI,
+  ssnUI,
+  ssnSchema,
   fullNameUI,
   fullNameSchema,
   titleUI,
-  titleSchema,
   dateOfBirthUI,
   dateOfBirthSchema,
   addressUI,
@@ -127,7 +125,6 @@ const formConfig = {
             type: 'object',
             required: ['veteranFullName', 'veteranDateOfBirth'],
             properties: {
-              titleSchema,
               veteranFullName: fullNameSchema,
               veteranDateOfBirth: dateOfBirthSchema,
             },
@@ -139,23 +136,17 @@ const formConfig = {
       title: 'Identification information',
       pages: {
         page2: {
-          path: 'identification-information ',
-          title: 'Identification information ',
+          path: 'identification-information',
+          title: 'Identification information',
           uiSchema: {
-            ...titleUI(
-              'Identification information ',
-              'You must enter either a Social Security Number or a VA file number.',
-            ),
-            messageAriaDescribedby:
-              'You must enter either a Social Security number or VA file number.',
-            veteranSocialSecurityNumber: ssnOrVaFileNumberNoHintUI(),
+            ...titleUI('Identification information'),
+            veteranSocialSecurityNumber: ssnUI(),
           },
           schema: {
             type: 'object',
             required: ['veteranSocialSecurityNumber'],
             properties: {
-              titleSchema,
-              veteranSocialSecurityNumber: ssnOrVaFileNumberNoHintSchema,
+              veteranSocialSecurityNumber: ssnSchema,
             },
           },
         },
@@ -190,7 +181,6 @@ const formConfig = {
             type: 'object',
             required: ['veteranAddress'],
             properties: {
-              titleSchema,
               veteranAddress: addressSchema(),
             },
           },
@@ -217,7 +207,6 @@ const formConfig = {
             type: 'object',
             required: ['sameMailingAddress'],
             properties: {
-              titleSchema,
               sameMailingAddress: yesNoSchema,
             },
           },
@@ -249,7 +238,6 @@ const formConfig = {
             type: 'object',
             required: ['physicalAddress'],
             properties: {
-              titleSchema,
               physicalAddress: addressSchema(),
             },
           },
@@ -280,7 +268,6 @@ const formConfig = {
             type: 'object',
             required: ['veteranPhoneNumber', 'veteranEmailAddress'],
             properties: {
-              titleSchema,
               veteranPhoneNumber: phoneSchema,
               veteranEmailAddress: emailSchema,
             },
@@ -315,7 +302,6 @@ const formConfig = {
             type: 'object',
             required: ['sendPayment'],
             properties: {
-              titleSchema,
               sendPayment: radioSchema(['Veteran', 'Provider']),
             },
           },
@@ -351,7 +337,6 @@ const formConfig = {
             type: 'object',
             required: ['uploadSectionVeteran'],
             properties: {
-              titleSchema,
               'view:UploadDocuments': {
                 type: 'object',
                 properties: {},
@@ -385,7 +370,6 @@ const formConfig = {
             type: 'object',
             required: ['uploadSectionProvider'],
             properties: {
-              titleSchema,
               'view:UploadDocuments': {
                 type: 'object',
                 properties: {},
