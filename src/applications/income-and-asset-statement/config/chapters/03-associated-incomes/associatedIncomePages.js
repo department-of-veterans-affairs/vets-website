@@ -504,13 +504,6 @@ const incomeTypePage = {
 export const associatedIncomePages = arrayBuilderPages(
   options,
   pageBuilder => ({
-    associatedIncomePagesSummary: pageBuilder.summaryPage({
-      title: summaryTitle,
-      path: 'financial-accounts-summary',
-      depends: () => !showUpdatedContent(),
-      uiSchema: summaryPage.uiSchema,
-      schema: summaryPage.schema,
-    }),
     associatedIncomePagesUpdatedSummary: pageBuilder.summaryPage({
       title: summaryTitle,
       path: 'financial-accounts-summary-updated',
@@ -550,6 +543,14 @@ export const associatedIncomePages = arrayBuilderPages(
         showUpdatedContent() && formData.claimantType === 'PARENT',
       uiSchema: custodianSummaryPage.uiSchema,
       schema: custodianSummaryPage.schema,
+    }),
+    // Ensure MVP summary page is listed last so it’s not accidentally overridden by claimantType-specific summary pages
+    associatedIncomePagesSummary: pageBuilder.summaryPage({
+      title: summaryTitle,
+      path: 'financial-accounts-summary',
+      depends: () => !showUpdatedContent(),
+      uiSchema: summaryPage.uiSchema,
+      schema: summaryPage.schema,
     }),
     associatedIncomeVeteranRecipientPage: pageBuilder.itemPage({
       ContentBeforeButtons: showUpdatedContent() ? (
