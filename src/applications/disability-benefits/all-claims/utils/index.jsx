@@ -812,7 +812,9 @@ export function makeConditionsUI({
 export function validateConditions(conditions, errors, errorKey, errorMessage) {
   if (
     conditions?.none === true &&
-    Object.values(conditions).filter(value => value === true).length > 1
+    Object.entries(conditions).some(
+      ([key, value]) => key !== 'none' && value === true,
+    )
   ) {
     errors[errorKey].conditions.addError(errorMessage);
   }
