@@ -107,7 +107,7 @@
     .home__full-width--portal & {
       display: flex;
       align-items: center;
-      flex-direction: column-reverse;
+      flex-direction: column;
 
       @media (min-width: $small-desktop-screen) {
         padding: 0;
@@ -385,6 +385,9 @@
       @media (min-width: $medium-screen) {
         padding: 0;
         margin-left: 24px;
+      }
+      @media (max-width: $small-desktop-screen) {
+        order: -1;
       }
     }
     .is--redesign & {
