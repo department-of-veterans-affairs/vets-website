@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -18,11 +18,30 @@ import {
   UPDATE_VENDOR_TYPE,
 } from '../redux/filesReducer';
 
+//Get data from the shadow DOM of the web component inputs
+const extractDocumentTypesFromShadowDOM = fileInputRef => {
+  const fileInputs = Array.from(
+    fileInputRef.current?.shadowRoot?.querySelectorAll('va-file-input') || [],
+  );
+
+  return fileInputs.map(fileInput => {
+    const vaSelect = fileInput.querySelector('va-select');
+    const vaTextInput = fileInput.querySelector('va-text-input');
+    return {
+      select: vaSelect?.value || '',
+      textInput: vaTextInput?.value || '',
+    };
+  });
+};
+
 const MultipleDocumentUpload = () => {
   const [uploadError, setUploadError] = useState('');
-  // const [slotContent, setSlotContent] = useState([]);
-  const dispatch = useDispatch();
+  //Save the slot content here as an array of objects
+  const [slotContent, setSlotContent] = useState(null);
 
+  const dispatch = useDispatch();
+  //Reference to the file input web component
+  const fileInputRef = useRef(null);
   const files = useSelector(state => state.files.files);
 
   const acceptedFileTypes = [
@@ -38,20 +57,22 @@ const MultipleDocumentUpload = () => {
     'docx',
   ];
 
-  const addFile = (file, currentIndex) => {
-    dispatch({
-      type: ADD_FILE,
-      index: currentIndex, // the slot you want to update
-      payload: {
-        file, // optional, store the actual File object if needed
-        name: file.name,
-        date: '',
-        amount: null,
-        vendorType: '',
-        expenseType: '',
-      },
-    });
-  };
+  // Commented out the addFile function to get around the re-rendering issue
+
+  // const addFile = (file, currentIndex) => {
+  //   dispatch({
+  //     type: ADD_FILE,
+  //     index: currentIndex, // the slot you want to update
+  //     payload: {
+  //       file, // optional, store the actual File object if needed
+  //       name: file.name,
+  //       date: '',
+  //       amount: null,
+  //       vendorType: '',
+  //       expenseType: '',
+  //     },
+  //   });
+  // };
 
   const removeFile = index => {
     dispatch({ type: REMOVE_FILE, index });
@@ -104,7 +125,7 @@ const MultipleDocumentUpload = () => {
         return;
       }
 
-      addFile(file, currentIndex);
+      // addFile(file, currentIndex);
     }
     // Remove File, no other files
     if (action === 'FILE_REMOVED' && fileState.length === 0) {
@@ -127,7 +148,7 @@ const MultipleDocumentUpload = () => {
           setUploadError(error);
           return;
         }
-        addFile(file, currentIndex);
+        // addFile(file, currentIndex);
       }
     }
   };
@@ -147,6 +168,14 @@ const MultipleDocumentUpload = () => {
   const handleVendorChange = (vendorType, index) => {
     dispatch({ type: UPDATE_VENDOR_TYPE, index, payload: vendorType });
   };
+
+  //Add a submit button to get the current values from the shadow DOM
+  const handleSubmit = e => {
+    e.preventDefault();
+    const currentDocTypes = extractDocumentTypesFromShadowDOM(fileInputRef);
+    setSlotContent(currentDocTypes);
+  }
+
   const additionalFormInputsContent = (
     <>
       {files.map((fileObject, index) => (
@@ -260,14 +289,39 @@ const MultipleDocumentUpload = () => {
         hint={`Accepted file types: ${acceptedFileTypes
           .map(type => type.toUpperCase())
           .join(', ')}`}
-        label="Upload a document for your expense"
-        maxFileSize={5000000}
-        minFileSize={0}
-        name="travel-pay-claim-document-upload"
-        onVaMultipleChange={handleChange}
-      >
-        {additionalFormInputsContent}
+          label="Upload a document for your expense"
+          maxFileSize={5000000}
+          minFileSize={0}
+          name="travel-pay-claim-document-upload"
+          onVaMultipleChange={handleChange}
+          ref={fileInputRef}
+          >
+        {/* Slot content for additional inputs per file */}
+         <VaSelect
+            label="Expense Type"
+            name="expense-type"
+            required
+            onVaSelect={e => handleExpenseTypeChange(e.detail.value, index)}
+            >
+            <option value="gas-mileage">Gas mileage</option>
+            <option value="parking-fees">Parking Fees</option>
+            <option value="tolls">Tolls</option>
+            <option value="public-transportation">Public Transportation</option>
+            <option value="taxi">Taxi/Rideshare</option>
+            <option value="lodging">Lodging</option>
+            <option value="meals">Meals</option>
+            <option value="other">Other Travel Expenses</option>
+          </VaSelect>
+          <VaTextInput
+            currency
+            label="Expense Amount"
+            name="expense-amount"
+            show-input-error
+          />
+        {/* {additionalFormInputsContent} */}
       </VaFileInputMultiple>
+      <button type="button" onClick={handleSubmit}>Submit</button>
+      {console.log(slotContent, 'slotContent in return')}
     </>
   );
 };
