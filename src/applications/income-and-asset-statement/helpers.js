@@ -283,3 +283,8 @@ export function fullNameUIHelper() {
     },
   };
 }
+
+export const sharedYesNoOptionsBase = {
+  labelHeaderLevel: '2',
+  labelHeaderLevelStyle: '3',
+};
