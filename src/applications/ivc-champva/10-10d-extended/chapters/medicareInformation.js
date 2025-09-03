@@ -32,6 +32,7 @@ import {
   selectMedicareParticipantPage,
   SelectMedicareParticipantPage,
 } from './SelectMedicareParticipantsPage';
+import { validateMedicarePartDDates } from '../helpers/validations';
 
 const MEDICARE_TYPE_LABELS = {
   ab: 'Original Medicare Parts A and B (hospital and medical coverage)',
@@ -653,6 +654,7 @@ const medicarePartDCarrierEffectiveDatePage = {
       title: 'Medicare Part D termination date',
       hint: 'Only enter this date if your plan is inactive',
     }),
+    'ui:validations': [validateMedicarePartDDates],
   },
   schema: {
     type: 'object',
