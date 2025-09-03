@@ -154,7 +154,6 @@
   "mhvMedicalRecordsAllowTxtDownloads": "mhv_medical_records_allow_txt_downloads",
   "mhvMedicalRecordsCcdExtendedFileTypes": "mhv_medical_records_ccd_extended_file_types",
   "mhvMedicalRecordsDisplayDomains": "mhv_medical_records_display_domains",
-  "mhvMedicalRecordsDisplayLabsAndTests": "mhv_medical_records_display_labs_and_tests",
   "mhvMedicalRecordsDisplayNotes": "mhv_medical_records_display_notes",
   "mhvMedicalRecordsDisplaySettingsPage": "mhv_medical_records_display_settings_page",
   "mhvMedicalRecordsDisplaySidenav": "mhv_medical_records_display_sidenav",
