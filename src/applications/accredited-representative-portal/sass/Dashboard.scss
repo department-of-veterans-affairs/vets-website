@@ -1,6 +1,9 @@
 @import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 
 .dashboard {
+  &__banner {
+    max-width: 627px;
+  }
   &__header {
     margin: 0 0 $vads-spacing-2 0;
   }

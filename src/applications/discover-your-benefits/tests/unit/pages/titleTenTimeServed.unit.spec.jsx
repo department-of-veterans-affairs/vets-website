@@ -30,7 +30,7 @@ describe('Military Service Total Time Served Form', () => {
 
   it('should render the correct title for titleTenTimeServed', () => {
     const title = document.querySelector(
-      'va-radio[label="How long were you called up to active-duty (Title 10) orders while serving in the Reserve or National Guard?"]',
+      'va-radio[label="How long were you called up to active-duty (Title 10) orders while serving in the National Guard or Reserves?"]',
     );
     expect(title).to.exist;
   });

@@ -9,6 +9,7 @@ export * from './currencyPattern';
 export * from './datePatterns';
 export * from './emailPattern';
 export * from './fileInputPattern';
+export * from './fileInputMultiplePattern';
 export * from './fullNamePattern';
 export * from './numberPattern';
 export * from './phonePatterns';
