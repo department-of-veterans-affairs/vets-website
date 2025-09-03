@@ -331,6 +331,22 @@ export const childEvidence = (formData = {}) => {
 };
 
 /**
+ * checkAddingDependentsForPension determines if adding dependents for pension should be allowed
+ * @param {object} formData - The form data
+ * @returns {boolean} - True if adding dependents outside of 674, false otherwise
+ */
+export const checkAddingDependentsForPension = (formData = {}) => {
+  const addingDependents = formData['view:addOrRemoveDependents']?.add;
+  const addDependentOptions = formData['view:addDependentOptions'] || {};
+  const isAddingDependentsNot674 = [
+    'addChild',
+    'addDisabledChild',
+    'addSpouse',
+  ].some(option => addDependentOptions[option]);
+  return addingDependents && isAddingDependentsNot674;
+};
+
+/**
  * showPensionBackupPath determines if the pension related question backup path should be shown
  * @param {object} formData - The form data
  * @returns {boolean} - True if the backup path should be shown, false otherwise
@@ -338,7 +354,11 @@ export const childEvidence = (formData = {}) => {
 export const showPensionBackupPath = (formData = {}) => {
   // -1 in prefill indicates pension awards API failed
   const { veteranInformation: vi, vaDependentsNetWorthAndPension } = formData;
-  return vaDependentsNetWorthAndPension && vi?.isInReceiptOfPension === -1;
+  return (
+    vaDependentsNetWorthAndPension &&
+    vi?.isInReceiptOfPension === -1 &&
+    checkAddingDependentsForPension(formData)
+  );
 };
 
 /**
@@ -353,39 +373,12 @@ export const showPensionRelatedQuestions = (formData = {}) => {
     const isInReceiptOfPension = vi?.isInReceiptOfPension === 1;
     const backupPathIsInReceiptOfPension =
       vi?.isInReceiptOfPension === -1 && formData['view:checkVeteranPension'];
-    return isInReceiptOfPension || backupPathIsInReceiptOfPension;
+    const isAddingDependents = checkAddingDependentsForPension(formData);
+    return (
+      isAddingDependents &&
+      (isInReceiptOfPension || backupPathIsInReceiptOfPension)
+    );
   }
   // keep current behavior if feature flag is off
   return true;
-};
-
-export const checkAddRemoveDependentsForPension = (formData = {}) => {
-  const addingDependents = formData['view:addOrRemoveDependents']?.add;
-  const removingDependents = formData['view:addOrRemoveDependents']?.remove;
-  const addDependentOptions = formData['view:addDependentOptions'] || {};
-  // addChild
-  // addDisabledChild
-  // addSpouse
-  // report674
-  // const removeDependentOptions = formData['view:removeDependentOptions'];
-  // reportChild18OrOlderIsNotAttendingSchool
-  // reportDeath
-  // reportDivorce
-  // reportMarriageOfChildUnder18
-  // reportStepchildNotInHousehold
-  // const selected686Options = formData['view:selectable686Options'];
-  // addChild
-  // addDisabledChild
-  // addSpouse
-  // report674
-  // reportChild18OrOlderIsNotAttendingSchool
-  // reportDeath
-  // reportDivorce
-  // reportMarriageOfChildUnder18
-  // reportStepchildNotInHousehold
-  const isAddingDependentsNot674 =
-    ['addChild', 'addDisabledChild', 'addSpouse'].some(
-      option => addDependentOptions[option],
-    ) && !addDependentOptions.report674;
-  return addingDependents && !removingDependents && isAddingDependentsNot674;
 };
