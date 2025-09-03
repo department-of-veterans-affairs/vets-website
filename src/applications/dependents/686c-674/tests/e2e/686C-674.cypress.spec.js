@@ -26,7 +26,7 @@ const testConfig = createTestConfig(
             },
             {
               name: 'vaDependentsNetWorthAndPension',
-              value: true,
+              value: false,
             },
           ],
         },
@@ -83,12 +83,6 @@ const testConfig = createTestConfig(
         });
       },
 
-      'check-veteran-pension': ({ afterHook }) => {
-        afterHook(() => {
-          cy.fillPage();
-          cy.clickFormContinue();
-        });
-      },
       'veteran-address': ({ afterHook }) => {
         afterHook(() => {
           cy.fillPage();
