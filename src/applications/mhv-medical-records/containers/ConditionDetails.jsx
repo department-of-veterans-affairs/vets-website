@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
@@ -56,6 +56,7 @@ const ConditionDetails = props => {
   );
   const { conditionId } = useParams();
   const dispatch = useDispatch();
+  const history = useHistory();
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
   useTrackAction(statsdFrontEndActions.HEALTH_CONDITIONS_DETAILS);
@@ -73,7 +74,7 @@ const ConditionDetails = props => {
 
   useEffect(
     () => {
-      if (conditionId)
+      if (conditionId && !record?.notFound)
         dispatch(
           getConditionDetails(
             conditionId,
@@ -81,8 +82,18 @@ const ConditionDetails = props => {
             isAcceleratingConditions,
           ),
         );
+      if (record?.notFound) {
+        history.push('/conditions');
+      }
     },
-    [conditionId, conditionList, isAcceleratingConditions, dispatch],
+    [
+      conditionId,
+      conditionList,
+      isAcceleratingConditions,
+      dispatch,
+      record,
+      history,
+    ],
   );
 
   useEffect(

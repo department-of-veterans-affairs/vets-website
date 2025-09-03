@@ -115,24 +115,22 @@ export const convertNewCondition = condition => {
 };
 
 export const convertUnifiedCondition = condition => {
-  const formatConditionDate = formatDateTime(condition?.date);
+  const formatConditionDate = formatDateTime(condition?.attributes?.date);
   const conditionDate = formatConditionDate
-    ? `${formatConditionDate.formattedDate}, ${
-        formatConditionDate.formattedTime
-      }`
+    ? `${formatConditionDate.formattedDate}`
     : '';
   // Ensure a finite timestamp
-  const ts = new Date(condition?.date).getTime();
+  const ts = new Date(condition?.attributes?.date).getTime();
 
   return {
     id: condition?.id,
-    name: condition?.name || EMPTY_FIELD,
+    name: condition?.attributes?.name || EMPTY_FIELD,
     date: conditionDate || EMPTY_FIELD,
     sortKey: Number.isFinite(ts) ? ts : null,
-    provider: condition?.provider || EMPTY_FIELD,
-    facility: condition?.facility || EMPTY_FIELD,
-    comments: isArrayAndHasItems(condition?.comments)
-      ? condition.comments
+    provider: condition?.attributes?.provider || EMPTY_FIELD,
+    facility: condition?.attributes?.facility || EMPTY_FIELD,
+    comments: isArrayAndHasItems(condition?.attributes?.comments)
+      ? condition.attributes?.comments
       : EMPTY_FIELD,
   };
 };
@@ -152,6 +150,14 @@ export const conditionReducer = (state = initialState, action) => {
       return {
         ...state,
         conditionDetails,
+      };
+    }
+    case Actions.Conditions.GET_UNIFIED_ITEM_FROM_LIST: {
+      return {
+        ...state,
+        conditionDetails: action.response.data.id
+          ? convertUnifiedCondition(action.response.data)
+          : { ...action.response.data },
       };
     }
     case Actions.Conditions.GET_FROM_LIST: {
@@ -190,7 +196,7 @@ export const conditionReducer = (state = initialState, action) => {
       const newList =
         data
           .map(condition => {
-            return convertUnifiedCondition(condition.attributes);
+            return convertUnifiedCondition(condition);
           })
           .sort((a, b) => {
             const ak = Number.isFinite(a.sortKey) ? a.sortKey : -Infinity;
