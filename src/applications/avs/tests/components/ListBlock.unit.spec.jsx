@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 
-import ListBlock from '../../components/ListBlock';
+import ListBlock from '../../components/ListBlock.tsx';
 
 describe('Avs: List Block', () => {
   it('correctly renders object lists', async () => {

@@ -1,6 +1,4 @@
-import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
-
+import React from 'react';
 import ItemsBlock from './ItemsBlock';
 import ListBlock from './ListBlock';
 import MedicationTerms from './MedicationTerms';
@@ -8,13 +6,13 @@ import OrdersBlock from './OrdersBlock';
 import ParagraphBlock from './ParagraphBlock';
 import { ORDER_TYPES } from '../utils/constants';
 import { allArraysEmpty } from '../utils';
+import type { YourTreatmentPlanProps, ClinicalReminder } from '../types';
 
-const YourTreatmentPlan = props => {
-  const { avs } = props;
+const YourTreatmentPlan: React.FC<YourTreatmentPlanProps> = ({ avs }) => {
   const { medChangesSummary, orders } = avs;
 
   const medChanges =
-    medChangesSummary && !allArraysEmpty(medChangesSummary)
+    medChangesSummary && !allArraysEmpty(medChangesSummary as any)
       ? medChangesSummary
       : null;
 
@@ -29,7 +27,7 @@ const YourTreatmentPlan = props => {
     </>
   );
 
-  const renderReminder = reminder => {
+  const renderReminder = (reminder: ClinicalReminder): React.ReactNode => {
     return (
       <p>
         {reminder.name}
@@ -74,7 +72,7 @@ const YourTreatmentPlan = props => {
       />
       <OrdersBlock
         heading="Medications & supplies"
-        intro={medsIntro}
+        intro={medsIntro as any}
         orders={orders}
         type={ORDER_TYPES.MED}
       />
@@ -122,7 +120,3 @@ const YourTreatmentPlan = props => {
 };
 
 export default YourTreatmentPlan;
-
-YourTreatmentPlan.propTypes = {
-  avs: PropTypes.object,
-};

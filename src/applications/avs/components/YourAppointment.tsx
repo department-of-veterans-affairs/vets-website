@@ -1,19 +1,17 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-
 import { getFormattedAppointmentTime, getShortTimezone } from '../utils';
-
 import ItemsBlock from './ItemsBlock';
 import ListBlock from './ListBlock';
 import MedicationTerms from './MedicationTerms';
+import type { YourAppointmentProps, AvsData, VitalSign, ClinicMedication } from '../types';
 
-const clinicsVisited = avs => {
+const clinicsVisited = (avs: AvsData): React.ReactNode => {
   const shortTimezone = getShortTimezone(avs);
   const clinics = avs.clinicsVisited.map((clinic, idx) => {
     return (
-      <div key={clinic.clinicIen}>
+      <div key={clinic.clinicIen || idx}>
         <h3
-          className={idx === 0 && 'vads-u-margin-top--0'}
+          className={idx === 0 ? 'vads-u-margin-top--0' : ''}
           data-testid="appointment-time"
           key={clinic.clinicIen}
         >
@@ -37,7 +35,7 @@ const clinicsVisited = avs => {
   return <div>{clinics}</div>;
 };
 
-const renderVitalSign = vitalSignItem => {
+const renderVitalSign = (vitalSignItem: VitalSign): React.ReactNode => {
   return (
     <p>
       {vitalSignItem.type}
@@ -48,7 +46,7 @@ const renderVitalSign = vitalSignItem => {
   );
 };
 
-const clinicMedsIntro = avs => {
+const clinicMedsIntro = (avs: AvsData): React.ReactNode => {
   return (
     <>
       <p>
@@ -60,7 +58,7 @@ const clinicMedsIntro = avs => {
   );
 };
 
-const renderClinicMedication = medication => {
+const renderClinicMedication = (medication: ClinicMedication): React.ReactNode => {
   return (
     <>
       <p>
@@ -75,9 +73,7 @@ const renderClinicMedication = medication => {
   );
 };
 
-const YourAppointment = props => {
-  const { avs } = props;
-
+const YourAppointment: React.FC<YourAppointmentProps> = ({ avs }) => {
   return (
     <div className="avs-accordion-item">
       {clinicsVisited(avs)}
@@ -116,7 +112,7 @@ const YourAppointment = props => {
       />
       <ItemsBlock
         heading="Medications ordered for administration in clinic"
-        intro={clinicMedsIntro(avs)}
+        intro={clinicMedsIntro(avs) as any}
         itemType="clinic-medications"
         items={avs.clinicMedications}
         renderItem={renderClinicMedication}
@@ -127,7 +123,3 @@ const YourAppointment = props => {
 };
 
 export default YourAppointment;
-
-YourAppointment.propTypes = {
-  avs: PropTypes.object,
-};

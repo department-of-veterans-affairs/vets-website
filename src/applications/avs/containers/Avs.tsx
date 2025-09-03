@@ -1,7 +1,6 @@
 import React, { Suspense } from 'react';
 import { Await, useLoaderData } from 'react-router-dom-v5-compat';
 import { connect, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
@@ -19,27 +18,45 @@ import YourHealthInformation from '../components/YourHealthInformation';
 import YourTreatmentPlan from '../components/YourTreatmentPlan';
 import AvsErrorElement from '../components/AvsErrorElement';
 
-const generateAppointmentHeader = avs => {
+import type { AvsProps, AvsData } from '../types';
+
+interface StateToProps {
+  isLoggedIn: boolean;
+}
+
+interface FeatureTogglesState {
+  loading: boolean;
+  [key: string]: any; // Use string index signature instead of computed property
+}
+
+interface RootState {
+  user: {
+    login: {
+      currentlyLoggedIn: boolean;
+    };
+  };
+  featureToggles: FeatureTogglesState;
+}
+
+const generateAppointmentHeader = (avs: AvsData): string => {
   const appointmentDate = getFormattedAppointmentDate(avs);
   return `Your appointment on ${appointmentDate}`;
 };
 
-const Avs = props => {
-  const { id, isLoggedIn } = props;
+const Avs: React.FC<AvsProps & StateToProps> = ({ id, isLoggedIn }) => {
   useDatadogRum();
 
   const user = useSelector(selectUser);
   const { avsEnabled, featureTogglesLoading } = useSelector(
-    state => {
+    (state: RootState) => {
       return {
         featureTogglesLoading: state.featureToggles.loading,
-        avsEnabled: state.featureToggles[FEATURE_FLAG_NAMES.avsEnabled],
+        avsEnabled: state.featureToggles[FEATURE_FLAG_NAMES.avsEnabled as keyof FeatureTogglesState],
       };
     },
-    state => state.featureToggles,
   );
 
-  const loader = useLoaderData();
+  const loader = useLoaderData() as { avs: Promise<AvsData> };
 
   if (avsEnabled === false) {
     window.location.replace('/');
@@ -69,7 +86,7 @@ const Avs = props => {
     >
       <Suspense fallback={loadingIndicator}>
         <Await resolve={loader.avs} errorElement={<AvsErrorElement />}>
-          {avs => (
+          {(avs: AvsData) => (
             <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0 main-content">
               <BreadCrumb />
               <h1 className="vads-u-padding-top--2">After-visit summary</h1>
@@ -111,17 +128,11 @@ const Avs = props => {
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state: RootState): StateToProps => {
   return {
     isLoggedIn: state.user.login.currentlyLoggedIn,
   };
 };
 
-Avs.propTypes = {
-  id: PropTypes.string,
-  isLoggedIn: PropTypes.bool,
-  params: PropTypes.object,
-};
-
 export { Avs };
-export default connect(mapStateToProps)(Avs);
+export default connect<StateToProps, {}, AvsProps, RootState>(mapStateToProps)(Avs as any);

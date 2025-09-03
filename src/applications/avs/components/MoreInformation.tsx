@@ -1,16 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-
 import ItemsBlock from './ItemsBlock';
 import ParagraphBlock from './ParagraphBlock';
-
 import { normalizePhoneNumber, numberIsClickable } from '../utils/phone';
+import type { MoreInformationProps, ClinicalService } from '../types';
 
-const MoreInformation = props => {
-  const { avs } = props;
+const MoreInformation: React.FC<MoreInformationProps> = ({ avs }) => {
   const { clinicalServices, clinicsVisited, moreHelpAndInformation } = avs;
 
-  const renderClinicalService = service => {
+  const renderClinicalService = (service: ClinicalService): React.ReactNode => {
     const servicePhone = normalizePhoneNumber(service.phone);
     const phoneNotClickable = !numberIsClickable(servicePhone);
 
@@ -52,7 +49,3 @@ const MoreInformation = props => {
 };
 
 export default MoreInformation;
-
-MoreInformation.propTypes = {
-  avs: PropTypes.object,
-};
