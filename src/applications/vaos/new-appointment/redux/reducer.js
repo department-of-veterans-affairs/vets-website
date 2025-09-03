@@ -411,6 +411,8 @@ export default function formReducer(state = initialState, action) {
         facilityPageSortMethod: sortMethod,
         showEligibilityModal: false,
         requestLocationStatus: FETCH_STATUS.notStarted,
+        patientProviderRelationships: [],
+        patientProviderRelationshipsStatus: FETCH_STATUS.notStarted,
       };
     }
     case FORM_REQUEST_CURRENT_LOCATION: {
