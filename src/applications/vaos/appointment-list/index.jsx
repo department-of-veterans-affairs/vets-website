@@ -22,20 +22,20 @@ function AppointmentListSection() {
   return (
     <>
       <Switch>
-        {/* These are now exact so that you can still access the <whichever_route>/:id under each of them when linked */}
+        <Route
+          path="/pending/:id"
+          component={RequestedAppointmentDetailsPage}
+        />
+
         {isInPilotUserStations && (
-          <Redirect exact from="/pending" to="/referrals-requests" />
+          <Redirect from="/pending" to="/referrals-requests" />
         )}
         {!isInPilotUserStations && (
-          <Redirect exact from="/referrals-requests" to="/pending" />
+          <Redirect from="/referrals-requests" to="/pending" />
         )}
 
         {isInPilotUserStations && (
-          <Route
-            exact
-            path="/referrals-requests"
-            component={ReferralsAndRequests}
-          />
+          <Route path="/referrals-requests" component={ReferralsAndRequests} />
         )}
         <Route
           exact
@@ -44,15 +44,9 @@ function AppointmentListSection() {
         />
         <Route
           exact
-          path="/pending/:id"
-          component={RequestedAppointmentDetailsPage}
-        />
-        <Route
-          exact
           path="/past/:id"
           component={UpcomingAppointmentsDetailsPage}
         />
-        {/* NOTE: eps should probably also be exact */}
         {isInPilotUserStations &&
           eps && <Route path="/:id" component={EpsAppointmentDetailsPage} />}
         <Route exact path="/:id" component={UpcomingAppointmentsDetailsPage} />
