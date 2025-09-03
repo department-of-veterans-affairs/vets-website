@@ -50,7 +50,7 @@ export const Nav = () => {
           >
             <Toggler.Enabled>
               <a
-                href="/get-help"
+                href="/representative/get-help"
                 className={`usa-button-secondary heading-help-link ${
                   profile ? 'logged-in' : ''
                 }`}
