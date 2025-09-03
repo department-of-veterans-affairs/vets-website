@@ -126,7 +126,7 @@ function setupFormData(data, schema, uiSchema) {
   );
 }
 
-function resetFormDataOnTypeOfCareChange(pages, oldData, data) {
+function resetFormDataOnChange(pages, oldData, data) {
   let newPages = pages;
   let newData = data;
 
@@ -152,6 +152,11 @@ function resetFormDataOnTypeOfCareChange(pages, oldData, data) {
       newPages = unset('ccPreferences', newPages);
       newData = set('communityCareProvider', {}, newData);
     }
+  }
+
+  // reset selected OH provider if VA facility changes
+  if (pages.vaFacilityV2 && newData.vaFacility !== oldData.vaFacility) {
+    newData = set('selectedProvider', null, newData);
   }
 
   return { newPages, newData };
@@ -182,7 +187,7 @@ export default function formReducer(state = initialState, action) {
         action.data,
       );
 
-      const { newPages, newData } = resetFormDataOnTypeOfCareChange(
+      const { newPages, newData } = resetFormDataOnChange(
         state.pages,
         state.data,
         data,
@@ -217,7 +222,7 @@ export default function formReducer(state = initialState, action) {
         };
       }
 
-      const { newPages, newData } = resetFormDataOnTypeOfCareChange(
+      const { newPages, newData } = resetFormDataOnChange(
         state.pages,
         state.data,
         action.data || state.data,
