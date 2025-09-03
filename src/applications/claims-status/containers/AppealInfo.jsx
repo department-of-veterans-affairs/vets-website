@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Outlet } from 'react-router-dom-v5-compat';
@@ -61,133 +61,124 @@ const recordsNotFoundMessage = (
   </div>
 );
 
-export class AppealInfo extends React.Component {
-  componentDidMount() {
-    const { appeal, appealsLoading, getAppealsV2 } = this.props;
-    if (!appeal) {
-      getAppealsV2();
-    }
-    if (!appealsLoading) {
-      setUpPage();
-    } else {
-      scrollToTop();
-    }
-  }
+export const AppealInfo = ({
+  appeal,
+  fullName,
+  appealsLoading,
+  appealsAvailability,
+  getAppealsV2,
+}) => {
+  useEffect(
+    () => {
+      if (!appeal) {
+        getAppealsV2();
+      }
+      if (!appealsLoading) {
+        setUpPage();
+      } else {
+        scrollToTop();
+      }
+    },
+    [appeal, appealsLoading, getAppealsV2],
+  );
 
-  createHeading = () => {
-    let requestEventType;
-    const { appeal } = this.props;
-    switch (appeal.type) {
-      case APPEAL_TYPES.legacy:
-        requestEventType = EVENT_TYPES.nod;
-        break;
-      case APPEAL_TYPES.supplementalClaim:
-        requestEventType = EVENT_TYPES.scRequest;
-        break;
-      case APPEAL_TYPES.higherLevelReview:
-        requestEventType = EVENT_TYPES.hlrRequest;
-        break;
-      case APPEAL_TYPES.appeal:
-        requestEventType = EVENT_TYPES.amaNod;
-        break;
-      default:
-      // do nothing
-    }
-    const requestEvent = appeal.attributes.events.find(
-      event => event.type === requestEventType,
-    );
-
-    let appealTitle = capitalizeWord(getTypeName(appeal));
-
-    if (requestEvent) {
-      appealTitle += ` received ${moment(requestEvent.date).format(
-        'MMMM YYYY',
-      )}`;
-    }
-
-    return appealTitle;
-  };
-
-  render() {
-    const {
-      appeal,
-      fullName,
-      appealsLoading,
-      appealsAvailability,
-    } = this.props;
-    let appealContent;
-    let claimHeading;
-
-    // Availability is determined by whether or not the API returned an appeals array
-    // for this user. However, it doesn't speak to whether the appeal that's been
-    // requested is available in the array. This is why we have to check for both
-    // AVAILABLE status as well as whether or not the appeal exists.
-    if (appealsLoading) {
-      appealContent = (
-        <div className="vads-u-margin-bottom--2p5">
-          <va-loading-indicator message="Please wait while we load your appeal..." />
-        </div>
+  const createHeading = useCallback(
+    () => {
+      let requestEventType;
+      switch (appeal.type) {
+        case APPEAL_TYPES.legacy:
+          requestEventType = EVENT_TYPES.nod;
+          break;
+        case APPEAL_TYPES.supplementalClaim:
+          requestEventType = EVENT_TYPES.scRequest;
+          break;
+        case APPEAL_TYPES.higherLevelReview:
+          requestEventType = EVENT_TYPES.hlrRequest;
+          break;
+        case APPEAL_TYPES.appeal:
+          requestEventType = EVENT_TYPES.amaNod;
+          break;
+        default:
+        // do nothing
+      }
+      const requestEvent = appeal.attributes.events.find(
+        event => event.type === requestEventType,
       );
-    } else if (appealsAvailability === AVAILABLE && appeal) {
-      // Maybe could simplify this to just check if (appeal) instead
-      claimHeading = this.createHeading();
-      appealContent = (
-        <>
-          <AppealsV2TabNav />
-          <div className="tab-content va-appeals-content">
-            <Outlet context={[appeal, fullName]} />
-          </div>
-        </>
-      );
-    } else if (appealsAvailability === AVAILABLE && !appeal) {
-      // Yes, we have your appeals. No, the one you requested isn't one of them.
-      appealContent = <AppealNotFound />;
-    } else if (appealsAvailability === RECORD_NOT_FOUND_ERROR) {
-      appealContent = recordsNotFoundMessage;
-    } else {
-      // This includes
-      //  USER_FORBIDDEN_ERROR,
-      //  VALIDATION_ERROR,
-      //  BACKEND_SERVICE_ERROR,
-      //  FETCH_APPEALS_ERROR
-      appealContent = appealsDownMessage;
-    }
 
-    const crumb = {
-      href: `../status`,
-      label: 'Status details',
-      isRouterLink: true,
-    };
+      let appealTitle = capitalizeWord(getTypeName(appeal));
 
-    return (
-      <div>
-        <div className="row">
-          <div className="usa-width-two-thirds medium-8 column">
-            <ClaimsBreadcrumbs crumbs={[crumb]} />
-          </div>
-        </div>
-        <div className="row">
-          <div className="usa-width-two-thirds medium-8 column">
-            {!!(claimHeading && appeal) && (
-              <AppealHeader
-                heading={claimHeading}
-                lastUpdated={appeal.attributes.updated}
-              />
-            )}
-            {appealContent}
-            {appeal && (
-              <AppealHelpSidebar
-                location={appeal.attributes.location}
-                aoj={appeal.attributes.aoj}
-              />
-            )}
-            <CopyOfExam />
-          </div>
-        </div>
+      if (requestEvent) {
+        appealTitle += ` received ${moment(requestEvent.date).format(
+          'MMMM YYYY',
+        )}`;
+      }
+
+      return appealTitle;
+    },
+    [appeal],
+  );
+
+  let appealContent;
+  let claimHeading;
+
+  if (appealsLoading) {
+    appealContent = (
+      <div className="vads-u-margin-bottom--2p5">
+        <va-loading-indicator message="Please wait while we load your appeal..." />
       </div>
     );
+  } else if (appealsAvailability === AVAILABLE && appeal) {
+    claimHeading = createHeading();
+    appealContent = (
+      <>
+        <AppealsV2TabNav />
+        <div className="tab-content va-appeals-content">
+          <Outlet context={[appeal, fullName]} />
+        </div>
+      </>
+    );
+  } else if (appealsAvailability === AVAILABLE && !appeal) {
+    appealContent = <AppealNotFound />;
+  } else if (appealsAvailability === RECORD_NOT_FOUND_ERROR) {
+    appealContent = recordsNotFoundMessage;
+  } else {
+    appealContent = appealsDownMessage;
   }
-}
+
+  const crumb = {
+    href: `../status`,
+    label: 'Status details',
+    isRouterLink: true,
+  };
+
+  return (
+    <div>
+      <div className="row">
+        <div className="usa-width-two-thirds medium-8 column">
+          <ClaimsBreadcrumbs crumbs={[crumb]} />
+        </div>
+      </div>
+      <div className="row">
+        <div className="usa-width-two-thirds medium-8 column">
+          {!!(claimHeading && appeal) && (
+            <AppealHeader
+              heading={claimHeading}
+              lastUpdated={appeal.attributes.updated}
+            />
+          )}
+          {appealContent}
+          {appeal && (
+            <AppealHelpSidebar
+              location={appeal.attributes.location}
+              aoj={appeal.attributes.aoj}
+            />
+          )}
+          <CopyOfExam />
+        </div>
+      </div>
+    </div>
+  );
+};
 
 AppealInfo.propTypes = {
   appealsLoading: PropTypes.bool.isRequired,
