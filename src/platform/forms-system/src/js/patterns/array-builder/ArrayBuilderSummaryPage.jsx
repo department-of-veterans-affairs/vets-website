@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/sort-prop-types */
 import classNames from 'classnames';
-import React, { forwardRef, useEffect, useMemo, useRef, useState } from 'react';
+import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui/focus';
 import { scrollAndFocus } from 'platform/utilities/scroll';
@@ -10,7 +10,6 @@ import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/Sc
 import get from '~/platform/utilities/data/get';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { setData } from '~/platform/forms-system/src/js/actions';
-import { isMinimalHeaderPath } from '~/platform/forms-system/src/js/patterns/minimal-header';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import ArrayBuilderCards from './ArrayBuilderCards';
 import ArrayBuilderSummaryReviewPage from './ArrayBuilderSummaryReviewPage';
@@ -21,6 +20,7 @@ import {
   getUpdatedItemFromPath,
   isDeepEmpty,
   slugifyText,
+  useHeadingLevels,
   validateIncompleteItems,
 } from './helpers';
 
@@ -71,24 +71,6 @@ function getYesNoReviewErrorMessage(reviewErrors, hasItemsKey) {
     hasItemsKey && reviewErrors?.errors?.find(obj => obj.name === hasItemsKey);
   return error?.message;
 }
-
-export const useHeadingLevels = (userHeaderLevel, isReviewPage) => {
-  const isMinimalHeader = useMemo(() => isMinimalHeaderPath(), []);
-  let defaultLevel;
-
-  if (isMinimalHeader) {
-    defaultLevel = isReviewPage ? '3' : '1';
-  } else {
-    defaultLevel = isReviewPage ? '4' : '3';
-  }
-
-  const headingLevel = userHeaderLevel ?? defaultLevel;
-  const headingStyle = {
-    'vads-u-font-size--h2': isMinimalHeader && !isReviewPage,
-  };
-
-  return { headingLevel, headingStyle };
-};
 
 /**
  * @param {{
@@ -293,19 +275,6 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
       ],
     );
 
-    function forceRerender(data = props.data) {
-      // This is a hacky workaround to rerender the page
-      // due to the way SchemaForm interacts with CustomPage
-      // here in order to hide/show alerts correctly.
-      props.setData({
-        ...data,
-        _metadata: {
-          ...data._metadata,
-          [`${nounPlural}ForceRenderTimestamp`]: Date.now(),
-        },
-      });
-    }
-
     useEffect(
       () => {
         setShowReviewErrorAlert(hasReviewError);
@@ -352,7 +321,6 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
           ),
         );
       });
-      forceRerender();
     }
 
     function onDismissRemovedAlert() {
@@ -366,10 +334,11 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
           ),
         );
       });
-      forceRerender();
     }
 
-    function onRemoveItem(index, item) {
+    function onRemoveItem(index, item, newFormData) {
+      const onUpdate = isReviewPage ? props.setData : props.onChange;
+      onUpdate(newFormData);
       // updated alert may be from initial state (URL path)
       // so we can go ahead and remove it if there is a new
       // alert
@@ -518,7 +487,6 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
         onRemoveAll={onRemoveAllItems}
         onRemove={onRemoveItem}
         isReview={isReviewPage}
-        forceRerender={forceRerender}
         titleHeaderLevel={headingLevel}
       />
     );
@@ -579,25 +547,25 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
       ...uiSchema,
     };
     let newSchema = schema;
-    let titleTextType;
-    let descriptionTextType;
-    let UIDescription;
     const NavButtons = props.NavButtons || FormNavButtons;
+    const hasArrayItems = !!arrayData?.length;
 
-    if (arrayData?.length > 0) {
-      titleTextType = 'summaryTitle';
-      descriptionTextType = 'summaryDescription';
-      UIDescription = (
-        <>
-          <Alerts />
-          <Cards />
-        </>
-      );
-    } else {
-      titleTextType = 'summaryTitleWithoutItems';
-      descriptionTextType = 'summaryDescriptionWithoutItems';
-      UIDescription = <Alerts />;
-    }
+    const typeSuffix = hasArrayItems ? '' : 'WithoutItems';
+    const titleTextType = `summaryTitle${typeSuffix}`;
+    const descriptionTextType = `summaryDescription${typeSuffix}`;
+
+    const renderKey = [
+      showUpdatedAlert ? 'u1' : 'u0',
+      showRemovedAlert ? 'r1' : 'r0',
+      showReviewErrorAlert ? 'e1' : 'e0',
+      isMaxItemsReached ? 'm1' : 'm0',
+    ].join('-');
+    const UIDescription = (
+      <div key={renderKey}>
+        <Alerts />
+        {hasArrayItems && <Cards />}
+      </div>
+    );
 
     const descriptionText = getText(descriptionTextType, null, props.data);
     const UITitle = (
@@ -725,7 +693,6 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     recalculateErrors: PropTypes.func,
     reviewErrors: PropTypes.object,
     setData: PropTypes.func, // available regardless of review page or not
-    setFormData: PropTypes.func, // not available on review page
     title: PropTypes.string,
     trackingPrefix: PropTypes.string,
     NavButtons: PropTypes.func,
