@@ -72,7 +72,6 @@ const formConfig = {
   },
   ...minimalHeaderFormConfigOptions({
     breadcrumbList: [
-      { href: '/', label: 'Home' },
       {
         href: `/family-and-caregiver-benefits`,
         label: `Family and caregiver benefits`,
@@ -90,7 +89,7 @@ const formConfig = {
         label: `Apply for CHAMPVA benefits`,
       },
     ],
-    homeVeteransAffairs: false,
+    homeVeteransAffairs: true,
     wrapping: true,
   }),
   formId: VA_FORM_IDS.FORM_10_10D_EXTENDED,
