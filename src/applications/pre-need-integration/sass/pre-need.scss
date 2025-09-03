@@ -267,6 +267,10 @@ article#form-4010007[data-location^="service-periods-"] .vads-u-color--gray-dark
   color: var(--vads-color-base) !important;
 }
 
+article#form-4010007[data-location^="service-periods-summary-"] va-radio::part(header),
+article#form-4010007[data-location^="burial-benefits-"] va-radio::part(header) {
+  font-weight: 100 !important;
+}
 
 .selectNonImposter {
   max-width: 27.25em;

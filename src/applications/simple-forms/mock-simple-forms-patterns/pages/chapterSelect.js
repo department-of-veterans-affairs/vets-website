@@ -16,7 +16,7 @@ const DeselectAll = ({ formData, setFormData }) => {
   return <va-button text="Deselect all" onClick={onClick} uswds />;
 };
 
-/** @type {PageSchema}  */
+/** @type {PageSchema} */
 export default {
   ContentBeforeButtons: DeselectAll,
   uiSchema: {
@@ -34,6 +34,7 @@ export default {
         date: 'Date',
         internationalPhone: 'International phone',
         fileInput: 'File input',
+        fileInputMultiple: 'File input multiple',
         miscellaneous: 'Miscellaneous',
         arraySinglePage: 'Array single page',
         arrayMultiPageAggregate: 'Array Multi-Page Aggregate',
@@ -54,6 +55,7 @@ export default {
         'date',
         'internationalPhone',
         'fileInput',
+        'fileInputMultiple',
         'miscellaneous',
         'arraySinglePage',
         'arrayMultiPageAggregate',
