@@ -19,7 +19,10 @@ const testConfig = createTestConfig(
       cy.intercept('GET', '/v0/feature_toggles?*', {
         data: {
           type: 'feature_toggles',
-          features: [{ name: 'vaDependentsV2', value: true }],
+          features: [
+            { name: 'vaDependentsV2', value: true },
+            { name: 'vaDependentsNetWorthAndPension', value: false },
+          ],
         },
       });
       cy.intercept('POST', '/v0/claim_attachments', {
@@ -48,13 +51,6 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.wait('@mockVaFileNumber');
           cy.clickStartForm();
-        });
-      },
-
-      'check-veteran-pension': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('va-radio-option[value="N"]').click();
-          cy.clickFormContinue();
         });
       },
 
