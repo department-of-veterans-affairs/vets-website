@@ -47,7 +47,7 @@ describe('draftDetails actions', () => {
   it('should call dispatch on sendSaveDraft "Update draft" success', async () => {
     mockApiRequest({ ok: true, status: 204 });
     const store = mockStore({ sm: {} });
-    const timeNow = Date.now();
+    const testStartTime = Date.now();
 
     await store
       .dispatch(saveDraft(requestMessageData, 'manual', messageId))
@@ -56,19 +56,31 @@ describe('draftDetails actions', () => {
         expect(actions).to.deep.include({
           type: Actions.Thread.DRAFT_SAVE_STARTED,
         });
-        const action = actions[1];
-        action.payload.draftDate = timeNow;
-        expect(actions[1]).to.deep.include(
-          {
-            type: Actions.Thread.UPDATE_DRAFT_IN_THREAD,
-            payload: {
-              messageId,
-              draftDate: timeNow,
-              ...requestMessageData,
-            },
-          },
-          'excluding payload.draftDate',
+
+        const updateAction = actions.find(
+          action => action.type === Actions.Thread.UPDATE_DRAFT_IN_THREAD,
         );
+
+        expect(updateAction).to.exist;
+        expect(updateAction.payload.messageId).to.equal(messageId);
+        expect(updateAction.payload.body).to.equal(requestMessageData.body);
+        expect(updateAction.payload.subject).to.equal(
+          requestMessageData.subject,
+        );
+        expect(updateAction.payload.category).to.equal(
+          requestMessageData.category,
+        );
+        expect(updateAction.payload.recipientId).to.equal(
+          requestMessageData.recipientId,
+        );
+
+        // Check that draftDate is a reasonable timestamp (within 1 second of test start)
+        expect(updateAction.payload.draftDate).to.be.a('number');
+        expect(updateAction.payload.draftDate).to.be.at.least(testStartTime);
+        expect(updateAction.payload.draftDate).to.be.at.most(
+          testStartTime + 1000,
+        );
+
         // For update draft (response.ok), resetRecentRecipient should NOT be called
         expect(actions).to.not.deep.include({
           type: Actions.AllRecipients.RESET_RECENT,
@@ -157,6 +169,7 @@ describe('draftDetails actions', () => {
   it('should call dispatch on saveReplyDraft "Update draft" success', async () => {
     mockApiRequest({ ok: true, status: 204 });
     const store = mockStore({ sm: {} });
+    const testStartTime = Date.now();
 
     await store
       .dispatch(saveReplyDraft('1234', requestMessageData, 'manual', messageId))
@@ -166,10 +179,31 @@ describe('draftDetails actions', () => {
           type: Actions.Thread.DRAFT_SAVE_STARTED,
           payload: { messageId },
         });
-        expect(actions).to.deep.include({
-          type: Actions.Thread.UPDATE_DRAFT_IN_THREAD,
-          payload: { messageId, draftDate: Date.now(), ...requestMessageData },
-        });
+
+        const updateAction = actions.find(
+          action => action.type === Actions.Thread.UPDATE_DRAFT_IN_THREAD,
+        );
+
+        expect(updateAction).to.exist;
+        expect(updateAction.payload.messageId).to.equal(messageId);
+        expect(updateAction.payload.body).to.equal(requestMessageData.body);
+        expect(updateAction.payload.subject).to.equal(
+          requestMessageData.subject,
+        );
+        expect(updateAction.payload.category).to.equal(
+          requestMessageData.category,
+        );
+        expect(updateAction.payload.recipientId).to.equal(
+          requestMessageData.recipientId,
+        );
+
+        // Check that draftDate is a reasonable timestamp (within 1 second of test start)
+        expect(updateAction.payload.draftDate).to.be.a('number');
+        expect(updateAction.payload.draftDate).to.be.at.least(testStartTime);
+        expect(updateAction.payload.draftDate).to.be.at.most(
+          testStartTime + 1000,
+        );
+
         // For update reply draft (response.ok), resetRecentRecipient should NOT be called
         expect(actions).to.not.deep.include({
           type: Actions.AllRecipients.RESET_RECENT,

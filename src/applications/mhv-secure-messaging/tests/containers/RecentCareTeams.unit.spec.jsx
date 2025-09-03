@@ -206,7 +206,7 @@ describe('RecentCareTeams component', () => {
   });
 
   describe('Navigation Behavior', () => {
-    it('should redirect to compose when acceptInterstitial is false', () => {
+    it('should redirect to compose when acceptInterstitial is false', async () => {
       const stateWithoutAcceptInterstitial = {
         ...defaultState,
         sm: {
@@ -219,10 +219,12 @@ describe('RecentCareTeams component', () => {
 
       const screen = renderComponent(stateWithoutAcceptInterstitial);
 
-      expect(screen.history.location.pathname).to.equal(`${Paths.COMPOSE}`);
+      await waitFor(() => {
+        expect(screen.history.location.pathname).to.equal(`${Paths.COMPOSE}`);
+      });
     });
 
-    it('should redirect to select care team when recentRecipients is empty', () => {
+    it('should redirect to select care team when recentRecipients is empty', async () => {
       const stateWithEmptyRecipients = {
         ...defaultState,
         sm: {
@@ -236,12 +238,14 @@ describe('RecentCareTeams component', () => {
 
       const screen = renderComponent(stateWithEmptyRecipients);
 
-      expect(screen.history.location.pathname).to.equal(
-        `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}/`,
-      );
+      await waitFor(() => {
+        expect(screen.history.location.pathname).to.equal(
+          `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}/`,
+        );
+      });
     });
 
-    it('should redirect to select care team when recentRecipients is null', () => {
+    it('should redirect to select care team when recentRecipients is null', async () => {
       const stateWithNullRecipients = {
         ...defaultState,
         sm: {
@@ -255,12 +259,14 @@ describe('RecentCareTeams component', () => {
 
       const screen = renderComponent(stateWithNullRecipients);
 
-      expect(screen.history.location.pathname).to.equal(
-        `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}/`,
-      );
+      await waitFor(() => {
+        expect(screen.history.location.pathname).to.equal(
+          `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}/`,
+        );
+      });
     });
 
-    it('should redirect to select care team when recentRecipients is error', () => {
+    it('should redirect to select care team when recentRecipients is error', async () => {
       const stateWithErrorRecipients = {
         ...defaultState,
         sm: {
@@ -274,9 +280,11 @@ describe('RecentCareTeams component', () => {
 
       const screen = renderComponent(stateWithErrorRecipients);
 
-      expect(screen.history.location.pathname).to.equal(
-        `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}/`,
-      );
+      await waitFor(() => {
+        expect(screen.history.location.pathname).to.equal(
+          `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}/`,
+        );
+      });
     });
   });
 
@@ -428,7 +436,7 @@ describe('RecentCareTeams component', () => {
       expect(labels).to.include('Incomplete Team');
     });
 
-    it('should handle empty recent recipients array properly', () => {
+    it('should handle empty recent recipients array properly', async () => {
       const stateWithEmptyArray = {
         ...defaultState,
         sm: {
@@ -442,9 +450,11 @@ describe('RecentCareTeams component', () => {
 
       const screen = renderComponent(stateWithEmptyArray);
 
-      expect(screen.history.location.pathname).to.equal(
-        `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}/`,
-      );
+      await waitFor(() => {
+        expect(screen.history.location.pathname).to.equal(
+          `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}/`,
+        );
+      });
     });
 
     it('should handle non-array recent recipients properly', () => {

@@ -139,9 +139,14 @@ describe('useBeforeUnloadGuard hook', () => {
       renderHook(() => useBeforeUnloadGuard(false));
 
       const noTimeoutCallback = mockUseSessionExpiration.firstCall.args[1];
+
+      // Get the call count before our test action
+      const initialCallCount = clearTimeoutSpy.callCount;
+
       noTimeoutCallback();
 
-      expect(clearTimeoutSpy.calledOnce).to.be.true;
+      // Verify clearTimeout was called exactly once more than before
+      expect(clearTimeoutSpy.callCount).to.equal(initialCallCount + 1);
       expect(clearTimeoutSpy.calledWith(timeoutStub)).to.be.true;
     });
   });
