@@ -1935,7 +1935,9 @@ jobs:
   set-deploy-environments:
     name: Set Environments to Deploy
     needs: [archive, build]
-    if: always() && github.ref == 'refs/heads/main' && needs.archive.result == 'success'
+    # if: always() && github.ref == 'refs/heads/main' && needs.archive.result == 'success'
+    if: always() && needs.archive.result == 'success'
+
     runs-on: ubuntu-22.04
     outputs:
       environments: ${{ steps.set-environments.outputs.environments }}

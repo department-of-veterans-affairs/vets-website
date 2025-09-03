@@ -11,6 +11,7 @@ import manifest from '../manifest.json';
 import formConfig from '../config/form';
 import { DOC_TITLE } from '../config/constants';
 import { getShouldUseV2 } from '../utils/redirect';
+import { getRootParentUrl } from '../../shared/utils';
 
 function App({
   location,
@@ -67,8 +68,8 @@ function App({
   const breadcrumbs = [
     { href: '/', label: 'Home' },
     {
-      href: `/${manifest.rootUrl}`,
-      label: 'View or change dependents on your VA disability benefits',
+      href: getRootParentUrl(manifest.rootUrl),
+      label: 'Manage dependents for disability, pension, or DIC benefits',
     },
     {
       href: `/${manifest.rootUrl}/add-remove-form-21-686c-674/introduction`,
