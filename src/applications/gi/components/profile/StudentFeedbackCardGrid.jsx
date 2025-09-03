@@ -52,43 +52,54 @@ export default function StudentFeedbackCardGrid({
                     </p>
                   )}
 
-                  <div className="vads-u-margin-top--auto">
-                    <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-margin-bottom--1">
+                  <ul className="vads-u-margin--0 vads-u-padding--0 vads-u-list-style--none">
+                    <li
+                      role="text"
+                      className="vads-u-display--flex vads-u-justify-content--space-between vads-u-margin-bottom--1"
+                    >
                       <span className="vads-u-font-weight--bold">
-                        Complaint Year
+                        Complaint year:
                       </span>
                       <span className="vads-u-font-weight--bold">
-                        {formatMDY(card.closed)}
+                        <time dateTime={card.closed}>
+                          {formatMDY(card.closed)}
+                        </time>
                       </span>
-                    </div>
-
-                    <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-margin-bottom--1">
+                    </li>
+                    <li
+                      role="text"
+                      className="vads-u-display--flex vads-u-justify-content--space-between vads-u-margin-bottom--1"
+                    >
                       <span className="vads-u-font-weight--bold">
                         Total complaints for the year:
                       </span>
                       <span className="vads-u-font-weight--bold">
                         {card.totalYear}
                       </span>
-                    </div>
-
-                    <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-margin-bottom--1">
+                    </li>
+                    <li
+                      role="text"
+                      className="vads-u-display--flex vads-u-justify-content--space-between vads-u-margin-bottom--1"
+                    >
                       <span className="vads-u-font-weight--bold">
                         Complaints at this location:
                       </span>
                       <span className="vads-u-font-weight--bold">
                         {card.campusCount}
                       </span>
-                    </div>
-
-                    <div className="vads-u-display--flex vads-u-justify-content--space-between">
+                    </li>
+                    <li
+                      role="text"
+                      className="vads-u-display--flex vads-u-justify-content--space-between"
+                    >
                       <span className="vads-u-font-weight--bold">
                         Complaints at all locations:
                       </span>
                       <span className="vads-u-font-weight--bold">
                         {card.allCampusCount}
                       </span>
-                    </div>
-                  </div>
+                    </li>
+                  </ul>
                 </div>
               </va-card>
             </div>

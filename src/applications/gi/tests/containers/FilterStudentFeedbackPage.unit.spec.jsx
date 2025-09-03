@@ -66,8 +66,18 @@ before(() => {
       dispatchEvent: () => false,
     });
   }
+  if (!window.requestAnimationFrame) {
+    window.requestAnimationFrame = cb => setTimeout(cb, 0);
+  }
 });
 
+const expectFocusOnResults = async container => {
+  const results = container.querySelector('#results-summary');
+  await waitFor(() => {
+    expect(results, '#results-summary not found').to.exist;
+    expect(document.activeElement).to.equal(results);
+  });
+};
 // Tiny fake Redux store (enough for Provider)
 const makeStore = state => {
   const dispatch = sinon.spy(); // swallow actions/thunks
@@ -126,10 +136,12 @@ describe('<FilterStudentFeedbackPage> sorting & pagination (RTL)', () => {
     firePageSelect(pager, 2);
 
     await waitFor(() => getByText(/Showing\s+9[\u2013-]12 of 12 results/i));
+    await expectFocusOnResults(container);
 
     const sortSelect = container.querySelector('va-select[name="sort-order"]');
     fireVaSelect(sortSelect, 'desc');
     await waitFor(() => getByText(/Showing\s+1[\u2013-]8 of 12 results/i));
+    await expectFocusOnResults(container);
   });
 
   it('moving to page 2, applying a filter, resets back to page 1', async () => {
@@ -139,6 +151,7 @@ describe('<FilterStudentFeedbackPage> sorting & pagination (RTL)', () => {
     const pager = container.querySelector('va-pagination');
     firePageSelect(pager, 2);
     await waitFor(() => getByText(/Showing\s+9[\u2013-]12 of 12 results/i));
+    await expectFocusOnResults(container);
 
     const year2022 = container.querySelector('va-checkbox[label="2022"]');
     fireVaChange(year2022, true);
@@ -148,6 +161,7 @@ describe('<FilterStudentFeedbackPage> sorting & pagination (RTL)', () => {
 
     getByText(/Filters\s*\(1\)/);
     await waitFor(() => getByText(/Showing\s+1[\u2013-]\d+ of \d+ results/));
+    await expectFocusOnResults(container);
   });
 });
 
@@ -166,6 +180,7 @@ describe('<FilterStudentFeedbackPage> combined filters & clear/reset flows (RTL)
     fireEvent.click(applyBtn);
 
     getByText(/Filters\s*\(2\)/);
+    await expectFocusOnResults(container);
 
     const summary = getByText(/Showing/i).closest('p');
     const txt = summary ? summary.textContent : '';
@@ -176,10 +191,10 @@ describe('<FilterStudentFeedbackPage> combined filters & clear/reset flows (RTL)
     const clearBtn = container.querySelector('va-button[text="Clear filters"]');
     fireEvent.click(clearBtn);
     getByText(/^Filters$/);
-
+    await expectFocusOnResults(container);
     fireEvent.click(applyBtn);
     getByText(/^Filters$/);
-
+    await expectFocusOnResults(container);
     expect(container.querySelector('va-checkbox[label="All complaint years"]'))
       .to.exist;
     expect(container.querySelector('va-checkbox[label="All complaint types"]'))
@@ -263,6 +278,7 @@ describe('<FilterStudentFeedbackPage> result summary text (RTL)', () => {
     fireEvent.click(applyBtn);
 
     await waitFor(() => getByText(/^Showing 0 results$/));
+    await expectFocusOnResults(container);
   });
 });
 
