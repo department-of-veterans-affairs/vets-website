@@ -80,7 +80,7 @@ export const Nav = () => {
       {profile && (
         <div
           className={`nav__container-secondary ${
-            isAuthorized ? 'is--displayed' : 'vads-u-display--none'
+            isAuthorized === 'true' ? 'is--displayed' : 'vads-u-display--none'
           }`}
           data-testid="desktop-nav-row"
         >
