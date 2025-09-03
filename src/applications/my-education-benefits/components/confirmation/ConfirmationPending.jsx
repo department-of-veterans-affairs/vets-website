@@ -45,7 +45,7 @@ const ConfirmationPending = ({
       </va-alert>
 
       <va-summary-box class="vads-u-margin-y--3">
-        <h3 slot="headline" className="vads-u-margin-top--1">
+        <h3 slot="headline" className="vads-u-margin-top--0">
           Application for VA education benefits (Form 22-1990)
         </h3>
         <h3 slot="headline" className="vads-u-margin-top--0">
@@ -74,7 +74,7 @@ const ConfirmationPending = ({
           <h4 className="vads-u-margin-bottom--0p5 vads-u-font-weight--bold">
             Confirmation for your records
           </h4>
-          <p className="vads-u-margin-bottom--1">
+          <p className="vads-u-margin--0">
             You can print this confirmation page for your records.
           </p>
         </div>
