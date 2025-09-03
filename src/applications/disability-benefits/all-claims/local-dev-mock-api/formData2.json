@@ -1,0 +1,299 @@
+{
+    "formData": {
+        "view:unemployable": false,
+        "view:aidAndAttendance": false,
+        "view:modifyingHome": false,
+        "view:modifyingCar": false,
+        "view:ancillaryFormsWizardIntro": {},
+        "view:ancillaryFormsWizard": true,
+        "view:powStatus": false,
+        "toxicExposure": {
+            "otherExposures": {
+                "asbestos": false,
+                "notsure": true
+            },
+            "specifyOtherExposures": {},
+            "herbicide": {
+                "notsure": true
+            },
+            "otherHerbicideLocations": {},
+            "gulfWar2001Details": {
+                "airspace": {
+                    "startDate": "2001-10-20",
+                    "endDate": "2002-03-21",
+                    "view:notSure": true
+                },
+                "djibouti": {},
+                "lebanon": {},
+                "uzbekistan": {},
+                "yemen": {}
+            },
+            "view:gulfWar2001AdditionalInfo": {},
+            "gulfWar2001": {
+                "airspace": true
+            },
+            "gulfWar1990Details": {
+                "neutralzone": {
+                    "startDate": "2000-02-12",
+                    "endDate": "2000-03-10",
+                    "view:notSure": true
+                },
+                "afghanistan": {},
+                "bahrain": {},
+                "egypt": {},
+                "iraq": {},
+                "israel": {},
+                "jordan": {},
+                "kuwait": {},
+                "oman": {},
+                "qatar": {},
+                "saudiarabia": {},
+                "somalia": {},
+                "syria": {},
+                "uae": {},
+                "turkey": {},
+                "waters": {},
+                "airspace": {}
+            },
+            "view:gulfWar1990AdditionalInfo": {},
+            "gulfWar1990": {
+                "neutralzone": true
+            },
+            "conditions": {
+                "traumaticbraininjurytbi": true,
+                "none": false
+            },
+            "herbicideDetails": {
+                "cambodia": {},
+                "guam": {},
+                "koreandemilitarizedzone": {},
+                "johnston": {},
+                "laos": {},
+                "c123": {},
+                "thailand": {},
+                "vietnam": {}
+            },
+            "view:herbicideAdditionalInfo": {},
+            "otherExposuresDetails": {
+                "asbestos": {},
+                "chemical": {},
+                "water": {},
+                "mos": {},
+                "mustardgas": {},
+                "radiation": {}
+            },
+            "view:otherExposuresAdditionalInfo": {},
+            "view:additionalExposuresAdditionalInfo": {}
+        },
+        "newDisabilities": [
+            {
+                "cause": "WORSENED",
+                "view:worsenedFollowUp": {
+                    "worsenedDescription": "worsened description",
+                    "worsenedEffects": "worsened effects"
+                },
+                "view:serviceConnectedDisability": {},
+                "condition": "migraines (headaches)"
+            },
+            {
+                "cause": "SECONDARY",
+                "view:secondaryFollowUp": {
+                    "causedByDisability": "Traumatic Brain Injury (TBI)",
+                    "causedByDisabilityDescription": "caused by TBI"
+                },
+                "view:serviceConnectedDisability": {},
+                "condition": "knee strain or sprain, right"
+            },
+            {
+                "cause": "NEW",
+                "primaryDescription": "primary description",
+                "view:serviceConnectedDisability": {},
+                "condition": "traumatic brain injury (TBI)"
+            }
+        ],
+        "view:newDisabilityErrors": {},
+        "hasTrainingPay": false,
+        "view:hasMilitaryRetiredPay": false,
+        "hasSeparationPay": false,
+        "serviceInformation": {
+            "servicePeriods": [
+                {
+                    "serviceBranch": "Space Force",
+                    "dateRange": {
+                        "from": "2001-01-01",
+                        "to": "2025-01-22"
+                    }
+                }
+            ],
+            "reservesNationalGuardService": {
+                "obligationTermOfServiceDateRange": {},
+                "title10Activation": {}
+            },
+            "view:separationLocation": {},
+            "separationLocation": {}
+        },
+        "view:serviceNote": {},
+        "view:hasAlternateName": false,
+        "isTerminallyIll": false,
+        "view:terminallyIllInfo": {},
+        "homelessOrAtRisk": "homeless",
+        "view:isHomeless": {
+            "homelessHousingSituation": "shelter",
+            "needToLeaveHousing": true
+        },
+        "homelessnessContact": {
+            "name": "sdafsad",
+            "phoneNumber": "9099922143"
+        },
+        "phoneAndEmail": {
+            "primaryPhone": "9132785427",
+            "emailAddress": "emailonvagov@gmail.com"
+        },
+        "mailingAddress": {
+            "view:livesOnMilitaryBase": false,
+            "view:livesOnMilitaryBaseInfo": {},
+            "country": "USA",
+            "addressLine1": "PO Box 494",
+            "city": "Moca",
+            "state": "PR",
+            "zipCode": "00676-0494"
+        },
+        "view:contactInfoDescription": {},
+        "view:claimType": {
+            "view:claimingNew": true,
+            "view:claimingIncrease": false
+        },
+        "view:disabilitiesClarification": {},
+        "view:ratedDisabilitiesAlert": {},
+        "view:selectablePtsdTypes": {},
+        "view:ptsdTypeHelp": {},
+        "view:ptsdCombatBypassAdditionalInfo": {},
+        "view:ptsdNonCombatBypassAdditionalInfo": {},
+        "view:upload781ChoiceHelp": {},
+        "incident0": {
+            "unitAssignedDates": {},
+            "incidentLocation": {
+                "country": "USA"
+            }
+        },
+        "incident1": {
+            "unitAssignedDates": {},
+            "incidentLocation": {
+                "country": "USA"
+            }
+        },
+        "incident2": {
+            "unitAssignedDates": {},
+            "incidentLocation": {
+                "country": "USA"
+            }
+        },
+        "view:upload781aChoiceHelp": {},
+        "secondaryIncident0": {
+            "unitAssignedDates": {},
+            "incidentLocation": {
+                "country": "USA"
+            },
+            "otherSourcesHelp": {}
+        },
+        "view:otherSourcesHelp": {},
+        "secondaryIncident1": {
+            "unitAssignedDates": {},
+            "incidentLocation": {
+                "country": "USA"
+            },
+            "otherSourcesHelp": {}
+        },
+        "secondaryIncident2": {
+            "unitAssignedDates": {},
+            "incidentLocation": {
+                "country": "USA"
+            },
+            "otherSourcesHelp": {}
+        },
+        "physicalChanges": {},
+        "mentalChanges": {},
+        "workBehaviorChanges": {},
+        "socialBehaviorChanges": {},
+        "view:unemployabilityHelp": {},
+        "unemployability": {
+            "view:recordsInfo": {},
+            "view:unemployabilityDatesDesc": {},
+            "view:grossIncomeAdditionalInfo": {},
+            "view:supplementalBenefitsHelp": {},
+            "view:substantiallyGainfulEmploymentInfo": {},
+            "view:statementsAreTrue": {},
+            "view:informOfReturnToWork": {}
+        },
+        "view:privateMedicalFacility": {},
+        "view:upload4192Choice": {},
+        "view:downloadInfo": {},
+        "view:traumaticEventsInfo": {},
+        "view:howToScanAFile": {},
+        "view:mentalHealthSupportAlert": {},
+        "eventTypes": {},
+        "view:conflictingResponseAlert": {},
+        "workBehaviors": {},
+        "healthBehaviors": {},
+        "otherBehaviors": {},
+        "noBehavioralChange": {},
+        "view:behaviorAdditionalInformation": {},
+        "behaviorsDetails": {},
+        "supportingEvidenceReports": {},
+        "supportingEvidenceRecords": {},
+        "supportingEvidenceWitness": {},
+        "supportingEvidenceOther": {},
+        "supportingEvidenceNoneCheckbox": {},
+        "view:supportingEvidenceBuddyStatement": {},
+        "view:supportingEvidenceAdditionalInformation": {},
+        "treatmentReceivedVaProvider": {},
+        "treatmentReceivedNonVaProvider": {},
+        "treatmentNoneCheckbox": {},
+        "view:uploadServiceTreatmentRecordsQualifier": {},
+        "view:serviceTreatmentRecordsSubmitLater": {},
+        "view:evidenceSubmitLater": {},
+        "view:vaMedicalRecordsIntro": {},
+        "view:uploadPrivateRecordsQualifier": {
+            "view:aboutPrivateMedicalRecords": {},
+            "view:privateRecordsChoiceHelp": {}
+        },
+        "view:patientAcknowledgement": {
+            "view:acknowledgement": false
+        },
+        "view:patientAcknowledgmentHelp": {},
+        "view:privateRecordsChoiceHelp": {},
+        "view:selfAssessmentAlert": {},
+        "view:faqAccordion": {},
+        "view:bankAccount": {
+            "view:newAccountAlert": {}
+        },
+        "view:waiveRetirementPayDescription": {},
+        "view:fdcWarning": {},
+        "syncModern0781Flow": true,
+        "view:selectedMentalHealthWorkflowChoice": "optForOnlineForm0781",
+        "view:previousMentalHealthWorkflowChoice": "optForOnlineForm0781",
+        "mentalHealthWorkflowChoice": "optForOnlineForm0781",
+        "startedFormVersion": "2022"
+    },
+    "metadata": {
+        "version": 11,
+        "returnUrl": "/mental-health-form-0781/support",
+        "savedAt": 1755527544218,
+        "submission": {
+            "status": false,
+            "errorMessage": false,
+            "id": false,
+            "timestamp": false,
+            "hasAttemptedSubmit": false
+        },
+        "syncModern0781Flow": true,
+        "cfiMetric": {
+            "initLogged": true,
+            "cfiLogged": false
+        },
+        "createdAt": 1755189306,
+        "expiresAt": 1786725306,
+        "lastUpdated": 1755527544,
+        "inProgressFormId": 48940
+    }
+}

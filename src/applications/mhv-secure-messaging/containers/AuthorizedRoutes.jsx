@@ -16,6 +16,7 @@ import SmBreadcrumbs from '../components/shared/SmBreadcrumbs';
 import EditContactList from './EditContactList';
 import InterstitialPage from './InterstitialPage';
 import SelectCareTeam from './SelectCareTeam';
+import CareTeamHelp from './CareTeamHelp';
 import { clearDraftInProgress } from '../actions/threadDetails';
 import featureToggles from '../hooks/useFeatureToggles';
 
@@ -122,7 +123,7 @@ const AuthorizedRoutes = () => {
             path={`${Paths.COMPOSE}${Paths.START_MESSAGE}`}
             key="Compose"
           >
-            <Compose skipInterstitial />
+            <Compose />
           </AppRoute>
         )}
         {cernerPilotSmFeatureFlag && (
@@ -142,6 +143,11 @@ const AuthorizedRoutes = () => {
         {!cernerPilotSmFeatureFlag && (
           <AppRoute exact path={Paths.COMPOSE} key="Compose">
             <Compose />
+          </AppRoute>
+        )}
+        {cernerPilotSmFeatureFlag && (
+          <AppRoute exact path={Paths.CARE_TEAM_HELP} key="CareTeamHelp">
+            <CareTeamHelp />
           </AppRoute>
         )}
         <Route>

@@ -24,8 +24,7 @@ export const ConfirmationPagePropTypes = {
 };
 
 export const ADDITIONAL_FILES_HINT =
-  'Depending on your response, you may need to submit additional documents with this application.';
-
+  'Depending on your response, you may need to submit additional documents.';
 const addressFormat = markup => (
   <>
     <address className="va-address-block">{markup}</address>

@@ -1,25 +1,45 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useEffect } from 'react';
+
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import FormSignature from 'platform/forms-system/src/js/components/FormSignature';
+import { querySelectorWithShadowRoot } from 'platform/utilities/ui/webComponents';
+
 import PrivacyActStatement from './PrivacyActStatement';
 
-function PreSubmitInfo({
-  formData,
-  showError,
-  onSectionComplete,
-  setPreSubmit,
-}) {
+function PreSubmitInfo() {
   const [showModal, setShowModal] = useState(false);
 
-  const federalLawNote = (
-    <div className="vads-u-margin-bottom--3 vads-u-padding-x--3">
-      <strong>Note:</strong> According to federal law, there are criminal
-      penalties, including a fine and/or imprisonment for up to 5 years, for
-      withholding information or for providing incorrect information (Reference:
-      18 U.S.C. 1001).
-    </div>
-  );
+  const verteranClarifyingText = async () => {
+    const clarifyingText = await querySelectorWithShadowRoot(
+      'va-checkbox',
+      document.querySelector('va-statement-of-truth'),
+    );
+    // clarifyingText?.setAttribute('style', 'display:none;');
+    const clarifyingTextLabel = await querySelectorWithShadowRoot(
+      'span[part="label"]',
+      clarifyingText,
+    );
+    if (clarifyingTextLabel) {
+      clarifyingTextLabel.innerHTML =
+        'I certify that the information I have provided is true and correct to the best of my knowledge and belief.';
+    }
+  };
+  const removeOldPrivacyPolicy = async () => {
+    const privacyPolicyText = await querySelectorWithShadowRoot(
+      'p.short-line',
+      document.querySelector('va-statement-of-truth'),
+    );
+    privacyPolicyText?.setAttribute('style', 'display:none;');
+  };
+
+  useEffect(() => {
+    const removeElements = async () => {
+      // Hide platform line for privacy policy, use custom
+      await removeOldPrivacyPolicy();
+      await verteranClarifyingText();
+    };
+
+    removeElements();
+  }, []);
 
   const privacyPolicyContent = (
     <span data-testid="privacy-policy-text">
@@ -69,25 +89,7 @@ function PreSubmitInfo({
 
   return (
     <>
-      <div className="vads-u-margin-y--3">{federalLawNote}</div>
-      <div>
-        <section className="box vads-u-background-color--gray-lightest vads-u-padding--3">
-          <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--3">
-            Certification statement
-          </h3>
-          {certificationContent}
-          <FormSignature
-            formData={formData}
-            setFormData={setPreSubmit}
-            showError={showError}
-            onSectionComplete={onSectionComplete}
-            signatureLabel="Your full name"
-            signaturePath="statementOfTruthSignature"
-            checkboxLabel="I certify that the information above is true and correct to the best of my knowledge and belief."
-            required
-          />
-        </section>
-      </div>
+      <div>{certificationContent}</div>
       <VaModal
         modalTitle="Privacy Act Statement"
         onCloseEvent={() => setShowModal(!showModal)}
@@ -99,16 +101,5 @@ function PreSubmitInfo({
     </>
   );
 }
-
-PreSubmitInfo.propTypes = {
-  formData: PropTypes.object.isRequired,
-  onSectionComplete: PropTypes.func.isRequired,
-  setPreSubmit: PropTypes.func.isRequired,
-  showError: PropTypes.bool,
-};
-
-PreSubmitInfo.defaultProps = {
-  showError: false,
-};
 
 export default PreSubmitInfo;

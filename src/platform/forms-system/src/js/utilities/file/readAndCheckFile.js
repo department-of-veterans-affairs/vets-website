@@ -1,3 +1,7 @@
+import checkTypeAndExtensionMatches from './checkTypeAndExtensionMatches';
+import checkIsEncryptedPdf from './checkIsEncryptedPdf';
+import checkUTF8Encoding from './checkUTF8Encoding';
+
 /**
  * Read in first 256 bytes of the selected file to perform various checks before
  * upload
@@ -16,15 +20,15 @@ export default function readAndCheckFile(file, checks) {
         if (event.target.result) {
           // const { result } = event.target // with readAsBinaryString
           const result = Array.from(new Uint8Array(event.target.result));
-          resolve(
-            Object.keys(checks).reduce(
-              (checkResults, checkName) => ({
-                ...checkResults,
-                [checkName]: checks[checkName]({ file, result }),
+          (async () => {
+            const entries = await Promise.all(
+              Object.entries(checks).map(async ([name, fn]) => {
+                const value = await fn({ file, result });
+                return [name, value];
               }),
-              {},
-            ),
-          );
+            );
+            resolve(Object.fromEntries(entries));
+          })().catch(reject);
         } else {
           reject(new Error('Unable to get file'));
         }
@@ -41,4 +45,23 @@ export default function readAndCheckFile(file, checks) {
       reader.readAsArrayBuffer(blob);
     }
   });
+}
+
+/**
+ * Perform standard checks on any file uploaded
+ * @param {File} file
+ * @returns {{checkIsEncryptedPdf?: boolean, checkTypeAndExtensionMatches: boolean} | null} Object with check results - whether the pdf is encrypted and if type and extension match
+ */
+export async function standardFileChecks(file) {
+  if (!file) return {};
+
+  const isPdf = 'type' in file && file.type === 'application/pdf';
+
+  const checks = {
+    ...(isPdf ? { checkIsEncryptedPdf } : {}),
+    checkTypeAndExtensionMatches,
+    checkUTF8Encoding,
+  };
+
+  return readAndCheckFile(file, checks);
 }

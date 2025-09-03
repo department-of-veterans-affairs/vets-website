@@ -2,11 +2,16 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import DependentDeclarationField from '../FormFields/DependentDeclarationField';
+import DependentDeclaration from '../FormFields/DependentDeclarationField';
 import DependentDescription from '../FormDescriptions/DependentDescription';
 import DependentList from '../FormFields/DependentList';
-import { DEPENDENT_VIEW_FIELDS, SHARED_PATHS } from '../../utils/constants';
+import {
+  DEPENDENT_VIEW_FIELDS,
+  SHARED_PATHS,
+  MAX_DEPENDENTS,
+} from '../../utils/constants';
 import content from '../../locales/en/content.json';
+import DependentsMaxWarning from '../FormAlerts/DependentsMaxWarning';
 
 // declare shared data & route attrs from the form
 const { dependents: DEPENDENT_PATHS } = SHARED_PATHS;
@@ -68,7 +73,7 @@ const DependentSummary = props => {
       if (error) return;
 
       // set error if user hasn't provided a value for the form field
-      if (fieldData === null) {
+      if (dependents.length < MAX_DEPENDENTS && fieldData === null) {
         hasError(true);
         return;
       }
@@ -85,14 +90,20 @@ const DependentSummary = props => {
   return (
     <form className="rjsf">
       <fieldset className="vads-u-margin-bottom--2">
-        <legend id="root__title" className="schemaform-block-title">
-          <h3 className="vads-u-color--gray-dark vads-u-margin-top--0 vads-u-margin-bottom--3">
+        <legend
+          id="root__title"
+          className="schemaform-block-title schemaform-block-subtitle"
+        >
+          <h3 className="vads-u-color--gray-dark vads-u-margin-top--0">
             {pageTitle}
           </h3>
         </legend>
 
         {/** Additional Info component for description */}
-        <DependentDescription />
+        {dependents.length === 0 && <DependentDescription />}
+
+        {!onReviewPage &&
+          dependents.length >= MAX_DEPENDENTS && <DependentsMaxWarning />}
 
         {/** Dependent tile list */}
         {dependents.length > 0 ? (
@@ -106,11 +117,11 @@ const DependentSummary = props => {
           </div>
         ) : null}
 
-        {!onReviewPage ? (
+        {!onReviewPage && dependents.length < MAX_DEPENDENTS ? (
           <>
             {/** Field radio group */}
             <div data-testid="ezr-dependent-declaration-field">
-              <DependentDeclarationField
+              <DependentDeclaration
                 defaultValue={fieldData}
                 error={error}
                 hasList={dependents.length > 0}

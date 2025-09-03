@@ -18,7 +18,7 @@ const defaultState = {
 describe('ScheduleWithDifferentProvider', () => {
   it('should display both options when user is eligible', () => {
     const store = createTestStore(defaultState);
-    const eligibility = { requestReasons: [] };
+    const eligibility = { request: true, requestReasons: [] };
     const selectedFacility = {
       id: '692',
       name: 'White City VA Medical Center',
@@ -45,7 +45,40 @@ describe('ScheduleWithDifferentProvider', () => {
 
   it('should only display Call and ask to schedule with provider option when over request limit', () => {
     const store = createTestStore(defaultState);
-    const eligibility = { requestReasons: ['overRequestLimit'] };
+    const eligibility = {
+      requestReasons: ['overRequestLimit'],
+    };
+    const selectedFacility = {
+      id: '692',
+      name: 'White City VA Medical Center',
+    };
+
+    const screen = renderWithStoreAndRouter(
+      <ScheduleWithDifferentProvider
+        eligibility={eligibility}
+        selectedFacility={selectedFacility}
+      />,
+      { store },
+    );
+
+    expect(screen.getByText(/Call and ask to schedule with that provider/i)).to
+      .exist;
+    expect(screen.queryByText(/Option 1: Call the facility/i)).to.not.exist;
+    expect(
+      screen.queryByText(
+        /Option 2: Request your preferred date and time online/i,
+      ),
+    ).to.not.exist;
+    expect(screen.queryByText(/Request an appointment/i)).to.not.exist;
+  });
+  // currently using both facility configurations and eligibility endpoints as source of truth for request eligibility
+  // TODO: once we switch to using only eligibility endpoint, we can remove this test
+  it('should only display Call and ask to schedule with provider option when patient is not eligible for requests', () => {
+    const store = createTestStore(defaultState);
+    const eligibility = {
+      request: false,
+      requestReasons: ['overRequestLimit'],
+    };
     const selectedFacility = {
       id: '692',
       name: 'White City VA Medical Center',
@@ -101,7 +134,7 @@ describe('ScheduleWithDifferentProvider', () => {
   });
   it('should route to request appointment URL when link clicked', async () => {
     const store = createTestStore(defaultState);
-    const eligibility = { requestReasons: [] };
+    const eligibility = { request: true, requestReasons: [] };
     const selectedFacility = {
       id: '692',
       name: 'White City VA Medical Center',

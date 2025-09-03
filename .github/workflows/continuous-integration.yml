@@ -1554,7 +1554,7 @@ jobs:
         if: ${{ needs.cypress-tests.result == 'failure' }}
         uses: ./.github/workflows/download-artifact
         with:
-          pattern: cypress-mochawesome-test-results-*
+          pattern: cypress-video-artifacts-*
           path: qa-standards-dashboard-data/videos/${{ env.UUID }}
           merge-multiple: true
 
@@ -2034,6 +2034,8 @@ jobs:
   cd-prod-deploy:
     name: CD Production Deploy
     runs-on: ubuntu-22.04
+    permissions:
+      contents: write
     needs: [build, set-deploy-environments]
     if: ${{ needs.build.outputs.entry_names != '' && needs.build.outputs.continuous_deployment == 'true' }}
     steps:
@@ -2070,16 +2072,23 @@ jobs:
             echo "channel=$channel" >> $GITHUB_OUTPUT
           fi
 
+      - name: Debug CD gating values
+        run: |
+          echo "entry_names=${{ needs.build.outputs.entry_names }}"
+          echo "continuous_deployment=${{ needs.build.outputs.continuous_deployment }}"
+          echo "slack_channel=${{ steps.determine-channel.outputs.channel }}"
+
       - name: Dispatch Event to Next Workflow
         run: |
           curl -X POST \
           -H "Accept: application/vnd.github.v3+json" \
           -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
           https://api.github.com/repos/${{ github.repository }}/dispatches \
-          -d "$(jq -n --arg sha "${{ github.sha }}" \
-          --arg ref "${{ github.ref }}" \
-          --arg entry "${{ needs.build.outputs.entry_names }}" \
-          '{event_type: "cd-production-deploy", client_payload: {github_sha: $sha, github_ref: $ref, entry_app: $entry}}')"
+          -d "$(jq -n --arg sha \"${{ github.sha }}\" \
+          --arg ref \"${{ github.ref }}\" \
+          --arg entry \"${{ needs.build.outputs.entry_names }}\" \
+          --arg slack_channel \"${{ steps.determine-channel.outputs.channel }}\" \
+          '{event_type: \"cd-production-deploy\", client_payload: {github_sha: $sha, github_ref: $ref, entry_app: $entry, slack_channel: $slack_channel}}')"
                          
   notify-failure:
     name: Notify Failure
