@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Toggler } from 'platform/utilities/feature-toggles';
 import UserNav from './UserNav';
@@ -44,7 +45,25 @@ export const Nav = () => {
             alt="VA Accredited Representative Portal, U.S. Department of Veterans Affairs"
           />
         </a>
-        {profile ? <UserNav profile={profile} /> : <SignInButton />}
+        <div className="heading-right">
+          <Toggler
+            toggleName={Toggler.TOGGLE_NAMES.accreditedRepresentativePortalHelp}
+          >
+            <Toggler.Enabled>
+              <Link
+                to="/get-help"
+                className={`usa-button-secondary heading-help-link ${
+                  profile ? 'logged-in' : ''
+                }`}
+                data-testid="heading-help-link"
+                data-eventname="nav-link-click"
+              >
+                Help
+              </Link>
+            </Toggler.Enabled>
+          </Toggler>
+          {profile ? <UserNav profile={profile} /> : <SignInButton />}
+        </div>
       </div>
 
       {profile && (
@@ -92,13 +111,6 @@ export const Nav = () => {
                 </a>
               </Toggler.Enabled>
             </Toggler>
-            <a
-              to="/get-help"
-              className="nav__btn desktop vads-u-display--none"
-              data-testid="desktop-help-link"
-            >
-              Get Help
-            </a>
           </div>
         </div>
       )}
