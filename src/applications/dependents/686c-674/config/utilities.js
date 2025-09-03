@@ -331,7 +331,7 @@ export const childEvidence = (formData = {}) => {
 };
 
 /**
- * checkAddingDependentsForPension determines if adding dependents for pension should be allowed
+ * checkAddingDependentsForPension determines if adding dependents outside of 674
  * @param {object} formData - The form data
  * @returns {boolean} - True if adding dependents outside of 674, false otherwise
  */
