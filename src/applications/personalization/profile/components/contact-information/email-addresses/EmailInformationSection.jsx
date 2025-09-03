@@ -1,7 +1,7 @@
-import PropTypes from 'prop-types';
-
-import { connect } from 'react-redux';
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import Cookies from 'js-cookie';
 
 import {
   FIELD_IDS,
@@ -75,6 +75,8 @@ const generateRows = signInServiceName => {
 
 // TODO: Why is this section sitting outside the other sections?
 const EmailInformationSection = ({ className, signInServiceName }) => {
+  const displayAlertConfirmContactEmail = !Cookies.get('CONTACT_EMAIL_CONFIRMED');  /* eslint-disable-line prettier/prettier */
+
   return (
     <div className={className}>
       <ProfileInfoSection
@@ -83,6 +85,7 @@ const EmailInformationSection = ({ className, signInServiceName }) => {
         namedAnchor="email-address"
         data={generateRows(signInServiceName)}
         className="vads-u-margin-bottom--4"
+        displayAlertConfirmContactEmail={displayAlertConfirmContactEmail}
       />
     </div>
   );

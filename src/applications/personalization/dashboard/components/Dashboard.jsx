@@ -9,6 +9,7 @@ import {
 } from '@@profile/actions';
 import {
   VaAlert,
+  VaCriticalAction,
   VaModal,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
@@ -119,6 +120,11 @@ const DashboardHeader = ({ isLOA3, showNotifications, user }) => {
             'dashboard-product': 'view-your-profile',
           });
         }}
+      />
+      <VaCriticalAction
+        link="/profile/contact-information#contact-email-address"
+        text="Confirm your contact email address to keep getting VA notifications"
+        data-testid="va-profile--confirm-contact-email-link"
       />
       {isLOA3 && <ContactInfoNeeded />}
       {showNotifications && !hideNotificationsSection && <Notifications />}

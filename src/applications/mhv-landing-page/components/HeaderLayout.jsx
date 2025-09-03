@@ -2,7 +2,10 @@ import React from 'react';
 import { datadogRum } from '@datadog/browser-rum';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
-import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaCriticalAction,
+  VaLink,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from '~/platform/monitoring/record-event';
 import WelcomeContainer from '../containers/WelcomeContainer';
 import { myVAHealthPortalLink } from '../utilities/data';
@@ -35,6 +38,13 @@ const HeaderLayout = ({ showWelcomeMessage = false, isCerner = false }) => (
               <h1 className="vads-u-margin-y--0">My HealtheVet</h1>
             </div>
           </div>
+        </div>
+        <div>
+          <VaCriticalAction
+            link="/profile/contact-information#contact-email-address"
+            text="Confirm your contact email address to keep getting VA notifications"
+            data-testid="va-profile--confirm-contact-email-link"
+          />
         </div>
         <div>
           <p className="vads-u-font-family--serif vads-u-line-height--5 medium-screen:vads-u-font-size--lg medium-screen:vads-u-line-height--6 vads-u-margin-top--1 vads-u-margin-bottom--2">
