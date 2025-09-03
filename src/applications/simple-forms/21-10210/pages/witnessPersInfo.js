@@ -1,6 +1,7 @@
 import {
   fullNameNoSuffixUI,
   fullNameNoSuffixSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import {
   RELATIONSHIP_TO_VETERAN_OPTIONS,
@@ -10,6 +11,7 @@ import GroupCheckboxWidget from '../../shared/components/GroupCheckboxWidget';
 
 /** @type {PageSchema} */
 const commonUiSchema = {
+  ...titleUI('Name and date of birth'),
   witnessFullName: fullNameNoSuffixUI(),
   witnessRelationshipToClaimant: {
     // different ui:title between uiSchemaA & uiSchemaB
