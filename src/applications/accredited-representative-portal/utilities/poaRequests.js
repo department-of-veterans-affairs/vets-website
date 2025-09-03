@@ -112,6 +112,8 @@ export const resolutionDate = (date, requestId) => {
 export const DETAILS_BC_LABEL = 'details breadcrumb';
 export const SEARCH_BC_LABEL = 'search breadcrumb';
 export const HELP_BC_LABEL = 'search breadcrumb';
+export const DASHBOARD_BC_LABEL = 'dashboard breadcrumb';
+
 export const HelpBC = [
   {
     href: '/representative',
@@ -157,6 +159,18 @@ export const poaDetailsBreadcrumbs = [
     label: 'Representation request',
   },
 ];
+
+export const dashboardBC = [
+  {
+    href: '/representative',
+    label: 'VA.gov/representative home',
+  },
+  {
+    href: window.location.href,
+    label: 'Dashboard',
+  },
+];
+
 export const SEARCH_PARAMS = {
   STATUS: 'status',
   SORTBY: 'sortBy',
@@ -195,6 +209,17 @@ export const PENDING_SORT_DEFAULTS = {
   // default is page 1
   NUMBER: '1',
   SELECTED_INDIVIDUAL: 'false',
+};
+
+export const SUBMISSION_DEFAULTS = {
+  STATUS: null,
+  SORT_BY: 'created_at',
+  SORT_ORDER: 'desc',
+  // default is 20 per page
+  SIZE: '20',
+  // default is page 1
+  NUMBER: '1',
+  SELECTED_INDIVIDUAL: null,
 };
 
 export async function addStyleToShadowDomOnPages(

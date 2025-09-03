@@ -321,6 +321,8 @@ const SelectCareTeam = () => {
           label="Select a VA health care system"
           name="va-health-care-system"
           onVaValueChange={onRadioChangeHandler}
+          data-dd-privacy="mask"
+          data-dd-action-name="Care System Radio button"
         >
           {allFacilities.map(facility => (
             <>
@@ -392,7 +394,9 @@ const SelectCareTeam = () => {
         </div>
         <div className="vads-u-margin-top--2">
           <p className="vads-u-margin-bottom--1">
-            <Link to="/">What to do if you can’t find your care team</Link>
+            <Link to={Paths.CARE_TEAM_HELP}>
+              What to do if you can’t find your care team
+            </Link>
           </p>
         </div>
         {showContactListLink && (

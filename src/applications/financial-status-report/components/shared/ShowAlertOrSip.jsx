@@ -27,7 +27,7 @@ export const ShowAlertOrSip = ({ basename, sipOptions, bottom }) => {
   }
 
   return (
-    <div className={classes.showAlertOrSip}>
+    <div className={classes}>
       <SaveInProgressIntro {...sipOptions} buttonOnly={bottom && loggedIn} />
     </div>
   );

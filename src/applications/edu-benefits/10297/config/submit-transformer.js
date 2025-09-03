@@ -63,7 +63,7 @@ export function transform(formConfig, form) {
           providers: trainingProviders.map(provider => ({
             ...provider,
           })),
-          plannedStartDate: parsedData.plannedStartDate || '2025-08-20',
+          plannedStartDate: parsedData.plannedStartDate || 'XXXX-XX-XX',
         },
       };
     } else {
@@ -71,7 +71,7 @@ export function transform(formConfig, form) {
         ...parsedData,
         trainingProviders: {
           providers: [],
-          plannedStartDate: parsedData.plannedStartDate || '2025-08-20',
+          plannedStartDate: parsedData.plannedStartDate || 'XXXX-XX-XX',
         },
       };
     }
@@ -95,6 +95,7 @@ export function transform(formConfig, form) {
   const privacyAgreementTransform = formData => {
     const clonedData = _.cloneDeep(formData);
 
+    delete clonedData.statementOfTruthCertified;
     delete clonedData.AGREED;
 
     return {

@@ -33,7 +33,7 @@ import {
   CHAR_LIMITS,
 } from '../constants';
 import { getBranches } from './serviceBranches';
-import { getSharedVariable, setSharedVariable } from './sharedState';
+import { setSharedVariable } from './sharedState';
 
 /**
  * Returns an object where all the fields are prefixed with `view:` if they aren't already
@@ -461,7 +461,7 @@ export const getHomelessOrAtRisk = formData => {
 export const isNotUploadingPrivateMedical = formData =>
   _.get(DATA_PATHS.hasPrivateRecordsToUpload, formData) === false;
 
-export const hasCompletedAuthorization = value => value;
+export const hasCompletedAuthorization = value => value === true;
 
 export const needsToEnterUnemployability = formData =>
   _.get('view:unemployable', formData, false);
@@ -872,6 +872,10 @@ export const baseDoNew4142Logic = formData => {
   return (
     // If flipper is enabled
     formData.disability526Enable2024Form4142 === true &&
+    // And the user is still choosing to upload private records
+    formData?.['view:selectableEvidenceTypes']?.[
+      'view:hasPrivateMedicalRecords'
+    ] === true &&
     // And the user has previously acknowledged the 4142 authorization
     formData['view:patientAcknowledgement']?.['view:acknowledgement'] ===
       true &&
@@ -884,13 +888,6 @@ export const baseDoNew4142Logic = formData => {
     // then we must redirect them and show the alert
   );
 };
-
-export function needs4142AlertShown(formData) {
-  return (
-    baseDoNew4142Logic(formData) &&
-    getSharedVariable('alertNeedsShown4142') === true
-  );
-}
 
 export const onFormLoaded = props => {
   const { returnUrl, formData, router } = props;

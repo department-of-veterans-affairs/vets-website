@@ -14,6 +14,7 @@ describe('Medical Records View Vitals', () => {
 
   it('Visits View Vitals List', () => {
     VitalsListPage.goToVitals();
+    cy.url().should('not.include', `timeFrame`);
 
     VitalsListPage.verifyVitalOnListPage(
       0,

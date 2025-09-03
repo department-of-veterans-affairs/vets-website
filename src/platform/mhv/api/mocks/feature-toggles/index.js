@@ -16,7 +16,6 @@ const generateFeatureToggles = (toggles = {}) => {
     // medical records
     mhvMedicalRecordsAllowTxtDownloads = true,
     mhvMedicalRecordsDisplayDomains = true,
-    mhvMedicalRecordsDisplayLabsAndTests = true,
     mhvMedicalRecordsDisplayNotes = true,
     mhvMedicalRecordsDisplaySidenav = true,
     mhvMedicalRecordsDisplayVaccines = true,
@@ -128,10 +127,6 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medical_records_display_domains',
           value: mhvMedicalRecordsDisplayDomains,
-        },
-        {
-          name: 'mhv_medical_records_display_labs_and_tests',
-          value: mhvMedicalRecordsDisplayLabsAndTests,
         },
         {
           name: 'mhv_medical_records_display_notes',
