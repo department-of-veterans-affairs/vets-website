@@ -199,13 +199,6 @@ export const formConfig = {
     optionSelection: {
       title: 'Add or remove dependents',
       pages: {
-        checkVeteranPension: {
-          depends: formData => showPensionBackupPath(formData),
-          path: 'check-veteran-pension',
-          title: 'Check Veteran Pension',
-          uiSchema: checkVeteranPension.uiSchema,
-          schema: checkVeteranPension.schema,
-        },
         addOrRemoveDependents: {
           title: 'What would you like to do?',
           path: 'options-selection',
@@ -230,6 +223,13 @@ export const formConfig = {
           uiSchema: removeDependentOptions.uiSchema,
           schema: removeDependentOptions.schema,
           depends: form => form?.['view:addOrRemoveDependents']?.remove,
+        },
+        checkVeteranPension: {
+          depends: formData => showPensionBackupPath(formData),
+          path: 'check-veteran-pension',
+          title: 'Check Veteran Pension',
+          uiSchema: checkVeteranPension.uiSchema,
+          schema: checkVeteranPension.schema,
         },
       },
     },

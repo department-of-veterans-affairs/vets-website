@@ -358,3 +358,34 @@ export const showPensionRelatedQuestions = (formData = {}) => {
   // keep current behavior if feature flag is off
   return true;
 };
+
+export const checkAddRemoveDependentsForPension = (formData = {}) => {
+  const addingDependents = formData['view:addOrRemoveDependents']?.add;
+  const removingDependents = formData['view:addOrRemoveDependents']?.remove;
+  const addDependentOptions = formData['view:addDependentOptions'] || {};
+  // addChild
+  // addDisabledChild
+  // addSpouse
+  // report674
+  // const removeDependentOptions = formData['view:removeDependentOptions'];
+  // reportChild18OrOlderIsNotAttendingSchool
+  // reportDeath
+  // reportDivorce
+  // reportMarriageOfChildUnder18
+  // reportStepchildNotInHousehold
+  // const selected686Options = formData['view:selectable686Options'];
+  // addChild
+  // addDisabledChild
+  // addSpouse
+  // report674
+  // reportChild18OrOlderIsNotAttendingSchool
+  // reportDeath
+  // reportDivorce
+  // reportMarriageOfChildUnder18
+  // reportStepchildNotInHousehold
+  const isAddingDependentsNot674 =
+    ['addChild', 'addDisabledChild', 'addSpouse'].some(
+      option => addDependentOptions[option],
+    ) && !addDependentOptions.report674;
+  return addingDependents && !removingDependents && isAddingDependentsNot674;
+};
