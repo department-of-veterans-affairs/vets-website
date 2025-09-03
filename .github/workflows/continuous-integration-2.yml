@@ -1,4 +1,4 @@
-name: Continuous Integration
+name: CI Test Workflow
 
 on:
   push:
@@ -91,202 +91,202 @@ jobs:
           path: ${{ matrix.buildtype }}.tar.bz2
           retention-days: 1
 
-  # fetch-allow-lists:
-  #   name: Fetch Test Stability Allow Lists
-  #   runs-on: ubuntu-22.04
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+  fetch-allow-lists:
+    name: Fetch Test Stability Allow Lists
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
 
-  #     - name: Configure AWS credentials
-  #       uses: ./.github/workflows/configure-aws-credentials
-  #       with:
-  #         aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  #         aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  #         aws_region: us-gov-west-1
+      - name: Configure AWS credentials
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
           
 
-  #     - name: Get va-vsp-bot token
-  #       uses: ./.github/workflows/inject-secrets
-  #       with:
-  #         ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
-  #         env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+      - name: Get va-vsp-bot token
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-  #     - name: Init Dashboard Data Repo
-  #       uses: ./.github/workflows/init-data-repo
+      - name: Init Dashboard Data Repo
+        uses: ./.github/workflows/init-data-repo
 
-  #     - name: Set Up BigQuery Creds
-  #       uses: ./.github/workflows/configure-bigquery
+      - name: Set Up BigQuery Creds
+        uses: ./.github/workflows/configure-bigquery
 
-  #     - name: Fetch E2E Test Stability Allow List
-  #       run: yarn get-allow-list
-  #       working-directory: qa-standards-dashboard-data
-  #       env:
-  #         TEST_TYPE: e2e
+      - name: Fetch E2E Test Stability Allow List
+        run: yarn get-allow-list
+        working-directory: qa-standards-dashboard-data
+        env:
+          TEST_TYPE: e2e
 
-  #     - name: Fetch Unit Test Stability Allow List
-  #       run: yarn get-allow-list
-  #       working-directory: qa-standards-dashboard-data
-  #       env:
-  #         TEST_TYPE: unit_test
+      - name: Fetch Unit Test Stability Allow List
+        run: yarn get-allow-list
+        working-directory: qa-standards-dashboard-data
+        env:
+          TEST_TYPE: unit_test
 
-  #     - name: Archive E2E Test Stability Allow List
-  #       if: ${{ always() }}
-  #       uses: ./.github/workflows/upload-artifact
-  #       with:
-  #         name: e2e-allow-list
-  #         path: qa-standards-dashboard-data/e2e_allow_list.json
+      - name: Archive E2E Test Stability Allow List
+        if: ${{ always() }}
+        uses: ./.github/workflows/upload-artifact
+        with:
+          name: e2e-allow-list
+          path: qa-standards-dashboard-data/e2e_allow_list.json
 
-  #     - name: Archive Unit Test Stability Allow List
-  #       if: ${{ always() }}
-  #       uses: ./.github/workflows/upload-artifact
-  #       with:
-  #         name: unit-test-allow-list
-  #         path: qa-standards-dashboard-data/unit_test_allow_list.json
+      - name: Archive Unit Test Stability Allow List
+        if: ${{ always() }}
+        uses: ./.github/workflows/upload-artifact
+        with:
+          name: unit-test-allow-list
+          path: qa-standards-dashboard-data/unit_test_allow_list.json
 
-  # tests-prep:
-  #   name: Tests Prep
-  #   needs: [fetch-allow-lists]
-  #   runs-on: ubuntu-22.04
-  #   outputs:
-  #     app_folders: ${{ steps.get-changed-apps.outputs.folders }}
-  #     apps-to-stress-test: ${{ steps.apps-to-stress-test.outputs.apps_to_test }}
-  #     unit-tests-to-stress-test: ${{ steps.unit-tests-to-stress-test.outputs.tests }}
-  #     changed-files: ${{ steps.get-changed-apps.outputs.changed_files }}
-  #     disallowed-tests: ${{ steps.disallowed-tests.outputs.tests }}
-  #     cypress-tests: ${{ steps.cypress-tests.outputs.selected }}
-  #     cypress-tests-to-stress-test: ${{ steps.cypress-tests-to-stress-test.outputs.tests }}
-  #     app_urls: ${{ steps.get-changed-apps.outputs.urls }}
-  #     num_containers: ${{ steps.containers.outputs.num }}
-  #     ci_node_index: ${{ steps.matrix.outputs.ci_node_index }}
-  #     changed_file_paths: ${{ steps.get-changed-apps.outputs.changed_files }}
-  #     tests_ran: ${{ steps.tests-ran.outputs.tests_ran }}
-  #     e2e_count: ${{ steps.e2e-count.outputs.count }}
-  #     changed_unit_tests: ${{ steps.unit-tests-changed.outputs.changed_unit_tests }}
+  tests-prep:
+    name: Tests Prep
+    needs: [fetch-allow-lists]
+    runs-on: ubuntu-22.04
+    outputs:
+      app_folders: ${{ steps.get-changed-apps.outputs.folders }}
+      apps-to-stress-test: ${{ steps.apps-to-stress-test.outputs.apps_to_test }}
+      unit-tests-to-stress-test: ${{ steps.unit-tests-to-stress-test.outputs.tests }}
+      changed-files: ${{ steps.get-changed-apps.outputs.changed_files }}
+      disallowed-tests: ${{ steps.disallowed-tests.outputs.tests }}
+      cypress-tests: ${{ steps.cypress-tests.outputs.selected }}
+      cypress-tests-to-stress-test: ${{ steps.cypress-tests-to-stress-test.outputs.tests }}
+      app_urls: ${{ steps.get-changed-apps.outputs.urls }}
+      num_containers: ${{ steps.containers.outputs.num }}
+      ci_node_index: ${{ steps.matrix.outputs.ci_node_index }}
+      changed_file_paths: ${{ steps.get-changed-apps.outputs.changed_files }}
+      tests_ran: ${{ steps.tests-ran.outputs.tests_ran }}
+      e2e_count: ${{ steps.e2e-count.outputs.count }}
+      changed_unit_tests: ${{ steps.unit-tests-changed.outputs.changed_unit_tests }}
 
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
-  #       with:
-  #         fetch-depth: 0
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          fetch-depth: 0
 
-  #     - name: Install dependencies
-  #       uses: ./.github/workflows/install
-  #       timeout-minutes: 30
-  #       with:
-  #         key: ${{ hashFiles('yarn.lock') }}
-  #         yarn_cache_folder: .cache/yarn
-  #         path: |
-  #           .cache/yarn
-  #           node_modules
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
 
-  #     - name: Get changed applications
-  #       id: get-changed-apps
-  #       uses: ./.github/workflows/get-changed-apps
-  #       with:
-  #         delimiter: ','
-  #         output-type: 'entry_name, url, folder'
+      - name: Get changed applications
+        id: get-changed-apps
+        uses: ./.github/workflows/get-changed-apps
+        with:
+          delimiter: ','
+          output-type: 'entry_name, url, folder'
 
-  #     - name: Download Unit Test Stability Allow List
-  #       uses: ./.github/workflows/download-artifact
-  #       with:
-  #         name: unit-test-allow-list
-  #         path: .
+      - name: Download Unit Test Stability Allow List
+        uses: ./.github/workflows/download-artifact
+        with:
+          name: unit-test-allow-list
+          path: .
 
-  #     - name: Download E2E Test Stability Allow List
-  #       uses: ./.github/workflows/download-artifact
-  #       with:
-  #         name: e2e-allow-list
-  #         path: .
+      - name: Download E2E Test Stability Allow List
+        uses: ./.github/workflows/download-artifact
+        with:
+          name: e2e-allow-list
+          path: .
 
-  #     - name: Select E2E Tests
-  #       run: node script/github-actions/select-e2e-tests.js
-  #       env:
-  #         RUN_FULL_SUITE: false
-  #         CHANGED_FILE_PATHS: ${{ steps.get-changed-apps.outputs.changed_files }}
-  #         APP_URLS: ${{ steps.get-changed-apps.outputs.urls }}
-  #         APP_ENTRIES: ${{ steps.get-changed-apps.outputs.entry_names }}
-  #         TEST_TYPE: e2e
+      - name: Select E2E Tests
+        run: node script/github-actions/select-e2e-tests.js
+        env:
+          RUN_FULL_SUITE: false
+          CHANGED_FILE_PATHS: ${{ steps.get-changed-apps.outputs.changed_files }}
+          APP_URLS: ${{ steps.get-changed-apps.outputs.urls }}
+          APP_ENTRIES: ${{ steps.get-changed-apps.outputs.entry_names }}
+          TEST_TYPE: e2e
 
-  #     - name: Select Unit Tests
-  #       run: node script/github-actions/select-unit-tests.js
-  #       env:
-  #         CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
+      - name: Select Unit Tests
+        run: node script/github-actions/select-unit-tests.js
+        env:
+          CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
 
-  #     - name: Set output of TESTS_RAN
-  #       if: ${{ always() }}
-  #       id: tests-ran
-  #       run: echo "tests_ran=$TESTS_RAN" >> $GITHUB_OUTPUT
+      - name: Set output of TESTS_RAN
+        if: ${{ always() }}
+        id: tests-ran
+        run: echo "tests_ran=$TESTS_RAN" >> $GITHUB_OUTPUT
 
-  #     - name: Set output of DISALLOWED_TESTS
-  #       if: ${{ always() }}
-  #       id: disallowed-tests
-  #       run: echo "tests=$DISALLOWED_TESTS" >> $GITHUB_OUTPUT
+      - name: Set output of DISALLOWED_TESTS
+        if: ${{ always() }}
+        id: disallowed-tests
+        run: echo "tests=$DISALLOWED_TESTS" >> $GITHUB_OUTPUT
 
-  #     - name: Set output of UNIT_TESTS_TO_STRESS_TEST
-  #       if: ${{ always() }}
-  #       id: unit-tests-to-stress-test
-  #       run: echo "tests=$UNIT_TESTS_TO_STRESS_TEST" >> $GITHUB_OUTPUT
+      - name: Set output of UNIT_TESTS_TO_STRESS_TEST
+        if: ${{ always() }}
+        id: unit-tests-to-stress-test
+        run: echo "tests=$UNIT_TESTS_TO_STRESS_TEST" >> $GITHUB_OUTPUT
 
-  #     - name: Set output of UNIT_TESTS_CHANGED
-  #       if: ${{ always() }}
-  #       id: unit-tests-changed
-  #       run: echo "changed_unit_tests=$UNIT_TESTS_CHANGED" >> $GITHUB_OUTPUT
+      - name: Set output of UNIT_TESTS_CHANGED
+        if: ${{ always() }}
+        id: unit-tests-changed
+        run: echo "changed_unit_tests=$UNIT_TESTS_CHANGED" >> $GITHUB_OUTPUT
 
-  #     - name: Upload artifact of Unit Tests to Stress Test
-  #       if: ${{ steps.unit-tests-to-stress-test.outputs.tests == 'true' }}
-  #       uses: ./.github/workflows/upload-artifact
-  #       with:
-  #         name: unit-tests-to-stress-test
-  #         path: unit_tests_to_stress_test.json
+      - name: Upload artifact of Unit Tests to Stress Test
+        if: ${{ steps.unit-tests-to-stress-test.outputs.tests == 'true' }}
+        uses: ./.github/workflows/upload-artifact
+        with:
+          name: unit-tests-to-stress-test
+          path: unit_tests_to_stress_test.json
 
-  #     - name: Upload artifact of Unit Tests Changed
-  #       if: ${{ steps.unit-tests-changed.outputs.changed_unit_tests == 'true' }}
-  #       uses: ./.github/workflows/upload-artifact
-  #       with:
-  #         name: changed-unit-tests
-  #         path: changed_unit_tests.json
+      - name: Upload artifact of Unit Tests Changed
+        if: ${{ steps.unit-tests-changed.outputs.changed_unit_tests == 'true' }}
+        uses: ./.github/workflows/upload-artifact
+        with:
+          name: changed-unit-tests
+          path: changed_unit_tests.json
 
-  #     - name: Set output of APPS_TO_STRESS_TEST
-  #       if: ${{ always() }}
-  #       id: apps-to-stress-test
-  #       run: echo "apps_to_test=$APPS_TO_STRESS_TEST" >> $GITHUB_OUTPUT
+      - name: Set output of APPS_TO_STRESS_TEST
+        if: ${{ always() }}
+        id: apps-to-stress-test
+        run: echo "apps_to_test=$APPS_TO_STRESS_TEST" >> $GITHUB_OUTPUT
       
-  #     - name: Set output of TESTS
-  #       id: cypress-tests
-  #       run: echo selected=$TESTS >> $GITHUB_OUTPUT
+      - name: Set output of TESTS
+        id: cypress-tests
+        run: echo selected=$TESTS >> $GITHUB_OUTPUT
 
-  #     - name: Upload artifact of Cypress Tests to Test
-  #       if: ${{ steps.cypress-tests.outputs.selected == 'true' }}
-  #       uses: ./.github/workflows/upload-artifact
-  #       with:
-  #         name: e2e-tests-to-test
-  #         path: e2e_tests_to_test.json
+      - name: Upload artifact of Cypress Tests to Test
+        if: ${{ steps.cypress-tests.outputs.selected == 'true' }}
+        uses: ./.github/workflows/upload-artifact
+        with:
+          name: e2e-tests-to-test
+          path: e2e_tests_to_test.json
 
-  #     - name: Count Cypress specs
-  #       id: e2e-count
-  #       run: |
-  #         COUNT=$(node -e "console.log(require('./e2e_tests_to_test.json').length)")
-  #         echo "count=$COUNT" >> $GITHUB_OUTPUT
+      - name: Count Cypress specs
+        id: e2e-count
+        run: |
+          COUNT=$(node -e "console.log(require('./e2e_tests_to_test.json').length)")
+          echo "count=$COUNT" >> $GITHUB_OUTPUT
 
-  #     - name: Set output of CYPRESS_TESTS_TO_STRESS_TEST
-  #       id: cypress-tests-to-stress-test
-  #       run: echo tests=$CYPRESS_TESTS_TO_STRESS_TEST >> $GITHUB_OUTPUT
+      - name: Set output of CYPRESS_TESTS_TO_STRESS_TEST
+        id: cypress-tests-to-stress-test
+        run: echo tests=$CYPRESS_TESTS_TO_STRESS_TEST >> $GITHUB_OUTPUT
 
-  #     - name: Upload artifact of Cypress Tests to Stress Test
-  #       if: ${{ steps.cypress-tests-to-stress-test.outputs.tests == 'true' }}
-  #       uses: ./.github/workflows/upload-artifact
-  #       with:
-  #         name: e2e-tests-to-stress-test
-  #         path: e2e_tests_to_stress_test.json
+      - name: Upload artifact of Cypress Tests to Stress Test
+        if: ${{ steps.cypress-tests-to-stress-test.outputs.tests == 'true' }}
+        uses: ./.github/workflows/upload-artifact
+        with:
+          name: e2e-tests-to-stress-test
+          path: e2e_tests_to_stress_test.json
 
-  #     - name: Set output of NUM_CONTAINERS
-  #       id: containers
-  #       run: echo num=$NUM_CONTAINERS >> $GITHUB_OUTPUT
+      - name: Set output of NUM_CONTAINERS
+        id: containers
+        run: echo num=$NUM_CONTAINERS >> $GITHUB_OUTPUT
 
-  #     - name: Set output of CI_NODE_INDEX
-  #       id: matrix
-  #       run: echo ci_node_index=$CI_NODE_INDEX >> $GITHUB_OUTPUT
+      - name: Set output of CI_NODE_INDEX
+        id: matrix
+        run: echo ci_node_index=$CI_NODE_INDEX >> $GITHUB_OUTPUT
 
   # unit-tests:
   #   name: Unit Tests
@@ -1854,7 +1854,7 @@ jobs:
         buildtype: [vagovdev, vagovstaging, vagovprod]
 
     # needs: [build, tests-prep, cypress-tests, unit-tests, security-audit, linting]
-    needs: [build, linting]
+    needs: [build, tests-prep, linting]
     env:
       IS_SINGLE_APP_BUILD: ${{ needs.build.outputs.entry_names != '' }}
     if: always()
