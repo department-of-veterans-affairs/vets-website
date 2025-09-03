@@ -113,62 +113,48 @@ describe('Secure Messaging Digital Signature Error flows', () => {
   });
 });
 
-/* 
-New Test cases that aren't working.
 describe('Secure Messaging Oracle Health Digital Signature Error flows', () => {
   beforeEach(() => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.navigateToComposePage();
-    PatientComposePage.selectRecipient('Record Amendment Admin');
+    PatientComposePage.selectRecipient('VHA 649 Release of Information ROI');
     PatientComposePage.selectCategory();
-    PatientComposePage.getMessageSubjectField().type(`DS test`, {
+    PatientComposePage.getMessageSubjectField().type(`Oracle Health DS test`, {
       force: true,
     });
-    PatientComposePage.getMessageBodyField().type(`{home}DS tests text`, {
-      force: true,
-      moveToStart: true,
-    });
-    // cy.findByTestId("compose-recipient-select").shadow();
-    
-    // PatientComposePage.selectRecipient('VHA 649 Release of Information ROI');
-    // PatientComposePage.selectCategory();
-    // PatientComposePage.getMessageSubjectField().type(`Oracle Health DS test`, {
-    //   force: true,
-    // });
-    // PatientComposePage.getMessageBodyField().type(
-    //   `{home}Oracle Health signature tests`,
-    //   {
-    //     force: true,
-    //     moveToStart: true,
-    //   },
-    // );
+    PatientComposePage.getMessageBodyField().type(
+      `{home}Oracle Health signature tests`,
+      {
+        force: true,
+        moveToStart: true,
+      },
+    );
 
     PatientComposePage.verifyElectronicSignature();
     PatientComposePage.verifyElectronicSignatureRequired();
   });
 
   it(`verify user can't send Oracle Health message without electronic signature`, () => {
-    // cy.findByRole('button', { name: /send/i }).click();
-
-    // cy.findByText(
-    //   /electronic signature is required|enter your full name/i,
-    // ).should('exist');
     cy.get(Locators.BUTTONS.SEND).click({ force: true });
 
     cy.get(Locators.ALERTS.EL_SIGN_NAME).should(
       'contain.text',
       Alerts.EL_SIGN_NAME,
     );
+
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
 
   it(`verify user can't send Oracle Health message without checkbox`, () => {
-    cy.findByLabelText(/your full name/i).type('Test User ');
-    cy.findByRole('button', { name: /send/i }).click();
-    cy.findByText(/checkbox is required|you must check the box/i).should(
-      'exist',
+    PatientComposePage.getElectronicSignatureField().type('Test User ', {
+      force: true,
+    });
+    cy.get(Locators.BUTTONS.SEND).click({ force: true });
+    cy.get(Locators.ALERTS.EL_SIGN_CHECK).should(
+      `have.text`,
+      Alerts.EL_SIGN_CHECK,
     );
 
     cy.injectAxe();
@@ -176,26 +162,29 @@ describe('Secure Messaging Oracle Health Digital Signature Error flows', () => {
   });
 
   it(`verify user can't save Oracle Health message with electronic signature`, () => {
-    cy.findByLabelText(/your full name/i).type('Test User ');
+    PatientComposePage.getElectronicSignatureField().type('Test User ', {
+      force: true,
+    });
 
-    cy.findByLabelText(/i certify|electronic signature/i).check();
+    PatientComposePage.clickElectronicSignatureCheckbox();
 
-    cy.findByRole('button', { name: /save draft/i }).dblclick();
+    cy.get(Locators.BUTTONS.SAVE_DRAFT).dblclick();
 
-    cy.findByRole('dialog')
-      .should('exist')
-      .within(() => {
-        cy.findByText(/can't save your signature/i).should('exist');
-        cy.findByRole('button', { name: /edit draft/i }).should('exist');
-        cy.findByRole('button', {
-          name: /save draft without signature/i,
-        }).should('exist');
-      });
+    cy.get(Locators.ALERTS.ALERT_MODAL)
+      .shadow()
+      .find('h2')
+      .should('have.text', Alerts.SAVE_SIGN);
+
+    PatientComposePage.getAlertEditDraftBtn()
+      .first()
+      .should('have.attr', 'text', Data.BUTTONS.EDIT_DRAFT);
+    PatientComposePage.getAlertEditDraftBtn()
+      .last()
+      .should('have.attr', 'text', Data.BUTTONS.SAVE_DRAFT_WO_SIGN);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
 
-    cy.findByRole('button', { name: /edit draft/i }).click();
+    PatientComposePage.closeESAlertModal();
   });
 });
-*/
