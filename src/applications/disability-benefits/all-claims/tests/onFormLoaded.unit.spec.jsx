@@ -25,6 +25,9 @@ describe('onFormLoaded', () => {
     it('should return true when all conditions met', () => {
       const formData = {
         disability526Enable2024Form4142: true,
+        'view:selectableEvidenceTypes': {
+          'view:hasPrivateMedicalRecords': true,
+        },
         'view:patientAcknowledgement': { 'view:acknowledgement': true },
       };
       expect(baseDoNew4142Logic(formData)).to.be.true;
@@ -33,6 +36,9 @@ describe('onFormLoaded', () => {
     it('should return false when upload qualifier indicates upload path', () => {
       const formData = {
         disability526Enable2024Form4142: true,
+        'view:selectableEvidenceTypes': {
+          'view:hasPrivateMedicalRecords': true,
+        },
         'view:patientAcknowledgement': { 'view:acknowledgement': true },
         'view:uploadPrivateRecordsQualifier': {
           'view:hasPrivateRecordsToUpload': true,
@@ -44,6 +50,9 @@ describe('onFormLoaded', () => {
     it('should return false when patient4142Acknowledgement already true', () => {
       const formData = {
         disability526Enable2024Form4142: true,
+        'view:selectableEvidenceTypes': {
+          'view:hasPrivateMedicalRecords': true,
+        },
         'view:patientAcknowledgement': { 'view:acknowledgement': true },
         patient4142Acknowledgement: true,
       };
@@ -56,6 +65,9 @@ describe('onFormLoaded', () => {
       mockProps.formData = {
         disability526Enable2024Form4142: true,
         'view:patientAcknowledgement': { 'view:acknowledgement': true },
+        'view:selectableEvidenceTypes': {
+          'view:hasPrivateMedicalRecords': true,
+        },
       };
 
       onFormLoaded(mockProps);
@@ -75,6 +87,9 @@ describe('onFormLoaded', () => {
       mockProps.formData = {
         disability526Enable2024Form4142: false,
         'view:patientAcknowledgement': { 'view:acknowledgement': true },
+        'view:selectableEvidenceTypes': {
+          'view:hasPrivateMedicalRecords': true,
+        },
       };
 
       onFormLoaded(mockProps);
@@ -147,6 +162,9 @@ describe('onFormLoaded', () => {
         '/supporting-evidence/private-medical-records-authorize-release';
       mockProps.formData = {
         disability526Enable2024Form4142: true,
+        'view:selectableEvidenceTypes': {
+          'view:hasPrivateMedicalRecords': true,
+        },
         'view:patientAcknowledgement': { 'view:acknowledgement': true },
       };
       onFormLoaded(mockProps);
