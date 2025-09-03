@@ -2104,59 +2104,59 @@ jobs:
       #     --arg slack_channel \"${{ steps.determine-channel.outputs.channel }}\" \
       #     '{event_type: \"cd-production-deploy\", client_payload: {github_sha: $sha, github_ref: $ref, entry_app: $entry, slack_channel: $slack_channel}}')"
                          
-  notify-failure:
-    name: Notify Failure
-    runs-on: ubuntu-22.04
-    if: ${{ github.ref == 'refs/heads/main' && (failure() || cancelled()) }}
-    needs: [deploy, build]
-    env:
-      ALERT_TEAMS: true # Alerts teams for single/grouped app builds when set to true
-      DEVOPS_CHANNEL_ID: C37M86Y8G #devops-deploys
-      VETS_WEBSITE_CHANNEL_ID: C02V265VCGH #status-vets-website
+  # notify-failure:
+  #   name: Notify Failure
+  #   runs-on: ubuntu-22.04
+  #   if: ${{ github.ref == 'refs/heads/main' && (failure() || cancelled()) }}
+  #   needs: [deploy, build]
+  #   env:
+  #     ALERT_TEAMS: true # Alerts teams for single/grouped app builds when set to true
+  #     DEVOPS_CHANNEL_ID: C37M86Y8G #devops-deploys
+  #     VETS_WEBSITE_CHANNEL_ID: C02V265VCGH #status-vets-website
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
-        with:
-          fetch-depth: 0
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+  #       with:
+  #         fetch-depth: 0
 
-      - name: Install dependencies
-        if: env.ALERT_TEAMS == 'true'
-        uses: ./.github/workflows/install
-        timeout-minutes: 30
-        with:
-          key: ${{ hashFiles('yarn.lock') }}
-          yarn_cache_folder: .cache/yarn
-          path: |
-            .cache/yarn
-            node_modules
+  #     - name: Install dependencies
+  #       if: env.ALERT_TEAMS == 'true'
+  #       uses: ./.github/workflows/install
+  #       timeout-minutes: 30
+  #       with:
+  #         key: ${{ hashFiles('yarn.lock') }}
+  #         yarn_cache_folder: .cache/yarn
+  #         path: |
+  #           .cache/yarn
+  #           node_modules
 
-      - name: Get changed applications
-        id: get-changed-apps
-        if: env.ALERT_TEAMS == 'true'
-        uses: ./.github/workflows/get-changed-apps
-        with:
-          output-type: 'slack_group'
+  #     - name: Get changed applications
+  #       id: get-changed-apps
+  #       if: env.ALERT_TEAMS == 'true'
+  #       uses: ./.github/workflows/get-changed-apps
+  #       with:
+  #         output-type: 'slack_group'
 
-      - name: Notify application team in Slack
-        if: env.ALERT_TEAMS == 'true' && steps.get-changed-apps.outputs.slack_groups != ''
-        uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
-        continue-on-error: true
-        with:
-          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "${{steps.get-changed-apps.outputs.slack_groups}} CI for your application failed on the `main` branch in `vets-website`: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>\n For help troubleshooting, see the <https://depo-platform-documentation.scrollhelp.site/developer-docs/Handling-failed-single%2Fgrouped-application-pipelines.2066645150.html|documentation> on failed workflow runs."}}]}]}'
-          channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #     - name: Notify application team in Slack
+  #       if: env.ALERT_TEAMS == 'true' && steps.get-changed-apps.outputs.slack_groups != ''
+  #       uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
+  #       continue-on-error: true
+  #       with:
+  #         payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "${{steps.get-changed-apps.outputs.slack_groups}} CI for your application failed on the `main` branch in `vets-website`: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>\n For help troubleshooting, see the <https://depo-platform-documentation.scrollhelp.site/developer-docs/Handling-failed-single%2Fgrouped-application-pipelines.2066645150.html|documentation> on failed workflow runs."}}]}]}'
+  #         channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
+  #         aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-      - name: Notify Slack
-        if: steps.get-changed-apps.outputs.slack_groups == ''
-        uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
-        continue-on-error: true
-        with:
-          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "`main` branch CI in `vets-website` failed: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}}]}]}'
-          channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #     - name: Notify Slack
+  #       if: steps.get-changed-apps.outputs.slack_groups == ''
+  #       uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
+  #       continue-on-error: true
+  #       with:
+  #         payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "`main` branch CI in `vets-website` failed: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}}]}]}'
+  #         channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
+  #         aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
   # stress-tests:
   #   name: Stress Tests
