@@ -50,15 +50,12 @@ export default function CernerAlert({ className, pageTitle, level = 2 }) {
                 </ul>
               </>
             )}
-            <a
-              className="vads-c-action-link--blue vads-u-margin-bottom--1"
-              onClick={handleClick}
+            <va-link-action
+              text="Go to My VA Health"
+              type="secondary"
               href={getCernerURL('/pages/scheduling/upcoming', true)}
-              rel="noreferrer noopener"
-              target="_blank"
-            >
-              Go to My VA Health (opens in new tab)
-            </a>
+              onClick={handleClick}
+            />
             <p>
               <strong>Note:</strong> Having trouble opening My VA Health? Try
               disabling your browser’s pop-up blocker or signing in to My VA
