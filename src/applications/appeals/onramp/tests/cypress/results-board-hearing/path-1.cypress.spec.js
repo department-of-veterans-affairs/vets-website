@@ -2,6 +2,7 @@ import * as h from '../helpers';
 import { ROUTES } from '../../../constants';
 import { SHORT_NAME_MAP } from '../../../constants/question-data-map';
 import { RESULTS_NAME_MAP } from '../../../constants/results-data-map';
+import * as c from '../../../constants/results-content/dr-screens/card-content';
 
 const {
   Q_1_1_CLAIM_DECISION,
@@ -70,6 +71,44 @@ describe('Decision Reviews Onramp', () => {
       // RESULTS
       h.verifyUrl(ROUTES.RESULTS);
       h.verifyDrResultsHeader(RESULTS_BOARD_HEARING);
+      h.checkOverviewPanel([
+        c.TITLE_SC,
+        c.TITLE_BOARD_EVIDENCE,
+        c.TITLE_BOARD_HEARING,
+      ]);
+      h.checkGoodFitCards([
+        {
+          type: c.CARD_SC,
+          content: [
+            c.CARD_REVIEW_HLR,
+            c.CARD_NEW_EVIDENCE,
+            c.CARD_NOT_CONTESTED,
+          ],
+        },
+        {
+          type: c.CARD_BOARD_EVIDENCE,
+          content: [c.CARD_REVIEW_HLR, c.CARD_NEW_EVIDENCE],
+        },
+        {
+          type: c.CARD_BOARD_HEARING,
+          content: [c.CARD_REVIEW_HLR, c.CARD_NEW_EVIDENCE, c.CARD_HEARING],
+        },
+      ]);
+      h.checkNotGoodFitCards([
+        {
+          type: c.CARD_HLR,
+          content: [
+            c.CARD_HLR_NOT_AVAILABLE,
+            c.CARD_CANNOT_SUBMIT_EVIDENCE,
+            c.CARD_HEARING_NOT_INCLUDED,
+          ],
+        },
+        {
+          type: c.CARD_BOARD_DIRECT,
+          content: [c.CARD_CANNOT_SUBMIT_EVIDENCE, c.CARD_HEARING_NOT_INCLUDED],
+        },
+      ]);
+      h.verifyOutsideDROptionNotPresent();
       cy.go('back');
 
       // Q_2_H_2A_JUDGE_HEARING
