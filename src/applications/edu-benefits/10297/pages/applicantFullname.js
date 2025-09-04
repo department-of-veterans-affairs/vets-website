@@ -21,7 +21,7 @@ const uiSchema = {
     'ui:options': {
       hideIf: formData => {
         const age = getAgeInYears(formData?.dateOfBirth);
-        return !formData?.dateOfBirth || age < 62;
+        return !formData?.dateOfBirth || age <= 62;
       },
       preserveHiddenData: true,
     },
