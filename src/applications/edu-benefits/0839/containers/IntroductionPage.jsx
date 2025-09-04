@@ -14,38 +14,41 @@ const OMB_EXP_DATE = '01/31/2028';
 const ProcessList = () => {
   return (
     <va-process-list>
-      <va-process-list-item header="Prepare">
-        <h4>To fill out this application, you’ll need your:</h4>
+      <va-process-list-item header="Complete the form">
+        <p>
+          Start by completing VA Form 22-0839 online. You’ll begin by selecting
+          the type of agreement your school wants to submit:
+        </p>
         <ul>
-          <li>Social Security number (required)</li>
+          <li>A new open-ended agreement</li>
+          <li>A request to modify an existing agreement</li>
+          <li>A request to withdraw from the Yellow Ribbon Program</li>
         </ul>
         <p>
-          <strong>What if I need help filling out my application?</strong> An
-          accredited representative, like a Veterans Service Officer (VSO), can
-          help you fill out your claim.{' '}
-          <a href="/disability-benefits/apply/help/index.html">
-            Get help filing your claim
-          </a>
+          Next, provide details about your school’s Yellow Ribbon Program
+          contributions.
+        </p>
+        <ul>
+          <li>
+            U.S. schools must include the maximum number of students, degree
+            level, college or professional school, and maximum contribution
+            amount per student.
+          </li>
+          <li>
+            Foreign schools must include the maximum number of students, degree
+            level, the currency type used for billing, and maximum contribution
+            amount per student.
+          </li>
+        </ul>
+        <p>
+          At the end, the authorized official will review and acknowledge the
+          terms of participation.
         </p>
       </va-process-list-item>
-      <va-process-list-item header="Apply">
-        <p>Complete this benefits form.</p>
+      <va-process-list-item header="Submit the form">
         <p>
-          After submitting the form, you’ll get a confirmation message. You can
-          print this for your records.
-        </p>
-      </va-process-list-item>
-      <va-process-list-item header="VA Review">
-        <p>
-          We process claims within a week. If more than a week has passed since
-          you submitted your application and you haven’t heard back, please
-          don’t apply again. Call us at.
-        </p>
-      </va-process-list-item>
-      <va-process-list-item header="Decision">
-        <p>
-          Once we’ve processed your claim, you’ll get a notice in the mail with
-          our decision.
+          After you complete the form, it will be automatically sent to VA for
+          processing.
         </p>
       </va-process-list-item>
     </va-process-list>
@@ -57,6 +60,7 @@ export const IntroductionPage = props => {
   const userIdVerified = useSelector(state => isLOA3(state));
   const { route } = props;
   const { formConfig, pageList } = route;
+  // const showVerifyIdentify = true;
   const showVerifyIdentify = userLoggedIn && !userIdVerified;
 
   useEffect(() => {
@@ -67,12 +71,78 @@ export const IntroductionPage = props => {
   return (
     <article className="schemaform-intro">
       <FormTitle title={TITLE} subTitle={SUBTITLE} />
-      <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-        Follow the steps below to apply for education benefits.
+      <va-banner
+        data-label="Info banner"
+        type="info"
+        headline="For educational institutions only"
+        visible
+      >
+        <p className="vads-u-margin-y--0">
+          <strong>Note:</strong> This form is intended for educational
+          institutions and training facilities submitting reports regarding
+          school certifying officials.
+        </p>
+      </va-banner>
+
+      <h2 className=" vads-u-margin-top--4">
+        What to know before you fill out this form
+      </h2>
+      <ul>
+        <li>
+          If your school doesn’t want to participate in the Yellow Ribbon
+          Program, you don’t need to submit this form.
+        </li>
+        <li>
+          Schools must submit a new agreement each academic year to stay in the
+          program, even if nothing is changing.
+        </li>
+        <li>
+          U.S. schools can submit this form from March 15 through May 15 (or the
+          following Monday if May 15 falls on a weekend).
+        </li>
+        <li>
+          Foreign schools can submit this form from June 1 through July 31 (or
+          the following Monday if July 31 falls on a weekend).
+        </li>
+      </ul>
+      <p>
+        <a href="/" target="_blank" rel="noopener noreferrer">
+          Review additional instructions for the Yellow Ribbon Program Agreement
+          (opens in a new tab)
+        </a>
+      </p>
+      <va-summary-box>
+        <h3 slot="headline">Submission guidelines</h3>
+        <ul>
+          <li>
+            This form must be completed and signed by a school official who is
+            authorized to enter into financial agreements on behalf of the
+            school. This applies to both U.S. and foreign schools.
+          </li>
+          <li>
+            The authorized official will be required to review and acknowledge a
+            series of statements confirming that the school understands and
+            agrees to the terms of participating in the Yellow Ribbon Program.
+            These include statements about funding, reporting requirements, and
+            maintaining records.
+          </li>
+        </ul>
+      </va-summary-box>
+      <h2 className="vads-u-margin-top--4">
+        How do I submit my Yellow Ribbon Agreement?
       </h2>
       <ProcessList />
       {showVerifyIdentify ? (
-        <div>{/* add verify identity alert if applicable */}</div>
+        // <div>{/* add verify identity alert if applicable */}</div>
+        <>
+          <h2>Start the form</h2>
+          <va-banner data-label="Info banner" type="info" visible>
+            <p>
+              You can save this form in progress, and come back later to finish
+              filling it out.
+            </p>
+          </va-banner>
+        </>
       ) : (
         <SaveInProgressIntro
           headingLevel={2}
