@@ -53,7 +53,7 @@ jobs:
         uses: ./.github/workflows/get-changed-apps
         with:
           delimiter: ','
-          output-type: 'entry_name,continuous_deployment'
+          output-type: 'entry_name, continuous_deployment'
 
       - name: Get Mapbox Token
         if: ${{ matrix.buildtype == 'vagovprod' }}
