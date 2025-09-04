@@ -4,11 +4,16 @@ import PropTypes from 'prop-types';
 import { updateIntroPageViewed } from '../actions';
 import { QUESTION_CONTENT } from '../constants/question-data-map';
 import { ROUTES } from '../constants';
+import { pageSetup } from '../utilities';
 
 const IntroductionPage = ({ router, setIntroPageViewed }) => {
   useEffect(() => {
     setIntroPageViewed(true);
   });
+
+  useEffect(() => {
+    pageSetup();
+  }, []);
 
   const startTool = event => {
     event.preventDefault();
