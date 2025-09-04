@@ -286,17 +286,20 @@ const convertUnifiedCareSummariesAndNotesRecord = record => {
   const noteDate = formattedNoteDate
     ? `${formattedNoteDate.formattedDate}, ${formattedNoteDate.formattedTime}`
     : '';
-  const note = decodeBase64Report(record.attributes.note);
-  const admissionDateRaw = getAdmissionDate(record, note);
-  const dischargeDateRaw = getDischargeDate(record, note);
 
-  const formattedAdmissionDate = formatDateTime(admissionDateRaw);
+  const note = decodeBase64Report(record.attributes.note);
+
+  const formattedAdmissionDate = formatDateTime(
+    record.attributes.admissionDate,
+  );
   const admissionDate = formattedAdmissionDate
     ? `${formattedAdmissionDate.formattedDate}, ${
         formattedAdmissionDate.formattedTime
       }`
     : '';
-  const formattedDischargeDate = formatDateTime(dischargeDateRaw);
+  const formattedDischargeDate = formatDateTime(
+    record.attributes.dischargedDate,
+  );
   const dischargedDate = formattedDischargeDate
     ? `${formattedDischargeDate.formattedDate}, ${
         formattedDischargeDate.formattedTime
@@ -310,23 +313,30 @@ const convertUnifiedCareSummariesAndNotesRecord = record => {
       }`
     : '';
 
+  const formattedDateSigned = formatDateTime(record.attributes.dateSigned);
+  const dateSigned = formattedDateSigned
+    ? `${formattedDateSigned.formattedDate}, ${
+        formattedDateSigned.formattedTime
+      }`
+    : '';
+
   return {
     id: record.id,
     name: record.attributes.name || EMPTY_FIELD,
-    type: record.attributes.type || EMPTY_FIELD,
+    type: record.attributes.noteType || EMPTY_FIELD,
     loincCodes: record.attributes.loincCodes || [],
     date: noteDate || EMPTY_FIELD,
-    dateSigned: getDateSigned(record, note) || EMPTY_FIELD,
     writtenBy: record.attributes.writtenBy || EMPTY_FIELD,
     signedBy: record.attributes.signedBy || EMPTY_FIELD,
     location: record.attributes.location || EMPTY_FIELD,
     note,
     dischargedBy: record.attributes.writtenBy || EMPTY_FIELD, // This is mapped to the author
-    admissionDate,
-    dischargedDate,
     summary: record.attributes.note || EMPTY_FIELD, // record.attributes.note
-    dateEntered,
     admittedBy: getAttending(note) || EMPTY_FIELD,
+    dischargedDate,
+    admissionDate,
+    dateSigned,
+    dateEntered,
   };
 };
 /**
@@ -358,7 +368,7 @@ export const careSummariesAndNotesReducer = (state = initialState, action) => {
       };
     }
     case Actions.CareSummariesAndNotes.GET_UNIFIED_LIST: {
-      const data = action.response || [];
+      const data = action.response.data || [];
       const oldList = state.careSummariesAndNotesList;
       const newList =
         data

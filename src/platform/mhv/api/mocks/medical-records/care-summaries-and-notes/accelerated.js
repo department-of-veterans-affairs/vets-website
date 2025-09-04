@@ -1,49 +1,127 @@
-const all = [
-  {
-    id: 'I2-2BCP5BAI6N7NQSAPSVIJ6INQ4A000000',
-    attributes: {
-      loincCodes: ['18842-5'],
-      name: 'Discharge Summary',
-      date: '2019-03-12T16:30:00Z',
-      dateSigned: '2023-10-02T12:00:00Z',
-      writtenBy: 'Dr. Jane Doe',
-      signedBy: 'Dr. John Smith',
-      location: 'VA Medical Center',
-      dischargedBy: 'Dr. Jacob Jingleheimer',
-      note:
-        'TE9DQUwgVElUTEU6IERJU0NIQVJHRSBTVU1NQVJZDQpTVEFOREFSRCBUSVRMRTogRElTQ0hBUkdFIFNVTU1BUlkNCkRBVEUgT0YgTk9URTogSkFOIDA4LCAyMDI0QDEwOjEyIEVOVFJZIERBVEU6IEpBTiAwOCwgMjAyNEAxMDoxMjo1NA0KQVVUSE9SOiBEQU5BIE9XRU5TIEVYUCBDT1NJR05FUjoNClVSR0VOQ1k6IFNUQVRVUzogQ09NUExFVEVEDQpESVNDSEFSR0UgU1VNTUFSWToNClZJVEFMIFNJR05TIE1PTklUT1JJTkcNCkRhdGUgYW5kIFRpbWU6MS84LzIwMjQgQCAwOTQ5DQpCbG9vZCBwcmVzc3VyZSA6IDEyMi84N21tIEhHDQpQdWxzZSByYXRlIDogODhwZXIgbWluDQpSZXNwaXJhdG9yeSByYXRlIDogMTdwZXIgbWluDQpUZW1wZXJhdHVyZSA6IDk3LjdGDQpPMiBTYXR1cmF0aW9uIDogMTAwcGVyY2VudA0KKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKg0KUG9zdCBBbmVzdGhlc2lhIFNlZGF0aW9uIFNjb3JlIC0gUGhhc2UgMQ0KUGhhc2UgMSBEaXNjaGFyZ2UgQ3JpdGVyaWENClRPVEFMIFNDT1JFPTE0DQpPeHlnZW5hdGlvbg0KMiBQb2ludHMgLSBTcE8yIGdyZWF0ZXIgdGhhbiBvciBlcXVhbCB0byA5NCUgb3IgYmFzZWxpbmUgb24gcm9vbSBhaXINClBBQ1UgUmVzcGlyYXRvcnkgU3RhdHVzDQoyIFBvaW50cyAtIE5vcm1hbCBicmVhdGhpbmcgYW5kIGRlZXAgY291Z2ggb24gY29tbWFuZA0KQ2lyY3VsYXRvcnkgU3RhdHVzDQoyIFBvaW50cyAtIEJQL0hSIGxlc3MgdGhhbiAyMCUgb3IgMjAgbW1IZyBvZiBiYXNlbGluZQ0KTGV2ZWwgb2YgQ29uc2Npb3VzbmVzcw0KMiBQb2ludHMgLSBGdWxseSBhd2FrZSBvciBlYXNpbHkgYXdha2VuZWQNClBhaW4NCjIgUG9pbnRzIC0gTWluaW1hbCBvciBub25lIC0gUGFpbiBTY29yZSAwLTQgb3IgYXQgdG9sZXJhYmxlIGxldmVsIG9yIGF0IGJhc2VsaW5lDQpOYXVzZWEvVm9taXRpbmcNCjIgUG9pbnRzIC0gTWluaW1hbCBvciBub25lDQpMZXZlbCBvZiBBY3Rpdml0eQ0KMiBQb2ludHMgLSBBYmxlIHRvIG1vdmUgYWxsIGV4dHJlbWl0aWVzIHZvbHVudGFyaWx5IG9yIG9uIGNvbW1hbmQgb3IgbW92ZXMgYWxsIGV4dHJlbWl0aWVzIHdpdGggdGhlIGV4Y2VwdGlvbiBvZiBleHRyZW1pdHkgdHJlYXRlZCB3aXRoIHBlcmlwaGVyYWwgbmVydmUgYmxvY2sgb3IgcGF0aWVudCBiYXNlbGluZQ0KVkEtUEFTIFBoYXNlIDEgdGltZSBkb2N1bWVudGVkDQpUaW1lOiAwOTQ5DQpOdXJzaW5nIE5vdGU6UGF0aWVudCByZWFkeSBmb3IgZGlzY2hhcmdlLiBEaXNjaGFyZ2UgaW5zdHJ1Y3Rpb25zIGFuZCBwcm9jZWR1cmUgcmVwb3J0IGdpdmVuIHRvIHBhdGllbnQuIFRoZSBwYXRpZW50IHZlcmJhbGl6ZXMgdW5kZXJzdGFuZGluZyBvZiBpbnN0cnVjdGlvbnMuDQpFS0c6IE5vIGFjdXRlIEVLRyBjaGFuZ2VzDQpSRVNQSVJBVE9SWToNCk8yIGFkbWluaXN0ZXJlZDpub25lLA0KR1U6DQpVcmluZSBPdXRwdXQ6aGFzIG5vdCB2b2lkZWQNCkNvbG9yOiBVcmluZTpuL2ENCkdJOg0KTmF1c2VhIDogTm8NClZvbWl0aW5nOiBObw0KQWJkb21lbjpub24tZGlzdGVuZGVkDQpCb3dlbCBTb3VuZHM6cHJlc2VudA0KSU5UQUtFOg0KUE86IDAgbWwNCklWOiA1MDBtbA0KVE9UQUw6IDUwMG1sDQpPVVRQVVQ6DQpVcmluZTogMG1sDQpUT1RBTDogMG1sDQpQQUNVIERJU0NIQVJHRSBDUklURVJJQQ0KRGlzY2hhcmdlZCBieSBhbmVzdGhlc2lvbG9naXN0Lg0KQWxlcnQgYW5kIG9yaWVudGVkIG9yIGF0IGJhc2VsaW5lLg0KTW92ZXMgYWxsIGV4dHJlbWl0aWVzIG9yIGF0IGJhc2VsaW5lLg0KVml0YWwgc2lnbnMgYXJlIHN0YWJsZSBvciBhdCBiYXNlbGluZS4NCk5vIGV4Y2Vzc2l2ZSBibGVlZGluZy4NCkFkZXF1YXRlIHBhaW4gY29udHJvbA0KL2VzLyBEQU5BIE9XRU5TDQpSTiBTVEFGRg0KU2lnbmVkOiAwMS8wOC8yMDI0IDEwOjIz',
-      dateEntered: '2023-11-25T00:00:00Z',
+const all = {
+  data: [
+    {
+      id: '76ad925b-0c2c-4401-ac0a-13542d6b6ef5',
+      type: 'clinical_note',
+      attributes: {
+        id: '76ad925b-0c2c-4401-ac0a-13542d6b6ef5',
+        name: 'CARE COORDINATION HOME TELEHEALTH DISCHARGE NOTE',
+        noteType: 'physician_procedure_note',
+        loincCodes: ['11506-3'],
+        date: '2025-01-14T09:18:00.000+00:00',
+        dateSigned: '2025-01-14T09:29:26+00:00',
+        writtenBy: 'MARCI P MCGUIRE',
+        signedBy: 'MARCI P MCGUIRE',
+        dischargeDate: null,
+        location: 'CHYSHR TEST LAB',
+        note: 'VGhpcyBpcyBhIHRlc3QgdGVsZWhlYWx0aCBkaXNjaGFyZ2Ugbm90ZS4NCg==',
+      },
     },
-  },
-  {
-    id: 'I2-2BCP5BAI6N7NQSAPSVIJ6INQ4A000000',
-    attributes: {
-      loincCodes: ['11488-4'],
-      name: ' Consult Result',
-      date: '2019-03-12T16:30:00Z',
-      dateSigned: '2023-10-02T12:00:00Z',
-      writtenBy: 'Dr. Jane Doe',
-      signedBy: 'Dr. John Smith',
-      location: 'VA Medical Center',
-      note:
-        'TE9DQUwgVElUTEU6IEhUIE1PTlRITFkgTU9OSVRPUiBOT1RFDQpTVEFOREFSRCBUSVRMRTogQ0FSRSBDT09SRElOQVRJT04gSE9NRSBURUxFSEVBTFRIIFNVTU1BUklaQVRJT04NCkRBVEUgT0YgTk9URTogREVDIDI4LCAyMDIzQDA2OjU4IEVOVFJZIERBVEU6IERFQyAyOCwgMjAyM0AwNjo1ODozOA0KQVVUSE9SOiBBTkRSRSBZT1VORyBFWFAgQ09TSUdORVI6DQpVUkdFTkNZOiBTVEFUVVM6IENPTVBMRVRFRA0KVGhlIFZldGVyYW4gaXMgZW5yb2xsZWQgaW4gdGhlIEhvbWUgVGVsZWhlYWx0aCAoSFQpIHByb2dyYW0gYW5kIGNvbnRpbnVlcyB0byBiZSBtb25pdG9yZWQgdmlhIEhUIHRlY2hub2xvZ3kuIFRoZSBkYXRhIHNlbnQgYnkgdGhlIFZldGVyYW4gaXMgcmV2aWV3ZWQgYW5kIGFuYWx5emVkIGJ5IHRoZSBIVCBzdGFmZiwgd2hvIHByb3ZpZGUgb25nb2luZyBjYXNlIG1hbmFnZW1lbnQgYW5kIFZldGVyYW4gaGVhbHRoIGVkdWNhdGlvbiB3aGlsZSBjb21tdW5pY2F0aW5nIGFuZCBjb2xsYWJvcmF0aW5nIHdpdGggdGhlIGhlYWx0aCBjYXJlIHRlYW0gYXMgYXBwcm9wcmlhdGUuIFRoaXMgbm90ZSBjb3ZlcnMgYSB0b3RhbCBvZiAzMCBtaW51dGVzIGZvciB0aGUgbW9udGggbW9uaXRvcmVkLg0KTW9udGggbW9uaXRvcmVkOiBEZWNlbWJlciAyMDIzDQovZXMvIEFORFJFIFlPVU5HDQpNU04sIFJOIEhvbWUgVGVsZWhlYWx0aCBDYXJlIENvb3JkaW5hdG9yDQpTaWduZWQ6IDEyLzI4LzIwMjMgMDY6NTk',
-      dateEntered: '',
+    {
+      id: '2e1d581e-bb36-4041-9350-40dbb5651d5c',
+      type: 'clinical_note',
+      attributes: {
+        id: '2e1d581e-bb36-4041-9350-40dbb5651d5c',
+        name: 'UROLOGY PROGRESS NOTE',
+        noteType: 'physician_procedure_note',
+        loincCodes: ['11506-3'],
+        date: '2024-12-18T05:22:40.000+00:00',
+        dateSigned: '2024-12-18T05:25:10+00:00',
+        writtenBy: 'MARCI P MCGUIRE',
+        signedBy: 'MARCI P MCGUIRE',
+        dischargeDate: null,
+        location: 'CHYSHR TEST LAB',
+        note:
+          'VXJpbmFseXNpcyBwb3NpdGl2ZSBmb3IgUHJvdGV1cyBtaXJhYmlsaXMuIFByZXNjcmliZWQgQXVnbWVudGluIGFuZCBpbnN0cnVjdGVkIA0KTXIuIFNpbHZhIHRvIGRpc2NvbnRpbnVlIHRoZSBvcmlnaW5hbCBSeC4NCg==',
+      },
     },
-  },
-];
-const empty = [];
-const single = id => {
-  const sampleData = all.find(item => item.id === id);
-  if (!sampleData) {
-    return null;
-  }
-  return {
-    data: sampleData,
-  };
+    {
+      id: '51b17767-5226-4260-8fd3-7c9acf1675b0',
+      type: 'clinical_note',
+      attributes: {
+        id: '51b17767-5226-4260-8fd3-7c9acf1675b0',
+        name: 'AUDIOLOGY TEMPLATE CONSULT REPORT',
+        noteType: 'consult_result',
+        loincCodes: ['11488-4'],
+        date: '2024-12-12T10:21:24.000+00:00',
+        dateSigned: '2024-12-12T10:22:32+00:00',
+        writtenBy: 'MARCI P MCGUIRE',
+        signedBy: 'MARCI P MCGUIRE',
+        dischargeDate: null,
+        location: 'CHYSHR TEST LAB',
+        note:
+          'VGhpcyBpcyBhbiBhZGRlbmR1bSB0byBjb3JyZWN0IHByZXZpb3MgQXVkaW9sb2d5IHJlcG9ydC4gDQo=',
+      },
+    },
+    {
+      id: '1c0b0ba5-4ea3-4fac-b6ba-6ba089ac7175',
+      type: 'clinical_note',
+      attributes: {
+        id: '1c0b0ba5-4ea3-4fac-b6ba-6ba089ac7175',
+        name: 'C&P UROLOGY',
+        noteType: 'physician_procedure_note',
+        loincCodes: ['11506-3'],
+        date: '2024-12-17T11:07:00.000+00:00',
+        dateSigned: '2024-12-17T11:09:35+00:00',
+        writtenBy: 'VICTORIA A BORLAND',
+        signedBy: 'VICTORIA A BORLAND',
+        dischargeDate: null,
+        location: 'CHYSHR TEST LAB',
+        note:
+          'TGFyZ2UgbnVtYmVycyBvZiBiYWN0ZXJpYSBpbiB1cmluZSBpbmRpY2F0aXZlIG9mIFVUSS4gUHJlc2NyaWJpbmcgTWFjcm9iaWQgDQpwZW5kaW5nIGNvbXBsZXRlIGxhYiByZXN1bHRzLg0K',
+      },
+    },
+    {
+      id: '15249697279',
+      type: 'clinical_note',
+      attributes: {
+        id: '15249697279',
+        name: 'Clinical Summary',
+        noteType: 'discharge_summary',
+        loincCodes: ['18842-5'],
+        date: '2025-07-29T17:48:51Z',
+        dateSigned: null,
+        writtenBy: 'Victoria A Borland',
+        signedBy: 'Victoria A Borland',
+        dischargeDate: '2025-07-29T17:48:41Z',
+        admissionDate: '2025-07-29T17:48:41Z',
+        location: '668 Mann-Grandstaff WA VA Medical Center',
+        note:
+          'Q2xpbmljYWwgU3VtbWFyeSAqIEZpbmFsIFJlcG9ydCAqIE5hbWU6U0lMVkEsIEFMRVhBTkRFUiBSSUNBUkRPIEFkZHJlc3M6IDIzNCBURVNUSU5HIEtBTlNBUyBDSVRZLCBNTyA4Nzk0NCBTZXg6TWFsZSBEYXRlIG9mIEJpcnRoOjAzLzAxLzE5OTAgUGhvbmU6KzMzNjU1MjEyMzQgUmFjZTogQmxhY2sgb3IgQWZyaWNhbiBBbWVyaWNhbiBFdGhuaWNpdHk6IE5vdCBIaXNwYW5pYyBvciBMYXRpbm8gTVJOOjgzNjE3OTMyMDAwMDAxIEZJTjoxMjkyNjMxMjkgTG9jYXRpb246NjY4IE1hbm4tR3JhbmRzdGFmZiBXQSBWQSBNZWRpY2FsIENlbnRlciBSZWdpc3RyYXRpb24gRGF0ZSBhbmQgVGltZTowNi8yNi8yMDI1IDA5OjI3IFBEVCBBbGxlcmdpZXMgcGVuaWNpbGxpbnMgKFVydGljYXJpYSAoSGl2ZXMpLCBTbmVlemluZykgRm9sbG93IFVwIEluc3RydWN0aW9ucyBObyBxdWFsaWZ5aW5nIGRhdGEgYXZhaWxhYmxlIFByb2JsZW1zIE9uZ29pbmcgRGlzZWFzZSBjYXVzZWQgYnkgMjAxOSBub3ZlbCBjb3JvbmF2aXJ1cyBIaXN0b3JpY2FsIE5vIHF1YWxpZnlpbmcgZGF0YSBQcm9jZWR1cmVzIE5vIHByb2NlZHVyZSBoaXN0b3J5IGRvY3VtZW50ZWQgU29jaWFsIEhpc3RvcnkgTm8gc29jaWFsIGhpc3RvcnkgZG9jdW1lbnRlZCBTaWduYXR1cmUgTGluZSBFbGVjdHJvbmljYWxseSBzaWduZWQgb246IDA3LzI5LzIwMjUgMTI6NDggQ0RUIF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18gVmljdG9yaWEgQSBCb3JsYW5kIFJlc3VsdCB0eXBlOiBJbnBhdGllbnQgQ2xpbmljYWwgU3VtbWFyeSBSZXN1bHQgZGF0ZTogSnVseSAyOSwgMjAyNSAxNzo0OCBVVEMgUmVzdWx0IHN0YXR1czogQXV0aCAoVmVyaWZpZWQpIFJlc3VsdCB0aXRsZTogQ2xpbmljYWwgU3VtbWFyeSBQZXJmb3JtZWQgYnk6IEJvcmxhbmQsIFZpY3RvcmlhIEEgb24gSnVseSAyOSwgMjAyNSAxMjo0OCBDRFQgVmVyaWZpZWQgYnk6IEJvcmxhbmQsIFZpY3RvcmlhIEEgb24gSnVseSAyOSwgMjAyNSAxMjo0OCBDRFQgRW5jb3VudGVyIGluZm86IDEyOTI2MzEyOSwgNjY4IFNQTyBXQSBWQSwgQmV0d2VlbiBWaXNpdCwgNi8yNi8yMDI1IC0=',
+      },
+    },
+    {
+      id: '15249651570',
+      type: 'clinical_note',
+      attributes: {
+        id: '15249651570',
+        name: 'Inpatient Discharge Instructions - VA',
+        noteType: 'other',
+        loincCodes: ['96339-7'],
+        date: '2025-07-29T17:47:50Z',
+        dateSigned: null,
+        writtenBy: 'Victoria A Borland',
+        signedBy: 'Victoria A Borland',
+        dischargeDate: '2025-07-29T17:47:25Z',
+        location: '668 Mann-Grandstaff WA VA Medical Center',
+        note:
+          'SW5wYXRpZW50IERpc2NoYXJnZSBJbnN0cnVjdGlvbnMgLSBWQSAqIEZpbmFsIFJlcG9ydCAqIERpc2NoYXJnZSBJbnN0cnVjdGlvbnMgV2hhdCB0byBkbyBuZXh0IEluc3RydWN0aW9ucyBGcm9tIFlvdXIgUHJvdmlkZXIgRG9uJ3QgZGllIEFkZGl0aW9uYWwgRm9sbG93IFVwIEluc3RydWN0aW9ucyBObyBxdWFsaWZ5aW5nIGRhdGEgYXZhaWxhYmxlIFZBIEJlbmVmaWNpYXJ5IE5lZWRpbmcgSGVscCBBY2Nlc3MgeW91ciB2ZXRlcmFucyBiZW5lZml0cyBhbmQgbWFuYWdlIHlvdXIgaGVhbHRoY2FyZSBhdCB2YS5nb3YgTmF0aW9uYWwgU3VpY2lkZSBQcmV2ZW50aW9uIExpZmUgTGluZSAyNC83IGFzc2lzdGFuY2U6IDk4OCwgdGhlbiBwcmVzcyAxLCBvciBvbmxpbmUgYXQgVmV0ZXJhbnNDcmlzaXNMaW5lLm5ldCAtIFRoaW5raW5nIGFib3V0IGh1cnRpbmcgb3Iga2lsbGluZyB5b3Vyc2VsZiAtIExvb2tpbmcgZm9yIHdheXMgdG8ga2lsbCB5b3Vyc2VsZiAtIFRhbGtpbmcgYWJvdXQgZGVhdGgsIGR5aW5nLCBvciBzdWljaWRlIC0gU2VsZi1kZXN0cnVjdGl2ZSBiZWhhdmlvciBzdWNoIGFzIGRydWcgYWJ1c2UsIHdlYXBvbnMsIGV0YyBGb3IgaW5mb3JtYXRpb24gb24gd2hlcmUgdG8gcmVjZWl2ZSBhIHZhY2NpbmF0aW9uLCBwbGVhc2UgZWl0aGVyIHJlYWNoIG91dCB0byB5b3VyIHByaW1hcnkgY2FyZSBwaHlzaWNpYW4ncyBvZmZpY2Ugb3IgdmlzaXQgdmFjY2luZXMuZ292LiBJbmZvcm1hdGlvbiBmcm9tIHlvdXIgdmlzaXQgVGhpcyBJcyBZb3VyIE1lZGljYXRpb25zIExpc3QgTm8gRGF0YSBBdmFpbGFibGUgUHJvY2VkdXJlcyBQZXJmb3JtZWQgTm8gcHJvY2VkdXJlcyBwZXJmb3JtZWQgZHVyaW5nIHRoaXMgdmlzaXQgVGVzdCBSZXN1bHRzIE5vIHF1YWxpZnlpbmcgZGF0YSBhdmFpbGFibGUuIEFsbGVyZ2llcyBwZW5pY2lsbGlucyAoVXJ0aWNhcmlhIChIaXZlcyksIFNuZWV6aW5nKSBQcm9ibGVtcyBPbmdvaW5nIC0gQW55IHByb2JsZW0gdGhhdCB5b3UgYXJlIGN1cnJlbnRseSByZWNlaXZpbmcgdHJlYXRtZW50IGZvci4gRGlzZWFzZSBjYXVzZWQgYnkgMjAxOSBub3ZlbCBjb3JvbmF2aXJ1cyBDb21tb24gRW1lcmdlbmN5IEF3YXJlbmVzcyBUaXBzIElTIElUIEEgU1RST0tFPyBBY3QgRkFTVCBhbmQgQ2hlY2sgZm9yIHRoZXNlIHNpZ25zOiBGQUNFIERvZXMgdGhlIGZhY2UgbG9vayB1bmV2ZW4/IEFSTSBEb2VzIG9uZSBhcm0gZHJpZnQgZG93bj8gU1BFRUNIIERvZXMgdGhlaXIgc3BlZWNoIHNvdW5kIHN0cmFuZ2U/IFRJTUUgQ2FsbCA5LTEtMSBhdCBhbnkgc2lnbiBvZiBzdHJva2UgSGVhcnQgQXR0YWNrIFNpZ25zIENoZXN0IGRpc2NvbWZvcnQ6IE1vc3QgaGVhcnQgYXR0YWNrcyBpbnZvbHZlIGRpc2NvbWZvcnQgaW4gdGhlIGNlbnRlciBvZiB0aGUgY2hlc3QgYW5kIGxhc3RzIG1vcmUgdGhhbiBhIGZldyBtaW51dGVzLCBvciBnb2VzIGF3YXkgYW5kIGNvbWVzIGJhY2suIEl0IGNhbiBmZWVsIGxpa2UgdW5jb21mb3J0YWJsZSBwcmVzc3VyZSwgc3F1ZWV6aW5nLCBmdWxsbmVzcyBvciBwYWluLiBEaXNjb21mb3J0IGluIHVwcGVyIGJvZHk6IFN5bXB0b21zIGNhbiBpbmNsdWRlIHBhaW4gb3IgZGlzY29tZm9ydCBpbiBvbmUgb3IgYm90aCBhcm1zLCBiYWNrLCBuZWNrLCBqYXcgb3Igc3RvbWFjaC4gU2hvcnRuZXNzIG9mIGJyZWF0aDogV2l0aCBvciB3aXRob3V0IGRpc2NvbWZvcnQuIE90aGVyIHNpZ25zOiBCcmVha2luZyBvdXQgaW4gYSBjb2xkIHN3ZWF0LCBuYXVzZWEsIG9yIGxpZ2h0aGVhZGVkLiBSZW1lbWJlciwgTUlOVVRFUyBETyBNQVRURVIuIElmIHlvdSBleHBlcmllbmNlIGFueSBvZiB0aGVzZSBoZWFydCBhdHRhY2sgd2FybmluZyBzaWducywgY2FsbCA5LTEtMSB0byBnZXQgaW1tZWRpYXRlIG1lZGljYWwgYXR0ZW50aW9uISBSZXN1bHQgdHlwZTogSW5wYXRpZW50IFBhdGllbnQgU3VtbWFyeSBSZXN1bHQgZGF0ZTogSnVseSAyOSwgMjAyNSAxNzo0NyBVVEMgUmVzdWx0IHN0YXR1czogQXV0aCAoVmVyaWZpZWQpIFJlc3VsdCB0aXRsZTogSW5wYXRpZW50IERpc2NoYXJnZSBJbnN0cnVjdGlvbnMgLSBWQSBQZXJmb3JtZWQgYnk6IEJvcmxhbmQsIFZpY3RvcmlhIEEgb24gSnVseSAyOSwgMjAyNSAxMjo0NyBDRFQgVmVyaWZpZWQgYnk6IEJvcmxhbmQsIFZpY3RvcmlhIEEgb24gSnVseSAyOSwgMjAyNSAxMjo0NyBDRFQgRW5jb3VudGVyIGluZm86IDEyOTI2MzEyOSwgNjY4IFNQTyBXQSBWQSwgQmV0d2VlbiBWaXNpdCwgNi8yNi8yMDI1IC0=',
+      },
+    },
+  ],
+};
+
+const empty = { data: [] };
+
+// TODO: Not sure this is accurate at all - since there might not be a separate endpoint for a single note by ID
+const single = (req, res) => {
+  const { id } = req.params;
+  const response = all.find(item => item.id === id);
+  return res.json({ data: response.resource });
 };
 
 module.exports = {
   all,
-  empty,
   single,
+  empty,
 };
