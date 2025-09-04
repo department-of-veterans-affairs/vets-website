@@ -191,7 +191,7 @@ describe('RecipientsSelect', () => {
         },
       },
       featureToggles: {
-        [FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot]: true,
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow]: true,
       },
     };
     const screen = setup({ state: customState });
@@ -217,7 +217,7 @@ describe('RecipientsSelect', () => {
         },
       },
       featureToggles: {
-        [FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot]: true,
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow]: true,
       },
     };
     const screen = setup({ state: customState });
