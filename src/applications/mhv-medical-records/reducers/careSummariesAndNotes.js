@@ -1,4 +1,5 @@
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
+import { format } from 'date-fns';
 import { Actions } from '../util/actionTypes';
 import {
   EMPTY_FIELD,
@@ -101,14 +102,15 @@ export const getNote = record => {
 };
 
 export const getDateSigned = record => {
-  if (isArrayAndHasItems(record.authenticator?.extension)) {
+  const dateSigned = record.attributes?.dateSigned || null;
+  if (!dateSigned && isArrayAndHasItems(record.authenticator?.extension)) {
     const ext = record.authenticator.extension.find(e => e.valueDateTime);
     if (ext) {
       const formattedDate = formatDateLong(ext.valueDateTime);
       return formattedDate !== 'Invalid date' ? formattedDate : null;
     }
   }
-  return null;
+  return dateSigned;
 };
 
 export const getAttending = noteSummary => {
@@ -135,9 +137,12 @@ export const getDateFromBody = (noteSummary, label) => {
 };
 
 export const getAdmissionDate = (record, noteSummary) => {
-  let admissionDate = record.context?.period?.start
-    ? new Date(record.context.period.start)
-    : null;
+  let admissionDate = record.attributes?.admissionDate || null;
+  if (record.context?.period?.start) {
+    admissionDate = record.context?.period?.start
+      ? new Date(record.context.period.start)
+      : null;
+  }
   if (!admissionDate) {
     admissionDate = getDateFromBody(noteSummary, 'DATE OF ADMISSION:');
   }
@@ -145,13 +150,89 @@ export const getAdmissionDate = (record, noteSummary) => {
 };
 
 export const getDischargeDate = (record, noteSummary) => {
-  let dischargeDate = record.context?.period?.end
-    ? new Date(record.context.period.end)
-    : null;
+  // OH data will have this, VistA data won't
+  let dischargeDate = record.attributes?.dischargeDate || null;
+  if (!dischargeDate && record.context?.period?.end) {
+    dischargeDate = record.context?.period?.end
+      ? new Date(record.context.period.end)
+      : null;
+  }
   if (!dischargeDate) {
+    // TODO: this probably won't work for new note structure
     dischargeDate = getDateFromBody(noteSummary, 'DATE OF DISCHARGE:');
   }
   return dischargeDate;
+};
+
+// TODO: this is wet
+export function formatDateTime(datetimeString) {
+  // Need to adjust to handle the different formats
+  // OH uses UTC ('2025-07-29T17:32:46.000Z'), VistA uses TZ offset ('2024-10-18T11:52:00+00:00')
+  const shortDateString = datetimeString?.slice(0, 19) || '';
+  const dateTime = new Date(shortDateString);
+  if (Number.isNaN(dateTime.getTime())) {
+    return { formattedDate: '', formattedTime: '' };
+  }
+  const formattedDate = format(dateTime, 'MMMM d, yyyy');
+  const formattedTime = format(dateTime, 'h:mm a');
+
+  return { formattedDate, formattedTime };
+}
+
+export const getRecordTypeFromLoincCodes = codes => {
+  const typeMapping = {
+    [loincCodes.DISCHARGE_SUMMARY]: noteTypes.DISCHARGE_SUMMARY,
+    [loincCodes.PHYSICIAN_PROCEDURE_NOTE]: noteTypes.PHYSICIAN_PROCEDURE_NOTE,
+    [loincCodes.CONSULT_RESULT]: noteTypes.CONSULT_RESULT,
+  };
+
+  for (const [code, noteType] of Object.entries(typeMapping)) {
+    if (codes.includes(code)) {
+      return noteType;
+    }
+  }
+
+  return noteTypes.OTHER;
+};
+
+const convertUnifiedCareSummariesAndNotesRecord = record => {
+  const formattedNoteDate = formatDateTime(record.attributes.date);
+  const noteDate = formattedNoteDate
+    ? `${formattedNoteDate.formattedDate}, ${formattedNoteDate.formattedTime}`
+    : '';
+  const note = decodeBase64Report(record.attributes.note);
+  const admissionDateRaw = getAdmissionDate(record, note);
+  const dischargeDateRaw = getDischargeDate(record, note);
+
+  const formattedAdmissionDate = formatDateTime(admissionDateRaw);
+  const admissionDate = formattedAdmissionDate
+    ? `${formattedAdmissionDate.formattedDate}, ${
+        formattedAdmissionDate.formattedTime
+      }`
+    : '';
+  const formattedDischargeDate = formatDateTime(dischargeDateRaw);
+  const dischargedDate = formattedDischargeDate
+    ? `${formattedDischargeDate.formattedDate}, ${
+        formattedDischargeDate.formattedTime
+      }`
+    : '';
+  const entryType = getRecordTypeFromLoincCodes(record.attributes.loincCodes); // record.attributes.noteType
+  return {
+    id: record.id,
+    name: record.attributes.name || EMPTY_FIELD,
+    type: entryType || EMPTY_FIELD, // noteType or get from LOINC codes.
+    loincCodes: record.attributes.loincCodes || [],
+    date: noteDate || EMPTY_FIELD,
+    dateSigned: getDateSigned(record) || EMPTY_FIELD, // TODO: OH will have this but VistA won't unless we can extract?
+    writtenBy: record.attributes.writtenBy || EMPTY_FIELD,
+    signedBy: record.attributes.signedBy || EMPTY_FIELD,
+    location: record.attributes.location || EMPTY_FIELD,
+    note,
+    dischargedBy: record.attributes.writtenBy || EMPTY_FIELD, // This is mapped to the author
+    admissionDate,
+    dischargedDate,
+    summary: record.attributes.note || EMPTY_FIELD, // record.attributes.note
+  };
 };
 
 export const convertAdmissionAndDischargeDetails = record => {
@@ -257,6 +338,28 @@ export const careSummariesAndNotesReducer = (state = initialState, action) => {
       return {
         ...state,
         careSummariesAndNotesDetails: action.response,
+      };
+    }
+    case Actions.CareSummariesAndNotes.GET_UNIFIED_LIST: {
+      const data = action.response.data || [];
+      const oldList = state.careSummariesAndNotesList;
+      const newList =
+        data
+          ?.map(note => {
+            return convertUnifiedCareSummariesAndNotesRecord(note);
+          }) // .filter(record => record.type !== noteTypes.OTHER)
+          .sort((a, b) => {
+            if (!a.sortByDate) return 1; // Push nulls to the end
+            if (!b.sortByDate) return -1; // Keep non-nulls at the front
+            return b.sortByDate.getTime() - a.sortByDate.getTime();
+          }) || [];
+      return {
+        ...state,
+        listCurrentAsOf: action.isCurrent ? new Date() : null,
+        listState: loadStates.FETCHED,
+        careSummariesAndNotesList:
+          typeof oldList === 'undefined' ? newList : oldList,
+        updatedList: typeof oldList !== 'undefined' ? newList : undefined,
       };
     }
     case Actions.CareSummariesAndNotes.GET_LIST: {
