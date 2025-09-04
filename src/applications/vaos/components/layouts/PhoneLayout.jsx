@@ -23,6 +23,7 @@ import NewTabAnchor from '../NewTabAnchor';
 import {
   NULL_STATE_FIELD,
   recordAppointmentDetailsNullStates,
+  captureMissingModalityLogs,
 } from '../../utils/events';
 import ClinicName from './ClinicName';
 
@@ -50,6 +51,9 @@ export default function PhoneLayout({ data: appointment }) {
     heading = 'Canceled phone appointment';
   else if (isPastAppointment) heading = 'Past phone appointment';
 
+  if (!appointment.modality) {
+    captureMissingModalityLogs(appointment);
+  }
   recordAppointmentDetailsNullStates(
     {
       type: appointment.type,

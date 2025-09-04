@@ -25,6 +25,7 @@ import State from '../State';
 import {
   NULL_STATE_FIELD,
   recordAppointmentDetailsNullStates,
+  captureMissingModalityLogs,
 } from '../../utils/events';
 import ClinicName from './ClinicName';
 
@@ -54,6 +55,9 @@ export default function VideoLayoutAtlas({ data: appointment }) {
   else if (isPastAppointment)
     heading = 'Past video appointment at an ATLAS location';
 
+  if (!appointment.modality) {
+    captureMissingModalityLogs(appointment);
+  }
   recordAppointmentDetailsNullStates(
     {
       type: appointment.type,

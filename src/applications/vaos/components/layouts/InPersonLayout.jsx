@@ -12,6 +12,7 @@ import { APPOINTMENT_STATUS } from '../../utils/constants';
 import {
   NULL_STATE_FIELD,
   recordAppointmentDetailsNullStates,
+  captureMissingModalityLogs,
 } from '../../utils/events';
 import Address from '../Address';
 import AddToCalendarButton from '../AddToCalendarButton';
@@ -59,6 +60,9 @@ export default function InPersonLayout({ data: appointment }) {
     heading = 'Canceled in-person appointment';
   else if (isPastAppointment) heading = 'Past in-person appointment';
 
+  if (!appointment.modality) {
+    captureMissingModalityLogs(appointment);
+  }
   recordAppointmentDetailsNullStates(
     {
       type: appointment.type,

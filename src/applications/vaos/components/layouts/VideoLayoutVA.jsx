@@ -24,6 +24,7 @@ import FacilityDirectionsLink from '../FacilityDirectionsLink';
 import {
   NULL_STATE_FIELD,
   recordAppointmentDetailsNullStates,
+  captureMissingModalityLogs,
 } from '../../utils/events';
 import ClinicPhysicalLocation from './ClinicPhysicalLocation';
 import ClinicName from './ClinicName';
@@ -53,6 +54,9 @@ export default function VideoLayoutVA({ data: appointment }) {
     heading = 'Canceled video appointment at VA location';
   else if (isPastAppointment) heading = 'Past video appointment at VA location';
 
+  if (!appointment.modality) {
+    captureMissingModalityLogs(appointment);
+  }
   recordAppointmentDetailsNullStates(
     {
       type: appointment.type,
