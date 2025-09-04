@@ -12,7 +12,12 @@ import {
   VaBreadcrumbs,
   VaAlert,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
 import api from '../utilities/api';
+import { waitForTogglesToLoad } from '../utilities/waitForTogglesToLoad';
+import store from '../utilities/store';
 import {
   SEARCH_BC_LABEL,
   poaSearchBC,
@@ -107,10 +112,10 @@ const POARequestSearchPage = title => {
               .
             </p>
             <p className="vads-u-margin-y--0">
-              <strong>Claims agents and attorneys:</strong>
-              This feature is not yet available for establishing representation
-              with claims agents or attorneys. We are exploring it as a future
-              enhancement. Visit our{' '}
+              <strong>Claims agents and attorneys:</strong> This feature is not
+              yet available for establishing representation with claims agents
+              or attorneys. We are exploring it as a future enhancement. Visit
+              our{' '}
               <a
                 href="/representative/get-help"
                 target="_blank"
@@ -256,6 +261,14 @@ POARequestSearchPage.propTypes = {
 };
 
 POARequestSearchPage.loader = async ({ request }) => {
+  // Hydrate feature toggles and check flag directly
+  await connectFeatureToggle(store.dispatch);
+  await waitForTogglesToLoad();
+  const state = store.getState();
+  const enabled = !!toggleValues(state)[
+    FEATURE_FLAG_NAMES.accreditedRepresentativePortalDashboardLink
+  ];
+
   const { searchParams } = new URL(request.url);
   const status = searchParams.get(SEARCH_PARAMS.STATUS);
   const sort = searchParams.get(SEARCH_PARAMS.SORTORDER);
@@ -289,12 +302,11 @@ POARequestSearchPage.loader = async ({ request }) => {
       },
     );
   } catch (err) {
-    if (err instanceof Response && err.status === 403) {
+    if (err instanceof Response && err.status === 403 && enabled) {
       // Try authorization endpoint
       try {
         await api.checkAuthorized({
           signal: request.signal,
-          skip403Redirect: true,
         });
         // If authorized as a representative, show alert and empty data
         return { data: [], meta: {}, showPOA403Alert: true };
