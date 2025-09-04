@@ -60,7 +60,9 @@ const DocumentUpload = () => {
 
           const deleteUrl = `${
             environment.API_URL
-          }/travel_pay/v0/claims/12345/documents/${uploadedFile.documentId}`;
+          }/travel_pay/v0/claims/73611905-71bf-46ed-b1ec-e790593b8565/documents/${
+            uploadedFile.documentId
+          }`;
 
           await apiRequest(deleteUrl, {
             method: 'DELETE',
@@ -113,7 +115,7 @@ const DocumentUpload = () => {
     // Custom upload functionality that doesn't depend on forms-system Redux
     const fileUploadUrl = `${
       environment.API_URL
-    }/travel_pay/v0/claims/12345/documents`; // Using mock claim ID
+    }/travel_pay/v0/claims/73611905-71bf-46ed-b1ec-e790593b8565/documents`; // Using mock claim ID
 
     // Check if we're replacing an existing file
     const isReplacement = uploadedFile !== null;
@@ -168,7 +170,9 @@ const DocumentUpload = () => {
 
           const deleteUrl = `${
             environment.API_URL
-          }/travel_pay/v0/claims/12345/documents/${uploadedFile.documentId}`;
+          }/travel_pay/v0/claims/73611905-71bf-46ed-b1ec-e790593b8565/documents/${
+            uploadedFile.documentId
+          }`;
 
           await apiRequest(deleteUrl, {
             method: 'DELETE',
