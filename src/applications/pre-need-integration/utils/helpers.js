@@ -1365,7 +1365,9 @@ export function DesiredCemeteryNoteDescription() {
 }
 
 export function getCemeteries() {
-  return fetch(`${environment.API_URL}/v0/preneeds/cemeteries`, {
+  const apiUrl = `${environment.API_URL}/simple_forms_api/v1/cemeteries`;
+
+  return fetch(apiUrl, {
     credentials: 'include',
     headers: {
       'X-Key-Inflection': 'camel',
@@ -1376,23 +1378,19 @@ export function getCemeteries() {
       if (!res.ok) {
         return Promise.reject(res);
       }
-
       return res.json();
     })
-    .then(res =>
-      res.data.map(item => ({
+    .then(res => {
+      return res.data.map(item => ({
         label: item.attributes.name,
         id: item.id,
-      })),
-    )
-    .catch(res => {
-      if (res instanceof Error) {
-        Sentry.captureException(res);
+      }));
+    })
+    .catch(error => {
+      if (error instanceof Error) {
+        Sentry.captureException(error);
         Sentry.captureMessage('vets_preneed_cemeteries_error');
       }
-
-      // May change this to a reject later, depending on how we want
-      // to surface errors in autosuggest field
       return Promise.resolve([]);
     });
 }

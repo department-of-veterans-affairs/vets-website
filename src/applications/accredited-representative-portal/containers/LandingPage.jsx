@@ -80,11 +80,12 @@ const LandingPage = title => {
                         />
                       </Toggler.Enabled>
                     </Toggler>
-                    <va-link
+                    {/* **** show once we get video link ***** */}
+                    {/* <va-link
                       href="https://www.va.gov"
                       text="Watch a video of how the portal works"
                       video
-                    />
+                    /> */}
                   </div>
                   <ul>
                     <li>
