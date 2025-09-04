@@ -18,10 +18,16 @@ const UnderReviewChapter1606 = ({
       </va-alert>
 
       <va-summary-box class="vads-u-margin-y--3">
-        <h3 slot="headline" className="vads-u-margin-top--0">
+        <h3
+          slot="headline"
+          className="vads-u-margin-top--0 vads-u-margin-bottom--0"
+        >
           Application for VA education benefits (VA Form 22-1990)
         </h3>
-        <h3 slot="headline" className="vads-u-margin-top--0">
+        <h3
+          slot="headline"
+          className="vads-u-margin-top--0 vads-u-margin-bottom--0"
+        >
           MGIB-SR, Chapter 1606
         </h3>
 
