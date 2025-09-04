@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useDispatch } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
+import Cookies from 'js-cookie';
 
 import {
   fetchMilitaryInformation as fetchMilitaryInformationAction,
@@ -70,6 +71,9 @@ const DashboardHeader = ({ isLOA3, showNotifications, user }) => {
     TOGGLE_NAMES.veteranOnboardingBetaFlow,
   );
 
+  const displayCriticalActionConfirmEmailLink =
+    Cookies.get('CONTACT_EMAIL_CONFIRMED') !== 'true';
+
   return (
     <div>
       {displayOnboardingInformation && (
@@ -121,11 +125,13 @@ const DashboardHeader = ({ isLOA3, showNotifications, user }) => {
           });
         }}
       />
-      <VaCriticalAction
-        link="/profile/contact-information#contact-email-address"
-        text="Confirm your contact email address to keep getting VA notifications"
-        data-testid="va-profile--confirm-contact-email-link"
-      />
+      {displayCriticalActionConfirmEmailLink && (
+        <VaCriticalAction
+          link="/profile/contact-information#contact-email-address"
+          text="Confirm your contact email address to keep getting VA notifications"
+          data-testid="va-profile--confirm-contact-email-link"
+        />
+      )}
       {isLOA3 && <ContactInfoNeeded />}
       {showNotifications && !hideNotificationsSection && <Notifications />}
     </div>
