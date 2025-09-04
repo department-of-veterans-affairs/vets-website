@@ -117,7 +117,7 @@ export const convertNewCondition = condition => {
 export const convertUnifiedCondition = condition => {
   const formatConditionDate = formatDateTime(condition?.attributes?.date);
   const conditionDate = formatConditionDate
-    ? `${formatConditionDate.formattedDate}`
+    ? formatConditionDate.formattedDate
     : '';
   // Ensure a finite timestamp
   const ts = new Date(condition?.attributes?.date).getTime();

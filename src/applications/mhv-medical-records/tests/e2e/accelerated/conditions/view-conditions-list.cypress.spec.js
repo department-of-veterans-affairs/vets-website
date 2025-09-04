@@ -1,7 +1,7 @@
 import MedicalRecordsSite from '../../mr_site/MedicalRecordsSite';
 import Conditions from '../pages/Conditions';
 import oracleHealthUser from '../fixtures/user/oracle-health.json';
-import conditionsData from '../../../fixtures/conditionsAccelerating.json';
+import conditionsData from '../fixtures/conditions/conditions.json';
 
 describe('Medical Records View Conditions', () => {
   const site = new MedicalRecordsSite();
@@ -23,11 +23,10 @@ describe('Medical Records View Conditions', () => {
 
     cy.injectAxeThenAxeCheck();
 
-    // Add more test data
-    // const CARDS_PER_PAGE = 10;
-    // cy.get(':nth-child(4) > [data-testid="record-list-item"]').should(
-    //   'have.length',
-    //   CARDS_PER_PAGE,
-    // );
+    const CARDS_PER_PAGE = 10;
+    cy.get(':nth-child(4) > [data-testid="record-list-item"]').should(
+      'have.length',
+      CARDS_PER_PAGE,
+    );
   });
 });

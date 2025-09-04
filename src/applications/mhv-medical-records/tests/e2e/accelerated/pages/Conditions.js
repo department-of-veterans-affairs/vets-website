@@ -1,7 +1,7 @@
 import sessionStatus from '../fixtures/session/default.json';
 
 class Conditions {
-  setIntercepts = ({ conditionData }) => {
+  setIntercepts = ({ conditionsData }) => {
     cy.intercept('POST', '/v0/datadog_action', {}).as('datadogAction');
     cy.intercept('POST', '/my_health/v1/medical_records/session', {}).as(
       'session',
@@ -10,10 +10,7 @@ class Conditions {
       req.reply(sessionStatus);
     });
     cy.intercept('GET', '/my_health/v2/medical_records/conditions*', req => {
-      req.reply(conditionData);
-    }).as('conditions-list');
-    cy.intercept('GET', '/my_health/v1/medical_records/conditions*', req => {
-      req.reply(conditionData);
+      req.reply(conditionsData);
     }).as('conditions-list');
   };
 

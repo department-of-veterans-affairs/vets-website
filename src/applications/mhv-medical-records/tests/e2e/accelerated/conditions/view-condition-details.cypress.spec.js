@@ -1,7 +1,7 @@
 import MedicalRecordsSite from '../../mr_site/MedicalRecordsSite';
 import Conditions from '../pages/Conditions';
 import oracleHealthUser from '../fixtures/user/oracle-health.json';
-import conditionsData from '../../../fixtures/conditionsAccelerating.json';
+import conditionsData from '../fixtures/conditions/conditions.json';
 
 describe('Medical Records View Condition Details', () => {
   const site = new MedicalRecordsSite();
@@ -23,8 +23,9 @@ describe('Medical Records View Condition Details', () => {
     // Click on the first Condition to view details
     Conditions.clickConditionDetailsLink(0);
 
-    // Verify condition details are displayed correctly
-    const conditionDetailData = conditionsData.data[0].attributes;
+    // Verify condition details are displayed correctly (last item in fixture has latest date)
+    const lastIndex = conditionsData.data.length - 1;
+    const conditionDetailData = conditionsData.data[lastIndex].attributes;
 
     Conditions.verifyTitle(conditionDetailData.name);
     Conditions.verifyProvider(conditionDetailData.provider);
@@ -32,15 +33,13 @@ describe('Medical Records View Condition Details', () => {
     // Conditions.verifyProviderNotes(conditionDetailData.comments[0]);
     Conditions.verifyProviderNotesList(conditionDetailData.comments[0]);
     Conditions.verifyProviderNotesList(conditionDetailData.comments[1]);
-    Conditions.verifyProviderNotesList(conditionDetailData.comments[2]);
-    Conditions.verifyProviderNotesList(conditionDetailData.comments[3]);
 
     // Axe check
     cy.injectAxe();
     cy.axeCheck('main');
 
     // Verify date is formatted correctly
-    cy.get('[data-testid="header-time"]').should('contain', 'December 1, 2024');
+    cy.get('[data-testid="header-time"]').should('contain', 'January 19, 2025');
 
     // Accessibility check
     cy.injectAxeThenAxeCheck();
@@ -51,16 +50,15 @@ describe('Medical Records View Condition Details', () => {
     Conditions.goToConditionsPage();
     Conditions.clickConditionDetailsLink(0);
 
-    // Verify condition details are displayed correctly
-    const conditionDetailData = conditionsData.data[0].attributes;
+    // Verify condition details are displayed correctly (last item in fixture has latest date)
+    const lastIndex = conditionsData.data.length - 1;
+    const conditionDetailData = conditionsData.data[lastIndex].attributes;
 
     Conditions.verifyTitle(conditionDetailData.name);
     Conditions.verifyProvider(conditionDetailData.provider);
     Conditions.verifyLocation(conditionDetailData.facility);
     Conditions.verifyProviderNotesList(conditionDetailData.comments[0]);
     Conditions.verifyProviderNotesList(conditionDetailData.comments[1]);
-    Conditions.verifyProviderNotesList(conditionDetailData.comments[2]);
-    Conditions.verifyProviderNotesList(conditionDetailData.comments[3]);
 
     // Navigate back to list
     cy.get('[data-testid="mr-breadcrumbs"] > a').click();

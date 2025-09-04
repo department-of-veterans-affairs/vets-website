@@ -23,6 +23,7 @@ const acceleratedLabsAndTests = require('./mhv-api/medical-records/labs-and-test
 const mhvRadiology = require('./mhv-api/medical-records/mhv-radiology');
 const careSummariesAndNotes = require('./mhv-api/medical-records/care-summaries-and-notes');
 const healthConditions = require('./mhv-api/medical-records/health-conditions');
+const acceleratedHealthConditions = require('./mhv-api/medical-records/health-conditions/accelerated');
 const allergies = require('./mhv-api/medical-records/allergies');
 const acceleratedAllergies = require('./mhv-api/medical-records/allergies/full-example');
 const vaccines = require('./mhv-api/medical-records/vaccines');
@@ -118,6 +119,8 @@ const responses = {
   'POST /my_health/v1/health_records/sharing/:endpoint': { status: 200 },
   'GET /my_health/v1/medical_records/conditions': healthConditions.all,
   'GET /my_health/v1/medical_records/conditions/:id': healthConditions.single,
+  'GET /my_health/v2/medical_records/conditions':
+    acceleratedHealthConditions.all,
   'GET /my_health/v1/medical_records/allergies': (req, res) => {
     const { use_oh_data_path } = req.query;
     if (use_oh_data_path === '1') {

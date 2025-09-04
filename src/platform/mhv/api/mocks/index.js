@@ -74,12 +74,12 @@ const responses = {
   ...commonResponses,
   'GET /v0/user': user.acceleratedCernerUser,
   'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({
-    mhvAcceleratedDeliveryEnabled: true,
-    mhvAcceleratedDeliveryAllergiesEnabled: true,
-    mhvAcceleratedDeliveryConditionsEnabled: true,
-    mhvAcceleratedDeliveryVitalSignsEnabled: true,
-    mhvAcceleratedDeliveryVaccinesEnabled: true,
-    mhvAcceleratedDeliveryLabsAndTestsEnabled: true,
+    mhvAcceleratedDeliveryEnabled: false,
+    mhvAcceleratedDeliveryAllergiesEnabled: false,
+    mhvAcceleratedDeliveryConditionsEnabled: false,
+    mhvAcceleratedDeliveryVitalSignsEnabled: false,
+    mhvAcceleratedDeliveryVaccinesEnabled: false,
+    mhvAcceleratedDeliveryLabsAndTestsEnabled: false,
   }),
 
   // VAMC facility data that apps query for on startup
@@ -175,8 +175,6 @@ const responses = {
   'GET /my_health/v1/medical_records/conditions/:id': healthConditions.single,
   'GET /my_health/v2/medical_records/conditions':
     acceleratedHealthConditions.all,
-  'GET /my_health/v2/medical_records/conditions/:id':
-    acceleratedHealthConditions.single,
   'GET /my_health/v1/medical_records/allergies': (req, res) => {
     const { use_oh_data_path } = req.query;
     if (use_oh_data_path === '1') {
