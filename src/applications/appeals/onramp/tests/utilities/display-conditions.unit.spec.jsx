@@ -56,6 +56,115 @@ describe('display conditions utilities', () => {
         expect(displayConditionsMet(formResponses, displayConditions)).to.be
           .false;
       });
+
+      it('should return false for a NONE_OF question', () => {
+        const formResponses = {
+          Q_1_1_CLAIM_DECISION: YES,
+          Q_1_2_CLAIM_DECISION: YES,
+          Q_1_3_CLAIM_CONTESTED: NO,
+          Q_2_0_CLAIM_TYPE: INIT,
+          Q_2_IS_1_SERVICE_CONNECTED: NO,
+          Q_2_IS_1A_LAW_POLICY_CHANGE: NO,
+          Q_2_IS_1B_NEW_EVIDENCE: NO,
+        };
+
+        const displayConditions = {
+          NONE_OF: {
+            Q_2_IS_1B_NEW_EVIDENCE: NO,
+            Q_2_S_1_NEW_EVIDENCE: NO,
+            Q_2_H_2_NEW_EVIDENCE: NO,
+          },
+        };
+
+        expect(displayConditionsMet(formResponses, displayConditions)).to.be
+          .false;
+      });
+
+      it('should return false for a FORK question (scenario A)', () => {
+        const formResponses = {
+          Q_1_1_CLAIM_DECISION: YES,
+          Q_1_2_CLAIM_DECISION: YES,
+          Q_1_3_CLAIM_CONTESTED: NO,
+          Q_2_0_CLAIM_TYPE: INIT,
+          Q_2_IS_1_SERVICE_CONNECTED: NO,
+          Q_2_IS_1A_LAW_POLICY_CHANGE: NO,
+          Q_2_IS_1B_NEW_EVIDENCE: YES,
+        };
+
+        const displayConditions = {
+          FORK: {
+            A: {
+              Q_2_0_CLAIM_TYPE: [INIT, SC, HLR],
+              ONE_OF: {
+                Q_2_IS_1B_NEW_EVIDENCE: NO,
+                Q_2_S_1_NEW_EVIDENCE: NO,
+                Q_2_H_2_NEW_EVIDENCE: NO,
+              },
+            },
+            B: {
+              Q_1_3A_FEWER_60_DAYS: YES,
+            },
+          },
+        };
+
+        expect(displayConditionsMet(formResponses, displayConditions)).to.be
+          .false;
+      });
+
+      it('should return false for a FORK question (scenario B)', () => {
+        const formResponses = {
+          Q_1_1_CLAIM_DECISION: YES,
+          Q_1_2_CLAIM_DECISION: YES,
+          Q_1_3_CLAIM_CONTESTED: NO,
+        };
+
+        const displayConditions = {
+          FORK: {
+            A: {
+              Q_2_0_CLAIM_TYPE: [INIT, SC, HLR],
+              ONE_OF: {
+                Q_2_IS_1B_NEW_EVIDENCE: NO,
+                Q_2_S_1_NEW_EVIDENCE: NO,
+                Q_2_H_2_NEW_EVIDENCE: NO,
+              },
+            },
+            B: {
+              Q_1_3A_FEWER_60_DAYS: YES,
+            },
+          },
+        };
+
+        expect(displayConditionsMet(formResponses, displayConditions)).to.be
+          .false;
+      });
+
+      it('should return false for a FORK question (scenario C)', () => {
+        const formResponses = {
+          Q_1_1_CLAIM_DECISION: YES,
+          Q_1_2_CLAIM_DECISION: YES,
+          Q_1_3_CLAIM_CONTESTED: YES,
+          Q_1_3A_FEWER_60_DAYS: NO,
+        };
+
+        const displayConditions = {
+          FORK: {
+            A: {
+              Q_2_0_CLAIM_TYPE: [INIT, SC, HLR],
+              ONE_OF: {
+                Q_2_IS_1B_NEW_EVIDENCE: NO,
+                Q_2_S_1_NEW_EVIDENCE: NO,
+                Q_2_H_2_NEW_EVIDENCE: NO,
+              },
+            },
+            B: {
+              Q_1_3A_FEWER_60_DAYS: YES,
+            },
+          },
+        };
+
+        expect(displayConditionsMet(formResponses, displayConditions)).to.be
+          .false;
+      });
     });
 
     describe('met display conditions', () => {
@@ -98,6 +207,118 @@ describe('display conditions utilities', () => {
           ONE_OF: {
             Q_2_IS_1_SERVICE_CONNECTED: NO,
             Q_2_IS_2_CONDITION_WORSENED: NO,
+          },
+        };
+
+        expect(displayConditionsMet(formResponses, displayConditions)).to.be
+          .true;
+      });
+
+      it('should return true for a NONE_OF question', () => {
+        const formResponses = {
+          Q_1_1_CLAIM_DECISION: YES,
+          Q_1_2_CLAIM_DECISION: YES,
+          Q_1_3_CLAIM_CONTESTED: NO,
+          Q_2_0_CLAIM_TYPE: INIT,
+          Q_2_IS_1_SERVICE_CONNECTED: NO,
+          Q_2_IS_1A_LAW_POLICY_CHANGE: NO,
+          Q_2_IS_1B_NEW_EVIDENCE: YES,
+        };
+
+        const displayConditions = {
+          NONE_OF: {
+            Q_2_IS_1B_NEW_EVIDENCE: NO,
+            Q_2_S_1_NEW_EVIDENCE: NO,
+            Q_2_H_2_NEW_EVIDENCE: NO,
+          },
+        };
+
+        expect(displayConditionsMet(formResponses, displayConditions)).to.be
+          .true;
+      });
+
+      it('should return true for a FORK question (scenario A)', () => {
+        const formResponses = {
+          Q_1_1_CLAIM_DECISION: YES,
+          Q_1_2_CLAIM_DECISION: YES,
+          Q_1_3_CLAIM_CONTESTED: NO,
+          Q_2_0_CLAIM_TYPE: INIT,
+          Q_2_IS_1_SERVICE_CONNECTED: NO,
+          Q_2_IS_1A_LAW_POLICY_CHANGE: NO,
+          Q_2_IS_1B_NEW_EVIDENCE: NO,
+        };
+
+        const displayConditions = {
+          FORK: {
+            A: {
+              Q_2_0_CLAIM_TYPE: [INIT, SC, HLR],
+              ONE_OF: {
+                Q_2_IS_1B_NEW_EVIDENCE: NO,
+                Q_2_S_1_NEW_EVIDENCE: NO,
+                Q_2_H_2_NEW_EVIDENCE: NO,
+              },
+            },
+            B: {
+              Q_1_3A_FEWER_60_DAYS: YES,
+            },
+          },
+        };
+
+        expect(displayConditionsMet(formResponses, displayConditions)).to.be
+          .true;
+      });
+
+      it('should return true for a FORK question (scenario B)', () => {
+        const formResponses = {
+          Q_1_1_CLAIM_DECISION: YES,
+          Q_1_2_CLAIM_DECISION: YES,
+          Q_1_3_CLAIM_CONTESTED: YES,
+          Q_1_3A_FEWER_60_DAYS: YES,
+        };
+
+        const displayConditions = {
+          FORK: {
+            A: {
+              Q_2_0_CLAIM_TYPE: [INIT, SC, HLR],
+              ONE_OF: {
+                Q_2_IS_1B_NEW_EVIDENCE: NO,
+                Q_2_S_1_NEW_EVIDENCE: NO,
+                Q_2_H_2_NEW_EVIDENCE: NO,
+              },
+            },
+            B: {
+              Q_1_3A_FEWER_60_DAYS: YES,
+            },
+          },
+        };
+
+        expect(displayConditionsMet(formResponses, displayConditions)).to.be
+          .true;
+      });
+
+      it('should return true for a FORK question (scenario C)', () => {
+        const formResponses = {
+          Q_1_1_CLAIM_DECISION: YES,
+          Q_1_2_CLAIM_DECISION: YES,
+          Q_1_3_CLAIM_CONTESTED: NO,
+          Q_2_0_CLAIM_TYPE: HLR,
+          Q_2_H_1_EXISTING_BOARD_APPEAL: NO,
+          Q_2_H_2_NEW_EVIDENCE: NO,
+        };
+
+        const displayConditions = {
+          FORK: {
+            A: {
+              Q_2_0_CLAIM_TYPE: [INIT, SC, HLR],
+              ONE_OF: {
+                Q_2_IS_1B_NEW_EVIDENCE: NO,
+                Q_2_S_1_NEW_EVIDENCE: NO,
+                Q_2_H_2_NEW_EVIDENCE: NO,
+              },
+            },
+            B: {
+              Q_1_3A_FEWER_60_DAYS: YES,
+            },
           },
         };
 

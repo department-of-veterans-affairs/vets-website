@@ -1,4 +1,4 @@
-import React, { createContext } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import { Link, useLoaderData } from 'react-router-dom';
 import { Toggler } from 'platform/utilities/feature-toggles';
 import { recordDatalayerEvent } from '../../utilities/analytics';
@@ -20,9 +20,14 @@ export const ProfileContext = createContext();
 // eslint-disable-next-line import/no-mutable-exports
 export let profileUser = null;
 export const Nav = () => {
+  const [navHidden, isNavHidden] = useState('');
   const profile = useLoaderData()?.profile;
   profileUser = createContext(profile);
 
+  useEffect(() => {
+    const isAuthorized = localStorage.getItem('userAuthorized');
+    isNavHidden(isAuthorized);
+  }, []);
   return (
     <nav className="nav">
       <div className="nav__container nav__container-primary vads-u-display--flex">
@@ -75,8 +80,14 @@ export const Nav = () => {
         </div>
       </div>
 
+      {/* hidden if unauthorized */}
       {profile && (
-        <div className="nav__container-secondary" data-testid="desktop-nav-row">
+        <div
+          className={`nav__container-secondary ${
+            navHidden === 'false' ? 'vads-u-display--none' : 'is--displayed'
+          }`}
+          data-testid="desktop-nav-row"
+        >
           <div className="nav__container vads-u-display--flex">
             <Toggler
               toggleName={

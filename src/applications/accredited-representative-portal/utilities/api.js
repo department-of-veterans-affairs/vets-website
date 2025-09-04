@@ -15,6 +15,21 @@ window.appName = manifest.entryName;
 
 const API_VERSION = 'accredited_representative_portal/v0';
 
+// 403 redirect handler
+const redirectToUnauthorizedAndReturn = () => {
+  const state = store.getState();
+  const dashboardEnabled = !!toggleValues(state)[
+    FEATURE_FLAG_NAMES.accreditedRepresentativePortalDashboardLink
+  ];
+  const inAppPath = window.location.pathname.startsWith(manifest.rootUrl);
+  if (dashboardEnabled && inAppPath) {
+    window.location.replace(`${manifest.rootUrl}/dashboard?unauthorized=1`);
+    // Keep loaders pending until navigation completes to avoid UI flash
+    return new Promise(() => {});
+  }
+  return null;
+};
+
 /**
  * Enhanced API wrapper that preserves Response objects for error handling
  * while maintaining existing platform functionality where beneficial
@@ -24,6 +39,9 @@ const wrapApiRequest = fn => {
     // Set up request options similarly to platform apiRequest
     const optionsFromCaller = args[fn.length] || {};
     const [resource, optionsFromFn = {}] = fn(...args.slice(0, fn.length));
+
+    const skip403Redirect =
+      optionsFromCaller.skip403Redirect || optionsFromFn.skip403Redirect;
 
     const csrfTokenStored = localStorage.getItem('csrfToken');
 
@@ -78,26 +96,27 @@ const wrapApiRequest = fn => {
         return null;
       }
 
-      // For 403s, optionally redirect to the unauthorized dashboard view behind flag
+      // For 403s, allow opt-out of redirect for special cases
       if (response.status === 403) {
-        // Only redirect for in-app paths and when the dashboard feature is enabled
-        const state = store.getState();
-        const dashboardEnabled = !!toggleValues(state)[
-          FEATURE_FLAG_NAMES.accreditedRepresentativePortalDashboardLink
-        ];
-        const inAppPath = window.location.pathname.startsWith(manifest.rootUrl);
-
-        if (dashboardEnabled && inAppPath) {
-          window.location.replace(
-            `${manifest.rootUrl}/dashboard?unauthorized=1`,
-          );
-          return null;
+        if (skip403Redirect) {
+          throw response;
         }
+        const redirected = redirectToUnauthorizedAndReturn();
+        if (redirected) return redirected;
+        throw response;
       }
 
       // For errors, preserve the Response object
       throw response;
     } catch (err) {
+      // Mirror 403 handling when fetch throws a Response
+      if (err instanceof Response && err.status === 403) {
+        if (skip403Redirect) {
+          throw err;
+        }
+        const redirected = redirectToUnauthorizedAndReturn();
+        if (redirected) return redirected;
+      }
       // Log network-like errors to Sentry
       if (!(err instanceof Response)) {
         Sentry.withScope(scope => {
@@ -113,23 +132,9 @@ const wrapApiRequest = fn => {
 
 const api = {
   // Lightweight authorization check used by Dashboard loader
-  checkAuthorized: async () => {
-    const baseUrl = `${environment.API_URL}/${API_VERSION}`;
-    const url = `${baseUrl}/authorize_as_representative`;
-    const csrfTokenStored = localStorage.getItem('csrfToken');
-    const settings = {
-      method: 'GET',
-      credentials: 'include',
-      headers: {
-        'X-Key-Inflection': 'camel',
-        'Source-App-Name': window.appName,
-        'X-CSRF-Token': csrfTokenStored,
-        'Content-Type': 'application/json',
-      },
-    };
-
-    return fetchAndUpdateSessionExpiration(url, settings);
-  },
+  checkAuthorized: wrapApiRequest(() => {
+    return ['/authorize_as_representative'];
+  }),
   getPOARequests: wrapApiRequest(query => {
     const status = query.status ? `status=${query.status}` : '';
     const size = query.size ? `&page[size]=${query.size}` : '';

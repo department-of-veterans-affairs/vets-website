@@ -9,8 +9,10 @@ import formConfig from '../config/form';
 export default function FeedbackToolApp({ location, children }) {
   const { useFormFeatureToggleSync } = useFeatureToggle();
   useFormFeatureToggleSync([
-    // Feature toggle name & form data key will be the same
-    'giFeedbackToolVetTecEducationBenefit',
+    {
+      toggleName: 'giFeedbackToolVetTecEducationBenefit', // feature toggle name
+      formKey: 'view:giFeedbackToolVetTecEducationBenefit', // form data name
+    },
   ]);
 
   return (

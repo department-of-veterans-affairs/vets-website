@@ -10,8 +10,14 @@ import {
 import {
   VaLoadingIndicator,
   VaBreadcrumbs,
+  VaAlert,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
 import api from '../utilities/api';
+import { waitForTogglesToLoad } from '../utilities/waitForTogglesToLoad';
+import store from '../utilities/store';
 import {
   SEARCH_BC_LABEL,
   poaSearchBC,
@@ -71,8 +77,8 @@ const POARequestSearchPage = title => {
     },
     [title],
   );
-  const poaRequests = useLoaderData().data;
-  const meta = useLoaderData().meta.page;
+  const loaderData = useLoaderData();
+  const { data: poaRequests, meta = {}, showPOA403Alert } = loaderData;
   const searchStatus = searchParams.get('status');
   const selectedIndividual = searchParams.get('as_selected_individual');
   const navigation = useNavigation();
@@ -90,20 +96,57 @@ const POARequestSearchPage = title => {
       >
         Representation requests
       </h1>
-      <p className="poa-request__copy">
-        You can accept or decline representation requests (power of attorney) in
-        the Accredited Representative Portal. Requests will expire after 60
-        days. Expired requests will be removed from the portal.
-      </p>
-      <p className="poa-request__copy vads-u-margin--0">
-        <strong>Note:</strong> Claimants need to submit requests using the
-        online{' '}
-        <va-link
-          href="https://www.va.gov/get-help-from-accredited-representative/appoint-rep/introduction/"
-          text="VA Form 21-22 (on VA.gov)"
-        />
-        .
-      </p>
+      {showPOA403Alert && (
+        <VaAlert status="info" uswds visible data-testid="poa-403-info-alert">
+          <h2 slot="headline">You don’t have access to this feature</h2>
+          <div className="vads-u-margin-y--0">
+            <p className="vads-u-margin-bottom--1">
+              <strong>Veteran Service Organization representatives:</strong>{' '}
+              None of your organizations have activated the Representation
+              Request feature. If you’d like one of your organizations to
+              activate this feature, ask the VSO manager or certifying official
+              to email us at{' '}
+              <a href="mailto:RepresentativePortalHelp@va.gov">
+                RepresentativePortalHelp@va.gov
+              </a>
+              .
+            </p>
+            <p className="vads-u-margin-y--0">
+              <strong>Claims agents and attorneys:</strong> This feature is not
+              yet available for establishing representation with claims agents
+              or attorneys. We are exploring it as a future enhancement. Visit
+              our{' '}
+              <a
+                href="/representative/get-help"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                help resources
+              </a>{' '}
+              to learn more about current and upcoming features.
+            </p>
+          </div>
+        </VaAlert>
+      )}
+      {!showPOA403Alert && (
+        <>
+          <p className="poa-request__copy">
+            You can accept or decline representation requests (power of
+            attorney) in the Accredited Representative Portal. Requests will
+            expire after 60 days. Expired requests will be removed from the
+            portal.
+          </p>
+          <p className="poa-request__copy vads-u-margin--0">
+            <strong>Note:</strong> Claimants need to submit requests using the
+            online{' '}
+            <va-link
+              href="https://www.va.gov/get-help-from-accredited-representative/appoint-rep/introduction/"
+              text="VA Form 21-22 (on VA.gov)"
+            />
+            .
+          </p>
+        </>
+      )}
 
       <div className="poa-requests-page-table-container">
         <div role="tablist" className="poa-request__tabs">
@@ -217,7 +260,15 @@ POARequestSearchPage.propTypes = {
   title: PropTypes.string,
 };
 
-POARequestSearchPage.loader = ({ request }) => {
+POARequestSearchPage.loader = async ({ request }) => {
+  // Hydrate feature toggles and check flag directly
+  await connectFeatureToggle(store.dispatch);
+  await waitForTogglesToLoad();
+  const state = store.getState();
+  const enabled = !!toggleValues(state)[
+    FEATURE_FLAG_NAMES.accreditedRepresentativePortalDashboardLink
+  ];
+
   const { searchParams } = new URL(request.url);
   const status = searchParams.get(SEARCH_PARAMS.STATUS);
   const sort = searchParams.get(SEARCH_PARAMS.SORTORDER);
@@ -242,12 +293,30 @@ POARequestSearchPage.loader = ({ request }) => {
     throw redirect(`?${searchParams}`);
   }
 
-  return api.getPOARequests(
-    { status, sort, size, number, sortBy, selectedIndividual },
-    {
-      signal: request.signal,
-    },
-  );
+  try {
+    return await api.getPOARequests(
+      { status, sort, size, number, sortBy, selectedIndividual },
+      {
+        signal: request.signal,
+        skip403Redirect: true,
+      },
+    );
+  } catch (err) {
+    if (err instanceof Response && err.status === 403 && enabled) {
+      // Try authorization endpoint
+      try {
+        await api.checkAuthorized({
+          signal: request.signal,
+        });
+        // If authorized as a representative, show alert and empty data
+        return { data: [], meta: {}, showPOA403Alert: true };
+      } catch (authErr) {
+        // If not authorized, let the redirect/throw happen as usual
+        throw err;
+      }
+    }
+    throw err;
+  }
 };
 
 export default POARequestSearchPage;
