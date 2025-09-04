@@ -2,6 +2,7 @@ import React from 'react';
 import { datadogRum } from '@datadog/browser-rum';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
+import Cookies from 'js-cookie';
 import {
   VaCriticalAction,
   VaLink,
@@ -20,7 +21,12 @@ const ledeContent = `Welcome. You can now manage your health care
   here on VA.gov. Here, you’ll find new, improved versions of your trusted
   health tools and more features.`;
 
-const HeaderLayout = ({ showWelcomeMessage = false, isCerner = false }) => (
+const HeaderLayout = ({
+  showWelcomeMessage = false,
+  isCerner = false,
+  displayCriticalActionConfirmEmailLink = () =>
+    Cookies.get('CONTACT_EMAIL_CONFIRMED') !== 'true',
+}) => (
   <>
     <div
       className={classnames(
@@ -40,11 +46,13 @@ const HeaderLayout = ({ showWelcomeMessage = false, isCerner = false }) => (
           </div>
         </div>
         <div>
-          <VaCriticalAction
-            link="/profile/contact-information#contact-email-address"
-            text="Confirm your contact email address to keep getting VA notifications"
-            data-testid="va-profile--confirm-contact-email-link"
-          />
+          {displayCriticalActionConfirmEmailLink() && (
+            <VaCriticalAction
+              link="/profile/contact-information#contact-email-address"
+              text="Confirm your contact email address to keep getting VA notifications"
+              data-testid="va-profile--confirm-contact-email-link"
+            />
+          )}
         </div>
         <div>
           <p className="vads-u-font-family--serif vads-u-line-height--5 medium-screen:vads-u-font-size--lg medium-screen:vads-u-line-height--6 vads-u-margin-top--1 vads-u-margin-bottom--2">
@@ -111,6 +119,7 @@ const HeaderLayout = ({ showWelcomeMessage = false, isCerner = false }) => (
 );
 
 HeaderLayout.propTypes = {
+  displayCriticalActionConfirmEmailLink: PropTypes.func,
   isCerner: PropTypes.bool,
   showMhvGoBack: PropTypes.bool,
   showWelcomeMessage: PropTypes.bool,
