@@ -85,6 +85,10 @@
       {
         "name": "sync_modern_0781_flow",
         "value": true
+      },
+      {
+        "name": "disability_compensation_toxic_exposure_opt_out_data_purge",
+        "value": false
       }
     ]
   }
