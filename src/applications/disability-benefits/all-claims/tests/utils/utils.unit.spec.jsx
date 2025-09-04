@@ -1124,7 +1124,7 @@ describe('526 v2 depends functions', () => {
       expect(
         showToxicExposureOptOutDataPurge({
           featureToggles: {
-            disabilityCompensationToxicExposureOptOutDataPurge: true,
+            disability526ToxicExposureOptOutDataPurge: true,
           },
         }),
       ).to.be.true;
@@ -1133,7 +1133,7 @@ describe('526 v2 depends functions', () => {
       expect(
         showToxicExposureOptOutDataPurge({
           featureToggles: {
-            disabilityCompensationToxicExposureOptOutDataPurge: false,
+            disability526ToxicExposureOptOutDataPurge: false,
           },
         }),
       ).to.be.false;

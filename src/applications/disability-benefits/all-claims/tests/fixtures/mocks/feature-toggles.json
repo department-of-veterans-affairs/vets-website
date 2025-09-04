@@ -23,6 +23,10 @@
         "value": true
       },
       {
+        "name": "disability_526_toxic_exposure_opt_out_data_purge",
+        "value": false
+      },
+      {
         "name": "disability_compensation_toxic_exposure_opt_out_data_purge",
         "value": false
       }
