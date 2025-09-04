@@ -66,6 +66,7 @@ const formConfig = {
     reviewTitle: 'Review and submit',
   },
   title: TITLE,
+  hideFormTitle: true,
   downtime: {
     dependencies: [
       externalServices.mvi,
