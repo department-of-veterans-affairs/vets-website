@@ -22,11 +22,7 @@ import {
   pageTitles,
 } from '../util/constants';
 import { createSession, postCreateAAL } from '../api/MrApi';
-import {
-  selectVaccinesFlag,
-  selectVitalsFlag,
-  selectMarch17UpdatesFlag,
-} from '../util/selectors';
+import { selectVitalsFlag, selectMarch17UpdatesFlag } from '../util/selectors';
 import ExternalLink from '../components/shared/ExternalLink';
 import useAcceleratedData from '../hooks/useAcceleratedData';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
@@ -48,7 +44,6 @@ const SHARE_PERSONAL_HEALTH_DATA_WITH_YOUR_CARE_TEAM =
 const LandingPage = () => {
   const dispatch = useDispatch();
   const fullState = useSelector(state => state);
-  const displayVaccines = useSelector(selectVaccinesFlag);
   const displayVitals = useSelector(selectVitalsFlag);
   const displayMarch17Updates = useSelector(selectMarch17UpdatesFlag);
   const killExternalLinks = useSelector(
@@ -197,28 +192,26 @@ const LandingPage = () => {
               </Link>
             </>
           </section>
-          {displayVaccines && (
-            <section>
-              <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
-                Vaccines
-              </h2>
-              <p className="vads-u-margin-bottom--2">
-                Get a list of all vaccines (immunizations) in your VA medical
-                records.
-              </p>
-              <Link
-                to="/vaccines"
-                className="vads-c-action-link--blue"
-                data-testid="vaccines-landing-page-link"
-                onClick={() => {
-                  sendAalViewList('Vaccines');
-                  sendDataDogAction(VACCINES_LABEL);
-                }}
-              >
-                {VACCINES_LABEL}
-              </Link>
-            </section>
-          )}
+          <section>
+            <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+              Vaccines
+            </h2>
+            <p className="vads-u-margin-bottom--2">
+              Get a list of all vaccines (immunizations) in your VA medical
+              records.
+            </p>
+            <Link
+              to="/vaccines"
+              className="vads-c-action-link--blue"
+              data-testid="vaccines-landing-page-link"
+              onClick={() => {
+                sendAalViewList('Vaccines');
+                sendDataDogAction(VACCINES_LABEL);
+              }}
+            >
+              {VACCINES_LABEL}
+            </Link>
+          </section>
           <section>
             <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
               Allergies and reactions
