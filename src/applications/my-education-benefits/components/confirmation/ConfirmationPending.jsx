@@ -47,7 +47,7 @@ const ConfirmationPending = ({
       <va-summary-box class="vads-u-margin-y--3">
         <h3
           slot="headline"
-          className="vads-u-margin-top--neg0p5 vads-u-margin-bottom--0"
+          className="vads-u-margin-top--neg1 vads-u-margin-bottom--0"
         >
           Application for VA education benefits (Form 22-1990)
         </h3>
