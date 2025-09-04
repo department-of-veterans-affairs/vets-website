@@ -5,11 +5,11 @@ import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import SubmitHelper from '../components/SubmitHelper';
 import formConfig from '../config/form';
-import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
+import { useMonitoring } from '../hooks/useBrowserMonitoring';
 
 export default function App({ location, children }) {
-  useBrowserMonitoring();
-  
+  useMonitoring();
+
   return (
     <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0 discover-your-benefits">
       <VaBreadcrumbs
