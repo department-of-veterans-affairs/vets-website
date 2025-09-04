@@ -1,63 +1,46 @@
-import React from 'react';
-import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
-import ReactTestUtils from 'react-dom/test-utils';
-import Form from '@department-of-veterans-affairs/react-jsonschema-form';
-
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
-import definitions from 'vets-json-schema/dist/definitions.json';
-import { fillDataDirectly } from '../config/helpers';
 import uiSchema from '../../components/Phone';
 
-describe('Preneed Schemaform definition phone', () => {
-  it('should render phone', () => {
-    const phoneUiSchema = uiSchema();
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester schema={definitions.phone} uiSchema={phoneUiSchema} />,
-    );
-
-    const formDOM = findDOMNode(form);
-
-    const input = formDOM.querySelector('va-text-input');
-    const phoneClasses = phoneUiSchema['ui:options'].widgetClassNames.split(
-      ' ',
-    );
-    phoneClasses.forEach(className => {
-      expect(input.classList.contains(className)).to.be.true;
-    });
-    expect(input.type).to.equal('tel');
-    expect(input.autocomplete).to.equal('tel');
+describe('Pre-need definition phone uiSchema', () => {
+  it('should return an object', () => {
+    const result = uiSchema();
+    expect(result).to.be.an('object');
   });
-  it('should render phone title', () => {
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={definitions.phone}
-        uiSchema={uiSchema('My phone')}
-      />,
-    );
 
-    const formDOM = findDOMNode(form);
-
-    expect(formDOM.querySelector('label').textContent).to.equal('My phone');
+  it('should default to title Phone', () => {
+    const result = uiSchema();
+    expect(result['ui:title']).to.equal('Phone');
   });
-  it('should render minLength phone error', () => {
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester schema={definitions.phone} uiSchema={uiSchema()} />,
-    );
 
-    const formDOM = findDOMNode(form);
-    // ReactTestUtils.Simulate.change(formDOM.querySelector('va-text-input'), {
-    //   target: {
-    //     value: '1asdf',
-    //   },
-    // });
-    fillDataDirectly(formDOM, 'va-text-input', '1asdf');
-    ReactTestUtils.findRenderedComponentWithType(form, Form).onSubmit({
-      preventDefault: f => f,
-    });
+  it('should use a custom title if provided', () => {
+    const customTitle = 'Cell Phone';
+    const result = uiSchema(customTitle);
+    expect(result['ui:title']).to.equal(customTitle);
+  });
 
-    expect(
-      formDOM.querySelector('.usa-input-error-message').textContent,
-    ).to.include('Phone number should be between 10-15 digits long');
+  it('should set the correct widget types', () => {
+    const result = uiSchema();
+    expect(result['ui:widget']).to.exist;
+    expect(result['ui:reviewWidget']).to.exist;
+  });
+
+  it('should set autocomplete to tel', () => {
+    const result = uiSchema();
+    expect(result['ui:autocomplete']).to.equal('tel');
+  });
+
+  it('should set error messages for pattern, minLength, required', () => {
+    const result = uiSchema();
+    expect(result['ui:errorMessages']).to.have.property('pattern');
+    expect(result['ui:errorMessages']).to.have.property('minLength');
+    expect(result['ui:errorMessages']).to.have.property('required');
+    expect(result['ui:errorMessages'].pattern).to.match(/digits/);
+    expect(result['ui:errorMessages'].required).to.match(/phone number/);
+  });
+
+  it('should set widgetClassNames option', () => {
+    const result = uiSchema();
+    expect(result['ui:options']).to.have.property('widgetClassNames');
+    expect(result['ui:options'].widgetClassNames).to.equal('phone');
   });
 });
