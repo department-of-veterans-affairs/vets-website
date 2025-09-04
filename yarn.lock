@@ -2879,10 +2879,10 @@
     "@uswds/uswds" "^3.9.0"
     rimraf "^5.0.5"
 
-"@department-of-veterans-affairs/eslint-plugin@^1.19.0":
-  version "1.19.0"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/eslint-plugin/-/eslint-plugin-1.19.0.tgz#995163c28945d1720d2ab4d7c77351ee193ce69d"
-  integrity sha512-PB8zcHPZ4oMwmG30MyGHygqeK+1X3FWOSJR3t0+WUrMdQH2dMz7HXGWCV/GH/S2jXrj0lI9L1dITduNHK5cJvg==
+"@department-of-veterans-affairs/eslint-plugin@^1.20.0":
+  version "1.20.0"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/eslint-plugin/-/eslint-plugin-1.20.0.tgz#8d284e707638fe1cd938ad3e83aa3c666c8a7787"
+  integrity sha512-/JyJ6tEeWMTOhBPSa88PE4bCgXGBqLHs6L5kJnh15F5GjNT85ilKuJ3QlPKlIwCEnOTv/4F2kHtnbW3sNgg/Gg==
   dependencies:
     has-proto "^1.2.0"
     jsx-ast-utils "^3.3.3"
