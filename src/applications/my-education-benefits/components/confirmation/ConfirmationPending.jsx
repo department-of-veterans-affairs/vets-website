@@ -44,7 +44,7 @@ const ConfirmationPending = ({
         </p>
       </va-alert>
 
-      <va-summary-box class="vads-u-margin-y--3">
+      <va-summary-box class="vads-u-margin-y--3 vads-u-padding-top--1">
         <h3
           slot="headline"
           className="vads-u-margin-top--neg1 vads-u-margin-bottom--0"
