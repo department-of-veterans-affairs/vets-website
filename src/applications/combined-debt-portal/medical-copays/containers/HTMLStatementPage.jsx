@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
-
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { format, isValid } from 'date-fns';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
+
 import { setPageFocus } from '../../combined/utils/helpers';
 import Modals from '../../combined/components/Modals';
 import StatementAddresses from '../components/StatementAddresses';
@@ -17,6 +18,11 @@ import FinancialHelp from '../components/FinancialHelp';
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 
 const HTMLStatementPage = ({ match }) => {
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const showOneThingPerPage = useToggleValue(
+    TOGGLE_NAMES.showCDPOneThingPerPage,
+  );
+
   const selectedId = match.params.id;
   const combinedPortalData = useSelector(state => state.combinedPortal);
   const statements = combinedPortalData.mcp.statements ?? [];
@@ -76,35 +82,71 @@ const HTMLStatementPage = ({ match }) => {
         <p className="va-introtext" data-testid="facility-name">
           {`${selectedCopay?.station.facilityName}`}
         </p>
-        <va-on-this-page />
-        <AccountSummary
-          currentBalance={selectedCopay.pHNewBalance}
-          newCharges={selectedCopay.pHTotCharges}
-          paymentsReceived={selectedCopay.pHTotCredits}
-          previousBalance={selectedCopay.pHPrevBal}
-          statementDate={statementDate}
-          acctNum={acctNum}
-        />
-        <StatementCharges
-          data-testid="statement-charges"
-          copay={selectedCopay}
-        />
-        <div className="vads-u-margin-top--3">
-          <DownloadStatement
-            key={selectedId}
-            statementId={selectedId}
-            statementDate={selectedCopay.pSStatementDate}
-            fullName={fullName}
-          />
-        </div>
-        <StatementAddresses
-          data-testid="statement-addresses"
-          copay={selectedCopay}
-        />
-        <HowToPay acctNum={acctNum} facility={selectedCopay?.station} />
-        <FinancialHelp />
-        <DisputeCharges />
-        <BalanceQuestions />
+        {showOneThingPerPage ? (
+          <>
+            <AccountSummary
+              acctNum={acctNum}
+              currentBalance={selectedCopay.pHNewBalance}
+              newCharges={selectedCopay.pHTotCharges}
+              paymentsReceived={selectedCopay.pHTotCredits}
+              previousBalance={selectedCopay.pHPrevBal}
+              showOneThingPerPage={showOneThingPerPage}
+              statementDate={statementDate}
+            />
+            <StatementCharges
+              data-testid="statement-charges"
+              copay={selectedCopay}
+              showOneThingPerPage={showOneThingPerPage}
+            />
+            <DownloadStatement
+              key={selectedId}
+              statementId={selectedId}
+              statementDate={selectedCopay.pSStatementDate}
+              fullName={fullName}
+            />
+            <StatementAddresses
+              data-testid="statement-addresses"
+              copay={selectedCopay}
+            />
+            <p>
+              <strong>Note:</strong> If your address has changed, call{' '}
+              <va-telephone contact="8662602614" />.
+            </p>
+          </>
+        ) : (
+          <>
+            <va-on-this-page />
+            <AccountSummary
+              currentBalance={selectedCopay.pHNewBalance}
+              newCharges={selectedCopay.pHTotCharges}
+              paymentsReceived={selectedCopay.pHTotCredits}
+              previousBalance={selectedCopay.pHPrevBal}
+              statementDate={statementDate}
+              acctNum={acctNum}
+            />
+            <StatementCharges
+              data-testid="statement-charges"
+              copay={selectedCopay}
+              showOneThingPerPage={showOneThingPerPage}
+            />
+            <div className="vads-u-margin-top--3">
+              <DownloadStatement
+                key={selectedId}
+                statementId={selectedId}
+                statementDate={selectedCopay.pSStatementDate}
+                fullName={fullName}
+              />
+            </div>
+            <StatementAddresses
+              data-testid="statement-addresses"
+              copay={selectedCopay}
+            />
+            <HowToPay acctNum={acctNum} facility={selectedCopay?.station} />
+            <FinancialHelp />
+            <DisputeCharges />
+            <BalanceQuestions />
+          </>
+        )}
         <Modals title="Notice of rights and responsibilities">
           <Modals.Rights />
         </Modals>

@@ -4,6 +4,7 @@ const APPLICATION_FEATURE_TOGGLES = Object.freeze({
   mhvVaHealthChatEnabled: false,
   mhvLandingPagePersonalization: false,
   travelPayPowerSwitch: false,
+  mhvSupplyReorderingEnabled: true,
 });
 
 const generateFeatureToggles = ({

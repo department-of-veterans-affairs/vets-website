@@ -106,6 +106,7 @@
       "postalCode": "12312"
     },
     "sponsorPhone": "5552223333",
+    "sponsorEmail": "sponsor@email.gov",
     "sponsorIsDeceased": true,
     "sponsorDOD": "2001-01-01",
     "sponsorDeathConditions": false,

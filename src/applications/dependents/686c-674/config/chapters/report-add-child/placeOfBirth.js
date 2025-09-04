@@ -24,6 +24,13 @@ export const placeOfBirth = {
             required: 'Enter the city where the child was born',
           },
           'ui:webComponentField': VaTextInputField,
+          'ui:validations': [
+            (errors, city) => {
+              if (city?.length > 30) {
+                errors.addError('City must be 30 characters or less');
+              }
+            },
+          ],
         },
         state: {
           'ui:title': 'State',

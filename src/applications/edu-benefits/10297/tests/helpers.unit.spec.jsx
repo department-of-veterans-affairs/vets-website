@@ -11,9 +11,23 @@ import {
   getCardDescription,
   validateWithin180Days,
   validateTrainingProviderStartDate,
+  ConfirmationSubmissionAlert,
 } from '../helpers';
 
 describe('10297 Helpers', () => {
+  describe('<ConfirmationSubmissionAlert />', () => {
+    it('shows submission alert section', () => {
+      const confirmationNumber = '1234567890';
+
+      const { container } = render(
+        <ConfirmationSubmissionAlert confirmationNumber={confirmationNumber} />,
+      );
+
+      // Confirmation Number
+      expect(container.innerHTML).to.include('1234567890');
+    });
+  });
+
   describe('<ConfirmationWhatsNextProcessList />', () => {
     it('shows process list section', () => {
       const { container } = render(<ConfirmationWhatsNextProcessList />);
@@ -248,7 +262,7 @@ describe('10297 Helpers', () => {
       validateTrainingProviderStartDate(errors, '2025-01-01');
       expect(errors.addError.calledOnce).to.be.true;
       expect(errors.addError.firstCall.args[0]).to.match(
-        /Training must start/i,
+        /Enter a date after 1\/2\/2025/i,
       );
     });
 

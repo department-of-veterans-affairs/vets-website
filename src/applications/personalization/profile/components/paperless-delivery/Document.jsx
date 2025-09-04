@@ -46,7 +46,7 @@ export const Document = ({ document }) => {
   });
 
   const handleChange = e => {
-    const newValue = e.target.checked;
+    const newValue = e.detail.checked;
     if (newValue === isAllowed) {
       return;
     }

@@ -82,7 +82,7 @@ const WebChat = ({ token, code, webChatFramework }) => {
   });
 
   clearBotSessionStorageEventListener(isLoggedIn);
-  signOutEventListener();
+  signOutEventListener(isLoggedIn);
 
   const directLine = useDirectLine(createDirectLine, token, isLoggedIn);
 

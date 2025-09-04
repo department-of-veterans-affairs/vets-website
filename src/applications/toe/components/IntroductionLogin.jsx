@@ -40,11 +40,11 @@ function IntroductionLogin({
   if (showMeb1990ER6MaintenanceMessage) {
     // Message for the R6 maintenance period
     maintenanceMessage =
-      'We’re currently making updates to the My Education Benefits platform. We apologize for the inconvenience. Please check back soon.';
+      'We are currently performing system updates. Please come back after 6:00 a.m. ET on Monday, July 28 when the application will be back up and running. Thank you for your patience while we continue improving our systems to provide faster, more convenient service to GI Bill beneficiaries.';
   } else if (shouldShowMaintenanceAlert) {
     // General maintenance message
     maintenanceMessage =
-      'We are currently performing system updates. Please come back after 6:00 a.m. ET on Monday, July 28 when the application will be back up and running. Thank you for your patience while we continue improving our systems to provide faster, more convenient service to GI Bill beneficiaries.';
+      'We’re currently making updates to the My Education Benefits platform. We apologize for the inconvenience. Please check back soon.';
   }
   return (
     <>

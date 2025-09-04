@@ -1,5 +1,5 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
-import { AXE_CONTEXT, Paths, Data } from '../utils/constants';
+import { AXE_CONTEXT, Paths } from '../utils/constants';
 import PilotEnvPage from '../pages/PilotEnvPage';
 import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 import PatientComposePage from '../pages/PatientComposePage';
@@ -12,17 +12,21 @@ describe('SM PILOT NEW MESSAGE', () => {
     },
   ]);
 
-  it('verify url by direct navigation', () => {
+  it('redirects to interstitial page after direct navigation', () => {
     SecureMessagingSite.login(updatedFeatureToggles);
     PilotEnvPage.loadInboxMessages();
 
     cy.visit(`${Paths.UI_MAIN}/new-message/select-care-team`);
-    GeneralFunctionsPage.verifyPageHeader(Data.HCS_SELECT);
+    GeneralFunctionsPage.verifyPageHeader(
+      'Only use messages for non-urgent needs',
+    );
 
     PatientComposePage.interceptSentFolder();
 
     cy.visit(`${Paths.UI_MAIN}/new-message/start-message`);
-    GeneralFunctionsPage.verifyPageHeader('Start message');
+    GeneralFunctionsPage.verifyPageHeader(
+      'Only use messages for non-urgent needs',
+    );
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });

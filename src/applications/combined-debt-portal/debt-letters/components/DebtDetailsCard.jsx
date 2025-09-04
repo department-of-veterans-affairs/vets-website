@@ -5,10 +5,12 @@ import PropTypes from 'prop-types';
 // import { setActiveDebt } from '../../combined/actions/debts';
 import { format, isValid } from 'date-fns';
 import recordEvent from '~/platform/monitoring/record-event';
+import { useHistory } from 'react-router-dom';
 import { getDebtDetailsCardContent } from '../const/diary-codes/debtDetailsCardContent';
 import { currency } from '../utils/page';
 
 const DebtDetailsCard = ({ debt, showOTPP }) => {
+  const history = useHistory();
   const dates = debt?.debtHistory?.map(m => new Date(m.date)) ?? [];
   const sortedHistory = dates.sort((a, b) => Date.parse(b) - Date.parse(a));
   const mostRecentDate = isValid(head(sortedHistory))
@@ -38,11 +40,16 @@ const DebtDetailsCard = ({ debt, showOTPP }) => {
 
       {debtCardContent.showLinks && (
         <va-link-action
-          href={`/manage-va-debt/summary/debt-balances/details/${
-            debt.compositeDebtId
-          }/resolve`}
           data-testid="link-resolve"
-          text="Pay your balance, request financial help, or dispute this bill"
+          href={`/debt-balances/details/${debt.compositeDebtId}/resolve`}
+          onClick={event => {
+            event.preventDefault();
+            recordEvent({ event: 'cta-link-click-debt-details-card' });
+            history.push(
+              `/debt-balances/details/${debt.compositeDebtId}/resolve`,
+            );
+          }}
+          text="Pay your balance, request financial help, or dispute this overpayment"
           type="primary"
         />
       )}

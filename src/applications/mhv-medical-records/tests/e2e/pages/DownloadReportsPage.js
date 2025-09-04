@@ -16,7 +16,7 @@ class DownloadReportsPage {
   };
 
   verifyCcdDownloadXmlFileButton = () => {
-    cy.get('[data-testid="generateCcdButton"]').should('be.visible');
+    cy.get('[data-testid="generateCcdButtonXml"]').should('be.visible');
   };
 
   clickCcdDownloadXmlFileButton = (
@@ -36,7 +36,7 @@ class DownloadReportsPage {
         },
         body: xmlBody,
       }).as('getXml');
-      cy.get('[data-testid="generateCcdButton"]').click();
+      cy.get('[data-testid="generateCcdButtonXml"]').click();
       cy.wait('@ccdGenerateResponse');
       cy.wait('@getXml');
     });
@@ -48,7 +48,7 @@ class DownloadReportsPage {
       '/my_health/v1/medical_records/ccd/generate',
       ccdGenerateResponse,
     ).as('ccdGenerateResponse');
-    cy.get('[data-testid="generateCcdButton"]').click();
+    cy.get('[data-testid="generateCcdButtonXml"]').click();
     cy.wait('@ccdGenerateResponse');
   };
 

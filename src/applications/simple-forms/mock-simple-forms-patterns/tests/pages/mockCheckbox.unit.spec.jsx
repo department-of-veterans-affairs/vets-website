@@ -3,7 +3,7 @@ import {
   testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfFields,
   testNumberOfWebComponentFields,
-} from '../../../shared/tests/pages/pageTests.spec';
+} from 'platform/forms-system/test/pageTestHelpers.spec';
 import formConfig from '../../config/form';
 
 const { schema, uiSchema } = formConfig.chapters.checkbox.pages.checkbox;

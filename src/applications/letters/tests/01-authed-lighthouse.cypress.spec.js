@@ -29,7 +29,7 @@ describe('Authed Letter Test', () => {
     cy.injectAxeThenAxeCheck();
     cy.title().should(
       'contain',
-      'Download VA Letters and Documents | Veterans Affairs',
+      'Your VA benefit letters and documents | Veterans Affairs',
     );
     cy.get('.letters', { timeout: Timeouts.slow }).should('be.visible');
 

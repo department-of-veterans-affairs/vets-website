@@ -2,6 +2,7 @@ import { Actions } from '../util/actionTypes';
 import { updateMessageInThread, updateDrafts } from '../util/helpers';
 
 const initialState = {
+  acceptInterstitial: false,
   drafts: [],
   messages: undefined,
   isLoading: false,
@@ -19,6 +20,9 @@ const initialState = {
     careSystemName: null,
     careSystemVhaId: null,
     attachments: [],
+    navigationError: null,
+    saveError: null,
+    savedDraft: false,
   },
 };
 
@@ -27,6 +31,7 @@ export const threadDetailsReducer = (state = initialState, action) => {
     case Actions.Thread.GET_THREAD:
       return {
         ...initialState,
+        acceptInterstitial: state.acceptInterstitial,
         draftInProgress: { ...state.draftInProgress },
         ...action.payload,
       };
@@ -82,6 +87,10 @@ export const threadDetailsReducer = (state = initialState, action) => {
             lastSaveTime: Date.now(),
           },
         ],
+        draftInProgress: {
+          ...state.draftInProgress,
+          messageId: action.response.data.attributes.messageId,
+        },
         isSaving: false,
         saveError: null,
         lastSaveTime: Date.now(),
@@ -121,6 +130,7 @@ export const threadDetailsReducer = (state = initialState, action) => {
     case Actions.Thread.CLEAR_THREAD:
       return {
         ...initialState,
+        acceptInterstitial: state.acceptInterstitial,
         draftInProgress: { ...state.draftInProgress },
       };
     case Actions.Thread.CANNOT_REPLY_ALERT: {
@@ -144,6 +154,13 @@ export const threadDetailsReducer = (state = initialState, action) => {
           ...initialState.draftInProgress,
         },
       };
+
+    case Actions.Draft.SET_ACCEPT_INTERSTITIAL: {
+      return {
+        ...state,
+        acceptInterstitial: action.payload,
+      };
+    }
 
     default:
       return state;
