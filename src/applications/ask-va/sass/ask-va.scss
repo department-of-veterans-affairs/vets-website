@@ -82,7 +82,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  height: calc(1.5em * 1);
+  height: calc(1.5rem * 1);
   line-height: 1.5;
   font-size: 16px;
 }
@@ -93,7 +93,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  height: calc(1.2em * 2);
+  height: calc(1.2rem * 2);
   line-height: 1.5;
   font-size: 16px;
 }
@@ -104,7 +104,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  height: calc(1.5em * 3);
+  height: calc(1.5rem * 3);
   line-height: 1.5;
   font-size: 16px;
 }
@@ -391,12 +391,8 @@ ul.react-tabs__tab-list {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 375px;
+  height: 100%;
   padding: 24px;
-
-  @include media($medium-screen) {
-    height: 365px;
-  }
 }
 
 .vacardCategory {
@@ -420,12 +416,10 @@ ul.react-tabs__tab-list {
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  height: calc(1.5em * 3.75);
   line-height: 1.5;
   font-size: 16px;
   box-sizing: border-box;
   padding-top: 0px;
-  padding-bottom: 70px;
   margin-top: 0px;
 }
 
