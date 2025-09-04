@@ -318,7 +318,7 @@ export const convertUnifiedCareSummariesAndNotesRecord = record => {
     location: record.attributes.location || EMPTY_FIELD,
     note,
     dischargedBy: record.attributes.writtenBy || EMPTY_FIELD, // This is mapped to the author
-    summary: record.attributes.note || EMPTY_FIELD, // record.attributes.note
+    summary: note || EMPTY_FIELD,
     admittedBy: getAttending(note) || EMPTY_FIELD,
     dischargedDate,
     admissionDate,
@@ -361,7 +361,7 @@ export const careSummariesAndNotesReducer = (state = initialState, action) => {
         data
           ?.map(note => {
             return convertUnifiedCareSummariesAndNotesRecord(note);
-          }) // .filter(record => record.type !== noteTypes.OTHER)
+          })
           .sort((a, b) => {
             if (!a.sortByDate) return 1; // Push nulls to the end
             if (!b.sortByDate) return -1; // Keep non-nulls at the front

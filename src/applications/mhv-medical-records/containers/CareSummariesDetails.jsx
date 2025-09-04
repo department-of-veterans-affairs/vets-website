@@ -14,6 +14,7 @@ import {
   loincCodes,
   pageTitles,
   statsdFrontEndActions,
+  noteTypes,
 } from '../util/constants';
 import useAlerts from '../hooks/use-alerts';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
@@ -61,13 +62,22 @@ const CareSummariesDetails = () => {
       />
     );
   }
-  if (careSummary?.type === loincCodes.DISCHARGE_SUMMARY) {
+  const isDischargeSummary =
+    careSummary?.type === noteTypes.DISCHARGE_SUMMARY ||
+    careSummary?.type === loincCodes.DISCHARGE_SUMMARY;
+  if (isDischargeSummary) {
     return <AdmissionAndDischargeDetails record={careSummary} />;
   }
-  if (
-    careSummary?.type === loincCodes.PHYSICIAN_PROCEDURE_NOTE ||
-    careSummary?.type === loincCodes.CONSULT_RESULT
-  ) {
+
+  const isPhysicianProcedureNote =
+    careSummary?.type === noteTypes.PHYSICIAN_PROCEDURE_NOTE ||
+    careSummary?.type === loincCodes.PHYSICIAN_PROCEDURE_NOTE;
+
+  const isConsultResult =
+    careSummary?.type === noteTypes.CONSULT_RESULT ||
+    careSummary?.type === loincCodes.CONSULT_RESULT;
+
+  if (isPhysicianProcedureNote || isConsultResult) {
     return <ProgressNoteDetails record={careSummary} />;
   }
   return (
