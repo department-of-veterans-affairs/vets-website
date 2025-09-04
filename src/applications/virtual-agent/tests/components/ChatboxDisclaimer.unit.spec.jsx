@@ -51,30 +51,6 @@ describe('ChatboxDisclaimer', () => {
       expect(getByTestId('disclaimer')).to.exist;
       expect($('#btnAcceptDisclaimer', container)).to.exist;
     });
-    it('should show AI disclaimer when toggle is enabled', () => {
-      const mockStore = getMockStore({ virtualAgentShowAiDisclaimer: true });
-      sandbox.stub(ReactReduxModule, 'useDispatch');
-
-      const { getByText } = render(
-        <Provider store={mockStore}>
-          <ChatboxDisclaimer />
-        </Provider>,
-      );
-
-      expect(getByText(/This answer is AI-generated/)).to.exist;
-    });
-    it('should not show AI disclaimer when toggle is disabled', () => {
-      const mockStore = getMockStore({ virtualAgentShowAiDisclaimer: false });
-      sandbox.stub(ReactReduxModule, 'useDispatch');
-
-      const { queryByText } = render(
-        <Provider store={mockStore}>
-          <ChatboxDisclaimer />
-        </Provider>,
-      );
-
-      expect(queryByText(/This answer is AI-generated/)).to.not.exist;
-    });
     it('should clear session storage and dispatch with type: ACCEPTED when the start chat button is clicked', () => {
       const clearBotSessionStorageStub = sandbox.stub(
         SessionStorageModule,

@@ -1,9 +1,9 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
-import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { clearBotSessionStorage } from '../utils/sessionStorage';
 import { ACCEPTED } from '../reducers';
+import AiDisclaimer from './AiDisclaimer';
 
 function onClick(dispatch) {
   recordEvent({
@@ -19,26 +19,10 @@ function onClick(dispatch) {
 }
 
 function Disclaimer() {
-  const {
-    useToggleValue,
-    TOGGLE_NAMES,
-    useToggleLoadingValue,
-  } = useFeatureToggle();
-
-  const isToggleLoading = useToggleLoadingValue();
-  const isEnabled = useToggleValue(TOGGLE_NAMES.virtualAgentShowAiDisclaimer);
-
-  const showAiDisclaimer = useMemo(
-    () => {
-      return isEnabled && !isToggleLoading;
-    },
-    [isEnabled, isToggleLoading],
-  );
-
   return (
     <ul>
       <li>
-        Our chatbot can’t help you if you’re experiencing a personal, medical,
+        Our chatbot can't help you if you're experiencing a personal, medical,
         or mental health emergency. Go to the nearest emergency room, dial 988
         and press 1 for mental health support, or call 911 to get medical care
         right away.
@@ -48,15 +32,10 @@ function Disclaimer() {
         </a>
       </li>
       <li>
-        Please don’t type any personal information such as your name, address,
+        Please don't type any personal information such as your name, address,
         or anything else that can be used to identify you.
       </li>
-      {showAiDisclaimer && (
-        <li>
-          This answer is AI-generated and it may contain inaccuracies. Please
-          verify any important information.
-        </li>
-      )}
+      <AiDisclaimer />
     </ul>
   );
 }
