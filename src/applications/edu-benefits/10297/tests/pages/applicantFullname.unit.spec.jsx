@@ -24,6 +24,17 @@ describe('22-10297 Enter your full name page', () => {
 
     expect(container.querySelectorAll('va-text-input').length).to.equal(3);
   });
+  it('should render alert if age is over 62', () => {
+    const { getByText } = render(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{ dateOfBirth: '1950-01-01' }}
+        definitions={formConfig.defaultDefinitions}
+      />,
+    );
+    expect(getByText(/You may not qualify/i)).to.exist;
+  });
 
   it('renders error messages for each required field', async () => {
     const { container, getByRole } = render(
