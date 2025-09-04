@@ -11,7 +11,7 @@ import { acceptInterstitial } from '../actions/threadDetails';
 const InterstitialPage = props => {
   const { type } = props;
   const history = useHistory();
-  const { cernerPilotSmFeatureFlag } = featureToggles();
+  const { mhvSecureMessagingCuratedListFlow } = featureToggles();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -35,11 +35,11 @@ const InterstitialPage = props => {
   const handleContinueButton = useCallback(
     () => {
       dispatch(acceptInterstitial());
-      if (cernerPilotSmFeatureFlag && type !== 'reply') {
+      if (mhvSecureMessagingCuratedListFlow && type !== 'reply') {
         history.push(`${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`);
       }
     },
-    [history, cernerPilotSmFeatureFlag, type, dispatch],
+    [history, mhvSecureMessagingCuratedListFlow, type, dispatch],
   );
 
   return (
