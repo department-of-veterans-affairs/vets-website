@@ -77,7 +77,7 @@ export const CompleteReferral = props => {
       } else if (requestTime > timeOut && !booked) {
         // Stop polling if not booked after timeout.
         setAppointmentInfoTimeout(true);
-      } else {
+      } else if (!booked && !appointmentInfoError) {
         // Refetch data after polling interval and increment request time.
         requestInterval = setInterval(() => {
           referralAppointmentRefetch();
@@ -91,7 +91,13 @@ export const CompleteReferral = props => {
       }
       return () => clearInterval(requestInterval);
     },
-    [booked, referralAppointmentInfo, referralAppointmentRefetch, requestTime],
+    [
+      appointmentInfoError,
+      booked,
+      referralAppointmentInfo,
+      referralAppointmentRefetch,
+      requestTime,
+    ],
   );
 
   if (appointmentInfoError || appointmentInfoTimeout) {

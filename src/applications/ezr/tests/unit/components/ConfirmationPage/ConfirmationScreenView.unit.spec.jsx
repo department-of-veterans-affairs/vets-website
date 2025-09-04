@@ -26,10 +26,12 @@ describe('ezr <ConfirmationScreenView>', () => {
     const mockStore = {
       form: {
         data: {
-          'view:veteranInformation': {
-            veteranFullName: { first: 'John', last: 'Smith' },
-          },
           ...additionalData,
+        },
+      },
+      user: {
+        profile: {
+          userFullName: { first: 'John', last: 'Smith' },
         },
       },
     };
