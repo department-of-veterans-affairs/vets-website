@@ -1,13 +1,18 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
-import { TITLE, SUBTITLE } from '../constants';
+import environment from 'platform/utilities/environment';
+import { TITLE, SUBTITLE, SUBMIT_URL } from '../constants';
+
 import manifest from '../manifest.json';
+import testData from '../tests/fixtures/data/maximal-test.json';
+import submitForm from './submitForm';
+import { transform } from './submit-transformer';
+
+// Components
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import PreSubmitInfo from '../components/PreSubmitInfo';
-
-// Components
 import EligibilitySummary from '../components/EligibilitySummary';
 
 // Pages
@@ -32,14 +37,21 @@ import { trainingProviderArrayOptions } from '../helpers';
 import dateReleasedFromActiveDuty from '../pages/dateReleasedFromActiveDuty';
 import activeDutyStatus from '../pages/activeDutyStatus';
 import createDirectDepositPage from '../pages/DirectDeposit';
+import prefillTransformer from './prefill-transformer';
+
+export const submitFormLogic = (form, formConfig) => {
+  if (environment.isDev() || environment.isLocalhost()) {
+    return Promise.resolve(testData);
+  }
+  return submitForm(form, formConfig);
+};
 
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: SUBMIT_URL,
+  submit: submitFormLogic,
   trackingPrefix: 'edu-10297',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -53,6 +65,7 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   savedFormMessages: {
     notFound: 'Please start over to apply for education benefits.',
     noAuth:
@@ -62,9 +75,14 @@ const formConfig = {
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   preSubmitInfo: {
-    CustomComponent: PreSubmitInfo,
-    required: true,
+    statementOfTruth: {
+      heading: 'Certification statement',
+      body: PreSubmitInfo,
+      messageAriaDescribedby: 'I have read and accept the privacy policy.',
+      fullNamePath: 'applicantFullName',
+    },
   },
+  transformForSubmit: transform,
   chapters: {
     eligibilityChapter: {
       title: 'Check eligibility',

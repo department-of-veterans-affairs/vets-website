@@ -18,3 +18,10 @@ export const updateDraftInProgress = updates => dispatch => {
 export const clearDraftInProgress = () => dispatch => {
   dispatch({ type: Actions.Draft.CLEAR_DRAFT_IN_PROGRESS });
 };
+
+export const acceptInterstitial = () => dispatch => {
+  dispatch({
+    type: Actions.Draft.SET_ACCEPT_INTERSTITIAL,
+    payload: true,
+  });
+};

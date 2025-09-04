@@ -18,7 +18,7 @@ import mockData from '../../e2e/fixtures/data/test-data.json';
 
 describe('sponsorWording helper', () => {
   it('should return non-possesive form when isPosessive == false', () => {
-    expect(sponsorWording({}, false)).to.equal('Sponsor');
+    expect(sponsorWording({}, false)).to.equal('Veteran');
   });
 });
 

@@ -47,3 +47,5 @@ export function isEmptyObject(obj) {
   }
   return false;
 }
+
+export const getRootParentUrl = rootUrl => rootUrl.split(/\b\//)[0];

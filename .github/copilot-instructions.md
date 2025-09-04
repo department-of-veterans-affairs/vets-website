@@ -11,6 +11,8 @@ This is a monorepo for VA.gov, with shared code in `src/platform` and individual
 - For E2E tests, use Cypress.
 - Prefer functional components and hooks for new components.
 - Files should end with a newline.
+- Use ’ instead of ' for apostrophes in text content.
+- Use `yarn lint:js:working:fix` to fix formatting issues.
 - All code should conform to WCAG 2.2 AA and Section 508 accessibility guidelines.
 
 ## Development Commands

@@ -52,7 +52,6 @@ describe('CDP - One Thing Per Page', () => {
       cy.injectAxeThenAxeCheck();
     });
 
-    // TODO
     context('copay pages', () => {
       it('should show new links on balance cards', () => {
         cy.findByTestId('balance-card-copay')
@@ -64,18 +63,21 @@ describe('CDP - One Thing Per Page', () => {
           .findByTestId(`detail-link-${id}`)
           .should('not.contain', 'Check details');
 
-        // Review details link should be present and work
-        cy.findByTestId(`balance-card-${id}`)
-          .findByTestId(`detail-link-${id}`)
+        // // Review details link should be present and work
+        cy.get(`[data-testid="detail-link-${id}"]`)
+          .shadow()
+          .find('a')
           .as('detailLink');
         cy.get('@detailLink').should('contain', 'Review details');
         cy.get('@detailLink').click();
+
         cy.url().should('match', /\/copay-balances\/[^/]+\/detail$/);
         cy.go('back');
 
         // Resolve this bill link should be present and work
-        cy.findByTestId(`balance-card-${id}`)
-          .findByTestId(`resolve-link-${id}`)
+        cy.get(`[data-testid="resolve-link-${id}"]`)
+          .shadow()
+          .find('a')
           .as('resolveLink');
         cy.get('@resolveLink').should('contain', 'Resolve this bill');
         cy.get('@resolveLink').click();
@@ -108,45 +110,52 @@ describe('CDP - One Thing Per Page', () => {
         cy.injectAxeThenAxeCheck();
       });
 
-      // TODO
-      it.skip('should show new version of balances page', () => {
+      it('should show new version of balances page', () => {
         cy.findByTestId('balance-card-copay')
           .findByTestId('card-link')
           .click();
 
-        // do not show 'On this Page' section
         cy.get('va-on-this-page').should('not.exist');
         cy.findByTestId('how-to-pay').should('not.exist');
         cy.findByTestId('financial-help').should('not.exist');
         cy.findByTestId('dispute-charges').should('not.exist');
 
-        // show updated h2
-        // show 'Your VA debt' section
-        // show 'need help' footer
+        cy.findByTestId('other-va-debts-head').should('exist');
+        cy.findByTestId('need-help').should('exist');
 
         cy.injectAxeThenAxeCheck();
       });
 
-      // TODO
-      it.skip('should show new version of details page', () => {
-        // alert
+      it('should show new version of details page', () => {
+        // Bills select from summary page
+        cy.findByTestId('balance-card-copay')
+          .findByTestId('card-link')
+          .click();
 
-        // copay details
+        // Specific copay selection
+        cy.findByTestId(`balance-card-${id}`)
+          .findByTestId(`detail-link-${id}`)
+          .click();
 
-        // account number
+        cy.findByTestId('detail-copay-page-title-otpp').should('exist');
+        cy.findByTestId('detail-page-title').should('not.exist');
+        cy.findByTestId('otpp-past-due-balance-alert').should('exist');
 
-        // most recent statement charges
+        // lighthouse statement table should not be present
+        cy.findByTestId('payment-history-statement-table').should('not.exist');
 
-        // previous statement links
+        // most recent statement charge table should be present
+        cy.findByTestId('statement-charges-head').should('exist');
 
-        // statement addressess
+        // download current statement section should be present
+        cy.findByTestId('download-statement-section').should('exist');
 
-        // do not show 'How to pay' stuffs
+        // previous statement links should be present
+        // without the most recent statement (otpp-statement-list)
+        cy.findByTestId('otpp-statement-list').should('exist');
+        cy.findByTestId('statement-list').should('not.exist');
 
-        // cy.findByTestId('balance-card-copay')
-        //   .findByTestId('card-link')
-        //   .click();
-        // cy.url().should('match', /\/copay-balances$/);
+        cy.findByTestId('statement-address-head').should('exist');
 
         cy.injectAxeThenAxeCheck();
       });

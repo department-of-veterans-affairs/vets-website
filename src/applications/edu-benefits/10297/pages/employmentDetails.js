@@ -13,7 +13,7 @@ const uiSchema = {
         Y: 'Yes',
         N: 'No',
       },
-      required: () => true,
+      required: formData => formData.isEmployed === true,
     }),
   },
 };

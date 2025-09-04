@@ -1,0 +1,117 @@
+{
+  "beforeTransform1": {
+    "view:allProprietaryProfitConflictsMissingInformation": {},
+    "view:introduction": {},
+    "allProprietaryConflictOfInterest": false,
+    "view:proprietaryProfitConflictsMissingInformation": {},
+    "isProfitConflictOfInterest": false,
+    "isProprietaryProfit": true,
+    "institutionDetails": {
+      "facilityCode": "25007120",
+      "institutionName": "AVEDA INSTITUTE MARYLAND",
+      "institutionAddress": {
+        "street": "227 ARCHER STREET",
+        "street2": null,
+        "street3": null,
+        "city": "BEL AIR",
+        "state": "MD",
+        "postalCode": "21014",
+        "country": "USA"
+      },
+      "loader": false
+    },
+    "aboutYourInstitution": true,
+    "certifyingOfficial": {
+      "first": "John",
+      "last": "Doe",
+      "role": { "level": "certifyingOfficial" }
+    },
+    "statementOfTruthSignature": "John Doe",
+    "statementOfTruthCertified": true
+  },
+  "afterTransform1": {
+    "allProprietaryConflictOfInterest": false,
+    "isProfitConflictOfInterest": false,
+    "isProprietaryProfit": true,
+    "institutionDetails": {
+      "facilityCode": "25007120",
+      "institutionName": "AVEDA INSTITUTE MARYLAND",
+      "institutionAddress": {
+        "street": "227 ARCHER STREET",
+        "city": "BEL AIR",
+        "state": "MD",
+        "postalCode": "21014",
+        "country": "USA"
+      }
+    },
+    "aboutYourInstitution": true,
+    "certifyingOfficial": {
+      "first": "John",
+      "last": "Doe",
+      "role": { "level": "certifying official" }
+    },
+    "statementOfTruthSignature": "John Doe",
+    "proprietaryProfitConflicts": [],
+    "allProprietaryProfitConflicts": [],
+    "dateSigned": "2025-08-10"
+  },
+  "beforeTransform2": {
+    "view:allProprietaryProfitConflictsMissingInformation": {},
+    "view:introduction": {},
+    "allProprietaryConflictOfInterest": true,
+    "allProprietaryProfitConflicts": [],
+    "view:proprietaryProfitConflictsMissingInformation": {},
+    "isProfitConflictOfInterest": true,
+    "proprietaryProfitConflicts": [],
+    "isProprietaryProfit": true,
+    "institutionDetails": {
+      "facilityCode": "",
+      "institutionName": "Test Institution",
+      "institutionAddress": {
+        "street": "Test Street",
+        "street2": null,
+        "street3": null,
+        "city": "Test City",
+        "state": "MD",
+        "postalCode": "54321",
+        "country": "USA",
+        "isMilitary": null,
+        "view:militaryBaseDescription": {}
+      }
+    },
+    "aboutYourInstitution": true,
+    "certifyingOfficial": {
+      "first": "John",
+      "last": "Doe",
+      "role": { "level": "certifyingOfficial" }
+    },
+    "statementOfTruthSignature": "John Doe",
+    "statementOfTruthCertified": true
+  },
+  "afterTransform2": {
+    "allProprietaryConflictOfInterest": true,
+    "allProprietaryProfitConflicts": [],
+    "isProfitConflictOfInterest": true,
+    "proprietaryProfitConflicts": [],
+    "isProprietaryProfit": true,
+    "institutionDetails": {
+      "facilityCode": "12345678",
+      "institutionName": "Test Institution",
+      "institutionAddress": {
+        "street": "Test Street",
+        "city": "Test City",
+        "state": "MD",
+        "postalCode": "54321",
+        "country": "USA"
+      }
+    },
+    "aboutYourInstitution": true,
+    "certifyingOfficial": {
+      "first": "John",
+      "last": "Doe",
+      "role": { "level": "certifying official" }
+    },
+    "statementOfTruthSignature": "John Doe",
+    "dateSigned": "2025-08-10"
+  }
+}

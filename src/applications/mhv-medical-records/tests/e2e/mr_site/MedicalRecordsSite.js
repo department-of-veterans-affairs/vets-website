@@ -87,15 +87,7 @@ class MedicalRecordsSite {
             value: true,
           },
           {
-            name: 'mhv_medical_records_display_conditions',
-            value: true,
-          },
-          {
             name: 'mhv_medical_records_display_vitals',
-            value: true,
-          },
-          {
-            name: 'mhv_medical_records_display_labs_and_tests',
             value: true,
           },
           {

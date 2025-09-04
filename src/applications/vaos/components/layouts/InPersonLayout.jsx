@@ -25,6 +25,7 @@ import NewTabAnchor from '../NewTabAnchor';
 import {
   NULL_STATE_FIELD,
   recordAppointmentDetailsNullStates,
+  captureMissingModalityLogs,
 } from '../../utils/events';
 
 export default function InPersonLayout({ data: appointment }) {
@@ -57,6 +58,9 @@ export default function InPersonLayout({ data: appointment }) {
     heading = 'Canceled in-person appointment';
   else if (isPastAppointment) heading = 'Past in-person appointment';
 
+  if (!appointment.modality) {
+    captureMissingModalityLogs(appointment);
+  }
   recordAppointmentDetailsNullStates(
     {
       type: appointment.type,

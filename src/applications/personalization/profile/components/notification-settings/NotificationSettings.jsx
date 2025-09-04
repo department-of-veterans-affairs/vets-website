@@ -54,9 +54,13 @@ const NotificationSettings = ({
 
   const requiredContactInfoOnFile = useMemo(
     () => {
+      // Target domestic numbers here to follow the original required contact info flow
+      // The addition of international numbers has a separate flow of modals and alerts
+      const domesticMobilePhone =
+        mobilePhoneNumber && !mobilePhoneNumber.isInternational;
       return showEmail
-        ? !!(emailAddress || mobilePhoneNumber)
-        : !!mobilePhoneNumber;
+        ? !!(emailAddress || domesticMobilePhone)
+        : !!(mobilePhoneNumber && domesticMobilePhone);
     },
     [emailAddress, mobilePhoneNumber, showEmail],
   );
@@ -137,7 +141,9 @@ const NotificationSettings = ({
         {shouldShowAPIError && <LoadFail />}
         {showMissingContactInfoAlert && (
           <MissingContactInfoAlert
-            missingMobilePhone={!mobilePhoneNumber}
+            missingMobilePhone={
+              mobilePhoneNumber || !mobilePhoneNumber?.isInternational
+            }
             missingEmailAddress={!emailAddress}
             showEmailNotificationSettings={showEmail}
           />
