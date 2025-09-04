@@ -402,29 +402,3 @@ describe('686 report death: Location of Death', () => {
     expect($$('va-text-input', container).length).to.equal(1);
   });
 });
-
-describe('686 report death: Dependent income', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.deceasedDependents.pages.dependentAdditionalInformationPartSix;
-
-  it('should render', () => {
-    const { container, queryByText } = render(
-      <Provider store={defaultStore}>
-        <DefinitionTester
-          schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}
-          data={formData()}
-          arrayPath={arrayPath}
-          pagePerItemIndex={0}
-        />
-      </Provider>,
-    );
-
-    expect(queryByText(/Dependent’s income/i)).to.not.be.null;
-    expect($$('va-radio', container).length).to.equal(1);
-    expect($$('va-radio-option', container).length).to.equal(3);
-  });
-});

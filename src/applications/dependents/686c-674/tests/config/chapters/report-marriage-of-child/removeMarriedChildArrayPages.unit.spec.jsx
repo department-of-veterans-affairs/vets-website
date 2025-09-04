@@ -175,28 +175,3 @@ describe('686 report child who was married: Date child was married', () => {
     expect($$('va-memorable-date', container).length).to.equal(1);
   });
 });
-
-describe('686 report child who was married: Child income', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.reportChildMarriage.pages.removeMarriedChildPartThree;
-
-  it('should render', () => {
-    const { container } = render(
-      <Provider store={defaultStore}>
-        <DefinitionTester
-          schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}
-          data={formData}
-          arrayPath={arrayPath}
-          pagePerItemIndex={0}
-        />
-      </Provider>,
-    );
-
-    expect($$('va-radio', container).length).to.equal(1);
-    expect($$('va-radio-option', container).length).to.equal(3);
-  });
-});

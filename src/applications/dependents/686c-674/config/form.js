@@ -14,7 +14,6 @@ import { customSubmit686 } from '../analytics/helpers';
 // Chapter imports
 import {
   formerSpouseInformation,
-  formerSpouseInformationPartThree,
   formerSpouseInformationPartTwo,
 } from './chapters/report-divorce';
 import {
@@ -26,7 +25,6 @@ import {
   deceasedDependentChildTypePage,
   deceasedDependentDateOfDeathPage,
   deceasedDependentLocationOfDeathPage,
-  deceasedDependentIncomePage,
 } from './chapters/report-dependent-death/deceasedDependentArrayPages';
 import {
   currentMarriageInformation,
@@ -76,14 +74,12 @@ import {
   removeChildStoppedAttendingSchoolSummaryPage,
   childInformationPage,
   dateChildLeftSchoolPage,
-  childIncomeQuestionPage,
 } from './chapters/report-child-stopped-attending-school/removeChildStoppedAttendingSchoolArrayPages';
 import {
   removeMarriedChildIntroPage,
   removeMarriedChildOptions,
   removeMarriedChildSummaryPage,
   marriedChildInformationPage,
-  marriedChildIncomeQuestionPage,
   dateChildMarriedPage,
 } from './chapters/report-marriage-of-child/removeMarriedChildArrayPages';
 import {
@@ -751,16 +747,6 @@ export const formConfig = {
           uiSchema: formerSpouseInformationPartTwo.uiSchema,
           schema: formerSpouseInformationPartTwo.schema,
         },
-        formerSpouseInformationPartThree: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.reportDivorce) &&
-            formData?.['view:addOrRemoveDependents']?.remove &&
-            showPensionRelatedQuestions(formData),
-          title: 'Divorced spouse’s income',
-          path: 'report-a-divorce/former-spouse-income',
-          uiSchema: formerSpouseInformationPartThree.uiSchema,
-          schema: formerSpouseInformationPartThree.schema,
-        },
       },
     },
 
@@ -944,16 +930,6 @@ export const formConfig = {
               isChapterFieldRequired(formData, TASK_KEYS.reportDeath) &&
               formData?.['view:addOrRemoveDependents']?.remove,
           }),
-          dependentAdditionalInformationPartSix: pageBuilder.itemPage({
-            title: 'Information needed to remove a dependent who has died',
-            path: '686-report-dependent-death/:index/dependent-income',
-            uiSchema: deceasedDependentIncomePage.uiSchema,
-            schema: deceasedDependentIncomePage.schema,
-            depends: formData =>
-              isChapterFieldRequired(formData, TASK_KEYS.reportDeath) &&
-              formData?.['view:addOrRemoveDependents']?.remove &&
-              showPensionRelatedQuestions(formData),
-          }),
         })),
       },
     },
@@ -1009,20 +985,6 @@ export const formConfig = {
                 formData,
                 TASK_KEYS.reportMarriageOfChildUnder18,
               ) && formData?.['view:addOrRemoveDependents']?.remove,
-          }),
-          removeMarriedChildPartThree: pageBuilder.itemPage({
-            title:
-              'Information needed to report the marriage of a child under 18',
-            path: '686-report-marriage-of-child/:index/child-income',
-            uiSchema: marriedChildIncomeQuestionPage.uiSchema,
-            schema: marriedChildIncomeQuestionPage.schema,
-            depends: formData =>
-              isChapterFieldRequired(
-                formData,
-                TASK_KEYS.reportMarriageOfChildUnder18,
-              ) &&
-              formData?.['view:addOrRemoveDependents']?.remove &&
-              showPensionRelatedQuestions(formData),
           }),
         })),
       },
@@ -1084,20 +1046,6 @@ export const formConfig = {
                   formData,
                   TASK_KEYS.reportChild18OrOlderIsNotAttendingSchool,
                 ) && formData?.['view:addOrRemoveDependents']?.remove,
-            }),
-            childNoLongerInSchoolPartThree: pageBuilder.itemPage({
-              title:
-                'Information needed to report a child 18-23 years old stopped attending school',
-              path: 'report-child-stopped-attending-school/:index/child-income',
-              uiSchema: childIncomeQuestionPage.uiSchema,
-              schema: childIncomeQuestionPage.schema,
-              depends: formData =>
-                isChapterFieldRequired(
-                  formData,
-                  TASK_KEYS.reportChild18OrOlderIsNotAttendingSchool,
-                ) &&
-                formData?.['view:addOrRemoveDependents']?.remove &&
-                showPensionRelatedQuestions(formData),
             }),
           }),
         ),

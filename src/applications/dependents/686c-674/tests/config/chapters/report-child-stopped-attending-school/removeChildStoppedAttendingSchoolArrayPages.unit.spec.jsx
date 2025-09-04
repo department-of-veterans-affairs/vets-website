@@ -240,28 +240,3 @@ describe('686 report child who stopped attending school: Date child stopped atte
     expect($$('va-memorable-date', container).length).to.equal(1);
   });
 });
-
-describe('686 report child who stopped attending school: Income', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.reportChildStoppedAttendingSchool.pages.childNoLongerInSchoolPartThree;
-
-  it('should render', () => {
-    const { container } = render(
-      <Provider store={defaultStore}>
-        <DefinitionTester
-          schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}
-          data={formData}
-          arrayPath={arrayPath}
-          pagePerItemIndex={0}
-        />
-      </Provider>,
-    );
-
-    expect($$('va-radio', container).length).to.equal(1);
-    expect($$('va-radio-option', container).length).to.equal(3);
-  });
-});

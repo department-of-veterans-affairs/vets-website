@@ -148,25 +148,25 @@ describe('686 report divorce: Former spouse information', () => {
   });
 });
 
-describe('686 report divorce: Former spouse income', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.reportDivorce.pages.formerSpouseInformationPartThree;
+// describe('686 report divorce: Former spouse income', () => {
+//   const {
+//     schema,
+//     uiSchema,
+//   } = formConfig.chapters.reportDivorce.pages.formerSpouseInformationPartThree;
 
-  it('should render', () => {
-    const { container } = render(
-      <Provider store={defaultStore}>
-        <DefinitionTester
-          schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}
-          data={formData}
-        />
-      </Provider>,
-    );
+//   it('should render', () => {
+//     const { container } = render(
+//       <Provider store={defaultStore}>
+//         <DefinitionTester
+//           schema={schema}
+//           definitions={formConfig.defaultDefinitions}
+//           uiSchema={uiSchema}
+//           data={formData}
+//         />
+//       </Provider>,
+//     );
 
-    expect($$('va-radio', container).length).to.equal(1);
-    expect($$('va-radio-option', container).length).to.equal(3);
-  });
-});
+//     expect($$('va-radio', container).length).to.equal(1);
+//     expect($$('va-radio-option', container).length).to.equal(3);
+//   });
+// });
