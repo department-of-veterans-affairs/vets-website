@@ -1589,7 +1589,7 @@ describe('Compose form component', () => {
       ...initialState,
       featureToggles: {
         loading: false,
-        [FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot]: true,
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow]: true,
       },
       sm: {
         ...initialState.sm,

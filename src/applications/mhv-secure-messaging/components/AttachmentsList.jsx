@@ -27,7 +27,10 @@ const AttachmentsList = props => {
     setAttachFileError,
   } = props;
   const dispatch = useDispatch();
-  const { cernerPilotSmFeatureFlag } = featureToggles();
+  const {
+    mhvSecureMessagingCuratedListFlow,
+    cernerPilotSmFeatureFlag,
+  } = featureToggles();
   const attachmentReference = useRef(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isAttachmentRemoved, setIsAttachmentRemoved] = useState(false);
@@ -160,7 +163,7 @@ const AttachmentsList = props => {
   return (
     <div>
       <div className="message-body-attachments-label vads-u-margin-bottom--1 vads-u-margin-top--3">
-        {cernerPilotSmFeatureFlag ? (
+        {mhvSecureMessagingCuratedListFlow ? (
           <h2 className="vads-u-font-size--h3 vads-u-margin-top--4 vads-u-margin-bottom--0">
             Attachments
           </h2>
