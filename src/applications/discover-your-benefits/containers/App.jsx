@@ -17,7 +17,6 @@ export default function App({ location, children }) {
     clientToken: 'pub02875174418494ddae85287f690d16d6',
     service: 'discover-your-benefits',
     version: '1.0.0',
-    // example: record 100% of staging sessions, but only 10% of production
     sessionReplaySampleRate:
       environment.vspEnvironment() === 'staging' ? 100 : 10,
     // Add any additional RUM or LOG settings here
