@@ -1,6 +1,8 @@
 import {
   testNumberOfErrorsOnSubmit,
+  testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfFields,
+  testNumberOfWebComponentFields,
 } from '../../../shared/tests/pages/pageTests.spec';
 import {
   CLAIM_OWNERSHIPS,
@@ -24,10 +26,30 @@ const mockData = {
   witnessRelationshipToClaimant: SERVED_WITH_VETERAN,
 };
 
-// Expect 4 fields instead of 7 fields.
-// witnessRelationshipToClaimant GroupCheckboxWidget's 3 fields are
-// in shadow-DOM and thus unselectable by test.
-const expectedNumberOfFields = 3;
+const expectedNumberOfWebComponentFields = 7;
+testNumberOfWebComponentFields(
+  formConfig,
+  schema,
+  uiSchema,
+  expectedNumberOfWebComponentFields,
+  pageTitle,
+  mockData,
+);
+
+const expectedNumberOfWebComponentErrors = 2;
+testNumberOfErrorsOnSubmitForWebComponents(
+  formConfig,
+  schema,
+  uiSchema,
+  expectedNumberOfWebComponentErrors,
+  pageTitle,
+  {
+    claimOwnership: CLAIM_OWNERSHIPS.THIRD_PARTY,
+    claimantType: CLAIMANT_TYPES.VETERAN,
+  },
+);
+
+const expectedNumberOfFields = 0;
 testNumberOfFields(
   formConfig,
   schema,
@@ -37,10 +59,7 @@ testNumberOfFields(
   mockData,
 );
 
-// Expect 3 instead of 7 errors.
-// witnessRelationshipToClaimant GroupCheckboxWidget displays
-// only 1 error-message for its 3 shadow-DOM fields.
-const expectedNumberOfErrors = 3;
+const expectedNumberOfErrors = 1;
 testNumberOfErrorsOnSubmit(
   formConfig,
   schema,
