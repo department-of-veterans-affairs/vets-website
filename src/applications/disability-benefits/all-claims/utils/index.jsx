@@ -33,7 +33,7 @@ import {
   CHAR_LIMITS,
 } from '../constants';
 import { getBranches } from './serviceBranches';
-import { getSharedVariable, setSharedVariable } from './sharedState';
+import { setSharedVariable } from './sharedState';
 
 /**
  * Returns an object where all the fields are prefixed with `view:` if they aren't already
@@ -872,6 +872,12 @@ export const baseDoNew4142Logic = formData => {
   return (
     // If flipper is enabled
     formData.disability526Enable2024Form4142 === true &&
+    // And the user has evidence for review
+    formData?.['view:hasEvidence'] === true &&
+    // And the user is still choosing to include private records
+    formData?.['view:selectableEvidenceTypes']?.[
+      'view:hasPrivateMedicalRecords'
+    ] === true &&
     // And the user has previously acknowledged the 4142 authorization
     formData['view:patientAcknowledgement']?.['view:acknowledgement'] ===
       true &&
@@ -885,16 +891,35 @@ export const baseDoNew4142Logic = formData => {
   );
 };
 
-export function needs4142AlertShown(formData) {
+export const redirectWhenFlipperOff = props => {
+  const { returnUrl, formData } = props;
   return (
-    baseDoNew4142Logic(formData) &&
-    getSharedVariable('alertNeedsShown4142') === true
+    formData?.['view:hasEvidence'] === true &&
+    // And the user is still choosing to include private records
+    formData?.['view:selectableEvidenceTypes']?.[
+      'view:hasPrivateMedicalRecords'
+    ] === true &&
+    returnUrl ===
+      '/supporting-evidence/private-medical-records-authorize-release' &&
+    formData.disability526Enable2024Form4142 !== true
   );
-}
+};
+
+export const redirectWhenNoEvidence = props => {
+  const { returnUrl, formData } = props;
+  return (
+    formData?.['view:hasEvidence'] === false &&
+    (returnUrl ===
+      '/supporting-evidence/private-medical-records-authorize-release' ||
+      returnUrl === '/supporting-evidence/private-medical-records')
+  );
+};
 
 export const onFormLoaded = props => {
   const { returnUrl, formData, router } = props;
   const shouldRedirectToModern4142Choice = baseDoNew4142Logic(formData);
+  const shouldRevertWhenFlipperOff = redirectWhenFlipperOff(props);
+  const shouldRevertWhenNoEvidence = redirectWhenNoEvidence(props);
   const redirectUrl = '/supporting-evidence/private-medical-records';
 
   if (shouldRedirectToModern4142Choice === true) {
@@ -908,11 +933,14 @@ export const onFormLoaded = props => {
     // this happens a lot in development and testing but would only happen if we do a rollback in production
     // if the user is set to redirect to a page that is set to be hidden they get stuck in a loop so we must place them on the previous page
     shouldRedirectToModern4142Choice === false &&
-    returnUrl ===
-      '/supporting-evidence/private-medical-records-authorize-release' &&
-    formData.disability526Enable2024Form4142 !== true
+    shouldRevertWhenFlipperOff === true
   ) {
     router.push(redirectUrl);
+  } else if (
+    shouldRedirectToModern4142Choice === false &&
+    shouldRevertWhenNoEvidence === true
+  ) {
+    router.push('/supporting-evidence/evidence-types');
   } else {
     // otherwise, we just redirect to the returnUrl as usual when resuming a form
     router.push(returnUrl);

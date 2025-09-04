@@ -118,6 +118,7 @@ const routes = [
               {
                 path: 'claimant-search',
                 element: <ClaimantSearchPage />,
+                loader: ClaimantSearchPage.loader,
               },
               {
                 path: 'poa-requests/:id',

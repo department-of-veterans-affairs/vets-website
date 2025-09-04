@@ -40,6 +40,9 @@ const wrapApiRequest = fn => {
     const optionsFromCaller = args[fn.length] || {};
     const [resource, optionsFromFn = {}] = fn(...args.slice(0, fn.length));
 
+    const skip403Redirect =
+      optionsFromCaller.skip403Redirect || optionsFromFn.skip403Redirect;
+
     const csrfTokenStored = localStorage.getItem('csrfToken');
 
     const defaultSettings = {
@@ -93,9 +96,11 @@ const wrapApiRequest = fn => {
         return null;
       }
 
-      // For 403s, redirect to the dashboard unauthorized view without throwing,
-      // and return a benign JSON response to keep loaders from erroring
+      // For 403s, allow opt-out of redirect for special cases
       if (response.status === 403) {
+        if (skip403Redirect) {
+          throw response;
+        }
         const redirected = redirectToUnauthorizedAndReturn();
         if (redirected) return redirected;
         throw response;
@@ -106,6 +111,9 @@ const wrapApiRequest = fn => {
     } catch (err) {
       // Mirror 403 handling when fetch throws a Response
       if (err instanceof Response && err.status === 403) {
+        if (skip403Redirect) {
+          throw err;
+        }
         const redirected = redirectToUnauthorizedAndReturn();
         if (redirected) return redirected;
       }
@@ -124,23 +132,9 @@ const wrapApiRequest = fn => {
 
 const api = {
   // Lightweight authorization check used by Dashboard loader
-  checkAuthorized: async () => {
-    const baseUrl = `${environment.API_URL}/${API_VERSION}`;
-    const url = `${baseUrl}/authorize_as_representative`;
-    const csrfTokenStored = localStorage.getItem('csrfToken');
-    const settings = {
-      method: 'GET',
-      credentials: 'include',
-      headers: {
-        'X-Key-Inflection': 'camel',
-        'Source-App-Name': window.appName,
-        'X-CSRF-Token': csrfTokenStored,
-        'Content-Type': 'application/json',
-      },
-    };
-
-    return fetchAndUpdateSessionExpiration(url, settings);
-  },
+  checkAuthorized: wrapApiRequest(() => {
+    return ['/authorize_as_representative'];
+  }),
   getPOARequests: wrapApiRequest(query => {
     const status = query.status ? `status=${query.status}` : '';
     const size = query.size ? `&page[size]=${query.size}` : '';
