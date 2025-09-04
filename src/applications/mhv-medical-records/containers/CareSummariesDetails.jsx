@@ -18,7 +18,6 @@ import {
 import useAlerts from '../hooks/use-alerts';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import { useTrackAction } from '../hooks/useTrackAction';
-// import useAcceleratedData from '../hooks/useAcceleratedData';
 
 const CareSummariesDetails = () => {
   const dispatch = useDispatch();
@@ -30,7 +29,6 @@ const CareSummariesDetails = () => {
   );
   const { summaryId } = useParams();
   const activeAlert = useAlerts(dispatch);
-  // const { isAcceleratingCareNotes, isLoading } = useAcceleratedData();
 
   useTrackAction(statsdFrontEndActions.CARE_SUMMARIES_AND_NOTES_DETAILS);
 
@@ -63,7 +61,6 @@ const CareSummariesDetails = () => {
       />
     );
   }
-
   if (careSummary?.type === loincCodes.DISCHARGE_SUMMARY) {
     return <AdmissionAndDischargeDetails record={careSummary} />;
   }
