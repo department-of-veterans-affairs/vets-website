@@ -89,7 +89,10 @@ function transformApplicants(applicants = []) {
  * @param {Object} data - Form data
  * @returns {Object} Data with policies mapped to applicants
  */
-function mapHealthInsuranceToApplicants(data) {
+function mapHealthInsuranceToApplicants(
+  data,
+  advantageParticipants = new Set(),
+) {
   // Create a deep copy to avoid mutations
   const result = JSON.parse(JSON.stringify(data));
 
@@ -103,7 +106,15 @@ function mapHealthInsuranceToApplicants(data) {
       .forEach(applicant => {
         // Initialize Medicare array if it doesn't exist
         applicant.medicare = applicant.medicare || [];
-        applicant.applicantMedicareAdvantage = plan.medicarePlanType === 'c';
+        const planType = String(plan?.medicarePlanType ?? '')
+          .trim()
+          .toLowerCase();
+        const isAdvantage =
+          planType === 'c' ||
+          advantageParticipants.has(plan?.medicareParticipant) ||
+          Boolean(plan?.medicarePartCCarrier);
+        applicant.applicantMedicareAdvantage =
+          Boolean(applicant.applicantMedicareAdvantage) || isAdvantage;
         // original 10-10d form produces this medicareStatus field, so we need
         // it to fill the PDF on the backend
         applicant.applicantMedicareStatus = { eligibility: 'enrolled' };
@@ -260,7 +271,21 @@ export default function transformForSubmit(formConfig, form) {
   };
 
   // Apply OHI transformation and collect supporting documents
-  const transformedData = mapHealthInsuranceToApplicants(initialData);
+  const advantageParticipants = new Set(
+    (form?.data?.medicare || [])
+      .filter(
+        p =>
+          String(p?.medicarePlanType ?? '')
+            .trim()
+            .toLowerCase() === 'c',
+      )
+      .map(p => p?.medicareParticipant)
+      .filter(Boolean),
+  );
+  const transformedData = mapHealthInsuranceToApplicants(
+    initialData,
+    advantageParticipants,
+  );
   transformedData.supportingDocs = collectSupportingDocuments(transformedData);
 
   // Check if any applicants are over 65

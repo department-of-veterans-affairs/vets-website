@@ -13,6 +13,7 @@ import './sass/POARequestSearchDetails.scss';
 import './sass/Header.scss';
 import './sass/GetHelp.scss';
 import './sass/SubmissionsPage.scss';
+import './sass/Dashboard.scss';
 
 import routes from './routes';
 import store from './utilities/store';

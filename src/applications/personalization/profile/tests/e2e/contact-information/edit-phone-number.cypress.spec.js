@@ -16,7 +16,7 @@ const setup = () => {
     'v0/profile/status',
     'v0/profile/personal_information',
     'v0/profile/service_history',
-    'v0/ppiu/payment_information',
+    'v0/profile/direct_deposits',
   ]);
 
   // This test covers the international phones flag ON scenario using the va-telephone-input component

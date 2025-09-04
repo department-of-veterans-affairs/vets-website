@@ -7,7 +7,7 @@ import { createReferralById, getReferralSlotKey } from '../utils/referrals';
 import { createDraftAppointmentInfo } from '../utils/provider';
 import { renderWithStoreAndRouter } from '../../tests/mocks/setup';
 
-describe.skip('VAOS Component: DateAndTimeContent', () => {
+describe('VAOS Component: DateAndTimeContent', () => {
   const initialState = {
     featureToggles: {
       vaOnlineSchedulingCCDirectScheduling: true,

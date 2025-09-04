@@ -25,7 +25,9 @@ export const AssetsInformation = () => (
         <li>Antique furniture</li>
         <li>Boats</li>
       </ul>
-      <h5>We don’t include items like these in your assets:</h5>
+      <p>
+        <strong>We don’t include items like these in your assets:</strong>
+      </p>
       <ul>
         <li>
           Your primary residence (the home where you live most or all of your
@@ -39,7 +41,9 @@ export const AssetsInformation = () => (
       </ul>
     </va-accordion-item>
     <va-accordion-item header="Who we consider a dependent">
-      <h5>A dependent is:</h5>
+      <p>
+        <strong>A dependent is:</strong>
+      </p>
       <ul>
         <li>
           A spouse (<strong>Note:</strong> We recognize same-sex and common-law
@@ -54,10 +58,12 @@ export const AssetsInformation = () => (
           one of the eligibility requirements listed here
         </li>
       </ul>
-      <h5>
-        To be considered a dependent, one of these must be true of an unmarried
-        child:
-      </h5>
+      <p>
+        <strong>
+          To be considered a dependent, one of these must be true of an
+          unmarried child:
+        </strong>
+      </p>
       <ul>
         <li>
           They’re under 18 years old, <strong>or</strong>

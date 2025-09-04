@@ -127,10 +127,17 @@ export const useNotificationSettingsUtils = () => {
   const emailAddress = useSelector(selectVAPEmailAddress);
   const mobilePhone = useSelector(selectVAPMobilePhone);
 
+  // International mobile phone numbers will not get texts.
+  // Making the domestic distinction here so that international numbers
+  // will not be a contact channel and not suggest an available group.
+  const isDomesticMobilePhone = mobilePhone && !mobilePhone.isInternational;
+
   const channelsWithContactInfo = useSelector(() => {
     return [
       ...(emailAddress ? [parseInt(NOTIFICATION_CHANNEL_IDS.EMAIL, 10)] : []),
-      ...(mobilePhone ? [parseInt(NOTIFICATION_CHANNEL_IDS.TEXT, 10)] : []),
+      ...(isDomesticMobilePhone
+        ? [parseInt(NOTIFICATION_CHANNEL_IDS.TEXT, 10)]
+        : []),
     ];
   });
 

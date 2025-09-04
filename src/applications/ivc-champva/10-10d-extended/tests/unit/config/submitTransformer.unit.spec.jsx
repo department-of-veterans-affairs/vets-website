@@ -1,6 +1,10 @@
 import { expect } from 'chai';
 import formConfig from '../../../config/form';
 import transformForSubmit from '../../../config/submitTransformer';
+import { toHash } from '../../../../shared/utilities';
+
+const APPLICANT_SSN = '345345345';
+const SSN_HASH = toHash(APPLICANT_SSN);
 
 describe('10-10d-extended transform for submit', () => {
   it('should return passed in relationship if already flat', () => {
@@ -120,12 +124,12 @@ describe('10-10d-extended transform for submit', () => {
               first: 'Johnny',
               last: 'Alvin',
             },
-            applicantSSN: '345345345',
+            applicantSSN: APPLICANT_SSN,
           },
         ],
         medicare: [
           {
-            medicareParticipant: '28e7f1064a74', // obtained by running the SSN through `toHash`
+            medicareParticipant: SSN_HASH,
             medicarePlanType: 'c',
             medicarePartCCarrier: 'Advantage Health Solutions',
           },
@@ -149,7 +153,7 @@ describe('10-10d-extended transform for submit', () => {
               first: 'Johnny',
               last: 'Alvin',
             },
-            applicantSSN: '345345345',
+            applicantSSN: APPLICANT_SSN,
           },
         ],
         healthInsurance: [
@@ -157,9 +161,7 @@ describe('10-10d-extended transform for submit', () => {
             insuranceType: 'medigap',
             medigapPlan: 'K',
             provider: 'Blue Cross Blue Shield',
-            healthcareParticipants: {
-              '28e7f1064a74': true, // key obtained by running the SSN through `toHash`
-            },
+            healthcareParticipants: { [SSN_HASH]: true },
           },
         ],
       },
@@ -180,7 +182,7 @@ describe('10-10d-extended transform for submit', () => {
       data: {
         medicare: [
           {
-            medicareParticipant: '28e7f1064a74', // obtained by running the SSN through `toHash`
+            medicareParticipant: SSN_HASH,
             medicarePlanType: 'c',
             medicarePartCCarrier: 'Advantage Health Solutions',
           },
@@ -191,14 +193,13 @@ describe('10-10d-extended transform for submit', () => {
               first: 'Johnny',
               last: 'Alvin',
             },
-            applicantSSN: '345345345',
+            applicantSSN: APPLICANT_SSN,
           },
         ],
       },
     };
 
     const transformed = JSON.parse(transformForSubmit(formConfig, testData));
-
     expect(transformed.applicants[0].applicantMedicareAdvantage).to.be.true;
   });
 
@@ -211,7 +212,7 @@ describe('10-10d-extended transform for submit', () => {
               first: 'Johnny',
               last: 'Alvin',
             },
-            applicantSSN: '345345345',
+            applicantSSN: APPLICANT_SSN,
           },
         ],
         healthInsurance: [
@@ -219,16 +220,13 @@ describe('10-10d-extended transform for submit', () => {
             insuranceType: 'medigap',
             medigapPlan: 'K',
             provider: 'Blue Cross Blue Shield',
-            healthcareParticipants: {
-              '28e7f1064a74': true, // key obtained by running the SSN through `toHash`
-            },
+            healthcareParticipants: { [SSN_HASH]: true },
           },
         ],
       },
     };
 
     const transformed = JSON.parse(transformForSubmit(formConfig, testData));
-
     expect(transformed.applicants[0].hasOtherHealthInsurance).to.be.true;
   });
 

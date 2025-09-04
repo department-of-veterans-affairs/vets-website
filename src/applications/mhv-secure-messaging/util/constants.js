@@ -17,7 +17,9 @@ export const Paths = {
   REPLY: '/reply/',
   CONTACT_LIST: '/contact-list/',
   SELECT_HEALTH_CARE_SYSTEM: 'select-health-care-system',
+  SELECT_CARE_TEAM: 'select-care-team',
   START_MESSAGE: 'start-message',
+  CARE_TEAM_HELP: '/new-message/care-team-help',
 };
 
 export const DefaultFolders = {
@@ -469,6 +471,8 @@ export const PageTitles = {
   CONVERSATION_TITLE_TAG: 'Conversation | Veterans Affairs',
   EDIT_DRAFT_PAGE_TITLE_TAG:
     'Edit draft - MHV Secure Messaging | Veterans Affairs',
+  CARE_TEAM_HELP_TITLE_TAG:
+    'Can’t find your care team? - Messages | Veterans Affairs',
 };
 
 export const Recipients = {
@@ -548,3 +552,10 @@ export const smFooter = {
   FIND_FACILITY: 'Find your VA health facility',
   NEED_HELP: 'Need help?',
 };
+
+export const teamNotListedReasons = [
+  'Your account isn’t connected to the care team.',
+  'The care team doesn’t use secure messaging.',
+  'Your care team is part of a different VA health care system.',
+  'You removed the care team from your contact list.',
+];

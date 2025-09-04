@@ -1,19 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
 import { fireEvent } from '@testing-library/dom';
-import { Provider } from 'react-redux';
-import { createStore } from 'redux';
 
 import FilesNeeded from '../../../components/claim-files-tab/FilesNeeded';
 import { renderWithRouter } from '../../utils';
-
-const getStore = (cst5103UpdateEnabled = true) =>
-  createStore(() => ({
-    featureToggles: {
-      // eslint-disable-next-line camelcase
-      cst_5103_update_enabled: cst5103UpdateEnabled,
-    },
-  }));
 
 const item = {
   id: 1,
@@ -28,11 +18,7 @@ const statusTab = 'status';
 describe('<FilesNeeded>', () => {
   context('when user navigates to page directly', () => {
     it('should render va-alert with item data and show DueDate', () => {
-      const { getByText } = renderWithRouter(
-        <Provider store={getStore()}>
-          <FilesNeeded item={item} />
-        </Provider>,
-      );
+      const { getByText } = renderWithRouter(<FilesNeeded item={item} />);
 
       getByText('December 1, 2024', { exact: false });
       getByText('Request for evidence');
@@ -51,9 +37,7 @@ describe('<FilesNeeded>', () => {
       context('when evidenceWaiverSubmitted5103 is false', () => {
         it('should render va-alert with item data and hide DueDate', () => {
           const { queryByText, getByText } = renderWithRouter(
-            <Provider store={getStore()}>
-              <FilesNeeded item={item5103} />
-            </Provider>,
+            <FilesNeeded item={item5103} />,
           );
 
           expect(queryByText('December 1, 2024')).to.not.exist;
@@ -72,9 +56,7 @@ describe('<FilesNeeded>', () => {
   context('when user navigates to page from the files tab', () => {
     it('clicking details link should set session storage', () => {
       const { getByRole } = renderWithRouter(
-        <Provider store={getStore()}>
-          <FilesNeeded item={item} previousPage={filesTab} />
-        </Provider>,
+        <FilesNeeded item={item} previousPage={filesTab} />,
       );
 
       fireEvent.click(getByRole('link'));
@@ -86,9 +68,7 @@ describe('<FilesNeeded>', () => {
   context('when user navigates to page from the status tab', () => {
     it('clicking details link should set session storage', () => {
       const { getByRole } = renderWithRouter(
-        <Provider store={getStore()}>
-          <FilesNeeded item={item} previousPage={statusTab} />
-        </Provider>,
+        <FilesNeeded item={item} previousPage={statusTab} />,
       );
 
       fireEvent.click(getByRole('link'));
@@ -115,11 +95,7 @@ describe('<FilesNeeded>', () => {
       documents: '[]',
       date: '2024-03-07',
     };
-    const { getByText } = renderWithRouter(
-      <Provider store={getStore(true)}>
-        <FilesNeeded item={item214142} />
-      </Provider>,
-    );
+    const { getByText } = renderWithRouter(<FilesNeeded item={item214142} />);
     getByText('good description');
     getByText('Provide authorization to Disclose Information');
   });
@@ -135,9 +111,7 @@ describe('<FilesNeeded>', () => {
       date: '2024-03-07',
     };
     const { getByText } = renderWithRouter(
-      <Provider store={getStore(true)}>
-        <FilesNeeded item={noOverrideItem} />
-      </Provider>,
+      <FilesNeeded item={noOverrideItem} />,
     );
     getByText('Request for evidence');
     getByText('Description comes from API');

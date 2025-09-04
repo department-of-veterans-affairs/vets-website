@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import {
   validateFile,
   validateFiles,
+  isPdf,
   FILE_TYPES,
   MAX_FILE_SIZE_BYTES,
   MAX_PDF_SIZE_BYTES,
@@ -28,6 +29,54 @@ describe('Claims status validation:', () => {
         'bmp',
         'txt',
       ]);
+    });
+  });
+
+  describe('isPdf', () => {
+    it('should return true for files with .pdf extension', () => {
+      const file = createMockFile('document.pdf', 1024);
+      expect(isPdf(file)).to.be.true;
+    });
+
+    it('should return true for mixed-case PDF extensions', () => {
+      const file = createMockFile('DOCUMENT.PDF', 1024);
+      expect(isPdf(file)).to.be.true;
+    });
+
+    it('should return false for non-PDF files', () => {
+      const file = createMockFile('document.jpg', 1024);
+      expect(isPdf(file)).to.be.false;
+    });
+
+    it('should return false for files containing "pdf" but not ending with it', () => {
+      const file = createMockFile('pdf_document.txt', 1024);
+      expect(isPdf(file)).to.be.false;
+    });
+
+    it('should return false for files ending with "pdf" without the dot', () => {
+      const file = createMockFile('documentpdf', 1024);
+      expect(isPdf(file)).to.be.false;
+    });
+
+    it('should handle null filename gracefully', () => {
+      const file = { name: null, size: 1024 };
+      const result = isPdf(file);
+      // Optional chaining fails on null, nullish coalescing (??) provides false fallback
+      expect(result).to.be.false;
+    });
+
+    it('should handle undefined filename gracefully', () => {
+      const file = { name: undefined, size: 1024 };
+      const result = isPdf(file);
+      // Optional chaining fails on undefined, nullish coalescing (??) provides false fallback
+      expect(result).to.be.false;
+    });
+
+    it('should handle files with no name property gracefully', () => {
+      const file = { size: 1024 };
+      const result = isPdf(file);
+      // Optional chaining fails on undefined property, nullish coalescing (??) provides false fallback
+      expect(result).to.be.false;
     });
   });
 

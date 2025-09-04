@@ -8,7 +8,6 @@ import copays from './fixtures/mocks/copays.json';
 import debts from './fixtures/mocks/debts.json';
 
 import saveInProgress from './fixtures/mocks/saveInProgress.json';
-import { WIZARD_STATUS } from '../../wizard/constants';
 
 // Telephone specific responses
 import mockTelephoneUpdate from './fixtures/mocks/telephone-update.json';
@@ -30,7 +29,7 @@ describe.skip('fsr 5655 contact info loop', () => {
       },
     }).as('features');
 
-    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+    sessionStorage.setItem('wizardStatus', WIZARD_STATUS_COMPLETE);
 
     cy.intercept('GET', '/v0/debts', debts);
     cy.intercept('GET', '/v0/medical_copays', copays);

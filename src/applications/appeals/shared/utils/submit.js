@@ -1,5 +1,10 @@
 import countries from 'platform/user/profile/vap-svc/constants/countries.json';
-
+import { PRIMARY_PHONE } from '../../995/constants';
+import {
+  hasHomeAndMobilePhone,
+  hasHomePhone,
+  hasMobilePhone,
+} from './contactInfo';
 import { MAX_LENGTH, SELECTED, SUBMITTED_DISAGREEMENTS } from '../constants';
 import { fixDateFormat, replaceSubmittedData } from './replace';
 import { returnUniqueIssues } from './issues';
@@ -107,12 +112,35 @@ export const addIncludedIssues = formData => {
 
 /**
  * Strip out extra profile phone data
- * @param {Veteran} veteran - Veteran formData object
- * @returns {Object} submittable address
+ * @param {FormData} formData - Veteran formData object
+ * @returns {Object} formatted phone object
  */
-export const getPhone = ({ veteran = {} } = {}) => {
+export const getPhone = (formData, isSc = false) => {
+  if (!formData) {
+    return {};
+  }
+
+  const { veteran = {} } = formData;
+  let phone = 'phone';
+
+  // Supplemental Claims is the only flow with
+  // both home and mobile phone numbers.
+  // HLR and NOD only have mobile
+  if (isSc) {
+    const primary = formData[PRIMARY_PHONE] || '';
+
+    if (hasHomeAndMobilePhone(formData) && primary) {
+      phone = `${primary}Phone`;
+    } else if (hasMobilePhone(formData)) {
+      phone = 'mobilePhone';
+    } else if (hasHomePhone(formData)) {
+      phone = 'homePhone';
+    }
+  }
+
   const truncate = (value, max) =>
-    replaceSubmittedData(veteran.phone?.[value] || '').substring(0, max);
+    replaceSubmittedData(veteran?.[phone]?.[value] || '').substring(0, max);
+
   return removeEmptyEntries({
     countryCode: truncate('countryCode', MAX_LENGTH.PHONE_COUNTRY_CODE),
     areaCode: truncate('areaCode', MAX_LENGTH.PHONE_AREA_CODE),

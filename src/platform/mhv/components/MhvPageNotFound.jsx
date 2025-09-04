@@ -27,32 +27,25 @@ export const MhvPageNotFoundContent = ({
   }, []);
 
   return (
-    <div className="vads-l-grid-container medium-screen:vads-u-padding-x--0 vads-u-margin-bottom--5">
-      <div className="vads-l-row">
-        <div
-          className="vads-l-col--12 medium-screen:vads-l-col--8"
-          data-testid={mhvPageNotFoundTestId}
-        >
-          <h1 className="vads-u-margin-top--4">{mhvPageNotFoundHeading}</h1>
-          <p>
-            If you typed or copied the URL into your web browser, check that
-            it’s correct.
-          </p>
-          <p>If that doesn’t work, try going to the My HealtheVet homepage.</p>
-          <p>
-            <va-link
-              href="/my-health"
-              text="Go to the My HealtheVet on VA.gov homepage"
-            />
-          </p>
-          <p className="vads-u-measure--4">
-            If you still can’t find what you need, call us at{' '}
-            <va-telephone contact={CONTACTS.MY_HEALTHEVET} /> (
-            <va-telephone contact={CONTACTS['711']} tty />
-            ). We’re here Monday through Friday; 8:00 a.m. to 8:00 p.m. ET.
-          </p>
-        </div>
-      </div>
+    <div data-testid={mhvPageNotFoundTestId}>
+      <h1 className="vads-u-margin-top--4">{mhvPageNotFoundHeading}</h1>
+      <p>
+        If you typed or copied the URL into your web browser, check that it’s
+        correct.
+      </p>
+      <p>If that doesn’t work, try going to the My HealtheVet homepage.</p>
+      <p>
+        <va-link
+          href="/my-health"
+          text="Go to the My HealtheVet on VA.gov homepage"
+        />
+      </p>
+      <p className="vads-u-measure--4">
+        If you still can’t find what you need, call us at{' '}
+        <va-telephone contact={CONTACTS.MY_HEALTHEVET} /> (
+        <va-telephone contact={CONTACTS['711']} tty />
+        ). We’re here Monday through Friday; 8:00 a.m. to 8:00 p.m. ET.
+      </p>
     </div>
   );
 };
@@ -115,7 +108,13 @@ const MhvPageNotFound = () => {
   return (
     <>
       {isVerified && isAPatient && <MhvSecondaryNav />}
-      <MhvPageNotFoundContent />
+      <div className="vads-l-grid-container medium-screen:vads-u-padding-x--0 vads-u-margin-bottom--5">
+        <div className="vads-l-row">
+          <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+            <MhvPageNotFoundContent />
+          </div>
+        </div>
+      </div>
     </>
   );
 };

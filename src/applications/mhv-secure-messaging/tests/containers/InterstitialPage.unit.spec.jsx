@@ -8,6 +8,7 @@ import sinon from 'sinon';
 import reducer from '../../reducers';
 import InterstitialPage from '../../containers/InterstitialPage';
 import { getByBrokenText } from '../../util/testUtils';
+import * as threadDetailsActions from '../../actions/threadDetails';
 
 describe('Interstitial page header', () => {
   const initialState = (isPilot = false) => {
@@ -73,25 +74,37 @@ describe('Interstitial page header', () => {
   });
 
   it('"Continue to start message" button responds on Enter key', async () => {
-    const acknowledgeSpy = sinon.spy();
-    const screen = setup({
-      props: { acknowledge: acknowledgeSpy },
+    let updateAcknowledgeSpy = sinon.spy();
+    updateAcknowledgeSpy = sinon.spy(
+      threadDetailsActions,
+      'acceptInterstitial',
+    );
+    const screen = renderWithStoreAndRouter(<InterstitialPage />, {
+      initialState: initialState(true),
+      reducers: reducer,
+      path: '/new-message/',
     });
     const continueButton = screen.queryByTestId('continue-button');
     userEvent.type(continueButton, '{enter}');
-    expect(acknowledgeSpy.called).to.be.true;
+    sinon.assert.calledWith(updateAcknowledgeSpy);
+    updateAcknowledgeSpy.restore();
   });
 
   it('"Continue to start message" button responds on Space key', async () => {
-    const acknowledgeSpy = sinon.spy();
-    const screen = setup({
-      props: { acknowledge: acknowledgeSpy },
+    let updateAcknowledgeSpy = sinon.spy();
+    updateAcknowledgeSpy = sinon.spy(
+      threadDetailsActions,
+      'acceptInterstitial',
+    );
+    const screen = renderWithStoreAndRouter(<InterstitialPage />, {
+      initialState: initialState(true),
+      reducers: reducer,
+      path: '/new-message/',
     });
     const continueButton = screen.queryByTestId('continue-button');
     userEvent.type(continueButton, '{space}');
-    await waitFor(() => {
-      expect(acknowledgeSpy.called).to.be.true;
-    });
+    sinon.assert.calledWith(updateAcknowledgeSpy);
+    updateAcknowledgeSpy.restore();
   });
 
   it('"Continue to start message" button does respond on Tab key', async () => {
@@ -122,7 +135,7 @@ describe('Interstitial page header', () => {
     await waitFor(() => {
       expect(acknowledgeSpy.called).to.be.false;
       expect(history.location.pathname).to.equal(
-        '/new-message/select-health-care-system',
+        '/new-message/select-care-team',
       );
     });
   });

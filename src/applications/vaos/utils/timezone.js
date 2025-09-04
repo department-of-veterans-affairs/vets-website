@@ -45,6 +45,20 @@ export function stripDST(stringWithAbbr) {
 }
 
 /**
+ * Function to map GMT timezone to abbreviation
+ *
+ * @export
+ * @param {string} abbreviation - Timezone abbreviation that may be GMT format
+ * @returns {string} - Mapped timezone abbreviation or original if not GMT
+ */
+export function mapGmtToAbbreviation(abbreviation) {
+  if (abbreviation?.startsWith('GMT')) {
+    return GMT_TABLE_MAPPING[abbreviation] || abbreviation;
+  }
+  return abbreviation;
+}
+
+/**
  * Function to return timezone.
  *
  * @export
@@ -76,9 +90,7 @@ export function getTimezoneAbbrFromApi(appointment) {
     ? formatInTimeZone(new Date(), appointmentTZ, 'z')
     : null;
 
-  if (timeZoneAbbr?.startsWith('GMT')) {
-    return GMT_TABLE_MAPPING[timeZoneAbbr];
-  }
+  timeZoneAbbr = mapGmtToAbbreviation(timeZoneAbbr);
 
   // Strip out middle char in abbreviation so we can ignore DST
   if (
@@ -105,7 +117,7 @@ export function getTimezoneAbbrByFacilityId(id) {
   }
 
   let abbreviation = formatInTimeZone(new Date(), matchingZone, 'z');
-  if (abbreviation?.startsWith('GMT')) return GMT_TABLE_MAPPING[abbreviation];
+  abbreviation = mapGmtToAbbreviation(abbreviation);
 
   // Strip out middle char in abbreviation so we can ignore DST
   if (matchingZone.includes('America') || matchingZone.includes('Pacific')) {
@@ -158,8 +170,21 @@ export function getTimezoneNameFromAbbr(abbreviation) {
  */
 export function getUserTimezoneAbbr() {
   let abbreviation = format(new Date(), 'z');
-  if (abbreviation.startsWith('GMT'))
-    abbreviation = GMT_TABLE_MAPPING[abbreviation];
+  abbreviation = mapGmtToAbbreviation(abbreviation);
 
   return abbreviation || format(new Date(), 'z');
+}
+
+/**
+ * Function to get formatted timezone abbreviation for a given date and timezone.
+ *
+ * @export
+ * @param {string|Date} date - The date to format.
+ * @param {string} timezone - The IANA timezone string (e.g., 'America/New_York').
+ * @returns {string} - The formatted timezone abbreviation with DST stripped and GMTs replaced.
+ */
+export function getFormattedTimezoneAbbr(date, timezone) {
+  return stripDST(
+    mapGmtToAbbreviation(formatInTimeZone(new Date(date), timezone, 'zzz')),
+  );
 }

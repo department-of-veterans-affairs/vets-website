@@ -89,6 +89,9 @@ const OverviewPage = () => {
   const showVHAPaymentHistory = useToggleValue(
     TOGGLE_NAMES.showVHAPaymentHistory,
   );
+  const showOneThingPerPage = useToggleValue(
+    TOGGLE_NAMES.showCDPOneThingPerPage,
+  );
 
   const {
     debts,
@@ -134,8 +137,8 @@ const OverviewPage = () => {
       return renderAlert(ALERT_TYPES.ZERO, debts?.length);
     }
 
-    return showVHAPaymentHistory ? (
-      <article className="vads-u-padding-x--0">
+    return showOneThingPerPage || showVHAPaymentHistory ? (
+      <article className="vads-u-padding-x--0 vads-u-padding-bottom--0">
         <Balances
           statements={statementsByUniqueFacility}
           showVHAPaymentHistory={showVHAPaymentHistory}
