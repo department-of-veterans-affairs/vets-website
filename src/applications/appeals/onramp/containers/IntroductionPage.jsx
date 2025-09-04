@@ -48,7 +48,7 @@ const IntroductionPage = ({ router, setIntroPageViewed }) => {
         onClick={startTool}
         text="Start the tool"
       />
-      <hr className="vads-u-margin-y--4" />
+      <hr className="vads-u-margin-y--4" aria-hidden="true" />
       <h3 className="vads-u-margin-top--3">Haven’t received a decision yet?</h3>
       <p>
         This tool is for reviewing VA decisions that have already been made. If
