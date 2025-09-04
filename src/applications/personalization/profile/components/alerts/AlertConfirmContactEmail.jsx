@@ -4,9 +4,8 @@ import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/
 
 export const AlertConfirmContactEmail = () => (
   <VaAlert
-    close-btn-aria-label="Close notification"
     closeable
-    closeEvent={() => Cookies.set('CONTACT_EMAIL_CONFIRMED', 'true')}
+    onCloseEvent={() => Cookies.set('CONTACT_EMAIL_CONFIRMED', 'true')}
     status="warning"
     visible
   >
