@@ -25,7 +25,7 @@ import { getUniqueTriageGroups } from '../util/recipients';
 import featureToggles from '../hooks/useFeatureToggles';
 
 const Compose = () => {
-  const { cernerPilotSmFeatureFlag } = featureToggles();
+  const { mhvSecureMessagingCuratedListFlow } = featureToggles();
 
   const dispatch = useDispatch();
   const recipients = useSelector(state => state.sm.recipients);
@@ -45,7 +45,7 @@ const Compose = () => {
 
   const [draftType, setDraftType] = useState('');
   const [pageTitle, setPageTitle] = useState(
-    cernerPilotSmFeatureFlag ? 'Start message' : 'Start a new message',
+    mhvSecureMessagingCuratedListFlow ? 'Start message' : 'Start a new message',
   );
   const location = useLocation();
   const history = useHistory();
