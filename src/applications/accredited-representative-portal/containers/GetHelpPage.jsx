@@ -39,7 +39,7 @@ const GetHelpPage = title => {
         const el = document.getElementById(id);
         if (el) {
           el.scrollIntoView({ behavior: 'smooth' });
-          focusElement('h2');
+          focusElement(`#${id}`);
         }
       } else {
         focusElement('h1');
