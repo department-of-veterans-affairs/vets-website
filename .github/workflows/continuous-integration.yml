@@ -2037,7 +2037,7 @@ jobs:
     permissions:
       contents: write
     needs: [build, set-deploy-environments]
-    if: ${{ needs.build.outputs.entry_names != '' && needs.build.outputs.continuous_deployment == 'true' }}
+    if: ${{ needs.build.outputs.entry_names != '' && github.ref == 'refs/heads/main' && needs.build.outputs.continuous_deployment == 'true' }}
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
