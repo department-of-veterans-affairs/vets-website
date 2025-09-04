@@ -1786,6 +1786,7 @@ describe('formatFullName', () => {
 describe('baseDoNew4142Logic', () => {
   const baseFormData = {
     disability526Enable2024Form4142: true,
+    'view:hasEvidence': true,
     'view:patientAcknowledgement': {
       'view:acknowledgement': true,
     },
@@ -1845,6 +1846,14 @@ describe('baseDoNew4142Logic', () => {
       };
       expect(baseDoNew4142Logic(formData)).to.be.false;
     });
+
+    it('should return false when view:hasEvidence is null', () => {
+      const formData = {
+        ...baseFormData,
+        'view:hasEvidence': null,
+      };
+      expect(baseDoNew4142Logic(formData)).to.be.false;
+    });
   });
 
   describe('when feature flag is disabled', () => {
@@ -1890,10 +1899,27 @@ describe('baseDoNew4142Logic', () => {
     });
   });
 
+  describe('when user has switched to no evidence option', () => {
+    it('should return false even if legacy data exists', () => {
+      const formData = {
+        ...baseFormData,
+        'view:hasEvidence': false,
+        'view:selectableEvidenceTypes': {
+          'view:hasPrivateMedicalRecords': true,
+        },
+        'view:uploadPrivateRecordsQualifier': {
+          'view:hasPrivateRecordsToUpload': true,
+        },
+      };
+      expect(baseDoNew4142Logic(formData)).to.be.false;
+    });
+  });
+
   describe('when user has already acknowledged the new 4142', () => {
     it('should return false even if user wants to upload private medical records', () => {
       const formData = {
         ...baseFormData,
+        'view:hasEvidence': true,
         'view:selectableEvidenceTypes': {
           'view:hasPrivateMedicalRecords': true,
         },
