@@ -334,6 +334,23 @@ export const careSummariesAndNotesReducer = (state = initialState, action) => {
         ),
       };
     }
+    // case Actions.CareSummariesAndNotes.GET_UNIFIED_ITEM: {
+    //   return {
+    //     ...state,
+    //     careSummariesAndNotesDetails: convertUnifiedCareSummariesAndNotesRecord(
+    //       action.response,
+    //     ),
+    //   };
+    // }
+    case Actions.CareSummariesAndNotes.GET_UNIFIED_ITEM_FROM_LIST: {
+      // TODO: this is the problem - it's not setting it into state properly
+      return {
+        ...state,
+        careSummariesAndNotesDetails: convertUnifiedCareSummariesAndNotesRecord(
+          action.response,
+        ),
+      };
+    }
     case Actions.CareSummariesAndNotes.GET_FROM_LIST: {
       return {
         ...state,

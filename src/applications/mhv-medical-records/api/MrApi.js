@@ -155,6 +155,21 @@ export const getNotes = async () => {
   });
 };
 
+export const getAcceleratedNote = async id => {
+  const allResponse = await apiRequest(
+    `${API_BASE_PATH_V2}/medical_records/clinical_notes`,
+    {
+      headers,
+    },
+  );
+  return allResponse.data.find(note => note.id === id);
+  // TODO: make this work once we get single note endpoint
+  // OR we add one to vets-api and do the find on the BE until that endpoint exists in SCDF
+  // return apiRequest(`${API_BASE_PATH_V2}/medical_records/clinical_notes`, {
+  //   headers,
+  // });
+};
+
 export const getNote = id => {
   return apiRequest(`${apiBasePath}/medical_records/clinical_notes/${id}`, {
     headers,

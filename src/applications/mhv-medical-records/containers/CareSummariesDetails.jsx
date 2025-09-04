@@ -18,8 +18,12 @@ import {
 import useAlerts from '../hooks/use-alerts';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import { useTrackAction } from '../hooks/useTrackAction';
+import useAcceleratedData from '../hooks/useAcceleratedData';
 
 const CareSummariesDetails = () => {
+  const { isAcceleratingCareNotes } = useAcceleratedData();
+  // const isAcceleratingCareNotes = true;
+
   const dispatch = useDispatch();
   const careSummary = useSelector(
     state => state.mr.careSummariesAndNotes.careSummariesAndNotesDetails,
@@ -43,11 +47,17 @@ const CareSummariesDetails = () => {
   useEffect(
     () => {
       if (summaryId) {
-        dispatch(getCareSummaryAndNotesDetails(summaryId, careSummariesList));
+        dispatch(
+          getCareSummaryAndNotesDetails(
+            summaryId,
+            careSummariesList,
+            isAcceleratingCareNotes,
+          ),
+        );
       }
       updatePageTitle(pageTitles.CARE_SUMMARIES_AND_NOTES_DETAILS_PAGE_TITLE);
     },
-    [summaryId, careSummariesList, dispatch],
+    [summaryId, careSummariesList, dispatch, isAcceleratingCareNotes],
   );
 
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
@@ -60,10 +70,11 @@ const CareSummariesDetails = () => {
       />
     );
   }
-  if (careSummary?.type === loincCodes.DISCHARGE_SUMMARY) {
+  if (careSummary && careSummary?.type === loincCodes.DISCHARGE_SUMMARY) {
     return <AdmissionAndDischargeDetails record={careSummary} />;
   }
   if (
+    careSummary &&
     careSummary?.type !== loincCodes.DISCHARGE_SUMMARY
     // careSummary?.type === loincCodes.PHYSICIAN_PROCEDURE_NOTE ||
     // careSummary?.type === loincCodes.CONSULT_RESULT
