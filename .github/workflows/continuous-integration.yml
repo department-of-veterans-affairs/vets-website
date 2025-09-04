@@ -53,7 +53,7 @@ jobs:
         uses: ./.github/workflows/get-changed-apps
         with:
           delimiter: ','
-          output-type: 'entry_name,continuous_deployment'
+          output-type: 'entry_name, continuous_deployment'
 
       - name: Get Mapbox Token
         if: ${{ matrix.buildtype == 'vagovprod' }}
@@ -1554,7 +1554,7 @@ jobs:
         if: ${{ needs.cypress-tests.result == 'failure' }}
         uses: ./.github/workflows/download-artifact
         with:
-          pattern: cypress-mochawesome-test-results-*
+          pattern: cypress-video-artifacts-*
           path: qa-standards-dashboard-data/videos/${{ env.UUID }}
           merge-multiple: true
 
@@ -2034,8 +2034,10 @@ jobs:
   cd-prod-deploy:
     name: CD Production Deploy
     runs-on: ubuntu-22.04
+    permissions:
+      contents: write
     needs: [build, set-deploy-environments]
-    if: ${{ needs.build.outputs.entry_names != '' && needs.build.outputs.continuous_deployment == 'true' }}
+    if: ${{ needs.build.outputs.entry_names != '' && github.ref == 'refs/heads/main' && needs.build.outputs.continuous_deployment == 'true' }}
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
@@ -2069,6 +2071,12 @@ jobs:
           else
             echo "channel=$channel" >> $GITHUB_OUTPUT
           fi
+
+      - name: Debug CD gating values
+        run: |
+          echo "entry_names=${{ needs.build.outputs.entry_names }}"
+          echo "continuous_deployment=${{ needs.build.outputs.continuous_deployment }}"
+          echo "slack_channel=${{ steps.determine-channel.outputs.channel }}"
 
       - name: Dispatch Event to Next Workflow
         run: |

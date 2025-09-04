@@ -28,6 +28,7 @@ import State from '../State';
 import {
   NULL_STATE_FIELD,
   recordAppointmentDetailsNullStates,
+  captureMissingModalityLogs,
 } from '../../utils/events';
 
 export default function VideoLayout({ data: appointment }) {
@@ -61,6 +62,9 @@ export default function VideoLayout({ data: appointment }) {
     heading = 'Canceled video appointment';
   else if (isPastAppointment) heading = 'Past video appointment';
 
+  if (!appointment.modality) {
+    captureMissingModalityLogs(appointment);
+  }
   recordAppointmentDetailsNullStates(
     {
       type: appointment.type,

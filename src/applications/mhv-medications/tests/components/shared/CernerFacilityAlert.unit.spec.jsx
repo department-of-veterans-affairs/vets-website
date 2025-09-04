@@ -52,6 +52,8 @@ describe('Cerner Facility Alert', () => {
     });
 
     expect(screen.queryByTestId('cerner-facilities-alert')).to.exist;
+    const link = screen.getByText('Go to My VA Health');
+    expect(link).to.exist;
     expect(screen.getByText('VA Spokane health care')).to.exist;
     expect(screen.getByText('VA Walla Walla health care')).to.exist;
     expect(screen.getByText('VA Southern Oregon health care')).to.exist;
@@ -63,6 +65,8 @@ describe('Cerner Facility Alert', () => {
     });
 
     expect(screen.queryByTestId('cerner-facilities-alert')).to.exist;
+    const link = screen.getByText('Go to My VA Health');
+    expect(link).to.exist;
 
     expect(
       screen.getByTestId('single-cerner-facility-text').textContent,

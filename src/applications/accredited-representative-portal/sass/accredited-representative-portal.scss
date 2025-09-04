@@ -139,7 +139,7 @@
       color: $vads-color-base-lightest;
       padding: 30px 16px;
 
-      @media (min-width: $medium-screen) {
+      @media (min-width: $small-desktop-screen) {
         padding: 72px 16px;
 
         .is--redesign & {
@@ -168,7 +168,7 @@
       padding: 20px;
       border-radius: 8px;
 
-      @media (min-width: $medium-screen) {
+      @media (min-width: $small-desktop-screen) {
         max-width: 544px;
         padding: 50px;
       }
@@ -180,7 +180,7 @@
         padding: 30px;
         margin-top: 24px;
 
-        @media (min-width: $medium-screen) {
+        @media (min-width: $small-desktop-screen) {
           max-width: 312px;
           margin-top: 0;
         }
@@ -206,6 +206,12 @@
       align-items: center;
       padding: 32px 16px;
 
+      .is--redesign & {
+        @media (min-width: $small-desktop-screen) {
+          padding: 0 16px !important;
+        }
+      }
+
       p {
         margin-top: 0;
       }
@@ -223,7 +229,7 @@
       justify-content: space-between;
       div {
         width: 100%;
-        @media (min-width: $medium-screen) {
+        @media (min-width: $small-desktop-screen) {
           width: 50%;
 
           &:last-child {
@@ -243,7 +249,7 @@
       list-style: none;
       display: flex;
       flex-direction: column;
-      @media (min-width: $medium-screen) {
+      @media (min-width: $small-desktop-screen) {
         flex-direction: row;
       }
 
@@ -251,7 +257,7 @@
         width: 100%;
         margin-bottom: 20px;
 
-        @media (min-width: $medium-screen) {
+        @media (min-width: $small-desktop-screen) {
           width: 228px;
           margin-left: 24px;
           margin-bottom: 0;
@@ -264,13 +270,13 @@
     }
 
     &--desktop-row {
-      @media (min-width: $medium-screen) {
+      @media (min-width: $small-desktop-screen) {
         flex-direction: row;
         max-width: 100%;
       }
     }
 
-    @media (min-width: $medium-screen) {
+    @media (min-width: $small-desktop-screen) {
       padding: 52px 16px;
 
       .is--redesign & {
@@ -292,7 +298,7 @@
       .is--redesign & {
         width: 100%;
 
-        @media (min-width: $medium-screen) {
+        @media (min-width: $small-desktop-screen) {
           width: 228px;
         }
       }
@@ -305,7 +311,8 @@
 
   &__full-width {
     h3 {
-      margin: 0;
+      margin: 0 0 4px 0;
+      padding-bottom: 8px
     }
     &.is--lighter {
       background-color: $vads-color-primary-lighter;
@@ -337,7 +344,7 @@
     position: relative;
 
     ~ div {
-      @media (min-width: $medium-screen) {
+      @media (min-width: $small-desktop-screen) {
         margin-left: 55px;
         width: 50%;
         padding: 60px 0;
@@ -356,7 +363,7 @@
   }
 
   &__sub-header {
-    @media (min-width: $medium-screen) {
+    @media (min-width: $small-desktop-screen) {
       font-size: 20px;
 
       &--login {
@@ -366,6 +373,7 @@
   }
   &__portal-img {
     width: 100%;
+    max-width: 732px;
 
     @media (min-width: $small-desktop-screen) {
       width: 464px;
@@ -374,14 +382,14 @@
 
     &.is--left-img {
       padding: 40px 16px 24px 16px;
-      @media (min-width: $medium-screen) {
+      @media (min-width: $small-desktop-screen) {
         padding: 0;
         margin-right: 24px;
       }
     }
     &.is--right-img {
       padding: 40px 16px 24px 16px;
-      @media (min-width: $medium-screen) {
+      @media (min-width: $small-desktop-screen) {
         padding: 0;
         margin-left: 24px;
       }
@@ -504,4 +512,13 @@ h2.claimant-name {
       padding: 0 0.25em;
     }
   }
+}
+
+.arp__home__link--learn-more {
+  margin-bottom: 24px;
+  display: block;
+}
+
+.arp__landing__card-body {
+  margin: 0;
 }
