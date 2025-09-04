@@ -2,8 +2,8 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { render } from '@testing-library/react';
-import CareSummariesAndNotesListItem from './CareSummariesAndNotesListItem';
-import * as constants from '../../../util/constants';
+import CareSummariesAndNotesListItem from '../../../../components/RecordList/CareNotesListItems/CareSummariesAndNotesListItem';
+import * as constants from '../../../../util/constants';
 
 // Mock child components
 const DischargeSummaryListItem = props => (
@@ -21,10 +21,16 @@ describe('CareSummariesAndNotesListItem (mocha)', () => {
 
   before(() => {
     dischargeStub = sinon
-      .stub(require('./DischargeSummaryListItem'), 'default')
+      .stub(
+        require('../../../../components/RecordList/CareNotesListItems/DischargeSummaryListItem'),
+        'default',
+      )
       .callsFake(DischargeSummaryListItem);
     noteStub = sinon
-      .stub(require('./NoteListItem'), 'default')
+      .stub(
+        require('../../../../components/RecordList/CareNotesListItems/NoteListItem'),
+        'default',
+      )
       .callsFake(NoteListItem);
   });
 

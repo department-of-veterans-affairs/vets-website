@@ -19,6 +19,7 @@ const DischargeSummaryListItem = ({ record }) => (
         onClick={() => {
           sendDataDogAction('Care Summaries & Notes Detail Link');
         }}
+        data-testid="note-name"
       >
         {record.name}
         <span className="sr-only" data-testid="sr-note-date">
@@ -45,6 +46,7 @@ const DischargeSummaryListItem = ({ record }) => (
       className="vads-u-margin-bottom--0p5"
       data-dd-privacy="mask"
       data-dd-action-name="[care summary - location]"
+      data-testid="note-location"
     >
       {record.location}
     </div>
@@ -54,6 +56,7 @@ const DischargeSummaryListItem = ({ record }) => (
         className="vads-u-display--inline"
         data-dd-privacy="mask"
         data-dd-action-name="[care summary - written/discharged by]"
+        data-testid="note-discharged-by"
       >
         {record.dischargedBy}
       </span>
