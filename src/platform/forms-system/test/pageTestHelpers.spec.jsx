@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
-import navigationState from 'platform/forms-system/src/js/utilities/navigation/navigationState.js';
+import navigationState from 'platform/forms-system/src/js/utilities/navigation/navigationState';
 
 const expectedFieldTypes = 'input, select, textarea';
 
