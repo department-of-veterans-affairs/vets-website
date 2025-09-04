@@ -26,7 +26,6 @@ import {
   selectNotesFlag,
   selectVaccinesFlag,
   selectVitalsFlag,
-  selectLabsAndTestsFlag,
   selectMarch17UpdatesFlag,
 } from '../util/selectors';
 import ExternalLink from '../components/shared/ExternalLink';
@@ -53,7 +52,6 @@ const LandingPage = () => {
   const displayNotes = useSelector(selectNotesFlag);
   const displayVaccines = useSelector(selectVaccinesFlag);
   const displayVitals = useSelector(selectVitalsFlag);
-  const displayLabsAndTest = useSelector(selectLabsAndTestsFlag);
   const displayMarch17Updates = useSelector(selectMarch17UpdatesFlag);
   const killExternalLinks = useSelector(
     state => state.featureToggles.mhv_medical_records_kill_external_links,
@@ -158,28 +156,26 @@ const LandingPage = () => {
 
       {!isLoading && (
         <>
-          {displayLabsAndTest && (
-            <section>
-              <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
-                Lab and test results
-              </h2>
-              <p className="vads-u-margin-bottom--2">
-                Get results of your VA medical tests. This includes blood tests,
-                X-rays, and other imaging tests.
-              </p>
-              <Link
-                to="/labs-and-tests"
-                className="vads-c-action-link--blue"
-                data-testid="labs-and-tests-landing-page-link"
-                onClick={() => {
-                  sendAalViewList('Lab and test results');
-                  sendDataDogAction(LAB_TEST_RESULTS_LABEL);
-                }}
-              >
-                {LAB_TEST_RESULTS_LABEL}
-              </Link>
-            </section>
-          )}
+          <section>
+            <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+              Lab and test results
+            </h2>
+            <p className="vads-u-margin-bottom--2">
+              Get results of your VA medical tests. This includes blood tests,
+              X-rays, and other imaging tests.
+            </p>
+            <Link
+              to="/labs-and-tests"
+              className="vads-c-action-link--blue"
+              data-testid="labs-and-tests-landing-page-link"
+              onClick={() => {
+                sendAalViewList('Lab and test results');
+                sendDataDogAction(LAB_TEST_RESULTS_LABEL);
+              }}
+            >
+              {LAB_TEST_RESULTS_LABEL}
+            </Link>
+          </section>
           {displayNotes && (
             <section>
               <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">

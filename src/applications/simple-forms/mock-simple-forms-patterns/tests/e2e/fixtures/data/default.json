@@ -52,7 +52,7 @@
         "type": "png",
         "confirmationCode": "456efg",
         "additionalData": {
-          "documentStatus": "private"
+          "documentStatus": "public"
         }
       }
     ],
