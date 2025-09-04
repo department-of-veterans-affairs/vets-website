@@ -53,7 +53,7 @@ jobs:
         uses: ./.github/workflows/get-changed-apps
         with:
           delimiter: ','
-          output-type: 'entry_name,continuous_deployment'
+          output-type: 'entry_name, continuous_deployment'
 
       - name: Get Mapbox Token
         if: ${{ matrix.buildtype == 'vagovprod' }}
@@ -2034,8 +2034,6 @@ jobs:
   cd-prod-deploy:
     name: CD Production Deploy
     runs-on: ubuntu-22.04
-    permissions:
-      contents: write
     needs: [build, set-deploy-environments]
     if: ${{ needs.build.outputs.entry_names != '' && needs.build.outputs.continuous_deployment == 'true' }}
     steps:

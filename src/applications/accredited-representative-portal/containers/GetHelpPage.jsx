@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 import { HELP_BC_LABEL, HelpBC } from '../utilities/poaRequests';
@@ -29,12 +29,23 @@ const RepresentationLink = () => (
 );
 
 const GetHelpPage = title => {
+  const { hash } = useLocation();
+
   useEffect(
     () => {
-      focusElement('h1');
       document.title = title.title;
+      if (hash) {
+        const id = hash.replace('#', '');
+        const el = document.getElementById(id);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth' });
+          focusElement('h2');
+        }
+      } else {
+        focusElement('h1');
+      }
     },
-    [title],
+    [title, hash],
   );
 
   /* eslint-disable no-irregular-whitespace */
