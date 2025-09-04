@@ -330,4 +330,21 @@ describe('<Dashboard />', () => {
       expect(getByTestId('req-loader')).to.exist;
     });
   });
+
+  it('renders a link to confirm contact email', async () => {
+    mockFetch();
+    const { getByTestId } = renderInReduxProvider(<Dashboard />, {
+      initialState,
+      reducers,
+    });
+    const testId = 'va-profile--confirm-contact-email-link';
+    const href = '/profile/contact-information#contact-email-address';
+    const textContent = /Confirm your contact email address/;
+    await waitFor(() => {
+      const confirmEmailLink = getByTestId(testId);
+      expect(confirmEmailLink).to.exist;
+      expect(confirmEmailLink.link).to.satisfy(str => str.endsWith(href));
+      expect(confirmEmailLink.text).to.match(textContent);
+    });
+  });
 });
