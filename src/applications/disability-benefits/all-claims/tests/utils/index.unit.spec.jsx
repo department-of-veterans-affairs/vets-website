@@ -23,6 +23,7 @@ describe('utils', () => {
     it('should return true if all conditions are met', () => {
       const formData = {
         disability526Enable2024Form4142: true,
+        'view:hasEvidence': true,
         'view:selectableEvidenceTypes': {
           'view:hasPrivateMedicalRecords': true,
         },
@@ -48,6 +49,7 @@ describe('utils', () => {
       const router = { push: sinon.spy() };
       const formData = {
         disability526Enable2024Form4142: true,
+        'view:hasEvidence': true,
         'view:patientAcknowledgement': { 'view:acknowledgement': true },
         'view:uploadPrivateRecordsQualifier': {
           'view:hasPrivateRecordsToUpload': false,
