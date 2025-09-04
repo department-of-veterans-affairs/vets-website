@@ -168,7 +168,7 @@ export const ProfileInfoSection = ({
   level = 3,
   data,
   asList = false,
-  displayAlertConfirmContactEmail = false,
+  enableAlertConfirmContactEmail = false,
 }) => {
   const secondaryLevel = level + 1;
 
@@ -182,7 +182,7 @@ export const ProfileInfoSection = ({
         {title}
       </HeadingLevel>
 
-      {displayAlertConfirmContactEmail && <AlertConfirmContactEmail />}
+      {enableAlertConfirmContactEmail && <AlertConfirmContactEmail />}
 
       <div className="vads-u-margin-top--1">
         {Array.isArray(data) ? (
@@ -200,7 +200,7 @@ ProfileInfoSection.propTypes = {
     .isRequired,
   asList: PropTypes.bool,
   className: PropTypes.string,
-  displayAlertConfirmContactEmail: PropTypes.bool,
+  enableAlertConfirmContactEmail: PropTypes.bool,
   level: optionalNumberBetween(1, 5),
   namedAnchor: PropTypes.string,
   title: PropTypes.string,
