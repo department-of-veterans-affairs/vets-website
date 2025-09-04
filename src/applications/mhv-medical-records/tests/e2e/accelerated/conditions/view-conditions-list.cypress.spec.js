@@ -15,7 +15,7 @@ describe('Medical Records View Conditions', () => {
     Conditions.setIntercepts({ conditionsData });
   });
 
-  it('Visits View Condtions List', () => {
+  it('Visits View Conditions List', () => {
     site.loadPage();
 
     Conditions.goToConditionsPage();

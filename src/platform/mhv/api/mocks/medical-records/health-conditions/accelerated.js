@@ -72,7 +72,7 @@ const all = {
 };
 const empty = [];
 const single = id => {
-  const sampleData = all.find(item => item.id === id);
+  const sampleData = all.data.find(item => item.id === id);
   if (!sampleData) {
     return null;
   }
