@@ -18,11 +18,11 @@ describe('Filter Student Feedback — keyboard-only accessibility', () => {
     cy.intercept('GET', '**/v1/gi/institutions/21376032*', {
       statusCode: 200,
       body: institutionWithFeedbackMock,
-    }).as('institutionWithFeedbac');
+    }).as('institutionWithFeedback');
     cy.visit(
       'education/gi-bill-comparison-tool/schools-and-employers/institution/21376032/filter-student-feedback',
     );
-    cy.wait('@institutionWithFeedbac');
+    cy.wait('@institutionWithFeedback');
     cy.get('h1').should('be.focused');
   });
 
