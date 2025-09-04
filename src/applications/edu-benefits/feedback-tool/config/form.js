@@ -141,7 +141,7 @@ function manualSchoolEntryIsCheckedAndIsUS(formData) {
  */
 const updateProgramsSchema = formData => {
   const clonedPrograms = cloneDeep(programs);
-  if (formData.giFeedbackToolVetTecEducationBenefit !== true) {
+  if (formData['view:giFeedbackToolVetTecEducationBenefit'] !== true) {
     delete clonedPrograms.properties.vetTec;
   }
   return clonedPrograms;

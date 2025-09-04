@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
+import * as headerFns from 'platform/forms-system/src/js/patterns/minimal-header';
 
 import { RoutedSavableReviewPage } from '../../save-in-progress/RoutedSavableReviewPage';
 
@@ -78,9 +79,16 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
   });
 
   it('should render h1 header if minimal header is present', () => {
-    const minimalHeader = document.createElement('div');
-    minimalHeader.id = 'header-minimal';
-    document.body.appendChild(minimalHeader);
+    // creating divs not reliable in ci
+    try {
+      if (headerFns.isMinimalHeaderApp.isSinonProxy) {
+        headerFns.isMinimalHeaderApp.restore?.();
+      }
+    } catch {
+      // ignore error
+    }
+
+    const stub = sinon.stub(headerFns, 'isMinimalHeaderApp').returns(true);
 
     const formConfig = {
       chapters: {
@@ -115,30 +123,93 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
       },
     };
 
-    const treeWithMinimalHeader = shallow(
-      <RoutedSavableReviewPage
-        form={form}
-        user={user}
-        formConfig={formConfig}
-        setPrivacyAgreement={f => f}
-      />,
-    );
+    try {
+      const treeWithMinimalHeader = shallow(
+        <RoutedSavableReviewPage
+          form={form}
+          user={user}
+          formConfig={formConfig}
+          formContext={{}}
+          pageList={[]}
+          path="test-path"
+          route={{
+            formConfig,
+            pageConfig: {},
+            pageList: [],
+          }}
+          location={{ pathname: '/test' }}
+          showLoginModal={false}
+          autoSaveForm={() => {}}
+          toggleLoginModal={() => {}}
+        />,
+      );
 
-    expect(treeWithMinimalHeader.find('h1').exists()).to.be.true;
-    treeWithMinimalHeader.unmount();
-    document.body.removeChild(minimalHeader);
+      expect(treeWithMinimalHeader.find('h1').exists()).to.be.true;
+      treeWithMinimalHeader.unmount();
+    } finally {
+      stub.restore();
+    }
+  });
+  it('should not render h1 header if minimal header is not present', () => {
+    const formConfig = {
+      chapters: {
+        chapter1: {
+          pages: {
+            page1: {},
+          },
+        },
+        chapter2: {
+          pages: {
+            page2: {},
+          },
+        },
+      },
+    };
+
+    const form = {
+      submission: {
+        hasAttemptedSubmit: false,
+      },
+      data: {
+        privacyAgreementAccepted: false,
+      },
+    };
+
+    const user = {
+      profile: {
+        savedForms: [],
+      },
+      login: {
+        currentlyLoggedIn: true,
+      },
+    };
+
+    const minimalHeaderDiv = document.getElementById('header-minimal');
+    if (minimalHeaderDiv) {
+      document.body.removeChild(minimalHeaderDiv);
+    }
 
     const treeWithoutMinimalHeader = shallow(
       <RoutedSavableReviewPage
         form={form}
         user={user}
         formConfig={formConfig}
-        setPrivacyAgreement={f => f}
+        formContext={{}}
+        pageList={[]}
+        path="test-path"
+        route={{
+          formConfig,
+          pageConfig: {},
+          pageList: [],
+        }}
+        location={{ pathname: '/test' }}
+        showLoginModal={false}
+        autoSaveForm={() => {}}
+        toggleLoginModal={() => {}}
       />,
     );
-
-    expect(treeWithoutMinimalHeader.find('h1').exists()).to.be.false;
     treeWithoutMinimalHeader.unmount();
+    expect(treeWithoutMinimalHeader.find('h1').exists()).to.be.false;
   });
 
   it('should auto save after change', () => {

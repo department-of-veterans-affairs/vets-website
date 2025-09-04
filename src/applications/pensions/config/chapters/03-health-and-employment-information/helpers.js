@@ -275,10 +275,6 @@ export function MedicalConditionDescription() {
   return (
     <div>
       <p>
-        We need to know about any medical conditions that prevent you from
-        working.
-      </p>
-      <p>
         A medical condition is an illness or injury that affects your mind or
         body. It doesn't have to be service connected.
       </p>

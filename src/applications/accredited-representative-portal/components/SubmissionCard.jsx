@@ -13,7 +13,8 @@ const formatStatus = submission => {
             icon="check_circle"
             size="3"
           />
-          {` Received ${formatDateParsedZoneLong(submission.vbmsReceivedDate)}`}
+          {` Received ${submission.vbmsReceivedDate &&
+            formatDateParsedZoneLong(submission.vbmsReceivedDate)}`}
         </span>
       );
     case 'awaiting_receipt_warning':

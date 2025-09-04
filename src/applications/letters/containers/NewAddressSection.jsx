@@ -153,7 +153,6 @@ export function NewAddressSection({ success }) {
             </div>
             <ProfileInformationFieldController
               fieldName={FIELD_NAMES.MAILING_ADDRESS}
-              ariaDescribedBy={`described-by-${FIELD_NAMES.MAILING_ADDRESS}`}
             />
           </va-card>
         </VAPServicePendingTransactionCategory>

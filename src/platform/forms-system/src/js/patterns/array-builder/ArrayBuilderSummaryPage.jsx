@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/sort-prop-types */
 import classNames from 'classnames';
-import React, { forwardRef, useEffect, useMemo, useRef, useState } from 'react';
+import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui/focus';
 import { scrollAndFocus } from 'platform/utilities/scroll';
@@ -10,7 +10,6 @@ import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/Sc
 import get from '~/platform/utilities/data/get';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { setData } from '~/platform/forms-system/src/js/actions';
-import { isMinimalHeaderPath } from '~/platform/forms-system/src/js/patterns/minimal-header';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import ArrayBuilderCards from './ArrayBuilderCards';
 import ArrayBuilderSummaryReviewPage from './ArrayBuilderSummaryReviewPage';
@@ -21,6 +20,7 @@ import {
   getUpdatedItemFromPath,
   isDeepEmpty,
   slugifyText,
+  useHeadingLevels,
   validateIncompleteItems,
 } from './helpers';
 
@@ -71,24 +71,6 @@ function getYesNoReviewErrorMessage(reviewErrors, hasItemsKey) {
     hasItemsKey && reviewErrors?.errors?.find(obj => obj.name === hasItemsKey);
   return error?.message;
 }
-
-export const useHeadingLevels = (userHeaderLevel, isReviewPage) => {
-  const isMinimalHeader = useMemo(() => isMinimalHeaderPath(), []);
-  let defaultLevel;
-
-  if (isMinimalHeader) {
-    defaultLevel = isReviewPage ? '3' : '1';
-  } else {
-    defaultLevel = isReviewPage ? '4' : '3';
-  }
-
-  const headingLevel = userHeaderLevel ?? defaultLevel;
-  const headingStyle = {
-    'vads-u-font-size--h2': isMinimalHeader && !isReviewPage,
-  };
-
-  return { headingLevel, headingStyle };
-};
 
 /**
  * @param {{
@@ -157,6 +139,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     const removedAlertRef = useRef(null);
     const reviewErrorAlertRef = useRef(null);
     const maxItemsAlertRef = useRef(null);
+    const dataRef = useRef(props.data);
     const { uiSchema, schema } = props;
     const { headingLevel, headingStyle } = useHeadingLevels(
       titleHeaderLevel,
@@ -166,6 +149,19 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     const isMaxItemsReached = arrayData?.length >= maxItems;
     const hasReviewError =
       isReviewPage && checkHasYesNoReviewError(props.reviewErrors, hasItemsKey);
+
+    const setDataFromRef = data => {
+      const dataToSet = { ...(dataRef.current || {}), ...data };
+      dataRef.current = dataToSet;
+      props.setData(dataToSet);
+    };
+
+    useEffect(
+      () => {
+        dataRef.current = props.data;
+      },
+      [props.data],
+    );
 
     useEffect(() => {
       const cleanupEmptyItems = () => {
@@ -177,7 +173,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
         if (arrayData?.length) {
           const newArrayData = filterEmptyItems(arrayData);
           if (newArrayData?.length !== arrayData.length) {
-            props.setData({ ...props.data, [arrayPath]: newArrayData });
+            setDataFromRef({ [arrayPath]: newArrayData });
           }
         }
       };
@@ -194,8 +190,8 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
         // We shouldn't persist the 'yes' answer after an item is entered/cancelled
         // We should ask the yes/no question again after an item is entered/cancelled
         // Since it is required, it shouldn't be left null/undefined
-        if (!isReviewPage && props.data?.[hasItemsKey]) {
-          props.setData({ ...props.data, [hasItemsKey]: undefined });
+        if (!isReviewPage && dataRef.current?.[hasItemsKey]) {
+          setDataFromRef({ [hasItemsKey]: undefined });
         }
       };
 
@@ -249,36 +245,35 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
 
     useEffect(
       () => {
-        if (
-          (uiSchema &&
-            schema?.properties &&
-            isMaxItemsReached &&
-            props.data?.[hasItemsKey] !== false) ||
-          (isReviewPage && props.data?.[hasItemsKey] == null)
-        ) {
-          // 1. If the user has reached the max items, we want to make sure the
-          //    yes/no field is set to false because it will be hidden yet required.
-          //    So we need to make sure it's false so it doesn't block the continue button.
-          // 2. the yes/no field should never be null/undefined on the final review page,
-          //    or it could cause a hidden validation error.
-          props.setData({ ...props.data, [hasItemsKey]: false });
-        }
-      },
-      [isReviewPage, arrayData?.length],
-    );
+        // Ensure yes/no field is never left in a bad state:
+        // - On summary page: force false when max items reached (field hidden but still required)
+        // - On review page: force false to avoid hidden validation error
+        const length = Array.isArray(arrayData) ? arrayData.length : 0;
+        const reachedMax =
+          Number.isFinite(maxItems) && maxItems > 0 && length >= maxItems;
 
-    function forceRerender(data = props.data) {
-      // This is a hacky workaround to rerender the page
-      // due to the way SchemaForm interacts with CustomPage
-      // here in order to hide/show alerts correctly.
-      props.setData({
-        ...data,
-        _metadata: {
-          ...data._metadata,
-          [`${nounPlural}ForceRenderTimestamp`]: Date.now(),
-        },
-      });
-    }
+        const id = requestAnimationFrame(() => {
+          const curr = dataRef.current || {};
+          const val = curr?.[hasItemsKey];
+
+          const setFalseForReview = isReviewPage && typeof val === 'undefined';
+          const setFalseForMax = !isReviewPage && reachedMax && val !== false;
+
+          if (setFalseForMax || setFalseForReview) {
+            setDataFromRef({ [hasItemsKey]: false });
+          }
+        });
+
+        return () => cancelAnimationFrame(id);
+      },
+      [
+        isReviewPage,
+        hasItemsKey,
+        maxItems,
+        props.data?.[hasItemsKey],
+        Array.isArray(arrayData) ? arrayData.length : 0,
+      ],
+    );
 
     useEffect(
       () => {
@@ -326,7 +321,6 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
           ),
         );
       });
-      forceRerender();
     }
 
     function onDismissRemovedAlert() {
@@ -340,10 +334,11 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
           ),
         );
       });
-      forceRerender();
     }
 
-    function onRemoveItem(index, item) {
+    function onRemoveItem(index, item, newFormData) {
+      const onUpdate = isReviewPage ? props.setData : props.onChange;
+      onUpdate(newFormData);
       // updated alert may be from initial state (URL path)
       // so we can go ahead and remove it if there is a new
       // alert
@@ -492,7 +487,6 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
         onRemoveAll={onRemoveAllItems}
         onRemove={onRemoveItem}
         isReview={isReviewPage}
-        forceRerender={forceRerender}
         titleHeaderLevel={headingLevel}
       />
     );
@@ -553,25 +547,25 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
       ...uiSchema,
     };
     let newSchema = schema;
-    let titleTextType;
-    let descriptionTextType;
-    let UIDescription;
     const NavButtons = props.NavButtons || FormNavButtons;
+    const hasArrayItems = !!arrayData?.length;
 
-    if (arrayData?.length > 0) {
-      titleTextType = 'summaryTitle';
-      descriptionTextType = 'summaryDescription';
-      UIDescription = (
-        <>
-          <Alerts />
-          <Cards />
-        </>
-      );
-    } else {
-      titleTextType = 'summaryTitleWithoutItems';
-      descriptionTextType = 'summaryDescriptionWithoutItems';
-      UIDescription = <Alerts />;
-    }
+    const typeSuffix = hasArrayItems ? '' : 'WithoutItems';
+    const titleTextType = `summaryTitle${typeSuffix}`;
+    const descriptionTextType = `summaryDescription${typeSuffix}`;
+
+    const renderKey = [
+      showUpdatedAlert ? 'u1' : 'u0',
+      showRemovedAlert ? 'r1' : 'r0',
+      showReviewErrorAlert ? 'e1' : 'e0',
+      isMaxItemsReached ? 'm1' : 'm0',
+    ].join('-');
+    const UIDescription = (
+      <div key={renderKey}>
+        <Alerts />
+        {hasArrayItems && <Cards />}
+      </div>
+    );
 
     const descriptionText = getText(descriptionTextType, null, props.data);
     const UITitle = (
@@ -699,7 +693,6 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     recalculateErrors: PropTypes.func,
     reviewErrors: PropTypes.object,
     setData: PropTypes.func, // available regardless of review page or not
-    setFormData: PropTypes.func, // not available on review page
     title: PropTypes.string,
     trackingPrefix: PropTypes.string,
     NavButtons: PropTypes.func,

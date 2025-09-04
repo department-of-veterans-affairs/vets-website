@@ -34,7 +34,7 @@ export default function App({ location, children }) {
     },
     {
       href: getRootParentUrl(manifest.rootUrl),
-      label: 'Manage dependents',
+      label: 'Manage dependents for disability, pension, or DIC benefits',
     },
     {
       href: `${manifest.rootUrl}/introduction`,

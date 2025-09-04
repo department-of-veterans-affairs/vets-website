@@ -48,7 +48,7 @@ describe('InterstitialChanges', () => {
     await waitFor(() => {
       expect(
         getByRole('heading', {
-          name: /The DS Logon sign-in option is going away soon/i,
+          name: /We’ll remove the DS Logon sign-in option after September 30, 2025/i,
         }),
       ).to.not.be.null;
 
@@ -116,7 +116,7 @@ describe('InterstitialChanges', () => {
     await waitFor(() => {
       expect(
         getByRole('heading', {
-          name: /The DS Logon sign-in option is going away soon/i,
+          name: /We’ll remove the DS Logon sign-in option after September 30, 2025/i,
         }),
       ).to.not.be.null;
 

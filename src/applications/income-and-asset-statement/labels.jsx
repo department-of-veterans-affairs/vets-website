@@ -66,6 +66,14 @@ export const incomeTypeLabels = {
   OTHER: 'Other',
 };
 
+export const updatedIncomeTypeLabels = {
+  WAGES: 'Wage from a job',
+  RETIREMENT_PENSION: 'Pension or retirement',
+  SOCIAL_SECURITY: 'Social Security',
+  UNEMPLOYMENT: 'Unemployment',
+  OTHER: 'Another type of income',
+};
+
 export const incomeTypeEarnedLabels = {
   INTEREST: 'Interest',
   DIVIDENDS: 'Dividends',
@@ -89,13 +97,4 @@ export const trustTypeLabels = {
   REVOCABLE: 'Revocable',
   IRREVOCABLE: 'Irrevocable',
   BURIAL: 'Burial trust',
-};
-
-export const yesNoLabelsIncome = {
-  Y: 'Yes, I have income to report',
-  N: 'No, I don’t have any income to report',
-};
-export const yesNoLabels = {
-  Y: 'Yes',
-  N: 'No',
 };

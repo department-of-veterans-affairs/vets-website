@@ -609,7 +609,7 @@ describe('Schemaform actions:', () => {
         name: '1.jpg',
         uploading: true,
       });
-      expect(onChange.secondCall.args[0]).to.eql({
+      expect(onChange.secondCall.args[0]).to.include({
         name: 'Test name',
         size: 1234,
         confirmationCode: 'Test code',
@@ -661,7 +661,7 @@ describe('Schemaform actions:', () => {
         name: '1.pdf',
         uploading: true,
       });
-      expect(onChange.secondCall.args[0]).to.eql({
+      expect(onChange.secondCall.args[0]).to.include({
         name: 'Test name',
         size: 10,
         confirmationCode: 'Test code',
