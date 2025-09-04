@@ -501,6 +501,33 @@ radioUI({
 
 ⚠️ IMPORTANT: Date patterns do NOT support minDate/maxDate - use validation functions instead
 
+📅 DATE RANGE PATTERNS (currentOrPastDateRangeUI):
+// Simple usage with string labels
+dateRange: currentOrPastDateRangeUI(
+  'Start date',                           // From field label
+  'End date',                             // To field label
+  'End date must be after start date'     // Optional custom error message
+),
+
+// Advanced usage with options objects
+dateRange: currentOrPastDateRangeUI(
+  {
+    title: 'Employment start date',       // From field label
+    hint: 'Enter the date you started',   // From field hint
+  },
+  {
+    title: 'Employment end date',         // To field label
+    hint: 'Enter the date you ended',     // To field hint
+  },
+  'End date must be after start date'     // Optional custom error message
+),
+
+// Usage patterns:
+// currentOrPastDateRangeUI(fromOptions, toOptions, errorMessage)
+// - fromOptions: string OR { title, hint, ...otherUIOptions }
+// - toOptions: string OR { title, hint, ...otherUIOptions }
+// - errorMessage: string (optional custom validation message)
+
 📁 FILE UPLOAD PATTERNS:
 {
   title: 'Upload documents',              // Display label
@@ -792,7 +819,7 @@ Need date field?
 ├─ Past/current date? → currentOrPastDateUI + currentOrPastDateSchema
 ├─ Month/year only? → currentOrPastMonthYearDateUI + currentOrPastMonthYearDateSchema
 ├─ Date range?
-│  ├─ Full dates? → currentOrPastDateRangeUI + currentOrPastDateRangeSchema
+│  ├─ Full dates? → currentOrPastDateRangeUI('Start date', 'End date') + currentOrPastDateRangeSchema
 │  └─ Month/year range? → currentOrPastMonthYearDateRangeUI + currentOrPastMonthYearDateRangeSchema
 └─ Need month as digits? → currentOrPastDateDigitsUI + currentOrPastDateDigitsSchema
 ```
@@ -1219,12 +1246,36 @@ export default {
 export default {
   uiSchema: {
     ...titleUI('Employment dates'),
-    employmentDates: currentOrPastDateRangeUI(),
+    // Simple usage with string labels
+    employmentDates: currentOrPastDateRangeUI(
+      'Start date of employment',
+      'End date of employment',
+    ),
+    // With custom error message
+    projectDates: currentOrPastDateRangeUI(
+      'Project start date',
+      'Project end date',
+      'End date must be after start date',
+    ),
+    // Advanced usage with options objects
+    serviceDates: currentOrPastDateRangeUI(
+      {
+        title: 'Service start date',
+        hint: 'Enter the date you began service',
+      },
+      {
+        title: 'Service end date',
+        hint: 'Enter the date you ended service',
+      },
+      'Service end date must be after start date',
+    ),
   },
   schema: {
     type: 'object',
     properties: {
       employmentDates: currentOrPastDateRangeSchema,
+      projectDates: currentOrPastDateRangeSchema,
+      serviceDates: currentOrPastDateRangeSchema,
     },
     required: ['employmentDates'],
   },
@@ -1733,3 +1784,79 @@ yarn cy:open
 | Array other pages | `arrayBuilderItemSubsequentPageTitleUI(...)` + (no schema) | NOT `titleUI` |
 
 Remember: Always pair the correct uiSchema with its matching schema, and always include `titleUI` at the top of single pages!
+
+---
+
+## Testing Your Form Pages
+
+### Testing Best Practices
+
+**Prefer existing test patterns.** Look for and use existing test utilities relative to the current application when available:
+
+**Unit Testing - Use `pageTests.spec.js` Utilities When Available:**
+```javascript
+import { testNumberOfWebComponentFields, testNumberOfErrorsOnSubmitForWebComponents } from '../shared/pageTests.spec.js';
+
+describe('Name and date of birth page', () => {
+  testNumberOfWebComponentFields(
+    formConfig,
+    schema,
+    uiSchema,
+    expectedFieldCount, // Count actual fields in your UI patterns
+    formData,
+    'name-and-birth'
+  );
+
+  testNumberOfErrorsOnSubmitForWebComponents(
+    formConfig,
+    schema,
+    uiSchema,
+    expectedErrorCount,
+    formData,
+    'name-and-birth'
+  );
+});
+```
+
+**Field Counting for Tests:**
+```javascript
+// Example: fullNameUI() + dateOfBirthUI() = how many fields?
+const uiSchema = {
+  ...titleUI('Name and date of birth'),  // 0 fields (just title)
+  name: fullNameUI(),                    // 4 fields: first, middle, last, suffix
+  dateOfBirth: dateOfBirthUI(),         // 1 field: date picker
+};
+// Expected field count = 5 total
+
+// Example: textUI() + addressUI() = how many fields?
+const uiSchema = {
+  ...titleUI('Employer information'),    // 0 fields
+  employerName: textUI('Employer name'), // 1 field
+  employerAddress: addressUI(),          // 8 fields: street, street2, city, state, postal, country, military checkbox, military select
+};
+// Expected field count = 9 total
+```
+
+**Unit Testing Commands:**
+```bash
+# Unit tests (don't require dev server)
+yarn test:unit --app-folder [folder-name] --log-level all
+```
+
+**Cypress Testing Requirements:**
+- Cypress tests require localhost:3001 (provided by `yarn watch`)
+- Check if server is running first: `curl -s http://localhost:3001 >/dev/null && echo "Server running" || echo "Server not running"`
+- If not running: `nohup yarn watch --env entry=[entry-name] > /dev/null 2>&1 &` then `sleep 30`
+- If already running: proceed directly to tests
+
+```bash
+# Cypress tests (require localhost:3001)
+yarn cy:run --spec "src/applications/[app-folder]/tests/e2e/[form-number].cypress.spec.js"
+```
+
+**Key Testing Principles:**
+- Unit tests validate field counts and basic rendering
+- Use existing `pageTests.spec.js` utilities when available
+- Count actual UI pattern fields, not schema properties
+- Cypress tests require the webpack dev server running
+- Both test types must pass before committing code

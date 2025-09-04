@@ -22,6 +22,7 @@ This is a monorepo for VA.gov, with shared code in `src/platform` and individual
 - Use `yarn watch` to run the webpack dev server with hot reloading
 - Use `yarn watch --env entry=app1,app2` to limit webpack builds to specific apps
 - Use `yarn watch --env api=https://dev-api.va.gov` to use a remote API instead of local
+- Use `nohup yarn watch --env entry=app-name > /dev/null 2>&1 &` to run the dev server port 3001 in background
 - Application entry names are found in each app's `manifest.json` file under `entryName`
 - For Codespaces, use `yarn build:codespaces` for building
 
@@ -31,10 +32,10 @@ This is a monorepo for VA.gov, with shared code in `src/platform` and individual
 - Use `yarn test:unit --app-folder app-name` to run tests for a specific app folder
 - Use `yarn test:unit --coverage` to run tests with coverage
 - Use `yarn test:coverage-app {app-name}` to run coverage for a specific app
-- Use `yarn cy:open` to open Cypress test runner UI
-- Use `yarn cy:run` to run Cypress tests from command line
-- Before running Cypress tests, ensure vets-website is served on port 3001 with `yarn watch`
-- For individual app testing, you can run `yarn watch --env entry=app-name` instead of building the entire site
+- Use `yarn cy:open` to open Cypress UI test runner for a user
+- Use `yarn cy:run` to run Cypress tests from command line for agent testing
+- Before running Cypress tests, ensure vets-website is served on port 3001 with `yarn watch --env entry=app-name` or `nohup yarn watch --env entry=app-name > /dev/null 2>&1 &`
+- Prefer Cypress tests over manual browser testing
 - Cypress tests require vets-api to NOT be running (APIs are mocked by tests)
 
 ## Additional Testing Options
@@ -44,6 +45,12 @@ This is a monorepo for VA.gov, with shared code in `src/platform` and individual
 - Use `yarn cy:run --spec "path/to/test-file.cypress.spec.js"` to run specific Cypress tests
 - Use `yarn cy:run --browser chrome` to run Cypress tests on specific browser
 - Use `yarn cy:run:localreports app-folder` to run Cypress tests with reports
+
+## Cypress testing workflow
+1. Ensure localhost:3001 is running. If it is not then start dev server using yarn watch in the background.
+2. Start dev server in background with `nohup yarn watch --env entry=app-name > /dev/null 2>&1 &`
+3. Run Cypress tests with `yarn cy:run --spec "path/to/cypress-test.js"`
+4. Stop the dev server when done testing.
 
 ## Mock API Development
 - Use `yarn mock-api --responses path/to/responses.js` to run mock API server
