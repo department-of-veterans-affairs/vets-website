@@ -250,7 +250,7 @@
             "id": "6d358d5c-d90e-4b54-9612-be577057545a",
             "type": "condition",
             "attributes": {
-                "date": "2024-10-18T04:00:00Z",
+                "date": "2024-10-18",
                 "name": "Illness, unspecified",
                 "provider": "BORLAND,VICTORIA A",
                 "facility": "",
@@ -263,7 +263,7 @@
             "id": "p1533314061",
             "type": "condition",
             "attributes": {
-                "date": "2025-01-20",
+                "date": "2025-01-20T04:00:00Z",
                 "name": "Disease caused by 2019-nCoV",
                 "provider": "SYSTEM, SYSTEM Cerner, Cerner Managed Acct",
                 "facility": "CHYSHR TEST LAB",

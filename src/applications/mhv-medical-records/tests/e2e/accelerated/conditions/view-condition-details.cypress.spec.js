@@ -39,7 +39,7 @@ describe('Medical Records View Condition Details', () => {
     cy.axeCheck('main');
 
     // Verify date is formatted correctly
-    cy.get('[data-testid="header-time"]').should('contain', 'January 19, 2025');
+    cy.get('[data-testid="header-time"]').should('contain', 'January 20, 2025');
 
     // Accessibility check
     cy.injectAxeThenAxeCheck();
