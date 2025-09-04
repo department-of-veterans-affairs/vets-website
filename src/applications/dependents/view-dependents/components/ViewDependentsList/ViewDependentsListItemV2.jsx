@@ -1,7 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { parse, isValid, differenceInYears, format } from 'date-fns';
+import {
+  parse,
+  isValid,
+  differenceInYears,
+  format,
+  isWithinInterval,
+  startOfToday,
+  addDays,
+} from 'date-fns';
 
 import { scrollTo } from 'platform/utilities/scroll';
 import { focusElement } from 'platform/utilities/ui';
@@ -58,6 +66,12 @@ function ViewDependentsListItem(props) {
     ? parse(upcomingRemoval, 'MM/dd/yyyy', new Date())
     : '';
   const ageInYears = dobStr ? differenceInYears(new Date(), dobObj) : '';
+  const isUpcomingWithin90Days = removalDate
+    ? isWithinInterval(removalDate, {
+        start: startOfToday(),
+        end: addDays(startOfToday(), 90),
+      })
+    : false;
 
   return (
     <div className="vads-u-margin-bottom--3">
@@ -130,28 +144,27 @@ function ViewDependentsListItem(props) {
                 </dd>
               </div>
 
-              <va-alert
-                status="info"
-                background-only
-                visible
-                class="vads-u-margin-top--1"
-              >
-                <p>
-                  <strong>
+              {isUpcomingWithin90Days && (
+                <va-alert
+                  status="info"
+                  background-only
+                  visible
+                  className="vads-u-margin-top--1"
+                >
+                  <p>
                     We’ll remove this child from your disability benefits when
-                    they turn 18.
-                  </strong>{' '}
-                  This could lower your monthly benefit payment. If they’ll
-                  continue attending school after that, you’ll need to add them
-                  again if you haven’t already. If you need to add your child
-                  back,&nbsp;
-                  <va-link
-                    href="/exit-form"
-                    text="submit a request to add or remove dependents"
-                  />
-                  .
-                </p>
-              </va-alert>
+                    they turn 18. This could lower your monthly benefit payment.
+                    If they’ll continue attending school after that, you’ll need
+                    to add them again if you haven’t already. If you need to add
+                    your child back,&nbsp;
+                    <va-link
+                      href="/exit-form"
+                      text="submit a request to add or remove dependents"
+                    />
+                    .
+                  </p>
+                </va-alert>
+              )}
             </>
           )}
         </dl>
