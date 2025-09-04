@@ -3,6 +3,7 @@ import {
   careSummariesAndNotesReducer,
   convertAdmissionAndDischargeDetails,
   convertCareSummariesAndNotesRecord,
+  convertUnifiedCareSummariesAndNotesRecord,
   extractAuthenticator,
   extractAuthor,
   extractLocation,
@@ -498,6 +499,162 @@ describe('convertCareSummariesAndNotesRecord', () => {
     expect(note.admissionDate).to.be.undefined;
     expect(note.dischargeDate).to.be.undefined;
     expect(note.dateSigned).to.be.not.null;
+  });
+});
+
+describe('convertUnifiedCareSummariesAndNotesRecord', () => {
+  it('should convert a unified record with all fields populated', () => {
+    const mockRecord = {
+      id: 'test-id-123',
+      attributes: {
+        name: 'Test Note',
+        noteType: 'Progress Note',
+        loincCodes: ['11506-3'],
+        date: '2025-01-14T09:18:00.000+00:00',
+        writtenBy: 'Dr. Jane Smith',
+        signedBy: 'Dr. John Doe',
+        location: 'Test Hospital',
+        note: 'VGVzdCBub3RlIGNvbnRlbnQ=', // Base64 encoded "Test note content"
+        admissionDate: '2025-01-13T08:00:00.000+00:00',
+        dischargedDate: '2025-01-15T16:30:00.000+00:00',
+        dateEntered: '2025-01-14T10:00:00.000+00:00',
+        dateSigned: '2025-01-14T11:00:00.000+00:00',
+      },
+    };
+
+    const result = convertUnifiedCareSummariesAndNotesRecord(mockRecord);
+
+    expect(result.id).to.equal('test-id-123');
+    expect(result.name).to.equal('Test Note');
+    expect(result.type).to.equal('Progress Note');
+    expect(result.loincCodes).to.deep.equal(['11506-3']);
+    expect(result.date).to.contain('January 14');
+    expect(result.writtenBy).to.equal('Dr. Jane Smith');
+    expect(result.signedBy).to.equal('Dr. John Doe');
+    expect(result.location).to.equal('Test Hospital');
+    expect(result.note).to.equal('Test note content');
+    expect(result.dischargedBy).to.equal('Dr. Jane Smith'); // Maps to writtenBy
+    expect(result.summary).to.equal('VGVzdCBub3RlIGNvbnRlbnQ='); // Raw note attribute
+    expect(result.admissionDate).to.contain('January 13');
+    expect(result.dischargedDate).to.contain('January 15');
+    expect(result.dateEntered).to.contain('January 14');
+    expect(result.dateSigned).to.contain('January 14');
+  });
+
+  it('should handle empty or missing attributes with EMPTY_FIELD defaults', () => {
+    const mockRecord = {
+      id: 'test-id-456',
+      attributes: {
+        // Most fields missing or empty
+        name: '',
+        noteType: '',
+        loincCodes: [],
+        date: null,
+        writtenBy: null,
+        signedBy: null,
+        location: '',
+        note: null,
+      },
+    };
+
+    const result = convertUnifiedCareSummariesAndNotesRecord(mockRecord);
+
+    expect(result.id).to.equal('test-id-456');
+    expect(result.name).to.equal('None recorded');
+    expect(result.type).to.equal('None recorded');
+    expect(result.loincCodes).to.deep.equal([]);
+    expect(result.date).to.equal('None recorded');
+    expect(result.writtenBy).to.equal('None recorded');
+    expect(result.signedBy).to.equal('None recorded');
+    expect(result.location).to.equal('None recorded');
+    expect(result.note).to.be.null; // decodeBase64Report returns null for invalid input
+    expect(result.dischargedBy).to.equal('None recorded');
+    expect(result.summary).to.equal('None recorded');
+    expect(result.admittedBy).to.equal('None recorded');
+    expect(result.admissionDate).to.equal('');
+    expect(result.dischargedDate).to.equal('');
+    expect(result.dateEntered).to.equal('');
+    expect(result.dateSigned).to.equal('');
+  });
+
+  it('should handle invalid date formats gracefully', () => {
+    const mockRecord = {
+      id: 'test-id-789',
+      attributes: {
+        name: 'Test Note',
+        noteType: 'Discharge Summary',
+        date: 'invalid-date',
+        admissionDate: 'not-a-date',
+        dischargedDate: 'also-invalid',
+        dateEntered: '',
+        dateSigned: undefined,
+        note: 'VGVzdA==', // Base64 for "Test"
+      },
+    };
+
+    const result = convertUnifiedCareSummariesAndNotesRecord(mockRecord);
+
+    expect(result.date).to.equal('None recorded');
+    expect(result.admissionDate).to.equal('');
+    expect(result.dischargedDate).to.equal('');
+    expect(result.dateEntered).to.equal('');
+    expect(result.dateSigned).to.equal('');
+    expect(result.note).to.equal('Test');
+  });
+
+  it('should extract admittedBy from note content when ATTENDING field is present', () => {
+    const noteWithAttending =
+      'DICTATED BY: Dr. Smith    ATTENDING: Dr. Johnson         \nURGENCY: routine';
+    const base64Note = btoa(noteWithAttending); // Convert to base64
+
+    const mockRecord = {
+      id: 'test-id-attending',
+      attributes: {
+        name: 'Discharge Summary',
+        noteType: 'Discharge Summary',
+        note: base64Note,
+        writtenBy: 'Dr. Smith',
+      },
+    };
+
+    const result = convertUnifiedCareSummariesAndNotesRecord(mockRecord);
+
+    expect(result.admittedBy).to.equal('Dr. Johnson');
+    expect(result.note).to.equal(noteWithAttending);
+  });
+
+  it('should handle UTC date format correctly', () => {
+    const mockRecord = {
+      id: 'test-utc',
+      attributes: {
+        name: 'UTC Test Note',
+        date: '2025-07-29T17:32:46.000Z', // UTC format
+        admissionDate: '2025-07-28T12:00:00.000Z',
+        writtenBy: 'Dr. UTC',
+      },
+    };
+
+    const result = convertUnifiedCareSummariesAndNotesRecord(mockRecord);
+
+    expect(result.date).to.contain('July 29');
+    expect(result.admissionDate).to.contain('July 28');
+  });
+
+  it('should handle timezone offset date format correctly', () => {
+    const mockRecord = {
+      id: 'test-tz',
+      attributes: {
+        name: 'Timezone Test Note',
+        date: '2024-10-18T11:52:00+00:00', // Timezone offset format
+        dischargedDate: '2024-10-19T14:30:00-05:00', // Different timezone
+        writtenBy: 'Dr. Timezone',
+      },
+    };
+
+    const result = convertUnifiedCareSummariesAndNotesRecord(mockRecord);
+
+    expect(result.date).to.contain('October 18');
+    expect(result.dischargedDate).to.contain('October 19');
   });
 });
 

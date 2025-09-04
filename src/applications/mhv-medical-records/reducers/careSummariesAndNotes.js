@@ -101,29 +101,15 @@ export const getNote = record => {
   return null;
 };
 
-export const getDateSigned = (record, noteSummary = null) => {
-  let dateSigned = record.attributes?.dateSigned;
-  if (!dateSigned && isArrayAndHasItems(record.authenticator?.extension)) {
+export const getDateSigned = record => {
+  if (isArrayAndHasItems(record.authenticator?.extension)) {
     const ext = record.authenticator.extension.find(e => e.valueDateTime);
     if (ext) {
-      dateSigned = ext.valueDateTime;
-      // const formattedDate = formatDateLong(ext.valueDateTime);
-      // return formattedDate !== 'Invalid date' ? formattedDate : null;
+      const formattedDate = formatDateLong(ext.valueDateTime);
+      return formattedDate !== 'Invalid date' ? formattedDate : null;
     }
   }
-
-  if (!dateSigned && noteSummary) {
-    // OH doesn't include date signed in the authenticator, so it'll need to be extracted from the note body
-    // TODO: verify note structure once parsed - not sure this will work :/
-    dateSigned =
-      noteSummary
-        ?.split('signed on:')[1]
-        ?.split('\n')[0]
-        ?.trim() || null;
-  }
-  const formattedDate = formatDateLong(dateSigned);
-  return formattedDate !== 'Invalid date' ? formattedDate : null;
-  // return null;
+  return null;
 };
 
 export const getAttending = noteSummary => {
@@ -271,9 +257,10 @@ const notesAndSummariesConverterMap = {
 // TODO: need to adjust to handle the different formats
 // OH uses UTC ('2025-07-29T17:32:46.000Z'), VistA uses TZ offset ('2024-10-18T11:52:00+00:00')
 export function formatDateTime(datetimeString) {
+  if (!datetimeString) return null;
   const dateTime = new Date(datetimeString);
   if (Number.isNaN(dateTime.getTime())) {
-    return { formattedDate: '', formattedTime: '' };
+    return null;
   }
   const formattedDate = format(dateTime, 'MMMM d, yyyy');
   const formattedTime = format(dateTime, 'h:mm a');
@@ -281,7 +268,7 @@ export function formatDateTime(datetimeString) {
   return { formattedDate, formattedTime };
 }
 
-const convertUnifiedCareSummariesAndNotesRecord = record => {
+export const convertUnifiedCareSummariesAndNotesRecord = record => {
   const formattedNoteDate = formatDateTime(record.attributes.date);
   const noteDate = formattedNoteDate
     ? `${formattedNoteDate.formattedDate}, ${formattedNoteDate.formattedTime}`
