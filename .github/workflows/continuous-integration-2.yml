@@ -410,13 +410,27 @@ jobs:
     name: CD Production Deploy
     runs-on: ubuntu-22.04
     needs: [build, set-deploy-environments]
-    if: ${{ needs.build.outputs.entry_names != '' }}
+    if: ${{ needs.build.outputs.entry_names != '' && needs.build.outputs.continuous_deployment == 'true' }}
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           fetch-depth: 0
+      - name: Debug job conditions
+        run: |
+          echo "=== Raw outputs ==="
+          echo "needs.build.outputs.entry_names = '${{ needs.build.outputs.entry_names }}'"
+          echo "needs.build.outputs.continuous_deployment = '${{ needs.build.outputs.continuous_deployment }}'"
+          echo "needs.archive.result = '${{ needs.archive.result }}'"
 
+          echo "=== Condition evaluations ==="
+          echo "entry_names != '' => ${{ needs.build.outputs.entry_names != '' }}"
+          echo "continuous_deployment == 'true' => ${{ needs.build.outputs.continuous_deployment == 'true' }}"
+          echo "continuous_deployment truthy => ${{ needs.build.outputs.continuous_deployment }}"
+          echo "archive succeeded => ${{ needs.archive.result == 'success' }}"
+
+          echo "=== Full combined condition ==="
+          echo "entry_names != '' && continuous_deployment == 'true' && archive succeeded => ${{ needs.build.outputs.entry_names != '' && needs.build.outputs.continuous_deployment == 'true' && needs.archive.result == 'success' }}"
       - name: Install dependencies
         uses: ./.github/workflows/install
         timeout-minutes: 30
