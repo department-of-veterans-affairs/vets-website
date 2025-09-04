@@ -357,7 +357,7 @@ jobs:
           if [[ -n "$APP_FOLDERS" ]]; then
             yarn test:unit:gha ${APP_FOLDERS:+"{script,src/platform,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level verbose
           else
-            yarn test:unit:gha yarn test:unit:gha "{src,script}/**/*.unit.spec.js?(x)" --coverage --log-level verbose
+            yarn test:unit:gha --full-suite --coverage --log-level verbose
           fi
           
         env:
@@ -976,7 +976,7 @@ jobs:
           CHANGED_FILES: ${{ needs.tests-prep.outputs.changed_file_paths }}
           APP_FOLDERS: ${{ needs.tests-prep.outputs.app_folders }}
           IS_STRESS_TEST: false
-          NODE_COMPATBILITY_VERIFICATION: true
+          NODE_COMPATIBILITY_VERIFICATION: true
 
       - name: Archive unit test results
         if: ${{ always() && steps.run-tests.outputs.tests_ran == 'true' }}
