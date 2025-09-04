@@ -3,7 +3,6 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 import { waitFor } from '@testing-library/dom';
-// import moment from 'moment';
 
 import { Provider } from 'react-redux';
 import { combineReducers, createStore } from 'redux';
@@ -17,11 +16,6 @@ import { commonReducer } from 'platform/startup/store';
 import formConfig from '../../config/form';
 import reducers from '../../reducers';
 
-// const NEXT_YEAR = moment()
-//   .add(1, 'year')
-//   .format('YYYY-MM-DD');
-
-/* eslint-disable camelcase */
 describe('Disability benefits 526EZ contact information', () => {
   const fakeStore = createStore(
     combineReducers({
@@ -264,204 +258,6 @@ describe('Disability benefits 526EZ contact information', () => {
     form.unmount();
   });
 
-  // it('expands forwarding address fields when forwarding address checked', () => {
-  //   const form = mount(
-  //     <DefinitionTester
-  //       definitions={formConfig.defaultDefinitions}
-  //       schema={schema}
-  //       data={{
-  //         'view:hasForwardingAddress': true,
-  //         mailingAddress: {
-  //           country: '',
-  //           addressLine1: '',
-  //         },
-  //         forwardingAddress: {
-  //           country: '',
-  //           addressLine1: '',
-  //         },
-  //         phoneAndEmail: {},
-  //       }}
-  //       formData={{}}
-  //       uiSchema={uiSchema}
-  //     />,
-  //   );
-
-  //   // (2 x country), 2x date month, 2x date day, country
-  //   expect(form.find('select').length).to.equal(6);
-  //   // (2 x (street 1, 2, 3, city)), phone, email, fwding address checkbox, 2x date year
-  //   expect(form.find('input').length).to.equal(13);
-  //   form.unmount();
-  // });
-
-  // it('validates that forwarding state is military type if forwarding city is military type', () => {
-  //   const onSubmit = sinon.spy();
-  //   const form = mount(
-  //     <DefinitionTester
-  //       definitions={formConfig.defaultDefinitions}
-  //       schema={schema}
-  //       data={{
-  //         phoneAndEmail: {
-  //           primaryPhone: '1231231231',
-  //           emailAddress: 'a@b.co',
-  //         },
-  //         mailingAddress: {
-  //           country: 'USA',
-  //           addressLine1: '123 Any Street',
-  //           city: 'Anytown',
-  //           state: 'MI',
-  //           zipCode: '12345',
-  //         },
-  //         'view:hasForwardingAddress': true,
-  //         forwardingAddress: {
-  //           effectiveDate: {
-  //             from: NEXT_YEAR,
-  //           },
-  //           country: 'USA',
-  //           addressLine1: '123 Any Street',
-  //           city: 'APO',
-  //           state: 'TX',
-  //           zipCode: '12345',
-  //         },
-  //       }}
-  //       formData={{}}
-  //       uiSchema={uiSchema}
-  //       onSubmit={onSubmit}
-  //     />,
-  //   );
-
-  //   form.find('form').simulate('submit');
-  //   expect(form.find('.usa-input-error-message').length).to.equal(1);
-  //   expect(onSubmit.called).to.be.false;
-  //   form.unmount();
-  // });
-
-  // it('validates that forwarding city is military type if forwarding state is military type', () => {
-  //   const onSubmit = sinon.spy();
-  //   const form = mount(
-  //     <DefinitionTester
-  //       definitions={formConfig.defaultDefinitions}
-  //       schema={schema}
-  //       data={{
-  //         phoneAndEmail: {
-  //           primaryPhone: '1231231231',
-  //           emailAddress: 'a@b.co',
-  //         },
-  //         mailingAddress: {
-  //           country: 'USA',
-  //           addressLine1: '123 Any Street',
-  //           city: 'Anytown',
-  //           state: 'MI',
-  //           zipCode: '12345',
-  //         },
-  //         'view:hasForwardingAddress': true,
-  //         forwardingAddress: {
-  //           effectiveDate: {
-  //             from: NEXT_YEAR,
-  //           },
-  //           country: 'USA',
-  //           addressLine1: '123 Any Street',
-  //           city: 'Anytown',
-  //           state: 'AA',
-  //           zipCode: '12345',
-  //         },
-  //       }}
-  //       formData={{}}
-  //       uiSchema={uiSchema}
-  //       onSubmit={onSubmit}
-  //     />,
-  //   );
-
-  //   form.find('form').simulate('submit');
-  //   expect(form.find('.usa-input-error-message').length).to.equal(1);
-  //   expect(onSubmit.called).to.be.false;
-  //   form.unmount();
-  // });
-
-  // it('validates that effective date is in the future', () => {
-  //   const onSubmit = sinon.spy();
-  //   const form = mount(
-  //     <DefinitionTester
-  //       definitions={formConfig.defaultDefinitions}
-  //       schema={schema}
-  //       data={{
-  //         phoneAndEmail: {
-  //           primaryPhone: '1231231231',
-  //           emailAddress: 'a@b.co',
-  //         },
-  //         mailingAddress: {
-  //           country: 'USA',
-  //           addressLine1: '123 Any Street',
-  //           city: 'Anytown',
-  //           state: 'MI',
-  //           zipCode: '12345',
-  //         },
-  //         'view:hasForwardingAddress': true,
-  //         forwardingAddress: {
-  //           effectiveDate: {
-  //             from: '2018-10-12',
-  //           },
-  //           country: 'USA',
-  //           addressLine1: '123 Any Street',
-  //           city: 'Detroit',
-  //           state: 'MI',
-  //           zipCode: '12345',
-  //         },
-  //       }}
-  //       formData={{}}
-  //       uiSchema={uiSchema}
-  //       onSubmit={onSubmit}
-  //     />,
-  //   );
-
-  //   form.find('form').simulate('submit');
-  //   expect(form.find('.usa-input-error-message').length).to.equal(1);
-  //   expect(onSubmit.called).to.be.false;
-  //   form.unmount();
-  // });
-
-  // it('validates that effective end date is after start date', () => {
-  //   const onSubmit = sinon.spy();
-  //   const form = mount(
-  //     <DefinitionTester
-  //       definitions={formConfig.defaultDefinitions}
-  //       schema={schema}
-  //       data={{
-  //         phoneAndEmail: {
-  //           primaryPhone: '1231231231',
-  //           emailAddress: 'a@b.co',
-  //         },
-  //         mailingAddress: {
-  //           country: 'USA',
-  //           addressLine1: '123 Any Street',
-  //           city: 'Anytown',
-  //           state: 'MI',
-  //           zipCode: '12345',
-  //         },
-  //         'view:hasForwardingAddress': true,
-  //         forwardingAddress: {
-  //           effectiveDate: {
-  //             from: '2099-10-12',
-  //             to: '2099-10-12',
-  //           },
-  //           country: 'USA',
-  //           addressLine1: '123 Any Street',
-  //           city: 'Detroit',
-  //           state: 'MI',
-  //           zipCode: '12345',
-  //         },
-  //       }}
-  //       formData={{}}
-  //       uiSchema={uiSchema}
-  //       onSubmit={onSubmit}
-  //     />,
-  //   );
-
-  //   form.find('form').simulate('submit');
-  //   expect(form.find('.usa-input-error-message').length).to.equal(1);
-  //   expect(onSubmit.called).to.be.false;
-  //   form.unmount();
-  // });
-
   it('does not submit without required info', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
@@ -479,15 +275,6 @@ describe('Disability benefits 526EZ contact information', () => {
               addressLine1: '',
               city: '',
             },
-            // 'view:hasForwardingAddress': true,
-            // forwardingAddress: {
-            //   effectiveDate: {
-            //     from: '',
-            //   },
-            //   country: '',
-            //   addressLine1: '',
-            //   city: '',
-            // },
           }}
           formData={{}}
           onSubmit={onSubmit}
@@ -522,17 +309,6 @@ describe('Disability benefits 526EZ contact information', () => {
               state: 'MI',
               zipCode: '12345',
             },
-            // 'view:hasForwardingAddress': true,
-            // forwardingAddress: {
-            //   effectiveDate: {
-            //     from: NEXT_YEAR,
-            //   },
-            //   country: 'USA',
-            //   addressLine1: '234 Maple St.',
-            //   city: 'Detroit',
-            //   state: 'MI',
-            //   zipCode: '234563453',
-            // },
           }}
           formData={{}}
           onSubmit={onSubmit}
