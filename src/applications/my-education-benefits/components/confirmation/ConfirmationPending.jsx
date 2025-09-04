@@ -45,17 +45,17 @@ const ConfirmationPending = ({
       </va-alert>
 
       <va-summary-box class="vads-u-margin-y--3">
-        <h2 slot="headline" className="vads-u-margin-top--neg0p5">
+        <h3 slot="headline" className="vads-u-margin-top--neg0p5">
           Application for VA education benefits (Form 22-1990)
-        </h2>
+        </h3>
         <h3 slot="headline" className="vads-u-margin-top--0">
           Post-9/11 GI Bill, Chapter 33
         </h3>
 
         <div className="vads-u-margin-bottom--2">
-          <h3 className="vads-u-margin-bottom--0p5 vads-u-font-weight--bold">
+          <h4 className="vads-u-margin-bottom--0p5 vads-u-font-weight--bold">
             Who submitted this form
-          </h3>
+          </h4>
           {claimantName.trim() ? (
             <p className="vads-u-margin--0">{claimantName}</p>
           ) : (
@@ -64,16 +64,16 @@ const ConfirmationPending = ({
         </div>
 
         <div className="vads-u-margin-bottom--2">
-          <h3 className="vads-u-margin-bottom--0p5 vads-u-font-weight--bold">
+          <h4 className="vads-u-margin-bottom--0p5 vads-u-font-weight--bold">
             Date received
-          </h3>
+          </h4>
           <p className="vads-u-margin--0">{confirmationDate}</p>
         </div>
 
         <div className="vads-u-margin-bottom--3">
-          <h3 className="vads-u-margin-bottom--0p5 vads-u-font-weight--bold">
+          <h4 className="vads-u-margin-bottom--0p5 vads-u-font-weight--bold">
             Confirmation for your records
-          </h3>
+          </h4>
           <p className="vads-u-margin--0">
             You can print this confirmation page for your records.
           </p>
