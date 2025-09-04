@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Cookies from 'js-cookie';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 export const AlertConfirmContactEmail = () => {
   const visible = Cookies.get('CONTACT_EMAIL_CONFIRMED') !== 'true';
 
-  const [isVisible, setIsVisible] = React.useState(visible);
+  const [isVisible, setIsVisible] = useState(visible);
 
   const handleClose = () => {
     Cookies.set('CONTACT_EMAIL_CONFIRMED', 'true');
