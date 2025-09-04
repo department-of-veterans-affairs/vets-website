@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { clearBotSessionStorage } from '../utils/sessionStorage';
 import { ACCEPTED } from '../reducers';
 
@@ -18,6 +19,22 @@ function onClick(dispatch) {
 }
 
 function Disclaimer() {
+  const {
+    useToggleValue,
+    TOGGLE_NAMES,
+    useToggleLoadingValue,
+  } = useFeatureToggle();
+
+  const isToggleLoading = useToggleLoadingValue();
+  const isEnabled = useToggleValue(TOGGLE_NAMES.virtualAgentShowAiDisclaimer);
+
+  const showAiDisclaimer = useMemo(
+    () => {
+      return isEnabled && !isToggleLoading;
+    },
+    [isEnabled, isToggleLoading],
+  );
+
   return (
     <ul>
       <li>
@@ -34,6 +51,12 @@ function Disclaimer() {
         Please don’t type any personal information such as your name, address,
         or anything else that can be used to identify you.
       </li>
+      {showAiDisclaimer && (
+        <li>
+          This answer is AI-generated and it may contain inaccuracies. Please
+          verify any important information.
+        </li>
+      )}
     </ul>
   );
 }
@@ -49,7 +72,7 @@ export default function ChatboxDisclaimer() {
         <va-button
           id="btnAcceptDisclaimer"
           data-testid="btnAcceptDisclaimer"
-          className="usa-button-primary"
+          className=""
           text="Start chat"
           onClick={() => onClick(dispatch)}
         />
