@@ -1,1 +1,1 @@
-testing a change to a file again with the conditional removed
+testing a change to a file again with the conditional altered
