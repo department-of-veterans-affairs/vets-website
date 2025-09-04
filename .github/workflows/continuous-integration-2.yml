@@ -7,10 +7,6 @@ on:
     tags-ignore:
       - '**'
 
-concurrency:
-  group: ${{ github.ref != 'refs/heads/main' && github.ref || github.sha }}
-  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
-
 jobs:
   build:
     name: Build
@@ -414,7 +410,7 @@ jobs:
     name: CD Production Deploy
     runs-on: ubuntu-22.04
     needs: [build, set-deploy-environments]
-    # if: ${{ needs.build.outputs.entry_names != '' && needs.build.outputs.continuous_deployment == 'true' }}
+    if: ${{ needs.build.outputs.entry_names != '' }}
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
@@ -454,6 +450,9 @@ jobs:
           echo "entry_names=${{ needs.build.outputs.entry_names }}"
           echo "continuous_deployment=${{ needs.build.outputs.continuous_deployment }}"
           echo "slack_channel=${{ steps.determine-channel.outputs.channel }}"
+          echo "== 'true'? ${{ needs.build.outputs.continuous_deployment == 'true' }}"
+          echo "== true? ${{ needs.build.outputs.continuous_deployment == true }}"
+          echo "empty? ${{ needs.build.outputs.continuous_deployment == '' }}"
 
       - name: Dispatch Event to Next Workflow
         run: |
