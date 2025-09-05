@@ -11,7 +11,9 @@ export const SummaryDescription = () => {
         from physical assets that you solely own or that you own with someone
         else. Here’s what you’ll need to prepare.
       </p>
-      <h2 className="vads-u-font-size--h3">Types of property to report</h2>
+      <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
+        Types of property to report
+      </h2>
       <p>
         If you receive any income from a physical asset or own a physical asset,
         you’ll need to report it in this form. Examples include:
@@ -21,7 +23,9 @@ export const SummaryDescription = () => {
         <li>Farm income</li>
         <li>Business income</li>
       </ul>
-      <h2 className="vads-u-font-size--h3">Establish the asset’s value</h2>
+      <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
+        Establish the asset’s value
+      </h2>
       <p>
         To establish the asset’s value, subtract any unpaid mortgage or debt
         from the asset’s value. Only report the value of your share of the
@@ -32,7 +36,9 @@ export const SummaryDescription = () => {
         a licensed appraiser, realtor, or trusted online estimate. Don’t use a
         property tax assessment.
       </p>
-      <h2 className="vads-u-font-size--h3">Documents you may need to submit</h2>
+      <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
+        Documents you may need to submit
+      </h2>
       <p>You may need to provide documents to verify each income source.</p>
       <ul>
         <li>
