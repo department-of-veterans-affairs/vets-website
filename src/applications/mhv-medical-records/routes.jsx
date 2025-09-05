@@ -74,38 +74,22 @@ const routes = (
         <AppRoute exact path="/allergies/:allergyId" key="AllergyDetails">
           <AllergyDetails />
         </AppRoute>
-        <FeatureFlagRoute
-          exact
-          path="/vaccines"
-          key="Vaccines"
-          featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayVaccines}
-        >
+        <AppRoute exact path="/vaccines" key="Vaccines">
           <Vaccines />
-        </FeatureFlagRoute>
-        <FeatureFlagRoute
-          exact
-          path="/vaccines/:vaccineId"
-          key="Vaccine"
-          featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayVaccines}
-        >
+        </AppRoute>
+        <AppRoute exact path="/vaccines/:vaccineId" key="Vaccine">
           <VaccineDetails />
-        </FeatureFlagRoute>
-        <FeatureFlagRoute
-          exact
-          path="/summaries-and-notes"
-          key="CareSummariesAndNotes"
-          featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayNotes}
-        >
+        </AppRoute>
+        <AppRoute exact path="/summaries-and-notes" key="CareSummariesAndNotes">
           <CareSummariesAndNotes />
-        </FeatureFlagRoute>
-        <FeatureFlagRoute
+        </AppRoute>
+        <AppRoute
           exact
           path="/summaries-and-notes/:summaryId"
           key="CareSummaryAndNotesDetails"
-          featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayNotes}
         >
           <CareSummariesDetails />
-        </FeatureFlagRoute>
+        </AppRoute>
         <AppRoute exact path="/conditions" key="Health Conditions">
           <HealthConditions />
         </AppRoute>
