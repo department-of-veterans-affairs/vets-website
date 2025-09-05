@@ -51,13 +51,10 @@ export const resultsDCs = Object.freeze({
     Q_1_1_CLAIM_DECISION: YES,
     Q_1_2_CLAIM_DECISION: YES,
     Q_1_3_CLAIM_CONTESTED: NO,
+    Q_2_IS_1_SERVICE_CONNECTED: NO,
     Q_2_0_CLAIM_TYPE: [INIT, SC],
     Q_2_IS_1A_LAW_POLICY_CHANGE: NO,
     Q_2_IS_1B_NEW_EVIDENCE: NO,
-    NONE_OF: {
-      Q_2_IS_1_SERVICE_CONNECTED: YES,
-      Q_2_IS_4_DISAGREE_DECISION: YES,
-    },
   },
   RESULTS_2_IS_1D: {
     Q_1_1_CLAIM_DECISION: YES,
@@ -82,7 +79,6 @@ export const resultsDCs = Object.freeze({
     },
     NONE_OF: {
       Q_2_IS_1_SERVICE_CONNECTED: YES,
-      Q_2_IS_4_DISAGREE_DECISION: YES,
     },
   },
   RESULTS_2_S_1B: {
@@ -102,7 +98,6 @@ export const resultsDCs = Object.freeze({
     Q_2_H_2A_JUDGE_HEARING: NO,
     NONE_OF: {
       Q_2_IS_1_SERVICE_CONNECTED: YES,
-      Q_2_IS_4_DISAGREE_DECISION: YES,
     },
   },
   RESULTS_2_H_2A_2: {
@@ -125,7 +120,6 @@ export const resultsDCs = Object.freeze({
     },
     NONE_OF: {
       Q_2_IS_1_SERVICE_CONNECTED: YES,
-      Q_2_IS_4_DISAGREE_DECISION: YES,
     },
   },
   RESULTS_2_H_2B_1A: {
@@ -147,7 +141,6 @@ export const resultsDCs = Object.freeze({
     Q_2_H_2B_JUDGE_HEARING: NO,
     NONE_OF: {
       Q_2_IS_1_SERVICE_CONNECTED: YES,
-      Q_2_IS_4_DISAGREE_DECISION: YES,
     },
   },
   RESULTS_2_H_2B_2B: {
