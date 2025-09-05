@@ -1,1 +1,1 @@
-testing a change to be merged
+testing a change with rewritten conditional
