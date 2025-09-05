@@ -1,22 +1,19 @@
-import { appName } from '../../manifest.json';
-import ApiInitializer from './utilities/ApiInitializer';
-import LandingPage from './pages/LandingPage';
+import { mockUser } from '@@profile/tests/fixtures/users/user';
 
-describe(`${appName} -- confirm contact email`, () => {
+describe(`MyVA Dashboard -- confirm contact email`, () => {
   beforeEach(() => {
-    ApiInitializer.initializeFeatureToggle.withAllFeatures();
-    ApiInitializer.initializeMessageData.withNoUnreadMessages();
+    cy.login(mockUser);
   });
 
   it('displays the confirm contact email alert', () => {
-    LandingPage.visit();
+    cy.visit('/my-va');
     cy.findByTestId('va-profile--confirm-contact-email-link');
     cy.injectAxeThenAxeCheck();
   });
 
   it('suppresses the confirm contact email alert when dismissed', () => {
     cy.setCookie('CONTACT_EMAIL_CONFIRMED', 'true', 5000);
-    LandingPage.visit();
+    cy.visit('/my-va');
     cy.get('va-profile--confirm-contact-email-link').should('not.exist');
     cy.injectAxeThenAxeCheck();
   });
