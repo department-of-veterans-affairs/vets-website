@@ -22,7 +22,7 @@ const mockData = {
   },
 };
 
-const expectedNumberOfFields = 6;
+const expectedNumberOfFields = 7;
 testNumberOfWebComponentFields(
   formConfig,
   schema,
