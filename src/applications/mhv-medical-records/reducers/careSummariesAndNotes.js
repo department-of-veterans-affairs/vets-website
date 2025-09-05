@@ -265,54 +265,32 @@ export function formatDateTime(datetimeString) {
   const formattedDate = format(dateTime, 'MMMM d, yyyy');
   const formattedTime = format(dateTime, 'h:mm a');
 
-  return { formattedDate, formattedTime };
+  return `${formattedDate}, ${formattedTime}`;
 }
 
 export const convertUnifiedCareSummariesAndNotesRecord = record => {
   const formattedNoteDate = formatDateTime(record.attributes.date);
-  const noteDate = formattedNoteDate
-    ? `${formattedNoteDate.formattedDate}, ${formattedNoteDate.formattedTime}`
-    : EMPTY_FIELD;
 
   const note = decodeBase64Report(record.attributes.note);
 
   const formattedAdmissionDate = formatDateTime(
     record.attributes.admissionDate,
   );
-  const admissionDate = formattedAdmissionDate
-    ? `${formattedAdmissionDate.formattedDate}, ${
-        formattedAdmissionDate.formattedTime
-      }`
-    : EMPTY_FIELD;
+
   const formattedDischargeDate = formatDateTime(
     record.attributes.dischargedDate,
   );
-  const dischargedDate = formattedDischargeDate
-    ? `${formattedDischargeDate.formattedDate}, ${
-        formattedDischargeDate.formattedTime
-      }`
-    : EMPTY_FIELD;
 
   const formattedDateEntered = formatDateTime(record.attributes.dateEntered);
-  const dateEntered = formattedDateEntered
-    ? `${formattedDateEntered.formattedDate}, ${
-        formattedDateEntered.formattedTime
-      }`
-    : EMPTY_FIELD;
 
   const formattedDateSigned = formatDateTime(record.attributes.dateSigned);
-  const dateSigned = formattedDateSigned
-    ? `${formattedDateSigned.formattedDate}, ${
-        formattedDateSigned.formattedTime
-      }`
-    : EMPTY_FIELD;
 
   return {
     id: record.id,
     name: record.attributes.name || EMPTY_FIELD,
     type: record.attributes.noteType || EMPTY_FIELD,
     loincCodes: record.attributes.loincCodes || [],
-    date: noteDate || EMPTY_FIELD,
+    date: formattedNoteDate || EMPTY_FIELD,
     writtenBy: record.attributes.writtenBy || EMPTY_FIELD,
     signedBy: record.attributes.signedBy || EMPTY_FIELD,
     location: record.attributes.location || EMPTY_FIELD,
@@ -320,10 +298,10 @@ export const convertUnifiedCareSummariesAndNotesRecord = record => {
     dischargedBy: record.attributes.writtenBy || EMPTY_FIELD, // This is mapped to the author
     summary: note || EMPTY_FIELD,
     admittedBy: getAttending(note) || EMPTY_FIELD,
-    dischargedDate,
-    admissionDate,
-    dateSigned,
-    dateEntered,
+    dischargedDate: formattedDischargeDate || EMPTY_FIELD,
+    admissionDate: formattedAdmissionDate || EMPTY_FIELD,
+    dateSigned: formattedDateSigned || EMPTY_FIELD,
+    dateEntered: formattedDateEntered || formattedNoteDate || EMPTY_FIELD,
     sortByDate: new Date(record.attributes.date),
   };
 };

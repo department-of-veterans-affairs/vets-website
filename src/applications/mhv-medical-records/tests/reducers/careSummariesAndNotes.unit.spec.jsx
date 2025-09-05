@@ -534,7 +534,7 @@ describe('convertUnifiedCareSummariesAndNotesRecord', () => {
     expect(result.location).to.equal('Test Hospital');
     expect(result.note).to.equal('Test note content');
     expect(result.dischargedBy).to.equal('Dr. Jane Smith'); // Maps to writtenBy
-    expect(result.summary).to.equal('VGVzdCBub3RlIGNvbnRlbnQ='); // Raw note attribute
+    expect(result.summary).to.equal('Test note content'); // Decoded note attribute
     expect(result.admissionDate).to.contain('January 13');
     expect(result.dischargedDate).to.contain('January 15');
     expect(result.dateEntered).to.contain('January 14');
@@ -571,10 +571,10 @@ describe('convertUnifiedCareSummariesAndNotesRecord', () => {
     expect(result.dischargedBy).to.equal('None recorded');
     expect(result.summary).to.equal('None recorded');
     expect(result.admittedBy).to.equal('None recorded');
-    expect(result.admissionDate).to.equal('');
-    expect(result.dischargedDate).to.equal('');
-    expect(result.dateEntered).to.equal('');
-    expect(result.dateSigned).to.equal('');
+    expect(result.admissionDate).to.equal('None recorded');
+    expect(result.dischargedDate).to.equal('None recorded');
+    expect(result.dateEntered).to.equal('None recorded');
+    expect(result.dateSigned).to.equal('None recorded');
   });
 
   it('should handle invalid date formats gracefully', () => {
@@ -595,10 +595,10 @@ describe('convertUnifiedCareSummariesAndNotesRecord', () => {
     const result = convertUnifiedCareSummariesAndNotesRecord(mockRecord);
 
     expect(result.date).to.equal('None recorded');
-    expect(result.admissionDate).to.equal('');
-    expect(result.dischargedDate).to.equal('');
-    expect(result.dateEntered).to.equal('');
-    expect(result.dateSigned).to.equal('');
+    expect(result.admissionDate).to.equal('None recorded');
+    expect(result.dischargedDate).to.equal('None recorded');
+    expect(result.dateEntered).to.equal('None recorded');
+    expect(result.dateSigned).to.equal('None recorded');
     expect(result.note).to.equal('Test');
   });
 
