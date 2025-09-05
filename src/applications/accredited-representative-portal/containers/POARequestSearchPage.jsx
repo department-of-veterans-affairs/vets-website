@@ -73,7 +73,7 @@ const POARequestSearchPage = title => {
     [title],
   );
   const loaderData = useLoaderData();
-  const { data: poaRequests, meta = {}, showPOA403Alert } = loaderData;
+  const { data: poaRequests, meta, showPOA403Alert } = loaderData;
   const searchStatus = searchParams.get('status');
   const selectedIndividual = searchParams.get('as_selected_individual');
   const navigation = useNavigation();
@@ -266,6 +266,7 @@ POARequestSearchPage.loader = async ({ request }) => {
     searchParams.set(SEARCH_PARAMS.SORTORDER, SORT_BY.DESC);
     searchParams.set(SEARCH_PARAMS.SORTBY, SORT_BY.CREATED);
     searchParams.set(SEARCH_PARAMS.SIZE, PENDING_SORT_DEFAULTS.SIZE);
+    searchParams.set(SEARCH_PARAMS.NUMBER, PENDING_SORT_DEFAULTS.NUMBER);
     searchParams.set(
       SEARCH_PARAMS.SELECTED_INDIVIDUAL,
       PENDING_SORT_DEFAULTS.SELECTED_INDIVIDUAL,
