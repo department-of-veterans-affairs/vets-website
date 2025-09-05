@@ -22,6 +22,7 @@ const labsAndTests = require('./mhv-api/medical-records/labs-and-tests');
 const acceleratedLabsAndTests = require('./mhv-api/medical-records/labs-and-tests/accelerated');
 const mhvRadiology = require('./mhv-api/medical-records/mhv-radiology');
 const careSummariesAndNotes = require('./mhv-api/medical-records/care-summaries-and-notes');
+const acceleratedCareSummariesAndNotes = require('./mhv-api/medical-records/care-summaries-and-notes/accelerated');
 const healthConditions = require('./mhv-api/medical-records/health-conditions');
 const allergies = require('./mhv-api/medical-records/allergies');
 const acceleratedAllergies = require('./mhv-api/medical-records/allergies/full-example');
@@ -63,8 +64,8 @@ const { getMockTooltips } = require('./tooltips/index');
 const responses = {
   ...commonResponses,
   'GET /v0/user': user.acceleratedCernerUser,
-  'GET /v0/feature_toggles': generateFeatureToggles(),
-  // 'GET /v0/feature_toggles': generateFeatureToggles({ enableAll: true }),
+  // 'GET /v0/feature_toggles': generateFeatureToggles(),
+  'GET /v0/feature_toggles': generateFeatureToggles({ enableAll: true }),
 
   // VAMC facility data that apps query for on startup
   'GET /data/cms/vamc-ehr.json': vamcEhr,
@@ -114,6 +115,10 @@ const responses = {
   'GET /my_health/v1/medical_records/clinical_notes': careSummariesAndNotes.all,
   'GET /my_health/v1/medical_records/clinical_notes/:id':
     careSummariesAndNotes.single,
+  'GET /my_health/v2/medical_records/clinical_notes':
+    acceleratedCareSummariesAndNotes.sample,
+  'GET /my_health/v2/medical_records/clinical_notes/:id':
+    acceleratedCareSummariesAndNotes.single,
   'GET /my_health/v1/health_records/sharing/status': { status: 200 },
   'POST /my_health/v1/health_records/sharing/:endpoint': { status: 200 },
   'GET /my_health/v1/medical_records/conditions': healthConditions.all,
