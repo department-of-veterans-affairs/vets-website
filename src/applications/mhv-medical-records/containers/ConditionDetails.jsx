@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
@@ -39,6 +39,7 @@ import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import HeaderSection from '../components/shared/HeaderSection';
 import LabelValue from '../components/shared/LabelValue';
 import { useTrackAction } from '../hooks/useTrackAction';
+import useAcceleratedData from '../hooks/useAcceleratedData';
 
 const ConditionDetails = props => {
   const { runningUnitTest } = props;
@@ -55,6 +56,7 @@ const ConditionDetails = props => {
   );
   const { conditionId } = useParams();
   const dispatch = useDispatch();
+  const history = useHistory();
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
   useTrackAction(statsdFrontEndActions.HEALTH_CONDITIONS_DETAILS);
@@ -68,12 +70,30 @@ const ConditionDetails = props => {
     [dispatch],
   );
 
+  const { isAcceleratingConditions } = useAcceleratedData();
+
   useEffect(
     () => {
-      if (conditionId)
-        dispatch(getConditionDetails(conditionId, conditionList));
+      if (conditionId && !record?.notFound)
+        dispatch(
+          getConditionDetails(
+            conditionId,
+            conditionList,
+            isAcceleratingConditions,
+          ),
+        );
+      if (record?.notFound) {
+        history.push('/conditions');
+      }
     },
-    [conditionId, conditionList, dispatch],
+    [
+      conditionId,
+      conditionList,
+      isAcceleratingConditions,
+      dispatch,
+      record,
+      history,
+    ],
   );
 
   useEffect(

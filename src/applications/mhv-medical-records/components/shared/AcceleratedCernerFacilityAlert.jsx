@@ -12,6 +12,7 @@ const AcceleratedCernerFacilityAlert = ({ linkPath, pageName }) => {
     isAcceleratingVitals,
     isAcceleratingVaccines,
     isAcceleratingLabsAndTests,
+    isAcceleratingConditions,
   } = useAcceleratedData();
 
   const hideOnPage = [
@@ -19,6 +20,9 @@ const AcceleratedCernerFacilityAlert = ({ linkPath, pageName }) => {
     isAcceleratingVitals ? CernerAlertContent.VITALS.pageName : null,
     isAcceleratingAllergies ? CernerAlertContent.ALLERGIES.pageName : null,
     isAcceleratingVaccines ? CernerAlertContent.VACCINES.pageName : null,
+    isAcceleratingConditions
+      ? CernerAlertContent.HEALTH_CONDITIONS.pageName
+      : null,
     isAcceleratingLabsAndTests
       ? CernerAlertContent.LABS_AND_TESTS.pageName
       : null,

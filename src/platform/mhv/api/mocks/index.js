@@ -30,6 +30,7 @@ const acceleratedLabsAndTests = require('./medical-records/labs-and-tests/accele
 const mhvRadiology = require('./medical-records/mhv-radiology');
 const careSummariesAndNotes = require('./medical-records/care-summaries-and-notes');
 const healthConditions = require('./medical-records/health-conditions');
+const acceleratedHealthConditions = require('./medical-records/health-conditions/accelerated');
 const allergies = require('./medical-records/allergies');
 const acceleratedAllergies = require('./medical-records/allergies/full-example');
 const vaccines = require('./medical-records/vaccines');
@@ -73,11 +74,12 @@ const responses = {
   ...commonResponses,
   'GET /v0/user': user.acceleratedCernerUser,
   'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({
-    mhvAcceleratedDeliveryEnabled: true,
-    mhvAcceleratedDeliveryAllergiesEnabled: true,
-    mhvAcceleratedDeliveryVitalSignsEnabled: true,
-    mhvAcceleratedDeliveryVaccinesEnabled: true,
-    mhvAcceleratedDeliveryLabsAndTestsEnabled: true,
+    mhvAcceleratedDeliveryEnabled: false,
+    mhvAcceleratedDeliveryAllergiesEnabled: false,
+    mhvAcceleratedDeliveryConditionsEnabled: false,
+    mhvAcceleratedDeliveryVitalSignsEnabled: false,
+    mhvAcceleratedDeliveryVaccinesEnabled: false,
+    mhvAcceleratedDeliveryLabsAndTestsEnabled: false,
   }),
 
   // VAMC facility data that apps query for on startup
@@ -171,6 +173,8 @@ const responses = {
   'POST /my_health/v1/health_records/sharing/:endpoint': { status: 200 },
   'GET /my_health/v1/medical_records/conditions': healthConditions.all,
   'GET /my_health/v1/medical_records/conditions/:id': healthConditions.single,
+  'GET /my_health/v2/medical_records/conditions':
+    acceleratedHealthConditions.all,
   'GET /my_health/v1/medical_records/allergies': (req, res) => {
     const { use_oh_data_path } = req.query;
     if (use_oh_data_path === '1') {
