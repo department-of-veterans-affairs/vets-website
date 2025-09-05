@@ -61,7 +61,11 @@ import {
   setFilterOption,
   setPageNumber,
 } from '../redux/preferencesSlice';
-import { selectUserDob, selectUserFullName } from '../selectors/selectUser';
+import {
+  selectUserDob,
+  selectUserFullName,
+  selectHasMedsByMailFacility,
+} from '../selectors/selectUser';
 import { selectPrescriptionId } from '../selectors/selectPrescription';
 import {
   selectSortOption,
@@ -78,6 +82,7 @@ const Prescriptions = () => {
   const ssoe = useSelector(isAuthenticatedWithSSOe);
   const userName = useSelector(selectUserFullName);
   const dob = useSelector(selectUserDob);
+  const hasMedsByMailFacility = useSelector(selectHasMedsByMailFacility);
 
   // Get sort/filter selections from store.
   const selectedSortOption = useSelector(selectSortOption);
@@ -671,32 +676,80 @@ const Prescriptions = () => {
     );
   };
 
-  const renderHeader = () => (
-    <>
-      <h1 data-testid="list-page-title" className="vads-u-margin-bottom--2">
-        Medications
-      </h1>
-      <p
-        className="vads-u-margin-top--0 vads-u-margin-bottom--4"
-        data-testid="Title-Notes"
-      >
-        <>
-          Bring your medications list to each appointment. And tell your
-          provider about any new allergies or reactions. If you use Meds by
-          Mail, you can also call your servicing center and ask them to update
-          your records.
-        </>
-      </p>
-      <a
-        href="/my-health/medical-records/allergies"
-        rel="noreferrer"
-        className="vads-u-display--block vads-u-margin-bottom--3"
-        data-testid="allergies-link"
-      >
-        Go to your allergies and reactions
-      </a>
-    </>
-  );
+  const renderMedsByMailContent = () => {
+    if (!hasMedsByMailFacility) {
+      return null;
+    }
+
+    return (
+      <>
+        <h2 className="vads-u-margin-top--3 medium-screen:vads-u-font-size--h3">
+          If you use Meds by Mail
+        </h2>
+        <p>
+          We may not have your allergy records in our My HealtheVet tools. But
+          the Meds by Mail servicing center keeps a record of your allergies and
+          reactions to medications.
+        </p>
+        <div className="vads-u-margin-bottom--4">
+          <va-additional-info
+            data-testId="meds-by-mail-additional-info"
+            trigger="How to update your allergies and reactions if you use Meds by Mail"
+          >
+            <p>
+              If you have a new allergy or reaction, tell your provider. Or you
+              can call us at{' '}
+              <va-telephone
+                className="help-phone-number-link"
+                contact="8662297389"
+              />{' '}
+              or{' '}
+              <va-telephone
+                className="help-phone-number-link"
+                contact="8883850235"
+              />{' '}
+              (<va-telephone contact={CONTACTS[711]} tty />) and ask us to
+              update your records. We’re here Monday through Friday, 8:00 a.m.
+              to 7:30 p.m. ET.
+            </p>
+          </va-additional-info>
+        </div>
+      </>
+    );
+  };
+
+  const renderHeader = () => {
+    let titleNotesMessage =
+      'Bring your medications list to each appointment. And tell your provider about any new allergies or reactions.';
+
+    if (!hasMedsByMailFacility) {
+      titleNotesMessage +=
+        ' If you use Meds by Mail, you can also call your servicing center and ask them to update your records.';
+    }
+
+    return (
+      <>
+        <h1 data-testid="list-page-title" className="vads-u-margin-bottom--2">
+          Medications
+        </h1>
+        <p
+          className="vads-u-margin-top--0 vads-u-margin-bottom--4"
+          data-testid="Title-Notes"
+        >
+          {titleNotesMessage}
+          <a
+            href="/my-health/medical-records/allergies"
+            rel="noreferrer"
+            className="vads-u-display--block vads-u-margin-bottom--3"
+            data-testid="allergies-link"
+          >
+            Go to your allergies and reactions
+          </a>
+          {renderMedsByMailContent()}
+        </p>
+      </>
+    );
+  };
 
   const renderMedicationsContent = () => {
     // No medications exist
