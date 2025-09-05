@@ -9,10 +9,12 @@ export const additionalInformationPartTwo = {
     ...titleUI('Additional information about this child'),
     incomeInLastYear: radioUI({
       title: 'Did this child have an income in the last 365 days?',
+      hint:
+        'Answer this question only if you are adding this dependent to your pension.',
       labels: {
         Y: 'Yes',
         N: 'No',
-        NA: 'This question does not apply to me',
+        NA: 'This question doesn’t apply to me',
       },
       required: (_chapterData, _index, formData) =>
         formData?.vaDependentsNetWorthAndPension,

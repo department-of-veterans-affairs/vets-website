@@ -149,10 +149,12 @@ export const childIncomeQuestionPage = {
     ...arrayBuilderItemSubsequentPageTitleUI(() => 'Child’s income'),
     dependentIncome: radioUI({
       title: 'Did this child have an income in the last 365 days?',
+      hint:
+        'Answer this question only if you are removing this dependent from your pension.',
       labels: {
         Y: 'Yes',
         N: 'No',
-        NA: 'This question does not apply to me',
+        NA: 'This question doesn’t apply to me',
       },
       required: (_chapterData, _index, formData) =>
         formData?.vaDependentsNetWorthAndPension,
