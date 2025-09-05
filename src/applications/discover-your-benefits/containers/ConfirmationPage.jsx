@@ -267,13 +267,13 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
         {window.history.length > 2 ? (
           <>
             <p className="vads-u-margin-bottom--0">
-              Based on your answers, we’ve suggested some benefits for you to
-              explore. If you need to, you can
+              Based on your answers, we’ve recommend benefits for you to
+              explore. If you need to, you can&nbsp;
               <va-link
                 data-testid="back-link"
                 href="#"
                 onClick={handleBackClick}
-                text="go back and review your entries"
+                text="go back and review your answers"
               />
               . Remember to check your eligibility before you apply.
             </p>
@@ -281,7 +281,7 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
         ) : (
           <>
             <p className="vads-u-margin-bottom--0">
-              Based on your answers, we’ve suggested some benefits for you to
+              Based on your answers, we’ve recommend benefits for you to
               explore. Remember to check your eligibility before you apply.
             </p>
           </>
@@ -342,26 +342,23 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
           )}
         </div>
 
-        <va-alert
-          close-btn-aria-label="Close notification"
-          status="info"
-          visible
-        >
-          <h2>Benefits for transitioning service members</h2>
-          <p>
+        <va-additional-info trigger="Benefits for transitioning service members">
+          <p className="vads-u-margin-top--0">
             We can help guide you as you transition from active-duty service or
-            from service in the Guard or Reserve. You’ll need to act quickly to
-            take advantage of certain time-sensitive benefits.
-            <br />
-            <va-link
-              href="https://www.va.gov/service-member-benefits/"
-              external
-              text="Learn more about VA benefits for service members"
-              type="secondary"
-              label="Learn more about VA benefits for service members"
-            />
+            from service in the National Guard or Reserves. Some benefits are
+            only available while you’re still serving, and others are best
+            explored soon after you separate. We’re here to help you understand
+            your options so you can take the steps that are right for you.
           </p>
-        </va-alert>
+          <br />
+          <va-link
+            href="https://www.va.gov/service-member-benefits/"
+            external
+            text="Learn more about VA benefits for service members"
+            type="secondary"
+            label="Learn more about VA benefits for service members"
+          />
+        </va-additional-info>
       </article>
 
       <div
