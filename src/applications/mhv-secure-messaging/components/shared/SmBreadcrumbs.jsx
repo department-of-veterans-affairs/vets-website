@@ -48,7 +48,7 @@ const SmBreadcrumbs = () => {
     Constants.Paths.MESSAGE_THREAD,
     Constants.Paths.REPLY,
     Constants.Paths.COMPOSE,
-    `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_HEALTH_CARE_SYSTEM}/`,
+    `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_CARE_TEAM}/`,
     `${Constants.Paths.COMPOSE}${Constants.Paths.START_MESSAGE}/`,
     Constants.Paths.CONTACT_LIST,
     `${Constants.Paths.CARE_TEAM_HELP}/`,
@@ -61,7 +61,7 @@ const SmBreadcrumbs = () => {
 
   const pathsWithBackBreadcrumb = [
     Constants.Paths.COMPOSE,
-    `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_HEALTH_CARE_SYSTEM}/`,
+    `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_CARE_TEAM}/`,
     `${Constants.Paths.COMPOSE}${Constants.Paths.START_MESSAGE}/`,
     Constants.Paths.CONTACT_LIST,
     `${Constants.Paths.CARE_TEAM_HELP}/`,
@@ -80,6 +80,19 @@ const SmBreadcrumbs = () => {
 
   const navigateBack = useCallback(
     () => {
+      const { pathname } = location;
+      const { COMPOSE, SELECT_CARE_TEAM, START_MESSAGE } = Constants.Paths;
+
+      if (pathname.includes(START_MESSAGE)) {
+        history.push(`${COMPOSE}${SELECT_CARE_TEAM}`);
+        return;
+      }
+
+      if (pathname.includes(SELECT_CARE_TEAM)) {
+        history.push(COMPOSE);
+        return;
+      }
+
       const isContactList =
         `/${locationBasePath}/` === Constants.Paths.CONTACT_LIST;
 
@@ -108,7 +121,14 @@ const SmBreadcrumbs = () => {
         );
       }
     },
-    [activeDraftId, crumb?.href, history, locationBasePath, previousUrl],
+    [
+      activeDraftId,
+      crumb?.href,
+      history,
+      locationBasePath,
+      previousUrl,
+      location,
+    ],
   );
 
   useEffect(
