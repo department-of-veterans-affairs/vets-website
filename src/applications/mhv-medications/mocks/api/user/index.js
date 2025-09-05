@@ -59,10 +59,6 @@ const defaultUser = {
             facility_id: '984',
             is_cerner: false,
           },
-          {
-            facility_id: '741MM',
-            is_cerner: false,
-          },
         ],
         va_patient: true,
         mhv_account_state: 'OK',
