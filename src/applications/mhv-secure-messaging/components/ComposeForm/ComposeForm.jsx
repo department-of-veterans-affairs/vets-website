@@ -74,9 +74,9 @@ const ComposeForm = props => {
   const { draftInProgress } = useSelector(state => state.sm.threadDetails);
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
   const {
-    isComboBoxEnabled,
     largeAttachmentsEnabled,
     cernerPilotSmFeatureFlag,
+    mhvSecureMessagingCuratedListFlow,
   } = useFeatureToggles();
 
   const [recipientsList, setRecipientsList] = useState(allowedRecipients);
@@ -459,7 +459,7 @@ const ComposeForm = props => {
         selectedRecipientId === '' ||
         !selectedRecipientId
       ) {
-        if (!cernerPilotSmFeatureFlag && isComboBoxEnabled) {
+        if (mhvSecureMessagingCuratedListFlow) {
           if (comboBoxInputValue === '') {
             setRecipientError(ErrorMessages.ComposeForm.RECIPIENT_REQUIRED);
           } else {
@@ -513,9 +513,8 @@ const ComposeForm = props => {
       isSignatureRequired,
       electronicSignature,
       checkboxMarked,
-      isComboBoxEnabled,
-      cernerPilotSmFeatureFlag,
       comboBoxInputValue,
+      mhvSecureMessagingCuratedListFlow,
     ],
   );
 
@@ -884,7 +883,7 @@ const ComposeForm = props => {
       <form className="compose-form" id="sm-compose-form">
         <RouteLeavingGuard saveDraftHandler={saveDraftHandler} type="compose" />
         <div>
-          {!cernerPilotSmFeatureFlag &&
+          {!mhvSecureMessagingCuratedListFlow &&
             !noAssociations &&
             !allTriageGroupsBlocked && (
               <div
@@ -901,7 +900,7 @@ const ComposeForm = props => {
                 />
               </div>
             )}
-          {!cernerPilotSmFeatureFlag &&
+          {!mhvSecureMessagingCuratedListFlow &&
             recipientsList &&
             !noAssociations &&
             !allTriageGroupsBlocked && (
@@ -917,7 +916,7 @@ const ComposeForm = props => {
                 currentRecipient={currentRecipient}
               />
             )}
-          {cernerPilotSmFeatureFlag && (
+          {mhvSecureMessagingCuratedListFlow && (
             <SelectedRecipientTitle draftInProgress={draftInProgress} />
           )}
           <div className="compose-form-div vads-u-margin-y--3">

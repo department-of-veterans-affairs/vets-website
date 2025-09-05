@@ -63,7 +63,7 @@ const ReplyDrafts = props => {
             <ReplyDraftItem
               cannotReply={cannotReply}
               drafts={drafts}
-              draftsCount={0}
+              draftsCount={1}
               editMode={isEditing}
               replyMessage={replyMessage}
               replyToName={replyToName}
