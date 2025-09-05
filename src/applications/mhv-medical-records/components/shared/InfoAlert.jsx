@@ -1,8 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { sendDataDogAction } from '../../util/helpers';
+// eslint-disable-next-line import/no-named-default
+import { default as recordEventFn } from '~/platform/monitoring/record-event';
+import { datadogRum } from '@datadog/browser-rum';
 
-const InfoAlert = ({ highLowResults }) => {
+const InfoAlert = ({ highLowResults, recordEvent = recordEventFn }) => {
+  const headline = 'Need help understanding your results';
+  useEffect(
+    () => {
+      recordEvent({
+        event: 'nav-alert-box-load',
+        action: 'load',
+        'alert-box-headline': headline,
+        'alert-box-status': 'info',
+      });
+      datadogRum.addAction('Showed Alert Box: Understanding Results');
+    },
+    [headline, recordEvent],
+  );
   return (
     <>
       <va-alert-expandable
@@ -36,7 +51,7 @@ const InfoAlert = ({ highLowResults }) => {
             href="/my-health/secure-messages/new-message/"
             text="Start a new message"
             onClick={() => {
-              sendDataDogAction('Start a new message - L&TR Details info');
+              datadogRum.addAction('Start a new message - L&TR Details info');
             }}
           />
         </p>
@@ -53,6 +68,6 @@ const InfoAlert = ({ highLowResults }) => {
 export default InfoAlert;
 
 InfoAlert.propTypes = {
-  fullState: PropTypes.object,
   highLowResults: PropTypes.any,
+  recordEvent: PropTypes.func,
 };
