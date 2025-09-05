@@ -19,7 +19,7 @@ const YellowRibbonInstructionsPage = () => {
         inquiries.
       </p>
 
-      <h2 className="vads-u-margin-top--4">General eligibility</h2>
+      <h2 className="vads-u-margin-top--3">General eligibility</h2>
       <p>
         The institution must be an Institution of Higher Learning (IHL) that
         offers programs of education approved for VA benefits. U.S. schools are
@@ -28,7 +28,7 @@ const YellowRibbonInstructionsPage = () => {
         are eligible to participate as of August 1, 2021.
       </p>
 
-      <h2 className="vads-u-margin-top--4">Name, title, and facility code</h2>
+      <h2 className="vads-u-margin-top--3">Name, title, and facility code</h2>
       <p>
         Enter your first and last name, official title at your institution, and
         your school’s facility code. You can also select any branch campuses or
@@ -40,13 +40,15 @@ const YellowRibbonInstructionsPage = () => {
         in its facility code will not be included in this agreement.
       </p>
 
-      <h2 className="vads-u-margin-top--4">Select your agreement type</h2>
-      <p>Choose one of the following options:</p>
-      <ul>
+      <h2 className="vads-u-margin-top--3">Select your agreement type</h2>
+      <p className="vads-u-margin-bottom--0">
+        Choose one of the following options:
+      </p>
+      <ul className="vads-u-margin-y--1">
         <li>Start a new open-ended agreement</li>
         <li>Modify an existing agreement</li>
       </ul>
-      <p>
+      <p className="vads-u-margin-top--0">
         Both of these options will require you to complete the entire form. If
         you are withdrawing from the Yellow Ribbon Program agreement, you will
         only need to provide your first and last name, official title, your
@@ -54,7 +56,7 @@ const YellowRibbonInstructionsPage = () => {
         withdraw.
       </p>
 
-      <h2 className="vads-u-margin-top--4">Acknowledge program requirements</h2>
+      <h2 className="vads-u-margin-top--3">Acknowledge program requirements</h2>
       <p>
         By signing and submitting this form to VA, your institution agrees to
         follow the provisions outlined in the acknowledgment section. As part of
@@ -63,7 +65,7 @@ const YellowRibbonInstructionsPage = () => {
         completing and submitting the form.
       </p>
 
-      <h2 className="vads-u-margin-top--4">
+      <h2 className="vads-u-margin-top--3">
         Commitment to Yellow Ribbon Program contributions
       </h2>
       <p>
@@ -71,11 +73,11 @@ const YellowRibbonInstructionsPage = () => {
         offer Yellow Ribbon Program contributions. This total must match the
         combined number of students listed in Step 2 of this form.
       </p>
-      <p>
+      <p className="vads-u-margin-top--0">
         Enter the academic year for which this agreement applies (e.g.,
         2020-2021).
       </p>
-      <p>
+      <p className="vads-u-margin-top--0">
         <strong>Note:</strong> For VA purposes, an academic year runs from
         August 1 to July 31.
       </p>
@@ -85,7 +87,7 @@ const YellowRibbonInstructionsPage = () => {
         future open-enrollment period.
       </p>
 
-      <h2 className="vads-u-margin-top--4">
+      <h2 className="vads-u-margin-top--3">
         U.S. schools only - Provide contribution details
       </h2>
       <p>
@@ -121,7 +123,7 @@ const YellowRibbonInstructionsPage = () => {
         </ul>
       </div>
 
-      <h2 className="vads-u-margin-top--4">
+      <h2 className="vads-u-margin-top--3">
         Foreign schools only - Provide contribution details
       </h2>
       <p>
@@ -157,14 +159,14 @@ const YellowRibbonInstructionsPage = () => {
         </ul>
       </div>
       <p className="vads-u-margin-top--2">
-        <strong>Important Note:</strong> You must report your contributions in
-        the official currency of record for your institution—not in U.S.
-        dollars. The VA will convert this amount to U.S. dollars using the
-        Federal Reserve exchange rate effective on July 1 preceding the relevant
-        academic year, and will match up to 50% of the unmet tuition and fees.
+        You must report your contributions in the official currency of record
+        for your institution—not in U.S. dollars. The VA will convert this
+        amount to U.S. dollars using the Federal Reserve exchange rate effective
+        on July 1 preceding the relevant academic year, and will match up to 50%
+        of the unmet tuition and fees.
       </p>
 
-      <h2 className="vads-u-margin-top--4">
+      <h2 className="vads-u-margin-top--3">
         Provide your school’s points of contact
       </h2>
       <p>
@@ -183,7 +185,7 @@ const YellowRibbonInstructionsPage = () => {
         your institution’s Yellow Ribbon Program participation.
       </p>
 
-      <h2 className="vads-u-margin-top--4">
+      <h2 className="vads-u-margin-top--3">
         Signature of authorizing official
       </h2>
       <p>
@@ -199,7 +201,7 @@ const YellowRibbonInstructionsPage = () => {
         your state or territory under the Post-9/11 GI Bill.
       </p>
 
-      <h2 className="vads-u-margin-top--4">Submitting your completed form</h2>
+      <h2 className="vads-u-margin-top--3">Submitting your completed form</h2>
       <p className="vads-u-margin-bottom--4">
         Once you complete all required steps, your form will submit
         automatically to the Yellow Ribbon team for review. Processing typically
