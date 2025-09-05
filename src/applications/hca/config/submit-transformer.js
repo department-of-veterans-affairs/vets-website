@@ -79,6 +79,16 @@ export const submitTransformer = (
     dataToMap = set('dependents', [], dataToMap);
   }
 
+  // map insurance policies
+  if (form.data['view:isInsuranceV2Enabled']) {
+    const { providers } = dataToMap;
+    dataToMap = set(
+      'isCoveredByHealthInsurance',
+      !!providers?.length,
+      dataToMap,
+    );
+  }
+
   let gaClientId;
   if (!disableAnalytics) {
     // add logging to track user volume of forms submitted with specific questions answered
@@ -103,7 +113,7 @@ export const submitTransformer = (
   }
 
   // stringify form data for submission
-  // NOTE: we don’t to remove dependents in the normal empty value clean up
+  // NOTE: we don’t want to remove dependents in the normal empty value clean-up
   try {
     const replacer = (key, value) => {
       if (key === 'dependents') return value;
