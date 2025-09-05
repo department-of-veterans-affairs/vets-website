@@ -34,21 +34,22 @@ function AppointmentListSection() {
           <Redirect from="/referrals-requests" to="/pending" />
         )}
 
-        <Route path="/pending" component={AppointmentsPage} />
-        {isInPilotUserStations &&
-          eps && <Route path="/:id" component={EpsAppointmentDetailsPage} />}
-
         {isInPilotUserStations && (
           <Route path="/referrals-requests" component={ReferralsAndRequests} />
         )}
-        <Route path="/past/:id" component={UpcomingAppointmentsDetailsPage} />
-        <Route path="/past" component={AppointmentsPage} />
-        <Route exact path="/:id" component={UpcomingAppointmentsDetailsPage} />
         <Route
           exact
           path={['/', '/pending', '/past']}
           component={AppointmentsPage}
         />
+        <Route
+          exact
+          path="/past/:id"
+          component={UpcomingAppointmentsDetailsPage}
+        />
+        {isInPilotUserStations &&
+          eps && <Route path="/:id" component={EpsAppointmentDetailsPage} />}
+        <Route exact path="/:id" component={UpcomingAppointmentsDetailsPage} />
         <Route component={PageNotFound} />
       </Switch>
     </>
