@@ -1,6 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { waitFor } from '@testing-library/dom';
 import reducer from '../../../reducers';
 import AccessTroubleAlertBox from '../../../components/shared/AccessTroubleAlertBox';
 import { ALERT_TYPE_ERROR } from '../../../util/constants';
@@ -22,11 +24,16 @@ describe('AccessTroubleAlertBox', () => {
   };
 
   let screen;
+  let recordEvent;
   beforeEach(() => {
-    screen = renderInReduxProvider(<AccessTroubleAlertBox />, {
-      initialState,
-      reducers: reducer,
-    });
+    recordEvent = sinon.spy();
+    screen = renderInReduxProvider(
+      <AccessTroubleAlertBox recordEvent={recordEvent} />,
+      {
+        initialState,
+        reducers: reducer,
+      },
+    );
   });
 
   it('should display a header message', () => {
@@ -36,6 +43,13 @@ describe('AccessTroubleAlertBox', () => {
         selector: 'h2',
       }),
     ).to.exist;
+  });
+
+  it('should record an event when the alert appears', async () => {
+    await waitFor(() => {
+      expect(recordEvent.calledOnce, 'recordEvent called once').to.be.true;
+      expect(recordEvent.calledTwice, 'recordEvent called twice').to.be.false;
+    });
   });
 
   it('should display a paragraph containing additional info', () => {
