@@ -106,10 +106,11 @@ export const IntroductionPage = props => {
         </li>
       </ul>
       <p>
-        <a href="/" target="_blank" rel="noopener noreferrer">
-          Review additional instructions for the Yellow Ribbon Program Agreement
-          (opens in a new tab)
-        </a>
+        <va-link
+          external
+          text="Review additional instructions for the Yellow Ribbon Program Agreement"
+          href="/school-administrators/submit-yellow-ribbon-program-agreement-form-22-0839/yellow-ribbon-instructions"
+        />
       </p>
       <va-summary-box>
         <h3 slot="headline">Submission guidelines</h3>
