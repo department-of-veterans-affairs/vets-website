@@ -6,16 +6,30 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import nameAndDateOfBirth from './pages/nameAndDateOfBirth';
+import currentlyBuried from './pages/currentlyBuried';
 import deceasedInfo2 from './pages/deceasedInfo2';
 import deceasedMilitaryDetails from './pages/deceasedMilitaryDetails';
-import deceasedServicePeriods from './pages/deceasedServicePeriods';
-import demographicsInfo from './pages/demographicsInfo';
-import demographicsInfo2 from './pages/demographicsInfo2';
-import mailingAddress from './pages/mailingAddress';
 import deceasedName from './pages/deceasedName';
 import deceasedPreviousName from './pages/deceasedPreviousName';
-import currentlyBuried from './pages/currentlyBuried';
+import demographicsInfo from './pages/demographicsInfo';
+import demographicsInfo2 from './pages/demographicsInfo2';
+import desiredCemetery from './pages/desiredCemetery';
+import funeralHomeAddress from './pages/funeralHomeAddress';
+import funeralHomeContact from './pages/funeralHomeContact';
+import funeralHomeDetails from './pages/funeralHomeDetails';
+import intermentDetails from './pages/intermentDetails';
+import mailingAddress from './pages/mailingAddress';
+import nameAndDateOfBirth from './pages/nameAndDateOfBirth';
+import preparerContact from './pages/preparerContact';
+import preparerName from './pages/preparerName';
+import { burialBenefitsPagesVeteran } from './pages/burialBenefitsPages';
+import { deceasedServicePeriodsPages } from './pages/deceasedServicePeriodsPages';
+import { intermentDateRangesPages } from './pages/intermentDateRangesPages';
+import {
+  SupportingFilesDescription,
+  fileUploadUi,
+  timeOfNeedAttachments,
+} from './pages/supportingDocuments';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -48,7 +62,14 @@ const formConfig = {
   },
   title: TITLE,
   subTitle: SUBTITLE,
-  defaultDefinitions: {},
+  initialData: {
+    currentlyBuriedPersons: [],
+    servicePeriods: [],
+    desiredIntermentDateRanges: [], // added
+  },
+  defaultDefinitions: {
+    currentlyBuriedPersons: [],
+  },
   getHelp: GetFormHelp,
   chapters: {
     personalInformationChapter: {
@@ -95,13 +116,9 @@ const formConfig = {
           uiSchema: deceasedMilitaryDetails.uiSchema,
           schema: deceasedMilitaryDetails.schema,
         },
-        deceasedServicePeriods: {
-          path: 'deceased-service-periods',
-          title: 'Deceased’s service periods',
-          uiSchema: deceasedServicePeriods.uiSchema,
-          schema: deceasedServicePeriods.schema,
-          showOnReviewPage: true,
-        },
+        // Removed legacy deceasedServicePeriods single page
+        // Spread new array builder pages:
+        ...deceasedServicePeriodsPages,
         deceasedName: {
           path: 'deceased-name',
           title: 'Deceased’s name',
@@ -113,6 +130,7 @@ const formConfig = {
           title: 'Deceased’s previous name',
           uiSchema: deceasedPreviousName.uiSchema,
           schema: deceasedPreviousName.schema,
+          depends: { servedUnderAnotherName: true },
         },
       },
     },
@@ -120,16 +138,101 @@ const formConfig = {
       title: 'Burial benefits',
       pages: {
         burialBenefitsInfo: {
-          path: 'burial-benefits-info',
-          title: 'Burial benefits information',
+          path: 'currently-buried',
+          title: 'Currently buried',
           uiSchema: currentlyBuried.uiSchema,
           schema: currentlyBuried.schema,
         },
+        // Stand-alone array builder pages (no conditional dependency)
+        ...burialBenefitsPagesVeteran,
+        desiredCemetery: {
+          path: 'desired-cemetery',
+          title: 'Desired cemetery for burial of deceased',
+          uiSchema: desiredCemetery.uiSchema,
+          schema: desiredCemetery.schema,
+        },
       },
     },
-    contactInformationChapter: {
-      title: 'Contact information',
-      pages: {},
+    interment: {
+      title: 'Interment details',
+      pages: {
+        // Move intermentDetails first
+        intermentDetails: {
+          path: 'interment-details',
+          title: 'Interment details',
+          uiSchema: intermentDetails.uiSchema,
+          schema: intermentDetails.schema,
+        },
+        // Then the desired date/time range array builder pages
+        ...intermentDateRangesPages,
+      },
+    },
+    funeralHome: {
+      title: 'Funeral home information',
+      pages: {
+        funeralHomeDetails: {
+          path: 'funeral-home-details',
+          title: 'Funeral home details',
+          uiSchema: funeralHomeDetails.uiSchema,
+          schema: funeralHomeDetails.schema,
+        },
+        funeralHomeAddress: {
+          path: 'funeral-home-address',
+          title: 'Funeral home address',
+          uiSchema: funeralHomeAddress.uiSchema,
+          schema: funeralHomeAddress.schema,
+        },
+        funeralHomeContact: {
+          path: 'funeral-home-contact',
+          title: 'Funeral home contact information',
+          uiSchema: funeralHomeContact.uiSchema,
+          schema: funeralHomeContact.schema,
+        },
+      },
+    },
+    supportingDocuments: {
+      title: 'Supporting files',
+      pages: {
+        supportingDocuments: {
+          title: 'Upload supporting files',
+          path: 'supporting-documents',
+          editModeOnReviewPage: false,
+          uiSchema: {
+            'ui:description': SupportingFilesDescription,
+            application: {
+              timeOfNeedAttachments: fileUploadUi({ required: false }),
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              application: {
+                type: 'object',
+                properties: {
+                  timeOfNeedAttachments, // renamed schema property
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    preparerInformation: {
+      title: 'Preparer information',
+      pages: {
+        preparerName: {
+          path: 'preparer-name',
+          title: 'Preparer’s name',
+          uiSchema: preparerName.uiSchema,
+          schema: preparerName.schema,
+        },
+        preparerContact: {
+          path: 'preparer-contact',
+          title: 'Preparer’s contact information',
+          uiSchema: preparerContact.uiSchema,
+          schema: preparerContact.schema,
+        },
+      },
     },
   },
   footerContent,
