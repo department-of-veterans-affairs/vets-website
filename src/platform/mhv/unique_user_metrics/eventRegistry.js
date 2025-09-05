@@ -26,47 +26,22 @@
  */
 export const EVENT_REGISTRY = Object.freeze({
   // Secure Messaging Events
-  SECURE_MESSAGING_MESSAGE_SENT: ['mhv_sm_message_sent'],
-  SECURE_MESSAGING_INBOX_ACCESSED: ['mhv_sm_inbox_accessed'],
+  SECURE_MESSAGING_MESSAGE_SENT: 'mhv_sm_message_sent',
+  SECURE_MESSAGING_INBOX_ACCESSED: 'mhv_sm_inbox_accessed',
 
   // Prescriptions Events
-  PRESCRIPTIONS_ACCESSED: ['mhv_rx_accessed'],
-  PRESCRIPTIONS_REFILL_REQUESTED: ['mhv_rx_refill_requested'],
+  PRESCRIPTIONS_ACCESSED: 'mhv_rx_accessed',
+  PRESCRIPTIONS_REFILL_REQUESTED: 'mhv_rx_refill_requested',
 
   // Medical Records Events
-  MEDICAL_RECORDS_ACCESSED: ['mhv_mr_accessed'],
-  MEDICAL_RECORDS_LABS_ACCESSED: ['mhv_mr_labs_accessed'],
-  MEDICAL_RECORDS_VITALS_ACCESSED: ['mhv_mr_vitals_accessed'],
-  MEDICAL_RECORDS_VACCINES_ACCESSED: ['mhv_mr_vaccines_accessed'],
-  MEDICAL_RECORDS_ALLERGIES_ACCESSED: ['mhv_mr_allergies_accessed'],
-  MEDICAL_RECORDS_CONDITIONS_ACCESSED: ['mhv_mr_conditions_accessed'],
-  MEDICAL_RECORDS_NOTES_ACCESSED: ['mhv_mr_notes_accessed'],
+  MEDICAL_RECORDS_ACCESSED: 'mhv_mr_accessed',
+  MEDICAL_RECORDS_LABS_ACCESSED: 'mhv_mr_labs_accessed',
+  MEDICAL_RECORDS_VITALS_ACCESSED: 'mhv_mr_vitals_accessed',
+  MEDICAL_RECORDS_VACCINES_ACCESSED: 'mhv_mr_vaccines_accessed',
+  MEDICAL_RECORDS_ALLERGIES_ACCESSED: 'mhv_mr_allergies_accessed',
+  MEDICAL_RECORDS_CONDITIONS_ACCESSED: 'mhv_mr_conditions_accessed',
+  MEDICAL_RECORDS_NOTES_ACCESSED: 'mhv_mr_notes_accessed',
 
   // Appointments Events
-  APPOINTMENTS_ACCESSED: ['mhv_appointments_accessed'],
-
-  // Example of multiple events for a single feature
-  // COMPLEX_FEATURE_ACCESSED: [
-  //   'mhv_complex_feature_accessed',
-  //   'mhv_complex_feature_main_accessed',
-  //   'mhv_complex_feature_analytics_tracked'
-  // ],
+  APPOINTMENTS_ACCESSED: 'mhv_appointments_accessed',
 });
-
-/**
- * Validates that an event identifier exists in the registry
- * @param {string} eventKey - The event key to validate (e.g., 'MHV_LANDING_PAGE_ACCESSED')
- * @returns {boolean} True if the event key exists in the registry
- */
-export const isValidEventKey = eventKey => {
-  return Object.prototype.hasOwnProperty.call(EVENT_REGISTRY, eventKey);
-};
-
-/**
- * Gets the event names array from an event key
- * @param {string} eventKey - The event key from EVENT_REGISTRY
- * @returns {string[]|null} The array of event names or null if not found
- */
-export const getEventNames = eventKey => {
-  return EVENT_REGISTRY[eventKey] || null;
-};

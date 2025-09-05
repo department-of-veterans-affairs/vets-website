@@ -13,14 +13,14 @@ This module provides a centralized way to log unique user metrics events for MHV
 ```javascript
 import { logUniqueUserMetricsEvents, EVENT_REGISTRY } from '@department-of-veterans-affairs/mhv/exports';
 
-// Log a single event key (which may contain multiple event names)
+// Log a single event
 logUniqueUserMetricsEvents(EVENT_REGISTRY.SECURE_MESSAGING_MESSAGE_SENT);
 
-// Log multiple event keys
-logUniqueUserMetricsEvents([
+// Log multiple events using variable arguments
+logUniqueUserMetricsEvents(
   EVENT_REGISTRY.SECURE_MESSAGING_MESSAGE_SENT,
   EVENT_REGISTRY.SECURE_MESSAGING_INBOX_ACCESSED
-]);
+);
 ```
 
 ### Available Events
@@ -31,24 +31,17 @@ All available events are defined in `eventRegistry.js`.
 
 1. **Think twice** - Each event impacts database size significantly
 2. Open `eventRegistry.js` and read the warning at the top
-3. Add your event to the `EVENT_REGISTRY` object as an array of event names
-4. Use the pattern: `feature_action_accessed` (e.g., `new_feature_accessed`)
+3. Add your event to the `EVENT_REGISTRY` object as a string value
+4. Use the pattern: `mhv_feature_action_accessed` (e.g., `mhv_new_feature_accessed`)
 5. Maximum 50 characters per event name
-6. You can include multiple related event names in a single registry entry
-7. Discuss with backend team before deploying
+6. Discuss with backend team before deploying
 
 ### Example of adding a new event:
 You must use event keys that exist in `eventRegistry.js`.
 ```javascript
-// Single event name
-NEW_FEATURE_ACCESSED: ['new_feature_accessed'],
-
-// Multiple related event names
-COMPLEX_FEATURE_ACCESSED: [
-  'complex_feature_accessed',
-  'complex_feature_main_accessed',
-  'complex_feature_analytics_tracked'
-],
+// Add to EVENT_REGISTRY in eventRegistry.js
+NEW_FEATURE_ACCESSED: 'mhv_new_feature_accessed',
+PRESCRIPTIONS_REFILLED: 'mhv_rx_refilled',
 ```
 
 ## Architecture
@@ -69,8 +62,8 @@ COMPLEX_FEATURE_ACCESSED: [
 
 ### Validation
 
-- Event keys must exist in the `EVENT_REGISTRY`
+- Event values must exist in the `EVENT_REGISTRY`
 - Event names must be 1-50 characters
 - At least one event must be provided
-- Input is normalized to handle single event keys or arrays
-- Multiple event names from a single registry entry are automatically flattened and sent together
+- Uses variable arguments for clean API: `logUniqueUserMetricsEvents(event1, event2, ...)`
+- All provided events are validated against the registry before sending
