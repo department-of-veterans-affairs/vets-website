@@ -2,9 +2,11 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
-import { render, fireEvent, waitFor } from '@testing-library/react';
 
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
+import {
+  DefinitionTester,
+  // fillData,
+} from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
 describe('Pre-need applicant veteran applicant details', () => {
@@ -22,16 +24,16 @@ describe('Pre-need applicant veteran applicant details', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(7);
-
-    // expect(form.find('select').length).to.equal(1);
-    expect(form.find('VaMemorableDate').length).to.equal(1);
+    expect(form.find('va-text-input').length).to.equal(7);
+    expect(form.find('input').length).to.equal(1);
+    expect(form.find('select').length).to.equal(2);
+    expect(form.find('va-select').length).to.equal(1);
     form.unmount();
   });
 
-  it('should not submit empty form', async () => {
+  it('should not submit empty form', () => {
     const onSubmit = sinon.spy();
-    const { container } = render(
+    const form = mount(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
@@ -40,12 +42,65 @@ describe('Pre-need applicant veteran applicant details', () => {
       />,
     );
 
-    fireEvent.submit(container.querySelector('form'));
+    form.find('form').simulate('submit');
 
-    await waitFor(() => {
-      const errorElements = container.querySelectorAll('.usa-input-error');
-      expect(errorElements.length).to.equal(5);
-      expect(onSubmit.called).to.be.false;
-    });
+    expect(
+      form.find('.rjsf-web-component-field[error="Please enter a first name"]')
+        .length,
+    ).to.equal(2);
+    expect(
+      form.find('.rjsf-web-component-field[error="Please enter a middle name"]')
+        .length,
+    ).to.equal(0);
+    expect(
+      form.find('.rjsf-web-component-field[error="Please enter a last name"]')
+        .length,
+    ).to.equal(2);
+    expect(
+      form.find('.rjsf-web-component-field[error="Please enter a suffix"]')
+        .length,
+    ).to.equal(0);
+    expect(
+      form.find('.rjsf-web-component-field[error="Please enter a maiden name"]')
+        .length,
+    ).to.equal(0);
+    expect(
+      form.find(
+        '.rjsf-web-component-field[error="Please enter a Social Security number"]',
+      ).length,
+    ).to.equal(2);
+    expect(
+      form.find(
+        '.rjsf-web-component-field[error="You must provide a response"]',
+      ).length,
+    ).to.equal(4);
+    expect(form.find('.usa-input-error').length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
+
+  // it('should submit with required information', () => {
+  //   const onSubmit = sinon.spy();
+  //   const form = mount(
+  //     <DefinitionTester
+  //       schema={schema}
+  //       definitions={formConfig.defaultDefinitions}
+  //       onSubmit={onSubmit}
+  //       uiSchema={uiSchema}
+  //     />,
+  //   );
+  //   fillData(form, 'input#root_application_claimant_name_first', 'test');
+  //   fillData(form, 'input#root_application_claimant_name_last', 'test2');
+  //   fillData(form, 'input#root_application_claimant_ssn', '234443344');
+  //   fillData(form, 'select#root_application_claimant_dateOfBirthMonth', '2');
+  //   fillData(form, 'select#root_application_claimant_dateOfBirthDay', '2');
+  //   fillData(form, 'input#root_application_claimant_dateOfBirthYear', '2001');
+  //   fillData(form, 'input#root_application_veteran_cityOfBirth', 'Test City');
+  //   fillData(form, 'input#root_application_veteran_stateOfBirth', 'Test State');
+
+  //   form.find('form').simulate('submit');
+
+  //   expect(onSubmit.called).to.be.true;
+  //   form.unmount();
+  // });
 });
