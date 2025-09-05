@@ -8,6 +8,9 @@ import React, {
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+// eslint-disable-next-line import/no-named-default
+import { default as recordEventFn } from '~/platform/monitoring/record-event';
+import { datadogRum } from '@datadog/browser-rum';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import {
   updatePageTitle,
@@ -37,6 +40,7 @@ import { generateBlueButtonData } from '../../util/pdfHelpers/blueButton';
 import { addAlert, clearAlerts } from '../../actions/alerts';
 import {
   ALERT_TYPE_BB_ERROR,
+  ALERT_TYPE_ERROR,
   BB_DOMAIN_DISPLAY_MAP,
   pageTitles,
   refreshExtractTypes,
@@ -48,8 +52,10 @@ import { updateReportFileType } from '../../actions/downloads';
 import { postCreateAAL, postRecordDatadogAction } from '../../api/MrApi';
 import TrackedSpinner from '../shared/TrackedSpinner';
 
-const DownloadFileType = props => {
-  const { runningUnitTest = false } = props;
+const DownloadFileType = ({
+  runningUnitTest = false,
+  recordEvent = recordEventFn,
+}) => {
   const history = useHistory();
   const [fileType, setFileType] = useState('');
   const [fileTypeError, setFileTypeError] = useState('');
@@ -483,6 +489,24 @@ const DownloadFileType = props => {
     selectFileTypeHandler(e);
   };
 
+  const noRecordsFound = isDataFetched && recordCount === 0;
+  const noRecordsHeadline = noRecordsFound ? 'No records found' : '';
+
+  useEffect(
+    () => {
+      recordEvent({
+        event: 'nav-alert-box-load',
+        action: 'load',
+        'alert-box-headline': noRecordsHeadline,
+        'alert-box-status': ALERT_TYPE_ERROR,
+      });
+      datadogRum.addAction(
+        'Showed Alert Box: DownloadFileType "No Records Found"',
+      );
+    },
+    [noRecordsHeadline, recordEvent],
+  );
+
   return (
     <div>
       <h1>Select records and download report</h1>
@@ -585,5 +609,6 @@ const DownloadFileType = props => {
 export default DownloadFileType;
 
 DownloadFileType.propTypes = {
+  recordEvent: PropTypes.func,
   runningUnitTest: PropTypes.bool,
 };
