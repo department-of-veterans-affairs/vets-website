@@ -34,6 +34,6 @@ describe('Medical Records View Care Summary and Notes', () => {
     const DISCHARGE_INDEX = 1;
     CareSummaryAndNotes.checkDischargeListItem({ index: DISCHARGE_INDEX });
     CareSummaryAndNotes.selectCareSummaryOrNote({ index: DISCHARGE_INDEX });
-    CareSummaryAndNotes.validateNoteDetailPage();
+    CareSummaryAndNotes.validateDischargeDetailPage();
   });
 });
