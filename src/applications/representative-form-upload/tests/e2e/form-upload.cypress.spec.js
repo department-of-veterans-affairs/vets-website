@@ -46,6 +46,7 @@ const uploadImgDetails = {
   name: uploadImgPath,
   size: 2783621,
   password: false,
+  additionalData: {},
 };
 
 describe('Representative Form Upload', () => {
