@@ -1,17 +1,15 @@
-import definitions from 'vets-json-schema/dist/definitions.json';
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+import {
+  ssnUI,
+  ssnSchema,
+  vaFileNumberUI,
+  vaFileNumberSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    claimantSSN: ssnUI,
-    claimantVaFileNumber: {
-      'ui:title': 'VA file number (if available)',
-      'ui:errorMessages': {
-        pattern:
-          "Please enter a valid VA file number.  All should have 7-9 digits; some may start with a 'C'",
-      },
-    },
+    claimantSSN: ssnUI(),
+    claimantVaFileNumber: vaFileNumberUI(),
     claimantVaInsuranceFileNumber: {
       'ui:title': 'VA Insurance File Number (if available)',
       'ui:errorMessages': {
@@ -23,8 +21,8 @@ export default {
     type: 'object',
     required: ['claimantSSN'],
     properties: {
-      claimantSSN: definitions.ssn,
-      claimantVaFileNumber: definitions.vaFileNumber,
+      claimantSSN: ssnSchema,
+      claimantVaFileNumber: vaFileNumberSchema,
       claimantVaInsuranceFileNumber: {
         type: 'string',
         maxLength: 20,
