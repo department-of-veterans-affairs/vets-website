@@ -3,7 +3,9 @@ import {
   selectUserDob,
   selectUserFullName,
   selectUserFacility,
+  selectHasMedsByMailFacility,
 } from '../../selectors/selectUser';
+import { MEDS_BY_MAIL_FACILITY_ID } from '../../util/constants';
 
 describe('mhv-medications selectors: selectUser', () => {
   const mockState = {
@@ -39,7 +41,7 @@ describe('mhv-medications selectors: selectUser', () => {
 
   describe('selectUserFacility', () => {
     it('should select user facility', () => {
-      const facilities = [{ id: '123', name: 'Test VA Facility' }];
+      const facilities = [{ facilityId: '123', name: 'Test VA Facility' }];
       const state = {
         user: {
           profile: {
@@ -63,6 +65,54 @@ describe('mhv-medications selectors: selectUser', () => {
     it('should return undefined if facilities is missing', () => {
       const state = { user: { profile: {} } };
       expect(selectUserFacility(state)).to.be.undefined;
+    });
+  });
+
+  describe('selectHasMedsByMailFacility', () => {
+    it('should return true if the meds by mail facility ID is present', () => {
+      const facilities = [
+        { facilityId: MEDS_BY_MAIL_FACILITY_ID, name: 'Meds by Mail Facility' },
+      ];
+      const state = {
+        user: {
+          profile: {
+            facilities,
+          },
+        },
+      };
+      expect(selectHasMedsByMailFacility(state)).to.be.true;
+    });
+
+    it('should return false if the meds by mail facility ID is not present', () => {
+      const facilities = [{ facilityId: '123', name: 'Test VA Facility' }];
+      const state = {
+        user: {
+          profile: {
+            facilities,
+          },
+        },
+      };
+      expect(selectHasMedsByMailFacility(state)).to.be.false;
+    });
+
+    it('should return false if user is missing', () => {
+      const state = {};
+      expect(selectHasMedsByMailFacility(state)).to.be.false;
+    });
+
+    it('should return false if profile is missing', () => {
+      const state = { user: {} };
+      expect(selectHasMedsByMailFacility(state)).to.be.false;
+    });
+
+    it('should return false if facilities is missing', () => {
+      const state = { user: { profile: {} } };
+      expect(selectHasMedsByMailFacility(state)).to.be.false;
+    });
+
+    it('should return false if facilities is empty', () => {
+      const state = { user: { profile: { facilities: [] } } };
+      expect(selectHasMedsByMailFacility(state)).to.be.false;
     });
   });
 });
