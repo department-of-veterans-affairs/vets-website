@@ -7,18 +7,21 @@ export const SHORT_NAME_MAP = Object.freeze({
   Q_1_1_CLAIM_DECISION: 'Q_1_1_CLAIM_DECISION',
   Q_1_1A_SUBMITTED_526: 'Q_1_1A_SUBMITTED_526',
   Q_1_2_CLAIM_DECISION: 'Q_1_2_CLAIM_DECISION',
+  Q_1_2A_1_SERVICE_CONNECTED: 'Q_1_2A_1_SERVICE_CONNECTED',
   Q_1_2A_CONDITION_WORSENED: 'Q_1_2A_CONDITION_WORSENED',
+  Q_1_2A_2_DISAGREE_DECISION: 'Q_1_2A_2_DISAGREE_DECISION',
   Q_1_2B_LAW_POLICY_CHANGE: 'Q_1_2B_LAW_POLICY_CHANGE',
   Q_1_2C_NEW_EVIDENCE: 'Q_1_2C_NEW_EVIDENCE',
   Q_1_3_CLAIM_CONTESTED: 'Q_1_3_CLAIM_CONTESTED',
   Q_1_3A_FEWER_60_DAYS: 'Q_1_3A_FEWER_60_DAYS',
-  Q_2_0_CLAIM_TYPE: 'Q_2_0_CLAIM_TYPE',
   Q_2_IS_1_SERVICE_CONNECTED: 'Q_2_IS_1_SERVICE_CONNECTED',
   Q_2_IS_2_CONDITION_WORSENED: 'Q_2_IS_2_CONDITION_WORSENED',
+  Q_2_IS_4_DISAGREE_DECISION: 'Q_2_IS_4_DISAGREE_DECISION',
+  Q_2_0_CLAIM_TYPE: 'Q_2_0_CLAIM_TYPE',
   Q_2_IS_1A_LAW_POLICY_CHANGE: 'Q_2_IS_1A_LAW_POLICY_CHANGE',
   Q_2_IS_1B_NEW_EVIDENCE: 'Q_2_IS_1B_NEW_EVIDENCE',
   Q_2_S_1_NEW_EVIDENCE: 'Q_2_S_1_NEW_EVIDENCE',
-  Q_2_H_1_EXISTING_BOARD_APPEAL: 'Q_2_H_1_EXISTING_BOARD_APPEAL',
+  Q_2_S_2_WITHIN_120_DAYS: 'Q_2_S_2_WITHIN_120_DAYS',
   Q_2_H_2_NEW_EVIDENCE: 'Q_2_H_2_NEW_EVIDENCE',
   Q_2_H_2A_JUDGE_HEARING: 'Q_2_H_2A_JUDGE_HEARING',
   Q_2_H_2B_JUDGE_HEARING: 'Q_2_H_2B_JUDGE_HEARING',
@@ -289,27 +292,6 @@ export const QUESTION_CONTENT = Object.freeze({
   },
   Q_2_S_1_NEW_EVIDENCE: {
     ...NEW_AND_RELEVANT_EVIDENCE,
-  },
-  Q_2_H_1_EXISTING_BOARD_APPEAL: {
-    descriptionText: (
-      <>
-        <p>
-          This means a Veterans Law Judge at the Board of Veterans’ Appeals
-          reviewed your case and issued a decision.
-        </p>
-        <p>
-          You can’t request a Higher-Level Review for a claim that’s already
-          been decided by the Board.
-        </p>
-      </>
-    ),
-    h1: `Previous Board Appeal`,
-    hintText: null,
-    questionText: `Have you already had a Board Appeal for this claim?`,
-    responses: [
-      { [YES]: `A Veterans Law Judge already reviewed and decided my claim` },
-      { [NO]: `This claim hasn’t been reviewed by the Board` },
-    ],
   },
   Q_2_H_2_NEW_EVIDENCE: {
     ...NEW_AND_RELEVANT_EVIDENCE,
