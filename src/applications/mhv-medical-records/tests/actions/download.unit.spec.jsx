@@ -52,7 +52,12 @@ describe('Download Actions', () => {
       };
       const downLoadRequest = {
         shouldResolve: true,
-        response: { text: sinon.stub().returns('xml') },
+        response: {
+          ok: true, // optional, but nice to have
+          blob: sinon
+            .stub()
+            .resolves(new Blob(['<ClinicalDocument/>'], { type: '' })),
+        },
       };
       mockMultipleApiRequests([completeRequest, downLoadRequest]);
       await genAndDownloadCCD(firstName, lastName)(dispatch);

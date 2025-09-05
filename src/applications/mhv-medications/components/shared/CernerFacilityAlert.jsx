@@ -90,7 +90,7 @@ const CernerFacilityAlert = ({ className = '' }) => {
           className="vads-c-action-link--blue"
           href={getCernerURL('/pages/medications/current', true)}
         >
-          Go to My VA Health (opens in new tab)
+          Go to My VA Health
         </a>
         <p className="vads-u-margin-bottom--0">
           <strong>Note:</strong> Having trouble opening up My VA Health? Try

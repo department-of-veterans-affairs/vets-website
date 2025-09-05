@@ -16,6 +16,7 @@ const Pagination = ({ meta, defaults }) => {
       searchParams.get(SEARCH_PARAMS.SELECTED_INDIVIDUAL) ||
       defaults.SELECTED_INDIVIDUAL;
 
+    // status for request search page, second is for submissions pagination
     if (status) {
       navigate(
         `?status=${status}&sortOrder=${sort}&sortBy=${sortBy}&pageNumber=${
@@ -26,7 +27,7 @@ const Pagination = ({ meta, defaults }) => {
       navigate(
         `?sortOrder=${sort}&sortBy=${sortBy}&pageNumber=${
           e.detail.page
-        }&pageSize=${pageSize}&as_selected_individual=${selectedIndividual}`,
+        }&pageSize=${pageSize}`,
       );
     }
   };

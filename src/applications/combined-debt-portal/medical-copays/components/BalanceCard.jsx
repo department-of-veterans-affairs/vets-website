@@ -1,10 +1,14 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
-import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaLoadingIndicator,
+  VaLink,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+
 import {
   currency,
   calcDueDate,
@@ -51,6 +55,8 @@ PastDueContent.propTypes = {
 };
 
 const BalanceCard = ({ id, amount, facility, city, date }) => {
+  const history = useHistory();
+
   const {
     useToggleValue,
     useToggleLoadingValue,
@@ -112,38 +118,31 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
       </div>
       {showCDPOneThingPerPage ? (
         <div className="vads-u-display--flex vads-u-flex-direction--column">
-          <Link
-            className="vads-u-font-weight--bold vads-u-margin-top--1"
-            to={`/copay-balances/${id}/detail`}
+          <VaLink
+            active
             data-testid={`detail-link-${id}`}
+            onClick={event => {
+              event.preventDefault();
+              recordEvent({ event: 'cta-link-click-copay-balance-card' });
+              history.push(`/copay-balances/${id}/detail`);
+            }}
+            href={`/copay-balances/${id}/detail`}
+            text="Review details"
             aria-label={`Review details for ${facility}`}
-            onClick={() => {
-              recordEvent({ event: 'cta-link-click-copay-balance-card' });
-            }}
-          >
-            Review details
-            <va-icon
-              icon="navigate_next"
-              size={2}
-              class="cdp-link-icon--active"
-            />
-          </Link>
-          <Link
-            className="vads-u-font-weight--bold vads-u-margin-top--1"
-            to={`/copay-balances/${id}/resolve`}
+          />
+
+          <VaLink
+            active
             data-testid={`resolve-link-${id}`}
-            aria-label={`Resolve this bill for ${facility}`}
-            onClick={() => {
+            onClick={event => {
+              event.preventDefault();
               recordEvent({ event: 'cta-link-click-copay-balance-card' });
+              history.push(`/copay-balances/${id}/resolve`);
             }}
-          >
-            Resolve this bill
-            <va-icon
-              icon="navigate_next"
-              size={2}
-              class="cdp-link-icon--active"
-            />
-          </Link>
+            href={`/copay-balances/${id}/resolve`}
+            text="Resolve this bill"
+            aria-label={`Resolve this bill for ${facility}`}
+          />
         </div>
       ) : (
         <Link

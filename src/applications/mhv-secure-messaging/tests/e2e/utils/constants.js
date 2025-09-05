@@ -445,6 +445,7 @@ export const Data = {
     HOME: '/my-health/secure-messages/',
     CONTACT_LIST: '/my-health/secure-messages/contact-list/',
     SELECT_CARE_TEAM: '/my-health/secure-messages/new-message/select-care-team',
+    CARE_TEAM_HELP: '/my-health/secure-messages/new-message/care-team-help',
   },
   CL_LINK_TEXT: 'Show more teams in your contact list',
   URL: {

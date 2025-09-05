@@ -63,18 +63,21 @@ describe('CDP - One Thing Per Page', () => {
           .findByTestId(`detail-link-${id}`)
           .should('not.contain', 'Check details');
 
-        // Review details link should be present and work
-        cy.findByTestId(`balance-card-${id}`)
-          .findByTestId(`detail-link-${id}`)
+        // // Review details link should be present and work
+        cy.get(`[data-testid="detail-link-${id}"]`)
+          .shadow()
+          .find('a')
           .as('detailLink');
         cy.get('@detailLink').should('contain', 'Review details');
         cy.get('@detailLink').click();
+
         cy.url().should('match', /\/copay-balances\/[^/]+\/detail$/);
         cy.go('back');
 
         // Resolve this bill link should be present and work
-        cy.findByTestId(`balance-card-${id}`)
-          .findByTestId(`resolve-link-${id}`)
+        cy.get(`[data-testid="resolve-link-${id}"]`)
+          .shadow()
+          .find('a')
           .as('resolveLink');
         cy.get('@resolveLink').should('contain', 'Resolve this bill');
         cy.get('@resolveLink').click();
