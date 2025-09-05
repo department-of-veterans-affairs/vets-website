@@ -68,7 +68,7 @@ const serviceHistory33 = {
               Authority 38 U.S.C. 3301(1)
             </a>
             ) and a 6-year service obligation (you agreed to serve 6 years) in
-            the Selective Reserve when determining your eligibility. Please
+            the Selected Reserve when determining your eligibility. Please
             review your service history and indicate if anything is incorrect.
           </p>
         </>
