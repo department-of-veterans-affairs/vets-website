@@ -6,7 +6,11 @@ import {
   focusElement,
   waitForRenderThenFocus,
 } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
+import {
+  updatePageTitle,
+  logUniqueUserMetricsEvents,
+  EVENT_REGISTRY,
+} from '@department-of-veterans-affairs/mhv/exports';
 import {
   DefaultFolders as Folders,
   Alerts,
@@ -75,7 +79,13 @@ const FolderThreadListView = props => {
       );
       dispatch(getListOfThreads(sortFolderId, perPage, page, value, update));
     },
-    [dispatch, threadsPerPage],
+    [
+      dispatch,
+      threadSort.folderId,
+      threadSort.page,
+      threadSort.value,
+      threadsPerPage,
+    ],
   );
 
   const handleSortCallback = sortOrderValue => {
@@ -110,6 +120,10 @@ const FolderThreadListView = props => {
         switch (location.pathname) {
           case Paths.INBOX:
             id = Folders.INBOX.id;
+            // Log inbox access for analytics
+            logUniqueUserMetricsEvents(
+              EVENT_REGISTRY.SECURE_MESSAGING_INBOX_ACCESSED,
+            );
             break;
           case Paths.SENT:
             id = Folders.SENT.id;
@@ -133,7 +147,7 @@ const FolderThreadListView = props => {
         }
       };
     },
-    [dispatch, location.pathname, params.folderId],
+    [dispatch, location.pathname, params.folderId, testing],
   );
 
   useEffect(
@@ -278,15 +292,18 @@ const FolderThreadListView = props => {
       return null;
     },
     [
+      allTriageGroupsBlocked,
       awaitingResults,
       folder,
       handlePagination,
       handleSortCallback,
       isLoading,
+      noAssociations,
       searchResults,
       threadList,
       threadSort.page,
       threadSort.value,
+      threadsPerPage,
     ],
   );
 

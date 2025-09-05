@@ -1,4 +1,8 @@
 import moment from 'moment-timezone';
+import {
+  logUniqueUserMetricsEvents,
+  EVENT_REGISTRY,
+} from '@department-of-veterans-affairs/mhv/exports';
 import { Actions } from '../util/actionTypes';
 import {
   getMessage,
@@ -159,6 +163,10 @@ export const moveMessageThread = (threadId, folderId) => async dispatch => {
 export const sendMessage = (message, attachments) => async dispatch => {
   try {
     await createMessage(message, attachments);
+
+    // Log successful message sending for analytics
+    logUniqueUserMetricsEvents(EVENT_REGISTRY.SECURE_MESSAGING_MESSAGE_SENT);
+
     dispatch(
       addAlert(
         Constants.ALERT_TYPE_SUCCESS,
@@ -214,6 +222,10 @@ export const sendReply = (
 ) => async dispatch => {
   try {
     await createReplyToMessage(replyToId, message, attachments);
+
+    // Log successful reply sending for analytics
+    logUniqueUserMetricsEvents(EVENT_REGISTRY.SECURE_MESSAGING_MESSAGE_SENT);
+
     dispatch(
       addAlert(
         Constants.ALERT_TYPE_SUCCESS,
