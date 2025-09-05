@@ -136,12 +136,17 @@ describe('DownloadFileType with no records', () => {
     },
   };
   let screen;
+  let recordEvent;
   beforeEach(() => {
-    screen = renderWithStoreAndRouter(<DownloadFileType runningUnitTest />, {
-      initialState,
-      reducers: reducer,
-      path: '/download',
-    });
+    recordEvent = sinon.spy();
+    screen = renderWithStoreAndRouter(
+      <DownloadFileType runningUnitTest recordEvent={recordEvent} />,
+      {
+        initialState,
+        reducers: reducer,
+        path: '/download',
+      },
+    );
   });
 
   it('renders without errors', () => {
@@ -160,6 +165,8 @@ describe('DownloadFileType with no records', () => {
       const alert = screen.queryByTestId('no-records-alert');
       expect(alert).to.have.attr('status', 'error');
       expect(alert).to.contain.text('No records found');
+      expect(recordEvent.calledOnce).to.be.true;
+      expect(recordEvent.calledTwice).to.be.false;
     });
   });
 });
