@@ -160,7 +160,7 @@ Cypress.Commands.add('fillVaFileInput', (field, value) => {
         name: value?.name || 'placeholder.png',
         size: value?.size || 123,
         password: value?.password || 'abc',
-        additionalData: value?.additionalData || 'abc',
+        additionalData: value?.additionalData || {},
         confirmationCode: value?.confirmationCode || '123456',
         isEncrypted: value?.isEncrypted || true,
         hasAdditionalInputError: false,
