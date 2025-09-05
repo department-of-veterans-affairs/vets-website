@@ -4,6 +4,7 @@ import { connect, useDispatch } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
 import Cookies from 'js-cookie';
 
+import { selectVAPContactInfoField } from '@@vap-svc/selectors';
 import {
   fetchMilitaryInformation as fetchMilitaryInformationAction,
   fetchHero as fetchHeroAction,
@@ -222,6 +223,7 @@ const LOA1Content = ({
 };
 
 DashboardHeader.propTypes = {
+  displayCriticalActionConfirmEmailLink: PropTypes.bool,
   isLOA3: PropTypes.bool,
   showNotifications: PropTypes.bool,
   user: PropTypes.object,
@@ -520,8 +522,6 @@ const isAppealsAvailableSelector = createIsServiceAvailableSelector(
   backendServices.APPEALS_STATUS,
 );
 
-import { selectVAPContactInfoField } from '@@vap-svc/selectors';
-
 const mapStateToProps = state => {
   const { isReady: hasLoadedScheduledDowntime } = state.scheduledDowntime;
   const isLOA3 = isLOA3Selector(state);
@@ -613,6 +613,7 @@ Dashboard.propTypes = {
   canAccessMilitaryHistory: PropTypes.bool,
   canAccessPaymentHistory: PropTypes.bool,
   canAccessRatingInfo: PropTypes.bool,
+  displayCriticalActionConfirmEmailLink: PropTypes.bool,
   fetchFullName: PropTypes.func,
   fetchMilitaryInformation: PropTypes.func,
   fetchTotalDisabilityRating: PropTypes.func,
