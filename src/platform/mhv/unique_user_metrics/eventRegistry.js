@@ -24,7 +24,7 @@
  * This forces developers to come to one place to add new events and
  * see the database size warning above.
  */
-export const EVENT_REGISTRY = {
+export const EVENT_REGISTRY = Object.freeze({
   // Secure Messaging Events
   SECURE_MESSAGING_MESSAGE_SENT: ['mhv_sm_message_sent'],
   SECURE_MESSAGING_INBOX_ACCESSED: ['mhv_sm_inbox_accessed'],
@@ -51,7 +51,7 @@ export const EVENT_REGISTRY = {
   //   'mhv_complex_feature_main_accessed',
   //   'mhv_complex_feature_analytics_tracked'
   // ],
-};
+});
 
 /**
  * Validates that an event identifier exists in the registry
