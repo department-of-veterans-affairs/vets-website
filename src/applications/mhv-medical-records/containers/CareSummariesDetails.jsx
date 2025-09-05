@@ -86,7 +86,9 @@ const CareSummariesDetails = () => {
     careSummary?.type === noteTypes.CONSULT_RESULT ||
     careSummary?.type === loincCodes.CONSULT_RESULT;
 
-  if (isPhysicianProcedureNote || isConsultResult) {
+  const isOther = careSummary?.type === noteTypes.OTHER;
+
+  if (isPhysicianProcedureNote || isConsultResult || isOther) {
     return <ProgressNoteDetails record={careSummary} />;
   }
   return (

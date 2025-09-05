@@ -272,7 +272,7 @@ export const convertUnifiedCareSummariesAndNotesRecord = record => {
   const formattedNoteDate = formatDateTime(record.attributes.date);
   const noteDate = formattedNoteDate
     ? `${formattedNoteDate.formattedDate}, ${formattedNoteDate.formattedTime}`
-    : '';
+    : EMPTY_FIELD;
 
   const note = decodeBase64Report(record.attributes.note);
 
@@ -283,7 +283,7 @@ export const convertUnifiedCareSummariesAndNotesRecord = record => {
     ? `${formattedAdmissionDate.formattedDate}, ${
         formattedAdmissionDate.formattedTime
       }`
-    : '';
+    : EMPTY_FIELD;
   const formattedDischargeDate = formatDateTime(
     record.attributes.dischargedDate,
   );
@@ -291,21 +291,21 @@ export const convertUnifiedCareSummariesAndNotesRecord = record => {
     ? `${formattedDischargeDate.formattedDate}, ${
         formattedDischargeDate.formattedTime
       }`
-    : '';
+    : EMPTY_FIELD;
 
   const formattedDateEntered = formatDateTime(record.attributes.dateEntered);
   const dateEntered = formattedDateEntered
     ? `${formattedDateEntered.formattedDate}, ${
         formattedDateEntered.formattedTime
       }`
-    : '';
+    : EMPTY_FIELD;
 
   const formattedDateSigned = formatDateTime(record.attributes.dateSigned);
   const dateSigned = formattedDateSigned
     ? `${formattedDateSigned.formattedDate}, ${
         formattedDateSigned.formattedTime
       }`
-    : '';
+    : EMPTY_FIELD;
 
   return {
     id: record.id,
@@ -324,6 +324,7 @@ export const convertUnifiedCareSummariesAndNotesRecord = record => {
     admissionDate,
     dateSigned,
     dateEntered,
+    sortByDate: new Date(record.attributes.date),
   };
 };
 /**
