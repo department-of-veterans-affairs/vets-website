@@ -182,7 +182,7 @@ const VaFileInputField = props => {
     setEncrypted(encryptedCheck);
 
     // cypress test / skip the network call and its callbacks
-    if (environment.isTest() && !environment.isUnitTest()) {
+    if (environment.default?.isTest() && !environment.default?.isUnitTest()) {
       childrenProps.onChange(e.detail.mockFormData);
       // delay uploading for encrypted files until password is entered
     } else if (encryptedCheck) {
