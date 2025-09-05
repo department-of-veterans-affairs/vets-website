@@ -191,6 +191,8 @@
   "mhvSecureMessagingMilestone2AAL": "mhv_secure_messaging_milestone_2_aal",
   "mhvSecureMessagingCustomFoldersRedesign": "mhv_secure_messaging_custom_folders_redesign",
   "mhvSecureMessagingLargeAttachments": "mhv_secure_messaging_large_attachments",
+  "mhvSecureMessagingCuratedListFlow": "mhv_secure_messaging_curated_list_flow",
+  "mhvSecureMessagingRecentRecipients": "mhv_secure_messaging_recent_recipients",
   "mhvSupplyReorderingEnabled": "mhv_supply_reordering_enabled",
   "mhvVaHealthChatEnabled": "mhv_va_health_chat_enabled",
   "mhvHeaderLinks": "mhv_header_links",
