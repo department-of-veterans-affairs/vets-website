@@ -8,10 +8,11 @@ import {
 import { validateWithin180Days } from '../helpers';
 
 const uiSchema = {
-  ...titleUI('Date you will be released from active duty'),
+  ...titleUI('Your active duty release date'),
   dateReleasedFromActiveDuty: {
     ...currentOrPastDateUI({
-      title: 'Please provide the date you will be released from active duty.',
+      title:
+        'Please provide the date you were or will be released from active duty.',
       errorMessages: { required: 'Please enter a date' },
       hint: null,
     }),
@@ -21,9 +22,8 @@ const uiSchema = {
     'ui:description': (
       <p className="vads-u-margin-top--4">
         <strong>Note:</strong> When we review your application, we may ask for a
-        copy of your&nbsp;DD&nbsp;214 or a certification of your expected
-        release date. You can request that certification from your Military
-        Personnel Office.
+        copy of your DD 214 or a certification of your expected release date.
+        You can request that certification from your Military Personnel Office.
       </p>
     ),
   },

@@ -38,7 +38,7 @@ describe('Date released from active duty page', () => {
   it('renders the title, label, and static note', () => {
     const { getByText, container } = renderPage();
 
-    expect(getByText('Date you will be released from active duty')).to.exist;
+    expect(getByText('Your active duty release date')).to.exist;
 
     const dateField = container.querySelector(
       'va-memorable-date[label^="Please provide the date"]',

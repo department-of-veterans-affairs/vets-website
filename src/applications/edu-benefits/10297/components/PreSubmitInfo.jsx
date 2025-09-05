@@ -13,6 +13,10 @@ function PreSubmitInfo() {
       'va-checkbox',
       document.querySelector('va-statement-of-truth'),
     );
+    const vaStatement = document.querySelector('va-statement-of-truth');
+    vaStatement?.setAttribute('hide-legal-note', 'true');
+    // console.log('vaStatement', vaStatement);
+    // console.log('clarifyingText', clarifyingText);
     // clarifyingText?.setAttribute('style', 'display:none;');
     const clarifyingTextLabel = await querySelectorWithShadowRoot(
       'span[part="label"]',
@@ -63,41 +67,38 @@ function PreSubmitInfo() {
     <>
       <p>
         The information you provide in this application will help us determine
-        if you’re eligible for the High Technology Program. We may audit this
+        if you’re eligible for the VET TEC 2.0 Program. We may audit this
         information to make sure it’s accurate.
       </p>
-      <p>By checking the box below, you’re confirming that:</p>
-      <ul>
-        <li>
-          You understand that if you have benefits left under chapter 30, 32,
-          33, or 35, we’ll use the one that gives you the most support. If you’d
-          rather use a different benefit, just contact us.
-        </li>
-        <li>
-          If you don’t have any benefits left under those chapters, we’ll still
-          provide support through this program. It won’t affect the benefits
-          you’ve already used.
-        </li>
-        <li>
-          Everything you’ve shared here is true and correct to the best of your
-          knowledge.
-        </li>
-      </ul>
-      {privacyPolicyContent}
+      <p>
+        I certify that the statements made on this form to the best of my
+        knowledge are true and correct. I understand that by submitting this
+        form, I am making a statement to the government for the purposes of
+        obtaining federal benefits. Section 1001 of Title 18 of the U.S. Code
+        makes it a criminal offense for any person to knowingly and willfully
+        make false or fraudulent statements to any department or agency of the
+        United States Government. Additionally, I understand that if the
+        information I have provided on this form is found to be false or
+        incorrect, I will immediately be unable to receive benefits under this
+        program, and I may be required to reimburse the federal government for
+        any benefits I have already received.
+      </p>
+
+      {/* {privacyPolicyContent} */}
     </>
   );
 
   return (
     <>
       <div>{certificationContent}</div>
-      <VaModal
+      {/* <VaModal
         modalTitle="Privacy Act Statement"
         onCloseEvent={() => setShowModal(!showModal)}
         visible={showModal}
         large
       >
         <PrivacyActStatement />
-      </VaModal>
+      </VaModal> */}
     </>
   );
 }
