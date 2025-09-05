@@ -46,6 +46,7 @@ const responses = {
       myVaFormPdfLink: true,
       veteranOnboardingShowWelcomeMessageToNewUsers: true,
       myVaAuthExpRedesignEnabled: false,
+      myVaAuthExpRedesignAvailableToOptIn: true,
     },
     true,
   ),
