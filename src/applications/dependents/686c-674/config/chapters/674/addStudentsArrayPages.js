@@ -190,7 +190,7 @@ export const studentIncomePage = {
       labels: {
         Y: 'Yes',
         N: 'No',
-        NA: 'This question does not apply to me',
+        NA: 'This question doesn’t apply to me',
       },
       required: (_chapterData, _index, formData) =>
         formData?.vaDependentsNetWorthAndPension,
