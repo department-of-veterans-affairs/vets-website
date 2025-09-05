@@ -22,6 +22,7 @@ import {
   filterServicePeriods,
   stringifyRelatedDisabilities,
   cleanUpMailingAddress,
+  cleanToxicExposureData,
   addPTSDCause,
   addForm4142,
   addForm0781,
@@ -267,6 +268,7 @@ export function transform(formConfig, form) {
     filterServicePeriods,
     removeExtraData, // Removed data EVSS doesn't want
     cleanUpMailingAddress,
+    cleanToxicExposureData,
     addPOWSpecialIssues,
     addPTSDCause,
     addRequiredDescriptionsToDisabilitiesBDD,
