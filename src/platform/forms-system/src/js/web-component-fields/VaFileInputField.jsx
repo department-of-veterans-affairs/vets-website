@@ -69,8 +69,8 @@ import passwordErrorState from '../utilities/file/passwordErrorState';
  *     },
  * },
  * ```
- 
- 
+
+
  * @param {WebComponentFieldProps} props */
 const VaFileInputField = props => {
   const { uiOptions = {}, childrenProps } = props;
