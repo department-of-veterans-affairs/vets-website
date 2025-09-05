@@ -3,6 +3,20 @@ import manifest from '../../../manifest.json';
 import { DISABILITY_COMP_CARD, CLAIM_FOR_INCREASE_CARD } from './cards';
 import { DIVIDED_BENES, NON_DR_HEADING, PRINT_OR_RESTART } from '../common';
 
+export const CLAIM_OVER_YEAR_OLD = `We made a decision on your claim over a year ago`;
+export const NOT_SERVICE_CONNECTED = `VA didn’t determine your condition to be service connected`;
+export const NO_NEW_EVIDENCE = `You don’t have new or relevant evidence`;
+export const NOT_LAW_POLICY_CHANGE = `You aren't requesting a review because of a change in law or policy`;
+export const CONDITION_NOT_WORSE = `You’re service-connected condition hasn’t gotten worse`;
+
+export const PAGE_CONTENT_RESULTS_1_2_D = Object.freeze([
+  CLAIM_OVER_YEAR_OLD,
+  NOT_SERVICE_CONNECTED,
+  NO_NEW_EVIDENCE,
+  NOT_LAW_POLICY_CHANGE,
+  CONDITION_NOT_WORSE,
+]);
+
 export const NON_DR_RESULTS_CONTENT = Object.freeze({
   RESULTS_1_1B: {
     h1: NON_DR_HEADING,
@@ -106,6 +120,7 @@ export const NON_DR_RESULTS_CONTENT = Object.freeze({
   },
   RESULTS_2_S_3: {
     h1: NON_DR_HEADING,
+    bodyContent: <></>,
   },
   RESULTS_2_S_4: {
     h1: NON_DR_HEADING,

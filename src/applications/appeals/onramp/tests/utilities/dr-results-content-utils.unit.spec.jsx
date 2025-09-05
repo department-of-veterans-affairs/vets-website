@@ -8,7 +8,6 @@ import {
   getLearnMoreLink,
   getStartLink,
   showOutsideDROption,
-  swapPrefix,
 } from '../../utilities/dr-results-content-utils';
 import { RESPONSES } from '../../constants/question-data-map';
 import * as c from '../../constants/results-content/dr-screens/card-content';
@@ -16,28 +15,6 @@ import * as c from '../../constants/results-content/dr-screens/card-content';
 const { BOARD, INIT, NO, SC, YES } = RESPONSES;
 
 describe('card utilities', () => {
-  describe('swapPrefix', () => {
-    it('should return an empty string when the string does not contain the "from" value', () => {
-      expect(swapPrefix('SOMETHING_SC', 'CARD', 'TITLE')).to.equal('');
-    });
-
-    describe('when keepUnderscore is false', () => {
-      it('swaps the prefix and removes the underscore', () => {
-        expect(swapPrefix('CARD_SC', 'CARD', 'TITLE', false)).to.equal(
-          'TITLESC',
-        );
-      });
-    });
-
-    describe('when keepUnderscore is true', () => {
-      it('swaps the prefix and keeps the underscore', () => {
-        expect(swapPrefix('CARD_SC', 'CARD', 'TITLE', true)).to.equal(
-          'TITLE_SC',
-        );
-      });
-    });
-  });
-
   describe('getCardTitle', () => {
     it('returns the correct title', () => {
       expect(getCardTitle('CARD_SC')).to.equal('Supplemental Claim');
@@ -146,10 +123,7 @@ describe('card utilities', () => {
         .exist;
     });
 
-    // TODO: Skipping this test for now
-    // The display conditions don't exist yet (but will later when I merge all the pieces)
-    // this test won't work properly until then
-    xit('returns null if the display conditions are not met', () => {
+    it('returns null if the display conditions are not met', () => {
       const formResponses = {
         Q_1_1_CLAIM_DECISION: YES,
         Q_1_2_CLAIM_DECISION: YES,
