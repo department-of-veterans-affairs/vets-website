@@ -10,6 +10,7 @@ import * as Constants from '../util/constants';
 import { getRecentRecipients } from '../actions/recipients';
 import { focusOnErrorField } from '../util/formHelpers';
 import { updateDraftInProgress } from '../actions/threadDetails';
+import useFeatureToggles from '../hooks/useFeatureToggles';
 
 const RADIO_BUTTON_SET_LABEL = `Select a team from those you've sent messages to in the past 6 months. Or select "A different care team" to find another team.`;
 const OTHER_VALUE = 'other';
@@ -24,6 +25,19 @@ const RecentCareTeams = () => {
   const { acceptInterstitial } = threadDetails;
   const { recentRecipients, allRecipients } = recipients;
   const h1Ref = useRef(null);
+  const {
+    mhvSecureMessagingRecentRecipients,
+    featureTogglesLoading,
+  } = useFeatureToggles();
+
+  useEffect(
+    () => {
+      if (!featureTogglesLoading && !mhvSecureMessagingRecentRecipients) {
+        history.push(`${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}/`);
+      }
+    },
+    [featureTogglesLoading, history, mhvSecureMessagingRecentRecipients],
+  );
 
   useEffect(
     () => {

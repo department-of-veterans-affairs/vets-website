@@ -464,6 +464,9 @@ describe('App', () => {
     customState.featureToggles[
       FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot
     ] = true;
+    customState.featureToggles[
+      FEATURE_FLAG_NAMES.mhvSecureMessagingRecentRecipients
+    ] = true;
 
     const screen = renderWithStoreAndRouter(<App />, {
       initialState: customState,
