@@ -213,6 +213,8 @@ export {
   minYear,
   maxYear,
   isActivePage,
+  getPageProperties,
+  deleteNestedProperty,
   getActiveProperties,
   getInactivePages,
   createFormPageList,
