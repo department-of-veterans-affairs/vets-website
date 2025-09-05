@@ -88,6 +88,24 @@ describe('Confirmation view', () => {
       .exist;
   });
 
+  it('it should be able to use chapterSectionCollection showPageTitles via the provider', () => {
+    const { getByText } = render(
+      <Provider store={mockStore(storeBase)}>
+        <ConfirmationView
+          formConfig={formConfig}
+          submitDate={new Date()}
+          pdfUrl="/"
+          confirmationNumber="123456"
+          chapterSectionCollection={{
+            showPageTitles: true,
+          }}
+        />
+      </Provider>,
+    );
+    const title = getByText(/Page 1/);
+    expect(title).to.exist;
+  });
+
   it('it should allow for manual child component specification', () => {
     const { container } = render(
       <Provider store={mockStore(storeBase)}>

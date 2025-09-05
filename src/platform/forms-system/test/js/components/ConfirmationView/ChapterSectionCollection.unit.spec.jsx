@@ -36,7 +36,7 @@ const mockChapterRadio = {
   title: 'Radio chapter',
   pages: {
     radioPage: {
-      title: 'Radio page',
+      title: 'Radio page title',
       pageKey: 'radioPage',
       uiSchema: {
         widgetRadio: {
@@ -680,5 +680,115 @@ describe('Component ChapterSectionCollection', () => {
     // Should have exactly one <hr> since there are two chapters
     const hrElements = container.querySelectorAll('hr');
     expect(hrElements.length).to.equal(1);
+  });
+
+  describe('optional page titles', () => {
+    it('renders page title H4s when showPageTitles is true', () => {
+      const { mockStore } = mockRedux({
+        formData: {
+          ...mockChapterRadioData,
+        },
+      });
+
+      const { container } = render(
+        <Provider store={mockStore}>
+          <ChapterSectionCollection
+            formConfig={{
+              chapters: {
+                radioChapter: mockChapterRadio,
+              },
+            }}
+            showPageTitles
+          />
+        </Provider>,
+      );
+      const h4 = container.querySelector('h4');
+      expect(h4).to.exist;
+      expect(h4.textContent).to.equal('Radio page title');
+    });
+
+    it('should display blank H4 element if no page title exists and showPageTitles is true', () => {
+      const { mockStore } = mockRedux({
+        formData: {
+          ...mockChapterRadioData,
+        },
+      });
+
+      // Remove the page title property from the radioPage
+      const chapterNoTitle = {
+        ...mockChapterRadio,
+        pages: {
+          radioPage: {
+            ...mockChapterRadio.pages.radioPage,
+          },
+        },
+      };
+      delete chapterNoTitle.pages.radioPage.title;
+
+      const { container, queryByText } = render(
+        <Provider store={mockStore}>
+          <ChapterSectionCollection
+            formConfig={{
+              chapters: {
+                radioChapter: chapterNoTitle,
+              },
+            }}
+            showPageTitles
+          />
+        </Provider>,
+      );
+
+      const h4 = container.querySelector('h4');
+      expect(h4).to.exist;
+      expect(h4.textContent).to.equal('');
+      expect(queryByText('Radio page title')).to.be.null;
+    });
+
+    it('does not render showPageTitles by default', () => {
+      const { mockStore } = mockRedux({
+        formData: {
+          ...mockChapterRadioData,
+        },
+      });
+
+      const { container, queryByText } = render(
+        <Provider store={mockStore}>
+          <ChapterSectionCollection
+            formConfig={{
+              chapters: {
+                radioChapter: mockChapterRadio,
+              },
+            }}
+            showPageTitles={false}
+          />
+        </Provider>,
+      );
+      const h4 = container.querySelector('h4');
+      expect(h4).to.not.exist;
+      expect(queryByText('Radio page title')).to.be.null;
+    });
+
+    it('does not render showPageTitles by default (when prop is not passed)', () => {
+      const { mockStore } = mockRedux({
+        formData: {
+          ...mockChapterRadioData,
+        },
+      });
+
+      const { container, queryByText } = render(
+        <Provider store={mockStore}>
+          <ChapterSectionCollection
+            formConfig={{
+              chapters: {
+                radioChapter: mockChapterRadio,
+              },
+            }}
+          />
+        </Provider>,
+      );
+      const h4 = container.querySelector('h4');
+      expect(h4).to.not.exist;
+      expect(queryByText('Radio page title')).to.be.null;
+    });
   });
 });
