@@ -63,7 +63,12 @@ export const displayNotGoodFitCards = formResponses => {
           Based on your answers, these choices may not fit your situation. You
           are always free to submit any claim you choose.
         </p>
-        <ul className="card-container">{cardsToDisplay}</ul>
+        {/* Adding a `role="list"` to `ul` with `list-style: none` to work around
+          a problem with Safari not treating the `ul` as a list. */}
+        {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+        <ul className="onramp-list-none" role="list">
+          {cardsToDisplay}
+        </ul>
       </>
     );
   }
@@ -88,7 +93,16 @@ export const getCardProps = formResponses => {
         {INTRO}
         <OverviewPanel formResponses={formResponses} />
         {PRINT_RESULTS}
-        {gfCards?.length && <ul className="card-container">{gfCards}</ul>}
+        {gfCards?.length && (
+          <>
+            {/* Adding a `role="list"` to `ul` with `list-style: none` to work around
+            a problem with Safari not treating the `ul` as a list. */}
+            {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+            <ul className="onramp-list-none" role="list">
+              {gfCards}
+            </ul>
+          </>
+        )}
         {showOutsideDROption(formResponses)}
         {displayNotGoodFitCards(formResponses)}
         {HORIZ_RULE}

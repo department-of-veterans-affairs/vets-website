@@ -104,7 +104,10 @@ const IntroductionPage = ({ router, setIntroPageViewed }) => {
         If you need to request a decision review for a different VA benefit, you
         can find information about your options here:
       </p>
-      <ul className="onramp-list-none">
+      {/* Adding a `role="list"` to `ul` with `list-style: none` to work around
+        a problem with Safari not treating the `ul` as a list. */}
+      {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+      <ul className="onramp-list-none" role="list">
         <li className="vads-u-margin-bottom--2">
           <va-link
             href="/family-and-caregiver-benefits/survivor-compensation/survivors-pension"

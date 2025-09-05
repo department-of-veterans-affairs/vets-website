@@ -10,7 +10,10 @@ const OutsideDROption = () => {
         These options are outside VA’s decision review process and may be a good
         fit in certain situations.
       </p>
-      <ul className="card-container">
+      {/* Adding a `role="list"` to `ul` with `list-style: none` to work around
+          a problem with Safari not treating the `ul` as a list. */}
+      {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+      <ul className="onramp-list-none" role="list">
         <li>
           <va-card class="vads-u-display--block vads-u-margin-top--3">
             <h3 className="vads-u-margin-top--0">
