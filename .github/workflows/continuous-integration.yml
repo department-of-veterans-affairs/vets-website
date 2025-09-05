@@ -91,6 +91,23 @@ jobs:
           path: ${{ matrix.buildtype }}.tar.bz2
           retention-days: 1
 
+  determine-cd-eligibility: 
+    name: Determine CD Eligibility
+    runs-on: ubuntu-latest
+    needs: [build]
+    outputs:
+      deploy_to_prod: ${{ steps.deploy-to-prod.outputs.deploy_to_prod }}
+
+    steps:
+      - name: Determine CD Eligibility
+        id: deploy-to-prod
+        run: script/github-actions/check-prod-deploy-eligibility.js
+        env:
+          continuous_deploy: ${{ needs.build.outputs.continuous_deployment }}
+          entry_names: ${{ needs.build.outputs.entry_names }}
+      
+      - name: Log output
+        run: echo ${{ steps.deploy-to-prod.outputs.deploy_to_prod }}
   fetch-allow-lists:
     name: Fetch Test Stability Allow Lists
     runs-on: ubuntu-22.04
@@ -2034,8 +2051,8 @@ jobs:
   cd-prod-deploy:
     name: CD Production Deploy
     runs-on: ubuntu-22.04
-    needs: [build, set-deploy-environments]
-    if: ${{ needs.build.outputs.entry_names != '' && needs.build.outputs.continuous_deployment == 'true' }}
+    needs: [build, set-deploy-environments, determine-cd-eligibility]
+    if: ${{ needs.determine-cd-eligibility.outputs.deploy_to_prod == 'yes' }}
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
