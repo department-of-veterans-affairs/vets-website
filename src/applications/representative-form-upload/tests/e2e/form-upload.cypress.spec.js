@@ -42,6 +42,11 @@ const setUpIntercepts = featureToggles => {
 
 const uploadImgPath =
   'src/applications/representative-form-upload/tests/e2e/fixtures/data/vba_21_686c.pdf';
+const uploadImgDetails = {
+  name: uploadImgPath,
+  size: 2783621,
+  password: false,
+};
 
 describe('Representative Form Upload', () => {
   describe('Authorized VSO Rep', () => {
@@ -148,10 +153,7 @@ describe('Representative Form Upload', () => {
             `/representative/representative-form-upload/${formId}/upload`,
           );
 
-          cy.get('va-file-input')
-            .shadow()
-            .find('input')
-            .selectFile(uploadImgPath, { force: true });
+          cy.fillVaFileInput('root_uploadedFile', uploadImgDetails);
           // eslint-disable-next-line cypress/no-unnecessary-waiting
           cy.wait(1000);
           cy.axeCheck();
@@ -222,10 +224,7 @@ describe('Representative Form Upload', () => {
             `/representative/representative-form-upload/${formId}/upload`,
           );
 
-          cy.get('va-file-input')
-            .shadow()
-            .find('input')
-            .selectFile(uploadImgPath, { force: true });
+          cy.fillVaFileInput('root_uploadedFile', uploadImgDetails);
 
           // eslint-disable-next-line cypress/no-unnecessary-waiting
           cy.wait(1000);
@@ -302,12 +301,7 @@ describe('Representative Form Upload', () => {
         '/representative/representative-form-upload/21-686c/upload',
       );
 
-      cy.get('va-file-input')
-        .shadow()
-        .find('input')
-        .selectFile(uploadImgPath, {
-          force: true,
-        });
+      cy.fillVaFileInput('root_uploadedFile', uploadImgDetails);
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(1000);
       cy.axeCheck();
