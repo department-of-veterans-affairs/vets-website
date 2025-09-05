@@ -24,7 +24,7 @@ describe('Decision Reviews Onramp', () => {
       h.clickContinue();
       h.checkFormAlertText(
         Q_1_1_CLAIM_DECISION,
-        'Error Placeholder error message',
+        'ErrorPlaceholder error message',
       );
 
       h.selectRadio(Q_1_1_CLAIM_DECISION, 0);
