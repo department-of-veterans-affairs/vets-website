@@ -88,27 +88,8 @@ export const NON_DR_RESULTS_CONTENT = Object.freeze({
       </>
     ),
   },
-  RESULTS_1_2_C1: {
+  RESULTS_1_2D: {
     h1: NON_DR_HEADING,
-    bodyContent: (
-      <>
-        <p>
-          Based on your answers, your claim is no longer eligible for a decision
-          review because:
-        </p>
-        <ul>
-          <li>
-            You don’t have any new and relevant evidence, <strong>and</strong>
-          </li>
-          <li>VA made a decision on your claim more than 1 year ago</li>
-        </ul>
-        <p>But you may have other options, depending on your situation:</p>
-        {DISABILITY_COMP_CARD(
-          `This may be a good fit because your claim is no longer eligible for a decision review.`,
-        )}
-        {PRINT_OR_RESTART}
-      </>
-    ),
   },
   RESULTS_2_IS_3: {
     h1: NON_DR_HEADING,
@@ -122,5 +103,11 @@ export const NON_DR_RESULTS_CONTENT = Object.freeze({
         {PRINT_OR_RESTART}
       </>
     ),
+  },
+  RESULTS_2_S_3: {
+    h1: NON_DR_HEADING,
+  },
+  RESULTS_2_S_4: {
+    h1: NON_DR_HEADING,
   },
 });

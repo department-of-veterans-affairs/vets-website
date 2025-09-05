@@ -6,7 +6,7 @@
  * @param {object} batchOfChoices
  * Example: {
  *   Q_1_3A_FEWER_60_DAYS: YES,
- *   Q_2_H_1_EXISTING_BOARD_APPEAL: NO,
+ *   Q_2_IS_1B_NEW_EVIDENCE: NO,
  * }
  * @param {object} formResponses - all answers in the store
  */

@@ -22,7 +22,6 @@ export const SHORT_NAME_MAP = Object.freeze({
   Q_2_IS_1B_NEW_EVIDENCE: 'Q_2_IS_1B_NEW_EVIDENCE',
   Q_2_S_1_NEW_EVIDENCE: 'Q_2_S_1_NEW_EVIDENCE',
   Q_2_S_2_WITHIN_120_DAYS: 'Q_2_S_2_WITHIN_120_DAYS',
-  Q_2_H_1_EXISTING_BOARD_APPEAL: 'Q_2_H_1_EXISTING_BOARD_APPEAL',
   Q_2_H_2_NEW_EVIDENCE: 'Q_2_H_2_NEW_EVIDENCE',
   Q_2_H_2A_JUDGE_HEARING: 'Q_2_H_2A_JUDGE_HEARING',
   Q_2_H_2B_JUDGE_HEARING: 'Q_2_H_2B_JUDGE_HEARING',
@@ -293,27 +292,6 @@ export const QUESTION_CONTENT = Object.freeze({
   },
   Q_2_S_1_NEW_EVIDENCE: {
     ...NEW_AND_RELEVANT_EVIDENCE,
-  },
-  Q_2_H_1_EXISTING_BOARD_APPEAL: {
-    descriptionText: (
-      <>
-        <p>
-          This means a Veterans Law Judge at the Board of Veterans’ Appeals
-          reviewed your case and issued a decision.
-        </p>
-        <p>
-          You can’t request a Higher-Level Review for a claim that’s already
-          been decided by the Board.
-        </p>
-      </>
-    ),
-    h1: `Previous Board Appeal`,
-    hintText: null,
-    questionText: `Have you already had a Board Appeal for this claim?`,
-    responses: [
-      { [YES]: `A Veterans Law Judge already reviewed and decided my claim` },
-      { [NO]: `This claim hasn’t been reviewed by the Board` },
-    ],
   },
   Q_2_H_2_NEW_EVIDENCE: {
     ...NEW_AND_RELEVANT_EVIDENCE,
