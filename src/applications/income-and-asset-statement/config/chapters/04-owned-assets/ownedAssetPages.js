@@ -13,6 +13,10 @@ import {
   fullNameNoSuffixSchema,
   radioUI,
   radioSchema,
+  yesNoUI,
+  yesNoSchema,
+  fileInputUI,
+  fileInputSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import {
@@ -576,29 +580,93 @@ const ownedAssetTypePage = {
   },
 };
 
-// TODO: Setup conditional upload page for enum: FARM && BUSINESS
+// Step: 4 (conditional)
 
-// /** @returns {PageSchema} */
-// const ownedAssetTypePage = {
-//   uiSchema: {
-//     ...arrayBuilderItemSubsequentPageTitleUI('Property and business type'),
-//     assetType: radioUI({
-//       title: 'What is the type of the owned asset?',
-//       labels: ownedAssetTypeLabels,
-//     }),
-//     grossMonthlyIncome: currencyUI('Gross monthly income'),
-//     ownedPortionValue: currencyUI('Value of your portion of the property'),
-//   },
-//   schema: {
-//     type: 'object',
-//     properties: {
-//       assetType: radioSchema(Object.keys(ownedAssetTypeLabels)),
-//       grossMonthlyIncome: currencySchema,
-//       ownedPortionValue: currencySchema,
-//     },
-//     required: ['assetType', 'grossMonthlyIncome', 'ownedPortionValue'],
-//   },
-// };
+/** @returns {PageSchema} */
+const ownedAssetAdditionalFormNeeded = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI('Additional form needed'),
+    'view:addFormDescription': {
+      'ui:description': (
+        <>
+          <p>
+            Since you added a farm, you’ll need to submit a Pension Claim
+            Questionnaire for Farm Income (VA Form 21P-4165).
+          </p>
+          <va-link
+            external
+            text="Get VA Form 21P-4165 to download"
+            href="/find-forms/about-form-21p-4165/"
+          />
+        </>
+      ),
+    },
+    'view:addFormQuestion': yesNoUI({
+      title: 'Do you want to upload the completed form now?',
+    }),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      'view:addFormDescription': {
+        type: 'object',
+        properties: {},
+      },
+      'view:addFormQuestion': yesNoSchema,
+    },
+  },
+};
+
+// Step 5 (conditional)
+
+/** @returns {PageSchema} */
+const ownedAssetDocumentUpload = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI('Property and business type'),
+    uploadedDocuments: fileInputUI({
+      title: 'FileInput field',
+      hint: 'This is a hint',
+      fileUploadUrl: 'https://api.test.va.gov',
+      accept: '.pdf,.jpeg,.png',
+      name: 'form-upload-file-input',
+      // required must be explicitly set
+      required: () => true,
+      errorMessages: { required: 'File upload required' },
+      maxFileSize: 1048576,
+      minFileSize: 1024,
+      headerSize: '3',
+      skipUpload: true, // set to true if your app does not yet have a backend for upload
+      disallowEncryptedPdfs: true, // set to true to prohibit upload of encrypted pdfs
+      formNumber: '20-10206', // required for upload
+      // additionalInputRequired: true, // user must supply additional input
+      // additionalInput: (error, data) => {
+      //   const { documentStatus } = data;
+      //   return (
+      //     <VaSelect
+      //       required
+      //       error={error}
+      //       value={documentStatus}
+      //       label="Document status"
+      //     >
+      //       <option value="public">Public</option>
+      //       <option value="private">Private</option>
+      //     </VaSelect>
+      //   );
+      // },
+      // handleAdditionalInput: e => {
+      //   // handle optional additional input
+      //   return { documentStatus: e.detail.value };
+      // },
+    }),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      uploadedDocuments: fileInputSchema(),
+    },
+    required: ['uploadedDocuments'],
+  },
+};
 
 export const ownedAssetPages = arrayBuilderPages(options, pageBuilder => ({
   ownedAssetPagesUpdatedSummary: pageBuilder.summaryPage({
@@ -693,6 +761,7 @@ export const ownedAssetPages = arrayBuilderPages(options, pageBuilder => ({
   ownedAssetRecipientPage: pageBuilder.itemPage({
     title: 'Property and business recipient',
     path: 'property-and-business/:index/income-recipient',
+    depends: () => !showUpdatedContent(),
     uiSchema: ownedAssetRecipientPage.uiSchema,
     schema: ownedAssetRecipientPage.schema,
   }),
@@ -705,10 +774,36 @@ export const ownedAssetPages = arrayBuilderPages(options, pageBuilder => ({
     uiSchema: recipientNamePage.uiSchema,
     schema: recipientNamePage.schema,
   }),
+  // Page 3
   ownedAssetTypePage: pageBuilder.itemPage({
     title: 'Property and business type',
     path: 'property-and-business/:index/income-type',
+
     uiSchema: ownedAssetTypePage.uiSchema,
     schema: ownedAssetTypePage.schema,
+  }),
+  // Page 4
+  ownedAssetAdditionalFormNeededPage: pageBuilder.itemPage({
+    title: 'Additional form needed',
+    path: 'property-and-business/:index/additional-form-needed',
+    depends: (formData, index) =>
+      showUpdatedContent() &&
+      (formData?.ownedAssets[index]?.assetType === 'FARM' ||
+        formData?.ownedAssets[index]?.assetType === 'BUSINESS'),
+
+    uiSchema: ownedAssetAdditionalFormNeeded.uiSchema,
+    schema: ownedAssetAdditionalFormNeeded.schema,
+  }),
+  // Step 5
+  ownedAssetDocumentUploadPage: pageBuilder.itemPage({
+    title: 'Additional form needed',
+    path: 'property-and-business/:index/document-upload',
+    depends: (formData, index) =>
+      showUpdatedContent() &&
+      (formData?.ownedAssets[index]?.assetType === 'FARM' ||
+        formData?.ownedAssets[index]?.assetType === 'BUSINESS') &&
+      formData?.ownedAssets[index]?.['view:addFormQuestion'],
+    uiSchema: ownedAssetDocumentUpload.uiSchema,
+    schema: ownedAssetDocumentUpload.schema,
   }),
 }));
