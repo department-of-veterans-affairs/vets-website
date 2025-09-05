@@ -6,13 +6,16 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
-import deceasedInfo2 from '../pages/deceasedInfo2';
-import demographicsInfo from '../pages/demographicsInfo';
-import demographicsInfo2 from '../pages/demographicsInfo2.js';
-import identificationInformation from '../pages/identificationInformation';
-import mailingAddress from '../pages/mailingAddress';
-import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
+import nameAndDateOfBirth from './pages/nameAndDateOfBirth';
+import deceasedInfo2 from './pages/deceasedInfo2';
+import deceasedMilitaryDetails from './pages/deceasedMilitaryDetails';
+import deceasedServicePeriods from './pages/deceasedServicePeriods';
+import demographicsInfo from './pages/demographicsInfo';
+import demographicsInfo2 from './pages/demographicsInfo2';
+import mailingAddress from './pages/mailingAddress';
+import deceasedName from './pages/deceasedName';
+import deceasedPreviousName from './pages/deceasedPreviousName';
+import currentlyBuried from './pages/currentlyBuried';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -75,12 +78,6 @@ const formConfig = {
           uiSchema: demographicsInfo2.uiSchema,
           schema: demographicsInfo2.schema,
         },
-        identificationInformation: {
-          path: 'identification-information',
-          title: 'Identification information',
-          uiSchema: identificationInformation.uiSchema,
-          schema: identificationInformation.schema,
-        },
         mailingAddress: {
           path: 'mailing-address',
           title: 'Mailing address',
@@ -92,24 +89,47 @@ const formConfig = {
     militaryHistory: {
       title: 'Military history',
       pages: {
-        mailingAddress: {
-          path: 'mailing-address',
-          title: 'Mailing address',
-          uiSchema: mailingAddress.uiSchema,
-          schema: mailingAddress.schema,
+        deceasedMilitaryDetails: {
+          path: 'deceased-military-details',
+          title: 'Deceased’s military details',
+          uiSchema: deceasedMilitaryDetails.uiSchema,
+          schema: deceasedMilitaryDetails.schema,
+        },
+        deceasedServicePeriods: {
+          path: 'deceased-service-periods',
+          title: 'Deceased’s service periods',
+          uiSchema: deceasedServicePeriods.uiSchema,
+          schema: deceasedServicePeriods.schema,
+          showOnReviewPage: true,
+        },
+        deceasedName: {
+          path: 'deceased-name',
+          title: 'Deceased’s name',
+          uiSchema: deceasedName.uiSchema,
+          schema: deceasedName.schema,
+        },
+        deceasedPreviousName: {
+          path: 'deceased-previous-name',
+          title: 'Deceased’s previous name',
+          uiSchema: deceasedPreviousName.uiSchema,
+          schema: deceasedPreviousName.schema,
+        },
+      },
+    },
+    burialBenefits: {
+      title: 'Burial benefits',
+      pages: {
+        burialBenefitsInfo: {
+          path: 'burial-benefits-info',
+          title: 'Burial benefits information',
+          uiSchema: currentlyBuried.uiSchema,
+          schema: currentlyBuried.schema,
         },
       },
     },
     contactInformationChapter: {
       title: 'Contact information',
-      pages: {
-        phoneAndEmailAddress: {
-          path: 'phone-and-email-address',
-          title: 'Phone and email address',
-          uiSchema: phoneAndEmailAddress.uiSchema,
-          schema: phoneAndEmailAddress.schema,
-        },
-      },
+      pages: {},
     },
   },
   footerContent,
