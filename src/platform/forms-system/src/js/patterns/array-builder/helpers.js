@@ -98,6 +98,7 @@ export function initGetText({
     return typeof keyVal === 'function'
       ? getTextValues?.[key]({
           ...getTextProps,
+          test: true,
           itemData,
           formData,
           index,
@@ -524,6 +525,7 @@ export const processArrayData = array => {
  * navigation until the duplicate is resolved
  * @property {Array<String>} comparisons - The array paths to compare for
  * duplicates
+ * @property {String} comparisonType
  * @property {externalComparisonFunction} externalComparisonData - A function to
  * collect and return external data for comparison
  * @example
@@ -615,6 +617,7 @@ export const getArrayDataFromDuplicateChecks = ({
  * @property {Array<String>} arrayData - The array data being checked for duplicates
  * @property {Array<String>} duplicates - The list of duplicate items found
  * @property {boolean} hasDuplicate - Indicates if any duplicates were found
+ * @property {Array<String>} externalComparisonData - The external comparison data
  */
 /**
  * Utility function to check for duplicates in an array based on object keys
@@ -626,7 +629,7 @@ export const getArrayDataFromDuplicateChecks = ({
  */
 export const checkIfArrayHasDuplicateData = ({
   arrayPath,
-  duplicateChecks,
+  duplicateChecks = {},
   fullData,
 }) => {
   const arrayData = getArrayDataFromDuplicateChecks({
@@ -635,9 +638,13 @@ export const checkIfArrayHasDuplicateData = ({
     fullData,
   });
 
-  // Get external comparison data
   let externalComparisonData = [];
-  if (typeof duplicateChecks.externalComparisonData === 'function') {
+  // Get external comparison data; fallback to include both internal & external
+  // if comparisonType is not set to exclusively check internal data
+  if (
+    duplicateChecks.comparisonType !== 'internal' &&
+    typeof duplicateChecks.externalComparisonData === 'function'
+  ) {
     externalComparisonData = duplicateChecks.externalComparisonData({
       fullData,
       arrayData,
@@ -645,8 +652,12 @@ export const checkIfArrayHasDuplicateData = ({
   }
 
   // Join all data & strip out empty strings & arrays of empty strings
+  const internalComparisonData =
+    duplicateChecks.comparisonType === 'external'
+      ? new Set(arrayData) // ignore internal duplicates
+      : arrayData;
   const allItems = [
-    ...arrayData,
+    ...internalComparisonData,
     ...externalComparisonData.map(processArrayData),
   ].filter(item => item.replace(/;/g, '').length > 0);
   const duplicates = allItems.filter(
@@ -664,6 +675,49 @@ export const checkIfArrayHasDuplicateData = ({
   return {
     arrayData,
     duplicates,
+    externalComparisonData,
     hasDuplicate,
   };
+};
+
+export const defaultDuplicateResult = {
+  arrayData: [],
+  hasDuplicate: false,
+  duplicates: [],
+  externalComparisonData: [],
+};
+
+export const checkForDuplicatesInItemPages = ({
+  arrayPath,
+  duplicateChecks,
+  fullData,
+  index,
+  itemData,
+}) => {
+  const itemDuplicateDismissedName = getItemDuplicateDismissedName({
+    arrayPath,
+    duplicateChecks,
+    fullData,
+    itemIndex: index || 0,
+  });
+
+  const newData = { ...fullData, [arrayPath]: fullData[arrayPath] };
+  newData[arrayPath][index] = itemData;
+
+  if (
+    !duplicateChecks ||
+    newData[META_DATA_KEY]?.[itemDuplicateDismissedName] ||
+    !(
+      duplicateChecks.externalComparisonData ||
+      duplicateChecks.comparisons?.length > 0
+    )
+  ) {
+    return defaultDuplicateResult;
+  }
+  return checkIfArrayHasDuplicateData({
+    arrayPath,
+    duplicateChecks,
+    fullData: newData,
+    index,
+  });
 };

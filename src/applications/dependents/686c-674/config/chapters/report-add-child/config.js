@@ -1,4 +1,5 @@
-import { getFullName } from '../../../../shared/utils';
+import React from 'react';
+import { getFullName, getFormatedDate } from '../../../../shared/utils';
 
 function isFieldMissing(value) {
   return value === undefined || value === null || value === '';
@@ -120,5 +121,43 @@ export const arrayBuilderOptions = {
   maxItems: 20,
   text: {
     getItemName: item => getFullName(item.fullName),
+    cardDescription: item => (
+      <div>
+        Date of birth:
+        <strong> {getFormatedDate(item?.birthDate)}</strong>
+      </div>
+    ),
+    duplicateSummaryCardLabel: () => 'POSSIBLE DUPLICATE',
+    duplicateSummaryCardExternalComparisonWarningOrErrorAlert: ({
+      itemData,
+    }) => (
+      <>
+        You’ve entered multiple children named {getFullName(itemData.fullName)}{' '}
+        with a birthdate of {getFormatedDate(itemData.birthDate)}
+        <p>
+          Before continuing, review these entries and delete any duplicates.
+        </p>
+      </>
+    ),
+    duplicateSummaryCardExternalComparisonInfoAlert: () =>
+      'This child shares a birthday with someone already on your benefits.',
+  },
+  summaryPageDuplicateChecks: {
+    allowDuplicates: true,
+    comparisonType: 'external',
+    comparisons: ['fullName.first', 'fullName.last', 'birthDate'],
+    externalComparisonData: (/* { formData, index, arrayData } */) => {
+      /* formData = Full form data
+         * index = Current item index
+         * arrayData = data gathered from arrayPath based on comparisons
+         * return array of array strings for comparison with arrayData
+         *
+         * [
+         *   ['MiKe', 'SmItH', '2020-01-01'],
+         *   ['JOHN', 'SMITH', '2022-01-01'],
+         * ];
+         */
+      return [['fred', 'smith', '2020-01-01'], ['john', 'smith', '2022-01-01']];
+    },
   },
 };

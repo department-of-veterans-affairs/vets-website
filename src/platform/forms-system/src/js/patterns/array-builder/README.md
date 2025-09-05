@@ -372,21 +372,52 @@ const options = {
   // ...
   text: {
     getItemName: (item, index, fullData) => item.name,
+
     // Default duplicate messages shown
+    // Internal data array comparisons only or Internal data and external data
+    duplicateSummaryCardInfoAlert: props =>
+      `You may have multiple children with this same information.`,
+    duplicateSummaryCardWarningOrErrorAlert: props => (
+      <>
+        <p className="vads-u-margin-top--0">
+          You may have entered multiple children with this same information.
+        </p>
+        <p>
+          Before continuing, review these entries and delete any duplicates.
+        </p>
+      </>
+    ),
     duplicateModalTitle: props => 'Is this a duplicate?',
     duplicateModalDescription: props =>
-      `You already have a ${props.nounSingular} with this information`,
-    duplicateModalPrimaryButtonText: props => 'Yes, cancel',
-    duplicateModalSecondaryButtonText: props =>
-      `No, continue adding ${props.nounSingular}`,
-    duplicateCardWarningAlert: props =>
-      `This ${props.nounSingular} may be a duplicate item. Edit or remove this ${
-        props.nounSingular
-      }’s information before continuing.`,
-    duplicateCardInfoAlert: props =>
-      `This ${props.nounSingular} may be a duplicate entry.`,
+      `You’ve entered multiple children with this information`,
+    duplicateModalPrimaryButtonText: props => 'No, cancel',
+    duplicateModalSecondaryButtonText: props => 'Yes, save and continue',
+
+    // Internal compared to external data only (internal duplicates are ignored)
+    duplicateSummaryCardExternalComparisonInfoAlert: props =>
+      `This child may be a duplicate entry.`,
+    duplicateSummaryCardExternalComparisonWarningOrErrorAlert: props =>
+      `This child matches information we already have on file.
+      Before continuing, review these entries and delete any duplicates.`,
+    duplicateModalExternalComparisonTitle: props => 'Is this a duplicate?',
+    duplicateModalExternalComparisonDescription: props =>
+      `This child matches information we already have on file`,
+    duplicateModalExternalComparisonPrimaryButtonText: props => 'No, cancel',
+    duplicateModalExternalComparisonSecondaryButtonText: props =>
+      'Yes, save and continue',
+
+    duplicateSummaryCardLabel: props => 'DUPLICATE',
   },
-  duplicateChecks: {
+};
+
+// Item page and/or summary page UI schema needs to include a `ui:duplicateChecks` object with comparisons and
+const uiSchema = {
+  'ui:duplicateChecks': {
+    // If duplicates are allowed, progress past the item and summary page is
+    // blocked; set to true by default
+    allowDuplicates: true,
+    // comparison type: ['internal', 'external', 'all']; defaults to 'all'
+    comparisonType: 'all',
     // path to comparison data within the arrayPath
     comparisons: ['fullName.first', 'fullName.last', 'birthDate', 'ssn'],
     externalComparisonData: ({ formData, arrayData }) => {
@@ -402,10 +433,27 @@ const options = {
        */
       return [];
     },
+
+    // Customize content for each page (defaults to arraybuilder settings,
+    // or to default settings if not included here)
+    // Internal data array comparisons with and without external data
+    duplicateModalTitle: props => '...',
+    duplicateModalDescription: props => '...',
+    duplicateModalPrimaryButtonText: props => '...',
+    duplicateModalSecondaryButtonText: props => '...',
+    duplicateSummaryCardWarningOrErrorAlert: props => '...',
+    duplicateSummaryCardInfoAlert: props => '...',
+
+    // Internal with external data comparisons (internal duplicates are ignored)
+    duplicateModalExternalComparisonTitle: props => '...',
+    duplicateModalExternalComparisonDescription: props => '...',
+    duplicateModalExternalComparisonPrimaryButtonText: props => '...',
+    duplicateModalExternalComparisonSecondaryButtonText: props => '...',
+    duplicateSummaryCardExternalComparisonWarningOrErrorAlert: props => '...',
+    duplicateSummaryCardExternalComparisonInfoAlert: props => '...',
   },
 };
 ```
-
 
 ## Web Component Patterns
 | Pattern | Description |
@@ -480,8 +528,8 @@ const options = {
 | `duplicateModalDescription` |
 | `duplicateModalPrimaryButtonText` |
 | `duplicateModalSecondaryButtonText` |
-| `duplicateCardWarningAlert` |
-| `duplicateCardInfoAlert` |
+| `duplicateSummaryCardWarningOrErrorAlert` |
+| `duplicateSummaryCardInfoAlert` |
 | `reviewAddButtonText` |
 | `summaryTitle` |
 | `summaryTitleWithoutItems` |

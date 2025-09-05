@@ -113,6 +113,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     titleHeaderLevel,
     useLinkInsteadOfYesNo,
     useButtonInsteadOfYesNo,
+    duplicateChecks = {},
   } = arrayBuilderOptions;
 
   // use closure variable rather than useRef to
@@ -151,7 +152,6 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     const isMaxItemsReached = arrayData?.length >= maxItems;
     const hasReviewError =
       isReviewPage && checkHasYesNoReviewError(props.reviewErrors, hasItemsKey);
-    const duplicateChecks = uiSchema['ui:duplicateChecks'] || {};
 
     const duplicateCheckResult = checkIfArrayHasDuplicateData({
       arrayPath,
@@ -665,7 +665,14 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
       });
 
       if (isValid) {
-        props.onSubmit(...args);
+        if (
+          duplicateChecks?.allowDuplicates === false &&
+          duplicateCheckResult.hasDuplicate
+        ) {
+          scrollAndFocus('va-card:has(.array-builder-duplicate-alert)');
+        } else {
+          props.onSubmit(...args);
+        }
       }
     };
 
@@ -704,15 +711,18 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     name: PropTypes.string.isRequired,
     schema: PropTypes.object,
     uiSchema: PropTypes.shape({
-      'ui:duplicateChecks': PropTypes.shape({
-        allowDuplicates: PropTypes.bool,
-        comparisons: PropTypes.arrayOf(PropTypes.string),
-        duplicateModalTitle: PropTypes.func,
-        duplicateModalPrimaryButtonText: PropTypes.func,
-        duplicateModalSecondaryButtonText: PropTypes.func,
-        duplicateModalDescription: PropTypes.func,
-        externalComparisonData: PropTypes.func,
-      }),
+      // 'ui:duplicateChecks': PropTypes.shape({
+      //   allowDuplicates: PropTypes.bool,
+      //   comparisons: PropTypes.arrayOf(PropTypes.string),
+      //   comparisonType: PropTypes.oneOf(['internal', 'external', 'all']),
+      //   duplicateSummaryCardInfoAlert: PropTypes.func,
+      //   duplicateSummaryCardWarningOrErrorAlert: PropTypes.func,
+      //   duplicateModalDescription: PropTypes.func,
+      //   duplicateModalPrimaryButtonText: PropTypes.func,
+      //   duplicateModalSecondaryButtonText: PropTypes.func,
+      //   duplicateModalTitle: PropTypes.func,
+      //   externalComparisonData: PropTypes.func,
+      // }),
     }).isRequired,
     appStateData: PropTypes.object,
     contentAfterButtons: PropTypes.node,

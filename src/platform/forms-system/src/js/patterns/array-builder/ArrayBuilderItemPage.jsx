@@ -20,6 +20,8 @@ import {
   getArrayUrlSearchParams,
   META_DATA_KEY,
   getItemDuplicateDismissedName,
+  defaultDuplicateResult,
+  checkForDuplicatesInItemPages,
 } from './helpers';
 
 /**
@@ -44,6 +46,9 @@ export default function ArrayBuilderItemPage({
 }) {
   /** @type {CustomPageType} */
   function CustomPage(props) {
+    const [duplicateCheckResult, setDuplicateCheckResult] = useState(
+      defaultDuplicateResult,
+    );
     const searchParams = getArrayUrlSearchParams();
     const isEdit = !!searchParams.get('edit');
     const isAdd = !!searchParams.get('add');
@@ -61,14 +66,7 @@ export default function ArrayBuilderItemPage({
       itemIndex: props.pagePerItemIndex,
     });
 
-    const {
-      data,
-      schema,
-      uiSchema,
-      onChange,
-      onSubmit,
-      duplicateCheckResult,
-    } = useEditOrAddForm({
+    const { data, schema, uiSchema, onChange, onSubmit } = useEditOrAddForm({
       isEdit,
       schema: props.schema,
       uiSchema: props.uiSchema,
@@ -113,12 +111,43 @@ export default function ArrayBuilderItemPage({
     const handlers = {
       onSubmit: newProps => {
         setShowDuplicateModal(null);
+
+        const check = checkForDuplicatesInItemPages({
+          arrayPath,
+          duplicateChecks,
+          fullData: props.fullData,
+          index: props.pagePerItemIndex,
+          // newProps.formData is limited to the current array item
+          itemData: newProps.formData,
+        });
+        setDuplicateCheckResult(check);
+
+        if (
+          check.duplicates.includes(check.arrayData[props.pagePerItemIndex])
+        ) {
+          setShowDuplicateModal(true);
+          return;
+        }
         onSubmit(newProps);
       },
       onDuplicateModalClose: () => {
         setShowDuplicateModal(false);
       },
       onDuplicateModalPrimaryClick: () => {
+        // Primary button is "No, cancel"
+        let newFullData = props.fullData;
+        if (
+          duplicateCheckResult.duplicates.includes(
+            defaultDuplicateResult.arrayData[props.pagePerItemIndex],
+          )
+        ) {
+          newFullData = set(
+            META_DATA_KEY,
+            { [itemDuplicateDismissedName]: false },
+            props.fullData,
+          );
+        }
+
         // Code modified from ArrayBuilderCancelButton
         const arrayData = get(arrayPath, props.fullData);
         let newArrayData = arrayData;
@@ -126,17 +155,10 @@ export default function ArrayBuilderItemPage({
         if (isAdd) {
           const arrayIndex = parseInt(props.pagePerItemIndex, 10);
           newArrayData = arrayData.filter((_, i) => i !== arrayIndex);
-          const newData = set(arrayPath, newArrayData, props.fullData);
-          props.setFormData(newData);
+          newFullData = set(arrayPath, newArrayData, newFullData);
         }
+        props.setFormData(newFullData);
 
-        props.setFormData({
-          ...props.fullData,
-          [META_DATA_KEY]: {
-            ...(props.fullData?.[META_DATA_KEY] || {}),
-            [itemDuplicateDismissedName]: false,
-          },
-        });
         setShowDuplicateModal(false);
 
         if (isReview) {
@@ -157,24 +179,33 @@ export default function ArrayBuilderItemPage({
               : summaryRoute;
         }
         props.goToPath(formatPath(path));
-
-        // Cancel the action
       },
       onDuplicateModalSecondaryClick: () => {
-        props.setFormData({
-          ...props.fullData,
-          [META_DATA_KEY]: {
-            ...(props.fullData?.[META_DATA_KEY] || {}),
-            [itemDuplicateDismissedName]: true,
-          },
-        });
+        // Secondary button is "Yes, save and continue"
+        const newFullData = set(
+          META_DATA_KEY,
+          { [itemDuplicateDismissedName]: true },
+          props.fullData,
+        );
+        props.setFormData(newFullData);
+
         setShowDuplicateModal(false);
+        // Navigate to next page
+        onSubmit(newFullData);
       },
     };
 
+    // If showDuplicateWarning is true, we only need showDuplicateModal to not
+    // be false to show the modal
     const showDuplicateWarning = duplicateCheckResult?.duplicates.includes(
       duplicateCheckResult.arrayData[props.pagePerItemIndex],
     );
+    const isExternalComparison = duplicateChecks?.comparisonType === 'external';
+    const getDuplicateText = name =>
+      duplicateChecks[name]?.({
+        itemData: props.data,
+        fullData: props.fullData,
+      }) || getText(name, props.data, props.fullData, props.pagePerItemIndex);
 
     return (
       <>
@@ -183,53 +214,31 @@ export default function ArrayBuilderItemPage({
           !props.fullData?.[META_DATA_KEY]?.[itemDuplicateDismissedName] && (
             <VaModal
               status="warning"
-              modalTitle={
-                duplicateChecks.duplicateModalTitle?.({
-                  itemData: props.data,
-                }) ||
-                getText(
-                  'duplicateModalTitle',
-                  props.data,
-                  props.fullData,
-                  props.pagePerItemIndex,
-                )
-              }
+              modalTitle={getDuplicateText(
+                isExternalComparison
+                  ? 'duplicateModalExternalComparisonTitle'
+                  : 'duplicateModalTitle',
+              )}
               onCloseEvent={handlers.onDuplicateModalClose}
               onPrimaryButtonClick={handlers.onDuplicateModalPrimaryClick}
               onSecondaryButtonClick={handlers.onDuplicateModalSecondaryClick}
-              primaryButtonText={
-                duplicateChecks.duplicateModalPrimaryButtonText?.({
-                  itemData: props.data,
-                }) ||
-                getText(
-                  'duplicateModalPrimaryButtonText',
-                  props.data,
-                  props.fullData,
-                  props.pagePerItemIndex,
-                )
-              }
-              secondaryButtonText={
-                duplicateChecks.duplicateModalSecondaryButtonText?.({
-                  itemData: props.data,
-                }) ||
-                getText(
-                  'duplicateModalSecondaryButtonText',
-                  props.data,
-                  props.fullData,
-                  props.pagePerItemIndex,
-                )
-              }
+              primaryButtonText={getDuplicateText(
+                isExternalComparison
+                  ? 'duplicateModalExternalComparisonPrimaryButtonText'
+                  : 'duplicateModalPrimaryButtonText',
+              )}
+              secondaryButtonText={getDuplicateText(
+                isExternalComparison
+                  ? 'duplicateModalExternalComparisonSecondaryButtonText'
+                  : 'duplicateModalSecondaryButtonText',
+              )}
               visible={showDuplicateModal !== false}
             >
-              {duplicateChecks.duplicateModalDescription?.({
-                itemData: props.data,
-              }) ||
-                getText(
-                  'duplicateModalDescription',
-                  props.data,
-                  props.fullData,
-                  props.pagePerItemIndex,
-                )}
+              {getDuplicateText(
+                isExternalComparison
+                  ? 'duplicateModalExternalComparisonDescription'
+                  : 'duplicateModalDescription',
+              )}
             </VaModal>
           )}
         <SchemaForm

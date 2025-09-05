@@ -86,9 +86,9 @@ DuplicateInformationAlert.propTypes = {
   status: PropTypes.string,
 };
 
-const DuplicateLabel = () => (
+const DuplicateLabel = ({ text }) => (
   <div className="vads-u-margin-bottom--1">
-    <span className="usa-label">DUPLICATE</span>
+    <span className="usa-label">{text || 'DUPLICATE'}</span>
   </div>
 );
 
@@ -147,21 +147,22 @@ const ArrayBuilderCards = ({
     },
   );
 
-  useArrayBuilderEvent(
-    ARRAY_BUILDER_EVENTS.DUPLICATE_ITEM_ERROR,
-    ({ index, arrayPath: duplicateArrayPath }) => {
-      if (duplicateArrayPath === arrayPath) {
-        const card = `va-card[name="${nounSingularSlug}_${index}"]`;
-        requestAnimationFrame(() => {
-          if (!isMounted.current) {
-            return;
-          }
-          scrollTo(card);
-          focusElement(`${card} .array-builder-duplicate-alert`);
-        });
-      }
-    },
-  );
+  // // Not sure if this is needed - scroll & focus isn't working
+  // useArrayBuilderEvent(
+  //   ARRAY_BUILDER_EVENTS.DUPLICATE_ITEM_ERROR,
+  //   ({ index, arrayPath: duplicateArrayPath }) => {
+  //     if (duplicateArrayPath === arrayPath) {
+  //       const card = `va-card[name="${nounSingularSlug}_${index}"]`;
+  //       requestAnimationFrame(() => {
+  //         if (!isMounted.current) {
+  //           return;
+  //         }
+  //         scrollTo(card);
+  //         focusElement(`${card} .array-builder-duplicate-alert`);
+  //       });
+  //     }
+  //   },
+  // );
 
   if (!arrayData?.length) {
     return null;
@@ -270,6 +271,9 @@ const ArrayBuilderCards = ({
                   duplicateCheckResult.arrayData?.[index],
                 )
               ) {
+                const getDuplicateText = name =>
+                  duplicateChecks[name]?.({ itemData, fullData, index }) ||
+                  getText(name, itemData, formData, index);
                 const duplicateMetadataFlag = getItemDuplicateDismissedName({
                   arrayPath,
                   duplicateChecks,
@@ -281,28 +285,32 @@ const ArrayBuilderCards = ({
                 // If they continue after seeing the duplicate modal between
                 // item pages, then we remove the duplicate label and change
                 // this from a warning to an info alert
-                label = dismissedInMetadata ? null : <DuplicateLabel />;
+                label = dismissedInMetadata ? null : (
+                  <DuplicateLabel
+                    text={getDuplicateText('duplicateSummaryCardLabel')}
+                  />
+                );
                 alert = dismissedInMetadata ? (
                   <DuplicateInformationAlert status="info">
-                    {duplicateChecks.duplicateCardInfoAlert?.({ itemData }) ||
-                      getText(
-                        'duplicateCardInfoAlert',
-                        itemData,
-                        formData,
-                        index,
-                      )}
+                    {getDuplicateText(
+                      duplicateChecks.comparisonType === 'external'
+                        ? 'duplicateSummaryCardExternalComparisonInfoAlert'
+                        : 'duplicateSummaryCardInfoAlert',
+                    )}
                   </DuplicateInformationAlert>
                 ) : (
-                  <DuplicateInformationAlert status="warning">
-                    {duplicateChecks.duplicateCardWarningAlert?.({
-                      itemData,
-                    }) ||
-                      getText(
-                        'duplicateCardWarningAlert',
-                        itemData,
-                        formData,
-                        index,
-                      )}
+                  <DuplicateInformationAlert
+                    status={
+                      duplicateChecks.allowDuplicates === false
+                        ? 'error'
+                        : 'warning'
+                    }
+                  >
+                    {getDuplicateText(
+                      duplicateChecks.comparisonType === 'external'
+                        ? 'duplicateSummaryCardExternalComparisonWarningOrErrorAlert'
+                        : 'duplicateSummaryCardWarningOrErrorAlert',
+                    )}
                   </DuplicateInformationAlert>
                 );
               }
@@ -416,13 +424,18 @@ ArrayBuilderCards.propTypes = {
   ]),
   duplicateCheckResult: PropTypes.shape({
     duplicates: PropTypes.arrayOf(PropTypes.string).isRequired,
-    arrayData: PropTypes.arrayOf(PropTypes.object).isRequired,
+    arrayData: PropTypes.arrayOf(PropTypes.string).isRequired,
   }),
   duplicateChecks: PropTypes.shape({
     allowDuplicates: PropTypes.bool,
     comparisons: PropTypes.arrayOf(PropTypes.string),
-    duplicateCardInfoAlert: PropTypes.func,
-    duplicateCardWarningAlert: PropTypes.func,
+    comparisonType: PropTypes.oneOf(['internal', 'external', 'all']),
+    duplicateSummaryCardInfoAlert: PropTypes.func,
+    duplicateSummaryCardWarningOrErrorAlert: PropTypes.func,
+    duplicateSummaryCardExternalComparisonInfoAlert: PropTypes.func,
+    duplicateSummaryCardExternalComparisonWarningOrErrorAlert: PropTypes.func,
+    duplicateSummaryCardLabel: PropTypes.func,
+
     externalComparisonData: PropTypes.func,
   }),
   titleHeaderLevel: PropTypes.string,

@@ -315,6 +315,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     required: userRequired,
     useLinkInsteadOfYesNo = false,
     useButtonInsteadOfYesNo = false,
+    duplicateChecks = {},
   } = options;
 
   const usesYesNo = !useLinkInsteadOfYesNo && !useButtonInsteadOfYesNo;
@@ -551,6 +552,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       useLinkInsteadOfYesNo,
       useButtonInsteadOfYesNo,
       isReviewPage: false,
+      duplicateChecks,
     };
 
     const summaryReviewPageProps = {
@@ -573,6 +575,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
           <pageConfig.CustomPageReview
             {...props}
             arrayBuilder={summaryReviewPageProps}
+            renderingCustomPageReview
           />
         )
       : ArrayBuilderSummaryPage(summaryReviewPageProps);

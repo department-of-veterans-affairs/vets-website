@@ -111,18 +111,34 @@ export const DEFAULT_ARRAY_BUILDER_TEXT = {
   },
   deleteYes: props => `Yes, delete this ${props.nounSingular}`,
 
-  duplicateModalTitle: props => 'Is this a duplicate?',
   duplicateModalDescription: props =>
-    `You already have a ${props.nounSingular} with this information`,
-  duplicateModalPrimaryButtonText: props => 'Yes, cancel',
-  duplicateModalSecondaryButtonText: props =>
-    `No, continue adding ${props.nounSingular}`,
-  duplicateCardWarningAlert: props =>
-    `This ${props.nounSingular} may be a duplicate item. Edit or remove this ${
-      props.nounSingular
-    }’s information before continuing.`,
-  duplicateCardInfoAlert: props =>
+    `You’ve entered multiple ${props.nounPlural} with this information`,
+  duplicateModalExternalComparisonDescription: props =>
+    `This ${props.nounSingular} matches information we already have on file`,
+  duplicateModalExternalComparisonPrimaryButtonText: props => 'No, cancel',
+  duplicateModalExternalComparisonSecondaryButtonText: props =>
+    'Yes, save and continue',
+  duplicateModalExternalComparisonTitle: props => 'Is this a duplicate?',
+  duplicateModalPrimaryButtonText: props => 'No, cancel',
+  duplicateModalSecondaryButtonText: props => 'Yes, save and continue',
+  duplicateModalTitle: props => 'Is this a duplicate?',
+
+  duplicateSummaryCardLabel: props => 'DUPLICATE',
+
+  // Internal compared to external data only
+  duplicateSummaryCardExternalComparisonInfoAlert: props =>
     `This ${props.nounSingular} may be a duplicate entry.`,
+  duplicateSummaryCardExternalComparisonWarningOrErrorAlert: props =>
+    `This ${props.nounSingular} matches information we already have on file.
+     Before continuing, review these entries and delete any duplicates.`,
+  // Internal data array comparisons only or Internal data and external data
+  duplicateSummaryCardInfoAlert: props =>
+    `You may have multiple ${props.nounPlural} with this same information.`,
+  duplicateSummaryCardWarningOrErrorAlert: props =>
+    `You may have entered multiple ${
+      props.nounPlural
+    } with this same information.
+      Before continuing, review these entries and delete any duplicates.`,
 
   reviewAddButtonText: props => `Add another ${props.nounSingular}`,
   summaryAddButtonText: props => `Add ${props.nounSingular}`,

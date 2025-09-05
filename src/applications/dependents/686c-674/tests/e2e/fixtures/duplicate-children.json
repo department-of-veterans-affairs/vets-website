@@ -1,0 +1,121 @@
+{
+  "view:childrenToAddMissingInformation": {},
+  "veteranContactInformation": {
+    "phoneNumber": "2023336688",
+    "emailAddress": "vets.gov.user80@gmail.com",
+    "electronicCorrespondence": true,
+    "veteranAddress": {
+      "view:militaryBaseDescription": {},
+      "country": "USA",
+      "street": "1700 Clairmont Rd",
+      "city": "Decatur",
+      "state": "GA",
+      "postalCode": "30033"
+    }
+  },
+  "view:addDependentOptions": {
+    "addChild": true
+  },
+  "view:addDependentOptionsDescription": {},
+  "view:addOrRemoveDependents": {
+    "add": true
+  },
+  "useV2": true,
+  "view:removeDependentOptions": {},
+  "spouseInformation": {
+    "fullName": {}
+  },
+  "view:certificateNotice": {},
+  "view:cancelAddSpouse": {},
+  "doesLiveWithSpouse": {
+    "address": {
+      "view:militaryBaseDescription": {}
+    }
+  },
+  "currentMarriageInformation": {
+    "location": {},
+    "view:marriageTypeInformation": {}
+  },
+  "childrenToAdd": [
+    {
+      "ssn": "987654321",
+      "fullName": {
+        "first": "Fred",
+        "last": "Smith"
+      },
+      "birthDate": "2020-01-01",
+      "doesChildLiveWithYou": true,
+      "hasChildEverBeenMarried": false,
+      "doesChildHaveDisability": false,
+      "isBiologicalChild": true,
+      "birthLocation": {
+        "location": {
+          "city": "Test",
+          "state": "AL",
+          "postalCode": "12345"
+        }
+      }
+    },
+    {
+      "ssn": "987654321",
+      "fullName": {
+        "first": "Mike",
+        "last": "Smith"
+      },
+      "birthDate": "2023-01-01",
+      "doesChildLiveWithYou": true,
+      "hasChildEverBeenMarried": false,
+      "doesChildHaveDisability": false,
+      "isBiologicalChild": true,
+      "birthLocation": {
+        "location": {
+          "city": "Test",
+          "state": "AL",
+          "postalCode": "12345"
+        }
+      }
+    },
+    {
+      "doesChildLiveWithYou": true,
+      "hasChildEverBeenMarried": false,
+      "doesChildHaveDisability": false,
+      "isBiologicalChild": true,
+      "birthLocation": {
+        "location": {
+          "city": "Test",
+          "state": "AL",
+          "postalCode": "12345"
+        }
+      },
+      "ssn": "987654321",
+      "fullName": {
+        "first": "Fredx",
+        "last": "Smith"
+      },
+      "birthDate": "2020-01-01"
+    }
+  ],
+  "reportDivorce": {
+    "fullName": {},
+    "view:cancelDivorce": {},
+    "divorceLocation": {
+      "location": {}
+    }
+  },
+  "view:additionalEvidenceDescription": {},
+  "view:selectable686Options": {
+    "addChild": true
+  },
+  "veteranInformation": {
+    "fullName": {
+      "first": "Pauline",
+      "middle": "E",
+      "last": "Foster"
+    },
+    "ssn": "796330625",
+    "birthDate": "1976-06-09",
+    "ssnLastFour": "0625",
+    "vaFileLastFour": "0625"
+  },
+  "daysTillExpires": 365
+}

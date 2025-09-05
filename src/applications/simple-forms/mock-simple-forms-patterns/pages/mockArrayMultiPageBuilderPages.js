@@ -35,6 +35,21 @@ const employersOptions = {
     cardDescription: item =>
       `${item?.dateRange?.from} - ${item?.dateRange?.to}`,
   },
+  // Show possible duplicate alert on summary page
+  duplicateChecks: {
+    allowDuplicates: false,
+    comparisonType: 'all',
+    comparisons: ['name', 'address.street'],
+    duplicateSummaryCardWarningOrErrorAlert: () => (
+      <p className="vads-u-margin-top--0">
+        You have entered multiple employers with the same name and address.
+        Before continuing, review these entries and delete any duplicates.
+      </p>
+    ),
+    'path-to-dobPage': {
+      // overrides
+    },
+  },
 };
 
 const sampleDescription = (
@@ -142,6 +157,12 @@ export const employersPageNameAndAddressPage = {
       'ui:webComponentField': VaTextInputField,
     },
     address: addressNoMilitaryUI({ omit: ['street2', 'street3'] }),
+    // Alert if a duplicate was entered
+    'ui:duplicateChecks': {
+      allowDuplicates: true,
+      comparisonType: 'all',
+      comparisons: ['name', 'address.street'],
+    },
   },
   schema: {
     type: 'object',
