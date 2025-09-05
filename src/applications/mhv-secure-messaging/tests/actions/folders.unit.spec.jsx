@@ -27,6 +27,36 @@ describe('folders actions', () => {
     configureStore(middlewares)(initialState);
 
   const errorResponse = {
+    errors: {
+      title: 'Service not found',
+      detail: 'Backend Service not found',
+      code: '404',
+      status: '404',
+    },
+  };
+  it('should dispatch error on unsuccessful getFolders action', async () => {
+    mockApiRequest({ ...errorResponse, status: 404 });
+    const store = mockStore();
+    await store.dispatch(getFolders()).then(() => {
+      expect(store.getActions()).to.deep.include({
+        type: Actions.Alerts.ADD_ALERT,
+        payload: {
+          alertType: 'error',
+          header: errorResponse.title,
+          content: errorResponse.detail,
+          response: errorResponse,
+        },
+      });
+    });
+  });
+});
+
+describe('folders actions', () => {
+  const middlewares = [thunk];
+  const mockStore = (initialState = { featureToggles: {} }) =>
+    configureStore(middlewares)(initialState);
+
+  const errorResponse = {
     errors: [
       {
         title: 'Service unavailable',

@@ -9,14 +9,27 @@ import {
 import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
 
+const isArray = randomInput => {
+  return randomInput instanceof Array;
+};
+
+const getFirstError = error => {
+  if (isArray(error)) {
+    return error.errors[0];
+  }
+  return error;
+};
+
 const handleErrors = err => async dispatch => {
+  const newErr = getFirstError(err);
+
   dispatch({
     type: Actions.Alerts.ADD_ALERT,
     payload: {
       alertType: 'error',
-      header: err.title,
-      content: err.detail,
-      response: err,
+      header: newErr.title,
+      content: newErr.detail,
+      response: newErr,
     },
   });
 };
@@ -72,7 +85,7 @@ export const retrieveFolder = folderId => async dispatch => {
         type: Actions.Folder.GET,
         response: null,
       });
-      dispatch(handleErrors(error.errors[0]));
+      dispatch(handleErrors(error));
     });
 };
 
