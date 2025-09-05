@@ -55,6 +55,18 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  preSubmitInfo: {
+    statementOfTruth: {
+      // Using prefilled preparerName above so the name displays
+      body:
+        'I confirm, to the best of my knowledge, that the deceased has never committed a serious crime, such as murder or other offense that could have resulted in imprisonment for life, has never been convicted of a serious crime, and has never been convicted of a sexual offense for which the deceased was sentenced to a minimum of life imprisonment.',
+      messageAriaDescribedby:
+        'I confirm, to the best of my knowledge, that the deceased has never committed a serious crime, such as murder or other offense that could have resulted in imprisonment for life, has never been convicted of a serious crime, and has never been convicted of a sexual offense for which the deceased was sentenced to a minimum of life imprisonment.',
+      fullNamePath: 'preparerName',
+      checkboxLabel:
+        'I confirm that the information above is correct and true to the best of my knowledge and belief',
+    },
+  },
   savedFormMessages: {
     notFound: 'Please start over to apply for burial benefits.',
     noAuth:
@@ -66,6 +78,10 @@ const formConfig = {
     currentlyBuriedPersons: [],
     servicePeriods: [],
     desiredIntermentDateRanges: [], // added
+    // Prefill dummy preparer name for testing
+    preparerName: { first: 'Test', last: 'User' },
+    // Optional: uncomment to auto-pass without clicking the checkbox
+    // statementOfTruthAccepted: true,
   },
   defaultDefinitions: {
     currentlyBuriedPersons: [],
@@ -234,6 +250,19 @@ const formConfig = {
         },
       },
     },
+  },
+  transformForSubmit: form => {
+    const data = { ...form.data };
+    if (!data.preparerName && data.firstName && data.lastName) {
+      data.preparerName = {
+        first: data.firstName,
+        last: data.lastName,
+      };
+    }
+    return {
+      ...form,
+      data,
+    };
   },
   footerContent,
 };

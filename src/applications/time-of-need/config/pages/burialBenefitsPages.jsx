@@ -94,12 +94,11 @@ function handleCancelEditNo() {
   return 'No, keep this';
 }
 
-const hasDeceasedPersons = true; // Placeholder until needed logic is defined
-function handleSummaryTitle(formData) {
-  return hasDeceasedPersons(formData)
-    ? 'Name of deceased person(s)'
-    : 'Review your deceased persons';
-}
+// function handleSummaryTitle(formData) {
+//   return hasDeceasedPersons(formData)
+//     ? 'Name of deceased person(s)'
+//     : 'Review your deceased persons';
+// }
 
 // function handleVeteranDepends(formData) {
 //   // Allow pages to render until we explicitly know the user is not a Veteran.
@@ -129,7 +128,7 @@ const options = {
     cancelEditDescription: handleCancelEditDescription,
     cancelEditYes: handleCancelEditYes,
     cancelEditNo: handleCancelEditNo,
-    summaryTitle: handleSummaryTitle,
+    summaryTitle: 'Name of deceased person(s)',
   },
 };
 
