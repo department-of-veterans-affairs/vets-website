@@ -31,6 +31,10 @@
         "value": true
       },
       {
+        "name": "disability_compensation_toxic_exposure_destruction_modal",
+        "value": false
+      },
+      {
         "name": "form526_use_lighthouse_api",
         "value": false
       },

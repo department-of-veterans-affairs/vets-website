@@ -21,8 +21,11 @@
       {
         "name": "allowEncryptedFiles",
         "value": true
+      },
+      {
+        "name": "disability_compensation_toxic_exposure_destruction_modal",
+        "value": false
       }
-
     ]
   }
 }
