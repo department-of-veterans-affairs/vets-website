@@ -76,6 +76,7 @@ const formConfig = {
   preSubmitInfo: {
     statementOfTruth: {
       heading: 'Certification statement',
+      hideLegalNote: true,
       body: PreSubmitInfo,
       messageAriaDescribedby: 'I have read and accept the privacy policy.',
       fullNamePath: 'applicantFullName',
@@ -88,7 +89,7 @@ const formConfig = {
       pages: {
         applicantFullName: {
           path: 'applicant-fullname',
-          title: 'Enter your full name',
+          title: 'Name and date of birth',
           uiSchema: applicantFullname.uiSchema,
           schema: applicantFullname.schema,
         },
@@ -125,7 +126,7 @@ const formConfig = {
         },
         activeDutyStatus: {
           path: 'active-duty-status',
-          title: 'Active duty status',
+          title: 'Active duty status during program',
           uiSchema: activeDutyStatus.uiSchema,
           schema: activeDutyStatus.schema,
         },
