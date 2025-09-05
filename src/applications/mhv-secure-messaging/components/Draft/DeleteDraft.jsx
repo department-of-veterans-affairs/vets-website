@@ -29,7 +29,7 @@ const DeleteDraft = props => {
   const {
     cannotReply,
     draftId,
-    draftsCount,
+    draftsCount = 1,
     draftBody,
     formPopulated,
     navigationError,
