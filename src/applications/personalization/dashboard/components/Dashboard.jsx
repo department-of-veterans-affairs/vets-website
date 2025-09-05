@@ -62,7 +62,12 @@ import { ContactInfoNeeded } from '../../profile/components/alerts/ContactInfoNe
 import FormsAndApplications from './benefit-application-drafts/FormsAndApplications';
 import PaymentsAndDebts from './benefit-payments/PaymentsAndDebts';
 
-const DashboardHeader = ({ isLOA3, showNotifications, user }) => {
+const DashboardHeader = ({
+  isLOA3,
+  showNotifications,
+  user,
+  displayCriticalActionConfirmEmailLink,
+}) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const hideNotificationsSection = useToggleValue(
     TOGGLE_NAMES.myVaHideNotificationsSection,
@@ -70,9 +75,6 @@ const DashboardHeader = ({ isLOA3, showNotifications, user }) => {
   const displayOnboardingInformation = useToggleValue(
     TOGGLE_NAMES.veteranOnboardingBetaFlow,
   );
-
-  const displayCriticalActionConfirmEmailLink =
-    Cookies.get('CONTACT_EMAIL_CONFIRMED') !== 'true';
 
   return (
     <div>
@@ -359,6 +361,9 @@ const Dashboard = ({
                 isLOA3={isLOA3}
                 showNotifications={showNotifications}
                 user={props.user}
+                displayCriticalActionConfirmEmailLink={
+                  props.displayCriticalActionConfirmEmailLink
+                }
               />
 
               {showMPIConnectionError && (
@@ -515,6 +520,8 @@ const isAppealsAvailableSelector = createIsServiceAvailableSelector(
   backendServices.APPEALS_STATUS,
 );
 
+import { selectVAPContactInfoField } from '@@vap-svc/selectors';
+
 const mapStateToProps = state => {
   const { isReady: hasLoadedScheduledDowntime } = state.scheduledDowntime;
   const isLOA3 = isLOA3Selector(state);
@@ -570,10 +577,19 @@ const mapStateToProps = state => {
   const showNotifications =
     !showMPIConnectionError && !showNotInMPIError && isLOA3;
 
+  const hasContactData =
+    selectVAPContactInfoField(state, 'email')?.emailAddress &&
+    selectVAPContactInfoField(state, 'mailingAddress')?.addressLine1 &&
+    selectVAPContactInfoField(state, 'mobilePhone')?.phoneNumber;
+
+  const displayCriticalActionConfirmEmailLink =
+    hasContactData && Cookies.get('CONTACT_EMAIL_CONFIRMED') !== 'true';
+
   return {
     canAccessMilitaryHistory,
     canAccessPaymentHistory,
     canAccessRatingInfo,
+    displayCriticalActionConfirmEmailLink,
     isLOA3,
     isLOA1,
     showLoader,

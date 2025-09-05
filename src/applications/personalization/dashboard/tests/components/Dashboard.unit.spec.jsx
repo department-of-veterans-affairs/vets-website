@@ -358,10 +358,26 @@ describe('<Dashboard />', () => {
       reducers,
     });
 
-    const testId = 'va-profile--confirm-contact-email-link';
-    const confirmEmailLink = queryByTestId(testId);
-    expect(confirmEmailLink).to.not.exist;
+    expect(queryByTestId('va-profile--confirm-contact-email-link')).to.not
+      .exist;
 
     document.cookie = originalCookie;
+  });
+
+  it(`suppresses the email confirmation link when <ContactInfoNeeded /> renders`, async () => {
+    mockFetch();
+    initialState.user.profile.vapContactInfo.email.emailAddress = null;
+    const { getByTestId, queryByTestId } = renderInReduxProvider(
+      <Dashboard />,
+      {
+        initialState,
+        reducers,
+      },
+    );
+    await waitFor(() => {
+      expect(getByTestId('account-blocked-alert')).to.exist;
+      expect(queryByTestId('va-profile--confirm-contact-email-link')).to.not
+        .exist;
+    });
   });
 });
