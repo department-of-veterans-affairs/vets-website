@@ -348,6 +348,14 @@ export const careSummariesAndNotesReducer = (state = initialState, action) => {
         ),
       };
     }
+    case Actions.CareSummariesAndNotes.GET_UNIFIED_ITEM: {
+      return {
+        ...state,
+        careSummariesAndNotesDetails: convertUnifiedCareSummariesAndNotesRecord(
+          action.response.data,
+        ),
+      };
+    }
     case Actions.CareSummariesAndNotes.GET_FROM_LIST: {
       return {
         ...state,

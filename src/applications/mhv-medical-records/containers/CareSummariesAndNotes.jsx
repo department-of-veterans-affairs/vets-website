@@ -45,6 +45,7 @@ const CareSummariesAndNotes = () => {
   useTrackAction(statsdFrontEndActions.CARE_SUMMARIES_AND_NOTES_LIST);
 
   const { isAcceleratingCareNotes } = useAcceleratedData();
+
   const dispatchAction = useMemo(
     () => {
       return isCurrent => {

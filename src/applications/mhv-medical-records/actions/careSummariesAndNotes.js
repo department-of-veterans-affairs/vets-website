@@ -1,4 +1,9 @@
-import { getNote, getNotes, getAcceleratedNotes } from '../api/MrApi';
+import {
+  getNote,
+  getNotes,
+  getAcceleratedNotes,
+  getAcceleratedNote,
+} from '../api/MrApi';
 import { Actions } from '../util/actionTypes';
 import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
@@ -32,15 +37,18 @@ export const getCareSummariesAndNotesList = (
 export const getCareSummaryAndNotesDetails = (
   noteId,
   noteList,
+  isAccelerating = false,
 ) => async dispatch => {
   try {
     await dispatchDetails(
       noteId,
       noteList,
       dispatch,
-      getNote,
+      isAccelerating ? getAcceleratedNote : getNote,
       Actions.CareSummariesAndNotes.GET_FROM_LIST,
-      Actions.CareSummariesAndNotes.GET,
+      isAccelerating
+        ? Actions.CareSummariesAndNotes.GET_UNIFIED_ITEM
+        : Actions.CareSummariesAndNotes.GET,
     );
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));

@@ -113,11 +113,10 @@ const all = {
 
 const empty = { data: [] };
 
-// TODO: Not sure this is accurate at all - since there might not be a separate endpoint for a single note by ID
 const single = (req, res) => {
   const { id } = req.params;
-  const response = all.find(item => item.id === id);
-  return res.json({ data: response.resource });
+  const response = all.data.find(item => item.id === id);
+  return res.json({ data: response });
 };
 
 module.exports = {

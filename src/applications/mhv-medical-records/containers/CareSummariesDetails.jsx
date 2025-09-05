@@ -19,6 +19,7 @@ import {
 import useAlerts from '../hooks/use-alerts';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import { useTrackAction } from '../hooks/useTrackAction';
+import useAcceleratedData from '../hooks/useAcceleratedData';
 
 const CareSummariesDetails = () => {
   const dispatch = useDispatch();
@@ -30,6 +31,8 @@ const CareSummariesDetails = () => {
   );
   const { summaryId } = useParams();
   const activeAlert = useAlerts(dispatch);
+
+  const { isAcceleratingCareNotes } = useAcceleratedData();
 
   useTrackAction(statsdFrontEndActions.CARE_SUMMARIES_AND_NOTES_DETAILS);
 
@@ -45,11 +48,17 @@ const CareSummariesDetails = () => {
   useEffect(
     () => {
       if (summaryId) {
-        dispatch(getCareSummaryAndNotesDetails(summaryId, careSummariesList));
+        dispatch(
+          getCareSummaryAndNotesDetails(
+            summaryId,
+            careSummariesList,
+            isAcceleratingCareNotes,
+          ),
+        );
       }
       updatePageTitle(pageTitles.CARE_SUMMARIES_AND_NOTES_DETAILS_PAGE_TITLE);
     },
-    [summaryId, careSummariesList, dispatch],
+    [summaryId, careSummariesList, dispatch, isAcceleratingCareNotes],
   );
 
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
