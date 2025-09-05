@@ -12,164 +12,121 @@ describe('logUniqueUserMetricsEvents', () => {
     sinon.restore();
   });
 
-  describe('valid event key handling', () => {
-    it('should process single valid event key', () => {
+  describe('valid event value handling', () => {
+    it('should process single valid event value', () => {
       const logUniqueUserMetricsStub = sinon.stub(
         apiClient,
         'logUniqueUserMetrics',
       );
 
-      const firstKey = Object.keys(EVENT_REGISTRY)[0];
-      logUniqueUserMetricsEvents(firstKey);
+      const firstEventValue = Object.values(EVENT_REGISTRY)[0];
+      logUniqueUserMetricsEvents(firstEventValue);
 
       expect(logUniqueUserMetricsStub.calledOnce).to.be.true;
       expect(logUniqueUserMetricsStub.firstCall.args[0]).to.be.an('array');
-      expect(
-        logUniqueUserMetricsStub.firstCall.args[0],
-      ).to.have.length.greaterThan(0);
+      expect(logUniqueUserMetricsStub.firstCall.args[0]).to.include(
+        firstEventValue,
+      );
     });
 
-    it('should process multiple valid event keys', () => {
+    it('should process multiple valid event values using variable arguments', () => {
       const logUniqueUserMetricsStub = sinon.stub(
         apiClient,
         'logUniqueUserMetrics',
       );
 
-      const allKeys = Object.keys(EVENT_REGISTRY);
-      const testKeys = [allKeys[0], allKeys[1]];
-      logUniqueUserMetricsEvents(testKeys);
+      const allValues = Object.values(EVENT_REGISTRY);
+      const firstValue = allValues[0];
+      const secondValue = allValues[1];
+
+      logUniqueUserMetricsEvents(firstValue, secondValue);
 
       expect(logUniqueUserMetricsStub.calledOnce).to.be.true;
       expect(logUniqueUserMetricsStub.firstCall.args[0]).to.be.an('array');
+      expect(logUniqueUserMetricsStub.firstCall.args[0]).to.include(firstValue);
+      expect(logUniqueUserMetricsStub.firstCall.args[0]).to.include(
+        secondValue,
+      );
       expect(logUniqueUserMetricsStub.firstCall.args[0]).to.have.length(2);
     });
 
-    it('should handle all registry event keys', () => {
+    it('should handle all registry event values', () => {
       const logUniqueUserMetricsStub = sinon.stub(
         apiClient,
         'logUniqueUserMetrics',
       );
 
-      const allEventKeys = Object.keys(EVENT_REGISTRY);
-      logUniqueUserMetricsEvents(allEventKeys);
+      const allEventValues = Object.values(EVENT_REGISTRY);
+      logUniqueUserMetricsEvents(...allEventValues);
 
       expect(logUniqueUserMetricsStub.calledOnce).to.be.true;
-
-      // Verify all event names are flattened correctly
-      const expectedEventNames = Object.values(EVENT_REGISTRY).flat();
       expect(logUniqueUserMetricsStub.firstCall.args[0]).to.deep.equal(
-        expectedEventNames,
+        allEventValues,
       );
     });
   });
 
-  describe('invalid event key handling', () => {
-    it('should log warning for invalid event key', () => {
+  describe('invalid event value handling', () => {
+    it('should log warning for invalid event value', () => {
       const sentryCaptureMessageStub = sinon.stub(Sentry, 'captureMessage');
       const logUniqueUserMetricsStub = sinon.stub(
         apiClient,
         'logUniqueUserMetrics',
       );
 
-      logUniqueUserMetricsEvents('INVALID_EVENT_KEY');
+      logUniqueUserMetricsEvents('invalid_event_name');
 
       expect(sentryCaptureMessageStub.calledOnce).to.be.true;
       expect(sentryCaptureMessageStub.firstCall.args[0]).to.include(
-        'Invalid event keys provided',
-      );
-      expect(sentryCaptureMessageStub.firstCall.args[0]).to.include(
-        'INVALID_EVENT_KEY',
+        'Invalid event values provided',
       );
       expect(sentryCaptureMessageStub.firstCall.args[1]).to.equal('warning');
       expect(logUniqueUserMetricsStub.called).to.be.false;
     });
 
-    it('should log warning for multiple invalid event keys', () => {
+    it('should log warning for multiple invalid event values', () => {
       const sentryCaptureMessageStub = sinon.stub(Sentry, 'captureMessage');
       const logUniqueUserMetricsStub = sinon.stub(
         apiClient,
         'logUniqueUserMetrics',
       );
 
-      logUniqueUserMetricsEvents(['INVALID_1', 'INVALID_2']);
+      logUniqueUserMetricsEvents('invalid_1', 'invalid_2');
 
       expect(sentryCaptureMessageStub.calledOnce).to.be.true;
       expect(sentryCaptureMessageStub.firstCall.args[0]).to.include(
-        'INVALID_1, INVALID_2',
+        'Invalid event values provided',
       );
       expect(logUniqueUserMetricsStub.called).to.be.false;
     });
 
-    it('should log warning for mixed valid and invalid event keys', () => {
+    it('should log warning for mixed valid and invalid event values', () => {
       const sentryCaptureMessageStub = sinon.stub(Sentry, 'captureMessage');
       const logUniqueUserMetricsStub = sinon.stub(
         apiClient,
         'logUniqueUserMetrics',
       );
 
-      const validKey = Object.keys(EVENT_REGISTRY)[0];
-      logUniqueUserMetricsEvents([
-        validKey,
-        'INVALID_EVENT',
-        Object.keys(EVENT_REGISTRY)[1],
-      ]);
+      const validEventValue = Object.values(EVENT_REGISTRY)[0];
+      logUniqueUserMetricsEvents(validEventValue, 'invalid_event');
 
       expect(sentryCaptureMessageStub.calledOnce).to.be.true;
       expect(sentryCaptureMessageStub.firstCall.args[0]).to.include(
-        'INVALID_EVENT',
+        'Invalid event values provided',
       );
-      expect(logUniqueUserMetricsStub.called).to.be.false;
-    });
-
-    it('should handle empty string as invalid', () => {
-      const sentryCaptureMessageStub = sinon.stub(Sentry, 'captureMessage');
-      const logUniqueUserMetricsStub = sinon.stub(
-        apiClient,
-        'logUniqueUserMetrics',
-      );
-
-      logUniqueUserMetricsEvents('');
-
-      expect(sentryCaptureMessageStub.calledOnce).to.be.true;
       expect(logUniqueUserMetricsStub.called).to.be.false;
     });
   });
 
-  describe('input normalization', () => {
-    it('should normalize single string to array', () => {
-      const logUniqueUserMetricsStub = sinon.stub(
-        apiClient,
-        'logUniqueUserMetrics',
-      );
-
-      const validKey = Object.keys(EVENT_REGISTRY)[0];
-      logUniqueUserMetricsEvents(validKey);
-
-      expect(logUniqueUserMetricsStub.calledOnce).to.be.true;
-      expect(logUniqueUserMetricsStub.firstCall.args[0]).to.be.an('array');
-    });
-
-    it('should handle array input directly', () => {
-      const logUniqueUserMetricsStub = sinon.stub(
-        apiClient,
-        'logUniqueUserMetrics',
-      );
-
-      const validKey = Object.keys(EVENT_REGISTRY)[0];
-      logUniqueUserMetricsEvents([validKey]);
-
-      expect(logUniqueUserMetricsStub.calledOnce).to.be.true;
-      expect(logUniqueUserMetricsStub.firstCall.args[0]).to.be.an('array');
-    });
-
-    it('should handle empty array', () => {
+  describe('edge cases', () => {
+    it('should handle no arguments', () => {
       const sentryCaptureMessageStub = sinon.stub(Sentry, 'captureMessage');
       const logUniqueUserMetricsStub = sinon.stub(
         apiClient,
         'logUniqueUserMetrics',
       );
 
-      logUniqueUserMetricsEvents([]);
+      logUniqueUserMetricsEvents();
 
       expect(sentryCaptureMessageStub.calledOnce).to.be.true;
       expect(sentryCaptureMessageStub.firstCall.args[0]).to.include(
@@ -182,17 +139,13 @@ describe('logUniqueUserMetricsEvents', () => {
   describe('EVENT_REGISTRY export', () => {
     it('should export EVENT_REGISTRY', () => {
       expect(EVENT_REGISTRY).to.be.an('object');
-      expect(Object.keys(EVENT_REGISTRY).length).to.be.greaterThan(0);
+      expect(Object.keys(EVENT_REGISTRY)).to.have.length.greaterThan(0);
     });
 
-    it('should have consistent registry structure', () => {
-      Object.entries(EVENT_REGISTRY).forEach(([key, value]) => {
-        expect(key).to.be.a('string');
-        expect(value).to.be.an('array');
-        expect(value.length).to.be.greaterThan(0);
-        value.forEach(eventName => {
-          expect(eventName).to.be.a('string');
-        });
+    it('should have all registry values as strings', () => {
+      Object.values(EVENT_REGISTRY).forEach(eventValue => {
+        expect(eventValue).to.be.a('string');
+        expect(eventValue).to.include('mhv_');
       });
     });
   });
