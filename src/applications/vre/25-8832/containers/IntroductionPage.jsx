@@ -2,11 +2,11 @@ import React, { useEffect } from 'react';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import recordEvent from 'platform/monitoring/record-event';
+// import recordEvent from 'platform/monitoring/record-event';
 import {
   CHAPTER_31_ROOT_URL,
-  WIZARD_STATUS,
-  PCPG_ROOT_URL,
+  // WIZARD_STATUS,
+  // PCPG_ROOT_URL,
 } from '../constants';
 
 const IntroductionPage = props => {
@@ -78,7 +78,7 @@ const IntroductionPage = props => {
             </p>
           </li>
         </ol>
-        <p>
+        {/* <p>
           If you’re not sure this is the right form, you can{' '}
           <a
             href={`${PCPG_ROOT_URL}/introduction`}
@@ -91,7 +91,7 @@ const IntroductionPage = props => {
           >
             go back and answer the questions again.
           </a>
-        </p>
+        </p> */}
       </div>
       <SaveInProgressIntro
         buttonOnly
