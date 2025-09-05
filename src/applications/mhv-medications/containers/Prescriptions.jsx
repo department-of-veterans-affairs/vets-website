@@ -736,8 +736,8 @@ const Prescriptions = () => {
               allergies.
             </>
           )}
-          {renderMedsByMailContent()}
         </p>
+        {renderMedsByMailContent()}
       </>
     );
   };
