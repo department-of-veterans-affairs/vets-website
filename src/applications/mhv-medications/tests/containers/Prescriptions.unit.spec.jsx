@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import React from 'react';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import reducer from '../../reducers';
@@ -9,6 +10,7 @@ import * as prescriptionsApiModule from '../../api/prescriptionsApi';
 import { stubAllergiesApi, stubPrescriptionsListApi } from '../testing-utils';
 import Prescriptions from '../../containers/Prescriptions';
 import emptyPrescriptionsList from '../e2e/fixtures/empty-prescriptions-list.json';
+import { MEDS_BY_MAIL_FACILITY_ID } from '../../util/constants';
 
 let sandbox;
 
@@ -210,8 +212,94 @@ describe('Medications Prescriptions container', () => {
       /If you print or download this list, we’ll include a list of your allergies./,
     );
   });
+
   it('displays filter accordion', async () => {
     const screen = setup();
     expect(await screen.getByTestId('filter-accordion')).to.exist;
+  });
+
+  const validateMedsByMailContent = (screen, isMedsByMailUser) => {
+    const medsByMailTitleNotesMessage = screen.queryByText(
+      /If you use Meds by Mail, you can also call your servicing center and ask them to update your records\./,
+      {
+        selector: 'p',
+      },
+    );
+
+    const medsByMailHeader = screen.queryByText('If you use Meds by Mail', {
+      selector: 'h2',
+      exact: true,
+    });
+
+    const additionalContentText = screen.queryByText(
+      'We may not have your allergy records in our My HealtheVet tools. But the Meds by Mail servicing center keeps a record of your allergies and reactions to medications.',
+      {
+        selector: 'p',
+        exact: true,
+      },
+    );
+
+    const additionalContentExpandedBlock1 = screen.queryByText(
+      /If you have a new allergy or reaction, tell your provider\. Or you can call us at/,
+      {
+        selector: 'p',
+      },
+    );
+
+    const additionalContentExpandedBlock2 = screen.queryByText(
+      /and ask us to update your records. We’re here Monday through Friday, 8:00 a\.m\. to 7:30 p\.m\. ET./,
+      {
+        selector: 'p',
+      },
+    );
+
+    if (isMedsByMailUser) {
+      expect(medsByMailTitleNotesMessage).not.to.exist;
+      expect(medsByMailHeader).to.exist;
+      expect(additionalContentText).to.exist;
+      expect(additionalContentExpandedBlock1).to.exist;
+      expect(additionalContentExpandedBlock2).to.exist;
+
+      const telephoneElements = Array.from(
+        additionalContentExpandedBlock1.querySelectorAll('va-telephone'),
+      );
+
+      const telephoneAttributes = telephoneElements.map(node => [
+        node.getAttribute('contact'),
+        node.getAttribute('tty'),
+      ]);
+
+      expect(telephoneAttributes).to.deep.equal([
+        ['8662297389', null],
+        ['8883850235', null],
+        [CONTACTS[711], 'true'],
+      ]);
+    } else {
+      expect(medsByMailTitleNotesMessage).to.exist;
+      expect(medsByMailHeader).not.to.exist;
+      expect(additionalContentText).not.to.exist;
+      expect(additionalContentExpandedBlock1).not.to.exist;
+      expect(additionalContentExpandedBlock2).not.to.exist;
+    }
+  };
+
+  it('displays Meds by Mail content for Meds by Mail users', async () => {
+    const screen = setup({
+      ...initialState,
+      user: {
+        profile: {
+          userFullName: { first: 'test', last: 'last', suffix: 'jr' },
+          dob: '2000-01-01',
+          facilities: [{ facilityId: MEDS_BY_MAIL_FACILITY_ID }],
+        },
+      },
+    });
+
+    validateMedsByMailContent(screen, true);
+  });
+
+  it('does not display Meds by Mail content for non-Meds by Mail users', async () => {
+    const screen = setup();
+    validateMedsByMailContent(screen, false);
   });
 });
