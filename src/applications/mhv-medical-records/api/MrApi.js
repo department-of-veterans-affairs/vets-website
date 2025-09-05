@@ -155,6 +155,15 @@ export const getNotes = async () => {
   });
 };
 
+export const getAcceleratedNote = async id => {
+  return apiRequest(
+    `${API_BASE_PATH_V2}/medical_records/clinical_notes/${id}`,
+    {
+      headers,
+    },
+  );
+};
+
 export const getNote = id => {
   return apiRequest(`${apiBasePath}/medical_records/clinical_notes/${id}`, {
     headers,
