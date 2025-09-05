@@ -5,6 +5,7 @@ import { expect } from 'chai';
 import sinon from 'sinon-v20';
 import { renderWithStoreAndRouter as render } from '~/platform/testing/unit/react-testing-library-helpers';
 import * as useNotificationSettingsUtils from '@@profile/hooks/useNotificationSettingsUtils';
+import * as recordEventModule from '~/platform/monitoring/record-event';
 import {
   selectVAPEmailAddress,
   hasVAPServiceConnectionError,
@@ -18,6 +19,7 @@ describe('PaperlessDelivery', () => {
   let sandbox;
   let emailAddress;
   let mockSelectCommunicationPreferences;
+  let recordEventStub;
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
@@ -41,6 +43,7 @@ describe('PaperlessDelivery', () => {
           return undefined;
       }
     });
+    recordEventStub = sandbox.stub(recordEventModule, 'default');
   });
 
   afterEach(() => {
@@ -190,6 +193,18 @@ describe('PaperlessDelivery', () => {
     });
     expect(getByText(/Add your email to get notified when documents are ready/))
       .to.exist;
+    const missingEmailEvent = {
+      event: 'visible-alert-box',
+      'alert-box-type': 'info',
+      'alert-box-heading':
+        'Add your email to get notified when documents are ready',
+      'error-key': 'missing_email',
+      'alert-box-full-width': false,
+      'alert-box-background-only': false,
+      'alert-box-closeable': false,
+      'reason-for-alert': 'Missing email',
+    };
+    sinon.assert.calledWithExactly(recordEventStub, missingEmailEvent);
   });
 
   it('should render add email address link when user has no email address', () => {
@@ -231,6 +246,17 @@ describe('PaperlessDelivery', () => {
       },
     });
     expect(getByText(/This page isn’t available right now/)).to.exist;
+    const apiErrorEvent = {
+      event: 'visible-alert-box',
+      'alert-box-type': 'warning',
+      'alert-box-heading': 'This page isn’t available right now',
+      'error-key': 'api_error',
+      'alert-box-full-width': false,
+      'alert-box-background-only': false,
+      'alert-box-closeable': false,
+      'reason-for-alert': 'API error',
+    };
+    sinon.assert.calledWithExactly(recordEventStub, apiErrorEvent);
   });
 
   it('should render downtime maintenance alert', () => {

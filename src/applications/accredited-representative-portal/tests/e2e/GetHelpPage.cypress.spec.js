@@ -59,7 +59,7 @@ describe('Accredited Representative Portal', () => {
         'have.text',
         'Welcome to the Accredited Representative Portal',
       );
-      cy.get('[data-testid=desktop-help-link]').click();
+      cy.get('[data-testid=heading-help-link]').click();
       cy.injectAxeThenAxeCheck();
       cy.get('h1').should(
         'have.text',

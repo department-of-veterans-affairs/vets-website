@@ -17,30 +17,40 @@ const {
   Q_2_H_1_EXISTING_BOARD_APPEAL,
   Q_2_H_2_NEW_EVIDENCE,
   Q_2_H_2A_JUDGE_HEARING,
+  Q_2_H_2B_JUDGE_HEARING,
 } = SHORT_NAME_MAP;
 
-const pushSpy = sinon.spy();
-const updateResultsPageSpy = sinon.spy();
-
-const router = {
-  push: pushSpy,
-};
-
-beforeEach(() => {
-  pushSpy.resetHistory();
-  updateResultsPageSpy.resetHistory();
-});
-
 describe('page navigation utilities', () => {
+  const sandbox = sinon.createSandbox();
+  const pushSpy = sandbox.spy();
+  const updateResultsPageSpy = sandbox.spy();
+  let consoleErrorStub;
+
+  const router = {
+    push: pushSpy,
+  };
+
+  beforeEach(() => {
+    pushSpy.resetHistory();
+    updateResultsPageSpy.resetHistory();
+    consoleErrorStub = sandbox.stub(console, 'error');
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
   describe('pushToRoute', () => {
     it('should navigate to the given route', () => {
       pushToRoute('INTRODUCTION', router);
       expect(router.push.firstCall.calledWith(ROUTES.INTRODUCTION)).to.be.true;
     });
 
-    it('should not navigate to an undefined route', () => {
+    it('should not navigate to an undefined route, and log an error', () => {
       pushToRoute('NON_EXISTENT_ROUTE', router);
       expect(router.push.called).to.be.false;
+      expect(consoleErrorStub.calledWith('Unable to determine page to display'))
+        .to.be.true;
     });
   });
 
@@ -249,6 +259,34 @@ describe('page navigation utilities', () => {
           expect(updateResultsPageSpy.firstCall.args[0]).to.equal(
             RESULTS_BOARD_HEARING,
           );
+        });
+      });
+
+      describe('when the end of the question flow is reached but the results page is not found', () => {
+        it('should not navigate to a results page or set a results page in the store, and should log an error', () => {
+          // Note that one of the form responses is missing from this set to force a no-match
+          const formResponses = {
+            Q_1_1_CLAIM_DECISION: YES,
+            Q_1_3_CLAIM_CONTESTED: NO,
+            Q_2_0_CLAIM_TYPE: HLR,
+            Q_2_H_1_EXISTING_BOARD_APPEAL: NO,
+            Q_2_H_2_NEW_EVIDENCE: NO,
+            Q_2_H_2B_JUDGE_HEARING: NO,
+          };
+
+          navigateForward(
+            ALL_QUESTIONS,
+            ALL_RESULTS,
+            Q_2_H_2B_JUDGE_HEARING,
+            formResponses,
+            router,
+            updateResultsPageSpy,
+          );
+
+          expect(router.push.called).to.be.false;
+          expect(
+            consoleErrorStub.calledWith('Unable to determine results page'),
+          ).to.be.true;
         });
       });
 

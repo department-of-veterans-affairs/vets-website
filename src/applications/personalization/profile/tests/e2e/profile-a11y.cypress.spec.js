@@ -3,15 +3,28 @@ import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../constants';
 
 import mockUser from '../fixtures/users/user-36.json';
 
-function clickSubNavButton(buttonLabel, mobile) {
+function clickSubNavButton(buttonLabel, mobile, profileShowPaperlessDelivery) {
   if (mobile) {
-    cy.findByRole('button', { name: /profile menu/i }).click();
+    if (profileShowPaperlessDelivery) {
+      cy.get('va-sidenav')
+        .filter(':visible')
+        .click();
+    } else {
+      cy.findByRole('button', { name: /profile menu/i }).click();
+    }
   }
-  cy.findByRole('link', { name: buttonLabel }).click();
+  if (profileShowPaperlessDelivery) {
+    cy.get(`va-sidenav-item[label="${buttonLabel}"]`)
+      .filter(':visible')
+      .click();
+  } else {
+    cy.findByRole('link', { name: buttonLabel }).click();
+  }
 }
 
 /**
  *
+ * @param {boolean} profileShowPaperlessDelivery - feature
  * @param {boolean} mobile - test on a mobile viewport or not
  *
  * This helper:
@@ -23,8 +36,22 @@ function clickSubNavButton(buttonLabel, mobile) {
  *   - performs an aXe scan
  *   - checks that focus is managed correctly
  */
-function checkSubNavFocus(mobile = false) {
-  cy.intercept('v0/feature_toggles*', mockProfileEnhancementsToggles);
+function checkSubNavFocus({
+  profileShowPaperlessDelivery = false,
+  mobile = false,
+} = {}) {
+  if (profileShowPaperlessDelivery) {
+    cy.intercept('GET', 'v0/feature_toggles*', {
+      data: {
+        features: [
+          ...mockProfileEnhancementsToggles.data.features,
+          { name: 'profile_show_paperless_delivery', value: true },
+        ],
+      },
+    });
+  } else {
+    cy.intercept('v0/feature_toggles*', mockProfileEnhancementsToggles);
+  }
   cy.visit(PROFILE_PATHS.PERSONAL_INFORMATION);
   if (mobile) {
     cy.viewport('iphone-4');
@@ -59,7 +86,11 @@ function checkSubNavFocus(mobile = false) {
   cy.axeCheck();
 
   // make the a11y and focus management check on the Military Info section
-  clickSubNavButton(PROFILE_PATH_NAMES.MILITARY_INFORMATION, mobile);
+  clickSubNavButton(
+    PROFILE_PATH_NAMES.MILITARY_INFORMATION,
+    mobile,
+    profileShowPaperlessDelivery,
+  );
   cy.url().should(
     'eq',
     `${Cypress.config().baseUrl}${PROFILE_PATHS.MILITARY_INFORMATION}`,
@@ -68,7 +99,11 @@ function checkSubNavFocus(mobile = false) {
   cy.axeCheck();
 
   // make the a11y and focus management check on the Veteran Status Card section
-  clickSubNavButton(PROFILE_PATH_NAMES.VETERAN_STATUS_CARD, mobile);
+  clickSubNavButton(
+    PROFILE_PATH_NAMES.VETERAN_STATUS_CARD,
+    mobile,
+    profileShowPaperlessDelivery,
+  );
   cy.url().should(
     'eq',
     `${Cypress.config().baseUrl}${PROFILE_PATHS.VETERAN_STATUS_CARD}`,
@@ -77,7 +112,11 @@ function checkSubNavFocus(mobile = false) {
   cy.axeCheck();
 
   // make the a11y and focus management check on the Direct Deposit section
-  clickSubNavButton(PROFILE_PATH_NAMES.DIRECT_DEPOSIT, mobile);
+  clickSubNavButton(
+    PROFILE_PATH_NAMES.DIRECT_DEPOSIT,
+    mobile,
+    profileShowPaperlessDelivery,
+  );
   cy.url().should(
     'eq',
     `${Cypress.config().baseUrl}${PROFILE_PATHS.DIRECT_DEPOSIT}`,
@@ -86,7 +125,11 @@ function checkSubNavFocus(mobile = false) {
   cy.axeCheck();
 
   // make the a11y and focus management check on the Account Security section
-  clickSubNavButton(PROFILE_PATH_NAMES.ACCOUNT_SECURITY, mobile);
+  clickSubNavButton(
+    PROFILE_PATH_NAMES.ACCOUNT_SECURITY,
+    mobile,
+    profileShowPaperlessDelivery,
+  );
   cy.url().should(
     'eq',
     `${Cypress.config().baseUrl}${PROFILE_PATHS.ACCOUNT_SECURITY}`,
@@ -95,7 +138,11 @@ function checkSubNavFocus(mobile = false) {
   cy.axeCheck();
 
   // make the a11y and focus management check on the Connected Apps section
-  clickSubNavButton(PROFILE_PATH_NAMES.CONNECTED_APPLICATIONS, mobile);
+  clickSubNavButton(
+    PROFILE_PATH_NAMES.CONNECTED_APPLICATIONS,
+    mobile,
+    profileShowPaperlessDelivery,
+  );
   cy.url().should(
     'eq',
     `${Cypress.config().baseUrl}${PROFILE_PATHS.CONNECTED_APPLICATIONS}`,
@@ -106,18 +153,41 @@ function checkSubNavFocus(mobile = false) {
   cy.axeCheck();
 
   // navigate directly to the Personal Info section via the sub-nav to confirm focus is managed correctly
-  clickSubNavButton(PROFILE_PATH_NAMES.PERSONAL_INFORMATION, mobile);
+  clickSubNavButton(
+    PROFILE_PATH_NAMES.PERSONAL_INFORMATION,
+    mobile,
+    profileShowPaperlessDelivery,
+  );
   cy.url().should(
     'eq',
     `${Cypress.config().baseUrl}${PROFILE_PATHS.PERSONAL_INFORMATION}`,
   );
 
   // navigate directly to the Contact Info section via the sub-nav to confirm focus is managed correctly
-  clickSubNavButton(PROFILE_PATH_NAMES.CONTACT_INFORMATION, mobile);
+  clickSubNavButton(
+    PROFILE_PATH_NAMES.CONTACT_INFORMATION,
+    mobile,
+    profileShowPaperlessDelivery,
+  );
   cy.url().should(
     'eq',
     `${Cypress.config().baseUrl}${PROFILE_PATHS.CONTACT_INFORMATION}`,
   );
+
+  if (profileShowPaperlessDelivery) {
+    // a11y and focus management check for Paperless Delivery
+    clickSubNavButton(
+      PROFILE_PATH_NAMES.PAPERLESS_DELIVERY,
+      mobile,
+      profileShowPaperlessDelivery,
+    );
+    cy.url().should(
+      'eq',
+      `${Cypress.config().baseUrl}${PROFILE_PATHS.PAPERLESS_DELIVERY}`,
+    );
+    cy.title().should('eq', 'Paperless Delivery | Veterans Affairs');
+    cy.axeCheck();
+  }
 }
 
 describe('Profile Navigation - Accessibility', () => {
@@ -125,12 +195,24 @@ describe('Profile Navigation - Accessibility', () => {
     cy.login(mockUser);
   });
   it('check focus for navigating between profile pages via menu on desktop', () => {
-    checkSubNavFocus(false);
+    checkSubNavFocus({ mobile: false });
     cy.injectAxeThenAxeCheck();
   });
 
   it('check focus for navigating between profile pages via menu on mobile', () => {
-    checkSubNavFocus(true);
+    checkSubNavFocus({ mobile: true });
     cy.injectAxeThenAxeCheck();
+  });
+
+  describe('when feature profileShowPaperlessDelivery is true', () => {
+    it('check focus for navigating between profile pages via menu on desktop', () => {
+      checkSubNavFocus({ profileShowPaperlessDelivery: true, mobile: false });
+      cy.injectAxeThenAxeCheck();
+    });
+
+    it('check focus for navigating between profile pages via menu on mobile', () => {
+      checkSubNavFocus({ profileShowPaperlessDelivery: true, mobile: true });
+      cy.injectAxeThenAxeCheck();
+    });
   });
 });

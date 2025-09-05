@@ -18,6 +18,7 @@ import NewTabAnchor from '../NewTabAnchor';
 import {
   NULL_STATE_FIELD,
   recordAppointmentDetailsNullStates,
+  captureMissingModalityLogs,
 } from '../../utils/events';
 
 export default function VARequestLayout({ data: appointment }) {
@@ -47,6 +48,9 @@ export default function VARequestLayout({ data: appointment }) {
   else if (APPOINTMENT_STATUS.cancelled === status)
     heading = 'Canceled request for appointment';
 
+  if (!appointment.modality) {
+    captureMissingModalityLogs(appointment);
+  }
   recordAppointmentDetailsNullStates(
     {
       type: appointment.type,

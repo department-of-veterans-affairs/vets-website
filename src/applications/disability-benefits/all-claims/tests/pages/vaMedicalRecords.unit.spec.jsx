@@ -3,10 +3,10 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { mount } from 'enzyme';
-import moment from 'moment';
 import { waitFor } from '@testing-library/dom';
 import formConfig from '../../config/form';
 import { form0781WorkflowChoices } from '../../content/form0781/workflowChoices';
+import { formatMonthYearDate } from '../../utils/dates';
 
 describe('VA Medical Records', () => {
   const {
@@ -515,9 +515,9 @@ describe('VA Medical Records', () => {
 
     it('should not submit when treatment start date is in the future', async () => {
       const onSubmit = sinon.spy();
-      const futureDate = `${moment()
-        .add(1, 'month')
-        .format('YYYY-MM')}-XX`;
+      const futureDate = formatMonthYearDate(
+        new Date(new Date().setMonth(new Date().getMonth() + 1)),
+      );
       const form = mount(
         <DefinitionTester
           definitions={formConfig.defaultDefinitions}
