@@ -90,22 +90,16 @@ const routes = (
         >
           <VaccineDetails />
         </FeatureFlagRoute>
-        <FeatureFlagRoute
-          exact
-          path="/summaries-and-notes"
-          key="CareSummariesAndNotes"
-          featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayNotes}
-        >
+        <AppRoute exact path="/summaries-and-notes" key="CareSummariesAndNotes">
           <CareSummariesAndNotes />
-        </FeatureFlagRoute>
-        <FeatureFlagRoute
+        </AppRoute>
+        <AppRoute
           exact
           path="/summaries-and-notes/:summaryId"
           key="CareSummaryAndNotesDetails"
-          featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayNotes}
         >
           <CareSummariesDetails />
-        </FeatureFlagRoute>
+        </AppRoute>
         <AppRoute exact path="/conditions" key="Health Conditions">
           <HealthConditions />
         </AppRoute>

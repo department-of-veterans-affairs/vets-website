@@ -5,7 +5,6 @@ const APPLICATION_FEATURE_TOGGLES = Object.freeze({
   // medical records
   mhvMedicalRecordsAllowTxtDownloads: true,
   mhvMedicalRecordsDisplayDomains: true,
-  mhvMedicalRecordsDisplayNotes: true,
   mhvMedicalRecordsDisplaySidenav: true,
   mhvMedicalRecordsDisplayVaccines: true,
   mhvMedicalRecordsDisplaySettingsPage: true,
