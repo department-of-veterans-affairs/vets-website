@@ -143,10 +143,25 @@ export const getMhvRadiologyDetails = async id => {
   return findMatchingPhrAndCvixStudies(id, phrResponse, cvixResponse);
 };
 
+export const getAcceleratedNotes = async () => {
+  return apiRequest(`${API_BASE_PATH_V2}/medical_records/clinical_notes`, {
+    headers,
+  });
+};
+
 export const getNotes = async () => {
   return apiRequest(`${apiBasePath}/medical_records/clinical_notes`, {
     headers,
   });
+};
+
+export const getAcceleratedNote = async id => {
+  return apiRequest(
+    `${API_BASE_PATH_V2}/medical_records/clinical_notes/${id}`,
+    {
+      headers,
+    },
+  );
 };
 
 export const getNote = id => {

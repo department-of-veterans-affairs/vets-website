@@ -28,6 +28,21 @@ describe('Get care summaries and notes list action', () => {
     });
   });
 
+  it('should dispatch GET_UNIFIED_LIST when isAccelerating is true', () => {
+    const mockData = notes;
+    mockApiRequest(mockData);
+    const dispatch = sinon.spy();
+    return getCareSummariesAndNotesList(false, true)(dispatch).then(() => {
+      expect(dispatch.firstCall.args[0].type).to.equal(
+        Actions.CareSummariesAndNotes.UPDATE_LIST_STATE,
+      );
+      // If you have a CLEAR_INITIAL_FHIR_LOAD action, check it here
+      expect(dispatch.thirdCall.args[0].type).to.equal(
+        Actions.CareSummariesAndNotes.GET_UNIFIED_LIST,
+      );
+    });
+  });
+
   it('should dispatch an add alert action', () => {
     const mockData = notes;
     mockApiRequest(mockData, false);

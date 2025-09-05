@@ -20,7 +20,7 @@ const APPLICATION_FEATURE_TOGGLES = Object.freeze({
   mhvAcceleratedDeliveryVitalSignsEnabled: true,
   mhvAcceleratedDeliveryVaccinesEnabled: true,
   mhvAcceleratedDeliveryLabsAndTestsEnabled: true,
-
+  mhvAcceleratedDeliveryCareNotesEnabled: true,
   mhvMedicalRecordsMilestoneTwo: true,
 });
 
