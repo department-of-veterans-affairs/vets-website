@@ -268,7 +268,7 @@ export async function fetchFlowEligibilityAndClinics({
     // Primary care and mental health is exempt from past appt history requirement
     const isDirectAppointmentHistoryRequired =
       typeOfCare.id !== TYPE_OF_CARE_IDS.PRIMARY_CARE &&
-      (typeOfCare.id !== TYPE_OF_CARE_IDS.MENTAL_HEALTH ||
+      (typeOfCare.id !== TYPE_OF_CARE_IDS.MENTAL_HEALTH_SERVICES_ID ||
         usePastVisitMHFilter) &&
       directTypeOfCareSettings.patientHistoryRequired === true;
 
@@ -361,7 +361,7 @@ export async function fetchFlowEligibilityAndClinics({
     if (
       !isCerner &&
       typeOfCare.id !== TYPE_OF_CARE_IDS.PRIMARY_CARE &&
-      (typeOfCare.id !== TYPE_OF_CARE_IDS.MENTAL_HEALTH ||
+      (typeOfCare.id !== TYPE_OF_CARE_IDS.MENTAL_HEALTH_SERVICES_ID ||
         usePastVisitMHFilter) &&
       directTypeOfCareSettings.patientHistoryRequired &&
       !hasMatchingClinics(results.clinics, results.pastAppointments)

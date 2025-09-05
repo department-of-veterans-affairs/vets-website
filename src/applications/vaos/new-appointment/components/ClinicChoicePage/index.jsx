@@ -61,7 +61,8 @@ export default function ClinicChoicePage() {
     data.clinicId === 'NONE' && !eligibility?.request;
   const usingPastClinics =
     typeOfCare.id !== TYPE_OF_CARE_IDS.PRIMARY_CARE &&
-    (typeOfCare.id !== TYPE_OF_CARE_IDS.MENTAL_HEALTH || usePastVisitMHFilter);
+    (typeOfCare.id !== TYPE_OF_CARE_IDS.MENTAL_HEALTH_SERVICES_ID ||
+      usePastVisitMHFilter);
 
   useEffect(
     () => {
