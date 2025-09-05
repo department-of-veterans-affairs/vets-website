@@ -17,7 +17,7 @@ import {
 import { isDependent, transform } from './helpers';
 import manifest from '../manifest.json';
 
-import { WIZARD_STATUS } from '../constants';
+// import { WIZARD_STATUS } from '../constants';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -28,7 +28,7 @@ const formConfig = {
   confirmation: ConfirmationPage,
   transformForSubmit: transform,
   formId: VA_FORM_IDS.FORM_28_8832,
-  wizardStorageKey: WIZARD_STATUS,
+  // wizardStorageKey: WIZARD_STATUS,
   customText: {
     appContinuing: 'for planning and career guidance',
   },
