@@ -2,13 +2,16 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useDispatch } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
+import Cookies from 'js-cookie';
 
+import { selectVAPContactInfoField } from '@@vap-svc/selectors';
 import {
   fetchMilitaryInformation as fetchMilitaryInformationAction,
   fetchHero as fetchHeroAction,
 } from '@@profile/actions';
 import {
   VaAlert,
+  VaCriticalAction,
   VaModal,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
@@ -60,7 +63,12 @@ import { ContactInfoNeeded } from '../../profile/components/alerts/ContactInfoNe
 import FormsAndApplications from './benefit-application-drafts/FormsAndApplications';
 import PaymentsAndDebts from './benefit-payments/PaymentsAndDebts';
 
-const DashboardHeader = ({ isLOA3, showNotifications, user }) => {
+const DashboardHeader = ({
+  isLOA3,
+  showNotifications,
+  user,
+  displayCriticalActionConfirmEmailLink,
+}) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const hideNotificationsSection = useToggleValue(
     TOGGLE_NAMES.myVaHideNotificationsSection,
@@ -120,6 +128,13 @@ const DashboardHeader = ({ isLOA3, showNotifications, user }) => {
           });
         }}
       />
+      {displayCriticalActionConfirmEmailLink && (
+        <VaCriticalAction
+          link="/profile/contact-information#contact-email-address"
+          text="Confirm your contact email address to keep getting VA notifications"
+          data-testid="va-profile--confirm-contact-email-link"
+        />
+      )}
       {isLOA3 && <ContactInfoNeeded />}
       {showNotifications && !hideNotificationsSection && <Notifications />}
     </div>
@@ -208,6 +223,7 @@ const LOA1Content = ({
 };
 
 DashboardHeader.propTypes = {
+  displayCriticalActionConfirmEmailLink: PropTypes.bool,
   isLOA3: PropTypes.bool,
   showNotifications: PropTypes.bool,
   user: PropTypes.object,
@@ -347,6 +363,9 @@ const Dashboard = ({
                 isLOA3={isLOA3}
                 showNotifications={showNotifications}
                 user={props.user}
+                displayCriticalActionConfirmEmailLink={
+                  props.displayCriticalActionConfirmEmailLink
+                }
               />
 
               {showMPIConnectionError && (
@@ -558,10 +577,19 @@ const mapStateToProps = state => {
   const showNotifications =
     !showMPIConnectionError && !showNotInMPIError && isLOA3;
 
+  const hasContactData =
+    selectVAPContactInfoField(state, 'email')?.emailAddress &&
+    selectVAPContactInfoField(state, 'mailingAddress')?.addressLine1 &&
+    selectVAPContactInfoField(state, 'mobilePhone')?.phoneNumber;
+
+  const displayCriticalActionConfirmEmailLink =
+    hasContactData && Cookies.get('CONTACT_EMAIL_CONFIRMED') !== 'true';
+
   return {
     canAccessMilitaryHistory,
     canAccessPaymentHistory,
     canAccessRatingInfo,
+    displayCriticalActionConfirmEmailLink,
     isLOA3,
     isLOA1,
     showLoader,
@@ -585,6 +613,7 @@ Dashboard.propTypes = {
   canAccessMilitaryHistory: PropTypes.bool,
   canAccessPaymentHistory: PropTypes.bool,
   canAccessRatingInfo: PropTypes.bool,
+  displayCriticalActionConfirmEmailLink: PropTypes.bool,
   fetchFullName: PropTypes.func,
   fetchMilitaryInformation: PropTypes.func,
   fetchTotalDisabilityRating: PropTypes.func,
