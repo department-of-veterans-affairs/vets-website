@@ -14,6 +14,7 @@ export const AlertConfirmContactEmail = () => {
 
   return (
     <VaAlert
+      className="vads-u-margin-top--1"
       closeable
       onCloseEvent={handleClose}
       status="warning"
