@@ -5,6 +5,7 @@ import mockUser from './fixtures/mocks/user.json';
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
 
+// Prototype form (VA Form 40-xxxx placeholder)
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
@@ -19,15 +20,11 @@ const testConfig = createTestConfig(
         });
       },
     },
-
     setupPerTest: () => {
       cy.intercept('GET', '/v0/user', mockUser);
       cy.intercept('POST', formConfig.submitUrl, { status: 200 });
       cy.login(mockUser);
     },
-
-    // Skip tests in CI until the form is released.
-    // Remove this setting when the form has a content page in production.
     skip: Cypress.env('CI'),
   },
   manifest,

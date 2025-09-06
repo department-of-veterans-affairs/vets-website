@@ -3,7 +3,6 @@ import {
   addressUI,
   addressSchema,
   phoneUI,
-  phoneSchema,
   emailUI,
   emailSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -41,8 +40,13 @@ export default {
     },
     phoneNumber: phoneUI({
       title: 'Phone number',
-      required: () => true, // changed from boolean to function
-      errorMessages: { required: 'Enter a 10-digit phone number' },
+      required: () => true,
+      errorMessages: {
+        required: 'Enter a 10-digit phone number (you can include +1 or 1)',
+        pattern: 'Enter a valid U.S. phone number',
+      },
+      // Accept formats: 1234567890, 11234567890, +11234567890
+      // We normalize (strip +1/1) on blur via custom attribute handler if platform later supports.
     }),
     emailAddress: emailUI({
       title: 'Email address',
@@ -69,7 +73,11 @@ export default {
     properties: {
       mailingAddress: addressSchema({ omit: ['isMilitary', 'street3'] }),
       'view:contactHeading': { type: 'object', properties: {} },
-      phoneNumber: phoneSchema,
+      phoneNumber: {
+        type: 'string',
+        pattern: '^(?:\\+?1)?\\d{10}$',
+        title: 'Phone number',
+      },
       emailAddress: emailSchema,
       'view:contactHelp': { type: 'object', properties: {} },
     },

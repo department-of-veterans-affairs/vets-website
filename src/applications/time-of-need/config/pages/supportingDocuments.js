@@ -33,13 +33,13 @@ export const fileUploadUi = (options = {}) =>
 // Schema
 export const timeOfNeedAttachments = fileInputMultipleSchema();
 
-// Description component (updated to reference VA Form 40-4962)
+// Description component (updated to reference VA Form 40-xxxx)
 export const SupportingFilesDescription = () => (
   <>
     <AutoSaveNotice />
     <h3 className="vads-u-margin-top--0">Upload supporting files</h3>
     <p className="vads-u-margin-top--1">
-      If you have supporting files readily available for your VA Form 40-4962
+      If you have supporting files readily available for your VA Form 40-xxxx
       application, you can upload them to help us make a determination.
     </p>
     <p>
@@ -76,21 +76,21 @@ export const SupportingFilesDescription = () => (
         <ul>
           <li>
             Appointment of Veterans Service Organization as Claimant’s
-            Representative (VA Form 40-4962)
+            Representative (VA Form 40-xxxx)
             <br />
             <va-link
               href="https://www.va.gov/find-forms/about-form-21-22/"
-              text="Download VA Form 40-4962 (PDF, 4 pages)"
+              text="Download VA Form 40-xxxx (PDF, 4 pages)"
               filetype
             />
           </li>
           <li className="vads-u-margin-top--1">
             Appointment of Individual as Claimant’s Representative (VA Form
-            40-4962)
+            40-xxxx)
             <br />
             <va-link
-              href="https://www.va.gov/find-forms/about-form-40-4962/" // TODO: replace with correct 40-4962 resource if available
-              text="Download VA Form 40-4962 (PDF, 3 pages)"
+              href="https://www.va.gov/find-forms/about-form-40-xxxx/" // TODO: replace with correct 40-xxxx resource if available
+              text="Download VA Form 40-xxxx (PDF, 3 pages)"
               filetype
             />
           </li>

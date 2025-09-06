@@ -1,5 +1,6 @@
 import '@department-of-veterans-affairs/platform-polyfills';
-import './sass/40-4962-ToN.scss';
+// Updated stylesheet filename to generic xxxx form number placeholder
+import './sass/40-xxxx-ToN.scss';
 
 import { startAppFromIndex } from '@department-of-veterans-affairs/platform-startup/exports';
 

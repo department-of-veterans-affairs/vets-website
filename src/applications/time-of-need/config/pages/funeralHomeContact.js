@@ -3,7 +3,6 @@ import {
   textUI,
   textSchema,
   phoneUI,
-  phoneSchema,
   emailUI,
   emailSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -42,7 +41,10 @@ export default {
 
     phoneNumber: phoneUI({
       title: 'Phone number',
-      errorMessages: { required: 'Enter a 10-digit phone number' },
+      errorMessages: {
+        required: 'Enter a 10-digit phone number (you can include +1 or 1)',
+        pattern: 'Enter a valid U.S. phone number',
+      },
       required: () => true,
     }),
   },
@@ -53,7 +55,11 @@ export default {
       firstName: textSchema,
       lastName: textSchema,
       emailAddress: emailSchema,
-      phoneNumber: phoneSchema,
+      phoneNumber: {
+        type: 'string',
+        pattern: '^(?:\\+?1)?\\d{10}$',
+        title: 'Phone number',
+      },
     },
     required: ['firstName', 'lastName', 'emailAddress', 'phoneNumber'],
   },

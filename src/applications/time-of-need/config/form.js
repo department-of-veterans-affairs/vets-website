@@ -38,18 +38,18 @@ const formConfig = {
   submitUrl: '/v0/api',
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
-  trackingPrefix: '40-4962-ToN-',
+  trackingPrefix: '40-xxxx-ToN-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
   },
-  formId: VA_FORM_IDS.FORM_40_4962,
+  formId: VA_FORM_IDS.FORM_40_xxxx,
   saveInProgress: {
     // messages: {
-    //   inProgress: 'Your burial benefits application (40-4962) is in progress.',
-    //   expired: 'Your saved burial benefits application (40-4962) has expired. If you want to apply for burial benefits, please start a new application.',
+    //   inProgress: 'Your burial benefits application (40-xxxx) is in progress.',
+    //   expired: 'Your saved burial benefits application (40-xxxx) has expired. If you want to apply for burial benefits, please start a new application.',
     //   saved: 'Your burial benefits application has been saved.',
     // },
   },

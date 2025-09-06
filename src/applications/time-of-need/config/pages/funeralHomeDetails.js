@@ -3,7 +3,6 @@ import {
   textUI,
   textSchema,
   phoneUI,
-  phoneSchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -29,13 +28,19 @@ export default {
 
     primaryPhoneNumber: phoneUI({
       title: 'Primary phone number',
-      errorMessages: { required: 'Enter the primary phone number' },
+      errorMessages: {
+        required: 'Enter the primary phone number',
+        pattern: 'Enter a valid U.S. phone number',
+      },
       required: () => true,
     }),
 
     faxNumber: phoneUI({
       title: 'Fax number',
-      errorMessages: { required: 'Enter the fax number' },
+      errorMessages: {
+        required: 'Enter the fax number',
+        pattern: 'Enter a valid U.S. fax number',
+      },
       required: () => true,
     }),
 
@@ -63,8 +68,16 @@ export default {
     type: 'object',
     properties: {
       funeralHomeName: textSchema,
-      primaryPhoneNumber: phoneSchema,
-      faxNumber: phoneSchema,
+      primaryPhoneNumber: {
+        type: 'string',
+        pattern: '^(?:\\+?1)?\\d{10}$',
+        title: 'Primary phone number',
+      },
+      faxNumber: {
+        type: 'string',
+        pattern: '^(?:\\+?1)?\\d{10}$',
+        title: 'Fax number',
+      },
       lastDateOfContact: currentOrPastDateSchema,
       'view:lastContactHelp': {
         type: 'object',
