@@ -26,7 +26,6 @@ const raceLabelsObject = {
   preferNoAnswer: 'Prefer not to answer',
 };
 
-// This is the array of keys for the schema
 const raceKeys = raceOptions.map(opt => opt.value);
 
 export default {
@@ -50,7 +49,6 @@ export default {
           { value: 'preferNoAnswer', label: 'Prefer not to answer' },
         ],
       }),
-      'ui:title': false,
     },
     race: {
       ...checkboxGroupUI({
@@ -60,7 +58,6 @@ export default {
         options: raceOptions,
         labels: raceLabelsObject,
       }),
-      'ui:title': false,
     },
   },
   schema: {
@@ -77,7 +74,7 @@ export default {
           'Prefer not to answer',
         ],
       },
-      race: checkboxGroupSchema(raceKeys), // <-- Pass array of strings!
+      race: checkboxGroupSchema(raceKeys),
     },
   },
 };

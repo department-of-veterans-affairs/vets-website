@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import { useSelector } from 'react-redux';
-import { isLOA3, isLoggedIn } from 'platform/user/selectors';
 import { TITLE, SUBTITLE } from '../constants';
 
 const OMB_RES_BURDEN = 15;
@@ -85,12 +83,6 @@ const ProcessList = () => {
           submitting this form, you’ll get a confirmation message. You can print
           this for your records.
         </p>
-        <a
-          href="/burials-and-memorials/application/530/"
-          className="vads-c-action-link--green"
-        >
-          Start the application
-        </a>
       </va-process-list-item>
       <va-process-list-item header="VA review">
         <p>We’ll let you know by phone or mail if we need more information.</p>
@@ -106,11 +98,21 @@ const ProcessList = () => {
 };
 
 export const IntroductionPage = props => {
-  const userLoggedIn = useSelector(state => isLoggedIn(state));
-  const userIdVerified = useSelector(state => isLOA3(state));
   const { route } = props;
-  const { formConfig, pageList } = route;
-  const showVerifyIdentify = userLoggedIn && !userIdVerified;
+  const { pageList } = route;
+
+  // Find first non-introduction form page
+  const firstFormPage = pageList?.find(
+    p => p?.pageKey !== 'introduction' && p?.path,
+  );
+  let firstPagePath = '/';
+  if (firstFormPage) {
+    if (firstFormPage.path.startsWith('/')) {
+      firstPagePath = firstFormPage.path;
+    } else {
+      firstPagePath = `/${firstFormPage.path}`;
+    }
+  }
 
   useEffect(() => {
     scrollToTop();
@@ -118,27 +120,21 @@ export const IntroductionPage = props => {
   }, []);
 
   return (
-    <article className="schemaform-intro">
+    <article className="schemaform-intro time-of-need-intro">
       <FormTitle title={TITLE} subTitle={SUBTITLE} />
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
         Follow the steps below to apply for burial benefits.
       </h2>
       <ProcessList />
-      {showVerifyIdentify ? (
-        <div>{/* add verify identity alert if applicable */}</div>
-      ) : (
-        <SaveInProgressIntro
-          headingLevel={2}
-          prefillEnabled={formConfig.prefillEnabled}
-          messages={formConfig.savedFormMessages}
-          pageList={pageList}
-          startText="Start the application"
-          devOnly={{
-            forceShowFormControls: true,
-          }}
-        />
-      )}
-      <p />
+      <p className="vads-u-margin-top--3">
+        <Link
+          to={firstPagePath}
+          className="no-auth-start-link vads-c-action-link--green"
+          data-testid="start-application-link"
+        >
+          Start the application
+        </Link>
+      </p>
       <va-omb-info
         res-burden={OMB_RES_BURDEN}
         omb-number={OMB_NUMBER}

@@ -7,6 +7,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import currentlyBuried from './pages/currentlyBuried';
+import deceasedInformation from './pages/deceasedInformation';
 import deceasedInfo2 from './pages/deceasedInfo2';
 import deceasedMilitaryDetails from './pages/deceasedMilitaryDetails';
 import deceasedName from './pages/deceasedName';
@@ -19,7 +20,6 @@ import funeralHomeContact from './pages/funeralHomeContact';
 import funeralHomeDetails from './pages/funeralHomeDetails';
 import intermentDetails from './pages/intermentDetails';
 import mailingAddress from './pages/mailingAddress';
-import nameAndDateOfBirth from './pages/nameAndDateOfBirth';
 import preparerContact from './pages/preparerContact';
 import preparerName from './pages/preparerName';
 import { burialBenefitsPagesVeteran } from './pages/burialBenefitsPages';
@@ -78,10 +78,6 @@ const formConfig = {
     currentlyBuriedPersons: [],
     servicePeriods: [],
     desiredIntermentDateRanges: [], // added
-    // Prefill dummy preparer name for testing
-    preparerName: { first: 'Test', last: 'User' },
-    // Optional: uncomment to auto-pass without clicking the checkbox
-    // statementOfTruthAccepted: true,
   },
   defaultDefinitions: {
     currentlyBuriedPersons: [],
@@ -89,13 +85,13 @@ const formConfig = {
   getHelp: GetFormHelp,
   chapters: {
     personalInformationChapter: {
-      title: 'Your personal information',
+      title: 'Deceased information',
       pages: {
-        nameAndDateOfBirth: {
-          path: 'name-and-date-of-birth',
-          title: 'Name and date of birth',
-          uiSchema: nameAndDateOfBirth.uiSchema,
-          schema: nameAndDateOfBirth.schema,
+        deceasedInformation: {
+          path: 'deceased-information',
+          title: 'Deceased information',
+          uiSchema: deceasedInformation.uiSchema,
+          schema: deceasedInformation.schema,
         },
         deceasedInfo2: {
           path: 'deceased-info-2',
@@ -160,18 +156,21 @@ const formConfig = {
           schema: currentlyBuried.schema,
         },
         // Stand-alone array builder pages (no conditional dependency)
-        ...burialBenefitsPagesVeteran,
+        ...Object.fromEntries(
+          Object.entries(burialBenefitsPagesVeteran).map(([key, page]) => [
+            key,
+            {
+              ...page,
+              depends: formData => formData.currentlyBuried === 'yes',
+            },
+          ]),
+        ),
         desiredCemetery: {
           path: 'desired-cemetery',
           title: 'Desired cemetery for burial of deceased',
           uiSchema: desiredCemetery.uiSchema,
           schema: desiredCemetery.schema,
         },
-      },
-    },
-    interment: {
-      title: 'Interment details',
-      pages: {
         // Move intermentDetails first
         intermentDetails: {
           path: 'interment-details',

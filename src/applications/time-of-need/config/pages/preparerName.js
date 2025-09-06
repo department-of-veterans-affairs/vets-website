@@ -1,43 +1,45 @@
 import React from 'react';
 import {
-  textUI,
   textSchema,
+  textUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import AutoSaveNotice from '../../components/AutoSaveNotice';
 
 export default {
   uiSchema: {
     'ui:description': (
       <>
-        <AutoSaveNotice />
         <h3 className="vads-u-margin-top--0">Your details</h3>
-        <p className="vads-u-margin-top--1">
+        <p>
           Since you’re filling out this application, you’ll need to provide your
           details in case we need to contact you.
         </p>
       </>
     ),
-    firstName: {
-      ...textUI({
+    preparerName: {
+      first: textUI({
         title: 'Your first name',
         errorMessages: { required: 'Enter your first name' },
       }),
-      'ui:required': () => true,
-    },
-    lastName: {
-      ...textUI({
+      last: textUI({
         title: 'Your last name',
         errorMessages: { required: 'Enter your last name' },
       }),
-      'ui:required': () => true,
     },
   },
   schema: {
     type: 'object',
+    required: ['preparerName'],
     properties: {
-      firstName: textSchema,
-      lastName: textSchema,
+      preparerName: {
+        type: 'object',
+        required: ['first', 'last'],
+        properties: {
+          first: textSchema,
+          last: textSchema,
+          middle: textSchema, // keep optional if you want (can omit)
+          suffix: textSchema, // optional
+        },
+      },
     },
-    required: ['firstName', 'lastName'],
   },
 };

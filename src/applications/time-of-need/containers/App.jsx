@@ -1,18 +1,16 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import formConfig from '../config/form';
+import { wrapWithBreadcrumb } from '../components/Breadcrumbs';
 
 export default function App({ location, children }) {
-  return (
-    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-      {children}
-    </RoutedSavableApp>
+  const { pathname } = location || {};
+  return wrapWithBreadcrumb(
+    <article id="form-40-4962" data-location={`${pathname?.slice(1)}`}>
+      <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+        {children}
+      </RoutedSavableApp>
+    </article>,
+    location,
   );
 }
-
-App.propTypes = {
-  children: PropTypes.node,
-  location: PropTypes.object,
-};

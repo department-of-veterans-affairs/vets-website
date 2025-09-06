@@ -71,6 +71,6 @@ export default {
       ssn: { ...textSchema },
       dateOfBirth: dateOfBirthSchema,
     },
-    required: ['fullName', 'dateOfBirth'],
+    required: ['fullName', 'dateOfBirth', 'ssn'],
   },
 };

@@ -20,25 +20,32 @@ export default {
         </p>
       </div>
     ),
-    relationshipToVeteran: selectUI({
-      label:
-        'Relationship of deceased to the Veteran or service member (their sponsor)',
-      options: [
-        { value: '', label: 'Select an option' },
-        { value: 'spouse', label: 'Spouse' },
-        { value: 'child', label: 'Child' },
-        { value: 'parent', label: 'Parent' },
-        { value: 'other', label: 'Other' },
-      ],
-    }),
-    dateOfDeath: {
-      ...dateOfBirthUI(),
-      'ui:title': 'Date of death',
-      'ui:description':
-        'Please enter two digits for the month and day and four digits for the year.',
+    relationshipToVeteran: {
+      ...selectUI({
+        options: [
+          { value: '', label: 'Select an option' },
+          { value: 'spouse', label: 'Spouse' },
+          { value: 'child', label: 'Child' },
+          { value: 'parent', label: 'Parent' },
+          { value: 'other', label: 'Other' },
+        ],
+        title:
+          'Relationship of deceased to the Veteran or service member (their sponsor)',
+      }),
     },
-    birthCityOrCounty: textUI({ label: 'Birth city or county' }),
-    birthStateOrTerritory: textUI({ label: 'Birth state or territory' }),
+    dateOfDeath: {
+      ...dateOfBirthUI({
+        title: 'Date of death',
+        description:
+          'Please enter two digits for the month and day and four digits for the year.',
+      }),
+    },
+    birthCityOrCounty: {
+      ...textUI({ title: 'Birth city or county' }),
+    },
+    birthStateOrTerritory: {
+      ...textUI({ title: 'Birth state or territory' }),
+    },
   },
   schema: {
     type: 'object',
@@ -46,12 +53,23 @@ export default {
     properties: {
       relationshipToVeteran: {
         type: 'string',
+        title:
+          'Relationship of deceased to the Veteran or service member (their sponsor)',
         enum: ['', 'spouse', 'child', 'parent', 'other'],
         enumNames: ['Select an option', 'Spouse', 'Child', 'Parent', 'Other'],
       },
-      dateOfDeath: dateOfBirthSchema,
-      birthCityOrCounty: { ...textSchema },
-      birthStateOrTerritory: { ...textSchema },
+      dateOfDeath: {
+        ...dateOfBirthSchema,
+        title: 'Date of death',
+      },
+      birthCityOrCounty: {
+        ...textSchema,
+        title: 'Birth city or county',
+      },
+      birthStateOrTerritory: {
+        ...textSchema,
+        title: 'Birth state or territory',
+      },
     },
   },
 };

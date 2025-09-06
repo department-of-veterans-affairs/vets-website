@@ -9,7 +9,21 @@ const AutosuggestField = props => {
   const inputId = idSchema.$id;
   const listboxId = `${inputId}__listbox`;
 
-  const [inputValue, setInputValue] = useState(formData || '');
+  // Moved normalizeName above state so we can use it for initial value
+  const normalizeName = str => {
+    if (!str) return '';
+    const isAllCaps = /^[A-Z0-9\s.'&()-]+$/.test(str) && /[A-Z]/.test(str);
+    if (!isAllCaps) return str;
+    return str
+      .toLowerCase()
+      .replace(/\b([a-z])/g, m => m.toUpperCase())
+      .replace(/\b(Va)\b/g, 'VA')
+      .replace(/\b(U S A|U S|U\.S\.A\.|U\.S\.)\b/gi, 'U.S.')
+      .replace(/\b(Us)\b/g, 'US')
+      .replace(/\b(Wwii)\b/g, 'WWII');
+  };
+
+  const [inputValue, setInputValue] = useState(normalizeName(formData) || '');
   const [suggestions, setSuggestions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
@@ -58,9 +72,10 @@ const AutosuggestField = props => {
     index => {
       const item = suggestions[index];
       if (!item) return;
-      const value = item.label || item.name || item;
-      setInputValue(value);
-      onChange(value);
+      const raw = item.label || item.name || item;
+      const displayValue = normalizeName(raw);
+      setInputValue(displayValue);
+      onChange(displayValue);
       setOpen(false);
       setActiveIndex(-1);
     },
@@ -119,18 +134,18 @@ const AutosuggestField = props => {
   const labelText = typeof rawTitle === 'string' ? rawTitle : undefined;
   const inputProps = options.inputProps || {};
 
-  const normalizeName = str => {
-    if (!str) return '';
-    const isAllCaps = /^[A-Z0-9\s.'&()-]+$/.test(str) && /[A-Z]/.test(str);
-    if (!isAllCaps) return str;
-    return str
-      .toLowerCase()
-      .replace(/\b([a-z])/g, m => m.toUpperCase())
-      .replace(/\b(Va)\b/g, 'VA')
-      .replace(/\b(U S A|U S|U\.S\.A\.|U\.S\.)\b/gi, 'U.S.')
-      .replace(/\b(Us)\b/g, 'US')
-      .replace(/\b(Wwii)\b/g, 'WWII');
-  };
+  // Normalize if formData changes externally (e.g., prefill)
+  useEffect(
+    () => {
+      if (formData) {
+        const normalized = normalizeName(formData);
+        if (normalized !== inputValue) {
+          setInputValue(normalized);
+        }
+      }
+    },
+    [formData],
+  ); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div
@@ -188,37 +203,22 @@ const AutosuggestField = props => {
               const displayValue = normalizeName(raw);
               const active = i === activeIndex;
               return (
-                <li
+                <va-list-item
                   key={s.id || raw}
                   id={`${listboxId}__option-${i}`}
                   role="option"
                   aria-selected={active}
-                  style={{
-                    background: active ? '#e6f0f6' : 'transparent',
-                  }}
+                  onMouseEnter={() => setActiveIndex(i)}
+                  onMouseDown={e => e.preventDefault()} // keep focus in input
+                  onClick={() => commitSelection(i)}
+                  class={`vads-u-padding--0p5 vads-u-cursor--pointer${
+                    active
+                      ? ' vads-u-background-color--primary-alt-light vads-u-font-weight--bold'
+                      : ''
+                  }`}
                 >
-                  <va-button
-                    text=""
-                    onClick={() => commitSelection(i)}
-                    onMouseEnter={() => setActiveIndex(i)}
-                    style={{
-                      display: 'block',
-                      width: '100%',
-                      textAlign: 'left',
-                      padding: '0.5rem 0.75rem',
-                      fontWeight: active ? 600 : 'normal',
-                      background: 'none',
-                      border: 'none',
-                      color: '#000',
-                      textDecoration: 'none',
-                      cursor: 'pointer',
-                      fontFamily: 'inherit',
-                      fontSize: '1rem',
-                    }}
-                    onMouseDown={e => e.preventDefault()}
-                    aria-label={raw}
-                  />
-                </li>
+                  {displayValue}
+                </va-list-item>
               );
             })}
           </ul>
