@@ -26,7 +26,7 @@
   }
 }
 
-.discover-your-benefits .usa-width-two-thirds {
+.usa-width-two-thirds:has(#results-container) {
   width: auto !important;
 }
 

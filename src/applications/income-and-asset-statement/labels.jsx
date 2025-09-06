@@ -98,12 +98,3 @@ export const trustTypeLabels = {
   IRREVOCABLE: 'Irrevocable',
   BURIAL: 'Burial trust',
 };
-
-export const yesNoLabelsIncome = {
-  Y: 'Yes, I have income to report',
-  N: 'No, I don’t have any income to report',
-};
-export const yesNoLabels = {
-  Y: 'Yes',
-  N: 'No',
-};

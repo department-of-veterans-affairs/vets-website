@@ -6,6 +6,15 @@ import { MemoryRouter } from 'react-router-dom';
 import * as router from 'react-router-dom';
 import Pagination from '../../../components/Pagination';
 
+const meta = {
+  page: {
+    number: 1,
+    size: 20,
+    total: 24,
+    totalPages: 2,
+  },
+};
+
 describe('Pagination component', () => {
   let sandbox;
   let navigateStub;
@@ -23,14 +32,14 @@ describe('Pagination component', () => {
   it('renders va-pagination with expected defaults', () => {
     const { container } = render(
       <MemoryRouter>
-        <Pagination meta={{ number: 1, totalPages: 10 }} />
+        <Pagination meta={meta} />
       </MemoryRouter>,
     );
 
     const pagination = container.querySelector('va-pagination');
     expect(pagination).to.exist;
     expect(pagination.getAttribute('page')).to.equal('1');
-    expect(pagination.getAttribute('pages')).to.equal('10');
+    expect(pagination.getAttribute('pages')).to.equal('2');
 
     const maxLength = pagination.getAttribute('max-page-list-length');
     expect(['0', null]).to.include(maxLength);

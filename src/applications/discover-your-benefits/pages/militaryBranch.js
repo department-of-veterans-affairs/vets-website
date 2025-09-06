@@ -46,7 +46,7 @@ const branchComponentsSchemaProps = branchKey => {
 const branchComponentsUIProps = branchKey => {
   return checkboxGroupUI({
     enableAnalytics: true,
-    title: `Which component of the ${
+    title: `Which component(s) of the ${
       militaryBranchTypeLabels[branchKey]
     } did you serve in?`,
     hint: 'Select all that apply.',
@@ -87,7 +87,7 @@ export default {
   uiSchema: {
     militaryBranch: checkboxGroupUI({
       enableAnalytics: true,
-      title: 'What branch(es) of the military did you serve in?',
+      title: 'Which branch(es) of the military did you serve in?',
       hint: 'Select all that apply.',
       required: () => false,
       labels: militaryBranchTypeLabels,
