@@ -2,6 +2,7 @@ import * as h from '../helpers';
 import { ROUTES } from '../../../constants';
 import { SHORT_NAME_MAP } from '../../../constants/question-data-map';
 import { RESULTS_NAME_MAP } from '../../../constants/results-data-map';
+import * as c from '../../../constants/results-content/dr-screens/card-content';
 
 const {
   Q_1_1_CLAIM_DECISION,
@@ -63,6 +64,52 @@ describe('Decision Reviews Onramp', () => {
       // RESULTS
       h.verifyUrl(ROUTES.RESULTS);
       h.verifyDrResultsHeader(RESULTS_BOARD_HEARING);
+      h.checkOverviewPanel([
+        c.TITLE_BOARD_DIRECT,
+        c.TITLE_BOARD_EVIDENCE,
+        c.TITLE_BOARD_HEARING,
+      ]);
+      h.checkGoodFitCards([
+        {
+          type: c.CARD_BOARD_DIRECT,
+          content: [c.CARD_NO_NEW_EVIDENCE, c.CARD_BOARD_ONLY_OPTION],
+        },
+        {
+          type: c.CARD_BOARD_EVIDENCE,
+          content: [c.CARD_BOARD_ONLY_OPTION],
+        },
+        {
+          type: c.CARD_BOARD_HEARING,
+          content: [
+            c.CARD_NO_NEW_EVIDENCE,
+            c.CARD_BOARD_ONLY_OPTION,
+            c.CARD_HEARING,
+          ],
+        },
+      ]);
+      h.checkNotGoodFitCards([
+        {
+          type: c.CARD_SC,
+          content: [
+            c.CARD_NEED_EVIDENCE,
+            c.CARD_CLAIM_CONTESTED,
+            c.CARD_HEARING_NOT_INCLUDED,
+          ],
+        },
+        {
+          type: c.CARD_HLR,
+          content: [c.CARD_CLAIM_CONTESTED, c.CARD_HEARING_NOT_INCLUDED],
+        },
+        {
+          type: c.CARD_BOARD_DIRECT,
+          content: [c.CARD_HEARING_NOT_INCLUDED],
+        },
+        {
+          type: c.CARD_BOARD_EVIDENCE,
+          content: [c.CARD_NEED_EVIDENCE, c.CARD_HEARING_NOT_INCLUDED],
+        },
+      ]);
+      h.verifyOutsideDROptionNotPresent();
       cy.go('back');
 
       // Q_2_H_2B_JUDGE_HEARING

@@ -12,6 +12,7 @@ import {
 import { showToxicExposureDestructionModal } from '../../content/toxicExposureChoiceContent';
 import {
   activeServicePeriods,
+  baseDoNew4142Logic,
   capitalizeEachWord,
   fieldsHaveInput,
   formatDate,
@@ -48,6 +49,7 @@ import {
   showPtsdCombat,
   showPtsdNonCombat,
   showSeparationLocation,
+  showToxicExposureOptOutDataPurge,
   skip781,
   truncateDescriptions,
   validateConditions,
@@ -1106,6 +1108,27 @@ describe('526 v2 depends functions', () => {
     });
   });
 
+  describe('showToxicExposureOptOutDataPurge', () => {
+    it('should get toxic exposure opt out data purge feature flag value of true', () => {
+      expect(
+        showToxicExposureOptOutDataPurge({
+          featureToggles: {
+            disability526ToxicExposureOptOutDataPurge: true,
+          },
+        }),
+      ).to.be.true;
+    });
+    it('should get toxic exposure opt out data purge feature flag value of false', () => {
+      expect(
+        showToxicExposureOptOutDataPurge({
+          featureToggles: {
+            disability526ToxicExposureOptOutDataPurge: false,
+          },
+        }),
+      ).to.be.false;
+    });
+  });
+
   describe('isDisabilityPTSD', () => {
     it('should return true for all variations in PTSD_MATCHES', () => {
       PTSD_MATCHES.forEach(ptsdString => {
@@ -1768,5 +1791,158 @@ describe('formatFullName', () => {
         suffix: '',
       }),
     ).to.equal('');
+  });
+});
+
+describe('baseDoNew4142Logic', () => {
+  const baseFormData = {
+    disability526Enable2024Form4142: true,
+    'view:hasEvidence': true,
+    'view:patientAcknowledgement': {
+      'view:acknowledgement': true,
+    },
+    'view:uploadPrivateRecordsQualifier': {
+      'view:hasPrivateRecordsToUpload': false,
+    },
+    patient4142Acknowledgement: false,
+  };
+
+  describe('when all conditions are met', () => {
+    it('should return true when user is still choosing to upload private medical records', () => {
+      const formData = {
+        ...baseFormData,
+        'view:selectableEvidenceTypes': {
+          'view:hasPrivateMedicalRecords': true,
+        },
+      };
+      expect(baseDoNew4142Logic(formData)).to.be.true;
+    });
+  });
+
+  describe('when private medical records condition is not met', () => {
+    it('should return false when user is not choosing to upload private medical records', () => {
+      const formData = {
+        ...baseFormData,
+        'view:selectableEvidenceTypes': {
+          'view:hasPrivateMedicalRecords': false,
+        },
+      };
+      expect(baseDoNew4142Logic(formData)).to.be.false;
+    });
+
+    it('should return false when view:selectableEvidenceTypes is undefined', () => {
+      const formData = {
+        ...baseFormData,
+        // 'view:selectableEvidenceTypes' is not set
+      };
+      expect(baseDoNew4142Logic(formData)).to.be.false;
+    });
+
+    it('should return false when view:hasPrivateMedicalRecords is undefined', () => {
+      const formData = {
+        ...baseFormData,
+        'view:selectableEvidenceTypes': {
+          // 'view:hasPrivateMedicalRecords' is not set
+        },
+      };
+      expect(baseDoNew4142Logic(formData)).to.be.false;
+    });
+
+    it('should return false when view:hasPrivateMedicalRecords is null', () => {
+      const formData = {
+        ...baseFormData,
+        'view:selectableEvidenceTypes': {
+          'view:hasPrivateMedicalRecords': null,
+        },
+      };
+      expect(baseDoNew4142Logic(formData)).to.be.false;
+    });
+
+    it('should return false when view:hasEvidence is null', () => {
+      const formData = {
+        ...baseFormData,
+        'view:hasEvidence': null,
+      };
+      expect(baseDoNew4142Logic(formData)).to.be.false;
+    });
+  });
+
+  describe('when feature flag is disabled', () => {
+    it('should return false even if user wants to upload private medical records', () => {
+      const formData = {
+        ...baseFormData,
+        disability526Enable2024Form4142: false,
+        'view:selectableEvidenceTypes': {
+          'view:hasPrivateMedicalRecords': true,
+        },
+      };
+      expect(baseDoNew4142Logic(formData)).to.be.false;
+    });
+  });
+
+  describe('when user has not acknowledged 4142 authorization', () => {
+    it('should return false even if user wants to upload private medical records', () => {
+      const formData = {
+        ...baseFormData,
+        'view:selectableEvidenceTypes': {
+          'view:hasPrivateMedicalRecords': true,
+        },
+        'view:patientAcknowledgement': {
+          'view:acknowledgement': false,
+        },
+      };
+      expect(baseDoNew4142Logic(formData)).to.be.false;
+    });
+  });
+
+  describe('when user has switched to upload option', () => {
+    it('should return false even if user wants to upload private medical records', () => {
+      const formData = {
+        ...baseFormData,
+        'view:selectableEvidenceTypes': {
+          'view:hasPrivateMedicalRecords': true,
+        },
+        'view:uploadPrivateRecordsQualifier': {
+          'view:hasPrivateRecordsToUpload': true,
+        },
+      };
+      expect(baseDoNew4142Logic(formData)).to.be.false;
+    });
+  });
+
+  describe('when user has switched to no evidence option', () => {
+    it('should return false even if legacy data exists', () => {
+      const formData = {
+        ...baseFormData,
+        'view:hasEvidence': false,
+        'view:selectableEvidenceTypes': {
+          'view:hasPrivateMedicalRecords': true,
+        },
+        'view:uploadPrivateRecordsQualifier': {
+          'view:hasPrivateRecordsToUpload': true,
+        },
+      };
+      expect(baseDoNew4142Logic(formData)).to.be.false;
+    });
+  });
+
+  describe('when user has already acknowledged the new 4142', () => {
+    it('should return false even if user wants to upload private medical records', () => {
+      const formData = {
+        ...baseFormData,
+        'view:hasEvidence': true,
+        'view:selectableEvidenceTypes': {
+          'view:hasPrivateMedicalRecords': true,
+        },
+        patient4142Acknowledgement: true,
+      };
+      expect(baseDoNew4142Logic(formData)).to.be.false;
+    });
+  });
+
+  describe('edge cases', () => {
+    it('should handle empty formData gracefully', () => {
+      expect(baseDoNew4142Logic({})).to.be.false;
+    });
   });
 });

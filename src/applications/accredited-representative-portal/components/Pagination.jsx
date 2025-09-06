@@ -7,7 +7,7 @@ const Pagination = ({ meta, defaults }) => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const pageSize = Number(searchParams.get('pageSize'));
-  const pageSelect = e => {
+  const pageSelect = page => {
     const sortBy = searchParams.get(SEARCH_PARAMS.SORTBY) || defaults.SORT_BY;
     const status = searchParams.get(SEARCH_PARAMS.STATUS) || defaults.STATUS;
     const sort =
@@ -16,17 +16,14 @@ const Pagination = ({ meta, defaults }) => {
       searchParams.get(SEARCH_PARAMS.SELECTED_INDIVIDUAL) ||
       defaults.SELECTED_INDIVIDUAL;
 
+    // status for request search page, second is for submissions pagination
     if (status) {
       navigate(
-        `?status=${status}&sortOrder=${sort}&sortBy=${sortBy}&pageNumber=${
-          e.detail.page
-        }&pageSize=${pageSize}&as_selected_individual=${selectedIndividual}`,
+        `?status=${status}&sortOrder=${sort}&sortBy=${sortBy}&pageNumber=${page}&pageSize=${pageSize}&as_selected_individual=${selectedIndividual}`,
       );
     } else {
       navigate(
-        `?sortOrder=${sort}&sortBy=${sortBy}&pageNumber=${
-          e.detail.page
-        }&pageSize=${pageSize}&as_selected_individual=${selectedIndividual}`,
+        `?sortOrder=${sort}&sortBy=${sortBy}&pageNumber=${page}&pageSize=${pageSize}`,
       );
     }
   };
@@ -34,11 +31,11 @@ const Pagination = ({ meta, defaults }) => {
   return (
     <>
       <VaPagination
-        page={meta.number}
-        pages={meta.totalPages}
+        page={meta.page.number}
+        pages={meta.page.totalPages}
         maxPageListLength={pageSize}
         showLastPage
-        onPageSelect={e => pageSelect(e)}
+        onPageSelect={e => pageSelect(e.detail.page)}
       />
     </>
   );
