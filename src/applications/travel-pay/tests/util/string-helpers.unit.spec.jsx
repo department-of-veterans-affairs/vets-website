@@ -33,6 +33,7 @@ describe('toSentenceCase', () => {
 describe('currency', () => {
   it('Formats numbers as US currency', () => {
     expect(currency(123.45)).to.eq('$123.45');
+    expect(currency(123.4)).to.eq('$123.40');
     expect(currency('123.45')).to.eq('$123.45');
     expect(currency(123)).to.eq('$123.00');
     expect(currency(0)).to.eq('$0.00');
