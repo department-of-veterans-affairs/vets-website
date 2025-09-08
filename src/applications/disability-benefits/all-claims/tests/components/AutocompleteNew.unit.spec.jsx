@@ -5,39 +5,14 @@ import sinon from 'sinon';
 import Autocomplete from '../../components/AutocompleteNew';
 import { conditionObjects } from '../../content/conditionOptions';
 
-// Extract the raw string options from conditionObjects
 const allResults = conditionObjects
   .map(obj => obj.option)
   .filter(opt => typeof opt === 'string');
 
-// Helper to build free‑text label
 const freeTextLabel = val => `Enter your condition as "${val}"`;
 
-// <VaTextInput> is a React binding to a web component, direct value
-// assignment + synthetic events are needed to simulate typing
-// export const simulateInputChange = (element, value) => {
-//   const el = element;
-//   el.value = value;
-
-//   const evt = new Event('input', { bubbles: true, composed: true });
-//   const customEvt = new CustomEvent('input', {
-//     detail: { value },
-//     bubbles: true,
-//     composed: true,
-//   });
-
-//   el.dispatchEvent(evt);
-//   el.dispatchEvent(customEvt);
-
-//   if (el.onInput) {
-//     el.onInput({ target: { value } });
-//   }
-// };
-
-// Robust for jsdom + custom elements in CI
-// usage: const type = simulateInputChange(input); type('mig');
 export const simulateInputChange = element => {
-  const el = element; // alias to satisfy no-param-reassign
+  const el = element;
   return value => {
     el.focus?.();
 
@@ -107,12 +82,9 @@ describe('Autocomplete controlled value sync', () => {
     const props = getProps({ formData: 'mig' });
     const { input, findAllByRole, queryByRole } = renderWithInput(props);
 
-    // Value reflected
     expect(input.value).to.equal('mig');
-    // No list until focus
     expect(queryByRole('listbox')).to.not.exist;
 
-    // Focus should trigger search (handleFocus)
     fireEvent.focus(input);
 
     const options = await findAllByRole('option');
@@ -132,7 +104,6 @@ describe('Autocomplete controlled value sync', () => {
   });
 });
 
-// Typing & results tests
 describe('Autocomplete typing & results', () => {
   it('typing updates value, calls onChange, and shows free-text + suggestions', async () => {
     const props = getProps();
@@ -148,7 +119,7 @@ describe('Autocomplete typing & results', () => {
 
     const options = await findAllByRole('option');
     expect(options[0].textContent).to.equal(freeTextLabel('mig'));
-    expect(options.length).to.be.greaterThan(1); // should include suggestions
+    expect(options.length).to.be.greaterThan(1);
 
     // At least one suggestion came from provided results
     const anySuggestion = options
@@ -178,7 +149,7 @@ describe('Autocomplete mouse interactions', () => {
       expect(props.onChange.called).to.be.true;
     });
     const lastArg = props.onChange.lastCall.args[0];
-    expect(lastArg).to.equal(suggestion.textContent); // selected suggestion
+    expect(lastArg).to.equal(suggestion.textContent);
     expect(input.value).to.equal(suggestion.textContent);
     expect(queryByTestId('autocomplete-list')).to.not.exist;
   });
@@ -370,7 +341,6 @@ describe('Autocomplete accessibility attributes & aria-live', () => {
     const props = getProps();
     const { input, container, findAllByRole } = renderWithInput(props);
 
-    // Type -> results
     const type = simulateInputChange(input);
     type('mig');
     await findAllByRole('option');
