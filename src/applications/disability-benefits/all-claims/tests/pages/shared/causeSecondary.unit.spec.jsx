@@ -62,16 +62,21 @@ describe('526 cause secondary shared page', () => {
 
     fireEvent.click(getByRole('button', { name: /submit/i }));
 
-    const selectContainer = container.querySelector('va-select');
-    const textareaContainer = container.querySelector('va-textarea');
+    await waitFor(
+      () => {
+        const selectEl = container.querySelector('va-select');
+        const textareaEl = container.querySelector('va-textarea');
 
-    expect(selectContainer).to.have.attribute(
-      'error',
-      'You must provide a response',
-    );
-    expect(textareaContainer).to.have.attribute(
-      'error',
-      'You must provide a response',
+        expect(selectEl).to.have.attribute(
+          'error',
+          'You must provide a response',
+        );
+        expect(textareaEl).to.have.attribute(
+          'error',
+          'You must provide a response',
+        );
+      },
+      { timeout: 2000 },
     );
   });
 

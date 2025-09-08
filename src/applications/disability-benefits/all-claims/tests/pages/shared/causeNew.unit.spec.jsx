@@ -57,11 +57,13 @@ describe('526 cause new shared page', () => {
 
     fireEvent.click(getByRole('button', { name: /submit/i }));
 
-    const textareaContainer = container.querySelector('va-textarea');
-    expect(textareaContainer).to.have.attribute(
-      'error',
-      'You must provide a response',
-    );
+    await waitFor(() => {
+      const textarea = container.querySelector('va-textarea');
+      expect(textarea).to.have.attribute(
+        'error',
+        'You must provide a response',
+      );
+    });
   });
 
   it('submits when user enters a description', async () => {
@@ -94,16 +96,15 @@ describe('526 cause new shared page', () => {
     );
   });
 
-  it('truncates input to 400 characters', () => {
+  it('triggers maxLength error when > 400 chars', async () => {
     const long = 'x'.repeat(450);
-
-    const { container, getByRole } = mountPage({
-      primaryDescription: long,
-    });
+    const { container, getByRole } = mountPage({ primaryDescription: long });
 
     fireEvent.click(getByRole('button', { name: /submit/i }));
 
-    const textareaContainer = container.querySelector('va-textarea');
-    expect(textareaContainer).to.have.attribute('error');
+    await waitFor(() => {
+      const textarea = container.querySelector('va-textarea');
+      expect(textarea).to.have.attribute('error'); // or the specific message if you have it
+    });
   });
 });
