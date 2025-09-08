@@ -16,7 +16,7 @@ const PaginationMeta = ({ meta, results, resultType, defaults }) => {
   const searchStatus = searchParams.get('status') || '';
   let initCount;
   let pageSizeCount = pageSize * pageNumber;
-  const totalCount = meta.total;
+  const totalCount = meta.page.total;
 
   if (pageSizeCount > totalCount) {
     pageSizeCount = pageSize + (totalCount - pageSize);
