@@ -387,6 +387,8 @@
     "**/async": "^2.6.4",
     "**/ejs": "^3.1.7",
     "**/fbjs": "^3.0.4",
+    "@babel/helper-compilation-targets": "^7.22.0",
+    "postcss": "^8.4.4",
     "ws": "7.5.10"
   },
   "workspaces": {
