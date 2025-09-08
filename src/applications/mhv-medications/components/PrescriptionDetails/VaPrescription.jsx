@@ -374,7 +374,6 @@ const VaPrescription = prescription => {
                       prescription.prescriptionId
                     }/documentation`}
                     data-testid="va-prescription-documentation-link"
-                    // TODO: clean after grouping flag is gone
                     className="vads-u-display--inline-block vads-u-font-weight--bold"
                     data-dd-action-name={
                       dataDogActionNames.detailsPage.RX_DOCUMENTATION_LINK

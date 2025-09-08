@@ -451,7 +451,6 @@ const PrescriptionDetails = () => {
                     </p>
                   </ApiErrorNotification>
                 )}
-                {/* TODO: clean after grouping flag is gone */}
                 <>
                   {nonVaPrescription ? (
                     <NonVaPrescription {...prescription} />
