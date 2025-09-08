@@ -104,6 +104,16 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
       - name: Determine CD Eligibility
         id: deploy-to-prod
         run: node script/github-actions/check-prod-deploy-eligibility.js
