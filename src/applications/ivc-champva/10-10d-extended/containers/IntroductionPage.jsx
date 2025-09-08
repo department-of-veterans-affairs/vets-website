@@ -9,9 +9,15 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { TITLE, SUBTITLE } from '../constants';
 
-const OMB_RES_BURDEN = 24;
-const OMB_NUMBER = '2900-0219';
-const OMB_EXP_DATE = '12/31/2027';
+const OMB_RES_BURDEN_CHAMPVA = 15;
+const OMB_NUMBER_CHAMPVA = '2900-0219';
+const OMB_EXP_DATE_CHAMPVA = '12/31/2027';
+
+const OMB_RES_BURDEN_OHI = 10;
+const OMB_NUMBER_OHI = '2900-0219';
+const OMB_EXP_DATE_OHI = '12/31/2027';
+
+const TOTAL_RES_BURDEN = OMB_RES_BURDEN_CHAMPVA + OMB_RES_BURDEN_OHI;
 
 const ProcessList = () => {
   return (
@@ -49,10 +55,6 @@ const ProcessList = () => {
           <li>Proof of adoption</li>
           <li>Birth certificate of dependent(s)</li>
         </ul>
-        <p>
-          You may also need to submit supporting documents, like copies of your
-          health insurance cards or proof of school enrollment.
-        </p>
         <va-link
           text="Find out which documents you’ll need to apply for CHAMPVA"
           href="https://www.va.gov/family-and-caregiver-benefits/health-and-disability/champva/#supporting-documents-for-your-"
@@ -61,7 +63,7 @@ const ProcessList = () => {
       <va-process-list-item header="Start your application">
         <p>
           We’ll take you through each step of the process. It should take about{' '}
-          {OMB_RES_BURDEN} minutes.
+          {TOTAL_RES_BURDEN} minutes.
         </p>
       </va-process-list-item>
       <va-process-list-item header="After you apply">
@@ -112,13 +114,18 @@ export const IntroductionPage = props => {
         </span>
       </va-alert-sign-in>
       <p />
+      <va-omb-info
+        res-burden={OMB_RES_BURDEN_CHAMPVA}
+        omb-number={OMB_NUMBER_CHAMPVA}
+        exp-date={OMB_EXP_DATE_CHAMPVA}
+      />
       <h3>Additional form you may need to complete</h3>
       <h3>CHAMPVA other health insurance (OHI) certification</h3>
       <p>VA form 10-7959c</p>
       <va-omb-info
-        res-burden={OMB_RES_BURDEN}
-        omb-number={OMB_NUMBER}
-        exp-date={OMB_EXP_DATE}
+        res-burden={OMB_RES_BURDEN_OHI}
+        omb-number={OMB_NUMBER_OHI}
+        exp-date={OMB_EXP_DATE_OHI}
       />
     </article>
   );
