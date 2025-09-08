@@ -39,8 +39,12 @@ const PaginationMeta = ({ meta, results, resultType, defaults }) => {
   ) : null;
   return (
     <p className="poa-request__meta">
-      Showing {initCount}-{pageSizeCount} of {totalCount} {searchStatus || ''}{' '}
-      {resultType || ''} {selectedIndividual === 'true' && 'for'}{' '}
+      Showing{' '}
+      <span className={totalCount === 0 && 'vads-u-display--none'}>
+        {initCount}-{pageSizeCount} of{' '}
+      </span>
+      {totalCount} {searchStatus || ''} {resultType || ''}{' '}
+      {selectedIndividual === 'true' && 'for'}{' '}
       {selectedIndividual === 'true' && userName} sorted by “
       <strong>
         {searchStatus === 'processed' ? 'Processed' : 'Submitted'} date (
