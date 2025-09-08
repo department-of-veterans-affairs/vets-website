@@ -328,6 +328,7 @@
   "veteranOnboardingShowWelcomeMessageToNewUsers": "veteran_onboarding_show_welcome_message_to_new_users",
   "virtualAgentComponentTesting": "virtual_agent_component_testing",
   "virtualAgentEnableParamErrorDetection": "virtual_agent_enable_param_error_detection",
+  "virtualAgentShowAiDisclaimer": "virtual_agent_show_ai_disclaimer",
   "virtualAgentShowFloatingChatbot": "virtual_agent_show_floating_chatbot",
   "virtualAgentUseStsAuthentication": "virtual_agent_use_sts_authentication",
   "vreModularApi": "vre_modular_api",
@@ -356,5 +357,6 @@
   "showVyeDowntimeAlert": "show_vye_downtime_alert",
   "giComparisonToolCautionaryInfoUpdate": "gi_comparison_tool_cautionary_info_update",
   "discoverYourBenefitsBrowserMonitoringEnabled": "discover_your_benefits_browser_monitoring_enabled",
+  "vreEligibilityStatusUpdates": "vre_eligibility_status_updates",
   "champvaForm1010d2027": "champva_form_10_10d_2027"
 }
