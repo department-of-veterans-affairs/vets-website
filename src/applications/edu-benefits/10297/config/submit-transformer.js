@@ -28,8 +28,8 @@ export function transform(formConfig, form) {
       dateReleasedFromActiveDuty: clonedData.dateReleasedFromActiveDuty
         ? clonedData.dateReleasedFromActiveDuty
         : '2025-08-20',
-      hasCompletedByDischarge: clonedData.dutyRequirement === 'byDischarge',
-      hasCompletedActiveDuty: clonedData.dutyRequirement === 'atLeast3Years',
+      // hasCompletedByDischarge: clonedData.dutyRequirement === 'byDischarge',
+      // hasCompletedActiveDuty: clonedData.dutyRequirement === 'atLeast3Years',
     };
 
     delete finalData.dutyRequirement;
@@ -40,11 +40,11 @@ export function transform(formConfig, form) {
 
   const identificationTransform = formData => {
     const clonedData = _.cloneDeep(formData);
-    const { hasCompletedActiveDuty } = clonedData;
+    const { activeDutyDuringHitechVets } = clonedData;
 
     return {
       ...clonedData,
-      activeDutyDuringHitechVets: hasCompletedActiveDuty,
+      activeDutyDuringHitechVets,
     };
   };
 
@@ -97,11 +97,13 @@ export function transform(formConfig, form) {
 
     delete clonedData.statementOfTruthCertified;
     delete clonedData.AGREED;
+    const attestationAgreementAccepted =
+      clonedData.privacyAgreementAccepted || false;
+    delete clonedData.privacyAgreementAccepted;
 
     return {
       ...clonedData,
-      attestationAgreementAccepted:
-        clonedData.privacyAgreementAccepted || false,
+      attestationAgreementAccepted,
     };
   };
 

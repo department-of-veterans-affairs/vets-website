@@ -1,19 +1,14 @@
 import {
-  radioUI,
-  radioSchema,
   titleUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
+  yesNoSchema,
+  yesNoUI,
+} from '~/platform/forms-system/src/js/web-component-patterns';
 
-/** @type {PageSchema} */
 const uiSchema = {
   ...titleUI('Your Veteran status'),
-  veteranStatus: radioUI({
+  veteranStatus: yesNoUI({
     title:
       'Are you a Veteran who has completed 3 years (36 months) of active duty?',
-    labels: {
-      yes: 'Yes',
-      no: 'No',
-    },
     errorMessages: {
       required: 'Select one option',
     },
@@ -22,7 +17,7 @@ const uiSchema = {
 const schema = {
   type: 'object',
   properties: {
-    veteranStatus: radioSchema(['yes', 'no']),
+    veteranStatus: yesNoSchema,
   },
   required: ['veteranStatus'],
 };
