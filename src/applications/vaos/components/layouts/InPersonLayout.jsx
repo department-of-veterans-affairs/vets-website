@@ -147,15 +147,8 @@ export default function InPersonLayout({ data: appointment }) {
             <div className="vads-u-margin-top--1 vads-u-color--link-default">
               <FacilityDirectionsLink location={facility} icon />
             </div>
-            <ClinicName
-              name={clinicName}
-              isCerner={appointment.vaos.isCerner}
-            />{' '}
-            <ClinicPhysicalLocation
-              location={clinicPhysicalLocation}
-              isCerner={appointment.vaos.isCerner}
-            />{' '}
-            <br />
+            <ClinicName name={clinicName} />{' '}
+            <ClinicPhysicalLocation location={clinicPhysicalLocation} /> <br />
           </>
         )}
         <ClinicOrFacilityPhone

@@ -1,19 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function ClinicPhysicalLocation({ location, isCerner }) {
-  if (isCerner) {
-    if (!location) return null;
-
-    return (
-      <>
-        <br />
-        <span>
-          Location: <span data-dd-privacy="mask">{location}</span>
-        </span>
-      </>
-    );
-  }
+export default function ClinicPhysicalLocation({ location }) {
+  // Location does not exist for Cerner/Oracle Health appointments.
+  if (location === undefined) return null;
 
   return (
     <>
@@ -27,6 +17,5 @@ export default function ClinicPhysicalLocation({ location, isCerner }) {
 }
 
 ClinicPhysicalLocation.propTypes = {
-  isCerner: PropTypes.bool,
   location: PropTypes.string,
 };

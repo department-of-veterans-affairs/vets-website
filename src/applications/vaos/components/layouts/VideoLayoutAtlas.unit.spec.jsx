@@ -98,7 +98,8 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
         screen.queryByRole('heading', { level: 2, name: /Where to attend/i }),
       ).not.to.exist;
 
-      expect(screen.getByText(textMatcher({ text: 'Clinic: Not available' })));
+      expect(screen.queryByText(textMatcher({ text: 'Clinic: Not available' })))
+        .not.to.exist;
       expect(screen.getByText(/Facility not available/i));
 
       expect(window.dataLayer).to.deep.include({

@@ -1,17 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function ClinicName({ name, isCerner = false }) {
-  if (isCerner) {
-    if (!name) return null;
-
-    return (
-      <>
-        <br />
-        <span data-dd-privacy="mask">{`Clinic: ${name}`}</span>
-      </>
-    );
-  }
+export default function ClinicName({ name }) {
+  // Clinic name does not exist for Cerner/Oracle Health appointments.
+  if (name === undefined) return null;
 
   return (
     <>
@@ -24,6 +16,5 @@ export default function ClinicName({ name, isCerner = false }) {
 }
 
 ClinicName.propTypes = {
-  isCerner: PropTypes.bool,
   name: PropTypes.string,
 };

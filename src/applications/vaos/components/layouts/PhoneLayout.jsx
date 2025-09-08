@@ -124,8 +124,7 @@ export default function PhoneLayout({ data: appointment }) {
             <Address address={facility?.address} />
           </>
         )}
-        <ClinicName name={clinicName} isCerner={appointment.vaos.isCerner} />{' '}
-        <br />
+        <ClinicName name={clinicName} /> <br />
         <ClinicOrFacilityPhone
           clinicPhone={clinicPhone}
           clinicPhoneExtension={clinicPhoneExtension}
