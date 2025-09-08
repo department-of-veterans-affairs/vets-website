@@ -225,11 +225,10 @@ const SmBreadcrumbs = () => {
         >
           <span className="sm-breadcrumb-list-item">
             {backBreadcrumb ? (
-              // eslint-disable-next-line jsx-a11y/anchor-is-valid
               <va-link
                 back
                 text="Back"
-                href={crumb?.href || Constants.Paths.INBOX}
+                href={previousUrl}
                 onClick={e => {
                   e.preventDefault();
                   navigateBack();
