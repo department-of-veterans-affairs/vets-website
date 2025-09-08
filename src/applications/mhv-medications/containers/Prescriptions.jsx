@@ -19,6 +19,7 @@ import {
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import MedicationsList from '../components/MedicationsList/MedicationsList';
 import MedicationsListSort from '../components/MedicationsList/MedicationsListSort';
+import MedsByMailContent from '../components/MedicationsList/MedsByMailContent';
 import {
   dateFormat,
   generateTextFile,
@@ -676,48 +677,6 @@ const Prescriptions = () => {
     );
   };
 
-  const renderMedsByMailContent = () => {
-    if (!hasMedsByMailFacility) {
-      return null;
-    }
-
-    return (
-      <>
-        <h2 className="vads-u-margin-top--3 medium-screen:vads-u-font-size--h3">
-          If you use Meds by Mail
-        </h2>
-        <p>
-          We may not have your allergy records in our My HealtheVet tools. But
-          the Meds by Mail servicing center keeps a record of your allergies and
-          reactions to medications.
-        </p>
-        <div className="vads-u-margin-bottom--4">
-          <va-additional-info
-            data-testId="meds-by-mail-additional-info"
-            trigger="How to update your allergies and reactions if you use Meds by Mail"
-          >
-            <p>
-              If you have a new allergy or reaction, tell your provider. Or you
-              can call us at{' '}
-              <va-telephone
-                className="help-phone-number-link"
-                contact="8662297389"
-              />{' '}
-              or{' '}
-              <va-telephone
-                className="help-phone-number-link"
-                contact="8883850235"
-              />{' '}
-              (<va-telephone contact={CONTACTS[711]} tty />) and ask us to
-              update your records. We’re here Monday through Friday, 8:00 a.m.
-              to 7:30 p.m. ET.
-            </p>
-          </va-additional-info>
-        </div>
-      </>
-    );
-  };
-
   const renderHeader = () => {
     let titleNotesMessage =
       'Bring your medications list to each appointment. And tell your provider about any new allergies or reactions.';
@@ -747,7 +706,7 @@ const Prescriptions = () => {
           </a>
           {renderMedsByMailContent()}
         </p>
-        {renderMedsByMailContent()}
+        {hasMedsByMailFacility && <MedsByMailContent />}
       </>
     );
   };
