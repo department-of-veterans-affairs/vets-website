@@ -443,6 +443,65 @@ describe('confirmation page view helpers', () => {
     expect(title).to.equal('Review function title');
   });
 
+  it('should return the correct title for the page', () => {
+    const {
+      getPageTitle,
+    } = require('platform/forms-system/src/js/components/ConfirmationView/ChapterSectionCollection');
+    // Test with a string title
+    const pageConfigString = {
+      title: 'String Page Title',
+      pageKey: 'page1',
+      uiSchema: {},
+      schema: { properties: {} },
+    };
+    let title = getPageTitle(pageConfigString, {}, {});
+    expect(title).to.equal('String Page Title');
+
+    // Test with a function title
+    const pageConfigFunc = {
+      title: () => 'Function Page Title',
+      pageKey: 'page2',
+      uiSchema: {},
+      schema: { properties: {} },
+    };
+    title = getPageTitle(pageConfigFunc, {}, {});
+    expect(title).to.equal('Function Page Title');
+
+    // Test with a function reviewTitle
+    const pageConfigReviewFunc = {
+      title: 'Page Title',
+      reviewTitle: () => 'Review Function Page Title',
+      pageKey: 'page3',
+      uiSchema: {},
+      schema: { properties: {} },
+    };
+    title = getPageTitle(pageConfigReviewFunc, {}, {});
+    expect(title).to.equal('Review Function Page Title');
+
+    // Test with a string reviewTitle
+    const pageConfigReviewString = {
+      title: 'Page Title',
+      reviewTitle: 'Review Page Title',
+      pageKey: 'page4',
+      uiSchema: {},
+      schema: { properties: {} },
+    };
+    title = getPageTitle(pageConfigReviewString, {}, {});
+    expect(title).to.equal('Review Page Title');
+
+    // Test error handling: return empty string if error
+    const pageConfigThrows = {
+      title: () => {
+        throw new Error('fail');
+      },
+      pageKey: 'page5',
+      uiSchema: {},
+      schema: { properties: {} },
+    };
+    title = getPageTitle(pageConfigThrows, {}, {});
+    expect(title).to.equal('');
+  });
+
   it('should show radio fields correctly', () => {
     const chapter = new MockChapter(mockChapterRadio, mockChapterRadioData);
     const fields = chapter.buildConfirmationFields();

@@ -230,11 +230,16 @@ export const getPageTitle = (pageFormConfig, formData, formConfig) => {
   let pageTitle = pageFormConfig.reviewTitle || pageFormConfig.title;
 
   if (typeof pageTitle === 'function') {
-    pageTitle = pageTitle({
-      formData,
-      formConfig,
-      onReviewPage,
-    });
+    try {
+      pageTitle = pageTitle({
+        formData,
+        formConfig,
+        onReviewPage,
+      });
+    } catch (e) {
+      // Handle exceptions and fallback to empty string
+      pageTitle = '';
+    }
   }
 
   return pageTitle || '';
