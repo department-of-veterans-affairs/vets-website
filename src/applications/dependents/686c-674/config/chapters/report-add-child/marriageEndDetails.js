@@ -46,7 +46,15 @@ export const marriageEndDetails = {
       },
     },
     'ui:options': {
-      updateSchema: (formData, formSchema) => {
+      updateSchema: (formData, formSchema, _uiSchema, index) => {
+        const marriageData = formData?.childrenToAdd?.[index];
+
+        if (marriageData?.hasChildEverBeenMarried === false) {
+          marriageData.marriageEndDate = undefined;
+          marriageData.marriageEndReason = undefined;
+          marriageData.marriageEndDescription = undefined;
+        }
+
         if (formSchema.properties.marriageEndDescription['ui:collapsed']) {
           return {
             ...formSchema,
