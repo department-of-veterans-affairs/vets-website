@@ -53,11 +53,14 @@ describe('CantFindYourTeam component', () => {
           mhvSecureMessagingCuratedListFlow: false,
         });
 
-      const { container } = renderWithStoreAndRouter(<CantFindYourTeam />, {
-        initialState: defaultState,
-        reducers: reducer,
-      });
-
+      const { container, debug } = renderWithStoreAndRouter(
+        <CantFindYourTeam />,
+        {
+          initialState: defaultState,
+          reducers: reducer,
+        },
+      );
+      debug();
       expect(
         container.querySelector(
           '[data-dd-action-name="If You Can\'t Find Your Team Dropdown"]',
@@ -251,13 +254,13 @@ describe('CantFindYourTeam component', () => {
           mhvSecureMessagingCuratedListFlow: false,
         });
 
-      renderWithStoreAndRouter(<CantFindYourTeam />, {
+      const { container } = renderWithStoreAndRouter(<CantFindYourTeam />, {
         initialState: defaultState,
         reducers: reducer,
       });
 
       expect(
-        document.querySelector(
+        container.querySelector(
           '[data-dd-action-name="If You Can\'t Find Your Team Dropdown"]',
         ),
       ).to.exist;
