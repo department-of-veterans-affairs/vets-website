@@ -203,6 +203,7 @@ class MedicationsDetailsPage {
     cy.get('[data-testid="status-dropdown"]').should('exist');
     cy.get('[data-testid="status-dropdown"]').click({
       waitForAnimations: true,
+      multiple: true,
     });
   };
 
