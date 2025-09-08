@@ -154,10 +154,15 @@ export const Form526Entry = ({
   );
 
   const { useFormFeatureToggleSync } = useFeatureToggle();
+<<<<<<< HEAD
   useFormFeatureToggleSync([
     'disability526Enable2024Form4142',
     'disability526ToxicExposureOptOutDataPurge',
   ]);
+=======
+  useFormFeatureToggleSync(['disability526Enable2024Form4142']);
+  useFormFeatureToggleSync(['disabilityCompNewConditionsWorkflow']);
+>>>>>>> ec0ceb7488 (integrated new condition workflow behind feature toggle)
 
   if (!loggedIn) {
     // clear service branches if not logged in

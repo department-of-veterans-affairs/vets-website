@@ -840,13 +840,20 @@ export function validateConditions(conditions, errors, errorKey, errorMessage) {
  * @returns {object} - Object with ids for each condition
  */
 export function makeConditionsSchema(formData) {
-  const options = (formData?.newDisabilities || []).map(disability =>
-    sippableId(disability.condition),
-  );
+  // Map only valid conditions and filter out 'blank' and other invalid values (null, empty strings, etc.)
+  const options = (formData?.newDisabilities || [])
+    .map(disability => disability.condition)
+    .filter(
+      condition =>
+        condition && condition.trim() !== '' && condition !== 'blank',
+    ); // Remove 'blank' and invalid conditions
 
-  options.push('none');
+  // Map conditions to sippable IDs
+  const sippableOptions = options.map(condition => sippableId(condition));
 
-  return checkboxGroupSchema(options);
+  sippableOptions.push('none');
+
+  return checkboxGroupSchema(sippableOptions);
 }
 
 /**
@@ -968,3 +975,8 @@ export const onFormLoaded = props => {
     router.push(returnUrl);
   }
 };
+
+export const isNewConditionsOn = formData =>
+  !!formData?.disabilityCompNewConditionsWorkflow;
+
+export const isNewConditionsOff = formData => !isNewConditionsOn(formData);
