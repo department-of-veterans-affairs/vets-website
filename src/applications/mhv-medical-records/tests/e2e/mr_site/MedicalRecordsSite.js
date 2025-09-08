@@ -91,10 +91,6 @@ class MedicalRecordsSite {
             value: true,
           },
           {
-            name: 'mhv_medical_records_display_labs_and_tests',
-            value: true,
-          },
-          {
             name: 'mhv_medical_records_display_settings_page',
             value: true,
           },
