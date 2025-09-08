@@ -1,27 +1,42 @@
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import moment from 'moment';
-import { minYear, maxYear } from 'platform/forms-system/src/js/helpers';
+import { maxYear, minYear } from 'platform/forms-system/src/js/helpers';
 import { checkboxGroupSchema } from 'platform/forms-system/src/js/web-component-patterns';
 
 import {
-  SAVED_SEPARATION_DATE,
-  PTSD_MATCHES,
   CHAR_LIMITS,
+  PTSD_MATCHES,
+  SAVED_SEPARATION_DATE,
 } from '../../constants';
 import {
+  activeServicePeriods,
+  baseDoNew4142Logic,
   capitalizeEachWord,
   fieldsHaveInput,
+  formatDate,
+  formatDateRange,
+  formatFullName,
+  formatMonthYearDate,
   hasGuardOrReservePeriod,
   hasHospitalCare,
+  hasNewPtsdDisability,
   hasOtherEvidence,
   increaseOnly,
   isAnswering781aQuestions,
   isAnswering781Questions,
+  isBDD,
+  isDisabilityPtsd,
+  isExpired,
+  isNotExpired,
+  isUndefined,
   isUploading781aForm,
   isUploading781aSupportingDocuments,
   isUploading781Form,
+  isValidFullDate,
+  isValidServicePeriod,
   isWithinRange,
+  makeConditionsSchema,
   needsToAnswerUnemployability,
   needsToEnter781,
   needsToEnter781a,
@@ -29,29 +44,15 @@ import {
   newConditionsOnly,
   ReservesGuardDescription,
   servedAfter911,
-  viewifyFields,
-  activeServicePeriods,
-  formatDate,
-  formatDateRange,
-  isNotExpired,
-  isValidFullDate,
-  isValidServicePeriod,
-  isBDD,
   show526Wizard,
-  isUndefined,
-  isDisabilityPtsd,
-  showSeparationLocation,
-  isExpired,
-  truncateDescriptions,
-  hasNewPtsdDisability,
   showPtsdCombat,
   showPtsdNonCombat,
+  showSeparationLocation,
+  showToxicExposureOptOutDataPurge,
   skip781,
-  formatMonthYearDate,
-  makeConditionsSchema,
+  truncateDescriptions,
   validateConditions,
-  formatFullName,
-  baseDoNew4142Logic,
+  viewifyFields,
 } from '../../utils';
 import { testBranches } from '../../utils/serviceBranches';
 
@@ -1118,6 +1119,27 @@ describe('526 v2 depends functions', () => {
     });
   });
 
+  describe('showToxicExposureOptOutDataPurge', () => {
+    it('should get toxic exposure opt out data purge feature flag value of true', () => {
+      expect(
+        showToxicExposureOptOutDataPurge({
+          featureToggles: {
+            disability526ToxicExposureOptOutDataPurge: true,
+          },
+        }),
+      ).to.be.true;
+    });
+    it('should get toxic exposure opt out data purge feature flag value of false', () => {
+      expect(
+        showToxicExposureOptOutDataPurge({
+          featureToggles: {
+            disability526ToxicExposureOptOutDataPurge: false,
+          },
+        }),
+      ).to.be.false;
+    });
+  });
+
   describe('isDisabilityPTSD', () => {
     it('should return true for all variations in PTSD_MATCHES', () => {
       PTSD_MATCHES.forEach(ptsdString => {
@@ -1786,6 +1808,7 @@ describe('formatFullName', () => {
 describe('baseDoNew4142Logic', () => {
   const baseFormData = {
     disability526Enable2024Form4142: true,
+    'view:hasEvidence': true,
     'view:patientAcknowledgement': {
       'view:acknowledgement': true,
     },
@@ -1845,6 +1868,14 @@ describe('baseDoNew4142Logic', () => {
       };
       expect(baseDoNew4142Logic(formData)).to.be.false;
     });
+
+    it('should return false when view:hasEvidence is null', () => {
+      const formData = {
+        ...baseFormData,
+        'view:hasEvidence': null,
+      };
+      expect(baseDoNew4142Logic(formData)).to.be.false;
+    });
   });
 
   describe('when feature flag is disabled', () => {
@@ -1890,10 +1921,27 @@ describe('baseDoNew4142Logic', () => {
     });
   });
 
+  describe('when user has switched to no evidence option', () => {
+    it('should return false even if legacy data exists', () => {
+      const formData = {
+        ...baseFormData,
+        'view:hasEvidence': false,
+        'view:selectableEvidenceTypes': {
+          'view:hasPrivateMedicalRecords': true,
+        },
+        'view:uploadPrivateRecordsQualifier': {
+          'view:hasPrivateRecordsToUpload': true,
+        },
+      };
+      expect(baseDoNew4142Logic(formData)).to.be.false;
+    });
+  });
+
   describe('when user has already acknowledged the new 4142', () => {
     it('should return false even if user wants to upload private medical records', () => {
       const formData = {
         ...baseFormData,
+        'view:hasEvidence': true,
         'view:selectableEvidenceTypes': {
           'view:hasPrivateMedicalRecords': true,
         },

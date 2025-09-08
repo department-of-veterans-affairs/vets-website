@@ -8,7 +8,11 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import SsnField from 'platform/forms-system/src/js/web-component-fields/SsnField';
 import { useSearchParams, useNavigation } from 'react-router-dom';
-import { Toggler, useFeatureToggle } from 'platform/utilities/feature-toggles';
+import {
+  Toggler,
+  useFeatureToggle,
+  connectFeatureToggle,
+} from 'platform/utilities/feature-toggles';
 import { focusElement } from 'platform/utilities/ui';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
@@ -398,13 +402,16 @@ const ClaimantSearchPage = () => {
   );
 };
 
+import { waitForTogglesToLoad } from '../utilities/waitForTogglesToLoad';
 import store from '../utilities/store';
 
 ClaimantSearchPage.loader = async ({ request }) => {
-  // Check feature flag
+  // Hydrate feature toggles and check flag directly
+  await connectFeatureToggle(store.dispatch);
+  await waitForTogglesToLoad();
   const state = store.getState();
   const enabled = !!toggleValues(state)[
-    FEATURE_FLAG_NAMES.accreditedRepresentativePortalPilot
+    FEATURE_FLAG_NAMES.accreditedRepresentativePortalDashboardLink
   ];
   if (!enabled) {
     // If feature is off, just allow the page to render (no-op)

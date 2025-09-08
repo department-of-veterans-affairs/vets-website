@@ -1,36 +1,36 @@
 /* eslint-disable react/jsx-key */
-import PropTypes from 'prop-types';
-import React from 'react';
-import moment from 'moment';
-import * as Sentry from '@sentry/browser';
-import { createSelector } from 'reselect';
-import fastLevenshtein from 'fast-levenshtein';
-import { apiRequest } from 'platform/utilities/api';
-import _ from 'platform/utilities/data';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import * as Sentry from '@sentry/browser';
+import fastLevenshtein from 'fast-levenshtein';
+import moment from 'moment';
 import { isValidYear } from 'platform/forms-system/src/js/utilities/validations';
 import {
-  checkboxGroupUI,
   checkboxGroupSchema,
+  checkboxGroupUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { apiRequest } from 'platform/utilities/api';
+import _ from 'platform/utilities/data';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { createSelector } from 'reselect';
 import {
+  CHAR_LIMITS,
   DATA_PATHS,
+  DATE_FORMAT,
   DISABILITY_526_V2_ROOT_URL,
+  FORM_STATUS_BDD,
   HOMELESSNESS_TYPES,
   NINE_ELEVEN,
+  PAGE_TITLES,
   PTSD_MATCHES,
   RESERVE_GUARD_TYPES,
-  USA,
-  TYPO_THRESHOLD,
-  itfStatuses,
-  DATE_FORMAT,
   SAVED_SEPARATION_DATE,
-  PAGE_TITLES,
   START_TEXT,
-  FORM_STATUS_BDD,
-  CHAR_LIMITS,
+  TYPO_THRESHOLD,
+  USA,
+  itfStatuses,
 } from '../constants';
 import { getBranches } from './serviceBranches';
 import { setSharedVariable } from './sharedState';
@@ -684,6 +684,14 @@ export const show526Wizard = state => toggleValues(state).show526Wizard;
 export const showSubform8940And4192 = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.subform89404192];
 
+/**
+ * Selector to check if the toxic exposure opt-out data purge feature flag is enabled.
+ * @param {Object} state - Redux state object
+ * @returns {boolean} True if the feature flag is enabled, false otherwise
+ */
+export const showToxicExposureOptOutDataPurge = state =>
+  toggleValues(state).disability526ToxicExposureOptOutDataPurge;
+
 export const wrapWithBreadcrumb = (title, component) => (
   <>
     <div className="row vads-u-padding-x--1p5">
@@ -872,7 +880,9 @@ export const baseDoNew4142Logic = formData => {
   return (
     // If flipper is enabled
     formData.disability526Enable2024Form4142 === true &&
-    // And the user is still choosing to upload private records
+    // And the user has evidence for review
+    formData?.['view:hasEvidence'] === true &&
+    // And the user is still choosing to include private records
     formData?.['view:selectableEvidenceTypes']?.[
       'view:hasPrivateMedicalRecords'
     ] === true &&
@@ -889,9 +899,35 @@ export const baseDoNew4142Logic = formData => {
   );
 };
 
+export const redirectWhenFlipperOff = props => {
+  const { returnUrl, formData } = props;
+  return (
+    formData?.['view:hasEvidence'] === true &&
+    // And the user is still choosing to include private records
+    formData?.['view:selectableEvidenceTypes']?.[
+      'view:hasPrivateMedicalRecords'
+    ] === true &&
+    returnUrl ===
+      '/supporting-evidence/private-medical-records-authorize-release' &&
+    formData.disability526Enable2024Form4142 !== true
+  );
+};
+
+export const redirectWhenNoEvidence = props => {
+  const { returnUrl, formData } = props;
+  return (
+    formData?.['view:hasEvidence'] === false &&
+    (returnUrl ===
+      '/supporting-evidence/private-medical-records-authorize-release' ||
+      returnUrl === '/supporting-evidence/private-medical-records')
+  );
+};
+
 export const onFormLoaded = props => {
   const { returnUrl, formData, router } = props;
   const shouldRedirectToModern4142Choice = baseDoNew4142Logic(formData);
+  const shouldRevertWhenFlipperOff = redirectWhenFlipperOff(props);
+  const shouldRevertWhenNoEvidence = redirectWhenNoEvidence(props);
   const redirectUrl = '/supporting-evidence/private-medical-records';
 
   if (shouldRedirectToModern4142Choice === true) {
@@ -905,11 +941,14 @@ export const onFormLoaded = props => {
     // this happens a lot in development and testing but would only happen if we do a rollback in production
     // if the user is set to redirect to a page that is set to be hidden they get stuck in a loop so we must place them on the previous page
     shouldRedirectToModern4142Choice === false &&
-    returnUrl ===
-      '/supporting-evidence/private-medical-records-authorize-release' &&
-    formData.disability526Enable2024Form4142 !== true
+    shouldRevertWhenFlipperOff === true
   ) {
     router.push(redirectUrl);
+  } else if (
+    shouldRedirectToModern4142Choice === false &&
+    shouldRevertWhenNoEvidence === true
+  ) {
+    router.push('/supporting-evidence/evidence-types');
   } else {
     // otherwise, we just redirect to the returnUrl as usual when resuming a form
     router.push(returnUrl);

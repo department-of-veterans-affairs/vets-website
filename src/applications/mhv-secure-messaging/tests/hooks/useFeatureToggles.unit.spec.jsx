@@ -20,6 +20,8 @@ describe('useFeatureToggles', () => {
         [FEATURE_FLAG_NAMES.mhvSecureMessagingLargeAttachments]: false,
         [FEATURE_FLAG_NAMES.mhvBypassDowntimeNotification]: false,
         [FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot]: false,
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow]: false,
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingRecentRecipients]: false,
         'mhv-mock-session': false,
       },
     };
@@ -41,6 +43,8 @@ describe('useFeatureToggles', () => {
         [FEATURE_FLAG_NAMES.mhvSecureMessagingLargeAttachments]: true,
         [FEATURE_FLAG_NAMES.mhvBypassDowntimeNotification]: true,
         [FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot]: true,
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow]: true,
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingRecentRecipients]: true,
         'mhv-mock-session': true,
       },
     };
@@ -57,6 +61,8 @@ describe('useFeatureToggles', () => {
       largeAttachmentsEnabled: true,
       isDowntimeBypassEnabled: true,
       cernerPilotSmFeatureFlag: true,
+      mhvSecureMessagingCuratedListFlow: true,
+      mhvSecureMessagingRecentRecipients: true,
       mhvMockSessionFlag: true,
     });
   });
