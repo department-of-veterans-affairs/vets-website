@@ -141,7 +141,6 @@ export function NewAddressSection({ success }) {
               aria-relevant="all"
               className="sr-only"
               aria-atomic="true"
-              tabIndex="-1"
             >
               {isEditing ? 'Edit address mode is active.' : ''}
             </div>
