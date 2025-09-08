@@ -1,5 +1,6 @@
 import data from '../data/calculator-constants.json';
 import institutionWithFeedbackMock from '../data/institution-21376032-mock-data.json';
+/* eslint-disable cypress/unsafe-to-chain-command */
 
 const expectFocusOnResults = () => {
   cy.get('#results-summary')
@@ -15,6 +16,17 @@ describe('Filter Student Feedback — keyboard-only accessibility', () => {
       body: data,
     });
     cy.intercept('GET', '/data/cms/vamc-ehr.json', { statusCode: 200 });
+    cy.intercept('GET', '/v0/feature_toggles?*', {
+      data: {
+        type: 'feature_toggles',
+        features: [
+          {
+            name: 'gi_comparison_tool_cautionary_info_update',
+            value: true,
+          },
+        ],
+      },
+    }).as('featureToggles');
     cy.intercept('GET', '**/v1/gi/institutions/21376032*', {
       statusCode: 200,
       body: institutionWithFeedbackMock,
@@ -23,10 +35,12 @@ describe('Filter Student Feedback — keyboard-only accessibility', () => {
       'education/gi-bill-comparison-tool/schools-and-employers/institution/21376032/filter-student-feedback',
     );
     cy.wait('@institutionWithFeedback');
+    cy.wait('@featureToggles');
     cy.get('h1').should('be.focused');
   });
 
   it('Enter on "Apply filters" moves focus to results, then clear filters and move focus to results', () => {
+    cy.injectAxeThenAxeCheck();
     cy.repeatKey('Tab', 1);
     cy.realPress('Enter');
     cy.repeatKey('Tab', 3);
@@ -52,6 +66,7 @@ describe('Filter Student Feedback — keyboard-only accessibility', () => {
   });
 
   it('Keyboard change in Sort <va-select> moves focus to results', () => {
+    cy.injectAxeThenAxeCheck();
     cy.repeatKey('Tab', 5);
     cy.realPress(['Alt', 'ArrowDown']);
     cy.realPress('ArrowDown');
@@ -60,6 +75,7 @@ describe('Filter Student Feedback — keyboard-only accessibility', () => {
   });
 
   it('Keyboard activate page 2 via <va-pagination> then focus to results', () => {
+    cy.injectAxeThenAxeCheck();
     cy.repeatKey('Tab', 7);
     cy.focused()
       .should('have.attr', 'aria-label')
