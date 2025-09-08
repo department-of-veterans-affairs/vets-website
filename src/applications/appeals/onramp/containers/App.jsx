@@ -1,17 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Breadcrumbs from '../components/Breadcrumbs';
-import { QUESTION_MAP } from '../constants/question-data-map';
+import { QUESTION_CONTENT } from '../constants/question-data-map';
 
 const App = ({ children }) => {
-  document.title = `${QUESTION_MAP.HOME} | Veterans Affairs`;
+  document.title = `${QUESTION_CONTENT.INTRODUCTION.h1} | Veterans Affairs`;
 
   return (
     <div className="onramp-app row vads-u-padding-bottom--8">
       <Breadcrumbs />
       <div className="usa-width-two-thirds medium-8 columns">
         {children}
-        <va-need-help>
+        <va-need-help class="vads-u-margin-top--9">
           <div slot="content">
             <p>
               Call us at <va-telephone contact="8008271000" />. We’re here

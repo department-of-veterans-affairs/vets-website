@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Toggler } from 'platform/utilities/feature-toggles';
 
 import { focusElement } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
@@ -431,6 +432,24 @@ export class ProfileInformationEditView extends Component {
                   <VAPServiceEditModalErrorMessage error={error} />
                 </div>
               )}
+              {fieldName === FIELD_NAMES.MOBILE_PHONE &&
+                this.props.allowInternationalPhones && (
+                  <Toggler.Hoc
+                    toggleName={
+                      Toggler.TOGGLE_NAMES.profileInternationalPhoneNumbers
+                    }
+                  >
+                    {toggleValue =>
+                      toggleValue ? (
+                        <p>
+                          Enter a U.S. mobile phone number to receive text
+                          notifications. We can’t send text notifications to
+                          international numbers.
+                        </p>
+                      ) : null
+                    }
+                  </Toggler.Hoc>
+                )}
               <ProfileInformationActionButtons
                 onCancel={onCancel}
                 title={title}
@@ -476,10 +495,10 @@ ProfileInformationEditView.propTypes = {
   convertCleanDataToPayload: PropTypes.func.isRequired,
   createPersonalInfoUpdate: PropTypes.func.isRequired,
   createTransaction: PropTypes.func.isRequired,
-  openIntlMobileConfirmModal: PropTypes.func.isRequired,
   fieldName: PropTypes.oneOf(Object.values(FIELD_NAMES)).isRequired,
   formSchema: PropTypes.object.isRequired,
   getInitialFormValues: PropTypes.func.isRequired,
+  openIntlMobileConfirmModal: PropTypes.func.isRequired,
   openModal: PropTypes.func.isRequired,
   recordCustomProfileEvent: PropTypes.func.isRequired,
   refreshTransaction: PropTypes.func.isRequired,
@@ -488,6 +507,7 @@ ProfileInformationEditView.propTypes = {
   validateAddress: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   activeEditView: PropTypes.string,
+  allowInternationalPhones: PropTypes.bool,
   cancelButtonText: PropTypes.string,
   contactInfoFormAppConfig: PropTypes.object,
   data: PropTypes.object,
@@ -499,7 +519,7 @@ ProfileInformationEditView.propTypes = {
     uiSchema: PropTypes.object,
   }),
   forceEditView: PropTypes.bool,
-  intlMobileConfirmModalEnabled: PropTypes.string,
+  intlMobileConfirmModalEnabled: PropTypes.bool,
   saveButtonText: PropTypes.string,
   shouldFocusCancelButton: PropTypes.bool,
   successCallback: PropTypes.func,

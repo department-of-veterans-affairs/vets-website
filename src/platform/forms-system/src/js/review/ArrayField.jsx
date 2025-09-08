@@ -243,6 +243,8 @@ class ArrayField extends React.Component {
       : this.state.items;
     const itemsNeeded = (schema.minItems || 0) > 0 && items.length === 0;
     const addAnotherDisabled = items.length >= (schema.maxItems || Infinity);
+    const useWebComponents =
+      formContext?.formOptions?.useWebComponentForNavigation;
 
     return (
       <div
@@ -320,26 +322,49 @@ class ArrayField extends React.Component {
                       >
                         <div className="row small-collapse">
                           <div className="small-6 left columns">
-                            <button
-                              type="submit"
-                              className="float-left"
-                              aria-label={`Update ${itemName}`}
-                            >
-                              Update
-                            </button>
+                            {useWebComponents ? (
+                              <va-button
+                                submit="prevent"
+                                class="float-left"
+                                aria-label={`Update ${itemName}`}
+                                text="Update"
+                              />
+                            ) : (
+                              <button
+                                type="submit"
+                                className="float-left"
+                                aria-label={`Update ${itemName}`}
+                              >
+                                Update
+                              </button>
+                            )}
                           </div>
                           <div className="small-6 right columns">
                             {showReviewButton && (
-                              <button
-                                type="button"
-                                className="usa-button-secondary float-right"
-                                aria-label={`Remove ${itemName}`}
-                                onClick={() =>
-                                  this.handleRemove(index, fieldName)
-                                }
-                              >
-                                Remove
-                              </button>
+                              <>
+                                {useWebComponents ? (
+                                  <va-button
+                                    secondary
+                                    class="float-right"
+                                    aria-label={`Remove ${itemName}`}
+                                    text="Remove"
+                                    onClick={() =>
+                                      this.handleRemove(index, fieldName)
+                                    }
+                                  />
+                                ) : (
+                                  <button
+                                    type="button"
+                                    className="usa-button-secondary float-right"
+                                    aria-label={`Remove ${itemName}`}
+                                    onClick={() =>
+                                      this.handleRemove(index, fieldName)
+                                    }
+                                  >
+                                    Remove
+                                  </button>
+                                )}
+                              </>
                             )}
                           </div>
                         </div>
@@ -387,17 +412,32 @@ class ArrayField extends React.Component {
           {title &&
             !itemCountLocked && (
               <>
-                <button
-                  type="button"
-                  name={`add-another-${fieldName}`}
-                  disabled={addAnotherDisabled}
-                  className="add-btn primary-outline"
-                  onClick={() => this.handleAdd()}
-                >
-                  {uiOptions.itemName
-                    ? `Add another ${uiOptions.itemName}`
-                    : 'Add another'}
-                </button>
+                {useWebComponents ? (
+                  <va-button
+                    secondary
+                    name={`add-another-${fieldName}`}
+                    disabled={addAnotherDisabled}
+                    class="add-btn"
+                    onClick={() => this.handleAdd()}
+                    text={
+                      uiOptions.itemName
+                        ? `Add another ${uiOptions.itemName}`
+                        : 'Add another'
+                    }
+                  />
+                ) : (
+                  <button
+                    type="button"
+                    name={`add-another-${fieldName}`}
+                    disabled={addAnotherDisabled}
+                    className="add-btn primary-outline"
+                    onClick={() => this.handleAdd()}
+                  >
+                    {uiOptions.itemName
+                      ? `Add another ${uiOptions.itemName}`
+                      : 'Add another'}
+                  </button>
+                )}
                 <div>
                   {addAnotherDisabled &&
                     `You’ve entered the maximum number of items allowed.`}
@@ -413,13 +453,19 @@ class ArrayField extends React.Component {
 export default ArrayField;
 
 ArrayField.propTypes = {
-  schema: PropTypes.object.isRequired,
-  uiSchema: PropTypes.object,
-  trackingPrefix: PropTypes.string.isRequired,
   pageKey: PropTypes.string.isRequired,
   path: PropTypes.array.isRequired,
-  formData: PropTypes.object,
-  arrayData: PropTypes.array,
+  schema: PropTypes.object.isRequired,
+  trackingPrefix: PropTypes.string.isRequired,
   appStateData: PropTypes.object,
+  arrayData: PropTypes.array,
+  formContext: PropTypes.shape({
+    formOptions: PropTypes.shape({
+      useWebComponentForNavigation: PropTypes.bool,
+    }),
+    onReviewPage: PropTypes.bool,
+  }),
+  formData: PropTypes.object,
   pageTitle: PropTypes.string,
+  uiSchema: PropTypes.object,
 };

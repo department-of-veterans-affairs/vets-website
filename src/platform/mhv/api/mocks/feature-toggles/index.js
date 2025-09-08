@@ -4,7 +4,6 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvBypassDowntimeNotification = false,
 
     // medications
-    mhvMedicationsToVaGovRelease = true,
     mhvMedicationsDisplayDocumentationContent = true,
     mhvMedicationsDisplayFilter = true,
     mhvMedicationsDisplayGrouping = true,
@@ -13,13 +12,10 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicationsShowIpeContent = true,
     mhvMedicationsPartialFillContent,
     mhvMedicationsDontIncrementIpeCount,
-    mhvMedicationsRemoveLandingPage = true,
 
     // medical records
     mhvMedicalRecordsAllowTxtDownloads = true,
-    mhvMedicalRecordsDisplayConditions = true,
     mhvMedicalRecordsDisplayDomains = true,
-    mhvMedicalRecordsDisplayLabsAndTests = true,
     mhvMedicalRecordsDisplayNotes = true,
     mhvMedicalRecordsDisplaySidenav = true,
     mhvMedicalRecordsDisplayVaccines = true,
@@ -82,10 +78,6 @@ const generateFeatureToggles = (toggles = {}) => {
           value: mhvLandingPagePersonalization,
         },
         {
-          name: 'mhv_medications_to_va_gov_release',
-          value: mhvMedicationsToVaGovRelease,
-        },
-        {
           name: 'mhv_medications_display_documentation_content',
           value: mhvMedicationsDisplayDocumentationContent,
         },
@@ -104,10 +96,6 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medications_display_refill_progress',
           value: mhvMedicationsDisplayRefillProgress,
-        },
-        {
-          name: 'mhv_medications_remove_landing_page',
-          value: mhvMedicationsRemoveLandingPage,
         },
         {
           name: 'mhv_medications_show_ipe_content',
@@ -132,16 +120,8 @@ const generateFeatureToggles = (toggles = {}) => {
           value: mhvMedicalRecordsAllowTxtDownloads,
         },
         {
-          name: 'mhv_medical_records_display_conditions',
-          value: mhvMedicalRecordsDisplayConditions,
-        },
-        {
           name: 'mhv_medical_records_display_domains',
           value: mhvMedicalRecordsDisplayDomains,
-        },
-        {
-          name: 'mhv_medical_records_display_labs_and_tests',
-          value: mhvMedicalRecordsDisplayLabsAndTests,
         },
         {
           name: 'mhv_medical_records_display_notes',

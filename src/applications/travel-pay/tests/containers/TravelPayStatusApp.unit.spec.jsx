@@ -174,6 +174,22 @@ describe('TravelPayStatusApp', () => {
     expect($('va-link-action[text="Go to your past appointments"]')).to.exist;
   });
 
+  it('sets the default page title', async () => {
+    // Set the initial title that would be set by the app router/layout
+    document.title = 'Travel Pay | Veterans Affairs';
+    renderWithStoreAndRouter(<TravelPayStatusApp />, {
+      initialState: getData({
+        areFeatureTogglesLoading: false,
+        hasFeatureFlag: true,
+      }),
+      path: `/claims/`,
+      reducers: reducer,
+    });
+
+    // Verify the title remains as the default since this component doesn't set a custom title
+    expect(document.title).to.equal('Travel Pay | Veterans Affairs');
+  });
+
   // TODO: Figure out why this is still rendering a loading spinner....
   // it('renders SMOC entry point for get claims error with flag on', async () => {
   //   const screen = renderWithStoreAndRouter(<TravelPayStatusApp />, {

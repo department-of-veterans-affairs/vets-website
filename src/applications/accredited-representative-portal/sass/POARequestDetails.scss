@@ -67,8 +67,8 @@
   }
 
   &__divider {
-    border-bottom: 1px solid var(--vads-color-gray-light);
-    width: 700px;
+    border-bottom: 1px solid $vads-color-base-light;
+    width: 100%;
     margin: 28px 0;
     display: flex;
   }

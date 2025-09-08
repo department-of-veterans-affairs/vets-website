@@ -7,11 +7,10 @@ import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureT
 import { focusElement } from 'platform/utilities/ui';
 
 import Breadcrumbs from '../components/Breadcrumbs';
-import { HelpTextManage } from '../components/HelpText';
+import { HelpTextGeneral, HelpTextManage } from '../components/HelpText';
 import { getTravelClaims } from '../redux/actions';
 import { getDateFilters } from '../util/dates';
 import { BTSSS_PORTAL_URL } from '../constants';
-import useSetPageTitle from '../hooks/useSetPageTitle';
 import DowntimeWindowAlert from './DownTimeWindowAlert';
 import TravelPayStatusList from '../components/TravelPayStatusList';
 import TravelPayDateRangeSelect from '../components/TravelPayDateRangeSelect';
@@ -111,12 +110,13 @@ export default function TravelPayStatusApp() {
   const smocEnabled = useToggleValue(
     TOGGLE_NAMES.travelPaySubmitMileageExpense,
   );
+  const claimsMgmtToggle = useToggleValue(
+    TOGGLE_NAMES.travelPayClaimsManagement,
+  );
 
   const title = smocEnabled
     ? 'Travel reimbursement claims'
     : 'Check your travel reimbursement claim status';
-
-  useSetPageTitle(title);
 
   if (toggleIsLoading) {
     return (
@@ -175,27 +175,28 @@ export default function TravelPayStatusApp() {
               This list shows all the appointments you've filed a travel claim
               for.
             </p>
-            {smocEnabled && (
-              <va-additional-info
-                class="vads-u-margin-y--3"
-                trigger="How to manage your claims or get more information"
-              >
-                <div>
-                  <p className="vads-u-margin-top--0">
-                    You can call the BTSSS call center at{' '}
-                    <va-telephone contact="8555747292" /> (
-                    <va-telephone tty contact="711" />) Monday through Friday,
-                    8:00 a.m. to 8:00 p.m. ET. Have your claim number ready to
-                    share when you call.
-                  </p>
-                  <va-link
-                    data-testid="status-explainer-link"
-                    href="/my-health/travel-pay/help"
-                    text="What does my claim status mean?"
-                  />
-                </div>
-              </va-additional-info>
-            )}
+            {smocEnabled &&
+              !claimsMgmtToggle && (
+                <va-additional-info
+                  class="vads-u-margin-y--3"
+                  trigger="How to manage your claims or get more information"
+                >
+                  <div>
+                    <p className="vads-u-margin-top--0">
+                      You can call the BTSSS call center at{' '}
+                      <va-telephone contact="8555747292" /> (
+                      <va-telephone tty contact="711" />) Monday through Friday,
+                      8:00 a.m. to 8:00 p.m. ET. Have your claim number ready to
+                      share when you call.
+                    </p>
+                    <va-link
+                      data-testid="status-explainer-link"
+                      href="/my-health/travel-pay/help"
+                      text="What does my claim status mean?"
+                    />
+                  </div>
+                </va-additional-info>
+              )}
           </div>
 
           {isLoading && (
@@ -223,6 +224,15 @@ export default function TravelPayStatusApp() {
                 canViewClaimDetails={canViewClaimDetails}
               />
             )}
+          {claimsMgmtToggle && (
+            <div className="vads-u-margin-top--4">
+              <va-need-help>
+                <div slot="content">
+                  <HelpTextGeneral />
+                </div>
+              </va-need-help>
+            </div>
+          )}
           <VaBackToTop />
         </div>
       </DowntimeWindowAlert>

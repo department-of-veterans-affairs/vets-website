@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
 import createCommonStore from '@department-of-veterans-affairs/platform-startup/store';
@@ -8,6 +8,7 @@ import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import formConfig from '../../../../config/form';
 import { addStudentsOptions } from '../../../../config/chapters/674/addStudentsArrayPages';
+import { calculateStudentAssetTotal } from '../../../../config/chapters/674/helpers';
 
 const defaultStore = createCommonStore();
 
@@ -143,6 +144,7 @@ describe('addStudentsOptions', () => {
       );
     });
   });
+
   describe('getItemName', () => {
     it('should return a full name when both first and last names are provided', () => {
       const item = { fullName: { first: 'John', last: 'Doe' } };
@@ -323,6 +325,41 @@ describe('674 Add students: Student address ', () => {
     expect($$('va-checkbox', container).length).to.equal(1);
     expect($$('va-select', container).length).to.equal(1);
     expect($$('va-text-input', container).length).to.equal(6);
+  });
+
+  it('should render custom city error', async () => {
+    const { container } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={{
+            ...formData(),
+            studentInformation: [
+              {
+                address: { city: 'APO', isMilitary: false },
+              },
+            ],
+          }}
+          arrayPath={arrayPath}
+          pagePerItemIndex={0}
+        />
+      </Provider>,
+    );
+
+    const form = container.querySelector('form');
+    fireEvent.submit(form);
+
+    await waitFor(() => {
+      const cityInput = container.querySelector(
+        'va-text-input[name*="address_city"]',
+      );
+      expect(cityInput).to.exist;
+      expect(cityInput.getAttribute('error')).to.equal(
+        'Enter a valid city name',
+      );
+    });
   });
 });
 
@@ -666,11 +703,12 @@ describe('674 Add students: Student assets', () => {
       </Provider>,
     );
 
-    expect($$('va-text-input', container).length).to.equal(5);
+    // Should only have 4 text inputs now (removed totalValue field)
+    expect($$('va-text-input', container).length).to.equal(4);
   });
 });
 
-describe('674 Add students: Student assets', () => {
+describe('674 Add students: Student remarks', () => {
   const {
     schema,
     uiSchema,
@@ -691,5 +729,33 @@ describe('674 Add students: Student assets', () => {
     );
 
     expect($$('va-textarea', container).length).to.equal(1);
+  });
+});
+
+describe('calculateStudentAssetTotal', () => {
+  it('should calculate total correctly', () => {
+    const assets = {
+      savings: '1000.00',
+      securities: '2000.50',
+      realEstate: '300000.75',
+      otherAssets: '5000.25',
+    };
+
+    expect(calculateStudentAssetTotal(assets)).to.equal('308001.50');
+  });
+
+  it('should handle empty or missing values', () => {
+    const assets = {
+      savings: '',
+      securities: null,
+      realEstate: '100.50',
+      otherAssets: undefined,
+    };
+
+    expect(calculateStudentAssetTotal(assets)).to.equal('100.50');
+  });
+
+  it('should handle empty object', () => {
+    expect(calculateStudentAssetTotal({})).to.equal('0.00');
   });
 });

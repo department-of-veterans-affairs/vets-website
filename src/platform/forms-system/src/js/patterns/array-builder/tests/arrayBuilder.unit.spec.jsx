@@ -360,7 +360,7 @@ describe('arrayBuilderPages required parameters and props tests', () => {
       expect(true).to.be.false;
     } catch (e) {
       expect(e.message).to.include(
-        '`pageBuilder.summaryPage` must be defined only once and be defined before the item pages',
+        '`pageBuilder.summaryPage` must come before item pages',
       );
     }
   });
@@ -411,8 +411,27 @@ describe('arrayBuilderPages required parameters and props tests', () => {
         pageB: pageBuilder.itemPage(validPageB),
       }));
     } catch (e) {
-      expect(e.message).to.include('must include a summary page');
+      expect(e.message).to.include(
+        'arrayBuilderPages must include a summary page with `pageBuilder.summaryPage',
+      );
     }
+  });
+
+  it('should log a warning if more than one summary page exists', () => {
+    const warnSpy = sinon.spy(console, 'warn');
+    arrayBuilderPages(validOptionsRequiredFlow, pageBuilder => ({
+      summaryPageA: pageBuilder.summaryPage(validSummaryPage),
+      summaryPageB: pageBuilder.summaryPage(validSummaryPage),
+      introPage: pageBuilder.introPage(validIntroPage),
+      pageA: pageBuilder.itemPage(validPageA),
+      pageB: pageBuilder.itemPage(validPageB),
+    }));
+    expect(warnSpy.calledOnce).to.be.true;
+    expect(warnSpy.args[0][0]).to.include(
+      '[arrayBuilderPages] More than one summaryPage defined. Ensure they are gated by `depends` so only one is ever shown',
+    );
+
+    warnSpy.restore();
   });
 
   it('should throw error if required is not passed', () => {

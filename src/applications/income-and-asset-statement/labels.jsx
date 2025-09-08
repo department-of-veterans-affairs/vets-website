@@ -1,12 +1,21 @@
+import { showUpdatedContent } from './helpers';
+
 // Always name keys with uppercase snake_casing
 // Always use keys for data storage
 export const relationshipLabels = {
   VETERAN: 'Veteran',
   SPOUSE: 'Spouse',
-  CHILD: 'Child',
+  CHILD: 'Child/children',
   PARENT: 'Parent',
   CUSTODIAN: 'Custodian of child',
-  OTHER: 'Other',
+  OTHER: 'Another dependent not listed here ',
+};
+
+export const relationshipLabelDescriptions = {
+  SPOUSE:
+    'Unless you’re estranged, live apart, and don’t contribute to their support',
+  CHILD: 'Unless you don’t have custody and don’t provide financial support',
+  CUSTODIAN: 'Unless the child’s custodian is an institution',
 };
 
 export const transferMethodLabels = {
@@ -15,6 +24,23 @@ export const transferMethodLabels = {
   CONVEYED: 'Conveyed',
   TRADED: 'Traded',
   OTHER: 'Other',
+};
+
+export const custodianRelationshipLabels = {
+  CUSTODIAN: 'Child’s custodian',
+  SPOUSE: 'Custodian’s spouse',
+  CHILD: 'Veteran’s surviving child',
+  OTHER: 'Another dependent not listed here',
+};
+
+export const parentRelationshipLabels = {
+  PARENT: 'Me',
+  SPOUSE: 'My spouse',
+  OTHER: 'Another dependent not listed here',
+};
+
+export const parentRelationshipLabelDescriptions = {
+  SPOUSE: 'The Veteran’s other parent should file a separate claim',
 };
 
 export const claimantTypeLabels = {
@@ -40,10 +66,18 @@ export const incomeTypeLabels = {
   OTHER: 'Other',
 };
 
+export const updatedIncomeTypeLabels = {
+  WAGES: 'Wage from a job',
+  RETIREMENT_PENSION: 'Pension or retirement',
+  SOCIAL_SECURITY: 'Social Security',
+  UNEMPLOYMENT: 'Unemployment',
+  OTHER: 'Another type of income',
+};
+
 export const incomeTypeEarnedLabels = {
   INTEREST: 'Interest',
   DIVIDENDS: 'Dividends',
-  OTHER: 'Other',
+  OTHER: showUpdatedContent() ? 'Other financial asset income' : 'Other',
 };
 
 export const ownedAssetTypeLabels = {

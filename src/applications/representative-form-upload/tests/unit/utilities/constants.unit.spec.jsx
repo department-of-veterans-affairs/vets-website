@@ -81,6 +81,20 @@ describe('wrapApiRequest', () => {
     getSignInUrlStub.restore();
   });
 
+  it('throws TypeError if location.pathname is undefined', async () => {
+    const fakeResponse = createMockResponse(401);
+    fetchStub.resolves(fakeResponse);
+
+    locationStub = sinon.stub(window, 'location').value({});
+
+    try {
+      await apiModule.default.getUser();
+      throw new Error('Should have thrown');
+    } catch (err) {
+      expect(err).to.be.instanceOf(TypeError);
+    }
+  });
+
   it('does not redirect to login if pathname is root', async () => {
     const fakeResponse = createMockResponse(401);
 

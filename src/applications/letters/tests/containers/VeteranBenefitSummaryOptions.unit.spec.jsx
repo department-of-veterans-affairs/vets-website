@@ -1,9 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import VeteranBenefitSummaryOptions from '../../containers/VeteranBenefitSummaryOptions';
 import { UPDATE_BENEFIT_SUMMARY_REQUEST_OPTION } from '../../utils/constants';
@@ -64,17 +63,13 @@ describe('<VeteranBenefitSummaryOptions />', () => {
       </Provider>,
     );
     const paragraph = container.querySelector('p:first-of-type');
-    const suggestedUses = container.querySelectorAll('ul.usa-list li');
-    const checkboxes = container.querySelectorAll('input[type="checkbox"]');
+    const checkboxes = container.querySelectorAll('va-checkbox');
 
     expect(paragraph).to.exist;
-    expect(suggestedUses).to.exist;
-    expect(suggestedUses).to.have.lengthOf(4);
     expect(checkboxes).to.exist;
     expect(checkboxes).to.have.lengthOf(4);
 
     checkboxes.forEach(checkbox => {
-      expect(checkbox).to.have.property('type', 'checkbox');
       expect(checkbox).to.have.property('checked', true);
     });
   });
@@ -94,7 +89,8 @@ describe('<VeteranBenefitSummaryOptions />', () => {
 
     expect(container).to.exist;
   });
-  it('dispatches the correct action when a checkbox is toggled', async () => {
+
+  it('dispatches the correct action when a checkbox is toggled', () => {
     const dispatchSpy = sinon.spy();
     const store = mockStore({
       letters: {
@@ -111,16 +107,31 @@ describe('<VeteranBenefitSummaryOptions />', () => {
 
     store.dispatch = dispatchSpy;
 
-    const { getByLabelText } = render(
+    const { container } = render(
       <Provider store={store}>
         <VeteranBenefitSummaryOptions />
       </Provider>,
     );
 
-    const checkbox = getByLabelText(/Combined disability rating/i);
+    const checkbox = container.querySelector(
+      'va-checkbox[label="Combined disability rating"]',
+    );
     expect(checkbox).to.exist;
 
-    await userEvent.click(checkbox);
+    // Simulate the va-checkbox change event
+    // The checkbox should be checked initially (true), so clicking should make it false
+    const event = new CustomEvent('vaChange', {
+      bubbles: true,
+    });
+    // Set the target properties that the handler expects
+    Object.defineProperty(event, 'target', {
+      value: {
+        id: 'serviceConnectedPercentage',
+        checked: false,
+      },
+      enumerable: true,
+    });
+    fireEvent(checkbox, event);
 
     expect(dispatchSpy.called).to.be.true;
 
@@ -129,6 +140,7 @@ describe('<VeteranBenefitSummaryOptions />', () => {
     expect(action.propertyPath).to.equal('serviceConnectedEvaluation');
     expect(action.value).to.be.false;
   });
+
   it('does render Military Service checkbox when service info exists', () => {
     const store = mockStore({
       letters: {
@@ -148,15 +160,18 @@ describe('<VeteranBenefitSummaryOptions />', () => {
       },
     });
 
-    const { queryByLabelText } = render(
+    const { container } = render(
       <Provider store={store}>
         <VeteranBenefitSummaryOptions />
       </Provider>,
     );
 
-    const checkbox = queryByLabelText(/military service/i);
+    const checkbox = container.querySelector(
+      'va-checkbox[label="Military service"]',
+    );
     expect(checkbox).to.exist;
   });
+
   it('does not render Military Service checkbox when no service info exists', () => {
     const store = mockStore({
       letters: {
@@ -169,15 +184,18 @@ describe('<VeteranBenefitSummaryOptions />', () => {
       },
     });
 
-    const { queryByLabelText } = render(
+    const { container } = render(
       <Provider store={store}>
         <VeteranBenefitSummaryOptions />
       </Provider>,
     );
 
-    const checkbox = queryByLabelText(/military service/i);
+    const checkbox = container.querySelector(
+      'va-checkbox[label="Military service"]',
+    );
     expect(checkbox).to.not.exist;
   });
+
   it('does not render checkboxes for benefitsInfo keys with null values', () => {
     const store = mockStore({
       letters: {
@@ -200,7 +218,57 @@ describe('<VeteranBenefitSummaryOptions />', () => {
       </Provider>,
     );
 
-    const checkboxes = container.querySelectorAll('input[type="checkbox"]');
+    const checkboxes = container.querySelectorAll('va-checkbox');
     expect(checkboxes.length).to.equal(1);
+  });
+
+  it('contains the correct text for the benefits summary letter section', () => {
+    const store = mockStore({
+      letters: {
+        optionsAvailable: true,
+        requestOptions: {
+          militaryService: true,
+          serviceConnectedEvaluation: true,
+          monthlyAward: true,
+          serviceConnectedDisabilities: true,
+        },
+        benefitInfo: {
+          serviceConnectedPercentage: 60,
+          awardEffectiveDate: '2021-12-01T00:00:00Z',
+          monthlyAwardAmount: 1288.03,
+          hasServiceConnectedDisabilities: true,
+        },
+        serviceInfo: [
+          {
+            branch: 'Army',
+            characterOfService: 'HONORABLE',
+            enteredDate: '1977-08-30T00:00:00Z',
+            releasedDate: '1984-12-12T00:00:00Z',
+          },
+        ],
+      },
+    });
+
+    const { container } = render(
+      <Provider store={store}>
+        <VeteranBenefitSummaryOptions />
+      </Provider>,
+    );
+
+    const text = container.querySelectorAll('p');
+    expect(text).to.have.length(2);
+    expect(text[0]).to.have.text(
+      'The Benefit Summary and Service Verification Letter includes your VA benefits and service history. You can customize this letter depending on your needs.',
+    );
+    expect(text[1]).to.have.text(
+      'Here are some of the ways you might be able to use this letter:',
+    );
+
+    const listItems = container.querySelectorAll('ul.usa-list li');
+    expect(listItems).to.have.length(4);
+    expect(listItems[0]).to.have.text('Apply for housing assistance');
+    expect(listItems[1]).to.have.text('Apply for a civil service job');
+    expect(listItems[2]).to.have.text('Reduce property taxes');
+    expect(listItems[3]).to.have.text('Reduce car taxes');
   });
 });

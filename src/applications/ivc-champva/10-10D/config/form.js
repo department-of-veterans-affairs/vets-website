@@ -123,6 +123,7 @@ import {
   marriageDatesSchema,
   depends18f3,
 } from '../pages/ApplicantSponsorMarriageDetailsPage';
+import ApplicantSponsorMarriageDatePage from '../pages/ApplicantSponsorMarriageDatePage';
 import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
 import {
   signerContactInfoPage,
@@ -1221,6 +1222,8 @@ const formConfig = {
           depends: (formData, index) => depends18f3(formData, index),
           uiSchema: marriageDatesSchema.noRemarriageUiSchema,
           schema: marriageDatesSchema.noRemarriageSchema,
+          customPageUsesPagePerItemData: true,
+          CustomPage: ApplicantSponsorMarriageDatePage,
         },
         page18f: {
           path: 'applicant-marriage-upload/:index',

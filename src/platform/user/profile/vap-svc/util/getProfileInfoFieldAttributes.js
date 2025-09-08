@@ -43,7 +43,7 @@ export const personalInformation = [
 ];
 
 export const getProfileInfoFieldAttributes = (fieldName, options = {}) => {
-  const { allowInternational = false } = options;
+  const { allowInternationalPhones } = options;
 
   let apiRoute;
   let convertCleanDataToPayload;
@@ -63,9 +63,13 @@ export const getProfileInfoFieldAttributes = (fieldName, options = {}) => {
     apiRoute = API_ROUTES.TELEPHONES;
     convertCleanDataToPayload = phoneConvertCleanDataToPayload;
     uiSchema = cloneDeep(
-      phoneUiSchema(FIELD_TITLES[fieldName], { allowInternational }),
+      phoneUiSchema(FIELD_TITLES[fieldName], {
+        allowInternational: allowInternationalPhones,
+      }),
     );
-    formSchema = cloneDeep(phoneFormSchema({ allowInternational }));
+    formSchema = cloneDeep(
+      phoneFormSchema({ allowInternational: allowInternationalPhones }),
+    );
 
     if (fieldName === FIELD_NAMES.HOME_PHONE) {
       title = FIELD_TITLES[FIELD_NAMES.HOME_PHONE];

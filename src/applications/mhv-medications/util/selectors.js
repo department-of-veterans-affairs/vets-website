@@ -12,9 +12,6 @@ export const selectPendingMedsFlag = state =>
 export const selectRefillProgressFlag = state =>
   state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicationsDisplayRefillProgress]; // at 50% 2025/05/27
 
-export const selectRemoveLandingPageFlag = state =>
-  state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicationsRemoveLandingPage]; // fully enabled 2025/03/12
-
 export const selectIPEContentFlag = state =>
   state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicationsShowIpeContent]; // fully enabled 2025/05/27
 
@@ -26,3 +23,8 @@ export const selectDontIncrementIpeCountFlag = state =>
 
 export const selectBypassDowntime = state =>
   state.featureToggles[FEATURE_FLAG_NAMES.mhvBypassDowntimeNotification];
+
+export const selectIsDisplayingDocumentation = state =>
+  state.featureToggles[
+    FEATURE_FLAG_NAMES.mhvMedicationsDisplayDocumentationContent
+  ];

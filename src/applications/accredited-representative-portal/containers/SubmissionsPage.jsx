@@ -18,7 +18,7 @@ import {
   submissionsBC,
   SORT_DEFAULTS,
 } from '../utilities/submissions';
-import { SORT_BY, PENDING_SORT_DEFAULTS } from '../utilities/poaRequests';
+import { SORT_BY, SUBMISSION_DEFAULTS } from '../utilities/poaRequests';
 import { SEARCH_PARAMS } from '../utilities/constants';
 import SortForm from '../components/SortForm';
 import Pagination from '../components/Pagination';
@@ -35,7 +35,7 @@ const SubmissionsPage = title => {
     [title],
   );
   const submissions = useLoaderData().data || [];
-  const meta = useLoaderData().meta.page || {};
+  const meta = useLoaderData().meta || {};
   const searchStatus = useSearchParams()[0].get('status');
   const navigation = useNavigation();
   return (
@@ -77,19 +77,42 @@ const SubmissionsPage = title => {
             Start here to submit VA forms for your claimants.
           </p>
           <h2 className="submissions__form-name vads-u-font-size--h3 vads-u-font-family--serif">
-            Submit a new Form 21-686c
+            Form 21-686c
           </h2>
           <p className="submissions__form-description vads-u-font-size--h4 vads-u-font-family--serif">
             Application Request to Add and/or Remove Dependents
           </p>
           <p className="submissions__subtext submissions__subtext">
-            Upload a completed Form 21-686c. VA Central Mail will process the
-            form after submission.
+            The form will be processed by VA Centralized Mail after you submit
+            it.
           </p>
           <va-link-action
             href="/representative/representative-form-upload/21-686c"
             text="Upload and submit VA Form 21-686c"
           />
+          <Toggler
+            toggleName={
+              Toggler.TOGGLE_NAMES.accreditedRepresentativePortalForm526ez
+            }
+          >
+            <Toggler.Enabled>
+              <h2 className="submissions__form-name vads-u-font-size--h3 vads-u-font-family--serif submissions__margin-top">
+                Form 21-526EZ
+              </h2>
+              <p className="submissions__form-description vads-u-font-size--h4 vads-u-font-family--serif">
+                Application for Disability Compensation and Related Compensation
+                Benefits
+              </p>
+              <p className="submissions__subtext submissions__subtext">
+                The form will be processed by VA Centralized Mail after you
+                submit it.
+              </p>
+              <va-link-action
+                href="/representative/representative-form-upload/21-526EZ"
+                text="Upload and submit VA Form 21-526EZ"
+              />
+            </Toggler.Enabled>
+          </Toggler>
           <hr />
 
           <h2 className="submissions__search-header">Recent Submissions</h2>
@@ -133,7 +156,7 @@ const SubmissionsPage = title => {
                 aria-labelledby={`tab-${searchStatus}`}
               >
                 <SubmissionsPageResults submissions={submissions} />
-                <Pagination meta={meta} />
+                <Pagination meta={meta} defaults={SUBMISSION_DEFAULTS} />
               </div>
             )}
           </div>
@@ -152,8 +175,8 @@ SubmissionsPage.loader = async ({ request }) => {
   if (!Object.values(SORT_BY).includes(sortBy)) {
     searchParams.set(SEARCH_PARAMS.SORTORDER, SORT_BY.DESC);
     searchParams.set(SEARCH_PARAMS.SORTBY, SORT_BY.CREATED);
-    searchParams.set(SEARCH_PARAMS.SIZE, PENDING_SORT_DEFAULTS.SIZE);
-    searchParams.set(SEARCH_PARAMS.NUMBER, PENDING_SORT_DEFAULTS.NUMBER);
+    searchParams.set(SEARCH_PARAMS.SIZE, SUBMISSION_DEFAULTS.SIZE);
+    searchParams.set(SEARCH_PARAMS.NUMBER, SUBMISSION_DEFAULTS.NUMBER);
     throw redirect(`?${searchParams}`);
   }
 

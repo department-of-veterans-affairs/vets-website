@@ -23,8 +23,6 @@ export default function PensionEntry({ location, children }) {
     TOGGLE_NAMES.pensionMedicalEvidenceClarification,
   );
 
-  const pensionItfShowAlert = useToggleValue(TOGGLE_NAMES.pensionItfShowAlert);
-
   const isLoadingFeatures = useSelector(
     state => state?.featureToggles?.loading,
   );
@@ -71,12 +69,9 @@ export default function PensionEntry({ location, children }) {
     return <NoFormPage />;
   }
 
-  // Hide ITF until backend feature is ready
   return (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-      {pensionItfShowAlert && (
-        <IntentToFile itfType="pension" location={location} />
-      )}
+      <IntentToFile itfType="pension" location={location} disableAutoFocus />
       {children}
     </RoutedSavableApp>
   );

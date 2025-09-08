@@ -1,15 +1,18 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
 import PropType from 'prop-types';
+import { useDispatch } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import CrisisLineConnectButton from '../components/CrisisLineConnectButton';
 import { Paths } from '../util/constants';
 import featureToggles from '../hooks/useFeatureToggles';
+import { acceptInterstitial } from '../actions/threadDetails';
 
 const InterstitialPage = props => {
-  const { acknowledge, type } = props;
+  const { type } = props;
   const history = useHistory();
   const { cernerPilotSmFeatureFlag } = featureToggles();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     focusElement(document.querySelector('h1'));
@@ -31,13 +34,12 @@ const InterstitialPage = props => {
 
   const handleContinueButton = useCallback(
     () => {
+      dispatch(acceptInterstitial());
       if (cernerPilotSmFeatureFlag && type !== 'reply') {
-        history.push(`${Paths.COMPOSE}${Paths.SELECT_HEALTH_CARE_SYSTEM}`);
-      } else {
-        acknowledge();
+        history.push(`${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`);
       }
     },
-    [history, acknowledge, cernerPilotSmFeatureFlag, type],
+    [history, cernerPilotSmFeatureFlag, type, dispatch],
   );
 
   return (
@@ -96,7 +98,6 @@ const InterstitialPage = props => {
 };
 
 InterstitialPage.propTypes = {
-  acknowledge: PropType.func,
   type: PropType.string,
 };
 

@@ -94,6 +94,7 @@ class ReviewChapters extends React.Component {
             hasUnviewedPages={chapter.hasUnviewedPages}
             uploadFile={this.props.uploadFile}
             viewedPages={viewedPages}
+            formOptions={formConfig?.formOptions}
           />
         ))}
       </VaAccordion>

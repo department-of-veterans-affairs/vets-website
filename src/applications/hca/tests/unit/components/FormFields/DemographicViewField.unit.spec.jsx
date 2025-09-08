@@ -45,13 +45,11 @@ describe('hca <DemographicViewField>', () => {
   });
 
   it('should render correct review row data when no data values have been selected', () => {
-    const { selectors, uiSchema } = subject({
+    const { selectors } = subject({
       formData: { isSpanishHispanicLatino: false },
     });
     const { reviewRows } = selectors();
-    const defaultTitle = reviewRows[0].querySelector('dt');
     const defaultLabel = reviewRows[0].querySelector('dd');
-    expect(defaultTitle.textContent).to.eq(uiSchema['ui:title']);
     expect(defaultLabel).to.be.empty;
   });
 

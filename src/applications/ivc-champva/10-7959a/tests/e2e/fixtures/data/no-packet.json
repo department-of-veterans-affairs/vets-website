@@ -43,14 +43,6 @@
     },
     "certifierRole": "applicant",
     "certifierReceivedPacket": false,
-    "missingUploads": [
-      {
-        "name": "pharmacyUpload",
-        "path": "pharmacy-claim-upload",
-        "required": false,
-        "uploaded": true
-      }
-    ],
     "statementOfTruthSignature": "Beneficiary Terry Jones",
     "statementOfTruthCertified": true
   }

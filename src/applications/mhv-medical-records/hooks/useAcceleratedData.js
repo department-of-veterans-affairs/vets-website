@@ -87,13 +87,9 @@ const useAcceleratedData = () => {
 
   const isAcceleratingLabsAndTests = useMemo(
     () => {
-      return (
-        isAcceleratedDeliveryEnabled &&
-        isAcceleratingLabsAndTestsEnabled &&
-        isCerner
-      );
+      return isAcceleratedDeliveryEnabled && isAcceleratingLabsAndTestsEnabled;
     },
-    [isAcceleratedDeliveryEnabled, isAcceleratingLabsAndTestsEnabled, isCerner],
+    [isAcceleratedDeliveryEnabled, isAcceleratingLabsAndTestsEnabled],
   );
   const isAccelerating = useMemo(
     () =>

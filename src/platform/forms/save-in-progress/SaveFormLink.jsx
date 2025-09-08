@@ -81,13 +81,12 @@ class SaveFormLink extends React.Component {
             {savedStatus === SAVE_STATUSES.noAuth && (
               <span>
                 Sorry, you’re signed out. Please{' '}
-                <button
-                  type="button"
-                  className="va-button-link"
+                <va-link
+                  class="sign-in-link"
                   onClick={this.openLoginModal}
-                >
-                  sign in
-                </button>{' '}
+                  text="sign in"
+                  href="#"
+                />{' '}
                 again to save your {appType}.
               </span>
             )}
@@ -97,6 +96,7 @@ class SaveFormLink extends React.Component {
           <div className="vads-u-display--flex vads-u-margin-top--2">
             {useWebComponentForNavigation ? (
               <va-link
+                href={`${formConfig.rootUrl}/form-saved`}
                 onClick={this.handleSave}
                 class="schemaform-sip-save-link"
                 text={this.props.children || `Finish this ${appType} later`}
@@ -134,6 +134,7 @@ SaveFormLink.propTypes = {
   user: PropTypes.object.isRequired,
   children: PropTypes.any,
   formConfig: PropTypes.shape({
+    rootUrl: PropTypes.string,
     formOptions: PropTypes.shape({
       useWebComponentForNavigation: PropTypes.bool,
     }),

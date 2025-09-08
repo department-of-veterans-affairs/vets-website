@@ -1,141 +1,164 @@
-import React from 'react';
-import moment from 'moment';
-import { connect } from 'react-redux';
-
-import { scrollToTop } from 'platform/utilities/scroll';
+import React, { useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
+import { format, isValid } from 'date-fns';
+import { useSelector } from 'react-redux';
+import { waitForRenderThenFocus } from 'platform/utilities/ui/focus';
+import { scrollTo } from 'platform/utilities/scroll';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-import { focusElement } from 'platform/utilities/ui';
 
-import ServiceProvidersText, {
-  ServiceProvidersTextCreateAcct,
-} from 'platform/user/authentication/components/ServiceProvidersText';
+export const getFullName = (nameObj = {}) => {
+  return [nameObj.first || '', nameObj.middle || '', nameObj.last || '']
+    .filter(Boolean)
+    .join(' ')
+    .trim();
+};
 
-export class ConfirmationPage extends React.Component {
-  componentDidMount() {
-    focusElement('#thank-you-message');
-    scrollToTop('topScrollElement');
+export const ConfirmationPage = () => {
+  const alertRef = useRef(null);
+  const form = useSelector(state => state.form || {});
+  const { submission, data = {} } = form;
+
+  // Get the submitted name and format it for display
+  const { fullName } = data;
+  const veteranFullNameDisplay = getFullName(fullName);
+
+  // If there's a submit date, format it for display
+  const submitDate = submission?.timestamp;
+  const submitDateValid = isValid(submitDate);
+  let submitDateHumanFriendly;
+  if (submitDateValid) {
+    submitDateHumanFriendly = format(submitDate, 'MMMM d, yyyy');
   }
 
-  render() {
-    const { submission, data } = this.props.form;
-    const { isLoggedIn, fullName } = this.props;
-    const { response } = submission;
-    const name = isLoggedIn ? fullName : data.veteranInformation.fullName;
+  useEffect(
+    () => {
+      if (alertRef?.current) {
+        scrollTo('topScrollElement');
+        waitForRenderThenFocus('h2', alertRef.current);
+      }
+    },
+    [alertRef],
+  );
 
-    return (
-      <div>
-        <p>
-          Equal to VA Form 28-1900 (Vocational Rehabilitation for Claimants With
-          Service-Connected Disabilities)
-        </p>
-        <div className="inset">
-          <h2
-            id="thank-you-message"
-            className="vads-u-font-size--h3 vads-u-margin-top--1"
-          >
-            Thank you for submitting your application
-          </h2>
-          <h3 className="vads-u-font-size--h4">
-            Veteran Readiness and Employment Application{' '}
-            <span className="additional">(VA Form 28-1900)</span>
-          </h3>
-          <span>
-            FOR: {name.first} {name?.middle} {name.last} {name?.suffix}
-          </span>
-
-          {response && (
-            <ul className="claim-list">
-              <li>
-                <strong>Date submitted</strong>
-                <br />
-                <span>{moment(response.timestamp).format('MMM D, YYYY')}</span>
-              </li>
-            </ul>
-          )}
-          <button
-            className="usa-button button screen-only"
-            onClick={() => window.print()}
-          >
-            Print this page
-          </button>
-        </div>
-        <h3>What happens after I apply?</h3>
-        <p>
-          After you apply, we’ll schedule a meeting for you with a Vocational
-          Rehabilitation Counselor (VRC) to find out if you’re eligible for VR&E
-          benefits and services. After we make a decision, you and your
-          counselor will work together to develop a rehabilitation plan. This
-          plan outlines the VR&E services you can get.
-        </p>
-        <h3>How long will it take VA to process my application?</h3>
-        <p>
-          We usually decide on applications within 1 week. If we need you to
-          provide more information or documents, we’ll contact you by mail.
-        </p>
-        <p>
-          If we haven’t contacted you within a week after you submitted your
-          application, don’t apply again. Instead, call our toll-free hotline at{' '}
-          <va-telephone contact={CONTACTS.VA_BENEFITS} />. We’re here Monday
-          through Friday, 8:00 am to 8:00 pm ET.
-        </p>
-        <h3>How can I check the status of my application?</h3>
-        <div className="process schemaform-process vads-u-padding-bottom--0">
-          <ol>
-            <li className="process-step list-one vads-u-padding-bottom--1p5">
-              <h3 className="vads-u-font-size--h5">Sign in to VA.gov</h3>
-              <p>
-                You can sign in with your existing <ServiceProvidersText />
-                account. <ServiceProvidersTextCreateAcct isFormBased />
-              </p>
-            </li>
-            <li className="process-step list-two vads-u-padding-bottom--1p5">
-              <h3 className="vads-u-font-size--h5">
-                If you haven't yet verified your identity, complete this process
-                when prompted
-              </h3>
-              <p>
-                This helps keep your information safe, and prevents fraud and
-                identity theft. If you’ve already verified your identity with
-                us, you won’t need to do this again.
-              </p>
-            </li>
-            <li className="process-step list-three vads-u-padding-bottom--1p5">
-              <h3 className="vads-u-font-size--h5">
-                Go to your personalized My VA homepage
-              </h3>
-              <p>
-                Once you’re signed in, you can go to your homepage by clicking
-                on the My VA link near the top right of any VA.gov page. You’ll
-                find your application status information in the Your
-                Applications section of your homepage.
-              </p>
-              <p>
-                Note: Your application status may take some time to appear on
-                our homepage. If you don’t see it there right away, check back
-                later.
-              </p>
-            </li>
-          </ol>
-        </div>
-        <h3 className="vads-u-margin-top--1p5">
-          What if I have more questions?
-        </h3>
-        <p>
-          Call our toll-free hotline at{' '}
-          <va-telephone contact={CONTACTS.VA_BENEFITS} />. We’re here Monday
-          through Friday, 8:00 am to 8:00 pm ET.
-        </p>
+  return (
+    <div>
+      <div className="print-only">
+        <img
+          src="https://www.va.gov/img/design/logo/logo-black-and-white.png"
+          alt="VA logo"
+          width="300"
+        />
       </div>
-    );
-  }
-}
+      <div className="vads-u-margin-y--4">
+        <va-alert status="success" ref={alertRef}>
+          <h2 slot="headline" className="vads-u-font-size--h3">
+            You’ve submitted your application for Veteran Readiness and
+            Employment (VR&E)
+            {submitDateValid && ` on ${submitDateHumanFriendly}`}
+          </h2>
+          <p className="vads-u-margin-y--0">
+            We’ve received your VR&E application (VA Form 28-1900). After we
+            complete our review, we’ll mail you a decision letter with the
+            details of our decision.
+          </p>
+        </va-alert>
+      </div>
+      <div className="vads-u-margin-bottom--3">
+        <va-summary-box>
+          <h2 slot="headline" className="vads-u-font-size--h3">
+            Your submission information
+          </h2>
+          <h3 className="vads-u-font-size--h4 vads-u-margin-top--2 vads-u-margin-bottom--0p5">
+            Your name
+          </h3>
+          {veteranFullNameDisplay}
+          {submitDateValid ? (
+            <>
+              <h3 className="vads-u-font-size--h4 vads-u-margin-top--2 vads-u-margin-bottom--0p5">
+                Date submitted
+              </h3>
+              {submitDateHumanFriendly}
+            </>
+          ) : null}
+          <h3 className="vads-u-font-size--h4 vads-u-margin-top--2 vads-u-margin-bottom--0p5">
+            Confirmation for your records
+          </h3>
+          You can print this confirmation page for your records
+          <br />
+          <div className="vads-u-margin-top--2">
+            <va-button onClick={window.print} text="Print this page" />
+          </div>
+        </va-summary-box>
+      </div>
+      <h2>What to expect next</h2>
+      <p>
+        We’ll review your application to determine if you’re eligible for an
+        initial evaluation with a Vocational Rehabilitation Counselor (VRC). If
+        we determine you’re eligible for an initial evaluation, we’ll send you
+        an appointment letter with the date and time when a VRC will meet with
+        you.
+      </p>
+      <p>
+        During the initial evaluation, the VRC will gather information to
+        determine if you’re entitled to receive VR&E benefits.
+      </p>
+      <h2>How to contact us if you have questions</h2>
+      <p>
+        You can ask us about your application online.{' '}
+        <a href="https://ask.va.gov/" target="_blank" rel="noreferrer">
+          Contact us online through Ask VA (opens in new tab)
+        </a>
+      </p>
+      <p>
+        Or call us at <va-telephone contact={CONTACTS.VA_BENEFITS} /> (TTY:{' '}
+        <va-telephone contact={CONTACTS[711]} />
+        ). We’re here Monday through Friday, 8:00 am to 8:00 pm ET.
+      </p>
+      <p>
+        <strong>If you don’t receive a decision letter,</strong> don’t apply
+        again. Contact us online or call us instead.
+      </p>
+      <va-link-action href="/" text="Go back to VA.gov" type="secondary" />
+      <div className="help-footer-box vads-u-margin-top--6">
+        <h2 className="help-heading vads-u-font-size--h3">Need help?</h2>
+        <p className="help-talk">
+          <strong>If you have trouble using this online form,</strong> call us
+          at <va-telephone contact="8006982411" /> (
+          <va-telephone contact="711" tty />
+          ). We&rsquo;re here 24/7.
+        </p>
+        <p className="help-talk">
+          <strong>
+            If you need help gathering your information or filling out your
+            form,
+          </strong>{' '}
+          contact a local Veterans Service Organization (VSO).
+        </p>
+        <va-link
+          href="https://www.va.gov/get-help-from-accredited-representative/"
+          text="Get help from a VA accredited representative or VSO"
+        />
+      </div>
+    </div>
+  );
+};
 
-function mapStateToProps(state) {
-  return {
-    form: state.form,
-    fullName: state?.user?.profile?.userFullName,
-    isLoggedIn: state?.user?.login?.currentlyLoggedIn,
-  };
-}
+ConfirmationPage.propTypes = {
+  form: PropTypes.shape({
+    data: PropTypes.shape({
+      fullName: {
+        first: PropTypes.string,
+        middle: PropTypes.string,
+        last: PropTypes.string,
+        suffix: PropTypes.string,
+      },
+    }),
+    formId: PropTypes.string,
+    submission: PropTypes.shape({
+      timestamp: PropTypes.string,
+    }),
+  }),
+  name: PropTypes.string,
+};
 
-export default connect(mapStateToProps)(ConfirmationPage);
+export default ConfirmationPage;

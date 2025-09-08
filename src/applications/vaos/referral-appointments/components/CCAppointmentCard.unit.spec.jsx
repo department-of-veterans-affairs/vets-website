@@ -9,7 +9,7 @@ describe('VAOS Component: CCAppointmentCard', () => {
   it('renders with defaults', () => {
     const { getByTestId } = render(<CCAppointmentCard />);
     expect(getByTestId('cc-appointment-card')).to.exist;
-    expect(getByTestId('appointment-icon')).to.exist;
+    expect(getByTestId('cc-appointment-card')).to.have.attribute('icon-name');
     expect(getByTestId('cc-appointment-card-header')).to.exist;
   });
 

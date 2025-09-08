@@ -977,4 +977,18 @@ describe('<Modals>', () => {
       wrapper.unmount();
     });
   });
+  describe('About all campuses modal', () => {
+    const props = {
+      ...defaultProps,
+      modals: { displaying: 'aboutAllCampuses' },
+    };
+
+    it('should render', () => {
+      const wrapper = shallow(<Modals {...props} />);
+      expect(wrapper.html()).to.contain(
+        'The number of closed, Principles of Excellence-related, complaints for schools',
+      );
+      wrapper.unmount();
+    });
+  });
 });

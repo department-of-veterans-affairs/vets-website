@@ -101,18 +101,10 @@ const generate = async data => {
   doc.moveDown(0.5);
 
   // Heading
-  const heading = createHeading(
-    doc,
-    'H1',
-    config,
-    data.vetStatusCardToggle
-      ? 'Veteran Status Card'
-      : 'Proof of Veteran status card',
-    {
-      x: doc.page.margins.left,
-      paragraphGap: 10,
-    },
-  );
+  const heading = createHeading(doc, 'H1', config, 'Veteran Status Card', {
+    x: doc.page.margins.left,
+    paragraphGap: 10,
+  });
   wrapper.add(heading);
 
   // description
@@ -122,9 +114,7 @@ const generate = async data => {
         .font(config.paragraph.font)
         .fontSize(config.paragraph.size)
         .text(
-          data.vetStatusCardToggle
-            ? 'This card makes it easy to prove your service and access Veteran discounts, all while keeping your personal information secure.'
-            : 'You can use your Veteran status card to get discounts at stores, businesses, and restaurants.',
+          'This card makes it easy to prove your service and access Veteran discounts, all while keeping your personal information secure.',
           doc.page.margins.left,
           doc.y,
           {
@@ -166,13 +156,7 @@ const generate = async data => {
     doc
       .font(config.headings.H2.font)
       .fontSize(config.headings.H2.size)
-      .text(
-        data.vetStatusCardToggle
-          ? 'Veteran Status Card'
-          : 'Proof of Veteran Status',
-        doc.page.margins.left + cardPadding,
-        doc.y,
-      );
+      .text('Veteran Status Card', doc.page.margins.left + cardPadding, doc.y);
   });
   cardSection.add(cardHeading);
 

@@ -57,7 +57,7 @@ const summaryPageSchemas = summaryPage(options);
  * build list of pages to populate in the form config
  * @returns {ArrayBuilderPages}
  */
-const dependentsPages = arrayBuilderPages(options, pagebuilder => ({
+const DependentsPages = arrayBuilderPages(options, pagebuilder => ({
   dependentsSummary: pagebuilder.summaryPage({
     title: content['dependent-info--summary-title'],
     path: 'household-information/dependents',
@@ -168,4 +168,4 @@ const dependentsPages = arrayBuilderPages(options, pagebuilder => ({
   }),
 }));
 
-export default dependentsPages;
+export default DependentsPages;

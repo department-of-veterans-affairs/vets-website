@@ -3,6 +3,7 @@ import { createApi } from '@reduxjs/toolkit/query/react';
 import { apiRequestWithUrl } from 'applications/vaos/services/utils';
 import { captureError } from '../../utils/error';
 import { fetchPendingAppointments } from '../actions';
+import { cacheDraftReferralAppointment } from '../../referral-appointments/redux/actions';
 
 export const vaosApi = createApi({
   reducerPath: 'appointmentApi',
@@ -40,6 +41,22 @@ export const vaosApi = createApi({
       // Needs an argumant to be passed in to trigger the query.
       async onQueryStarted(id, { dispatch }) {
         dispatch(fetchPendingAppointments());
+        // Reset draft referral appointment cache when fetching new referrals.
+        dispatch(cacheDraftReferralAppointment({}));
+      },
+    }),
+    getAppointmentInfo: builder.query({
+      async queryFn(appointmentId) {
+        try {
+          return await apiRequestWithUrl(
+            `/vaos/v2/eps_appointments/${appointmentId}`,
+          );
+        } catch (error) {
+          captureError(error, false, 'poll fetch appointment info');
+          return {
+            error: { status: error.status || 500, message: error.message },
+          };
+        }
       },
     }),
     postDraftReferralAppointment: builder.mutation({
@@ -101,6 +118,7 @@ export const vaosApi = createApi({
 export const {
   useGetReferralByIdQuery,
   useGetPatientReferralsQuery,
+  useGetAppointmentInfoQuery,
   usePostDraftReferralAppointmentMutation,
   usePostReferralAppointmentMutation,
 } = vaosApi;

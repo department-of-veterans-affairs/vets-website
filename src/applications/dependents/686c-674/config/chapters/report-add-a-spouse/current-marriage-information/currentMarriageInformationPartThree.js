@@ -27,6 +27,13 @@ export const uiSchema = {
           required: 'Enter the city where you were married',
         },
         'ui:webComponentField': VaTextInputField,
+        'ui:validations': [
+          (errors, city) => {
+            if (city?.length > 30) {
+              errors.addError('City must be 30 characters or less');
+            }
+          },
+        ],
       },
       state: {
         'ui:title': 'State',

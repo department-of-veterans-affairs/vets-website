@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {
   titleUI,
   textUI,
@@ -38,6 +37,7 @@ import {
   benefitUiLabels,
   ProgramExamples,
   TermDateHint,
+  calculateStudentAssetTotal,
 } from './helpers';
 import { CancelButton, generateHelpText } from '../../helpers';
 import { getFullName } from '../../../../shared/utils';
@@ -207,12 +207,32 @@ export const studentIncomePage = {
 export const studentAddressPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(() => 'Student’s address'),
-    address: addressUI({
-      labels: {
-        militaryCheckbox:
-          'The student receives mail outside of the United States on a U.S. military base.',
+    address: {
+      ...addressUI({
+        title: '',
+        labels: {
+          militaryCheckbox:
+            'The student receives mail outside of the United States on a U.S. military base.',
+        },
+      }),
+      city: {
+        ...addressUI().city,
+        'ui:validations': [
+          (errors, city, formData) => {
+            const address = formData?.address;
+            const cityStr = city?.trim().toUpperCase();
+
+            if (
+              address &&
+              ['APO', 'FPO', 'DPO'].includes(cityStr) &&
+              address.isMilitary !== true
+            ) {
+              errors.addError('Enter a valid city name');
+            }
+          },
+        ],
       },
-    }),
+    },
   },
   schema: {
     type: 'object',
@@ -313,14 +333,13 @@ export const studentEducationBenefitsPage = {
       },
     },
     'ui:options': {
-      updateSchema: (formData, formSchema) => {
-        if (formData?.typeOfProgramOrBenefit?.other) {
-          return formSchema;
-        }
-        return {
-          ...formSchema,
-          required: ['tuitionIsPaidByGovAgency', 'otherProgramOrBenefit'],
-        };
+      updateSchema: (formData, formSchema, _uiSchema, index) => {
+        const isOtherChecked =
+          !!formData?.studentInformation?.[index]?.typeOfProgramOrBenefit
+            ?.other || !!formData?.typeOfProgramOrBenefit?.other;
+        const required = ['tuitionIsPaidByGovAgency'];
+        if (isOtherChecked) required.push('otherProgramOrBenefit');
+        return { ...formSchema, required };
       },
     },
   },
@@ -565,7 +584,10 @@ export const studentTermDatesPage = {
             properties: {
               officialSchoolStartDate: currentOrPastDateSchema,
               expectedStudentStartDate: currentOrPastDateSchema,
-              expectedGraduationDate: currentOrPastDateSchema,
+              expectedGraduationDate: {
+                type: 'string',
+                pattern: '^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$',
+              },
             },
           },
         },
@@ -767,7 +789,20 @@ export const studentAssetsPage = {
         ),
       },
       otherAssets: currencyUI('All other assets'),
-      totalValue: currencyUI('Total value'),
+    },
+    'ui:options': {
+      updateSchema: (formData, schema, _uiSchema) => {
+        const total = calculateStudentAssetTotal(
+          formData?.studentNetworthInformation,
+        );
+
+        if (formData?.studentNetworthInformation) {
+          // eslint-disable-next-line no-param-reassign
+          formData.studentNetworthInformation.totalValue = total;
+        }
+
+        return schema;
+      },
     },
   },
   schema: {
@@ -780,7 +815,6 @@ export const studentAssetsPage = {
           securities: currencyStringSchema,
           realEstate: currencyStringSchema,
           otherAssets: currencyStringSchema,
-          totalValue: currencyStringSchema,
         },
       },
     },

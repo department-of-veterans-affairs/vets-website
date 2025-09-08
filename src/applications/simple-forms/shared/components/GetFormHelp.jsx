@@ -15,10 +15,12 @@ export default function() {
         </strong>{' '}
         you can appoint a VA accredited representative.
       </p>
-      <va-link
-        href="https://www.va.gov/get-help-from-accredited-representative/"
-        text="Get help filling out a form"
-      />
+      <p>
+        <va-link
+          href="https://www.va.gov/get-help-from-accredited-representative/"
+          text="Get help filling out a form"
+        />
+      </p>
     </>
   );
 }

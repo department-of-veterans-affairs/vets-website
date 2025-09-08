@@ -7,7 +7,10 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import getHelp from '../components/GetFormHelp';
 import PreSubmitInfo from '../containers/PreSubmitInfo';
 import { submitHandler } from '../utils/helpers';
-import { militaryBranchComponentTypes } from '../constants/benefits';
+import {
+  militaryBranchComponentTypes,
+  militaryBranchTypes,
+} from '../constants/benefits';
 
 import manifest from '../manifest.json';
 
@@ -19,7 +22,9 @@ import goals from '../pages/goals';
 import disabilityRating from '../pages/disabilityRating';
 import militaryService from '../pages/militaryService';
 import activeDuty from '../pages/activeDuty';
-import militaryBranch from '../pages/militaryBranch';
+import militaryBranch, {
+  getBranchComponentPages,
+} from '../pages/militaryBranch';
 import militaryServiceTimeServed from '../pages/militaryServiceTimeServed';
 import titleTenServiceTime from '../pages/titleTenTimeServed';
 import militaryServiceCompleted from '../pages/militaryServiceCompleted';
@@ -93,52 +98,47 @@ export const formConfig = {
       pages: {
         militaryServiceTimeServed: {
           path: 'service/time-served',
-          title: 'Military Service Time Served',
+          title: 'Length of service',
           uiSchema: militaryServiceTimeServed.uiSchema,
           schema: militaryServiceTimeServed.schema,
         },
         militaryBranch: {
           path: 'service/branch-served',
-          title: 'Military Branch Served',
+          title: 'Branch',
           uiSchema: militaryBranch.uiSchema,
           schema: militaryBranch.schema,
-          depends: () => !environment.isProduction(),
         },
+        ...getBranchComponentPages(),
         titleTenActiveDuty: {
           path: 'service/active-duty',
-          title: 'Active Duty',
+          title: 'Title 10 service',
           uiSchema: activeDuty.uiSchema,
           schema: activeDuty.schema,
           depends: formData => {
-            return (
-              !environment.isProduction() &&
-              Object.values(formData.branchComponents).some(
-                branchComponent =>
-                  branchComponent[
-                    militaryBranchComponentTypes.NATIONAL_GUARD_SERVICE
-                  ] === true ||
-                  branchComponent[
-                    militaryBranchComponentTypes.RESERVE_SERVICE
-                  ] === true,
-              )
-            );
+            return Object.values(militaryBranchTypes).some(pageName => {
+              return (
+                formData[pageName]?.[
+                  militaryBranchComponentTypes.NATIONAL_GUARD_SERVICE
+                ] ||
+                formData[pageName]?.[
+                  militaryBranchComponentTypes.RESERVE_SERVICE
+                ]
+              );
+            });
           },
         },
         titleTenTimeServed: {
           path: 'service/title-ten',
-          title: 'Title Ten',
+          title: 'Length of Title 10 service',
           uiSchema: titleTenServiceTime.uiSchema,
           schema: titleTenServiceTime.schema,
           depends: formData => {
-            return (
-              !environment.isProduction() &&
-              formData.titleTenActiveDuty === true
-            );
+            return formData.titleTenActiveDuty === true;
           },
         },
         militaryService: {
           path: 'service/current',
-          title: 'Military Service',
+          title: 'Military service',
           uiSchema: militaryService.uiSchema,
           schema: militaryService.schema,
           onNavForward: ({ formData, goPath }) => {
@@ -192,7 +192,7 @@ export const formConfig = {
       pages: {
         characterOfDischarge: {
           path: 'discharge',
-          title: 'Character of Discharge',
+          title: 'Character of discharge',
           uiSchema: characterOfDischarge.uiSchema,
           schema: characterOfDischarge.schema,
           onNavBack: ({ formData, goPath }) => {
@@ -210,7 +210,7 @@ export const formConfig = {
       pages: {
         disabilityRating: {
           path: 'disability',
-          title: 'Disability Rating',
+          title: 'Disability',
           uiSchema: disabilityRating.uiSchema,
           schema: disabilityRating.schema,
         },

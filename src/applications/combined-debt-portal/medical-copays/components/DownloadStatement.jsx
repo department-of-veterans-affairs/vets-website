@@ -25,7 +25,10 @@ const DownloadStatement = ({ statementId, statementDate, fullName }) => {
   );
 
   return (
-    <article className="vads-u-padding--0">
+    <article
+      className="vads-u-padding--0"
+      data-testid="download-statement-section"
+    >
       <div className="vads-u-margin-top--2">
         <a
           className="vads-u-text-decoration--none vads-u-display--flex vads-u-align-items--flex-start"
@@ -51,7 +54,7 @@ const DownloadStatement = ({ statementId, statementDate, fullName }) => {
             Download {formattedStatementDate} dated medical copay statement{' '}
           </span>
           <dfn>
-            <abbr title="Portable Document Format">(PDF)</abbr>
+            <abbr title="Portable Document Format"> (PDF)</abbr>
           </dfn>
         </a>
       </div>

@@ -9,8 +9,8 @@ export function LetterPageWrapper() {
       </h1>
       <p className="va-introtext">
         When you apply for a benefit based on your VA status, you may need to
-        provide a VA benefit letter or other documentation to prove you’re
-        eligible.
+        provide a VA benefit letter or other documents to prove your
+        eligibility.
       </p>
       <Outlet />
     </div>

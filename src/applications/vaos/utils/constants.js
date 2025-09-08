@@ -160,7 +160,7 @@ export const TYPES_OF_CARE = [
     id: TYPE_OF_CARE_IDS.PODIATRY_ID,
     idV2: 'podiatry',
     name: 'Podiatry',
-    label: 'Podiatry (only available online for Community Care appointments)',
+    label: 'Podiatry (only available online for community care appointments)',
     ccId: 'CCPOD',
     group: 'specialty',
     cceType: 'Podiatry',

@@ -11,7 +11,7 @@ import {
   SignerContactInfoPage,
   signerContactOnGoForward,
 } from '../../../chapters/signerInformation';
-import mockData from '../../fixtures/data/test-data.json';
+import mockData from '../../e2e/fixtures/data/maximal-test.json';
 import formConfig from '../../../config/form';
 import {
   selectMedicareParticipantOnGoForward,
@@ -98,7 +98,7 @@ testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.sponsorInformation.pages.page11.schema,
   formConfig.chapters.sponsorInformation.pages.page11.uiSchema,
-  1,
+  2,
   'Sponsor Information - Contact info',
   {},
 );
@@ -106,7 +106,7 @@ testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.sponsorInformation.pages.page11.schema,
   formConfig.chapters.sponsorInformation.pages.page11.uiSchema,
-  1,
+  2,
   'Sponsor Information - Contact info (role: sponsor)',
   { certifierRole: 'sponsor' },
 );

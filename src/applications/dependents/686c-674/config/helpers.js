@@ -6,7 +6,7 @@ import constants from 'vets-json-schema/dist/constants.json';
 import { focusElement } from 'platform/utilities/ui';
 
 export const isChapterFieldRequired = (formData, option) =>
-  formData[`view:selectable686Options`][option];
+  formData[`view:selectable686Options`]?.[option];
 
 export const VerifiedAlert = (
   <div className="vads-u-margin-bottom--2">
@@ -205,6 +205,7 @@ export const customLocationSchemaStatePostal = {
         },
         postalCode: {
           type: 'string',
+          pattern: '^\\d{5}$',
         },
       },
     },

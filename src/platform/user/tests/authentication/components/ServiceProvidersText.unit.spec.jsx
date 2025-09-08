@@ -8,7 +8,7 @@ import ServiceProvidersText, {
   ServiceProvidersTextCreateAcct,
 } from 'platform/user/authentication/components/ServiceProvidersText';
 
-const serviceProviders = ['Login.gov', 'ID.me', 'DS Logon', 'My HealtheVet'];
+const serviceProviders = ['ID.me', 'Login.gov'];
 const mockStore = configureMockStore();
 
 const getServiceProvidersTextData = ({ propsIsBold = false }) => {
@@ -38,7 +38,7 @@ describe('ServiceProvidersText', () => {
     const { wrapper } = getServiceProvidersTextData({
       propsIsBold: true,
     });
-    expect(wrapper.find('strong').length).to.eql(3);
+    expect(wrapper.find('strong').length).to.eql(2);
     wrapper.unmount();
   });
   it('should display normal if `isBold` is falsy', () => {

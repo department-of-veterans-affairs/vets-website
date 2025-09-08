@@ -4,7 +4,7 @@ import localStorage from 'platform/utilities/storage/localStorage';
 import { displayFileSize } from 'platform/utilities/ui/index';
 import { FILE_UPLOAD_NETWORK_ERROR_MESSAGE } from 'platform/forms-system/src/js/constants';
 import { timeFromNow } from '../../../utilities/date';
-import { transformForSubmit } from './helpers';
+import { transformForSubmit, handleSessionRefresh } from './helpers';
 
 export const SET_EDIT_MODE = 'SET_EDIT_MODE';
 export const SET_DATA = 'SET_DATA';
@@ -104,8 +104,10 @@ export function submitToUrl(body, submitUrl, trackingPrefix, eventData) {
   const csrfTokenStored = localStorage.getItem('csrfToken');
   return new Promise((resolve, reject) => {
     const req = new XMLHttpRequest();
+    req.url = submitToUrl;
     req.open('POST', submitUrl);
     req.addEventListener('load', () => {
+      handleSessionRefresh(req, csrfTokenStored);
       if (req.status >= 200 && req.status < 300) {
         recordEvent({
           event: `${trackingPrefix}-submission-successful`,
@@ -237,6 +239,8 @@ export function uploadFile(
       (file.name.toLowerCase().endsWith('pdf') && uiOptions.maxPdfSize) ||
       uiOptions.maxSize;
 
+    /* NOTE: this if block not needed for web-component patttern.
+       Delete when legacy file input patterns have been removed */
     if (file.size > maxSize) {
       const fileSizeText = uiOptions?.maxSizeText || displayFileSize(maxSize);
       const fileTooBigErrorMessage =
@@ -280,10 +284,15 @@ export function uploadFile(
 
     // we limit file types, but it’s not respected on mobile and desktop
     // users can bypass it without much effort
+    const anyImage =
+      uiOptions.fileTypes[0] === 'image/*' && file.type.startsWith('image/');
+    /* NOTE: this if block not needed for web-component patttern.
+       Delete when legacy file input patterns have been removed */
     if (
       !uiOptions.fileTypes.some(fileType =>
         file.name.toLowerCase().endsWith(fileType.toLowerCase()),
-      )
+      ) &&
+      !anyImage
     ) {
       const allowedTypes = uiOptions.fileTypes.reduce(
         (accumulator, fileType, index, array) => {
@@ -307,6 +316,7 @@ export function uploadFile(
       onError();
       return null;
     }
+
     if (password) {
       onChange({ name: file.name, uploading: true, password });
     } else {
@@ -320,14 +330,18 @@ export function uploadFile(
     );
 
     const req = new XMLHttpRequest();
-
-    req.open('POST', uiOptions.fileUploadUrl);
+    req.url = uiOptions.fileUploadUrl;
+    req.open('POST', req.url);
     req.addEventListener('load', () => {
+      handleSessionRefresh(req, csrfTokenStored);
       if (req.status >= 200 && req.status < 300) {
         const body = 'response' in req ? req.response : req.responseText;
         const fileData = uiOptions.parseResponse(JSON.parse(body), file);
         recordEvent({ event: `${trackingPrefix}file-uploaded` });
-        onChange({ ...fileData, isEncrypted: !!password });
+        onChange({
+          ...fileData,
+          isEncrypted: !!password,
+        });
       } else {
         const fileObj = { file, name: file.name, size: file.size };
         let errorMessage = req.statusText;
@@ -346,7 +360,11 @@ export function uploadFile(
           )}.`;
         }
         if (password) {
-          onChange({ ...fileObj, errorMessage, isEncrypted: true });
+          onChange({
+            ...fileObj,
+            errorMessage,
+            isEncrypted: true,
+          });
         } else {
           onChange({ ...fileObj, errorMessage });
         }
@@ -360,13 +378,11 @@ export function uploadFile(
         uiOptions?.fileUploadNetworkErrorMessage ||
         FILE_UPLOAD_NETWORK_ERROR_MESSAGE;
       const errorAlert = uiOptions?.fileUploadNetworkErrorAlert;
-
       if (password) {
         onChange({
           file, // return file object to allow resubmit
           name: file.name,
           errorMessage,
-          password: file.password,
         });
       } else {
         const changePayload = {

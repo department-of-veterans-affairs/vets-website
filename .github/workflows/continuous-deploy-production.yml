@@ -35,7 +35,7 @@ jobs:
                 }
               ]
             }
-          channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
+          channel_id: ${{ github.event.client_payload.slack_channel != '' && github.event.client_payload.slack_channel || env.VETS_WEBSITE_CHANNEL_ID }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
@@ -104,6 +104,39 @@ jobs:
           DEST: s3://www.va.gov
           ASSET_DEST: s3://prod-va-gov-assets
 
+  notify-success:
+    name: Notify Success
+    runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/main' && success() }}
+    needs: [deploy]
+    env:
+      VETS_WEBSITE_CHANNEL_ID: C02V265VCGH #status-vets-website
+
+    steps:
+      - name: Notify Slack - Deployment Succeeded
+        uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
+        with:
+          payload: >-
+            {
+              "attachments": [
+                {
+                  "color": "#2eb886",
+                  "blocks": [
+                    {
+                      "type": "section",
+                      "text": {
+                        "type": "mrkdwn",
+                        "text": "Deployment for ${{ github.event.client_payload.entry_app }} succeeded on the `main` branch in `vets-website`: <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|run details>"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          channel_id: ${{ github.event.client_payload.slack_channel != '' && github.event.client_payload.slack_channel || env.VETS_WEBSITE_CHANNEL_ID }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
   notify-failure:
     name: Notify Failure
     runs-on: ubuntu-latest
@@ -144,7 +177,7 @@ jobs:
         continue-on-error: true
         with:
           payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "${{steps.get-changed-apps.outputs.slack_groups}} CI for your application failed on the `main` branch in `vets-website`: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>\n For help troubleshooting, see the <https://depo-platform-documentation.scrollhelp.site/developer-docs/Handling-failed-single%2Fgrouped-application-pipelines.2066645150.html|documentation> on failed workflow runs."}}]}]}'
-          channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
+          channel_id: ${{ github.event.client_payload.slack_channel != '' && github.event.client_payload.slack_channel || env.VETS_WEBSITE_CHANNEL_ID }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
@@ -154,6 +187,6 @@ jobs:
         continue-on-error: true
         with:
           payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "`main` branch CI in `vets-website` failed: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}}]}]}'
-          channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
+          channel_id: ${{ github.event.client_payload.slack_channel != '' && github.event.client_payload.slack_channel || env.VETS_WEBSITE_CHANNEL_ID }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

@@ -20,12 +20,12 @@ const HowDoIDispute = () => {
         You’ll need to continue making payments on your debt while we review
         your dispute.{' '}
       </p>
-      <a
-        className="vads-c-action-link--blue"
+      <va-link-action
         href="/manage-va-debt/dispute-debt/"
-      >
-        Dispute an overpayment online
-      </a>
+        message-aria-describedby="Opens pay.va.gov"
+        text="Dispute an overpayment online"
+        class="vads-u-margin-top--2"
+      />
     </div>
   );
 };

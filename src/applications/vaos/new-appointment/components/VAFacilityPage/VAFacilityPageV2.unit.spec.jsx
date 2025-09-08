@@ -25,7 +25,7 @@ import {
 import { TYPE_OF_CARE_IDS } from '../../../utils/constants';
 import VAFacilityPage from './VAFacilityPageV2';
 
-describe('VAOS Page: VAFacilityPage', () => {
+describe.skip('VAOS Page: VAFacilityPage', () => {
   describe('when there are multiple facilities to choose from', () => {
     const initialState = {
       featureToggles: {

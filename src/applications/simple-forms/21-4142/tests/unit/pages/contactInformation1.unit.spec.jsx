@@ -1,10 +1,7 @@
-import environment from 'platform/utilities/environment';
 import {
-  testNumberOfErrorsOnSubmit,
   testNumberOfErrorsOnSubmitForWebComponents,
-  testNumberOfFields,
   testNumberOfWebComponentFields,
-} from '../../../../shared/tests/pages/pageTests.spec';
+} from 'platform/forms-system/test/pageTestHelpers.spec';
 import formConfig from '../../../config/form';
 
 const {
@@ -14,40 +11,20 @@ const {
 
 const pageTitle = 'contact information 1';
 
-if (environment.isProduction()) {
-  const expectedNumberOfFields = 8;
-  testNumberOfFields(
-    formConfig,
-    schema,
-    uiSchema,
-    expectedNumberOfFields,
-    pageTitle,
-  );
+const numberOfWebComponentFields = 7;
+testNumberOfWebComponentFields(
+  formConfig,
+  schema,
+  uiSchema,
+  numberOfWebComponentFields,
+  pageTitle,
+);
 
-  const expectedNumberOfErrors = 4;
-  testNumberOfErrorsOnSubmit(
-    formConfig,
-    schema,
-    uiSchema,
-    expectedNumberOfErrors,
-    pageTitle,
-  );
-} else {
-  const numberOfWebComponentFields = 7;
-  testNumberOfWebComponentFields(
-    formConfig,
-    schema,
-    uiSchema,
-    numberOfWebComponentFields,
-    pageTitle,
-  );
-
-  const numberOfWebComponentErrors = 4;
-  testNumberOfErrorsOnSubmitForWebComponents(
-    formConfig,
-    schema,
-    uiSchema,
-    numberOfWebComponentErrors,
-    pageTitle,
-  );
-}
+const numberOfWebComponentErrors = 4;
+testNumberOfErrorsOnSubmitForWebComponents(
+  formConfig,
+  schema,
+  uiSchema,
+  numberOfWebComponentErrors,
+  pageTitle,
+);

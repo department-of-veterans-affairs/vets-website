@@ -1,10 +1,13 @@
 import React from 'react';
-import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import { inputVaTextInput } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { expect } from 'chai';
 import { cleanup, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
+import {
+  mockApiRequest,
+  inputVaTextInput,
+} from '@department-of-veterans-affairs/platform-testing/helpers';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import triageTeams from '../../fixtures/recipients.json';
 import categories from '../../fixtures/categories-response.json';
 import draftMessage from '../../fixtures/message-draft-response.json';
@@ -29,10 +32,10 @@ import { messageSignatureFormatter } from '../../../util/helpers';
 import * as messageActions from '../../../actions/messages';
 import * as draftActions from '../../../actions/draftDetails';
 import * as categoriesActions from '../../../actions/categories';
+import * as threadDetailsActions from '../../../actions/threadDetails';
 import threadDetailsReducer from '../../fixtures/threads/reply-draft-thread-reducer.json';
 import {
   getProps,
-  selectVaRadio,
   selectVaSelect,
   checkVaCheckbox,
   comboBoxVaSelect,
@@ -78,7 +81,17 @@ describe('Compose form component', () => {
     sm: {
       triageTeams: { triageTeams },
       categories: { categories },
-      threadDetails: { ...threadDetailsReducer.threadDetails },
+      threadDetails: {
+        ...threadDetailsReducer.threadDetails,
+        draftInProgress: {
+          recipientId: threadDetailsReducer.threadDetails.drafts[0].recipientId,
+          recipientName:
+            threadDetailsReducer.threadDetails.drafts[0].recipientName,
+          category: threadDetailsReducer.threadDetails.drafts[0].category,
+          subject: threadDetailsReducer.threadDetails.drafts[0].subject,
+          body: threadDetailsReducer.threadDetails.drafts[0].body,
+        },
+      },
       recipients: {
         allRecipients: noBlockedRecipients.mockAllRecipients,
         allowedRecipients: noBlockedRecipients.mockAllowedRecipients,
@@ -122,14 +135,14 @@ describe('Compose form component', () => {
     const screen = setup(initialState, Paths.COMPOSE);
 
     const recipient = await screen.getByTestId('compose-recipient-select');
-    const categoryRadioButtons = await screen.getAllByTestId(
-      'compose-category-radio-button',
+    const categoryDropdown = await screen.getByTestId(
+      'compose-message-categories',
     );
     const subject = await screen.getByTestId('message-subject-field');
     const body = await screen.getByTestId('message-body-field');
 
     expect(recipient).to.exist;
-    expect(categoryRadioButtons.length).to.equal(6);
+    expect(categoryDropdown).to.exist;
     expect(subject).to.exist;
     expect(body).to.exist;
   });
@@ -188,7 +201,7 @@ describe('Compose form component', () => {
       {
         initialState: customState,
         reducers: reducer,
-        path: `/draft/${draftMessage.id}`,
+        path: `/draft/${customDraftMessage.id}`,
       },
     );
 
@@ -227,6 +240,41 @@ describe('Compose form component', () => {
     await waitFor(() => {
       expect(sendMessageSpy.calledOnce).to.be.true;
       sendMessageSpy.restore();
+    });
+  });
+
+  it('clears draftInProgress on send button click', async () => {
+    const customDraftMessage = {
+      ...draftMessage,
+      recipientId: 1013155,
+      recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+      triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+    };
+
+    const customState = {
+      ...draftState,
+      sm: {
+        ...draftState.sm,
+        draftDetails: { customDraftMessage },
+      },
+    };
+
+    const clearDraftInProgressSpy = sinon.spy(
+      threadDetailsActions,
+      'clearDraftInProgress',
+    );
+
+    const screen = setup(customState, `/thread/${customDraftMessage.id}`, {
+      draft: customDraftMessage,
+      recipients: customState.sm.recipients,
+    });
+
+    mockApiRequest({});
+    fireEvent.click(screen.getByTestId('send-button'));
+
+    await waitFor(() => {
+      expect(clearDraftInProgressSpy.calledOnce).to.be.true;
+      clearDraftInProgressSpy.restore();
     });
   });
 
@@ -324,7 +372,6 @@ describe('Compose form component', () => {
         triageTeams: { triageTeams },
         categories: { categories },
         threadDetails: {
-          ...draftState.sm.threadDetails,
           drafts: {},
         },
         preferences: signatureReducers.signatureEnabled,
@@ -387,11 +434,15 @@ describe('Compose form component', () => {
 
     const messageInput = await screen.getByTestId('message-body-field');
 
-    expect(messageInput)
-      .to.have.attribute('value')
-      .not.equal(
-        messageSignatureFormatter(signatureReducers.signatureEnabled.signature),
-      );
+    await waitFor(() => {
+      expect(messageInput)
+        .to.have.attribute('value')
+        .not.equal(
+          messageSignatureFormatter(
+            signatureReducers.signatureEnabled.signature,
+          ),
+        );
+    });
   });
 
   it('displays an error on attempt to save a draft with attachments', async () => {
@@ -400,7 +451,24 @@ describe('Compose form component', () => {
       messageValid: true,
       isSignatureRequired: false,
     };
-    const screen = setup(initialState, Paths.COMPOSE, { draft: customProps });
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        threadDetails: {
+          draftInProgress: {
+            recipientId:
+              threadDetailsReducer.threadDetails.drafts[0].recipientId,
+            recipientName:
+              threadDetailsReducer.threadDetails.drafts[0].recipientName,
+            category: threadDetailsReducer.threadDetails.drafts[0].category,
+            subject: threadDetailsReducer.threadDetails.drafts[0].subject,
+            body: threadDetailsReducer.threadDetails.drafts[0].body,
+          },
+        },
+      },
+    };
+    const screen = setup(customState, Paths.COMPOSE, { draft: customProps });
     const file = new File(['(⌐□_□)'], 'test.png', { type: 'image/png' });
     const uploader = screen.getByTestId('attach-file-input');
 
@@ -439,10 +507,12 @@ describe('Compose form component', () => {
     );
 
     await waitFor(() => {
-      selectVaRadio(screen.container, 'COVID');
-      expect(
-        $('va-radio-option[value="COVID"]', screen.container),
-      ).to.have.attribute('checked', 'true');
+      selectVaSelect(
+        screen.container,
+        'COVID',
+        'va-select[data-testid="compose-message-categories"]',
+      );
+      expect(screen.getByTestId('compose-message-categories')).to.exist;
     });
   });
 
@@ -833,7 +903,9 @@ describe('Compose form component', () => {
           noAssociations: blockedFacility.noAssociations,
           allTriageGroupsBlocked: blockedFacility.allTriageGroupsBlocked,
         },
-        threadDetails: {},
+        threadDetails: {
+          draftInProgress: {},
+        },
       },
     };
 
@@ -874,7 +946,9 @@ describe('Compose form component', () => {
           noAssociations: blockedFacilityAndTeam.noAssociations,
           allTriageGroupsBlocked: blockedFacilityAndTeam.allTriageGroupsBlocked,
         },
-        threadDetails: {},
+        threadDetails: {
+          draftInProgress: {},
+        },
       },
     };
 
@@ -1122,6 +1196,7 @@ describe('Compose form component', () => {
         threadDetails: {
           ...draftState.sm.threadDetails,
           drafts: [customDraftMessage],
+          draftInProgress: {},
         },
       },
     };
@@ -1186,6 +1261,7 @@ describe('Compose form component', () => {
         threadDetails: {
           ...draftState.sm.threadDetails,
           drafts: [customDraftMessage],
+          draftInProgress: {},
         },
       },
     };
@@ -1249,33 +1325,33 @@ describe('Compose form component', () => {
   });
 
   it('should display an error message when attaching a new file increases total attachments size over 10MB', async () => {
-    const useFeatureTogglesStub = stubUseFeatureToggles({
+    const useFeatureTogglesStub10MB = stubUseFeatureToggles({
       largeAttachmentsEnabled: false,
     });
 
+    mockApiRequest({});
+
     const oneMB = 1024 * 1024;
 
-    // Create first 4MB file with actual content
-    const file1Content = new Uint8Array(4 * oneMB);
-    file1Content.fill(1); // Fill with data to ensure actual size
+    // Create multiple files under 6MB each that total over 10MB
+    const file1Content = new Uint8Array(4 * oneMB); // 4MB
+    file1Content.fill(1);
     const file1 = new File([file1Content], 'test1.png', {
       type: 'image/png',
       lastModified: new Date().getTime(),
     });
 
-    // Create second 4MB file with actual content
-    const file2Content = new Uint8Array(4 * oneMB);
-    file2Content.fill(2); // Fill with data to ensure actual size
+    const file2Content = new Uint8Array(4 * oneMB); // 4MB
+    file2Content.fill(2);
     const file2 = new File([file2Content], 'test2.png', {
       type: 'image/png',
       lastModified: new Date().getTime(),
     });
 
-    // Create third 3MB file with actual content (this will exceed 10MB limit)
-    const file3Content = new Uint8Array(3 * oneMB);
-    file3Content.fill(3); // Fill with data to ensure actual size
+    const file3Content = new Uint8Array(3 * oneMB); // 3MB - this will push total over 10MB (4+4+3 = 11MB)
+    file3Content.fill(3);
     const file3 = new File([file3Content], 'test3.txt', {
-      type: 'application/octet-stream',
+      type: 'text/plain',
       lastModified: new Date().getTime(),
     });
 
@@ -1284,37 +1360,16 @@ describe('Compose form component', () => {
     expect(file2.size).to.equal(4 * oneMB);
     expect(file3.size).to.equal(3 * oneMB);
 
-    const customDraftMessage = {
-      ...draftMessage,
-      recipientId: 1013155,
-      recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
-      triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
-      attachments: [],
-    };
-
     const customState = {
-      ...draftState,
-      sm: {
-        ...draftState.sm,
-        threadDetails: {
-          ...draftState.sm.threadDetails,
-          drafts: [customDraftMessage],
-        },
-      },
+      ...initialState,
     };
 
-    const screen = renderWithStoreAndRouter(
-      <ComposeForm
-        draft={customDraftMessage}
-        recipients={customState.sm.recipients}
-      />,
-      {
-        initialState: customState,
-        reducers: reducer,
-        path: `/draft/${draftMessage.id}`,
-      },
-    );
+    const screen = setup(customState, Paths.COMPOSE);
 
+    // Wait for component to fully render
+    await waitFor(() => {
+      expect(screen.getByTestId('attach-file-input')).to.exist;
+    });
     const uploader = screen.getByTestId('attach-file-input');
 
     // Upload first 4MB file
@@ -1339,78 +1394,135 @@ describe('Compose form component', () => {
     );
     // Check that error message appears
     await waitFor(() => {
-      screen.getByTestId('file-input-error-message');
+      const errorMessage = screen.getByTestId('file-input-error-message');
+      expect(errorMessage.textContent).to.equal(
+        ErrorMessages.ComposeForm.ATTACHMENTS.TOTAL_MAX_FILE_SIZE_EXCEEDED,
+      );
     });
-    expect(screen.getByTestId('file-input-error-message').textContent).to.equal(
-      ErrorMessages.ComposeForm.ATTACHMENTS.TOTAL_MAX_FILE_SIZE_EXCEEDED,
-    );
 
-    useFeatureTogglesStub.restore();
+    useFeatureTogglesStub10MB.restore();
   });
 
   it('should display an error message when attaching a new file increases total attachments size over 25MB with largeAttachmentsEnabled feature flag', async () => {
-    const useFeatureTogglesStub = stubUseFeatureToggles({
+    const useFeatureTogglesStub25MB = stubUseFeatureToggles({
       largeAttachmentsEnabled: true,
+      cernerPilotSmFeatureFlag: true,
     });
-    useFeatureTogglesStub;
+
+    mockApiRequest({});
+
     const oneMB = 1024 * 1024;
-    const customAttachments = [
-      { name: 'test1.png', size: 4 * oneMB, type: 'image/png' },
-      { name: 'test2.png', size: 4 * oneMB, type: 'image/png' },
-      { name: 'test3.png', size: 4 * oneMB, type: 'image/png' },
-      { name: 'test4.png', size: 11 * oneMB, type: 'image/png' },
-    ];
-    const largeFileSizeInBytes = 3 * oneMB; // 3MB
-    // Use Uint8Array to ensure the file is actually 3MB
-    const largeFileContent = new Uint8Array(largeFileSizeInBytes);
-    largeFileContent.fill(1);
-    const largeFile = new File([largeFileContent], 'large_file.txt', {
-      type: 'application/octet-stream',
+
+    // Create multiple files under 6MB each that total over 25MB
+    const file1Content = new Uint8Array(5 * oneMB); // 5MB
+    file1Content.fill(1);
+    const file1 = new File([file1Content], 'test1.pdf', {
+      type: 'application/pdf',
       lastModified: new Date().getTime(),
     });
-    expect(largeFile.size).to.equal(largeFileSizeInBytes);
 
-    const customDraftMessage = {
-      ...draftMessage,
-      recipientId: 1013155,
-      recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
-      triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
-      attachments: [...customAttachments],
-    };
+    const file2Content = new Uint8Array(5 * oneMB); // 5MB
+    file2Content.fill(2);
+    const file2 = new File([file2Content], 'test2.pdf', {
+      type: 'application/pdf',
+      lastModified: new Date().getTime(),
+    });
+
+    const file3Content = new Uint8Array(5 * oneMB); // 5MB
+    file3Content.fill(3);
+    const file3 = new File([file3Content], 'test3.pdf', {
+      type: 'application/pdf',
+      lastModified: new Date().getTime(),
+    });
+
+    const file4Content = new Uint8Array(5 * oneMB); // 5MB
+    file4Content.fill(4);
+    const file4 = new File([file4Content], 'test4.pdf', {
+      type: 'application/pdf',
+      lastModified: new Date().getTime(),
+    });
+
+    const file5Content = new Uint8Array(5 * oneMB); // 5MB
+    file5Content.fill(5);
+    const file5 = new File([file5Content], 'test5.pdf', {
+      type: 'application/pdf',
+      lastModified: new Date().getTime(),
+    });
+
+    const file6Content = new Uint8Array(2 * oneMB); // 2MB - this will push total over 25MB (5+5+5+5+5+2 = 27MB)
+    file6Content.fill(6);
+    const file6 = new File([file6Content], 'test6.txt', {
+      type: 'text/plain',
+      lastModified: new Date().getTime(),
+    });
+
+    // Verify the files have the correct sizes (all under 6MB)
+    expect(file1.size).to.equal(5 * oneMB);
+    expect(file2.size).to.equal(5 * oneMB);
+    expect(file3.size).to.equal(5 * oneMB);
+    expect(file4.size).to.equal(5 * oneMB);
+    expect(file5.size).to.equal(5 * oneMB);
+    expect(file6.size).to.equal(2 * oneMB);
 
     const customState = {
-      ...draftState,
-      sm: {
-        ...draftState.sm,
-        threadDetails: {
-          ...draftState.sm.threadDetails,
-          drafts: [customDraftMessage],
-        },
+      ...initialState,
+      featureToggles: {
+        ...initialState.featureToggles,
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingLargeAttachments]: true,
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot]: true,
       },
     };
 
-    const screen = renderWithStoreAndRouter(
-      <ComposeForm
-        draft={customDraftMessage}
-        recipients={customState.sm.recipients}
-      />,
-      {
-        initialState: customState,
-        reducers: reducer,
-        path: `/draft/${draftMessage.id}`,
-      },
-    );
-
+    const screen = setup(customState, Paths.COMPOSE);
+    await waitFor(() => {
+      expect(screen.getByTestId('attach-file-input')).to.exist;
+    });
     const uploader = screen.getByTestId('attach-file-input');
+
+    // Upload first 5 files (25MB total)
     await waitFor(() =>
       fireEvent.change(uploader, {
-        target: { files: [largeFile] },
+        target: { files: [file1] },
       }),
     );
-    const error = screen.getByTestId('file-input-error-message');
-    expect(error.textContent).to.equal(
-      ErrorMessages.ComposeForm.ATTACHMENTS.TOTAL_MAX_FILE_SIZE_EXCEEDED,
+    await waitFor(() =>
+      fireEvent.change(uploader, {
+        target: { files: [file2] },
+      }),
     );
+    await waitFor(() =>
+      fireEvent.change(uploader, {
+        target: { files: [file3] },
+      }),
+    );
+    await waitFor(() =>
+      fireEvent.change(uploader, {
+        target: { files: [file4] },
+      }),
+    );
+    await waitFor(() =>
+      fireEvent.change(uploader, {
+        target: { files: [file5] },
+      }),
+    );
+
+    // Upload sixth file - this should trigger the error (total: 27MB > 25MB)
+    await waitFor(() =>
+      fireEvent.change(uploader, {
+        target: { files: [file6] },
+      }),
+    );
+
+    // Check that error message appears
+    await waitFor(() => {
+      const errorMessage = screen.getByTestId('file-input-error-message');
+      expect(errorMessage.textContent).to.equal(
+        ErrorMessages.ComposeForm.ATTACHMENTS
+          .TOTAL_MAX_FILE_SIZE_EXCEEDED_LARGE,
+      );
+    });
+
+    useFeatureTogglesStub25MB.restore();
   });
 
   it('should contain Edit Signature Link', () => {
@@ -1470,5 +1582,51 @@ describe('Compose form component', () => {
     expect(comboBoxInput.error).to.equal('Please select a recipient.');
     expect(subjectInputError).to.equal('Subject cannot be blank.');
     expect(messageInputError).to.equal('Message body cannot be blank.');
+  });
+
+  it('renders correct headings in pilot environment', async () => {
+    const customState = {
+      ...initialState,
+      featureToggles: {
+        loading: false,
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot]: true,
+      },
+      sm: {
+        ...initialState.sm,
+        recipients: {
+          ...initialState.sm.recipients,
+          activeFacility: {
+            ehr: 'vista',
+            vamcSystemName: 'Test Vista Facility Health Care',
+          },
+        },
+        threadDetails: {
+          draftInProgress: {
+            careSystemName: 'test care system',
+            recipientName: 'test care team',
+          },
+        },
+      },
+    };
+
+    const screen = setup(customState, Paths.COMPOSE, {
+      pageTitle: 'Start your message',
+    });
+
+    expect(
+      screen.getByText('Start your message', {
+        selector: 'h1',
+      }),
+    ).to.exist;
+
+    expect(
+      screen.getByTestId('compose-recipient-title').textContent,
+    ).to.contain('test care system - test care team');
+
+    expect(
+      screen.getByText('Attachments', {
+        selector: 'h2',
+      }),
+    ).to.exist;
   });
 });

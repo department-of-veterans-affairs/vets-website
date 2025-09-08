@@ -45,7 +45,6 @@ const VeteranStatus = ({
     useToggleValue,
     useToggleLoadingValue,
   } = useFeatureToggle();
-  const vetStatusCardToggle = useToggleValue(TOGGLE_NAMES.vetStatusStage1);
 
   const userAgent =
     mockUserAgent || navigator.userAgent || navigator.vendor || window.opera;
@@ -155,11 +154,11 @@ const VeteranStatus = ({
       totalDisabilityRating,
       edipi,
       image: {
-        title: 'V-A logo',
+        title: 'VA logo',
         url: '/img/design/logo/logo-black-and-white.png',
       },
       seal: {
-        title: 'V-A Seal',
+        title: 'VA Seal',
         url: '/img/design/logo/seal-black-and-white.png',
       },
       scissors: {
@@ -167,7 +166,6 @@ const VeteranStatus = ({
         url: '/img/scissors-black.png',
       },
     },
-    vetStatusCardToggle,
   };
 
   useBrowserMonitoring();
@@ -178,11 +176,13 @@ const VeteranStatus = ({
     isLoadingFeatureFlags === false && monitorPdfGeneration === true;
 
   const createPdf = async () => {
-    const pdfTemplate = monitoringEnabled
-      ? 'fakeTemplateName'
-      : 'veteranStatusNew';
     try {
-      await generatePdf(pdfTemplate, 'Veteran status card', pdfData, !isMobile);
+      await generatePdf(
+        'veteranStatusNew',
+        'Veteran status card',
+        pdfData,
+        !isMobile,
+      );
     } catch (error) {
       setPdfError(true);
       if (monitoringEnabled) {

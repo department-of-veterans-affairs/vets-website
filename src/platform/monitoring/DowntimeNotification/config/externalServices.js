@@ -5,11 +5,13 @@
 export default {
   arcgis: 'arcgis',
   appeals: 'appeals',
+  askva: 'askva',
   // Benefits Gateway Services
   bgs: 'bgs',
   // CARMA (Caregiver Record Management Application)
   carma: 'carma',
   decisionReviews: 'decision_reviews',
+  disabilityCompensationForm: 'disability_compensation_form',
   // Debt Management Services
   dmc: 'dmc',
   dslogon: 'dslogon',
@@ -84,6 +86,8 @@ export default {
   pcie: 'pcie',
   // Travel claim
   tc: 'tc',
+  // Community Care Direct Scheduling
+  communityCareDS: 'community_care_ds',
   // MDOT/ROES/DLC
   mdot: 'mdot',
   // stagingMdot: 'staging_mdot', // unnecessary

@@ -8,6 +8,7 @@
       "date": true,
       "internationalPhone": true,
       "fileInput": true,
+      "fileInputMultiple": true,
       "formsPattern": true,
       "miscellaneous": true,
       "numberInput": true,
@@ -30,8 +31,31 @@
       "name": "my_form.pdf",
       "size": 12345,
       "fileType": "pdf",
-      "confirmationCode": 7564298
+      "confirmationCode": "7564298",
+      "additionalData": {
+        "documentStatus": "private"
+      }
     },
+    "wcv3FileInputMultiple": [
+      {
+        "name": "my_form.pdf",
+        "size": 2048,
+        "type": "pdf",
+        "confirmationCode": "123abc",
+        "additionalData": {
+          "documentStatus": "private"
+        }
+      },
+      {
+        "name": "my_png.png",
+        "size": 2048,
+        "type": "png",
+        "confirmationCode": "456efg",
+        "additionalData": {
+          "documentStatus": "public"
+        }
+      }
+    ],
     "vaCompensationType": "none",
     "isCurrentlyActiveDuty": false,
     "wcv3VaCompensationType": "highDisability",

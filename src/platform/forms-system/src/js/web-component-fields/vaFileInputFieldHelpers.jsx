@@ -1,4 +1,14 @@
+import { useState } from 'react';
+import { isEmpty } from 'lodash';
 import { uploadFile } from 'platform/forms-system/src/js/actions';
+import {
+  standardFileChecks,
+  FILE_TYPE_MISMATCH_ERROR,
+} from 'platform/forms-system/src/js/utilities/file';
+import {
+  UNSUPPORTED_ENCRYPTED_FILE_ERROR,
+  UTF8_ENCODING_ERROR,
+} from '../validation';
 
 const MAX_FILE_SIZE_MB = 25;
 const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1000 ** 2;
@@ -16,10 +26,12 @@ export const uploadScannedForm = (
   fileToUpload,
   onFileUploaded,
   onProgress,
+  accept = '.pdf,.jpeg,.png',
+  password,
 ) => {
   const uiOptions = {
     fileUploadUrl,
-    fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
+    fileTypes: accept.split(','),
     maxSize: MAX_FILE_SIZE_BYTES,
     createPayload,
     parseResponse: ({ data }, file) => ({ ...data?.attributes, file }),
@@ -32,11 +44,17 @@ export const uploadScannedForm = (
       onProgress,
       file => onFileUploaded(file),
       () => {}, // onError
+      '', // tracking prefix placeholder
+      password,
     );
     uploadRequest(dispatch, () => ({ form: { formId: formNumber } }));
   };
 };
 
+/**
+ * Not used in form system but imported elsewhere in applications
+ * Remove when possible.
+ */
 export const getFileSize = num => {
   if (num > 999999) {
     return `${(num / 1000000).toFixed(1)} MB`;
@@ -49,4 +67,63 @@ export const getFileSize = num => {
 
 // Defaulting obj to {} in case we get a null
 export const allKeysAreEmpty = (obj = {}) =>
-  Object.keys(obj).every(key => !obj[key]);
+  Object.keys(obj).every(key => !obj[key] || isEmpty(obj[key]));
+
+export const useFileUpload = (fileUploadUrl, accept, formNumber, dispatch) => {
+  const [isUploading, setIsUploading] = useState(false);
+  const [percentUploaded, setPercentUploaded] = useState(null);
+
+  const handleUpload = (file, onSuccess, password = null, fileIndex) => {
+    setIsUploading(true);
+
+    const onFileUploaded = uploadedFile => {
+      setIsUploading(false);
+      setPercentUploaded(null);
+      if (onSuccess) onSuccess(uploadedFile, fileIndex);
+    };
+
+    const onFileUploading = percent => {
+      setPercentUploaded(percent);
+      setIsUploading(true);
+    };
+
+    dispatch(
+      uploadScannedForm(
+        fileUploadUrl,
+        formNumber,
+        file,
+        onFileUploaded,
+        onFileUploading,
+        accept,
+        password,
+      ),
+    );
+  };
+
+  return { isUploading, percentUploaded, handleUpload };
+};
+
+/**
+ *
+ * @param {File} file the file to upload
+ * @returns {string | null} the error if one present else null
+ */
+export async function getFileError(file, uiOptions) {
+  const checks = await standardFileChecks(file);
+  let fileError = null;
+  if (!checks.checkTypeAndExtensionMatches) {
+    fileError = FILE_TYPE_MISMATCH_ERROR;
+  }
+
+  if (!!checks.checkIsEncryptedPdf && uiOptions.disallowEncryptedPdfs) {
+    fileError = UNSUPPORTED_ENCRYPTED_FILE_ERROR;
+  }
+
+  if (!checks.checkUTF8Encoding) {
+    fileError = UTF8_ENCODING_ERROR;
+  }
+
+  return { fileError, encryptedCheck: !!checks.checkIsEncryptedPdf };
+}
+
+export const DEBOUNCE_WAIT = 500;

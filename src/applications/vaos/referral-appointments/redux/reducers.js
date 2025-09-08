@@ -1,8 +1,6 @@
 import {
   SET_FORM_CURRENT_PAGE,
-  FETCH_REFERRAL_APPOINTMENT_INFO,
-  FETCH_REFERRAL_APPOINTMENT_INFO_FAILED,
-  FETCH_REFERRAL_APPOINTMENT_INFO_SUCCEEDED,
+  CACHE_DRAFT_REFERRAL_APPOINTMENT,
   SET_INIT_REFERRAL_FLOW,
   SET_SELECTED_SLOT_START_TIME,
 } from './actions';
@@ -12,17 +10,12 @@ const initialState = {
   facility: null,
   sortProviderBy: '',
   currentPage: null,
+  draftAppointmentInfo: {},
   referrals: [],
   referralDetails: [],
   selectedSlotStartTime: '',
   referralsFetchStatus: FETCH_STATUS.notStarted,
   referralFetchStatus: FETCH_STATUS.notStarted,
-  appointmentCreateStatus: FETCH_STATUS.notStarted,
-  pollingRequestStart: null,
-  referralAppointmentInfo: {},
-  appointmentInfoLoading: false,
-  appointmentInfoError: false,
-  appointmentInfoTimeout: false,
 };
 
 function ccAppointmentReducer(state = initialState, action) {
@@ -32,28 +25,10 @@ function ccAppointmentReducer(state = initialState, action) {
         ...state,
         currentPage: action.payload,
       };
-    case FETCH_REFERRAL_APPOINTMENT_INFO:
+    case CACHE_DRAFT_REFERRAL_APPOINTMENT:
       return {
         ...state,
-        appointmentInfoError: false,
-        appointmentInfoLoading: true,
-        appointmentInfoTimeout: false,
-        pollingRequestStart: action.payload.pollingRequestStart,
-      };
-    case FETCH_REFERRAL_APPOINTMENT_INFO_SUCCEEDED:
-      return {
-        ...state,
-        appointmentInfoLoading: false,
-        appointmentInfoError: false,
-        appointmentInfoTimeout: false,
-        referralAppointmentInfo: action.data,
-      };
-    case FETCH_REFERRAL_APPOINTMENT_INFO_FAILED:
-      return {
-        ...state,
-        appointmentInfoLoading: false,
-        appointmentInfoError: true,
-        appointmentInfoTimeout: action.payload,
+        draftAppointmentInfo: action.data,
       };
     case SET_SELECTED_SLOT_START_TIME:
       return {

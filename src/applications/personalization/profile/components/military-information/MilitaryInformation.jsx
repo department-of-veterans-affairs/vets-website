@@ -11,8 +11,6 @@ import DowntimeNotification, {
 } from '~/platform/monitoring/DowntimeNotification';
 import { focusElement } from '~/platform/utilities/ui';
 import { selectVeteranStatus } from '~/platform/user/selectors';
-import { useFeatureToggle } from 'platform/utilities/feature-toggles';
-import ProofOfVeteranStatus from '../proof-of-veteran-status/ProofOfVeteranStatus';
 
 import LoadFail from '../alerts/LoadFail';
 import Headline from '../ProfileSectionHeadline';
@@ -206,9 +204,6 @@ MilitaryInformationContent.propTypes = {
 };
 
 const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
-  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const vetStatusCardToggle = useToggleValue(TOGGLE_NAMES.vetStatusStage1);
-
   useEffect(() => {
     document.title = `Military Information | Veterans Affairs`;
   }, []);
@@ -241,28 +236,20 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
         active
       />
 
-      {vetStatusCardToggle && (
-        <va-alert
-          class="vads-u-margin-top--3"
-          close-btn-aria-label="Close notification"
-          slim="true"
-          status="info"
-          visible
-        >
-          Your Veteran Status Card has moved.{' '}
-          <va-link
-            href="/profile/veteran-status-card"
-            text="Access your Veteran Status Card"
-          />
-        </va-alert>
-      )}
+      <va-alert
+        class="vads-u-margin-top--3"
+        close-btn-aria-label="Close notification"
+        slim="true"
+        status="info"
+        visible
+      >
+        Your Veteran Status Card has moved.{' '}
+        <va-link
+          href="/profile/veteran-status-card"
+          text="Access your Veteran Status Card"
+        />
+      </va-alert>
 
-      {!vetStatusCardToggle &&
-        militaryInformation?.serviceHistory?.serviceHistory && (
-          <div className="vads-u-margin-y--4">
-            <ProofOfVeteranStatus />
-          </div>
-        )}
       <DevTools devToolsData={{ militaryInformation, veteranStatus }} panel>
         <p>Profile devtools test, please ignore.</p>
       </DevTools>

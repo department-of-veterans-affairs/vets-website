@@ -1,0 +1,64 @@
+{
+  "data": [
+    {
+      "name": "Air Force",
+      "code": "F"
+    },
+    {
+      "name": "Air Force Reserve",
+      "code": "V"
+    },
+    {
+      "name": "Air National Guard",
+      "code": "N"
+    },
+    {
+      "name": "Army",
+      "code": "A"
+    },
+    {
+      "name": "Army National Guard",
+      "code": "G"
+    },
+    {
+      "name": "Army Reserve",
+      "code": "R"
+    },
+    {
+      "name": "Coast Guard",
+      "code": "C"
+    },
+    {
+      "name": "Coast Guard Reserve",
+      "code": "W"
+    },
+    {
+      "name": "Marine Corps",
+      "code": "M"
+    },
+    {
+      "name": "Marine Corps Reserve",
+      "code": "S"
+    },
+    {
+      "name": "Navy",
+      "code": "N"
+    },
+    {
+      "name": "Navy Reserve",
+      "code": "Y"
+    },
+    {
+      "name": "NOAA",
+      "code": "O"
+    },
+    {
+      "name": "Public Health Service",
+      "code": "H"
+    },
+    {
+      "name": "Space Force",
+      "code": "U"
+    }
+  ]
+}
