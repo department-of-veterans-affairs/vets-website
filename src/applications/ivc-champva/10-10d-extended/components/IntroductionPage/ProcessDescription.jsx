@@ -40,10 +40,6 @@ const ProcessDescription = ({ resBurden }) => (
           <li>Proof of adoption</li>
           <li>Birth certificate of dependent(s)</li>
         </ul>
-        <p>
-          You may also need to submit supporting documents, like copies of your
-          health insurance cards or proof of school enrollment.
-        </p>
         <va-link
           text="Find out which documents you’ll need to apply for CHAMPVA"
           href="/family-and-caregiver-benefits/health-and-disability/champva/#supporting-documents-for-your-"
