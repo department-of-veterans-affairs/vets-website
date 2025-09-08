@@ -13,7 +13,7 @@ console.log('continuous deploy type: ', typeof continuousDeploy);
 console.log('entry names type: ', typeof entryNames);
 
 if (String(continuousDeploy) == 'true' && entryNames != '') {
-  core.setOutput('can_deploy_to_prod', 'yes');
+  core.exportVariable('CAN_DEPLOY_TO_PROD', 'yes');
 } else {
-  core.setOutput('can_deploy_to_prod', 'no');
+  core.exportVariable('CAN_DEPLOY_TO_PROD', 'no');
 }

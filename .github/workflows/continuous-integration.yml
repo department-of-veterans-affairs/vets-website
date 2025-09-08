@@ -96,7 +96,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build]
     outputs:
-      deploy_to_prod: ${{ steps.deploy-to-prod.outputs.deploy_to_prod }}
+      deploy_to_prod: ${{ steps.deploy-to-prod.outputs.can_deploy }}
 
     steps:
       - name: Checkout
@@ -115,14 +115,18 @@ jobs:
             node_modules
 
       - name: Determine CD Eligibility
-        id: deploy-to-prod
         run: node script/github-actions/check-prod-deploy-eligibility.js
         env:
           continuous_deploy: ${{ needs.build.outputs.continuous_deployment }}
           entry_names: ${{ needs.build.outputs.entry_names }}
+
+      - name: Set output of deploy_to_prod
+        if: ${{ always() }}
+        id: deploy-to-prod
+        run: echo "can_deploy=$CAN_DEPLOY_TO_PROD" >> $GITHUB_OUTPUT
       
       - name: Log output
-        run: echo ${{ steps.deploy-to-prod.outputs.deploy_to_prod }}
+        run: echo ${{ steps.deploy-to-prod.outputs.can_deploy }}
   fetch-allow-lists:
     name: Fetch Test Stability Allow Lists
     runs-on: ubuntu-22.04
@@ -1966,7 +1970,7 @@ jobs:
 
   set-deploy-environments:
     name: Set Environments to Deploy
-    needs: [archive, build]
+    needs: [determine-cd-eligibility, archive, build]
     if: always() && github.ref == 'refs/heads/main' && needs.archive.result == 'success'
     runs-on: ubuntu-22.04
     outputs:
@@ -1989,6 +1993,9 @@ jobs:
       - name: Set environments for deploy matrix
         id: set-environments
         run: echo environments={\"include\":[${{env.DEV}},${{env.STAGING}}]} >> $GITHUB_OUTPUT
+
+      - name: Log CD eligibility
+        run: echo ${{ needs.determine-cd-eligibility.outputs.deploy_to_prod }}
 
   deploy:
     name: Deploy
