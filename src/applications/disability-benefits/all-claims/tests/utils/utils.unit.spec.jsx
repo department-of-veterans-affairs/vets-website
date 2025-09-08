@@ -1,27 +1,42 @@
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import moment from 'moment';
-import { minYear, maxYear } from 'platform/forms-system/src/js/helpers';
+import { maxYear, minYear } from 'platform/forms-system/src/js/helpers';
 import { checkboxGroupSchema } from 'platform/forms-system/src/js/web-component-patterns';
 
 import {
-  SAVED_SEPARATION_DATE,
-  PTSD_MATCHES,
   CHAR_LIMITS,
+  PTSD_MATCHES,
+  SAVED_SEPARATION_DATE,
 } from '../../constants';
 import {
+  activeServicePeriods,
+  baseDoNew4142Logic,
   capitalizeEachWord,
   fieldsHaveInput,
+  formatDate,
+  formatDateRange,
+  formatFullName,
+  formatMonthYearDate,
   hasGuardOrReservePeriod,
   hasHospitalCare,
+  hasNewPtsdDisability,
   hasOtherEvidence,
   increaseOnly,
   isAnswering781aQuestions,
   isAnswering781Questions,
+  isBDD,
+  isDisabilityPtsd,
+  isExpired,
+  isNotExpired,
+  isUndefined,
   isUploading781aForm,
   isUploading781aSupportingDocuments,
   isUploading781Form,
+  isValidFullDate,
+  isValidServicePeriod,
   isWithinRange,
+  makeConditionsSchema,
   needsToAnswerUnemployability,
   needsToEnter781,
   needsToEnter781a,
@@ -29,29 +44,15 @@ import {
   newConditionsOnly,
   ReservesGuardDescription,
   servedAfter911,
-  viewifyFields,
-  activeServicePeriods,
-  formatDate,
-  formatDateRange,
-  isNotExpired,
-  isValidFullDate,
-  isValidServicePeriod,
-  isBDD,
   show526Wizard,
-  isUndefined,
-  isDisabilityPtsd,
-  showSeparationLocation,
-  isExpired,
-  truncateDescriptions,
-  hasNewPtsdDisability,
   showPtsdCombat,
   showPtsdNonCombat,
+  showSeparationLocation,
+  showToxicExposureOptOutDataPurge,
   skip781,
-  formatMonthYearDate,
-  makeConditionsSchema,
+  truncateDescriptions,
   validateConditions,
-  formatFullName,
-  baseDoNew4142Logic,
+  viewifyFields,
 } from '../../utils';
 import { testBranches } from '../../utils/serviceBranches';
 
@@ -1115,6 +1116,27 @@ describe('526 v2 depends functions', () => {
     it('should get wizard feature flag value of false', () => {
       expect(show526Wizard({ featureToggles: { show526Wizard: false } })).to.be
         .false;
+    });
+  });
+
+  describe('showToxicExposureOptOutDataPurge', () => {
+    it('should get toxic exposure opt out data purge feature flag value of true', () => {
+      expect(
+        showToxicExposureOptOutDataPurge({
+          featureToggles: {
+            disability526ToxicExposureOptOutDataPurge: true,
+          },
+        }),
+      ).to.be.true;
+    });
+    it('should get toxic exposure opt out data purge feature flag value of false', () => {
+      expect(
+        showToxicExposureOptOutDataPurge({
+          featureToggles: {
+            disability526ToxicExposureOptOutDataPurge: false,
+          },
+        }),
+      ).to.be.false;
     });
   });
 
