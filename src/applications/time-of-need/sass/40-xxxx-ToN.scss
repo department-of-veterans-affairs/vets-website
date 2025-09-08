@@ -3,3 +3,8 @@
 @import "../../../platform/forms/sass/m-form-confirmation";
 
 // Prototype stylesheet for Time-of-Need form (VA Form 40-xxxx placeholder)
+
+ul[role="listbox"] va-list-item {
+  display: block;
+  width: 100%;
+}

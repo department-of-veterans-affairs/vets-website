@@ -6,23 +6,12 @@ import {
   arrayBuilderItemFirstPageTitleUI,
   titleUI,
   textSchema,
-  textUI,
   selectUI,
-  currentOrPastDateDigitsUI,
-  currentOrPastDateDigitsSchema,
+  currentOrPastDateUI,
+  currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-
-const rankOptions = [
-  { value: '', label: 'Select rank' },
-  { value: 'private', label: 'Private' },
-  { value: 'sergeant', label: 'Sergeant' },
-  { value: 'lieutenant', label: 'Lieutenant' },
-  { value: 'captain', label: 'Captain' },
-  { value: 'major', label: 'Major' },
-  { value: 'colonel', label: 'Colonel' },
-  { value: 'general', label: 'General' },
-  { value: 'other', label: 'Other' },
-];
+import AutosuggestField from '../../components/AutosuggestField';
+import { getRankOptionsForBranch } from '../../utils/ranks';
 
 const dischargeOptions = [
   { value: '', label: 'Select character' },
@@ -34,6 +23,20 @@ const dischargeOptions = [
   { value: 'entryLevelSeparation', label: 'Entry Level Separation' },
   { value: 'uncharacterized', label: 'Uncharacterized' },
   { value: 'unknown', label: 'Unknown' },
+];
+
+// New: branch of service options for autosuggest
+const branchOfServiceOptions = [
+  'Army',
+  'Army National Guard',
+  'Air Force',
+  'Air National Guard',
+  'Marine Corps',
+  'Navy',
+  'Coast Guard',
+  'Space Force',
+  'U.S. Public Health Service',
+  'National Oceanic and Atmospheric Administration (NOAA) Corps',
 ];
 
 function getItemName(item) {
@@ -53,7 +56,7 @@ const options = {
   nounSingular: 'service period',
   nounPlural: 'service periods',
   required: true,
-  maxItems: 10,
+  maxItems: 3,
   isItemIncomplete: item => !item?.branchOfService || !item?.dischargeCharacter,
   text: {
     getItemName,
@@ -121,40 +124,86 @@ const summaryPage = {
   },
 };
 
+// Build base select UI once so we can merge its ui:options
+const highestRankBaseUI = selectUI({
+  title: 'Highest rank attained',
+  options: [{ value: '', label: 'Select rank' }],
+});
+
 const itemPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
       title: 'Service period',
       nounSingular: options.nounSingular,
     }),
-    branchOfService: textUI({
-      title: 'Branch of service',
-      'ui:required': true,
+    branchOfService: {
+      'ui:title': 'Branch of service',
+      'ui:required': () => true,
       'ui:errorMessages': { required: 'Branch of service is required' },
-    }),
-    highestRank: selectUI({
-      title: 'Highest rank attained',
-      options: rankOptions,
-    }),
+      'ui:field': AutosuggestField,
+      'ui:options': {
+        idPrefix: 'branch-of-service',
+        getOptions: (input = '') =>
+          branchOfServiceOptions
+            .filter(o => o.toLowerCase().includes(input.trim().toLowerCase()))
+            .map(label => ({ id: label, label, value: label })),
+        getSuggestions: (input = '') =>
+          branchOfServiceOptions
+            .filter(o => o.toLowerCase().includes(input.trim().toLowerCase()))
+            .map(label => ({ id: label, label, value: label })),
+        showAllOnEmptySearch: true,
+        minSearchTermLength: 0,
+      },
+    },
+    highestRank: {
+      ...highestRankBaseUI,
+      'ui:options': {
+        ...highestRankBaseUI['ui:options'],
+        // Re-run when branchOfService changes in this array item
+        dependencies: ['branchOfService'],
+        updateSchema: (rootFormData, schema, uiSchema, index) => {
+          // rootFormData is the full form data object
+          const branch =
+            rootFormData?.branchOfService ?? // (in case structure changes)
+            (Array.isArray(rootFormData?.servicePeriods)
+              ? rootFormData.servicePeriods[index]?.branchOfService
+              : undefined);
+
+          const opts = getRankOptionsForBranch(branch);
+          // Always provide at least the placeholder
+          const enumValues = opts.map(o => o.value);
+          const enumNames = opts.map(o => o.label);
+
+          return {
+            ...schema,
+            enum: enumValues.length ? enumValues : [''],
+            enumNames: enumNames.length ? enumNames : ['Select rank'],
+          };
+        },
+        updateData: (rootFormData, currentValue, uiSchema, index) => {
+          const branch =
+            rootFormData?.branchOfService ??
+            (Array.isArray(rootFormData?.servicePeriods)
+              ? rootFormData.servicePeriods[index]?.branchOfService
+              : undefined);
+
+          const validValues = getRankOptionsForBranch(branch).map(o => o.value);
+          return validValues.includes(currentValue) ? currentValue : '';
+        },
+      },
+    },
     dischargeCharacter: selectUI({
       title: 'Discharge character of service',
-      'ui:required': true,
       options: dischargeOptions,
       'ui:errorMessages': { required: 'Discharge character is required' },
     }),
-    serviceStartDate: currentOrPastDateDigitsUI({
+    serviceStartDate: currentOrPastDateUI({
       title: 'Service start date',
-      'ui:options': {
-        hint:
-          'Enter two digits for month and day and four digits for year (MMDDYYYY).',
-      },
+      'ui:options': { required: false },
     }),
-    serviceEndDate: currentOrPastDateDigitsUI({
+    serviceEndDate: currentOrPastDateUI({
       title: 'Service end date',
-      'ui:options': {
-        hint:
-          'Enter two digits for month and day and four digits for year (MMDDYYYY).',
-      },
+      'ui:options': { required: false },
     }),
   },
   schema: {
@@ -163,16 +212,16 @@ const itemPage = {
       branchOfService: textSchema,
       highestRank: {
         type: 'string',
-        enum: rankOptions.map(o => o.value),
-        enumNames: rankOptions.map(o => o.label),
+        enum: [''],
+        enumNames: ['Select rank'],
       },
       dischargeCharacter: {
         type: 'string',
         enum: dischargeOptions.map(o => o.value),
         enumNames: dischargeOptions.map(o => o.label),
       },
-      serviceStartDate: currentOrPastDateDigitsSchema,
-      serviceEndDate: currentOrPastDateDigitsSchema,
+      serviceStartDate: currentOrPastDateSchema,
+      serviceEndDate: currentOrPastDateSchema,
     },
     required: ['branchOfService', 'dischargeCharacter'],
   },

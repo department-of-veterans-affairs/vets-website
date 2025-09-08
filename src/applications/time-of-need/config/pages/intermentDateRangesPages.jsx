@@ -17,7 +17,7 @@ const options = {
   arrayPath: 'desiredIntermentDateRanges',
   nounSingular: 'desired date and time range',
   nounPlural: 'desired date and time ranges',
-  maxItems: 2,
+  maxItems: 3,
   required: true,
   isItemIncomplete: item =>
     !item?.earliestDate || !item?.latestDate || !item?.timeRange,
