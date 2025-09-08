@@ -2,6 +2,29 @@ import { expect } from 'chai';
 import prefillTransformer from '../../config/prefill-transformer';
 import { NETWORTH_VALUE } from '../../config/constants';
 
+const defaultDependents = [
+  {
+    fullName: {
+      first: 'Jane',
+      last: 'Doe',
+    },
+    dateOfBirth: '1990-07-07',
+    ssn: '702023332',
+    relationshipToVeteran: 'Spouse',
+    awardIndicator: 'Y',
+  },
+  {
+    fullName: {
+      first: 'Mike',
+      last: 'Doe',
+    },
+    dateOfBirth: '2005-08-08',
+    ssn: '793473479',
+    relationshipToVeteran: 'Child',
+    awardIndicator: 'N',
+  },
+];
+
 const buildData = ({
   ssnLastFour = '',
   vaFileLastFour = '',
@@ -9,6 +32,7 @@ const buildData = ({
   useV2 = true,
   daysTillExpires = 365,
   netWorthLimit = NETWORTH_VALUE,
+  dependents = defaultDependents,
 }) => ({
   prefill: {
     data: {},
@@ -16,6 +40,7 @@ const buildData = ({
       veteranSsnLastFour: ssnLastFour,
       veteranVaFileNumberLastFour: vaFileLastFour,
       netWorthLimit,
+      dependents,
     },
     veteranContactInformation: {
       veteranAddress: {
@@ -53,10 +78,16 @@ const buildData = ({
       phoneNumber: '2023336688',
       emailAddress: 'vets.gov.user80@gmail.com',
     },
+    dependents: {
+      hasDependents:
+        dependents.filter(d => d.awardIndicator === 'Y').length > 0,
+      awarded: dependents.filter(d => d.awardIndicator === 'Y'),
+      notAwarded: dependents.filter(d => d.awardIndicator !== 'Y'),
+    },
   },
 });
 
-describe('NOD prefill transformer', () => {
+describe('686c-674 v2 prefill transformer', () => {
   const noTransformData = {
     metadata: { test: 'Test Metadata' },
     formData: {
@@ -94,6 +125,11 @@ describe('NOD prefill transformer', () => {
           },
           phoneNumber: null,
           emailAddress: null,
+        },
+        dependents: {
+          hasDependents: false,
+          awarded: [],
+          notAwarded: [],
         },
       },
       pages: noTransformData.pages,
