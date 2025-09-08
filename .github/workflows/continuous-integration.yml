@@ -53,7 +53,7 @@ jobs:
         uses: ./.github/workflows/get-changed-apps
         with:
           delimiter: ','
-          output-type: 'entry_name,continuous_deployment'
+          output-type: 'entry_name, continuous_deployment'
 
       - name: Get Mapbox Token
         if: ${{ matrix.buildtype == 'vagovprod' }}
@@ -91,6 +91,42 @@ jobs:
           path: ${{ matrix.buildtype }}.tar.bz2
           retention-days: 1
 
+  determine-cd-eligibility: 
+    name: Determine CD Eligibility
+    runs-on: ubuntu-latest
+    needs: [build]
+    outputs:
+      deploy_to_prod: ${{ steps.deploy-to-prod.outputs.can_deploy }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          fetch-depth: 0
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: Determine CD Eligibility
+        run: node script/github-actions/check-prod-deploy-eligibility.js
+        env:
+          continuous_deploy: ${{ needs.build.outputs.continuous_deployment }}
+          entry_names: ${{ needs.build.outputs.entry_names }}
+
+      - name: Set output of deploy_to_prod
+        if: ${{ always() }}
+        id: deploy-to-prod
+        run: echo "can_deploy=$CAN_DEPLOY_TO_PROD" >> $GITHUB_OUTPUT
+      
+      - name: Log output
+        run: echo ${{ steps.deploy-to-prod.outputs.can_deploy }}
   fetch-allow-lists:
     name: Fetch Test Stability Allow Lists
     runs-on: ubuntu-22.04
@@ -357,7 +393,7 @@ jobs:
           if [[ -n "$APP_FOLDERS" ]]; then
             yarn test:unit:gha ${APP_FOLDERS:+"{script,src/platform,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level verbose
           else
-            yarn test:unit:gha yarn test:unit:gha "{src,script}/**/*.unit.spec.js?(x)" --coverage --log-level verbose
+            yarn test:unit:gha --coverage --log-level verbose
           fi
           
         env:
@@ -969,7 +1005,7 @@ jobs:
           if [[ -n "$APP_FOLDERS" ]]; then
             yarn test:unit:gha ${APP_FOLDERS:+"{script,src/platform,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level verbose
           else
-            yarn test:unit:gha yarn test:unit:gha "{src,script}/**/*.unit.spec.js?(x)" --coverage --log-level verbose
+            yarn test:unit:gha --coverage --log-level verbose
           fi
         env:
           MOCHA_FILE: test-results/unit-tests.xml
@@ -1934,7 +1970,7 @@ jobs:
 
   set-deploy-environments:
     name: Set Environments to Deploy
-    needs: [archive, build]
+    needs: [determine-cd-eligibility, archive, build]
     if: always() && github.ref == 'refs/heads/main' && needs.archive.result == 'success'
     runs-on: ubuntu-22.04
     outputs:
@@ -1957,6 +1993,9 @@ jobs:
       - name: Set environments for deploy matrix
         id: set-environments
         run: echo environments={\"include\":[${{env.DEV}},${{env.STAGING}}]} >> $GITHUB_OUTPUT
+
+      - name: Log CD eligibility
+        run: echo ${{ needs.determine-cd-eligibility.outputs.deploy_to_prod }}
 
   deploy:
     name: Deploy
@@ -2034,10 +2073,8 @@ jobs:
   cd-prod-deploy:
     name: CD Production Deploy
     runs-on: ubuntu-22.04
-    permissions:
-      contents: write
-    needs: [build, set-deploy-environments]
-    if: ${{ needs.build.outputs.entry_names != '' && needs.build.outputs.continuous_deployment == 'true' }}
+    needs: [build, set-deploy-environments, determine-cd-eligibility]
+    if: ${{ needs.determine-cd-eligibility.outputs.deploy_to_prod == 'yes' }}
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017

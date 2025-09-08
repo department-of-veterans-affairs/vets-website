@@ -2,11 +2,15 @@ import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import {
+  selectPatientFacilities,
   selectIsCernerPatient,
   selectIsCernerOnlyPatient,
 } from 'platform/user/cerner-dsot/selectors';
+import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
+import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import EmergencyNote from '../components/EmergencyNote';
 import { Paths, PageTitles } from '../util/constants';
 import { populatedDraft } from '../selectors';
 
@@ -16,6 +20,10 @@ const CareTeamHelp = () => {
   const history = useHistory();
   const { acceptInterstitial } = useSelector(state => state.sm.threadDetails);
   const validDraft = useSelector(populatedDraft);
+  const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
+  const vistaFacilities = useSelector(state =>
+    (selectPatientFacilities(state) || []).filter(f => !f.isCerner),
+  );
 
   useEffect(
     () => {
@@ -34,13 +42,10 @@ const CareTeamHelp = () => {
     if (isCerner && !isCernerOnly) {
       return (
         <div>
-          <h1>Can’t find your care team?</h1>
-
-          <va-alert status="info" visible class="vads-u-margin-y--2">
-            <p className="vads-u-margin-y--0">
-              Only use messages for non-urgent needs.
-            </p>
-          </va-alert>
+          <h1 className="vads-u-margin-bottom--2">
+            Can’t find your care team?
+          </h1>
+          <EmergencyNote dropDownFlag />
 
           <p>You may not find your care team for these reasons:</p>
 
@@ -48,26 +53,39 @@ const CareTeamHelp = () => {
             <li>
               They don’t use messages, <strong>or</strong>
             </li>
-            <li>
-              They’re part of a different VA health care system,{' '}
-              <strong>or</strong>
-            </li>
-            <li>Your account isn’t connected to them</li>
+            <li>They’re part of a different VA health care system</li>
           </ul>
 
           <p>If you can’t find your care team, try these other options:</p>
 
           <ul>
             <li>
-              <Link to={Paths.CONTACT_LIST}>
-                <strong>Update your contact list</strong>
-              </Link>
+              Select a different VA health care system, <strong>or</strong>
             </li>
+            <li>
+              Enter the first few letters of your facility’s location, your
+              provider’s name, or a type of care
+            </li>
+          </ul>
+
+          <h2>Update your contact list</h2>
+
+          <p>
+            Update your contact list if you can’t find your care team from these
+            systems:
+          </p>
+          <ul>
+            {vistaFacilities?.map(facility => {
+              const id = facility.facilityId ?? facility; // supports object or string
+              const name = getVamcSystemNameFromVhaId(ehrDataByVhaId, id) || id;
+
+              return <li key={id}>{name}</li>;
+            })}
           </ul>
 
           <p>
             If you still can’t find your care team, your account might not be
-            connected to them. You can find messages to new or previously
+            connected to them. You can send messages to new or previously
             removed care teams by adding them to your contact list.
           </p>
 
@@ -96,48 +114,32 @@ const CareTeamHelp = () => {
     if (isCerner && isCernerOnly) {
       return (
         <div>
-          <h1>Can’t find your care team?</h1>
-
-          <va-alert status="info" visible class="vads-u-margin-y--2">
-            <p className="vads-u-margin-y--0">
-              Only use messages for non-urgent needs.
-            </p>
-          </va-alert>
+          <h1 className="vads-u-margin-bottom--2">
+            Can’t find your care team?
+          </h1>
+          <EmergencyNote dropDownFlag />
 
           <p>You may not find your care team for these reasons:</p>
 
           <ul>
             <li>
-              They’re part of a different VA health care system,{' '}
+              They don’t use messages,
               <strong>or</strong>
             </li>
-            <li>Your account isn’t connected to them</li>
+            <li>They’re part of a different VA health care system</li>
           </ul>
 
           <p>You may not find your care team for these reasons:</p>
-
-          <ul>
-            <li>You removed them from your contact list</li>
-          </ul>
-
-          <p>If you can’t find your care team, try these other options:</p>
 
           <ul>
             <li>
               Select a different VA health care system, <strong>or</strong>
             </li>
-            <li>Your account isn’t connected to them</li>
+            <li>
+              Enter the first few letters of your facility’s location, your
+              provider’s name, or a type of care
+            </li>
           </ul>
-
-          <p>
-            If you still can’t find your care team, your account might not be
-            connected to them. You can find messages to new or previously
-            removed care teams by adding them to your contact list.
-          </p>
-
-          <Link to={Paths.CONTACT_LIST}>
-            <strong>Update your contact list</strong>
-          </Link>
 
           <p>
             If you need more help, call us at{' '}
@@ -159,13 +161,8 @@ const CareTeamHelp = () => {
     // User ONLY has VistA systems (default case)
     return (
       <div>
-        <h1>Can’t find your care team?</h1>
-
-        <va-alert status="info" visible class="vads-u-margin-y--2">
-          <p className="vads-u-margin-y--0">
-            Only use messages for non-urgent needs.
-          </p>
-        </va-alert>
+        <h1 className="vads-u-margin-bottom--2">Can’t find your care team?</h1>
+        <EmergencyNote dropDownFlag />
 
         <p>You may not find your care team for these reasons:</p>
 
@@ -176,6 +173,9 @@ const CareTeamHelp = () => {
           <li>
             They’re part of a different VA health care system,{' '}
             <strong>or</strong>
+          </li>
+          <li>
+            You removed them from your contact list, <strong>or</strong>
           </li>
           <li>Your account isn’t connected to them</li>
         </ul>
@@ -193,9 +193,8 @@ const CareTeamHelp = () => {
         </ul>
 
         <p>
-          If you still can’t find your care team, your account might not be
-          connected to them. You can find messages to new or previously removed
-          care teams by adding them to your contact list.
+          You can send messages to new or previously removed care teams by
+          adding them to your contact list.
         </p>
 
         <Link to={Paths.CONTACT_LIST}>

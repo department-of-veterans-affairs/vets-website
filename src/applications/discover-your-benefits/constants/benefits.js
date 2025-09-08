@@ -766,7 +766,7 @@ export const BENEFITS_LIST = [
         responses[mappingTypes.GOALS] &&
         (responses[mappingTypes.BRANCH_COMPONENT] ||
           responses[mappingTypes.TITLE_TEN_ACTIVE_DUTY]) &&
-        mappingTypes.CHARACTER_OF_DISCHARGE
+        responses[mappingTypes.CHARACTER_OF_DISCHARGE]
       );
     },
     learnMoreURL: URLS.VAH_LEARN,
