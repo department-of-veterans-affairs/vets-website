@@ -44,7 +44,7 @@ export default function ClinicChoicePage() {
   const eligibility = useSelector(selectEligibility);
 
   // Flipper state
-  const usePastVisitMHFilter = useSelector(
+  const featurePastVisitMHFilter = useSelector(
     selectFeatureMentalHealthHistoryFiltering,
   );
 
@@ -62,7 +62,7 @@ export default function ClinicChoicePage() {
   const usingPastClinics =
     typeOfCare.id !== TYPE_OF_CARE_IDS.PRIMARY_CARE &&
     (typeOfCare.id !== TYPE_OF_CARE_IDS.MENTAL_HEALTH_SERVICES_ID ||
-      usePastVisitMHFilter);
+      featurePastVisitMHFilter);
 
   useEffect(
     () => {
