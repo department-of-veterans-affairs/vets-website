@@ -9,7 +9,6 @@ import ProfileInformationFieldController from '@@vap-svc/components/ProfileInfor
 
 export function NewAddressSection({ success }) {
   const successRef = useRef(null);
-  const ariaLiveRef = useRef(null);
 
   const [checkboxIntercepted, setCheckboxIntercepted] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -69,10 +68,6 @@ export function NewAddressSection({ success }) {
       const onCheckboxFocus = event => {
         if (checkboxIntercepted) return;
         event.preventDefault();
-        // Focus the aria-live region
-        if (ariaLiveRef.current) {
-          ariaLiveRef.current.focus();
-        }
         setCheckboxIntercepted(true);
         // After 0.5s, focus the native input inside va-checkbox if possible
         setTimeout(() => {
@@ -147,7 +142,6 @@ export function NewAddressSection({ success }) {
               className="sr-only"
               aria-atomic="true"
               tabIndex="-1"
-              ref={ariaLiveRef}
             >
               {isEditing ? 'Edit address mode is active.' : ''}
             </div>
