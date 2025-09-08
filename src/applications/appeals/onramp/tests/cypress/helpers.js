@@ -51,16 +51,10 @@ export const clickContinue = () =>
     .should('be.visible')
     .click();
 
-export const verifyFormErrorNotShown = selector =>
-  cy
-    .findByTestId(selector)
-    .get('span[role="alert"]')
-    .should('have.text', '');
-
 export const verifyFormErrorDoesNotExist = selector =>
   cy
     .findByTestId(selector)
-    .get('span[role="alert"]')
+    .get('[error="ErrorPlaceholder error message"]')
     .should('not.exist');
 
 export const checkFormAlertText = (selector, expectedValue) =>

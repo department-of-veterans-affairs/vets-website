@@ -12,12 +12,7 @@ import {
   VaBreadcrumbs,
   VaAlert,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
 import api from '../utilities/api';
-import { waitForTogglesToLoad } from '../utilities/waitForTogglesToLoad';
-import store from '../utilities/store';
 import {
   SEARCH_BC_LABEL,
   poaSearchBC,
@@ -78,7 +73,7 @@ const POARequestSearchPage = title => {
     [title],
   );
   const loaderData = useLoaderData();
-  const { data: poaRequests, meta = {}, showPOA403Alert } = loaderData;
+  const { data: poaRequests, meta, showPOA403Alert } = loaderData;
   const searchStatus = searchParams.get('status');
   const selectedIndividual = searchParams.get('as_selected_individual');
   const navigation = useNavigation();
@@ -254,14 +249,6 @@ POARequestSearchPage.propTypes = {
 };
 
 POARequestSearchPage.loader = async ({ request }) => {
-  // Hydrate feature toggles and check flag directly
-  await connectFeatureToggle(store.dispatch);
-  await waitForTogglesToLoad();
-  const state = store.getState();
-  const enabled = !!toggleValues(state)[
-    FEATURE_FLAG_NAMES.accreditedRepresentativePortalDashboardLink
-  ];
-
   const { searchParams } = new URL(request.url);
   const status = searchParams.get(SEARCH_PARAMS.STATUS);
   const sort = searchParams.get(SEARCH_PARAMS.SORTORDER);
@@ -279,6 +266,7 @@ POARequestSearchPage.loader = async ({ request }) => {
     searchParams.set(SEARCH_PARAMS.SORTORDER, SORT_BY.DESC);
     searchParams.set(SEARCH_PARAMS.SORTBY, SORT_BY.CREATED);
     searchParams.set(SEARCH_PARAMS.SIZE, PENDING_SORT_DEFAULTS.SIZE);
+    searchParams.set(SEARCH_PARAMS.NUMBER, PENDING_SORT_DEFAULTS.NUMBER);
     searchParams.set(
       SEARCH_PARAMS.SELECTED_INDIVIDUAL,
       PENDING_SORT_DEFAULTS.SELECTED_INDIVIDUAL,
@@ -295,7 +283,7 @@ POARequestSearchPage.loader = async ({ request }) => {
       },
     );
   } catch (err) {
-    if (err instanceof Response && err.status === 403 && enabled) {
+    if (err instanceof Response && err.status === 403) {
       // Try authorization endpoint
       try {
         await api.checkAuthorized({
