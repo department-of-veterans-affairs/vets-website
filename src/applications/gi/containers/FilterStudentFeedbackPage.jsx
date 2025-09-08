@@ -305,16 +305,16 @@ export default function FilterStudentFeedbackPage() {
             <h2 className="vads-u-margin-bottom--3">Filter results</h2>
 
             <div className="vads-u-display--flex vads-u-align-items--center vads-u-margin-bottom--1">
-              <span className="vads-u-margin-right--1">Sort</span>
               <VaSelect
+                className="vads-u-display--flex vads-u-align-items--baseline filter-student-feedback-sort-select"
                 uswds
+                label="Sort"
                 name="sort-order"
                 value={sortOrder}
                 onVaSelect={e => {
                   setSortOrder(e.detail.value);
                   focusResults();
                 }}
-                style={{ width: '10rem' }}
               >
                 <option value="asc">a-z</option>
                 <option value="desc">z-a</option>

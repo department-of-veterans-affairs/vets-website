@@ -53,10 +53,7 @@ export default function StudentFeedbackCardGrid({
                   )}
 
                   <ul className="vads-u-margin--0 vads-u-padding--0 vads-u-list-style--none">
-                    <li
-                      role="text"
-                      className="vads-u-display--flex vads-u-justify-content--space-between vads-u-margin-bottom--1"
-                    >
+                    <li className="vads-u-display--flex vads-u-justify-content--space-between vads-u-margin-bottom--1">
                       <span className="vads-u-font-weight--bold">
                         Complaint year:
                       </span>
@@ -66,10 +63,7 @@ export default function StudentFeedbackCardGrid({
                         </time>
                       </span>
                     </li>
-                    <li
-                      role="text"
-                      className="vads-u-display--flex vads-u-justify-content--space-between vads-u-margin-bottom--1"
-                    >
+                    <li className="vads-u-display--flex vads-u-justify-content--space-between vads-u-margin-bottom--1">
                       <span className="vads-u-font-weight--bold">
                         Total complaints for the year:
                       </span>
@@ -77,10 +71,7 @@ export default function StudentFeedbackCardGrid({
                         {card.totalYear}
                       </span>
                     </li>
-                    <li
-                      role="text"
-                      className="vads-u-display--flex vads-u-justify-content--space-between vads-u-margin-bottom--1"
-                    >
+                    <li className="vads-u-display--flex vads-u-justify-content--space-between vads-u-margin-bottom--1">
                       <span className="vads-u-font-weight--bold">
                         Complaints at this location:
                       </span>
@@ -88,10 +79,7 @@ export default function StudentFeedbackCardGrid({
                         {card.campusCount}
                       </span>
                     </li>
-                    <li
-                      role="text"
-                      className="vads-u-display--flex vads-u-justify-content--space-between"
-                    >
+                    <li className="vads-u-display--flex vads-u-justify-content--space-between">
                       <span className="vads-u-font-weight--bold">
                         Complaints at all locations:
                       </span>
