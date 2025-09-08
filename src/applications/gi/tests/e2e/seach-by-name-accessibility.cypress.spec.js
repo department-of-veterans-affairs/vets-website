@@ -50,14 +50,14 @@ describe('CT before search by name accessibility', () => {
     cy.repeatKey('Tab', 13);
     cy.focused().should('contain.text', 'Go to community focus details');
     cy.realPress('Enter');
-    cy.repeatKey('Tab', 11);
-    cy.focused().should('contain.text', 'Apply filters');
-    cy.realPress('Enter');
     cy.get('[part="accordion-header"]').should(
       'have.attr',
       'aria-expanded',
       'true',
     );
+    cy.repeatKey('Tab', 11);
+    cy.focused().should('contain.text', 'Apply filters');
+    cy.realPress('Enter');
     cy.get('input[data-testid="ct-input"]').should('be.focused');
     cy.get('[id="search-error-message"]').should(
       'contain',
