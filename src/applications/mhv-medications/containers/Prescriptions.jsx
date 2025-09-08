@@ -686,7 +686,7 @@ const Prescriptions = () => {
         ' If you use Meds by Mail, you can also call your servicing center and ask them to update your records.';
     }
 
-    const titleNotesBottomMarginNumber = hasMedsByMailFacility ? 3 : 4;
+    const titleNotesBottomMarginUnit = hasMedsByMailFacility ? 3 : 4;
 
     return (
       <>
@@ -694,7 +694,7 @@ const Prescriptions = () => {
           Medications
         </h1>
         <p
-          className={`vads-u-margin-top--0 vads-u-margin-bottom--${titleNotesBottomMarginNumber}`}
+          className={`vads-u-margin-top--0 vads-u-margin-bottom--${titleNotesBottomMarginUnit}`}
           data-testid="Title-Notes"
         >
           {titleNotesMessage}
