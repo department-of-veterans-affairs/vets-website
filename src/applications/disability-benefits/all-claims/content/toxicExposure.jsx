@@ -212,10 +212,6 @@ export function makeTEConditionsUISchema(formData) {
     };
   });
 
-  if (options.unknowncondition) {
-    delete options.unknowncondition;
-  }
-
   options.none = {
     'ui:title': 'I am not claiming any conditions related to toxic exposure',
   };
