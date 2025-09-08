@@ -9,20 +9,28 @@ import {
 import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
 
+export const edgeCaseBackendError = error => {
+  return {
+    title: 'Edge Case Backend Error',
+    detail: 'Edge Case Backend Error',
+    response: JSON.stringify(error),
+  };
+};
+
 const isArray = randomInput => {
   return randomInput instanceof Array;
 };
 
-const getFirstError = error => {
-  if (isArray(error)) {
-    return error.errors[0];
+export const getFirstError = error => {
+  const errors = error?.errors || [];
+  if (isArray(errors) && errors.length > 0) {
+    return errors[0];
   }
   return error;
 };
 
 const handleErrors = err => async dispatch => {
   const newErr = getFirstError(err);
-
   dispatch({
     type: Actions.Alerts.ADD_ALERT,
     payload: {
@@ -44,12 +52,10 @@ export const getFolders = () => async dispatch => {
       });
     }
     if (response.errors) {
-      const err = response.errors[0];
-      dispatch(handleErrors(err));
+      dispatch(handleErrors(response));
     }
   } catch (error) {
-    const err = error.errors[0];
-    dispatch(handleErrors(err));
+    dispatch(handleErrors(error));
     dispatch({
       type: Actions.Folder.GET_LIST_ERROR,
     });
@@ -77,7 +83,7 @@ export const retrieveFolder = folderId => async dispatch => {
           type: Actions.Folder.GET,
           response: null,
         });
-        dispatch(handleErrors(response.errors[0]));
+        dispatch(handleErrors(response));
       }
     })
     .catch(error => {

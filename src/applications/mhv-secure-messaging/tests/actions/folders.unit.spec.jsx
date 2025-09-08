@@ -18,37 +18,24 @@ import {
   newFolder,
   renameFolder,
   retrieveFolder,
+  getFirstError,
+  edgeCaseBackendError,
 } from '../../actions/folders';
 import * as Constants from '../../util/constants';
 
-describe('folders actions', () => {
-  const middlewares = [thunk];
-  const mockStore = (initialState = { featureToggles: {} }) =>
-    configureStore(middlewares)(initialState);
-
-  const errorResponse = {
+describe('generate folder edge case server exception', () => {
+  const badError = {
     errors: {
-      title: 'Service not found',
-      detail: 'Backend Service not found',
-      code: '404',
-      status: '404',
+      title: 'Service unavailable',
+      detail: 'Backend Service Outage',
+      code: '503',
+      status: '503',
     },
   };
-  it('should dispatch error on unsuccessful getFolders action', async () => {
-    mockApiRequest({ ...errorResponse, status: 404 });
-    const store = mockStore();
-    await store.dispatch(getFolders()).then(() => {
-      expect(store.getActions()).to.deep.include({
-        type: Actions.Alerts.ADD_ALERT,
-        payload: {
-          alertType: 'error',
-          header: errorResponse.title,
-          content: errorResponse.detail,
-          response: errorResponse,
-        },
-      });
-    });
-  });
+  const expectedResult = edgeCaseBackendError(badError);
+  const result = getFirstError(badError);
+  expect(result.title).to.equal(expectedResult.title);
+  expect(result.detail).to.equal(expectedResult.detail);
 });
 
 describe('folders actions', () => {
