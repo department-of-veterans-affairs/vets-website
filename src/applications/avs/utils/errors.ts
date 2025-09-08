@@ -1,6 +1,6 @@
 import * as Sentry from '@sentry/browser';
 
-const captureError = error => {
+export const captureError = (error: Error): void => {
   Sentry.withScope(scope => {
     const message = `avs_client_error`;
     scope.setContext(message, {
@@ -9,5 +9,3 @@ const captureError = error => {
     Sentry.captureMessage(message);
   });
 };
-
-export { captureError };

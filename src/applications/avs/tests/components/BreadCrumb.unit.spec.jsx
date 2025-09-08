@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 
-import BreadCrumb from '../../components/BreadCrumb';
+import BreadCrumb from '../../components/BreadCrumb.tsx';
 
 describe('Avs: BreadCrumb', () => {
   it('correctly renders with past appointment referrer available', async () => {
