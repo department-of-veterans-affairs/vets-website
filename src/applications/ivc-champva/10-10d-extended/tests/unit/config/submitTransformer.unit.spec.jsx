@@ -333,6 +333,18 @@ describe('10-10d-extended transform for submit', () => {
     expect(transformed.certifierRole).to.equal('other');
   });
 
+  it('should map `sponsorEmail` into veteran data', () => {
+    const testData = { data: { sponsorEmail: 'veteran@example.com' } };
+    const { veteran } = JSON.parse(transformForSubmit(formConfig, testData));
+    expect(veteran.email).to.equal('veteran@example.com');
+  });
+
+  it('should default veteran email to empty string when `sponsorEmail` is omitted', () => {
+    const testData = { data: {} };
+    const { veteran } = JSON.parse(transformForSubmit(formConfig, testData));
+    expect(veteran.email).to.equal('');
+  });
+
   describe('address formatting', () => {
     it('should properly format sponsor address fields', () => {
       const testData = {
