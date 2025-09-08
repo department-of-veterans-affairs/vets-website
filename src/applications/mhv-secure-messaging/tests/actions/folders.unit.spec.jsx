@@ -18,10 +18,12 @@ import {
   newFolder,
   renameFolder,
   retrieveFolder,
-  getFirstError,
-  edgeCaseBackendError,
 } from '../../actions/folders';
 import * as Constants from '../../util/constants';
+import {
+  edgeCaseBackendError,
+  getFirstError,
+} from '../../components/shared/serverErrors';
 
 describe('generate folder edge case server exception', () => {
   const badError = {
