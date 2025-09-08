@@ -39,15 +39,16 @@ describe('CantFindYourTeam component', () => {
 
       expect(container.querySelector('va-additional-info')).to.exist;
       await waitFor(() => {
-        expect(
-          container.querySelector('[trigger="If you can\'t find your team"]'),
-        ).to.exist;
+        const additionalInfo = container.querySelector('va-additional-info');
+        expect(additionalInfo).to.exist;
+        expect(additionalInfo.getAttribute('trigger')).to.equal(
+          "If you can't find your team",
+        );
       });
-      expect(
-        container.querySelector(
-          '[data-dd-action-name="If You Can\'t Find Your Team Dropdown"]',
-        ),
-      ).to.exist;
+      const additionalInfo = container.querySelector('va-additional-info');
+      expect(additionalInfo.getAttribute('data-dd-action-name')).to.equal(
+        "If You Can't Find Your Team Dropdown",
+      );
     });
 
     it('should render default team not found reasons in legacy flow', async () => {
@@ -62,11 +63,11 @@ describe('CantFindYourTeam component', () => {
         reducers: reducer,
       });
       await waitFor(() => {
-        expect(
-          container.querySelector(
-            '[data-dd-action-name="If You Can\'t Find Your Team Dropdown"]',
-          ),
-        ).to.exist;
+        const additionalInfo = container.querySelector('va-additional-info');
+        expect(additionalInfo).to.exist;
+        expect(additionalInfo.getAttribute('data-dd-action-name')).to.equal(
+          "If You Can't Find Your Team Dropdown",
+        );
       });
       expect(container.textContent).to.include(
         'Here are some reasons a care team may be missing from your contact list:',
@@ -82,7 +83,7 @@ describe('CantFindYourTeam component', () => {
       ).to.exist;
     });
 
-    it('displays the legacy link to show more teams', () => {
+    it('displays the legacy link to show more teams', async () => {
       useFeatureTogglesStub = sinon
         .stub(require('../../../hooks/useFeatureToggles'), 'default')
         .returns({
@@ -117,7 +118,7 @@ describe('CantFindYourTeam component', () => {
         },
       };
 
-      it('renders the Cerner-specific version', () => {
+      it('renders the Cerner-specific version', async () => {
         useFeatureTogglesStub = sinon
           .stub(require('../../../hooks/useFeatureToggles'), 'default')
           .returns({
@@ -137,7 +138,7 @@ describe('CantFindYourTeam component', () => {
         expect(getByText(p2)).to.exist;
       });
 
-      it('does not display the contact list link for Cerner', () => {
+      it('does not display the contact list link for Cerner', async () => {
         useFeatureTogglesStub = sinon
           .stub(require('../../../hooks/useFeatureToggles'), 'default')
           .returns({
@@ -168,7 +169,7 @@ describe('CantFindYourTeam component', () => {
         },
       };
 
-      it('renders the curated list flow version', () => {
+      it('renders the curated list flow version', async () => {
         useFeatureTogglesStub = sinon
           .stub(require('../../../hooks/useFeatureToggles'), 'default')
           .returns({
@@ -189,7 +190,7 @@ describe('CantFindYourTeam component', () => {
         );
       });
 
-      it('displays all team not listed reasons', () => {
+      it('displays all team not listed reasons', async () => {
         useFeatureTogglesStub = sinon
           .stub(require('../../../hooks/useFeatureToggles'), 'default')
           .returns({
@@ -206,7 +207,7 @@ describe('CantFindYourTeam component', () => {
         });
       });
 
-      it('displays the update contact list link', () => {
+      it('displays the update contact list link', async () => {
         useFeatureTogglesStub = sinon
           .stub(require('../../../hooks/useFeatureToggles'), 'default')
           .returns({
@@ -228,7 +229,7 @@ describe('CantFindYourTeam component', () => {
     });
 
     describe('when activeFacility is null', () => {
-      it('renders the non-Cerner version when activeFacility is null', () => {
+      it('renders the non-Cerner version when activeFacility is null', async () => {
         useFeatureTogglesStub = sinon
           .stub(require('../../../hooks/useFeatureToggles'), 'default')
           .returns({
@@ -262,15 +263,15 @@ describe('CantFindYourTeam component', () => {
       });
 
       await waitFor(() => {
-        expect(
-          container.querySelector(
-            '[data-dd-action-name="If You Can\'t Find Your Team Dropdown"]',
-          ),
-        ).to.exist;
+        const additionalInfo = container.querySelector('va-additional-info');
+        expect(additionalInfo).to.exist;
+        expect(additionalInfo.getAttribute('data-dd-action-name')).to.equal(
+          "If You Can't Find Your Team Dropdown",
+        );
       });
     });
 
-    it('has proper CSS classes', () => {
+    it('has proper CSS classes', async () => {
       useFeatureTogglesStub = sinon
         .stub(require('../../../hooks/useFeatureToggles'), 'default')
         .returns({
@@ -285,7 +286,7 @@ describe('CantFindYourTeam component', () => {
       expect(document.querySelector('.vads-u-margin-top--2')).to.exist;
     });
 
-    it('has proper list structure for team reasons', () => {
+    it('has proper list structure for team reasons', async () => {
       useFeatureTogglesStub = sinon
         .stub(require('../../../hooks/useFeatureToggles'), 'default')
         .returns({
@@ -306,7 +307,7 @@ describe('CantFindYourTeam component', () => {
   });
 
   describe('integration with Redux state', () => {
-    it('responds to changes in activeFacility.ehr', () => {
+    it('responds to changes in activeFacility.ehr', async () => {
       const stateWithCerner = {
         sm: {
           recipients: {
@@ -343,7 +344,7 @@ describe('CantFindYourTeam component', () => {
       ).to.not.exist;
     });
 
-    it('handles missing recipients state gracefully', () => {
+    it('handles missing recipients state gracefully', async () => {
       const incompleteState = {
         sm: {},
       };
