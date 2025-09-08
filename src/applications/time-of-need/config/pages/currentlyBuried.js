@@ -14,7 +14,7 @@ export default {
     currentlyBuried: {
       ...radioUI({
         title:
-          'Is there anyone currently buried in a VA national cemetery under the deceased’s eligibility?',
+          'Is there anyone currently buried in a VA national cemetery under the veteran’s eligibility?',
         options,
         required: true,
         errorMessages: { required: 'Please select an option' },

@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  titleUI,
+  titleUI, // added
   radioUI,
   checkboxGroupUI,
   checkboxGroupSchema,
@@ -30,7 +30,7 @@ const raceKeys = raceOptions.map(opt => opt.value);
 
 export default {
   uiSchema: {
-    ...titleUI('Demographics'),
+    ...titleUI('Deceased Veteran demographics'), // added header
     'ui:description': (
       <div>
         <p>
@@ -41,7 +41,7 @@ export default {
     ),
     ethnicity: {
       ...radioUI({
-        title: 'What ethnicity best describes the deceased?',
+        title: 'What’s the Veteran’s ethnicity?',
         options: [
           { value: 'hispanic', label: 'Hispanic or Latino' },
           { value: 'notHispanic', label: 'Not Hispanic or Latino' },
@@ -49,15 +49,22 @@ export default {
           { value: 'preferNoAnswer', label: 'Prefer not to answer' },
         ],
       }),
+      'ui:options': {
+        useV3: true,
+      },
     },
     race: {
       ...checkboxGroupUI({
-        title: 'Which categories best describe the deceased?',
-        description: 'You may check more than one.',
+        title: 'What’s the Veteran’s race?',
+        description:
+          'You can select more than one option, unless you prefer not to answer.',
         required: true,
         options: raceOptions,
         labels: raceLabelsObject,
       }),
+      'ui:options': {
+        useV3: true,
+      },
     },
   },
   schema: {

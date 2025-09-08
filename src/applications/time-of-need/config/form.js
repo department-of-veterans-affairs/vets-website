@@ -7,29 +7,40 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import currentlyBuried from './pages/currentlyBuried';
-import deceasedInformation from './pages/deceasedInformation';
-import deceasedInfo2 from './pages/deceasedInfo2';
-import deceasedMilitaryDetails from './pages/deceasedMilitaryDetails';
-import deceasedName from './pages/deceasedName';
-import deceasedPreviousName from './pages/deceasedPreviousName';
-import demographicsInfo from './pages/demographicsInfo';
-import demographicsInfo2 from './pages/demographicsInfo2';
+import deceasedInformation from './pages/deceasedInformationChapter/deceasedInformation';
+import deceasedInfo2 from './pages/deceasedInformationChapter/deceasedInfo2';
+// import deceasedMilitaryDetails from './pages/deceasedMilitaryDetails';
+// import deceasedName from './pages/deceasedName';
+// import deceasedPreviousName from './pages/deceasedPreviousName';
+import demographicsInfo from './pages/deceasedInformationChapter/demographicsInfo';
+import demographicsInfo2 from './pages/deceasedInformationChapter/demographicsInfo2';
 import desiredCemetery from './pages/desiredCemetery';
 import funeralHomeAddress from './pages/funeralHomeAddress';
 import funeralHomeContact from './pages/funeralHomeContact';
 import funeralHomeDetails from './pages/funeralHomeDetails';
 import intermentDetails from './pages/intermentDetails';
-import mailingAddress from './pages/mailingAddress';
+// import mailingAddress from './pages/mailingAddress';
 import preparerContact from './pages/preparerContact';
 import preparerName from './pages/preparerName';
 import { burialBenefitsPagesVeteran } from './pages/burialBenefitsPages';
-import { deceasedServicePeriodsPages } from './pages/deceasedServicePeriodsPages';
+import { deceasedServicePeriodsPages } from './pages/deceasedInformationChapter/deceasedServicePeriodsPages.jsx';
 import { intermentDateRangesPages } from './pages/intermentDateRangesPages';
 import {
   SupportingFilesDescription,
   fileUploadUi,
   timeOfNeedAttachments,
 } from './pages/supportingDocuments';
+import applicantDetails from './pages/applicantChapter/applicantDetails';
+import applicantContact from './pages/applicantChapter/applicantContact';
+import applicantAddress from './pages/applicantChapter/applicantAddress';
+import applicantWhoIsDeceased from './pages/applicantChapter/applicantWhoIsDeceased';
+import applicantPreneedDecisionLetter from './pages/applicantChapter/applicantPreneedDecisionLetter';
+import applicantRelationshipToVeteran from './pages/applicantChapter/applicantRelationshipToVeteran';
+import maritalStatus from './pages/maritalInformation/maritalStatus';
+import spouseInformation from './pages/maritalInformation/spouseInformation';
+import veteranStatus from './pages/maritalInformation/veteranStatus';
+import veteranInformation from './pages/maritalInformation/veteranInformation';
+import dependentChild from './pages/maritalInformation/dependentChild';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -84,7 +95,48 @@ const formConfig = {
   },
   getHelp: GetFormHelp,
   chapters: {
-    personalInformationChapter: {
+    applicantInformation: {
+      title: 'Applicant information',
+      pages: {
+        applicantDetails: {
+          path: 'applicant-details',
+          title: 'Your details',
+          uiSchema: applicantDetails.uiSchema,
+          schema: applicantDetails.schema,
+        },
+        applicantContact: {
+          path: 'applicant-contact',
+          title: 'Applicant’s contact information',
+          uiSchema: applicantContact.uiSchema,
+          schema: applicantContact.schema,
+        },
+        applicantAddress: {
+          path: 'applicant-mailing-address',
+          title: 'Your mailing address',
+          uiSchema: applicantAddress.uiSchema,
+          schema: applicantAddress.schema,
+        },
+        applicantWhoIsDeceased: {
+          path: 'who-is-deceased',
+          title: 'Who is the deceased?',
+          uiSchema: applicantWhoIsDeceased.uiSchema,
+          schema: applicantWhoIsDeceased.schema,
+        },
+        applicantPreneedDecisionLetter: {
+          path: 'preneed-decision-letter',
+          title: 'Pre-Need decision letter',
+          uiSchema: applicantPreneedDecisionLetter.uiSchema,
+          schema: applicantPreneedDecisionLetter.schema,
+        },
+        applicantRelationshipToVeteran: {
+          path: 'relationship-to-veteran',
+          title: 'Relationship to Veteran',
+          uiSchema: applicantRelationshipToVeteran.uiSchema,
+          schema: applicantRelationshipToVeteran.schema,
+        },
+      },
+    },
+    deceasedInformationChapter: {
       title: 'Deceased information',
       pages: {
         deceasedInformation: {
@@ -111,43 +163,81 @@ const formConfig = {
           uiSchema: demographicsInfo2.uiSchema,
           schema: demographicsInfo2.schema,
         },
-        mailingAddress: {
-          path: 'mailing-address',
-          title: 'Mailing address',
-          uiSchema: mailingAddress.uiSchema,
-          schema: mailingAddress.schema,
-        },
-      },
-    },
-    militaryHistory: {
-      title: 'Military history',
-      pages: {
-        deceasedMilitaryDetails: {
-          path: 'deceased-military-details',
-          title: 'Deceased’s military details',
-          uiSchema: deceasedMilitaryDetails.uiSchema,
-          schema: deceasedMilitaryDetails.schema,
-        },
-        // Removed legacy deceasedServicePeriods single page
-        // Spread new array builder pages:
         ...deceasedServicePeriodsPages,
-        deceasedName: {
-          path: 'deceased-name',
-          title: 'Deceased’s name',
-          uiSchema: deceasedName.uiSchema,
-          schema: deceasedName.schema,
+        // mailingAddress: {
+        //   path: 'mailing-address',
+        //   title: 'Mailing address',
+        //   uiSchema: mailingAddress.uiSchema,
+        //   schema: mailingAddress.schema,
+        // },
+      },
+    },
+    // militaryHistory: {
+    //   title: 'Military history',
+    //   pages: {
+    //     // deceasedMilitaryDetails: {
+    //     //   path: 'deceased-military-details',
+    //     //   title: 'Deceased’s military details',
+    //     //   uiSchema: deceasedMilitaryDetails.uiSchema,
+    //     //   schema: deceasedMilitaryDetails.schema,
+    //     // },
+    //     // Removed legacy deceasedServicePeriods single page
+    //     // Spread new array builder pages:
+    //     // ...deceasedServicePeriodsPages,
+    //     deceasedName: {
+    //       path: 'deceased-name',
+    //       title: 'Deceased’s name',
+    //       uiSchema: deceasedName.uiSchema,
+    //       schema: deceasedName.schema,
+    //     },
+    //     deceasedPreviousName: {
+    //       path: 'deceased-previous-name',
+    //       title: 'Deceased’s previous name',
+    //       uiSchema: deceasedPreviousName.uiSchema,
+    //       schema: deceasedPreviousName.schema,
+    //       depends: { servedUnderAnotherName: true },
+    //     },
+    //   },
+    // },
+    maritalInformation: {
+      title: 'Marital information',
+      pages: {
+        maritalStatus: {
+          path: 'marital-status',
+          title: 'Marital status',
+          uiSchema: maritalStatus.uiSchema,
+          schema: maritalStatus.schema,
         },
-        deceasedPreviousName: {
-          path: 'deceased-previous-name',
-          title: 'Deceased’s previous name',
-          uiSchema: deceasedPreviousName.uiSchema,
-          schema: deceasedPreviousName.schema,
-          depends: { servedUnderAnotherName: true },
+        spouseInformation: {
+          depends: formData => formData.isSpouseOfDeceased === 'yes',
+          path: 'spouse',
+          title: 'Your spouse information',
+          uiSchema: spouseInformation.uiSchema,
+          schema: spouseInformation.schema,
+        },
+        veteranStatus: {
+          path: 'veteran-status',
+          title: 'Your Veteran status',
+          uiSchema: veteranStatus.uiSchema,
+          schema: veteranStatus.schema,
+        },
+        veteranInformation: {
+          depends: formData => formData.isVeteran === 'yes',
+          path: 'veteran-information',
+          title: 'Your veteran information',
+          uiSchema: veteranInformation.uiSchema,
+          schema: veteranInformation.schema,
+        },
+        dependentChild: {
+          path: 'dependent-child',
+          title: 'Dependent child',
+          uiSchema: dependentChild.uiSchema,
+          schema: dependentChild.schema,
         },
       },
     },
-    burialBenefits: {
-      title: 'Burial benefits',
+    interment: {
+      title: 'Interment information',
       pages: {
         burialBenefitsInfo: {
           path: 'currently-buried',
@@ -171,12 +261,6 @@ const formConfig = {
           uiSchema: desiredCemetery.uiSchema,
           schema: desiredCemetery.schema,
         },
-        // (Interment pages moved to new chapter below)
-      },
-    },
-    interment: {
-      title: 'Interment information',
-      pages: {
         intermentDetails: {
           path: 'interment-details',
           title: 'Interment details',

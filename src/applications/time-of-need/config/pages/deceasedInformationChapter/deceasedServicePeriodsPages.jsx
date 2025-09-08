@@ -10,8 +10,8 @@ import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import AutosuggestField from '../../components/AutosuggestField';
-import { getRankOptionsForBranch } from '../../utils/ranks';
+import AutosuggestField from '../../../components/AutosuggestField';
+import { getRankOptionsForBranch } from '../../../utils/ranks';
 
 const dischargeOptions = [
   { value: '', label: 'Select character' },
@@ -25,7 +25,6 @@ const dischargeOptions = [
   { value: 'unknown', label: 'Unknown' },
 ];
 
-// New: branch of service options for autosuggest
 const branchOfServiceOptions = [
   'Army',
   'Army National Guard',
@@ -101,8 +100,8 @@ const options = {
 const introPage = {
   uiSchema: {
     ...titleUI(
-      'Deceased’s service period(s)',
-      'In the next few questions, add each period of the deceased’s military service. You must add at least one period.',
+      'Veteran service period(s)',
+      'In the next few questions, we’ll ask you about the details of the deceased Veteran’s service period(s). You must add at least one service period. You can add up to 3 periods.',
     ),
   },
   schema: { type: 'object', properties: {} },
@@ -111,7 +110,7 @@ const introPage = {
 const summaryPage = {
   uiSchema: {
     'view:hasServicePeriods': arrayBuilderYesNoUI(options, {
-      title: 'Do you want to add a military service period?',
+      title: 'Do you want to add a service period?',
       labels: { Y: 'Yes', N: 'No' },
     }),
   },
@@ -124,16 +123,15 @@ const summaryPage = {
   },
 };
 
-// Build base select UI once so we can merge its ui:options
 const highestRankBaseUI = selectUI({
-  title: 'Highest rank attained',
+  title: 'Veteran’s highest rank attained',
   options: [{ value: '', label: 'Select rank' }],
 });
 
 const itemPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Service period',
+      title: 'Veteran’s service period(s)',
       nounSingular: options.nounSingular,
     }),
     branchOfService: {
@@ -155,25 +153,31 @@ const itemPage = {
         minSearchTermLength: 0,
       },
     },
+    serviceStartDate: currentOrPastDateUI({
+      title: 'Veteran’s service start date',
+      'ui:options': { useV3: true },
+    }),
+    serviceEndDate: currentOrPastDateUI({
+      title: 'Veteran’s service end date',
+      'ui:options': { useV3: true },
+    }),
     highestRank: {
       ...highestRankBaseUI,
+      'ui:title': 'Veteran’s highest rank attained',
+      'ui:description':
+        'This field may clear if the branch of service or service start and end dates are updated.',
       'ui:options': {
         ...highestRankBaseUI['ui:options'],
-        // Re-run when branchOfService changes in this array item
-        dependencies: ['branchOfService'],
+        dependencies: ['branchOfService', 'serviceStartDate', 'serviceEndDate'],
         updateSchema: (rootFormData, schema, uiSchema, index) => {
-          // rootFormData is the full form data object
           const branch =
-            rootFormData?.branchOfService ?? // (in case structure changes)
+            rootFormData?.branchOfService ??
             (Array.isArray(rootFormData?.servicePeriods)
               ? rootFormData.servicePeriods[index]?.branchOfService
               : undefined);
-
           const opts = getRankOptionsForBranch(branch);
-          // Always provide at least the placeholder
           const enumValues = opts.map(o => o.value);
           const enumNames = opts.map(o => o.label);
-
           return {
             ...schema,
             enum: enumValues.length ? enumValues : [''],
@@ -186,30 +190,23 @@ const itemPage = {
             (Array.isArray(rootFormData?.servicePeriods)
               ? rootFormData.servicePeriods[index]?.branchOfService
               : undefined);
-
           const validValues = getRankOptionsForBranch(branch).map(o => o.value);
           return validValues.includes(currentValue) ? currentValue : '';
         },
       },
     },
     dischargeCharacter: selectUI({
-      title: 'Discharge character of service',
+      title: 'Veteran’s discharge character of service',
       options: dischargeOptions,
       'ui:errorMessages': { required: 'Discharge character is required' },
-    }),
-    serviceStartDate: currentOrPastDateUI({
-      title: 'Service start date',
-      'ui:options': { required: false },
-    }),
-    serviceEndDate: currentOrPastDateUI({
-      title: 'Service end date',
-      'ui:options': { required: false },
     }),
   },
   schema: {
     type: 'object',
     properties: {
       branchOfService: textSchema,
+      serviceStartDate: currentOrPastDateSchema,
+      serviceEndDate: currentOrPastDateSchema,
       highestRank: {
         type: 'string',
         enum: [''],
@@ -220,8 +217,6 @@ const itemPage = {
         enum: dischargeOptions.map(o => o.value),
         enumNames: dischargeOptions.map(o => o.label),
       },
-      serviceStartDate: currentOrPastDateSchema,
-      serviceEndDate: currentOrPastDateSchema,
     },
     required: ['branchOfService', 'dischargeCharacter'],
   },

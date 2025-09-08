@@ -5,6 +5,8 @@ import {
   arrayBuilderYesNoUI,
   titleUI,
   textSchema,
+  ssnUI,
+  ssnSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import { merge } from 'lodash';
@@ -108,7 +110,7 @@ function handleCancelEditNo() {
 // }
 
 const options = {
-  arrayPath: 'currentlyBuriedPersons', // Must match your form data!
+  arrayPath: 'currentlyBuriedPersons',
   nounSingular: 'deceased person',
   nounPlural: 'deceased persons',
   required: true,
@@ -128,15 +130,15 @@ const options = {
     cancelEditDescription: handleCancelEditDescription,
     cancelEditYes: handleCancelEditYes,
     cancelEditNo: handleCancelEditNo,
-    summaryTitle: 'Name of deceased person(s)',
+    summaryTitle: 'Previously deceased details', // updated
   },
 };
 
 const introPage = {
   uiSchema: {
     ...titleUI(
-      'Name of deceased person(s)',
-      'In the next few questions, we’ll ask you about the details of the person(s) currently buried in a VA national cemetery under your eligibility. You must add at least one name. You can add up to 3 people.',
+      'Previously deceased details', // updated heading
+      'In the next few questions, we’ll ask you about the details of the person(s) currently buried in a VA national cemetery under the Veteran’s eligibility. You must add at least one name. You can add up to 3 people.', // updated description
     ),
   },
   schema: {
@@ -168,15 +170,21 @@ const summaryPageVeteran = {
 const namePage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Name of deceased person(s)',
+      title: 'Previously deceased details', // updated heading
       description: <CurrentlyBuriedDescription />,
       nounSingular: options.nounSingular,
     }),
-    name: merge({}, fullNameUI),
+    name: merge({}, fullNameUI), // First & Last name (required)
+    ssn: {
+      ...ssnUI(),
+      'ui:title': 'Social Security Number',
+      'ui:options': { useV3: true },
+    },
     cemeteryNumber: {
-      'ui:title': 'VA national cemetery where they’re buried',
+      'ui:title': 'Cemetery',
       'ui:options': {
-        hideIf: () => true,
+        // field now visible & required
+        useV3: true,
       },
     },
   },
@@ -191,11 +199,15 @@ const namePage = {
         },
         required: ['first', 'last'],
       },
+      ssn: {
+        ...ssnSchema,
+        title: 'Social Security Number',
+      },
       cemeteryNumber: {
         type: 'string',
       },
     },
-    required: ['name'],
+    required: ['name', 'ssn', 'cemeteryNumber'],
   },
 };
 
@@ -215,7 +227,7 @@ export const burialBenefitsPagesVeteran = arrayBuilderPages(
       schema: summaryPageVeteran.schema,
     }),
     burialBenefitsInformationPageVeteran: pageBuilder.itemPage({
-      title: 'Deceased person information',
+      title: 'Previously deceased details', // updated item page title
       path: 'burial-benefits/:index/person',
       uiSchema: namePage.uiSchema,
       schema: namePage.schema,
