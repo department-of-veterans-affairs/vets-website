@@ -100,7 +100,8 @@ export function transform(formConfig, form) {
 
     return {
       ...clonedData,
-      privacyAgreementAccepted: true,
+      attestationAgreementAccepted:
+        clonedData.privacyAgreementAccepted || false,
     };
   };
 

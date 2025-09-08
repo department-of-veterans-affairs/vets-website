@@ -21,7 +21,7 @@ const uiSchema = {
     ),
   },
 
-  hasCompletedActiveDuty: yesNoUI({
+  activeDutyDuringHitechVets: yesNoUI({
     title:
       'Do you expect to be called to active duty while enrolled in a High Technology Veterans Education, Training and Skills (HITECH VETS) Program?',
     errorMessages: { required: 'Select an option' },
@@ -32,9 +32,9 @@ const schema = {
   type: 'object',
   properties: {
     'view:activeDutyInfo': { type: 'object', properties: {} },
-    hasCompletedActiveDuty: yesNoSchema,
+    activeDutyDuringHitechVets: yesNoSchema,
   },
-  required: ['hasCompletedActiveDuty'],
+  required: ['activeDutyDuringHitechVets'],
 };
 
 export default { schema, uiSchema };

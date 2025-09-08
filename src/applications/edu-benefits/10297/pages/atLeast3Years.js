@@ -7,7 +7,7 @@ import {
 /** @type {PageSchema} */
 const uiSchema = {
   ...titleUI('Your Veteran status'),
-  atLeast3Years: radioUI({
+  veteranStatus: radioUI({
     title:
       'Are you a Veteran who has completed 3 years (36 months) of active duty?',
     labels: {
@@ -22,9 +22,9 @@ const uiSchema = {
 const schema = {
   type: 'object',
   properties: {
-    atLeast3Years: radioSchema(['yes', 'no']),
+    veteranStatus: radioSchema(['yes', 'no']),
   },
-  required: ['atLeast3Years'],
+  required: ['veteranStatus'],
 };
 
 export { uiSchema, schema };

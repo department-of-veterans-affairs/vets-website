@@ -74,10 +74,12 @@ const formConfig = {
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   preSubmitInfo: {
+    CustomComponent: PreSubmitInfo,
+    required: true,
+    field: 'privacyAgreementAccepted',
     statementOfTruth: {
-      heading: 'Certification statement',
-      hideLegalNote: true,
-      body: PreSubmitInfo,
+      // heading: 'Certification statement',
+      // // body: PreSubmitInfo,
       messageAriaDescribedby: 'I have read and accept the privacy policy.',
       fullNamePath: 'applicantFullName',
     },
@@ -111,7 +113,7 @@ const formConfig = {
           uiSchema: phoneAndEmail.uiSchema,
           schema: phoneAndEmail.schema,
         },
-        atLeast3Years: {
+        veteranStatus: {
           path: 'at-least-3-years',
           title: 'Your Veteran status',
           uiSchema: atLeast3Years.uiSchema,
@@ -122,7 +124,7 @@ const formConfig = {
           title: 'Date released from active duty',
           uiSchema: dateReleasedFromActiveDuty.uiSchema,
           schema: dateReleasedFromActiveDuty.schema,
-          depends: formData => formData?.dutyRequirement !== 'atLeast3Years',
+          depends: formData => formData?.dutyRequirement !== 'veteranStatus',
         },
         activeDutyStatus: {
           path: 'active-duty-status',
