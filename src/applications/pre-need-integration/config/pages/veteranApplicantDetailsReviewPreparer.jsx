@@ -1,33 +1,23 @@
-import React from 'react';
-import VeteranApplicantDetailsCard from '../../components/VeteranApplicantDetailsCard';
+import { personalInformationPage } from 'platform/forms-system/src/js/components/PersonalInformation';
+import { isLoggedInVeteranPreparer } from '../../utils/helpers2';
 
-const ReviewDescription = () => (
-  <div>
-    <h3>Review applicant information</h3>
-    <p>
-      We have the applicant’s information on file. Please review it below and
-      confirm it’s correct before continuing.
-    </p>
-    <VeteranApplicantDetailsCard showHeader={false} />
-  </div>
-);
-
-export function uiSchema() {
-  return {
-    'ui:description': ReviewDescription,
-    'view:veteranApplicantDetailsReviewPreparer': {
-      'ui:title': ' ',
-      'ui:widget': 'hidden',
+// Use the platform's personal information component for logged in veteran preparers
+export const veteranApplicantDetailsReviewPreparerPage = personalInformationPage(
+  {
+    key: 'veteranApplicantDetailsReviewPreparer',
+    title: 'Review applicant information',
+    path: 'veteran-applicant-details-review-preparer',
+    depends: formData => isLoggedInVeteranPreparer(formData),
+    background: true,
+    personalInfoConfig: {
+      name: { show: true, required: false },
+      ssn: { show: true, required: false },
+      dateOfBirth: { show: true, required: false },
+      vaFileNumber: { show: false, required: false },
+      sex: { show: false, required: false },
     },
-  };
-}
-
-export const schema = {
-  type: 'object',
-  properties: {
-    'view:veteranApplicantDetailsReviewPreparer': {
-      type: 'boolean',
-      default: true,
+    dataAdapter: {
+      ssnPath: 'application.claimant.ssn',
     },
   },
-};
+);

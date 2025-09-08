@@ -73,6 +73,7 @@ export const defaultConfig = {
  * @param {DataAdapter} props.dataAdapter - Data adapter object
  * @param {ReactNode} props.children - React children
  * @param {string | ReactNode} props.errorMessage - Custom error message or ReactNode for missing data
+ * @param {boolean} props.background - Whether to show background on va-card
  * @returns {ReactNode} - Rendered component
  */
 export const PersonalInformation = ({
@@ -87,6 +88,7 @@ export const PersonalInformation = ({
   contentAfterButtons,
   errorMessage,
   formOptions = {},
+  background = false,
 }) => {
   const finalConfig = { ...defaultConfig, ...config };
 
@@ -129,7 +131,7 @@ export const PersonalInformation = ({
     <>
       {header || <DefaultHeader />}
       <div className="vads-u-display--flex">
-        <va-card>
+        <va-card background={background}>
           {cardHeader || <DefaultCardHeader />}
           {finalConfig.name?.show && (
             <p>
@@ -249,6 +251,7 @@ const fieldConfigShape = PropTypes.shape({
 
 PersonalInformation.propTypes = {
   NavButtons: PropTypes.func,
+  background: PropTypes.bool,
   children: PropTypes.node,
   config: PropTypes.shape({
     name: fieldConfigShape,

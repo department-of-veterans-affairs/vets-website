@@ -1,24 +1,21 @@
-import React from 'react';
-import VeteranApplicantDetailsCard from '../../components/VeteranApplicantDetailsCard';
+import { personalInformationPage } from 'platform/forms-system/src/js/components/PersonalInformation';
+import { isLoggedInVeteran } from '../../utils/helpers2';
 
-const ReviewDescription = () => (
-  <div>
-    <h3>Review your information</h3>
-    <p>
-      We have your information on file. Please review it below and confirm it’s
-      correct before continuing.
-    </p>
-    <VeteranApplicantDetailsCard showHeader={false} />
-  </div>
-);
-
-export function uiSchema() {
-  return {
-    'ui:description': ReviewDescription,
-  };
-}
-
-export const schema = {
-  type: 'object',
-  properties: {},
-};
+// Use the platform's personal information component for logged in veterans
+export const veteranApplicantDetailsReviewPage = personalInformationPage({
+  key: 'veteranApplicantDetailsReview',
+  title: 'Review your information',
+  path: 'veteran-applicant-details-review',
+  depends: formData => isLoggedInVeteran(formData),
+  background: true,
+  personalInfoConfig: {
+    name: { show: true, required: false },
+    ssn: { show: true, required: false },
+    dateOfBirth: { show: true, required: false },
+    vaFileNumber: { show: false, required: false },
+    sex: { show: false, required: false },
+  },
+  dataAdapter: {
+    ssnPath: 'application.claimant.ssn',
+  },
+});

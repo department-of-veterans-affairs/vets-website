@@ -7,6 +7,8 @@ import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import { fileUploadUi } from '../utils/upload';
+import { veteranApplicantDetailsReviewPage } from './pages/veteranApplicantDetailsReview';
+import { veteranApplicantDetailsReviewPreparerPage } from './pages/veteranApplicantDetailsReviewPreparer';
 import * as applicantMilitaryName from './pages/applicantMilitaryName';
 import * as applicantMilitaryNameInformation from './pages/applicantMilitaryNameInformation';
 import * as applicantMilitaryNameInformationPreparer from './pages/applicantMilitaryNameInformationPreparer';
@@ -25,8 +27,6 @@ import * as sponsorMilitaryDetailsPreparer from './pages/sponsorMilitaryDetailsP
 import * as applicantRelationshipToVet from './pages/applicantRelationshipToVet';
 import * as veteranApplicantDetails from './pages/veteranApplicantDetails';
 import * as veteranApplicantDetailsPreparer from './pages/veteranApplicantDetailsPreparer';
-import * as veteranApplicantDetailsReview from './pages/veteranApplicantDetailsReview';
-import * as veteranApplicantDetailsReviewPreparer from './pages/veteranApplicantDetailsReviewPreparer';
 import * as veteranBirthLocation from './pages/veteranBirthLocation';
 import * as veteranBirthLocationPreparer from './pages/veteranBirthLocationPreparer';
 import * as nonVeteranApplicantDetails from './pages/nonVeteranApplicantDetails';
@@ -115,9 +115,7 @@ import {
 } from '../utils/helpers';
 
 import {
-  isLoggedInVeteran,
   isNotLoggedInVeteran,
-  isLoggedInVeteranPreparer,
   isNotLoggedInVeteranPreparer,
 } from '../utils/helpers2';
 import SupportingFilesDescription from '../components/SupportingFilesDescription';
@@ -285,13 +283,7 @@ const formConfig = {
           ),
           schema: applicantRelationshipToVet.schema,
         },
-        veteranApplicantDetailsReview: {
-          title: 'Review your information',
-          path: 'veteran-applicant-details-review',
-          depends: formData => isLoggedInVeteran(formData),
-          uiSchema: veteranApplicantDetailsReview.uiSchema(),
-          schema: veteranApplicantDetailsReview.schema,
-        },
+        ...veteranApplicantDetailsReviewPage,
         veteranApplicantDetails: {
           title: 'Your details',
           path: 'veteran-applicant-details',
@@ -316,13 +308,7 @@ const formConfig = {
           ),
           schema: veteranBirthLocation.schema,
         },
-        veteranApplicantDetailsReviewPreparer: {
-          title: 'Review applicant information',
-          path: 'veteran-applicant-details-review-preparer',
-          depends: formData => isLoggedInVeteranPreparer(formData),
-          uiSchema: veteranApplicantDetailsReviewPreparer.uiSchema(),
-          schema: veteranApplicantDetailsReviewPreparer.schema,
-        },
+        ...veteranApplicantDetailsReviewPreparerPage,
         veteranApplicantDetailsPreparer: {
           title: 'Applicant details',
           path: 'veteran-applicant-details-preparer',
