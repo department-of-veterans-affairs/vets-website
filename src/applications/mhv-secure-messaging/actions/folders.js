@@ -26,7 +26,7 @@ export const getFirstError = error => {
   if (isArray(errors) && errors.length > 0) {
     return errors[0];
   }
-  return error;
+  return edgeCaseBackendError(error);
 };
 
 const handleErrors = err => async dispatch => {
