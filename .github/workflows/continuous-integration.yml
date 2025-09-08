@@ -393,7 +393,7 @@ jobs:
           if [[ -n "$APP_FOLDERS" ]]; then
             yarn test:unit:gha ${APP_FOLDERS:+"{script,src/platform,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level verbose
           else
-            yarn test:unit:gha --coverage --log-level verbose
+            yarn test:unit:gha yarn test:unit:gha "{src,script}/**/*.unit.spec.js?(x)" --coverage --log-level verbose
           fi
           
         env:
@@ -1005,7 +1005,7 @@ jobs:
           if [[ -n "$APP_FOLDERS" ]]; then
             yarn test:unit:gha ${APP_FOLDERS:+"{script,src/platform,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level verbose
           else
-            yarn test:unit:gha --coverage --log-level verbose
+            yarn test:unit:gha yarn test:unit:gha "{src,script}/**/*.unit.spec.js?(x)" --coverage --log-level verbose
           fi
         env:
           MOCHA_FILE: test-results/unit-tests.xml
@@ -2121,11 +2121,11 @@ jobs:
           -H "Accept: application/vnd.github.v3+json" \
           -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
           https://api.github.com/repos/${{ github.repository }}/dispatches \
-          -d "$(jq -n --arg sha \"${{ github.sha }}\" \
-          --arg ref \"${{ github.ref }}\" \
-          --arg entry \"${{ needs.build.outputs.entry_names }}\" \
-          --arg slack_channel \"${{ steps.determine-channel.outputs.channel }}\" \
-          '{event_type: \"cd-production-deploy\", client_payload: {github_sha: $sha, github_ref: $ref, entry_app: $entry, slack_channel: $slack_channel}}')"
+          -d "$(jq -n --arg sha "${{ github.sha }}" \
+          --arg ref "${{ github.ref }}" \
+          --arg entry "${{ needs.build.outputs.entry_names }}" \
+          --arg slack_channel "${{ steps.determine-channel.outputs.channel }}" \
+          '{event_type: "cd-production-deploy", client_payload: {github_sha: $sha, github_ref: $ref, entry_app: $entry, slack_channel: $slack_channel}}')"
                          
   notify-failure:
     name: Notify Failure
