@@ -1,9 +1,9 @@
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import { veteranInformation } from '../../../utilities';
 import VeteranInformation from './VeteranInformationComponent';
 
 export const schema = {
-  ...veteranInformation.properties.veteranInformation,
+  type: 'object',
+  properties: {},
 };
 
 export const uiSchema = {
