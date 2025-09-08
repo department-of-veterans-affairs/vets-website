@@ -55,7 +55,8 @@ describe('CT before search by name accessibility', () => {
       'aria-expanded',
       'true',
     );
-    cy.repeatKey('Tab', 11);
+    cy.realPress(['Shift', 'Tab']);
+    cy.realPress(['Shift', 'Tab']);
     cy.focused().should('contain.text', 'Apply filters');
     cy.realPress('Enter');
     cy.get('input[data-testid="ct-input"]').should('be.focused');
