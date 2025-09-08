@@ -106,7 +106,7 @@ jobs:
 
       - name: Determine CD Eligibility
         id: deploy-to-prod
-        run: script/github-actions/check-prod-deploy-eligibility.js
+        run: node script/github-actions/check-prod-deploy-eligibility.js
         env:
           continuous_deploy: ${{ needs.build.outputs.continuous_deployment }}
           entry_names: ${{ needs.build.outputs.entry_names }}
