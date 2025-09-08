@@ -155,7 +155,7 @@ const formConfig = {
           uiSchema: currentlyBuried.uiSchema,
           schema: currentlyBuried.schema,
         },
-        // Stand-alone array builder pages (no conditional dependency)
+        // Veteran benefit sub-pages (conditional)
         ...Object.fromEntries(
           Object.entries(burialBenefitsPagesVeteran).map(([key, page]) => [
             key,
@@ -171,14 +171,19 @@ const formConfig = {
           uiSchema: desiredCemetery.uiSchema,
           schema: desiredCemetery.schema,
         },
-        // Move intermentDetails first
+        // (Interment pages moved to new chapter below)
+      },
+    },
+    interment: {
+      title: 'Interment information',
+      pages: {
         intermentDetails: {
           path: 'interment-details',
           title: 'Interment details',
           uiSchema: intermentDetails.uiSchema,
           schema: intermentDetails.schema,
         },
-        // Then the desired date/time range array builder pages
+        // Desired interment date/time range array builder pages
         ...intermentDateRangesPages,
       },
     },

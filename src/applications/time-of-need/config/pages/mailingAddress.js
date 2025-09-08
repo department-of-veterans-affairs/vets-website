@@ -2,13 +2,11 @@ import React from 'react';
 import {
   addressSchema,
   addressUI,
-  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...titleUI('Step 1 of 8: Deceased information'),
     'ui:description': (
       <div>
         <p>We’ll save your application on every change.</p>
