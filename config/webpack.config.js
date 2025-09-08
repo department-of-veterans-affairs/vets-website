@@ -302,14 +302,18 @@ module.exports = async (env = {}) => {
 
   const baseConfig = {
     mode: isOptimizedBuild ? 'production' : 'development',
-    cache: {
-      type: 'filesystem',
-      cacheDirectory: path.resolve(__dirname, '../.webpack-cache'),
-      buildDependencies: {
-        config: [__filename],
-      },
-      version: `${buildtype}-${buildOptions.entry || 'all'}`,
-    },
+    cache: isOptimizedBuild
+      ? false
+      : {
+          type: 'filesystem',
+          cacheDirectory: path.resolve(__dirname, '../.webpack-cache'),
+          buildDependencies: {
+            config: [__filename],
+          },
+          version: `${buildtype}-${buildOptions.entry || 'all'}`,
+          maxMemoryGenerations: 1,
+          maxAge: 24 * 60 * 60 * 1000, // 24 hours
+        },
     devtool: false,
     entry: entryFiles,
     output: {
