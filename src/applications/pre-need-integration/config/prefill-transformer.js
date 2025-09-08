@@ -4,8 +4,6 @@ export default function prefillTransformer(
   metadata,
   formContext,
 ) {
-  // eslint-disable-next-line no-console
-  console.log('prefillTransformer formContext:', formContext);
   return {
     pages,
     formData: {
