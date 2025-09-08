@@ -39,6 +39,7 @@ const formConfig = {
   dev: {
     collapsibleNavLinks: true,
     showNavLinks: true,
+    disableWindowUnloadInCI: true,
   },
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
