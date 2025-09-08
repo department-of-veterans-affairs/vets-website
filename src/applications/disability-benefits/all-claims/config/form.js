@@ -306,7 +306,7 @@ const formConfig = {
       },
     },
     disabilities: {
-      title: 'Conditions and Rated Disabilities',
+      title: 'Conditions',
       pages: {
         ...gatePages(disabilityBenefitsWorkflow, isNewConditionsOff),
         ...gatePages(disabilityConditionsWorkflow, isNewConditionsOn),

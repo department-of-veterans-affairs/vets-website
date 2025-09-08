@@ -104,7 +104,7 @@ describe('526 cause new shared page', () => {
 
     await waitFor(() => {
       const textarea = container.querySelector('va-textarea');
-      expect(textarea).to.have.attribute('error'); // or the specific message if you have it
+      expect(textarea).to.have.attribute('error');
     });
   });
 });
