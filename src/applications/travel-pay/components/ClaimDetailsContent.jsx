@@ -62,11 +62,12 @@ export default function ClaimDetailsContent({
 
   const documentCategories = (documents ?? []).reduce(
     (acc, doc) => {
-      // Do not show clerk note attachments
+      // Do not show clerk note attachments, which should be missing the mimetype
       if (!doc.mimetype) return acc;
-      // TODO: Solidify on pattern match criteria for decision letter, other statically named docs
+
       if (
         doc.filename.includes('Rejection Letter') ||
+        doc.filename.includes('Partial Payment Letter') ||
         doc.filename.includes('Decision Letter')
       )
         acc.clerk.push({ ...doc, text: 'Download your decision letter' });
