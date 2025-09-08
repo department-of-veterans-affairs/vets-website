@@ -1,3 +1,4 @@
+import { cy } from 'date-fns/locale';
 import data from '../data/calculator-constants.json';
 
 describe('CT before search by name accessibility', () => {
@@ -55,8 +56,7 @@ describe('CT before search by name accessibility', () => {
       'aria-expanded',
       'true',
     );
-    cy.realPress(['Shift', 'Tab']);
-    cy.realPress(['Shift', 'Tab']);
+    cy.repeatKey(['Shift', 'Tab'], 3);
     cy.focused().should('contain.text', 'Apply filters');
     cy.realPress('Enter');
     cy.get('input[data-testid="ct-input"]').should('be.focused');
