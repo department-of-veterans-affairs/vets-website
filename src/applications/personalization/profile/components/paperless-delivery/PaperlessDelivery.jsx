@@ -34,9 +34,7 @@ export const PaperlessDelivery = () => {
   const hasVAPServiceError = useSelector(hasVAPServiceConnectionError);
   const { loadingStatus } = communicationPreferencesState;
   const hasLoadingError = loadingStatus === LOADING_STATES.error;
-  const isLoading =
-    loadingStatus === LOADING_STATES.idle ||
-    loadingStatus === LOADING_STATES.pending;
+  const isLoading = loadingStatus === LOADING_STATES.pending;
   const hasAPIError = hasVAPServiceError || hasLoadingError;
   const showContent = !hasAPIError && !isLoading;
 

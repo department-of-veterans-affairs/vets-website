@@ -1,7 +1,7 @@
 import dd4eduNotEnrolled from '@@profile/tests/fixtures/dd4edu/dd4edu-not-enrolled.json';
 import disabilityRating from '@@profile/tests/fixtures/disability-rating-success.json';
 import fullName from '@@profile/tests/fixtures/full-name-success.json';
-import mockPaymentInfoNotEligible from '@@profile/tests/fixtures/dd4cnp/dd4cnp-is-not-eligible.json';
+import mockPaymentInfo from '@@profile/tests/fixtures/direct-deposits/base.json';
 import personalInformation from '@@profile/tests/fixtures/personal-information-success.json';
 import serviceHistory from '@@profile/tests/fixtures/service-history-success.json';
 
@@ -11,16 +11,32 @@ import error500 from '@@profile/tests/fixtures/500.json';
 
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../constants';
 
-export function subNavOnlyContainsAccountSecurity(mobile) {
+export function subNavOnlyContainsAccountSecurity({
+  profileShowPaperlessDelivery = false,
+  mobile = false,
+} = {}) {
   if (mobile) {
-    cy.findByRole('button', { name: /profile menu/i }).click();
+    if (profileShowPaperlessDelivery) {
+      cy.get('va-sidenav')
+        .filter(':visible')
+        .click();
+    } else {
+      cy.findByRole('button', { name: /profile menu/i }).click();
+    }
   }
-  cy.findByRole('navigation', { name: /profile/i }).within(() => {
-    cy.findAllByRole('link').should('have.length', 1);
-    cy.findByRole('link', {
-      name: PROFILE_PATH_NAMES.ACCOUNT_SECURITY,
-    }).should('exist');
-  });
+
+  if (profileShowPaperlessDelivery) {
+    cy.get(
+      `va-sidenav-item[label="${PROFILE_PATH_NAMES.ACCOUNT_SECURITY}"]`,
+    ).should('exist');
+  } else {
+    cy.findByRole('navigation', { name: /profile/i }).within(() => {
+      cy.findAllByRole('link').should('have.length', 1);
+      cy.findByRole('link', {
+        name: PROFILE_PATH_NAMES.ACCOUNT_SECURITY,
+      }).should('exist');
+    });
+  }
 }
 
 export function onlyAccountSecuritySectionIsAccessible() {
@@ -110,7 +126,7 @@ export function mockNotificationSettingsAPIs(toggles) {
   cy.intercept('/v0/profile/personal_information', personalInformation);
   cy.intercept('/v0/profile/service_history', serviceHistory);
   cy.intercept('/v0/profile/ch33_bank_accounts', dd4eduNotEnrolled);
-  cy.intercept('/v0/ppiu/payment_information', mockPaymentInfoNotEligible);
+  cy.intercept('/v0/profile/direct_deposits', mockPaymentInfo);
   mockFeatureToggles(toggles ? () => toggles : null);
 }
 

@@ -386,6 +386,15 @@ export function Modals({ hideModal, modals, profile }) {
       >
         <IndependentStudyModalContent />
       </VaModal>
+      <VaModal
+        onCloseEvent={hideModal}
+        visible={shouldDisplayModal('aboutAllCampuses')}
+      >
+        <p>
+          The number of closed, Principles of Excellence-related, complaints for
+          schools with same six-digit OPEID code.
+        </p>
+      </VaModal>
     </>
   );
 

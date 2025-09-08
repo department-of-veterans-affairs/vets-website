@@ -137,7 +137,8 @@ export const fillDependentInformation = (dependent, showIncomePages) => {
     goToNextPage();
     // fill educational expenses
     selectYesNoWebComponent('attendedSchoolLastYear', attendedSchoolLastYear);
-    cy.get('[name="root_dependentEducationExpenses"]').type(
+    fillTextWebComponent(
+      'dependentEducationExpenses',
       dependentEducationExpenses,
     );
     cy.injectAxeThenAxeCheck();

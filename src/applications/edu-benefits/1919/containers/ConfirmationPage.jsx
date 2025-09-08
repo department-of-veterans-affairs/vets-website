@@ -57,8 +57,8 @@ export const ConfirmationPage = ({ router, route }) => {
     >
       {confirmationChildContent(
         `${environment.API_URL}/v0/education_benefits_claims/download_pdf/${
-          submission?.response?.confirmationNumber
-        }`, // update pdf download url when available
+          submission?.response?.id
+        }`,
         goBack,
       )}
     </ConfirmationView>

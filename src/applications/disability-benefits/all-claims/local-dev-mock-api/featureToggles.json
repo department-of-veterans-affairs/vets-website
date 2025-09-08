@@ -31,6 +31,10 @@
         "value": true
       },
       {
+        "name": "disability_526_toxic_exposure_opt_out_data_purge",
+        "value": false
+      },
+      {
         "name": "form526_use_lighthouse_api",
         "value": false
       },

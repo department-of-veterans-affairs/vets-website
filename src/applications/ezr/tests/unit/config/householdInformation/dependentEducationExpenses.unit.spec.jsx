@@ -1,6 +1,5 @@
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
-  testNumberOfWebComponentFields,
   testNumberOfErrorsOnSubmit,
   testNumberOfFields,
 } from '../helpers.spec';
@@ -10,18 +9,8 @@ import dependentEducationExpenses from '../../../../config/chapters/householdInf
 const { schema, uiSchema } = dependentEducationExpenses;
 const pageTitle = 'Dependent education expenses';
 
-// run test for correct number of web component fields on the page
-const expectedNumberOfWebComponentFields = 1;
-testNumberOfWebComponentFields(
-  formConfig,
-  schema,
-  uiSchema,
-  expectedNumberOfWebComponentFields,
-  pageTitle,
-);
-
 // run test for correct number of web component error messages on submit
-const expectedNumberOfWebComponentErrors = 0;
+const expectedNumberOfWebComponentErrors = 1;
 testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,
@@ -41,7 +30,7 @@ testNumberOfFields(
 );
 
 // run test for correct number of standard error messages on submit
-const expectedNumberOfErrors = 1;
+const expectedNumberOfErrors = 0;
 testNumberOfErrorsOnSubmit(
   formConfig,
   schema,

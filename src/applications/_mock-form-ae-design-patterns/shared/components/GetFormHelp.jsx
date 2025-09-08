@@ -1,4 +1,4 @@
-import { CONTACTS } from '@department-of-veterans-affairs/component-library';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import React from 'react';
 
 export const GetFormHelp = () => {

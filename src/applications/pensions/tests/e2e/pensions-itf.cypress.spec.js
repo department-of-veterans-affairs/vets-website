@@ -28,10 +28,6 @@ const cypressSetup = ({
           name: 'pension_form_enabled',
           value: true,
         },
-        {
-          name: 'pension_itf_show_alert',
-          value: true,
-        },
       ],
     },
   };

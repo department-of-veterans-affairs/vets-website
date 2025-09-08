@@ -11,7 +11,10 @@ export const startAsGuestUser = () => {
   cy.get('.schemaform-start-button')
     .first()
     .click();
-  cy.location('pathname').should('include', '/signer-type');
+  cy.location('pathname').should(
+    'include',
+    '/your-information/who-is-applying',
+  );
 };
 
 // helpers for creating state machines to handle ArrayBuilder actions

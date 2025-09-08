@@ -1,18 +1,6 @@
 import { expect } from 'chai';
 import * as selectors from '../selectors';
 
-const getDirectDepositInfoError = {
-  errors: [
-    {
-      title: 'Bad Gateway',
-      detail: 'Received an an invalid response from the upstream server',
-      code: 'EVSS502',
-      source: 'EVSS::PPIU::Service',
-      status: '502',
-    },
-  ],
-};
-
 const errors = [{ name: 'error1' }, { name: 'error2' }];
 
 describe('profile selectors', () => {
@@ -47,31 +35,9 @@ describe('profile selectors', () => {
       state.vaProfile.cnpPaymentInformation.paymentAccount.accountNumber = '';
       expect(selectors.cnpDirectDepositIsSetUp(state)).to.be.false;
     });
-    it('returns `false` when the payment info endpoint failed to get data', () => {
-      state = {
-        vaProfile: {
-          cnpPaymentInformation: {
-            error: getDirectDepositInfoError,
-          },
-        },
-      };
-      expect(selectors.cnpDirectDepositIsSetUp(state)).to.be.false;
-    });
   });
 
   describe('cnpDirectDepositLoadError', () => {
-    it('returns the error if there is one', () => {
-      const state = {
-        vaProfile: {
-          cnpPaymentInformation: {
-            error: getDirectDepositInfoError,
-          },
-        },
-      };
-      expect(selectors.cnpDirectDepositLoadError(state)).to.deep.equal(
-        getDirectDepositInfoError,
-      );
-    });
     it('returns undefined if there are no errors', () => {
       const state = {
         vaProfile: {
@@ -116,17 +82,6 @@ describe('profile selectors', () => {
 
     it('returns `false` if control info canUpdateDirectDeposit is false', () => {
       state.vaProfile.cnpPaymentInformation.controlInformation.canUpdateDirectDeposit = false;
-      expect(selectors.cnpDirectDepositIsEligible(state)).to.be.false;
-    });
-
-    it('returns `false` when the payment info endpoint failed to get data', () => {
-      state = {
-        vaProfile: {
-          cnpPaymentInformation: {
-            error: getDirectDepositInfoError,
-          },
-        },
-      };
       expect(selectors.cnpDirectDepositIsEligible(state)).to.be.false;
     });
   });

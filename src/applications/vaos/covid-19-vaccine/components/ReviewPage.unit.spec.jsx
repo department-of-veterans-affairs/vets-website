@@ -158,7 +158,7 @@ describe('VAOS vaccine flow: ReviewPage', () => {
       formatInTimeZone(
         start,
         'America/Denver',
-        "EEEE, MMMM d, yyyy 'at' h:mm aaaa",
+        `${DATE_FORMATS.friendlyWeekdayDate} 'at' h:mm aaaa`,
       ),
     );
     expect(dateHeading).to.have.tagName('h3');

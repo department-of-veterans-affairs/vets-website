@@ -18,11 +18,10 @@ const MessageReply = () => {
     customFoldersRedesignEnabled,
     largeAttachmentsEnabled,
   } = useFeatureToggles();
-  const { drafts, error, messages } = useSelector(
+  const { drafts, error, messages, acceptInterstitial } = useSelector(
     state => state.sm.threadDetails,
   );
   const replyMessage = messages?.length && messages[0];
-  const [acknowledged, setAcknowledged] = useState(false);
   const recipients = useSelector(state => state.sm.recipients);
   const [isEditing, setIsEditing] = useState(true);
   const [isSending, setIsSending] = useState(false);
@@ -49,7 +48,7 @@ const MessageReply = () => {
     () => {
       focusElement(document.querySelector('h1'));
     },
-    [acknowledged, replyMessage],
+    [acceptInterstitial, replyMessage],
   );
 
   const content = () => {
@@ -105,13 +104,8 @@ const MessageReply = () => {
 
   return (
     <>
-      {!acknowledged ? (
-        <InterstitialPage
-          acknowledge={() => {
-            setAcknowledged(true);
-          }}
-          type="reply"
-        />
+      {!acceptInterstitial ? (
+        <InterstitialPage type="reply" />
       ) : (
         <>
           <va-loading-indicator

@@ -25,7 +25,7 @@ export default function ClaimDetailsContent({
   documents,
   decisionLetterReason,
 }) {
-  useSetPageTitle(title);
+  useSetPageTitle('Travel Reimbursement Claim Details');
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const claimsMgmtToggle = useToggleValue(
     TOGGLE_NAMES.travelPayClaimsManagement,

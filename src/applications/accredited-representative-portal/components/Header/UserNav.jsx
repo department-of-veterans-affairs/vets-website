@@ -66,7 +66,7 @@ const UserHelpLinks = () => {
               onClick={recordDatalayerEvent}
               data-eventname="nav-link-click"
             >
-              Get Help
+              Help
             </Link>
           </li>
         </Toggler.Enabled>
@@ -91,6 +91,25 @@ const UserNavLinks = () => {
               data-eventname="nav-link-click"
             >
               Profile
+            </Link>
+          </li>
+        </Toggler.Enabled>
+      </Toggler>
+      <Toggler
+        toggleName={
+          Toggler.TOGGLE_NAMES.accreditedRepresentativePortalDashboardLink
+        }
+      >
+        <Toggler.Enabled>
+          <li>
+            <Link
+              data-testid="user-nav-profile-link"
+              className="vads-u-color--black"
+              to="/dashboard"
+              onClick={recordDatalayerEvent}
+              data-eventname="nav-link-click"
+            >
+              Dashboard
             </Link>
           </li>
         </Toggler.Enabled>
@@ -122,7 +141,7 @@ function UserNav({ profile }) {
           srText="toggle menu"
           icon="account_circle"
           dataTestId="user-nav-user-name"
-          className="nav__btn nav__btn--user vads-u-color--base"
+          className="nav__btn nav__btn--user vads-u-color--base arp-profile-dropdown"
           firstName={profile.firstName}
           lastName={profile.lastName}
           secondaryIcon="chevron_left"

@@ -64,6 +64,8 @@ describe('SECURE MESSAGING AAL', () => {
       }).as('submitLaunchMessagingAal');
       PatientInboxPage.loadInboxMessages();
 
+      cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+
       cy.get(Locators.ALERTS.CERNER_ALERT)
         .find('a')
         .click();
@@ -79,8 +81,6 @@ describe('SECURE MESSAGING AAL', () => {
           },
           product: 'sm',
         });
-
-        cy.injectAxeThenAxeCheck(AXE_CONTEXT);
       });
     });
 
@@ -97,12 +97,13 @@ describe('SECURE MESSAGING AAL', () => {
       }).as('submitLaunchMessagingAal');
       PatientInboxPage.loadInboxMessages();
 
+      cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+
       cy.get(Locators.ALERTS.CERNER_ALERT)
         .find('a')
         .click();
 
       cy.get('@submitLaunchMessagingAal.all').should('have.length', 0);
-      cy.injectAxeThenAxeCheck(AXE_CONTEXT);
     });
   });
 });

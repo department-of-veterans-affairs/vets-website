@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useLocation, useHistory } from 'react-router-dom';
-
-import { fetchAppointmentInfo, setFormCurrentPage } from './redux/actions';
+import { useGetAppointmentInfoQuery } from '../redux/api/vaosApi';
+import { setFormCurrentPage } from './redux/actions';
 // eslint-disable-next-line import/no-restricted-paths
-import { getReferralAppointmentInfo } from './redux/selectors';
 
 // eslint-disable-next-line import/no-restricted-paths
 import PageLayout from '../appointment-list/components/PageLayout';
@@ -21,36 +20,19 @@ export default function EpsAppointmentDetailsPage() {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const {
-    appointmentInfoError,
-    appointmentInfoLoading,
-    referralAppointmentInfo,
-  } = useSelector(getReferralAppointmentInfo);
   useEffect(
     () => {
       dispatch(setFormCurrentPage('details'));
     },
     [dispatch],
   );
-  useEffect(
-    () => {
-      if (
-        !appointmentInfoError &&
-        !appointmentInfoLoading &&
-        !referralAppointmentInfo?.attributes
-      ) {
-        dispatch(fetchAppointmentInfo(appointmentId));
-      }
-    },
-    [
-      dispatch,
-      appointmentId,
-      appointmentInfoError,
-      appointmentInfoLoading,
-      referralAppointmentInfo,
-    ],
-  );
-  if (appointmentInfoError) {
+  const {
+    data: referralAppointmentInfo,
+    isError,
+    isLoading,
+  } = useGetAppointmentInfoQuery(appointmentId);
+
+  if (isError) {
     return (
       <PageLayout showNeedHelp>
         <br />
@@ -75,8 +57,7 @@ export default function EpsAppointmentDetailsPage() {
       </PageLayout>
     );
   }
-
-  if (appointmentInfoLoading || !referralAppointmentInfo?.attributes) {
+  if (isLoading || !referralAppointmentInfo?.attributes) {
     return (
       <FullWidthLayout>
         <va-loading-indicator set-focus message="Loading your appointment..." />
@@ -103,18 +84,11 @@ export default function EpsAppointmentDetailsPage() {
           />
         </nav>
       </div>
-      <div
+      <va-card
         className="vaos-appts__appointment-details--container vads-u-margin-top--4 vads-u-border--2px vads-u-border-color--gray-medium vads-u-padding-x--2p5 vads-u-padding-top--5 vads-u-padding-bottom--3"
         data-testid="appointment-card"
+        icon-name="calendar_today"
       >
-        <div className="vaos-appts__appointment-details--icon">
-          <va-icon
-            icon="calendar_today"
-            aria-hidden="true"
-            data-testid="appointment-icon"
-            size={3}
-          />
-        </div>
         <h1 className="vaos__dynamic-font-size--h2">
           <span data-dd-privacy="mask">Community Care Appointment</span>
         </h1>
@@ -159,7 +133,7 @@ export default function EpsAppointmentDetailsPage() {
             appointment.
           </span>
         </Section>
-      </div>
+      </va-card>
     </PageLayout>
   );
 }

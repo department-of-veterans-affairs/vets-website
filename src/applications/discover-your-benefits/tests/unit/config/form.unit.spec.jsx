@@ -332,7 +332,7 @@ describe('Questionnaire Form - Chapter 4: Character of Discharge', () => {
     });
 
     it('should have the correct title for the Character of Discharge page', () => {
-      expect(dischargePage.title).to.equal('Character of Discharge');
+      expect(dischargePage.title).to.equal('Character of discharge');
     });
 
     it('should have a valid uiSchema for the Character of Discharge page', () => {
@@ -352,7 +352,7 @@ describe('Questionnaire Form - Chapter 5: Disability', () => {
     });
 
     it('should have the correct title for the Disability page', () => {
-      expect(disabilityPage.title).to.equal('Disability Rating');
+      expect(disabilityPage.title).to.equal('Disability');
     });
 
     it('should have a valid uiSchema for the Disability page', () => {

@@ -115,7 +115,7 @@ const formConfig = {
   defaultDefinitions: {},
   chapters: {
     certifierInformation: {
-      title: 'Signer information',
+      title: 'Your information',
       pages: {
         page1: {
           // initialData: mockData.data,
@@ -149,32 +149,32 @@ const formConfig = {
       },
     },
     sponsorInformation: {
-      title: 'Sponsor information',
+      title: 'Veteran information',
       pages: {
         page5a: {
           path: 'veteran-information/overview',
-          title: 'Sponsor information',
+          title: 'Veteran information',
           ...sponsorIntroSchema,
         },
         page6: {
           path: 'veteran-information/name-and-date-of-birth',
-          title: 'Sponsor\u2019s name and date of birth',
+          title: 'Veteran’s name and date of birth',
           ...sponsorNameDobSchema,
         },
         page7: {
           path: 'veteran-information/social-security-number',
-          title: `Sponsor\u2019s identification information`,
+          title: `Veteran’s identification information`,
           ...sponsorIdentificationSchema,
         },
         page8: {
           path: 'veteran-information/life-status',
-          title: 'Sponsor\u2019s status',
+          title: 'Veteran’s status',
           depends: formData => get('certifierRole', formData) !== 'sponsor',
           ...sponsorStatus,
         },
         page9: {
           path: 'veteran-information/death-information',
-          title: 'Sponsor\u2019s status details',
+          title: 'Veteran’s status details',
           depends: formData =>
             get('certifierRole', formData) !== 'sponsor' &&
             get('sponsorIsDeceased', formData),
@@ -211,13 +211,13 @@ const formConfig = {
         },
         page10: {
           path: 'veteran-information/mailing-address',
-          title: 'Sponsor\u2019s mailing address',
+          title: 'Veteran’s mailing address',
           depends: formData => !get('sponsorIsDeceased', formData),
           ...sponsorAddress,
         },
         page11: {
           path: 'veteran-information/contact-information',
-          title: 'Sponsor\u2019s contact information',
+          title: 'Veteran’s contact information',
           depends: formData => !get('sponsorIsDeceased', formData),
           ...sponsorContactInfo,
         },

@@ -5,15 +5,15 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
 import formConfig from '../config/form';
-import { useSetVetTecToggle } from '../hooks/useSetVetTecToggle';
 
 export default function FeedbackToolApp({ location, children }) {
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const showVetTecEduBenefit = useToggleValue(
-    TOGGLE_NAMES.giFeedbackToolVetTecEducationBenefit,
-  );
-
-  useSetVetTecToggle(showVetTecEduBenefit);
+  const { useFormFeatureToggleSync } = useFeatureToggle();
+  useFormFeatureToggleSync([
+    {
+      toggleName: 'giFeedbackToolVetTecEducationBenefit', // feature toggle name
+      formKey: 'view:giFeedbackToolVetTecEducationBenefit', // form data name
+    },
+  ]);
 
   return (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>

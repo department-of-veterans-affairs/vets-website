@@ -77,7 +77,7 @@ export default class MockAppointmentResponse {
       preferredDates: [
         format(
           startOfDay(new Date(), 'day'),
-          "eeee, MMMM d, yyyy 'in the morning'",
+          `${DATE_FORMATS.friendlyWeekdayDate} 'in the morning'`,
         ),
       ],
       requestedPeriods:

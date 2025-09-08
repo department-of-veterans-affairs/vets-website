@@ -5,6 +5,7 @@ import { ConfirmationView } from 'platform/forms-system/src/js/components/Confir
 import {
   ConfirmationGoBackLink,
   ConfirmationHowToContact,
+  ConfirmationSubmissionAlert,
   ConfirmationWhatsNextProcessList,
 } from '../helpers';
 
@@ -12,7 +13,8 @@ export const ConfirmationPage = props => {
   const form = useSelector(state => state.form || {});
   const submission = form?.submission;
   const submitDate = submission?.timestamp || '';
-  const confirmationNumber = submission?.response?.confirmationNumber || '';
+  const confirmationNumber =
+    submission?.response?.attributes?.confirmationNumber || '';
 
   return (
     <ConfirmationView
@@ -21,7 +23,15 @@ export const ConfirmationPage = props => {
       confirmationNumber={confirmationNumber}
       pdfUrl={submission?.response?.pdfUrl}
     >
-      <ConfirmationView.SubmissionAlert actions={null} />
+      <ConfirmationView.SubmissionAlert
+        actions={null}
+        content={
+          // eslint-disable-next-line react/jsx-wrap-multilines
+          <ConfirmationSubmissionAlert
+            confirmationNumber={confirmationNumber}
+          />
+        }
+      />
       <ConfirmationView.SavePdfDownload />
       <ConfirmationView.ChapterSectionCollection />
       <ConfirmationView.PrintThisPage />
