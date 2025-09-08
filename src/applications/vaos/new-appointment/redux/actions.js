@@ -317,7 +317,7 @@ export function checkEligibility({ location, showModal, isCerner }) {
 
     // Retrieves flipper state for mental health history filtering
     // Only used in NON-Cerner checks
-    const usePastVisitMHFilter = selectFeatureMentalHealthHistoryFiltering(
+    const featurePastVisitMHFilter = selectFeatureMentalHealthHistoryFiltering(
       state,
     );
 
@@ -369,7 +369,7 @@ export function checkEligibility({ location, showModal, isCerner }) {
           location,
           typeOfCare,
           directSchedulingEnabled,
-          usePastVisitMHFilter,
+          featurePastVisitMHFilter,
         });
 
         if (showModal) {

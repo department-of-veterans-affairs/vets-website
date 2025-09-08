@@ -1,4 +1,3 @@
-import fullSchema from 'vets-json-schema/dist/686C-674-schema.json';
 import cloneDeep from 'lodash/cloneDeep';
 import { parse, parseISO, isValid } from 'date-fns';
 
@@ -78,36 +77,7 @@ export const customFormReplacer = (key, value) => {
   return value;
 };
 
-const {
-  optionSelection,
-  veteranInformation,
-  addChild,
-  addSpouse,
-  reportDivorce,
-  deceasedDependents,
-  reportChildMarriage,
-  reportChildStoppedAttendingSchool,
-  reportStepchildNotInHousehold,
-  report674,
-  householdIncome,
-} = fullSchema.properties;
-
-export {
-  validateName,
-  optionSelection,
-  veteranInformation,
-  addChild,
-  addSpouse,
-  reportDivorce,
-  deceasedDependents,
-  reportChildMarriage,
-  reportChildStoppedAttendingSchool,
-  reportStepchildNotInHousehold,
-  report674,
-  householdIncome,
-  isServerError,
-  isClientError,
-};
+export { validateName, isServerError, isClientError };
 
 function copyDataFields(sourceData, cleanData, fields) {
   fields.forEach(field => {
