@@ -5,18 +5,11 @@ import { useLocation, useParams } from 'react-router-dom-v5-compat';
 import { createBreadcrumbs } from '../util/helpers';
 import { medicationsUrls } from '../util/constants';
 import { selectPageNumber } from '../selectors/selectPreferences';
-import { selectIsDisplayingDocumentation } from '../util/selectors';
-import { usePrescriptionData } from '../hooks/usePrescriptionData';
 
 const RxBreadcrumbs = () => {
   const location = useLocation();
   const { prescriptionId } = useParams();
   const currentPage = useSelector(selectPageNumber);
-  const isDisplayingDocumentation = useSelector(
-    selectIsDisplayingDocumentation,
-  );
-  const { prescriptionApiError } = usePrescriptionData(prescriptionId);
-
   const [breadcrumbs, setBreadcrumbs] = useState([]);
 
   useEffect(
@@ -27,14 +20,6 @@ const RxBreadcrumbs = () => {
   );
 
   let content = null;
-
-  if (
-    !isDisplayingDocumentation &&
-    location.pathname.includes(medicationsUrls.subdirectories.DOCUMENTATION)
-  ) {
-  if (prescriptionApiError && prescriptionApiError.status === '404') {
-    return null;
-  }
 
   if (
     location.pathname.includes(medicationsUrls.subdirectories.DOCUMENTATION)
