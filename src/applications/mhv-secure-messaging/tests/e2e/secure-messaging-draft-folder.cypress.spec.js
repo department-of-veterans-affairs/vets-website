@@ -38,9 +38,9 @@ describe('SM DRAFT FOLDER VERIFICATION', () => {
   });
 
   it('verify breadcrumbs', () => {
+    cy.findByTestId('sm-breadcrumbs-back').should('have.attr', 'text', 'Back');
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
-    cy.get("[data-testid='sm-breadcrumbs-back']").should('have.text', 'Back');
   });
 
   it('verify subheaders', () => {

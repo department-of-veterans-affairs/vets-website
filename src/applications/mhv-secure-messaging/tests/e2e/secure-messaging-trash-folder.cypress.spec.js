@@ -40,6 +40,6 @@ describe('Secure Messaging Trash Folder checks', () => {
   it('verify breadcrumbs', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
-    cy.get("[data-testid='sm-breadcrumbs-back']").should('have.text', 'Back');
+    cy.findByTestId('sm-breadcrumbs-back').should('have.attr', 'text', 'Back');
   });
 });
