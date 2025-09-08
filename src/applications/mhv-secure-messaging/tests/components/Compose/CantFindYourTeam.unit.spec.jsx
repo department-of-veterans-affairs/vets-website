@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { waitFor } from '@testing-library/dom';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import CantFindYourTeam from '../../../components/ComposeForm/CantFindYourTeam';
 import { teamNotListedReasons } from '../../../util/constants';
@@ -24,48 +25,49 @@ describe('CantFindYourTeam component', () => {
   });
 
   describe('when mhvSecureMessagingCuratedListFlow is false', () => {
-    it('renders the legacy version with correct trigger text', () => {
+    it('renders the legacy version with correct trigger text', async () => {
       useFeatureTogglesStub = sinon
         .stub(require('../../../hooks/useFeatureToggles'), 'default')
         .returns({
           mhvSecureMessagingCuratedListFlow: false,
         });
 
-      renderWithStoreAndRouter(<CantFindYourTeam />, {
+      const { container } = renderWithStoreAndRouter(<CantFindYourTeam />, {
         initialState: defaultState,
         reducers: reducer,
       });
 
-      expect(document.querySelector('va-additional-info')).to.exist;
-      expect(document.querySelector('[trigger="If you can\'t find your team"]'))
-        .to.exist;
-      expect(
-        document.querySelector(
-          '[data-dd-action-name="If You Can\'t Find Your Team Dropdown"]',
-        ),
-      ).to.exist;
-    });
-
-    it('should render default team not found reasons in legacy flow', () => {
-      useFeatureTogglesStub = sinon
-        .stub(require('../../../hooks/useFeatureToggles'), 'default')
-        .returns({
-          mhvSecureMessagingCuratedListFlow: false,
-        });
-
-      const { container, debug } = renderWithStoreAndRouter(
-        <CantFindYourTeam />,
-        {
-          initialState: defaultState,
-          reducers: reducer,
-        },
-      );
-      debug();
+      expect(container.querySelector('va-additional-info')).to.exist;
+      await waitFor(() => {
+        expect(
+          container.querySelector('[trigger="If you can\'t find your team"]'),
+        ).to.exist;
+      });
       expect(
         container.querySelector(
           '[data-dd-action-name="If You Can\'t Find Your Team Dropdown"]',
         ),
       ).to.exist;
+    });
+
+    it('should render default team not found reasons in legacy flow', async () => {
+      useFeatureTogglesStub = sinon
+        .stub(require('../../../hooks/useFeatureToggles'), 'default')
+        .returns({
+          mhvSecureMessagingCuratedListFlow: false,
+        });
+
+      const { container } = renderWithStoreAndRouter(<CantFindYourTeam />, {
+        initialState: defaultState,
+        reducers: reducer,
+      });
+      await waitFor(() => {
+        expect(
+          container.querySelector(
+            '[data-dd-action-name="If You Can\'t Find Your Team Dropdown"]',
+          ),
+        ).to.exist;
+      });
       expect(container.textContent).to.include(
         'Here are some reasons a care team may be missing from your contact list:',
       );
@@ -247,7 +249,7 @@ describe('CantFindYourTeam component', () => {
   });
 
   describe('accessibility and data attributes', () => {
-    it('has correct data-dd-action-name attribute', () => {
+    it('has correct data-dd-action-name attribute', async () => {
       useFeatureTogglesStub = sinon
         .stub(require('../../../hooks/useFeatureToggles'), 'default')
         .returns({
@@ -259,11 +261,13 @@ describe('CantFindYourTeam component', () => {
         reducers: reducer,
       });
 
-      expect(
-        container.querySelector(
-          '[data-dd-action-name="If You Can\'t Find Your Team Dropdown"]',
-        ),
-      ).to.exist;
+      await waitFor(() => {
+        expect(
+          container.querySelector(
+            '[data-dd-action-name="If You Can\'t Find Your Team Dropdown"]',
+          ),
+        ).to.exist;
+      });
     });
 
     it('has proper CSS classes', () => {
