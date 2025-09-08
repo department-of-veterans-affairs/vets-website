@@ -53,6 +53,7 @@ const AuthProfileInformation = ({ user }) => {
                 data-dd-action-name="Date of birth"
               >
                 {veteranDOB}
+                API valid? {new Date(veteranDOB).getFullYear() > 1950}
               </span>
             </li>
           ) : null}
