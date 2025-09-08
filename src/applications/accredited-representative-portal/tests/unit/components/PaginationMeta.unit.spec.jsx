@@ -13,11 +13,21 @@ describe('PaginationMeta', () => {
   };
 
   it('renders without crashing with minimal props', () => {
-    const meta = { total: 10 };
-    const results = [{}];
-
+    const meta = {
+      page: {
+        number: 1,
+        size: 20,
+        total: 24,
+        totalPages: 2,
+      },
+    };
+    const results = Array(5).fill({});
     const { container } = render(
-      <MemoryRouter>
+      <MemoryRouter
+        initialEntries={[
+          '/representative/poa-requests?pageSize=5&pageNumber=2&sortOrder=asc&status=processed',
+        ]}
+      >
         <PaginationMeta
           meta={meta}
           results={results}
@@ -33,7 +43,14 @@ describe('PaginationMeta', () => {
   });
 
   it('renders with custom search params', () => {
-    const meta = { total: 23 };
+    const meta = {
+      page: {
+        number: 2,
+        size: 10,
+        total: 23,
+        totalPages: 2,
+      },
+    };
     const results = Array(5).fill({});
 
     const { container } = render(
@@ -58,7 +75,14 @@ describe('PaginationMeta', () => {
   });
 
   it('handles last page with fewer results than pageSize', () => {
-    const meta = { total: 12 };
+    const meta = {
+      page: {
+        number: 1,
+        size: 5,
+        total: 12,
+        totalPages: 3,
+      },
+    };
     const results = Array(2).fill({});
 
     const { container } = render(
@@ -82,7 +106,14 @@ describe('PaginationMeta', () => {
   });
 
   it('handles empty results on first page gracefully', () => {
-    const meta = { total: 0 };
+    const meta = {
+      page: {
+        number: 1,
+        size: 20,
+        total: 0,
+        totalPages: 1,
+      },
+    };
     const results = [];
 
     const { container } = render(
@@ -100,14 +131,19 @@ describe('PaginationMeta', () => {
       </MemoryRouter>,
     );
 
-    expect(container.textContent).to.include(
-      'Showing 1-0 of 0 pending requests',
-    );
+    expect(container.textContent).to.include('Showing 0 pending requests');
     expect(container.textContent).to.include('Submitted date (newest)');
   });
 
   it('renders without resultType', () => {
-    const meta = { total: 10 };
+    const meta = {
+      page: {
+        number: 1,
+        size: 5,
+        total: 10,
+        totalPages: 2,
+      },
+    };
     const results = [{}];
 
     const { container } = render(

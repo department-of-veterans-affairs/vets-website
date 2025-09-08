@@ -40,9 +40,11 @@ const PaginationMeta = ({ meta, results, resultType, defaults }) => {
   return (
     <p className="poa-request__meta">
       Showing{' '}
-      <span className={totalCount === 0 && 'vads-u-display--none'}>
-        {initCount}-{pageSizeCount} of{' '}
-      </span>
+      {totalCount > 0 && (
+        <span>
+          {initCount}-{pageSizeCount} of{' '}
+        </span>
+      )}
       {totalCount} {searchStatus || ''} {resultType || ''}{' '}
       {selectedIndividual === 'true' && 'for'}{' '}
       {selectedIndividual === 'true' && userName} sorted by “
