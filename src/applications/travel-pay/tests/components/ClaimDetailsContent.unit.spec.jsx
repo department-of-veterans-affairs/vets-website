@@ -163,6 +163,28 @@ describe('ClaimDetailsContent', () => {
       expect($('va-link[text="note-1.txt"]')).to.not.exist;
     });
 
+    it('renders download links for partial payment letter as decision letter', () => {
+      renderWithStoreAndRouter(
+        <ClaimDetailsContent
+          {...claimDetailsProps}
+          documents={[
+            {
+              filename: 'Partial Payment Letter.docx',
+              mimetype:
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            },
+            { filename: 'screenshot.png', mimetype: 'image/png' },
+          ]}
+        />,
+        {
+          initialState: getState(),
+        },
+      );
+
+      expect($('va-link[text="Download your decision letter"]')).to.exist;
+      expect($('va-link[text="screenshot.png"]')).to.exist;
+    });
+
     it('renders only user document links', () => {
       renderWithStoreAndRouter(
         <ClaimDetailsContent
