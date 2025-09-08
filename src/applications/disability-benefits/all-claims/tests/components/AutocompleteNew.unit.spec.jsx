@@ -15,23 +15,50 @@ const freeTextLabel = val => `Enter your condition as "${val}"`;
 
 // <VaTextInput> is a React binding to a web component, direct value
 // assignment + synthetic events are needed to simulate typing
-export const simulateInputChange = (element, value) => {
-  const el = element;
-  el.value = value;
+// export const simulateInputChange = (element, value) => {
+//   const el = element;
+//   el.value = value;
 
-  const evt = new Event('input', { bubbles: true, composed: true });
-  const customEvt = new CustomEvent('input', {
-    detail: { value },
-    bubbles: true,
-    composed: true,
-  });
+//   const evt = new Event('input', { bubbles: true, composed: true });
+//   const customEvt = new CustomEvent('input', {
+//     detail: { value },
+//     bubbles: true,
+//     composed: true,
+//   });
 
-  el.dispatchEvent(evt);
-  el.dispatchEvent(customEvt);
+//   el.dispatchEvent(evt);
+//   el.dispatchEvent(customEvt);
 
-  if (el.onInput) {
-    el.onInput({ target: { value } });
-  }
+//   if (el.onInput) {
+//     el.onInput({ target: { value } });
+//   }
+// };
+
+// Robust for jsdom + custom elements in CI
+// usage: const type = simulateInputChange(input); type('mig');
+export const simulateInputChange = element => {
+  const el = element; // alias to satisfy no-param-reassign
+  return value => {
+    el.focus?.();
+
+    el.value = value;
+    el.setAttribute?.('value', value);
+
+    const IE =
+      typeof window.InputEvent === 'function' ? window.InputEvent : Event;
+
+    el.dispatchEvent(
+      new IE('input', { bubbles: true, composed: true, cancelable: true }),
+    );
+    el.dispatchEvent(
+      new CustomEvent('input', {
+        detail: { value },
+        bubbles: true,
+        composed: true,
+      }),
+    );
+    el.dispatchEvent(new Event('change', { bubbles: true, composed: true }));
+  };
 };
 
 // Create props for each test
@@ -111,7 +138,8 @@ describe('Autocomplete typing & results', () => {
     const props = getProps();
     const { input, findAllByRole } = renderWithInput(props);
 
-    simulateInputChange(input, 'mig');
+    const type = simulateInputChange(input);
+    type('mig');
     expect(input.value).to.equal('mig');
 
     await waitFor(() => {
@@ -136,7 +164,8 @@ describe('Autocomplete mouse interactions', () => {
     const props = getProps();
     const { input, findAllByRole, queryByTestId } = renderWithInput(props);
 
-    simulateInputChange(input, 'mig'); // expect "Migraine" to match in dataset
+    const type = simulateInputChange(input);
+    type('mig');
 
     const options = await findAllByRole('option');
     // Choose a non‑free‑text option (first suggestion after index 0)
@@ -158,7 +187,8 @@ describe('Autocomplete mouse interactions', () => {
     const props = getProps();
     const { input, findAllByRole, queryByTestId } = renderWithInput(props);
 
-    simulateInputChange(input, 'xyz'); // unlikely to match suggestions
+    const type = simulateInputChange(input);
+    type('xyz');
 
     const options = await findAllByRole('option');
     const freeTextOpt = options[0];
@@ -177,7 +207,8 @@ describe('Autocomplete mouse interactions', () => {
     const props = getProps();
     const { input, findAllByRole, queryByTestId } = renderWithInput(props);
 
-    simulateInputChange(input, 'mig');
+    const type = simulateInputChange(input);
+    type('mig');
     const options = await findAllByRole('option');
     expect(options.length).to.be.greaterThan(0);
 
@@ -194,7 +225,8 @@ describe('Autocomplete mouse interactions', () => {
     const props = getProps();
     const { input, findAllByRole } = renderWithInput(props);
 
-    simulateInputChange(input, 'mig');
+    const type = simulateInputChange(input);
+    type('mig');
     const options = await findAllByRole('option');
 
     // ActiveIndex starts at 0 (free text)
@@ -218,7 +250,8 @@ describe('Autocomplete keyboard navigation', () => {
       const { input, findAllByRole, container } = renderWithInput(props);
 
       // Type to trigger results
-      simulateInputChange(input, 'mig');
+      const type = simulateInputChange(input);
+      type('mig');
 
       // Wait for options to render
       let options = await findAllByRole('option');
@@ -247,7 +280,8 @@ describe('Autocomplete keyboard navigation', () => {
     const props = getProps();
     const { input, findAllByRole } = renderWithInput(props);
 
-    simulateInputChange(input, 'mig');
+    const type = simulateInputChange(input);
+    type('mig');
     await findAllByRole('option');
 
     // Move to second option, then ArrowUp twice to get back
@@ -263,7 +297,8 @@ describe('Autocomplete keyboard navigation', () => {
     const props = getProps();
     const { input, findAllByRole, queryByTestId } = renderWithInput(props);
 
-    simulateInputChange(input, 'mig');
+    const type = simulateInputChange(input);
+    type('mig');
     const options = await findAllByRole('option');
 
     // Move to a suggestion (index1)
@@ -283,7 +318,8 @@ describe('Autocomplete keyboard navigation', () => {
     const props = getProps();
     const { input, findAllByRole, queryByTestId } = renderWithInput(props);
 
-    simulateInputChange(input, 'mig');
+    const type = simulateInputChange(input);
+    type('mig');
     await findAllByRole('option');
 
     fireEvent.keyDown(input, { key: 'Escape' });
@@ -298,7 +334,8 @@ describe('Autocomplete keyboard navigation', () => {
     const props = getProps();
     const { input, findAllByRole, queryByTestId } = renderWithInput(props);
 
-    simulateInputChange(input, 'mig');
+    const type = simulateInputChange(input);
+    type('mig');
     await findAllByRole('option');
 
     fireEvent.keyDown(input, { key: 'Tab' });
@@ -334,7 +371,8 @@ describe('Autocomplete accessibility attributes & aria-live', () => {
     const { input, container, findAllByRole } = renderWithInput(props);
 
     // Type -> results
-    simulateInputChange(input, 'mig');
+    const type = simulateInputChange(input);
+    type('mig');
     await findAllByRole('option');
     await waitFor(
       () => {
@@ -355,7 +393,8 @@ describe('Autocomplete accessibility attributes & aria-live', () => {
     });
 
     // Clear input -> empty message
-    simulateInputChange(input, '');
+    const clear = simulateInputChange(input);
+    clear('');
     await waitFor(() => {
       const live = container.querySelector('[aria-live="polite"]');
       expect(live.textContent).to.contain('Input is empty');
