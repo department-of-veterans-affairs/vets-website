@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
+import Breadcrumbs from '../components/Breadcrumbs';
+import NeedHelp from '../components/NeedHelp';
 
 const YellowRibbonInstructionsPage = () => {
   useEffect(() => {
@@ -9,6 +11,9 @@ const YellowRibbonInstructionsPage = () => {
 
   return (
     <div className="vads-l-grid-container vads-u-margin-top--4 vads-u-padding-x--0">
+      <div className="desktop-lg:vads-u-padding-left--0">
+        <Breadcrumbs />
+      </div>
       <h1>Instructions for completing the Yellow Ribbon Program agreement</h1>
 
       <p className="vads-u-margin-top--2">
@@ -209,6 +214,9 @@ const YellowRibbonInstructionsPage = () => {
         official by email or phone with any updates. Please make sure the
         contact information you enter is accurate.
       </p>
+      <div className="vads-u-padding-top--3">
+        <NeedHelp />
+      </div>
     </div>
   );
 };
