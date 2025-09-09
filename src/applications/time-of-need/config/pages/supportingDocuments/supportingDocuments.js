@@ -3,7 +3,7 @@ import {
   fileInputMultipleUI,
   fileInputMultipleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import AutoSaveNotice from '../../components/AutoSaveNotice';
+import AutoSaveNotice from '../../../components/AutoSaveNotice';
 
 // Wrapper (still named fileUploadUi so existing call sites stay the same)
 export const fileUploadUi = (options = {}) =>

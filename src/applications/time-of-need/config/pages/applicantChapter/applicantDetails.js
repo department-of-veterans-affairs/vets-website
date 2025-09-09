@@ -19,6 +19,7 @@ const applicantDetails = {
       'ui:title': 'Suffix',
       'ui:widget': 'select',
       'ui:options': {
+        classNames: 'vads-u-margin-top--2', // add vertical spacing on mobile
         widgetProps: {
           messageAriaDescribedby: 'Select a suffix if applicable',
         },

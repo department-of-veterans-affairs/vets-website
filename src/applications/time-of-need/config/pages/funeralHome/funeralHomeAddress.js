@@ -3,7 +3,7 @@ import {
   addressUI,
   addressSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import AutoSaveNotice from '../../components/AutoSaveNotice';
+import AutoSaveNotice from '../../../components/AutoSaveNotice';
 
 export default {
   uiSchema: {

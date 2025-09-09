@@ -6,18 +6,20 @@ import {
   emailUI,
   emailSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import AutoSaveNotice from '../../components/AutoSaveNotice';
+import AutoSaveNotice from '../../../components/AutoSaveNotice';
 
 export default {
   uiSchema: {
     'ui:description': (
       <>
         <AutoSaveNotice />
-        <h3 className="vads-u-margin-top--0">Funeral home point of contact</h3>
+        <h3 className="vads-u-margin-top--0">
+          Funeral home contact information
+        </h3>
       </>
     ),
 
-    firstName: {
+    funeralContactFirstName: {
       ...textUI({
         title: 'First name',
         errorMessages: { required: 'Enter the first name' },
@@ -25,7 +27,7 @@ export default {
       'ui:required': () => true,
     },
 
-    lastName: {
+    funeralContactLastName: {
       ...textUI({
         title: 'Last name',
         errorMessages: { required: 'Enter the last name' },
@@ -33,13 +35,7 @@ export default {
       'ui:required': () => true,
     },
 
-    emailAddress: emailUI({
-      title: 'Email address',
-      errorMessages: { required: 'Enter an email address' },
-      required: () => true,
-    }),
-
-    phoneNumber: phoneUI({
+    funeralContactPhoneNumber: phoneUI({
       title: 'Phone number',
       errorMessages: {
         required: 'Enter a 10-digit phone number (you can include +1 or 1)',
@@ -47,20 +43,38 @@ export default {
       },
       required: () => true,
     }),
+
+    funeralContactEmailAddress: emailUI({
+      title: 'Email address',
+      errorMessages: { required: 'Enter an email address' },
+      required: () => true,
+    }),
+
+    'ui:order': [
+      'funeralContactFirstName',
+      'funeralContactLastName',
+      'funeralContactPhoneNumber',
+      'funeralContactEmailAddress',
+    ],
   },
 
   schema: {
     type: 'object',
     properties: {
-      firstName: textSchema,
-      lastName: textSchema,
-      emailAddress: emailSchema,
-      phoneNumber: {
+      funeralContactFirstName: textSchema,
+      funeralContactLastName: textSchema,
+      funeralContactPhoneNumber: {
         type: 'string',
         pattern: '^(?:\\+?1)?\\d{10}$',
         title: 'Phone number',
       },
+      funeralContactEmailAddress: emailSchema,
     },
-    required: ['firstName', 'lastName', 'emailAddress', 'phoneNumber'],
+    required: [
+      'funeralContactFirstName',
+      'funeralContactLastName',
+      'funeralContactPhoneNumber',
+      'funeralContactEmailAddress',
+    ],
   },
 };

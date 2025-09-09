@@ -6,7 +6,6 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import currentlyBuried from './pages/currentlyBuried';
 import deceasedInformation from './pages/deceasedInformationChapter/deceasedInformation';
 import deceasedInfo2 from './pages/deceasedInformationChapter/deceasedInfo2';
 // import deceasedMilitaryDetails from './pages/deceasedMilitaryDetails';
@@ -14,22 +13,24 @@ import deceasedInfo2 from './pages/deceasedInformationChapter/deceasedInfo2';
 // import deceasedPreviousName from './pages/deceasedPreviousName';
 import demographicsInfo from './pages/deceasedInformationChapter/demographicsInfo';
 import demographicsInfo2 from './pages/deceasedInformationChapter/demographicsInfo2';
-import desiredCemetery from './pages/desiredCemetery';
-import funeralHomeAddress from './pages/funeralHomeAddress';
-import funeralHomeContact from './pages/funeralHomeContact';
-import funeralHomeDetails from './pages/funeralHomeDetails';
-import intermentDetails from './pages/intermentDetails';
+// import desiredCemetery from './pages/desiredCemetery';
+import funeralHomeAddress from './pages/funeralHome/funeralHomeAddress.js';
+import funeralHomeContact from './pages/funeralHome/funeralHomeContact.js';
+import funeralHomeDetails from './pages/funeralHome/funeralHomeDetails.js';
+import intermentDetails from './pages/interment/intermentDetails';
+import burialLocation from './pages/interment/burialLocation';
+import greenBurialContainerType from './pages/interment/greenBurialContainerType';
 // import mailingAddress from './pages/mailingAddress';
 import preparerContact from './pages/preparerContact';
 import preparerName from './pages/preparerName';
-import { burialBenefitsPagesVeteran } from './pages/burialBenefitsPages';
+// import { burialBenefitsPagesVeteran } from './pages/burialBenefitsPages';
 import { deceasedServicePeriodsPages } from './pages/deceasedInformationChapter/deceasedServicePeriodsPages.jsx';
-import { intermentDateRangesPages } from './pages/intermentDateRangesPages';
+// import { intermentDateRangesPages } from './pages/intermentDateRangesPages';
 import {
   SupportingFilesDescription,
   fileUploadUi,
   timeOfNeedAttachments,
-} from './pages/supportingDocuments';
+} from './pages/supportingDocuments/supportingDocuments';
 import applicantDetails from './pages/applicantChapter/applicantDetails';
 import applicantContact from './pages/applicantChapter/applicantContact';
 import applicantAddress from './pages/applicantChapter/applicantAddress';
@@ -41,6 +42,14 @@ import spouseInformation from './pages/maritalInformation/spouseInformation';
 import veteranStatus from './pages/maritalInformation/veteranStatus';
 import veteranInformation from './pages/maritalInformation/veteranInformation';
 import dependentChild from './pages/maritalInformation/dependentChild';
+import emblemOfBelief from './pages/interment/emblemOfBelief';
+import emblemSelection from './pages/interment/emblemSelection';
+import federalLawDetails from './pages/federalLaw/federalLawDetails';
+import schedulingInformation from './pages/scheduling/schedulingInformation';
+import supportingDocumentsInfo from './pages/supportingDocuments/supportingDocumentsInfo';
+
+// Add constant for green burial types
+const GREEN_BURIAL_TYPES = ['intactGreen', 'cremainsGreen'];
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -239,36 +248,43 @@ const formConfig = {
     interment: {
       title: 'Interment information',
       pages: {
-        burialBenefitsInfo: {
-          path: 'currently-buried',
-          title: 'Currently buried',
-          uiSchema: currentlyBuried.uiSchema,
-          schema: currentlyBuried.schema,
-        },
-        // Veteran benefit sub-pages (conditional)
-        ...Object.fromEntries(
-          Object.entries(burialBenefitsPagesVeteran).map(([key, page]) => [
-            key,
-            {
-              ...page,
-              depends: formData => formData.currentlyBuried === 'yes',
-            },
-          ]),
-        ),
-        desiredCemetery: {
-          path: 'desired-cemetery',
-          title: 'Desired cemetery for burial of deceased',
-          uiSchema: desiredCemetery.uiSchema,
-          schema: desiredCemetery.schema,
-        },
         intermentDetails: {
           path: 'interment-details',
           title: 'Interment details',
           uiSchema: intermentDetails.uiSchema,
           schema: intermentDetails.schema,
         },
-        // Desired interment date/time range array builder pages
-        ...intermentDateRangesPages,
+        burialLocation: {
+          path: 'burial-location',
+          title: 'Burial location',
+          depends: formData =>
+            formData?.burialType &&
+            !GREEN_BURIAL_TYPES.includes(formData.burialType),
+          uiSchema: burialLocation.uiSchema,
+          schema: burialLocation.schema,
+        },
+        greenBurialContainerType: {
+          path: 'green-burial-container-type',
+          title: 'Interment details',
+          depends: formData =>
+            formData?.burialType &&
+            GREEN_BURIAL_TYPES.includes(formData.burialType),
+          uiSchema: greenBurialContainerType.uiSchema,
+          schema: greenBurialContainerType.schema,
+        },
+        emblemOfBelief: {
+          path: 'emblem-of-belief',
+          title: 'Emblem of belief',
+          uiSchema: emblemOfBelief.uiSchema,
+          schema: emblemOfBelief.schema,
+        },
+        emblemSelection: {
+          path: 'emblem-selection',
+          title: 'Select emblem of belief',
+          depends: formData => formData?.requestEmblemOfBelief === 'yes',
+          uiSchema: emblemSelection.uiSchema,
+          schema: emblemSelection.schema,
+        },
       },
     },
     funeralHome: {
@@ -294,28 +310,48 @@ const formConfig = {
         },
       },
     },
-    supportingDocuments: {
-      title: 'Supporting files',
+    federalLaw: {
+      title: 'Federal law',
       pages: {
+        federalLawDetails: {
+          path: 'federal-law-details',
+          title: 'Federal law details',
+          uiSchema: federalLawDetails.uiSchema,
+          schema: federalLawDetails.schema,
+        },
+      },
+    },
+    scheduling: {
+      title: 'Scheduling',
+      pages: {
+        schedulingInformation: {
+          path: 'scheduling-information',
+          title: 'Scheduling information',
+          uiSchema: schedulingInformation.uiSchema,
+          schema: schedulingInformation.schema,
+        },
+      },
+    },
+    supportingDocuments: {
+      title: 'Supporting documents',
+      pages: {
+        supportingDocumentsInfo: {
+          path: 'supporting-documents-info',
+          title: 'Supporting documents',
+          uiSchema: supportingDocumentsInfo.uiSchema,
+          schema: supportingDocumentsInfo.schema,
+        },
         supportingDocuments: {
-          title: 'Upload supporting files',
           path: 'supporting-documents',
-          editModeOnReviewPage: false,
+          title: 'Supporting documents',
           uiSchema: {
             'ui:description': SupportingFilesDescription,
-            application: {
-              timeOfNeedAttachments: fileUploadUi({ required: false }),
-            },
+            attachments: fileUploadUi(),
           },
           schema: {
             type: 'object',
             properties: {
-              application: {
-                type: 'object',
-                properties: {
-                  timeOfNeedAttachments, // renamed schema property
-                },
-              },
+              attachments: timeOfNeedAttachments,
             },
           },
         },
@@ -342,15 +378,15 @@ const formConfig = {
   transformForSubmit: form => {
     const data = { ...form.data };
     if (!data.preparerName && data.firstName && data.lastName) {
-      data.preparerName = {
-        first: data.firstName,
-        last: data.lastName,
-      };
+      data.preparerName = { first: data.firstName, last: data.lastName };
     }
-    return {
-      ...form,
-      data,
-    };
+    // Clear containerType if user changed to a non‑green burial type
+    if (
+      data.containerType &&
+      (!data.burialType || !GREEN_BURIAL_TYPES.includes(data.burialType))
+    ) {
+      delete data.containerType;
+    }
   },
   footerContent,
 };
