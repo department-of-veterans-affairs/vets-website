@@ -30,8 +30,8 @@ const textContent = /^Confirm your contact email address/;
 
 describe('<ConfirmEmailLink />', () => {
   it('renders', async () => {
-    const recordEvent = sinon.spy();
-    const props = { recordEvent };
+    const recordEventFn = sinon.spy();
+    const props = { recordEventFn };
     const { getByTestId } = render(<ConfirmEmailLink {...props} />, {
       initialState: stateFn(),
     });
@@ -40,14 +40,14 @@ describe('<ConfirmEmailLink />', () => {
       expect(component).to.exist;
       expect(component.link).to.equal(href);
       expect(component.text).to.match(textContent);
-      expect(recordEvent.calledOnce).to.be.true;
-      expect(recordEvent.calledTwice).to.be.false;
+      expect(recordEventFn.calledOnce).to.be.true;
+      expect(recordEventFn.calledTwice).to.be.false;
     });
   });
 
   it('renders when updatedAt is null', async () => {
-    const recordEvent = sinon.spy();
-    const props = { recordEvent };
+    const recordEventFn = sinon.spy();
+    const props = { recordEventFn };
     const initialState = stateFn({ updatedAt: null });
     const { getByTestId } = render(<ConfirmEmailLink {...props} />, {
       initialState,
@@ -57,27 +57,27 @@ describe('<ConfirmEmailLink />', () => {
       expect(component).to.exist;
       expect(component.link).to.equal(href);
       expect(component.text).to.match(textContent);
-      expect(recordEvent.calledOnce).to.be.true;
-      expect(recordEvent.calledTwice).to.be.false;
+      expect(recordEventFn.calledOnce).to.be.true;
+      expect(recordEventFn.calledTwice).to.be.false;
     });
   });
 
   it('renders nothing when loading', async () => {
-    const recordEvent = sinon.spy();
-    const props = { recordEvent };
+    const recordEventFn = sinon.spy();
+    const props = { recordEventFn };
     const initialState = stateFn({ loading: true });
     const { container } = render(<ConfirmEmailLink {...props} />, {
       initialState,
     });
     await waitFor(() => {
       expect(container).to.be.empty;
-      expect(recordEvent.calledOnce).to.be.false;
+      expect(recordEventFn.calledOnce).to.be.false;
     });
   });
 
   it(`renders nothing when email was updated after ${EMAIL_UPDATED_AT_THRESHOLD}`, async () => {
-    const recordEvent = sinon.spy();
-    const props = { recordEvent };
+    const recordEventFn = sinon.spy();
+    const props = { recordEventFn };
     const initialState = stateFn({
       updatedAt: '2025-09-08T12:00:00.000+00:00',
     });
@@ -86,7 +86,7 @@ describe('<ConfirmEmailLink />', () => {
     });
     await waitFor(() => {
       expect(container).to.be.empty;
-      expect(recordEvent.calledOnce).to.be.false;
+      expect(recordEventFn.calledOnce).to.be.false;
     });
   });
 });
