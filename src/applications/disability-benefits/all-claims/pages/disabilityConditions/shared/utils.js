@@ -165,6 +165,7 @@ export const arrayBuilderOptions = {
     getItemName,
     cardDescription,
   },
+  enforceYesNoOnSummary: true,
 };
 
 export const hasSideOfBody = (formData, index) => {
