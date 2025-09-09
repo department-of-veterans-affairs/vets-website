@@ -2,8 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { isAfter } from 'date-fns';
-/* eslint-disable-next-line import/no-named-default */
-import { default as recordEventFn } from '~/platform/monitoring/record-event';
+import recordEvent from '~/platform/monitoring/record-event';
 
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
@@ -24,7 +23,7 @@ export const showConfirmEmail = state => (date = EMAIL_UPDATED_AT_THRESHOLD) => 
   return !profileLoading && !recentlyUpdated;
 };
 
-const AlertConfirmContactEmail = ({ recordEvent = recordEventFn } = {}) => {
+const AlertConfirmContactEmail = ({ recordEventFn = recordEvent } = {}) => {
   const isVisible = useSelector(showConfirmEmail)();
   const emailUpdatedAt = useSelector(selectVAPEmailUpdatedAt);
   const h2Content = emailUpdatedAt
@@ -34,7 +33,7 @@ const AlertConfirmContactEmail = ({ recordEvent = recordEventFn } = {}) => {
   useEffect(
     () => {
       if (isVisible) {
-        recordEvent({
+        recordEventFn({
           event: 'nav-alert-box-load',
           action: 'load',
           'alert-box-headline': h2Content,
@@ -42,7 +41,7 @@ const AlertConfirmContactEmail = ({ recordEvent = recordEventFn } = {}) => {
         });
       }
     },
-    [h2Content, isVisible, recordEvent],
+    [h2Content, isVisible, recordEventFn],
   );
 
   return (
@@ -64,7 +63,7 @@ const AlertConfirmContactEmail = ({ recordEvent = recordEventFn } = {}) => {
 };
 
 AlertConfirmContactEmail.propTypes = {
-  recordEvent: PropTypes.func,
+  recordEventFn: PropTypes.func,
 };
 
 export default AlertConfirmContactEmail;
