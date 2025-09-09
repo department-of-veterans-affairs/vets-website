@@ -56,20 +56,6 @@ function resetFetch() {
   }
 }
 
-if (process.env.CI || process.env.PRINT_OPEN_HANDLES) {
-  setTimeout(() => {
-    // eslint-disable-next-line no-underscore-dangle
-    const handles = process._getActiveHandles?.() || [];
-    // eslint-disable-next-line no-underscore-dangle
-    const requests = process._getActiveRequests?.() || [];
-    // Minimal summary
-    console.log('OPEN HANDLES:', handles.map(h => h?.constructor?.name));
-    console.log('OPEN REQUESTS:', requests.map(r => r?.constructor?.name));
-    // Verbose dump
-    handles.forEach((h, i) => console.log(`HANDLE[${i}]`, h));
-  }, 1500);
-}
-
 /**
  * Sets up JSDom in the testing environment. Allows testing of DOM functions without a browser.
  */
