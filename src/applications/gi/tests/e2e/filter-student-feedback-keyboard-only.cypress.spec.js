@@ -24,9 +24,16 @@ describe('Filter Student Feedback — keyboard-only accessibility', () => {
             name: 'gi_comparison_tool_cautionary_info_update',
             value: true,
           },
+          {
+            name: 'gi_ct_collab',
+            value: true,
+          },
         ],
       },
     }).as('featureToggles');
+    cy.window().then(win => {
+      win.localStorage.setItem('institutionName', 'My Test Institution');
+    });
     cy.intercept('GET', '**/v1/gi/institutions/21376032*', {
       statusCode: 200,
       body: institutionWithFeedbackMock,

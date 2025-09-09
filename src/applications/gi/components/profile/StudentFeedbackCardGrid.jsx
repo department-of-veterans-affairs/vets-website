@@ -58,9 +58,7 @@ export default function StudentFeedbackCardGrid({
                         Complaint year:
                       </span>
                       <span className="vads-u-font-weight--bold">
-                        <time dateTime={card.closed}>
-                          {formatMDY(card.closed)}
-                        </time>
+                        {formatMDY(card.closed)}
                       </span>
                     </li>
                     <li className="vads-u-display--flex vads-u-justify-content--space-between vads-u-margin-bottom--1">
