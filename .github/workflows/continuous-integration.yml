@@ -1995,7 +1995,10 @@ jobs:
         run: echo environments={\"include\":[${{env.DEV}},${{env.STAGING}}]} >> $GITHUB_OUTPUT
 
       - name: Log CD eligibility
-        run: echo ${{ needs.determine-cd-eligibility.outputs.deploy_to_prod }}
+        run: |
+          echo ${{ needs.determine-cd-eligibility.outputs.deploy_to_prod }}
+          echo ${{ startsWith(needs.determine-cd-eligibility.outputs.deploy_to_prod, 'yes') }}
+          echo ${{ needs.determine-cd-eligibility.outputs.deploy_to_prod == 'yes' }}
 
   deploy:
     name: Deploy
@@ -2074,7 +2077,7 @@ jobs:
     name: CD Production Deploy
     runs-on: ubuntu-22.04
     needs: [build, set-deploy-environments, determine-cd-eligibility]
-    if: ${{ needs.determine-cd-eligibility.outputs.deploy_to_prod == 'yes' }}
+    if: ${{ startsWith(needs.determine-cd-eligibility.outputs.deploy_to_prod, 'yes') }}
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
