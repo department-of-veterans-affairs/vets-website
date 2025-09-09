@@ -45,7 +45,6 @@ const responses = {
       myVaFormSubmissionStatuses: true,
       myVaFormPdfLink: true,
       veteranOnboardingShowWelcomeMessageToNewUsers: true,
-      myVaAuthExpRedesignEnabled: false,
       myVaAuthExpRedesignAvailableToOptIn: true,
     },
     true,
