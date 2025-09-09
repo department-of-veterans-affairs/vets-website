@@ -16,7 +16,6 @@ const generateFeatureToggles = (toggles = {}) => {
     // medical records
     mhvMedicalRecordsAllowTxtDownloads = true,
     mhvMedicalRecordsDisplayDomains = true,
-    mhvMedicalRecordsDisplayLabsAndTests = true,
     mhvMedicalRecordsDisplayNotes = true,
     mhvMedicalRecordsDisplaySidenav = true,
     mhvMedicalRecordsDisplayVaccines = true,
@@ -37,9 +36,11 @@ const generateFeatureToggles = (toggles = {}) => {
     // secure messaging
     mhvSecureMessagingTriageGroupPlainLanguage = false,
     mhvSecureMessagingRecipientOptGroups = true,
-    mhvSecureMessagingRecipientCombobox = true,
+    mhvSecureMessagingRecipientCombobox = false,
     mhvSecureMessagingCernerPilot = true,
     mhvSecureMessagingLargeAttachments = true,
+    mhvSecureMessagingCuratedListFlow = true,
+    mhvSecureMessagingRecentRecipients = true,
   } = toggles;
 
   return {
@@ -125,10 +126,6 @@ const generateFeatureToggles = (toggles = {}) => {
           value: mhvMedicalRecordsDisplayDomains,
         },
         {
-          name: 'mhv_medical_records_display_labs_and_tests',
-          value: mhvMedicalRecordsDisplayLabsAndTests,
-        },
-        {
           name: 'mhv_medical_records_display_notes',
           value: mhvMedicalRecordsDisplayNotes,
         },
@@ -181,6 +178,14 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_secure_messaging_large_attachments',
           value: mhvSecureMessagingLargeAttachments,
+        },
+        {
+          name: 'mhv_secure_messaging_curated_list_flow',
+          value: mhvSecureMessagingCuratedListFlow,
+        },
+        {
+          name: 'mhv_secure_messaging_recent_recipients',
+          value: mhvSecureMessagingRecentRecipients,
         },
       ],
     },

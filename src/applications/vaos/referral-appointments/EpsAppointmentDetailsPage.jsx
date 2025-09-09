@@ -84,18 +84,11 @@ export default function EpsAppointmentDetailsPage() {
           />
         </nav>
       </div>
-      <div
+      <va-card
         className="vaos-appts__appointment-details--container vads-u-margin-top--4 vads-u-border--2px vads-u-border-color--gray-medium vads-u-padding-x--2p5 vads-u-padding-top--5 vads-u-padding-bottom--3"
         data-testid="appointment-card"
+        icon-name="calendar_today"
       >
-        <div className="vaos-appts__appointment-details--icon">
-          <va-icon
-            icon="calendar_today"
-            aria-hidden="true"
-            data-testid="appointment-icon"
-            size={3}
-          />
-        </div>
         <h1 className="vaos__dynamic-font-size--h2">
           <span data-dd-privacy="mask">Community Care Appointment</span>
         </h1>
@@ -140,7 +133,7 @@ export default function EpsAppointmentDetailsPage() {
             appointment.
           </span>
         </Section>
-      </div>
+      </va-card>
     </PageLayout>
   );
 }

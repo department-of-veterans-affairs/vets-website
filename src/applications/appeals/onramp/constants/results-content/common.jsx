@@ -1,7 +1,9 @@
 import React from 'react';
 import manifest from '../../manifest.json';
 
-export const HORIZ_RULE = <hr className="vads-u-margin-y--4" />;
+export const HORIZ_RULE = (
+  <hr className="vads-u-margin-y--4" aria-hidden="true" />
+);
 export const NON_DR_HEADING = `Your available options`;
 export const DR_HEADING = `Your decision review options`;
 

@@ -6,10 +6,10 @@ import { Paths, teamNotListedReasons } from '../../util/constants';
 import useFeatureToggles from '../../hooks/useFeatureToggles';
 
 const CantFindYourTeam = () => {
-  const { cernerPilotSmFeatureFlag } = useFeatureToggles();
+  const { mhvSecureMessagingCuratedListFlow } = useFeatureToggles();
   const { activeFacility } = useSelector(state => state.sm.recipients);
 
-  if (cernerPilotSmFeatureFlag) {
+  if (mhvSecureMessagingCuratedListFlow) {
     if (activeFacility?.ehr === 'cerner') {
       return (
         <VaAdditionalInfo
