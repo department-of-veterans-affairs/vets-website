@@ -114,6 +114,52 @@ describe('user selectors', () => {
     });
   });
 
+  describe('selectVAPEmailUpdatedAt', () => {
+    it('selects the state.profile.vapContactInfo.email.updatedAt value', () => {
+      const state = {
+        user: {
+          profile: {
+            vapContactInfo: {
+              email: {
+                createdAt: '2019-10-11T12:42:14.000Z',
+                emailAddress: 'testertester2@mail.com',
+                effectiveEndDate: null,
+                effectiveStartDate: '2019-10-11T12:41:06.000Z',
+                id: 70619,
+                sourceDate: '2019-10-11T12:41:06.000Z',
+                sourceSystemUser: null,
+                transactionId: '5fda71d0-7e4c-468c-aee7-21c16405ca1f',
+                updatedAt: '2019-10-11T12:42:14.000Z',
+                vet360Id: '139281',
+              },
+            },
+          },
+        },
+      };
+      expect(selectors.selectVAPEmailUpdatedAt(state)).to.equal(
+        state.user.profile.vapContactInfo.email.updatedAt,
+      );
+    });
+    it('returns undefined if there is no vapContactInfo on the profile', () => {
+      const state = {
+        user: {
+          profile: {},
+        },
+      };
+      expect(selectors.selectVAPEmailUpdatedAt(state)).to.be.undefined;
+    });
+    it('returns undefined if there is no email', () => {
+      const state = {
+        user: {
+          profile: {
+            vapContactInfo: {},
+          },
+        },
+      };
+      expect(selectors.selectVAPEmailAddress(state)).to.be.undefined;
+    });
+  });
+
   describe('phone number selectors', () => {
     const phoneNumberData = {
       areaCode: '415',

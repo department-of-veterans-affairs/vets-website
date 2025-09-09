@@ -23,6 +23,8 @@ export const hasVAPServiceConnectionError = state =>
   selectVAPContactInfo(state)?.status === 'SERVER_ERROR';
 export const selectVAPEmailAddress = state =>
   selectVAPContactInfo(state)?.email?.emailAddress;
+export const selectVAPEmailUpdatedAt = state =>
+  selectVAPContactInfo(state)?.email?.updatedAt;
 const createPhoneNumberStringFromData = phoneNumberData => {
   const data = phoneNumberData || {};
   const areaCode = data.areaCode || '';
