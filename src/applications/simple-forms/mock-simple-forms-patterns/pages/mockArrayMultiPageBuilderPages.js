@@ -37,7 +37,7 @@ const employersOptions = {
   },
   // Show possible duplicate alert on summary page
   duplicateChecks: {
-    allowDuplicates: false,
+    // allowDuplicates: false, // Not enabled in MVP
     comparisonType: 'all',
     comparisons: ['name', 'address.street'],
     duplicateSummaryCardWarningOrErrorAlert: () => (
@@ -46,8 +46,16 @@ const employersOptions = {
         Before continuing, review these entries and delete any duplicates.
       </p>
     ),
-    'path-to-dobPage': {
-      // overrides
+    internalPaths: {
+      'name-and-address': {
+        comparisons: ['name', 'address.street'],
+      },
+      dates: {
+        // overrides
+        comparisonType: 'external',
+        comparisons: ['name', 'dateRange.from', 'dateRange.to'],
+        externalComparisonData: () => [['test 3', '1997-01-03', '1999-01-03']],
+      },
     },
   },
 };
@@ -159,7 +167,7 @@ export const employersPageNameAndAddressPage = {
     address: addressNoMilitaryUI({ omit: ['street2', 'street3'] }),
     // Alert if a duplicate was entered
     'ui:duplicateChecks': {
-      allowDuplicates: true,
+      // allowDuplicates: true, // Not enabled in MVP
       comparisonType: 'all',
       comparisons: ['name', 'address.street'],
     },

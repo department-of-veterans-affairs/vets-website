@@ -171,9 +171,6 @@ describe('ArrayBuilderSummaryPage', () => {
                 required: false,
                 maxItems,
               }),
-              'ui:duplicateChecks': {
-                comparisons: ['name'],
-              },
             },
       schema:
         schema !== undefined

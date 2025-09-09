@@ -26,7 +26,7 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get(`va-button[text="Deselect all"]`).click();
           cy.selectVaCheckbox('root_chapterSelect_arrayMultiPageBuilder', true);
-          cy.findByText(/continue/i, { selector: 'button' }).click();
+          cy.clickFormContinue();
         });
       },
       [pagePaths.arrayMultiPageBuilderSummary]: ({ afterHook }) => {
@@ -39,36 +39,40 @@ const testConfig = createTestConfig(
               cy.get('va-card[name="employer_1"]').should('exist');
             };
 
-            const editCardAndTestModal = button => {
-              const editLink = button === 'first' ? '2' : '1';
+            const editCard = (edit, name) => {
               /* Sequence:
                * - Initial edit of second card
                * - Modify employer name to create a duplicate
                * - A duplicate modal opens on continue.
                * - When canceling, a warning appears on the summary page.
                * - The second edit, we're editing the first card (for simplicity)
-               * - Make the same edit (again simplicity)
+               * - Make the same edit (again, for simplicity)
                * - On continue, the modal opens
                * - This time we save and continue
                * - Upon return to the summary page, there is now an "info" alert
+               * - Submit form & get to confirmation page
                */
-              cy.get(`va-link[label="Edit test ${editLink}"]`).click();
+              cy.get(`va-link[label="Edit test ${edit}"]`)
+                .first()
+                .click();
 
               cy.url().should('contain', '/name-and-address?edit=true');
               // eslint-disable-next-line cypress/no-unnecessary-waiting
-              cy.wait(1000);
+              cy.wait(100);
 
               // Change name of second card to create a duplicate
-              cy.fillVaTextInput('root_name', 'Test 1');
+              cy.fillVaTextInput('root_name', name || 'test 1');
 
               cy.get('va-button[continue]').click();
+            };
 
+            const testModal = (button, text) => {
               // Cancel from modal - returns to summary page with edited changes
               // in place. This needs to be fixed.
               cy.get('va-modal[status="warning"]')
                 .shadow()
                 .find('.va-modal-alert-body')
-                .should('contain', 'Is this a duplicate?');
+                .should('contain', text || 'Potential duplicate');
 
               cy.get('va-modal[status="warning"]')
                 .shadow()
@@ -77,35 +81,43 @@ const testConfig = createTestConfig(
                 .click();
             };
 
-            const checkSummaryAlerts = round => {
-              if (round === 'first') {
-                cy.get(
-                  `va-card[name="employer_1"] va-alert[status="warning"]`,
-                ).should(
-                  'contain',
-                  'You have entered multiple employers with the same name and address.',
-                );
-              } else {
-                cy.get(
-                  `va-card[name="employer_1"] va-alert[status="info"]`,
-                ).should(
-                  'contain',
-                  'You may have multiple employers with this same information.',
-                );
-              }
-            };
-
             expectInitialLayout();
 
+            // *** Test modal & cancel return to summary page
+            editCard('2');
             // Cancel from modal & summary page warning alert
-            editCardAndTestModal('first');
-            checkSummaryAlerts('first');
+            testModal('first');
+            cy.get(
+              `va-card[name="employer_1"] va-alert[status="warning"]`,
+            ).should(
+              'contain',
+              'You have entered multiple employers with the same name and address.',
+            );
 
-            editCardAndTestModal('last'); // Accept duplicate from modal
-            cy.get('va-button[continue]').click(); // navigate past employer dates
-            checkSummaryAlerts('last'); // Summary page info alert
+            // ** Test modal & accept duplicate; after return to summary page,
+            // warning is replaced with info alert
+            editCard('1'); // Accept duplicate from modal
+            testModal('last');
+            // navigate past employer dates
+            cy.get('va-button[continue]').click();
+            cy.get(`va-card[name="employer_1"] va-alert[status="info"]`).should(
+              'contain',
+              'You may have multiple employers with this same information.',
+            );
 
-            // Should be able to submit with duplicates
+            // ** Test external duplicate check on date page
+            editCard('1', 'test 3');
+            // eslint-disable-next-line cypress/no-unnecessary-waiting
+            cy.wait(100);
+            // Match external comparison data: test 3 with 1997-01-03 from date
+            cy.fillVaMemorableDate('root_dateRange_from', '1997-01-03');
+
+            cy.get('va-button[continue]').click();
+            testModal('first', 'Is this a duplicate?');
+            cy.get(`va-card va-alert`).should('not.exist');
+
+            // Should be able to submit
+            cy.clickFormContinue();
             cy.clickFormContinue();
           });
         });

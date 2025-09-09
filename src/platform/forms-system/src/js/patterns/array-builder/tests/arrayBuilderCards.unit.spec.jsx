@@ -183,7 +183,7 @@ describe('ArrayBuilderCards', () => {
       .true;
     expect(container.querySelector('va-alert[status="warning"]')).to.exist;
     expect(container.querySelector('.usa-label').textContent).to.eq(
-      'DUPLICATE',
+      'POSSIBLE DUPLICATE',
     );
   });
 

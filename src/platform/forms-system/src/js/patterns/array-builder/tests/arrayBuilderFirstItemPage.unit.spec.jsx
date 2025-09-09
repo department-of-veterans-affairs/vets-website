@@ -114,10 +114,6 @@ describe('ArrayBuilderFirstItemPage', () => {
           'ui:title': 'Name of employer',
           'ui:webComponentField': VaTextInputField,
         },
-        'ui:duplicateChecks': {
-          comparisons: ['name'],
-          ...duplicateChecks,
-        },
       },
       schema: {
         type: 'object',
@@ -138,6 +134,8 @@ describe('ArrayBuilderFirstItemPage', () => {
       getText,
       required,
       fullData,
+      duplicateChecks,
+      currentPath: '/employers/:index/information',
     });
 
     const { container, queryByText } = render(
@@ -298,6 +296,11 @@ describe('ArrayBuilderFirstItemPage', () => {
       required: () => false,
       duplicateChecks: {
         comparisons: ['name'],
+        internalPaths: {
+          information: {
+            comparisons: ['name'],
+          },
+        },
       },
       fullData: {
         employers: arrayData,
@@ -321,6 +324,7 @@ describe('ArrayBuilderFirstItemPage', () => {
       expect(goToPath.calledWith('/summary')).to.be.true;
       expect(setFormData.args[0][0]).to.deep.equal({
         employers: arrayData.slice(1),
+        metadata: {},
       });
     });
   });
@@ -335,6 +339,11 @@ describe('ArrayBuilderFirstItemPage', () => {
       required: () => false,
       duplicateChecks: {
         comparisons: ['name'],
+        internalPaths: {
+          information: {
+            comparisons: ['name'],
+          },
+        },
       },
       fullData: {
         employers: arrayData,
@@ -370,6 +379,11 @@ describe('ArrayBuilderFirstItemPage', () => {
       required: () => false,
       duplicateChecks: {
         comparisons: ['name'],
+        internalPaths: {
+          information: {
+            comparisons: ['name'],
+          },
+        },
       },
       fullData: {
         employers: arrayData,
@@ -406,8 +420,12 @@ describe('ArrayBuilderFirstItemPage', () => {
       required: () => false,
       duplicateChecks: {
         comparisons: ['name'],
-        comparisonType: 'external',
-        externalComparisonData: () => [['FullName']],
+        internalPaths: {
+          information: {
+            comparisonType: 'external',
+            externalComparisonData: () => [['FullName']],
+          },
+        },
       },
       fullData: {
         employers: arrayData,
