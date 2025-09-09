@@ -5,7 +5,7 @@ import {
   currentOrPastDateUI,
 } from '~/platform/forms-system/src/js/web-component-patterns/datePatterns';
 
-import { validateWithin180Days } from '../helpers';
+// import { validateWithin180Days } from '../helpers';
 
 const uiSchema = {
   ...titleUI('Your active duty release date'),
@@ -16,7 +16,7 @@ const uiSchema = {
       errorMessages: { required: 'Please enter a date' },
       hint: null,
     }),
-    'ui:validations': [validateWithin180Days],
+    // 'ui:validations': [validateWithin180Days],
   },
   'view:releaseDateNote': {
     'ui:description': (

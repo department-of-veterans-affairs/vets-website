@@ -13,7 +13,7 @@ const uiSchema = {
   applicantFullName: fullNameNoSuffixUI(),
   dateOfBirth: dateOfBirthUI({
     title: 'What is your date of birth?',
-    errorMessages: { required: 'Enter date of birth' },
+    errorMessages: { required: 'Please enter date of birth' },
   }),
   eligibilityAlert: {
     title: '',

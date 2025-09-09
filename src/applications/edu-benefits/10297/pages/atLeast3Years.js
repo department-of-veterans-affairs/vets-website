@@ -10,7 +10,7 @@ const uiSchema = {
     title:
       'Are you a Veteran who has completed 3 years (36 months) of active duty?',
     errorMessages: {
-      required: 'Select one option',
+      required: 'Please select an option',
     },
   }),
 };

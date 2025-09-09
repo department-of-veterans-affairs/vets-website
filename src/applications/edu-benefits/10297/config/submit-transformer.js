@@ -34,6 +34,7 @@ export function transform(formConfig, form) {
 
     delete finalData.dutyRequirement;
     delete finalData.otherThanDishonorableDischarge;
+    // delete finalData.eligibilityAlert;
 
     return finalData;
   };
