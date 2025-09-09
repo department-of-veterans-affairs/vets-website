@@ -1,16 +1,16 @@
-// import React from 'react';
+import React from 'react';
 import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
   titleUI,
-  // dateOfBirthSchema,
-  // dateOfBirthUI,
-  // currentOrPastDateRangeUI,
-  // currentOrPastDateRangeSchema,
-  // currentOrPastMonthYearDateUI,
-  // currentOrPastMonthYearDateRangeUI,
-  // currentOrPastMonthYearDateSchema,
-  // currentOrPastMonthYearDateRangeSchema,
+  dateOfBirthSchema,
+  dateOfBirthUI,
+  currentOrPastDateRangeUI,
+  currentOrPastDateRangeSchema,
+  currentOrPastMonthYearDateUI,
+  currentOrPastMonthYearDateRangeUI,
+  currentOrPastMonthYearDateSchema,
+  currentOrPastMonthYearDateRangeSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
@@ -18,7 +18,7 @@ export default {
   uiSchema: {
     ...titleUI('Date web components'),
     dateWCV3: currentOrPastDateUI('Web component - Generic'),
-    /* dateOfBirthWCV3: dateOfBirthUI('Web component - Date of birth'),
+    dateOfBirthWCV3: dateOfBirthUI('Web component - Date of birth'),
     'view:dateSubTitle': {
       'ui:description': <h4>Date range pattern</h4>,
     },
@@ -40,13 +40,13 @@ export default {
         title: 'End date',
         hint: 'End date must be after start date',
       },
-    ), */
+    ),
   },
   schema: {
     type: 'object',
     properties: {
       dateWCV3: currentOrPastDateSchema,
-      /* dateOfBirthWCV3: dateOfBirthSchema,
+      dateOfBirthWCV3: dateOfBirthSchema,
       'view:dateSubTitle': {
         type: 'object',
         properties: {},
@@ -55,10 +55,10 @@ export default {
       'view:monthYearDates': {
         type: 'object',
         properties: {},
-      }, */
-      // dateMonthYear: currentOrPastMonthYearDateSchema,
-      // dateMonthYearRange: currentOrPastMonthYearDateRangeSchema,
+      },
+      dateMonthYear: currentOrPastMonthYearDateSchema,
+      dateMonthYearRange: currentOrPastMonthYearDateRangeSchema,
     },
-    required: [],
+    required: ['dateWCV3', 'dateMonthYear'],
   },
 };
