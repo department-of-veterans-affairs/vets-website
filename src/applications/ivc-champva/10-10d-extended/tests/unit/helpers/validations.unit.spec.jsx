@@ -1,8 +1,12 @@
-import sinon from 'sinon';
+import sinon from 'sinon-v20';
 import { expect } from 'chai';
-import { validateMarriageAfterDob } from '../../../helpers/validations';
+import {
+  validateMarriageAfterDob,
+  validateMedicarePartDDates,
+  validateOHIDates,
+} from '../../../helpers/validations';
 
-describe('validateMarriageAfterDob', () => {
+describe('1010d `validateMarriageAfterDob` form validation', () => {
   let errors;
 
   beforeEach(() => {
@@ -61,5 +65,94 @@ describe('validateMarriageAfterDob', () => {
 
     validateMarriageAfterDob(errors, page);
     expect(errors.dateOfMarriageToSponsor.addError.called).to.be.false;
+  });
+});
+
+describe('1010d `validateMedicarePartDDates` form validation', () => {
+  const terminationDateSpy = sinon.spy();
+  const effectiveDateSpy = sinon.spy();
+  const getData = ({
+    terminationDate = '2016-01-01',
+    effectiveDate = '2011-01-01',
+  } = {}) => ({
+    errors: {
+      medicarePartDTerminationDate: { addError: terminationDateSpy },
+      medicarePartDEffectiveDate: { addError: effectiveDateSpy },
+    },
+    fieldData: {
+      medicarePartDTerminationDate: terminationDate,
+      medicarePartDEffectiveDate: effectiveDate,
+    },
+  });
+
+  afterEach(() => {
+    terminationDateSpy.resetHistory();
+    effectiveDateSpy.resetHistory();
+  });
+
+  it('should not set error message when form data is valid', () => {
+    const { errors, fieldData } = getData();
+    validateMedicarePartDDates(errors, fieldData);
+    sinon.assert.notCalled(terminationDateSpy);
+    sinon.assert.notCalled(effectiveDateSpy);
+  });
+
+  it('should set error message when termination date is invalid', () => {
+    const { errors, fieldData } = getData({
+      terminationDate: '2018-XX-01',
+    });
+    validateMedicarePartDDates(errors, fieldData);
+    sinon.assert.calledOnce(terminationDateSpy);
+  });
+
+  it('should set error message when termination date is before effective date', () => {
+    const { errors, fieldData } = getData({
+      terminationDate: '2010-01-01',
+    });
+    validateMedicarePartDDates(errors, fieldData);
+    sinon.assert.calledOnce(terminationDateSpy);
+  });
+});
+
+describe('1010d `validateOHIDates` form validation', () => {
+  const expirationDateSpy = sinon.spy();
+  const effectiveDateSpy = sinon.spy();
+  const getData = ({
+    expirationDate = '2016-01-01',
+    effectiveDate = '2011-01-01',
+  } = {}) => ({
+    errors: {
+      expirationDate: { addError: expirationDateSpy },
+      effectiveDate: { addError: effectiveDateSpy },
+    },
+    fieldData: { expirationDate, effectiveDate },
+  });
+
+  afterEach(() => {
+    expirationDateSpy.resetHistory();
+    effectiveDateSpy.resetHistory();
+  });
+
+  it('should not set error message when form data is valid', () => {
+    const { errors, fieldData } = getData();
+    validateOHIDates(errors, fieldData);
+    sinon.assert.notCalled(expirationDateSpy);
+    sinon.assert.notCalled(effectiveDateSpy);
+  });
+
+  it('should set error message when termination date is invalid', () => {
+    const { errors, fieldData } = getData({
+      expirationDate: '2018-XX-01',
+    });
+    validateOHIDates(errors, fieldData);
+    sinon.assert.calledOnce(expirationDateSpy);
+  });
+
+  it('should set error message when termination date is before effective date', () => {
+    const { errors, fieldData } = getData({
+      expirationDate: '2010-01-01',
+    });
+    validateOHIDates(errors, fieldData);
+    sinon.assert.calledOnce(expirationDateSpy);
   });
 });
