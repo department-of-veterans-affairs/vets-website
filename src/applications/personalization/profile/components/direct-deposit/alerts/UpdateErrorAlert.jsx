@@ -45,12 +45,9 @@ function InvalidRoutingNumber() {
   return (
     <>
       <p
-        className="vads-u-margin-top--0"
+        className="vads-u-margin-y--0"
         data-testid="invalid-routing-number-error"
       >
-        We can’t find a bank linked to the routing number you entered.
-      </p>
-      <p className="vads-u-margin-bottom--0">
         Review your routing number and make sure it’s correct.
       </p>
     </>
@@ -160,7 +157,7 @@ export const UpdateErrorAlert = ({ className, saveError }) => {
   }
 
   let content = <GenericError />;
-  let title = 'We couldn’t update your bank information';
+  let title = '';
 
   if (Array.isArray(saveError) && saveError?.length > 0) {
     if (
@@ -170,9 +167,10 @@ export const UpdateErrorAlert = ({ className, saveError }) => {
       title = "We couldn't update your direct deposit information";
       content = <PaymentRestrictionError />;
     } else if (hasRoutingNumberFlaggedError(saveError)) {
+      title = "We couldn't update your direct deposit information";
       content = <FlaggedRoutingNumber />;
     } else if (hasInvalidRoutingNumberError(saveError)) {
-      title = '';
+      title = 'We can’t find a bank linked to the routing number you entered.';
       content = <InvalidRoutingNumber />;
     } else if (hasInvalidAddressError(saveError)) {
       content = <UpdateAddressError />;

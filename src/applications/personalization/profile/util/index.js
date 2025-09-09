@@ -13,6 +13,7 @@ export const BASE_DIRECT_DEPOSIT_ERROR_KEYS = {
   NIGHT_PHONE_NUMBER_INVALID: '.night.phone.number.invalid',
   NIGHT_PHONE_AREA_INVALID: '.night.area.number.invalid',
   MAILING_ADDRESS_INVALID: '.mailing.address.invalid',
+  PAYMENT_ADDRESS_MISSING: '.payment.address.missing',
   UNSPECIFIED_ERROR: '.unspecified.error',
   GENERIC_ERROR: '.generic.error',
 };
@@ -122,9 +123,10 @@ export const hasInvalidRoutingNumberError = errors =>
   });
 
 // the cases for invalid address include:
-// - unspecified error code with error text 'address update' in the error detail
-// - generic error code with error text 'address update' in the error detail
+// - unspecified error code with error text 'address update' or 'Payment Address Data Not Found' in the error detail
+// - generic error code with error text 'address update' or 'Payment Address Data Not Found' in the error detail
 // - mailing address invalid error code
+// - payment address missing error code
 export const hasInvalidAddressError = errors =>
   hasErrorCombos({
     errors,
@@ -134,13 +136,14 @@ export const hasInvalidAddressError = errors =>
       DIRECT_DEPOSIT_ERROR_KEYS.UNSPECIFIED_ERROR,
       DIRECT_DEPOSIT_ERROR_KEYS.GENERIC_ERROR,
     ],
-    errorTexts: ['address update'],
+    errorTexts: ['address update', 'Payment Address Data Not Found'],
   }) ||
   hasErrorCombos({
     errors,
     errorKeys: [
       LIGHTHOUSE_ERROR_KEYS.MAILING_ADDRESS_INVALID,
       DIRECT_DEPOSIT_ERROR_KEYS.MAILING_ADDRESS_INVALID,
+      DIRECT_DEPOSIT_ERROR_KEYS.PAYMENT_ADDRESS_MISSING,
     ],
   });
 
