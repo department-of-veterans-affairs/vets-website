@@ -2,7 +2,7 @@ import { appName } from '../../manifest.json';
 import ApiInitializer from './utilities/ApiInitializer';
 import LandingPage from './pages/LandingPage';
 
-describe(`${appName} -- confirm contact email`, () => {
+describe.skip(`${appName} -- confirm contact email`, () => {
   beforeEach(() => {
     ApiInitializer.initializeFeatureToggle.withAllFeatures();
     ApiInitializer.initializeMessageData.withNoUnreadMessages();

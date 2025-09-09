@@ -1,33 +1,28 @@
-import React, { useState } from 'react';
-import Cookies from 'js-cookie';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { selectVAPEmailUpdatedAt } from '@department-of-veterans-affairs/platform-user/selectors';
+import { showConfirmEmail } from '@department-of-veterans-affairs/mhv/exports';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 export const AlertConfirmContactEmail = () => {
-  const visible = Cookies.get('CONTACT_EMAIL_CONFIRMED') !== 'true';
-
-  const [isVisible, setIsVisible] = useState(visible);
-
-  const handleClose = () => {
-    Cookies.set('CONTACT_EMAIL_CONFIRMED', 'true');
-    setIsVisible(false);
-  };
+  const isVisible = useSelector(showConfirmEmail)();
+  const emailUpdatedAt = useSelector(selectVAPEmailUpdatedAt);
+  const h2Content = emailUpdatedAt
+    ? 'Confirm your contact email'
+    : 'Add a contact email';
 
   return (
     <VaAlert
       className="vads-u-margin-top--1"
-      closeable
-      onCloseEvent={handleClose}
       status="warning"
       visible={isVisible}
+      data-testid="va-profile--alert-confirm-contact-email"
     >
-      <h2 slot="headline">Confirm your contact email address</h2>
+      <h2 slot="headline">{h2Content}</h2>
       <React.Fragment key=".1">
         <p className="vads-u-margin-y--0">
-          We’ll send all VA notifications to the contact email address listed in
-          your VA.gov profile. We won’t send any more notifications to the email
-          listed in the previous MyHealtheVet experience. Make sure the contact
-          email address listed in your VA.gov profile is the one you want us to
-          send notifications to.
+          We’ll send notifications about your VA health care and benefits to
+          this email.
         </p>
       </React.Fragment>
     </VaAlert>

@@ -22,24 +22,81 @@ describe('MHV Landing Page -- Header Layout', () => {
     });
   });
 
-  it('renders a link to confirm contact email', () => {
-    const { getByTestId } = render(<HeaderLayout />);
-    const testId = 'va-profile--confirm-contact-email-link';
-    const confirmEmailLink = getByTestId(testId);
-    expect(confirmEmailLink).to.exist;
-    const href = '/profile/contact-information#contact-email-address';
-    expect(confirmEmailLink.link).to.equal(href);
-    const textContent = /^Confirm your contact email address/;
-    expect(confirmEmailLink.text).to.match(textContent);
+  it('renders <ConfirmEmailLink /> when user.profile.vapContactInfo.email.updatedAt is null', async () => {
+    const initialState = {
+      user: {
+        profile: {
+          loading: false,
+          vapContactInfo: {
+            email: {
+              updatedAt: null,
+            },
+          },
+        },
+      },
+    };
+    const { getByTestId } = render(<HeaderLayout />, {
+      initialState,
+    });
+    await waitFor(() => {
+      expect(getByTestId('va-profile--confirm-contact-email-link')).to.exist;
+    });
   });
 
-  it('suppresses the email confirmation link when CONTACT_EMAIL_CONFIRMED cookie is set', () => {
-    const originalCookie = document.cookie;
-    document.cookie = 'CONTACT_EMAIL_CONFIRMED=true';
-    const { queryByTestId } = render(<HeaderLayout />);
-    const testId = 'va-profile--confirm-contact-email-link';
-    const confirmEmailLink = queryByTestId(testId);
-    expect(confirmEmailLink).to.not.exist;
-    document.cookie = originalCookie;
+  it('renders <ConfirmEmailLink /> when user.profile.vapContactInfo.email.updatedAt is before EMAIL_UPDATED_AT_THRESHOLD', async () => {
+    const initialState = {
+      user: {
+        profile: {
+          loading: false,
+          vapContactInfo: {
+            email: {
+              updatedAt: '2022-01-31T12:00:00.000+00:00',
+            },
+          },
+        },
+      },
+    };
+    const { getByTestId } = render(<HeaderLayout />, {
+      initialState,
+    });
+    await waitFor(() => {
+      expect(getByTestId('va-profile--confirm-contact-email-link')).to.exist;
+    });
+  });
+
+  it('suppresses <ConfirmEmailLink /> when user.profile.loading', async () => {
+    const initialState = {
+      user: {
+        profile: {
+          loading: true,
+          vapContactInfo: {},
+        },
+      },
+    };
+    const { queryByTestId } = render(<HeaderLayout />, { initialState });
+    await waitFor(() => {
+      expect(queryByTestId('va-profile--confirm-contact-email-link')).to.not
+        .exist;
+    });
+  });
+
+  it('suppresses <ConfirmEmailLink /> when user.profile.vapContactInfo.email.updatedAt is after EMAIL_UPDATED_AT_THRESHOLD', async () => {
+    const initialState = {
+      user: {
+        profile: {
+          loading: true,
+          vapContactInfo: {
+            email: {
+              updatedAt: '2025-09-09T12:00:00.000+00:00',
+            },
+          },
+        },
+      },
+    };
+    const { queryByTestId } = render(<HeaderLayout />, { initialState });
+    await waitFor(() => {
+      expect(queryByTestId('va-profile--confirm-contact-email-link')).to.not
+        .exist;
+    });
   });
 });

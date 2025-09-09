@@ -1,31 +1,75 @@
 import React from 'react';
 import { expect } from 'chai';
-import { fireEvent, render, waitFor } from '@testing-library/react';
+import { waitFor } from '@testing-library/react';
+import { renderInReduxProvider as render } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { AlertConfirmContactEmail } from '~/applications/personalization/profile/components/alerts/AlertConfirmContactEmail';
 
-describe('AlertConfirmContactEmail', () => {
-  it('renders', () => {
-    const { getByText } = render(<AlertConfirmContactEmail />);
-    const h2Content = /Confirm your contact email address/;
-    expect(getByText(h2Content)).to.exist;
-    const pContent = /We’ll send all VA notifications to the contact email/;
-    expect(getByText(pContent)).to.exist;
+const stateFn = ({
+  loading = false,
+  updatedAt = '2022-01-31T12:00:00.000+00:00',
+} = {}) => ({
+  user: {
+    profile: {
+      loading,
+      vapContactInfo: {
+        email: {
+          updatedAt,
+        },
+      },
+    },
+  },
+});
+
+const testId = 'va-profile--alert-confirm-contact-email';
+
+describe('<AlertConfirmContactEmail />', () => {
+  it('renders "Confirm you contact email" h2', async () => {
+    const { getByTestId, getByText } = render(<AlertConfirmContactEmail />, {
+      initialState: stateFn(),
+    });
+    const h2Content = /Confirm your contact email/;
+    const pContent = /We’ll send notifications about your VA health care/;
+    await waitFor(() => {
+      expect(getByTestId(testId)).to.exist;
+      expect(getByText(h2Content)).to.exist;
+      expect(getByText(pContent)).to.exist;
+    });
   });
 
-  it('sets CONTACT_EMAIL_CONFIRMED=true cookie when VaAlert is closed', async () => {
-    const originalCookie = document.cookie;
-    document.cookie = '';
-
-    const { container } = render(<AlertConfirmContactEmail />);
-
-    const vaAlert = container.querySelector('va-alert');
-    fireEvent(vaAlert, new CustomEvent('closeEvent'));
-
-    await waitFor(() => {
-      expect(document.cookie).to.exist;
-      expect(document.cookie).to.include('CONTACT_EMAIL_CONFIRMED=true');
+  it('renders "Add a contact email" h2', async () => {
+    const { getByTestId, getByText } = render(<AlertConfirmContactEmail />, {
+      initialState: stateFn({ updatedAt: null }),
     });
+    const h2Content = /Add a contact email/;
+    const pContent = /We’ll send notifications about your VA health care/;
+    await waitFor(() => {
+      expect(getByTestId(testId)).to.exist;
+      expect(getByText(h2Content)).to.exist;
+      expect(getByText(pContent)).to.exist;
+    });
+  });
 
-    document.cookie = originalCookie;
+  it('renders nothing when user.profile.loading', async () => {
+    const initialState = stateFn({ loading: true });
+    const { getByTestId } = render(<AlertConfirmContactEmail />, {
+      initialState,
+    });
+    await waitFor(() => {
+      const component = getByTestId(testId);
+      expect(component.getAttribute('visible')).to.equal('false');
+    });
+  });
+
+  it('renders nothing when user.profile.vapContactInfo.email.updatedAt is after EMAIL_UPDATED_AT_THRESHOLD', async () => {
+    const initialState = stateFn({
+      updatedAt: '2025-09-09T12:00:00.000+00:00',
+    });
+    const { getByTestId } = render(<AlertConfirmContactEmail />, {
+      initialState,
+    });
+    await waitFor(() => {
+      const component = getByTestId(testId);
+      expect(component.getAttribute('visible')).to.equal('false');
+    });
   });
 });

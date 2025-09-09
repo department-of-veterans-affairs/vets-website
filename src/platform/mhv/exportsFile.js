@@ -45,3 +45,5 @@ export { generateSEIPdf } from './self-entered/generate-sei-pdf';
 export {
   default as MissingRecordsError,
 } from './self-entered/MissingRecordsError';
+export { default as ConfirmEmailLink } from './components/ConfirmEmailLink';
+export { EMAIL_UPDATED_AT_THRESHOLD, showConfirmEmail } from './selectors';
