@@ -1,10 +1,11 @@
 import _ from 'platform/utilities/data';
 import {
-  PTSD_INCIDENT_ITERATION,
-  PTSD_CHANGE_LABELS,
   ATTACHMENT_KEYS,
   causeTypes,
   disabilityActionTypes,
+  NEW_CONDITION_OPTION,
+  PTSD_INCIDENT_ITERATION,
+  PTSD_CHANGE_LABELS,
 } from '../constants';
 
 import {
@@ -109,6 +110,23 @@ export const setActionType = disability =>
     ? _.set('disabilityActionType', disabilityActionTypes.INCREASE, disability)
     : _.set('disabilityActionType', disabilityActionTypes.NONE, disability);
 
+const norm = str => (str || '').trim().toLowerCase();
+
+const collectSelectedNamesFromNewDisabilities = formData => {
+  const picked = new Set();
+  const list = formData?.newDisabilities || [];
+  for (const newDisability of list) {
+    // For "increase on rated condition", UI stores: { ratedDisability: '<name>' }
+    const name = newDisability?.ratedDisability || null;
+
+    // Ignore "new condition" sentinel and empties
+    if (name && name !== NEW_CONDITION_OPTION) {
+      picked.add(norm(name));
+    }
+  }
+  return picked;
+};
+
 /**
  * Sets disabilityActionType for rated disabilities to either INCREASE (for
  * selected disabilities) or NONE (for unselected disabilities)
@@ -118,17 +136,31 @@ export const setActionType = disability =>
  * exist
  */
 export const setActionTypes = formData => {
-  const { ratedDisabilities } = formData;
-
-  if (ratedDisabilities) {
-    return _.set(
-      'ratedDisabilities',
-      ratedDisabilities.map(setActionType),
-      formData,
-    );
+  const rated = formData?.ratedDisabilities || [];
+  if (!rated.length) {
+    return _.cloneDeep(formData);
   }
 
-  return _.cloneDeep(formData);
+  const selectedNames = collectSelectedNamesFromNewDisabilities(formData);
+  const useFallback = selectedNames.size === 0;
+
+  const mapped = rated.map(data => {
+    let candidate;
+
+    if (!useFallback) {
+      if (selectedNames.has(norm(data.name))) {
+        candidate = { ...data, 'view:selected': true };
+      } else {
+        candidate = { ...data, 'view:selected': undefined };
+      }
+    } else {
+      candidate = data;
+    }
+
+    return setActionType(candidate);
+  });
+
+  return _.set('ratedDisabilities', mapped, formData);
 };
 
 /**
