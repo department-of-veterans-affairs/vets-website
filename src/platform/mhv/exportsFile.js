@@ -45,3 +45,7 @@ export { generateSEIPdf } from './self-entered/generate-sei-pdf';
 export {
   default as MissingRecordsError,
 } from './self-entered/MissingRecordsError';
+export {
+  logUniqueUserMetricsEvents,
+  EVENT_REGISTRY,
+} from './unique_user_metrics';
