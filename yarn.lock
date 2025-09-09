@@ -2858,13 +2858,13 @@
   resolved "https://registry.yarnpkg.com/@datadog/sketches-js/-/sketches-js-2.1.0.tgz#8c7e8028a5fc22ad102fa542b0a446c956830455"
   integrity sha512-smLocSfrt3s53H/XSVP3/1kP42oqvrkjUPtyaFd1F79ux24oE31BKt+q0c6lsa6hOYrFzsIwyc5GXAI5JmfOew==
 
-"@department-of-veterans-affairs/component-library@52.1.1":
-  version "52.1.1"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/component-library/-/component-library-52.1.1.tgz#bdcbb79ba184c251cd76e96bf1062ab808904cba"
-  integrity sha512-B/4U0D/O4Plpqo3KzCOx29qWJD+scShXSqX5NgRCEaAscnclQQ4eg+ahxT0aQKo9QtGsaXo1WSuqTRjIF+fdlw==
+"@department-of-veterans-affairs/component-library@52.1.2-rc2":
+  version "52.1.2-rc2"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-52.1.2-rc2.tgz#926541587426be2455e0abcf3fe6d4ac147ae845"
+  integrity sha512-W+DIPv/c9p7A0T5ulkNBgoSLDQOdlfa0VfjiBAUV2892+zZB6RjRCT2MRrNApkoacC6xrKPvs0wPlFOH/s0N9A==
   dependencies:
-    "@department-of-veterans-affairs/react-components" "28.1.0"
-    "@department-of-veterans-affairs/web-components" "20.1.1"
+    "@department-of-veterans-affairs/react-components" "workspace:*"
+    "@department-of-veterans-affairs/web-components" "workspace:*"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
@@ -2896,9 +2896,9 @@
     yeoman-generator "^5.6.1"
     yosay "^2.0.2"
 
-"@department-of-veterans-affairs/react-components@28.1.0":
+"@department-of-veterans-affairs/react-components@workspace:*":
   version "28.1.0"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs%2freact-components/-/react-components-28.1.0.tgz#dd7bd0d334ec80b9efb3debb08203431dfdc0d41"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-28.1.0.tgz#dd7bd0d334ec80b9efb3debb08203431dfdc0d41"
   integrity sha512-If25Cmvnt9R/9mG9MXKPLgmpkCI07mCRXZUilBJsIxty6k5Y5GKfEtyXESJgwsD+e2uSEJwFveHpzL7uD/wS7w==
   dependencies:
     classnames "^2.2.6"
@@ -2937,10 +2937,10 @@
   dependencies:
     minimist "^1.2.6"
 
-"@department-of-veterans-affairs/web-components@20.1.1":
-  version "20.1.1"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/web-components/-/web-components-20.1.1.tgz#177f8c126c6d0964437130681cad3759d0737e05"
-  integrity sha512-C0g3995ayrUkKpeR5mKSEnacI4rSZJQAFl8kqXPhYZxJmdkp0h81g6f4HbeVI0r5eQZv2xHgOX38kvwdauXLwA==
+"@department-of-veterans-affairs/web-components@workspace:*":
+  version "20.2.0-rc2"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-20.2.0-rc2.tgz#afe2097e88ce3e8d3224cb34dc9fe3fa5b31ff28"
+  integrity sha512-KX1WNXWC6UUFxhviYoJ1hCzJ2fm7kP1KE9vLtOj+AHFxUAclWpzRinL1WfvyeIq6qa0pG8DOLY5t/NymYUAJSw==
   dependencies:
     "@stencil/core" "4.20.0"
     aria-hidden "^1.1.3"

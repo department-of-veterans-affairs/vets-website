@@ -26,8 +26,8 @@ import formsPatternMultiple from '../pages/mockFormsPatternMultiple';
 import arraySinglePage from '../pages/mockArraySinglePage';
 import arrayMultiPageAggregateStart from '../pages/mockArrayMultiPageAggregateStart';
 import arrayMultiPageAggregateItem from '../pages/mockArrayMultiPageAggregateItem';
-import mockData from '../tests/e2e/fixtures/data/default.json';
-import mockArrayBuilderData from '../tests/e2e/fixtures/data/arrayBuilder.json';
+// import mockData from '../tests/e2e/fixtures/data/default.json';
+// import mockArrayBuilderData from '../tests/e2e/fixtures/data/arrayBuilder.json';
 // import arrayAddresses from '../pages/mockArrayAddresses';
 import internationalPhone from '../pages/mockInternationalPhone';
 import {
@@ -59,13 +59,13 @@ const initialData = {
 
 // Prefill entire form with data :
 // Helpful for testing confirmation page
-if (
-  (environment.isLocalhost() || environment.isDev()) &&
-  !environment.isTest()
-) {
-  Object.assign(initialData, mockData.data);
-  Object.assign(initialData, mockArrayBuilderData.data);
-}
+// if (
+//   (environment.isLocalhost() || environment.isDev()) &&
+//   !environment.isTest()
+// ) {
+//   Object.assign(initialData, mockData.data);
+//   Object.assign(initialData, mockArrayBuilderData.data);
+// }
 
 function includeChapter(page) {
   return formData => formData?.chapterSelect?.[page];
