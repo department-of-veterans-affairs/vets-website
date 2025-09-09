@@ -27,12 +27,12 @@ import {
   getAgeInYears,
 } from '../../shared/utilities';
 import { ADDITIONAL_FILES_HINT } from '../../shared/constants';
+import { validateMedicarePartDDates } from '../helpers/validations';
 
 import {
   selectMedicareParticipantPage,
   SelectMedicareParticipantPage,
 } from './SelectMedicareParticipantsPage';
-import { validateMedicarePartDDates } from '../helpers/validations';
 
 const MEDICARE_TYPE_LABELS = {
   ab: 'Original Medicare Parts A and B (hospital and medical coverage)',
@@ -648,7 +648,6 @@ const medicarePartDCarrierEffectiveDatePage = {
     medicarePartDEffectiveDate: currentOrPastDateUI({
       title: 'Medicare Part D effective date',
       hint: 'This information is at the top of your card.',
-      required: () => true,
     }),
     medicarePartDTerminationDate: currentOrPastDateUI({
       title: 'Medicare Part D termination date',
