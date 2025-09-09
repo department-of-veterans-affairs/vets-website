@@ -361,7 +361,7 @@ describe('App', () => {
       featureToggles: {},
     };
     customState.featureToggles[
-      FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot
+      FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow
     ] = true;
 
     const screen = renderWithStoreAndRouter(<App />, {
@@ -394,7 +394,7 @@ describe('App', () => {
       featureToggles: {},
     };
     customState.featureToggles[
-      FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot
+      FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow
     ] = true;
 
     const screen = renderWithStoreAndRouter(<App />, {
@@ -420,7 +420,7 @@ describe('App', () => {
       featureToggles: {},
     };
     customState.featureToggles[
-      FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot
+      FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow
     ] = false;
 
     const screen = renderWithStoreAndRouter(<App />, {

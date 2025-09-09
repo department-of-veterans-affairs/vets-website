@@ -7,7 +7,7 @@ import PatientComposePage from '../pages/PatientComposePage';
 describe('SM PILOT NEW MESSAGE', () => {
   const updatedFeatureToggles = GeneralFunctionsPage.updateFeatureToggles([
     {
-      name: 'mhv_secure_messaging_cerner_pilot',
+      name: 'mhv_secure_messaging_curated_list_flow',
       value: true,
     },
   ]);
