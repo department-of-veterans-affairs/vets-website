@@ -81,23 +81,10 @@ const SmBreadcrumbs = () => {
   const navigateBack = useCallback(
     () => {
       const { pathname } = location;
-      const { COMPOSE, SELECT_CARE_TEAM, START_MESSAGE } = Constants.Paths;
-
-      if (pathname.includes(START_MESSAGE)) {
-        history.push(`${COMPOSE}${SELECT_CARE_TEAM}`);
-        return;
-      }
+      const { COMPOSE, SELECT_CARE_TEAM } = Constants.Paths;
 
       if (pathname.includes(SELECT_CARE_TEAM)) {
         history.push(COMPOSE);
-        return;
-      }
-
-      if (
-        pathname.endsWith(COMPOSE) ||
-        pathname.endsWith(COMPOSE.slice(0, -1))
-      ) {
-        history.push(Constants.Paths.INBOX);
         return;
       }
 
@@ -112,6 +99,11 @@ const SmBreadcrumbs = () => {
         crumb?.href ===
         `${Constants.Paths.FOLDERS}${Constants.DefaultFolders.INBOX.id}`;
       const isReplyPath = `/${locationBasePath}/` === Constants.Paths.REPLY;
+      const isSelectCareTeam = previousUrl.includes(
+        Constants.Paths.SELECT_CARE_TEAM,
+      );
+      const wasCareTeamHelp = pathname === Constants.Paths.CARE_TEAM_HELP;
+      const wasCompose = `/${locationBasePath}/` === Constants.Paths.COMPOSE;
 
       if (isContactList && isCompose && activeDraftId) {
         history.push(`${Constants.Paths.MESSAGE_THREAD}${activeDraftId}/`);
@@ -120,6 +112,10 @@ const SmBreadcrumbs = () => {
       } else if (isSentFolder && !isReplyPath) {
         history.push(Constants.Paths.SENT);
       } else if (isInboxFolder && !isReplyPath) {
+        history.push(Constants.Paths.INBOX);
+      } else if (wasCareTeamHelp) {
+        history.push(Constants.Paths.SELECT_CARE_TEAM);
+      } else if (wasCompose && isSelectCareTeam) {
         history.push(Constants.Paths.INBOX);
       } else {
         history.push(
