@@ -1,5 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { waitFor } from '@testing-library/react';
 import { renderInReduxProvider as render } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 
@@ -29,7 +30,9 @@ const textContent = /^Confirm your contact email address/;
 
 describe('<ConfirmEmailLink />', () => {
   it('renders', async () => {
-    const { getByTestId } = render(<ConfirmEmailLink />, {
+    const recordEvent = sinon.spy();
+    const props = { recordEvent };
+    const { getByTestId } = render(<ConfirmEmailLink {...props} />, {
       initialState: stateFn(),
     });
     await waitFor(() => {
@@ -37,12 +40,16 @@ describe('<ConfirmEmailLink />', () => {
       expect(component).to.exist;
       expect(component.link).to.equal(href);
       expect(component.text).to.match(textContent);
+      expect(recordEvent.calledOnce).to.be.true;
+      expect(recordEvent.calledTwice).to.be.false;
     });
   });
 
   it('renders when updatedAt is null', async () => {
+    const recordEvent = sinon.spy();
+    const props = { recordEvent };
     const initialState = stateFn({ updatedAt: null });
-    const { getByTestId } = render(<ConfirmEmailLink />, {
+    const { getByTestId } = render(<ConfirmEmailLink {...props} />, {
       initialState,
     });
     await waitFor(() => {
@@ -50,28 +57,36 @@ describe('<ConfirmEmailLink />', () => {
       expect(component).to.exist;
       expect(component.link).to.equal(href);
       expect(component.text).to.match(textContent);
+      expect(recordEvent.calledOnce).to.be.true;
+      expect(recordEvent.calledTwice).to.be.false;
     });
   });
 
   it('renders nothing when loading', async () => {
+    const recordEvent = sinon.spy();
+    const props = { recordEvent };
     const initialState = stateFn({ loading: true });
-    const { container } = render(<ConfirmEmailLink />, {
+    const { container } = render(<ConfirmEmailLink {...props} />, {
       initialState,
     });
     await waitFor(() => {
       expect(container).to.be.empty;
+      expect(recordEvent.calledOnce).to.be.false;
     });
   });
 
   it(`renders nothing when email was updated after ${EMAIL_UPDATED_AT_THRESHOLD}`, async () => {
+    const recordEvent = sinon.spy();
+    const props = { recordEvent };
     const initialState = stateFn({
       updatedAt: '2025-09-08T12:00:00.000+00:00',
     });
-    const { container } = render(<ConfirmEmailLink />, {
+    const { container } = render(<ConfirmEmailLink {...props} />, {
       initialState,
     });
     await waitFor(() => {
       expect(container).to.be.empty;
+      expect(recordEvent.calledOnce).to.be.false;
     });
   });
 });
