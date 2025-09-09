@@ -348,20 +348,18 @@ describe('<Dashboard />', () => {
     });
   });
 
-  it('suppresses the email confirmation link when CONTACT_EMAIL_CONFIRMED cookie is set', () => {
+  it('suppresses the email confirmation link when email.updatedAt is after EMAIL_UPDATED_AT_THRESHOLD', async () => {
     mockFetch();
-    const originalCookie = document.cookie;
-    document.cookie = 'CONTACT_EMAIL_CONFIRMED=true';
-
+    initialState.user.profile.vapContactInfo.email.updatedAt =
+      '2025-09-09T12:00:00.000+00:00';
     const { queryByTestId } = renderInReduxProvider(<Dashboard />, {
       initialState,
       reducers,
     });
-
-    expect(queryByTestId('va-profile--confirm-contact-email-link')).to.not
-      .exist;
-
-    document.cookie = originalCookie;
+    await waitFor(() => {
+      expect(queryByTestId('va-profile--confirm-contact-email-link')).to.not
+        .exist;
+    });
   });
 
   it(`suppresses the email confirmation link when <ContactInfoNeeded /> renders`, async () => {
