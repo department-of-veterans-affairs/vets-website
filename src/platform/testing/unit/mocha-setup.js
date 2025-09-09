@@ -56,6 +56,13 @@ function resetFetch() {
   }
 }
 
+if (process.env.CI || process.env.PRINT_OPEN_HANDLES) {
+  // eslint-disable-next-line global-require
+  const why = require('why-is-node-running');
+  // Print a report after Mocha has finished queuing tests
+  setTimeout(() => why(), 1500);
+}
+
 /**
  * Sets up JSDom in the testing environment. Allows testing of DOM functions without a browser.
  */
