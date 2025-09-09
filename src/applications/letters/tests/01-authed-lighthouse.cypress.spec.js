@@ -59,8 +59,7 @@ describe('Authed Letter Test', () => {
         cy.url().should('contain', '/letters/letter-list');
         // open bsl accordion
         cy.get('.step-content va-accordion-item:nth-of-type(4)')
-          .shadow()
-          .find('button[aria-expanded=false]')
+          .find('h3[slot="headline"]')
           .click()
           .then(() => {
             cy.get('label[name="militaryService-label"]').should('be.visible');
@@ -91,8 +90,7 @@ describe('Authed Letter Test', () => {
 
     // collapse the bsl accordion
     cy.get('.step-content va-accordion-item:nth-of-type(4)')
-      .shadow()
-      .find('button[aria-expanded=true]')
+      .find('h3[slot="headline"]')
       .click();
     cy.get('label[name="militaryService-label"]').should('not.be.visible');
 
