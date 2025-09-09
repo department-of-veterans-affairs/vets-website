@@ -3,6 +3,7 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 import {
   selectFeatureOHDirectSchedule,
   selectFeatureOHRequest,
+  selectFeatureSubstanceUseDisorder,
   selectRegisteredCernerFacilityIds,
 } from '../redux/selectors';
 import {
@@ -72,6 +73,10 @@ function isPodiatry(state) {
 
 function isCovidVaccine(state) {
   return getFormData(state).typeOfCareId === TYPE_OF_CARE_IDS.COVID_VACCINE_ID;
+}
+
+function isMentalHealth(state) {
+  return getFormData(state).typeOfCareId === TYPE_OF_CARE_IDS.MENTAL_HEALTH_ID;
 }
 
 async function vaFacilityNext(state, dispatch) {
@@ -285,6 +290,13 @@ export default function getNewAppointmentFlow(state) {
         if (isEyeCare(state)) {
           return 'typeOfEyeCare';
         }
+        if (isMentalHealth(state)) {
+          dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
+          if (selectFeatureSubstanceUseDisorder(state)) {
+            return 'typeOfMentalHealth';
+          }
+          return VA_FACILITY_V2_KEY;
+        }
         if (isCommunityCare(state)) {
           const isEligible = await dispatch(checkCommunityCareEligibility());
 
@@ -346,6 +358,11 @@ export default function getNewAppointmentFlow(state) {
     typeOfSleepCare: {
       url: 'sleep-care',
       label: 'Choose the type of sleep care you need',
+      next: VA_FACILITY_V2_KEY,
+    },
+    typeOfMentalHealth: {
+      url: 'mental-health',
+      label: 'Which type of mental health care do you need?',
       next: VA_FACILITY_V2_KEY,
     },
     vaFacilityV2: {
