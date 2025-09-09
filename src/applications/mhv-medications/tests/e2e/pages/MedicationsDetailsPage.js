@@ -65,9 +65,7 @@ class MedicationsDetailsPage {
   //   );
   // };
   verifyPrescriptionsExpirationDate = expDate => {
-    cy.get('[data-testid="expiration-date"]')
-      .first()
-      .should('have.text', expDate);
+    cy.get('[data-testid="expiration-date"]').should('have.text', expDate);
   };
 
   verifyPrescriptionsOrderedDate = () => {
@@ -484,7 +482,6 @@ class MedicationsDetailsPage {
     cy.get('[data-testid="refill-history-accordion"]')
       .shadow()
       .find('[data-testid="expand-all-accordions"]')
-      .first()
       .click({ force: true, multiple: true });
   };
 
@@ -504,27 +501,19 @@ class MedicationsDetailsPage {
   };
 
   verifyRefillHistoryInformationTextOnDetailsPage = text => {
-    cy.get('[data-testid="refill-history-info"]')
-      .first()
-      .should('have.text', text);
+    cy.get('[data-testid="refill-history-info"]').should('have.text', text);
   };
 
   verifyFilledDateFieldInAccordionCardInfoOnDetailPage = text => {
-    cy.get('[data-testid="fill-date"]')
-      .first()
-      .should('have.text', text);
+    cy.get('[data-testid="fill-date"]').should('have.text', text);
   };
 
   verifyImageFieldInAccordionCardInfoOnDetailsPage = text => {
-    cy.get('[data-testid="med-image"]')
-      .first()
-      .should('have.text', text);
+    cy.get('[data-testid="med-image"]').should('have.text', text);
   };
 
   verifyMedicationDescriptionFieldInAccordionCardInfo = text => {
-    cy.get('[data-testid="med-description"]')
-      .first()
-      .should('have.text', text);
+    cy.get('[data-testid="med-description"]').should('have.text', text);
   };
 
   verifyDescriptionTextOnDetailsPage = text => {
@@ -666,7 +655,9 @@ class MedicationsDetailsPage {
   };
 
   verifyQuantityNotAvailableOnDetailsPage = text => {
-    cy.get('[data-testid="rx-quantity"]').should('have.text', text);
+    cy.get('[data-testid="rx-quantity"]')
+      .first()
+      .should('have.text', text);
   };
 
   verifyPrescribedOnDateNoAvailableOnDetailsPage = text => {

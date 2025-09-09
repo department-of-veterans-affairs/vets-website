@@ -478,13 +478,6 @@ const PrescriptionDetails = () => {
                     }
                   />
                 </div>
-                <>
-                  {nonVaPrescription ? (
-                    <NonVaPrescription {...prescription} />
-                  ) : (
-                    <VaPrescription {...prescription} />
-                  )}
-                </>
               </>
             )}
           </div>
