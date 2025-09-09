@@ -76,7 +76,7 @@ describe('Curated list breadcrumb back navigation', () => {
     fireEvent.click(await screen.findByText('Back'));
 
     await waitFor(() => {
-      expect(screen.history.location.pathname).to.equal(Paths.COMPOSE);
+      expect(screen.history.location.pathname).to.equal(`${Paths.COMPOSE}`);
     });
   });
 
@@ -109,7 +109,7 @@ describe('Curated list breadcrumb back navigation', () => {
     fireEvent.click(await screen.findByText('Back'));
 
     await waitFor(() => {
-      expect(screen.history.location.pathname).to.equal(Paths.DRAFTS);
+      expect(screen.history.location.pathname).to.equal(`${Paths.DRAFTS}`);
     });
   });
 
@@ -124,7 +124,7 @@ describe('Curated list breadcrumb back navigation', () => {
     fireEvent.click(await screen.findByText('Back'));
 
     await waitFor(() => {
-      expect(screen.history.location.pathname).to.equal(previous);
+      expect(screen.history.location.pathname).to.equal(`${previous}`);
     });
   });
 
@@ -139,7 +139,22 @@ describe('Curated list breadcrumb back navigation', () => {
     fireEvent.click(await screen.findByText('Back'));
 
     await waitFor(() => {
-      expect(screen.history.location.pathname).to.equal(previous);
+      expect(screen.history.location.pathname).to.equal(`${previous}`);
+    });
+  });
+
+  it('Compose page Back navigates to inbox', async () => {
+    const previousUrl = Paths.INBOX;
+    const screen = renderAt(Paths.COMPOSE, {
+      sm: {
+        breadcrumbs: { previousUrl },
+      },
+    });
+
+    fireEvent.click(await screen.findByText('Back'));
+
+    await waitFor(() => {
+      expect(screen.history.location.pathname).to.equal(`${Paths.INBOX}`);
     });
   });
 });

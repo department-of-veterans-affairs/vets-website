@@ -93,6 +93,14 @@ const SmBreadcrumbs = () => {
         return;
       }
 
+      if (
+        pathname.endsWith(COMPOSE) ||
+        pathname.endsWith(COMPOSE.slice(0, -1))
+      ) {
+        history.push(Constants.Paths.INBOX);
+        return;
+      }
+
       const isContactList =
         `/${locationBasePath}/` === Constants.Paths.CONTACT_LIST;
 
