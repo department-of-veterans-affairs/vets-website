@@ -5,7 +5,6 @@ import { profileUser } from './Header/Nav';
 import { SEARCH_PARAMS } from '../utilities/constants';
 
 const PaginationMeta = ({ meta, results, resultType, defaults }) => {
-  const user = useContext(profileUser);
   const [searchParams] = useSearchParams();
   const pageSize = Number(searchParams.get('pageSize')) || defaults.SIZE;
   const pageNumber = Number(searchParams.get('pageNumber')) || defaults.NUMBER;
@@ -31,6 +30,11 @@ const PaginationMeta = ({ meta, results, resultType, defaults }) => {
     initCount = 1;
   }
 
+  let user;
+  if (profileUser) {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    user = useContext(profileUser);
+  }
   const userName = user ? (
     <span className="poa-request__user-name">
       "You ({user.firstName.toLowerCase()} {user.lastName.toLowerCase()}
