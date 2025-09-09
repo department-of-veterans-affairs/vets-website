@@ -17,6 +17,7 @@ import TypeOfVisitPage from './components/TypeOfVisitPage';
 import TypeOfSleepCarePage from './components/TypeOfSleepCarePage';
 import TypeOfEyeCarePage from './components/TypeOfEyeCarePage';
 import TypeOfAudiologyCarePage from './components/TypeOfAudiologyCarePage';
+import TypeOfMentalHealthPage from './components/TypeOfMentalHealthPage';
 import PreferredDatePageVaDate from './components/PreferredDatePageVaDate';
 import VARequest from './components/DateTimeRequestPage/VA';
 import CCRequest from './components/DateTimeRequestPage/CommunityCare';
@@ -90,6 +91,9 @@ export function NewAppointment() {
         </Route>
         <Route path={`${match.url}/eye-care`}>
           <TypeOfEyeCarePage />
+        </Route>
+        <Route path={`${match.url}/mental-health`}>
+          <TypeOfMentalHealthPage />
         </Route>
         <Route path={`${match.url}/audiology-care`}>
           <TypeOfAudiologyCarePage />

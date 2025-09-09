@@ -494,10 +494,7 @@ class PatientInboxPage {
   };
 
   verifyAddFilterButton = (text = 'Show filters') => {
-    cy.get(Locators.BUTTONS.ADDITIONAL_FILTER).should(
-      'contain.text',
-      `${text}`,
-    );
+    cy.findByText(text).should('contain.text', `${text}`);
   };
 
   verifyNotForPrintHeaderText = (text = 'messages in this conversation') => {

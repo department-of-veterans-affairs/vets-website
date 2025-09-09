@@ -242,6 +242,7 @@ const acceleratedCernerUser = {
         'identity-proofed',
         'vet360',
         'medical-records',
+        'messaging',
       ],
       account: {
         accountUuid: '9b8a5a1f-d99f-4e03-9b43-4c689f3e4f00',

@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import { clearBotSessionStorage } from '../utils/sessionStorage';
 import { ACCEPTED } from '../reducers';
+import AiDisclaimer from './AiDisclaimer';
 
 function onClick(dispatch) {
   recordEvent({
@@ -34,6 +35,7 @@ function Disclaimer() {
         Please don’t type any personal information such as your name, address,
         or anything else that can be used to identify you.
       </li>
+      <AiDisclaimer />
     </ul>
   );
 }
@@ -49,7 +51,6 @@ export default function ChatboxDisclaimer() {
         <va-button
           id="btnAcceptDisclaimer"
           data-testid="btnAcceptDisclaimer"
-          className="usa-button-primary"
           text="Start chat"
           onClick={() => onClick(dispatch)}
         />

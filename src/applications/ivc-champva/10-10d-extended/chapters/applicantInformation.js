@@ -332,9 +332,9 @@ const applicantBirthCertUploadPage = {
           certifierRole: index === 0 ? formData?.['view:certifierRole'] : '',
         };
         const posessiveName = (
-          <p className="dd-privacy-hidden">
+          <span className="dd-privacy-hidden">
             {nameWording(tmpFormData, true, false)}
-          </p>
+          </span>
         );
 
         return (

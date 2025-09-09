@@ -11,6 +11,8 @@ const useFeatureToggles = () => {
     largeAttachmentsEnabled,
     isDowntimeBypassEnabled,
     cernerPilotSmFeatureFlag,
+    mhvSecureMessagingCuratedListFlow,
+    mhvSecureMessagingRecentRecipients,
     mhvMockSessionFlag,
   } = useSelector(
     state => {
@@ -44,6 +46,14 @@ const useFeatureToggles = () => {
           state.featureToggles[
             FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot
           ],
+        mhvSecureMessagingCuratedListFlow:
+          state.featureToggles[
+            FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow
+          ],
+        mhvSecureMessagingRecentRecipients:
+          state.featureToggles[
+            FEATURE_FLAG_NAMES.mhvSecureMessagingRecentRecipients
+          ],
         mhvMockSessionFlag: state.featureToggles['mhv-mock-session'],
       };
     },
@@ -62,6 +72,8 @@ const useFeatureToggles = () => {
     largeAttachmentsEnabled,
     isDowntimeBypassEnabled,
     cernerPilotSmFeatureFlag,
+    mhvSecureMessagingCuratedListFlow,
+    mhvSecureMessagingRecentRecipients,
     mhvMockSessionFlag,
   };
 };

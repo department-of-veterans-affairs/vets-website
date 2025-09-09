@@ -559,7 +559,7 @@ export const associatedIncomePages = arrayBuilderPages(
     }),
     associatedIncomeVeteranRecipientPage: pageBuilder.itemPage({
       ContentBeforeButtons: showUpdatedContent() ? (
-        <DependentDescription />
+        <DependentDescription claimantType="VETERAN" />
       ) : null,
       title: incomeRecipientPageTitle,
       path: 'financial-accounts/:index/veteran-income-recipient',
@@ -570,7 +570,7 @@ export const associatedIncomePages = arrayBuilderPages(
     }),
     associatedIncomeSpouseRecipientPage: pageBuilder.itemPage({
       ContentBeforeButtons: showUpdatedContent() ? (
-        <DependentDescription />
+        <DependentDescription claimantType="SPOUSE" />
       ) : null,
       title: incomeRecipientPageTitle,
       path: 'financial-accounts/:index/spouse-income-recipient',

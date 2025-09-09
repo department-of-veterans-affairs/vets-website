@@ -2,6 +2,12 @@
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 
 .header {
+  @media screen and (max-width: 428px) {
+    button.nav__btn--user {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+  }
   min-height: auto;
   -webkit-font-smoothing: antialiased;
 
@@ -41,6 +47,37 @@
     margin-right: 8px;
     @media (min-width: $medium-screen) {
       margin: 4px 0;
+    }
+  }
+
+  .heading-right {
+    display: inline-flex;
+    margin-left: auto;
+    align-items: baseline;
+    .heading-help-link {
+      border: none;
+      color: var(--vads-color-base);
+      padding: 8px 12px 8px 12px;
+      font-size: 16.96px;
+      font-weight: 700;
+      text-decoration: none;
+      margin-right: 12px;
+      border-radius: 4px;
+      transform: translateY(-3px);
+
+      &.logged-in {
+        @media screen and (max-width: 768px) {
+          transform: translateY(-6px);
+        }
+        @media screen and (max-width: 425px) {
+          padding-right: 0px;
+          margin-right: 0px;
+        }
+      }
+    }
+
+    .arp-profile-dropdown {
+      transform: translateY(3px);
     }
   }
 }

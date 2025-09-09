@@ -18,12 +18,14 @@ import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fie
 import {
   formatCurrency,
   formatPossessiveString,
+  fullNameUIHelper,
   generateDeleteDescription,
   isDefined,
   isRecipientInfoIncomplete,
   otherRecipientRelationshipExplanationRequired,
   recipientNameRequired,
   resolveRecipientFullName,
+  showUpdatedContent,
 } from '../../../helpers';
 import { relationshipLabels, ownedAssetTypeLabels } from '../../../labels';
 import SupplementaryFormsAlert from '../../../components/FormAlerts/SupplementaryFormsAlert';
@@ -169,8 +171,14 @@ const ownedAssetRecipientPage = {
 /** @returns {PageSchema} */
 const recipientNamePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Property and business recipient'),
-    recipientName: fullNameNoSuffixUI(title => `Income recipient’s ${title}`),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      showUpdatedContent()
+        ? 'Person who receives this income'
+        : 'Property and business recipient',
+    ),
+    recipientName: showUpdatedContent()
+      ? fullNameUIHelper()
+      : fullNameNoSuffixUI(title => `Income recipient’s ${title}`),
   },
   schema: {
     type: 'object',
@@ -210,13 +218,13 @@ export const ownedAssetPages = arrayBuilderPages(options, pageBuilder => ({
     schema: summaryPage.schema,
   }),
   ownedAssetRecipientPage: pageBuilder.itemPage({
-    title: 'Property and business recipient',
+    title: 'Person who receives this income',
     path: 'property-and-business/:index/income-recipient',
     uiSchema: ownedAssetRecipientPage.uiSchema,
     schema: ownedAssetRecipientPage.schema,
   }),
   ownedAssetRecipientNamePage: pageBuilder.itemPage({
-    title: 'Property and business recipient name',
+    title: 'Person who receives this income name',
     path: 'property-and-business/:index/recipient-name',
     depends: (formData, index) =>
       recipientNameRequired(formData, index, 'ownedAssets'),

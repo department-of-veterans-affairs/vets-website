@@ -1,4 +1,4 @@
-import fullSchema from 'vets-json-schema/dist/686C-674-schema.json';
+import fullSchema from 'vets-json-schema/dist/686C-674-V2-schema.json';
 import environment from 'platform/utilities/environment';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import FormFooter from 'platform/forms/components/FormFooter';
