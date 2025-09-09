@@ -10,7 +10,7 @@ export const veteranApplicantDetailsReviewPage = personalInformationPage({
   background: true,
   personalInfoConfig: {
     name: { show: true, required: false },
-    ssn: { show: true, required: false },
+    ssn: { show: true, required: false, showFullSSN: true },
     dateOfBirth: { show: true, required: false },
     vaFileNumber: { show: false, required: false },
     sex: { show: false, required: false },

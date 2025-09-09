@@ -8,7 +8,9 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 import { genderLabels } from '~/platform/static-data/labels';
 import { selectProfile } from '~/platform/user/selectors';
 import { getAppUrl } from '~/platform/utilities/registry-helpers';
-import { formatNumberForScreenReader } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
+import mask, {
+  formatNumberForScreenReader,
+} from '~/platform/forms-system/src/js/utilities/ui/mask-string';
 
 import { DefaultErrorMessage } from './DefaultErrorMessage';
 
@@ -28,6 +30,7 @@ import { DefaultCardHeader } from './DefaultCardHeader';
  * @typedef {Object} FieldConfig
  * @property {boolean} show - Whether to show the field
  * @property {boolean} required - Whether the field is required
+ * @property {boolean} [showFullSSN] - Whether to show full SSN with masking (SSN field only)
  */
 
 /**
@@ -107,6 +110,27 @@ export const PersonalInformation = ({
 
   const { note, header, footer, cardHeader } = getChildrenByType(children);
 
+  // Helper function to render SSN based on configuration
+  const renderSSN = () => {
+    if (finalConfig.ssn?.showFullSSN) {
+      return mask(ssn.toString(), 4);
+    }
+
+    const ssnString = ssn.toString();
+    if (ssnString.length > 4) {
+      return formatNumberForScreenReader(ssnString.slice(-4));
+    }
+
+    return formatNumberForScreenReader(ssn);
+  };
+
+  // Helper function to get SSN title
+  const getSSNTitle = () => {
+    return finalConfig.ssn?.showFullSSN
+      ? 'Social Security Number: '
+      : 'Last 4 digits of Social Security Number: ';
+  };
+
   if (missingData.length > 0) {
     let messageComponent;
 
@@ -151,10 +175,13 @@ export const PersonalInformation = ({
           )}
           {finalConfig.ssn?.show && (
             <p>
-              <strong>Last 4 digits of Social Security number: </strong>
+              <strong>{getSSNTitle()}</strong>
               {ssn ? (
-                <span data-dd-action-name="Veteran's SSN">
-                  {formatNumberForScreenReader(ssn)}
+                <span
+                  className="dd-privacy-mask"
+                  data-dd-action-name="Veteran's SSN"
+                >
+                  {renderSSN()}
                 </span>
               ) : (
                 <span data-testid="ssn-not-available">Not available</span>
@@ -247,6 +274,7 @@ export const PersonalInformation = ({
 const fieldConfigShape = PropTypes.shape({
   show: PropTypes.bool,
   required: PropTypes.bool,
+  showFullSSN: PropTypes.bool,
 });
 
 PersonalInformation.propTypes = {
