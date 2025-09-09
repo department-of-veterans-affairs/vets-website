@@ -164,9 +164,6 @@ export const sendMessage = (message, attachments) => async dispatch => {
   try {
     await createMessage(message, attachments);
 
-    // Log successful message sending for analytics
-    logUniqueUserMetricsEvents(EVENT_REGISTRY.SECURE_MESSAGING_MESSAGE_SENT);
-
     dispatch(
       addAlert(
         Constants.ALERT_TYPE_SUCCESS,
@@ -207,6 +204,9 @@ export const sendMessage = (message, attachments) => async dispatch => {
         ),
       );
     throw e;
+  } finally {
+    // Log successful message sending for analytics
+    logUniqueUserMetricsEvents(EVENT_REGISTRY.SECURE_MESSAGING_MESSAGE_SENT);
   }
 };
 
@@ -222,9 +222,6 @@ export const sendReply = (
 ) => async dispatch => {
   try {
     await createReplyToMessage(replyToId, message, attachments);
-
-    // Log successful reply sending for analytics
-    logUniqueUserMetricsEvents(EVENT_REGISTRY.SECURE_MESSAGING_MESSAGE_SENT);
 
     dispatch(
       addAlert(
@@ -272,5 +269,8 @@ export const sendReply = (
       );
     }
     throw e;
+  } finally {
+    // Log successful message sending for analytics
+    logUniqueUserMetricsEvents(EVENT_REGISTRY.SECURE_MESSAGING_MESSAGE_SENT);
   }
 };
