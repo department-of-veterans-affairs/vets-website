@@ -11,10 +11,10 @@ import { getByBrokenText } from '../../util/testUtils';
 import * as threadDetailsActions from '../../actions/threadDetails';
 
 describe('Interstitial page header', () => {
-  const initialState = (isPilot = false) => {
+  const initialState = (isNewFlow = false) => {
     return {
       featureToggles: {
-        [FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot]: isPilot,
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow]: isNewFlow,
       },
     };
   };
