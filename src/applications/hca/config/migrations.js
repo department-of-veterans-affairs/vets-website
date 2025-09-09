@@ -253,21 +253,19 @@ export default [
       newMetadata = set('returnUrl', returnUrl, newMetadata);
     }
 
-    // temp fix until we get insurance v2 enabled
-    for (const policy of formData?.providers || []) {
-      const isValid =
-        policy.insuranceName &&
-        policy.insurancePolicyHolderName &&
-        (policy.insurancePolicyNumber || policy.insuranceGroupCode);
+    return { formData, metadata: newMetadata };
+  },
+  // 8 -> 9, we fully adopted insurance v2 and need to update the return URL
+  ({ formData, metadata }) => {
+    const url = metadata.returnUrl || metadata.return_url;
+    let newMetadata = metadata;
 
-      if (!isValid) {
-        newMetadata = set(
-          'returnUrl',
-          '/insurance-information/general',
-          newMetadata,
-        );
-        break;
-      }
+    if (url === '/insurance-information/general') {
+      newMetadata = set(
+        'returnUrl',
+        '/insurance-information/health-insurance',
+        metadata,
+      );
     }
 
     return { formData, metadata: newMetadata };

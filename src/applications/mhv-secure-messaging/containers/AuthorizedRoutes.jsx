@@ -49,7 +49,7 @@ const AuthorizedRoutes = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const { draftInProgress } = useSelector(state => state.sm.threadDetails);
-  const { cernerPilotSmFeatureFlag } = featureToggles();
+  const { mhvSecureMessagingCuratedListFlow } = featureToggles();
 
   useEffect(
     () => {
@@ -117,7 +117,7 @@ const AuthorizedRoutes = () => {
           <EditContactList />
         </AppRoute>
 
-        {cernerPilotSmFeatureFlag && (
+        {mhvSecureMessagingCuratedListFlow && (
           <AppRoute
             exact
             path={`${Paths.COMPOSE}${Paths.START_MESSAGE}`}
@@ -126,7 +126,7 @@ const AuthorizedRoutes = () => {
             <Compose />
           </AppRoute>
         )}
-        {cernerPilotSmFeatureFlag && (
+        {mhvSecureMessagingCuratedListFlow && (
           <AppRoute
             exact
             path={`${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`}
@@ -135,17 +135,17 @@ const AuthorizedRoutes = () => {
             <SelectCareTeam />
           </AppRoute>
         )}
-        {cernerPilotSmFeatureFlag && (
+        {mhvSecureMessagingCuratedListFlow && (
           <AppRoute exact path={Paths.COMPOSE} key="InterstitialPage">
             <InterstitialPage />
           </AppRoute>
         )}
-        {!cernerPilotSmFeatureFlag && (
+        {!mhvSecureMessagingCuratedListFlow && (
           <AppRoute exact path={Paths.COMPOSE} key="Compose">
             <Compose />
           </AppRoute>
         )}
-        {cernerPilotSmFeatureFlag && (
+        {mhvSecureMessagingCuratedListFlow && (
           <AppRoute exact path={Paths.CARE_TEAM_HELP} key="CareTeamHelp">
             <CareTeamHelp />
           </AppRoute>

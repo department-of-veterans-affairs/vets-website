@@ -2072,12 +2072,18 @@ jobs:
           SRC: s3://vetsgov-website-builds-s3-upload/${{ github.sha }}/${{ matrix.environment }}.tar.bz2
           DEST: s3://${{ matrix.bucket }}
           ASSET_DEST: s3://${{ matrix.asset_bucket }}
-
+  debug-cd-output:
+    needs: [determine-cd-eligibility]
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "deploy_to_prod raw: [${{ needs.determine-cd-eligibility.outputs.deploy_to_prod }}]"
+          
   cd-prod-deploy:
     name: CD Production Deploy
     runs-on: ubuntu-22.04
     needs: [build, set-deploy-environments, determine-cd-eligibility]
-    if: ${{ startsWith(needs.determine-cd-eligibility.outputs.deploy_to_prod, 'yes') }}
+    if: always() && ${{ startsWith(needs.determine-cd-eligibility.outputs.deploy_to_prod, 'yes') && github.ref == 'refs/heads/main' && needs.set-deploy-environments.result == 'success' }}
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017

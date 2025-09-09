@@ -25,6 +25,7 @@ import NewTabAnchor from '../NewTabAnchor';
 import FacilityPhone from '../FacilityPhone';
 import {
   NULL_STATE_FIELD,
+  captureMissingModalityLogs,
   recordAppointmentDetailsNullStates,
 } from '../../utils/events';
 import ClinicPhysicalLocation from './ClinicPhysicalLocation';
@@ -56,6 +57,9 @@ export default function ClaimExamLayout({ data: appointment }) {
   if (APPOINTMENT_STATUS.cancelled === status) heading = 'Canceled claim exam';
   else if (isPastAppointment) heading = 'Past claim exam';
 
+  if (!appointment.modality) {
+    captureMissingModalityLogs(appointment);
+  }
   recordAppointmentDetailsNullStates(
     {
       type: appointment.type,
