@@ -183,8 +183,8 @@ export function transformVAOSAppointment(appt) {
       vistaId: appt.locationId?.substr(0, 3) || null,
       clinicId: appt.clinic,
       stationId: appt.locationId,
-      clinicName: appt.serviceName || null,
-      clinicPhysicalLocation: appt.physicalLocation || null,
+      clinicName: appt.serviceName,
+      clinicPhysicalLocation: appt.physicalLocation,
       clinicPhone: appt.extension?.clinic?.phoneNumber || null,
       clinicPhoneExtension:
         appt.extension?.clinic?.phoneNumberExtension || null,

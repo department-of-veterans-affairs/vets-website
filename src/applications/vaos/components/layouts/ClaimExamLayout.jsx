@@ -27,6 +27,8 @@ import {
   NULL_STATE_FIELD,
   recordAppointmentDetailsNullStates,
 } from '../../utils/events';
+import ClinicPhysicalLocation from './ClinicPhysicalLocation';
+import ClinicName from './ClinicName';
 
 export default function ClaimExamLayout({ data: appointment }) {
   const {
@@ -146,21 +148,8 @@ export default function ClaimExamLayout({ data: appointment }) {
             <div className="vads-u-margin-top--1 vads-u-color--link-default">
               <FacilityDirectionsLink location={facility} icon />
             </div>
-            <br />
-            <span>
-              Clinic:{' '}
-              <span data-dd-privacy="mask">
-                {clinicName || 'Not available'}
-              </span>
-            </span>{' '}
-            <br />
-            <span>
-              Location:{' '}
-              <span data-dd-privacy="mask">
-                {clinicPhysicalLocation || 'Not available'}
-              </span>
-            </span>
-            <br />
+            <ClinicName name={clinicName} />{' '}
+            <ClinicPhysicalLocation location={clinicPhysicalLocation} /> <br />
           </>
         )}
         <ClinicOrFacilityPhone

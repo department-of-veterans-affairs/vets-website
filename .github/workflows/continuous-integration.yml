@@ -1995,7 +1995,10 @@ jobs:
         run: echo environments={\"include\":[${{env.DEV}},${{env.STAGING}}]} >> $GITHUB_OUTPUT
 
       - name: Log CD eligibility
-        run: echo ${{ needs.determine-cd-eligibility.outputs.deploy_to_prod }}
+        run: |
+          echo ${{ needs.determine-cd-eligibility.outputs.deploy_to_prod }}
+          echo ${{ startsWith(needs.determine-cd-eligibility.outputs.deploy_to_prod, 'yes') }}
+          echo ${{ needs.determine-cd-eligibility.outputs.deploy_to_prod == 'yes' }}
 
   deploy:
     name: Deploy
@@ -2074,7 +2077,7 @@ jobs:
     name: CD Production Deploy
     runs-on: ubuntu-22.04
     needs: [build, set-deploy-environments, determine-cd-eligibility]
-    if: ${{ needs.determine-cd-eligibility.outputs.deploy_to_prod == 'yes' }}
+    if: ${{ startsWith(needs.determine-cd-eligibility.outputs.deploy_to_prod, 'yes') }}
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
@@ -2121,11 +2124,11 @@ jobs:
           -H "Accept: application/vnd.github.v3+json" \
           -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
           https://api.github.com/repos/${{ github.repository }}/dispatches \
-          -d "$(jq -n --arg sha \"${{ github.sha }}\" \
-          --arg ref \"${{ github.ref }}\" \
-          --arg entry \"${{ needs.build.outputs.entry_names }}\" \
-          --arg slack_channel \"${{ steps.determine-channel.outputs.channel }}\" \
-          '{event_type: \"cd-production-deploy\", client_payload: {github_sha: $sha, github_ref: $ref, entry_app: $entry, slack_channel: $slack_channel}}')"
+          -d "$(jq -n --arg sha "${{ github.sha }}" \
+          --arg ref "${{ github.ref }}" \
+          --arg entry "${{ needs.build.outputs.entry_names }}" \
+          --arg slack_channel "${{ steps.determine-channel.outputs.channel }}" \
+          '{event_type: "cd-production-deploy", client_payload: {github_sha: $sha, github_ref: $ref, entry_app: $entry, slack_channel: $slack_channel}}')"
                          
   notify-failure:
     name: Notify Failure
