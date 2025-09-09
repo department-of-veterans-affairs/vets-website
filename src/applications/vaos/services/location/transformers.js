@@ -2,6 +2,7 @@ import {
   AUDIOLOGY_TYPES_OF_CARE,
   TYPES_OF_CARE,
   TYPES_OF_EYE_CARE,
+  TYPES_OF_MENTAL_HEALTH,
   TYPES_OF_SLEEP_CARE,
   VHA_FHIR_ID,
 } from '../../utils/constants';
@@ -170,6 +171,7 @@ function getTypeOfCareIdFromV2(id) {
     ...TYPES_OF_EYE_CARE,
     ...TYPES_OF_SLEEP_CARE,
     ...AUDIOLOGY_TYPES_OF_CARE,
+    ...TYPES_OF_MENTAL_HEALTH,
     ...TYPES_OF_CARE,
   ];
 
