@@ -48,6 +48,7 @@ import {
   showPtsdCombat,
   showPtsdNonCombat,
   showSeparationLocation,
+  showToxicExposureDestructionModal,
   showToxicExposureOptOutDataPurge,
   skip781,
   truncateDescriptions,
@@ -1955,5 +1956,26 @@ describe('baseDoNew4142Logic', () => {
     it('should handle empty formData gracefully', () => {
       expect(baseDoNew4142Logic({})).to.be.false;
     });
+  });
+});
+
+describe('showToxicExposureDestructionModal', () => {
+  it('should get toxic exposure destruction modal feature flag value of true', () => {
+    expect(
+      showToxicExposureDestructionModal({
+        featureToggles: {
+          disabilityCompensationToxicExposureDestructionModal: true,
+        },
+      }),
+    ).to.be.true;
+  });
+  it('should get toxic exposure destruction modal feature flag value of false', () => {
+    expect(
+      showToxicExposureDestructionModal({
+        featureToggles: {
+          disabilityCompensationToxicExposureDestructionModal: false,
+        },
+      }),
+    ).to.be.false;
   });
 });
