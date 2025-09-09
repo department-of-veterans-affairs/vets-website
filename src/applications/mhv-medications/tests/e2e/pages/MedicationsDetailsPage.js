@@ -505,15 +505,24 @@ class MedicationsDetailsPage {
   };
 
   verifyFilledDateFieldInAccordionCardInfoOnDetailPage = text => {
-    cy.get('[data-testid="fill-date"]').should('have.text', text);
+    cy.get(':nth-child(1) > [data-testid="fill-date"]').should(
+      'have.text',
+      text,
+    );
   };
 
   verifyImageFieldInAccordionCardInfoOnDetailsPage = text => {
-    cy.get('[data-testid="med-image"]').should('have.text', text);
+    cy.get(':nth-child(1) > [data-testid="med-image"]').should(
+      'have.text',
+      text,
+    );
   };
 
   verifyMedicationDescriptionFieldInAccordionCardInfo = text => {
-    cy.get('[data-testid="med-description"]').should('have.text', text);
+    cy.get(':nth-child(1) > [data-testid="med-description"]').should(
+      'have.text',
+      text,
+    );
   };
 
   verifyDescriptionTextOnDetailsPage = text => {
