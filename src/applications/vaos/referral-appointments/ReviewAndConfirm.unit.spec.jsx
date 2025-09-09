@@ -36,40 +36,6 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       appointmentInfoLoading: false,
       referralAppointmentInfo: {},
     },
-    appointmentApi: {
-      queries: {
-        // 'getPatientReferrals(undefined)': {
-        //   status: 'fulfilled',
-        //   endpointName: 'getPatientReferrals',
-        //   requestId: 'UiGaEjXQrhh6VUwbuctyx',
-        //   startedTimeStamp: 1757089760670,
-        //   data: [
-        //     {
-        //       id: '6cg8T26YivnL68JzeTaV0w==00',
-        //       type: 'referrals',
-        //       attributes: {
-        //         expirationDate: '2026-03-05',
-        //         uuid: '6cg8T26YivnL68JzeTaV0w==00',
-        //         categoryOfCare: 'OPTOMETRY',
-        //         referralNumber: 'VA0000007241',
-        //         referralConsultId: '984_646907',
-        //         stationId: '659',
-        //       },
-        //     },
-        //   ],
-        //   fulfilledTimeStamp: 1757089760799,
-        // },
-      },
-      prodvided: {
-        // Referral: {
-        //   // eslint-disable-next-line camelcase
-        //   __internal_without_id: ['getPatientReferrals(undefined)'],
-        // },
-      },
-      subscriptions: {
-        // 'getPatientReferrals(undefined)': {},
-      },
-    },
   };
   const initialEmptyState = {
     featureToggles: {
