@@ -111,7 +111,8 @@ describe('EmailInformationSection', () => {
       reducers: { vapService },
     });
     await waitFor(() => {
-      expect(getByTestId('va-profile--alert-confirm-contact-email')).to.exist;
+      const component = getByTestId('va-profile--alert-confirm-contact-email');
+      expect(component.getAttribute('visible')).to.equal('false');
     });
   });
 });
