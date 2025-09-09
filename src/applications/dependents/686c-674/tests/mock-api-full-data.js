@@ -9,9 +9,9 @@ const delay = require('mocker-api/lib/delay');
 
 const mockUser = require('./e2e/user.json');
 const mockVaFileNumber = require('./e2e/fixtures/va-file-number.json');
-const mockMaxData = require('./e2e/fixtures/duplicate-children.json');
+const mockMaxData = require('./e2e/fixtures/maximal.json');
 
-const returnUrl = '/686-report-add-child/summary'; // '/review-and-submit';
+const returnUrl = '/review-and-submit';
 
 const submission = {
   formSubmissionId: '123fake-submission-id-567',
