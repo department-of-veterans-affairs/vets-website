@@ -24,6 +24,17 @@ const defaultUser = {
         verified: true,
         edipi: null,
       },
+      vet360_contact_information: {
+        email: {
+          id: 323,
+          email_address: 'john@example.com',
+          created_at: '2018-04-21T20:09:50Z',
+          effective_end_date: '2018-04-21T20:09:50Z',
+          effective_start_date: '2028-04-21T20:09:50Z',
+          source_date: '2025-05-20T20:09:50Z',
+          updated_at: '2024-04-20T20:09:50Z',
+        },
+      },
       session: {
         auth_broker: 'iam',
         ssoe: true,

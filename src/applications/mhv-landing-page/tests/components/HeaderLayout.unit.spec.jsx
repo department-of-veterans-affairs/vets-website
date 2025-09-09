@@ -21,4 +21,26 @@ describe('MHV Landing Page -- Header Layout', () => {
       expect(ohLink.href).to.match(/patientportal\.myhealth\.va\.gov/);
     });
   });
+
+  it('renders a link to confirm contact email when displayCriticalActionConfirmEmailLink is true', () => {
+    const { getByTestId } = render(
+      <HeaderLayout displayCriticalActionConfirmEmailLink />,
+    );
+    const testId = 'va-profile--confirm-contact-email-link';
+    const confirmEmailLink = getByTestId(testId);
+    expect(confirmEmailLink).to.exist;
+    const href = '/profile/contact-information#contact-email-address';
+    expect(confirmEmailLink.link).to.equal(href);
+    const textContent = /^Confirm your contact email address/;
+    expect(confirmEmailLink.text).to.match(textContent);
+  });
+
+  it('suppresses the email confirmation link when displayCriticalActionConfirmEmailLink is false', () => {
+    const { queryByTestId } = render(
+      <HeaderLayout displayCriticalActionConfirmEmailLink={false} />,
+    );
+    const testId = 'va-profile--confirm-contact-email-link';
+    const confirmEmailLink = queryByTestId(testId);
+    expect(confirmEmailLink).to.not.exist;
+  });
 });

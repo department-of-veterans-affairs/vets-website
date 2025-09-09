@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import { isBefore, parseJSON } from 'date-fns';
 import {
   renderMHVDowntime,
   MhvSecondaryNav,
@@ -9,6 +10,7 @@ import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/re
 import DowntimeNotification, {
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
+import { selectVAPContactInfo } from '@department-of-veterans-affairs/platform-user/selectors';
 
 import CardLayout from './CardLayout';
 import HeaderLayout from './HeaderLayout';
@@ -31,6 +33,14 @@ const LandingPage = ({ data = {} }) => {
   const userRegistered = userVerified && vaPatient;
   const showWelcomeMessage = useSelector(personalizationEnabled);
   const userHasCernerFacility = useSelector(isCerner);
+  const vaContactInfo = useSelector(selectVAPContactInfo);
+  const vapEmailUpdatedAtRaw = vaContactInfo?.email?.updatedAt;
+  const vapEmailUpdatedAt = vapEmailUpdatedAtRaw
+    ? parseJSON(vapEmailUpdatedAtRaw)
+    : null;
+  // isBefore handles invalid dates gracefully, so no need to try/catch
+  const showEmailAlert =
+    vapEmailUpdatedAt && isBefore(vapEmailUpdatedAt, new Date('2025-05-01'));
 
   return (
     <>
@@ -55,6 +65,7 @@ const LandingPage = ({ data = {} }) => {
           <HeaderLayout
             showWelcomeMessage={showWelcomeMessage}
             isCerner={userHasCernerFacility}
+            displayCriticalActionConfirmEmailLink={showEmailAlert}
           />
           <Alerts />
           {userRegistered && <CardLayout data={cards} />}
