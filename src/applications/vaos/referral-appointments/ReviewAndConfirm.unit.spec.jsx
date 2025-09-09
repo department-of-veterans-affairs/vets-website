@@ -13,6 +13,7 @@ import { createReferralById, getReferralSlotKey } from './utils/referrals';
 import { FETCH_STATUS } from '../utils/constants';
 import { createDraftAppointmentInfo } from './utils/provider';
 import * as flow from './flow';
+import { vaosApi } from '../redux/api/vaosApi';
 
 describe('VAOS Component: ReviewAndConfirm', () => {
   let requestStub;
@@ -35,7 +36,40 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       appointmentInfoLoading: false,
       referralAppointmentInfo: {},
     },
-    appointmentApi: {},
+    appointmentApi: {
+      queries: {
+        // 'getPatientReferrals(undefined)': {
+        //   status: 'fulfilled',
+        //   endpointName: 'getPatientReferrals',
+        //   requestId: 'UiGaEjXQrhh6VUwbuctyx',
+        //   startedTimeStamp: 1757089760670,
+        //   data: [
+        //     {
+        //       id: '6cg8T26YivnL68JzeTaV0w==00',
+        //       type: 'referrals',
+        //       attributes: {
+        //         expirationDate: '2026-03-05',
+        //         uuid: '6cg8T26YivnL68JzeTaV0w==00',
+        //         categoryOfCare: 'OPTOMETRY',
+        //         referralNumber: 'VA0000007241',
+        //         referralConsultId: '984_646907',
+        //         stationId: '659',
+        //       },
+        //     },
+        //   ],
+        //   fulfilledTimeStamp: 1757089760799,
+        // },
+      },
+      prodvided: {
+        // Referral: {
+        //   // eslint-disable-next-line camelcase
+        //   __internal_without_id: ['getPatientReferrals(undefined)'],
+        // },
+      },
+      subscriptions: {
+        // 'getPatientReferrals(undefined)': {},
+      },
+    },
   };
   const initialEmptyState = {
     featureToggles: {
@@ -119,6 +153,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     });
   });
   it('should call create appointment post when "continue" is pressed', async () => {
+    const store = createTestStore(initialFullState);
     // Stub the appointment creation function
     requestStub.resolves({ data: { appointmentId: draftAppointmentInfo?.id } });
 
@@ -127,7 +162,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
         currentReferral={createReferralById('2024-09-09', 'UUID')}
       />,
       {
-        store: createTestStore(initialFullState),
+        store,
       },
     );
     await screen.findByTestId('continue-button');
@@ -148,6 +183,14 @@ describe('VAOS Component: ReviewAndConfirm', () => {
         store,
       },
     );
+    // Manually dispatch the referral list and referral by id calls to have them in state.
+    store.dispatch(
+      vaosApi.util.upsertQueryData('getReferralById', undefined, {}),
+    );
+    store.dispatch(vaosApi.util.upsertQueryData('getReferralById', 'UUID', {}));
+    expect(
+      Object.keys(store.getState().appointmentApi.queries).length,
+    ).to.equal(2);
     await screen.findByTestId('continue-button');
     expect(screen.getByTestId('continue-button')).to.exist;
     await userEvent.click(screen.getByTestId('continue-button'));
@@ -172,6 +215,9 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       ),
     ).to.be.true;
     sandbox.assert.calledOnce(requestStub);
+    expect(
+      Object.keys(store.getState().appointmentApi.queries).length,
+    ).to.equal(0);
   });
   it('should display an error message when appointment creation fails', async () => {
     // Stub only for that specific call
