@@ -126,6 +126,26 @@
       "preferredTeam": true,
       "signatureRequired": true,
       "relationshipType": "PATIENT"
+    },
+    {
+      "id": "OH789012",
+      "triageTeamId": "OH789012",
+      "name": "VHA 636 Release of Information (ROI)",
+      "stationNumber": "636",
+      "blockedStatus": false,
+      "preferredTeam": true,
+      "signatureRequired": true,
+      "relationshipType": "PATIENT"
+    },
+    {
+      "id": "OH890123",
+      "triageTeamId": "OH890123",
+      "name": "Texas Austin Release of Information – Medical Records",
+      "stationNumber": "662",
+      "blockedStatus": false,
+      "preferredTeam": true,
+      "signatureRequired": true,
+      "relationshipType": "PATIENT"
     }
   ],
   "mockBlockedRecipients": []
