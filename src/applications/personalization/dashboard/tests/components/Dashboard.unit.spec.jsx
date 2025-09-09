@@ -330,4 +330,54 @@ describe('<Dashboard />', () => {
       expect(getByTestId('req-loader')).to.exist;
     });
   });
+
+  it('renders a link to confirm contact email', async () => {
+    mockFetch();
+    const { getByTestId } = renderInReduxProvider(<Dashboard />, {
+      initialState,
+      reducers,
+    });
+    const testId = 'va-profile--confirm-contact-email-link';
+    const href = '/profile/contact-information#contact-email-address';
+    const textContent = /Confirm your contact email address/;
+    await waitFor(() => {
+      const confirmEmailLink = getByTestId(testId);
+      expect(confirmEmailLink).to.exist;
+      expect(confirmEmailLink.link).to.equal(href);
+      expect(confirmEmailLink.text).to.match(textContent);
+    });
+  });
+
+  it('suppresses the email confirmation link when CONTACT_EMAIL_CONFIRMED cookie is set', () => {
+    mockFetch();
+    const originalCookie = document.cookie;
+    document.cookie = 'CONTACT_EMAIL_CONFIRMED=true';
+
+    const { queryByTestId } = renderInReduxProvider(<Dashboard />, {
+      initialState,
+      reducers,
+    });
+
+    expect(queryByTestId('va-profile--confirm-contact-email-link')).to.not
+      .exist;
+
+    document.cookie = originalCookie;
+  });
+
+  it(`suppresses the email confirmation link when <ContactInfoNeeded /> renders`, async () => {
+    mockFetch();
+    initialState.user.profile.vapContactInfo.email.emailAddress = null;
+    const { getByTestId, queryByTestId } = renderInReduxProvider(
+      <Dashboard />,
+      {
+        initialState,
+        reducers,
+      },
+    );
+    await waitFor(() => {
+      expect(getByTestId('account-blocked-alert')).to.exist;
+      expect(queryByTestId('va-profile--confirm-contact-email-link')).to.not
+        .exist;
+    });
+  });
 });
