@@ -36,6 +36,7 @@ const Breadcrumbs = () => {
           uswds
           breadcrumbList={crumbs}
           data-testid="breadcrumbs"
+          wrapping
         />
       </div>
     </div>

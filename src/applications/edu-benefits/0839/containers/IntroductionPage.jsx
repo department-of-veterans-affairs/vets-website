@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
+import { querySelectorWithShadowRoot } from 'platform/utilities/ui/webComponents';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { useSelector } from 'react-redux';
@@ -106,9 +107,29 @@ export const IntroductionPage = props => {
   // const showVerifyIdentify = true;
   const showVerifyIdentify = userLoggedIn && !userIdVerified;
 
+  const removePrivacyActButton = async () => {
+    const vaOmbInfo = document.querySelector('va-omb-info');
+    if (vaOmbInfo) {
+      const privacyActButton = await querySelectorWithShadowRoot(
+        'va-button[secondary]',
+        vaOmbInfo,
+      );
+      if (privacyActButton) {
+        privacyActButton.setAttribute('style', 'display:none;');
+      }
+    }
+  };
+
   useEffect(() => {
     scrollToTop();
     focusElement('h1');
+
+    // Remove the Privacy Act Statement button from va-omb-info component
+    const removeButton = async () => {
+      await removePrivacyActButton();
+    };
+
+    removeButton();
   }, []);
 
   return (
