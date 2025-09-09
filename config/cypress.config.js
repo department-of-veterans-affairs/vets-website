@@ -15,9 +15,7 @@ function ghAnnotate({ file, title, message, line = 1 }) {
 }
 const touchedSpecs = new Set();
 
-const dynamicBaseUrl =
-  process.env.CYPRESS_BASE_URL ||
-  (process.env.CI ? 'http://localhost:3001' : undefined);
+const dynamicBaseUrl = process.env.CYPRESS_BASE_URL || 'http://localhost:3001';
 
 const cypressConfig = {
   viewportWidth: 1920,
