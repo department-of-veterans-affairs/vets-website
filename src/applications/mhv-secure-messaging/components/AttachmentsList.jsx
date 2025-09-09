@@ -13,18 +13,18 @@ import { Alerts } from '../util/constants';
 
 const AttachmentsList = props => {
   const {
+    attachFileSuccess,
     attachments,
+    attachmentScanError,
     compose,
     draftSequence,
+    editingEnabled,
+    forPrint,
     reply,
+    setAttachFileError,
+    setAttachFileSuccess,
     setAttachments,
     setNavigationError,
-    editingEnabled,
-    attachFileSuccess,
-    setAttachFileSuccess,
-    forPrint,
-    attachmentScanError,
-    setAttachFileError,
   } = props;
   const dispatch = useDispatch();
   const { cernerPilotSmFeatureFlag } = featureToggles();
