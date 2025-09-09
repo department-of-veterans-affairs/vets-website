@@ -13,6 +13,10 @@ import {
 } from './ArrayBuilderEvents';
 import { DEFAULT_ARRAY_BUILDER_TEXT } from './arrayBuilderText';
 
+// Previously set to '_metadata', but upon saving, the Ruby gem 'olivebranch'
+// converts this to 'Metadata', then upon returning to the form, this key is
+// converted to 'metadata'. To avoid confusion, we're using 'metadata'; and this
+// may need to be filtered out of submission data.
 export const META_DATA_KEY = 'metadata';
 
 /**
@@ -98,7 +102,6 @@ export function initGetText({
     return typeof keyVal === 'function'
       ? getTextValues?.[key]({
           ...getTextProps,
-          test: true,
           itemData,
           formData,
           index,
@@ -506,38 +509,6 @@ export const processArrayData = array => {
 };
 
 /**
- * @typedef externalComparisonFunction
- * @type {Function}
- * @property {Object} fullData - The full form data
- * @property {Array<String>} arrayData - The array data being checked
- * @returns {Array} - An array of arrrays with external comparison data
- * @example (first name, last name, birth date, ssn)
- * [
- *   ['John', 'Doe', '1990-01-01', '123-45-6789'],
- *   ['Jane', 'Smith', '1992-02-02', '987-65-4321']
- * ]
- */
-/**
- * Duplicate checks object
- * @typedef {Object} DuplicateChecks
- * @property {boolean} allowDuplicates - Whether to allow duplicates. If false,
- * the inter-page modal will prevent continuing, and the summary page will block
- * navigation until the duplicate is resolved
- * @property {Array<String>} comparisons - The array paths to compare for
- * duplicates
- * @property {String} comparisonType
- * @property {externalComparisonFunction} externalComparisonData - A function to
- * collect and return external data for comparison
- * @example
- * {
- *   allowDuplicates: true,
- *   comparisons: ['fullName.first', 'fullName.last', 'birthDate', 'ssn'],
- *   externalComparisonData: ({ formData, arrayData }) => {
- *     // return array of array strings to be used for duplicate comparisons
- *     return [];
- *   }
- */
-/**
  * Get item data from the array based on duplicate check settings
  * @param {string} arrayPath - The path to the array in the form data
  * @param {DuplicateChecks} duplicateChecks - The duplicate checks object
@@ -646,7 +617,7 @@ export const checkIfArrayHasDuplicateData = ({
     typeof duplicateChecks.externalComparisonData === 'function'
   ) {
     externalComparisonData = duplicateChecks.externalComparisonData({
-      fullData,
+      formData: fullData,
       arrayData,
     });
   }

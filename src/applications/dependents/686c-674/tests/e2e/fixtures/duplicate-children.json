@@ -13,6 +13,160 @@
       "postalCode": "30033"
     }
   },
+  "dependents": {
+    "hasDependents": true,
+    "awarded": [
+      {
+        "fullName": {
+          "first": "SPOUSY",
+          "last": "FOSTER"
+        },
+        "dateOfBirth": "1970-07-07",
+        "ssn": "702023332",
+        "relationshipToVeteran": "Spouse",
+        "awardIndicator": "Y"
+      },
+      {
+        "fullName": {
+          "first": "PENNY",
+          "last": "FOSTER"
+        },
+        "dateOfBirth": "2014-08-08",
+        "ssn": "793473479",
+        "relationshipToVeteran": "Child",
+        "awardIndicator": "Y"
+      }
+    ],
+    "notAwarded": [
+      {
+        "fullName": {
+          "first": "SARAH",
+          "last": "FOSTER"
+        },
+        "dateOfBirth": "2005-09-08",
+        "ssn": "793477434",
+        "relationshipToVeteran": "Child",
+        "awardIndicator": "N"
+      },
+      {
+        "fullName": {
+          "first": "MARSHA",
+          "middle": "P",
+          "last": "FOSTER"
+        },
+        "ssn": "783054787",
+        "relationshipToVeteran": "Child",
+        "awardIndicator": "N"
+      },
+      {
+        "fullName": {
+          "first": "JOCELYN",
+          "last": "PAULINE"
+        },
+        "ssn": "793368394",
+        "relationshipToVeteran": "Child",
+        "awardIndicator": "N"
+      },
+      {
+        "fullName": {
+          "first": "LAUREN",
+          "last": "PARKER"
+        },
+        "dateOfBirth": "2002-02-02",
+        "ssn": "779349323",
+        "relationshipToVeteran": "Child",
+        "awardIndicator": "N"
+      },
+      {
+        "fullName": {
+          "first": "TINKER",
+          "last": "BELL"
+        },
+        "dateOfBirth": "2001-01-01",
+        "ssn": "746342034",
+        "relationshipToVeteran": "Child",
+        "awardIndicator": "N"
+      },
+      {
+        "fullName": {
+          "first": "ZACK",
+          "last": "FOSTER"
+        },
+        "dateOfBirth": "1995-05-05",
+        "ssn": "765353222",
+        "relationshipToVeteran": "Child",
+        "awardIndicator": "N"
+      },
+      {
+        "fullName": {
+          "first": "VICTORIA",
+          "last": "FOSTER"
+        },
+        "dateOfBirth": "1994-02-02",
+        "ssn": "793432332",
+        "relationshipToVeteran": "Child",
+        "awardIndicator": "N"
+      },
+      {
+        "fullName": {
+          "first": "SIERRA",
+          "last": "KLEIN"
+        },
+        "dateOfBirth": "2005-05-05",
+        "ssn": "780934232",
+        "relationshipToVeteran": "Child",
+        "awardIndicator": "N"
+      },
+      {
+        "fullName": {
+          "first": "STACY",
+          "last": "FOSTER"
+        },
+        "ssn": "798703232",
+        "relationshipToVeteran": "Child",
+        "awardIndicator": "N"
+      },
+      {
+        "fullName": {
+          "first": "PETER",
+          "last": "FOSTER"
+        },
+        "dateOfBirth": "2021-03-01",
+        "ssn": "997010104",
+        "relationshipToVeteran": "Child",
+        "awardIndicator": "N"
+      },
+      {
+        "fullName": {
+          "first": "LIAM",
+          "last": "FOSTER"
+        },
+        "ssn": "997010045",
+        "relationshipToVeteran": "Child",
+        "awardIndicator": "N"
+      },
+      {
+        "fullName": {
+          "first": "CARL",
+          "last": "FOSTER"
+        },
+        "dateOfBirth": "2020-02-07",
+        "ssn": "997010046",
+        "relationshipToVeteran": "Child",
+        "awardIndicator": "N"
+      },
+      {
+        "fullName": {
+          "first": "DAVID",
+          "last": "FOSTER"
+        },
+        "dateOfBirth": "2021-11-02",
+        "ssn": "997010049",
+        "relationshipToVeteran": "Child",
+        "awardIndicator": "N"
+      }
+    ]
+  },
   "view:addDependentOptions": {
     "addChild": true
   },
@@ -38,12 +192,12 @@
   },
   "childrenToAdd": [
     {
-      "ssn": "987654321",
+      "ssn": "793473479",
       "fullName": {
-        "first": "Fred",
-        "last": "Smith"
+        "first": "Penny",
+        "last": "Foster"
       },
-      "birthDate": "2020-01-01",
+      "birthDate": "2014-08-08",
       "doesChildLiveWithYou": true,
       "hasChildEverBeenMarried": false,
       "doesChildHaveDisability": false,
@@ -60,7 +214,7 @@
       "ssn": "987654321",
       "fullName": {
         "first": "Mike",
-        "last": "Smith"
+        "last": "Foster"
       },
       "birthDate": "2023-01-01",
       "doesChildLiveWithYou": true,
@@ -89,10 +243,10 @@
       },
       "ssn": "987654321",
       "fullName": {
-        "first": "Fredx",
-        "last": "Smith"
+        "first": "Mike",
+        "last": "Foster"
       },
-      "birthDate": "2020-01-01"
+      "birthDate": "2023-01-01"
     }
   ],
   "reportDivorce": {

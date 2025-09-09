@@ -128,36 +128,65 @@ export const arrayBuilderOptions = {
       </div>
     ),
     duplicateSummaryCardLabel: () => 'POSSIBLE DUPLICATE',
-    duplicateSummaryCardExternalComparisonWarningOrErrorAlert: ({
-      itemData,
-    }) => (
+    duplicateSummaryCardExternalComparisonWarningOrErrorAlert: () => (
       <>
-        You’ve entered multiple children named {getFullName(itemData.fullName)}{' '}
-        with a birthdate of {getFormatedDate(itemData.birthDate)}
-        <p>
-          Before continuing, review these entries and delete any duplicates.
-        </p>
+        You’ve entered this dependent name and birthday more than once.
+        <p>Review your entries, edit or delete any duplicates.</p>
       </>
     ),
     duplicateSummaryCardExternalComparisonInfoAlert: () =>
       'This child shares a birthday with someone already on your benefits.',
   },
-  summaryPageDuplicateChecks: {
-    allowDuplicates: true,
-    comparisonType: 'external',
+  duplicateChecks: {
+    // allowDuplicates: true, // Not enabled in MVP
+    comparisonType: 'internal',
     comparisons: ['fullName.first', 'fullName.last', 'birthDate'],
-    externalComparisonData: (/* { formData, index, arrayData } */) => {
-      /* formData = Full form data
-         * index = Current item index
-         * arrayData = data gathered from arrayPath based on comparisons
-         * return array of array strings for comparison with arrayData
-         *
-         * [
-         *   ['MiKe', 'SmItH', '2020-01-01'],
-         *   ['JOHN', 'SMITH', '2022-01-01'],
-         * ];
-         */
-      return [['fred', 'smith', '2020-01-01'], ['john', 'smith', '2022-01-01']];
+
+    // change comparison for '686-report-add-child/:index/information' page only
+    internalPaths: {
+      information: {
+        comparisonType: 'external',
+        comparisons: ['birthDate'],
+        externalComparisonData: ({ formData }) => {
+          const dependents = formData?.dependents || {};
+          if (!dependents?.hasDependents) {
+            return [];
+          }
+          return dependents.awarded
+            ?.filter(
+              dependent =>
+                dependent.relationshipToVeteran.toLowerCase() === 'child',
+            )
+            .map(child => [child.dateOfBirth || '']);
+        },
+
+        // NOTE: Text settings here get props in a different shape from the
+        // options text object
+        duplicateModalExternalComparisonTitle: () => 'Potential duplicate',
+        // Not using itemData here because name chanages
+        duplicateModalExternalComparisonDescription: props => {
+          const { itemData, fullData } = props;
+          const { birthDate } = itemData || '';
+          // get Full name of duplicate dependent loaded in by prefill
+          const dependentToShow =
+            fullData?.dependents?.awarded?.find(
+              dep => dep.dateOfBirth === birthDate,
+            ) || itemData;
+          return (
+            <>
+              We checked your VA records and found another dependent already
+              listed on your benefits with the birth date of{' '}
+              <strong>{getFormatedDate(birthDate)}</strong>:{' '}
+              <strong>{getFullName(dependentToShow.fullName)}</strong>
+              <p>Are you adding a different person, or is this a duplicate?</p>
+            </>
+          );
+        },
+        duplicateModalExternalComparisonPrimaryButtonText: () =>
+          `Don’t add, it’s a duplicate`,
+        duplicateModalExternalComparisonSecondaryButtonText: () =>
+          'Add, it’s a different person',
+      },
     },
   },
 };

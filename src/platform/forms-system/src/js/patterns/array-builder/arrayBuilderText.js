@@ -111,19 +111,28 @@ export const DEFAULT_ARRAY_BUILDER_TEXT = {
   },
   deleteYes: props => `Yes, delete this ${props.nounSingular}`,
 
+  reviewAddButtonText: props => `Add another ${props.nounSingular}`,
+  summaryAddButtonText: props => `Add ${props.nounSingular}`,
+  summaryAddLinkText: props => `Add ${props.nounSingular}`,
+  summaryTitle: props => `Review your ${props.nounPlural}`,
+  yesNoBlankReviewQuestion: props =>
+    `Do you have any ${props.nounPlural} to add?`,
+
+  duplicateModalTitle: props => 'Potential duplicate',
   duplicateModalDescription: props =>
     `You’ve entered multiple ${props.nounPlural} with this information`,
   duplicateModalExternalComparisonDescription: props =>
-    `This ${props.nounSingular} matches information we already have on file`,
+    `We checked your VA records and found another ${
+      props.nounSingular
+    } already on file`,
   duplicateModalExternalComparisonPrimaryButtonText: props => 'No, cancel',
   duplicateModalExternalComparisonSecondaryButtonText: props =>
     'Yes, save and continue',
   duplicateModalExternalComparisonTitle: props => 'Is this a duplicate?',
   duplicateModalPrimaryButtonText: props => 'No, cancel',
   duplicateModalSecondaryButtonText: props => 'Yes, save and continue',
-  duplicateModalTitle: props => 'Is this a duplicate?',
 
-  duplicateSummaryCardLabel: props => 'DUPLICATE',
+  duplicateSummaryCardLabel: props => 'POSSIBLE DUPLICATE',
 
   // Internal compared to external data only
   duplicateSummaryCardExternalComparisonInfoAlert: props =>
@@ -139,11 +148,4 @@ export const DEFAULT_ARRAY_BUILDER_TEXT = {
       props.nounPlural
     } with this same information.
       Before continuing, review these entries and delete any duplicates.`,
-
-  reviewAddButtonText: props => `Add another ${props.nounSingular}`,
-  summaryAddButtonText: props => `Add ${props.nounSingular}`,
-  summaryAddLinkText: props => `Add ${props.nounSingular}`,
-  summaryTitle: props => `Review your ${props.nounPlural}`,
-  yesNoBlankReviewQuestion: props =>
-    `Do you have any ${props.nounPlural} to add?`,
 };
