@@ -7,7 +7,9 @@ import reducer from '../../reducers';
 import * as allergiesApiModule from '../../api/allergiesApi';
 import * as prescriptionsApiModule from '../../api/prescriptionsApi';
 import { stubAllergiesApi, stubPrescriptionsListApi } from '../testing-utils';
-import Prescriptions from '../../containers/Prescriptions';
+import Prescriptions, {
+  prescriptionsPrintOnlyHasError,
+} from '../../containers/Prescriptions';
 import emptyPrescriptionsList from '../e2e/fixtures/empty-prescriptions-list.json';
 
 let sandbox;
@@ -41,6 +43,18 @@ describe('Medications Prescriptions container', () => {
   it('renders without errors', async () => {
     const screen = setup();
     expect(screen);
+  });
+
+  it('Should only generate boolean hasError', async () => {
+    const inputOne = true;
+    const resultOne = prescriptionsPrintOnlyHasError(inputOne);
+    expect(resultOne).to.equal(true);
+    const inputTwo = {
+      status: 404,
+      message: 'No static resource my_health/v1/medical_records/allergies.',
+    };
+    const resultTwo = prescriptionsPrintOnlyHasError(inputTwo);
+    expect(resultTwo).to.equal(false);
   });
 
   it('should display loading message when loading prescriptions', async () => {

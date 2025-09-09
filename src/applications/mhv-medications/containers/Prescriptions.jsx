@@ -74,6 +74,13 @@ import {
 import { buildPdfData } from '../util/buildPdfData';
 import { generateMedicationsPdfFile } from '../util/generateMedicationsPdfFile';
 
+export const prescriptionsPrintOnlyHasError = input => {
+  if (typeof input === 'boolean') {
+    return input;
+  }
+  return false;
+};
+
 const Prescriptions = () => {
   const { search } = useLocation();
   const navigate = useNavigate();
@@ -790,7 +797,9 @@ const Prescriptions = () => {
       {content()}
       <PrescriptionsPrintOnly
         list={printedList}
-        hasError={hasFullListDownloadError || isAlertVisible || allergiesError}
+        hasError={prescriptionsPrintOnlyHasError(
+          hasFullListDownloadError || isAlertVisible || allergiesError,
+        )}
         isFullList={printedList.length === prescriptionsFullList.length}
       />
     </div>
