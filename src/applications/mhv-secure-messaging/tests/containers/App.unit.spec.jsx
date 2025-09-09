@@ -462,7 +462,7 @@ describe('App', () => {
       featureToggles: {},
     };
     customState.featureToggles[
-      FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot
+      FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow
     ] = true;
     customState.featureToggles[
       FEATURE_FLAG_NAMES.mhvSecureMessagingRecentRecipients
