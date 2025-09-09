@@ -59,15 +59,19 @@ function ViewDependentsListItem(props) {
 
   const fullName = `${firstName} ${lastName}`;
 
-  // Format the date of birth and calculate age
   const dobObj = parse(dateOfBirth, 'MM/dd/yyyy', new Date());
-  const dobStr = isValid(dobObj) ? format(dobObj, 'MMMM d, yyyy') : '';
   const removalDate = upcomingRemoval
     ? parse(upcomingRemoval, 'MM/dd/yyyy', new Date())
     : '';
-  const ageInYears = dobStr ? differenceInYears(new Date(), dobObj) : '';
-  const isUpcomingWithin90Days = removalDate
-    ? isWithinInterval(removalDate, {
+  const ageInYears = isValid(dobObj)
+    ? differenceInYears(new Date(), dobObj)
+    : '';
+  const upcomingBirthday = isValid(dobObj)
+    ? new Date(new Date().getFullYear(), dobObj.getMonth(), dobObj.getDate())
+    : null;
+
+  const isUpcomingWithin90Days = upcomingBirthday
+    ? isWithinInterval(upcomingBirthday, {
         start: startOfToday(),
         end: addDays(startOfToday(), 90),
       })

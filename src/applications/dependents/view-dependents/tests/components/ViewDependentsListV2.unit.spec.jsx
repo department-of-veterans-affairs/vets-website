@@ -16,6 +16,65 @@ describe('<ViewDependentsList />', () => {
     </span>
   );
 
+  const mockStore = {
+    getState: () => ({
+      removeDependents: {
+        submittedDependents: [],
+        openFormlett: false,
+      },
+    }),
+    subscribe: () => {},
+    dispatch: () => {},
+  };
+
+  const defaultProps = {
+    header: 'Dependents on your VA benefits',
+    subHeader: onAwardSubhead,
+    isAward: true,
+    link: 'https://example.com',
+    linkText: 'Link Text',
+    loading: false,
+    manageDependentsToggle: true,
+  };
+
+  const renderComponent = (dependents, props = {}) => {
+    return renderInReduxProvider(
+      <ViewDependentsList
+        {...defaultProps}
+        {...props}
+        dependents={dependents}
+      />,
+      {
+        store: mockStore,
+        reducers: removeDependents,
+      },
+    );
+  };
+
+  const createDateString = date => {
+    return `${(date.getMonth() + 1).toString().padStart(2, '0')}/${date
+      .getDate()
+      .toString()
+      .padStart(2, '0')}/${date.getFullYear()}`;
+  };
+
+  const createChildTurning18 = daysFromNow => {
+    const upcomingBirthday = new Date();
+    upcomingBirthday.setDate(upcomingBirthday.getDate() + daysFromNow);
+
+    const birthDate = new Date(upcomingBirthday);
+    birthDate.setFullYear(birthDate.getFullYear() - 18);
+
+    return {
+      firstName: 'Billy',
+      lastName: 'Blank',
+      ssn: '3122435634',
+      relationship: 'Child',
+      dateOfBirth: createDateString(birthDate),
+      upcomingRemoval: createDateString(upcomingBirthday),
+    };
+  };
+
   const dependents = [
     {
       firstName: 'Billy',
@@ -34,31 +93,7 @@ describe('<ViewDependentsList />', () => {
   ];
 
   it('should render the component with the provided dependents', () => {
-    const { container } = renderInReduxProvider(
-      <ViewDependentsList
-        header="Dependents on your VA benefits"
-        subHeader={onAwardSubhead}
-        isAward
-        link="https://example.com"
-        linkText="Link Text"
-        loading={false}
-        dependents={dependents}
-        manageDependentsToggle
-      />,
-      {
-        store: {
-          getState: () => ({
-            removeDependents: {
-              submittedDependents: [],
-              openFormlett: false,
-            },
-          }),
-          subscribe: () => {},
-          dispatch: () => {},
-        },
-        reducers: removeDependents,
-      },
-    );
+    const { container } = renderComponent(dependents);
 
     expect($$('va-card', container).length).to.equal(2);
     expect($('h2', container).textContent).to.eq(
@@ -87,51 +122,8 @@ describe('<ViewDependentsList />', () => {
   });
 
   it('should show upcoming removal alert when removal date is within 90 days', () => {
-    const futureDate = new Date();
-    futureDate.setDate(futureDate.getDate() + 45);
-    const upcomingRemovalDate = `${(futureDate.getMonth() + 1)
-      .toString()
-      .padStart(2, '0')}/${futureDate
-      .getDate()
-      .toString()
-      .padStart(2, '0')}/${futureDate.getFullYear()}`;
-
-    const dependentsWithUpcomingRemoval = [
-      {
-        firstName: 'Billy',
-        lastName: 'Blank',
-        ssn: '3122435634',
-        relationship: 'Child',
-        dateOfBirth: '05/05/2018',
-        upcomingRemoval: upcomingRemovalDate,
-      },
-    ];
-
-    const { container } = renderInReduxProvider(
-      <ViewDependentsList
-        header="Dependents on your VA benefits"
-        subHeader={onAwardSubhead}
-        isAward
-        link="https://example.com"
-        linkText="Link Text"
-        loading={false}
-        dependents={dependentsWithUpcomingRemoval}
-        manageDependentsToggle
-      />,
-      {
-        store: {
-          getState: () => ({
-            removeDependents: {
-              submittedDependents: [],
-              openFormlett: false,
-            },
-          }),
-          subscribe: () => {},
-          dispatch: () => {},
-        },
-        reducers: removeDependents,
-      },
-    );
+    const dependentsWithUpcomingRemoval = [createChildTurning18(45)];
+    const { container } = renderComponent(dependentsWithUpcomingRemoval);
 
     expect($('va-alert', container)).to.exist;
     expect($('va-alert p', container).textContent).to.include(
@@ -140,51 +132,8 @@ describe('<ViewDependentsList />', () => {
   });
 
   it('should not show upcoming removal alert when removal date is beyond 90 days', () => {
-    const futureDate = new Date();
-    futureDate.setDate(futureDate.getDate() + 120);
-    const distantRemovalDate = `${(futureDate.getMonth() + 1)
-      .toString()
-      .padStart(2, '0')}/${futureDate
-      .getDate()
-      .toString()
-      .padStart(2, '0')}/${futureDate.getFullYear()}`;
-
-    const dependentsWithDistantRemoval = [
-      {
-        firstName: 'Billy',
-        lastName: 'Blank',
-        ssn: '3122435634',
-        relationship: 'Child',
-        dateOfBirth: '05/05/2018',
-        upcomingRemoval: distantRemovalDate,
-      },
-    ];
-
-    const { container } = renderInReduxProvider(
-      <ViewDependentsList
-        header="Dependents on your VA benefits"
-        subHeader={onAwardSubhead}
-        isAward
-        link="https://example.com"
-        linkText="Link Text"
-        loading={false}
-        dependents={dependentsWithDistantRemoval}
-        manageDependentsToggle
-      />,
-      {
-        store: {
-          getState: () => ({
-            removeDependents: {
-              submittedDependents: [],
-              openFormlett: false,
-            },
-          }),
-          subscribe: () => {},
-          dispatch: () => {},
-        },
-        reducers: removeDependents,
-      },
-    );
+    const dependentsWithDistantRemoval = [createChildTurning18(120)];
+    const { container } = renderComponent(dependentsWithDistantRemoval);
 
     expect($('va-alert', container)).to.not.exist;
   });
