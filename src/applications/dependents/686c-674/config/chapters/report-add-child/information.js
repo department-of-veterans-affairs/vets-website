@@ -20,7 +20,6 @@ export const information = {
       required: () => true,
     }),
   },
-
   schema: {
     type: 'object',
     required: ['fullName', 'birthDate'],
