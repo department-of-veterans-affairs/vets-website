@@ -44,7 +44,7 @@
   width: 100%;
 
   &__container {
-    max-width: 960px;
+    max-width: 984px;
     margin: 0 auto 20px;
   }
 
@@ -87,13 +87,14 @@
     text-decoration: none;
     font-weight: 700;
     display: block;
+    text-align: center;
 
     &:hover {
       background-color: $vads-color-primary-dark;
     }
   }
   &__container {
-    max-width: 960px;
+    max-width: 984px;
     margin: 0 auto;
 
     &--portal {
@@ -134,7 +135,7 @@
     background-position: center;
 
     &-container {
-      max-width: 960px;
+      max-width: 984px;
       margin: 0 auto;
       color: $vads-color-base-lightest;
       padding: 30px 16px;
@@ -181,7 +182,6 @@
         margin-top: 24px;
 
         @media (min-width: $medium-screen) {
-          max-width: 312px;
           margin-top: 0;
         }
       }
@@ -584,17 +584,19 @@
     margin-bottom: 20px;
     display: flex;
 
+    &:last-child {
+      @media (min-width: $tablet) {
+        padding-right: 0;
+      }
+    }
+
     @media (min-width: $tablet) {
-      padding: 0 0 0 20px;
+      padding-right: 20px;
       margin-bottom: 0;
     }
 
     @media (min-width: $tablet) {
-      padding: 0 0 0 24px;
-    }
-
-    &:first-child {
-      padding: 0;
+      padding-right: 24px;
     }
   }
 }
@@ -603,7 +605,7 @@
 }
 .is--sm-padding {
   @media (min-width: $small-desktop-screen) {
-    padding: 40px;
+    padding: 40px 16px;
   }
 }
 .arp-full-width-alert {
