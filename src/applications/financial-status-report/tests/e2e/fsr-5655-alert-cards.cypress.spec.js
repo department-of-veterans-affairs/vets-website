@@ -1,5 +1,5 @@
 import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
-import { WIZARD_STATUS } from '../../wizard/constants';
+
 import manifest from '../../manifest.json';
 
 import mockUser from './fixtures/mocks/mockUser.json';
@@ -24,7 +24,7 @@ describe('Enhanced FSR debt and copay alerts', () => {
   });
 
   beforeEach(() => {
-    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+    sessionStorage.setItem('wizardStatus', WIZARD_STATUS_COMPLETE);
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
         type: 'feature_toggles',

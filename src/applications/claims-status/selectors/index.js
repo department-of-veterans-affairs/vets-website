@@ -23,7 +23,3 @@ export const cstUseDataDogRUM = state =>
 
 // Backend Services
 export const getBackendServices = state => state.user.profile.services;
-
-// 'cst_friendly_evidence_requests'
-export const cstFriendlyEvidenceRequests = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.cstFriendlyEvidenceRequests];

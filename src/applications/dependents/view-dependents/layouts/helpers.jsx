@@ -48,18 +48,3 @@ export const noDependentsAlertV2 = (
     </p>
   </va-alert>
 );
-
-export const breadcrumbLinks = [
-  <va-link href="/" label="Back to VA Home page" text="Home" key="1" />,
-  <va-link
-    href="/view-change-dependents/"
-    label="Back to the Add or remove dependents page"
-    text="Add or remove dependents"
-    key="3"
-  />,
-  <va-link
-    href="/view-change-dependents/view"
-    text="Your Dependents"
-    key="4"
-  />,
-];

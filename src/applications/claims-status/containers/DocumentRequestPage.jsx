@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Toggler } from '~/platform/utilities/feature-toggles';
 
 import { scrollToTop } from 'platform/utilities/scroll';
 
@@ -16,7 +15,6 @@ import {
   resetUploads,
   submitFiles,
 } from '../actions';
-import { cstFriendlyEvidenceRequests } from '../selectors';
 import {
   setDocumentRequestPageTitle,
   getClaimType,
@@ -34,7 +32,7 @@ const statusPath = '../status';
 class DocumentRequestPage extends React.Component {
   componentDidMount() {
     this.props.resetUploads();
-    setPageTitle(this.props.trackedItem, this.props.friendlyEvidenceRequests);
+    setPageTitle(this.props.trackedItem);
     if (!this.props.loading) {
       setUpPage(true, 'h1');
     } else {
@@ -57,7 +55,7 @@ class DocumentRequestPage extends React.Component {
   componentDidUpdate(prevProps) {
     if (!this.props.loading && prevProps.loading) {
       setPageFocus('h1');
-      setPageTitle(this.props.trackedItem, this.props.friendlyEvidenceRequests);
+      setPageTitle(this.props.trackedItem);
     }
   }
 
@@ -110,83 +108,64 @@ class DocumentRequestPage extends React.Component {
       ? filesBreadcrumb
       : statusBreadcrumb;
 
-    return (
-      <Toggler.Hoc
-        toggleName={Toggler.TOGGLE_NAMES.cstFriendlyEvidenceRequests}
-      >
-        {toggleValue => {
-          const crumbs = [
-            previousPageBreadcrumb,
-            {
-              href: toggleValue
-                ? `../${
-                    trackedItem?.status === 'NEEDED_FROM_YOU'
-                      ? 'needed-from-you'
-                      : 'needed-from-others'
-                  }/${params.trackedItemId}`
-                : `../document-request/${params.trackedItemId}`,
-              label: setDocumentRequestPageTitle(
-                getLabel(toggleValue, trackedItem),
-              ),
-              isRouterLink: true,
-            },
-          ];
+    const crumbs = [
+      previousPageBreadcrumb,
+      {
+        href: `../${
+          trackedItem?.status === 'NEEDED_FROM_YOU'
+            ? 'needed-from-you'
+            : 'needed-from-others'
+        }/${params.trackedItemId}`,
+        label: setDocumentRequestPageTitle(getLabel(trackedItem)),
+        isRouterLink: true,
+      },
+    ];
 
-          let content;
-          if (this.props.loading) {
-            content = (
-              <div>
-                <va-loading-indicator
-                  set-focus
-                  message="Loading your claim information..."
-                />
-              </div>
-            );
-          } else {
-            const { message } = this.props;
+    let content;
+    if (this.props.loading) {
+      content = (
+        <div>
+          <va-loading-indicator
+            set-focus
+            message="Loading your claim information..."
+          />
+        </div>
+      );
+    } else {
+      const { message } = this.props;
 
-            content = (
-              <>
-                {message && (
-                  <div>
-                    <Notification
-                      title={message.title}
-                      body={message.body}
-                      type={message.type}
-                      onSetFocus={focusNotificationAlert}
-                    />
-                  </div>
-                )}
-                <Toggler toggleName={Toggler.TOGGLE_NAMES.cst5103UpdateEnabled}>
-                  <Toggler.Enabled>
-                    {isAutomated5103Notice(trackedItem.displayName) ? (
-                      <Default5103EvidenceNotice item={trackedItem} />
-                    ) : (
-                      <>{this.getDefaultPage()}</>
-                    )}
-                  </Toggler.Enabled>
-                  <Toggler.Disabled>
-                    <>{this.getDefaultPage()}</>
-                  </Toggler.Disabled>
-                </Toggler>
-              </>
-            );
-          }
-
-          return (
+      content = (
+        <>
+          {message && (
             <div>
-              <div name="topScrollElement" />
-              <div className="row">
-                <div className="usa-width-two-thirds medium-8 columns">
-                  <ClaimsBreadcrumbs crumbs={crumbs} />
-                  <div>{content}</div>
-                  <NeedHelp item={trackedItem} />
-                </div>
-              </div>
+              <Notification
+                title={message.title}
+                body={message.body}
+                type={message.type}
+                onSetFocus={focusNotificationAlert}
+              />
             </div>
-          );
-        }}
-      </Toggler.Hoc>
+          )}
+
+          {isAutomated5103Notice(trackedItem.displayName) ? (
+            <Default5103EvidenceNotice item={trackedItem} />
+          ) : (
+            <>{this.getDefaultPage()}</>
+          )}
+        </>
+      );
+    }
+    return (
+      <div>
+        <div name="topScrollElement" />
+        <div className="row">
+          <div className="usa-width-two-thirds medium-8 columns">
+            <ClaimsBreadcrumbs crumbs={crumbs} />
+            <div>{content}</div>
+            <NeedHelp item={trackedItem} />
+          </div>
+        </div>
+      </div>
     );
   }
 }
@@ -213,7 +192,6 @@ function mapStateToProps(state, ownProps) {
     uploadComplete: uploads.uploadComplete,
     uploadError: uploads.uploadError,
     uploading: uploads.uploading,
-    friendlyEvidenceRequests: cstFriendlyEvidenceRequests(state),
   };
 }
 
@@ -236,7 +214,6 @@ DocumentRequestPage.propTypes = {
   cancelUpload: PropTypes.func,
   claim: PropTypes.object,
   clearNotification: PropTypes.func,
-  friendlyEvidenceRequests: PropTypes.bool,
   getClaim: PropTypes.func,
   loading: PropTypes.bool,
   message: PropTypes.object,

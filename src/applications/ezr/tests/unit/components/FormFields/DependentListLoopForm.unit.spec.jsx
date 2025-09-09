@@ -28,13 +28,16 @@ describe('ezr <DependentListLoopForm>', () => {
       const props = {
         ...defaultProps,
         data: { fullName: { first: 'Mary', last: 'Smith' } },
-        page: { id: 'additional', title: '%s\u2019s additional information' },
+        page: {
+          id: 'additional',
+          title: 'Dependent\u2019s additional information',
+        },
       };
       const { container } = render(<DependentListLoopForm {...props} />);
       const form = container.querySelector('.rjsf');
       const title = container.querySelector('#root__title');
       expect(form).to.exist;
-      expect(title).to.contain.text('Mary Smith\u2019s additional information');
+      expect(title).to.contain.text('Dependent\u2019s additional information');
     });
   });
 });

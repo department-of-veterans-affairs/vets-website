@@ -10,6 +10,7 @@ import mockThread from '../fixtures/thread-response.json';
 import PatientInterstitialPage from './PatientInterstitialPage';
 import { AXE_CONTEXT, Locators, Paths } from '../utils/constants';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
+import mockSentThreads from '../fixtures/sentResponse/sent-messages-response.json';
 
 class PatientInboxPage {
   newMessageIndex = 0;
@@ -336,6 +337,11 @@ class PatientInboxPage {
       Paths.SM_API_EXTENDED + Paths.CATEGORIES,
       mockCategories,
     ).as('categories');
+
+    cy.intercept(`GET`, Paths.INTERCEPT.SENT_THREADS, mockSentThreads).as(
+      `sentThreadsResponse`,
+    );
+
     cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click({ force: true });
     // cy.wait('@signature');
     if (checkFocusOnVcl) {
@@ -488,10 +494,7 @@ class PatientInboxPage {
   };
 
   verifyAddFilterButton = (text = 'Show filters') => {
-    cy.get(Locators.BUTTONS.ADDITIONAL_FILTER).should(
-      'contain.text',
-      `${text}`,
-    );
+    cy.findByText(text).should('contain.text', `${text}`);
   };
 
   verifyNotForPrintHeaderText = (text = 'messages in this conversation') => {

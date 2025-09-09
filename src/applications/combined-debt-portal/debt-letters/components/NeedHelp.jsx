@@ -1,9 +1,10 @@
 import React from 'react';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import PropTypes from 'prop-types';
 import HowDoIDispute from './HowDoIDispute';
 
-const NeedHelp = ({ showVHAPaymentHistory = false }) => {
+const NeedHelp = ({ showVHAPaymentHistory = false, showOneThingPerPage }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const disputeDebtActive = useToggleValue(TOGGLE_NAMES.disputeDebt);
 
@@ -31,7 +32,7 @@ const NeedHelp = ({ showVHAPaymentHistory = false }) => {
           </li>
           <li>A waiver (ask us to stop collection on the debt)</li>
         </ul>
-        {showVHAPaymentHistory ? (
+        {showVHAPaymentHistory || showOneThingPerPage ? (
           <p>
             <strong>Note:</strong> The time limit to request a waiver (debt
             forgiveness) is 1 year from the date you received your first debt
@@ -45,12 +46,12 @@ const NeedHelp = ({ showVHAPaymentHistory = false }) => {
           </p>
         )}
 
-        <a
-          className="vads-c-action-link--blue"
+        <va-link-action
           href="/manage-va-debt/request-debt-help-form-5655/"
-        >
-          Request help with your debt
-        </a>
+          message-aria-describedby="Opens pay.va.gov"
+          text="Request help with your debt"
+          class="vads-u-margin-top--2"
+        />
 
         {disputeDebtActive && (
           <section>
@@ -74,6 +75,11 @@ const NeedHelp = ({ showVHAPaymentHistory = false }) => {
       </va-need-help>
     </>
   );
+};
+
+NeedHelp.propTypes = {
+  showOneThingPerPage: PropTypes.bool,
+  showVHAPaymentHistory: PropTypes.bool,
 };
 
 export default NeedHelp;

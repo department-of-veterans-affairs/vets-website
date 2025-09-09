@@ -29,7 +29,7 @@ describe('DependentsInformationReview', () => {
     expect($$('h4', container).map(h4 => h4.textContent)).to.deep.equal([
       'Morty Smith',
       'Summer Smith',
-      'Status of dependents',
+      'Has the status of your dependents changed?',
     ]);
     const text = $$('.review-row', container).map(row => row.textContent);
     expect(text).to.deep.equal([

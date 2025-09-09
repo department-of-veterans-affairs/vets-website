@@ -104,6 +104,6 @@ describe('DebtDetailsCard', () => {
     expect(wrapper.find('p').text()).includes(
       'To avoid collection actions on your bill, you must pay your full balance or request financial help.',
     );
-    expect(wrapper.find('a')).to.have.lengthOf(2);
+    expect(wrapper.find('va-link-action')).to.have.lengthOf(2);
   });
 });

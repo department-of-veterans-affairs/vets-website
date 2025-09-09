@@ -55,7 +55,7 @@ const IntroductionPage = ({ route, router }) => {
         uswds
         onCloseEvent={() => setVisibleAlert(false)}
         visible={visibleAlert}
-        className="form-686c__alert"
+        className="form-upload__alert"
       >
         <h2 id="track-your-status-on-mobile" slot="headline">
           We are working to improve this tool

@@ -8,6 +8,8 @@ import VerifyAlert from 'platform/user/authorization/components/VerifyAlert';
 import { isLOA3, isLoggedIn } from 'platform/user/selectors';
 
 import { fetchDependents } from '../actions';
+import manifest from '../manifest.json';
+import { getRootParentUrl } from '../../shared/utils';
 
 const Gateway = ({ route, top = false }) => {
   const userLoggedIn = useSelector(state => isLoggedIn(state));
@@ -77,12 +79,12 @@ const Gateway = ({ route, top = false }) => {
     case 'no-dependents':
       return top ? (
         <va-alert status="info" visible>
-          <h3 slot="headline">
+          <h2 slot="headline">
             We don’t have any dependents information on file for you
-          </h3>
+          </h2>
           <p>We can’t find any dependents added to your disability award.</p>
           <va-link
-            href="/view-change-dependents"
+            href={getRootParentUrl(manifest.rootUrl)}
             text="Find out how to add a dependent to your disability claim"
           />
         </va-alert>
@@ -90,7 +92,7 @@ const Gateway = ({ route, top = false }) => {
     case 'error':
       return top ? (
         <va-alert status="error" visible>
-          <h3 slot="headline">Error Loading Dependents</h3>
+          <h2 slot="headline">Error Loading Dependents</h2>
           <p>
             There was an error loading your dependents. Please try again later
             or contact support.
@@ -106,6 +108,7 @@ const Gateway = ({ route, top = false }) => {
           messages={formConfig.savedFormMessages}
           pageList={pageList}
           startText="Start your disability benefits dependents verification"
+          formConfig={formConfig}
         />
       );
   }

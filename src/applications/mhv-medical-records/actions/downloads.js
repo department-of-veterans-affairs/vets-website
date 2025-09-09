@@ -11,6 +11,7 @@ const MAX_DURATION = 60000; // 1 minute total
 export const genAndDownloadCCD = (
   firstName,
   lastName,
+  fileType = 'xml',
   backoff = INITIAL_BACKOFF,
   startTime = Date.now(),
 ) => async dispatch => {
@@ -25,17 +26,33 @@ export const genAndDownloadCCD = (
       // getting the timestamp and filename for download
       const timestamp = generate[0].dateGenerated;
       const timestampDate = new Date(timestamp);
+
+      const extension = fileType.toLowerCase();
       const fileName = `VA-Continuity-of-care-document-${
         firstName ? `${firstName}-` : ''
-      }${lastName}-${format(timestampDate, 'M-d-yyyy_hhmmssaaa')}`;
+      }${lastName}-${format(timestampDate, 'M-d-yyyy_hhmmssaaa')}.${extension}`;
 
       // get the xml data from the api
-      const response = await downloadCCD(timestamp);
-      const xmlString = await response.text();
+      const response = await downloadCCD(timestamp, fileType);
+
+      // decide how to read response
+      const ext = String(fileType).toLowerCase();
+      const mediaTypeMap = {
+        xml: 'application/xml;charset=utf-8',
+        html: 'text/html;charset=utf-8',
+        pdf: 'application/pdf',
+      };
+      if (!mediaTypeMap[ext]) {
+        throw new Error(`Unsupported file type: ${ext}`);
+      }
+
+      let blob = await response.blob();
+      blob = blob.type
+        ? blob
+        : blob.slice(0, blob.size, mediaTypeMap[fileType]);
 
       // download the xml to the user
       dispatch({ type: Actions.Downloads.DOWNLOAD_CCD, response: timestamp });
-      const blob = new Blob([xmlString], { type: 'application/xml' });
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
@@ -67,7 +84,13 @@ export const genAndDownloadCCD = (
       const nextBackoff = backoff * BACKOFF_FACTOR;
       setTimeout(() => {
         dispatch(
-          genAndDownloadCCD(firstName, lastName, nextBackoff, startTime),
+          genAndDownloadCCD(
+            firstName,
+            lastName,
+            fileType,
+            nextBackoff,
+            startTime,
+          ),
         );
       }, backoff);
     }
