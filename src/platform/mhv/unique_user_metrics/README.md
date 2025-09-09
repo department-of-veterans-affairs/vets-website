@@ -32,7 +32,7 @@ All available events are defined in `eventRegistry.js`.
 1. **Think twice** - Each event impacts database size significantly
 2. Open `eventRegistry.js` and read the warning at the top
 3. Add your event to the `EVENT_REGISTRY` object as a string value
-4. Use the pattern: `mhv_feature_action_accessed` (e.g., `mhv_new_feature_accessed`)
+4. Preference is to use lowercase, and underscores instead of spaces (e.g., `mhv_new_feature_accessed`)
 5. Maximum 50 characters per event name
 6. Discuss with backend team before deploying
 

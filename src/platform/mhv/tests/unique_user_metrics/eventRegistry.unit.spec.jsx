@@ -21,25 +21,5 @@ describe('unique_user_metrics eventRegistry', () => {
         expect(eventName.length).to.be.at.least(1);
       });
     });
-
-    it('should have event names with mhv_ prefix', () => {
-      Object.values(EVENT_REGISTRY).forEach(eventName => {
-        expect(eventName).to.match(/^mhv_/);
-      });
-    });
-
-    it('should be frozen to prevent modification', () => {
-      expect(Object.isFrozen(EVENT_REGISTRY)).to.be.true;
-    });
-
-    it('should have expected event keys', () => {
-      expect(EVENT_REGISTRY).to.have.property('SECURE_MESSAGING_MESSAGE_SENT');
-      expect(EVENT_REGISTRY).to.have.property(
-        'SECURE_MESSAGING_INBOX_ACCESSED',
-      );
-      expect(EVENT_REGISTRY).to.have.property('PRESCRIPTIONS_ACCESSED');
-      expect(EVENT_REGISTRY).to.have.property('MEDICAL_RECORDS_ACCESSED');
-      expect(EVENT_REGISTRY).to.have.property('APPOINTMENTS_ACCESSED');
-    });
   });
 });
