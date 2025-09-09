@@ -6,7 +6,6 @@ import {
   maskID,
   isEmptyObject,
   getRootParentUrl,
-  getFormatedDate,
 } from '../../utils';
 
 describe('getFullName', () => {
@@ -107,26 +106,5 @@ describe('getRootParentUrl', () => {
     expect(
       getRootParentUrl('/manage-dependents/add-remove-form-21-686c-674/'),
     ).to.equal('/manage-dependents');
-  });
-});
-
-describe('getFormatedDate', () => {
-  it('should return empty string for undefined date', () => {
-    const formattedDate = getFormatedDate();
-    expect(formattedDate).to.equal('Unknown date');
-  });
-
-  it('should return empty string for invalid date', () => {
-    const formattedDate = getFormatedDate('Summer 2000');
-    expect(formattedDate).to.equal('Summer 2000');
-  });
-
-  it('should return formatted date for valid date', () => {
-    const formattedDate = getFormatedDate('2020-01-01');
-    expect(formattedDate).to.equal('January 1, 2020');
-  });
-  it('should return formatted date for valid Date object', () => {
-    const formattedDate = getFormatedDate('12/05/2022', 'MM/dd/yyyy', 'PPPP');
-    expect(formattedDate).to.equal('Monday, December 5th, 2022');
   });
 });

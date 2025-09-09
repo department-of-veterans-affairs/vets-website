@@ -1,5 +1,4 @@
-import React from 'react';
-import { getFullName, getFormatedDate } from '../../../../shared/utils';
+import { getFullName } from '../../../../shared/utils';
 
 function isFieldMissing(value) {
   return value === undefined || value === null || value === '';
@@ -121,72 +120,5 @@ export const arrayBuilderOptions = {
   maxItems: 20,
   text: {
     getItemName: item => getFullName(item.fullName),
-    cardDescription: item => (
-      <div>
-        Date of birth:
-        <strong> {getFormatedDate(item?.birthDate)}</strong>
-      </div>
-    ),
-    duplicateSummaryCardLabel: () => 'POSSIBLE DUPLICATE',
-    duplicateSummaryCardExternalComparisonWarningOrErrorAlert: () => (
-      <>
-        You’ve entered this dependent name and birthday more than once.
-        <p>Review your entries, edit or delete any duplicates.</p>
-      </>
-    ),
-    duplicateSummaryCardExternalComparisonInfoAlert: () =>
-      'This child shares a birthday with someone already on your benefits.',
-  },
-  duplicateChecks: {
-    // allowDuplicates: true, // Not enabled in MVP
-    comparisonType: 'internal',
-    comparisons: ['fullName.first', 'fullName.last', 'birthDate'],
-
-    // change comparison for '686-report-add-child/:index/information' page only
-    internalPaths: {
-      information: {
-        comparisonType: 'external',
-        comparisons: ['birthDate'],
-        externalComparisonData: ({ formData }) => {
-          const dependents = formData?.dependents || {};
-          if (!dependents?.hasDependents) {
-            return [];
-          }
-          return dependents.awarded
-            ?.filter(
-              dependent =>
-                dependent.relationshipToVeteran.toLowerCase() === 'child',
-            )
-            .map(child => [child.dateOfBirth || '']);
-        },
-
-        // NOTE: Text settings here get props in a different shape from the
-        // options text object
-        duplicateModalExternalComparisonTitle: () => 'Potential duplicate',
-        // Not using itemData here because name chanages
-        duplicateModalExternalComparisonDescription: props => {
-          const { itemData, fullData } = props;
-          const { birthDate } = itemData || '';
-          // get Full name of duplicate dependent loaded in by prefill
-          const dependentToShow =
-            fullData?.dependents?.awarded?.find(
-              dep => dep.dateOfBirth === birthDate,
-            ) || itemData;
-          return (
-            <>
-              We checked your VA records and found another dependent already
-              listed on your benefits with the birth date of{' '}
-              <strong>{getFormatedDate(birthDate)}</strong>:{' '}
-              <strong>{getFullName(dependentToShow.fullName)}</strong>
-              <p>Are you adding a different person, or is this a duplicate?</p>
-            </>
-          );
-        },
-        duplicateModalExternalComparisonPrimaryButtonText: () =>
-          `Don’t add, it’s a duplicate`,
-        duplicateModalExternalComparisonSecondaryButtonText: () =>
-          'Add, it’s a different person',
-      },
-    },
   },
 };
