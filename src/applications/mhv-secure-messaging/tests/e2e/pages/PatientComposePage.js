@@ -490,7 +490,10 @@ class PatientComposePage {
   };
 
   backToInbox = () => {
-    cy.get(Locators.BACK_TO).click();
+    cy.findByTestId('sm-breadcrumbs-back')
+      .shadow()
+      .find('a, button')
+      .click();
   };
 
   verifyCantSaveAlert = (
