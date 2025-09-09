@@ -370,7 +370,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
         throwIncorrectItemPath();
       }
       validatePath(pageConfig?.path);
-      itemPages.push(pageConfig);
+      itemPages.push({ ...pageConfig, duplicateChecks });
       orderedPageTypes.push('item');
       return pageConfig;
     },
@@ -616,6 +616,8 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       reviewRoute: reviewPath,
       required,
       getText,
+      duplicateChecks,
+      currentPath: pageConfig.path,
     };
 
     // If the user defines their own CustomPage to override ArrayBuilderItemPage,

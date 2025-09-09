@@ -20,7 +20,6 @@ import {
   createArrayBuilderItemAddPath,
   getUpdatedItemFromPath,
   isDeepEmpty,
-  META_DATA_KEY,
   slugifyText,
   useHeadingLevels,
   validateIncompleteItems,

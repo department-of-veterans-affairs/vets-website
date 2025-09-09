@@ -387,6 +387,9 @@ const options = {
         </p>
       </>
     ),
+
+    // NOTE: Modal settings here get props in a different shape here compared to
+    // placing the same callback within the duplicateChecks object
     duplicateModalTitle: props => 'Is this a duplicate?',
     duplicateModalDescription: props =>
       `You’ve entered multiple children with this information`,
@@ -408,14 +411,13 @@ const options = {
 
     duplicateSummaryCardLabel: props => 'DUPLICATE',
   },
-};
-
-// Item page and/or summary page UI schema needs to include a `ui:duplicateChecks` object with comparisons and
-const uiSchema = {
-  'ui:duplicateChecks': {
+  duplicateChecks: {
     // If duplicates are allowed, progress past the item and summary page is
     // blocked; set to true by default
-    allowDuplicates: true,
+    // NOTE: not enabled in MVP because we need to consider UX of the modal
+    // first
+    // allowDuplicates: true,
+
     // comparison type: ['internal', 'external', 'all']; defaults to 'all'
     comparisonType: 'all',
     // path to comparison data within the arrayPath
@@ -423,7 +425,8 @@ const uiSchema = {
     externalComparisonData: ({ formData, arrayData }) => {
       /* formData = Full form data; API loaded external data needs to be added
        *  into the form data to get this to work
-       * arrayData = data gathered from internal arrayPath based on comparisons
+       * arrayData = data gathered from internal arrayPath based on comparisons,
+       *  used to help with debugging
        * return array of array strings for comparison with arrayData
        * example: (first name, last name, birth date, ssn)
        * [
@@ -434,25 +437,36 @@ const uiSchema = {
       return [];
     },
 
-    // Customize content for each page (defaults to arraybuilder settings,
-    // or to default settings if not included here)
-    // Internal data array comparisons with and without external data
-    duplicateModalTitle: props => '...',
-    duplicateModalDescription: props => '...',
-    duplicateModalPrimaryButtonText: props => '...',
-    duplicateModalSecondaryButtonText: props => '...',
-    duplicateSummaryCardWarningOrErrorAlert: props => '...',
-    duplicateSummaryCardInfoAlert: props => '...',
+    internalPaths: {
+     // path in config would be 'this-array/:index/path-to-internal-page'
+      'path-to-internal-page': {
+        // Customize content for each internal page (defaults to arraybuilder
+        // settings, or to default settings if not included here)
+        // Internal data array comparisons with and without external data
+        comparisonType: 'all',
+        comparisons: ['ssn'],
+        externalComparisonData: ({ formData, arrayData }) => ([]),
 
-    // Internal with external data comparisons (internal duplicates are ignored)
-    duplicateModalExternalComparisonTitle: props => '...',
-    duplicateModalExternalComparisonDescription: props => '...',
-    duplicateModalExternalComparisonPrimaryButtonText: props => '...',
-    duplicateModalExternalComparisonSecondaryButtonText: props => '...',
-    duplicateSummaryCardExternalComparisonWarningOrErrorAlert: props => '...',
-    duplicateSummaryCardExternalComparisonInfoAlert: props => '...',
+        // NOTE: Modal text settings here get props in a different shape from
+        // the main text object
+        // Include this page-specific content if needed.
+        duplicateModalTitle: props => '...',
+        duplicateModalDescription: props => '...',
+        duplicateModalPrimaryButtonText: props => '...',
+        duplicateModalSecondaryButtonText: props => '...',
+
+        // Internal with external data comparisons (internal duplicates are
+        // ignored)
+        duplicateModalExternalComparisonTitle: props => '...',
+        duplicateModalExternalComparisonDescription: props => '...',
+        duplicateModalExternalComparisonPrimaryButtonText: props => '...',
+        duplicateModalExternalComparisonSecondaryButtonText: props => '...',
+      },
+    },
   },
 };
+
+const uiSchema = {};
 ```
 
 ## Web Component Patterns

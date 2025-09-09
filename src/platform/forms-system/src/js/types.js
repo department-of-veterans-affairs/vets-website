@@ -489,3 +489,54 @@
  * @property {boolean} [allowPartialAddress] Allows addresses with missing fields
  * @property {boolean} [replaceEscapedCharacters] Replaces escaped characters
  */
+
+/**
+ * @typedef ExternalComparisonFunction
+ * @type {Function}
+ * @property {Object} fullData - The full form data
+ * @property {Array<String>} arrayData - The array data being checked
+ * @returns {Array} - An array of arrrays with external comparison data
+ * @example (first name, last name, birth date, ssn)
+ * [
+ *   ['John', 'Doe', '1990-01-01', '123-45-6789'],
+ *   ['Jane', 'Smith', '1992-02-02', '987-65-4321']
+ * ]
+ */
+
+/**
+ * Duplicate checks object
+ * @typedef {Object} DuplicateChecks
+ * @property {boolean} allowDuplicates - Whether to allow duplicates. If false,
+ * the inter-page modal will prevent continuing, and the summary page will block
+ * navigation until the duplicate is resolved
+ * @property {Array<String>} comparisons - The array paths to compare for
+ * duplicates
+ * @property {String} comparisonType - set as 'all' (default), 'internal', or
+ * 'external'
+ * @property {ExternalComparisonFunction} [externalComparisonData] - A function to
+ * collect and return external data for comparison
+ * @example
+ * {
+ *   allowDuplicates: true, // Not enabled in MVP
+ *   comparisons: ['fullName.first', 'fullName.last', 'birthDate', 'ssn'],
+ *   externalComparisonData: ({ formData, arrayData }) => {
+ *     // return array of array strings to be used for duplicate comparisons
+ *     return [];
+ *   }
+ * @property {Object} [internalPaths] - Optional object to override the
+ * comparisons for specific item pages; if comparisons are made that are not
+ * part of the page, it may cause confusion for the Veteran
+ * @example
+ * {
+ *   internalPaths: {
+ *     // path in config would be 'this-array/:index/birth-date'
+ *     'birth-date': {
+ *       comparisons: ['birthDate'],
+ *       externalComparisonData: ({ formData, arrayData }) => {
+ *         // return array of array strings to be used for duplicate comparisons
+ *         return [];
+ *       }
+ *     },
+ *   },
+ * }
+ */

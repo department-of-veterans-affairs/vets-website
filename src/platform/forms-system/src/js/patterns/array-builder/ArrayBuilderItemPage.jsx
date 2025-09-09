@@ -34,6 +34,8 @@ import {
  *   required: (formData) => boolean,
  *   reviewRoute: string,
  *   getText: import('./arrayBuilderText').ArrayBuilderGetText,
+ *   duplicateChecks?: object,
+ *   currentPath: string,
  * }} props
  */
 export default function ArrayBuilderItemPage({
@@ -43,6 +45,8 @@ export default function ArrayBuilderItemPage({
   reviewRoute,
   getText,
   required,
+  duplicateChecks: duplicateChecksGlobal = {},
+  currentPath,
 }) {
   /** @type {CustomPageType} */
   function CustomPage(props) {
@@ -57,14 +61,29 @@ export default function ArrayBuilderItemPage({
       props.pagePerItemIndex
     ];
 
-    const duplicateChecks = props.uiSchema['ui:duplicateChecks'] || {};
-    const [showDuplicateModal, setShowDuplicateModal] = useState(null);
+    // duplicateChecks will only apply to specific internal item pages
+    const internalPageDuplicateChecks =
+      duplicateChecksGlobal?.internalPaths?.[currentPath.split(':index/')[1]];
+    const duplicateChecks = internalPageDuplicateChecks
+      ? {
+          ...duplicateChecksGlobal,
+          // overwrite global with per-page settings
+          ...internalPageDuplicateChecks,
+        }
+      : {};
     const itemDuplicateDismissedName = getItemDuplicateDismissedName({
       arrayPath,
-      duplicateChecks,
+      // use global duplicateChecks because using per-page checks will cause the
+      // modal to show on all internal array pages even after accepting the
+      // duplicate
+      duplicateChecks: duplicateChecksGlobal,
       fullData: props.fullData,
       itemIndex: props.pagePerItemIndex,
     });
+
+    // null = modal not seen, false = don't show modal,
+    // object of newProps (truthy) needed for updated modal content = show modal
+    const [showDuplicateModal, setShowDuplicateModal] = useState(null);
 
     const { data, schema, uiSchema, onChange, onSubmit } = useEditOrAddForm({
       isEdit,
@@ -123,9 +142,10 @@ export default function ArrayBuilderItemPage({
         setDuplicateCheckResult(check);
 
         if (
+          !props.fullData?.[META_DATA_KEY]?.[itemDuplicateDismissedName] &&
           check.duplicates.includes(check.arrayData[props.pagePerItemIndex])
         ) {
-          setShowDuplicateModal(true);
+          setShowDuplicateModal(newProps);
           return;
         }
         onSubmit(newProps);
@@ -134,18 +154,14 @@ export default function ArrayBuilderItemPage({
         setShowDuplicateModal(false);
       },
       onDuplicateModalPrimaryClick: () => {
-        // Primary button is "No, cancel"
-        let newFullData = props.fullData;
+        // Primary button is "No, cancel adding/editing"
+        const metadata = props.fullData?.[META_DATA_KEY] || {};
         if (
           duplicateCheckResult.duplicates.includes(
             defaultDuplicateResult.arrayData[props.pagePerItemIndex],
           )
         ) {
-          newFullData = set(
-            META_DATA_KEY,
-            { [itemDuplicateDismissedName]: false },
-            props.fullData,
-          );
+          metadata[itemDuplicateDismissedName] = false;
         }
 
         // Code modified from ArrayBuilderCancelButton
@@ -155,9 +171,12 @@ export default function ArrayBuilderItemPage({
         if (isAdd) {
           const arrayIndex = parseInt(props.pagePerItemIndex, 10);
           newArrayData = arrayData.filter((_, i) => i !== arrayIndex);
-          newFullData = set(arrayPath, newArrayData, newFullData);
         }
-        props.setFormData(newFullData);
+        props.setFormData({
+          ...props.fullData,
+          [arrayPath]: newArrayData,
+          [META_DATA_KEY]: metadata || null,
+        });
 
         setShowDuplicateModal(false);
 
@@ -181,10 +200,12 @@ export default function ArrayBuilderItemPage({
         props.goToPath(formatPath(path));
       },
       onDuplicateModalSecondaryClick: () => {
-        // Secondary button is "Yes, save and continue"
+        // Secondary button is "Yes, save and continue";
         const newFullData = set(
           META_DATA_KEY,
-          { [itemDuplicateDismissedName]: true },
+          {
+            [itemDuplicateDismissedName]: true,
+          },
           props.fullData,
         );
         props.setFormData(newFullData);
@@ -203,9 +224,19 @@ export default function ArrayBuilderItemPage({
     const isExternalComparison = duplicateChecks?.comparisonType === 'external';
     const getDuplicateText = name =>
       duplicateChecks[name]?.({
-        itemData: props.data,
+        // Saving submitted formData to 'showDuplicateModal' otherwise the modal
+        // content may not match the page changes
+        itemData: showDuplicateModal?.formData || props.data,
         fullData: props.fullData,
-      }) || getText(name, props.data, props.fullData, props.pagePerItemIndex);
+        isEditing: isEdit,
+        isAdding: isAdd,
+      }) ||
+      getText(
+        name,
+        showDuplicateModal?.formData || showDuplicateModal,
+        props.fullData,
+        props.pagePerItemIndex,
+      );
 
     return (
       <>
@@ -317,17 +348,7 @@ export default function ArrayBuilderItemPage({
   CustomPage.propTypes = {
     name: PropTypes.string.isRequired,
     schema: PropTypes.object.isRequired,
-    uiSchema: PropTypes.shape({
-      'ui:duplicateChecks': PropTypes.shape({
-        allowDuplicates: PropTypes.bool,
-        comparisons: PropTypes.arrayOf(PropTypes.string),
-        duplicateModalTitle: PropTypes.func,
-        duplicateModalPrimaryButtonText: PropTypes.func,
-        duplicateModalSecondaryButtonText: PropTypes.func,
-        duplicateModalDescription: PropTypes.func,
-        externalComparisonData: PropTypes.func,
-      }),
-    }).isRequired,
+    uiSchema: PropTypes.object.isRequired,
     appStateData: PropTypes.object,
     contentAfterButtons: PropTypes.node,
     contentBeforeButtons: PropTypes.node,
@@ -344,11 +365,22 @@ export default function ArrayBuilderItemPage({
     onSubmit: PropTypes.func,
     pageContentBeforeButtons: PropTypes.node,
     pagePerItemIndex: PropTypes.string,
+    path: PropTypes.string,
     required: PropTypes.bool,
     setFormData: PropTypes.func,
     title: PropTypes.string,
     trackingPrefix: PropTypes.string,
     NavButtons: PropTypes.func,
+    duplicateChecks: PropTypes.shape({
+      // allowDuplicates: PropTypes.bool, // Not enabled in MVP
+      comparisons: PropTypes.arrayOf(PropTypes.string),
+      duplicateModalTitle: PropTypes.func,
+      duplicateModalPrimaryButtonText: PropTypes.func,
+      duplicateModalSecondaryButtonText: PropTypes.func,
+      duplicateModalDescription: PropTypes.func,
+      externalComparisonData: PropTypes.func,
+      internalPaths: PropTypes.object,
+    }),
   };
 
   return CustomPage;
