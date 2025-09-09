@@ -211,6 +211,17 @@ export const PENDING_SORT_DEFAULTS = {
   SELECTED_INDIVIDUAL: 'false',
 };
 
+export const SUBMISSION_DEFAULTS = {
+  STATUS: null,
+  SORT_BY: 'created_at',
+  SORT_ORDER: 'desc',
+  // default is 20 per page
+  SIZE: '20',
+  // default is page 1
+  NUMBER: '1',
+  SELECTED_INDIVIDUAL: null,
+};
+
 export async function addStyleToShadowDomOnPages(
   urlArray,
   targetElements,

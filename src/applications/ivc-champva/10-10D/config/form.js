@@ -600,6 +600,12 @@ const formConfig = {
               }),
               'ui:required': () => true,
             },
+            sponsorEmail: {
+              ...emailUI(),
+              'ui:options': {
+                hideIf: formData => !formData.champvaForm1010d2027,
+              },
+            },
           },
           schema: {
             type: 'object',
@@ -607,6 +613,7 @@ const formConfig = {
             properties: {
               titleSchema,
               sponsorPhone: phoneSchema,
+              sponsorEmail: emailSchema,
             },
           },
         },
