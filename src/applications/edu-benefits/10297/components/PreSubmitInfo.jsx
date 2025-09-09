@@ -118,12 +118,12 @@ const PreSubmitInfo = ({
   return (
     <>
       <div className="statement-wrapper">
-        <h3>Attestation</h3>
-        <p className="vads-u-margin-top--3">
+        <h3 className="vads-u-font-family--serif">Attestation</h3>
+        <p className="vads-u-margin-top--3 vads-u-font-family--sans">
           Please check the box below if you agree to the following statements:
         </p>
         <ul className="numbered-list">
-          <li>
+          <li className="vads-u-font-family--sans">
             I understand that if I still have benefits left under chapters 30,
             33, or 35, one month of my benefits will be used for each month of
             education I receive through this program. If I qualify for more than
@@ -132,7 +132,7 @@ const PreSubmitInfo = ({
             30 because it usually pays more. If I want VA to use a different
             benefit, I must contact them to switch to the program of my choice.
           </li>
-          <li>
+          <li className="vads-u-font-family--sans">
             I understand that if I’m enrolled in a high-tech program under this
             section and don’t have any benefits left under chapters 30, 33, or
             35, VA will still give me this education benefit in addition to what
