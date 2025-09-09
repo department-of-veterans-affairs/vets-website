@@ -47,7 +47,7 @@ describe('Curated list breadcrumb back navigation', () => {
       path,
     });
 
-  it('Start message page Back navigates to Select care team (override previousUrl)', async () => {
+  it('Start message page Back navigates to drafts if previous url is draft', async () => {
     // previousUrl deliberately something unrelated to prove override logic
     const previousUrl = Paths.DRAFTS;
     const screen = renderAt(`${Paths.COMPOSE}${Paths.START_MESSAGE}`, {
@@ -59,9 +59,7 @@ describe('Curated list breadcrumb back navigation', () => {
     fireEvent.click(await screen.findByText('Back'));
 
     await waitFor(() => {
-      expect(screen.history.location.pathname).to.equal(
-        `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`,
-      );
+      expect(screen.history.location.pathname).to.equal(`${Paths.DRAFTS}`);
     });
   });
 
@@ -128,8 +126,8 @@ describe('Curated list breadcrumb back navigation', () => {
     });
   });
 
-  it('Care team help page navigates correctly (previousUrl = compose)', async () => {
-    const previous = Paths.COMPOSE;
+  it('Care team help page navigates correctly back to select care team', async () => {
+    const previous = `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`;
     const screen = renderAt(Paths.CARE_TEAM_HELP, {
       sm: {
         breadcrumbs: { previousUrl: previous },
