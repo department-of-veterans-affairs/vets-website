@@ -205,7 +205,7 @@ export const sendMessage = (message, attachments) => async dispatch => {
       );
     throw e;
   } finally {
-    // Log successful message sending for analytics
+    // Log message sending even if failed for analytics
     logUniqueUserMetricsEvents(EVENT_REGISTRY.SECURE_MESSAGING_MESSAGE_SENT);
   }
 };
@@ -270,7 +270,7 @@ export const sendReply = (
     }
     throw e;
   } finally {
-    // Log successful message sending for analytics
+    // Log message sending even if failed for analytics
     logUniqueUserMetricsEvents(EVENT_REGISTRY.SECURE_MESSAGING_MESSAGE_SENT);
   }
 };
