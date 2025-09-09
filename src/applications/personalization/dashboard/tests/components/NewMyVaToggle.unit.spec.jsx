@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import thunk from 'redux-thunk';
 import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
@@ -24,10 +24,8 @@ describe('NewMyVaToggle', () => {
     await waitFor(() => {
       expect(container.getElementsByTagName('va-button-segmented')).to.exist;
     });
-    const segmentedButtons = container.getElementsByTagName(
-      'va-button-segmented',
-    );
-    expect(segmentedButtons[0].selected).to.equal(1);
+    const buttonSegmented = container.querySelector('va-button-segmented');
+    expect(buttonSegmented.selected).to.equal(1);
   });
 
   it('renders with selection from localStorage (old)', async () => {
@@ -40,10 +38,8 @@ describe('NewMyVaToggle', () => {
     await waitFor(() => {
       expect(container.getElementsByTagName('va-button-segmented')).to.exist;
     });
-    const segmentedButtons = container.getElementsByTagName(
-      'va-button-segmented',
-    );
-    expect(segmentedButtons[0].selected).to.equal(1);
+    const buttonSegmented = container.querySelector('va-button-segmented');
+    expect(buttonSegmented.selected).to.equal(1);
   });
 
   it('renders with selection from localStorage (new)', async () => {
@@ -56,13 +52,32 @@ describe('NewMyVaToggle', () => {
     await waitFor(() => {
       expect(container.getElementsByTagName('va-button-segmented')).to.exist;
     });
-    const segmentedButtons = container.getElementsByTagName(
-      'va-button-segmented',
-    );
-    expect(segmentedButtons[0].selected).to.equal(0);
+    const buttonSegmented = container.querySelector('va-button-segmented');
+    expect(buttonSegmented.selected).to.equal(0);
   });
 
-  it.skip('updates localStorage when New My VA is clicked', async () => {
+  it('updates localStorage when New My VA is clicked', async () => {
+    localStorage.setItem(LOCAL_STORAGE_KEY, 'old');
+    const { container } = render(
+      <Provider store={mockStore({})}>
+        <NewMyVaToggle />
+      </Provider>,
+    );
+    await waitFor(() => {
+      expect(container.getElementsByTagName('va-button-segmented')).to.exist;
+    });
+    const buttonSegmented = container.querySelector('va-button-segmented');
+    fireEvent(
+      buttonSegmented,
+      new CustomEvent('vaButtonClick', {
+        bubbles: true,
+        detail: { value: 'new' },
+      }),
+    );
+    expect(localStorage.getItem(LOCAL_STORAGE_KEY)).to.equal('new');
+  });
+
+  it('updates localStorage when Old My VA is clicked', async () => {
     localStorage.setItem(LOCAL_STORAGE_KEY, 'new');
     const { container } = render(
       <Provider store={mockStore({})}>
@@ -72,21 +87,26 @@ describe('NewMyVaToggle', () => {
     await waitFor(() => {
       expect(container.getElementsByTagName('va-button-segmented')).to.exist;
     });
-    const segmentedButtons = container.getElementsByTagName(
-      'va-button-segmented',
+    const buttonSegmented = container.querySelector('va-button-segmented');
+    fireEvent(
+      buttonSegmented,
+      new CustomEvent('vaButtonClick', {
+        bubbles: true,
+        detail: { value: 'old' },
+      }),
     );
-    // eslint-disable-next-line no-console
-    console.log(segmentedButtons[0].selected);
-    expect(localStorage.getItem(LOCAL_STORAGE_KEY)).to.equal('new');
+    expect(localStorage.getItem(LOCAL_STORAGE_KEY)).to.equal('old');
   });
 
-  it.skip('updates localStorage when Old My VA is clicked', async () => {
-    localStorage.setItem(LOCAL_STORAGE_KEY, 'new');
-    render(<NewMyVaToggle />);
-  });
-
-  it.skip('has correct aria label for accessibility', () => {
-    render(<NewMyVaToggle />);
-    expect(screen.getByLabelText('Select a My VA version')).to.exist;
+  it('has correct label for accessibility', () => {
+    const { container } = render(
+      <Provider store={mockStore({})}>
+        <NewMyVaToggle />
+      </Provider>,
+    );
+    expect(container.querySelector('va-button-segmented')).to.have.attribute(
+      'label',
+      'Select a My VA version',
+    );
   });
 });
