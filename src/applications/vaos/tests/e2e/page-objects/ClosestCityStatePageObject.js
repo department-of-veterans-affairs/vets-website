@@ -17,7 +17,7 @@ class ClosestCityStatePageObject extends PageObject {
 
   assertClosestCityStateValidationErrors() {
     this.clickNextButton();
-    this.assertValidationError('Select a city');
+    this.assertValidationErrorShadow('Select a city');
 
     return this;
   }

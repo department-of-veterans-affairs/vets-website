@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
-import { VaRadioField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
+// import { VaRadioField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
 import FormButtons from '../../components/FormButtons';
 import { FACILITY_TYPES } from '../../utils/constants';
 import { getFormPageInfo } from '../redux/selectors';
@@ -15,6 +15,7 @@ import {
   updateFormData,
 } from '../redux/actions';
 import { getPageTitle } from '../newAppointmentFlow';
+import SimpleRadioWidget from './SimpleRadioWidget';
 
 const initialSchema = {
   type: 'object',
@@ -22,7 +23,8 @@ const initialSchema = {
   properties: {
     facilityType: {
       type: 'string',
-      enum: Object.keys(FACILITY_TYPES).map(key => FACILITY_TYPES[key]),
+      enum: Object.values(FACILITY_TYPES).map(type => type.id),
+      enumNames: Object.values(FACILITY_TYPES).map(type => type.name),
     },
   },
 };
@@ -35,16 +37,10 @@ export default function TypeOfFacilityPage() {
   const uiSchema = {
     facilityType: {
       'ui:title': pageTitle,
-      'ui:widget': 'radio', // Required
-      'ui:webComponentField': VaRadioField,
+      'ui:widget': SimpleRadioWidget,
       'ui:options': {
         classNames: 'vads-u-margin-top--neg2',
-        showFieldLabel: false,
-        labelHeaderLevel: '1',
-        labels: {
-          [FACILITY_TYPES.VAMC]: 'VA medical center or clinic',
-          [FACILITY_TYPES.COMMUNITY_CARE]: 'Community care facility',
-        },
+        hideLabelText: true,
       },
     },
   };
@@ -72,6 +68,12 @@ export default function TypeOfFacilityPage() {
 
   return (
     <div className="vaos-form__facility-type">
+      <h1 className="vaos__dynamic-font-size--h2">
+        {pageTitle}
+        <span className="schemaform-required-span vads-u-font-family--sans vads-u-font-weight--normal">
+          (*Required)
+        </span>
+      </h1>
       {!!schema && (
         <SchemaForm
           name="Type of appointment"

@@ -38,7 +38,7 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
     newAppointment: {
       pages: {},
       data: {
-        facilityType: FACILITY_TYPES.VAMC,
+        facilityType: FACILITY_TYPES.VAMC.id,
         typeOfCareId: TYPE_OF_CARE_IDS.PRIMARY_CARE,
         phoneNumber: '1234567890',
         email: 'joeblow@gmail.com',

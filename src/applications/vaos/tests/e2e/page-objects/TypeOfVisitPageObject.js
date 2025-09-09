@@ -17,7 +17,7 @@ class TypeOfVisitPageObject extends PageObject {
 
   assertTypeOfVisitValidationErrors() {
     this.clickNextButton();
-    this.assertValidationError('Select an option');
+    this.assertValidationErrorShadow('Select an option');
 
     return this;
   }
