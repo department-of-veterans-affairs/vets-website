@@ -63,17 +63,15 @@ export const Nav = () => {
             toggleName={Toggler.TOGGLE_NAMES.accreditedRepresentativePortalHelp}
           >
             <Toggler.Enabled>
-              <Link
+              <va-button
                 to="/get-help"
-                className={`usa-button-secondary heading-help-link ${
-                  profile ? 'logged-in' : ''
-                }`}
+                className="heading-help-link {ConditionalExpression}"
+                variant="secondary"
+                text="Help"
                 data-testid="heading-help-link"
                 onClick={recordDatalayerEvent}
                 data-eventname="nav-link-click"
-              >
-                Help
-              </Link>
+              />
             </Toggler.Enabled>
           </Toggler>
           {profile ? <UserNav profile={profile} /> : <SignInButton />}
