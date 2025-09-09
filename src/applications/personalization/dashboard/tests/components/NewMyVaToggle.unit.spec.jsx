@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { fireEvent, render, waitFor } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import thunk from 'redux-thunk';
 import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
@@ -21,11 +21,8 @@ describe('NewMyVaToggle', () => {
         <NewMyVaToggle />
       </Provider>,
     );
-    await waitFor(() => {
-      expect(container.getElementsByTagName('va-button-segmented')).to.exist;
-    });
     const buttonSegmented = container.querySelector('va-button-segmented');
-    expect(buttonSegmented.selected).to.equal(1);
+    expect(buttonSegmented.selected).to.equal(1); // "old" is the second button
   });
 
   it('renders with selection from localStorage (old)', async () => {
@@ -35,11 +32,8 @@ describe('NewMyVaToggle', () => {
         <NewMyVaToggle />
       </Provider>,
     );
-    await waitFor(() => {
-      expect(container.getElementsByTagName('va-button-segmented')).to.exist;
-    });
     const buttonSegmented = container.querySelector('va-button-segmented');
-    expect(buttonSegmented.selected).to.equal(1);
+    expect(buttonSegmented.selected).to.equal(1); // "old" is the second button
   });
 
   it('renders with selection from localStorage (new)', async () => {
@@ -49,11 +43,8 @@ describe('NewMyVaToggle', () => {
         <NewMyVaToggle />
       </Provider>,
     );
-    await waitFor(() => {
-      expect(container.getElementsByTagName('va-button-segmented')).to.exist;
-    });
     const buttonSegmented = container.querySelector('va-button-segmented');
-    expect(buttonSegmented.selected).to.equal(0);
+    expect(buttonSegmented.selected).to.equal(0); // "new" is the first button
   });
 
   it('updates localStorage when New My VA is clicked', async () => {
@@ -63,9 +54,6 @@ describe('NewMyVaToggle', () => {
         <NewMyVaToggle />
       </Provider>,
     );
-    await waitFor(() => {
-      expect(container.getElementsByTagName('va-button-segmented')).to.exist;
-    });
     const buttonSegmented = container.querySelector('va-button-segmented');
     fireEvent(
       buttonSegmented,
@@ -84,9 +72,6 @@ describe('NewMyVaToggle', () => {
         <NewMyVaToggle />
       </Provider>,
     );
-    await waitFor(() => {
-      expect(container.getElementsByTagName('va-button-segmented')).to.exist;
-    });
     const buttonSegmented = container.querySelector('va-button-segmented');
     fireEvent(
       buttonSegmented,
