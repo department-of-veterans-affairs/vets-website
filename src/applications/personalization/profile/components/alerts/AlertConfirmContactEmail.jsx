@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { isAfter } from 'date-fns';
+/* eslint-disable-next-line import/no-named-default */
+import { default as recordEventFn } from '~/platform/monitoring/record-event';
 
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
@@ -21,12 +24,26 @@ export const showConfirmEmail = state => (date = EMAIL_UPDATED_AT_THRESHOLD) => 
   return !profileLoading && !recentlyUpdated;
 };
 
-const AlertConfirmContactEmail = () => {
+const AlertConfirmContactEmail = ({ recordEvent = recordEventFn } = {}) => {
   const isVisible = useSelector(showConfirmEmail)();
   const emailUpdatedAt = useSelector(selectVAPEmailUpdatedAt);
   const h2Content = emailUpdatedAt
     ? 'Confirm your contact email'
     : 'Add a contact email';
+
+  useEffect(
+    () => {
+      if (isVisible) {
+        recordEvent({
+          event: 'nav-alert-box-load',
+          action: 'load',
+          'alert-box-headline': h2Content,
+          'alert-box-status': 'warning',
+        });
+      }
+    },
+    [h2Content, isVisible, recordEvent],
+  );
 
   return (
     <VaAlert
@@ -44,6 +61,10 @@ const AlertConfirmContactEmail = () => {
       </React.Fragment>
     </VaAlert>
   );
+};
+
+AlertConfirmContactEmail.propTypes = {
+  recordEvent: PropTypes.func,
 };
 
 export default AlertConfirmContactEmail;
