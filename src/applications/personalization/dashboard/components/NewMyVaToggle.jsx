@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { VaButtonSegmented } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import './NewMyVaToggle.scss';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateFeatureToggleValue } from 'platform/utilities/feature-toggles';
 import { updateMyVaLayoutVersion } from '../actions/preferences';
 
@@ -18,20 +18,31 @@ const NewMyVaToggle = () => {
   const [selected, setSelected] = useState(() => {
     return localStorage.getItem(LOCAL_STORAGE_KEY) || MY_VA_LAYOUT_VERSION_OLD;
   });
+  const storeVersion = useSelector(
+    state => state.myVaPreferences?.layout?.version,
+  );
 
   useEffect(
     () => {
-      const redesignEnabled = selected === MY_VA_LAYOUT_VERSION_NEW;
       localStorage.setItem(LOCAL_STORAGE_KEY, selected);
       dispatch(updateMyVaLayoutVersion(selected));
-      dispatch(
-        updateFeatureToggleValue({
-          // eslint-disable-next-line camelcase
-          my_va_auth_exp_redesign_enabled: redesignEnabled,
-        }),
-      );
     },
     [selected, dispatch],
+  );
+
+  useEffect(
+    () => {
+      if (storeVersion && storeVersion === selected) {
+        const redesignEnabled = storeVersion === MY_VA_LAYOUT_VERSION_NEW;
+        dispatch(
+          updateFeatureToggleValue({
+            // eslint-disable-next-line camelcase
+            my_va_auth_exp_redesign_enabled: redesignEnabled,
+          }),
+        );
+      }
+    },
+    [storeVersion, selected, dispatch],
   );
 
   const handleClick = event => {
@@ -49,6 +60,7 @@ const NewMyVaToggle = () => {
         label="Select a My VA version"
         onVaButtonClick={handleClick}
         selected={getSelectedIndex()}
+        testId="my-va-layout-toggle"
       />
     </div>
   );
