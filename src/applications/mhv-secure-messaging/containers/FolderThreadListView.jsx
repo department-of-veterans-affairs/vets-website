@@ -82,7 +82,7 @@ const FolderThreadListView = props => {
     [
       dispatch,
       threadSort.folderId,
-      threadSort.page,
+      // threadSort.page, // TODO: Adding this causes an infinite loop. Must refactor.
       threadSort.value,
       threadsPerPage,
     ],
