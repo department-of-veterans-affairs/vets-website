@@ -1,11 +1,14 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import { querySelectorWithShadowRoot } from 'platform/utilities/ui/webComponents';
+import { isLOA3, isLoggedIn } from 'platform/user/selectors';
+import { useSelector } from 'react-redux';
+
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import { useSelector } from 'react-redux';
-import { isLOA3, isLoggedIn } from 'platform/user/selectors';
+
 import { TITLE, SUBTITLE } from '../constants';
 
 const OMB_RES_BURDEN = 840;
@@ -214,10 +217,12 @@ export const IntroductionPage = props => {
           prefillEnabled={formConfig.prefillEnabled}
           messages={formConfig.savedFormMessages}
           pageList={pageList}
-          startText="Start the application"
+          startText="Start Your Yellow Ribbon Agreement"
+          formConfig={formConfig}
           devOnly={{
             forceShowFormControls: true,
           }}
+          unauthStartText="Sign in to start your form"
         />
       )}
       <p />
