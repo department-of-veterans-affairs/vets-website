@@ -290,6 +290,10 @@ const ArrayBuilderCards = ({
                     text={getDuplicateText('duplicateSummaryCardLabel')}
                   />
                 );
+                const duplicateInfoAlertStatus = 'warning';
+                // allowDuplicates not enabled in MVP
+                // duplicateChecks.allowDuplicates ? 'warning' : 'error';
+
                 alert = dismissedInMetadata ? (
                   <DuplicateInformationAlert status="info">
                     {getDuplicateText(
@@ -299,13 +303,7 @@ const ArrayBuilderCards = ({
                     )}
                   </DuplicateInformationAlert>
                 ) : (
-                  <DuplicateInformationAlert
-                    status={
-                      duplicateChecks.allowDuplicates === false
-                        ? 'error'
-                        : 'warning'
-                    }
-                  >
+                  <DuplicateInformationAlert status={duplicateInfoAlertStatus}>
                     {getDuplicateText(
                       duplicateChecks.comparisonType === 'external'
                         ? 'duplicateSummaryCardExternalComparisonWarningOrErrorAlert'
@@ -427,16 +425,13 @@ ArrayBuilderCards.propTypes = {
     arrayData: PropTypes.arrayOf(PropTypes.string).isRequired,
   }),
   duplicateChecks: PropTypes.shape({
-    allowDuplicates: PropTypes.bool,
-    comparisons: PropTypes.arrayOf(PropTypes.string),
+    // allowDuplicates: PropTypes.bool, // Not enabled in MVP
     comparisonType: PropTypes.oneOf(['internal', 'external', 'all']),
     duplicateSummaryCardInfoAlert: PropTypes.func,
     duplicateSummaryCardWarningOrErrorAlert: PropTypes.func,
     duplicateSummaryCardExternalComparisonInfoAlert: PropTypes.func,
     duplicateSummaryCardExternalComparisonWarningOrErrorAlert: PropTypes.func,
     duplicateSummaryCardLabel: PropTypes.func,
-
-    externalComparisonData: PropTypes.func,
   }),
   titleHeaderLevel: PropTypes.string,
 };

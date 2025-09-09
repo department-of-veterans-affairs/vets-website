@@ -20,6 +20,7 @@ import {
   createArrayBuilderItemAddPath,
   getUpdatedItemFromPath,
   isDeepEmpty,
+  // META_DATA_KEY,
   slugifyText,
   useHeadingLevels,
   validateIncompleteItems,
@@ -664,14 +665,16 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
       });
 
       if (isValid) {
-        if (
-          duplicateChecks?.allowDuplicates === false &&
-          duplicateCheckResult.hasDuplicate
-        ) {
-          scrollAndFocus('va-card:has(.array-builder-duplicate-alert)');
-        } else {
-          props.onSubmit(...args);
-        }
+        // NOTE: Blocking submission using duplicateChecks.allowDuplicates is
+        // not enabled in MVP because we need to consider UX of the modal first
+        // if (
+        //   duplicateChecks?.allowDuplicates === false &&
+        //   duplicateCheckResult.hasDuplicate
+        // ) {
+        //   scrollAndFocus('va-card:has(.array-builder-duplicate-alert)');
+        // } else {
+        props.onSubmit(...args);
+        // }
       }
     };
 
@@ -709,20 +712,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
   CustomPage.propTypes = {
     name: PropTypes.string.isRequired,
     schema: PropTypes.object,
-    uiSchema: PropTypes.shape({
-      // 'ui:duplicateChecks': PropTypes.shape({
-      //   allowDuplicates: PropTypes.bool,
-      //   comparisons: PropTypes.arrayOf(PropTypes.string),
-      //   comparisonType: PropTypes.oneOf(['internal', 'external', 'all']),
-      //   duplicateSummaryCardInfoAlert: PropTypes.func,
-      //   duplicateSummaryCardWarningOrErrorAlert: PropTypes.func,
-      //   duplicateModalDescription: PropTypes.func,
-      //   duplicateModalPrimaryButtonText: PropTypes.func,
-      //   duplicateModalSecondaryButtonText: PropTypes.func,
-      //   duplicateModalTitle: PropTypes.func,
-      //   externalComparisonData: PropTypes.func,
-      // }),
-    }).isRequired,
+    uiSchema: PropTypes.object.isRequired,
     appStateData: PropTypes.object,
     contentAfterButtons: PropTypes.node,
     contentBeforeButtons: PropTypes.node,
