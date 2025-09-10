@@ -18,16 +18,6 @@ export const BASE_DIRECT_DEPOSIT_ERROR_KEYS = {
   GENERIC_ERROR: '.generic.error',
 };
 
-// error keys for profile/direct_deposits/disability_compensations endpoint
-// easier to export and use than importing one by one constants
-// add cnp to the front of each base error key
-export const LIGHTHOUSE_ERROR_KEYS = Object.keys(
-  BASE_DIRECT_DEPOSIT_ERROR_KEYS,
-).reduce((acc, key) => {
-  acc[key] = `cnp.payment${BASE_DIRECT_DEPOSIT_ERROR_KEYS[key]}`;
-  return acc;
-}, {});
-
 export const DIRECT_DEPOSIT_ERROR_KEYS = Object.keys(
   BASE_DIRECT_DEPOSIT_ERROR_KEYS,
 ).reduce((acc, key) => {
@@ -83,17 +73,14 @@ export const hasErrorCombos = ({
 export const hasAccountFlaggedError = errors => {
   return hasErrorCombos({
     errors,
-    errorKeys: [
-      LIGHTHOUSE_ERROR_KEYS.ACCOUNT_FLAGGED_FOR_FRAUD,
-      DIRECT_DEPOSIT_ERROR_KEYS.ACCOUNT_FLAGGED_FOR_FRAUD,
-    ],
+    errorKeys: [DIRECT_DEPOSIT_ERROR_KEYS.ACCOUNT_FLAGGED_FOR_FRAUD],
   });
 };
 
 export const hasRoutingNumberFlaggedError = errors =>
   hasErrorCombos({
     errors,
-    errorKeys: [LIGHTHOUSE_ERROR_KEYS.ROUTING_NUMBER_FLAGGED_FOR_FRAUD],
+    errorKeys: [DIRECT_DEPOSIT_ERROR_KEYS.ROUTING_NUMBER_FLAGGED_FOR_FRAUD],
   });
 
 // the cases for invalid routing number include:
@@ -105,8 +92,6 @@ export const hasInvalidRoutingNumberError = errors =>
   hasErrorCombos({
     errors,
     errorKeys: [
-      LIGHTHOUSE_ERROR_KEYS.ROUTING_NUMBER_INVALID_CHECKSUM,
-      LIGHTHOUSE_ERROR_KEYS.ROUTING_NUMBER_INVALID,
       DIRECT_DEPOSIT_ERROR_KEYS.ROUTING_NUMBER_INVALID_CHECKSUM,
       DIRECT_DEPOSIT_ERROR_KEYS.ROUTING_NUMBER_INVALID,
     ],
@@ -114,8 +99,6 @@ export const hasInvalidRoutingNumberError = errors =>
   hasErrorCombos({
     errors,
     errorKeys: [
-      LIGHTHOUSE_ERROR_KEYS.UNSPECIFIED_ERROR,
-      LIGHTHOUSE_ERROR_KEYS.GENERIC_ERROR,
       DIRECT_DEPOSIT_ERROR_KEYS.UNSPECIFIED_ERROR,
       DIRECT_DEPOSIT_ERROR_KEYS.GENERIC_ERROR,
     ],
@@ -131,8 +114,6 @@ export const hasInvalidAddressError = errors =>
   hasErrorCombos({
     errors,
     errorKeys: [
-      LIGHTHOUSE_ERROR_KEYS.UNSPECIFIED_ERROR,
-      LIGHTHOUSE_ERROR_KEYS.GENERIC_ERROR,
       DIRECT_DEPOSIT_ERROR_KEYS.UNSPECIFIED_ERROR,
       DIRECT_DEPOSIT_ERROR_KEYS.GENERIC_ERROR,
     ],
@@ -141,7 +122,6 @@ export const hasInvalidAddressError = errors =>
   hasErrorCombos({
     errors,
     errorKeys: [
-      LIGHTHOUSE_ERROR_KEYS.MAILING_ADDRESS_INVALID,
       DIRECT_DEPOSIT_ERROR_KEYS.MAILING_ADDRESS_INVALID,
       DIRECT_DEPOSIT_ERROR_KEYS.PAYMENT_ADDRESS_MISSING,
     ],
@@ -156,8 +136,6 @@ export const hasInvalidHomePhoneNumberError = errors =>
   hasErrorCombos({
     errors,
     errorKeys: [
-      LIGHTHOUSE_ERROR_KEYS.UNSPECIFIED_ERROR,
-      LIGHTHOUSE_ERROR_KEYS.GENERIC_ERROR,
       DIRECT_DEPOSIT_ERROR_KEYS.UNSPECIFIED_ERROR,
       DIRECT_DEPOSIT_ERROR_KEYS.GENERIC_ERROR,
     ],
@@ -166,8 +144,6 @@ export const hasInvalidHomePhoneNumberError = errors =>
   hasErrorCombos({
     errors,
     errorKeys: [
-      LIGHTHOUSE_ERROR_KEYS.NIGHT_PHONE_NUMBER_INVALID,
-      LIGHTHOUSE_ERROR_KEYS.NIGHT_PHONE_AREA_INVALID,
       DIRECT_DEPOSIT_ERROR_KEYS.NIGHT_PHONE_NUMBER_INVALID,
       DIRECT_DEPOSIT_ERROR_KEYS.NIGHT_PHONE_AREA_INVALID,
     ],
@@ -182,8 +158,6 @@ export const hasInvalidWorkPhoneNumberError = errors =>
   hasErrorCombos({
     errors,
     errorKeys: [
-      LIGHTHOUSE_ERROR_KEYS.UNSPECIFIED_ERROR,
-      LIGHTHOUSE_ERROR_KEYS.GENERIC_ERROR,
       DIRECT_DEPOSIT_ERROR_KEYS.UNSPECIFIED_ERROR,
       DIRECT_DEPOSIT_ERROR_KEYS.GENERIC_ERROR,
     ],
@@ -192,8 +166,6 @@ export const hasInvalidWorkPhoneNumberError = errors =>
   hasErrorCombos({
     errors,
     errorKeys: [
-      LIGHTHOUSE_ERROR_KEYS.DAY_PHONE_NUMBER_INVALID,
-      LIGHTHOUSE_ERROR_KEYS.DAY_PHONE_AREA_INVALID,
       DIRECT_DEPOSIT_ERROR_KEYS.DAY_PHONE_NUMBER_INVALID,
       DIRECT_DEPOSIT_ERROR_KEYS.DAY_PHONE_AREA_INVALID,
     ],
@@ -204,10 +176,7 @@ export const hasInvalidWorkPhoneNumberError = errors =>
 export const hasPaymentRestrictionIndicatorsError = errors =>
   hasErrorCombos({
     errors,
-    errorKeys: [
-      LIGHTHOUSE_ERROR_KEYS.PAYMENT_RESTRICTIONS_PRESENT,
-      DIRECT_DEPOSIT_ERROR_KEYS.PAYMENT_RESTRICTIONS_PRESENT,
-    ],
+    errorKeys: [DIRECT_DEPOSIT_ERROR_KEYS.PAYMENT_RESTRICTIONS_PRESENT],
   });
 
 // BEGIN TODO: remove this once the direct deposit form is updated to use single form

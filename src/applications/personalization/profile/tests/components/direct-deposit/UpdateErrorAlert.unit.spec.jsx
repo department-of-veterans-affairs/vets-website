@@ -2,9 +2,9 @@ import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 
-import mockDisabilityCompensations from '@@profile/mocks/endpoints/disability-compensations';
+import directDeposits from '@@profile/mocks/endpoints/direct-deposits';
 
-const { errors } = mockDisabilityCompensations.updates;
+const { errors } = directDeposits.updates;
 
 import { UpdateErrorAlert } from '../../../components/direct-deposit/alerts/UpdateErrorAlert';
 
@@ -35,7 +35,7 @@ describe('<UpdateErrorAlert />', () => {
     );
     expect(
       await findByText(
-        'We can’t find a bank linked to the routing number you entered.',
+        'We can’t find a bank linked to the routing number you entered',
       ),
     ).to.exist;
   });
@@ -46,7 +46,7 @@ describe('<UpdateErrorAlert />', () => {
     );
     expect(
       await findByText2(
-        'We can’t find a bank linked to the routing number you entered.',
+        'We can’t find a bank linked to the routing number you entered',
       ),
     ).to.exist;
   });
@@ -82,6 +82,17 @@ describe('<UpdateErrorAlert />', () => {
   it('renders the mailing address error', async () => {
     const { findByText } = render(
       <UpdateErrorAlert saveError={errors.invalidMailingAddress.errors} />,
+    );
+    expect(
+      await findByText(
+        /We’re sorry. We couldn’t update your direct deposit bank information because your mailing address is missing or invalid./i,
+      ),
+    ).to.exist;
+  });
+
+  it('renders the mailing address error for missing payment address', async () => {
+    const { findByText } = render(
+      <UpdateErrorAlert saveError={errors.missingPaymentAddress.errors} />,
     );
     expect(
       await findByText(

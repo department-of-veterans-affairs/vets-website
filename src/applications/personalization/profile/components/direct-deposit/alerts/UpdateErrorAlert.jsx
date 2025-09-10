@@ -157,26 +157,29 @@ export const UpdateErrorAlert = ({ className, saveError }) => {
   }
 
   let content = <GenericError />;
-  let title = '';
+  let title = 'We couldn’t update your bank information';
 
   if (Array.isArray(saveError) && saveError?.length > 0) {
     if (
       hasAccountFlaggedError(saveError) ||
       hasPaymentRestrictionIndicatorsError(saveError)
     ) {
-      title = "We couldn't update your direct deposit information";
+      title = 'We couldn’t update your direct deposit information';
       content = <PaymentRestrictionError />;
     } else if (hasRoutingNumberFlaggedError(saveError)) {
-      title = "We couldn't update your direct deposit information";
+      title = 'We couldn’t update your direct deposit information';
       content = <FlaggedRoutingNumber />;
     } else if (hasInvalidRoutingNumberError(saveError)) {
-      title = 'We can’t find a bank linked to the routing number you entered.';
+      title = 'We can’t find a bank linked to the routing number you entered';
       content = <InvalidRoutingNumber />;
     } else if (hasInvalidAddressError(saveError)) {
+      title = '';
       content = <UpdateAddressError />;
     } else if (hasInvalidHomePhoneNumberError(saveError)) {
+      title = '';
       content = <UpdatePhoneNumberError phoneNumberType="home" />;
     } else if (hasInvalidWorkPhoneNumberError(saveError)) {
+      title = '';
       content = <UpdatePhoneNumberError phoneNumberType="work" />;
     }
   }
