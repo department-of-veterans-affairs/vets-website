@@ -120,7 +120,7 @@ export const getCardProps = formResponses => {
           <>
             {HORIZ_RULE}
             {CONDITION_HAS_WORSENED_INFO}
-            {CLAIM_FOR_INCREASE_CARD}
+            {CLAIM_FOR_INCREASE_CARD(true)}
           </>
         )}
         {showOutsideDROption(formResponses)}

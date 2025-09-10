@@ -10,7 +10,7 @@ import { RESULTS_NAME_MAP } from './results-data-map';
  * the index to differentiate the URLs to avoid routing collision
  * @returns a lowercased hyphen-separated version of the h1 with an index if isDuplicateQuestion
  */
-const getRouteName = (shortName, index) => {
+export const getRouteName = (shortName, index) => {
   const questionH1 = QUESTION_CONTENT?.[shortName]?.h1;
 
   if (!questionH1) {

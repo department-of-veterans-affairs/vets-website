@@ -171,7 +171,7 @@ export const NON_DR_RESULTS_CONTENT = formResponses =>
             Based on your answers, you may be eligible to apply for more
             disability compensation.
           </p>
-          {CLAIM_FOR_INCREASE_CARD}
+          {CLAIM_FOR_INCREASE_CARD()}
           {PRINT_OR_RESTART}
         </>
       ),
@@ -195,6 +195,7 @@ export const NON_DR_RESULTS_CONTENT = formResponses =>
           <ul className="onramp-list-none" role="list">
             <li>{COURT_OF_APPEALS}</li>
           </ul>
+          {GET_GUIDANCE}
           {HORIZ_RULE}
           {PRINT_OR_RESTART}
         </>
@@ -215,7 +216,7 @@ export const NON_DR_RESULTS_CONTENT = formResponses =>
           <p>{MAY_HAVE_OTHER_OPTIONS}</p>
           {COURT_OF_APPEALS}
           {CONDITION_HAS_WORSENED_INFO}
-          {CLAIM_FOR_INCREASE_CARD}
+          {CLAIM_FOR_INCREASE_CARD(true)}
           {GET_GUIDANCE}
           {HORIZ_RULE}
           {PRINT_OR_RESTART}
@@ -256,7 +257,7 @@ export const NON_DR_RESULTS_CONTENT = formResponses =>
           <p>
             But you may be eligible to apply for more disability compensation.
           </p>
-          {CLAIM_FOR_INCREASE_CARD}
+          {CLAIM_FOR_INCREASE_CARD()}
           {GET_GUIDANCE}
           {HORIZ_RULE}
           {PRINT_OR_RESTART}
