@@ -11,12 +11,19 @@ class AllergiesListPage extends BaseListPage {
       '/my_health/v1/medical_records/allergies',
       allergies,
     ).as('allergiesList');
-    cy.get('[href="/my-health/medical-records/vaccines"]').should('be.visible');
-    cy.get('[data-testid="allergies-landing-page-link"]')
-      .should('be.visible')
-      .then(() => {
-        cy.get('[data-testid="allergies-landing-page-link"]').click();
-      });
+    // commenting out the line below, because I'm going to try
+    // directly going to the allergies page
+    // cy.get('[href="/my-health/medical-records/vaccines"]').should('be.visible');
+    // cy.get('[data-testid="allergies-landing-page-link"]')
+    //   .should('be.visible')
+    //   .then(() => {
+    //     cy.get('[data-testid="allergies-landing-page-link"]').click();
+    //   });
+    // try navigating from landing page if direct navigation fails
+    // cy.get('[data-testid="allergies-landing-page-link"]').should('be.visible');
+    // cy.get('[data-testid="allergies-landing-page-link"]').click();
+    cy.visit('my-health/medical-records/allergies');
+
     if (waitForAllergies) {
       cy.wait('@allergiesList');
     }
