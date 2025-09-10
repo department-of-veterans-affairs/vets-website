@@ -134,6 +134,10 @@ export const resultsDRDynamicContentDCs = Object.freeze({
     GOOD_FIT: GOOD_FIT_BOARD_EVIDENCE,
     NOT_GOOD_FIT: {
       ONE_OF: {
+        Q_1_2_CLAIM_DECISION: NO,
+        Q_2_0_CLAIM_TYPE: BOARD,
+        Q_2_IS_1A_LAW_POLICY_CHANGE: YES,
+        Q_2_IS_1B_NEW_EVIDENCE: NO,
         Q_2_H_2_NEW_EVIDENCE: NO,
         Q_2_H_2B_JUDGE_HEARING: YES,
       },
@@ -155,7 +159,7 @@ export const resultsDRDynamicContentDCs = Object.freeze({
     Q_2_0_CLAIM_TYPE: BOARD,
   },
   [c.CARD_DECISION_OVER_1_YEAR]: {
-    Q_1_2A_2_DISAGREE_DECISION: YES, // SC
+    Q_1_2A_2_DISAGREE_DECISION: YES,
   },
   [c.CARD_REVIEW_HLR]: {
     Q_2_0_CLAIM_TYPE: HLR,
@@ -171,58 +175,58 @@ export const resultsDRDynamicContentDCs = Object.freeze({
   },
   [c.CARD_NEW_EVIDENCE]: {
     ONE_OF: {
-      Q_1_2C_NEW_EVIDENCE: YES, // SC
-      Q_2_S_1_NEW_EVIDENCE: YES, // SC
-      Q_2_IS_1B_NEW_EVIDENCE: YES, // SC, BE, BH
-      Q_2_H_2_NEW_EVIDENCE: YES, // SC, BE, BH
+      Q_1_2C_NEW_EVIDENCE: YES,
+      Q_2_S_1_NEW_EVIDENCE: YES,
+      Q_2_IS_1B_NEW_EVIDENCE: YES,
+      Q_2_H_2_NEW_EVIDENCE: YES,
     },
   },
   [c.CARD_NO_NEW_EVIDENCE]: {
     ONE_OF: {
-      Q_2_IS_1B_NEW_EVIDENCE: NO, // HLR, BD, BH
-      Q_2_H_2_NEW_EVIDENCE: NO, // BD, BH
+      Q_2_IS_1B_NEW_EVIDENCE: NO,
+      Q_2_H_2_NEW_EVIDENCE: NO,
     },
   },
   [c.CARD_LAW_POLICY_CHANGE]: {
     ONE_OF: {
-      Q_1_2B_LAW_POLICY_CHANGE: YES, // SC
-      Q_2_IS_1A_LAW_POLICY_CHANGE: YES, // SC
+      Q_1_2B_LAW_POLICY_CHANGE: YES,
+      Q_2_IS_1A_LAW_POLICY_CHANGE: YES,
     },
   },
   [c.CARD_NOT_LAW_POLICY_CHANGE]: {
-    Q_2_IS_1A_LAW_POLICY_CHANGE: NO, // HLR
+    Q_2_IS_1A_LAW_POLICY_CHANGE: NO,
   },
   [c.CARD_NOT_CONTESTED]: {
-    Q_1_3_CLAIM_CONTESTED: NO, // SC, HLR
+    Q_1_3_CLAIM_CONTESTED: NO,
   },
   [c.CARD_BOARD_ONLY_OPTION]: {
-    Q_1_3_CLAIM_CONTESTED: YES, // BD, BE, BH
+    Q_1_3_CLAIM_CONTESTED: YES,
   },
   [c.CARD_HEARING]: {
     ONE_OF: {
-      Q_2_H_2A_JUDGE_HEARING: YES, // BH
-      Q_2_H_2B_JUDGE_HEARING: YES, // BH
+      Q_2_H_2A_JUDGE_HEARING: YES,
+      Q_2_H_2B_JUDGE_HEARING: YES,
     },
   },
   [c.CARD_NO_HEARING]: {
     ONE_OF: {
-      Q_2_H_2A_JUDGE_HEARING: NO, // SC, BE
-      Q_2_H_2B_JUDGE_HEARING: NO, // BD
+      Q_2_H_2A_JUDGE_HEARING: NO,
+      Q_2_H_2B_JUDGE_HEARING: NO,
     },
   },
   [c.CARD_NEED_EVIDENCE]: {
     ONE_OF: {
-      Q_2_IS_1B_NEW_EVIDENCE: NO, // SC
-      Q_2_H_2_NEW_EVIDENCE: NO, // SC
+      Q_2_IS_1B_NEW_EVIDENCE: NO,
+      Q_2_H_2_NEW_EVIDENCE: NO,
     },
   },
   [c.CARD_CLAIM_CONTESTED]: {
-    Q_1_3_CLAIM_CONTESTED: YES, // SC, HLR
+    Q_1_3_CLAIM_CONTESTED: YES,
   },
   [c.CARD_HEARING_NOT_INCLUDED]: {
     ONE_OF: {
-      Q_2_H_2A_JUDGE_HEARING: YES, // SC, HLR, BD
-      Q_2_H_2B_JUDGE_HEARING: YES, // HLR, BD
+      Q_2_H_2A_JUDGE_HEARING: YES,
+      Q_2_H_2B_JUDGE_HEARING: YES,
     },
   },
   [c.CARD_HEARING_NOT_DESIRED]: {
@@ -232,30 +236,29 @@ export const resultsDRDynamicContentDCs = Object.freeze({
     },
   },
   [c.CARD_HLR_NOT_AVAILABLE]: {
-    Q_2_0_CLAIM_TYPE: HLR, // HLR
+    Q_2_0_CLAIM_TYPE: HLR,
   },
   [c.CARD_BOARD_NOT_AVAILABLE]: {
-    Q_2_0_CLAIM_TYPE: BOARD, // HLR
+    Q_2_0_CLAIM_TYPE: BOARD,
   },
   [c.CARD_CANNOT_SUBMIT_EVIDENCE]: {
     ONE_OF: {
-      Q_1_2C_NEW_EVIDENCE: YES, // BD
-      Q_2_IS_1B_NEW_EVIDENCE: YES, // HLR, BD
-      Q_2_S_1_NEW_EVIDENCE: YES,
-      Q_2_H_2_NEW_EVIDENCE: YES, // BD
+      Q_1_2C_NEW_EVIDENCE: YES,
+      Q_2_IS_1B_NEW_EVIDENCE: YES,
+      Q_2_H_2_NEW_EVIDENCE: YES,
     },
   },
+  [c.CARD_RECEIVED_BOARD_DECISION]: {
+    Q_2_0_CLAIM_TYPE: BOARD,
+  },
   [c.CARD_LAW_OR_POLICY]: {
-    Q_2_IS_1A_LAW_POLICY_CHANGE: YES, // HLR, BD
+    Q_2_IS_1A_LAW_POLICY_CHANGE: YES,
   },
   [c.CARD_NOT_LAW_OR_POLICY]: {
-    Q_2_IS_1B_NEW_EVIDENCE: NO, // SC
+    Q_2_IS_1B_NEW_EVIDENCE: NO,
   },
   [c.CARD_WITHIN_1_YEAR]: {
-    Q_1_2_CLAIM_DECISION: NO, // HLR, BD
-  },
-  [c.CARD_RECEIVED_BOARD_DECISION]: {
-    Q_2_0_CLAIM_TYPE: BOARD, // BD
+    Q_1_2_CLAIM_DECISION: NO,
   },
 });
 

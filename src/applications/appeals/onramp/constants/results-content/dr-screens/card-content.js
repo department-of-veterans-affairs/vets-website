@@ -20,8 +20,8 @@ export const CARD_REVIEW_HLR = `You’re requesting a review of a Higher-Level R
 export const CARD_REVIEW_SC = `You’re requesting a review of a Supplemental Claim, so your next step could be another Supplemental Claim, a Higher-Level Review, or requesting a Board Appeal`;
 export const CARD_REVIEW_BOARD = `You’re requesting a review of a Board decision, so your next option is a Supplemental Claim since you can’t request the other types of reviews on a Board decision`;
 export const CARD_REVIEW_INIT = `You’re requesting a review of an initial claim, so your next step could be a Supplemental Claim, a Higher-Level Review,  or requesting a Board Appeal`;
-export const CARD_NEW_EVIDENCE = `You have new or relevant evidence`;
-export const CARD_NO_NEW_EVIDENCE = `You don’t have new or relevant evidence`;
+export const CARD_NEW_EVIDENCE = `You have new and relevant evidence`;
+export const CARD_NO_NEW_EVIDENCE = `You don’t have new and relevant evidence`;
 export const CARD_LAW_POLICY_CHANGE = `You’re requesting a review based on a change in law or policy`;
 export const CARD_NOT_LAW_POLICY_CHANGE = `You’re not requesting a review based on a change in law or policy`;
 export const CARD_NOT_CONTESTED = `Your claim is not contested`;
@@ -156,13 +156,17 @@ export const CARD_CONTENT_NGF_BOARD_DIRECT = Object.freeze([
 ]);
 
 export const CARD_CONTENT_NGF_BOARD_EVIDENCE = Object.freeze([
+  CARD_WITHIN_1_YEAR,
   CARD_RECEIVED_BOARD_DECISION,
+  CARD_LAW_OR_POLICY,
   CARD_NEED_EVIDENCE,
   CARD_HEARING_NOT_INCLUDED,
 ]);
 
 export const CARD_CONTENT_NGF_BOARD_HEARING = Object.freeze([
+  CARD_WITHIN_1_YEAR,
   CARD_RECEIVED_BOARD_DECISION,
+  CARD_LAW_OR_POLICY,
   CARD_HEARING_NOT_DESIRED,
 ]);
 
