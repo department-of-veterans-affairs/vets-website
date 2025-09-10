@@ -48,10 +48,9 @@ const SmBreadcrumbs = () => {
     Constants.Paths.MESSAGE_THREAD,
     Constants.Paths.REPLY,
     Constants.Paths.COMPOSE,
-    `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_CARE_TEAM}/`,
+    `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_HEALTH_CARE_SYSTEM}/`,
     `${Constants.Paths.COMPOSE}${Constants.Paths.START_MESSAGE}/`,
     Constants.Paths.CONTACT_LIST,
-    `${Constants.Paths.CARE_TEAM_HELP}/`,
     Constants.Paths.DRAFTS,
     Constants.Paths.DELETED,
     `${Constants.Paths.FOLDERS}${locationChildPath}/`,
@@ -61,10 +60,9 @@ const SmBreadcrumbs = () => {
 
   const pathsWithBackBreadcrumb = [
     Constants.Paths.COMPOSE,
-    `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_CARE_TEAM}/`,
+    `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_HEALTH_CARE_SYSTEM}/`,
     `${Constants.Paths.COMPOSE}${Constants.Paths.START_MESSAGE}/`,
     Constants.Paths.CONTACT_LIST,
-    `${Constants.Paths.CARE_TEAM_HELP}/`,
     Constants.Paths.DRAFTS,
     Constants.Paths.DELETED,
     `${Constants.Paths.FOLDERS}${locationChildPath}/`,
@@ -80,14 +78,6 @@ const SmBreadcrumbs = () => {
 
   const navigateBack = useCallback(
     () => {
-      const { pathname } = location;
-      const { COMPOSE, SELECT_CARE_TEAM } = Constants.Paths;
-
-      if (pathname.includes(SELECT_CARE_TEAM)) {
-        history.push(COMPOSE);
-        return;
-      }
-
       const isContactList =
         `/${locationBasePath}/` === Constants.Paths.CONTACT_LIST;
 
@@ -99,13 +89,6 @@ const SmBreadcrumbs = () => {
         crumb?.href ===
         `${Constants.Paths.FOLDERS}${Constants.DefaultFolders.INBOX.id}`;
       const isReplyPath = `/${locationBasePath}/` === Constants.Paths.REPLY;
-      const isSelectCareTeam = previousUrl.includes(
-        Constants.Paths.SELECT_CARE_TEAM,
-      );
-      const isDraft = previousUrl.includes(Constants.Paths.DRAFTS);
-      const wasCareTeamHelp = pathname === Constants.Paths.CARE_TEAM_HELP;
-      const wasStartMessage =
-        pathname === `${COMPOSE}${Constants.Paths.START_MESSAGE}`;
 
       if (isContactList && isCompose && activeDraftId) {
         history.push(`${Constants.Paths.MESSAGE_THREAD}${activeDraftId}/`);
@@ -115,12 +98,6 @@ const SmBreadcrumbs = () => {
         history.push(Constants.Paths.SENT);
       } else if (isInboxFolder && !isReplyPath) {
         history.push(Constants.Paths.INBOX);
-      } else if (wasCareTeamHelp) {
-        history.push(Constants.Paths.SELECT_CARE_TEAM);
-      } else if (!isDraft && wasStartMessage) {
-        history.push(Constants.Paths.SELECT_CARE_TEAM);
-      } else if (isSelectCareTeam) {
-        history.push(Constants.Paths.INBOX);
       } else {
         history.push(
           previousUrl !== Constants.Paths.CONTACT_LIST
@@ -129,14 +106,7 @@ const SmBreadcrumbs = () => {
         );
       }
     },
-    [
-      activeDraftId,
-      crumb?.href,
-      history,
-      locationBasePath,
-      previousUrl,
-      location,
-    ],
+    [activeDraftId, crumb?.href, history, locationBasePath, previousUrl],
   );
 
   useEffect(
