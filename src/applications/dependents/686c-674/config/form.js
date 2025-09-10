@@ -134,6 +134,7 @@ import {
   childEvidence,
   showPensionRelatedQuestions,
   showPensionBackupPath,
+  show674IncomeQuestions,
 } from './utilities';
 
 const emptyMigration = savedData => savedData;
@@ -695,7 +696,7 @@ export const formConfig = {
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674) &&
               formData?.['view:addOrRemoveDependents']?.add &&
-              !formData?.vaDependentsNetWorthAndPension,
+              show674IncomeQuestions(formData),
           }),
           addStudentsPartEighteen: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
@@ -705,7 +706,7 @@ export const formConfig = {
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674) &&
               formData?.['view:addOrRemoveDependents']?.add &&
-              !formData?.vaDependentsNetWorthAndPension,
+              show674IncomeQuestions(formData),
           }),
           addStudentsPartNineteen: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
@@ -715,7 +716,7 @@ export const formConfig = {
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674) &&
               formData?.['view:addOrRemoveDependents']?.add &&
-              !formData?.vaDependentsNetWorthAndPension,
+              show674IncomeQuestions(formData),
           }),
           addStudentsPartTwenty: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
