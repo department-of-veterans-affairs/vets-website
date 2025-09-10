@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
+import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import _ from 'platform/utilities/data';
 import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
@@ -32,12 +33,24 @@ const {
 const { limitedConsent } = form4142.properties;
 
 const TreatedDisabilitiesCheckboxGroup = props => {
-  const { id, value, onChange, errorSchema, required, formData } = props;
+  const {
+    id,
+    value,
+    onChange,
+    errorSchema,
+    formData,
+    formContext,
+    disabled,
+    readonly,
+  } = props;
 
   // Get full form data from Redux
   const fullFormData = useSelector(state => state.form?.data || {});
   const hasInitializedRef = React.useRef(false);
   const pendingUpdateRef = React.useRef(null);
+
+  const isReadOnly =
+    disabled || readonly || formContext?.reviewMode || formContext?.submitted;
 
   // Track local state for immediate UI updates
   const [localValue, setLocalValue] = useState(() => {
@@ -52,7 +65,7 @@ const TreatedDisabilitiesCheckboxGroup = props => {
         setLocalValue(newValue);
       }
     },
-    [formData, value],
+    [formData, localValue, value],
   );
 
   // Extract disabilities from form data
@@ -92,7 +105,12 @@ const TreatedDisabilitiesCheckboxGroup = props => {
   // Initialize values only once when list changes
   useEffect(
     () => {
-      if (!hasInitializedRef.current && disabilityList.length > 0 && onChange) {
+      if (
+        !hasInitializedRef.current &&
+        disabilityList.length > 0 &&
+        onChange &&
+        !isReadOnly
+      ) {
         const needsInit = disabilityList.some(
           name => localValue[name] === undefined,
         );
@@ -108,18 +126,35 @@ const TreatedDisabilitiesCheckboxGroup = props => {
         }
       }
     },
-    [disabilityList.length],
-  ); // Only when list size changes
+    [disabilityList, disabilityList.length, isReadOnly, localValue, onChange],
+  );
 
   // Process pending updates
   useEffect(() => {
-    if (pendingUpdateRef.current && onChange) {
-      onChange(pendingUpdateRef.current);
-      pendingUpdateRef.current = null;
+    if (pendingUpdateRef.current && onChange && !isReadOnly) {
+      try {
+        onChange(pendingUpdateRef.current);
+        pendingUpdateRef.current = null;
+      } catch (error) {
+        pendingUpdateRef.current = null;
+      }
     }
   });
 
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      hasInitializedRef.current = false;
+      pendingUpdateRef.current = null;
+    };
+  }, []);
+
   const handleCheckboxChange = (conditionName, isChecked) => {
+    // Don't handle changes if in read-only mode
+    if (isReadOnly) {
+      return;
+    }
+
     // Create a completely new object with all conditions
     const newValue = {};
     disabilityList.forEach(name => {
@@ -142,12 +177,13 @@ const TreatedDisabilitiesCheckboxGroup = props => {
 
       // Ensure the change propagates
       Promise.resolve().then(() => {
-        onChange(newValue);
+        if (typeof onChange === 'function') {
+          onChange(newValue);
+        }
       });
     }
   };
 
-  // Determine if there's an error to show
   const hasError = errorSchema?.__errors?.length > 0;
   const errorMessage = hasError ? errorSchema.__errors[0] : null;
 
@@ -164,18 +200,31 @@ const TreatedDisabilitiesCheckboxGroup = props => {
     );
   }
 
-  return (
-    <fieldset className="vads-u-margin-y--2">
-      <legend className="schemaform-label vads-u-font-weight--normal vads-u-font-size--base">
-        What conditions were you treated for?
-        {required && (
-          <span className="schemaform-required-span vads-u-font-weight--normal">
-            {' '}
-            (*Required)
-          </span>
-        )}
-      </legend>
+  // If in read-only mode, show a simple list of checked conditions
+  if (isReadOnly) {
+    const checkedConditions = disabilityList.filter(
+      name => localValue[name] === true,
+    );
 
+    return (
+      <div className="vads-u-margin-y--2">
+        <dd>What conditions were you treated for?</dd>
+        {checkedConditions.length === 0 ? (
+          <span>None selected</span>
+        ) : (
+          <ul className="vads-u-margin-top--0">
+            {checkedConditions.map(condition => (
+              <li key={condition}>{condition}</li>
+            ))}
+          </ul>
+        )}
+      </div>
+    );
+  }
+
+  // Editable mode - no fieldset/legend since form system handles the label
+  return (
+    <>
       {hasError &&
         errorMessage && (
           <span
@@ -190,7 +239,6 @@ const TreatedDisabilitiesCheckboxGroup = props => {
       <div className="vads-u-margin-top--2" role="group">
         {disabilityList.map((conditionName, index) => {
           const checkboxId = `${id}_${index}`;
-          // Use localValue for immediate UI updates
           const isChecked = localValue[conditionName] === true;
 
           return (
@@ -200,6 +248,7 @@ const TreatedDisabilitiesCheckboxGroup = props => {
               name={checkboxId}
               label={conditionName}
               checked={isChecked}
+              disabled={isReadOnly}
               onVaChange={event => {
                 handleCheckboxChange(conditionName, event.detail.checked);
               }}
@@ -208,10 +257,21 @@ const TreatedDisabilitiesCheckboxGroup = props => {
           );
         })}
       </div>
-    </fieldset>
+    </>
   );
 };
-
+TreatedDisabilitiesCheckboxGroup.propTypes = {
+  disabled: PropTypes.bool,
+  errorSchema: PropTypes.object,
+  formContext: PropTypes.object,
+  formData: PropTypes.object,
+  id: PropTypes.string,
+  readonly: PropTypes.bool,
+  required: PropTypes.bool,
+  uiSchema: PropTypes.object,
+  value: PropTypes.object,
+  onChange: PropTypes.func,
+};
 export default TreatedDisabilitiesCheckboxGroup;
 
 export const uiSchema = {
@@ -255,9 +315,6 @@ export const uiSchema = {
       },
       treatedDisabilityNames: {
         'ui:title': 'What conditions were you treated for?',
-        // 'ui:webComponentField': VaCheckboxGroupField,
-        // 'ui:field': TreatedDisabilityNamesField,
-        // 'ui:field': ConnectedTreatedDisabilitiesCheckboxGroup,
         'ui:field': TreatedDisabilitiesCheckboxGroup,
         'ui:options': {
           // {
