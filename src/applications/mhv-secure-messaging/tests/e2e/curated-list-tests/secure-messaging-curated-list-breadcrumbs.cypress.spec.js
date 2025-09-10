@@ -53,11 +53,9 @@ describe('SM CURATED LIST BREADCRUMBS', () => {
       `${Paths.COMPOSE.replace(/\/$/, '')}${Paths.SELECT_CARE_TEAM}`,
     );
 
-    // Click back to the interstitial page, which triggers a modal
     cy.findByTestId('sm-breadcrumbs-back').click();
 
-    // Dismiss navigation warning modal
-    cy.get(`va-button[text="Delete draft"]`).click();
+    cy.get(`va-button[text="Delete draft"]:not([id])`).click();
 
     GeneralFunctionsPage.verifyPageHeader(
       'Only use messages for non-urgent needs',

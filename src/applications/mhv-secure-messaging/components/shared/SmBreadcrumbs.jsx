@@ -102,8 +102,10 @@ const SmBreadcrumbs = () => {
       const isSelectCareTeam = previousUrl.includes(
         Constants.Paths.SELECT_CARE_TEAM,
       );
+      const isDraft = previousUrl.includes(Constants.Paths.DRAFTS);
       const wasCareTeamHelp = pathname === Constants.Paths.CARE_TEAM_HELP;
-      const wasCompose = `/${locationBasePath}/` === Constants.Paths.COMPOSE;
+      const wasStartMessage =
+        pathname === `${COMPOSE}${Constants.Paths.START_MESSAGE}`;
 
       if (isContactList && isCompose && activeDraftId) {
         history.push(`${Constants.Paths.MESSAGE_THREAD}${activeDraftId}/`);
@@ -115,7 +117,9 @@ const SmBreadcrumbs = () => {
         history.push(Constants.Paths.INBOX);
       } else if (wasCareTeamHelp) {
         history.push(Constants.Paths.SELECT_CARE_TEAM);
-      } else if (wasCompose && isSelectCareTeam) {
+      } else if (!isDraft && wasStartMessage) {
+        history.push(Constants.Paths.SELECT_CARE_TEAM);
+      } else if (isSelectCareTeam) {
         history.push(Constants.Paths.INBOX);
       } else {
         history.push(
