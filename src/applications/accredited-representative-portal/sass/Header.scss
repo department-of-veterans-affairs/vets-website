@@ -2,13 +2,19 @@
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 
 .header {
+  @media screen and (max-width: 428px) {
+    button.nav__btn--user {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+  }
   min-height: auto;
   -webkit-font-smoothing: antialiased;
 
   &__govt-site {
     width: 100%;
     padding: 8px 16px;
-    max-width: 960px;
+    max-width: 984px;
     @media (min-width: $medium-screen) {
       margin: 0 auto;
       padding: 4px 16px;
@@ -41,6 +47,36 @@
     margin-right: 8px;
     @media (min-width: $medium-screen) {
       margin: 4px 0;
+    }
+  }
+
+  .heading-right {
+    display: inline-flex;
+    margin-left: auto;
+    align-items: baseline;
+    .heading-help-link {
+      border: none;
+      color: var(--vads-color-base);
+      padding: 8px 12px 8px 12px;
+      font-size: 16.96px;
+      font-weight: 700;
+      text-decoration: none;
+      margin-right: 12px;
+      border-radius: 4px;
+
+      &.logged-in {
+        @media screen and (max-width: 768px) {
+          transform: translateY(-6px);
+        }
+        @media screen and (max-width: 425px) {
+          padding-right: 0px;
+          margin-right: 0px;
+        }
+      }
+    }
+
+    .arp-profile-dropdown {
+      transform: translateY(3px);
     }
   }
 }
@@ -113,7 +149,7 @@
     width: 100%;
     flex-wrap: wrap;
     margin: 0 auto;
-    max-width: 960px;
+    max-width: 984px;
     align-items: center;
     flex-wrap: nowrap;
   }
@@ -131,7 +167,7 @@
 
     @media (min-width: $medium-screen) {
       display: flex;
-      max-width: 960px;
+      max-width: 984px;
       margin: 0 auto 48px;
     }
   }

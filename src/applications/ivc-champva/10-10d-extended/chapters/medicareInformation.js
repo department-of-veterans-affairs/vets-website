@@ -27,6 +27,7 @@ import {
   getAgeInYears,
 } from '../../shared/utilities';
 import { ADDITIONAL_FILES_HINT } from '../../shared/constants';
+import { validateMedicarePartDDates } from '../helpers/validations';
 
 import {
   selectMedicareParticipantPage,
@@ -647,12 +648,12 @@ const medicarePartDCarrierEffectiveDatePage = {
     medicarePartDEffectiveDate: currentOrPastDateUI({
       title: 'Medicare Part D effective date',
       hint: 'This information is at the top of your card.',
-      required: () => true,
     }),
     medicarePartDTerminationDate: currentOrPastDateUI({
       title: 'Medicare Part D termination date',
       hint: 'Only enter this date if your plan is inactive',
     }),
+    'ui:validations': [validateMedicarePartDDates],
   },
   schema: {
     type: 'object',
