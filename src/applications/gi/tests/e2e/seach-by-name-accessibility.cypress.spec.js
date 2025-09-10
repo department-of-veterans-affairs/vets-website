@@ -55,6 +55,7 @@ describe('CT before search by name accessibility', () => {
       'aria-expanded',
       'true',
     );
+    cy.focused().should('contain.text', 'Go to community focus details');
     cy.repeatKey('Tab', 11);
     cy.focused().should('contain.text', 'Apply filters');
     cy.realPress('Enter');
