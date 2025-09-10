@@ -14,10 +14,12 @@ import {
   loincCodes,
   pageTitles,
   statsdFrontEndActions,
+  noteTypes,
 } from '../util/constants';
 import useAlerts from '../hooks/use-alerts';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import { useTrackAction } from '../hooks/useTrackAction';
+import useAcceleratedData from '../hooks/useAcceleratedData';
 
 const CareSummariesDetails = () => {
   const dispatch = useDispatch();
@@ -29,6 +31,9 @@ const CareSummariesDetails = () => {
   );
   const { summaryId } = useParams();
   const activeAlert = useAlerts(dispatch);
+
+  const { isAcceleratingCareNotes } = useAcceleratedData();
+
   useTrackAction(statsdFrontEndActions.CARE_SUMMARIES_AND_NOTES_DETAILS);
 
   useEffect(
@@ -43,11 +48,17 @@ const CareSummariesDetails = () => {
   useEffect(
     () => {
       if (summaryId) {
-        dispatch(getCareSummaryAndNotesDetails(summaryId, careSummariesList));
+        dispatch(
+          getCareSummaryAndNotesDetails(
+            summaryId,
+            careSummariesList,
+            isAcceleratingCareNotes,
+          ),
+        );
       }
       updatePageTitle(pageTitles.CARE_SUMMARIES_AND_NOTES_DETAILS_PAGE_TITLE);
     },
-    [summaryId, careSummariesList, dispatch],
+    [summaryId, careSummariesList, dispatch, isAcceleratingCareNotes],
   );
 
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
@@ -60,13 +71,24 @@ const CareSummariesDetails = () => {
       />
     );
   }
-  if (careSummary?.type === loincCodes.DISCHARGE_SUMMARY) {
+  const isDischargeSummary =
+    careSummary?.type === noteTypes.DISCHARGE_SUMMARY ||
+    careSummary?.type === loincCodes.DISCHARGE_SUMMARY;
+  if (isDischargeSummary) {
     return <AdmissionAndDischargeDetails record={careSummary} />;
   }
-  if (
-    careSummary?.type === loincCodes.PHYSICIAN_PROCEDURE_NOTE ||
-    careSummary?.type === loincCodes.CONSULT_RESULT
-  ) {
+
+  const isPhysicianProcedureNote =
+    careSummary?.type === noteTypes.PHYSICIAN_PROCEDURE_NOTE ||
+    careSummary?.type === loincCodes.PHYSICIAN_PROCEDURE_NOTE;
+
+  const isConsultResult =
+    careSummary?.type === noteTypes.CONSULT_RESULT ||
+    careSummary?.type === loincCodes.CONSULT_RESULT;
+
+  const isOther = careSummary?.type === noteTypes.OTHER;
+
+  if (isPhysicianProcedureNote || isConsultResult || isOther) {
     return <ProgressNoteDetails record={careSummary} />;
   }
   return (
