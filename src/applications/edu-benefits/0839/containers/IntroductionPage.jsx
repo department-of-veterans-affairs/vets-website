@@ -1,19 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import { querySelectorWithShadowRoot } from 'platform/utilities/ui/webComponents';
-import { isLOA3, isLoggedIn } from 'platform/user/selectors';
-import { useSelector } from 'react-redux';
+import { toggleLoginModal as toggleLoginModalAction } from '~/platform/site-wide/user-nav/actions';
+import { isLoggedIn } from 'platform/user/selectors';
+// import { isLOA3, isLoggedIn } from 'platform/user/selectors';
+import { useSelector, useDispatch } from 'react-redux';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { TITLE, SUBTITLE } from '../constants';
-
-const OMB_RES_BURDEN = 840;
-const OMB_NUMBER = '2900-0718 ';
-const OMB_EXP_DATE = '01/31/2028';
+import OmbInfo from '../components/OmbInfo';
 
 const ProcessList = () => {
   return (
@@ -107,11 +107,18 @@ const PrivacyActAccordion = () => {
 
 export const IntroductionPage = props => {
   const userLoggedIn = useSelector(state => isLoggedIn(state));
-  const userIdVerified = useSelector(state => isLOA3(state));
+  // const userLoggedIn = true;
+  const dispatch = useDispatch();
+  const toggleLoginModal = useCallback(
+    (showModal, source, showSignInModal) => {
+      dispatch(toggleLoginModalAction(showModal, source, showSignInModal));
+    },
+    [dispatch],
+  );
+  // const userIdVerified = useSelector(state => isLOA3(state)); // applicable for our form?
   const { route } = props;
   const { formConfig, pageList } = route;
-  // const showVerifyIdentify = true;
-  const showVerifyIdentify = userLoggedIn && !userIdVerified;
+  // const showVerifyIdentify = userLoggedIn && !userIdVerified;
 
   const removePrivacyActButton = async () => {
     const vaOmbInfo = document.querySelector('va-omb-info');
@@ -137,6 +144,32 @@ export const IntroductionPage = props => {
 
     removeButton();
   }, []);
+
+  const showSignInModal = useCallback(
+    () => {
+      toggleLoginModal(true, 'ask-va', true);
+    },
+    [toggleLoginModal],
+  );
+  function SignInButton() {
+    return (
+      <span slot="SignInButton">
+        <VaButton
+          text="Sign in or create an account"
+          onClick={showSignInModal}
+        />
+      </span>
+    );
+  }
+  useEffect(
+    () => {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('showSignInModal') === 'true' && !userLoggedIn) {
+        showSignInModal();
+      }
+    },
+    [userLoggedIn, toggleLoginModal, showSignInModal],
+  );
 
   return (
     <article className="schemaform-intro">
@@ -203,37 +236,53 @@ export const IntroductionPage = props => {
         How do I submit my Yellow Ribbon Agreement?
       </h2>
       <ProcessList />
-      {showVerifyIdentify ? (
-        // <div>{/* add verify identity alert if applicable */}</div>
-        <>
-          <h2>Start the form</h2>
-          <va-banner data-label="Info banner" type="info" visible>
+      <div className="vads-u-border-top--4 vads-u-margin-bottom--4">
+        {!userLoggedIn ? (
+          // <div>{/* add verify identity alert if applicable */}</div> -- when is this applicable?
+
+          <div className="not-logged-in">
+            <va-alert-sign-in
+              data-testid="sign-in-alert"
+              disable-analytics
+              heading-level={3}
+              no-sign-in-link={null}
+              time-limit={null}
+              variant="signInRequired"
+              visible
+            >
+              <span slot="SignInButton">
+                <SignInButton />
+              </span>
+            </va-alert-sign-in>
+          </div>
+        ) : (
+          <>
+            <h2 className="vads-u-margin-top--1p5">Start the form</h2>
+            <SaveInProgressIntro // render differently if user is logged in?
+              headingLevel={2}
+              prefillEnabled={formConfig.prefillEnabled}
+              messages={formConfig.savedFormMessages}
+              pageList={pageList}
+              startText="Start your Yellow Ribbon Agreement"
+              formConfig={formConfig}
+              devOnly={{
+                forceShowFormControls: true,
+              }}
+              unauthStartText="Sign in to start your form"
+            />
+
+            {/* <va-banner data-label="Info banner" type="info" visible>
             <p>
               You can save this form in progress, and come back later to finish
               filling it out.
             </p>
-          </va-banner>
-        </>
-      ) : (
-        <SaveInProgressIntro
-          headingLevel={2}
-          prefillEnabled={formConfig.prefillEnabled}
-          messages={formConfig.savedFormMessages}
-          pageList={pageList}
-          startText="Start your Yellow Ribbon Agreement"
-          formConfig={formConfig}
-          devOnly={{
-            forceShowFormControls: true,
-          }}
-          unauthStartText="Sign in to start your form"
-        />
-      )}
-      <p />
-      <va-omb-info
-        res-burden={OMB_RES_BURDEN}
-        omb-number={OMB_NUMBER}
-        exp-date={OMB_EXP_DATE}
-      />
+          </va-banner> */}
+
+            {/* Start form action link -- possible to conditionally render via SaveInProgressIntro ?? */}
+          </>
+        )}
+      </div>
+      <OmbInfo />
       <PrivacyActAccordion />
     </article>
   );
