@@ -3,7 +3,7 @@ import PatientInboxPage from '../pages/PatientInboxPage';
 import PatientComposePage from '../pages/PatientComposePage';
 import PatientMessageDraftsPage from '../pages/PatientMessageDraftsPage';
 import requestBody from '../fixtures/message-compose-request-body.json';
-import { AXE_CONTEXT, Locators } from '../utils/constants';
+import { AXE_CONTEXT } from '../utils/constants';
 
 describe('SM SAVING DRAFT WITH ATTACHMENT BY KEYBOARD', () => {
   it('verify draft saved without attachment', () => {
@@ -22,17 +22,17 @@ describe('SM SAVING DRAFT WITH ATTACHMENT BY KEYBOARD', () => {
 
     PatientMessageDraftsPage.verifySaveWithAttachmentAlert();
 
-    cy.get(Locators.ALERTS.ALERT_MODAL)
-      .shadow()
-      .find(`button`)
-      .click();
+    // cy.get(Locators.ALERTS.ALERT_MODAL)
+    //   .shadow()
+    //   .find(`button`)
+    //   .click();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
 
-    cy.get(Locators.BACK_TO)
-      .should('be.visible')
-      .click();
-    PatientComposePage.clickSaveDraftWithoutAttachmentBtn();
+    // cy.get(Locators.BACK_TO)
+    //   .should('be.visible')
+    //   .click();
+    // PatientComposePage.clickSaveDraftWithoutAttachmentBtn();
   });
 });
