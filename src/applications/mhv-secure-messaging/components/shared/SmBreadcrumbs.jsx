@@ -130,7 +130,14 @@ const SmBreadcrumbs = () => {
         );
       }
     },
-    [activeDraftId, crumb?.href, history, locationBasePath, previousUrl],
+    [
+      activeDraftId,
+      crumb?.href,
+      history,
+      locationBasePath,
+      previousUrl,
+      location,
+    ],
   );
 
   useEffect(
