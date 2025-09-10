@@ -30,6 +30,7 @@ import {
   processList,
   removeTrailingSlash,
   formatDateAndTimeWithGenericZone,
+  formatDateTime,
 } from '../../util/helpers';
 import { refreshPhases, VALID_REFRESH_DURATION } from '../../util/constants';
 
@@ -1002,5 +1003,51 @@ describe('formatDateAndTimeWithGenericZone', () => {
 
     expect(time).to.equal('8:45 a.m.');
     expect(timeZone).to.equal('PT');
+  });
+});
+
+describe('formatDateTime', () => {
+  it('formats a Date instance into date and time strings (local time)', () => {
+    // January 5, 2025 at 12:00:00 local time
+    const d = new Date(2025, 0, 5, 12, 0, 0);
+    const { formattedDate, formattedTime } = formatDateTime(d);
+
+    expect(formattedDate).to.equal('January 5, 2025');
+    expect(formattedTime).to.equal('12:00 PM');
+  });
+
+  it('formats a millisecond timestamp consistently (same as Date instance)', () => {
+    const d = new Date(2025, 0, 5, 12, 0, 0);
+    const ts = d.getTime();
+
+    const { formattedDate, formattedTime } = formatDateTime(ts);
+
+    expect(formattedDate).to.equal('January 5, 2025');
+    expect(formattedTime).to.equal('12:00 PM');
+  });
+
+  it('formats an ISO string without timezone as local time', () => {
+    // ISO without Z is interpreted as local time by Date
+    const isoLocal = '2025-01-05T12:00:00';
+    const { formattedDate, formattedTime } = formatDateTime(isoLocal);
+
+    expect(formattedDate).to.equal('January 5, 2025');
+    expect(formattedTime).to.equal('12:00 PM');
+  });
+
+  it('returns empty strings for invalid input', () => {
+    const { formattedDate, formattedTime } = formatDateTime('not-a-date');
+
+    expect(formattedDate).to.equal('');
+    expect(formattedTime).to.equal('');
+  });
+
+  it('handles midnight correctly (12:00 AM)', () => {
+    // January 5, 2025 at 00:00:00 local time
+    const d = new Date(2025, 0, 5, 0, 0, 0);
+    const { formattedDate, formattedTime } = formatDateTime(d);
+
+    expect(formattedDate).to.equal('January 5, 2025');
+    expect(formattedTime).to.equal('12:00 AM');
   });
 });

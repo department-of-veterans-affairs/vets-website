@@ -232,7 +232,7 @@ function logEligibilityExplanation(
  * @param {TypeOfCare} params.typeOfCare Type of care object for the currently chosen type of care
  * @param {Location} params.location The current location to check eligibility against
  * @param {boolean} params.directSchedulingEnabled If direct scheduling is currently enabled
- * @param {boolean} [params.usePastVisitMHFilter=false] whether to use past visits as a filter for scheduling MH appointments
+ * @param {boolean} [params.featurePastVisitMHFilter=false] whether to use past visits as a filter for scheduling MH appointments
  * @returns {FlowEligibilityReturnData} Eligibility results, plus clinics and past appointments
  *   so that they can be cache and reused later
  */
@@ -240,7 +240,7 @@ export async function fetchFlowEligibilityAndClinics({
   typeOfCare,
   location,
   directSchedulingEnabled,
-  usePastVisitMHFilter = false,
+  featurePastVisitMHFilter = false,
   isCerner = false,
 }) {
   const directSchedulingAvailable =
@@ -268,8 +268,8 @@ export async function fetchFlowEligibilityAndClinics({
     // Primary care and mental health is exempt from past appt history requirement
     const isDirectAppointmentHistoryRequired =
       typeOfCare.id !== TYPE_OF_CARE_IDS.PRIMARY_CARE &&
-      (typeOfCare.id !== TYPE_OF_CARE_IDS.MENTAL_HEALTH ||
-        usePastVisitMHFilter) &&
+      (typeOfCare.id !== TYPE_OF_CARE_IDS.MENTAL_HEALTH_SERVICES_ID ||
+        featurePastVisitMHFilter) &&
       directTypeOfCareSettings.patientHistoryRequired === true;
 
     if (isDirectAppointmentHistoryRequired) {
@@ -361,8 +361,8 @@ export async function fetchFlowEligibilityAndClinics({
     if (
       !isCerner &&
       typeOfCare.id !== TYPE_OF_CARE_IDS.PRIMARY_CARE &&
-      (typeOfCare.id !== TYPE_OF_CARE_IDS.MENTAL_HEALTH ||
-        usePastVisitMHFilter) &&
+      (typeOfCare.id !== TYPE_OF_CARE_IDS.MENTAL_HEALTH_SERVICES_ID ||
+        featurePastVisitMHFilter) &&
       directTypeOfCareSettings.patientHistoryRequired &&
       !hasMatchingClinics(results.clinics, results.pastAppointments)
     ) {
