@@ -93,10 +93,6 @@ class MedicalRecordsSite {
             value: true,
           },
           {
-            name: 'mhv_medical_records_display_notes',
-            value: true,
-          },
-          {
             name: 'mhv_medical_records_display_vitals',
             value: true,
           },
