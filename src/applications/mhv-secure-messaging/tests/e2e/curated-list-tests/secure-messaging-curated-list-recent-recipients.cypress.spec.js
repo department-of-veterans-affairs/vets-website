@@ -103,7 +103,9 @@ describe('SM CURATED LIST MAIN FLOW', () => {
       .should('exist');
 
     // validate the first va-radio-option is focused
-    cy.findByLabelText(recentCareTeams[0]).should('have.focus');
+    cy.findByLabelText(`${recentCareTeams[0]}VA Madison health care`).should(
+      'have.focus',
+    );
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 

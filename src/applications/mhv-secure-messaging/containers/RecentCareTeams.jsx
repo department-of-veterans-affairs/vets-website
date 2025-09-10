@@ -5,6 +5,8 @@ import {
   VaRadio,
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
+import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import EmergencyNote from '../components/EmergencyNote';
 import * as Constants from '../util/constants';
 import { getRecentRecipients } from '../actions/recipients';
@@ -19,6 +21,7 @@ const { Paths } = Constants;
 const RecentCareTeams = () => {
   const history = useHistory();
   const dispatch = useDispatch();
+  const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
   const [selectedCareTeam, setSelectedCareTeam] = useState(null);
   const [error, setError] = useState(null);
   const { recipients, threadDetails } = useSelector(state => state.sm);
@@ -136,21 +139,26 @@ const RecentCareTeams = () => {
         onVaValueChange={handleRadioChange}
         data-testid="recent-care-teams-radio-group"
       >
-        {(() => {
-          if (Array.isArray(recentRecipients) && recentRecipients.length > 0) {
-            return recentRecipients.map(recipient => (
+        {Array.isArray(recentRecipients) &&
+          recentRecipients.length > 0 &&
+          recentRecipients.map(recipient => {
+            const healthCareSystemName =
+              recipient?.healthCareSystemName ||
+              getVamcSystemNameFromVhaId(
+                ehrDataByVhaId,
+                recipient.stationNumber,
+              );
+            return (
               <VaRadioOption
                 tile
                 key={recipient.triageTeamId}
                 label={recipient.name}
                 value={recipient.triageTeamId}
-                description={recipient.healthCareSystemName || ''}
+                description={healthCareSystemName}
                 data-dd-privacy="mask"
               />
-            ));
-          }
-          return null;
-        })()}
+            );
+          })}
         <VaRadioOption label="A different care team" tile value={OTHER_VALUE} />
       </VaRadio>
       <va-button
