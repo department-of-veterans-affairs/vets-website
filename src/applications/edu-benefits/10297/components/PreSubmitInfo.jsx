@@ -77,7 +77,7 @@ const PreSubmitInfo = ({
       }
       if (clarifyingTextLabel) {
         clarifyingTextLabel.innerHTML =
-          'Yes, I have read and acknowledge these statements.';
+          'Yes, I have read and acknowledge this statement.';
       }
       const labelStyle = await querySelectorWithShadowRoot(
         'label[for="checkbox-element"]',
