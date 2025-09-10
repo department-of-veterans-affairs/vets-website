@@ -10,11 +10,9 @@ const YellowRibbonInstructionsPage = () => {
   }, []);
 
   return (
-    <div className="vads-l-grid-container vads-u-margin-top--4 vads-u-padding-x--0">
+    <div className="vads-l-grid-container ">
       <div className="usa-width-two-thirds vads-u-margin-bottom--4">
-        <div className="desktop-lg:vads-u-padding-left--0">
-          <Breadcrumbs />
-        </div>
+        <Breadcrumbs />
         <h1>Instructions for completing the Yellow Ribbon Program agreement</h1>
 
         <p className="vads-u-margin-top--2">

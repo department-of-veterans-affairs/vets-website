@@ -30,15 +30,13 @@ const Breadcrumbs = () => {
       : []),
   ];
   return (
-    <div className="row">
-      <div className="vads-u-margin-left--2 mobile-lg:vads-u-margin-left--1">
-        <VaBreadcrumbs
-          uswds
-          breadcrumbList={crumbs}
-          data-testid="breadcrumbs"
-          wrapping
-        />
-      </div>
+    <div>
+      <VaBreadcrumbs
+        uswds
+        breadcrumbList={crumbs}
+        data-testid="breadcrumbs"
+        wrapping
+      />
     </div>
   );
 };
