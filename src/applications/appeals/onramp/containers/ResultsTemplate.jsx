@@ -18,7 +18,7 @@ const ResultsTemplate = ({
   useEffect(
     () => {
       if (!viewedIntroPage) {
-        router.push(ROUTES.HOME);
+        router.push(ROUTES.INTRODUCTION);
       }
     },
     [router, viewedIntroPage],

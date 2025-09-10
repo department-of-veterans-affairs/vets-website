@@ -240,15 +240,3 @@ export const resultsNonDRDynamicContentDCs = Object.freeze({
     Q_1_2A_CONDITION_WORSENED: NO,
   },
 });
-
-export const resultsNonDRDynamicContentDCs = Object.freeze({
-  [p.NOT_SERVICE_CONNECTED]: {
-    Q_1_2A_1_SERVICE_CONNECTED: NO,
-  },
-  [p.NOT_LAW_POLICY_CHANGE]: {
-    Q_1_2B_LAW_POLICY_CHANGE: NO,
-  },
-  [p.CONDITION_NOT_WORSE]: {
-    Q_1_2A_CONDITION_WORSENED: NO,
-  },
-});
