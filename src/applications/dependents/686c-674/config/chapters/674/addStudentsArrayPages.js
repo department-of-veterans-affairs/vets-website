@@ -69,8 +69,8 @@ export const addStudentsOptions = {
     !item?.schoolInformation?.currentTermDates?.expectedGraduationDate ||
     (item?.schoolInformation?.studentDidAttendSchoolLastTerm === true &&
       !item?.schoolInformation?.studentDidAttendSchoolLastTerm) ||
-    (item?.claimsOrReceivesPension === true &&
-      !item?.claimsOrReceivesPension) ||
+    (item?.claimsOrReceivesPension !== undefined &&
+      ![true, false].includes(item?.claimsOrReceivesPension)) ||
     (item?.schoolInformation?.studentDidAttendSchoolLastTerm === true &&
       (!item?.schoolInformation?.lastTermSchoolInformation?.termBegin ||
         !item?.schoolInformation?.lastTermSchoolInformation?.dateTermEnded)) ||
@@ -192,7 +192,24 @@ export const studentIncomePage = {
         N: 'No',
         NA: 'This question doesn’t apply to me',
       },
-      required: () => false,
+      required: (_chapterData, _index, formData) =>
+        formData?.vaDependentsNetWorthAndPension,
+      updateUiSchema: () => ({
+        'ui:options': {
+          hint: '',
+        },
+      }),
+      updateSchema: (formData = {}, formSchema) => {
+        const { vaDependentsNetWorthAndPension } = formData;
+
+        if (!vaDependentsNetWorthAndPension) {
+          return formSchema;
+        }
+
+        return {
+          ...radioSchema(['Y', 'N']),
+        };
+      },
     }),
   },
   schema: {
@@ -704,10 +721,15 @@ export const studentEarningsPage = {
       () => 'Student’s income in the year their current school term began',
     ),
     'ui:options': {
-      updateSchema: (formData, schema, _uiSchema, index) => {
-        const itemData = formData?.studentInformation?.[index];
+      updateSchema: (_formData, schema, _uiSchema, index, _path, fullData) => {
+        const itemData = fullData?.studentInformation?.[index];
+        const { vaDependentsNetWorthAndPension } = fullData;
 
-        if (itemData?.claimsOrReceivesPension === false) {
+        const resetItemData = vaDependentsNetWorthAndPension
+          ? !fullData?.['view:checkVeteranPension']
+          : !itemData?.claimsOrReceivesPension;
+
+        if (resetItemData) {
           itemData.studentEarningsFromSchoolYear = undefined;
           itemData.studentExpectedEarningsNextYear = undefined;
           itemData.studentNetworthInformation = undefined;
