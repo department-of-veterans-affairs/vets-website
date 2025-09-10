@@ -53,7 +53,7 @@ describe('WelcomeContainer component', () => {
   });
 
   describe('Profile links', () => {
-    it.skip('calls datadogRum.addAction on click of profile links', async () => {
+    it('calls datadogRum.addAction on click of profile links', async () => {
       const { getByRole } = setup();
       const spyDog = sinon.spy(datadogRum, 'addAction');
       const profileLink = getByRole('link', { name: /profile/i });
@@ -68,7 +68,7 @@ describe('WelcomeContainer component', () => {
       spyDog.restore();
     });
 
-    it.skip('reports to GA on click of profile links', async () => {
+    it('reports to GA on click of profile links', async () => {
       const eventData = {
         event: 'nav-link-click',
         action: 'click',
