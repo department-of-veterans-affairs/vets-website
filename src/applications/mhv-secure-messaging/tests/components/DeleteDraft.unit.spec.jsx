@@ -227,12 +227,14 @@ describe('Delete Draft component', () => {
       },
     };
     const initialHistory = Paths.COMPOSE;
-    const { getByTestId, history } = renderWithStoreAndRouter(<DeleteDraft />, {
-      initialState,
-      reducers: reducer,
-      path: initialHistory,
-    });
-    const historySpy = sinon.spy(history, 'goBack');
+    const { getByTestId, history } = renderWithStoreAndRouter(
+      <DeleteDraft draftsCount={1} setNavigationError={() => {}} />,
+      {
+        initialState,
+        reducers: reducer,
+        path: initialHistory,
+      },
+    );
 
     const deleteButton = getByTestId('delete-draft-button');
     expect(deleteButton).to.exist;
@@ -245,7 +247,7 @@ describe('Delete Draft component', () => {
     const deleteModalButton = getByTestId('confirm-delete-draft');
     fireEvent.click(deleteModalButton);
     await waitFor(() => {
-      expect(historySpy.called).to.be.true;
+      expect(history.push.calledWith('/inbox/')).to.be.true;
     });
     expect(deleteModal).to.have.attribute('visible', 'false');
   });
