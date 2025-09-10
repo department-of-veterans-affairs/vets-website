@@ -134,6 +134,7 @@ const RecentCareTeams = () => {
         label={RADIO_BUTTON_SET_LABEL}
         required
         onVaValueChange={handleRadioChange}
+        data-testid="recent-care-teams-radio-group"
       >
         {(() => {
           if (Array.isArray(recentRecipients) && recentRecipients.length > 0) {
@@ -157,6 +158,7 @@ const RecentCareTeams = () => {
         continue
         onClick={handleContinue}
         text="Continue"
+        data-testid="recent-care-teams-continue-button"
       />
     </>
   );
