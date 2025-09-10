@@ -5,7 +5,7 @@ import PatientMessageDraftsPage from '../pages/PatientMessageDraftsPage';
 import requestBody from '../fixtures/message-compose-request-body.json';
 import { AXE_CONTEXT, Locators } from '../utils/constants';
 
-describe('SM SAVING DRAFT BY KEYBOARD', () => {
+describe('SM SAVING DRAFT WITH ATTACHMENT BY KEYBOARD', () => {
   it('verify draft saved without attachment', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
@@ -30,7 +30,9 @@ describe('SM SAVING DRAFT BY KEYBOARD', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
 
-    cy.get(Locators.BACK_TO).click();
+    cy.get(Locators.BACK_TO)
+      .should('be.visible')
+      .click();
     PatientComposePage.clickSaveDraftWithoutAttachmentBtn();
   });
 });
