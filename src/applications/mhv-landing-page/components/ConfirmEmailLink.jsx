@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { isAfter } from 'date-fns';
-import recordEvent from '~/platform/monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 
 import { VaCriticalAction } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
@@ -23,7 +23,7 @@ export const showConfirmEmail = state => (date = EMAIL_UPDATED_AT_THRESHOLD) => 
   return !profileLoading && !recentlyUpdated;
 };
 
-const ConfirmEmailLink = ({ recordEventFn = recordEvent } = {}) => {
+const ConfirmEmailLink = ({ recordEventFn = recordEvent }) => {
   const text =
     'Confirm your contact email address to keep getting VA notifications';
   const renderConfirmEmailLink = useSelector(showConfirmEmail)();
