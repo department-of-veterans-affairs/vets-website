@@ -1,22 +1,14 @@
 import React from 'react';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import {
-  currentOrPastDateSchema,
-  currentOrPastDateUI,
-} from '~/platform/forms-system/src/js/web-component-patterns/datePatterns';
-
-// import { validateWithin180Days } from '../helpers';
+import { currentOrPastDateSchema } from '~/platform/forms-system/src/js/web-component-patterns/datePatterns';
+import dateUI from 'platform/forms-system/src/js/definitions/date';
 
 const uiSchema = {
   ...titleUI('Your active duty release date'),
   dateReleasedFromActiveDuty: {
-    ...currentOrPastDateUI({
-      title:
-        'Please provide the date you were or will be released from active duty.',
-      errorMessages: { required: 'Please enter a date' },
-      hint: null,
-    }),
-    // 'ui:validations': [validateWithin180Days],
+    ...dateUI(
+      'Please provide the date you were or will be released from active duty.',
+    ),
   },
   'view:releaseDateNote': {
     'ui:description': (

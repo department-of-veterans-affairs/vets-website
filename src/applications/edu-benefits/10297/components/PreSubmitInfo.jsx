@@ -49,13 +49,10 @@ const PreSubmitInfo = ({
         'p:has(va-link)',
         document.querySelector('va-statement-of-truth'),
       );
-      const statementText = await querySelectorWithShadowRoot(
-        'va-checkbox > span',
-        document.querySelector('va-privacy-agreement'),
+      const statementOfTruthText = await querySelectorWithShadowRoot(
+        'va-checkbox',
+        document.querySelector('va-statement-of-truth'),
       );
-      if (statementText) {
-        statementText.setAttribute('style', 'display: none;');
-      }
       if (clarifyingText) {
         clarifyingText.setAttribute('style', 'display: none;');
       }
@@ -68,7 +65,7 @@ const PreSubmitInfo = ({
       }
       const clarifyingTextLabel = await querySelectorWithShadowRoot(
         'span[part="label"]',
-        clarifyingText,
+        statementOfTruthText,
       );
       const clarifyingTextLabel2 = await querySelectorWithShadowRoot(
         'span[part="label"]',
@@ -80,10 +77,16 @@ const PreSubmitInfo = ({
       }
       if (clarifyingTextLabel) {
         clarifyingTextLabel.innerHTML =
-          'I certify that the information I have provided is true and correct to the best of my knowledge and belief.';
+          'Yes, I have read and acknowledge these statements.';
+      }
+      const labelStyle = await querySelectorWithShadowRoot(
+        'label[for="checkbox-element"]',
+        statementOfTruthText,
+      );
+      if (labelStyle) {
+        labelStyle.setAttribute('style', 'white-space: nowrap;');
       }
     };
-
     const removeElements = async () => {
       // Hide platform line for privacy policy, use custom
       // await removeOldPrivacyPolicy();
@@ -156,11 +159,13 @@ const PreSubmitInfo = ({
         />
       </div>
       <VaStatementOfTruth
-        heading={statementOfTruth.heading || 'Statement of truth'}
+        heading={statementOfTruth.heading || 'Certification statement'}
         inputLabel={statementOfTruth.textInputLabel || 'Your full name'}
         inputValue={formData.statementOfTruthSignature}
         inputMessageAriaDescribedby={`${statementOfTruth.heading ||
-          'Statement of truth'}: ${statementOfTruth.messageAriaDescribedby}`}
+          'Certification statement'}: ${
+          statementOfTruth.messageAriaDescribedby
+        }`}
         inputError={
           (showError || statementOfTruthSignatureBlurred) &&
           fullNameReducer(formData.statementOfTruthSignature) !==
