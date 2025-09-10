@@ -1,23 +1,4 @@
 const { defineConfig } = require('cypress');
-const path = require('path');
-
-function ghAnnotate({ file, title, message, line = 1 }) {
-  const esc = s =>
-    String(s)
-      .replace(/%/g, '%25')
-      .replace(/\r/g, '%0D')
-      .replace(/\n/g, '%0A');
-  process.stdout.write(
-    `::warning file=${esc(file)},line=${line},title=${esc(title)}::${esc(
-      message,
-    )}\n`,
-  );
-}
-const touchedSpecs = new Set();
-
-const dynamicBaseUrl =
-  process.env.CYPRESS_BASE_URL ||
-  (process.env.CI ? 'http://localhost:3001' : undefined);
 
 const cypressConfig = {
   viewportWidth: 1920,
@@ -204,64 +185,12 @@ const cypressConfig = {
   },
   e2e: {
     setupNodeEvents(on, config) {
-      const nodeConfig = require('../src/platform/testing/e2e/cypress/plugins/index')(
+      return require('../src/platform/testing/e2e/cypress/plugins/index')(
         on,
         config,
       );
-      // We only want Cypress specs annotated while being run outside of stress test jobs
-      if (typeof process.env.IS_STRESS_TEST === 'undefined') {
-        on('task', {
-          recordNetworkTouch(specAbs) {
-            try {
-              const workspace = process.env.GITHUB_WORKSPACE || process.cwd();
-              const abs = path.resolve(String(specAbs));
-              const rel = path.relative(workspace, abs).replace(/\\/g, '/');
-              touchedSpecs.add(abs);
-              touchedSpecs.add(rel);
-            } catch (_) {
-              touchedSpecs.add(String(specAbs));
-            }
-            return null;
-          },
-          emitAnnotationNow(specPath) {
-            const workspace = process.env.GITHUB_WORKSPACE || process.cwd();
-            const abs = path.resolve(String(specPath));
-            const rel = path.relative(workspace, abs).replace(/\\/g, '/');
-            ghAnnotate({
-              file: rel,
-              line: 1,
-              title: 'Unhandled network calls',
-              message:
-                'This spec made real network requests. Use cy.intercept() or stubs.',
-            });
-            return null;
-          },
-        });
-
-        on('after:spec', spec => {
-          const workspace = process.env.GITHUB_WORKSPACE || process.cwd();
-          const abs = spec.absolute;
-          const rel = path.relative(workspace, abs).replace(/\\/g, '/');
-          const matched =
-            touchedSpecs.has(abs) ||
-            touchedSpecs.has(rel) ||
-            [...touchedSpecs].some(s => String(s).endsWith(rel));
-          if (!matched) return;
-          touchedSpecs.delete(abs);
-          touchedSpecs.delete(rel);
-          ghAnnotate({
-            file: rel,
-            line: 1,
-            title: 'Unhandled network calls',
-            message:
-              'This spec made real network requests—add cy.intercept() or stubs.',
-          });
-        });
-      }
-
-      return nodeConfig || config;
     },
-    baseUrl: dynamicBaseUrl,
+    baseUrl: 'http://localhost:3001',
     specPattern: 'src/**/tests/**/*.cypress.spec.js?(x)',
     supportFile: 'src/platform/testing/e2e/cypress/support/index.js',
     includeShadowDom: true,

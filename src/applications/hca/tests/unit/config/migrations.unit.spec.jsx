@@ -336,13 +336,15 @@ describe('hca migrations', () => {
       const { metadata } = migration(data);
       expect(metadata.returnUrl).to.eq(desiredUrl);
     });
+  });
 
-    it('should update the return URL when invalid insurance values are present in the form data', () => {
-      const desiredUrl = '/insurance-information/general';
-      const data = {
-        formData: { providers: [{ insuranceName: 'Dave Jones' }] },
-        metadata: { returnUrl: '/review-and-submit' },
-      };
+  context('when v9 migration runs', () => {
+    const migration = migrations[8];
+
+    it('should update the return URL to point to the new insurance policies page', () => {
+      const returnUrl = '/insurance-information/general';
+      const desiredUrl = '/insurance-information/health-insurance';
+      const data = { formData: {}, metadata: { returnUrl } };
       const { metadata } = migration(data);
       expect(metadata.returnUrl).to.eq(desiredUrl);
     });

@@ -70,6 +70,7 @@ const formConfig = {
   customText: {
     reviewPageTitle: 'Review and submit',
     submitButtonText: 'Submit',
+    appType: 'claim',
   },
   preSubmitInfo: {
     statementOfTruth: {
