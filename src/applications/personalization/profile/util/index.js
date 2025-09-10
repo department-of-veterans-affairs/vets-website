@@ -208,9 +208,9 @@ const getLighthouseErrorCode = (errors = []) => {
 
 // Helper that creates and returns an object to pass to the recordEvent()
 // function when an error occurs while trying to save/update a user's direct
-// deposit for compensation and pension payment information. The value of the
-// `error-key` prop will change depending on the content of the `errors` array.
-export const createCNPDirectDepositAnalyticsDataObject = ({
+// deposit information. The value of the `error-key` prop will change depending
+// on the content of the `errors` array.
+export const createDirectDepositAnalyticsDataObject = ({
   errors = [],
   isEnrolling = false,
 } = {}) => {
@@ -219,7 +219,7 @@ export const createCNPDirectDepositAnalyticsDataObject = ({
   return cloneDeep({
     event: 'profile-edit-failure',
     'profile-action': 'save-failure',
-    'profile-section': `cnp-direct-deposit-information`,
+    'profile-section': `direct-deposit-information`,
     'error-key': `${errorCode}${isEnrolling ? '-enroll' : '-update'}`,
   });
 };
