@@ -182,6 +182,9 @@ const Prescriptions = () => {
   });
   const scrollLocation = useRef();
   const { data: allergies, error: allergiesError } = useGetAllergiesQuery();
+  const isPrescriptionsPrintOnlyHasError = prescriptionsPrintOnlyHasError(
+    hasFullListDownloadError || isAlertVisible || allergiesError,
+  );
 
   const refillAlertList = prescriptionsData?.refillAlertList || [];
 
@@ -797,9 +800,7 @@ const Prescriptions = () => {
       {content()}
       <PrescriptionsPrintOnly
         list={printedList}
-        hasError={prescriptionsPrintOnlyHasError(
-          hasFullListDownloadError || isAlertVisible || allergiesError,
-        )}
+        hasError={isPrescriptionsPrintOnlyHasError}
         isFullList={printedList.length === prescriptionsFullList.length}
       />
     </div>
