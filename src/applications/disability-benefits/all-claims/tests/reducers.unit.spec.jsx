@@ -1,7 +1,8 @@
 import { expect } from 'chai';
-import moment from 'moment';
 
 import { requestStates } from 'platform/utilities/constants';
+import { daysFromToday } from './utils/dates/dateHelper';
+import { parseDate } from '../utils/dates';
 import { itfStatuses } from '../constants';
 
 import {
@@ -49,16 +50,14 @@ describe('ITF reducer', () => {
               {
                 type: 'compensation',
                 status: itfStatuses.active,
-                expirationDate: moment()
-                  .add(1, 'days')
-                  .format(),
+                expirationDate: parseDate(daysFromToday(1)).format(),
               },
               {
                 // duplicate ITF with later expiration date; should use the active one
                 type: 'compensation',
                 status: itfStatuses.duplicate,
-                expirationDate: moment()
-                  .add(1, 'year')
+                expirationDate: parseDate(daysFromToday(0))
+                  .add(1, 'years')
                   .format(),
               },
             ],
@@ -82,16 +81,14 @@ describe('ITF reducer', () => {
               {
                 type: 'compensation',
                 status: itfStatuses.expired,
-                expirationDate: moment()
-                  .subtract(1, 'd')
+                expirationDate: parseDate(daysFromToday(0))
+                  .subtract(1, 'days')
                   .format(),
               },
               {
                 type: 'compensation',
                 status: itfStatuses.duplicate,
-                expirationDate: moment()
-                  .add(1, 'd')
-                  .format(),
+                expirationDate: parseDate(daysFromToday(1)).format(),
               },
             ],
           },
@@ -115,22 +112,22 @@ describe('ITF reducer', () => {
             {
               type: 'compensation',
               status: itfStatuses.expired,
-              expirationDate: moment()
-                .subtract(3, 'd')
+              expirationDate: parseDate(daysFromToday(0))
+                .subtract(3, 'days')
                 .format(),
             },
             {
               type: 'compensation',
               status: itfStatuses.duplicate,
-              expirationDate: moment()
-                .subtract(2, 'd')
+              expirationDate: parseDate(daysFromToday(0))
+                .subtract(2, 'days')
                 .format(),
             },
             {
               type: 'compensation',
               status: itfStatuses.active,
-              expirationDate: moment()
-                .subtract(1, 'd')
+              expirationDate: parseDate(daysFromToday(0))
+                .subtract(1, 'days')
                 .format(),
             },
           ],
