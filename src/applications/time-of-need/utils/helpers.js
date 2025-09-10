@@ -1,5 +1,6 @@
 // import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import * as Sentry from '@sentry/browser';
+// Removed for prototype (no Sentry reporting)
+// import * as Sentry from '@sentry/browser';
 
 export function isVeteran(formData) {
   // Replace with your app’s logic
@@ -74,11 +75,12 @@ export function getCemeteries(query = '') {
       return filter(cemeteriesCache);
     })
     .catch(error => {
-      // Capture only real Error objects; non-Error rejects (like Response) are ignored for Sentry stack traces
-      if (error instanceof Error) {
-        Sentry.captureException(error);
+      // Prototype: do not call Sentry.captureException(error)
+      // Light dev-only console notice so the variable is used
+      if (window?.location?.hostname === 'localhost') {
+        // eslint-disable-next-line no-console
+        console.warn('getCemeteries request failed', error);
       }
-      Sentry.captureMessage('time_of_need_cemeteries_error');
       cemeteriesCache = []; // prevent repeated failing calls
       return [];
     })
