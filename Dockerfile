@@ -52,4 +52,6 @@ WORKDIR /application
 USER vets-website
 ENV NODE_EXTRA_CA_CERTS /etc/ssl/certs/ca-certificates.crt
 
+RUN npm config set strict-ssl false
+
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
