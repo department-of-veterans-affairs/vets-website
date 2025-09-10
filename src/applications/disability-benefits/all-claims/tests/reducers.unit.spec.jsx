@@ -20,6 +20,9 @@ import {
 
 import reducers from '../reducers';
 
+// Helper to get current date as moment object
+const getToday = () => parseDate(daysFromToday(0));
+
 const initialState = {
   fetchCallState: requestStates.notCalled,
   creationCallState: requestStates.notCalled,
@@ -56,7 +59,7 @@ describe('ITF reducer', () => {
                 // duplicate ITF with later expiration date; should use the active one
                 type: 'compensation',
                 status: itfStatuses.duplicate,
-                expirationDate: parseDate(daysFromToday(0))
+                expirationDate: getToday()
                   .add(1, 'years')
                   .format(),
               },
@@ -81,7 +84,7 @@ describe('ITF reducer', () => {
               {
                 type: 'compensation',
                 status: itfStatuses.expired,
-                expirationDate: parseDate(daysFromToday(0))
+                expirationDate: getToday()
                   .subtract(1, 'days')
                   .format(),
               },
@@ -112,21 +115,21 @@ describe('ITF reducer', () => {
             {
               type: 'compensation',
               status: itfStatuses.expired,
-              expirationDate: parseDate(daysFromToday(0))
+              expirationDate: getToday()
                 .subtract(3, 'days')
                 .format(),
             },
             {
               type: 'compensation',
               status: itfStatuses.duplicate,
-              expirationDate: parseDate(daysFromToday(0))
+              expirationDate: getToday()
                 .subtract(2, 'days')
                 .format(),
             },
             {
               type: 'compensation',
               status: itfStatuses.active,
-              expirationDate: parseDate(daysFromToday(0))
+              expirationDate: getToday()
                 .subtract(1, 'days')
                 .format(),
             },
