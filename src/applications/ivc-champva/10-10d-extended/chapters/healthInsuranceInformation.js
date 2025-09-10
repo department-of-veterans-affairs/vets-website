@@ -313,40 +313,40 @@ export const healthInsurancePages = arrayBuilderPages(
   healthInsuranceOptions,
   pageBuilder => ({
     healthInsuranceSummary: pageBuilder.summaryPage({
-      path: 'health-insurance-information/summary',
+      path: 'review-your-health-insurance-plans',
       title: 'Review your plans',
       uiSchema: healthInsuranceSummaryPage.uiSchema,
       schema: healthInsuranceSummaryPage.schema,
     }),
     healthInsuranceType: pageBuilder.itemPage({
-      path: 'health-insurance-information/:index/plan-type',
+      path: 'health-insurance-plan-type/:index',
       title: 'Plan type',
       ...healthInsuranceIntroPage,
     }),
     medigapType: pageBuilder.itemPage({
-      path: 'health-insurance-information/:index/medigap-information',
+      path: 'health-insurance-medigap-information/:index',
       title: 'Plan type',
       depends: (formData, index) =>
         get('insuranceType', formData.healthInsurance?.[index]) === 'medigap',
       ...medigapInformation,
     }),
     provider: pageBuilder.itemPage({
-      path: 'health-insurance-information/:index/provider-information',
+      path: 'health-insurance-provider-information/:index',
       title: 'Health insurance information',
       ...providerInformation,
     }),
     throughEmployer: pageBuilder.itemPage({
-      path: 'health-insurance-information/:index/employer-sponsorship',
+      path: 'health-insurance-employer-sponsorship/:index',
       title: 'Type of insurance - through employer',
       ...employer,
     }),
     comments: pageBuilder.itemPage({
-      path: 'health-insurance-information/:index/additional-comments',
+      path: 'health-insurance-additional-comments/:index',
       title: 'Type of insurance',
       ...additionalComments,
     }),
     participants: pageBuilder.itemPage({
-      path: 'health-insurance-information/:index/participants',
+      path: 'health-insurance-participants/:index',
       title: 'Select healthcare participants',
       ...selectHealthcareParticipantsPage,
       CustomPage: props =>
@@ -358,7 +358,7 @@ export const healthInsurancePages = arrayBuilderPages(
       CustomPageReview: () => <></>,
     }),
     insuranceCard: pageBuilder.itemPage({
-      path: 'health-insurance-information/:index/insurance-card',
+      path: 'health-insurance-card/:index',
       title: 'Upload health insurance card',
       CustomPage: FileFieldCustom,
       ...healthInsuranceCardUploadPage,
