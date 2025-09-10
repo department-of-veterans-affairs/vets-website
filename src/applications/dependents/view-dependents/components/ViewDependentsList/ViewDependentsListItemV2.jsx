@@ -167,6 +167,11 @@ function ViewDependentsListItem(props) {
                     />
                     .
                   </p>
+                  <p>
+                    <strong>Note:</strong> If your child became permanently
+                    disabled before age 18, they’ll remain on your benefits. You
+                    don’t need to do anything.
+                  </p>
                 </va-alert>
               )}
             </>
