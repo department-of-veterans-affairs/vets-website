@@ -61,6 +61,7 @@ import { ContactInfoNeeded } from '../../profile/components/alerts/ContactInfoNe
 import FormsAndApplications from './benefit-application-drafts/FormsAndApplications';
 import PaymentsAndDebts from './benefit-payments/PaymentsAndDebts';
 import ConfirmEmailLink from './ConfirmEmailLink';
+import NewMyVaToggle from './NewMyVaToggle';
 
 const DashboardHeader = ({
   isLOA3,
@@ -384,6 +385,15 @@ const Dashboard = ({
                   user={user}
                 />
               )}
+              <Toggler
+                toggleName={
+                  Toggler.TOGGLE_NAMES.myVaAuthExpRedesignAvailableToOptIn
+                }
+              >
+                <Toggler.Enabled>
+                  <NewMyVaToggle />
+                </Toggler.Enabled>
+              </Toggler>
 
               {/* LOA3 user experience */}
               {props.showClaimsAndAppeals && (

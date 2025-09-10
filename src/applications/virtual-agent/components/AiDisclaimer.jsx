@@ -24,8 +24,9 @@ export default function AiDisclaimer() {
 
   return (
     <li data-testid="ai-disclaimer">
-      This answer is AI-generated and it may contain inaccuracies. Please verify
-      any important information.
+      We may use artificial intelligence (AI) for these responses. They may
+      include inaccurate information. You should verify any important
+      information.
     </li>
   );
 }

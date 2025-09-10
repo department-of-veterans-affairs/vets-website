@@ -21,6 +21,7 @@ import { fileUploadBlurb } from '../../shared/components/fileUploads/attachments
 import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
 import FileFieldCustom from '../../shared/components/fileUploads/FileUpload';
 import { validFieldCharsOnly } from '../../shared/validations';
+import { validateOHIDates } from '../helpers/validations';
 import { toHash, nameWording, fmtDate } from '../../shared/utilities';
 
 import {
@@ -203,6 +204,7 @@ const providerInformation = {
     'ui:validations': [
       (errors, formData) =>
         validFieldCharsOnly(errors, null, formData, 'provider'),
+      validateOHIDates,
     ],
   },
   schema: {
