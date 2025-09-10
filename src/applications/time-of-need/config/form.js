@@ -21,8 +21,8 @@ import intermentDetails from './pages/interment/intermentDetails';
 import burialLocation from './pages/interment/burialLocation';
 import greenBurialContainerType from './pages/interment/greenBurialContainerType';
 // import mailingAddress from './pages/mailingAddress';
-import preparerContact from './pages/preparerContact';
-import preparerName from './pages/preparerName';
+// import preparerContact from './pages/preparerContact';
+// import preparerName from './pages/preparerName';
 // import { burialBenefitsPagesVeteran } from './pages/burialBenefitsPages';
 import { deceasedServicePeriodsPages } from './pages/deceasedInformationChapter/deceasedServicePeriodsPages.jsx';
 // import { intermentDateRangesPages } from './pages/intermentDateRangesPages';
@@ -82,7 +82,7 @@ const formConfig = {
         'I confirm, to the best of my knowledge, that the deceased has never committed a serious crime, such as murder or other offense that could have resulted in imprisonment for life, has never been convicted of a serious crime, and has never been convicted of a sexual offense for which the deceased was sentenced to a minimum of life imprisonment.',
       messageAriaDescribedby:
         'I confirm, to the best of my knowledge, that the deceased has never committed a serious crime, such as murder or other offense that could have resulted in imprisonment for life, has never been convicted of a serious crime, and has never been convicted of a sexual offense for which the deceased was sentenced to a minimum of life imprisonment.',
-      fullNamePath: 'preparerName',
+      fullNamePath: 'applicantName',
       checkboxLabel:
         'I confirm that the information above is correct and true to the best of my knowledge and belief',
     },
@@ -357,23 +357,23 @@ const formConfig = {
         },
       },
     },
-    preparerInformation: {
-      title: 'Preparer information',
-      pages: {
-        preparerName: {
-          path: 'preparer-name',
-          title: 'Preparer’s name',
-          uiSchema: preparerName.uiSchema,
-          schema: preparerName.schema,
-        },
-        preparerContact: {
-          path: 'preparer-contact',
-          title: 'Preparer’s contact information',
-          uiSchema: preparerContact.uiSchema,
-          schema: preparerContact.schema,
-        },
-      },
-    },
+    // preparerInformation: {
+    //   title: 'Preparer information',
+    //   pages: {
+    //     preparerName: {
+    //       path: 'preparer-name',
+    //       title: 'Preparer’s name',
+    //       uiSchema: preparerName.uiSchema,
+    //       schema: preparerName.schema,
+    //     },
+    //     preparerContact: {
+    //       path: 'preparer-contact',
+    //       title: 'Preparer’s contact information',
+    //       uiSchema: preparerContact.uiSchema,
+    //       schema: preparerContact.schema,
+    //     },
+    //   },
+    // },
   },
   transformForSubmit: form => {
     const data = { ...form.data };

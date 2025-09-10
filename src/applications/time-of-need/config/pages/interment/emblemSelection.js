@@ -53,13 +53,12 @@ const EMBLEMS = [
 const emblemValues = EMBLEMS.map(e => String(e.id));
 const numberedLabels = EMBLEMS.map(e => `(${e.id}) ${e.label}`);
 
-// file/value -> display label map
 const displayMap = EMBLEMS.reduce((acc, e) => {
   acc[String(e.id)] = `(${e.id}) ${e.label}`;
   return acc;
 }, {});
 
-// Custom widget using va-select only
+// Fixed: proper event binding for va-select
 const NumberedEmblemSelect = props => {
   const {
     value,
@@ -71,28 +70,40 @@ const NumberedEmblemSelect = props => {
   } = props;
   const enumOptions = options.enumOptions || [];
 
-  const handleEvent = e => {
-    const next = e?.detail?.value ?? e?.target?.value ?? '';
-    onChange(next || undefined);
-  };
+  const handleChange = React.useCallback(
+    e => {
+      const next = e?.detail?.value ?? e?.target?.value ?? '';
+      onChange(next || undefined);
+    },
+    [onChange],
+  );
 
   const selectRef = React.useRef(null);
-  React.useEffect(() => {
-    const el = selectRef.current;
-    if (!el) return;
-    el.addEventListener('vaSelect', handleEvent);
-    el.addEventListener('input', handleEvent);
-    el.addEventListener('change', handleEvent);
-    // Cleanup event listeners on unmount
-    el.removeEventListener('vaSelect', handleEvent);
-    el.removeEventListener('input', handleEvent);
-    el.removeEventListener('change', handleEvent);
-  }, []);
 
   React.useEffect(
     () => {
       const el = selectRef.current;
-      if (el && el.value !== (value || '')) el.value = value || '';
+      const events = ['vaSelect', 'input', 'change'];
+
+      if (el) {
+        events.forEach(evt => el.addEventListener(evt, handleChange));
+      }
+
+      return () => {
+        if (el) {
+          events.forEach(evt => el.removeEventListener(evt, handleChange));
+        }
+      };
+    },
+    [handleChange],
+  );
+
+  React.useEffect(
+    () => {
+      const el = selectRef.current;
+      if (el && el.value !== (value || '')) {
+        el.value = value || '';
+      }
     },
     [value],
   );
@@ -106,9 +117,7 @@ const NumberedEmblemSelect = props => {
         required={required}
         disabled={disabled}
         value={value || ''}
-        onInput={handleEvent}
-        onChange={handleEvent}
-        onVaSelect={handleEvent}
+        // React won't handle custom events, listener added manually
       >
         <option value="">- Select -</option>
         {enumOptions.map(o => (
@@ -130,12 +139,11 @@ export default {
       <h3 className="vads-u-margin-top--0">Emblem of belief</h3>
     ),
     selectedEmblem: {
-      // Remove extra top label (was causing duplication)
       'ui:title': '',
       'ui:widget': NumberedEmblemSelect,
       'ui:required': () => true,
       'ui:options': {
-        hideLabelText: true, // ensure no visible duplicate label
+        hideLabelText: true,
         labels: displayMap,
         updateSchema: () => ({
           type: 'string',
