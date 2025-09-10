@@ -65,8 +65,8 @@ export const COURT_OF_APPEALS = (
       US Court of Appeals for Veterans Claims
     </h3>
     <p>
-      This is a legal appeal outside of the VA and may be a good fit for an
-      appeal of a Board decision.
+      This is a legal appeal outside of VA and may be a good fit for an appeal
+      of a Board decision.
     </p>
     <p>
       <strong>Note:</strong> This option is available only if it has been fewer
