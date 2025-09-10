@@ -3,8 +3,12 @@ import {
   fullNameNoSuffixSchema,
   fullNameNoSuffixUI,
   titleUI,
+  dateOfBirthUI,
+  dateOfBirthSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+
 import { CancelButton, certificateNotice } from '../../../helpers';
+import { getFullName, getFormatedDate } from '../../../../../shared/utils';
 
 export const schema = {
   type: 'object',
@@ -13,6 +17,7 @@ export const schema = {
       type: 'object',
       properties: {
         fullName: fullNameNoSuffixSchema,
+        birthDate: dateOfBirthSchema,
       },
     },
     'view:certificateNotice': {
@@ -28,8 +33,13 @@ export const schema = {
 
 export const uiSchema = {
   spouseInformation: {
-    ...titleUI('Spouse’s current legal name'),
+    ...titleUI('Spouse’s current legal name and date of birth'),
     fullName: fullNameNoSuffixUI(title => `Spouse’s ${title}`),
+    birthDate: dateOfBirthUI({
+      title: 'Spouse’s date of birth',
+      dataDogHidden: true,
+      required: () => true,
+    }),
   },
   'view:certificateNotice': {
     'ui:description': certificateNotice,
@@ -41,4 +51,23 @@ export const uiSchema = {
   'view:cancelAddSpouse': {
     'ui:description': <CancelButton dependentType="spouse" isAddChapter />,
   },
+};
+
+export const modalContent = {
+  title: 'Potential duplicate',
+  primaryButtonText: 'Don’t add, it’s a duplicate',
+  secondaryButtonText: 'Add, it’s a different person',
+  content: currentSpouse => (
+    <>
+      We checked your VA records and found another dependent already listed on
+      your benefits with the birth date of{' '}
+      <strong>{getFormatedDate(currentSpouse.dateOfBirth)}</strong>:{' '}
+      <strong>{getFullName(currentSpouse.fullName)}</strong>.
+      <p>Are you adding a different person, or is this a duplicate?</p>
+      <p>
+        <strong>Note</strong>: If you don’t add this dependent, we’ll take you
+        back to Step 1 to update your selection.
+      </p>
+    </>
+  ),
 };
