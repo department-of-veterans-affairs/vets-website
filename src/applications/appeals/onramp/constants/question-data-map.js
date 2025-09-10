@@ -28,8 +28,8 @@ export const SHORT_NAME_MAP = Object.freeze({
 });
 
 export const RESPONSES = Object.freeze({
-  BOARD: 'Board Appeal decision',
-  HLR: 'Higher-Level Review',
+  BOARD: 'Board Appeal',
+  HLR: 'Higher-Level Review decision',
   INIT: 'Initial claim or claim for increase',
   NO: 'No',
   SC: 'Supplemental claim',
@@ -119,13 +119,13 @@ const JUDGE_HEARING = {
   descriptionText: (
     <>
       <p>
-        This is a virtual or in-person hearing where you can speak directly with
-        a Veterans Law Judge about your case. You can also submit new evidence
-        during or after the hearing.
+        This is a live virtual or in-person hearing where you can speak directly
+        with a Veterans Law Judge about your case. You can also submit new
+        evidence during or after the hearing.
       </p>
       <p>
-        A decision for a virtual or in-person hearing usually takes about 730
-        days (2 years) on average.
+        A decision for a live virtual or in-person hearing usually takes about
+        730 days (2 years) on average.
       </p>
       <p>
         If you prefer not to have a hearing, a Veterans Law Judge can review
@@ -133,11 +133,11 @@ const JUDGE_HEARING = {
         file and any new evidence you submit now.
       </p>
       <p>
-        This type of review, conducted without a virtual or in-person hearing,
-        typically takes about 365 days (1 year) on average.
+        This type of review, conducted without a live hearing, typically takes
+        about 365 days (1 year) on average.
       </p>
       <p>
-        If we grant your benefits, your payments will be backdated to the date
+        If VA grants your benefits, your payments will be backdated to the date
         your request was received.
       </p>
     </>
@@ -146,9 +146,9 @@ const JUDGE_HEARING = {
   hintText: null,
   questionText: `Do you want to have a hearing with a Veterans Law Judge?`,
   responses: [
-    { [YES]: `I want a hearing with a Veterans Law Judge.` },
+    { [YES]: `I want a hearing with a Veterans Law Judge` },
     {
-      [NO]: `A Veterans Law Judge can review my claim and make a decision without a hearing.`,
+      [NO]: `A Veterans Law Judge can review my claim and make a decision without a hearing`,
     },
   ],
 };
@@ -356,17 +356,15 @@ export const QUESTION_CONTENT = Object.freeze({
   Q_2_0_CLAIM_TYPE: {
     h1: `Claim type`,
     hintText: null,
-    questionText: `What type of decision do you want us to review?`,
+    questionText: `What type of claim decision is the one you want us to review?`,
     responses: [
       {
-        [INIT]: `I filed a disability claim for a new condition or to increase my disability rating for a condition that got worse.`,
+        [INIT]: `I filed a disability claim using VA Form 21-526EZ for a new condition or to increase my disability rating for a condition that got worse`,
       },
+      { [SC]: `I submitted new evidence after a previous decision` },
+      { [HLR]: `A senior reviewer reviewed my previous claim decision` },
       {
-        [SC]: `I submitted new evidence after a previous decision or requested a review based on a change in law.`,
-      },
-      { [HLR]: `A senior reviewer reviewed my previous claim decision.` },
-      {
-        [BOARD]: `A Veterans Law Judge at the Board of Veterans’ Appeals reviewed my case.`,
+        [BOARD]: `A Veterans Law Judge at the Board of Veterans’ Appeals reviewed my case`,
       },
     ],
   },

@@ -1,4 +1,5 @@
 import React from 'react';
+import manifest from '../../../manifest.json';
 import { resultsNonDRDynamicContentDCs } from '../../display-conditions/results-dynamic-content';
 import { DISABILITY_COMP_CARD } from './cards';
 import {
@@ -14,7 +15,6 @@ import {
 import { displayConditionsMet } from '../../../utilities/display-conditions';
 import { renderSingleOrList } from '../../../utilities';
 import { PAGE_CONTENT_RESULTS_1_2D } from './dynamic-page-content';
-import OutsideDROption from '../../../components/dr-results-screens/OutsideDROption';
 
 // Used for Results 1.2.D which is the only non-DR results page with dynamic content
 export const getDynamicPageContent = formResponses => {
@@ -43,7 +43,8 @@ export const getDynamicPageContent = formResponses => {
 };
 
 const RESULTS_2_S_3_CONTENT = Object.freeze([
-  `You don’t have new and relevant evidence, which is required to submit a Supplemental Claim`,
+  `You don’t have new or relevant evidence, which is required to
+              submit a Supplemental Claim`,
   `You can’t request a Higher-Level review of a Board decision`,
   `You can’t request a Board review of a Board decision`,
 ]);
@@ -57,8 +58,9 @@ const RESULTS_2_S_4_CONTENT = Object.freeze([
 
 const RESULTS_2_S_4_1_CONTENT = RESULTS_2_S_4_CONTENT;
 
-const NO_LONGER_ELIGIBLE = `Based on your answers, your claim may no longer be eligible for a decision review because:`;
-const MAY_HAVE_OTHER_OPTIONS = `But you may still have other options available to you:`;
+const NO_LONGER_ELIGIBLE = `Based on your answers, your claim may no longer be eligible for a
+            decision review because:`;
+const MAY_HAVE_OTHER_OPTIONS = `But you may have other options, depending on your situation:`;
 
 export const NON_DR_RESULTS_CONTENT = formResponses =>
   Object.freeze({
@@ -71,7 +73,7 @@ export const NON_DR_RESULTS_CONTENT = formResponses =>
             because you haven’t filed an initial claim for this condition.
           </p>
           <p className="vads-u-margin-bottom--3">
-            We can only review decisions that have already been made. To move
+            VA can only review decisions that have already been made. To move
             forward, you’ll need to file an initial claim first.
           </p>
           {DISABILITY_COMP_CARD(
@@ -86,7 +88,7 @@ export const NON_DR_RESULTS_CONTENT = formResponses =>
       bodyContent: (
         <>
           <p>
-            Based on your answers, a decision review may not be right for you
+            Based on your answers, a decision review may not be available
             because:
           </p>
           <ul>
@@ -96,13 +98,18 @@ export const NON_DR_RESULTS_CONTENT = formResponses =>
             <li>You haven’t received a decision</li>
           </ul>
           <p>
-            Once you get your decision, you’ll be able to request a decision
-            review.
+            Once you get your decision letter, you’ll be able to request a
+            decision review.
           </p>
           <va-link-action
             href="/claim-or-appeal-status"
             text="Check status in Claim Status Tool"
           />
+          <p>
+            You can still use this guide to learn about your options and see
+            what might apply once you get your decision letter.
+          </p>
+          <va-link href={manifest.rootUrl} text="Restart the guide" />
           {DIVIDED_BENES}
           {PRINT_OR_RESTART}
         </>
@@ -113,7 +120,7 @@ export const NON_DR_RESULTS_CONTENT = formResponses =>
       bodyContent: (
         <>
           <p>
-            Based on your answers, a decision review may not be right for you
+            Based on your answers, a decision review may not be available
             because:
           </p>
           <ul>
@@ -122,7 +129,7 @@ export const NON_DR_RESULTS_CONTENT = formResponses =>
             </li>
             <li>It’s been more than 60 days since your decision</li>
           </ul>
-          <p>But you may have other options, depending on your situation:</p>
+          <p>{MAY_HAVE_OTHER_OPTIONS}</p>
           {DIVIDED_BENES}
           <h2 className="vads-u-margin-top--3">
             If you’re seeking benefits related to a deceased Veteran
@@ -149,7 +156,7 @@ export const NON_DR_RESULTS_CONTENT = formResponses =>
         <>
           <p>{NO_LONGER_ELIGIBLE}</p>
           {getDynamicPageContent(formResponses)}
-          <p>But you may still have other options available to you:</p>
+          <p>However, you may still have other options available to you.</p>
           {GET_GUIDANCE}
           {HORIZ_RULE}
           {PRINT_OR_RESTART}
@@ -207,9 +214,9 @@ export const NON_DR_RESULTS_CONTENT = formResponses =>
             'results-2-s-3-1-content',
           )}
           <p>{MAY_HAVE_OTHER_OPTIONS}</p>
+          {COURT_OF_APPEALS}
           {CONDITION_HAS_WORSENED_INFO}
           {CLAIM_FOR_INCREASE_CARD(true)}
-          <OutsideDROption />
           {GET_GUIDANCE}
           {HORIZ_RULE}
           {PRINT_OR_RESTART}
@@ -228,7 +235,7 @@ export const NON_DR_RESULTS_CONTENT = formResponses =>
             null,
             'results-2-s-4-content',
           )}
-          <p>{MAY_HAVE_OTHER_OPTIONS}</p>
+          <p>However, you may still have other options available to you.</p>
           {GET_GUIDANCE}
           {HORIZ_RULE}
           {PRINT_OR_RESTART}
@@ -247,9 +254,10 @@ export const NON_DR_RESULTS_CONTENT = formResponses =>
             null,
             'results-2-s-4-1-content',
           )}
-          <p>{MAY_HAVE_OTHER_OPTIONS}</p>
-          {CONDITION_HAS_WORSENED_INFO}
-          {CLAIM_FOR_INCREASE_CARD(true)}
+          <p>
+            But you may be eligible to apply for more disability compensation.
+          </p>
+          {CLAIM_FOR_INCREASE_CARD()}
           {GET_GUIDANCE}
           {HORIZ_RULE}
           {PRINT_OR_RESTART}
