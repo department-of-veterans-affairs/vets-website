@@ -83,7 +83,7 @@ describe('<PreSubmitInfo />', () => {
     const statementOfTruth = container.querySelector('va-statement-of-truth');
 
     expect(statementOfTruth).to.exist;
-    expect(statementOfTruth).to.have.attr('heading', 'Statement of truth');
+    expect(statementOfTruth).to.have.attr('heading', 'Certification statement');
   });
 
   it('should render attestation section', () => {

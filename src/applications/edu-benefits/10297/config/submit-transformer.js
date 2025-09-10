@@ -28,13 +28,10 @@ export function transform(formConfig, form) {
       dateReleasedFromActiveDuty: clonedData.dateReleasedFromActiveDuty
         ? clonedData.dateReleasedFromActiveDuty
         : '2025-08-20',
-      // hasCompletedByDischarge: clonedData.dutyRequirement === 'byDischarge',
-      // hasCompletedActiveDuty: clonedData.dutyRequirement === 'atLeast3Years',
     };
 
     delete finalData.dutyRequirement;
     delete finalData.otherThanDishonorableDischarge;
-    // delete finalData.eligibilityAlert;
 
     return finalData;
   };

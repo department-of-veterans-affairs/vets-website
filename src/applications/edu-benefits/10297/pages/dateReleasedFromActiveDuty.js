@@ -12,7 +12,7 @@ const uiSchema = {
   },
   'view:releaseDateNote': {
     'ui:description': (
-      <p className="vads-u-margin-top--4">
+      <p className="vads-u-margin-top--4" data-testid="static-note">
         <strong>Note:</strong> When we review your application, we may ask for a
         copy of your DD 214 or a certification of your expected release date.
         You can request that certification from your Military Personnel Office.

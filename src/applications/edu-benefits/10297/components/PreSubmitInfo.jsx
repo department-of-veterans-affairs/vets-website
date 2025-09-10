@@ -159,7 +159,7 @@ const PreSubmitInfo = ({
         />
       </div>
       <VaStatementOfTruth
-        heading={statementOfTruth.heading || 'Certification statement'}
+        heading="Certification statement"
         inputLabel={statementOfTruth.textInputLabel || 'Your full name'}
         inputValue={formData.statementOfTruthSignature}
         inputMessageAriaDescribedby={`${statementOfTruth.heading ||
