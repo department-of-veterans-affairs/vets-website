@@ -267,13 +267,13 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
         {window.history.length > 2 ? (
           <>
             <p className="vads-u-margin-bottom--0">
-              Based on your answers, we’ve recommend benefits for you to
+              Based on your answers, we’ve recommended benefits for you to
               explore. If you need to, you can&nbsp;
               <va-link
                 data-testid="back-link"
                 href="#"
                 onClick={handleBackClick}
-                text="go back and review your answers"
+                text="go back and update your answers"
               />
               . Remember to check your eligibility before you apply.
             </p>
@@ -281,7 +281,7 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
         ) : (
           <>
             <p className="vads-u-margin-bottom--0">
-              Based on your answers, we’ve recommend benefits for you to
+              Based on your answers, we’ve recommended benefits for you to
               explore. Remember to check your eligibility before you apply.
             </p>
           </>
