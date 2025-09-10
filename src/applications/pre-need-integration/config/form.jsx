@@ -31,7 +31,8 @@ import * as veteranBirthLocation from './pages/veteranBirthLocation';
 import * as veteranBirthLocationPreparer from './pages/veteranBirthLocationPreparer';
 import * as nonVeteranApplicantDetails from './pages/nonVeteranApplicantDetails';
 import * as nonVeteranApplicantDetailsPreparer from './pages/nonVeteranApplicantDetailsPreparer';
-import * as applicantContactInformation from './pages/applicantContactInformation';
+import * as applicantMailingAddress from './pages/applicantMailingAddress';
+import * as applicantContactDetails from './pages/applicantContactDetails';
 import * as preparer from './pages/preparer';
 import * as preparerDetails from './pages/preparerDetails';
 import * as preparerContactDetails from './pages/preparerContactDetails';
@@ -90,6 +91,8 @@ import {
   preparerDateOfBirthUI,
   applicantContactInfoAddressTitle,
   applicantContactInfoPreparerAddressTitle,
+  applicantContactDetailsTitle,
+  applicantContactDetailsPreparerTitle,
   applicantContactInfoSubheader,
   applicantContactInfoPreparerSubheader,
   applicantContactInfoDescription,
@@ -361,16 +364,14 @@ const formConfig = {
           ),
           schema: nonVeteranApplicantDetailsPreparer.schema,
         },
-        applicantContactInformation: {
+        applicantMailingAddress: {
           title: applicantContactInfoAddressTitle,
-          path: 'applicant-contact-information',
+          path: 'applicant-mailing-address',
           depends: formData => !isAuthorizedAgent(formData),
-          uiSchema: applicantContactInformation.uiSchema(
+          uiSchema: applicantMailingAddress.uiSchema(
             applicantContactInfoAddressTitle,
-            applicantContactInfoSubheader,
-            applicantContactInfoDescription,
           ),
-          schema: applicantContactInformation.schema,
+          schema: applicantMailingAddress.schema,
         },
         applicantSuggestedAddress: {
           title: 'Validate Address',
@@ -406,16 +407,24 @@ const formConfig = {
             },
           },
         },
-        applicantContactInformationPreparer: {
-          title: applicantContactInfoPreparerAddressTitle,
-          path: 'applicant-contact-information-preparer',
-          depends: formData => isAuthorizedAgent(formData),
-          uiSchema: applicantContactInformation.uiSchema(
-            applicantContactInfoPreparerAddressTitle,
-            applicantContactInfoPreparerSubheader,
-            applicantContactInfoPreparerDescription,
+        applicantContactDetails: {
+          title: applicantContactDetailsTitle,
+          path: 'applicant-contact-details',
+          depends: formData => !isAuthorizedAgent(formData),
+          uiSchema: applicantContactDetails.uiSchema(
+            applicantContactInfoSubheader,
+            applicantContactInfoDescription,
           ),
-          schema: applicantContactInformation.schema,
+          schema: applicantContactDetails.schema,
+        },
+        applicantMailingAddressPreparer: {
+          title: applicantContactInfoPreparerAddressTitle,
+          path: 'applicant-mailing-address-preparer',
+          depends: formData => isAuthorizedAgent(formData),
+          uiSchema: applicantMailingAddress.uiSchema(
+            applicantContactInfoPreparerAddressTitle,
+          ),
+          schema: applicantMailingAddress.schema,
         },
         applicantSuggestedAddressPreparer: {
           title: 'Validate Address',
@@ -450,6 +459,16 @@ const formConfig = {
               },
             },
           },
+        },
+        applicantContactDetailsPreparer: {
+          title: applicantContactDetailsPreparerTitle,
+          path: 'applicant-contact-details-preparer',
+          depends: formData => isAuthorizedAgent(formData),
+          uiSchema: applicantContactDetails.uiSchema(
+            applicantContactInfoPreparerSubheader,
+            applicantContactInfoPreparerDescription,
+          ),
+          schema: applicantContactDetails.schema,
         },
         applicantDemographics: {
           title: 'Your demographics',

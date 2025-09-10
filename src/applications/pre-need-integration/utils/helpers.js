@@ -318,6 +318,18 @@ export const applicantContactInfoPreparerAddressTitle = (
   </div>
 );
 
+export const applicantContactDetailsTitle = (
+  <div>
+    <h3>Your contact details</h3>
+  </div>
+);
+
+export const applicantContactDetailsPreparerTitle = (
+  <div>
+    <h3>Applicant’s contact details</h3>
+  </div>
+);
+
 export const applicantContactInfoSubheader = (
   <div className="applicantContactInfoSubheader">
     <h3>Your contact details</h3>
