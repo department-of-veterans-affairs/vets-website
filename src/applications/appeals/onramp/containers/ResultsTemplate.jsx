@@ -32,7 +32,8 @@ const ResultsTemplate = ({
   let resultsPageContent;
 
   if (isNonDrResultPage) {
-    resultsPageContent = NON_DR_RESULTS_CONTENT?.[resultPage] || {};
+    resultsPageContent =
+      NON_DR_RESULTS_CONTENT(formResponses)?.[resultPage] || {};
   } else {
     resultsPageContent = DR_RESULTS_CONTENT(formResponses)?.[resultPage];
   }
