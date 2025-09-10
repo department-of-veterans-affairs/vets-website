@@ -137,4 +137,96 @@ describe('<ViewDependentsList />', () => {
 
     expect($('va-alert', container)).to.not.exist;
   });
+
+  it('should handle invalid date of birth gracefully', () => {
+    const dependentsWithInvalidDate = [
+      {
+        firstName: 'Invalid',
+        lastName: 'Date',
+        ssn: '3122435636',
+        relationship: 'Child',
+        dateOfBirth: '13/45/2018', // Invalid date
+      },
+    ];
+
+    const { container } = renderComponent(dependentsWithInvalidDate);
+
+    expect($$('va-card', container).length).to.equal(1);
+    expect($('h3', container).textContent).to.eq('Invalid Date');
+
+    // Should not show age when date is invalid
+    const ddElements = $$('dd', container);
+    const ageElement = ddElements.find(dd =>
+      dd.textContent.includes('years old'),
+    );
+    expect(ageElement).to.be.undefined;
+
+    // Should still show other information
+    expect(ddElements.map(el => el.textContent)).to.include('Child');
+    expect(ddElements.map(el => el.textContent)).to.include(
+      '●●●–●●-5636ending with 5 6 3 6',
+    );
+  });
+
+  it('should handle adult dependents (over 18) without removal alerts', () => {
+    const adultBirthDate = new Date();
+    adultBirthDate.setFullYear(adultBirthDate.getFullYear() - 25); // 25 years old
+
+    const adultDependents = [
+      {
+        firstName: 'Adult',
+        lastName: 'Dependent',
+        ssn: '3122435637',
+        relationship: 'Spouse',
+        dateOfBirth: createDateString(adultBirthDate),
+      },
+    ];
+
+    const { container } = renderComponent(adultDependents);
+
+    expect($$('va-card', container).length).to.equal(1);
+    expect($('h3', container).textContent).to.eq('Adult Dependent');
+
+    // Should show age as 25
+    const ddElements = $$('dd', container);
+    expect(ddElements.map(el => el.textContent)).to.include('25 years old');
+
+    // Should not show any removal alerts for adults
+    expect($('va-alert', container)).to.not.exist;
+  });
+
+  it('should not show age when date of birth is missing', () => {
+    const dependentsWithoutDOB = [
+      {
+        firstName: 'No',
+        lastName: 'DOB',
+        ssn: '3122435638',
+        relationship: 'Child',
+        // dateOfBirth is undefined
+      },
+    ];
+
+    const { container } = renderComponent(dependentsWithoutDOB);
+
+    expect($$('va-card', container).length).to.equal(1);
+
+    const ddElements = $$('dd', container);
+    // Should not show age or date of birth sections
+    const ageElement = ddElements.find(dd =>
+      dd.textContent.includes('years old'),
+    );
+    const dobElement = ddElements.find(
+      dd =>
+        dd.textContent.includes('May') || dd.textContent.includes('January'),
+    );
+
+    expect(ageElement).to.be.undefined;
+    expect(dobElement).to.be.undefined;
+
+    // Should still show relationship and SSN
+    expect(ddElements.map(el => el.textContent)).to.include('Child');
+    expect(ddElements.map(el => el.textContent)).to.include(
+      '●●●–●●-5638ending with 5 6 3 8',
+    );
+  });
 });

@@ -96,14 +96,14 @@ function ViewDependentsListItem(props) {
             </dd>
           </div>
 
-          {dateOfBirth && (
+          {isValid(dobObj) && (
             <div className="vads-u-display--flex vads-u-justify-content--start vads-u-margin-bottom--1">
               <dt>Date of birth:&nbsp;</dt>
               <dd
                 className="dd-privacy-hidden"
                 data-dd-action-name="date of birth"
               >
-                {format(new Date(dateOfBirth), 'MMMM d, yyyy')}
+                {format(dobObj, 'MMMM d, yyyy')}
               </dd>
             </div>
           )}
