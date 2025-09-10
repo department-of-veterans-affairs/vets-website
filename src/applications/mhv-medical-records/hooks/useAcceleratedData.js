@@ -18,6 +18,12 @@ const useAcceleratedData = () => {
         FEATURE_FLAG_NAMES.mhvAcceleratedDeliveryAllergiesEnabled
       ],
   );
+  const isAcceleratingCareNotesEnabled = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvAcceleratedDeliveryCareNotesEnabled
+      ],
+  );
   const isAcceleratingConditionsEnabled = useSelector(
     state =>
       state.featureToggles[
@@ -75,6 +81,13 @@ const useAcceleratedData = () => {
     [isAcceleratedDeliveryEnabled, isAcceleratingAllergiesEnabled, isCerner],
   );
 
+  const isAcceleratingCareNotes = useMemo(
+    () => {
+      return isAcceleratedDeliveryEnabled && isAcceleratingCareNotesEnabled;
+    },
+    [isAcceleratedDeliveryEnabled, isAcceleratingCareNotesEnabled],
+  );
+
   const isAcceleratingConditions = useMemo(
     () => {
       return isAcceleratedDeliveryEnabled && isAcceleratingConditionsEnabled;
@@ -108,6 +121,7 @@ const useAcceleratedData = () => {
     () =>
       isAcceleratedDeliveryEnabled ||
       isAcceleratingAllergies ||
+      isAcceleratingCareNotes ||
       isAcceleratingConditions ||
       isAcceleratingVitals ||
       isAcceleratingVaccines ||
@@ -116,9 +130,10 @@ const useAcceleratedData = () => {
       isAcceleratedDeliveryEnabled,
       isAcceleratingAllergies,
       isAcceleratingConditions,
-      isAcceleratingLabsAndTests,
+      isAcceleratingCareNotes,
       isAcceleratingVitals,
       isAcceleratingVaccines,
+      isAcceleratingLabsAndTests,
     ],
   );
 
@@ -126,6 +141,7 @@ const useAcceleratedData = () => {
     isLoading,
     isAccelerating,
     isAcceleratingAllergies,
+    isAcceleratingCareNotes,
     isAcceleratingConditions,
     isAcceleratingVitals,
     isAcceleratingVaccines,

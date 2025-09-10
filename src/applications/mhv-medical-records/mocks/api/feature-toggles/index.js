@@ -15,13 +15,13 @@ const APPLICATION_FEATURE_TOGGLES = Object.freeze({
 
   // OH integration work
   mhvMedicationsToVaGovRelease: true,
-  mhvAcceleratedDeliveryEnabled: false,
-  mhvAcceleratedDeliveryAllergiesEnabled: false,
-  mhvAcceleratedDeliveryConditionsEnabled: false,
-  mhvAcceleratedDeliveryVitalSignsEnabled: false,
-  mhvAcceleratedDeliveryVaccinesEnabled: false,
-  mhvAcceleratedDeliveryLabsAndTestsEnabled: false,
-
+  mhvAcceleratedDeliveryEnabled: true,
+  mhvAcceleratedDeliveryAllergiesEnabled: true,
+  mhvAcceleratedDeliveryConditionsEnabled: true,
+  mhvAcceleratedDeliveryVitalSignsEnabled: true,
+  mhvAcceleratedDeliveryVaccinesEnabled: true,
+  mhvAcceleratedDeliveryLabsAndTestsEnabled: true,
+  mhvAcceleratedDeliveryCareNotesEnabled: true,
   mhvMedicalRecordsMilestoneTwo: true,
 });
 

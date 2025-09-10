@@ -29,6 +29,7 @@ const labsAndTests = require('./medical-records/labs-and-tests');
 const acceleratedLabsAndTests = require('./medical-records/labs-and-tests/accelerated');
 const mhvRadiology = require('./medical-records/mhv-radiology');
 const careSummariesAndNotes = require('./medical-records/care-summaries-and-notes');
+const acceleratedCareSummariesAndNotes = require('./medical-records/care-summaries-and-notes/accelerated');
 const healthConditions = require('./medical-records/health-conditions');
 const acceleratedHealthConditions = require('./medical-records/health-conditions/accelerated');
 const allergies = require('./medical-records/allergies');
@@ -74,12 +75,13 @@ const responses = {
   ...commonResponses,
   'GET /v0/user': user.acceleratedCernerUser,
   'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({
-    mhvAcceleratedDeliveryEnabled: false,
-    mhvAcceleratedDeliveryAllergiesEnabled: false,
-    mhvAcceleratedDeliveryConditionsEnabled: false,
-    mhvAcceleratedDeliveryVitalSignsEnabled: false,
-    mhvAcceleratedDeliveryVaccinesEnabled: false,
-    mhvAcceleratedDeliveryLabsAndTestsEnabled: false,
+    mhvAcceleratedDeliveryEnabled: true,
+    mhvAcceleratedDeliveryAllergiesEnabled: true,
+    mhvAcceleratedDeliveryConditionsEnabled: true,
+    mhvAcceleratedDeliveryCareNotesEnabled: true,
+    mhvAcceleratedDeliveryVitalSignsEnabled: true,
+    mhvAcceleratedDeliveryVaccinesEnabled: true,
+    mhvAcceleratedDeliveryLabsAndTestsEnabled: true,
   }),
 
   // VAMC facility data that apps query for on startup
@@ -169,6 +171,10 @@ const responses = {
   'GET /my_health/v1/medical_records/clinical_notes': careSummariesAndNotes.all,
   'GET /my_health/v1/medical_records/clinical_notes/:id':
     careSummariesAndNotes.single,
+  'GET /my_health/v2/medical_records/clinical_notes':
+    acceleratedCareSummariesAndNotes.all,
+  'GET /my_health/v2/medical_records/clinical_notes/:id':
+    acceleratedCareSummariesAndNotes.single,
   'GET /my_health/v1/health_records/sharing/status': { status: 200 },
   'POST /my_health/v1/health_records/sharing/:endpoint': { status: 200 },
   'GET /my_health/v1/medical_records/conditions': healthConditions.all,
