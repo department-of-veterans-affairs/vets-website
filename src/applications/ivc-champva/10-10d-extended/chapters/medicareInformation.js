@@ -487,6 +487,7 @@ const medicarePartADenialProofUploadPage = {
     ...fileUploadBlurb,
     medicarePartADenialProof: fileUploadUI({
       label: 'Upload proof of Medicare ineligibility',
+      attachmentId: 'Letter from the SSA',
     }),
   },
   schema: {
@@ -575,9 +576,11 @@ const medicarePartCCardUploadPage = {
     ...fileUploadBlurb,
     medicarePartCFrontCard: fileUploadUI({
       label: 'Upload front of Part C Medicare card',
+      attachmentId: 'Front of Medicare Part C card',
     }),
     medicarePartCBackCard: fileUploadUI({
       label: 'Upload back of Part C Medicare card',
+      attachmentId: 'Back of Medicare Part C card',
     }),
   },
   schema: {
@@ -675,9 +678,11 @@ const medicarePartDCardUploadPage = {
     ...fileUploadBlurb,
     medicarePartDFrontCard: fileUploadUI({
       label: 'Upload front of Medicare Part D card',
+      attachmentId: 'Front of Medicare Part D card',
     }),
     medicarePartDBackCard: fileUploadUI({
       label: 'Upload back of Medicare Part D card',
+      attachmentId: 'Back of Medicare Part D card',
     }),
   },
   schema: {
@@ -816,6 +821,7 @@ export const proofOfIneligibilityUploadPage = {
     ...fileUploadBlurb,
     proofOfIneligibilityUpload: fileUploadUI({
       label: 'Upload proof of Medicare ineligibility',
+      attachmentId: 'Letter from the SSA',
     }),
   },
   schema: {
