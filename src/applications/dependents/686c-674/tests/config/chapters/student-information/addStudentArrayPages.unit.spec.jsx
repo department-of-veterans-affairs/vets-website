@@ -47,7 +47,6 @@ describe('addStudentsOptions', () => {
         studentDidAttendSchoolLastTerm: true,
         lastTermSchoolInformation: { termBegin: '', dateTermEnded: '' },
       },
-      claimsOrReceivesPension: true,
       typeOfProgramOrBenefit: { someBenefit: true },
       benefitPaymentDate: '',
     };
