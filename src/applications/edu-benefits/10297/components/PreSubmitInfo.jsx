@@ -79,12 +79,26 @@ const PreSubmitInfo = ({
         clarifyingTextLabel.innerHTML =
           'Yes, I have read and acknowledge this statement.';
       }
+      // const labelStyle = await querySelectorWithShadowRoot(
+      //   'label[for="checkbox-element"]',
+      //   statementOfTruthText,
+      // );
+      // if (labelStyle) {
+      //   labelStyle.setAttribute('style', 'white-space: nowrap;');
+      // }
       const labelStyle = await querySelectorWithShadowRoot(
         'label[for="checkbox-element"]',
         statementOfTruthText,
       );
-      if (labelStyle) {
+      if (labelStyle && window.innerWidth >= 768) {
         labelStyle.setAttribute('style', 'white-space: nowrap;');
+      }
+      const labelStyle2 = await querySelectorWithShadowRoot(
+        'label[for="checkbox-element"]',
+        privacyPolicyText,
+      );
+      if (window.innerWidth <= 768 && labelStyle2) {
+        labelStyle2.setAttribute('style', 'white-space: break-spaces;');
       }
     };
     const removeElements = async () => {
@@ -107,6 +121,9 @@ const PreSubmitInfo = ({
         '[class="usa-error-message"]',
         privacyPolicyText,
       );
+      if (window.innerWidth <= 768 && errorMessage) {
+        errorMessage.setAttribute('style', 'white-space: break-spaces;');
+      }
       if (
         errorMessage &&
         errorMessage.innerHTML !==
