@@ -5,7 +5,6 @@ const APPLICATION_FEATURE_TOGGLES = Object.freeze({
   // medical records
   mhvMedicalRecordsAllowTxtDownloads: true,
   mhvMedicalRecordsDisplayDomains: true,
-  mhvMedicalRecordsDisplayNotes: true,
   mhvMedicalRecordsDisplaySidenav: true,
   mhvMedicalRecordsDisplayVaccines: true,
   mhvMedicalRecordsDisplaySettingsPage: true,
@@ -17,10 +16,11 @@ const APPLICATION_FEATURE_TOGGLES = Object.freeze({
   mhvMedicationsToVaGovRelease: true,
   mhvAcceleratedDeliveryEnabled: true,
   mhvAcceleratedDeliveryAllergiesEnabled: true,
+  mhvAcceleratedDeliveryConditionsEnabled: true,
   mhvAcceleratedDeliveryVitalSignsEnabled: true,
   mhvAcceleratedDeliveryVaccinesEnabled: true,
   mhvAcceleratedDeliveryLabsAndTestsEnabled: true,
-
+  mhvAcceleratedDeliveryCareNotesEnabled: true,
   mhvMedicalRecordsMilestoneTwo: true,
 });
 
