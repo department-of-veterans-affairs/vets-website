@@ -27,8 +27,6 @@ export const selectSidenavFlag = state =>
 
 export const selectVaccinesFlag = state =>
   state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayVaccines];
-export const selectNotesFlag = state =>
-  state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayNotes];
 export const selectSettingsPageFlag = state =>
   state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplaySettingsPage];
 export const selectMarch17UpdatesFlag = state =>
