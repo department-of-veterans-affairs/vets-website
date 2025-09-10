@@ -1,17 +1,15 @@
 import { expect } from 'chai';
 
-import mockDisabilityCompensations from '@@profile/mocks/endpoints/disability-compensations';
-import { LIGHTHOUSE_ERROR_KEYS, hasErrorCombos } from '../../util';
+import directDeposits from '@@profile/mocks/endpoints/direct-deposits';
+import { DIRECT_DEPOSIT_ERROR_KEYS, hasErrorCombos } from '../../util';
 
 describe('hasErrorCombos', () => {
   context('cases for invalid routing number', () => {
     it('return true for routing number error', () => {
       expect(
         hasErrorCombos({
-          errors:
-            mockDisabilityCompensations.updates.errors.invalidRoutingNumber
-              .errors,
-          errorKeys: [LIGHTHOUSE_ERROR_KEYS.ROUTING_NUMBER_INVALID],
+          errors: directDeposits.updates.errors.invalidRoutingNumber.errors,
+          errorKeys: [DIRECT_DEPOSIT_ERROR_KEYS.ROUTING_NUMBER_INVALID],
         }),
       ).to.be.true;
     });
@@ -21,20 +19,17 @@ describe('hasErrorCombos', () => {
     it('return true for Lighthouse day phone error', () => {
       expect(
         hasErrorCombos({
-          errors:
-            mockDisabilityCompensations.updates.errors.invalidDayPhone.errors,
-          errorKeys: [LIGHTHOUSE_ERROR_KEYS.DAY_PHONE_NUMBER_INVALID],
+          errors: directDeposits.updates.errors.invalidDayPhone.errors,
+          errorKeys: [DIRECT_DEPOSIT_ERROR_KEYS.DAY_PHONE_NUMBER_INVALID],
         }),
       ).to.be.true;
     });
 
-    it('return true for Lighthouse day area error', () => {
+    it('return true for Lighthouse day phone area error', () => {
       expect(
         hasErrorCombos({
-          errors:
-            mockDisabilityCompensations.updates.errors.invalidDayPhoneArea
-              .errors,
-          errorKeys: [LIGHTHOUSE_ERROR_KEYS.DAY_PHONE_AREA_INVALID],
+          errors: directDeposits.updates.errors.invalidDayPhoneArea.errors,
+          errorKeys: [DIRECT_DEPOSIT_ERROR_KEYS.DAY_PHONE_AREA_INVALID],
         }),
       ).to.be.true;
     });
