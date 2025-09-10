@@ -10,6 +10,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../components/GetFormHelp';
 import { customSubmit686 } from '../analytics/helpers';
+import CurrentSpouse from '../components/CurrentSpouse';
 
 // Chapter imports
 import {
@@ -267,6 +268,8 @@ export const formConfig = {
             formData?.['view:addOrRemoveDependents']?.add,
           title: 'Spouse’s current legal name',
           path: 'add-spouse/current-legal-name',
+          CustomPage: CurrentSpouse,
+          CustomPageReview: null,
           uiSchema: spouseInformation.uiSchema,
           schema: spouseInformation.schema,
         },
