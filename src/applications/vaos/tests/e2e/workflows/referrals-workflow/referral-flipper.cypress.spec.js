@@ -4,11 +4,13 @@ import {
   mockVamcEhrApi,
   vaosSetup,
 } from '../../vaos-cypress-helpers';
+import { mockReferralsGetApi } from './referrals-cypress-helpers';
 import MockUser from '../../../fixtures/MockUser';
 import MockAppointmentResponse from '../../../fixtures/MockAppointmentResponse';
 import { APPOINTMENT_STATUS } from '../../../../utils/constants';
 import appointmentList from '../../page-objects/AppointmentList/AppointmentListPageObject';
 import referralsAndRequests from '../../referrals/page-objects/ReferralsAndRequests';
+import MockReferralListResponse from '../../../fixtures/MockReferralListResponse';
 
 describe('VAOS Referral Appointments', () => {
   beforeEach(() => {
@@ -62,6 +64,10 @@ describe('VAOS Referral Appointments', () => {
 
   describe('Community care chiropractic flipper enabled', () => {
     beforeEach(() => {
+      const referralsResponse = new MockReferralListResponse({
+        numberOfReferrals: 4,
+      });
+      mockReferralsGetApi({ response: referralsResponse });
       // Set required feature flags
       mockFeatureToggles({
         vaOnlineSchedulingCCDirectScheduling: true,
@@ -83,6 +89,10 @@ describe('VAOS Referral Appointments', () => {
 
   describe('Community care chiropractic flipper disabled', () => {
     beforeEach(() => {
+      const referralsResponse = new MockReferralListResponse({
+        numberOfReferrals: 4,
+      });
+      mockReferralsGetApi({ response: referralsResponse });
       // Set required feature flags
       mockFeatureToggles({
         vaOnlineSchedulingCCDirectScheduling: true,
