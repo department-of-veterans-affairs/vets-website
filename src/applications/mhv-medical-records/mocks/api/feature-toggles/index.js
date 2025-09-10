@@ -16,6 +16,7 @@ const APPLICATION_FEATURE_TOGGLES = Object.freeze({
   mhvMedicationsToVaGovRelease: true,
   mhvAcceleratedDeliveryEnabled: true,
   mhvAcceleratedDeliveryAllergiesEnabled: true,
+  mhvAcceleratedDeliveryConditionsEnabled: true,
   mhvAcceleratedDeliveryVitalSignsEnabled: true,
   mhvAcceleratedDeliveryVaccinesEnabled: true,
   mhvAcceleratedDeliveryLabsAndTestsEnabled: true,
