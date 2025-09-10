@@ -89,6 +89,10 @@
     @media (min-width: $small-desktop-screen) {
       margin: 32px 0;
     }
+    &:focus {
+      outline: 2px solid $vads-color-action-focus-on-light;
+      outline-offset: 2px;
+    }
   }
   &__list {
     list-style-type: none;
