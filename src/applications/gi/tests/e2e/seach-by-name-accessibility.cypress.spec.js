@@ -1,4 +1,3 @@
-import { cy } from 'date-fns/locale';
 import data from '../data/calculator-constants.json';
 
 describe('CT before search by name accessibility', () => {
