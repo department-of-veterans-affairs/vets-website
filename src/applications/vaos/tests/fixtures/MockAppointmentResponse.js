@@ -26,6 +26,7 @@ export default class MockAppointmentResponse {
    * @param {Object} props - Properties used to determine what type of mock appointment to create.
    * @param {boolean} [props.future=false] - Flag to determine if appointment is a future appointment.
    * @param {string|number} [props.id=1] - Appointment id. Default = 1
+   * @param {boolean} [arguments.isCerner] - Flag to determine if appointment is a Cerner/Oracle Health appointment.
    * @param {Date} props.localStartTime - Appointment start time.
    * @param {string} [props.locationId] - Appointment location id.
    * @param {boolean} [props.past=false] - Flag to determine if appointment is a past appointment.
@@ -36,6 +37,7 @@ export default class MockAppointmentResponse {
   constructor({
     future = false,
     id = '1',
+    isCerner = false,
     localStartTime,
     locationId = '983',
     past = false,
@@ -56,7 +58,7 @@ export default class MockAppointmentResponse {
       });
     } else createdStamp = format(timestamp, "yyyy-MM-dd'T'HH:mm:ss.000'Z'");
 
-    this.id = id.toString();
+    this.id = isCerner ? `CERN${id}` : id.toString();
     this.type = 'MockAppointment';
     this.attributes = {
       id,
@@ -115,6 +117,7 @@ export default class MockAppointmentResponse {
    * @static
    * @param {Object} arguments - Method arguments.
    * @param {boolean} [arguments.future] - Flag to determine if appointment is a future appointment.
+   * @param {boolean} [arguments.isCerner] - Flag to determine if appointment is a Cerner/Oracle Health appointment.
    * @param {Date} [arguments.localStartTime] - Local start time.
    * @param {boolean} [arguments.past] - Flag to determine if appointment is a past appointment.
    * @param {boolean} [arguments.pending] - Flag to determine if appointment is a pending appointment.
@@ -124,6 +127,7 @@ export default class MockAppointmentResponse {
    */
   static createAtlasResponse({
     future = false,
+    isCerner,
     localStartTime,
     past = false,
     pending = false,
@@ -136,6 +140,7 @@ export default class MockAppointmentResponse {
       pending,
       status,
       count: 1,
+      isCerner,
     })[0];
   }
 
@@ -146,6 +151,7 @@ export default class MockAppointmentResponse {
    * @param {Object} arguments - Method arguments.
    * @param {number} [arguments.count] - Number of MockAppointmentResponse objects to generate. Default = 1.
    * @param {boolean} [arguments.future] - Flag to determine if appointment is a future appointment.
+   * @param {boolean} [arguments.isCerner] - Flag to determine if appointment is a Cerner/Oracle Health appointment.
    * @param {Date} [arguments.localStartTime] - Local start time.
    * @param {boolean} [arguments.past] - Flag to determine if appointment is a past appointment.
    * @param {boolean} [arguments.pending] - Flag to determine if appointment is a pending appointment.
@@ -155,6 +161,7 @@ export default class MockAppointmentResponse {
   static createAtlasResponses({
     count = 1,
     future = false,
+    isCerner,
     localStartTime,
     past = false,
     pending = false,
@@ -170,6 +177,7 @@ export default class MockAppointmentResponse {
           past,
           pending,
           status,
+          isCerner,
         })
           .setAtlas({
             confirmationCode: '7VBBCA',
@@ -186,8 +194,23 @@ export default class MockAppointmentResponse {
       });
   }
 
+  /**
+   * Method to generate mock Compensation and Pension response objects.
+   *
+   * @static
+   * @param {Object} arguments - Method arguments.
+   * @param {boolean} [arguments.future] - Flag to determine if appointment is a future appointment.
+   * @param {boolean} [arguments.isCerner] - Flag to determine if appointment is a Cerner/Oracle Health appointment.
+   * @param {Date} [arguments.localStartTime] - Local start time.
+   * @param {boolean} [arguments.past] - Flag to determine if appointment is a past appointment.
+   * @param {boolean} [arguments.pending] - Flag to determine if appointment is a pending appointment.
+   * @param {boolean} [arguments.status] - Status of the appointment appointment.
+   * @returns Array of MockAppointmentResponse objects
+   * @memberof MockAppointmentResponse
+   */
   static createCompPensionResponse({
     future = false,
+    isCerner,
     localStartTime,
     past = false,
     pending = false,
@@ -196,6 +219,7 @@ export default class MockAppointmentResponse {
     return MockAppointmentResponse.createCompPensionResponses({
       count: 1,
       future,
+      isCerner,
       localStartTime,
       past,
       pending,
@@ -203,9 +227,25 @@ export default class MockAppointmentResponse {
     })[0];
   }
 
+  /**
+   * Method to generate mock Compensation and Pension response objects.
+   *
+   * @static
+   * @param {Object} arguments - Method arguments.
+   * @param {number} [arguments.count] - Number of MockAppointmentResponse objects to generate. Default = 1.
+   * @param {boolean} [arguments.future] - Flag to determine if appointment is a future appointment.
+   * @param {boolean} [arguments.isCerner] - Flag to determine if appointment is a Cerner/Oracle Health appointment.
+   * @param {Date} [arguments.localStartTime] - Local start time.
+   * @param {boolean} [arguments.past] - Flag to determine if appointment is a past appointment.
+   * @param {boolean} [arguments.pending] - Flag to determine if appointment is a pending appointment.
+   * @param {boolean} [arguments.status] - Status of the appointment appointment.
+   * @returns Array of MockAppointmentResponse objects
+   * @memberof MockAppointmentResponse
+   */
   static createCompPensionResponses({
     count = 1,
     future,
+    isCerner,
     localStartTime = new Date(),
     past,
     pending,
@@ -217,6 +257,7 @@ export default class MockAppointmentResponse {
         return new MockAppointmentResponse({
           id: index + 1,
           future,
+          isCerner,
           localStartTime,
           past,
           pending,
@@ -233,6 +274,7 @@ export default class MockAppointmentResponse {
    * @static
    * @param {Object} arguments - Method arguments.
    * @param {boolean} [arguments.future] - Flag to determine if appointment is a future appointment.
+   * @param {boolean} [arguments.isCerner] - Flag to determine if appointment is a Cerner/Oracle Health appointment.
    * @param {Date} [arguments.localStartTime] - Local start time.
    * @param {boolean} [arguments.past] - Flag to determine if appointment is a past appointment.
    * @param {boolean} [arguments.pending] - Flag to determine if appointment is a pending appointment.
@@ -242,6 +284,7 @@ export default class MockAppointmentResponse {
    */
   static createCCResponse({
     future,
+    isCerner,
     localStartTime,
     past,
     pending,
@@ -250,6 +293,7 @@ export default class MockAppointmentResponse {
     return this.createCCResponses({
       count: 1,
       future,
+      isCerner,
       localStartTime,
       past,
       pending,
@@ -264,6 +308,7 @@ export default class MockAppointmentResponse {
    * @param {Object} arguments - Method arguments.
    * @param {number} [arguments.count] - Number of MockAppointmentResponse objects to generate. Default = 1.
    * @param {boolean} [arguments.future] - Flag to determine if appointment is a future appointment.
+   * @param {boolean} [arguments.isCerner] - Flag to determine if appointment is a Cerner/Oracle Health appointment.
    * @param {Date} [arguments.localStartTime] - Local start time.
    * @param {boolean} [arguments.past] - Flag to determine if appointment is a past appointment.
    * @param {boolean} [arguments.pending] - Flag to determine if appointment is a pending appointment.
@@ -274,6 +319,7 @@ export default class MockAppointmentResponse {
   static createCCResponses({
     count = 1,
     future,
+    isCerner,
     localStartTime,
     past,
     pending,
@@ -289,6 +335,7 @@ export default class MockAppointmentResponse {
           past,
           pending,
           status, // : status || APPOINTMENT_STATUS.proposed,
+          isCerner,
         })
           .setKind('cc')
           .setModality('communityCare')
@@ -307,6 +354,7 @@ export default class MockAppointmentResponse {
    * @param {Object} arguments - Method arguments.
    * @param {number} [arguments.count] - Number of MockAppointmentResponse objects to generate. Default = 1.
    * @param {boolean} [arguments.future] - Flag to determine if appointment is a future appointment.
+   * @param {boolean} [arguments.isCerner] - Flag to determine if appointment is a Cerner/Oracle Health appointment.
    * @param {Date} [arguments.localStartTime] - Local start time.
    * @param {boolean} [arguments.past] - Flag to determine if appointment is a past appointment.
    * @param {boolean} [arguments.pending] - Flag to determine if appointment is a pending appointment.
@@ -317,6 +365,7 @@ export default class MockAppointmentResponse {
   static createClinicResponses({
     count = 1,
     future = false,
+    isCerner,
     localStartTime,
     past = false,
     status,
@@ -330,6 +379,7 @@ export default class MockAppointmentResponse {
           future,
           past,
           status,
+          isCerner,
         })
           .setKind(TYPE_OF_VISIT_ID.telehealth)
           .setModality('vaVideoCareAtAVaLocation')
@@ -344,6 +394,7 @@ export default class MockAppointmentResponse {
    * @static
    * @param {Object} arguments - Method arguments.
    * @param {boolean} [arguments.future] - Flag to determine if appointment is a future appointment.
+   * @param {boolean} [arguments.isCerner] - Flag to determine if appointment is a Cerner/Oracle Health appointment.
    * @param {Date} [arguments.localStartTime] - Local start time.
    * @param {boolean} [arguments.past] - Flag to determine if appointment is a past appointment.
    * @param {boolean} [arguments.pending] - Flag to determine if appointment is a pending appointment.
@@ -353,6 +404,7 @@ export default class MockAppointmentResponse {
    */
   static createClinicResponse({
     future,
+    isCerner,
     localStartTime,
     past,
     pending,
@@ -365,6 +417,7 @@ export default class MockAppointmentResponse {
       past,
       pending,
       status,
+      isCerner,
     })[0];
   }
 
@@ -375,6 +428,7 @@ export default class MockAppointmentResponse {
    * @param {Object} arguments - Method arguments.
    * @param {number} [arguments.count] - Number of MockAppointmentResponse objects to generate. Default = 1.
    * @param {boolean} [arguments.future] - Flag to determine if appointment is a future appointment.
+   * @param {boolean} [arguments.isCerner] - Flag to determine if appointment is a Cerner/Oracle Health appointment.
    * @param {Date} [arguments.localStartTime] - Local start time.
    * @param {boolean} [arguments.past] - Flag to determine if appointment is a past appointment.
    * @param {boolean} [arguments.pending] - Flag to determine if appointment is a pending appointment.
@@ -384,6 +438,7 @@ export default class MockAppointmentResponse {
    */
   static createGfeResponse({
     future = false,
+    isCerner,
     localStartTime,
     past = false,
     pending = false,
@@ -392,6 +447,7 @@ export default class MockAppointmentResponse {
     return MockAppointmentResponse.createGfeResponses({
       count: 1,
       future,
+      isCerner,
       localStartTime,
       past,
       pending,
@@ -406,6 +462,7 @@ export default class MockAppointmentResponse {
    * @param {Object} arguments - Method arguments.
    * @param {number} [arguments.count] - Number of MockAppointmentResponse objects to generate. Default = 1.
    * @param {boolean} [arguments.future] - Flag to determine if appointment is a future appointment.
+   * @param {boolean} [arguments.isCerner] - Flag to determine if appointment is a Cerner/Oracle Health appointment.
    * @param {Date} [arguments.localStartTime] - Local start time.
    * @param {boolean} [arguments.past] - Flag to determine if appointment is a past appointment.
    * @param {boolean} [arguments.pending] - Flag to determine if appointment is a pending appointment.
@@ -416,6 +473,7 @@ export default class MockAppointmentResponse {
   static createGfeResponses({
     count = 1,
     future = false,
+    isCerner,
     localStartTime,
     past = false,
     pending = false,
@@ -427,6 +485,7 @@ export default class MockAppointmentResponse {
         new MockAppointmentResponse({
           id: index + 1,
           localStartTime,
+          isCerner,
           future,
           past,
           pending,
@@ -446,6 +505,7 @@ export default class MockAppointmentResponse {
    * @param {Object} arguments - Method arguments.
    * @param {number} [arguments.count] - Number of MockAppointmentResponse objects to generate. Default = 1.
    * @param {boolean} [arguments.future] - Flag to determine if appointment is a future appointment.
+   * @param {boolean} [arguments.isCerner] - Flag to determine if appointment is a Cerner/Oracle Health appointment.
    * @param {Date} [arguments.localStartTime] - Local start time.
    * @param {boolean} [arguments.past] - Flag to determine if appointment is a past appointment.
    * @param {boolean} [arguments.pending] - Flag to determine if appointment is a pending appointment.
@@ -456,6 +516,7 @@ export default class MockAppointmentResponse {
   static createMobileResponses({
     count = 1,
     future = false,
+    isCerner,
     localStartTime,
     past = false,
     pending = false,
@@ -467,6 +528,7 @@ export default class MockAppointmentResponse {
         new MockAppointmentResponse({
           id: index + 1,
           localStartTime,
+          isCerner,
           future,
           past,
           pending,
@@ -485,14 +547,16 @@ export default class MockAppointmentResponse {
    * @param {Object} arguments - Method arguments.
    * @param {Date} [arguments.localStartTime] - Local start time.
    * @param {boolean} [arguments.future] - Flag to determine if appointment is a future appointment.
+   * @param {boolean} [arguments.isCerner] - Flag to determine if appointment is a Cerner/Oracle Health appointment.
    * @returns Array of MockAppointmentResponse objects
    * @memberof MockAppointmentResponse
    */
-  static createMobileResponse({ localStartTime, future = false }) {
+  static createMobileResponse({ localStartTime, future = false, isCerner }) {
     return MockAppointmentResponse.createMobileResponses({
       count: 1,
       localStartTime,
       future,
+      isCerner,
     })[0];
   }
 
@@ -503,6 +567,7 @@ export default class MockAppointmentResponse {
    * @param {Object} arguments - Method arguments.
    * @param {number} [arguments.count] - Number of MockAppointmentResponse objects to generate. Default = 1.
    * @param {boolean} [arguments.future] - Flag to determine if appointment is a future appointment.
+   * @param {boolean} [arguments.isCerner] - Flag to determine if appointment is a Cerner/Oracle Health appointment.
    * @param {Date} [arguments.localStartTime] - Local start time.
    * @param {boolean} [arguments.past] - Flag to determine if appointment is a past appointment.
    * @param {boolean} [arguments.pending] - Flag to determine if appointment is a pending appointment.
@@ -512,6 +577,7 @@ export default class MockAppointmentResponse {
    */
   static createPhoneResponse({
     future = false,
+    isCerner,
     localStartTime,
     past = false,
     pending = false,
@@ -520,6 +586,7 @@ export default class MockAppointmentResponse {
     return MockAppointmentResponse.createPhoneResponses({
       count: 1,
       future,
+      isCerner,
       localStartTime,
       past,
       pending,
@@ -534,6 +601,7 @@ export default class MockAppointmentResponse {
    * @param {Object} arguments - Method arguments.
    * @param {number} [arguments.count] - Number of MockAppointmentResponse objects to generate. Default = 1.
    * @param {boolean} [arguments.future] - Flag to determine if appointment is a future appointment.
+   * @param {boolean} [arguments.isCerner] - Flag to determine if appointment is a Cerner/Oracle Health appointment.
    * @param {Date} [arguments.localStartTime] - Local start time.
    * @param {boolean} [arguments.past] - Flag to determine if appointment is a past appointment.
    * @param {boolean} [arguments.pending] - Flag to determine if appointment is a pending appointment.
@@ -544,6 +612,7 @@ export default class MockAppointmentResponse {
   static createPhoneResponses({
     count = 1,
     future = false,
+    isCerner,
     localStartTime,
     past = false,
     pending = false,
@@ -559,6 +628,7 @@ export default class MockAppointmentResponse {
           past,
           pending,
           status,
+          isCerner,
         })
           .setKind(TYPE_OF_VISIT_ID.phone)
           .setModality('vaPhone'),
@@ -572,6 +642,7 @@ export default class MockAppointmentResponse {
    * @param {Object} arguments - Method arguments.
    * @param {number} [arguments.count] - Number of MockAppointmentResponse objects to generate. Default = 1.
    * @param {boolean} [arguments.future] - Flag to determine if appointment is a future appointment.
+   * @param {boolean} [arguments.isCerner] - Flag to determine if appointment is a Cerner/Oracle Health appointment.
    * @param {Date} [arguments.localStartTime] - Local start time.
    * @param {boolean} [arguments.past] - Flag to determine if appointment is a past appointment.
    * @param {boolean} [arguments.pending] - Flag to determine if appointment is a pending appointment.
@@ -582,6 +653,7 @@ export default class MockAppointmentResponse {
   static createStoreForwardResponses({
     count = 1,
     future = false,
+    isCerner,
     localStartTime,
     past,
     pending,
@@ -597,6 +669,7 @@ export default class MockAppointmentResponse {
           past,
           pending,
           status,
+          isCerner,
         })
           .setKind(TYPE_OF_VISIT_ID.telehealth)
           .setModality('vaVideoCareAtAVaLocation')
@@ -610,6 +683,7 @@ export default class MockAppointmentResponse {
    * @static
    * @param {Object} arguments - Method arguments.
    * @param {boolean} [arguments.future] - Flag to determine if appointment is a future appointment.
+   * @param {boolean} [arguments.isCerner] - Flag to determine if appointment is a Cerner/Oracle Health appointment.
    * @param {Date} [arguments.localStartTime] - Local start time.
    * @param {boolean} [arguments.past] - Flag to determine if appointment is a past appointment.
    * @param {boolean} [arguments.pending] - Flag to determine if appointment is a pending appointment.
@@ -619,6 +693,7 @@ export default class MockAppointmentResponse {
    */
   static createStoreForwardResponse({
     future = false,
+    isCerner,
     localStartTime,
     past = false,
     pending = false,
@@ -627,6 +702,7 @@ export default class MockAppointmentResponse {
     return MockAppointmentResponse.createStoreForwardResponses({
       count: 1,
       future,
+      isCerner,
       localStartTime,
       past,
       pending,
@@ -640,6 +716,7 @@ export default class MockAppointmentResponse {
    * @static
    * @param {Object} arguments - Method arguments.
    * @param {boolean} [arguments.future] - Flag to determine if appointment is a future appointment.
+   * @param {boolean} [arguments.isCerner] - Flag to determine if appointment is a Cerner/Oracle Health appointment.
    * @param {Date} [arguments.localStartTime] - Local start time.
    * @param {boolean} [arguments.past] - Flag to determine if appointment is a past appointment.
    * @param {boolean} [arguments.pending] - Flag to determine if appointment is a pending appointment.
@@ -649,6 +726,7 @@ export default class MockAppointmentResponse {
    */
   static createVAResponse({
     future,
+    isCerner,
     localStartTime = new Date(),
     past,
     pending,
@@ -656,6 +734,7 @@ export default class MockAppointmentResponse {
   } = {}) {
     return this.createVAResponses({
       count: 1,
+      isCerner,
       localStartTime,
       future,
       past,
@@ -669,6 +748,7 @@ export default class MockAppointmentResponse {
    *
    * @static
    * @param {Object} arguments - Method arguments.
+   * @param {boolean} [arguments.isCerner] - Flag to determine if appointment is a Cerner/Oracle Health appointment.
    * @param {Date} [arguments.localStartTime] - Local start time.
    * @param {boolean} [arguments.future] - Flag to determine if appointment is a future appointment.
    * @param {number} [arguments.count] - Number of MockAppointmentResponse objects to generate. Default = 1.
@@ -676,6 +756,7 @@ export default class MockAppointmentResponse {
    * @memberof MockAppointmentResponse
    */
   static createCovidResponses({
+    isCerner,
     localStartTime,
     future = false,
     count = 1,
@@ -687,6 +768,7 @@ export default class MockAppointmentResponse {
           id: index + 1,
           localStartTime,
           future,
+          isCerner,
         }).setModality('vaInPersonVaccine'),
       );
   }
@@ -696,14 +778,20 @@ export default class MockAppointmentResponse {
    *
    * @static
    * @param {Object} arguments - Method arguments.
+   * @param {boolean} [arguments.isCerner] - Flag to determine if appointment is a Cerner/Oracle Health appointment.
    * @param {Date} [arguments.localStartTime] - Local start time.
    * @param {boolean} [arguments.future] - Flag to determine if appointment is a future appointment.
    * @returns Array of MockAppointmentResponse objects
    * @memberof MockAppointmentResponse
    */
-  static createCovidResponse({ localStartTime, future = false } = {}) {
+  static createCovidResponse({
+    isCerner,
+    localStartTime,
+    future = false,
+  } = {}) {
     return MockAppointmentResponse.createCovidResponses({
       count: 1,
+      isCerner,
       localStartTime,
       future,
     })[0];
@@ -717,10 +805,16 @@ export default class MockAppointmentResponse {
    * @param {Date} [arguments.localStartTime] - Local start time.
    * @param {boolean} [arguments.future] - Flag to determine if appointment is a future appointment.
    * @param {number} [arguments.count] - Number of MockAppointmentResponse objects to generate. Default = 1.
+   * @param {boolean} [arguments.isCerner] - Flag to determine if appointment is a Cerner/Oracle Health appointment.
    * @returns Array of MockAppointmentResponse objects
    * @memberof MockAppointmentResponse
    */
-  static createCEResponses({ localStartTime, future = false, count = 1 } = {}) {
+  static createCEResponses({
+    localStartTime,
+    future = false,
+    count = 1,
+    isCerner,
+  } = {}) {
     return Array(count)
       .fill(count)
       .map((_, index) =>
@@ -728,6 +822,7 @@ export default class MockAppointmentResponse {
           id: index + 1,
           localStartTime,
           future,
+          isCerner,
         }).setModality('claimExamAppointment'),
       );
   }
@@ -739,14 +834,16 @@ export default class MockAppointmentResponse {
    * @param {Object} arguments - Method arguments.
    * @param {Date} [arguments.localStartTime] - Local start time.
    * @param {boolean} [arguments.future] - Flag to determine if appointment is a future appointment.
+   * @param {boolean} [arguments.isCerner] - Flag to determine if appointment is a Cerner/Oracle Health appointment.
    * @returns Array of MockAppointmentResponse objects
    * @memberof MockAppointmentResponse
    */
-  static createCEResponse({ localStartTime, future = false } = {}) {
+  static createCEResponse({ localStartTime, future = false, isCerner } = {}) {
     return MockAppointmentResponse.createCEResponses({
       count: 1,
       localStartTime,
       future,
+      isCerner,
     })[0];
   }
 
@@ -757,6 +854,7 @@ export default class MockAppointmentResponse {
    * @param {Object} arguments - Method arguments.
    * @param {number} [arguments.count] - Number of MockAppointmentResponse objects to generate. Default = 1.
    * @param {boolean} [arguments.future] - Flag to determine if appointment is a future appointment.
+   * @param {boolean} [arguments.isCerner] - Flag to determine if appointment is a Cerner/Oracle Health appointment.
    * @param {Date} [arguments.localStartTime] - Local start time.
    * @param {boolean} [arguments.past] - Flag to determine if appointment is a past appointment.
    * @param {boolean} [arguments.pending] - Flag to determine if appointment is a pending appointment.
@@ -767,6 +865,7 @@ export default class MockAppointmentResponse {
   static createVAResponses({
     count = 1,
     future,
+    isCerner,
     localStartTime = new Date(),
     past,
     pending,
@@ -778,6 +877,7 @@ export default class MockAppointmentResponse {
         return new MockAppointmentResponse({
           id: index + 1,
           future,
+          isCerner,
           localStartTime,
           past,
           pending,
