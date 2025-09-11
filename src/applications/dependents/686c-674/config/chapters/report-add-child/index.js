@@ -17,6 +17,7 @@ import { childAddressPartTwo } from './childAddressPartTwo';
 import { marriageEndDetails } from './marriageEndDetails';
 import { disabilityPartOne } from './disabilityPartOne';
 import { disabilityPartTwo } from './disabilityPartTwo';
+import { showPensionRelatedQuestions } from '../../utilities';
 
 const shouldIncludePage = formData => {
   return (
@@ -127,7 +128,8 @@ const chapterPages = arrayBuilderPages(arrayBuilderOptions, pages => {
       schema: marriageEndDetails.schema,
     }),
     addChildAdditionalInformationPartTwo: pages.itemPage({
-      depends: shouldIncludePage,
+      depends: formData =>
+        shouldIncludePage(formData) && showPensionRelatedQuestions(formData),
       title: 'Additional information needed to add child',
       path: '686-report-add-child/:index/additional-information-part-two',
       uiSchema: additionalInformationPartTwo.uiSchema,

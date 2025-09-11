@@ -90,44 +90,29 @@ const routes = (
         >
           <VaccineDetails />
         </FeatureFlagRoute>
-        <FeatureFlagRoute
-          exact
-          path="/summaries-and-notes"
-          key="CareSummariesAndNotes"
-          featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayNotes}
-        >
+        <AppRoute exact path="/summaries-and-notes" key="CareSummariesAndNotes">
           <CareSummariesAndNotes />
-        </FeatureFlagRoute>
-        <FeatureFlagRoute
+        </AppRoute>
+        <AppRoute
           exact
           path="/summaries-and-notes/:summaryId"
           key="CareSummaryAndNotesDetails"
-          featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayNotes}
         >
           <CareSummariesDetails />
-        </FeatureFlagRoute>
+        </AppRoute>
         <AppRoute exact path="/conditions" key="Health Conditions">
           <HealthConditions />
         </AppRoute>
         <AppRoute exact path="/conditions/:conditionId" key="Condition Details">
           <ConditionDetails />
         </AppRoute>
-        <FeatureFlagRoute
-          exact
-          path="/vitals"
-          key="Vitals"
-          featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayVitals}
-        >
+        <AppRoute exact path="/vitals" key="Vitals">
           <Vitals />
-        </FeatureFlagRoute>
-        <FeatureFlagRoute
-          exact
-          path="/vitals/:vitalType-history"
-          key="VitalDetails"
-          featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayVitals}
-        >
+        </AppRoute>
+
+        <AppRoute exact path="/vitals/:vitalType-history" key="VitalDetails">
           <VitalDetails />
-        </FeatureFlagRoute>
+        </AppRoute>
         <AppRoute exact path="/labs-and-tests" key="LabsAndTests">
           <LabsAndTests />
         </AppRoute>

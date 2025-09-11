@@ -16,18 +16,18 @@ const generateFeatureToggles = (toggles = {}) => {
     // medical records
     mhvMedicalRecordsAllowTxtDownloads = true,
     mhvMedicalRecordsDisplayDomains = true,
-    mhvMedicalRecordsDisplayNotes = true,
     mhvMedicalRecordsDisplaySidenav = true,
     mhvMedicalRecordsDisplayVaccines = true,
     mhvMedicalRecordsDisplaySettingsPage = true,
-    mhvMedicalRecordsDisplayVitals = true,
     mhvMedicalRecordsToVaGovRelease = true,
     mhvMedicalRecordsMarch17Updates = true,
 
     // OH integration work
     mhvAcceleratedDeliveryEnabled = false,
     mhvAcceleratedDeliveryAllergiesEnabled = false,
+    mhvAcceleratedDeliveryCareNotesEnabled = false,
     mhvAcceleratedDeliveryVitalSignsEnabled = false,
+    mhvAcceleratedDeliveryConditionsEnabled = false,
     mhvAcceleratedDeliveryVaccinesEnabled = false,
     mhvAcceleratedDeliveryLabsAndTestsEnabled = false,
 
@@ -36,9 +36,11 @@ const generateFeatureToggles = (toggles = {}) => {
     // secure messaging
     mhvSecureMessagingTriageGroupPlainLanguage = false,
     mhvSecureMessagingRecipientOptGroups = true,
-    mhvSecureMessagingRecipientCombobox = true,
+    mhvSecureMessagingRecipientCombobox = false,
     mhvSecureMessagingCernerPilot = true,
     mhvSecureMessagingLargeAttachments = true,
+    mhvSecureMessagingCuratedListFlow = true,
+    mhvSecureMessagingRecentRecipients = true,
   } = toggles;
 
   return {
@@ -60,6 +62,14 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_accelerated_delivery_allergies_enabled',
           value: mhvAcceleratedDeliveryAllergiesEnabled,
+        },
+        {
+          name: 'mhv_accelerated_delivery_care_notes_enabled',
+          value: mhvAcceleratedDeliveryCareNotesEnabled,
+        },
+        {
+          name: 'mhv_accelerated_delivery_conditions_enabled',
+          value: mhvAcceleratedDeliveryConditionsEnabled,
         },
         {
           name: 'mhv_accelerated_delivery_vaccines_enabled',
@@ -124,10 +134,6 @@ const generateFeatureToggles = (toggles = {}) => {
           value: mhvMedicalRecordsDisplayDomains,
         },
         {
-          name: 'mhv_medical_records_display_notes',
-          value: mhvMedicalRecordsDisplayNotes,
-        },
-        {
           name: 'mhv_medical_records_display_sidenav',
           value: mhvMedicalRecordsDisplaySidenav,
         },
@@ -138,10 +144,6 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medical_records_display_settings_page',
           value: mhvMedicalRecordsDisplaySettingsPage,
-        },
-        {
-          name: 'mhv_medical_records_display_vitals',
-          value: mhvMedicalRecordsDisplayVitals,
         },
         {
           name: 'mhv_medical_records_to_va_gov_release',
@@ -176,6 +178,14 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_secure_messaging_large_attachments',
           value: mhvSecureMessagingLargeAttachments,
+        },
+        {
+          name: 'mhv_secure_messaging_curated_list_flow',
+          value: mhvSecureMessagingCuratedListFlow,
+        },
+        {
+          name: 'mhv_secure_messaging_recent_recipients',
+          value: mhvSecureMessagingRecentRecipients,
         },
       ],
     },
