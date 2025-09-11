@@ -21,5 +21,6 @@ const schema = {
   properties: {
     isEmployed: yesNoSchema,
   },
+  required: ['isEmployed'],
 };
 export { schema, uiSchema };
