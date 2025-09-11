@@ -69,6 +69,7 @@ describe('cleanToxicExposureData', () => {
   describe('when user selected only "none" for toxic exposure conditions', () => {
     it('should remove all toxic exposure data except the "none" condition', () => {
       const formData = {
+        disability526ToxicExposureOptOutDataPurge: true,
         newDisabilities: [{ condition: 'Chronic Bronchitis' }],
         veteranInformation: { name: 'John Doe' },
         toxicExposure: {
@@ -124,6 +125,7 @@ describe('cleanToxicExposureData', () => {
       };
 
       const expectedResult = {
+        disability526ToxicExposureOptOutDataPurge: true,
         newDisabilities: [{ condition: 'Chronic Bronchitis' }],
         veteranInformation: { name: 'John Doe' },
         toxicExposure: {
@@ -145,6 +147,7 @@ describe('cleanToxicExposureData', () => {
 
     it('should preserve other form data outside of toxic exposure', () => {
       const formData = {
+        disability526ToxicExposureOptOutDataPurge: true,
         newDisabilities: [{ condition: 'Chronic Bronchitis' }],
         veteranInformation: { name: 'John Doe' },
         ratedDisabilities: [{ name: 'Existing condition' }],
@@ -198,6 +201,7 @@ describe('cleanToxicExposureData', () => {
   describe('when cleaning individual exposure details', () => {
     it('should remove Gulf War 1990 details for unselected locations', () => {
       const formData = {
+        disability526ToxicExposureOptOutDataPurge: true,
         toxicExposure: {
           conditions: { asthma: true },
           gulfWar1990: {
@@ -227,6 +231,7 @@ describe('cleanToxicExposureData', () => {
 
     it('should remove Gulf War 2001 details for unselected locations', () => {
       const formData = {
+        disability526ToxicExposureOptOutDataPurge: true,
         toxicExposure: {
           conditions: { cancer: true },
           gulfWar2001: {
@@ -258,6 +263,7 @@ describe('cleanToxicExposureData', () => {
 
     it('should remove herbicide details for unselected locations', () => {
       const formData = {
+        disability526ToxicExposureOptOutDataPurge: true,
         toxicExposure: {
           conditions: { bronchitis: true },
           herbicide: {
@@ -287,6 +293,7 @@ describe('cleanToxicExposureData', () => {
 
     it('should remove otherHerbicideLocations when description is empty', () => {
       const formData = {
+        disability526ToxicExposureOptOutDataPurge: true,
         toxicExposure: {
           conditions: { asthma: true },
           otherHerbicideLocations: {
@@ -321,6 +328,7 @@ describe('cleanToxicExposureData', () => {
 
     it('should remove otherExposuresDetails for unselected exposures', () => {
       const formData = {
+        disability526ToxicExposureOptOutDataPurge: true,
         toxicExposure: {
           conditions: { asthma: true },
           otherExposures: {
@@ -352,6 +360,7 @@ describe('cleanToxicExposureData', () => {
 
     it('should remove otherExposuresDetails for unselected exposures', () => {
       const formData = {
+        disability526ToxicExposureOptOutDataPurge: true,
         toxicExposure: {
           conditions: { cancer: true },
           otherExposures: {
@@ -383,6 +392,7 @@ describe('cleanToxicExposureData', () => {
 
     it('should remove specifyOtherExposures when empty string', () => {
       const formData = {
+        disability526ToxicExposureOptOutDataPurge: true,
         toxicExposure: {
           conditions: { asthma: true },
           specifyOtherExposures: '   ',
@@ -413,6 +423,7 @@ describe('cleanToxicExposureData', () => {
 
     it('should remove specifyOtherExposures when object description is empty', () => {
       const formData = {
+        disability526ToxicExposureOptOutDataPurge: true,
         toxicExposure: {
           conditions: { asthma: true },
           specifyOtherExposures: {
@@ -450,6 +461,7 @@ describe('cleanToxicExposureData', () => {
 
     it('should remove multiple false conditions', () => {
       const formData = {
+        disability526ToxicExposureOptOutDataPurge: true,
         toxicExposure: {
           conditions: {
             asthma: true,
@@ -479,6 +491,7 @@ describe('cleanToxicExposureData', () => {
   describe('edge cases for keeping false values in main exposure objects', () => {
     it('should keep false values in gulfWar1990 object while removing their details', () => {
       const formData = {
+        disability526ToxicExposureOptOutDataPurge: true,
         toxicExposure: {
           conditions: { asthma: true },
           gulfWar1990: {
@@ -535,6 +548,7 @@ describe('cleanToxicExposureData', () => {
 
     it('should keep false values in herbicide object while removing their details', () => {
       const formData = {
+        disability526ToxicExposureOptOutDataPurge: true,
         toxicExposure: {
           conditions: { cancer: true },
           herbicide: {
@@ -590,6 +604,7 @@ describe('cleanToxicExposureData', () => {
 
     it('should keep false values in otherExposures object while removing their details', () => {
       const formData = {
+        disability526ToxicExposureOptOutDataPurge: true,
         toxicExposure: {
           conditions: { asthma: true },
           otherExposures: {
@@ -674,6 +689,7 @@ describe('cleanToxicExposureData', () => {
   describe('comprehensive edge cases for all toxic exposure keys', () => {
     it('should remove all details when main selection is missing', () => {
       const formData = {
+        disability526ToxicExposureOptOutDataPurge: true,
         toxicExposure: {
           conditions: { asthma: true },
           // Missing gulfWar1990 but has details
@@ -695,6 +711,7 @@ describe('cleanToxicExposureData', () => {
 
     it('should handle all toxic exposure keys from getAllToxicExposureKeys', () => {
       const formData = {
+        disability526ToxicExposureOptOutDataPurge: true,
         toxicExposure: {
           conditions: { none: true },
           gulfWar1990: { bahrain: true },
@@ -724,6 +741,7 @@ describe('cleanToxicExposureData', () => {
 
     it('should handle mixed selection states with details', () => {
       const formData = {
+        disability526ToxicExposureOptOutDataPurge: true,
         toxicExposure: {
           conditions: { cancer: true },
           gulfWar1990: {
@@ -760,6 +778,7 @@ describe('cleanToxicExposureData', () => {
 
     it('should completely remove toxicExposure when all data is empty', () => {
       const formData = {
+        disability526ToxicExposureOptOutDataPurge: true,
         veteranInformation: { name: 'John Doe' },
         toxicExposure: {
           conditions: {},
@@ -780,6 +799,7 @@ describe('cleanToxicExposureData', () => {
     it('should handle string and object formats for otherHerbicideLocations', () => {
       // Test with string format (if supported)
       const formDataString = {
+        disability526ToxicExposureOptOutDataPurge: true,
         toxicExposure: {
           conditions: { asthma: true },
           otherHerbicideLocations: 'Thailand base camps',
@@ -793,6 +813,7 @@ describe('cleanToxicExposureData', () => {
 
       // Test with empty string
       const formDataEmptyString = {
+        disability526ToxicExposureOptOutDataPurge: true,
         toxicExposure: {
           conditions: { asthma: true },
           otherHerbicideLocations: '   ',
@@ -832,6 +853,7 @@ describe('cleanToxicExposureData', () => {
 
     it('should handle null values in toxic exposure data', () => {
       const formData = {
+        disability526ToxicExposureOptOutDataPurge: true,
         toxicExposure: {
           conditions: { none: true },
           gulfWar1990: null,
@@ -841,6 +863,7 @@ describe('cleanToxicExposureData', () => {
       };
 
       const expectedResult = {
+        disability526ToxicExposureOptOutDataPurge: true,
         toxicExposure: {
           conditions: { none: true },
         },
@@ -853,6 +876,7 @@ describe('cleanToxicExposureData', () => {
 
     it('should handle when conditions has "none" set to false', () => {
       const formData = {
+        disability526ToxicExposureOptOutDataPurge: true,
         toxicExposure: {
           conditions: {
             none: false,
@@ -863,6 +887,7 @@ describe('cleanToxicExposureData', () => {
       };
 
       const expectedResult = {
+        disability526ToxicExposureOptOutDataPurge: true,
         toxicExposure: {
           conditions: {
             chronicbronchitis: true,
@@ -879,6 +904,7 @@ describe('cleanToxicExposureData', () => {
 
     it('should handle deeply nested toxic exposure data', () => {
       const formData = {
+        disability526ToxicExposureOptOutDataPurge: true,
         toxicExposure: {
           conditions: { none: true },
           gulfWar1990: { bahrain: true },
@@ -904,6 +930,7 @@ describe('cleanToxicExposureData', () => {
       };
 
       const expectedResult = {
+        disability526ToxicExposureOptOutDataPurge: true,
         toxicExposure: {
           conditions: { none: true },
         },
@@ -917,6 +944,7 @@ describe('cleanToxicExposureData', () => {
     it('should handle real-world user scenarios', () => {
       // Scenario 1: User starts filling out toxic exposure, then selects "none"
       const scenario1 = {
+        disability526ToxicExposureOptOutDataPurge: true,
         toxicExposure: {
           conditions: { none: true, asthma: false, cancer: false },
           gulfWar1990: { bahrain: true, iraq: true },
@@ -946,6 +974,7 @@ describe('cleanToxicExposureData', () => {
 
       // Scenario 2: User partially fills out exposures
       const scenario2 = {
+        disability526ToxicExposureOptOutDataPurge: true,
         toxicExposure: {
           conditions: { asthma: true, bronchitis: true },
           gulfWar1990: { bahrain: true, iraq: false },
@@ -996,6 +1025,7 @@ describe('cleanToxicExposureData', () => {
     it('should handle validation of all toxic exposure fields', () => {
       // This test ensures we handle all the keys from the mapping
       const allKeysData = {
+        disability526ToxicExposureOptOutDataPurge: true,
         toxicExposure: {
           conditions: { asthma: true },
           gulfWar1990: { location1: true, location2: false },
@@ -1064,6 +1094,7 @@ describe('cleanToxicExposureData', () => {
   describe('edge cases with false values', () => {
     it('should remove details for all false selections across all exposure types', () => {
       const formData = {
+        disability526ToxicExposureOptOutDataPurge: true,
         toxicExposure: {
           conditions: {
             asthma: true,
@@ -1332,6 +1363,7 @@ describe('cleanToxicExposureData', () => {
 
     it('should handle mixed undefined and false values correctly', () => {
       const formData = {
+        disability526ToxicExposureOptOutDataPurge: true,
         toxicExposure: {
           conditions: { asthma: true },
           gulfWar1990: {
@@ -1370,6 +1402,7 @@ describe('cleanToxicExposureData', () => {
 
     it('should handle case where all selections are false', () => {
       const formData = {
+        disability526ToxicExposureOptOutDataPurge: true,
         toxicExposure: {
           conditions: { asthma: true },
           gulfWar1990: {
@@ -1400,6 +1433,7 @@ describe('cleanToxicExposureData', () => {
     it('should properly clean a real-world payload with mixed true/false values', () => {
       // Using a subset of the actual payload provided
       const formData = {
+        disability526ToxicExposureOptOutDataPurge: true,
         toxicExposure: {
           conditions: {
             asthma: true,
@@ -1461,6 +1495,123 @@ describe('cleanToxicExposureData', () => {
       expect(result.toxicExposure.herbicideDetails.koreandemilitarizedzone).to
         .be.undefined;
       expect(result.toxicExposure.herbicideDetails.c123).to.be.undefined;
+    });
+  });
+
+  describe('when feature flag disability526ToxicExposureOptOutDataPurge is disabled', () => {
+    it('should not clean toxic exposure data when feature flag is false', () => {
+      const formData = {
+        disability526ToxicExposureOptOutDataPurge: false,
+        toxicExposure: {
+          conditions: { none: true },
+          gulfWar1990: { bahrain: true },
+          gulfWar1990Details: {
+            bahrain: {
+              startDate: '1991-01-01',
+              endDate: '1991-12-31',
+            },
+          },
+          herbicide: { vietnam: true },
+          herbicideDetails: {
+            vietnam: {
+              startDate: '1968-01-01',
+              endDate: '1970-01-01',
+            },
+          },
+        },
+      };
+
+      const result = cleanToxicExposureData(formData);
+
+      expect(result).to.deep.equal(formData);
+      expect(result.toxicExposure.gulfWar1990).to.exist;
+      expect(result.toxicExposure.gulfWar1990Details).to.exist;
+      expect(result.toxicExposure.herbicide).to.exist;
+      expect(result.toxicExposure.herbicideDetails).to.exist;
+    });
+
+    it('should not clean toxic exposure data when feature flag is undefined', () => {
+      const formData = {
+        toxicExposure: {
+          conditions: { none: true },
+          gulfWar1990: { bahrain: true },
+          gulfWar1990Details: {
+            bahrain: {
+              startDate: '1991-01-01',
+              endDate: '1991-12-31',
+            },
+          },
+        },
+      };
+
+      const result = cleanToxicExposureData(formData);
+
+      expect(result).to.deep.equal(formData);
+      expect(result.toxicExposure.gulfWar1990).to.exist;
+      expect(result.toxicExposure.gulfWar1990Details).to.exist;
+    });
+  });
+
+  describe('when feature flag disability526ToxicExposureOptOutDataPurge is enabled', () => {
+    it('should clean toxic exposure data when feature flag is true and user selects none', () => {
+      const formData = {
+        disability526ToxicExposureOptOutDataPurge: true,
+        toxicExposure: {
+          conditions: { none: true },
+          gulfWar1990: { bahrain: true },
+          gulfWar1990Details: {
+            bahrain: {
+              startDate: '1991-01-01',
+              endDate: '1991-12-31',
+            },
+          },
+          herbicide: { vietnam: true },
+          herbicideDetails: {
+            vietnam: {
+              startDate: '1968-01-01',
+              endDate: '1970-01-01',
+            },
+          },
+        },
+      };
+
+      const result = cleanToxicExposureData(formData);
+
+      expect(result.toxicExposure).to.deep.equal({
+        conditions: { none: true },
+      });
+      expect(result.toxicExposure.gulfWar1990).to.be.undefined;
+      expect(result.toxicExposure.gulfWar1990Details).to.be.undefined;
+      expect(result.toxicExposure.herbicide).to.be.undefined;
+      expect(result.toxicExposure.herbicideDetails).to.be.undefined;
+    });
+
+    it('should not clean toxic exposure data when feature flag is true but user has actual conditions', () => {
+      const formData = {
+        disability526ToxicExposureOptOutDataPurge: true,
+        toxicExposure: {
+          conditions: {
+            asthma: true,
+            cancer: true,
+          },
+          gulfWar1990: { bahrain: true },
+          gulfWar1990Details: {
+            bahrain: {
+              startDate: '1991-01-01',
+              endDate: '1991-12-31',
+            },
+          },
+        },
+      };
+
+      const result = cleanToxicExposureData(formData);
+
+      expect(result.toxicExposure.conditions).to.deep.equal({
+        asthma: true,
+        cancer: true,
+      });
+      expect(result.toxicExposure.gulfWar1990).to.exist;
+      expect(result.toxicExposure.gulfWar1990Details).to.exist;
     });
   });
 });

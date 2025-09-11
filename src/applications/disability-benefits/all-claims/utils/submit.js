@@ -997,12 +997,17 @@ const cleanExposureDetails = (toxicExposure, exposureType, mapping) => {
  * Designed to be backwards compatible with different versions of the form.
  *
  * @param {Object} formData - The form data being transformed
+ * @param {boolean} [formData.disability526ToxicExposureOptOutDataPurge] - Feature flag to control data purge behavior
  * @param {Object} [formData.toxicExposure] - The toxic exposure data object (optional)
  * @param {Object} [formData.toxicExposure.conditions] - Selected conditions object (optional)
  * @param {boolean} [formData.toxicExposure.conditions.none] - Whether "none" is selected
  * @returns {Object} Form data with properly cleaned toxic exposure data
  */
 export const cleanToxicExposureData = formData => {
+  if (formData.disability526ToxicExposureOptOutDataPurge !== true) {
+    return formData;
+  }
+
   if (!isValidToxicExposureData(formData)) {
     return formData;
   }
