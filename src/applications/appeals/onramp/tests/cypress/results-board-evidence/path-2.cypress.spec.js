@@ -64,20 +64,8 @@ describe('Decision Reviews Onramp', () => {
       // RESULTS
       h.verifyUrl(ROUTES.RESULTS);
       h.verifyDrResultsHeader(RESULTS_2_H_2A_1);
-      h.checkOverviewPanel([
-        c.TITLE_SC,
-        c.TITLE_BOARD_DIRECT,
-        c.TITLE_BOARD_EVIDENCE,
-      ]);
+      h.checkOverviewPanel([c.TITLE_BOARD_EVIDENCE]);
       h.checkGoodFitCards([
-        {
-          type: c.CARD_SC,
-          content: [c.CARD_GF_YES_EVIDENCE, c.CARD_SUBMITTED_BOARD_APPEAL],
-        },
-        {
-          type: c.CARD_BOARD_DIRECT,
-          content: [c.CARD_GF_BOARD_ONLY_OPTION, c.CARD_GF_NO_HEARING],
-        },
         {
           type: c.CARD_BOARD_EVIDENCE,
           content: [
@@ -87,7 +75,12 @@ describe('Decision Reviews Onramp', () => {
           ],
         },
       ]);
+      h.verifyClaimForIncreaseCardNotPresent();
       h.checkNotGoodFitCards([
+        {
+          type: c.CARD_SC,
+          content: [c.CARD_NGF_CLAIM_CONTESTED],
+        },
         {
           type: c.CARD_HLR,
           content: [
@@ -97,17 +90,11 @@ describe('Decision Reviews Onramp', () => {
         },
         {
           type: c.CARD_BOARD_DIRECT,
-          content: [
-            c.CARD_NGF_RECEIVED_BOARD_DECISION,
-            c.CARD_NGF_CANNOT_SUBMIT_EVIDENCE,
-          ],
+          content: [c.CARD_NGF_CANNOT_SUBMIT_EVIDENCE],
         },
         {
           type: c.CARD_BOARD_HEARING,
-          content: [
-            c.CARD_NGF_RECEIVED_BOARD_DECISION,
-            c.CARD_NGF_HEARING_NOT_DESIRED,
-          ],
+          content: [c.CARD_NGF_HEARING_NOT_DESIRED],
         },
       ]);
       h.verifyOutsideDROptionNotPresent();

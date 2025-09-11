@@ -71,7 +71,11 @@ describe('Decision Reviews Onramp', () => {
       // RESULTS
       h.verifyUrl(ROUTES.RESULTS);
       h.verifyDrResultsHeader(RESULTS_2_IS_1C);
-      h.checkOverviewPanel([c.TITLE_HLR, c.TITLE_BOARD_DIRECT]);
+      h.checkOverviewPanel([
+        c.TITLE_HLR,
+        c.TITLE_BOARD_DIRECT,
+        c.TITLE_BOARD_HEARING,
+      ]);
       h.checkGoodFitCards([
         {
           type: c.CARD_HLR,

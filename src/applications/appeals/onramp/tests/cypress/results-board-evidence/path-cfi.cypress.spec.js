@@ -93,7 +93,7 @@ describe('Decision Reviews Onramp', () => {
             c.CARD_GF_REVIEW_HLR,
             c.CARD_GF_YES_EVIDENCE,
             c.CARD_GF_NOT_CONTESTED,
-            c.CARD_SUBMITTED_BOARD_APPEAL,
+            c.CARD_GF_NO_HEARING,
           ],
         },
         {
@@ -105,6 +105,7 @@ describe('Decision Reviews Onramp', () => {
           ],
         },
       ]);
+      h.verifyClaimForIncreaseCardPresent();
       h.checkNotGoodFitCards([
         {
           type: c.CARD_HLR,
@@ -115,17 +116,11 @@ describe('Decision Reviews Onramp', () => {
         },
         {
           type: c.CARD_BOARD_DIRECT,
-          content: [
-            c.CARD_NGF_RECEIVED_BOARD_DECISION,
-            c.CARD_NGF_CANNOT_SUBMIT_EVIDENCE,
-          ],
+          content: [c.CARD_NGF_CANNOT_SUBMIT_EVIDENCE],
         },
         {
           type: c.CARD_BOARD_HEARING,
-          content: [
-            c.CARD_NGF_RECEIVED_BOARD_DECISION,
-            c.CARD_NGF_HEARING_NOT_DESIRED,
-          ],
+          content: [c.CARD_NGF_HEARING_NOT_DESIRED],
         },
       ]);
       h.verifyOutsideDROptionNotPresent();
