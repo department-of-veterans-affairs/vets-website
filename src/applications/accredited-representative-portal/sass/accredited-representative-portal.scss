@@ -450,6 +450,7 @@
     }
     &--get-started {
       margin-bottom: 48px !important;
+      align-items: center;
       @media (min-width: $small-desktop-screen) {
         margin-bottom: 72px !important;
       }
@@ -472,6 +473,7 @@
     }
 
     &--improve {
+      align-items: center;
       @media (max-width: $tablet) {
         flex-direction: column-reverse;
       }
