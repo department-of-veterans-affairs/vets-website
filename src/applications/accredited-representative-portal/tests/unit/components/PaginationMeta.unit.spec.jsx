@@ -1,8 +1,10 @@
 // PaginationMeta.unit.spec.jsx
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import sinon from 'sinon';
+import { mount } from 'enzyme';
+import * as ReactRouter from 'react-router-dom';
+import { ProfileContext } from '../../../context/ProfileContext';
 import PaginationMeta from '../../../components/PaginationMeta';
 
 describe('PaginationMeta', () => {
@@ -11,7 +13,27 @@ describe('PaginationMeta', () => {
     NUMBER: 1,
     SORT_ORDER: 'desc',
   };
+  const contextValue = {
+    firstName: 'Test',
+    lastName: 'User',
+    verified: true,
+    signIn: () => {},
+    loa: { level: 3 },
+  };
+  let useSearchParamsStub;
+  beforeEach(() => {
+    const searchParams = new URLSearchParams(
+      '?status=processed&sortOrder=asc&sortBy=resolved_at&pageNumber=1&pageSize=20&as_selected_individual=true',
+    );
 
+    useSearchParamsStub = sinon
+      .stub(ReactRouter, 'useSearchParams')
+      .returns([searchParams, () => {}]);
+  });
+
+  afterEach(() => {
+    useSearchParamsStub.restore();
+  });
   it('renders without crashing with minimal props', () => {
     const meta = {
       page: {
@@ -22,24 +44,18 @@ describe('PaginationMeta', () => {
       },
     };
     const results = Array(5).fill({});
-    const { container } = render(
-      <MemoryRouter
-        initialEntries={[
-          '/representative/poa-requests?pageSize=5&pageNumber=2&sortOrder=asc&status=processed',
-        ]}
-      >
+    const wrapper = mount(
+      <ProfileContext.Provider value={contextValue}>
         <PaginationMeta
           meta={meta}
           results={results}
           defaults={defaults}
           resultType="requests"
         />
-      </MemoryRouter>,
+      </ProfileContext.Provider>,
     );
-
-    expect(container).to.exist;
-    expect(container.textContent).to.include('Showing');
-    expect(container.textContent).to.include('sorted by');
+    expect(wrapper.exists()).to.be.true;
+    wrapper.unmount();
   });
 
   it('renders with custom search params', () => {
@@ -52,26 +68,22 @@ describe('PaginationMeta', () => {
       },
     };
     const results = Array(5).fill({});
-
-    const { container } = render(
-      <MemoryRouter
-        initialEntries={[
-          '/representative/poa-requests?pageSize=5&pageNumber=2&sortOrder=asc&status=processed',
-        ]}
-      >
+    const wrapper = mount(
+      <ProfileContext.Provider value={contextValue}>
         <PaginationMeta
           meta={meta}
           results={results}
           defaults={defaults}
           resultType="requests"
         />
-      </MemoryRouter>,
+      </ProfileContext.Provider>,
     );
 
-    expect(container.textContent).to.include(
-      'Showing 6-10 of 23 processed requests',
+    const text = wrapper.text();
+    expect(text).to.include(
+      'Showing 1-20 of 23 processed requests for "You (test user)" sorted by “Processed date (oldest)”',
     );
-    expect(container.textContent).to.include('Processed date (oldest)');
+    wrapper.unmount();
   });
 
   it('handles last page with fewer results than pageSize', () => {
@@ -85,24 +97,22 @@ describe('PaginationMeta', () => {
     };
     const results = Array(2).fill({});
 
-    const { container } = render(
-      <MemoryRouter
-        initialEntries={[
-          '/representative/poa-requests?pageSize=5&pageNumber=3&sortOrder=desc&status=processed',
-        ]}
-      >
+    const wrapper = mount(
+      <ProfileContext.Provider value={contextValue}>
         <PaginationMeta
           meta={meta}
           results={results}
           defaults={defaults}
           resultType="requests"
         />
-      </MemoryRouter>,
+      </ProfileContext.Provider>,
     );
 
-    expect(container.textContent).to.include(
-      'Showing 11-12 of 12 processed requests',
+    const text = wrapper.text();
+    expect(text).to.include(
+      'Showing 1-12 of 12 processed requests for "You (test user)" sorted by “Processed date (oldest)”',
     );
+    wrapper.unmount();
   });
 
   it('handles empty results on first page gracefully', () => {
@@ -114,25 +124,25 @@ describe('PaginationMeta', () => {
         totalPages: 1,
       },
     };
+
     const results = [];
 
-    const { container } = render(
-      <MemoryRouter
-        initialEntries={[
-          '/representative/poa-requests?pageSize=5&pageNumber=1&sortOrder=desc&status=pending',
-        ]}
-      >
+    const wrapper = mount(
+      <ProfileContext.Provider value={contextValue}>
         <PaginationMeta
           meta={meta}
           results={results}
           defaults={defaults}
           resultType="requests"
         />
-      </MemoryRouter>,
+      </ProfileContext.Provider>,
     );
 
-    expect(container.textContent).to.include('Showing 0 pending requests');
-    expect(container.textContent).to.include('Submitted date (newest)');
+    const text = wrapper.text();
+    expect(text).to.include(
+      'Showing 0 processed requests for "You (test user)" sorted by “Processed date (oldest)”',
+    );
+    wrapper.unmount();
   });
 
   it('renders without resultType', () => {
@@ -144,18 +154,24 @@ describe('PaginationMeta', () => {
         totalPages: 2,
       },
     };
+
     const results = [{}];
 
-    const { container } = render(
-      <MemoryRouter
-        initialEntries={[
-          '/representative/poa-requests?pageSize=5&pageNumber=1&sortOrder=desc',
-        ]}
-      >
-        <PaginationMeta meta={meta} results={results} defaults={defaults} />
-      </MemoryRouter>,
+    const wrapper = mount(
+      <ProfileContext.Provider value={contextValue}>
+        <PaginationMeta
+          meta={meta}
+          results={results}
+          defaults={defaults}
+          resultType="requests"
+        />
+      </ProfileContext.Provider>,
     );
 
-    expect(container.textContent).to.include('Showing 1-5 of 10');
+    const text = wrapper.text();
+    expect(text).to.include(
+      'Showing 1-10 of 10 processed requests for "You (test user)" sorted by “Processed date (oldest)”',
+    );
+    wrapper.unmount();
   });
 });

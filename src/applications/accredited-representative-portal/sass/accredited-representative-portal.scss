@@ -446,7 +446,7 @@
       }
     }
     &--get-started {
-      margin-bottom: 60px !important;
+      margin-bottom: 48px !important;
       @media (min-width: $small-desktop-screen) {
         margin-bottom: 72px !important;
       }
@@ -584,12 +584,16 @@
     margin-bottom: 20px;
     display: flex;
 
+    h3 {
+      margin-top: 0;
+    }
+
     @media (min-width: $tablet) {
       padding: 0 0 0 20px;
       margin-bottom: 0;
     }
 
-    @media (min-width: $tablet) {
+    @media (min-width: $small-desktop-screen) {
       padding: 0 0 0 24px;
     }
 
