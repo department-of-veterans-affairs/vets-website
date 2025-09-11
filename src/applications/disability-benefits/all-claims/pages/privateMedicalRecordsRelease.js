@@ -49,6 +49,9 @@ const TreatedDisabilitiesCheckboxGroup = props => {
   const hasInitializedRef = React.useRef(false);
   const pendingUpdateRef = React.useRef(null);
 
+  // Check if we're in review/read-only mode
+  const hasError = errorSchema?.__errors?.length > 0;
+  const errorMessage = hasError ? errorSchema.__errors[0] : null;
   const isReadOnly =
     disabled || readonly || formContext?.reviewMode || formContext?.submitted;
 
@@ -61,14 +64,19 @@ const TreatedDisabilitiesCheckboxGroup = props => {
   useEffect(
     () => {
       const newValue = formData || value || {};
-      if (JSON.stringify(newValue) !== JSON.stringify(localValue)) {
+      // Only update if we have actual data and it's different
+      if (
+        Object.keys(newValue).length > 0 &&
+        JSON.stringify(newValue) !== JSON.stringify(localValue)
+      ) {
         setLocalValue(newValue);
       }
     },
-    [formData, localValue, value],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [formData, value], // Only re-run when props change, not when localValue changes
   );
 
-  // Extract disabilities from form data
+  // Extract disabilities from form data - TODO see if we can reformat response from makeSchemaForAllDisabilities to work here
   const disabilityList = useMemo(
     () => {
       if (!fullFormData) {
@@ -150,11 +158,6 @@ const TreatedDisabilitiesCheckboxGroup = props => {
   }, []);
 
   const handleCheckboxChange = (conditionName, isChecked) => {
-    // Don't handle changes if in read-only mode
-    if (isReadOnly) {
-      return;
-    }
-
     // Create a completely new object with all conditions
     const newValue = {};
     disabilityList.forEach(name => {
@@ -171,7 +174,7 @@ const TreatedDisabilitiesCheckboxGroup = props => {
     // Store pending update
     pendingUpdateRef.current = newValue;
 
-    // Call onChange immediately and again after a microtask
+    // Call onChange immediately and again after a change
     if (typeof onChange === 'function') {
       onChange(newValue);
 
@@ -183,9 +186,6 @@ const TreatedDisabilitiesCheckboxGroup = props => {
       });
     }
   };
-
-  const hasError = errorSchema?.__errors?.length > 0;
-  const errorMessage = hasError ? errorSchema.__errors[0] : null;
 
   if (disabilityList.length === 0) {
     return (
@@ -200,29 +200,72 @@ const TreatedDisabilitiesCheckboxGroup = props => {
     );
   }
 
-  // If in read-only mode, show a simple list of checked conditions
+  // If in read-only mode with no conditions selected, show the checkboxes; otherwise, show a list of selected conditions
   if (isReadOnly) {
+    // Use the most recent value from props when in read-only mode
+    // Check if formData/value have actual checkbox values, not just empty objects
+    const hasFormDataKeys = formData && Object.keys(formData).length > 0;
+    const hasFormDataValues = value && Object.keys(value).length > 0;
+    // TODO review this
+    let readOnlyValue = {};
+    if (hasFormDataKeys) {
+      readOnlyValue = formData;
+    } else if (hasFormDataValues) {
+      readOnlyValue = value;
+    } else {
+      readOnlyValue = localValue || {};
+    }
     const checkedConditions = disabilityList.filter(
-      name => localValue[name] === true,
+      name => readOnlyValue[name] === true,
     );
+
+    if (checkedConditions.length === 0) {
+      // The form system handles the error display
+      return (
+        <>
+          <div className="vads-u-margin-top--2" role="group">
+            {disabilityList.map((conditionName, index) => {
+              const checkboxId = `${id}_${index}`;
+              const isChecked = localValue[conditionName] === true;
+
+              return (
+                <VaCheckbox
+                  key={conditionName}
+                  id={checkboxId}
+                  name={checkboxId}
+                  label={capitalizeEachWord(conditionName)}
+                  checked={isChecked}
+                  disabled={false}
+                  onVaChange={event => {
+                    handleCheckboxChange(conditionName, event.detail.checked);
+                  }}
+                  uswds
+                />
+              );
+            })}
+          </div>
+        </>
+      );
+    }
 
     return (
       <div className="vads-u-margin-y--2">
-        <dd>What conditions were you treated for?</dd>
-        {checkedConditions.length === 0 ? (
-          <span>None selected</span>
-        ) : (
-          <ul className="vads-u-margin-top--0">
-            {checkedConditions.map(condition => (
-              <li key={condition}>{capitalizeEachWord(condition)}</li>
-            ))}
-          </ul>
-        )}
+        <dt>What conditions were you treated for?</dt>
+        <dd>
+          {checkedConditions.length === 0 ? (
+            <span className="vads-u-color--secondary-dark">None selected</span>
+          ) : (
+            <ul className="vads-u-margin-top--0">
+              {checkedConditions.map(condition => (
+                <li key={condition}>{capitalizeEachWord(condition)}</li>
+              ))}
+            </ul>
+          )}
+        </dd>
       </div>
     );
   }
-
-  // Editable mode - no fieldset/legend since form system handles the label
+  // Editable mode - show checkboxes (either for normal editing or error fixing). Also has no fieldset/legend since form system handles the label
   return (
     <>
       {hasError &&
@@ -248,7 +291,7 @@ const TreatedDisabilitiesCheckboxGroup = props => {
               name={checkboxId}
               label={capitalizeEachWord(conditionName)}
               checked={isChecked}
-              disabled={isReadOnly}
+              disabled={false}
               onVaChange={event => {
                 handleCheckboxChange(conditionName, event.detail.checked);
               }}
@@ -260,6 +303,7 @@ const TreatedDisabilitiesCheckboxGroup = props => {
     </>
   );
 };
+
 TreatedDisabilitiesCheckboxGroup.propTypes = {
   disabled: PropTypes.bool,
   errorSchema: PropTypes.object,
@@ -272,6 +316,7 @@ TreatedDisabilitiesCheckboxGroup.propTypes = {
   value: PropTypes.object,
   onChange: PropTypes.func,
 };
+
 export default TreatedDisabilitiesCheckboxGroup;
 
 export const uiSchema = {
@@ -331,14 +376,16 @@ export const uiSchema = {
             if (!hasSelection) {
               errors.addError(
                 errorMessages?.atLeastOne ||
-                  'Please select at least one condition',
+                  'Please select at least one condition for each non-VA provider facility listed under Supporting Evidence',
               );
             }
           },
         ],
         'ui:errorMessages': {
-          atLeastOne: 'Please select at least one condition',
-          required: 'Please select at least one condition',
+          atLeastOne:
+            'Please select at least one condition for each non-VA provider facility listed under Supporting Evidence',
+          required:
+            'Please select at least one condition for each non-VA provider facility listed under Supporting Evidence',
         },
         'ui:required': formData => isCompletingModern4142(formData),
       },
