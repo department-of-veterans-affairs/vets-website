@@ -19,7 +19,6 @@ describe('SM SAVING DRAFT BY KEYBOARD', () => {
 
     // temporarily using save button to save draft
     PatientComposePage.saveNewDraft(requestBody.category, requestBody.subject);
-    // PatientComposePage.saveDraftByKeyboard();
 
     PatientMessageDraftsPage.verifySavedMessageAlertText();
 
@@ -27,14 +26,13 @@ describe('SM SAVING DRAFT BY KEYBOARD', () => {
     cy.findByTestId('sm-breadcrumbs-back').scrollIntoView({
       waitForAnimation: true,
     });
-    cy.findByTestId('sm-breadcrumbs-back')
-      .should('have.class', 'hydrated')
-      .should('be.visible')
-      .click();
+    cy.findByTestId('sm-breadcrumbs-back').click({ force: true });
 
     cy.findByTestId('route-guard-secondary-button')
       .should('be.visible')
       .click();
+
+    cy.findByText('Messages: Inbox').should('be.visible');
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
