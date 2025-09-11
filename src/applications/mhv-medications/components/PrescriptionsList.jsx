@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   VaPagination,
   VaLoadingIndicator,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  logUniqueUserMetricsEvents,
+  EVENT_REGISTRY,
+} from '@department-of-veterans-affairs/mhv/exports';
 import { useGetPrescriptionsListQuery } from '../api/prescriptionsApi';
 import { rxListSortingOptions } from '../util/constants';
 import { dateFormat, validateField } from '../util/helpers';
@@ -23,6 +27,16 @@ const PrescriptionsList = ({
   const handlePageChange = e => {
     setCurrentPage(e.detail.page);
   };
+
+  // Log when prescriptions are successfully displayed to the user
+  useEffect(
+    () => {
+      if (!isLoading && !isFetching && !error && data) {
+        logUniqueUserMetricsEvents(EVENT_REGISTRY.PRESCRIPTIONS_ACCESSED);
+      }
+    },
+    [isLoading, isFetching, error, data],
+  );
 
   if (isLoading) {
     return (
