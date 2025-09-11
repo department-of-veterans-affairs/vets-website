@@ -53,7 +53,9 @@ describe('ITF reducer', () => {
               {
                 type: 'compensation',
                 status: itfStatuses.active,
-                expirationDate: parseDate(daysFromToday(1)).format(),
+                expirationDate: getToday()
+                  .add(1, 'days')
+                  .format(),
               },
               {
                 // duplicate ITF with later expiration date; should use the active one
@@ -91,7 +93,9 @@ describe('ITF reducer', () => {
               {
                 type: 'compensation',
                 status: itfStatuses.duplicate,
-                expirationDate: parseDate(daysFromToday(1)).format(),
+                expirationDate: getToday()
+                  .add(1, 'days')
+                  .format(),
               },
             ],
           },
