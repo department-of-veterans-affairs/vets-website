@@ -1,23 +1,10 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import { focusElement, waitForRenderThenFocus } from 'platform/utilities/ui';
+import { waitForRenderThenFocus } from 'platform/utilities/ui';
 
 const ContactInformationUpdateSuccessAlert = ({ fieldName }) => {
   const id = `${fieldName}-alert`;
-
-  useEffect(
-    () => {
-      const editButton = document
-        .querySelector(`[data-field-name=${fieldName}]`)
-        ?.querySelector("[data-action='edit']");
-      if (editButton) {
-        focusElement(editButton);
-      }
-    },
-
-    [fieldName, id],
-  );
 
   useEffect(
     () => {
@@ -45,13 +32,9 @@ const ContactInformationUpdateSuccessAlert = ({ fieldName }) => {
         full-width
         slim
         uswds
+        role="alert"
       >
-        <p
-          className="vads-u-margin-y--0"
-          role="alert"
-          aria-live="polite"
-          id={id}
-        >
+        <p className="vads-u-margin-y--0" id={id}>
           Update saved.
         </p>
       </va-alert>
