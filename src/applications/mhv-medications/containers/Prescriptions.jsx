@@ -310,7 +310,11 @@ const Prescriptions = () => {
         setIsFirstLoad(false);
       }
     },
-    [isLoading, filteredList, isFirstLoad],
+    [
+      isLoading,
+      filteredList,
+      // isFirstLoad TODO: This breaks the code. Need to refactor to add this.
+    ],
   );
 
   // Update page title
