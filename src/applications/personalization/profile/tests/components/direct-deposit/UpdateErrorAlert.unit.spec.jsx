@@ -35,7 +35,7 @@ describe('<UpdateErrorAlert />', () => {
     );
     expect(
       await findByText(
-        'We can’t find a bank linked to the routing number you entered',
+        'We can’t find a bank linked to the routing number you entered.',
       ),
     ).to.exist;
   });
@@ -46,7 +46,7 @@ describe('<UpdateErrorAlert />', () => {
     );
     expect(
       await findByText2(
-        'We can’t find a bank linked to the routing number you entered',
+        'We can’t find a bank linked to the routing number you entered.',
       ),
     ).to.exist;
   });
