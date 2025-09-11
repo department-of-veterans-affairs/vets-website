@@ -24,7 +24,6 @@ describe('OverviewPanel', () => {
       };
 
       const expectedOptions = [
-        'Board Appeal: Direct Review',
         'Board Appeal: Evidence Submission',
         'Board Appeal: Hearing',
       ];

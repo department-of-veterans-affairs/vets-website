@@ -14,11 +14,7 @@ const {
 const { RESULTS_2_S_1A } = RESULTS_NAME_MAP;
 
 // Results SC: Supplemental Claim recommended (Non-CFI)
-// 1.1 - Yes
-// 1.2 - No
-// 1.2A.1 - No
-// 1.2B - No
-// 1.2C - Yes
+
 describe('Decision Reviews Onramp', () => {
   describe('Results SC (path 2)', () => {
     it('navigates through the flow forward and backward successfully', () => {
@@ -61,7 +57,7 @@ describe('Decision Reviews Onramp', () => {
       h.checkGoodFitCards([
         {
           type: c.CARD_SC,
-          content: [c.CARD_NEW_EVIDENCE],
+          content: [c.CARD_GF_YES_EVIDENCE],
         },
       ]);
       h.verifyNotGoodFitCardsNotPresent();

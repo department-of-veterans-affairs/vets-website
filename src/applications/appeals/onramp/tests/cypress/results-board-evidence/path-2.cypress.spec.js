@@ -72,36 +72,42 @@ describe('Decision Reviews Onramp', () => {
       h.checkGoodFitCards([
         {
           type: c.CARD_SC,
-          content: [c.CARD_NEW_EVIDENCE, c.CARD_SUBMITTED_BOARD_APPEAL],
+          content: [c.CARD_GF_YES_EVIDENCE, c.CARD_SUBMITTED_BOARD_APPEAL],
         },
         {
           type: c.CARD_BOARD_DIRECT,
-          content: [c.CARD_BOARD_ONLY_OPTION, c.CARD_NO_HEARING],
+          content: [c.CARD_GF_BOARD_ONLY_OPTION, c.CARD_GF_NO_HEARING],
         },
         {
           type: c.CARD_BOARD_EVIDENCE,
           content: [
-            c.CARD_NEW_EVIDENCE,
-            c.CARD_BOARD_ONLY_OPTION,
-            c.CARD_NO_HEARING,
+            c.CARD_GF_YES_EVIDENCE,
+            c.CARD_GF_BOARD_ONLY_OPTION,
+            c.CARD_GF_NO_HEARING,
           ],
         },
       ]);
       h.checkNotGoodFitCards([
         {
           type: c.CARD_HLR,
-          content: [c.CARD_CANNOT_SUBMIT_EVIDENCE, c.CARD_CLAIM_CONTESTED],
+          content: [
+            c.CARD_NGF_CANNOT_SUBMIT_EVIDENCE,
+            c.CARD_NGF_CLAIM_CONTESTED,
+          ],
         },
         {
           type: c.CARD_BOARD_DIRECT,
           content: [
-            c.CARD_RECEIVED_BOARD_DECISION,
-            c.CARD_CANNOT_SUBMIT_EVIDENCE,
+            c.CARD_NGF_RECEIVED_BOARD_DECISION,
+            c.CARD_NGF_CANNOT_SUBMIT_EVIDENCE,
           ],
         },
         {
           type: c.CARD_BOARD_HEARING,
-          content: [c.CARD_RECEIVED_BOARD_DECISION, c.CARD_HEARING_NOT_DESIRED],
+          content: [
+            c.CARD_NGF_RECEIVED_BOARD_DECISION,
+            c.CARD_NGF_HEARING_NOT_DESIRED,
+          ],
         },
       ]);
       h.verifyOutsideDROptionNotPresent();

@@ -54,7 +54,7 @@ describe('Decision Reviews Onramp', () => {
       h.checkGoodFitCards([
         {
           type: c.CARD_SC,
-          content: [c.CARD_LAW_POLICY_CHANGE],
+          content: [c.CARD_GF_YES_LAW_POLICY],
         },
       ]);
       h.verifyNotGoodFitCardsNotPresent();

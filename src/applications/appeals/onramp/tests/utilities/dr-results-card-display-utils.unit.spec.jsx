@@ -26,13 +26,13 @@ describe('displayCards', () => {
       '<h3 class="vads-u-margin-top--0">Supplemental Claim</h3>',
     );
     expect(container.innerHTML).to.contain(
-      `<li data-testid="gf-content-0">${c.CARD_REVIEW_INIT}`,
+      `<li data-testid="gf-content-0">${c.CARD_GF_REVIEW_INIT}`,
     );
     expect(container.innerHTML).to.contain(
-      `<li data-testid="gf-content-1">${c.CARD_LAW_POLICY_CHANGE}`,
+      `<li data-testid="gf-content-1">${c.CARD_GF_YES_LAW_POLICY}`,
     );
     expect(container.innerHTML).to.contain(
-      `<li data-testid="gf-content-2">${c.CARD_NOT_CONTESTED}`,
+      `<li data-testid="gf-content-2">${c.CARD_GF_NOT_CONTESTED}`,
     );
   });
 });
@@ -55,7 +55,9 @@ describe('displayNotGoodFitCards', () => {
       '<h3 class="vads-u-margin-top--0">Higher-Level Review</h3>',
     );
     expect(container.innerHTML).to.contain(
-      `<p data-testid="ngf-content-0">${c.CARD_CANNOT_SUBMIT_EVIDENCE}.</p>`,
+      `<p data-testid="ngf-content-0">${
+        c.CARD_NGF_CANNOT_SUBMIT_EVIDENCE
+      }.</p>`,
     );
   });
 });

@@ -83,9 +83,9 @@ describe('Decision Reviews Onramp', () => {
         {
           type: c.CARD_SC,
           content: [
-            c.CARD_REVIEW_SC,
-            c.CARD_LAW_POLICY_CHANGE,
-            c.CARD_NOT_CONTESTED,
+            c.CARD_GF_REVIEW_SC,
+            c.CARD_GF_YES_LAW_POLICY,
+            c.CARD_GF_NOT_CONTESTED,
             c.CARD_SUBMITTED_BOARD_APPEAL,
           ],
         },

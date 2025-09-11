@@ -14,8 +14,16 @@ import { RESPONSES, SHORT_NAME_MAP } from '../constants/question-data-map';
  */
 export const evaluateBatchOfChoices = (batchOfChoices, formResponses) => {
   for (const choice of Object.keys(batchOfChoices)) {
-    // If one of our form responses matches one of the key/value pairs given
-    if (batchOfChoices[choice] === formResponses?.[choice]) {
+    const formResponse = formResponses?.[choice];
+
+    if (
+      Array.isArray(batchOfChoices[choice]) &&
+      batchOfChoices[choice].includes(formResponse)
+    ) {
+      return true;
+    }
+
+    if (batchOfChoices[choice] === formResponse) {
       return true;
     }
   }

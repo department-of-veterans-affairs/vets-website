@@ -130,7 +130,7 @@ export const CLAIM_FOR_INCREASE_CARD = (nested = false) => {
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <ul className="onramp-list-none" role="list">
         <li>
-          <va-card>
+          <va-card data-testid="claim-for-increase-card">
             {header}
             <p>
               This may be a good fit because your condition has worsened since
