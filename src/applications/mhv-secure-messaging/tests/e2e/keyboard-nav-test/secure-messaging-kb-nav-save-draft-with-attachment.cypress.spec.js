@@ -22,17 +22,14 @@ describe('SM SAVING DRAFT WITH ATTACHMENT BY KEYBOARD', () => {
 
     PatientMessageDraftsPage.verifySaveWithAttachmentAlert();
 
-    // cy.get(Locators.ALERTS.ALERT_MODAL)
-    //   .shadow()
-    //   .find(`button`)
-    //   .click();
+    PatientComposePage.clickSaveDraftWithoutAttachmentBtn();
+    cy.findByTestId('sm-breadcrumbs-back')
+      .should('be.visible')
+      .click();
+
+    PatientComposePage.clickSaveDraftWithoutAttachmentBtn();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
-
-    // cy.get(Locators.BACK_TO)
-    //   .should('be.visible')
-    //   .click();
-    // PatientComposePage.clickSaveDraftWithoutAttachmentBtn();
   });
 });
