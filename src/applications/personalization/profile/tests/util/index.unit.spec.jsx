@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import directDeposits from '@@profile/mocks/endpoints/direct-deposits';
+import mockDirectDeposits from '@@profile/mocks/endpoints/direct-deposits';
 
 import {
   createDirectDepositAnalyticsDataObject,
@@ -63,43 +63,43 @@ describe('profile utils', () => {
     });
     it('returns the correct data when a bad address error is passed', () => {
       const eventDataObject = createDirectDepositAnalyticsDataObject({
-        errors: directDeposits.updates.errors.invalidMailingAddress.errors,
+        errors: mockDirectDeposits.updates.errors.invalidMailingAddress.errors,
       });
       expect(eventDataObject).to.deep.equal(badAddressDataObject);
     });
     it('returns the correct data when a work phone number error is passed', () => {
       const eventDataObject = createDirectDepositAnalyticsDataObject(
-        directDeposits.updates.errors.invalidDayPhone,
+        mockDirectDeposits.updates.errors.invalidDayPhone,
       );
       expect(eventDataObject).to.deep.equal(badWorkPhoneDataObject);
     });
     it('returns the correct data when a day phone number error is passed', () => {
       const eventDataObject = createDirectDepositAnalyticsDataObject(
-        directDeposits.updates.errors.invalidNightPhone,
+        mockDirectDeposits.updates.errors.invalidNightPhone,
       );
       expect(eventDataObject).to.deep.equal(badHomePhoneDataObject);
     });
     it('returns the correct data when an account flagged for fraud error is passed', () => {
       const eventDataObject = createDirectDepositAnalyticsDataObject(
-        directDeposits.updates.errors.accountNumberFlagged,
+        mockDirectDeposits.updates.errors.accountNumberFlagged,
       );
       expect(eventDataObject).to.deep.equal(accountFlaggedForFraudDataObject);
     });
     it('returns the correct data when an invalid routing number error is passed', () => {
       const eventDataObject = createDirectDepositAnalyticsDataObject(
-        directDeposits.updates.errors.invalidRoutingNumber,
+        mockDirectDeposits.updates.errors.invalidRoutingNumber,
       );
       expect(eventDataObject).to.deep.equal(invalidRoutingNumberDataObject);
     });
     it('returns the correct data when an invalid routing number error is passed', () => {
       const eventDataObject = createDirectDepositAnalyticsDataObject(
-        directDeposits.updates.errors.invalidRoutingNumber,
+        mockDirectDeposits.updates.errors.invalidRoutingNumber,
       );
       expect(eventDataObject).to.deep.equal(invalidRoutingNumberDataObject);
     });
     it('returns the correct data when a payment restriction indicators error is passed', () => {
       const eventDataObject = createDirectDepositAnalyticsDataObject(
-        directDeposits.updates.errors.paymentRestrictionsPresent,
+        mockDirectDeposits.updates.errors.paymentRestrictionsPresent,
       );
       expect(eventDataObject).to.deep.equal(
         paymentRestrictionIndicatorsDataObject,
@@ -111,7 +111,7 @@ describe('profile utils', () => {
     it('hasRoutingNumberFlaggedError returns true on error', () => {
       expect(
         hasRoutingNumberFlaggedError(
-          directDeposits.updates.errors.routingNumberFlagged.errors,
+          mockDirectDeposits.updates.errors.routingNumberFlagged.errors,
         ),
       ).to.equal(true);
     });
@@ -119,23 +119,23 @@ describe('profile utils', () => {
     it('hasAccountFlaggedError returns true on error', () => {
       expect(
         hasAccountFlaggedError(
-          directDeposits.updates.errors.accountNumberFlagged.errors,
+          mockDirectDeposits.updates.errors.accountNumberFlagged.errors,
         ),
       ).to.equal(true);
     });
 
     it('hasInvalidHomePhoneNumberError returns false if text does not contain night phone', () => {
-      const { errors } = directDeposits.updates.errors.generic;
+      const { errors } = mockDirectDeposits.updates.errors.generic;
       expect(hasInvalidHomePhoneNumberError(errors)).to.not.be.ok;
     });
 
     it('should return false with multiple errors with text not matching desired error conditions', () => {
-      const { errors } = directDeposits.updates.errors.generic;
+      const { errors } = mockDirectDeposits.updates.errors.generic;
 
       expect(
         !!hasInvalidHomePhoneNumberError([
           ...errors,
-          ...directDeposits.updates.errors.invalidAccountNumber.errors,
+          ...mockDirectDeposits.updates.errors.invalidAccountNumber.errors,
         ]),
       ).to.be.not.ok;
     });
