@@ -31,7 +31,6 @@ import {
 describe('owned asset list and loop pages', () => {
   let showUpdatedContentStub;
 
-  // Setup and teardown for stubs - compatible with both Node 14 and 22
   beforeEach(() => {
     showUpdatedContentStub = sinon.stub(helpers, 'showUpdatedContent');
   });
@@ -192,7 +191,6 @@ describe('owned asset list and loop pages', () => {
       assetType,
       ...baseItem
     } = testData.data.ownedAssets[0];
-    /* eslint-enable no-unused-vars */
     testOptionsTextCardDescription(options, baseItem, ownedAssetTypeLabels);
   });
 
