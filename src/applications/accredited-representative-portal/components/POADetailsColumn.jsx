@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { focusElement } from 'platform/utilities/ui';
 import { resolutionDate, checkReason } from '../utilities/poaRequests';
 
 const response = (poaStatus, poaRequest, poaRequestSubmission) => {
+  focusElement('.poa__submit-response');
   switch (poaStatus) {
     case 'declination':
       return (
-        <p>
+        <p className="poa__submit-response">
           <strong>Response:</strong>{' '}
           {poaRequest?.resolution?.accreditedIndividual?.fullName ||
             'Your organization'}{' '}
@@ -23,7 +25,7 @@ const response = (poaStatus, poaRequest, poaRequestSubmission) => {
         return null;
       }
       return (
-        <p>
+        <p className="poa__submit-response">
           <strong>Response:</strong>{' '}
           {poaRequest?.resolution?.accreditedIndividual?.fullName ||
             'Your organization'}{' '}
