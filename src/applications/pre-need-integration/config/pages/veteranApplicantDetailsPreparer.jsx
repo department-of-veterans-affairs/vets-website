@@ -1,5 +1,8 @@
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema.json';
 
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
+import { ssnOrVaFileNumberNoHintSchema } from 'platform/forms-system/src/js/web-component-patterns';
+
 import { merge, pick } from 'lodash';
 
 import {
@@ -42,9 +45,11 @@ export function uiSchema(
       veteran: {
         cityOfBirth: {
           'ui:title': cityTitle,
+          'ui:webComponentField': VaTextInputField,
         },
         stateOfBirth: {
           'ui:title': stateTitle,
+          'ui:webComponentField': VaTextInputField,
         },
       },
     },
@@ -68,7 +73,8 @@ export const schema = {
                 properties: {},
               },
             },
-            pick(claimant.properties, ['name', 'ssn', 'dateOfBirth']),
+            pick(claimant.properties, ['name', 'dateOfBirth']),
+            { ssn: ssnOrVaFileNumberNoHintSchema },
           ),
         },
         veteran: {
