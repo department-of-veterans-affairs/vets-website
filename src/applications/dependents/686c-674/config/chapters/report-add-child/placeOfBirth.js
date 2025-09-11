@@ -24,6 +24,13 @@ export const placeOfBirth = {
             required: 'Enter the city where the child was born',
           },
           'ui:webComponentField': VaTextInputField,
+          'ui:validations': [
+            (errors, city) => {
+              if (city?.length > 30) {
+                errors.addError('City must be 30 characters or less');
+              }
+            },
+          ],
         },
         state: {
           'ui:title': 'State',
@@ -64,6 +71,7 @@ export const placeOfBirth = {
           'ui:webComponentField': VaTextInputField,
           'ui:errorMessages': {
             required: 'Enter a postal code',
+            pattern: 'Enter a valid 5-digit postal code',
           },
           'ui:required': (formData, index) =>
             !(

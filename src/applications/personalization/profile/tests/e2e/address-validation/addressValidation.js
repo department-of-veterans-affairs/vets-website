@@ -328,7 +328,6 @@ export const createAddressValidationResponse = type => {
           },
         },
       ],
-      // Does the response send null or nothing for validationKey?
       validationKey: null,
     };
   }
@@ -357,8 +356,30 @@ export const createAddressValidationResponse = type => {
     };
   }
 
-  // validation-error also applies to the NO_SUGGESTIONS_NO_OVERRIDE case
-  // when the profileShowNoValidationKeyAddressAlert flag is enabled
+  if (type === 'no-suggestions-no-override') {
+    return {
+      addresses: [
+        {
+          address: {
+            addressLine1: '999 Unknown Ave',
+            city: 'Springfield',
+            stateCode: 'IL',
+            zipCode: '62704',
+            countryName: 'United States',
+            addressType: 'DOMESTIC',
+          },
+          addressMetaData: {
+            confidenceScore: 40,
+            addressType: 'Domestic',
+            deliveryPointValidation: 'UNDELIVERABLE',
+            residentialDeliveryIndicator: 'RESIDENTIAL',
+          },
+        },
+      ],
+      validationKey: null,
+    };
+  }
+
   if (type === 'validation-error') {
     return {
       errors: [

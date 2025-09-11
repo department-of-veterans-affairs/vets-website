@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import mockMessage from '../fixtures/message-response.json';
 import { Locators, Paths, Data } from '../utils/constants';
+import mockUumResponse from '../fixtures/unique-user-metrics-response.json';
 
 class PatientReplyPage {
   clickReplyButton = mockResponse => {
@@ -22,6 +23,8 @@ class PatientReplyPage {
       }/reply`,
       mockReplyMessage,
     ).as('replyMessage');
+    // Note that we don't need specific event names in the response
+    cy.intercept('POST', Paths.UUM_API_BASE, mockUumResponse).as('uum');
     cy.get(Locators.BUTTONS.SEND).click();
   };
 

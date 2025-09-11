@@ -1,13 +1,13 @@
-import { useState, useEffect } from 'react';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
-import retryOnce from '../utils/retryOnce';
+import { useEffect, useState } from 'react';
 import { COMPLETE, ERROR, LOADING } from '../utils/loadingStatus';
+import { logErrorToDatadog } from '../utils/logging';
+import retryOnce from '../utils/retryOnce';
 import {
   clearBotSessionStorage,
   setConversationIdKey,
   setTokenKey,
 } from '../utils/sessionStorage';
-import logger from '../utils/logger';
 
 async function getToken(setToken, setCode, setLoadingStatus) {
   try {
@@ -24,7 +24,7 @@ async function getToken(setToken, setCode, setLoadingStatus) {
     setLoadingStatus(COMPLETE);
   } catch (ex) {
     const error = new Error('Could not retrieve chatbot token');
-    logger.error(error.message, error);
+    logErrorToDatadog(true, error.message, error);
     setLoadingStatus(ERROR);
   }
 }

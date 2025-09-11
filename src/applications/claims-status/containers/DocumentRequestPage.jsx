@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Toggler } from '~/platform/utilities/feature-toggles';
 
 import { scrollToTop } from 'platform/utilities/scroll';
 
@@ -147,18 +146,12 @@ class DocumentRequestPage extends React.Component {
               />
             </div>
           )}
-          <Toggler toggleName={Toggler.TOGGLE_NAMES.cst5103UpdateEnabled}>
-            <Toggler.Enabled>
-              {isAutomated5103Notice(trackedItem.displayName) ? (
-                <Default5103EvidenceNotice item={trackedItem} />
-              ) : (
-                <>{this.getDefaultPage()}</>
-              )}
-            </Toggler.Enabled>
-            <Toggler.Disabled>
-              <>{this.getDefaultPage()}</>
-            </Toggler.Disabled>
-          </Toggler>
+
+          {isAutomated5103Notice(trackedItem.displayName) ? (
+            <Default5103EvidenceNotice item={trackedItem} />
+          ) : (
+            <>{this.getDefaultPage()}</>
+          )}
         </>
       );
     }

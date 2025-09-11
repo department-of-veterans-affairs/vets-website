@@ -3,6 +3,7 @@ import { ALL_QUESTIONS } from '../constants';
 export const FORM_ACTION_TYPES = {
   ONRAMP_VIEWED_INTRO_PAGE: 'ONRAMP_VIEWED_INTRO_PAGE',
   ONRAMP_UPDATE_FORM_STORE: 'ONRAMP_UPDATE_FORM_STORE',
+  ONRAMP_UPDATE_RESULTS_PAGE: 'ONRAMP_UPDATE_RESULTS_PAGE',
 };
 
 /**
@@ -43,6 +44,13 @@ export const updateFormStore = value => {
 export const updateQuestionValue = (SHORT_NAME, value) => {
   return {
     type: QUESTION_ACTION_TYPES[`ONRAMP_UPDATE_${SHORT_NAME}`],
+    payload: value,
+  };
+};
+
+export const updateResultsPage = value => {
+  return {
+    type: FORM_ACTION_TYPES.ONRAMP_UPDATE_RESULTS_PAGE,
     payload: value,
   };
 };

@@ -14,6 +14,7 @@ import { PaperlessDelivery } from './components/paperless-delivery/PaperlessDeli
 // the routesForNav array is used in the routes file to build the routes
 // the edit and hub routes are not present in the routesForNav array because
 // they are not shown in nav UI
+// subnavParent should be specified for routes that should appear inside a submenu
 export const routesForNav = [
   {
     component: PersonalInformation,
@@ -70,6 +71,7 @@ export const routesForNav = [
     path: PROFILE_PATHS.NOTIFICATION_SETTINGS,
     requiresLOA3: true,
     requiresMVI: true,
+    subnavParent: 'Communication settings',
   },
   {
     component: PaperlessDelivery,
@@ -77,6 +79,7 @@ export const routesForNav = [
     path: PROFILE_PATHS.PAPERLESS_DELIVERY,
     requiresLOA3: true,
     requiresMVI: true,
+    subnavParent: 'Communication settings',
   },
   {
     component: AccountSecurity,

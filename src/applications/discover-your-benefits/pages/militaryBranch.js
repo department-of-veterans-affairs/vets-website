@@ -46,7 +46,7 @@ const branchComponentsSchemaProps = branchKey => {
 const branchComponentsUIProps = branchKey => {
   return checkboxGroupUI({
     enableAnalytics: true,
-    title: `Which component of the ${
+    title: `Which component(s) of the ${
       militaryBranchTypeLabels[branchKey]
     } did you serve in?`,
     hint: 'Select all that apply.',
@@ -55,7 +55,7 @@ const branchComponentsUIProps = branchKey => {
   });
 };
 
-const getBranchComponentPage = (branchKey, environementCheck) => {
+const getBranchComponentPage = branchKey => {
   return {
     path: `service/${branchComponentUrlNames[branchKey]}`,
     title: `${militaryBranchTypeLabels[branchKey]}`,
@@ -70,18 +70,14 @@ const getBranchComponentPage = (branchKey, environementCheck) => {
         [branchKey]: branchComponentsSchemaProps(branchKey),
       },
     },
-    depends: formData =>
-      formData.militaryBranch?.[branchKey] && environementCheck,
+    depends: formData => formData.militaryBranch?.[branchKey],
   };
 };
 
-export const getBranchComponentPages = environementCheck => {
+export const getBranchComponentPages = () => {
   const branchComponentPages = {};
   branchesWithComponents.forEach(branchKey => {
-    branchComponentPages[branchKey] = getBranchComponentPage(
-      branchKey,
-      environementCheck,
-    );
+    branchComponentPages[branchKey] = getBranchComponentPage(branchKey);
   });
   return branchComponentPages;
 };
@@ -91,7 +87,7 @@ export default {
   uiSchema: {
     militaryBranch: checkboxGroupUI({
       enableAnalytics: true,
-      title: 'What branch(es) of the military did you serve in?',
+      title: 'Which branch(es) of the military did you serve in?',
       hint: 'Select all that apply.',
       required: () => false,
       labels: militaryBranchTypeLabels,

@@ -89,7 +89,7 @@ export default function ContactDetailSection({ data }) {
           <div>
             <va-link
               href={contactInfo.url}
-              aria-label="Edit your contact information"
+              label="Edit your contact information"
               text="Edit"
               data-testid="edit-new-appointment"
               onClick={handleClick(history, home, contactInfo)}

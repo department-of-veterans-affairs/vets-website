@@ -1,11 +1,18 @@
 import { expect } from 'chai';
 import guide, { initialState } from '../../reducers';
-import { ALL_QUESTIONS } from '../../constants';
+import { FORM_ACTION_TYPES } from '../../actions';
+import { ALL_QUESTIONS, ALL_RESULTS } from '../../constants';
 import { createFormStore } from '../../utilities/answer-storage';
 import { RESPONSES } from '../../constants/question-data-map';
 
 const { decisionReviewsGuide } = guide;
 const { YES } = RESPONSES;
+const {
+  ONRAMP_VIEWED_INTRO_PAGE,
+  ONRAMP_UPDATE_FORM_STORE,
+  ONRAMP_UPDATE_RESULTS_PAGE,
+} = FORM_ACTION_TYPES;
+const { RESULTS_1_1B } = ALL_RESULTS;
 
 describe('reducer', () => {
   describe('decisionReviewsGuide', () => {
@@ -30,30 +37,71 @@ describe('reducer', () => {
         type: 'ONRAMP_UNKNOWN_ACTION',
       };
 
-      const currentState = {
-        allQuestionShortNames: ALL_QUESTIONS,
-        form: emptyFormStore,
-        viewedIntroPage: true,
-      };
-
-      expect(decisionReviewsGuide(currentState, action)).to.deep.equal(
-        currentState,
+      expect(decisionReviewsGuide(initialState, action)).to.deep.equal(
+        initialState,
       );
     });
 
     it('should handle ONRAMP_VIEWED_INTRO_PAGE action', () => {
       const action = {
-        type: 'ONRAMP_VIEWED_INTRO_PAGE',
+        type: ONRAMP_VIEWED_INTRO_PAGE,
         payload: true,
       };
 
       const expectedState = {
-        allQuestionShortNames: ALL_QUESTIONS,
-        form: emptyFormStore,
+        ...initialState,
         viewedIntroPage: true,
       };
 
-      expect(decisionReviewsGuide(undefined, action)).to.deep.equal(
+      expect(decisionReviewsGuide(initialState, action)).to.deep.equal(
+        expectedState,
+      );
+    });
+
+    it('should handle ONRAMP_UPDATE_FORM_STORE action', () => {
+      const action = {
+        type: ONRAMP_UPDATE_FORM_STORE,
+        payload: {
+          Q_1_2C_NEW_EVIDENCE: null,
+          Q_1_3_CLAIM_CONTESTED: null,
+        },
+      };
+
+      const currentState = {
+        ...initialState,
+        form: {
+          ...initialState.form,
+          Q_1_2C_NEW_EVIDENCE: YES,
+          Q_1_3_CLAIM_CONTESTED: YES,
+        },
+      };
+
+      const expectedState = {
+        ...initialState,
+        form: {
+          ...initialState.form,
+          Q_1_2C_NEW_EVIDENCE: null,
+          Q_1_3_CLAIM_CONTESTED: null,
+        },
+      };
+
+      expect(decisionReviewsGuide(currentState, action)).to.deep.equal(
+        expectedState,
+      );
+    });
+
+    it('should handle ONRAMP_UPDATE_RESULTS_PAGE action', () => {
+      const action = {
+        type: ONRAMP_UPDATE_RESULTS_PAGE,
+        payload: RESULTS_1_1B,
+      };
+
+      const expectedState = {
+        ...initialState,
+        resultPage: RESULTS_1_1B,
+      };
+
+      expect(decisionReviewsGuide(initialState, action)).to.deep.equal(
         expectedState,
       );
     });
@@ -65,12 +113,11 @@ describe('reducer', () => {
       };
 
       const currentState = {
-        allQuestionShortNames: ALL_QUESTIONS,
+        ...initialState,
         form: {
           ...emptyFormStore,
           Q_1_1_CLAIM_DECISION: YES,
         },
-        viewedIntroPage: false,
       };
 
       const expectedState = {

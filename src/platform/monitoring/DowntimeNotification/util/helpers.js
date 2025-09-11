@@ -76,7 +76,7 @@ export function createGlobalMaintenanceWindow({
  */
 
 export function createServiceMap(maintenanceWindows = []) {
-  const serviceMap = new Map();
+  const serviceMap = Object.create(null);
 
   // Maintenance windows should be sorted in ascending order
   // so that when a single externalService has multiple upcoming
@@ -108,14 +108,14 @@ export function createServiceMap(maintenanceWindows = []) {
     // window with the earliest startTime (the sorting above should
     // guarantee that the first one we encounter has the earliest
     // startTime)
-    if (!serviceMap.has(externalService)) {
-      serviceMap.set(externalService, {
+    if (!serviceMap[externalService]) {
+      serviceMap[externalService] = {
         externalService,
         status,
         startTime,
         endTime,
         description,
-      });
+      };
     }
   }
 
@@ -130,7 +130,7 @@ export function createServiceMap(maintenanceWindows = []) {
  */
 export function getSoonestDowntime(serviceMap, serviceNames) {
   return serviceNames
-    .map(serviceName => serviceMap.get(serviceName))
+    .map(serviceName => serviceMap[serviceName])
     .filter(service => !!service)
     .filter(service => service.status !== externalServiceStatus.ok)
     .reduce((mostUrgentService, service) => {

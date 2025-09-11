@@ -96,6 +96,7 @@ import create400247Access from './simple-forms/40-0247/entry';
 import createFormUploadAccess from './simple-forms/form-upload/entry';
 import createBurialHowDoIApplyWidget from './burial-how-do-i-apply-widget';
 import createPensionApp from './pension-how-do-i-apply-widget';
+import create21P0969Access from './income-and-asset';
 import createVYEEnrollmentWidget from './vye-enrollment-login-widget/createVYEEnrollmentWidget';
 
 import create1010DExtendedAccess from './ivc-champva/10-10d-extended/entry';
@@ -105,6 +106,7 @@ import create107959F2Access from './ivc-champva/10-7959f-2/entry';
 
 import './mhv-signin-cta/sass/mhv-signin-cta.scss';
 import createMhvSigninCallToAction from './mhv-signin-cta/createMhvSigninCTA';
+import createDependentsVerificationHowToVerify from './dependents-verification';
 
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
@@ -137,6 +139,7 @@ connectFeatureToggle(store.dispatch);
 
 // Create widgets.
 createPensionApp(store, widgetTypes.PENSION_APP_STATUS);
+create21P0969Access(store, widgetTypes.INCOME_AND_ASSET_STATEMENT_STAGED_ENTRY);
 
 createApplicationStatus(store, {
   formId: VA_FORM_IDS.FORM_10_10EZ,
@@ -221,6 +224,10 @@ createChapter31CTA(store, widgetTypes.CHAPTER_31_CTA);
 createViewPaymentHistoryCTA(store, widgetTypes.VIEW_PAYMENT_HISTORY);
 createI18Select(store, widgetTypes.I_18_SELECT);
 createDependencyVerification(store, widgetTypes.DEPENDENCY_VERIFICATION);
+createDependentsVerificationHowToVerify(
+  store,
+  widgetTypes.DEPENDENTS_VERIFICATION_HOW_TO_VERIFY,
+);
 createCOEAccess(store, widgetTypes.COE_ACCESS);
 createHCAPerformanceWarning(store, widgetTypes.HCA_PERFORMANCE_WARNING);
 createManageVADebtCTA(store, widgetTypes.MANAGE_VA_DEBT_CTA);

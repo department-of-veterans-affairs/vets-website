@@ -5,6 +5,7 @@ import mockSignature from '../fixtures/signature-response.json';
 import { Locators, Paths, Data, Alerts } from '../utils/constants';
 import mockDraftResponse from '../fixtures/message-compose-draft-response.json';
 import mockRecipients from '../fixtures/recipientsResponse/recipients-response.json';
+import mockUumResponse from '../fixtures/unique-user-metrics-response.json';
 import newDraft from '../fixtures/draftsResponse/drafts-single-message-response.json';
 
 class PatientComposePage {
@@ -14,6 +15,8 @@ class PatientComposePage {
 
   sendMessage = (mockRequest, mockResponse = mockDraftMessage) => {
     cy.intercept('POST', Paths.SM_API_EXTENDED, mockResponse).as('message');
+    // Note that we don't need specific event names in the response
+    cy.intercept('POST', Paths.UUM_API_BASE, mockUumResponse).as('uum');
     cy.get(Locators.BUTTONS.SEND)
       .contains('Send')
       .click({ force: true });
@@ -76,15 +79,31 @@ class PatientComposePage {
       .select(index, { force: true });
   };
 
+  getComboBox = () => {
+    return cy
+      .get('va-combo-box')
+      .shadow()
+      .find(`#options`);
+  };
+
+  getComboBoxDropdown = () => {
+    return cy
+      .get('va-combo-box')
+      .shadow()
+      .find(Locators.DROPDOWN.RECIPIENTS_COMBO);
+  };
+
   selectComboBoxRecipient = text => {
-    cy.get(`#options`).clear();
-    cy.get(`#options`).type(text);
+    const comboBox = this.getComboBox();
+    comboBox.clear();
+    comboBox.type(text, { waitForAnimations: true });
   };
 
   selectCategory = (category = 'OTHER') => {
-    cy.get(`#compose-message-categories${category}input`).click({
-      force: true,
-    });
+    cy.get('[data-testid="compose-message-categories"]')
+      .shadow()
+      .find('select')
+      .select(category, { force: true });
   };
 
   getMessageSubjectField = () => {
@@ -161,9 +180,10 @@ class PatientComposePage {
       .shadow()
       .find('select')
       .select(1, { force: true });
-    cy.tabToElement(Locators.BUTTONS.CATEGORY_RADIO_BUTTON)
-      .first()
-      .click();
+    // Tab to category select and verify it's focusable
+    cy.tabToElement('[data-testid="compose-message-categories"]')
+      .should('be.visible')
+      .invoke('attr', 'value', 'OTHER');
     cy.tabToElement(Locators.MESSAGE_SUBJECT)
       .shadow()
       .find('#inputField')
@@ -552,8 +572,11 @@ class PatientComposePage {
   };
 
   deleteUnsavedDraft = () => {
-    cy.get(Locators.BUTTONS.DELETE_DRAFT).click();
-    cy.get(Locators.BUTTONS.DELETE_CONFIRM).click();
+    // We need to delete the draft, so Cypress does not get stuck
+    // with a warning dialog when the browser is closed.
+    cy.findByRole('button', { name: 'Delete draft' }).click();
+    // Click the confirm button in the confirmation modal.
+    cy.findByTestId('confirm-delete-draft').click();
   };
 
   interceptSentFolder = () => {

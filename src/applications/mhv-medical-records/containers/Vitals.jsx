@@ -109,17 +109,25 @@ const Vitals = () => {
   useEffect(
     () => {
       // Only update if there is no time frame. This is only for on initial page load.
-      const timeFrame = new URLSearchParams(location.search).get('timeFrame');
-      if (!timeFrame) {
-        const searchParams = new URLSearchParams(location.search);
-        searchParams.set('timeFrame', acceleratedVitalsDate);
-        history.push({
-          pathname: location.pathname,
-          search: searchParams.toString(),
-        });
+      if (isAcceleratingVitals) {
+        const timeFrame = new URLSearchParams(location.search).get('timeFrame');
+        if (!timeFrame) {
+          const searchParams = new URLSearchParams(location.search);
+          searchParams.set('timeFrame', acceleratedVitalsDate);
+          history.push({
+            pathname: location.pathname,
+            search: searchParams.toString(),
+          });
+        }
       }
     },
-    [acceleratedVitalsDate, history, location.pathname, location.search],
+    [
+      acceleratedVitalsDate,
+      history,
+      isAcceleratingVitals,
+      location.pathname,
+      location.search,
+    ],
   );
 
   usePrintTitle(

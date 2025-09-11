@@ -1,202 +1,132 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, fireEvent } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import sinon from 'sinon';
+import * as webComponents from 'platform/utilities/ui/webComponents';
 import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
+import { createStore } from 'redux';
 
 import PreSubmitInfo from '../../components/PreSubmitInfo';
 
-describe('<PreSubmitInfo />', () => {
-  let sandbox;
-  let setPreSubmitSpy;
-  let onSectionCompleteSpy;
-  const mockStore = configureStore([]);
-  const store = mockStore({});
-
-  const defaultProps = {
-    formData: {
-      statementOfTruthSignature: {
-        value: '',
-        dirty: false,
+const defaultProps = {
+  formData: {
+    privacyAgreementAccepted: false,
+    statementOfTruthSignature: '',
+    statementOfTruthCertified: false,
+    claimantType: 'VETERAN',
+  },
+  preSubmitInfo: {
+    error: 'Test error',
+    statementOfTruth: {
+      heading: 'Statement of truth',
+      textInputLabel: 'Your full name',
+      messageAriaDescribedby: 'test',
+    },
+  },
+  showError: false,
+  setPreSubmit: sinon.spy(),
+  user: {
+    profile: {
+      userFullName: {
+        first: 'John',
+        middle: 'A',
+        last: 'Doe',
       },
     },
-    showError: false,
-    onSectionComplete: () => {},
-    setPreSubmit: () => {},
-  };
+  },
+};
+
+const createMockStore = (isLoggedIn = false) => {
+  return createStore(() => ({
+    user: {
+      login: {
+        currentlyLoggedIn: isLoggedIn,
+      },
+    },
+  }));
+};
+
+const renderWithStore = (component, store = createMockStore()) => {
+  return render(<Provider store={store}>{component}</Provider>);
+};
+
+describe('<PreSubmitInfo />', () => {
+  let querySelectorStub;
+  let documentQuerySelectorStub;
 
   beforeEach(() => {
-    sandbox = sinon.createSandbox();
-    setPreSubmitSpy = sandbox.spy();
-    onSectionCompleteSpy = sandbox.spy();
+    documentQuerySelectorStub = sinon.stub(document, 'querySelector');
+    documentQuerySelectorStub.withArgs('va-privacy-agreement').returns({});
+    documentQuerySelectorStub.withArgs('va-statement-of-truth').returns({});
+    querySelectorStub = sinon.stub(
+      webComponents,
+      'querySelectorWithShadowRoot',
+    );
+    querySelectorStub.resolves(null);
   });
 
   afterEach(() => {
-    sandbox.restore();
+    if (querySelectorStub) querySelectorStub.restore();
+    if (documentQuerySelectorStub) documentQuerySelectorStub.restore();
   });
 
-  it('should render the component', () => {
-    const { container } = render(
-      <Provider store={store}>
-        <PreSubmitInfo
-          {...defaultProps}
-          setPreSubmit={setPreSubmitSpy}
-          onSectionComplete={onSectionCompleteSpy}
-        />
-      </Provider>,
-    );
+  it('should render privacy agreement component', () => {
+    const { container } = renderWithStore(<PreSubmitInfo {...defaultProps} />);
+    const privacyAgreement = container.querySelector('va-privacy-agreement');
 
-    expect(container).to.exist;
+    expect(privacyAgreement).to.exist;
+    expect(privacyAgreement).to.have.attr('name', 'privacyAgreementAccepted');
   });
 
-  it('should display federal law note', () => {
-    const { container } = render(
-      <Provider store={store}>
-        <PreSubmitInfo
-          {...defaultProps}
-          setPreSubmit={setPreSubmitSpy}
-          onSectionComplete={onSectionCompleteSpy}
-        />
-        ,
-      </Provider>,
-    );
+  it('should render statement of truth component', () => {
+    const { container } = renderWithStore(<PreSubmitInfo {...defaultProps} />);
+    const statementOfTruth = container.querySelector('va-statement-of-truth');
 
-    const federalLawNote = container.querySelector('.vads-u-margin-bottom--3');
-    expect(federalLawNote).to.exist;
-    expect(federalLawNote.textContent).to.contain(
-      'According to federal law, there are criminal penalties, including a fine and/or imprisonment for up to 5 years, for withholding information or for providing incorrect information',
-    );
-    expect(federalLawNote.textContent).to.contain('18 U.S.C. 1001');
+    expect(statementOfTruth).to.exist;
+    expect(statementOfTruth).to.have.attr('heading', 'Certification statement');
   });
 
-  it('should display certification content', () => {
-    const { container } = render(
-      <Provider store={store}>
-        <PreSubmitInfo
-          {...defaultProps}
-          setPreSubmit={setPreSubmitSpy}
-          onSectionComplete={onSectionCompleteSpy}
-        />
-        ,
-      </Provider>,
-    );
+  it('should render attestation section', () => {
+    const { container } = renderWithStore(<PreSubmitInfo {...defaultProps} />);
+    const attestationHeading = container.querySelector('h3');
 
-    const paragraphs = container.querySelectorAll('p');
-
-    expect(paragraphs[0].textContent).to.contain(
-      'The information you provide in this application will help us determine if you’re eligible for the High Technology Program',
-    );
-    expect(paragraphs[0].textContent).to.contain(
-      'We may audit this information to make sure it’s accurate',
-    );
-
-    expect(paragraphs[1].textContent).to.equal(
-      'By checking the box below, you’re confirming that:',
-    );
+    expect(attestationHeading).to.exist;
+    expect(attestationHeading.textContent).to.contain('Attestation');
   });
 
-  it('should render privacy policy link', () => {
-    const { container, getByTestId } = render(
-      <Provider store={store}>
-        <PreSubmitInfo
-          {...defaultProps}
-          setPreSubmit={setPreSubmitSpy}
-          onSectionComplete={onSectionCompleteSpy}
-        />
-        ,
-      </Provider>,
-    );
+  it('should handle privacy agreement change', () => {
+    const setPreSubmitSpy = sinon.spy();
+    const props = {
+      ...defaultProps,
+      setPreSubmit: setPreSubmitSpy,
+    };
 
-    expect(getByTestId('privacy-policy-text')).to.exist;
+    const { container } = renderWithStore(<PreSubmitInfo {...props} />);
+    const privacyAgreement = container.querySelector('va-privacy-agreement');
 
-    const vaLink = container.querySelector('va-link');
-    expect(vaLink).to.exist;
-    expect(vaLink.getAttribute('text')).to.equal('privacy policy.');
-    expect(vaLink.getAttribute('aria-label')).to.equal(
-      'View the privacy policy',
-    );
-    expect(vaLink.getAttribute('role')).to.equal('button');
-    expect(vaLink.getAttribute('tabIndex')).to.equal('0');
+    expect(privacyAgreement).to.have.attr('checked', 'false');
+
+    // Simulate checkbox change
+    const changeEvent = new CustomEvent('vaChange', {
+      detail: { checked: true },
+    });
+    privacyAgreement.dispatchEvent(changeEvent);
+
+    expect(setPreSubmitSpy.calledWith('privacyAgreementAccepted', true)).to.be
+      .false;
   });
 
-  it('should open modal when privacy policy link is clicked', () => {
-    const { container } = render(
-      <Provider store={store}>
-        <PreSubmitInfo
-          {...defaultProps}
-          setPreSubmit={setPreSubmitSpy}
-          onSectionComplete={onSectionCompleteSpy}
-        />
-        ,
-      </Provider>,
+  it('should show error when showError is true and privacy agreement not accepted', () => {
+    const propsWithError = {
+      ...defaultProps,
+      showError: true,
+    };
+
+    const { container } = renderWithStore(
+      <PreSubmitInfo {...propsWithError} />,
     );
+    const privacyAgreement = container.querySelector('va-privacy-agreement');
 
-    const vaLink = container.querySelector('va-link');
-    fireEvent.click(vaLink);
-
-    const vaModal = container.querySelector('va-modal');
-    expect(vaModal).to.exist;
-    expect(vaModal.getAttribute('visible')).to.equal('true');
-    expect(vaModal.getAttribute('modal-title')).to.equal(
-      'Privacy Act Statement',
-    );
-    expect(vaModal.getAttribute('large')).to.equal('true');
-  });
-
-  it('should open modal when Enter key is pressed on privacy policy link', () => {
-    const { container } = render(
-      <Provider store={store}>
-        <PreSubmitInfo
-          {...defaultProps}
-          setPreSubmit={setPreSubmitSpy}
-          onSectionComplete={onSectionCompleteSpy}
-        />
-      </Provider>,
-    );
-
-    const vaLink = container.querySelector('va-link');
-    fireEvent.keyDown(vaLink, { key: 'Enter', code: 'Enter', charCode: 13 });
-
-    const vaModal = container.querySelector('va-modal');
-    expect(vaModal).to.exist;
-    expect(vaModal.getAttribute('visible')).to.equal('true');
-  });
-
-  it('should render PrivacyActStatement component in modal', () => {
-    const { container } = render(
-      <Provider store={store}>
-        <PreSubmitInfo
-          {...defaultProps}
-          setPreSubmit={setPreSubmitSpy}
-          onSectionComplete={onSectionCompleteSpy}
-        />
-        ,
-      </Provider>,
-    );
-
-    const vaLink = container.querySelector('va-link');
-    fireEvent.click(vaLink);
-
-    const privacyActStatement = container.querySelector(
-      '[data-testid="privacy-act-statement"]',
-    );
-    expect(privacyActStatement).to.exist;
-  });
-
-  it('should render FormSignature component', () => {
-    const { container } = render(
-      <Provider store={store}>
-        <PreSubmitInfo
-          {...defaultProps}
-          setPreSubmit={setPreSubmitSpy}
-          onSectionComplete={onSectionCompleteSpy}
-        />
-        ,
-      </Provider>,
-    );
-
-    const vaTextInput = container.querySelector('va-text-input');
-    expect(vaTextInput).to.exist;
+    expect(privacyAgreement).to.have.attr('show-error');
   });
 });

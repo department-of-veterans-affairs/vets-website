@@ -19,31 +19,22 @@ export function LH_MIGRATION__getEntryPoint(topLevelObject, entryPointKeys) {
   }, topLevelObject);
 }
 
-export function LH_MIGRATION__getOptions(shouldUseLighthouse) {
-  const migrationOptions = {
+export function LH_MIGRATION__getOptions() {
+  return {
     listEndpoint: {
       method: 'GET',
-      path: '/v0/letters',
+      path: '/v0/letters_generator',
     },
     summaryEndpoint: {
       method: 'GET',
-      path: '/v0/letters/beneficiary',
+      path: '/v0/letters_generator/beneficiary',
     },
     downloadEndpoint: {
       method: 'POST',
-      path: '/v0/letters',
+      path: '/v0/letters_generator/download',
     },
-    dataEntryPoint: ['data', 'attributes'],
+    dataEntryPoint: [],
   };
-
-  if (shouldUseLighthouse) {
-    migrationOptions.listEndpoint.path = '/v0/letters_generator';
-    migrationOptions.summaryEndpoint.path = '/v0/letters_generator/beneficiary';
-    migrationOptions.downloadEndpoint.path = '/v0/letters_generator/download';
-    migrationOptions.dataEntryPoint = [];
-  }
-
-  return migrationOptions;
 }
 
 export function apiRequest(resource, optionalSettings = {}, success, error) {
@@ -172,8 +163,8 @@ export const newLetterContent = {
   commissary: (
     <>
       <p>
-        The Commissary Letter certifies that you’re eligible to receive
-        commissary store and exchange privileges from the Armed Forces.
+        The Commissary Letter shows that you’re eligible to receive commissary
+        store and exchange privileges from the Armed Forces.
       </p>
       <p>
         You can use this letter to get a Retiree Military ID card to access
@@ -184,8 +175,8 @@ export const newLetterContent = {
   proof_of_service: (
     <>
       <p>
-        The Proof of Service Card documents that you served honorably in the
-        Armed Forces.
+        The Proof of Service Card shows that you served honorably in the Armed
+        Forces.
       </p>
       <p>
         You can use this card to receive discounts at certain stores and
@@ -196,8 +187,8 @@ export const newLetterContent = {
   medicare_partd: (
     <>
       <p>
-        A prescription drug coverage letter proves that you qualify for Medicare
-        Part D prescription drug coverage.
+        The Proof of Creditable Prescription Drug Coverage Letter proves that
+        you qualify for Medicare Part D prescription drug coverage.
       </p>
       <p>
         You may need to submit this letter when applying for Medicare Part D
@@ -208,8 +199,9 @@ export const newLetterContent = {
   minimum_essential_coverage: (
     <>
       <p>
-        A minimum essential coverage letter proves that you have the right
-        amount of healthcare coverage required by the Affordable Care Act (ACA).
+        The Proof of Minimum Essential Coverage Letter proves that you have the
+        right amount of health care coverage required by the Affordable Care Act
+        (ACA).
       </p>
       <p>
         You can use this letter when filing your taxes or applying for something
@@ -231,9 +223,7 @@ export const newLetterContent = {
     'This letter can be customized and used for many things, including to verify service history, income, disability status, and more.',
   benefit_verification: (
     <>
-      <p>
-        The Benefit Verification Letter documents your VA financial benefits.
-      </p>
+      <p>The Benefit Verification Letter shows your VA financial benefits.</p>
       <p>
         You can use this letter to prove your income, such as when applying for
         a car loan or a mortgage.
@@ -632,6 +622,6 @@ export function isAddressEmpty(address) {
 
 export function getDownloadSuccessMessage(optionsLength) {
   return `Your letter includes the ${
-    optionsLength === 1 ? 'one item' : `${optionsLength} items`
+    optionsLength === 1 ? 'one topic' : `${optionsLength} topics`
   } you selected.`;
 }

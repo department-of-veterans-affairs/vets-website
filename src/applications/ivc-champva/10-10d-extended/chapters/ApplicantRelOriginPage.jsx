@@ -28,6 +28,10 @@ function generateOptions({ data, pagePerItemIndex }) {
       }’s ${surv} adopted child`,
       value: 'adoption',
     },
+    {
+      label: 'Other relationship',
+      value: 'other',
+    },
   ];
 
   return {
@@ -37,7 +41,7 @@ function generateOptions({ data, pagePerItemIndex }) {
     keyname: KEYNAME,
     customTitle,
     customHint:
-      'Depending on your response, you may need to submit proof of dependent status with this application.',
+      'Depending on your response, you may need to submit additional documents.',
     description: `What’s ${customTitle}?`,
   };
 }

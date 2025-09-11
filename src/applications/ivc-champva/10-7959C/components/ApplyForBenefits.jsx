@@ -54,7 +54,7 @@ export default function ApplyForBenefits({ goBack }) {
         />
       </div>
       <br />
-      <va-button back onClick={goBack} full-width />
+      <va-button data-testid="btn-back" onClick={goBack} back full-width />
     </div>
   );
 }

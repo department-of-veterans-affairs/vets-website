@@ -81,10 +81,10 @@ export const uploadPage = {
       ),
       'ui:description': Object.freeze(
         <>
-          <p className="form-686c__upload-text">
+          <p className="form-21-686c__upload-text">
             Select supporting documents to upload.
           </p>
-          <p className="form-686c__upload-hint">
+          <p className="form-21-686c__upload-hint">
             You can upload one file at a time no larger than 100MB.
             <br />
             Your file can be .pdf, .png, or .jpg.

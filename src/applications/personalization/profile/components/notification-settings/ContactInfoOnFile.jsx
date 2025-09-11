@@ -95,7 +95,7 @@ const ContactInfoOnFile = ({
         <va-alert-expandable
           status="info"
           trigger="You won’t receive text notifications"
-          class="vads-u-margin-top--2"
+          class="vads-u-margin-top--3"
           data-testid="international-mobile-number-info-alert"
         >
           <p className="vads-u-padding-bottom--2">
@@ -117,6 +117,25 @@ const ContactInfoOnFile = ({
           </p>
         </va-alert-expandable>
       )}
+      <va-additional-info
+        data-testid="data-encryption-notice"
+        trigger="By setting up notifications, you agree to receive unsecure emails and texts"
+        class="vads-u-margin-top--3"
+      >
+        <p>
+          Data encryption is a way of making data hard to read by people other
+          than the intended recipient. SMS text messaging and email aren’t
+          encrypted. This means they’re not secure. Other people could read your
+          appointment information if they get access to the messages when sent,
+          received, or on your phone or computer.
+        </p>
+        <p className="vads-u-padding-top--2">
+          <va-link
+            href="/privacy-policy/digital-notifications-terms-and-conditions/"
+            text="Read more about privacy and security for digital notifications"
+          />
+        </p>
+      </va-additional-info>
     </>
   );
 };

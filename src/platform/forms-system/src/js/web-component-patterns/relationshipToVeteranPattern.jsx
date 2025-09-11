@@ -40,7 +40,7 @@ export const relationshipToVeteranUI = options => {
         other: 'We don’t have a relationship that’s listed here',
       },
       errorMessages: {
-        required: `Please select your relationship to the ${person}`,
+        required: `Select your relationship to the ${person}`,
       },
       labelHeaderLevel: labelHeaderLevel ?? '3',
     }),
@@ -53,7 +53,7 @@ export const relationshipToVeteranUI = options => {
         expandedContentFocus: true,
       },
       'ui:errorMessages': {
-        required: `Please enter your relationship to the ${person}`,
+        required: `Enter your relationship to the ${person}`,
       },
     },
     'ui:options': {

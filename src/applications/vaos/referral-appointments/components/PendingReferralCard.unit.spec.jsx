@@ -42,7 +42,7 @@ describe('VAOS Component: PendingReferralCard', () => {
     );
     expect(
       screen.getByText(
-        'We’ve approved your community care referral. You must schedule all appointments for this referral by July 1, 2025.',
+        'You must schedule all appointments for this referral by July 1, 2025.',
       ),
     ).to.exist;
   });

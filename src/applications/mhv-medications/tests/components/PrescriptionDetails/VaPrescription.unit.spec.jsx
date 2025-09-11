@@ -317,4 +317,95 @@ describe('vaPrescription details container', () => {
       expect(landMedicationDetailsAalStub.calledWith(newRx)).to.be.true;
     });
   });
+
+  it('renders without errors when quantity is a string', () => {
+    const rxWithStringQuantity = {
+      ...prescription,
+      quantity: '30',
+    };
+    const screen = setup(rxWithStringQuantity);
+    expect(screen.queryByTestId('va-prescription-container')).to.exist;
+
+    // Verify the Quantity heading exists and the value is displayed correctly
+    const quantityHeading = screen.getByText('Quantity');
+    expect(quantityHeading).to.exist;
+
+    // Find the paragraph element that comes after the Quantity heading
+    const quantityValue = quantityHeading.nextElementSibling;
+    expect(quantityValue).to.exist;
+    expect(quantityValue.textContent).to.equal('30');
+  });
+
+  it('renders without errors when quantity is a string float', () => {
+    const rxWithStringFloatQuantity = {
+      ...prescription,
+      quantity: '15.5',
+    };
+    const screen = setup(rxWithStringFloatQuantity);
+    expect(screen.queryByTestId('va-prescription-container')).to.exist;
+
+    // Verify the Quantity heading exists and the float value is displayed correctly
+    const quantityHeading = screen.getByText('Quantity');
+    expect(quantityHeading).to.exist;
+
+    // Find the paragraph element that comes after the Quantity heading
+    const quantityValue = quantityHeading.nextElementSibling;
+    expect(quantityValue).to.exist;
+    expect(quantityValue.textContent).to.equal('15.5');
+  });
+
+  // TODO: Remove when the API is updated to return a string
+  it('renders without errors when quantity is an integer', () => {
+    const rxWithIntegerQuantity = {
+      ...prescription,
+      quantity: 30,
+    };
+    const screen = setup(rxWithIntegerQuantity);
+    expect(screen.queryByTestId('va-prescription-container')).to.exist;
+
+    // Verify the Quantity heading exists and the value is displayed correctly
+    const quantityHeading = screen.getByText('Quantity');
+    expect(quantityHeading).to.exist;
+
+    // Find the paragraph element that comes after the Quantity heading
+    const quantityValue = quantityHeading.nextElementSibling;
+    expect(quantityValue).to.exist;
+    expect(quantityValue.textContent).to.equal('30');
+  });
+
+  it('renders without errors when quantity is null', () => {
+    const rxWithNullQuantity = {
+      ...prescription,
+      quantity: null,
+    };
+    const screen = setup(rxWithNullQuantity);
+    expect(screen.queryByTestId('va-prescription-container')).to.exist;
+
+    // Verify the Quantity heading exists and the "not available" message is displayed
+    const quantityHeading = screen.getByText('Quantity');
+    expect(quantityHeading).to.exist;
+
+    // Find the paragraph element that comes after the Quantity heading
+    const quantityValue = quantityHeading.nextElementSibling;
+    expect(quantityValue).to.exist;
+    expect(quantityValue.textContent).to.equal('Quantity not available');
+  });
+
+  it('renders without errors when quantity is zero', () => {
+    const rxWithZeroQuantity = {
+      ...prescription,
+      quantity: 0,
+    };
+    const screen = setup(rxWithZeroQuantity);
+    expect(screen.queryByTestId('va-prescription-container')).to.exist;
+
+    // Verify the Quantity heading exists and zero is displayed correctly
+    const quantityHeading = screen.getByText('Quantity');
+    expect(quantityHeading).to.exist;
+
+    // Find the paragraph element that comes after the Quantity heading
+    const quantityValue = quantityHeading.nextElementSibling;
+    expect(quantityValue).to.exist;
+    expect(quantityValue.textContent).to.equal('0');
+  });
 });

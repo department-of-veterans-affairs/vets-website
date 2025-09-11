@@ -18,7 +18,7 @@ import {
   submissionsBC,
   SORT_DEFAULTS,
 } from '../utilities/submissions';
-import { SORT_BY, PENDING_SORT_DEFAULTS } from '../utilities/poaRequests';
+import { SORT_BY, SUBMISSION_DEFAULTS } from '../utilities/poaRequests';
 import { SEARCH_PARAMS } from '../utilities/constants';
 import SortForm from '../components/SortForm';
 import Pagination from '../components/Pagination';
@@ -35,7 +35,7 @@ const SubmissionsPage = title => {
     [title],
   );
   const submissions = useLoaderData().data || [];
-  const meta = useLoaderData().meta.page || {};
+  const meta = useLoaderData().meta || {};
   const searchStatus = useSearchParams()[0].get('status');
   const navigation = useNavigation();
   return (
@@ -117,8 +117,7 @@ const SubmissionsPage = title => {
 
           <h2 className="submissions__search-header">Recent Submissions</h2>
           <p className="submissions-subtext__copy--secondary vads-u-font-family--serif">
-            This list shows only your submissions sent through this portal from
-            the past 60 days.
+            This list shows only your submissions sent through this portal.
           </p>
           <SortForm
             options={[
@@ -156,7 +155,7 @@ const SubmissionsPage = title => {
                 aria-labelledby={`tab-${searchStatus}`}
               >
                 <SubmissionsPageResults submissions={submissions} />
-                <Pagination meta={meta} />
+                <Pagination meta={meta} defaults={SUBMISSION_DEFAULTS} />
               </div>
             )}
           </div>
@@ -175,8 +174,8 @@ SubmissionsPage.loader = async ({ request }) => {
   if (!Object.values(SORT_BY).includes(sortBy)) {
     searchParams.set(SEARCH_PARAMS.SORTORDER, SORT_BY.DESC);
     searchParams.set(SEARCH_PARAMS.SORTBY, SORT_BY.CREATED);
-    searchParams.set(SEARCH_PARAMS.SIZE, PENDING_SORT_DEFAULTS.SIZE);
-    searchParams.set(SEARCH_PARAMS.NUMBER, PENDING_SORT_DEFAULTS.NUMBER);
+    searchParams.set(SEARCH_PARAMS.SIZE, SUBMISSION_DEFAULTS.SIZE);
+    searchParams.set(SEARCH_PARAMS.NUMBER, SUBMISSION_DEFAULTS.NUMBER);
     throw redirect(`?${searchParams}`);
   }
 

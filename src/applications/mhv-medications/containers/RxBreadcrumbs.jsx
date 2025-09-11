@@ -14,6 +14,7 @@ const RxBreadcrumbs = () => {
   const isDisplayingDocumentation = useSelector(
     selectIsDisplayingDocumentation,
   );
+
   const [breadcrumbs, setBreadcrumbs] = useState([]);
 
   useEffect(

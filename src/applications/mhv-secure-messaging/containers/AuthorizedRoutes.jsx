@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Switch, Route, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
 import { MhvPageNotFoundContent } from 'platform/mhv/components/MhvPageNotFound';
 import ScrollToTop from '../components/shared/ScrollToTop';
 import Compose from './Compose';
@@ -14,8 +15,11 @@ import manifest from '../manifest.json';
 import SmBreadcrumbs from '../components/shared/SmBreadcrumbs';
 import EditContactList from './EditContactList';
 import InterstitialPage from './InterstitialPage';
-import SelectHealthCareSystem from './SelectHealthCareSystem';
+import SelectCareTeam from './SelectCareTeam';
+import CareTeamHelp from './CareTeamHelp';
+import { clearDraftInProgress } from '../actions/threadDetails';
 import featureToggles from '../hooks/useFeatureToggles';
+import RecentCareTeams from './RecentCareTeams';
 
 // Prepend SmBreadcrumbs to each route, except for PageNotFound
 const AppRoute = ({ children, ...rest }) => {
@@ -33,9 +37,35 @@ AppRoute.propTypes = {
 
 const { Paths } = Constants;
 
+// TODO: Curated List - update safe paths with all new urls for composing a message
+const draftInProgressSafePaths = [
+  `${Paths.COMPOSE}${Paths.START_MESSAGE}`,
+  `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`,
+  new RegExp(`^${Paths.MESSAGE_THREAD}[^/]+/?$`),
+  Paths.COMPOSE,
+  Paths.CONTACT_LIST,
+];
+
 const AuthorizedRoutes = () => {
   const location = useLocation();
-  const { cernerPilotSmFeatureFlag } = featureToggles();
+  const dispatch = useDispatch();
+  const { draftInProgress } = useSelector(state => state.sm.threadDetails);
+  const { mhvSecureMessagingCuratedListFlow } = featureToggles();
+
+  useEffect(
+    () => {
+      const isDraftSafe = draftInProgressSafePaths.some(
+        path =>
+          path instanceof RegExp
+            ? path.test(location.pathname)
+            : location.pathname.startsWith(path),
+      );
+      if (!isDraftSafe && draftInProgress?.recipientId) {
+        dispatch(clearDraftInProgress());
+      }
+    },
+    [location.pathname, draftInProgress?.recipientId, dispatch],
+  );
 
   if (location.pathname === `/`) {
     const basePath = `${manifest.rootUrl}${Paths.INBOX}`;
@@ -88,32 +118,42 @@ const AuthorizedRoutes = () => {
           <EditContactList />
         </AppRoute>
 
-        {cernerPilotSmFeatureFlag && (
+        {mhvSecureMessagingCuratedListFlow && (
           <AppRoute
             exact
             path={`${Paths.COMPOSE}${Paths.START_MESSAGE}`}
             key="Compose"
           >
-            <Compose skipInterstitial />
+            <Compose />
           </AppRoute>
         )}
-        {cernerPilotSmFeatureFlag && (
+        {mhvSecureMessagingCuratedListFlow && (
+          <AppRoute exact path={Paths.RECENT_CARE_TEAMS} key="RecentCareTeams">
+            <RecentCareTeams />
+          </AppRoute>
+        )}
+        {mhvSecureMessagingCuratedListFlow && (
           <AppRoute
             exact
-            path={`${Paths.COMPOSE}${Paths.SELECT_HEALTH_CARE_SYSTEM}`}
-            key="SelectHealthCareSystem"
+            path={`${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`}
+            key="SelectCareTeam"
           >
-            <SelectHealthCareSystem />
+            <SelectCareTeam />
           </AppRoute>
         )}
-        {cernerPilotSmFeatureFlag && (
+        {mhvSecureMessagingCuratedListFlow && (
           <AppRoute exact path={Paths.COMPOSE} key="InterstitialPage">
             <InterstitialPage />
           </AppRoute>
         )}
-        {!cernerPilotSmFeatureFlag && (
+        {!mhvSecureMessagingCuratedListFlow && (
           <AppRoute exact path={Paths.COMPOSE} key="Compose">
             <Compose />
+          </AppRoute>
+        )}
+        {mhvSecureMessagingCuratedListFlow && (
+          <AppRoute exact path={Paths.CARE_TEAM_HELP} key="CareTeamHelp">
+            <CareTeamHelp />
           </AppRoute>
         )}
         <Route>

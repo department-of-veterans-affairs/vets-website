@@ -72,7 +72,7 @@ const DebtSummaryCard = ({ debt }) => {
         <>
           <VaLink
             active
-            data-testid="debt-details-button"
+            data-testid="debt-details-link"
             onClick={() => {
               recordEvent({ event: 'cta-link-click-debt-summary-card' });
               dispatch(setActiveDebt(debt));
@@ -86,7 +86,7 @@ const DebtSummaryCard = ({ debt }) => {
           <div className="vads-u-margin-top--1">
             <VaLink
               active
-              data-testid="debt-details-resolve-button"
+              data-testid="debt-resolve-link"
               onClick={() => {
                 recordEvent({ event: 'cta-link-click-debt-summary-card' });
                 dispatch(setActiveDebt(debt));

@@ -11,7 +11,7 @@ import {
   transformSlotsForCommunityCare,
 } from '../../services/mocks/utils/slots';
 
-describe.skip('VAOS Component: DateAndTimeContent', () => {
+describe('VAOS Component: DateAndTimeContent', () => {
   const initialState = {
     featureToggles: {
       vaOnlineSchedulingCCDirectScheduling: true,

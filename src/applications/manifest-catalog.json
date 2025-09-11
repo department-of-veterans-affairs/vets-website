@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 134,
+  "totalApplications": 135,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -49,7 +49,7 @@
       "directoryPath": "src/applications/appeals/onramp",
       "appName": "Decision Reviews Onramp Tool",
       "entryName": "onramp",
-      "rootUrl": "/decision-reviews/onramp-to-dr"
+      "rootUrl": "/decision-reviews/explore-disability-claim-decision-review-options"
     },
     {
       "directoryPath": "src/applications/appeals/testing/download",
@@ -157,25 +157,25 @@
       "directoryPath": "src/applications/dependents/686c-674",
       "appName": "686C-674-v2",
       "entryName": "686C-674-v2",
-      "rootUrl": "/view-change-dependents/add-remove-form-21-686c-674"
+      "rootUrl": "/manage-dependents/add-remove-form-21-686c-674"
     },
     {
       "directoryPath": "src/applications/dependents/686c-674-old",
       "appName": "686C-674",
       "entryName": "686C-674",
-      "rootUrl": "/view-change-dependents/add-remove-form-21-686c"
+      "rootUrl": "/manage-dependents/add-remove-form-21-686c"
     },
     {
       "directoryPath": "src/applications/dependents/dependents-verification",
       "appName": "21-0538 Dependents verification",
       "entryName": "0538-dependents-verification",
-      "rootUrl": "/view-change-dependents/verify-dependents-form-21-0538"
+      "rootUrl": "/manage-dependents/verify-dependents-form-21-0538"
     },
     {
       "directoryPath": "src/applications/dependents/view-dependents",
       "appName": "View Dependents",
       "entryName": "dependents-view-dependents",
-      "rootUrl": "/view-change-dependents/view"
+      "rootUrl": "/manage-dependents/view"
     },
     {
       "directoryPath": "src/applications/dhp-connected-devices",
@@ -271,7 +271,7 @@
       "directoryPath": "src/applications/edu-benefits/10297",
       "appName": "10297",
       "entryName": "10297-edu-benefits",
-      "rootUrl": "/education/other-va-education-benefits/high-technology-program/apply-for-high-technology-program-form-22-10297"
+      "rootUrl": "/education/other-va-education-benefits/vet-tec-2/apply-for-program-form-22-10297"
     },
     {
       "directoryPath": "src/applications/edu-benefits/1919",
@@ -355,7 +355,7 @@
       "directoryPath": "src/applications/income-and-asset-statement",
       "appName": "21P-0969 Income and Asset Statement Form",
       "entryName": "income-and-asset-statement",
-      "rootUrl": "/supporting-forms-for-claims/income-and-asset-statement-form-21p-0969"
+      "rootUrl": "/supporting-forms-for-claims/submit-income-and-asset-statement-form-21p-0969"
     },
     {
       "directoryPath": "src/applications/income-limits",
@@ -373,7 +373,7 @@
       "directoryPath": "src/applications/ivc-champva/10-10d-extended",
       "appName": "10-10d Extended",
       "entryName": "10-10d-extended",
-      "rootUrl": "/ivc-champva/10-10d-extended"
+      "rootUrl": "/family-and-caregiver-benefits/health-and-disability/champva/apply-champva-form-10-10d"
     },
     {
       "directoryPath": "src/applications/ivc-champva/10-7959a",

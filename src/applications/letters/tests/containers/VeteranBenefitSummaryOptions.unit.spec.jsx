@@ -221,4 +221,54 @@ describe('<VeteranBenefitSummaryOptions />', () => {
     const checkboxes = container.querySelectorAll('va-checkbox');
     expect(checkboxes.length).to.equal(1);
   });
+
+  it('contains the correct text for the benefits summary letter section', () => {
+    const store = mockStore({
+      letters: {
+        optionsAvailable: true,
+        requestOptions: {
+          militaryService: true,
+          serviceConnectedEvaluation: true,
+          monthlyAward: true,
+          serviceConnectedDisabilities: true,
+        },
+        benefitInfo: {
+          serviceConnectedPercentage: 60,
+          awardEffectiveDate: '2021-12-01T00:00:00Z',
+          monthlyAwardAmount: 1288.03,
+          hasServiceConnectedDisabilities: true,
+        },
+        serviceInfo: [
+          {
+            branch: 'Army',
+            characterOfService: 'HONORABLE',
+            enteredDate: '1977-08-30T00:00:00Z',
+            releasedDate: '1984-12-12T00:00:00Z',
+          },
+        ],
+      },
+    });
+
+    const { container } = render(
+      <Provider store={store}>
+        <VeteranBenefitSummaryOptions />
+      </Provider>,
+    );
+
+    const text = container.querySelectorAll('p');
+    expect(text).to.have.length(2);
+    expect(text[0]).to.have.text(
+      'The Benefit Summary and Service Verification Letter includes your VA benefits and service history. You can customize this letter depending on your needs.',
+    );
+    expect(text[1]).to.have.text(
+      'Here are some of the ways you might be able to use this letter:',
+    );
+
+    const listItems = container.querySelectorAll('ul.usa-list li');
+    expect(listItems).to.have.length(4);
+    expect(listItems[0]).to.have.text('Apply for housing assistance');
+    expect(listItems[1]).to.have.text('Apply for a civil service job');
+    expect(listItems[2]).to.have.text('Reduce property taxes');
+    expect(listItems[3]).to.have.text('Reduce car taxes');
+  });
 });

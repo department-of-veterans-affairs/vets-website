@@ -3,7 +3,7 @@
 import { getFlipperId } from './helpers';
 
 const FLIPPER_ID = getFlipperId();
-const TOGGLE_VALUES_PATH = `/v0/feature_toggles?&cookie_id=${FLIPPER_ID}`;
+const TOGGLE_VALUES_PATH = `/v0/feature_toggles?cookie_id=${FLIPPER_ID}`;
 const TOGGLE_POLLING_INTERVAL = 5000;
 
 let flipperClientInstance;

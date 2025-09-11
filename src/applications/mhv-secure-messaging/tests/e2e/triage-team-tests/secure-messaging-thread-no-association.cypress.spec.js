@@ -25,7 +25,7 @@ describe('SM NO ASSOCIATION WITH PARTICULAR TG', () => {
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
-    cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click({
+    cy.findByTestId(Locators.LINKS.CREATE_NEW_MESSAGE_DATA_TEST_ID).click({
       waitForAnimations: true,
     });
 

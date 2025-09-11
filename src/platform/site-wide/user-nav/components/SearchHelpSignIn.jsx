@@ -47,12 +47,24 @@ class SearchHelpSignIn extends Component {
   };
 
   handleMenuClick = menu => () => {
+    if (menu === 'account') {
+      this.recordAccountMenuExpanded();
+    }
     this.props.toggleMenu(menu, !this.props.isMenuOpen[menu]);
   };
 
   handleSearchMenuClick = this.handleMenuClick('search');
 
   handleAccountMenuClick = this.handleMenuClick('account');
+
+  recordAccountMenuExpanded = () => {
+    if (!this.props.isMenuOpen.account) {
+      recordEvent({
+        event: 'nav-user-menu',
+        action: 'expand',
+      });
+    }
+  };
 
   showHomepageCreateAccountBlock = () => {
     if (

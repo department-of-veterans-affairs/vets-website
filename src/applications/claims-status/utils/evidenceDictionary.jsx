@@ -357,8 +357,8 @@ export const evidenceDictionary = {
       <>
         <p>
           Use VA Form 21-10210 to submit a Lay/Witness Statement (also known as
-          "buddy statement") from someone who knows about your condition and can
-          support your claim.
+          “buddy statements”) from someone who knows about your condition and
+          can support your claim.
         </p>
         <p>
           You can submit the completed form online, or you can upload or mail
@@ -391,8 +391,8 @@ export const evidenceDictionary = {
           <li>When did the exposure happen?</li>
           <li>How did the exposure happen?</li>
           <li>
-            Were any other service members with you? Please share their names if
-            you can.
+            Were any other service members with you? (Please share their names
+            if you can.)
           </li>
           <li>
             Were you exposed to anything else that may cause cancer (like
@@ -424,5 +424,336 @@ export const evidenceDictionary = {
       </>
     ),
     isSensitive: true,
+  },
+  'HAIMS STR Request': {
+    longDescription: (
+      <p>
+        For your benefits claim, we’ve requested your service treatment records
+        from the Department of Defense.
+      </p>
+    ),
+    isProperNoun: false,
+    noActionNeeded: true,
+  },
+  'Name of disability needed': {
+    longDescription: (
+      <>
+        <p>
+          To review your claim, we need to know what your disability is and how
+          it’s connected to your military service.
+        </p>
+        <p>Examples include:</p>
+        <ul className="bullet-disc">
+          <li>Hearing loss from operating heavy equipment</li>
+          <li>Knee injury from a service-related accident</li>
+          <li>
+            Post-traumatic stress disorder (PTSD) from exposure to traumatic
+            events during service
+          </li>
+        </ul>
+        <p>
+          If you have more than one disability, list each one in your claim.
+        </p>
+      </>
+    ),
+    nextSteps: (
+      <>
+        <p>
+          Use VA Form 21-526EZ to provide the name of your disability and how
+          it’s connected to your military service.
+        </p>
+
+        <p>
+          You can complete and sign this form online, or use a PDF version and
+          upload or mail it.
+          <br />
+          <va-link
+            active
+            text="VA Form 21-526EZ"
+            data-testid="VA Form 21-526EZ"
+            href="/find-forms/about-form-21-526ez/"
+          />
+        </p>
+        <p>
+          Or, you can call the VA benefits hotline at{' '}
+          <va-telephone contact="8008271000" /> (
+          <va-telephone contact="711" tty="true" />) to give us the name of your
+          disability.
+        </p>
+      </>
+    ),
+    isProperNoun: false,
+  },
+  'DBQ RESP Sleep Apnea': {
+    longDescription: (
+      <>
+        <p>
+          For your benefits claim, we’ve requested an exam to learn more about
+          your sleep apnea. The examiner’s office will contact you to schedule
+          this appointment.
+        </p>
+      </>
+    ),
+    noActionNeeded: true,
+    isProperNoun: false,
+    isDBQ: true,
+  },
+  'DBQ MUSC Back (thoracolumbar spine)': {
+    longDescription: (
+      <>
+        <p>
+          For your benefits claim, we’ve requested an exam to understand your
+          back condition. The examiner’s office will contact you to schedule
+          this appointment.
+        </p>
+      </>
+    ),
+    noActionNeeded: true,
+    isProperNoun: false,
+    isDBQ: true,
+  },
+  'DBQ MUSC Knee and Lower Leg': {
+    longDescription: (
+      <>
+        <p>
+          For your benefits claim, we’ve requested an exam for your knee and
+          lower leg. The examiner’s office will contact you to schedule this
+          appointment.
+        </p>
+      </>
+    ),
+    noActionNeeded: true,
+    isProperNoun: false,
+    isDBQ: true,
+  },
+  'DBQ NEURO Headaches (including migraines)': {
+    longDescription: (
+      <>
+        <p>
+          For your benefits claim, we’ve requested an exam for your headaches
+          (including migraines). The examiner’s office will contact you to
+          schedule this appointment.
+        </p>
+      </>
+    ),
+    noActionNeeded: true,
+    isProperNoun: false,
+    isDBQ: true,
+  },
+  '21-4142': {
+    longDescription: (
+      <>
+        <p>
+          For your benefits claim, we need your permission to request your
+          personal information from a non-VA source, like a private doctor or
+          hospital.
+        </p>
+        <p>Personal information may include:</p>
+        <ul className="bullet-disc">
+          <li>Medical treatments</li>
+          <li>Hospitalizations</li>
+          <li>Psychotherapy</li>
+          <li>Outpatient care</li>
+        </ul>
+        <p>
+          Even if you already submitted VA Form 21-4142a, we may still need the
+          separate VA Form 21-4142 in order to request your personal
+          information.
+        </p>
+      </>
+    ),
+    nextSteps: (
+      <>
+        <p>
+          Use VA Form 21-4142 to give us permission to request your personal
+          information.
+        </p>
+        <p>
+          You can complete and sign this form online, or use a PDF version and
+          upload or mail it.
+          <br />
+          <va-link
+            active
+            data-testid="VA Form 21-4142"
+            text="VA Form 21-4142"
+            href="/find-forms/about-form-21-4142/"
+          />
+        </p>
+      </>
+    ),
+  },
+  '21-4142a': {
+    longDescription: (
+      <>
+        <p>
+          For your benefits claim, we need information about where you received
+          treatment so we can request your medical records from non-VA medical
+          providers.
+        </p>
+        <p>This helps us collect:</p>
+        <ul className="bullet-disc">
+          <li>Facility names and addresses</li>
+          <li>Dates of medical treatments</li>
+        </ul>
+      </>
+    ),
+    nextSteps: (
+      <>
+        <p>
+          Use VA Form 21-4142a to give us permission to request your medical
+          treatment records from non-VA medical providers.
+        </p>
+        <p>
+          You can complete and sign this form online, or use a PDF version and
+          upload or mail it.
+          <br />
+          <va-link
+            active
+            data-testid="VA Form 21-4142a"
+            text="VA Form 21-4142a"
+            href="/find-forms/about-form-21-4142a/"
+          />
+        </p>
+      </>
+    ),
+  },
+  'DBQ PSYCH PTSD initial': {
+    longDescription: (
+      <>
+        <p>
+          For your benefits claim, we’ve requested an exam related to your PTSD.
+          The examiner’s office will contact you to schedule this appointment.
+        </p>
+      </>
+    ),
+    noActionNeeded: true,
+    isProperNoun: true,
+    isDBQ: true,
+  },
+  'SSA medical evidence requested': {
+    longDescription: (
+      <>
+        <p>
+          For your benefits claim, we’ve asked the Social Security
+          Administration (SSA) for your medical records. This helps us
+          understand your condition and how it might relate to your claim.
+        </p>
+        <p>It may take several months to receive a response from the SSA.</p>
+      </>
+    ),
+    noActionNeeded: true,
+    isProperNoun: false,
+  },
+  'DBQ PSYCH PTSD Review': {
+    longDescription: (
+      <>
+        <p>
+          For your benefits claim, we’ve requested a follow-up exam related to
+          your PTSD. The examiner’s office will contact you to schedule this
+          appointment.
+        </p>
+      </>
+    ),
+    noActionNeeded: true,
+    isProperNoun: true,
+    isDBQ: true,
+  },
+  'Clarification of Claimed Issue': {
+    longDescription: (
+      <>
+        <p>
+          We need more information or a medical diagnosis for the condition in
+          your benefits claim.
+        </p>
+        <p>
+          For example, if you listed a leg condition, we’d need to know if it
+          affects your hip, knee, ankle, or foot—or if it’s related to nerves or
+          your skin.
+        </p>
+      </>
+    ),
+    nextSteps: (
+      <>
+        <p>
+          You can upload a document that gives more detail about your condition,
+          or use VA Form 21-4138, Statement in Support of Claim.
+          <br />
+          <va-link
+            active
+            data-testid="VA Form 21-4138"
+            text="VA Form 21-4138"
+            href="/find-forms/about-form-21-4138/"
+          />
+        </p>
+        <p>
+          Make sure your name and Social Security number are included on every
+          page of any document you upload.
+        </p>
+      </>
+    ),
+    isProperNoun: false,
+    noProvidePrefix: true,
+  },
+  'DBQ GU Male Reproductive Organ': {
+    longDescription: (
+      <>
+        <p>
+          For your benefits claim, we’ve requested an exam to understand the
+          condition affecting your reproductive health. The examiner’s office
+          will contact you to schedule this appointment.
+        </p>
+      </>
+    ),
+    noActionNeeded: true,
+    isProperNoun: false,
+    isDBQ: true,
+  },
+  'ASB-medical evid of disease (biopsy) needed': {
+    longDescription: (
+      <>
+        <p>
+          To review your claim for asbestos exposure, we need medical
+          documentation that supports your claim.
+        </p>
+        <p>This could include:</p>
+        <ul className="bullet-disc">
+          <li>Diagnosis</li>
+          <li>Biopsy</li>
+          <li>Other related medical records</li>
+        </ul>
+      </>
+    ),
+    nextSteps: (
+      <>
+        <p>
+          If the biopsy or other exam was done at a VA facility, upload a
+          document that includes the location and the month and year of the
+          exam. We’ll request your medical records for you.
+        </p>
+        <p>
+          If that exam was done by a non-VA provider, use VA Form 21-4142 to
+          authorize VA to request your medical records.
+          <br />
+          <va-link
+            active
+            data-testid="VA Form 21-4142"
+            text="VA Form 21-4142"
+            href="/find-forms/about-form-21-4142/"
+          />
+        </p>
+      </>
+    ),
+    isSensitive: true,
+  },
+  'NG1 - National Guard Records Request': {
+    longDescription: (
+      <p>
+        For your benefits claim, we’ve asked your National Guard unit for your
+        service treatment records. These records help us understand when your
+        medical condition may have started during your military service.
+      </p>
+    ),
+    noActionNeeded: true,
+    isProperNoun: true,
   },
 };

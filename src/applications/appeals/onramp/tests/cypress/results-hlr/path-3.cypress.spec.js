@@ -1,6 +1,8 @@
 import * as h from '../helpers';
 import { ROUTES } from '../../../constants';
 import { SHORT_NAME_MAP } from '../../../constants/question-data-map';
+import { RESULTS_NAME_MAP } from '../../../constants/results-data-map';
+import * as c from '../../../constants/results-content/dr-screens/card-content';
 
 const {
   Q_1_1_CLAIM_DECISION,
@@ -9,6 +11,7 @@ const {
   Q_2_0_CLAIM_TYPE,
   Q_2_S_1_NEW_EVIDENCE,
 } = SHORT_NAME_MAP;
+const { RESULTS_HLR } = RESULTS_NAME_MAP;
 
 // Results HLR: Higher-Level Review recommended
 // 1.1 - Yes
@@ -51,7 +54,28 @@ describe('Decision Reviews Onramp', () => {
       h.selectRadio(Q_2_S_1_NEW_EVIDENCE, 1);
       h.clickContinue();
 
-      // TODO - Add results page check here
+      // RESULTS
+      h.verifyUrl(ROUTES.RESULTS);
+      h.verifyDrResultsHeader(RESULTS_HLR);
+      h.checkOverviewPanel([c.TITLE_HLR]);
+      h.checkGoodFitCards([
+        {
+          type: c.CARD_HLR,
+          content: [
+            c.CARD_REVIEW_BOARD,
+            c.CARD_NO_NEW_EVIDENCE,
+            c.CARD_NOT_CONTESTED,
+          ],
+        },
+      ]);
+      h.checkNotGoodFitCards([
+        {
+          type: c.CARD_SC,
+          content: [c.CARD_NEED_EVIDENCE],
+        },
+      ]);
+      h.verifyOutsideDROptionPresent();
+      cy.go('back');
 
       // Q_2_S_1_NEW_EVIDENCE
       h.verifyUrl(ROUTES.Q_2_S_1_NEW_EVIDENCE);

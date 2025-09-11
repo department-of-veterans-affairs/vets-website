@@ -10,6 +10,7 @@ import mockThread from '../fixtures/thread-response.json';
 import PatientInterstitialPage from './PatientInterstitialPage';
 import { AXE_CONTEXT, Locators, Paths } from '../utils/constants';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
+import mockSentThreads from '../fixtures/sentResponse/sent-messages-response.json';
 
 class PatientInboxPage {
   newMessageIndex = 0;
@@ -330,13 +331,24 @@ class PatientInboxPage {
     cy.findByTestId(Locators.BUTTONS.CONTINUE).click();
   };
 
+  clickCreateNewMessage = () => {
+    cy.findByTestId(Locators.LINKS.CREATE_NEW_MESSAGE_DATA_TEST_ID).click({
+      force: true,
+    });
+  };
+
   navigateToComposePage = (checkFocusOnVcl = false) => {
     cy.intercept(
       'GET',
       Paths.SM_API_EXTENDED + Paths.CATEGORIES,
       mockCategories,
     ).as('categories');
-    cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click({ force: true });
+
+    cy.intercept(`GET`, Paths.INTERCEPT.SENT_THREADS, mockSentThreads).as(
+      `sentThreadsResponse`,
+    );
+
+    this.clickCreateNewMessage();
     // cy.wait('@signature');
     if (checkFocusOnVcl) {
       PatientInterstitialPage.CheckFocusOnVcl();
@@ -350,7 +362,9 @@ class PatientInboxPage {
       Paths.SM_API_EXTENDED + Paths.SIGNATURE,
       mockSignature,
     ).as('signature');
-    cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click({ force: true });
+    cy.findByTestId(Locators.LINKS.CREATE_NEW_MESSAGE_DATA_TEST_ID).click({
+      force: true,
+    });
     cy.wait('@signature');
   };
 
@@ -488,10 +502,7 @@ class PatientInboxPage {
   };
 
   verifyAddFilterButton = (text = 'Show filters') => {
-    cy.get(Locators.BUTTONS.ADDITIONAL_FILTER).should(
-      'contain.text',
-      `${text}`,
-    );
+    cy.findByText(text).should('contain.text', `${text}`);
   };
 
   verifyNotForPrintHeaderText = (text = 'messages in this conversation') => {

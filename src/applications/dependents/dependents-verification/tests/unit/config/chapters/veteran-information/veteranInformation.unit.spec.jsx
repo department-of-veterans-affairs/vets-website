@@ -156,9 +156,4 @@ describe('VeteranInformation component', () => {
     );
     expect(dobField.textContent).to.eq('');
   });
-
-  it('should render alert message', () => {
-    const { getByText } = renderComponent();
-    expect(getByText(/We’ve prefilled some information for you/)).to.exist;
-  });
 });

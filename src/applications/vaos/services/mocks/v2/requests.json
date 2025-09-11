@@ -87,8 +87,8 @@
         "patientComments": "Test",
         "reasonForAppointment": "Routine/Follow-up",
         "preferredDates": [
-          "Wed, March 26, 2025 in the morning",
-          "Wed, March 12, 2025 in the morning"
+          "Wednesday, March 26, 2025 in the morning",
+          "Wednesday, March 12, 2025 in the morning"
         ],
         "preferredModality": "Video",
         "location": {
@@ -212,7 +212,7 @@
         },
         "station": null,
         "ien": null,
-        "preferredDates": ["Tue, January 28, 2025 in the morning"],
+        "preferredDates": ["Tuesday, January 28, 2025 in the morning"],
         "preferredProviderName": null,
         "location": {
           "id": "984",
@@ -354,7 +354,7 @@
         },
         "patientComments": "testing",
         "reasonForAppointment": "Routine/Follow-up",
-        "preferredDates": ["Tue, November 12, 2024 in the morning"],
+        "preferredDates": ["Tuesday, November 12, 2024 in the morning"],
         "preferredModality": "In person",
         "location": {
           "id": "983",
@@ -498,7 +498,7 @@
         },
         "patientComments": "routine",
         "reasonForAppointment": "Routine/Follow-up",
-        "preferredDates": ["Mon, December 9, 2026 in the morning"],
+        "preferredDates": ["Monday, December 9, 2026 in the morning"],
         "preferredModality": "In person",
         "location": {
           "id": "983",
@@ -635,7 +635,7 @@
         },
         "patientComments": "testing",
         "reasonForAppointment": "Medication concern",
-        "preferredDates": ["Thu, March 27, 2025 in the morning"],
+        "preferredDates": ["Thursday, March 27, 2025 in the morning"],
         "preferredModality": "Phone",
         "location": {
           "id": "983GC",

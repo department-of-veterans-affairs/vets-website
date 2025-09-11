@@ -54,6 +54,16 @@ describe('ClaimDetailsContent', () => {
     expect(screen.getByText('Claim status: Claim submitted')).to.exist;
   });
 
+  it('sets the page title correctly', () => {
+    renderWithStoreAndRouter(<ClaimDetailsContent {...claimDetailsProps} />, {
+      initialState: getState(),
+    });
+
+    expect(document.title).to.equal(
+      'Travel Reimbursement Claim Details - Travel Pay | Veterans Affairs',
+    );
+  });
+
   it('renders secure messaging link for denied claims', () => {
     const screen = renderWithStoreAndRouter(
       <ClaimDetailsContent {...claimDetailsProps} claimStatus="Denied" />,
@@ -153,6 +163,28 @@ describe('ClaimDetailsContent', () => {
       expect($('va-link[text="note-1.txt"]')).to.not.exist;
     });
 
+    it('renders download links for partial payment letter as decision letter', () => {
+      renderWithStoreAndRouter(
+        <ClaimDetailsContent
+          {...claimDetailsProps}
+          documents={[
+            {
+              filename: 'Partial Payment Letter.docx',
+              mimetype:
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            },
+            { filename: 'screenshot.png', mimetype: 'image/png' },
+          ]}
+        />,
+        {
+          initialState: getState(),
+        },
+      );
+
+      expect($('va-link[text="Download your decision letter"]')).to.exist;
+      expect($('va-link[text="screenshot.png"]')).to.exist;
+    });
+
     it('renders only user document links', () => {
       renderWithStoreAndRouter(
         <ClaimDetailsContent
@@ -243,7 +275,7 @@ describe('ClaimDetailsContent', () => {
         },
       );
       expect(screen.getByText('Amount')).to.exist;
-      expect(screen.getByText('Submitted amount of $120.5')).to.exist;
+      expect(screen.getByText('Submitted amount of $120.50')).to.exist;
       expect(screen.getByText('Reimbursement amount of $100.25')).to.exist;
     });
 
@@ -259,7 +291,7 @@ describe('ClaimDetailsContent', () => {
         },
       );
       expect(screen.getByText('Amount')).to.exist;
-      expect(screen.getByText('Submitted amount of $75')).to.exist;
+      expect(screen.getByText('Submitted amount of $75.00')).to.exist;
       expect(screen.queryByText(/Reimbursement amount of/)).to.not.exist;
     });
 

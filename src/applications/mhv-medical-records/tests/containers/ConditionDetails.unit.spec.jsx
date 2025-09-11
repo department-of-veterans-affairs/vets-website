@@ -212,3 +212,35 @@ describe('Health conditions details container with errors', () => {
     });
   });
 });
+
+describe('Condition details container - record not found', () => {
+  it('redirects to /conditions when record.notFound is true', async () => {
+    const initialState = {
+      user,
+      mr: {
+        conditions: {
+          conditionDetails: { notFound: true },
+          conditionsList: [],
+        },
+        alerts: { alertList: [] },
+      },
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        mhv_medical_records_allow_txt_downloads: true,
+      },
+    };
+
+    const view = renderWithStoreAndRouter(
+      <ConditionDetails runningUnitTest />,
+      {
+        initialState,
+        reducers: reducer,
+        path: '/conditions/123',
+      },
+    );
+
+    await waitFor(() => {
+      expect(view.history.location.pathname).to.equal('/conditions');
+    });
+  });
+});

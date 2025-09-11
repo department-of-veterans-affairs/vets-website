@@ -69,7 +69,7 @@ h3.name-of-deceased-text {
 }
 
 .mail-or-fax-steps {
-  padding: 0 0 0 0.625rem;
+  padding: 0 0 0 1.25rem;
 }
 
 .mail-or-fax-step {
@@ -267,6 +267,10 @@ article#form-4010007[data-location^="service-periods-"] .vads-u-color--gray-dark
   color: var(--vads-color-base) !important;
 }
 
+article#form-4010007[data-location^="service-periods-summary-"] va-radio::part(header),
+article#form-4010007[data-location^="burial-benefits-"] va-radio::part(header) {
+  font-weight: 100 !important;
+}
 
 .selectNonImposter {
   max-width: 27.25em;

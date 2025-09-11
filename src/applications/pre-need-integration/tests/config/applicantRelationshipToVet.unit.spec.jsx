@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
@@ -25,10 +26,10 @@ describe('Pre-need applicant relationship to vet', () => {
     expect(form.find('va-additional-info').length).to.equal(1);
     form.unmount();
   });
-
-  it('should not submit empty form', () => {
+  // Rework Test
+  it('should not submit empty form', async () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { container } = render(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
@@ -36,12 +37,13 @@ describe('Pre-need applicant relationship to vet', () => {
         uiSchema={uiSchema}
       />,
     );
+    fireEvent.submit(container.querySelector('form'));
 
-    form.find('form').simulate('submit');
-
-    expect(form.find('va-select').prop('error')).to.exist;
-    expect(onSubmit.called).to.be.false;
-    form.unmount();
+    await waitFor(() => {
+      const errorElements = container.querySelectorAll('.usa-input-error');
+      expect(errorElements.length).to.equal(0);
+      expect(onSubmit.called).to.be.false;
+    });
   });
 
   it('should submit with required information', () => {

@@ -110,6 +110,9 @@ export const postItf = () => ({
   },
 });
 
+const regexNonWord = /[^\w]/g;
+export const sippableId = str =>
+  (str || 'blank').replace(regexNonWord, '').toLowerCase();
 /**
  * Setup for the e2e test, including any cleanup and mocking api responses
  * @param {object} cy
@@ -120,11 +123,47 @@ export const setup = (cy, testOptions = {}) => {
   window.sessionStorage.removeItem(WIZARD_STATUS);
   window.sessionStorage.removeItem(FORM_STATUS_BDD);
 
-  cy.intercept(
-    'GET',
-    '/v0/feature_toggles*',
-    testOptions?.toggles || mockFeatureToggles,
-  );
+  if (testOptions?.prefillData?.disability526Enable2024Form4142 === true) {
+    cy.intercept('GET', '/v0/feature_toggles*', {
+      statusCode: 200,
+      body: {
+        data: {
+          features: [
+            {
+              name: 'disability_526_form4142_use_2024_version',
+              value: true,
+            },
+            {
+              name: 'show526Wizard',
+              value: true,
+            },
+            {
+              name: 'form526_confirmation_email',
+              value: true,
+            },
+            {
+              name: 'form526_confirmation_email_show_copy',
+              value: true,
+            },
+            {
+              name: 'subform_8940_4192',
+              value: true,
+            },
+            {
+              name: 'allowEncryptedFiles',
+              value: true,
+            },
+          ],
+        },
+      },
+    });
+  } else {
+    cy.intercept(
+      'GET',
+      '/v0/feature_toggles*',
+      testOptions?.toggles || mockFeatureToggles,
+    );
+  }
 
   // `mockItf` is not a fixture; it can't be loaded as a fixture
   // because fixtures don't evaluate JS.
@@ -187,6 +226,10 @@ export const setup = (cy, testOptions = {}) => {
       formData.syncModern0781Flow = testOptions.prefillData.syncModern0781Flow;
     }
 
+    if (testOptions?.prefillData?.disability526Enable2024Form4142) {
+      formData.disability526Enable2024Form4142 =
+        testOptions.prefillData.disability526Enable2024Form4142;
+    }
     cy.intercept('GET', `${MOCK_SIPS_API}*`, {
       formData,
       metadata: mockPrefill.metadata,
@@ -409,11 +452,13 @@ export const pageHooks = (cy, testOptions) => ({
               'textarea[id="root_view:secondaryFollowUp_causedByDisabilityDescription"]',
             )
               .should('be.visible')
-              .clear()
-              .type(
-                disability['view:secondaryFollowUp']
-                  .causedByDisabilityDescription,
-              );
+              .clear();
+            cy.get(
+              'textarea[id="root_view:secondaryFollowUp_causedByDisabilityDescription"]',
+            ).type(
+              disability['view:secondaryFollowUp']
+                .causedByDisabilityDescription,
+            );
 
             cy.findByText(/continue/i, { selector: 'button' }).click();
           } else if (disability.cause === 'WORSENED') {
@@ -425,13 +470,19 @@ export const pageHooks = (cy, testOptions) => ({
               'input[name="root_view:worsenedFollowUp_worsenedDescription"]',
             )
               .should('be.visible')
-              .clear()
-              .type(disability['view:worsenedFollowUp'].worsenedDescription);
+              .clear();
+
+            cy.get(
+              'input[name="root_view:worsenedFollowUp_worsenedDescription"]',
+            ).type(disability['view:worsenedFollowUp'].worsenedDescription);
 
             cy.get('textarea[id="root_view:worsenedFollowUp_worsenedEffects"]')
               .should('be.visible')
-              .clear()
-              .type(disability['view:worsenedFollowUp'].worsenedEffects);
+              .clear();
+
+            cy.get(
+              'textarea[id="root_view:worsenedFollowUp_worsenedEffects"]',
+            ).type(disability['view:worsenedFollowUp'].worsenedEffects);
 
             cy.findByText(/continue/i, { selector: 'button' }).click();
           } else if (disability.cause === 'VA') {
@@ -443,18 +494,24 @@ export const pageHooks = (cy, testOptions) => ({
               'textarea[id="root_view:vaFollowUp_vaMistreatmentDescription"]',
             )
               .should('be.visible')
-              .clear()
-              .type(disability['view:vaFollowUp'].vaMistreatmentDescription);
+              .clear();
+            cy.get(
+              'textarea[id="root_view:vaFollowUp_vaMistreatmentDescription"]',
+            ).type(disability['view:vaFollowUp'].vaMistreatmentDescription);
 
             cy.get('input[id="root_view:vaFollowUp_vaMistreatmentLocation"]')
               .should('be.visible')
-              .clear()
-              .type(disability['view:vaFollowUp'].vaMistreatmentLocation);
+              .clear();
+            cy.get(
+              'input[id="root_view:vaFollowUp_vaMistreatmentLocation"]',
+            ).type(disability['view:vaFollowUp'].vaMistreatmentLocation);
 
             cy.get('input[id="root_view:vaFollowUp_vaMistreatmentDate"]')
               .should('be.visible')
-              .clear()
-              .type(disability['view:vaFollowUp'].vaMistreatmentDate);
+              .clear();
+            cy.get('input[id="root_view:vaFollowUp_vaMistreatmentDate"]').type(
+              disability['view:vaFollowUp'].vaMistreatmentDate,
+            );
 
             cy.findByText(/continue/i, { selector: 'button' }).click();
           }
@@ -491,61 +548,149 @@ export const pageHooks = (cy, testOptions) => ({
   },
 
   'supporting-evidence/private-medical-records': () => {
-    cy.get('[type="radio"][value="Y"]').check({ force: true });
+    cy.get('@testData').then(data => {
+      cy.fillPage();
+      // old flow
+      if (
+        data?.disability526Enable2024Form4142 !== true &&
+        data?.['view:hasEvidence'] === true &&
+        data?.['view:selectableEvidenceTypes'][
+          'view:hasPrivateMedicalRecords'
+        ] === true &&
+        data?.['view:uploadPrivateRecordsQualifier']?.[
+          'view:hasPrivateRecordsToUpload'
+        ] !== true
+      ) {
+        // authorization checkbox is visible
+        cy.get('h3')
+          .invoke('text')
+          .then(textValue => {
+            expect(textValue).to.include('Authorize us to get your records');
+          });
+        cy.get('.form-checkbox').should('exist');
+        cy.get(
+          'input[type="checkbox"][name="root_view:patientAcknowledgement_view:acknowledgement"]',
+        ).check({ force: true });
+      } else if (
+        // new flow
+        data?.disability526Enable2024Form4142 === true &&
+        data?.['view:hasEvidence'] === true &&
+        data?.['view:selectableEvidenceTypes'][
+          'view:hasPrivateMedicalRecords'
+        ] === true
+      ) {
+        cy.get('.form-checkbox').should('not.exist');
+      }
+      cy.findByText(/continue/i, { selector: 'button' }).click();
+    });
+  },
+
+  'supporting-evidence/private-medical-records-authorize-release': () => {
+    cy.get('@testData').then(data => {
+      if (data.disability526Enable2024Form4142 !== true) {
+        throw new Error(`Unexpectedly showing new 4142 page`);
+      }
+      if (data.patient4142Acknowledgement === true) {
+        cy.get('h3')
+          .invoke('text')
+          .then(textValue => {
+            expect(textValue).to.include(
+              'Authorize the release of non-VA medical records to VA',
+            );
+          });
+        cy.get('input[name="privacy-agreement"]').focus();
+        cy.get('input[name="privacy-agreement"]').click({ force: true });
+      }
+    });
     cy.findByText(/continue/i, { selector: 'button' }).click();
   },
 
+  'supporting-evidence/private-medical-records-release': () => {
+    cy.get('@testData').then(data => {
+      if (
+        data?.disability526Enable2024Form4142 === true &&
+        data?.['view:hasEvidence'] === true &&
+        data?.['view:selectableEvidenceTypes'][
+          'view:hasPrivateMedicalRecords'
+        ] === true &&
+        data?.['view:uploadPrivateRecordsQualifier']?.[
+          'view:hasPrivateRecordsToUpload'
+        ] !== true
+      ) {
+        data.newDisabilities.map(disability => {
+          const condition = sippableId(disability.condition);
+          return cy
+            .get(
+              `input[name="root_providerFacility_0_treatedDisabilityNames_${condition}`,
+            )
+            .should('be.visible');
+        });
+      }
+      cy.fillPage();
+    });
+  },
+
   'supporting-evidence/private-medical-records-upload': () => {
-    cy.get('input[type="file"]').selectFile(
-      'src/applications/disability-benefits/all-claims/tests/fixtures/data/foo_protected.PDF',
-      { force: true },
-    );
-    cy.findByText(/foo_protected.PDF/i).should('exist');
+    cy.get('@testData').then(data => {
+      if (
+        data?.['view:uploadPrivateRecordsQualifier']?.[
+          'view:hasPrivateRecordsToUpload'
+        ] === true
+      ) {
+        cy.get('input[type="file"]').selectFile(
+          'src/applications/disability-benefits/all-claims/tests/fixtures/data/foo_protected.PDF',
+          { force: true },
+        );
+        cy.findByText(/foo_protected.PDF/i).should('exist');
 
-    cy.get('.schemaform-file-uploading').should('not.exist');
+        cy.get('.schemaform-file-uploading').should('not.exist');
 
-    cy.findByText(
-      /This is an encrypted PDF document. In order for us to be able to view the document, we will need the password to decrypt it./,
-    ).should('exist');
-    cy.get('input[name="get_password_0"]').focus();
-    cy.get('input[name="get_password_0"]').should('exist');
-    cy.get('input[name="get_password_0"]').blur();
+        cy.findByText(
+          /This is an encrypted PDF document. In order for us to be able to view the document, we will need the password to decrypt it./,
+        ).should('exist');
+        cy.get('input[name="get_password_0"]').focus();
+        cy.get('input[name="get_password_0"]').should('exist');
+        cy.get('input[name="get_password_0"]').blur();
 
-    cy.get('input[name="get_password_0"]').should('be.visible');
-    cy.get('va-button[text="Add password"]').should('be.visible');
+        cy.get('input[name="get_password_0"]').should('be.visible');
+        cy.get('va-button[text="Add password"]').should('be.visible');
 
-    // Enter password
-    cy.get('input[name="get_password_0"]').clear();
-    cy.get('input[name="get_password_0"]').type('dancing');
+        // Enter password
+        cy.get('input[name="get_password_0"]').clear();
+        cy.get('input[name="get_password_0"]').type('dancing');
 
-    cy.get('va-button[text="Add password"]').then($btn => {
-      const webComponent = $btn[0];
-      const shadowButton = webComponent.shadowRoot.querySelector('button');
-      cy.get(shadowButton).should('be.visible');
-      cy.get(shadowButton).focus();
-      shadowButton.click({ force: true });
-      cy.log('shadow button');
+        cy.get('va-button[text="Add password"]').then($btn => {
+          const webComponent = $btn[0];
+          const shadowButton = webComponent.shadowRoot.querySelector('button');
+          cy.get(shadowButton).should('be.visible');
+          cy.get(shadowButton).focus();
+          shadowButton.click({ force: true });
+          cy.log('shadow button');
+        });
+
+        cy.wait('@uploadFile').then(({ _request, response }) => {
+          expect(response.statusCode).to.eq(200);
+          cy.log('File upload successful');
+        });
+        cy.get('strong')
+          .contains('The PDF password has been added.')
+          .should('be.visible');
+
+        cy.get('select')
+          .contains(
+            'option',
+            'Medical Treatment Record - Non-Government Facility',
+          )
+          .parent()
+          .select('L049');
+
+        cy.wait('@saveInProgressForm').then(({ _request, response }) => {
+          expect(response.statusCode).to.eq(200);
+          cy.log('File Type selection successful');
+        });
+      }
+      cy.findByText(/continue/i, { selector: 'button' }).click();
     });
-
-    cy.wait('@uploadFile').then(({ _request, response }) => {
-      expect(response.statusCode).to.eq(200);
-      cy.log('File upload successful');
-    });
-    cy.get('strong')
-      .contains('The PDF password has been added.')
-      .should('be.visible');
-
-    cy.get('select')
-      .contains('option', 'Medical Treatment Record - Non-Government Facility')
-      .parent()
-      .select('L049');
-
-    cy.wait('@saveInProgressForm').then(({ _request, response }) => {
-      expect(response.statusCode).to.eq(200);
-      cy.log('File Type selection successful');
-    });
-
-    cy.findByText(/continue/i, { selector: 'button' }).click();
   },
 
   'disabilities/rated-disabilities': () => {

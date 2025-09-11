@@ -61,14 +61,13 @@ const Benefits = ({
 
 Benefits.propTypes = {
   handleBackClick: PropTypes.func.isRequired,
+  benefitIds: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   benefits: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string,
     }),
   ),
   benefitsList: PropTypes.array,
-
-  benefitIds: PropTypes.object || PropTypes.array,
   queryString: PropTypes.shape({
     allBenefits: PropTypes.string,
   }),

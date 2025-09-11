@@ -65,7 +65,7 @@ describe.skip('SM MESSAGING OH LARGE ATTACHMENT', () => {
     SecureMessagingSite.login(updatedFeatureToggles);
     PilotEnvPage.loadInboxMessages();
     PilotEnvPage.navigateToComposePage();
-    PilotEnvPage.selectCareTeam();
+    PilotEnvPage.selectCareSystem();
     PilotEnvPage.selectTriageGroup();
     cy.findByTestId(`continue-button`).click();
   });

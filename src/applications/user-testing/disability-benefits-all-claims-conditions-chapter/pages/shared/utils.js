@@ -132,7 +132,7 @@ const causeFollowUpChecks = {
   VA: item => !item?.vaMistreatmentDescription || !item?.vaMistreatmentLocation,
 };
 
-const isItemIncomplete = item => {
+export const isItemIncomplete = item => {
   if (isNewCondition(item)) {
     return (
       !item?.newCondition ||
@@ -194,6 +194,8 @@ export const ForceFieldBlur = () => {
 
 // VA platform runs validation based on formData.dateString,
 // which is populated after all field blur events
+const getCurrentYear = () => new Date().getFullYear();
+
 export const validateApproximateDate = (errors, dateString) => {
   if (!dateString) return;
 
@@ -211,6 +213,14 @@ export const validateApproximateDate = (errors, dateString) => {
     errors.addError(
       'Enter a year only (e.g., 1988), a month and year (e.g., June 1988), or a full date (e.g., June 1 1988)',
     );
+    return;
+  }
+
+  const y = Number(year);
+  const minYear = 1900;
+  const maxYear = getCurrentYear();
+  if (!Number.isInteger(y) || y < minYear || y > maxYear) {
+    errors.addError(`Please enter a year between ${minYear} and ${maxYear}`);
   }
 };
 

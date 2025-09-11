@@ -4,7 +4,7 @@ import {
   createFormStore,
   setShortNameValue,
 } from '../utilities/answer-storage';
-import { ALL_QUESTIONS } from '../constants';
+import { ALL_QUESTIONS, ALL_RESULTS } from '../constants';
 
 const {
   ONRAMP_UPDATE_FORM_STORE,
@@ -13,7 +13,9 @@ const {
 
 export const initialState = {
   allQuestionShortNames: ALL_QUESTIONS,
+  allResultsShortNames: ALL_RESULTS,
   form: createFormStore(ALL_QUESTIONS),
+  resultPage: null,
   viewedIntroPage: false,
 };
 
@@ -36,6 +38,13 @@ const decisionReviewsGuide = (state = initialState, action) => {
         ...state.form,
         ...action.payload,
       },
+    };
+  }
+
+  if (action.type === FORM_ACTION_TYPES.ONRAMP_UPDATE_RESULTS_PAGE) {
+    return {
+      ...state,
+      resultPage: action.payload,
     };
   }
 

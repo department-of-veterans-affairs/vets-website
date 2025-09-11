@@ -250,7 +250,12 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
       [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [yesNoType.YES],
-      [mappingTypes.BRANCH_COMPONENT]: [anyType.ANY],
+      // Any branch component is valid, but NATIONAL_GUARD_SERVICE and RESERVE_SERVICE also require TITLE_TEN_ACTIVE_DUTY to qualify for this benefit.
+      // Due to how the benefit eligibility logic currently works, having National_Guard_SERVICE and RESERVE_SERVICE explicitly listed bi-passes TITLE_TEN_ACTIVE_DUTY as a requirement.
+      // So, they are not explicitly listed as valid branch components. TITLE_TEN_ACTIVE_DUTY implicity makes them valid options. This true for several benefits.
+      [mappingTypes.BRANCH_COMPONENT]: [
+        militaryBranchComponentTypes.ACTIVE_DUTY,
+      ],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [
         expectedSeparationTypes.UP_TO_3_MONTHS,
@@ -474,7 +479,10 @@ export const BENEFITS_LIST = [
         timeServedTypes.OVER_3_YEARS,
       ],
       [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [yesNoType.YES],
-      [mappingTypes.BRANCH_COMPONENT]: [anyType.ANY],
+      // NATIOAL_GUARD_SERVICE and RESERVE_SERVICE are also valid. See note on "Educational and career counseling (Chapter 36)".
+      [mappingTypes.BRANCH_COMPONENT]: [
+        militaryBranchComponentTypes.ACTIVE_DUTY,
+      ],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
@@ -680,6 +688,7 @@ export const BENEFITS_LIST = [
         timeServedTypes.OVER_3_YEARS,
       ],
       [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [yesNoType.YES],
+      // NATIOAL_GUARD_SERVICE and RESERVE_SERVICE are also valid. See note on "Educational and career counseling (Chapter 36)".
       [mappingTypes.BRANCH_COMPONENT]: [
         militaryBranchComponentTypes.ACTIVE_DUTY,
       ],
@@ -733,7 +742,10 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
       [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [yesNoType.YES],
-      [mappingTypes.BRANCH_COMPONENT]: [anyType.ANY],
+      // NATIOAL_GUARD_SERVICE and RESERVE_SERVICE are also valid. See note on "Educational and career counseling (Chapter 36)".
+      [mappingTypes.BRANCH_COMPONENT]: [
+        militaryBranchComponentTypes.ACTIVE_DUTY,
+      ],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
@@ -754,7 +766,7 @@ export const BENEFITS_LIST = [
         responses[mappingTypes.GOALS] &&
         (responses[mappingTypes.BRANCH_COMPONENT] ||
           responses[mappingTypes.TITLE_TEN_ACTIVE_DUTY]) &&
-        mappingTypes.CHARACTER_OF_DISCHARGE
+        responses[mappingTypes.CHARACTER_OF_DISCHARGE]
       );
     },
     learnMoreURL: URLS.VAH_LEARN,
@@ -771,10 +783,9 @@ export const BENEFITS_LIST = [
       [mappingTypes.GOALS]: [goalTypes.UNDERSTAND, goalTypes.PLAN],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
       [mappingTypes.TITLE_TEN_ACTIVE_DUTY]: [yesNoType.YES],
+      // NATIOAL_GUARD_SERVICE and RESERVE_SERVICE are also valid. See note on "Educational and career counseling (Chapter 36)".
       [mappingTypes.BRANCH_COMPONENT]: [
         militaryBranchComponentTypes.ACTIVE_DUTY,
-        militaryBranchComponentTypes.NATIONAL_GUARD_SERVICE,
-        militaryBranchComponentTypes.RESERVE_SERVICE,
       ],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
@@ -832,14 +843,6 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.STILL_SERVING,
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
-    },
-    isQualified: responses => {
-      return (
-        responses[mappingTypes.GOALS] &&
-        (responses[mappingTypes.TITLE_TEN_ACTIVE_DUTY] ||
-          responses[mappingTypes.BRANCH_COMPONENT]) &&
-        responses[mappingTypes.CHARACTER_OF_DISCHARGE]
-      );
     },
     learnMoreURL: URLS.BUR_LEARN,
     applyNowURL: URLS.BUR_APPLY,

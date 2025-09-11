@@ -5,7 +5,9 @@ import {
   getTimezoneByFacilityId,
   getTimezoneDescByFacilityId,
   getTimezoneNameFromAbbr,
+  mapGmtToAbbreviation,
   stripDST,
+  getFormattedTimezoneAbbr,
 } from './timezone';
 
 describe('VAOS Utils: timezone', () => {
@@ -55,6 +57,30 @@ describe('VAOS Utils: timezone', () => {
       expect(stripDST('MT')).to.equal('MT');
       expect(stripDST('CT')).to.equal('CT');
       expect(stripDST('PT')).to.equal('PT');
+    });
+  });
+
+  describe('mapGmtToAbbreviation', () => {
+    it('should map GMT timezones to abbreviations', () => {
+      expect(mapGmtToAbbreviation('GMT+8')).to.equal('PHT');
+      expect(mapGmtToAbbreviation('GMT-11')).to.equal('ST');
+      expect(mapGmtToAbbreviation('GMT+10')).to.equal('ChT');
+    });
+
+    it('should return original abbreviation for unmapped GMT timezones', () => {
+      expect(mapGmtToAbbreviation('GMT+5')).to.equal('GMT+5');
+      expect(mapGmtToAbbreviation('GMT-7')).to.equal('GMT-7');
+    });
+
+    it('should return original abbreviation for non-GMT timezones', () => {
+      expect(mapGmtToAbbreviation('EST')).to.equal('EST');
+      expect(mapGmtToAbbreviation('PST')).to.equal('PST');
+      expect(mapGmtToAbbreviation('CST')).to.equal('CST');
+    });
+
+    it('should handle null and undefined inputs', () => {
+      expect(mapGmtToAbbreviation(null)).to.be.null;
+      expect(mapGmtToAbbreviation(undefined)).to.be.undefined;
     });
   });
 
@@ -199,6 +225,74 @@ describe('VAOS Utils: timezone', () => {
     it('should return null for an unknown id', () => {
       expect(getTimezoneByFacilityId(null)).to.be.null;
       expect(getTimezoneByFacilityId(undefined)).to.be.null;
+    });
+  });
+
+  describe('getFormattedTimezoneAbbr', () => {
+    it('should return formatted timezone abbreviation with DST stripped', () => {
+      const date = new Date('2024-07-15T14:30:00Z'); // Summer date
+      const winterDate = new Date('2024-01-15T14:30:00Z'); // Winter date
+
+      // Test major US timezones
+      expect(getFormattedTimezoneAbbr(date, 'America/New_York')).to.equal('ET');
+      expect(getFormattedTimezoneAbbr(date, 'America/Chicago')).to.equal('CT');
+      expect(getFormattedTimezoneAbbr(date, 'America/Denver')).to.equal('MT');
+      expect(getFormattedTimezoneAbbr(date, 'America/Los_Angeles')).to.equal(
+        'PT',
+      );
+      expect(getFormattedTimezoneAbbr(date, 'America/Anchorage')).to.equal(
+        'AKT',
+      );
+      expect(getFormattedTimezoneAbbr(date, 'Pacific/Honolulu')).to.equal('HT');
+
+      // Test with winter dates to ensure DST handling
+      expect(getFormattedTimezoneAbbr(winterDate, 'America/New_York')).to.equal(
+        'ET',
+      );
+      expect(getFormattedTimezoneAbbr(winterDate, 'America/Chicago')).to.equal(
+        'CT',
+      );
+    });
+
+    it('should handle GMT timezone mappings', () => {
+      const date = new Date('2024-07-15T14:30:00Z');
+
+      expect(getFormattedTimezoneAbbr(date, 'Asia/Manila')).to.equal('PHT');
+      expect(getFormattedTimezoneAbbr(date, 'Pacific/Guam')).to.equal('ChT');
+      expect(getFormattedTimezoneAbbr(date, 'Pacific/Pago_Pago')).to.equal(
+        'ST',
+      );
+    });
+
+    it('should handle Atlantic and Puerto Rico timezones', () => {
+      const date = new Date('2024-07-15T14:30:00Z');
+
+      expect(getFormattedTimezoneAbbr(date, 'America/Puerto_Rico')).to.equal(
+        'AT',
+      );
+      expect(getFormattedTimezoneAbbr(date, 'America/St_Thomas')).to.equal(
+        'AT',
+      );
+    });
+
+    it('should handle string date inputs', () => {
+      const dateString = '2024-07-15T14:30:00Z';
+
+      expect(getFormattedTimezoneAbbr(dateString, 'America/New_York')).to.equal(
+        'ET',
+      );
+      expect(getFormattedTimezoneAbbr(dateString, 'Pacific/Honolulu')).to.equal(
+        'HT',
+      );
+    });
+
+    it('should handle edge cases', () => {
+      const date = new Date('2024-07-15T14:30:00Z');
+
+      // Test with timezone that might return GMT format
+      const result = getFormattedTimezoneAbbr(date, 'UTC');
+      expect(result).to.be.a('string');
+      expect(result.length).to.be.greaterThan(0);
     });
   });
 });

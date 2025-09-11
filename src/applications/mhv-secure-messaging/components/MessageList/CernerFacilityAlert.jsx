@@ -58,7 +58,7 @@ const CernerFacilityAlert = ({ cernerFacilities }) => {
   );
 
   const renderSingleFacility = () => (
-    <p data-testId="single-cerner-facility-text">
+    <p data-testid="single-cerner-facility-text">
       Some of your secure messages may be in a different portal. To send a
       secure message to a provider at{' '}
       <strong>{cernerFacilitiesNames[0]}</strong>, go to My VA Health.
@@ -87,11 +87,10 @@ const CernerFacilityAlert = ({ cernerFacilities }) => {
           <a
             className="vads-c-action-link--blue vads-u-margin-bottom--0p5"
             href={getCernerURL('/pages/messaging/inbox', true)}
-            target="_blank"
             rel="noopener noreferrer"
             onClick={handleUrlClick}
           >
-            Go to My VA Health (opens in new tab)
+            Go to My VA Health
           </a>
 
           <p>

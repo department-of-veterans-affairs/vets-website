@@ -465,6 +465,7 @@
  * @property {number} [maxItems] The maximum number of items allowed in the array. Omit to allow unlimited items.
  * @property {boolean} required This determines the flow type of the array builder. Required starts with an intro page, optional starts with the yes/no question (summary page).
  * @property {string} [reviewPath] Defaults to `'review-and-submit'` if not provided.
+ * @property {string} [reviewPanelHeadingLevel] The heading level for the summary title on the review page.
  * @property {ArrayBuilderText} [text] Override any default text used in the array builder pattern
  * @property {boolean} [useLinkInsteadOfYesNo]
  * @property {boolean} [useButtonInsteadOfYesNo]

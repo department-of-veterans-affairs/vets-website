@@ -189,7 +189,7 @@ const POARequestDetailsPage = title => {
               <ProcessingBanner
                 status="info"
                 representative={
-                  poaRequest?.resolution?.accreditedIndividual ||
+                  poaRequest?.resolution?.accreditedIndividual.fullName ||
                   'Your organization'
                 }
                 header={PROCESSING_BANNER.HEADER}

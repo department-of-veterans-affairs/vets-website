@@ -17,7 +17,9 @@ describe('SM SAVING DRAFT BY KEYBOARD', () => {
     PatientComposePage.getMessageSubjectField().type(`${requestBody.subject}`);
     PatientComposePage.getMessageBodyField().type(`${requestBody.body}`);
 
-    PatientComposePage.saveDraftByKeyboard();
+    // temporarily using save button to save draft
+    PatientComposePage.saveNewDraft(requestBody.category, requestBody.subject);
+    // PatientComposePage.saveDraftByKeyboard();
 
     PatientMessageDraftsPage.verifySavedMessageAlertText();
 

@@ -2175,5 +2175,17 @@
   "src": "/rosiouxfalls",
   "dest": "/sioux-falls-va-regional-benefit-office-at-royal-c-johnson-veterans-memorial-hospital/",
   "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/sandiego",
+  "dest": "/san-diego-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/rosandiego",
+  "dest": "/san-diego-va-regional-benefit-office/",
+  "catchAll": true
 }
 ]

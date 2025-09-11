@@ -13,10 +13,9 @@ import LetterPageWrapper from './containers/LetterPageWrapper';
 const newRoutes = (
   <Routes>
     <Route path="/" element={<App />}>
-      <Route index element={<Navigate to="letter-page" replace />} />
       <Route element={<LetterPageWrapper />}>
         <Route element={<Main />}>
-          <Route element={<LetterPage />} path="letter-page" />
+          <Route index element={<LetterPage />} />
         </Route>
       </Route>
     </Route>

@@ -23,6 +23,7 @@ import {
 import DebtDetailsCard from '../components/DebtDetailsCard';
 import PaymentHistoryTable from '../components/PaymentHistoryTable';
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
+import Modals from '../../combined/components/Modals';
 
 const DebtDetails = () => {
   const { selectedDebt, debts } = useSelector(
@@ -145,7 +146,11 @@ const DebtDetails = () => {
         )}
         {shouldShowPaymentHistory && (
           <div>
-            <h2 id="debtDetailsHeader" className="vads-u-margin-y--2">
+            <h2
+              id="debtDetailsHeader"
+              className="vads-u-margin-y--2"
+              data-testid="debt-details-header"
+            >
               Debt details
             </h2>
             <div className="mobile-lg:vads-u-display--flex small-screen:vads-u-justify-content--space-between medium-screen:vads-u-max-width--90">
@@ -179,7 +184,11 @@ const DebtDetails = () => {
         {oneThingPerPageActive &&
           !shouldShowPaymentHistory && (
             <>
-              <h2 id="debtDetailsHeader" className="vads-u-margin-y--2">
+              <h2
+                id="debtDetailsHeader"
+                className="vads-u-margin-y--2"
+                data-testid="otpp-details-header"
+              >
                 Debt details
               </h2>
               <p>
@@ -222,6 +231,9 @@ const DebtDetails = () => {
             ) : null}
           </>
         )}
+        <Modals title="Notice of rights and responsibilities" id="notice-modal">
+          <Modals.Rights />
+        </Modals>
 
         {oneThingPerPageActive ? (
           <va-need-help id="needHelp">

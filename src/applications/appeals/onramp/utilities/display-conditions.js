@@ -1,22 +1,37 @@
+import { RESPONSES, SHORT_NAME_MAP } from '../constants/question-data-map';
+
 /** ================================================================
- * If the display conditions contain ONE_OF, check all possible responses for a match
+ * If the display conditions contain ONE_OF or NONE_OF,
+ * check all possible responses for a match
+ * If any match, return true
  *
- * @param {object} oneOfChoices
+ * @param {object} batchOfChoices
  * Example: {
  *   Q_1_3A_FEWER_60_DAYS: YES,
- *   Q_2_H_1_EXISTING_BOARD_APPEAL: NO,
+ *   Q_2_IS_1B_NEW_EVIDENCE: NO,
  * }
  * @param {object} formResponses - all answers in the store
  */
-export const evaluateOneOfChoices = (oneOfChoices, formResponses) => {
-  for (const choice of Object.keys(oneOfChoices)) {
+export const evaluateBatchOfChoices = (batchOfChoices, formResponses) => {
+  for (const choice of Object.keys(batchOfChoices)) {
     // If one of our form responses matches one of the key/value pairs given
-    if (oneOfChoices[choice] === formResponses?.[choice]) {
+    if (batchOfChoices[choice] === formResponses?.[choice]) {
       return true;
     }
   }
 
   return false;
+};
+
+/**
+ * Evaluates whether the user has indicated that their condition
+ * has worsened and they disagree with a decision
+ */
+export const isCFIVariant = formResponses => {
+  return (
+    formResponses[(SHORT_NAME_MAP?.Q_2_IS_4_DISAGREE_DECISION)] ===
+    RESPONSES.YES
+  );
 };
 
 /** ================================================================
@@ -46,12 +61,38 @@ export const displayConditionsMet = (
     if (Array.isArray(requiredResponse)) {
       if (!requiredResponse.includes(formResponse)) return false;
     } else if (questionShortName === 'ONE_OF') {
-      const oneOfChoicesMet = evaluateOneOfChoices(
+      const foundMatch = evaluateBatchOfChoices(
         displayConditionsForNextQuestion?.ONE_OF,
         formResponses,
       );
 
-      if (!oneOfChoicesMet) return false;
+      // For ONE_OF, we're looking for a match
+      if (!foundMatch) return false;
+    } else if (questionShortName === 'NONE_OF') {
+      const foundMatch = evaluateBatchOfChoices(
+        displayConditionsForNextQuestion?.NONE_OF,
+        formResponses,
+      );
+
+      // For NONE_OF, we don't want a match
+      if (foundMatch) return false;
+    } else if (questionShortName === 'FORK') {
+      // Not extracted to its own function because it would be
+      // mutually recursive with displayConditionsMet
+      const forkChoices = Object.keys(
+        displayConditionsForNextQuestion?.FORK || {},
+      );
+
+      for (const forkChoice of forkChoices) {
+        const forkChoiceDCs =
+          displayConditionsForNextQuestion?.FORK?.[forkChoice] || {};
+
+        if (displayConditionsMet(formResponses, forkChoiceDCs)) {
+          return true;
+        }
+      }
+
+      return false;
     } else {
       if (formResponse === undefined) return false;
       if (requiredResponse !== formResponse) return false;

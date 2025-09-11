@@ -1,0 +1,13 @@
+{
+  "data": {
+     "claimantAddress": {
+      "city": "APO",
+      "country": "USA",
+      "isMilitary": true,
+      "postalCode": "34055",
+      "state": "AA",
+      "street": "Street name",
+      "view:militaryBaseDescription": {}
+    }
+  }
+}

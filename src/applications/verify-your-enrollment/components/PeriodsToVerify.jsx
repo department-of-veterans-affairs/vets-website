@@ -122,7 +122,7 @@ const PeriodsToVerify = ({
           </va-alert>
         )}
         {(enrollmentData?.pendingVerifications?.length === 0 ||
-          (!showEnrollmentVerifications && claimantId)) &&
+          !showEnrollmentVerifications) &&
           justVerified && (
             <div>
               <VerifiedSuccessStatement />

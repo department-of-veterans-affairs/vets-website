@@ -2,6 +2,7 @@ import App from './containers/App';
 import IntroductionPage from './containers/IntroductionPage';
 import { ROUTES } from './constants';
 import QuestionTemplate from './containers/QuestionTemplate';
+import ResultsTemplate from './containers/ResultsTemplate';
 
 const routes = {
   path: '/',
@@ -30,6 +31,7 @@ const routes = {
     { path: ROUTES.Q_2_H_2_NEW_EVIDENCE, component: QuestionTemplate },
     { path: ROUTES.Q_2_H_2A_JUDGE_HEARING, component: QuestionTemplate },
     { path: ROUTES.Q_2_H_2B_JUDGE_HEARING, component: QuestionTemplate },
+    { path: ROUTES.RESULTS, component: ResultsTemplate },
   ],
 };
 

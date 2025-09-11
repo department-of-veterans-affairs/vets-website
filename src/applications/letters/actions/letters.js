@@ -32,13 +32,7 @@ export function getLetterList(
   dispatch,
   // eslint-disable-next-line -- LH_MIGRATION
   LH_MIGRATION__options,
-  shouldUseLettersDiscrepancies = false,
 ) {
-  if (shouldUseLettersDiscrepancies) {
-    // Call the endpoint to log evss vs lighthouse letter discrepancies
-    apiRequest('/v0/letters_discrepancy');
-  }
-
   // eslint-disable-next-line -- LH_MIGRATION
   return apiRequest(LH_MIGRATION__options.listEndpoint.path)
     .then(response => {
@@ -116,7 +110,6 @@ export function getBenefitSummaryOptions(
 export function getLetterListAndBSLOptions(
   // eslint-disable-next-line -- LH_MIGRATION
   LH_MIGRATION__options,
-  shouldUseLettersDiscrepancies,
 ) {
   return dispatch =>
     // eslint-disable-next-line -- LH_MIGRATION
@@ -124,7 +117,6 @@ export function getLetterListAndBSLOptions(
       dispatch,
       // eslint-disable-next-line -- LH_MIGRATION
       LH_MIGRATION__options,
-      shouldUseLettersDiscrepancies,
     )
       // eslint-disable-next-line -- LH_MIGRATION
       .then(() => getBenefitSummaryOptions(dispatch, LH_MIGRATION__options))

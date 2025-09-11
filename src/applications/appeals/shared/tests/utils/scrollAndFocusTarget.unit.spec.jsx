@@ -168,7 +168,7 @@ describe('focusEvidence', () => {
     render(
       <div id="main">
         <h3>Title</h3>
-        {hasError ? <div error="true" /> : <div />}
+        {hasError ? <div role="alert" error="true" /> : <div />}
       </div>,
     );
 

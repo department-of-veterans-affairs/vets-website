@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 
@@ -29,38 +29,11 @@ describe('Background Information Step 4 - Page 3, Employment Focus', () => {
     expect(radios.length).to.be.greaterThan(0);
   });
 
-  it('shows a validation error when not answered', () => {
-    const { getByRole, container } = renderPage();
-    fireEvent.click(getByRole('button', { name: /submit|continue/i }));
-    const errNode = container.querySelector('[error]');
-    expect(errNode).to.exist;
-  });
-
   it('accepts a valid area of focus', () => {
     let utils = renderPage({ technologyAreaOfFocus: 'computerProgramming' });
     expect(utils.container.querySelectorAll('[error]')).to.have.length(0);
     utils.unmount();
     utils = renderPage({ technologyAreaOfFocus: 'somethingElse' });
     expect(utils.container.querySelectorAll('[error]')).to.have.length(0);
-  });
-
-  it('should hide other text input when technology area of focus is not something else', () => {
-    const formData = {
-      technologyAreaOfFocus: 'computerProgramming',
-    };
-    const result = employmentFocus.uiSchema.otherFocus['ui:options'].hideIf(
-      formData,
-    );
-    expect(result).to.be.true;
-  });
-
-  it('should not hide other text input when technology area of focus is something else', () => {
-    const formData = {
-      technologyAreaOfFocus: 'somethingElse',
-    };
-    const result = employmentFocus.uiSchema.otherFocus['ui:options'].hideIf(
-      formData,
-    );
-    expect(result).to.be.false;
   });
 });

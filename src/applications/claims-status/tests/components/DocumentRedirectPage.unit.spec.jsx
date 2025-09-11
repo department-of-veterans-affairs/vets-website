@@ -16,12 +16,8 @@ describe('DocumentRedirectPage routing', () => {
   afterEach(() => {
     sandbox.restore();
   });
-  const getStore = (cst5103UpdateEnabled = true) =>
+  const getStore = () =>
     createStore(() => ({
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        cst_5103_update_enabled: cst5103UpdateEnabled,
-      },
       disability: {
         status: {
           claimDetail: {

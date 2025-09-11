@@ -10,6 +10,7 @@ import {
 import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
 import { decodeHtmlEntities } from '../util/helpers';
+import { resetRecentRecipient } from './recipients';
 
 const sendSaveDraft = async (messageData, id) => {
   try {
@@ -68,6 +69,7 @@ export const saveDraft = (messageData, type, id) => async dispatch => {
         },
       },
     });
+    dispatch(resetRecentRecipient());
   }
   if (response.errors) {
     const error = response.errors[0];
@@ -79,7 +81,11 @@ export const saveDraft = (messageData, type, id) => async dispatch => {
   if (response.ok) {
     dispatch({
       type: Actions.Thread.UPDATE_DRAFT_IN_THREAD,
-      payload: { messageId: id, draftDate: Date.now(), ...messageData },
+      payload: {
+        messageId: id,
+        draftDate: Date.now(),
+        ...messageData,
+      },
     });
   }
 };
@@ -128,6 +134,7 @@ export const saveReplyDraft = (
         },
       },
     });
+    dispatch(resetRecentRecipient());
     return response.data.attributes;
   }
   if (response.ok) {

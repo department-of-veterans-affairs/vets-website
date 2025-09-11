@@ -72,7 +72,6 @@ const formConfig = {
   },
   ...minimalHeaderFormConfigOptions({
     breadcrumbList: [
-      { href: '/', label: 'Home' },
       {
         href: `/family-and-caregiver-benefits`,
         label: `Family and caregiver benefits`,
@@ -90,7 +89,7 @@ const formConfig = {
         label: `Apply for CHAMPVA benefits`,
       },
     ],
-    homeVeteransAffairs: false,
+    homeVeteransAffairs: true,
     wrapping: true,
   }),
   formId: VA_FORM_IDS.FORM_10_10D_EXTENDED,
@@ -115,33 +114,33 @@ const formConfig = {
   defaultDefinitions: {},
   chapters: {
     certifierInformation: {
-      title: 'Signer information',
+      title: 'Your information',
       pages: {
         page1: {
           // initialData: mockData.data,
-          path: 'signer-type',
+          path: 'who-is-applying',
           title: 'Which of these best describes you?',
           ...certifierRoleSchema,
         },
         page2: {
-          path: 'signer-info',
+          path: 'your-name',
           title: 'Your name',
           ...certifierNameSchema,
         },
         page3: {
-          path: 'signer-mailing-address',
+          path: 'your-mailing-address',
           title: 'Your mailing address',
           ...certifierAddressSchema,
         },
         page4: {
-          path: 'signer-contact-info',
+          path: 'your-contact-information',
           title: 'Your contact information',
           CustomPage: SignerContactInfoPage,
           CustomPageReview: null,
           ...signerContactInfoPage,
         },
         page5: {
-          path: 'signer-relationship',
+          path: 'your-relationship-to-applicant',
           title: 'Your relationship to applicant',
           depends: formData => get('certifierRole', formData) === 'other',
           ...certifierRelationshipSchema,
@@ -149,39 +148,39 @@ const formConfig = {
       },
     },
     sponsorInformation: {
-      title: 'Sponsor information',
+      title: 'Veteran information',
       pages: {
         page5a: {
-          path: 'sponsor-intro',
-          title: 'Sponsor information',
+          path: 'veteran-information-overview',
+          title: 'Veteran information',
           ...sponsorIntroSchema,
         },
         page6: {
-          path: 'sponsor-info',
-          title: "Sponsor's name and date of birth",
+          path: 'veteran-name-and-date-of-birth',
+          title: 'Veteran’s name and date of birth',
           ...sponsorNameDobSchema,
         },
         page7: {
-          path: 'sponsor-identification-info',
-          title: `Sponsor's identification information`,
+          path: 'veteran-social-security-number',
+          title: `Veteran’s identification information`,
           ...sponsorIdentificationSchema,
         },
         page8: {
-          path: 'sponsor-status',
-          title: "Sponsor's status",
+          path: 'veteran-life-status',
+          title: 'Veteran’s status',
           depends: formData => get('certifierRole', formData) !== 'sponsor',
           ...sponsorStatus,
         },
         page9: {
-          path: 'sponsor-status-details',
-          title: "Sponsor's status details",
+          path: 'veteran-death-information',
+          title: 'Veteran’s status details',
           depends: formData =>
             get('certifierRole', formData) !== 'sponsor' &&
             get('sponsorIsDeceased', formData),
           ...sponsorStatusDetails,
         },
         page10b0: {
-          path: 'sponsor-mailing-same',
+          path: 'veteran-address',
           title: formData => `${sponsorWording(formData)} address selection`,
           // Only show if we have addresses to pull from:
           depends: formData =>
@@ -194,7 +193,7 @@ const formConfig = {
               customAddressKey: 'sponsorAddress',
               customTitle: `${sponsorWording(props.data)} address selection`,
               customDescription:
-                'We’ll send any important information about this form to this address.',
+                'We\u2019ll send any important information about this form to this address.',
               customSelectText: `Does ${sponsorWording(
                 props.data,
                 false,
@@ -210,14 +209,14 @@ const formConfig = {
           schema: blankSchema,
         },
         page10: {
-          path: 'sponsor-mailing-address',
-          title: "Sponsor's mailing address",
+          path: 'veteran-mailing-address',
+          title: 'Veteran’s mailing address',
           depends: formData => !get('sponsorIsDeceased', formData),
           ...sponsorAddress,
         },
         page11: {
-          path: 'sponsor-contact-information',
-          title: "Sponsor's contact information",
+          path: 'veteran-contact-information',
+          title: 'Veteran’s contact information',
           depends: formData => !get('sponsorIsDeceased', formData),
           ...sponsorContactInfo,
         },

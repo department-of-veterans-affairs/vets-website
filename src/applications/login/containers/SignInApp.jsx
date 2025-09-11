@@ -9,6 +9,7 @@ import { isLoggedIn } from 'platform/user/selectors';
 import { signInServiceEnabled } from 'platform/user/authentication/selectors';
 import { externalApplicationsConfig } from 'platform/user/authentication/usip-config';
 import { OAuthEnabledApplications } from 'platform/user/authentication/config/constants';
+import { signInAppCSS } from '../constants';
 
 export function UnifiedSigninPage({ router, location }) {
   const isAuthenticated = useSelector(state => isLoggedIn(state));
@@ -52,15 +53,9 @@ export function UnifiedSigninPage({ router, location }) {
     [isSiSEnabled],
   );
 
-  const css = `
-  #legacy-header > div:nth-child(3) > div.menu-rule.usa-one-whole,   div .profile-nav-container, .menu-rule.usa-one-whole,  .hidden-header {
-    visibility:hidden;
-  }
-`;
-
   return (
     <>
-      <style>{css}</style>
+      <style>{signInAppCSS}</style>
       <LoginContainer
         isUnifiedSignIn
         externalApplication={externalApplication}

@@ -2,6 +2,7 @@ import { Actions } from '../util/actionTypes';
 import { updateMessageInThread, updateDrafts } from '../util/helpers';
 
 const initialState = {
+  acceptInterstitial: false,
   drafts: [],
   messages: undefined,
   isLoading: false,
@@ -9,6 +10,20 @@ const initialState = {
   threadFolderId: undefined,
   replyToMessageId: undefined,
   cannotReply: false,
+  draftInProgress: {
+    messageId: null,
+    category: null,
+    subject: null,
+    body: null,
+    recipientId: null,
+    recipientName: null,
+    careSystemName: null,
+    careSystemVhaId: null,
+    attachments: [],
+    navigationError: null,
+    saveError: null,
+    savedDraft: false,
+  },
 };
 
 export const threadDetailsReducer = (state = initialState, action) => {
@@ -16,6 +31,8 @@ export const threadDetailsReducer = (state = initialState, action) => {
     case Actions.Thread.GET_THREAD:
       return {
         ...initialState,
+        acceptInterstitial: state.acceptInterstitial,
+        draftInProgress: { ...state.draftInProgress },
         ...action.payload,
       };
     case Actions.Thread.GET_MESSAGE_IN_THREAD: {
@@ -70,6 +87,10 @@ export const threadDetailsReducer = (state = initialState, action) => {
             lastSaveTime: Date.now(),
           },
         ],
+        draftInProgress: {
+          ...state.draftInProgress,
+          messageId: action.response.data.attributes.messageId,
+        },
         isSaving: false,
         saveError: null,
         lastSaveTime: Date.now(),
@@ -107,9 +128,38 @@ export const threadDetailsReducer = (state = initialState, action) => {
       };
     }
     case Actions.Thread.CLEAR_THREAD:
-      return initialState;
+      return {
+        ...initialState,
+        acceptInterstitial: state.acceptInterstitial,
+        draftInProgress: { ...state.draftInProgress },
+      };
     case Actions.Thread.CANNOT_REPLY_ALERT: {
       return { ...state, cannotReply: action.payload };
+    }
+
+    case Actions.Draft.UPDATE_DRAFT_IN_PROGRESS: {
+      return {
+        ...state,
+        draftInProgress: {
+          ...state.draftInProgress,
+          ...action.payload,
+        },
+      };
+    }
+
+    case Actions.Draft.CLEAR_DRAFT_IN_PROGRESS:
+      return {
+        ...state,
+        draftInProgress: {
+          ...initialState.draftInProgress,
+        },
+      };
+
+    case Actions.Draft.SET_ACCEPT_INTERSTITIAL: {
+      return {
+        ...state,
+        acceptInterstitial: action.payload,
+      };
     }
 
     default:

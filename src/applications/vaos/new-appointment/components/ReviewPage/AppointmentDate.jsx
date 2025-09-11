@@ -1,6 +1,7 @@
 import { formatInTimeZone } from 'date-fns-tz';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { DATE_FORMATS } from '../../../utils/constants';
 import {
   getTimezoneAbbrByFacilityId,
   getTimezoneByFacilityId,
@@ -29,7 +30,11 @@ export default function AppointmentDate({
           return (
             <React.Fragment key={index}>
               <span>
-                {formatInTimeZone(date, timezone, 'EEEE, MMMM d, yyyy')}
+                {formatInTimeZone(
+                  date,
+                  timezone,
+                  DATE_FORMATS.friendlyWeekdayDate,
+                )}
               </span>
               <br />
               <span>
@@ -44,8 +49,12 @@ export default function AppointmentDate({
 
   return dates?.map((date, i) => (
     <h3 key={i} className="vaos-appts__block-label">
-      {formatInTimeZone(date, timezone, "EEEE, MMMM d, yyyy 'at' h:mm aaaa ") +
-        getTimezoneAbbrByFacilityId(facilityId)}
+      {formatInTimeZone(
+        date,
+        timezone,
+        `${DATE_FORMATS.friendlyWeekdayDate} 'at' h:mm aaaa `,
+        getTimezoneAbbrByFacilityId(facilityId),
+      )}
     </h3>
   ));
 }

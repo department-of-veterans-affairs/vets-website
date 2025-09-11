@@ -7,12 +7,15 @@ export const Paths = {
   UI_MAIN: '/my-health/secure-messages',
   SM_API_BASE: '/my_health/v1/messaging',
   SM_API_EXTENDED: '/my_health/v1/messaging/messages',
+  UUM_API_BASE: '/my_health/v1/unique_user_metrics',
   INBOX: '/inbox/',
   SENT: '/sent/',
   DRAFTS: '/drafts/',
   DRAFT: '/draft/',
   DELETED: '/trash/',
   COMPOSE: '/new-message/',
+  START_MESSAGE: '/start-message',
+  SELECT_CARE_TEAM: '/select-care-team',
   MESSAGE: '/message/',
   MESSAGE_THREAD: '/thread/',
   FOLDERS: '/folders',
@@ -47,9 +50,10 @@ export const Paths = {
     MESSAGE_ALLRECIPIENTS: '/my_health/v1/messaging/allrecipients',
     MESSAGES: '/my_health/v1/messaging/messages',
     SELECTED_RECIPIENTS: `/my_health/v1/messaging/preferences/recipients`,
-    SENT_THREADS: '/my_health/v1/messaging/folders/-1/threads?*',
     MAINTENANCE_WINDOWS: `/v0/maintenance_windows/`,
     DRAFT_AUTO_SAVE: `/my_health/v1/messaging/message_drafts`,
+    SENT_THREADS: '/my_health/v1/messaging/folders/-1/threads*',
+    SENT_SEARCH: '/my_health/v1/messaging/folders/-1/search*',
   },
 };
 
@@ -96,6 +100,11 @@ export const Locators = {
   COMBO_BOX: '.usa-combo-box',
   SEARCH_RESULT: `[data-testid="search-messages"]`,
   PAGE_NOT_FOUND: `mhv-page-not-found`,
+  CARE_SYSTEM: '[data-testid^="care-system-"]',
+  EMERGENCY_USE_EXPANDABLE_DATA_TEST_ID: 'emergency-use-only-expandable',
+  RECENT_CARE_TEAMS_RADIO_GROUP_TEST_ID: 'recent-care-teams-radio-group',
+  RECENT_CARE_TEAMS_CONTINUE_BUTTON_DATA_TEST_ID:
+    'recent-care-teams-continue-button',
   FOLDERS: {
     FOLDER_NAME: '[label="Folder name"]',
     FOLDER_REMOVE: '[text="Yes, remove this folder"]',
@@ -161,6 +170,7 @@ export const Locators = {
   LINKS: {
     GO_TO_INBOX: '[data-testid="inbox-link"]',
     CREATE_NEW_MESSAGE: '[data-testid="compose-message-link"]',
+    CREATE_NEW_MESSAGE_DATA_TEST_ID: 'compose-message-link',
     CRUMB: 'ol[role="list"] > li',
     CRUMB_LIST: '[data-testid="sm-breadcrumbs"]',
     CRUMB_BACK: '[data-testid="sm-breadcrumbs-back"]',
@@ -382,6 +392,7 @@ export const Data = {
   CONTINUE_EDITING: 'Continue editing',
   MESSAGE_MOVED_TO_TRASH:
     'Message conversation was successfully moved to Trash.',
+  MESSAGE_SENT: `Message Sent.`,
   TEST_VIDEO: 'test_video.mp4',
   CREATE_FOLDER_TEST: 'create folder test',
   IS_ACTIVE: 'is-active',
@@ -393,8 +404,9 @@ export const Data = {
     "You can't send messages to your care teams right now",
   REMOVE_FOLDER: 'Remove folder',
   CANNOT_REMOVE_FOLDER: `You can't remove a folder with messages in it. Move all the messages to another folder. Then try removing it again.`,
-  HCS_SELECT: `Which VA health care system do you want to send a message to?`,
+  HCS_SELECT: `Select care team`,
   REPLY_HEADER: `Only use messages for non-urgent needs`,
+  RECENT_RECIPIENTS_LABEL: `Select a team from those you've sent messages to in the past 6 months. Or select "A different care team" to find another team.`,
   ATTACH_INFO: [
     'You may attach up to 4 files to each message',
     'You can attach only these file types: doc, docx, gif, jpg, pdf, png, rtf, txt, xls, xlsx, jpeg, jfif, pjpeg, pjp',
@@ -417,6 +429,11 @@ export const Data = {
   EDIT_SIGNATURE: `Edit signature for all messages`,
   READ_RECEIPT: `Opened by your care team`,
   UNREAD_RECEIPT: `Not yet opened by your care team`,
+  CURATED_LIST: {
+    CANT_FIND_TEAM: `What to do if you can’t find your care team`,
+    CONTACT_LIST_UPDATE: `Update your contact list`,
+    SELECT_CARE_TEAM: `Select a different care team`,
+  },
   BUTTONS: {
     ATTACH_FILE: 'Attach file',
     SEND: `Send`,
@@ -435,6 +452,10 @@ export const Data = {
   },
   LINKS: {
     PROFILE_SIGNATURE: `/profile/personal-information#messaging-signature`,
+    HOME: '/my-health/secure-messages/',
+    CONTACT_LIST: '/my-health/secure-messages/contact-list/',
+    SELECT_CARE_TEAM: '/my-health/secure-messages/new-message/select-care-team',
+    CARE_TEAM_HELP: '/my-health/secure-messages/new-message/care-team-help',
   },
   CL_LINK_TEXT: 'Show more teams in your contact list',
   URL: {

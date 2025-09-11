@@ -12,7 +12,7 @@ import {
   isInPersonVisit,
   isVAPhoneAppointment,
 } from '../../../services/appointment';
-import { FETCH_STATUS } from '../../../utils/constants';
+import { FETCH_STATUS, DATE_FORMATS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import AppointmentDetailsErrorMessage from '../../components/AppointmentDetailsErrorMessage';
 import PageLayout from '../../components/PageLayout';
@@ -90,7 +90,7 @@ export default function UpcomingAppointmentsDetailsPage() {
         document.title = `${pageTitle} ${formatInTimeZone(
           appointment.start,
           appointment.timezone,
-          'EEEE, MMMM d, yyyy',
+          DATE_FORMATS.friendlyWeekdayDate,
         )} | Veterans Affairs`;
         scrollAndFocus();
       }

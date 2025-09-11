@@ -41,29 +41,32 @@ export const advanceToDependents = () => {
 
 export const advanceFromDependentsToReview = testData => {
   goToNextPage('/household-information/veteran-annual-income');
-  cy.get('[name="root_view:veteranGrossIncome_veteranGrossIncome"]').type(
+  fillTextWebComponent(
+    'view:veteranGrossIncome_veteranGrossIncome',
     testData['view:veteranGrossIncome'].veteranGrossIncome,
   );
-  cy.get('[name="root_view:veteranNetIncome_veteranNetIncome"]').type(
+  fillTextWebComponent(
+    'view:veteranNetIncome_veteranNetIncome',
     testData['view:veteranNetIncome'].veteranNetIncome,
   );
-  cy.get('[name="root_view:veteranOtherIncome_veteranOtherIncome"]').type(
+  fillTextWebComponent(
+    'view:veteranOtherIncome_veteranOtherIncome',
     testData['view:veteranOtherIncome'].veteranOtherIncome,
   );
 
   goToNextPage('/household-information/deductible-expenses');
-  cy.get(
-    '[name="root_view:deductibleMedicalExpenses_deductibleMedicalExpenses',
-  ).type(testData['view:deductibleMedicalExpenses'].deductibleMedicalExpenses);
-  cy.get(
-    '[name="root_view:deductibleEducationExpenses_deductibleEducationExpenses',
-  ).type(
+  fillTextWebComponent(
+    'view:deductibleMedicalExpenses_deductibleMedicalExpenses',
+    testData['view:deductibleMedicalExpenses'].deductibleMedicalExpenses,
+  );
+  fillTextWebComponent(
+    'view:deductibleEducationExpenses_deductibleEducationExpenses',
     testData['view:deductibleEducationExpenses'].deductibleEducationExpenses,
   );
-  cy.get(
-    '[name="root_view:deductibleFuneralExpenses_deductibleFuneralExpenses',
-  ).type(testData['view:deductibleFuneralExpenses'].deductibleFuneralExpenses);
-
+  fillTextWebComponent(
+    'view:deductibleFuneralExpenses_deductibleFuneralExpenses',
+    testData['view:deductibleFuneralExpenses'].deductibleFuneralExpenses,
+  );
   goToNextPage('/insurance-information/medicaid-eligibility');
   selectYesNoWebComponent('view:isMedicaidEligible_isMedicaidEligible', false);
 
@@ -127,14 +130,15 @@ export const fillDependentInformation = (dependent, showIncomePages) => {
   // We only display the income and deductible expense pages if the dependent earned reportable income
   if (showIncomePages) {
     // fill income
-    cy.get('[name="root_view:grossIncome_grossIncome"]').type(grossIncome);
-    cy.get('[name="root_view:netIncome_netIncome"]').type(netIncome);
-    cy.get('[name="root_view:otherIncome_otherIncome"]').type(otherIncome);
+    fillTextWebComponent('view:grossIncome_grossIncome', grossIncome);
+    fillTextWebComponent('view:netIncome_netIncome', netIncome);
+    fillTextWebComponent('view:otherIncome_otherIncome', otherIncome);
     cy.injectAxeThenAxeCheck();
     goToNextPage();
     // fill educational expenses
     selectYesNoWebComponent('attendedSchoolLastYear', attendedSchoolLastYear);
-    cy.get('[name="root_dependentEducationExpenses"]').type(
+    fillTextWebComponent(
+      'dependentEducationExpenses',
       dependentEducationExpenses,
     );
     cy.injectAxeThenAxeCheck();

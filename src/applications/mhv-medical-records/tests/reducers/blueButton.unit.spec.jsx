@@ -272,6 +272,22 @@ describe('convertAccountSummary', () => {
     expect(convertAccountSummary(undefined)).to.be.null;
   });
 
+  it('should correctly handle null or undefined facilities edge case', () => {
+    const data = {
+      facilities: null,
+      ipas: [
+        {
+          status: 'Active',
+          authenticationDate: '2021-05-01',
+          authenticatingFacilityId: '123',
+        },
+      ],
+    };
+    const result = convertAccountSummary(data);
+    // Ensure result.vaTreatmentFacilities only contains facilities where treatment is true
+    expect(result.vaTreatmentFacilities).to.have.lengthOf(0);
+  });
+
   it('should correctly convert exclude facility with null facilityInfo', () => {
     const data = {
       facilities: [

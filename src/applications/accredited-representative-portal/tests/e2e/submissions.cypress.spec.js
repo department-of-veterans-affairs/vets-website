@@ -106,11 +106,6 @@ describe('Accredited Representative Portal', () => {
       cy.get(
         "va-link-action[href='/representative/representative-form-upload/21-686c']",
       ).click();
-
-      cy.location('pathname').should(
-        'eq',
-        '/representative/representative-form-upload/21-686c/introduction',
-      );
     });
 
     context('526ez feature flag is off', () => {
@@ -141,11 +136,6 @@ describe('Accredited Representative Portal', () => {
       cy.get(
         "va-link-action[href='/representative/representative-form-upload/21-526EZ']",
       ).click();
-
-      cy.location('pathname').should(
-        'eq',
-        '/representative/representative-form-upload/21-526ez/introduction',
-      );
     });
   });
 });

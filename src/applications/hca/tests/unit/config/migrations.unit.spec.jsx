@@ -285,7 +285,7 @@ describe('hca migrations', () => {
       const { formData, metadata } = migration(data);
       expect(formData.veteranAddress).to.eql({});
       expect(metadata.returnUrl).to.equal(
-        'veteran-information/veteran-address',
+        '/veteran-information/veteran-address',
       );
     });
   });
@@ -332,6 +332,18 @@ describe('hca migrations', () => {
     it('should update the `va-facility` return URL to remove the `-api` reference', () => {
       const returnUrl = '/insurance-information/va-facility-api';
       const desiredUrl = '/insurance-information/va-facility';
+      const data = { formData: {}, metadata: { returnUrl } };
+      const { metadata } = migration(data);
+      expect(metadata.returnUrl).to.eq(desiredUrl);
+    });
+  });
+
+  context('when v9 migration runs', () => {
+    const migration = migrations[8];
+
+    it('should update the return URL to point to the new insurance policies page', () => {
+      const returnUrl = '/insurance-information/general';
+      const desiredUrl = '/insurance-information/health-insurance';
       const data = { formData: {}, metadata: { returnUrl } };
       const { metadata } = migration(data);
       expect(metadata.returnUrl).to.eq(desiredUrl);
