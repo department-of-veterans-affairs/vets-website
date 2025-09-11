@@ -331,6 +331,12 @@ class PatientInboxPage {
     cy.findByTestId(Locators.BUTTONS.CONTINUE).click();
   };
 
+  clickCreateNewMessage = () => {
+    cy.findByTestId(Locators.LINKS.CREATE_NEW_MESSAGE_DATA_TEST_ID).click({
+      force: true,
+    });
+  };
+
   navigateToComposePage = (checkFocusOnVcl = false) => {
     cy.intercept(
       'GET',
@@ -342,7 +348,7 @@ class PatientInboxPage {
       `sentThreadsResponse`,
     );
 
-    cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click({ force: true });
+    this.clickCreateNewMessage();
     // cy.wait('@signature');
     if (checkFocusOnVcl) {
       PatientInterstitialPage.CheckFocusOnVcl();
@@ -356,7 +362,9 @@ class PatientInboxPage {
       Paths.SM_API_EXTENDED + Paths.SIGNATURE,
       mockSignature,
     ).as('signature');
-    cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click({ force: true });
+    cy.findByTestId(Locators.LINKS.CREATE_NEW_MESSAGE_DATA_TEST_ID).click({
+      force: true,
+    });
     cy.wait('@signature');
   };
 

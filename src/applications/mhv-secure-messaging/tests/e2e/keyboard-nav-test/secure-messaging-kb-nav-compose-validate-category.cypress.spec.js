@@ -9,7 +9,7 @@ describe('Validate the category', () => {
   it('verify category dropdown is keyboard accessible', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
-    cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click();
+    cy.findByTestId(Locators.LINKS.CREATE_NEW_MESSAGE_DATA_TEST_ID).click();
     PatientInterstitialPage.getContinueButton().click();
     GeneralFunctionsPage.verifyHeaderFocused();
 
