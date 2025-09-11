@@ -6,18 +6,77 @@ import { setBreadcrumbs } from '../../actions/breadcrumbs';
 import * as Constants from '../../util/constants';
 import { navigateToFolderByFolderId } from '../../util/helpers';
 
+// Memoize static arrays to prevent unnecessary re-renders
+const PATHS_WITH_SHORT_BREADCRUMB = [
+  Constants.Paths.MESSAGE_THREAD,
+  Constants.Paths.REPLY,
+  Constants.Paths.COMPOSE,
+  `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_HEALTH_CARE_SYSTEM}/`,
+  `${Constants.Paths.COMPOSE}${Constants.Paths.START_MESSAGE}/`,
+  Constants.Paths.CONTACT_LIST,
+  `${Constants.Paths.CARE_TEAM_HELP}/`,
+  Constants.Paths.DRAFTS,
+  Constants.Paths.DELETED,
+];
+
+const PATHS_WITH_BACK_BREADCRUMB = [
+  Constants.Paths.COMPOSE,
+  `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_HEALTH_CARE_SYSTEM}/`,
+  `${Constants.Paths.COMPOSE}${Constants.Paths.START_MESSAGE}/`,
+  Constants.Paths.CONTACT_LIST,
+  `${Constants.Paths.CARE_TEAM_HELP}/`,
+  Constants.Paths.DRAFTS,
+  Constants.Paths.DELETED,
+];
+
 const SmBreadcrumbs = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
-  const activeFolder = useSelector(state => state.sm.folders.folder);
-  const folderList = useSelector(state => state.sm.folders.folderList);
-  const crumb = useSelector(state => state.sm.breadcrumbs.list);
-  const crumbsList = useSelector(state => state.sm.breadcrumbs.crumbsList);
-  const previousUrl = useSelector(state => state.sm.breadcrumbs.previousUrl);
-  const activeDraftId = useSelector(
-    state => state.sm.threadDetails?.drafts?.[0]?.messageId,
-  );
+
+  // Debug: Track re-renders and what causes them
+  const renderCount = useRef(0);
+  const prevProps = useRef({});
+
+  // Track render causes (remove this in production)
+  useEffect(() => {
+    renderCount.current += 1;
+    const currentProps = {
+      pathname: location.pathname,
+      search: location.search,
+      hash: location.hash,
+    };
+
+    const changes = Object.keys(currentProps).filter(
+      key => currentProps[key] !== prevProps.current[key],
+    );
+
+    // eslint-disable-next-line no-console
+    console.log(`🔄 SmBreadcrumbs render #${renderCount.current}`, {
+      changes: changes.length > 0 ? changes : 'props unchanged',
+      currentProps,
+      prevProps: prevProps.current,
+    });
+
+    prevProps.current = currentProps;
+  });
+
+  // Combine selectors to reduce the number of subscriptions
+  const {
+    activeFolder,
+    folderList,
+    crumb,
+    crumbsList,
+    previousUrl,
+    activeDraftId,
+  } = useSelector(state => ({
+    activeFolder: state.sm.folders.folder,
+    folderList: state.sm.folders.folderList,
+    crumb: state.sm.breadcrumbs.list,
+    crumbsList: state.sm.breadcrumbs.crumbsList,
+    previousUrl: state.sm.breadcrumbs.previousUrl,
+    activeDraftId: state.sm.threadDetails?.drafts?.[0]?.messageId,
+  }));
 
   const previousPath = useRef(null);
 
@@ -27,7 +86,7 @@ const SmBreadcrumbs = () => {
       if (pathElements[0] === '') pathElements.shift();
       return pathElements;
     },
-    [location],
+    [location.pathname], // Use pathname specifically instead of entire location object
   );
 
   const newCrumbsList = useMemo(
@@ -44,39 +103,35 @@ const SmBreadcrumbs = () => {
     [crumbsList],
   );
 
-  const pathsWithShortBreadcrumb = [
-    Constants.Paths.MESSAGE_THREAD,
-    Constants.Paths.REPLY,
-    Constants.Paths.COMPOSE,
-    `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_HEALTH_CARE_SYSTEM}/`,
-    `${Constants.Paths.COMPOSE}${Constants.Paths.START_MESSAGE}/`,
-    Constants.Paths.CONTACT_LIST,
-    `${Constants.Paths.CARE_TEAM_HELP}/`,
-    Constants.Paths.DRAFTS,
-    Constants.Paths.DELETED,
-    `${Constants.Paths.FOLDERS}${locationChildPath}/`,
-    `${Constants.Paths.MESSAGE_THREAD}${locationChildPath}/`,
-    `${Constants.Paths.REPLY}${locationChildPath}/`,
-  ];
+  // Memoize path computations to prevent recalculation
+  const { shortenBreadcrumb, backBreadcrumb } = useMemo(
+    () => {
+      const path = `/${locationBasePath}/${
+        locationChildPath ? `${locationChildPath}/` : ''
+      }`;
 
-  const pathsWithBackBreadcrumb = [
-    Constants.Paths.COMPOSE,
-    `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_HEALTH_CARE_SYSTEM}/`,
-    `${Constants.Paths.COMPOSE}${Constants.Paths.START_MESSAGE}/`,
-    Constants.Paths.CONTACT_LIST,
-    `${Constants.Paths.CARE_TEAM_HELP}/`,
-    Constants.Paths.DRAFTS,
-    Constants.Paths.DELETED,
-    `${Constants.Paths.FOLDERS}${locationChildPath}/`,
-    `${Constants.Paths.MESSAGE_THREAD}${locationChildPath}/`,
-    `${Constants.Paths.REPLY}${locationChildPath}/`,
-  ];
+      // Create the actual paths with dynamic values
+      const dynamicShortPaths = [
+        ...PATHS_WITH_SHORT_BREADCRUMB,
+        `${Constants.Paths.FOLDERS}${locationChildPath}/`,
+        `${Constants.Paths.MESSAGE_THREAD}${locationChildPath}/`,
+        `${Constants.Paths.REPLY}${locationChildPath}/`,
+      ];
 
-  const crumbPath = `/${locationBasePath}/${
-    locationChildPath ? `${locationChildPath}/` : ''
-  }`;
-  const shortenBreadcrumb = pathsWithShortBreadcrumb.includes(crumbPath);
-  const backBreadcrumb = pathsWithBackBreadcrumb.includes(crumbPath);
+      const dynamicBackPaths = [
+        ...PATHS_WITH_BACK_BREADCRUMB,
+        `${Constants.Paths.FOLDERS}${locationChildPath}/`,
+        `${Constants.Paths.MESSAGE_THREAD}${locationChildPath}/`,
+        `${Constants.Paths.REPLY}${locationChildPath}/`,
+      ];
+
+      return {
+        shortenBreadcrumb: dynamicShortPaths.includes(path),
+        backBreadcrumb: dynamicBackPaths.includes(path),
+      };
+    },
+    [locationBasePath, locationChildPath],
+  );
 
   const navigateBack = useCallback(
     () => {
@@ -211,10 +266,13 @@ const SmBreadcrumbs = () => {
     [activeFolder, dispatch, locationBasePath, locationChildPath, folderList],
   );
 
-  const handleRouteChange = ({ detail }) => {
-    const { href } = detail;
-    history.push(href);
-  };
+  const handleRouteChange = useCallback(
+    ({ detail }) => {
+      const { href } = detail;
+      history.push(href);
+    },
+    [history],
+  );
 
   return (
     <div>
