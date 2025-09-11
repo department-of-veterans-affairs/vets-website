@@ -6,6 +6,7 @@ const CONVERSATION_ID_KEY = `${BOT_SESSION_PREFIX}conversationId`;
 const IS_TRACKING_UTTERANCES = `${BOT_SESSION_PREFIX}isTrackingUtterances`;
 const TOKEN_KEY = `${BOT_SESSION_PREFIX}token`;
 const SKILL_EVENT_VALUE = `${BOT_SESSION_PREFIX}skillEventValue`;
+const FIRST_CONNECTION = `${BOT_SESSION_PREFIX}firstConnection`;
 
 function setStorageItem(key, value, json = false) {
   if (json) {
@@ -78,21 +79,25 @@ export function setTokenKey(value) {
   setStorageItem(TOKEN_KEY, value);
 }
 
+export function getFirstConnection() {
+  return getStorageItem(FIRST_CONNECTION);
+}
+
+export function setFirstConnection(value) {
+  setStorageItem(FIRST_CONNECTION, value);
+}
+
 export function clearBotSessionStorage(forceClear) {
   const botSessionKeys = Object.keys(sessionStorage);
   const loggedInFlow = getLoggedInFlow();
   const inAuthExp = getInAuthExp();
   const expectToClear = loggedInFlow !== 'true' && inAuthExp !== 'true';
-  const excludeClear = [];
+  const excludeClear = [FIRST_CONNECTION, CONVERSATION_ID_KEY, TOKEN_KEY];
 
   // capture the canceled login scenarios [issue #479]
   if (!forceClear && loggedInFlow === 'true' && inAuthExp !== 'true') {
     excludeClear.push(LOGGED_IN_FLOW);
     excludeClear.push(RECENT_UTTERANCES);
-    // in most scenarios, these will be reset anyway,
-    // but preserved here for edge cases.
-    excludeClear.push(CONVERSATION_ID_KEY);
-    excludeClear.push(TOKEN_KEY);
   }
 
   if (forceClear || expectToClear || !!excludeClear.length) {

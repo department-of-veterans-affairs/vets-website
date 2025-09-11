@@ -5,6 +5,8 @@ import { logErrorToDatadog } from '../utils/logging';
 import retryOnce from '../utils/retryOnce';
 import {
   clearBotSessionStorage,
+  getConversationIdKey,
+  getTokenKey,
   setConversationIdKey,
   setTokenKey,
 } from '../utils/sessionStorage';
@@ -17,9 +19,13 @@ async function getToken(setToken, setCode, setLoadingStatus) {
       });
     });
 
-    setConversationIdKey(response.conversationId);
-    setTokenKey(response.token);
-    setToken(response.token);
+    const conversationId = getConversationIdKey();
+    const tokenKey = getTokenKey();
+    if (!conversationId || !tokenKey) {
+      setConversationIdKey(response.conversationId);
+      setTokenKey(response.token);
+      setToken(response.token);
+    }
     setCode(response.code);
     setLoadingStatus(COMPLETE);
   } catch (ex) {
@@ -29,18 +35,15 @@ async function getToken(setToken, setCode, setLoadingStatus) {
   }
 }
 
-export default function useChatbotToken(props) {
+export default function useChatbotToken() {
   const [token, setToken] = useState('');
   const [code, setCode] = useState('');
   const [loadingStatus, setLoadingStatus] = useState(LOADING);
 
-  useEffect(
-    () => {
-      clearBotSessionStorage();
-      getToken(setToken, setCode, setLoadingStatus);
-    },
-    [props],
-  );
+  useEffect(() => {
+    clearBotSessionStorage();
+    getToken(setToken, setCode, setLoadingStatus);
+  }, []);
 
   return { token, code, loadingStatus };
 }
