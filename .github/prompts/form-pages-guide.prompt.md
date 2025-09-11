@@ -334,7 +334,7 @@ yourDocument: fileInputUI({
   required: true,
 }) + fileInputSchema(),
 
-// fileInputUI - STANDARD use case - with backend
+// fileInputUI - STANDARD use case - with placeholder backend
 yourDocument: fileInputUI({
   title: 'Upload evidence',
   required: true,
@@ -350,7 +350,7 @@ yourDocument: fileInputUI({
   minFileSize: 1,
 }) + fileInputSchema(),
 
-// fileInputUI - WITH EXTRA PROPERTIES use case - with backend
+// fileInputUI - WITH EXTRA PROPERTIES use case - with placeholder backend
 yourDocument: fileInputUI({
   title: 'Upload evidence',
   required: true,
@@ -398,7 +398,7 @@ financialHardshipDocuments: fileInputMultipleUI({
   required: true,
 }) + fileInputMultipleSchema(),
 
-// fileInputMultipleUI - STANDARD use case - with backend
+// fileInputMultipleUI - STANDARD use case - with placeholder backend
 financialHardshipDocuments: fileInputMultipleUI({
   title: 'Upload additional evidence',
   required: true,
@@ -415,7 +415,7 @@ financialHardshipDocuments: fileInputMultipleUI({
   minFileSize: 1,
 }) + fileInputMultipleSchema(),
 
-// fileInputMultipleUI - WITH EXTRA PROPERTIES use case - with backend
+// fileInputMultipleUI - WITH EXTRA PROPERTIES use case - with placeholder backend
 financialHardshipDocuments: fileInputMultipleUI({
   title: 'Upload additional evidence',
   required: true,
