@@ -281,6 +281,8 @@ const {
   cardTitle: 'Sample of Original Medicare card',
   frontLabel: 'Upload front of Original Medicare card',
   backLabel: 'Upload back of Original Medicare card',
+  frontAttachmentId: 'Front of Medicare Parts A or B card',
+  backAttachmentId: 'Back of Medicare Parts A or B card',
 });
 
 // Define the Medicare A/B card upload page using the generic schema
@@ -354,6 +356,8 @@ const {
   cardTitle: 'Sample of Medicare Part A card',
   frontLabel: 'Upload front of Part A Medicare card',
   backLabel: 'Upload back of Part A Medicare card',
+  frontAttachmentId: 'Front of Medicare Part A card',
+  backAttachmentId: 'Back of Medicare Part A card',
 });
 
 // Define the Medicare Part A card upload page using the generic schema
@@ -421,6 +425,8 @@ const {
   cardTitle: 'Sample of Medicare Part B card',
   frontLabel: 'Upload front of Part B Medicare card',
   backLabel: 'Upload back of Part B Medicare card',
+  frontAttachmentId: 'Front of Medicare Part B card',
+  backAttachmentId: 'Back of Medicare Part B card',
 });
 
 // Define the Medicare Part B card upload page using the generic schema
