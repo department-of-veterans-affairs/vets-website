@@ -361,6 +361,9 @@ describe('App', () => {
       featureToggles: {},
     };
     customState.featureToggles[
+      FEATURE_FLAG_NAMES.mhvSecureMessagingRecentRecipients
+    ] = true;
+    customState.featureToggles[
       FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow
     ] = true;
 
