@@ -6,7 +6,7 @@ import mockFoldersResponse from './fixtures/folder-response.json';
 import createdFolderResponse from './fixtures/customResponse/created-folder-response.json';
 import { AXE_CONTEXT } from './utils/constants';
 
-describe('Secure Messaging Move Message tests', () => {
+describe('Secure Messaging Move Message to New Folder tests', () => {
   it(`move message from inbox to new folder`, () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();

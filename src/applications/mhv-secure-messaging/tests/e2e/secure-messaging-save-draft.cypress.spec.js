@@ -75,7 +75,11 @@ describe('save draft feature tests', () => {
       mockDraftsResponse,
     ).as('reFetchResponse');
 
-    cy.get(Locators.LINKS.CRUMBS_BACK).click();
+    cy.findByTestId('sm-breadcrumbs-back').scrollIntoView({
+      waitForAnimation: true,
+    });
+    cy.findByTestId('sm-breadcrumbs-back').click({ force: true });
+
     cy.wait('@reFetchResponse').then(interception => {
       expect(interception.response.statusCode).to.equal(200);
     });
