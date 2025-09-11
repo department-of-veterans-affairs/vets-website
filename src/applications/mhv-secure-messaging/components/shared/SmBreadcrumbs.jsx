@@ -233,7 +233,6 @@ const SmBreadcrumbs = () => {
                   e.preventDefault();
                   navigateBack();
                 }}
-                className="vads-u-font-size--md"
                 data-testid="sm-breadcrumbs-back"
                 data-dd-action-name="Breadcrumb - Back"
               />
@@ -241,7 +240,6 @@ const SmBreadcrumbs = () => {
               <va-link
                 text={`Back to ${crumb.label}`}
                 href={crumb.href}
-                className="vads-u-font-size--md"
                 data-dd-privacy="mask"
                 data-dd-action-name="Breadcrumb - Back to"
               />

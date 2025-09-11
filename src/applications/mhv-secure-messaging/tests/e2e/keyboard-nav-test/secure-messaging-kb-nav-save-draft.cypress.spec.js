@@ -24,6 +24,7 @@ describe('SM SAVING DRAFT BY KEYBOARD', () => {
     PatientMessageDraftsPage.verifySavedMessageAlertText();
 
     cy.findByTestId('sm-breadcrumbs-back')
+      .should('have.class', 'hydrated')
       .should('be.visible')
       .click();
 
