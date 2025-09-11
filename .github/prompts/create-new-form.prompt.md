@@ -180,8 +180,3 @@ After running the generator, you will have:
 ### Common Issues
 1. **Folder already exists**: Use `--force` flag or choose different folderName
 2. **Invalid URL path**: Ensure rootUrl starts with "/" and is unique
-3. **Generator not found**: Run `npm install -g @department-of-veterans-affairs/generator-vets-website`
-
-### Validation
-- Check `src/applications/manifest-catalog.json` for entry
-- Test development server: `yarn watch --env entry=[entryName]`
