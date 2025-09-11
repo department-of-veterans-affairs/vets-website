@@ -23,6 +23,10 @@ describe('SM SAVING DRAFT BY KEYBOARD', () => {
 
     PatientMessageDraftsPage.verifySavedMessageAlertText();
 
+    // Wait for the breadcrumb element to be fully loaded and visible
+    cy.findByTestId('sm-breadcrumbs-back').scrollIntoView({
+      waitForAnimation: true,
+    });
     cy.findByTestId('sm-breadcrumbs-back')
       .should('have.class', 'hydrated')
       .should('be.visible')
