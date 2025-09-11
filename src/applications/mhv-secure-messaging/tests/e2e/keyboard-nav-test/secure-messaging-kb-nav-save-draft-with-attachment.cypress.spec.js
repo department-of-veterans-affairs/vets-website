@@ -5,8 +5,8 @@ import PatientMessageDraftsPage from '../pages/PatientMessageDraftsPage';
 import requestBody from '../fixtures/message-compose-request-body.json';
 import { AXE_CONTEXT } from '../utils/constants';
 
-describe.skip('SM SAVING DRAFT WITH ATTACHMENT BY KEYBOARD', () => {
-  it('verify draft saved without attachment', () => {
+describe('SM SAVING DRAFT WITH ATTACHMENT BY KEYBOARD', () => {
+  it.skip('verify draft saved without attachment', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
 
