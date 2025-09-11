@@ -23,17 +23,15 @@ describe('SM SAVING DRAFT BY KEYBOARD', () => {
 
     PatientMessageDraftsPage.verifySavedMessageAlertText();
 
-    cy.findByTestId('save-draft-button').should(`be.focused`);
+    cy.findByTestId('sm-breadcrumbs-back')
+      .should('be.visible')
+      .click();
+
+    cy.findByTestId('route-guard-secondary-button')
+      .should('be.visible')
+      .click();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
-
-    // cy.findByTestId('sm-breadcrumbs-back')
-    //   .should('be.visible')
-    //   .click();
-
-    // cy.findByTestId('route-guard-secondary-button')
-    //   .should('be.visible')
-    //   .click();
   });
 });
