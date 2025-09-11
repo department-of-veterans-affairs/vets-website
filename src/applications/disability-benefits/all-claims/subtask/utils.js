@@ -7,7 +7,7 @@ export const dateTemplate = 'YYYY-MM-DD';
 const getToday = () => parseDate(daysFromToday(0));
 export const maxDate = getToday()
   .add(100, 'years')
-  .format();
+  .formatDate();
 
 export const getDate = date => parseDateWithTemplate(date);
 export const isDateComplete = date => date?.length === dateTemplate.length;

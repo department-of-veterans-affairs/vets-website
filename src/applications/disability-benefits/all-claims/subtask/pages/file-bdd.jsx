@@ -28,7 +28,7 @@ const FileBDDClaim = ({ data = {} }) => {
 
   const dateOfLastBDDEligibility = getToday()
     .add(daysRemainingToFileBDD, 'days')
-    .format();
+    .formatDate();
   const daysLeft = `day${daysRemainingToFileBDD > 1 ? 's' : ''} left`;
 
   return (
