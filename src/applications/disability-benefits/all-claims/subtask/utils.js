@@ -11,16 +11,8 @@ export const maxDate = getToday()
 
 export const getDate = date => parseDateWithTemplate(date);
 export const isDateComplete = date => date?.length === dateTemplate.length;
-export const isDateInFuture = date => {
-  const dateObj = getDate(date);
-  const today = getDate(daysFromToday(0));
-  return dateObj && dateObj.diff(today) > 0;
-};
-
-export const isDateLessThanMax = date => {
-  const dateObj = getDate(date);
-  return dateObj && dateObj.isBefore(maxDate);
-};
+export const isDateInFuture = date => date?.diff(getToday()) > 0;
+export const isDateLessThanMax = date => date?.isBefore(maxDate);
 
 export const isValidDate = date => {
   if (date && isDateComplete(date)) {
