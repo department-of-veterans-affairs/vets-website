@@ -120,17 +120,25 @@ export const DEFAULT_ARRAY_BUILDER_TEXT = {
 
   duplicateModalTitle: props => 'Potential duplicate',
   duplicateModalDescription: props =>
-    `You’ve entered multiple ${props.nounPlural} with this information`,
+    `You’ve entered multiple ${
+      props.nounPlural
+    } with this information. Are you adding a different ${
+      props.nounSingular
+    }, or is this a duplicate?`,
   duplicateModalExternalComparisonDescription: props =>
     `We checked your VA records and found another ${
       props.nounSingular
-    } already on file`,
-  duplicateModalExternalComparisonPrimaryButtonText: props => 'No, cancel',
+    } already on file. Are you adding a different ${
+      props.nounSingular
+    }, or is this a duplicate?`,
+  duplicateModalExternalComparisonPrimaryButtonText: props =>
+    'Don’t add, it’s a duplicate',
   duplicateModalExternalComparisonSecondaryButtonText: props =>
-    'Yes, save and continue',
-  duplicateModalExternalComparisonTitle: props => 'Is this a duplicate?',
-  duplicateModalPrimaryButtonText: props => 'No, cancel',
-  duplicateModalSecondaryButtonText: props => 'Yes, save and continue',
+    `Add, it’s a different ${props.nounSingular}`,
+  duplicateModalExternalComparisonTitle: props => 'Potential duplicate',
+  duplicateModalPrimaryButtonText: props => 'Don’t add, it’s a duplicate',
+  duplicateModalSecondaryButtonText: props =>
+    `Add, it’s a different ${props.nounSingular}`,
 
   duplicateSummaryCardLabel: props => 'POSSIBLE DUPLICATE',
 
