@@ -113,7 +113,7 @@ const testConfig = createTestConfig(
             cy.fillVaMemorableDate('root_dateRange_from', '1997-01-03');
 
             cy.get('va-button[continue]').click();
-            testModal('first', 'Is this a duplicate?');
+            testModal('first', 'Potential duplicate');
             cy.get(`va-card va-alert`).should('not.exist');
 
             // Should be able to submit
