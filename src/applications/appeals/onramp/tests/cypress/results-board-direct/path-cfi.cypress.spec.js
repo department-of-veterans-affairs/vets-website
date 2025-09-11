@@ -27,7 +27,7 @@ const { RESULTS_2_H_2B_2B } = RESULTS_NAME_MAP;
 // 2.0 - HLR
 // 2.H.2 - No
 // 2.H.2B - No
-xdescribe('Decision Reviews Onramp', () => {
+describe('Decision Reviews Onramp', () => {
   describe('Results Board Direct (CFI)', () => {
     it('navigates through the flow forward and backward successfully', () => {
       cy.visit(h.ROOT);
@@ -90,28 +90,29 @@ xdescribe('Decision Reviews Onramp', () => {
         {
           type: c.CARD_BOARD_DIRECT,
           content: [
-            c.CARD_REVIEW_HLR,
-            c.CARD_NO_NEW_EVIDENCE,
-            c.CARD_NO_HEARING,
+            c.CARD_GF_REVIEW_HLR,
+            c.CARD_GF_NO_EVIDENCE,
+            c.CARD_GF_NO_HEARING,
           ],
         },
       ]);
+      h.verifyClaimForIncreaseCardPresent();
       h.checkNotGoodFitCards([
         {
           type: c.CARD_SC,
-          content: [c.CARD_NEED_EVIDENCE],
+          content: [c.CARD_NGF_NEED_EVIDENCE],
         },
         {
           type: c.CARD_HLR,
-          content: [c.CARD_HLR_NOT_AVAILABLE],
+          content: [c.CARD_NGF_HLR_NOT_AVAILABLE],
         },
         {
           type: c.CARD_BOARD_EVIDENCE,
-          content: [c.CARD_RECEIVED_BOARD_DECISION, c.CARD_NEED_EVIDENCE],
+          content: [c.CARD_NGF_NEED_EVIDENCE],
         },
         {
           type: c.CARD_BOARD_HEARING,
-          content: [c.CARD_RECEIVED_BOARD_DECISION, c.CARD_HEARING_NOT_DESIRED],
+          content: [c.CARD_NGF_HEARING_NOT_DESIRED],
         },
       ]);
       h.verifyOutsideDROptionNotPresent();

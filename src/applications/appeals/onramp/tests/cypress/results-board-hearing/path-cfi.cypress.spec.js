@@ -27,7 +27,7 @@ const { RESULTS_2_H_2B_1A } = RESULTS_NAME_MAP;
 // 2.0 - HLR
 // 2.H.2 - Yes
 // 2.H.2A - Yes
-xdescribe('Decision Reviews Onramp', () => {
+describe('Decision Reviews Onramp', () => {
   describe('Results Board Hearing (CFI)', () => {
     it('navigates through the flow forward and backward successfully', () => {
       cy.visit(h.ROOT);
@@ -85,44 +85,36 @@ xdescribe('Decision Reviews Onramp', () => {
       // RESULTS
       h.verifyUrl(ROUTES.RESULTS);
       h.verifyDrResultsHeader(RESULTS_2_H_2B_1A);
-      h.checkOverviewPanel(
-        [c.TITLE_SC, c.TITLE_BOARD_EVIDENCE, c.TITLE_BOARD_HEARING],
-        true,
-      );
+      h.checkOverviewPanel([c.TITLE_BOARD_HEARING], true);
       h.checkGoodFitCards([
         {
-          type: c.CARD_SC,
+          type: c.CARD_BOARD_HEARING,
           content: [
-            c.CARD_REVIEW_HLR,
-            c.CARD_NEW_EVIDENCE,
-            c.CARD_NOT_CONTESTED,
-            c.CARD_SUBMITTED_BOARD_APPEAL,
+            c.CARD_GF_REVIEW_HLR,
+            c.CARD_GF_YES_EVIDENCE,
+            c.CARD_GF_YES_HEARING,
           ],
         },
-        {
-          type: c.CARD_BOARD_EVIDENCE,
-          content: [c.CARD_REVIEW_HLR, c.CARD_NEW_EVIDENCE],
-        },
-        {
-          type: c.CARD_BOARD_HEARING,
-          content: [c.CARD_REVIEW_HLR, c.CARD_NEW_EVIDENCE, c.CARD_HEARING],
-        },
       ]);
+      h.verifyClaimForIncreaseCardPresent();
       h.checkNotGoodFitCards([
+        {
+          type: c.CARD_SC,
+          content: [c.CARD_NGF_HEARING_NOT_INCLUDED],
+        },
         {
           type: c.CARD_HLR,
           content: [
-            c.CARD_HLR_NOT_AVAILABLE,
-            c.CARD_CANNOT_SUBMIT_EVIDENCE,
-            c.CARD_HEARING_NOT_INCLUDED,
+            c.CARD_NGF_HLR_NOT_AVAILABLE,
+            c.CARD_NGF_CANNOT_SUBMIT_EVIDENCE,
+            c.CARD_NGF_HEARING_NOT_INCLUDED,
           ],
         },
         {
           type: c.CARD_BOARD_DIRECT,
           content: [
-            c.CARD_RECEIVED_BOARD_DECISION,
-            c.CARD_CANNOT_SUBMIT_EVIDENCE,
-            c.CARD_HEARING_NOT_INCLUDED,
+            c.CARD_NGF_CANNOT_SUBMIT_EVIDENCE,
+            c.CARD_NGF_HEARING_NOT_INCLUDED,
           ],
         },
       ]);

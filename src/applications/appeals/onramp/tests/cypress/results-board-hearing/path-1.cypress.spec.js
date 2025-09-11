@@ -8,23 +8,23 @@ const {
   Q_1_1_CLAIM_DECISION,
   Q_1_2_CLAIM_DECISION,
   Q_1_3_CLAIM_CONTESTED,
+  Q_2_IS_1_SERVICE_CONNECTED,
   Q_2_0_CLAIM_TYPE,
-  Q_2_H_1_EXISTING_BOARD_APPEAL,
   Q_2_H_2_NEW_EVIDENCE,
   Q_2_H_2A_JUDGE_HEARING,
 } = SHORT_NAME_MAP;
-const { RESULTS_BOARD_HEARING } = RESULTS_NAME_MAP;
+const { RESULTS_2_H_2B_1 } = RESULTS_NAME_MAP;
 
-// Results Board Appeal: Hearing Request recommended
+// Results Board Appeal: Hearing Request recommended (Non-CFI)
 // 1.1 - Yes
 // 1.2 - Yes
 // 1.3 - No
+// 2.IS.1 - No
 // 2.0 - HLR
-// 2.H.1 - No
 // 2.H.2 - Yes
 // 2.H.2A - Yes
 describe('Decision Reviews Onramp', () => {
-  describe('Results Board (path 1)', () => {
+  describe('Results Board Hearing (path 1)', () => {
     it('navigates through the flow forward and backward successfully', () => {
       cy.visit(h.ROOT);
 
@@ -48,14 +48,14 @@ describe('Decision Reviews Onramp', () => {
       h.selectRadio(Q_1_3_CLAIM_CONTESTED, 1);
       h.clickContinue();
 
+      // Q_2_IS_1_SERVICE_CONNECTED
+      h.verifyUrl(ROUTES.Q_2_IS_1_SERVICE_CONNECTED);
+      h.selectRadio(Q_2_IS_1_SERVICE_CONNECTED, 1);
+      h.clickContinue();
+
       // Q_2_0_CLAIM_TYPE
       h.verifyUrl(ROUTES.Q_2_0_CLAIM_TYPE);
       h.selectRadio(Q_2_0_CLAIM_TYPE, 2);
-      h.clickContinue();
-
-      // Q_2_H_1_EXISTING_BOARD_APPEAL
-      h.verifyUrl(ROUTES.Q_2_H_1_EXISTING_BOARD_APPEAL);
-      h.selectRadio(Q_2_H_1_EXISTING_BOARD_APPEAL, 1);
       h.clickContinue();
 
       // Q_2_H_2_NEW_EVIDENCE
@@ -70,42 +70,38 @@ describe('Decision Reviews Onramp', () => {
 
       // RESULTS
       h.verifyUrl(ROUTES.RESULTS);
-      h.verifyDrResultsHeader(RESULTS_BOARD_HEARING);
-      h.checkOverviewPanel([
-        c.TITLE_SC,
-        c.TITLE_BOARD_EVIDENCE,
-        c.TITLE_BOARD_HEARING,
-      ]);
+      h.verifyDrResultsHeader(RESULTS_2_H_2B_1);
+      h.checkOverviewPanel([c.TITLE_BOARD_HEARING]);
       h.checkGoodFitCards([
         {
-          type: c.CARD_SC,
+          type: c.CARD_BOARD_HEARING,
           content: [
-            c.CARD_REVIEW_HLR,
-            c.CARD_NEW_EVIDENCE,
-            c.CARD_NOT_CONTESTED,
+            c.CARD_GF_REVIEW_HLR,
+            c.CARD_GF_YES_EVIDENCE,
+            c.CARD_GF_YES_HEARING,
           ],
         },
-        {
-          type: c.CARD_BOARD_EVIDENCE,
-          content: [c.CARD_REVIEW_HLR, c.CARD_NEW_EVIDENCE],
-        },
-        {
-          type: c.CARD_BOARD_HEARING,
-          content: [c.CARD_REVIEW_HLR, c.CARD_NEW_EVIDENCE, c.CARD_HEARING],
-        },
       ]);
+      h.verifyClaimForIncreaseCardNotPresent();
       h.checkNotGoodFitCards([
+        {
+          type: c.CARD_SC,
+          content: [c.CARD_NGF_HEARING_NOT_INCLUDED],
+        },
         {
           type: c.CARD_HLR,
           content: [
-            c.CARD_HLR_NOT_AVAILABLE,
-            c.CARD_CANNOT_SUBMIT_EVIDENCE,
-            c.CARD_HEARING_NOT_INCLUDED,
+            c.CARD_NGF_HLR_NOT_AVAILABLE,
+            c.CARD_NGF_CANNOT_SUBMIT_EVIDENCE,
+            c.CARD_NGF_HEARING_NOT_INCLUDED,
           ],
         },
         {
           type: c.CARD_BOARD_DIRECT,
-          content: [c.CARD_CANNOT_SUBMIT_EVIDENCE, c.CARD_HEARING_NOT_INCLUDED],
+          content: [
+            c.CARD_NGF_CANNOT_SUBMIT_EVIDENCE,
+            c.CARD_NGF_HEARING_NOT_INCLUDED,
+          ],
         },
       ]);
       h.verifyOutsideDROptionNotPresent();
@@ -119,12 +115,12 @@ describe('Decision Reviews Onramp', () => {
       h.verifyUrl(ROUTES.Q_2_H_2_NEW_EVIDENCE);
       h.clickBack();
 
-      // Q_2_H_1_EXISTING_BOARD_APPEAL
-      h.verifyUrl(ROUTES.Q_2_H_1_EXISTING_BOARD_APPEAL);
-      h.clickBack();
-
       // Q_2_0_CLAIM_TYPE
       h.verifyUrl(ROUTES.Q_2_0_CLAIM_TYPE);
+      h.clickBack();
+
+      // Q_2_IS_1_SERVICE_CONNECTED
+      h.verifyUrl(ROUTES.Q_2_IS_1_SERVICE_CONNECTED);
       h.clickBack();
 
       // Q_1_3_CLAIM_CONTESTED

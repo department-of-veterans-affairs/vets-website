@@ -27,7 +27,7 @@ const { RESULTS_2_IS_1D } = RESULTS_NAME_MAP;
 // 2.0 - Initial
 // 2.IS.1A - No
 // 2.IS.1B - No
-xdescribe('Decision Reviews Onramp', () => {
+describe('Decision Reviews Onramp', () => {
   describe('Results HLR (CFI, path 2)', () => {
     it('navigates through the flow forward and backward successfully', () => {
       cy.visit(h.ROOT);
@@ -90,20 +90,20 @@ xdescribe('Decision Reviews Onramp', () => {
         {
           type: c.CARD_HLR,
           content: [
-            c.CARD_REVIEW_INIT,
-            c.CARD_NO_NEW_EVIDENCE,
-            c.CARD_NOT_CONTESTED,
+            c.CARD_GF_REVIEW_INIT,
+            c.CARD_GF_NO_EVIDENCE,
+            c.CARD_GF_NOT_CONTESTED,
           ],
         },
         {
           type: c.CARD_BOARD_DIRECT,
-          content: [c.CARD_REVIEW_INIT, c.CARD_NO_NEW_EVIDENCE],
+          content: [c.CARD_GF_REVIEW_INIT, c.CARD_GF_NO_EVIDENCE],
         },
       ]);
       h.checkNotGoodFitCards([
         {
           type: c.CARD_SC,
-          content: [c.CARD_NEED_EVIDENCE],
+          content: [c.CARD_NGF_NEED_EVIDENCE],
         },
       ]);
       h.verifyOutsideDROptionNotPresent();

@@ -22,7 +22,7 @@ const { RESULTS_2_S_4 } = RESULTS_NAME_MAP;
 // 2.0 - Board
 // 2.S.1 - No
 // 2.S.2 - No
-xdescribe('Decision Reviews Onramp', () => {
+describe('Decision Reviews Onramp', () => {
   describe('Results 2.S.4 (Non-CFI)', () => {
     it('navigates through the flow forward and backward successfully', () => {
       cy.visit(h.ROOT);

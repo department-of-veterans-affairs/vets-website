@@ -27,7 +27,7 @@ const { RESULTS_2_H_2A_2 } = RESULTS_NAME_MAP;
 // 2.0 - HLR
 // 2.H.2 - Yes
 // 2.H.2A - No
-xdescribe('Decision Reviews Onramp', () => {
+describe('Decision Reviews Onramp', () => {
   describe('Results Board Evidence (CFI)', () => {
     it('navigates through the flow forward and backward successfully', () => {
       cy.visit(h.ROOT);
@@ -90,32 +90,37 @@ xdescribe('Decision Reviews Onramp', () => {
         {
           type: c.CARD_SC,
           content: [
-            c.CARD_REVIEW_HLR,
-            c.CARD_NEW_EVIDENCE,
-            c.CARD_NOT_CONTESTED,
-            c.CARD_SUBMITTED_BOARD_APPEAL,
+            c.CARD_GF_REVIEW_HLR,
+            c.CARD_GF_YES_EVIDENCE,
+            c.CARD_GF_NOT_CONTESTED,
+            c.CARD_GF_NO_HEARING,
           ],
         },
         {
           type: c.CARD_BOARD_EVIDENCE,
-          content: [c.CARD_REVIEW_HLR, c.CARD_NEW_EVIDENCE, c.CARD_NO_HEARING],
+          content: [
+            c.CARD_GF_REVIEW_HLR,
+            c.CARD_GF_YES_EVIDENCE,
+            c.CARD_GF_NO_HEARING,
+          ],
         },
       ]);
+      h.verifyClaimForIncreaseCardPresent();
       h.checkNotGoodFitCards([
         {
           type: c.CARD_HLR,
-          content: [c.CARD_HLR_NOT_AVAILABLE, c.CARD_CANNOT_SUBMIT_EVIDENCE],
-        },
-        {
-          type: c.CARD_BOARD_DIRECT,
           content: [
-            c.CARD_RECEIVED_BOARD_DECISION,
-            c.CARD_CANNOT_SUBMIT_EVIDENCE,
+            c.CARD_NGF_HLR_NOT_AVAILABLE,
+            c.CARD_NGF_CANNOT_SUBMIT_EVIDENCE,
           ],
         },
         {
+          type: c.CARD_BOARD_DIRECT,
+          content: [c.CARD_NGF_CANNOT_SUBMIT_EVIDENCE],
+        },
+        {
           type: c.CARD_BOARD_HEARING,
-          content: [c.CARD_RECEIVED_BOARD_DECISION, c.CARD_HEARING_NOT_DESIRED],
+          content: [c.CARD_NGF_HEARING_NOT_DESIRED],
         },
       ]);
       h.verifyOutsideDROptionNotPresent();

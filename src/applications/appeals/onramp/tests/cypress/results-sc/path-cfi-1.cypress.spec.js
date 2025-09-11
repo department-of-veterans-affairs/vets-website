@@ -25,7 +25,7 @@ const { RESULTS_2_S_1B } = RESULTS_NAME_MAP;
 // 2.IS.4 - Yes
 // 2.0 - Supplemental
 // 2.IS.1A - Yes
-xdescribe('Decision Reviews Onramp', () => {
+describe('Decision Reviews Onramp', () => {
   describe('Results SC (CFI, path 1)', () => {
     it('navigates through the flow forward and backward successfully', () => {
       cy.visit(h.ROOT);
@@ -83,9 +83,9 @@ xdescribe('Decision Reviews Onramp', () => {
         {
           type: c.CARD_SC,
           content: [
-            c.CARD_REVIEW_SC,
-            c.CARD_LAW_POLICY_CHANGE,
-            c.CARD_NOT_CONTESTED,
+            c.CARD_GF_REVIEW_SC,
+            c.CARD_GF_YES_LAW_POLICY,
+            c.CARD_GF_NOT_CONTESTED,
             c.CARD_SUBMITTED_BOARD_APPEAL,
           ],
         },

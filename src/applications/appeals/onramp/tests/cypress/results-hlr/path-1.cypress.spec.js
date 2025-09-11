@@ -10,19 +10,17 @@ const {
   Q_1_3_CLAIM_CONTESTED,
   Q_2_0_CLAIM_TYPE,
   Q_2_IS_1_SERVICE_CONNECTED,
-  Q_2_IS_2_CONDITION_WORSENED,
   Q_2_IS_1A_LAW_POLICY_CHANGE,
   Q_2_IS_1B_NEW_EVIDENCE,
 } = SHORT_NAME_MAP;
-const { RESULTS_HLR } = RESULTS_NAME_MAP;
+const { RESULTS_2_IS_1C } = RESULTS_NAME_MAP;
 
-// Results HLR: Higher-Level Review recommended
+// Results HLR: Higher-Level Review recommended (Non-CFI)
 // 1.1 - Yes
 // 1.2 - Yes
 // 1.3 - No
+// 2.IS.1 - No
 // 2.0 - Initial
-// 2.IS.1 - Yes
-// 2.IS.2 - No
 // 2.IS.1A - No
 // 2.IS.1B - No
 describe('Decision Reviews Onramp', () => {
@@ -50,19 +48,14 @@ describe('Decision Reviews Onramp', () => {
       h.selectRadio(Q_1_3_CLAIM_CONTESTED, 1);
       h.clickContinue();
 
+      // Q_2_IS_1_SERVICE_CONNECTED
+      h.verifyUrl(ROUTES.Q_2_IS_1_SERVICE_CONNECTED);
+      h.selectRadio(Q_2_IS_1_SERVICE_CONNECTED, 1);
+      h.clickContinue();
+
       // Q_2_0_CLAIM_TYPE
       h.verifyUrl(ROUTES.Q_2_0_CLAIM_TYPE);
       h.selectRadio(Q_2_0_CLAIM_TYPE, 0);
-      h.clickContinue();
-
-      // Q_2_IS_1_SERVICE_CONNECTED
-      h.verifyUrl(ROUTES.Q_2_IS_1_SERVICE_CONNECTED);
-      h.selectRadio(Q_2_IS_1_SERVICE_CONNECTED, 0);
-      h.clickContinue();
-
-      // Q_2_IS_2_CONDITION_WORSENED
-      h.verifyUrl(ROUTES.Q_2_IS_2_CONDITION_WORSENED);
-      h.selectRadio(Q_2_IS_2_CONDITION_WORSENED, 1);
       h.clickContinue();
 
       // Q_2_IS_1A_LAW_POLICY_CHANGE
@@ -77,27 +70,31 @@ describe('Decision Reviews Onramp', () => {
 
       // RESULTS
       h.verifyUrl(ROUTES.RESULTS);
-      h.verifyDrResultsHeader(RESULTS_HLR);
-      h.checkOverviewPanel([c.TITLE_HLR, c.TITLE_BOARD_DIRECT]);
+      h.verifyDrResultsHeader(RESULTS_2_IS_1C);
+      h.checkOverviewPanel([
+        c.TITLE_HLR,
+        c.TITLE_BOARD_DIRECT,
+        c.TITLE_BOARD_HEARING,
+      ]);
       h.checkGoodFitCards([
         {
           type: c.CARD_HLR,
           content: [
-            c.CARD_REVIEW_INIT,
-            c.CARD_NO_NEW_EVIDENCE,
-            c.CARD_NOT_CONTESTED,
-            c.CARD_NOT_LAW_POLICY_CHANGE,
+            c.CARD_GF_REVIEW_INIT,
+            c.CARD_GF_NO_EVIDENCE,
+            c.CARD_GF_NOT_CONTESTED,
+            c.CARD_GF_NO_LAW_POLICY,
           ],
         },
         {
           type: c.CARD_BOARD_DIRECT,
-          content: [c.CARD_REVIEW_INIT, c.CARD_NO_NEW_EVIDENCE],
+          content: [c.CARD_GF_REVIEW_INIT, c.CARD_GF_NO_EVIDENCE],
         },
       ]);
       h.checkNotGoodFitCards([
         {
           type: c.CARD_SC,
-          content: [c.CARD_NEED_EVIDENCE],
+          content: [c.CARD_NGF_NEED_EVIDENCE],
         },
       ]);
       h.verifyOutsideDROptionNotPresent();
@@ -111,16 +108,12 @@ describe('Decision Reviews Onramp', () => {
       h.verifyUrl(ROUTES.Q_2_IS_1A_LAW_POLICY_CHANGE);
       h.clickBack();
 
-      // Q_2_IS_2_CONDITION_WORSENED
-      h.verifyUrl(ROUTES.Q_2_IS_2_CONDITION_WORSENED);
+      // Q_2_0_CLAIM_TYPE
+      h.verifyUrl(ROUTES.Q_2_0_CLAIM_TYPE);
       h.clickBack();
 
       // Q_2_IS_1_SERVICE_CONNECTED
       h.verifyUrl(ROUTES.Q_2_IS_1_SERVICE_CONNECTED);
-      h.clickBack();
-
-      // Q_2_0_CLAIM_TYPE
-      h.verifyUrl(ROUTES.Q_2_0_CLAIM_TYPE);
       h.clickBack();
 
       // Q_1_3_CLAIM_CONTESTED

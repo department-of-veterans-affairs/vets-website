@@ -12,9 +12,9 @@ const {
   Q_2_H_2_NEW_EVIDENCE,
   Q_2_H_2B_JUDGE_HEARING,
 } = SHORT_NAME_MAP;
-const { RESULTS_BOARD_HEARING } = RESULTS_NAME_MAP;
+const { RESULTS_2_H_2B_1 } = RESULTS_NAME_MAP;
 
-// Results Board Appeal: Hearing Request recommended
+// Results Board Appeal: Hearing Request recommended (Non-CFI)
 // 1.1 - Yes
 // 1.2 - Yes
 // 1.3 - Yes
@@ -22,7 +22,7 @@ const { RESULTS_BOARD_HEARING } = RESULTS_NAME_MAP;
 // 2.H.2 - No
 // 2.H.2B - Yes
 describe('Decision Reviews Onramp', () => {
-  describe('Results Board (path 1)', () => {
+  describe('Results Board Hearing (path 2)', () => {
     it('navigates through the flow forward and backward successfully', () => {
       cy.visit(h.ROOT);
 
@@ -63,50 +63,46 @@ describe('Decision Reviews Onramp', () => {
 
       // RESULTS
       h.verifyUrl(ROUTES.RESULTS);
-      h.verifyDrResultsHeader(RESULTS_BOARD_HEARING);
-      h.checkOverviewPanel([
-        c.TITLE_BOARD_DIRECT,
-        c.TITLE_BOARD_EVIDENCE,
-        c.TITLE_BOARD_HEARING,
-      ]);
+      h.verifyDrResultsHeader(RESULTS_2_H_2B_1);
+      h.checkOverviewPanel([c.TITLE_BOARD_EVIDENCE, c.TITLE_BOARD_HEARING]);
       h.checkGoodFitCards([
         {
-          type: c.CARD_BOARD_DIRECT,
-          content: [c.CARD_NO_NEW_EVIDENCE, c.CARD_BOARD_ONLY_OPTION],
-        },
-        {
           type: c.CARD_BOARD_EVIDENCE,
-          content: [c.CARD_BOARD_ONLY_OPTION],
+          content: [c.CARD_GF_BOARD_ONLY_OPTION],
         },
         {
           type: c.CARD_BOARD_HEARING,
           content: [
-            c.CARD_NO_NEW_EVIDENCE,
-            c.CARD_BOARD_ONLY_OPTION,
-            c.CARD_HEARING,
+            c.CARD_GF_NO_EVIDENCE,
+            c.CARD_GF_BOARD_ONLY_OPTION,
+            c.CARD_GF_YES_HEARING,
           ],
         },
       ]);
+      h.verifyClaimForIncreaseCardNotPresent();
       h.checkNotGoodFitCards([
         {
           type: c.CARD_SC,
           content: [
-            c.CARD_NEED_EVIDENCE,
-            c.CARD_CLAIM_CONTESTED,
-            c.CARD_HEARING_NOT_INCLUDED,
+            c.CARD_NGF_NEED_EVIDENCE,
+            c.CARD_NGF_CLAIM_CONTESTED,
+            c.CARD_NGF_HEARING_NOT_INCLUDED,
           ],
         },
         {
           type: c.CARD_HLR,
-          content: [c.CARD_CLAIM_CONTESTED, c.CARD_HEARING_NOT_INCLUDED],
+          content: [
+            c.CARD_NGF_CLAIM_CONTESTED,
+            c.CARD_NGF_HEARING_NOT_INCLUDED,
+          ],
         },
         {
           type: c.CARD_BOARD_DIRECT,
-          content: [c.CARD_HEARING_NOT_INCLUDED],
+          content: [c.CARD_NGF_HEARING_NOT_INCLUDED],
         },
         {
           type: c.CARD_BOARD_EVIDENCE,
-          content: [c.CARD_NEED_EVIDENCE, c.CARD_HEARING_NOT_INCLUDED],
+          content: [c.CARD_NGF_NEED_EVIDENCE, c.CARD_NGF_HEARING_NOT_INCLUDED],
         },
       ]);
       h.verifyOutsideDROptionNotPresent();

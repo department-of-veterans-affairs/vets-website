@@ -100,13 +100,13 @@ describe('card utilities', () => {
   describe('getLearnMoreLink', () => {
     it('returns a va-link element for Supplemental Claims', () => {
       const link = getLearnMoreLink('CARD_SC');
-      expect(link.props.href).to.equal('/decision-reviews/supplemental-claim/');
+      expect(link.props.href).to.equal('/decision-reviews/supplemental-claim');
       expect(link.props.text).to.equal('Learn more about Supplemental Claims');
     });
 
     it('returns a va-link element for Board Evidence', () => {
       const link = getLearnMoreLink('CARD_BOARD_EVIDENCE');
-      expect(link.props.href).to.equal('/decision-reviews/board-appeal/');
+      expect(link.props.href).to.equal('/decision-reviews/board-appeal');
       expect(link.props.text).to.equal('Learn more about Board Appeals');
     });
 
@@ -146,10 +146,7 @@ describe('card utilities', () => {
         .exist;
     });
 
-    // TODO: Skipping this test for now
-    // The display conditions don't exist yet (but will later when I merge all the pieces)
-    // this test won't work properly until then
-    xit('returns null if the display conditions are not met', () => {
+    it('returns null if the display conditions are not met', () => {
       const formResponses = {
         Q_1_1_CLAIM_DECISION: YES,
         Q_1_2_CLAIM_DECISION: YES,
@@ -166,7 +163,7 @@ describe('card utilities', () => {
 
   describe('getDecisionTimeline', () => {
     it('returns timeline string for SC', () => {
-      expect(getDecisionTimeline('CARD_SC')).to.equal('86.4 days');
+      expect(getDecisionTimeline('CARD_SC')).to.equal('79.3 days');
     });
 
     it('returns empty string for unknown', () => {

@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { displayConditionsMet } from '../../utilities/display-conditions';
 import { RESPONSES } from '../../constants/question-data-map';
 
-const { HLR, INIT, NO, SC, YES } = RESPONSES;
+const { BOARD, HLR, INIT, NO, SC, YES } = RESPONSES;
 
 describe('display conditions utilities', () => {
   describe('displayConditionsMet', () => {
@@ -50,6 +50,24 @@ describe('display conditions utilities', () => {
           ONE_OF: {
             Q_2_IS_1_SERVICE_CONNECTED: NO,
             Q_2_IS_2_CONDITION_WORSENED: NO,
+          },
+        };
+
+        expect(displayConditionsMet(formResponses, displayConditions)).to.be
+          .false;
+      });
+
+      it('should return false for a ONE_OF question with array conditions', () => {
+        const formResponses = {
+          Q_1_1_CLAIM_DECISION: YES,
+          Q_1_2_CLAIM_DECISION: YES,
+          Q_1_3_CLAIM_CONTESTED: NO,
+          Q_2_0_CLAIM_TYPE: SC,
+        };
+
+        const displayConditions = {
+          ONE_OF: {
+            Q_2_0_CLAIM_TYPE: [HLR, BOARD],
           },
         };
 
@@ -230,6 +248,24 @@ describe('display conditions utilities', () => {
             Q_2_IS_1B_NEW_EVIDENCE: NO,
             Q_2_S_1_NEW_EVIDENCE: NO,
             Q_2_H_2_NEW_EVIDENCE: NO,
+          },
+        };
+
+        expect(displayConditionsMet(formResponses, displayConditions)).to.be
+          .true;
+      });
+
+      it('should return true for a NONE_OF question with array conditions', () => {
+        const formResponses = {
+          Q_1_1_CLAIM_DECISION: YES,
+          Q_1_2_CLAIM_DECISION: YES,
+          Q_1_3_CLAIM_CONTESTED: NO,
+          Q_2_0_CLAIM_TYPE: HLR,
+        };
+
+        const displayConditions = {
+          NONE_OF: {
+            Q_2_0_CLAIM_TYPE: [SC, INIT],
           },
         };
 
