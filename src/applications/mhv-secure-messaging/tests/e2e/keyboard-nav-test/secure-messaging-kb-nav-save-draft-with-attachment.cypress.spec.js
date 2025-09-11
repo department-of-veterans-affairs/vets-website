@@ -6,7 +6,7 @@ import requestBody from '../fixtures/message-compose-request-body.json';
 import { AXE_CONTEXT } from '../utils/constants';
 
 describe('SM SAVING DRAFT WITH ATTACHMENT BY KEYBOARD', () => {
-  it.skip('verify draft saved without attachment', () => {
+  it('verify draft saved without attachment', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
 
@@ -23,11 +23,16 @@ describe('SM SAVING DRAFT WITH ATTACHMENT BY KEYBOARD', () => {
     PatientMessageDraftsPage.verifySaveWithAttachmentAlert();
 
     PatientComposePage.clickSaveDraftWithoutAttachmentBtn();
-    cy.findByTestId('sm-breadcrumbs-back')
+    cy.findByTestId('sm-breadcrumbs-back').scrollIntoView({
+      waitForAnimation: true,
+    });
+    cy.findByTestId('sm-breadcrumbs-back').click({ force: true });
+
+    cy.findByTestId('route-guard-secondary-button')
       .should('be.visible')
       .click();
 
-    PatientComposePage.clickSaveDraftWithoutAttachmentBtn();
+    cy.findByText('Messages: Inbox').should('be.visible');
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
