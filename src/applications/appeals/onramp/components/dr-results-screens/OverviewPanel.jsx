@@ -9,10 +9,10 @@ import { renderSingleOrList } from '../../utilities';
 import * as c from '../../constants/results-content/dr-screens/card-content';
 
 // Separated out for unit testing
-export const HEADING_NOT_CFI = `Decision review options based on your answers`;
-export const HEADING_CFI = `Available options`;
-export const ELIGIBLE_TEXT_NOT_CFI = `You may be eligible for these decision review options:`;
-export const ELIGIBLE_TEXT_CFI = `You may be eligible for these decision review options because you disagree with a decision:`;
+export const HEADING_DR_ONLY = `Decision review options based on your answers`;
+export const HEADING_DR_WITH_CFI = `Available options`;
+export const ELIGIBLE_TEXT_DR_ONLY = `You may be eligible for these decision review options:`;
+export const ELIGIBLE_TEXT_DR_WITH_CFI = `You may be eligible for these decision review options because you disagree with a decision:`;
 
 const OverviewPanel = ({ formResponses }) => {
   const availableOptions = c.OVERVIEW.filter(option => {
@@ -22,8 +22,10 @@ const OverviewPanel = ({ formResponses }) => {
   });
 
   const isCFI = isCFIVariant(formResponses);
-  const heading = isCFI ? HEADING_CFI : HEADING_NOT_CFI;
-  const eligibleText = isCFI ? ELIGIBLE_TEXT_CFI : ELIGIBLE_TEXT_NOT_CFI;
+  const heading = isCFI ? HEADING_DR_WITH_CFI : HEADING_DR_ONLY;
+  const eligibleText = isCFI
+    ? ELIGIBLE_TEXT_DR_WITH_CFI
+    : ELIGIBLE_TEXT_DR_ONLY;
 
   return (
     <div className="onramp-options-overview vads-u-padding--3">

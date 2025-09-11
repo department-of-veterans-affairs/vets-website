@@ -2,10 +2,10 @@ import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import OverviewPanel, {
-  ELIGIBLE_TEXT_CFI,
-  ELIGIBLE_TEXT_NOT_CFI,
-  HEADING_CFI,
-  HEADING_NOT_CFI,
+  ELIGIBLE_TEXT_DR_WITH_CFI,
+  ELIGIBLE_TEXT_DR_ONLY,
+  HEADING_DR_WITH_CFI,
+  HEADING_DR_ONLY,
 } from '../../../components/dr-results-screens/OverviewPanel';
 import { RESPONSES } from '../../../constants/question-data-map';
 
@@ -32,10 +32,10 @@ describe('OverviewPanel', () => {
       const screen = render(<OverviewPanel formResponses={formResponses} />);
 
       expect(screen.getByRole('heading', { level: 2 }).textContent).to.equal(
-        HEADING_NOT_CFI,
+        HEADING_DR_ONLY,
       );
 
-      expect(screen.getByText(ELIGIBLE_TEXT_NOT_CFI)).to.exist;
+      expect(screen.getByText(ELIGIBLE_TEXT_DR_ONLY)).to.exist;
 
       expectedOptions.forEach(option => {
         expect(screen.getByText(option)).to.exist;
@@ -61,10 +61,10 @@ describe('OverviewPanel', () => {
       const screen = render(<OverviewPanel formResponses={formResponses} />);
 
       expect(screen.getByRole('heading', { level: 2 }).textContent).to.equal(
-        HEADING_CFI,
+        HEADING_DR_WITH_CFI,
       );
 
-      expect(screen.getByText(ELIGIBLE_TEXT_CFI)).to.exist;
+      expect(screen.getByText(ELIGIBLE_TEXT_DR_WITH_CFI)).to.exist;
 
       expectedOptions.forEach(option => {
         expect(screen.getByText(option)).to.exist;

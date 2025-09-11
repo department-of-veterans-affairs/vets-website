@@ -9,6 +9,7 @@ const {
   Q_1_2_CLAIM_DECISION,
   Q_1_3_CLAIM_CONTESTED,
   Q_2_IS_1_SERVICE_CONNECTED,
+  Q_2_IS_2_CONDITION_WORSENED,
   Q_2_0_CLAIM_TYPE,
   Q_2_IS_1A_LAW_POLICY_CHANGE,
 } = SHORT_NAME_MAP;
@@ -18,8 +19,9 @@ const { RESULTS_2_S_1A } = RESULTS_NAME_MAP;
 // 1.1 - Yes
 // 1.2 - Yes
 // 1.3 - No
-// 2.IS.1 - No
-// 2.0 - Supplemental
+// 2.IS.1 - Yes
+// 2.IS.2 - No
+// 2.0 - Initial
 // 2.IS.1A - Yes
 describe('Decision Reviews Onramp', () => {
   describe('Results SC (path 4)', () => {
@@ -48,12 +50,17 @@ describe('Decision Reviews Onramp', () => {
 
       // Q_2_IS_1_SERVICE_CONNECTED
       h.verifyUrl(ROUTES.Q_2_IS_1_SERVICE_CONNECTED);
-      h.selectRadio(Q_2_IS_1_SERVICE_CONNECTED, 1);
+      h.selectRadio(Q_2_IS_1_SERVICE_CONNECTED, 0);
+      h.clickContinue();
+
+      // Q_2_IS_2_CONDITION_WORSENED
+      h.verifyUrl(ROUTES.Q_2_IS_2_CONDITION_WORSENED);
+      h.selectRadio(Q_2_IS_2_CONDITION_WORSENED, 1);
       h.clickContinue();
 
       // Q_2_0_CLAIM_TYPE
       h.verifyUrl(ROUTES.Q_2_0_CLAIM_TYPE);
-      h.selectRadio(Q_2_0_CLAIM_TYPE, 1);
+      h.selectRadio(Q_2_0_CLAIM_TYPE, 0);
       h.clickContinue();
 
       // Q_2_IS_1A_LAW_POLICY_CHANGE
@@ -69,7 +76,7 @@ describe('Decision Reviews Onramp', () => {
         {
           type: c.CARD_SC,
           content: [
-            c.CARD_REVIEW_SC,
+            c.CARD_REVIEW_INIT,
             c.CARD_LAW_POLICY_CHANGE,
             c.CARD_NOT_CONTESTED,
             c.CARD_SUBMITTED_BOARD_APPEAL,
@@ -86,6 +93,10 @@ describe('Decision Reviews Onramp', () => {
 
       // Q_2_0_CLAIM_TYPE
       h.verifyUrl(ROUTES.Q_2_0_CLAIM_TYPE);
+      h.clickBack();
+
+      // Q_2_IS_2_CONDITION_WORSENED
+      h.verifyUrl(ROUTES.Q_2_IS_2_CONDITION_WORSENED);
       h.clickBack();
 
       // Q_2_IS_1_SERVICE_CONNECTED

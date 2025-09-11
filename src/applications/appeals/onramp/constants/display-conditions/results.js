@@ -100,26 +100,36 @@ export const resultsDCs = Object.freeze({
     ONE_OF: {
       Q_1_2B_LAW_POLICY_CHANGE: YES,
       Q_1_2C_NEW_EVIDENCE: YES,
-      Q_1_2A_2_DISAGREE_DECISION: YES,
       Q_2_IS_1A_LAW_POLICY_CHANGE: YES,
       Q_2_IS_1B_NEW_EVIDENCE: YES,
       Q_2_S_1_NEW_EVIDENCE: YES,
     },
     NONE_OF: {
-      Q_2_IS_1_SERVICE_CONNECTED: YES,
+      Q_2_IS_4_DISAGREE_DECISION: YES,
     },
   },
   RESULTS_2_S_1B: {
-    Q_1_1_CLAIM_DECISION: YES,
-    Q_1_2_CLAIM_DECISION: YES,
-    Q_1_3_CLAIM_CONTESTED: NO,
-    Q_2_IS_1_SERVICE_CONNECTED: YES,
-    Q_2_IS_2_CONDITION_WORSENED: YES,
-    Q_2_IS_4_DISAGREE_DECISION: YES,
-    ONE_OF: {
-      Q_2_IS_1A_LAW_POLICY_CHANGE: YES,
-      Q_2_IS_1B_NEW_EVIDENCE: YES,
-      Q_2_S_1_NEW_EVIDENCE: YES,
+    FORK: {
+      A: {
+        Q_1_1_CLAIM_DECISION: YES,
+        Q_1_2_CLAIM_DECISION: NO,
+        Q_1_2A_1_SERVICE_CONNECTED: YES,
+        Q_1_2A_CONDITION_WORSENED: YES,
+        Q_1_2A_2_DISAGREE_DECISION: YES,
+      },
+      B: {
+        Q_1_1_CLAIM_DECISION: YES,
+        Q_1_2_CLAIM_DECISION: YES,
+        Q_1_3_CLAIM_CONTESTED: NO,
+        Q_2_IS_1_SERVICE_CONNECTED: YES,
+        Q_2_IS_2_CONDITION_WORSENED: YES,
+        Q_2_IS_4_DISAGREE_DECISION: YES,
+        ONE_OF: {
+          Q_2_IS_1A_LAW_POLICY_CHANGE: YES,
+          Q_2_IS_1B_NEW_EVIDENCE: YES,
+          Q_2_S_1_NEW_EVIDENCE: YES,
+        },
+      },
     },
   },
   RESULTS_2_H_2A_1: {
@@ -128,7 +138,7 @@ export const resultsDCs = Object.freeze({
     Q_2_H_2_NEW_EVIDENCE: YES,
     Q_2_H_2A_JUDGE_HEARING: NO,
     NONE_OF: {
-      Q_2_IS_1_SERVICE_CONNECTED: YES,
+      Q_2_IS_4_DISAGREE_DECISION: YES,
     },
   },
   RESULTS_2_H_2A_2: {
@@ -150,7 +160,7 @@ export const resultsDCs = Object.freeze({
       Q_2_H_2B_JUDGE_HEARING: YES,
     },
     NONE_OF: {
-      Q_2_IS_1_SERVICE_CONNECTED: YES,
+      Q_2_IS_4_DISAGREE_DECISION: YES,
     },
   },
   RESULTS_2_H_2B_1A: {
@@ -171,7 +181,7 @@ export const resultsDCs = Object.freeze({
     Q_1_2_CLAIM_DECISION: YES,
     Q_2_H_2B_JUDGE_HEARING: NO,
     NONE_OF: {
-      Q_2_IS_1_SERVICE_CONNECTED: YES,
+      Q_2_IS_4_DISAGREE_DECISION: YES,
     },
   },
   RESULTS_2_H_2B_2B: {
