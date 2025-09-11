@@ -7,6 +7,7 @@ import {
   fetchMilitaryInformation as fetchMilitaryInformationAction,
   fetchHero as fetchHeroAction,
 } from '@@profile/actions';
+import { selectVAPContactInfoField } from '@@vap-svc/selectors';
 import {
   VaAlert,
   VaModal,
@@ -59,8 +60,15 @@ import EducationAndTraining from './education-and-training/EducationAndTraining'
 import { ContactInfoNeeded } from '../../profile/components/alerts/ContactInfoNeeded';
 import FormsAndApplications from './benefit-application-drafts/FormsAndApplications';
 import PaymentsAndDebts from './benefit-payments/PaymentsAndDebts';
+import ConfirmEmailLink from './ConfirmEmailLink';
+import NewMyVaToggle from './NewMyVaToggle';
 
-const DashboardHeader = ({ isLOA3, showNotifications, user }) => {
+const DashboardHeader = ({
+  isLOA3,
+  showNotifications,
+  user,
+  renderConfirmEmailLink,
+}) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const hideNotificationsSection = useToggleValue(
     TOGGLE_NAMES.myVaHideNotificationsSection,
@@ -120,6 +128,7 @@ const DashboardHeader = ({ isLOA3, showNotifications, user }) => {
           });
         }}
       />
+      {renderConfirmEmailLink && <ConfirmEmailLink />}
       {isLOA3 && <ContactInfoNeeded />}
       {showNotifications && !hideNotificationsSection && <Notifications />}
     </div>
@@ -209,6 +218,7 @@ const LOA1Content = ({
 
 DashboardHeader.propTypes = {
   isLOA3: PropTypes.bool,
+  renderConfirmEmailLink: PropTypes.bool,
   showNotifications: PropTypes.bool,
   user: PropTypes.object,
 };
@@ -347,6 +357,7 @@ const Dashboard = ({
                 isLOA3={isLOA3}
                 showNotifications={showNotifications}
                 user={props.user}
+                renderConfirmEmailLink={props.renderConfirmEmailLink}
               />
 
               {showMPIConnectionError && (
@@ -374,6 +385,15 @@ const Dashboard = ({
                   user={user}
                 />
               )}
+              <Toggler
+                toggleName={
+                  Toggler.TOGGLE_NAMES.myVaAuthExpRedesignAvailableToOptIn
+                }
+              >
+                <Toggler.Enabled>
+                  <NewMyVaToggle />
+                </Toggler.Enabled>
+              </Toggler>
 
               {/* LOA3 user experience */}
               {props.showClaimsAndAppeals && (
@@ -558,10 +578,16 @@ const mapStateToProps = state => {
   const showNotifications =
     !showMPIConnectionError && !showNotInMPIError && isLOA3;
 
+  const renderConfirmEmailLink =
+    selectVAPContactInfoField(state, 'email')?.emailAddress &&
+    selectVAPContactInfoField(state, 'mailingAddress')?.addressLine1 &&
+    selectVAPContactInfoField(state, 'mobilePhone')?.phoneNumber;
+
   return {
     canAccessMilitaryHistory,
     canAccessPaymentHistory,
     canAccessRatingInfo,
+    renderConfirmEmailLink,
     isLOA3,
     isLOA1,
     showLoader,
@@ -604,6 +630,7 @@ Dashboard.propTypes = {
       accountNumber: PropTypes.string.isRequired,
     }),
   ),
+  renderConfirmEmailLink: PropTypes.bool,
   showClaimsAndAppeals: PropTypes.bool,
   showHealthCare: PropTypes.bool,
   showLoader: PropTypes.bool,

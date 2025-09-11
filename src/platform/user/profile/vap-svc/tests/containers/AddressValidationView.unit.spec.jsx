@@ -114,7 +114,7 @@ describe('<AddressValidationView/>', () => {
         text: 'Use address you entered',
         dataTestId: 'confirm-address-button',
       },
-      { text: 'Edit address' },
+      { text: 'Edit' },
     ]);
   });
 
@@ -184,10 +184,7 @@ describe('<AddressValidationView/>', () => {
       </Provider>,
     );
 
-    expectVaButtons(container, [
-      { text: 'Edit address' },
-      { text: 'Edit address' },
-    ]);
+    expectVaButtons(container, [{ text: 'Edit' }, { text: 'Edit' }]);
   });
 
   it('does not render Go back to edit button while pending transaction', () => {
@@ -212,7 +209,7 @@ describe('<AddressValidationView/>', () => {
       </Provider>,
     );
 
-    expectVaButtons(container, [{ text: 'Edit address' }]);
+    expectVaButtons(container, [{ text: 'Edit' }]);
   });
 
   it('renders "Use suggested address" button when a suggested address is selected', () => {
@@ -264,7 +261,7 @@ describe('<AddressValidationView/>', () => {
         text: 'Use suggested address',
         dataTestId: 'confirm-address-button',
       },
-      { text: 'Edit address' },
+      { text: 'Edit' },
     ]);
   });
 
@@ -350,7 +347,7 @@ describe('<AddressValidationView/>', () => {
           text: 'Use address you entered',
           dataTestId: 'confirm-address-button',
         },
-        { text: 'Edit address' },
+        { text: 'Edit' },
       ]);
     });
 
@@ -452,10 +449,7 @@ describe('<AddressValidationView/>', () => {
       expect(alertMessage).to.exist;
 
       // Validate correct buttons are getting displayed
-      expectVaButtons(container, [
-        { text: 'Edit address' },
-        { text: 'Edit address' },
-      ]);
+      expectVaButtons(container, [{ text: 'Edit' }, { text: 'Edit' }]);
     });
 
     it('renders the alert with the correct headline and message for NO validationKey and has suggestedAddresses', () => {
@@ -533,7 +527,7 @@ describe('<AddressValidationView/>', () => {
       // Validate correct buttons are getting displayed
       expectVaButtons(container, [
         { text: 'Use suggested address', submit: 'prevent' },
-        { text: 'Edit address' },
+        { text: 'Edit' },
       ]);
     });
   });
