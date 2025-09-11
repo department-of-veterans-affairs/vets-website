@@ -12,6 +12,7 @@ import {
   VaBreadcrumbs,
   VaAlert,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { focusElement } from 'platform/utilities/ui';
 import api from '../utilities/api';
 import {
   SEARCH_BC_LABEL,
@@ -68,6 +69,7 @@ const POARequestSearchPage = title => {
   const [searchParams] = useSearchParams();
   useEffect(
     () => {
+      focusElement('h1');
       document.title = title.title;
     },
     [title],

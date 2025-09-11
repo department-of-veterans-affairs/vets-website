@@ -72,10 +72,10 @@ const RecipientsSelect = ({
 
   const {
     isComboBoxEnabled,
-    featureTogglesLoading,
     cernerPilotSmFeatureFlag,
     mhvSecureMessagingRecentRecipients,
   } = useFeatureToggles();
+  const { mhvSecureMessagingCuratedListFlow } = useFeatureToggles();
 
   const [alertDisplayed, setAlertDisplayed] = useState(false);
   const [selectedRecipient, setSelectedRecipient] = useState(
@@ -315,21 +315,12 @@ const RecipientsSelect = ({
 
   return (
     <>
-      {!featureTogglesLoading &&
-      (isComboBoxEnabled || cernerPilotSmFeatureFlag) ? (
+      {mhvSecureMessagingCuratedListFlow ? (
         <VaComboBox
           required
-          label={`${
-            cernerPilotSmFeatureFlag
-              ? 'Select a care team'
-              : 'Select a care team to send your message to'
-          }`}
+          label="Select a care team"
           name="to"
-          hint={
-            cernerPilotSmFeatureFlag
-              ? 'Start typing your care facility, provider’s name, or type of care to search.'
-              : null
-          }
+          hint="Start typing your care facility, provider’s name, or type of care to search."
           value={defaultValue !== undefined ? defaultValue : ''}
           onVaSelect={handleRecipientSelect}
           data-testid="compose-recipient-combobox"
@@ -338,7 +329,6 @@ const RecipientsSelect = ({
           data-dd-action-name="Compose Recipient Combobox List"
           onInput={handleInput}
         >
-          {!cernerPilotSmFeatureFlag && <CantFindYourTeam />}
           {optionsValues}
         </VaComboBox>
       ) : (
@@ -360,7 +350,7 @@ const RecipientsSelect = ({
         </VaSelect>
       )}
 
-      {!cernerPilotSmFeatureFlag &&
+      {!mhvSecureMessagingCuratedListFlow &&
         alertDisplayed && (
           <VaAlert
             ref={alertRef}
