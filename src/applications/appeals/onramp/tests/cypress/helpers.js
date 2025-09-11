@@ -74,7 +74,8 @@ export const verifyText = (selector, expectedValue) =>
 export const RESULTS_HEADER = 'onramp-results-header';
 
 export const OVERVIEW_OPTION = 'overview-option';
-export const CLAIM_FOR_INCREASE = 'claim-for-increase';
+export const CLAIM_FOR_INCREASE_OPTION = 'claim-for-increase-option';
+export const CLAIM_FOR_INCREASE_CARD = 'claim-for-increase-card';
 export const GOOD_FIT = 'good-fit';
 export const NOT_GOOD_FIT = 'not-good-fit';
 export const OUTSIDE_DR = 'outside-dr-option';
@@ -120,7 +121,7 @@ export const checkOverviewPanel = (expectedItems, CFI = false) => {
   });
 
   if (CFI) {
-    cy.findByTestId(CLAIM_FOR_INCREASE)
+    cy.findByTestId(CLAIM_FOR_INCREASE_OPTION)
       .should('be.visible')
       .should('have.text', 'Claim for Increase');
   }
@@ -179,3 +180,9 @@ export const verifyOutsideDROptionPresent = () =>
 
 export const verifyOutsideDROptionNotPresent = () =>
   cy.findByTestId(OUTSIDE_DR).should('not.exist');
+
+export const verifyClaimForIncreaseCardPresent = () =>
+  cy.findByTestId(CLAIM_FOR_INCREASE_CARD).should('be.visible');
+
+export const verifyClaimForIncreaseCardNotPresent = () =>
+  cy.findByTestId(CLAIM_FOR_INCREASE_CARD).should('not.exist');

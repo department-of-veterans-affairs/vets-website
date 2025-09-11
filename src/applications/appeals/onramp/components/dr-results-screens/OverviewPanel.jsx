@@ -44,7 +44,7 @@ const OverviewPanel = ({ formResponses }) => {
           </p>
           <p
             className="vads-u-margin-bottom--0 vads-u-font-weight--bold"
-            data-testid="claim-for-increase"
+            data-testid="claim-for-increase-option"
           >
             Claim for Increase
           </p>

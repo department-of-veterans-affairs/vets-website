@@ -24,58 +24,53 @@ import { showOutsideDROption } from './dr-results-content-utils';
  * card section or the "Not Good Fit" card section
  * @returns
  */
-export const displayCards = (formResponses, goodFit) => {
-  const cardsToDisplay = [];
-  const path = goodFit ? 'GOOD_FIT' : 'NOT_GOOD_FIT';
+export const getDisplayCards = formResponses => {
+  const cardsToDisplay = {
+    goodFitCards: [],
+    notGoodFitCards: [],
+  };
 
   c.CARDS.forEach(card => {
-    const displayConditionsForCard = DISPLAY_CONDITIONS?.[card]?.[path] || {};
+    const gfConditions = DISPLAY_CONDITIONS?.[card]?.GOOD_FIT || {};
+    const ngfConditions = DISPLAY_CONDITIONS?.[card]?.NOT_GOOD_FIT || {};
 
-    if (displayConditionsMet(formResponses, displayConditionsForCard)) {
-      if (goodFit) {
-        cardsToDisplay.push(
-          <li key={card}>
-            <GoodFitCard card={card} formResponses={formResponses} />
-          </li>,
-        );
-      } else {
-        cardsToDisplay.push(
-          <li key={card}>
-            <NotGoodFitCard card={card} formResponses={formResponses} />
-          </li>,
-        );
-      }
+    if (displayConditionsMet(formResponses, gfConditions)) {
+      cardsToDisplay.goodFitCards.push(
+        <li key={card}>
+          <GoodFitCard card={card} formResponses={formResponses} />
+        </li>,
+      );
     }
 
-    return null;
+    if (displayConditionsMet(formResponses, ngfConditions)) {
+      cardsToDisplay.notGoodFitCards.push(
+        <li key={card}>
+          <NotGoodFitCard card={card} formResponses={formResponses} />
+        </li>,
+      );
+    }
   });
 
   return cardsToDisplay;
 };
 
-export const displayNotGoodFitCards = formResponses => {
-  const cardsToDisplay = displayCards(formResponses, false);
-
-  if (cardsToDisplay.length) {
-    return (
-      <>
-        {HORIZ_RULE}
-        <h3>All other decision review options</h3>
-        <p>
-          Based on your answers, these choices may not fit your situation. You
-          are always free to submit any claim you choose.
-        </p>
-        {/* Adding a `role="list"` to `ul` with `list-style: none` to work around
+export const displayNotGoodFitCards = notGoodFitCards => {
+  return (
+    <>
+      {HORIZ_RULE}
+      <h3>All other decision review options</h3>
+      <p>
+        Based on your answers, these choices may not fit your situation. You are
+        always free to submit any claim you choose.
+      </p>
+      {/* Adding a `role="list"` to `ul` with `list-style: none` to work around
           a problem with Safari not treating the `ul` as a list. */}
-        {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
-        <ul className="onramp-list-none" role="list">
-          {cardsToDisplay}
-        </ul>
-      </>
-    );
-  }
-
-  return null;
+      {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+      <ul className="onramp-list-none" role="list">
+        {notGoodFitCards}
+      </ul>
+    </>
+  );
 };
 
 const INTRO = (
@@ -86,7 +81,7 @@ const INTRO = (
 );
 
 export const getCardProps = formResponses => {
-  const gfCards = displayCards(formResponses, true);
+  const { goodFitCards, notGoodFitCards } = getDisplayCards(formResponses);
   const isCFI = isCFIVariant(formResponses);
 
   return {
@@ -106,13 +101,13 @@ export const getCardProps = formResponses => {
             </p>
           </>
         )}
-        {gfCards?.length && (
+        {goodFitCards?.length && (
           <>
             {/* Adding a `role="list"` to `ul` with `list-style: none` to work around
             a problem with Safari not treating the `ul` as a list. */}
             {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
             <ul className="onramp-list-none" role="list">
-              {gfCards}
+              {goodFitCards}
             </ul>
           </>
         )}
@@ -124,7 +119,7 @@ export const getCardProps = formResponses => {
           </>
         )}
         {showOutsideDROption(formResponses)}
-        {displayNotGoodFitCards(formResponses)}
+        {notGoodFitCards?.length && displayNotGoodFitCards(notGoodFitCards)}
         {HORIZ_RULE}
         {RESTART_GUIDE}
       </>

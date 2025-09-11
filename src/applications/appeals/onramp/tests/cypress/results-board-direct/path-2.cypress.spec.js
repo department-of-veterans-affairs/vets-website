@@ -69,32 +69,33 @@ describe('Decision Reviews Onramp', () => {
         {
           type: c.CARD_BOARD_DIRECT,
           content: [
-            c.CARD_NO_NEW_EVIDENCE,
-            c.CARD_BOARD_ONLY_OPTION,
-            c.CARD_NO_HEARING,
+            c.CARD_GF_NO_EVIDENCE,
+            c.CARD_GF_BOARD_ONLY_OPTION,
+            c.CARD_GF_NO_HEARING,
           ],
         },
         {
-          type: c.CARD_BOARD_EVIDENCE,
-          content: [c.CARD_BOARD_ONLY_OPTION, c.CARD_NO_HEARING],
+          type: c.CARD_BOARD_EVIDENCE, // TODO - this card should not appear on both
+          content: [c.CARD_GF_BOARD_ONLY_OPTION, c.CARD_GF_NO_HEARING],
         },
       ]);
+      h.verifyClaimForIncreaseCardNotPresent();
       h.checkNotGoodFitCards([
         {
           type: c.CARD_SC,
-          content: [c.CARD_NEED_EVIDENCE, c.CARD_CLAIM_CONTESTED],
+          content: [c.CARD_NGF_NEED_EVIDENCE, c.CARD_NGF_CLAIM_CONTESTED],
         },
         {
           type: c.CARD_HLR,
-          content: [c.CARD_CLAIM_CONTESTED],
+          content: [c.CARD_NGF_CLAIM_CONTESTED],
         },
         {
           type: c.CARD_BOARD_EVIDENCE,
-          content: [c.CARD_RECEIVED_BOARD_DECISION, c.CARD_NEED_EVIDENCE],
+          content: [c.CARD_NGF_NEED_EVIDENCE],
         },
         {
           type: c.CARD_BOARD_HEARING,
-          content: [c.CARD_RECEIVED_BOARD_DECISION, c.CARD_HEARING_NOT_DESIRED],
+          content: [c.CARD_NGF_HEARING_NOT_DESIRED],
         },
       ]);
       h.verifyOutsideDROptionNotPresent();

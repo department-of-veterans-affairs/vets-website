@@ -76,21 +76,21 @@ describe('Decision Reviews Onramp', () => {
         {
           type: c.CARD_HLR,
           content: [
-            c.CARD_REVIEW_INIT,
-            c.CARD_NO_NEW_EVIDENCE,
-            c.CARD_NOT_CONTESTED,
-            c.CARD_NOT_LAW_POLICY_CHANGE,
+            c.CARD_GF_REVIEW_INIT,
+            c.CARD_GF_NO_EVIDENCE,
+            c.CARD_GF_NOT_CONTESTED,
+            c.CARD_GF_NO_LAW_POLICY,
           ],
         },
         {
           type: c.CARD_BOARD_DIRECT,
-          content: [c.CARD_REVIEW_INIT, c.CARD_NO_NEW_EVIDENCE],
+          content: [c.CARD_GF_REVIEW_INIT, c.CARD_GF_NO_EVIDENCE],
         },
       ]);
       h.checkNotGoodFitCards([
         {
           type: c.CARD_SC,
-          content: [c.CARD_NEED_EVIDENCE],
+          content: [c.CARD_NGF_NEED_EVIDENCE],
         },
       ]);
       h.verifyOutsideDROptionNotPresent();

@@ -10,7 +10,7 @@ import { renderSingleOrList } from '.';
  * Content is defined with SNAKE_CASE prefixes by type, e.g.:
  * TITLE_SC = The title for the SC card
  * CARD_CONTENT_GF_SC = An array of possible content items for the SC card
- * CARD_REVIEW_SC = A bulleted item for the SC card
+ * CARD_GF_REVIEW_SC = A bulleted item for the SC card
  *
  * Once it is determined that a card should be displayed (ex. CARD_SC),
  * we can swap the prefix to get the matching content to evaluate for display.
