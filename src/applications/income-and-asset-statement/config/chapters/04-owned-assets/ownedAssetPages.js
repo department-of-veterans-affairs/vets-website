@@ -432,8 +432,7 @@ const ownedAssetRecipientUpdatedCustodianPage = {
         hint: 'You’ll be able to add individual incomes separately',
         labels: custodianRelationshipLabels,
         descriptions: custodianRelationshipLabelDescriptions,
-        labelHeaderLevel: '2',
-        labelHeaderLevelStyle: '3',
+...sharedYesNoOptionsBase,
       }),
     },
     otherRecipientRelationshipType: {
