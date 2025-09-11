@@ -24,6 +24,7 @@ import {
   recipientNameRequired,
   resolveRecipientFullName,
   showUpdatedContent,
+  sharedYesNoOptionsBase,
 } from '../../../helpers';
 import {
   relationshipLabels,
@@ -114,11 +115,6 @@ const genericHint =
 const yesNoOptionLabels = {
   Y: 'Yes, I have income from an owned asset to report',
   N: 'No, I don’t have income from an owned asset to report',
-};
-
-const sharedYesNoOptionsBase = {
-  labelHeaderLevel: '2',
-  labelHeaderLevelStyle: '3',
 };
 
 const yesNoOptionsMore = {
@@ -278,7 +274,7 @@ const ownedAssetRecipientUpdatedPage = {
       hint: 'You’ll be able to add individual incomes separately',
       labels: relationshipLabels,
       descriptions: relationshipLabelDescriptions,
-  ...sharedYesNoOptionsBase,
+      ...sharedYesNoOptionsBase,
     }),
     otherRecipientRelationshipType: {
       'ui:title': 'Describe their relationship to the Veteran',
@@ -325,8 +321,7 @@ const ownedAssetRecipientUpdatedSpousePage = {
       hint: 'You’ll be able to add individual incomes separately',
       labels: spouseRelationshipLabels,
       descriptions: spouseRelationshipLabelDescriptions,
-      labelHeaderLevel: '2',
-      labelHeaderLevelStyle: '3',
+      ...sharedYesNoOptionsBase,
     }),
     otherRecipientRelationshipType: {
       'ui:title': 'Describe their relationship to the Veteran',
@@ -378,7 +373,7 @@ const ownedAssetRecipientUpdatedChildPage = {
       hint: 'You’ll be able to add individual incomes separately',
       labels: relationshipLabels,
       descriptions: relationshipLabelDescriptions,
-  ...sharedYesNoOptionsBase,
+      ...sharedYesNoOptionsBase,
     }),
     otherRecipientRelationshipType: {
       'ui:title': 'Describe their relationship to the Veteran',
@@ -432,7 +427,7 @@ const ownedAssetRecipientUpdatedCustodianPage = {
         hint: 'You’ll be able to add individual incomes separately',
         labels: custodianRelationshipLabels,
         descriptions: custodianRelationshipLabelDescriptions,
-...sharedYesNoOptionsBase,
+        ...sharedYesNoOptionsBase,
       }),
     },
     otherRecipientRelationshipType: {
@@ -489,7 +484,7 @@ const ownedAssetRecipientUpdatedParentPage = {
         hint: 'You’ll be able to add individual incomes separately',
         labels: parentRelationshipLabels,
         descriptions: parentRelationshipLabelDescriptions,
-...sharedYesNoOptionsBase,
+        ...sharedYesNoOptionsBase,
       }),
     },
     otherRecipientRelationshipType: {
