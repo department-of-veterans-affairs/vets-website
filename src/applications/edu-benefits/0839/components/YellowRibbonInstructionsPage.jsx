@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
-import Breadcrumbs from '../components/Breadcrumbs';
-import NeedHelp from '../components/NeedHelp';
+import Breadcrumbs from './Breadcrumbs';
+import NeedHelp from './NeedHelp';
 
 const YellowRibbonInstructionsPage = () => {
   useEffect(() => {

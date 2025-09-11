@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import { querySelectorWithShadowRoot } from 'platform/utilities/ui/webComponents';

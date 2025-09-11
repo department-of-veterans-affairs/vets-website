@@ -2,7 +2,7 @@ import React from 'react';
 import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
 import formConfig from './config/form';
 import App from './containers/App';
-import YellowRibbonInstructionsPage from './containers/YellowRibbonInstructionsPage';
+import YellowRibbonInstructionsPage from './components/YellowRibbonInstructionsPage';
 
 const routes = [
   {
