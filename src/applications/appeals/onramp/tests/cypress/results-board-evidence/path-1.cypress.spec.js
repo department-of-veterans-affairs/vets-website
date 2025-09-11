@@ -91,6 +91,7 @@ describe('Decision Reviews Onramp', () => {
           ],
         },
       ]);
+      h.verifyClaimForIncreaseCardNotPresent();
       h.checkNotGoodFitCards([
         {
           type: c.CARD_HLR,
