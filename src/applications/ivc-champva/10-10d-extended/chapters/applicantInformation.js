@@ -687,7 +687,7 @@ export const applicantPages = arrayBuilderPages(
   applicantOptions,
   pageBuilder => ({
     applicantIntro: pageBuilder.introPage({
-      path: 'applicant-information/overview',
+      path: 'applicant-information-overview',
       title: '[noun plural]',
       // initialData: mockData.data,
       uiSchema: {
@@ -712,48 +712,48 @@ export const applicantPages = arrayBuilderPages(
       },
     }),
     applicantSummary: pageBuilder.summaryPage({
-      path: 'applicant-information/summary',
+      path: 'review-your-applicants',
       title: 'Review your applicants',
       uiSchema: applicantSummaryPage.uiSchema,
       schema: applicantSummaryPage.schema,
     }),
     page13: pageBuilder.itemPage({
-      path: 'applicant-information/:index/name-and-date-of-birth',
+      path: 'applicant-name-and-date-of-birth/:index',
       title: 'Applicant name and date of birth',
       ...applicantIntroPage,
     }),
     page14: pageBuilder.itemPage({
-      path: 'applicant-information/:index/social-security-number',
+      path: 'applicant-social-security-number/:index',
       title: 'Identification',
       CustomPage: CustomApplicantSSNPage,
       CustomPageReview: null,
       ...applicantIdentificationPage,
     }),
     page15a: pageBuilder.itemPage({
-      path: 'applicant-information/:index/address',
+      path: 'applicant-address/:index',
       title: 'Address selection',
       ...applicantAddressSelectionPage,
       CustomPage: ApplicantAddressCopyPage,
       depends: (formData, index) => page15aDepends(formData, index),
     }),
     page15: pageBuilder.itemPage({
-      path: 'applicant-information/:index/mailing-address',
+      path: 'applicant-mailing-address/:index',
       title: 'Mailing address',
       ...applicantMailingAddressPage,
     }),
     page16: pageBuilder.itemPage({
-      path: 'applicant-information/:index/contact-information',
+      path: 'applicant-contact-information/:index',
       title: 'Contact information',
       ...applicantContactInfoPage,
     }),
     page17: pageBuilder.itemPage({
-      path: 'applicant-information/:index/birth-sex',
+      path: 'applicant-birth-sex/:index',
       title: 'Applicant sex listed at birth',
       ...applicantGenderPage,
       CustomPage: ApplicantGenderPage,
     }),
     page18: pageBuilder.itemPage({
-      path: 'applicant-information/:index/relationship-to-veteran',
+      path: 'applicant-relationship-to-veteran/:index',
       title: item =>
         `What's ${applicantWording(item)} relationship to the Veteran`,
       ...applicantRelationshipPage,
@@ -767,7 +767,7 @@ export const applicantPages = arrayBuilderPages(
         }),
     }),
     page18c: pageBuilder.itemPage({
-      path: 'applicant-information/:index/dependent-status',
+      path: 'applicant-dependent-status/:index',
       title: item => `${applicantWording(item)} dependent status`,
       depends: (formData, index) =>
         get(
@@ -778,7 +778,7 @@ export const applicantPages = arrayBuilderPages(
       CustomPage: ApplicantRelOriginPage,
     }),
     page18a: pageBuilder.itemPage({
-      path: 'applicant-information/:index/birth-certificate',
+      path: 'applicant-birth-certificate/:index',
       title: item => `${applicantWording(item)} birth certificate`,
       depends: (formData, index) =>
         get(
@@ -797,7 +797,7 @@ export const applicantPages = arrayBuilderPages(
       ...applicantBirthCertUploadPage,
     }),
     page18d: pageBuilder.itemPage({
-      path: 'applicant-information/:index/adoption-documents',
+      path: 'applicant-adoption-documents/:index',
       title: item => `${applicantWording(item)} adoption documents`,
       depends: (formData, index) =>
         get(
@@ -812,7 +812,7 @@ export const applicantPages = arrayBuilderPages(
       ...applicantAdoptionUploadPage,
     }),
     page18e: pageBuilder.itemPage({
-      path: 'applicant-information/:index/proof-of-marriage-or-legal-union',
+      path: 'applicant-proof-of-marriage-or-legal-union/:index',
       title: 'Upload proof of parent’s marriage or legal union',
       depends: (formData, index) =>
         get(
@@ -827,7 +827,7 @@ export const applicantPages = arrayBuilderPages(
       ...applicantStepChildUploadPage,
     }),
     page18b1: pageBuilder.itemPage({
-      path: 'applicant-information/:index/dependent-status-details',
+      path: 'applicant-dependent-status-details/:index',
       title: item => `${applicantWording(item)} dependent status`,
       depends: (formData, index) =>
         formData.applicants[index]?.applicantRelationshipToSponsor
@@ -841,7 +841,7 @@ export const applicantPages = arrayBuilderPages(
       ...applicantDependentStatusPage,
     }),
     page18b: pageBuilder.itemPage({
-      path: 'applicant-information/:index/proof-of-school-enrollment',
+      path: 'applicant-proof-of-school-enrollment/:index',
       title: item => `${applicantWording(item)} school documents`,
       depends: (formData, index) =>
         formData.applicants[index]?.applicantRelationshipToSponsor
@@ -858,7 +858,7 @@ export const applicantPages = arrayBuilderPages(
       ...applicantSchoolCertUploadPage,
     }),
     page18f3: pageBuilder.itemPage({
-      path: 'applicant-information/:index/marriage-date',
+      path: 'applicant-marriage-dates/:index',
       title: item => `${applicantWording(item)} marriage dates`,
       depends: (formData, index) =>
         get(
@@ -868,7 +868,7 @@ export const applicantPages = arrayBuilderPages(
       ...applicantMarriageDatesPage,
     }),
     page18f4: pageBuilder.itemPage({
-      path: 'applicant-information/:index/marriage-status',
+      path: 'applicant-marriage-status/:index',
       title: 'Marriage status',
       depends: (formData, index) =>
         get(
@@ -878,7 +878,7 @@ export const applicantPages = arrayBuilderPages(
       ...applicantRemarriedPage,
     }),
     page18g: pageBuilder.itemPage({
-      path: 'applicant-information/:index/proof-of-remarriage',
+      path: 'applicant-proof-of-remarriage/:index',
       title: 'Upload proof of remarriage',
       depends: (formData, index) =>
         get(

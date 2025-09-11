@@ -157,25 +157,25 @@
       "directoryPath": "src/applications/dependents/686c-674",
       "appName": "686C-674-v2",
       "entryName": "686C-674-v2",
-      "rootUrl": "/view-change-dependents/add-remove-form-21-686c-674"
+      "rootUrl": "/manage-dependents/add-remove-form-21-686c-674"
     },
     {
       "directoryPath": "src/applications/dependents/686c-674-old",
       "appName": "686C-674",
       "entryName": "686C-674",
-      "rootUrl": "/view-change-dependents/add-remove-form-21-686c"
+      "rootUrl": "/manage-dependents/add-remove-form-21-686c"
     },
     {
       "directoryPath": "src/applications/dependents/dependents-verification",
       "appName": "21-0538 Dependents verification",
       "entryName": "0538-dependents-verification",
-      "rootUrl": "/view-change-dependents/verify-dependents-form-21-0538"
+      "rootUrl": "/manage-dependents/verify-dependents-form-21-0538"
     },
     {
       "directoryPath": "src/applications/dependents/view-dependents",
       "appName": "View Dependents",
       "entryName": "dependents-view-dependents",
-      "rootUrl": "/view-change-dependents/view"
+      "rootUrl": "/manage-dependents/view"
     },
     {
       "directoryPath": "src/applications/dhp-connected-devices",
@@ -373,7 +373,7 @@
       "directoryPath": "src/applications/ivc-champva/10-10d-extended",
       "appName": "10-10d Extended",
       "entryName": "10-10d-extended",
-      "rootUrl": "/ivc-champva/10-10d-extended"
+      "rootUrl": "/family-and-caregiver-benefits/health-and-disability/champva/apply-champva-form-10-10d"
     },
     {
       "directoryPath": "src/applications/ivc-champva/10-7959a",

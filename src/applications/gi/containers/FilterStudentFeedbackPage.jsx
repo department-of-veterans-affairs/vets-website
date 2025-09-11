@@ -144,6 +144,10 @@ export default function FilterStudentFeedbackPage() {
     );
   }
 
+  const focusResults = () => {
+    requestAnimationFrame(() => focusElement('#results-summary'));
+  };
+
   const toggleUiYear = (year, checked) => {
     setUiYears(prev => {
       const next = new Set(prev);
@@ -166,6 +170,7 @@ export default function FilterStudentFeedbackPage() {
     setSelectedYears(new Set(uiYears));
     setSelectedTypes(new Set(uiTypes));
     setCurrentPage(1);
+    focusResults();
   };
 
   const clearFilters = () => {
@@ -174,6 +179,7 @@ export default function FilterStudentFeedbackPage() {
     setSelectedYears(new Set());
     setSelectedTypes(new Set());
     setCurrentPage(1);
+    focusResults();
   };
 
   const makeFilterPhrase = () => {
@@ -220,7 +226,11 @@ export default function FilterStudentFeedbackPage() {
 
             <VaAccordion uswds openSingle>
               <VaAccordionItem header="Complaint year" level={3}>
-                <VaCheckboxGroup uswds name="year-filters">
+                <VaCheckboxGroup
+                  uswds
+                  name="year-filters"
+                  className="vads-u-margin-top--0"
+                >
                   <VaCheckbox
                     uswds
                     label="All complaint years"
@@ -244,7 +254,11 @@ export default function FilterStudentFeedbackPage() {
 
             <VaAccordion uswds openSingle>
               <VaAccordionItem header="Complaint type" level={3}>
-                <VaCheckboxGroup uswds name="type-filters">
+                <VaCheckboxGroup
+                  uswds
+                  name="type-filters"
+                  className="vads-u-margin-top--0"
+                >
                   <VaCheckbox
                     uswds
                     label="All complaint types"
@@ -291,20 +305,28 @@ export default function FilterStudentFeedbackPage() {
             <h2 className="vads-u-margin-bottom--3">Filter results</h2>
 
             <div className="vads-u-display--flex vads-u-align-items--center vads-u-margin-bottom--1">
-              <span className="vads-u-margin-right--1">Sort</span>
               <VaSelect
+                className="vads-u-display--flex vads-u-align-items--baseline filter-student-feedback-sort-select"
                 uswds
+                label="Sort"
                 name="sort-order"
                 value={sortOrder}
-                onVaSelect={e => setSortOrder(e.detail.value)}
-                style={{ width: '10rem' }}
+                onVaSelect={e => {
+                  setSortOrder(e.detail.value);
+                  focusResults();
+                }}
               >
                 <option value="asc">a-z</option>
                 <option value="desc">z-a</option>
               </VaSelect>
             </div>
 
-            <p className="vads-u-margin-top--0 vads-u-margin-bottom--3">
+            <p
+              id="results-summary"
+              tabIndex="-1"
+              aria-atomic="true"
+              className="vads-u-margin-top--0 vads-u-margin-bottom--3"
+            >
               {totalResults > 0 ? (
                 <>
                   {`Showing ${rangeStart}–${rangeEnd} of ${totalResults} results`}
@@ -320,7 +342,10 @@ export default function FilterStudentFeedbackPage() {
               isSmallScreen={isSmallScreen}
               currentPage={currentPage}
               totalPages={totalPages}
-              onPageSelect={setCurrentPage}
+              onPageSelect={page => {
+                setCurrentPage(page);
+                focusResults();
+              }}
             />
           </div>
         </div>

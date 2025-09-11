@@ -13,7 +13,7 @@
             "refillRemaining": 0,
             "facilityName": "DAYT29",
             "orderedDate": "2023-10-15T04:00:00.000Z",
-            "quantity": 3,
+            "quantity": "3",
             "expirationDate": "2024-10-15T04:00:00.000Z",
             "dispensedDate": null,
             "stationNumber": "989",

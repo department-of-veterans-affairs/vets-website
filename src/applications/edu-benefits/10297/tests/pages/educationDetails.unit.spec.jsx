@@ -38,26 +38,6 @@ describe('Background Information Step 4 - Page 5, Education Details', () => {
     expect(utils.container.querySelectorAll('[error]')).to.have.length(0);
   });
 
-  it('should hide other text input when highest level of education is not something else', () => {
-    const formData = {
-      highestLevelOfEducation: 'HS',
-    };
-    const result = educationDetails.uiSchema.otherLevel['ui:options'].hideIf(
-      formData,
-    );
-    expect(result).to.be.true;
-  });
-
-  it('should not hide other text input when highest level of education is something else', () => {
-    const formData = {
-      highestLevelOfEducation: 'NA',
-    };
-    const result = educationDetails.uiSchema.otherLevel['ui:options'].hideIf(
-      formData,
-    );
-    expect(result).to.be.false;
-  });
-
   it('navigates back to the correct page based on employment status', () => {
     const {
       onNavBack,

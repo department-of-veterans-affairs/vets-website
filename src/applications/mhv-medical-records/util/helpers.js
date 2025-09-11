@@ -105,6 +105,21 @@ export const nameFormat = ({ first, middle, last, suffix }) => {
 };
 
 /**
+ * @param {String} datetimeString
+ * @returns { formattedDate: string, formattedTime: string } formatted datestamp, formatted timestamp
+ */
+export const formatDateTime = datetimeString => {
+  const dateTime = new Date(datetimeString);
+  if (Number.isNaN(dateTime.getTime())) {
+    return { formattedDate: '', formattedTime: '' };
+  }
+  const formattedDate = dateFnsFormat(dateTime, 'MMMM d, yyyy');
+  const formattedTime = dateFnsFormat(dateTime, 'h:mm a');
+
+  return { formattedDate, formattedTime };
+};
+
+/**
  * @param {Object} record
  * @returns {Array of Strings} array of reactions
  */
