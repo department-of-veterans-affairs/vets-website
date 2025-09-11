@@ -1,7 +1,7 @@
 import React from 'react';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import * as autosuggest from '../../definitions/autosuggest';
-import { getCemeteries } from '../../utils/helpers';
+import * as autosuggest from '../../../definitions/autosuggest';
+import { getCemeteries } from '../../../utils/helpers';
 
 // Updated static content per new copy
 

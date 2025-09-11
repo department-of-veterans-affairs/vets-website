@@ -1,52 +1,64 @@
+// Platform imports
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import GetFormHelp from '../components/GetFormHelp';
-import { TITLE, SUBTITLE } from '../constants';
+
+// Manifest, constants, containers, helpers
 import manifest from '../manifest.json';
+import { TITLE, SUBTITLE } from '../constants';
+import GetFormHelp from '../components/GetFormHelp';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import deceasedInformation from './pages/deceasedInformationChapter/deceasedInformation';
-import deceasedInfo2 from './pages/deceasedInformationChapter/deceasedInfo2';
-// import deceasedMilitaryDetails from './pages/deceasedMilitaryDetails';
-// import deceasedName from './pages/deceasedName';
-// import deceasedPreviousName from './pages/deceasedPreviousName';
-import demographicsInfo from './pages/deceasedInformationChapter/demographicsInfo';
-import demographicsInfo2 from './pages/deceasedInformationChapter/demographicsInfo2';
-// import desiredCemetery from './pages/desiredCemetery';
-import funeralHomeAddress from './pages/funeralHome/funeralHomeAddress.js';
-import funeralHomeContact from './pages/funeralHome/funeralHomeContact.js';
-import funeralHomeDetails from './pages/funeralHome/funeralHomeDetails.js';
-import intermentDetails from './pages/interment/intermentDetails';
-import burialLocation from './pages/interment/burialLocation';
-import greenBurialContainerType from './pages/interment/greenBurialContainerType';
-// import mailingAddress from './pages/mailingAddress';
-// import preparerContact from './pages/preparerContact';
-// import preparerName from './pages/preparerName';
-// import { burialBenefitsPagesVeteran } from './pages/burialBenefitsPages';
-import { deceasedServicePeriodsPages } from './pages/deceasedInformationChapter/deceasedServicePeriodsPages.jsx';
-// import { intermentDateRangesPages } from './pages/intermentDateRangesPages';
-import {
-  SupportingFilesDescription,
-  fileUploadUi,
-  timeOfNeedAttachments,
-} from './pages/supportingDocuments/supportingDocuments';
+// Applicant chapter
 import applicantDetails from './pages/applicantChapter/applicantDetails';
 import applicantContact from './pages/applicantChapter/applicantContact';
 import applicantAddress from './pages/applicantChapter/applicantAddress';
 import applicantWhoIsDeceased from './pages/applicantChapter/applicantWhoIsDeceased';
 import applicantPreneedDecisionLetter from './pages/applicantChapter/applicantPreneedDecisionLetter';
 import applicantRelationshipToVeteran from './pages/applicantChapter/applicantRelationshipToVeteran';
+
+// Deceased information chapter
+import deceasedInformation from './pages/deceasedInformationChapter/deceasedInformation';
+import deceasedInfo2 from './pages/deceasedInformationChapter/deceasedInfo2';
+import demographicsInfo from './pages/deceasedInformationChapter/demographicsInfo';
+import demographicsInfo2 from './pages/deceasedInformationChapter/demographicsInfo2';
+import { deceasedServicePeriodsPages } from './pages/deceasedInformationChapter/deceasedServicePeriodsPages.jsx';
+
+// Marital information chapter
 import maritalStatus from './pages/maritalInformation/maritalStatus';
 import spouseInformation from './pages/maritalInformation/spouseInformation';
 import veteranStatus from './pages/maritalInformation/veteranStatus';
 import veteranInformation from './pages/maritalInformation/veteranInformation';
 import dependentChild from './pages/maritalInformation/dependentChild';
+
+// Interment chapter
+import currentlyBuried from './pages/interment/currentlyBuried';
+import { burialBenefitsPagesVeteran } from './pages/interment/burialBenefitsPages.jsx';
+import desiredCemetery from './pages/interment/desiredCemetery';
+import intermentDetails from './pages/interment/intermentDetails';
+import burialLocation from './pages/interment/burialLocation';
+import greenBurialContainerType from './pages/interment/greenBurialContainerType';
 import emblemOfBelief from './pages/interment/emblemOfBelief';
 import emblemSelection from './pages/interment/emblemSelection';
+
+// Funeral home chapter
+import funeralHomeDetails from './pages/funeralHome/funeralHomeDetails.js';
+import funeralHomeAddress from './pages/funeralHome/funeralHomeAddress.js';
+import funeralHomeContact from './pages/funeralHome/funeralHomeContact.js';
+
+// Federal law chapter
 import federalLawDetails from './pages/federalLaw/federalLawDetails';
+
+// Scheduling chapter
 import schedulingInformation from './pages/scheduling/schedulingInformation';
+
+// Supporting documents chapter
 import supportingDocumentsInfo from './pages/supportingDocuments/supportingDocumentsInfo';
+import {
+  SupportingFilesDescription,
+  fileUploadUi,
+  timeOfNeedAttachments,
+} from './pages/supportingDocuments/supportingDocuments';
 
 // Add constant for green burial types
 const GREEN_BURIAL_TYPES = ['intactGreen', 'cremainsGreen'];
@@ -94,11 +106,7 @@ const formConfig = {
   },
   title: TITLE,
   subTitle: SUBTITLE,
-  initialData: {
-    currentlyBuriedPersons: [],
-    servicePeriods: [],
-    desiredIntermentDateRanges: [], // added
-  },
+  initialData: {},
   defaultDefinitions: {
     currentlyBuriedPersons: [],
   },
@@ -248,6 +256,20 @@ const formConfig = {
     interment: {
       title: 'Interment information',
       pages: {
+        burialBenefitsInfo: {
+          path: 'currently-buried',
+          title: 'Currently buried',
+          uiSchema: currentlyBuried.uiSchema,
+          schema: currentlyBuried.schema,
+        },
+        // Stand-alone array builder pages (no conditional dependency)
+        ...burialBenefitsPagesVeteran,
+        desiredCemetery: {
+          path: 'desired-cemetery',
+          title: 'Desired cemetery for burial of deceased',
+          uiSchema: desiredCemetery.uiSchema,
+          schema: desiredCemetery.schema,
+        },
         intermentDetails: {
           path: 'interment-details',
           title: 'Interment details',

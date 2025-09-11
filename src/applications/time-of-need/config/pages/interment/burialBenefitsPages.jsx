@@ -1,17 +1,14 @@
 import React from 'react';
 import {
   arrayBuilderItemFirstPageTitleUI,
-  arrayBuilderYesNoSchema,
-  arrayBuilderYesNoUI,
   titleUI,
   textSchema,
   ssnUI,
   ssnSchema,
+  textUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
-import { merge } from 'lodash';
 import CurrentlyBuriedDescription from '../../components/CurrentlyBuriedDescription';
-import fullNameUI from '../../definitions/fullName';
 
 // Utility functions (adapt as needed for your app)
 // import { isVeteran, hasDeceasedPersons } from '../../utils/helpers';
@@ -116,6 +113,8 @@ const options = {
   required: true,
   isItemIncomplete: item => !item?.name?.first || !item?.name?.last,
   maxItems: 3,
+  useButtonInsteadOfYesNo: true, // Added to satisfy summaryPage requirement
+  // Alternatively: useLinkInsteadOfYesNo: true,
   text: {
     getItemName: handleGetItemName,
     alertMaxItems: handleAlertMaxItems,
@@ -130,51 +129,35 @@ const options = {
     cancelEditDescription: handleCancelEditDescription,
     cancelEditYes: handleCancelEditYes,
     cancelEditNo: handleCancelEditNo,
-    summaryTitle: 'Previously deceased details', // updated
+    summaryTitle: 'Previously deceased details',
   },
 };
 
 const introPage = {
   uiSchema: {
     ...titleUI(
-      'Previously deceased details', // updated heading
-      'In the next few questions, we’ll ask you about the details of the person(s) currently buried in a VA national cemetery under the Veteran’s eligibility. You must add at least one name. You can add up to 3 people.', // updated description
+      'Previously deceased details',
+      'In the next few questions, we’ll ask you about the details of the person(s) currently buried in a VA national cemetery under the Veteran’s eligibility. You must add at least one name. You can add up to 3 people.',
     ),
+    // IMPORTANT: Do NOT override currentlyBuriedPersons here or we lose arrayBuilder’s ui:options.viewField
   },
   schema: {
     type: 'object',
-    properties: {},
-  },
-};
-
-const summaryPageVeteran = {
-  uiSchema: {
-    'view:hasCurrentlyBuriedPersons': arrayBuilderYesNoUI(options, {
-      title:
-        'Is there anyone currently buried in a VA national cemetery under your eligibility?',
-      labels: {
-        Y: 'Yes',
-        N: 'No',
-      },
-    }),
-  },
-  schema: {
-    type: 'object',
-    properties: {
-      'view:hasCurrentlyBuriedPersons': arrayBuilderYesNoSchema,
-    },
-    required: ['view:hasCurrentlyBuriedPersons'],
+    properties: {}, // no manual array definition; arrayBuilder handles it
   },
 };
 
 const namePage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Previously deceased details', // updated heading
+      title: 'Previously deceased details',
       description: <CurrentlyBuriedDescription />,
       nounSingular: options.nounSingular,
     }),
-    name: merge({}, fullNameUI), // First & Last name (required)
+    name: {
+      first: textUI({ title: 'First name' }),
+      last: textUI({ title: 'Last name' }),
+    },
     ssn: {
       ...ssnUI(),
       'ui:title': 'Social Security Number',
@@ -182,10 +165,7 @@ const namePage = {
     },
     cemeteryNumber: {
       'ui:title': 'Cemetery',
-      'ui:options': {
-        // field now visible & required
-        useV3: true,
-      },
+      'ui:options': { useV3: true },
     },
   },
   schema: {
@@ -211,6 +191,16 @@ const namePage = {
   },
 };
 
+const summaryPageVeteran = {
+  // Leave uiSchema empty so arrayBuilder supplies its viewField & controls
+  uiSchema: {},
+  // Empty schema placeholder; arrayBuilder will inject the array schema
+  schema: {
+    type: 'object',
+    properties: {},
+  },
+};
+
 export const burialBenefitsPagesVeteran = arrayBuilderPages(
   options,
   pageBuilder => ({
@@ -227,7 +217,7 @@ export const burialBenefitsPagesVeteran = arrayBuilderPages(
       schema: summaryPageVeteran.schema,
     }),
     burialBenefitsInformationPageVeteran: pageBuilder.itemPage({
-      title: 'Previously deceased details', // updated item page title
+      title: 'Previously deceased details',
       path: 'burial-benefits/:index/person',
       uiSchema: namePage.uiSchema,
       schema: namePage.schema,

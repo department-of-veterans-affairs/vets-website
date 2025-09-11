@@ -1,6 +1,6 @@
 import React from 'react';
 import { radioUI } from 'platform/forms-system/src/js/web-component-patterns';
-import AutoSaveNotice from '../../components/AutoSaveNotice';
+import AutoSaveNotice from '../../../components/AutoSaveNotice';
 
 const options = [
   { value: 'yes', label: 'Yes' },
