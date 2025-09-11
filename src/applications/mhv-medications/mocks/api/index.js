@@ -28,9 +28,7 @@ const responses = {
     delaySingleResponse(() => res.json(user.defaultUser), 750);
   },
   'GET /v0/feature_toggles': (_req, res) => {
-    const toggles = featureToggles.generateFeatureToggles({
-      mhvMedicationsDisplayDocumentationContent: true,
-    });
+    const toggles = featureToggles.generateFeatureToggles({});
 
     delaySingleResponse(() => res.json(toggles), 500);
   },
