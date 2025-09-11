@@ -1519,3 +1519,40 @@ export const addConditionalDependency = (pages, condition) => {
     ]),
   );
 };
+
+export const ApplicantDetailsHeader = () => {
+  return (
+    <h3 className="vads-u-margin-bottom--3">
+      Confirm the personal information we have on file for you
+    </h3>
+  );
+};
+
+// Helper functions to check authentication status for veteran applicant details pages
+export const isLoggedInVeteran = formData => {
+  const isLoggedIn = formData?.['view:loginState']?.isLoggedIn || false;
+  const isVet = isVeteran(formData);
+  const isAgent = isAuthorizedAgent(formData);
+  return !isAgent && isVet && isLoggedIn;
+};
+
+export const isNotLoggedInVeteran = formData => {
+  const isLoggedIn = formData?.['view:loginState']?.isLoggedIn || false;
+  const isVet = isVeteran(formData);
+  const isAgent = isAuthorizedAgent(formData);
+  return !isAgent && isVet && !isLoggedIn;
+};
+
+export const isLoggedInVeteranPreparer = formData => {
+  const isLoggedIn = formData?.['view:loginState']?.isLoggedIn || false;
+  const isVet = isVeteran(formData);
+  const isAgent = isAuthorizedAgent(formData);
+  return isAgent && isVet && isLoggedIn;
+};
+
+export const isNotLoggedInVeteranPreparer = formData => {
+  const isLoggedIn = formData?.['view:loginState']?.isLoggedIn || false;
+  const isVet = isVeteran(formData);
+  const isAgent = isAuthorizedAgent(formData);
+  return isAgent && isVet && !isLoggedIn;
+};
