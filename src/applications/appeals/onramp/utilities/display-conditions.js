@@ -1,3 +1,5 @@
+import { RESPONSES, SHORT_NAME_MAP } from '../constants/question-data-map';
+
 /** ================================================================
  * If the display conditions contain ONE_OF or NONE_OF,
  * check all possible responses for a match
@@ -6,7 +8,7 @@
  * @param {object} batchOfChoices
  * Example: {
  *   Q_1_3A_FEWER_60_DAYS: YES,
- *   Q_2_H_1_EXISTING_BOARD_APPEAL: NO,
+ *   Q_2_IS_1B_NEW_EVIDENCE: NO,
  * }
  * @param {object} formResponses - all answers in the store
  */
@@ -19,6 +21,17 @@ export const evaluateBatchOfChoices = (batchOfChoices, formResponses) => {
   }
 
   return false;
+};
+
+/**
+ * Evaluates whether the user has indicated that their condition
+ * has worsened and they disagree with a decision
+ */
+export const isCFIVariant = formResponses => {
+  return (
+    formResponses[(SHORT_NAME_MAP?.Q_2_IS_4_DISAGREE_DECISION)] ===
+    RESPONSES.YES
+  );
 };
 
 /** ================================================================

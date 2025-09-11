@@ -30,6 +30,7 @@ import {
   recordAppointmentDetailsNullStates,
   captureMissingModalityLogs,
 } from '../../utils/events';
+import ClinicName from './ClinicName';
 
 export default function VideoLayout({ data: appointment }) {
   const {
@@ -129,11 +130,7 @@ export default function VideoLayout({ data: appointment }) {
               </span>
             </>
           )}
-          <br />
-          <span data-dd-privacy="mask">
-            {clinicName ? `Clinic: ${clinicName}` : 'Clinic not available'}
-          </span>
-          <br />
+          <ClinicName name={clinicName} /> <br />
           <ClinicOrFacilityPhone
             clinicPhone={clinicPhone}
             clinicPhoneExtension={clinicPhoneExtension}
@@ -186,11 +183,7 @@ export default function VideoLayout({ data: appointment }) {
             ) : (
               'Facility not available'
             )}
-            <br />
-            <span data-dd-privacy="mask">
-              {clinicName ? `Clinic: ${clinicName}` : 'Clinic not available'}
-            </span>
-            <br />
+            <ClinicName name={clinicName} /> <br />
             <ClinicOrFacilityPhone
               clinicPhone={clinicPhone}
               clinicPhoneExtension={clinicPhoneExtension}

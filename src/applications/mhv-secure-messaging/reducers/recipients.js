@@ -8,6 +8,7 @@ const initialState = {
    */
   allRecipients: [],
   allowedRecipients: [],
+  recentRecipients: undefined,
   blockedRecipients: [],
   blockedFacilities: [],
   allFacilities: [],
@@ -79,6 +80,44 @@ export const recipientsReducer = (state = initialState, action) => {
         error: true,
       };
 
+    case Actions.AllRecipients.GET_RECENT: {
+      // action.response is an array of triageTeamIds
+      // allowedRecipients is an array of recipient objects with triageTeamId and name
+      // Filter recent recipients to only include those that are allowed
+
+      const allowedMap = new Map(
+        state.allowedRecipients.map(r => [
+          r.triageTeamId,
+          {
+            name: r.suggestedNameDisplay || r.name,
+            healthCareSystemName: r.healthCareSystemName,
+            stationNumber: r.stationNumber,
+          },
+        ]),
+      );
+
+      const filteredRecent = (action.response || [])
+        .filter(id => allowedMap.has(id))
+        .map(id => ({
+          triageTeamId: id,
+          ...allowedMap.get(id),
+        }))
+        .slice(0, 4);
+      return {
+        ...state,
+        recentRecipients: filteredRecent || null,
+      };
+    }
+    case Actions.AllRecipients.RESET_RECENT:
+      return {
+        ...state,
+        recentRecipients: undefined,
+      };
+    case Actions.AllRecipients.GET_RECENT_ERROR:
+      return {
+        ...state,
+        recentRecipients: 'error',
+      };
     default:
       return state;
   }

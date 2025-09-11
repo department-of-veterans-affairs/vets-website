@@ -11,7 +11,7 @@ const PROPERTY_NAMES = {
 
 function generateOptions({ data, pagePerItemIndex }) {
   const bp = appRelBoilerplate({ data, pagePerItemIndex });
-  const customTitle = `${bp.applicant}’s status`;
+  const customTitle = `${bp.applicant}’s dependent status`;
   const relativeBeingVerb = `${bp.relative} ${bp.beingVerbPresent}`;
   const options = [
     {

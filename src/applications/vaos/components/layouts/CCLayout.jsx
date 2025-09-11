@@ -21,6 +21,7 @@ import FacilityPhone from '../FacilityPhone';
 import Address from '../Address';
 import {
   NULL_STATE_FIELD,
+  captureMissingModalityLogs,
   recordAppointmentDetailsNullStates,
 } from '../../utils/events';
 
@@ -47,6 +48,9 @@ export default function CCLayout({ data: appointment }) {
     heading = 'Canceled community care appointment';
   else if (isPastAppointment) heading = 'Past community care appointment';
 
+  if (!appointment.modality) {
+    captureMissingModalityLogs(appointment);
+  }
   recordAppointmentDetailsNullStates(
     {
       type: appointment.type,

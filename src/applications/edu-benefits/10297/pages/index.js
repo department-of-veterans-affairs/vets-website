@@ -1,4 +1,3 @@
-import eligibilityQuestions from './eligibilityQuestions';
 import * as applicantFullname from './applicantFullname';
 import * as mailingAddress from './mailingAddress';
 import * as phoneAndEmail from './phoneAndEmail';
@@ -11,9 +10,9 @@ import * as educationDetails from './educationDetails';
 import * as trainingProviderSummary from './trainingProviderSummary';
 import * as trainingProviderDetails from './trainingProviderDetails';
 import * as trainingProviderStartDate from './trainingProviderStartDate';
+import * as atLeast3Years from './atLeast3Years';
 
 export {
-  eligibilityQuestions,
   applicantFullname,
   mailingAddress,
   phoneAndEmail,
@@ -26,4 +25,5 @@ export {
   trainingProviderSummary,
   trainingProviderDetails,
   trainingProviderStartDate,
+  atLeast3Years,
 };

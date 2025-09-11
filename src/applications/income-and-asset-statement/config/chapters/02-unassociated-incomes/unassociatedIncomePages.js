@@ -535,7 +535,7 @@ export const unassociatedIncomePages = arrayBuilderPages(
     }),
     unassociatedIncomeVeteranRecipientPage: pageBuilder.itemPage({
       ContentBeforeButtons: showUpdatedContent() ? (
-        <DependentDescription />
+        <DependentDescription claimantType="VETERAN" />
       ) : null,
       title: incomeRecipientPageTitle,
       path: 'recurring-income/:index/veteran-income-recipient',
@@ -546,7 +546,7 @@ export const unassociatedIncomePages = arrayBuilderPages(
     }),
     unassociatedIncomeSpouseRecipientPage: pageBuilder.itemPage({
       ContentBeforeButtons: showUpdatedContent() ? (
-        <DependentDescription />
+        <DependentDescription claimantType="SPOUSE" />
       ) : null,
       title: incomeRecipientPageTitle,
       path: 'recurring-income/:index/spouse-income-recipient',
@@ -557,7 +557,7 @@ export const unassociatedIncomePages = arrayBuilderPages(
     }),
     unassociatedIncomeCustodianRecipientPage: pageBuilder.itemPage({
       ContentBeforeButtons: showUpdatedContent() ? (
-        <DependentDescription />
+        <DependentDescription claimantType="CUSTODIAN" />
       ) : null,
       title: incomeRecipientPageTitle,
       path: 'recurring-income/:index/custodian-income-recipient',
@@ -568,7 +568,7 @@ export const unassociatedIncomePages = arrayBuilderPages(
     }),
     unassociatedIncomeParentRecipientPage: pageBuilder.itemPage({
       ContentBeforeButtons: showUpdatedContent() ? (
-        <DependentDescription />
+        <DependentDescription claimantType="PARENT" />
       ) : null,
       title: incomeRecipientPageTitle,
       path: 'recurring-income/:index/parent-income-recipient',

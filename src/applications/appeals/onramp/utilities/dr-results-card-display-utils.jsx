@@ -32,15 +32,15 @@ export const displayCards = (formResponses, goodFit) => {
     if (displayConditionsMet(formResponses, displayConditionsForCard)) {
       if (goodFit) {
         cardsToDisplay.push(
-          <GoodFitCard key={card} card={card} formResponses={formResponses} />,
+          <li key={card}>
+            <GoodFitCard card={card} formResponses={formResponses} />
+          </li>,
         );
       } else {
         cardsToDisplay.push(
-          <NotGoodFitCard
-            key={card}
-            card={card}
-            formResponses={formResponses}
-          />,
+          <li key={card}>
+            <NotGoodFitCard card={card} formResponses={formResponses} />
+          </li>,
         );
       }
     }
@@ -63,7 +63,12 @@ export const displayNotGoodFitCards = formResponses => {
           Based on your answers, these choices may not fit your situation. You
           are always free to submit any claim you choose.
         </p>
-        {cardsToDisplay}
+        {/* Adding a `role="list"` to `ul` with `list-style: none` to work around
+          a problem with Safari not treating the `ul` as a list. */}
+        {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+        <ul className="onramp-list-none" role="list">
+          {cardsToDisplay}
+        </ul>
       </>
     );
   }
@@ -79,6 +84,8 @@ const INTRO = (
 );
 
 export const getCardProps = formResponses => {
+  const gfCards = displayCards(formResponses, true);
+
   return {
     h1: DR_HEADING,
     bodyContent: (
@@ -86,7 +93,16 @@ export const getCardProps = formResponses => {
         {INTRO}
         <OverviewPanel formResponses={formResponses} />
         {PRINT_RESULTS}
-        {displayCards(formResponses, true)}
+        {gfCards?.length && (
+          <>
+            {/* Adding a `role="list"` to `ul` with `list-style: none` to work around
+            a problem with Safari not treating the `ul` as a list. */}
+            {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+            <ul className="onramp-list-none" role="list">
+              {gfCards}
+            </ul>
+          </>
+        )}
         {showOutsideDROption(formResponses)}
         {displayNotGoodFitCards(formResponses)}
         {HORIZ_RULE}

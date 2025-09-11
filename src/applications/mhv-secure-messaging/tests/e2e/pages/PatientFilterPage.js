@@ -19,7 +19,7 @@ class PatientFilterSortPage {
   };
 
   openAdditionalFilter = () => {
-    cy.get(Locators.BUTTONS.ADDITIONAL_FILTER).click();
+    cy.findByText('Show filters', { selector: 'h3' }).click();
   };
 
   // This method will access the input field and enters the text that will be used for search.

@@ -83,6 +83,7 @@ const EmailInformationSection = ({ className, signInServiceName }) => {
         namedAnchor="email-address"
         data={generateRows(signInServiceName)}
         className="vads-u-margin-bottom--4"
+        enableAlertConfirmContactEmail
       />
     </div>
   );

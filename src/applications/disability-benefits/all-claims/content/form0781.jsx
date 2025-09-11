@@ -204,7 +204,6 @@ export const mentalHealthSupportAlert = () => {
         even if you don’t file a claim for disability compensation or you aren’t
         eligible for compensation.
       </p>
-      <br />
       <p>
         <va-link
           external
@@ -212,7 +211,6 @@ export const mentalHealthSupportAlert = () => {
           text="Learn how to get support for mental health care"
         />
       </p>
-      <br />
       <p>
         <va-link
           external

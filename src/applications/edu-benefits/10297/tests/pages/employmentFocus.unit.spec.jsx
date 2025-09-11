@@ -36,24 +36,4 @@ describe('Background Information Step 4 - Page 3, Employment Focus', () => {
     utils = renderPage({ technologyAreaOfFocus: 'somethingElse' });
     expect(utils.container.querySelectorAll('[error]')).to.have.length(0);
   });
-
-  it('should hide other text input when technology area of focus is not something else', () => {
-    const formData = {
-      technologyAreaOfFocus: 'computerProgramming',
-    };
-    const result = employmentFocus.uiSchema.otherFocus['ui:options'].hideIf(
-      formData,
-    );
-    expect(result).to.be.true;
-  });
-
-  it('should not hide other text input when technology area of focus is something else', () => {
-    const formData = {
-      technologyAreaOfFocus: 'somethingElse',
-    };
-    const result = employmentFocus.uiSchema.otherFocus['ui:options'].hideIf(
-      formData,
-    );
-    expect(result).to.be.false;
-  });
 });

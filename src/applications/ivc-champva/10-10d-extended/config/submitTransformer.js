@@ -253,6 +253,7 @@ export default function transformForSubmit(formConfig, form) {
     ssnOrTin: withConcatAddresses.sponsorSsn || '',
     dateOfBirth: formatDate(withConcatAddresses.sponsorDob) || '',
     phoneNumber: withConcatAddresses.sponsorPhone || '',
+    email: withConcatAddresses.sponsorEmail || '',
     address: withConcatAddresses.sponsorAddress || {},
     sponsorIsDeceased: withConcatAddresses.sponsorIsDeceased,
     dateOfDeath: formatDate(withConcatAddresses.sponsorDOD) || '',

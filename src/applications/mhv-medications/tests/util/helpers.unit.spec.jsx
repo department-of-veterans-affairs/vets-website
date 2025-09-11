@@ -58,6 +58,87 @@ describe('Validate Field function', () => {
   it('should return 0', () => {
     expect(validateField(0)).to.equal(0);
   });
+
+  it('returns the value when passed a string', () => {
+    const result = validateField('30');
+    expect(result).to.equal('30');
+  });
+
+  it('returns the value when passed a string float', () => {
+    const result = validateField('15.5');
+    expect(result).to.equal('15.5');
+  });
+
+  it('returns the value when passed an integer', () => {
+    const result = validateField(30);
+    expect(result).to.equal(30);
+  });
+
+  it('returns the value when passed a float number', () => {
+    const result = validateField(15.5);
+    expect(result).to.equal(15.5);
+  });
+
+  it('returns the value when passed zero as a string', () => {
+    const result = validateField('0');
+    expect(result).to.equal('0');
+  });
+
+  it('returns "None noted" when passed null', () => {
+    const result = validateField(null);
+    expect(result).to.equal('None noted');
+  });
+
+  it('returns "None noted" when passed undefined', () => {
+    const result = validateField(undefined);
+    expect(result).to.equal('None noted');
+  });
+
+  it('returns "None noted" when passed empty string', () => {
+    const result = validateField('');
+    expect(result).to.equal('None noted');
+  });
+
+  it('returns the value when passed a string with whitespace', () => {
+    const result = validateField('  30  ');
+    expect(result).to.equal('  30  ');
+  });
+
+  it('returns the value when passed a negative number', () => {
+    const result = validateField(-5);
+    expect(result).to.equal(-5);
+  });
+
+  it('returns the value when passed a negative string number', () => {
+    const result = validateField('-5');
+    expect(result).to.equal('-5');
+  });
+
+  it('returns the value when passed boolean true', () => {
+    const result = validateField(true);
+    expect(result).to.equal(true);
+  });
+
+  it('returns "None noted" when passed boolean false', () => {
+    const result = validateField(false);
+    expect(result).to.equal('None noted');
+  });
+
+  it('handles quantity-specific edge cases for strings', () => {
+    const result1 = validateField('30 tablets');
+    expect(result1).to.equal('30 tablets');
+
+    const result2 = validateField('2.5 mg');
+    expect(result2).to.equal('2.5 mg');
+  });
+
+  it('handles quantity-specific edge cases for numbers', () => {
+    const result1 = validateField(90);
+    expect(result1).to.equal(90);
+
+    const result2 = validateField(0.5);
+    expect(result2).to.equal(0.5);
+  });
 });
 
 describe('Validate if Available function', () => {
@@ -73,6 +154,69 @@ describe('Validate if Available function', () => {
 
   it('should return 0', () => {
     expect(validateIfAvailable('Test field name', 0)).to.equal(0);
+  });
+
+  it('returns the value when passed a string', () => {
+    const result = validateIfAvailable('Test Field', '30');
+    expect(result).to.equal('30');
+  });
+
+  it('returns the value when passed a string float', () => {
+    const result = validateIfAvailable('Test Field', '15.5');
+    expect(result).to.equal('15.5');
+  });
+
+  it('returns the value when passed an integer', () => {
+    const result = validateIfAvailable('Test Field', 30);
+    expect(result).to.equal(30);
+  });
+
+  it('returns the value when passed a float number', () => {
+    const result = validateIfAvailable('Test Field', 15.5);
+    expect(result).to.equal(15.5);
+  });
+
+  it('returns the value when passed zero as a string', () => {
+    const result = validateIfAvailable('Test Field', '0');
+    expect(result).to.equal('0');
+  });
+
+  it('returns "not available" message when passed null', () => {
+    const result = validateIfAvailable('Test Field', null);
+    expect(result).to.equal('Test Field not available');
+  });
+
+  it('returns "not available" message when passed undefined', () => {
+    const result = validateIfAvailable('Test Field', undefined);
+    expect(result).to.equal('Test Field not available');
+  });
+
+  it('returns "not available" message when passed empty string', () => {
+    const result = validateIfAvailable('Test Field', '');
+    expect(result).to.equal('Test Field not available');
+  });
+
+  it('returns the value when passed a string with whitespace', () => {
+    const result = validateIfAvailable('Test Field', '  30  ');
+    expect(result).to.equal('  30  ');
+  });
+
+  it('returns the value when passed a negative number', () => {
+    const result = validateIfAvailable('Test Field', -5);
+    expect(result).to.equal(-5);
+  });
+
+  it('returns the value when passed a negative string number', () => {
+    const result = validateIfAvailable('Test Field', '-5');
+    expect(result).to.equal('-5');
+  });
+
+  it('works with different field names in the not available message', () => {
+    const result = validateIfAvailable('Quantity', null);
+    expect(result).to.equal('Quantity not available');
+
+    const result2 = validateIfAvailable('Dosage', undefined);
+    expect(result2).to.equal('Dosage not available');
   });
 });
 

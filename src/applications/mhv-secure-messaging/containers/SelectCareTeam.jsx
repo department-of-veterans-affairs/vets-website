@@ -48,7 +48,9 @@ const SelectCareTeam = () => {
 
   useEffect(
     () => {
-      if (!acceptInterstitial && !validDraft) history.push(Paths.COMPOSE);
+      if (!acceptInterstitial && !validDraft) {
+        history.push(Paths.COMPOSE);
+      }
     },
     [acceptInterstitial, validDraft, history],
   );
@@ -247,6 +249,10 @@ const SelectCareTeam = () => {
       if (!selectedCareTeamId || !draftInProgress.recipientId) {
         setCareTeamError('Select a care team');
         selectionsValid = false;
+        const recipientSelect = document
+          .querySelector('[data-testid="compose-recipient-combobox"]')
+          ?.shadowRoot?.querySelector('input');
+        focusElement(recipientSelect);
       }
       return selectionsValid;
     },

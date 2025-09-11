@@ -9,6 +9,8 @@ import {
 import {
   updatePageTitle,
   usePrintTitle,
+  logUniqueUserMetricsEvents,
+  EVENT_REGISTRY,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
@@ -114,6 +116,9 @@ const RefillPrescriptions = () => {
       } catch (error) {
         setRefillStatus('error');
       }
+
+      // Log when user requests a refill (after the main refill logic)
+      logUniqueUserMetricsEvents(EVENT_REGISTRY.PRESCRIPTIONS_REFILL_REQUESTED);
 
       if (hasNoOptionSelectedError) setHasNoOptionSelectedError(false);
     } else {

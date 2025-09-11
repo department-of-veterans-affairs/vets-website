@@ -20,8 +20,7 @@ const Unauthorized = () => {
             </p>
             <p>
               If you have current accreditation with the VA, check out our help
-              resources to troubleshoot access issues. Get help with access
-              issues
+              resources to troubleshoot access issues.
             </p>
             <Link to="/get-help#creating-your-account">
               Get help with access issues
