@@ -77,7 +77,7 @@ const formConfig = {
     showNavLinks: true,
     collapsibleNavLinks: true,
   },
-  formId: VA_FORM_IDS.FORM_40_xxxx,
+  formId: VA_FORM_IDS.FORM_40_XXXX,
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your burial benefits application (40-xxxx) is in progress.',
@@ -106,11 +106,14 @@ const formConfig = {
   },
   title: TITLE,
   subTitle: SUBTITLE,
-  initialData: {},
-  defaultDefinitions: {
-    currentlyBuriedPersons: [],
-  },
   getHelp: GetFormHelp,
+  prefillTransformer: (formData /* , formConfig, user */) => {
+    return {
+      ...formData,
+      // Ensure array exists for arrayBuilder
+      currentlyBuriedPersons: formData.currentlyBuriedPersons || [],
+    };
+  },
   chapters: {
     applicantInformation: {
       title: 'Applicant information',
@@ -402,13 +405,18 @@ const formConfig = {
     if (!data.preparerName && data.firstName && data.lastName) {
       data.preparerName = { first: data.firstName, last: data.lastName };
     }
-    // Clear containerType if user changed to a non‑green burial type
     if (
       data.containerType &&
-      (!data.burialType || !GREEN_BURIAL_TYPES.includes(data.burialType))
+      (!data.burialType ||
+        !['intactGreen', 'cremainsGreen'].includes(data.burialType))
     ) {
       delete data.containerType;
     }
+    return JSON.stringify({
+      formId: form.formId,
+      metadata: form.metadata,
+      data,
+    });
   },
   footerContent,
 };
