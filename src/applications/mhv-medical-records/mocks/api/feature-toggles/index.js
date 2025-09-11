@@ -8,7 +8,6 @@ const APPLICATION_FEATURE_TOGGLES = Object.freeze({
   mhvMedicalRecordsDisplaySidenav: true,
   mhvMedicalRecordsDisplayVaccines: true,
   mhvMedicalRecordsDisplaySettingsPage: true,
-  mhvMedicalRecordsDisplayVitals: true,
   mhvMedicalRecordsToVaGovRelease: true,
   mhvMedicalRecordsMarch17Updates: true,
 

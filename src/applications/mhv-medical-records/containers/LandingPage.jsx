@@ -24,7 +24,6 @@ import {
 import { createSession, postCreateAAL } from '../api/MrApi';
 import {
   selectVaccinesFlag,
-  selectVitalsFlag,
   selectMarch17UpdatesFlag,
 } from '../util/selectors';
 import ExternalLink from '../components/shared/ExternalLink';
@@ -49,7 +48,6 @@ const LandingPage = () => {
   const dispatch = useDispatch();
   const fullState = useSelector(state => state);
   const displayVaccines = useSelector(selectVaccinesFlag);
-  const displayVitals = useSelector(selectVitalsFlag);
   const displayMarch17Updates = useSelector(selectMarch17UpdatesFlag);
   const killExternalLinks = useSelector(
     state => state.featureToggles.mhv_medical_records_kill_external_links,
@@ -260,34 +258,32 @@ const LandingPage = () => {
               {HEALTH_CONDITIONS_LABEL}
             </Link>
           </section>
-          {displayVitals && (
-            <section>
-              <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
-                Vitals
-              </h2>
-              <p className="vads-u-margin-bottom--2">
-                Get records of these basic health numbers your providers check
-                at appointments:
-              </p>
-              <ul>
-                <li>Blood pressure and blood oxygen level</li>
-                <li>Breathing rate and heart rate</li>
-                <li>Height and weight</li>
-                <li>Temperature</li>
-              </ul>
-              <Link
-                to="/vitals"
-                className="vads-c-action-link--blue"
-                data-testid="vitals-landing-page-link"
-                onClick={() => {
-                  sendAalViewList('Vitals');
-                  sendDataDogAction(VITALS_LABEL);
-                }}
-              >
-                {VITALS_LABEL}
-              </Link>
-            </section>
-          )}
+          <section>
+            <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+              Vitals
+            </h2>
+            <p className="vads-u-margin-bottom--2">
+              Get records of these basic health numbers your providers check at
+              appointments:
+            </p>
+            <ul>
+              <li>Blood pressure and blood oxygen level</li>
+              <li>Breathing rate and heart rate</li>
+              <li>Height and weight</li>
+              <li>Temperature</li>
+            </ul>
+            <Link
+              to="/vitals"
+              className="vads-c-action-link--blue"
+              data-testid="vitals-landing-page-link"
+              onClick={() => {
+                sendAalViewList('Vitals');
+                sendDataDogAction(VITALS_LABEL);
+              }}
+            >
+              {VITALS_LABEL}
+            </Link>
+          </section>
 
           {!displayMarch17Updates && (
             <>
