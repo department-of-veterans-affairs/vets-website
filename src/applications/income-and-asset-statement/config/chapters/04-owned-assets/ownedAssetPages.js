@@ -378,8 +378,7 @@ const ownedAssetRecipientUpdatedChildPage = {
       hint: 'You’ll be able to add individual incomes separately',
       labels: relationshipLabels,
       descriptions: relationshipLabelDescriptions,
-      labelHeaderLevel: '2',
-      labelHeaderLevelStyle: '3',
+  ...sharedYesNoOptionsBase,
     }),
     otherRecipientRelationshipType: {
       'ui:title': 'Describe their relationship to the Veteran',
