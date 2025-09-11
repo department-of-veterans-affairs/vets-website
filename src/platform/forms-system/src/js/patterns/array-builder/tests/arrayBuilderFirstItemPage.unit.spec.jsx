@@ -438,18 +438,11 @@ describe('ArrayBuilderFirstItemPage', () => {
     await waitFor(() => {
       expect(goToPath.notCalled).to.be.true;
       expect(container.querySelector('va-modal[visible="true"]')).to.exist;
-      expect(getText.calledWith('duplicateModalExternalComparisonTitle')).to.be
+      expect(getText.calledWith('duplicateModalTitle')).to.be.true;
+      expect(getText.calledWith('duplicateModalDescription')).to.be.true;
+      expect(getText.calledWith('duplicateModalPrimaryButtonText')).to.be.true;
+      expect(getText.calledWith('duplicateModalSecondaryButtonText')).to.be
         .true;
-      expect(getText.calledWith('duplicateModalExternalComparisonDescription'))
-        .to.be.true;
-      expect(
-        getText.calledWith('duplicateModalExternalComparisonPrimaryButtonText'),
-      ).to.be.true;
-      expect(
-        getText.calledWith(
-          'duplicateModalExternalComparisonSecondaryButtonText',
-        ),
-      ).to.be.true;
     });
   });
 });

@@ -187,31 +187,6 @@ describe('ArrayBuilderCards', () => {
     );
   });
 
-  it('should render custom duplicate label & external-only warning alert for possible duplicate entries', () => {
-    const { container, getText } = setupArrayBuilderCards({
-      arrayPath: 'path',
-      arrayData: [{ name: 'Test' }],
-      duplicateCheckResult: {
-        duplicates: ['test'],
-        arrayData: ['test'],
-      },
-      duplicateChecks: {
-        comparisonType: 'external',
-        duplicateSummaryCardLabel: () => 'COULD BE A DUPLICATE',
-      },
-    });
-
-    expect(
-      getText.calledWith(
-        'duplicateSummaryCardExternalComparisonWarningOrErrorAlert',
-      ),
-    ).to.be.true;
-    expect(container.querySelector('va-alert[status="warning"]')).to.exist;
-    expect(container.querySelector('.usa-label').textContent).to.eq(
-      'COULD BE A DUPLICATE',
-    );
-  });
-
   it('should render duplicate info alert with no label for possible duplicate entries', () => {
     const arrayData = [{ name: 'Test' }, { name: 'Test2' }, { name: 'Test' }];
     const { container, getText } = setupArrayBuilderCards({
@@ -231,34 +206,6 @@ describe('ArrayBuilderCards', () => {
     });
 
     expect(getText.calledWith('duplicateSummaryCardInfoAlert')).to.be.true;
-    expect(container.querySelector('va-alert[status="info"]')).to.exist;
-    expect(container.querySelector('.usa-label')).to.not.exist;
-  });
-
-  it('should render external-only duplicate info alert with no label for possible duplicate entries', () => {
-    const arrayData = [{ name: 'Test' }, { name: 'Test2' }, { name: 'Test' }];
-    const { container, getText } = setupArrayBuilderCards({
-      arrayPath: 'employers',
-      arrayData,
-      duplicateCheckResult: {
-        duplicates: ['test'],
-        arrayData: ['test'],
-      },
-      duplicateChecks: {
-        comparisonType: 'external',
-      },
-      fullData: {
-        employers: arrayData,
-        [META_DATA_KEY]: {
-          // Duplicate modal was dismissed
-          'employers;test;allowDuplicate': true,
-        },
-      },
-    });
-
-    expect(
-      getText.calledWith('duplicateSummaryCardExternalComparisonInfoAlert'),
-    ).to.be.true;
     expect(container.querySelector('va-alert[status="info"]')).to.exist;
     expect(container.querySelector('.usa-label')).to.not.exist;
   });

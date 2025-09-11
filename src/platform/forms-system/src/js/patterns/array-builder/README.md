@@ -396,19 +396,6 @@ const options = {
     duplicateModalPrimaryButtonText: props => 'No, cancel',
     duplicateModalSecondaryButtonText: props => 'Yes, save and continue',
 
-    // Internal compared to external data only (internal duplicates are ignored)
-    duplicateSummaryCardExternalComparisonInfoAlert: props =>
-      `This child may be a duplicate entry.`,
-    duplicateSummaryCardExternalComparisonWarningOrErrorAlert: props =>
-      `This child matches information we already have on file.
-      Before continuing, review these entries and delete any duplicates.`,
-    duplicateModalExternalComparisonTitle: props => 'Is this a duplicate?',
-    duplicateModalExternalComparisonDescription: props =>
-      `This child matches information we already have on file`,
-    duplicateModalExternalComparisonPrimaryButtonText: props => 'No, cancel',
-    duplicateModalExternalComparisonSecondaryButtonText: props =>
-      'Yes, save and continue',
-
     duplicateSummaryCardLabel: props => 'DUPLICATE',
   },
   duplicateChecks: {
@@ -454,13 +441,6 @@ const options = {
         duplicateModalDescription: props => '...',
         duplicateModalPrimaryButtonText: props => '...',
         duplicateModalSecondaryButtonText: props => '...',
-
-        // Internal with external data comparisons (internal duplicates are
-        // ignored)
-        duplicateModalExternalComparisonTitle: props => '...',
-        duplicateModalExternalComparisonDescription: props => '...',
-        duplicateModalExternalComparisonPrimaryButtonText: props => '...',
-        duplicateModalExternalComparisonSecondaryButtonText: props => '...',
       },
     },
   },

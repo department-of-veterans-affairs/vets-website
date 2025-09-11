@@ -245,31 +245,19 @@ export default function ArrayBuilderItemPage({
           !props.fullData?.[META_DATA_KEY]?.[itemDuplicateDismissedName] && (
             <VaModal
               status="warning"
-              modalTitle={getDuplicateText(
-                isExternalComparison
-                  ? 'duplicateModalExternalComparisonTitle'
-                  : 'duplicateModalTitle',
-              )}
+              modalTitle={getDuplicateText('duplicateModalTitle')}
               onCloseEvent={handlers.onDuplicateModalClose}
               onPrimaryButtonClick={handlers.onDuplicateModalPrimaryClick}
               onSecondaryButtonClick={handlers.onDuplicateModalSecondaryClick}
               primaryButtonText={getDuplicateText(
-                isExternalComparison
-                  ? 'duplicateModalExternalComparisonPrimaryButtonText'
-                  : 'duplicateModalPrimaryButtonText',
+                'duplicateModalPrimaryButtonText',
               )}
               secondaryButtonText={getDuplicateText(
-                isExternalComparison
-                  ? 'duplicateModalExternalComparisonSecondaryButtonText'
-                  : 'duplicateModalSecondaryButtonText',
+                'duplicateModalSecondaryButtonText',
               )}
               visible={showDuplicateModal !== false}
             >
-              {getDuplicateText(
-                isExternalComparison
-                  ? 'duplicateModalExternalComparisonDescription'
-                  : 'duplicateModalDescription',
-              )}
+              {getDuplicateText('duplicateModalDescription')}
             </VaModal>
           )}
         <SchemaForm

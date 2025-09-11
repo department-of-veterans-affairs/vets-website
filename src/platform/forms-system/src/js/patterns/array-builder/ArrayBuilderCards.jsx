@@ -296,18 +296,12 @@ const ArrayBuilderCards = ({
 
                 alert = dismissedInMetadata ? (
                   <DuplicateInformationAlert status="info">
-                    {getDuplicateText(
-                      duplicateChecks.comparisonType === 'external'
-                        ? 'duplicateSummaryCardExternalComparisonInfoAlert'
-                        : 'duplicateSummaryCardInfoAlert',
-                    )}
+                    {getDuplicateText('duplicateSummaryCardInfoAlert')}
                   </DuplicateInformationAlert>
                 ) : (
                   <DuplicateInformationAlert status={duplicateInfoAlertStatus}>
                     {getDuplicateText(
-                      duplicateChecks.comparisonType === 'external'
-                        ? 'duplicateSummaryCardExternalComparisonWarningOrErrorAlert'
-                        : 'duplicateSummaryCardWarningOrErrorAlert',
+                      'duplicateSummaryCardWarningOrErrorAlert',
                     )}
                   </DuplicateInformationAlert>
                 );
@@ -429,8 +423,6 @@ ArrayBuilderCards.propTypes = {
     comparisonType: PropTypes.oneOf(['internal', 'external', 'all']),
     duplicateSummaryCardInfoAlert: PropTypes.func,
     duplicateSummaryCardWarningOrErrorAlert: PropTypes.func,
-    duplicateSummaryCardExternalComparisonInfoAlert: PropTypes.func,
-    duplicateSummaryCardExternalComparisonWarningOrErrorAlert: PropTypes.func,
     duplicateSummaryCardLabel: PropTypes.func,
   }),
   titleHeaderLevel: PropTypes.string,

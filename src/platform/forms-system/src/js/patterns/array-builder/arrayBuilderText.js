@@ -125,30 +125,10 @@ export const DEFAULT_ARRAY_BUILDER_TEXT = {
     } with this information. Are you adding a different ${
       props.nounSingular
     }, or is this a duplicate?`,
-  duplicateModalExternalComparisonDescription: props =>
-    `We checked your VA records and found another ${
-      props.nounSingular
-    } already on file. Are you adding a different ${
-      props.nounSingular
-    }, or is this a duplicate?`,
-  duplicateModalExternalComparisonPrimaryButtonText: props =>
-    'Don’t add, it’s a duplicate',
-  duplicateModalExternalComparisonSecondaryButtonText: props =>
-    `Add, it’s a different ${props.nounSingular}`,
-  duplicateModalExternalComparisonTitle: props => 'Potential duplicate',
   duplicateModalPrimaryButtonText: props => 'Don’t add, it’s a duplicate',
   duplicateModalSecondaryButtonText: props =>
     `Add, it’s a different ${props.nounSingular}`,
-
   duplicateSummaryCardLabel: props => 'POSSIBLE DUPLICATE',
-
-  // Internal compared to external data only
-  duplicateSummaryCardExternalComparisonInfoAlert: props =>
-    `This ${props.nounSingular} may be a duplicate entry.`,
-  duplicateSummaryCardExternalComparisonWarningOrErrorAlert: props =>
-    `This ${props.nounSingular} matches information we already have on file.
-     Before continuing, review these entries and delete any duplicates.`,
-  // Internal data array comparisons only or Internal data and external data
   duplicateSummaryCardInfoAlert: props =>
     `You may have multiple ${props.nounPlural} with this same information.`,
   duplicateSummaryCardWarningOrErrorAlert: props =>
