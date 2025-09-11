@@ -18,7 +18,7 @@ import {
 import { isCompletingForm0781 } from '../utils/form0781';
 import { standardTitle } from '../content/form0781';
 // import { makeSchemaForAllDisabilities } from '../utils/schemas';
-import { isCompletingModern4142 } from '../utils';
+import { isCompletingModern4142, capitalizeEachWord } from '../utils';
 
 import PrivateProviderTreatmentView from '../components/PrivateProviderTreatmentView';
 
@@ -214,7 +214,7 @@ const TreatedDisabilitiesCheckboxGroup = props => {
         ) : (
           <ul className="vads-u-margin-top--0">
             {checkedConditions.map(condition => (
-              <li key={condition}>{condition}</li>
+              <li key={condition}>{capitalizeEachWord(condition)}</li>
             ))}
           </ul>
         )}
@@ -246,7 +246,7 @@ const TreatedDisabilitiesCheckboxGroup = props => {
               key={conditionName}
               id={checkboxId}
               name={checkboxId}
-              label={conditionName}
+              label={capitalizeEachWord(conditionName)}
               checked={isChecked}
               disabled={isReadOnly}
               onVaChange={event => {
