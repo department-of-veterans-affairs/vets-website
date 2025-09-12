@@ -76,6 +76,11 @@ const DashboardHeader = ({
   const displayOnboardingInformation = useToggleValue(
     TOGGLE_NAMES.veteranOnboardingBetaFlow,
   );
+  const mhvEmailConfirmationEnabled = useToggleValue(
+    TOGGLE_NAMES.mhvEmailConfirmation,
+  );
+  const displayEmailConfirmation =
+    renderConfirmEmailLink && mhvEmailConfirmationEnabled;
 
   return (
     <div>
@@ -128,7 +133,7 @@ const DashboardHeader = ({
           });
         }}
       />
-      {renderConfirmEmailLink && <ConfirmEmailLink />}
+      {displayEmailConfirmation && <ConfirmEmailLink />}
       {isLOA3 && <ContactInfoNeeded />}
       {showNotifications && !hideNotificationsSection && <Notifications />}
     </div>
