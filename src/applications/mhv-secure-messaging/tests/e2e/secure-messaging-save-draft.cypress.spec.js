@@ -5,6 +5,7 @@ import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
 import mockDraftsResponse from './fixtures/draftPageResponses/draft-threads-response.json';
 import { AXE_CONTEXT, Locators, Paths } from './utils/constants';
+import SharedComponents from './pages/SharedComponents';
 
 describe('save draft feature tests', () => {
   const currentDate = GeneralFunctionsPage.getDateFormat();
@@ -75,10 +76,7 @@ describe('save draft feature tests', () => {
       mockDraftsResponse,
     ).as('reFetchResponse');
 
-    cy.findByTestId('sm-breadcrumbs-back').scrollIntoView({
-      waitForAnimation: true,
-    });
-    cy.findByTestId('sm-breadcrumbs-back').click({ force: true });
+    SharedComponents.clickBackBreadcrumb();
 
     cy.wait('@reFetchResponse').then(interception => {
       expect(interception.response.statusCode).to.equal(200);

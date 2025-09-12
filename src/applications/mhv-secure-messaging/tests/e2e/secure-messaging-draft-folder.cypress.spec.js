@@ -6,6 +6,7 @@ import { AXE_CONTEXT, Data, Locators } from './utils/constants';
 import FolderLoadPage from './pages/FolderLoadPage';
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
 import mockDraftMessages from './fixtures/draftsResponse/drafts-messages-response.json';
+import SharedComponents from './pages/SharedComponents';
 
 describe('SM DRAFT FOLDER VERIFICATION', () => {
   beforeEach(() => {
@@ -38,7 +39,7 @@ describe('SM DRAFT FOLDER VERIFICATION', () => {
   });
 
   it('verify breadcrumbs', () => {
-    cy.findByTestId('sm-breadcrumbs-back').should('have.attr', 'text', 'Back');
+    SharedComponents.backBreadcrumb().should('have.attr', 'text', 'Back');
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });

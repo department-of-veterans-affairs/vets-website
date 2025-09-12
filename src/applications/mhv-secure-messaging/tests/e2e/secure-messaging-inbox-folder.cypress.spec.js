@@ -5,6 +5,7 @@ import { AXE_CONTEXT, Data, Paths } from './utils/constants';
 import PatientMessagesSentPage from './pages/PatientMessageSentPage';
 import FolderLoadPage from './pages/FolderLoadPage';
 import mockMessages from './fixtures/threads-response.json';
+import SharedComponents from './pages/SharedComponents';
 
 describe('SM INBOX FOLDER VERIFICATION', () => {
   beforeEach(() => {
@@ -57,10 +58,7 @@ describe('THREAD LIST RE-FETCHING VERIFICATION INBOX FOLDER', () => {
 
     PatientInboxPage.loadSingleThread();
 
-    cy.findByTestId('sm-breadcrumbs-back').scrollIntoView({
-      waitForAnimation: true,
-    });
-    cy.findByTestId('sm-breadcrumbs-back').click({ force: true });
+    SharedComponents.clickBackBreadcrumb();
 
     cy.wait('@reFetchResponse').then(interception => {
       expect(interception.response.statusCode).to.equal(200);

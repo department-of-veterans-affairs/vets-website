@@ -2,6 +2,7 @@ import mockCustomResponse from '../fixtures/custom-response.json';
 import defaultMockThread from '../fixtures/thread-response.json';
 import { Data, Locators, Alerts, Paths } from '../utils/constants';
 import createdFolderResponse from '../fixtures/customResponse/created-folder-response.json';
+import SharedComponents from './SharedComponents';
 
 class FolderManagementPage {
   currentThread = defaultMockThread;
@@ -146,7 +147,7 @@ class FolderManagementPage {
       defaultMockThread,
     ).as(`updatedFolder`);
 
-    cy.get(Locators.LINKS.CRUMBS_BACK).then(btn => {
+    SharedComponents.backBreadcrumb().then(btn => {
       return new Cypress.Promise(resolve => {
         setTimeout(resolve, 2000);
         cy.wrap(btn).click();

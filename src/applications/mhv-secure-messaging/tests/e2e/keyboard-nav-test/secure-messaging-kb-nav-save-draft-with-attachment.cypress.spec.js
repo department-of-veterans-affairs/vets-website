@@ -4,6 +4,7 @@ import PatientComposePage from '../pages/PatientComposePage';
 import PatientMessageDraftsPage from '../pages/PatientMessageDraftsPage';
 import requestBody from '../fixtures/message-compose-request-body.json';
 import { AXE_CONTEXT } from '../utils/constants';
+import SharedComponents from '../pages/SharedComponents';
 
 describe('SM SAVING DRAFT WITH ATTACHMENT BY KEYBOARD', () => {
   it('verify draft saved without attachment', () => {
@@ -23,10 +24,8 @@ describe('SM SAVING DRAFT WITH ATTACHMENT BY KEYBOARD', () => {
     PatientMessageDraftsPage.verifySaveWithAttachmentAlert();
 
     PatientComposePage.clickSaveDraftWithoutAttachmentBtn();
-    cy.findByTestId('sm-breadcrumbs-back').scrollIntoView({
-      waitForAnimation: true,
-    });
-    cy.findByTestId('sm-breadcrumbs-back').click({ force: true });
+
+    SharedComponents.clickBackBreadcrumb();
 
     cy.findByTestId('route-guard-secondary-button')
       .should('be.visible')
