@@ -1,12 +1,10 @@
 /**
- * Renders a select dropdown or combo box for selecting recipients in the compose form.
+ * Renders a select dropdown for selecting recipients in the compose form.
  *  - Recipients are grouped by VAMC system name.
  *  - Recipients are sorted alphabetically by VAMC system name and then by name.
- *  - When mhvSecureMessagingRecentRecipients feature flag is enabled, displays recent recipients
- *    at the top of the dropdown/combo box in a "Recent care teams" section.
- *  - If a recipient requires a signature or switching from a recipient that does not
+ *  - If a recipient requires a signature or switching from a recipient that does not 
  *    require a signature to one that does, an alert is displayed notifying that signature is required.
- *  - If switching from a recipient that requires a signature to one that does not,
+ *  - If switching from a recipient that requires a signature to one that does not, 
  *    the alert is displayed notifying that signature is no longer required.
  *  - If switching from a recipient that does not require a signature to another that does not,
  *    the alert is not displayed.
@@ -27,9 +25,6 @@
  * @param {string} [props.defaultValue] - The default value for the dropdown.
  * @param {string} [props.error] - The error message to display.
  * @param {boolean} [props.isSignatureRequired] - Indicates if a signature is required for the selected recipient.
- * @param {Function} [props.setCheckboxMarked] - Callback to set checkbox state for signature.
- * @param {Function} [props.setElectronicSignature] - Callback to set electronic signature.
- * @param {Function} [props.setComboBoxInputValue] - Callback to set combo box input value.
  * @returns {JSX.Element} The rendered RecipientsSelect component.
  */
 import React, {
@@ -70,11 +65,6 @@ const RecipientsSelect = ({
   const isSignatureRequiredRef = useRef();
   isSignatureRequiredRef.current = isSignatureRequired;
 
-  const {
-    isComboBoxEnabled,
-    cernerPilotSmFeatureFlag,
-    mhvSecureMessagingRecentRecipients,
-  } = useFeatureToggles();
   const { mhvSecureMessagingCuratedListFlow } = useFeatureToggles();
 
   const [alertDisplayed, setAlertDisplayed] = useState(false);
@@ -201,116 +191,58 @@ const RecipientsSelect = ({
 
   const optionsValues = useMemo(
     () => {
-      const finalOptions = [];
-
-      // Add recent recipients section if feature flag is enabled
-      if (
-        mhvSecureMessagingRecentRecipients &&
-        (isComboBoxEnabled || cernerPilotSmFeatureFlag)
-      ) {
-        // Placeholder: Use first 4 recipients from allRecipients as recent recipients
-        const recentOptions = recipientsList.slice(0, 4).map(item => (
-          <option key={`recent-${item.id}`} value={item.id}>
-            {item.suggestedNameDisplay || item.name}
-          </option>
-        ));
-
-        if (recentOptions.length > 0) {
-          finalOptions.push(
-            <optgroup key="recent-care-teams" label="Recent care teams">
-              {recentOptions}
-            </optgroup>,
-          );
-        }
-      }
-
-      // Add main recipients list
-      if (!optGroupEnabled || cernerPilotSmFeatureFlag) {
-        const mainOptions = sortRecipients(recipientsList)?.map(item => (
+      if (!optGroupEnabled || mhvSecureMessagingCuratedListFlow) {
+        return sortRecipients(recipientsList)?.map(item => (
           <option key={item.id} value={item.id}>
             {item.suggestedNameDisplay || item.name}
           </option>
         ));
+      }
 
-        // If we have recent recipients, wrap main options in a group
-        if (
-          mhvSecureMessagingRecentRecipients &&
-          recipientsList.length > 0 &&
-          (isComboBoxEnabled || cernerPilotSmFeatureFlag)
-        ) {
-          finalOptions.push(
-            <optgroup key="all-care-teams" label="All care teams">
-              {mainOptions}
-            </optgroup>,
-          );
-        } else {
-          finalOptions.push(...mainOptions);
-        }
-      } else {
-        // Handle grouped recipients (by VAMC system)
-        let currentVamcSystemName = null;
-        const groupedOptions = [];
-        let tempOptions = [];
+      let currentVamcSystemName = null;
+      const options = [];
+      let groupedOptions = [];
 
-        recipientsListSorted.forEach(item => {
-          if (item.vamcSystemName === undefined) {
-            tempOptions.push(
-              <option key={item.id} value={item.id}>
-                {item.suggestedNameDisplay || item.name}
-              </option>,
-            );
-          } else if (item.vamcSystemName !== currentVamcSystemName) {
-            if (currentVamcSystemName !== null) {
-              groupedOptions.push(
-                <optgroup
-                  key={currentVamcSystemName}
-                  label={currentVamcSystemName}
-                >
-                  {tempOptions}
-                </optgroup>,
-              );
-            }
-            currentVamcSystemName = item.vamcSystemName;
-            tempOptions = [];
-          }
-          tempOptions.push(
+      recipientsListSorted.forEach(item => {
+        if (item.vamcSystemName === undefined) {
+          options.push(
             <option key={item.id} value={item.id}>
               {item.suggestedNameDisplay || item.name}
             </option>,
           );
-        });
-
-        // Push the last group
-        if (currentVamcSystemName !== null) {
-          groupedOptions.push(
-            <optgroup key={currentVamcSystemName} label={currentVamcSystemName}>
-              {tempOptions}
-            </optgroup>,
-          );
+        } else if (item.vamcSystemName !== currentVamcSystemName) {
+          if (currentVamcSystemName !== null) {
+            options.push(
+              <optgroup
+                key={currentVamcSystemName}
+                label={currentVamcSystemName}
+              >
+                {groupedOptions}
+              </optgroup>,
+            );
+          }
+          currentVamcSystemName = item.vamcSystemName;
+          groupedOptions = [];
         }
+        groupedOptions.push(
+          <option key={item.id} value={item.id}>
+            {item.suggestedNameDisplay || item.name}
+          </option>,
+        );
+      });
 
-        // If we have recent recipients, wrap grouped options in a section
-        if (mhvSecureMessagingRecentRecipients && recipientsList.length > 0) {
-          finalOptions.push(
-            <optgroup key="all-care-teams-grouped" label="All care teams">
-              {groupedOptions}
-            </optgroup>,
-          );
-        } else {
-          finalOptions.push(...groupedOptions);
-        }
+      // Push the last group
+      if (currentVamcSystemName !== null) {
+        options.push(
+          <optgroup key={currentVamcSystemName} label={currentVamcSystemName}>
+            {groupedOptions}
+          </optgroup>,
+        );
       }
 
-      return finalOptions;
+      return options;
     },
-    [
-      recipientsListSorted,
-      optGroupEnabled,
-      recipientsList,
-      mhvSecureMessagingRecentRecipients,
-      isComboBoxEnabled,
-      cernerPilotSmFeatureFlag,
-    ],
+    [recipientsListSorted, optGroupEnabled, recipientsList],
   );
 
   return (
