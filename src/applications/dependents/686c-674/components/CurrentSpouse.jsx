@@ -8,6 +8,7 @@ import { focusElement } from 'platform/utilities/ui';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
 import { modalContent } from '../config/chapters/report-add-a-spouse/spouse-information/spouseInformation';
+import { showDupeModalIfEnabled } from '../config/utilities';
 
 const CurrentSpouseInformation = ({
   name,
@@ -59,7 +60,10 @@ const CurrentSpouseInformation = ({
       setFormData(newData);
     },
     onSubmit: () => {
-      if (currentSpouse.dateOfBirth === data.spouseInformation.birthDate) {
+      if (
+        showDupeModalIfEnabled(data) &&
+        currentSpouse.dateOfBirth === data.spouseInformation.birthDate
+      ) {
         setShowSpouseModal(true);
       } else {
         goForward(data);
