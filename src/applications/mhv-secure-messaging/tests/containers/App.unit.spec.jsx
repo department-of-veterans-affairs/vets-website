@@ -7,7 +7,7 @@ import { createServiceMap } from '@department-of-veterans-affairs/platform-monit
 import { pageNotFoundHeading } from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import sinon from 'sinon';
 import { addDays, subDays, format } from 'date-fns';
-import { waitFor } from '@testing-library/dom';
+import { fireEvent, waitFor } from '@testing-library/dom';
 import App from '../../containers/App';
 import * as SmApi from '../../api/SmApi';
 import reducer from '../../reducers';
@@ -361,9 +361,6 @@ describe('App', () => {
       featureToggles: {},
     };
     customState.featureToggles[
-      FEATURE_FLAG_NAMES.mhvSecureMessagingRecentRecipients
-    ] = true;
-    customState.featureToggles[
       FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow
     ] = true;
 
@@ -380,7 +377,10 @@ describe('App', () => {
     continueButton.click();
 
     // Navigate to Care Team Help route
-    screen.history.push(Paths.CARE_TEAM_HELP);
+    const link = await screen.findByText(
+      'What to do if you can’t find your care team',
+    );
+    fireEvent.click(link);
 
     await waitFor(() => {
       expect(
