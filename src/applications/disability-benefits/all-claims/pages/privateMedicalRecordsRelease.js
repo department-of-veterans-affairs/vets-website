@@ -348,8 +348,14 @@ export const uiSchema = {
       reviewMode: true,
     },
     items: {
+      'ui:errorMessages': {
+        required: 'Please complete all required fields for this provider',
+      },
       providerFacilityName: {
         'ui:title': 'Name of private provider or hospital',
+        'ui:errorMessages': {
+          required: 'Please enter the name of the provider or hospital',
+        },
       },
       treatmentLocation0781Related: {
         ...yesNoUI({
@@ -360,6 +366,10 @@ export const uiSchema = {
           hideIf: formData => !isCompletingForm0781(formData),
         },
         'ui:required': formData => isCompletingForm0781(formData),
+        'ui:errorMessages': {
+          required:
+            'Please indicate if you received treatment at this facility related to your traumatic events',
+        },
       },
       treatedDisabilityNames: {
         'ui:title': 'What conditions were you treated for?',
@@ -373,19 +383,22 @@ export const uiSchema = {
         },
         'ui:validations': [validateBooleanGroup],
         'ui:errorMessages': {
-          atLeastOne:
-            'Please select at least one condition for each non-VA provider facility listed under Supporting Evidence',
-          required:
-            'Please select at least one condition for each non-VA provider facility listed under Supporting Evidence',
+          atLeastOne: 'Please select at least one condition for this provider',
+          required: 'Please select at least one condition',
         },
         'ui:required': formData => isCompletingModern4142(formData),
       },
       'ui:validations': [validateDate],
-      treatmentDateRange: dateRangeUI(
-        'When did your treatment start? (You can provide an estimated date)',
-        'When did your treatment end? (You can provide an estimated date)',
-        'End of treatment must be after start of treatment',
-      ),
+      treatmentDateRange: {
+        ...dateRangeUI(
+          'When did your treatment start? (You can provide an estimated date)',
+          'When did your treatment end? (You can provide an estimated date)',
+          'End of treatment must be after start of treatment',
+        ),
+        'ui:errorMessages': {
+          required: 'Please provide treatment dates',
+        },
+      },
       providerFacilityAddress: {
         'ui:title': 'Address of provider or hospital',
         'ui:order': [
@@ -396,13 +409,22 @@ export const uiSchema = {
           'state',
           'postalCode',
         ],
+        'ui:errorMessages': {
+          required: 'Please enter the address',
+        },
         country: {
           'ui:title': 'Country',
           'ui:autocomplete': 'off',
+          'ui:errorMessages': {
+            required: 'Please select a country',
+          },
         },
         street: {
           'ui:title': 'Street',
           'ui:autocomplete': 'off',
+          'ui:errorMessages': {
+            required: 'Please enter a street address',
+          },
         },
         street2: {
           'ui:title': 'Street 2',
@@ -411,10 +433,16 @@ export const uiSchema = {
         city: {
           'ui:title': 'City',
           'ui:autocomplete': 'off',
+          'ui:errorMessages': {
+            required: 'Please enter a city',
+          },
         },
         state: {
           'ui:title': 'State',
           'ui:autocomplete': 'off',
+          'ui:errorMessages': {
+            required: 'Please select a state',
+          },
         },
         postalCode: {
           'ui:title': 'Postal code',
@@ -423,6 +451,7 @@ export const uiSchema = {
           'ui:errorMessages': {
             pattern:
               'Please enter a valid 5- or 9-digit Postal code (dashes allowed)',
+            required: 'Please enter a postal code',
           },
           'ui:options': {
             widgetClassNames: 'usa-input-medium',
