@@ -39,6 +39,9 @@ const formConfig = {
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},
+  customText: {
+    appType: 'form',
+  },
   chapters: {
     personalInformationChapter: {
       title: 'Your personal information',
