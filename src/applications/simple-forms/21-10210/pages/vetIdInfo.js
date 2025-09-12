@@ -3,6 +3,8 @@ import {
   ssnSchema,
   vaFileNumberUI,
   vaFileNumberSchema,
+  textUI,
+  textSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
@@ -10,12 +12,12 @@ export default {
   uiSchema: {
     veteranSSN: ssnUI(),
     veteranVaFileNumber: vaFileNumberUI(),
-    veteranVaInsuranceFileNumber: {
-      'ui:title': 'VA Insurance File number (if available)',
-      'ui:errorMessages': {
+    veteranVaInsuranceFileNumber: textUI({
+      title: 'VA Insurance File number (if available)',
+      errorMessages: {
         maxLength: 'Please enter a number with fewer than 20 digits.',
       },
-    },
+    }),
   },
   schema: {
     type: 'object',
@@ -24,7 +26,7 @@ export default {
       veteranSSN: ssnSchema,
       veteranVaFileNumber: vaFileNumberSchema,
       veteranVaInsuranceFileNumber: {
-        type: 'string',
+        ...textSchema,
         maxLength: 20,
       },
     },

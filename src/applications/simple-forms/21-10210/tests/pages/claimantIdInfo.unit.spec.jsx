@@ -18,7 +18,7 @@ const mockData = {
   claimantSSN: '321540988',
 };
 
-const expectedNumberOfWebComponentFields = 2;
+const expectedNumberOfWebComponentFields = 3;
 testNumberOfWebComponentFields(
   formConfig,
   schema,
@@ -41,7 +41,7 @@ testNumberOfErrorsOnSubmitForWebComponents(
   },
 );
 
-const expectedNumberOfFields = 1;
+const expectedNumberOfFields = 0;
 testNumberOfFields(
   formConfig,
   schema,
