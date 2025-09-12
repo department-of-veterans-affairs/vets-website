@@ -13,6 +13,7 @@ import {
   validateName,
   spouseEvidence,
   childEvidence,
+  checkAddingDependentsForPension,
   showPensionBackupPath,
   showPensionRelatedQuestions,
   buildSubmissionData,
@@ -255,6 +256,39 @@ describe('childEvidence', () => {
   });
 });
 
+describe('checkAddingDependentsForPension', () => {
+  it('should return false if not adding dependents', () => {
+    const formData = {
+      'view:addOrRemoveDependents': { add: false, remove: true },
+    };
+    expect(checkAddingDependentsForPension(formData)).to.be.false;
+  });
+
+  it('should return true if adding dependents outside of 674', () => {
+    const formData = {
+      'view:addOrRemoveDependents': { add: true, remove: false },
+      'view:addDependentOptions': { addSpouse: true, report674: true },
+    };
+    expect(checkAddingDependentsForPension(formData)).to.be.true;
+  });
+
+  it('should return false if not adding dependents outside of 674', () => {
+    const formData = {
+      'view:addOrRemoveDependents': { add: false, remove: true },
+      'view:addDependentOptions': { addSpouse: false, report674: true },
+    };
+    expect(checkAddingDependentsForPension(formData)).to.be.false;
+  });
+
+  it('should return false if only adding 674', () => {
+    const formData = {
+      'view:addOrRemoveDependents': { add: true, remove: false },
+      'view:addDependentOptions': { addSpouse: false, report674: true },
+    };
+    expect(checkAddingDependentsForPension(formData)).to.be.false;
+  });
+});
+
 describe('showPensionBackupPath', () => {
   describe('when feature flag - vaDependentsNetWorthAndPension - is off', () => {
     it('should return false', () => {
@@ -264,22 +298,52 @@ describe('showPensionBackupPath', () => {
   });
 
   describe('when feature flag - vaDependentsNetWorthAndPension - is on', () => {
-    it('should return true if isInReceiptOfPension is -1', () => {
-      expect(
-        showPensionBackupPath({
-          veteranInformation: { isInReceiptOfPension: -1 },
-          vaDependentsNetWorthAndPension: true,
-        }),
-      ).to.be.true;
+    describe('when adding dependents - not 674', () => {
+      it('should return true if isInReceiptOfPension is -1', () => {
+        expect(
+          showPensionBackupPath({
+            veteranInformation: { isInReceiptOfPension: -1 },
+            vaDependentsNetWorthAndPension: true,
+            'view:addOrRemoveDependents': { add: true, remove: false },
+            'view:addDependentOptions': { addSpouse: true, report674: false },
+          }),
+        ).to.be.true;
+      });
+
+      it('should return false if isInReceiptOfPension is not -1', () => {
+        expect(
+          showPensionBackupPath({
+            veteranInformation: { isInReceiptOfPension: 1 },
+            vaDependentsNetWorthAndPension: true,
+            'view:addOrRemoveDependents': { add: true, remove: false },
+            'view:addDependentOptions': { addSpouse: true, report674: false },
+          }),
+        ).to.be.false;
+      });
     });
 
-    it('should return false if isInReceiptOfPension is not -1', () => {
-      expect(
-        showPensionBackupPath({
-          veteranInformation: { isInReceiptOfPension: 1 },
-          vaDependentsNetWorthAndPension: true,
-        }),
-      ).to.be.false;
+    describe('when adding dependents - 674 only', () => {
+      it('should return false if isInReceiptOfPension is -1', () => {
+        expect(
+          showPensionBackupPath({
+            veteranInformation: { isInReceiptOfPension: -1 },
+            vaDependentsNetWorthAndPension: true,
+            'view:addOrRemoveDependents': { add: true, remove: false },
+            'view:addDependentOptions': { addSpouse: false, report674: true },
+          }),
+        ).to.be.false;
+      });
+
+      it('should return false if isInReceiptOfPension is not -1', () => {
+        expect(
+          showPensionBackupPath({
+            veteranInformation: { isInReceiptOfPension: 1 },
+            vaDependentsNetWorthAndPension: true,
+            'view:addOrRemoveDependents': { add: true, remove: false },
+            'view:addDependentOptions': { addSpouse: false, report674: true },
+          }),
+        ).to.be.false;
+      });
     });
   });
 });
@@ -295,44 +359,160 @@ describe('showPensionRelatedQuestions', () => {
 
   describe('when feature flag - vaDependentsNetWorthAndPension - is on', () => {
     describe('when backup path is shown (no prefill data)', () => {
-      it('should return true if veteran has indicated they are in receipt of pension', () => {
-        expect(
-          showPensionRelatedQuestions({
-            veteranInformation: { isInReceiptOfPension: -1 },
-            'view:checkVeteranPension': true,
-            vaDependentsNetWorthAndPension: true,
-          }),
-        ).to.be.true;
+      describe('when adding dependents - not 674', () => {
+        it('should return true if veteran has indicated they are in receipt of pension', () => {
+          expect(
+            showPensionRelatedQuestions({
+              veteranInformation: { isInReceiptOfPension: -1 },
+              'view:checkVeteranPension': true,
+              vaDependentsNetWorthAndPension: true,
+              'view:addOrRemoveDependents': { add: true, remove: false },
+              'view:addDependentOptions': { addSpouse: true, report674: false },
+            }),
+          ).to.be.true;
+        });
+
+        it('should return false if veteran has not indicated they are in receipt of pension', () => {
+          expect(
+            showPensionRelatedQuestions({
+              veteranInformation: { isInReceiptOfPension: -1 },
+              'view:checkVeteranPension': false,
+              vaDependentsNetWorthAndPension: true,
+              'view:addOrRemoveDependents': { add: true, remove: false },
+              'view:addDependentOptions': { addSpouse: true, report674: false },
+            }),
+          ).to.be.false;
+        });
       });
 
-      it('should return false if veteran has not indicated they are in receipt of pension', () => {
-        expect(
-          showPensionRelatedQuestions({
-            veteranInformation: { isInReceiptOfPension: -1 },
-            'view:checkVeteranPension': false,
-            vaDependentsNetWorthAndPension: true,
-          }),
-        ).to.be.false;
+      describe('when adding dependents - 674 only', () => {
+        it('should return false if veteran has indicated they are in receipt of pension', () => {
+          expect(
+            showPensionRelatedQuestions({
+              veteranInformation: { isInReceiptOfPension: -1 },
+              'view:checkVeteranPension': true,
+              vaDependentsNetWorthAndPension: true,
+              'view:addOrRemoveDependents': { add: true, remove: false },
+              'view:addDependentOptions': { addSpouse: false, report674: true },
+            }),
+          ).to.be.false;
+        });
+
+        it('should return false if veteran has not indicated they are in receipt of pension', () => {
+          expect(
+            showPensionRelatedQuestions({
+              veteranInformation: { isInReceiptOfPension: -1 },
+              'view:checkVeteranPension': false,
+              vaDependentsNetWorthAndPension: true,
+              'view:addOrRemoveDependents': { add: true, remove: false },
+              'view:addDependentOptions': { addSpouse: false, report674: true },
+            }),
+          ).to.be.false;
+        });
       });
     });
 
     describe('when backup path is not shown (has prefill data)', () => {
-      it('should return false if isInReceiptOfPension is 0', () => {
-        expect(
-          showPensionRelatedQuestions({
-            veteranInformation: { isInReceiptOfPension: 0 },
-            vaDependentsNetWorthAndPension: true,
-          }),
-        ).to.be.false;
+      describe('when adding dependents - not 674', () => {
+        it('should return false if isInReceiptOfPension is 0', () => {
+          expect(
+            showPensionRelatedQuestions({
+              veteranInformation: { isInReceiptOfPension: 0 },
+              vaDependentsNetWorthAndPension: true,
+              'view:addOrRemoveDependents': { add: true, remove: false },
+              'view:addDependentOptions': { addSpouse: true, report674: false },
+            }),
+          ).to.be.false;
+        });
+
+        it('should return true if isInReceiptOfPension is 1', () => {
+          expect(
+            showPensionRelatedQuestions({
+              veteranInformation: { isInReceiptOfPension: 1 },
+              vaDependentsNetWorthAndPension: true,
+              'view:addOrRemoveDependents': { add: true, remove: false },
+              'view:addDependentOptions': { addSpouse: true, report674: false },
+            }),
+          ).to.be.true;
+        });
       });
 
-      it('should return true if isInReceiptOfPension is 1', () => {
-        expect(
-          showPensionRelatedQuestions({
-            veteranInformation: { isInReceiptOfPension: 1 },
-            vaDependentsNetWorthAndPension: true,
-          }),
-        ).to.be.true;
+      describe('when adding dependents - 674 only', () => {
+        it('should return false if veteran has indicated they are in receipt of pension', () => {
+          expect(
+            showPensionRelatedQuestions({
+              veteranInformation: { isInReceiptOfPension: -1 },
+              'view:checkVeteranPension': true,
+              vaDependentsNetWorthAndPension: true,
+              'view:addOrRemoveDependents': { add: true, remove: false },
+              'view:addDependentOptions': { addSpouse: false, report674: true },
+            }),
+          ).to.be.false;
+        });
+
+        it('should return false if veteran has not indicated they are in receipt of pension', () => {
+          expect(
+            showPensionRelatedQuestions({
+              veteranInformation: { isInReceiptOfPension: -1 },
+              'view:checkVeteranPension': false,
+              vaDependentsNetWorthAndPension: true,
+              'view:addOrRemoveDependents': { add: true, remove: false },
+              'view:addDependentOptions': { addSpouse: false, report674: true },
+            }),
+          ).to.be.false;
+        });
+      });
+    });
+
+    describe('when backup path is not shown (has prefill data)', () => {
+      describe('when adding dependents - not 674', () => {
+        it('should return false if isInReceiptOfPension is 0', () => {
+          expect(
+            showPensionRelatedQuestions({
+              veteranInformation: { isInReceiptOfPension: 0 },
+              vaDependentsNetWorthAndPension: true,
+              'view:addOrRemoveDependents': { add: true, remove: false },
+              'view:addDependentOptions': { addSpouse: true, report674: false },
+            }),
+          ).to.be.false;
+        });
+
+        it('should return true if isInReceiptOfPension is 1', () => {
+          expect(
+            showPensionRelatedQuestions({
+              veteranInformation: { isInReceiptOfPension: 1 },
+              vaDependentsNetWorthAndPension: true,
+              'view:addOrRemoveDependents': { add: true, remove: false },
+              'view:addDependentOptions': { addSpouse: true, report674: false },
+            }),
+          ).to.be.true;
+        });
+      });
+
+      describe('when adding dependents - 674 only', () => {
+        it('should return false if veteran has indicated they are in receipt of pension', () => {
+          expect(
+            showPensionRelatedQuestions({
+              veteranInformation: { isInReceiptOfPension: -1 },
+              'view:checkVeteranPension': true,
+              vaDependentsNetWorthAndPension: true,
+              'view:addOrRemoveDependents': { add: true, remove: false },
+              'view:addDependentOptions': { addSpouse: false, report674: true },
+            }),
+          ).to.be.false;
+        });
+
+        it('should return false if veteran has not indicated they are in receipt of pension', () => {
+          expect(
+            showPensionRelatedQuestions({
+              veteranInformation: { isInReceiptOfPension: -1 },
+              'view:checkVeteranPension': false,
+              vaDependentsNetWorthAndPension: true,
+              'view:addOrRemoveDependents': { add: true, remove: false },
+              'view:addDependentOptions': { addSpouse: false, report674: true },
+            }),
+          ).to.be.false;
+        });
       });
     });
   });
