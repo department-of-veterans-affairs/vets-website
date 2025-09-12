@@ -7,18 +7,21 @@ export const SHORT_NAME_MAP = Object.freeze({
   Q_1_1_CLAIM_DECISION: 'Q_1_1_CLAIM_DECISION',
   Q_1_1A_SUBMITTED_526: 'Q_1_1A_SUBMITTED_526',
   Q_1_2_CLAIM_DECISION: 'Q_1_2_CLAIM_DECISION',
+  Q_1_2A_1_SERVICE_CONNECTED: 'Q_1_2A_1_SERVICE_CONNECTED',
   Q_1_2A_CONDITION_WORSENED: 'Q_1_2A_CONDITION_WORSENED',
+  Q_1_2A_2_DISAGREE_DECISION: 'Q_1_2A_2_DISAGREE_DECISION',
   Q_1_2B_LAW_POLICY_CHANGE: 'Q_1_2B_LAW_POLICY_CHANGE',
   Q_1_2C_NEW_EVIDENCE: 'Q_1_2C_NEW_EVIDENCE',
   Q_1_3_CLAIM_CONTESTED: 'Q_1_3_CLAIM_CONTESTED',
   Q_1_3A_FEWER_60_DAYS: 'Q_1_3A_FEWER_60_DAYS',
-  Q_2_0_CLAIM_TYPE: 'Q_2_0_CLAIM_TYPE',
   Q_2_IS_1_SERVICE_CONNECTED: 'Q_2_IS_1_SERVICE_CONNECTED',
   Q_2_IS_2_CONDITION_WORSENED: 'Q_2_IS_2_CONDITION_WORSENED',
+  Q_2_IS_4_DISAGREE_DECISION: 'Q_2_IS_4_DISAGREE_DECISION',
+  Q_2_0_CLAIM_TYPE: 'Q_2_0_CLAIM_TYPE',
   Q_2_IS_1A_LAW_POLICY_CHANGE: 'Q_2_IS_1A_LAW_POLICY_CHANGE',
   Q_2_IS_1B_NEW_EVIDENCE: 'Q_2_IS_1B_NEW_EVIDENCE',
   Q_2_S_1_NEW_EVIDENCE: 'Q_2_S_1_NEW_EVIDENCE',
-  Q_2_H_1_EXISTING_BOARD_APPEAL: 'Q_2_H_1_EXISTING_BOARD_APPEAL',
+  Q_2_S_2_WITHIN_120_DAYS: 'Q_2_S_2_WITHIN_120_DAYS',
   Q_2_H_2_NEW_EVIDENCE: 'Q_2_H_2_NEW_EVIDENCE',
   Q_2_H_2A_JUDGE_HEARING: 'Q_2_H_2A_JUDGE_HEARING',
   Q_2_H_2B_JUDGE_HEARING: 'Q_2_H_2B_JUDGE_HEARING',
@@ -149,6 +152,90 @@ const JUDGE_HEARING = {
   ],
 };
 
+const SERVICE_CONNECTED = {
+  descriptionText: (
+    <>
+      <p>
+        A service-connected condition is a disability or illness that was
+        caused—or made worse—by your military service. This could mean:
+      </p>
+      <ul>
+        <li>
+          You got the condition during active duty, <strong>or</strong>
+        </li>
+        <li>
+          A condition you already had got worse because of your service,{' '}
+          <strong>or</strong>
+        </li>
+        <li>
+          You developed the condition after service because of something that
+          happened during your service (like toxic exposure or presumptive
+          conditions, such as those covered under the PACT Act)
+        </li>
+      </ul>
+      <va-link
+        external
+        href="/disability/eligibility"
+        text="Learn more about service-connected conditions"
+      />
+    </>
+  ),
+  h1: `Service-connected condition`,
+  hintText: null,
+  questionText: `Did VA decide that your condition is service connected?`,
+  responses: [
+    { [YES]: `VA said my condition is service connected` },
+    { [NO]: `VA said my condition isn’t service connected` },
+  ],
+};
+
+const DISAGREE_DECISION = {
+  descriptionText: (
+    <>
+      <p>
+        You can request a review when your condition gets worse. You can also
+        disagree with other parts of our decision. You might disagree with:
+      </p>
+      <ul>
+        <li>The effective date (when your benefits should have started)</li>
+        <li>
+          Your disability rating (how we rated the severity of your condition)
+        </li>
+        <li>Whether your condition is service-connected</li>
+      </ul>
+      <p>
+        If we review your disagreement and change our decision, you may get
+        retroactive compensation (back pay).
+      </p>
+    </>
+  ),
+  h1: `Disagreement with decision`,
+  hintText: null,
+  questionText: `Do you disagree with any part of our decision?`,
+  responses: [
+    { [YES]: `I disagree with part of the decision.` },
+    { [NO]: `I only want to report that my condition has gotten worse.` },
+  ],
+};
+
+export const get120DayDeadline = () => {
+  const now = new Date();
+  const currentUTCDate = new Date(
+    Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()),
+  );
+
+  const date120DaysAgo = new Date(
+    currentUTCDate.getTime() - 120 * 24 * 60 * 60 * 1000,
+  );
+
+  return date120DaysAgo.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    timeZone: 'UTC',
+  });
+};
+
 export const QUESTION_CONTENT = Object.freeze({
   INTRODUCTION: {
     h1: `Welcome to the disability compensation Decision Review tool`,
@@ -185,8 +272,14 @@ export const QUESTION_CONTENT = Object.freeze({
       { [NO]: `My claim was decided over a year ago` },
     ],
   },
+  Q_1_2A_1_SERVICE_CONNECTED: {
+    ...SERVICE_CONNECTED,
+  },
   Q_1_2A_CONDITION_WORSENED: {
     ...CONDITION_WORSENED,
+  },
+  Q_1_2A_2_DISAGREE_DECISION: {
+    ...DISAGREE_DECISION,
   },
   Q_1_2B_LAW_POLICY_CHANGE: {
     ...LAW_POLICY_CHANGE,
@@ -227,6 +320,15 @@ export const QUESTION_CONTENT = Object.freeze({
       { [NO]: `It’s been more than 60 days` },
     ],
   },
+  Q_2_IS_1_SERVICE_CONNECTED: {
+    ...SERVICE_CONNECTED,
+  },
+  Q_2_IS_2_CONDITION_WORSENED: {
+    ...CONDITION_WORSENED,
+  },
+  Q_2_IS_4_DISAGREE_DECISION: {
+    ...DISAGREE_DECISION,
+  },
   Q_2_0_CLAIM_TYPE: {
     h1: `Claim type`,
     hintText: null,
@@ -242,73 +344,29 @@ export const QUESTION_CONTENT = Object.freeze({
       },
     ],
   },
-  Q_2_IS_1_SERVICE_CONNECTED: {
-    descriptionText: (
-      <>
-        <p>
-          A service-connected condition is a disability or illness that was
-          caused—or made worse—by your military service. This could mean:
-        </p>
-        <ul>
-          <li>
-            You got the condition during active duty, <strong>or</strong>
-          </li>
-          <li>
-            A condition you already had got worse because of your service,{' '}
-            <strong>or</strong>
-          </li>
-          <li>
-            You developed the condition after service because of something that
-            happened during your service (like toxic exposure or presumptive
-            conditions, such as those covered under the PACT Act)
-          </li>
-        </ul>
-        <va-link
-          external
-          href="/disability/eligibility"
-          text="Learn more about service-connected conditions"
-        />
-      </>
-    ),
-    h1: `Did VA decide that your condition is service connected?`,
-    hintText: null,
-    questionText: `Did VA decide that your condition is service connected?`,
-    responses: [
-      { [YES]: `VA said my condition is service connected` },
-      { [NO]: `VA said my condition isn’t service connected` },
-    ],
-  },
   Q_2_IS_1A_LAW_POLICY_CHANGE: {
     ...LAW_POLICY_CHANGE,
   },
   Q_2_IS_1B_NEW_EVIDENCE: {
     ...NEW_AND_RELEVANT_EVIDENCE,
   },
-  Q_2_IS_2_CONDITION_WORSENED: {
-    ...CONDITION_WORSENED,
-  },
   Q_2_S_1_NEW_EVIDENCE: {
     ...NEW_AND_RELEVANT_EVIDENCE,
   },
-  Q_2_H_1_EXISTING_BOARD_APPEAL: {
+  Q_2_S_2_WITHIN_120_DAYS: {
     descriptionText: (
-      <>
-        <p>
-          This means a Veterans Law Judge at the Board of Veterans’ Appeals
-          reviewed your case and issued a decision.
-        </p>
-        <p>
-          You can’t request a Higher-Level Review for a claim that’s already
-          been decided by the Board.
-        </p>
-      </>
+      <p>
+        To be eligible for some options, you must have received your decision
+        within the last 120 days. This means your decision must be dated on or
+        after {get120DayDeadline()}.
+      </p>
     ),
-    h1: `Previous Board Appeal`,
+    h1: `Board decision timeline`,
     hintText: null,
-    questionText: `Have you already had a Board Appeal for this claim?`,
+    questionText: `Did you receive your decision within the last 120 days?`,
     responses: [
-      { [YES]: `A Veterans Law Judge already reviewed and decided my claim` },
-      { [NO]: `This claim hasn’t been reviewed by the Board` },
+      { [YES]: `I received my decision within the last 120 days.` },
+      { [NO]: `I received a Board decision before ${get120DayDeadline()}.` },
     ],
   },
   Q_2_H_2_NEW_EVIDENCE: {
