@@ -1,3 +1,15 @@
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
 @import "../../../../platform/forms/sass/m-schemaform";
 @import "../../../../platform/forms/sass/m-form-confirmation";
+
+.layout-wrapper {
+  padding-inline: 8px;
+
+  @media (min-width: $medium-screen) {
+    padding-inline: 0;
+    padding-left: 16px;
+  }
+  @media (min-width: $large-screen) {
+    padding-inline: 0;
+  }
+}

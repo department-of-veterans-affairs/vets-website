@@ -7,16 +7,16 @@ import * as c from '../../../constants/results-content/dr-screens/card-content';
 const {
   Q_1_1_CLAIM_DECISION,
   Q_1_2_CLAIM_DECISION,
-  Q_1_2A_CONDITION_WORSENED,
+  Q_1_2A_1_SERVICE_CONNECTED,
   Q_1_2B_LAW_POLICY_CHANGE,
   Q_1_2C_NEW_EVIDENCE,
 } = SHORT_NAME_MAP;
-const { RESULTS_SC } = RESULTS_NAME_MAP;
+const { RESULTS_2_S_1A } = RESULTS_NAME_MAP;
 
-// Results SC: Supplemental Claim recommended
+// Results SC: Supplemental Claim recommended (Non-CFI)
 // 1.1 - Yes
 // 1.2 - No
-// 1.2A - No
+// 1.2A.1 - No
 // 1.2B - No
 // 1.2C - Yes
 describe('Decision Reviews Onramp', () => {
@@ -39,9 +39,9 @@ describe('Decision Reviews Onramp', () => {
       h.selectRadio(Q_1_2_CLAIM_DECISION, 1);
       h.clickContinue();
 
-      // Q_1_2A_CONDITION_WORSENED
-      h.verifyUrl(ROUTES.Q_1_2A_CONDITION_WORSENED);
-      h.selectRadio(Q_1_2A_CONDITION_WORSENED, 1);
+      // Q_1_2A_1_SERVICE_CONNECTED
+      h.verifyUrl(ROUTES.Q_1_2A_1_SERVICE_CONNECTED);
+      h.selectRadio(Q_1_2A_1_SERVICE_CONNECTED, 1);
       h.clickContinue();
 
       // Q_1_2B_LAW_POLICY_CHANGE
@@ -56,7 +56,7 @@ describe('Decision Reviews Onramp', () => {
 
       // RESULTS
       h.verifyUrl(ROUTES.RESULTS);
-      h.verifyDrResultsHeader(RESULTS_SC);
+      h.verifyDrResultsHeader(RESULTS_2_S_1A);
       h.checkOverviewPanel([c.TITLE_SC]);
       h.checkGoodFitCards([
         {
@@ -76,8 +76,8 @@ describe('Decision Reviews Onramp', () => {
       h.verifyUrl(ROUTES.Q_1_2B_LAW_POLICY_CHANGE);
       h.clickBack();
 
-      // Q_1_2A_CONDITION_WORSENED
-      h.verifyUrl(ROUTES.Q_1_2A_CONDITION_WORSENED);
+      // Q_1_2A_1_SERVICE_CONNECTED
+      h.verifyUrl(ROUTES.Q_1_2A_1_SERVICE_CONNECTED);
       h.clickBack();
 
       // Q_1_2_CLAIM_DECISION
