@@ -13,6 +13,7 @@ import { createReferralById, getReferralSlotKey } from './utils/referrals';
 import { FETCH_STATUS } from '../utils/constants';
 import { createDraftAppointmentInfo } from './utils/provider';
 import * as flow from './flow';
+import { vaosApi } from '../redux/api/vaosApi';
 
 describe('VAOS Component: ReviewAndConfirm', () => {
   let requestStub;
@@ -35,7 +36,6 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       appointmentInfoLoading: false,
       referralAppointmentInfo: {},
     },
-    appointmentApi: {},
   };
   const initialEmptyState = {
     featureToggles: {
@@ -119,6 +119,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     });
   });
   it('should call create appointment post when "continue" is pressed', async () => {
+    const store = createTestStore(initialFullState);
     // Stub the appointment creation function
     requestStub.resolves({ data: { appointmentId: draftAppointmentInfo?.id } });
 
@@ -127,7 +128,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
         currentReferral={createReferralById('2024-09-09', 'UUID')}
       />,
       {
-        store: createTestStore(initialFullState),
+        store,
       },
     );
     await screen.findByTestId('continue-button');
@@ -148,6 +149,14 @@ describe('VAOS Component: ReviewAndConfirm', () => {
         store,
       },
     );
+    // Manually dispatch the referral list and referral by id calls to have them in state.
+    store.dispatch(
+      vaosApi.util.upsertQueryData('getReferralById', undefined, {}),
+    );
+    store.dispatch(vaosApi.util.upsertQueryData('getReferralById', 'UUID', {}));
+    expect(
+      Object.keys(store.getState().appointmentApi.queries).length,
+    ).to.equal(2);
     await screen.findByTestId('continue-button');
     expect(screen.getByTestId('continue-button')).to.exist;
     await userEvent.click(screen.getByTestId('continue-button'));
@@ -172,6 +181,9 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       ),
     ).to.be.true;
     sandbox.assert.calledOnce(requestStub);
+    expect(
+      Object.keys(store.getState().appointmentApi.queries).length,
+    ).to.equal(0);
   });
   it('should display an error message when appointment creation fails', async () => {
     // Stub only for that specific call

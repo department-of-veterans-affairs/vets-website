@@ -93,9 +93,11 @@ class FolderManagementPage {
       .should(`${assertion}`, createdFolderResponse.data.attributes.name);
   };
 
-  selectFolderFromModal = (folderName = `Deleted`) => {
+  selectFolderFromModal = (folderName = `Trash`) => {
     cy.get(Locators.BUTTONS.MOVE_BUTTON_TEXT).click();
-    cy.get(`#radiobutton-${folderName}`).click();
+    cy.findByLabelText(folderName)
+      .should('be.visible')
+      .click();
   };
 
   confirmMovingMessageToFolder = (
