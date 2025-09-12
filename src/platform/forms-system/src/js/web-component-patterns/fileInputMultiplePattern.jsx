@@ -8,7 +8,6 @@ import ReviewField from '../review/FileInputMultiple';
 
 export const fileInputMultipleUI = options => {
   const { title, description, errorMessages, required, ...uiOptions } = options;
-
   if (required === undefined) {
     throw new Error(
       `"required" property should be explicitly set for fileInputUI for
@@ -24,7 +23,7 @@ export const fileInputMultipleUI = options => {
     'ui:webComponentField': VaFileInputMultiple,
     'ui:required': typeof required === 'function' ? required : () => !!required,
     'ui:errorMessages': {
-      required: 'A file is required to submit your application',
+      required: MISSING_FILE,
       ...errorMessages,
     },
     'ui:validations': [
