@@ -474,6 +474,7 @@ module.exports = async (env = {}) => {
           },
         },
       },
+      runtimeChunk: 'single',
     },
     plugins: [
       new webpack.DefinePlugin({

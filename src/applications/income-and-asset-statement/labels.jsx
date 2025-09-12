@@ -33,6 +33,22 @@ export const custodianRelationshipLabels = {
   OTHER: 'Another dependent not listed here',
 };
 
+export const custodianRelationshipLabelDescriptions = {
+  CUSTODIAN: 'Unless the child’s custodian is an institution',
+  SPOUSE:
+    'Unless you’re estranged, live apart, and don’t contribute to their support',
+};
+
+export const spouseRelationshipLabels = {
+  SPOUSE: 'Surviving spouse',
+  CHILD: 'Child/children',
+  OTHER: 'Another dependent not listed here ',
+};
+
+export const spouseRelationshipLabelDescriptions = {
+  CHILD: 'Unless you don’t have custody and don’t provide financial support',
+};
+
 export const parentRelationshipLabels = {
   PARENT: 'Me',
   SPOUSE: 'My spouse',
