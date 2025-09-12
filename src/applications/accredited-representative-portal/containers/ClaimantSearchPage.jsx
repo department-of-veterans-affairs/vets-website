@@ -210,7 +210,7 @@ const ClaimantSearchPage = () => {
     addStyleToShadowDomOnPages(
       [''],
       ['va-date'],
-      'va-select::part(label) {margin-bottom:8px}',
+      'va-select::part(label), va-text-input::part(label) {margin-bottom:8px}',
     );
   });
 
