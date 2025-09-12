@@ -91,7 +91,7 @@ src/applications/veteran-id-card @department-of-veterans-affairs/benefits-manage
 src/applications/appeals @department-of-veterans-affairs/benefits-decision-reviews-fe @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Benefits Non-Disability
-src/applications/vre @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/vre @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend @department-of-veterans-affairs/govcio-vfep-codereviewers
 src/applications/lgy @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/vre-chapter-31 @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/vre-chapter-36 @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend

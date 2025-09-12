@@ -1,4 +1,5 @@
 import React from 'react';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 export const printErrorMessage = message =>
   // eslint-disable-next-line no-console
@@ -50,4 +51,22 @@ export const renderSingleOrList = (
       ))}
     </ul>
   );
+};
+
+/**
+ * When page first loads, scroll to the top and focus on the h1
+ * We have two different types of question setups, so the header must be targeted accordingly
+ * 1. Plain header: no descriptionText (refer to question-data-map). Plain <h1>
+ * 2. Shadow header: descriptionText present. <h1> ends up in the shadow DOM of the va-radio
+ */
+export const pageSetup = () => {
+  window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  const plainHeader = document?.querySelector('h1');
+  const radio = document?.getElementById('onramp-radio');
+
+  focusElement('h1');
+
+  if (!plainHeader) {
+    focusElement('h1', {}, radio);
+  }
 };

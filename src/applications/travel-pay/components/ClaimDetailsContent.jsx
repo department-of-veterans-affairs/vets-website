@@ -6,7 +6,7 @@ import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureT
 import useSetPageTitle from '../hooks/useSetPageTitle';
 import { formatDateTime } from '../util/dates';
 import { STATUSES, FORM_100998_LINK } from '../constants';
-import { toPascalCase } from '../util/string-helpers';
+import { toPascalCase, currency } from '../util/string-helpers';
 import DocumentDownload from './DocumentDownload';
 import DecisionReason from './DecisionReason';
 
@@ -62,11 +62,12 @@ export default function ClaimDetailsContent({
 
   const documentCategories = (documents ?? []).reduce(
     (acc, doc) => {
-      // Do not show clerk note attachments
+      // Do not show clerk note attachments, which should be missing the mimetype
       if (!doc.mimetype) return acc;
-      // TODO: Solidify on pattern match criteria for decision letter, other statically named docs
+
       if (
         doc.filename.includes('Rejection Letter') ||
+        doc.filename.includes('Partial Payment Letter') ||
         doc.filename.includes('Decision Letter')
       )
         acc.clerk.push({ ...doc, text: 'Download your decision letter' });
@@ -133,11 +134,11 @@ export default function ClaimDetailsContent({
                 Amount
               </p>
               <p className="vads-u-margin--0">
-                Submitted amount of ${totalCostRequested}
+                Submitted amount of {currency(totalCostRequested)}
               </p>
               {reimbursementAmount > 0 && (
                 <p className="vads-u-margin--0">
-                  Reimbursement amount of ${reimbursementAmount}
+                  Reimbursement amount of {currency(reimbursementAmount)}
                 </p>
               )}
             </div>
