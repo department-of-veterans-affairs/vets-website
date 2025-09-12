@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { setBreadcrumbs } from '../../actions/breadcrumbs';
 import * as Constants from '../../util/constants';
@@ -253,35 +253,25 @@ const SmBreadcrumbs = () => {
           className="breadcrumbs vads-u-padding-y--4"
         >
           <span className="sm-breadcrumb-list-item">
-            <va-icon
-              icon="arrow_back"
-              size={1}
-              style={{ position: 'relative', top: '-5px', left: '-1px' }}
-              class="vads-u-color--gray-medium"
-            />
             {backBreadcrumb ? (
-              // eslint-disable-next-line jsx-a11y/anchor-is-valid
-              <Link
-                to="#"
+              <va-link
+                back
+                text="Back"
+                href={previousUrl}
                 onClick={e => {
                   e.preventDefault();
                   navigateBack();
                 }}
-                className="vads-u-font-size--md"
                 data-testid="sm-breadcrumbs-back"
                 data-dd-action-name="Breadcrumb - Back"
-              >
-                Back
-              </Link>
+              />
             ) : (
-              <Link
-                to={crumb.href}
-                className="vads-u-font-size--md"
+              <va-link
+                text={`Back to ${crumb.label}`}
+                href={crumb.href}
                 data-dd-privacy="mask"
                 data-dd-action-name="Breadcrumb - Back to"
-              >
-                {`Back to ${crumb.label}`}
-              </Link>
+              />
             )}
           </span>
         </nav>

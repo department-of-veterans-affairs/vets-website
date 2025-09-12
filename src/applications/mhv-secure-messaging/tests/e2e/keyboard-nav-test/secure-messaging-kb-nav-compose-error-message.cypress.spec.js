@@ -1,7 +1,6 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
 import PatientComposePage from '../pages/PatientComposePage';
-import FolderLoadPage from '../pages/FolderLoadPage';
 import { AXE_CONTEXT, Data } from '../utils/constants';
 
 describe('Secure Messaging Compose Errors Keyboard Nav', () => {
@@ -11,8 +10,7 @@ describe('Secure Messaging Compose Errors Keyboard Nav', () => {
     PatientInboxPage.navigateToComposePage();
   });
   afterEach(() => {
-    FolderLoadPage.backToParentFolder();
-    PatientComposePage.clickDeleteDraftModalButton();
+    PatientComposePage.deleteUnsavedDraft();
   });
 
   it('focus on error message for no provider', () => {

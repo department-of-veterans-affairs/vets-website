@@ -50,109 +50,161 @@ describe('Curated list breadcrumb back navigation', () => {
   it('Start message page Back navigates to drafts if previous url is draft', async () => {
     // previousUrl deliberately something unrelated to prove override logic
     const previousUrl = Paths.DRAFTS;
-    const screen = renderAt(`${Paths.COMPOSE}${Paths.START_MESSAGE}`, {
-      sm: {
-        breadcrumbs: { previousUrl },
+    const { container, history } = renderAt(
+      `${Paths.COMPOSE}${Paths.START_MESSAGE}`,
+      {
+        sm: {
+          breadcrumbs: { previousUrl },
+        },
       },
-    });
-
-    fireEvent.click(await screen.findByText('Back'));
+    );
 
     await waitFor(() => {
-      expect(screen.history.location.pathname).to.equal(`${Paths.DRAFTS}`);
+      expect(container.querySelector('va-link')).to.have.attribute(
+        'text',
+        'Back',
+      );
+    });
+
+    fireEvent.click(await container.querySelector('va-link'));
+
+    await waitFor(() => {
+      expect(history.location.pathname).to.equal(`${Paths.DRAFTS}`);
     });
   });
 
   it('Select care team page Back navigates to interstitial compose page (override previousUrl)', async () => {
     const previousUrl = Paths.DRAFTS;
-    const screen = renderAt(`${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`, {
-      sm: {
-        breadcrumbs: { previousUrl },
+    const { container, history } = renderAt(
+      `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`,
+      {
+        sm: {
+          breadcrumbs: { previousUrl },
+        },
       },
+    );
+    await waitFor(() => {
+      expect(container.querySelector('va-link')).to.have.attribute(
+        'text',
+        'Back',
+      );
     });
 
-    fireEvent.click(await screen.findByText('Back'));
+    fireEvent.click(await container.querySelector('va-link'));
 
     await waitFor(() => {
-      expect(screen.history.location.pathname).to.equal(`${Paths.COMPOSE}`);
+      expect(history.location.pathname).to.equal(`${Paths.COMPOSE}`);
     });
   });
 
   it('Contact list Back navigates to active draft thread when draft present and previousUrl is compose', async () => {
     const messageId = '9999';
-    const screen = renderAt(Paths.CONTACT_LIST, {
+    const { container, history } = renderAt(Paths.CONTACT_LIST, {
       sm: {
         breadcrumbs: { previousUrl: Paths.COMPOSE },
         threadDetails: { drafts: [{ messageId }] },
       },
     });
-
-    fireEvent.click(await screen.findByText('Back'));
+    await waitFor(() => {
+      expect(container.querySelector('va-link')).to.have.attribute(
+        'text',
+        'Back',
+      );
+    });
+    fireEvent.click(await container.querySelector('va-link'));
 
     await waitFor(() => {
-      expect(screen.history.location.pathname).to.equal(
+      expect(history.location.pathname).to.equal(
         `${Paths.MESSAGE_THREAD}${messageId}/`,
       );
     });
   });
 
   it('Contact list Back navigates to previousUrl when no active draft (previousUrl = Drafts)', async () => {
-    const screen = renderAt(Paths.CONTACT_LIST, {
+    const { container, history } = renderAt(Paths.CONTACT_LIST, {
       sm: {
         breadcrumbs: { previousUrl: Paths.DRAFTS },
         threadDetails: { drafts: [] },
       },
     });
 
-    fireEvent.click(await screen.findByText('Back'));
+    await waitFor(() => {
+      expect(container.querySelector('va-link')).to.have.attribute(
+        'text',
+        'Back',
+      );
+    });
+
+    fireEvent.click(await container.querySelector('va-link'));
 
     await waitFor(() => {
-      expect(screen.history.location.pathname).to.equal(`${Paths.DRAFTS}`);
+      expect(history.location.pathname).to.equal(`${Paths.DRAFTS}`);
     });
   });
 
   it('Care team help page navigates correctly (previousUrl = Select care team)', async () => {
     const previous = `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`;
-    const screen = renderAt(Paths.CARE_TEAM_HELP, {
+    const { container, history } = renderAt(Paths.CARE_TEAM_HELP, {
       sm: {
         breadcrumbs: { previousUrl: previous },
       },
     });
 
-    fireEvent.click(await screen.findByText('Back'));
+    await waitFor(() => {
+      expect(container.querySelector('va-link')).to.have.attribute(
+        'text',
+        'Back',
+      );
+    });
+
+    fireEvent.click(await container.querySelector('va-link'));
 
     await waitFor(() => {
-      expect(screen.history.location.pathname).to.equal(`${previous}`);
+      expect(history.location.pathname).to.equal(`${previous}`);
     });
   });
 
   it('Care team help page navigates correctly back to select care team', async () => {
     const previous = `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`;
-    const screen = renderAt(Paths.CARE_TEAM_HELP, {
+    const { container, history } = renderAt(Paths.CARE_TEAM_HELP, {
       sm: {
         breadcrumbs: { previousUrl: previous },
       },
     });
 
-    fireEvent.click(await screen.findByText('Back'));
+    await waitFor(() => {
+      expect(container.querySelector('va-link')).to.have.attribute(
+        'text',
+        'Back',
+      );
+    });
+
+    fireEvent.click(await container.querySelector('va-link'));
 
     await waitFor(() => {
-      expect(screen.history.location.pathname).to.equal(`${previous}`);
+      expect(history.location.pathname).to.equal(`${previous}`);
     });
   });
 
   it('Compose page Back navigates to inbox', async () => {
     const previousUrl = Paths.INBOX;
-    const screen = renderAt(Paths.COMPOSE, {
+    const { container, history } = renderAt(Paths.COMPOSE, {
       sm: {
         breadcrumbs: { previousUrl },
       },
     });
 
-    fireEvent.click(await screen.findByText('Back'));
+    await waitFor(() => {
+      expect(container.querySelector('va-link')).to.have.attribute(
+        'text',
+        'Back',
+      );
+    });
+
+    fireEvent.click(await container.querySelector('va-link'));
 
     await waitFor(() => {
-      expect(screen.history.location.pathname).to.equal(`${Paths.INBOX}`);
+      expect(history.location.pathname).to.equal(`${Paths.INBOX}`);
     });
   });
 });

@@ -26,7 +26,7 @@ describe('Secure Messaging Delete Draft', () => {
   });
 });
 
-describe('THREAD LIST RE-FETCHING VERIFICATION', () => {
+describe('THREAD LIST RE-FETCHING VERIFICATION DELETE DRAFT', () => {
   it('verify data updates after each rendering', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();

@@ -4,6 +4,7 @@ import ContactListPage from '../pages/ContactListPage';
 import PatientComposePage from '../pages/PatientComposePage';
 import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 import { AXE_CONTEXT, Paths } from '../utils/constants';
+import SharedComponents from '../pages/SharedComponents';
 
 /**
  * E2E: Contact list breadcrumb Back navigation
@@ -35,9 +36,8 @@ describe('SM CONTACT LIST BREADCRUMB BACK NAVIGATION', () => {
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
     // Ensure Back breadcrumb visible and clickable
-    cy.findByTestId('sm-breadcrumbs-back')
-      .should('have.text', 'Back')
-      .click();
+    SharedComponents.backBreadcrumb().should('have.attr', 'text', 'Back');
+    SharedComponents.clickBackBreadcrumb();
 
     // Verify returned to Inbox
     GeneralFunctionsPage.verifyPageHeader('Messages: Inbox');
@@ -66,9 +66,8 @@ describe('SM CONTACT LIST BREADCRUMB BACK NAVIGATION', () => {
     GeneralFunctionsPage.verifyPageHeader('Messages: Contact list');
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
-    cy.findByTestId('sm-breadcrumbs-back')
-      .should('have.text', 'Back')
-      .click();
+    SharedComponents.backBreadcrumb().should('have.attr', 'text', 'Back');
+    SharedComponents.clickBackBreadcrumb();
 
     // When no active draft and previousUrl isn't properly set, falls back to inbox
     GeneralFunctionsPage.verifyPageHeader('Messages: Inbox');
