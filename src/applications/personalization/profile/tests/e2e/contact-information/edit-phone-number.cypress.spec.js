@@ -195,7 +195,7 @@ describe('Profile - Contact Information - editing phone numbers', () => {
     cy.get('va-telephone-input').should(
       'have.attr',
       'error',
-      'Enter a valid United States of America phone number. Use 10 digits.',
+      'Enter a United States of America phone number in a valid format, for example, (xxx) xxx-xxxx',
     );
 
     cy.contains('Update saved.').should('not.exist');
