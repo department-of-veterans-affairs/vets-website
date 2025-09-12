@@ -1,0 +1,10 @@
+{
+  "data": {
+    "fullName": {
+      "first": "John",
+      "last": "Doe"
+    },
+    "dateOfBirth": "1980-01-01",
+    "homePhone": "5551234567"
+  }
+}
