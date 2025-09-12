@@ -30,8 +30,8 @@ const textContent = /^Confirm your contact email address/;
 
 describe('<ConfirmEmailLink />', () => {
   it('renders', async () => {
-    const recordEventFn = sinon.spy();
-    const props = { recordEventFn };
+    const recordEvent = sinon.spy();
+    const props = { recordEvent };
     const { getByTestId } = render(<ConfirmEmailLink {...props} />, {
       initialState: stateFn(),
     });
@@ -40,14 +40,14 @@ describe('<ConfirmEmailLink />', () => {
       expect(component).to.exist;
       expect(component.link).to.equal(href);
       expect(component.text).to.match(textContent);
-      expect(recordEventFn.calledOnce).to.be.true;
-      expect(recordEventFn.calledTwice).to.be.false;
+      expect(recordEvent.calledOnce).to.be.true;
+      expect(recordEvent.calledTwice).to.be.false;
     });
   });
 
   it('renders when updatedAt is null', async () => {
-    const recordEventFn = sinon.spy();
-    const props = { recordEventFn };
+    const recordEvent = sinon.spy();
+    const props = { recordEvent };
     const initialState = stateFn({ updatedAt: null });
     const { getByTestId } = render(<ConfirmEmailLink {...props} />, {
       initialState,
@@ -57,8 +57,8 @@ describe('<ConfirmEmailLink />', () => {
       expect(component).to.exist;
       expect(component.link).to.equal(href);
       expect(component.text).to.match(textContent);
-      expect(recordEventFn.calledOnce).to.be.true;
-      expect(recordEventFn.calledTwice).to.be.false;
+      expect(recordEvent.calledOnce).to.be.true;
+      expect(recordEvent.calledTwice).to.be.false;
     });
   });
 
