@@ -28,7 +28,7 @@ export const RESTART_GUIDE = (
     <h2 className="vads-u-margin-y--0">Want to explore other pathways?</h2>
     <p className="vads-u-margin-bottom--3">
       We showed decision review options based on your responses. If your
-      situation changes—or you want to see other options for a different
+      situation changes—or you want to review other options for a different
       reason—you can restart the guide.
     </p>
     <va-link-action href={manifest.rootUrl} text="Restart the guide" />
