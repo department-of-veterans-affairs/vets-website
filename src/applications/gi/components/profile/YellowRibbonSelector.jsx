@@ -26,6 +26,12 @@ const ProgramCard = ({ program }) => {
       </div>
       <div>
         <p className="vads-u-font-weight--bold vads-u-margin-bottom--0">
+          Degree type
+        </p>
+        <p className="vads-u-margin-top--0">{program.degreeLevel}</p>
+      </div>
+      <div>
+        <p className="vads-u-font-weight--bold vads-u-margin-bottom--0">
           Funding available
         </p>
         <p className="vads-u-margin-top--0">
