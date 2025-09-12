@@ -53,11 +53,11 @@ const YellowRibbonInstructionsPage = () => {
           <li>Modify an existing agreement</li>
         </ul>
         <p className="vads-u-margin-top--0">
-          Both of these options will require you to complete the entire form. If
-          you are withdrawing from the Yellow Ribbon Program agreement, you will
-          only need to provide your first and last name, official title, your
-          school’s facility code, and any additional locations you want to
-          withdraw.
+          Both of these options will require you to complete the entire form.
+          <br /> If you are withdrawing from the Yellow Ribbon Program
+          agreement, you will only need to provide your first and last name,
+          official title, your school’s facility code, and any additional
+          locations you want to withdraw.
         </p>
 
         <h2 className="vads-u-margin-top--3">
@@ -158,9 +158,10 @@ const YellowRibbonInstructionsPage = () => {
             </li>
             <li>
               Maximum contribution amount: Enter the maximum annual contribution
-              amount per eligible student in your school’s billing currency. Do
-              not enter an amount by term or credit hour. If your institution
-              will cover 50% of unmet tuition and fees, select "unlimited."
+              amount per eligible student in your school’s billing currency.
+              <br /> Do not enter an amount by term or credit hour. If your
+              institution will cover 50% of unmet tuition and fees, select
+              "unlimited."
             </li>
           </ul>
         </div>

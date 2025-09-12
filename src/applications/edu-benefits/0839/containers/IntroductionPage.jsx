@@ -66,9 +66,9 @@ const PrivacyActAccordion = () => {
             VA will not disclose information collected on this form to any
             sources other than what has been authorized under the Privacy Act of
             1974 or Title 38, Code of Federal Regulations, Section 1.526 for
-            routine uses e.g. VA sends education forms or letters with a
+            routine uses (e.g. VA sends education forms or letters with a
             Veteran’s identifying information to the Veteran’s school or
-            training establishment to (1) assist the Veteran in the completion
+            training establishment) to (1) assist the Veteran in the completion
             of claims forms or (2) for the VA to obtain further information as
             may be necessary from the school for the VA to properly process the
             Veteran’s education claim or to monitor his or her progress during
@@ -105,9 +105,6 @@ const PrivacyActAccordion = () => {
 
 export const IntroductionPage = props => {
   const userLoggedIn = useSelector(state => isLoggedIn(state));
-  // const userIdVerified = useSelector(state => isLOA3(state));
-
-  // const showVerifyIdentify = userLoggedIn && !userIdVerified; // verify id applicable here or logged in sufficient?
 
   const { route } = props;
   const { formConfig, pageList } = route;
@@ -147,9 +144,9 @@ export const IntroductionPage = props => {
         visible
       >
         <p className="vads-u-margin-y--0">
-          <strong>Note:</strong> This form is intended for educational
-          institutions and training facilities submitting reports regarding
-          school certifying officials.
+          <strong>Note:</strong> This form is intended for schools applying to
+          join, modify, or withdraw from the Yellow Ribbon Program under the
+          Post-9/11 GI Bill.
         </p>
       </va-banner>
 
@@ -211,7 +208,7 @@ export const IntroductionPage = props => {
           prefillEnabled={formConfig.prefillEnabled}
           messages={formConfig.savedFormMessages}
           pageList={pageList}
-          startText="Start your Yellow Ribbon Agreement"
+          startText="Start your Yellow Ribbon Program Agreement"
           formConfig={formConfig}
           devOnly={{
             forceShowFormControls: true,
