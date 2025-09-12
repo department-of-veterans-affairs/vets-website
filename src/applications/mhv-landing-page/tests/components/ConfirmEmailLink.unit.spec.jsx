@@ -1,4 +1,5 @@
 import React from 'react';
+import Cookies from 'js-cookie';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { waitFor } from '@testing-library/react';
@@ -96,6 +97,24 @@ describe('<ConfirmEmailLink />', () => {
     await waitFor(() => {
       expect(container).to.be.empty;
       expect(recordEventFn.calledOnce).to.be.false;
+    });
+  });
+
+  describe('When MHV_EMAIL_CONFIRMATION_DISMISSED cookie is set', () => {
+    before(() => {
+      Cookies.set('MHV_EMAIL_CONFIRMATION_DISMISSED', 'true');
+    });
+    after(() => {
+      Cookies.remove('MHV_EMAIL_CONFIRMATION_DISMISSED');
+    });
+    it('renders nothing', async () => {
+      const recordEventFn = sandbox.spy();
+      const props = { recordEventFn };
+      const { container } = render(<ConfirmEmailLink {...props} />, {});
+      await waitFor(() => {
+        expect(container).to.be.empty;
+        expect(recordEventFn.calledOnce).to.be.false;
+      });
     });
   });
 });
