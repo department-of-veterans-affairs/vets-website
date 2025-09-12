@@ -208,17 +208,29 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
       });
     }
 
+    // TODO - could try returning null here?
+
     // multi page array data
     addMarginIfNewIndex(key, index);
-    return Object.entries(uiSchema?.items).flatMap(([arrKey, arrVal]) => {
-      return fieldEntries(
-        arrKey,
-        arrVal,
-        data[index][arrKey],
-        schemaPropertiesKey.items,
-        schemaFromState?.properties?.[key].items?.[index],
+    try {
+      return Object.entries(uiSchema?.items).flatMap(([arrKey, arrVal]) => {
+        return fieldEntries(
+          arrKey,
+          arrVal,
+          data[index][arrKey],
+          schemaPropertiesKey.items,
+          schemaFromState?.properties?.[key].items?.[index],
+        );
+      });
+    } catch (e) {
+      return reviewEntry(
+        null,
+        key,
+        uiSchema,
+        `**ERROR** displaying ${key}`,
+        `Unable to display details for item ${index + 1} in ${key}`,
       );
-    });
+    }
   }
 
   return reviewEntry(description, key, uiSchema, label, refinedData);
