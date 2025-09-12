@@ -106,6 +106,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_22_10297: '22-10297',
   FORM_22_0839: '22-0839',
   FORM_22_10275: '22-10275',
+  FORM_21_526EZ_SUMMARY_DEMO: '21-526EZ-SUMMARY-DEMO',
 });
 
 export const VA_FORM_IDS_SKIP_INFLECTION = Object.freeze([
@@ -202,6 +203,9 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_22_10297]: `${tryGetAppUrl('22-10297')}/`,
     [VA_FORM_IDS.FORM_22_0839]: `${tryGetAppUrl('22-0839')}/`,
     [VA_FORM_IDS.FORM_22_10275]: `${tryGetAppUrl('22-10275')}/`,
+    [VA_FORM_IDS.FORM_21_526EZ_SUMMARY_DEMO]: `${tryGetAppUrl(
+      '21-526EZ-SUMMARY-DEMO',
+    )}/`,
   };
 };
 
@@ -755,6 +759,13 @@ export const MY_VA_SIP_FORMS = [
     title: '10275',
     description: 'education benefits',
     trackingPrefix: '10275-edu-benefits',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21_526EZ_SUMMARY_DEMO,
+    benefit: 'benefits',
+    title: 'Copy of Submissions Demo',
+    description: 'benefits',
+    trackingPrefix: 'copy-of-submissions-demo-',
   },
 ];
 
