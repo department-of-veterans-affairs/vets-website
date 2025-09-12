@@ -48,6 +48,8 @@ const mockAppts = [];
 let currentMockId = 1;
 const draftAppointmentPollCount = {};
 
+const referrals = referralUtils.createReferrals(4, null, null, true, true);
+
 // key: NPI, value: Provider Name
 const providerMock = {
   1801312053: 'AJADI, ADEDIWURA',
@@ -418,7 +420,7 @@ const responses = {
   },
   'GET /vaos/v2/referrals': (req, res) => {
     return res.json({
-      data: referralUtils.createReferrals(4, null, null, true, true),
+      data: referrals,
     });
   },
   'GET /vaos/v2/referrals/:referralId': (req, res) => {
@@ -460,10 +462,14 @@ const responses = {
         data: expiredReferral,
       });
     }
-
+    const originalReferral = referrals.find(
+      ref => ref.id === req.params.referralId,
+    );
     const referral = referralUtils.createReferralById(
       '2024-12-02',
       req.params.referralId,
+      null,
+      originalReferral.attributes.categoryOfCare || 'OPTOMETRY',
     );
 
     return res.json({

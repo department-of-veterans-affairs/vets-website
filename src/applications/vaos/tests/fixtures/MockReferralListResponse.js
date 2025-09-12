@@ -84,7 +84,10 @@ class MockReferralListResponse {
   static getRandomReferrals(count = 3) {
     const referrals = [];
     for (let i = 0; i < count; i++) {
-      referrals.push(MockReferralListResponse.createReferral());
+      const categoryOfCare = i % 2 === 0 ? 'OPTOMETRY' : 'CHIROPRACTIC';
+      referrals.push(
+        MockReferralListResponse.createReferral({ categoryOfCare }),
+      );
     }
     return referrals;
   }
