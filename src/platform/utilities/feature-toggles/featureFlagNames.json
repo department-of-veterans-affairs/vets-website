@@ -53,6 +53,7 @@
   "coeAccess": "coe_access",
   "combinedDebtPortalAccess": "combined_debt_portal_access",
   "confirmationPageNew": "confirmation_page_new",
+  "confirmContactEmailInterstitialEnabled": "confirm_contact_email_interstitial_enabled",
   "cstClaimPhases": "cst_claim_phases",
   "cstIncludeDdl5103Letters": "cst_include_ddl_5103_letters",
   "cstIncludeDdlBoaLetters": "cst_include_ddl_boa_letters",
