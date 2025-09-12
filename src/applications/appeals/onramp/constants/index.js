@@ -57,3 +57,7 @@ export const ROUTES = Object.freeze({
 
 export const ALL_QUESTIONS = Object.freeze(Object.values(S));
 export const ALL_RESULTS = Object.freeze(Object.values(RESULTS_NAME_MAP));
+
+export const getShortNameFromRoute = route => {
+  return Object.keys(ROUTES).find(key => ROUTES[key] === route) || null;
+};
