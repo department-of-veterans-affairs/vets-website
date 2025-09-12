@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { isAfter } from 'date-fns';
 import Cookies from 'js-cookie';
-import recordEvent from 'platform/monitoring/record-event';
+// eslint-disable-next-line import/no-named-default
+import { default as recordEventFn } from '~/platform/monitoring/record-event';
 
 import { VaCriticalAction } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
@@ -29,7 +30,7 @@ export const showConfirmEmail = state => (
   return !profileLoading && !recentlyUpdated && !hasDismissedEmailConfirmation;
 };
 
-const ConfirmEmailLink = ({ recordEventFn = recordEvent }) => {
+const ConfirmEmailLink = ({ recordEvent = recordEventFn }) => {
   const text =
     'Confirm your contact email address to keep getting VA notifications';
   const renderConfirmEmailLink = useSelector(showConfirmEmail)();
@@ -37,13 +38,13 @@ const ConfirmEmailLink = ({ recordEventFn = recordEvent }) => {
   useEffect(
     () => {
       if (!renderConfirmEmailLink) return;
-      recordEventFn({
+      recordEvent({
         event: 'nav-alert-box-load',
         action: 'load',
         'alert-box-headline': text,
       });
     },
-    [renderConfirmEmailLink, recordEventFn, text],
+    [renderConfirmEmailLink, recordEvent, text],
   );
 
   if (!renderConfirmEmailLink) {
@@ -60,7 +61,7 @@ const ConfirmEmailLink = ({ recordEventFn = recordEvent }) => {
 };
 
 ConfirmEmailLink.propTypes = {
-  recordEventFn: PropTypes.func,
+  recordEvent: PropTypes.func,
 };
 
 export default ConfirmEmailLink;

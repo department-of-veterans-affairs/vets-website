@@ -41,7 +41,7 @@ describe('<ConfirmEmailLink />', () => {
 
   it('renders', async () => {
     const recordEventFn = sandbox.spy();
-    const props = { recordEventFn };
+    const props = { recordEvent: recordEventFn };
     const { getByTestId } = render(<ConfirmEmailLink {...props} />, {
       initialState: stateFn(),
     });
@@ -57,7 +57,7 @@ describe('<ConfirmEmailLink />', () => {
 
   it('renders when updatedAt is null', async () => {
     const recordEventFn = sandbox.spy();
-    const props = { recordEventFn };
+    const props = { recordEvent: recordEventFn };
     const initialState = stateFn({ updatedAt: null });
     const { getByTestId } = render(<ConfirmEmailLink {...props} />, {
       initialState,
@@ -87,7 +87,7 @@ describe('<ConfirmEmailLink />', () => {
 
   it(`renders nothing when email was updated after ${EMAIL_UPDATED_AT_THRESHOLD}`, async () => {
     const recordEventFn = sandbox.spy();
-    const props = { recordEventFn };
+    const props = { recordEvent: recordEventFn };
     const initialState = stateFn({
       updatedAt: '2025-09-08T12:00:00.000+00:00',
     });
@@ -109,7 +109,7 @@ describe('<ConfirmEmailLink />', () => {
     });
     it('renders nothing', async () => {
       const recordEventFn = sandbox.spy();
-      const props = { recordEventFn };
+      const props = { recordEvent: recordEventFn };
       const { container } = render(<ConfirmEmailLink {...props} />, {});
       await waitFor(() => {
         expect(container).to.be.empty;
