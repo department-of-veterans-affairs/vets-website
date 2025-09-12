@@ -244,7 +244,7 @@ describe('check-in', () => {
     describe('postDayOfTravelPayClaim', () => {
       [
         { isV1TravelPayAPIEnabled: true, expectedVersion: 'v1' },
-        { isV1TravelPayAPIEnabled: false, expectedVersion: 'v2' },
+        { isV1TravelPayAPIEnabled: false, expectedVersion: 'v0' },
       ].forEach(({ isV1TravelPayAPIEnabled, expectedVersion }) => {
         it(`uses ${expectedVersion} API when isV1TravelPayAPIEnabled is ${isV1TravelPayAPIEnabled}`, async () => {
           const mockResponse = { claimId: '12345' };
@@ -294,7 +294,7 @@ describe('check-in', () => {
     describe('postTravelOnlyClaim', () => {
       [
         { isV1TravelPayAPIEnabled: true, expectedVersion: 'v1' },
-        { isV1TravelPayAPIEnabled: false, expectedVersion: 'v2' },
+        { isV1TravelPayAPIEnabled: false, expectedVersion: 'v0' },
       ].forEach(({ isV1TravelPayAPIEnabled, expectedVersion }) => {
         it(`uses ${expectedVersion} API when isV1TravelPayAPIEnabled is ${isV1TravelPayAPIEnabled}`, async () => {
           const mockResponse = { claimId: '12345' };

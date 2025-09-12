@@ -212,7 +212,7 @@ const v2 = {
     setECheckinStartedCalled,
     isV1TravelPayAPIEnabled,
   ) => {
-    const version = isV1TravelPayAPIEnabled ? 'v1' : 'v2';
+    const version = isV1TravelPayAPIEnabled ? 'v1' : 'v0';
     const url = `/check_in/${version}/travel_claims/`;
     const headers = { 'Content-Type': 'application/json' };
 
@@ -248,7 +248,7 @@ const v2 = {
     timeToComplete,
     isV1TravelPayAPIEnabled,
   ) => {
-    const version = isV1TravelPayAPIEnabled ? 'v1' : 'v2';
+    const version = isV1TravelPayAPIEnabled ? 'v1' : 'v0';
     const url = `/check_in/${version}/travel_claims/`;
     const headers = { 'Content-Type': 'application/json' };
     const travelClaimData = {
