@@ -130,15 +130,14 @@ import prefillTransformer from './prefill-transformer';
 import { chapter as addChild } from './chapters/report-add-child';
 import { spouseAdditionalEvidence } from './chapters/additional-information/spouseAdditionalEvidence';
 import { childAdditionalEvidence as finalChildAdditionalEvidence } from './chapters/additional-information/childAdditionalEvidence';
+
 import {
   spouseEvidence,
   childEvidence,
   showPensionRelatedQuestions,
   showPensionBackupPath,
 } from './utilities';
-
-const emptyMigration = savedData => savedData;
-const migrations = [emptyMigration];
+import migrations from './migrations';
 
 export const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -266,7 +265,7 @@ export const formConfig = {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
             formData?.['view:addOrRemoveDependents']?.add,
-          title: 'Spouse’s current legal name',
+          title: 'Your spouse’s personal information',
           path: 'add-spouse/current-legal-name',
           CustomPage: CurrentSpouse,
           CustomPageReview: null,
