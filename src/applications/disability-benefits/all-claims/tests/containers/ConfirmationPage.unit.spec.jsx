@@ -9,6 +9,8 @@ import ConfirmationPage from '../../containers/ConfirmationPage';
 import { submissionStatuses } from '../../constants';
 import { bddConfirmationHeadline } from '../../content/bddConfirmationAlert';
 import formConfig from '../../config/form';
+// import maximalData from '../fixtures/data/maximal-modern-0781-test.json';
+import minimalData from '../fixtures/data/wip-confirmation-view-test.json';
 
 const getData = ({
   renderName = true,
@@ -26,9 +28,8 @@ const getData = ({
   form: {
     data: {
       // Form data cannot be null for review section accordion
-      standardClaim: true,
-      isVaEmployee: true,
-      homelessOrAtRisk: 'homeless',
+      // TODO: replace with maximal data when ready
+      ...minimalData.data,
     },
   },
 });
