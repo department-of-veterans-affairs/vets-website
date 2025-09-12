@@ -248,16 +248,23 @@ describe('Breadcrumbs', () => {
       },
     };
 
-    const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
+    const { container, history } = renderWithStoreAndRouter(<SmBreadcrumbs />, {
       initialState: customState,
       reducers: reducer,
       path: Paths.CARE_TEAM_HELP,
     });
 
-    fireEvent.click(screen.getByText('Back'));
+    await waitFor(() => {
+      expect(container.querySelector('va-link')).to.have.attribute(
+        'text',
+        'Back',
+      );
+    });
+
+    fireEvent.click(container.querySelector('va-link'));
 
     await waitFor(() => {
-      expect(screen.history.location.pathname).to.equal(previous);
+      expect(history.location.pathname).to.equal(previous);
     });
   });
 });
