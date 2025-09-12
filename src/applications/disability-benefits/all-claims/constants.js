@@ -1,5 +1,5 @@
-import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import constants from 'vets-json-schema/dist/constants.json';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 const { formProfileStates: FORM_PROFILE_STATES } = constants;
 

@@ -1,32 +1,32 @@
 import { expect } from 'chai';
-import _ from 'platform/utilities/data';
 import sinon from 'sinon';
+import _ from 'platform/utilities/data';
 
 import formConfig from '../../config/form';
 import {
-  PTSD_CHANGE_LABELS,
-  PTSD_INCIDENT_ITERATION,
-  disabilityActionTypes,
-} from '../../constants';
-import {
-  addForm0781,
-  addForm0781V2,
-  addForm4142,
-  cleanUpPersonsInvolved,
-  delete0781BehavioralData,
-  extractDateParts,
-  filterServicePeriods,
+  transformRelatedDisabilities,
+  stringifyRelatedDisabilities,
   getFlatIncidentKeys,
   getPtsdChangeText,
-  sanitize0781BehaviorsDetails,
-  sanitize0781PoliceReportData,
   setActionTypes,
-  stringifyRelatedDisabilities,
-  transformProviderFacility,
-  transformRelatedDisabilities,
+  filterServicePeriods,
+  cleanUpPersonsInvolved,
   transformTreatmentFacilities,
+  transformProviderFacility,
   transformVaFacility,
+  extractDateParts,
+  addForm4142,
+  addForm0781,
+  addForm0781V2,
+  delete0781BehavioralData,
+  sanitize0781PoliceReportData,
+  sanitize0781BehaviorsDetails,
 } from '../../utils/submit';
+import {
+  PTSD_INCIDENT_ITERATION,
+  PTSD_CHANGE_LABELS,
+  disabilityActionTypes,
+} from '../../constants';
 
 import maximalData from '../fixtures/data/maximal-test.json';
 
@@ -368,8 +368,8 @@ describe('addForm4142', () => {
     const transformedFacility = [
       {
         name: 'Facility A',
-        treatedDisabilityNames: [],
         treatmentDateRange: [undefined],
+        treatedDisabilityNames: [],
       },
     ];
     const stub = sinon

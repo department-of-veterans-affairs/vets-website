@@ -1,16 +1,16 @@
 import _ from 'platform/utilities/data';
 import {
+  PTSD_INCIDENT_ITERATION,
+  PTSD_CHANGE_LABELS,
   ATTACHMENT_KEYS,
   causeTypes,
   disabilityActionTypes,
-  PTSD_CHANGE_LABELS,
-  PTSD_INCIDENT_ITERATION,
 } from '../constants';
 
 import {
+  isDisabilityPtsd,
   disabilityIsSelected,
   hasGuardOrReservePeriod,
-  isDisabilityPtsd,
   sippableId,
 } from './index';
 
@@ -183,7 +183,6 @@ export function transformProviderFacilities(providerFacilities, clonedData) {
     };
   });
 }
-
 export const removeExtraData = formData => {
   // EVSS no longer accepts some keys
   const ratingKeysToRemove = [
