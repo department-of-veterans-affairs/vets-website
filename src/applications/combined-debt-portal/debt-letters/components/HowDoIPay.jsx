@@ -43,8 +43,10 @@ const HowDoIPay = ({ userData }) => {
       {userData ? (
         <ul>
           <li>
-            <strong>File Number: </strong>
-            {userData.fileNumber}
+            <strong>
+              {userData.receivableId ? 'Receivable ID' : 'File Number'}:{' '}
+            </strong>
+            {userData.receivableId || userData.fileNumber}
           </li>
           <li>
             <strong>Payee Number: </strong>
