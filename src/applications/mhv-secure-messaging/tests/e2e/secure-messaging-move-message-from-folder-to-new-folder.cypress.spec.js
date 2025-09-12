@@ -24,9 +24,7 @@ describe('Secure Messaging Move Message to New Folder tests', () => {
 
     GeneralFunctionsPage.verifyUrl(`inbox`);
 
-    cy.get(`h1`)
-      .should('be.focused')
-      .and(`have.text`, `Messages: Inbox`);
+    cy.get(`va-alert`).should('be.focused');
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

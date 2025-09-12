@@ -138,6 +138,8 @@ class FolderManagementPage {
       force: true,
     });
     cy.get(Locators.BUTTONS.CREATE_FOLDER).click();
+    cy.findByText('Folder was successfully created.').should('be.visible');
+    cy.get('va-alert').should('have.focus');
   };
 
   backToInbox = () => {
@@ -149,12 +151,7 @@ class FolderManagementPage {
       defaultMockThread,
     ).as(`updatedFolder`);
 
-    SharedComponents.backBreadcrumb().then(btn => {
-      return new Cypress.Promise(resolve => {
-        setTimeout(resolve, 2000);
-        cy.wrap(btn).click();
-      });
-    });
+    SharedComponents.clickBackBreadcrumb();
   };
 
   verifyMoveMessageSuccessConfirmationMessage = () => {
