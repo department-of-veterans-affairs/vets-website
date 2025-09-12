@@ -243,6 +243,7 @@ function VAFacilityPage({
                 <va-button
                   className="va-button-link"
                   text="use your current location"
+                  data-testid="use-current-location"
                   onClick={() => {
                     updateFacilitySortMethod(
                       FACILITY_SORT_METHODS.distanceFromCurrentLocation,
@@ -265,6 +266,7 @@ function VAFacilityPage({
               <va-button
                 className="va-button-link"
                 text="use your home address on file"
+                data-testid="use-home-address"
                 onClick={() => {
                   updateFacilitySortMethod(
                     FACILITY_SORT_METHODS.distanceFromResidential,
