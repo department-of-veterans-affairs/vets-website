@@ -580,6 +580,9 @@ export const associatedIncomePages = arrayBuilderPages(
       schema: spouseIncomeRecipientPage.schema,
     }),
     associatedIncomeCustodianRecipientPage: pageBuilder.itemPage({
+      ContentBeforeButtons: showUpdatedContent() ? (
+        <DependentDescription claimantType="CUSTODIAN" />
+      ) : null,
       title: incomeRecipientPageTitle,
       path: 'financial-accounts/:index/custodian-income-recipient',
       depends: formData =>
@@ -588,6 +591,9 @@ export const associatedIncomePages = arrayBuilderPages(
       schema: custodianIncomeRecipientPage.schema,
     }),
     associatedIncomeParentRecipientPage: pageBuilder.itemPage({
+      ContentBeforeButtons: showUpdatedContent() ? (
+        <DependentDescription claimantType="PARENT" />
+      ) : null,
       title: incomeRecipientPageTitle,
       path: 'financial-accounts/:index/parent-income-recipient',
       depends: formData =>

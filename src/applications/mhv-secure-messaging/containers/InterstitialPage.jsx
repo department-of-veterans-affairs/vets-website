@@ -36,7 +36,7 @@ const InterstitialPage = props => {
     () => {
       dispatch(acceptInterstitial());
       if (mhvSecureMessagingCuratedListFlow && type !== 'reply') {
-        history.push(`${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`);
+        history.push(`${Paths.RECENT_CARE_TEAMS}`);
       }
     },
     [history, mhvSecureMessagingCuratedListFlow, type, dispatch],
