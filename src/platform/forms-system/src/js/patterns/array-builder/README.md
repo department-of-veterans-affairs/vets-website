@@ -359,6 +359,95 @@ export const nounPluralReplaceMePages = arrayBuilderPages( options,
 );
 ```
 
+### Example checking for duplicate content
+If you need to prevent adding duplicate data within the array, include the following duplicate checks.
+
+```js
+/** @type {ArrayBuilderOptions} */
+const options = {
+  arrayPath: 'childrenToAdd',
+  nounSingular: 'child',
+  nounPlural: 'children',
+  required: true,
+  // ...
+  text: {
+    getItemName: (item, index, fullData) => item.name,
+
+    // Default duplicate messages shown
+    // Internal data array comparisons only or Internal data and external data
+    duplicateSummaryCardInfoAlert: props =>
+      `You may have multiple children with this same information.`,
+    duplicateSummaryCardWarningOrErrorAlert: props => (
+      <>
+        <p className="vads-u-margin-top--0">
+          You may have entered multiple children with this same information.
+        </p>
+        <p>
+          Before continuing, review these entries and delete any duplicates.
+        </p>
+      </>
+    ),
+
+    // NOTE: Modal settings here get props in a different shape here compared to
+    // placing the same callback within the duplicateChecks object
+    duplicateModalTitle: props => 'Is this a duplicate?',
+    duplicateModalDescription: props =>
+      `You’ve entered multiple children with this information`,
+    duplicateModalPrimaryButtonText: props => 'No, cancel',
+    duplicateModalSecondaryButtonText: props => 'Yes, save and continue',
+
+    duplicateSummaryCardLabel: props => 'DUPLICATE',
+  },
+  duplicateChecks: {
+    // If duplicates are allowed, progress past the item and summary page is
+    // blocked; set to true by default
+    // NOTE: not enabled in MVP because we need to consider UX of the modal
+    // first
+    // allowDuplicates: true,
+
+    // comparison type: ['internal', 'external', 'all']; defaults to 'all'
+    comparisonType: 'all',
+    // path to comparison data within the arrayPath
+    comparisons: ['fullName.first', 'fullName.last', 'birthDate', 'ssn'],
+    externalComparisonData: ({ formData, arrayData }) => {
+      /* formData = Full form data; API loaded external data needs to be added
+       *  into the form data to get this to work
+       * arrayData = data gathered from internal arrayPath based on comparisons,
+       *  used to help with debugging
+       * return array of array strings for comparison with arrayData
+       * example: (first name, last name, birth date, ssn)
+       * [
+       *   ['John', 'Doe', '1990-01-01', '123-45-6789'],
+       *   ['Jane', 'Smith', '1992-02-02', '987-65-4321']
+       * ]
+       */
+      return [];
+    },
+
+    internalPaths: {
+     // path in config would be 'this-array/:index/path-to-internal-page'
+      'path-to-internal-page': {
+        // Customize content for each internal page (defaults to arraybuilder
+        // settings, or to default settings if not included here)
+        // Internal data array comparisons with and without external data
+        comparisonType: 'all',
+        comparisons: ['ssn'],
+        externalComparisonData: ({ formData, arrayData }) => ([]),
+
+        // NOTE: Modal text settings here get props in a different shape from
+        // the main text object
+        // Include this page-specific content if needed.
+        duplicateModalTitle: props => '...',
+        duplicateModalDescription: props => '...',
+        duplicateModalPrimaryButtonText: props => '...',
+        duplicateModalSecondaryButtonText: props => '...',
+      },
+    },
+  },
+};
+
+const uiSchema = {};
+```
 
 ## Web Component Patterns
 | Pattern | Description |
@@ -429,6 +518,12 @@ const options = {
 | `deleteNo` |
 | `deleteTitle` |
 | `deleteYes` |
+| `duplicateModalTitle` |
+| `duplicateModalDescription` |
+| `duplicateModalPrimaryButtonText` |
+| `duplicateModalSecondaryButtonText` |
+| `duplicateSummaryCardWarningOrErrorAlert` |
+| `duplicateSummaryCardInfoAlert` |
 | `reviewAddButtonText` |
 | `summaryTitle` |
 | `summaryTitleWithoutItems` |

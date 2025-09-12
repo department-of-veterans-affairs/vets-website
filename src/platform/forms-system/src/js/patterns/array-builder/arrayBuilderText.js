@@ -110,10 +110,30 @@ export const DEFAULT_ARRAY_BUILDER_TEXT = {
       : `Delete this ${props.nounSingular}?`;
   },
   deleteYes: props => `Yes, delete this ${props.nounSingular}`,
+
   reviewAddButtonText: props => `Add another ${props.nounSingular}`,
   summaryAddButtonText: props => `Add ${props.nounSingular}`,
   summaryAddLinkText: props => `Add ${props.nounSingular}`,
   summaryTitle: props => `Review your ${props.nounPlural}`,
   yesNoBlankReviewQuestion: props =>
     `Do you have any ${props.nounPlural} to add?`,
+
+  duplicateModalTitle: props => 'Potential duplicate',
+  duplicateModalDescription: props =>
+    `You’ve entered multiple ${
+      props.nounPlural
+    } with this information. Are you adding a different ${
+      props.nounSingular
+    }, or is this a duplicate?`,
+  duplicateModalPrimaryButtonText: props => 'Don’t add, it’s a duplicate',
+  duplicateModalSecondaryButtonText: props =>
+    `Add, it’s a different ${props.nounSingular}`,
+  duplicateSummaryCardLabel: props => 'POSSIBLE DUPLICATE',
+  duplicateSummaryCardInfoAlert: props =>
+    `You may have multiple ${props.nounPlural} with this same information.`,
+  duplicateSummaryCardWarningOrErrorAlert: props =>
+    `You may have entered multiple ${
+      props.nounPlural
+    } with this same information.
+      Before continuing, review these entries and delete any duplicates.`,
 };
