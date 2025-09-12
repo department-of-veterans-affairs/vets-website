@@ -13,7 +13,7 @@ const App = ({ children, location, resultPage }) => {
       <Breadcrumbs resultPage={resultPage} route={route} />
       <div className="usa-width-two-thirds medium-8 columns">
         {children}
-        <va-need-help class="vads-u-margin-top--9">
+        <va-need-help class="vads-u-margin-top--8">
           <div slot="content">
             <p>
               Call us at <va-telephone contact="8008271000" />. We’re here
