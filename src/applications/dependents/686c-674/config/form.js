@@ -692,30 +692,42 @@ export const formConfig = {
             path: 'report-674/add-students/:index/all-student-income',
             uiSchema: studentEarningsPage.uiSchema,
             schema: studentEarningsPage.schema,
-            depends: formData =>
+            depends: (formData, index) =>
               isChapterFieldRequired(formData, TASK_KEYS.report674) &&
               formData?.['view:addOrRemoveDependents']?.add &&
-              showPensionRelatedQuestions(formData),
+              ((!formData?.vaDependentsNetWorthAndPension &&
+                formData?.studentInformation?.[index]
+                  ?.claimsOrReceivesPension) ||
+                (formData?.vaDependentsNetWorthAndPension &&
+                  showPensionRelatedQuestions(formData))),
           }),
           addStudentsPartEighteen: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
             path: 'report-674/add-students/:index/expected-student-income',
             uiSchema: studentFutureEarningsPage.uiSchema,
             schema: studentFutureEarningsPage.schema,
-            depends: formData =>
+            depends: (formData, index) =>
               isChapterFieldRequired(formData, TASK_KEYS.report674) &&
               formData?.['view:addOrRemoveDependents']?.add &&
-              showPensionRelatedQuestions(formData),
+              ((!formData?.vaDependentsNetWorthAndPension &&
+                formData?.studentInformation?.[index]
+                  ?.claimsOrReceivesPension) ||
+                (formData?.vaDependentsNetWorthAndPension &&
+                  showPensionRelatedQuestions(formData))),
           }),
           addStudentsPartNineteen: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
             path: 'report-674/add-students/:index/student-assets',
             uiSchema: studentAssetsPage.uiSchema,
             schema: studentAssetsPage.schema,
-            depends: formData =>
+            depends: (formData, index) =>
               isChapterFieldRequired(formData, TASK_KEYS.report674) &&
               formData?.['view:addOrRemoveDependents']?.add &&
-              showPensionRelatedQuestions(formData),
+              ((!formData?.vaDependentsNetWorthAndPension &&
+                formData?.studentInformation?.[index]
+                  ?.claimsOrReceivesPension) ||
+                (formData?.vaDependentsNetWorthAndPension &&
+                  showPensionRelatedQuestions(formData))),
           }),
           addStudentsPartTwenty: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
