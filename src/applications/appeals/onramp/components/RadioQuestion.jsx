@@ -42,6 +42,7 @@ const RadioQuestion = ({
   const radioRef = useRef(null);
   const formResponse = formResponses?.[shortName];
   let radios;
+  const headerSubtext = `Explore disability claim decision review options`;
 
   const onContinueClick = () => {
     if (!formResponse) {
@@ -115,6 +116,7 @@ const RadioQuestion = ({
         >
           {renderRadioOptions()}
           <div className="vads-u-margin-bottom--3" slot="form-description">
+            <p className="vads-u-font-size--h3">{headerSubtext}</p>
             {descriptionText}
           </div>
         </VaRadio>
@@ -124,6 +126,7 @@ const RadioQuestion = ({
     radios = (
       <>
         <h1 className="vads-u-margin-bottom--3">{h1}</h1>
+        <p className="vads-u-font-size--h3">{headerSubtext}</p>
         <VaRadio
           class="vads-u-margin-top--0"
           data-testid={shortName}

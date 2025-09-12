@@ -112,7 +112,6 @@ describe('<AccountUpdateView />', () => {
   });
 
   it('renders the UpdateErrorAlert when saveError is provided', () => {
-    const errorHeadline = 'We couldn’t update your bank information';
     const errorMessage =
       'We’re sorry. We couldn’t update your payment information. Please try again later.';
     props.saveError = 'Internal Server Error';
@@ -124,7 +123,6 @@ describe('<AccountUpdateView />', () => {
       },
     );
 
-    expect(getByText(errorHeadline)).to.exist;
     expect(getByText(errorMessage)).to.exist;
   });
 

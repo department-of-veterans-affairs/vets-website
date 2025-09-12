@@ -3,6 +3,8 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { expect } from 'chai';
 import { fireEvent, waitFor } from '@testing-library/dom';
+import sinon from 'sinon';
+import * as mhvExports from '~/platform/mhv/unique_user_metrics';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import {
   inbox,
@@ -79,6 +81,32 @@ describe('Folder Thread List View container', () => {
     expect(startANewMessageLink).to.exist;
     expect(startANewMessageLink).to.have.text('Start a new message');
     expect(startANewMessageLink).to.have.attr('href', Paths.COMPOSE);
+  });
+
+  it('logs unique user metrics when inbox is accessed', async () => {
+    const logUniqueUserMetricsEventsStub = sinon.stub(
+      mhvExports,
+      'logUniqueUserMetricsEvents',
+    );
+
+    setup({
+      ...initialState,
+      user: {
+        profile: {
+          facilities: userProfileFacilities,
+        },
+      },
+    });
+
+    await waitFor(() => {
+      // Verify unique user metrics logging for inbox access
+      expect(logUniqueUserMetricsEventsStub.calledOnce).to.be.true;
+      expect(logUniqueUserMetricsEventsStub.firstCall.args[0]).to.equal(
+        mhvExports.EVENT_REGISTRY.SECURE_MESSAGING_INBOX_ACCESSED,
+      );
+
+      logUniqueUserMetricsEventsStub.restore();
+    });
   });
 
   it(`verifies page title tag for 'Sent' FolderThreadListView page`, async () => {
