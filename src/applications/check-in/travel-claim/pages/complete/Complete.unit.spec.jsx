@@ -64,23 +64,31 @@ describe('Check-in experience', () => {
         );
         expect(getByTestId('header')).to.exist;
       });
-      it('calls travel API via hook passing the correct feature toggle value', () => {
-        const storeWithFeatureToggles = {
-          ...store,
-          features: {
-            check_in_experience_travel_pay_api: false, // V1 API disabled
-          },
-        };
-        sandbox.stub(v2, 'postTravelOnlyClaim').resolves({});
-        render(
-          <CheckInProvider store={storeWithFeatureToggles}>
-            <Complete />
-          </CheckInProvider>,
-        );
-        sandbox.assert.calledOnce(v2.postTravelOnlyClaim);
-        // Verify the API was called with isV1TravelPayAPIEnabled = false
-        const callArgs = v2.postTravelOnlyClaim.getCall(0).args;
-        expect(callArgs[3]).to.equal(false); // Third argument should be isV1TravelPayAPIEnabled
+      [
+        { featureEnabled: true, expectedValue: true },
+        { featureEnabled: false, expectedValue: false },
+      ].forEach(({ featureEnabled, expectedValue }) => {
+        it(`calls travel API via hook with isV1TravelPayAPIEnabled=${expectedValue} when feature toggle is ${featureEnabled}`, () => {
+          sandbox.restore();
+          sandbox.stub(v2, 'postTravelOnlyClaim').resolves({});
+
+          const storeWithFeatureToggles = {
+            ...store,
+            features: {
+              check_in_experience_travel_pay_api: featureEnabled,
+            },
+          };
+
+          render(
+            <CheckInProvider store={storeWithFeatureToggles}>
+              <Complete />
+            </CheckInProvider>,
+          );
+
+          sandbox.assert.calledOnce(v2.postTravelOnlyClaim);
+          const callArgs = v2.postTravelOnlyClaim.getCall(0).args;
+          expect(callArgs[3]).to.equal(expectedValue);
+        });
       });
       it('dispatches error on API error', () => {
         const updateErrorSpy = sinon.spy();
