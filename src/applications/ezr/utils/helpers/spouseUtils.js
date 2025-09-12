@@ -1,0 +1,41 @@
+/**
+ * Helper to test if the spouse item is in an incomplete state.
+ *
+ * The spouse section has a few required fields that are always required, and some that are only required if the spouse does not have the same address, or if they provide support last year.
+ *
+ * @param {Object} item - The spouse item.
+ * @returns {boolean} - Returns true if the required fields are missing.
+ */
+export const isItemIncomplete = item => {
+  // Always required fields.
+  const missingRequiredFields =
+    !item?.spouseFullName?.first ||
+    !item?.spouseFullName?.last ||
+    !item?.spouseSocialSecurityNumber ||
+    !item?.spouseDateOfBirth ||
+    !item?.dateOfMarriage ||
+    item?.cohabitedLastYear === undefined ||
+    item?.sameAddress === undefined ||
+    item?.provideSupportLastYear === undefined;
+
+  if (missingRequiredFields) {
+    return true;
+  }
+
+  // Contact information is only required if spouse does not have the same address.
+  if (item?.sameAddress === false) {
+    const missingContactFields =
+      !item?.spouseAddress?.street ||
+      !item?.spouseAddress?.city ||
+      !item?.spouseAddress?.state ||
+      !item?.spouseAddress?.country ||
+      !item?.spouseAddress?.postalCode ||
+      !item?.spousePhone;
+
+    if (missingContactFields) {
+      return true;
+    }
+  }
+
+  return false;
+};
