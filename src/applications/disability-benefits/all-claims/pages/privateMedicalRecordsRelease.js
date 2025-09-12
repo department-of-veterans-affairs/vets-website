@@ -1,9 +1,11 @@
 import _ from 'platform/utilities/data';
 import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
-import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
-import { validateDate } from 'platform/forms-system/src/js/validation';
+import {
+  validateDate,
+  validateBooleanGroup,
+} from 'platform/forms-system/src/js/validation';
 import { yesNoUI } from 'platform/forms-system/src/js/web-component-patterns';
 import {
   recordReleaseDescription,
@@ -13,12 +15,13 @@ import {
 } from '../content/privateMedicalRecordsRelease';
 import { isCompletingForm0781 } from '../utils/form0781';
 import { standardTitle } from '../content/form0781';
-import { makeSchemaForAllDisabilities } from '../utils/schemas';
+// import { makeSchemaForAllDisabilities } from '../utils/schemas';
 import { isCompletingModern4142 } from '../utils';
 
 import PrivateProviderTreatmentView from '../components/PrivateProviderTreatmentView';
+import TreatedDisabilitiesCheckboxGroup from '../../components/TreatedDisabilitiesCheckboxGroup';
 
-import { validateBooleanGroup, validateZIP } from '../validations';
+import { validateZIP } from '../validations';
 
 const { form4142 } = fullSchema.properties;
 
@@ -51,10 +54,17 @@ export const uiSchema = {
       itemName: 'Provider or hospital',
       viewField: PrivateProviderTreatmentView,
       hideTitle: true,
+      reviewMode: true,
     },
     items: {
+      'ui:errorMessages': {
+        required: 'Please complete all required fields for this provider',
+      },
       providerFacilityName: {
         'ui:title': 'Name of private provider or hospital',
+        'ui:errorMessages': {
+          required: 'Please enter the name of the provider or hospital',
+        },
       },
       treatmentLocation0781Related: {
         ...yesNoUI({
@@ -65,29 +75,39 @@ export const uiSchema = {
           hideIf: formData => !isCompletingForm0781(formData),
         },
         'ui:required': formData => isCompletingForm0781(formData),
+        'ui:errorMessages': {
+          required:
+            'Please indicate if you received treatment at this facility related to your traumatic events',
+        },
       },
       treatedDisabilityNames: {
         'ui:title': 'What conditions were you treated for?',
-        'ui:webComponentField': VaCheckboxGroupField,
+        'ui:field': TreatedDisabilitiesCheckboxGroup,
         'ui:options': {
-          updateSchema: makeSchemaForAllDisabilities,
+          // {
+          // updateSchema: makeSchemaForAllDisabilities,
           itemAriaLabel: data => data.treatmentCenterName,
           showFieldLabel: true,
           hideIf: formData => !isCompletingModern4142(formData),
         },
         'ui:validations': [validateBooleanGroup],
         'ui:errorMessages': {
-          atLeastOne: 'Please select at least one condition',
+          atLeastOne: 'Please select at least one condition for this provider',
           required: 'Please select at least one condition',
         },
         'ui:required': formData => isCompletingModern4142(formData),
       },
       'ui:validations': [validateDate],
-      treatmentDateRange: dateRangeUI(
-        'When did your treatment start? (You can provide an estimated date)',
-        'When did your treatment end? (You can provide an estimated date)',
-        'End of treatment must be after start of treatment',
-      ),
+      treatmentDateRange: {
+        ...dateRangeUI(
+          'When did your treatment start? (You can provide an estimated date)',
+          'When did your treatment end? (You can provide an estimated date)',
+          'End of treatment must be after start of treatment',
+        ),
+        'ui:errorMessages': {
+          required: 'Please provide treatment dates',
+        },
+      },
       providerFacilityAddress: {
         'ui:title': 'Address of provider or hospital',
         'ui:order': [
@@ -98,13 +118,22 @@ export const uiSchema = {
           'state',
           'postalCode',
         ],
+        'ui:errorMessages': {
+          required: 'Please enter the address',
+        },
         country: {
           'ui:title': 'Country',
           'ui:autocomplete': 'off',
+          'ui:errorMessages': {
+            required: 'Please select a country',
+          },
         },
         street: {
           'ui:title': 'Street',
           'ui:autocomplete': 'off',
+          'ui:errorMessages': {
+            required: 'Please enter a street address',
+          },
         },
         street2: {
           'ui:title': 'Street 2',
@@ -113,10 +142,16 @@ export const uiSchema = {
         city: {
           'ui:title': 'City',
           'ui:autocomplete': 'off',
+          'ui:errorMessages': {
+            required: 'Please enter a city',
+          },
         },
         state: {
           'ui:title': 'State',
           'ui:autocomplete': 'off',
+          'ui:errorMessages': {
+            required: 'Please select a state',
+          },
         },
         postalCode: {
           'ui:title': 'Postal code',
@@ -125,6 +160,7 @@ export const uiSchema = {
           'ui:errorMessages': {
             pattern:
               'Please enter a valid 5- or 9-digit Postal code (dashes allowed)',
+            required: 'Please enter a postal code',
           },
           'ui:options': {
             widgetClassNames: 'usa-input-medium',

@@ -147,17 +147,24 @@ export function transformRelatedDisabilities(
   conditionContainer,
   claimedConditions,
 ) {
-  const findCondition = (list, name = '') =>
-    list.find(
-      // name should already be lower-case, but just in case...no pun intended
-      claimedName => sippableId(claimedName) === name.toLowerCase(),
-    );
+  const findCondition = (list, name = '') => {
+    // The name from conditionContainer is already in sippableId format (lowercase)-- is it?
+    // We need to find a match in the claimed conditions list
+    return list.find(claimedName => {
+      const claimedId = sippableId(claimedName);
+      return claimedId === name.toLowerCase();
+    });
+  };
   return (
-    Object.keys(conditionContainer)
+    Object.keys(conditionContainer || {})
       // The check box is checked
-      .filter(name => conditionContainer[name])
+      .filter(name => {
+        return conditionContainer[name] === true;
+      })
       // It's in the list of claimed conditions
-      .filter(name => findCondition(claimedConditions, name))
+      .filter(name => {
+        return findCondition(claimedConditions, name);
+      })
       // Return the name of the actual claimed condition (with the original casing)
       .map(name => findCondition(claimedConditions, name))
   );
@@ -168,17 +175,32 @@ export function transformRelatedDisabilities(
  * @param {array} providerFacilities array of objects being transformed
  * @returns {array} containing the new Provider Facility structure
  */
-export function transformProviderFacilities(providerFacilities, clonedData) {
+export function transformProviderFacilities(providerFacilities) {
   // This map transforms treatedDisabilityNames back into the original condition names from the sippableIds
   return providerFacilities.map(facility => {
-    const disabilityNames = transformRelatedDisabilities(
-      facility.treatedDisabilityNames || [],
-      getClaimedConditionNames(clonedData, false),
-    );
+    // Get claimed condition names for comparison
+    // const claimedConditions = getClaimedConditionNames(clonedData, false);
+
+    // Only get the conditions that are checked (true) for this facility
+    const checkedConditions = Object.entries(
+      facility.treatedDisabilityNames || {},
+    )
+      .filter(([, isChecked]) => isChecked === true)
+      .map(([name]) => name);
+
+    // const disabilityNames = transformRelatedDisabilities(
+    //   facility.treatedDisabilityNames || {},
+    //   checkedConditions,
+    // );
+
+    // console.log(
+    //   `Transformed disability names for facility ${index}:`,
+    //   disabilityNames,
+    // );
 
     return {
       ...facility,
-      treatedDisabilityNames: disabilityNames,
+      treatedDisabilityNames: checkedConditions,
       treatmentDateRange: [facility.treatmentDateRange],
     };
   });
@@ -372,7 +394,6 @@ export const addForm4142 = formData => {
     ...(clonedData.providerFacility && {
       providerFacility: transformProviderFacilities(
         clonedData.providerFacility,
-        clonedData,
       ),
     }),
   };
