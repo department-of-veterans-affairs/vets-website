@@ -27,7 +27,7 @@ const { RESULTS_2_IS_1D } = RESULTS_NAME_MAP;
 // 2.0 - Supplemental
 // 2.IS.1A - No
 // 2.IS.1B - No
-xdescribe('Decision Reviews Onramp', () => {
+describe('Decision Reviews Onramp', () => {
   describe('Results HLR (CFI, path 1)', () => {
     it('navigates through the flow forward and backward successfully', () => {
       cy.visit(h.ROOT);

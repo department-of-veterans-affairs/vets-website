@@ -27,7 +27,7 @@ const { RESULTS_2_H_2B_2B } = RESULTS_NAME_MAP;
 // 2.0 - HLR
 // 2.H.2 - No
 // 2.H.2B - No
-xdescribe('Decision Reviews Onramp', () => {
+describe('Decision Reviews Onramp', () => {
   describe('Results Board Direct (CFI)', () => {
     it('navigates through the flow forward and backward successfully', () => {
       cy.visit(h.ROOT);

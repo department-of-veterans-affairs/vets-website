@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLoaderData } from 'react-router-dom';
 import { Toggler } from 'platform/utilities/feature-toggles';
 import { recordDatalayerEvent } from '../../utilities/analytics';
@@ -16,13 +16,10 @@ function SignInButton() {
     </a>
   );
 }
-export const ProfileContext = createContext();
-// eslint-disable-next-line import/no-mutable-exports
-export let profileUser = null;
+
 export const Nav = () => {
   const [navHidden, isNavHidden] = useState('');
   const profile = useLoaderData()?.profile;
-  profileUser = createContext(profile);
 
   useEffect(() => {
     const isAuthorized = localStorage.getItem('userAuthorized');

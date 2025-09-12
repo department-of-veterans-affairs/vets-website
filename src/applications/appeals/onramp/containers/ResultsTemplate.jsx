@@ -18,7 +18,7 @@ const ResultsTemplate = ({
   useEffect(
     () => {
       if (!viewedIntroPage) {
-        router.push(ROUTES.HOME);
+        router.push(ROUTES.INTRODUCTION);
       }
     },
     [router, viewedIntroPage],
@@ -32,7 +32,8 @@ const ResultsTemplate = ({
   let resultsPageContent;
 
   if (isNonDrResultPage) {
-    resultsPageContent = NON_DR_RESULTS_CONTENT?.[resultPage] || {};
+    resultsPageContent =
+      NON_DR_RESULTS_CONTENT(formResponses)?.[resultPage] || {};
   } else {
     resultsPageContent = DR_RESULTS_CONTENT(formResponses)?.[resultPage];
   }

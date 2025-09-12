@@ -146,10 +146,7 @@ describe('card utilities', () => {
         .exist;
     });
 
-    // TODO: Skipping this test for now
-    // The display conditions don't exist yet (but will later when I merge all the pieces)
-    // this test won't work properly until then
-    xit('returns null if the display conditions are not met', () => {
+    it('returns null if the display conditions are not met', () => {
       const formResponses = {
         Q_1_1_CLAIM_DECISION: YES,
         Q_1_2_CLAIM_DECISION: YES,

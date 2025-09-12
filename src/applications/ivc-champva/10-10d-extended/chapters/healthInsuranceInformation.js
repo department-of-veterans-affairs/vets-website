@@ -270,10 +270,12 @@ const healthInsuranceCardUploadPage = {
     ...fileUploadBlurb,
     insuranceCardFront: fileUploadUI({
       label: 'Upload front of the health insurance card',
+      attachmentId: 'Front of health insurance card',
       'ui:hint': 'Upload front and back as separate files.',
     }),
     insuranceCardBack: fileUploadUI({
       label: 'Upload back of the health insurance card',
+      attachmentId: 'Back of health insurance card',
     }),
   },
   schema: {

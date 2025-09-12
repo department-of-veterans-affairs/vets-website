@@ -281,6 +281,8 @@ const {
   cardTitle: 'Sample of Original Medicare card',
   frontLabel: 'Upload front of Original Medicare card',
   backLabel: 'Upload back of Original Medicare card',
+  frontAttachmentId: 'Front of Medicare Parts A or B card',
+  backAttachmentId: 'Back of Medicare Parts A or B card',
 });
 
 // Define the Medicare A/B card upload page using the generic schema
@@ -354,6 +356,8 @@ const {
   cardTitle: 'Sample of Medicare Part A card',
   frontLabel: 'Upload front of Part A Medicare card',
   backLabel: 'Upload back of Part A Medicare card',
+  frontAttachmentId: 'Front of Medicare Parts A or B card',
+  backAttachmentId: 'Back of Medicare Parts A or B card',
 });
 
 // Define the Medicare Part A card upload page using the generic schema
@@ -421,6 +425,8 @@ const {
   cardTitle: 'Sample of Medicare Part B card',
   frontLabel: 'Upload front of Part B Medicare card',
   backLabel: 'Upload back of Part B Medicare card',
+  frontAttachmentId: 'Front of Medicare Parts A or B card',
+  backAttachmentId: 'Back of Medicare Parts A or B card',
 });
 
 // Define the Medicare Part B card upload page using the generic schema
@@ -487,6 +493,7 @@ const medicarePartADenialProofUploadPage = {
     ...fileUploadBlurb,
     medicarePartADenialProof: fileUploadUI({
       label: 'Upload proof of Medicare ineligibility',
+      attachmentId: 'Letter from the SSA',
     }),
   },
   schema: {
@@ -575,9 +582,11 @@ const medicarePartCCardUploadPage = {
     ...fileUploadBlurb,
     medicarePartCFrontCard: fileUploadUI({
       label: 'Upload front of Part C Medicare card',
+      attachmentId: 'Front of Medicare Part C card',
     }),
     medicarePartCBackCard: fileUploadUI({
       label: 'Upload back of Part C Medicare card',
+      attachmentId: 'Back of Medicare Part C card',
     }),
   },
   schema: {
@@ -675,9 +684,11 @@ const medicarePartDCardUploadPage = {
     ...fileUploadBlurb,
     medicarePartDFrontCard: fileUploadUI({
       label: 'Upload front of Medicare Part D card',
+      attachmentId: 'Front of Medicare Part D card',
     }),
     medicarePartDBackCard: fileUploadUI({
       label: 'Upload back of Medicare Part D card',
+      attachmentId: 'Back of Medicare Part D card',
     }),
   },
   schema: {
@@ -816,6 +827,7 @@ export const proofOfIneligibilityUploadPage = {
     ...fileUploadBlurb,
     proofOfIneligibilityUpload: fileUploadUI({
       label: 'Upload proof of Medicare ineligibility',
+      attachmentId: 'Letter from the SSA',
     }),
   },
   schema: {

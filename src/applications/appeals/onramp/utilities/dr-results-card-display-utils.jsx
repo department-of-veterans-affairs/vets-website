@@ -4,8 +4,10 @@ import NotGoodFitCard from '../components/dr-results-screens/NotGoodFitCard';
 import OverviewPanel from '../components/dr-results-screens/OverviewPanel';
 import * as c from '../constants/results-content/dr-screens/card-content';
 import { DISPLAY_CONDITIONS } from '../constants/display-conditions';
-import { displayConditionsMet } from './display-conditions';
+import { displayConditionsMet, isCFIVariant } from './display-conditions';
 import {
+  CLAIM_FOR_INCREASE_CARD,
+  CONDITION_HAS_WORSENED_INFO,
   DR_HEADING,
   HORIZ_RULE,
   PRINT_RESULTS,
@@ -85,6 +87,7 @@ const INTRO = (
 
 export const getCardProps = formResponses => {
   const gfCards = displayCards(formResponses, true);
+  const isCFI = isCFIVariant(formResponses);
 
   return {
     h1: DR_HEADING,
@@ -93,6 +96,16 @@ export const getCardProps = formResponses => {
         {INTRO}
         <OverviewPanel formResponses={formResponses} />
         {PRINT_RESULTS}
+        {isCFI && (
+          <>
+            {HORIZ_RULE}
+            <h2 className="vads-u-margin-y--3">Disagree with a decision</h2>
+            <p>
+              Since you disagree with part of our decision, these options may be
+              a good fit for you.
+            </p>
+          </>
+        )}
         {gfCards?.length && (
           <>
             {/* Adding a `role="list"` to `ul` with `list-style: none` to work around
@@ -101,6 +114,13 @@ export const getCardProps = formResponses => {
             <ul className="onramp-list-none" role="list">
               {gfCards}
             </ul>
+          </>
+        )}
+        {isCFI && (
+          <>
+            {HORIZ_RULE}
+            {CONDITION_HAS_WORSENED_INFO}
+            {CLAIM_FOR_INCREASE_CARD(true)}
           </>
         )}
         {showOutsideDROption(formResponses)}

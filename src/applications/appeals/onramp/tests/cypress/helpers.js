@@ -74,6 +74,7 @@ export const verifyText = (selector, expectedValue) =>
 export const RESULTS_HEADER = 'onramp-results-header';
 
 export const OVERVIEW_OPTION = 'overview-option';
+export const CLAIM_FOR_INCREASE = 'claim-for-increase';
 export const GOOD_FIT = 'good-fit';
 export const NOT_GOOD_FIT = 'not-good-fit';
 export const OUTSIDE_DR = 'outside-dr-option';
@@ -104,7 +105,7 @@ export const verifyDrResultsHeader = expectedPage =>
     .should('be.visible')
     .should('have.text', DR_HEADING);
 
-export const checkOverviewPanel = expectedItems => {
+export const checkOverviewPanel = (expectedItems, CFI = false) => {
   const expectedCount = expectedItems?.length;
 
   cy.get(`[data-testid*="${OVERVIEW_OPTION}"]`).should(
@@ -117,6 +118,12 @@ export const checkOverviewPanel = expectedItems => {
       .should('be.visible')
       .should('have.text', item);
   });
+
+  if (CFI) {
+    cy.findByTestId(CLAIM_FOR_INCREASE)
+      .should('be.visible')
+      .should('have.text', 'Claim for Increase');
+  }
 };
 
 export const checkGoodFitCards = expectedCards => {

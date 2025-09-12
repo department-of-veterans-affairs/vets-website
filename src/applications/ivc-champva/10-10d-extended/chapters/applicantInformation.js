@@ -347,6 +347,7 @@ const applicantBirthCertUploadPage = {
     ...fileUploadBlurbCustom(),
     applicantBirthCertOrSocialSecCard: fileUploadUI({
       label: 'Upload copy of birth certificate',
+      attachmentId: 'Birth certificate',
     }),
   },
   schema: {
@@ -386,6 +387,7 @@ const applicantAdoptionUploadPage = {
     ...fileUploadBlurbCustom(),
     applicantAdoptionPapers: fileUploadUI({
       label: 'Upload a copy of adoption documents',
+      attachmentId: 'Court ordered adoption papers',
     }),
   },
   schema: {
@@ -434,6 +436,7 @@ const applicantStepChildUploadPage = {
     ...fileUploadBlurbCustom(),
     applicantStepMarriageCert: fileUploadUI({
       label: 'Upload proof of marriage or legal union',
+      attachmentId: 'Marriage certificate',
     }),
   },
   schema: {
@@ -528,6 +531,7 @@ const applicantSchoolCertUploadPage = {
     ...fileUploadBlurbCustom(),
     applicantSchoolCert: fileUploadUI({
       label: 'Upload proof of school enrollment',
+      attachmentId: 'School enrollment certification form',
     }),
   },
   schema: {
@@ -648,6 +652,7 @@ const applicantReMarriageCertUploadPage = {
     ),
     applicantRemarriageCert: fileUploadUI({
       label: 'Upload proof of remarriage',
+      attachmentId: 'Marriage certificate',
     }),
   },
   schema: {

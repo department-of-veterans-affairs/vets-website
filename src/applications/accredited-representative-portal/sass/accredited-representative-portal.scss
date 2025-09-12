@@ -449,10 +449,8 @@
       }
     }
     &--get-started {
-      margin-bottom: 60px !important;
-      @media (min-width: $tablet) {
-        align-items: center;
-      }
+      margin-bottom: 48px !important;
+      align-items: center;
       @media (min-width: $small-desktop-screen) {
         margin-bottom: 72px !important;
       }
@@ -475,6 +473,7 @@
     }
 
     &--improve {
+      align-items: center;
       @media (max-width: $tablet) {
         flex-direction: column-reverse;
       }
@@ -600,13 +599,21 @@
       }
     }
 
+    h3 {
+      margin-top: 0;
+    }
+
     @media (min-width: $tablet) {
       padding-right: 20px;
       margin-bottom: 0;
     }
 
-    @media (min-width: $tablet) {
-      padding-right: 24px;
+    @media (min-width: $small-desktop-screen) {
+      padding: 0 0 0 24px;
+    }
+
+    &:first-child {
+      padding: 0;
     }
   }
 }

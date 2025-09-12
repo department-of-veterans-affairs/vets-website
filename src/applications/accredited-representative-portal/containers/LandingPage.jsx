@@ -1,10 +1,11 @@
 import React, { useEffect, useContext } from 'react';
 import { Toggler } from 'platform/utilities/feature-toggles';
 import { addStyleToShadowDomOnPages } from '../utilities/poaRequests';
+import { ProfileContext } from '../context/ProfileContext';
 import { getSignInUrl } from '../utilities/constants';
-import { profileUser } from '../components/Header/Nav';
 
 const LandingPage = title => {
+  const user = useContext(ProfileContext);
   useEffect(() => {
     // Insert CSS to hide 'For example: January 19 2000' hint on memorable dates
     // (can't be overridden by passing 'hint' to uiOptions):
@@ -21,7 +22,7 @@ const LandingPage = title => {
     },
     [title],
   );
-  const user = useContext(profileUser);
+
   return (
     <section className="home">
       <Toggler
