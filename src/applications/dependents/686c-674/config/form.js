@@ -134,6 +134,7 @@ import {
   childEvidence,
   showPensionRelatedQuestions,
   showPensionBackupPath,
+  shouldShowStudentIncomeQuestions,
 } from './utilities';
 
 const emptyMigration = savedData => savedData;
@@ -695,11 +696,7 @@ export const formConfig = {
             depends: (formData, index) =>
               isChapterFieldRequired(formData, TASK_KEYS.report674) &&
               formData?.['view:addOrRemoveDependents']?.add &&
-              ((!formData?.vaDependentsNetWorthAndPension &&
-                formData?.studentInformation?.[index]
-                  ?.claimsOrReceivesPension) ||
-                (formData?.vaDependentsNetWorthAndPension &&
-                  showPensionRelatedQuestions(formData))),
+              shouldShowStudentIncomeQuestions({ formData, index }),
           }),
           addStudentsPartEighteen: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
@@ -709,11 +706,7 @@ export const formConfig = {
             depends: (formData, index) =>
               isChapterFieldRequired(formData, TASK_KEYS.report674) &&
               formData?.['view:addOrRemoveDependents']?.add &&
-              ((!formData?.vaDependentsNetWorthAndPension &&
-                formData?.studentInformation?.[index]
-                  ?.claimsOrReceivesPension) ||
-                (formData?.vaDependentsNetWorthAndPension &&
-                  showPensionRelatedQuestions(formData))),
+              shouldShowStudentIncomeQuestions({ formData, index }),
           }),
           addStudentsPartNineteen: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
@@ -723,11 +716,7 @@ export const formConfig = {
             depends: (formData, index) =>
               isChapterFieldRequired(formData, TASK_KEYS.report674) &&
               formData?.['view:addOrRemoveDependents']?.add &&
-              ((!formData?.vaDependentsNetWorthAndPension &&
-                formData?.studentInformation?.[index]
-                  ?.claimsOrReceivesPension) ||
-                (formData?.vaDependentsNetWorthAndPension &&
-                  showPensionRelatedQuestions(formData))),
+              shouldShowStudentIncomeQuestions({ formData, index }),
           }),
           addStudentsPartTwenty: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
