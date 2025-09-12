@@ -1,5 +1,5 @@
 import { isPlainObject } from 'lodash';
-import _ from 'platform/utilities/data';
+import cloneDeep from 'platform/utilities/data/cloneDeep';
 import {
   GULF_WAR_1990_LOCATIONS,
   GULF_WAR_2001_LOCATIONS,
@@ -100,7 +100,6 @@ const filterSelectedDetails = (details, selections) => {
   if (!isPlainObject(details) || !isPlainObject(selections)) return {};
 
   return Object.keys(details).reduce((filtered, key) => {
-    // Only keep details if the selection is explicitly true
     if (selections[key] === true) {
       return { ...filtered, [key]: details[key] };
     }
@@ -181,13 +180,13 @@ const cleanExposureDetails = (toxicExposure, exposureType, mapping) => {
   const { detailsKey, otherLocationsKey } = mapping;
   const result = { ...toxicExposure };
 
-  // If details exist but main selection is missing, remove the details
+  // Remove orphaned details
   if (detailsKey && result[detailsKey] && !result[exposureType]) {
     delete result[detailsKey];
     return result;
   }
 
-  // If main selection exists but has no selected values, remove it and related fields
+  // Remove exposure with no selections
   if (result[exposureType] && !hasSelectedConditions(result[exposureType])) {
     delete result[exposureType];
     if (detailsKey && result[detailsKey]) {
@@ -199,7 +198,7 @@ const cleanExposureDetails = (toxicExposure, exposureType, mapping) => {
     return result;
   }
 
-  // Main selection exists with values, clean up the details
+  // Filter details to match selections
   if (detailsKey && result[detailsKey] && result[exposureType]) {
     const filteredDetails = filterSelectedDetails(
       result[detailsKey],
@@ -213,7 +212,7 @@ const cleanExposureDetails = (toxicExposure, exposureType, mapping) => {
     }
   }
 
-  // Clean other locations if herbicide.none is true
+  // Remove other locations when herbicide.none selected
   if (
     otherLocationsKey &&
     result[otherLocationsKey] &&
@@ -244,7 +243,7 @@ export const cleanToxicExposureData = formData => {
     return formData;
   }
 
-  const clonedData = _.cloneDeep(formData);
+  const clonedData = cloneDeep(formData);
   let { toxicExposure } = clonedData;
 
   if (!isPlainObject(toxicExposure)) {
@@ -253,17 +252,17 @@ export const cleanToxicExposureData = formData => {
 
   const conditions = toxicExposure.conditions || {};
 
-  // Handle "none" only selection - early return for simplicity
+  // "None" only selection
   if (hasOnlyNoneCondition(conditions)) {
     return { ...clonedData, toxicExposure: createNoneOnlyCondition() };
   }
 
-  // Clean all exposure types dynamically using the mapping
+  // Process all exposure types
   Object.entries(EXPOSURE_TYPE_MAPPING).forEach(([exposureType, mapping]) => {
     toxicExposure = cleanExposureDetails(toxicExposure, exposureType, mapping);
   });
 
-  // Clean otherHerbicideLocations if it has no valid description
+  // Remove empty otherHerbicideLocations
   if (
     toxicExposure.otherHerbicideLocations &&
     !hasValidDescription(toxicExposure.otherHerbicideLocations)
@@ -271,7 +270,7 @@ export const cleanToxicExposureData = formData => {
     delete toxicExposure.otherHerbicideLocations;
   }
 
-  // Clean specifyOtherExposures if it has no valid description
+  // Remove empty specifyOtherExposures
   if (
     toxicExposure.specifyOtherExposures &&
     !hasValidDescription(toxicExposure.specifyOtherExposures)
@@ -279,7 +278,7 @@ export const cleanToxicExposureData = formData => {
     delete toxicExposure.specifyOtherExposures;
   }
 
-  // Clean up unchecked conditions
+  // Filter unchecked conditions
   if (toxicExposure.conditions) {
     toxicExposure = {
       ...toxicExposure,
@@ -287,7 +286,7 @@ export const cleanToxicExposureData = formData => {
     };
   }
 
-  // Remove entire toxicExposure if empty for backwards compatibility
+  // Remove empty toxicExposure
   if (isEmptyToxicExposure(toxicExposure)) {
     delete clonedData.toxicExposure;
 
