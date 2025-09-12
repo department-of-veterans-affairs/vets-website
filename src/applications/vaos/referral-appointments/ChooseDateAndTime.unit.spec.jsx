@@ -9,6 +9,7 @@ import {
 import ChooseDateAndTime from './ChooseDateAndTime';
 import { createReferralById } from './utils/referrals';
 import { createDraftAppointmentInfo } from './utils/provider';
+import { getMockSlots } from '../services/mocks/utils/slots';
 import confirmedV2 from '../services/mocks/v2/confirmed.json';
 import * as fetchAppointmentsModule from '../services/appointment';
 import * as flow from './flow';
@@ -91,12 +92,21 @@ describe('VAOS ChooseDateAndTime component', () => {
       preferredProviderName: null,
     },
   ];
+  const draftAppointment = createDraftAppointmentInfo();
+  draftAppointment.attributes.slots = getMockSlots({
+    existingAppointments: confirmed,
+    futureMonths: 2,
+    pastMonths: 0,
+    slotsPerDay: 3,
+    conflictRate: 0,
+    communityCareSlots: true,
+  }).data;
   const initialFullState = {
     featureToggles: {
       vaOnlineSchedulingCCDirectScheduling: true,
     },
     referral: {
-      draftAppointmentInfo: createDraftAppointmentInfo(1),
+      draftAppointmentInfo: draftAppointment,
     },
     appointments: {
       confirmed,
@@ -149,7 +159,7 @@ describe('VAOS ChooseDateAndTime component', () => {
   it('should fetch provider or appointments from store if it exists and not call API', async () => {
     sandbox
       .stub(utils, 'apiRequestWithUrl')
-      .resolves({ data: createDraftAppointmentInfo(1) });
+      .resolves({ data: createDraftAppointmentInfo() });
     renderWithStoreAndRouter(
       <ChooseDateAndTime
         currentReferral={createReferralById('2024-09-09', 'UUID')}
@@ -164,7 +174,7 @@ describe('VAOS ChooseDateAndTime component', () => {
   it('should call API for provider or appointment data if not in store', async () => {
     sandbox
       .stub(utils, 'apiRequestWithUrl')
-      .resolves({ data: createDraftAppointmentInfo(1) });
+      .resolves({ data: createDraftAppointmentInfo() });
     const screen = renderWithStoreAndRouter(
       <ChooseDateAndTime
         currentReferral={createReferralById('2024-09-09', 'UUID')}
