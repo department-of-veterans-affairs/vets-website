@@ -73,7 +73,7 @@ export const NON_DR_RESULTS_CONTENT = formResponses =>
             because you haven’t filed an initial claim for this condition.
           </p>
           <p className="vads-u-margin-bottom--3">
-            VA can only review decisions that have already been made. To move
+            We can only review decisions that have already been made. To move
             forward, you’ll need to file an initial claim first.
           </p>
           {DISABILITY_COMP_CARD(
