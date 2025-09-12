@@ -18,6 +18,8 @@ import EmergencyNote from '../components/EmergencyNote';
 import { updateDraftInProgress } from '../actions/threadDetails';
 import RouteLeavingGuard from '../components/shared/RouteLeavingGuard';
 import { saveDraft } from '../actions/draftDetails';
+import { getRecentRecipients } from '../actions/recipients';
+import useFeatureToggles from '../hooks/useFeatureToggles';
 
 const SelectCareTeam = () => {
   const dispatch = useDispatch();
@@ -27,6 +29,7 @@ const SelectCareTeam = () => {
     noAssociations,
     allTriageGroupsBlocked,
     allowedRecipients,
+    recentRecipients,
   } = useSelector(state => state.sm.recipients);
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
   const { draftInProgress, acceptInterstitial } = useSelector(
@@ -43,6 +46,7 @@ const SelectCareTeam = () => {
   const [careTeamComboInputValue, setCareTeamComboInputValue] = useState('');
   const [showContactListLink, setShowContactListLink] = useState(false);
   const [recipientsSelectKey, setRecipientsSelectKey] = useState(0); // controls resetting the careTeam combo box when the careSystem changes
+  const { mhvSecureMessagingRecentRecipients } = useFeatureToggles();
 
   const MAX_RADIO_OPTIONS = 6;
 
@@ -243,6 +247,26 @@ const SelectCareTeam = () => {
     [draftInProgress.careSystemVhaId, allFacilities, dispatch, ehrDataByVhaId],
   );
 
+  // Fetch recent recipients (one-time) when feature flag enabled, allowed list loaded, and we haven't fetched yet (recentRecipients === undefined)
+  useEffect(
+    () => {
+      if (
+        mhvSecureMessagingRecentRecipients &&
+        Array.isArray(allowedRecipients) &&
+        allowedRecipients.length > 0 &&
+        recentRecipients === undefined
+      ) {
+        dispatch(getRecentRecipients(6));
+      }
+    },
+    [
+      mhvSecureMessagingRecentRecipients,
+      allowedRecipients,
+      recentRecipients,
+      dispatch,
+    ],
+  );
+
   const checkValidity = useCallback(
     () => {
       let selectionsValid = true;
@@ -395,6 +419,7 @@ const SelectCareTeam = () => {
                 setComboBoxInputValue={setCareTeamComboInputValue}
                 comboBoxInputValue={careTeamComboInputValue}
                 setIsSignatureRequired={setIsSignatureRequired}
+                recentRecipients={recentRecipients}
               />
             )}
         </div>
