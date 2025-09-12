@@ -29,6 +29,7 @@ const ResolveDebtPage = ({ match }) => {
     payeeNumber: currentDebt.payeeNumber,
     personEntitled: currentDebt.personEntitled,
     deductionCode: currentDebt.deductionCode,
+    receivableId: currentDebt.rcvblId,
   };
 
   const title = `Resolve your ${deductionCodes[currentDebt.deductionCode]}`;

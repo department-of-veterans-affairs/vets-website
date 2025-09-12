@@ -13,6 +13,7 @@
       "amountWithheld": 0,
       "originalAr": 166.67,
       "currentAr": 120.4,
+      "rcvblId": "278376456",
       "debtHistory": [
         {
           "date": "09/18/2012",
@@ -34,6 +35,7 @@
       "amountWithheld": 321.76,
       "originalAr": 321.76,
       "currentAr": 50,
+      "rcvblId": "389457829103",
       "compositeDebtId": "72321"
     },
     {
@@ -48,6 +50,7 @@
       "amountWithheld": 0,
       "originalAr": 100,
       "currentAr": 110,
+      "rcvblId": "456789012345",
       "debtHistory": [
         {
           "date": "12/19/2014",
@@ -84,6 +87,7 @@
       "amountWithheld": 0,
       "originalAr": 101,
       "currentAr": 1800,
+      "rcvblId": "567890123456",
       "debtHistory": [
         {
           "date": "12/19/2018",
@@ -110,6 +114,7 @@
       "amountWithheld": 475,
       "originalAr": 2210.9,
       "currentAr": 1000,
+      "rcvblId": "678901234567",
       "debtHistory": [
         {
           "date": "04/01/2017",
@@ -146,6 +151,7 @@
       "amountWithheld": 322.76,
       "originalAr": 322.76,
       "currentAr": 200,
+      "rcvblId": "789012345678",
       "debtHistory": [
         {
           "date": "08/08/2018",

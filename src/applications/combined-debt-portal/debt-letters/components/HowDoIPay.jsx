@@ -43,8 +43,10 @@ const HowDoIPay = ({ userData }) => {
       {userData ? (
         <ul>
           <li>
-            <strong>File Number: </strong>
-            {userData.fileNumber}
+            <strong>
+              {userData.receivableId ? 'Receivable ID' : 'File Number'}:{' '}
+            </strong>
+            {userData.receivableId || userData.fileNumber}
           </li>
           <li>
             <strong>Payee Number: </strong>
@@ -111,10 +113,13 @@ const HowDoIPay = ({ userData }) => {
 
       <h3>Pay by mail</h3>
       <p>
-        Send a separate check or money order for each debt, payable to “U.S.
-        Department of Veterans Affairs.” On each, print your full name, VA file
-        number or Social Security number, and deduction code. Include your
-        payment stubs or a note with the amount you’re paying on each debt.
+        Send a separate check or money order for each debt, payable to "U.S.
+        Department of Veterans Affairs." On each, print your full name,{' '}
+        {userData?.receivableId
+          ? 'receivable ID'
+          : 'VA file number or Social Security number'}
+        , and deduction code. Include your payment stubs or a note with the
+        amount you’re paying on each debt.
       </p>
       <p>Mail to this address:</p>
       <p className="va-address-block">

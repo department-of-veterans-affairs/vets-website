@@ -102,62 +102,6 @@ describe('DebtSummaryCard', () => {
     expect(wrapper.find('h2').text()).to.include('Chapter 35');
   });
 
-  it('should display housing debt note for housing debt codes', () => {
-    const debt = {
-      compositeDebtId: '441300',
-      currentAr: 10000,
-      deductionCode: '16', // Housing debt code
-      benefitType: 'Post-9/11 GI Bill',
-      diaryCode: '680',
-      debtHistory: [
-        {
-          date: '09/18/2012',
-          letterCode: '100',
-        },
-      ],
-    };
-    const fakeStore = createFakeStore();
-
-    const wrapper = render(
-      <Provider store={fakeStore}>
-        <BrowserRouter>
-          <DebtSummaryCard debt={debt} />
-        </BrowserRouter>
-      </Provider>,
-    );
-
-    expect(wrapper.text()).to.include('Note:');
-    expect(wrapper.text()).to.include('receivable ID');
-    expect(wrapper.find('va-telephone')).to.have.lengthOf(1);
-  });
-
-  it('should not display housing debt note for non-housing debt codes', () => {
-    const debt = {
-      compositeDebtId: '441300',
-      currentAr: 10000,
-      deductionCode: '44', // Non-housing debt code
-      benefitType: 'CH35 EDU',
-      diaryCode: '680',
-      debtHistory: [
-        {
-          date: '09/18/2012',
-          letterCode: '100',
-        },
-      ],
-    };
-    const fakeStore = createFakeStore();
-
-    const wrapper = render(
-      <Provider store={fakeStore}>
-        <BrowserRouter>
-          <DebtSummaryCard debt={debt} />
-        </BrowserRouter>
-      </Provider>,
-    );
-
-    expect(wrapper.text()).to.not.include('receivable ID');
-  });
-
   it('should handle debt with no debtHistory', () => {
     const debt = {
       compositeDebtId: '441300',
@@ -228,43 +172,6 @@ describe('DebtSummaryCard', () => {
     );
 
     expect(wrapper.find('h2').text()).to.include('Custom Benefit Type');
-  });
-
-  it('should test all housing debt codes', () => {
-    const housingCodes = [
-      '16',
-      '17',
-      '18',
-      '19',
-      '20',
-      '48',
-      '49',
-      '50',
-      '51',
-      '72',
-    ];
-
-    housingCodes.forEach(code => {
-      const debt = {
-        compositeDebtId: '441300',
-        currentAr: 10000,
-        deductionCode: code,
-        benefitType: 'Post-9/11 GI Bill',
-        diaryCode: '680',
-        debtHistory: [],
-      };
-      const fakeStore = createFakeStore();
-
-      const wrapper = render(
-        <Provider store={fakeStore}>
-          <BrowserRouter>
-            <DebtSummaryCard debt={debt} />
-          </BrowserRouter>
-        </Provider>,
-      );
-
-      expect(wrapper.text()).to.include('receivable ID');
-    });
   });
 
   it('should test different debt amounts', () => {

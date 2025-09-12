@@ -46,6 +46,7 @@ const DebtDetails = () => {
     payeeNumber: currentDebt.payeeNumber,
     personEntitled: currentDebt.personEntitled,
     deductionCode: currentDebt.deductionCode,
+    receivableId: currentDebt.rcvblId,
   };
 
   const title = `Your ${deductionCodes[currentDebt.deductionCode]}`;
