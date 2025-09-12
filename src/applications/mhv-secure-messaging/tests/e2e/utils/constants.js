@@ -14,6 +14,8 @@ export const Paths = {
   DRAFT: '/draft/',
   DELETED: '/trash/',
   COMPOSE: '/new-message/',
+  START_MESSAGE: '/start-message',
+  SELECT_CARE_TEAM: '/select-care-team',
   MESSAGE: '/message/',
   MESSAGE_THREAD: '/thread/',
   FOLDERS: '/folders',
@@ -51,6 +53,7 @@ export const Paths = {
     MAINTENANCE_WINDOWS: `/v0/maintenance_windows/`,
     DRAFT_AUTO_SAVE: `/my_health/v1/messaging/message_drafts`,
     SENT_THREADS: '/my_health/v1/messaging/folders/-1/threads*',
+    SENT_SEARCH: '/my_health/v1/messaging/folders/-1/search*',
   },
 };
 
@@ -98,6 +101,10 @@ export const Locators = {
   SEARCH_RESULT: `[data-testid="search-messages"]`,
   PAGE_NOT_FOUND: `mhv-page-not-found`,
   CARE_SYSTEM: '[data-testid^="care-system-"]',
+  EMERGENCY_USE_EXPANDABLE_DATA_TEST_ID: 'emergency-use-only-expandable',
+  RECENT_CARE_TEAMS_RADIO_GROUP_TEST_ID: 'recent-care-teams-radio-group',
+  RECENT_CARE_TEAMS_CONTINUE_BUTTON_DATA_TEST_ID:
+    'recent-care-teams-continue-button',
   FOLDERS: {
     FOLDER_NAME: '[label="Folder name"]',
     FOLDER_REMOVE: '[text="Yes, remove this folder"]',
@@ -163,6 +170,7 @@ export const Locators = {
   LINKS: {
     GO_TO_INBOX: '[data-testid="inbox-link"]',
     CREATE_NEW_MESSAGE: '[data-testid="compose-message-link"]',
+    CREATE_NEW_MESSAGE_DATA_TEST_ID: 'compose-message-link',
     CRUMB: 'ol[role="list"] > li',
     CRUMB_LIST: '[data-testid="sm-breadcrumbs"]',
     OLD_VERSION: `.welcome-message > p > a`,
@@ -395,6 +403,7 @@ export const Data = {
   CANNOT_REMOVE_FOLDER: `You can't remove a folder with messages in it. Move all the messages to another folder. Then try removing it again.`,
   HCS_SELECT: `Select care team`,
   REPLY_HEADER: `Only use messages for non-urgent needs`,
+  RECENT_RECIPIENTS_LABEL: `Select a team from those you've sent messages to in the past 6 months. Or select "A different care team" to find another team.`,
   ATTACH_INFO: [
     'You may attach up to 4 files to each message',
     'You can attach only these file types: doc, docx, gif, jpg, pdf, png, rtf, txt, xls, xlsx, jpeg, jfif, pjpeg, pjp',

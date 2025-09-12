@@ -17,7 +17,7 @@ describe('Secure Messaging Move Message to New Folder tests', () => {
       data: [...mockFoldersResponse.data, createdFolderResponse.data],
     };
 
-    FolderManagementPage.selectFolderFromModal(`newFolder`);
+    FolderManagementPage.selectFolderFromModal(`Create new folder`);
     FolderManagementPage.moveMessageToNewFolder(updatedFoldersList);
 
     FolderManagementPage.backToInbox();

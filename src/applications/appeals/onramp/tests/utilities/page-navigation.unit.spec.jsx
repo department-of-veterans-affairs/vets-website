@@ -6,7 +6,7 @@ import { RESPONSES, SHORT_NAME_MAP } from '../../constants/question-data-map';
 import { RESULTS_NAME_MAP } from '../../constants/results-data-map';
 
 const { HLR, INIT, NO, SC, YES } = RESPONSES;
-const { RESULTS_BOARD_HEARING } = RESULTS_NAME_MAP;
+const { RESULTS_2_H_2B_1 } = RESULTS_NAME_MAP;
 
 const {
   Q_1_2_CLAIM_DECISION,
@@ -14,7 +14,6 @@ const {
   Q_1_3A_FEWER_60_DAYS,
   Q_2_0_CLAIM_TYPE,
   Q_2_IS_1A_LAW_POLICY_CHANGE,
-  Q_2_H_1_EXISTING_BOARD_APPEAL,
   Q_2_H_2_NEW_EVIDENCE,
   Q_2_H_2A_JUDGE_HEARING,
   Q_2_H_2B_JUDGE_HEARING,
@@ -81,14 +80,14 @@ describe('page navigation utilities', () => {
         Q_1_1_CLAIM_DECISION: YES,
         Q_1_2_CLAIM_DECISION: YES,
         Q_1_3_CLAIM_CONTESTED: NO,
+        Q_2_IS_1_SERVICE_CONNECTED: NO,
         Q_2_0_CLAIM_TYPE: HLR,
-        Q_2_H_1_EXISTING_BOARD_APPEAL: NO,
       };
 
       navigateForward(
         ALL_QUESTIONS,
         ALL_RESULTS,
-        Q_2_H_1_EXISTING_BOARD_APPEAL,
+        Q_2_0_CLAIM_TYPE,
         formResponses,
         router,
         updateResultsPageSpy,
@@ -240,8 +239,8 @@ describe('page navigation utilities', () => {
             Q_1_1_CLAIM_DECISION: YES,
             Q_1_2_CLAIM_DECISION: YES,
             Q_1_3_CLAIM_CONTESTED: NO,
+            Q_2_IS_1_SERVICE_CONNECTED: NO,
             Q_2_0_CLAIM_TYPE: HLR,
-            Q_2_H_1_EXISTING_BOARD_APPEAL: NO,
             Q_2_H_2_NEW_EVIDENCE: YES,
             Q_2_H_2A_JUDGE_HEARING: YES,
           };
@@ -257,7 +256,7 @@ describe('page navigation utilities', () => {
 
           expect(router.push.firstCall.calledWith(ROUTES.RESULTS)).to.be.true;
           expect(updateResultsPageSpy.firstCall.args[0]).to.equal(
-            RESULTS_BOARD_HEARING,
+            RESULTS_2_H_2B_1,
           );
         });
       });
