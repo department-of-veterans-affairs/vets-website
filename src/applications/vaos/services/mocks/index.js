@@ -67,7 +67,7 @@ const requestsV2 = require('./v2/requests.json');
 // const meta = require('./v2/meta_failures.json');
 
 // CC Direct Scheduling mocks
-// const providerUtils = require('../../referral-appointments/utils/provider');
+const providerUtils = require('../../referral-appointments/utils/provider');
 const MockReferralListResponse = require('../../tests/fixtures/MockReferralListResponse');
 const MockReferralDetailResponse = require('../../tests/fixtures/MockReferralDetailResponse');
 const MockReferralDraftAppointmentResponse = require('../../tests/fixtures/MockReferralDraftAppointmentResponse');

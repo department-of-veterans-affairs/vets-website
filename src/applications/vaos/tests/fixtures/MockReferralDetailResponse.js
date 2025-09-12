@@ -40,7 +40,7 @@ class MockReferralDetailResponse {
     id = `referral-${Math.random()
       .toString(36)
       .substring(2, 10)}`,
-    categoryOfCare = 'OPTOMETRY',
+    categoryOfCare = 'QQQQ',
     hasAppointments = false,
     referralNumber = 'VA0000005681',
     expirationDate = this.expirationDate

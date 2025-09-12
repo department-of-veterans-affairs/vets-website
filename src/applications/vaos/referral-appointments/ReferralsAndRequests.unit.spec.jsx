@@ -51,7 +51,7 @@ describe('VAOS Component: Referrals and Requests', () => {
       status: APPOINTMENT_STATUS.proposed,
     }).setLocation(new MockFacilityResponse());
     const referralsResponse = new MockReferralListResponse({
-      numberOfReferrals: 3,
+      numberOfReferrals: 'predefined',
     });
     mswServer.use(
       createGetHandler(referralsAPIEndpoint, () =>
