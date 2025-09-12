@@ -22,7 +22,6 @@ import {
   filterServicePeriods,
   stringifyRelatedDisabilities,
   cleanUpMailingAddress,
-  cleanToxicExposureData,
   addPTSDCause,
   addForm4142,
   addForm0781,
@@ -30,6 +29,7 @@ import {
   addForm8940,
   addFileAttachments,
 } from './utils/submit';
+import { cleanToxicExposureData } from './utils/on-submit';
 
 export function transform(formConfig, form) {
   // Grab isBDD before things are changed/deleted

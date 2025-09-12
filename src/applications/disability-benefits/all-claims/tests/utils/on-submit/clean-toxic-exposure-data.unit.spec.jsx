@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import cloneDeep from 'platform/utilities/data/cloneDeep';
-import { cleanToxicExposureData } from '../../utils/submit';
+import { cleanToxicExposureData } from '../../../utils/on-submit';
 
 describe('cleanToxicExposureData', () => {
   describe('when user has no toxic exposure data', () => {
