@@ -13,6 +13,8 @@ import PropTypes from 'prop-types';
 import {
   usePrintTitle,
   updatePageTitle,
+  logUniqueUserMetricsEvents,
+  EVENT_REGISTRY,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import MedicationsList from '../components/MedicationsList/MedicationsList';
@@ -262,7 +264,7 @@ const Prescriptions = () => {
         }));
       }
     },
-    [page],
+    [page, queryParams.page],
   );
 
   useEffect(() => {
@@ -308,7 +310,11 @@ const Prescriptions = () => {
         setIsFirstLoad(false);
       }
     },
-    [isLoading, filteredList],
+    [
+      isLoading,
+      filteredList,
+      // isFirstLoad TODO: This breaks the code. Need to refactor to add this.
+    ],
   );
 
   // Update page title
@@ -317,6 +323,26 @@ const Prescriptions = () => {
       updatePageTitle('Medications | Veterans Affairs');
     },
     [currentPage],
+  );
+
+  // Log when prescriptions are successfully displayed to the user
+  useEffect(
+    () => {
+      if (
+        !isPrescriptionsLoading &&
+        !isPrescriptionsFetching &&
+        !prescriptionsApiError &&
+        prescriptionsData
+      ) {
+        logUniqueUserMetricsEvents(EVENT_REGISTRY.PRESCRIPTIONS_ACCESSED);
+      }
+    },
+    [
+      isPrescriptionsLoading,
+      isPrescriptionsFetching,
+      prescriptionsApiError,
+      prescriptionsData,
+    ],
   );
 
   // Update loading state based on RTK Query states

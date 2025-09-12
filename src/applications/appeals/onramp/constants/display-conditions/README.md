@@ -38,7 +38,6 @@ Q_2_H_2B_JUDGE_HEARING: {
   Q_1_2_CLAIM_DECISION: YES,
   Q_1_3_CLAIM_CONTESTED: NO,
   Q_2_0_CLAIM_TYPE: HLR,
-  Q_2_H_1_EXISTING_BOARD_APPEAL: NO,
   Q_2_H_2_NEW_EVIDENCE: NO,
 }
 ```
@@ -51,8 +50,7 @@ In this example, all of the below conditions must be true:
 2. `Q_1_2_CLAIM_DECISION` is answered "Yes"
 3. `Q_1_3_CLAIM_CONTESTED` is answered "No"
 4. `Q_2_0_CLAIM_TYPE` is answered "HLR"
-5. `Q_2_H_1_EXISTING_BOARD_APPEAL` is answered "No"
-6. `Q_2_H_2_NEW_EVIDENCE` is answered "No"
+5. `Q_2_H_2_NEW_EVIDENCE` is answered "No"
 
 ### Another Example
 
@@ -62,7 +60,7 @@ Q_2_H_2_NEW_EVIDENCE: {
   Q_1_2_CLAIM_DECISION: YES,
   ONE_OF: {
     Q_1_3A_FEWER_60_DAYS: YES,
-    Q_2_H_1_EXISTING_BOARD_APPEAL: NO,
+    Q_2_IS_1B_NEW_EVIDENCE: NO,
   },
 },
 ```
@@ -76,7 +74,7 @@ In this example, the below conditions must be true:
 and also **one of** the below conditions must be true:
 
 1. `Q_1_3A_FEWER_60_DAYS` is answered "Yes"
-2. `Q_2_H_1_EXISTING_BOARD_APPEAL` is answered "No"
+2. `Q_2_IS_1B_NEW_EVIDENCE` is answered "No"
 
 In this scenario, `Q_2_H_2_NEW_EVIDENCE`'s display conditions does not include every possible question that could come before it because it is not possible that they will all be answered. Prior questions (such as `Q_1_3_CLAIM_CONTESTED`) may or may not display depending on the user's responses. It doesn't make sense to accept a "Yes," "No," or `null` response in this case. When the path splits, we should only create expectations for questions that we know are shown to the user, and omit the rest.
 
