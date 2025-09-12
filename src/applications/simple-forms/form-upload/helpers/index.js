@@ -7,11 +7,12 @@ import {
   FORM_UPLOAD_OCR_ALERT,
 } from '../config/constants';
 
-const formMappings = {
+export const formMappings = {
   '21-0779': {
     subTitle:
       'Request for Nursing Home Information in Connection with Claim for Aid and Attendance',
     pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-0779-ARE.pdf',
+    showSupportingDocuments: true,
   },
   '21-4192': {
     subTitle:
@@ -157,7 +158,7 @@ export const getFormContent = (pathname = null) => {
     ombInfo,
     subTitle,
     pdfDownloadUrl,
-    title: `Upload form ${formNumber}`,
+    title: `Upload VA Form ${formNumber}`,
   };
 };
 
