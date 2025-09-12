@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { isAfter } from 'date-fns';
+import Cookies from 'js-cookie';
 // eslint-disable-next-line import/no-named-default
 import { default as recordEventFn } from '~/platform/monitoring/record-event';
 
@@ -18,10 +19,13 @@ const selectVAPEmailUpdatedAt = state =>
 
 /* eslint-disable-next-line prettier/prettier */
 export const showConfirmEmail = state => (date = EMAIL_UPDATED_AT_THRESHOLD) => {
+  const hasDismissedEmailConfirmation = Cookies.get(
+    'MHV_EMAIL_CONFIRMATION_DISMISSED',
+  );
   const profileLoading = isProfileLoading(state);
   const emailUpdatedAt = selectVAPEmailUpdatedAt(state);
   const recentlyUpdated = isAfter(new Date(emailUpdatedAt), new Date(date));
-  return !profileLoading && !recentlyUpdated;
+  return !profileLoading && !recentlyUpdated && !hasDismissedEmailConfirmation;
 };
 
 const ConfirmEmailLink = ({ recordEvent = recordEventFn } = {}) => {

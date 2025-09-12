@@ -2,6 +2,7 @@ import React from 'react';
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/react';
+import Cookies from 'js-cookie';
 import { renderInReduxProvider as render } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 
 import ConfirmEmailLink, {
@@ -87,6 +88,24 @@ describe('<ConfirmEmailLink />', () => {
     await waitFor(() => {
       expect(container).to.be.empty;
       expect(recordEventFn.calledOnce).to.be.false;
+    });
+  });
+
+  describe('When MHV_EMAIL_CONFIRMATION_DISMISSED cookie is set', () => {
+    before(() => {
+      Cookies.set('MHV_EMAIL_CONFIRMATION_DISMISSED', 'true');
+    });
+    after(() => {
+      Cookies.remove('MHV_EMAIL_CONFIRMATION_DISMISSED');
+    });
+    it('renders nothing', async () => {
+      const recordEventFn = sinon.spy();
+      const props = { recordEvent: recordEventFn };
+      const { container } = render(<ConfirmEmailLink {...props} />, {});
+      await waitFor(() => {
+        expect(container).to.be.empty;
+        expect(recordEventFn.calledOnce).to.be.false;
+      });
     });
   });
 });
