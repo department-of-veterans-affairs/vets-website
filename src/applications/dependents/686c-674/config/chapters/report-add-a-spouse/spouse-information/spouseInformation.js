@@ -5,6 +5,8 @@ import {
   titleUI,
   dateOfBirthUI,
   dateOfBirthSchema,
+  ssnUI,
+  ssnSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { CancelButton, certificateNotice } from '../../../helpers';
@@ -18,6 +20,7 @@ export const schema = {
       properties: {
         fullName: fullNameNoSuffixSchema,
         birthDate: dateOfBirthSchema,
+        ssn: ssnSchema,
       },
     },
     'view:certificateNotice': {
@@ -33,13 +36,17 @@ export const schema = {
 
 export const uiSchema = {
   spouseInformation: {
-    ...titleUI('Spouse’s current legal name and date of birth'),
+    ...titleUI('Your spouse’s personal information'),
     fullName: fullNameNoSuffixUI(title => `Spouse’s ${title}`),
     birthDate: dateOfBirthUI({
       title: 'Spouse’s date of birth',
       dataDogHidden: true,
       required: () => true,
     }),
+    ssn: {
+      ...ssnUI('Spouse’s Social Security number'),
+      'ui:required': () => true,
+    },
   },
   'view:certificateNotice': {
     'ui:description': certificateNotice,
