@@ -7,11 +7,11 @@ import { render, fireEvent, waitFor } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
-describe('Pre-need applicant veteran applicant details', () => {
+describe('Pre-need applicant veteran birth location', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.applicantInformation.pages.veteranApplicantDetails;
+  } = formConfig.chapters.applicantInformation.pages.veteranBirthLocation;
 
   it('should render', () => {
     const form = mount(
@@ -22,10 +22,7 @@ describe('Pre-need applicant veteran applicant details', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(5);
-
-    // expect(form.find('select').length).to.equal(1);
-    expect(form.find('VaMemorableDate').length).to.equal(1);
+    expect(form.find('input').length).to.equal(2);
     form.unmount();
   });
 
@@ -44,7 +41,7 @@ describe('Pre-need applicant veteran applicant details', () => {
 
     await waitFor(() => {
       const errorElements = container.querySelectorAll('.usa-input-error');
-      expect(errorElements.length).to.equal(3);
+      expect(errorElements.length).to.equal(2);
       expect(onSubmit.called).to.be.false;
     });
   });
