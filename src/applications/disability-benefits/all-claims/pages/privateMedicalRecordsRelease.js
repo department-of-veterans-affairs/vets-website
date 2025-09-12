@@ -7,7 +7,10 @@ import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/V
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
-import { validateDate } from 'platform/forms-system/src/js/validation';
+import {
+  validateDate,
+  validateBooleanGroup,
+} from 'platform/forms-system/src/js/validation';
 import { yesNoUI } from 'platform/forms-system/src/js/web-component-patterns';
 import {
   recordReleaseDescription,
@@ -368,19 +371,7 @@ export const uiSchema = {
           showFieldLabel: true,
           hideIf: formData => !isCompletingModern4142(formData),
         },
-        'ui:validations': [
-          (errors, fieldData, formData, schema, errorMessages) => {
-            // Custom validation that checks the actual field data
-            const hasSelection =
-              fieldData && Object.values(fieldData).some(v => v === true);
-            if (!hasSelection) {
-              errors.addError(
-                errorMessages?.atLeastOne ||
-                  'Please select at least one condition for each non-VA provider facility listed under Supporting Evidence',
-              );
-            }
-          },
-        ],
+        'ui:validations': [validateBooleanGroup],
         'ui:errorMessages': {
           atLeastOne:
             'Please select at least one condition for each non-VA provider facility listed under Supporting Evidence',
