@@ -378,7 +378,7 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
               <div className="all-benefits">
                 <span>
                   If you’d like to explore all of the benefits that this tool
-                  can recommend, select the link below.
+                  can recommend, select the link below.&nbsp;
                 </span>
                 <va-link
                   href="/discover-your-benefits/confirmation?allBenefits=true"
