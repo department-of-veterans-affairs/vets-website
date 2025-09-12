@@ -187,6 +187,26 @@ export default {
     'Exposure start date for other toxic exposures',
   'toxicExposure.specifyOtherExposures.endDate':
     'Exposure end date for other toxic exposures',
+  providerFacilityName: index =>
+    `Under Supporting Evidence, ${numberToWords(
+      index + 1,
+    )} non-VA provider, enter the name of the provider or hospital`,
+  treatmentLocation0781Related: index =>
+    `Under Supporting Evidence, ${numberToWords(
+      index + 1,
+    )} non-VA provider, indicate if you received treatment related to your traumatic events`,
+  treatedDisabilityNames: index =>
+    `Under Supporting Evidence, ${numberToWords(
+      index + 1,
+    )} non-VA provider, select at least one condition you were treated for`,
+  treatmentDateRange: index =>
+    `Under Supporting Evidence, ${numberToWords(
+      index + 1,
+    )} non-VA provider, provide treatment dates`,
+  providerFacilityAddress: index =>
+    `Under Supporting Evidence, ${numberToWords(
+      index + 1,
+    )} non-VA provider, complete the provider address`,
   _override: error => {
     if (typeof error === 'string') {
       if (error?.endsWith('startDate') || error?.endsWith('endDate')) {
