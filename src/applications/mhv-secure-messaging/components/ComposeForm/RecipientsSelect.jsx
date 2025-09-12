@@ -59,13 +59,17 @@ const RecipientsSelect = ({
   setCheckboxMarked,
   setElectronicSignature,
   setComboBoxInputValue,
+  recentRecipients, // optional: array of recent care teams (objects with triageTeamId & name) for curated combo box
 }) => {
   const dispatch = useDispatch();
   const alertRef = useRef(null);
   const isSignatureRequiredRef = useRef();
   isSignatureRequiredRef.current = isSignatureRequired;
 
-  const { mhvSecureMessagingCuratedListFlow } = useFeatureToggles();
+  const {
+    mhvSecureMessagingCuratedListFlow,
+    mhvSecureMessagingRecentRecipients,
+  } = useFeatureToggles();
 
   const [alertDisplayed, setAlertDisplayed] = useState(false);
   const [selectedRecipient, setSelectedRecipient] = useState(
@@ -191,14 +195,90 @@ const RecipientsSelect = ({
 
   const optionsValues = useMemo(
     () => {
+      // Curated combo box flow OR opt groups disabled => flat list handling
       if (!optGroupEnabled || mhvSecureMessagingCuratedListFlow) {
-        return sortRecipients(recipientsList)?.map(item => (
-          <option key={item.id} value={item.id}>
-            {item.suggestedNameDisplay || item.name}
-          </option>
-        ));
+        const baseSorted = sortRecipients(recipientsList) || [];
+
+        // Only build "Recent care teams" section when:
+        //  - curated list flow active
+        //  - recentRecipients is an array with length > 0
+        //  - recentRecipients not in error state
+        const showRecentSection =
+          mhvSecureMessagingCuratedListFlow &&
+          mhvSecureMessagingRecentRecipients &&
+          Array.isArray(recentRecipients) &&
+          recentRecipients.length > 0;
+
+        if (!showRecentSection) {
+          return baseSorted.map(item => (
+            <option key={item.id} value={item.id}>
+              {item.suggestedNameDisplay || item.name}
+            </option>
+          ));
+        }
+
+        // Map recipients by id for quick lookup (recentRecipients use triageTeamId)
+        const byId = new Map(baseSorted.map(r => [String(r.id), r]));
+
+        // Build recent options (max 4, ignore any not found in current list)
+        const recentOptionsSource = recentRecipients
+          .filter(r => byId.has(String(r.triageTeamId)))
+          .slice(0, 4);
+
+        const recentIds = new Set(
+          recentOptionsSource.map(r => String(r.triageTeamId)),
+        );
+
+        const recentOptions = recentOptionsSource.map(r => {
+          const rec = byId.get(String(r.triageTeamId));
+          return (
+            <option key={rec.id} value={rec.id}>
+              {rec.suggestedNameDisplay || rec.name}
+            </option>
+          );
+        });
+
+        // Remaining (non-recent) options
+        const remainingOptions = baseSorted
+          .filter(r => !recentIds.has(String(r.id)))
+          .map(item => (
+            <option key={item.id} value={item.id}>
+              {item.suggestedNameDisplay || item.name}
+            </option>
+          ));
+
+        // Accessibility: disabled heading options act as visual & SR section labels.
+        // aria-disabled + disabled ensures they are not selectable nor announced as choices.
+        const headings = [
+          <option
+            key="recent-heading"
+            disabled
+            value=""
+            aria-disabled="true"
+            data-testid="recent-care-teams-heading"
+          >
+            Recent care teams
+          </option>,
+          <option
+            key="all-heading"
+            disabled
+            value=""
+            aria-disabled="true"
+            data-testid="all-care-teams-heading"
+          >
+            All care teams
+          </option>,
+        ];
+
+        return [
+          headings[0],
+          ...recentOptions,
+          headings[1],
+          ...remainingOptions,
+        ];
       }
 
+      // Grouped (optgroup) view (non-curated legacy path) remains unchanged
       let currentVamcSystemName = null;
       const options = [];
       let groupedOptions = [];
@@ -242,7 +322,13 @@ const RecipientsSelect = ({
 
       return options;
     },
-    [recipientsListSorted, optGroupEnabled, recipientsList],
+    [
+      recipientsListSorted,
+      optGroupEnabled,
+      recipientsList,
+      recentRecipients,
+      mhvSecureMessagingCuratedListFlow,
+    ],
   );
 
   return (
@@ -318,6 +404,7 @@ RecipientsSelect.propTypes = {
   setCheckboxMarked: PropTypes.func,
   setComboBoxInputValue: PropTypes.func,
   setElectronicSignature: PropTypes.func,
+  recentRecipients: PropTypes.array, // optional recent care teams (already filtered & limited upstream)
 };
 
 export default RecipientsSelect;
