@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { render, fireEvent, waitFor, within } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
@@ -139,23 +139,18 @@ const subject = ({ mockStore, props }) =>
 
 describe('<ConfirmationPage>', () => {
   describe('initial render and state', () => {
-    it('renders info alert for transitioning service members', () => {
+    it('renders additional info for transitioning service members', () => {
       const { mockStore, props } = getData([], form2);
       const { container } = subject({ mockStore, props });
 
-      const alert = container.querySelector('va-alert');
-      expect(alert).to.exist;
-      expect(alert).to.have.attribute('status', 'info');
+      const additionalInfo = container.querySelector('va-additional-info');
+      expect(additionalInfo).to.exist;
+      expect(additionalInfo).to.have.attribute(
+        'trigger',
+        'Benefits for transitioning service members',
+      );
 
-      const withinAlert = within(alert);
-
-      const heading = withinAlert.getByRole('heading', {
-        level: 2,
-        name: /Benefits for transitioning service members/i,
-      });
-      expect(heading).to.exist;
-
-      const vaLink = alert.querySelector('va-link');
+      const vaLink = additionalInfo.querySelector('va-link');
       expect(vaLink).to.exist;
       expect(vaLink).to.have.attribute(
         'href',

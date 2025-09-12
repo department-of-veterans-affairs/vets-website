@@ -109,7 +109,6 @@ export const resultsDRDynamicContentDCs = Object.freeze({
     GOOD_FIT: GOOD_FIT_BOARD_DIRECT,
     NOT_GOOD_FIT: {
       ONE_OF: {
-        Q_2_H_1_EXISTING_BOARD_APPEAL: YES,
         Q_2_H_2_NEW_EVIDENCE: YES,
         Q_2_H_2B_JUDGE_HEARING: YES,
       },
@@ -119,7 +118,6 @@ export const resultsDRDynamicContentDCs = Object.freeze({
     GOOD_FIT: GOOD_FIT_BOARD_EVIDENCE,
     NOT_GOOD_FIT: {
       ONE_OF: {
-        Q_2_H_1_EXISTING_BOARD_APPEAL: YES,
         Q_2_H_2_NEW_EVIDENCE: NO,
         Q_2_H_2B_JUDGE_HEARING: YES,
       },
@@ -129,7 +127,6 @@ export const resultsDRDynamicContentDCs = Object.freeze({
     GOOD_FIT: GOOD_FIT_BOARD_HEARING,
     NOT_GOOD_FIT: {
       ONE_OF: {
-        Q_2_H_1_EXISTING_BOARD_APPEAL: YES,
         Q_2_H_2A_JUDGE_HEARING: NO,
         Q_2_H_2B_JUDGE_HEARING: NO,
       },
@@ -177,9 +174,9 @@ export const resultsDRDynamicContentDCs = Object.freeze({
   [c.CARD_NOT_CONTESTED]: {
     Q_1_3_CLAIM_CONTESTED: NO,
   },
-  [c.CARD_SUBMITTED_BOARD_APPEAL]: {
-    Q_2_H_1_EXISTING_BOARD_APPEAL: YES,
-  },
+  // [c.CARD_SUBMITTED_BOARD_APPEAL]: {
+  //   Q_2_H_1_EXISTING_BOARD_APPEAL: YES,
+  // },
   [c.CARD_BOARD_ONLY_OPTION]: {
     Q_1_3_CLAIM_CONTESTED: YES,
   },
@@ -227,9 +224,9 @@ export const resultsDRDynamicContentDCs = Object.freeze({
       Q_2_H_2_NEW_EVIDENCE: YES,
     },
   },
-  [c.CARD_RECEIVED_BOARD_DECISION]: {
-    Q_2_H_1_EXISTING_BOARD_APPEAL: YES,
-  },
+  // [c.CARD_RECEIVED_BOARD_DECISION]: {
+  //   Q_2_H_1_EXISTING_BOARD_APPEAL: YES,
+  // },
 });
 
 export const resultsNonDRDynamicContentDCs = Object.freeze({
