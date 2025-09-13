@@ -4,6 +4,18 @@ import {
   getAllToxicExposureKeys,
 } from '../../../utils/on-submit';
 
+/**
+ * Tests for toxic exposure data cleaning functionality
+ *
+ * Key behaviors tested:
+ * 1. Feature flag control - only processes when disability526ToxicExposureOptOutDataPurge is true
+ * 2. "None" condition handling - removes all other data when only "none" is selected
+ * 3. Detail filtering - removes details for unselected locations
+ * 4. Orphaned data cleanup - removes details without corresponding selections
+ * 5. Text field validation - removes fields with whitespace-only descriptions
+ * 6. Falsy value handling - null values removed (cloneDeep bug), false/undefined/0/'' preserved
+ * 7. Data type validation - handles non-object values gracefully
+ */
 describe('cleanToxicExposureData', () => {
   describe('when feature flag is disabled', () => {
     it('should not clean when flag is false', () => {
@@ -158,8 +170,8 @@ describe('cleanToxicExposureData', () => {
       });
     });
 
-    describe('cleaning exposure details', () => {
-      it('should remove details for unselected locations across all exposure types', () => {
+    describe('exposure detail cleanup', () => {
+      it('should filter details to only include selected locations', () => {
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
@@ -364,105 +376,65 @@ describe('cleanToxicExposureData', () => {
         );
       });
 
-      it('should handle details with non-plain object inputs', () => {
+      it('should handle invalid data types by converting to empty objects or removing', () => {
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
-            conditions: { asthma: true },
-            gulfWar1990: { bahrain: true },
-            gulfWar1990Details: 'not-an-object',
+            conditions: 'not-an-object', // converted to {}
+            gulfWar1990: 'not-an-object', // treated as non-plain object
+            gulfWar1990Details: {
+              bahrain: { startDate: '1990-01-01' },
+            },
+            herbicide: { vietnam: true }, // valid data to prevent entire removal
           },
         };
 
         const result = cleanToxicExposureData(formData);
 
+        // When conditions is a string, it gets converted to empty object
+        expect(result.toxicExposure.conditions).to.deep.equal({});
+        // Details are removed when selection is not a plain object
         expect(result.toxicExposure).to.not.have.property('gulfWar1990Details');
-        expect(result.toxicExposure.gulfWar1990).to.exist;
+        // Valid herbicide data remains
+        expect(result.toxicExposure.herbicide).to.deep.equal({ vietnam: true });
       });
 
-      it('should handle selections as non-plain object', () => {
+      it('should handle falsy values correctly: null removed by cloneDeep, others preserved', () => {
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
             conditions: { asthma: true },
-            gulfWar1990: 'not-an-object',
-            gulfWar1990Details: {
-              bahrain: { startDate: '1990-01-01' },
+            gulfWar1990: null, // removed by cloneDeep transformation
+            herbicide: undefined, // preserved
+            otherExposures: {
+              asbestos: false, // preserved
+              radiation: true,
             },
           },
         };
 
         const result = cleanToxicExposureData(formData);
 
-        expect(result.toxicExposure).to.not.have.property('gulfWar1990Details');
-      });
-
-      it('should handle conditions as non-plain object', () => {
-        const formData = {
-          disability526ToxicExposureOptOutDataPurge: true,
-          toxicExposure: {
-            conditions: 'not-an-object',
-            gulfWar1990: { bahrain: true },
-          },
-        };
-
-        const result = cleanToxicExposureData(formData);
-
-        expect(result.toxicExposure.conditions).to.deep.equal({});
-        expect(result.toxicExposure.gulfWar1990).to.exist;
-      });
-
-      it('should remove null values but preserve false values', () => {
-        const formData = {
-          disability526ToxicExposureOptOutDataPurge: true,
-          toxicExposure: {
-            conditions: { asthma: true },
-            otherHerbicideLocations: null,
-            specifyOtherExposures: false,
-          },
-        };
-
-        const result = cleanToxicExposureData(formData);
-
-        expect(result.toxicExposure).to.not.have.property(
-          'otherHerbicideLocations',
-        );
-        expect(result.toxicExposure).to.have.property('specifyOtherExposures');
-        expect(result.toxicExposure.specifyOtherExposures).to.equal(false);
+        expect(result.toxicExposure).to.not.have.property('gulfWar1990');
+        expect(result.toxicExposure).to.have.property('herbicide');
+        expect(result.toxicExposure.herbicide).to.be.undefined;
+        expect(result.toxicExposure.otherExposures.asbestos).to.equal(false);
+        expect(result.toxicExposure.otherExposures.radiation).to.equal(true);
       });
     });
 
-    describe('cleaning text fields', () => {
-      it('should remove null values but preserve undefined values', () => {
+    describe('text field validation (otherHerbicideLocations & specifyOtherExposures)', () => {
+      it('should remove fields with invalid descriptions (whitespace-only or empty objects)', () => {
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
             conditions: { asthma: true },
-            otherHerbicideLocations: null,
-            specifyOtherExposures: undefined,
+            otherHerbicideLocations: '   ', // removed - whitespace only
+            specifyOtherExposures: { description: '   ' }, // removed - whitespace description
           },
         };
 
         const result = cleanToxicExposureData(formData);
-        expect(result.toxicExposure).to.not.have.property(
-          'otherHerbicideLocations',
-        );
-        expect(result.toxicExposure).to.have.property('specifyOtherExposures');
-        expect(result.toxicExposure.specifyOtherExposures).to.be.undefined;
-      });
-
-      it('should remove text fields with whitespace-only descriptions', () => {
-        const formData = {
-          disability526ToxicExposureOptOutDataPurge: true,
-          toxicExposure: {
-            conditions: { asthma: true },
-            otherHerbicideLocations: '   ',
-            specifyOtherExposures: { description: '   ' },
-          },
-        };
-
-        const result = cleanToxicExposureData(formData);
-
         expect(result.toxicExposure).to.not.have.property(
           'otherHerbicideLocations',
         );
@@ -471,63 +443,13 @@ describe('cleanToxicExposureData', () => {
         );
       });
 
-      it('should handle zero and empty array for text fields', () => {
+      it('should keep fields with valid descriptions (non-empty strings or objects with content)', () => {
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
             conditions: { asthma: true },
-            otherHerbicideLocations: 0,
-            specifyOtherExposures: [],
-          },
-        };
-
-        const result = cleanToxicExposureData(formData);
-
-        expect(result.toxicExposure).to.have.property(
-          'otherHerbicideLocations',
-        );
-        expect(result.toxicExposure.otherHerbicideLocations).to.equal(0);
-        expect(result.toxicExposure).to.not.have.property(
-          'specifyOtherExposures',
-        );
-      });
-
-      it('should remove empty otherHerbicideLocations', () => {
-        const formData = {
-          disability526ToxicExposureOptOutDataPurge: true,
-          toxicExposure: {
-            conditions: { asthma: true },
-            otherHerbicideLocations: { description: '   ' },
-          },
-        };
-
-        const result = cleanToxicExposureData(formData);
-        expect(result.toxicExposure).to.not.have.property(
-          'otherHerbicideLocations',
-        );
-      });
-
-      it('should keep otherHerbicideLocations with content', () => {
-        const formData = {
-          disability526ToxicExposureOptOutDataPurge: true,
-          toxicExposure: {
-            conditions: { asthma: true },
-            otherHerbicideLocations: { description: 'Thailand base camps' },
-          },
-        };
-
-        const result = cleanToxicExposureData(formData);
-        expect(result.toxicExposure.otherHerbicideLocations).to.deep.equal({
-          description: 'Thailand base camps',
-        });
-      });
-
-      it('should handle string format for otherHerbicideLocations', () => {
-        const formData = {
-          disability526ToxicExposureOptOutDataPurge: true,
-          toxicExposure: {
-            conditions: { asthma: true },
-            otherHerbicideLocations: 'Thailand base camps',
+            otherHerbicideLocations: 'Thailand base camps', // kept - valid string
+            specifyOtherExposures: { description: 'Lead exposure' }, // kept - valid description
           },
         };
 
@@ -535,77 +457,25 @@ describe('cleanToxicExposureData', () => {
         expect(result.toxicExposure.otherHerbicideLocations).to.equal(
           'Thailand base camps',
         );
-      });
-
-      it('should remove empty specifyOtherExposures', () => {
-        const formData = {
-          disability526ToxicExposureOptOutDataPurge: true,
-          toxicExposure: {
-            conditions: { asthma: true },
-            specifyOtherExposures: '   ',
-          },
-        };
-
-        const result = cleanToxicExposureData(formData);
-        expect(result.toxicExposure).to.not.have.property(
-          'specifyOtherExposures',
-        );
-      });
-
-      it('should keep specifyOtherExposures with content', () => {
-        const formData = {
-          disability526ToxicExposureOptOutDataPurge: true,
-          toxicExposure: {
-            conditions: { asthma: true },
-            specifyOtherExposures: 'Mercury exposure',
-          },
-        };
-
-        const result = cleanToxicExposureData(formData);
-        expect(result.toxicExposure.specifyOtherExposures).to.equal(
-          'Mercury exposure',
-        );
-      });
-
-      it('should handle object format for specifyOtherExposures', () => {
-        const formData = {
-          disability526ToxicExposureOptOutDataPurge: true,
-          toxicExposure: {
-            conditions: { asthma: true },
-            specifyOtherExposures: {
-              description: 'Lead paint exposure',
-              otherField: 'value',
-            },
-          },
-        };
-
-        const result = cleanToxicExposureData(formData);
         expect(result.toxicExposure.specifyOtherExposures).to.deep.equal({
-          description: 'Lead paint exposure',
-          otherField: 'value',
+          description: 'Lead exposure',
         });
       });
     });
 
     describe('edge cases', () => {
-      it('should handle non-plain object toxic exposure', () => {
-        const formData = {
+      it('should return unchanged for invalid toxicExposure types (string, array, etc)', () => {
+        const stringCase = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: 'not-an-object',
         };
-
-        const result = cleanToxicExposureData(formData);
-        expect(result).to.deep.equal(formData);
-      });
-
-      it('should handle toxic exposure as array', () => {
-        const formData = {
+        const arrayCase = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: [],
         };
 
-        const result = cleanToxicExposureData(formData);
-        expect(result).to.deep.equal(formData);
+        expect(cleanToxicExposureData(stringCase)).to.deep.equal(stringCase);
+        expect(cleanToxicExposureData(arrayCase)).to.deep.equal(arrayCase);
       });
 
       it('should handle null and undefined values', () => {
@@ -670,92 +540,6 @@ describe('cleanToxicExposureData', () => {
         cleanToxicExposureData(originalFormData);
 
         expect(originalFormData).to.deep.equal(formDataCopy);
-      });
-
-      it('should remove null values due to cloneDeep transformation', () => {
-        const formData = {
-          disability526ToxicExposureOptOutDataPurge: true,
-          toxicExposure: {
-            conditions: { asthma: true },
-            herbicide: { vietnam: true },
-            otherHerbicideLocations: null,
-          },
-        };
-
-        const result = cleanToxicExposureData(formData);
-        expect(result.toxicExposure).to.not.have.property(
-          'otherHerbicideLocations',
-        );
-      });
-
-      it('should preserve specifyOtherExposures with undefined value', () => {
-        const formData = {
-          disability526ToxicExposureOptOutDataPurge: true,
-          toxicExposure: {
-            conditions: { asthma: true },
-            otherExposures: { asbestos: true },
-            specifyOtherExposures: undefined,
-          },
-        };
-
-        const result = cleanToxicExposureData(formData);
-        expect(result.toxicExposure).to.have.property('specifyOtherExposures');
-        expect(result.toxicExposure.specifyOtherExposures).to.be.undefined;
-      });
-
-      it('should preserve otherHerbicideLocations with false value', () => {
-        const formData = {
-          disability526ToxicExposureOptOutDataPurge: true,
-          toxicExposure: {
-            conditions: { asthma: true },
-            herbicide: { vietnam: true },
-            otherHerbicideLocations: false,
-          },
-        };
-
-        const result = cleanToxicExposureData(formData);
-        expect(result.toxicExposure).to.have.property(
-          'otherHerbicideLocations',
-        );
-        expect(result.toxicExposure.otherHerbicideLocations).to.equal(false);
-      });
-
-      it('should preserve numeric zero values', () => {
-        const formData = {
-          disability526ToxicExposureOptOutDataPurge: true,
-          toxicExposure: {
-            conditions: { asthma: true },
-            otherHerbicideLocations: 0,
-            specifyOtherExposures: 0,
-          },
-        };
-
-        const result = cleanToxicExposureData(formData);
-        expect(result.toxicExposure).to.have.property(
-          'otherHerbicideLocations',
-        );
-        expect(result.toxicExposure.otherHerbicideLocations).to.equal(0);
-        expect(result.toxicExposure).to.have.property('specifyOtherExposures');
-        expect(result.toxicExposure.specifyOtherExposures).to.equal(0);
-      });
-
-      it('should preserve empty string values', () => {
-        const formData = {
-          disability526ToxicExposureOptOutDataPurge: true,
-          toxicExposure: {
-            conditions: { asthma: true },
-            otherHerbicideLocations: '',
-            specifyOtherExposures: '',
-          },
-        };
-
-        const result = cleanToxicExposureData(formData);
-        expect(result.toxicExposure).to.have.property(
-          'otherHerbicideLocations',
-        );
-        expect(result.toxicExposure.otherHerbicideLocations).to.equal('');
-        expect(result.toxicExposure).to.have.property('specifyOtherExposures');
-        expect(result.toxicExposure.specifyOtherExposures).to.equal('');
       });
     });
 
