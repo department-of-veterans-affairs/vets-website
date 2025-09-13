@@ -1,4 +1,4 @@
-import { isPlainObject } from 'lodash';
+import { isPlainObject, isEmpty, pickBy } from 'lodash';
 import cloneDeep from 'platform/utilities/data/cloneDeep';
 import {
   GULF_WAR_1990_LOCATIONS,
@@ -13,7 +13,7 @@ import {
  *
  * @constant {Object}
  */
-const EXPOSURE_TYPE_MAPPING = {
+export const EXPOSURE_TYPE_MAPPING = {
   gulfWar1990: {
     detailsKey: 'gulfWar1990Details',
     locations: GULF_WAR_1990_LOCATIONS,
@@ -99,12 +99,7 @@ const isNoneOnlySelected = conditions =>
 const retainSelectedDetails = (details, selections) => {
   if (!isPlainObject(details) || !isPlainObject(selections)) return {};
 
-  return Object.keys(details).reduce((retained, key) => {
-    if (selections[key] === true) {
-      return { ...retained, [key]: details[key] };
-    }
-    return retained;
-  }, {});
+  return pickBy(details, (_value, key) => selections[key] === true);
 };
 
 /**
@@ -134,12 +129,7 @@ const hasValidDescription = obj => {
 const retainCheckedConditions = conditions => {
   if (!isPlainObject(conditions)) return {};
 
-  return Object.keys(conditions).reduce((retained, condition) => {
-    if (conditions[condition] === true) {
-      return { ...retained, [condition]: true };
-    }
-    return retained;
-  }, {});
+  return pickBy(conditions, value => value === true);
 };
 
 /**
@@ -151,9 +141,7 @@ const retainCheckedConditions = conditions => {
 const isEmptyToxicExposure = toxicExposure => {
   return Object.keys(toxicExposure).every(key => {
     const value = toxicExposure[key];
-    return (
-      !value || (typeof value === 'object' && Object.keys(value).length === 0)
-    );
+    return !value || (typeof value === 'object' && isEmpty(value));
   });
 };
 
@@ -205,7 +193,7 @@ const purgeExposureDetails = (toxicExposure, exposureType, mapping) => {
       result[exposureType],
     );
 
-    if (Object.keys(retainedDetails).length === 0) {
+    if (isEmpty(retainedDetails)) {
       delete result[detailsKey];
     } else {
       result[detailsKey] = retainedDetails;

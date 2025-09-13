@@ -1,7 +1,8 @@
 import { expect } from 'chai';
 import {
-  purgeToxicExposureData,
+  EXPOSURE_TYPE_MAPPING,
   getAllToxicExposureKeys,
+  purgeToxicExposureData,
 } from '../../../utils/on-submit';
 
 /**
@@ -78,16 +79,16 @@ describe('purgeToxicExposureData', () => {
           toxicExposure: {
             conditions: { none: true },
             gulfWar1990: { bahrain: true },
-            gulfWar1990Details: {
+            [EXPOSURE_TYPE_MAPPING.gulfWar1990.detailsKey]: {
               bahrain: { startDate: '1991-01-01', endDate: '1991-12-31' },
             },
             herbicide: { vietnam: true },
-            herbicideDetails: {
+            [EXPOSURE_TYPE_MAPPING.herbicide.detailsKey]: {
               vietnam: { startDate: '1968-01-01', endDate: '1970-01-01' },
             },
             otherHerbicideLocations: { description: 'Thailand' },
             otherExposures: { asbestos: true },
-            otherExposuresDetails: {
+            [EXPOSURE_TYPE_MAPPING.otherExposures.detailsKey]: {
               asbestos: { startDate: '1980-01-01', endDate: '1985-01-01' },
             },
             specifyOtherExposures: 'Lead exposure',
@@ -132,7 +133,7 @@ describe('purgeToxicExposureData', () => {
           toxicExposure: {
             conditions: { asthma: true, cancer: true },
             gulfWar1990: { bahrain: true },
-            gulfWar1990Details: {
+            [EXPOSURE_TYPE_MAPPING.gulfWar1990.detailsKey]: {
               bahrain: { startDate: '1991-01-01', endDate: '1991-12-31' },
             },
           },
@@ -145,7 +146,9 @@ describe('purgeToxicExposureData', () => {
           cancer: true,
         });
         expect(result.toxicExposure.gulfWar1990).to.exist;
-        expect(result.toxicExposure.gulfWar1990Details).to.exist;
+        expect(
+          result.toxicExposure[EXPOSURE_TYPE_MAPPING.gulfWar1990.detailsKey],
+        ).to.exist;
       });
 
       it('should purge false conditions', () => {
@@ -176,39 +179,39 @@ describe('purgeToxicExposureData', () => {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
             conditions: { asthma: true },
-            // Gulf War 1990
+            // gulfWar1990 exposure
             gulfWar1990: {
               bahrain: true,
               iraq: false,
             },
-            gulfWar1990Details: {
+            [EXPOSURE_TYPE_MAPPING.gulfWar1990.detailsKey]: {
               bahrain: { startDate: '1990-01-01', endDate: '1990-12-31' },
               iraq: { startDate: '1991-01-01', endDate: '1991-12-31' },
             },
-            // Gulf War 2001
+            // gulfWar2001 exposure
             gulfWar2001: {
               afghanistan: true,
               yemen: false,
             },
-            gulfWar2001Details: {
+            [EXPOSURE_TYPE_MAPPING.gulfWar2001.detailsKey]: {
               afghanistan: { startDate: '2001-10-01', endDate: '2002-10-01' },
               yemen: { startDate: '2002-01-01', endDate: '2003-01-01' },
             },
-            // Herbicide
+            // herbicide exposure
             herbicide: {
               vietnam: true,
               cambodia: false,
             },
-            herbicideDetails: {
+            [EXPOSURE_TYPE_MAPPING.herbicide.detailsKey]: {
               vietnam: { startDate: '1968-01-01', endDate: '1970-01-01' },
               cambodia: { startDate: '1969-01-01', endDate: '1970-01-01' },
             },
-            // Other exposures
+            // otherExposures exposure
             otherExposures: {
               asbestos: true,
               radiation: false,
             },
-            otherExposuresDetails: {
+            [EXPOSURE_TYPE_MAPPING.otherExposures.detailsKey]: {
               asbestos: { startDate: '1980-01-01', endDate: '1985-01-01' },
               radiation: { startDate: '1990-01-01', endDate: '1991-01-01' },
             },
@@ -217,37 +220,37 @@ describe('purgeToxicExposureData', () => {
 
         const result = purgeToxicExposureData(formData);
 
-        // Gulf War 1990
-        expect(result.toxicExposure.gulfWar1990Details).to.have.property(
-          'bahrain',
-        );
-        expect(result.toxicExposure.gulfWar1990Details).to.not.have.property(
-          'iraq',
-        );
+        // gulfWar1990 details
+        expect(
+          result.toxicExposure[EXPOSURE_TYPE_MAPPING.gulfWar1990.detailsKey],
+        ).to.have.property('bahrain');
+        expect(
+          result.toxicExposure[EXPOSURE_TYPE_MAPPING.gulfWar1990.detailsKey],
+        ).to.not.have.property('iraq');
 
-        // Gulf War 2001
-        expect(result.toxicExposure.gulfWar2001Details).to.have.property(
-          'afghanistan',
-        );
-        expect(result.toxicExposure.gulfWar2001Details).to.not.have.property(
-          'yemen',
-        );
+        // gulfWar2001 details
+        expect(
+          result.toxicExposure[EXPOSURE_TYPE_MAPPING.gulfWar2001.detailsKey],
+        ).to.have.property('afghanistan');
+        expect(
+          result.toxicExposure[EXPOSURE_TYPE_MAPPING.gulfWar2001.detailsKey],
+        ).to.not.have.property('yemen');
 
-        // Herbicide
-        expect(result.toxicExposure.herbicideDetails).to.have.property(
-          'vietnam',
-        );
-        expect(result.toxicExposure.herbicideDetails).to.not.have.property(
-          'cambodia',
-        );
+        // herbicide details
+        expect(
+          result.toxicExposure[EXPOSURE_TYPE_MAPPING.herbicide.detailsKey],
+        ).to.have.property('vietnam');
+        expect(
+          result.toxicExposure[EXPOSURE_TYPE_MAPPING.herbicide.detailsKey],
+        ).to.not.have.property('cambodia');
 
-        // Other exposures
-        expect(result.toxicExposure.otherExposuresDetails).to.have.property(
-          'asbestos',
-        );
-        expect(result.toxicExposure.otherExposuresDetails).to.not.have.property(
-          'radiation',
-        );
+        // otherExposures details
+        expect(
+          result.toxicExposure[EXPOSURE_TYPE_MAPPING.otherExposures.detailsKey],
+        ).to.have.property('asbestos');
+        expect(
+          result.toxicExposure[EXPOSURE_TYPE_MAPPING.otherExposures.detailsKey],
+        ).to.not.have.property('radiation');
       });
 
       it('should retain false values in main objects while purging their details', () => {
@@ -260,7 +263,7 @@ describe('purgeToxicExposureData', () => {
               bahrain: false,
               iraq: false,
             },
-            gulfWar1990Details: {
+            [EXPOSURE_TYPE_MAPPING.gulfWar1990.detailsKey]: {
               afghanistan: { startDate: '2001-10-01' },
               bahrain: { startDate: '1990-08-15' },
               iraq: { startDate: '1991-01-01' },
@@ -276,7 +279,9 @@ describe('purgeToxicExposureData', () => {
           iraq: false,
         });
 
-        expect(result.toxicExposure.gulfWar1990Details).to.deep.equal({
+        expect(
+          result.toxicExposure[EXPOSURE_TYPE_MAPPING.gulfWar1990.detailsKey],
+        ).to.deep.equal({
           afghanistan: { startDate: '2001-10-01' },
         });
       });
@@ -287,11 +292,11 @@ describe('purgeToxicExposureData', () => {
           toxicExposure: {
             conditions: { asthma: true },
             // Missing gulfWar1990 but has details
-            gulfWar1990Details: {
+            [EXPOSURE_TYPE_MAPPING.gulfWar1990.detailsKey]: {
               bahrain: { startDate: '1990-01-01', endDate: '1990-12-31' },
             },
             // Missing herbicide but has details
-            herbicideDetails: {
+            [EXPOSURE_TYPE_MAPPING.herbicide.detailsKey]: {
               vietnam: { startDate: '1968-01-01', endDate: '1970-01-01' },
             },
           },
@@ -299,8 +304,12 @@ describe('purgeToxicExposureData', () => {
 
         const result = purgeToxicExposureData(formData);
 
-        expect(result.toxicExposure).to.not.have.property('gulfWar1990Details');
-        expect(result.toxicExposure).to.not.have.property('herbicideDetails');
+        expect(result.toxicExposure).to.not.have.property(
+          EXPOSURE_TYPE_MAPPING.gulfWar1990.detailsKey,
+        );
+        expect(result.toxicExposure).to.not.have.property(
+          EXPOSURE_TYPE_MAPPING.herbicide.detailsKey,
+        );
       });
 
       it('should purge entire exposure section when all values are false', () => {
@@ -312,7 +321,7 @@ describe('purgeToxicExposureData', () => {
               afghanistan: false,
               bahrain: false,
             },
-            gulfWar1990Details: {
+            [EXPOSURE_TYPE_MAPPING.gulfWar1990.detailsKey]: {
               afghanistan: { startDate: '2001-10-01' },
               bahrain: { startDate: '1990-08-15' },
             },
@@ -322,7 +331,9 @@ describe('purgeToxicExposureData', () => {
         const result = purgeToxicExposureData(formData);
 
         expect(result.toxicExposure).to.not.have.property('gulfWar1990');
-        expect(result.toxicExposure).to.not.have.property('gulfWar1990Details');
+        expect(result.toxicExposure).to.not.have.property(
+          EXPOSURE_TYPE_MAPPING.gulfWar1990.detailsKey,
+        );
       });
 
       it('should purge otherHerbicideLocations when herbicide.none is true', () => {
@@ -360,7 +371,7 @@ describe('purgeToxicExposureData', () => {
               vietnam: false,
               cambodia: false,
             },
-            herbicideDetails: {
+            [EXPOSURE_TYPE_MAPPING.herbicide.detailsKey]: {
               vietnam: { startDate: '1968-01-01' },
             },
             otherHerbicideLocations: { description: 'Other location' },
@@ -370,9 +381,11 @@ describe('purgeToxicExposureData', () => {
         const result = purgeToxicExposureData(formData);
 
         expect(result.toxicExposure).to.not.have.property('herbicide');
-        expect(result.toxicExposure).to.not.have.property('herbicideDetails');
         expect(result.toxicExposure).to.not.have.property(
-          'otherHerbicideLocations',
+          EXPOSURE_TYPE_MAPPING.herbicide.detailsKey,
+        );
+        expect(result.toxicExposure).to.not.have.property(
+          EXPOSURE_TYPE_MAPPING.herbicide.otherLocationsKey,
         );
       });
 
@@ -382,7 +395,7 @@ describe('purgeToxicExposureData', () => {
           toxicExposure: {
             conditions: 'not-an-object', // converted to {}
             gulfWar1990: 'not-an-object', // treated as non-plain object
-            gulfWar1990Details: {
+            [EXPOSURE_TYPE_MAPPING.gulfWar1990.detailsKey]: {
               bahrain: { startDate: '1990-01-01' },
             },
             herbicide: { vietnam: true }, // valid data to prevent entire removal
@@ -557,7 +570,7 @@ describe('purgeToxicExposureData', () => {
               bahrain: true,
               iraq: false,
             },
-            gulfWar1990Details: {
+            [EXPOSURE_TYPE_MAPPING.gulfWar1990.detailsKey]: {
               bahrain: { startDate: '1990-08-01', endDate: '1991-04-01' },
               iraq: { startDate: '1991-01-01', endDate: '1991-03-01' },
             },
@@ -566,7 +579,7 @@ describe('purgeToxicExposureData', () => {
               cambodia: false,
               none: false,
             },
-            herbicideDetails: {
+            [EXPOSURE_TYPE_MAPPING.herbicide.detailsKey]: {
               vietnam: { startDate: '1968-01-01', endDate: '1970-01-01' },
               cambodia: { startDate: '1969-01-01', endDate: '1970-01-01' },
             },
@@ -574,7 +587,7 @@ describe('purgeToxicExposureData', () => {
               asbestos: true,
               radiation: false,
             },
-            otherExposuresDetails: {
+            [EXPOSURE_TYPE_MAPPING.otherExposures.detailsKey]: {
               asbestos: { startDate: '1980-01-01', endDate: '1985-01-01' },
               radiation: { startDate: '1990-01-01', endDate: '1991-01-01' },
             },
@@ -593,7 +606,9 @@ describe('purgeToxicExposureData', () => {
           bahrain: true,
           iraq: false,
         });
-        expect(result.toxicExposure.gulfWar1990Details).to.deep.equal({
+        expect(
+          result.toxicExposure[EXPOSURE_TYPE_MAPPING.gulfWar1990.detailsKey],
+        ).to.deep.equal({
           bahrain: { startDate: '1990-08-01', endDate: '1991-04-01' },
         });
 
@@ -602,7 +617,9 @@ describe('purgeToxicExposureData', () => {
           cambodia: false,
           none: false,
         });
-        expect(result.toxicExposure.herbicideDetails).to.deep.equal({
+        expect(
+          result.toxicExposure[EXPOSURE_TYPE_MAPPING.herbicide.detailsKey],
+        ).to.deep.equal({
           vietnam: { startDate: '1968-01-01', endDate: '1970-01-01' },
         });
 
@@ -610,7 +627,9 @@ describe('purgeToxicExposureData', () => {
           asbestos: true,
           radiation: false,
         });
-        expect(result.toxicExposure.otherExposuresDetails).to.deep.equal({
+        expect(
+          result.toxicExposure[EXPOSURE_TYPE_MAPPING.otherExposures.detailsKey],
+        ).to.deep.equal({
           asbestos: { startDate: '1980-01-01', endDate: '1985-01-01' },
         });
 
@@ -631,16 +650,20 @@ describe('getAllToxicExposureKeys', () => {
 
     expect(keys).to.be.an('array');
     expect(keys).to.include('conditions');
-    expect(keys).to.include('gulfWar1990');
-    expect(keys).to.include('gulfWar1990Details');
-    expect(keys).to.include('gulfWar2001');
-    expect(keys).to.include('gulfWar2001Details');
-    expect(keys).to.include('herbicide');
-    expect(keys).to.include('herbicideDetails');
-    expect(keys).to.include('otherHerbicideLocations');
-    expect(keys).to.include('otherExposures');
-    expect(keys).to.include('otherExposuresDetails');
-    expect(keys).to.include('specifyOtherExposures');
+
+    // Verify all exposure types and their associated keys are included
+    Object.entries(EXPOSURE_TYPE_MAPPING).forEach(([exposureType, mapping]) => {
+      expect(keys).to.include(exposureType);
+      expect(keys).to.include(mapping.detailsKey);
+      if (mapping.otherLocationsKey) {
+        expect(keys).to.include(mapping.otherLocationsKey);
+      }
+      if (mapping.specifyKey) {
+        expect(keys).to.include(mapping.specifyKey);
+      }
+    });
+
+    // Should have: conditions + 4 exposure types + 4 details keys + otherHerbicideLocations + specifyOtherExposures = 11
     expect(keys).to.have.lengthOf(11);
   });
 });
