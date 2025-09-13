@@ -29,7 +29,7 @@ import {
   addForm8940,
   addFileAttachments,
 } from './utils/submit';
-import { cleanToxicExposureData } from './utils/on-submit';
+import { purgeToxicExposureData } from './utils/on-submit';
 
 export function transform(formConfig, form) {
   // Grab isBDD before things are changed/deleted
@@ -268,7 +268,7 @@ export function transform(formConfig, form) {
     filterServicePeriods,
     removeExtraData, // Removed data EVSS doesn't want
     cleanUpMailingAddress,
-    cleanToxicExposureData,
+    purgeToxicExposureData,
     addPOWSpecialIssues,
     addPTSDCause,
     addRequiredDescriptionsToDisabilitiesBDD,

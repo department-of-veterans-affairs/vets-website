@@ -1,24 +1,24 @@
 import { expect } from 'chai';
 import {
-  cleanToxicExposureData,
+  purgeToxicExposureData,
   getAllToxicExposureKeys,
 } from '../../../utils/on-submit';
 
 /**
- * Tests for toxic exposure data cleaning functionality
+ * Tests for toxic exposure data purging functionality
  *
  * Key behaviors tested:
  * 1. Feature flag control - only processes when disability526ToxicExposureOptOutDataPurge is true
- * 2. "None" condition handling - removes all other data when only "none" is selected
- * 3. Detail filtering - removes details for unselected locations
- * 4. Orphaned data cleanup - removes details without corresponding selections
- * 5. Text field validation - removes fields with whitespace-only descriptions
+ * 2. "None" condition handling - purges all other data when only "none" is selected
+ * 3. Detail retention - retains only details for selected locations
+ * 4. Orphaned data purging - removes details without corresponding selections
+ * 5. Text field validation - purges fields with whitespace-only descriptions
  * 6. Falsy value handling - null values removed (cloneDeep bug), false/undefined/0/'' preserved
  * 7. Data type validation - handles non-object values gracefully
  */
-describe('cleanToxicExposureData', () => {
+describe('purgeToxicExposureData', () => {
   describe('when feature flag is disabled', () => {
-    it('should not clean when flag is false', () => {
+    it('should not purge when flag is false', () => {
       const formData = {
         disability526ToxicExposureOptOutDataPurge: false,
         toxicExposure: {
@@ -27,11 +27,11 @@ describe('cleanToxicExposureData', () => {
         },
       };
 
-      const result = cleanToxicExposureData(formData);
+      const result = purgeToxicExposureData(formData);
       expect(result).to.deep.equal(formData);
     });
 
-    it('should not clean when flag is undefined', () => {
+    it('should not purge when flag is undefined', () => {
       const formData = {
         toxicExposure: {
           conditions: { none: true },
@@ -39,7 +39,7 @@ describe('cleanToxicExposureData', () => {
         },
       };
 
-      const result = cleanToxicExposureData(formData);
+      const result = purgeToxicExposureData(formData);
       expect(result).to.deep.equal(formData);
     });
   });
@@ -52,11 +52,11 @@ describe('cleanToxicExposureData', () => {
           newDisabilities: [{ condition: 'Chronic Bronchitis' }],
         };
 
-        const result = cleanToxicExposureData(formData);
+        const result = purgeToxicExposureData(formData);
         expect(result).to.deep.equal(formData);
       });
 
-      it('should remove empty toxicExposure object', () => {
+      it('should purge empty toxicExposure object', () => {
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
@@ -66,13 +66,13 @@ describe('cleanToxicExposureData', () => {
           },
         };
 
-        const result = cleanToxicExposureData(formData);
+        const result = purgeToxicExposureData(formData);
         expect(result).to.not.have.property('toxicExposure');
       });
     });
 
     describe('with "none" condition selected', () => {
-      it('should keep only none condition when selected alone', () => {
+      it('should retain only none condition when selected alone', () => {
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
@@ -94,7 +94,7 @@ describe('cleanToxicExposureData', () => {
           },
         };
 
-        const result = cleanToxicExposureData(formData);
+        const result = purgeToxicExposureData(formData);
 
         expect(result.toxicExposure).to.deep.equal({
           conditions: { none: true },
@@ -102,7 +102,7 @@ describe('cleanToxicExposureData', () => {
         expect(Object.keys(result.toxicExposure)).to.have.lengthOf(1);
       });
 
-      it('should preserve other form data when cleaning toxic exposure', () => {
+      it('should preserve other form data when purging toxic exposure', () => {
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true,
           newDisabilities: [{ condition: 'Chronic Bronchitis' }],
@@ -113,7 +113,7 @@ describe('cleanToxicExposureData', () => {
           },
         };
 
-        const result = cleanToxicExposureData(formData);
+        const result = purgeToxicExposureData(formData);
 
         expect(result.newDisabilities).to.deep.equal(formData.newDisabilities);
         expect(result.veteranInformation).to.deep.equal(
@@ -126,7 +126,7 @@ describe('cleanToxicExposureData', () => {
     });
 
     describe('with actual conditions selected', () => {
-      it('should keep all data when conditions selected', () => {
+      it('should retain all data when conditions selected', () => {
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
@@ -138,7 +138,7 @@ describe('cleanToxicExposureData', () => {
           },
         };
 
-        const result = cleanToxicExposureData(formData);
+        const result = purgeToxicExposureData(formData);
 
         expect(result.toxicExposure.conditions).to.deep.equal({
           asthma: true,
@@ -148,7 +148,7 @@ describe('cleanToxicExposureData', () => {
         expect(result.toxicExposure.gulfWar1990Details).to.exist;
       });
 
-      it('should remove false conditions', () => {
+      it('should purge false conditions', () => {
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
@@ -161,7 +161,7 @@ describe('cleanToxicExposureData', () => {
           },
         };
 
-        const result = cleanToxicExposureData(formData);
+        const result = purgeToxicExposureData(formData);
 
         expect(result.toxicExposure.conditions).to.deep.equal({
           asthma: true,
@@ -170,8 +170,8 @@ describe('cleanToxicExposureData', () => {
       });
     });
 
-    describe('exposure detail cleanup', () => {
-      it('should filter details to only include selected locations', () => {
+    describe('exposure detail purging', () => {
+      it('should retain details only for selected locations', () => {
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
@@ -215,7 +215,7 @@ describe('cleanToxicExposureData', () => {
           },
         };
 
-        const result = cleanToxicExposureData(formData);
+        const result = purgeToxicExposureData(formData);
 
         // Gulf War 1990
         expect(result.toxicExposure.gulfWar1990Details).to.have.property(
@@ -250,7 +250,7 @@ describe('cleanToxicExposureData', () => {
         );
       });
 
-      it('should keep false values in main objects while removing their details', () => {
+      it('should retain false values in main objects while purging their details', () => {
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
@@ -268,7 +268,7 @@ describe('cleanToxicExposureData', () => {
           },
         };
 
-        const result = cleanToxicExposureData(formData);
+        const result = purgeToxicExposureData(formData);
 
         expect(result.toxicExposure.gulfWar1990).to.deep.equal({
           afghanistan: true,
@@ -281,7 +281,7 @@ describe('cleanToxicExposureData', () => {
         });
       });
 
-      it('should remove orphaned details when main selection missing', () => {
+      it('should purge orphaned details when main selection missing', () => {
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
@@ -297,13 +297,13 @@ describe('cleanToxicExposureData', () => {
           },
         };
 
-        const result = cleanToxicExposureData(formData);
+        const result = purgeToxicExposureData(formData);
 
         expect(result.toxicExposure).to.not.have.property('gulfWar1990Details');
         expect(result.toxicExposure).to.not.have.property('herbicideDetails');
       });
 
-      it('should remove entire exposure section when all values are false', () => {
+      it('should purge entire exposure section when all values are false', () => {
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
@@ -319,13 +319,13 @@ describe('cleanToxicExposureData', () => {
           },
         };
 
-        const result = cleanToxicExposureData(formData);
+        const result = purgeToxicExposureData(formData);
 
         expect(result.toxicExposure).to.not.have.property('gulfWar1990');
         expect(result.toxicExposure).to.not.have.property('gulfWar1990Details');
       });
 
-      it('should remove otherHerbicideLocations when herbicide.none is true', () => {
+      it('should purge otherHerbicideLocations when herbicide.none is true', () => {
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
@@ -339,7 +339,7 @@ describe('cleanToxicExposureData', () => {
           },
         };
 
-        const result = cleanToxicExposureData(formData);
+        const result = purgeToxicExposureData(formData);
 
         expect(result.toxicExposure).to.not.have.property(
           'otherHerbicideLocations',
@@ -367,7 +367,7 @@ describe('cleanToxicExposureData', () => {
           },
         };
 
-        const result = cleanToxicExposureData(formData);
+        const result = purgeToxicExposureData(formData);
 
         expect(result.toxicExposure).to.not.have.property('herbicide');
         expect(result.toxicExposure).to.not.have.property('herbicideDetails');
@@ -389,11 +389,11 @@ describe('cleanToxicExposureData', () => {
           },
         };
 
-        const result = cleanToxicExposureData(formData);
+        const result = purgeToxicExposureData(formData);
 
         // When conditions is a string, it gets converted to empty object
         expect(result.toxicExposure.conditions).to.deep.equal({});
-        // Details are removed when selection is not a plain object
+        // Details are purged when selection is not a plain object
         expect(result.toxicExposure).to.not.have.property('gulfWar1990Details');
         // Valid herbicide data remains
         expect(result.toxicExposure.herbicide).to.deep.equal({ vietnam: true });
@@ -404,16 +404,16 @@ describe('cleanToxicExposureData', () => {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
             conditions: { asthma: true },
-            gulfWar1990: null, // removed by cloneDeep transformation
-            herbicide: undefined, // preserved
+            gulfWar1990: null, // purged by cloneDeep transformation
+            herbicide: undefined, // retained
             otherExposures: {
-              asbestos: false, // preserved
+              asbestos: false, // retained
               radiation: true,
             },
           },
         };
 
-        const result = cleanToxicExposureData(formData);
+        const result = purgeToxicExposureData(formData);
 
         expect(result.toxicExposure).to.not.have.property('gulfWar1990');
         expect(result.toxicExposure).to.have.property('herbicide');
@@ -424,17 +424,17 @@ describe('cleanToxicExposureData', () => {
     });
 
     describe('text field validation (otherHerbicideLocations & specifyOtherExposures)', () => {
-      it('should remove fields with invalid descriptions (whitespace-only or empty objects)', () => {
+      it('should purge fields with invalid descriptions (whitespace-only or empty objects)', () => {
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
             conditions: { asthma: true },
-            otherHerbicideLocations: '   ', // removed - whitespace only
-            specifyOtherExposures: { description: '   ' }, // removed - whitespace description
+            otherHerbicideLocations: '   ', // purged - whitespace only
+            specifyOtherExposures: { description: '   ' }, // purged - whitespace description
           },
         };
 
-        const result = cleanToxicExposureData(formData);
+        const result = purgeToxicExposureData(formData);
         expect(result.toxicExposure).to.not.have.property(
           'otherHerbicideLocations',
         );
@@ -443,17 +443,17 @@ describe('cleanToxicExposureData', () => {
         );
       });
 
-      it('should keep fields with valid descriptions (non-empty strings or objects with content)', () => {
+      it('should retain fields with valid descriptions (non-empty strings or objects with content)', () => {
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
             conditions: { asthma: true },
-            otherHerbicideLocations: 'Thailand base camps', // kept - valid string
-            specifyOtherExposures: { description: 'Lead exposure' }, // kept - valid description
+            otherHerbicideLocations: 'Thailand base camps', // retained - valid string
+            specifyOtherExposures: { description: 'Lead exposure' }, // retained - valid description
           },
         };
 
-        const result = cleanToxicExposureData(formData);
+        const result = purgeToxicExposureData(formData);
         expect(result.toxicExposure.otherHerbicideLocations).to.equal(
           'Thailand base camps',
         );
@@ -474,8 +474,8 @@ describe('cleanToxicExposureData', () => {
           toxicExposure: [],
         };
 
-        expect(cleanToxicExposureData(stringCase)).to.deep.equal(stringCase);
-        expect(cleanToxicExposureData(arrayCase)).to.deep.equal(arrayCase);
+        expect(purgeToxicExposureData(stringCase)).to.deep.equal(stringCase);
+        expect(purgeToxicExposureData(arrayCase)).to.deep.equal(arrayCase);
       });
 
       it('should handle null and undefined values', () => {
@@ -489,7 +489,7 @@ describe('cleanToxicExposureData', () => {
           },
         };
 
-        const result = cleanToxicExposureData(formData);
+        const result = purgeToxicExposureData(formData);
 
         expect(result.toxicExposure).to.have.property('conditions');
         expect(result.toxicExposure).to.have.property('otherExposures');
@@ -507,7 +507,7 @@ describe('cleanToxicExposureData', () => {
           },
         };
 
-        const result = cleanToxicExposureData(formData);
+        const result = purgeToxicExposureData(formData);
 
         expect(result.toxicExposure.conditions).to.deep.equal({});
         expect(result.toxicExposure.gulfWar1990).to.exist;
@@ -521,7 +521,7 @@ describe('cleanToxicExposureData', () => {
           },
         };
 
-        const result = cleanToxicExposureData(formData);
+        const result = purgeToxicExposureData(formData);
 
         expect(result.toxicExposure.gulfWar1990).to.exist;
         expect(result.toxicExposure).to.not.have.property('conditions');
@@ -537,7 +537,7 @@ describe('cleanToxicExposureData', () => {
         };
 
         const formDataCopy = JSON.parse(JSON.stringify(originalFormData));
-        cleanToxicExposureData(originalFormData);
+        purgeToxicExposureData(originalFormData);
 
         expect(originalFormData).to.deep.equal(formDataCopy);
       });
@@ -583,7 +583,7 @@ describe('cleanToxicExposureData', () => {
           },
         };
 
-        const result = cleanToxicExposureData(formData);
+        const result = purgeToxicExposureData(formData);
 
         expect(result.toxicExposure.conditions).to.deep.equal({
           asthma: true,

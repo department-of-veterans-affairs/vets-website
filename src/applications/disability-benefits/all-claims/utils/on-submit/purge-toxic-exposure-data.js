@@ -86,24 +86,24 @@ const hasSelectedConditions = conditions =>
  * @param {Object.<string, boolean>} conditions - Condition selections
  * @returns {boolean} True if only 'none' is selected
  */
-const hasOnlyNoneCondition = conditions =>
+const isNoneOnlySelected = conditions =>
   conditions.none === true && !hasSelectedConditions(conditions);
 
 /**
- * Filters details to only include entries with corresponding selections.
+ * Retains details only for entries with corresponding selections.
  *
  * @param {Object} details - Detail information (dates, descriptions)
  * @param {Object.<string, boolean>} selections - Selected items
- * @returns {Object} Filtered details for selected items only
+ * @returns {Object} Details for selected items only
  */
-const filterSelectedDetails = (details, selections) => {
+const retainSelectedDetails = (details, selections) => {
   if (!isPlainObject(details) || !isPlainObject(selections)) return {};
 
-  return Object.keys(details).reduce((filtered, key) => {
+  return Object.keys(details).reduce((retained, key) => {
     if (selections[key] === true) {
-      return { ...filtered, [key]: details[key] };
+      return { ...retained, [key]: details[key] };
     }
-    return filtered;
+    return retained;
   }, {});
 };
 
@@ -126,19 +126,19 @@ const hasValidDescription = obj => {
 };
 
 /**
- * Filters conditions to only include those explicitly checked.
+ * Retains only conditions that are explicitly checked (true).
  *
  * @param {Object.<string, boolean>} conditions - Condition selections
  * @returns {Object.<string, true>} Only conditions set to true
  */
-const filterCheckedConditions = conditions => {
+const retainCheckedConditions = conditions => {
   if (!isPlainObject(conditions)) return {};
 
-  return Object.keys(conditions).reduce((filtered, condition) => {
+  return Object.keys(conditions).reduce((retained, condition) => {
     if (conditions[condition] === true) {
-      return { ...filtered, [condition]: true };
+      return { ...retained, [condition]: true };
     }
-    return filtered;
+    return retained;
   }, {});
 };
 
@@ -167,16 +167,16 @@ const createNoneOnlyCondition = () => ({
 });
 
 /**
- * Cleans exposure details by removing unselected items and orphaned fields.
+ * Purges exposure details by removing unselected items and orphaned fields.
  *
  * @param {Object} toxicExposure - Toxic exposure data with selections and details
  * @param {string} exposureType - Exposure type key (e.g., 'gulfWar1990')
  * @param {Object} mapping - Mapping configuration for exposure type
  * @param {string} mapping.detailsKey - Key for details object
  * @param {string} [mapping.otherLocationsKey] - Key for other locations
- * @returns {Object} Cleaned toxic exposure object
+ * @returns {Object} Purged toxic exposure object
  */
-const cleanExposureDetails = (toxicExposure, exposureType, mapping) => {
+const purgeExposureDetails = (toxicExposure, exposureType, mapping) => {
   const { detailsKey, otherLocationsKey } = mapping;
   const result = { ...toxicExposure };
 
@@ -198,17 +198,17 @@ const cleanExposureDetails = (toxicExposure, exposureType, mapping) => {
     return result;
   }
 
-  // Filter details to match selections
+  // Retain details to match selections
   if (detailsKey && result[detailsKey] && result[exposureType]) {
-    const filteredDetails = filterSelectedDetails(
+    const retainedDetails = retainSelectedDetails(
       result[detailsKey],
       result[exposureType],
     );
 
-    if (Object.keys(filteredDetails).length === 0) {
+    if (Object.keys(retainedDetails).length === 0) {
       delete result[detailsKey];
     } else {
-      result[detailsKey] = filteredDetails;
+      result[detailsKey] = retainedDetails;
     }
   }
 
@@ -225,16 +225,16 @@ const cleanExposureDetails = (toxicExposure, exposureType, mapping) => {
 };
 
 /**
- * Cleans and transforms toxic exposure data based on user selections.
- * Handles "none" condition case and individual exposure cleanup.
+ * Purges and transforms toxic exposure data based on user selections.
+ * Handles "none" condition case and individual exposure removal.
  *
  * @param {Object} formData - Form data to transform
  * @param {boolean} [formData.disability526ToxicExposureOptOutDataPurge] - Feature flag
  * @param {Object} [formData.toxicExposure] - Toxic exposure data
  * @param {Object.<string, boolean>} [formData.toxicExposure.conditions] - Selected conditions
- * @returns {Object} Form data with cleaned toxic exposure data
+ * @returns {Object} Form data with purged toxic exposure data
  */
-export const cleanToxicExposureData = formData => {
+export const purgeToxicExposureData = formData => {
   if (formData.disability526ToxicExposureOptOutDataPurge !== true) {
     return formData;
   }
@@ -253,13 +253,13 @@ export const cleanToxicExposureData = formData => {
   const conditions = toxicExposure.conditions || {};
 
   // "None" only selection
-  if (hasOnlyNoneCondition(conditions)) {
+  if (isNoneOnlySelected(conditions)) {
     return { ...clonedData, toxicExposure: createNoneOnlyCondition() };
   }
 
   // Process all exposure types
   Object.entries(EXPOSURE_TYPE_MAPPING).forEach(([exposureType, mapping]) => {
-    toxicExposure = cleanExposureDetails(toxicExposure, exposureType, mapping);
+    toxicExposure = purgeExposureDetails(toxicExposure, exposureType, mapping);
   });
 
   // Remove empty otherHerbicideLocations
@@ -278,11 +278,11 @@ export const cleanToxicExposureData = formData => {
     delete toxicExposure.specifyOtherExposures;
   }
 
-  // Filter unchecked conditions
+  // Retain only checked conditions
   if (toxicExposure.conditions) {
     toxicExposure = {
       ...toxicExposure,
-      conditions: filterCheckedConditions(toxicExposure.conditions),
+      conditions: retainCheckedConditions(toxicExposure.conditions),
     };
   }
 

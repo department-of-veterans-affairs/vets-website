@@ -6,12 +6,12 @@
  * takes form data as input and returns transformed data as output.
  *
  * @example
- * import { cleanToxicExposureData } from './utils/on-submit';
- * const transformedData = cleanToxicExposureData(formData);
+ * import { purgeToxicExposureData } from './utils/on-submit';
+ * const transformedData = purgeToxicExposureData(formData);
  */
 
 // Toxic Exposure Data Transformations
 export {
-  cleanToxicExposureData,
+  purgeToxicExposureData,
   getAllToxicExposureKeys,
-} from './clean-toxic-exposure-data';
+} from './purge-toxic-exposure-data';
