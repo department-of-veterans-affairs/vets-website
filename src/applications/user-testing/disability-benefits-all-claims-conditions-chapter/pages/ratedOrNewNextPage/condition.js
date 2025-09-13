@@ -23,6 +23,7 @@ const conditionPage = {
     ...arrayBuilderItemFirstPageTitleUI({
       title: 'Add a condition',
       nounSingular: arrayBuilderOptions.nounSingular,
+      alertStatus: 'error',
     }),
     ratedDisability: radioUI({
       title: 'What condition would you like to add?',
