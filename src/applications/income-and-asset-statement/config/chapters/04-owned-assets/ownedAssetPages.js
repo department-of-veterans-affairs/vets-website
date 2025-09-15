@@ -15,8 +15,6 @@ import {
   radioSchema,
   yesNoUI,
   yesNoSchema,
-  // fileInputUI,
-  // fileInputSchema,
   fileInputMultipleUI,
   fileInputMultipleSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
@@ -34,7 +32,9 @@ import {
   showUpdatedContent,
 } from '../../../helpers';
 import { relationshipLabels, ownedAssetTypeLabels } from '../../../labels';
-import SupplementaryFormsAlert from '../../../components/FormAlerts/SupplementaryFormsAlert';
+import SupplementaryFormsAlert, {
+  SupplementaryFormsAlertUpdated,
+} from '../../../components/FormAlerts/SupplementaryFormsAlert';
 
 /** @type {ArrayBuilderOptions} */
 export const options = {
@@ -46,9 +46,37 @@ export const options = {
     isRecipientInfoIncomplete(item) ||
     !isDefined(item.grossMonthlyIncome) ||
     !isDefined(item.ownedPortionValue) ||
-    !isDefined(item.assetType), // include all required fields here
+    !isDefined(item.assetType) ||
+    (showUpdatedContent() &&
+      (item?.assetType === 'FARM' || item?.assetType === 'BUSINESS') &&
+      item?.['view:addFormQuestion'] === true &&
+      (!isDefined(item?.uploadedDocuments) ||
+        item.uploadedDocuments.length === 0)), // include all required fields here
   text: {
-    summaryDescription: SupplementaryFormsAlert,
+    summaryDescription: form => {
+      const shouldShowDeclinedAlert =
+        showUpdatedContent() &&
+        form?.formData?.ownedAssets?.some(item => {
+          const isFarmOrBusiness =
+            item?.assetType === 'FARM' || item?.assetType === 'BUSINESS';
+          const declinedUpload = item?.['view:addFormQuestion'] === false;
+          const saidYesButEmptyArray =
+            item?.['view:addFormQuestion'] === true &&
+            (!item?.uploadedDocuments || item.uploadedDocuments.length === 0);
+
+          return isFarmOrBusiness && (declinedUpload || saidYesButEmptyArray);
+        });
+
+      if (shouldShowDeclinedAlert) {
+        return <SupplementaryFormsAlertUpdated formData={form.formData} />;
+      }
+
+      if (showUpdatedContent()) {
+        return null;
+      }
+
+      return <SupplementaryFormsAlert formData={form.formData} />;
+    },
     getItemName: (item, index, formData) => {
       if (
         !isDefined(item?.recipientRelationship) ||
@@ -78,6 +106,18 @@ export const options = {
               {formatCurrency(item.ownedPortionValue)}
             </span>
           </li>
+          {showUpdatedContent() &&
+            (item?.assetType === 'FARM' || item?.assetType === 'BUSINESS') &&
+            item?.['view:addFormQuestion'] === true &&
+            isDefined(item?.uploadedDocuments) &&
+            item.uploadedDocuments.length > 0 && (
+              <li>
+                Form uploaded:{' '}
+                <span className="vads-u-font-weight--bold">
+                  {item.uploadedDocuments[0].name}
+                </span>
+              </li>
+            )}
         </ul>
       ),
     reviewAddButtonText: 'Add another owned asset',
@@ -216,8 +256,6 @@ const ownedAssetTypePage = {
   },
 };
 
-// Step: 4 (conditional)
-
 /** @returns {PageSchema} */
 const ownedAssetAdditionalFormNeeded = {
   uiSchema: {
@@ -243,7 +281,7 @@ const ownedAssetAdditionalFormNeeded = {
   },
   schema: {
     type: 'object',
-    // required: ['view:addFormQuestion'], // We may end up wanting this
+    // required: ['view:addFormQuestion'], // Not in the design - We may end up wanting this. They can just click continue and never see the upload page
     properties: {
       'view:addFormDescription': {
         type: 'object',
@@ -254,7 +292,8 @@ const ownedAssetAdditionalFormNeeded = {
   },
 };
 
-// Step 5 (conditional)
+const MAX_FILE_SIZE_MB = 20;
+const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1000 ** 2;
 
 /** @returns {PageSchema} */
 const ownedAssetDocumentUpload = {
@@ -269,7 +308,10 @@ const ownedAssetDocumentUpload = {
           </p>
           <ul>
             <li>The document is a .pdf, .jpeg, or .png file</li>
-            <li>The document isn’t larger than 20MB</li>
+            <li>
+              The document isn’t larger than {MAX_FILE_SIZE_MB}
+              MB
+            </li>
           </ul>
         </>
       ),
@@ -277,19 +319,19 @@ const ownedAssetDocumentUpload = {
     uploadedDocuments: {
       ...fileInputMultipleUI({
         title: 'Upload supporting form',
-        // fileUploadUrl: '/v0/some_endpoint', // TODO: Confirm URL
+        fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
         accept: '.pdf,.jpeg,.png',
         required: true,
         errorMessages: { required: 'Upload a supporting document' },
-        maxFileSize: 1048576,
-        minFileSize: 1024,
+        maxFileSize: MAX_FILE_SIZE_BYTES,
         disallowEncryptedPdfs: true,
         formNumber: '20-10206',
-        skipUpload: environment.isLocalhost(),
+        skipUpload: environment.isLocalhost(), // needed to bypass server response validation only in local environment
       }),
       'ui:validations': [
+        // Added supplemental validation for required input, likely an array builder anomaly
         (errors, fieldData) => {
-          if (!fieldData?.name) {
+          if (!fieldData || fieldData.length === 0) {
             errors.addError('Upload a supporting document');
           }
         },
@@ -336,7 +378,6 @@ export const ownedAssetPages = arrayBuilderPages(options, pageBuilder => ({
     uiSchema: ownedAssetTypePage.uiSchema,
     schema: ownedAssetTypePage.schema,
   }),
-  // Page 4
   ownedAssetAdditionalFormNeededPage: pageBuilder.itemPage({
     title: 'Additional form needed',
     path: 'property-and-business/:index/additional-form-needed',
@@ -348,7 +389,6 @@ export const ownedAssetPages = arrayBuilderPages(options, pageBuilder => ({
     uiSchema: ownedAssetAdditionalFormNeeded.uiSchema,
     schema: ownedAssetAdditionalFormNeeded.schema,
   }),
-  // Step 5
   ownedAssetDocumentUploadPage: pageBuilder.itemPage({
     title: 'Additional form needed',
     path: 'property-and-business/:index/document-upload',
