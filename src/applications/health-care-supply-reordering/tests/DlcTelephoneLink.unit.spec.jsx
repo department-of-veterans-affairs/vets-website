@@ -5,8 +5,8 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 import DlcTelephoneLink from '../components/DlcTelephoneLink';
 import { DLC_PHONE } from '../constants';
 
-describe('ErrorMessage', () => {
-  it('should render va-alert', () => {
+describe('DlcTelephoneLink', () => {
+  it('should render the component correctly', () => {
     const telephoneLink = mount(<DlcTelephoneLink />);
     const telephoneElements = telephoneLink.find('va-telephone');
 
