@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
-// import { VaRadioField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
 import FormButtons from '../../components/FormButtons';
 import { FACILITY_TYPES } from '../../utils/constants';
 import { getFormPageInfo } from '../redux/selectors';
@@ -17,14 +16,16 @@ import {
 import { getPageTitle } from '../newAppointmentFlow';
 import SimpleRadioWidget from './SimpleRadioWidget';
 
+const facilityTypesValues = Object.values(FACILITY_TYPES);
+
 const initialSchema = {
   type: 'object',
   required: ['facilityType'],
   properties: {
     facilityType: {
       type: 'string',
-      enum: Object.values(FACILITY_TYPES).map(type => type.id),
-      enumNames: Object.values(FACILITY_TYPES).map(type => type.name),
+      enum: facilityTypesValues.map(type => type.id),
+      enumNames: facilityTypesValues.map(type => type.name),
     },
   },
 };

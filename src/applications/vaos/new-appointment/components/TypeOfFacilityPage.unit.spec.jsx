@@ -39,7 +39,7 @@ describe('VAOS Page: TypeOfFacilityPage', () => {
     expect(
       await screen.findByRole('heading', {
         level: 1,
-        name: /Where do you prefer to receive care/,
+        name: /Where do you prefer to receive care\?/,
       }),
     ).to.exist;
 
