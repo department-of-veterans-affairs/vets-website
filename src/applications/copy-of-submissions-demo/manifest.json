@@ -3,5 +3,6 @@
   "entryFile": "./app-entry.jsx",
   "entryName": "copy-of-submissions-demo",
   "rootUrl": "/copy-of-submissions-demo",
+  "production": false,
   "productId": "507b151e-ee5e-4d0e-8df9-cf8653670f4b"
 }
