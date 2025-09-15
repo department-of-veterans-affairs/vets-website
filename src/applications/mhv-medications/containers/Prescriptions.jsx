@@ -45,7 +45,6 @@ import Alert from '../components/shared/Alert';
 import {
   selectGroupingFlag,
   selectRefillProgressFlag,
-  selectIPEContentFlag,
 } from '../util/selectors';
 import PrescriptionsPrintOnly from './PrescriptionsPrintOnly';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
@@ -91,7 +90,6 @@ const Prescriptions = () => {
   // Get feature flags
   const showGroupingContent = useSelector(selectGroupingFlag);
   const showRefillProgressContent = useSelector(selectRefillProgressFlag);
-  const showIPEContent = useSelector(selectIPEContentFlag);
 
   // Track if we've initialized from session storage
   const initializedFromSession = useRef(false);
@@ -747,7 +745,7 @@ const Prescriptions = () => {
               updateFilter={updateFilterAndSort}
               filterCount={filterCount}
             />
-            {showIPEContent && <InProductionEducationFiltering />}
+            <InProductionEducationFiltering />
           </>
           {isLoading && renderLoadingIndicator()}
           {hasMedications && (
