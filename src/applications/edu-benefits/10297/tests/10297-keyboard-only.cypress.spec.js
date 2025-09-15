@@ -27,39 +27,6 @@ describe('10297 Keyboard Only Tests', () => {
     cy.realPress(['Enter']);
     cy.url().should(
       'include',
-      formConfig.chapters.eligibilityChapter.pages.eligibilityQuestions.path,
-    );
-    cy.injectAxeThenAxeCheck();
-    cy.realPress('Tab');
-    cy.allyEvaluateRadioButtons(
-      [
-        'input#root_dutyRequirementatLeast3Yearsinput',
-        'input#root_dutyRequirementbyDischargeinput',
-        'input#root_dutyRequirementnoneinput',
-      ],
-      'ArrowDown',
-    );
-    cy.chooseRadio(maximalData.data.dutyRequirement);
-    cy.realPress('Tab');
-    cy.fillVaMemorableDate('root_dateOfBirth', maximalData.data.dateOfBirth);
-    cy.realPress('Tab');
-    cy.allyEvaluateRadioButtons(
-      [
-        'input#root_otherThanDishonorableDischargeYesinput',
-        'input#root_otherThanDishonorableDischargeNoinput',
-      ],
-      'ArrowDown',
-    );
-    cy.tabToContinueForm();
-    cy.url().should(
-      'include',
-      formConfig.chapters.eligibilityChapter.pages.eligibilitySummary.path,
-    );
-    cy.injectAxeThenAxeCheck();
-    cy.repeatKey('Tab', 2);
-    cy.realPress('Enter');
-    cy.url().should(
-      'include',
       formConfig.chapters.identificationChapter.pages.applicantFullName.path,
     );
     cy.injectAxeThenAxeCheck();
@@ -67,6 +34,17 @@ describe('10297 Keyboard Only Tests', () => {
     cy.typeInFocused(maximalData.data.applicantFullName.first);
     cy.repeatKey('Tab', 2);
     cy.typeInFocused(maximalData.data.applicantFullName.last);
+    cy.realPress('Tab');
+    cy.fillVaMemorableDate('root_dateOfBirth', maximalData.data.dateOfBirth);
+    cy.tabToContinueForm();
+    cy.url().should(
+      'include',
+      formConfig.chapters.identificationChapter.pages.identificationInformation
+        .path,
+    );
+    cy.injectAxeThenAxeCheck();
+    cy.realPress('Tab');
+    cy.typeInFocused(maximalData.data.ssn);
     cy.tabToContinueForm();
     cy.url().should(
       'include',
@@ -96,22 +74,42 @@ describe('10297 Keyboard Only Tests', () => {
     );
     cy.injectAxeThenAxeCheck();
     cy.realPress('Tab');
-    cy.typeInFocused(maximalData.data.contactInfo.homePhone);
+    cy.typeInFocused(maximalData.data.contactInfo.mobilePhone);
     cy.tabToContinueForm();
     cy.url().should(
       'include',
-      formConfig.chapters.identificationChapter.pages.identificationInformation
-        .path,
+      formConfig.chapters.identificationChapter.pages.veteranStatus.path,
     );
     cy.injectAxeThenAxeCheck();
     cy.realPress('Tab');
-    cy.typeInFocused(maximalData.data.ssn);
+    cy.allyEvaluateRadioButtons(
+      ['input#root_veteranStatusYesinput', 'input#root_veteranStatusNoinput'],
+      'ArrowDown',
+    );
     cy.tabToContinueForm();
+    cy.url().should(
+      'include',
+      formConfig.chapters.identificationChapter.pages.dateReleasedFromActiveDuty
+        .path,
+    );
+    cy.injectAxeThenAxeCheck();
+    cy.tabToElement('select[name="root_dateReleasedFromActiveDutyMonth"]');
+    cy.chooseSelectOptionByTyping('September');
+    cy.tabToElement('select[name="root_dateReleasedFromActiveDutyDay"]');
+    cy.chooseSelectOptionByTyping('7');
+    cy.tabToElement('input[name="root_dateReleasedFromActiveDutyYear"]');
+    cy.realType('2020');
+    cy.tabToContinueForm();
+    cy.url().should(
+      'include',
+      formConfig.chapters.identificationChapter.pages.activeDutyStatus.path,
+    );
+    cy.injectAxeThenAxeCheck();
     cy.realPress('Tab');
     cy.allyEvaluateRadioButtons(
       [
-        'input#root_hasCompletedActiveDutyYesinput',
-        'input#root_hasCompletedActiveDutyNoinput',
+        'input#root_activeDutyDuringHitechVetsYesinput',
+        'input#root_activeDutyDuringHitechVetsNoinput',
       ],
       'ArrowDown',
     );
@@ -246,6 +244,7 @@ describe('10297 Keyboard Only Tests', () => {
     cy.tabToContinueForm();
     cy.url().should('include', 'review-and-submit');
     cy.injectAxeThenAxeCheck();
+    cy.tabToElementAndPressSpace('va-checkbox');
     cy.tabToElement('input[id="inputField"]');
     cy.realType('John Doe');
     cy.tabToElementAndPressSpace('va-checkbox');
