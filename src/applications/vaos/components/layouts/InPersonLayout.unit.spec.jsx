@@ -227,6 +227,58 @@ describe('VAOS Component: InPersonLayout', () => {
         screen.container.querySelector('va-telephone[contact="800-698-2411"]'),
       ).to.be.ok;
     });
+
+    describe('And appointment is Cerner', () => {
+      it('should not display clinic heading when service name is missing', async () => {
+        // Arrange
+        const store = createTestStore(initialState);
+
+        // Act
+        const response = MockAppointmentResponse.createVAResponse({
+          isCerner: true,
+          localStartTime: new Date(),
+          status: APPOINTMENT_STATUS.booked,
+        }).setLocation(new MockFacilityResponse());
+        const appointment = MockAppointmentResponse.getTransformedResponse(
+          response,
+        );
+
+        const screen = renderWithStoreAndRouter(
+          <InPersonLayout data={appointment} />,
+          {
+            store,
+          },
+        );
+
+        // Assert
+        expect(screen.queryByText(/Clinic: Service name/i)).not.to.exist;
+      });
+
+      it('should not display location heading when physical location is missing', async () => {
+        // Arrange
+        const store = createTestStore(initialState);
+
+        // Act
+        const response = MockAppointmentResponse.createVAResponse({
+          isCerner: true,
+          localStartTime: new Date(),
+          status: APPOINTMENT_STATUS.booked,
+        }).setLocation(new MockFacilityResponse());
+        const appointment = MockAppointmentResponse.getTransformedResponse(
+          response,
+        );
+
+        const screen = renderWithStoreAndRouter(
+          <InPersonLayout data={appointment} />,
+          {
+            store,
+          },
+        );
+
+        // Assert
+        expect(screen.queryByText(/Location:/i)).not.to.exist;
+      });
+    });
   });
 
   describe('When viewing upcoming appointment details', () => {

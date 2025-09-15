@@ -2,9 +2,7 @@ import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
 import {
   titleUI,
   textUI,
-  textSchema,
   textareaUI,
-  textareaSchema,
   currentOrPastDateRangeUI,
   currentOrPastDateRangeSchema,
   arrayBuilderItemFirstPageTitleUI,
@@ -94,7 +92,10 @@ const nameAndAddressPage = {
   schema: {
     type: 'object',
     properties: {
-      [providerFacilityFields.providerFacilityName]: textSchema,
+      [providerFacilityFields.providerFacilityName]: {
+        type: 'string',
+        maxLength: 60,
+      },
       [providerFacilityFields.providerFacilityAddress]: addressNoMilitarySchema(
         { omit: ['street3'] },
       ),
@@ -127,7 +128,10 @@ const conditionsPage = {
   schema: {
     type: 'object',
     properties: {
-      [providerFacilityFields.conditionsTreated]: textareaSchema,
+      [providerFacilityFields.conditionsTreated]: {
+        type: 'string',
+        maxLength: 60,
+      },
     },
     required: [providerFacilityFields.conditionsTreated],
   },
