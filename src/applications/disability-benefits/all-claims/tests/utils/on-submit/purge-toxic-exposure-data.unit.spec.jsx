@@ -474,6 +474,107 @@ describe('purgeToxicExposureData', () => {
           description: 'Lead exposure',
         });
       });
+
+      it('should retain date data in otherHerbicideLocations and specifyOtherExposures', () => {
+        const formData = {
+          disability526ToxicExposureOptOutDataPurge: true,
+          toxicExposure: {
+            conditions: { asthma: true },
+            otherHerbicideLocations: {
+              description: 'Thailand base camps',
+              startDate: '1967-02-01',
+              endDate: '1975-05-31',
+            },
+            specifyOtherExposures: {
+              description: 'Lead exposure from paint',
+              startDate: '1980-01-01',
+              endDate: '1985-12-31',
+            },
+          },
+        };
+
+        const result = purgeToxicExposureData(formData);
+
+        // Verify otherHerbicideLocations preserves all fields
+        expect(result.toxicExposure.otherHerbicideLocations).to.deep.equal({
+          description: 'Thailand base camps',
+          startDate: '1967-02-01',
+          endDate: '1975-05-31',
+        });
+
+        // Verify specifyOtherExposures preserves all fields
+        expect(result.toxicExposure.specifyOtherExposures).to.deep.equal({
+          description: 'Lead exposure from paint',
+          startDate: '1980-01-01',
+          endDate: '1985-12-31',
+        });
+      });
+
+      it('should handle mixed valid and invalid otherHerbicideLocations and specifyOtherExposures independently', () => {
+        const formData = {
+          disability526ToxicExposureOptOutDataPurge: true,
+          toxicExposure: {
+            conditions: { asthma: true },
+            // Valid otherHerbicideLocations with dates
+            otherHerbicideLocations: {
+              description: 'Thailand base camps',
+              startDate: '1967-02-01',
+              endDate: '1975-05-31',
+            },
+            // Invalid specifyOtherExposures (empty description)
+            specifyOtherExposures: {
+              description: '   ', // whitespace only - should be purged
+              startDate: '1980-01-01',
+              endDate: '1985-12-31',
+            },
+          },
+        };
+
+        const result = purgeToxicExposureData(formData);
+
+        // otherHerbicideLocations should be retained with all fields
+        expect(result.toxicExposure.otherHerbicideLocations).to.deep.equal({
+          description: 'Thailand base camps',
+          startDate: '1967-02-01',
+          endDate: '1975-05-31',
+        });
+
+        // specifyOtherExposures should be purged entirely due to invalid description
+        expect(result.toxicExposure).to.not.have.property(
+          'specifyOtherExposures',
+        );
+      });
+
+      it('should purge fields with invalid descriptions even if they have dates', () => {
+        const formData = {
+          disability526ToxicExposureOptOutDataPurge: true,
+          toxicExposure: {
+            conditions: { asthma: true },
+            // Invalid otherHerbicideLocations (null/undefined)
+            otherHerbicideLocations: null,
+            // Valid specifyOtherExposures with dates
+            specifyOtherExposures: {
+              description: 'Asbestos exposure',
+              startDate: '1980-01-01',
+              endDate: '1985-12-31',
+            },
+          },
+        };
+
+        const result = purgeToxicExposureData(formData);
+
+        // otherHerbicideLocations should be removed (null gets removed by cloneDeep)
+        expect(result.toxicExposure).to.not.have.property(
+          'otherHerbicideLocations',
+        );
+
+        // specifyOtherExposures should be retained with all fields
+        expect(result.toxicExposure.specifyOtherExposures).to.deep.equal({
+          description: 'Asbestos exposure',
+          startDate: '1980-01-01',
+          endDate: '1985-12-31',
+        });
+      });
     });
 
     describe('edge cases', () => {
