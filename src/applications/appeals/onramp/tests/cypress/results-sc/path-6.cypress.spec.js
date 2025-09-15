@@ -8,17 +8,19 @@ const {
   Q_1_1_CLAIM_DECISION,
   Q_1_2_CLAIM_DECISION,
   Q_1_3_CLAIM_CONTESTED,
+  Q_2_IS_1_SERVICE_CONNECTED,
   Q_2_0_CLAIM_TYPE,
-  Q_2_H_1_EXISTING_BOARD_APPEAL,
+  Q_2_IS_1A_LAW_POLICY_CHANGE,
 } = SHORT_NAME_MAP;
-const { RESULTS_SC } = RESULTS_NAME_MAP;
+const { RESULTS_2_S_1A } = RESULTS_NAME_MAP;
 
-// Results SC: Supplemental Claim recommended
+// Results SC: Supplemental Claim recommended (Non-CFI)
 // 1.1 - Yes
 // 1.2 - Yes
 // 1.3 - No
-// 2.0 - HLR
-// 2.H.1 - Yes
+// 2.IS.1 - No
+// 2.0 - Supplemental
+// 2.IS.1A - Yes
 describe('Decision Reviews Onramp', () => {
   describe('Results SC (path 6)', () => {
     it('navigates through the flow forward and backward successfully', () => {
@@ -44,57 +46,50 @@ describe('Decision Reviews Onramp', () => {
       h.selectRadio(Q_1_3_CLAIM_CONTESTED, 1);
       h.clickContinue();
 
-      // Q_2_0_CLAIM_TYPE
-      h.verifyUrl(ROUTES.Q_2_0_CLAIM_TYPE);
-      h.selectRadio(Q_2_0_CLAIM_TYPE, 2);
+      // Q_2_IS_1_SERVICE_CONNECTED
+      h.verifyUrl(ROUTES.Q_2_IS_1_SERVICE_CONNECTED);
+      h.selectRadio(Q_2_IS_1_SERVICE_CONNECTED, 1);
       h.clickContinue();
 
-      // Q_2_H_1_EXISTING_BOARD_APPEAL
-      h.verifyUrl(ROUTES.Q_2_H_1_EXISTING_BOARD_APPEAL);
-      h.selectRadio(Q_2_H_1_EXISTING_BOARD_APPEAL, 0);
+      // Q_2_0_CLAIM_TYPE
+      h.verifyUrl(ROUTES.Q_2_0_CLAIM_TYPE);
+      h.selectRadio(Q_2_0_CLAIM_TYPE, 1);
+      h.clickContinue();
+
+      // Q_2_IS_1A_LAW_POLICY_CHANGE
+      h.verifyUrl(ROUTES.Q_2_IS_1A_LAW_POLICY_CHANGE);
+      h.selectRadio(Q_2_IS_1A_LAW_POLICY_CHANGE, 0);
       h.clickContinue();
 
       // RESULTS
       h.verifyUrl(ROUTES.RESULTS);
-      h.verifyDrResultsHeader(RESULTS_SC);
+      h.verifyDrResultsHeader(RESULTS_2_S_1A);
       h.checkOverviewPanel([c.TITLE_SC]);
       h.checkGoodFitCards([
         {
           type: c.CARD_SC,
           content: [
-            c.CARD_REVIEW_HLR,
+            c.CARD_REVIEW_SC,
+            c.CARD_LAW_POLICY_CHANGE,
             c.CARD_NOT_CONTESTED,
             c.CARD_SUBMITTED_BOARD_APPEAL,
           ],
         },
       ]);
-      h.checkNotGoodFitCards([
-        {
-          type: c.CARD_HLR,
-          content: [c.CARD_HLR_NOT_AVAILABLE],
-        },
-        {
-          type: c.CARD_BOARD_DIRECT,
-          content: [c.CARD_RECEIVED_BOARD_DECISION],
-        },
-        {
-          type: c.CARD_BOARD_EVIDENCE,
-          content: [c.CARD_RECEIVED_BOARD_DECISION],
-        },
-        {
-          type: c.CARD_BOARD_HEARING,
-          content: [c.CARD_RECEIVED_BOARD_DECISION],
-        },
-      ]);
+      h.verifyNotGoodFitCardsNotPresent();
       h.verifyOutsideDROptionNotPresent();
       cy.go('back');
 
-      // Q_2_H_1_EXISTING_BOARD_APPEAL
-      h.verifyUrl(ROUTES.Q_2_H_1_EXISTING_BOARD_APPEAL);
+      // Q_2_IS_1A_LAW_POLICY_CHANGE
+      h.verifyUrl(ROUTES.Q_2_IS_1A_LAW_POLICY_CHANGE);
       h.clickBack();
 
       // Q_2_0_CLAIM_TYPE
       h.verifyUrl(ROUTES.Q_2_0_CLAIM_TYPE);
+      h.clickBack();
+
+      // Q_2_IS_1_SERVICE_CONNECTED
+      h.verifyUrl(ROUTES.Q_2_IS_1_SERVICE_CONNECTED);
       h.clickBack();
 
       // Q_1_3_CLAIM_CONTESTED
