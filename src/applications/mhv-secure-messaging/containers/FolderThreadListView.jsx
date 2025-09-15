@@ -19,7 +19,7 @@ import {
 } from '../util/constants';
 import useInterval from '../hooks/use-interval';
 import FolderHeader from '../components/MessageList/FolderHeader';
-import { clearFolder, retrieveFolder } from '../actions/folders';
+import { retrieveFolder } from '../actions/folders';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import { closeAlert } from '../actions/alerts';
 import ThreadsList from '../components/ThreadList/ThreadsList';
@@ -37,7 +37,9 @@ const FolderThreadListView = () => {
   const dispatch = useDispatch();
   const error = null;
   const threadsPerPage = THREADS_PER_PAGE_DEFAULT;
-  const { threadList, isLoading } = useSelector(state => state.sm.threads);
+  const { threadList, isLoading, refetchRequired } = useSelector(
+    state => state.sm.threads,
+  );
   const threadSort = useSelector(state => state.sm.threads.threadSort);
   const alertList = useSelector(state => state.sm.alerts?.alertList);
   const folder = useSelector(state => state.sm.folders?.folder);
@@ -157,16 +159,29 @@ const FolderThreadListView = () => {
     [dispatch, currentFolderId, location.pathname],
   );
 
-  // Clear folder only on component unmount
   useEffect(
     () => {
-      return () => {
-        // clear out folder reducer to prevent from previous folder data flashing
-        // when navigating between folders
-        dispatch(clearFolder());
-      };
+      if (
+        refetchRequired &&
+        threadSort.folderId &&
+        threadSort.value &&
+        threadSort.page
+      )
+        retrieveListOfThreads({
+          sortFolderId: threadSort.folderId,
+          perPage: threadsPerPage,
+          page: threadSort.page,
+          value: threadSort.value,
+        });
     },
-    [dispatch],
+    [
+      refetchRequired,
+      retrieveListOfThreads,
+      threadSort.folderId,
+      threadSort.page,
+      threadSort.value,
+      threadsPerPage,
+    ],
   );
 
   // Effect to retrieve threads when folder changes

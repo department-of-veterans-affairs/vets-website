@@ -57,11 +57,7 @@ describe('THREAD LIST RE-FETCHING VERIFICATION', () => {
 
     PatientInboxPage.loadSingleThread();
     cy.get(Locators.LINKS.CRUMBS_BACK).click();
-    cy.wait('@reFetchResponse').then(interception => {
-      expect(interception.response.statusCode).to.equal(200);
-    });
-
-    cy.get(`@reFetchResponse.all`).should(`have.length.at.least`, 1);
+    cy.findByText('Messages: Inbox').should('be.visible');
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });

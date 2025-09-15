@@ -93,7 +93,7 @@ export const Locators = {
   ACCORDIONS: '[data-testid="faq-accordion-item"]',
   ACCORDION_ITEM_OPEN: 'va-accordion-item[open]:not([open="false"])',
   MESSAGE_THREAD_META: '.message-thread-meta',
-  SPINNER: `[data-testid="loading-indicator"]`,
+  SPINNER: 'va-loading-indicator',
   BACK_TO: '.sm-breadcrumb-list-item > a',
   FAQ_ACC_ITEM: '[data-testid="faq-accordion-item"]',
   INBOX_FOOTER: `[data-testid="inbox-footer"]`,
