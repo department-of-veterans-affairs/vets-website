@@ -23,8 +23,3 @@ export const selectDontIncrementIpeCountFlag = state =>
 
 export const selectBypassDowntime = state =>
   state.featureToggles[FEATURE_FLAG_NAMES.mhvBypassDowntimeNotification];
-
-export const selectIsDisplayingDocumentation = state =>
-  state.featureToggles[
-    FEATURE_FLAG_NAMES.mhvMedicationsDisplayDocumentationContent
-  ];

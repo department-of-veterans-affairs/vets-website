@@ -30,7 +30,7 @@ export default function PreferredDatesSection(props) {
   const flowType = useSelector(getFlowType);
 
   const isCommunityCare =
-    props.data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
+    props.data.facilityType === FACILITY_TYPES.COMMUNITY_CARE.id;
   const url = isCommunityCare ? ccRequestDateTime.url : requestDateTime.url;
 
   return (
