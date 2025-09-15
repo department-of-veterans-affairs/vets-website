@@ -227,10 +227,20 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
         null,
         key,
         uiSchema,
-        `**ERROR** displaying ${key}`,
+        `**ERROR - array ** displaying ${key}`,
         `Unable to display details for item ${index + 1} in ${key}`,
       );
     }
+  }
+
+  if (
+    refinedData === '' ||
+    refinedData === false ||
+    refinedData === null ||
+    refinedData === undefined
+  ) {
+    refinedData = `**ERROR - refinedData ** refinedData: ${refinedData}`;
+    // return null;
   }
 
   return reviewEntry(description, key, uiSchema, label, refinedData);
