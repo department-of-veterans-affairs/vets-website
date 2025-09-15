@@ -25,7 +25,7 @@ const { RESULTS_2_S_1B } = RESULTS_NAME_MAP;
 // 2.IS.4 - Yes
 // 2.0 - Board
 // 2.S.1 - Yes
-xdescribe('Decision Reviews Onramp', () => {
+describe('Decision Reviews Onramp', () => {
   describe('Results SC (CFI, path 3)', () => {
     it('navigates through the flow forward and backward successfully', () => {
       cy.visit(h.ROOT);
