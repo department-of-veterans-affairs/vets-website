@@ -90,7 +90,7 @@ export const reviewEntry = (description, key, uiSchema, label, data) => {
 
   return (
     <li key={keyString} className={className}>
-      <div className="vads-u-color--gray">{label}</div>
+      <div className="vads-u-color--gray">{label || '** MISSING LABEL **'}</div>
       <div>{data}</div>
     </li>
   );

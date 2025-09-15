@@ -341,7 +341,7 @@
     "view:traumaticEventsInfo": {},
     "events": [
       {
-        "details": "Description of a traumatic event occured during miliraty service.",
+        "details": "Description of a traumatic event occured during military service.",
         "view:eventExamplesAdditionalInfo": {},
         "location": "Military Base",
         "otherReports": "Other official report type not listed here",
@@ -398,7 +398,7 @@
       "none": false
     },
     "optionIndicator": "yes",
-    "additionalInformation": "Is there anything else you want to tell us about your mental health conditions, or related traumatic events and behavioral changes?",
+    "additionalInformation": "Additional information - text field - extra long description to test how this displays with lengthy text. Additional information - text field - extra long description to test how this displays with lengthy text.  Additional information - text field - extra long description to test how this displays with lengthy text. Additional information - text field - extra long description to test how this displays with lengthy text. Additional information - text field - extra long description to test how this displays with lengthy text.Additional information - text field - extra long description to test how this displays with lengthy text. Additional information - text field - extra long description to test how this displays with lengthy text.",
     "view:ancillaryFormsWizardIntro": {},
     "view:unemployabilityHelp": {},
     "unemployability": {
