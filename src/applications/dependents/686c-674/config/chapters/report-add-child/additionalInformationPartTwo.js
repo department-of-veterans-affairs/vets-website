@@ -6,7 +6,7 @@ import {
 
 export const additionalInformationPartTwo = {
   uiSchema: {
-    ...titleUI('Additional information about this child'),
+    ...titleUI('Child’s income'),
     incomeInLastYear: radioUI({
       title: 'Did this child have an income in the last 365 days?',
       hint:
