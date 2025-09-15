@@ -142,6 +142,7 @@ const ConfirmationPage = ({
                 </p>
                 <p className="vads-u-margin-y--0">{orderId}</p>
                 <va-button
+                  className="button"
                   text="Print this page"
                   onClick={() => window.print()}
                 />
