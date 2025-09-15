@@ -1,5 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+  useHistory,
+} from 'react-router-dom';
 import IntroductionPage from './IntroductionPage';
 import ReviewPage from './ReviewPage';
 import ConfirmationPage from './ConfirmationPage';
@@ -15,39 +22,62 @@ const HeaderPlaceholder = () => (
 
 const FooterPlaceholder = () => <div id="footerNav" />;
 
-class StaticDemo2App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { step: 'intro' };
-  }
+const allowedSteps = ['introduction', 'review', 'confirmation'];
 
-  goTo = step => () => this.setState({ step });
-
-  renderIntro = () => <IntroductionPage onNext={this.goTo('review')} />;
-
-  renderReview = () => <ReviewPage onNext={this.goTo('confirmation')} />;
-
-  renderConfirmation = () => <ConfirmationPage />;
-
-  render() {
-    const { step } = this.state;
-
-    return (
-      <div>
-        <HeaderPlaceholder />
-        <div className="vads-u-padding-top--2">
-          {step === 'intro' && this.renderIntro()}
-          {step === 'review' && this.renderReview()}
-          {step === 'confirmation' && this.renderConfirmation()}
-        </div>
-        <FooterPlaceholder />
-      </div>
-    );
-  }
+function getBasePath() {
+  const { pathname } = window.location;
+  return pathname.replace(/\/(introduction|review|confirmation)\/?$/, '');
 }
 
-StaticDemo2App.propTypes = {
-  route: PropTypes.shape({}),
+function DemoRoutes({ basePath }) {
+  const history = useHistory();
+
+  const goTo = step => () => {
+    const newStep = allowedSteps.includes(step) ? step : 'introduction';
+    const path = `${basePath}/${newStep}`;
+    history.push(path);
+  };
+
+  return (
+    <Switch>
+      <Route exact path={basePath}>
+        <Redirect to={`${basePath}/introduction`} />
+      </Route>
+
+      <Route
+        path={`${basePath}/introduction`}
+        render={() => <IntroductionPage onNext={goTo('review')} />}
+      />
+
+      <Route
+        path={`${basePath}/review`}
+        render={() => <ReviewPage onNext={goTo('confirmation')} />}
+      />
+
+      <Route path={`${basePath}/confirmation`} component={ConfirmationPage} />
+
+      {/* Fallback to introduction if nothing matches */}
+      <Redirect to={`${basePath}/introduction`} />
+    </Switch>
+  );
+}
+
+DemoRoutes.propTypes = {
+  basePath: PropTypes.string.isRequired,
 };
 
-export default StaticDemo2App;
+export default function StaticDemoApp() {
+  const basePath = getBasePath();
+
+  return (
+    <div>
+      <HeaderPlaceholder />
+      <div className="vads-u-padding-top--2">
+        <Router>
+          <DemoRoutes basePath={basePath} />
+        </Router>
+      </div>
+      <FooterPlaceholder />
+    </div>
+  );
+}

@@ -88,13 +88,21 @@ const formConfig = {
   },
   ...minimalHeaderFormConfigOptions({
     breadcrumbList: [
-      { href: '/', label: 'VA.gov home' },
+      { href: '/copy-of-submissions-demo/introduction', label: 'Home' },
       {
-        href: '/copy-of-submissions-demo',
+        href: '/copy-of-submissions-demo/introduction',
+        label: 'Disability Benefits',
+      },
+      {
+        href: '/copy-of-submissions-demo/introduction',
         label: 'File for disability compensation',
       },
     ],
   }),
+  // Hide the minimal header form title on the confirmation page so the
+  // global app title/subtitle (from constants) doesn't appear above the
+  // confirmation content when refreshing that route.
+  hideFormTitleConfirmation: true,
   formId: VA_FORM_IDS.FORM_21_526EZ_SUMMARY_DEMO,
   saveInProgress: {
     // messages: {

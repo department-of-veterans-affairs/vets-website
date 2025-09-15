@@ -2,7 +2,7 @@ import React from 'react';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 
 const ConfirmationPage = () => (
-  <article className="schemaform-intro">
+  <div>
     <FormTitle
       title="File for disability compensation"
       subTitle="VA Form 21-526EZ"
@@ -585,10 +585,12 @@ const ConfirmationPage = () => (
             This can take up to 30 days. When we receive your form, we’ll update
             the status on My VA.
           </p>
+
           <p>
-            <a href="http://localhost:3001/mock-copy-of-submission/introduction">
-              Check the status of your form on My VA
-            </a>
+            <va-link
+              href="http://localhost:3001/mock-copy-of-submission/introduction"
+              text="Check the status of your form on My VA"
+            />
           </p>
         </va-process-list-item>
         <va-process-list-item pending header="Next, we'll review your form">
@@ -602,18 +604,23 @@ const ConfirmationPage = () => (
     <div className="vads-u-margin-top--4">
       <h3>How to contact us if you have questions</h3>
       <p>
-        Call us at <va-telephone contact="8008271000" />(
-        <va-telephone contact="711" tty />) . We’re here Monday through Friday,
-        8:00 a.m. to 8:00 p.m.
+        Call us at <va-telephone contact="8008271000" /> (
+        <span>
+          TTY: <va-telephone contact="711" tty />
+        </span>
+        ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m.
       </p>
       <p>
         Or you can ask us a question online through Ask VA. Select the category
         and topic for the VA benefit this form is related to.
       </p>
       <p>
-        <a href="https://ask.va.gov/" target="_blank" rel="noopener noreferrer">
-          Contact us online through Ask VA
-        </a>
+        <va-link
+          href="https://ask.va.gov/"
+          text="Contact us online through Ask VA"
+          target="_blank"
+          rel="noopener noreferrer"
+        />
       </p>
       <h3>How long will it take VA to make a decision on my claim?</h3>
       <p>
@@ -631,11 +638,16 @@ const ConfirmationPage = () => (
           information.
         </li>
       </ul>
-      <h3>If I have dependents, how can I receive additional benefits?</h3>
+
+      <h3 id="dependents-heading">
+        If I have dependents, how can I receive additional benefits?
+      </h3>
+
       <p>
         <strong>If you have a spouse or child,</strong> you may be entitled to
         additional payments.
       </p>
+
       <p>
         <va-link-action
           href="#"
@@ -643,44 +655,74 @@ const ConfirmationPage = () => (
           type="secondary"
         />
       </p>
+
       <p>
         Or you can fill out and submit an Application Request to Add and/or
         Remove Dependents (VA Form 21-686c)
       </p>
+
       <p>
-        <a
-          href="https://www.vba.va.gov/pubs/forms/VBA-21-686c-ARE.pdf"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Download VA Form 21-686c (PDF, 15 pages)
-        </a>
+        <va-link
+          href="#"
+          text="Download VA Form 21-686c (PDF, 15 pages)"
+          className="vads-c-download-link"
+        />
       </p>
+
       <p>
         <strong>Note:</strong> If you’re claiming your child who became
         permanently disabled before they turned 18, you’ll need to submit all
         military and private medical records relating to the child’s
         disabilities with your application.
       </p>
+
       <p>
         <strong>
           If you’re claiming a child who’s between 18 and 23 years old and
           attending school full time,
-        </strong>{' '}
-        you’ll need to fill out and submit a Request for Approval of School
-        Attendance (VA Form 21-674) so we can verify their attendance.
+        </strong>
+        &nbsp;you’ll need to fill out and submit a Request for Approval of
+        School Attendance (VA Form 21-674) so we can verify their attendance.
       </p>
+
       <p>
-        <a
-          href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Download VA Form 21-674 (PDF, 3 pages)
-        </a>
+        <va-link
+          href="#"
+          text="Download VA Form 21-674 (PDF, 3 pages)"
+          className="vads-c-download-link"
+        />
+      </p>
+
+      <p>
+        <strong>If you have dependent parents,</strong> you may be entitled to
+        additional payments. Fill out and submit a Statement of Dependency of
+        Parent(s) (VA Form 21P-509).
+      </p>
+
+      <p>
+        <va-link
+          href="#"
+          text="Download VA Form 21P-509 (PDF, 4 pages)"
+          className="vads-c-download-link"
+        />
       </p>
     </div>
-  </article>
+    <div className="vads-u-margin-top--4">
+      <va-need-help>
+        <div slot="content">
+          <p>
+            If you have questions or need help filling out this form, please
+            call us at <va-telephone contact="8008271000" />. We’re here Monday
+            through Friday, 8:00 a.m to 9:00 p.m ET.
+          </p>
+          <p>
+            If you have hearing loss, call <va-telephone contact="711" tty />.
+          </p>
+        </div>
+      </va-need-help>
+      <br />
+    </div>
+  </div>
 );
 
 export default ConfirmationPage;
