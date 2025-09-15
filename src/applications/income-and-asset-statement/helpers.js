@@ -108,6 +108,7 @@ export const updatedRecipientNameRequired = (form, index, arrayKey) => {
     form,
   );
   return (
+    recipientRelationship === 'CHILD' ||
     recipientRelationship === 'PARENT' ||
     recipientRelationship === 'CUSTODIAN' ||
     recipientRelationship === 'OTHER'
