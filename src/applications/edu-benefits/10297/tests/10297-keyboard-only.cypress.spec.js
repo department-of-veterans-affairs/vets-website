@@ -164,7 +164,7 @@ describe('10297 Keyboard Only Tests', () => {
     cy.tabToContinueForm();
     cy.url().should('include', 'training-provider/0/details');
     cy.injectAxeThenAxeCheck();
-    cy.repeatKey('Tab', 1);
+    cy.tabToElement('input[name="root_providerName"]');
     cy.typeInFocused(maximalData.data.trainingProviders[0].providerName);
     // cy.injectAxeThenAxeCheck();
     cy.realPress('Tab');
@@ -201,6 +201,68 @@ describe('10297 Keyboard Only Tests', () => {
     cy.injectAxeThenAxeCheck();
     cy.repeatKey('Tab', 3);
     cy.selectVaRadioOption('root_view:summary', 'N');
+    cy.tabToContinueForm();
+    cy.url().should(
+      'include',
+      formConfig.chapters.trainingProviderChapter.pages
+        .trainingProviderStartDate.path,
+    );
+    cy.injectAxeThenAxeCheck();
+    cy.realPress('Tab');
+    cy.fillVaMemorableDate('root_plannedStartDate', futureDateString);
+    cy.tabToContinueForm();
+    cy.url().should(
+      'include',
+      formConfig.chapters.backgroundInformationChapter.pages.employmentStatus
+        .path,
+    );
+    cy.injectAxeThenAxeCheck();
+    cy.selectVaRadioOption('root_isEmployed', 'Y');
+    cy.tabToContinueForm();
+    cy.url().should(
+      'include',
+      formConfig.chapters.backgroundInformationChapter.pages.employmentDetails
+        .path,
+    );
+    cy.injectAxeThenAxeCheck();
+    cy.realPress('Tab');
+    cy.selectVaRadioOption('root_isInTechnologyIndustry', 'Y');
+    cy.tabToContinueForm();
+    cy.url().should(
+      'include',
+      formConfig.chapters.backgroundInformationChapter.pages.employmentFocus
+        .path,
+    );
+    cy.injectAxeThenAxeCheck();
+    cy.realPress('Tab');
+    cy.allyEvaluateRadioButtons(
+      ['input#root_technologyAreaOfFocuscomputerProgramminginput'],
+      'ArrowDown',
+    );
+    cy.tabToContinueForm();
+    cy.url().should(
+      'include',
+      formConfig.chapters.backgroundInformationChapter.pages.salaryDetails.path,
+    );
+    cy.injectAxeThenAxeCheck();
+    cy.realPress('Tab');
+    cy.typeInFocused(maximalData.data.currentSalary);
+    cy.allyEvaluateRadioButtons(
+      ['input#root_currentSalarylessThanTwentyinput'],
+      'ArrowDown',
+    );
+    cy.tabToContinueForm();
+    cy.url().should(
+      'include',
+      formConfig.chapters.backgroundInformationChapter.pages.educationDetails
+        .path,
+    );
+    cy.injectAxeThenAxeCheck();
+    cy.realPress('Tab');
+    cy.allyEvaluateRadioButtons(
+      ['input#root_highestLevelOfEducationHSinput'],
+      'ArrowDown',
+    );
     cy.tabToContinueForm();
 
     // cy.fillVaMemorableDate(
