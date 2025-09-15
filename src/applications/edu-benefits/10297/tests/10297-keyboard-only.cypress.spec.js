@@ -158,39 +158,50 @@ describe('10297 Keyboard Only Tests', () => {
         .path,
     );
 
-      cy.injectAxeThenAxeCheck();
-      cy.realPress('Tab');
-      cy.selectVaRadioOption('root_view:summary', 'Y');
-      cy.tabToContinueForm();
-      cy.url().should('include', 'training-provider/0/details');
-      cy.injectAxeThenAxeCheck();
-      cy.realPress('Tab');
-      // cy.typeInFocused(maximalData.data.trainingProviderDetails[0].name);
-      // cy.injectAxeThenAxeCheck();
-      // cy.realPress('Tab');
-    //   cy.selectVaSelect(
-    //     'root_providerAddress_country',
-    //     maximalData.data.trainingProviderDetails[0].address.country,
-    //   );
-    //   cy.injectAxeThenAxeCheck();
-    //   cy.realPress('Tab');
-    // //   cy.typeInFocused(
-    //     maximalData.data.trainingProviderDetails[0].address.street,
-    //   );
-    //   cy.injectAxeThenAxeCheck();
-    //   cy.repeatKey('Tab', 3);
-    //   cy.typeInFocused(maximalData.data.trainingProviderDetails[0].address.city);
-    //   cy.injectAxeThenAxeCheck();
-    //   cy.repeatKey('Tab', 1);
-    //   cy.selectVaSelect(
-    //     'root_providerAddress_state',
-    //     maximalData.data.trainingProviderDetails[0].address.state,
-    //   );
-    //   cy.realPress('Tab');
-    //   cy.typeInFocused(
-    //     maximalData.data.trainingProviderDetails[0].address.postalCode,
-    //   );
-    //   cy.tabToContinueForm();
+    cy.injectAxeThenAxeCheck();
+    cy.realPress('Tab');
+    cy.selectVaRadioOption('root_view:summary', 'Y');
+    cy.tabToContinueForm();
+    cy.url().should('include', 'training-provider/0/details');
+    cy.injectAxeThenAxeCheck();
+    cy.repeatKey('Tab', 1);
+    cy.typeInFocused(maximalData.data.trainingProviders[0].providerName);
+    // cy.injectAxeThenAxeCheck();
+    cy.realPress('Tab');
+    cy.selectVaSelect(
+      'root_providerAddress_country',
+      maximalData.data.trainingProviders[0].providerAddress.country,
+    );
+    cy.injectAxeThenAxeCheck();
+    cy.realPress('Tab');
+    cy.typeInFocused(
+      maximalData.data.trainingProviders[0].providerAddress.street,
+    );
+    cy.injectAxeThenAxeCheck();
+    cy.repeatKey('Tab', 3);
+    cy.typeInFocused(
+      maximalData.data.trainingProviders[0].providerAddress.city,
+    );
+    cy.injectAxeThenAxeCheck();
+    cy.repeatKey('Tab', 1);
+    cy.selectVaSelect(
+      'root_providerAddress_state',
+      maximalData.data.trainingProviders[0].providerAddress.state,
+    );
+    cy.realPress('Tab');
+    cy.typeInFocused(
+      maximalData.data.trainingProviders[0].providerAddress.postalCode,
+    );
+    cy.tabToContinueForm();
+    cy.url().should(
+      'include',
+      formConfig.chapters.trainingProviderChapter.pages.trainingProviderSummary
+        .path,
+    );
+    cy.injectAxeThenAxeCheck();
+    cy.repeatKey('Tab', 3);
+    cy.selectVaRadioOption('root_view:summary', 'N');
+    cy.tabToContinueForm();
 
     // cy.fillVaMemorableDate(
     //   'root_dateReleasedFromActiveDutyMonth',
