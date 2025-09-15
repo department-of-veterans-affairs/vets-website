@@ -150,7 +150,7 @@ describe('TreatedDisabilitiesCheckboxGroup', () => {
       const tinnitusCheckbox = container.querySelector(
         'va-checkbox[label="Tinnitus"]',
       );
-      const ptsdCheckbox = container.querySelector('va-checkbox[label="Ptsd"]'); // 'Ptsd' not 'PTSD'
+      const ptsdCheckbox = container.querySelector('va-checkbox[label="PTSD"]');
 
       // Check Tinnitus
       tinnitusCheckbox.dispatchEvent(
