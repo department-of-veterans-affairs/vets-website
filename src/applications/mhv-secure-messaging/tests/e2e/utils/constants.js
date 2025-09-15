@@ -107,7 +107,8 @@ export const Locators = {
     'recent-care-teams-continue-button',
   FOLDERS: {
     FOLDER_NAME: '[label="Folder name"]',
-    FOLDER_REMOVE: '[text="Yes, remove this folder"]',
+    FOLDER_REMOVE: 'va-button[text="Yes, remove this folder"]',
+    FOLDER_REMOVE_DATA_TEST_ID: 'confirm-remove-folder',
     FOLDER_HEADER: '[data-testid="folder-header"]',
     INBOX: '[data-testid="inbox-sidebar"] > a',
     DRAFTS: '[data-testid="drafts-sidebar"]',
