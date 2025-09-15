@@ -215,7 +215,7 @@
         "condition": "asthma",
         "view:descriptionInfo": {}
       },
-        {
+      {
         "cause": "NEW",
         "primaryDescription": "It makes no sense for this particular condition, but hey, this is only test data.",
         "condition": "PTSD (post-traumatic stress disorder)",
@@ -341,11 +341,11 @@
     "view:traumaticEventsInfo": {},
     "events": [
       {
-        "details": "Briefly describe what happened during your traumatic event in the military.",
+        "details": "Description of a traumatic event occured during miliraty service.",
         "view:eventExamplesAdditionalInfo": {},
-        "location": "Where did the event happen?",
+        "location": "Military Base",
         "otherReports": "Other official report type not listed here",
-        "timing": "When did the event happen?",
+        "timing": "Summer 2015",
         "view:mentalHealthSupportAlert": {},
         "reports": {
           "restricted": true,
