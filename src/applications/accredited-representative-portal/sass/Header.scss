@@ -95,8 +95,9 @@
   flex-wrap: wrap;
   border-bottom: 2px solid $vads-color-primary-darker;
 
-  &:has(.nav__container-secondary) {
-    border-bottom: none;
+  &__dropdown-group {
+    display: flex;
+    align-items: center;
   }
 
   &__container-primary {

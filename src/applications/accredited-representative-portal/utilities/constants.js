@@ -57,3 +57,32 @@ export const SEARCH_PARAMS = {
   SIZE: 'pageSize',
   NUMBER: 'pageNumber',
 };
+
+export const NAV_MOBILE_DROPDOWN = [
+  {
+    LABEL: 'Dashboard',
+    LINK: '/dashboard',
+  },
+];
+
+export const NAV_MENU_DROPDOWN = [
+  {
+    LABEL: 'Find Claimant',
+    URL: '/claimant-search',
+    ICON: 'search',
+    FEATURE_FLAG_NAME: 'accredited_representative_portal_search',
+  },
+  {
+    LABEL: 'Representation Requests',
+    URL: '/poa-requests',
+  },
+  {
+    LABEL: 'Submissions',
+    URL: '/submissions',
+    FEATURE_FLAG_NAME: 'accredited_representative_portal_submissions',
+  },
+  {
+    LABEL: 'Help',
+    URL: '/get-help',
+  },
+];
