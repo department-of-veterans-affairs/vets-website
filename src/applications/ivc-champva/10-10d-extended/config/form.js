@@ -118,7 +118,7 @@ const formConfig = {
       pages: {
         page1: {
           // initialData: mockData.data,
-          path: 'who-is-applying',
+          path: 'your-information/who-is-applying',
           title: 'Which of these best describes you?',
           ...certifierRoleSchema,
         },
