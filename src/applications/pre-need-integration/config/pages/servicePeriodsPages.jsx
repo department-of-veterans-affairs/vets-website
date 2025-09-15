@@ -235,21 +235,41 @@ export function servicePeriodInformationPage(isVet, isPrep) {
         ),
         'ui:options': {
           getOptions: inputValue => {
-            if (!inputValue || inputValue.length < 2) return [];
+            if (!inputValue) return [];
+
             const searchTerm = inputValue.toLowerCase();
-            return (
-              Object.entries(serviceLabels)
-                // key is not read, but it is needed to get the labels populated
-                .filter(([key, label]) =>
-                  label.toLowerCase().includes(searchTerm),
-                )
-                .map(([key, label]) => ({
-                  id: key,
-                  label,
-                  value: key,
-                }))
-                .slice(0, 10)
-            ); // Limit to 10 results
+
+            // If inputValue looks like a key (short, uppercase-ish), try exact key match first
+            if (inputValue.length <= 3 && /^[A-Z0-9]+$/i.test(inputValue)) {
+              const exactMatch = Object.entries(serviceLabels).find(
+                ([key]) => key.toLowerCase() === searchTerm,
+              );
+              if (exactMatch) {
+                return [
+                  {
+                    id: exactMatch[0],
+                    label: exactMatch[1],
+                    value: exactMatch[0],
+                  },
+                ];
+              }
+            }
+
+            // If no exact key match or input is longer, do label search
+            if (inputValue.length < 2) return [];
+
+            return Object.entries(serviceLabels)
+              .filter(
+                ([key, label]) =>
+                  label.toLowerCase().includes(searchTerm) ||
+                  key.toLowerCase().includes(searchTerm),
+              )
+              .map(([key, label]) => ({
+                id: key,
+                label,
+                value: key,
+              }))
+              .slice(0, 10); // Limit to 10 results
           },
         },
       },
