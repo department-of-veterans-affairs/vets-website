@@ -1,6 +1,6 @@
 import React from 'react';
 import { lowercase } from 'lodash';
-
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import {
   arrayBuilderItemFirstPageTitleUI,
@@ -13,6 +13,12 @@ import {
   fullNameNoSuffixSchema,
   radioUI,
   radioSchema,
+  yesNoUI,
+  yesNoSchema,
+  // fileInputUI,
+  // fileInputSchema,
+  fileInputMultipleUI,
+  fileInputMultipleSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import {
@@ -210,6 +216,99 @@ const ownedAssetTypePage = {
   },
 };
 
+// Step: 4 (conditional)
+
+/** @returns {PageSchema} */
+const ownedAssetAdditionalFormNeeded = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI('Additional form needed'),
+    'view:addFormDescription': {
+      'ui:description': (
+        <>
+          <p>
+            Since you added a farm, you’ll need to submit a Pension Claim
+            Questionnaire for Farm Income (VA Form 21P-4165).
+          </p>
+          <va-link
+            external
+            text="Get VA Form 21P-4165 to download"
+            href="/find-forms/about-form-21p-4165/"
+          />
+        </>
+      ),
+    },
+    'view:addFormQuestion': yesNoUI({
+      title: 'Do you want to upload the completed form now?',
+    }),
+  },
+  schema: {
+    type: 'object',
+    // required: ['view:addFormQuestion'], // We may end up wanting this
+    properties: {
+      'view:addFormDescription': {
+        type: 'object',
+        properties: {},
+      },
+      'view:addFormQuestion': yesNoSchema,
+    },
+  },
+};
+
+// Step 5 (conditional)
+
+/** @returns {PageSchema} */
+const ownedAssetDocumentUpload = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI('Property and business type'),
+    'view:uploadedDocumentsDescription': {
+      'ui:description': (
+        <>
+          <p>
+            Be sure that the Pension Claim Questionnaire for Farm Income (VA
+            Form 21P-4165) you submit follow these guidelines:
+          </p>
+          <ul>
+            <li>The document is a .pdf, .jpeg, or .png file</li>
+            <li>The document isn’t larger than 20MB</li>
+          </ul>
+        </>
+      ),
+    },
+    uploadedDocuments: {
+      ...fileInputMultipleUI({
+        title: 'Upload supporting form',
+        // fileUploadUrl: '/v0/some_endpoint', // TODO: Confirm URL
+        accept: '.pdf,.jpeg,.png',
+        required: true,
+        errorMessages: { required: 'Upload a supporting document' },
+        maxFileSize: 1048576,
+        minFileSize: 1024,
+        disallowEncryptedPdfs: true,
+        formNumber: '20-10206',
+        skipUpload: environment.isLocalhost(),
+      }),
+      'ui:validations': [
+        (errors, fieldData) => {
+          if (!fieldData?.name) {
+            errors.addError('Upload a supporting document');
+          }
+        },
+      ],
+    },
+  },
+  schema: {
+    type: 'object',
+    required: ['uploadedDocuments'],
+    properties: {
+      'view:uploadedDocumentsDescription': {
+        type: 'object',
+        properties: {},
+      },
+      uploadedDocuments: fileInputMultipleSchema(),
+    },
+  },
+};
+
 export const ownedAssetPages = arrayBuilderPages(options, pageBuilder => ({
   ownedAssetPagesSummary: pageBuilder.summaryPage({
     title: 'Income and net worth associated with owned assets',
@@ -236,5 +335,29 @@ export const ownedAssetPages = arrayBuilderPages(options, pageBuilder => ({
     path: 'property-and-business/:index/income-type',
     uiSchema: ownedAssetTypePage.uiSchema,
     schema: ownedAssetTypePage.schema,
+  }),
+  // Page 4
+  ownedAssetAdditionalFormNeededPage: pageBuilder.itemPage({
+    title: 'Additional form needed',
+    path: 'property-and-business/:index/additional-form-needed',
+    depends: (formData, index) =>
+      showUpdatedContent() &&
+      (formData?.ownedAssets[index]?.assetType === 'FARM' ||
+        formData?.ownedAssets[index]?.assetType === 'BUSINESS'),
+
+    uiSchema: ownedAssetAdditionalFormNeeded.uiSchema,
+    schema: ownedAssetAdditionalFormNeeded.schema,
+  }),
+  // Step 5
+  ownedAssetDocumentUploadPage: pageBuilder.itemPage({
+    title: 'Additional form needed',
+    path: 'property-and-business/:index/document-upload',
+    depends: (formData, index) =>
+      showUpdatedContent() &&
+      (formData?.ownedAssets[index]?.assetType === 'FARM' ||
+        formData?.ownedAssets[index]?.assetType === 'BUSINESS') &&
+      formData?.ownedAssets[index]?.['view:addFormQuestion'],
+    uiSchema: ownedAssetDocumentUpload.uiSchema,
+    schema: ownedAssetDocumentUpload.schema,
   }),
 }));
