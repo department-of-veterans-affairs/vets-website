@@ -382,7 +382,9 @@ describe('Folder Thread List View container', () => {
         { timeout: 5000 },
       );
 
-      const getListOfThreadsSpy = sinon.spy(threadsActions, 'getListOfThreads');
+      const getListOfThreadsSpy = sinon
+        .stub(threadsActions, 'getListOfThreads')
+        .callThrough();
       const sortComponent = screen.queryByTestId('thread-list-sort');
       const sortButton = screen.getByTestId('sort-button');
       selectVaSelect(sortComponent, 'SENT_DATE_ASCENDING');
@@ -451,7 +453,9 @@ describe('Folder Thread List View container', () => {
         expect(screen.findByText('Showing 1 to')).to.exist;
       });
 
-      const getListOfThreadsSpy = sinon.spy(threadsActions, 'getListOfThreads');
+      const getListOfThreadsSpy = sinon
+        .stub(threadsActions, 'getListOfThreads')
+        .callThrough();
       const pagination = screen.container.querySelector('va-pagination');
       const pageSelectEvent = new CustomEvent('pageSelect', {
         detail: { page: 2 },
