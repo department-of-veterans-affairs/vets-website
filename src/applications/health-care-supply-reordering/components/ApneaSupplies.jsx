@@ -179,7 +179,7 @@ class ApneaSupplies extends Component {
               placed an order for resupply items within the last 2 years. If you
               need a CPAP supply that hasn’t been ordered within the last 2
               years, call the DLC Customer Service Section at{' '}
-              <DlcTelephoneLink /> or email
+              <DlcTelephoneLink /> or email{' '}
               <a
                 href="mailto:dalc.css@va.gov"
                 className="vads-u-margin-left--0p5"

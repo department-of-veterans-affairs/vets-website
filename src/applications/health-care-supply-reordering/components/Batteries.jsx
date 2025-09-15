@@ -178,7 +178,7 @@ class Batteries extends Component {
               Your hearing aid device may not be listed here if you haven’t
               placed an order for resupply items within the last 2 years. If you
               need to order batteries, call the DLC Customer Service Section at
-              <DlcTelephoneLink /> or email
+              <DlcTelephoneLink /> or email{' '}
               <a
                 href="mailto:dalc.css@va.gov"
                 className="vads-u-margin-left--0p5"

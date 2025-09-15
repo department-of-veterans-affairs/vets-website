@@ -189,7 +189,7 @@ const ConfirmationPage = ({
                 </a>
                 , please select at least one item before submitting your order.
                 For help ordering {supplyDescription}, please call the DLC
-                Customer Service Section at <DlcTelephoneLink /> or email
+                Customer Service Section at <DlcTelephoneLink /> or email{' '}
                 <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
               </p>
             </div>
@@ -224,7 +224,7 @@ const ConfirmationPage = ({
               </p>
               <p className="vads-u-margin-top--0">
                 For help ordering {supplyDescription}, please call the DLC
-                Customer Service Section at <DlcTelephoneLink /> or email
+                Customer Service Section at <DlcTelephoneLink /> or email{' '}
                 <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
               </p>
             </div>
