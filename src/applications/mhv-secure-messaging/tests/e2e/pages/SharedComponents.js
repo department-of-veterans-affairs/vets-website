@@ -1,6 +1,6 @@
 import { Locators } from '../utils/constants';
 
-class ContactListPage {
+class SharedComponents {
   backBreadcrumb = () => {
     return cy.findByTestId(Locators.BACK_BREADCRUMB_DATA_TEST_ID);
   };
@@ -13,4 +13,4 @@ class ContactListPage {
   };
 }
 
-export default new ContactListPage();
+export default new SharedComponents();
