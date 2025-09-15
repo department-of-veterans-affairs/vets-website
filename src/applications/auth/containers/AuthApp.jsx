@@ -54,6 +54,9 @@ export default function AuthApp({ location }) {
   const isInterstitialEnabled = useSelector(
     store => store?.featureToggles?.dslogonInterstitialRedirect,
   );
+  const isEmailInterstitialEnabled = useSelector(
+    store => store?.featureToggles?.confirmContactEmailInterstitialEnabled,
+  );
 
   const handleAuthError = (error, codeOverride) => {
     const { errorCode: detailedErrorCode } = getAuthError(
@@ -158,13 +161,25 @@ export default function AuthApp({ location }) {
       requestId,
       errorCode,
     );
-    const { userProfile } = authMetrics;
     if (returnUrl?.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH])) {
       await handleProvisioning();
     }
+    const { userAttributes, userProfile } = authMetrics;
     authMetrics.run();
     if (!skipToRedirect) {
       setupProfileSession(userProfile);
+    }
+    if (
+      isEmailInterstitialEnabled &&
+      [CSP_IDS.LOGIN_GOV, CSP_IDS.ID_ME].includes(loginType) &&
+      userProfile.verified &&
+      userAttributes.vaProfile?.vaPatient &&
+      userAttributes.vaProfile?.facilities?.length > 0 &&
+      new Date(userAttributes.vet360ContactInformation?.email?.updatedAt) <
+        new Date('2025-03-01')
+    ) {
+      window.location.replace('/sign-in-confirm-contact-email');
+      return;
     }
     redirect();
   };
