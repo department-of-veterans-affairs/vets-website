@@ -5,28 +5,18 @@ import * as p from '../results-content/non-dr-screens/dynamic-page-content';
 const { BOARD, HLR, INIT, NO, SC, YES } = RESPONSES;
 
 const GOOD_FIT_SC = {
-  FORK: {
-    A: {
-      ONE_OF: {
-        Q_1_2A_2_DISAGREE_DECISION: YES,
-        Q_1_2B_LAW_POLICY_CHANGE: YES,
-        Q_1_2C_NEW_EVIDENCE: YES,
-        Q_2_IS_1A_LAW_POLICY_CHANGE: YES,
-        Q_2_IS_1B_NEW_EVIDENCE: YES,
-        Q_2_S_1_NEW_EVIDENCE: YES,
-      },
-    },
-    B: {
-      Q_2_H_2A_JUDGE_HEARING: NO,
-      NONE_OF: {
-        Q_1_3A_FEWER_60_DAYS: YES,
-      },
-    },
+  ONE_OF: {
+    Q_1_2A_2_DISAGREE_DECISION: YES,
+    Q_1_2B_LAW_POLICY_CHANGE: YES,
+    Q_1_2C_NEW_EVIDENCE: YES,
+    Q_2_IS_1A_LAW_POLICY_CHANGE: YES,
+    Q_2_IS_1B_NEW_EVIDENCE: YES,
+    Q_2_S_1_NEW_EVIDENCE: YES,
+    Q_2_H_2A_JUDGE_HEARING: NO,
   },
 };
 
 const GOOD_FIT_HLR = {
-  Q_1_3_CLAIM_CONTESTED: NO,
   Q_2_IS_1B_NEW_EVIDENCE: NO,
 };
 
@@ -50,15 +40,16 @@ const GOOD_FIT_BOARD_DIRECT = {
 const GOOD_FIT_BOARD_EVIDENCE = {
   FORK: {
     A: {
-      Q_2_0_CLAIM_TYPE: [INIT, SC, HLR],
-      Q_2_H_2A_JUDGE_HEARING: NO,
+      Q_2_0_CLAIM_TYPE: [INIT, SC],
+      Q_2_IS_1B_NEW_EVIDENCE: YES,
     },
     B: {
-      Q_2_0_CLAIM_TYPE: [INIT, SC, HLR],
-      Q_2_IS_1B_NEW_EVIDENCE: YES,
+      Q_2_0_CLAIM_TYPE: HLR,
+      Q_2_H_2A_JUDGE_HEARING: NO,
     },
     C: {
       Q_1_3A_FEWER_60_DAYS: YES,
+      Q_2_H_2A_JUDGE_HEARING: NO,
     },
   },
 };
@@ -125,7 +116,6 @@ export const resultsDRDynamicContentDCs = Object.freeze({
         Q_2_IS_1A_LAW_POLICY_CHANGE: YES,
         Q_2_IS_1B_NEW_EVIDENCE: YES,
         Q_2_H_2_NEW_EVIDENCE: YES,
-        Q_2_H_2A_JUDGE_HEARING: YES,
         Q_2_H_2B_JUDGE_HEARING: YES,
       },
     },
@@ -139,7 +129,7 @@ export const resultsDRDynamicContentDCs = Object.freeze({
         Q_2_IS_1A_LAW_POLICY_CHANGE: YES,
         Q_2_IS_1B_NEW_EVIDENCE: NO,
         Q_2_H_2_NEW_EVIDENCE: NO,
-        Q_2_H_2B_JUDGE_HEARING: YES,
+        Q_2_H_2A_JUDGE_HEARING: YES,
       },
     },
   },
