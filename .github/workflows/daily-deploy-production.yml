@@ -32,26 +32,14 @@ jobs:
     - name: Check if today is a holiday
       id: holiday-check
       uses: department-of-veterans-affairs/vsp-github-actions/holiday-checker@main
-  
-  yesterday-checker:
+
+  cancel-run-if-holiday:
     runs-on: ubuntu-latest
-    outputs:
-      was_yesterday_holiday: ${{ steps.yesterday.outputs.was_yesterday_holiday }}
+    needs: holiday-checker
+    if: ${{ github.event.inputs.bypass_freeze != 'true' && needs.holiday-checker.outputs.is_holiday == 'true' }}
     steps:
-    - name: Check if yesterday was a holiday
-      id: yesterday
-      run: |
-        # Get yesterday's date in Eastern Time
-        YESTERDAY=$(TZ='America/New_York' date -d "yesterday" +"%Y-%m-%d")
-        # Define your holiday list (adjust as needed)
-        HOLIDAYS="2025-01-01 2025-07-04 2025-12-25"
-        if [[ " $HOLIDAYS " == *" $YESTERDAY "* ]]; then
-          echo "yesterday was a holiday"
-          echo "was_yesterday_holiday=true" >> $GITHUB_OUTPUT
-        else
-          echo "yesterday was not a holiday"
-          echo "was_yesterday_holiday=false" >> $GITHUB_OUTPUT
-        fi
+      - name: Cancel workflow due to holiday freeze
+        uses: andymckay/cancel-action@0.2
 
   main-deployment:
     needs: holiday-checker
@@ -73,15 +61,8 @@ jobs:
             https://api.github.com/repos/department-of-veterans-affairs/content-build/actions/workflows/daily-deploy-production.yml/enable
 
     - name: Disable workflows if today is a holiday
-      if: ${{ github.event.inputs.bypass_freeze != 'true' && needs.holiday-checker.outputs.is_holiday == 'true' }}
-      run: |
-          echo "Today is a holiday – disabling deploy workflows."
-          curl -X PATCH -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            -H "Accept: application/vnd.github.v3+json" \
-            https://api.github.com/repos/department-of-veterans-affairs/vets-website/actions/workflows/daily-deploy-production.yml/disable
-          curl -X PATCH -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            -H "Accept: application/vnd.github.v3+json" \
-            https://api.github.com/repos/department-of-veterans-affairs/content-build/actions/workflows/daily-deploy-production.yml/disable
+      if: ${{ false }}
+      run: echo "Freeze enforcement handled by freeze-enforcer.yml."
 
     - name: Check Workflow Status
       id: check-status
@@ -106,44 +87,24 @@ jobs:
           fi
         }
 
-        check_status "vets-website"
         check_status "content-build"
 
     - name: Enable Workflows if Disabled
-      if: ${{ steps.check-status.outputs.workflow_enabled_vets_website == 'false' || steps.check-status.outputs.workflow_enabled_content_build == 'false' }}
+      if: ${{ steps.check-status.outputs.workflow_enabled_content_build == 'false' }}
       run: |
-          echo "One or more workflows are disabled, enabling them now."
-          curl -X PATCH -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            -H "Accept: application/vnd.github.v3+json" \
-            https://api.github.com/repos/department-of-veterans-affairs/vets-website/actions/workflows/daily-deploy-production.yml/enable
+          echo "Enabling content-build daily deploy workflow."
           curl -X PATCH -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             -H "Accept: application/vnd.github.v3+json" \
             https://api.github.com/repos/department-of-veterans-affairs/content-build/actions/workflows/daily-deploy-production.yml/enable
           echo "reenabled=true" >> $GITHUB_OUTPUT
-  notify-freeze:
-    name: Notify Freeze Activated
-    runs-on: ubuntu-latest
-    needs: holiday-checker
-    if: ${{ github.event.inputs.bypass_freeze != 'true' && needs.holiday-checker.outputs.is_holiday == 'true' }}
-    steps:
-    - name: Checkout Repository
-      uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
-
-    - name: Notify Slack - Code Freeze Enabled
-      uses: ./.github/workflows/slack-notify
-      continue-on-error: true
-      with:
-        payload: '{"attachments": [{"color": "#FFA500", "blocks": [{"type": "section","text": {"type": "mrkdwn", "text": "🚫 *Code Freeze Enabled:* Deployment workflows for `vets-website` and `content-build` have been disabled for the holiday period. No deployments should occur until further notice."}}]}]}'
-        channel_id: 'C045LCF8WU8, C04868KS69L' #Frontend COP & platform-sre-team
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  # Freeze Enabled Slack is sent early by freeze-enforcer.yml
 
   notify-freeze-ends:
     name: Notify Freeze Ended
     runs-on: ubuntu-latest
-    needs: [holiday-checker, main-deployment, yesterday-checker] 
+    needs: [holiday-checker, main-deployment] 
     if: ${{ 
-          github.event.inputs.bypass_freeze != 'true' && needs.holiday-checker.outputs.is_holiday == 'false' && needs.main-deployment.outputs.reenabled == 'true' && needs.yesterday-checker.outputs.was_yesterday_holiday == 'true'
+          github.event.inputs.bypass_freeze != 'true' && needs.holiday-checker.outputs.is_holiday == 'false' && needs.main-deployment.outputs.reenabled == 'true'
          }}  
     steps:
     - name: Checkout Repository
