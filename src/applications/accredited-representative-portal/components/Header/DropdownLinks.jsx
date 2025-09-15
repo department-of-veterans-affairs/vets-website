@@ -41,7 +41,11 @@ const DropdownLinks = ({ closeDropdown, category }) => {
                       className="people-search-icon"
                     />
                   )}
-                  <Link to={link.URL} onClick={handleClick}>
+                  <Link
+                    to={link.URL}
+                    onClick={handleClick}
+                    className="nav__mobile-menu-links"
+                  >
                     {link.LABEL}
                   </Link>
                 </li>
@@ -59,7 +63,7 @@ const DropdownLinks = ({ closeDropdown, category }) => {
               <Link
                 to={link.URL}
                 onClick={handleClick}
-                className="vads-u-color--black"
+                className="nav__mobile-menu-links"
               >
                 {link.LABEL}
               </Link>
