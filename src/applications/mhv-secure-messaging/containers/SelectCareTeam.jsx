@@ -48,7 +48,9 @@ const SelectCareTeam = () => {
 
   useEffect(
     () => {
-      if (!acceptInterstitial && !validDraft) history.push(Paths.COMPOSE);
+      if (!acceptInterstitial && !validDraft) {
+        history.push(Paths.COMPOSE);
+      }
     },
     [acceptInterstitial, validDraft, history],
   );

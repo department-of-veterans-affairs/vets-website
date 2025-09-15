@@ -12,9 +12,9 @@ const {
   Q_2_H_2_NEW_EVIDENCE,
   Q_2_H_2B_JUDGE_HEARING,
 } = SHORT_NAME_MAP;
-const { RESULTS_BOARD_DIRECT } = RESULTS_NAME_MAP;
+const { RESULTS_2_H_2B_2 } = RESULTS_NAME_MAP;
 
-// Results Board Appeal: Direct Review recommended
+// Results Board Appeal: Direct Review recommended (Non-CFI)
 // 1.1 - Yes
 // 1.2 - Yes
 // 1.3 - Yes
@@ -22,7 +22,7 @@ const { RESULTS_BOARD_DIRECT } = RESULTS_NAME_MAP;
 // 2.H.2 - No
 // 2.H.2B - No
 describe('Decision Reviews Onramp', () => {
-  describe('Results Board (path 1)', () => {
+  describe('Results Board Direct (path 2)', () => {
     it('navigates through the flow forward and backward successfully', () => {
       cy.visit(h.ROOT);
 
@@ -63,7 +63,7 @@ describe('Decision Reviews Onramp', () => {
 
       // RESULTS
       h.verifyUrl(ROUTES.RESULTS);
-      h.verifyDrResultsHeader(RESULTS_BOARD_DIRECT);
+      h.verifyDrResultsHeader(RESULTS_2_H_2B_2);
       h.checkOverviewPanel([c.TITLE_BOARD_DIRECT, c.TITLE_BOARD_EVIDENCE]);
       h.checkGoodFitCards([
         {
@@ -90,11 +90,11 @@ describe('Decision Reviews Onramp', () => {
         },
         {
           type: c.CARD_BOARD_EVIDENCE,
-          content: [c.CARD_NEED_EVIDENCE],
+          content: [c.CARD_RECEIVED_BOARD_DECISION, c.CARD_NEED_EVIDENCE],
         },
         {
           type: c.CARD_BOARD_HEARING,
-          content: [c.CARD_HEARING_NOT_DESIRED],
+          content: [c.CARD_RECEIVED_BOARD_DECISION, c.CARD_HEARING_NOT_DESIRED],
         },
       ]);
       h.verifyOutsideDROptionNotPresent();
