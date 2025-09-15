@@ -1,5 +1,5 @@
-import { addDays, addMonths, setDate } from 'date-fns';
-import { mockToday } from '../mocks/constants';
+const { addDays, addMonths, setDate } = require('date-fns');
+const { mockToday } = require('../mocks/constants');
 
 /**
  * Class to create mock draft referral appointment responses for Cypress tests.
@@ -14,6 +14,7 @@ class MockReferralDraftAppointmentResponse {
       notFound: false,
       serverError: false,
       numberOfSlots: 3,
+      startDate: null,
       ...options,
     };
   }
@@ -223,6 +224,7 @@ class MockReferralDraftAppointmentResponse {
       notFound,
       serverError,
       numberOfSlots,
+      startDate,
     } = this.options;
 
     // Return 404 error if notFound is true
@@ -240,10 +242,9 @@ class MockReferralDraftAppointmentResponse {
     // Create slots array with all dates in the next month
     const slotsArray = [];
     const startHour = 14; // Starting at 2 PM UTC
-
     // Get first day of next month
     // Use a fixed date instead of new Date() to avoid flaky tests
-    const firstDayNextMonth = addMonths(setDate(mockToday, 1), 1);
+    const firstDayNextMonth = startDate || addMonths(setDate(mockToday, 1), 1);
 
     for (let i = 0; i < numberOfSlots; i++) {
       // Create slots on consecutive days starting from the first day of next month
@@ -269,7 +270,7 @@ class MockReferralDraftAppointmentResponse {
     // Return complete response matching the expected format
     return {
       data: {
-        id: 'EEKoGzEf',
+        id: referralNumber,
         type: 'draft_appointment',
         attributes: {
           provider,
@@ -293,4 +294,4 @@ class MockReferralDraftAppointmentResponse {
   }
 }
 
-export default MockReferralDraftAppointmentResponse;
+module.exports = MockReferralDraftAppointmentResponse;
