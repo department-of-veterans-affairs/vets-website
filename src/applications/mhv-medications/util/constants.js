@@ -275,3 +275,5 @@ export const tooltipHintContent = {
 };
 
 export const recordNotFoundMessage = 'Record not found';
+
+export const MEDS_BY_MAIL_FACILITY_ID = '741MM';
