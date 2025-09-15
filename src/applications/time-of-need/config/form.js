@@ -70,7 +70,7 @@ const formConfig = {
   submitUrl: '/v0/api',
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
-  trackingPrefix: '40-xxxx-ToN-',
+  trackingPrefix: '40-xxxx-ton-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   dev: {
