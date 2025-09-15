@@ -34,14 +34,15 @@ export const EXPOSURE_TYPE_MAPPING = {
 };
 
 /**
- * Derives all toxic exposure keys from EXPOSURE_TYPE_MAPPING.
+ * Derives all valid toxic exposure keys from EXPOSURE_TYPE_MAPPING.
+ * Used to filter out any invalid/unknown fields from the toxicExposure object.
  * Includes 'conditions' and all exposure types with their associated keys.
  *
  * @example
  * const keys = getAllToxicExposureKeys();
  * Returns: ['conditions', 'gulfWar1990', 'gulfWar1990Details', ...]
  *
- * @returns {string[]} Array containing all toxic exposure field keys
+ * @returns {string[]} Array containing all valid toxic exposure field keys
  */
 export const getAllToxicExposureKeys = () => {
   const keys = ['conditions'];
@@ -157,7 +158,9 @@ const createNoneOnlyCondition = () => ({
 /**
  * Purges exposure details by removing unselected items and orphaned fields.
  *
- * @param {Object} toxicExposure - Toxic exposure data with selections and details
+ * @param {Object} toxicExposure - Toxic exposure data object
+ * @param {Object.<string, boolean>} [toxicExposure[exposureType]] - Location/exposure selections as boolean values
+ * @param {Object} [toxicExposure[detailsKey]] - Detail objects (dates, descriptions) for selected locations
  * @param {string} exposureType - Exposure type key (e.g., 'gulfWar1990')
  * @param {Object} mapping - Mapping configuration for exposure type
  * @param {string} mapping.detailsKey - Key for details object
@@ -219,7 +222,11 @@ const purgeExposureDetails = (toxicExposure, exposureType, mapping) => {
  * @param {Object} formData - Form data to transform
  * @param {boolean} [formData.disability526ToxicExposureOptOutDataPurge] - Feature flag
  * @param {Object} [formData.toxicExposure] - Toxic exposure data
- * @param {Object.<string, boolean>} [formData.toxicExposure.conditions] - Selected conditions
+ * @param {Object.<string, boolean>} [formData.toxicExposure.conditions] - Health condition selections (e.g., asthma: true, none: false)
+ * @param {Object.<string, boolean>} [formData.toxicExposure.gulfWar1990] - Gulf War 1990 location selections
+ * @param {Object.<string, boolean>} [formData.toxicExposure.gulfWar2001] - Gulf War 2001 location selections
+ * @param {Object.<string, boolean>} [formData.toxicExposure.herbicide] - Herbicide exposure location selections
+ * @param {Object.<string, boolean>} [formData.toxicExposure.otherExposures] - Other exposure type selections
  * @returns {Object} Form data with purged toxic exposure data
  */
 export const purgeToxicExposureData = formData => {
@@ -274,12 +281,21 @@ export const purgeToxicExposureData = formData => {
     };
   }
 
+  // Filter to only valid toxic exposure keys
+  const validKeys = getAllToxicExposureKeys();
+  const filteredToxicExposure = {};
+  validKeys.forEach(key => {
+    if (key in toxicExposure) {
+      filteredToxicExposure[key] = toxicExposure[key];
+    }
+  });
+
   // Remove empty toxicExposure
-  if (isEmptyToxicExposure(toxicExposure)) {
+  if (isEmptyToxicExposure(filteredToxicExposure)) {
     delete clonedData.toxicExposure;
 
     return clonedData;
   }
 
-  return { ...clonedData, toxicExposure };
+  return { ...clonedData, toxicExposure: filteredToxicExposure };
 };

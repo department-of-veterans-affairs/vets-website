@@ -667,3 +667,28 @@ describe('getAllToxicExposureKeys', () => {
     expect(keys).to.have.lengthOf(11);
   });
 });
+
+describe('purgeToxicExposureData - filtering invalid keys', () => {
+  it('should remove invalid/unknown keys from toxicExposure object', () => {
+    const mockData = {
+      disability526ToxicExposureOptOutDataPurge: true,
+      toxicExposure: {
+        conditions: { asthma: true },
+        gulfWar1990: { iraq: true },
+        invalidField: 'This should be removed',
+        anotherInvalidField: { nested: 'This entire object should be removed' },
+        unknownKey: true,
+        randomData: [1, 2, 3],
+      },
+    };
+
+    const result = purgeToxicExposureData(mockData);
+
+    expect(result.toxicExposure).to.not.have.property('invalidField');
+    expect(result.toxicExposure).to.not.have.property('anotherInvalidField');
+    expect(result.toxicExposure).to.not.have.property('unknownKey');
+    expect(result.toxicExposure).to.not.have.property('randomData');
+    expect(result.toxicExposure).to.have.property('conditions');
+    expect(result.toxicExposure).to.have.property('gulfWar1990');
+  });
+});
