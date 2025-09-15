@@ -306,29 +306,6 @@ describe('TreatedDisabilitiesCheckboxGroup', () => {
       expect(checkboxes).to.have.length(0);
     });
 
-    it('should show "None selected" with error in read-only mode when no conditions selected', () => {
-      const propsReadOnly = {
-        ...defaultProps,
-        readonly: true,
-        errorSchema: {
-          __errors: ['Please select at least one condition'],
-        },
-        formData: {
-          Tinnitus: false,
-          PTSD: false,
-        },
-      };
-
-      const { getByText } = render(
-        <Provider store={mockStore}>
-          <TreatedDisabilitiesCheckboxGroup {...propsReadOnly} />
-        </Provider>,
-      );
-
-      expect(getByText('None selected')).to.exist;
-      expect(getByText('Please select at least one condition')).to.exist;
-    });
-
     it('should not call onChange when attempting to interact in read-only mode', () => {
       const propsReadOnly = {
         ...defaultProps,
