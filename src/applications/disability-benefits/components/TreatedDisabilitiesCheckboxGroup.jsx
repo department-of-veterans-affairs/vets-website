@@ -224,15 +224,13 @@ const TreatedDisabilitiesCheckboxGroup = props => {
       <div className="vads-u-margin-y--2">
         <dt>What conditions were you treated for?</dt>
         <dd>
-          {checkedConditions.length === 0 ? (
-            <span className="vads-u-color--secondary-dark">None selected</span>
-          ) : (
-            <ul className="vads-u-margin-top--0">
-              {checkedConditions.map(condition => (
-                <li key={condition}>{capitalizeEachWord(condition)}</li>
-              ))}
-            </ul>
-          )}
+          <ul className="vads-u-margin-top--0">
+            {checkedConditions.map(condition => (
+              <li key={condition}>
+                <strong>{capitalizeEachWord(condition)}</strong>
+              </li>
+            ))}
+          </ul>
         </dd>
       </div>
     );
