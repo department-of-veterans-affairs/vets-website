@@ -5,6 +5,7 @@ import {
   isArrayAndHasItems,
   extractContainedResource,
   formatNameFirstToLast,
+  formatDateTime,
 } from '../util/helpers';
 
 const initialState = {
@@ -113,6 +114,27 @@ export const convertNewCondition = condition => {
   return null;
 };
 
+export const convertUnifiedCondition = condition => {
+  const formatConditionDate = formatDateTime(condition?.attributes?.date);
+  const conditionDate = formatConditionDate
+    ? formatConditionDate.formattedDate
+    : '';
+  // Ensure a finite timestamp
+  const ts = new Date(condition?.attributes?.date).getTime();
+
+  return {
+    id: condition?.id,
+    name: condition?.attributes?.name || EMPTY_FIELD,
+    date: conditionDate || EMPTY_FIELD,
+    sortKey: Number.isFinite(ts) ? ts : null,
+    provider: condition?.attributes?.provider || EMPTY_FIELD,
+    facility: condition?.attributes?.facility || EMPTY_FIELD,
+    comments: isArrayAndHasItems(condition?.attributes?.comments)
+      ? condition.attributes?.comments
+      : EMPTY_FIELD,
+  };
+};
+
 export const conditionReducer = (state = initialState, action) => {
   switch (action.type) {
     case Actions.Conditions.GET: {
@@ -128,6 +150,14 @@ export const conditionReducer = (state = initialState, action) => {
       return {
         ...state,
         conditionDetails,
+      };
+    }
+    case Actions.Conditions.GET_UNIFIED_ITEM_FROM_LIST: {
+      return {
+        ...state,
+        conditionDetails: action.response.data.id
+          ? convertUnifiedCondition(action.response.data)
+          : { ...action.response.data },
       };
     }
     case Actions.Conditions.GET_FROM_LIST: {
@@ -152,6 +182,27 @@ export const conditionReducer = (state = initialState, action) => {
           convertNewCondition(record.attributes),
         );
       }
+      return {
+        ...state,
+        listCurrentAsOf: action.isCurrent ? new Date() : null,
+        listState: loadStates.FETCHED,
+        conditionsList: typeof oldList === 'undefined' ? newList : oldList,
+        updatedList: typeof oldList !== 'undefined' ? newList : undefined,
+      };
+    }
+    case Actions.Conditions.GET_UNIFIED_LIST: {
+      const data = action.response?.data || [];
+      const oldList = state.conditionsList;
+      const newList =
+        data
+          .map(condition => {
+            return convertUnifiedCondition(condition);
+          })
+          .sort((a, b) => {
+            const ak = Number.isFinite(a.sortKey) ? a.sortKey : -Infinity;
+            const bk = Number.isFinite(b.sortKey) ? b.sortKey : -Infinity;
+            return bk - ak; // desc, missing/invalid last
+          }) || [];
       return {
         ...state,
         listCurrentAsOf: action.isCurrent ? new Date() : null,

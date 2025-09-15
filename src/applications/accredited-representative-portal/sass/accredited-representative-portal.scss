@@ -44,7 +44,7 @@
   width: 100%;
 
   &__container {
-    max-width: 960px;
+    max-width: 984px;
     margin: 0 auto 20px;
   }
 
@@ -52,9 +52,12 @@
   h2 {
     margin: 0 0 16px 0;
   }
-
+  .usa-grid-full {
+    max-width: 984px;
+  }
   .va-footer-links-bottom {
     padding: 0;
+    max-width: 984px;
     ul {
       max-width: 720px;
       padding-bottom: 20px;
@@ -87,13 +90,14 @@
     text-decoration: none;
     font-weight: 700;
     display: block;
+    text-align: center;
 
     &:hover {
       background-color: $vads-color-primary-dark;
     }
   }
   &__container {
-    max-width: 960px;
+    max-width: 984px;
     margin: 0 auto;
 
     &--portal {
@@ -109,14 +113,14 @@
       align-items: center;
       flex-direction: column-reverse;
 
-      @media (min-width: $small-desktop-screen) {
+      @media (min-width: $medium-screen) {
         padding: 0;
         flex-direction: row;
       }
       .is--redesign & {
         flex-direction: column;
 
-        @media (min-width: $small-desktop-screen) {
+        @media (min-width: $medium-screen) {
           flex-direction: row;
         }
       }
@@ -134,12 +138,12 @@
     background-position: center;
 
     &-container {
-      max-width: 960px;
+      max-width: 984px;
       margin: 0 auto;
       color: $vads-color-base-lightest;
       padding: 30px 16px;
 
-      @media (min-width: $small-desktop-screen) {
+      @media (min-width: $medium-screen) {
         padding: 72px 16px;
 
         .is--redesign & {
@@ -168,7 +172,7 @@
       padding: 20px;
       border-radius: 8px;
 
-      @media (min-width: $small-desktop-screen) {
+      @media (min-width: $medium-screen) {
         max-width: 544px;
         padding: 50px;
       }
@@ -180,8 +184,7 @@
         padding: 30px;
         margin-top: 24px;
 
-        @media (min-width: $small-desktop-screen) {
-          max-width: 312px;
+        @media (min-width: $medium-screen) {
           margin-top: 0;
         }
       }
@@ -207,7 +210,7 @@
       padding: 32px 16px;
 
       .is--redesign & {
-        @media (min-width: $small-desktop-screen) {
+        @media (min-width: $medium-screen) {
           padding: 0 16px !important;
         }
       }
@@ -229,7 +232,7 @@
       justify-content: space-between;
       div {
         width: 100%;
-        @media (min-width: $small-desktop-screen) {
+        @media (min-width: $medium-screen) {
           width: 50%;
 
           &:last-child {
@@ -249,7 +252,7 @@
       list-style: none;
       display: flex;
       flex-direction: column;
-      @media (min-width: $small-desktop-screen) {
+      @media (min-width: $medium-screen) {
         flex-direction: row;
       }
 
@@ -257,7 +260,7 @@
         width: 100%;
         margin-bottom: 20px;
 
-        @media (min-width: $small-desktop-screen) {
+        @media (min-width: $medium-screen) {
           width: 228px;
           margin-left: 24px;
           margin-bottom: 0;
@@ -270,13 +273,13 @@
     }
 
     &--desktop-row {
-      @media (min-width: $small-desktop-screen) {
+      @media (min-width: $medium-screen) {
         flex-direction: row;
         max-width: 100%;
       }
     }
 
-    @media (min-width: $small-desktop-screen) {
+    @media (min-width: $medium-screen) {
       padding: 52px 16px;
 
       .is--redesign & {
@@ -298,7 +301,7 @@
       .is--redesign & {
         width: 100%;
 
-        @media (min-width: $small-desktop-screen) {
+        @media (min-width: $medium-screen) {
           width: 228px;
         }
       }
@@ -312,10 +315,7 @@
   &__full-width {
     h3 {
       margin: 0 0 4px 0;
-      padding-bottom: 8px
-    }
-    &.is--lighter {
-      background-color: $vads-color-primary-lighter;
+      padding-bottom: 8px;
     }
 
     &.is--small-padding {
@@ -323,7 +323,7 @@
     }
 
     .is--redesign & {
-      @media (min-width: $small-desktop-screen) {
+      @media (min-width: $medium-screen) {
         padding: 72px 0;
       }
     }
@@ -344,7 +344,7 @@
     position: relative;
 
     ~ div {
-      @media (min-width: $small-desktop-screen) {
+      @media (min-width: $medium-screen) {
         margin-left: 55px;
         width: 50%;
         padding: 60px 0;
@@ -363,7 +363,7 @@
   }
 
   &__sub-header {
-    @media (min-width: $small-desktop-screen) {
+    @media (min-width: $medium-screen) {
       font-size: 20px;
 
       &--login {
@@ -375,27 +375,27 @@
     width: 100%;
     max-width: 732px;
 
-    @media (min-width: $small-desktop-screen) {
+    @media (min-width: $medium-screen) {
       width: 464px;
       height: 340px;
     }
 
     &.is--left-img {
       padding: 40px 16px 24px 16px;
-      @media (min-width: $small-desktop-screen) {
+      @media (min-width: $medium-screen) {
         padding: 0;
         margin-right: 24px;
       }
     }
     &.is--right-img {
       padding: 40px 16px 24px 16px;
-      @media (min-width: $small-desktop-screen) {
+      @media (min-width: $medium-screen) {
         padding: 0;
         margin-left: 24px;
       }
     }
     .is--redesign & {
-      @media (min-width: $small-desktop-screen) {
+      @media (min-width: $medium-screen) {
         width: 564px;
         height: auto;
       }
@@ -409,6 +409,222 @@
   }
 }
 
+.hp {
+  &__img {
+    margin-bottom: 24px;
+    @media (min-width: $tablet) {
+      margin-bottom: 0;
+    }
+    .hp__content--get-started & {
+      @media (min-width: $tablet) {
+        padding: 0 24px 0 0;
+      }
+
+      @media (min-width: $small-desktop-screen) {
+        padding: 0;
+      }
+    }
+
+    .hp__content--improve & {
+      @media (min-width: $tablet) {
+        padding: 0 0 0 24px;
+      }
+      @media (min-width: $small-desktop-screen) {
+        padding: 0;
+      }
+    }
+    &--portal {
+      @media (min-width: $small-desktop-screen) {
+        .hp__content--improve & {
+          margin-left: auto;
+          display: flex;
+        }
+      }
+    }
+  }
+  &__content {
+    &--hero {
+      @media (min-width: $tablet) {
+        align-items: center;
+      }
+    }
+    &--get-started {
+      margin-bottom: 48px !important;
+      align-items: center;
+      @media (min-width: $small-desktop-screen) {
+        margin-bottom: 72px !important;
+      }
+
+      div:nth-child(2) {
+        @media (min-width: $small-desktop-screen) {
+          margin-left: auto;
+        }
+      }
+
+      .hp__copy {
+        @media (min-width: $small-desktop-screen) {
+          margin-left: auto;
+          max-width: 396px;
+        }
+      }
+      h2 {
+        margin-top: 0;
+      }
+    }
+
+    &--improve {
+      align-items: center;
+      @media (max-width: $tablet) {
+        flex-direction: column-reverse;
+      }
+      @media (min-width: $tablet) {
+        align-items: center;
+      }
+      div:nth-child(2) {
+        @media (min-width: $small-desktop-screen) {
+          margin-left: auto;
+        }
+      }
+
+      .hp__copy {
+        @media (min-width: $small-desktop-screen) {
+          max-width: 396px;
+        }
+      }
+      h2 {
+        margin-top: 0;
+      }
+    }
+    &--portal {
+      div:first-child {
+        align-self: center;
+      }
+      h2 {
+        margin-top: 0;
+      }
+    }
+    &--veteran {
+      h2 {
+        margin: 0 0 24px 0;
+      }
+    }
+
+    &--accreditation {
+      align-items: center;
+
+      div:nth-child(2) {
+        margin-left: auto;
+      }
+      h2 {
+        margin-top: 0;
+      }
+    }
+  }
+  &__hero {
+    background-position: center;
+    background: linear-gradient(
+        0deg,
+        rgba(0, 71, 149, 0.46),
+        rgba(0, 71, 149, 0.46)
+      ),
+      url("../../../site/assets/img/arp-hp-hero.jpg");
+    background-size: cover;
+    background-position: center;
+    padding: 30px 0;
+
+    @media (min-width: $medium-screen) {
+      padding: 48px 30px;
+    }
+
+    @media (min-width: $small-desktop-screen) {
+      padding: 72px 16px;
+    }
+
+    &-bg {
+      background-color: $vads-color-primary-dark;
+      padding: 20px;
+      border-radius: 8px;
+      @media (min-width: $medium-screen) {
+        padding: 50px 16px;
+      }
+
+      @media (min-width: $small-desktop-screen) {
+        padding: 50px 70px 50px 50px;
+      }
+    }
+    &-header {
+      margin-bottom: 20px;
+      color: $vads-color-white;
+    }
+
+    &-sub-header {
+      color: $vads-color-white;
+      font-size: 24px;
+      font-family: $font-family-serif;
+
+      &--login {
+        margin-top: 0;
+      }
+    }
+  }
+  &__container {
+    padding: 40px 16px;
+    .vads-grid-row {
+      max-width: 984px;
+      margin: 0 auto;
+    }
+
+    @media (min-width: $medium-screen) {
+      padding: 48px 30px;
+    }
+
+    @media (min-width: $small-desktop-screen) {
+      padding: 72px 16px;
+    }
+
+    &.is--lighter {
+      background-color: $vads-color-primary-lighter;
+    }
+  }
+
+  &__card {
+    margin-bottom: 20px;
+    display: flex;
+    h3 {
+      margin-top: 0;
+    }
+    &:last-child {
+      @media (min-width: $tablet) {
+        padding-right: 0;
+      }
+    }
+
+    h3 {
+      margin-top: 0;
+    }
+
+    @media (min-width: $tablet) {
+      padding-right: 20px;
+      margin-bottom: 0;
+    }
+
+    @media (min-width: $small-desktop-screen) {
+      padding: 0 0 0 24px;
+    }
+
+    &:first-child {
+      padding: 0;
+    }
+  }
+}
+.is--login {
+  margin-left: auto;
+}
+.is--sm-padding {
+  @media (min-width: $small-desktop-screen) {
+    padding: 40px 16px;
+  }
+}
 .arp-full-width-alert {
   width: 100%;
 

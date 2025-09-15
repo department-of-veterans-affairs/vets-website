@@ -23,7 +23,9 @@ describe('SM TRIAGE GROUPS ALERTS', () => {
       Paths.FIND_LOCATIONS,
     );
 
-    cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).should('not.exist');
+    cy.findByTestId(Locators.LINKS.CREATE_NEW_MESSAGE_DATA_TEST_ID).should(
+      'not.exist',
+    );
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
@@ -57,7 +59,9 @@ describe('SM TRIAGE GROUPS ALERTS', () => {
       Paths.FIND_LOCATIONS,
     );
 
-    cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).should('not.exist');
+    cy.findByTestId(Locators.LINKS.CREATE_NEW_MESSAGE_DATA_TEST_ID).should(
+      'not.exist',
+    );
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

@@ -1,27 +1,43 @@
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import moment from 'moment';
-import { minYear, maxYear } from 'platform/forms-system/src/js/helpers';
+import { maxYear, minYear } from 'platform/forms-system/src/js/helpers';
 import { checkboxGroupSchema } from 'platform/forms-system/src/js/web-component-patterns';
+import { daysFromToday } from './dates/dateHelper';
+import { parseDate } from '../../utils/dates';
 
 import {
-  SAVED_SEPARATION_DATE,
-  PTSD_MATCHES,
   CHAR_LIMITS,
+  PTSD_MATCHES,
+  SAVED_SEPARATION_DATE,
 } from '../../constants';
 import {
+  activeServicePeriods,
+  baseDoNew4142Logic,
   capitalizeEachWord,
   fieldsHaveInput,
+  formatDate,
+  formatDateRange,
+  formatFullName,
+  formatMonthYearDate,
   hasGuardOrReservePeriod,
   hasHospitalCare,
+  hasNewPtsdDisability,
   hasOtherEvidence,
   increaseOnly,
   isAnswering781aQuestions,
   isAnswering781Questions,
+  isBDD,
+  isDisabilityPtsd,
+  isExpired,
+  isNotExpired,
+  isUndefined,
   isUploading781aForm,
   isUploading781aSupportingDocuments,
   isUploading781Form,
+  isValidFullDate,
+  isValidServicePeriod,
   isWithinRange,
+  makeConditionsSchema,
   needsToAnswerUnemployability,
   needsToEnter781,
   needsToEnter781a,
@@ -29,29 +45,16 @@ import {
   newConditionsOnly,
   ReservesGuardDescription,
   servedAfter911,
-  viewifyFields,
-  activeServicePeriods,
-  formatDate,
-  formatDateRange,
-  isNotExpired,
-  isValidFullDate,
-  isValidServicePeriod,
-  isBDD,
   show526Wizard,
-  isUndefined,
-  isDisabilityPtsd,
-  showSeparationLocation,
-  isExpired,
-  truncateDescriptions,
-  hasNewPtsdDisability,
   showPtsdCombat,
   showPtsdNonCombat,
+  showSeparationLocation,
+  showToxicExposureDestructionModal,
+  showToxicExposureOptOutDataPurge,
   skip781,
-  formatMonthYearDate,
-  makeConditionsSchema,
+  truncateDescriptions,
   validateConditions,
-  formatFullName,
-  baseDoNew4142Logic,
+  viewifyFields,
 } from '../../utils';
 import { testBranches } from '../../utils/serviceBranches';
 
@@ -376,9 +379,7 @@ describe('526 helpers', () => {
             servicePeriods: [
               {
                 dateRange: {
-                  to: moment()
-                    .add(90, 'days')
-                    .format('YYYY-MM-DD'),
+                  to: daysFromToday(90),
                 },
               },
             ],
@@ -525,9 +526,7 @@ describe('526 helpers', () => {
       const inactivePeriod = { dateRange: { to: '1999-03-03' } };
       const futurePeriod = {
         dateRange: {
-          to: moment()
-            .add(1, 'day')
-            .format('YYYY-MM-DD'),
+          to: daysFromToday(1),
         },
       };
       const noToDate = { dateRange: { to: undefined } };
@@ -900,14 +899,12 @@ describe('526 v2 depends functions', () => {
       servicePeriods: [
         {
           dateRange: {
-            to: moment().format('YYYY-MM-DD'),
+            to: daysFromToday(0),
           },
         },
         {
           dateRange: {
-            to: moment()
-              .add(90, 'days')
-              .format('YYYY-MM-DD'),
+            to: daysFromToday(90),
           },
         },
       ],
@@ -919,14 +916,12 @@ describe('526 v2 depends functions', () => {
       servicePeriods: [
         {
           dateRange: {
-            to: moment().format('YYYY-MM-DD'),
+            to: daysFromToday(0),
           },
         },
         {
           dateRange: {
-            to: moment()
-              .add(89, 'days')
-              .format('YYYY-MM-DD'),
+            to: daysFromToday(89),
           },
         },
       ],
@@ -1067,39 +1062,19 @@ describe('526 v2 depends functions', () => {
       expect(isBDD({ 'view:isBddData': true })).to.be.false;
     });
     it('should return true if a valid date is added to session storage from the wizard', () => {
-      window.sessionStorage.setItem(
-        SAVED_SEPARATION_DATE,
-        moment()
-          .add(90, 'days')
-          .format('YYYY-MM-DD'),
-      );
+      window.sessionStorage.setItem(SAVED_SEPARATION_DATE, daysFromToday(90));
       expect(isBDD(null)).to.be.true;
     });
     it('should return true if a valid date is added to session storage from the wizard even if active duty flag is false', () => {
-      window.sessionStorage.setItem(
-        SAVED_SEPARATION_DATE,
-        moment()
-          .add(90, 'days')
-          .format('YYYY-MM-DD'),
-      );
+      window.sessionStorage.setItem(SAVED_SEPARATION_DATE, daysFromToday(90));
       expect(isBDD({ 'view:isBddData': true })).to.be.true;
     });
     it('should return false for invalid dates in session storage from the wizard', () => {
-      window.sessionStorage.setItem(
-        SAVED_SEPARATION_DATE,
-        moment()
-          .add(200, 'days')
-          .format('YYYY-MM-DD'),
-      );
+      window.sessionStorage.setItem(SAVED_SEPARATION_DATE, daysFromToday(200));
       expect(isBDD(null)).to.be.false;
     });
     it('should return false for invalid dates in session storage from the wizard even if active duty flag is true', () => {
-      window.sessionStorage.setItem(
-        SAVED_SEPARATION_DATE,
-        moment()
-          .add(200, 'days')
-          .format('YYYY-MM-DD'),
-      );
+      window.sessionStorage.setItem(SAVED_SEPARATION_DATE, daysFromToday(200));
       expect(isBDD({ 'view:isBddData': true })).to.be.false;
     });
     it('should ignore in range service periods if not on active duty', () => {
@@ -1115,6 +1090,27 @@ describe('526 v2 depends functions', () => {
     it('should get wizard feature flag value of false', () => {
       expect(show526Wizard({ featureToggles: { show526Wizard: false } })).to.be
         .false;
+    });
+  });
+
+  describe('showToxicExposureOptOutDataPurge', () => {
+    it('should get toxic exposure opt out data purge feature flag value of true', () => {
+      expect(
+        showToxicExposureOptOutDataPurge({
+          featureToggles: {
+            disability526ToxicExposureOptOutDataPurge: true,
+          },
+        }),
+      ).to.be.true;
+    });
+    it('should get toxic exposure opt out data purge feature flag value of false', () => {
+      expect(
+        showToxicExposureOptOutDataPurge({
+          featureToggles: {
+            disability526ToxicExposureOptOutDataPurge: false,
+          },
+        }),
+      ).to.be.false;
     });
   });
 
@@ -1201,10 +1197,7 @@ describe('526 v2 depends functions', () => {
   });
 
   describe('showSeparationLocation', () => {
-    const getDays = days =>
-      moment()
-        .add(days, 'days')
-        .format('YYYY-MM-DD');
+    const getDays = days => daysFromToday(days);
     const getFormData = (activeDate, reserveDate) => ({
       serviceInformation: {
         servicePeriods: [{ dateRange: { to: activeDate } }],
@@ -1309,9 +1302,7 @@ describe('526 v2 depends functions', () => {
 
 describe('isExpired', () => {
   const getDays = days => ({
-    expiresAt: moment()
-      .add(days, 'days')
-      .unix(),
+    expiresAt: parseDate(daysFromToday(days)).unix(),
   });
   it('should return true for dates that are invalid or in the past', () => {
     expect(isExpired('')).to.be.true;
@@ -1386,13 +1377,11 @@ describe('skip PTSD questions', () => {
     it('should return true for PTSD in non-BDD flow', () => {
       expect(hasNewPtsdDisability(getPtsdData('2020-01-01', false))).to.be.true;
       // invalid BDD separation date negates BDD flow
-      const today = moment().format('YYYY-MM-DD');
+      const today = daysFromToday(0);
       expect(hasNewPtsdDisability(getPtsdData(today, true))).to.be.true;
     });
     it('should return false for PTSD in BDD flow', () => {
-      const date = moment()
-        .add(90, 'days')
-        .format('YYYY-MM-DD');
+      const date = daysFromToday(90);
       expect(hasNewPtsdDisability(getPtsdData(date, true))).to.be.false;
     });
 
@@ -1786,6 +1775,7 @@ describe('formatFullName', () => {
 describe('baseDoNew4142Logic', () => {
   const baseFormData = {
     disability526Enable2024Form4142: true,
+    'view:hasEvidence': true,
     'view:patientAcknowledgement': {
       'view:acknowledgement': true,
     },
@@ -1845,6 +1835,14 @@ describe('baseDoNew4142Logic', () => {
       };
       expect(baseDoNew4142Logic(formData)).to.be.false;
     });
+
+    it('should return false when view:hasEvidence is null', () => {
+      const formData = {
+        ...baseFormData,
+        'view:hasEvidence': null,
+      };
+      expect(baseDoNew4142Logic(formData)).to.be.false;
+    });
   });
 
   describe('when feature flag is disabled', () => {
@@ -1890,10 +1888,27 @@ describe('baseDoNew4142Logic', () => {
     });
   });
 
+  describe('when user has switched to no evidence option', () => {
+    it('should return false even if legacy data exists', () => {
+      const formData = {
+        ...baseFormData,
+        'view:hasEvidence': false,
+        'view:selectableEvidenceTypes': {
+          'view:hasPrivateMedicalRecords': true,
+        },
+        'view:uploadPrivateRecordsQualifier': {
+          'view:hasPrivateRecordsToUpload': true,
+        },
+      };
+      expect(baseDoNew4142Logic(formData)).to.be.false;
+    });
+  });
+
   describe('when user has already acknowledged the new 4142', () => {
     it('should return false even if user wants to upload private medical records', () => {
       const formData = {
         ...baseFormData,
+        'view:hasEvidence': true,
         'view:selectableEvidenceTypes': {
           'view:hasPrivateMedicalRecords': true,
         },
@@ -1907,5 +1922,26 @@ describe('baseDoNew4142Logic', () => {
     it('should handle empty formData gracefully', () => {
       expect(baseDoNew4142Logic({})).to.be.false;
     });
+  });
+});
+
+describe('showToxicExposureDestructionModal', () => {
+  it('should get toxic exposure destruction modal feature flag value of true', () => {
+    expect(
+      showToxicExposureDestructionModal({
+        featureToggles: {
+          disabilityCompensationToxicExposureDestructionModal: true,
+        },
+      }),
+    ).to.be.true;
+  });
+  it('should get toxic exposure destruction modal feature flag value of false', () => {
+    expect(
+      showToxicExposureDestructionModal({
+        featureToggles: {
+          disabilityCompensationToxicExposureDestructionModal: false,
+        },
+      }),
+    ).to.be.false;
   });
 });

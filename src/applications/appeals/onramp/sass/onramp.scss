@@ -17,4 +17,14 @@
     padding: 1em 1em 1.5em;
     background-color: $vads-color-base-lightest;
   }
+
+  va-radio::part(form-header) {
+    margin-bottom: 0.25em;
+  }
+
+  va-card, .not-good-fit-card {
+    ul {
+      list-style-type: disc;
+    }
+  }
 }
