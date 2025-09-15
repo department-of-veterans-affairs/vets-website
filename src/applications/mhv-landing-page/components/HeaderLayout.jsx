@@ -6,7 +6,6 @@ import { VaLink } from '@department-of-veterans-affairs/component-library/dist/r
 import recordEvent from '~/platform/monitoring/record-event';
 import WelcomeContainer from '../containers/WelcomeContainer';
 import { myVAHealthPortalLink } from '../utilities/data';
-import ConfirmEmailLink from './ConfirmEmailLink';
 
 const learnMoreLink = {
   text: 'Learn more about My HealtheVet on VA.gov',
@@ -36,9 +35,6 @@ const HeaderLayout = ({ showWelcomeMessage = false, isCerner = false }) => (
               <h1 className="vads-u-margin-y--0">My HealtheVet</h1>
             </div>
           </div>
-        </div>
-        <div>
-          <ConfirmEmailLink />
         </div>
         <div>
           <p className="vads-u-font-family--serif vads-u-line-height--5 medium-screen:vads-u-font-size--lg medium-screen:vads-u-line-height--6 vads-u-margin-top--1 vads-u-margin-bottom--2">

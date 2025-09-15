@@ -1,9 +1,9 @@
 import { add, format, subDays, addDays } from 'date-fns';
 import sinon from 'sinon';
 import { expect } from 'chai';
-import moment from 'moment';
 
 import { minYear, maxYear } from 'platform/forms-system/src/js/helpers';
+import { parseDate } from '../utils/dates';
 
 import {
   isValidYear,
@@ -1527,10 +1527,8 @@ describe('526 All Claims validations', () => {
     describe('isTreatmentBeforeService', () => {
       describe('year-only format (YYYY-XX-XX)', () => {
         it('should return true when treatment year is before service year', () => {
-          // eslint-disable-next-line no-restricted-globals
-          const treatmentDate = moment('1999-01-01');
-          // eslint-disable-next-line no-restricted-globals
-          const earliestServiceDate = moment('2000-01-01');
+          const treatmentDate = parseDate('1999-01-01');
+          const earliestServiceDate = parseDate('2000-01-01');
           const fieldData = '1999-XX-XX';
 
           const result = isTreatmentBeforeService(
@@ -1542,10 +1540,8 @@ describe('526 All Claims validations', () => {
         });
 
         it('should return false when treatment year is after service year', () => {
-          // eslint-disable-next-line no-restricted-globals
-          const treatmentDate = moment('2001-01-01');
-          // eslint-disable-next-line no-restricted-globals
-          const earliestServiceDate = moment('2000-01-01');
+          const treatmentDate = parseDate('2001-01-01');
+          const earliestServiceDate = parseDate('2000-01-01');
           const fieldData = '2001-XX-XX';
 
           const result = isTreatmentBeforeService(
@@ -1559,10 +1555,8 @@ describe('526 All Claims validations', () => {
 
       describe('year-month format (YYYY-MM-XX)', () => {
         it('should return true when treatment year-month is before service year-month', () => {
-          // eslint-disable-next-line no-restricted-globals
-          const treatmentDate = moment('1999-12-01');
-          // eslint-disable-next-line no-restricted-globals
-          const earliestServiceDate = moment('2000-01-01');
+          const treatmentDate = parseDate('1999-12-01');
+          const earliestServiceDate = parseDate('2000-01-01');
           const fieldData = '1999-12-XX';
 
           const result = isTreatmentBeforeService(
@@ -1574,10 +1568,8 @@ describe('526 All Claims validations', () => {
         });
 
         it('should return false when treatment year-month is after service year-month', () => {
-          // eslint-disable-next-line no-restricted-globals
-          const treatmentDate = moment('2000-02-01');
-          // eslint-disable-next-line no-restricted-globals
-          const earliestServiceDate = moment('2000-01-01');
+          const treatmentDate = parseDate('2000-02-01');
+          const earliestServiceDate = parseDate('2000-01-01');
           const fieldData = '2000-02-XX';
 
           const result = isTreatmentBeforeService(
@@ -1591,10 +1583,8 @@ describe('526 All Claims validations', () => {
 
       describe('non-matching format cases', () => {
         it('should return false for complete date format (YYYY-MM-DD)', () => {
-          // eslint-disable-next-line no-restricted-globals
-          const treatmentDate = moment('1999-01-01');
-          // eslint-disable-next-line no-restricted-globals
-          const earliestServiceDate = moment('2000-01-01');
+          const treatmentDate = parseDate('1999-01-01');
+          const earliestServiceDate = parseDate('2000-01-01');
           const fieldData = '1999-01-01';
 
           const result = isTreatmentBeforeService(
@@ -1606,10 +1596,8 @@ describe('526 All Claims validations', () => {
         });
 
         it('should return false for month-only format (XXXX-MM-XX)', () => {
-          // eslint-disable-next-line no-restricted-globals
-          const treatmentDate = moment('1999-01-01');
-          // eslint-disable-next-line no-restricted-globals
-          const earliestServiceDate = moment('2000-01-01');
+          const treatmentDate = parseDate('1999-01-01');
+          const earliestServiceDate = parseDate('2000-01-01');
           const fieldData = 'XXXX-01-XX';
 
           const result = isTreatmentBeforeService(
@@ -1621,10 +1609,8 @@ describe('526 All Claims validations', () => {
         });
 
         it('should return false for invalid date format', () => {
-          // eslint-disable-next-line no-restricted-globals
-          const treatmentDate = moment('1999-01-01');
-          // eslint-disable-next-line no-restricted-globals
-          const earliestServiceDate = moment('2000-01-01');
+          const treatmentDate = parseDate('1999-01-01');
+          const earliestServiceDate = parseDate('2000-01-01');
           const fieldData = 'invalid-date';
 
           const result = isTreatmentBeforeService(
