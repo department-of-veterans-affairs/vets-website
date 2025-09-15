@@ -37,21 +37,25 @@ const UploadFileToVa = () => {
                 <LiSpanAndVaLink
                   hrefText="VA Form 22-10215: Statement of Assurance of Compliance with 85% Enrollment Ratios"
                   href="/school-administrators/85-15-rule-enrollment-ratio"
+                  testId="digital-10215-form"
                 />
                 <LiSpanAndVaLink
                   hrefText="VA Form 22-10216: 35% Exemption Request from 85/15 Reporting Requirement"
                   href="/school-administrators/35-percent-exemption"
+                  testId="digital-10216-form"
                 />
                 {form8794Toggle && (
                   <LiSpanAndVaLink
                     hrefText="VA Form 22-8794: Designation of Certifying Official(s)"
                     href="/school-administrators/update-certifying-officials"
+                    testId="digital-8794-form"
                   />
                 )}
                 {form1919Toggle && (
                   <LiSpanAndVaLink
                     hrefText="VA Form 22-1919: Conflicting Interests Certification for Proprietary Schools"
                     href="/school-administrators/report-conflicting-interests"
+                    testId="digital-1919-form"
                   />
                 )}
               </ul>
