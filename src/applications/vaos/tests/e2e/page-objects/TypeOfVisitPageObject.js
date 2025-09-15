@@ -1,13 +1,6 @@
 import PageObject from './PageObject';
 
 class TypeOfVisitPageObject extends PageObject {
-  assertHeading({ name }) {
-    return this.assertShadow({
-      element: 'va-radio',
-      text: name,
-    });
-  }
-
   assertUrl() {
     cy.url().should('include', '/preferred-method');
     cy.axeCheckBestPractice();
@@ -23,7 +16,7 @@ class TypeOfVisitPageObject extends PageObject {
   }
 
   selectVisitType(label) {
-    return super.selectRadioButtonShadow(label);
+    return super.selectRadioButton(label);
   }
 }
 

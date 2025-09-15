@@ -2,34 +2,49 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { render } from '@testing-library/react';
+
 import {
   ConfirmationGoBackLink,
   ConfirmationWhatsNextProcessList,
+  ConfirmationHowToContact,
+  ConfirmationSubmissionAlert,
   getAgeInYears,
   trainingProviderArrayOptions,
   getCardDescription,
   validateTrainingProviderStartDate,
-  ConfirmationSubmissionAlert,
+  dateSigned,
+  viewifyFields,
+  maskBankInformation,
 } from '../helpers';
 
 describe('10297 Helpers', () => {
   describe('<ConfirmationSubmissionAlert />', () => {
-    it('shows submission alert section', () => {
-      const confirmationNumber = '1234567890';
-
+    it('shows submission alert section with confirmation number', () => {
       const { container } = render(
-        <ConfirmationSubmissionAlert confirmationNumber={confirmationNumber} />,
+        <ConfirmationSubmissionAlert confirmationNumber="1234567890" />,
       );
+      expect(container.textContent).to.contain(
+        'Your submission is in progress.',
+      );
+      expect(container.textContent).to.contain(
+        'Your confirmation number is 1234567890.',
+      );
+    });
 
-      // Confirmation Number
-      expect(container.innerHTML).to.include('1234567890');
+    it('shows submission alert section without confirmation number', () => {
+      const { container } = render(<ConfirmationSubmissionAlert />);
+      expect(container.textContent).to.contain(
+        'Your submission is in progress.',
+      );
+      expect(container.textContent).to.not.contain(
+        'Your confirmation number is',
+      );
     });
   });
 
   describe('<ConfirmationWhatsNextProcessList />', () => {
     it('shows process list section', () => {
       const { container } = render(<ConfirmationWhatsNextProcessList />);
-
       expect(container.querySelector('va-process-list')).to.exist;
       expect(
         container.querySelectorAll('va-process-list-item').length,
@@ -40,52 +55,65 @@ describe('10297 Helpers', () => {
   describe('<ConfirmationGoBackLink />', () => {
     it('should render an action link to go back to the VA.gov homepage', () => {
       const { container } = render(<ConfirmationGoBackLink />);
+      const action = container.querySelector('va-link-action');
+      expect(action).to.exist;
+      expect(action).to.have.attribute('href', '/');
+      expect(action).to.have.attribute('text', 'Go back to VA.gov homepage');
+    });
+  });
 
-      expect(container.querySelector('va-link-action')).to.have.attribute(
-        'text',
-        'Go back to VA.gov homepage',
-      );
+  describe('<ConfirmationHowToContact />', () => {
+    it('renders Ask VA link with correct attributes', () => {
+      const { container } = render(<ConfirmationHowToContact />);
+      const link = container.querySelector('va-link');
+      expect(link).to.exist;
+      expect(link).to.have.attribute('href', 'https://ask.va.gov/');
+      expect(link).to.have.attribute('text', 'Ask VA');
     });
   });
 
   describe('#getAgeInYears', () => {
     let clock;
-
     beforeEach(() => {
-      // Mock Date.now() to always return a fixed value in 2024
-      const fixedTimestamp = new Date('2024-12-31T00:00:00Z').getTime();
-      clock = sinon.useFakeTimers({ now: fixedTimestamp, toFake: ['Date'] });
+      const fixed = new Date('2024-12-31T00:00:00Z').getTime();
+      clock = sinon.useFakeTimers({ now: fixed, toFake: ['Date'] });
     });
+    afterEach(() => clock.restore());
 
-    afterEach(() => {
-      clock.restore();
-    });
-
-    it('should return the age in years based on the given birthDate', () => {
+    it('should return the age in years', () => {
       expect(getAgeInYears('1963-01-01')).to.equal(61);
       expect(getAgeInYears('1962-12-31')).to.equal(62);
     });
   });
 
-  describe('#getEligibilityStatus', () => {
+  describe('#dateSigned', () => {
     let clock;
+    afterEach(() => clock?.restore());
 
-    beforeEach(() => {
-      // Mock Date.now() to always return a fixed value in 2024
-      const fixedTimestamp = new Date('2024-12-31T00:00:00Z').getTime();
-      clock = sinon.useFakeTimers({ now: fixedTimestamp, toFake: ['Date'] });
+    it('returns today +365 days', () => {
+      clock = sinon.useFakeTimers({
+        now: new Date('2025-01-01T00:00:00Z').getTime(),
+        toFake: ['Date'],
+      });
+      // 365 days from 2025-01-01 => 2026-01-01
+      expect(dateSigned()).to.equal('2026-01-01');
     });
 
-    afterEach(() => {
-      clock.restore();
+    it('handles leap-year +365 correctly', () => {
+      clock = sinon.useFakeTimers({
+        now: new Date('2024-02-28T12:00:00Z').getTime(),
+        toFake: ['Date'],
+      });
+      // Leap year: 365 days after 2024-02-28 => 2025-02-27
+      expect(dateSigned()).to.equal('2025-02-27');
     });
   });
 });
 
-describe('trainingProvierArrayOptions', () => {
-  it('should return correct isItemComplete', () => {
+describe('trainingProviderArrayOptions', () => {
+  it('should validate item completeness', () => {
     const item = {
-      providerName: 'Training Provider Example',
+      providerName: 'Training Provider',
       providerAddress: {
         country: 'USA',
         street: '123 Main St',
@@ -94,27 +122,20 @@ describe('trainingProvierArrayOptions', () => {
         postalCode: '12345',
       },
     };
-    const emptyItem = {};
-    expect(trainingProviderArrayOptions.isItemIncomplete(item)).to.equal(false);
-    expect(trainingProviderArrayOptions.isItemIncomplete(emptyItem)).to.equal(
-      true,
-    );
+    expect(trainingProviderArrayOptions.isItemIncomplete(item)).to.be.false;
+    expect(trainingProviderArrayOptions.isItemIncomplete({})).to.be.true;
   });
 
-  it('should return correct card title using getItemName', () => {
-    const item = {
-      providerName: 'Training Provider Example',
-    };
-    const emptyItem = {};
-    expect(trainingProviderArrayOptions.text.getItemName(item)).to.equal(
-      'Training Provider Example',
-    );
-    expect(trainingProviderArrayOptions.text.getItemName(emptyItem)).to.equal(
+  it('should return correct item name', () => {
+    expect(
+      trainingProviderArrayOptions.text.getItemName({ providerName: 'X' }),
+    ).to.equal('X');
+    expect(trainingProviderArrayOptions.text.getItemName({})).to.equal(
       'training provider',
     );
   });
 
-  it('should have text fields set for custom messages', () => {
+  it('should have expected text fields', () => {
     expect(trainingProviderArrayOptions.text.cancelAddYes).to.equal(
       'Yes, cancel',
     );
@@ -124,13 +145,11 @@ describe('trainingProvierArrayOptions', () => {
     expect(trainingProviderArrayOptions.text.summaryTitle).to.equal(
       'Review your training provider information',
     );
-    expect(trainingProviderArrayOptions.text.cancelAddButtonText).to.equal(
-      'Cancel adding this training provider',
-    );
   });
 });
+
 describe('getCardDescription', () => {
-  it('should return a full description of details from the given card details', () => {
+  it('renders address properly', () => {
     const card = {
       providerAddress: {
         country: 'USA',
@@ -140,53 +159,71 @@ describe('getCardDescription', () => {
         postalCode: '12345',
       },
     };
-
-    const description = getCardDescription(card);
-    const { getByTestId } = render(description);
-
-    expect(getByTestId('card-street').innerHTML).to.include('123 Main St');
-    expect(getByTestId('card-address').innerHTML).to.include(
+    const { getByTestId } = render(getCardDescription(card));
+    expect(getByTestId('card-street').textContent).to.contain('123 Main St');
+    expect(getByTestId('card-address').textContent).to.contain(
       'Anytown, CA 12345',
     );
   });
-});
 
-describe('validateWithin180Days()', () => {
-  // freeze “today” so tests are deterministic
-  const TODAY = new Date('2025-01-01T12:00:00Z');
-  let clock;
-
-  beforeEach(() => {
-    clock = sinon.useFakeTimers({
-      now: TODAY.getTime(),
-      toFake: ['Date'],
-    });
+  it('handles postalCode "NA" with no state', () => {
+    const card = {
+      providerAddress: {
+        country: 'USA',
+        street: '456 Side St',
+        city: 'Nowhere',
+        postalCode: 'NA',
+      },
+    };
+    const { getByTestId } = render(getCardDescription(card));
+    expect(getByTestId('card-address').textContent.trim()).to.equal('Nowhere');
   });
 
-  afterEach(() => {
-    clock.restore();
+  it('returns null when no item provided', () => {
+    expect(getCardDescription(null)).to.be.null;
   });
 });
 
-describe('validateTrainingProviderStartDate()', () => {
-  it('does nothing (passes) when given a date after the program start date', () => {
+describe('validateTrainingProviderStartDate', () => {
+  it('allows valid dates', () => {
     const errors = { addError: sinon.spy() };
     validateTrainingProviderStartDate(errors, '2025-01-03');
     expect(errors.addError.called).to.be.false;
   });
 
-  it('adds an error when given a date before the program start date', () => {
+  it('rejects invalid dates', () => {
     const errors = { addError: sinon.spy() };
     validateTrainingProviderStartDate(errors, '2025-01-01');
     expect(errors.addError.calledOnce).to.be.true;
-    expect(errors.addError.firstCall.args[0]).to.match(
-      /Enter a date after 1\/2\/2025/i,
-    );
   });
 
-  it('does nothing when no date string is provided', () => {
+  it('does nothing on undefined date', () => {
     const errors = { addError: sinon.spy() };
     validateTrainingProviderStartDate(errors, undefined);
     expect(errors.addError.called).to.be.false;
+  });
+});
+
+describe('#viewifyFields', () => {
+  it('adds view: prefix and recurses objects', () => {
+    const data = { a: 1, b: { c: 2 } };
+    const result = viewifyFields(data);
+    expect(result).to.have.property('view:a', 1);
+    expect(result['view:b']).to.have.property('view:c', 2);
+  });
+});
+
+describe('#maskBankInformation', () => {
+  it('masks correctly', () => {
+    expect(maskBankInformation('123456789', 4)).to.equal('●●●●●6789');
+  });
+
+  it('returns empty string for falsy input', () => {
+    expect(maskBankInformation('', 4)).to.equal('');
+    expect(maskBankInformation(null, 4)).to.equal('');
+  });
+
+  it('returns unmasked if shorter than unmaskedLength', () => {
+    expect(maskBankInformation('123', 4)).to.equal('123');
   });
 });

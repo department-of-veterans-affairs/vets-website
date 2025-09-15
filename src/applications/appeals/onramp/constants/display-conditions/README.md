@@ -2,7 +2,10 @@
 
 **Note**
 - Refer to all files in this directory (other than `index.js`) for real examples.
-- See [this Mural](https://app.mural.co/t/departmentofveteransaffairs9999/m/departmentofveteransaffairs9999/1736350333305/034f554056e15ace373c35a8b9655134d4ccafe0) for a visual diagram of the display conditions for the Decision Reviews Onramp Tool.
+- See [this Figma](https://www.figma.com/design/5vAWK3wpBkJgG7ngLXYmht/Onramping-Tool?node-id=148-12838&t=QOAwUntpNngliuF1-0) or the below screenshot for a visual diagram of the display conditions for the Decision Reviews Onramp Tool
+
+<img width="1257" height="1184" alt="Screenshot 2025-09-11 at 3 22 11 PM copy" src="https://github.com/user-attachments/assets/ae0e61cb-f3d9-45f0-8e71-e2285c6b4a17" />
+
 - `Q_1_1_CLAIM_DECISION` is the first question in the flow. The answer to this question controls the display of every other question after it. It has empty display conditions (`{}`) because it always shows first.
 - All examples below are for demonstration only and may not represent accurate display conditions for the Decision Reviews Onramp Tool.
 

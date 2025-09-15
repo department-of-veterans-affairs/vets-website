@@ -7,9 +7,9 @@ const {
   Q_1_1_CLAIM_DECISION,
   Q_1_2_CLAIM_DECISION,
   Q_1_3_CLAIM_CONTESTED,
-  Q_2_0_CLAIM_TYPE,
   Q_2_IS_1_SERVICE_CONNECTED,
   Q_2_IS_2_CONDITION_WORSENED,
+  Q_2_IS_4_DISAGREE_DECISION,
 } = SHORT_NAME_MAP;
 const { RESULTS_2_IS_3 } = RESULTS_NAME_MAP;
 
@@ -17,9 +17,9 @@ const { RESULTS_2_IS_3 } = RESULTS_NAME_MAP;
 // 1.1 - Yes
 // 1.2 - Yes
 // 1.3 - No
-// 2.0 - Initial
 // 2.IS.1 - Yes
 // 2.IS.2 - Yes
+// 2.IS.4 - No
 describe('Decision Reviews Onramp', () => {
   describe('Results 2.IS3', () => {
     it('navigates through the flow forward and backward successfully', () => {
@@ -45,11 +45,6 @@ describe('Decision Reviews Onramp', () => {
       h.selectRadio(Q_1_3_CLAIM_CONTESTED, 1);
       h.clickContinue();
 
-      // Q_2_0_CLAIM_TYPE
-      h.verifyUrl(ROUTES.Q_2_0_CLAIM_TYPE);
-      h.selectRadio(Q_2_0_CLAIM_TYPE, 0);
-      h.clickContinue();
-
       // Q_2_IS_1_SERVICE_CONNECTED
       h.verifyUrl(ROUTES.Q_2_IS_1_SERVICE_CONNECTED);
       h.selectRadio(Q_2_IS_1_SERVICE_CONNECTED, 0);
@@ -60,10 +55,19 @@ describe('Decision Reviews Onramp', () => {
       h.selectRadio(Q_2_IS_2_CONDITION_WORSENED, 0);
       h.clickContinue();
 
+      // Q_2_IS_4_DISAGREE_DECISION
+      h.verifyUrl(ROUTES.Q_2_IS_4_DISAGREE_DECISION);
+      h.selectRadio(Q_2_IS_4_DISAGREE_DECISION, 1);
+      h.clickContinue();
+
       // RESULTS
       h.verifyUrl(ROUTES.RESULTS);
       h.verifyNonDrResultsHeader(RESULTS_2_IS_3);
       cy.go('back');
+
+      // Q_2_IS_4_DISAGREE_DECISION
+      h.verifyUrl(ROUTES.Q_2_IS_4_DISAGREE_DECISION);
+      h.clickBack();
 
       // Q_2_IS_2_CONDITION_WORSENED
       h.verifyUrl(ROUTES.Q_2_IS_2_CONDITION_WORSENED);
@@ -71,10 +75,6 @@ describe('Decision Reviews Onramp', () => {
 
       // Q_2_IS_1_SERVICE_CONNECTED
       h.verifyUrl(ROUTES.Q_2_IS_1_SERVICE_CONNECTED);
-      h.clickBack();
-
-      // Q_2_0_CLAIM_TYPE
-      h.verifyUrl(ROUTES.Q_2_0_CLAIM_TYPE);
       h.clickBack();
 
       // Q_1_3_CLAIM_CONTESTED
