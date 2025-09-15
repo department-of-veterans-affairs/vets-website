@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Toggler } from 'platform/utilities/feature-toggles';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import {
   NAV_MENU_DROPDOWN,
   NAV_MOBILE_DROPDOWN,
@@ -8,8 +9,16 @@ import {
 } from '../../utilities/constants';
 
 const DropdownLinks = ({ closeDropdown, category }) => {
-  const handleClick = () => {
+  const handleClick = e => {
     closeDropdown();
+    recordEvent({
+      // prettier-ignore
+      'event': e.target.dataset.eventname,
+      // prettier-ignore
+      'custom_string_2': e.target.innerText || e.target.alt,
+      'link-destination': e.target.href || e.target.baseURI,
+      'link-origin': 'navigation',
+    });
   };
 
   return (
@@ -22,6 +31,8 @@ const DropdownLinks = ({ closeDropdown, category }) => {
                 to={link.URL}
                 onClick={handleClick}
                 className="vads-u-color--black"
+                data-testid={link.TEST_ID}
+                data-eventname="nav-link-click"
               >
                 {link.LABEL}
               </Link>
@@ -45,6 +56,8 @@ const DropdownLinks = ({ closeDropdown, category }) => {
                     to={link.URL}
                     onClick={handleClick}
                     className="nav__mobile-menu-links"
+                    data-testid={link.TEST_ID}
+                    data-eventname="nav-link-click"
                   >
                     {link.LABEL}
                   </Link>
@@ -64,6 +77,8 @@ const DropdownLinks = ({ closeDropdown, category }) => {
                 to={link.URL}
                 onClick={handleClick}
                 className="nav__mobile-menu-links"
+                data-testid={link.TEST_ID}
+                data-eventname="nav-link-click"
               >
                 {link.LABEL}
               </Link>
@@ -74,8 +89,10 @@ const DropdownLinks = ({ closeDropdown, category }) => {
         <li>
           <a
             href={SIGN_OUT_URL}
+            data-testid="user-nav-sign-out-link"
             onClick={handleClick}
             className="vads-u-color--black"
+            data-eventname="nav-header-sign-out"
           >
             Sign Out
           </a>
