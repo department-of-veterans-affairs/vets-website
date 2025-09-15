@@ -411,7 +411,7 @@ describe('TreatedDisabilitiesCheckboxGroup', () => {
       );
 
       expect(getByText('What conditions were you treated for?')).to.exist;
-      expect(getByText('Ptsd')).to.exist; // Display as 'Ptsd'
+      expect(getByText('PTSD')).to.exist;
 
       const checkboxes = container.querySelectorAll('va-checkbox');
       expect(checkboxes).to.have.length(0);
@@ -446,7 +446,7 @@ describe('TreatedDisabilitiesCheckboxGroup', () => {
       expect(checkboxes).to.have.length(2);
 
       const labels = Array.from(checkboxes).map(cb => cb.getAttribute('label'));
-      expect(labels).to.include('Ptsd');
+      expect(labels).to.include('PTSD');
       expect(labels).to.include('Tinnitus');
     });
 
@@ -477,7 +477,7 @@ describe('TreatedDisabilitiesCheckboxGroup', () => {
       expect(checkboxes).to.have.length(2);
 
       const labels = Array.from(checkboxes).map(cb => cb.getAttribute('label'));
-      expect(labels).to.include('Ptsd'); // 'Ptsd' not 'PTSD'
+      expect(labels).to.include('PTSD');
       expect(labels).to.include('Tinnitus');
     });
 
