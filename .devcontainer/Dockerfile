@@ -1,7 +1,7 @@
 # See here for image contents: https://github.com/microsoft/vscode-dev-containers/tree/v0.192.0/containers/javascript-node/.devcontainer/base.Dockerfile
 
 # [Choice] Node.js version: 16, 14, 12
-ARG VARIANT="14-buster"
+ARG VARIANT="14-bullseye"
 FROM mcr.microsoft.com/vscode/devcontainers/javascript-node:0-${VARIANT}
 
 # default case is Jenkins, but we want to be able to overwrite this
@@ -29,9 +29,7 @@ RUN apt-get install -y --no-install-recommends gconf-service libasound2 libatk1.
                                                 fonts-liberation libnss3 lsb-release xdg-utils \
                                                 x11vnc x11-xkb-utils xfonts-100dpi xfonts-75dpi xfonts-scalable \
                                                 xfonts-cyrillic x11-apps xvfb xauth netcat dumb-init libgbm-dev \
-                                                && wget http://http.us.debian.org/debian/pool/main/liba/libappindicator/libappindicator1_0.4.92-7_amd64.deb -O /tmp/libappindicator1_0.4.92-7_amd64.deb \
-                                                && wget http://http.us.debian.org/debian/pool/main/libi/libindicator/libindicator7_0.5.0-4_amd64.deb -O /tmp/libindicator7_0.5.0-4_amd64.deb \
-                                                && apt-get install -y  /tmp/libindicator7_0.5.0-4_amd64.deb /tmp/libappindicator1_0.4.92-7_amd64.deb
+                                                libayatana-appindicator1 libayatana-indicator7
 
 RUN curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > /cc-test-reporter
 RUN chmod +x /cc-test-reporter
