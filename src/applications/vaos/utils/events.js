@@ -102,6 +102,7 @@ export function captureMissingModalityLogs(appointment) {
         'metadata',
         JSON.stringify({
           // Raw API fields
+          start: appointment.vaos.apiData.start,
           created: appointment.vaos.apiData.created,
           status: appointment.vaos.apiData.status,
           past: appointment.vaos.apiData.past,
