@@ -36,9 +36,14 @@ export const evaluateBatchOfChoices = (batchOfChoices, formResponses) => {
  * has worsened and they disagree with a decision
  */
 export const isCFIVariant = formResponses => {
+  const {
+    Q_1_2A_2_DISAGREE_DECISION,
+    Q_2_IS_4_DISAGREE_DECISION,
+  } = SHORT_NAME_MAP;
+
   return (
-    formResponses[(SHORT_NAME_MAP?.Q_2_IS_4_DISAGREE_DECISION)] ===
-    RESPONSES.YES
+    formResponses[Q_1_2A_2_DISAGREE_DECISION] === RESPONSES.YES ||
+    formResponses[Q_2_IS_4_DISAGREE_DECISION] === RESPONSES.YES
   );
 };
 

@@ -172,9 +172,6 @@ export const checkNotGoodFitCards = expectedCards => {
   });
 };
 
-export const verifyNotGoodFitCardsNotPresent = () =>
-  cy.get(`[data-testid^="${NOT_GOOD_FIT}"]`).should('not.exist');
-
 export const verifyOutsideDROptionPresent = () =>
   cy.findByTestId(OUTSIDE_DR).should('be.visible');
 

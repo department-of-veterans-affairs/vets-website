@@ -64,8 +64,12 @@ describe('Decision Reviews Onramp', () => {
       // RESULTS
       h.verifyUrl(ROUTES.RESULTS);
       h.verifyDrResultsHeader(RESULTS_2_H_2A_1);
-      h.checkOverviewPanel([c.TITLE_BOARD_EVIDENCE]);
+      h.checkOverviewPanel([c.TITLE_SC, c.TITLE_BOARD_EVIDENCE]);
       h.checkGoodFitCards([
+        {
+          type: c.CARD_SC,
+          content: [c.CARD_GF_YES_EVIDENCE, c.CARD_GF_NO_HEARING],
+        },
         {
           type: c.CARD_BOARD_EVIDENCE,
           content: [

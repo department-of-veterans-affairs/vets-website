@@ -64,7 +64,7 @@ describe('Decision Reviews Onramp', () => {
       // RESULTS
       h.verifyUrl(ROUTES.RESULTS);
       h.verifyDrResultsHeader(RESULTS_2_H_2B_2);
-      h.checkOverviewPanel([c.TITLE_BOARD_DIRECT, c.TITLE_BOARD_EVIDENCE]);
+      h.checkOverviewPanel([c.TITLE_BOARD_DIRECT]);
       h.checkGoodFitCards([
         {
           type: c.CARD_BOARD_DIRECT,
@@ -73,10 +73,6 @@ describe('Decision Reviews Onramp', () => {
             c.CARD_GF_BOARD_ONLY_OPTION,
             c.CARD_GF_NO_HEARING,
           ],
-        },
-        {
-          type: c.CARD_BOARD_EVIDENCE, // TODO - this card should not appear on both
-          content: [c.CARD_GF_BOARD_ONLY_OPTION, c.CARD_GF_NO_HEARING],
         },
       ]);
       h.verifyClaimForIncreaseCardNotPresent();

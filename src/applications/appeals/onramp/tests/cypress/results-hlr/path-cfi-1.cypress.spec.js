@@ -85,7 +85,10 @@ describe('Decision Reviews Onramp', () => {
       // RESULTS
       h.verifyUrl(ROUTES.RESULTS);
       h.verifyDrResultsHeader(RESULTS_2_IS_1D);
-      h.checkOverviewPanel([c.TITLE_HLR, c.TITLE_BOARD_DIRECT], true);
+      h.checkOverviewPanel(
+        [c.TITLE_HLR, c.TITLE_BOARD_DIRECT, c.TITLE_BOARD_HEARING],
+        true,
+      );
       h.checkGoodFitCards([
         {
           type: c.CARD_HLR,
@@ -93,16 +96,26 @@ describe('Decision Reviews Onramp', () => {
             c.CARD_GF_REVIEW_SC,
             c.CARD_GF_NO_EVIDENCE,
             c.CARD_GF_NOT_CONTESTED,
+            c.CARD_GF_NO_LAW_POLICY,
           ],
         },
         {
           type: c.CARD_BOARD_DIRECT,
           content: [c.CARD_GF_REVIEW_SC, c.CARD_GF_NO_EVIDENCE],
         },
+        {
+          type: c.CARD_BOARD_HEARING,
+          content: [c.CARD_GF_REVIEW_SC, c.CARD_GF_NO_EVIDENCE],
+        },
       ]);
+      h.verifyClaimForIncreaseCardPresent();
       h.checkNotGoodFitCards([
         {
           type: c.CARD_SC,
+          content: [c.CARD_NGF_NEED_EVIDENCE],
+        },
+        {
+          type: c.CARD_BOARD_EVIDENCE,
           content: [c.CARD_NGF_NEED_EVIDENCE],
         },
       ]);

@@ -71,26 +71,38 @@ describe('Decision Reviews Onramp', () => {
       // RESULTS
       h.verifyUrl(ROUTES.RESULTS);
       h.verifyDrResultsHeader(RESULTS_2_S_1A);
-      h.checkOverviewPanel([c.TITLE_SC, c.TITLE_BOARD_EVIDENCE]);
+      h.checkOverviewPanel([
+        c.TITLE_SC,
+        c.TITLE_BOARD_EVIDENCE,
+        c.TITLE_BOARD_HEARING,
+      ]);
       h.checkGoodFitCards([
         {
           type: c.CARD_SC,
           content: [
-            c.CARD_REVIEW_INIT,
-            c.CARD_NEW_EVIDENCE,
-            c.CARD_NOT_CONTESTED,
-            c.CARD_SUBMITTED_BOARD_APPEAL,
+            c.CARD_GF_REVIEW_INIT,
+            c.CARD_GF_YES_EVIDENCE,
+            c.CARD_GF_NOT_CONTESTED,
           ],
         },
         {
           type: c.CARD_BOARD_EVIDENCE,
-          content: [c.CARD_REVIEW_INIT, c.CARD_NEW_EVIDENCE],
+          content: [c.CARD_GF_REVIEW_INIT, c.CARD_GF_YES_EVIDENCE],
+        },
+        {
+          type: c.CARD_BOARD_HEARING,
+          content: [c.CARD_GF_REVIEW_INIT, c.CARD_GF_YES_EVIDENCE],
         },
       ]);
+      h.verifyClaimForIncreaseCardNotPresent();
       h.checkNotGoodFitCards([
         {
           type: c.CARD_HLR,
-          content: [c.CARD_CANNOT_SUBMIT_EVIDENCE],
+          content: [c.CARD_NGF_CANNOT_SUBMIT_EVIDENCE],
+        },
+        {
+          type: c.CARD_BOARD_DIRECT,
+          content: [c.CARD_NGF_CANNOT_SUBMIT_EVIDENCE],
         },
       ]);
       h.verifyOutsideDROptionNotPresent();

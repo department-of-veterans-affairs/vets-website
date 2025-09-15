@@ -86,11 +86,28 @@ describe('Decision Reviews Onramp', () => {
             c.CARD_GF_REVIEW_SC,
             c.CARD_GF_YES_LAW_POLICY,
             c.CARD_GF_NOT_CONTESTED,
-            c.CARD_SUBMITTED_BOARD_APPEAL,
           ],
         },
       ]);
-      h.verifyNotGoodFitCardsNotPresent();
+      h.verifyClaimForIncreaseCardPresent();
+      h.checkNotGoodFitCards([
+        {
+          type: c.CARD_HLR,
+          content: [c.CARD_NGF_YES_LAW_POLICY],
+        },
+        {
+          type: c.CARD_BOARD_DIRECT,
+          content: [c.CARD_NGF_YES_LAW_POLICY],
+        },
+        {
+          type: c.CARD_BOARD_EVIDENCE,
+          content: [c.CARD_NGF_YES_LAW_POLICY],
+        },
+        {
+          type: c.CARD_BOARD_HEARING,
+          content: [c.CARD_NGF_YES_LAW_POLICY],
+        },
+      ]);
       h.verifyOutsideDROptionNotPresent();
       cy.go('back');
 

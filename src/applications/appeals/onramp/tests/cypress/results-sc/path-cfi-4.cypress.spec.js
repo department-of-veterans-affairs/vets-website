@@ -61,10 +61,28 @@ describe('Decision Reviews Onramp', () => {
       h.checkGoodFitCards([
         {
           type: c.CARD_SC,
-          content: [c.CARD_SUBMITTED_BOARD_APPEAL],
+          content: [c.CARD_GF_DECISION_OVER_1_YEAR],
         },
       ]);
-      h.verifyNotGoodFitCardsNotPresent();
+      h.verifyClaimForIncreaseCardPresent();
+      h.checkNotGoodFitCards([
+        {
+          type: c.CARD_HLR,
+          content: [c.CARD_NGF_DECISION_OVER_1_YEAR],
+        },
+        {
+          type: c.CARD_BOARD_DIRECT,
+          content: [c.CARD_NGF_DECISION_OVER_1_YEAR],
+        },
+        {
+          type: c.CARD_BOARD_EVIDENCE,
+          content: [c.CARD_NGF_DECISION_OVER_1_YEAR],
+        },
+        {
+          type: c.CARD_BOARD_HEARING,
+          content: [c.CARD_NGF_DECISION_OVER_1_YEAR],
+        },
+      ]);
       h.verifyOutsideDROptionNotPresent();
       cy.go('back');
 

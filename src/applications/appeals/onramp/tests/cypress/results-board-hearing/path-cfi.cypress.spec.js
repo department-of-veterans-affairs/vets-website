@@ -117,6 +117,10 @@ describe('Decision Reviews Onramp', () => {
             c.CARD_NGF_HEARING_NOT_INCLUDED,
           ],
         },
+        {
+          type: c.CARD_BOARD_EVIDENCE,
+          content: [c.CARD_NGF_HEARING_NOT_INCLUDED],
+        },
       ]);
       h.verifyOutsideDROptionNotPresent();
       cy.go('back');
