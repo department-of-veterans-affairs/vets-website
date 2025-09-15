@@ -6,10 +6,12 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { useBrowserMonitoring } from 'platform/monitoring/Datadog/';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import environment from 'platform/utilities/environment';
+import { openReviewChapter as openReviewChapterAction } from 'platform/forms-system/src/js/actions';
+
 import formConfig from '../config/form';
 import { NoFormPage } from '../components/NoFormPage';
 
-function App({ location, children, isLoggedIn }) {
+function App({ location, children, isLoggedIn, openReviewChapter }) {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const incomeAndAssetsFormEnabled = useToggleValue(
     TOGGLE_NAMES.incomeAndAssetsFormEnabled,
@@ -52,6 +54,16 @@ function App({ location, children, isLoggedIn }) {
     [isLoadingFeatures, incomeAndAssetsContentUpdates],
   );
 
+  useEffect(
+    () => {
+      if (location.pathname === '/review-and-submit') {
+        // auto-open "Property and business" accordion on review & submit page
+        openReviewChapter('ownedAssets');
+      }
+    },
+    [location, openReviewChapter],
+  );
+
   if (isLoadingFeatures) {
     return <va-loading-indicator message="Loading application..." />;
   }
@@ -74,10 +86,17 @@ const mapStateToProps = state => {
   };
 };
 
+const mapDispatchToProps = {
+  openReviewChapter: openReviewChapterAction,
+};
+
 App.propTypes = {
   children: PropTypes.node.isRequired,
   location: PropTypes.object.isRequired,
   isLoggedIn: PropTypes.bool,
 };
 
-export default connect(mapStateToProps)(App);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(App);
