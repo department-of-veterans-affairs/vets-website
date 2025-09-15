@@ -443,7 +443,7 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
 
     // Belgrade is the 2nd of three options so the expectation is
     // that it should be selected when we get to the CommunityCareProviderSelectionPage.
-    await setClosestCity(store, '983');
+    await setClosestCity(store, 'City 983, WY');
     const screen = renderWithStoreAndRouter(
       <CommunityCareProviderSelectionPage />,
       {
@@ -517,7 +517,7 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
 
     // Belgrade is the 2nd of three options so the expectation is
     // that it should be selected when we get to the CommunityCareProviderSelectionPage.
-    await setClosestCity(store, '983');
+    await setClosestCity(store, 'City 983, WY');
 
     const screen = renderWithStoreAndRouter(
       <CommunityCareProviderSelectionPage />,

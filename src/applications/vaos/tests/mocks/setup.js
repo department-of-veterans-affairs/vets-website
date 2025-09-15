@@ -468,12 +468,7 @@ export async function setCommunityCareFlow({
 export async function setClosestCity(store, cityValue) {
   const screen = renderWithStoreAndRouter(<ClosestCityStatePage />, { store });
 
-  const radioSelector = screen.container.querySelector('va-radio');
-  const changeEvent = new CustomEvent('selected', {
-    detail: { value: cityValue },
-  });
-  radioSelector.__events.vaValueChange(changeEvent);
-
+  fireEvent.click(await screen.findByLabelText(cityValue));
   fireEvent.click(screen.getByText(/Continue/));
   await waitFor(() => expect(screen.history.push.called).to.be.true);
   await cleanup();

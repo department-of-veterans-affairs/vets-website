@@ -1,18 +1,18 @@
+import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import FormButtons from '../../components/FormButtons';
-import { getFormPageInfo, getNewAppointment } from '../redux/selectors';
 import { FLOW_TYPES, TYPE_OF_VISIT } from '../../utils/constants';
 import { focusFormHeader } from '../../utils/scrollAndFocus';
+import { getPageTitle } from '../newAppointmentFlow';
 import {
   openFormPage,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
   updateFormData,
 } from '../redux/actions';
-import { getPageTitle } from '../newAppointmentFlow';
+import { getFormPageInfo, getNewAppointment } from '../redux/selectors';
 import SimpleRadioWidget from './SimpleRadioWidget';
 
 const pageKey = 'visitType';

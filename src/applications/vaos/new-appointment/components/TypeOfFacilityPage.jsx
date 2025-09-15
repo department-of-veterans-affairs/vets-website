@@ -1,11 +1,11 @@
+import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import FormButtons from '../../components/FormButtons';
 import { FACILITY_TYPES } from '../../utils/constants';
-import { getFormPageInfo } from '../redux/selectors';
 import { focusFormHeader } from '../../utils/scrollAndFocus';
+import { getPageTitle } from '../newAppointmentFlow';
 import {
   openFormPage,
   routeToNextAppointmentPage,
@@ -13,7 +13,7 @@ import {
   startDirectScheduleFlow,
   updateFormData,
 } from '../redux/actions';
-import { getPageTitle } from '../newAppointmentFlow';
+import { getFormPageInfo } from '../redux/selectors';
 import SimpleRadioWidget from './SimpleRadioWidget';
 
 const facilityTypesValues = Object.values(FACILITY_TYPES);
