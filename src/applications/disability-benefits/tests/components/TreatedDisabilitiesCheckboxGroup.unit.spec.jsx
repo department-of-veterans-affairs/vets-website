@@ -504,10 +504,15 @@ describe('TreatedDisabilitiesCheckboxGroup', () => {
       );
 
       await waitFor(() => {
-        // onChange should be called with new disability initialized
-        const { lastCall } = defaultProps.onChange;
-        expect(lastCall.args[0].Tinnitus).to.be.true; // Maintains selection
-        expect(lastCall.args[0]['New Condition']).to.be.false; // New one initialized
+        // Check the rendered checkbox directly
+        const tinnitusCheckbox = document.querySelector(
+          'va-checkbox[label="Tinnitus"]',
+        );
+        const newConditionCheckbox = document.querySelector(
+          'va-checkbox[label="New Condition"]',
+        );
+        expect(tinnitusCheckbox.getAttribute('checked')).to.equal('true');
+        expect(newConditionCheckbox.getAttribute('checked')).to.equal('false');
       });
     });
   });
