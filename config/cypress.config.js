@@ -185,6 +185,7 @@ const cypressConfig = {
   },
   e2e: {
     setupNodeEvents(on, config) {
+      require('@cypress/code-coverage/task')(on, config);
       return require('../src/platform/testing/e2e/cypress/plugins/index')(
         on,
         config,
