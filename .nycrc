@@ -1,0 +1,22 @@
+{
+  "all": true,
+  "reporter": ["text-summary", "lcov"],
+  "include": [
+    "src/**/*.js",
+    "src/**/*.jsx",
+    "src/**/*.ts",
+    "src/**/*.tsx"
+  ],
+  "exclude": [
+    "**/*.spec.*",
+    "**/tests/**",
+    "**/mocks/**",
+    "**/__fixtures__/**"
+  ],
+  "extension": [".js", ".jsx", ".ts", ".tsx"],
+  "check-coverage": false,
+  "temp-dir": "config/.nyc_output",
+  "report-dir": "coverage-e2e",
+  "sourceMap": true,
+  "instrument": false
+}
