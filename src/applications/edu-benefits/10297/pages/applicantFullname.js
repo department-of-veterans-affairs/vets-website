@@ -5,6 +5,7 @@ import {
   dateOfBirthSchema,
   dateOfBirthUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { isValidYear } from 'platform/forms-system/src/js/utilities/validations';
 import AgeEligibility from '../components/AgeEligibility';
 import { getAgeInYears } from '../helpers';
 
@@ -21,7 +22,11 @@ const uiSchema = {
     'ui:options': {
       hideIf: formData => {
         const age = getAgeInYears(formData?.dateOfBirth);
-        return !formData?.dateOfBirth || age <= 62;
+        return (
+          !formData?.dateOfBirth ||
+          !isValidYear(new Date(formData?.dateOfBirth).getFullYear()) ||
+          age <= 62
+        );
       },
       preserveHiddenData: true,
     },
