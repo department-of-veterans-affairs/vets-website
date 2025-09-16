@@ -27,6 +27,7 @@ class VitalsListPage extends BaseListPage {
     cy.intercept('GET', '/my_health/v1/medical_records/vitals', vitals).as(
       'vitalsList',
     );
+    cy.intercept('POST', '/v0/datadog_action', {}).as('datadogAction');
     cy.visit('my-health/medical-records/vitals');
     if (waitForVitals) {
       cy.wait('@vitalsList');
