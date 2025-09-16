@@ -49,7 +49,7 @@ describe('526 cause new shared page', () => {
     const textareaContainer = container.querySelector('va-textarea');
 
     expect(textareaContainer.getAttribute('hint')).to.equal(
-      'For example, I operated loud machinery while in the service, and this caused me to lose my hearing.',
+      'For example, "I operated loud machinery while in the service, and this caused me to lose my hearing."',
     );
   });
 
