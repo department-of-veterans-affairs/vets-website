@@ -199,10 +199,17 @@ describe('<EvidenceSummary>', () => {
       EVIDENCE_PRIVATE_AUTHORIZATION_PATH,
     );
     expect(links[3].getAttribute('data-link')).to.contain(
+<<<<<<< HEAD
       LIMITED_CONSENT_PROMPT_PATH,
     );
     expect(links[4].getAttribute('data-link')).to.contain(
       LIMITED_CONSENT_DETAILS_PATH,
+=======
+      LIMITED_CONSENT_PROMPT,
+    );
+    expect(links[4].getAttribute('data-link')).to.contain(
+      LIMITED_CONSENT_DETAILS,
+>>>>>>> 0ddde6a9c4 (Updating unit tests)
     );
 
     expect(links[5].getAttribute('data-link')).to.contain(
