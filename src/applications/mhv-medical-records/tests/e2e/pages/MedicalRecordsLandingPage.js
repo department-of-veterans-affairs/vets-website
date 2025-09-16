@@ -11,6 +11,10 @@ class MedicalRecordsLandingPage {
       statusCode: 200,
       body: sessionStatus, // status response copied from staging
     }).as('status');
+    this.uumIntercept();
+  };
+
+  uumIntercept = () => {
     // Note that we don't need specific event names in the response
     cy.intercept(
       'POST',

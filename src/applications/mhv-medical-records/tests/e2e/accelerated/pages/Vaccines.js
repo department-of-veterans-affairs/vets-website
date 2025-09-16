@@ -1,5 +1,5 @@
 import sessionStatus from '../fixtures/session/default.json';
-import mockUumResponse from '../../fixtures/unique-user-metrics-response.json';
+import MedicalRecordsLandingPage from '../../pages/MedicalRecordsLandingPage';
 
 class Vaccines {
   setIntercepts = ({ vaccinesData }) => {
@@ -13,12 +13,7 @@ class Vaccines {
     cy.intercept('GET', '/my_health/v2/medical_records/immunization*', req => {
       req.reply(vaccinesData);
     }).as('vaccines-list');
-    // Note that we don't need specific event names in the response
-    cy.intercept(
-      'POST',
-      '/my_health/v1/unique_user_metrics',
-      mockUumResponse,
-    ).as('uum');
+    MedicalRecordsLandingPage.uumIntercept();
   };
 
   setDetailIntercepts = ({ vaccineDetailData, vaccineId }) => {
