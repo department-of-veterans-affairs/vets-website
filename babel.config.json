@@ -310,6 +310,11 @@
   ],
 
   "env": {
+    "cypress": {
+      "plugins": [
+        ["istanbul", { "exclude": ["**/tests/**", "**/mocks/**"] }]
+      ]
+    },
     "test": {
       "presets": ["@babel/env", "@babel/preset-react"],
       "plugins": [
