@@ -33,6 +33,7 @@ const uiSchema = {
     'ui:title': pageTitle,
     'ui:widget': AppointmentsRadioWidget,
     'ui:options': {
+      classNames: 'vads-u-margin-top--neg2',
       hideLabelText: true,
       labels: {
         [TYPES_OF_SLEEP_CARE[0].id]: TYPES_OF_SLEEP_CARE[0].name,
