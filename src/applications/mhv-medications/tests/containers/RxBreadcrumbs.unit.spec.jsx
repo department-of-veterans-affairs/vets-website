@@ -46,12 +46,7 @@ describe('Medications Breadcrumbs', () => {
         />
       </Routes>,
       {
-        initialState: {
-          featureToggles: {
-            // eslint-disable-next-line camelcase
-            mhv_medications_display_documentation_content: true,
-          },
-        },
+        initialState: {},
         reducers,
         initialEntries: [
           `${medicationsUrls.subdirectories.DETAILS}/${prescriptionId}${
@@ -67,24 +62,6 @@ describe('Medications Breadcrumbs', () => {
       `${medicationsUrls.PRESCRIPTION_DETAILS}/${prescriptionId}`,
     );
     expect(breadcrumbs.getAttribute('text')).to.equal('Back');
-  });
-
-  it('renders nothing on DOCUMENTATION route when display documentation content flag is OFF', () => {
-    const screen = setup(
-      {
-        featureToggles: {
-          // eslint-disable-next-line camelcase
-          mhv_medications_display_documentation_content: false,
-        },
-      },
-      [
-        `${medicationsUrls.subdirectories.DETAILS}/${prescriptionId}${
-          medicationsUrls.subdirectories.DOCUMENTATION
-        }`,
-      ],
-    );
-    expect(screen.queryByTestId('rx-breadcrumb-link')).to.be.null;
-    expect(screen.queryByTestId('rx-breadcrumb')).to.be.null;
   });
 
   it('renders breadcrumbs on BASE route', async () => {
