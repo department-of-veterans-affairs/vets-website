@@ -2,15 +2,13 @@ import {
   yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-
-import { content } from '../content/evidencePrivateLimitation';
-
+import { content } from '../content/limitedConsent';
 import { isOnReviewPage } from '../../shared/utils/helpers';
-import { EVIDENCE_LIMIT } from '../constants';
+import { LIMITED_CONSENT_RESPONSE } from '../constants';
 
 export default {
   uiSchema: {
-    [EVIDENCE_LIMIT]: yesNoUI({
+    [LIMITED_CONSENT_RESPONSE]: yesNoUI({
       title: content.ynTitle,
       enableAnalytics: true,
       labelHeaderLevel: '3',
@@ -32,7 +30,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      [EVIDENCE_LIMIT]: yesNoSchema,
+      [LIMITED_CONSENT_RESPONSE]: yesNoSchema,
       'view:evidenceLimitInfo': {
         type: 'object',
         properties: {},
