@@ -1,29 +1,21 @@
 import React from 'react';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import {
-  currentOrPastDateSchema,
-  currentOrPastDateUI,
-} from '~/platform/forms-system/src/js/web-component-patterns/datePatterns';
-
-import { validateWithin180Days } from '../helpers';
+import { currentOrPastDateSchema } from '~/platform/forms-system/src/js/web-component-patterns/datePatterns';
+import dateUI from 'platform/forms-system/src/js/definitions/date';
 
 const uiSchema = {
-  ...titleUI('Date you will be released from active duty'),
+  ...titleUI('Your active duty release date'),
   dateReleasedFromActiveDuty: {
-    ...currentOrPastDateUI({
-      title: 'Please provide the date you will be released from active duty.',
-      errorMessages: { required: 'Please enter a date' },
-      hint: null,
-    }),
-    'ui:validations': [validateWithin180Days],
+    ...dateUI(
+      'Please provide the date you were or will be released from active duty.',
+    ),
   },
   'view:releaseDateNote': {
     'ui:description': (
-      <p className="vads-u-margin-top--4">
+      <p className="vads-u-margin-top--4" data-testid="static-note">
         <strong>Note:</strong> When we review your application, we may ask for a
-        copy of your&nbsp;DD&nbsp;214 or a certification of your expected
-        release date. You can request that certification from your Military
-        Personnel Office.
+        copy of your DD 214 or a certification of your expected release date.
+        You can request that certification from your Military Personnel Office.
       </p>
     ),
   },

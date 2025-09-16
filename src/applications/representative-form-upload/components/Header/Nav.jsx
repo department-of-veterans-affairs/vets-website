@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Toggler } from 'platform/utilities/feature-toggles';
-import UserNav from './UserNav';
+import DropdownContainer from './DropdownContainer';
 import { SIGN_IN_URL } from '../../constants';
 import { selectUserProfile } from '../../selectors/user';
 
@@ -61,7 +61,7 @@ export const Nav = () => {
               </a>
             </Toggler.Enabled>
           </Toggler>
-          {profile ? <UserNav profile={profile} /> : <SignInButton />}
+          {profile ? <DropdownContainer profile={profile} /> : <SignInButton />}
         </div>
       </div>
 

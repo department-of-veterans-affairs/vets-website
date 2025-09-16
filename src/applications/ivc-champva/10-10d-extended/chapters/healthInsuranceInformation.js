@@ -21,6 +21,7 @@ import { fileUploadBlurb } from '../../shared/components/fileUploads/attachments
 import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
 import FileFieldCustom from '../../shared/components/fileUploads/FileUpload';
 import { validFieldCharsOnly } from '../../shared/validations';
+import { validateOHIDates } from '../helpers/validations';
 import { toHash, nameWording, fmtDate } from '../../shared/utilities';
 
 import {
@@ -203,6 +204,7 @@ const providerInformation = {
     'ui:validations': [
       (errors, formData) =>
         validFieldCharsOnly(errors, null, formData, 'provider'),
+      validateOHIDates,
     ],
   },
   schema: {
@@ -268,10 +270,12 @@ const healthInsuranceCardUploadPage = {
     ...fileUploadBlurb,
     insuranceCardFront: fileUploadUI({
       label: 'Upload front of the health insurance card',
+      attachmentId: 'Front of health insurance card',
       'ui:hint': 'Upload front and back as separate files.',
     }),
     insuranceCardBack: fileUploadUI({
       label: 'Upload back of the health insurance card',
+      attachmentId: 'Back of health insurance card',
     }),
   },
   schema: {
@@ -311,40 +315,40 @@ export const healthInsurancePages = arrayBuilderPages(
   healthInsuranceOptions,
   pageBuilder => ({
     healthInsuranceSummary: pageBuilder.summaryPage({
-      path: 'health-insurance-information/summary',
+      path: 'review-your-health-insurance-plans',
       title: 'Review your plans',
       uiSchema: healthInsuranceSummaryPage.uiSchema,
       schema: healthInsuranceSummaryPage.schema,
     }),
     healthInsuranceType: pageBuilder.itemPage({
-      path: 'health-insurance-information/:index/plan-type',
+      path: 'health-insurance-plan-type/:index',
       title: 'Plan type',
       ...healthInsuranceIntroPage,
     }),
     medigapType: pageBuilder.itemPage({
-      path: 'health-insurance-information/:index/medigap-information',
+      path: 'health-insurance-medigap-information/:index',
       title: 'Plan type',
       depends: (formData, index) =>
         get('insuranceType', formData.healthInsurance?.[index]) === 'medigap',
       ...medigapInformation,
     }),
     provider: pageBuilder.itemPage({
-      path: 'health-insurance-information/:index/provider-information',
+      path: 'health-insurance-provider-information/:index',
       title: 'Health insurance information',
       ...providerInformation,
     }),
     throughEmployer: pageBuilder.itemPage({
-      path: 'health-insurance-information/:index/employer-sponsorship',
+      path: 'health-insurance-employer-sponsorship/:index',
       title: 'Type of insurance - through employer',
       ...employer,
     }),
     comments: pageBuilder.itemPage({
-      path: 'health-insurance-information/:index/additional-comments',
+      path: 'health-insurance-additional-comments/:index',
       title: 'Type of insurance',
       ...additionalComments,
     }),
     participants: pageBuilder.itemPage({
-      path: 'health-insurance-information/:index/participants',
+      path: 'health-insurance-participants/:index',
       title: 'Select healthcare participants',
       ...selectHealthcareParticipantsPage,
       CustomPage: props =>
@@ -356,7 +360,7 @@ export const healthInsurancePages = arrayBuilderPages(
       CustomPageReview: () => <></>,
     }),
     insuranceCard: pageBuilder.itemPage({
-      path: 'health-insurance-information/:index/insurance-card',
+      path: 'health-insurance-card/:index',
       title: 'Upload health insurance card',
       CustomPage: FileFieldCustom,
       ...healthInsuranceCardUploadPage,

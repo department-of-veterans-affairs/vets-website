@@ -75,7 +75,7 @@ export default function ContactDetailSection({ data }) {
                 contact={data.phoneNumber}
                 data-testid="patient-telephone"
               />
-              {formData.facilityType === FACILITY_TYPES.COMMUNITY_CARE && (
+              {formData.facilityType === FACILITY_TYPES.COMMUNITY_CARE.id && (
                 <>
                   <br />
                   <strong>Best time to call: </strong>
