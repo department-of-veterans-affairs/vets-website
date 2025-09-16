@@ -201,8 +201,13 @@ describe('RecipientsSelect', () => {
 
     const options = comboBox.querySelectorAll('option');
     expect(options).to.have.lengthOf(2);
-    expect(options[0].textContent).to.equal('Recipient 1');
-    expect(options[1].textContent).to.equal('Recipient 2');
+    // Grouped by facility system name (VA Facility 402 before VA Facility 552)
+    expect(options[0].textContent).to.equal('Recipient 2');
+    expect(options[1].textContent).to.equal('Recipient 1');
+    const groups = comboBox.querySelectorAll('optgroup');
+    expect(groups.length).to.equal(2);
+    expect(groups[0].label).to.equal('VA Facility 402');
+    expect(groups[1].label).to.equal('VA Facility 552');
   });
 
   it('displays correct content in pilot environment vista facility', () => {
@@ -227,7 +232,12 @@ describe('RecipientsSelect', () => {
 
     const options = comboBox.querySelectorAll('option');
     expect(options).to.have.lengthOf(2);
-    expect(options[0].textContent).to.equal('Recipient 1');
-    expect(options[1].textContent).to.equal('Recipient 2');
+    // Grouped by facility system name (VA Facility 402 before VA Facility 552)
+    expect(options[0].textContent).to.equal('Recipient 2');
+    expect(options[1].textContent).to.equal('Recipient 1');
+    const groups = comboBox.querySelectorAll('optgroup');
+    expect(groups.length).to.equal(2);
+    expect(groups[0].label).to.equal('VA Facility 402');
+    expect(groups[1].label).to.equal('VA Facility 552');
   });
 });

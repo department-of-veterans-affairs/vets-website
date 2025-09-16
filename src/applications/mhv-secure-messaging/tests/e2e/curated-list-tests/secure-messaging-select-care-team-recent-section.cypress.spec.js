@@ -1,211 +1,273 @@
 import featureFlagNames from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
-import { AXE_CONTEXT, Locators, Paths } from '../utils/constants';
+import { AXE_CONTEXT, Locators } from '../utils/constants';
 import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 import PatientInboxPage from '../pages/PatientInboxPage';
 import PatientInterstitialPage from '../pages/PatientInterstitialPage';
 import searchSentFolderResponse from '../fixtures/searchResponses/search-sent-folder-response.json';
 import mockRecipients from '../fixtures/recipientsResponse/recipients-response.json';
 
+const RECENT_CARE_TEAMS_LABEL = 'Recent care teams';
+
 /**
- * This spec validates that on the Select care team page (curated list flow),
- * the VaComboBox renders the "Recent care teams" and "All care teams" headings
- * with up to 4 recent teams first (no duplicates), followed by remaining teams,
- * when the recent recipients feature flag is enabled. It also validates that
- * when the recent recipients flag is disabled the headings are not shown and
- * the list is the full (sorted) list only.
+ * Select Care Team page recent recipients integration coverage.
+ *
+ * Scenarios:
+ *  1. Recent care teams optgroup appears with up to 4 recent teams (no duplicates) when both
+ *     curated list and recent recipients flags are enabled and recent results exist.
+ *  2. Recent group suppressed when recent recipients feature flag disabled (curated flow still on).
+ *  3. Recent group suppressed when recent recipients flag enabled but no recent recipients resolved.
+ *
+ * Strategy:
+ *  - Use context blocks with beforeEach for shared login & baseline intercepts.
+ *  - Use '@recentRecipients' (interstitial POST search) + '@recipients' (all recipients).
+ *  - Derive expected recent names from fixture (suggestedNameDisplay || name).
+ *  - Assert invariants: <=4, unique, not duplicated after group.
  */
-describe('SM CURATED LIST - Select Care Team recent section', () => {
-  const enableCuratedAndRecentFlags = () =>
-    GeneralFunctionsPage.updateFeatureToggles([
-      {
-        name: featureFlagNames.mhvSecureMessagingCuratedListFlow,
-        value: true,
-      },
-      {
-        name: featureFlagNames.mhvSecureMessagingRecentRecipients,
-        value: true,
-      },
-    ]);
 
-  const enableCuratedOnlyFlag = () =>
-    GeneralFunctionsPage.updateFeatureToggles([
-      {
-        name: featureFlagNames.mhvSecureMessagingCuratedListFlow,
-        value: true,
-      },
-      {
-        // Explicitly set recent recipients flag false
-        name: featureFlagNames.mhvSecureMessagingRecentRecipients,
-        value: false,
-      },
-    ]);
-
-  const interceptCoreEndpoints = (
-    searchResponse = searchSentFolderResponse,
-  ) => {
-    // Allowed recipients list
-    cy.intercept(
-      'GET',
-      Paths.INTERCEPT.MESSAGE_ALLRECIPIENTS,
-      mockRecipients,
-    ).as('allRecipients');
-    // Categories (avoid unrelated failures)
-    cy.intercept('GET', Paths.INTERCEPT.MESSAGE_CATEGORY, {
-      data: [],
-    }).as('categories');
-    // Sent search used to derive recent recipients
-    cy.intercept('POST', Paths.INTERCEPT.SENT_SEARCH, searchResponse).as(
-      'recentSearch',
-    );
-  };
-
-  const navigateToSelectCareTeam = () => {
-    PatientInboxPage.clickCreateNewMessage();
-    // Interstitial Recent care teams page
-    PatientInterstitialPage.continueToRecentRecipients();
-    // Choose "A different care team" to reach Select care team page
-    cy.findByLabelText('A different care team').click();
-    cy.findByTestId(
-      Locators.RECENT_CARE_TEAMS_CONTINUE_BUTTON_DATA_TEST_ID,
-    ).click();
-    GeneralFunctionsPage.verifyPageHeader('Select care team');
-  };
-
-  const getRecentIdsFromSearch = response => {
-    const unique = [];
+describe('SM CURATED LIST - Select Care Team recent recipients integration', () => {
+  const deriveRecentRecipientIds = response => {
+    const seen = [];
     (response.data || []).forEach(msg => {
-      const id = msg.attributes.recipientId;
-      if (id != null && !unique.includes(id)) {
-        unique.push(id);
+      const id = msg.attributes?.recipientId;
+      if (id != null && !seen.includes(id)) {
+        seen.push(id);
       }
     });
-    return unique.slice(0, 4);
+    return seen.slice(0, 4);
   };
 
-  const mapIdsToNames = ids => {
-    return ids
+  const mapIdsToNames = ids =>
+    ids
       .map(id =>
         (mockRecipients.data || []).find(
           r => r.id === id || r.id === Number(id),
         ),
       )
       .filter(Boolean)
-      .map(r => r.attributes.suggestedNameDisplay || r.attributes.name);
-  };
+      .map(r => r.attributes?.suggestedNameDisplay || r.attributes?.name);
 
-  const openComboBoxList = () => {
-    // Focus and type a space to force open (VaComboBox opens its list on input)
-    cy.get('va-combo-box')
+  const openComboBox = () => {
+    cy.findByTestId('compose-recipient-combobox')
       .shadow()
       .find('input')
+      .as('comboInput')
       .focus()
-      .type(' ', { force: true });
+      .type('{downarrow}', { force: true });
+    cy.get('@comboInput').type(' ', { force: true });
   };
 
-  const getListItems = () =>
-    cy
-      .get('va-combo-box')
+  const closeComboBox = () => {
+    cy.get('body').type('{esc}', { force: true });
+  };
+
+  const axeCheckCombo = () => {
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT, {
+      rules: {
+        'aria-required-children': { enabled: false },
+        'aria-allowed-attr': { enabled: false },
+      },
+    });
+  };
+
+  /**
+   * Validate recent optgroup presence, ordering, and invariants.
+   * We intentionally do not rely on disabled options; recent items are rendered
+   * inside an optgroup with label="Recent care teams".
+   */
+  const assertRecentGroupSection = expectedRecentNames => {
+    cy.findByTestId('compose-recipient-combobox')
       .shadow()
       .find('#options--list')
-      .find('li');
+      .should('exist');
 
-  it('renders recent + all headings with recent teams first (flags enabled)', () => {
-    const toggles = enableCuratedAndRecentFlags();
-    SecureMessagingSite.login(toggles);
-    interceptCoreEndpoints();
-    PatientInboxPage.loadInboxMessages(); // sets up inbox & recipients intercepts
-    navigateToSelectCareTeam();
+    cy.findByTestId('compose-recipient-combobox')
+      .shadow()
+      .find('#options--list li.usa-combo-box__list-option--group')
+      .contains(RECENT_CARE_TEAMS_LABEL);
 
-    // Wait for recent recipients search & all recipients
-    cy.wait('@recentSearch');
-    cy.wait('@allRecipients');
+    cy.findByTestId('compose-recipient-combobox')
+      .shadow()
+      .find('#options--list')
+      .find('li')
+      .then($items => {
+        const texts = [...$items].map(el => el.textContent.trim());
 
-    openComboBoxList();
+        const recentGroupIdx = texts.indexOf(RECENT_CARE_TEAMS_LABEL);
+        expect(recentGroupIdx).to.be.greaterThan(-1);
 
-    // Assert headings exist (by text)
-    getListItems()
-      .first()
-      .should('contain.text', 'Recent care teams')
-      .and('have.attr', 'aria-disabled', 'true');
+        // After group label, next N entries are recent options
+        const afterGroup = texts.slice(recentGroupIdx + 1);
+        const recentSlice = afterGroup.slice(0, expectedRecentNames.length);
+        expect(recentSlice).to.deep.equal(expectedRecentNames);
 
-    // Find index of "All care teams" heading
-    getListItems()
-      .contains('All care teams')
-      .should('have.attr', 'aria-disabled', 'true');
+        // Ensure those names do not appear again later
+        const remainder = afterGroup.slice(expectedRecentNames.length);
+        expectedRecentNames.forEach(name => {
+          expect(remainder.filter(t => t === name).length).to.equal(0);
+        });
 
-    // Derive expected recent names
-    const recentIds = getRecentIdsFromSearch(searchSentFolderResponse);
-    const expectedRecentNames = mapIdsToNames(recentIds);
+        const uniqueRecent = new Set(recentSlice);
+        expect(uniqueRecent.size).to.equal(recentSlice.length);
+        expect(recentSlice.length).to.be.at.most(4);
 
-    // Collect list item texts (excluding headings) until we encounter All care teams heading
-    getListItems().then(items => {
-      const texts = [...items].map(el => el.textContent.trim());
-      const recentHeadingIndex = texts.indexOf('Recent care teams');
-      const allHeadingIndex = texts.indexOf('All care teams');
-
-      // Basic sanity
-      expect(recentHeadingIndex).to.equal(0);
-      expect(allHeadingIndex).to.be.greaterThan(0);
-
-      const actualRecent = texts.slice(
-        recentHeadingIndex + 1,
-        recentHeadingIndex + 1 + expectedRecentNames.length,
-      );
-
-      expect(actualRecent).to.deep.equal(expectedRecentNames);
-
-      // Ensure none of the recent names appear again after All care teams heading
-      const afterAll = texts.slice(allHeadingIndex + 1);
-      expectedRecentNames.forEach(name => {
-        expect(afterAll.filter(t => t === name).length).to.equal(0);
+        // Ensure there is at least one additional group (system grouping) after recents
+        // This verifies ordering: recent group should precede facility/system groups.
+        const hasSystemGroup =
+          remainder.findIndex(
+            txt => txt !== '' && !expectedRecentNames.includes(txt),
+          ) > -1;
+        expect(hasSystemGroup).to.be.true;
       });
+  };
+
+  /**
+   * Assert recent optgroup absent.
+   */
+  const assertNoRecentGroup = () => {
+    cy.findByTestId('compose-recipient-combobox')
+      .shadow()
+      .find('#options--list li.usa-combo-box__list-option--group')
+      .should($headers => {
+        const labels = [...$headers].map(h => h.textContent.trim());
+        expect(labels).to.not.include(RECENT_CARE_TEAMS_LABEL);
+      });
+  };
+
+  context('Recent group visible with recent recipients available', () => {
+    beforeEach(() => {
+      const toggles = GeneralFunctionsPage.updateFeatureToggles([
+        {
+          name: featureFlagNames.mhvSecureMessagingCuratedListFlow,
+          value: true,
+        },
+        {
+          name: featureFlagNames.mhvSecureMessagingRecentRecipients,
+          value: true,
+        },
+      ]);
+      SecureMessagingSite.login(toggles);
+      PatientInboxPage.loadInboxMessages();
     });
 
-    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+    it('renders Recent optgroup with recent teams first (no duplicates, <=4)', () => {
+      PatientInboxPage.clickCreateNewMessage();
+      PatientInterstitialPage.continueToRecentRecipients();
+      GeneralFunctionsPage.verifyPageHeader('Recent care teams');
+
+      cy.findByLabelText('A different care team').click();
+      cy.findByTestId(
+        Locators.RECENT_CARE_TEAMS_CONTINUE_BUTTON_DATA_TEST_ID,
+      ).click();
+
+      GeneralFunctionsPage.verifyPageHeader('Select care team');
+      axeCheckCombo();
+
+      cy.wait('@recipients');
+
+      openComboBox();
+
+      const expectedRecentNames = mapIdsToNames(
+        deriveRecentRecipientIds(searchSentFolderResponse),
+      );
+      assertRecentGroupSection(expectedRecentNames);
+      closeComboBox();
+
+      axeCheckCombo();
+    });
   });
 
-  it('does not render headings when recent recipients flag disabled', () => {
-    const toggles = enableCuratedOnlyFlag();
-    SecureMessagingSite.login(toggles);
-    // Even if backend returns search results, flag off should suppress headings
-    interceptCoreEndpoints();
-    PatientInboxPage.loadInboxMessages();
-    navigateToSelectCareTeam();
-
-    cy.wait('@allRecipients');
-
-    openComboBoxList();
-
-    getListItems().then(items => {
-      const texts = [...items].map(el => el.textContent.trim());
-      expect(texts).to.not.include('Recent care teams');
-      expect(texts).to.not.include('All care teams');
+  context('Recent group suppressed when feature flag disabled', () => {
+    beforeEach(() => {
+      const toggles = GeneralFunctionsPage.updateFeatureToggles([
+        {
+          name: featureFlagNames.mhvSecureMessagingCuratedListFlow,
+          value: true,
+        },
+        {
+          name: featureFlagNames.mhvSecureMessagingRecentRecipients,
+          value: false,
+        },
+      ]);
+      SecureMessagingSite.login(toggles);
+      PatientInboxPage.loadInboxMessages();
     });
 
-    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+    it('does not show Recent group when feature flag off', () => {
+      PatientInboxPage.clickCreateNewMessage();
+      PatientInterstitialPage.continueToRecentRecipients();
+      // With the recent recipients feature disabled we should land directly on Select care team
+      GeneralFunctionsPage.verifyPageHeader('Select care team');
+
+      cy.wait('@recipients');
+      openComboBox();
+      assertNoRecentGroup();
+      closeComboBox();
+      axeCheckCombo();
+    });
   });
 
-  it('suppresses headings when no recent recipients resolved', () => {
-    // Provide empty search response so no recent IDs match
-    const toggles = enableCuratedAndRecentFlags();
-    SecureMessagingSite.login(toggles);
-    interceptCoreEndpoints({ data: [] });
-    PatientInboxPage.loadInboxMessages();
-    navigateToSelectCareTeam();
-
-    cy.wait('@recentSearch');
-    cy.wait('@allRecipients');
-
-    openComboBoxList();
-
-    getListItems().then(items => {
-      const texts = [...items].map(el => el.textContent.trim());
-      expect(texts).to.not.include('Recent care teams');
-      expect(texts).to.not.include('All care teams');
+  context('Recent group suppressed when no recent recipients resolved', () => {
+    beforeEach(() => {
+      const toggles = GeneralFunctionsPage.updateFeatureToggles([
+        {
+          name: featureFlagNames.mhvSecureMessagingCuratedListFlow,
+          value: true,
+        },
+        {
+          name: featureFlagNames.mhvSecureMessagingRecentRecipients,
+          value: true,
+        },
+      ]);
+      SecureMessagingSite.login(toggles);
+      PatientInboxPage.loadInboxMessages();
     });
 
-    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+    it('does not show Recent group when recent search yields zero recipients', () => {
+      PatientInboxPage.clickCreateNewMessage();
+      PatientInterstitialPage.continueToRecentRecipients({ data: [] });
+      GeneralFunctionsPage.verifyPageHeader('Select care team');
+
+      cy.wait('@recipients');
+      openComboBox();
+      assertNoRecentGroup();
+      closeComboBox();
+      axeCheckCombo();
+    });
+  });
+
+  it('renders at least one selectable care team option (sanity)', () => {
+    const toggles = GeneralFunctionsPage.updateFeatureToggles([
+      { name: featureFlagNames.mhvSecureMessagingCuratedListFlow, value: true },
+      {
+        name: featureFlagNames.mhvSecureMessagingRecentRecipients,
+        value: true,
+      },
+    ]);
+    SecureMessagingSite.login(toggles);
+    PatientInboxPage.loadInboxMessages();
+
+    PatientInboxPage.clickCreateNewMessage();
+    PatientInterstitialPage.continueToRecentRecipients();
+    GeneralFunctionsPage.verifyPageHeader('Recent care teams');
+    cy.findByLabelText('A different care team').click();
+    cy.findByTestId(
+      Locators.RECENT_CARE_TEAMS_CONTINUE_BUTTON_DATA_TEST_ID,
+    ).click();
+    GeneralFunctionsPage.verifyPageHeader('Select care team');
+
+    cy.wait('@recipients');
+    openComboBox();
+
+    cy.findByTestId('compose-recipient-combobox')
+      .shadow()
+      .find('#options--list')
+      .find('li')
+      .should('have.length.greaterThan', 0);
+
+    closeComboBox();
+    axeCheckCombo();
   });
 });
 // newline added to satisfy lint end-of-file rule

@@ -9,6 +9,8 @@ import mockCategories from '../fixtures/categories-response.json';
 import PatientComposePage from './PatientComposePage';
 import PatientInterstitialPage from './PatientInterstitialPage';
 
+const RECENT_CARE_TEAMS_LABEL = 'Recent care teams';
+
 class PilotEnvPage {
   loadInboxMessages = (
     url = Paths.UI_MAIN,
@@ -224,18 +226,57 @@ class PilotEnvPage {
       .click();
   };
 
+  getSelectableComboBoxItems = () => {
+    return cy.get('.usa-combo-box__list > li').then($items => {
+      // Return a plain array for simpler downstream usage
+      return [...$items].filter(
+        li =>
+          li.textContent &&
+          li.textContent.trim().toLowerCase() !==
+            RECENT_CARE_TEAMS_LABEL.toLowerCase(),
+      );
+    });
+  };
+
   selectTriageGroup = (index = 0) => {
+    // Robust open sequence supporting both new (#options--list) and legacy (#options) list containers.
     cy.get('va-combo-box')
       .shadow()
-      .find('#options')
-      .should('be.visible')
-      .click({ force: true });
+      .then($shadow => {
+        const $input = $shadow.find('input');
+        if ($input.length) {
+          cy.wrap($input)
+            .focus()
+            .type('{downarrow}', { force: true })
+            .type(' ', { force: true }); // attempt to open the list
+        }
+        cy.wrap($shadow)
+          .find('#options--list, #options')
+          .should('exist');
+      });
 
-    cy.get(`.usa-combo-box__list > li`)
-      .eq(index)
-      .should('be.visible')
-      .click({ force: true });
-  };
+    // Gather candidate list items from any supported container, filter out group headers,
+    // and click the requested selectable item.
+    cy.get('va-combo-box')
+      .shadow()
+      .find('#options--list li, #options li, .usa-combo-box__list > li')
+      .then($items => {
+        const selectable = [...$items].filter(li => {
+          const txt = (li.textContent || '').trim().toLowerCase();
+          return txt && txt !== RECENT_CARE_TEAMS_LABEL.toLowerCase();
+        });
+        const target = selectable[index];
+        if (!target) {
+          throw new Error(
+            `Expected triage group at filtered index ${index} to exist`,
+          );
+        }
+        cy.wrap(target)
+          .scrollIntoView()
+          .should('be.visible')
+          .click({ force: true });
+      });
+  }; // end selectTriageGroup
 }
 
 export default new PilotEnvPage();

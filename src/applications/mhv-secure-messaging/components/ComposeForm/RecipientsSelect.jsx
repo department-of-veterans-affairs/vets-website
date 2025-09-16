@@ -2,9 +2,9 @@
  * Renders a select dropdown for selecting recipients in the compose form.
  *  - Recipients are grouped by VAMC system name.
  *  - Recipients are sorted alphabetically by VAMC system name and then by name.
- *  - If a recipient requires a signature or switching from a recipient that does not 
+ *  - If a recipient requires a signature or switching from a recipient that does not
  *    require a signature to one that does, an alert is displayed notifying that signature is required.
- *  - If switching from a recipient that requires a signature to one that does not, 
+ *  - If switching from a recipient that requires a signature to one that does not,
  *    the alert is displayed notifying that signature is no longer required.
  *  - If switching from a recipient that does not require a signature to another that does not,
  *    the alert is not displayed.
@@ -195,87 +195,104 @@ const RecipientsSelect = ({
 
   const optionsValues = useMemo(
     () => {
-      // Curated combo box flow OR opt groups disabled => flat list handling
+      // Curated combo box flow OR opt groups disabled (VaComboBox path)
+      // Enhancement: always provide optgroups per care system (radio options) plus optional "Recent care teams" section.
       if (!optGroupEnabled || mhvSecureMessagingCuratedListFlow) {
         const baseSorted = sortRecipients(recipientsList) || [];
 
-        // Only build "Recent care teams" section when:
-        //  - curated list flow active
-        //  - recentRecipients is an array with length > 0
-        //  - recentRecipients not in error state
+        // Determine if we show the "Recent care teams" special section
         const showRecentSection =
           mhvSecureMessagingCuratedListFlow &&
           mhvSecureMessagingRecentRecipients &&
           Array.isArray(recentRecipients) &&
           recentRecipients.length > 0;
 
-        if (!showRecentSection) {
-          return baseSorted.map(item => (
-            <option key={item.id} value={item.id}>
-              {item.suggestedNameDisplay || item.name}
-            </option>
-          ));
-        }
-
-        // Map recipients by id for quick lookup (recentRecipients use triageTeamId)
+        // Map all recipients by id for quick lookup
         const byId = new Map(baseSorted.map(r => [String(r.id), r]));
 
-        // Build recent options (max 4, ignore any not found in current list)
-        const recentOptionsSource = recentRecipients
-          .filter(r => byId.has(String(r.triageTeamId)))
-          .slice(0, 4);
+        // Build recent options (max 4, ignore any missing from allowed list)
+        let recentIds = new Set();
+        let recentOptions = [];
+        if (showRecentSection) {
+          const recentOptionsSource = recentRecipients
+            .filter(r => byId.has(String(r.triageTeamId)))
+            .slice(0, 4);
 
-        const recentIds = new Set(
-          recentOptionsSource.map(r => String(r.triageTeamId)),
+          recentIds = new Set(
+            recentOptionsSource.map(r => String(r.triageTeamId)),
+          );
+
+          recentOptions = recentOptionsSource.map(r => {
+            const rec = byId.get(String(r.triageTeamId));
+            return (
+              <option key={rec.id} value={rec.id}>
+                {rec.suggestedNameDisplay || rec.name}
+              </option>
+            );
+          });
+        }
+
+        // Remaining (non-recent) teams to be grouped by care system
+        const remainingTeams = baseSorted.filter(
+          r => !recentIds.has(String(r.id)),
         );
 
-        const recentOptions = recentOptionsSource.map(r => {
-          const rec = byId.get(String(r.triageTeamId));
-          return (
-            <option key={rec.id} value={rec.id}>
-              {rec.suggestedNameDisplay || rec.name}
+        // Build grouped structure:
+        //  - Teams with undefined system name rendered as plain options (no optgroup) first
+        //  - Then one optgroup per system name (alphabetically sorted)
+        const ungrouped = [];
+        const groups = new Map(); // systemName -> array<option>
+        remainingTeams.forEach(team => {
+          const systemName = getVamcSystemNameFromVhaId(
+            ehrDataByVhaId,
+            team.stationNumber,
+          );
+          const optionEl = (
+            <option key={team.id} value={team.id}>
+              {team.suggestedNameDisplay || team.name}
             </option>
           );
+          if (!systemName) {
+            ungrouped.push(optionEl);
+          } else {
+            if (!groups.has(systemName)) groups.set(systemName, []);
+            groups.get(systemName).push(optionEl);
+          }
         });
 
-        // Remaining (non-recent) options
-        const remainingOptions = baseSorted
-          .filter(r => !recentIds.has(String(r.id)))
-          .map(item => (
-            <option key={item.id} value={item.id}>
-              {item.suggestedNameDisplay || item.name}
-            </option>
-          ));
+        // Sort group names alphabetically for deterministic ordering
+        const groupNames = Array.from(groups.keys()).sort((a, b) =>
+          a.localeCompare(b),
+        );
 
-        // Accessibility: disabled heading options act as visual & SR section labels.
-        // aria-disabled + disabled ensures they are not selectable nor announced as choices.
-        const headings = [
-          <option
-            key="recent-heading"
-            disabled
-            value=""
-            aria-disabled="true"
-            data-testid="recent-care-teams-heading"
-          >
-            Recent care teams
-          </option>,
-          <option
-            key="all-heading"
-            disabled
-            value=""
-            aria-disabled="true"
-            data-testid="all-care-teams-heading"
-          >
-            All care teams
-          </option>,
+        const groupedOptionElements = [
+          ...ungrouped,
+          ...groupNames.map(name => (
+            <optgroup key={name} label={name}>
+              {groups.get(name)}
+            </optgroup>
+          )),
         ];
 
-        return [
-          headings[0],
-          ...recentOptions,
-          headings[1],
-          ...remainingOptions,
-        ];
+        if (!showRecentSection) {
+          // No recent section; still show grouped options by care system (always display optgroups in curated flow)
+          return groupedOptionElements;
+        }
+
+        // Accessibility: disabled heading options act as visual & SR section labels (retain existing tests)
+        // Render recent recipients as an optgroup so the group label appears as a proper
+        // grouping header in the combo box list (instead of a disabled option).
+        const recentGroup = (
+          <optgroup
+            key="recent-care-teams-group"
+            label="Recent care teams"
+            data-testid="recent-care-teams-group"
+          >
+            {recentOptions}
+          </optgroup>
+        );
+
+        return [recentGroup, ...groupedOptionElements];
       }
 
       // Grouped (optgroup) view (non-curated legacy path) remains unchanged
@@ -328,6 +345,7 @@ const RecipientsSelect = ({
       recipientsList,
       recentRecipients,
       mhvSecureMessagingCuratedListFlow,
+      ehrDataByVhaId,
     ],
   );
 

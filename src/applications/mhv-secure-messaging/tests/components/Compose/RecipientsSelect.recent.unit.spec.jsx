@@ -29,6 +29,12 @@ const buildInitialState = ({
   };
 };
 
+// Provide two distinct care system names for stationNumbers 552 & 402
+const EHR_MAP_WITH_NAMES = {
+  552: { vamcSystemName: 'Cleveland VA Medical Center' },
+  402: { vamcSystemName: 'Boston VA Medical Center' },
+};
+
 const recipientsList = [
   { id: 1, name: 'Alpha Team', stationNumber: '552', signatureRequired: false },
   { id: 2, name: 'Bravo Team', stationNumber: '552', signatureRequired: false },
@@ -48,7 +54,7 @@ describe('RecipientsSelect recent care teams section (curated combo box)', () =>
     onValueChange: () => {},
   };
 
-  it('renders recent section with headings and correct ordering (recent first) and no duplicates', async () => {
+  it('renders recent section with headings, optgroups for remaining teams, correct ordering and no duplicates', async () => {
     // Provide 3 recent recipients (unordered, includes an id not in recipientsList to test filtering)
     const recentRecipients = [
       { triageTeamId: 3, name: 'Charlie Team' },
@@ -63,7 +69,7 @@ describe('RecipientsSelect recent care teams section (curated combo box)', () =>
         {...baseProps}
       />,
       {
-        initialState: buildInitialState(),
+        initialState: buildInitialState({ ehrMap: EHR_MAP_WITH_NAMES }),
         reducers: reducer,
         path: '/my-health/secure-messages/new-message/select-care-team',
       },
@@ -74,18 +80,20 @@ describe('RecipientsSelect recent care teams section (curated combo box)', () =>
     expect(combo).to.exist;
 
     // Headings should be present
-    const recentHeading = combo.querySelector(
-      'option[data-testid="recent-care-teams-heading"]',
+    const recentGroup = combo.querySelector(
+      'optgroup[label="Recent care teams"]',
     );
-    const allHeading = combo.querySelector(
-      'option[data-testid="all-care-teams-heading"]',
-    );
-    expect(recentHeading).to.exist;
-    expect(allHeading).to.exist;
-    expect(recentHeading.disabled).to.be.true;
-    expect(allHeading.disabled).to.be.true;
+    expect(recentGroup).to.exist;
 
-    // Collect visible selectable options (exclude disabled headings)
+    // Optgroups (one for each remaining system name)
+    const optgroups = Array.from(combo.querySelectorAll('optgroup'));
+    // Recent care teams group + remaining system groups (552 & 402)
+    expect(optgroups.length).to.equal(3);
+    const groupLabels = optgroups.map(g => g.getAttribute('label'));
+    expect(groupLabels).to.include('Cleveland VA Medical Center');
+    expect(groupLabels).to.include('Boston VA Medical Center');
+
+    // Collect visible selectable options (exclude disabled headings & optgroups container)
     const optionNodes = Array.from(
       combo.querySelectorAll('option:not([disabled])'),
     );
@@ -103,11 +111,10 @@ describe('RecipientsSelect recent care teams section (curated combo box)', () =>
 
     // All unique ids should equal original list length (since only 99 was ignored)
     const uniqueRenderedIds = new Set(optionNodes.map(o => o.value));
-    // original list length (5) minus none (recent are part of original)
-    expect(uniqueRenderedIds.size).to.equal(5 - 0);
+    expect(uniqueRenderedIds.size).to.equal(recipientsList.length);
   });
 
-  it('limits recent section to maximum of 4 recent care teams', async () => {
+  it('limits recent section to maximum of 4 recent care teams and groups remaining teams into optgroups', async () => {
     const recentRecipients = [
       { triageTeamId: 1, name: 'Alpha Team' },
       { triageTeamId: 2, name: 'Bravo Team' },
@@ -123,7 +130,7 @@ describe('RecipientsSelect recent care teams section (curated combo box)', () =>
         {...baseProps}
       />,
       {
-        initialState: buildInitialState(),
+        initialState: buildInitialState({ ehrMap: EHR_MAP_WITH_NAMES }),
         reducers: reducer,
         path: '/my-health/secure-messages/new-message/select-care-team',
       },
@@ -131,18 +138,31 @@ describe('RecipientsSelect recent care teams section (curated combo box)', () =>
 
     const combo = await screen.findByTestId('compose-recipient-combobox');
 
-    // Recent section selectable items should be first 4 (Alpha, Bravo, Charlie, Delta) -> Echo appears only in "All care teams"
+    // Recent section selectable items should be first 4 (Alpha, Bravo, Charlie, Delta)
     const selectable = Array.from(
       combo.querySelectorAll('option:not([disabled])'),
     );
     const firstFourValues = selectable.slice(0, 4).map(o => o.value);
     expect(firstFourValues).to.deep.equal(['1', '2', '3', '4']);
-    // Echo Team should still appear later
+
+    // Echo Team should still appear later (grouped section)
     const echoOption = selectable.find(o => o.value === '5');
     expect(echoOption).to.exist;
+
+    // Only one remaining unique system (Echo's system 552) -> 1 optgroup
+    const optgroups = combo.querySelectorAll('optgroup');
+    // Recent care teams group + single remaining system group
+    expect(optgroups.length).to.equal(2);
+    // The system group label (not the recent group) should still match expected
+    const systemGroup = Array.from(optgroups).find(
+      g => g.getAttribute('label') !== 'Recent care teams',
+    );
+    expect(systemGroup.getAttribute('label')).to.equal(
+      'Cleveland VA Medical Center',
+    );
   });
 
-  it('omits recent section when recentRecipients prop is empty array', async () => {
+  it('omits recent section when recentRecipients prop is empty array but still groups by care system', async () => {
     const screen = renderWithStoreAndRouter(
       <RecipientsSelect
         recipientsList={recipientsList}
@@ -150,7 +170,7 @@ describe('RecipientsSelect recent care teams section (curated combo box)', () =>
         {...baseProps}
       />,
       {
-        initialState: buildInitialState(),
+        initialState: buildInitialState({ ehrMap: EHR_MAP_WITH_NAMES }),
         reducers: reducer,
         path: '/my-health/secure-messages/new-message/select-care-team',
       },
@@ -159,15 +179,16 @@ describe('RecipientsSelect recent care teams section (curated combo box)', () =>
     const combo = await screen.findByTestId('compose-recipient-combobox');
 
     // Should NOT have headings
-    expect(
-      combo.querySelector('option[data-testid="recent-care-teams-heading"]'),
-    ).to.be.null;
-    expect(combo.querySelector('option[data-testid="all-care-teams-heading"]'))
-      .to.be.null;
+    expect(combo.querySelector('optgroup[label="Recent care teams"]')).to.be
+      .null;
+    // Removed expectation for All care teams heading (no longer rendered)
 
-    // All options should just be the sorted base list (5)
-    const selectable = Array.from(combo.querySelectorAll('option'));
-    expect(selectable.length).to.equal(recipientsList.length);
+    // Expect 2 optgroups (552 & 402)
+    const optgroups = combo.querySelectorAll('optgroup');
+    expect(optgroups.length).to.equal(2);
+    const labels = Array.from(optgroups).map(g => g.getAttribute('label'));
+    expect(labels).to.include('Cleveland VA Medical Center');
+    expect(labels).to.include('Boston VA Medical Center');
   });
 
   it('omits recent section when curated flag off (even if recent provided)', async () => {
@@ -218,7 +239,7 @@ describe('RecipientsSelect recent care teams section (curated combo box)', () =>
     ).to.be.null;
   });
 
-  it('handles undefined recentRecipients (loading state) gracefully (no headings)', async () => {
+  it('handles undefined recentRecipients (loading state) gracefully (no headings) and still groups', async () => {
     const screen = renderWithStoreAndRouter(
       <RecipientsSelect
         recipientsList={recipientsList}
@@ -226,7 +247,7 @@ describe('RecipientsSelect recent care teams section (curated combo box)', () =>
         {...baseProps}
       />,
       {
-        initialState: buildInitialState(),
+        initialState: buildInitialState({ ehrMap: EHR_MAP_WITH_NAMES }),
         reducers: reducer,
         path: '/my-health/secure-messages/new-message/select-care-team',
       },
@@ -235,12 +256,15 @@ describe('RecipientsSelect recent care teams section (curated combo box)', () =>
     const combo = await screen.findByTestId('compose-recipient-combobox');
     expect(combo).to.exist;
 
-    expect(
-      combo.querySelector('option[data-testid="recent-care-teams-heading"]'),
-    ).to.be.null;
+    expect(combo.querySelector('optgroup[label="Recent care teams"]')).to.be
+      .null;
+    // Removed expectation for All care teams heading in loading state (no longer rendered)
+
+    const optgroups = combo.querySelectorAll('optgroup');
+    expect(optgroups.length).to.equal(2);
   });
 
-  it('ignores recentRecipients entries not present in recipientsList without breaking ordering', async () => {
+  it('ignores recentRecipients entries not present in recipientsList without breaking ordering and still groups remaining', async () => {
     const recentRecipients = [
       { triageTeamId: 999, name: 'Missing Team' }, // not present
       { triageTeamId: 2, name: 'Bravo Team' },
@@ -253,7 +277,7 @@ describe('RecipientsSelect recent care teams section (curated combo box)', () =>
         {...baseProps}
       />,
       {
-        initialState: buildInitialState(),
+        initialState: buildInitialState({ ehrMap: EHR_MAP_WITH_NAMES }),
         reducers: reducer,
         path: '/my-health/secure-messages/new-message/select-care-team',
       },
@@ -267,9 +291,13 @@ describe('RecipientsSelect recent care teams section (curated combo box)', () =>
     // Bravo should be first (as only valid recent)
     expect(selectable[0].value).to.equal('2');
     expect(selectable[0].textContent).to.equal('Bravo Team');
+
+    // Confirm optgroups exist
+    const optgroups = combo.querySelectorAll('optgroup');
+    expect(optgroups.length).to.be.greaterThan(0);
   });
 
-  it('recent heading appears before all heading', async () => {
+  it('recent heading appears before all heading and optgroups appear after all heading', async () => {
     const recentRecipients = [{ triageTeamId: 1, name: 'Alpha Team' }];
 
     const screen = renderWithStoreAndRouter(
@@ -279,7 +307,7 @@ describe('RecipientsSelect recent care teams section (curated combo box)', () =>
         {...baseProps}
       />,
       {
-        initialState: buildInitialState(),
+        initialState: buildInitialState({ ehrMap: EHR_MAP_WITH_NAMES }),
         reducers: reducer,
         path: '/my-health/secure-messages/new-message/select-care-team',
       },
@@ -287,13 +315,13 @@ describe('RecipientsSelect recent care teams section (curated combo box)', () =>
 
     const combo = await screen.findByTestId('compose-recipient-combobox');
 
-    const allOptions = Array.from(combo.querySelectorAll('option'));
-    const recentIdx = allOptions.findIndex(
-      o => o.getAttribute('data-testid') === 'recent-care-teams-heading',
+    // Verify the recent group optgroup exists
+    const recentGroup = combo.querySelector(
+      'optgroup[label="Recent care teams"]',
     );
-    const allIdx = allOptions.findIndex(
-      o => o.getAttribute('data-testid') === 'all-care-teams-heading',
-    );
-    expect(recentIdx).to.be.lessThan(allIdx);
+    expect(recentGroup).to.exist;
+
+    const optgroups = combo.querySelectorAll('optgroup');
+    expect(optgroups.length).to.be.greaterThan(0);
   });
 });
