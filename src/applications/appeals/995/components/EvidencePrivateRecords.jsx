@@ -21,7 +21,8 @@ import {
 import { focusEvidence } from '../../shared/utils/focus';
 import { EvidenceHeaderAndModal } from './EvidenceHeaderAndModal';
 import { EvidenceFacilityAddress } from './EvidenceFacilityAddress';
-import { EvidenceIssueAndDates } from './EvidenceIssueAndDates';
+import { EvidencePrivateDates } from './EvidencePrivateDates';
+import { EvidenceIssueCheckboxes } from './EvidenceIssueCheckboxes';
 import { EvidencePageNavigation } from './EvidencePageNavigation';
 
 import { getIssueName, getSelected } from '../../shared/utils/issues';
@@ -343,7 +344,6 @@ const EvidencePrivateRecords = ({
           content={content}
           handlers={handlers}
         />
-
         <VaTextInput
           id="add-facility-name"
           name="name"
@@ -357,24 +357,26 @@ const EvidencePrivateRecords = ({
           error={showError('name') || errors.unique || null}
           autocomplete="section-provider name"
         />
-
         <EvidenceFacilityAddress
           currentData={currentData}
           content={content}
           handlers={handlers}
           showError={showError}
         />
-
-        <EvidenceIssueAndDates
-          currentData={currentData}
+        <EvidenceIssueCheckboxes
           availableIssues={availableIssues}
-          content={content}
+          currentData={currentData}
           handlers={handlers}
+          issuesLabel={content?.issuesLabel}
           showError={showError}
-          isInvalid={isInvalid}
-          dateRangeKey="treatmentDateRange"
         />
-
+        <EvidencePrivateDates
+          content={content}
+          currentData={currentData}
+          handlers={handlers}
+          isInvalid={isInvalid}
+          showError={showError}
+        />
         <EvidencePageNavigation
           path={`${PRIVATE_PATH}?index=${currentIndex + 1}`}
           content={{

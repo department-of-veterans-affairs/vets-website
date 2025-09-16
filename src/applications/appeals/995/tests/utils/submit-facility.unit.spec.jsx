@@ -3,24 +3,11 @@ import { expect } from 'chai';
 import { facilityTypeSubmissionChoices } from '../../content/facilityTypes';
 import { getFacilityType } from '../../utils/submit/facilities';
 
-import {
-  SC_NEW_FORM_DATA,
-  TREATMENT_FACILITY_OTHER_MAX,
-} from '../../constants';
+import { TREATMENT_FACILITY_OTHER_MAX } from '../../constants';
 
 describe('getFacilityType', () => {
-  const setup = ({
-    toggle = true,
-    vetCenter,
-    ccp,
-    vamc,
-    cboc,
-    mtf,
-    nonVa,
-    other,
-  } = {}) =>
+  const setup = ({ vetCenter, ccp, vamc, cboc, mtf, nonVa, other } = {}) =>
     getFacilityType({
-      [SC_NEW_FORM_DATA]: toggle,
       facilityTypes: {
         vetCenter,
         ccp,
@@ -32,12 +19,8 @@ describe('getFacilityType', () => {
       },
     });
 
-  it('should return null if not in new form', () => {
-    expect(setup({ toggle: false })).to.be.null;
-  });
-
-  it('should return empty objectl if nothing selected', () => {
-    expect(setup({ toggle: true })).to.deep.equal({});
+  it('should return empty object if nothing selected', () => {
+    expect(setup()).to.deep.equal({});
   });
 
   it('should return all treatmentLocations and treatmentLocationOther', () => {

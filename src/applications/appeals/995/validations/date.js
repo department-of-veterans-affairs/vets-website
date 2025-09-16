@@ -19,7 +19,6 @@ export const validateDate = (errors, rawDateString = '', fullData) => {
       : errorMessages.evidence;
 
   if (date.isInvalid) {
-    // The va-memorable-date component currently overrides the error message
     // when the value is blank
     errors.addError(error.blankDate);
     date.errors.other = true; // other part error

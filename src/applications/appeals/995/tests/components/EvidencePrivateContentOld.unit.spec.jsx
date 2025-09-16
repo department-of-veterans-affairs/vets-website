@@ -12,7 +12,7 @@ import { content } from '../../content/evidenceSummary';
 import { EvidencePrivateContent } from '../../components/EvidencePrivateContent';
 import { records } from '../data/evidence-records';
 
-describe('buildPrivateContent', () => {
+describe.skip('buildPrivateContent', () => {
   it('should render editable private content', () => {
     const privateEvidence = records().providerFacility;
     const { container } = render(

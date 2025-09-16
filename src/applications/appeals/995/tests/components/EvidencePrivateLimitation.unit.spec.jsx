@@ -30,7 +30,7 @@ describe('<EvidencePrivateLimitation>', () => {
 
   it('should set limit y/n value to true if undefined & limited consent is already set', () => {
     const setFormDataSpy = sinon.spy();
-    const data = { showScNewForm: true, limitedConsent: 'test' };
+    const data = { limitedConsent: 'test' };
     render(
       <div>
         <EvidencePrivateLimitation data={data} setFormData={setFormDataSpy} />

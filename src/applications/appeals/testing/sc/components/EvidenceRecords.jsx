@@ -109,7 +109,7 @@ export const IssueAndDates = ({
         <strong>{NO_ISSUES_SELECTED}</strong>
       )}
     </VaCheckboxGroup>
-
+    <p>This is IssueAndDates in EvidenceRecords</p>
     {dateRangeKey === 'treatmentDate' ? (
       <>
         <VaDate
