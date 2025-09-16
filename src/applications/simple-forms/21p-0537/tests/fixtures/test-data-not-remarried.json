@@ -1,0 +1,16 @@
+{
+  "data": {
+    "recipientName": "Mary Johnson",
+    "recipient": {
+      "ssnOrVaFileNumber": {
+        "ssn": "987654321"
+      },
+      "phone": {
+        "daytime": "703-555-1234",
+        "evening": ""
+      },
+      "email": "mary.johnson@example.com"
+    },
+    "hasRemarried": false
+  }
+}

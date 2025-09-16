@@ -1,0 +1,33 @@
+{
+  "data": {
+    "recipientName": "Jennifer Doe",
+    "recipient": {
+      "ssnOrVaFileNumber": {
+        "ssn": "767665654"
+      },
+      "phone": {
+        "daytime": "555-123-4567",
+        "evening": "555-987-6543"
+      },
+      "email": "jennifer.doe@example.com"
+    },
+    "hasRemarried": true,
+    "remarriage": {
+      "dateOfMarriage": "2023-06-15",
+      "spouseName": {
+        "first": "Michael",
+        "middle": "James",
+        "last": "Smith"
+      },
+      "spouseDateOfBirth": "1965-03-20",
+      "ageAtMarriage": "58",
+      "spouseIsVeteran": true,
+      "spouseVeteranId": {
+        "vaFileNumber": "987654321"
+      },
+      "hasTerminated": false,
+      "terminationDate": "",
+      "terminationReason": ""
+    }
+  }
+}

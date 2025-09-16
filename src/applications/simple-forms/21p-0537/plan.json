@@ -1,0 +1,482 @@
+{
+  "formId": "21P-0537",
+  "rootUrl": "/pension/dic/marital-status-questionnaire-21p-0537",
+  "title": "Marital Status Questionnaire for DIC Recipients",
+  "breadcrumbs": ["Pension", "DIC", "Marital Status Questionnaire"],
+  "sip": { "enabled": true },
+  "review": { 
+    "includeStatementOfTruth": true,
+    "conditionalReview": {
+      "skipIfNotRemarried": true,
+      "description": "If user hasn't remarried, they can skip directly to certification"
+    }
+  },
+  "chapters": [
+    {
+      "id": "introNotice",
+      "title": "About this form",
+      "pages": [
+        {
+          "id": "letterIntro",
+          "title": "Important information about your DIC benefits",
+          "path": "intro/letter",
+          "uiSchema": {
+            "ui:description": "You are receiving Dependency and Indemnity Compensation (DIC) as the surviving spouse of a veteran who died in service or from service-connected conditions. Generally, a surviving spouse's entitlement to DIC ends with remarriage. If a surviving spouse remarries, entitlement may continue provided the marriage began after age 57 or has been terminated. You are responsible for reporting any change in your marital status.\n\nWe need to verify your marital status. Please answer the questions below.\n\nIf you do not return this letter with your answers to VA within 60 days of the date shown above, we may propose to terminate your DIC benefits. After answering the questions below, please return this letter in the enclosed envelope. Be sure to place it in the envelope so that the return address of the regional office shows through the envelope window.\n\nYou have the right at any time to submit additional information or to have a personal hearing to explain or clarify your statements. You also have the right to be represented at the hearing by a representative of your choice.\n\nIf you have questions or need assistance, call 1-877-294-6380 or visit https://iris.va.gov."
+          },
+          "schema": {
+            "type": "object",
+            "properties": {}
+          }
+        }
+      ]
+    },
+    {
+      "id": "recipientInfo",
+      "title": "Your information",
+      "pages": [
+        {
+          "id": "identifier",
+          "title": "Your identification",
+          "path": "recipient-info/identifier",
+          "uiSchema": {
+            "recipient": {
+              "ssnOrVaFileNumber": {
+                "ui:title": "In reply refer to your VA file number or Social Security number",
+                "ui:widget": "ssnOrVaFileNumberNoHint"
+              }
+            }
+          },
+          "schema": {
+            "type": "object",
+            "properties": {
+              "recipient": {
+                "type": "object",
+                "properties": {
+                  "ssnOrVaFileNumber": {
+                    "type": "object",
+                    "properties": {
+                      "ssn": {
+                        "type": "string",
+                        "pattern": "^[0-9]{9}$"
+                      },
+                      "vaFileNumber": {
+                        "type": "string",
+                        "pattern": "^[0-9]{8,9}$"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "eligibilityScreening",
+      "title": "Marital status screening",
+      "pages": [
+        {
+          "id": "remarriageQuestion",
+          "title": "Have you remarried?",
+          "path": "screening/remarriage-status",
+          "uiSchema": {
+            "hasRemarried": {
+              "ui:title": "Have you remarried since the death of the veteran?",
+              "ui:description": "If you answer 'No', you can skip to the certification section",
+              "ui:widget": "yesNo"
+            }
+          },
+          "schema": {
+            "type": "object",
+            "required": ["hasRemarried"],
+            "properties": {
+              "hasRemarried": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "maritalDetails",
+      "title": "Marriage information",
+      "depends": "hasRemarried === true",
+      "pages": [
+        {
+          "id": "marriageInfo",
+          "title": "Details about your remarriage",
+          "path": "marital/marriage-info",
+          "uiSchema": {
+            "remarriage": {
+              "dateOfMarriage": {
+                "ui:title": "Date of marriage",
+                "ui:widget": "currentOrPastDate"
+              },
+              "spouseName": {
+                "ui:title": "Name of spouse",
+                "ui:widget": "fullName"
+              },
+              "spouseDateOfBirth": {
+                "ui:title": "Spouse date of birth",
+                "ui:widget": "dateOfBirth"
+              },
+              "ageAtMarriage": {
+                "ui:title": "What was your age at the time of your marriage?",
+                "ui:widget": "number",
+                "ui:options": {
+                  "min": 0,
+                  "max": 120
+                }
+              }
+            }
+          },
+          "schema": {
+            "type": "object",
+            "properties": {
+              "remarriage": {
+                "type": "object",
+                "required": ["dateOfMarriage", "spouseName", "spouseDateOfBirth", "ageAtMarriage"],
+                "properties": {
+                  "dateOfMarriage": {
+                    "type": "string",
+                    "pattern": "^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[12][0-9]|3[01]|XX)$"
+                  },
+                  "spouseName": {
+                    "type": "object",
+                    "properties": {
+                      "first": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 30
+                      },
+                      "middle": {
+                        "type": "string",
+                        "maxLength": 30
+                      },
+                      "last": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 30
+                      },
+                      "suffix": {
+                        "type": "string",
+                        "enum": ["Jr.", "Sr.", "II", "III", "IV"]
+                      }
+                    }
+                  },
+                  "spouseDateOfBirth": {
+                    "type": "string",
+                    "pattern": "^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[12][0-9]|3[01]|XX)$"
+                  },
+                  "ageAtMarriage": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 120
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "id": "spouseVeteranStatus",
+          "title": "Is your spouse a veteran?",
+          "path": "marital/spouse-veteran",
+          "uiSchema": {
+            "remarriage": {
+              "spouseIsVeteran": {
+                "ui:title": "Is your spouse a veteran?",
+                "ui:widget": "yesNo"
+              },
+              "spouseVeteranId": {
+                "ui:field": "conditionalField",
+                "ui:options": {
+                  "condition": "remarriage.spouseIsVeteran === true",
+                  "expandUnder": "spouseIsVeteran"
+                },
+                "ui:title": "If yes, provide your new spouse's VA file number or Social Security number",
+                "ui:widget": "ssnOrVaFileNumberNoHint"
+              }
+            }
+          },
+          "schema": {
+            "type": "object",
+            "properties": {
+              "remarriage": {
+                "type": "object",
+                "required": ["spouseIsVeteran"],
+                "properties": {
+                  "spouseIsVeteran": {
+                    "type": "boolean"
+                  },
+                  "spouseVeteranId": {
+                    "type": "object",
+                    "properties": {
+                      "ssn": {
+                        "type": "string",
+                        "pattern": "^[0-9]{9}$"
+                      },
+                      "vaFileNumber": {
+                        "type": "string",
+                        "pattern": "^[0-9]{8,9}$"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "id": "terminationStatus",
+          "title": "Has your remarriage ended?",
+          "path": "marital/termination-status",
+          "uiSchema": {
+            "remarriage": {
+              "hasTerminated": {
+                "ui:title": "Has your remarriage been terminated?",
+                "ui:widget": "yesNo"
+              }
+            }
+          },
+          "schema": {
+            "type": "object",
+            "properties": {
+              "remarriage": {
+                "type": "object",
+                "required": ["hasTerminated"],
+                "properties": {
+                  "hasTerminated": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "id": "terminationDetails",
+          "title": "Termination details",
+          "path": "marital/termination-details",
+          "depends": "remarriage.hasTerminated === true",
+          "uiSchema": {
+            "remarriage": {
+              "terminationDate": {
+                "ui:title": "Date of termination",
+                "ui:widget": "currentOrPastDate"
+              },
+              "terminationReason": {
+                "ui:title": "Reason for termination (i.e., death, divorce)",
+                "ui:widget": "text"
+              }
+            }
+          },
+          "schema": {
+            "type": "object",
+            "properties": {
+              "remarriage": {
+                "type": "object",
+                "required": ["terminationDate", "terminationReason"],
+                "properties": {
+                  "terminationDate": {
+                    "type": "string",
+                    "pattern": "^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[12][0-9]|3[01]|XX)$"
+                  },
+                  "terminationReason": {
+                    "type": "string",
+                    "maxLength": 50
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "contactInfo",
+      "title": "Contact information",
+      "pages": [
+        {
+          "id": "phoneAndEmail",
+          "title": "How can we reach you?",
+          "path": "contact/phone-email",
+          "uiSchema": {
+            "recipient": {
+              "phone": {
+                "daytime": {
+                  "ui:title": "Daytime telephone number (include area code)",
+                  "ui:widget": "phone"
+                },
+                "evening": {
+                  "ui:title": "Evening telephone number (include area code)",
+                  "ui:widget": "phone"
+                }
+              },
+              "email": {
+                "ui:title": "Email address",
+                "ui:widget": "email"
+              }
+            }
+          },
+          "schema": {
+            "type": "object",
+            "properties": {
+              "recipient": {
+                "type": "object",
+                "properties": {
+                  "phone": {
+                    "type": "object",
+                    "properties": {
+                      "daytime": {
+                        "type": "string",
+                        "pattern": "^\\d{3}-\\d{3}-\\d{4}$"
+                      },
+                      "evening": {
+                        "type": "string",
+                        "pattern": "^\\d{3}-\\d{3}-\\d{4}$"
+                      }
+                    }
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "certification",
+      "title": "Certification",
+      "pages": [
+        {
+          "id": "marriageRecognition",
+          "title": "Important information about marriage recognition",
+          "path": "certification/marriage-recognition",
+          "depends": "hasRemarried === true",
+          "uiSchema": {
+            "ui:description": "IMPORTANT: If you are certifying that you are married for the purpose of VA benefits, your marriage must be recognized by the place where you and/or your spouse resided at the time of marriage, or where you and/or your spouse resided when you filed your claim (or a later date when you became eligible for benefits) (38 U.S.C. § 103(c)). Additional guidance on when VA recognizes marriages is available at http://www.va.gov/opa/marriage/."
+          },
+          "schema": {
+            "type": "object",
+            "properties": {}
+          }
+        },
+        {
+          "id": "signature",
+          "title": "Sign and submit",
+          "path": "certification/signature",
+          "uiSchema": {
+            "certification": {
+              "ui:title": "I certify that the information provided is true and correct to the best of my knowledge",
+              "ui:widget": "checkbox"
+            },
+            "recipient": {
+              "signature": {
+                "ui:title": "Signature (Type your full name)",
+                "ui:description": "By typing your name, you are signing this form electronically",
+                "ui:widget": "text"
+              },
+              "signatureDate": {
+                "ui:title": "Date signed",
+                "ui:widget": "currentOrPastDate"
+              }
+            }
+          },
+          "schema": {
+            "type": "object",
+            "required": ["certification", "recipient"],
+            "properties": {
+              "certification": {
+                "type": "boolean",
+                "enum": [true]
+              },
+              "recipient": {
+                "type": "object",
+                "required": ["signature", "signatureDate"],
+                "properties": {
+                  "signature": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "signatureDate": {
+                    "type": "string",
+                    "pattern": "^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[12][0-9]|3[01]|XX)$"
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "meta": {
+    "purpose": "DIC marital status verification",
+    "timeLimit": "60 days to respond",
+    "consequences": "VA may propose to terminate DIC benefits if not returned",
+    "requiresSignature": true,
+    "conditionalLogic": {
+      "eligibilityScreening": "If hasRemarried === false, skip to certification",
+      "marriageDetails": "Show only if hasRemarried === true",
+      "spouseVeteranInfo": "Show only if remarriage.spouseIsVeteran === true",
+      "terminationDetails": "Show only if remarriage.hasTerminated === true",
+      "marriageRecognitionInfo": "Show only if hasRemarried === true"
+    },
+    "workflowOptimization": {
+      "skipLogic": "Users who haven't remarried can skip directly from screening to certification",
+      "conditionalSections": [
+        {
+          "condition": "hasRemarried === false",
+          "skipChapters": ["maritalDetails"],
+          "skipPages": ["marriageRecognition"]
+        }
+      ]
+    },
+    "patternsUsed": [
+      "ssnOrVaFileNumberNoHint",
+      "phone",
+      "email",
+      "yesNo",
+      "fullName",
+      "dateOfBirth",
+      "number",
+      "currentOrPastDate",
+      "text",
+      "checkbox"
+    ],
+    "pdfMapping": {
+      "recipient.ssnOrVaFileNumber": "form1[0].#subform[0].Inreplyreferto[0]",
+      "hasRemarried": {
+        "yes": "form1[0].#subform[1].YESCHECKBOX1[0]",
+        "no": "form1[0].#subform[1].NOcheckbox1[0]"
+      },
+      "remarriage.dateOfMarriage": "form1[0].#subform[1].MARRIAGE_DATE[0]",
+      "remarriage.spouseName": "form1[0].#subform[1].SPOUSE_NAME[0]",
+      "remarriage.spouseDateOfBirth": "form1[0].#subform[1].SPOUSE_DOB[0]",
+      "remarriage.spouseIsVeteran": {
+        "yes": "form1[0].#subform[1].YESCHECKBOX2[1]",
+        "no": "form1[0].#subform[1].NOCHECKBOX2[1]"
+      },
+      "remarriage.spouseVeteranId": "form1[0].#subform[1].TERMINATION_REASON[1]",
+      "remarriage.ageAtMarriage": "1G field (not mapped in provided fields)",
+      "remarriage.hasTerminated": {
+        "yes": "form1[0].#subform[1].YESCHECKBOX2[0]",
+        "no": "form1[0].#subform[1].NOCHECKBOX2[0]"
+      },
+      "remarriage.terminationDate": "form1[0].#subform[1].TERMINATION_DATE[0]",
+      "remarriage.terminationReason": "form1[0].#subform[1].TERMINATION_REASON[0]",
+      "recipient.phone.daytime": "form1[0].#subform[1].DAYTIME_PHONE[0]",
+      "recipient.phone.evening": "form1[0].#subform[1].EVENING_PHONE[0]",
+      "recipient.email": "form1[0].#subform[1].EMAIL[0]",
+      "recipient.signature": "form1[0].#subform[1].Signature1[0]",
+      "recipient.signatureDate": "form1[0].#subform[1].DATE_SIGNED[0]"
+    }
+  }
+}
