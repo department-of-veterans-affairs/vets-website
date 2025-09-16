@@ -14,6 +14,7 @@ Array builder pattern features an intro page (for required flow), a yes/no quest
     - [Example Pages "Optional" Flow](#example-pages-optional-flow)
     - [Example using action link (or button) instead of yes/no question](#example-using-action-link-or-button-instead-of-yesno-question)
     - [Example content at bottom of page](#example-content-at-bottom-of-page)
+    - [Examples checking for duplicate content](#examples-checking-for-duplicate-content)
   - [Web Component Patterns](#web-component-patterns)
     - [Example `arrayBuilderYesNoUI` Text Overrides:](#example-arraybuilderyesnoui-text-overrides)
   - [General Pattern Text Overrides](#general-pattern-text-overrides)
@@ -359,8 +360,10 @@ export const nounPluralReplaceMePages = arrayBuilderPages( options,
 );
 ```
 
-### Example checking for duplicate content
+### Examples checking for duplicate content
 If you need to prevent adding duplicate data within the array, include the following duplicate checks.
+
+#### Minimal example: Duplicate alert on summary page only
 
 ```js
 /** @type {ArrayBuilderOptions} */
@@ -372,39 +375,68 @@ const options = {
   // ...
   text: {
     getItemName: (item, index, fullData) => item.name,
-
-    // Default duplicate messages shown
-    // Internal data array comparisons only or Internal data and external data
-    duplicateSummaryCardInfoAlert: props =>
-      `You may have multiple children with this same information.`,
-    duplicateSummaryCardWarningOrErrorAlert: props => (
-      <>
-        <p className="vads-u-margin-top--0">
-          You may have entered multiple children with this same information.
-        </p>
-        <p>
-          Before continuing, review these entries and delete any duplicates.
-        </p>
-      </>
-    ),
-
-    // NOTE: Modal settings here get props in a different shape here compared to
-    // placing the same callback within the duplicateChecks object
-    duplicateModalTitle: props => 'Is this a duplicate?',
-    duplicateModalDescription: props =>
-      `You’ve entered multiple children with this information`,
-    duplicateModalPrimaryButtonText: props => 'No, cancel',
-    duplicateModalSecondaryButtonText: props => 'Yes, save and continue',
-
-    duplicateSummaryCardLabel: props => 'DUPLICATE',
   },
   duplicateChecks: {
-    // If duplicates are allowed, progress past the item and summary page is
-    // blocked; set to true by default
-    // NOTE: not enabled in MVP because we need to consider UX of the modal
-    // first
-    // allowDuplicates: true,
+    // path to comparison data within the arrayPath
+    comparisons: ['fullName.first', 'fullName.last', 'birthDate', 'ssn'],
+  },
+};
+```
 
+#### Minimal example: external data comparison on an internal array page only
+
+```js
+/** @type {ArrayBuilderOptions} */
+const options = {
+  arrayPath: 'childrenToAdd',
+  nounSingular: 'child',
+  nounPlural: 'children',
+  required: true,
+  // ...
+  text: {
+    getItemName: (item, index, fullData) => item.name,
+  },
+  duplicateChecks: {
+    internalPaths: {
+      // path in form config would be 'dependent-children/:index/birth-date'
+      'birth-date': {
+        comparisons: ['fullName.first', 'birthDate'],
+        externalComparisonData: ({ formData, arrayData }) => {
+          const dependents = formData?.dependentsFromApi || [];
+          if (!dependents?.length) {
+            return [];
+          }
+         // return array of array strings duplicate comparisons
+          return dependents
+            .filter(
+              dependent =>
+                dependent.relationshipToVeteran.toLowerCase() === 'child',
+            )
+            .map(child => [
+              child.fullName?.first || '',
+              child.dateOfBirth || '',
+            ]);
+        }
+      },
+    },
+  },
+};
+```
+
+#### Complex example: separate summary & internal page comparisons
+
+```js
+/** @type {ArrayBuilderOptions} */
+const options = {
+  arrayPath: 'childrenToAdd',
+  nounSingular: 'child',
+  nounPlural: 'children',
+  required: true,
+  // ...
+  text: {
+    getItemName: (item, index, fullData) => item.name,
+  },
+  duplicateChecks: {
     // comparison type: ['internal', 'external', 'all']; defaults to 'all'
     comparisonType: 'all',
     // path to comparison data within the arrayPath
@@ -421,22 +453,71 @@ const options = {
        *   ['Jane', 'Smith', '1992-02-02', '987-65-4321']
        * ]
        */
-      return [];
+      const dependents = formData?.dependentsFromApi || [];
+      if (!dependents?.length) {
+        return [];
+      }
+      return dependents
+        .filter(
+          dependent =>
+            dependent.relationshipToVeteran.toLowerCase() === 'child',
+        )
+        .map(child => [
+          child.fullName?.first || '',
+          child.fullName?.last || '',
+          child.dateOfBirth || '',
+          child.ssn || '',
+        ]);
     },
 
     internalPaths: {
-     // path in config would be 'this-array/:index/path-to-internal-page'
-      'path-to-internal-page': {
+      // path in config would be 'this-array/:index/date-of-birth'
+      // Modal appears with duplicate when attempting to continue past this page
+      'date-of-birth': {
         // Customize content for each internal page (defaults to arraybuilder
         // settings, or to default settings if not included here)
-        // Internal data array comparisons with and without external data
-        comparisonType: 'all',
-        comparisons: ['ssn'],
-        externalComparisonData: ({ formData, arrayData }) => ([]),
+        // External setting makes external data array comparisons with unique
+        // internal data
+        comparisonType: 'external',
+        comparisons: ['dateOfBirth'],
+        externalComparisonData: ({ formData, arrayData }) => {
+          const dependents = formData?.dependentsFromApi || [];
+          if (!dependents?.length) {
+            return [];
+          }
+          return dependents
+            .filter(
+              dependent =>
+                dependent.relationshipToVeteran.toLowerCase() === 'child',
+            )
+            .map(child => [child.dateOfBirth || '']);
+        },
 
-        // NOTE: Modal text settings here get props in a different shape from
-        // the main text object
-        // Include this page-specific content if needed.
+        // Include page-specific content changes if needed.
+        duplicateModalTitle: props => '...',
+        duplicateModalDescription: props => '...',
+        duplicateModalPrimaryButtonText: props => '...',
+        duplicateModalSecondaryButtonText: props => '...',
+      },
+      // path in config would be 'this-array/:index/ssn'
+      // Modal appears with duplicate when attempting to continue past this page
+      'ssn': {
+        comparisonType: 'external',
+        comparisons: ['ssn'],
+        externalComparisonData: ({ formData, arrayData }) => {
+          const dependents = formData?.dependentsFromApi || [];
+          if (!dependents?.length) {
+            return [];
+          }
+          return dependents
+            .filter(
+              dependent =>
+                dependent.relationshipToVeteran.toLowerCase() === 'child',
+            )
+            .map(child => [child.ssn || '']);
+        },
+
+        // Include page-specific content changes if needed.
         duplicateModalTitle: props => '...',
         duplicateModalDescription: props => '...',
         duplicateModalPrimaryButtonText: props => '...',
@@ -445,8 +526,6 @@ const options = {
     },
   },
 };
-
-const uiSchema = {};
 ```
 
 ## Web Component Patterns

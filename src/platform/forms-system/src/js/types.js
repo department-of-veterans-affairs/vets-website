@@ -476,6 +476,31 @@
  * @property {ArrayBuilderText} [text] Override any default text used in the array builder pattern
  * @property {boolean} [useLinkInsteadOfYesNo]
  * @property {boolean} [useButtonInsteadOfYesNo]
+ * @property {DuplicateChecks} duplicateChecks
+ * ```
+ * // Example simple:
+ * duplicateChecks: {
+ *   comparisons: ['name', 'dateRange.from', 'dateRange.to'],
+ * }
+ *
+ * // Example complex:
+ * duplicateChecks: {
+ *   comparisonType: 'all', // default, can be 'all', 'internal', or 'external'
+ *   comparisons: ['fullName.first', 'fullName.last', 'birthDate', 'ssn'],
+ *   externalComparisonData: ({ formData, arrayData }) => {
+ *     // return array of array strings to be used for duplicate comparisons
+ *     return [];
+ *   },
+ *   internalPaths: {
+ *     // path in config would be 'this-array/:index/birth-date'
+ *     'birth-date': {
+ *       comparisons: ['birthDate'],
+ *       externalComparisonData: ({ formData, arrayData }) => {
+ *         // return array of array strings to be used for duplicate comparisons
+ *         return [];
+ *       }
+ *    },
+ * ```
  */
 
 /**
@@ -500,35 +525,53 @@
 /**
  * Duplicate checks object
  * @typedef {Object} DuplicateChecks
- * @property {boolean} allowDuplicates - Whether to allow duplicates. If false,
- * the inter-page modal will prevent continuing, and the summary page will block
- * navigation until the duplicate is resolved
  * @property {Array<String>} comparisons - The array paths to compare for
  * duplicates
- * @property {String} comparisonType - set as 'all' (default), 'internal', or
- * 'external'
+ * @property {String} comparisonType - set as 'all', 'internal', or 'external'.
+ *   - 'all' compares both internal and external data (default)
+ *   - 'internal' compares only within the array data
+ *   - 'external' compares unique internal data with external data (internal
+ *     duplicates are ignored)
  * @property {ExternalComparisonFunction} [externalComparisonData] - A function to
  * collect and return external data for comparison
+ * @property {Object} [internalPaths]
+ *  - Optional object to override the comparisons for specific item pages
+ *  - The key is the last part of the path after the index in the form config,
+ *    e.g. 'dependent-children/:index/birth-date' would be 'birth-date'
+ *  - The value is an object with the same structure as duplicateChecks. Changes
+ *    within this object will only affect the specific item page.
+ *  - If comparisons are made that are not part of the page, it may cause
+ *    confusion for the Veteran.
+ *  - A duplicate modal will appear after attempting to continue past this
+ *    internal page if a duplicate is found.
  * @example
  * {
- *   allowDuplicates: true, // Not enabled in MVP
+ *   comparisonType: 'all', // default
  *   comparisons: ['fullName.first', 'fullName.last', 'birthDate', 'ssn'],
  *   externalComparisonData: ({ formData, arrayData }) => {
+ *     // Use arrayData to troubleshoot data obtained via comparisons
  *     // return array of array strings to be used for duplicate comparisons
  *     return [];
- *   }
- * @property {Object} [internalPaths] - Optional object to override the
- * comparisons for specific item pages; if comparisons are made that are not
- * part of the page, it may cause confusion for the Veteran
- * @example
- * {
+ *   },
  *   internalPaths: {
- *     // path in config would be 'this-array/:index/birth-date'
+ *     // path in form config would be 'dependent-children/:index/birth-date'
  *     'birth-date': {
- *       comparisons: ['birthDate'],
+ *       comparisons: ['fullName.first', 'birthDate'],
  *       externalComparisonData: ({ formData, arrayData }) => {
- *         // return array of array strings to be used for duplicate comparisons
- *         return [];
+ *         const dependents = formData?.dependentsFromApi || [];
+ *         if (!dependents?.length) {
+ *           return [];
+ *         }
+ *        // return array of array strings to be used for duplicate comparisons
+ *         return dependents
+ *           .filter(
+ *             dependent =>
+ *               dependent.relationshipToVeteran.toLowerCase() === 'child',
+ *           )
+ *           .map(child => [
+ *             child.fullName?.first || '',
+ *             child.dateOfBirth || '',
+ *           ]);
  *       }
  *     },
  *   },

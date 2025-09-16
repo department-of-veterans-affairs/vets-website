@@ -165,12 +165,6 @@ export const employersPageNameAndAddressPage = {
       'ui:webComponentField': VaTextInputField,
     },
     address: addressNoMilitaryUI({ omit: ['street2', 'street3'] }),
-    // Alert if a duplicate was entered
-    'ui:duplicateChecks': {
-      // allowDuplicates: true, // Not enabled in MVP
-      comparisonType: 'all',
-      comparisons: ['name', 'address.street'],
-    },
   },
   schema: {
     type: 'object',
