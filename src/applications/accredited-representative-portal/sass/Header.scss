@@ -136,11 +136,13 @@
         border: none;
         margin-bottom: 0;
 
-        a {
-          margin-left: 10px;
+        .nav__full-width & {
+          a {
+            margin-left: 10px;
 
-          @media (min-width: $medium-screen) {
-            margin-left: 0;
+            @media (min-width: $medium-screen) {
+              margin-left: 0;
+            }
           }
         }
       }

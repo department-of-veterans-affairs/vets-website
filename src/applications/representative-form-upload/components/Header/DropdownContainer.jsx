@@ -3,7 +3,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import Dropdown from './Dropdown';
 
 const DropdownContainer = profile => {
-  const { rep } = profile;
   const [openDropdownId, setOpenDropdownId] = useState(null);
   const containerRef = useRef(null);
   useEffect(() => {
@@ -33,8 +32,8 @@ const DropdownContainer = profile => {
           setOpenDropdownId={setOpenDropdownId}
           className="nav__btn nav__btn--user vads-u-color--base arp-profile-dropdown"
           srText="toggle profile menu"
-          firstName={rep.firstName}
-          lastName={rep.lastName}
+          firstName={profile.profile.firstName}
+          lastName={profile.profile.lastName}
           icon="account_circle"
           secondaryIcon="chevron_left"
           iconClassName="user-nav__chevron"

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { Toggler } from 'platform/utilities/feature-toggles';
 import {
   NAV_MENU_DROPDOWN,
@@ -18,13 +17,13 @@ const DropdownLinks = ({ closeDropdown, category }) => {
         NAV_MOBILE_DROPDOWN.map((link, i) => {
           return (
             <li key={i}>
-              <Link
-                to={link.URL}
+              <a
+                href={link.URL}
                 onClick={handleClick}
                 className="vads-u-color--black"
               >
                 {link.LABEL}
-              </Link>
+              </a>
             </li>
           );
         })}
@@ -41,13 +40,13 @@ const DropdownLinks = ({ closeDropdown, category }) => {
                       className="people-search-icon"
                     />
                   )}
-                  <Link
-                    to={link.URL}
+                  <a
+                    href={link.URL}
                     onClick={handleClick}
                     className="nav__mobile-menu-links"
                   >
                     {link.LABEL}
-                  </Link>
+                  </a>
                 </li>
               </Toggler.Enabled>
             </Toggler>
@@ -60,13 +59,13 @@ const DropdownLinks = ({ closeDropdown, category }) => {
                   className="people-search-icon"
                 />
               )}
-              <Link
-                to={link.URL}
+              <a
+                href={link.URL}
                 onClick={handleClick}
                 className="nav__mobile-menu-links"
               >
                 {link.LABEL}
-              </Link>
+              </a>
             </li>
           );
         })}
