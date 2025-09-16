@@ -33,6 +33,7 @@ const AutosuggestField = props => {
   const [selectedOption, setSelectedOption] = useState(null);
 
   const containerRef = useRef(null);
+  const listboxRef = useRef(null);
 
   useEffect(
     () => {
@@ -137,6 +138,24 @@ const AutosuggestField = props => {
     document.addEventListener('mousedown', handleClick);
     return () => document.removeEventListener('mousedown', handleClick);
   }, []);
+
+  // Scroll active item into view
+  useEffect(
+    () => {
+      if (open && activeIndex >= 0 && listboxRef.current) {
+        const activeOption = listboxRef.current.querySelector(
+          `#${listboxId}__option-${activeIndex}`,
+        );
+        if (activeOption) {
+          activeOption.scrollIntoView({
+            block: 'nearest',
+            behavior: 'smooth',
+          });
+        }
+      }
+    },
+    [activeIndex, open, listboxId],
+  );
 
   useEffect(
     () => {
@@ -359,6 +378,7 @@ const AutosuggestField = props => {
       {open &&
         suggestions.length > 0 && (
           <div
+            ref={listboxRef}
             id={listboxId}
             role="listbox"
             aria-label="Suggestions"
