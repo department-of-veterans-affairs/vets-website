@@ -2,6 +2,7 @@ import mockUser from '../fixtures/user.json';
 import vamc from '../fixtures/facilities/vamc-ehr.json';
 import sessionStatus from '../fixtures/session-status.json';
 import createAal from '../fixtures/create-aal.json';
+import mockUumResponse from '../fixtures/unique-user-metrics-response.json';
 // import mockNonMRuser from '../fixtures/non_mr_user.json';
 // import mockNonMhvUser from '../fixtures/user-mhv-account-state-none.json';
 
@@ -24,6 +25,12 @@ class MedicalRecordsSite {
       statusCode: 200,
       body: createAal,
     }).as('aal');
+    // Note that we don't need specific event names in the response
+    cy.intercept(
+      'POST',
+      '/my_health/v1/unique_user_metrics',
+      mockUumResponse,
+    ).as('uum');
     cy.login(userFixture);
   };
 

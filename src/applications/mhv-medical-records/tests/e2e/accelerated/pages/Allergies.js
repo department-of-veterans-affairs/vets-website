@@ -1,4 +1,5 @@
 import sessionStatus from '../fixtures/session/default.json';
+import mockUumResponse from '../../fixtures/unique-user-metrics-response.json';
 
 class Allergies {
   setIntercepts = ({ allergiesData, useOhData = true } = {}) => {
@@ -20,6 +21,12 @@ class Allergies {
       }
       req.reply(allergiesData);
     }).as('allergies-list');
+    // Note that we don't need specific event names in the response
+    cy.intercept(
+      'POST',
+      '/my_health/v1/unique_user_metrics',
+      mockUumResponse,
+    ).as('uum');
   };
 
   goToAllergiesPage = () => {

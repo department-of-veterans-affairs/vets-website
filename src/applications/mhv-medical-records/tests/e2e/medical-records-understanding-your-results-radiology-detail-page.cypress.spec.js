@@ -2,6 +2,7 @@ import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import RadiologyDetailsPage from './pages/RadiologyDetailsPage';
 import LabsAndTestsListPage from './pages/LabsAndTestsListPage';
 import sessionStatus from './fixtures/session-status.json';
+import mockUumResponse from './fixtures/unique-user-metrics-response.json';
 // import labsAndTests from '../fixtures/labsAndTests.json';
 // import radiologyRecordsMhv from '../fixtures/radiologyRecordsMhv.json';
 
@@ -19,6 +20,12 @@ describe('Medical Records Understanding Your Results Detail Page', () => {
       body: sessionStatus, // status response copied from staging
     }).as('status');
     // cy.visit('my-health/medical-records/labs-and-tests');
+    // Note that we don't need specific event names in the response
+    cy.intercept(
+      'POST',
+      '/my_health/v1/unique_user_metrics',
+      mockUumResponse,
+    ).as('uum');
     LabsAndTestsListPage.goToLabsAndTests();
   });
 

@@ -3,6 +3,7 @@ import LabsAndTestsListPage from './pages/LabsAndTestsListPage';
 import ChemHemDetailsPage from './pages/ChemHemDetailsPage';
 import labsAndTests from './fixtures/labs-and-tests/labsAndTests.json';
 import sessionStatus from './fixtures/session-status.json';
+import mockUumResponse from './fixtures/unique-user-metrics-response.json';
 
 describe('Medical Records Understanding Your Results Detail Page', () => {
   const site = new MedicalRecordsSite();
@@ -18,6 +19,12 @@ describe('Medical Records Understanding Your Results Detail Page', () => {
       statusCode: 200,
       body: sessionStatus, // status response copied from staging
     }).as('status');
+    // Note that we don't need specific event names in the response
+    cy.intercept(
+      'POST',
+      '/my_health/v1/unique_user_metrics',
+      mockUumResponse,
+    ).as('uum');
     LabsAndTestsListPage.goToLabsAndTests();
   });
 
