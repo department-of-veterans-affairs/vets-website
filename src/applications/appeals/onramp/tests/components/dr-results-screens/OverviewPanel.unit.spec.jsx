@@ -23,10 +23,7 @@ describe('OverviewPanel', () => {
         Q_2_H_2B_JUDGE_HEARING: YES,
       };
 
-      const expectedOptions = [
-        'Board Appeal: Evidence Submission',
-        'Board Appeal: Hearing',
-      ];
+      const expectedOptions = ['Board Appeal: Hearing'];
 
       const screen = render(<OverviewPanel formResponses={formResponses} />);
 
@@ -69,7 +66,8 @@ describe('OverviewPanel', () => {
         expect(screen.getByText(option)).to.exist;
       });
 
-      expect(screen.getByTestId('claim-for-increase').textContent).to.exist;
+      expect(screen.getByTestId('claim-for-increase-option').textContent).to
+        .exist;
     });
   });
 });
