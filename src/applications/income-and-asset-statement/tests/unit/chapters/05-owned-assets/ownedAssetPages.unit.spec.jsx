@@ -23,14 +23,29 @@ import {
 describe('owned asset list and loop pages', () => {
   const { ownedAssetPagesSummary } = ownedAssetPages;
 
-  describe('isItemIncomplete function', () => {
-    const baseItem = testData.data.ownedAssets[0];
-    testOptionsIsItemIncomplete(options, baseItem);
-  });
+  describe('isItemIncomplete', () => {
+    it('isItemIncomplete function', () => {
+      const baseItem = testData.data.ownedAssets[0];
+      testOptionsIsItemIncomplete(options, baseItem);
+    });
 
-  describe('isItemIncomplete function tested with zeroes', () => {
-    const baseItem = testDataZeroes.data.ownedAssets[0];
-    testOptionsIsItemIncompleteWithZeroes(options, baseItem);
+    it('isItemIncomplete function tested with zeroes', () => {
+      const baseItem = testDataZeroes.data.ownedAssets[0];
+      testOptionsIsItemIncompleteWithZeroes(options, baseItem);
+    });
+
+    ['FARM', 'BUSINESS'].forEach(assetType => {
+      it('should check stuff', () => {
+        sessionStorage.setItem('showUpdatedContent', true);
+        const baseItem = {
+          ...testData.data.ownedAssets[0],
+          assetType,
+          'view:addFormQuestion': true,
+          uploadedDocuments: [],
+        };
+        expect(options.isItemIncomplete(baseItem)).to.be.true;
+      });
+    });
   });
 
   describe('text getItemName function', () => {
@@ -131,6 +146,9 @@ describe('owned asset list and loop pages', () => {
           isLoggedIn: false,
         }),
       ).to.equal('Alex Smith’s income from a rental property');
+    });
+    it('should return undefined if required keys are not defined', () => {
+      expect(options.text.getItemName({}, 0)).to.be.undefined;
     });
   });
 
