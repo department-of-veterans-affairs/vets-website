@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, cleanup, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
@@ -40,6 +40,7 @@ describe('InstitutionName Component', () => {
     if (hookStub) hookStub.restore();
     hookStub = undefined;
     document.body.innerHTML = '';
+    cleanup();
   });
   const makeStore = institutionName =>
     mockStore({
@@ -78,7 +79,9 @@ describe('InstitutionName Component', () => {
 
     await new Promise(resolve => setImmediate(resolve));
 
-    expect(apiRequestStub.calledOnce).to.be.true;
+    await waitFor(() => {
+      expect(apiRequestStub.calledOnce).to.be.true;
+    });
     expect(apiRequestStub.args[0][0]).to.equal('/gi/institutions/12345678');
 
     const actions = store.getActions();
@@ -129,20 +132,23 @@ describe('InstitutionName Component', () => {
     );
     await new Promise(resolve => setImmediate(resolve));
 
-    expect(apiRequestStub.calledOnce).to.be.true;
+    await waitFor(() => {
+      expect(apiRequestStub.calledOnce).to.be.true;
+    });
     expect(getByText('--')).to.exist;
-
-    const actions = store.getActions();
-    expect(actions).to.deep.include(
-      setData({
-        ...initialState.form.data,
-        institutionDetails: {
-          ...initialState.form.data.institutionDetails,
-          institutionName: 'not found',
-          institutionAddress: {},
-        },
-      }),
-    );
+    await waitFor(() => {
+      const actions = store.getActions();
+      expect(actions).to.deep.include(
+        setData({
+          ...initialState.form.data,
+          institutionDetails: {
+            ...initialState.form.data.institutionDetails,
+            institutionName: 'not found',
+            institutionAddress: {},
+          },
+        }),
+      );
+    });
   });
 
   it('should not fetch institution name if facilityCode is invalid', () => {
@@ -216,7 +222,7 @@ describe('InstitutionName Component', () => {
     expect(heading).to.exist;
   });
 
-  it('sets error message for "not found"', () => {
+  it('sets error message for "not found"', async () => {
     // force loader=false so the effect runs
     hookStub = sinon
       .stub(hook, 'useValidateFacilityCode')
@@ -231,12 +237,13 @@ describe('InstitutionName Component', () => {
       </Provider>,
     );
 
-    expect(host.getAttribute('error')).to.match(
-      /^Please enter a valid 8-character facility code/,
-    );
+    await waitFor(() => {
+      const attr = host.getAttribute('error') || '';
+      expect(attr).to.contain('Please enter a valid 8-character facility code');
+    });
   });
 
-  it('sets POE error for "not valid"', () => {
+  it('sets POE error for "not valid"', async () => {
     hookStub = sinon
       .stub(hook, 'useValidateFacilityCode')
       .returns({ loader: false });
@@ -250,12 +257,14 @@ describe('InstitutionName Component', () => {
       </Provider>,
     );
 
-    expect(host.getAttribute('error')).to.equal(
-      'This institution is unable to participate in the Principles of Excellence.',
-    );
+    await waitFor(() => {
+      expect(host.getAttribute('error')).to.equal(
+        'This institution is unable to participate in the Principles of Excellence.',
+      );
+    });
   });
 
-  it('removes error when institutionName is a normal value', () => {
+  it('removes error when institutionName is a normal value', async () => {
     hookStub = sinon
       .stub(hook, 'useValidateFacilityCode')
       .returns({ loader: false });
@@ -269,6 +278,8 @@ describe('InstitutionName Component', () => {
       </Provider>,
     );
 
-    expect(host.hasAttribute('error')).to.be.false;
+    await waitFor(() => {
+      expect(host.hasAttribute('error')).to.be.false;
+    });
   });
 });
