@@ -7,7 +7,7 @@ import { externalServices as services } from 'platform/monitoring/DowntimeNotifi
 import migrations from '../migrations';
 
 import IntroductionPage from '../containers/IntroductionPage';
-import ConfirmationPage from '../containers/ConfirmationPage';
+import ConfirmationPage from '../components/ConfirmationPage';
 import SubTaskContainer from '../subtask/SubTaskContainer';
 
 import AddContestableIssue from '../components/AddContestableIssue';
@@ -52,13 +52,12 @@ import evidenceUpload from '../pages/evidenceUpload';
 import evidenceSummary from '../pages/evidenceSummary';
 
 import {
+  hasOtherEvidence,
   hasVAEvidence,
   hasPrivateEvidence,
   hasPrivateLimitation,
-  hasOtherEvidence,
-  onFormLoaded,
-} from '../utils/evidence';
-import { hasMstOption } from '../utils/mstOption';
+} from '../utils/form-data-retrieval';
+import { onFormLoaded } from '../utils/evidence';
 import { hasHomeAndMobilePhone } from '../../shared/utils/contactInfo';
 
 import manifest from '../manifest.json';
@@ -68,10 +67,11 @@ import {
   EVIDENCE_VA_PATH,
   EVIDENCE_PRIVATE_REQUEST_PATH,
   EVIDENCE_PRIVATE_PATH,
-  LIMITED_CONSENT_PROMPT_PATH,
   LIMITED_CONSENT_DETAILS_PATH,
+  LIMITED_CONSENT_PROMPT_PATH,
   EVIDENCE_ADDITIONAL_PATH,
   EVIDENCE_UPLOAD_PATH,
+  MST_OPTION,
   SC_NEW_FORM_DATA,
 } from '../constants';
 import { SUBMIT_URL } from '../constants/apis';
@@ -380,7 +380,6 @@ const formConfig = {
           path: 'option-claims',
           uiSchema: optionForMst.uiSchema,
           schema: optionForMst.schema,
-          depends: showScNewForm,
           scrollAndFocusTarget: focusRadioH3,
         },
         optionIndicator: {
@@ -388,7 +387,7 @@ const formConfig = {
           path: 'option-indicator',
           uiSchema: optionIndicator.uiSchema,
           schema: optionIndicator.schema,
-          depends: hasMstOption,
+          depends: formData => formData?.[MST_OPTION],
         },
       },
     },
