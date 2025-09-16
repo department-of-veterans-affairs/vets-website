@@ -170,11 +170,7 @@ export async function setTypeOfEyeCare(store, label) {
   const screen = renderWithStoreAndRouter(<TypeOfEyeCarePage />, { store });
   await screen.findByText(/Continue/i);
 
-  const radioSelector = screen.container.querySelector('va-radio');
-  const changeEvent = new CustomEvent('selected', {
-    detail: { value: label },
-  });
-  radioSelector.__events.vaValueChange(changeEvent);
+  fireEvent.click(await screen.findByLabelText(label));
   fireEvent.click(screen.getByText(/Continue/));
   await waitFor(() => expect(screen.history.push.called).to.be.true);
   await cleanup();
