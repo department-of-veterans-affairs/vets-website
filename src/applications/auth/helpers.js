@@ -3,6 +3,7 @@ import {
   EXTERNAL_APPS,
   ARP_APPS,
   EXTERNAL_REDIRECTS,
+  CSP_IDS,
 } from 'platform/user/authentication/constants';
 import {
   SENTRY_TAGS,
@@ -16,6 +17,7 @@ import {
   OAUTH_KEYS,
 } from 'platform/utilities/oauth/constants';
 import { requestToken } from 'platform/utilities/oauth/utilities';
+import { isBefore, parseISO } from 'date-fns';
 
 export const checkReturnUrl = passedUrl => {
   return (
@@ -25,6 +27,24 @@ export const checkReturnUrl = passedUrl => {
     passedUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.ARP]) ||
     passedUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.SMHD]) ||
     passedUrl.includes(EXTERNAL_REDIRECTS[ARP_APPS.FORM21A])
+  );
+};
+
+export const emailNeedsConfirmation = ({
+  isEmailInterstitialEnabled,
+  loginType,
+  userAttributes,
+}) => {
+  return (
+    isEmailInterstitialEnabled &&
+    [CSP_IDS.LOGIN_GOV, CSP_IDS.ID_ME].includes(loginType) &&
+    userAttributes.profile?.verified &&
+    userAttributes.vaProfile?.vaPatient &&
+    userAttributes.vaProfile?.facilities?.length > 0 &&
+    isBefore(
+      parseISO(userAttributes.vet360ContactInformation?.email?.updatedAt),
+      new Date('2025-03-01'),
+    )
   );
 };
 

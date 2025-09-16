@@ -20,11 +20,11 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 
 import { generateReturnURL } from 'platform/user/authentication/utilities';
 import { OAUTH_EVENTS } from 'platform/utilities/oauth/constants';
-import { isBefore, parseISO } from 'date-fns';
 import RenderErrorUI from '../components/RenderErrorContainer';
 import AuthMetrics from './AuthMetrics';
 import {
   checkReturnUrl,
+  emailNeedsConfirmation,
   generateSentryAuthError,
   handleTokenRequest,
 } from '../helpers';
@@ -171,15 +171,11 @@ export default function AuthApp({ location }) {
       setupProfileSession(userProfile);
     }
     if (
-      isEmailInterstitialEnabled &&
-      [CSP_IDS.LOGIN_GOV, CSP_IDS.ID_ME].includes(loginType) &&
-      userProfile.verified &&
-      userAttributes.vaProfile?.vaPatient &&
-      userAttributes.vaProfile?.facilities?.length > 0 &&
-      isBefore(
-        parseISO(userAttributes.vet360ContactInformation?.email?.updatedAt),
-        new Date('2025-03-01'),
-      )
+      emailNeedsConfirmation({
+        isEmailInterstitialEnabled,
+        loginType,
+        userAttributes,
+      })
     ) {
       window.location.replace('/sign-in-confirm-contact-email');
       return;
