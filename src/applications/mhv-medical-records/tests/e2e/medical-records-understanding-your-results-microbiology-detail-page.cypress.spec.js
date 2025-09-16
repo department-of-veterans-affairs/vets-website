@@ -20,6 +20,7 @@ describe('Medical Records Understanding Your Results Microbiology Detail Page', 
       body: sessionStatus, // status response copied from staging
     }).as('status');
     MedicalRecordsLandingPage.uumIntercept();
+    LabsAndTestsListPage.goToLabsAndTests();
   });
 
   it('Understanding Your Results Microbiology Detail Page', () => {

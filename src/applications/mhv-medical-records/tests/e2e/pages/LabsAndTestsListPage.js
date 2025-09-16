@@ -32,6 +32,7 @@ class LabsAndTestsListPage extends BaseListPage {
       '/my_health/v1/medical_records/bbmi_notification/status',
       { flag: true },
     ).as('BbmiNotificationStatus');
+    cy.intercept('POST', '/v0/datadog_action', {}).as('datadogAction');
     // cy.get('[href="/my-health/medical-records/labs-and-tests"]').click();
     cy.visit('my-health/medical-records/labs-and-tests');
     if (waitForLabsAndTests) {
@@ -47,7 +48,7 @@ class LabsAndTestsListPage extends BaseListPage {
       `/my_health/v1/medical_records/labs_and_tests/${entry.resource.id}`,
       entry.resource,
     );
-    cy.get('[data-testid="record-list-item"]')
+    cy.findAllByTestId('record-list-item')
       .find('a')
       .eq(_LabsAndTestsItemIndex)
       .click();
