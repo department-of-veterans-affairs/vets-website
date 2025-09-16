@@ -36,6 +36,18 @@ import { selectVaSelect } from '../../util/testUtils';
 import getInbox from '../fixtures/mock-api-responses/get-inbox-response.json';
 
 describe('Folder Thread List View container', () => {
+  let sandbox;
+
+  beforeEach(() => {
+    // Create a new sandbox for each test
+    sandbox = sinon.createSandbox();
+  });
+
+  afterEach(() => {
+    // Restore all stubs/spies in the sandbox
+    sandbox.restore();
+  });
+
   const expectTitleToEqual = expected => {
     expect(global.document.title.replace(/\s+/g, ' ')).to.equal(
       expected.replace(/\s+/g, ' '),
@@ -382,7 +394,7 @@ describe('Folder Thread List View container', () => {
         { timeout: 5000 },
       );
 
-      const getListOfThreadsSpy = sinon
+      const getListOfThreadsSpy = sandbox
         .stub(threadsActions, 'getListOfThreads')
         .callThrough();
       const sortComponent = screen.queryByTestId('thread-list-sort');
@@ -393,7 +405,6 @@ describe('Folder Thread List View container', () => {
         const expectedArgs = [0, 10, 1, 'SENT_DATE_ASCENDING', false];
         expect(getListOfThreadsSpy.args[0]).deep.equal(expectedArgs);
       });
-      getListOfThreadsSpy.restore();
     });
 
     it('should work correctly with different folder types', async () => {
@@ -453,7 +464,7 @@ describe('Folder Thread List View container', () => {
         expect(screen.findByText('Showing 1 to')).to.exist;
       });
 
-      const getListOfThreadsSpy = sinon
+      const getListOfThreadsSpy = sandbox
         .stub(threadsActions, 'getListOfThreads')
         .callThrough();
       const pagination = screen.container.querySelector('va-pagination');
@@ -467,7 +478,6 @@ describe('Folder Thread List View container', () => {
         const expectedArgs = [0, 10, 2, 'SENT_DATE_DESCENDING', false];
         expect(getListOfThreadsSpy.args[0]).to.deep.equal(expectedArgs);
       });
-      getListOfThreadsSpy.restore();
     });
   });
 });
