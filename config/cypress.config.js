@@ -16,6 +16,7 @@ const cypressConfig = {
   env: {
     codeCoverage: {
       exclude: ['src/**/*.cypress.spec.js?(x)'],
+      nycFolder: 'config/.nyc_output',
     },
     vaTopMobileViewportsIterateUptoIndex: 0,
     vaTopMobileViewports: [
