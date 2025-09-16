@@ -74,6 +74,7 @@ import {
   LIMITED_CONSENT_PROMPT_PATH,
   EVIDENCE_ADDITIONAL_PATH,
   EVIDENCE_UPLOAD_PATH,
+  MST_OPTION,
   SC_NEW_FORM_DATA,
 } from '../constants';
 import { SUBMIT_URL } from '../constants/apis';
@@ -376,7 +377,7 @@ const formConfig = {
           path: 'option-indicator',
           uiSchema: optionIndicator.uiSchema,
           schema: optionIndicator.schema,
-          depends: hasMstOption,
+          depends: formData => formData?.[MST_OPTION],
         },
       },
     },
