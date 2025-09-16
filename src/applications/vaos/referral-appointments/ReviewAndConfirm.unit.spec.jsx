@@ -13,7 +13,6 @@ import { createReferralById, getReferralSlotKey } from './utils/referrals';
 import { FETCH_STATUS } from '../utils/constants';
 import { createDraftAppointmentInfo } from './utils/provider';
 import * as flow from './flow';
-import { vaosApi } from '../redux/api/vaosApi';
 import {
   generateSlotsForDay,
   transformSlotsForCommunityCare,
@@ -179,16 +178,12 @@ describe('VAOS Component: ReviewAndConfirm', () => {
         store,
       },
     );
-    // Manually dispatch the referral list and referral by id calls to have them in state.
-    store.dispatch(
-      vaosApi.util.upsertQueryData('getReferralById', 'UUID', { data: {} }),
-    );
 
     await screen.findByTestId('continue-button');
     expect(screen.getByTestId('continue-button')).to.exist;
     expect(
       Object.keys(store.getState().appointmentApi.queries).length,
-    ).to.equal(2);
+    ).to.equal(1);
     await userEvent.click(screen.getByTestId('continue-button'));
     await waitFor(() => {
       const mutation = Object.keys(
