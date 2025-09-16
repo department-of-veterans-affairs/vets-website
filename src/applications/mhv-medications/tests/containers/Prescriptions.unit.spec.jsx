@@ -213,26 +213,10 @@ describe('Medications Prescriptions container', () => {
   it('displays link for allergies if mhv_medications_display_allergies feature flag is set to true', async () => {
     const screen = setup({
       ...initialState,
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_medications_display_allergies: true,
-      },
     });
     expect(screen.getByText('Go to your allergies and reactions')).to.exist;
   });
 
-  it('displays "If you print or download this list, we\'ll include a list of your allergies." if mhv_medications_display_allergies feature flag is set to false', async () => {
-    const screen = setup({
-      ...initialState,
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_medications_display_allergies: false,
-      },
-    });
-    expect(await screen.getByTestId('Title-Notes').textContent).to.match(
-      /If you print or download this list, we’ll include a list of your allergies./,
-    );
-  });
   it('displays filter accordion', async () => {
     const screen = setup();
     expect(await screen.getByTestId('filter-accordion')).to.exist;

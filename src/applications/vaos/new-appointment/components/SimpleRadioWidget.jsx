@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
  * code to disable certain options. This isn't currently supported by the
  * form system.
  */
-export default function TypeOfCareRadioWidget({
+export default function SimpleRadioWidget({
   id,
   options,
   value,
@@ -45,7 +45,7 @@ export default function TypeOfCareRadioWidget({
     </div>
   );
 }
-TypeOfCareRadioWidget.propTypes = {
+SimpleRadioWidget.propTypes = {
   formContext: PropTypes.object,
   id: PropTypes.string,
   options: PropTypes.object,
