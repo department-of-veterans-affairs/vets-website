@@ -24,7 +24,7 @@ import {
   getPrivateEvidence,
   getOtherEvidence,
 } from '../utils/evidence';
-import { SC_NEW_FORM_DATA, EVIDENCE_LIMIT } from '../constants';
+import { SC_NEW_FORM_DATA, LIMITED_CONSENT_RESPONSE } from '../constants';
 import { getReadableDate } from '../../shared/utils/dates';
 
 // Components
@@ -207,12 +207,12 @@ export const ConfirmationPageV2 = () => {
       {privateEvidence.length ? (
         <EvidencePrivateContent
           list={privateEvidence}
-          limitedConsent={data.limitedConsent}
+          limitedConsent={data?.limitedConsent}
           privacyAgreementAccepted={data.privacyAgreementAccepted}
           reviewMode
           showListOnly
           showScNewForm={showScNewForm}
-          showLimitedConsentYN={showScNewForm && data[EVIDENCE_LIMIT]}
+          limitedConsentResponse={data?.[LIMITED_CONSENT_RESPONSE]}
         />
       ) : null}
 

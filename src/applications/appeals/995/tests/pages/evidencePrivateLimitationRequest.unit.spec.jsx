@@ -12,7 +12,7 @@ describe('Supplemental Claims private limitation request page', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.evidence.pages.evidencePrivateLimitationRequest;
+  } = formConfig.chapters.evidence.pages.limitedConsentPrompt;
 
   // Custom page is rendered, so this only renders a submit button
   it('should render', () => {

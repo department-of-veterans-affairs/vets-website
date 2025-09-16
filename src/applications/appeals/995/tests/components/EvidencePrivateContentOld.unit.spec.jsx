@@ -3,11 +3,7 @@ import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
-import {
-  EVIDENCE_PRIVATE_PATH,
-  EVIDENCE_LIMITATION_PATH,
-  LIMITATION_KEY,
-} from '../../constants';
+import { EVIDENCE_PRIVATE_PATH, LIMITATION_KEY } from '../../constants';
 import { content } from '../../content/evidenceSummary';
 import { EvidencePrivateContent } from '../../components/EvidencePrivateContent';
 import { records } from '../data/evidence-records';
@@ -121,9 +117,9 @@ describe('buildPrivateContent', () => {
     expect(links[1].getAttribute('data-link')).to.contain(
       `${EVIDENCE_PRIVATE_PATH}?index=1`,
     );
-    expect(links[2].getAttribute('data-link')).to.contain(
-      EVIDENCE_LIMITATION_PATH,
-    );
+    // expect(links[2].getAttribute('data-link')).to.contain(
+    //   EVIDENCE_LIMITATION_PATH,
+    // );
   });
   it('should execute callback when removing an entry', () => {
     const removeSpy = sinon.spy();

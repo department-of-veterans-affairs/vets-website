@@ -1,5 +1,3 @@
-import { EVIDENCE_LIMIT } from '../../constants';
-
 import {
   buildPrivateString,
   buildVaLocationString,
@@ -237,19 +235,13 @@ export const hasDuplicateFacility = (list, currentFacility) => {
   );
 };
 
-/**
- * The backend is filling out form 4142/4142a (March 2021) which doesn't include
- * the conditions (issues) that were treated. These are asked for in the newer
- * 4142/4142a (July 2021)
- */
 export const getForm4142 = formData => {
   const facilities = getPrivateEvidence(formData);
   if (facilities.length === 0) {
     return null;
   }
 
-  const { privacyAgreementAccepted = true } = formData;
-  let { limitedConsent } = formData;
+  const { limitedConsent, privacyAgreementAccepted = true } = formData;
 
   const providerFacility = facilities.reduce((list, facility) => {
     if (!hasDuplicateFacility(list, facility)) {
@@ -267,14 +259,9 @@ export const getForm4142 = formData => {
     return list;
   }, []);
 
-  if (showScNewForm(formData)) {
-    // submit limitation based on yes/no question
-    limitedConsent = formData[EVIDENCE_LIMIT] ? limitedConsent : '';
-  }
-
   return {
     privacyAgreementAccepted,
-    limitedConsent,
+    limitedConsent: limitedConsent || '',
     providerFacility,
   };
 };

@@ -1,7 +1,7 @@
 import {
   EVIDENCE_VA,
   EVIDENCE_PRIVATE,
-  EVIDENCE_LIMIT,
+  LIMITED_CONSENT_RESPONSE,
   EVIDENCE_OTHER,
 } from '../constants';
 
@@ -16,13 +16,7 @@ import { parseDate } from '../../shared/utils/dates';
 export const hasVAEvidence = formData => formData?.[EVIDENCE_VA];
 export const hasPrivateEvidence = formData => formData?.[EVIDENCE_PRIVATE];
 export const hasPrivateLimitation = formData =>
-  showScNewForm(formData) &&
-  hasPrivateEvidence(formData) &&
-  !!formData?.[EVIDENCE_LIMIT];
-export const hasNewPrivateLimitation = formData =>
-  showScNewForm(formData) && hasPrivateEvidence(formData);
-export const hasOriginalPrivateLimitation = formData =>
-  !showScNewForm(formData) && hasPrivateEvidence(formData);
+  hasPrivateEvidence(formData) && !!formData?.[LIMITED_CONSENT_RESPONSE];
 export const hasOtherEvidence = formData => formData?.[EVIDENCE_OTHER];
 
 export const getVAEvidence = formData =>

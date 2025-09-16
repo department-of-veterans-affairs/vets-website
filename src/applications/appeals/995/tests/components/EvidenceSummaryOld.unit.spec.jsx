@@ -13,7 +13,6 @@ import {
   EVIDENCE_OTHER,
   EVIDENCE_VA_PATH,
   EVIDENCE_PRIVATE_PATH,
-  EVIDENCE_LIMITATION_PATH,
   EVIDENCE_UPLOAD_PATH,
 } from '../../constants';
 
@@ -190,11 +189,8 @@ describe('<EvidenceSummary>', () => {
     expect(links[3].getAttribute('data-link')).to.contain(
       `${EVIDENCE_PRIVATE_PATH}?index=1`,
     );
-    expect(links[4].getAttribute('data-link')).to.contain(
-      EVIDENCE_LIMITATION_PATH,
-    );
+    expect(links[4].getAttribute('data-link')).to.contain(EVIDENCE_UPLOAD_PATH);
     expect(links[5].getAttribute('data-link')).to.contain(EVIDENCE_UPLOAD_PATH);
-    expect(links[6].getAttribute('data-link')).to.contain(EVIDENCE_UPLOAD_PATH);
   });
 
   it('should submit page without error', async () => {

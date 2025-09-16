@@ -7,13 +7,13 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import formConfig from '../../config/form';
-import { content } from '../../content/evidencePrivateLimitation';
+import { content } from '../../content/limitedConsent';
 
 describe('Supplemental Claims (Custom) Private evidence limitations 2 page', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.evidence.pages.evidencePrivateLimitation2;
+  } = formConfig.chapters.evidence.pages.limitedConsentDetails;
 
   it('should render', () => {
     const { container } = render(

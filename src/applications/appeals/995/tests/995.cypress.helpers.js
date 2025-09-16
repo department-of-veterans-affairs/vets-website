@@ -14,7 +14,6 @@ import {
   EVIDENCE_VA_PATH,
   EVIDENCE_PRIVATE_REQUEST,
   EVIDENCE_PRIVATE_PATH,
-  EVIDENCE_LIMITATION_PATH,
   EVIDENCE_PRIVATE,
   EVIDENCE_UPLOAD_PATH,
 } from '../constants';
@@ -375,18 +374,6 @@ export const pageHooks = {
             }
           }
         });
-        cy.findByText('Continue', { selector: 'button' }).click();
-      });
-    });
-  },
-
-  [EVIDENCE_LIMITATION_PATH]: ({ afterHook }) => {
-    afterHook(() => {
-      cy.get('@testData').then(data => {
-        cy.injectAxeThenAxeCheck();
-        if (data.limitedConsent) {
-          cy.fillVaTextarea('limitation', data.limitedConsent);
-        }
         cy.findByText('Continue', { selector: 'button' }).click();
       });
     });

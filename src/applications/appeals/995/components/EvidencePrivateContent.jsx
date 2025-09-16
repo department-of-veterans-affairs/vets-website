@@ -4,14 +4,13 @@ import readableList from 'platform/forms-system/src/js/utilities/data/readableLi
 import BasicLink from '../../shared/components/web-component-wrappers/BasicLink';
 import { title4142WithId } from '../content/title';
 import { content } from '../content/evidenceSummary';
-import { content as limitContent } from '../content/evidencePrivateLimitation';
+import { content as limitedConsentContent } from '../content/limitedConsent';
 import {
   AUTHORIZATION_LABEL,
   EVIDENCE_PRIVATE_PATH,
   EVIDENCE_PRIVATE_AUTHORIZATION,
-  EVIDENCE_LIMITATION_PATH,
-  EVIDENCE_LIMITATION_PATH1,
-  EVIDENCE_LIMITATION_PATH2,
+  LIMITED_CONSENT_PROMPT,
+  LIMITED_CONSENT_DETAILS,
   LIMITATION_KEY,
 } from '../constants';
 import {
@@ -25,7 +24,7 @@ import { formatDate } from '../utils/evidence';
 /**
  * Build private evidence list
  * @param {Object[]} list - Private medical evidence array
- * @param {String} limitContent - Private evidence limitation
+ * @param {String} limitedConsentContent - Private evidence limitation
  * @param {Boolean} reviewMode - When true, hide editing links & buttons
  * @param {Boolean} isOnReviewPage - When true, list is rendered on review page
  * @param {Object} handlers - Event callback functions for links & buttons
@@ -43,7 +42,7 @@ export const EvidencePrivateContent = ({
   testing,
   showListOnly = false,
   showScNewForm = false,
-  showLimitedConsentYN = false,
+  limitedConsentResponse,
 }) => {
   if (!list?.length) {
     return null;
@@ -113,50 +112,50 @@ export const EvidencePrivateContent = ({
             )}
           </li>
         )}
-        {showScNewForm && (
-          <li className={listClassNames(!showListOnly)}>
-            <SubHeader
-              className={`private-limitation-yn vads-u-margin-y--0 ${confirmationPageLabel(
-                showListOnly,
-              )}`}
-            >
-              {limitContent.title}
-            </SubHeader>
-            <div>{showLimitedConsentYN ? 'Yes' : 'No'}</div>
-            {!reviewMode && (
-              <div className="vads-u-margin-top--1p5">
-                <BasicLink
-                  disableAnalytics
-                  id="edit-limitation-y-n"
-                  className="edit-item"
-                  path={`/${EVIDENCE_LIMITATION_PATH1}`}
-                  aria-label={`${content.edit} ${limitContent.title} `}
-                  data-link={testing ? EVIDENCE_LIMITATION_PATH1 : null}
-                  text={content.edit}
-                />
-              </div>
-            )}
-          </li>
-        )}
-        {showLimitedConsentYN && (
+        <li className={listClassNames(!showListOnly)}>
+          <SubHeader
+            className={`private-limitation-yn vads-u-margin-y--0 ${confirmationPageLabel(
+              showListOnly,
+            )}`}
+          >
+            {limitedConsentContent.title}
+          </SubHeader>
+          <p>{limitedConsentResponse ? 'Yes' : 'No'}</p>
+          {!reviewMode && (
+            <div className="vads-u-margin-top--1p5">
+              <BasicLink
+                disableAnalytics
+                id="edit-limitation-y-n"
+                className="edit-item"
+                path={`/${LIMITED_CONSENT_PROMPT}`}
+                aria-label={`${content.edit} ${limitedConsentContent.title} `}
+                data-link={testing ? LIMITED_CONSENT_PROMPT : null}
+                text={content.edit}
+              />
+            </div>
+          )}
+        </li>
+        {limitedConsentResponse && (
           <li key={LIMITATION_KEY} className={listClassNames(!showListOnly)}>
             <SubHeader
               className={`private-limitation
                 vads-u-margin-y--0
                 ${confirmationPageLabel(showListOnly)}`}
             >
-              {limitContent.textAreaTitle}
+              {limitedConsentContent.textAreaTitle}
             </SubHeader>
-            <div>{limitedConsent}</div>
+            <p>{limitedConsent}</p>
             {!reviewMode && (
               <div className="vads-u-margin-top--1p5">
                 <BasicLink
                   disableAnalytics
                   id="edit-limitation"
                   className="edit-item"
-                  path={`/${EVIDENCE_LIMITATION_PATH2}`}
-                  aria-label={`${content.edit} ${limitContent.textAreaTitle}`}
-                  data-link={testing ? EVIDENCE_LIMITATION_PATH2 : null}
+                  path={`/${LIMITED_CONSENT_DETAILS}`}
+                  aria-label={`${content.edit} ${
+                    limitedConsentContent.textAreaTitle
+                  }`}
+                  data-link={testing ? LIMITED_CONSENT_DETAILS : null}
                   text={content.edit}
                 />
               </div>
@@ -253,42 +252,6 @@ export const EvidencePrivateContent = ({
             </li>
           );
         })}
-        {!showScNewForm && (
-          <li key={LIMITATION_KEY} className={listClassNames(!showListOnly)}>
-            <SubHeader
-              className={`private-limitation vads-u-margin-y--0
-                ${confirmationPageLabel(showListOnly)}`}
-            >
-              {limitContent.title}
-            </SubHeader>
-
-            <div>{limitContent.review[limitedConsent.length ? 'y' : 'n']}</div>
-
-            {!reviewMode && (
-              <div className="vads-u-margin-top--1p5">
-                <BasicLink
-                  disableAnalytics
-                  id="edit-limitation"
-                  className="edit-item"
-                  path={`/${EVIDENCE_LIMITATION_PATH}`}
-                  aria-label={`${content.edit} ${limitContent.name}`}
-                  data-link={testing ? EVIDENCE_LIMITATION_PATH : null}
-                  text={content.edit}
-                />
-                {limitedConsent.length ? (
-                  <va-button
-                    data-type={LIMITATION_KEY}
-                    onClick={handlers.showModal}
-                    class={removeButtonClass}
-                    label={`${content.remove} ${limitContent.name}`}
-                    text={content.remove}
-                    secondary
-                  />
-                ) : null}
-              </div>
-            )}
-          </li>
-        )}
       </ul>
     </>
   );
@@ -298,10 +261,10 @@ EvidencePrivateContent.propTypes = {
   handlers: PropTypes.shape({}),
   isOnReviewPage: PropTypes.bool,
   limitedConsent: PropTypes.string,
+  limitedConsentResponse: PropTypes.bool,
   list: PropTypes.array,
   privacyAgreementAccepted: PropTypes.bool,
   reviewMode: PropTypes.bool,
-  showLimitedConsentYN: PropTypes.bool,
   showListOnly: PropTypes.bool,
   showScNewForm: PropTypes.bool,
   testing: PropTypes.bool,
