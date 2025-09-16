@@ -8,7 +8,7 @@ import {
 } from '../api/SmApi';
 import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
-import { getFirstError } from '../components/shared/serverErrors';
+import { getFirstError } from '../components/util/serverErrors';
 
 const handleErrors = err => async dispatch => {
   const newErr = getFirstError(err);

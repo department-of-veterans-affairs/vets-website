@@ -23,7 +23,7 @@ import * as Constants from '../../util/constants';
 import {
   edgeCaseBackendError,
   getFirstError,
-} from '../../components/shared/serverErrors';
+} from '../../components/util/serverErrors';
 
 describe('generate folder edge case server exception', () => {
   const badError = {
