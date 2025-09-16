@@ -8,7 +8,7 @@ const CheckEligibilityAndApply = () => {
     focusElement('h1');
   }, []);
 
-  const mockEligibility = {
+  const mockResponse = {
     veteranProfile: {
       firstName: 'VICTORIA',
       lastName: 'DUNCAN',
@@ -48,9 +48,10 @@ const CheckEligibilityAndApply = () => {
     approvedBy: 'NA',
     approvedOn: 'NA',
     resCaseId: 685,
-    resEligibilityRecommendation: 'Ineligible',
+    resEligibilityRecommendation: 'Eligible',
   };
 
+  // TODO search for platform function
   const formatDate = isoString => {
     if (!isoString) return '';
     const trimmed = isoString.replace('Z', '');
@@ -91,12 +92,13 @@ const CheckEligibilityAndApply = () => {
             Find out more about requesting a Rudisill review
           </a>
         </p>
-
-        <div className="vads-u-margin-y--2 vads-u-padding--2 vads-u-border--2px vads-u-border-color--primary">
-          <va-icon icon="check_circle" size="3" />
-          <strong className="vads-u-margin-left--1">You’re eligible!</strong>
-        </div>
-
+        <va-alert
+          close-btn-aria-label="Close notification"
+          status="success"
+          visible
+        >
+          <p className="vads-u-margin-y--0">You’re eligible!</p>
+        </va-alert>
         <h2 className="vads-u-margin-top--4">Next steps</h2>
         <p>
           If any of the eligibility criteria above are incorrect or if you have
@@ -110,18 +112,16 @@ const CheckEligibilityAndApply = () => {
           If you are eligible and have entitlement, you can apply online right
           now.
         </p>
-
         <p>
-          <va-link
-            href="/careers-employment/vocational-rehabilitation/apply-vre-form-28-1900/"
+          <va-link-action
+            href="/careers-employment/vocational-rehabilitation/apply-vre-form-28-1900/#"
             text="Apply for VR&E benefits"
+            type="primary"
           />
         </p>
-
         <p>
           <a href="#learn-more">Learn more about how to apply</a>
         </p>
-
         <h2 className="vads-u-margin-top--5">Veteran Profile</h2>
         <div className="vads-u-margin-bottom--3">
           <div className="vads-u-display--flex vads-u-margin-bottom--1 vads-u-align-items--baseline">
@@ -132,8 +132,8 @@ const CheckEligibilityAndApply = () => {
               Name:
             </span>
             <span>
-              {mockEligibility.veteranProfile.firstName}{' '}
-              {mockEligibility.veteranProfile.lastName}
+              {mockResponse.veteranProfile.firstName}{' '}
+              {mockResponse.veteranProfile.lastName}
             </span>
           </div>
           <div className="vads-u-display--flex vads-u-align-items--baseline">
@@ -143,16 +143,15 @@ const CheckEligibilityAndApply = () => {
             >
               Date of birth:
             </span>
-            <span>{formatDate(mockEligibility.veteranProfile.dob)}</span>
+            <span>{formatDate(mockResponse.veteranProfile.dob)}</span>
           </div>
         </div>
-
         <h2 className="vads-u-margin-top--4">Eligibility Criteria</h2>
         <ul className="vads-u-margin-top--0">
           <li>
             <strong>Qualifying Military Service:</strong>
             <ul>
-              {mockEligibility.veteranProfile.servicePeriod.map((sp, idx) => (
+              {mockResponse.veteranProfile.servicePeriod.map((sp, idx) => (
                 <li key={`${sp.serviceBeganDate}-${idx}`}>
                   Entered: {formatDate(sp.serviceBeganDate)}; Released:{' '}
                   {formatDate(sp.serviceEndDate)}; CoD:{' '}
@@ -163,13 +162,13 @@ const CheckEligibilityAndApply = () => {
           </li>
           <li>
             <strong>Character of discharge:</strong>{' '}
-            {mockEligibility.veteranProfile.characterOfDischarge}
+            {mockResponse.veteranProfile.characterOfDischarge}
           </li>
           <li>
             <strong>Disability Rating:</strong>{' '}
-            {mockEligibility.disabilityRating.combinedScd}%
+            {mockResponse.disabilityRating.combinedScd}%
             <ul>
-              {mockEligibility.disabilityRating.SCDDetails.map(detail => (
+              {mockResponse.disabilityRating.SCDDetails.map(detail => (
                 <li key={detail.code}>
                   {detail.code} - {detail.name} - {detail.percentage}%
                 </li>
@@ -178,11 +177,11 @@ const CheckEligibilityAndApply = () => {
           </li>
           <li>
             <strong>Initial rating Notification Date:</strong>{' '}
-            {formatDate(mockEligibility.IRNDDate)}
+            {formatDate(mockResponse.IRNDDate)}
           </li>
           <li>
             <strong>Eligibility Termination Date:</strong>{' '}
-            {formatDate(mockEligibility.eligibilityTerminationDate)}
+            {formatDate(mockResponse.eligibilityTerminationDate)}
           </li>
         </ul>
 
@@ -196,7 +195,7 @@ const CheckEligibilityAndApply = () => {
               Result:
             </span>
             <span>
-              {mockEligibility.resEligibilityRecommendation === 'Eligible'
+              {mockResponse.resEligibilityRecommendation === 'Eligible'
                 ? 'Eligible'
                 : 'Ineligible'}
             </span>
@@ -208,7 +207,7 @@ const CheckEligibilityAndApply = () => {
             >
               Date of claim:
             </span>
-            <span>{formatDate(mockEligibility.dateOfClaim)}</span>
+            <span>{formatDate(mockResponse.dateOfClaim)}</span>
           </div>
           <div className="vads-u-display--flex vads-u-margin-bottom--1 vads-u-align-items--baseline">
             <span
@@ -217,7 +216,7 @@ const CheckEligibilityAndApply = () => {
             >
               Approved by:
             </span>
-            <span>{mockEligibility.approvedBy}</span>
+            <span>{mockResponse.approvedBy}</span>
           </div>
           <div className="vads-u-display--flex vads-u-margin-bottom--1 vads-u-align-items--baseline">
             <span
@@ -226,7 +225,7 @@ const CheckEligibilityAndApply = () => {
             >
               Approved on:
             </span>
-            <span>{mockEligibility.approvedOn}</span>
+            <span>{mockResponse.approvedOn}</span>
           </div>
           <div className="vads-u-display--flex vads-u-margin-bottom--1 vads-u-align-items--baseline">
             <span
@@ -236,9 +235,9 @@ const CheckEligibilityAndApply = () => {
               Max CH31 entitlement:
             </span>
             <span>
-              {mockEligibility.entitlementDetails.maxCh31Entitlement.month}-
+              {mockResponse.entitlementDetails.maxCh31Entitlement.month}-
               {String(
-                mockEligibility.entitlementDetails.maxCh31Entitlement.days,
+                mockResponse.entitlementDetails.maxCh31Entitlement.days,
               ).padStart(2, '0')}
             </span>
           </div>
@@ -250,14 +249,9 @@ const CheckEligibilityAndApply = () => {
               CH31 remaining entitlement:
             </span>
             <span>
-              {
-                mockEligibility.entitlementDetails.ch31EntitlementRemaining
-                  .month
-              }
-              -
+              {mockResponse.entitlementDetails.ch31EntitlementRemaining.month}-
               {String(
-                mockEligibility.entitlementDetails.ch31EntitlementRemaining
-                  .days,
+                mockResponse.entitlementDetails.ch31EntitlementRemaining.days,
               ).padStart(2, '0')}
             </span>
           </div>
@@ -269,9 +263,9 @@ const CheckEligibilityAndApply = () => {
               Entitlement used:
             </span>
             <span>
-              {mockEligibility.entitlementDetails.entitlementUsed.month}-
+              {mockResponse.entitlementDetails.entitlementUsed.month}-
               {String(
-                mockEligibility.entitlementDetails.entitlementUsed.days,
+                mockResponse.entitlementDetails.entitlementUsed.days,
               ).padStart(2, '0')}
             </span>
           </div>
