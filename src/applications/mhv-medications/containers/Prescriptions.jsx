@@ -42,10 +42,7 @@ import {
 } from '../util/pdfConfigs';
 import { buildPrescriptionsTXT, buildAllergiesTXT } from '../util/txtConfigs';
 import Alert from '../components/shared/Alert';
-import {
-  selectAllergiesFlag,
-  selectRefillProgressFlag,
-} from '../util/selectors';
+import { selectRefillProgressFlag } from '../util/selectors';
 import PrescriptionsPrintOnly from './PrescriptionsPrintOnly';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
@@ -88,7 +85,6 @@ const Prescriptions = () => {
   const currentPage = useSelector(selectPageNumber);
 
   // Get feature flags
-  const showAllergiesContent = useSelector(selectAllergiesFlag);
   const showRefillProgressContent = useSelector(selectRefillProgressFlag);
 
   // Track if we've initialized from session storage
