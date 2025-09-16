@@ -30,7 +30,7 @@ class Conditions {
   };
 
   clickConditionDetailsLink = (conditionIndex = 0) => {
-    cy.get('[data-testid="record-list-item"]')
+    cy.findAllByTestId('record-list-item')
       .eq(conditionIndex)
       .find('a')
       .click();

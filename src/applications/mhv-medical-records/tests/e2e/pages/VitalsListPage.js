@@ -34,7 +34,7 @@ class VitalsListPage extends BaseListPage {
   };
 
   clickLinkByRecordListItemIndex = (index = 0) => {
-    cy.get('[data-testid="record-list-item"]')
+    cy.findAllByTestId('record-list-item')
       .find('a')
       .eq(index)
       .click();
@@ -56,7 +56,7 @@ class VitalsListPage extends BaseListPage {
   };
 
   clickVitalsDetailsLink = (_VitalsIndex = 0) => {
-    cy.get('[data-testid="record-list-item"]')
+    cy.findAllByTestId('record-list-item')
       .find('a')
       .eq(_VitalsIndex)
       .click();

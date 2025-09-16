@@ -65,7 +65,7 @@ describe('Medical Records View Condition Details', () => {
 
     // Verify we're back on the Conditions list page
     cy.url().should('include', '/conditions');
-    cy.get('[data-testid="record-list-item"]').should('be.visible');
+    cy.findAllByTestId('record-list-item').should('be.visible');
 
     // Accessibility check
     cy.injectAxeThenAxeCheck();

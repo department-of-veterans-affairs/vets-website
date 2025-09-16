@@ -57,7 +57,7 @@ class LabsAndTestsListPage extends BaseListPage {
   // "Radiology has no details call so we always use the list call for everything"
   // - Mike Moyer 08/01/2024
   clickRadiologyDetailsLink = (labsAndTestsItemIndex = 0) => {
-    cy.get('[data-testid="record-list-item"]')
+    cy.findAllByTestId('record-list-item')
       .find('a')
       .eq(labsAndTestsItemIndex)
       .click();
