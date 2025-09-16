@@ -5,7 +5,12 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import { nameAndDateOfBirth, agreementType } from '../pages';
+import {
+  nameAndDateOfBirth,
+  agreementType,
+  acknowledgements,
+  institutionDetailsFacility,
+} from '../pages';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -62,6 +67,35 @@ const formConfig = {
           title: 'Agreement type',
           uiSchema: agreementType.uiSchema,
           schema: agreementType.schema,
+          onNavForward: ({ formData, goPath }) => {
+            if (formData.agreementType === 'withdrawFromYellowRibbonProgram') {
+              goPath('institution-details-facility');
+            } else {
+              goPath('acknowledgements');
+            }
+          },
+        },
+      },
+    },
+    acknowledgementsChapter: {
+      title: 'Acknowledgements of Yellow Ribbon Program terms',
+      pages: {
+        acknowledgements: {
+          path: 'acknowledgements',
+          title: 'Acknowledgements of Yellow Ribbon Program terms',
+          uiSchema: acknowledgements.uiSchema,
+          schema: acknowledgements.schema,
+        },
+      },
+    },
+    institutionDetailsChapter: {
+      title: 'Institution details',
+      pages: {
+        institutionDetailsFacility: {
+          path: 'institution-details-facility',
+          title: 'Institution details',
+          uiSchema: institutionDetailsFacility.uiSchema,
+          schema: institutionDetailsFacility.schema,
         },
       },
     },

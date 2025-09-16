@@ -5,9 +5,9 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 const agreementTypeOptions = {
-  newAgreement: 'Start a new open-ended agreement',
-  modifyAgreement: 'Modify an existing agreement',
-  withdrawAgreement: 'Withdraw from Yellow Ribbon agreement',
+  startNewOpenEndedAgreement: 'Start a new open-ended agreement',
+  modifyExistingAgreement: 'Modify an existing agreement',
+  withdrawFromYellowRibbonProgram: 'Withdraw from Yellow Ribbon agreement',
 };
 
 const uiSchema = {
