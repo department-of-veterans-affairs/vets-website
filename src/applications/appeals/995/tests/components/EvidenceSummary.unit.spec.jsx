@@ -13,11 +13,11 @@ import {
   EVIDENCE_OTHER,
   EVIDENCE_VA_PATH,
   EVIDENCE_PRIVATE_PATH,
-  EVIDENCE_LIMITATION_PATH1,
-  EVIDENCE_LIMITATION_PATH2,
   EVIDENCE_UPLOAD_PATH,
-  EVIDENCE_LIMIT,
   EVIDENCE_PRIVATE_AUTHORIZATION,
+  LIMITED_CONSENT_DETAILS,
+  LIMITED_CONSENT_PROMPT,
+  LIMITED_CONSENT_RESPONSE,
 } from '../../constants';
 
 const providerFacilityAddress = {
@@ -98,7 +98,7 @@ const setupSummary = ({
 
           ...list,
           privacyAgreementAccepted: privacy,
-          [EVIDENCE_LIMIT]: limit?.length > 0,
+          [LIMITED_CONSENT_RESPONSE]: limit?.length > 0,
           limitedConsent: limit,
           showScNewForm: toggle,
         }}
@@ -199,10 +199,10 @@ describe('<EvidenceSummary>', () => {
       EVIDENCE_PRIVATE_AUTHORIZATION,
     );
     expect(links[3].getAttribute('data-link')).to.contain(
-      EVIDENCE_LIMITATION_PATH1,
+      LIMITED_CONSENT_PROMPT,
     );
     expect(links[4].getAttribute('data-link')).to.contain(
-      EVIDENCE_LIMITATION_PATH2,
+      LIMITED_CONSENT_DETAILS,
     );
 
     expect(links[5].getAttribute('data-link')).to.contain(
@@ -386,25 +386,6 @@ describe('<EvidenceSummary>', () => {
 
     await waitFor(() => {
       expect(setFormData.called).to.be.false;
-    });
-  });
-
-  it('should remove private limitations when remove is clicked', async () => {
-    const setFormData = sinon.spy();
-    const { container } = setupSummary({
-      setFormData,
-      limit: 'Pizza addiction',
-      toggle: false,
-    });
-    // remove limitation
-    fireEvent.click($('va-button[label="Remove limitations"]', container));
-
-    const modal = $('va-modal', container);
-    modal.__events.primaryButtonClick(); // Remove entry
-
-    await waitFor(() => {
-      expect(setFormData.called).to.be.true;
-      expect(setFormData.args[0][0].limitedConsent).to.deep.equal('');
     });
   });
 

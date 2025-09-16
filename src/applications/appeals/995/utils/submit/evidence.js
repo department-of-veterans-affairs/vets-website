@@ -13,6 +13,7 @@ import { getFacilityType } from './facilities';
 
 import '../../../shared/definitions';
 import { fixDateFormat } from '../../../shared/utils/replace';
+import { LIMITED_CONSENT_RESPONSE } from '../../constants';
 
 /**
  * @typedef VALocation
@@ -242,6 +243,9 @@ export const getForm4142 = formData => {
   }
 
   const { limitedConsent, privacyAgreementAccepted = true } = formData;
+  const limitedConsentResponse = formData?.[LIMITED_CONSENT_RESPONSE]
+    ? limitedConsent
+    : '';
 
   const providerFacility = facilities.reduce((list, facility) => {
     if (!hasDuplicateFacility(list, facility)) {
@@ -261,7 +265,7 @@ export const getForm4142 = formData => {
 
   return {
     privacyAgreementAccepted,
-    limitedConsent: limitedConsent || '',
+    limitedConsent: limitedConsentResponse,
     providerFacility,
   };
 };
