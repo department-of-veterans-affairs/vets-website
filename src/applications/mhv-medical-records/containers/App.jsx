@@ -48,9 +48,6 @@ const App = ({ children }) => {
   const scheduledDowntimes = useSelector(
     state => state.scheduledDowntime?.serviceMap || [],
   );
-  const globalDowntime = useSelector(
-    state => state.scheduledDowntime?.globalDowntime,
-  );
 
   const mhvMockSessionFlag = useSelector(
     state => state.featureToggles['mhv-mock-session'],
@@ -82,7 +79,7 @@ const App = ({ children }) => {
       }
       return 'downtime status: ok';
     },
-    [scheduledDowntimes, globalDowntime],
+    [scheduledDowntimes],
   );
 
   useEffect(
