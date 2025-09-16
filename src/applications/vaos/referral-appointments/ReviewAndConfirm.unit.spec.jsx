@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { waitFor } from '@testing-library/dom';
+import { waitFor, waitForElementToBeRemoved } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 import * as utils from 'applications/vaos/services/utils';
 import ReviewAndConfirm from './ReviewAndConfirm';
@@ -75,7 +75,9 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     sessionStorage.clear();
   });
   it('should get selected slot from session storage if not in redux', async () => {
-    requestStub.resolves(draftAppointmentInfo);
+    requestStub
+      .withArgs('/vaos/v2/appointments/draft')
+      .resolves({ data: draftAppointmentInfo });
     const selectedSlotKey = getReferralSlotKey('UUID');
 
     sessionStorage.setItem(
@@ -112,6 +114,9 @@ describe('VAOS Component: ReviewAndConfirm', () => {
   it('should route to scheduleReferral if no slot selected', async () => {
     const selectedSlotKey = getReferralSlotKey('UUID');
     sessionStorage.removeItem(selectedSlotKey);
+    requestStub
+      .withArgs('/vaos/v2/appointments/draft')
+      .resolves({ data: draftAppointmentInfo });
     const noSelectState = {
       ...initialFullState,
       ...{
@@ -135,7 +140,12 @@ describe('VAOS Component: ReviewAndConfirm', () => {
   it('should call create appointment post when "continue" is pressed', async () => {
     const store = createTestStore(initialFullState);
     // Stub the appointment creation function
-    requestStub.resolves({ data: { appointmentId: draftAppointmentInfo?.id } });
+    requestStub
+      .withArgs('/vaos/v2/appointments/draft')
+      .resolves({ data: draftAppointmentInfo });
+    requestStub
+      .withArgs('/vaos/v2/appointments/submit')
+      .resolves({ data: { appointmentId: draftAppointmentInfo?.id } });
 
     const screen = renderWithStoreAndRouter(
       <ReviewAndConfirm
@@ -149,12 +159,18 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     waitFor(() => {
       userEvent.click(screen.queryByTestId('continue-button'));
     });
-    sandbox.assert.calledOnce(requestStub);
+    sandbox.assert.calledOnce(
+      requestStub.withArgs('/vaos/v2/appointments/draft'),
+    );
+    sandbox.assert.calledOnce(
+      requestStub.withArgs('/vaos/v2/appointments/submit'),
+    );
   });
   it('should call "routeToNextReferralPage" when appointment creation is successful', async () => {
-    const store = createTestStore(initialFullState);
+    const store = createTestStore(initialEmptyState);
     sandbox.spy(flow, 'routeToNextReferralPage');
-    requestStub.resolves({ data: { appointmentId: draftAppointmentInfo.id } });
+    requestStub.resolves({ data: draftAppointmentInfo });
+
     const screen = renderWithStoreAndRouter(
       <ReviewAndConfirm
         currentReferral={createReferralById('2024-09-09', 'UUID')}
@@ -165,15 +181,14 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     );
     // Manually dispatch the referral list and referral by id calls to have them in state.
     store.dispatch(
-      vaosApi.util.upsertQueryData('getReferralById', undefined, {}),
+      vaosApi.util.upsertQueryData('getReferralById', 'UUID', { data: {} }),
     );
-    store.dispatch(vaosApi.util.upsertQueryData('getReferralById', 'UUID', {}));
+
+    await screen.findByTestId('continue-button');
+    expect(screen.getByTestId('continue-button')).to.exist;
     expect(
       Object.keys(store.getState().appointmentApi.queries).length,
-    ).to.equal(3);
-    await waitFor(() => {
-      expect(screen.getByTestId('continue-button')).to.exist;
-    });
+    ).to.equal(2);
     await userEvent.click(screen.getByTestId('continue-button'));
     await waitFor(() => {
       const mutation = Object.keys(
@@ -183,6 +198,9 @@ describe('VAOS Component: ReviewAndConfirm', () => {
         store.getState().appointmentApi.mutations[mutation].status,
       ).to.equal('fulfilled');
     });
+    expect(
+      Object.keys(store.getState().appointmentApi.queries).length,
+    ).to.equal(0);
     await waitFor(() => {
       expect(
         screen.history.push.calledWith(
@@ -195,14 +213,14 @@ describe('VAOS Component: ReviewAndConfirm', () => {
         '/schedule-referral/complete/EEKoGzEf?id=UUID',
       ),
     ).to.be.true;
-    sandbox.assert.calledOnce(requestStub);
-    expect(
-      Object.keys(store.getState().appointmentApi.queries).length,
-    ).to.equal(0);
+    sandbox.assert.calledWith(requestStub, '/vaos/v2/appointments/submit');
   });
   it('should display an error message when appointment creation fails', async () => {
     // Stub only for that specific call
-    requestStub.throws({
+    requestStub
+      .withArgs('/vaos/v2/appointments/draft')
+      .resolves({ data: draftAppointmentInfo });
+    requestStub.withArgs('/vaos/v2/appointments/submit').throws({
       error: { status: 500, message: 'Failed to create appointment' },
     });
     const screen = renderWithStoreAndRouter(
@@ -222,7 +240,12 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     expect(screen.getByTestId('create-error-alert')).to.contain.text(
       'We couldn’t schedule this appointment',
     );
-    sandbox.assert.calledOnce(requestStub);
+    sandbox.assert.calledOnce(
+      requestStub.withArgs('/vaos/v2/appointments/draft'),
+    );
+    sandbox.assert.calledOnce(
+      requestStub.withArgs('/vaos/v2/appointments/submit'),
+    );
   });
   it('should fetch draft appointment info on mount if not in store', async () => {
     const store = createTestStore(initialEmptyState);
@@ -247,7 +270,8 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       },
       method: 'POST',
     });
-    expect(store.getState().referral.draftAppointmentInfo).to.deep.equal(
+    const query = Object.keys(store.getState().appointmentApi.queries)[0];
+    expect(store.getState().appointmentApi.queries[query].data).to.deep.equal(
       draftAppointmentInfo,
     );
   });
@@ -265,7 +289,12 @@ describe('VAOS Component: ReviewAndConfirm', () => {
         store,
       },
     );
-    await screen.findByTestId('error');
+    await waitForElementToBeRemoved(() =>
+      screen.queryByTestId('loading-container'),
+    );
+    await waitFor(() => {
+      expect(screen.getByTestId('error')).to.exist;
+    });
     expect(screen.getByTestId('error')).to.contain.text(
       'Something went wrong on our end. Please try again later.',
     );
