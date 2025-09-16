@@ -3,6 +3,7 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { VaRadioField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
+
 import FormButtons from '../../components/FormButtons';
 import { getFormPageInfo } from '../redux/selectors';
 import { TYPES_OF_EYE_CARE } from '../../utils/constants';

@@ -343,7 +343,7 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
         </div>
 
         <va-additional-info trigger="Benefits for transitioning service members">
-          <p className="vads-u-margin-top--0">
+          <p className="vads-u-margin--0">
             We can help guide you as you transition from active-duty service or
             from service in the National Guard or Reserves. Some benefits are
             only available while you’re still serving, and others are best
@@ -378,7 +378,7 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
               <div className="all-benefits">
                 <span>
                   If you’d like to explore all of the benefits that this tool
-                  can recommend, select the link below.
+                  can recommend, select the link below.&nbsp;
                 </span>
                 <va-link
                   href="/discover-your-benefits/confirmation?allBenefits=true"
