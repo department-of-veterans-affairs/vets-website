@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { focusElement } from '../ui';
+import validatePdfPassword from './validatePdfPassword';
 
 const ShowPdfPassword = ({
   file,
@@ -13,9 +14,9 @@ const ShowPdfPassword = ({
 }) => {
   const [value, setValue] = useState(testVal);
   const [dirty, setDirty] = useState(false);
+  const [validating, setValidating] = useState(false);
+  const [passwordError, setPasswordError] = useState(null);
   const inputRef = useRef(null);
-
-  const errorMessage = 'Please provide a password to decrypt this file';
 
   const setFocus = () => {
     if (inputRef?.current) {
@@ -23,6 +24,35 @@ const ShowPdfPassword = ({
     } else {
       focusElement(`#root_additionalDocuments_file_${index}`);
     }
+  };
+
+  const errorMessage =
+    passwordError || 'Please provide a password to decrypt this file';
+
+  const handleSubmit = async () => {
+    if (!value) {
+      setValue('');
+      setDirty(true);
+      setFocus();
+      return;
+    }
+
+    setValidating(true);
+    setPasswordError(null);
+
+    // Validate password before uploading
+    const validation = await validatePdfPassword(file, value);
+
+    if (!validation.valid && !validation.skipped) {
+      setPasswordError(validation.error);
+      setValidating(false);
+      setFocus();
+      return;
+    }
+
+    // Password is valid or validation was skipped - proceed with upload
+    setValidating(false);
+    onSubmitPassword(file, index, value);
   };
 
   useEffect(
@@ -40,7 +70,9 @@ const ShowPdfPassword = ({
       <VaTextInput
         ref={inputRef}
         label="PDF password"
-        error={(dirty && !value && errorMessage) || null}
+        // Show specific passwordError if present (e.g. incorrect password), otherwise
+        // show required message when field is dirty & empty
+        error={passwordError || (dirty && !value ? errorMessage : null)}
         name={`get_password_${index}`}
         required
         value={value}
@@ -51,16 +83,9 @@ const ShowPdfPassword = ({
       />
       <va-button
         class="vads-u-width--auto vads-u-margin-top--2"
-        text="Add password"
-        onClick={() => {
-          if (value) {
-            onSubmitPassword(file, index, value);
-          } else {
-            setValue('');
-            setDirty(true);
-            setFocus();
-          }
-        }}
+        text={validating ? 'Validating...' : 'Add password'}
+        onClick={handleSubmit}
+        disabled={validating}
         label={passwordLabel}
         uswds
       />
