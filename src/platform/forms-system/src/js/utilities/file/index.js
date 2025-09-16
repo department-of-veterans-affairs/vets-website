@@ -11,6 +11,7 @@ import {
 } from './ShowPdfPassword';
 import arrayIncludesArray from './arrayIncludesArray';
 import reMapErrorMessage from './errorMessageMaps';
+import validatePdfPassword from './validatePdfPassword';
 
 export {
   readAndCheckFile,
@@ -24,4 +25,5 @@ export {
   PasswordSuccess,
   reMapErrorMessage,
   standardFileChecks,
+  validatePdfPassword,
 };
