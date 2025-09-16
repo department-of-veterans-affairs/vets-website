@@ -161,9 +161,14 @@ class ArrayField extends React.Component {
 
     const newItemIndex = newState.items.length - 1;
 
-    // TODO: guard by path name
-    // TODO: write explanatory comment
-    this.handleSetData(newItemIndex, newItem);
+    // This conditional allows Form 526's implementation of VACheckboxGroupField to get the form data passed down to just-added provider facility
+    // See https://github.com/department-of-veterans-affairs/vets-website/pull/38788/
+    if (
+      this.props?.trackingPrefix === 'disability-526EZ-' &&
+      this.props?.pageKey === 'privateMedicalRecordsRelease'
+    ) {
+      this.handleSetData(newItemIndex, newItem);
+    }
   }
 
   /**
