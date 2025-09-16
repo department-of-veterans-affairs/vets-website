@@ -9,6 +9,7 @@ import CurrentSpouse from '../../components/CurrentSpouse';
 import {
   uiSchema,
   schema,
+  modalContent,
 } from '../../config/chapters/report-add-a-spouse/spouse-information/spouseInformation';
 
 describe('CurrentSpouse', () => {
@@ -137,10 +138,8 @@ describe('CurrentSpouse', () => {
     await waitFor(() => {
       const modal = $('va-modal[visible="true"]', container);
       expect(modal).to.exist;
-      expect(modal.getAttribute('modal-title')).to.eq('Potential duplicate');
-      expect(modal.textContent).to.contain(
-        'We checked your VA records and found another dependent already listed',
-      );
+      expect(modal.getAttribute('modal-title')).to.eq(modalContent.title);
+      expect(modal.textContent).to.contain('already listed on your benefits');
     });
   });
 

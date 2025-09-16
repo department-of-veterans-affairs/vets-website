@@ -61,19 +61,22 @@ export const uiSchema = {
 };
 
 export const modalContent = {
-  title: 'Potential duplicate',
-  primaryButtonText: 'Don’t add, it’s a duplicate',
-  secondaryButtonText: 'Add, it’s a different person',
+  title: 'You already have a dependent with this date of birth',
+  primaryButtonText: 'Don’t add this dependent',
+  secondaryButtonText: 'Add this dependent',
   content: currentSpouse => (
     <>
-      We checked your VA records and found another dependent already listed on
-      your benefits with the birth date of{' '}
-      <strong>{getFormatedDate(currentSpouse.dateOfBirth)}</strong>:{' '}
-      <strong>{getFullName(currentSpouse.fullName)}</strong>.
-      <p>Are you adding a different person, or is this a duplicate?</p>
+      Our records show <strong>{getFullName(currentSpouse.fullName)}</strong> is
+      already listed on your benefits with{' '}
+      <strong>{getFormatedDate(currentSpouse.dateOfBirth)}</strong> as a date of
+      birth.
       <p>
-        <strong>Note</strong>: If you don’t add this dependent, we’ll take you
-        back to Step 1 to update your selection.
+        If you don’t have another dependent with the same date of birth, we’ll
+        take you back to Step 1 to update your selection.
+      </p>
+      <p>
+        If you need to add another dependent with the same date of birth, you
+        can continue adding this dependent.
       </p>
     </>
   ),
