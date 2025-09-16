@@ -345,6 +345,7 @@ const RecipientsSelect = ({
       recipientsList,
       recentRecipients,
       mhvSecureMessagingCuratedListFlow,
+      mhvSecureMessagingRecentRecipients,
       ehrDataByVhaId,
     ],
   );
@@ -419,10 +420,10 @@ RecipientsSelect.propTypes = {
   defaultValue: PropTypes.number,
   error: PropTypes.string,
   isSignatureRequired: PropTypes.bool,
+  recentRecipients: PropTypes.array, // optional recent care teams (already filtered & limited upstream)
   setCheckboxMarked: PropTypes.func,
   setComboBoxInputValue: PropTypes.func,
   setElectronicSignature: PropTypes.func,
-  recentRecipients: PropTypes.array, // optional recent care teams (already filtered & limited upstream)
 };
 
 export default RecipientsSelect;
