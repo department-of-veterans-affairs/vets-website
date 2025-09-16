@@ -12,7 +12,8 @@ import { setData } from '@department-of-veterans-affairs/platform-forms-system/a
 // FIXME: figure out why cypress doesn't like this import.
 import recordEvent from 'platform/monitoring/record-event';
 
-import { ACCESSORY, DLC_PHONE } from '../constants';
+import { ACCESSORY } from '../constants';
+import DlcTelephoneLink from './DlcTelephoneLink';
 
 class Accessories extends Component {
   componentDidMount() {
@@ -91,7 +92,7 @@ class Accessories extends Component {
                 <p>
                   If you need accessories like domes, wax guards, cleaning
                   supplies, or dessicant, call the DLC Customer Service Section
-                  at <va-telephone contact={DLC_PHONE} /> or email{' '}
+                  at <DlcTelephoneLink /> or email{' '}
                   <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
                 </p>
               </div>
@@ -164,11 +165,7 @@ class Accessories extends Component {
               placed an order for resupply items within the last 2 years. If you
               need an accessory that hasn’t been ordered within the last 2
               years, call the DLC Customer Service Section at{' '}
-              <va-telephone
-                contact={DLC_PHONE}
-                className="vads-u-margin--0p5"
-              />
-              or email
+              <DlcTelephoneLink /> or email{' '}
               <a
                 href="mailto:dalc.css@va.gov"
                 className="vads-u-margin-left--0p5"
