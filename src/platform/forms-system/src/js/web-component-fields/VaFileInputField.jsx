@@ -146,12 +146,9 @@ const VaFileInputField = props => {
       debounce(DEBOUNCE_WAIT, password => {
         if (fileWithPassword) {
           passwordErrorManager.setHasPassword(password.length > 0);
-          childrenProps.onChange({
-            ...childrenProps.formData,
-            _id,
-          });
           passwordError = null;
           handleUpload(fileWithPassword, handleFileProcessing, password);
+          setEncrypted(null);
         }
       }),
     [handleUpload],
@@ -178,6 +175,7 @@ const VaFileInputField = props => {
     }
 
     // file ok
+    setError(null);
     passwordErrorManager.setNeedsPassword(encryptedCheck);
     setEncrypted(encryptedCheck);
 
