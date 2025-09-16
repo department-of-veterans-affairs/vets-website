@@ -33,8 +33,8 @@ const DropdownContainer = profile => {
           setOpenDropdownId={setOpenDropdownId}
           className="nav__btn nav__btn--user vads-u-color--base arp-profile-dropdown"
           srText="toggle menu"
-          firstName={rep.firstName}
-          lastName={rep.lastName}
+          firstName={rep?.firstName}
+          lastName={rep?.lastName}
           icon="account_circle"
           secondaryIcon="chevron_left"
           iconClassName="user-nav__chevron"
