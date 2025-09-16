@@ -181,13 +181,7 @@ export const NON_DR_RESULTS_CONTENT = formResponses =>
       bodyContent: (
         <>
           <p>{NO_LONGER_ELIGIBLE}</p>
-          {renderSingleOrList(
-            RESULTS_2_S_3_CONTENT,
-            true,
-            null,
-            null,
-            'results-2-s-3-content',
-          )}
+          {renderSingleOrList(RESULTS_2_S_3_CONTENT, true, null, null)}
           <p>{MAY_HAVE_OTHER_OPTIONS}</p>
           {/* Adding a `role="list"` to `ul` with `list-style: none` to work around
             a problem with Safari not treating the `ul` as a list. */}
@@ -206,13 +200,7 @@ export const NON_DR_RESULTS_CONTENT = formResponses =>
       bodyContent: (
         <>
           <p>{NO_LONGER_ELIGIBLE}</p>
-          {renderSingleOrList(
-            RESULTS_2_S_3_1_CONTENT,
-            true,
-            null,
-            null,
-            'results-2-s-3-1-content',
-          )}
+          {renderSingleOrList(RESULTS_2_S_3_1_CONTENT, true, null, null)}
           <p>{MAY_HAVE_OTHER_OPTIONS}</p>
           {COURT_OF_APPEALS}
           {CONDITION_HAS_WORSENED_INFO}
@@ -228,13 +216,7 @@ export const NON_DR_RESULTS_CONTENT = formResponses =>
       bodyContent: (
         <>
           <p>{NO_LONGER_ELIGIBLE}</p>
-          {renderSingleOrList(
-            RESULTS_2_S_4_CONTENT,
-            true,
-            null,
-            null,
-            'results-2-s-4-content',
-          )}
+          {renderSingleOrList(RESULTS_2_S_4_CONTENT, true, null, null)}
           <p>However, you may still have other options available to you.</p>
           {GET_GUIDANCE}
           {HORIZ_RULE}
@@ -247,13 +229,7 @@ export const NON_DR_RESULTS_CONTENT = formResponses =>
       bodyContent: (
         <>
           <p>{NO_LONGER_ELIGIBLE}</p>
-          {renderSingleOrList(
-            RESULTS_2_S_4_1_CONTENT,
-            true,
-            null,
-            null,
-            'results-2-s-4-1-content',
-          )}
+          {renderSingleOrList(RESULTS_2_S_4_1_CONTENT, true, null, null)}
           <p>
             But you may be eligible to apply for more disability compensation.
           </p>

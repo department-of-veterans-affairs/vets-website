@@ -3,6 +3,7 @@ import {
   DR_HEADING,
   NON_DR_HEADING,
 } from '../../constants/results-content/common';
+import { ROUTES } from '../../constants';
 
 export const ROOT = manifest.rootUrl;
 export const START_LINK = 'onramp-start';
@@ -69,6 +70,29 @@ export const verifyText = (selector, expectedValue) =>
     .findByTestId(selector)
     .should('be.visible')
     .should('have.text', expectedValue);
+
+export const navigateToResults = path => {
+  // INTRODUCTION
+  verifyUrl(ROUTES.INTRODUCTION);
+  clickStart();
+
+  Object.keys(path).forEach(question => {
+    verifyUrl(ROUTES?.[question]);
+    selectRadio(question, path[question]);
+    clickContinue();
+  });
+};
+
+export const navigateBackward = path => {
+  Object.keys(path)
+    .reverse()
+    .forEach(question => {
+      verifyUrl(ROUTES?.[question]);
+      clickBack();
+    });
+
+  verifyUrl(ROUTES.INTRODUCTION);
+};
 
 // Results-specific
 export const RESULTS_HEADER = 'onramp-results-header';

@@ -8,21 +8,25 @@ const {
   Q_1_1_CLAIM_DECISION,
   Q_1_2_CLAIM_DECISION,
   Q_1_3_CLAIM_CONTESTED,
-  Q_1_3A_FEWER_60_DAYS,
+  Q_2_IS_1_SERVICE_CONNECTED,
+  Q_2_IS_2_CONDITION_WORSENED,
+  Q_2_0_CLAIM_TYPE,
   Q_2_H_2_NEW_EVIDENCE,
   Q_2_H_2A_JUDGE_HEARING,
 } = SHORT_NAME_MAP;
-const { RESULTS_2_H_2A_1 } = RESULTS_NAME_MAP;
+const { RESULTS_2_H_2B_1 } = RESULTS_NAME_MAP;
 
-// Results Board Appeal: Evidence Submission recommended (Non-CFI)
+// Results Board Appeal: Hearing Request recommended (Non-CFI)
 // 1.1 - Yes
 // 1.2 - Yes
-// 1.3 - Yes
-// 1.3A - Yes
+// 1.3 - No
+// 2.IS.1 - Yes
+// 2.IS.2 - No
+// 2.0 - HLR
 // 2.H.2 - Yes
-// 2.H.2A - No
+// 2.H.2A - Yes
 describe('Decision Reviews Onramp', () => {
-  describe('Results Board Evidence (path 2)', () => {
+  describe('Results Board Hearing (path 3)', () => {
     it('navigates through the flow forward and backward successfully', () => {
       cy.visit(h.ROOT);
 
@@ -43,12 +47,22 @@ describe('Decision Reviews Onramp', () => {
 
       // Q_1_3_CLAIM_CONTESTED
       h.verifyUrl(ROUTES.Q_1_3_CLAIM_CONTESTED);
-      h.selectRadio(Q_1_3_CLAIM_CONTESTED, 0);
+      h.selectRadio(Q_1_3_CLAIM_CONTESTED, 1);
       h.clickContinue();
 
-      // Q_1_3A_FEWER_60_DAYS
-      h.verifyUrl(ROUTES.Q_1_3A_FEWER_60_DAYS);
-      h.selectRadio(Q_1_3A_FEWER_60_DAYS, 0);
+      // Q_2_IS_1_SERVICE_CONNECTED
+      h.verifyUrl(ROUTES.Q_2_IS_1_SERVICE_CONNECTED);
+      h.selectRadio(Q_2_IS_1_SERVICE_CONNECTED, 0);
+      h.clickContinue();
+
+      // Q_2_IS_2_CONDITION_WORSENED
+      h.verifyUrl(ROUTES.Q_2_IS_2_CONDITION_WORSENED);
+      h.selectRadio(Q_2_IS_2_CONDITION_WORSENED, 1);
+      h.clickContinue();
+
+      // Q_2_0_CLAIM_TYPE
+      h.verifyUrl(ROUTES.Q_2_0_CLAIM_TYPE);
+      h.selectRadio(Q_2_0_CLAIM_TYPE, 2);
       h.clickContinue();
 
       // Q_2_H_2_NEW_EVIDENCE
@@ -58,20 +72,20 @@ describe('Decision Reviews Onramp', () => {
 
       // Q_2_H_2A_JUDGE_HEARING
       h.verifyUrl(ROUTES.Q_2_H_2A_JUDGE_HEARING);
-      h.selectRadio(Q_2_H_2A_JUDGE_HEARING, 1);
+      h.selectRadio(Q_2_H_2A_JUDGE_HEARING, 0);
       h.clickContinue();
 
       // RESULTS
       h.verifyUrl(ROUTES.RESULTS);
-      h.verifyDrResultsHeader(RESULTS_2_H_2A_1);
-      h.checkOverviewPanel([c.TITLE_BOARD_EVIDENCE]);
+      h.verifyDrResultsHeader(RESULTS_2_H_2B_1);
+      h.checkOverviewPanel([c.TITLE_BOARD_HEARING]);
       h.checkGoodFitCards([
         {
-          type: c.CARD_BOARD_EVIDENCE,
+          type: c.CARD_BOARD_HEARING,
           content: [
+            c.CARD_GF_REVIEW_HLR,
             c.CARD_GF_YES_EVIDENCE,
-            c.CARD_GF_BOARD_ONLY_OPTION,
-            c.CARD_GF_NO_HEARING,
+            c.CARD_GF_YES_HEARING,
           ],
         },
       ]);
@@ -79,22 +93,26 @@ describe('Decision Reviews Onramp', () => {
       h.checkNotGoodFitCards([
         {
           type: c.CARD_SC,
-          content: [c.CARD_NGF_CLAIM_CONTESTED],
+          content: [c.CARD_NGF_HEARING_NOT_INCLUDED],
         },
         {
           type: c.CARD_HLR,
           content: [
+            c.CARD_NGF_HLR_NOT_AVAILABLE,
             c.CARD_NGF_CANNOT_SUBMIT_EVIDENCE,
-            c.CARD_NGF_CLAIM_CONTESTED,
+            c.CARD_NGF_HEARING_NOT_INCLUDED,
           ],
         },
         {
           type: c.CARD_BOARD_DIRECT,
-          content: [c.CARD_NGF_CANNOT_SUBMIT_EVIDENCE],
+          content: [
+            c.CARD_NGF_CANNOT_SUBMIT_EVIDENCE,
+            c.CARD_NGF_HEARING_NOT_INCLUDED,
+          ],
         },
         {
-          type: c.CARD_BOARD_HEARING,
-          content: [c.CARD_NGF_HEARING_NOT_DESIRED],
+          type: c.CARD_BOARD_EVIDENCE,
+          content: [c.CARD_NGF_HEARING_NOT_INCLUDED],
         },
       ]);
       h.verifyOutsideDROptionNotPresent();
@@ -108,8 +126,16 @@ describe('Decision Reviews Onramp', () => {
       h.verifyUrl(ROUTES.Q_2_H_2_NEW_EVIDENCE);
       h.clickBack();
 
-      // Q_1_3A_FEWER_60_DAYS
-      h.verifyUrl(ROUTES.Q_1_3A_FEWER_60_DAYS);
+      // Q_2_0_CLAIM_TYPE
+      h.verifyUrl(ROUTES.Q_2_0_CLAIM_TYPE);
+      h.clickBack();
+
+      // Q_2_IS_2_CONDITION_WORSENED
+      h.verifyUrl(ROUTES.Q_2_IS_2_CONDITION_WORSENED);
+      h.clickBack();
+
+      // Q_2_IS_1_SERVICE_CONNECTED
+      h.verifyUrl(ROUTES.Q_2_IS_1_SERVICE_CONNECTED);
       h.clickBack();
 
       // Q_1_3_CLAIM_CONTESTED
