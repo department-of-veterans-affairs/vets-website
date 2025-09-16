@@ -140,22 +140,30 @@ class ArrayField extends React.Component {
    * Clicking Add Another in the header of the array field section
    */
   handleAdd() {
+    const newItem =
+      getDefaultFormState(
+        this.getItemSchema(this.state.items.length),
+        undefined,
+        this.props.schema.definitions,
+      ) || {};
+
     const newState = {
-      items: this.state.items.concat(
-        getDefaultFormState(
-          this.getItemSchema(this.state.items.length),
-          undefined,
-          this.props.schema.definitions,
-        ) || {},
-      ),
+      items: this.state.items.concat(newItem),
       editing: this.state.editing.concat(true),
     };
+
     this.setState(newState, () => {
       this.scrollToRow(
         `${this.props.path[this.props.path.length - 1]}_${this.state.items
           .length - 1}`,
       );
     });
+
+    const newItemIndex = newState.items.length - 1;
+
+    // TODO: guard by path name
+    // TODO: write explanatory comment
+    this.handleSetData(newItemIndex, newItem);
   }
 
   /**
@@ -330,13 +338,11 @@ class ArrayField extends React.Component {
                                 text="Update"
                               />
                             ) : (
-                              <button
-                                type="submit"
+                              <va-button
                                 className="float-left"
+                                text="Update"
                                 aria-label={`Update ${itemName}`}
-                              >
-                                Update
-                              </button>
+                              />
                             )}
                           </div>
                           <div className="small-6 right columns">
@@ -353,16 +359,15 @@ class ArrayField extends React.Component {
                                     }
                                   />
                                 ) : (
-                                  <button
-                                    type="button"
-                                    className="usa-button-secondary float-right"
+                                  <va-button
+                                    className="float-right"
+                                    variant="secondary"
+                                    text="Remove"
                                     aria-label={`Remove ${itemName}`}
                                     onClick={() =>
                                       this.handleRemove(index, fieldName)
                                     }
-                                  >
-                                    Remove
-                                  </button>
+                                  />
                                 )}
                               </>
                             )}
@@ -426,17 +431,13 @@ class ArrayField extends React.Component {
                     }
                   />
                 ) : (
-                  <button
-                    type="button"
+                  <va-button
                     name={`add-another-${fieldName}`}
                     disabled={addAnotherDisabled}
                     className="add-btn primary-outline"
+                    text=""
                     onClick={() => this.handleAdd()}
-                  >
-                    {uiOptions.itemName
-                      ? `Add another ${uiOptions.itemName}`
-                      : 'Add another'}
-                  </button>
+                  />
                 )}
                 <div>
                   {addAnotherDisabled &&
