@@ -7,12 +7,15 @@ describe('Confirmation Page', () => {
     cy.injectAxe();
   });
 
-  it('renders the confirmation page with results and alert', () => {
+  it('renders the confirmation page with results and additional info', () => {
     cy.get('h2').should('contain', 'Recommended benefits for you');
 
-    cy.get('va-alert')
+    cy.get('va-additional-info')
       .should('be.visible')
-      .and('contain.text', `Benefits for transitioning service members`);
+      .and(
+        'contain.text',
+        `We can help guide you as you transition from active-duty service or`,
+      );
 
     cy.axeCheck();
   });

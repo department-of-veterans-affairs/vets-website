@@ -317,7 +317,7 @@ export function checkEligibility({ location, showModal, isCerner }) {
 
     // Retrieves flipper state for mental health history filtering
     // Only used in NON-Cerner checks
-    const usePastVisitMHFilter = selectFeatureMentalHealthHistoryFiltering(
+    const featurePastVisitMHFilter = selectFeatureMentalHealthHistoryFiltering(
       state,
     );
 
@@ -369,7 +369,7 @@ export function checkEligibility({ location, showModal, isCerner }) {
           location,
           typeOfCare,
           directSchedulingEnabled,
-          usePastVisitMHFilter,
+          featurePastVisitMHFilter,
         });
 
         if (showModal) {
@@ -860,7 +860,7 @@ export function submitAppointmentOrRequest(history) {
       }
     } else {
       const isCommunityCare =
-        newAppointment.data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
+        newAppointment.data.facilityType === FACILITY_TYPES.COMMUNITY_CARE.id;
       const eventType = isCommunityCare ? 'community-care' : 'request';
       const flow = isCommunityCare ? GA_FLOWS.CC_REQUEST : GA_FLOWS.VA_REQUEST;
       const today = new Date();

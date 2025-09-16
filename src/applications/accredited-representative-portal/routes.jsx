@@ -15,7 +15,6 @@ import GetHelpPage from './containers/GetHelpPage';
 import LoginContainer from './containers/LoginContainer';
 import AuthCallbackHandler from './containers/AuthCallbackHandler';
 import DashboardPage from './containers/DashboardPage';
-import { ProfileContext, profileUser } from './components/Header/Nav';
 
 import { userPromise } from './utilities/auth';
 import { getSignInUrl } from './utilities/constants';
@@ -97,10 +96,7 @@ const routes = [
               {
                 path: 'poa-requests',
                 element: (
-                  // eslint-disable-next-line no-undef
-                  <ProfileContext.Provider value={profileUser}>
-                    <POARequestSearchPage title="Representation requests | Veterans Affairs" />
-                  </ProfileContext.Provider>
+                  <POARequestSearchPage title="Representation requests | Veterans Affairs" />
                 ),
                 loader: POARequestSearchPage.loader,
               },
@@ -118,6 +114,7 @@ const routes = [
               {
                 path: 'claimant-search',
                 element: <ClaimantSearchPage />,
+                loader: ClaimantSearchPage.loader,
               },
               {
                 path: 'poa-requests/:id',

@@ -1,9 +1,9 @@
-import React, { createContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLoaderData } from 'react-router-dom';
 import { Toggler } from 'platform/utilities/feature-toggles';
 import { recordDatalayerEvent } from '../../utilities/analytics';
 import { getSignInUrl } from '../../utilities/constants';
-import UserNav from './UserNav';
+import DropdownContainer from './DropdownContainer';
 
 function SignInButton() {
   return (
@@ -16,13 +16,15 @@ function SignInButton() {
     </a>
   );
 }
-export const ProfileContext = createContext();
-// eslint-disable-next-line import/no-mutable-exports
-export let profileUser = null;
-export const Nav = () => {
-  const profile = useLoaderData()?.profile;
-  profileUser = createContext(profile);
 
+export const Nav = () => {
+  const [navHidden, isNavHidden] = useState('');
+  const profile = useLoaderData()?.profile;
+
+  useEffect(() => {
+    const isAuthorized = localStorage.getItem('userAuthorized');
+    isNavHidden(isAuthorized);
+  }, []);
   return (
     <nav className="nav">
       <div className="nav__container nav__container-primary vads-u-display--flex">
@@ -54,29 +56,29 @@ export const Nav = () => {
         </Link>
 
         <div className="heading-right">
-          <Toggler
-            toggleName={Toggler.TOGGLE_NAMES.accreditedRepresentativePortalHelp}
+          <Link
+            to="/get-help"
+            className={`usa-button-secondary heading-help-link desktop ${
+              profile ? 'logged-in' : ''
+            }`}
+            data-testid="heading-help-link"
+            onClick={recordDatalayerEvent}
+            data-eventname="nav-link-click"
           >
-            <Toggler.Enabled>
-              <Link
-                to="/get-help"
-                className={`usa-button-secondary heading-help-link ${
-                  profile ? 'logged-in' : ''
-                }`}
-                data-testid="heading-help-link"
-                onClick={recordDatalayerEvent}
-                data-eventname="nav-link-click"
-              >
-                Help
-              </Link>
-            </Toggler.Enabled>
-          </Toggler>
-          {profile ? <UserNav profile={profile} /> : <SignInButton />}
+            Help
+          </Link>
+          {profile ? <DropdownContainer rep={profile} /> : <SignInButton />}
         </div>
       </div>
 
+      {/* hidden if unauthorized */}
       {profile && (
-        <div className="nav__container-secondary" data-testid="desktop-nav-row">
+        <div
+          className={`nav__container-secondary ${
+            navHidden === 'false' ? 'vads-u-display--none' : 'is--displayed'
+          }`}
+          data-testid="desktop-nav-row"
+        >
           <div className="nav__container vads-u-display--flex">
             <Toggler
               toggleName={

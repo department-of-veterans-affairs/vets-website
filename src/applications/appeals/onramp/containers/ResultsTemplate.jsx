@@ -1,13 +1,13 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { scrollToTop } from 'platform/utilities/scroll';
 import { ROUTES } from '../constants';
 import {
   DR_RESULTS_CONTENT,
   isNonDR,
   NON_DR_RESULTS_CONTENT,
 } from '../constants/results-data-map';
+import { pageSetup } from '../utilities';
 
 const ResultsTemplate = ({
   formResponses,
@@ -15,27 +15,25 @@ const ResultsTemplate = ({
   router,
   viewedIntroPage,
 }) => {
-  const hasScrolled = useRef(false);
-
-  if (!hasScrolled.current) {
-    scrollToTop();
-    hasScrolled.current = true;
-  }
-
   useEffect(
     () => {
       if (!viewedIntroPage) {
-        router.push(ROUTES.HOME);
+        router.push(ROUTES.INTRODUCTION);
       }
     },
     [router, viewedIntroPage],
   );
 
+  useEffect(() => {
+    pageSetup();
+  }, []);
+
   const isNonDrResultPage = isNonDR.includes(resultPage);
   let resultsPageContent;
 
   if (isNonDrResultPage) {
-    resultsPageContent = NON_DR_RESULTS_CONTENT?.[resultPage] || {};
+    resultsPageContent =
+      NON_DR_RESULTS_CONTENT(formResponses)?.[resultPage] || {};
   } else {
     resultsPageContent = DR_RESULTS_CONTENT(formResponses)?.[resultPage];
   }

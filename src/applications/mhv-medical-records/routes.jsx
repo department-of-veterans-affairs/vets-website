@@ -74,92 +74,55 @@ const routes = (
         <AppRoute exact path="/allergies/:allergyId" key="AllergyDetails">
           <AllergyDetails />
         </AppRoute>
-        <FeatureFlagRoute
-          exact
-          path="/vaccines"
-          key="Vaccines"
-          featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayVaccines}
-        >
+        <AppRoute exact path="/vaccines" key="Vaccines">
           <Vaccines />
-        </FeatureFlagRoute>
-        <FeatureFlagRoute
-          exact
-          path="/vaccines/:vaccineId"
-          key="Vaccine"
-          featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayVaccines}
-        >
+        </AppRoute>
+        <AppRoute exact path="/vaccines/:vaccineId" key="Vaccine">
           <VaccineDetails />
-        </FeatureFlagRoute>
-        <FeatureFlagRoute
-          exact
-          path="/summaries-and-notes"
-          key="CareSummariesAndNotes"
-          featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayNotes}
-        >
+        </AppRoute>
+        <AppRoute exact path="/summaries-and-notes" key="CareSummariesAndNotes">
           <CareSummariesAndNotes />
-        </FeatureFlagRoute>
-        <FeatureFlagRoute
+        </AppRoute>
+        <AppRoute
           exact
           path="/summaries-and-notes/:summaryId"
           key="CareSummaryAndNotesDetails"
-          featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayNotes}
         >
           <CareSummariesDetails />
-        </FeatureFlagRoute>
+        </AppRoute>
         <AppRoute exact path="/conditions" key="Health Conditions">
           <HealthConditions />
         </AppRoute>
         <AppRoute exact path="/conditions/:conditionId" key="Condition Details">
           <ConditionDetails />
         </AppRoute>
-        <FeatureFlagRoute
-          exact
-          path="/vitals"
-          key="Vitals"
-          featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayVitals}
-        >
+        <AppRoute exact path="/vitals" key="Vitals">
           <Vitals />
-        </FeatureFlagRoute>
-        <FeatureFlagRoute
-          exact
-          path="/vitals/:vitalType-history"
-          key="VitalDetails"
-          featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayVitals}
-        >
+        </AppRoute>
+
+        <AppRoute exact path="/vitals/:vitalType-history" key="VitalDetails">
           <VitalDetails />
-        </FeatureFlagRoute>
-        <FeatureFlagRoute
-          exact
-          path="/labs-and-tests"
-          key="LabsAndTests"
-          featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayLabsAndTests}
-        >
+        </AppRoute>
+        <AppRoute exact path="/labs-and-tests" key="LabsAndTests">
           <LabsAndTests />
-        </FeatureFlagRoute>
-        <FeatureFlagRoute
-          exact
-          path="/labs-and-tests/:labId"
-          key="LabAndTestDetails"
-          featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayLabsAndTests}
-        >
+        </AppRoute>
+        <AppRoute exact path="/labs-and-tests/:labId" key="LabAndTestDetails">
           <LabAndTestDetails />
-        </FeatureFlagRoute>
-        <FeatureFlagRoute
+        </AppRoute>
+        <AppRoute
           exact
           path="/labs-and-tests/:labId/images"
           key="RadiologyImagesList"
-          featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayLabsAndTests}
         >
           <RadiologyImagesList />
-        </FeatureFlagRoute>
-        <FeatureFlagRoute
+        </AppRoute>
+        <AppRoute
           exact
           path="/labs-and-tests/:labId/images/:imageId"
           key="RadiologySingleImage"
-          featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayLabsAndTests}
         >
           <RadiologySingleImage />
-        </FeatureFlagRoute>
+        </AppRoute>
         <FeatureFlagRoute
           exact
           path="/settings"

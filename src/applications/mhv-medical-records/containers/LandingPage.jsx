@@ -22,13 +22,7 @@ import {
   pageTitles,
 } from '../util/constants';
 import { createSession, postCreateAAL } from '../api/MrApi';
-import {
-  selectNotesFlag,
-  selectVaccinesFlag,
-  selectVitalsFlag,
-  selectLabsAndTestsFlag,
-  selectMarch17UpdatesFlag,
-} from '../util/selectors';
+import { selectMarch17UpdatesFlag } from '../util/selectors';
 import ExternalLink from '../components/shared/ExternalLink';
 import useAcceleratedData from '../hooks/useAcceleratedData';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
@@ -50,10 +44,6 @@ const SHARE_PERSONAL_HEALTH_DATA_WITH_YOUR_CARE_TEAM =
 const LandingPage = () => {
   const dispatch = useDispatch();
   const fullState = useSelector(state => state);
-  const displayNotes = useSelector(selectNotesFlag);
-  const displayVaccines = useSelector(selectVaccinesFlag);
-  const displayVitals = useSelector(selectVitalsFlag);
-  const displayLabsAndTest = useSelector(selectLabsAndTestsFlag);
   const displayMarch17Updates = useSelector(selectMarch17UpdatesFlag);
   const killExternalLinks = useSelector(
     state => state.featureToggles.mhv_medical_records_kill_external_links,
@@ -158,75 +148,69 @@ const LandingPage = () => {
 
       {!isLoading && (
         <>
-          {displayLabsAndTest && (
-            <section>
-              <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
-                Lab and test results
-              </h2>
-              <p className="vads-u-margin-bottom--2">
-                Get results of your VA medical tests. This includes blood tests,
-                X-rays, and other imaging tests.
-              </p>
+          <section>
+            <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+              Lab and test results
+            </h2>
+            <p className="vads-u-margin-bottom--2">
+              Get results of your VA medical tests. This includes blood tests,
+              X-rays, and other imaging tests.
+            </p>
+            <Link
+              to="/labs-and-tests"
+              className="vads-c-action-link--blue"
+              data-testid="labs-and-tests-landing-page-link"
+              onClick={() => {
+                sendAalViewList('Lab and test results');
+                sendDataDogAction(LAB_TEST_RESULTS_LABEL);
+              }}
+            >
+              {LAB_TEST_RESULTS_LABEL}
+            </Link>
+          </section>
+          <section>
+            <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+              Care summaries and notes
+            </h2>
+            <p className="vads-u-margin-bottom--2">
+              Get notes from your VA providers about your health and health
+              care. This includes summaries of your stays in health facilities
+              (called admission and discharge summaries).
+            </p>
+            <>
               <Link
-                to="/labs-and-tests"
+                to="/summaries-and-notes"
                 className="vads-c-action-link--blue"
-                data-testid="labs-and-tests-landing-page-link"
+                data-testid="notes-landing-page-link"
                 onClick={() => {
-                  sendAalViewList('Lab and test results');
-                  sendDataDogAction(LAB_TEST_RESULTS_LABEL);
+                  sendAalViewList('Care Summaries and Notes');
+                  sendDataDogAction(CARE_SUMMARIES_AND_NOTES_LABEL);
                 }}
               >
-                {LAB_TEST_RESULTS_LABEL}
+                {CARE_SUMMARIES_AND_NOTES_LABEL}
               </Link>
-            </section>
-          )}
-          {displayNotes && (
-            <section>
-              <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
-                Care summaries and notes
-              </h2>
-              <p className="vads-u-margin-bottom--2">
-                Get notes from your VA providers about your health and health
-                care. This includes summaries of your stays in health facilities
-                (called admission and discharge summaries).
-              </p>
-              <>
-                <Link
-                  to="/summaries-and-notes"
-                  className="vads-c-action-link--blue"
-                  data-testid="notes-landing-page-link"
-                  onClick={() => {
-                    sendAalViewList('Care Summaries and Notes');
-                    sendDataDogAction(CARE_SUMMARIES_AND_NOTES_LABEL);
-                  }}
-                >
-                  {CARE_SUMMARIES_AND_NOTES_LABEL}
-                </Link>
-              </>
-            </section>
-          )}
-          {displayVaccines && (
-            <section>
-              <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
-                Vaccines
-              </h2>
-              <p className="vads-u-margin-bottom--2">
-                Get a list of all vaccines (immunizations) in your VA medical
-                records.
-              </p>
-              <Link
-                to="/vaccines"
-                className="vads-c-action-link--blue"
-                data-testid="vaccines-landing-page-link"
-                onClick={() => {
-                  sendAalViewList('Vaccines');
-                  sendDataDogAction(VACCINES_LABEL);
-                }}
-              >
-                {VACCINES_LABEL}
-              </Link>
-            </section>
-          )}
+            </>
+          </section>
+          <section>
+            <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+              Vaccines
+            </h2>
+            <p className="vads-u-margin-bottom--2">
+              Get a list of all vaccines (immunizations) in your VA medical
+              records.
+            </p>
+            <Link
+              to="/vaccines"
+              className="vads-c-action-link--blue"
+              data-testid="vaccines-landing-page-link"
+              onClick={() => {
+                sendAalViewList('Vaccines');
+                sendDataDogAction(VACCINES_LABEL);
+              }}
+            >
+              {VACCINES_LABEL}
+            </Link>
+          </section>
           <section>
             <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
               Allergies and reactions
@@ -268,34 +252,32 @@ const LandingPage = () => {
               {HEALTH_CONDITIONS_LABEL}
             </Link>
           </section>
-          {displayVitals && (
-            <section>
-              <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
-                Vitals
-              </h2>
-              <p className="vads-u-margin-bottom--2">
-                Get records of these basic health numbers your providers check
-                at appointments:
-              </p>
-              <ul>
-                <li>Blood pressure and blood oxygen level</li>
-                <li>Breathing rate and heart rate</li>
-                <li>Height and weight</li>
-                <li>Temperature</li>
-              </ul>
-              <Link
-                to="/vitals"
-                className="vads-c-action-link--blue"
-                data-testid="vitals-landing-page-link"
-                onClick={() => {
-                  sendAalViewList('Vitals');
-                  sendDataDogAction(VITALS_LABEL);
-                }}
-              >
-                {VITALS_LABEL}
-              </Link>
-            </section>
-          )}
+          <section>
+            <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+              Vitals
+            </h2>
+            <p className="vads-u-margin-bottom--2">
+              Get records of these basic health numbers your providers check at
+              appointments:
+            </p>
+            <ul>
+              <li>Blood pressure and blood oxygen level</li>
+              <li>Breathing rate and heart rate</li>
+              <li>Height and weight</li>
+              <li>Temperature</li>
+            </ul>
+            <Link
+              to="/vitals"
+              className="vads-c-action-link--blue"
+              data-testid="vitals-landing-page-link"
+              onClick={() => {
+                sendAalViewList('Vitals');
+                sendDataDogAction(VITALS_LABEL);
+              }}
+            >
+              {VITALS_LABEL}
+            </Link>
+          </section>
 
           {!displayMarch17Updates && (
             <>

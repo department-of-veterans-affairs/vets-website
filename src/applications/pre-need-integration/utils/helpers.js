@@ -318,6 +318,18 @@ export const applicantContactInfoPreparerAddressTitle = (
   </div>
 );
 
+export const applicantContactDetailsTitle = (
+  <div>
+    <h3>Your contact details</h3>
+  </div>
+);
+
+export const applicantContactDetailsPreparerTitle = (
+  <div>
+    <h3>Applicant’s contact details</h3>
+  </div>
+);
+
 export const applicantContactInfoSubheader = (
   <div className="applicantContactInfoSubheader">
     <h3>Your contact details</h3>
@@ -1367,7 +1379,9 @@ export function DesiredCemeteryNoteDescription() {
 }
 
 export function getCemeteries() {
-  return fetch(`${environment.API_URL}/v0/preneeds/cemeteries`, {
+  const apiUrl = `${environment.API_URL}/simple_forms_api/v1/cemeteries`;
+
+  return fetch(apiUrl, {
     credentials: 'include',
     headers: {
       'X-Key-Inflection': 'camel',
@@ -1378,23 +1392,19 @@ export function getCemeteries() {
       if (!res.ok) {
         return Promise.reject(res);
       }
-
       return res.json();
     })
-    .then(res =>
-      res.data.map(item => ({
+    .then(res => {
+      return res.data.map(item => ({
         label: item.attributes.name,
         id: item.id,
-      })),
-    )
-    .catch(res => {
-      if (res instanceof Error) {
-        Sentry.captureException(res);
+      }));
+    })
+    .catch(error => {
+      if (error instanceof Error) {
+        Sentry.captureException(error);
         Sentry.captureMessage('vets_preneed_cemeteries_error');
       }
-
-      // May change this to a reject later, depending on how we want
-      // to surface errors in autosuggest field
       return Promise.resolve([]);
     });
 }
@@ -1508,4 +1518,41 @@ export const addConditionalDependency = (pages, condition) => {
       },
     ]),
   );
+};
+
+export const ApplicantDetailsHeader = () => {
+  return (
+    <h3 className="vads-u-margin-bottom--3">
+      Confirm the personal information we have on file for you
+    </h3>
+  );
+};
+
+// Helper functions to check authentication status for veteran applicant details pages
+export const isLoggedInVeteran = formData => {
+  const isLoggedIn = formData?.['view:loginState']?.isLoggedIn || false;
+  const isVet = isVeteran(formData);
+  const isAgent = isAuthorizedAgent(formData);
+  return !isAgent && isVet && isLoggedIn;
+};
+
+export const isNotLoggedInVeteran = formData => {
+  const isLoggedIn = formData?.['view:loginState']?.isLoggedIn || false;
+  const isVet = isVeteran(formData);
+  const isAgent = isAuthorizedAgent(formData);
+  return !isAgent && isVet && !isLoggedIn;
+};
+
+export const isLoggedInVeteranPreparer = formData => {
+  const isLoggedIn = formData?.['view:loginState']?.isLoggedIn || false;
+  const isVet = isVeteran(formData);
+  const isAgent = isAuthorizedAgent(formData);
+  return isAgent && isVet && isLoggedIn;
+};
+
+export const isNotLoggedInVeteranPreparer = formData => {
+  const isLoggedIn = formData?.['view:loginState']?.isLoggedIn || false;
+  const isVet = isVeteran(formData);
+  const isAgent = isAuthorizedAgent(formData);
+  return isAgent && isVet && !isLoggedIn;
 };

@@ -164,7 +164,10 @@ describe('EpsAppointmentDetailsPage', () => {
     expect(getByTestId('appointment-card')).to.exist;
 
     // Check that calendar icon exists
-    expect(getByTestId('appointment-icon')).to.exist;
+    expect(getByTestId('appointment-card')).to.have.attribute(
+      'icon-name',
+      'calendar_today',
+    );
 
     // Check heading
     expect(getByText('Community Care Appointment')).to.exist;
