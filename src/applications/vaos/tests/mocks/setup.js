@@ -114,18 +114,16 @@ export function getTestDate() {
  * @export
  * @async
  * @param {ReduxStore} store The Redux store to use to render the page
- * @param {string} value The string value of the radio button to click on
+ * @param {string|RegExp} label The string or regex to pass to *ByText query to get
+ *   a radio button to click on
  * @returns {Promise string} The url path that was routed to after clicking Continue
  */
-export async function setTypeOfFacility(store, value) {
+export async function setTypeOfFacility(store, label) {
   const screen = renderWithStoreAndRouter(<TypeOfFacilityPage />, { store });
   await screen.findByText(/Continue/i);
 
-  const radioSelector = screen.container.querySelector('va-radio');
-  const changeEvent = new CustomEvent('selected', {
-    detail: { value },
-  });
-  radioSelector.__events.vaValueChange(changeEvent);
+  const radioButton = await screen.findByLabelText(label);
+  fireEvent.click(radioButton);
   fireEvent.click(screen.getByText(/Continue/));
   await waitFor(() => expect(screen.history.push.called).to.be.true);
   await cleanup();
@@ -453,7 +451,7 @@ export async function setCommunityCareFlow({
   });
 
   await setTypeOfCare(store, new RegExp(typeOfCare.name));
-  await setTypeOfFacility(store, 'communityCare');
+  await setTypeOfFacility(store, 'Community care facility');
 
   return store;
 }
@@ -470,12 +468,7 @@ export async function setCommunityCareFlow({
 export async function setClosestCity(store, cityValue) {
   const screen = renderWithStoreAndRouter(<ClosestCityStatePage />, { store });
 
-  const radioSelector = screen.container.querySelector('va-radio');
-  const changeEvent = new CustomEvent('selected', {
-    detail: { value: cityValue },
-  });
-  radioSelector.__events.vaValueChange(changeEvent);
-
+  fireEvent.click(await screen.findByLabelText(cityValue));
   fireEvent.click(screen.getByText(/Continue/));
   await waitFor(() => expect(screen.history.push.called).to.be.true);
   await cleanup();

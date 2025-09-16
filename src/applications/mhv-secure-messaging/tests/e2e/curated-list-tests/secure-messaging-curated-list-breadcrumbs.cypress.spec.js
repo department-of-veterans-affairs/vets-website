@@ -2,6 +2,7 @@ import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import { AXE_CONTEXT, Paths } from '../utils/constants';
 import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 import PilotEnvPage from '../pages/PilotEnvPage';
+import SharedComponents from '../pages/SharedComponents';
 
 describe('SM CURATED LIST BREADCRUMBS', () => {
   beforeEach(() => {
@@ -45,7 +46,7 @@ describe('SM CURATED LIST BREADCRUMBS', () => {
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
     // Click back to select care team
-    cy.findByTestId('sm-breadcrumbs-back').click();
+    SharedComponents.clickBackBreadcrumb();
 
     GeneralFunctionsPage.verifyPageHeader('Select care team');
     cy.location('pathname').should(
@@ -53,7 +54,7 @@ describe('SM CURATED LIST BREADCRUMBS', () => {
       `${Paths.COMPOSE.replace(/\/$/, '')}${Paths.SELECT_CARE_TEAM}`,
     );
 
-    cy.findByTestId('sm-breadcrumbs-back').click();
+    SharedComponents.clickBackBreadcrumb();
 
     cy.get(`va-button[text="Delete draft"]:not([id])`).click();
 
@@ -84,7 +85,7 @@ describe('SM CURATED LIST BREADCRUMBS', () => {
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
     // Use breadcrumb Back to return
-    cy.findByTestId('sm-breadcrumbs-back').click();
+    SharedComponents.clickBackBreadcrumb();
 
     GeneralFunctionsPage.verifyPageHeader('Select care team');
     cy.location('pathname').should(

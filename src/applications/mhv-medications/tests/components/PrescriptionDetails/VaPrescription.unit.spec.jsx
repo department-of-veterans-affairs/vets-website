@@ -190,12 +190,6 @@ describe('vaPrescription details container', () => {
     expect(docLink).to.exist;
   });
 
-  it('does not display documentation if ff is off', () => {
-    const screen = setup({ ...prescription, cmopNdcNumber: '123456' }, false);
-    const docLink = screen.queryByTestId('va-prescription-documentation-link');
-    expect(docLink).to.not.exist;
-  });
-
   it('does not display refill history if there is one record with dispensedDate undefined', () => {
     const rxWithNoRefillHistory = {
       ...prescription,

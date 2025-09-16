@@ -1,3 +1,4 @@
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 .help {
   padding-bottom: 0px !important;
   a.content-link {
@@ -45,7 +46,10 @@
   }
 
   .contact-us {
-    padding-left: 17px;
+    @media screen and (min-width: $medium-screen) {
+      padding-left: 17px;
+    }
+
     h3.no-spacing-top {
       margin-top: 0px;
     }
@@ -61,7 +65,7 @@
     }
   }
 
-  @media screen and (max-width: 1201px) {
+  @media screen and (min-width: $medium-screen) {
     .contact-us {
       padding-right: 24px;
     }
