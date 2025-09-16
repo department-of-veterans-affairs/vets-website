@@ -70,6 +70,15 @@ export const tabsConfig = {
       textColor: '--vads-color-black',
     },
   ],
+  pattern7: [
+    {
+      name: 'Copy of Submission Demo',
+      path: '/7/copy-of-submission',
+      description: 'Pattern 7 - Copy of Submissions Demo',
+      bgColor: '--vads-color-primary-dark',
+      textColor: '--vads-color-white',
+    },
+  ],
 };
 
 export const getTabs = location => {

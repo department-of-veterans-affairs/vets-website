@@ -1,0 +1,9 @@
+{
+  "name": "@department-of-veterans-affairs/applications-copy-of-submissions-demo",
+  "version": "1.0.0",
+  "scripts": {
+    "demo": "echo DEMOING $npm_package_name v $npm_package_version with WORKSPACES"
+  },
+  "private": true,
+  "devDependencies": {}
+}
