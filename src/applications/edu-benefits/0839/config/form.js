@@ -5,7 +5,7 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
+import { nameAndDateOfBirth, agreementType } from '../pages';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -54,8 +54,18 @@ const formConfig = {
         },
       },
     },
+    agreementTypeChapter: {
+      title: 'Agreement type',
+      pages: {
+        agreementType: {
+          path: 'agreement-type',
+          title: 'Agreement type',
+          uiSchema: agreementType.uiSchema,
+          schema: agreementType.schema,
+        },
+      },
+    },
   },
-  // getHelp,
   footerContent,
 };
 
