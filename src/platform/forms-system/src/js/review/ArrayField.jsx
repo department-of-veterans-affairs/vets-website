@@ -343,11 +343,13 @@ class ArrayField extends React.Component {
                                 text="Update"
                               />
                             ) : (
-                              <va-button
+                              <button
+                                type="submit"
                                 className="float-left"
-                                text="Update"
                                 aria-label={`Update ${itemName}`}
-                              />
+                              >
+                                Update
+                              </button>
                             )}
                           </div>
                           <div className="small-6 right columns">
@@ -364,15 +366,16 @@ class ArrayField extends React.Component {
                                     }
                                   />
                                 ) : (
-                                  <va-button
-                                    className="float-right"
-                                    variant="secondary"
-                                    text="Remove"
+                                  <button
+                                    type="button"
+                                    className="usa-button-secondary float-right"
                                     aria-label={`Remove ${itemName}`}
                                     onClick={() =>
                                       this.handleRemove(index, fieldName)
                                     }
-                                  />
+                                  >
+                                    Remove
+                                  </button>
                                 )}
                               </>
                             )}
@@ -436,13 +439,17 @@ class ArrayField extends React.Component {
                     }
                   />
                 ) : (
-                  <va-button
+                  <button
+                    type="button"
                     name={`add-another-${fieldName}`}
                     disabled={addAnotherDisabled}
                     className="add-btn primary-outline"
-                    text=""
                     onClick={() => this.handleAdd()}
-                  />
+                  >
+                    {uiOptions.itemName
+                      ? `Add another ${uiOptions.itemName}`
+                      : 'Add another'}
+                  </button>
                 )}
                 <div>
                   {addAnotherDisabled &&
