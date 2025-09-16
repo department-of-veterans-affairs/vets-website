@@ -247,12 +247,9 @@ export const getForm4142 = formData => {
   }
 
   const { limitedConsent, privacyAgreementAccepted = true } = formData;
-<<<<<<< HEAD
   const limitedConsentResponse = formData?.[LIMITED_CONSENT_RESPONSE]
     ? limitedConsent
     : '';
-=======
->>>>>>> 90d0b92789 (SC 105976: Toggle cleanup for limited consent)
 
   const providerFacility = facilities.reduce((list, facility) => {
     if (!hasDuplicateFacility(list, facility)) {
@@ -272,11 +269,7 @@ export const getForm4142 = formData => {
 
   return {
     privacyAgreementAccepted,
-<<<<<<< HEAD
     limitedConsent: limitedConsentResponse,
-=======
-    limitedConsent: limitedConsent || '',
->>>>>>> 90d0b92789 (SC 105976: Toggle cleanup for limited consent)
     providerFacility,
   };
 };
