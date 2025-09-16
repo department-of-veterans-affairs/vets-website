@@ -21,7 +21,6 @@ import {
 import classNames from 'classnames';
 import { LOADING_STATES } from '../../../common/constants';
 
-// import { NotificationCheckbox } from './NotificationCheckbox';
 import {
   NOTIFICATION_CHANNEL_FIELD_DESCRIPTIONS,
   NOTIFICATION_CHANNEL_LABELS,
@@ -136,6 +135,7 @@ const NotificationChannel = props => {
           slim
           status="success"
           class="vads-u-margin-top--2 vads-u-margin-bottom--2"
+          data-testid={`success-${channelId}`}
         >
           {apiStatusInfo.successMessage}
         </VaAlert>
@@ -145,12 +145,18 @@ const NotificationChannel = props => {
           slim
           status="error"
           class="vads-u-margin-top--2 vads-u-margin-bottom--2"
+          data-testid={`error-${channelId}`}
         >
           {apiStatusInfo.errorMessage}
         </VaAlert>
       )}
       {apiStatusInfo.loadingMessage && (
-        <VaButton disabled text={apiStatusInfo.loadingMessage} loading />
+        <VaButton
+          disabled
+          text={apiStatusInfo.loadingMessage}
+          loading
+          data-testid={`loading-${channelId}`}
+        />
       )}
       <VaCheckbox
         label={label}
@@ -159,6 +165,7 @@ const NotificationChannel = props => {
         onVaChange={e => handleChange(e)}
         disabled={disabledForCheckbox}
         className={className}
+        data-testid={`checkbox-${channelId}`}
       />
     </>
   );
