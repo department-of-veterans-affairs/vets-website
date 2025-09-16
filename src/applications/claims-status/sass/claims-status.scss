@@ -13,6 +13,10 @@
 
 .breadcrumbs-loading-container {
   min-height: 82px;
+
+  @media (min-width: $medium-screen) {
+    min-height: 100px;
+  }
 }
 
 .on-this-page-loading-container {
