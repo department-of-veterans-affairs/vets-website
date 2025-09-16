@@ -162,6 +162,20 @@ describe('owned asset list and loop pages', () => {
     } = testData.data.ownedAssets[0];
     /* eslint-enable no-unused-vars */
     testOptionsTextCardDescription(options, baseItem, ownedAssetTypeLabels);
+
+    ['FARM', 'BUSINESS'].forEach(at => {
+      it('should show uploaded files', () => {
+        sessionStorage.setItem('showUpdatedContent', true);
+        const assetWithFiles = {
+          ...testData.data.ownedAssets[0],
+          assetType: at,
+          'view:addFormQuestion': true,
+          uploadedDocuments: [{ name: 'Test file.png' }],
+        };
+        expect(options.text.cardDescription(assetWithFiles)).to.not.be.null;
+        sessionStorage.removeItem('showUpdatedContent');
+      });
+    });
   });
 
   describe('text cardDescription function with zero values', () => {
@@ -174,6 +188,65 @@ describe('owned asset list and loop pages', () => {
     } = testDataZeroes.data.ownedAssets[0];
     /* eslint-enable no-unused-vars */
     testOptionsTextCardDescription(options, baseItem, ownedAssetTypeLabels);
+  });
+
+  describe('text summaryDescription', () => {
+    it('should return null if showUpdatedContent: true and assetType: `OTHER`', () => {
+      sessionStorage.setItem('showUpdatedContent', true);
+      expect(
+        options.text.summaryDescription({
+          formData: {
+            ownedAssets: [
+              {
+                assetType: 'OTHER',
+                'view:addFormQuestion': true,
+              },
+            ],
+          },
+        }),
+      ).to.be.null;
+    });
+    it('should SupplementaryFormsAlertUpdated if shouldShowDeclinedAlert: true', () => {
+      sessionStorage.setItem('showUpdatedContent', true);
+      expect(
+        options.text.summaryDescription({
+          formData: {
+            ownedAssets: [{ assetType: 'FARM', 'view:addFormQuestion': false }],
+          },
+        }),
+      ).to.not.be.null;
+    });
+    it('should SupplementaryFormsAlertUpdated if shouldShowDeclinedAlert: true', () => {
+      sessionStorage.setItem('showUpdatedContent', true);
+      expect(
+        options.text.summaryDescription({
+          formData: {
+            ownedAssets: [
+              {
+                assetType: 'FARM',
+                'view:addFormQuestion': true,
+                uploadedDocuments: [],
+              },
+            ],
+          },
+        }),
+      ).to.not.be.null;
+    });
+    it('shoudl show SupplementaryFormsAlert by default', () => {
+      expect(
+        options.text.summaryDescription({
+          formData: {
+            ownedAssets: [
+              { assetType: 'OTHER', 'view:addFormQuestion': false },
+            ],
+          },
+        }),
+      ).to.not.be.null;
+    });
+  });
+
+  describe('text deleteDescription', () => {
+    expect(options.text.deleteDescription({})).to.not.be.null;
   });
 
   describe('summary page', () => {
@@ -243,6 +316,7 @@ describe('owned asset list and loop pages', () => {
   });
 
   describe('recipient name page', () => {
+    sessionStorage.setItem('showUpdatedContent', true);
     const schema =
       ownedAssetPages.ownedAssetRecipientNamePage.schema.properties.ownedAssets
         .items;
@@ -274,6 +348,11 @@ describe('owned asset list and loop pages', () => {
       testData.data.ownedAssets[0],
       { loggedIn: true },
     );
+
+    // it('should check some stuff with other', () => {
+    //   sessionStorage.setItem('showUpdatedContent', true);
+    //   expect(uiSchema['ui:title']).to.eql('Person who receives this income');
+    // });
   });
 
   describe('asset type page', () => {
@@ -308,5 +387,25 @@ describe('owned asset list and loop pages', () => {
       testData.data.ownedAssets[0],
       { loggedIn: true },
     );
+  });
+
+  describe('depends coverage', () => {
+    it('additionalFormNeededPage depends returns true', () => {
+      sessionStorage.setItem('showUpdatedContent', true);
+      const { depends } = ownedAssetPages?.ownedAssetAdditionalFormNeededPage;
+      expect(depends({ ownedAssets: [{ assetType: 'FARM' }] }, 0)).to.be.true;
+      expect(depends({ ownedAssets: [{ assetType: 'BUSINESS' }] }, 0)).to.be
+        .true;
+    });
+
+    it('additionalFormNeededPage depends returns true', () => {
+      sessionStorage.setItem('showUpdatedContent', true);
+      const { depends } = ownedAssetPages?.ownedAssetDocumentUploadPage;
+      const generateOwnedAssets = (assetType = 'FARM') => ({
+        ownedAssets: [{ 'view:addFormQuestion': true, assetType }],
+      });
+      expect(depends(generateOwnedAssets(), 0)).to.be.true;
+      expect(depends(generateOwnedAssets('BUSINESS'), 0)).to.be.true;
+    });
   });
 });

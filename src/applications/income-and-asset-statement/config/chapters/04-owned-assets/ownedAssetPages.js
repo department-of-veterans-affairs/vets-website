@@ -90,36 +90,47 @@ export const options = {
         ownedAssetTypeLabels[item.assetType],
       )}`;
     },
-    cardDescription: item =>
-      isDefined(item?.grossMonthlyIncome) &&
-      isDefined(item?.ownedPortionValue) && (
-        <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
-          <li>
-            Gross monthly income:{' '}
-            <span className="vads-u-font-weight--bold">
-              {formatCurrency(item.grossMonthlyIncome)}
-            </span>
-          </li>
-          <li>
-            Owned portion value:{' '}
-            <span className="vads-u-font-weight--bold">
-              {formatCurrency(item.ownedPortionValue)}
-            </span>
-          </li>
-          {showUpdatedContent() &&
-            (item?.assetType === 'FARM' || item?.assetType === 'BUSINESS') &&
-            item?.['view:addFormQuestion'] === true &&
-            isDefined(item?.uploadedDocuments) &&
-            item.uploadedDocuments.length > 0 && (
-              <li>
+    cardDescription: item => {
+      const mvpContent = [
+        <li key="income">
+          Gross monthly income:{' '}
+          <span className="vads-u-font-weight--bold">
+            {formatCurrency(item.grossMonthlyIncome)}
+          </span>
+        </li>,
+        <li key="value">
+          Owned portion value:{' '}
+          <span className="vads-u-font-weight--bold">
+            {formatCurrency(item.ownedPortionValue)}
+          </span>
+        </li>,
+      ];
+
+      const updatedContent =
+        showUpdatedContent() &&
+        (item?.assetType === 'FARM' || item?.assetType === 'BUSINESS') &&
+        item?.['view:addFormQuestion'] === true &&
+        isDefined(item?.uploadedDocuments) &&
+        item.uploadedDocuments.length > 0
+          ? item.uploadedDocuments.map((file, index) => (
+              <li key={`upload-${index}`}>
                 Form uploaded:{' '}
-                <span className="vads-u-font-weight--bold">
-                  {item.uploadedDocuments[0].name}
-                </span>
+                <span className="vads-u-font-weight--bold">{file.name}</span>
               </li>
-            )}
-        </ul>
-      ),
+            ))
+          : [];
+
+      const content = [...mvpContent, ...updatedContent].filter(Boolean);
+
+      return (
+        isDefined(item?.grossMonthlyIncome) &&
+        isDefined(item?.ownedPortionValue) && (
+          <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
+            {content}
+          </ul>
+        )
+      );
+    },
     reviewAddButtonText: 'Add another owned asset',
     alertItemUpdated: 'Your owned asset information has been updated',
     alertItemDeleted: 'Your owned asset information has been deleted',
@@ -281,7 +292,6 @@ const ownedAssetAdditionalFormNeeded = {
   },
   schema: {
     type: 'object',
-    // required: ['view:addFormQuestion'], // Not in the design - We may end up wanting this. They can just click continue and never see the upload page
     properties: {
       'view:addFormDescription': {
         type: 'object',
@@ -324,12 +334,14 @@ const ownedAssetDocumentUpload = {
         required: true,
         errorMessages: { required: 'Upload a supporting document' },
         maxFileSize: MAX_FILE_SIZE_BYTES,
-        disallowEncryptedPdfs: true,
-        formNumber: '20-10206',
-        skipUpload: environment.isLocalhost(), // needed to bypass server response validation only in local environment
+        // disallowEncryptedPdfs: true, ???
+        formNumber: '21P-0969',
+        skipUpload: environment.isLocalhost(),
+        // server response triggers required validation.
+        // skipUpload needed to bypass in local environment
       }),
       'ui:validations': [
-        // Added supplemental validation for required input, likely an array builder anomaly
+        // Re-runs validation onBlur to ensure at least one upload
         (errors, fieldData) => {
           if (!fieldData || fieldData.length === 0) {
             errors.addError('Upload a supporting document');
@@ -396,7 +408,7 @@ export const ownedAssetPages = arrayBuilderPages(options, pageBuilder => ({
       showUpdatedContent() &&
       (formData?.ownedAssets[index]?.assetType === 'FARM' ||
         formData?.ownedAssets[index]?.assetType === 'BUSINESS') &&
-      formData?.ownedAssets[index]?.['view:addFormQuestion'],
+      formData?.ownedAssets[index]?.['view:addFormQuestion'] === true,
     uiSchema: ownedAssetDocumentUpload.uiSchema,
     schema: ownedAssetDocumentUpload.schema,
   }),
