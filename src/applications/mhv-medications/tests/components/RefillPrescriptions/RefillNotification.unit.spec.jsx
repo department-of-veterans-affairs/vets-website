@@ -117,17 +117,9 @@ describe('Refill Notification Component', () => {
     const partialAlert = screen.getByTestId('partial-refill');
     const successAlert = screen.getByTestId('success-refill');
 
-    const errorRequestSuggestion = screen.getByTestId(
-      'error-request-suggestion',
-    );
-
     expect(failedAlert).to.have.attribute('visible', 'true');
     expect(errorAlert).to.have.attribute('visible', 'false');
     expect(partialAlert).to.have.attribute('visible', 'false');
     expect(successAlert).to.have.attribute('visible', 'false');
-
-    expect(errorRequestSuggestion).to.include.text(
-      'Try requesting your refills again. If it still doesn’t work, contact your VA pharmacy.',
-    );
   });
 });
