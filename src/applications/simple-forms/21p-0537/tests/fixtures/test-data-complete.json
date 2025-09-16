@@ -5,7 +5,7 @@
       "middle": "James",
       "last": "Martinez"
     },
-    "veteranSocialSecurityNumber": "434353343",
+    "veteranSocialSecurityNumber": "434353347",
     "vaFileNumber": "987654321",
     "recipientName": {
       "first": "Jennifer",
@@ -31,11 +31,15 @@
       "ageAtMarriage": "58",
       "spouseIsVeteran": true,
       "spouseVeteranId": {
-        "vaFileNumber": "555666777"
+        "vaFileNumber": "555666777",
+        "ssn": "999888777"
       },
-      "hasTerminated": false,
-      "terminationDate": "",
-      "terminationReason": ""
+      "hasTerminated": true,
+      "terminationDate": "2024-01-15",
+      "terminationReason": "Death"
+    },
+    "certification": {
+      "marriageRecognition": true
     }
   }
 }

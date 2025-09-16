@@ -1,10 +1,17 @@
 {
   "data": {
-    "recipientName": "Susan Williams",
+    "veteranFullName": {
+      "first": "William",
+      "middle": "Thomas",
+      "last": "Johnson"
+    },
+    "veteranSocialSecurityNumber": "434353344",
+    "recipientName": {
+      "first": "Susan",
+      "middle": "Ann",
+      "last": "Williams"
+    },
     "recipient": {
-      "ssnOrVaFileNumber": {
-        "vaFileNumber": "444555666"
-      },
       "phone": {
         "daytime": "202-555-9876",
         "evening": "202-555-1234"

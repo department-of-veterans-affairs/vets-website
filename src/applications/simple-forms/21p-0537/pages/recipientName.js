@@ -1,22 +1,21 @@
 import {
   titleUI,
-  textUI,
-  textSchema,
+  fullNameNoSuffixUI,
+  fullNameNoSuffixSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 export default {
   uiSchema: {
-    ...titleUI('Your name'),
-    recipientName: textUI({
-      title: 'Your full name',
-      required: () => true,
-    }),
+    ...titleUI('Deceased veteran information'),
+    'ui:description':
+      'Tell us about the veteran whose DIC benefits you receive. We need this information to locate their records and process your marital status update.',
+    veteranFullName: fullNameNoSuffixUI(title => `Deceased veteran's ${title}`),
   },
   schema: {
     type: 'object',
-    required: ['recipientName'],
+    required: ['veteranFullName'],
     properties: {
-      recipientName: textSchema,
+      veteranFullName: fullNameNoSuffixSchema,
     },
   },
 };

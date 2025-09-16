@@ -1,10 +1,17 @@
 {
   "data": {
-    "recipientName": "Mary Johnson",
+    "veteranFullName": {
+      "first": "James",
+      "middle": "Robert",
+      "last": "Thompson"
+    },
+    "veteranSocialSecurityNumber": "434353346",
+    "recipientName": {
+      "first": "Mary",
+      "middle": "Elizabeth",
+      "last": "Johnson"
+    },
     "recipient": {
-      "ssnOrVaFileNumber": {
-        "ssn": "987654321"
-      },
       "phone": {
         "daytime": "703-555-1234",
         "evening": ""

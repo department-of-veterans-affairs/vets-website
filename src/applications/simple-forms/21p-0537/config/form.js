@@ -8,10 +8,12 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import getHelp from '../../shared/components/GetFormHelp';
 import transformForSubmit from './submit-transformer';
+import prefillTransformer from './prefill-transformer';
 
 // Import page configurations
 import recipientIdentifier from '../pages/recipientIdentifier';
 import recipientName from '../pages/recipientName';
+import recipientPersonalInfo from '../pages/recipientPersonalInfo';
 import remarriageQuestion from '../pages/remarriageQuestion';
 import marriageInfo from '../pages/marriageInfo';
 import spouseVeteranStatus from '../pages/spouseVeteranStatus';
@@ -50,6 +52,7 @@ const formConfig = {
   formId: '21P-0537',
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   savedFormMessages: {
     notFound: 'Please start over to complete the marital status questionnaire.',
     noAuth: 'Please sign in again to continue your application.',
@@ -80,18 +83,18 @@ const formConfig = {
   defaultDefinitions: {},
   footerContent,
   chapters: {
-    recipientInfoChapter: {
-      title: 'Your information',
+    veteranInfoChapter: {
+      title: 'Deceased veteran information',
       pages: {
-        recipientName: {
-          path: 'recipient-info/name',
-          title: 'Your name',
+        veteranName: {
+          path: 'veteran-info/name',
+          title: "Deceased veteran's name",
           uiSchema: recipientName.uiSchema,
           schema: recipientName.schema,
         },
-        recipientIdentifier: {
-          path: 'recipient-info/identifier',
-          title: 'Your identification',
+        veteranIdentifier: {
+          path: 'veteran-info/identifier',
+          title: "Deceased veteran's identification",
           uiSchema: recipientIdentifier.uiSchema,
           schema: recipientIdentifier.schema,
         },
@@ -149,6 +152,17 @@ const formConfig = {
             formData.remarriage?.hasTerminated === true,
           uiSchema: terminationDetails.uiSchema,
           schema: terminationDetails.schema,
+        },
+      },
+    },
+    recipientInfoChapter: {
+      title: 'Your information',
+      pages: {
+        recipientPersonalInfo: {
+          path: 'recipient-info/personal',
+          title: 'Your name',
+          uiSchema: recipientPersonalInfo.uiSchema,
+          schema: recipientPersonalInfo.schema,
         },
       },
     },
