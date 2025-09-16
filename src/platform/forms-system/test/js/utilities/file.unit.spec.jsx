@@ -1,16 +1,12 @@
-import React from 'react';
 import { expect } from 'chai';
-import sinon from 'sinon';
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { waitFor } from '@testing-library/react';
 
-import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import {
   readAndCheckFile,
   checkTypeAndExtensionMatches,
   arrayIncludesArray,
   fileTypeSignatures,
   checkIsEncryptedPdf,
-  ShowPdfPassword,
 } from 'platform/forms-system/src/js/utilities/file';
 
 const arrayFromString = str => [...str].map(s => s.charCodeAt(0));
@@ -284,52 +280,5 @@ describe('arrayIncludesArray', () => {
     expect(
       arrayIncludesArray(['0', '1', '2', '0', '1', '2', '3', '4', '3'], [2, 3]),
     ).to.be.false;
-  });
-});
-
-describe('ShowPdfPassword', () => {
-  const buttonClick = new MouseEvent('click', {
-    bubbles: true,
-    cancelable: true,
-  });
-  const getProps = (onSubmitPassword = () => {}) => ({
-    file: { name: 'foo' },
-    index: 0,
-    onSubmitPassword,
-  });
-
-  it('should render', () => {
-    const props = getProps();
-    const { container } = render(<ShowPdfPassword {...props} />);
-
-    expect($('va-text-input', container)).to.exist;
-    expect($('va-button', container)).to.exist;
-    expect($('va-text-input[uswds]', container)).to.exist;
-    expect($('va-button[uswds]', container)).to.exist;
-  });
-  it('should show validation error', () => {
-    const props = getProps();
-    const { container } = render(<ShowPdfPassword {...props} />);
-    fireEvent.click($('va-button', container), buttonClick);
-
-    expect($('va-text-input', container)).to.have.attr(
-      'error',
-      'Please provide a password to decrypt this file',
-    );
-  });
-  it('should call onSubmitPassword', () => {
-    const submitSpy = sinon.spy();
-    const props = getProps(submitSpy);
-    const { container } = render(<ShowPdfPassword {...props} testVal="1234" />);
-
-    fireEvent.click($('va-button', container), buttonClick);
-
-    expect($('va-text-input', container)).to.not.have.attr('error');
-    expect(props.onSubmitPassword.calledOnce).to.be.true;
-    expect(props.onSubmitPassword.args[0]).to.deep.equal([
-      { name: 'foo' },
-      0,
-      '1234',
-    ]);
   });
 });
