@@ -63,18 +63,14 @@ describe('Refill Notification Component', () => {
     const partialAlert = screen.getByTestId('partial-refill');
     const successAlert = screen.getByTestId('success-refill');
 
-    const failedRequestSuggestion = screen.getByTestId(
-      'failed-request-suggestion',
+    expect(screen.getByTestId('failed-request-suggestion')).to.include.text(
+      'Try requesting your refills again. If it still doesn’t work, contact your VA pharmacy.',
     );
 
     expect(failedAlert).to.have.attribute('visible', 'false');
     expect(errorAlert).to.have.attribute('visible', 'true');
     expect(partialAlert).to.have.attribute('visible', 'false');
     expect(successAlert).to.have.attribute('visible', 'false');
-
-    expect(failedRequestSuggestion).to.include.text(
-      'Try requesting your refills again. If it still doesn’t work, contact your VA pharmacy.',
-    );
   });
 
   it('Part of the refill requests are successful', () => {
@@ -116,6 +112,10 @@ describe('Refill Notification Component', () => {
     const errorAlert = screen.getByTestId('error-refill');
     const partialAlert = screen.getByTestId('partial-refill');
     const successAlert = screen.getByTestId('success-refill');
+
+    expect(screen.getByTestId('not-submitted-suggestion')).to.include.text(
+      'Try requesting your refills again. If it still doesn’t work, contact your VA pharmacy.',
+    );
 
     expect(failedAlert).to.have.attribute('visible', 'true');
     expect(errorAlert).to.have.attribute('visible', 'false');
