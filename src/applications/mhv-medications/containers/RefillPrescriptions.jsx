@@ -258,7 +258,7 @@ const RefillPrescriptions = () => {
                       data-testid="select-all-checkbox"
                       label={`Select all ${fullRefillList.length} refills`}
                       name="select-all-checkbox"
-                      className="vads-u-margin-bottom--3 select-all-checkbox no-print"
+                      className="vads-u-margin-bottom--3 vads-u-margin-top--2 select-all-checkbox no-print"
                       data-dd-action-name={
                         dataDogActionNames.refillPage.SELECT_ALL_CHECKBOXES
                       }
