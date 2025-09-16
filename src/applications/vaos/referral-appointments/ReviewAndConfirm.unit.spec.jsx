@@ -13,13 +13,28 @@ import { createReferralById, getReferralSlotKey } from './utils/referrals';
 import { FETCH_STATUS } from '../utils/constants';
 import { createDraftAppointmentInfo } from './utils/provider';
 import * as flow from './flow';
+import { vaosApi } from '../redux/api/vaosApi';
+import {
+  generateSlotsForDay,
+  transformSlotsForCommunityCare,
+} from '../services/mocks/utils/slots';
 
 describe('VAOS Component: ReviewAndConfirm', () => {
   let requestStub;
   const slotDate = '2024-09-09T16:00:00.000Z';
   const sandbox = sinon.createSandbox();
-  const draftAppointmentInfo = createDraftAppointmentInfo(1);
+  const draftAppointmentInfo = createDraftAppointmentInfo();
 
+  // Create a slot object with the expected flattened structure and proper slot ID format
+  const slots = generateSlotsForDay(slotDate, {
+    slotsPerDay: 1,
+    slotDuration: 60,
+    businessHours: {
+      start: 12,
+      end: 18,
+    },
+  });
+  draftAppointmentInfo.attributes.slots = transformSlotsForCommunityCare(slots);
   draftAppointmentInfo.attributes.slots[0].start = slotDate;
   const initialFullState = {
     featureToggles: {
@@ -35,7 +50,6 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       appointmentInfoLoading: false,
       referralAppointmentInfo: {},
     },
-    appointmentApi: {},
   };
   const initialEmptyState = {
     featureToggles: {
@@ -119,6 +133,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     });
   });
   it('should call create appointment post when "continue" is pressed', async () => {
+    const store = createTestStore(initialFullState);
     // Stub the appointment creation function
     requestStub.resolves({ data: { appointmentId: draftAppointmentInfo?.id } });
 
@@ -127,7 +142,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
         currentReferral={createReferralById('2024-09-09', 'UUID')}
       />,
       {
-        store: createTestStore(initialFullState),
+        store,
       },
     );
     await screen.findByTestId('continue-button');
@@ -148,6 +163,14 @@ describe('VAOS Component: ReviewAndConfirm', () => {
         store,
       },
     );
+    // Manually dispatch the referral list and referral by id calls to have them in state.
+    store.dispatch(
+      vaosApi.util.upsertQueryData('getReferralById', undefined, {}),
+    );
+    store.dispatch(vaosApi.util.upsertQueryData('getReferralById', 'UUID', {}));
+    expect(
+      Object.keys(store.getState().appointmentApi.queries).length,
+    ).to.equal(2);
     await screen.findByTestId('continue-button');
     expect(screen.getByTestId('continue-button')).to.exist;
     await userEvent.click(screen.getByTestId('continue-button'));
@@ -172,6 +195,9 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       ),
     ).to.be.true;
     sandbox.assert.calledOnce(requestStub);
+    expect(
+      Object.keys(store.getState().appointmentApi.queries).length,
+    ).to.equal(0);
   });
   it('should display an error message when appointment creation fails', async () => {
     // Stub only for that specific call
