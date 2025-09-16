@@ -326,16 +326,134 @@ graduationDate: currentOrPastDateUI({
   }
 }) + currentOrPastDateSchema,
 
-// fileInputUI with upload constraints
-documents: fileInputUI({
-  title: 'Upload supporting documents',
-  hint: 'Upload PDF, JPG, or PNG files (5MB max each)',
-  accept: '.pdf,.jpg,.jpeg,.png',
-  maxSize: 5242880,                       // 5MB in bytes
-  maxFiles: 10,
-  buttonText: 'Choose files to upload',
-  additionalErrorMessage: 'Please check file size and format'
+// A single file upload
+// fileInputUI - MINIMAL use case for testing
+yourDocument: fileInputUI({
+  title: 'Upload your document',
+  skipUpload: true // use fileUploadUrl to integrate with backend
+  required: true,
 }) + fileInputSchema(),
+
+// fileInputUI - STANDARD use case - with placeholder backend
+yourDocument: fileInputUI({
+  title: 'Upload evidence',
+  required: true,
+  skipUpload: true // use fileUploadUrl to integrate with backend
+  // fileUploadUrl: `${
+  //   environment.API_URL
+  // }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
+  accept: '.png,.pdf,.txt',
+  hint: 'Upload a file that is less than 5MB',
+  headerSize: '3',
+  formNumber: '31-4159',
+  maxFileSize: 1024 * 1024 * 5,
+  minFileSize: 1,
+}) + fileInputSchema(),
+
+// fileInputUI - WITH EXTRA PROPERTIES use case - with placeholder backend
+yourDocument: fileInputUI({
+  title: 'Upload evidence',
+  required: true,
+  skipUpload: true // use fileUploadUrl to integrate with backend
+  // fileUploadUrl: `${
+  //   environment.API_URL
+  // }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
+  accept: '.png,.pdf,.txt',
+  hint: 'Upload a file that is less than 5MB',
+  headerSize: '3',
+  formNumber: '31-4159',
+  maxFileSize: 1024 * 1024 * 5,
+  minFileSize: 1,
+  disallowEncryptedPdfs: true,
+  errorMessages: {
+    additionalInput: 'Choose a document status',
+  },
+  additionalInputRequired: true,
+  additionalInput: (error, data) => {
+    const { documentStatus } = data;
+    return (
+      <VaSelect
+        required
+        error={error}
+        value={documentStatus}
+        label="Document status"
+      >
+        <option value="public">Public</option>
+        <option value="private">Private</option>
+      </VaSelect>
+    );
+  },
+  handleAdditionalInput: e => {
+    const { value } = e.detail;
+    if (value === '') return {};
+    return { documentStatus: e.detail.value };
+  },
+}) + fileInputSchema(),
+
+// A multiple file upload
+// fileInputMultipleUI - MINIMAL use case for testing
+financialHardshipDocuments: fileInputMultipleUI({
+  title: 'Upload additional evidence',
+  skipUpload: true // use fileUploadUrl to integrate with backend
+  required: true,
+}) + fileInputMultipleSchema(),
+
+// fileInputMultipleUI - STANDARD use case - with placeholder backend
+financialHardshipDocuments: fileInputMultipleUI({
+  title: 'Upload additional evidence',
+  required: true,
+  skipUpload: true // use fileUploadUrl to integrate with backend
+  // fileUploadUrl: `${
+  //   environment.API_URL
+  // }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
+  accept: '.png,.pdf,.txt',
+  hint: 'Upload a file that is between 1KB and 5MB',
+  headerSize: '3',
+  formNumber: '31-4159',
+  // disallowEncryptedPdfs: true,
+  maxFileSize: 1024 * 1024 * 5,
+  minFileSize: 1,
+}) + fileInputMultipleSchema(),
+
+// fileInputMultipleUI - WITH EXTRA PROPERTIES use case - with placeholder backend
+financialHardshipDocuments: fileInputMultipleUI({
+  title: 'Upload additional evidence',
+  required: true,
+  skipUpload: true // use fileUploadUrl to integrate with backend
+  // fileUploadUrl: `${
+  //   environment.API_URL
+  // }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
+  accept: '.png,.pdf,.txt',
+  hint: 'Upload a file that is between 1KB and 5MB',
+  headerSize: '3',
+  formNumber: '31-4159',
+  // disallowEncryptedPdfs: true,
+  maxFileSize: 1024 * 1024 * 5,
+  minFileSize: 1,
+  errorMessages: {
+    additionalInput: 'Choose a document status',
+  },
+  additionalInputRequired: true,
+  additionalInput: () => {
+    return (
+      <VaSelect required label="Document status">
+        <option value="public">Public</option>
+        <option value="private">Private</option>
+      </VaSelect>
+    );
+  },
+  additionalInputUpdate: (instance, error, data) => {
+    instance.setAttribute('error', error);
+    if (data) {
+      instance.setAttribute('value', data.documentStatus);
+    }
+  },
+  handleAdditionalInput: e => {
+    const { value } = e.detail;
+    if (value === '') return null;
+    return { documentStatus: e.detail.value };
+  },
+}) + fileInputMultipleSchema(),
 
 // checkboxGroupUI with various configurations - CORRECTED
 services: checkboxGroupUI({
@@ -1303,17 +1421,31 @@ export default {
 
 ### Example 13: File Upload
 **When you see:** "Upload documents" / "Attach files"
-**Use:** `fileInputUI` + `fileInputSchema`
+**Use:** `fileInputMultipleUI` + `fileInputMultipleSchema`
 ```javascript
 export default {
   uiSchema: {
     ...titleUI('Supporting documents'),
-    documents: fileInputUI('Upload your documents'),
+    documents: fileInputMultipleUI({
+      title: 'Upload additional evidence',
+      required: true,
+      skipUpload: true // use fileUploadUrl to integrate with backend
+      // fileUploadUrl: `${
+      //   environment.API_URL
+      // }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
+      accept: '.png,.pdf,.txt',
+      hint: 'Upload a file that is between 1KB and 5MB',
+      headerSize: '3',
+      formNumber: '31-4159',
+      // disallowEncryptedPdfs: true,
+      maxFileSize: 1024 * 1024 * 5,
+      minFileSize: 1,
+    }) + fileInputMultipleSchema(),
   },
   schema: {
     type: 'object',
     properties: {
-      documents: fileInputSchema,
+      documents: fileInputMultipleSchema(),
     },
   },
 };
@@ -1564,8 +1696,42 @@ const formConfig = {
 ## Testing Requirements
 
 ### Unit Test Template
-Every page needs a unit test in `tests/unit/{pageName}.unit.spec.js`:
+Every page needs a unit test in `tests/unit/pages/{pageName}.unit.spec.jsx`:
 
+```javascript
+import {
+  testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfWebComponentFields,
+} from 'platform/forms-system/test/pageTestHelpers.spec';
+import formConfig from '../../../config/form';
+
+const {
+  schema,
+  uiSchema,
+} = formConfig.chapters.chapterName.pages.pageName;
+
+const pageTitle = 'pageName';
+
+const numberOfWebComponentFields = 1; // Count actual fields in your UI patterns
+testNumberOfWebComponentFields(
+  formConfig,
+  schema,
+  uiSchema,
+  numberOfWebComponentFields,
+  pageTitle,
+);
+
+const numberOfWebComponentErrors = 1; // Count expected validation errors
+testNumberOfErrorsOnSubmitForWebComponents(
+  formConfig,
+  schema,
+  uiSchema,
+  numberOfWebComponentErrors,
+  pageTitle,
+);
+```
+
+**Alternative Approach - Custom Tests (when additional logic needed):**
 ```javascript
 import React from 'react';
 import { render, screen } from '@testing-library/react';
@@ -1574,7 +1740,7 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
-import formConfig from '../../config/form';
+import formConfig from '../../../config/form';
 
 const mockStore = createStore(() => ({}));
 
@@ -1605,20 +1771,6 @@ describe('Personal Information Page', () => {
     );
 
     expect(screen.getByLabelText(/first name/i)).to.exist;
-  });
-
-  it('should render last name field', () => {
-    render(
-      <Provider store={mockStore}>
-        <DefinitionTester
-          schema={formConfig.chapters.personalInfo.pages.personalInformation.schema}
-          uiSchema={formConfig.chapters.personalInfo.pages.personalInformation.uiSchema}
-          data={{}}
-        />
-      </Provider>
-    );
-
-    expect(screen.getByLabelText(/last name/i)).to.exist;
   });
 
   it('should show validation error for required fields', () => {
@@ -1791,31 +1943,40 @@ Remember: Always pair the correct uiSchema with its matching schema, and always 
 
 ### Testing Best Practices
 
-**Prefer existing test patterns.** Look for and use existing test utilities relative to the current application when available:
+**Prefer existing test patterns.** Use the standard platform test utilities for consistent form page testing:
 
-**Unit Testing - Use `pageTests.spec.js` Utilities When Available:**
+**Unit Testing - Use `pageTestHelpers.spec` Utilities:**
 ```javascript
-import { testNumberOfWebComponentFields, testNumberOfErrorsOnSubmitForWebComponents } from '../shared/pageTests.spec.js';
+import {
+  testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfWebComponentFields,
+} from 'platform/forms-system/test/pageTestHelpers.spec';
+import formConfig from '../../../config/form';
 
-describe('Name and date of birth page', () => {
-  testNumberOfWebComponentFields(
-    formConfig,
-    schema,
-    uiSchema,
-    expectedFieldCount, // Count actual fields in your UI patterns
-    formData,
-    'name-and-birth'
-  );
+const {
+  schema,
+  uiSchema,
+} = formConfig.chapters.chapterName.pages.pageName;
 
-  testNumberOfErrorsOnSubmitForWebComponents(
-    formConfig,
-    schema,
-    uiSchema,
-    expectedErrorCount,
-    formData,
-    'name-and-birth'
-  );
-});
+const pageTitle = 'pageName';
+
+const numberOfWebComponentFields = 1; // Count actual fields in your UI patterns
+testNumberOfWebComponentFields(
+  formConfig,
+  schema,
+  uiSchema,
+  numberOfWebComponentFields,
+  pageTitle,
+);
+
+const numberOfWebComponentErrors = 1; // Count expected validation errors
+testNumberOfErrorsOnSubmitForWebComponents(
+  formConfig,
+  schema,
+  uiSchema,
+  numberOfWebComponentErrors,
+  pageTitle,
+);
 ```
 
 **Field Counting for Tests:**
@@ -1856,7 +2017,7 @@ yarn cy:run --spec "src/applications/[app-folder]/tests/e2e/[form-number].cypres
 
 **Key Testing Principles:**
 - Unit tests validate field counts and basic rendering
-- Use existing `pageTests.spec.js` utilities when available
+- Use platform `pageTestHelpers.spec` utilities
 - Count actual UI pattern fields, not schema properties
 - Cypress tests require the webpack dev server running
 - Both test types must pass before committing code
