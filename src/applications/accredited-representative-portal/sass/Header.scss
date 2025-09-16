@@ -53,7 +53,7 @@
   .heading-right {
     display: inline-flex;
     margin-left: auto;
-    align-items: baseline;
+    align-items: center;
     .heading-help-link {
       border: none;
       color: var(--vads-color-base);
@@ -67,16 +67,13 @@
       &.logged-in {
         @media screen and (max-width: 768px) {
           transform: translateY(-6px);
+          display: none;
         }
         @media screen and (max-width: 425px) {
           padding-right: 0px;
           margin-right: 0px;
         }
       }
-    }
-
-    .arp-profile-dropdown {
-      transform: translateY(3px);
     }
   }
 }
