@@ -20,6 +20,7 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 
 import { generateReturnURL } from 'platform/user/authentication/utilities';
 import { OAUTH_EVENTS } from 'platform/utilities/oauth/constants';
+import { isBefore, parseISO } from 'date-fns';
 import RenderErrorUI from '../components/RenderErrorContainer';
 import AuthMetrics from './AuthMetrics';
 import {
@@ -175,8 +176,10 @@ export default function AuthApp({ location }) {
       userProfile.verified &&
       userAttributes.vaProfile?.vaPatient &&
       userAttributes.vaProfile?.facilities?.length > 0 &&
-      new Date(userAttributes.vet360ContactInformation?.email?.updatedAt) <
-        new Date('2025-03-01')
+      isBefore(
+        parseISO(userAttributes.vet360ContactInformation?.email?.updatedAt),
+        new Date('2025-03-01'),
+      )
     ) {
       window.location.replace('/sign-in-confirm-contact-email');
       return;
