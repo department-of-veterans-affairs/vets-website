@@ -28,6 +28,11 @@ describe('Pre-need applicant veteran applicant details', () => {
     expect(form.find('input').length).to.equal(1);
     expect(form.find('select').length).to.equal(2);
     expect(form.find('va-select').length).to.equal(1);
+
+    // expect(form.find('input').length).to.equal(5);
+
+    // // expect(form.find('select').length).to.equal(1);
+    // expect(form.find('VaMemorableDate').length).to.equal(1);
     form.unmount();
   });
 
@@ -77,6 +82,11 @@ describe('Pre-need applicant veteran applicant details', () => {
     expect(form.find('.usa-input-error').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
     form.unmount();
+    // await waitFor(() => {
+    //   const errorElements = container.querySelectorAll('.usa-input-error');
+    //   expect(errorElements.length).to.equal(3);
+    //   expect(onSubmit.called).to.be.false;
+    // });
   });
 
   // it('should submit with required information', () => {

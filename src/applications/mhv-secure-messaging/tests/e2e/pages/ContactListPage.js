@@ -1,5 +1,6 @@
 import { Locators, Paths, Alerts, Data } from '../utils/constants';
 import mockRecipients from '../fixtures/recipientsResponse/recipients-response.json';
+import SharedComponents from './SharedComponents';
 
 class ContactListPage {
   loadContactList = (recipients = mockRecipients) => {
@@ -130,7 +131,7 @@ class ContactListPage {
   };
 
   clickBackToInbox = () => {
-    cy.get(Locators.BACK_TO).click();
+    SharedComponents.clickBackBreadcrumb();
   };
 
   verifyEmptyContactListAlert = () => {
