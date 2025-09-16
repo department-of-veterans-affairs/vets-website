@@ -29,6 +29,7 @@ describe('10297 Keyboard Only Tests', () => {
       'include',
       formConfig.chapters.identificationChapter.pages.applicantFullName.path,
     );
+    cy.injectAxeThenAxeCheck();
     cy.realPress('Tab');
     cy.typeInFocused(maximalData.data.applicantFullName.first);
     cy.repeatKey('Tab', 2);
@@ -41,6 +42,7 @@ describe('10297 Keyboard Only Tests', () => {
       formConfig.chapters.identificationChapter.pages.identificationInformation
         .path,
     );
+    cy.injectAxeThenAxeCheck();
     cy.realPress('Tab');
     cy.typeInFocused(maximalData.data.ssn);
     cy.tabToContinueForm();
@@ -48,6 +50,7 @@ describe('10297 Keyboard Only Tests', () => {
       'include',
       formConfig.chapters.identificationChapter.pages.mailingAddress.path,
     );
+    cy.injectAxeThenAxeCheck();
     cy.repeatKey('Tab', 2);
     cy.selectVaSelect(
       'root_mailingAddress_country',
@@ -69,6 +72,7 @@ describe('10297 Keyboard Only Tests', () => {
       'include',
       formConfig.chapters.identificationChapter.pages.phoneAndEmail.path,
     );
+    cy.injectAxeThenAxeCheck();
     cy.realPress('Tab');
     cy.typeInFocused(maximalData.data.contactInfo.homePhone);
     cy.tabToContinueForm();
@@ -76,6 +80,7 @@ describe('10297 Keyboard Only Tests', () => {
       'include',
       formConfig.chapters.identificationChapter.pages.veteranStatus.path,
     );
+    cy.injectAxeThenAxeCheck();
     cy.selectVaRadioOption('root_veteranStatus', 'Y');
     cy.tabToContinueForm();
     cy.url().should(
@@ -125,7 +130,6 @@ describe('10297 Keyboard Only Tests', () => {
       formConfig.chapters.trainingProviderChapter.pages.trainingProviderSummary
         .path,
     );
-
     cy.injectAxeThenAxeCheck();
     cy.realPress('Tab');
     cy.selectVaRadioOption('root_view:summary', 'Y');
