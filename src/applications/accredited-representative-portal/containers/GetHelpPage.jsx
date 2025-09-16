@@ -500,7 +500,7 @@ const GetHelpPage = title => {
               </p>
               <h3 className="vads-u-font-size--h4">Portal team</h3>
               <p>
-                Email the Accredited Representative Portal team at
+                Email the Accredited Representative Portal team at{' '}
                 {EmailHelpLink()}
                  if you are a VSO manager or certifying official and would like
                 access to the Representation Request feature for your
