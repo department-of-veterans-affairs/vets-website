@@ -14,6 +14,7 @@ export const createOriginalFillRecord = prescription => {
     frontImprint,
     prescriptionId,
     prescriptionName,
+    prescriptionSource,
     shape,
   } = prescription;
   return {
@@ -26,6 +27,7 @@ export const createOriginalFillRecord = prescription => {
     frontImprint,
     prescriptionId,
     prescriptionName,
+    prescriptionSource,
     shape,
   };
 };
