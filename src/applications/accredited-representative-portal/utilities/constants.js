@@ -61,7 +61,7 @@ export const SEARCH_PARAMS = {
 export const NAV_MOBILE_DROPDOWN = [
   {
     LABEL: 'Dashboard',
-    LINK: '/dashboard',
+    URL: '/dashboard',
     TEST_ID: 'user-nav-profile-link',
   },
 ];

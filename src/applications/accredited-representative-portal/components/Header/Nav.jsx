@@ -67,14 +67,7 @@ export const Nav = () => {
           >
             Help
           </Link>
-          {profile ? (
-            <DropdownContainer
-              firstName={profile.firstName}
-              lastName={profile.lastName}
-            />
-          ) : (
-            <SignInButton />
-          )}
+          {profile ? <DropdownContainer rep={profile} /> : <SignInButton />}
         </div>
       </div>
 

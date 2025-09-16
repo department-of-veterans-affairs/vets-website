@@ -61,14 +61,7 @@ export const Nav = () => {
               </a>
             </Toggler.Enabled>
           </Toggler>
-          {profile ? (
-            <DropdownContainer
-              firstName={profile.firstName}
-              lastName={profile.lastName}
-            />
-          ) : (
-            <SignInButton />
-          )}
+          {profile ? <DropdownContainer profile={profile} /> : <SignInButton />}
         </div>
       </div>
 

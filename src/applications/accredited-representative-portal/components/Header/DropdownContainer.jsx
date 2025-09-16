@@ -2,7 +2,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Dropdown from './Dropdown';
 
-const DropdownContainer = firstName => {
+const DropdownContainer = profile => {
+  const { rep } = profile;
   const [openDropdownId, setOpenDropdownId] = useState(null);
   const containerRef = useRef(null);
   useEffect(() => {
@@ -26,15 +27,14 @@ const DropdownContainer = firstName => {
         className="vads-u-display--flex vads-u-justify-content--center user-nav vads-u-align-items--center"
       >
         <Dropdown
-          id="menu1"
-          label="Menu 1"
+          id="profileMenu"
           dataTestId="user-nav-user-name"
-          isOpen={openDropdownId === 'menu1'}
+          isOpen={openDropdownId === 'profileMenu'}
           setOpenDropdownId={setOpenDropdownId}
           className="nav__btn nav__btn--user vads-u-color--base arp-profile-dropdown"
           srText="toggle menu"
-          firstName={firstName.firstName}
-          lastName={firstName.lastName}
+          firstName={rep.firstName}
+          lastName={rep.lastName}
           icon="account_circle"
           secondaryIcon="chevron_left"
           iconClassName="user-nav__chevron"
@@ -45,13 +45,12 @@ const DropdownContainer = firstName => {
       </div>
       <div className="vads-u-display--flex vads-u-justify-content--center user-nav vads-u-align-items--center mobile">
         <Dropdown
-          id="menu2"
-          label="Menu 2"
+          id="mobileDashboard"
           btnText="Menu"
           icon="menu"
           srText="toggle menu"
           dropdownClass="nav__full-width"
-          isOpen={openDropdownId === 'menu2'}
+          isOpen={openDropdownId === 'mobileDashboard'}
           className="nav__btn is--menu"
           closeIcon="close"
           setOpenDropdownId={setOpenDropdownId}
