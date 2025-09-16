@@ -128,7 +128,11 @@ const NotificationItem = ({ channelIds, itemName, description, itemId }) => {
   return (
     <>
       {userHasAtLeastOneChannelContactInfo ? (
-        <VaCheckboxGroup label={itemName} description={description}>
+        <VaCheckboxGroup
+          label={itemName}
+          description={description}
+          data-testid={`checkbox-group-${itemId}`}
+        >
           {filteredChannels.map((channelId, index) => (
             <NotificationChannel
               channelId={channelId}
