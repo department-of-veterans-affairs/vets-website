@@ -42,7 +42,6 @@ const setupSummary = ({
   other = true,
   limit,
   privacy = true,
-  toggle = true,
   goBack = () => {},
   goForward = () => {},
   setFormData = () => {},
@@ -61,7 +60,6 @@ const setupSummary = ({
           privacyAgreementAccepted: privacy,
           [LIMITED_CONSENT_RESPONSE]: limit?.length > 0,
           limitedConsent: limit,
-          showScNewForm: toggle,
         }}
         goBack={goBack}
         goForward={goForward}
@@ -88,7 +86,6 @@ describe('EvidenceSummary', () => {
             privacyAgreementAccepted: true,
             [LIMITED_CONSENT_RESPONSE]: true,
             limitedConsent: 'Limited consent details',
-            showScNewForm: true,
           }}
           goBack={() => {}}
           goForward={() => {}}
@@ -218,7 +215,6 @@ describe('EvidenceSummary', () => {
             privacyAgreementAccepted: true,
             [LIMITED_CONSENT_RESPONSE]: true,
             limitedConsent: 'Limited consent details',
-            showScNewForm: true,
           }}
           goBack={() => {}}
           goForward={() => {}}
