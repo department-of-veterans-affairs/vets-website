@@ -1,5 +1,6 @@
 import { RESPONSES } from '../question-data-map';
 import * as c from '../results-content/dr-screens/card-content';
+import * as p from '../results-content/non-dr-screens/dynamic-page-content';
 
 const { BOARD, HLR, INIT, NO, SC, YES } = RESPONSES;
 
@@ -77,7 +78,7 @@ const GOOD_FIT_BOARD_HEARING = {
 };
 
 // Refer to the README in this directory for an explanation of display conditions
-export const resultsDynamicContentDCs = Object.freeze({
+export const resultsDRDynamicContentDCs = Object.freeze({
   [c.TITLE_SC]: GOOD_FIT_SC,
   [c.TITLE_HLR]: GOOD_FIT_HLR,
   [c.TITLE_BOARD_DIRECT]: GOOD_FIT_BOARD_DIRECT,
@@ -108,7 +109,6 @@ export const resultsDynamicContentDCs = Object.freeze({
     GOOD_FIT: GOOD_FIT_BOARD_DIRECT,
     NOT_GOOD_FIT: {
       ONE_OF: {
-        Q_2_H_1_EXISTING_BOARD_APPEAL: YES,
         Q_2_H_2_NEW_EVIDENCE: YES,
         Q_2_H_2B_JUDGE_HEARING: YES,
       },
@@ -118,7 +118,6 @@ export const resultsDynamicContentDCs = Object.freeze({
     GOOD_FIT: GOOD_FIT_BOARD_EVIDENCE,
     NOT_GOOD_FIT: {
       ONE_OF: {
-        Q_2_H_1_EXISTING_BOARD_APPEAL: YES,
         Q_2_H_2_NEW_EVIDENCE: NO,
         Q_2_H_2B_JUDGE_HEARING: YES,
       },
@@ -128,7 +127,6 @@ export const resultsDynamicContentDCs = Object.freeze({
     GOOD_FIT: GOOD_FIT_BOARD_HEARING,
     NOT_GOOD_FIT: {
       ONE_OF: {
-        Q_2_H_1_EXISTING_BOARD_APPEAL: YES,
         Q_2_H_2A_JUDGE_HEARING: NO,
         Q_2_H_2B_JUDGE_HEARING: NO,
       },
@@ -176,9 +174,9 @@ export const resultsDynamicContentDCs = Object.freeze({
   [c.CARD_NOT_CONTESTED]: {
     Q_1_3_CLAIM_CONTESTED: NO,
   },
-  [c.CARD_SUBMITTED_BOARD_APPEAL]: {
-    Q_2_H_1_EXISTING_BOARD_APPEAL: YES,
-  },
+  // [c.CARD_SUBMITTED_BOARD_APPEAL]: {
+  //   Q_2_H_1_EXISTING_BOARD_APPEAL: YES,
+  // },
   [c.CARD_BOARD_ONLY_OPTION]: {
     Q_1_3_CLAIM_CONTESTED: YES,
   },
@@ -226,7 +224,19 @@ export const resultsDynamicContentDCs = Object.freeze({
       Q_2_H_2_NEW_EVIDENCE: YES,
     },
   },
-  [c.CARD_RECEIVED_BOARD_DECISION]: {
-    Q_2_H_1_EXISTING_BOARD_APPEAL: YES,
+  // [c.CARD_RECEIVED_BOARD_DECISION]: {
+  //   Q_2_H_1_EXISTING_BOARD_APPEAL: YES,
+  // },
+});
+
+export const resultsNonDRDynamicContentDCs = Object.freeze({
+  [p.NOT_SERVICE_CONNECTED]: {
+    Q_1_2A_1_SERVICE_CONNECTED: NO,
+  },
+  [p.NOT_LAW_POLICY_CHANGE]: {
+    Q_1_2B_LAW_POLICY_CHANGE: NO,
+  },
+  [p.CONDITION_NOT_WORSE]: {
+    Q_1_2A_CONDITION_WORSENED: NO,
   },
 });

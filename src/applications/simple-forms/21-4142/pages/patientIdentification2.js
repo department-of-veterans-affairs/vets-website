@@ -7,6 +7,7 @@ import {
   ssnSchema,
   vaFileNumberSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+
 import { patientIdentificationFields } from '../definitions/constants';
 import { getFullNameLabels } from '../helpers';
 

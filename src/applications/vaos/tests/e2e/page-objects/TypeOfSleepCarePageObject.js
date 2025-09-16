@@ -10,7 +10,7 @@ class TypeOfSleepCarePageObject extends PageObject {
 
   assertTypeOfSleepCareValidationErrors() {
     this.clickNextButton();
-    this.assertValidationError('You must provide a response');
+    this.assertValidationErrorShadow('You must provide a response');
 
     return this;
   }

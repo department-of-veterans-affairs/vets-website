@@ -24,7 +24,7 @@ describe('prefill transformer', () => {
     const transformed = prefillTransformer({}, profileInfo, {});
     expect(transformed.formData.veteranFullName.first).to.equal('John');
     expect(transformed.formData.veteranDateOfBirth).to.equal('10222000');
-    expect(transformed.formData.veteranSocialSecurityNumber.ssn).to.equal(
+    expect(transformed.formData.veteranSocialSecurityNumber).to.equal(
       '123123123',
     );
     expect(transformed.formData.veteranAddress.street).to.equal(

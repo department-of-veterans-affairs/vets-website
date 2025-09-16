@@ -37,6 +37,7 @@ import {
 import MockSchedulingConfigurationResponse, {
   MockServiceConfiguration,
 } from '../fixtures/MockSchedulingConfigurationResponse';
+import TypeOfMentalHealthPage from '../../new-appointment/components/TypeOfMentalHealthPage';
 
 /**
  * Creates a Redux store when the VAOS reducers loaded and the thunk middleware applied
@@ -113,18 +114,16 @@ export function getTestDate() {
  * @export
  * @async
  * @param {ReduxStore} store The Redux store to use to render the page
- * @param {string} value The string value of the radio button to click on
+ * @param {string|RegExp} label The string or regex to pass to *ByText query to get
+ *   a radio button to click on
  * @returns {Promise string} The url path that was routed to after clicking Continue
  */
-export async function setTypeOfFacility(store, value) {
+export async function setTypeOfFacility(store, label) {
   const screen = renderWithStoreAndRouter(<TypeOfFacilityPage />, { store });
   await screen.findByText(/Continue/i);
 
-  const radioSelector = screen.container.querySelector('va-radio');
-  const changeEvent = new CustomEvent('selected', {
-    detail: { value },
-  });
-  radioSelector.__events.vaValueChange(changeEvent);
+  const radioButton = await screen.findByLabelText(label);
+  fireEvent.click(radioButton);
   fireEvent.click(screen.getByText(/Continue/));
   await waitFor(() => expect(screen.history.push.called).to.be.true);
   await cleanup();
@@ -169,6 +168,34 @@ export async function setTypeOfCare(store, label) {
  */
 export async function setTypeOfEyeCare(store, label) {
   const screen = renderWithStoreAndRouter(<TypeOfEyeCarePage />, { store });
+  await screen.findByText(/Continue/i);
+
+  const radioSelector = screen.container.querySelector('va-radio');
+  const changeEvent = new CustomEvent('selected', {
+    detail: { value: label },
+  });
+  radioSelector.__events.vaValueChange(changeEvent);
+  fireEvent.click(screen.getByText(/Continue/));
+  await waitFor(() => expect(screen.history.push.called).to.be.true);
+  await cleanup();
+
+  return screen.history.push.firstCall.args[0];
+}
+
+/**
+ * Renders the type of mental health page and chooses the option indicated by the label param
+ *
+ * @export
+ * @async
+ * @param {ReduxStore} store The Redux store to use to render the page
+ * @param {string|RegExp} label The string or regex to pass to *ByText query to get
+ *   a radio button to click on
+ * @returns {Promise string} The url path that was routed to after clicking Continue
+ */
+export async function setTypeOfMentalHealth(store, label) {
+  const screen = renderWithStoreAndRouter(<TypeOfMentalHealthPage />, {
+    store,
+  });
   await screen.findByText(/Continue/i);
 
   const radioSelector = screen.container.querySelector('va-radio');
@@ -424,7 +451,7 @@ export async function setCommunityCareFlow({
   });
 
   await setTypeOfCare(store, new RegExp(typeOfCare.name));
-  await setTypeOfFacility(store, 'communityCare');
+  await setTypeOfFacility(store, 'Community care facility');
 
   return store;
 }
@@ -441,12 +468,7 @@ export async function setCommunityCareFlow({
 export async function setClosestCity(store, cityValue) {
   const screen = renderWithStoreAndRouter(<ClosestCityStatePage />, { store });
 
-  const radioSelector = screen.container.querySelector('va-radio');
-  const changeEvent = new CustomEvent('selected', {
-    detail: { value: cityValue },
-  });
-  radioSelector.__events.vaValueChange(changeEvent);
-
+  fireEvent.click(await screen.findByLabelText(cityValue));
   fireEvent.click(screen.getByText(/Continue/));
   await waitFor(() => expect(screen.history.push.called).to.be.true);
   await cleanup();
