@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { scrollAndFocus } from 'platform/utilities/scroll';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
 import {
   ConfirmationGoBackLink,
@@ -16,11 +15,6 @@ export const ConfirmationPage = props => {
   const submitDate = submission?.timestamp || '';
   const confirmationNumber =
     submission?.response?.attributes?.confirmationNumber || '';
-
-  useEffect(() => {
-    const h2 = document.querySelector('va-alert + h2');
-    scrollAndFocus(h2);
-  }, []);
 
   return (
     <ConfirmationView
