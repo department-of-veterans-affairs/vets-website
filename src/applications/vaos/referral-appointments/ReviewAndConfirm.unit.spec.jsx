@@ -170,9 +170,10 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     store.dispatch(vaosApi.util.upsertQueryData('getReferralById', 'UUID', {}));
     expect(
       Object.keys(store.getState().appointmentApi.queries).length,
-    ).to.equal(2);
-    await screen.findByTestId('continue-button');
-    expect(screen.getByTestId('continue-button')).to.exist;
+    ).to.equal(3);
+    await waitFor(() => {
+      expect(screen.getByTestId('continue-button')).to.exist;
+    });
     await userEvent.click(screen.getByTestId('continue-button'));
     await waitFor(() => {
       const mutation = Object.keys(
