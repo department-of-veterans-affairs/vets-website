@@ -22,7 +22,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        buildtype: [vagovdev, vagovstaging, vagovprod]
+        buildtype: [vagovdev, vagovstaging, vagovprod, vagovprod-instrumented]
 
     steps:
       - name: Checkout
@@ -61,6 +61,12 @@ jobs:
         with:
           ssm_parameter: /dsva-vagov/vets-website/dev/mapbox_token
           env_variable_name: MAPBOX_TOKEN
+
+      - name: Instrumentation build setup
+        if: ${{ matrix.buildtype == 'vagovprod-instrumented' }}
+        run: |
+          echo "BABEL_ENV=tests" >> $GITHUB_ENV
+          echo "BABEL_DISABLE_CACHE=1" >> $GITHUB_ENV
 
       - name: Build
         run: yarn build --verbose --buildtype=${{ matrix.buildtype }} ${ENTRY:+"--entry=$ENTRY"}
