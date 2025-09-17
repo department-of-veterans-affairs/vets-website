@@ -4,7 +4,7 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 
 import { recordEventOnce } from 'platform/monitoring/record-event';
 
-import { parseDateWithTemplate } from '../utils/dates';
+import { parseDate } from '../utils/dates';
 
 // EVSS returns dates like '2014-07-28T19:53:45.810+0000'
 const evssDateFormat = 'YYYY-MM-DDTHH:mm:ss.SSSZ';
@@ -13,8 +13,9 @@ const outputDateFormat = 'dddd[,] MMMM Do[,] Y [at] h[:]mm a';
 // Adding 1 hour to the displayDate output will display the time in the ET timezone as the returned time and date
 // is in the central timezone
 const displayDate = dateString => {
-  const date = parseDateWithTemplate(dateString, evssDateFormat);
-  return date ? date.add(1, 'hours').format(outputDateFormat) : '';
+  return parseDate(dateString, evssDateFormat)
+    .add(1, 'hours')
+    .format(outputDateFormat);
 };
 
 export const itfMessage = (headline, content, status) => (
