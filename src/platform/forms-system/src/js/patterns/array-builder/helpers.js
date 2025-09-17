@@ -480,3 +480,19 @@ export const useHeadingLevels = (userHeaderLevel, isReviewPage) => {
 
   return { headingLevel, headingStyle };
 };
+
+/**
+ * Resolves `maxItems` to a numeric value.
+ *
+ * If `maxItems` is a function, it is called with `formData` and the returned
+ * number is used. If it is a number, that value is returned as-is.
+ *
+ * @param {number | ((formData: object) => number)} maxItems
+ *   A static limit or a resolver that derives the limit from `formData`.
+ * @param {object} formData
+ *   Data passed to the resolver when `maxItems` is a function.
+ * @returns {number}
+ *   The resolved maximum item count.
+ */
+export const maxItemsFn = (maxItems, formData = {}) =>
+  typeof maxItems === 'function' ? maxItems(formData) : maxItems;
