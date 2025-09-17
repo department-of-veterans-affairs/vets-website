@@ -9,7 +9,7 @@ const { totalNetWorth } = fullSchemaPensions.properties;
 
 /** @type {PageSchema} */
 export default {
-  title: 'Income and assets',
+  title: 'Total net worth',
   path: 'financial/total-net-worth',
   uiSchema: {
     ...titleUI(

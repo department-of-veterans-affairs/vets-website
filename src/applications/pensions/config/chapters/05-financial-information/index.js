@@ -19,8 +19,8 @@ import additionalDocuments from './additionalDocuments';
 export default {
   title: 'Financial information',
   pages: {
-    additionalDocuments,
     totalNetWorth,
+    additionalDocuments,
     netWorthEstimation,
     transferredAssets,
     homeOwnership,
