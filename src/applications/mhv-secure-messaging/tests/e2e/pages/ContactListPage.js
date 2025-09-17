@@ -91,8 +91,11 @@ class ContactListPage {
     cy.get(`[data-testid="sm-route-navigation-guard-confirm-button"]`).click();
   };
 
-  closeSaveModal = () => {
-    cy.get(`.va-modal-close.first-focusable-child`)
+  closeSaveModal = (
+    title = 'Do you want to save your changes to your contact list?',
+  ) => {
+    cy.get(`va-modal[modal-title="${title}"]`)
+      .find(`button.va-modal-close`)
       .should(`be.focused`)
       .click();
   };

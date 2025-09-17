@@ -251,7 +251,9 @@ class PatientComposePage {
   };
 
   closeAlertModal = () => {
-    cy.get(`.first-focusable-child`).click({ force: true });
+    cy.get('va-modal[status="warning"]')
+      .find('button.va-modal-close')
+      .click({ force: true });
   };
 
   closeAttachmentErrorModal = () => {
