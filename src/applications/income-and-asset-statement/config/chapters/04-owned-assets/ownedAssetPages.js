@@ -42,6 +42,12 @@ export const options = {
     !isDefined(item.ownedPortionValue) ||
     !isDefined(item.assetType), // include all required fields here
   text: {
+    summaryTitle: props => {
+      if (showUpdatedContent()) {
+        return 'Review property and business assets';
+      }
+      return `Review your ${props.nounPlural}`;
+    },
     summaryDescription: SupplementaryFormsAlert,
     getItemName: (item, index, formData) => {
       if (
@@ -74,7 +80,12 @@ export const options = {
           </li>
         </ul>
       ),
-    reviewAddButtonText: 'Add another owned asset',
+    reviewAddButtonText: props => {
+      if (showUpdatedContent()) {
+        return 'Add more property or business assets';
+      }
+      return `Add another ${props.nounSingular}`;
+    },
     alertItemUpdated: 'Your owned asset information has been updated',
     alertItemDeleted: 'Your owned asset information has been deleted',
     cancelAddTitle: 'Cancel adding this owned asset',
@@ -111,7 +122,9 @@ const summaryPage = {
         },
       },
       {
-        title: 'Do you have more owned assets to report?',
+        title: showUpdatedContent()
+          ? 'Do you have more income from property or business assets to report?'
+          : 'Do you have more owned assets to report?',
         labels: {
           Y: 'Yes',
           N: 'No',
