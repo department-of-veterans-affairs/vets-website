@@ -22,7 +22,6 @@ describe('Medical Records View Condition Details', () => {
 
     // Click on the first Condition to view details
     Conditions.clickConditionDetailsLink(0);
-    cy.wait('@conditions-list');
 
     // Verify condition details are displayed correctly (last item in fixture has latest date)
     const lastIndex = conditionsData.data.length - 1;
