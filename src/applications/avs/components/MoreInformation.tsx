@@ -1,4 +1,5 @@
 import React from 'react';
+import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import ItemsBlock from './ItemsBlock';
 import ParagraphBlock from './ParagraphBlock';
 import { normalizePhoneNumber, numberIsClickable } from '../utils/phone';
@@ -20,9 +21,9 @@ const MoreInformation: React.FC<MoreInformationProps> = ({ avs }) => {
           Hours of operation: {service.hours}
           <br />
           Phone:{' '}
-          <va-telephone
+          <VaTelephone
             contact={servicePhone}
-            not-clickable={phoneNotClickable}
+            notClickable={phoneNotClickable}
           />
           <br />
           Comment: {service.comment}

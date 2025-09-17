@@ -4,6 +4,7 @@ import { parse } from 'date-fns';
 
 // @ts-ignore - No type definitions available for this module
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   formatDateLong,
 } from '@department-of-veterans-affairs/platform-utilities/exports';
@@ -380,11 +381,11 @@ const renderVaMedication = (medication: Medication): React.ReactNode => {
         {!!medication.facilityPhone && (
           <>
             Main phone: [
-            <va-telephone
+            <VaTelephone
               contact={facilityPhone}
-              not-clickable={phoneNotClickable}
+              notClickable={phoneNotClickable}
             />
-            ] (<va-telephone contact={CONTACTS['711']} tty />)<br />
+            ] (<VaTelephone contact={CONTACTS['711']} tty />)<br />
           </>
         )}
         {renderFieldWithBreak(medication.orderingProvider, 'Ordering Provider')}
