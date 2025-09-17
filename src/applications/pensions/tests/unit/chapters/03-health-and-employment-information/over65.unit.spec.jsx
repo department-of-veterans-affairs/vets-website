@@ -5,12 +5,12 @@ import {
   testSubmitsWithoutErrors,
 } from '../pageTests.spec';
 import formConfig from '../../../../config/form';
-import age from '../../../../config/chapters/03-health-and-employment-information/age';
+import over65 from '../../../../config/chapters/03-health-and-employment-information/over65';
 
-const { schema, uiSchema } = age;
+const { schema, uiSchema } = over65;
 
 describe('pension age page', () => {
-  const pageTitle = 'Age';
+  const pageTitle = 'Your age';
   const expectedNumberOfFields = 1;
   testNumberOfWebComponentFields(
     formConfig,
@@ -24,7 +24,7 @@ describe('pension age page', () => {
     formConfig,
     schema,
     uiSchema,
-    [`va-radio[label="Are you 65 years old or older?"]`],
+    [`va-radio[label="Are you at least 65 years old?"]`],
     pageTitle,
   );
 
