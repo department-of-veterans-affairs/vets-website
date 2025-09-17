@@ -61,15 +61,23 @@ const VaPrescription = prescription => {
     () => {
       const userLanded = async () => {
         if (prescription) {
-          try {
-            await landMedicationDetailsAal(prescription);
-          } catch (e) {
-            if (window.DD_RUM) {
-              const error = new Error(
-                `Error submitting AAL on Medication Details landing. ${e
-                  ?.errors?.[0] && JSON.stringify(e?.errors?.[0])}`,
-              );
-              window.DD_RUM.addError(error);
+          // Check if AAL has already been called for this prescription in this session
+          const sessionKey = `aal_called_${prescription.prescriptionId}`;
+          const aalAlreadyCalled = sessionStorage.getItem(sessionKey);
+
+          if (!aalAlreadyCalled) {
+            try {
+              await landMedicationDetailsAal(prescription);
+              // Mark that AAL has been called for this prescription in this session
+              sessionStorage.setItem(sessionKey, 'true');
+            } catch (e) {
+              if (window.DD_RUM) {
+                const error = new Error(
+                  `Error submitting AAL on Medication Details landing. ${e
+                    ?.errors?.[0] && JSON.stringify(e?.errors?.[0])}`,
+                );
+                window.DD_RUM.addError(error);
+              }
             }
           }
         }
@@ -77,7 +85,7 @@ const VaPrescription = prescription => {
 
       userLanded();
     },
-    [prescription],
+    [prescription?.prescriptionId],
   );
 
   const determineStatus = () => {
