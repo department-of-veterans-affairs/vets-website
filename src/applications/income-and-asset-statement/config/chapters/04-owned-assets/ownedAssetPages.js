@@ -15,8 +15,8 @@ import {
   radioSchema,
   yesNoUI,
   yesNoSchema,
-  fileInputMultipleUI,
-  fileInputMultipleSchema,
+  fileInputUI,
+  fileInputSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import {
@@ -50,8 +50,7 @@ export const options = {
     (showUpdatedContent() &&
       (item?.assetType === 'FARM' || item?.assetType === 'BUSINESS') &&
       item?.['view:addFormQuestion'] === true &&
-      (!isDefined(item?.uploadedDocuments) ||
-        item.uploadedDocuments.length === 0)), // include all required fields here
+      (!isDefined(item?.uploadedDocuments) || !item.uploadedDocuments.name)), // include all required fields here
   text: {
     summaryDescription: form => {
       const shouldShowDeclinedAlert =
@@ -62,7 +61,7 @@ export const options = {
           const declinedUpload = item?.['view:addFormQuestion'] === false;
           const saidYesButEmptyArray =
             item?.['view:addFormQuestion'] === true &&
-            (!item?.uploadedDocuments || item.uploadedDocuments.length === 0);
+            (!item?.uploadedDocuments || !item.uploadedDocuments.name);
 
           return isFarmOrBusiness && (declinedUpload || saidYesButEmptyArray);
         });
@@ -111,16 +110,16 @@ export const options = {
         (item?.assetType === 'FARM' || item?.assetType === 'BUSINESS') &&
         item?.['view:addFormQuestion'] === true &&
         isDefined(item?.uploadedDocuments) &&
-        item.uploadedDocuments.length > 0
-          ? item.uploadedDocuments.map((file, index) => (
-              <li key={`upload-${index}`}>
-                Form uploaded:{' '}
-                <span className="vads-u-font-weight--bold">{file.name}</span>
-              </li>
-            ))
-          : [];
+        item.uploadedDocuments.name ? (
+          <li key="upload">
+            Form uploaded:{' '}
+            <span className="vads-u-font-weight--bold">
+              {item.uploadedDocuments.name}
+            </span>
+          </li>
+        ) : null;
 
-      const content = [...mvpContent, ...updatedContent].filter(Boolean);
+      const content = [...mvpContent, updatedContent].filter(Boolean); // Removed spread
 
       return (
         isDefined(item?.grossMonthlyIncome) &&
@@ -327,14 +326,14 @@ const ownedAssetDocumentUpload = {
       ),
     },
     uploadedDocuments: {
-      ...fileInputMultipleUI({
+      ...fileInputUI({
         title: 'Upload supporting form',
         fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
         accept: '.pdf,.jpeg,.png',
         required: true,
         errorMessages: { required: 'Upload a supporting document' },
         maxFileSize: MAX_FILE_SIZE_BYTES,
-        // disallowEncryptedPdfs: true, ???
+        disallowEncryptedPdfs: true,
         formNumber: '21P-0969',
         skipUpload: environment.isLocalhost(),
         // server response triggers required validation.
@@ -343,7 +342,7 @@ const ownedAssetDocumentUpload = {
       'ui:validations': [
         // Re-runs validation onBlur to ensure at least one upload
         (errors, fieldData) => {
-          if (!fieldData || fieldData.length === 0) {
+          if (!fieldData || !fieldData.name) {
             errors.addError('Upload a supporting document');
           }
         },
@@ -358,7 +357,7 @@ const ownedAssetDocumentUpload = {
         type: 'object',
         properties: {},
       },
-      uploadedDocuments: fileInputMultipleSchema(),
+      uploadedDocuments: fileInputSchema(),
     },
   },
 };
