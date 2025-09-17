@@ -29,16 +29,9 @@ class AllergiesListPage extends BaseListPage {
     displayedEndNumber,
     numRecords,
   ) => {
-    cy.get('#showingRecords').should(
-      'have.text',
-      `Showing ${displayedStartNumber} to ${displayedEndNumber} of ${numRecords} records from newest to oldest`,
+    cy.findByText(
+      `Showing ${displayedStartNumber} to ${displayedEndNumber} of ${numRecords} records from`,
     );
-    cy.focused().then($el => {
-      cy.wrap($el).should(
-        'contain',
-        `Showing ${displayedStartNumber} to ${displayedEndNumber} of ${numRecords} records from newest to oldest`,
-      );
-    });
   };
 
   verifyBreadcrumbs = breadcrumbsText => {

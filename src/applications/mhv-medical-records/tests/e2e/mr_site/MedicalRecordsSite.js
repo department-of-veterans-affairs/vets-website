@@ -3,8 +3,6 @@ import vamc from '../fixtures/facilities/vamc-ehr.json';
 import sessionStatus from '../fixtures/session-status.json';
 import createAal from '../fixtures/create-aal.json';
 import MedicalRecordsLandingPage from '../pages/MedicalRecordsLandingPage';
-// import mockNonMRuser from '../fixtures/non_mr_user.json';
-// import mockNonMhvUser from '../fixtures/user-mhv-account-state-none.json';
 
 class MedicalRecordsSite {
   login = (userFixture = mockUser, useDefaultFeatureToggles = true) => {
@@ -25,6 +23,7 @@ class MedicalRecordsSite {
       statusCode: 200,
       body: createAal,
     }).as('aal');
+    cy.intercept('POST', '/v0/datadog_action', {}).as('datadogAction');
     MedicalRecordsLandingPage.uumIntercept();
     cy.login(userFixture);
   };
