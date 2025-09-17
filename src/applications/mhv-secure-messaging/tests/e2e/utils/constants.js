@@ -93,7 +93,7 @@ export const Locators = {
   ACCORDIONS: '[data-testid="faq-accordion-item"]',
   ACCORDION_ITEM_OPEN: 'va-accordion-item[open]:not([open="false"])',
   MESSAGE_THREAD_META: '.message-thread-meta',
-  SPINNER: `[data-testid="loading-indicator"]`,
+  SPINNER: 'va-loading-indicator',
   BACK_BREADCRUMB_DATA_TEST_ID: 'sm-breadcrumbs-back',
   FAQ_ACC_ITEM: '[data-testid="faq-accordion-item"]',
   INBOX_FOOTER: `[data-testid="inbox-footer"]`,
@@ -107,7 +107,8 @@ export const Locators = {
     'recent-care-teams-continue-button',
   FOLDERS: {
     FOLDER_NAME: '[label="Folder name"]',
-    FOLDER_REMOVE: '[text="Yes, remove this folder"]',
+    FOLDER_REMOVE: 'va-button[text="Yes, remove this folder"]',
+    FOLDER_REMOVE_DATA_TEST_ID: 'confirm-remove-folder',
     FOLDER_HEADER: '[data-testid="folder-header"]',
     INBOX: '[data-testid="inbox-sidebar"] > a',
     DRAFTS: '[data-testid="drafts-sidebar"]',
