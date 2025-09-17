@@ -13,6 +13,5 @@
 // Toxic Exposure Data Transformations
 export {
   purgeToxicExposureData,
-  getAllToxicExposureKeys,
   EXPOSURE_TYPE_MAPPING,
 } from './purge-toxic-exposure-data';
