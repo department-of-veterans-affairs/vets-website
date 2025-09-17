@@ -23,6 +23,10 @@ on:
         description: 'Slack channel ID to send notifications when dry_run=false'
         required: false
         default: ''
+      skip_disable:
+        description: 'Skip disabling content-build (safe for live Slack test)'
+        required: false
+        default: 'true'
 
 jobs:
   holiday-checker:
@@ -60,7 +64,7 @@ jobs:
           echo "DRY RUN: Would disable content-build daily deploy workflow for holiday freeze."
 
       - name: Disable content-build daily deploy (live)
-        if: ${{ inputs.dry_run != 'true' }}
+        if: ${{ inputs.dry_run != 'true' && inputs.skip_disable != 'true' }}
         run: |
           curl -X PATCH -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             -H "Accept: application/vnd.github.v3+json" \
