@@ -7,7 +7,8 @@ import { reduceAllowedProviders, getQueryParams } from '../utilities';
 import LoginButton from './LoginButton';
 
 const renderRetiredNotice = (id, label) => (
-  <div>
+  <>
+    <h2>Other sign-in option</h2>
     <h3 id={id} className="vads-u-margin-top--3">
       {label}
       <span className="vads-u-display--block vads-u-font-size--md vads-u-font-family--sans">
@@ -18,7 +19,7 @@ const renderRetiredNotice = (id, label) => (
       text="Learn how to access your benefits and set up your new account"
       href="/resources/what-to-do-if-you-havent-switched-to-logingov-or-idme-yet"
     />
-  </div>
+  </>
 );
 
 export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
@@ -65,10 +66,9 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
 
         {(dslogonEnabled || dslogonRetired) && (
           <>
-            <h2>Other sign-in options</h2>
-
             {dslogonEnabled && (
               <>
+                <h2>Other sign-in options</h2>
                 <h3
                   id="dslogonH3"
                   className="vads-u-margin-bottom--0 vads-u-margin-top--3"
