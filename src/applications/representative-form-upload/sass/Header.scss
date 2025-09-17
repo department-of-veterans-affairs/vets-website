@@ -68,16 +68,13 @@
       &.logged-in {
         @media screen and (max-width: 768px) {
           transform: translateY(-6px);
+          display: none;
         }
         @media screen and (max-width: 425px) {
           padding-right: 0px;
           margin-right: 0px;
         }
       }
-    }
-
-    .arp-profile-dropdown {
-      transform: translateY(3px);
     }
   }
 }
