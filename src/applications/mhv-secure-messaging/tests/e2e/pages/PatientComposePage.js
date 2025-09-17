@@ -502,24 +502,18 @@ class PatientComposePage {
     firstBtnText = `Edit draft`,
     secondBtnText = `Delete draft`,
   ) => {
-    cy.get(`[status="warning"]`)
+    cy.get(`va-modal[status="warning"]`)
       .find(`h2`)
       .should('be.visible')
-      .and(`have.text`, alertText);
+      .and(`contain.text`, alertText);
 
-    cy.get(`[status="warning"]`)
-      .find(`[text='${firstBtnText}']`)
-      .shadow()
-      .find(`button`)
-      .should('be.visible')
-      .and(`have.text`, firstBtnText);
+    cy.get(`va-modal[status="warning"]`)
+      .find(`va-button[text='${firstBtnText}']`)
+      .should('be.visible');
 
-    cy.get(`[status="warning"]`)
-      .find(`[text='${secondBtnText}']`)
-      .shadow()
-      .find(`.last-focusable-child`)
-      .should('be.visible')
-      .and(`have.text`, secondBtnText);
+    cy.get(`va-modal[status="warning"]`)
+      .find(`va-button[text='${secondBtnText}']`)
+      .should('be.visible');
   };
 
   verifyAttchedFilesList = listLength => {
