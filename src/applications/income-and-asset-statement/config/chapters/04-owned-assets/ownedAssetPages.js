@@ -330,19 +330,23 @@ const ownedAssetDocumentUpload = {
         title: 'Upload supporting form',
         fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
         accept: '.pdf,.jpeg,.png',
-        required: true,
+        required: () => true,
         errorMessages: { required: 'Upload a supporting document' },
         maxFileSize: MAX_FILE_SIZE_BYTES,
-        disallowEncryptedPdfs: true,
         formNumber: '21P-0969',
         skipUpload: environment.isLocalhost(),
         // server response triggers required validation.
         // skipUpload needed to bypass in local environment
       }),
       'ui:validations': [
-        // Re-runs validation onBlur to ensure at least one upload
         (errors, fieldData) => {
-          if (!fieldData || !fieldData.name) {
+          if (fieldData?.isEncrypted && !fieldData?.confirmationCode) {
+            return;
+          }
+
+          const hasValidFile = fieldData?.name && fieldData?.confirmationCode;
+
+          if (!hasValidFile) {
             errors.addError('Upload a supporting document');
           }
         },
