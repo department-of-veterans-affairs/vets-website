@@ -826,6 +826,7 @@ jobs:
       - name: Start server
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         run: |
+          export BABEL_ENV=test
           echo "==> NODE_ENV=$NODE_ENV"
           echo "==> BABEL_ENV=$BABEL_ENV"
           BABEL_ENV=test node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
