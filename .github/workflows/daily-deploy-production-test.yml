@@ -99,6 +99,7 @@ jobs:
     steps:
       - name: Echo Slack payload (freeze ended)
         if: ${{ inputs.dry_run == 'true' }}
-        run: echo "DRY RUN: Would send Slack 'Code Freeze Ended' notification."
+        run: |
+          echo 'DRY RUN: Would send Slack "Code Freeze Ended" notification.'
 
 
