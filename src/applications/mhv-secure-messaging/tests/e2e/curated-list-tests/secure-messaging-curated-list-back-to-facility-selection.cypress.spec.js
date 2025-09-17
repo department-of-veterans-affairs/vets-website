@@ -12,7 +12,7 @@ describe('SM CURATED LIST BACK TO SELECTION', () => {
   beforeEach(() => {
     const updatedFeatureToggles = GeneralFunctionsPage.updateFeatureToggles([
       {
-        name: 'mhv_secure_messaging_cerner_pilot',
+        name: 'mhv_secure_messaging_curated_list_flow',
         value: true,
       },
     ]);

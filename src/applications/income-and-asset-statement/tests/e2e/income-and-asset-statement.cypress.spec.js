@@ -29,6 +29,8 @@ let addedUnreportedAssetItem = false;
 let addedDiscontinuedIncomeItem = false;
 let addedIncomeReceiptWaiverItem = false;
 
+Cypress.config('waitForAnimations', true);
+
 const testConfig = createTestConfig(
   {
     useWebComponentFields: true,
@@ -455,6 +457,20 @@ const testConfig = createTestConfig(
       },
     },
     setupPerTest: () => {
+      cy.intercept('GET', '/v0/feature_toggles?*', {
+        data: {
+          features: [
+            {
+              name: 'income_and_assets_form_enabled',
+              value: true,
+            },
+            {
+              name: 'income_and_assets_browser_monitoring_enabled',
+              value: true,
+            },
+          ],
+        },
+      });
       cy.intercept('GET', '/v0/user', mockUser);
       cy.intercept('POST', `income_and_assets/v0/${formConfig.submitUrl}`, {
         data: {
@@ -476,11 +492,7 @@ const testConfig = createTestConfig(
 
       cy.login(mockUser);
     },
-    // Skip tests in CI until the form is released.
-    // Remove this setting when the form has a content page in production.
-    skip: Cypress.env('CI'),
   },
-  // skip: [],
   manifest,
   formConfig,
 );

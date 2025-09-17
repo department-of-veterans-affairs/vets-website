@@ -35,7 +35,7 @@ const SubmissionsPage = title => {
     [title],
   );
   const submissions = useLoaderData().data || [];
-  const meta = useLoaderData().meta.page || {};
+  const meta = useLoaderData().meta || {};
   const searchStatus = useSearchParams()[0].get('status');
   const navigation = useNavigation();
   return (
@@ -117,8 +117,7 @@ const SubmissionsPage = title => {
 
           <h2 className="submissions__search-header">Recent Submissions</h2>
           <p className="submissions-subtext__copy--secondary vads-u-font-family--serif">
-            This list shows only your submissions sent through this portal from
-            the past 60 days.
+            This list shows only your submissions sent through this portal.
           </p>
           <SortForm
             options={[

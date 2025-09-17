@@ -12,12 +12,8 @@ import {
   VaBreadcrumbs,
   VaAlert,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
+import { focusElement } from 'platform/utilities/ui';
 import api from '../utilities/api';
-import { waitForTogglesToLoad } from '../utilities/waitForTogglesToLoad';
-import store from '../utilities/store';
 import {
   SEARCH_BC_LABEL,
   poaSearchBC,
@@ -73,12 +69,18 @@ const POARequestSearchPage = title => {
   const [searchParams] = useSearchParams();
   useEffect(
     () => {
+      focusElement('h1');
       document.title = title.title;
     },
     [title],
   );
-  const loaderData = useLoaderData();
-  const { data: poaRequests, meta = {}, showPOA403Alert } = loaderData;
+  const loaderData = useLoaderData() || {};
+  const poaRequests = loaderData.data || [];
+  const meta =
+    loaderData.meta && loaderData.meta.page
+      ? loaderData.meta
+      : { page: { total: 0, number: 1, totalPages: 1 } };
+  const { showPOA403Alert } = loaderData;
   const searchStatus = searchParams.get('status');
   const selectedIndividual = searchParams.get('as_selected_individual');
   const navigation = useNavigation();
@@ -240,8 +242,12 @@ const POARequestSearchPage = title => {
               }
             })()}
 
-            <POARequestSearchPageResults poaRequests={poaRequests} />
-            <Pagination meta={meta} defaults={PENDING_SORT_DEFAULTS} />
+            {meta.page.total > 0 && (
+              <>
+                <POARequestSearchPageResults poaRequests={poaRequests} />
+                <Pagination meta={meta} defaults={PENDING_SORT_DEFAULTS} />
+              </>
+            )}
           </div>
         )}
       </div>
@@ -254,14 +260,6 @@ POARequestSearchPage.propTypes = {
 };
 
 POARequestSearchPage.loader = async ({ request }) => {
-  // Hydrate feature toggles and check flag directly
-  await connectFeatureToggle(store.dispatch);
-  await waitForTogglesToLoad();
-  const state = store.getState();
-  const enabled = !!toggleValues(state)[
-    FEATURE_FLAG_NAMES.accreditedRepresentativePortalDashboardLink
-  ];
-
   const { searchParams } = new URL(request.url);
   const status = searchParams.get(SEARCH_PARAMS.STATUS);
   const sort = searchParams.get(SEARCH_PARAMS.SORTORDER);
@@ -279,6 +277,7 @@ POARequestSearchPage.loader = async ({ request }) => {
     searchParams.set(SEARCH_PARAMS.SORTORDER, SORT_BY.DESC);
     searchParams.set(SEARCH_PARAMS.SORTBY, SORT_BY.CREATED);
     searchParams.set(SEARCH_PARAMS.SIZE, PENDING_SORT_DEFAULTS.SIZE);
+    searchParams.set(SEARCH_PARAMS.NUMBER, PENDING_SORT_DEFAULTS.NUMBER);
     searchParams.set(
       SEARCH_PARAMS.SELECTED_INDIVIDUAL,
       PENDING_SORT_DEFAULTS.SELECTED_INDIVIDUAL,
@@ -295,7 +294,7 @@ POARequestSearchPage.loader = async ({ request }) => {
       },
     );
   } catch (err) {
-    if (err instanceof Response && err.status === 403 && enabled) {
+    if (err instanceof Response && err.status === 403) {
       // Try authorization endpoint
       try {
         await api.checkAuthorized({

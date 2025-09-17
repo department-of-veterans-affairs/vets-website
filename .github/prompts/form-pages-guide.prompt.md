@@ -326,16 +326,134 @@ graduationDate: currentOrPastDateUI({
   }
 }) + currentOrPastDateSchema,
 
-// fileInputUI with upload constraints
-documents: fileInputUI({
-  title: 'Upload supporting documents',
-  hint: 'Upload PDF, JPG, or PNG files (5MB max each)',
-  accept: '.pdf,.jpg,.jpeg,.png',
-  maxSize: 5242880,                       // 5MB in bytes
-  maxFiles: 10,
-  buttonText: 'Choose files to upload',
-  additionalErrorMessage: 'Please check file size and format'
+// A single file upload
+// fileInputUI - MINIMAL use case for testing
+yourDocument: fileInputUI({
+  title: 'Upload your document',
+  skipUpload: true // use fileUploadUrl to integrate with backend
+  required: true,
 }) + fileInputSchema(),
+
+// fileInputUI - STANDARD use case - with placeholder backend
+yourDocument: fileInputUI({
+  title: 'Upload evidence',
+  required: true,
+  skipUpload: true // use fileUploadUrl to integrate with backend
+  // fileUploadUrl: `${
+  //   environment.API_URL
+  // }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
+  accept: '.png,.pdf,.txt',
+  hint: 'Upload a file that is less than 5MB',
+  headerSize: '3',
+  formNumber: '31-4159',
+  maxFileSize: 1024 * 1024 * 5,
+  minFileSize: 1,
+}) + fileInputSchema(),
+
+// fileInputUI - WITH EXTRA PROPERTIES use case - with placeholder backend
+yourDocument: fileInputUI({
+  title: 'Upload evidence',
+  required: true,
+  skipUpload: true // use fileUploadUrl to integrate with backend
+  // fileUploadUrl: `${
+  //   environment.API_URL
+  // }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
+  accept: '.png,.pdf,.txt',
+  hint: 'Upload a file that is less than 5MB',
+  headerSize: '3',
+  formNumber: '31-4159',
+  maxFileSize: 1024 * 1024 * 5,
+  minFileSize: 1,
+  disallowEncryptedPdfs: true,
+  errorMessages: {
+    additionalInput: 'Choose a document status',
+  },
+  additionalInputRequired: true,
+  additionalInput: (error, data) => {
+    const { documentStatus } = data;
+    return (
+      <VaSelect
+        required
+        error={error}
+        value={documentStatus}
+        label="Document status"
+      >
+        <option value="public">Public</option>
+        <option value="private">Private</option>
+      </VaSelect>
+    );
+  },
+  handleAdditionalInput: e => {
+    const { value } = e.detail;
+    if (value === '') return {};
+    return { documentStatus: e.detail.value };
+  },
+}) + fileInputSchema(),
+
+// A multiple file upload
+// fileInputMultipleUI - MINIMAL use case for testing
+financialHardshipDocuments: fileInputMultipleUI({
+  title: 'Upload additional evidence',
+  skipUpload: true // use fileUploadUrl to integrate with backend
+  required: true,
+}) + fileInputMultipleSchema(),
+
+// fileInputMultipleUI - STANDARD use case - with placeholder backend
+financialHardshipDocuments: fileInputMultipleUI({
+  title: 'Upload additional evidence',
+  required: true,
+  skipUpload: true // use fileUploadUrl to integrate with backend
+  // fileUploadUrl: `${
+  //   environment.API_URL
+  // }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
+  accept: '.png,.pdf,.txt',
+  hint: 'Upload a file that is between 1KB and 5MB',
+  headerSize: '3',
+  formNumber: '31-4159',
+  // disallowEncryptedPdfs: true,
+  maxFileSize: 1024 * 1024 * 5,
+  minFileSize: 1,
+}) + fileInputMultipleSchema(),
+
+// fileInputMultipleUI - WITH EXTRA PROPERTIES use case - with placeholder backend
+financialHardshipDocuments: fileInputMultipleUI({
+  title: 'Upload additional evidence',
+  required: true,
+  skipUpload: true // use fileUploadUrl to integrate with backend
+  // fileUploadUrl: `${
+  //   environment.API_URL
+  // }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
+  accept: '.png,.pdf,.txt',
+  hint: 'Upload a file that is between 1KB and 5MB',
+  headerSize: '3',
+  formNumber: '31-4159',
+  // disallowEncryptedPdfs: true,
+  maxFileSize: 1024 * 1024 * 5,
+  minFileSize: 1,
+  errorMessages: {
+    additionalInput: 'Choose a document status',
+  },
+  additionalInputRequired: true,
+  additionalInput: () => {
+    return (
+      <VaSelect required label="Document status">
+        <option value="public">Public</option>
+        <option value="private">Private</option>
+      </VaSelect>
+    );
+  },
+  additionalInputUpdate: (instance, error, data) => {
+    instance.setAttribute('error', error);
+    if (data) {
+      instance.setAttribute('value', data.documentStatus);
+    }
+  },
+  handleAdditionalInput: e => {
+    const { value } = e.detail;
+    if (value === '') return null;
+    return { documentStatus: e.detail.value };
+  },
+}) + fileInputMultipleSchema(),
 
 // checkboxGroupUI with various configurations - CORRECTED
 services: checkboxGroupUI({
@@ -500,6 +618,33 @@ radioUI({
 }
 
 ⚠️ IMPORTANT: Date patterns do NOT support minDate/maxDate - use validation functions instead
+
+📅 DATE RANGE PATTERNS (currentOrPastDateRangeUI):
+// Simple usage with string labels
+dateRange: currentOrPastDateRangeUI(
+  'Start date',                           // From field label
+  'End date',                             // To field label
+  'End date must be after start date'     // Optional custom error message
+),
+
+// Advanced usage with options objects
+dateRange: currentOrPastDateRangeUI(
+  {
+    title: 'Employment start date',       // From field label
+    hint: 'Enter the date you started',   // From field hint
+  },
+  {
+    title: 'Employment end date',         // To field label
+    hint: 'Enter the date you ended',     // To field hint
+  },
+  'End date must be after start date'     // Optional custom error message
+),
+
+// Usage patterns:
+// currentOrPastDateRangeUI(fromOptions, toOptions, errorMessage)
+// - fromOptions: string OR { title, hint, ...otherUIOptions }
+// - toOptions: string OR { title, hint, ...otherUIOptions }
+// - errorMessage: string (optional custom validation message)
 
 📁 FILE UPLOAD PATTERNS:
 {
@@ -792,7 +937,7 @@ Need date field?
 ├─ Past/current date? → currentOrPastDateUI + currentOrPastDateSchema
 ├─ Month/year only? → currentOrPastMonthYearDateUI + currentOrPastMonthYearDateSchema
 ├─ Date range?
-│  ├─ Full dates? → currentOrPastDateRangeUI + currentOrPastDateRangeSchema
+│  ├─ Full dates? → currentOrPastDateRangeUI('Start date', 'End date') + currentOrPastDateRangeSchema
 │  └─ Month/year range? → currentOrPastMonthYearDateRangeUI + currentOrPastMonthYearDateRangeSchema
 └─ Need month as digits? → currentOrPastDateDigitsUI + currentOrPastDateDigitsSchema
 ```
@@ -1219,12 +1364,36 @@ export default {
 export default {
   uiSchema: {
     ...titleUI('Employment dates'),
-    employmentDates: currentOrPastDateRangeUI(),
+    // Simple usage with string labels
+    employmentDates: currentOrPastDateRangeUI(
+      'Start date of employment',
+      'End date of employment',
+    ),
+    // With custom error message
+    projectDates: currentOrPastDateRangeUI(
+      'Project start date',
+      'Project end date',
+      'End date must be after start date',
+    ),
+    // Advanced usage with options objects
+    serviceDates: currentOrPastDateRangeUI(
+      {
+        title: 'Service start date',
+        hint: 'Enter the date you began service',
+      },
+      {
+        title: 'Service end date',
+        hint: 'Enter the date you ended service',
+      },
+      'Service end date must be after start date',
+    ),
   },
   schema: {
     type: 'object',
     properties: {
       employmentDates: currentOrPastDateRangeSchema,
+      projectDates: currentOrPastDateRangeSchema,
+      serviceDates: currentOrPastDateRangeSchema,
     },
     required: ['employmentDates'],
   },
@@ -1252,17 +1421,31 @@ export default {
 
 ### Example 13: File Upload
 **When you see:** "Upload documents" / "Attach files"
-**Use:** `fileInputUI` + `fileInputSchema`
+**Use:** `fileInputMultipleUI` + `fileInputMultipleSchema`
 ```javascript
 export default {
   uiSchema: {
     ...titleUI('Supporting documents'),
-    documents: fileInputUI('Upload your documents'),
+    documents: fileInputMultipleUI({
+      title: 'Upload additional evidence',
+      required: true,
+      skipUpload: true // use fileUploadUrl to integrate with backend
+      // fileUploadUrl: `${
+      //   environment.API_URL
+      // }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
+      accept: '.png,.pdf,.txt',
+      hint: 'Upload a file that is between 1KB and 5MB',
+      headerSize: '3',
+      formNumber: '31-4159',
+      // disallowEncryptedPdfs: true,
+      maxFileSize: 1024 * 1024 * 5,
+      minFileSize: 1,
+    }) + fileInputMultipleSchema(),
   },
   schema: {
     type: 'object',
     properties: {
-      documents: fileInputSchema,
+      documents: fileInputMultipleSchema(),
     },
   },
 };
@@ -1513,8 +1696,42 @@ const formConfig = {
 ## Testing Requirements
 
 ### Unit Test Template
-Every page needs a unit test in `tests/unit/{pageName}.unit.spec.js`:
+Every page needs a unit test in `tests/unit/pages/{pageName}.unit.spec.jsx`:
 
+```javascript
+import {
+  testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfWebComponentFields,
+} from 'platform/forms-system/test/pageTestHelpers.spec';
+import formConfig from '../../../config/form';
+
+const {
+  schema,
+  uiSchema,
+} = formConfig.chapters.chapterName.pages.pageName;
+
+const pageTitle = 'pageName';
+
+const numberOfWebComponentFields = 1; // Count actual fields in your UI patterns
+testNumberOfWebComponentFields(
+  formConfig,
+  schema,
+  uiSchema,
+  numberOfWebComponentFields,
+  pageTitle,
+);
+
+const numberOfWebComponentErrors = 1; // Count expected validation errors
+testNumberOfErrorsOnSubmitForWebComponents(
+  formConfig,
+  schema,
+  uiSchema,
+  numberOfWebComponentErrors,
+  pageTitle,
+);
+```
+
+**Alternative Approach - Custom Tests (when additional logic needed):**
 ```javascript
 import React from 'react';
 import { render, screen } from '@testing-library/react';
@@ -1523,7 +1740,7 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
-import formConfig from '../../config/form';
+import formConfig from '../../../config/form';
 
 const mockStore = createStore(() => ({}));
 
@@ -1554,20 +1771,6 @@ describe('Personal Information Page', () => {
     );
 
     expect(screen.getByLabelText(/first name/i)).to.exist;
-  });
-
-  it('should render last name field', () => {
-    render(
-      <Provider store={mockStore}>
-        <DefinitionTester
-          schema={formConfig.chapters.personalInfo.pages.personalInformation.schema}
-          uiSchema={formConfig.chapters.personalInfo.pages.personalInformation.uiSchema}
-          data={{}}
-        />
-      </Provider>
-    );
-
-    expect(screen.getByLabelText(/last name/i)).to.exist;
   });
 
   it('should show validation error for required fields', () => {
@@ -1733,3 +1936,88 @@ yarn cy:open
 | Array other pages | `arrayBuilderItemSubsequentPageTitleUI(...)` + (no schema) | NOT `titleUI` |
 
 Remember: Always pair the correct uiSchema with its matching schema, and always include `titleUI` at the top of single pages!
+
+---
+
+## Testing Your Form Pages
+
+### Testing Best Practices
+
+**Prefer existing test patterns.** Use the standard platform test utilities for consistent form page testing:
+
+**Unit Testing - Use `pageTestHelpers.spec` Utilities:**
+```javascript
+import {
+  testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfWebComponentFields,
+} from 'platform/forms-system/test/pageTestHelpers.spec';
+import formConfig from '../../../config/form';
+
+const {
+  schema,
+  uiSchema,
+} = formConfig.chapters.chapterName.pages.pageName;
+
+const pageTitle = 'pageName';
+
+const numberOfWebComponentFields = 1; // Count actual fields in your UI patterns
+testNumberOfWebComponentFields(
+  formConfig,
+  schema,
+  uiSchema,
+  numberOfWebComponentFields,
+  pageTitle,
+);
+
+const numberOfWebComponentErrors = 1; // Count expected validation errors
+testNumberOfErrorsOnSubmitForWebComponents(
+  formConfig,
+  schema,
+  uiSchema,
+  numberOfWebComponentErrors,
+  pageTitle,
+);
+```
+
+**Field Counting for Tests:**
+```javascript
+// Example: fullNameUI() + dateOfBirthUI() = how many fields?
+const uiSchema = {
+  ...titleUI('Name and date of birth'),  // 0 fields (just title)
+  name: fullNameUI(),                    // 4 fields: first, middle, last, suffix
+  dateOfBirth: dateOfBirthUI(),         // 1 field: date picker
+};
+// Expected field count = 5 total
+
+// Example: textUI() + addressUI() = how many fields?
+const uiSchema = {
+  ...titleUI('Employer information'),    // 0 fields
+  employerName: textUI('Employer name'), // 1 field
+  employerAddress: addressUI(),          // 8 fields: street, street2, city, state, postal, country, military checkbox, military select
+};
+// Expected field count = 9 total
+```
+
+**Unit Testing Commands:**
+```bash
+# Unit tests (don't require dev server)
+yarn test:unit --app-folder [folder-name] --log-level all
+```
+
+**Cypress Testing Requirements:**
+- Cypress tests require localhost:3001 (provided by `yarn watch`)
+- Check if server is running first: `curl -s http://localhost:3001 >/dev/null && echo "Server running" || echo "Server not running"`
+- If not running: `nohup yarn watch --env entry=[entry-name] > /dev/null 2>&1 &` then `sleep 30`
+- If already running: proceed directly to tests
+
+```bash
+# Cypress tests (require localhost:3001)
+yarn cy:run --spec "src/applications/[app-folder]/tests/e2e/[form-number].cypress.spec.js"
+```
+
+**Key Testing Principles:**
+- Unit tests validate field counts and basic rendering
+- Use platform `pageTestHelpers.spec` utilities
+- Count actual UI pattern fields, not schema properties
+- Cypress tests require the webpack dev server running
+- Both test types must pass before committing code
