@@ -58,11 +58,10 @@ const yesNoOptions = {
 };
 const yesNoOptionsMore = {
   title: 'Report Medicare',
-  description: 'DO YOU NEED MEDICARE',
   labelHeaderLevel: '2',
   labelHeaderLevelStyle: '5',
   hint:
-    'If so, you must report this information for us to process your application for CHAMPVA benefits.',
+    'Do any applicants have medicare plans? If so, you must report this information for us to process your application for CHAMPVA benefits.',
 };
 
 // Get the name of the applicant selected on the Medicare participant page
