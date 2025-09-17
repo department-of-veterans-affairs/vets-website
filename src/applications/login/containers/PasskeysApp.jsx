@@ -8,6 +8,8 @@ import {
   startRegistration,
   startAuthentication,
 } from '@simplewebauthn/browser';
+import { apiRequest } from 'platform/utilities/api';
+import { setupProfileSession } from 'platform/user/profile/utilities';
 
 export default function PasskeysContainer() {
   const [message, setMessage] = useState('');
@@ -38,7 +40,7 @@ export default function PasskeysContainer() {
     let registrationData;
 
     try {
-      registrationData = await startRegistration(options);
+      registrationData = await startRegistration({ optionsJSON: options });
       console.log('Registration successful:', registrationData);
     } catch (error) {
       if (error.name === 'InvalidStateError') {
@@ -95,7 +97,10 @@ export default function PasskeysContainer() {
 
     const { options, challenge_id: challengeId } = await getAuthOpts.json();
 
-    const attest = await startAuthentication(options, false);
+    const attest = await startAuthentication({
+      optionsJSON: options,
+      useBrowserAutofill: false,
+    });
 
     try {
       const verifyAuth = await fetch(
@@ -105,6 +110,7 @@ export default function PasskeysContainer() {
           headers: {
             'Content-Type': 'application/json',
           },
+          credentials: 'include',
           body: JSON.stringify({
             attest,
             challenge_id: challengeId,
@@ -114,10 +120,10 @@ export default function PasskeysContainer() {
 
       const verifyJSON = await verifyAuth.json();
 
-      console.log({ verifyJSON });
       if (verifyJSON && verifyJSON.verified) {
-        localStorage.setItem('hasSession', true);
-        setMessage('Fully authenticated');
+        const userResp = await apiRequest('/user');
+        setupProfileSession(userResp);
+        window.location = '/my-va';
       } else {
         setMessage('Something went wrong with auth');
       }
@@ -140,7 +146,7 @@ export default function PasskeysContainer() {
   }
 
   return (
-    <div>
+    <div className="row vads-u-margin-y--4">
       <h2>
         {isLoggedIn ? 'Register your passkey' : 'Login with your passkey'}
       </h2>
@@ -157,10 +163,7 @@ export default function PasskeysContainer() {
         </>
       ) : (
         <>
-          <p>
-            You are not signed in. We cant associate your account based on
-            magic.
-          </p>
+          <p>You are not signed in.</p>
           <button type="button" onClick={handleSignIn}>
             Sign in with passkeys
           </button>
