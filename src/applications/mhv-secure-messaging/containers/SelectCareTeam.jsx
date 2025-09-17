@@ -377,7 +377,11 @@ const SelectCareTeam = () => {
     <div className="choose-va-health-care-system">
       <h1 className="vads-u-margin-bottom--2">Select care team</h1>
       <EmergencyNote dropDownFlag />
-      <RouteLeavingGuard saveDraftHandler={saveDraftHandler} type="compose" />
+      <RouteLeavingGuard
+        saveDraftHandler={saveDraftHandler}
+        type="compose"
+        persistDraftPaths={['/contact-list/', '/new-message/care-team-help']}
+      />
       <div>
         {renderCareSystems()}
 
