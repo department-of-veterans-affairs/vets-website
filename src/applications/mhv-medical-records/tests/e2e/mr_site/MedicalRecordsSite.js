@@ -89,14 +89,6 @@ class MedicalRecordsSite {
             value: true,
           },
           {
-            name: 'mhv_medical_records_display_vaccines',
-            value: true,
-          },
-          {
-            name: 'mhv_medical_records_display_vitals',
-            value: true,
-          },
-          {
             name: 'mhv_medical_records_display_settings_page',
             value: true,
           },

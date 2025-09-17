@@ -352,3 +352,20 @@ export const showPensionRelatedQuestions = (formData = {}) => {
   // keep current behavior if feature flag is off
   return true;
 };
+
+/**
+ * shouldShowStudentIncomeQuestions determines if student income questions should be shown based on feature flag
+ * @param {object} formData - The form data
+ * @param {number} index - The index of the student in the studentInformation array
+ * @returns {boolean} - True if the questions should be shown, false otherwise
+ */
+export const shouldShowStudentIncomeQuestions = ({ formData = {}, index }) => {
+  const { vaDependentsNetWorthAndPension, studentInformation } = formData;
+  if (vaDependentsNetWorthAndPension) {
+    return showPensionRelatedQuestions(formData);
+  }
+  return studentInformation?.[index]?.claimsOrReceivesPension;
+};
+
+export const showDupeModalIfEnabled = (formData = {}) =>
+  !!formData.vaDependentsDuplicateModals;

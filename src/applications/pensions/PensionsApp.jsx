@@ -19,10 +19,6 @@ export default function PensionEntry({ location, children }) {
   const pensionIncomeAndAssetsClarification = useToggleValue(
     TOGGLE_NAMES.pensionIncomeAndAssetsClarification,
   );
-  const pensionMedicalEvidenceClarification = useToggleValue(
-    TOGGLE_NAMES.pensionMedicalEvidenceClarification,
-  );
-
   const isLoadingFeatures = useSelector(
     state => state?.featureToggles?.loading,
   );
@@ -47,17 +43,12 @@ export default function PensionEntry({ location, children }) {
           'showIncomeAndAssetsClarification',
           pensionIncomeAndAssetsClarification,
         );
-        window.sessionStorage.setItem(
-          'showPensionEvidenceClarification',
-          !!pensionMedicalEvidenceClarification,
-        );
       }
     },
     [
       isLoadingFeatures,
       pensionMultiplePageResponse,
       pensionIncomeAndAssetsClarification,
-      pensionMedicalEvidenceClarification,
     ],
   );
 

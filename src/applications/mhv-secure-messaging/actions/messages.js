@@ -19,6 +19,7 @@ import {
   isOlderThan,
   decodeHtmlEntities,
 } from '../util/helpers';
+import { resetRecentRecipient } from './recipients';
 
 export const clearThread = () => async dispatch => {
   dispatch({ type: Actions.Thread.CLEAR_THREAD });
@@ -171,6 +172,7 @@ export const sendMessage = (message, attachments) => async dispatch => {
         Constants.Alerts.Message.SEND_MESSAGE_SUCCESS,
       ),
     );
+    dispatch(resetRecentRecipient());
   } catch (e) {
     if (
       e.errors &&
@@ -230,6 +232,7 @@ export const sendReply = (
         Constants.Alerts.Message.SEND_MESSAGE_SUCCESS,
       ),
     );
+    dispatch(resetRecentRecipient());
   } catch (e) {
     if (
       e.errors &&
