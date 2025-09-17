@@ -23,6 +23,10 @@ on:
         description: 'Simulate content-build daily workflow is disabled to trigger reenable path'
         required: false
         default: 'false'
+      slack_channel_id:
+        description: 'Slack channel ID to send notifications when dry_run=false'
+        required: false
+        default: ''
 
 jobs:
   holiday-checker:
@@ -101,5 +105,15 @@ jobs:
         if: ${{ inputs.dry_run == 'true' }}
         run: |
           echo 'DRY RUN: Would send Slack "Code Freeze Ended" notification.'
+
+      - name: Notify Slack - Code Freeze Ended (live)
+        if: ${{ inputs.dry_run != 'true' && inputs.slack_channel_id != '' }}
+        uses: ./.github/workflows/slack-notify
+        continue-on-error: true
+        with:
+          payload: '{"attachments": [{"color": "#32CD32", "blocks": [{"type": "section","text": {"type": "mrkdwn", "text": "✅ *Code Freeze Ended (TEST):* Daily deploy workflows for `vets-website` and `content-build` have been re-enabled. This is a test message."}}]}]}'
+          channel_id: ${{ inputs.slack_channel_id }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
 

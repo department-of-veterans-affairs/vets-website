@@ -19,6 +19,10 @@ on:
         description: 'Bypass holiday freeze logic'
         required: false
         default: 'false'
+      slack_channel_id:
+        description: 'Slack channel ID to send notifications when dry_run=false'
+        required: false
+        default: ''
 
 jobs:
   holiday-checker:
@@ -66,5 +70,15 @@ jobs:
         if: ${{ inputs.dry_run == 'true' }}
         run: |
           echo "DRY RUN: Would send Slack 'Code Freeze Enabled' notification."
+
+      - name: Notify Slack - Code Freeze Enabled (live)
+        if: ${{ inputs.dry_run != 'true' && inputs.slack_channel_id != '' }}
+        uses: ./.github/workflows/slack-notify
+        continue-on-error: true
+        with:
+          payload: '{"attachments": [{"color": "#FFA500", "blocks": [{"type": "section","text": {"type": "mrkdwn", "text": "🚫 *Code Freeze Enabled (TEST):* Holiday freeze is active. Deployment workflows for `vets-website` and `content-build` are disabled/gated. This is a test message."}}]}]}'
+          channel_id: ${{ inputs.slack_channel_id }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
 
