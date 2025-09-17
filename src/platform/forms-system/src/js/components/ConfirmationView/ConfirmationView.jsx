@@ -59,6 +59,9 @@ import { useDevOnlyButtons } from './useDevOnlyButtons';
  * @param {Object} props
  * @param {Object} props.formConfig
  * @param {Object} props.formConfig.trackingPrefix
+ * @param {{
+ *   showPageTitles: boolean
+ * }} [props.chapterSectionCollection]
  * @param {Object} [props.devOnly]
  * @param {boolean} [props.devOnly.showButtons]
  * @param {Object} [props.devOnly.mockData]
@@ -98,6 +101,7 @@ export const ConfirmationView = props => {
     formConfig,
     pdfUrl,
     devOnly,
+    chapterSectionCollection: props.chapterSectionCollection,
   };
 
   const showDevButtons =
@@ -141,7 +145,10 @@ export const ConfirmationView = props => {
         trackingPrefix={formConfig.trackingPrefix}
         formId={formConfig.formId}
       />
-      <ChapterSectionCollection formConfig={formConfig} />
+      <ChapterSectionCollection
+        formConfig={formConfig}
+        showPageTitles={props.chapterSectionCollection?.showPageTitles}
+      />
       <PrintThisPage />
       <WhatsNextProcessList trackingPrefix={formConfig.trackingPrefix} />
       <HowToContact />
@@ -158,6 +165,9 @@ ConfirmationView.propTypes = {
     trackingPrefix: PropTypes.string,
     chapters: PropTypes.object,
   }).isRequired,
+  chapterSectionCollection: PropTypes.shape({
+    showPageTitles: PropTypes.bool,
+  }),
   children: PropTypes.node,
   confirmationNumber: PropTypes.string,
   devOnly: PropTypes.shape({

@@ -13,8 +13,10 @@ const useSendTravelPayClaim = appointment => {
 
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const featureToggles = useSelector(selectFeatureToggles);
-  const { isTravelReimbursementEnabled } = featureToggles;
-
+  const {
+    isTravelReimbursementEnabled,
+    isTravelPayApiEnabled: isV1TravelPayApiEnabled,
+  } = featureToggles;
   const selectApp = useMemo(makeSelectApp, []);
   const { app } = useSelector(selectApp);
 
@@ -48,7 +50,11 @@ const useSendTravelPayClaim = appointment => {
 
       setIsLoading(true);
       api.v2
-        .postDayOfTravelPayClaim(travelPayData, setECheckinStartedCalled)
+        .postDayOfTravelPayClaim(
+          travelPayData,
+          setECheckinStartedCalled,
+          isV1TravelPayApiEnabled,
+        )
         .catch(() => {
           setTravelPayClaimError(true);
         })
@@ -66,6 +72,7 @@ const useSendTravelPayClaim = appointment => {
       travelPayEligible,
       travelPayClaimSent,
       isLoading,
+      isV1TravelPayApiEnabled,
     ],
   );
 

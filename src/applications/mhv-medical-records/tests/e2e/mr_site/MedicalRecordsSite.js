@@ -34,6 +34,7 @@ class MedicalRecordsSite {
     isAcceleratingLabsAndTests = false,
     isAcceleratingVaccines = false,
     isAcceleratingCareNotes = false,
+    isAcceleratingConditions = false,
   } = {}) => {
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
@@ -64,6 +65,10 @@ class MedicalRecordsSite {
             value: isAcceleratingVaccines,
           },
           {
+            name: 'mhv_accelerated_delivery_conditions_enabled',
+            value: isAcceleratingConditions,
+          },
+          {
             name: 'mhvMedicalRecordsPhrRefreshOnLogin',
             value: false,
           },
@@ -81,14 +86,6 @@ class MedicalRecordsSite {
           },
           {
             name: 'mhv_medical_records_allow_txt_downloads',
-            value: true,
-          },
-          {
-            name: 'mhv_medical_records_display_vaccines',
-            value: true,
-          },
-          {
-            name: 'mhv_medical_records_display_vitals',
             value: true,
           },
           {

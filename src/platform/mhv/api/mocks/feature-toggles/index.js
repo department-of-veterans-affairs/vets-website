@@ -17,9 +17,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicalRecordsAllowTxtDownloads = true,
     mhvMedicalRecordsDisplayDomains = true,
     mhvMedicalRecordsDisplaySidenav = true,
-    mhvMedicalRecordsDisplayVaccines = true,
     mhvMedicalRecordsDisplaySettingsPage = true,
-    mhvMedicalRecordsDisplayVitals = true,
     mhvMedicalRecordsToVaGovRelease = true,
     mhvMedicalRecordsMarch17Updates = true,
 
@@ -28,6 +26,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvAcceleratedDeliveryAllergiesEnabled = false,
     mhvAcceleratedDeliveryCareNotesEnabled = false,
     mhvAcceleratedDeliveryVitalSignsEnabled = false,
+    mhvAcceleratedDeliveryConditionsEnabled = false,
     mhvAcceleratedDeliveryVaccinesEnabled = false,
     mhvAcceleratedDeliveryLabsAndTestsEnabled = false,
 
@@ -66,6 +65,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_accelerated_delivery_care_notes_enabled',
           value: mhvAcceleratedDeliveryCareNotesEnabled,
+        },
+        {
+          name: 'mhv_accelerated_delivery_conditions_enabled',
+          value: mhvAcceleratedDeliveryConditionsEnabled,
         },
         {
           name: 'mhv_accelerated_delivery_vaccines_enabled',
@@ -134,16 +137,8 @@ const generateFeatureToggles = (toggles = {}) => {
           value: mhvMedicalRecordsDisplaySidenav,
         },
         {
-          name: 'mhv_medical_records_display_vaccines',
-          value: mhvMedicalRecordsDisplayVaccines,
-        },
-        {
           name: 'mhv_medical_records_display_settings_page',
           value: mhvMedicalRecordsDisplaySettingsPage,
-        },
-        {
-          name: 'mhv_medical_records_display_vitals',
-          value: mhvMedicalRecordsDisplayVitals,
         },
         {
           name: 'mhv_medical_records_to_va_gov_release',

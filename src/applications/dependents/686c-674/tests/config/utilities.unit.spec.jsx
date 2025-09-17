@@ -20,6 +20,8 @@ import {
   showPensionRelatedQuestions,
   show674IncomeQuestions,
   buildSubmissionData,
+  showDupeModalIfEnabled,
+  shouldShowStudentIncomeQuestions,
 } from '../../config/utilities';
 
 describe('Utilities', () => {
@@ -849,6 +851,142 @@ describe('showPensionRelatedQuestions', () => {
         });
       });
     });
+
+    describe('when backup path is not shown (has prefill data)', () => {
+      describe('when adding dependents - not 674', () => {
+        it('should return false if isInReceiptOfPension is 0', () => {
+          expect(
+            showPensionRelatedQuestions({
+              veteranInformation: { isInReceiptOfPension: 0 },
+              vaDependentsNetWorthAndPension: true,
+              'view:addOrRemoveDependents': { add: true, remove: false },
+              'view:addDependentOptions': { addSpouse: true, report674: false },
+            }),
+          ).to.be.false;
+        });
+
+        it('should return true if isInReceiptOfPension is 1', () => {
+          expect(
+            showPensionRelatedQuestions({
+              veteranInformation: { isInReceiptOfPension: 1 },
+              vaDependentsNetWorthAndPension: true,
+              'view:addOrRemoveDependents': { add: true, remove: false },
+              'view:addDependentOptions': { addSpouse: true, report674: false },
+            }),
+          ).to.be.true;
+        });
+      });
+
+      describe('when adding dependents - 674 only', () => {
+        it('should return false if veteran has indicated they are in receipt of pension', () => {
+          expect(
+            showPensionRelatedQuestions({
+              veteranInformation: { isInReceiptOfPension: -1 },
+              'view:checkVeteranPension': true,
+              vaDependentsNetWorthAndPension: true,
+              'view:addOrRemoveDependents': { add: true, remove: false },
+              'view:addDependentOptions': { addSpouse: false, report674: true },
+            }),
+          ).to.be.false;
+        });
+
+        it('should return false if veteran has not indicated they are in receipt of pension', () => {
+          expect(
+            showPensionRelatedQuestions({
+              veteranInformation: { isInReceiptOfPension: -1 },
+              'view:checkVeteranPension': false,
+              vaDependentsNetWorthAndPension: true,
+              'view:addOrRemoveDependents': { add: true, remove: false },
+              'view:addDependentOptions': { addSpouse: false, report674: true },
+            }),
+          ).to.be.false;
+        });
+      });
+    });
+  });
+});
+
+describe.skip('shouldShowStudentIncomeQuestions', () => {
+  describe('when feature flag - vaDependentsNetWorthAndPension - is on', () => {
+    it('should return true when veteran is in receipt of pension', () => {
+      const formData = {
+        vaDependentsNetWorthAndPension: true,
+        veteranInformation: { isInReceiptOfPension: 1 },
+        studentInformation: [{ claimsOrReceivesPension: false }],
+      };
+      const result = shouldShowStudentIncomeQuestions({ formData, index: 0 });
+      expect(result).to.be.true;
+    });
+
+    it('should return false when veteran is not in receipt of pension', () => {
+      const formData = {
+        vaDependentsNetWorthAndPension: true,
+        veteranInformation: { isInReceiptOfPension: 0 },
+        studentInformation: [{ claimsOrReceivesPension: true }],
+      };
+      const result = shouldShowStudentIncomeQuestions({ formData, index: 0 });
+      expect(result).to.be.false;
+    });
+
+    it('should return true when backup path is used and veteran indicates pension receipt', () => {
+      const formData = {
+        vaDependentsNetWorthAndPension: true,
+        veteranInformation: { isInReceiptOfPension: -1 },
+        'view:checkVeteranPension': true,
+        studentInformation: [{ claimsOrReceivesPension: false }],
+      };
+      const result = shouldShowStudentIncomeQuestions({ formData, index: 0 });
+      expect(result).to.be.true;
+    });
+
+    it('should return false when backup path is used and veteran does not indicate pension receipt', () => {
+      const formData = {
+        vaDependentsNetWorthAndPension: true,
+        veteranInformation: { isInReceiptOfPension: -1 },
+        'view:checkVeteranPension': false,
+        studentInformation: [{ claimsOrReceivesPension: true }],
+      };
+      const result = shouldShowStudentIncomeQuestions({ formData, index: 0 });
+      expect(result).to.be.false;
+    });
+  });
+
+  describe('when feature flag - vaDependentsNetWorthAndPension - is off', () => {
+    it('should return true when student claims or receives pension', () => {
+      const formData = {
+        vaDependentsNetWorthAndPension: false,
+        studentInformation: [{ claimsOrReceivesPension: true }],
+      };
+      const result = shouldShowStudentIncomeQuestions({ formData, index: 0 });
+      expect(result).to.be.true;
+    });
+
+    it('should return false when student does not claim or receive pension', () => {
+      const formData = {
+        vaDependentsNetWorthAndPension: false,
+        studentInformation: [{ claimsOrReceivesPension: false }],
+      };
+      const result = shouldShowStudentIncomeQuestions({ formData, index: 0 });
+      expect(result).to.be.false;
+    });
+
+    it('should work with multiple students at different indices', () => {
+      const formData = {
+        vaDependentsNetWorthAndPension: false,
+        studentInformation: [
+          { claimsOrReceivesPension: true },
+          { claimsOrReceivesPension: false },
+          { claimsOrReceivesPension: true },
+        ],
+      };
+
+      expect(shouldShowStudentIncomeQuestions({ formData, index: 0 })).to.be
+        .true;
+      expect(shouldShowStudentIncomeQuestions({ formData, index: 1 })).to.be
+        .false;
+      expect(shouldShowStudentIncomeQuestions({ formData, index: 2 })).to.be
+        .true;
+    });
   });
 });
 
@@ -1117,5 +1255,18 @@ describe('buildSubmissionData', () => {
     expect(result.data['view:removeDependentOptions']).to.deep.equal({
       reportDivorce: true,
     });
+  });
+});
+
+describe('showDupeModalIfEnabled', () => {
+  it('should return false if feature flag is off', () => {
+    expect(showDupeModalIfEnabled({})).to.be.false;
+    expect(showDupeModalIfEnabled({ vaDependentsDuplicateModals: false })).to.be
+      .false;
+  });
+
+  it('should return true if feature flag is on', () => {
+    expect(showDupeModalIfEnabled({ vaDependentsDuplicateModals: true })).to.be
+      .true;
   });
 });
