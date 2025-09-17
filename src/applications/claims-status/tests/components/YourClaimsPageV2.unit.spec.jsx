@@ -120,51 +120,27 @@ describe('<YourClaimsPageV2>', () => {
     expect($('.claims-unavailable', container)).to.exist;
   });
 
-  it('should render a loading skeleton if all requests loading - with smooth loading enabled', () => {
+  it('should render a loading skeleton if all requests loading', () => {
     const props = cloneDeep(defaultProps);
     props.appealsLoading = true;
     props.claimsLoading = true;
     props.stemClaimsLoading = true;
-    props.isSmoothLoadingEnabled = true;
     const wrapper = shallow(<YourClaimsPageV2 {...props} />);
     expect(wrapper.find('ClaimCardLoadingSkeleton').length).to.equal(1);
     wrapper.unmount();
   });
 
-  it('should render a loading indicator if all requests loading - with smooth loading disabled', () => {
-    const props = cloneDeep(defaultProps);
-    props.appealsLoading = true;
-    props.claimsLoading = true;
-    props.stemClaimsLoading = true;
-    props.isSmoothLoadingEnabled = false;
-    const wrapper = shallow(<YourClaimsPageV2 {...props} />);
-    expect(wrapper.find('va-loading-indicator').length).to.equal(1);
-    wrapper.unmount();
-  });
-
-  it('should render a loading skeleton if one list empty and other loading - with smooth loading enabled', () => {
+  it('should render a loading skeleton if one list empty and other loading', () => {
     const props = cloneDeep(defaultProps);
     props.stemClaimsLoading = true;
     props.list = [];
-    props.isSmoothLoadingEnabled = true;
     const wrapper = shallow(<YourClaimsPageV2 {...props} />);
     expect(wrapper.find('ClaimCardLoadingSkeleton').length).to.equal(1);
     wrapper.unmount();
   });
 
-  it('should render a loading indicator if one list empty and other loading - with smooth loading disabled', () => {
+  it('should not show visible loading skeleton but announce content loaded when claims have loaded', () => {
     const props = cloneDeep(defaultProps);
-    props.stemClaimsLoading = true;
-    props.list = [];
-    props.isSmoothLoadingEnabled = false;
-    const wrapper = shallow(<YourClaimsPageV2 {...props} />);
-    expect(wrapper.find('va-loading-indicator').length).to.equal(1);
-    wrapper.unmount();
-  });
-
-  it('should not show visible loading skeleton but announce content loaded when claims have loaded - with smooth loading enabled', () => {
-    const props = cloneDeep(defaultProps);
-    props.isSmoothLoadingEnabled = true;
     props.claimsLoading = false;
     props.appealsLoading = false;
     props.stemClaimsLoading = false;
