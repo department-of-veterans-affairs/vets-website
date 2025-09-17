@@ -20,10 +20,7 @@ import {
   retrieveFolder,
 } from '../../actions/folders';
 import * as Constants from '../../util/constants';
-import {
-  edgeCaseBackendError,
-  getFirstError,
-} from '../../components/util/serverErrors';
+import { edgeCaseBackendError, getFirstError } from '../../util/serverErrors';
 
 describe('generate folder edge case server exception', () => {
   const badError = {

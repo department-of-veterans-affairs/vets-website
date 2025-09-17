@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { submitLaunchMessagingAal } from '../../api/SmApi';
 import useFeatureToggles from '../../hooks/useFeatureToggles';
-import { getFirstError } from './serverErrors';
+import { getFirstError } from '../../util/serverErrors';
 
 const LaunchMessagingAal = () => {
   const { isAalEnabled } = useFeatureToggles();
