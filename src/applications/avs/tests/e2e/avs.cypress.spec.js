@@ -102,7 +102,7 @@ describe('After-visit Summary - Happy Path', () => {
     cy.url().should('satisfy', url => {
       return (
         // AVS redirects here.
-        url.match(/\/my-health\/medical-records\/summaries-and-notes\/$/),
+        url.match(/\/my-health\/medical-records\/summaries-and-notes\/$/) ||
         // When all apps are running, medical records redirects here.
         url.match(/\/my-health\/$/)
       );
