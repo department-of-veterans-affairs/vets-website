@@ -96,7 +96,7 @@ export const today = new Date();
  * @param {String|null} format (Optional) - currently only native formatting supported; custom tokens ignored.
  * @returns {String} formatted timestamp
  */
-export const dateFormat = timestamp => {
+export const dateFormat = (timestamp, format) => {
   const date = new Date(timestamp);
   if (Number.isNaN(date.getTime())) return '';
   const datePart = new Intl.DateTimeFormat('en-US', {
@@ -108,6 +108,22 @@ export const dateFormat = timestamp => {
   const hours12 = hours24 % 12 || 12;
   const minutes = String(date.getMinutes()).padStart(2, '0');
   const ampm = hours24 < 12 ? 'a.m.' : 'p.m.';
+
+  // Optional lightweight formatting support (only what tests/components use):
+  // 1. If a format string with "[at]" is supplied -> use "DATE at h:mm a"
+  // 2. If a date-only pattern (e.g. 'MMMM D, YYYY') is supplied -> return just the date
+  // 3. Otherwise (no or unrecognized format) keep legacy default: "DATE, h:mm a"
+  if (typeof format === 'string') {
+    if (format.includes('[at]')) {
+      return `${datePart} at ${hours12}:${minutes} ${ampm}`;
+    }
+    // Heuristic: if no time token requested, return only the date
+    // (current usages pass 'MMMM D, YYYY' when only date is desired)
+    if (!/\b(h|H|m)\b/i.test(format) && !format.match(/:\d{2}/)) {
+      return datePart;
+    }
+  }
+
   return `${datePart}, ${hours12}:${minutes} ${ampm}`;
 };
 
