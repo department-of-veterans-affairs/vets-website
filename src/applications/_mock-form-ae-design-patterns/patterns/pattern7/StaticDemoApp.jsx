@@ -51,7 +51,12 @@ function DemoRoutes({ basePath }) {
 
       <Route
         path={`${basePath}/review`}
-        render={() => <ReviewPage onNext={goTo('confirmation')} />}
+        render={() => (
+          <ReviewPage
+            onNext={goTo('confirmation')}
+            onBack={goTo('introduction')}
+          />
+        )}
       />
 
       <Route path={`${basePath}/confirmation`} component={ConfirmationPage} />
@@ -72,7 +77,7 @@ export default function StaticDemoApp() {
   return (
     <div>
       <HeaderPlaceholder />
-      <div className="vads-u-padding-top--2">
+      <div>
         <Router>
           <DemoRoutes basePath={basePath} />
         </Router>

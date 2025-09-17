@@ -31,7 +31,7 @@ const ConfirmationPage = () => (
         <p>For Leslie Jackson</p>
         <div>
           <strong>Date submitted</strong>
-          <div>August 27, 2025</div>
+          <div>September 22, 2025</div>
         </div>
         <div>
           <strong>Conditions Claimed</strong>

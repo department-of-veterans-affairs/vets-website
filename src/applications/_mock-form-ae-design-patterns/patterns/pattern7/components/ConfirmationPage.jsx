@@ -1,15 +1,36 @@
 import React from 'react';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const ConfirmationPage = () => (
   <div>
+    <VaBreadcrumbs
+      breadcrumbList={[
+        {
+          href: '#',
+          label: 'Custom home',
+        },
+        {
+          href: '#',
+          label: 'Disability Benefits',
+        },
+        {
+          href: '#',
+          label: 'File for disability compensation',
+        },
+      ]}
+      homeVeteransAffairs
+      label="Breadcrumb"
+    />
+
     <FormTitle
       title="File for disability compensation"
       subTitle="VA Form 21-526EZ"
     />
+
     <div className="vads-u-margin-top--2">
       <va-alert status="success" visible>
-        <h3 slot="headline">Form submission started on 8/27/2025</h3>
+        <h3 slot="headline">Form submission started on 9/22/2025</h3>
         <p>Your submission is in progress.</p>
         <p>
           It may take up to 10 days for us to receive your form in our system.
@@ -23,6 +44,7 @@ const ConfirmationPage = () => (
         />
       </va-alert>
     </div>
+
     <div className="vads-u-margin-top--4">
       <va-summary-box>
         <h3 slot="headline">
@@ -31,7 +53,7 @@ const ConfirmationPage = () => (
         <p>For Leslie Jackson</p>
         <div>
           <strong>Date submitted</strong>
-          <div>August 27, 2025</div>
+          <div>September 22, 2025</div>
         </div>
         <div>
           <strong>Conditions Claimed</strong>
@@ -46,6 +68,7 @@ const ConfirmationPage = () => (
         </div>
       </va-summary-box>
     </div>
+
     <div className="vads-u-margin-top--4">
       <h3>Print this confirmation page</h3>
       <p>
@@ -54,6 +77,7 @@ const ConfirmationPage = () => (
       </p>
       <va-button onClick={() => window.print()} text="Print this page" />
     </div>
+
     <div className="vads-u-margin-top--4">
       <va-accordion open-single className="vads-u-margin-top--2">
         <va-accordion-item
@@ -574,6 +598,7 @@ const ConfirmationPage = () => (
         </va-accordion-item>
       </va-accordion>
     </div>
+
     <div className="vads-u-margin-top--4">
       <h3>What to expect</h3>
       <va-process-list>
@@ -598,6 +623,7 @@ const ConfirmationPage = () => (
         </va-process-list-item>
       </va-process-list>
     </div>
+
     <div className="vads-u-margin-top--4">
       <h3>How to contact us if you have questions</h3>
       <p>

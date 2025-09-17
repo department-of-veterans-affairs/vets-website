@@ -1,9 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {
+  VaButtonPair,
+  VaBreadcrumbs,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 
-const ReviewPage = ({ onNext }) => (
+const ReviewPage = ({ onNext, onBack }) => (
   <div>
+    <VaBreadcrumbs
+      breadcrumbList={[
+        {
+          href: '#',
+          label: 'Custom home',
+        },
+        {
+          href: '#',
+          label: 'Disability Benefits',
+        },
+        {
+          href: '#',
+          label: 'File for disability compensation',
+        },
+      ]}
+      homeVeteransAffairs
+      label="Breadcrumb"
+    />
+
     <FormTitle
       title="File for disability compensation"
       subTitle="VA Form 21-526EZ"
@@ -19,7 +42,7 @@ const ReviewPage = ({ onNext }) => (
       <va-accordion-item header="Additional information" />
     </va-accordion>
 
-    <p className="vads-u-margin-top--3">
+    <p className="vads-u-margin-top--3 vads-u-padding-left--2">
       <strong>Note:</strong> According to federal law, there are criminal
       penalties, including a fine and/or imprisonment for up to 5 years, for
       withholding information or for providing incorrect information (Reference:
@@ -39,16 +62,11 @@ const ReviewPage = ({ onNext }) => (
         has been represented correctly.
       </p>
       <p>
-        I have read and accept the
+        I have read and accept the&nbsp;
         <va-link href="#" text="privacy policy (opens in a new tab)" />.
       </p>
 
-      <va-text-input
-        label="Your full name"
-        required
-        error=""
-        value="Leslie Jackson"
-      />
+      <va-text-input label="Your full name" required value="Leslie Jackson" />
 
       <va-checkbox
         class="vads-u-margin-top--2"
@@ -59,21 +77,24 @@ const ReviewPage = ({ onNext }) => (
 
     <va-alert status="success" class="vads-u-margin-top--3">
       <p className="vads-u-margin--0">
-        We’ve saved your request. We saved it on August 27, 2025 at 5:25 p.m.
+        We’ve saved your request. We saved it on September 22, 2025 at 5:25 p.m.
         ET. Your request ID number is 15428.
       </p>
     </va-alert>
 
     <div className="vads-u-margin-top--4">
-      <p>This is the simplified review page for the static demo.</p>
-      <va-button onClick={onNext} text="Submit and go to confirmation" />
+      <p>
+        <va-link href="#" text="Finish this application later" />.
+      </p>
 
-      {/* <va-button-pair
+      <VaButtonPair
+        className="vads-u-margin-y--2"
         continue
-        onPrimaryClick={() => {}}
-        onSecondaryClick={() => {}}
+        onPrimaryClick={onNext}
+        onSecondaryClick={onBack}
+        leftButtonText="Back"
         rightButtonText="Submit application"
-      /> */}
+      />
     </div>
 
     <div className="vads-u-margin-top--4">
@@ -96,6 +117,7 @@ const ReviewPage = ({ onNext }) => (
 
 ReviewPage.propTypes = {
   onNext: PropTypes.func.isRequired,
+  onBack: PropTypes.func,
 };
 
 export default ReviewPage;
