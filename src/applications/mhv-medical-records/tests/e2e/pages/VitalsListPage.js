@@ -30,6 +30,11 @@ class VitalsListPage extends BaseListPage {
     cy.intercept('POST', '/v0/datadog_action', {}).as('datadogAction');
     cy.visit('my-health/medical-records/vitals');
     cy.wait('@vitalsList');
+    cy.wait('@vamcEhr');
+    cy.wait('@mockUser');
+    cy.wait('@featureToggles');
+    cy.wait('@maintenanceWindow');
+    cy.wait('@status');
   };
 
   clickLinkByRecordListItemIndex = (index = 0) => {
