@@ -14,7 +14,7 @@ import {
   EVIDENCE_VA_PATH,
   EVIDENCE_PRIVATE_PATH,
   EVIDENCE_UPLOAD_PATH,
-  LIMITED_CONSENT_PROMPT,
+  LIMITED_CONSENT_PROMPT_PATH,
 } from '../../constants';
 
 const providerFacilityAddress = {
@@ -185,7 +185,7 @@ describe('<EvidenceSummary>', () => {
       `${EVIDENCE_VA_PATH}?index=1`,
     );
     expect(links[2].getAttribute('data-link')).to.contain(
-      LIMITED_CONSENT_PROMPT,
+      LIMITED_CONSENT_PROMPT_PATH,
     );
     expect(links[3].getAttribute('data-link')).to.contain(
       `${EVIDENCE_PRIVATE_PATH}?index=0`,

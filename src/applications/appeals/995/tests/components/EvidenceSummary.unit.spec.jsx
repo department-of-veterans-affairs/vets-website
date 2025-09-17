@@ -14,9 +14,9 @@ import {
   EVIDENCE_VA_PATH,
   EVIDENCE_PRIVATE_PATH,
   EVIDENCE_UPLOAD_PATH,
-  EVIDENCE_PRIVATE_AUTHORIZATION,
-  LIMITED_CONSENT_DETAILS,
-  LIMITED_CONSENT_PROMPT,
+  EVIDENCE_PRIVATE_AUTHORIZATION_PATH,
+  LIMITED_CONSENT_DETAILS_PATH,
+  LIMITED_CONSENT_PROMPT_PATH,
   LIMITED_CONSENT_RESPONSE,
 } from '../../constants';
 
@@ -196,13 +196,13 @@ describe('<EvidenceSummary>', () => {
       `${EVIDENCE_VA_PATH}?index=1`,
     );
     expect(links[2].getAttribute('data-link')).to.contain(
-      EVIDENCE_PRIVATE_AUTHORIZATION,
+      EVIDENCE_PRIVATE_AUTHORIZATION_PATH,
     );
     expect(links[3].getAttribute('data-link')).to.contain(
-      LIMITED_CONSENT_PROMPT,
+      LIMITED_CONSENT_PROMPT_PATH,
     );
     expect(links[4].getAttribute('data-link')).to.contain(
-      LIMITED_CONSENT_DETAILS,
+      LIMITED_CONSENT_DETAILS_PATH,
     );
 
     expect(links[5].getAttribute('data-link')).to.contain(

@@ -1,14 +1,23 @@
-import { cy } from 'date-fns/locale';
 import manifest from '../manifest.json';
 import formConfig from '../config/form';
 import mockPrefill from './fixtures/mocks/prefill.json';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
-
+import {
+  ADD_ISSUE_PATH,
+  CONTACT_INFO_PATH,
+  EVIDENCE_ADDITIONAL_PATH,
+  EVIDENCE_PRIVATE_AUTHORIZATION_PATH,
+  EVIDENCE_PRIVATE_PATH,
+  EVIDENCE_PRIVATE_REQUEST_PATH,
+  EVIDENCE_VA_REQUEST_PATH,
+  LIMITED_CONSENT_DETAILS_PATH,
+  LIMITED_CONSENT_PROMPT_PATH,
+} from '../constants';
+import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 import { CONTESTABLE_ISSUES_API, ITF_API } from '../constants/apis';
 import * as h from './995.cypress.helpers';
 import mockData from './fixtures/data/keyboard-test.json';
-import { CONTACT_INFO_PATH } from '../../shared/constants';
 import { fixDecisionDates } from '../../shared/tests/cypress.helpers';
 import cypressSetup from '../../shared/tests/cypress.setup';
 
@@ -18,15 +27,15 @@ describe('Supplemental Claim keyboard only navigation', () => {
 
     cy.wrap(mockData.data).as('testData');
 
+    cy.intercept('GET', ' /v0/in_progress_forms/20-0995', mockPrefill);
+    cy.intercept('PUT', '/v0/in_progress_forms/20-0995', mockInProgress);
+    cy.intercept('POST', formConfig.submitUrl, mockSubmit);
+    cy.intercept('GET', ITF_API, h.fetchItf());
     cy.intercept('GET', '/v0/feature_toggles*', {
       data: {
         features: [{ name: 'sc_new_form', value: true }],
       },
     });
-    cy.intercept('GET', '/v0/in_progress_forms/20-0995', mockPrefill);
-    cy.intercept('PUT', '/v0/in_progress_forms/20-0995', mockInProgress);
-    cy.intercept('POST', formConfig.submitUrl, mockSubmit);
-    cy.intercept('GET', ITF_API, h.fetchItf());
 
     cy.get('@testData').then(data => {
       cy.intercept('GET', `${CONTESTABLE_ISSUES_API}/compensation`, {
@@ -36,302 +45,255 @@ describe('Supplemental Claim keyboard only navigation', () => {
       cy.visit(manifest.rootUrl);
       cy.injectAxeThenAxeCheck();
 
-      // Start page - type of claim
+      // *** Start page - type of claim
       h.verifyUrl('start');
       cy.tabToElement('input[value="compensation"]');
       cy.realPress('Space');
       cy.tabToElement('button[type="button"]');
       cy.realPress('Enter');
 
-      // Intro page
+      // *** Intro page
       cy.tabToStartForm();
       cy.realPress('Enter');
 
-      // Intent to file exists
+      // *** Intent to file page
       h.verifyUrl(h.VETERAN_INFO_PATH);
       cy.injectAxeThenAxeCheck();
       cy.tabToElement('button'); // targets secondary button
       cy.realPress('Tab'); // tab to primary "continue" button
       cy.realPress('Enter');
 
-      // Veteran information
+      // *** Veteran information page
       h.verifyUrl(h.VETERAN_INFO_PATH);
       cy.tabToContinueForm();
 
-      // Homelessness
-      h.verifyUrl(h.HOMELESSNESS_PATH);
-      // cy.tabToElement('[value="Y"]');
-      // cy.chooseRadio('Y');
-      // cy.tabToContinueForm();
+      // Feature toggles are flaky in the Cypress env for some reason
+      // Adding this here until we completely remove the SC new toggle (as this page depends on it)
+      cy.url().then(url => {
+        if (url.includes(h.HOMELESSNESS_PATH)) {
+          // *** Homelessness page
+          h.verifyUrl(h.HOMELESSNESS_PATH);
+          cy.tabToElement('[name="root_housingRisk"]');
+          cy.chooseRadio('N');
+          cy.tabToContinueForm();
+        }
+      });
 
-      //   // *** Contact info
-      //   cy.url().should('include', CONTACT_INFO_PATH);
-      //   cy.tabToElement('button.usa-button-primary[id$="continueButton"]');
-      //   cy.realPress('Space');
+      // *** Contact info page
+      h.verifyUrl(CONTACT_INFO_PATH);
+      cy.tabToElement('button.usa-button-primary[id$="continueButton"]');
+      cy.realPress('Space');
 
-      //   // *** Primary phone radios
-      //   cy.url().should(
-      //     'include',
-      //     chapters.infoPages.pages.choosePrimaryPhone.path,
-      //   );
-      //   // eslint-disable-next-line cypress/no-unnecessary-waiting
-      //   cy.wait(100); // wait for focus on header
-      //   cy.tabToElement('[value="home"]');
-      //   cy.chooseRadio('home'); // make sure we're choosing home (either is fine)
-      //   cy.tabToContinueForm();
+      // *** Primary phone page
+      h.verifyUrl(h.PRIMARY_PHONE_PATH);
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(100); // wait for focus on header
+      cy.tabToElement('[value="home"]');
+      cy.chooseRadio('home'); // make sure we're choosing home (either is fine)
+      cy.tabToContinueForm();
 
-      //   // *** Issues for review (sorted by random decision date) - only selecting
-      //   // one, or more complex code is needed to find if the next checkbox is
-      //   // before or after the first
-      //   cy.url().should('include', chapters.issues.pages.contestableIssues.path);
-      //   // eslint-disable-next-line cypress/no-unnecessary-waiting
-      //   cy.wait(100);
-      //   cy.tabToElement('[name="root_contestedIssues_0"]'); // tinnitus
-      //   cy.realPress('Space');
+      // *** Contestable issues page - select an existing issue
+      h.verifyUrl(CONTESTABLE_ISSUES_PATH);
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(100);
+      cy.tabToElement('[name="root_contestedIssues_0"]'); // tinnitus
+      cy.realPress('Space');
 
-      //   // *** Adding one issue
-      //   cy.tabToElement('.add-new-issue');
-      //   cy.realPress('Enter');
-      //   cy.url().should('include', chapters.issues.pages.addIssue.path);
+      // Add one issue
+      cy.tabToElement('.add-new-issue');
+      cy.realPress('Enter');
+      h.verifyUrl(ADD_ISSUE_PATH);
 
-      //   const newIssue = data.additionalIssues[0];
-      //   cy.tabToElement('[name="issue-name"]');
-      //   cy.realType(newIssue.issue);
+      const newIssue = data.additionalIssues[0];
+      cy.tabToElement('[name="issue-name"]');
+      cy.realType(newIssue.issue);
 
-      //   const issueDate = newIssue.decisionDate
-      //     .split('-')
-      //     .map(v => parseInt(v, 10).toString());
-      //   cy.tabToElement('[name="decision-dateMonth"]');
-      //   cy.realPress(issueDate[1]); // month
-      //   cy.realPress('Tab');
-      //   cy.realPress(issueDate[2]); // day
-      //   cy.realPress('Tab');
-      //   cy.realType(issueDate[0]); // year
-      //   cy.tabToElement('button:not(.usa-button--outline)');
-      //   cy.realPress('Enter');
+      const issueDate = newIssue.decisionDate
+        .split('-')
+        .map(v => parseInt(v, 10).toString());
+      cy.tabToElement('[name="decision-dateMonth"]');
+      cy.realPress(issueDate[1]); // month
+      cy.realPress('Tab');
+      cy.realPress(issueDate[2]); // day
+      cy.realPress('Tab');
+      cy.realType(issueDate[0]); // year
+      cy.tabToElement('button:not(.usa-button--outline)');
+      cy.realPress('Enter');
+      h.verifyUrl(CONTESTABLE_ISSUES_PATH);
+      cy.tabToContinueForm();
 
-      //   // *** Back to issues page
-      //   cy.url().should('include', chapters.issues.pages.contestableIssues.path);
-      //   cy.tabToContinueForm();
+      // *** Issue summary page
+      h.verifyUrl(h.ISSUES_SUMMARY_PATH);
+      cy.tabToContinueForm();
 
-      //   // *** Issue summary
-      //   cy.url().should('include', chapters.issues.pages.issueSummary.path);
-      //   cy.tabToContinueForm();
+      // *** Opt-in page - seen when there are legacy or added issues
+      h.verifyUrl(h.OPT_IN_PATH);
+      cy.tabToContinueForm();
 
-      //   // *** Opt-in - seen when there are legacy or added issues
-      //   cy.url().should('include', chapters.issues.pages.optIn.path);
-      //   cy.tabToContinueForm();
+      // *** Presumptive conditions page
+      h.verifyUrl(h.NOTICE_5103_PATH);
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(100);
+      cy.tabToElement('#checkbox-element'); // certify reviewed
+      cy.realPress('Space');
+      cy.tabToSubmitForm();
 
-      //   // *** Presumptive conditions
-      //   cy.url().should('include', chapters.evidence.pages.notice5103.path);
-      //   // eslint-disable-next-line cypress/no-unnecessary-waiting
-      //   cy.wait(100);
-      //   cy.tabToElement('#checkbox-element'); // certify reviewed
-      //   cy.realPress('Space');
-      //   cy.tabToSubmitForm();
+      // *** Facility types page
+      h.verifyUrl(h.FACILITY_TYPES_PATH);
+      cy.setCheckboxFromData(h.VA_EVIDENCE_CHECKBOX, true);
+      cy.setCheckboxFromData(h.NON_VA_EVIDENCE_CHECKBOX, true);
+      cy.tabToSubmitForm();
 
-      //   // *** VA evidence request (y/n) question
-      //   cy.url().should(
-      //     'include',
-      //     chapters.evidence.pages.evidenceVaRecordsRequest.path,
-      //   );
-      //   // eslint-disable-next-line cypress/no-unnecessary-waiting
-      //   cy.wait(100);
-      //   cy.tabToElement('[name="root_view:hasVaEvidence"]'); // Yes radio
-      //   cy.chooseRadio('Y'); // make sure we're choosing yes
-      //   cy.tabToSubmitForm();
+      // *** VA evidence request (y/n) question page
+      h.verifyUrl(EVIDENCE_VA_REQUEST_PATH);
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(100);
+      cy.tabToElement('[name="root_view:hasVaEvidence"]'); // Yes radio
+      cy.chooseRadio('Y');
+      cy.tabToSubmitForm();
 
-      //   // *** VA evidence location
-      //   cy.url().should(
-      //     'include',
-      //     chapters.evidence.pages.evidenceVaRecords.path,
-      //   );
-      //   const locationData = data.locations[0];
+      // *** VA evidence location details page
+      h.verifyUrl(h.EVIDENCE_VA_RECORDS_DETAILS_PATH);
+      const locationData = data.locations[0];
 
-      //   // eslint-disable-next-line cypress/no-unnecessary-waiting
-      //   cy.wait(100); // wait for focus on header
-      //   cy.tabToElement('[name="name"]'); // name of VA location
-      //   cy.realType(locationData.locationAndName);
-      //   cy.tabToElement('[name="issues"]'); // select first issue (ignore data)
-      //   cy.realPress('Space');
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(100); // wait for focus on header
+      cy.tabToElement(h.VA_EVIDENCE_FACILITY_NAME_INPUT); // name of VA location
+      cy.realType(locationData.locationAndName);
+      cy.tabToElement(h.VA_EVIDENCE_ISSUES_CHECKBOXES); // select first issue
+      cy.realPress('Space');
+      h.selectDropdownWithKeyboard('txdate', '1'); // fill out month
+      cy.tabToElement(h.VA_EVIDENCE_TREATMENT_YEAR);
+      cy.realType('2001'); // fill out year
+      cy.realPress('Space');
+      cy.tabToSubmitForm();
 
-      //   // VA from date
-      //   // cy.typeInMemorableDate('from', vaFromDate);
-      //   const vaFromDate = locationData.evidenceDates.from
-      //     .split('-')
-      //     .map(v => parseInt(v, 10).toString());
-      //   cy.tabToElement('[name="fromMonth"]');
-      //   cy.realPress(vaFromDate[1]); // month
-      //   cy.realPress('Tab');
-      //   cy.realPress(vaFromDate[2]); // day
-      //   cy.realPress('Tab');
-      //   cy.realType(vaFromDate[0]); // year
+      // *** Private evidence request (y/n) question page
+      h.verifyUrl(EVIDENCE_PRIVATE_REQUEST_PATH);
+      cy.tabToElement('[name="private"]'); // Yes radio
+      cy.chooseRadio('y'); // make sure we're choosing yes
+      cy.tabToSubmitForm();
 
-      //   // VA to date
-      //   // cy.typeInMemorableDate('to', vaToDate);
-      //   const vaToDate = locationData.evidenceDates.to
-      //     .split('-')
-      //     .map(v => parseInt(v, 10).toString());
-      //   cy.tabToElement('[name="toMonth"]');
-      //   cy.realPress(vaToDate[1]); // month
-      //   cy.realPress('Tab');
-      //   cy.realPress(vaToDate[2]); // day
-      //   cy.realPress('Tab');
-      //   cy.realType(vaToDate[0]); // year
-      //   cy.tabToSubmitForm();
+      // *** Private evidence authorization page
+      h.verifyUrl(EVIDENCE_PRIVATE_AUTHORIZATION_PATH);
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(100);
 
-      //   // *** Private evidence request (y/n) question
-      //   cy.url().should(
-      //     'include',
-      //     chapters.evidence.pages.evidencePrivateRecordsRequest.path,
-      //   );
-      //   cy.tabToElement('[name="private"]'); // Yes radio
-      //   cy.chooseRadio('y'); // make sure we're choosing yes
-      //   cy.tabToSubmitForm();
+      cy.tabToElement(h.PRIVACY_MODAL_TRIGGER_1_BUTTON);
+      cy.realPress('Enter'); // Open modal
 
-      //   // *** Private evidence authorization
-      //   cy.url().should(
-      //     'include',
-      //     chapters.evidence.pages.evidencePrivateRecordsAuthorization.path,
-      //   );
-      //   // eslint-disable-next-line cypress/no-unnecessary-waiting
-      //   cy.wait(100);
+      // Verify modal is open
+      cy.get(h.PRIVACY_MODAL_TITLE)
+        .should('have.attr', 'visible')
+        .and('not.equal', 'false');
 
-      //   cy.tabToElement('#privacy-modal-button-1');
-      //   cy.realPress('Enter'); // Open modal
+      // Close modal with Escape key
+      cy.realPress('Escape');
 
-      //   // Verify modal is open
-      //   cy.get('va-modal[modal-title="Privacy Act Statement"]')
-      //     .should('have.attr', 'visible')
-      //     .and('not.equal', 'false');
+      // Verify focus returns to the first button that opened it
+      cy.focused().then($focusedEl => {
+        // Get the shadow host (the va-button element)
+        const shadowHost = $focusedEl[0].getRootNode().host;
+        expect(shadowHost.id).to.equal(h.PRIVACY_MODAL_TRIGGER_1_ID);
+      });
 
-      //   // Close modal with Escape key
-      //   cy.realPress('Escape');
+      cy.setCheckboxFromData(h.PRIVACY_AGREEMENT_CHECKBOX, true);
+      cy.tabToSubmitForm();
 
-      //   // Verify focus returns to the first button that opened it
-      //   cy.focused().then($focusedEl => {
-      //     // Get the shadow host (the va-button element)
-      //     const shadowHost = $focusedEl[0].getRootNode().host;
-      //     expect(shadowHost.id).to.equal('privacy-modal-button-1');
-      //   });
+      // *** Limited consent prompt page
+      h.verifyUrl(LIMITED_CONSENT_PROMPT_PATH);
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(100);
+      cy.tabToElement(h.LIMITED_CONSENT_RADIOS); // Yes radio
+      cy.chooseRadio('Y');
+      cy.tabToSubmitForm();
 
-      //   cy.tabToElement('#privacy-modal-button-2');
-      //   cy.realPress('Enter'); // Open modal
+      // *** Limited consent details page
+      h.verifyUrl(LIMITED_CONSENT_DETAILS_PATH);
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(100);
+      cy.tabToElement(h.LIMITED_CONSENT_TEXTAREA);
+      cy.realType('Testing');
+      cy.tabToSubmitForm();
 
-      //   // Verify modal is open again
-      //   cy.get('va-modal[modal-title="Privacy Act Statement"]')
-      //     .should('have.attr', 'visible')
-      //     .and('not.equal', 'false');
+      // *** Private evidence facility page
+      h.verifyUrl(EVIDENCE_PRIVATE_PATH);
 
-      //   // Focus should be on the close button so just press Enter to close
-      //   cy.realPress('Enter');
+      const facilityData = data.providerFacility[0];
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(100);
+      cy.tabToElement('[name="name"]'); // provider or hospital
+      cy.realType(facilityData.providerFacilityName);
 
-      //   // Verify focus returns to the second button that opened it
-      //   cy.focused().then($focusedEl => {
-      //     // Get the shadow host (the va-button element)
-      //     const shadowHost = $focusedEl[0].getRootNode().host;
-      //     expect(shadowHost.id).to.equal('privacy-modal-button-2');
-      //   });
+      cy.realPress('Tab'); // skip country select
+      cy.realPress('Tab'); // street address
+      cy.realType(facilityData.providerFacilityAddress.street);
+      cy.realPress('Tab'); // skip street address line 2
+      cy.realPress('Tab'); // city
+      cy.realType(facilityData.providerFacilityAddress.city);
+      cy.realPress('Tab'); // state select; but we type like normal
+      cy.realType(facilityData.providerFacilityAddress.state);
+      cy.realPress('Tab'); // postal code
+      cy.realType(facilityData.providerFacilityAddress.postalCode);
 
-      //   cy.setCheckboxFromData('[name="privacy-agreement"]', true);
-      //   cy.tabToSubmitForm();
+      cy.tabToElement('[name="issues"]'); // select first issue (ignore data)
+      cy.realPress('Space');
 
-      //   // *** Private evidence facility
-      //   cy.url().should(
-      //     'include',
-      //     chapters.evidence.pages.evidencePrivateRecords.path,
-      //   );
-      //   const facilityData = data.providerFacility[0];
-      //   // eslint-disable-next-line cypress/no-unnecessary-waiting
-      //   cy.wait(100);
-      //   cy.tabToElement('[name="name"]'); // provider or hospital
-      //   cy.realType(facilityData.providerFacilityName);
+      // Provider from date
+      const privateFromDate = facilityData.treatmentDateRange.from
+        .split('-')
+        .map(v => parseInt(v, 10).toString());
+      cy.tabToElement('[name="fromMonth"]');
+      cy.realType(privateFromDate[1]); // month
+      cy.realPress('Tab');
+      cy.realType(privateFromDate[2]); // day
+      cy.realPress('Tab');
+      cy.realType(privateFromDate[0]); // year
 
-      //   cy.realPress('Tab'); // skip country select
-      //   cy.realPress('Tab'); // street address
-      //   cy.realType(facilityData.providerFacilityAddress.street);
-      //   cy.realPress('Tab'); // skip street address line 2
-      //   cy.realPress('Tab'); // city
-      //   cy.realType(facilityData.providerFacilityAddress.city);
-      //   cy.realPress('Tab'); // state select; but we type like normal
-      //   cy.realType(facilityData.providerFacilityAddress.state);
-      //   cy.realPress('Tab'); // postal code
-      //   cy.realType(facilityData.providerFacilityAddress.postalCode);
+      // Provider to date
+      const privateToDate = facilityData.treatmentDateRange.to
+        .split('-')
+        .map(v => parseInt(v, 10).toString());
+      cy.tabToElement('[name="toMonth"]');
+      cy.realType(privateToDate[1]); // month
+      cy.realPress('Tab');
+      cy.realType(privateToDate[2]); // day
+      cy.realPress('Tab');
+      cy.realType(privateToDate[0]); // year
+      cy.tabToSubmitForm();
 
-      //   cy.tabToElement('[name="issues"]'); // select first issue (ignore data)
-      //   cy.realPress('Space');
+      // *** Upload evidence (y/n) - skipping since we can't test uploads
+      h.verifyUrl(EVIDENCE_ADDITIONAL_PATH);
+      cy.tabToElement(h.ADDTL_EVIDENCE_RADIO); // No radio
+      cy.chooseRadio('N');
+      cy.tabToSubmitForm();
 
-      //   // Provider from date
-      //   const privateFromDate = facilityData.treatmentDateRange.from
-      //     .split('-')
-      //     .map(v => parseInt(v, 10).toString());
-      //   cy.tabToElement('[name="fromMonth"]');
-      //   cy.realType(privateFromDate[1]); // month
-      //   cy.realPress('Tab');
-      //   cy.realType(privateFromDate[2]); // day
-      //   cy.realPress('Tab');
-      //   cy.realType(privateFromDate[0]); // year
+      // *** Evidence summary
+      h.verifyUrl(h.EVIDENCE_SUMMARY_PATH);
+      cy.tabToSubmitForm();
 
-      //   // Provider to date
-      //   const privateToDate = facilityData.treatmentDateRange.to
-      //     .split('-')
-      //     .map(v => parseInt(v, 10).toString());
-      //   cy.tabToElement('[name="toMonth"]');
-      //   cy.realType(privateToDate[1]); // month
-      //   cy.realPress('Tab');
-      //   cy.realType(privateToDate[2]); // day
-      //   cy.realPress('Tab');
-      //   cy.realType(privateToDate[0]); // year
-      //   cy.tabToSubmitForm();
+      // *** MST page
+      h.verifyUrl(h.MST_PATH);
+      cy.tabToElement(h.MST_RADIO); // No radio
+      cy.chooseRadio('N');
+      cy.tabToSubmitForm();
 
-      //   // *** Provider limitations
-      //   cy.url().should(
-      //     'include',
-      //     chapters.evidence.pages.limitedConsentPrompt.path,
-      //   );
-      //   // eslint-disable-next-line cypress/no-unnecessary-waiting
-      //   cy.wait(100);
-      //   cy.tabToElement('textarea');
-      //   // Without this waitUntil, only the first letter is entered into the
-      //   // textarea
-      //   cy.waitUntil(() =>
-      //     cy
-      //       .realType(data.limitedConsent)
-      //       .then(() =>
-      //         cy.get(':focus').then($el => $el[0].value === data.limitedConsent),
-      //       ),
-      //   );
-      //   cy.tabToSubmitForm();
+      // *** Review & submit page
+      cy.url().should('include', h.REVIEW_PATH);
+      cy.tabToElement('va-checkbox');
+      cy.get(':focus').then($el => {
+        // privacy checkbox is already checked because privacyAgreementAccepted
+        // is accidentally used by both 4142 and SC review & submit checkbox
+        if (!$el[0].checked) {
+          cy.realPress('Space');
+        }
+      });
+      cy.tabToSubmitForm();
 
-      //   // *** Upload evidence (y/n) - skipping since we can't test uploads
-      //   cy.url().should(
-      //     'include',
-      //     chapters.evidence.pages.evidenceWillUpload.path,
-      //   );
-      //   cy.tabToElement('[name="root_view:hasOtherEvidence"]'); // No radio
-      //   cy.chooseRadio('N'); // make sure we're choosing no
-      //   cy.tabToSubmitForm();
-
-      //   // *** Evidence summary
-      //   cy.url().should('include', chapters.evidence.pages.evidenceSummary.path);
-      //   cy.tabToSubmitForm();
-
-      //   // *** Review & submit page
-      //   cy.url().should('include', 'review-and-submit');
-      //   cy.tabToElement('va-checkbox');
-      //   cy.get(':focus').then($el => {
-      //     // privacy checkbox is already checked because privacyAgreementAccepted
-      //     // is accidentally used by both 4142 and SC review & submit checkbox
-      //     if (!$el[0].checked) {
-      //       cy.realPress('Space');
-      //     }
-      //   });
-      //   cy.tabToSubmitForm();
-
-      //   // *** Confirmation page
-      //   // Check confirmation page print button
-      //   cy.url().should('include', 'confirmation');
-      //   cy.get('va-button[text="Print this page"]').should('exist');
+      // *** Confirmation page
+      // Check confirmation page print button
+      cy.url().should('include', 'confirmation');
+      cy.get('va-button[text="Print this page"]').should('exist');
     });
   });
 });
