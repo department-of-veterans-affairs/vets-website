@@ -21,7 +21,6 @@ import {
   setTypeOfMentalHealth,
 } from '../../../tests/mocks/setup';
 import VAFacilityPage from './VAFacilityPageV2';
-import { TYPE_OF_CARE_IDS } from '../../../utils/constants';
 
 describe('VAOS Page: VAFacilityPage eligibility check', () => {
   describe('when there is a single supported facility', () => {
@@ -190,10 +189,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
 
       const store = createTestStore(defaultState);
       await setTypeOfCare(store, /mental health/i);
-      await setTypeOfMentalHealth(
-        store,
-        TYPE_OF_CARE_IDS.MENTAL_HEALTH_SERVICES_ID,
-      );
+      await setTypeOfMentalHealth(store, /Mental health services/);
 
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
@@ -1014,10 +1010,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
 
         const store = createTestStore(defaultState);
         await setTypeOfCare(store, /mental health/i);
-        await setTypeOfMentalHealth(
-          store,
-          TYPE_OF_CARE_IDS.MENTAL_HEALTH_SERVICES_ID,
-        );
+        await setTypeOfMentalHealth(store, /Mental health services/);
 
         // Act
         const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
@@ -1082,10 +1075,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
 
         const store = createTestStore(defaultState);
         await setTypeOfCare(store, /mental health/i);
-        await setTypeOfMentalHealth(
-          store,
-          TYPE_OF_CARE_IDS.MENTAL_HEALTH_SERVICES_ID,
-        );
+        await setTypeOfMentalHealth(store, /Mental health services/);
 
         // Act
         const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
@@ -1155,10 +1145,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
           featureToggles: {},
         });
         await setTypeOfCare(store, /mental health/i);
-        await setTypeOfMentalHealth(
-          store,
-          TYPE_OF_CARE_IDS.MENTAL_HEALTH_SERVICES_ID,
-        );
+        await setTypeOfMentalHealth(store, /Mental health services/);
 
         // Act
         const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
