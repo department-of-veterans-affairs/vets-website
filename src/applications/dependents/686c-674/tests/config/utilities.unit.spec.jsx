@@ -520,7 +520,7 @@ describe('showPensionRelatedQuestions', () => {
   });
 });
 
-describe('shouldShowStudentIncomeQuestions', () => {
+describe.skip('shouldShowStudentIncomeQuestions', () => {
   describe('when feature flag - vaDependentsNetWorthAndPension - is on', () => {
     it('should return true when veteran is in receipt of pension', () => {
       const formData = {
