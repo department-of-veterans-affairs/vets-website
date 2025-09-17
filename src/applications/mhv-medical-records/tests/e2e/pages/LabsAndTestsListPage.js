@@ -60,6 +60,7 @@ class LabsAndTestsListPage extends BaseListPage {
       .find('a')
       .eq(labsAndTestsItemIndex)
       .click();
+    cy.wait('@BbmiNotificationStatus');
   };
 
   loadVAPaginationNext = () => {
