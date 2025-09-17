@@ -892,9 +892,138 @@ describe('purgeToxicExposureData - orphaned data removal', () => {
   });
 
   it('should process maximal test data removing only orphaned details', () => {
-    const maximalTestData = require('../../fixtures/data/maximal-test.json');
+    // Mock maximal test data with mixed true/false selections
+    const mockMaximalData = {
+      disability526ToxicExposureOptOutDataPurge: true,
+      toxicExposure: {
+        conditions: {
+          asthma: true,
+          chronicBronchitis: true,
+          sinusitis: false,
+          rhinitis: false,
+          sleepApnea: true,
+          cancer: false,
+          none: false,
+        },
+        gulfWar1990: {
+          afghanistan: true,
+          bahrain: false,
+          iraq: false,
+          kuwait: true,
+          oman: false,
+          qatar: false,
+          saudiarabia: true,
+          somalia: false,
+          turkey: false,
+          egypt: false,
+          waters: false,
+          airspace: true,
+        },
+        gulfWar1990Details: {
+          afghanistan: {
+            startDate: '2001-10-01',
+            endDate: '2005-12-31',
+          },
+          bahrain: {
+            startDate: '1990-08-15',
+            endDate: '1991-04-30',
+          },
+          iraq: {
+            startDate: '2003-03-01',
+            endDate: '2004-06-30',
+          },
+          kuwait: {
+            startDate: '1991-01-15',
+            endDate: '1991-05-01',
+          },
+          saudiarabia: {
+            startDate: '1990-08-01',
+            endDate: '1991-06-30',
+          },
+          airspace: {
+            startDate: '1990-08-02',
+            endDate: '1991-04-20',
+          },
+        },
+        herbicide: {
+          vietnam: true,
+          cambodia: false,
+          laos: true,
+          thailand: true,
+        },
+        herbicideDetails: {
+          vietnam: {
+            startDate: '1968-01-01',
+            endDate: '1970-01-01',
+          },
+          cambodia: {
+            startDate: '1969-01-01',
+            endDate: '1970-01-01',
+          },
+          laos: {
+            startDate: '1965-01-01',
+            endDate: '1975-01-01',
+          },
+          thailand: {
+            startDate: '1969-05-01',
+            endDate: '1975-06-01',
+          },
+        },
+        otherHerbicideLocations: {
+          description:
+            'Agent Orange testing facility in Nevada desert, classified location',
+          startDate: '1973-06-01',
+          endDate: '1974-12-31',
+        },
+        otherExposures: {
+          asbestos: true,
+          chemical: false,
+          chromium: false,
+          depleted: true,
+          mos: false,
+          mustardGas: false,
+          radiation: true,
+          shad: false,
+          shipyard: true,
+          water: false,
+          other: true,
+        },
+        otherExposuresDetails: {
+          asbestos: {
+            startDate: '1995-03-12',
+            endDate: '2000-05-30',
+          },
+          chemical: {
+            startDate: '1999-01-01',
+            endDate: '2000-01-01',
+          },
+          depleted: {
+            startDate: '2003-03-01',
+            endDate: '2004-12-31',
+          },
+          radiation: {
+            startDate: '2001-09-11',
+            endDate: '2002-01-15',
+          },
+          shipyard: {
+            startDate: '1988-06-01',
+            endDate: '1993-10-31',
+          },
+          other: {
+            startDate: '2005-01-01',
+            endDate: '2010-12-31',
+          },
+        },
+        specifyOtherExposures: {
+          description:
+            'Exposed to experimental chemical agents during classified military testing operations',
+          startDate: '2012-03-15',
+          endDate: '2013-09-30',
+        },
+      },
+    };
 
-    const result = purgeToxicExposureData(maximalTestData.data);
+    const result = purgeToxicExposureData(mockMaximalData);
 
     expect(result.toxicExposure).to.have.property('conditions');
     expect(result.toxicExposure.conditions).to.deep.equal({
@@ -929,6 +1058,51 @@ describe('purgeToxicExposureData - orphaned data removal', () => {
       'iraq',
     );
 
+    // Verify herbicide data - false values retained, orphaned details removed
+    expect(result.toxicExposure).to.have.property('herbicide');
+    expect(result.toxicExposure.herbicide.vietnam).to.be.true;
+    expect(result.toxicExposure.herbicide.cambodia).to.be.false;
+    expect(result.toxicExposure.herbicide.laos).to.be.true;
+    expect(result.toxicExposure.herbicide.thailand).to.be.true;
+
+    expect(result.toxicExposure).to.have.property('herbicideDetails');
+    expect(result.toxicExposure.herbicideDetails).to.have.property('vietnam');
+    expect(result.toxicExposure.herbicideDetails).to.have.property('laos');
+    expect(result.toxicExposure.herbicideDetails).to.have.property('thailand');
+    expect(result.toxicExposure.herbicideDetails).to.not.have.property(
+      'cambodia',
+    );
+
+    // Verify otherExposures data - false values retained, orphaned details removed
+    expect(result.toxicExposure).to.have.property('otherExposures');
+    expect(result.toxicExposure.otherExposures.asbestos).to.be.true;
+    expect(result.toxicExposure.otherExposures.chemical).to.be.false;
+    expect(result.toxicExposure.otherExposures.depleted).to.be.true;
+    expect(result.toxicExposure.otherExposures.radiation).to.be.true;
+    expect(result.toxicExposure.otherExposures.shipyard).to.be.true;
+    expect(result.toxicExposure.otherExposures.other).to.be.true;
+
+    expect(result.toxicExposure).to.have.property('otherExposuresDetails');
+    expect(result.toxicExposure.otherExposuresDetails).to.have.property(
+      'asbestos',
+    );
+    expect(result.toxicExposure.otherExposuresDetails).to.have.property(
+      'depleted',
+    );
+    expect(result.toxicExposure.otherExposuresDetails).to.have.property(
+      'radiation',
+    );
+    expect(result.toxicExposure.otherExposuresDetails).to.have.property(
+      'shipyard',
+    );
+    expect(result.toxicExposure.otherExposuresDetails).to.have.property(
+      'other',
+    );
+    expect(result.toxicExposure.otherExposuresDetails).to.not.have.property(
+      'chemical',
+    );
+
+    // Verify specify fields are retained
     expect(result.toxicExposure).to.have.property('otherHerbicideLocations');
     expect(result.toxicExposure.otherHerbicideLocations).to.deep.equal({
       description:
