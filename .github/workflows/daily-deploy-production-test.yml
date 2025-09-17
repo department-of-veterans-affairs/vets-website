@@ -70,6 +70,9 @@ jobs:
     needs: holiday-checker
     if: ${{ inputs.bypass_freeze != 'true' && inputs.simulate_deploy_cron == 'true' && needs.holiday-checker.outputs.effective_is_holiday == 'true' }}
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+
       - name: Echo Slack payload (freeze enabled)
         if: ${{ inputs.dry_run == 'true' }}
         run: |
@@ -125,6 +128,9 @@ jobs:
     needs: [holiday-checker, main-deployment]
     if: ${{ inputs.bypass_freeze != 'true' && needs.holiday-checker.outputs.effective_is_holiday == 'false' && needs.main-deployment.outputs.reenabled == 'true' }}
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+
       - name: Echo Slack payload (freeze ended)
         if: ${{ inputs.dry_run == 'true' }}
         run: |
