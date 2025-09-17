@@ -305,7 +305,7 @@ export const childEvidence = (formData = {}) => {
  * @param {object} formData - The form data
  * @returns {boolean} - True if adding dependents outside of 674, false otherwise
  */
-export const checkAddingDependentsForPension = (formData = {}) => {
+export const checkAddingDependentsNot674ForPension = (formData = {}) => {
   const addingDependents = formData['view:addOrRemoveDependents']?.add;
   const addDependentOptions = formData['view:addDependentOptions'] || {};
   const isAddingDependentsNot674 = [
@@ -314,6 +314,17 @@ export const checkAddingDependentsForPension = (formData = {}) => {
     'addSpouse',
   ].some(option => addDependentOptions[option]);
   return addingDependents && isAddingDependentsNot674;
+};
+
+/**
+ * checkAdding674ForPension determines if adding 674 dependents
+ * @param {object} formData - The form data
+ * @returns {boolean} - True if adding 674 dependents, false otherwise
+ */
+export const checkAdding674ForPension = (formData = {}) => {
+  const addingDependents = formData['view:addOrRemoveDependents']?.add;
+  const addDependentOptions = formData['view:addDependentOptions'] || {};
+  return addingDependents && addDependentOptions?.report674;
 };
 
 /**
@@ -327,27 +338,50 @@ export const showPensionBackupPath = (formData = {}) => {
   return (
     vaDependentsNetWorthAndPension &&
     vi?.isInReceiptOfPension === -1 &&
-    checkAddingDependentsForPension(formData)
+    (checkAddingDependentsNot674ForPension(formData) ||
+      checkAdding674ForPension(formData))
   );
+};
+
+/** isVetInReceiptOfPension determines if the veteran is in receipt of pension
+ * @param {object} formData - The form data
+ * @returns {boolean} - True if in receipt of pension, false otherwise
+ */
+export const isVetInReceiptOfPension = (formData = {}) => {
+  // -1 = pension awards API failed, 1 = in receipt of pension, 0 = not in receipt of pension
+  const { veteranInformation: vi } = formData;
+  const isInReceiptOfPension = vi?.isInReceiptOfPension === 1;
+  const backupPathIsInReceiptOfPension =
+    vi?.isInReceiptOfPension === -1 && formData['view:checkVeteranPension'];
+  return isInReceiptOfPension || backupPathIsInReceiptOfPension;
 };
 
 /**
  * showPensionRelatedQuestions determines if the pension related questions should be shown
  * @param {object} formData - The form data
- * @returns {boolean} - True if the questions should be shown, false otherwise
+ * @returns {boolean} - True if the questions should be shown, false otherwise, true if feature flag is off
  */
 export const showPensionRelatedQuestions = (formData = {}) => {
-  // -1 = pension awards API failed, 1 = in receipt of pension, 0 = not in receipt of pension
-  const { veteranInformation: vi, vaDependentsNetWorthAndPension } = formData;
+  const { vaDependentsNetWorthAndPension } = formData;
   if (vaDependentsNetWorthAndPension) {
-    const isInReceiptOfPension = vi?.isInReceiptOfPension === 1;
-    const backupPathIsInReceiptOfPension =
-      vi?.isInReceiptOfPension === -1 && formData['view:checkVeteranPension'];
-    const isAddingDependents = checkAddingDependentsForPension(formData);
-    return (
-      isAddingDependents &&
-      (isInReceiptOfPension || backupPathIsInReceiptOfPension)
-    );
+    const isInReceiptOfPension = isVetInReceiptOfPension(formData);
+    const isAddingDependents = checkAddingDependentsNot674ForPension(formData);
+    return isAddingDependents && isInReceiptOfPension;
+  }
+  // keep current behavior if feature flag is off
+  return true;
+};
+
+/** show674IncomeQuestions determines if the 674 income questions should be shown
+ * @param {object} formData - The form data
+ * @returns {boolean} - True if the questions should be shown, false otherwise, true if feature flag is off
+ */
+export const show674IncomeQuestions = (formData = {}) => {
+  const { vaDependentsNetWorthAndPension } = formData;
+  if (vaDependentsNetWorthAndPension) {
+    const isInReceiptOfPension = isVetInReceiptOfPension(formData);
+    const isAdding674 = checkAdding674ForPension(formData);
+    return isAdding674 && isInReceiptOfPension;
   }
   // keep current behavior if feature flag is off
   return true;
@@ -362,7 +396,7 @@ export const showPensionRelatedQuestions = (formData = {}) => {
 export const shouldShowStudentIncomeQuestions = ({ formData = {}, index }) => {
   const { vaDependentsNetWorthAndPension, studentInformation } = formData;
   if (vaDependentsNetWorthAndPension) {
-    return showPensionRelatedQuestions(formData);
+    return show674IncomeQuestions(formData);
   }
   return studentInformation?.[index]?.claimsOrReceivesPension;
 };
