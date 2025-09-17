@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, RenderResult } from '@testing-library/react';
 import { replacementFunctions } from '@department-of-veterans-affairs/platform-utilities';
 
 import OrdersBlock from '../../components/OrdersBlock.tsx';
@@ -20,7 +20,7 @@ describe('Avs: Orders Block', () => {
       orders,
       type,
     };
-    const screen = render(<OrdersBlock {...props} />);
+    const screen: RenderResult = render(<OrdersBlock {...props} />);
     expect(screen.getByRole('heading')).to.have.text('Test Heading');
     expect(screen.getByText('Test Intro')).to.exist;
     expect(screen.getByRole('list'))
@@ -38,7 +38,7 @@ describe('Avs: Orders Block', () => {
       orders,
       type,
     };
-    const screen = render(<OrdersBlock {...props} />);
+    const screen: RenderResult = render(<OrdersBlock {...props} />);
     expect(screen.queryByText('Test Intro')).to.not.exist;
   });
 
@@ -54,7 +54,7 @@ describe('Avs: Orders Block', () => {
       orders,
       type: invalidType,
     };
-    const screen = render(<OrdersBlock {...props} />);
+    const screen: RenderResult = render(<OrdersBlock {...props} />);
     expect(screen.queryByRole('heading')).to.not.exist;
     expect(screen.queryByRole('list')).to.not.exist;
   });

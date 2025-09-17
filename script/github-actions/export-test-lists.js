@@ -16,7 +16,7 @@ const countCySpecs = () => {
 
 const countUnitSpecs = () => {
   return new Promise((resolve, reject) => {
-    glob('**/*.unit.spec.js?(x)', (error, files) => {
+    glob('**/*.unit.spec.{js,jsx,ts,tsx}', (error, files) => {
       if (error) {
         reject(error);
         return;

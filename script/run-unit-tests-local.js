@@ -9,7 +9,7 @@ const { runCommand } = require('./utils');
 const exec = promisify(require('child_process').exec);
 
 const specDirs = '{src,script}';
-const defaultPath = `./${specDirs}/**/*.unit.spec.js?(x)`;
+const defaultPath = `./${specDirs}/**/*.unit.spec.{js,jsx,ts,tsx}`;
 
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'log-level', type: String, defaultValue: 'log' },
@@ -100,7 +100,7 @@ async function runTests() {
   for (const app of allUnitTestDirs) {
     const command = `LOG_LEVEL=${options[
       'log-level'
-    ].toLowerCase()} ${testRunner} --max-old-space-size=4096 --config ${configFile} "${`${app}/**/*.unit.spec.js?(x)`}"`;
+    ].toLowerCase()} ${testRunner} --max-old-space-size=4096 --config ${configFile} "${`${app}/**/*.unit.spec.{js,jsx,ts,tsx}`}"`;
 
     try {
       /* eslint-disable-next-line no-await-in-loop */

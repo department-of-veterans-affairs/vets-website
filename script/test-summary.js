@@ -105,7 +105,7 @@ function hasUnitTests(appName) {
     const cmd = `find ${path.join(
       APPLICATIONS_PATH,
       appName,
-    )} -name "*.unit.spec.js" -o -name "*.unit.spec.jsx" | wc -l`;
+    )} -name "*.unit.spec.js" -o -name "*.unit.spec.jsx" -o -name "*.unit.spec.ts" -o -name "*.unit.spec.tsx" | wc -l`;
     const result = execSync(cmd)
       .toString()
       .trim();
@@ -123,7 +123,7 @@ function runTestsForApp(appName) {
 
   try {
     const outputFile = path.join(OUTPUT_DIR, `${appName}-test-results.json`);
-    const command = `BABEL_ENV=test NODE_ENV=test npx mocha --config config/mocha.json --reporter json --reporter-option output=${outputFile} "src/applications/${appName}/**/*.unit.spec.@(js|jsx)"`;
+    const command = `BABEL_ENV=test NODE_ENV=test npx mocha --config config/mocha.json --reporter json --reporter-option output=${outputFile} "src/applications/${appName}/**/*.unit.spec.@(js|jsx|ts|tsx)"`;
 
     try {
       execSync(command, {

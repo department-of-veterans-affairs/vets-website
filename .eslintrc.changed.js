@@ -23,14 +23,14 @@ module.exports = {
   overrides: [
     {
       files: ['**/*.unit.spec.*'],
-      excludedFiles: ['**/*.unit.spec.jsx'],
+      excludedFiles: ['**/*.unit.spec.jsx', '**/*.unit.spec.tsx'],
       rules: {
         'no-restricted-syntax': [
           'error',
           {
             selector: 'Program',
             message:
-              'Only .jsx files are allowed for unit spec files. Rename this file to .unit.spec.jsx.',
+              'Only .jsx and .tsx files are allowed for unit spec files. Rename this file to .unit.spec.jsx or .unit.spec.tsx.',
           },
         ],
       },

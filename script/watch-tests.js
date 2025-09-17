@@ -15,7 +15,9 @@ let busy = false;
 let pendingTests = [];
 
 // all unit test files
-const allUnitTests = glob.sync('{src,script,test}/**/*.unit.spec.js?(x)');
+const allUnitTests = glob.sync(
+  '{src,script,test}/**/*.unit.spec.{js,jsx,ts,tsx}',
+);
 
 function runMochaTests(tests) {
   // fork mocha into a separate process

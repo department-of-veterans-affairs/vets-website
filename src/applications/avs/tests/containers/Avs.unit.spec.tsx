@@ -8,7 +8,7 @@ import {
 import { expect } from 'chai';
 import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import { waitFor } from '@testing-library/react';
+import { waitFor, RenderResult } from '@testing-library/react';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import sinon from 'sinon';
 

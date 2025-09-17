@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, RenderResult } from '@testing-library/react';
 
 import ParagraphBlock from '../../components/ParagraphBlock.tsx';
 
@@ -9,7 +9,7 @@ describe('Avs: Paragraph Block', () => {
     const heading = 'This is a test heading';
     const content = 'This is some test content. It has some more words.';
     const props = { heading, content };
-    const screen = render(<ParagraphBlock {...props} />);
+    const screen: RenderResult = render(<ParagraphBlock {...props} />);
     expect(screen.getByRole('heading')).to.have.text(heading);
     expect(screen.getByText(content)).to.exist;
     expect(screen.getByText(content))
@@ -22,7 +22,7 @@ describe('Avs: Paragraph Block', () => {
     const heading = 'This is a test heading';
     const content = 'This is some <b>test content</b>. It has some more words.';
     const props = { heading, content };
-    const screen = render(<ParagraphBlock {...props} />);
+    const screen: RenderResult = render(<ParagraphBlock {...props} />);
     expect(screen.getByTestId('this-is-a-test-heading')).to.contain.text('<b>');
   });
 
@@ -31,7 +31,7 @@ describe('Avs: Paragraph Block', () => {
     const content = 'This is some <b>test content</b>. It has some more words.';
     const htmlContent = true;
     const props = { heading, content, htmlContent };
-    const screen = render(<ParagraphBlock {...props} />);
+    const screen: RenderResult = render(<ParagraphBlock {...props} />);
     expect(screen.getByTestId('this-is-a-test-heading')).not.to.contain.text(
       '<b>',
     );
@@ -41,7 +41,7 @@ describe('Avs: Paragraph Block', () => {
     const heading = 'This is a test heading';
     const content = 'This is some test content. It has some more words.';
     const props = { heading, content };
-    const screen = render(<ParagraphBlock {...props} />);
+    const screen: RenderResult = render(<ParagraphBlock {...props} />);
     expect(screen.getByRole('heading', { level: 3 })).to.have.text(heading);
   });
 
@@ -50,7 +50,7 @@ describe('Avs: Paragraph Block', () => {
     const content = 'This is some test content. It has some more words.';
     const headingLevel = 5;
     const props = { heading, content, headingLevel };
-    const screen = render(<ParagraphBlock {...props} />);
+    const screen: RenderResult = render(<ParagraphBlock {...props} />);
     expect(screen.getByRole('heading', { level: headingLevel })).to.have.text(
       heading,
     );
@@ -60,7 +60,7 @@ describe('Avs: Paragraph Block', () => {
     const heading = 'This is a test heading';
     const content = '';
     const props = { heading, content };
-    const screen = render(<ParagraphBlock {...props} />);
+    const screen: RenderResult = render(<ParagraphBlock {...props} />);
     expect(screen.queryByTestId('this-is-a-test-heading')).to.not.exist;
   });
 });

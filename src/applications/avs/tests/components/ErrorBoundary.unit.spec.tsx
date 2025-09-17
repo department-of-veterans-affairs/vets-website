@@ -1,14 +1,14 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, RenderResult } from '@testing-library/react';
 import { expect } from 'chai';
 import ErrorBoundary from '../../components/ErrorBoundary.tsx';
 
 describe('ErrorBoundary component', () => {
   it('should render error message when there is an error', async () => {
-    const ComponentWithError = () => {
+    const ComponentWithError: React.FC = () => {
       throw new Error('Something bad');
     };
-    const screen = render(
+    const screen: RenderResult = render(
       <ErrorBoundary>
         <ComponentWithError />
       </ErrorBoundary>,
@@ -22,10 +22,10 @@ describe('ErrorBoundary component', () => {
   });
 
   it('should render children when no error', async () => {
-    const ComponentWithoutError = () => {
+    const ComponentWithoutError: React.FC = () => {
       return <>Child content</>;
     };
-    const screen = render(
+    const screen: RenderResult = render(
       <ErrorBoundary>
         <ComponentWithoutError />
       </ErrorBoundary>,

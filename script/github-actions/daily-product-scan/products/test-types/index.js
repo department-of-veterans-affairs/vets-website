@@ -5,7 +5,7 @@ class TestTypes {
   constructor({ products }) {
     this.products = products;
     this.types = {
-      Unit: '**/*unit.spec.js?(x)',
+      Unit: '**/*unit.spec.{js,jsx,ts,tsx}',
       E2e: '**/*cypress.spec.js?(x)',
     };
   }

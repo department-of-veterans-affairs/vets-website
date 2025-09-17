@@ -8,8 +8,9 @@ const { runCommand } = require('../utils');
 // For usage instructions see https://github.com/department-of-veterans-affairs/vets-website#unit-tests
 
 // Configuration
-const DEFAULT_SPEC_PATTERN = '{src,script}/**/*.unit.spec.js?(x)';
-const STATIC_PAGES_PATTERN = 'src/platform/site-wide/**/*.unit.spec.js?(x)';
+const DEFAULT_SPEC_PATTERN = '{src,script}/**/*.unit.spec.{js,jsx,ts,tsx}';
+const STATIC_PAGES_PATTERN =
+  'src/platform/site-wide/**/*.unit.spec.{js,jsx,ts,tsx}';
 const MAX_MEMORY = '8192'; // Reduced from 32768 to prevent memory issues
 
 // Command line options
@@ -61,7 +62,7 @@ function getTestPaths() {
     .filter(file => file.startsWith('src/applications/'))
     .map(file => {
       const appName = file.split('/')[2];
-      return `src/applications/${appName}/**/*.unit.spec.js?(x)`;
+      return `src/applications/${appName}/**/*.unit.spec.{js,jsx,ts,tsx}`;
     })
     .flatMap(pattern => glob.sync(pattern));
 
@@ -73,7 +74,7 @@ function getTestPaths() {
         .split('/')
         .slice(0, 3)
         .join('/');
-      return `${platformPath}/**/*.unit.spec.js?(x)`;
+      return `${platformPath}/**/*.unit.spec.{js,jsx,ts,tsx}`;
     })
     .flatMap(pattern => glob.sync(pattern));
 

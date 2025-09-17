@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, RenderResult } from '@testing-library/react';
 
 import ListBlock from '../../components/ListBlock.tsx';
 
@@ -24,7 +24,7 @@ describe('Avs: List Block', () => {
       keyName: 'code',
       itemName: 'text',
     };
-    const screen = render(<ListBlock {...props} />);
+    const screen: RenderResult = render(<ListBlock {...props} />);
     expect(screen.getByRole('heading')).to.have.text('Test Heading');
     expect(screen.getByTestId('test-list-type')).to.exist;
     expect(screen.getByTestId('test-list-type')).to.contain.text('qux');
@@ -39,7 +39,7 @@ describe('Avs: List Block', () => {
       itemType: 'test-list-type',
       items,
     };
-    const screen = render(<ListBlock {...props} />);
+    const screen: RenderResult = render(<ListBlock {...props} />);
     expect(screen.getByRole('heading')).to.have.text('Test Heading');
     expect(screen.getByTestId('test-list-type')).to.exist;
     expect(screen.getByTestId('test-list-type')).to.contain.text('bar');
@@ -54,7 +54,7 @@ describe('Avs: List Block', () => {
       itemType: 'test-list-type',
       items,
     };
-    const screen = render(<ListBlock {...props} />);
+    const screen: RenderResult = render(<ListBlock {...props} />);
     expect(screen.queryByRole('heading')).to.not.exist;
   });
 
@@ -73,7 +73,7 @@ describe('Avs: List Block', () => {
       keyName: 'code',
       itemName: 'text',
     };
-    const screen = render(<ListBlock {...props} />);
+    const screen: RenderResult = render(<ListBlock {...props} />);
     expect(screen.queryByRole('heading')).to.not.exist;
   });
 
@@ -87,7 +87,7 @@ describe('Avs: List Block', () => {
       itemName: null,
       keyName: 'code',
     };
-    const screen = render(<ListBlock {...props} />);
+    const screen: RenderResult = render(<ListBlock {...props} />);
     expect(screen.queryByRole('heading')).to.not.exist;
   });
 
@@ -101,7 +101,7 @@ describe('Avs: List Block', () => {
       keyName: 'code',
     };
 
-    const screen = render(<ListBlock {...props} />);
+    const screen: RenderResult = render(<ListBlock {...props} />);
     expect(screen.getByRole('heading', { level: 3 })).to.have.text(heading);
   });
 
@@ -117,7 +117,7 @@ describe('Avs: List Block', () => {
       keyName: 'code',
     };
 
-    const screen = render(<ListBlock {...props} />);
+    const screen: RenderResult = render(<ListBlock {...props} />);
     expect(screen.getByRole('heading', { level: headingLevel })).to.have.text(
       heading,
     );

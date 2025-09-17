@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, RenderResult } from '@testing-library/react';
 import { replacementFunctions } from '@department-of-veterans-affairs/platform-utilities';
 
 import YourAppointment from '../../components/YourAppointment.tsx';
@@ -13,7 +13,7 @@ describe('Avs: Your Appointment', () => {
   it('correctly renders all data', async () => {
     const avs = replacementFunctions.cloneDeep(avsData);
     const props = { avs };
-    const screen = render(<YourAppointment {...props} />);
+    const screen: RenderResult = render(<YourAppointment {...props} />);
     expect(screen.getByTestId('appointment-time')).to.have.text('8:30 a.m. PT');
     expect(screen.getByTestId('provider-list').firstChild).to.have.text(
       'DOCTOR,GREAT B - ACOS/EDUC.',
@@ -48,7 +48,7 @@ describe('Avs: Your Appointment', () => {
     delete avs.clinicMedications;
     delete avs.vaMedications;
     const props = { avs };
-    const screen = render(<YourAppointment {...props} />);
+    const screen: RenderResult = render(<YourAppointment {...props} />);
     expect(screen.queryByTestId('reason-for-appt-list')).to.not.exist;
     expect(screen.queryByTestId('diagnoses-list')).to.not.exist;
     expect(screen.queryByTestId('provider-list')).to.not.exist;
@@ -66,7 +66,7 @@ describe('Avs: Your Appointment', () => {
       },
     ];
     const props = { avs };
-    const screen = render(<YourAppointment {...props} />);
+    const screen: RenderResult = render(<YourAppointment {...props} />);
     expect(screen.queryByTestId('reason-for-appt-list')).to.not.exist;
   });
 });

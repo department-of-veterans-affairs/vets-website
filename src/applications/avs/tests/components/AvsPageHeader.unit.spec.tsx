@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, RenderResult } from '@testing-library/react';
 
 import AvsPageHeader from '../../components/AvsPageHeader.tsx';
 
@@ -12,7 +12,7 @@ describe('Avs: Page Header Component', () => {
       'sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
     ];
     const text = lines.join('\n');
-    const screen = render(<AvsPageHeader text={text} />);
+    const screen: RenderResult = render(<AvsPageHeader text={text} />);
     expect(screen.getAllByRole('presentation').length).to.eq(lines.length - 1);
   });
 
@@ -24,7 +24,7 @@ describe('Avs: Page Header Component', () => {
       'sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
     ];
     const text = lines.join('\n');
-    const screen = render(<AvsPageHeader text={text} />);
+    const screen: RenderResult = render(<AvsPageHeader text={text} />);
     expect(screen.getAllByRole('presentation').length).to.eq(lines.length - 2);
   });
 
@@ -36,7 +36,7 @@ describe('Avs: Page Header Component', () => {
       'sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
     ];
     const text = lines.join('\n');
-    const screen = render(<AvsPageHeader text={text} />);
+    const screen: RenderResult = render(<AvsPageHeader text={text} />);
     expect(screen.getAllByRole('presentation').length).to.eq(lines.length - 2);
   });
 });

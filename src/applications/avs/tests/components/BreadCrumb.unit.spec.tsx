@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, RenderResult } from '@testing-library/react';
 
 import BreadCrumb from '../../components/BreadCrumb.tsx';
 
@@ -14,7 +14,7 @@ describe('Avs: BreadCrumb', () => {
       configurable: true,
     });
 
-    const screen = render(<BreadCrumb />);
+    const screen: RenderResult = render(<BreadCrumb />);
     expect(screen.getByRole('link')).to.have.text(
       'Back to appointment details',
     );
@@ -30,7 +30,7 @@ describe('Avs: BreadCrumb', () => {
       configurable: true,
     });
 
-    const screen = render(<BreadCrumb />);
+    const screen: RenderResult = render(<BreadCrumb />);
     expect(screen.queryByRole('link')).not.to.exist;
 
     Object.defineProperty(document, 'referrer', { value: originalReferrer });

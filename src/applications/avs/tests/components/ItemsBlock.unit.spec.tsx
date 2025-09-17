@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, RenderResult } from '@testing-library/react';
 import { within } from '@testing-library/dom';
 import { replacementFunctions } from '@department-of-veterans-affairs/platform-utilities';
 
@@ -25,7 +25,7 @@ describe('Avs: Items Block', () => {
       renderItem,
       showSeparators: true,
     };
-    const screen = render(<ItemsBlock {...props} />);
+    const screen: RenderResult = render(<ItemsBlock {...props} />);
     expect(screen.getByRole('heading')).to.have.text('Test Heading');
     expect(screen.getByText('Test Intro')).to.exist;
     expect(screen.getByTestId('test-item-type')).to.exist;
@@ -47,7 +47,7 @@ describe('Avs: Items Block', () => {
       renderItem,
       showSeparators: true,
     };
-    const screen = render(<ItemsBlock {...props} />);
+    const screen: RenderResult = render(<ItemsBlock {...props} />);
     expect(screen.queryByText('Test Intro')).not.to.exist;
   });
 
@@ -64,7 +64,7 @@ describe('Avs: Items Block', () => {
       renderItem,
       showSeparators: true,
     };
-    const screen = render(<ItemsBlock {...props} />);
+    const screen: RenderResult = render(<ItemsBlock {...props} />);
     expect(screen.queryByText('Test Intro')).not.to.exist;
     expect(screen.queryByRole('heading')).to.not.exist;
     expect(screen.queryByTestId('test-item-type')).to.not.exist;
@@ -90,7 +90,7 @@ describe('Avs: Items Block', () => {
       renderItem,
       showSeparators: true,
     };
-    const screen = render(<ItemsBlock {...props} />);
+    const screen: RenderResult = render(<ItemsBlock {...props} />);
     expect(screen.getByRole('heading')).to.have.text('Test Heading');
     expect(screen.getByTestId('test-item-type')).to.exist;
     expect(screen.getByTestId('test-item-type')).to.contain.text('Valid Item');
@@ -119,7 +119,7 @@ describe('Avs: Items Block', () => {
       renderItem,
       showSeparators: true,
     };
-    const screen = render(<ItemsBlock {...props} />);
+    const screen: RenderResult = render(<ItemsBlock {...props} />);
     expect(screen.queryByText('Test Intro')).not.to.exist;
     expect(screen.queryByRole('heading')).to.not.exist;
     expect(screen.queryByTestId('test-item-type')).to.not.exist;
@@ -139,7 +139,7 @@ describe('Avs: Items Block', () => {
       renderItem,
       showSeparators: true,
     };
-    const screen = render(<ItemsBlock {...props} />);
+    const screen: RenderResult = render(<ItemsBlock {...props} />);
     const vitals = screen.getByTestId('test-item-type');
     expect(within(vitals).queryAllByRole('separator').length).to.eq(
       items.length,
@@ -160,7 +160,7 @@ describe('Avs: Items Block', () => {
       renderItem,
       showSeparators: true,
     };
-    const screen = render(<ItemsBlock {...props} />);
+    const screen: RenderResult = render(<ItemsBlock {...props} />);
     const vitals = screen.getByTestId('test-item-type');
     expect(within(vitals).queryAllByRole('separator').length).to.eq(0);
   });
@@ -179,7 +179,7 @@ describe('Avs: Items Block', () => {
       renderItem,
       showSeparators: false,
     };
-    const screen = render(<ItemsBlock {...props} />);
+    const screen: RenderResult = render(<ItemsBlock {...props} />);
     const vitals = screen.getByTestId('test-item-type');
     expect(within(vitals).queryAllByRole('separator').length).to.eq(0);
   });

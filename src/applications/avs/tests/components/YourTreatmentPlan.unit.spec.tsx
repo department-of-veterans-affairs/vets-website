@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, RenderResult } from '@testing-library/react';
 import { replacementFunctions } from '@department-of-veterans-affairs/platform-utilities';
 
 import YourTreatmentPlan from '../../components/YourTreatmentPlan.tsx';
@@ -13,7 +13,7 @@ describe('Avs: Your Treatment Plan', () => {
   it('correctly renders all data', async () => {
     const avs = replacementFunctions.cloneDeep(avsData);
     const props = { avs };
-    const screen = render(<YourTreatmentPlan {...props} />);
+    const screen: RenderResult = render(<YourTreatmentPlan {...props} />);
     expect(screen.getByTestId('new-orders-heading')).to.have.text(
       'New orders from this appointment',
     );
@@ -58,7 +58,7 @@ describe('Avs: Your Treatment Plan', () => {
     delete avs.clinicalReminders;
     avs.medChangesSummary = null;
     const props = { avs };
-    const screen = render(<YourTreatmentPlan {...props} />);
+    const screen: RenderResult = render(<YourTreatmentPlan {...props} />);
     expect(screen.queryByTestId('new-orders-heading')).to.not.exist;
     expect(screen.queryByTestId('consultations')).to.not.exist;
     expect(screen.queryByTestId('imaging')).to.not.exist;
@@ -78,7 +78,7 @@ describe('Avs: Your Treatment Plan', () => {
     avs.medChangesSummary.newMedications = [];
     avs.medChangesSummary.changedMedications = [];
     const props = { avs };
-    const screen = render(<YourTreatmentPlan {...props} />);
+    const screen: RenderResult = render(<YourTreatmentPlan {...props} />);
     expect(screen.queryByTestId('changed-medications-list')).to.not.exist;
   });
 });

@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, RenderResult } from '@testing-library/react';
 import { replacementFunctions } from '@department-of-veterans-affairs/platform-utilities';
 
 import MedicationTerms from '../../components/MedicationTerms.tsx';
@@ -14,7 +14,7 @@ describe('Avs: Medication Terms widget', () => {
     const props = {
       avs: avsData,
     };
-    const screen = render(<MedicationTerms {...props} />);
+    const screen: RenderResult = render(<MedicationTerms {...props} />);
     expect(screen.getAllByRole('heading')[1]).to.have.text('NON-VA ');
   });
 
@@ -24,7 +24,7 @@ describe('Avs: Medication Terms widget', () => {
     const props = {
       avs: avsCopy,
     };
-    const screen = render(<MedicationTerms {...props} />);
+    const screen: RenderResult = render(<MedicationTerms {...props} />);
     expect(screen.queryByRole('heading')).to.not.exist;
   });
 });

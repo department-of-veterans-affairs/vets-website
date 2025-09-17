@@ -29,17 +29,17 @@ describe('avs', () => {
     describe('number is clickable', () => {
       it('returns true for a 10 digit number', () => {
         const tenDigitPhone = '5055553939';
-        expect(numberIsClickable(tenDigitPhone)).to.be.true;
+        expect(numberIsClickable(tenDigitPhone)).to.equal(true);
       });
 
       it('returns false for longer numbers', () => {
         const twelveDigitPhone = '505555393912';
-        expect(numberIsClickable(twelveDigitPhone)).to.be.false;
+        expect(numberIsClickable(twelveDigitPhone)).to.equal(false);
       });
 
       it('returns false for shorter numbers', () => {
         const sevenDigitPhone = '5553939';
-        expect(numberIsClickable(sevenDigitPhone)).to.be.false;
+        expect(numberIsClickable(sevenDigitPhone)).to.equal(false);
       });
     });
   });
