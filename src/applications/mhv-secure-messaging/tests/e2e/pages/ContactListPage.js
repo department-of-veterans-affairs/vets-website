@@ -92,7 +92,7 @@ class ContactListPage {
   };
 
   closeSaveModal = () => {
-    cy.get(`.first-focusable-child`)
+    cy.get(`.va-modal-close.first-focusable-child`)
       .should(`be.focused`)
       .click();
   };

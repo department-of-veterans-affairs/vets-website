@@ -226,7 +226,7 @@ const Compose = () => {
             (noAssociations === (undefined || false) &&
               !allTriageGroupsBlocked) && (
               <div className="vads-l-grid-container compose-container">
-                <AlertBackgroundBox closeable focus />
+                <AlertBackgroundBox closeable />
                 {content()}
               </div>
             )}
