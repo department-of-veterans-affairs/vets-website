@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable no-console */
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -19,16 +20,26 @@ export default function PasskeysContainer() {
   const handleOnClick = async e => {
     e.preventDefault();
 
-    const registrationResponse = await fetch(
-      'http://localhost:3000/v0/webauthn/generate_registration_options',
+    // ### Passkeys Registration ####
+    const optionsResponse = await fetch(
+      'http://localhost:3000/sign_in/webauthn/registrations/options',
+      {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': localStorage.getItem('csrfToken'),
+        },
+      },
     );
 
+    const { options, challenge_id: challengeId } = await optionsResponse.json();
+
     let registrationData;
+
     try {
-      registrationData = await startRegistration(
-        await registrationResponse.json(),
-      );
-      console.log(registrationData);
+      registrationData = await startRegistration(options);
+      console.log('Registration successful:', registrationData);
     } catch (error) {
       if (error.name === 'InvalidStateError') {
         console.log('Error: Authr was probably already registered by user');
@@ -40,17 +51,21 @@ export default function PasskeysContainer() {
 
     try {
       const verificationResp = await fetch(
-        'http://localhost:3000/v0/webauthn/verify_registration',
+        'http://localhost:3000/sign_in/webauthn/registrations/verify',
         {
           method: 'POST',
+          credentials: 'include',
           headers: {
             'Content-Type': 'application/json',
+            'X-CSRF-Token': localStorage.getItem('csrfToken'),
           },
-          body: JSON.stringify(registrationData),
+          body: JSON.stringify({
+            registration: registrationData,
+            challenge_id: challengeId,
+          }),
         },
       );
 
-      // Wait for the results of verification
       const verificationJSON = await verificationResp.json();
 
       if (verificationJSON && verificationJSON.verified) {
@@ -64,34 +79,51 @@ export default function PasskeysContainer() {
     }
   };
 
+  // ### Passkeys Authentication ####
   const handleSignIn = async e => {
     e.preventDefault();
 
     const getAuthOpts = await fetch(
-      `http://localhost:3000/v0/webauthn/generate_authentication_options`,
-    );
-    const authOptsData = await getAuthOpts.json();
-
-    const attest = await startAuthentication(authOptsData, false);
-
-    const verifyAuth = await fetch(
-      `http://localhost:3000/v0/webauthn/verify_authnetication`,
+      'http://localhost:3000/sign_in/webauthn/authentications/options',
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(attest),
       },
     );
 
-    const verifyJSON = await verifyAuth.json();
-    console.log({ verifyJSON });
-    if (verifyJSON && verifyJSON.verified) {
-      localStorage.setItem('hasSession', true);
-      setMessage('Fully authenticated');
-    } else {
-      setMessage('Something went wrong with auth');
+    const { options, challenge_id: challengeId } = await getAuthOpts.json();
+
+    const attest = await startAuthentication(options, false);
+
+    try {
+      const verifyAuth = await fetch(
+        'http://localhost:3000/sign_in/webauthn/authentications/verify',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            attest,
+            challenge_id: challengeId,
+          }),
+        },
+      );
+
+      const verifyJSON = await verifyAuth.json();
+
+      console.log({ verifyJSON });
+      if (verifyJSON && verifyJSON.verified) {
+        localStorage.setItem('hasSession', true);
+        setMessage('Fully authenticated');
+      } else {
+        setMessage('Something went wrong with auth');
+      }
+    } catch (error) {
+      console.error('Response was bad', error);
+      throw error;
     }
   };
 
