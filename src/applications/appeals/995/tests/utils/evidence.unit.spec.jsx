@@ -16,7 +16,7 @@ import {
 import {
   EVIDENCE_VA,
   EVIDENCE_PRIVATE,
-  EVIDENCE_LIMIT,
+  LIMITED_CONSENT_RESPONSE,
   EVIDENCE_OTHER,
   SC_NEW_FORM_DATA,
   HAS_REDIRECTED,
@@ -113,35 +113,19 @@ describe('hasVAEvidence', () => {
 
 describe('hasPrivateEvidence', () => {
   it('should return expected value', () => {
-    expect(hasPrivateEvidence({ [EVIDENCE_PRIVATE]: undefined })).to.be
-      .undefined;
+    expect(hasPrivateEvidence({ [EVIDENCE_PRIVATE]: undefined })).to.be.false;
     expect(hasPrivateEvidence({ [EVIDENCE_PRIVATE]: true })).to.be.true;
     expect(hasPrivateEvidence({ [EVIDENCE_PRIVATE]: false })).to.be.false;
   });
 });
 
 describe('hasPrivateLimitation', () => {
-  it('should always return false when toggle is disabled', () => {
-    const getData = (hasPrivate, limit = false) => ({
-      [SC_NEW_FORM_DATA]: false,
-      [EVIDENCE_PRIVATE]: hasPrivate,
-      [EVIDENCE_LIMIT]: limit,
-    });
-    expect(hasPrivateLimitation(getData())).to.be.false;
-    expect(hasPrivateLimitation(getData(true))).to.be.false;
-    expect(hasPrivateLimitation(getData(false))).to.be.false;
-    expect(hasPrivateLimitation(getData(false, false))).to.be.false;
-    expect(hasPrivateLimitation(getData(false, true))).to.be.false;
-    expect(hasPrivateLimitation(getData(true, true))).to.be.false;
-    expect(hasPrivateLimitation(getData(true, false))).to.be.false;
-  });
   it('should return expected value', () => {
     const getData = limit => ({
-      [SC_NEW_FORM_DATA]: true,
       [EVIDENCE_PRIVATE]: true,
-      [EVIDENCE_LIMIT]: limit,
+      [LIMITED_CONSENT_RESPONSE]: limit,
     });
-    // returns false when limitation is falsy, and true when truthy
+
     expect(hasPrivateLimitation(getData(false))).to.be.false;
     expect(hasPrivateLimitation(getData())).to.be.false;
     expect(hasPrivateLimitation(getData(''))).to.be.false;

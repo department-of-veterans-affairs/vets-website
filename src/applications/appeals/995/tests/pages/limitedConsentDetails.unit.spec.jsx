@@ -9,7 +9,7 @@ import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../config/form';
 import { content } from '../../content/limitedConsent';
 
-describe('Supplemental Claims (Custom) Private evidence limitations 2 page', () => {
+describe('Supplemental Claims Limited Consent Details page', () => {
   const {
     schema,
     uiSchema,
