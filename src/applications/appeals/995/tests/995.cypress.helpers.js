@@ -1,8 +1,8 @@
 import path from 'path';
 import { add, formatISO } from 'date-fns';
-
 import { setStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
-
+import manifest from '../manifest.json';
+import formConfig from '../config/form';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockPrefill from './fixtures/mocks/prefill.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
@@ -31,6 +31,14 @@ import {
   getRandomDate,
 } from '../../shared/tests/cypress.helpers';
 import { CONTESTABLE_ISSUES_PATH, SELECTED } from '../../shared/constants';
+
+const { chapters } = formConfig;
+
+export const VETERAN_INFO_PATH = chapters.infoPages.pages.veteranInfo.path;
+export const HOMELESSNESS_PATH = chapters.infoPages.pages.housingRisk.path;
+
+export const verifyUrl = link =>
+  cy.url().should('contain', `${manifest.rootUrl}/${link}`);
 
 export const fetchItf = (
   offset = { months: 3 },

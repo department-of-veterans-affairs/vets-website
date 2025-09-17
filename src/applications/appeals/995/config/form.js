@@ -45,7 +45,7 @@ import evidenceVaRecordsRequest from '../pages/evidenceVaRecordsRequest';
 import evidenceVaRecords from '../pages/evidenceVaRecords';
 import evidencePrivateRequest from '../pages/evidencePrivateRequest';
 import limitedConsentPromptPage from '../pages/limitedConsentPrompt';
-import limitedConsentEntryPage from '../pages/limitedConsentEntry';
+import limitedConsentDetailsPage from '../pages/limitedConsentDetails';
 import evidencePrivateRecords from '../pages/evidencePrivateRecords';
 import evidenceWillUpload from '../pages/evidenceWillUpload';
 import evidenceUpload from '../pages/evidenceUpload';
@@ -332,8 +332,8 @@ const formConfig = {
           title: 'Non-VA medical record: limited consent details',
           path: LIMITED_CONSENT_DETAILS,
           depends: hasPrivateLimitation,
-          uiSchema: limitedConsentEntryPage.uiSchema,
-          schema: limitedConsentEntryPage.schema,
+          uiSchema: limitedConsentDetailsPage.uiSchema,
+          schema: limitedConsentDetailsPage.schema,
           scrollAndFocusTarget: focusRadioH3,
         },
         evidencePrivateRecords: {

@@ -14,7 +14,7 @@ import {
 import { parseDate } from '../../shared/utils/dates';
 
 export const hasVAEvidence = formData => formData?.[EVIDENCE_VA];
-export const hasPrivateEvidence = formData => formData?.[EVIDENCE_PRIVATE];
+export const hasPrivateEvidence = formData => !!formData?.[EVIDENCE_PRIVATE];
 export const hasPrivateLimitation = formData =>
   hasPrivateEvidence(formData) && !!formData?.[LIMITED_CONSENT_RESPONSE];
 export const hasOtherEvidence = formData => formData?.[EVIDENCE_OTHER];
