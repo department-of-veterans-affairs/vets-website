@@ -44,12 +44,10 @@ describe('SM CURATED LIST BACK TO SELECTION', () => {
 
     PilotEnvPage.selectTriageGroup(2);
 
-    cy.get(`.usa-combo-box__list > li`)
-      .eq(2)
-      .invoke('text')
-      .then(name => {
-        cy.wrap(name).as(`updatedTGName`);
-      });
+    PilotEnvPage.getSelectableComboBoxItems().then(items => {
+      const name = items[2].textContent.trim();
+      cy.wrap(name).as(`updatedTGName`);
+    });
 
     cy.get(`@updatedTGName`).then(updatedTGName => {
       cy.findByTestId(`continue-button`).click();
@@ -81,12 +79,10 @@ describe('SM CURATED LIST BACK TO SELECTION', () => {
 
     PilotEnvPage.selectTriageGroup(1);
 
-    cy.get(`.usa-combo-box__list > li`)
-      .eq(1)
-      .invoke('text')
-      .then(name => {
-        cy.wrap(name).as(`updatedTGName`);
-      });
+    PilotEnvPage.getSelectableComboBoxItems().then(items => {
+      const name = items[1].textContent.trim();
+      cy.wrap(name).as(`updatedTGName`);
+    });
 
     cy.get(`@updatedTGName`).then(updatedTGName => {
       cy.findByTestId(`continue-button`).click();

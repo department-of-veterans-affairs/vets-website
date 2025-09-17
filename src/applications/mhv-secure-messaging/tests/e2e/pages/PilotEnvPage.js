@@ -239,7 +239,17 @@ class PilotEnvPage {
   };
 
   selectTriageGroup = (index = 0) => {
-    // Open (supports both new (#options--list) and legacy (#options) containers) with separated chains to satisfy lint.
+    // Ensure recipients have loaded if an alias exists (avoid arbitrary waiting)
+    cy.then(() => {
+      const aliases = Cypress.state('aliases') || {};
+      if (aliases.Recipients) {
+        cy.wait('@Recipients');
+      } else if (aliases.recipients) {
+        cy.wait('@recipients');
+      }
+    });
+
+    // Open the combo box (supports both new (#options--list) and legacy (#options) containers)
     cy.get('va-combo-box')
       .shadow()
       .then($shadow => {
@@ -247,36 +257,43 @@ class PilotEnvPage {
         if ($input.length) {
           cy.wrap($input).focus();
           cy.wrap($input).type('{downarrow}', { force: true });
-          // send a space to force open if needed
-          cy.wrap($input).type(' ', { force: true });
+          cy.wrap($input).type(' ', { force: true }); // force open
         }
         cy.wrap($shadow)
           .find('#options--list, #options')
           .should('exist');
       });
 
-    // Fetch and filter options in a fresh chain (avoid unsafe chaining warnings).
+    // Re-query, filter out group labels, then click target
     cy.get('va-combo-box')
       .shadow()
       .then($shadow => {
         const $items = $shadow.find(
           '#options--list li, #options li, .usa-combo-box__list > li',
         );
+
         const selectable = [...$items].filter(li => {
           const txt = (li.textContent || '').trim().toLowerCase();
+          // Exclude empty, group label, or purely structural items
           return txt && txt !== RECENT_CARE_TEAMS_LABEL.toLowerCase();
         });
-        const target = selectable[index];
-        if (!target) {
+
+        if (selectable.length === 0) {
+          throw new Error('No selectable triage groups found in combo box');
+        }
+        if (index >= selectable.length) {
           throw new Error(
-            `Expected triage group at filtered index ${index} to exist`,
+            `Requested triage group index ${index} out of range (found ${
+              selectable.length
+            })`,
           );
         }
-        // Split chained actions to satisfy lint rule about unsafe chaining after multiple commands
+
+        const target = selectable[index];
+        // Split chained actions to avoid unsafe chaining lint warning
         cy.wrap(target).scrollIntoView();
-        cy.wrap(target)
-          .should('be.visible')
-          .click({ force: true });
+        cy.wrap(target).should('be.visible');
+        cy.wrap(target).click({ force: true });
       });
   }; // end selectTriageGroup
 }

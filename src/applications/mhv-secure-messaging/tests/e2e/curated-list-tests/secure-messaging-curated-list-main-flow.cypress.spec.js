@@ -30,6 +30,15 @@ describe('SM CURATED LIST MAIN FLOW', () => {
   it('verify navigating to compose page', () => {
     PilotEnvPage.selectCareSystem(0);
 
+    // wait for whichever recipients alias exists (pilot or standard) then select
+    cy.then(() => {
+      const aliases = Cypress.state('aliases') || {};
+      if (aliases.Recipients) {
+        cy.wait('@Recipients');
+      } else if (aliases.recipients) {
+        cy.wait('@recipients');
+      }
+    });
     PilotEnvPage.selectTriageGroup(2);
 
     // this is for intercepting repeatedly calling api request for sent threads
@@ -51,6 +60,15 @@ describe('SM CURATED LIST MAIN FLOW', () => {
   it('verify user can send a message', () => {
     PilotEnvPage.selectCareSystem(0);
 
+    // wait for whichever recipients alias exists (pilot or standard) then select
+    cy.then(() => {
+      const aliases = Cypress.state('aliases') || {};
+      if (aliases.Recipients) {
+        cy.wait('@Recipients');
+      } else if (aliases.recipients) {
+        cy.wait('@recipients');
+      }
+    });
     PilotEnvPage.selectTriageGroup(2);
 
     // this is for intercepting repeatedly calling api request for sent threads
