@@ -7,6 +7,7 @@ import mockDraftResponse from '../fixtures/message-compose-draft-response.json';
 import mockRecipients from '../fixtures/recipientsResponse/recipients-response.json';
 import mockUumResponse from '../fixtures/unique-user-metrics-response.json';
 import newDraft from '../fixtures/draftsResponse/drafts-single-message-response.json';
+import SharedComponents from './SharedComponents';
 
 class PatientComposePage {
   messageSubjectText = 'testSubject';
@@ -493,7 +494,7 @@ class PatientComposePage {
   };
 
   backToInbox = () => {
-    cy.get(Locators.BACK_TO).click();
+    SharedComponents.clickBackBreadcrumb();
   };
 
   verifyCantSaveAlert = (
