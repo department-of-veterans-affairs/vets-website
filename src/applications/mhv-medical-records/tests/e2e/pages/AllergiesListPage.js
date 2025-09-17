@@ -2,10 +2,7 @@ import defaultAllergies from '../fixtures/allergies.json';
 import BaseListPage from './BaseListPage';
 
 class AllergiesListPage extends BaseListPage {
-  clickGotoAllergiesLink = (
-    allergies = defaultAllergies,
-    waitForAllergies = false,
-  ) => {
+  clickGotoAllergiesLink = (allergies = defaultAllergies) => {
     cy.intercept(
       'GET',
       '/my_health/v1/medical_records/allergies',
@@ -17,9 +14,7 @@ class AllergiesListPage extends BaseListPage {
       .then(() => {
         cy.get('[data-testid="allergies-landing-page-link"]').click();
       });
-    if (waitForAllergies) {
-      cy.wait('@allergiesList');
-    }
+    cy.wait('@allergiesList');
   };
 
   loadVAPaginationNextAllergies = () => {

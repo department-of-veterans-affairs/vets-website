@@ -7,7 +7,6 @@ class LabsAndTestsListPage extends BaseListPage {
     labsAndTests = defaultLabsAndTests,
     imaging = [],
     imagingStatus = [],
-    waitForLabsAndTests = false,
   ) => {
     cy.intercept(
       'GET',
@@ -35,11 +34,9 @@ class LabsAndTestsListPage extends BaseListPage {
     cy.intercept('POST', '/v0/datadog_action', {}).as('datadogAction');
     // cy.get('[href="/my-health/medical-records/labs-and-tests"]').click();
     cy.visit('my-health/medical-records/labs-and-tests');
-    if (waitForLabsAndTests) {
-      cy.wait('@LabsAndTestsList');
-      cy.wait('@RadiologyRecordsMhv');
-      cy.wait('@CvixRadiologyRecordsMhvImagingStatus');
-    }
+    cy.wait('@LabsAndTestsList');
+    cy.wait('@RadiologyRecordsMhv');
+    cy.wait('@CvixRadiologyRecordsMhvImagingStatus');
   };
 
   clickLabsAndTestsDetailsLink = (_LabsAndTestsItemIndex = 0, entry) => {

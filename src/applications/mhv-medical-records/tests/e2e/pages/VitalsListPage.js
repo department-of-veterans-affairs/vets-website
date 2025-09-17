@@ -21,7 +21,7 @@ class VitalsListPage extends BaseListPage {
   }
   */
 
-  goToVitals = (vitals = defaultVitals, waitForVitals = false) => {
+  goToVitals = (vitals = defaultVitals) => {
     // cy.intercept('POST', '/my_health/v1/medical_records/session').as('session');
     // cy.wait('@session');
     cy.intercept('GET', '/my_health/v1/medical_records/vitals', vitals).as(
@@ -29,9 +29,7 @@ class VitalsListPage extends BaseListPage {
     );
     cy.intercept('POST', '/v0/datadog_action', {}).as('datadogAction');
     cy.visit('my-health/medical-records/vitals');
-    if (waitForVitals) {
-      cy.wait('@vitalsList');
-    }
+    cy.wait('@vitalsList');
   };
 
   clickLinkByRecordListItemIndex = (index = 0) => {
