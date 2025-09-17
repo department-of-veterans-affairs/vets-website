@@ -1,8 +1,8 @@
 import fs from 'fs';
 import path from 'path';
-import moment from 'moment';
 
 import { expect } from 'chai';
+import { daysFromToday } from './utils/dates/dateHelper';
 
 import formConfig from '../config/form';
 import { CHAR_LIMITS } from '../constants';
@@ -17,9 +17,7 @@ describe('transform', () => {
       serviceBranch: 'Air Force Reserves',
       dateRange: {
         from: '2001-03-21',
-        to: moment()
-          .add(90, 'days')
-          .format('YYYY-MM-DD'),
+        to: daysFromToday(90),
       },
     },
   ];

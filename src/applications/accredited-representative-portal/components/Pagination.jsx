@@ -28,11 +28,14 @@ const Pagination = ({ meta, defaults }) => {
     }
   };
 
+  const page = meta.page.number;
+  const pages = meta.page.totalPages;
+
   return (
     <>
       <VaPagination
-        page={meta.page.number}
-        pages={meta.page.totalPages}
+        page={page}
+        pages={pages}
         maxPageListLength={pageSize}
         showLastPage
         onPageSelect={e => pageSelect(e.detail.page)}

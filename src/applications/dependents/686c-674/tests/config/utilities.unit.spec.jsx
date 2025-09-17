@@ -17,6 +17,7 @@ import {
   showPensionRelatedQuestions,
   shouldShowStudentIncomeQuestions,
   buildSubmissionData,
+  showDupeModalIfEnabled,
 } from '../../config/utilities';
 
 describe('Utilities', () => {
@@ -688,5 +689,18 @@ describe('buildSubmissionData', () => {
     expect(result.data['view:removeDependentOptions']).to.deep.equal({
       reportDivorce: true,
     });
+  });
+});
+
+describe('showDupeModalIfEnabled', () => {
+  it('should return false if feature flag is off', () => {
+    expect(showDupeModalIfEnabled({})).to.be.false;
+    expect(showDupeModalIfEnabled({ vaDependentsDuplicateModals: false })).to.be
+      .false;
+  });
+
+  it('should return true if feature flag is on', () => {
+    expect(showDupeModalIfEnabled({ vaDependentsDuplicateModals: true })).to.be
+      .true;
   });
 });

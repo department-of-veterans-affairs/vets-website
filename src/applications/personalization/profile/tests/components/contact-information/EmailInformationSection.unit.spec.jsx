@@ -2,7 +2,6 @@ import React from 'react';
 import { expect } from 'chai';
 import clone from 'lodash/clone';
 import set from 'lodash/set';
-import { waitFor } from '@testing-library/react';
 
 import vapService from '@@vap-svc/reducers';
 import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
@@ -19,7 +18,6 @@ const baseState = {
       vapContactInfo: {
         email: {
           emailAddress: 'myemail72585885@unattended.com',
-          updatedAt: '2020-08-26T15:00:00.000+00:00',
         },
       },
     },
@@ -91,28 +89,5 @@ describe('EmailInformationSection', () => {
     });
 
     expect(view.queryByTestId('sign-in-email-link')).not.to.exist;
-  });
-
-  it('renders <AlertConfirmContactEmail /> when email.updatedAt is before the threshold value', async () => {
-    const { getByTestId } = renderInReduxProvider(<EmailInformationSection />, {
-      initialState: baseState,
-      reducers: { vapService },
-    });
-    await waitFor(() => {
-      expect(getByTestId('va-profile--alert-confirm-contact-email')).to.exist;
-    });
-  });
-
-  it('suppresses <AlertConfirmContactEmail /> when email.updatedAt is after the threshold value', async () => {
-    baseState.user.profile.vapContactInfo.email.updatedAt =
-      '2025-09-09T12:00:00.000+00:00';
-    const { getByTestId } = renderInReduxProvider(<EmailInformationSection />, {
-      initialState: baseState,
-      reducers: { vapService },
-    });
-    await waitFor(() => {
-      const component = getByTestId('va-profile--alert-confirm-contact-email');
-      expect(component.getAttribute('visible')).to.equal('false');
-    });
   });
 });

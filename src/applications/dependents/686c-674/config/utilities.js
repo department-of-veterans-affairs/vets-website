@@ -342,3 +342,5 @@ export const showPensionBackupPath = (formData = {}) => {
   const { veteranInformation: vi, vaDependentsNetWorthAndPension } = formData;
   return vaDependentsNetWorthAndPension && vi?.isInReceiptOfPension === -1;
 };
+export const showDupeModalIfEnabled = (formData = {}) =>
+  !!formData.vaDependentsDuplicateModals;
