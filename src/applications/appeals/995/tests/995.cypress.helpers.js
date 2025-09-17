@@ -36,6 +36,7 @@ const { chapters } = formConfig;
 
 export const VETERAN_INFO_PATH = chapters.infoPages.pages.veteranInfo.path;
 export const HOMELESSNESS_PATH = chapters.infoPages.pages.housingRisk.path;
+<<<<<<< HEAD
 export const PRIMARY_PHONE_PATH =
   chapters.infoPages.pages.choosePrimaryPhone.path;
 export const ISSUES_SUMMARY_PATH = chapters.issues.pages.issueSummary.path;
@@ -69,15 +70,20 @@ export const PRIVACY_MODAL_TITLE =
 export const PRIVACY_AGREEMENT_CHECKBOX = 'input[name="privacy-agreement"]';
 export const LIMITED_CONSENT_RADIOS = '[name="root_view:hasPrivateLimitation"]';
 export const LIMITED_CONSENT_TEXTAREA = '[name="root_limitedConsent"]';
+=======
+>>>>>>> 299a276925 (Fixing unit and Cypress tests)
 
 export const verifyUrl = link =>
   cy.url().should('contain', `${manifest.rootUrl}/${link}`);
 
+<<<<<<< HEAD
 export const selectDropdownWithKeyboard = (fieldName, value) => {
   cy.tabToElement(`[name="${fieldName}"]`);
   cy.chooseSelectOptionUsingValue(value);
 };
 
+=======
+>>>>>>> 299a276925 (Fixing unit and Cypress tests)
 export const fetchItf = (
   offset = { months: 3 },
   status = 'active',

@@ -194,6 +194,7 @@ describe('<EvidenceSummary>', () => {
       `${EVIDENCE_PRIVATE_PATH}?index=1`,
     );
     expect(links[5].getAttribute('data-link')).to.contain(EVIDENCE_UPLOAD_PATH);
+    expect(links[6].getAttribute('data-link')).to.contain(EVIDENCE_UPLOAD_PATH);
   });
 
   it('should submit page without error', async () => {
