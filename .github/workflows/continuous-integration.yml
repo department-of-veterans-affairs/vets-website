@@ -800,8 +800,8 @@ jobs:
       - name: Unpack build
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         run: |
-          mkdir -p build/vagovprod
-          tar -C build/vagovprod -xjf vagovprod.tar.bz2
+          mkdir -p build/vagovprod-instrumented
+          tar -C build/vagovprod-instrumented -xjf vagovprod-instrumented.tar.bz2
 
       - name: Install dependencies
         if: needs.tests-prep.outputs.cypress-tests != '[]'
