@@ -795,7 +795,7 @@ jobs:
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         uses: ./.github/workflows/download-artifact
         with:
-          name: vagovprod.tar.bz2
+          name: vagovprod-instrumented.tar.bz2
 
       - name: Unpack build
         if: needs.tests-prep.outputs.cypress-tests != '[]'
