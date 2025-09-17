@@ -47,13 +47,20 @@ describe('SM CURATED LIST - Select Care Team recent recipients integration', () 
       .filter(Boolean)
       .map(r => r.attributes?.suggestedNameDisplay || r.attributes?.name);
 
+  // Open combo box: break chain after alias to satisfy lint rule on unsafe chaining.
   const openComboBox = () => {
+    // Split shadow traversal and alias assignment into separate Cypress command chains
+    // to satisfy lint rule about unsafe chaining after aliasing.
     cy.findByTestId('compose-recipient-combobox')
       .shadow()
-      .find('input')
-      .as('comboInput')
-      .focus()
-      .type('{downarrow}', { force: true });
+      .then($root => {
+        cy.wrap($root)
+          .find('input')
+          .as('comboInput');
+      });
+
+    cy.get('@comboInput').focus();
+    cy.get('@comboInput').type('{downarrow}', { force: true });
     cy.get('@comboInput').type(' ', { force: true });
   };
 
@@ -61,14 +68,14 @@ describe('SM CURATED LIST - Select Care Team recent recipients integration', () 
     cy.get('body').type('{esc}', { force: true });
   };
 
+  const axeRules = {
+    'aria-required-children': { enabled: false },
+    'aria-allowed-attr': { enabled: false },
+  };
+
   const axeCheckCombo = () => {
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': { enabled: false },
-        'aria-allowed-attr': { enabled: false },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, { rules: axeRules });
   };
 
   /**
@@ -175,6 +182,8 @@ describe('SM CURATED LIST - Select Care Team recent recipients integration', () 
       closeComboBox();
 
       axeCheckCombo();
+      // Explicit direct call to satisfy lint rule requiring visible axeCheck in test body
+      cy.axeCheck(AXE_CONTEXT, { rules: axeRules });
     });
   });
 
@@ -205,6 +214,7 @@ describe('SM CURATED LIST - Select Care Team recent recipients integration', () 
       assertNoRecentGroup();
       closeComboBox();
       axeCheckCombo();
+      cy.axeCheck(AXE_CONTEXT, { rules: axeRules });
     });
   });
 
@@ -234,6 +244,7 @@ describe('SM CURATED LIST - Select Care Team recent recipients integration', () 
       assertNoRecentGroup();
       closeComboBox();
       axeCheckCombo();
+      cy.axeCheck(AXE_CONTEXT, { rules: axeRules });
     });
   });
 
@@ -268,6 +279,7 @@ describe('SM CURATED LIST - Select Care Team recent recipients integration', () 
 
     closeComboBox();
     axeCheckCombo();
+    cy.axeCheck(AXE_CONTEXT, { rules: axeRules });
   });
 });
 // newline added to satisfy lint end-of-file rule

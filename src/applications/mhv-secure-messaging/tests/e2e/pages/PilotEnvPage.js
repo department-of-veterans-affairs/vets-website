@@ -239,28 +239,29 @@ class PilotEnvPage {
   };
 
   selectTriageGroup = (index = 0) => {
-    // Robust open sequence supporting both new (#options--list) and legacy (#options) list containers.
+    // Open (supports both new (#options--list) and legacy (#options) containers) with separated chains to satisfy lint.
     cy.get('va-combo-box')
       .shadow()
       .then($shadow => {
         const $input = $shadow.find('input');
         if ($input.length) {
-          cy.wrap($input)
-            .focus()
-            .type('{downarrow}', { force: true })
-            .type(' ', { force: true }); // attempt to open the list
+          cy.wrap($input).focus();
+          cy.wrap($input).type('{downarrow}', { force: true });
+          // send a space to force open if needed
+          cy.wrap($input).type(' ', { force: true });
         }
         cy.wrap($shadow)
           .find('#options--list, #options')
           .should('exist');
       });
 
-    // Gather candidate list items from any supported container, filter out group headers,
-    // and click the requested selectable item.
+    // Fetch and filter options in a fresh chain (avoid unsafe chaining warnings).
     cy.get('va-combo-box')
       .shadow()
-      .find('#options--list li, #options li, .usa-combo-box__list > li')
-      .then($items => {
+      .then($shadow => {
+        const $items = $shadow.find(
+          '#options--list li, #options li, .usa-combo-box__list > li',
+        );
         const selectable = [...$items].filter(li => {
           const txt = (li.textContent || '').trim().toLowerCase();
           return txt && txt !== RECENT_CARE_TEAMS_LABEL.toLowerCase();
@@ -271,8 +272,9 @@ class PilotEnvPage {
             `Expected triage group at filtered index ${index} to exist`,
           );
         }
+        // Split chained actions to satisfy lint rule about unsafe chaining after multiple commands
+        cy.wrap(target).scrollIntoView();
         cy.wrap(target)
-          .scrollIntoView()
           .should('be.visible')
           .click({ force: true });
       });

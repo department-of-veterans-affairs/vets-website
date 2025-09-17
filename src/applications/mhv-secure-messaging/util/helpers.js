@@ -1,4 +1,7 @@
-import moment from 'moment-timezone';
+import {
+  scrollToElement,
+  scrollToTop as scrollToTopUtil,
+} from 'platform/utilities/scroll';
 import DOMPurify from 'dompurify';
 import {
   DefaultFolders as Folders,
@@ -90,38 +93,37 @@ export const today = new Date();
 
 /**
  * @param {*} timestamp
- * @param {*} format momentjs formatting guide found here https://momentjs.com/docs/#/displaying/format/
- * @returns {String} fromatted timestamp
+ * @param {String|null} format (Optional) - currently only native formatting supported; custom tokens ignored.
+ * @returns {String} formatted timestamp
  */
-
-export const dateFormat = (timestamp, format = null) => {
-  moment.updateLocale('en', {
-    meridiem: hour => {
-      if (hour < 12) {
-        return 'a.m.';
-      }
-      return 'p.m.';
-    },
-  });
-  const timeZone = moment.tz.guess();
-  return moment
-    .tz(timestamp, timeZone)
-    .format(format || 'MMMM D, YYYY, h:mm a z');
+export const dateFormat = timestamp => {
+  const date = new Date(timestamp);
+  if (Number.isNaN(date.getTime())) return '';
+  const datePart = new Intl.DateTimeFormat('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  }).format(date);
+  const hours24 = date.getHours();
+  const hours12 = hours24 % 12 || 12;
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  const ampm = hours24 < 12 ? 'a.m.' : 'p.m.';
+  return `${datePart}, ${hours12}:${minutes} ${ampm}`;
 };
 
-export const threadsDateFormat = (timestamp, format = null) => {
-  moment.updateLocale('en', {
-    meridiem: hour => {
-      if (hour < 12) {
-        return 'a.m.';
-      }
-      return 'p.m.';
-    },
-  });
-  const timeZone = moment.tz.guess();
-  return moment
-    .tz(timestamp, timeZone)
-    .format(format || 'MMMM D, YYYY [at] h:mm a z');
+export const threadsDateFormat = timestamp => {
+  const date = new Date(timestamp);
+  if (Number.isNaN(date.getTime())) return '';
+  const datePart = new Intl.DateTimeFormat('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  }).format(date);
+  const hours24 = date.getHours();
+  const hours12 = hours24 % 12 || 12;
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  const ampm = hours24 < 12 ? 'a.m.' : 'p.m.';
+  return `${datePart} at ${hours12}:${minutes} ${ampm}`;
 };
 
 export const sortRecipients = recipientsList => {
@@ -163,9 +165,11 @@ export const decodeHtmlEntities = str => {
  * @returns {Boolean} true if timestamp is older than days
  */
 export const isOlderThan = (timestamp, days) => {
-  const now = moment();
-  const then = moment(timestamp);
-  return now.diff(then, 'days') > days;
+  const now = Date.now();
+  const then = new Date(timestamp).getTime();
+  if (Number.isNaN(then)) return false;
+  const diffDays = (now - then) / (1000 * 60 * 60 * 24);
+  return diffDays > days;
 };
 
 export const getLastSentMessage = messages => {
@@ -423,11 +427,6 @@ export const findActiveDraftFacility = (facilityId, facilitiesArray) => {
 export const sortTriageList = list => {
   return list?.sort((a, b) => a.name?.localeCompare(b.name)) || [];
 };
-
-import {
-  scrollToElement,
-  scrollToTop as scrollToTopUtil,
-} from 'platform/utilities/scroll';
 
 export const scrollTo = (element, behavior = 'smooth') => {
   if (element) {
