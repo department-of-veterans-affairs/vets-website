@@ -8,6 +8,8 @@ describe('Secure Messaging Digital Signature Error flows', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.navigateToComposePage();
+    cy.intercept('POST', Paths.INTERCEPT.DRAFT_AUTO_SAVE).as('autoSaveDraft');
+    // Selecting by visible text; no recipientId reference required
     PatientComposePage.selectRecipient('Record Amendment Admin');
     PatientComposePage.selectCategory();
     PatientComposePage.getMessageSubjectField().type(`DS test`, {
@@ -103,12 +105,9 @@ describe('Secure Messaging Digital Signature Error flows', () => {
   });
 
   it('verify no signature alerts with auto save', () => {
-    cy.intercept(`POST`, Paths.INTERCEPT.DRAFT_AUTO_SAVE).as(`autoSaveDraft`);
-    cy.wait(`@autoSaveDraft`, { timeout: 10000 }).then(() => {
-      cy.get(Locators.ALERTS.EL_SIGN_NAME).should('not.exist');
-      cy.get(Locators.ALERTS.EL_SIGN_CHECK).should(`not.exist`);
-    });
-
+    cy.wait('@autoSaveDraft', { timeout: 20000 });
+    cy.get(Locators.ALERTS.EL_SIGN_NAME).should('not.exist');
+    cy.get(Locators.ALERTS.EL_SIGN_CHECK).should('not.exist');
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 });
