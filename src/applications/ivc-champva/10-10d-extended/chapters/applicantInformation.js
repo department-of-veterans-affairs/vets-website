@@ -219,7 +219,7 @@ const applicantMailingAddressPage = {
   schema: {
     type: 'object',
     properties: {
-      applicantAddress: addressSchema(),
+      applicantAddress: addressSchema({ omit: ['street3'] }),
     },
     required: ['applicantAddress'],
   },
