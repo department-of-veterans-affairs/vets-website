@@ -111,7 +111,7 @@ export default {
     es: '/resources/verifying-your-identity-on-vagov-esp/',
   },
   dentalCare: {
-    en: ' /health-care/about-va-health-benefits/dental-care/',
+    en: '/health-care/about-va-health-benefits/dental-care/',
     es: ' /health-care/about-va-health-benefits/dental-care-esp//',
   },
   survivorsPension: {
