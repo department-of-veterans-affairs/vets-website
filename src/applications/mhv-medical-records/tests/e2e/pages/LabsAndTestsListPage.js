@@ -37,6 +37,8 @@ class LabsAndTestsListPage extends BaseListPage {
     cy.wait('@LabsAndTestsList');
     cy.wait('@RadiologyRecordsMhv');
     cy.wait('@CvixRadiologyRecordsMhvImagingStatus');
+    cy.wait('@CvixRadiologyRecordsMhvImaging');
+    cy.wait('@vamcEhr');
   };
 
   clickLabsAndTestsDetailsLink = (_LabsAndTestsItemIndex = 0, entry) => {
