@@ -93,7 +93,7 @@ jobs:
     needs: holiday-checker
     if: ${{ inputs.simulate_deploy_cron == 'true' && inputs.bypass_freeze != 'true' && needs.holiday-checker.outputs.effective_is_holiday == 'false' }}
     outputs:
-      reenabled: ${{ steps.enable-workflows.outputs.reenabled }}
+      reenabled: ${{ steps.enable-workflows.outputs.reenabled || steps.enable-workflows-live.outputs.reenabled || steps.enable-workflows-skip.outputs.reenabled }}
     steps:
       - name: Simulate check workflow status (content-build)
         id: check-status
