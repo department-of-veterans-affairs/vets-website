@@ -34,34 +34,20 @@ describe('SM MESSAGING COMPOSE', () => {
   });
 
   it('verify user can send a message', () => {
-    // Dynamically select first available recipient to avoid brittle hard-coded IDs
-    PatientComposePage.selectRecipient();
-    cy.get(Locators.ALERTS.REPT_SELECT)
-      .shadow()
-      .find('select')
-      .invoke('val')
-      .then(val => {
-        const expectedPayload = {
-          ...requestBody,
-          // eslint-disable-next-line camelcase
-          recipient_id: Number(val),
-        };
-        PatientComposePage.selectCategory(requestBody.category);
-        PatientComposePage.getMessageSubjectField().type(
-          `${requestBody.subject}`,
-        );
-        PatientComposePage.getMessageBodyField().type(`${requestBody.body}`, {
-          force: true,
-        });
-        PatientComposePage.sendMessage(expectedPayload);
-        cy.get(Locators.SPINNER).should('be.visible');
-        PatientComposePage.verifySendMessageConfirmationMessageText();
-        PatientComposePage.verifySendMessageConfirmationMessageHasFocus();
-        cy.get(Locators.SPINNER).should('not.exist');
+    PatientComposePage.selectRecipient(requestBody.recipientId);
+    PatientComposePage.selectCategory(requestBody.category);
+    PatientComposePage.getMessageSubjectField().type(`${requestBody.subject}`);
+    PatientComposePage.getMessageBodyField().type(`${requestBody.body}`, {
+      force: true,
+    });
+    PatientComposePage.sendMessage(requestBody);
+    cy.get(Locators.SPINNER).should('be.visible');
+    PatientComposePage.verifySendMessageConfirmationMessageText();
+    PatientComposePage.verifySendMessageConfirmationMessageHasFocus();
+    cy.get(Locators.SPINNER).should('not.exist');
 
-        cy.injectAxe();
-        cy.axeCheck(AXE_CONTEXT);
-      });
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 
   it('verify subject field max size', () => {

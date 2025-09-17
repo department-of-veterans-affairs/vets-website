@@ -17,15 +17,13 @@ describe('SM back navigation', () => {
 
   it('user navigate to inbox folder after message sent', () => {
     PatientInboxPage.navigateToComposePage();
-    // Dynamically select first available recipient (avoids brittle hard-coded IDs)
-    PatientComposePage.selectRecipient();
+    PatientComposePage.selectRecipient(requestBody.recipientId);
     PatientComposePage.selectCategory(requestBody.category);
     PatientComposePage.getMessageSubjectField().type(`${requestBody.subject}`);
     PatientComposePage.getMessageBodyField().type(`${requestBody.body}`, {
       force: true,
     });
-    // Send without payload assertion (navigation test only)
-    PatientComposePage.sendMessage();
+    PatientComposePage.sendMessage(requestBody);
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
 

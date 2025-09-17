@@ -44,11 +44,12 @@ describe('SM CURATED LIST BACK TO SELECTION', () => {
 
     PilotEnvPage.selectTriageGroup(2);
 
-    PilotEnvPage.getSelectableComboBoxItems().then(selectable => {
-      const target = selectable[2];
-      expect(target, 'Expected triage group list item at index 2').to.exist;
-      cy.wrap(target.textContent).as(`updatedTGName`);
-    });
+    cy.get(`.usa-combo-box__list > li`)
+      .eq(2)
+      .invoke('text')
+      .then(name => {
+        cy.wrap(name).as(`updatedTGName`);
+      });
 
     cy.get(`@updatedTGName`).then(updatedTGName => {
       cy.findByTestId(`continue-button`).click();
@@ -80,11 +81,12 @@ describe('SM CURATED LIST BACK TO SELECTION', () => {
 
     PilotEnvPage.selectTriageGroup(1);
 
-    PilotEnvPage.getSelectableComboBoxItems().then(selectable => {
-      const target = selectable[1];
-      expect(target, 'Expected triage group list item at index 1').to.exist;
-      cy.wrap(target.textContent).as(`updatedTGName`);
-    });
+    cy.get(`.usa-combo-box__list > li`)
+      .eq(1)
+      .invoke('text')
+      .then(name => {
+        cy.wrap(name).as(`updatedTGName`);
+      });
 
     cy.get(`@updatedTGName`).then(updatedTGName => {
       cy.findByTestId(`continue-button`).click();
