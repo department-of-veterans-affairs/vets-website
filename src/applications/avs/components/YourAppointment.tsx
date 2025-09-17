@@ -1,4 +1,5 @@
 import React from 'react';
+import { VaIcon } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { getFormattedAppointmentTime, getShortTimezone } from '../utils';
 import ItemsBlock from './ItemsBlock';
 import ListBlock from './ListBlock';
@@ -19,7 +20,7 @@ const clinicsVisited = (avs: AvsData): React.ReactNode => {
         </h3>
         <p>
           <span className="clinic-information" key="clinicSite">
-            <va-icon
+            <VaIcon
               icon="location_city"
               size={4}
               data-testid="appointment-icon"

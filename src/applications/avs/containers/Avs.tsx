@@ -6,6 +6,11 @@ import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utiliti
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
+import {
+  VaLoadingIndicator,
+  VaAccordion,
+  VaAccordionItem,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { getFormattedAppointmentDate } from '../utils';
 
 import { useDatadogRum } from '../hooks/useDatadogRum';
@@ -64,7 +69,7 @@ const Avs: React.FC<AvsProps & StateToProps> = ({ id, isLoggedIn }) => {
   }
 
   const loadingIndicator = (
-    <va-loading-indicator
+    <VaLoadingIndicator
       data-testid="avs-loading-indicator"
       message="Loading your after-visit summary"
     />
@@ -96,30 +101,27 @@ const Avs: React.FC<AvsProps & StateToProps> = ({ id, isLoggedIn }) => {
                 </p>
               )}
 
-              <va-accordion uswds>
-                <va-accordion-item
+              <VaAccordion>
+                <VaAccordionItem
                   header={generateAppointmentHeader(avs)}
-                  open="true"
-                  uswds
+                  open={true}
                 >
                   <YourAppointment avs={avs} />
-                </va-accordion-item>
-                <va-accordion-item
+                </VaAccordionItem>
+                <VaAccordionItem
                   header="Your treatment plan from this appointment"
-                  uswds
                 >
                   <YourTreatmentPlan avs={avs} />
-                </va-accordion-item>
-                <va-accordion-item
+                </VaAccordionItem>
+                <VaAccordionItem
                   header="Your health information as of this appointment"
-                  uswds
                 >
                   <YourHealthInformation avs={avs} />
-                </va-accordion-item>
-                <va-accordion-item header="More information" uswds>
+                </VaAccordionItem>
+                <VaAccordionItem header="More information">
                   <MoreInformation avs={avs} />
-                </va-accordion-item>
-              </va-accordion>
+                </VaAccordionItem>
+              </VaAccordion>
             </div>
           )}
         </Await>
