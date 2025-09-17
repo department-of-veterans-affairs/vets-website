@@ -115,13 +115,13 @@ describe('<EvidenceSummaryReview>', () => {
       'VAMC Location 2Test 2Feb 2, 2002 – Feb 2, 2012',
     );
     expect(items[2].textContent).to.contain(
-      'Private DoctorPTSD and TinnitusApr 1, 2022 – Jul 1, 2022',
+      'Do you want to limit the information we can request?No',
     );
     expect(items[3].textContent).to.contain(
-      'Private HospitalTest 2, Tinnitus, and TestSep 20, 2022 – Sep 30, 2022',
+      'Private DoctorPTSD and TinnitusApr 1, 2022 – Jul 1, 2022',
     );
     expect(items[4].textContent).to.contain(
-      'Yes, I want to limit the information requested',
+      'Private HospitalTest 2, Tinnitus, and TestSep 20, 2022 – Sep 30, 2022',
     );
     expect(items[5].textContent).to.contain(
       'private-medical-records.pdfMedical Treatment Record - Non-Government Facility',
