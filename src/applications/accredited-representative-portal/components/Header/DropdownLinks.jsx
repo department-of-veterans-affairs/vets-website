@@ -20,7 +20,7 @@ const DropdownLinks = ({ closeDropdown, category }) => {
       'link-origin': 'navigation',
     });
   };
-
+  const isAuthorized = localStorage.getItem('userAuthorized');
   return (
     <>
       {category === 'mobile' &&
@@ -44,7 +44,13 @@ const DropdownLinks = ({ closeDropdown, category }) => {
           return link.FEATURE_FLAG_NAME ? (
             <Toggler toggleName={`${link.FEATURE_FLAG_NAME}`} key={i}>
               <Toggler.Enabled>
-                <li>
+                <li
+                  className={
+                    isAuthorized === 'false'
+                      ? 'vads-u-display--none'
+                      : 'is--authorized'
+                  }
+                >
                   {link.ICON && (
                     <va-icon
                       icon={link.ICON}
@@ -65,7 +71,14 @@ const DropdownLinks = ({ closeDropdown, category }) => {
               </Toggler.Enabled>
             </Toggler>
           ) : (
-            <li key={i}>
+            <li
+              key={i}
+              className={
+                isAuthorized === 'false'
+                  ? 'vads-u-display--none'
+                  : 'is--authorized'
+              }
+            >
               {link.ICON && (
                 <va-icon
                   icon={link.ICON}
@@ -85,6 +98,19 @@ const DropdownLinks = ({ closeDropdown, category }) => {
             </li>
           );
         })}
+      {category === 'mobileDashboard' && (
+        <li>
+          <Link
+            to="/get-help"
+            onClick={handleClick}
+            className="nav__mobile-menu-links"
+            data-testid="user-nav-profile-link"
+            data-eventname="nav-link-click"
+          >
+            Help
+          </Link>
+        </li>
+      )}
       {category === 'mobile' && (
         <li>
           <a
