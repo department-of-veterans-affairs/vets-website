@@ -112,7 +112,7 @@ export default {
   },
   dentalCare: {
     en: '/health-care/about-va-health-benefits/dental-care/',
-    es: ' /health-care/about-va-health-benefits/dental-care-esp//',
+    es: '/health-care/about-va-health-benefits/dental-care-esp/',
   },
   survivorsPension: {
     en:
