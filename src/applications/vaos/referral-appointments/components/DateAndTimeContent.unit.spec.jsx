@@ -6,6 +6,10 @@ import DateAndTimeContent from './DateAndTimeContent';
 import { createReferralById, getReferralSlotKey } from '../utils/referrals';
 import { createDraftAppointmentInfo } from '../utils/provider';
 import { renderWithStoreAndRouter } from '../../tests/mocks/setup';
+import {
+  generateSlotsForDay,
+  transformSlotsForCommunityCare,
+} from '../../services/mocks/utils/slots';
 
 describe('VAOS Component: DateAndTimeContent', () => {
   const initialState = {
@@ -50,15 +54,26 @@ describe('VAOS Component: DateAndTimeContent', () => {
   beforeEach(() => {
     MockDate.set('2024-12-05T05:00:00-05:00');
   });
+  const slotsDate = '2024-12-05T05:00:00-05:00';
   afterEach(() => {
     sessionStorage.clear();
     MockDate.reset();
   });
+  const draftAppointmentInfo = createDraftAppointmentInfo();
+  const slots = generateSlotsForDay(slotsDate, {
+    slotsPerDay: 1,
+    slotDuration: 60,
+    businessHours: {
+      start: 12,
+      end: 18,
+    },
+  });
+  draftAppointmentInfo.attributes.slots = transformSlotsForCommunityCare(slots);
   it('should render DateAndTimeContent component', () => {
     const screen = renderWithStoreAndRouter(
       <DateAndTimeContent
         currentReferral={referral}
-        draftAppointmentInfo={createDraftAppointmentInfo(1)}
+        draftAppointmentInfo={draftAppointmentInfo}
         appointmentsByMonth={appointmentsByMonth}
       />,
       {
@@ -71,7 +86,7 @@ describe('VAOS Component: DateAndTimeContent', () => {
     const screen = renderWithStoreAndRouter(
       <DateAndTimeContent
         currentReferral={referral}
-        draftAppointmentInfo={createDraftAppointmentInfo(1)}
+        draftAppointmentInfo={draftAppointmentInfo}
         appointmentsByMonth={appointmentsByMonth}
       />,
       {
@@ -89,7 +104,7 @@ describe('VAOS Component: DateAndTimeContent', () => {
     ).to.exist;
   });
   it('should select date if value in session storage', async () => {
-    const selectedSlotValue = '2024-12-06T15:00:00-05:00';
+    const selectedSlotValue = slotsDate;
     const selectedSlotKey = getReferralSlotKey(referral.uuid);
     sessionStorage.setItem(selectedSlotKey, selectedSlotValue);
 
@@ -103,8 +118,6 @@ describe('VAOS Component: DateAndTimeContent', () => {
         selectedSlotStartTime: selectedSlotValue,
       },
     };
-
-    const draftAppointmentInfo = createDraftAppointmentInfo(2);
 
     // Ensure the draftAppointmentInfo has a slot matching the selectedSlotValue
     draftAppointmentInfo.attributes.slots[0].start = selectedSlotValue;
@@ -134,7 +147,7 @@ describe('VAOS Component: DateAndTimeContent', () => {
     const screen = renderWithStoreAndRouter(
       <DateAndTimeContent
         currentReferral={referral}
-        draftAppointmentInfo={createDraftAppointmentInfo(0)}
+        draftAppointmentInfo={createDraftAppointmentInfo()}
         appointmentsByMonth={appointmentsByMonth}
       />,
       {

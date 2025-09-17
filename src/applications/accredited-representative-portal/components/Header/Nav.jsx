@@ -3,7 +3,7 @@ import { Link, useLoaderData } from 'react-router-dom';
 import { Toggler } from 'platform/utilities/feature-toggles';
 import { recordDatalayerEvent } from '../../utilities/analytics';
 import { getSignInUrl } from '../../utilities/constants';
-import UserNav from './UserNav';
+import DropdownContainer from './DropdownContainer';
 
 function SignInButton() {
   return (
@@ -56,24 +56,16 @@ export const Nav = () => {
         </Link>
 
         <div className="heading-right">
-          <Toggler
-            toggleName={Toggler.TOGGLE_NAMES.accreditedRepresentativePortalHelp}
-          >
-            <Toggler.Enabled>
-              <Link
-                to="/get-help"
-                className={`usa-button-secondary heading-help-link ${
-                  profile ? 'logged-in' : ''
-                }`}
-                data-testid="heading-help-link"
-                onClick={recordDatalayerEvent}
-                data-eventname="nav-link-click"
-              >
-                Help
-              </Link>
-            </Toggler.Enabled>
-          </Toggler>
-          {profile ? <UserNav profile={profile} /> : <SignInButton />}
+          <va-button
+            to="/get-help"
+            className="heading-help-link {ConditionalExpression}"
+            variant="secondary"
+            text="Help"
+            data-testid="heading-help-link"
+            onClick={recordDatalayerEvent}
+            data-eventname="nav-link-click"
+          />
+          {profile ? <DropdownContainer rep={profile} /> : <SignInButton />}
         </div>
       </div>
 
