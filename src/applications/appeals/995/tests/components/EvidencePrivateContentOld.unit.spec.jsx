@@ -5,8 +5,7 @@ import sinon from 'sinon';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import {
   EVIDENCE_PRIVATE_PATH,
-  LIMITATION_KEY,
-  LIMITED_CONSENT_PROMPT,
+  LIMITED_CONSENT_PROMPT_PATH,
 } from '../../constants';
 import { content } from '../../content/evidenceSummary';
 import { EvidencePrivateContent } from '../../components/EvidencePrivateContent';
@@ -103,7 +102,7 @@ describe('buildPrivateContent', () => {
 
     const links = $$('.edit-item', container);
     expect(links[0].getAttribute('data-link')).to.contain(
-      LIMITED_CONSENT_PROMPT,
+      LIMITED_CONSENT_PROMPT_PATH,
     );
     expect(links[1].getAttribute('data-link')).to.contain(
       `${EVIDENCE_PRIVATE_PATH}?index=0`,

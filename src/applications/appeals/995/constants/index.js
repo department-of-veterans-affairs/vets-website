@@ -168,17 +168,17 @@ export const ATTACHMENTS_OTHER = {
 
 export const CONTACT_INFO_PATH = 'contact-information';
 export const ADD_ISSUE_PATH = 'add-issue';
-export const EVIDENCE_VA_REQUEST =
+export const EVIDENCE_VA_REQUEST_PATH =
   'supporting-evidence/request-va-medical-records';
 export const EVIDENCE_VA_PATH = 'supporting-evidence/va-medical-records';
-export const EVIDENCE_PRIVATE_REQUEST =
+export const EVIDENCE_PRIVATE_REQUEST_PATH =
   'supporting-evidence/request-private-medical-records';
-export const EVIDENCE_PRIVATE_AUTHORIZATION =
+export const EVIDENCE_PRIVATE_AUTHORIZATION_PATH =
   'supporting-evidence/private-medical-records-authorization';
 export const EVIDENCE_PRIVATE_PATH =
   'supporting-evidence/private-medical-records';
-export const LIMITED_CONSENT_PROMPT = 'supporting-evidence/add-limitation';
-export const LIMITED_CONSENT_DETAILS = 'supporting-evidence/limitation';
+export const LIMITED_CONSENT_PROMPT_PATH = 'supporting-evidence/add-limitation';
+export const LIMITED_CONSENT_DETAILS_PATH = 'supporting-evidence/limitation';
 
 // TODO: Update this path
 export const EVIDENCE_ADDITIONAL_PATH =

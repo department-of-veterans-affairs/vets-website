@@ -64,12 +64,12 @@ import { hasHomeAndMobilePhone } from '../../shared/utils/contactInfo';
 import manifest from '../manifest.json';
 import {
   ADD_ISSUE_PATH,
-  EVIDENCE_VA_REQUEST,
+  EVIDENCE_VA_REQUEST_PATH,
   EVIDENCE_VA_PATH,
-  EVIDENCE_PRIVATE_REQUEST,
+  EVIDENCE_PRIVATE_REQUEST_PATH,
   EVIDENCE_PRIVATE_PATH,
-  LIMITED_CONSENT_PROMPT,
-  LIMITED_CONSENT_DETAILS,
+  LIMITED_CONSENT_PROMPT_PATH,
+  LIMITED_CONSENT_DETAILS_PATH,
   EVIDENCE_ADDITIONAL_PATH,
   EVIDENCE_UPLOAD_PATH,
   SC_NEW_FORM_DATA,
@@ -283,7 +283,7 @@ const formConfig = {
         },
         evidenceVaRecordsRequest: {
           title: 'Request VA medical records',
-          path: EVIDENCE_VA_REQUEST,
+          path: EVIDENCE_VA_REQUEST_PATH,
           uiSchema: evidenceVaRecordsRequest.uiSchema,
           schema: evidenceVaRecordsRequest.schema,
           scrollAndFocusTarget: focusRadioH3,
@@ -304,7 +304,7 @@ const formConfig = {
         },
         evidencePrivateRecordsRequest: {
           title: 'Request non-VA medical records',
-          path: EVIDENCE_PRIVATE_REQUEST,
+          path: EVIDENCE_PRIVATE_REQUEST_PATH,
           CustomPage: EvidencePrivateRequest,
           CustomPageReview: null,
           uiSchema: evidencePrivateRequest.uiSchema,
@@ -322,7 +322,7 @@ const formConfig = {
         },
         limitedConsentPrompt: {
           title: 'Non-VA medical record: limited consent prompt',
-          path: LIMITED_CONSENT_PROMPT,
+          path: LIMITED_CONSENT_PROMPT_PATH,
           depends: hasPrivateEvidence,
           uiSchema: limitedConsentPromptPage.uiSchema,
           schema: limitedConsentPromptPage.schema,
@@ -330,7 +330,7 @@ const formConfig = {
         },
         limitedConsentDetails: {
           title: 'Non-VA medical record: limited consent details',
-          path: LIMITED_CONSENT_DETAILS,
+          path: LIMITED_CONSENT_DETAILS_PATH,
           depends: hasPrivateLimitation,
           uiSchema: limitedConsentDetailsPage.uiSchema,
           schema: limitedConsentDetailsPage.schema,

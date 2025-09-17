@@ -8,9 +8,9 @@ import { content as limitedConsentContent } from '../content/limitedConsent';
 import {
   AUTHORIZATION_LABEL,
   EVIDENCE_PRIVATE_PATH,
-  EVIDENCE_PRIVATE_AUTHORIZATION,
-  LIMITED_CONSENT_PROMPT,
-  LIMITED_CONSENT_DETAILS,
+  EVIDENCE_PRIVATE_AUTHORIZATION_PATH,
+  LIMITED_CONSENT_PROMPT_PATH,
+  LIMITED_CONSENT_DETAILS_PATH,
   LIMITATION_KEY,
 } from '../constants';
 import {
@@ -104,8 +104,10 @@ export const EvidencePrivateContent = ({
                   id="edit-private-authorization"
                   className="edit-item"
                   aria-label={`edit ${title4142WithId}`}
-                  data-link={testing ? EVIDENCE_PRIVATE_AUTHORIZATION : null}
-                  path={`/${EVIDENCE_PRIVATE_AUTHORIZATION}`}
+                  data-link={
+                    testing ? EVIDENCE_PRIVATE_AUTHORIZATION_PATH : null
+                  }
+                  path={`/${EVIDENCE_PRIVATE_AUTHORIZATION_PATH}`}
                   text={content.edit}
                 />
               </div>
@@ -127,9 +129,9 @@ export const EvidencePrivateContent = ({
                 disableAnalytics
                 id="edit-limitation-y-n"
                 className="edit-item"
-                path={`/${LIMITED_CONSENT_PROMPT}`}
+                path={`/${LIMITED_CONSENT_PROMPT_PATH}`}
                 aria-label={`${content.edit} ${limitedConsentContent.title} `}
-                data-link={testing ? LIMITED_CONSENT_PROMPT : null}
+                data-link={testing ? LIMITED_CONSENT_PROMPT_PATH : null}
                 text={content.edit}
               />
             </div>
@@ -151,11 +153,11 @@ export const EvidencePrivateContent = ({
                   disableAnalytics
                   id="edit-limitation"
                   className="edit-item"
-                  path={`/${LIMITED_CONSENT_DETAILS}`}
+                  path={`/${LIMITED_CONSENT_DETAILS_PATH}`}
                   aria-label={`${content.edit} ${
                     limitedConsentContent.textAreaTitle
                   }`}
-                  data-link={testing ? LIMITED_CONSENT_DETAILS : null}
+                  data-link={testing ? LIMITED_CONSENT_DETAILS_PATH : null}
                   text={content.edit}
                 />
               </div>
