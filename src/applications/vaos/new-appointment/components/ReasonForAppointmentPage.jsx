@@ -12,7 +12,6 @@ import { focusFormHeader } from '../../utils/scrollAndFocus';
 import { PURPOSE_TEXT_V2, FACILITY_TYPES } from '../../utils/constants';
 import TextareaWidget from '../../components/TextareaWidget';
 import PostFormFieldContent from '../../components/PostFormFieldContent';
-import NewTabAnchor from '../../components/NewTabAnchor';
 import InfoAlert from '../../components/InfoAlert';
 import {
   openReasonForAppointment,
@@ -166,7 +165,7 @@ export default function ReasonForAppointmentPage() {
           <PostFormFieldContent>
             <InfoAlert
               status="warning"
-              headline="If you have an urgent medical need, please:"
+              headline="Only schedule appointments for non-urgent needs"
               className="vads-u-margin-y--3"
               level="2"
             >
@@ -176,19 +175,19 @@ export default function ReasonForAppointmentPage() {
                   <span className="vads-u-font-weight--bold">or</span>
                 </li>
                 <li>
-                  Call the Veterans Crisis hotline at{' '}
+                  Call{' '}
                   <VaTelephone
                     contact="988"
                     data-testid="crisis-hotline-telephone"
                   />{' '}
-                  and select 1,{' '}
+                  and select 1 for the Veterans Crisis Line,{' '}
                   <span className="vads-u-font-weight--bold">or</span>
                 </li>
                 <li>
-                  Go to your nearest emergency room or VA medical center.{' '}
-                  <NewTabAnchor href="/find-locations">
-                    Find your nearest VA medical center
-                  </NewTabAnchor>
+                  Go to your nearest emergency room or{' '}
+                  <a href="/find-locations/?facilityType=urgent_care">
+                    urgent care facility
+                  </a>
                 </li>
               </ul>
             </InfoAlert>
