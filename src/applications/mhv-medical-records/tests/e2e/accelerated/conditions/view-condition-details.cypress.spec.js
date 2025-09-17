@@ -39,10 +39,8 @@ describe('Medical Records View Condition Details', () => {
     cy.injectAxe();
     cy.axeCheck('main');
 
-    // Verify date text is present
-    cy.get('[data-testid="header-time"]')
-      .should('be.visible')
-      .and('contain', 'Date entered:');
+    // Verify date text is present without dealing with time zone changes
+    cy.findByText(/Date entered:/).findByText(/January \d{2}, 2025/);
 
     // Accessibility check
     cy.injectAxeThenAxeCheck();

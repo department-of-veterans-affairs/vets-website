@@ -22,6 +22,7 @@ class Conditions {
     );
     cy.get('@conditions-link').should('be.visible');
     cy.get('@conditions-link').click();
+    cy.wait('@conditions-list');
   };
 
   verifyConditionsPageTitle = () => {
