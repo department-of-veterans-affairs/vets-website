@@ -122,7 +122,7 @@
       border-top: 4px solid $vads-color-white;
       padding: 16px 0;
 
-      @media (min-width: $medium-screen) {
+      .nav__profile-menu & {
         border-top: 1px solid $vads-color-base-light;
       }
 
@@ -265,7 +265,7 @@
         }
       }
 
-      &:focus {
+      &[aria-expanded="true"] {
         .user-nav__chevron {
           transform: rotate(90deg);
         }
