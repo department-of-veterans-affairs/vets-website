@@ -906,13 +906,15 @@ describe('showPensionRelatedQuestions', () => {
   });
 });
 
-describe.skip('shouldShowStudentIncomeQuestions', () => {
+describe('shouldShowStudentIncomeQuestions', () => {
   describe('when feature flag - vaDependentsNetWorthAndPension - is on', () => {
     it('should return true when veteran is in receipt of pension', () => {
       const formData = {
         vaDependentsNetWorthAndPension: true,
         veteranInformation: { isInReceiptOfPension: 1 },
         studentInformation: [{ claimsOrReceivesPension: false }],
+        'view:addOrRemoveDependents': { add: true, remove: false },
+        'view:addDependentOptions': { addSpouse: false, report674: true },
       };
       const result = shouldShowStudentIncomeQuestions({ formData, index: 0 });
       expect(result).to.be.true;
@@ -923,6 +925,8 @@ describe.skip('shouldShowStudentIncomeQuestions', () => {
         vaDependentsNetWorthAndPension: true,
         veteranInformation: { isInReceiptOfPension: 0 },
         studentInformation: [{ claimsOrReceivesPension: true }],
+        'view:addOrRemoveDependents': { add: true, remove: false },
+        'view:addDependentOptions': { addSpouse: false, report674: true },
       };
       const result = shouldShowStudentIncomeQuestions({ formData, index: 0 });
       expect(result).to.be.false;
@@ -934,6 +938,8 @@ describe.skip('shouldShowStudentIncomeQuestions', () => {
         veteranInformation: { isInReceiptOfPension: -1 },
         'view:checkVeteranPension': true,
         studentInformation: [{ claimsOrReceivesPension: false }],
+        'view:addOrRemoveDependents': { add: true, remove: false },
+        'view:addDependentOptions': { addSpouse: false, report674: true },
       };
       const result = shouldShowStudentIncomeQuestions({ formData, index: 0 });
       expect(result).to.be.true;
@@ -945,6 +951,8 @@ describe.skip('shouldShowStudentIncomeQuestions', () => {
         veteranInformation: { isInReceiptOfPension: -1 },
         'view:checkVeteranPension': false,
         studentInformation: [{ claimsOrReceivesPension: true }],
+        'view:addOrRemoveDependents': { add: true, remove: false },
+        'view:addDependentOptions': { addSpouse: false, report674: true },
       };
       const result = shouldShowStudentIncomeQuestions({ formData, index: 0 });
       expect(result).to.be.false;
