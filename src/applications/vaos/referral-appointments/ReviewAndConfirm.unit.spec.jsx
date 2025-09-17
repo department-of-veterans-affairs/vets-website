@@ -14,13 +14,27 @@ import { FETCH_STATUS } from '../utils/constants';
 import { createDraftAppointmentInfo } from './utils/provider';
 import * as flow from './flow';
 import { vaosApi } from '../redux/api/vaosApi';
+import {
+  generateSlotsForDay,
+  transformSlotsForCommunityCare,
+} from '../services/mocks/utils/slots';
 
 describe('VAOS Component: ReviewAndConfirm', () => {
   let requestStub;
   const slotDate = '2024-09-09T16:00:00.000Z';
   const sandbox = sinon.createSandbox();
-  const draftAppointmentInfo = createDraftAppointmentInfo(1);
+  const draftAppointmentInfo = createDraftAppointmentInfo();
 
+  // Create a slot object with the expected flattened structure and proper slot ID format
+  const slots = generateSlotsForDay(slotDate, {
+    slotsPerDay: 1,
+    slotDuration: 60,
+    businessHours: {
+      start: 12,
+      end: 18,
+    },
+  });
+  draftAppointmentInfo.attributes.slots = transformSlotsForCommunityCare(slots);
   draftAppointmentInfo.attributes.slots[0].start = slotDate;
   const initialFullState = {
     featureToggles: {
