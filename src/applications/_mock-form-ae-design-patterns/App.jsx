@@ -56,7 +56,7 @@ export default function App({ location, children }) {
   );
 
   return (
-    <div className="vads-u-margin-top--4">
+    <div>
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
         {children}
       </RoutedSavableApp>

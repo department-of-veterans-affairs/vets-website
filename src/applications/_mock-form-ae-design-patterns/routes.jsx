@@ -1,4 +1,4 @@
-import React, { lazy } from 'react';
+import React, { lazy, Suspense } from 'react';
 import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
 import { Toggler } from 'platform/utilities/feature-toggles';
 
@@ -32,6 +32,14 @@ const Form1990Entry = lazy(() =>
 
 import { plugin } from './shared/components/VADXPlugin';
 
+const LoadingIndicator = () => (
+  <va-loading-indicator
+    label="Loading"
+    message="Loading your application..."
+    set-focus
+  />
+);
+
 import { VADX } from './vadx';
 import { Debug } from './vadx/app/pages/debug/Debug';
 import { withLayout } from './vadx/app/layout/withLayout';
@@ -44,6 +52,15 @@ const routeHoc = Component => props => (
     <VADX plugin={plugin} featureToggleName={Toggler.TOGGLE_NAMES.aedpVADX}>
       <Component {...props} />
     </VADX>
+  </PatternConfigProvider>
+);
+
+// route HOC variant that does NOT include the VADX wrapper (useful for demo-only routes)
+const routeHocNoVadx = Component => props => (
+  <PatternConfigProvider {...props}>
+    <Suspense fallback={<LoadingIndicator />}>
+      <Component {...props} />
+    </Suspense>
   </PatternConfigProvider>
 );
 
@@ -144,7 +161,8 @@ const pattern6Routes = [
 const pattern7Routes = [
   {
     path: '/7/copy-of-submission',
-    component: routeHoc(App),
+    // Use the no-VADX HOC so this demo doesn't render the VADX button/panel
+    component: routeHocNoVadx(App),
     indexRoute: {
       onEnter: (nextState, replace) =>
         replace('/7/copy-of-submission/introduction?loggedIn=true'),

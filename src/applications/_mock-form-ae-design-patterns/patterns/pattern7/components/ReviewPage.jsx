@@ -1,119 +1,126 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   VaButtonPair,
   VaBreadcrumbs,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import { scrollToTop } from 'platform/utilities/scroll';
 
-const ReviewPage = ({ onNext, onBack }) => (
-  <div>
-    <VaBreadcrumbs
-      breadcrumbList={[
-        {
-          href: '#',
-          label: 'Custom home',
-        },
-        {
-          href: '#',
-          label: 'Disability Benefits',
-        },
-        {
-          href: '#',
-          label: 'File for disability compensation',
-        },
-      ]}
-      homeVeteransAffairs
-      label="Breadcrumb"
-    />
+const ReviewPage = ({ onNext, onBack }) => {
+  useEffect(() => {
+    scrollToTop('topScrollElement');
+  }, []);
 
-    <FormTitle
-      title="File for disability compensation"
-      subTitle="VA Form 21-526EZ"
-    />
-
-    <va-segmented-progress-bar current="6" total="6" label="Review" />
-
-    <va-accordion bordered>
-      <va-accordion-item header="Review Veteran details" />
-      <va-accordion-item header="Conditions" />
-      <va-accordion-item header="Mental health statement" />
-      <va-accordion-item header="Supporting evidence" />
-      <va-accordion-item header="Additional information" />
-    </va-accordion>
-
-    <p className="vads-u-margin-top--3 vads-u-padding-left--2">
-      <strong>Note:</strong> According to federal law, there are criminal
-      penalties, including a fine and/or imprisonment for up to 5 years, for
-      withholding information or for providing incorrect information (Reference:
-      18 U.S.C. 1001).
-    </p>
-
-    <section
-      aria-labelledby="statement-of-truth-heading"
-      className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-top--3 vads-u-radius--large"
-    >
-      <h2 id="statement-of-truth-heading" className="vads-u-margin-top--0">
-        Statement of truth
-      </h2>
-
-      <p>
-        I confirm that the identifying information in this form is accurate and
-        has been represented correctly.
-      </p>
-      <p>
-        I have read and accept the&nbsp;
-        <va-link href="#" text="privacy policy (opens in a new tab)" />.
-      </p>
-
-      <va-text-input label="Your full name" required value="Leslie Jackson" />
-
-      <va-checkbox
-        class="vads-u-margin-top--2"
-        label="I certify that the information above is correct and true to the best of my knowledge and belief. (*Required)"
-        required
+  return (
+    <div>
+      <VaBreadcrumbs
+        breadcrumbList={[
+          {
+            href: '#',
+            label: 'Custom home',
+          },
+          {
+            href: '#',
+            label: 'Disability Benefits',
+          },
+          {
+            href: '#',
+            label: 'File for disability compensation',
+          },
+        ]}
+        homeVeteransAffairs
+        label="Breadcrumb"
       />
-    </section>
 
-    <va-alert status="success" class="vads-u-margin-top--3">
-      <p className="vads-u-margin--0">
-        We’ve saved your request. We saved it on September 22, 2025 at 5:25 p.m.
-        ET. Your request ID number is 15428.
-      </p>
-    </va-alert>
-
-    <div className="vads-u-margin-top--4">
-      <p>
-        <va-link href="#" text="Finish this application later" />.
-      </p>
-
-      <VaButtonPair
-        className="vads-u-margin-y--2"
-        continue
-        onPrimaryClick={onNext}
-        onSecondaryClick={onBack}
-        leftButtonText="Back"
-        rightButtonText="Submit application"
+      <FormTitle
+        title="File for disability compensation"
+        subTitle="VA Form 21-526EZ"
       />
-    </div>
 
-    <div className="vads-u-margin-top--4">
-      <va-need-help>
-        <div slot="content">
-          <p>
-            If you have questions or need help filling out this form, please
-            call us at <va-telephone contact="8008271000" />. We’re here Monday
-            through Friday, 8:00 a.m to 9:00 p.m ET.
-          </p>
-          <p>
-            If you have hearing loss, call <va-telephone contact="711" tty />.
-          </p>
-        </div>
-      </va-need-help>
-      <br />
+      <va-segmented-progress-bar current="6" total="6" label="Review" />
+
+      <va-accordion bordered>
+        <va-accordion-item header="Review Veteran details" />
+        <va-accordion-item header="Conditions" />
+        <va-accordion-item header="Mental health statement" />
+        <va-accordion-item header="Supporting evidence" />
+        <va-accordion-item header="Additional information" />
+      </va-accordion>
+
+      <p className="vads-u-margin-top--3 vads-u-padding-left--2">
+        <strong>Note:</strong> According to federal law, there are criminal
+        penalties, including a fine and/or imprisonment for up to 5 years, for
+        withholding information or for providing incorrect information.
+        (Reference: 18 U.S.C. 1001).
+      </p>
+
+      <section
+        aria-labelledby="statement-of-truth-heading"
+        className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-top--3 vads-u-radius--large"
+      >
+        <h2 id="statement-of-truth-heading" className="vads-u-margin-top--0">
+          Statement of truth
+        </h2>
+
+        <p>
+          I confirm that the identifying information in this form is accurate
+          and has been represented correctly.
+        </p>
+        <p>
+          I have read and accept the&nbsp;
+          <va-link href="#" text="privacy policy (opens in a new tab)" />.
+        </p>
+
+        <va-text-input label="Your full name" required value="Leslie Jackson" />
+
+        <va-checkbox
+          className="vads-u-margin-top--2"
+          label="I certify that the information above is correct and true to the best of my knowledge and belief. (*Required)"
+          required
+        />
+      </section>
+
+      <va-alert status="success" className="vads-u-margin-top--3">
+        <p className="vads-u-margin--0">
+          We’ve saved your request. We saved it on September 22, 2025 at 5:25
+          p.m. ET. Your request ID number is 15428.
+        </p>
+      </va-alert>
+
+      <div className="vads-u-margin-top--4">
+        <p>
+          <va-link href="#" text="Finish this application later" />.
+        </p>
+
+        <VaButtonPair
+          className="vads-u-margin-y--2"
+          continue
+          onPrimaryClick={onNext}
+          onSecondaryClick={onBack}
+          leftButtonText="Back"
+          rightButtonText="Submit application"
+        />
+      </div>
+
+      <div className="vads-u-margin-top--4">
+        <va-need-help>
+          <div slot="content">
+            <p>
+              If you have questions or need help filling out this form, please
+              call us at <va-telephone contact="8008271000" />. We’re here
+              Monday through Friday, 8:00 a.m to 9:00 p.m ET.
+            </p>
+            <p>
+              If you have hearing loss, call <va-telephone contact="711" tty />.
+            </p>
+          </div>
+        </va-need-help>
+        <br />
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 ReviewPage.propTypes = {
   onNext: PropTypes.func.isRequired,
