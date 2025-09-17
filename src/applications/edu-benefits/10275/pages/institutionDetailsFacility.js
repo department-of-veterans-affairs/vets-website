@@ -41,7 +41,7 @@ const uiSchema = {
       'ui:validations': [facilityCodeUIValidation],
     },
     institutionName: {
-      'ui:title': 'Institution name and address',
+      'ui:title': 'Institution name and mailing address',
       'ui:field': InstitutionName,
       'ui:options': {
         classNames: 'vads-u-margin-top--2',
