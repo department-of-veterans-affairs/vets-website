@@ -116,3 +116,12 @@ export const selectFeatureSubstanceUseDisorder = state =>
 
 export const selectFeatureListViewClinicInfo = state =>
   toggleValues(state).vaOnlineSchedulingListViewClinicInfo;
+
+export const selectFeatureAddOhAvs = state =>
+  toggleValues(state).vaOnlineSchedulingAddOhAvs;
+
+export const selectFeatureImmediateCareAlert = state =>
+  toggleValues(state).vaOnlineSchedulingImmediateCareAlert;
+
+export const selectFeatureRemoveFacilityConfigCheck = state =>
+  toggleValues(state).vaOnlineSchedulingRemoveFacilityConfigCheck;
