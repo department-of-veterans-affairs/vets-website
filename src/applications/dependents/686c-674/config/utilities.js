@@ -328,3 +328,6 @@ export const showPensionRelatedQuestions = (formData = {}) => {
   // keep current behavior if feature flag is off
   return true;
 };
+
+export const showDupeModalIfEnabled = (formData = {}) =>
+  !!formData.vaDependentsDuplicateModals;

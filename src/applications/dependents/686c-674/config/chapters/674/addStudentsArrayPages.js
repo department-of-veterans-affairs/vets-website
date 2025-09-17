@@ -182,7 +182,7 @@ export const studentIDInformationPage = {
 /** @returns {PageSchema} */
 export const studentIncomePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(() => 'Student’s information'),
+    ...arrayBuilderItemSubsequentPageTitleUI(() => 'Student’s income'),
     studentIncome: radioUI({
       title: 'Did this student have an income in the last 365 days?',
       hint:
@@ -281,7 +281,7 @@ export const studentMaritalStatusPage = {
 /** @returns {PageSchema} */
 export const studentMarriageDatePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(() => 'Student’s marital status'),
+    ...arrayBuilderItemSubsequentPageTitleUI(() => 'Student’s marriage date'),
     marriageDate: currentOrPastDateUI({
       title: 'Date of marriage',
       required: () => true,
@@ -456,7 +456,7 @@ export const studentProgramInfoPage = {
 export const studentAttendancePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      () => 'Additional information for this student',
+      () => 'Student’s school attendance history',
     ),
     schoolInformation: {
       studentIsEnrolledFullTime: yesNoUI({
@@ -486,7 +486,7 @@ export const studentAttendancePage = {
 export const studentStoppedAttendingDatePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      () => 'Additional information for this student',
+      () => 'Date student stopped attending school',
     ),
     schoolInformation: {
       dateFullTimeEnded: {
@@ -523,7 +523,7 @@ export const studentStoppedAttendingDatePage = {
 export const schoolAccreditationPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      () => 'Additional information for this student',
+      () => 'School accreditation status',
     ),
     schoolInformation: {
       isSchoolAccredited: yesNoUI({
@@ -615,7 +615,9 @@ export const studentTermDatesPage = {
 
 export const previousTermQuestionPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(() => 'Student’s term dates'),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      () => 'Student’s last term attendance',
+    ),
     schoolInformation: {
       studentDidAttendSchoolLastTerm: yesNoUI({
         title: 'Did the student attend school last term?',
@@ -845,7 +847,9 @@ export const studentAssetsPage = {
 
 export const remarksPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(() => 'Additional information'),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      () => 'Additional information about this student',
+    ),
     remarks: textareaUI(
       'Is there any other information you’d like to add about this student?',
     ),
