@@ -98,7 +98,7 @@ describe('1010d `validateMedicarePartDDates` form validation', () => {
   });
 
   it('should not set error message when termination date is omitted', () => {
-    const { errors, fieldData } = getData({ terminationDate: '' });
+    const { errors, fieldData } = getData({ terminationDate: undefined });
     validateMedicarePartDDates(errors, fieldData);
     sinon.assert.notCalled(terminationDateSpy);
     sinon.assert.notCalled(effectiveDateSpy);
@@ -148,7 +148,7 @@ describe('1010d `validateOHIDates` form validation', () => {
   });
 
   it('should not set error message when termination date is omitted', () => {
-    const { errors, fieldData } = getData({ expirationDate: '' });
+    const { errors, fieldData } = getData({ expirationDate: undefined });
     validateOHIDates(errors, fieldData);
     sinon.assert.notCalled(expirationDateSpy);
     sinon.assert.notCalled(effectiveDateSpy);
