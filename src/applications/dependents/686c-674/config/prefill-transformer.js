@@ -4,13 +4,21 @@ export default function prefillTransformer(pages, formData, metadata) {
   const {
     veteranSsnLastFour = '',
     veteranVaFileNumberLastFour = '',
+    isInReceiptOfPension = -1,
     netWorthLimit = NETWORTH_VALUE,
+    dependents = [],
   } = formData?.nonPrefill || {};
   const contact = formData?.veteranContactInformation || {};
   const address = contact.veteranAddress || {};
   const isMilitary =
     ['APO', 'FPO', 'DPO'].includes((address?.city || '').toUpperCase()) ||
     false;
+  const awardedDependents = dependents.filter(
+    dependent => dependent.awardIndicator === 'Y',
+  );
+  const notAwardedDependents = dependents.filter(
+    dependent => dependent.awardIndicator !== 'Y',
+  );
 
   return {
     pages,
@@ -19,6 +27,7 @@ export default function prefillTransformer(pages, formData, metadata) {
         ...formData?.veteranInformation,
         ssnLastFour: veteranSsnLastFour,
         vaFileLastFour: veteranVaFileNumberLastFour,
+        isInReceiptOfPension,
       },
       veteranContactInformation: {
         veteranAddress: {
@@ -33,6 +42,11 @@ export default function prefillTransformer(pages, formData, metadata) {
         },
         phoneNumber: contact.phoneNumber || null,
         emailAddress: contact.emailAddress || null,
+      },
+      dependents: {
+        hasDependents: awardedDependents.length > 0,
+        awarded: awardedDependents,
+        notAwarded: notAwardedDependents,
       },
       useV2: true,
       netWorthLimit,

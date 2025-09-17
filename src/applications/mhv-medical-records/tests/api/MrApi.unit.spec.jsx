@@ -52,7 +52,9 @@ import {
   getAcceleratedLabsAndTests,
   getAcceleratedImmunizations,
   getAcceleratedImmunization,
+  getAcceleratedConditions,
   postRecordDatadogAction,
+  getAcceleratedNotes,
 } from '../../api/MrApi';
 
 describe('Get labs and tests api call', () => {
@@ -116,6 +118,17 @@ describe('Get notes api call', () => {
     mockApiRequest(mockData);
 
     return getNotes(true).then(res => {
+      expect(res.entry.length).to.equal(6);
+    });
+  });
+});
+
+describe('Get accelerated notes api call', () => {
+  it('should make an api call to get all accelerated notes', () => {
+    const mockData = notes;
+    mockApiRequest(mockData);
+
+    return getAcceleratedNotes().then(res => {
       expect(res.entry.length).to.equal(6);
     });
   });
@@ -414,6 +427,16 @@ describe('Accelerated OH API calls', () => {
       mockApiRequest(mockData);
 
       return getAcceleratedImmunization('123').then(res => {
+        expect(res.mock).to.equal('data');
+      });
+    });
+  });
+  describe('getAcceleratedConditions', () => {
+    it('should make an api call to get all Conditions', () => {
+      const mockData = { mock: 'data' };
+      mockApiRequest(mockData);
+
+      return getAcceleratedConditions().then(res => {
         expect(res.mock).to.equal('data');
       });
     });

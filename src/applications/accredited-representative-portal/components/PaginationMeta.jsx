@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useSearchParams } from 'react-router-dom';
-import { profileUser } from './Header/Nav';
 import { SEARCH_PARAMS } from '../utilities/constants';
+import { ProfileContext } from '../context/ProfileContext';
 
 const PaginationMeta = ({ meta, results, resultType, defaults }) => {
-  const user = useContext(profileUser);
+  const profile = useContext(ProfileContext);
   const [searchParams] = useSearchParams();
   const pageSize = Number(searchParams.get('pageSize')) || defaults.SIZE;
   const pageNumber = Number(searchParams.get('pageNumber')) || defaults.NUMBER;
@@ -16,7 +16,7 @@ const PaginationMeta = ({ meta, results, resultType, defaults }) => {
   const searchStatus = searchParams.get('status') || '';
   let initCount;
   let pageSizeCount = pageSize * pageNumber;
-  const totalCount = meta.total;
+  const totalCount = meta.page.total;
 
   if (pageSizeCount > totalCount) {
     pageSizeCount = pageSize + (totalCount - pageSize);
@@ -31,16 +31,22 @@ const PaginationMeta = ({ meta, results, resultType, defaults }) => {
     initCount = 1;
   }
 
-  const userName = user ? (
+  const userName = profile ? (
     <span className="poa-request__user-name">
-      "You ({user.firstName.toLowerCase()} {user.lastName.toLowerCase()}
+      "You ({profile.firstName.toLowerCase()} {profile.lastName.toLowerCase()}
       )"
     </span>
   ) : null;
   return (
     <p className="poa-request__meta">
-      Showing {initCount}-{pageSizeCount} of {totalCount} {searchStatus || ''}{' '}
-      {resultType || ''} {selectedIndividual === 'true' && 'for'}{' '}
+      Showing{' '}
+      {totalCount > 0 && (
+        <span>
+          {initCount}-{pageSizeCount} of{' '}
+        </span>
+      )}
+      {totalCount} {searchStatus || ''} {resultType || ''}{' '}
+      {selectedIndividual === 'true' && 'for'}{' '}
       {selectedIndividual === 'true' && userName} sorted by “
       <strong>
         {searchStatus === 'processed' ? 'Processed' : 'Submitted'} date (
