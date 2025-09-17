@@ -96,6 +96,13 @@ const formConfig = {
           title: 'Institution details',
           uiSchema: institutionDetailsFacility.uiSchema,
           schema: institutionDetailsFacility.schema,
+          onNavBack: ({ formData, goPath }) => {
+            if (formData.agreementType === 'withdrawFromYellowRibbonProgram') {
+              goPath('/agreement-type');
+            } else {
+              goPath('/acknowledgements');
+            }
+          },
         },
       },
     },
