@@ -106,19 +106,22 @@ describe('useValidateFacilityCode', () => {
         postalCode: '12345',
         country: 'USA',
       },
+      poeEligible: true,
     });
   });
 
-  it('dispatches "not valid" when programTypes exclude IHL/NCD', async () => {
+  it('dispatches poeEligible false when programTypes exclude IHL/NCD', async () => {
     const formData = baseFormData('12345678');
     apiRequestStub.resolves({
       data: {
         attributes: {
-          name: 'IgnoreMe',
-          address1: 'x',
-          city: 'y',
-          state: 'z',
-          zip: '00000',
+          name: 'Test Institution',
+          address1: '123 Main St',
+          address2: 'Suite 100',
+          address3: 'Building A',
+          city: 'Anytown',
+          state: 'VA',
+          zip: '12345',
           country: 'USA',
           programTypes: ['OJT'], // NOT eligible
         },
@@ -139,12 +142,21 @@ describe('useValidateFacilityCode', () => {
       .getActions()
       .find(a => a.type === setData().type);
     expect(setDataAction).to.exist;
-    expect(setDataAction.data.institutionDetails.institutionName).to.equal(
-      'not valid',
-    );
-    expect(
-      setDataAction.data.institutionDetails.institutionAddress,
-    ).to.deep.equal({});
+    expect(setDataAction.data.institutionDetails.poeEligible).to.equal(false);
+    expect(setDataAction.data.institutionDetails).to.deep.equal({
+      facilityCode: '12345678',
+      institutionName: 'Test Institution',
+      institutionAddress: {
+        street: '123 Main St',
+        street2: 'Suite 100',
+        street3: 'Building A',
+        city: 'Anytown',
+        state: 'VA',
+        postalCode: '12345',
+        country: 'USA',
+      },
+      poeEligible: false,
+    });
   });
 
   it('dispatches "not found" on API error', async () => {

@@ -27,38 +27,26 @@ export const useValidateFacilityCode = formData => {
             : [];
           const eligible =
             programTypes.includes('IHL') || programTypes.includes('NCD');
-          if (!eligible) {
-            dispatch(
-              setData({
-                ...formData,
-                institutionDetails: {
-                  ...formData.institutionDetails,
-                  institutionName: 'not valid',
-                  institutionAddress: {},
-                },
-              }),
-            );
-          } else {
-            const institutionAddress = {
-              street: attrs.address1 || '',
-              street2: attrs.address2 || '',
-              street3: attrs.address3 || '',
-              city: attrs.city || '',
-              state: attrs.state || '',
-              postalCode: attrs.zip || '',
-              country: attrs.country || '',
-            };
-            dispatch(
-              setData({
-                ...formData,
-                institutionDetails: {
-                  ...formData.institutionDetails,
-                  institutionName: response?.data?.attributes?.name,
-                  institutionAddress,
-                },
-              }),
-            );
-          }
+          const institutionAddress = {
+            street: attrs.address1 || '',
+            street2: attrs.address2 || '',
+            street3: attrs.address3 || '',
+            city: attrs.city || '',
+            state: attrs.state || '',
+            postalCode: attrs.zip || '',
+            country: attrs.country || '',
+          };
+          dispatch(
+            setData({
+              ...formData,
+              institutionDetails: {
+                ...formData.institutionDetails,
+                institutionName: response?.data?.attributes?.name,
+                institutionAddress,
+                poeEligible: eligible,
+              },
+            }),
+          );
         } catch (error) {
           dispatch(
             setData({
@@ -67,6 +55,7 @@ export const useValidateFacilityCode = formData => {
                 ...formData.institutionDetails,
                 institutionName: 'not found',
                 institutionAddress: {},
+                poeEligible: undefined,
               },
             }),
           );
@@ -81,7 +70,5 @@ export const useValidateFacilityCode = formData => {
     [facilityCode],
   );
 
-  return {
-    loader,
-  };
+  return { loader };
 };

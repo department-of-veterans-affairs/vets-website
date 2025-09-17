@@ -44,6 +44,21 @@ const formConfig = {
           title: 'Agreement type',
           uiSchema: agreementType.uiSchema,
           schema: agreementType.schema,
+          onContinue: (data, setFormData) => {
+            const hasCode = !!data?.institutionDetails?.facilityCode?.trim();
+            if (hasCode) {
+              setFormData({
+                ...data,
+                institutionDetails: {
+                  ...data.institutionDetails,
+                  facilityCode: '',
+                  institutionName: undefined,
+                  institutionAddress: {},
+                  poeEligible: undefined,
+                },
+              });
+            }
+          },
         },
       },
     },

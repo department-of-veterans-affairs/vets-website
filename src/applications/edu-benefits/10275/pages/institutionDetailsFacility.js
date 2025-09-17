@@ -7,6 +7,25 @@ import {
 import InstitutionName from '../components/InstitutionName';
 import InstitutionAddress from '../components/InstitutionAddress';
 
+const facilityCodeUIValidation = (errors, fieldData, formData) => {
+  const details = formData?.institutionDetails || {};
+  const code = (fieldData || '').trim();
+
+  const badFormat = code.length > 0 && !/^[a-zA-Z0-9]{8}$/.test(code);
+  const notFound = details.institutionName === 'not found';
+  const ineligible = details.poeEligible === false;
+
+  if (badFormat || notFound) {
+    errors.addError(
+      'Please enter a valid 8-character facility code. To determine your facility code, refer to your WEAMS 22-1998 Report or contact your ELR.',
+    );
+  }
+  if (ineligible) {
+    errors.addError(
+      'This institution is unable to participate in the Principles of Excellence.',
+    );
+  }
+};
 const uiSchema = {
   institutionDetails: {
     ...titleUI('Please enter your VA facility code'),
@@ -19,6 +38,7 @@ const uiSchema = {
             'Please enter a valid 8-character facility code. To determine your facility code, refer to your WEAMS 22-1998 Report or contact your ELR.',
         },
       }),
+      'ui:validations': [facilityCodeUIValidation],
     },
     institutionName: {
       'ui:title': 'Institution name and address',

@@ -1,4 +1,3 @@
-/* eslint-disable no-nested-ternary */
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -21,28 +20,6 @@ const InstitutionName = () => {
     [institutionName, loader],
   );
 
-  useEffect(
-    () => {
-      const wc = document.querySelector('va-text-input');
-      if (!wc || loader) return;
-
-      if (institutionName === 'not found') {
-        wc.setAttribute(
-          'error',
-          'Please enter a valid 8-character facility code. To determine your facility code, refer to your WEAMS 22-1998 Report or contact your ELR.',
-        );
-      } else if (institutionName === 'not valid') {
-        wc.setAttribute(
-          'error',
-          'This institution is unable to participate in the Principles of Excellence.',
-        );
-      } else {
-        wc.removeAttribute('error');
-      }
-    },
-    [loader, institutionName],
-  );
-
   return (
     <div aria-live="polite">
       {loader ? (
@@ -54,14 +31,10 @@ const InstitutionName = () => {
             aria-label={
               institutionName === 'not found'
                 ? 'Institution name not found'
-                : institutionName === 'not valid'
-                  ? 'Institution name is not valid for Principles of Excellence'
-                  : institutionName
+                : institutionName
             }
           >
-            {institutionName === 'not found' ||
-            institutionName === 'not valid' ||
-            !institutionName
+            {institutionName === 'not found' || !institutionName
               ? '--'
               : institutionName}
           </h3>
