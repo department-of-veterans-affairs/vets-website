@@ -186,9 +186,7 @@ export const deceasedDependentTypePage = {
 /** @returns {PageSchema} */
 export const deceasedDependentChildTypePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      () => 'Your relationship to this dependent',
-    ),
+    ...arrayBuilderItemSubsequentPageTitleUI(() => 'Type of child dependent'),
     childStatus: {
       ...checkboxGroupUI({
         title: 'What type of child?',
