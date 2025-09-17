@@ -88,6 +88,7 @@ export default function ReasonForAppointmentPage() {
           required: 'Select a reason for your appointment',
         },
         'ui:options': {
+          classNames: 'vads-u-margin-top--neg2',
           hideLabelText: true,
         },
       },
