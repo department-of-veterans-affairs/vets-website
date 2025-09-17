@@ -31,6 +31,7 @@ class Conditions {
   };
 
   clickConditionDetailsLink = (conditionIndex = 0) => {
+    cy.findByText(/Showing \d{1,2} to \d{1,2} of \d{1,2} records from/);
     cy.findAllByTestId('record-list-item')
       .eq(conditionIndex)
       .find('a')
