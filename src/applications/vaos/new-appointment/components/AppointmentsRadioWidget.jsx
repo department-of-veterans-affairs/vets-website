@@ -6,14 +6,14 @@ import PropTypes from 'prop-types';
  * code to disable certain options. This isn't currently supported by the
  * form system.
  */
-export default function TypeOfCareRadioWidget({
+export default function AppointmentsRadioWidget({
   id,
   options,
   value,
   onChange,
   required,
 }) {
-  const { enumOptions } = options;
+  const { enumOptions, labels, descriptions } = options;
 
   return (
     <div className="vads-u-margin-top--3">
@@ -24,7 +24,6 @@ export default function TypeOfCareRadioWidget({
 
         {enumOptions.map((option, i) => {
           const checked = option.value === value;
-          const { label } = option;
 
           return (
             <div className="form-radio-buttons" key={option.value}>
@@ -37,7 +36,14 @@ export default function TypeOfCareRadioWidget({
                 value={value}
                 onChange={_ => onChange(option.value)}
               />
-              <label htmlFor={`${id}_${i}`}>{option.label}</label>
+              <label htmlFor={`${id}_${i}`}>
+                {labels ? labels[option.value] : option.label}
+                {descriptions && (
+                  <span className="vaos-radio__label-description">
+                    {descriptions[option.value]}
+                  </span>
+                )}
+              </label>
             </div>
           );
         })}
@@ -45,7 +51,7 @@ export default function TypeOfCareRadioWidget({
     </div>
   );
 }
-TypeOfCareRadioWidget.propTypes = {
+AppointmentsRadioWidget.propTypes = {
   formContext: PropTypes.object,
   id: PropTypes.string,
   options: PropTypes.object,
