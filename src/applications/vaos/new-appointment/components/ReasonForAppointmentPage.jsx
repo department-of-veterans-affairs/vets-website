@@ -187,7 +187,7 @@ export default function ReasonForAppointmentPage() {
                 <li>
                   Go to your nearest emergency room or{' '}
                   <NewTabAnchor href="/find-locations/?facilityType=urgent_care">
-                    urgent care facility (opens in new tab)
+                    urgent care facility (opens in a new tab)
                   </NewTabAnchor>
                 </li>
               </ul>
