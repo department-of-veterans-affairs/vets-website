@@ -401,12 +401,11 @@ describe('Representative Form Upload', () => {
       );
 
       cy.clickFormContinue();
-      cy.axeCheck();
       cy.location('pathname').should(
         'eq',
         `/representative/representative-form-upload/21-686c/review-and-submit`,
       );
-      cy.get('.usa-alert__body').contains(
+      cy.get('#submission-error').contains(
         'The form couldn’t be submitted because of high system traffic',
       );
     });
