@@ -1,0 +1,64 @@
+name: Continuous Integration Test
+
+on:
+  workflow_dispatch:
+    inputs:
+      force_holiday:
+        description: 'Force holiday (test override)'
+        required: false
+        default: 'false'
+      dry_run:
+        description: 'Echo only; do not dispatch CD workflow'
+        required: false
+        default: 'true'
+
+jobs:
+  holiday-checker:
+    runs-on: ubuntu-latest
+    outputs:
+      effective_is_holiday: ${{ steps.compute-holiday.outputs.effective_is_holiday }}
+    steps:
+    - name: Check if today is a holiday
+      id: holiday-check
+      uses: department-of-veterans-affairs/vsp-github-actions/holiday-checker@main
+
+    - name: Compute effective holiday (forced or actual)
+      id: compute-holiday
+      shell: bash
+      env:
+        FORCE_HOLIDAY: ${{ inputs.force_holiday }}
+        ACTUAL_IS_HOLIDAY: ${{ steps.holiday-check.outputs.is_holiday }}
+      run: |
+        forced="${FORCE_HOLIDAY}"
+        actual="${ACTUAL_IS_HOLIDAY}"
+        if [[ "$forced" == "true" || "$actual" == "true" ]]; then
+          echo "effective_is_holiday=true" >> $GITHUB_OUTPUT
+        else
+          echo "effective_is_holiday=false" >> $GITHUB_OUTPUT
+        fi
+
+  cd-prod-deploy:
+    name: Test CD Production Dispatch
+    runs-on: ubuntu-22.04
+    needs: holiday-checker
+    if: ${{ needs.holiday-checker.outputs.effective_is_holiday == 'false' || inputs.dry_run == 'true' }}
+    steps:
+      - name: Echo dispatch payload (dry-run)
+        if: ${{ inputs.dry_run == 'true' }}
+        run: |
+          echo "DRY RUN: Would dispatch cd-production-deploy with payload for current commit."
+
+      - name: Dispatch Event to CD Workflow (live)
+        if: ${{ inputs.dry_run != 'true' }}
+        run: |
+          curl -X POST \
+          -H "Accept: application/vnd.github.v3+json" \
+          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          https://api.github.com/repos/${{ github.repository }}/dispatches \
+          -d "$(jq -n --arg sha "${{ github.sha }}" \
+          --arg ref "${{ github.ref }}" \
+          --arg entry "test-app" \
+          --arg slack_channel "" \
+          '{event_type: "cd-production-deploy", client_payload: {github_sha: $sha, github_ref: $ref, entry_app: $entry, slack_channel: $slack_channel}}')"
+
+
