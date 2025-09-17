@@ -123,6 +123,13 @@ jobs:
             https://api.github.com/repos/department-of-veterans-affairs/content-build/actions/workflows/daily-deploy-production.yml/enable
           echo "reenabled=true" >> $GITHUB_OUTPUT
 
+      - name: Mark reenabled for test (skip_enable)
+        id: enable-workflows-skip
+        if: ${{ steps.check-status.outputs.workflow_enabled_content_build == 'false' && inputs.dry_run != 'true' && inputs.skip_enable == 'true' }}
+        run: |
+          echo "Skipping real enable due to skip_enable=true; marking reenabled for test."
+          echo "reenabled=true" >> $GITHUB_OUTPUT
+
   notify-freeze-ends:
     runs-on: ubuntu-latest
     needs: [holiday-checker, main-deployment]
