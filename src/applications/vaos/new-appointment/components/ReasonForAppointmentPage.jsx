@@ -12,6 +12,7 @@ import { focusFormHeader } from '../../utils/scrollAndFocus';
 import { PURPOSE_TEXT_V2, FACILITY_TYPES } from '../../utils/constants';
 import TextareaWidget from '../../components/TextareaWidget';
 import PostFormFieldContent from '../../components/PostFormFieldContent';
+import NewTabAnchor from '../../components/NewTabAnchor';
 import InfoAlert from '../../components/InfoAlert';
 import {
   openReasonForAppointment,
@@ -175,19 +176,19 @@ export default function ReasonForAppointmentPage() {
                   <span className="vads-u-font-weight--bold">or</span>
                 </li>
                 <li>
-                  Call{' '}
-                  <VaTelephone
-                    contact="988"
-                    data-testid="crisis-hotline-telephone"
-                  />{' '}
-                  and select 1 for the Veterans Crisis Line,{' '}
+                  Call
+                  {
+                    // eslint-disable-next-line @department-of-veterans-affairs/prefer-telephone-component
+                    <a href="tel:988">988 and select 1</a>
+                  }{' '}
+                  for the Veterans Crisis Line,{' '}
                   <span className="vads-u-font-weight--bold">or</span>
                 </li>
                 <li>
                   Go to your nearest emergency room or{' '}
-                  <a href="/find-locations/?facilityType=urgent_care">
-                    urgent care facility
-                  </a>
+                  <NewTabAnchor href="/find-locations/?facilityType=urgent_care">
+                    urgent care facility (opens in new tab)
+                  </NewTabAnchor>
                 </li>
               </ul>
             </InfoAlert>
