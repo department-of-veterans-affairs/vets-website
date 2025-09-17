@@ -15,6 +15,7 @@ import {
   childEvidence,
   showPensionBackupPath,
   showPensionRelatedQuestions,
+  shouldShowStudentIncomeQuestions,
   buildSubmissionData,
   showDupeModalIfEnabled,
 } from '../../config/utilities';
@@ -335,6 +336,90 @@ describe('showPensionRelatedQuestions', () => {
           }),
         ).to.be.true;
       });
+    });
+  });
+});
+
+describe('shouldShowStudentIncomeQuestions', () => {
+  describe('when feature flag - vaDependentsNetWorthAndPension - is on', () => {
+    it('should return true when veteran is in receipt of pension', () => {
+      const formData = {
+        vaDependentsNetWorthAndPension: true,
+        veteranInformation: { isInReceiptOfPension: 1 },
+        studentInformation: [{ claimsOrReceivesPension: false }],
+      };
+      const result = shouldShowStudentIncomeQuestions({ formData, index: 0 });
+      expect(result).to.be.true;
+    });
+
+    it('should return false when veteran is not in receipt of pension', () => {
+      const formData = {
+        vaDependentsNetWorthAndPension: true,
+        veteranInformation: { isInReceiptOfPension: 0 },
+        studentInformation: [{ claimsOrReceivesPension: true }],
+      };
+      const result = shouldShowStudentIncomeQuestions({ formData, index: 0 });
+      expect(result).to.be.false;
+    });
+
+    it('should return true when backup path is used and veteran indicates pension receipt', () => {
+      const formData = {
+        vaDependentsNetWorthAndPension: true,
+        veteranInformation: { isInReceiptOfPension: -1 },
+        'view:checkVeteranPension': true,
+        studentInformation: [{ claimsOrReceivesPension: false }],
+      };
+      const result = shouldShowStudentIncomeQuestions({ formData, index: 0 });
+      expect(result).to.be.true;
+    });
+
+    it('should return false when backup path is used and veteran does not indicate pension receipt', () => {
+      const formData = {
+        vaDependentsNetWorthAndPension: true,
+        veteranInformation: { isInReceiptOfPension: -1 },
+        'view:checkVeteranPension': false,
+        studentInformation: [{ claimsOrReceivesPension: true }],
+      };
+      const result = shouldShowStudentIncomeQuestions({ formData, index: 0 });
+      expect(result).to.be.false;
+    });
+  });
+
+  describe('when feature flag - vaDependentsNetWorthAndPension - is off', () => {
+    it('should return true when student claims or receives pension', () => {
+      const formData = {
+        vaDependentsNetWorthAndPension: false,
+        studentInformation: [{ claimsOrReceivesPension: true }],
+      };
+      const result = shouldShowStudentIncomeQuestions({ formData, index: 0 });
+      expect(result).to.be.true;
+    });
+
+    it('should return false when student does not claim or receive pension', () => {
+      const formData = {
+        vaDependentsNetWorthAndPension: false,
+        studentInformation: [{ claimsOrReceivesPension: false }],
+      };
+      const result = shouldShowStudentIncomeQuestions({ formData, index: 0 });
+      expect(result).to.be.false;
+    });
+
+    it('should work with multiple students at different indices', () => {
+      const formData = {
+        vaDependentsNetWorthAndPension: false,
+        studentInformation: [
+          { claimsOrReceivesPension: true },
+          { claimsOrReceivesPension: false },
+          { claimsOrReceivesPension: true },
+        ],
+      };
+
+      expect(shouldShowStudentIncomeQuestions({ formData, index: 0 })).to.be
+        .true;
+      expect(shouldShowStudentIncomeQuestions({ formData, index: 1 })).to.be
+        .false;
+      expect(shouldShowStudentIncomeQuestions({ formData, index: 2 })).to.be
+        .true;
     });
   });
 });
