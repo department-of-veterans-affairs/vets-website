@@ -13,7 +13,7 @@ import {
   updateFormData,
 } from '../redux/actions';
 import { getFormPageInfo, getNewAppointment } from '../redux/selectors';
-import SimpleRadioWidget from './SimpleRadioWidget';
+import AppointmentsRadioWidget from './AppointmentsRadioWidget';
 
 const pageKey = 'visitType';
 
@@ -29,7 +29,7 @@ export default function TypeOfVisitPage() {
   const uiSchema = {
     visitType: {
       'ui:title': pageTitle,
-      'ui:widget': SimpleRadioWidget,
+      'ui:widget': AppointmentsRadioWidget,
       'ui:errorMessages': {
         required: 'Select an option',
       },

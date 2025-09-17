@@ -30,7 +30,7 @@ describe('utilities', () => {
 
     describe('single item', () => {
       it('should render in a <p> without a period if useSentenceFormat is false', () => {
-        const cardContent = ['You have new or relevant evidence'];
+        const cardContent = ['You have new and relevant evidence'];
         const screen = render(
           renderSingleOrList(cardContent, false, 'test-class', null, 'testid'),
         );
@@ -41,7 +41,7 @@ describe('utilities', () => {
       });
 
       it('should render in a <p> with a period if useSentenceFormat is true', () => {
-        const cardContent = ['You have new or relevant evidence'];
+        const cardContent = ['You have new and relevant evidence'];
         const screen = render(
           renderSingleOrList(cardContent, true, null, null, 'testid'),
         );
@@ -69,7 +69,7 @@ describe('utilities', () => {
 
       it('should include comma and "and" for all but last item if useSentenceFormat is true', () => {
         const cardContent = [
-          'You have new or relevant evidence',
+          'You have new and relevant evidence',
           'Your claim is not contested',
         ];
 

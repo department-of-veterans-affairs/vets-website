@@ -85,6 +85,7 @@ const formConfig = {
     },
   },
   transformForSubmit: transform,
+  useCustomScrollAndFocus: true,
   chapters: {
     identificationChapter: {
       title: 'Your information',

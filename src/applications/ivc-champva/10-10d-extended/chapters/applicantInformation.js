@@ -377,9 +377,9 @@ const applicantAdoptionUploadPage = {
       ({ formData }) => (
         <>
           You’ll need to submit a document showing proof of{' '}
-          <b className="dd-privacy-hidden">
+          <span className="dd-privacy-hidden">
             {applicantWording(formData, true, false)}
-          </b>{' '}
+          </span>{' '}
           adoption (like court ordered adoption papers).
         </>
       ),
@@ -410,13 +410,13 @@ const applicantStepChildUploadPage = {
         <>
           You’ll need to submit a document showing proof of the marriage or
           legal union between{' '}
-          <b className="dd-privacy-hidden">
+          <span className="dd-privacy-hidden">
             {applicantWording(formData, true, false)}
-          </b>{' '}
+          </span>{' '}
           Veteran and{' '}
-          <b className="dd-privacy-hidden">
+          <span className="dd-privacy-hidden">
             {applicantWording(formData, true, false)}
-          </b>{' '}
+          </span>{' '}
           parent.
           <br />
           <br />
@@ -480,14 +480,14 @@ const applicantSchoolCertUploadPage = {
               applicantWording(formData, posessive, false);
 
         const posessiveName = (
-          <b className="dd-privacy-hidden">{getNameFn(true)}</b>
+          <span className="dd-privacy-hidden">{getNameFn(true)}</span>
         );
         const nonPosessiveName = (
-          <b className="dd-privacy-hidden">{getNameFn(false)}</b>
+          <span className="dd-privacy-hidden">{getNameFn(false)}</span>
         );
         const nameBeingVerb =
           tmpFormData?.certifierRole === 'applicant' ? (
-            'you’re'
+            'You’re'
           ) : (
             <>
               <b className="dd-privacy-hidden">{nonPosessiveName}</b> is
@@ -570,7 +570,7 @@ const applicantMarriageDatesPage = {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
         `${applicantWording(formData)} date of marriage to the Veteran`,
-      'If you don’t know the exact date, enter your best guess. We won’t need the marriage certificate unless we can’t find a record of the marriage in our system when the form is processed.',
+      'If you don’t know the exact date, enter your best guess. We won’t need the marriage certificate unless we can’t find a record of the marriage in our system.',
       false,
     ),
     dateOfMarriageToSponsor: currentOrPastDateUI('Date of marriage'),
@@ -623,7 +623,7 @@ const applicantReMarriageCertUploadPage = {
           submitting documents showing proof of that remarriage.
           <br />
           <br />
-          Upload a copy of one of these documents:
+          <b>Upload a copy of one of these documents:</b>
           <ul>
             <li>
               Marriage certificate, <b>or</b>
@@ -633,8 +633,10 @@ const applicantReMarriageCertUploadPage = {
             </li>
             <li>Common-law marriage affidavit</li>
           </ul>
-          <b>If the remarriage has ended,</b> upload a copy of one of these
-          documents:
+          <b>
+            If the remarriage has ended, upload a copy of one of these
+            documents:
+          </b>
           <ul>
             <li>
               Divorce decree, <b>or</b>
@@ -702,6 +704,7 @@ export const applicantPages = arrayBuilderPages(
             Next we’ll ask you for information about the applicant. The
             applicant is the person who needs the CHAMPVA benefit.
             <br />
+            <br />
             We’ll ask for the applicant’s Social Security number, mailing
             address, contact information, and relationship to the Veteran.
             <br />
@@ -767,7 +770,7 @@ export const applicantPages = arrayBuilderPages(
           ...props,
           customWording: {
             customHint:
-              'Depending on your response, you may need to submit proof of marriage or dependent status with this application.',
+              'Depending on your response, you may need to submit proof of marriage or dependent status.',
           },
         }),
     }),
