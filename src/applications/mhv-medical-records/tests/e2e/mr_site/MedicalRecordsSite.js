@@ -201,7 +201,7 @@ class MedicalRecordsSite {
 
   loadPage = () => {
     cy.visit('my-health/medical-records');
-    cy.wait('@session');
+    cy.wait('@mockUser');
   };
 }
 export default MedicalRecordsSite;
