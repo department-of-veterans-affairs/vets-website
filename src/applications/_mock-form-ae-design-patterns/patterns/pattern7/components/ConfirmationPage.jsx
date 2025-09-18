@@ -637,7 +637,7 @@ const ConfirmationPage = () => {
         </p>
         <p>
           <va-link
-            href="https://ask.va.gov/"
+            href="#"
             text="Contact us online through Ask VA"
             target="_blank"
             rel="noopener noreferrer"
