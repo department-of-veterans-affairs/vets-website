@@ -29,19 +29,24 @@ class VitalsListPage extends BaseListPage {
     );
     cy.intercept('POST', '/v0/datadog_action', {}).as('datadogAction');
     cy.visit('my-health/medical-records/vitals');
-    cy.wait('@vitalsList');
-    cy.wait('@vamcEhr');
-    cy.wait('@mockUser');
-    cy.wait('@featureToggles');
-    cy.wait('@maintenanceWindow');
-    cy.wait('@status');
+    cy.wait([
+      '@vitalsList',
+      '@vamcEhr',
+      '@mockUser',
+      '@featureToggles',
+      '@maintenanceWindow',
+      '@status',
+    ]);
   };
 
-  clickLinkByRecordListItemIndex = (index = 0) => {
-    cy.findAllByTestId('record-list-item')
-      .find('a')
-      .eq(index)
-      .click();
+  clickLinkByRecordListItemIndex = vitalsHeading => {
+    cy.contains(vitalsHeading, { includeShadowDom: true }).then(element => {
+      cy.wrap(element).should('have.prop', 'tagName', 'H2');
+      cy.wrap(element)
+        .parent()
+        .findByRole('link', { name: /Review your/ })
+        .click();
+    });
   };
 
   verifyVitalOnListPage = (index, name, measurement, date) => {

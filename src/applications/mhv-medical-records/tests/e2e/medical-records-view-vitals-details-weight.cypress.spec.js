@@ -15,7 +15,7 @@ describe('Medical Records Vitals Details Page', () => {
   it('Vitals Details Weight', () => {
     VitalsListPage.goToVitals();
     // click weight link
-    VitalsListPage.clickLinkByRecordListItemIndex(5);
+    VitalsListPage.clickLinkByRecordListItemIndex('Weight');
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
       0,

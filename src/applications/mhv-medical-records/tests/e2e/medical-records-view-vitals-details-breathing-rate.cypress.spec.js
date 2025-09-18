@@ -15,7 +15,7 @@ describe('Medical Records Vitals Details Page', () => {
   it('Vitals Details Breathing Rate', () => {
     VitalsListPage.goToVitals();
     // click breathing rate Link
-    VitalsListPage.clickLinkByRecordListItemIndex(2);
+    VitalsListPage.clickLinkByRecordListItemIndex('Breathing rate');
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
       0,

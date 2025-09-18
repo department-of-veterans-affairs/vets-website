@@ -15,7 +15,9 @@ describe('Medical Records Vitals Details Page', () => {
   it('Vitals Details Pulse Oximetry', () => {
     VitalsListPage.goToVitals();
     // click pulse oximetry link
-    VitalsListPage.clickLinkByRecordListItemIndex(3);
+    VitalsListPage.clickLinkByRecordListItemIndex(
+      'Blood oxygen level (pulse oximetry)',
+    );
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
       0,

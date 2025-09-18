@@ -15,7 +15,7 @@ describe('Medical Records Vitals Details Page', () => {
   it('Vitals Details Height', () => {
     VitalsListPage.goToVitals();
     // click height link
-    VitalsListPage.clickLinkByRecordListItemIndex(6);
+    VitalsListPage.clickLinkByRecordListItemIndex('Height');
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
       0,
