@@ -16,19 +16,17 @@ import {
 } from '../util/constants';
 
 const isSignatureRequired = recipients => {
-  const regex = /.*\s*(Privacy Issue|Privacy Issues|Release of Information Medical Records|Record Amendment)\s*_*\s*Admin|.*\s*Release of Information/i;
+  const regex = /.*[\s_]*(Privacy Issue|Privacy Issues|Release of Information Medical Records|Record Amendment)[\s_]*Admin|.*[\s_]*Release[\s_]*of[\s_]*Information/i;
 
   return recipients.map(recipient => {
-    if (regex.test(recipient.attributes.name)) {
-      return {
-        ...recipient,
-        attributes: {
-          ...recipient.attributes,
-          signatureRequired: true,
-        },
-      };
-    }
-    return recipient;
+    const requiresSignature = regex.test(recipient.attributes.name);
+    return {
+      ...recipient,
+      attributes: {
+        ...recipient.attributes,
+        signatureRequired: requiresSignature,
+      },
+    };
   });
 };
 
@@ -36,14 +34,15 @@ export const getAllTriageTeamRecipients = () => async (dispatch, getState) => {
   const ehrDataByVhaId = selectEhrDataByVhaId(getState());
   try {
     const response = await getAllRecipients();
+
+    const recipientsWithSignature = isSignatureRequired(response.data);
     const updatedResponse = {
       ...response,
-      data: response.data.map(recipient => {
+      data: recipientsWithSignature.map(recipient => {
         return {
           ...recipient,
           attributes: {
             ...recipient.attributes,
-            signatureRequired: isSignatureRequired(recipient),
             healthCareSystemName:
               recipient.attributes.healthCareSystemName ||
               getVamcSystemNameFromVhaId(
