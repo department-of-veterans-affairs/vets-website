@@ -746,7 +746,7 @@ export function getEligibleApplicantsWithoutMedicare(formData) {
 }
 
 export const missingMedicarePage = {
-  path: 'medicare-status',
+  path: 'medicare-information/status',
   title: 'Medicare status',
   depends: (formData, index) => {
     const excluded = getEligibleApplicantsWithoutMedicare(formData);
@@ -755,13 +755,13 @@ export const missingMedicarePage = {
       a => toHashMemoized(a.applicantSSN) === curAppHash,
     );
     const age = getAgeInYears(curApp?.applicantDob);
-    return age >= 65 && excluded?.length > 0;
+    return age >= 65 && excluded && excluded.length > 0;
   },
   // Something to do with array builder/topBackLink was causing us to
   // always attempt to navigate back inside the medicare array rather
   // than to the summary page, so manually overriding it here.
   onNavBack: ({ goPath }) => {
-    goPath('/review-medicare-plans');
+    goPath('/medicare-information/summary');
   },
   uiSchema: {
     ...titleUI('Medicare status'),
@@ -815,7 +815,7 @@ export const missingMedicarePage = {
 };
 
 export const proofOfIneligibilityUploadPage = {
-  path: 'medicare-proof-of-ineligibility',
+  path: 'medicare-information/proof-of-ineligibility',
   title: 'Proof of Medicare ineligibility',
   depends: formData => formData?.hasProofMultipleApplicants,
   uiSchema: {
@@ -859,8 +859,8 @@ export const medicarePages = arrayBuilderPages(
   medicareOptions,
   pageBuilder => ({
     medicareSummary: pageBuilder.summaryPage({
-      path: 'report-medicare-plans',
-      title: 'Report Medicare plans',
+      path: 'review-your-medicare-plans',
+      title: 'Review your Medicare plans',
       uiSchema: medicareSummaryPage.uiSchema,
       schema: medicareSummaryPage.schema,
     }),
@@ -868,8 +868,13 @@ export const medicarePages = arrayBuilderPages(
       path: 'medicare-participants/:index',
       title: 'Select Medicare participants',
       ...selectMedicareParticipantPage,
-      CustomPage: SelectMedicareParticipantPage,
-      CustomPageReview: null,
+      CustomPage: props =>
+        SelectMedicareParticipantPage({
+          ...props,
+          // resolve prop warning that the index is a string rather than a number:
+          pagePerItemIndex: +props.pagePerItemIndex,
+        }),
+      CustomPageReview: () => <></>,
     }),
     medicareTypeOver65: pageBuilder.itemPage({
       path: 'medicare-over-65-plan-type/:index',

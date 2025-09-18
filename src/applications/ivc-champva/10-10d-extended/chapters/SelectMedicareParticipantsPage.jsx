@@ -184,7 +184,7 @@ SelectMedicareParticipantPage.propTypes = {
   onContinue: PropTypes.func,
   onReviewPage: PropTypes.bool,
   onSubmit: PropTypes.func,
-  pagePerItemIndex: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  pagePerItemIndex: PropTypes.number,
   setFormData: PropTypes.func,
   title: PropTypes.string,
   hint: PropTypes.string,
