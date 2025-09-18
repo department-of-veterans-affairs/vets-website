@@ -22,7 +22,7 @@ describe('Pre-need applicant veteran birth location', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(2);
+    expect(form.find('va-text-input').length).to.equal(2);
     form.unmount();
   });
 
