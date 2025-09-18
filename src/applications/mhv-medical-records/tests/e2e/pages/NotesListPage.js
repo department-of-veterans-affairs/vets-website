@@ -2,15 +2,20 @@ import defaultNotes from '../fixtures/notes/notes.json';
 import BaseListPage from './BaseListPage';
 
 class NotesListPage extends BaseListPage {
-  clickGotoNotesLink = (notes = defaultNotes) => {
+  gotoNotesList = (notes = defaultNotes) => {
     cy.intercept(
       'GET',
       '/my_health/v1/medical_records/clinical_notes',
       notes,
     ).as('notesList');
     cy.visit('my-health/medical-records/summaries-and-notes');
-    // cy.get('[href="/my-health/medical-records/notes"]').click();
-    cy.wait('@notesList');
+    cy.wait([
+      '@notesList',
+      '@vamcEhr',
+      '@mockUser',
+      '@featureToggles',
+      '@maintenanceWindow',
+    ]);
   };
 
   verifyCareSummariesAndNotesPageTitle = () => {

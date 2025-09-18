@@ -10,7 +10,7 @@ describe('Medical Records Care Summary Page ', () => {
   before(() => {
     site.login();
     // Given Navigate to Notes Page
-    NotesListPage.clickGotoNotesLink();
+    NotesListPage.gotoNotesList();
   });
 
   it('Progress Note Details', () => {

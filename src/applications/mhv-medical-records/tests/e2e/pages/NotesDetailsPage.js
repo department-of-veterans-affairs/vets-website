@@ -2,24 +2,6 @@
 import BaseDetailsPage from './BaseDetailsPage';
 
 class NotesDetailsPage extends BaseDetailsPage {
-  /*
-    clickGotoNotesLink = (
-     /* Notes = defaultNotes,
-      waitForNotes = false,
-    ) => {
-      cy.intercept(
-        'GET',
-        '/my_health/v1/medical_records/notes',
-        Notes,
-      ).as('NotesList');
-      cy.get('[href="/my-health/medical-records/notes"]').click();
-      if (waitForNotes) {
-        cy.wait('@NotesList');
-      }
-    });
-  }
-  */
-
   clickProgressNoteLink = (ProgressNoteHeading, index = 0) => {
     // First make sure the heading is visible
     cy.contains(ProgressNoteHeading, { includeShadowDom: true }).then(() => {
@@ -30,13 +12,8 @@ class NotesDetailsPage extends BaseDetailsPage {
     });
   };
 
-  clickDischargeSummaryLink = (notesHeading, index = 0) => {
-    cy.contains(notesHeading, { includeShadowDom: true }).then(() => {
-      cy.findAllByTestId('note-name')
-        .filter(`:contains("${notesHeading}")`)
-        .eq(index)
-        .click();
-    });
+  clickDischargeSummaryLink = (index = 0) => {
+    this.clickProgressNoteLink('Discharge Summary', index);
   };
 
   verifyProgressNoteTitle = expectedTitle => {

@@ -10,11 +10,11 @@ describe('Medical Records Care Summary Page', () => {
   beforeEach(() => {
     site.login();
     // Given Navigate to Notes Page
-    NotesListPage.clickGotoNotesLink(notes, false);
+    NotesListPage.gotoNotesList(notes, false);
   });
 
   it('Discharge Summary Details, contains admitted date', () => {
-    NotesDetailsPage.clickDischargeSummaryLink('Discharge Summary', 5);
+    NotesDetailsPage.clickDischargeSummaryLink(5);
 
     NotesDetailsPage.verifyDischargeSummaryTitle(
       notes.entry[0].resource.content[0].attachment.title,
@@ -53,7 +53,7 @@ describe('Medical Records Care Summary Page', () => {
 
   it('Discharge Summary Details, contains Discharge Date  ', () => {
     // should display Discharge Summary
-    NotesDetailsPage.clickDischargeSummaryLink('Discharge Summary', 3);
+    NotesDetailsPage.clickDischargeSummaryLink(3);
 
     NotesDetailsPage.verifyDischargeSummaryTitle(
       notes.entry[2].resource.content[0].attachment.title,
@@ -88,7 +88,7 @@ describe('Medical Records Care Summary Page', () => {
   });
 
   it('Discharge Summary Details, does not contain admitted/discharge date', () => {
-    NotesDetailsPage.clickDischargeSummaryLink('Discharge Summary', 1);
+    NotesDetailsPage.clickDischargeSummaryLink(1);
 
     NotesDetailsPage.verifyDischargeSummaryTitle(
       notes.entry[4].resource.content[0].attachment.title,
