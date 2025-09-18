@@ -20,24 +20,30 @@ describe('<MarriageCountReview>', () => {
       />
     </div>
   );
-  it('should not render if never married', () => {
+  it('should not render if NEVER_MARRIED', () => {
     const { container } = render(
       setup({ data: { maritalStatus: 'NEVER_MARRIED' } }),
     );
     expect($('div', container)).to.be.empty;
   });
-  it('should not render if widowed', () => {
-    const { container } = render(setup({ data: { maritalStatus: 'WIDOWED' } }));
-    expect($('div', container)).to.be.empty;
+  it('should render if MARRIED', () => {
+    const { container } = render(setup({ data: { maritalStatus: 'MARRIED' } }));
+    expect($('div', container)).not.to.be.empty;
   });
-  it('should not render if divorced', () => {
+  it('should render if SEPARATED', () => {
+    const { container } = render(
+      setup({ data: { maritalStatus: 'SEPARATED' } }),
+    );
+    expect($('div', container)).not.to.be.empty;
+  });
+  it('should render if WIDOWED', () => {
+    const { container } = render(setup({ data: { maritalStatus: 'WIDOWED' } }));
+    expect($('div', container)).not.to.be.empty;
+  });
+  it('should render if DIVORCED', () => {
     const { container } = render(
       setup({ data: { maritalStatus: 'DIVORCED' } }),
     );
-    expect($('div', container)).to.be.empty;
-  });
-  it('should render if MARRIED', () => {
-    const { container } = render(setup({ data: { maritalStatus: 'MARRIED' } }));
     expect($('div', container)).not.to.be.empty;
   });
   it('should render content with maximal data', () => {

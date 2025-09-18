@@ -142,6 +142,21 @@ describe('Pensions helpers', () => {
     it('should return false for no data', () => {
       expect(isMarried()).to.be.false;
     });
+    it('should return true when maritalStatus is MARRIED', () => {
+      expect(isMarried({ maritalStatus: 'MARRIED' })).to.be.true;
+    });
+    it('should return true when maritalStatus is WIDOWED', () => {
+      expect(isMarried({ maritalStatus: 'WIDOWED' })).to.be.true;
+    });
+    it('should return true when maritalStatus is DIVORCED', () => {
+      expect(isMarried({ maritalStatus: 'DIVORCED' })).to.be.true;
+    });
+    it('should return true when maritalStatus is SEPARATED', () => {
+      expect(isMarried({ maritalStatus: 'SEPARATED' })).to.be.true;
+    });
+    it('should return false when maritalStatus is NEVER_MARRIED', () => {
+      expect(isMarried({ maritalStatus: 'NEVER_MARRIED' })).to.be.false;
+    });
   });
   describe('formatCurrency', () => {
     it('should format US currency', () => {

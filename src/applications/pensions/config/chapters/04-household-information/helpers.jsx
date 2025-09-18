@@ -10,8 +10,10 @@ export function isSeparated(formData) {
   return formData.maritalStatus === 'SEPARATED';
 }
 
-export function isMarried(form = {}) {
-  return ['MARRIED', 'SEPARATED'].includes(form.maritalStatus);
+export function isMarried(formData = {}) {
+  return ['MARRIED', 'WIDOWED', 'DIVORCED', 'SEPARATED'].includes(
+    formData.maritalStatus,
+  );
 }
 
 export function doesHaveDependents(formData) {
