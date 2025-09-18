@@ -1,0 +1,37 @@
+name: Freeze Enabled Dispatch (Test)
+
+on:
+  workflow_dispatch:
+    inputs:
+      disable_content_build:
+        description: 'Also disable content-build Daily Production Release'
+        required: false
+        default: 'true'
+
+jobs:
+  freeze-enabled:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+
+      - name: Notify Slack - Code Freeze Enabled (COP/SRE)
+        uses: ./.github/workflows/slack-notify
+        continue-on-error: true
+        with:
+          payload: '{"attachments": [{"color": "#FFA500", "blocks": [{"type": "section","text": {"type": "mrkdwn", "text": "🚫 *Code Freeze Enabled (TEST):* Holiday freeze is active. Deployments are gated."}}]}]}'
+          channel_id: 'C045LCF8WU8, C04868KS69L'
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Disable content-build Daily Production Release
+        if: ${{ github.event.inputs.disable_content_build == 'true' }}
+        run: |
+          # Workflow ID for content-build Daily Production Release discovered via API
+          CB_WF_ID=22954794
+          curl -s -X PUT \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/department-of-veterans-affairs/content-build/actions/workflows/${CB_WF_ID}/disable
+
+
