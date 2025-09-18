@@ -2,11 +2,11 @@
 import BaseDetailsPage from './BaseDetailsPage';
 
 class NotesDetailsPage extends BaseDetailsPage {
-  clickProgressNoteLink = (ProgressNoteHeading, index = 0) => {
+  clickProgressNoteLink = (progressNoteHeading, index = 0) => {
     // First make sure the heading is visible
-    cy.contains(ProgressNoteHeading, { includeShadowDom: true }).then(() => {
+    cy.contains(progressNoteHeading, { includeShadowDom: true }).then(() => {
       cy.findAllByTestId('note-name')
-        .filter(`:contains("${ProgressNoteHeading}")`)
+        .filter(`:contains("${progressNoteHeading}")`)
         .eq(index)
         .click();
     });
