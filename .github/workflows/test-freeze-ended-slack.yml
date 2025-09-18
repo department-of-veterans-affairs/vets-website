@@ -1,0 +1,33 @@
+name: Test Freeze Ended Slack
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-slack:
+    name: Send Test Freeze Ended Messages
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+
+      - name: Notify Slack (COP) - Code Freeze Ended (Test)
+        uses: ./.github/workflows/slack-notify
+        continue-on-error: false
+        with:
+          payload: '{"attachments": [{"color": "#32CD32", "blocks": [{"type": "section","text": {"type": "mrkdwn", "text": "✅ *Code Freeze Ended (Test):* This is a test message to verify Slack notifications are working correctly."}}]}]}'
+          channel_id: 'C04868KS69L'
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Short delay before SRE Slack (Test)
+        run: sleep 2
+
+      - name: Notify Slack (SRE) - Code Freeze Ended (Test)
+        uses: ./.github/workflows/slack-notify
+        continue-on-error: false
+        with:
+          payload: '{"attachments": [{"color": "#32CD32", "blocks": [{"type": "section","text": {"type": "mrkdwn", "text": "✅ *Code Freeze Ended (Test):* This is a test message to verify Slack notifications are working correctly."}}]}]}'
+          channel_id: 'C06JM7UUHE3'
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
