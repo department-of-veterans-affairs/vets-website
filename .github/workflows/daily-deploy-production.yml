@@ -60,16 +60,19 @@ jobs:
 
       - name: Notify Slack (COP) - Code Freeze Enabled (TEST)
         uses: ./.github/workflows/slack-notify
-        continue-on-error: true
+        continue-on-error: false
         with:
           payload: '{"attachments": [{"color": "#FFA500", "blocks": [{"type": "section","text": {"type": "mrkdwn", "text": "🚫 *Code Freeze Enabled (TEST):* Holiday freeze is active. Deployments are gated."}}]}]}'
           channel_id:  'C045LCF8WU8'
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
+      - name: Short delay before SRE Slack (TEST)
+        run: sleep 2
+
       - name: Notify Slack (SRE) - Code Freeze Enabled (TEST)
         uses: ./.github/workflows/slack-notify
-        continue-on-error: true
+        continue-on-error: false
         with:
           payload: '{"attachments": [{"color": "#FFA500", "blocks": [{"type": "section","text": {"type": "mrkdwn", "text": "🚫 *Code Freeze Enabled (TEST):* Holiday freeze is active. Deployments are gated."}}]}]}'
           channel_id:  'C06JM7UUHE3'
@@ -154,16 +157,19 @@ jobs:
 
     - name: Notify Slack (COP) - Code Freeze Ended
       uses: ./.github/workflows/slack-notify
-      continue-on-error: true
+      continue-on-error: false
       with:
         payload: '{"attachments": [{"color": "#32CD32", "blocks": [{"type": "section","text": {"type": "mrkdwn", "text": "✅ *Code Freeze Ended:* Deployment workflows for `vets-website` and `content-build` have been re-enabled following the holiday period."}}]}]}'
         channel_id:  'C045LCF8WU8' #Frontend COP
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
+    - name: Short delay before SRE Slack (Ended)
+      run: sleep 2
+
     - name: Notify Slack (SRE) - Code Freeze Ended
       uses: ./.github/workflows/slack-notify
-      continue-on-error: true
+      continue-on-error: false
       with:
         payload: '{"attachments": [{"color": "#32CD32", "blocks": [{"type": "section","text": {"type": "mrkdwn", "text": "✅ *Code Freeze Ended:* Deployment workflows for `vets-website` and `content-build` have been re-enabled following the holiday period."}}]}]}'
         channel_id:  'C06JM7UUHE3' #platform-sre-team (updated)
