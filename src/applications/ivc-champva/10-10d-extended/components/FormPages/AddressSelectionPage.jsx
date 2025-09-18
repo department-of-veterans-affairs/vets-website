@@ -6,8 +6,7 @@ import { applicantWording } from '../../../shared/utilities';
 import { VaRadio, VaRadioOption } from '../../imports';
 
 // declare reusable constants
-export const VIEW_FIELD = 'view:sharesAddressWith';
-export const FIELD_NAME = 'root_address_selection';
+export const FIELD_NAME = 'view:sharesAddressWith';
 export const NOT_SHARED = 'na';
 
 // declare option content
@@ -55,7 +54,7 @@ const safeParse = str => {
 // apply radio option selection to correct data object
 const applyOptionSelection = (src, nextValue, dataKey) => {
   const clonedSrc = cloneDeep(src);
-  const base = { ...clonedSrc, [VIEW_FIELD]: nextValue };
+  const base = { ...clonedSrc, [FIELD_NAME]: nextValue };
 
   if (nextValue === NOT_SHARED) {
     delete base[dataKey];
@@ -100,7 +99,7 @@ const AddressSelectionPage = props => {
         : data,
     [data, isArrayMode, itemIndex],
   );
-  const currentValue = localData[VIEW_FIELD];
+  const currentValue = localData[FIELD_NAME];
 
   const [error, setError] = useState(undefined);
 
@@ -147,7 +146,7 @@ const AddressSelectionPage = props => {
       <>
         <VaRadioOption
           key="not_shared"
-          name={FIELD_NAME}
+          name={`root_${FIELD_NAME}`}
           label={OPTION_NO_LABEL}
           value={NOT_SHARED}
           checked={currentValue === NOT_SHARED}
@@ -155,7 +154,7 @@ const AddressSelectionPage = props => {
         {addressOpts.map(({ label, val }) => (
           <VaRadioOption
             key={label}
-            name={FIELD_NAME}
+            name={`root_${FIELD_NAME}`}
             label={`${OPTION_YES_LABEL} ${label}`}
             value={val}
             checked={val === currentValue}
@@ -198,8 +197,8 @@ const AddressSelectionPage = props => {
         <legend className="schemaform-block-title">{pageTitle}</legend>
 
         <VaRadio
-          id={FIELD_NAME}
-          name={FIELD_NAME}
+          id={`root_${FIELD_NAME}`}
+          name={`root_${FIELD_NAME}`}
           label={inputLabel}
           onVaValueChange={handleChange}
           error={error}

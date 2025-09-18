@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon-v20';
 import AddressSelectionPage, {
-  VIEW_FIELD,
+  FIELD_NAME,
   NOT_SHARED,
 } from '../../../../components/FormPages/AddressSelectionPage';
 
@@ -146,12 +146,12 @@ describe('1010d <AddressSelectionPage>', () => {
       expect(payload).to.have.property('certifierAddress');
       expect(payload).to.have.property('sponsorAddress');
 
-      expect(payload[VIEW_FIELD]).to.equal(NOT_SHARED);
+      expect(payload[FIELD_NAME]).to.equal(NOT_SHARED);
       expect(Object.prototype.hasOwnProperty.call(payload, DATA_KEY)).to.be
         .false;
 
       // enusre the original data object has not been mutated
-      expect(props.data).to.not.have.property(VIEW_FIELD);
+      expect(props.data).to.not.have.property(FIELD_NAME);
     });
 
     it('should set the correct data when selecting an address option', () => {
@@ -170,7 +170,7 @@ describe('1010d <AddressSelectionPage>', () => {
       sinon.assert.calledOnce(onChange);
       const payload = onChange.firstCall.args[0];
 
-      expect(payload[VIEW_FIELD]).to.equal(json(chosen));
+      expect(payload[FIELD_NAME]).to.equal(json(chosen));
       expect(payload[DATA_KEY]).to.deep.equal(chosen);
 
       // ensure we are only setting the array item data
@@ -195,7 +195,7 @@ describe('1010d <AddressSelectionPage>', () => {
 
     it('should successfully submit form when an option has been selected', () => {
       const goForward = sinon.spy();
-      const data = { ...baseData, [VIEW_FIELD]: NOT_SHARED };
+      const data = { ...baseData, [FIELD_NAME]: NOT_SHARED };
 
       const { submitForm } = renderPage({ goForward, data });
       submitForm();
