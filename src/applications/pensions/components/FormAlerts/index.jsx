@@ -215,10 +215,10 @@ export const SpecialMonthlyPensionEvidenceAlert = () => (
   </RequestFormAlert>
 );
 
-export const TotalNetWorthOverThresholdAlert = ({ threshold = 75000 }) => (
+export const TotalNetWorthOverThresholdAlert = ({ threshold = 25000 }) => (
   <va-alert status="warning">
     <p className="vads-u-margin-y--0">
-      You answered that you have more than {threshold.toLocaleString()} in
+      You answered that you have more than ${threshold.toLocaleString()} in
       assets. You’ll need to submit an Income and Asset Statement in Support of
       Claim for Pension or Parents' Dependency and Indemnity Compensation (
       <va-link
