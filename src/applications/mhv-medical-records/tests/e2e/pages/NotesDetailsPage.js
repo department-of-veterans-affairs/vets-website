@@ -30,11 +30,13 @@ class NotesDetailsPage extends BaseDetailsPage {
     });
   };
 
-  clickDischargeSummaryLink = (DischargeSummary = 1) => {
-    cy.findAllByTestId('record-list-item')
-      .find('a')
-      .eq(DischargeSummary)
-      .click();
+  clickDischargeSummaryLink = (notesHeading, index = 0) => {
+    cy.contains(notesHeading, { includeShadowDom: true }).then(() => {
+      cy.findAllByTestId('note-name')
+        .filter(`:contains("${notesHeading}")`)
+        .eq(index)
+        .click();
+    });
   };
 
   verifyProgressNoteTitle = expectedTitle => {

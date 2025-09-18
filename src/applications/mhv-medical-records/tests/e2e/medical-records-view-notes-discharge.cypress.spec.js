@@ -15,7 +15,7 @@ describe('Medical Records Care Summary Page', () => {
 
   it('Discharge Summary Details, DS with discharged date', () => {
     // should display Discharge Summary
-    NotesDetailsPage.clickDischargeSummaryLink(4);
+    NotesDetailsPage.clickDischargeSummaryLink('Discharge Summary', 1);
 
     NotesDetailsPage.verifyDischargeSummaryTitle(
       notes.entry[1].resource.content[0].attachment.title,
