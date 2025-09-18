@@ -41,6 +41,13 @@ describe('TravelClaimDetails', () => {
         data: detailsData,
       },
     },
+    scheduledDowntime: {
+      globalDowntime: null,
+      isReady: true,
+      isPending: false,
+      serviceMap: {},
+      dismissedDowntimeWarnings: [],
+    },
   });
 
   let oldLocation;
