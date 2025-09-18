@@ -1,0 +1,60 @@
+name: Freeze Ended Simulation
+
+on:
+  workflow_dispatch:
+    inputs:
+      send_at_utc:
+        description: "HH:MM in UTC (e.g., 23:00 for 7 PM ET during DST)"
+        required: false
+        default: "23:00"
+
+jobs:
+  simulate-freeze-ended:
+    name: Simulate Freeze Ended Slack
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+
+      - name: Wait until target UTC time
+        id: wait-until
+        shell: bash
+        run: |
+          target="${{ github.event.inputs.send_at_utc }}"
+          now_ts=$(date -u +%s)
+          today=$(date -u +%Y-%m-%d)
+          target_ts=$(date -u -d "${today}T${target}:00Z" +%s 2>/dev/null || true)
+          if [[ -z "$target_ts" ]]; then
+            echo "Invalid send_at_utc format, expected HH:MM" >&2
+            exit 1
+          fi
+          if (( target_ts <= now_ts )); then
+            target_ts=$(( target_ts + 86400 ))
+          fi
+          wait_s=$(( target_ts - now_ts ))
+          echo "Waiting ${wait_s}s until ${target}Z"
+          sleep "$wait_s"
+
+      - name: Notify Slack (COP) - Code Freeze Ended (Simulation)
+        uses: ./.github/workflows/slack-notify
+        continue-on-error: false
+        with:
+          payload: '{"attachments": [{"color": "#32CD32", "blocks": [{"type": "section","text": {"type": "mrkdwn", "text": "✅ *Code Freeze Ended (Simulation):* This is a scheduled dry run. No workflows were toggled. "}}]}]}'
+          channel_id: 'C04868KS69L'
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Short delay before SRE Slack (Simulation)
+        run: sleep 2
+
+      - name: Notify Slack (SRE) - Code Freeze Ended (Simulation)
+        uses: ./.github/workflows/slack-notify
+        continue-on-error: false
+        with:
+          payload: '{"attachments": [{"color": "#32CD32", "blocks": [{"type": "section","text": {"type": "mrkdwn", "text": "✅ *Code Freeze Ended (Simulation):* This is a scheduled dry run. No workflows were toggled. "}}]}]}'
+          channel_id: 'C06JM7UUHE3'
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+
