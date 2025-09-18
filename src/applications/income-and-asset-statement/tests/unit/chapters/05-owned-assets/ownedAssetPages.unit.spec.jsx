@@ -28,19 +28,7 @@ import {
   testSubmitsWithoutErrors,
 } from '../pageTests.spec';
 
-describe('owned asset list and loop pages', () => {
-  let showUpdatedContentStub;
-
-  beforeEach(() => {
-    showUpdatedContentStub = sinon.stub(helpers, 'showUpdatedContent');
-  });
-
-  afterEach(() => {
-    if (showUpdatedContentStub && showUpdatedContentStub.restore) {
-      showUpdatedContentStub.restore();
-    }
-  });
-
+describe('ownedAssetPages - list loop', () => {
   describe('isItemIncomplete', () => {
     it('isItemIncomplete function', () => {
       const baseItem = testData.data.ownedAssets[0];
@@ -53,7 +41,7 @@ describe('owned asset list and loop pages', () => {
     });
 
     ['FARM', 'BUSINESS'].forEach(assetType => {
-      it('should check stuff', () => {
+      it('check isItemIncomplete', () => {
         sessionStorage.setItem('showUpdatedContent', true);
         const baseItem = {
           ...testData.data.ownedAssets[0],
@@ -66,247 +54,272 @@ describe('owned asset list and loop pages', () => {
     });
   });
 
-  describe('text getItemName function', () => {
-    const mockFormData = {
-      isLoggedIn: true,
-      veteranFullName: { first: 'John', last: 'Doe' },
-      otherVeteranFullName: { first: 'Alex', last: 'Smith' },
-    };
-
-    it('should return undefined if recipientRelationship is not defined', () => {
-      const item = { assetType: 'BUSINESS' };
-      expect(options.text.getItemName(item, 0, mockFormData)).to.be.undefined;
-    });
-
-    it('should return undefined if assetType is not defined', () => {
-      const item = { recipientRelationship: 'VETERAN' };
-      expect(options.text.getItemName(item, 0, mockFormData)).to.be.undefined;
-    });
-
-    it('should return "John Doe’s income from a business" if recipient is Veteran and asset type is "business"', () => {
-      const item = {
-        recipientRelationship: 'VETERAN',
-        assetType: 'BUSINESS',
+  describe('text', () => {
+    describe('getItemName function', () => {
+      const mockFormData = {
+        isLoggedIn: true,
+        veteranFullName: { first: 'John', last: 'Doe' },
+        otherVeteranFullName: { first: 'Alex', last: 'Smith' },
       };
-      expect(options.text.getItemName(item, 0, mockFormData)).to.equal(
-        'John Doe’s income from a business',
-      );
-    });
 
-    it('should return "John Doe’s income from a farm" if recipient is Veteran and asset type is "farm"', () => {
-      const item = {
-        recipientRelationship: 'VETERAN',
-        assetType: 'FARM',
-      };
-      expect(options.text.getItemName(item, 0, mockFormData)).to.equal(
-        'John Doe’s income from a farm',
-      );
-    });
+      it('should return undefined if recipientRelationship is not defined', () => {
+        const item = { assetType: 'BUSINESS' };
+        expect(options.text.getItemName(item, 0, mockFormData)).to.be.undefined;
+      });
 
-    it('should return "John Doe’s income from a rental property" if recipient is Veteran and asset type is "rental property"', () => {
-      const item = {
-        recipientRelationship: 'VETERAN',
-        assetType: 'RENTAL_PROPERTY',
-      };
-      expect(options.text.getItemName(item, 0, mockFormData)).to.equal(
-        'John Doe’s income from a rental property',
-      );
-    });
+      it('should return undefined if assetType is not defined', () => {
+        const item = { recipientRelationship: 'VETERAN' };
+        expect(options.text.getItemName(item, 0, mockFormData)).to.be.undefined;
+      });
 
-    it('should return "Jane Doe’s income from a business" if recipient is not Veteran and assetType is "business"', () => {
-      const item = {
-        recipientRelationship: 'SPOUSE',
-        recipientName: { first: 'Jane', last: 'Doe' },
-        assetType: 'BUSINESS',
-      };
-      expect(options.text.getItemName(item, 0, mockFormData)).to.equal(
-        'Jane Doe’s income from a business',
-      );
-    });
-
-    it('should return "Jane Doe’s income from a farm" if assetType is "farm"', () => {
-      const item = {
-        recipientRelationship: 'CHILD',
-        recipientName: { first: 'Jane', last: 'Doe' },
-        assetType: 'FARM',
-      };
-      expect(options.text.getItemName(item, 0, mockFormData)).to.equal(
-        'Jane Doe’s income from a farm',
-      );
-    });
-
-    it('should return "Jane Doe’s income from a rental property" if recipient is not Veteran and assetType is "rental property"', () => {
-      const item = {
-        recipientRelationship: 'PARENT',
-        recipientName: { first: 'Jane', last: 'Doe' },
-        assetType: 'RENTAL_PROPERTY',
-      };
-      expect(options.text.getItemName(item, 0, mockFormData)).to.equal(
-        'Jane Doe’s income from a rental property',
-      );
-    });
-
-    it('should return "Alex Smith’s income from a business" if recipient is Veteran and assetType is "business" and not logged in', () => {
-      const item = {
-        recipientRelationship: 'VETERAN',
-        assetType: 'BUSINESS',
-      };
-      expect(
-        options.text.getItemName(item, 0, {
-          ...mockFormData,
-          isLoggedIn: false,
-        }),
-      ).to.equal('Alex Smith’s income from a business');
-    });
-
-    it('should return "Alex Smith’s income from a farm" if recipient is Veteran and assetType is "farm" and not logged in', () => {
-      const item = {
-        recipientRelationship: 'VETERAN',
-        assetType: 'FARM',
-      };
-      expect(
-        options.text.getItemName(item, 0, {
-          ...mockFormData,
-          isLoggedIn: false,
-        }),
-      ).to.equal('Alex Smith’s income from a farm');
-    });
-
-    it('should return "Alex Smith’s income from a rental property" if recipient is Veteran and assetType is "rental property" and not logged in', () => {
-      const item = {
-        recipientRelationship: 'VETERAN',
-        assetType: 'RENTAL_PROPERTY',
-      };
-      expect(
-        options.text.getItemName(item, 0, {
-          ...mockFormData,
-          isLoggedIn: false,
-        }),
-      ).to.equal('Alex Smith’s income from a rental property');
-    });
-    it('should return undefined if required keys are not defined', () => {
-      expect(options.text.getItemName({}, 0)).to.be.undefined;
-    });
-  });
-
-  describe('text cardDescription function', () => {
-    it('should return null when grossMonthlyIncome is not defined', () => {
-      const item = { ownedPortionValue: 5000 };
-      const result = options.text.cardDescription(item);
-      expect(result).to.be.false;
-    });
-
-    it('should return null when ownedPortionValue is not defined', () => {
-      const item = { grossMonthlyIncome: 3000 };
-      const result = options.text.cardDescription(item);
-      expect(result).to.be.false;
-    });
-
-    /* eslint-disable no-unused-vars */
-    const {
-      recipientRelationship,
-      recipientName,
-      assetType,
-      ...baseItem
-    } = testData.data.ownedAssets[0];
-    testOptionsTextCardDescription(options, baseItem, ownedAssetTypeLabels);
-
-    ['FARM', 'BUSINESS'].forEach(at => {
-      it('should show uploaded files', () => {
-        sessionStorage.setItem('showUpdatedContent', true);
-        const assetWithFiles = {
-          ...testData.data.ownedAssets[0],
-          assetType: at,
-          'view:addFormQuestion': true,
-          uploadedDocuments: [{ name: 'Test file.png' }],
+      it('should return "John Doe’s income from a business" if recipient is Veteran and asset type is "business"', () => {
+        const item = {
+          recipientRelationship: 'VETERAN',
+          assetType: 'BUSINESS',
         };
-        expect(options.text.cardDescription(assetWithFiles)).to.not.be.null;
-        sessionStorage.removeItem('showUpdatedContent');
+        expect(options.text.getItemName(item, 0, mockFormData)).to.equal(
+          'John Doe’s income from a business',
+        );
+      });
+
+      it('should return "John Doe’s income from a farm" if recipient is Veteran and asset type is "farm"', () => {
+        const item = { recipientRelationship: 'VETERAN', assetType: 'FARM' };
+        expect(options.text.getItemName(item, 0, mockFormData)).to.equal(
+          'John Doe’s income from a farm',
+        );
+      });
+
+      it('should return "John Doe’s income from a rental property" if recipient is Veteran and asset type is "rental property"', () => {
+        const item = {
+          recipientRelationship: 'VETERAN',
+          assetType: 'RENTAL_PROPERTY',
+        };
+        expect(options.text.getItemName(item, 0, mockFormData)).to.equal(
+          'John Doe’s income from a rental property',
+        );
+      });
+
+      it('should return "Jane Doe’s income from a business" if recipient is not Veteran and assetType is "business"', () => {
+        const item = {
+          recipientRelationship: 'SPOUSE',
+          recipientName: { first: 'Jane', last: 'Doe' },
+          assetType: 'BUSINESS',
+        };
+        expect(options.text.getItemName(item, 0, mockFormData)).to.equal(
+          'Jane Doe’s income from a business',
+        );
+      });
+
+      it('should return "Jane Doe’s income from a farm" if assetType is "farm"', () => {
+        const item = {
+          recipientRelationship: 'CHILD',
+          recipientName: { first: 'Jane', last: 'Doe' },
+          assetType: 'FARM',
+        };
+        expect(options.text.getItemName(item, 0, mockFormData)).to.equal(
+          'Jane Doe’s income from a farm',
+        );
+      });
+
+      it('should return "Jane Doe’s income from a rental property" if recipient is not Veteran and assetType is "rental property"', () => {
+        const item = {
+          recipientRelationship: 'PARENT',
+          recipientName: { first: 'Jane', last: 'Doe' },
+          assetType: 'RENTAL_PROPERTY',
+        };
+        expect(options.text.getItemName(item, 0, mockFormData)).to.equal(
+          'Jane Doe’s income from a rental property',
+        );
+      });
+
+      it('should return "Alex Smith’s income from a business" if recipient is Veteran and assetType is "business" and not logged in', () => {
+        const item = {
+          recipientRelationship: 'VETERAN',
+          assetType: 'BUSINESS',
+        };
+        expect(
+          options.text.getItemName(item, 0, {
+            ...mockFormData,
+            isLoggedIn: false,
+          }),
+        ).to.equal('Alex Smith’s income from a business');
+      });
+
+      it('should return "Alex Smith’s income from a farm" if recipient is Veteran and assetType is "farm" and not logged in', () => {
+        const item = { recipientRelationship: 'VETERAN', assetType: 'FARM' };
+        expect(
+          options.text.getItemName(item, 0, {
+            ...mockFormData,
+            isLoggedIn: false,
+          }),
+        ).to.equal('Alex Smith’s income from a farm');
+      });
+
+      it('should return "Alex Smith’s income from a rental property" if recipient is Veteran and assetType is "rental property" and not logged in', () => {
+        const item = {
+          recipientRelationship: 'VETERAN',
+          assetType: 'RENTAL_PROPERTY',
+        };
+        expect(
+          options.text.getItemName(item, 0, {
+            ...mockFormData,
+            isLoggedIn: false,
+          }),
+        ).to.equal('Alex Smith’s income from a rental property');
+      });
+      it('should return undefined if required keys are not defined', () => {
+        expect(options.text.getItemName({}, 0)).to.be.undefined;
       });
     });
-  });
 
-  describe('text cardDescription function with zero values', () => {
-    /* eslint-disable no-unused-vars */
-    const {
-      recipientRelationship,
-      recipientName,
-      assetType,
-      ...baseItem
-    } = testDataZeroes.data.ownedAssets[0];
-    /* eslint-enable no-unused-vars */
-    testOptionsTextCardDescription(options, baseItem, ownedAssetTypeLabels);
-  });
+    describe('summaryTitle function', () => {
+      it('should show updated content', () => {
+        sessionStorage.setItem('showUpdatedContent', true);
+        expect(
+          options.text.summaryTitle({
+            nounPlural: 'custom',
+          }),
+        ).to.eql('Review property and business assets');
+      });
+      it('should show normal content', () => {
+        sessionStorage.removeItem('showUpdatedContent');
+        expect(
+          options.text.summaryTitle({
+            nounPlural: 'custom assets',
+          }),
+        ).to.eql('Review your custom assets');
+      });
+    });
 
-  describe('text summaryDescription', () => {
-    it('should return null if showUpdatedContent: true and assetType: `OTHER`', () => {
-      sessionStorage.setItem('showUpdatedContent', true);
-      expect(
-        options.text.summaryDescription({
-          formData: {
-            ownedAssets: [
-              {
-                assetType: 'OTHER',
-                'view:addFormQuestion': true,
-              },
-            ],
-          },
-        }),
-      ).to.be.null;
+    describe('reviewAddButtonText function', () => {
+      it('should show updated content', () => {
+        sessionStorage.setItem('showUpdatedContent', true);
+        expect(
+          options.text.reviewAddButtonText({
+            nounSingular: 'custom asset',
+          }),
+        ).to.eql('Add more property or business assets');
+      });
+      it('should show normal content', () => {
+        sessionStorage.removeItem('showUpdatedContent');
+        expect(
+          options.text.reviewAddButtonText({
+            nounSingular: 'custom assets',
+          }),
+        ).to.eql('Add another custom assets');
+      });
     });
-    it('should SupplementaryFormsAlertUpdated if shouldShowDeclinedAlert: true', () => {
-      sessionStorage.setItem('showUpdatedContent', true);
-      expect(
-        options.text.summaryDescription({
-          formData: {
-            ownedAssets: [{ assetType: 'FARM', 'view:addFormQuestion': false }],
-          },
-        }),
-      ).to.not.be.null;
-    });
-    it('should SupplementaryFormsAlertUpdated if shouldShowDeclinedAlert: true', () => {
-      sessionStorage.setItem('showUpdatedContent', true);
-      expect(
-        options.text.summaryDescription({
-          formData: {
-            ownedAssets: [
-              {
-                assetType: 'FARM',
-                'view:addFormQuestion': true,
-                uploadedDocuments: [],
-              },
-            ],
-          },
-        }),
-      ).to.not.be.null;
-    });
-    it('shoudl show SupplementaryFormsAlert by default', () => {
-      expect(
-        options.text.summaryDescription({
-          formData: {
-            ownedAssets: [
-              { assetType: 'OTHER', 'view:addFormQuestion': false },
-            ],
-          },
-        }),
-      ).to.not.be.null;
-    });
-  });
 
-  describe('text deleteDescription', () => {
-    it('should do what its supposed to', () => {
-      expect(options.text.deleteDescription({})).to.not.be.null;
+    describe('cardDescription function', () => {
+      /* eslint-disable no-unused-vars */
+      const {
+        recipientRelationship,
+        recipientName,
+        assetType,
+        ...baseItem
+      } = testData.data.ownedAssets[0];
+      testOptionsTextCardDescription(options, baseItem, ownedAssetTypeLabels);
+
+      ['FARM', 'BUSINESS'].forEach(at => {
+        it('should show uploaded files', () => {
+          sessionStorage.setItem('showUpdatedContent', true);
+          const assetWithFiles = {
+            ...testData.data.ownedAssets[0],
+            assetType: at,
+            'view:addFormQuestion': true,
+            uploadedDocuments: [{ name: 'Test file.png' }],
+          };
+          expect(options.text.cardDescription(assetWithFiles)).to.not.be.null;
+          sessionStorage.removeItem('showUpdatedContent');
+        });
+      });
+
+      it('should return null if `grossMonthlyIncome` or `ownedPortionValue` are not defined', () => {
+        // VERIFY?
+      });
+    });
+
+    describe('cardDescription function with zero values', () => {
+      const {
+        recipientRelationship,
+        recipientName,
+        assetType,
+        ...baseItem
+      } = testDataZeroes.data.ownedAssets[0];
+      testOptionsTextCardDescription(options, baseItem, ownedAssetTypeLabels);
+    });
+
+    describe('summaryDescription', () => {
+      beforeEach(() => sessionStorage.setItem('showUpdatedContent', true));
+      it('should return null if showUpdatedContent: true and assetType: `OTHER`', () => {
+        expect(
+          options.text.summaryDescription({
+            formData: {
+              ownedAssets: [
+                {
+                  assetType: 'OTHER',
+                  'view:addFormQuestion': true,
+                },
+              ],
+            },
+          }),
+        ).to.be.null;
+      });
+      it('should SupplementaryFormsAlertUpdated if shouldShowDeclinedAlert: true', () => {
+        expect(
+          options.text.summaryDescription({
+            formData: {
+              ownedAssets: [
+                { assetType: 'FARM', 'view:addFormQuestion': false },
+              ],
+            },
+          }),
+        ).to.not.be.null;
+      });
+      it('should SupplementaryFormsAlertUpdated if shouldShowDeclinedAlert: true', () => {
+        expect(
+          options.text.summaryDescription({
+            formData: {
+              ownedAssets: [
+                {
+                  assetType: 'FARM',
+                  'view:addFormQuestion': true,
+                  uploadedDocuments: [],
+                },
+              ],
+            },
+          }),
+        ).to.not.be.null;
+      });
+      it('should show SupplementaryFormsAlert by default', () => {
+        sessionStorage.removeItem('showUpdatedContent');
+        expect(
+          options.text.summaryDescription({
+            formData: {
+              ownedAssets: [
+                { assetType: 'OTHER', 'view:addFormQuestion': false },
+              ],
+            },
+          }),
+        ).to.not.be.null;
+      });
+    });
+
+    describe('summaryDescriptionWithoutItems', () => {
+      it('should return null when showUpdatedContent is false', () => {
+        expect(options.text.summaryDescriptionWithoutItems).to.be.null;
+      });
+    });
+
+    describe('deleteDescription', () => {
+      it('should do what its supposed to', () => {
+        expect(options.text.deleteDescription({})).to.not.be.null;
+      });
     });
   });
 
   describe('summary page', () => {
-    const { schema, uiSchema } = ownedAssetPagesSummary;
-
-    describe('Updated summary pages', () => {
-      beforeEach(() => {
-        showUpdatedContentStub.returns(true);
-      });
-
+    context('content: updated', () => {
       describe('default updated summary page', () => {
         const {
           schema,
@@ -315,6 +328,7 @@ describe('owned asset list and loop pages', () => {
         const formData = { ...testData.data, claimantType: 'VETERAN' };
 
         it('should display when showUpdatedContent is true and claimantType is not SPOUSE/CHILD/CUSTODIAN', () => {
+          sessionStorage.setItem('showUpdatedContent', true);
           const { depends } = ownedAssetPages.ownedAssetPagesUpdatedSummary;
           expect(depends(formData)).to.be.true;
         });
@@ -345,6 +359,7 @@ describe('owned asset list and loop pages', () => {
         const formData = { ...testData.data, claimantType: 'SPOUSE' };
 
         it('should display when showUpdatedContent is true and claimantType is SPOUSE', () => {
+          sessionStorage.setItem('showUpdatedContent', true);
           const {
             depends,
           } = ownedAssetPages.ownedAssetPagesUpdatedSpouseSummary;
@@ -379,6 +394,7 @@ describe('owned asset list and loop pages', () => {
         const formData = { ...testData.data, claimantType: 'CHILD' };
 
         it('should display when showUpdatedContent is true and claimantType is CHILD', () => {
+          sessionStorage.setItem('showUpdatedContent', true);
           const {
             depends,
           } = ownedAssetPages.ownedAssetPagesUpdatedChildSummary;
@@ -434,6 +450,7 @@ describe('owned asset list and loop pages', () => {
         const formData = { ...testData.data, claimantType: 'CUSTODIAN' };
 
         it('should display when showUpdatedContent is true and claimantType is CUSTODIAN', () => {
+          sessionStorage.setItem('showUpdatedContent', true);
           const {
             depends,
           } = ownedAssetPages.ownedAssetPagesUpdatedCustodianSummary;
@@ -450,10 +467,12 @@ describe('owned asset list and loop pages', () => {
         );
       });
     });
+  });
 
-    describe('MVP asset recipient page', () => {
+  describe('asset recipient page', () => {
+    describe('asset recipient page - content normal', () => {
       beforeEach(() => {
-        showUpdatedContentStub.returns(false);
+        sessionStorage.removeItem('showUpdatedContent');
       });
 
       const schema =
@@ -498,7 +517,7 @@ describe('owned asset list and loop pages', () => {
 
     describe('Updated asset recipient pages', () => {
       beforeEach(() => {
-        showUpdatedContentStub.returns(true);
+        sessionStorage.setItem('showUpdatedContent', true);
       });
 
       describe('default updated recipient page', () => {
@@ -736,8 +755,10 @@ describe('owned asset list and loop pages', () => {
         );
       });
     });
+  });
 
-    describe('recipient name page', () => {
+  describe('recipient name page', () => {
+    context('recipient name page', () => {
       sessionStorage.setItem('showUpdatedContent', true);
       const schema =
         ownedAssetPages.ownedAssetRecipientNamePage.schema.properties
@@ -801,8 +822,10 @@ describe('owned asset list and loop pages', () => {
         { loggedIn: true },
       );
     });
+  });
 
-    describe('asset type page', () => {
+  describe('asset type page', () => {
+    context('content: normal', () => {
       const schema =
         ownedAssetPages.ownedAssetTypePage.schema.properties.ownedAssets.items;
       const uiSchema =
@@ -837,30 +860,12 @@ describe('owned asset list and loop pages', () => {
         { loggedIn: true },
       );
     });
+  });
 
-    describe('depends coverage', () => {
-      it('additionalFormNeededPage depends returns true', () => {
-        sessionStorage.setItem('showUpdatedContent', true);
-        const { depends } = ownedAssetPages?.ownedAssetAdditionalFormNeededPage;
-        expect(depends({ ownedAssets: [{ assetType: 'FARM' }] }, 0)).to.be.true;
-        expect(depends({ ownedAssets: [{ assetType: 'BUSINESS' }] }, 0)).to.be
-          .true;
-      });
-
-      it('additionalFormNeededPage depends returns true', () => {
-        sessionStorage.setItem('showUpdatedContent', true);
-        const { depends } = ownedAssetPages?.ownedAssetDocumentUploadPage;
-        const generateOwnedAssets = (assetType = 'FARM') => ({
-          ownedAssets: [{ 'view:addFormQuestion': true, assetType }],
-        });
-        expect(depends(generateOwnedAssets(), 0)).to.be.true;
-        expect(depends(generateOwnedAssets('BUSINESS'), 0)).to.be.true;
-      });
-    });
-
-    describe('page depends functions', () => {
+  describe('page depends', () => {
+    context('content: updated', () => {
       it('should handle all claimant types correctly for summary pages', () => {
-        showUpdatedContentStub.returns(true);
+        sessionStorage.setItem('showUpdatedContent', true);
 
         const testCases = [
           {
@@ -903,7 +908,7 @@ describe('owned asset list and loop pages', () => {
       });
 
       it('should handle all claimant types correctly for recipient pages', () => {
-        showUpdatedContentStub.returns(true);
+        sessionStorage.setItem('showUpdatedContent', true);
 
         const testCases = [
           {
@@ -948,32 +953,86 @@ describe('owned asset list and loop pages', () => {
           });
         });
       });
+
+      it('additionalFormNeededPage depends returns true', () => {
+        sessionStorage.setItem('showUpdatedContent', true);
+        const { depends } = ownedAssetPages?.ownedAssetAdditionalFormNeededPage;
+        expect(depends({ ownedAssets: [{ assetType: 'FARM' }] }, 0)).to.be.true;
+        expect(depends({ ownedAssets: [{ assetType: 'BUSINESS' }] }, 0)).to.be
+          .true;
+      });
+
+      it('additionalFormNeededPage depends returns true', () => {
+        sessionStorage.setItem('showUpdatedContent', true);
+        const { depends } = ownedAssetPages?.ownedAssetDocumentUploadPage;
+        const generateOwnedAssets = (assetType = 'FARM') => ({
+          ownedAssets: [{ 'view:addFormQuestion': true, assetType }],
+        });
+        expect(depends(generateOwnedAssets(), 0)).to.be.true;
+        expect(depends(generateOwnedAssets('BUSINESS'), 0)).to.be.true;
+      });
+    });
+  });
+
+  describe('ownedAssetDocumentUpload page', () => {
+    describe('validations', () => {
+      const uiSchema =
+        ownedAssetPages.ownedAssetDocumentUploadPage.uiSchema.ownedAssets.items;
+
+      it('should add an error', () => {
+        const validation = uiSchema.uploadedDocuments['ui:validations'][0];
+        const errors = { addError: sinon.spy() };
+        const fieldData = {
+          name: 'File name.png',
+        };
+
+        validation(errors, fieldData);
+        expect(errors.addError.called).to.be.true;
+      });
+
+      it('should return if there is no confirmation code', () => {
+        const validation = uiSchema.uploadedDocuments['ui:validations'][0];
+        const errors = { addError: sinon.spy() };
+        const fieldData = { name: 'File name.png', isEncrypted: true };
+
+        validation(errors, fieldData);
+        expect(errors.addError.called).to.be.false;
+      });
     });
 
-    describe('Helper function integration', () => {
-      it('should correctly determine when otherRecipientRelationshipType is required', () => {
-        const otherRequiredStub = sinon.stub(
-          helpers,
-          'otherRecipientRelationshipExplanationRequired',
-        );
-        otherRequiredStub.returns(true);
+    describe('required', () => {
+      const uiSchema =
+        ownedAssetPages.ownedAssetDocumentUploadPage.uiSchema.ownedAssets.items;
 
-        const formData = {
-          ownedAssets: [{ recipientRelationship: 'OTHER' }],
-        };
-        const index = 0;
-
-        const mvpUiSchema =
-          ownedAssetPages.ownedAssetRecipientPage.uiSchema.ownedAssets.items;
-        const mvpIsRequired =
-          mvpUiSchema.otherRecipientRelationshipType['ui:required'];
-
-        expect(mvpIsRequired(formData, index)).to.be.true;
-        expect(otherRequiredStub.calledWith(formData, index, 'ownedAssets')).to
-          .be.true;
-
-        otherRequiredStub.restore();
+      it('should be a required field', () => {
+        expect(uiSchema.uploadedDocuments['ui:required']()).to.be.true;
       });
+    });
+  });
+
+  describe('Helper function integration', () => {
+    it('should correctly determine when otherRecipientRelationshipType is required', () => {
+      const otherRequiredStub = sinon.stub(
+        helpers,
+        'otherRecipientRelationshipExplanationRequired',
+      );
+      otherRequiredStub.returns(true);
+
+      const formData = {
+        ownedAssets: [{ recipientRelationship: 'OTHER' }],
+      };
+      const index = 0;
+
+      const mvpUiSchema =
+        ownedAssetPages.ownedAssetRecipientPage.uiSchema.ownedAssets.items;
+      const mvpIsRequired =
+        mvpUiSchema.otherRecipientRelationshipType['ui:required'];
+
+      expect(mvpIsRequired(formData, index)).to.be.true;
+      expect(otherRequiredStub.calledWith(formData, index, 'ownedAssets')).to.be
+        .true;
+
+      otherRequiredStub.restore();
     });
   });
 });
