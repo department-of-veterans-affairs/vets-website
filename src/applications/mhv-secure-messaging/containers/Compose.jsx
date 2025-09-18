@@ -23,6 +23,7 @@ import {
 import { getRecentThreads } from '../util/threads';
 import { getUniqueTriageGroups } from '../util/recipients';
 import featureToggles from '../hooks/useFeatureToggles';
+import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 
 const Compose = () => {
   const { mhvSecureMessagingCuratedListFlow } = featureToggles();
@@ -225,6 +226,7 @@ const Compose = () => {
             (noAssociations === (undefined || false) &&
               !allTriageGroupsBlocked) && (
               <div className="vads-l-grid-container compose-container">
+                <AlertBackgroundBox closeable />
                 {content()}
               </div>
             )}

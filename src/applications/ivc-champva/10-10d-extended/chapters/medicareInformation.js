@@ -57,11 +57,11 @@ const yesNoOptions = {
     'If so, you must report this information for us to process your application for CHAMPVA benefits.',
 };
 const yesNoOptionsMore = {
-  title: 'Do you have any other applicants with Medicare plans to report?',
+  title: 'Report Medicare',
   labelHeaderLevel: '2',
   labelHeaderLevelStyle: '5',
   hint:
-    'If so, you must report this information for us to process your application for CHAMPVA benefits.',
+    'Do any applicants have medicare plans? If so, you must report this information for us to process your application for CHAMPVA benefits.',
 };
 
 // Get the name of the applicant selected on the Medicare participant page
@@ -72,7 +72,7 @@ export function generateParticipantName(item) {
       app => item?.medicareParticipant === toHashMemoized(app.applicantSSN),
     );
     const name = applicantWording(match, false, false, false);
-    return name.length > 0 ? `${name}` : 'applicant';
+    return name.length > 0 ? `${name}'s` : 'applicant';
   }
   return 'No participant';
 }
@@ -101,7 +101,7 @@ export const medicareOptions = {
 
 const medicareSummaryPage = {
   uiSchema: {
-    ...titleUI('Report Medicare'),
+    ...titleUI('Report Medicare', 'Do any applicants have medicare?'),
     'view:hasMedicare': arrayBuilderYesNoUI(
       medicareOptions,
       yesNoOptions,
@@ -126,8 +126,7 @@ const medicarePlanOver65 = {
     ),
     medicarePlanType: {
       ...radioUI({
-        title:
-          'Which of the following Medicare plans does this beneficiary have?',
+        title: 'Which medicare plan does this beneficiary have?',
         required: () => true,
         labels: {
           ab:
@@ -162,10 +161,11 @@ const medicarePlanUnder65 = {
           'Which of the following Medicare plans does this beneficiary have?',
         required: () => true,
         labels: {
-          ab: 'Original Medicare Parts A and B (hospital and medical coverage)',
+          ab:
+            'Original Medicare Parts A and B (Hospital and Medical Insurance)',
           c:
-            'Medicare Part C Advantage Plan (this option includes being previously enrolled in Part A and B )',
-          a: 'Medicare Part A only (hospital coverage)',
+            'Medicare Part C, also known as Medicare Advantage (includes previous enrollment in Part A and B )',
+          a: 'Medicare Part A only (Hospital Insurance)',
         },
       }),
     },
@@ -220,7 +220,7 @@ const medicarePartAPartBEffectiveDatesPage = partC => {
       medicarePartBEffectiveDate: currentOrPastDateUI({
         title: 'Effective date',
         hint:
-          'You may find your effective date on the front of your Medicare card near "Coverage starts" or "Effective date."',
+          'This will be on the front of the Medicare card near "Coverage starts".',
         required: () => true,
       }),
       'view:partBTitle': {
@@ -377,11 +377,8 @@ const medicarePartBEffectiveDatePage = {
       ({ formData }) =>
         `${generateParticipantName(formData)} Medicare Part B effective date`,
     ),
-    'view:partBTitle': {
-      'ui:description': <h3>Medicare Part B</h3>,
-    },
     medicarePartBEffectiveDate: currentOrPastDateUI({
-      title: 'Effective date',
+      title: 'Medicare Part B Effective date',
       hint:
         'This will be on the front of your Medicare card near "Coverage starts."',
       required: () => true,
@@ -404,7 +401,15 @@ const medicarePartBDescription = (
       You’ll need to submit a copy of your Original Medicare Health Part B Card,
       sometimes referred to as the "red, white, and blue" Medicare card.
     </p>
-    {fileUploadBlurb['view:fileUploadBlurb']['ui:description']}
+    <p>
+      <b>Your card should include this information</b>
+    </p>
+    <ul>
+      <li>
+        Medicare Part B (listed as MEDICAL), <strong>and</strong>
+      </li>
+      <li>The date your coverage begins</li>
+    </ul>
   </div>
 );
 
@@ -449,7 +454,7 @@ const medicarePartADenialPage = {
         background-color="true"
       >
         <p className="vads-u-margin-y--0">
-          Applicants that don’t have Medicare Part A and B or proof of
+          Applicants that don’t have Medicare Parts A and B or proof of
           ineligibility may not be eligible for CHAMPVA.
         </p>
       </va-alert>,
@@ -631,8 +636,7 @@ const medicarePartDStatusPage = {
     ),
     hasMedicarePartD: {
       ...yesNoUI({
-        title:
-          'Do you have Medicare Part D (prescription drug coverage) information to provide or update at this time?',
+        title: `Do you have Medicare Part D (Drug Coverage) information to provide or update at this time?`,
         hint: ADDITIONAL_FILES_HINT,
         required: () => true,
       }),
