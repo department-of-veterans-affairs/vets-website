@@ -58,12 +58,21 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
 
-      - name: Notify Slack - Code Freeze Enabled (TEST)
+      - name: Notify Slack (COP) - Code Freeze Enabled (TEST)
         uses: ./.github/workflows/slack-notify
         continue-on-error: true
         with:
           payload: '{"attachments": [{"color": "#FFA500", "blocks": [{"type": "section","text": {"type": "mrkdwn", "text": "🚫 *Code Freeze Enabled (TEST):* Holiday freeze is active. Deployments are gated."}}]}]}'
-          channel_id:  'C045LCF8WU8, C04868KS69L'
+          channel_id:  'C045LCF8WU8'
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Notify Slack (SRE) - Code Freeze Enabled (TEST)
+        uses: ./.github/workflows/slack-notify
+        continue-on-error: true
+        with:
+          payload: '{"attachments": [{"color": "#FFA500", "blocks": [{"type": "section","text": {"type": "mrkdwn", "text": "🚫 *Code Freeze Enabled (TEST):* Holiday freeze is active. Deployments are gated."}}]}]}'
+          channel_id:  'C04868KS69L'
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
@@ -143,12 +152,21 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
 
-    - name: Notify Slack - Code Freeze Ended
+    - name: Notify Slack (COP) - Code Freeze Ended
       uses: ./.github/workflows/slack-notify
       continue-on-error: true
       with:
         payload: '{"attachments": [{"color": "#32CD32", "blocks": [{"type": "section","text": {"type": "mrkdwn", "text": "✅ *Code Freeze Ended:* Deployment workflows for `vets-website` and `content-build` have been re-enabled following the holiday period."}}]}]}'
-        channel_id:  'C045LCF8WU8, C04868KS69L' #Frontend COP & platform-sre-team
+        channel_id:  'C045LCF8WU8' #Frontend COP
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+    - name: Notify Slack (SRE) - Code Freeze Ended
+      uses: ./.github/workflows/slack-notify
+      continue-on-error: true
+      with:
+        payload: '{"attachments": [{"color": "#32CD32", "blocks": [{"type": "section","text": {"type": "mrkdwn", "text": "✅ *Code Freeze Ended:* Deployment workflows for `vets-website` and `content-build` have been re-enabled following the holiday period."}}]}]}'
+        channel_id:  'C04868KS69L' #platform-sre-team
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
