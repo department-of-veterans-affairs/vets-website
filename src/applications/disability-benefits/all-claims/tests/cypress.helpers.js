@@ -867,13 +867,7 @@ export const pageHooks = (cy, testOptions) => ({
             cy.findByText('New Provider or hospital').should('not.exist');
           });
       }
-      cy.fillPage();
-      // reviewAndSubmitPageFlow();
-      afterHook(() => {
-        cy.get('@testData').then(() => {
-          reviewAndSubmitPageFlow();
-        });
-      });
+      reviewAndSubmitPageFlow();
     });
   },
 });
