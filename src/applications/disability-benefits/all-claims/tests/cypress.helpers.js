@@ -20,7 +20,6 @@ import {
   SHOW_8940_4192,
   SAVED_SEPARATION_DATE,
 } from '../constants';
-// import { name } from 'file-loader';
 
 export const mockItf = (
   offset = { days: 1 },
@@ -863,11 +862,10 @@ export const pageHooks = (cy, testOptions) => ({
             cy.findByText('New Provider or hospital').should('not.exist');
           });
       }
-   
     });
     afterHook(() => {
       cy.get('@testData').then(() => {
-        reviewAndSubmitPageFlow(cy);
+        reviewAndSubmitPageFlow();
       });
     });
   },
