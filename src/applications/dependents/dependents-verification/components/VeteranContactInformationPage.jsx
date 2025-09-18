@@ -356,7 +356,7 @@ const VeteranContactInformationPage = ({
 
       <va-card class="vads-u-margin-top--3" data-field="phone">
         <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
-          {`${data['view:phoneSource']} phone number`}
+          {`${phoneSource} phone number`}
         </h4>
         <div className="phone vads-u-margin-y--2">
           {phone ? (
@@ -373,7 +373,7 @@ const VeteranContactInformationPage = ({
         <EditCardLink
           value={phone}
           name="phone"
-          type={data['view:phoneSource']}
+          type={phoneSource}
           onClick={handlers.editClick}
         />
       </va-card>

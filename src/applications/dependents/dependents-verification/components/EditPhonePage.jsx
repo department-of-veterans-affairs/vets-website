@@ -59,7 +59,7 @@ const EditPhonePage = ({
   return (
     <>
       <h3 className="vads-u-margin-bottom--4">
-        {`Edit ${data['view:phoneSource']} phone number`}
+        {`Edit ${data['view:phoneSource'] || 'mobile'} phone number`}
       </h3>
       <SchemaForm
         addNameAttribute
