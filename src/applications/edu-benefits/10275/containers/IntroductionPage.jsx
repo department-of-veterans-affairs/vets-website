@@ -83,18 +83,11 @@ export const IntroductionPage = props => {
         messages={route.formConfig.savedFormMessages}
         formConfig={route.formConfig}
         pageList={route.pageList}
-        startText="Start your 85/15 calculations report"
+        startText="Start your Principles of Excellence for educational institutions form"
         unauthStartText="Sign in to start your form"
       />
       <p />
-       <OmbInfo />
-    
-      {/* <va-omb-info
-        // className="vads-u-margin-top--1p5"
-        res-burden={OMB_RES_BURDEN}
-        omb-number={OMB_NUMBER}
-        exp-date={OMB_EXP_DATE}
-      /> */}
+      <OmbInfo />
       <TechnologyProgramAccordion />
     </article>
   );
