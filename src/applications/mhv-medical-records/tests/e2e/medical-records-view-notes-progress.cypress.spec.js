@@ -14,7 +14,7 @@ describe('Medical Records Care Summary Page ', () => {
   });
 
   it('Progress Note Details', () => {
-    NotesDetailsPage.clickProgressNoteLink(3);
+    NotesDetailsPage.clickProgressNoteLink('Adverse React/Allergy', 1);
 
     NotesDetailsPage.verifyProgressNoteTitle(
       notes.entry[0].resource.content[0].attachment.title,

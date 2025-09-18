@@ -20,7 +20,7 @@ describe('Medical Records - Radiology images are shown when requested', () => {
   });
 
   it('View Radiology Images On Radiology Details Page', () => {
-    LabsAndTestsListPage.clickRadiologyDetailsLink(0);
+    LabsAndTestsListPage.clickRadiologyDetailsLink('CHEST 2 VIEWS PA&LAT');
 
     const studyId = statusResponseComplete[0].studyIdUrn;
     RadiologyDetailsPage.clickViewImages(studyId, viewImagesResponse);

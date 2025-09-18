@@ -20,11 +20,14 @@ class NotesDetailsPage extends BaseDetailsPage {
   }
   */
 
-  clickProgressNoteLink = (ProgressNote = 0) => {
-    cy.findAllByTestId('record-list-item')
-      .find('a')
-      .eq(ProgressNote)
-      .click();
+  clickProgressNoteLink = (ProgressNoteHeading, index = 0) => {
+    // First make sure the heading is visible
+    cy.contains(ProgressNoteHeading, { includeShadowDom: true }).then(() => {
+      cy.findAllByTestId('note-name')
+        .filter(`:contains("${ProgressNoteHeading}")`)
+        .eq(index)
+        .click();
+    });
   };
 
   clickDischargeSummaryLink = (DischargeSummary = 1) => {

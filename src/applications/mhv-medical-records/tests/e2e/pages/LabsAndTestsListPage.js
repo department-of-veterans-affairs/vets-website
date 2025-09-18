@@ -55,11 +55,13 @@ class LabsAndTestsListPage extends BaseListPage {
 
   // "Radiology has no details call so we always use the list call for everything"
   // - Mike Moyer 08/01/2024
-  clickRadiologyDetailsLink = (labsAndTestsItemIndex = 0) => {
-    cy.findAllByTestId('record-list-item')
-      .find('a')
-      .eq(labsAndTestsItemIndex)
-      .click();
+  clickRadiologyDetailsLink = labsAndTestsItemHeading => {
+    cy.contains(labsAndTestsItemHeading, { includeShadowDom: true }).then(
+      element => {
+        cy.wrap(element).should('have.prop', 'tagName', 'A');
+        cy.wrap(element).click();
+      },
+    );
     cy.wait('@BbmiNotificationStatus');
   };
 
