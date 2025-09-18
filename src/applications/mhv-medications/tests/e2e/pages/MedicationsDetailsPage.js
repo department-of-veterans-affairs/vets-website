@@ -69,10 +69,9 @@ class MedicationsDetailsPage {
   };
 
   verifyPrescriptionsOrderedDate = () => {
-    cy.get('[datat-testid="ordered-date"]').should(
-      'have.text',
-      'April 14, 2023',
-    );
+    cy.get('[datat-testid="ordered-date"]')
+      .first()
+      .should('have.text', 'April 14, 2023');
   };
 
   verifyPrescriptionsfacilityName = PrescriptionsfacilityName => {
@@ -203,6 +202,7 @@ class MedicationsDetailsPage {
     cy.get('[data-testid="status-dropdown"]').should('exist');
     cy.get('[data-testid="status-dropdown"]').click({
       waitForAnimations: true,
+      multiple: true,
     });
   };
 
@@ -482,7 +482,7 @@ class MedicationsDetailsPage {
     cy.get('[data-testid="refill-history-accordion"]')
       .shadow()
       .find('[data-testid="expand-all-accordions"]')
-      .click({ force: true });
+      .click({ force: true, multiple: true });
   };
 
   verifyAccordionCollapsedOnDetailsPage = () => {
@@ -496,6 +496,7 @@ class MedicationsDetailsPage {
     cy.get('[data-testid="refill-history-accordion"]')
       .shadow()
       .find('[data-testid="expand-all-accordions"]')
+      .first()
       .should('have.attr', 'aria-expanded', 'true');
   };
 
@@ -663,7 +664,9 @@ class MedicationsDetailsPage {
   };
 
   verifyQuantityNotAvailableOnDetailsPage = text => {
-    cy.get('[data-testid="rx-quantity"]').should('have.text', text);
+    cy.get('[data-testid="rx-quantity"]')
+      .first()
+      .should('have.text', text);
   };
 
   verifyPrescribedOnDateNoAvailableOnDetailsPage = text => {
