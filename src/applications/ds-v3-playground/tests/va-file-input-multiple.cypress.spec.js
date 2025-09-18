@@ -275,6 +275,73 @@ endobj
     it('should maintain proper file order', () => {
       // TODO: Add test for file ordering
     });
+
+    it('should handle FILE_UPDATED action when replacing files', () => {
+      // First, upload an initial file
+      const initialFileName = 'initial-file.pdf';
+      const initialFileContent = 'initial content';
+
+      cy.get('va-file-input-multiple')
+        .shadow()
+        .find('va-file-input')
+        .first()
+        .shadow()
+        .find(
+          'input[aria-label="Select files to upload. Drag a file here or choose from folder"]',
+        )
+        .selectFile(
+          {
+            contents: Cypress.Buffer.from(initialFileContent),
+            fileName: initialFileName,
+            mimeType: 'application/pdf',
+          },
+          { force: true },
+        );
+
+      // Wait for initial file to be processed
+      cy.get('[data-testid="files-state"]', { timeout: 15000 }).should($el => {
+        const processedFiles = JSON.parse($el.text());
+        expect(processedFiles).to.have.length(1);
+        expect(processedFiles[0]).to.have.property('name', initialFileName);
+        expect(processedFiles[0]).to.have.property('status', 'uploaded');
+      });
+
+      // Now replace/update the file with a new one
+      const updatedFileName = 'updated-file.pdf';
+      const updatedFileContent = 'updated content - larger file';
+
+      cy.get('va-file-input-multiple')
+        .shadow()
+        .find('va-file-input')
+        .first()
+        .shadow()
+        .find(
+          'input[aria-label="Select files to upload. Drag a file here or choose from folder"]',
+        )
+        .selectFile(
+          {
+            contents: Cypress.Buffer.from(updatedFileContent),
+            fileName: updatedFileName,
+            mimeType: 'application/pdf',
+          },
+          { force: true },
+        );
+
+      // Verify the file was updated (should trigger FILE_UPDATED or FILE_ADDED)
+      cy.get('[data-testid="files-state"]', { timeout: 15000 }).should($el => {
+        const processedFiles = JSON.parse($el.text());
+
+        // Should have 2 files now (original + new) or 1 replaced file
+        // depending on component behavior
+        expect(processedFiles.length).to.be.greaterThan(0);
+
+        // Check that the new file is present
+        const hasUpdatedFile = processedFiles.some(
+          file => file.name === updatedFileName && file.status === 'uploaded',
+        );
+        expect(hasUpdatedFile).to.be.true;
+      });
+    });
   });
 
   describe('Accessibility', () => {

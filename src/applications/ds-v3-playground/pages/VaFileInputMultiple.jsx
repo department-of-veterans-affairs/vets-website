@@ -11,8 +11,10 @@ export default function VaFileInputMultiplePage() {
   const [files, setFiles] = useState([]); // This could be Redux in a real app
   const [percentsUploaded, setPercentsUploaded] = useState([]); // Progress array for component
   const [encrypted, setEncrypted] = useState([]); // Track which files are encrypted
+
+  // Error Management Strategy (following forms library pattern)
+  const [fileErrors, setFileErrors] = useState([]); // File-level errors (upload, validation)
   const [passwordErrors, setPasswordErrors] = useState([]); // Password validation errors
-  const [fileErrors, setFileErrors] = useState([]); // File-level errors for the errors prop
 
   // Mock file upload - simulates the forms library upload process
   const mockFileUpload = async (file, index) => {
@@ -279,28 +281,43 @@ export default function VaFileInputMultiplePage() {
     }
   };
 
-  const handleMultipleChange = e => {
-    const { detail } = e;
-    const { action, file, state } = detail;
+  // Handle component-level errors (following forms library pattern)
+  const handleComponentError = event => {
+    const { detail } = event;
+    const { error } = detail;
+    // For now, just log component errors - could be extended to show in UI
+    console.error('Component error:', error);
+  };
 
-    // Log the event for debugging but let the component handle it naturally
-    console.log(`File event: ${action}`, { file, state });
+  // Handle multiple file change events
+  const handleMultipleChange = event => {
+    const { detail } = event;
+    const { action, state, file } = detail;
 
     switch (action) {
       case 'FILE_ADDED': {
-        const fileDetails = state.at(-1); // Last added file
         const index = state.length - 1;
-        // Process the file with our mock upload to show progress
+        const fileDetails = state[index];
         handleFileAdded(fileDetails, index);
         break;
       }
       case 'FILE_UPDATED': {
-        // Find the updated file and track it
         const index = state.findIndex(
           f => f.file.name === file.name && f.file.size === file.size,
         );
         if (index !== -1) {
-          handleFileAdded(state[index], index);
+          const fileDetails = state[index];
+          handleFileAdded(fileDetails, index);
+        }
+        break;
+      }
+      case 'PASSWORD_UPDATE': {
+        const index = state.findIndex(
+          f => f.file.name === file.name && f.file.size === file.size,
+        );
+        if (index !== -1) {
+          const fileDetails = state[index];
+          debouncePassword(fileDetails, index);
         }
         break;
       }
@@ -308,86 +325,22 @@ export default function VaFileInputMultiplePage() {
         handleFileRemoved(file);
         break;
       }
-      case 'PASSWORD_UPDATE': {
-        // Handle encrypted file password with debouncing (like forms library)
-        const index = state.findIndex(
-          f => f.file.name === file.name && f.file.size === file.size,
-        );
-        if (index !== -1) {
-          const passwordFile = state[index];
-          console.log(
-            `🔐 Password update event for ${
-              passwordFile.file.name
-            } - debouncing...`,
-          );
-
-          // Use debounced function to avoid processing on every keystroke
-          debouncePassword(passwordFile, index);
-        }
-        break;
-      }
       default:
         console.warn(`Unhandled action: ${action}`);
+        break;
     }
   };
 
   return (
     <div>
-      {/* Expose files state for testing */}
-      <span
-        data-testid="files-state"
-        aria-hidden="true"
-        style={{ display: 'none' }}
-      >
-        {JSON.stringify(files)}
-      </span>
-
-      {/* Visible files state for debugging */}
-      <div
-        style={{
-          marginBottom: '20px',
-          padding: '16px',
-          backgroundColor: '#f5f5f5',
-          borderRadius: '4px',
-        }}
-      >
-        <h3
-          style={{ margin: '0 0 12px 0', fontSize: '16px', fontWeight: 'bold' }}
-        >
-          Processed Files (Mock Upload Results):
-        </h3>
-
-        {/* Processed Files */}
-        <pre
-          style={{
-            margin: 0,
-            padding: '12px',
-            backgroundColor: '#fff',
-            border: '1px solid #ddd',
-            borderRadius: '4px',
-            fontSize: '12px',
-            fontFamily: 'Monaco, Consolas, "Courier New", monospace',
-            overflow: 'auto',
-            maxHeight: '300px',
-          }}
-        >
-          {JSON.stringify(files, null, 2)}
-        </pre>
-        <p style={{ margin: '8px 0 0 0', fontSize: '12px', color: '#666' }}>
-          Processed files: {files.length} | Progress tracking:{' '}
-          {percentsUploaded.filter(p => p !== null).length} active | File
-          errors: {fileErrors.filter(e => e !== null).length} | Encrypted files:{' '}
-          {encrypted.filter(e => e === true).length} | Password errors:{' '}
-          {passwordErrors.filter(e => e !== null).length}
-        </p>
-      </div>
-
       <VaFileInputMultiple
         accept=".pdf,.jpeg,.png"
         percentUploaded={percentsUploaded}
         encrypted={encrypted}
+        errors={fileErrors}
         passwordErrors={passwordErrors}
         onVaMultipleChange={handleMultipleChange}
+        onVaFileInputError={handleComponentError}
         hint="Upload PDF, JPEG, or PNG files. Encrypted PDFs will require a password."
         label="Select files to upload"
       >
@@ -399,6 +352,41 @@ export default function VaFileInputMultiplePage() {
           </VaSelect>
         </div> */}
       </VaFileInputMultiple>
+
+      <hr />
+
+      {/* Expose files state for testing */}
+      <span
+        data-testid="files-state"
+        aria-hidden="true"
+        style={{ display: 'none' }}
+      >
+        {JSON.stringify(files)}
+      </span>
+
+      <div>
+        <h2>Files Information</h2>
+        <pre
+          style={{
+            backgroundColor: '#f5f5f5',
+            padding: '10px',
+            borderRadius: '4px',
+            fontSize: '12px',
+            fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+            overflow: 'auto',
+            maxHeight: '300px',
+          }}
+        >
+          {files.length > 0 && JSON.stringify(files, null, 2)}
+        </pre>
+        <p style={{ margin: '8px 0 0 0', fontSize: '12px', color: '#666' }}>
+          Processed files: {files.length} | Progress tracking:{' '}
+          {percentsUploaded.filter(p => p !== null).length} active | File
+          errors: {fileErrors.filter(e => e !== null).length} | Encrypted files:{' '}
+          {encrypted.filter(e => e === true).length} | Password errors:{' '}
+          {passwordErrors.filter(e => e !== null).length}
+        </p>
+      </div>
     </div>
   );
 }
