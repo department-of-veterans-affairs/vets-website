@@ -9,10 +9,6 @@ import { TITLE, SUBTITLE } from '../constants';
 import TechnologyProgramAccordion from '../components/TechnologyProgramAccordion';
 import OmbInfo from '../components/OmbInfo';
 
-const OMB_RES_BURDEN = 15;
-const OMB_NUMBER = '2900-0718';
-const OMB_EXP_DATE = '01/31/2028';
-
 export const IntroductionPage = props => {
   const userLoggedIn = useSelector(state => isLoggedIn(state));
   const userIdVerified = useSelector(state => isLOA3(state));
@@ -62,11 +58,11 @@ export const IntroductionPage = props => {
         </p>
         <p>
           If your school has more than one campus, your main campus should
-          submit one form that lists <strong>all</strong> locations and a point
-          of contact for each. Extension campuses will be automatically included
-          in this agreement based on your facility code, and you will be able to
-          select any branch campuses associated with your institution, as
-          applicable.{' '}
+          submit <strong>one</strong> form that lists <strong>all</strong>{' '}
+          locations and a point of contact for each. Extension campuses will be
+          automatically included in this agreement based on your facility code,
+          and you will be able to select any branch campuses associated with
+          your institution, as applicable.{' '}
         </p>
         <p>
           {' '}
