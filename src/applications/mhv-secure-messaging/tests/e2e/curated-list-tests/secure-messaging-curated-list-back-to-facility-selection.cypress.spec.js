@@ -257,7 +257,7 @@ describe('SM CURATED LIST BACK TO SELECTION', () => {
       .find(`va-button[text="Save changes"]`)
       .click();
 
-    cy.findByText(/Back/i).click();
+    cy.get('[back=""]').click();
 
     PatientComposePage.getComboBox().should(
       'have.value',
