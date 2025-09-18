@@ -76,12 +76,12 @@ const ReviewPage = ({ onNext, onBack }) => {
 
         <va-checkbox
           className="vads-u-margin-top--2"
-          label="I certify that the information above is correct and true to the best of my knowledge and belief. (*Required)"
+          label="I certify that the information above is correct and true to the best of my knowledge and belief."
           required
         />
       </section>
 
-      <va-alert status="success" className="vads-u-margin-top--3">
+      <va-alert status="success" class="vads-u-margin-top--3">
         <p className="vads-u-margin--0">
           We’ve saved your request. We saved it on September 22, 2025 at 5:25
           p.m. ET. Your request ID number is 15428.

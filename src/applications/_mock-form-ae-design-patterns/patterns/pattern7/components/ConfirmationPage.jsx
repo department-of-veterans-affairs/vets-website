@@ -36,7 +36,7 @@ const ConfirmationPage = () => {
 
       <div className="vads-u-margin-top--2">
         <va-alert status="success" visible>
-          <h3 slot="headline">Form submission started on 9/22/2025</h3>
+          <h3 slot="headline">Form submission started on September 22, 2025</h3>
           <p>Your submission is in progress.</p>
           <p>
             It may take up to 10 days for us to receive your form in our system.
@@ -81,7 +81,10 @@ const ConfirmationPage = () => {
           You can print this page, which includes a summary of the information
           you submitted.
         </p>
-        <va-button onClick={() => window.print()} text="Print this page" />
+        <va-button
+          onClick={() => window.print()}
+          text="Print this page for your records"
+        />
       </div>
 
       <div className="vads-u-margin-top--4">
@@ -347,13 +350,13 @@ const ConfirmationPage = () => {
 
               <h4 className="vads-u-margin-top--3">Service post-9/11</h4>
               <dl className="vads-u-margin-top--1">
-                <dt className="vads-u-color--gray-medium vads-u-font-size--sm vads-u-font-weight--normal">
+                {/* <dt className="vads-u-color--gray-medium vads-u-font-size--sm vads-u-font-weight--normal">
                   Did you serve in any of these Gulf War locations on or after
                   September 11, 2001?
                 </dt>
                 <dd className="vads-u-margin-left--0 vads-u-margin-bottom--2">
                   The airspace above any of these locations
-                </dd>
+                </dd> */}
 
                 <dt className="vads-u-color--gray-medium vads-u-font-size--sm vads-u-font-weight--normal">
                   Airspace service dates
@@ -609,23 +612,11 @@ const ConfirmationPage = () => {
       <div className="vads-u-margin-top--4">
         <h3>What to expect</h3>
         <va-process-list>
-          <va-process-list-item
-            active
-            header="Now, we'll confirm that we've received your form"
-          >
+          <va-process-list-item header="We'll send you an email to confirm your submission" />
+          <va-process-list-item header="Next, we'll send you a letter to let you know we have your claim">
             <p>
-              This can take up to 30 days. When we receive your form, we’ll
-              update the status on My VA.
-            </p>
-
-            <p>
-              <va-link href="#" text="Check the status of your form on My VA" />
-            </p>
-          </va-process-list-item>
-          <va-process-list-item pending header="Next, we'll review your form">
-            <p>
-              If we need more information after reviewing your form, we’ll
-              contact you.
+              You should get this letter in about 1 week, plus mailing time,
+              after we receive your claim.
             </p>
           </va-process-list-item>
         </va-process-list>
