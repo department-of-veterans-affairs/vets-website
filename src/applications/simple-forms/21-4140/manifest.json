@@ -1,0 +1,7 @@
+{
+  "appName": "Income Verification for Disability Benefits",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "21-4140",
+  "rootUrl": "/disability/eligibility/special-claims/unemployability/employment-questionnaire-form-21-4140",
+  "productId": "29ecf573-2e8d-428c-a9ac-6f667561f69a"
+}
