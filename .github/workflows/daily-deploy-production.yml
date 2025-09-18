@@ -14,6 +14,10 @@ on:
         description: 'Bypass holiday freeze and force enable deploy workflows'
         required: false
         default: 'false'
+      dry_run:
+        description: 'Test mode: skip protected environment and Deploy step'
+        required: false
+        default: 'false'
   schedule:
     - cron: 0 17 * * 1-5
 
@@ -74,7 +78,7 @@ jobs:
           local response=$(curl -s -L \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            "https://api.github.com/repos/department-of-veterans-affairs/$repo/actions/workflows/daily-deploy-production.yml")
+            "https://api.github.com/repos/department-of-veterans-affairs/$repo/actions/workflows/daily-production-release.yml")
 
           local state=$(echo "$response" | jq -r '.state')
 
@@ -95,7 +99,7 @@ jobs:
           echo "Enabling content-build daily deploy workflow."
           curl -X PATCH -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             -H "Accept: application/vnd.github.v3+json" \
-            https://api.github.com/repos/department-of-veterans-affairs/content-build/actions/workflows/daily-deploy-production.yml/enable
+            https://api.github.com/repos/department-of-veterans-affairs/content-build/actions/workflows/daily-production-release.yml/enable
           echo "reenabled=true" >> $GITHUB_OUTPUT
   # Freeze Enabled Slack is sent early by freeze-enforcer.yml
 
@@ -161,7 +165,7 @@ jobs:
       - name: Check environment
         id: check-environment
         run: |
-          if [[ ${{ github.event_name }} == 'workflow_dispatch' ]]; then
+          if [[ ${{ github.event_name }} == 'workflow_dispatch' && '${{ github.event.inputs.dry_run }}' != 'true' ]]; then
             echo env_name='production' >> $GITHUB_OUTPUT
           else
             echo env_name='' >> $GITHUB_OUTPUT
@@ -332,6 +336,7 @@ jobs:
           session_name: vsp-frontendteam-githubaction
 
       - name: Deploy
+        if: ${{ github.event.inputs.dry_run != 'true' }}
         run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
         env:
           SRC: s3://vetsgov-website-builds-s3-upload/${{ needs.set-env.outputs.COMMIT_SHA }}/${{ env.BUILD_ENV }}.tar.bz2
