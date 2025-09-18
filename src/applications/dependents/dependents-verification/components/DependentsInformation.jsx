@@ -10,6 +10,7 @@ import { DEPENDENT_CHOICES, DEPENDENT_TITLE } from '../constants';
 import { maskID } from '../../shared/utils';
 
 import { removeEditContactInformation } from '../util/contact-info';
+import { calculateAge } from '../helpers';
 
 export const DependentsInformation = ({
   data = {},
@@ -107,14 +108,15 @@ export const DependentsInformation = ({
                       {dependent.dob}
                     </dd>
                   </div>
-                  {dependent.age && (
+                  {dependent.dob && (
                     <div className="item vads-u-display--flex vads-u-justify-content--start vads-u-margin-bottom--1">
                       <dt>Age:&nbsp;</dt>
                       <dd
                         className="dd-privacy-hidden"
                         data-dd-action-name="Dependent's age"
                       >
-                        {dependent.age} years old
+                        {calculateAge(dependent.dateOfBirth).labeledAge ||
+                          'Unable to determine'}
                       </dd>
                     </div>
                   )}

@@ -66,9 +66,8 @@ const VeteranContactInformationPage = ({
   );
   const profileHomePhoneString = convertPhoneObjectToString(profileHomePhone);
   const phoneSource =
-    data['view:phoneSource'] || phone || profileMobilePhoneString
-      ? 'Mobile'
-      : 'Home';
+    data['view:phoneSource'] ||
+    (phone || profileMobilePhoneString ? 'Mobile' : 'Home');
 
   // Get international phone from mobile or home, if it's international
   let profileInternationalPhone = null;
@@ -124,7 +123,7 @@ const VeteranContactInformationPage = ({
     }
 
     updateContactInfo({
-      'view:phoneSource': data['view:phoneSource'] || phoneSource,
+      'view:phoneSource': phoneSource,
       email: email || profileEmail?.emailAddress || '',
       phone: phone || profileMobilePhoneString || profileHomePhoneString || '',
       address: newAddress,
