@@ -27,6 +27,8 @@ import {
   VaLanguageToggle,
 } from '@department-of-veterans-affairs/web-components/react-bindings';
 
+import VaFileInputMultiple from './VaFileInputMultiple';
+
 export default function V3BasePage() {
   /** @param {import('react').FormEvent | import('@department-of-veterans-affairs/web-components/dist/types/components').VaSelectCustomEvent } evt */
   function updateValue(evt) {
@@ -136,6 +138,12 @@ export default function V3BasePage() {
             showLastPage
             uswds
           />
+        </div>
+        <div>
+          <h2 className="vads-grid-col font-ui-md">
+            va-file-input-multiple Component
+          </h2>
+          <VaFileInputMultiple />
         </div>
         <div>
           <h2 className="vads-grid-col font-ui-md">VA-Icon Component</h2>
@@ -406,14 +414,14 @@ export default function V3BasePage() {
               </div>
             </VaAlert>
             <br />
-            <h4>Not Closable</h4>
+            <h3>Not Closable</h3>
             <VaAlert status="continue" showIcon="true" uswds="true">
               <h2 slot="headline">Alert - Not Closable</h2>
               <div>
                 <p>This is an alert that cannot be closed</p>
               </div>
             </VaAlert>
-            <h4>Background Only with Icon</h4>
+            <h3>Background Only with Icon</h3>
             <VaAlert
               status="continue"
               showIcon="true"
@@ -426,7 +434,7 @@ export default function V3BasePage() {
               </div>
             </VaAlert>
             <br />
-            <h4>Slim Alerts</h4>
+            <h3>Slim Alerts</h3>
             <VaAlert status="info" slim="true" uswds="true">
               <p className="margin-y-0">This is a slim info alert</p>
             </VaAlert>
@@ -453,11 +461,11 @@ export default function V3BasePage() {
         <div className="vads-grid-row vads-flex-direction-column border-bottom">
           <h2 className="vads-grid-col font-ui-md">Progress bar - segmented</h2>
           <div className="vads-grid-col">
+            <h3>V3 VA Benefits</h3>
             <VaSegmentedProgressBar
               centered-labels
               counters="small"
               current={2}
-              heading-text="V3 VA Benefits"
               label="Label is here"
               labels="Personal Information;Household Status;Supporting Documents;Signature;Review and Submit"
               total={5}
