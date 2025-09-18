@@ -21,14 +21,14 @@ class NotesDetailsPage extends BaseDetailsPage {
   */
 
   clickProgressNoteLink = (ProgressNote = 0) => {
-    cy.get('[data-testid="record-list-item"]')
+    cy.findAllByTestId('record-list-item')
       .find('a')
       .eq(ProgressNote)
       .click();
   };
 
   clickDischargeSummaryLink = (DischargeSummary = 1) => {
-    cy.get('[data-testid="record-list-item"]')
+    cy.findAllByTestId('record-list-item')
       .find('a')
       .eq(DischargeSummary)
       .click();
