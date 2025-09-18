@@ -25,12 +25,6 @@ export const selectSidenavFlag = state =>
 
 // Domain-level Feature Toggles
 
-export const selectVaccinesFlag = state =>
-  state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayVaccines];
-export const selectNotesFlag = state =>
-  state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayNotes];
-export const selectVitalsFlag = state =>
-  state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayVitals];
 export const selectSettingsPageFlag = state =>
   state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplaySettingsPage];
 export const selectMarch17UpdatesFlag = state =>
