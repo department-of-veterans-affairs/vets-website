@@ -85,26 +85,29 @@ describe('RecipientsSelect', () => {
   });
 
   it('calls the onValueChange callback when a recipient is selected', async () => {
+    // NOTE: Component derives alert text from selected recipient (effectiveSignatureRequired),
+    // not just the isSignatureRequired prop. Selecting a signature-required recipient
+    // should immediately show the REQUIRED alert text.
     const onValueChange = sinon.spy();
     const setCheckboxMarked = sinon.spy();
     const setElectronicSignature = sinon.spy();
-    const setAlertDisplayed = sinon.spy();
     const customProps = {
       onValueChange,
       setCheckboxMarked,
       setElectronicSignature,
-      setAlertDisplayed,
     };
     const screen = setup({ props: customProps });
     const val = recipientsList[0].id;
     selectVaSelect(screen.container, val);
-    const select = screen.getByTestId('compose-recipient-select');
 
-    waitFor(() => {
-      expect(setAlertDisplayed).to.be.calledOnce;
-      expect(select).to.have.value(val);
+    await waitFor(() => {
       expect(onValueChange.calledOnce).to.be.true;
       expect(onValueChange.calledWith(recipientsList[0])).to.be.true;
+      const alert = screen.getByTestId('signature-alert');
+      expect(alert).to.exist;
+      expect(alert).to.contain.text(
+        Constants.Prompts.Compose.SIGNATURE_REQUIRED,
+      );
     });
   });
 
@@ -117,9 +120,9 @@ describe('RecipientsSelect', () => {
     };
     const { getByTestId } = setup({ props: customProps });
 
-    waitFor(() => {
+    await waitFor(() => {
       const alert = getByTestId('signature-alert');
-      expect(setAlertDisplayed).to.be.calledOnce;
+      // Removed invalid assertion: setAlertDisplayed is not passed to component
       expect(alert).to.exist;
       expect(alert).to.contain.text(
         Constants.Prompts.Compose.SIGNATURE_REQUIRED,
@@ -154,29 +157,32 @@ describe('RecipientsSelect', () => {
   });
 
   it('displays the correct number of optgroups', async () => {
-    const customState = { ...initialState, featureToggles: [] };
-    customState.featureToggles[
-      `${'mhv_secure_messaging_recipient_opt_groups'}`
-    ] = true;
+    const customState = {
+      ...initialState,
+      featureToggles: {
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow]: true,
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingRecipientOptGroups]: true,
+      },
+    };
 
     const screen = setup({ state: customState });
 
-    await screen.findByTestId('compose-recipient-select');
-
     await waitFor(() => {
-      expect(screen.container.querySelectorAll('optgroup')).to.have.lengthOf(2);
+      const comboBox = screen.getByTestId('compose-recipient-combobox');
+      expect(comboBox).to.exist;
+      const optgroups = comboBox.querySelectorAll('optgroup');
+      expect(optgroups.length).to.equal(2);
+      expect(optgroups[0].label).to.equal('VA Facility 402');
+      expect(optgroups[1].label).to.equal('VA Facility 552');
+
+      const optionOne = optgroups[0].querySelector('option');
+      expect(optionOne.value).to.equal('2');
+      expect(optionOne.text).to.equal('Recipient 2');
+
+      const optionTwo = optgroups[1].querySelector('option');
+      expect(optionTwo.value).to.equal('1');
+      expect(optionTwo.text).to.equal('Recipient 1');
     });
-    const optgroups = await screen.container.querySelectorAll('optgroup');
-    expect(optgroups[0].label).to.equal('VA Facility 402');
-    expect(optgroups[1].label).to.equal('VA Facility 552');
-
-    const optionOne = optgroups[0].querySelector('option');
-    expect(optionOne.value).to.equal('2');
-    expect(optionOne.text).to.equal('Recipient 2');
-
-    const optionTwo = optgroups[1].querySelector('option');
-    expect(optionTwo.value).to.equal('1');
-    expect(optionTwo.text).to.equal('Recipient 1');
   });
 
   it('displays correct content in pilot environment OH facility', () => {
@@ -255,17 +261,19 @@ describe('RecipientsSelect', () => {
       },
     };
     const screen = setup({ state: customState });
-    const comboBox = screen.getByTestId('compose-recipient-combobox');
-    expect(comboBox).to.exist;
+    await waitFor(() => {
+      const comboBox = screen.getByTestId('compose-recipient-combobox');
+      expect(comboBox).to.exist;
 
-    // recent group + 2 facility groups
-    const optgroups = comboBox.querySelectorAll('optgroup');
-    expect(optgroups.length).to.equal(3);
-    expect(optgroups[0].getAttribute('label')).to.equal('Recent care teams');
-    expect(optgroups[0].querySelectorAll('option').length).to.equal(2);
-    expect(optgroups[0].querySelectorAll('option')[0].textContent).to.equal(
-      'Recipient 2',
-    );
+      // recent group + 2 facility groups
+      const optgroups = comboBox.querySelectorAll('optgroup');
+      expect(optgroups.length).to.equal(3);
+      expect(optgroups[0].getAttribute('label')).to.equal('Recent care teams');
+      expect(optgroups[0].querySelectorAll('option').length).to.equal(2);
+      expect(optgroups[0].querySelectorAll('option')[0].textContent).to.equal(
+        'Recipient 2',
+      );
+    });
   });
 
   it('does not render recent recipients optgroup when list is empty', async () => {
@@ -282,10 +290,12 @@ describe('RecipientsSelect', () => {
       },
     };
     const screen = setup({ state: customState });
-    const comboBox = screen.getByTestId('compose-recipient-combobox');
-    expect(comboBox).to.exist;
-    const optgroups = comboBox.querySelectorAll('optgroup');
-    expect(optgroups.length).to.equal(2);
-    expect(optgroups[0].getAttribute('label')).to.equal('VA Facility 402');
+    await waitFor(() => {
+      const comboBox = screen.getByTestId('compose-recipient-combobox');
+      expect(comboBox).to.exist;
+      const optgroups = comboBox.querySelectorAll('optgroup');
+      expect(optgroups.length).to.equal(2);
+      expect(optgroups[0].getAttribute('label')).to.equal('VA Facility 402');
+    });
   });
 });

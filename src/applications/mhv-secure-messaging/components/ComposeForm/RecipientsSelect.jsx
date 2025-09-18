@@ -70,7 +70,21 @@ const RecipientsSelect = ({
 
   const [alertDisplayed, setAlertDisplayed] = useState(false);
   const [recipientsListSorted, setRecipientsListSorted] = useState([]);
+  const [selectedRecipient, setSelectedRecipient] = useState(null);
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
+
+  // Determine current signature requirement preference:
+  //  - If a recipient is selected use its signatureRequired flag
+  //  - Otherwise fall back to the prop (initial state coming from parent)
+  const effectiveSignatureRequired = useMemo(
+    () => {
+      if (selectedRecipient) {
+        return !!selectedRecipient.signatureRequired;
+      }
+      return !!isSignatureRequired;
+    },
+    [selectedRecipient, isSignatureRequired],
+  );
 
   const optGroupEnabled = useSelector(
     state =>
@@ -170,6 +184,11 @@ const RecipientsSelect = ({
       }
 
       const recipient = recipientsList.find(r => +r.id === +value) || {};
+      const prevRecipient = selectedRecipient;
+      const prevRequired = !!prevRecipient?.signatureRequired;
+      const nextRequired = !!recipient.signatureRequired;
+
+      setSelectedRecipient(recipient);
       onValueChange(recipient);
       handleSetCheckboxMarked(false);
       handleSetElectronicSignature('');
@@ -180,11 +199,31 @@ const RecipientsSelect = ({
         }),
       );
 
-      if (recipient.signatureRequired || isSignatureRequired) {
+      // Alert display rules (aligned with component doc comment):
+      // 1. First selection: show alert only if next requires signature
+      // 2. Switching from non-required -> required: show alert (required)
+      // 3. Switching from required -> non-required: show alert (not required)
+      // 4. Switching required -> required: keep alert (still required)
+      // 5. Switching non-required -> non-required: hide alert
+      if (!prevRecipient) {
+        setAlertDisplayed(nextRequired);
+      } else if (prevRequired !== nextRequired) {
         setAlertDisplayed(true);
+      } else if (nextRequired) {
+        setAlertDisplayed(true);
+      } else {
+        setAlertDisplayed(false);
       }
     },
-    [recipientsList, dispatch, isSignatureRequired],
+    [
+      recipientsList,
+      dispatch,
+      isSignatureRequired,
+      selectedRecipient,
+      handleSetCheckboxMarked,
+      handleSetElectronicSignature,
+      onValueChange,
+    ],
   );
 
   const optionsValues = useMemo(
@@ -315,7 +354,7 @@ const RecipientsSelect = ({
             data-testid="signature-alert"
           >
             <p className="vads-u-margin-y--0" role="alert" aria-live="polite">
-              {isSignatureRequired === true
+              {effectiveSignatureRequired
                 ? Prompts.Compose.SIGNATURE_REQUIRED
                 : Prompts.Compose.SIGNATURE_NOT_REQUIRED}
             </p>
