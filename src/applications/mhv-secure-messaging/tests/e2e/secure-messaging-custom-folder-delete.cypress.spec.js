@@ -40,7 +40,10 @@ describe('SM DELETE CUSTOM FOLDER', () => {
     PatientMessageCustomFolderPage.loadMessages(emptyThread);
     PatientMessageCustomFolderPage.clickRemoveFolderButton();
 
-    cy.get(Locators.ALERTS.REMOVE_THIS_FOLDER).should(`be.visible`);
+    cy.get(Locators.ALERTS.REMOVE_THIS_FOLDER)
+      .shadow()
+      .find('.va-modal-close', { timeout: 2000 })
+      .should(`be.focused`);
     cy.get(Locators.ALERTS.REMOVE_THIS_FOLDER)
       .find(`va-button[text*='keep']`)
       .click();
