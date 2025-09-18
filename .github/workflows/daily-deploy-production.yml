@@ -145,6 +145,7 @@ jobs:
         fi
 
     - name: Enable Workflows if Disabled
+      id: enable-workflows
       if: ${{ steps.check-status.outputs.workflow_enabled_content_build == 'false' }}
       run: |
           if [[ '${{ github.event.inputs.dry_run }}' == 'true' || '${{ github.event.inputs.simulate_cb_disabled }}' == 'true' ]]; then
