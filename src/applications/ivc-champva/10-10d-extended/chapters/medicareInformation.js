@@ -755,7 +755,7 @@ export const missingMedicarePage = {
       a => toHashMemoized(a.applicantSSN) === curAppHash,
     );
     const age = getAgeInYears(curApp?.applicantDob);
-    return age >= 65 && excluded && excluded.length > 0;
+    return age >= 65 && excluded?.length > 0;
   },
   // Something to do with array builder/topBackLink was causing us to
   // always attempt to navigate back inside the medicare array rather
@@ -859,8 +859,8 @@ export const medicarePages = arrayBuilderPages(
   medicareOptions,
   pageBuilder => ({
     medicareSummary: pageBuilder.summaryPage({
-      path: 'review-medicare-plans',
-      title: 'Review Medicare plans',
+      path: 'report-medicare-plans',
+      title: 'Report Medicare plans',
       uiSchema: medicareSummaryPage.uiSchema,
       schema: medicareSummaryPage.schema,
     }),
