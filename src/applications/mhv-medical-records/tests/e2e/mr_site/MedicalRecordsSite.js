@@ -2,8 +2,7 @@ import mockUser from '../fixtures/user.json';
 import vamc from '../fixtures/facilities/vamc-ehr.json';
 import sessionStatus from '../fixtures/session-status.json';
 import createAal from '../fixtures/create-aal.json';
-// import mockNonMRuser from '../fixtures/non_mr_user.json';
-// import mockNonMhvUser from '../fixtures/user-mhv-account-state-none.json';
+import MedicalRecordsLandingPage from '../pages/MedicalRecordsLandingPage';
 
 class MedicalRecordsSite {
   login = (userFixture = mockUser, useDefaultFeatureToggles = true) => {
@@ -24,6 +23,8 @@ class MedicalRecordsSite {
       statusCode: 200,
       body: createAal,
     }).as('aal');
+    cy.intercept('POST', '/v0/datadog_action', {}).as('datadogAction');
+    MedicalRecordsLandingPage.uumIntercept();
     cy.login(userFixture);
   };
 
@@ -34,6 +35,7 @@ class MedicalRecordsSite {
     isAcceleratingLabsAndTests = false,
     isAcceleratingVaccines = false,
     isAcceleratingCareNotes = false,
+    isAcceleratingConditions = false,
   } = {}) => {
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
@@ -64,6 +66,10 @@ class MedicalRecordsSite {
             value: isAcceleratingVaccines,
           },
           {
+            name: 'mhv_accelerated_delivery_conditions_enabled',
+            value: isAcceleratingConditions,
+          },
+          {
             name: 'mhvMedicalRecordsPhrRefreshOnLogin',
             value: false,
           },
@@ -81,18 +87,6 @@ class MedicalRecordsSite {
           },
           {
             name: 'mhv_medical_records_allow_txt_downloads',
-            value: true,
-          },
-          {
-            name: 'mhv_medical_records_display_vaccines',
-            value: true,
-          },
-          {
-            name: 'mhv_medical_records_display_notes',
-            value: true,
-          },
-          {
-            name: 'mhv_medical_records_display_vitals',
             value: true,
           },
           {

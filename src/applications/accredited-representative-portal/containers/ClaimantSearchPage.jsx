@@ -202,12 +202,15 @@ const ClaimantSearchPage = () => {
   const searchStatus = useSearchParams()[0].get('status');
   const navigation = useNavigation();
   useEffect(() => {
+    focusElement('h1');
+  }, []);
+  useEffect(() => {
     // Insert CSS to hide 'For example: January 19 2000' hint on memorable dates
     // (can't be overridden by passing 'hint' to uiOptions):
     addStyleToShadowDomOnPages(
       [''],
       ['va-date'],
-      'va-select::part(label) {margin-bottom:8px}',
+      'va-select::part(label), va-text-input::part(label) {margin-bottom:8px}',
     );
   });
 

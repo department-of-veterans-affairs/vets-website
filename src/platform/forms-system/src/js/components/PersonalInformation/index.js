@@ -62,6 +62,7 @@ const personalInformationPage = ({
   contentAfterButtons = defaultPageConfig.contentAfterButtons,
   hideOnReview = defaultPageConfig.hideOnReview,
   depends = defaultPageConfig.depends,
+  background = false,
 } = defaultPageConfig) => {
   const config = {
     ...defaultPageConfig.personalInfoConfig,
@@ -75,6 +76,7 @@ const personalInformationPage = ({
       config={config}
       dataAdapter={dataAdapter}
       errorMessage={errorMessage}
+      background={background}
       contentBeforeButtons={contentBeforeButtons || props.contentBeforeButtons}
       contentAfterButtons={contentAfterButtons || props.contentAfterButtons}
     >

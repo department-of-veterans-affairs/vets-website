@@ -75,7 +75,8 @@ export default function ReasonForAppointmentPage() {
     shallowEqual,
   );
   const history = useHistory();
-  const isCommunityCare = data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
+  const isCommunityCare =
+    data.facilityType === FACILITY_TYPES.COMMUNITY_CARE.id;
   const pageInitialSchema = isCommunityCare
     ? initialSchema.cc
     : initialSchema.default;
