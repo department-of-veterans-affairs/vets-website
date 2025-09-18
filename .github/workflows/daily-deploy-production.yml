@@ -74,7 +74,7 @@ jobs:
           local response=$(curl -s -L \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            "https://api.github.com/repos/department-of-veterans-affairs/$repo/actions/workflows/daily-deploy-production.yml")
+            "https://api.github.com/repos/department-of-veterans-affairs/$repo/actions/workflows/daily-production-release.yml")
 
           local state=$(echo "$response" | jq -r '.state')
 
@@ -90,12 +90,13 @@ jobs:
         check_status "content-build"
 
     - name: Enable Workflows if Disabled
+      id: enable-workflows
       if: ${{ steps.check-status.outputs.workflow_enabled_content_build == 'false' }}
       run: |
           echo "Enabling content-build daily deploy workflow."
           curl -X PATCH -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             -H "Accept: application/vnd.github.v3+json" \
-            https://api.github.com/repos/department-of-veterans-affairs/content-build/actions/workflows/daily-deploy-production.yml/enable
+            https://api.github.com/repos/department-of-veterans-affairs/content-build/actions/workflows/daily-production-release.yml/enable
           echo "reenabled=true" >> $GITHUB_OUTPUT
   # Freeze Enabled Slack is sent early by freeze-enforcer.yml
 
@@ -110,12 +111,24 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
 
-    - name: Notify Slack - Code Freeze Ended
+    - name: Notify Slack (COP) - Code Freeze Ended
       uses: ./.github/workflows/slack-notify
-      continue-on-error: true
+      continue-on-error: false
       with:
         payload: '{"attachments": [{"color": "#32CD32", "blocks": [{"type": "section","text": {"type": "mrkdwn", "text": "✅ *Code Freeze Ended:* Deployment workflows for `vets-website` and `content-build` have been re-enabled following the holiday period."}}]}]}'
-        channel_id:  'C045LCF8WU8, C04868KS69L' #Frontend COP & platform-sre-team
+        channel_id:  'C04868KS69L' # Frontend COP
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+    - name: Short delay before SRE Slack (Ended)
+      run: sleep 2
+
+    - name: Notify Slack (SRE) - Code Freeze Ended
+      uses: ./.github/workflows/slack-notify
+      continue-on-error: false
+      with:
+        payload: '{"attachments": [{"color": "#32CD32", "blocks": [{"type": "section","text": {"type": "mrkdwn", "text": "✅ *Code Freeze Ended:* Deployment workflows for `vets-website` and `content-build` have been re-enabled following the holiday period."}}]}]}'
+        channel_id:  'C06JM7UUHE3' # platform-sre-team
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
@@ -126,12 +139,24 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
-      - name: Notify Slack - Deploy Freeze Bypassed
+      - name: Notify Slack (COP) - Deploy Freeze Bypassed
         uses: ./.github/workflows/slack-notify
-        continue-on-error: true
+        continue-on-error: false
         with:
           payload: '{"attachments": [{"color": "#0000FF", "blocks": [{"type": "section", "text": {"type": "mrkdwn", "text": "ℹ️ *Deploy Freeze Bypassed:* Emergency bypass activated. Deployment workflows for `vets-website` and `content-build` have been force enabled."}}]}]}'
-          channel_id: 'C045LCF8WU8, C04868KS69L'
+          channel_id: 'C04868KS69L'
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Short delay before SRE Slack (Bypass)
+        run: sleep 2
+
+      - name: Notify Slack (SRE) - Deploy Freeze Bypassed
+        uses: ./.github/workflows/slack-notify
+        continue-on-error: false
+        with:
+          payload: '{"attachments": [{"color": "#0000FF", "blocks": [{"type": "section", "text": {"type": "mrkdwn", "text": "ℹ️ *Deploy Freeze Bypassed:* Emergency bypass activated. Deployment workflows for `vets-website` and `content-build` have been force enabled."}}]}]}'
+          channel_id: 'C06JM7UUHE3'
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       
@@ -144,12 +169,24 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
 
-    - name: Notify Slack - Code Freeze Failure
+    - name: Notify Slack (COP) - Code Freeze Failure
       uses: ./.github/workflows/slack-notify
-      continue-on-error: true
+      continue-on-error: false
       with:
         payload: '{"attachments": [{"color": "#FF0000", "blocks": [{"type": "section","text": {"type": "mrkdwn","text": "<!here> *Code Freeze Operation Failed:* Unable to toggle deploy workflows for `vets-website` and `content-build`. Please investigate the issue immediately: <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id}} |View Run Details>."}}]}]}'
-        channel_id:  'C045LCF8WU8, C04868KS69L' #Frontend COP & platform-sre-team
+        channel_id:  'C04868KS69L'
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+    - name: Short delay before SRE Slack (Failure)
+      run: sleep 2
+
+    - name: Notify Slack (SRE) - Code Freeze Failure
+      uses: ./.github/workflows/slack-notify
+      continue-on-error: false
+      with:
+        payload: '{"attachments": [{"color": "#FF0000", "blocks": [{"type": "section","text": {"type": "mrkdwn","text": "<!here> *Code Freeze Operation Failed:* Unable to toggle deploy workflows for `vets-website` and `content-build`. Please investigate the issue immediately: <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id}} |View Run Details>."}}]}]}'
+        channel_id:  'C06JM7UUHE3'
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
