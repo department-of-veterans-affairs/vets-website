@@ -9,7 +9,9 @@ describe('Medical Records Download Functionality For Radiology', () => {
     // cy.visit('my-health/medical-records/labs-and-tests');
     LabsAndTestsListPage.goToLabsAndTests();
     // Navigate to radiology page
-    LabsAndTestsListPage.clickRadiologyDetailsLink('CHEST 2 VIEWS PA&LAT');
+    LabsAndTestsListPage.clickRadiologyDetailsLink(
+      'KNEE 4 OR MORE VIEWS (LEFT)',
+    );
 
     // should display a toggle menu button
     RadiologyDetailsPage.verifyPrintOrDownload();

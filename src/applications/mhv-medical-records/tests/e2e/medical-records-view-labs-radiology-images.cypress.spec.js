@@ -20,8 +20,9 @@ describe('Medical Records - Radiology images are shown when requested', () => {
   });
 
   it('View Radiology Images On Radiology Details Page', () => {
-    LabsAndTestsListPage.clickRadiologyDetailsLink('CHEST 2 VIEWS PA&LAT');
-
+    LabsAndTestsListPage.clickRadiologyDetailsLink(
+      'KNEE 4 OR MORE VIEWS (LEFT)',
+    );
     const studyId = statusResponseComplete[0].studyIdUrn;
     RadiologyDetailsPage.clickViewImages(studyId, viewImagesResponse);
 
