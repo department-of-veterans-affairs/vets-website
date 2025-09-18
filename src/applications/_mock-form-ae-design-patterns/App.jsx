@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
+import { RoutedSavableApp } from 'platform/forms/save-in-progress/RoutedSavableApp';
 import FormFooter from 'platform/forms/components/FormFooter';
 
 import {
@@ -77,12 +78,29 @@ export default function App({ location, children }) {
     [location],
   );
 
+  // Check if we're on pattern 7 - use simple wrapper instead of RoutedSavableApp
+  const isPattern7 = location.pathname.includes('/7/copy-of-submission/');
+
+  if (isPattern7) {
+    // Pattern 7: Simple wrapper without save-in-progress functionality
+    return (
+      <div>
+        <div className="row">
+          <div className="usa-width-two-thirds medium-8 columns">
+            {children}
+          </div>
+        </div>
+        <FormFooter formConfig={formConfig} />
+      </div>
+    );
+  }
+
+  // All other patterns: Use RoutedSavableApp with full save-in-progress functionality
   return (
     <div>
-      {/* Container wrapper to center content like RoutedSavableApp did */}
-      <div className="row">
-        <div className="usa-width-two-thirds medium-8 columns">{children}</div>
-      </div>
+      <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+        {children}
+      </RoutedSavableApp>
       <FormFooter formConfig={formConfig} />
     </div>
   );
