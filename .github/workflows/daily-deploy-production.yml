@@ -58,11 +58,18 @@ jobs:
             https://api.github.com/repos/department-of-veterans-affairs/vets-website/actions/workflows/daily-deploy-production.yml/enable
           curl -X PATCH -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             -H "Accept: application/vnd.github.v3+json" \
-            https://api.github.com/repos/department-of-veterans-affairs/content-build/actions/workflows/daily-deploy-production.yml/enable
+            https://api.github.com/repos/department-of-veterans-affairs/content-build/actions/workflows/daily-production-release.yml/enable
 
     - name: Disable workflows if today is a holiday
       if: ${{ false }}
       run: echo "Freeze enforcement handled by freeze-enforcer.yml."
+
+    - name: Get bot token from Parameter Store
+      if: ${{ github.event.inputs.bypass_freeze != 'true' && needs.holiday-checker.outputs.is_holiday == 'false' }}
+      uses: ./.github/workflows/inject-secrets
+      with:
+        ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+        env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
     - name: Check Workflow Status
       id: check-status
@@ -73,7 +80,7 @@ jobs:
           local key=$(echo "$repo" | tr '-' '_')
           local response=$(curl -s -L \
             -H "Accept: application/vnd.github+json" \
-            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Authorization: token ${VA_VSP_BOT_GITHUB_TOKEN:-${{ secrets.GITHUB_TOKEN }}}" \
             "https://api.github.com/repos/department-of-veterans-affairs/$repo/actions/workflows/daily-production-release.yml")
 
           local state=$(echo "$response" | jq -r '.state')
@@ -89,15 +96,28 @@ jobs:
 
         check_status "content-build"
 
+    
+
     - name: Enable Workflows if Disabled
       id: enable-workflows
       if: ${{ steps.check-status.outputs.workflow_enabled_content_build == 'false' }}
       run: |
           echo "Enabling content-build daily deploy workflow."
-          curl -X PATCH -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          http_code=$(curl -s -o /dev/null -w "%{http_code}" -X PATCH \
+            -H "Authorization: token ${VA_VSP_BOT_GITHUB_TOKEN:-${{ secrets.GITHUB_TOKEN }}}" \
             -H "Accept: application/vnd.github.v3+json" \
-            https://api.github.com/repos/department-of-veterans-affairs/content-build/actions/workflows/daily-production-release.yml/enable
-          echo "reenabled=true" >> $GITHUB_OUTPUT
+            https://api.github.com/repos/department-of-veterans-affairs/content-build/actions/workflows/daily-production-release.yml/enable)
+          echo "Enable HTTP status: $http_code"
+          state=$(curl -s -L \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: token ${VA_VSP_BOT_GITHUB_TOKEN:-${{ secrets.GITHUB_TOKEN }}}" \
+            "https://api.github.com/repos/department-of-veterans-affairs/content-build/actions/workflows/daily-production-release.yml" | jq -r '.state')
+          echo "Post-enable state: $state"
+          if [[ "$http_code" == "204" && "$state" == "active" ]]; then
+            echo "reenabled=true" >> $GITHUB_OUTPUT
+          else
+            echo "reenabled=false" >> $GITHUB_OUTPUT
+          fi
   # Freeze Enabled Slack is sent early by freeze-enforcer.yml
 
   notify-freeze-ends:
