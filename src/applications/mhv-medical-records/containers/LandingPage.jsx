@@ -390,7 +390,7 @@ const LandingPage = () => {
                   person at your VA health facility.
                 </p>
                 <Link
-                  to="/requests"
+                  to="/resources/how-to-get-your-medical-records-from-your-va-health-facility/"
                   className="vads-c-action-link--blue"
                   data-testid="request-landing-page-link"
                   onClick={() => {
@@ -409,7 +409,7 @@ const LandingPage = () => {
                   notification settings.
                 </p>
                 <Link
-                  to="/resources/how-to-get-your-medical-records-from-your-va-health-facility/"
+                  to="/settings"
                   className="vads-c-action-link--blue"
                   data-testid="settings-landing-page-link"
                   onClick={() => {
