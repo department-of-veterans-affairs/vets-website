@@ -1,6 +1,7 @@
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema.json';
 
-import { pick } from 'lodash';
+import { ssnOrVaFileNumberNoHintSchema } from 'platform/forms-system/src/js/web-component-patterns';
+import { merge, pick } from 'lodash';
 
 import {
   nonVeteranApplicantDetailsDescription,
@@ -41,7 +42,11 @@ export const schema = {
         claimant: {
           type: 'object',
           required: ['name', 'ssn', 'dateOfBirth'],
-          properties: pick(claimant.properties, ['name', 'ssn', 'dateOfBirth']),
+          properties: merge(
+            {},
+            pick(claimant.properties, ['name', 'dateOfBirth']),
+            { ssn: ssnOrVaFileNumberNoHintSchema },
+          ),
         },
       },
     },
