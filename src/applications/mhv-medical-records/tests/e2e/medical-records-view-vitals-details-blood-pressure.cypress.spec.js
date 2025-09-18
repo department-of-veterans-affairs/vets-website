@@ -15,7 +15,7 @@ describe('Medical Records Vitals Details Page', () => {
   it('Vitals Details Blood Pressure', () => {
     VitalsListPage.goToVitals();
     // click blood pressure Link
-    VitalsListPage.clickLinkByRecordListItemIndex('Blood pressure');
+    VitalsListPage.clickLinkByRecordListItem('Blood pressure');
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
       0,

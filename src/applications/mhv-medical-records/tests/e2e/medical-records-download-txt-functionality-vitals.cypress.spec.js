@@ -12,7 +12,7 @@ describe('Medical Records Vitals', () => {
   it('Vitals Page Toggle Menu button Print or download ', () => {
     // Given Navigate to Vitals Page
     VitalsListPage.goToVitals();
-    VitalsListPage.clickVitalsDetailsLink(0);
+    VitalsListPage.clickLinkByRecordListItem('Blood pressure');
     // should display a toggle menu button
     // Verify  PrintDownload button
     VitalsListPage.verifyPrintOrDownload();

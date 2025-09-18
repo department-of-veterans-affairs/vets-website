@@ -39,7 +39,7 @@ class VitalsListPage extends BaseListPage {
     ]);
   };
 
-  clickLinkByRecordListItemIndex = vitalsHeading => {
+  clickLinkByRecordListItem = vitalsHeading => {
     cy.contains(vitalsHeading, { includeShadowDom: true }).then(element => {
       cy.wrap(element).should('have.prop', 'tagName', 'H2');
       cy.wrap(element)
@@ -62,13 +62,6 @@ class VitalsListPage extends BaseListPage {
     cy.get('[data-testid="vital-li-review-over-time"]')
       .eq(index)
       .contains(`Review your ${name} over time`, { matchCase: false });
-  };
-
-  clickVitalsDetailsLink = (_VitalsIndex = 0) => {
-    cy.findAllByTestId('record-list-item')
-      .find('a')
-      .eq(_VitalsIndex)
-      .click();
   };
 
   clickVitalsListNextButton = () => {

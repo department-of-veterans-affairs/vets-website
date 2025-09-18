@@ -14,7 +14,7 @@ describe('Medical Records View Vitals', () => {
   it('Click next previous page, verify focus', () => {
     VitalsListPage.goToVitals();
     // visit blood pressure page
-    VitalsListPage.clickLinkByRecordListItemIndex('Blood pressure');
+    VitalsListPage.clickLinkByRecordListItem('Blood pressure');
 
     VitalsListPage.loadVAPaginationNext();
     VitalsListPage.loadVAPaginationPrevious();
