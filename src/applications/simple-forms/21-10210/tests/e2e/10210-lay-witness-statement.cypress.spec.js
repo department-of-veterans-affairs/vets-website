@@ -10,6 +10,7 @@ import { getSignerFullName } from './helpers';
 import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-submit.json';
 import user from './fixtures/mocks/user.json';
 import {
+  fillFullNameWebComponentPattern,
   getPagePaths,
   reviewAndSubmitPageFlow,
 } from '../../../shared/tests/e2e/helpers';
@@ -32,14 +33,11 @@ const testConfig = createTestConfig(
       'witness-personal-information-a': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            const { first, last } = data.witnessFullName;
             const label = data.witnessRelationshipToClaimant;
-            cy.get('#root_witnessFullName_first')
-              .clear()
-              .type(first);
-            cy.get('#root_witnessFullName_last')
-              .clear()
-              .type(last);
+            fillFullNameWebComponentPattern(
+              'witnessFullName',
+              data.witnessFullName,
+            );
             cy.get(`va-checkbox[label="${label}"]`)
               .shadow()
               .get('#checkbox-element')
@@ -84,14 +82,11 @@ const testConfig = createTestConfig(
       'witness-personal-information-b': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            const { first, last } = data.witnessFullName;
             const label = data.witnessRelationshipToClaimant;
-            cy.get('#root_witnessFullName_first')
-              .clear()
-              .type(first);
-            cy.get('#root_witnessFullName_last')
-              .clear()
-              .type(last);
+            fillFullNameWebComponentPattern(
+              'witnessFullName',
+              data.witnessFullName,
+            );
             cy.get(`va-checkbox[label="${label}"]`)
               .shadow()
               .get('#checkbox-element')
