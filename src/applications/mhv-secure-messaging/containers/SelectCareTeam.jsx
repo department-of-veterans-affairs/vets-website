@@ -380,7 +380,7 @@ const SelectCareTeam = () => {
       <RouteLeavingGuard
         saveDraftHandler={saveDraftHandler}
         type="compose"
-        persistDraftPaths={['/contact-list/', '/new-message/care-team-help']}
+        persistDraftPaths={[Paths.CONTACT_LIST, Paths.CARE_TEAM_HELP]}
       />
       <div>
         {renderCareSystems()}
