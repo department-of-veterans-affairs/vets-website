@@ -42,8 +42,8 @@ describe('ExitForm', () => {
       .resolves();
     const { container } = render(<ExitForm />);
     const assignSpy = sinon.spy();
-    global.window = window;
-    global.window.location = { assign: assignSpy };
+
+    window.location.assign = assignSpy;
 
     fireEvent.click($('va-button[continue]', container));
 
