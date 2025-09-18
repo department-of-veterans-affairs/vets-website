@@ -20,6 +20,8 @@ export default function VaFileInputMultiplePage() {
   // Error Management Strategy (following forms library pattern)
   const [fileErrors, setFileErrors] = useState([]); // File-level errors (upload, validation)
   const [passwordErrors, setPasswordErrors] = useState([]); // Password validation errors
+  // eslint-disable-next-line no-unused-vars
+  const [additionalInputErrors, setAdditionalInputErrors] = useState([]); // Additional input validation errors (not used in the component at this time)
 
   // Enhanced mock upload with error scenarios (like forms library)
   const mockFileUpload = async (file, index, password = null) => {
@@ -30,35 +32,40 @@ export default function VaFileInputMultiplePage() {
       return newFileErrors;
     });
 
-    // Mock error scenarios based on file characteristics
+    // Simulate various error scenarios based on filename
     const shouldSimulateError = () => {
-      // Simulate network error for files with "error" in name
-      if (file.name.toLowerCase().includes('error')) {
+      const fileName = file.name.toLowerCase();
+
+      // Network/connection errors
+      if (fileName.includes('error')) {
         return {
           type: 'network',
-          message: 'Network request failed. Please try again.',
+          message: 'Network error occurred during upload. Please try again.',
         };
       }
 
-      // Simulate server error for files with "server" in name
-      if (file.name.toLowerCase().includes('server')) {
+      // Server errors
+      if (fileName.includes('server')) {
         return {
           type: 'server',
-          message: 'Server error occurred. Please try again later.',
+          message: 'Server error: Unable to process file at this time.',
         };
       }
 
-      // Simulate file too large error for files > 1MB
-      if (file.size > 1000000) {
-        return { type: 'size', message: 'File size must be less than 25MB.' };
-      }
-
-      // Simulate rate limit error for files with "limit" in name
-      if (file.name.toLowerCase().includes('limit')) {
+      // Rate limiting
+      if (fileName.includes('limit')) {
         return {
           type: 'rate_limit',
-          message:
-            "You've reached the upload limit. Please try again in 5 minutes.",
+          message: 'Rate limit exceeded. Please wait before uploading again.',
+        };
+      }
+
+      // File size validation (simulated - normally handled by component)
+      if (file.size > 1024 * 1024) {
+        // 1MB limit for demo
+        return {
+          type: 'file_size',
+          message: 'File size exceeds 1MB limit.',
         };
       }
 
@@ -355,6 +362,13 @@ export default function VaFileInputMultiplePage() {
         return newFileErrors;
       });
 
+      // Clear additional input errors
+      setAdditionalInputErrors(prev => {
+        const newAdditionalInputErrors = [...prev];
+        newAdditionalInputErrors.splice(fileIndex, 1);
+        return newAdditionalInputErrors;
+      });
+
       return newFiles;
     });
   };
@@ -382,17 +396,65 @@ export default function VaFileInputMultiplePage() {
     return els.findIndex(el => el.id === vaFileInput.id);
   }
 
+  // Update additional input error in shadow DOM (matching forms library pattern)
+  const updateAdditionalInputError = (fileIndex, errorMessage) => {
+    if (!componentRef.current?.shadowRoot) return;
+
+    // Get all va-file-input elements in shadow DOM
+    const fileInputs = Array.from(
+      componentRef.current.shadowRoot.querySelectorAll('va-file-input'),
+    );
+
+    if (fileInputs[fileIndex]) {
+      // Find the VaSelect within this file input's slot content
+      const slotContent = fileInputs[fileIndex].querySelector(
+        '.additional-input-container va-select',
+      );
+
+      if (slotContent) {
+        // Set the error attribute on the VaSelect component
+        if (errorMessage) {
+          slotContent.setAttribute('error', errorMessage);
+        } else {
+          slotContent.removeAttribute('error');
+        }
+
+        console.log(
+          `🔧 Updated VaSelect error for file ${fileIndex}:`,
+          errorMessage || 'cleared',
+        );
+      }
+    }
+  };
+
   // Handle additional input (document status selection)
   const handleAdditionalInput = event => {
     const { detail } = event;
     const { value } = detail;
 
-    if (value === '') return;
-
     // Use the forms library approach to get the correct file index
     const fileIndex = getFileInputInstanceIndex(event);
 
     if (fileIndex >= 0 && files[fileIndex]) {
+      // Check if user selected the default "Select status" option (empty value)
+      if (value === '') {
+        // Show validation error for empty selection
+        const errorMessage = 'Please select a document status';
+
+        setAdditionalInputErrors(prev => {
+          const newErrors = [...prev];
+          newErrors[fileIndex] = errorMessage;
+          return newErrors;
+        });
+
+        // Update the VaSelect error prop in shadow DOM
+        updateAdditionalInputError(fileIndex, errorMessage);
+
+        // Don't update the file data for invalid selection
+        return;
+      }
+
+      // Valid selection - update file data
       setFiles(prevFiles => {
         const newFiles = [...prevFiles];
         newFiles[fileIndex] = {
@@ -403,6 +465,16 @@ export default function VaFileInputMultiplePage() {
         };
         return newFiles;
       });
+
+      // Clear any additional input error when user provides valid input
+      setAdditionalInputErrors(prev => {
+        const newErrors = [...prev];
+        newErrors[fileIndex] = null;
+        return newErrors;
+      });
+
+      // Clear the error in the shadow DOM
+      updateAdditionalInputError(fileIndex, null);
     } else {
       console.warn(`Could not find file at index ${fileIndex}`);
     }
@@ -482,6 +554,9 @@ export default function VaFileInputMultiplePage() {
     <div className="vads-grid-container">
       <div className="vads-grid-row">
         <div className="vads-grid-col-12 desktop:vads-grid-col-6">
+          <h2 className="vads-grid-col font-ui-md">
+            File Input Multiple Component
+          </h2>
           <VaFileInputMultiple
             ref={componentRef}
             accept=".pdf,.jpeg,.png"
@@ -517,7 +592,7 @@ export default function VaFileInputMultiplePage() {
               fontSize: '14px',
             }}
           >
-            <strong>🧪 Error Testing & Visual State Reset:</strong>
+            <strong>Error Testing & Visual State Reset:</strong>
             <ul style={{ margin: '8px 0', paddingLeft: '20px' }}>
               <li>
                 <strong>Network Error:</strong> Upload file with "error" in
@@ -548,6 +623,15 @@ export default function VaFileInputMultiplePage() {
                 <br />
                 <em>→ Password field visual state resets</em>
               </li>
+              <li>
+                <strong>Additional Input Error:</strong> Upload any file, then
+                try to select "Select status" option
+                <br />
+                <em>
+                  → Document status field shows validation error (no visual
+                  state reset)
+                </em>
+              </li>
             </ul>
             <p
               style={{
@@ -566,14 +650,15 @@ export default function VaFileInputMultiplePage() {
                 color: '#0066cc',
               }}
             >
-              <strong>📋 Additional Input:</strong> Each uploaded file requires
-              a document status selection. The status is stored in{' '}
+              <strong>Additional Input:</strong> Each uploaded file requires a
+              document status selection. Selecting "Select status" shows a
+              validation error. Valid selections are stored in{' '}
               <code>file.additionalData.documentStatus</code>.
             </p>
           </div>
         </div>
 
-        <div className="vads-grid-col-12 desktop:vads-grid-col-6">
+        <div className="vads-grid-col-12 desktop:vads-grid-col-6 vads-u-padding-left--3">
           {/* Expose files state for testing */}
           <span
             data-testid="files-state"
@@ -584,7 +669,7 @@ export default function VaFileInputMultiplePage() {
           </span>
 
           <div>
-            <h2>Files Information</h2>
+            <h2>Files</h2>
             <pre
               style={{
                 backgroundColor: '#f5f5f5',
@@ -598,27 +683,6 @@ export default function VaFileInputMultiplePage() {
             >
               {files.length > 0 && JSON.stringify(files, null, 2)}
             </pre>
-            <p style={{ margin: '8px 0 0 0', fontSize: '12px', color: '#666' }}>
-              Processed files: {files.length} | Progress tracking:{' '}
-              {percentsUploaded.filter(p => p !== null).length} active | File
-              errors: {fileErrors.filter(e => e !== null).length} | Encrypted
-              files: {encrypted.filter(e => e === true).length} | Password
-              errors: {passwordErrors.filter(e => e !== null).length}
-            </p>
-            <p style={{ margin: '4px 0 0 0', fontSize: '11px', color: '#888' }}>
-              <strong>resetVisualState:</strong> [
-              {fileErrors.map(error => (error ? 'true' : 'null')).join(', ')}]
-              <em>(resets visual state when errors occur)</em>
-            </p>
-            <p style={{ margin: '4px 0 0 0', fontSize: '11px', color: '#888' }}>
-              <strong>Array lengths:</strong> files: {files.length}, errors:{' '}
-              {fileErrors.length}, progress: {percentsUploaded.length},
-              encrypted: {encrypted.length}
-            </p>
-            <p style={{ margin: '4px 0 0 0', fontSize: '11px', color: '#888' }}>
-              <strong>Files with additional data:</strong>{' '}
-              {files.filter(f => f?.additionalData).length} / {files.length}
-            </p>
           </div>
         </div>
       </div>

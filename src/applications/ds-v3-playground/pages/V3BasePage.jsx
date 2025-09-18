@@ -140,9 +140,6 @@ export default function V3BasePage() {
           />
         </div>
         <div>
-          <h2 className="vads-grid-col font-ui-md">
-            va-file-input-multiple Component
-          </h2>
           <VaFileInputMultiple />
         </div>
         <div>
