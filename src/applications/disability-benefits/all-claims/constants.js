@@ -603,3 +603,5 @@ export const SUPPORTING_EVIDENCE_HINTS = Object.freeze({
   none:
     'Select this option if you don’t have any supporting documents to include, or prefer not to include them.',
 });
+
+export const EMPTY_SCHEMA = { type: 'object', properties: {} };
