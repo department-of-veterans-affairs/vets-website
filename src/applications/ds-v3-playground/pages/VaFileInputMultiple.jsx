@@ -10,8 +10,8 @@ const DEBOUNCE_WAIT = 1000;
 export default function VaFileInputMultiplePage() {
   const [files, setFiles] = useState([]); // This could be Redux in a real app
   const [percentsUploaded, setPercentsUploaded] = useState([]); // Progress array for component
-  // const [encrypted, setEncrypted] = useState([]); // Track which files are encrypted
-  // const [passwordErrors, setPasswordErrors] = useState([]); // Password validation errors
+  const [encrypted, setEncrypted] = useState([]); // Track which files are encrypted
+  const [passwordErrors, setPasswordErrors] = useState([]); // Password validation errors
   const [fileErrors, setFileErrors] = useState([]); // File-level errors for the errors prop
 
   // Mock file upload - simulates the forms library upload process
@@ -129,23 +129,34 @@ export default function VaFileInputMultiplePage() {
       const isEncrypted = fileChecks.checkIsEncryptedPdf;
 
       // Update encrypted state
-      // setEncrypted(prev => {
-      //   const newEncrypted = [...prev];
-      //   newEncrypted[index] = isEncrypted;
-      //   return newEncrypted;
-      // });
+      setEncrypted(prev => {
+        const newEncrypted = [...prev];
+        newEncrypted[index] = isEncrypted;
+        return newEncrypted;
+      });
 
-      // // Clear any password errors for this file
-      // setPasswordErrors(prev => {
-      //   const newPasswordErrors = [...prev];
-      //   newPasswordErrors[index] = null;
-      //   return newPasswordErrors;
-      // });
+      // Clear any password errors for this file
+      setPasswordErrors(prev => {
+        const newPasswordErrors = [...prev];
+        newPasswordErrors[index] = null;
+        return newPasswordErrors;
+      });
 
       if (isEncrypted) {
         // For encrypted files, don't upload immediately - wait for password
-        // Process the file with our mock upload to show progress
-        handleFileAdded(fileDetails, index);
+        // Set file status to pending password
+        setFiles(prevFiles => {
+          const newFiles = [...prevFiles];
+          newFiles[index] = {
+            name: file.name,
+            size: file.size,
+            type: file.type,
+            status: 'pending_password',
+            encrypted: true,
+            _originalFile: file,
+          };
+          return newFiles;
+        });
       } else {
         // Non-encrypted files - upload immediately
         const processedFile = await mockFileUpload(file, index);
@@ -175,11 +186,11 @@ export default function VaFileInputMultiplePage() {
           return newFiles;
         });
       } catch (error) {
-        // setPasswordErrors(prev => {
-        //   const newPasswordErrors = [...prev];
-        //   newPasswordErrors[index] = error.message;
-        //   return newPasswordErrors;
-        // });
+        setPasswordErrors(prev => {
+          const newPasswordErrors = [...prev];
+          newPasswordErrors[index] = error.message;
+          return newPasswordErrors;
+        });
       }
     },
     [],
@@ -194,11 +205,11 @@ export default function VaFileInputMultiplePage() {
           console.log(`🔐 Processing password for ${file.name} after debounce`);
 
           // Clear password error
-          // setPasswordErrors(prev => {
-          //   const newPasswordErrors = [...prev];
-          //   newPasswordErrors[index] = null;
-          //   return newPasswordErrors;
-          // });
+          setPasswordErrors(prev => {
+            const newPasswordErrors = [...prev];
+            newPasswordErrors[index] = null;
+            return newPasswordErrors;
+          });
 
           // Clear file-level error
           setFileErrors(prev => {
@@ -211,11 +222,11 @@ export default function VaFileInputMultiplePage() {
           handleEncryptedFileUpload({ file }, password, index);
 
           // Hide password field after successful entry (like forms library)
-          // setEncrypted(prev => {
-          //   const newEncrypted = [...prev];
-          //   newEncrypted[index] = null;
-          //   return newEncrypted;
-          // });
+          setEncrypted(prev => {
+            const newEncrypted = [...prev];
+            newEncrypted[index] = null;
+            return newEncrypted;
+          });
         } else {
           console.warn('Empty password provided');
         }
@@ -246,18 +257,18 @@ export default function VaFileInputMultiplePage() {
       });
 
       // Clear encrypted state
-      // setEncrypted(prev => {
-      //   const newEncrypted = [...prev];
-      //   newEncrypted.splice(fileIndex, 1);
-      //   return newEncrypted;
-      // });
+      setEncrypted(prev => {
+        const newEncrypted = [...prev];
+        newEncrypted.splice(fileIndex, 1);
+        return newEncrypted;
+      });
 
-      // // Clear password errors
-      // setPasswordErrors(prev => {
-      //   const newPasswordErrors = [...prev];
-      //   newPasswordErrors.splice(fileIndex, 1);
-      //   return newPasswordErrors;
-      // });
+      // Clear password errors
+      setPasswordErrors(prev => {
+        const newPasswordErrors = [...prev];
+        newPasswordErrors.splice(fileIndex, 1);
+        return newPasswordErrors;
+      });
 
       // Clear file-level errors
       setFileErrors(prev => {
@@ -365,13 +376,17 @@ export default function VaFileInputMultiplePage() {
         <p style={{ margin: '8px 0 0 0', fontSize: '12px', color: '#666' }}>
           Processed files: {files.length} | Progress tracking:{' '}
           {percentsUploaded.filter(p => p !== null).length} active | File
-          errors: {fileErrors.filter(e => e !== null).length}
+          errors: {fileErrors.filter(e => e !== null).length} | Encrypted files:{' '}
+          {encrypted.filter(e => e === true).length} | Password errors:{' '}
+          {passwordErrors.filter(e => e !== null).length}
         </p>
       </div>
 
       <VaFileInputMultiple
         accept=".pdf,.jpeg,.png"
         percentUploaded={percentsUploaded}
+        encrypted={encrypted}
+        passwordErrors={passwordErrors}
         onVaMultipleChange={handleMultipleChange}
         hint="Upload PDF, JPEG, or PNG files. Encrypted PDFs will require a password."
         label="Select files to upload"
