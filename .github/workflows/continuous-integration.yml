@@ -65,7 +65,7 @@ jobs:
       - name: Instrumentation build setup
         if: ${{ matrix.buildtype == 'vagovprod-instrumented' }}
         run: |
-          echo "BABEL_ENV=tests" >> $GITHUB_ENV
+          echo "BABEL_ENV=cypress" >> $GITHUB_ENV
           echo "BABEL_DISABLE_CACHE=1" >> $GITHUB_ENV
 
       - name: Build
@@ -832,7 +832,7 @@ jobs:
       - name: Start server
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         run: |
-          export BABEL_ENV=test
+          export BABEL_ENV=cypress
           echo "==> NODE_ENV=$NODE_ENV"
           echo "==> BABEL_ENV=$BABEL_ENV"
           BABEL_ENV=cypress node src/platform/testing/e2e/test-server.js --buildtype=vagovprod-instrumented --port=3001 &
