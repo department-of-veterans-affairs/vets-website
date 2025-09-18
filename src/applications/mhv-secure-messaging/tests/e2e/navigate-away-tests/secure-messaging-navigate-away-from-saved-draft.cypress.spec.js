@@ -25,6 +25,8 @@ describe('SM NAVIGATE AWAY FROM SAVED DRAFT', () => {
 
   it('navigate away with data change', () => {
     PatientComposePage.selectRecipient(3);
+    // Mark draft dirty explicitly to ensure route guard triggers
+    PatientComposePage.getMessageSubjectField().type(' X', { force: true });
 
     FolderLoadPage.backToParentFolder();
 
