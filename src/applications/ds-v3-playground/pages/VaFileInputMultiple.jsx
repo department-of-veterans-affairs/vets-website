@@ -262,7 +262,6 @@ export default function VaFileInputMultiplePage() {
   );
 
   // Debounced password processing (like forms library)
-  // Note: Defined after handleEncryptedFileUpload to avoid hoisting issues
   const debouncePassword = useMemo(
     () =>
       debounce(({ file, password }, index) => {
@@ -393,12 +392,6 @@ export default function VaFileInputMultiplePage() {
     // Use the forms library approach to get the correct file index
     const fileIndex = getFileInputInstanceIndex(event);
 
-    console.log(`📋 Additional input for file ${fileIndex}:`, {
-      value,
-      fileName: files[fileIndex]?.name,
-      totalFiles: files.length,
-    });
-
     if (fileIndex >= 0 && files[fileIndex]) {
       setFiles(prevFiles => {
         const newFiles = [...prevFiles];
@@ -410,10 +403,8 @@ export default function VaFileInputMultiplePage() {
         };
         return newFiles;
       });
-
-      console.log(`✅ Updated file ${fileIndex} with documentStatus: ${value}`);
     } else {
-      console.warn(`❌ Could not find file at index ${fileIndex}`);
+      console.warn(`Could not find file at index ${fileIndex}`);
     }
   };
 
@@ -488,129 +479,148 @@ export default function VaFileInputMultiplePage() {
   };
 
   return (
-    <div>
-      <VaFileInputMultiple
-        ref={componentRef}
-        accept=".pdf,.jpeg,.png"
-        percentUploaded={percentsUploaded}
-        encrypted={encrypted}
-        errors={fileErrors}
-        passwordErrors={passwordErrors}
-        resetVisualState={fileErrors.map(error => (error ? true : null))}
-        onVaMultipleChange={handleMultipleChange}
-        onVaFileInputError={handleComponentError}
-        onVaSelect={handleAdditionalInput}
-        hint="Upload PDF, JPEG, or PNG files. Encrypted PDFs will require a password."
-        label="Select files to upload"
-      >
-        <div className="additional-input-container">
-          <VaSelect required label="Document status">
-            <option value="">Select status</option>
-            <option value="public">Public</option>
-            <option value="private">Private</option>
-          </VaSelect>
+    <div className="vads-grid-container">
+      <div className="vads-grid-row">
+        <div className="vads-grid-col-12 desktop:vads-grid-col-6">
+          <VaFileInputMultiple
+            ref={componentRef}
+            accept=".pdf,.jpeg,.png"
+            percentUploaded={percentsUploaded}
+            encrypted={encrypted}
+            errors={fileErrors}
+            passwordErrors={passwordErrors}
+            resetVisualState={fileErrors.map(error => (error ? true : null))}
+            onVaMultipleChange={handleMultipleChange}
+            onVaFileInputError={handleComponentError}
+            onVaSelect={handleAdditionalInput}
+            hint="Upload PDF, JPEG, or PNG files. Encrypted PDFs will require a password."
+            label="Select files to upload"
+          >
+            <div className="additional-input-container">
+              <VaSelect required label="Document status">
+                <option value="">Select status</option>
+                <option value="public">Public</option>
+                <option value="private">Private</option>
+              </VaSelect>
+            </div>
+          </VaFileInputMultiple>
+
+          <hr />
+
+          {/* Error Testing Instructions */}
+          <div
+            style={{
+              marginTop: '16px',
+              padding: '12px',
+              backgroundColor: '#f0f8ff',
+              borderRadius: '4px',
+              fontSize: '14px',
+            }}
+          >
+            <strong>🧪 Error Testing & Visual State Reset:</strong>
+            <ul style={{ margin: '8px 0', paddingLeft: '20px' }}>
+              <li>
+                <strong>Network Error:</strong> Upload file with "error" in
+                filename
+                <br />
+                <em>→ Watch progress bar reset when error occurs</em>
+              </li>
+              <li>
+                <strong>Server Error:</strong> Upload file with "server" in
+                filename
+                <br />
+                <em>→ Visual state clears on error for clean retry</em>
+              </li>
+              <li>
+                <strong>Rate Limit:</strong> Upload file with "limit" in
+                filename
+                <br />
+                <em>→ Component resets to initial appearance</em>
+              </li>
+              <li>
+                <strong>File Size:</strong> Upload file larger than 1MB
+                <br />
+                <em>→ resetVisualState triggers immediately</em>
+              </li>
+              <li>
+                <strong>Password Error:</strong> Use password shorter than 8
+                characters
+                <br />
+                <em>→ Password field visual state resets</em>
+              </li>
+            </ul>
+            <p
+              style={{
+                margin: '8px 0 0 0',
+                fontSize: '12px',
+                fontStyle: 'italic',
+              }}
+            >
+              <strong>resetVisualState</strong> automatically triggers when
+              errors occur, providing clean visual feedback for error recovery.
+            </p>
+            <p
+              style={{
+                margin: '8px 0 0 0',
+                fontSize: '12px',
+                color: '#0066cc',
+              }}
+            >
+              <strong>📋 Additional Input:</strong> Each uploaded file requires
+              a document status selection. The status is stored in{' '}
+              <code>file.additionalData.documentStatus</code>.
+            </p>
+          </div>
         </div>
-      </VaFileInputMultiple>
 
-      <hr />
+        <div className="vads-grid-col-12 desktop:vads-grid-col-6">
+          {/* Expose files state for testing */}
+          <span
+            data-testid="files-state"
+            aria-hidden="true"
+            style={{ display: 'none' }}
+          >
+            {JSON.stringify(files)}
+          </span>
 
-      {/* Expose files state for testing */}
-      <span
-        data-testid="files-state"
-        aria-hidden="true"
-        style={{ display: 'none' }}
-      >
-        {JSON.stringify(files)}
-      </span>
-
-      {/* Error Testing Instructions */}
-      <div
-        style={{
-          marginTop: '16px',
-          padding: '12px',
-          backgroundColor: '#f0f8ff',
-          borderRadius: '4px',
-          fontSize: '14px',
-        }}
-      >
-        <strong>🧪 Error Testing & Visual State Reset:</strong>
-        <ul style={{ margin: '8px 0', paddingLeft: '20px' }}>
-          <li>
-            <strong>Network Error:</strong> Upload file with "error" in filename
-            <br />
-            <em>→ Watch progress bar reset when error occurs</em>
-          </li>
-          <li>
-            <strong>Server Error:</strong> Upload file with "server" in filename
-            <br />
-            <em>→ Visual state clears on error for clean retry</em>
-          </li>
-          <li>
-            <strong>Rate Limit:</strong> Upload file with "limit" in filename
-            <br />
-            <em>→ Component resets to initial appearance</em>
-          </li>
-          <li>
-            <strong>File Size:</strong> Upload file larger than 1MB
-            <br />
-            <em>→ resetVisualState triggers immediately</em>
-          </li>
-          <li>
-            <strong>Password Error:</strong> Use password shorter than 8
-            characters
-            <br />
-            <em>→ Password field visual state resets</em>
-          </li>
-        </ul>
-        <p
-          style={{ margin: '8px 0 0 0', fontSize: '12px', fontStyle: 'italic' }}
-        >
-          <strong>resetVisualState</strong> automatically triggers when errors
-          occur, providing clean visual feedback for error recovery.
-        </p>
-        <p style={{ margin: '8px 0 0 0', fontSize: '12px', color: '#0066cc' }}>
-          <strong>📋 Additional Input:</strong> Each uploaded file requires a
-          document status selection. The status is stored in{' '}
-          <code>file.additionalData.documentStatus</code>.
-        </p>
-      </div>
-
-      <div>
-        <h2>Files Information</h2>
-        <pre
-          style={{
-            backgroundColor: '#f5f5f5',
-            padding: '10px',
-            borderRadius: '4px',
-            fontSize: '12px',
-            fontFamily: 'Monaco, Consolas, "Courier New", monospace',
-            overflow: 'auto',
-            maxHeight: '300px',
-          }}
-        >
-          {files.length > 0 && JSON.stringify(files, null, 2)}
-        </pre>
-        <p style={{ margin: '8px 0 0 0', fontSize: '12px', color: '#666' }}>
-          Processed files: {files.length} | Progress tracking:{' '}
-          {percentsUploaded.filter(p => p !== null).length} active | File
-          errors: {fileErrors.filter(e => e !== null).length} | Encrypted files:{' '}
-          {encrypted.filter(e => e === true).length} | Password errors:{' '}
-          {passwordErrors.filter(e => e !== null).length}
-        </p>
-        <p style={{ margin: '4px 0 0 0', fontSize: '11px', color: '#888' }}>
-          <strong>resetVisualState:</strong> [
-          {fileErrors.map(error => (error ? 'true' : 'null')).join(', ')}]
-          <em>(resets visual state when errors occur)</em>
-        </p>
-        <p style={{ margin: '4px 0 0 0', fontSize: '11px', color: '#888' }}>
-          <strong>Array lengths:</strong> files: {files.length}, errors:{' '}
-          {fileErrors.length}, progress: {percentsUploaded.length}, encrypted:{' '}
-          {encrypted.length}
-        </p>
-        <p style={{ margin: '4px 0 0 0', fontSize: '11px', color: '#888' }}>
-          <strong>Files with additional data:</strong>{' '}
-          {files.filter(f => f?.additionalData).length} / {files.length}
-        </p>
+          <div>
+            <h2>Files Information</h2>
+            <pre
+              style={{
+                backgroundColor: '#f5f5f5',
+                padding: '10px',
+                borderRadius: '4px',
+                fontSize: '12px',
+                fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+                overflow: 'auto',
+                maxHeight: '300px',
+              }}
+            >
+              {files.length > 0 && JSON.stringify(files, null, 2)}
+            </pre>
+            <p style={{ margin: '8px 0 0 0', fontSize: '12px', color: '#666' }}>
+              Processed files: {files.length} | Progress tracking:{' '}
+              {percentsUploaded.filter(p => p !== null).length} active | File
+              errors: {fileErrors.filter(e => e !== null).length} | Encrypted
+              files: {encrypted.filter(e => e === true).length} | Password
+              errors: {passwordErrors.filter(e => e !== null).length}
+            </p>
+            <p style={{ margin: '4px 0 0 0', fontSize: '11px', color: '#888' }}>
+              <strong>resetVisualState:</strong> [
+              {fileErrors.map(error => (error ? 'true' : 'null')).join(', ')}]
+              <em>(resets visual state when errors occur)</em>
+            </p>
+            <p style={{ margin: '4px 0 0 0', fontSize: '11px', color: '#888' }}>
+              <strong>Array lengths:</strong> files: {files.length}, errors:{' '}
+              {fileErrors.length}, progress: {percentsUploaded.length},
+              encrypted: {encrypted.length}
+            </p>
+            <p style={{ margin: '4px 0 0 0', fontSize: '11px', color: '#888' }}>
+              <strong>Files with additional data:</strong>{' '}
+              {files.filter(f => f?.additionalData).length} / {files.length}
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );
