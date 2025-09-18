@@ -759,9 +759,6 @@ export const pageHooks = (cy, testOptions) => ({
             toDay: '7',
           },
         };
-        // click on Supporting Evidence accordion
-        // then click Add new provider or hospital button
-        // then fill out form
         cy.findByText(/add another provider or hospital/i).click();
         // verify that the treated disability name checkboxes are visible and clickable
         const ratedDisabilitiesCount = data?.ratedDisabilities.filter(
@@ -863,17 +860,15 @@ export const pageHooks = (cy, testOptions) => ({
             cy.get('va-button[text="Edit"]').click();
             cy.findByText('New Provider or hospital').should('exist');
             cy.get('button[aria-label="Remove Provider or hospital"]').click();
-            // count provider facilities which should be one now
             cy.findByText('New Provider or hospital').should('not.exist');
           });
       }
    
-      // reviewAndSubmitPageFlow();
     });
     afterHook(() => {
-  cy.get('@testData').then(() => {
-    reviewAndSubmitPageFlow(cy);
-  });
-});
+      cy.get('@testData').then(() => {
+        reviewAndSubmitPageFlow(cy);
+      });
+    });
   },
 });

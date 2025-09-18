@@ -79,6 +79,17 @@ class ArrayField extends React.Component {
     }
   }
 
+  /*
+   * Clicking edit on the item in review mode
+   */
+  handleEdit(index, status = true) {
+    this.setState(set(['editing', index], status, this.state), () => {
+      const id = `${this.props.path[this.props.path.length - 1]}_${index}`;
+      this.scrollToRow(id);
+      focusElement(`#table_${id}`);
+    });
+  }
+
   getItemSchema(index) {
     const { schema } = this.props;
     if (schema.items.length > index) {
@@ -123,17 +134,6 @@ class ArrayField extends React.Component {
         },
       );
     }, scrollToTimeout);
-  }
-
-  /*
-   * Clicking edit on the item in review mode
-   */
-  handleEdit(index, status = true) {
-    this.setState(set(['editing', index], status, this.state), () => {
-      const id = `${this.props.path[this.props.path.length - 1]}_${index}`;
-      this.scrollToRow(id);
-      focusElement(`#table_${id}`);
-    });
   }
 
   /*
@@ -480,5 +480,6 @@ ArrayField.propTypes = {
   }),
   formData: PropTypes.object,
   pageTitle: PropTypes.string,
+  setData: PropTypes.func,
   uiSchema: PropTypes.object,
 };
