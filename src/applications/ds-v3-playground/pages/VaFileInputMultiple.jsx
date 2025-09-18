@@ -30,17 +30,29 @@ export default function VaFileInputMultiplePage() {
       return newPercents;
     });
 
-    // Simulate progress updates
-    const updateProgress = async () => {
-      for (let progress = 0; progress <= 100; progress += 20) {
-        // eslint-disable-next-line no-await-in-loop
-        await new Promise(resolve => setTimeout(resolve, 100));
-        setPercentsUploaded(prev => {
-          const newPercents = [...prev];
-          newPercents[index] = progress;
-          return newPercents;
-        });
-      }
+    // Simulate progress updates using recursive setTimeout
+    const updateProgress = () => {
+      return new Promise(resolve => {
+        let currentProgress = 0;
+
+        const incrementProgress = () => {
+          setPercentsUploaded(prev => {
+            const newPercents = [...prev];
+            newPercents[index] = currentProgress;
+            return newPercents;
+          });
+
+          currentProgress += 20;
+
+          if (currentProgress <= 100) {
+            setTimeout(incrementProgress, 100);
+          } else {
+            resolve(); // Resolve promise when progress is complete
+          }
+        };
+
+        incrementProgress();
+      });
     };
     await updateProgress();
 
