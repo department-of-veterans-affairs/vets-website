@@ -32,33 +32,32 @@ export const handleEditPageDisplayTweaks = location => {
     LOCATIONS_TO_HIDE_PROGRESS_BAR_ONLY,
   );
 
-  // Replace Mitchell with Leslie for pattern 7 pages
   const isPattern7 = location.pathname.includes('/7/copy-of-submission/');
   if (isPattern7) {
-    const replaceUserNameWithLeslie = attempt => {
+    const fixDemoIssues = attempt => {
       setTimeout(() => {
-        const userDropdownSpan = document.querySelector('.user-dropdown-email');
-        if (
-          userDropdownSpan &&
-          userDropdownSpan.textContent.trim() !== 'Leslie'
-        ) {
-          const originalName = userDropdownSpan.textContent.trim();
-          userDropdownSpan.textContent = 'Leslie';
-          // eslint-disable-next-line no-console
-          console.log(
-            `Successfully replaced "${originalName}" with "Leslie" in user dropdown`,
-          );
-        } else if (
-          attempt < 50 &&
-          (!userDropdownSpan || userDropdownSpan.textContent.trim() === '')
-        ) {
-          // Keep trying if element doesn't exist or is empty
-          replaceUserNameWithLeslie(attempt + 1);
+        // Fix broken demo image URLs
+        const brokenImages = document.querySelectorAll('img');
+        brokenImages.forEach(img => {
+          if (
+            img.src.includes('va-logo-white.png') &&
+            !img.src.startsWith('https://www.va.gov/')
+          ) {
+            // eslint-disable-next-line no-param-reassign
+            img.src = 'https://www.va.gov/img/homepage/va-logo-white.png';
+            // eslint-disable-next-line no-console
+            console.log('Fixed VA logo image URL');
+          }
+        });
+
+        // Retry if needed for dynamically loaded images
+        if (attempt < 10) {
+          fixDemoIssues(attempt + 1);
         }
-      }, attempt * 100); // Check every 100ms for up to 5 seconds
+      }, attempt * 200);
     };
 
-    replaceUserNameWithLeslie(0);
+    fixDemoIssues(0);
   }
 
   if (shouldRemoveAll) {
