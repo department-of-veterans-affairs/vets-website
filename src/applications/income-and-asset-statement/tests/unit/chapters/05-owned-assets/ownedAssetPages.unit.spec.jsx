@@ -29,6 +29,22 @@ import {
 } from '../pageTests.spec';
 
 describe('ownedAssetPages - list loop', () => {
+  let sandbox;
+
+  beforeEach(() => {
+    // Create a new sandbox for each test
+    sandbox = sinon.createSandbox();
+  });
+
+  afterEach(() => {
+    // Restore all stubs created in this sandbox
+    if (sandbox) {
+      sandbox.restore();
+    }
+    // Clean up sessionStorage
+    sessionStorage.clear();
+  });
+
   describe('isItemIncomplete', () => {
     it('isItemIncomplete function', () => {
       const baseItem = testData.data.ownedAssets[0];
@@ -767,7 +783,7 @@ describe('ownedAssetPages - list loop', () => {
         ownedAssetPages.ownedAssetRecipientNamePage.uiSchema.ownedAssets.items;
 
       it('should display when recipientNameRequired returns true', () => {
-        const recipientNameRequiredStub = sinon
+        const recipientNameRequiredStub = sandbox
           .stub(helpers, 'recipientNameRequired')
           .returns(true);
         const { depends } = ownedAssetPages.ownedAssetRecipientNamePage;
@@ -776,12 +792,10 @@ describe('ownedAssetPages - list loop', () => {
         expect(depends(formData, 0)).to.be.true;
         expect(recipientNameRequiredStub.calledWith(formData, 0, 'ownedAssets'))
           .to.be.true;
-
-        recipientNameRequiredStub.restore();
       });
 
       it('should not display when recipientNameRequired returns false', () => {
-        const recipientNameRequiredStub = sinon
+        const recipientNameRequiredStub = sandbox
           .stub(helpers, 'recipientNameRequired')
           .returns(false);
         const { depends } = ownedAssetPages.ownedAssetRecipientNamePage;
@@ -790,8 +804,6 @@ describe('ownedAssetPages - list loop', () => {
         };
 
         expect(depends(formData, 0)).to.be.false;
-
-        recipientNameRequiredStub.restore();
       });
 
       testNumberOfFieldsByType(
@@ -979,21 +991,30 @@ describe('ownedAssetPages - list loop', () => {
       const uiSchema =
         ownedAssetPages.ownedAssetDocumentUploadPage.uiSchema.ownedAssets.items;
 
-      it('should add an error', () => {
+      it('should add an error when no file is uploaded', () => {
         const validation = uiSchema.uploadedDocuments['ui:validations'][0];
-        const errors = { addError: sinon.spy() };
-        const fieldData = {
-          name: 'File name.png',
-        };
+        const errors = { addError: sandbox.spy() };
+        const fieldData = {};
 
         validation(errors, fieldData);
         expect(errors.addError.called).to.be.true;
       });
 
-      it('should return if there is no confirmation code', () => {
+      it('should NOT add an error when file is uploaded', () => {
         const validation = uiSchema.uploadedDocuments['ui:validations'][0];
-        const errors = { addError: sinon.spy() };
-        const fieldData = { name: 'File name.png', isEncrypted: true };
+        const errors = { addError: sandbox.spy() };
+        const fieldData = {
+          name: 'File name.png',
+        };
+
+        validation(errors, fieldData);
+        expect(errors.addError.called).to.be.false;
+      });
+
+      it('should return early if encrypted file has no confirmation code', () => {
+        const validation = uiSchema.uploadedDocuments['ui:validations'][0];
+        const errors = { addError: sandbox.spy() };
+        const fieldData = { isEncrypted: true };
 
         validation(errors, fieldData);
         expect(errors.addError.called).to.be.false;
@@ -1012,7 +1033,7 @@ describe('ownedAssetPages - list loop', () => {
 
   describe('Helper function integration', () => {
     it('should correctly determine when otherRecipientRelationshipType is required', () => {
-      const otherRequiredStub = sinon.stub(
+      const otherRequiredStub = sandbox.stub(
         helpers,
         'otherRecipientRelationshipExplanationRequired',
       );
@@ -1031,8 +1052,6 @@ describe('ownedAssetPages - list loop', () => {
       expect(mvpIsRequired(formData, index)).to.be.true;
       expect(otherRequiredStub.calledWith(formData, index, 'ownedAssets')).to.be
         .true;
-
-      otherRequiredStub.restore();
     });
   });
 });

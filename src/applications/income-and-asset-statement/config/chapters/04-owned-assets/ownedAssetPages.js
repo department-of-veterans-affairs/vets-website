@@ -94,7 +94,6 @@ export const options = {
       }
       return `Review your ${props.nounPlural}`;
     },
-    // summaryDescription: SupplementaryFormsAlert,
     summaryDescriptionWithoutItems: showUpdatedContent()
       ? SummaryDescription
       : null,
@@ -724,14 +723,15 @@ const ownedAssetDocumentUpload = {
         // skipUpload needed to bypass in local environment
       }),
       'ui:validations': [
+        // Taken from the arrayBuilderPatterns
+        // needed for validation to work correctly
+        // https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/4837
         (errors, fieldData) => {
           if (fieldData?.isEncrypted && !fieldData?.confirmationCode) {
             return;
           }
 
-          const hasValidFile = fieldData?.name && fieldData?.confirmationCode;
-
-          if (!hasValidFile) {
+          if (!fieldData || !fieldData.name) {
             errors.addError('Upload a supporting document');
           }
         },
