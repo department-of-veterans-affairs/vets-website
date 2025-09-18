@@ -109,7 +109,7 @@ class PatientComposePage {
 
   getMessageSubjectField = () => {
     return cy
-      .get(Locators.FIELDS.MESSAGE_SUBJECT)
+      .findByTestId(Locators.FIELDS.MESSAGE_SUBJECT_DATA_TEST_ID)
       .shadow()
       .find(`#inPutField`);
   };
@@ -126,7 +126,7 @@ class PatientComposePage {
   };
 
   enterDataToMessageSubject = (text = this.messageSubjectText) => {
-    cy.get(Locators.FIELDS.MESSAGE_SUBJECT)
+    cy.findByTestId(Locators.FIELDS.MESSAGE_SUBJECT_DATA_TEST_ID)
       .shadow()
       .find(`#inputField`)
       .type(text, { force: true });
@@ -337,7 +337,7 @@ class PatientComposePage {
 
   verifyComposePageValuesRetainedAfterContinueEditing = () => {
     this.verifyRecipientNameText();
-    cy.get(Locators.FIELDS.MESSAGE_SUBJECT)
+    cy.findByTestId(Locators.FIELDS.MESSAGE_SUBJECT_DATA_TEST_ID)
       .invoke(`val`)
       .should(`contain`, this.messageSubjectText);
     cy.get(Locators.FIELDS.MESSAGE_BODY)
