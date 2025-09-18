@@ -72,7 +72,7 @@ jobs:
         continue-on-error: true
         with:
           payload: '{"attachments": [{"color": "#FFA500", "blocks": [{"type": "section","text": {"type": "mrkdwn", "text": "🚫 *Code Freeze Enabled (TEST):* Holiday freeze is active. Deployments are gated."}}]}]}'
-          channel_id:  'C04868KS69L'
+          channel_id:  'C06JM7UUHE3'
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
@@ -166,7 +166,7 @@ jobs:
       continue-on-error: true
       with:
         payload: '{"attachments": [{"color": "#32CD32", "blocks": [{"type": "section","text": {"type": "mrkdwn", "text": "✅ *Code Freeze Ended:* Deployment workflows for `vets-website` and `content-build` have been re-enabled following the holiday period."}}]}]}'
-        channel_id:  'C04868KS69L' #platform-sre-team
+        channel_id:  'C06JM7UUHE3' #platform-sre-team (updated)
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
