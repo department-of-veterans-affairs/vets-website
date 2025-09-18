@@ -268,12 +268,35 @@ endobj
   });
 
   describe('Multiple File Upload', () => {
-    it('should handle multiple file uploads', () => {
-      // TODO: Add test for multiple files
-    });
+    it('should handle FILE_ADDED action when adding files', () => {
+      // First, upload an initial file
+      const initialFileName = 'initial-file.pdf';
+      const initialFileContent = 'initial content';
 
-    it('should maintain proper file order', () => {
-      // TODO: Add test for file ordering
+      cy.get('va-file-input-multiple')
+        .shadow()
+        .find('va-file-input')
+        .first()
+        .shadow()
+        .find(
+          'input[aria-label="Select files to upload. Drag a file here or choose from folder"]',
+        )
+        .selectFile(
+          {
+            contents: Cypress.Buffer.from(initialFileContent),
+            fileName: initialFileName,
+            mimeType: 'application/pdf',
+          },
+          { force: true },
+        );
+
+      // Wait for file to be processed and added to state
+      cy.get('[data-testid="files-state"]', { timeout: 15000 }).should($el => {
+        const processedFiles = JSON.parse($el.text());
+        expect(processedFiles).to.have.length(1);
+        expect(processedFiles[0]).to.have.property('name', initialFileName);
+        expect(processedFiles[0]).to.have.property('status', 'uploaded');
+      });
     });
 
     it('should handle FILE_UPDATED action when replacing files', () => {
@@ -341,6 +364,91 @@ endobj
         );
         expect(hasUpdatedFile).to.be.true;
       });
+    });
+
+    it('should handle PASSWORD_UPDATE action when updating files', () => {
+      // First, upload an encrypted file with proper PDF encryption signature
+      const encryptedFileName = 'encrypted-file.pdf';
+      const encryptedFileContent = `%PDF-1.4
+1 0 obj
+<<
+/Type /Catalog
+/Pages 2 0 R
+/Encrypt 3 0 R
+>>
+endobj
+
+3 0 obj
+<<
+/Filter /Standard
+/V 1
+/R 2
+/O (mock encrypted owner password)
+/U (mock encrypted user password)
+/P -44
+>>
+endobj
+
+%%EOF`;
+
+      cy.get('va-file-input-multiple')
+        .shadow()
+        .find('va-file-input')
+        .first()
+        .shadow()
+        .find(
+          'input[aria-label="Select files to upload. Drag a file here or choose from folder"]',
+        )
+        .selectFile(
+          {
+            contents: Cypress.Buffer.from(encryptedFileContent),
+            fileName: encryptedFileName,
+            mimeType: 'application/pdf',
+          },
+          { force: true },
+        );
+
+      // Wait for encrypted file to be processed
+      cy.get('[data-testid="files-state"]', { timeout: 15000 }).should($el => {
+        const processedFiles = JSON.parse($el.text());
+        expect(processedFiles).to.have.length(1);
+        expect(processedFiles[0]).to.have.property('name', encryptedFileName);
+        expect(processedFiles[0]).to.have.property(
+          'status',
+          'pending_password',
+        );
+        expect(processedFiles[0]).to.have.property('encrypted', true);
+      });
+
+      // Verify password input field is visible in the component
+      cy.get('va-file-input-multiple')
+        .shadow()
+        .find('va-file-input')
+        .shadow()
+        .find('va-text-input')
+        .shadow()
+        .find('input')
+        .should('be.visible');
+
+      // Verify the password field accepts input
+      cy.get('va-file-input-multiple')
+        .shadow()
+        .find('va-file-input')
+        .shadow()
+        .find('va-text-input')
+        .shadow()
+        .find('input')
+        .type('testpassword123');
+
+      // Verify the typed value appears in the field
+      cy.get('va-file-input-multiple')
+        .shadow()
+        .find('va-file-input')
+        .shadow()
+        .find('va-text-input')
+        .shadow()
+        .find('input')
+        .should('have.value', 'testpassword123');
     });
   });
 
