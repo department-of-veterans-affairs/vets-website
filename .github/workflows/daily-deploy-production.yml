@@ -95,7 +95,11 @@ jobs:
           local key=$(echo "$repo" | tr '-' '_')
           local response=$(curl -s -L \
             -H "Accept: application/vnd.github+json" \
+<<<<<<< HEAD
             -H "Authorization: token ${VA_VSP_BOT_GITHUB_TOKEN:-${{ secrets.GITHUB_TOKEN }}}" \
+=======
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+>>>>>>> a0dbce9818 (Split multi-channel Slack into separate COP/SRE steps with 2s delay, and other updates)
             "https://api.github.com/repos/department-of-veterans-affairs/$repo/actions/workflows/daily-production-release.yml")
 
           local state=$(echo "$response" | jq -r '.state')
@@ -119,6 +123,7 @@ jobs:
           http_code=$(curl -s -o /dev/null -w "%{http_code}" -X PATCH \
             -H "Authorization: token ${VA_VSP_BOT_GITHUB_TOKEN:-${{ secrets.GITHUB_TOKEN }}}" \
             -H "Accept: application/vnd.github.v3+json" \
+<<<<<<< HEAD
             https://api.github.com/repos/department-of-veterans-affairs/content-build/actions/workflows/daily-production-release.yml/enable)
           echo "Enable HTTP status: $http_code"
           state=$(curl -s -L \
@@ -131,6 +136,10 @@ jobs:
           else
             echo "reenabled=false" >> $GITHUB_OUTPUT
           fi
+=======
+            https://api.github.com/repos/department-of-veterans-affairs/content-build/actions/workflows/daily-production-release.yml/enable
+          echo "reenabled=true" >> $GITHUB_OUTPUT
+>>>>>>> a0dbce9818 (Split multi-channel Slack into separate COP/SRE steps with 2s delay, and other updates)
   # Freeze Enabled Slack is sent early by freeze-enforcer.yml
 
   notify-freeze-ends:
@@ -144,11 +153,14 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
 
+<<<<<<< HEAD
     - name: Log Freeze Ended Conditions
       run: |
         echo "is_holiday=${{ needs.holiday-checker.outputs.is_holiday }}"
         echo "reenabled=${{ needs.main-deployment.outputs.reenabled }}"
 
+=======
+>>>>>>> a0dbce9818 (Split multi-channel Slack into separate COP/SRE steps with 2s delay, and other updates)
     - name: Notify Slack (COP) - Code Freeze Ended
       uses: ./.github/workflows/slack-notify
       continue-on-error: false
