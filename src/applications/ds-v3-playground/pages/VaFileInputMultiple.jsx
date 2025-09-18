@@ -1,6 +1,9 @@
 /* eslint-disable no-console */
-import React, { useState, useMemo, useCallback } from 'react';
-import { VaFileInputMultiple } from '@department-of-veterans-affairs/web-components/react-bindings';
+import React, { useState, useMemo, useCallback, useRef } from 'react';
+import {
+  VaFileInputMultiple,
+  VaSelect,
+} from '@department-of-veterans-affairs/web-components/react-bindings';
 import { standardFileChecks } from 'platform/forms-system/src/js/utilities/file';
 import { debounce } from 'lodash';
 
@@ -8,6 +11,8 @@ import { debounce } from 'lodash';
 const DEBOUNCE_WAIT = 1000;
 
 export default function VaFileInputMultiplePage() {
+  const componentRef = useRef(null);
+
   const [files, setFiles] = useState([]); // This could be Redux in a real app
   const [percentsUploaded, setPercentsUploaded] = useState([]); // Progress array for component
   const [encrypted, setEncrypted] = useState([]); // Track which files are encrypted
@@ -363,6 +368,55 @@ export default function VaFileInputMultiplePage() {
     console.error('Component error:', error);
   };
 
+  // Get the va-file-input instances (matching forms library pattern)
+  function getFileInputInstanceIndex(e) {
+    const [vaFileInput] = e
+      .composedPath()
+      .filter(el => el.tagName === 'VA-FILE-INPUT');
+
+    let els = [];
+    if (componentRef.current?.shadowRoot) {
+      els = Array.from(
+        componentRef.current.shadowRoot.querySelectorAll('va-file-input'),
+      );
+    }
+    return els.findIndex(el => el.id === vaFileInput.id);
+  }
+
+  // Handle additional input (document status selection)
+  const handleAdditionalInput = event => {
+    const { detail } = event;
+    const { value } = detail;
+
+    if (value === '') return;
+
+    // Use the forms library approach to get the correct file index
+    const fileIndex = getFileInputInstanceIndex(event);
+
+    console.log(`📋 Additional input for file ${fileIndex}:`, {
+      value,
+      fileName: files[fileIndex]?.name,
+      totalFiles: files.length,
+    });
+
+    if (fileIndex >= 0 && files[fileIndex]) {
+      setFiles(prevFiles => {
+        const newFiles = [...prevFiles];
+        newFiles[fileIndex] = {
+          ...newFiles[fileIndex],
+          additionalData: {
+            documentStatus: value,
+          },
+        };
+        return newFiles;
+      });
+
+      console.log(`✅ Updated file ${fileIndex} with documentStatus: ${value}`);
+    } else {
+      console.warn(`❌ Could not find file at index ${fileIndex}`);
+    }
+  };
+
   // Handle multiple file change events
   const handleMultipleChange = event => {
     const { detail } = event;
@@ -436,6 +490,7 @@ export default function VaFileInputMultiplePage() {
   return (
     <div>
       <VaFileInputMultiple
+        ref={componentRef}
         accept=".pdf,.jpeg,.png"
         percentUploaded={percentsUploaded}
         encrypted={encrypted}
@@ -444,16 +499,17 @@ export default function VaFileInputMultiplePage() {
         resetVisualState={fileErrors.map(error => (error ? true : null))}
         onVaMultipleChange={handleMultipleChange}
         onVaFileInputError={handleComponentError}
+        onVaSelect={handleAdditionalInput}
         hint="Upload PDF, JPEG, or PNG files. Encrypted PDFs will require a password."
         label="Select files to upload"
       >
-        {/* <div className="additional-input-container">
+        <div className="additional-input-container">
           <VaSelect required label="Document status">
             <option value="">Select status</option>
             <option value="public">Public</option>
             <option value="private">Private</option>
           </VaSelect>
-        </div> */}
+        </div>
       </VaFileInputMultiple>
 
       <hr />
@@ -512,6 +568,11 @@ export default function VaFileInputMultiplePage() {
           <strong>resetVisualState</strong> automatically triggers when errors
           occur, providing clean visual feedback for error recovery.
         </p>
+        <p style={{ margin: '8px 0 0 0', fontSize: '12px', color: '#0066cc' }}>
+          <strong>📋 Additional Input:</strong> Each uploaded file requires a
+          document status selection. The status is stored in{' '}
+          <code>file.additionalData.documentStatus</code>.
+        </p>
       </div>
 
       <div>
@@ -545,6 +606,10 @@ export default function VaFileInputMultiplePage() {
           <strong>Array lengths:</strong> files: {files.length}, errors:{' '}
           {fileErrors.length}, progress: {percentsUploaded.length}, encrypted:{' '}
           {encrypted.length}
+        </p>
+        <p style={{ margin: '4px 0 0 0', fontSize: '11px', color: '#888' }}>
+          <strong>Files with additional data:</strong>{' '}
+          {files.filter(f => f?.additionalData).length} / {files.length}
         </p>
       </div>
     </div>
