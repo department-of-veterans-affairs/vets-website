@@ -21,7 +21,14 @@ const ServiceBranch = ({
   const shortName = SHORT_NAME_MAP.SERVICE_BRANCH;
   const H1 = QUESTION_MAP[shortName];
   const serviceBranch = formResponses[shortName];
-  const { ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS } = RESPONSES;
+  const {
+    ARMY,
+    NAVY,
+    AIR_FORCE,
+    COAST_GUARD,
+    MARINE_CORPS,
+    SPACE_FORCE,
+  } = RESPONSES;
 
   useEffect(
     () => {
@@ -45,7 +52,14 @@ const ServiceBranch = ({
       formResponses={formResponses}
       formValue={serviceBranch}
       H1={H1}
-      responses={[ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS]}
+      responses={[
+        ARMY,
+        NAVY,
+        AIR_FORCE,
+        COAST_GUARD,
+        MARINE_CORPS,
+        SPACE_FORCE,
+      ]}
       router={router}
       setFormError={setFormError}
       shortName={shortName}
