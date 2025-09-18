@@ -53,15 +53,15 @@ const RefillNotification = ({
 
   const notificationState = useMemo(
     () => {
+      const isFinished = refillStatus === 'finished';
+      const hasSuccessfulMeds = successfulMeds.length > 0;
+      const hasFailedMeds = failedMeds.length > 0;
+
       return {
-        isNotSubmitted:
-          refillStatus === 'finished' &&
-          successfulMeds?.length === 0 &&
-          failedMeds?.length === 0,
-        isError: failedMeds?.length > 0 && successfulMeds?.length === 0,
-        isPartiallySubmitted:
-          failedMeds?.length > 0 && successfulMeds?.length > 0,
-        isSuccess: successfulMeds?.length > 0,
+        isNotSubmitted: isFinished && !hasSuccessfulMeds && !hasFailedMeds,
+        isError: hasFailedMeds && !hasSuccessfulMeds,
+        isPartiallySubmitted: hasFailedMeds && hasSuccessfulMeds,
+        isSuccess: hasSuccessfulMeds,
       };
     },
     [refillStatus, successfulMeds, failedMeds],
@@ -69,7 +69,7 @@ const RefillNotification = ({
 
   return (
     <>
-      {notificationState.isError && (
+      {(notificationState.isError || notificationState.isNotSubmitted) && (
         <RefillCard config={NOTIFICATION_CONFIG.ERROR}>
           <p data-testid="error-request-text">
             {NOTIFICATION_CONFIG.ERROR.description}
