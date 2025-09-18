@@ -484,15 +484,26 @@ export const useHeadingLevels = (userHeaderLevel, isReviewPage) => {
 /**
  * Resolves `maxItems` to a numeric value.
  *
- * If `maxItems` is a function, it is called with `formData` and the returned
- * number is used. If it is a number, that value is returned as-is.
+ * - If `maxItems` is a function, it is called with `formData` and the returned
+ *   value is validated as a number.
+ * - If `maxItems` is a number, it is validated as finite and returned.
+ * - If `maxItems` is a string, it is trimmed, parsed into a number, and validated.
  *
- * @param {number | ((formData: object) => number)} maxItems
- *   A static limit or a resolver that derives the limit from `formData`.
+ * @param {number | string | ((formData: object) => number | string)} maxItems
+ *   A static limit, string value, or resolver function.
  * @param {object} formData
  *   Data passed to the resolver when `maxItems` is a function.
- * @returns {number}
- *   The resolved maximum item count.
+ * @returns {number | undefined}
+ *   The resolved maximum item count, or `undefined` if invalid or an error occurs.
  */
-export const maxItemsFn = (maxItems, formData = {}) =>
-  typeof maxItems === 'function' ? maxItems(formData) : maxItems;
+export const maxItemsFn = (maxItems, formData = {}) => {
+  try {
+    const raw = typeof maxItems === 'function' ? maxItems(formData) : maxItems;
+    const value = typeof raw === 'string' ? Number(raw.trim()) : raw;
+    return typeof value === 'number' && Number.isFinite(value)
+      ? value
+      : undefined;
+  } catch {
+    return undefined;
+  }
+};
