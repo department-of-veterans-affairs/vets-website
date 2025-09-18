@@ -21,7 +21,7 @@ function Title() {
   const formData = useSelector(getFormData);
 
   if (FLOW_TYPES.REQUEST === flowType) {
-    if (FACILITY_TYPES.COMMUNITY_CARE === formData.facilityType) {
+    if (FACILITY_TYPES.COMMUNITY_CARE.id === formData.facilityType) {
       return 'Request community care';
     }
 

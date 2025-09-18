@@ -213,6 +213,7 @@ export const RouteLeavingGuard = ({
             text={cancelButtonText}
             onClick={handleCancelNavigationClick} // need to pass a func to save draft
             data-dd-action-name={cancelButtonDDActionName}
+            data-testid="route-guard-primary-button"
           />
           <va-button
             class="vads-u-margin-top--1 vads-u-flex--auto"
@@ -220,6 +221,7 @@ export const RouteLeavingGuard = ({
             text={confirmButtonText}
             onClick={handleConfirmNavigationClick}
             data-dd-action-name={confirmButtonDDActionName}
+            data-testid="route-guard-secondary-button"
           />
         </div>
       </VaModal>
