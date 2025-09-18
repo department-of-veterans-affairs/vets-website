@@ -90,6 +90,7 @@ export const healthInsuranceOptions = {
   required: false,
   isItemIncomplete: item =>
     !(item.provider && item.insuranceType && item.effectiveDate),
+  maxItems: formData => formData?.applicants?.length,
   text: {
     summaryTitle: 'Report other health insurance',
     summaryTitleWithoutItems: 'Report other health insurance',

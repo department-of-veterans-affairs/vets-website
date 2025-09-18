@@ -84,6 +84,7 @@ export const medicareOptions = {
   required: false,
   // TODO: add proper checks
   isItemIncomplete: () => false,
+  maxItems: formData => formData?.applicants?.length,
   text: {
     getItemName: item => generateParticipantName(item),
     cardDescription: item => (
@@ -745,7 +746,7 @@ export function getEligibleApplicantsWithoutMedicare(formData) {
 }
 
 export const missingMedicarePage = {
-  path: 'medicare-information/status',
+  path: 'medicare-status',
   title: 'Medicare status',
   depends: (formData, index) => {
     const excluded = getEligibleApplicantsWithoutMedicare(formData);
@@ -760,7 +761,7 @@ export const missingMedicarePage = {
   // always attempt to navigate back inside the medicare array rather
   // than to the summary page, so manually overriding it here.
   onNavBack: ({ goPath }) => {
-    goPath('/medicare-information/summary');
+    goPath('/review-medicare-plans');
   },
   uiSchema: {
     ...titleUI('Medicare status'),
@@ -814,7 +815,7 @@ export const missingMedicarePage = {
 };
 
 export const proofOfIneligibilityUploadPage = {
-  path: 'medicare-information/proof-of-ineligibility',
+  path: 'medicare-proof-of-ineligibility',
   title: 'Proof of Medicare ineligibility',
   depends: formData => formData?.hasProofMultipleApplicants,
   uiSchema: {
@@ -858,8 +859,8 @@ export const medicarePages = arrayBuilderPages(
   medicareOptions,
   pageBuilder => ({
     medicareSummary: pageBuilder.summaryPage({
-      path: 'review-your-medicare-plans',
-      title: 'Review your Medicare plans',
+      path: 'review-medicare-plans',
+      title: 'Review Medicare plans',
       uiSchema: medicareSummaryPage.uiSchema,
       schema: medicareSummaryPage.schema,
     }),
@@ -867,13 +868,8 @@ export const medicarePages = arrayBuilderPages(
       path: 'medicare-participants/:index',
       title: 'Select Medicare participants',
       ...selectMedicareParticipantPage,
-      CustomPage: props =>
-        SelectMedicareParticipantPage({
-          ...props,
-          // resolve prop warning that the index is a string rather than a number:
-          pagePerItemIndex: +props.pagePerItemIndex,
-        }),
-      CustomPageReview: () => <></>,
+      CustomPage: SelectMedicareParticipantPage,
+      CustomPageReview: null,
     }),
     medicareTypeOver65: pageBuilder.itemPage({
       path: 'medicare-over-65-plan-type/:index',
