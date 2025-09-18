@@ -239,15 +239,7 @@ class PilotEnvPage {
   };
 
   selectTriageGroup = (index = 0) => {
-    // Ensure recipients have loaded if an alias exists (avoid arbitrary waiting)
-    cy.then(() => {
-      const aliases = Cypress.state('aliases') || {};
-      if (aliases.Recipients) {
-        cy.wait('@Recipients');
-      } else if (aliases.recipients) {
-        cy.wait('@recipients');
-      }
-    });
+    // Skip alias waits here to avoid second-wait timeouts when this helper is invoked multiple times in a flow
 
     // Open the combo box (supports both new (#options--list) and legacy (#options) containers)
     cy.get('va-combo-box')

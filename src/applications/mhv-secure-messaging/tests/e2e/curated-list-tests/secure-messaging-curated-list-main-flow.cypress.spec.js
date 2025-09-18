@@ -19,6 +19,14 @@ describe('SM CURATED LIST MAIN FLOW', () => {
     PilotEnvPage.navigateToSelectCareTeamPage();
   });
 
+  // Helper to wait for recipients only if the alias exists (avoids duplicate / second waits)
+  const waitForRecipients = () => {
+    const aliases = Cypress.state('aliases') || {};
+    if (aliases.Recipients) {
+      cy.wait('@Recipients', { timeout: 5000 });
+    }
+  };
+
   it('verify select care team page', () => {
     GeneralFunctionsPage.verifyPageHeader(`Select care team`);
 
@@ -30,15 +38,9 @@ describe('SM CURATED LIST MAIN FLOW', () => {
   it('verify navigating to compose page', () => {
     PilotEnvPage.selectCareSystem(0);
 
-    // wait for whichever recipients alias exists (pilot or standard) then select
-    cy.then(() => {
-      const aliases = Cypress.state('aliases') || {};
-      if (aliases.Recipients) {
-        cy.wait('@Recipients');
-      } else if (aliases.recipients) {
-        cy.wait('@recipients');
-      }
-    });
+    // Wait for recipients (if alias present)
+    waitForRecipients();
+
     PilotEnvPage.selectTriageGroup(2);
 
     // this is for intercepting repeatedly calling api request for sent threads
@@ -60,15 +62,9 @@ describe('SM CURATED LIST MAIN FLOW', () => {
   it('verify user can send a message', () => {
     PilotEnvPage.selectCareSystem(0);
 
-    // wait for whichever recipients alias exists (pilot or standard) then select
-    cy.then(() => {
-      const aliases = Cypress.state('aliases') || {};
-      if (aliases.Recipients) {
-        cy.wait('@Recipients');
-      } else if (aliases.recipients) {
-        cy.wait('@recipients');
-      }
-    });
+    // Wait for recipients (if alias present)
+    waitForRecipients();
+
     PilotEnvPage.selectTriageGroup(2);
 
     // this is for intercepting repeatedly calling api request for sent threads

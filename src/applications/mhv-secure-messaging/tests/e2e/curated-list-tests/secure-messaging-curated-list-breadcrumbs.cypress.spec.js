@@ -20,6 +20,14 @@ describe('SM CURATED LIST BREADCRUMBS', () => {
     PilotEnvPage.loadInboxMessages();
   });
 
+  // Helper: wait for recipients only if the alias exists (avoid second wait timeout)
+  const waitForRecipients = () => {
+    const aliases = Cypress.state('aliases') || {};
+    if (aliases.Recipients) {
+      cy.wait('@Recipients', { timeout: 5000 });
+    }
+  };
+
   it('can navigate back through the curated list flow', () => {
     // Navigate to the start of the flow
     PilotEnvPage.navigateToSelectCareTeamPage();
@@ -28,14 +36,7 @@ describe('SM CURATED LIST BREADCRUMBS', () => {
 
     // Navigate to the compose page
     PilotEnvPage.selectCareSystem(0);
-    cy.then(() => {
-      const aliases = Cypress.state('aliases') || {};
-      if (aliases.Recipients) {
-        cy.wait('@Recipients');
-      } else if (aliases.recipients) {
-        cy.wait('@recipients');
-      }
-    });
+    waitForRecipients();
     PilotEnvPage.selectTriageGroup(2);
 
     // Intercept sent threads to stabilize compose load
