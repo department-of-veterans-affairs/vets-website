@@ -230,4 +230,62 @@ describe('RecipientsSelect', () => {
     expect(options[0].textContent).to.equal('Recipient 1');
     expect(options[1].textContent).to.equal('Recipient 2');
   });
+  it('renders recent recipients optgroup first when curated list & opt groups enabled', async () => {
+    const customState = {
+      ...initialState,
+      sm: {
+        recipients: {
+          recentRecipients: [
+            {
+              triageTeamId: 2,
+              name: 'Recipient 2',
+              stationNumber: '402',
+            },
+            {
+              triageTeamId: 1,
+              name: 'Recipient 1',
+              stationNumber: '552',
+            },
+          ],
+        },
+      },
+      featureToggles: {
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow]: true,
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingRecipientOptGroups]: true,
+      },
+    };
+    const screen = setup({ state: customState });
+    const comboBox = screen.getByTestId('compose-recipient-combobox');
+    expect(comboBox).to.exist;
+
+    // recent group + 2 facility groups
+    const optgroups = comboBox.querySelectorAll('optgroup');
+    expect(optgroups.length).to.equal(3);
+    expect(optgroups[0].getAttribute('label')).to.equal('Recent care teams');
+    expect(optgroups[0].querySelectorAll('option').length).to.equal(2);
+    expect(optgroups[0].querySelectorAll('option')[0].textContent).to.equal(
+      'Recipient 2',
+    );
+  });
+
+  it('does not render recent recipients optgroup when list is empty', async () => {
+    const customState = {
+      ...initialState,
+      sm: {
+        recipients: {
+          recentRecipients: [],
+        },
+      },
+      featureToggles: {
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow]: true,
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingRecipientOptGroups]: true,
+      },
+    };
+    const screen = setup({ state: customState });
+    const comboBox = screen.getByTestId('compose-recipient-combobox');
+    expect(comboBox).to.exist;
+    const optgroups = comboBox.querySelectorAll('optgroup');
+    expect(optgroups.length).to.equal(2);
+    expect(optgroups[0].getAttribute('label')).to.equal('VA Facility 402');
+  });
 });

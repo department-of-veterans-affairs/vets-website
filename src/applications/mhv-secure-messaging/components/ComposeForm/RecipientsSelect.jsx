@@ -2,9 +2,9 @@
  * Renders a select dropdown for selecting recipients in the compose form.
  *  - Recipients are grouped by VAMC system name.
  *  - Recipients are sorted alphabetically by VAMC system name and then by name.
- *  - If a recipient requires a signature or switching from a recipient that does not 
+ *  - If a recipient requires a signature or switching from a recipient that does not
  *    require a signature to one that does, an alert is displayed notifying that signature is required.
- *  - If switching from a recipient that requires a signature to one that does not, 
+ *  - If switching from a recipient that requires a signature to one that does not,
  *    the alert is displayed notifying that signature is no longer required.
  *  - If switching from a recipient that does not require a signature to another that does not,
  *    the alert is not displayed.
@@ -79,6 +79,9 @@ const RecipientsSelect = ({
       state.featureToggles[
         FEATURE_FLAG_NAMES.mhvSecureMessagingRecipientOptGroups
       ],
+  );
+  const recentRecipients = useSelector(
+    state => state.sm.recipients.recentRecipients,
   );
 
   const handleSetCheckboxMarked = useCallback(
@@ -191,7 +194,7 @@ const RecipientsSelect = ({
 
   const optionsValues = useMemo(
     () => {
-      if (!optGroupEnabled || mhvSecureMessagingCuratedListFlow) {
+      if (!optGroupEnabled || !mhvSecureMessagingCuratedListFlow) {
         return sortRecipients(recipientsList)?.map(item => (
           <option key={item.id} value={item.id}>
             {item.suggestedNameDisplay || item.name}
@@ -202,6 +205,19 @@ const RecipientsSelect = ({
       let currentVamcSystemName = null;
       const options = [];
       let groupedOptions = [];
+
+      // Insert Recent care teams group first (if available)
+      if (Array.isArray(recentRecipients) && recentRecipients.length > 0) {
+        options.push(
+          <optgroup key="recent-care-teams" label="Recent care teams">
+            {recentRecipients.map(r => (
+              <option key={r.triageTeamId} value={r.triageTeamId}>
+                {r.name}
+              </option>
+            ))}
+          </optgroup>,
+        );
+      }
 
       recipientsListSorted.forEach(item => {
         if (item.vamcSystemName === undefined) {
@@ -242,7 +258,13 @@ const RecipientsSelect = ({
 
       return options;
     },
-    [recipientsListSorted, optGroupEnabled, recipientsList],
+    [
+      recipientsListSorted,
+      optGroupEnabled,
+      recipientsList,
+      recentRecipients,
+      mhvSecureMessagingCuratedListFlow,
+    ],
   );
 
   return (
