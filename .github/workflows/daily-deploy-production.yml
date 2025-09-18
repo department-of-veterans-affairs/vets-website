@@ -63,7 +63,7 @@ jobs:
         continue-on-error: false
         with:
           payload: '{"attachments": [{"color": "#FFA500", "blocks": [{"type": "section","text": {"type": "mrkdwn", "text": "🚫 *Code Freeze Enabled (TEST):* Holiday freeze is active. Deployments are gated."}}]}]}'
-          channel_id:  'C045LCF8WU8'
+          channel_id:  'C04868KS69L'
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
@@ -160,7 +160,7 @@ jobs:
       continue-on-error: false
       with:
         payload: '{"attachments": [{"color": "#32CD32", "blocks": [{"type": "section","text": {"type": "mrkdwn", "text": "✅ *Code Freeze Ended:* Deployment workflows for `vets-website` and `content-build` have been re-enabled following the holiday period."}}]}]}'
-        channel_id:  'C045LCF8WU8' #Frontend COP
+        channel_id:  'C04868KS69L' #Frontend COP
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
@@ -188,7 +188,7 @@ jobs:
         continue-on-error: true
         with:
           payload: '{"attachments": [{"color": "#0000FF", "blocks": [{"type": "section", "text": {"type": "mrkdwn", "text": "ℹ️ *Deploy Freeze Bypassed:* Emergency bypass activated. Deployment workflows for `vets-website` and `content-build` have been force enabled."}}]}]}'
-          channel_id: 'C045LCF8WU8, C04868KS69L'
+          channel_id: 'C04868KS69L, C06JM7UUHE3'
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       
@@ -206,7 +206,7 @@ jobs:
       continue-on-error: true
       with:
         payload: '{"attachments": [{"color": "#FF0000", "blocks": [{"type": "section","text": {"type": "mrkdwn","text": "<!here> *Code Freeze Operation Failed:* Unable to toggle deploy workflows for `vets-website` and `content-build`. Please investigate the issue immediately: <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id}} |View Run Details>."}}]}]}'
-        channel_id:  'C045LCF8WU8, C04868KS69L' #Frontend COP & platform-sre-team
+        channel_id:  'C04868KS69L, C06JM7UUHE3' #Frontend COP & platform-sre-team
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 

@@ -20,7 +20,7 @@ jobs:
         continue-on-error: true
         with:
           payload: '{"attachments": [{"color": "#FFA500", "blocks": [{"type": "section","text": {"type": "mrkdwn", "text": "🚫 *Code Freeze Enabled (TEST):* Holiday freeze is active. Deployments are gated."}}]}]}'
-          channel_id: 'C045LCF8WU8, C04868KS69L'
+          channel_id: 'C04868KS69L, C06JM7UUHE3'
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
