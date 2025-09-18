@@ -121,7 +121,7 @@ export const sippableId = str =>
  * @param {object} cy
  * @param {object} testOptions - object with optional prefill data or toggles
  */
-export const setup = (testOptions = {}) => {
+export const setup = (cy, testOptions = {}) => {
   window.sessionStorage.setItem(SHOW_8940_4192, 'true');
   window.sessionStorage.removeItem(WIZARD_STATUS);
   window.sessionStorage.removeItem(FORM_STATUS_BDD);
@@ -265,7 +265,7 @@ export const reviewAndSubmitPageFlow = (
   }).click();
 };
 
-export const pageHooks = testOptions => ({
+export const pageHooks = (cy, testOptions) => ({
   start: () => {
     // skip wizard
     cy.findByText(/apply now/i).click();
