@@ -74,6 +74,7 @@ export const ConfirmationPage = props => {
           }}
         />
       </va-summary-box>
+      <ConfirmationView.ChapterSectionCollection />
       <ConfirmationView.WhatsNextProcessList item1Content={step1Content} />
       <ConfirmationView.HowToContact />
       <p>

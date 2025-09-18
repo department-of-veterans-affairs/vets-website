@@ -55,7 +55,7 @@ class VitalsDetailsPage extends BaseDetailsPage {
 
   clickBloodPressureLink = (bloodPressure = 0) => {
     // Click Vitals Page Blood Pressure Link
-    cy.get('[data-testid="record-list-item"]')
+    cy.findAllByTestId('record-list-item')
       .find('a')
       .eq(bloodPressure)
       .click();
@@ -63,7 +63,7 @@ class VitalsDetailsPage extends BaseDetailsPage {
 
   clickHeartRateLink = (HeartRate = 1) => {
     // Click Vitals Page Heart Rate Link
-    cy.get('[data-testid="record-list-item"]')
+    cy.findAllByTestId('record-list-item')
       .find('a')
       .eq(HeartRate)
       .click();
@@ -71,7 +71,7 @@ class VitalsDetailsPage extends BaseDetailsPage {
 
   clickWeightLink = (Weight = 2) => {
     // Click Vitals Page Weight Link
-    cy.get('[data-testid="record-list-item"]')
+    cy.findAllByTestId('record-list-item')
       .find('a')
       .eq(Weight)
       .click();
@@ -79,7 +79,7 @@ class VitalsDetailsPage extends BaseDetailsPage {
 
   clickPainLink = (Pain = 3) => {
     // Click Vitals Page Blood Pressure Link
-    cy.get('[data-testid="record-list-item"]')
+    cy.findAllByTestId('record-list-item')
       .find('a')
       .eq(Pain)
       .click();

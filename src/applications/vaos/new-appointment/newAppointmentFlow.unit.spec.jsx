@@ -354,7 +354,7 @@ describe('VAOS newAppointmentFlow', () => {
         const state = {
           newAppointment: {
             data: {
-              facilityType: FACILITY_TYPES.COMMUNITY_CARE,
+              facilityType: FACILITY_TYPES.COMMUNITY_CARE.id,
               typeOfCareId: TYPE_OF_CARE_IDS.AUDIOLOGY_ID,
             },
           },
@@ -370,7 +370,7 @@ describe('VAOS newAppointmentFlow', () => {
         const state = {
           newAppointment: {
             data: {
-              facilityType: FACILITY_TYPES.COMMUNITY_CARE,
+              facilityType: FACILITY_TYPES.COMMUNITY_CARE.id,
               typeOfCareId: '320',
             },
           },
@@ -584,7 +584,7 @@ describe('VAOS newAppointmentFlow', () => {
         const state = {
           newAppointment: {
             data: {
-              facilityType: FACILITY_TYPES.VAMC,
+              facilityType: FACILITY_TYPES.VAMC.id,
             },
           },
         };
@@ -682,7 +682,7 @@ describe('VAOS newAppointmentFlow', () => {
         const state = {
           newAppointment: {
             data: {
-              facilityType: FACILITY_TYPES.VAMC,
+              facilityType: FACILITY_TYPES.VAMC.id,
             },
           },
         };
@@ -697,7 +697,7 @@ describe('VAOS newAppointmentFlow', () => {
         const state = {
           newAppointment: {
             data: {
-              facilityType: FACILITY_TYPES.COMMUNITY_CARE,
+              facilityType: FACILITY_TYPES.COMMUNITY_CARE.id,
             },
           },
         };

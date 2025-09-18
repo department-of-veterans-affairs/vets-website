@@ -720,7 +720,7 @@ export default function formReducer(state = initialState, action) {
       const formData = state.data;
       let additionalInfoTitle = REASON_ADDITIONAL_INFO_TITLES.ccRequest;
 
-      if (formData.facilityType !== FACILITY_TYPES.COMMUNITY_CARE) {
+      if (formData.facilityType !== FACILITY_TYPES.COMMUNITY_CARE.id) {
         additionalInfoTitle = REASON_ADDITIONAL_INFO_TITLES.va;
       } else {
         delete formData.reasonForAppointment;

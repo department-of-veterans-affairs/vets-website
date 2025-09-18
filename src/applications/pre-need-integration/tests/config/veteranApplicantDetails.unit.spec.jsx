@@ -22,7 +22,7 @@ describe('Pre-need applicant veteran applicant details', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(7);
+    expect(form.find('input').length).to.equal(5);
 
     // expect(form.find('select').length).to.equal(1);
     expect(form.find('VaMemorableDate').length).to.equal(1);
@@ -44,7 +44,7 @@ describe('Pre-need applicant veteran applicant details', () => {
 
     await waitFor(() => {
       const errorElements = container.querySelectorAll('.usa-input-error');
-      expect(errorElements.length).to.equal(5);
+      expect(errorElements.length).to.equal(3);
       expect(onSubmit.called).to.be.false;
     });
   });

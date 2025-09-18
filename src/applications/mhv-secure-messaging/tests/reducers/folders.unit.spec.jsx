@@ -46,15 +46,11 @@ describe('folders reducer', () => {
   });
 
   it('should clear folder reducer value', async () => {
-    const initialState = {
-      folder: undefined,
-      folderList: undefined,
-    };
     const store = mockStore();
     await store.dispatch(clearFolder());
     expect(store.getState()).to.deep.equal({
       featureToggles: {},
-      folder: initialState,
+      folder: {},
     });
   });
 

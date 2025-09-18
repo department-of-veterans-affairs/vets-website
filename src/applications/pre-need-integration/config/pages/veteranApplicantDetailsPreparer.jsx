@@ -7,14 +7,9 @@ import {
   nonPreparerFullMaidenNameUI,
   nonPreparerDateOfBirthUI,
   ssnDashesUI,
-  applicantDetailsCityTitle,
-  applicantDetailsStateTitle,
 } from '../../utils/helpers';
 
-const {
-  claimant,
-  veteran,
-} = fullSchemaPreNeed.properties.application.properties;
+const { claimant } = fullSchemaPreNeed.properties.application.properties;
 
 export function uiSchema(
   subHeader = veteranApplicantDetailsSubHeader,
@@ -22,8 +17,6 @@ export function uiSchema(
   nameUI = nonPreparerFullMaidenNameUI,
   ssnUI = ssnDashesUI,
   dateOfBirthUI = nonPreparerDateOfBirthUI,
-  cityTitle = applicantDetailsCityTitle,
-  stateTitle = applicantDetailsStateTitle,
 ) {
   return {
     application: {
@@ -38,14 +31,6 @@ export function uiSchema(
         name: nameUI,
         ssn: ssnUI,
         dateOfBirth: dateOfBirthUI,
-      },
-      veteran: {
-        cityOfBirth: {
-          'ui:title': cityTitle,
-        },
-        stateOfBirth: {
-          'ui:title': stateTitle,
-        },
       },
     },
   };
@@ -69,13 +54,6 @@ export const schema = {
               },
             },
             pick(claimant.properties, ['name', 'ssn', 'dateOfBirth']),
-          ),
-        },
-        veteran: {
-          type: 'object',
-          properties: merge(
-            {},
-            pick(veteran.properties, ['cityOfBirth', 'stateOfBirth']),
           ),
         },
       },

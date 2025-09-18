@@ -53,7 +53,7 @@ describe('VAOS Page: ReviewPage CC request with VAOS service', () => {
     newAppointment: {
       pages: {},
       data: {
-        facilityType: FACILITY_TYPES.COMMUNITY_CARE,
+        facilityType: FACILITY_TYPES.COMMUNITY_CARE.id,
         typeOfCareId: TYPE_OF_CARE_IDS.PRIMARY_CARE,
         phoneNumber: '1234567890',
         email: 'joeblow@gmail.com',

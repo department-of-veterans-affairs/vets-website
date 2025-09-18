@@ -19,10 +19,10 @@ class AllergyDetailsPage extends BaseDetailsPage {
       `/my_health/v1/medical_records/allergies/${allergyId}`,
       allergyDetails,
     ).as('allergyDetails');
-    cy.get('[data-testid="record-list-item"]')
+    cy.findAllByTestId('record-list-item')
       .contains(allergyTitle)
       .should('be.visible');
-    cy.get('[data-testid="record-list-item"]')
+    cy.findAllByTestId('record-list-item')
       .contains(allergyTitle)
       .click();
   };

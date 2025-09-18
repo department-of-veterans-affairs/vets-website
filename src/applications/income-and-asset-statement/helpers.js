@@ -99,10 +99,6 @@ export const otherTransferMethodExplanationRequired = (form, index) =>
 export const recipientNameRequired = (form, index, arrayKey) =>
   get([arrayKey, index, 'recipientRelationship'], form) !== 'VETERAN';
 
-// updated version of above function
-// needed a separate function and not just a showUpdatedContent check because
-// these functions are reused across the app and i'm unsure that the same
-// functionality is needed everywhere
 export const updatedRecipientNameRequired = (form, index, arrayKey) => {
   if (!showUpdatedContent()) {
     return recipientNameRequired(form, index, arrayKey);
@@ -112,7 +108,10 @@ export const updatedRecipientNameRequired = (form, index, arrayKey) => {
     form,
   );
   return (
-    recipientRelationship !== 'VETERAN' && recipientRelationship !== 'SPOUSE'
+    recipientRelationship === 'CHILD' ||
+    recipientRelationship === 'PARENT' ||
+    recipientRelationship === 'CUSTODIAN' ||
+    recipientRelationship === 'OTHER'
   );
 };
 
@@ -126,10 +125,6 @@ export const isRecipientInfoIncomplete = item =>
   (!isDefined(item?.otherRecipientRelationshipType) &&
     item?.recipientRelationship === 'OTHER');
 
-// updated version of above function
-// needed a separate function and not just a showUpdatedContent check because
-// these functions are reused across the app and i'm unsure that the same
-// functionality is needed everywhere
 export const updatedIsRecipientInfoIncomplete = item => {
   if (!showUpdatedContent()) {
     return isRecipientInfoIncomplete(item);
@@ -167,6 +162,7 @@ export function otherRecipientRelationshipTypeUI(arrayKey) {
     'ui:options': {
       expandUnder: 'recipientRelationship',
       expandUnderCondition: 'OTHER',
+      expandedContentFocus: true,
     },
     'ui:required': (formData, index) =>
       otherRecipientRelationshipExplanationRequired(formData, index, arrayKey),

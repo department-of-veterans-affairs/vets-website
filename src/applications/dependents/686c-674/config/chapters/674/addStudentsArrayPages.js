@@ -69,8 +69,8 @@ export const addStudentsOptions = {
     !item?.schoolInformation?.currentTermDates?.expectedGraduationDate ||
     (item?.schoolInformation?.studentDidAttendSchoolLastTerm === true &&
       !item?.schoolInformation?.studentDidAttendSchoolLastTerm) ||
-    (item?.claimsOrReceivesPension === true &&
-      !item?.claimsOrReceivesPension) ||
+    (item?.claimsOrReceivesPension !== undefined &&
+      ![true, false].includes(item?.claimsOrReceivesPension)) ||
     (item?.schoolInformation?.studentDidAttendSchoolLastTerm === true &&
       (!item?.schoolInformation?.lastTermSchoolInformation?.termBegin ||
         !item?.schoolInformation?.lastTermSchoolInformation?.dateTermEnded)) ||
@@ -182,7 +182,7 @@ export const studentIDInformationPage = {
 /** @returns {PageSchema} */
 export const studentIncomePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(() => 'Student’s information'),
+    ...arrayBuilderItemSubsequentPageTitleUI(() => 'Student’s income'),
     studentIncome: radioUI({
       title: 'Did this student have an income in the last 365 days?',
       hint:
@@ -192,7 +192,24 @@ export const studentIncomePage = {
         N: 'No',
         NA: 'This question doesn’t apply to me',
       },
-      required: () => false,
+      required: (_chapterData, _index, formData) =>
+        formData?.vaDependentsNetWorthAndPension,
+      updateUiSchema: () => ({
+        'ui:options': {
+          hint: '',
+        },
+      }),
+      updateSchema: (formData = {}, formSchema) => {
+        const { vaDependentsNetWorthAndPension } = formData;
+
+        if (!vaDependentsNetWorthAndPension) {
+          return formSchema;
+        }
+
+        return {
+          ...radioSchema(['Y', 'N']),
+        };
+      },
     }),
   },
   schema: {
@@ -264,7 +281,7 @@ export const studentMaritalStatusPage = {
 /** @returns {PageSchema} */
 export const studentMarriageDatePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(() => 'Student’s marital status'),
+    ...arrayBuilderItemSubsequentPageTitleUI(() => 'Student’s marriage date'),
     marriageDate: currentOrPastDateUI({
       title: 'Date of marriage',
       required: () => true,
@@ -439,7 +456,7 @@ export const studentProgramInfoPage = {
 export const studentAttendancePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      () => 'Additional information for this student',
+      () => 'Student’s school attendance history',
     ),
     schoolInformation: {
       studentIsEnrolledFullTime: yesNoUI({
@@ -469,7 +486,7 @@ export const studentAttendancePage = {
 export const studentStoppedAttendingDatePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      () => 'Additional information for this student',
+      () => 'Date student stopped attending school',
     ),
     schoolInformation: {
       dateFullTimeEnded: {
@@ -506,7 +523,7 @@ export const studentStoppedAttendingDatePage = {
 export const schoolAccreditationPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      () => 'Additional information for this student',
+      () => 'School accreditation status',
     ),
     schoolInformation: {
       isSchoolAccredited: yesNoUI({
@@ -598,7 +615,9 @@ export const studentTermDatesPage = {
 
 export const previousTermQuestionPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(() => 'Student’s term dates'),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      () => 'Student’s last term attendance',
+    ),
     schoolInformation: {
       studentDidAttendSchoolLastTerm: yesNoUI({
         title: 'Did the student attend school last term?',
@@ -704,10 +723,15 @@ export const studentEarningsPage = {
       () => 'Student’s income in the year their current school term began',
     ),
     'ui:options': {
-      updateSchema: (formData, schema, _uiSchema, index) => {
-        const itemData = formData?.studentInformation?.[index];
+      updateSchema: (_formData, schema, _uiSchema, index, _path, fullData) => {
+        const itemData = fullData?.studentInformation?.[index];
+        const { vaDependentsNetWorthAndPension } = fullData;
 
-        if (itemData?.claimsOrReceivesPension === false) {
+        const resetItemData = vaDependentsNetWorthAndPension
+          ? !fullData?.['view:checkVeteranPension']
+          : !itemData?.claimsOrReceivesPension;
+
+        if (resetItemData) {
           itemData.studentEarningsFromSchoolYear = undefined;
           itemData.studentExpectedEarningsNextYear = undefined;
           itemData.studentNetworthInformation = undefined;
@@ -823,7 +847,9 @@ export const studentAssetsPage = {
 
 export const remarksPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(() => 'Additional information'),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      () => 'Additional information about this student',
+    ),
     remarks: textareaUI(
       'Is there any other information you’d like to add about this student?',
     ),

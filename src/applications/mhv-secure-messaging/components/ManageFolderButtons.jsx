@@ -190,6 +190,7 @@ const ManageFolderButtons = props => {
             text="Yes, remove this folder"
             onClick={confirmDelFolder}
             data-dd-action-name="Confirm Remove Folder Button"
+            data-testid="confirm-remove-folder"
           />
           <va-button
             class="vads-u-margin-top--1"
@@ -197,6 +198,7 @@ const ManageFolderButtons = props => {
             text="No, keep this folder"
             onClick={closeDelModal}
             data-dd-action-name="Cancel Remove Folder Button"
+            data-testid="cancel-remove-folder"
           />
         </VaModal>
       )}

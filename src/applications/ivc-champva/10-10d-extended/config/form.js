@@ -118,29 +118,29 @@ const formConfig = {
       pages: {
         page1: {
           // initialData: mockData.data,
-          path: 'your-information/who-is-applying',
+          path: 'who-is-applying',
           title: 'Which of these best describes you?',
           ...certifierRoleSchema,
         },
         page2: {
-          path: 'your-information/name',
+          path: 'your-name',
           title: 'Your name',
           ...certifierNameSchema,
         },
         page3: {
-          path: 'your-information/mailing-address',
+          path: 'your-mailing-address',
           title: 'Your mailing address',
           ...certifierAddressSchema,
         },
         page4: {
-          path: 'your-information/contact-information',
+          path: 'your-contact-information',
           title: 'Your contact information',
           CustomPage: SignerContactInfoPage,
           CustomPageReview: null,
           ...signerContactInfoPage,
         },
         page5: {
-          path: 'your-information/relationship-to-applicant',
+          path: 'your-relationship-to-applicant',
           title: 'Your relationship to applicant',
           depends: formData => get('certifierRole', formData) === 'other',
           ...certifierRelationshipSchema,
@@ -151,28 +151,28 @@ const formConfig = {
       title: 'Veteran information',
       pages: {
         page5a: {
-          path: 'veteran-information/overview',
+          path: 'veteran-information-overview',
           title: 'Veteran information',
           ...sponsorIntroSchema,
         },
         page6: {
-          path: 'veteran-information/name-and-date-of-birth',
+          path: 'veteran-name-and-date-of-birth',
           title: 'Veteran’s name and date of birth',
           ...sponsorNameDobSchema,
         },
         page7: {
-          path: 'veteran-information/social-security-number',
+          path: 'veteran-social-security-number',
           title: `Veteran’s identification information`,
           ...sponsorIdentificationSchema,
         },
         page8: {
-          path: 'veteran-information/life-status',
+          path: 'veteran-life-status',
           title: 'Veteran’s status',
           depends: formData => get('certifierRole', formData) !== 'sponsor',
           ...sponsorStatus,
         },
         page9: {
-          path: 'veteran-information/death-information',
+          path: 'veteran-death-information',
           title: 'Veteran’s status details',
           depends: formData =>
             get('certifierRole', formData) !== 'sponsor' &&
@@ -180,7 +180,7 @@ const formConfig = {
           ...sponsorStatusDetails,
         },
         page10b0: {
-          path: 'veteran-information/address',
+          path: 'veteran-address',
           title: formData => `${sponsorWording(formData)} address selection`,
           // Only show if we have addresses to pull from:
           depends: formData =>
@@ -209,13 +209,13 @@ const formConfig = {
           schema: blankSchema,
         },
         page10: {
-          path: 'veteran-information/mailing-address',
+          path: 'veteran-mailing-address',
           title: 'Veteran’s mailing address',
           depends: formData => !get('sponsorIsDeceased', formData),
           ...sponsorAddress,
         },
         page11: {
-          path: 'veteran-information/contact-information',
+          path: 'veteran-contact-information',
           title: 'Veteran’s contact information',
           depends: formData => !get('sponsorIsDeceased', formData),
           ...sponsorContactInfo,

@@ -2,7 +2,10 @@
 
 **Note**
 - Refer to all files in this directory (other than `index.js`) for real examples.
-- See [this Mural](https://app.mural.co/t/departmentofveteransaffairs9999/m/departmentofveteransaffairs9999/1736350333305/034f554056e15ace373c35a8b9655134d4ccafe0) for a visual diagram of the display conditions for the Decision Reviews Onramp Tool.
+- See [this Figma](https://www.figma.com/design/5vAWK3wpBkJgG7ngLXYmht/Onramping-Tool?node-id=148-12838&t=QOAwUntpNngliuF1-0) or the below screenshot for a visual diagram of the display conditions for the Decision Reviews Onramp Tool
+
+<img width="1257" height="1184" alt="Screenshot 2025-09-11 at 3 22 11 PM copy" src="https://github.com/user-attachments/assets/ae0e61cb-f3d9-45f0-8e71-e2285c6b4a17" />
+
 - `Q_1_1_CLAIM_DECISION` is the first question in the flow. The answer to this question controls the display of every other question after it. It has empty display conditions (`{}`) because it always shows first.
 - All examples below are for demonstration only and may not represent accurate display conditions for the Decision Reviews Onramp Tool.
 
@@ -38,7 +41,6 @@ Q_2_H_2B_JUDGE_HEARING: {
   Q_1_2_CLAIM_DECISION: YES,
   Q_1_3_CLAIM_CONTESTED: NO,
   Q_2_0_CLAIM_TYPE: HLR,
-  Q_2_H_1_EXISTING_BOARD_APPEAL: NO,
   Q_2_H_2_NEW_EVIDENCE: NO,
 }
 ```
@@ -51,8 +53,7 @@ In this example, all of the below conditions must be true:
 2. `Q_1_2_CLAIM_DECISION` is answered "Yes"
 3. `Q_1_3_CLAIM_CONTESTED` is answered "No"
 4. `Q_2_0_CLAIM_TYPE` is answered "HLR"
-5. `Q_2_H_1_EXISTING_BOARD_APPEAL` is answered "No"
-6. `Q_2_H_2_NEW_EVIDENCE` is answered "No"
+5. `Q_2_H_2_NEW_EVIDENCE` is answered "No"
 
 ### Another Example
 
@@ -62,7 +63,7 @@ Q_2_H_2_NEW_EVIDENCE: {
   Q_1_2_CLAIM_DECISION: YES,
   ONE_OF: {
     Q_1_3A_FEWER_60_DAYS: YES,
-    Q_2_H_1_EXISTING_BOARD_APPEAL: NO,
+    Q_2_IS_1B_NEW_EVIDENCE: NO,
   },
 },
 ```
@@ -76,7 +77,7 @@ In this example, the below conditions must be true:
 and also **one of** the below conditions must be true:
 
 1. `Q_1_3A_FEWER_60_DAYS` is answered "Yes"
-2. `Q_2_H_1_EXISTING_BOARD_APPEAL` is answered "No"
+2. `Q_2_IS_1B_NEW_EVIDENCE` is answered "No"
 
 In this scenario, `Q_2_H_2_NEW_EVIDENCE`'s display conditions does not include every possible question that could come before it because it is not possible that they will all be answered. Prior questions (such as `Q_1_3_CLAIM_CONTESTED`) may or may not display depending on the user's responses. It doesn't make sense to accept a "Yes," "No," or `null` response in this case. When the path splits, we should only create expectations for questions that we know are shown to the user, and omit the rest.
 

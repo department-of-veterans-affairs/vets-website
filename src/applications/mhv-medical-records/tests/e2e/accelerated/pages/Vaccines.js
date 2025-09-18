@@ -1,4 +1,5 @@
 import sessionStatus from '../fixtures/session/default.json';
+import MedicalRecordsLandingPage from '../../pages/MedicalRecordsLandingPage';
 
 class Vaccines {
   setIntercepts = ({ vaccinesData }) => {
@@ -12,6 +13,7 @@ class Vaccines {
     cy.intercept('GET', '/my_health/v2/medical_records/immunization*', req => {
       req.reply(vaccinesData);
     }).as('vaccines-list');
+    MedicalRecordsLandingPage.uumIntercept();
   };
 
   setDetailIntercepts = ({ vaccineDetailData, vaccineId }) => {
@@ -37,7 +39,7 @@ class Vaccines {
   };
 
   clickVaccineDetailsLink = (vaccineIndex = 0) => {
-    cy.get('[data-testid="record-list-item"]')
+    cy.findAllByTestId('record-list-item')
       .eq(vaccineIndex)
       .find('a')
       .click();

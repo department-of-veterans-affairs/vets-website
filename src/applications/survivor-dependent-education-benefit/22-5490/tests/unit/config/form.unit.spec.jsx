@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
+import { waitFor } from '@testing-library/dom';
 
 import {
   fillData,
@@ -68,7 +69,7 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
       form.unmount();
     });
 
-    it('should render an error when no first/last name are provided', () => {
+    it('should render an error when no first/last name are provided', async () => {
       const initialState = {
         form: {
           data: baseData,
@@ -114,20 +115,25 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
       selectRadio(form, 'root_relationshipToMember', 'spouse');
 
       form.find('form').simulate('submit');
-      const errorMessages = form.find('.usa-input-error-message');
 
-      expect(errorMessages.length).to.be.at.least(1);
-      expect(errorMessages.at(0).text()).to.include(
-        'Error Please enter a first name',
-      );
-      expect(errorMessages.at(1).text()).to.include(
-        'Error Please enter a last name',
-      );
+      await waitFor(() => {
+        form.update();
+
+        const errorMessages = form.find('.usa-input-error-message');
+
+        expect(errorMessages.length).to.be.at.least(1);
+        expect(errorMessages.at(0).text()).to.include(
+          'Error Please enter a first name',
+        );
+        expect(errorMessages.at(1).text()).to.include(
+          'Error Please enter a last name',
+        );
+      });
 
       form.unmount();
     });
 
-    it('should render errors when names are too long', () => {
+    it('should render errors when names are too long', async () => {
       const initialState = {
         form: {
           data: baseData,
@@ -176,23 +182,28 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
       selectRadio(form, 'root_relationshipToMember', 'spouse');
 
       form.find('form').simulate('submit');
-      const errorMessages = form.find('.usa-input-error-message');
 
-      expect(errorMessages.length).to.be.at.least(1);
-      expect(errorMessages.at(0).text()).to.include(
-        'Error Must be 20 characters or less',
-      );
-      expect(errorMessages.at(1).text()).to.include(
-        'Error Must be 20 characters or less',
-      );
-      expect(errorMessages.at(2).text()).to.include(
-        'Error Must be 26 characters or less',
-      );
+      await waitFor(() => {
+        form.update();
+
+        const errorMessages = form.find('.usa-input-error-message');
+
+        expect(errorMessages.length).to.be.at.least(1);
+        expect(errorMessages.at(0).text()).to.include(
+          'Error Must be 20 characters or less',
+        );
+        expect(errorMessages.at(1).text()).to.include(
+          'Error Must be 20 characters or less',
+        );
+        expect(errorMessages.at(2).text()).to.include(
+          'Error Must be 26 characters or less',
+        );
+      });
 
       form.unmount();
     });
 
-    it('should render an error when last name is too short', () => {
+    it('should render an error when last name is too short', async () => {
       const initialState = {
         form: {
           data: baseData,
@@ -242,18 +253,22 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
 
       form.find('form').simulate('submit');
 
-      const errorMessages = form.find('.usa-input-error-message');
+      await waitFor(() => {
+        form.update();
 
-      expect(errorMessages.length).to.be.at.least(1);
+        const errorMessages = form.find('.usa-input-error-message');
 
-      expect(errorMessages.at(0).text()).to.include(
-        'Must be 2 characters or more',
-      );
+        expect(errorMessages.length).to.be.at.least(1);
+
+        expect(errorMessages.at(0).text()).to.include(
+          'Must be 2 characters or more',
+        );
+      });
 
       form.unmount();
     });
 
-    it('should render errors when first/middle/last names are invalid', () => {
+    it('should render errors when first/middle/last names are invalid', async () => {
       const initialState = {
         form: {
           data: baseData,
@@ -302,18 +317,23 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
       selectRadio(form, 'root_relationshipToMember', 'spouse');
 
       form.find('form').simulate('submit');
-      const errorMessages = form.find('.usa-input-error-message');
 
-      expect(errorMessages.length).to.be.at.least(1);
-      expect(errorMessages.at(0).text()).to.include(
-        'Error Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
-      );
-      expect(errorMessages.at(1).text()).to.include(
-        'Error Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
-      );
-      expect(errorMessages.at(2).text()).to.include(
-        'Error Please enter a valid entry. Acceptable entries are letters, spaces, dashes and apostrophes.',
-      );
+      await waitFor(() => {
+        form.update();
+
+        const errorMessages = form.find('.usa-input-error-message');
+
+        expect(errorMessages.length).to.be.at.least(1);
+        expect(errorMessages.at(0).text()).to.include(
+          'Error Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
+        );
+        expect(errorMessages.at(1).text()).to.include(
+          'Error Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
+        );
+        expect(errorMessages.at(2).text()).to.include(
+          'Error Please enter a valid entry. Acceptable entries are letters, spaces, dashes and apostrophes.',
+        );
+      });
 
       form.unmount();
     });
@@ -561,7 +581,7 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
     form.unmount();
   });
 
-  it('should fill render errors when comleting mailing address fields', () => {
+  it('should fill render errors when comleting mailing address fields', async () => {
     const {
       schema,
       uiSchema,
@@ -593,17 +613,28 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
       '12345',
     );
     form.find('form').simulate('submit');
-    const errorMessages = form.find('.usa-input-error-message');
 
-    expect(errorMessages.length).to.be.at.least(1);
-    expect(errorMessages.at(0).text()).to.include(
-      'Please enter your full street address',
-    );
+    await waitFor(() => {
+      form.update();
+
+      const errorMessages = form.find('.usa-input-error-message');
+
+      expect(errorMessages.length).to.be.at.least(1);
+      expect(errorMessages.at(0).text()).to.include(
+        'Please enter your full street address',
+      );
+    });
 
     fillData(form, 'input#root_mailingAddressInput_address_street', 'SA');
     form.find('form').simulate('submit');
 
-    expect(errorMessages.at(0).text()).to.include('minimum of 3 characters');
+    await waitFor(() => {
+      form.update();
+
+      const errorMessages = form.find('.usa-input-error-message');
+
+      expect(errorMessages.at(0).text()).to.include('minimum of 3 characters');
+    });
 
     fillData(
       form,
@@ -612,7 +643,14 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
     );
 
     form.find('form').simulate('submit');
-    expect(errorMessages.at(0).text()).to.include('maximum of 40 characters');
+
+    await waitFor(() => {
+      form.update();
+
+      const errorMessages = form.find('.usa-input-error-message');
+
+      expect(errorMessages.at(0).text()).to.include('maximum of 40 characters');
+    });
 
     form.unmount();
   });

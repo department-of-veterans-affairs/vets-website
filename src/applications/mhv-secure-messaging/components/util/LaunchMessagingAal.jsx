@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { submitLaunchMessagingAal } from '../../api/SmApi';
 import useFeatureToggles from '../../hooks/useFeatureToggles';
+import { getFirstError } from '../../util/serverErrors';
 
 const LaunchMessagingAal = () => {
   const { isAalEnabled } = useFeatureToggles();
@@ -12,8 +13,8 @@ const LaunchMessagingAal = () => {
         } catch (e) {
           if (window.DD_RUM) {
             const error = new Error(
-              `Error submitting AAL on Messaging launch. ${e?.errors[0] &&
-                JSON.stringify(e?.errors[0])}`,
+              `Error submitting AAL on Messaging launch. ${getFirstError(e) &&
+                JSON.stringify(getFirstError(e))}`,
             );
             window.DD_RUM.addError(error);
           }

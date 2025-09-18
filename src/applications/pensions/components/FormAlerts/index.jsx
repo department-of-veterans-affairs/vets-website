@@ -151,14 +151,6 @@ export const LandMarketableAlert = () => (
   </va-alert>
 );
 
-export const MedicalEvidenceAlert = () => (
-  <va-alert status="warning">
-    <p className="vads-u-margin-y--0">
-      You’ll need to provide medical evidence with this application.
-    </p>
-  </va-alert>
-);
-
 const RequestFormAlert = ({ title, formName, formLink, children }) => (
   <va-alert status="warning">
     <p className="vads-u-margin-y--0">
@@ -223,10 +215,10 @@ export const SpecialMonthlyPensionEvidenceAlert = () => (
   </RequestFormAlert>
 );
 
-export const TotalNetWorthOverTwentyFiveThousandAlert = () => (
+export const TotalNetWorthOverThresholdAlert = () => (
   <va-alert status="warning">
     <p className="vads-u-margin-y--0">
-      You answered that you have more than $25,000 in assets. You’ll need to
+      You answered that you have more than $75,000 in assets. You’ll need to
       submit an Income and Asset Statement in Support of Claim for Pension or
       Parents' Dependency and Indemnity Compensation (
       <va-link

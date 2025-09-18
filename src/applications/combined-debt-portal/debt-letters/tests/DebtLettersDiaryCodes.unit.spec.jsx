@@ -16,7 +16,7 @@ describe('diary-codes', () => {
 
         expect(contentElement).to.exist;
         expect(contentElement.textContent).to.include(
-          'A letter was sent to notify you of your debt',
+          'We sent this letter to notify you of your debt and provide information on how to resolve it.',
         );
       });
     });

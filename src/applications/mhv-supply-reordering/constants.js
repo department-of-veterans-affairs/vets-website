@@ -6,7 +6,7 @@ export const INTRO_SUBTITLE =
   'Use this form to order hearing aid batteries and accessories and CPAP supplies';
 
 export const DLC_EMAIL = 'dalc.css@va.gov';
-export const DLC_TELEPHONE = '3032736200';
+export const DLC_TELEPHONE = '8776778710';
 
 export const HEALTH_FACILITIES_URL = '/find-locations/?facilityType=health';
 

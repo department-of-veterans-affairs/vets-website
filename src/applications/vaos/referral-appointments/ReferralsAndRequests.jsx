@@ -5,7 +5,10 @@ import InfoAlert from '../components/InfoAlert';
 import { setFormCurrentPage } from './redux/actions';
 import ReferralLayout from './components/ReferralLayout';
 import ReferralList from './components/ReferralList';
-import { getRequestedAppointmentListInfo } from '../redux/selectors';
+import {
+  getRequestedAppointmentListInfo,
+  selectFeatureCCDirectSchedulingChiropractic,
+} from '../redux/selectors';
 import RequestList from './components/RequestsList';
 import { useGetPatientReferralsQuery } from '../redux/api/vaosApi';
 import { FETCH_STATUS } from '../utils/constants';
@@ -13,6 +16,9 @@ import { filterReferrals } from './utils/referrals';
 
 export default function ReferralsAndRequests() {
   const dispatch = useDispatch();
+  const featureCCDirectSchedulingChiropractic = useSelector(state =>
+    selectFeatureCCDirectSchedulingChiropractic(state),
+  );
 
   const location = useLocation();
   useEffect(
@@ -48,7 +54,10 @@ export default function ReferralsAndRequests() {
     );
   }
 
-  const filteredReferrals = filterReferrals(referrals || []);
+  const filteredReferrals = filterReferrals(
+    referrals || [],
+    featureCCDirectSchedulingChiropractic,
+  );
 
   if (referralError && appointmentError) {
     return (

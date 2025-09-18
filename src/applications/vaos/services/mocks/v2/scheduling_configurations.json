@@ -137,8 +137,7 @@
             "name": "Individual Substance Use Disorder",
             "stopCodes": [
               {
-                "primary": "534",
-                "secondary": "999"
+                "primary": "513"
               }
             ],
             "direct": {

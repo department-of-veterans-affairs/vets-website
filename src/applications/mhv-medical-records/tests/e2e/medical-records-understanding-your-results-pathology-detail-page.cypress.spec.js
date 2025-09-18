@@ -3,6 +3,7 @@ import PathologyDetailsPage from './pages/PathologyDetailsPage';
 import LabsAndTestsListPage from './pages/LabsAndTestsListPage';
 import labsAndTests from './fixtures/labs-and-tests/labsAndTests.json';
 import sessionStatus from './fixtures/session-status.json';
+import MedicalRecordsLandingPage from './pages/MedicalRecordsLandingPage';
 
 describe.skip('Medical Records Understanding Your Results Pathology Detail Page', () => {
   const site = new MedicalRecordsSite();
@@ -18,6 +19,7 @@ describe.skip('Medical Records Understanding Your Results Pathology Detail Page'
       statusCode: 200,
       body: sessionStatus, // status response copied from staging
     }).as('status');
+    MedicalRecordsLandingPage.uumIntercept();
     LabsAndTestsListPage.goToLabsAndTests();
   });
 

@@ -8,15 +8,17 @@ import {
 } from '../api/SmApi';
 import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
+import { getFirstError } from '../util/serverErrors';
 
 const handleErrors = err => async dispatch => {
+  const newErr = getFirstError(err);
   dispatch({
     type: Actions.Alerts.ADD_ALERT,
     payload: {
       alertType: 'error',
-      header: err.title,
-      content: err.detail,
-      response: err,
+      header: newErr.title,
+      content: newErr.detail,
+      response: newErr,
     },
   });
 };
@@ -31,12 +33,10 @@ export const getFolders = () => async dispatch => {
       });
     }
     if (response.errors) {
-      const err = response.errors[0];
-      dispatch(handleErrors(err));
+      dispatch(handleErrors(response));
     }
   } catch (error) {
-    const err = error.errors[0];
-    dispatch(handleErrors(err));
+    dispatch(handleErrors(error));
     dispatch({
       type: Actions.Folder.GET_LIST_ERROR,
     });
@@ -64,7 +64,7 @@ export const retrieveFolder = folderId => async dispatch => {
           type: Actions.Folder.GET,
           response: null,
         });
-        dispatch(handleErrors(response.errors[0]));
+        dispatch(handleErrors(response));
       }
     })
     .catch(error => {
@@ -72,7 +72,7 @@ export const retrieveFolder = folderId => async dispatch => {
         type: Actions.Folder.GET,
         response: null,
       });
-      dispatch(handleErrors(error.errors[0]));
+      dispatch(handleErrors(error));
     });
 };
 

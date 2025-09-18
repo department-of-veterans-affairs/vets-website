@@ -275,7 +275,7 @@ describe('ClaimDetailsContent', () => {
         },
       );
       expect(screen.getByText('Amount')).to.exist;
-      expect(screen.getByText('Submitted amount of $120.5')).to.exist;
+      expect(screen.getByText('Submitted amount of $120.50')).to.exist;
       expect(screen.getByText('Reimbursement amount of $100.25')).to.exist;
     });
 
@@ -291,7 +291,7 @@ describe('ClaimDetailsContent', () => {
         },
       );
       expect(screen.getByText('Amount')).to.exist;
-      expect(screen.getByText('Submitted amount of $75')).to.exist;
+      expect(screen.getByText('Submitted amount of $75.00')).to.exist;
       expect(screen.queryByText(/Reimbursement amount of/)).to.not.exist;
     });
 

@@ -149,7 +149,7 @@ describe('VAOS ChooseDateAndTime component', () => {
   it('should fetch provider or appointments from store if it exists and not call API', async () => {
     sandbox
       .stub(utils, 'apiRequestWithUrl')
-      .resolves({ data: createDraftAppointmentInfo(1) });
+      .resolves({ data: createDraftAppointmentInfo() });
     renderWithStoreAndRouter(
       <ChooseDateAndTime
         currentReferral={createReferralById('2024-09-09', 'UUID')}
@@ -164,7 +164,7 @@ describe('VAOS ChooseDateAndTime component', () => {
   it('should call API for provider or appointment data if not in store', async () => {
     sandbox
       .stub(utils, 'apiRequestWithUrl')
-      .resolves({ data: createDraftAppointmentInfo(1) });
+      .resolves({ data: createDraftAppointmentInfo() });
     const screen = renderWithStoreAndRouter(
       <ChooseDateAndTime
         currentReferral={createReferralById('2024-09-09', 'UUID')}

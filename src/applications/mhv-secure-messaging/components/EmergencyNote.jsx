@@ -44,6 +44,7 @@ const EmergencyNote = props => {
           status="info"
           trigger="Only use messages for non-urgent needs"
           data-dd-action-name="Only use messages for non-urgent needs dropdown"
+          data-testid="emergency-use-only-expandable"
         >
           <div className="vads-u-padding-x--1 vads-u-padding-bottom--1">
             {content()}
@@ -59,6 +60,7 @@ const EmergencyNote = props => {
           status="warning"
           visible="true"
           show-icon={dropDownFlag}
+          data-test-id="emergency-use-only-alert"
         >
           <p>
             {' '}

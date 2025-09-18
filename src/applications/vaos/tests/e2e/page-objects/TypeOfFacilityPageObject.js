@@ -17,7 +17,7 @@ class TypeOfFacilityPageObject extends PageObject {
   }
 
   selectTypeOfFacility(label) {
-    return super.selectRadioButtonShadow(label);
+    return super.selectRadioButton(label);
   }
 }
 

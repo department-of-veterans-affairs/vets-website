@@ -49,6 +49,7 @@ const styleOptions = {
   suggestedActionTextColor: 'white',
   suggestedActionBorderRadius: 5,
   suggestedActionBorderWidth: 0,
+  autoScrollSnapOnPage: true,
 };
 
 export const renderMarkdown = text => MarkdownRenderer.render(text);

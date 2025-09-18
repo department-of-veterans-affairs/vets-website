@@ -9,11 +9,12 @@ describe('Medical Records View LabsAndTestsListPage ', () => {
   before(() => {
     site.login();
     // cy.visit('my-health/medical-records/labs-and-tests');
-    LabsAndTestsListPage.goToLabsAndTests();
-    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(4, labsAndTests.entry[2]);
   });
 
   it('Toggle Menu button Print or download ', () => {
+    LabsAndTestsListPage.goToLabsAndTests();
+    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(4, labsAndTests.entry[2]);
+
     // should display a toggle menu button
 
     MicrobiologyDetailsPage.verifyPrintOrDownload();

@@ -4,7 +4,7 @@ import { fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import Header from '../../../components/Header';
-import UserNav from '../../../components/Header/UserNav';
+import DropdownContainer from '../../../components/Header/DropdownContainer';
 import { renderTestComponent, renderTestApp } from '../helpers';
 
 const profile = {
@@ -50,16 +50,17 @@ describe('Header', () => {
   it('shows logged in nav items', () => {
     const { getByTestId } = renderTestComponent(
       <Provider store={getStore()}>
-        <UserNav profile={profile} />
+        <DropdownContainer profile={profile} />
       </Provider>,
     );
+
     expect(getByTestId('desktop-user-nav')).to.exist;
   });
 
   it('account dropdown exists and toggles account list', () => {
     const { getByTestId } = renderTestComponent(
       <Provider store={getStore()}>
-        <UserNav profile={profile} />
+        <DropdownContainer profile={profile} />
       </Provider>,
     );
     fireEvent.click(getByTestId('account_circle-toggle-dropdown-desktop'));
@@ -74,7 +75,7 @@ describe('Header', () => {
   it('mobile menu exists and toggles dropdown with poa requests link', () => {
     const { getByTestId } = renderTestApp(
       <Provider store={getStore()}>
-        <UserNav profile={profile} />
+        <DropdownContainer profile={profile} />
       </Provider>,
     );
     fireEvent.click(getByTestId('menu-toggle-dropdown-mobile'));

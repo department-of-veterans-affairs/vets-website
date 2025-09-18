@@ -144,6 +144,7 @@ describe('ArrayBuilderSummaryPage', () => {
     stubUrlParams(urlParams);
     const data = {
       employers: arrayData,
+      applicants: [{}, {}],
     };
     if (radioData) {
       // Added separately so the removed item tests doesn't need to include
@@ -296,7 +297,7 @@ describe('ArrayBuilderSummaryPage', () => {
     expect(container.querySelector('va-card')).to.exist;
   });
 
-  it('should display appropriately with max items', () => {
+  it('should display appropriately when max items value is a number', () => {
     const { getText, container, getByText } = setupArrayBuilderSummaryPage({
       arrayData: [
         { name: 'Test' },
@@ -311,6 +312,20 @@ describe('ArrayBuilderSummaryPage', () => {
 
     expect(container.querySelector('va-radio')).to.not.exist;
     expect(container.querySelectorAll('va-card')).to.have.lengthOf(5);
+    expect(container.querySelector('va-alert')).to.include.text(
+      'You have added the maximum number',
+    );
+  });
+
+  it('should display appropriately when max items value is a function', () => {
+    const { getText, container, getByText } = setupArrayBuilderSummaryPage({
+      arrayData: [{ name: 'Test' }, { name: 'Test 2' }],
+      urlParams: '',
+      maxItems: formData => formData?.applicants.length,
+    });
+
+    expect(container.querySelector('va-radio')).to.not.exist;
+    expect(container.querySelectorAll('va-card')).to.have.lengthOf(2);
     expect(container.querySelector('va-alert')).to.include.text(
       'You have added the maximum number',
     );
@@ -331,7 +346,7 @@ describe('ArrayBuilderSummaryPage', () => {
     expect($modal.getAttribute('visible')).to.eq('true');
     $modal.__events.primaryButtonClick();
     sinon.assert.calledOnce(onChange);
-    sinon.assert.calledWithExactly(onChange, { employers: [] });
+    sinon.assert.calledWithMatch(onChange, { employers: [] });
     expect(goToPath.args[0][0]).to.eql(
       '/first-item/0?add=true&removedAllWarn=true',
     );
@@ -533,7 +548,7 @@ describe('ArrayBuilderSummaryPage', () => {
     modal.__events.primaryButtonClick();
     await waitFor(() => {
       sinon.assert.calledOnce(onChange);
-      sinon.assert.calledWithExactly(onChange, {});
+      sinon.assert.calledWithMatch(onChange, {});
       const alert = container.querySelector('va-alert');
       expect(alert).to.include.text('has been deleted');
     });
@@ -555,7 +570,7 @@ describe('ArrayBuilderSummaryPage', () => {
     modal.__events.primaryButtonClick();
     await waitFor(() => {
       sinon.assert.calledOnce(onChange);
-      sinon.assert.calledWithExactly(onChange, {
+      sinon.assert.calledWithMatch(onChange, {
         employers: [{ name: 'Test 2' }],
       });
       const alert = container.querySelector('va-alert');

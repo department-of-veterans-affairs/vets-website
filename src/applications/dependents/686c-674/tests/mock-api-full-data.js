@@ -93,7 +93,15 @@ const responses = {
   'GET /v0/user': userData(),
   'GET /v0/feature_toggles': {
     data: {
-      features: [{ name: 'vaDependentsV2', value: true }],
+      type: 'feature_toggles',
+      features: [
+        { name: 'vaDependentsV2', value: true },
+        { name: 'va_dependents_v2', value: true },
+        { name: 'vaDependentsNetWorthAndPension', value: true },
+        { name: 'va_dependents_net_worth_and_pension', value: true },
+        { name: 'vaDependentsDuplicateModals', value: true },
+        { name: 'va_dependents_duplicate_modals', value: true },
+      ],
     },
   },
   'OPTIONS /v0/maintenance_windows': 'OK',

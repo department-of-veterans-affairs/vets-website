@@ -39,7 +39,7 @@ const typeOfCareRegex = /Mental health/i;
 
 describe('VAOS request schedule flow - Mental health', () => {
   describe('When patient chooses mental health services', () => {
-    const { idV2: typeOfCareId, name: typeOfCareName } = getTypeOfCareById(
+    const { idV2: typeOfCareId } = getTypeOfCareById(
       TYPE_OF_CARE_IDS.MENTAL_HEALTH_SERVICES_ID,
     );
 
@@ -112,7 +112,7 @@ describe('VAOS request schedule flow - Mental health', () => {
             .clickNextButton();
 
           TypeOfMentalHealthPageObject.assertUrl()
-            .selectTypeOfMentalHealth(typeOfCareName)
+            .selectTypeOfMentalHealth(/Mental health services/i)
             .clickNextButton();
 
           VAFacilityPageObject.assertUrl()
@@ -172,7 +172,7 @@ describe('VAOS request schedule flow - Mental health', () => {
   });
 
   describe('When patient chooses substance use problem services', () => {
-    const { idV2: typeOfCareId, name: typeOfCareName } = getTypeOfCareById(
+    const { idV2: typeOfCareId } = getTypeOfCareById(
       TYPE_OF_CARE_IDS.MENTAL_HEALTH_SUBSTANCE_USE_ID,
     );
 
@@ -245,7 +245,7 @@ describe('VAOS request schedule flow - Mental health', () => {
             .clickNextButton();
 
           TypeOfMentalHealthPageObject.assertUrl()
-            .selectTypeOfMentalHealth(typeOfCareName)
+            .selectTypeOfMentalHealth(/Substance use problem services/i)
             .clickNextButton();
 
           VAFacilityPageObject.assertUrl()

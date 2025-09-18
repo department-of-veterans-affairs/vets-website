@@ -142,7 +142,7 @@ export default function ContactInfoPage() {
       'ui:title': 'What are the best times for us to call you?',
       'ui:validations':
         flowType === FLOW_TYPES.REQUEST &&
-        userData.facilityType === FACILITY_TYPES.COMMUNITY_CARE
+        userData.facilityType === FACILITY_TYPES.COMMUNITY_CARE.id
           ? [validateBooleanGroup]
           : [],
       'ui:options': {
@@ -152,7 +152,7 @@ export default function ContactInfoPage() {
           return (
             flowType === FLOW_TYPES.DIRECT ||
             (flowType === FLOW_TYPES.REQUEST &&
-              userData.facilityType === FACILITY_TYPES.VAMC)
+              userData.facilityType === FACILITY_TYPES.VAMC.id)
           );
         },
       },
@@ -180,7 +180,7 @@ export default function ContactInfoPage() {
         classNames: classNames({
           'schemaform-first-field':
             flowType === FLOW_TYPES.REQUEST &&
-            userData.facilityType === FACILITY_TYPES.COMMUNITY_CARE,
+            userData.facilityType === FACILITY_TYPES.COMMUNITY_CARE.id,
         }),
       },
     },

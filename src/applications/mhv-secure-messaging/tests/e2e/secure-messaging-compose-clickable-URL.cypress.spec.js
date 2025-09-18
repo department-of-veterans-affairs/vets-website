@@ -15,7 +15,10 @@ describe('Secure Messaging - Compose with Clickable URL', () => {
       ...requestBody,
       body: 'https://www.va.gov/',
     };
-    cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click();
+
+    PatientComposePage.interceptSentFolder();
+    cy.findByTestId(Locators.LINKS.CREATE_NEW_MESSAGE_DATA_TEST_ID).click();
+    cy.wait('@sentFolder');
     PatientInterstitialPage.getContinueButton().click();
     PatientComposePage.selectRecipient();
     PatientComposePage.selectCategory(requestBodyUpdated.category);

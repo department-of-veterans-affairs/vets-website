@@ -1,3 +1,5 @@
+import { RESPONSES, SHORT_NAME_MAP } from '../constants/question-data-map';
+
 /** ================================================================
  * If the display conditions contain ONE_OF or NONE_OF,
  * check all possible responses for a match
@@ -6,19 +8,43 @@
  * @param {object} batchOfChoices
  * Example: {
  *   Q_1_3A_FEWER_60_DAYS: YES,
- *   Q_2_H_1_EXISTING_BOARD_APPEAL: NO,
+ *   Q_2_IS_1B_NEW_EVIDENCE: NO,
  * }
  * @param {object} formResponses - all answers in the store
  */
 export const evaluateBatchOfChoices = (batchOfChoices, formResponses) => {
   for (const choice of Object.keys(batchOfChoices)) {
-    // If one of our form responses matches one of the key/value pairs given
-    if (batchOfChoices[choice] === formResponses?.[choice]) {
+    const formResponse = formResponses?.[choice];
+
+    if (
+      Array.isArray(batchOfChoices[choice]) &&
+      batchOfChoices[choice].includes(formResponse)
+    ) {
+      return true;
+    }
+
+    if (batchOfChoices[choice] === formResponse) {
       return true;
     }
   }
 
   return false;
+};
+
+/**
+ * Evaluates whether the user has indicated that their condition
+ * has worsened and they disagree with a decision
+ */
+export const isCFIVariant = formResponses => {
+  const {
+    Q_1_2A_2_DISAGREE_DECISION,
+    Q_2_IS_4_DISAGREE_DECISION,
+  } = SHORT_NAME_MAP;
+
+  return (
+    formResponses[Q_1_2A_2_DISAGREE_DECISION] === RESPONSES.YES ||
+    formResponses[Q_2_IS_4_DISAGREE_DECISION] === RESPONSES.YES
+  );
 };
 
 /** ================================================================

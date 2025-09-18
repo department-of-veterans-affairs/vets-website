@@ -10,7 +10,7 @@
       "accountNumber": "123123123",
       "routingNumber": "121000248"
     },
-    "hasCompletedActiveDuty": false,
+    "activeDutyDuringHitechVets": false,
     "dateReleasedFromActiveDuty": "2025-09-07",
     "ssn": "111223333",
     "contactInfo": {
@@ -24,8 +24,8 @@
       "state": "AL",
       "postalCode": "12345"
     },
-    "trainingProviderDetails" : [{
-        "address": {
+    "trainingProviders" : [{
+        "providerAddress": {
             "city": "Chicago",
             "country": "USA",
             "isMilitary": null,
@@ -38,24 +38,14 @@
             "militaryBaseDescription": {}
             }
         },
-        "name": "Test Training Provider"
+        "providerName": "Test Training Provider"
     }
     ],
     "applicantFullName": { "first": "John", "last": "Doe" },
     "dutyRequirement": "atLeast3Years",
-    "dateOfBirth": "2000-10-03",
+    "dateOfBirth": "1930-10-03",
     "otherThanDishonorableDischarge": true,
-    "trainingProvider": [
-      {
-        "name": "Training Provider",
-        "address": {
-          "country": "USA",
-          "street": "Train Street",
-          "city": "Train City",
-          "state": "DE",
-          "postalCode": "54321"
-        }
-      }
-    ]
+    "veteranStatus": true
   }
 }
+ 

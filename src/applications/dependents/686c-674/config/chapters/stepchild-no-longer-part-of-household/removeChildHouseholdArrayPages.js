@@ -221,7 +221,7 @@ export const veteranSupportsChildPage = {
 export const supportAmountPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      () => 'Your support of this stepchild',
+      () => 'Details about your support of this stepchild',
     ),
     livingExpensesPaid: {
       ...radioUI({

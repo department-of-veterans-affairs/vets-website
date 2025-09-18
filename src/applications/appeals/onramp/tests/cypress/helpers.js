@@ -3,6 +3,7 @@ import {
   DR_HEADING,
   NON_DR_HEADING,
 } from '../../constants/results-content/common';
+import { ROUTES } from '../../constants';
 
 export const ROOT = manifest.rootUrl;
 export const START_LINK = 'onramp-start';
@@ -70,10 +71,35 @@ export const verifyText = (selector, expectedValue) =>
     .should('be.visible')
     .should('have.text', expectedValue);
 
+export const navigateToResults = path => {
+  // INTRODUCTION
+  verifyUrl(ROUTES.INTRODUCTION);
+  clickStart();
+
+  Object.keys(path).forEach(question => {
+    verifyUrl(ROUTES?.[question]);
+    selectRadio(question, path[question]);
+    clickContinue();
+  });
+};
+
+export const navigateBackward = path => {
+  Object.keys(path)
+    .reverse()
+    .forEach(question => {
+      verifyUrl(ROUTES?.[question]);
+      clickBack();
+    });
+
+  verifyUrl(ROUTES.INTRODUCTION);
+};
+
 // Results-specific
 export const RESULTS_HEADER = 'onramp-results-header';
 
 export const OVERVIEW_OPTION = 'overview-option';
+export const CLAIM_FOR_INCREASE_OPTION = 'claim-for-increase-option';
+export const CLAIM_FOR_INCREASE_CARD = 'claim-for-increase-card';
 export const GOOD_FIT = 'good-fit';
 export const NOT_GOOD_FIT = 'not-good-fit';
 export const OUTSIDE_DR = 'outside-dr-option';
@@ -104,7 +130,7 @@ export const verifyDrResultsHeader = expectedPage =>
     .should('be.visible')
     .should('have.text', DR_HEADING);
 
-export const checkOverviewPanel = expectedItems => {
+export const checkOverviewPanel = (expectedItems, CFI = false) => {
   const expectedCount = expectedItems?.length;
 
   cy.get(`[data-testid*="${OVERVIEW_OPTION}"]`).should(
@@ -117,6 +143,12 @@ export const checkOverviewPanel = expectedItems => {
       .should('be.visible')
       .should('have.text', item);
   });
+
+  if (CFI) {
+    cy.findByTestId(CLAIM_FOR_INCREASE_OPTION)
+      .should('be.visible')
+      .should('have.text', 'Claim for Increase');
+  }
 };
 
 export const checkGoodFitCards = expectedCards => {
@@ -164,11 +196,14 @@ export const checkNotGoodFitCards = expectedCards => {
   });
 };
 
-export const verifyNotGoodFitCardsNotPresent = () =>
-  cy.get(`[data-testid^="${NOT_GOOD_FIT}"]`).should('not.exist');
-
 export const verifyOutsideDROptionPresent = () =>
   cy.findByTestId(OUTSIDE_DR).should('be.visible');
 
 export const verifyOutsideDROptionNotPresent = () =>
   cy.findByTestId(OUTSIDE_DR).should('not.exist');
+
+export const verifyClaimForIncreaseCardPresent = () =>
+  cy.findByTestId(CLAIM_FOR_INCREASE_CARD).should('be.visible');
+
+export const verifyClaimForIncreaseCardNotPresent = () =>
+  cy.findByTestId(CLAIM_FOR_INCREASE_CARD).should('not.exist');

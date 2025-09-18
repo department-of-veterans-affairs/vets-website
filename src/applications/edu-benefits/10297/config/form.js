@@ -13,11 +13,9 @@ import { transform } from './submit-transformer';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import PreSubmitInfo from '../components/PreSubmitInfo';
-import EligibilitySummary from '../components/EligibilitySummary';
 
 // Pages
 import {
-  eligibilityQuestions,
   applicantFullname,
   mailingAddress,
   phoneAndEmail,
@@ -30,6 +28,7 @@ import {
   trainingProviderSummary,
   trainingProviderDetails,
   trainingProviderStartDate,
+  atLeast3Years,
 } from '../pages';
 
 import { trainingProviderArrayOptions } from '../helpers';
@@ -75,43 +74,33 @@ const formConfig = {
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   preSubmitInfo: {
+    CustomComponent: PreSubmitInfo,
+    required: true,
+    field: 'privacyAgreementAccepted',
     statementOfTruth: {
-      heading: 'Certification statement',
-      body: PreSubmitInfo,
+      // heading: 'Certification statement',
+      // // body: PreSubmitInfo,
       messageAriaDescribedby: 'I have read and accept the privacy policy.',
       fullNamePath: 'applicantFullName',
     },
   },
   transformForSubmit: transform,
+  useCustomScrollAndFocus: true,
   chapters: {
-    eligibilityChapter: {
-      title: 'Check eligibility',
-      pages: {
-        eligibilityQuestions: {
-          path: 'eligibility-questions',
-          title: 'Eligibility questions',
-          uiSchema: eligibilityQuestions.uiSchema,
-          schema: eligibilityQuestions.schema,
-        },
-        eligibilitySummary: {
-          path: 'eligibility-summary',
-          title: 'Eligibility summary',
-          CustomPage: EligibilitySummary,
-          CustomPageReview: null,
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
-          hideOnReview: true,
-        },
-      },
-    },
     identificationChapter: {
       title: 'Your information',
       pages: {
         applicantFullName: {
           path: 'applicant-fullname',
-          title: 'Enter your full name',
+          title: 'Name and date of birth',
           uiSchema: applicantFullname.uiSchema,
           schema: applicantFullname.schema,
+        },
+        identificationInformation: {
+          path: 'identification-information',
+          title: 'Identification information',
+          uiSchema: identificationInformation.uiSchema,
+          schema: identificationInformation.schema,
         },
         mailingAddress: {
           path: 'mailing-address',
@@ -125,22 +114,22 @@ const formConfig = {
           uiSchema: phoneAndEmail.uiSchema,
           schema: phoneAndEmail.schema,
         },
-        identificationInformation: {
-          path: 'identification-information',
-          title: 'Identification information',
-          uiSchema: identificationInformation.uiSchema,
-          schema: identificationInformation.schema,
+        veteranStatus: {
+          path: 'at-least-3-years',
+          title: 'Your Veteran status',
+          uiSchema: atLeast3Years.uiSchema,
+          schema: atLeast3Years.schema,
         },
         dateReleasedFromActiveDuty: {
           path: 'date-released-from-active-duty',
           title: 'Date released from active duty',
           uiSchema: dateReleasedFromActiveDuty.uiSchema,
           schema: dateReleasedFromActiveDuty.schema,
-          depends: formData => formData?.dutyRequirement !== 'atLeast3Years',
+          depends: formData => formData?.dutyRequirement !== 'veteranStatus',
         },
         activeDutyStatus: {
           path: 'active-duty-status',
-          title: 'Active duty status',
+          title: 'Active duty status during program',
           uiSchema: activeDutyStatus.uiSchema,
           schema: activeDutyStatus.schema,
         },

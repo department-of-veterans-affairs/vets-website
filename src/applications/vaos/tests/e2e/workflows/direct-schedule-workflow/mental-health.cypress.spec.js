@@ -150,7 +150,7 @@ describe('VAOS direct schedule flow - Mental health', () => {
             .clickNextButton();
 
           TypeOfMentalHealthPageObject.assertUrl()
-            .selectTypeOfMentalHealth(typeOfCareName)
+            .selectTypeOfMentalHealth(/Mental health services/i)
             .clickNextButton();
 
           VAFacilityPageObject.assertUrl()
@@ -234,7 +234,7 @@ describe('VAOS direct schedule flow - Mental health', () => {
             .clickNextButton();
 
           TypeOfMentalHealthPageObject.assertUrl()
-            .selectTypeOfMentalHealth(typeOfCareName)
+            .selectTypeOfMentalHealth(/Mental health services/i)
             .clickNextButton();
 
           VAFacilityPageObject.assertUrl()
@@ -325,7 +325,7 @@ describe('VAOS direct schedule flow - Mental health', () => {
             .clickNextButton();
 
           TypeOfMentalHealthPageObject.assertUrl()
-            .selectTypeOfMentalHealth(typeOfCareName)
+            .selectTypeOfMentalHealth(/Substance use problem services/i)
             .clickNextButton();
 
           VAFacilityPageObject.assertUrl()

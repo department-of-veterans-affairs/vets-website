@@ -30,6 +30,10 @@ const testConfig = createTestConfig(
               name: 'vaDependentsV2',
               value: true,
             },
+            {
+              name: 'vaDependentsNetWorthAndPension',
+              value: false,
+            },
           ],
         },
       });

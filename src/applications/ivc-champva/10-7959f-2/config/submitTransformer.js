@@ -40,9 +40,8 @@ export default function transformForSubmit(formConfig, form) {
         state: 'NA',
         postalCode: 'NA',
       },
-      ssn: transformedData?.veteranSocialSecurityNumber?.ssn || '',
-      va_claim_number:
-        transformedData?.veteranSocialSecurityNumber?.vaFileNumber || '',
+      ssn: transformedData?.veteranSocialSecurityNumber || '',
+      va_claim_number: '',
       phone_number: transformedData.veteranPhoneNumber || '',
       email_address: transformedData.veteranEmailAddress || '',
       send_payment: transformedData.sendPayment,

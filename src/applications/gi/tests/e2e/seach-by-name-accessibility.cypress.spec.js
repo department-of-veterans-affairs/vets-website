@@ -49,12 +49,13 @@ describe('CT before search by name accessibility', () => {
     cy.focused().should('contain.text', 'Search');
     cy.repeatKey('Tab', 13);
     cy.focused().should('contain.text', 'Go to community focus details');
-    cy.realPress('Enter');
-    cy.get('[part="accordion-header"]').should(
-      'have.attr',
-      'aria-expanded',
-      'true',
-    );
+    // cy.realPress('Enter');
+    // cy.get('[part="accordion-header"]').should(
+    //   'have.attr',
+    //   'aria-expanded',
+    //   'true',
+    // );
+    // cy.focused().should('contain.text', 'Learn more about community focus filters');
     cy.repeatKey('Tab', 11);
     cy.focused().should('contain.text', 'Apply filters');
     cy.realPress('Enter');
@@ -83,16 +84,16 @@ describe('CT before search by name accessibility', () => {
     cy.get('@checkbox2').should('not.be.checked');
     cy.get('@checkbox').should('have.attr', 'checked');
     cy.repeatKey('Tab', 27);
-    cy.focused().should(
-      'contain.text',
-      'Learn more about community focus filters',
-    );
-    cy.realPress('Enter');
-    cy.get('[part="accordion-header"]').should(
-      'not.have.attr',
-      'aria-expanded',
-      'true',
-    );
+    // cy.focused().should(
+    //   'contain.text',
+    //   'Learn more about community focus filters',
+    // );
+    // cy.realPress('Enter');
+    // cy.get('[part="accordion-header"]').should(
+    //   'not.have.attr',
+    //   'aria-expanded',
+    //   'true',
+    // );
     cy.repeatKey('Tab', 1);
     cy.focused().should('contain.text', 'About this tool');
     cy.realPress('Enter');

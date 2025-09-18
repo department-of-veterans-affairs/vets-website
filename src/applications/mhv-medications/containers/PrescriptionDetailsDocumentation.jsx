@@ -1,11 +1,7 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom-v5-compat';
 import { useSelector } from 'react-redux';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import {
-  MhvPageNotFound,
-  updatePageTitle,
-} from '@department-of-veterans-affairs/mhv/exports';
+import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import {
@@ -26,7 +22,6 @@ import {
 import { pageType } from '../util/dataDogConstants';
 import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDropdown';
 import CallPharmacyPhone from '../components/shared/CallPharmacyPhone';
-import { selectGroupingFlag } from '../util/selectors';
 import { useGetPrescriptionDocumentationQuery } from '../api/prescriptionsApi';
 import { usePrescriptionData } from '../hooks/usePrescriptionData';
 import {
@@ -39,11 +34,7 @@ const PrescriptionDetailsDocumentation = () => {
   const { prescriptionId } = useParams();
   const contentRef = useRef();
 
-  const { isDisplayingDocumentation, dob, userName } = useSelector(state => ({
-    isDisplayingDocumentation:
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvMedicationsDisplayDocumentationContent
-      ],
+  const { dob, userName } = useSelector(state => ({
     userName: state.user.profile.userFullName,
     dob: state.user.profile.dob,
   }));
@@ -61,11 +52,9 @@ const PrescriptionDetailsDocumentation = () => {
   const selectedSortOption = useSelector(selectSortOption);
   const selectedFilterOption = useSelector(selectFilterOption);
   const currentPage = useSelector(selectPageNumber);
-  // Consolidate query parameters into a single state object to avoid multiple re-renders
-  const showGroupingContent = useSelector(selectGroupingFlag);
   const [queryParams] = useState({
     page: currentPage || 1,
-    perPage: showGroupingContent ? 10 : 20,
+    perPage: 10,
     sortEndpoint:
       rxListSortingOptions[selectedSortOption]?.API_ENDPOINT ||
       rxListSortingOptions[defaultSelectedSortOption].API_ENDPOINT,
@@ -176,9 +165,6 @@ const PrescriptionDetailsDocumentation = () => {
     [isLoadingDoc, isLoadingRx, hasDocApiError, htmlContent],
   );
 
-  if (!isDisplayingDocumentation) {
-    return <MhvPageNotFound />;
-  }
   if (hasDocApiError || prescriptionApiError) {
     return (
       <div>

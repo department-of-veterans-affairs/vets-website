@@ -78,7 +78,7 @@ export function getTypeOfCare(data) {
 
   if (
     data.typeOfCareId === TYPE_OF_CARE_IDS.AUDIOLOGY_ID &&
-    data.facilityType === FACILITY_TYPES.COMMUNITY_CARE
+    data.facilityType === FACILITY_TYPES.COMMUNITY_CARE.id
   ) {
     return AUDIOLOGY_TYPES_OF_CARE.find(
       care => care.ccId === data.audiologyType,

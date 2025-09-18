@@ -16,4 +16,4 @@ export const ACCESSORY = 'Accessory';
 export const BATTERY = 'Battery';
 export const APNEA = 'Apnea';
 
-export const DLC_PHONE = '3032736200';
+export const DLC_PHONE = '8776778710';

@@ -134,9 +134,7 @@ describe('Interstitial page header', () => {
 
     await waitFor(() => {
       expect(acknowledgeSpy.called).to.be.false;
-      expect(history.location.pathname).to.equal(
-        '/new-message/select-care-team',
-      );
+      expect(history.location.pathname).to.equal('/new-message/recent');
     });
   });
 });

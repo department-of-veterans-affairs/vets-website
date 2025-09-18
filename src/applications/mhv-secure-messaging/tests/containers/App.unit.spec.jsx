@@ -7,7 +7,7 @@ import { createServiceMap } from '@department-of-veterans-affairs/platform-monit
 import { pageNotFoundHeading } from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import sinon from 'sinon';
 import { addDays, subDays, format } from 'date-fns';
-import { waitFor } from '@testing-library/dom';
+import { fireEvent, waitFor } from '@testing-library/dom';
 import App from '../../containers/App';
 import * as SmApi from '../../api/SmApi';
 import reducer from '../../reducers';
@@ -367,13 +367,24 @@ describe('App', () => {
     const screen = renderWithStoreAndRouter(<App />, {
       initialState: customState,
       reducers: reducer,
-      path: Paths.CARE_TEAM_HELP,
+      path: Paths.COMPOSE,
     });
+
+    // Accept interstitial (sets acceptInterstitial internally)
+    const continueButton = await screen.findByRole('button', {
+      name: /Continue to start message/i,
+    });
+    continueButton.click();
+
+    // Navigate to Care Team Help route
+    const link = await screen.findByText(
+      'What to do if you can’t find your care team',
+    );
+    fireEvent.click(link);
 
     await waitFor(() => {
       expect(
         screen.getByRole('heading', {
-          // Avoid exact apostrophe issues by using a regex
           name: /can.?t find your care team\?/i,
         }),
       ).to.exist;
@@ -419,6 +430,80 @@ describe('App', () => {
       initialState: customState,
       reducers: reducer,
       path: Paths.CARE_TEAM_HELP,
+    });
+
+    await waitFor(() => {
+      expect(screen.getByTestId('mhv-page-not-found')).to.exist;
+      expect(
+        screen.getByText(pageNotFoundHeading, {
+          selector: 'h1',
+          exact: true,
+        }),
+      ).to.exist;
+    });
+  });
+
+  it('renders RecentCareTeams component when feature flag is enabled', async () => {
+    const recipients = [
+      {
+        triageTeamId: 3188767,
+        name: 'TG API TESTING',
+        healthCareSystemName: 'VA Maryland health care',
+        stationNumber: '512',
+      },
+      {
+        triageTeamId: 3658288,
+        name: 'Record Amendment Admin',
+        healthCareSystemName: 'VA Maryland health care',
+        stationNumber: '512',
+      },
+    ];
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        recipients: {
+          recentRecipients: recipients,
+          allRecipients: recipients,
+        },
+        threadDetails: {
+          acceptInterstitial: true,
+        },
+      },
+      featureToggles: {},
+    };
+    customState.featureToggles[
+      FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow
+    ] = true;
+    customState.featureToggles[
+      FEATURE_FLAG_NAMES.mhvSecureMessagingRecentRecipients
+    ] = true;
+
+    const screen = renderWithStoreAndRouter(<App />, {
+      initialState: customState,
+      reducers: reducer,
+      path: Paths.RECENT_CARE_TEAMS,
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText('Recent care teams', { selector: 'h1' })).to
+        .exist;
+    });
+  });
+
+  it('does not render RecentCareTeams component when feature flag is disabled', async () => {
+    const customState = {
+      ...initialState,
+      featureToggles: {},
+    };
+    customState.featureToggles[
+      FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot
+    ] = false;
+
+    const screen = renderWithStoreAndRouter(<App />, {
+      initialState: customState,
+      reducers: reducer,
+      path: Paths.RECENT_CARE_TEAMS,
     });
 
     await waitFor(() => {

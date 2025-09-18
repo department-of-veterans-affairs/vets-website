@@ -21,20 +21,24 @@ class VitalsListPage extends BaseListPage {
   }
   */
 
-  goToVitals = (vitals = defaultVitals, waitForVitals = false) => {
+  goToVitals = (vitals = defaultVitals) => {
     // cy.intercept('POST', '/my_health/v1/medical_records/session').as('session');
     // cy.wait('@session');
     cy.intercept('GET', '/my_health/v1/medical_records/vitals', vitals).as(
       'vitalsList',
     );
+    cy.intercept('POST', '/v0/datadog_action', {}).as('datadogAction');
     cy.visit('my-health/medical-records/vitals');
-    if (waitForVitals) {
-      cy.wait('@vitalsList');
-    }
+    cy.wait('@vitalsList');
+    cy.wait('@vamcEhr');
+    cy.wait('@mockUser');
+    cy.wait('@featureToggles');
+    cy.wait('@maintenanceWindow');
+    cy.wait('@status');
   };
 
   clickLinkByRecordListItemIndex = (index = 0) => {
-    cy.get('[data-testid="record-list-item"]')
+    cy.findAllByTestId('record-list-item')
       .find('a')
       .eq(index)
       .click();
@@ -56,7 +60,7 @@ class VitalsListPage extends BaseListPage {
   };
 
   clickVitalsDetailsLink = (_VitalsIndex = 0) => {
-    cy.get('[data-testid="record-list-item"]')
+    cy.findAllByTestId('record-list-item')
       .find('a')
       .eq(_VitalsIndex)
       .click();

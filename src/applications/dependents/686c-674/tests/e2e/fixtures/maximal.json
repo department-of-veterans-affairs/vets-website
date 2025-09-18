@@ -1,4 +1,5 @@
 {
+    "vaDependentsNetWorthAndPension": false,
     "view:additionalEvidenceDescription": {},
     "spouseSupportingDocuments": [
       {
@@ -47,7 +48,7 @@
     ],
     "householdIncome": false,
     "reportDivorce": {
-      "spouseIncome": "NA",
+      "spouseIncome": "N",
       "date": "2019-03-02",
       "divorceLocation": {
         "outsideUsa": true,
@@ -78,7 +79,7 @@
       "date": "1991-03-19"
     },
     "doesLiveWithSpouse": {
-      "spouseIncome": "NA",
+      "spouseIncome": "N",
       "spouseDoesLiveWithVeteran": true,
       "address": {
         "view:militaryBaseDescription": {}
@@ -88,14 +89,51 @@
       "ssn": "333445555",
       "vaFileNumber": "987654321",
       "serviceNumber": "W123456",
-      "birthDate": "1991-02-19",
+      "birthDate": "1970-07-07",
       "isVeteran": true,
       "fullName": {
-        "first": "Two-Names",
-        "last": "Doe"
+        "first": "Mary",
+        "last": "Foster"
       }
     },
     "view:cancelAddSpouse": {},
+    "dependents": {
+      "hasDependents": true,
+      "awarded": [
+        {
+          "fullName": {
+            "first": "SPOUSY",
+            "last": "FOSTER"
+          },
+          "dateOfBirth": "1970-07-07",
+          "ssn": "702023332",
+          "relationshipToVeteran": "Spouse",
+          "awardIndicator": "Y"
+        },
+        {
+          "fullName": {
+            "first": "PENNY",
+            "last": "FOSTER"
+          },
+          "dateOfBirth": "2014-08-08",
+          "ssn": "793473479",
+          "relationshipToVeteran": "Child",
+          "awardIndicator": "Y"
+        }
+      ],
+      "notAwarded": [
+        {
+          "fullName": {
+            "first": "NOMY",
+            "last": "FOSTER"
+          },
+          "dateOfBirth": "2000-09-09",
+          "ssn": "793473470",
+          "relationshipToVeteran": "Child",
+          "awardIndicator": "N"
+        }
+      ]
+    },
     "veteranContactInformation": {
       "veteranAddress": {
         "isMilitary": false,
@@ -136,7 +174,7 @@
     ],
     "childrenToAdd": [
       {
-        "incomeInLastYear": "NA",
+        "incomeInLastYear": "N",
         "marriageEndDescription": "Other",
         "marriageEndDate": "2021-08-18",
         "marriageEndReason": "Other",
@@ -196,7 +234,8 @@
       "ssn": "796330625",
       "birthDate": "1976-06-09",
       "ssnLastFour": "0625",
-      "vaFileLastFour": "0625"
+      "vaFileLastFour": "0625",
+      "isInReceiptOfPension": -1
     },
     "useV2": true,
     "daysTillExpires": 365,
@@ -261,7 +300,7 @@
         "remarks": "asdf",
         "benefitPaymentDate": "2021-01-19",
         "marriageDate": "1991-01-19",
-        "studentIncome": "NA",
+        "studentIncome": "N",
         "fullName": {
           "first": "John",
           "last": "Doe"
@@ -327,7 +366,7 @@
             "state": "CO"
           }
         },
-        "deceasedDependentIncome": "NA",
+        "deceasedDependentIncome": "N",
         "dependentDeathDate": "1991-05-19",
         "dependentType": "SPOUSE",
         "fullName": {
@@ -340,7 +379,7 @@
     ],
     "childMarriage": [
       {
-        "dependentIncome": "NA",
+        "dependentIncome": "N",
         "dateMarried": "1991-01-19",
         "fullName": {
           "first": "John",
@@ -352,7 +391,7 @@
     ],
     "childStoppedAttendingSchool": [
       {
-        "dependentIncome": "NA",
+        "dependentIncome": "N",
         "dateChildLeftSchool": "1991-03-19",
         "fullName": {
           "first": "John",

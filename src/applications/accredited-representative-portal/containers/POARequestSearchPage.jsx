@@ -12,6 +12,7 @@ import {
   VaBreadcrumbs,
   VaAlert,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { focusElement } from 'platform/utilities/ui';
 import api from '../utilities/api';
 import {
   SEARCH_BC_LABEL,
@@ -68,12 +69,18 @@ const POARequestSearchPage = title => {
   const [searchParams] = useSearchParams();
   useEffect(
     () => {
+      focusElement('h1');
       document.title = title.title;
     },
     [title],
   );
-  const loaderData = useLoaderData();
-  const { data: poaRequests, meta, showPOA403Alert } = loaderData;
+  const loaderData = useLoaderData() || {};
+  const poaRequests = loaderData.data || [];
+  const meta =
+    loaderData.meta && loaderData.meta.page
+      ? loaderData.meta
+      : { page: { total: 0, number: 1, totalPages: 1 } };
+  const { showPOA403Alert } = loaderData;
   const searchStatus = searchParams.get('status');
   const selectedIndividual = searchParams.get('as_selected_individual');
   const navigation = useNavigation();
@@ -235,8 +242,12 @@ const POARequestSearchPage = title => {
               }
             })()}
 
-            <POARequestSearchPageResults poaRequests={poaRequests} />
-            <Pagination meta={meta} defaults={PENDING_SORT_DEFAULTS} />
+            {meta.page.total > 0 && (
+              <>
+                <POARequestSearchPageResults poaRequests={poaRequests} />
+                <Pagination meta={meta} defaults={PENDING_SORT_DEFAULTS} />
+              </>
+            )}
           </div>
         )}
       </div>

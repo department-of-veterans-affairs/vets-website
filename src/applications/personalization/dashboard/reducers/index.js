@@ -11,6 +11,7 @@ import debts from './debts';
 import payments from './payments';
 import forms from './form-status';
 import formPdfs from './form-pdf-urls';
+import preferences from './preferences';
 
 export default {
   ...profile,
@@ -19,6 +20,7 @@ export default {
   allPayments: payments,
   allDebts: debts,
   submittedForms: forms,
+  myVaPreferences: preferences,
   myVaFormPdfs: formPdfs,
   health: combineReducers({
     appointments,

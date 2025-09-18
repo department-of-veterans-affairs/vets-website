@@ -82,7 +82,9 @@ class PilotEnvPage {
 
   navigateToComposePage = () => {
     PatientComposePage.interceptSentFolder();
-    cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click({ force: true });
+    cy.findByTestId(Locators.LINKS.CREATE_NEW_MESSAGE_DATA_TEST_ID).click({
+      force: true,
+    });
     PatientInterstitialPage.getContinueButton().click({ force: true });
   };
 
@@ -199,7 +201,9 @@ class PilotEnvPage {
   };
 
   navigateToSelectCareTeamPage = () => {
-    cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click({ force: true });
+    cy.findByTestId(Locators.LINKS.CREATE_NEW_MESSAGE_DATA_TEST_ID).click({
+      force: true,
+    });
     PatientInterstitialPage.getContinueButton().click({ force: true });
   };
 

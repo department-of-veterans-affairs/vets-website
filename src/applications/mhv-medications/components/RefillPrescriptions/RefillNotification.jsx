@@ -62,9 +62,9 @@ const RefillNotification = ({ refillStatus, successfulMeds, failedMeds }) => {
           Request not submitted
         </h2>
         <p>We’re sorry. There’s a problem with our system.</p>
-        <p>
-          To request refills, call the pharmacy number on your prescription
-          label.
+        <p data-testid="not-submitted-suggestion">
+          Try requesting your refills again. If it still doesn’t work, contact
+          your VA pharmacy.
         </p>
       </va-alert>
       <va-alert

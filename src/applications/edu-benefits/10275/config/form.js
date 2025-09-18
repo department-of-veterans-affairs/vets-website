@@ -5,7 +5,7 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
+import { agreementType, institutionDetailsFacility } from '../pages';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -17,10 +17,6 @@ const formConfig = {
   trackingPrefix: 'edu-10275-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  dev: {
-    showNavLinks: true,
-    collapsibleNavLinks: true,
-  },
   formId: VA_FORM_IDS.FORM_22_10275,
   saveInProgress: {
     // messages: {
@@ -40,14 +36,53 @@ const formConfig = {
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   chapters: {
-    personalInformationChapter: {
-      title: 'Your personal information',
+    agreementTypeChapter: {
+      title: 'Agreement type',
       pages: {
-        nameAndDateOfBirth: {
-          path: 'name-and-date-of-birth',
-          title: 'Name and date of birth',
-          uiSchema: nameAndDateOfBirth.uiSchema,
-          schema: nameAndDateOfBirth.schema,
+        agreementType: {
+          path: 'agreement-type',
+          title: 'Agreement type',
+          uiSchema: agreementType.uiSchema,
+          schema: agreementType.schema,
+          onContinue: (data, setFormData) => {
+            const hasCode = !!data?.institutionDetails?.facilityCode?.trim();
+            if (hasCode) {
+              setFormData({
+                ...data,
+                institutionDetails: {
+                  ...data.institutionDetails,
+                  facilityCode: '',
+                  institutionName: undefined,
+                  institutionAddress: {},
+                  poeEligible: undefined,
+                },
+              });
+            }
+          },
+        },
+      },
+    },
+    newCommitmentChapter: {
+      title: 'Institution details',
+      pages: {
+        institutionDetailsFacilityNew: {
+          path: 'new-commitment-institution-details',
+          title: 'Institution details',
+          depends: data => data?.agreementType === 'newCommitment',
+          uiSchema: institutionDetailsFacility.uiSchema,
+          schema: institutionDetailsFacility.schema,
+        },
+      },
+    },
+    withdrawalChapter: {
+      title: 'Institution details',
+      pages: {
+        institutionDetailsFacilityWithdrawal: {
+          path: 'withdrawal-institution-details',
+          title: 'Institution details',
+          depends: data => data?.agreementType === 'withdrawal',
+          uiSchema: institutionDetailsFacility.uiSchema,
+          schema: institutionDetailsFacility.schema,
         },
       },
     },

@@ -18,6 +18,6 @@
 /* Override font size only on mobile (< small-screen breakpoint) */
 h1[data-title-for-noun-singular] {
   @media (max-width: #{$small-screen - 1}) {
-    font-size: 1.5rem !important; // override .vads-u-font-size--h2
+    font-size: 20px !important; // override .vads-u-font-size--h2
   }
 }

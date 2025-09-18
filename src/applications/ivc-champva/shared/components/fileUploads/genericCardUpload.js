@@ -31,6 +31,8 @@ export const createCardUploadSchema = ({
   cardTitle = 'Sample card',
   frontLabel = 'Upload front of card',
   backLabel = 'Upload back of card',
+  frontAttachmentId = '',
+  backAttachmentId = '',
 }) => {
   // Shows what the front and back of the specified card look like
   // (e.g., medicare red, white, and blue card or something)
@@ -109,6 +111,7 @@ export const createCardUploadSchema = ({
           </span>
         </div>
       ),
+      attachmentId: frontAttachmentId,
     }),
   });
 
@@ -124,6 +127,7 @@ export const createCardUploadSchema = ({
           </span>
         </div>
       ),
+      attachmentId: backAttachmentId,
     }),
   });
 

@@ -2,7 +2,7 @@ export default function prefillTransformer(pages, formData, metadata) {
   const basicInfo = {
     veteranFullName: formData?.personalInformation?.fullName,
     veteranDateOfBirth: formData?.personalInformation?.dateOfBirth,
-    veteranSocialSecurityNumber: { ssn: formData?.personalInformation?.ssn },
+    veteranSocialSecurityNumber: formData?.personalInformation?.ssn,
     veteranAddress: formData?.contactInformation?.address,
     veteranPhoneNumber: formData?.contactInformation?.primaryPhone,
     veteranEmailAddress: formData?.contactInformation?.email,
