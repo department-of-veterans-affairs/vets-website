@@ -24,9 +24,10 @@ export const uiSchema = {
       },
     ),
     'ui:description': UploadDescription,
+    // TODO: confirm and update this confirmationField label copy, can be multiple files
     'ui:confirmationField': ({ formData }) => ({
       data: formData?.map(item => item.name || item.fileName),
-      label: 'Lay statements and other evidence',
+      label: 'Uploaded file(s)',
     }),
   },
 };
