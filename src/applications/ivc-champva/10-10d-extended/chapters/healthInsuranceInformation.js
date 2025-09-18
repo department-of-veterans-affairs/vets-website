@@ -90,7 +90,6 @@ export const healthInsuranceOptions = {
   required: false,
   isItemIncomplete: item =>
     !(item.provider && item.insuranceType && item.effectiveDate),
-  maxItems: formData => formData?.applicants?.length,
   text: {
     summaryTitle: 'Report other health insurance',
     summaryTitleWithoutItems: 'Report other health insurance',
@@ -314,7 +313,7 @@ export const healthInsurancePages = arrayBuilderPages(
   healthInsuranceOptions,
   pageBuilder => ({
     healthInsuranceSummary: pageBuilder.summaryPage({
-      path: 'report-other-health-insurance',
+      path: 'review-your-health-insurance-plans',
       title: 'Report other health insurance',
       uiSchema: healthInsuranceSummaryPage.uiSchema,
       schema: healthInsuranceSummaryPage.schema,
