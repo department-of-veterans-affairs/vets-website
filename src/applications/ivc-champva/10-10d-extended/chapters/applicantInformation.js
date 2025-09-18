@@ -150,7 +150,7 @@ const applicantIntroPage = {
       },
     ),
     applicantName: fullNameUI(),
-    applicantDob: dateOfBirthUI(),
+    applicantDob: dateOfBirthUI({ dataDogHidden: true }),
   },
   schema: {
     type: 'object',
