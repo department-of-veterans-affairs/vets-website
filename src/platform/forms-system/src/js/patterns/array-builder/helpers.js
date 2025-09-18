@@ -493,6 +493,33 @@ export const useHeadingLevels = (userHeaderLevel, isReviewPage) => {
   return { headingLevel, headingStyle };
 };
 
+/**
+ * Resolves `maxItems` to a numeric value.
+ *
+ * - If `maxItems` is a function, it is called with `formData` and the returned
+ *   value is validated as a number.
+ * - If `maxItems` is a number, it is validated as finite and returned.
+ * - If `maxItems` is a string, it is trimmed, parsed into a number, and validated.
+ *
+ * @param {number | string | ((formData: object) => number | string)} maxItems
+ *   A static limit, string value, or resolver function.
+ * @param {object} formData
+ *   Data passed to the resolver when `maxItems` is a function.
+ * @returns {number | undefined}
+ *   The resolved maximum item count, or `undefined` if invalid or an error occurs.
+ */
+export const maxItemsFn = (maxItems, formData = {}) => {
+  try {
+    const raw = typeof maxItems === 'function' ? maxItems(formData) : maxItems;
+    const value = typeof raw === 'string' ? Number(raw.trim()) : raw;
+    return typeof value === 'number' && Number.isFinite(value)
+      ? value
+      : undefined;
+  } catch {
+    return undefined;
+  }
+};
+
 /*
  * Process array data for duplicate comparison
  * @param {Array<String>} array - array of processed form data for comparison

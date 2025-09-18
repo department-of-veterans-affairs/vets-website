@@ -89,14 +89,51 @@
       "ssn": "333445555",
       "vaFileNumber": "987654321",
       "serviceNumber": "W123456",
-      "birthDate": "1991-02-19",
+      "birthDate": "1970-07-07",
       "isVeteran": true,
       "fullName": {
-        "first": "Two-Names",
-        "last": "Doe"
+        "first": "Mary",
+        "last": "Foster"
       }
     },
     "view:cancelAddSpouse": {},
+    "dependents": {
+      "hasDependents": true,
+      "awarded": [
+        {
+          "fullName": {
+            "first": "SPOUSY",
+            "last": "FOSTER"
+          },
+          "dateOfBirth": "1970-07-07",
+          "ssn": "702023332",
+          "relationshipToVeteran": "Spouse",
+          "awardIndicator": "Y"
+        },
+        {
+          "fullName": {
+            "first": "PENNY",
+            "last": "FOSTER"
+          },
+          "dateOfBirth": "2014-08-08",
+          "ssn": "793473479",
+          "relationshipToVeteran": "Child",
+          "awardIndicator": "Y"
+        }
+      ],
+      "notAwarded": [
+        {
+          "fullName": {
+            "first": "NOMY",
+            "last": "FOSTER"
+          },
+          "dateOfBirth": "2000-09-09",
+          "ssn": "793473470",
+          "relationshipToVeteran": "Child",
+          "awardIndicator": "N"
+        }
+      ]
+    },
     "veteranContactInformation": {
       "veteranAddress": {
         "isMilitary": false,

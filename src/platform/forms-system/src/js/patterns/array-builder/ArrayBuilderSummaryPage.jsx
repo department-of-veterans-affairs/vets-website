@@ -21,6 +21,7 @@ import {
   getUpdatedItemFromPath,
   isDeepEmpty,
   // META_DATA_KEY,
+  maxItemsFn,
   slugifyText,
   useHeadingLevels,
   validateIncompleteItems,
@@ -84,7 +85,7 @@ function getYesNoReviewErrorMessage(reviewErrors, hasItemsKey) {
  *   introPath: string,
  *   isItemIncomplete: function,
  *   isReviewPage: boolean,
- *   maxItems: number,
+ *   maxItems: number | ((formData: object) => number),
  *   missingInformationKey: string,
  *   nounPlural: string,
  *   nounSingular: string,
@@ -105,7 +106,6 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     introPath,
     isItemIncomplete,
     isReviewPage,
-    maxItems,
     missingInformationKey,
     nounPlural,
     nounSingular,
@@ -149,6 +149,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
       isReviewPage,
     );
     const Heading = `h${headingLevel}`;
+    const maxItems = maxItemsFn(arrayBuilderOptions.maxItems, props.data);
     const isMaxItemsReached = arrayData?.length >= maxItems;
     const hasReviewError =
       isReviewPage && checkHasYesNoReviewError(props.reviewErrors, hasItemsKey);

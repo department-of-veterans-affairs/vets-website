@@ -210,9 +210,6 @@ export const IntroductionPage = props => {
           pageList={pageList}
           startText="Start your Yellow Ribbon Program Agreement"
           formConfig={formConfig}
-          devOnly={{
-            forceShowFormControls: true,
-          }}
           unauthStartText="Sign in to start your form"
         />
       </div>
