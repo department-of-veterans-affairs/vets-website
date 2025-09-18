@@ -36,6 +36,8 @@ const HEALTH_CONDITIONS_LABEL = 'Go to your health conditions';
 const VITALS_LABEL = 'Go to your vitals';
 const MEDICAL_RECORDS_DOWNLOAD_LABEL =
   'Go to download your medical records reports';
+const MEDICAL_RECORDS_REQUEST_LABEL =
+  'Learn more about submitting a medical records request';
 const MEDICAL_RECORDS_SETTINGS_LABEL =
   'Go to manage your electronic sharing settings';
 const SHARE_PERSONAL_HEALTH_DATA_WITH_YOUR_CARE_TEAM =
@@ -356,6 +358,27 @@ const LandingPage = () => {
               </section>
               <section className="vads-u-padding-bottom--3">
                 <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+                  What to do if you can’t find your medical records
+                </h2>
+                <p className="vads-u-margin-bottom--2">
+                  Some of your medical records may not be available on VA.gov
+                  right now. If you need to access your records and can’t find
+                  them here, you can submit a request by mail, by fax, or in
+                  person at your VA health facility.
+                </p>
+                <Link
+                  to="/requests"
+                  className="vads-c-action-link--blue"
+                  data-testid="request-landing-page-link"
+                  onClick={() => {
+                    sendDataDogAction(MEDICAL_RECORDS_REQUEST_LABEL);
+                  }}
+                >
+                  {MEDICAL_RECORDS_REQUEST_LABEL}
+                </Link>
+              </section>
+              <section className="vads-u-padding-bottom--3">
+                <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
                   Manage your electronic sharing settings
                 </h2>
                 <p className="vads-u-margin-bottom--2">
@@ -363,7 +386,7 @@ const LandingPage = () => {
                   notification settings.
                 </p>
                 <Link
-                  to="/settings"
+                  to="/resources/how-to-get-your-medical-records-from-your-va-health-facility/"
                   className="vads-c-action-link--blue"
                   data-testid="settings-landing-page-link"
                   onClick={() => {

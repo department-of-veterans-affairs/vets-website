@@ -345,6 +345,7 @@ export const Paths = {
   ALLERGIES: '/allergies/',
   HEALTH_CONDITIONS: '/conditions/',
   VITALS: '/vitals/',
+  REQUESTS: '/settings/',
   SETTINGS: '/settings/',
   DOWNLOAD: '/download/',
   BLOOD_OXYGEN_LEVEL: '/vitals/blood-oxygen-level-history',
@@ -385,6 +386,11 @@ export const Breadcrumbs = {
     isRouterLink: true,
   },
   VITALS: { href: Paths.VITALS, label: 'Vitals', isRouterLink: true },
+  REQUESTS: {
+    href: Paths.REQUESTS,
+    label: "What to do if you can't find your medical records",
+    isRouterLink: true,
+  },
   SETTINGS: {
     href: Paths.SETTINGS,
     label: 'Manage your electronic sharing settings',
