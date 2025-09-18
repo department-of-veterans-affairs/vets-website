@@ -184,7 +184,7 @@
     {
       "rootFolder": "mhv-landing-page",
       "slackGroup": "@mhv-vagov-dev",
-      "slackChannel": "C0581MN69TJ"
+      "slackChannel": "C096YQLRWHK"
     },
     {
       "rootFolder": "mhv-medical-records",
@@ -192,8 +192,8 @@
     },
     {
       "rootFolder": "mhv-medications",
-      "slackGroup": "@mhv-on-va-gov-group",
-      "slackChannel": "C096YQLRWHK"
+      "slackGroup": "@mhv-vagov-dev",
+      "slackChannel": "C04PRFEJQTY"
     },
     {
       "rootFolder": "mhv-secure-messaging",
