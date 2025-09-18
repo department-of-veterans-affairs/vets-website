@@ -75,6 +75,7 @@ export default function VaFileInputMultiplePage() {
       // Brief delay to simulate network attempt
       await new Promise(resolve => setTimeout(resolve, 500));
 
+      // Set file error
       setFileErrors(prev => {
         const newFileErrors = [...prev];
         newFileErrors[index] = errorScenario.message;
@@ -94,7 +95,9 @@ export default function VaFileInputMultiplePage() {
         `Mock upload error (${errorScenario.type}):`,
         errorScenario.message,
       );
-      return;
+
+      // Return null to indicate error - caller will handle file object creation
+      return null;
     }
 
     // Simulate upload progress using component's percentUploaded prop
@@ -199,9 +202,18 @@ export default function VaFileInputMultiplePage() {
       } else {
         // Non-encrypted files - upload immediately
         const processedFile = await mockFileUpload(file, index);
+
+        // Always set a file object to maintain array consistency
         setFiles(prevFiles => {
           const newFiles = [...prevFiles];
-          newFiles[index] = processedFile;
+          newFiles[index] = processedFile || {
+            name: file.name,
+            size: file.size,
+            type: file.type,
+            status: 'error',
+            encrypted: false,
+            _originalFile: file,
+          };
           return newFiles;
         });
       }
@@ -219,9 +231,18 @@ export default function VaFileInputMultiplePage() {
           index,
           password,
         );
+
+        // Always set a file object to maintain array consistency
         setFiles(prevFiles => {
           const newFiles = [...prevFiles];
-          newFiles[index] = processedFile;
+          newFiles[index] = processedFile || {
+            name: fileDetails.file.name,
+            size: fileDetails.file.size,
+            type: fileDetails.file.type,
+            status: 'error',
+            encrypted: true,
+            _originalFile: fileDetails.file,
+          };
           return newFiles;
         });
       } catch (error) {
@@ -241,8 +262,6 @@ export default function VaFileInputMultiplePage() {
     () =>
       debounce(({ file, password }, index) => {
         if (password && password.length > 0) {
-          console.log(`🔐 Processing password for ${file.name} after debounce`);
-
           // Clear password error
           setPasswordErrors(prev => {
             const newPasswordErrors = [...prev];
@@ -283,15 +302,8 @@ export default function VaFileInputMultiplePage() {
 
     // Use functional updates to avoid stale closure issues
     setFiles(prevFiles => {
-      const newFiles = prevFiles.filter(
-        file =>
-          file &&
-          file.name &&
-          !(file.name === removedFile.name && file.size === removedFile.size),
-      );
-
-      // Find the index of the removed file in the previous state
-      const fileIndex = prevFiles.findIndex(
+      // Find the specific index to remove (first match)
+      const indexToRemove = prevFiles.findIndex(
         file =>
           file &&
           file.name &&
@@ -299,36 +311,45 @@ export default function VaFileInputMultiplePage() {
           file.size === removedFile.size,
       );
 
-      // Only update other states if file was found
-      if (fileIndex !== -1) {
-        // Remove progress for this file
-        setPercentsUploaded(prev => {
-          const newPercents = [...prev];
-          newPercents.splice(fileIndex, 1);
-          return newPercents;
-        });
-
-        // Clear encrypted state
-        setEncrypted(prev => {
-          const newEncrypted = [...prev];
-          newEncrypted.splice(fileIndex, 1);
-          return newEncrypted;
-        });
-
-        // Clear password errors
-        setPasswordErrors(prev => {
-          const newPasswordErrors = [...prev];
-          newPasswordErrors.splice(fileIndex, 1);
-          return newPasswordErrors;
-        });
-
-        // Clear file-level errors
-        setFileErrors(prev => {
-          const newFileErrors = [...prev];
-          newFileErrors.splice(fileIndex, 1);
-          return newFileErrors;
-        });
+      if (indexToRemove === -1) {
+        console.warn('File to remove not found in array');
+        return prevFiles;
       }
+
+      // Remove only the specific file at that index
+      const newFiles = [...prevFiles];
+      newFiles.splice(indexToRemove, 1);
+
+      // Use the same index for all state arrays to maintain consistency
+      const fileIndex = indexToRemove;
+
+      // Remove corresponding entries from all state arrays
+      setPercentsUploaded(prev => {
+        const newPercents = [...prev];
+        newPercents.splice(fileIndex, 1);
+        return newPercents;
+      });
+
+      // Clear encrypted state
+      setEncrypted(prev => {
+        const newEncrypted = [...prev];
+        newEncrypted.splice(fileIndex, 1);
+        return newEncrypted;
+      });
+
+      // Clear password errors
+      setPasswordErrors(prev => {
+        const newPasswordErrors = [...prev];
+        newPasswordErrors.splice(fileIndex, 1);
+        return newPasswordErrors;
+      });
+
+      // Clear file-level errors
+      setFileErrors(prev => {
+        const newFileErrors = [...prev];
+        newFileErrors.splice(fileIndex, 1);
+        return newFileErrors;
+      });
 
       return newFiles;
     });
@@ -355,16 +376,44 @@ export default function VaFileInputMultiplePage() {
         break;
       }
       case 'FILE_UPDATED': {
-        const index = state.findIndex(
-          f => f.file.name === file.name && f.file.size === file.size,
-        );
-        if (index !== -1) {
-          const fileDetails = state[index];
-          handleFileAdded(fileDetails, index);
+        // For FILE_UPDATED, we need to find which position was actually updated
+        // The issue: findIndex by name/size finds the FIRST match, not the updated position
+        // Better approach: Find the index by comparing the current state with our files array
+        let updatedIndex = -1;
+
+        // Compare state with our current files to find which position changed
+        for (let i = 0; i < state.length; i++) {
+          const stateFile = state[i]?.file;
+          const ourFile = files[i];
+
+          // If the file at this position is different from what we have, this is the updated index
+          if (
+            stateFile &&
+            ourFile &&
+            (stateFile.name !== ourFile.name ||
+              stateFile.size !== ourFile.size ||
+              stateFile.lastModified !== ourFile._originalFile?.lastModified)
+          ) {
+            updatedIndex = i;
+            break;
+          }
+        }
+
+        // Fallback to the original method if we can't determine the position
+        if (updatedIndex === -1) {
+          updatedIndex = state.findIndex(
+            f => f.file.name === file.name && f.file.size === file.size,
+          );
+        }
+
+        if (updatedIndex !== -1) {
+          const fileDetails = state[updatedIndex];
+          handleFileAdded(fileDetails, updatedIndex);
         }
         break;
       }
       case 'PASSWORD_UPDATE': {
+        // For password updates, we can still use the original method since it's less ambiguous
         const index = state.findIndex(
           f => f.file.name === file.name && f.file.size === file.size,
         );
@@ -491,6 +540,11 @@ export default function VaFileInputMultiplePage() {
           <strong>resetVisualState:</strong> [
           {fileErrors.map(error => (error ? 'true' : 'null')).join(', ')}]
           <em>(resets visual state when errors occur)</em>
+        </p>
+        <p style={{ margin: '4px 0 0 0', fontSize: '11px', color: '#888' }}>
+          <strong>Array lengths:</strong> files: {files.length}, errors:{' '}
+          {fileErrors.length}, progress: {percentsUploaded.length}, encrypted:{' '}
+          {encrypted.length}
         </p>
       </div>
     </div>
