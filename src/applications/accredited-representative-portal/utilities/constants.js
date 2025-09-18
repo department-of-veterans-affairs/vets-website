@@ -85,9 +85,4 @@ export const NAV_MENU_DROPDOWN = [
     FEATURE_FLAG_NAME: 'accredited_representative_portal_submissions',
     TEST_ID: 'submissions-link',
   },
-  {
-    LABEL: 'Help',
-    URL: '/get-help',
-    TEST_ID: 'user-nav-profile-link',
-  },
 ];
