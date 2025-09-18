@@ -6,6 +6,8 @@ import {
   renderMHVDowntime,
   updatePageTitle,
   openCrisisModal,
+  logUniqueUserMetricsEvents,
+  EVENT_REGISTRY,
 } from '@department-of-veterans-affairs/mhv/exports';
 import {
   DowntimeNotification,
@@ -90,6 +92,9 @@ const LandingPage = () => {
       createSession();
 
       updatePageTitle(pageTitles.MEDICAL_RECORDS_PAGE_TITLE);
+
+      // Log unique user metrics for medical records access
+      logUniqueUserMetricsEvents(EVENT_REGISTRY.MEDICAL_RECORDS_ACCESSED);
     },
     [dispatch],
   );
@@ -163,6 +168,9 @@ const LandingPage = () => {
               onClick={() => {
                 sendAalViewList('Lab and test results');
                 sendDataDogAction(LAB_TEST_RESULTS_LABEL);
+                logUniqueUserMetricsEvents(
+                  EVENT_REGISTRY.MEDICAL_RECORDS_LABS_ACCESSED,
+                );
               }}
             >
               {LAB_TEST_RESULTS_LABEL}
@@ -185,6 +193,9 @@ const LandingPage = () => {
                 onClick={() => {
                   sendAalViewList('Care Summaries and Notes');
                   sendDataDogAction(CARE_SUMMARIES_AND_NOTES_LABEL);
+                  logUniqueUserMetricsEvents(
+                    EVENT_REGISTRY.MEDICAL_RECORDS_NOTES_ACCESSED,
+                  );
                 }}
               >
                 {CARE_SUMMARIES_AND_NOTES_LABEL}
@@ -206,6 +217,9 @@ const LandingPage = () => {
               onClick={() => {
                 sendAalViewList('Vaccines');
                 sendDataDogAction(VACCINES_LABEL);
+                logUniqueUserMetricsEvents(
+                  EVENT_REGISTRY.MEDICAL_RECORDS_VACCINES_ACCESSED,
+                );
               }}
             >
               {VACCINES_LABEL}
@@ -227,6 +241,9 @@ const LandingPage = () => {
               onClick={() => {
                 sendAalViewList('Allergy and Reactions');
                 sendDataDogAction(ALLERGIES_AND_REACTIONS_LABEL);
+                logUniqueUserMetricsEvents(
+                  EVENT_REGISTRY.MEDICAL_RECORDS_ALLERGIES_ACCESSED,
+                );
               }}
             >
               {ALLERGIES_AND_REACTIONS_LABEL}
@@ -247,6 +264,9 @@ const LandingPage = () => {
               onClick={() => {
                 sendAalViewList('Health Conditions');
                 sendDataDogAction(HEALTH_CONDITIONS_LABEL);
+                logUniqueUserMetricsEvents(
+                  EVENT_REGISTRY.MEDICAL_RECORDS_CONDITIONS_ACCESSED,
+                );
               }}
             >
               {HEALTH_CONDITIONS_LABEL}
@@ -273,6 +293,9 @@ const LandingPage = () => {
               onClick={() => {
                 sendAalViewList('Vitals');
                 sendDataDogAction(VITALS_LABEL);
+                logUniqueUserMetricsEvents(
+                  EVENT_REGISTRY.MEDICAL_RECORDS_VITALS_ACCESSED,
+                );
               }}
             >
               {VITALS_LABEL}
