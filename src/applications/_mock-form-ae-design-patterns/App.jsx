@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import FormFooter from 'platform/forms/components/FormFooter';
 
 import {
@@ -80,9 +79,10 @@ export default function App({ location, children }) {
 
   return (
     <div>
-      <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-        {children}
-      </RoutedSavableApp>
+      {/* Container wrapper to center content like RoutedSavableApp did */}
+      <div className="row">
+        <div className="usa-width-two-thirds medium-8 columns">{children}</div>
+      </div>
       <FormFooter formConfig={formConfig} />
     </div>
   );

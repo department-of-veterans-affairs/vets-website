@@ -22,6 +22,7 @@ const formConfig = {
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
+    disableWindowUnloadInCI: true,
   },
   ...minimalHeaderFormConfigOptions({
     breadcrumbList: [
