@@ -80,6 +80,16 @@ class PatientComposePage {
       .select(index, { force: true });
   };
 
+  // Select recipient by its underlying recipient/triage team id (value attribute on the VaSelect)
+  // This is safer than index-based selection when ordering changes due to grouping or recent recipients.
+  selectRecipientById = recipientId => {
+    if (recipientId == null) return;
+    cy.get(Locators.ALERTS.REPT_SELECT)
+      .shadow()
+      .find('select')
+      .select(`${recipientId}`, { force: true });
+  };
+
   getComboBox = () => {
     return cy
       .get('va-combo-box')

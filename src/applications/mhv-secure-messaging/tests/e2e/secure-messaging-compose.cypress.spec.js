@@ -34,7 +34,7 @@ describe('SM MESSAGING COMPOSE', () => {
   });
 
   it('verify user can send a message', () => {
-    PatientComposePage.selectRecipient(requestBody.recipientId);
+    PatientComposePage.selectRecipientById(requestBody.recipient_id);
     PatientComposePage.selectCategory(requestBody.category);
     PatientComposePage.getMessageSubjectField().type(`${requestBody.subject}`);
     PatientComposePage.getMessageBodyField().type(`${requestBody.body}`, {

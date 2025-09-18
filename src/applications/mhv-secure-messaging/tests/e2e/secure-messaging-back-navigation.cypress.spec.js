@@ -17,7 +17,7 @@ describe('SM back navigation', () => {
 
   it('user navigate to inbox folder after message sent', () => {
     PatientInboxPage.navigateToComposePage();
-    PatientComposePage.selectRecipient(requestBody.recipientId);
+    PatientComposePage.selectRecipientById(requestBody.recipient_id);
     PatientComposePage.selectCategory(requestBody.category);
     PatientComposePage.getMessageSubjectField().type(`${requestBody.subject}`);
     PatientComposePage.getMessageBodyField().type(`${requestBody.body}`, {

@@ -282,7 +282,9 @@ class PatientMessageDraftsPage {
   };
 
   verifyDraftMessageBannerTextHasFocus = () => {
-    cy.focused().should('contain.text', 'Draft was successfully deleted.');
+    cy.get('[data-testid="alert-text"]')
+      .should('contain.text', 'Draft was successfully deleted.')
+      .and('have.focus');
   };
 
   verifySavedMessageAlertText = (text = Data.MESSAGE_WAS_SAVED) => {
@@ -318,6 +320,9 @@ class PatientMessageDraftsPage {
       .find(`#attach-file-button-${number}`)
       .shadow()
       .find(`button`)
+      .as('attachDraftBtn');
+
+    cy.get('@attachDraftBtn')
       .should('be.visible')
       .and(`have.text`, `Attach file to draft ${number}`);
 
@@ -344,7 +349,7 @@ class PatientMessageDraftsPage {
       .should('be.visible')
       .and('have.text', `Delete draft ${number}`);
 
-    cy.get('[class^="attachments-section]').should('not.exist');
+    cy.get('[class^="attachments-section"]').should('not.exist');
     cy.get(`#send-button-${number}`).should('not.exist');
     cy.get(`#save-draft-button-${number}`).should('not.exist');
   };

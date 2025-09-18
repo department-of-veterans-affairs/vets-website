@@ -18,7 +18,7 @@ describe('Secure Messaging - Cross Site Scripting', () => {
       body: 'Test message body - ><script>alert(1);</script>',
     };
     PatientInboxPage.navigateToComposePage();
-    PatientComposePage.selectRecipient(requestBody.recipientId);
+    PatientComposePage.selectRecipientById(requestBody.recipient_id);
     PatientComposePage.selectCategory(requestBody.category);
     PatientComposePage.getMessageSubjectField().type(
       `${requestBodyUpdated.subject}`,
