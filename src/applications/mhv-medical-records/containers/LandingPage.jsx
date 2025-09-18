@@ -389,16 +389,19 @@ const LandingPage = () => {
                   them here, you can submit a request by mail, by fax, or in
                   person at your VA health facility.
                 </p>
-                <Link
-                  to="/resources/how-to-get-your-medical-records-from-your-va-health-facility/"
-                  className="vads-c-action-link--blue"
-                  data-testid="request-landing-page-link"
-                  onClick={() => {
+                <va-link-action
+                  type="secondary"
+                  href={
+                    environment.isProduction()
+                      ? 'https://va.gov/resources/how-to-get-your-medical-records-from-your-va-health-facility/'
+                      : 'https://staging.va.gov/resources/how-to-get-your-medical-records-from-your-va-health-facility/'
+                  }
+                  text={MEDICAL_RECORDS_REQUEST_LABEL}
+                  onClick={event => {
+                    event.preventDefault();
                     sendDataDogAction(MEDICAL_RECORDS_REQUEST_LABEL);
                   }}
-                >
-                  {MEDICAL_RECORDS_REQUEST_LABEL}
-                </Link>
+                />
               </section>
               <section className="vads-u-padding-bottom--3">
                 <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
