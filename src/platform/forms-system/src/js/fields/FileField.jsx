@@ -254,7 +254,11 @@ const FileField = props => {
       uiOptions.modalContent?.(fileName || 'Unknown') || (
         <span>
           We’ll delete the uploaded file{' '}
-          <strong>{fileName || 'Unknown'}</strong>
+          <strong
+            className="dd-privacy-hidden"
+          >
+            {fileName || 'Unknown'}
+          </strong>
         </span>
       ),
     yesButton: 'Yes, delete this file',
