@@ -23,7 +23,10 @@ import ReviewPage from './patterns/pattern2/post-study/ReviewPage';
 
 import { LandingPage } from './shared/components/pages/LandingPage';
 
-import { PatternConfigProvider } from './shared/context/PatternConfigContext';
+import {
+  PatternConfigProvider,
+  PatternConfigContext,
+} from './shared/context/PatternConfigContext';
 
 const App = lazy(() => import('./App'));
 const CoeApp = lazy(() =>
@@ -187,14 +190,20 @@ const renderPattern7Page = PageComponent => props => {
     onBack = goTo('review');
   }
 
+  // Create a custom router context that includes the pattern7 formConfig
+  const routerWithFormConfig = {
+    ...props.router,
+    routes: [...(props.router?.routes || []), { formConfig: pattern7Config }],
+  };
+
   return (
-    <PatternConfigProvider {...props}>
+    <PatternConfigContext.Provider value={pattern7Config}>
       <Suspense fallback={<LoadingIndicator />}>
-        <App {...props}>
+        <App {...props} router={routerWithFormConfig}>
           <PageComponent {...props} onNext={onNext} onBack={onBack} />
         </App>
       </Suspense>
-    </PatternConfigProvider>
+    </PatternConfigContext.Provider>
   );
 };
 /* eslint-enable react/prop-types */

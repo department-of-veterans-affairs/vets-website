@@ -108,3 +108,10 @@ export const LOCATIONS_TO_REMOVE_FORM_HEADER = [
   '/1/task-green/veteran-information/edit-mailing-address',
   '/complete',
 ];
+
+// Hide only the progress bar (not form titles) for these paths
+export const LOCATIONS_TO_HIDE_PROGRESS_BAR_ONLY = [
+  '/7/copy-of-submission/introduction',
+  '/7/copy-of-submission/review',
+  '/7/copy-of-submission/confirmation',
+];

@@ -1,9 +1,13 @@
 import React, { useContext, useEffect } from 'react';
+import PropTypes from 'prop-types';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import FormFooter from 'platform/forms/components/FormFooter';
 
-import { LOCATIONS_TO_REMOVE_FORM_HEADER } from './utils/constants';
+import {
+  LOCATIONS_TO_REMOVE_FORM_HEADER,
+  LOCATIONS_TO_HIDE_PROGRESS_BAR_ONLY,
+} from './utils/constants';
 import { PatternConfigContext } from './shared/context/PatternConfigContext';
 
 const isPathIncludedInPossibleLocations = (location, possibleLocations) => {
@@ -19,11 +23,18 @@ export const handleEditPageDisplayTweaks = location => {
   );
   const formTitle = document.querySelector('.schemaform-title');
 
-  if (
-    isPathIncludedInPossibleLocations(location, LOCATIONS_TO_REMOVE_FORM_HEADER)
-  ) {
+  const shouldRemoveAll = isPathIncludedInPossibleLocations(
+    location,
+    LOCATIONS_TO_REMOVE_FORM_HEADER,
+  );
+  const shouldHideProgressBarOnly = isPathIncludedInPossibleLocations(
+    location,
+    LOCATIONS_TO_HIDE_PROGRESS_BAR_ONLY,
+  );
+
+  if (shouldRemoveAll) {
+    // Hide everything (original behavior)
     if (navHeader) {
-      // hide header on edit pages
       navHeader.style.display = 'none';
     }
     if (chapterProgress) {
@@ -32,7 +43,19 @@ export const handleEditPageDisplayTweaks = location => {
     if (formTitle) {
       formTitle.style.display = 'none';
     }
+  } else if (shouldHideProgressBarOnly) {
+    // Hide only progress bar and chapter progress, keep form titles
+    if (navHeader) {
+      navHeader.style.display = 'none';
+    }
+    if (chapterProgress) {
+      chapterProgress.style.display = 'none';
+    }
+    if (formTitle) {
+      formTitle.style.display = 'block';
+    }
   } else {
+    // Show everything (original behavior)
     if (navHeader) {
       navHeader.style.display = 'block';
     }
@@ -64,3 +87,8 @@ export default function App({ location, children }) {
     </div>
   );
 }
+
+App.propTypes = {
+  children: PropTypes.node.isRequired,
+  location: PropTypes.object.isRequired,
+};
