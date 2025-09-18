@@ -22,6 +22,10 @@ on:
         description: 'Test-only: post Freeze Enabled to COP/SRE and disable content-build'
         required: false
         default: 'false'
+      simulate_cb_disabled:
+        description: 'Test-only: pretend content-build daily deploy is disabled to trigger Freeze Ended'
+        required: false
+        default: 'false'
   schedule:
     - cron: 0 17 * * 1-5
 
@@ -134,9 +138,21 @@ jobs:
 
         check_status "content-build"
 
+        # Test-only override: force as disabled to exercise Freeze Ended path without changing remote state
+        if [[ '${{ github.event.inputs.simulate_cb_disabled }}' == 'true' ]]; then
+          echo "Simulating content-build as disabled for test"
+          echo "workflow_enabled_content_build=false" >> $GITHUB_OUTPUT
+        fi
+
     - name: Enable Workflows if Disabled
       if: ${{ steps.check-status.outputs.workflow_enabled_content_build == 'false' }}
       run: |
+          if [[ '${{ github.event.inputs.dry_run }}' == 'true' || '${{ github.event.inputs.simulate_cb_disabled }}' == 'true' ]]; then
+            echo "[TEST] Simulating re-enable of content-build daily deploy workflow."
+            echo "reenabled=true" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
           echo "Enabling content-build daily deploy workflow."
           curl -X PATCH -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             -H "Accept: application/vnd.github.v3+json" \
