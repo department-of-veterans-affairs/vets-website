@@ -16,14 +16,86 @@ export default function VaFileInputMultiplePage() {
   const [fileErrors, setFileErrors] = useState([]); // File-level errors (upload, validation)
   const [passwordErrors, setPasswordErrors] = useState([]); // Password validation errors
 
-  // Mock file upload - simulates the forms library upload process
-  const mockFileUpload = async (file, index) => {
+  // Enhanced mock upload with error scenarios (like forms library)
+  const mockFileUpload = async (file, index, password = null) => {
     // Clear any previous errors
     setFileErrors(prev => {
       const newFileErrors = [...prev];
       newFileErrors[index] = null;
       return newFileErrors;
     });
+
+    // Mock error scenarios based on file characteristics
+    const shouldSimulateError = () => {
+      // Simulate network error for files with "error" in name
+      if (file.name.toLowerCase().includes('error')) {
+        return {
+          type: 'network',
+          message: 'Network request failed. Please try again.',
+        };
+      }
+
+      // Simulate server error for files with "server" in name
+      if (file.name.toLowerCase().includes('server')) {
+        return {
+          type: 'server',
+          message: 'Server error occurred. Please try again later.',
+        };
+      }
+
+      // Simulate file too large error for files > 1MB
+      if (file.size > 1000000) {
+        return { type: 'size', message: 'File size must be less than 25MB.' };
+      }
+
+      // Simulate rate limit error for files with "limit" in name
+      if (file.name.toLowerCase().includes('limit')) {
+        return {
+          type: 'rate_limit',
+          message:
+            "You've reached the upload limit. Please try again in 5 minutes.",
+        };
+      }
+
+      // Simulate invalid password for encrypted files
+      if (password && password.length < 8) {
+        return {
+          type: 'password',
+          message: 'Password must be at least 8 characters long.',
+        };
+      }
+
+      return null;
+    };
+
+    const errorScenario = shouldSimulateError();
+
+    // If error scenario, simulate it
+    if (errorScenario) {
+      // Brief delay to simulate network attempt
+      await new Promise(resolve => setTimeout(resolve, 500));
+
+      setFileErrors(prev => {
+        const newFileErrors = [...prev];
+        newFileErrors[index] = errorScenario.message;
+        return newFileErrors;
+      });
+
+      // For password errors, also set password error
+      if (errorScenario.type === 'password') {
+        setPasswordErrors(prev => {
+          const newPasswordErrors = [...prev];
+          newPasswordErrors[index] = errorScenario.message;
+          return newPasswordErrors;
+        });
+      }
+
+      console.error(
+        `Mock upload error (${errorScenario.type}):`,
+        errorScenario.message,
+      );
+      return;
+    }
 
     // Simulate upload progress using component's percentUploaded prop
     setPercentsUploaded(prev => {
@@ -66,48 +138,13 @@ export default function VaFileInputMultiplePage() {
     });
 
     // Simulate successful upload
+    // eslint-disable-next-line consistent-return
     return {
       name: file.name,
       size: file.size,
       type: file.type,
       status: 'uploaded',
       encrypted: false,
-      confirmationCode: `CONF-${Date.now()}-${Math.random()
-        .toString(36)
-        .substring(2, 8)}`,
-      uploadDate: new Date().toISOString(),
-      _originalFile: file,
-    };
-  };
-
-  // Mock encrypted file upload with password
-  const mockEncryptedFileUpload = async (file, password, index) => {
-    // Simulate network delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
-    // Simulate password validation (simple check for demo)
-    const isValidPassword = password && password.length > 3;
-
-    if (!isValidPassword) {
-      console.warn('Invalid password provided');
-      throw new Error('Invalid password provided');
-    }
-
-    // Clear any previous errors on successful upload
-    setFileErrors(prev => {
-      const newFileErrors = [...prev];
-      newFileErrors[index] = null;
-      return newFileErrors;
-    });
-
-    // Simulate successful upload
-    return {
-      name: file.name,
-      size: file.size,
-      type: file.type,
-      status: 'uploaded',
-      encrypted: true,
-      passwordProvided: true,
       confirmationCode: `CONF-${Date.now()}-${Math.random()
         .toString(36)
         .substring(2, 8)}`,
@@ -177,10 +214,10 @@ export default function VaFileInputMultiplePage() {
   const handleEncryptedFileUpload = useCallback(
     async (fileDetails, password, index) => {
       try {
-        const processedFile = await mockEncryptedFileUpload(
+        const processedFile = await mockFileUpload(
           fileDetails.file,
-          password,
           index,
+          password,
         );
         setFiles(prevFiles => {
           const newFiles = [...prevFiles];
@@ -238,47 +275,63 @@ export default function VaFileInputMultiplePage() {
 
   // Handle file removal
   const handleFileRemoved = removedFile => {
-    setFiles(prevFiles =>
-      prevFiles.filter(
-        file =>
-          !(file.name === removedFile.name && file.size === removedFile.size),
-      ),
-    );
-
-    // Clear any associated errors and progress
-    const fileIndex = files.findIndex(
-      file => file.name === removedFile.name && file.size === removedFile.size,
-    );
-
-    if (fileIndex !== -1) {
-      // Remove progress for this file
-      setPercentsUploaded(prev => {
-        const newPercents = [...prev];
-        newPercents.splice(fileIndex, 1);
-        return newPercents;
-      });
-
-      // Clear encrypted state
-      setEncrypted(prev => {
-        const newEncrypted = [...prev];
-        newEncrypted.splice(fileIndex, 1);
-        return newEncrypted;
-      });
-
-      // Clear password errors
-      setPasswordErrors(prev => {
-        const newPasswordErrors = [...prev];
-        newPasswordErrors.splice(fileIndex, 1);
-        return newPasswordErrors;
-      });
-
-      // Clear file-level errors
-      setFileErrors(prev => {
-        const newFileErrors = [...prev];
-        newFileErrors.splice(fileIndex, 1);
-        return newFileErrors;
-      });
+    // Add null/undefined checks
+    if (!removedFile || !removedFile.name) {
+      console.warn('handleFileRemoved: Invalid file object', removedFile);
+      return;
     }
+
+    // Use functional updates to avoid stale closure issues
+    setFiles(prevFiles => {
+      const newFiles = prevFiles.filter(
+        file =>
+          file &&
+          file.name &&
+          !(file.name === removedFile.name && file.size === removedFile.size),
+      );
+
+      // Find the index of the removed file in the previous state
+      const fileIndex = prevFiles.findIndex(
+        file =>
+          file &&
+          file.name &&
+          file.name === removedFile.name &&
+          file.size === removedFile.size,
+      );
+
+      // Only update other states if file was found
+      if (fileIndex !== -1) {
+        // Remove progress for this file
+        setPercentsUploaded(prev => {
+          const newPercents = [...prev];
+          newPercents.splice(fileIndex, 1);
+          return newPercents;
+        });
+
+        // Clear encrypted state
+        setEncrypted(prev => {
+          const newEncrypted = [...prev];
+          newEncrypted.splice(fileIndex, 1);
+          return newEncrypted;
+        });
+
+        // Clear password errors
+        setPasswordErrors(prev => {
+          const newPasswordErrors = [...prev];
+          newPasswordErrors.splice(fileIndex, 1);
+          return newPasswordErrors;
+        });
+
+        // Clear file-level errors
+        setFileErrors(prev => {
+          const newFileErrors = [...prev];
+          newFileErrors.splice(fileIndex, 1);
+          return newFileErrors;
+        });
+      }
+
+      return newFiles;
+    });
   };
 
   // Handle component-level errors (following forms library pattern)
@@ -339,6 +392,7 @@ export default function VaFileInputMultiplePage() {
         encrypted={encrypted}
         errors={fileErrors}
         passwordErrors={passwordErrors}
+        resetVisualState={fileErrors.map(error => (error ? true : null))}
         onVaMultipleChange={handleMultipleChange}
         onVaFileInputError={handleComponentError}
         hint="Upload PDF, JPEG, or PNG files. Encrypted PDFs will require a password."
@@ -364,6 +418,53 @@ export default function VaFileInputMultiplePage() {
         {JSON.stringify(files)}
       </span>
 
+      {/* Error Testing Instructions */}
+      <div
+        style={{
+          marginTop: '16px',
+          padding: '12px',
+          backgroundColor: '#f0f8ff',
+          borderRadius: '4px',
+          fontSize: '14px',
+        }}
+      >
+        <strong>🧪 Error Testing & Visual State Reset:</strong>
+        <ul style={{ margin: '8px 0', paddingLeft: '20px' }}>
+          <li>
+            <strong>Network Error:</strong> Upload file with "error" in filename
+            <br />
+            <em>→ Watch progress bar reset when error occurs</em>
+          </li>
+          <li>
+            <strong>Server Error:</strong> Upload file with "server" in filename
+            <br />
+            <em>→ Visual state clears on error for clean retry</em>
+          </li>
+          <li>
+            <strong>Rate Limit:</strong> Upload file with "limit" in filename
+            <br />
+            <em>→ Component resets to initial appearance</em>
+          </li>
+          <li>
+            <strong>File Size:</strong> Upload file larger than 1MB
+            <br />
+            <em>→ resetVisualState triggers immediately</em>
+          </li>
+          <li>
+            <strong>Password Error:</strong> Use password shorter than 8
+            characters
+            <br />
+            <em>→ Password field visual state resets</em>
+          </li>
+        </ul>
+        <p
+          style={{ margin: '8px 0 0 0', fontSize: '12px', fontStyle: 'italic' }}
+        >
+          <strong>resetVisualState</strong> automatically triggers when errors
+          occur, providing clean visual feedback for error recovery.
+        </p>
+      </div>
+
       <div>
         <h2>Files Information</h2>
         <pre
@@ -385,6 +486,11 @@ export default function VaFileInputMultiplePage() {
           errors: {fileErrors.filter(e => e !== null).length} | Encrypted files:{' '}
           {encrypted.filter(e => e === true).length} | Password errors:{' '}
           {passwordErrors.filter(e => e !== null).length}
+        </p>
+        <p style={{ margin: '4px 0 0 0', fontSize: '11px', color: '#888' }}>
+          <strong>resetVisualState:</strong> [
+          {fileErrors.map(error => (error ? 'true' : 'null')).join(', ')}]
+          <em>(resets visual state when errors occur)</em>
         </p>
       </div>
     </div>
