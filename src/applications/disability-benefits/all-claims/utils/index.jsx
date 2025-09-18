@@ -839,6 +839,17 @@ export function validateConditions(conditions, errors, errorKey, errorMessage) {
  * @param {object} formData - Full formData for the form
  * @returns {object} - Object with ids for each condition
  */
+// export function makeConditionsSchema(formData) {
+//   console.log('make conditions schema formData', formData);
+//   const options = (formData?.newDisabilities || []).map(disability =>
+//     sippableId(disability.condition),
+//   );
+//   console.log('make conditions schema options', options);
+//   options.push('none');
+
+//   return checkboxGroupSchema(options);
+// }
+
 export function makeConditionsSchema(formData) {
   // Map only valid conditions and filter out 'blank' and other invalid values (null, empty strings, etc.)
   const options = (formData?.newDisabilities || [])
@@ -850,7 +861,6 @@ export function makeConditionsSchema(formData) {
 
   // Map conditions to sippable IDs
   const sippableOptions = options.map(condition => sippableId(condition));
-
   sippableOptions.push('none');
 
   return checkboxGroupSchema(sippableOptions);
@@ -944,6 +954,11 @@ export const redirectWhenNoEvidence = props => {
   );
 };
 
+export const isNewConditionsOn = formData =>
+  !!formData?.disabilityCompNewConditionsWorkflow;
+
+export const isNewConditionsOff = formData => !isNewConditionsOn(formData);
+
 export const onFormLoaded = props => {
   const { returnUrl, formData, router } = props;
   const shouldRedirectToModern4142Choice = baseDoNew4142Logic(formData);
@@ -975,8 +990,3 @@ export const onFormLoaded = props => {
     router.push(returnUrl);
   }
 };
-
-export const isNewConditionsOn = formData =>
-  !!formData?.disabilityCompNewConditionsWorkflow;
-
-export const isNewConditionsOff = formData => !isNewConditionsOn(formData);

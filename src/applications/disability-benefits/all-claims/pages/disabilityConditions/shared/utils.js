@@ -154,7 +154,7 @@ const cardDescription = (item, _index, formData) =>
     : RatedDisabilityCardDescription(item, formData);
 
 /** @type {ArrayBuilderOptions} */
-export const arrayBuilderOptions = {
+export const arrayOptions = {
   arrayPath: ARRAY_PATH,
   nounSingular: 'condition',
   nounPlural: 'conditions',
@@ -164,6 +164,30 @@ export const arrayBuilderOptions = {
   text: {
     getItemName,
     cardDescription,
+    alertItemUpdated: ({ itemData, nounSingular }) => {
+      const name = getItemName(itemData);
+      return name
+        ? `"${name}’s" information has been updated`
+        : `"${nounSingular}" information has been updated`;
+    },
+    cancelAddTitle: ({ itemData, nounSingular }) => {
+      const name = getItemName(itemData);
+      return name
+        ? `Cancel adding "${name}"`
+        : `Cancel adding this "${nounSingular}"`;
+    },
+    cancelEditTitle: ({ itemData, nounSingular }) => {
+      const name = getItemName(itemData);
+      return name
+        ? `Cancel editing "${name}"`
+        : `Cancel editing this "${nounSingular}"`;
+    },
+    deleteTitle: ({ itemData, nounSingular }) => {
+      const name = getItemName(itemData);
+      return name
+        ? `Delete "${name}’s" information?`
+        : `Delete this "${nounSingular}?"`;
+    },
   },
   enforceYesNoOnSummary: true,
 };

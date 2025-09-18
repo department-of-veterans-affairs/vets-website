@@ -3,7 +3,7 @@ import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { ConditionsIntroDescription } from '../../content/conditions';
 import {
-  arrayBuilderOptions,
+  arrayOptions,
   hasRatedDisabilities,
   isEditFromContext,
 } from './shared/utils';
@@ -25,7 +25,7 @@ const ratedIntroPage = {
 };
 
 export const disabilityConditionsWorkflow = arrayBuilderPages(
-  arrayBuilderOptions,
+  arrayOptions,
   (pageBuilder, helpers) => ({
     Intro: pageBuilder.introPage({
       title: 'Add your disabilities and conditions',

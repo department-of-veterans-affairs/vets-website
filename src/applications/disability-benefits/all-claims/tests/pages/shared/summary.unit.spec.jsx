@@ -17,7 +17,7 @@ import * as utils from '../../../pages/disabilityConditions/shared/utils';
 
 const mountPage = (data = {}, onSubmit = () => {}) => {
   const seed = {
-    [utils.arrayBuilderOptions.arrayPath]: [{}],
+    [utils.arrayOptions.arrayPath]: [{}],
   };
   return render(
     <DefinitionTester
@@ -119,7 +119,7 @@ describe('526 summary shared page', () => {
   it('preselects when seeded to No (N) and submits', async () => {
     const onSubmit = sinon.spy();
     const data = {
-      [utils.arrayBuilderOptions.arrayPath]: [{}],
+      [utils.arrayOptions.arrayPath]: [{}],
       'view:hasConditions': false,
     };
     const { container } = mountPage(data, onSubmit);
@@ -133,7 +133,7 @@ describe('526 summary shared page', () => {
   it('shows required error when submitting with no selection', async () => {
     const onSubmit = sinon.spy();
     const { container } = mountPage(
-      { [utils.arrayBuilderOptions.arrayPath]: [{}] },
+      { [utils.arrayOptions.arrayPath]: [{}] },
       onSubmit,
     );
     const view = within(container);

@@ -6,11 +6,11 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 
 import causeWorsenedPage from '../../../pages/disabilityConditions/shared/causeWorsened';
 import formConfig from '../../../config/form';
-import { arrayBuilderOptions } from '../../../pages/disabilityConditions/shared/utils';
+import { arrayOptions } from '../../../pages/disabilityConditions/shared/utils';
 
 const mountPage = (data = {}, onSubmit = () => {}) => {
   const seed = {
-    [arrayBuilderOptions.arrayPath]: [{}],
+    [arrayOptions.arrayPath]: [{}],
   };
   return render(
     <DefinitionTester

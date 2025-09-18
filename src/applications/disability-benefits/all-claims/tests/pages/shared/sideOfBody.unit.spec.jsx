@@ -17,7 +17,7 @@ import * as utils from '../../../pages/disabilityConditions/shared/utils';
 
 const mountPage = (data = {}, onSubmit = () => {}) => {
   const seed = {
-    [utils.arrayBuilderOptions.arrayPath]: [{}],
+    [utils.arrayOptions.arrayPath]: [{}],
   };
   return render(
     <DefinitionTester
