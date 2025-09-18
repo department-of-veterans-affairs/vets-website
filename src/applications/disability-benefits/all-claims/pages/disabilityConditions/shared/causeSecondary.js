@@ -6,13 +6,13 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { conditionOptions } from '../../../content/conditionOptions';
-import { arrayBuilderOptions, createNewConditionName } from './utils';
+import { arrayOptions, createNewConditionName } from './utils';
 
 const getOtherConditions = (fullData, currentIndex) => {
   const ratedDisabilities =
     fullData?.ratedDisabilities?.map(disability => disability.name) || [];
 
-  const otherNewConditions = fullData?.[arrayBuilderOptions.arrayPath].reduce(
+  const otherNewConditions = fullData?.[arrayOptions.arrayPath].reduce(
     (acc, condition, index) => {
       if (condition.condition && index !== currentIndex) {
         acc.push(createNewConditionName(condition, true));
@@ -38,7 +38,7 @@ const causeSecondaryPage = {
         'Choose the service-connected disability that caused your new condition.',
       updateUiSchema: (_formData, fullData, index) => ({
         'ui:title': `Choose the service-connected disability or condition that caused ${createNewConditionName(
-          fullData?.[arrayBuilderOptions.arrayPath]?.[index],
+          fullData?.[arrayOptions.arrayPath]?.[index],
         )}.`,
       }),
       updateSchema: (_formData, _schema, _uiSchema, index, _path, fullData) =>
@@ -48,7 +48,7 @@ const causeSecondaryPage = {
       title: 'Briefly describe how this disability led to your new condition. ',
       updateUiSchema: (_formData, fullData, index) => ({
         'ui:title': `Briefly describe how this disability or condition caused ${createNewConditionName(
-          fullData?.[arrayBuilderOptions.arrayPath]?.[index],
+          fullData?.[arrayOptions.arrayPath]?.[index],
         )}.`,
       }),
       charcount: true,

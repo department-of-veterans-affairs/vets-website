@@ -4,7 +4,7 @@ import {
   textUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import { arrayBuilderOptions, createNewConditionName } from './utils';
+import { arrayOptions, createNewConditionName } from './utils';
 
 /** @returns {PageSchema} */
 const causeWorsenedPage = {
@@ -19,7 +19,7 @@ const causeWorsenedPage = {
         'Briefly describe the injury, event or exposure during your military service that caused your condition to get worse.',
       updateUiSchema: (_formData, fullData, index) => ({
         'ui:title': `Briefly describe the injury, event or exposure during your military service that caused your ${createNewConditionName(
-          fullData?.[arrayBuilderOptions.arrayPath]?.[index],
+          fullData?.[arrayOptions.arrayPath]?.[index],
         )} to get worse.`,
       }),
       charcount: true,
@@ -29,7 +29,7 @@ const causeWorsenedPage = {
         'Tell us how your condition affected you before your service, and how it affects you now after your service.',
       updateUiSchema: (_formData, fullData, index) => ({
         'ui:title': `Tell us how ${createNewConditionName(
-          fullData?.[arrayBuilderOptions.arrayPath]?.[index],
+          fullData?.[arrayOptions.arrayPath]?.[index],
         )} affected you before your service, and how it affects you now after your service.`,
       }),
       charcount: true,

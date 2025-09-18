@@ -6,7 +6,7 @@ import {
 
 import { NEW_CONDITION_OPTION } from '../../constants';
 import {
-  arrayBuilderOptions,
+  arrayOptions,
   createNonSelectedRatedDisabilities,
   createRatedDisabilityDescriptions,
 } from './shared/utils';
@@ -22,7 +22,8 @@ const conditionPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
       title: 'Add a condition',
-      nounSingular: arrayBuilderOptions.nounSingular,
+      nounSingular: arrayOptions.nounSingular,
+      alertStatus: 'error',
     }),
     ratedDisability: radioUI({
       title: 'What condition would you like to add?',

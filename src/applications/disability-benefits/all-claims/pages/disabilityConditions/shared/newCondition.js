@@ -1,5 +1,4 @@
 import React from 'react';
-import { getArrayIndexFromPathName } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 import {
   titleUI,
   withAlertOrDescription,
@@ -9,7 +8,7 @@ import Autocomplete from '../../../components/AutocompleteNew';
 import { NULL_CONDITION_STRING } from '../../../constants';
 import { conditionOptions } from '../../../content/conditionOptions';
 import { NewConditionDescription } from '../../../content/conditions';
-import { arrayBuilderOptions, createAddAndEditTitles } from './utils';
+import { arrayOptions, createAddAndEditTitles } from './utils';
 
 const ERR_TOO_LONG = 'This needs to be less than 256 characters';
 const ERR_DUP_NEW_CONDITION =
@@ -18,7 +17,11 @@ const ERR_DUP_RATED = 'You already have this condition as a rated disability';
 const ERR_MISSING_CONDITION =
   'Enter a condition, diagnosis, or short description of your symptoms';
 
-// Check length and presence for the same string in one pass
+const regexNonWord = /[^\w]/g;
+const generateSaveInProgressId = str =>
+  (str || 'blank').replace(regexNonWord, '').toLowerCase();
+const normalize = str => generateSaveInProgressId((str ?? '').toLowerCase());
+
 const validatePresenceAndLength = (err, text = '') => {
   const trimmed = text.trim();
 
@@ -29,50 +32,51 @@ const validatePresenceAndLength = (err, text = '') => {
     err.addError(ERR_MISSING_CONDITION);
     return;
   }
+
   if (trimmed.length > 255) {
     err.addError(ERR_TOO_LONG);
   }
 };
 
-const regexNonWord = /[^\w]/g;
-
-const generateSaveInProgressId = str =>
-  (str || 'blank').replace(regexNonWord, '').toLowerCase();
-
-const normalize = str => generateSaveInProgressId((str ?? '').toLowerCase());
-
-const hasDuplicateEntry = (value, items = [], accessor, selfIndex) => {
+const hasDuplicateEntry = (value, items = [], accessor, index) => {
   const target = normalize(value);
+  const normalizedItems = items.map(item => normalize(accessor(item)));
 
-  const isDuplicate = (item, idx) => {
-    if (idx === selfIndex) return false;
-    return normalize(accessor(item)) === target;
-  };
+  if (index == null) {
+    return normalizedItems.filter(item => item === target).length > 1;
+  }
 
-  return items.some(isDuplicate);
+  return normalizedItems.some((val, idx) => idx !== index && val === target);
 };
 
-// Simplify validation and checking for duplicate entries
-const validateCondition = (err, fieldData = '', formData = {}) => {
-  validatePresenceAndLength(err, fieldData);
-  const idx = getArrayIndexFromPathName();
-  const {
-    [arrayBuilderOptions.arrayPath]: arr = [],
-    ratedDisabilities = [],
-  } = formData;
+const validateCondition = (
+  errors,
+  fieldData = '',
+  formData = {},
+  _schema,
+  _uiSchema,
+  index,
+) => {
+  validatePresenceAndLength(errors, fieldData);
 
-  if (hasDuplicateEntry(fieldData, arr, item => item?.condition, idx)) {
-    err.addError(ERR_DUP_NEW_CONDITION);
-  }
+  const newDisabilities = formData?.newDisabilities ?? [];
+  const ratedDisabilities = formData?.ratedDisabilities ?? [];
+
   if (
     hasDuplicateEntry(
       fieldData,
-      ratedDisabilities,
-      disability => disability?.name,
-      idx,
+      newDisabilities,
+      item => item?.condition,
+      index,
     )
   ) {
-    err.addError(ERR_DUP_RATED);
+    errors.addError(ERR_DUP_NEW_CONDITION);
+  }
+
+  if (
+    hasDuplicateEntry(fieldData, ratedDisabilities, d => d?.name, undefined)
+  ) {
+    errors.addError(ERR_DUP_RATED);
   }
 };
 
@@ -82,7 +86,7 @@ const newConditionPage = {
     ...titleUI(
       () => createAddAndEditTitles('Add new condition', 'Edit new condition'),
       withAlertOrDescription({
-        nounSingular: arrayBuilderOptions.nounSingular,
+        nounSingular: arrayOptions.nounSingular,
       }),
     ),
     condition: {
@@ -93,7 +97,7 @@ const newConditionPage = {
           debounceDelay={200}
           id={data.idSchema.$id}
           label="Select or enter condition"
-          hint="Choose from the automatic suggestions or enter your own response."
+          hint="Start typing for a list of conditions."
           formData={data.formData}
           onChange={data.onChange}
         />

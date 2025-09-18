@@ -16,7 +16,7 @@ import formConfig from '../../../config/form';
 import * as utils from '../../../pages/disabilityConditions/shared/utils';
 
 const seed = {
-  [utils.arrayBuilderOptions.arrayPath]: [{}],
+  [utils.arrayOptions.arrayPath]: [{}],
 };
 
 const mountPage = (data = {}, onSubmit = () => {}) => {
@@ -89,7 +89,7 @@ describe('526 new condition date shared page', () => {
 
     try {
       const data = {
-        [utils.arrayBuilderOptions.arrayPath]: [{}],
+        [utils.arrayOptions.arrayPath]: [{}],
         conditionDate: '2025-01-01',
       };
 
@@ -120,7 +120,7 @@ describe('526 new condition date shared page', () => {
   it('shows an error for a future date', async () => {
     const onSubmit = sinon.spy();
     const data = {
-      [utils.arrayBuilderOptions.arrayPath]: [{}],
+      [utils.arrayOptions.arrayPath]: [{}],
       conditionDate: '2999-01-01',
     };
 

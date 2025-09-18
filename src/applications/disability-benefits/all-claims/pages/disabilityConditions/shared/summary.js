@@ -3,7 +3,7 @@ import {
   arrayBuilderYesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import { arrayBuilderOptions } from './utils';
+import { arrayOptions } from './utils';
 
 /**
  * This page is skipped on the first loop for required flow
@@ -14,10 +14,10 @@ import { arrayBuilderOptions } from './utils';
 const summaryPage = {
   uiSchema: {
     'view:hasConditions': arrayBuilderYesNoUI(
-      arrayBuilderOptions,
+      arrayOptions,
       {},
       {
-        // Because there is maxItems: 100 in the arrayBuilderOptions,
+        // Because there is maxItems: 150 in the arrayBuilderOptions,
         // if this null value is not present the hint will count down from 100 which is a confusing user experience
         hint: null,
       },

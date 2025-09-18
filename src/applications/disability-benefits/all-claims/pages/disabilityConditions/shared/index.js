@@ -10,7 +10,7 @@ import ratedDisabilityDatePage from './ratedDisabilityDate';
 import sideOfBodyPage from './sideOfBody';
 import summaryPage from './summary';
 import {
-  arrayBuilderOptions,
+  arrayOptions,
   hasSideOfBody,
   isNewCondition,
   isRatedDisability,
@@ -35,7 +35,7 @@ const clearSideOfBody = (formData, index, setFormData) => {
 };
 
 const hasCause = (formData, index, cause) =>
-  formData?.[arrayBuilderOptions.arrayPath]?.[index]?.cause === cause;
+  formData?.[arrayOptions.arrayPath]?.[index]?.cause === cause;
 
 export const remainingSharedPages = (pageBuilder, helpers) => ({
   DisabilityDate: pageBuilder.itemPage({

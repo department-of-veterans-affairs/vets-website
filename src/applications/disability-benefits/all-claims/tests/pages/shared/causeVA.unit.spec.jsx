@@ -7,11 +7,11 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 
 import causeVA from '../../../pages/disabilityConditions/shared/causeVA';
 import formConfig from '../../../config/form';
-import { arrayBuilderOptions } from '../../../pages/disabilityConditions/shared/utils';
+import { arrayOptions } from '../../../pages/disabilityConditions/shared/utils';
 
 const mountPage = (data = {}, onSubmit = () => {}) => {
   const seed = {
-    [arrayBuilderOptions.arrayPath]: [{}],
+    [arrayOptions.arrayPath]: [{}],
   };
   return render(
     <DefinitionTester

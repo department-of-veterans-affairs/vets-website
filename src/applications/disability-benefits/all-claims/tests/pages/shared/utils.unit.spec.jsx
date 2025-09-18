@@ -57,7 +57,7 @@ describe('526 utils shared page', () => {
   });
 
   it('recognizes isNewCondition / isRatedDisability values with array items', () => {
-    const path = utils.arrayBuilderOptions.arrayPath;
+    const path = utils.arrayOptions.arrayPath;
     const formData = {
       [ARRAY_PATH]: [
         { ratedDisability: NEW_CONDITION_OPTION },
