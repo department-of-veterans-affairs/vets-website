@@ -1,0 +1,12 @@
+{
+  "21p-0537": {
+    "appName": "Marital Status Questionnaire (21P-0537)",
+    "entryName": "21p-0537",
+    "rootUrl": "/pension/dic/marital-status-questionnaire-21p-0537",
+    "template": {
+      "title": "Marital Status Questionnaire (21P-0537)",
+      "layout": "page-react.html",
+      "vagovprod": false
+    }
+  }
+}
