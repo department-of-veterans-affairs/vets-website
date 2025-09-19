@@ -71,8 +71,15 @@ const purgeExposureDetails = (toxicExposure, exposureType, mapping) => {
   const { detailsKey, otherKey } = mapping;
   const result = { ...toxicExposure };
 
+  // Check conditions for various cleanup scenarios
+  const isExposureNull = result[exposureType] === null;
+  const hasDetails = !!result[detailsKey];
+  const hasExposure = !!result[exposureType];
+  const hasValidSelections =
+    hasExposure && hasSelectedConditions(result[exposureType]);
+
   // Remove null exposure fields (orphaned data)
-  if (result[exposureType] === null) {
+  if (isExposureNull) {
     delete result[exposureType];
     delete result[detailsKey];
     delete result[otherKey];
@@ -80,25 +87,29 @@ const purgeExposureDetails = (toxicExposure, exposureType, mapping) => {
   }
 
   // Remove orphaned details (details without corresponding exposure selections)
-  if (result[detailsKey] && !result[exposureType]) {
+  const hasOrphanedDetails = hasDetails && !hasExposure;
+  if (hasOrphanedDetails) {
     delete result[detailsKey];
   }
 
   // Remove entire exposure section when user deselected all options
-  if (result[exposureType] && !hasSelectedConditions(result[exposureType])) {
+  const shouldRemoveSection = hasExposure && !hasValidSelections;
+  if (shouldRemoveSection) {
     delete result[exposureType];
     delete result[detailsKey];
     delete result[otherKey];
   }
 
   // Remove details for deselected items
-  if (result[detailsKey] && result[exposureType]) {
+  const shouldFilterDetails = hasDetails && hasExposure;
+  if (shouldFilterDetails) {
     const retainedDetails = pickBy(
       result[detailsKey],
       (_value, key) => result[exposureType][key] === true,
     );
 
-    if (isEmpty(retainedDetails)) {
+    const hasNoRetainedDetails = isEmpty(retainedDetails);
+    if (hasNoRetainedDetails) {
       delete result[detailsKey];
     } else {
       result[detailsKey] = retainedDetails;
@@ -108,14 +119,17 @@ const purgeExposureDetails = (toxicExposure, exposureType, mapping) => {
   // Remove other/specify fields when:
   // - Field is null (orphaned data)
   // - User selected 'none' or has no selections
-  if (
-    otherKey &&
-    otherKey in result &&
-    (result[otherKey] === null ||
-      result[exposureType]?.none ||
-      !hasSelectedConditions(result[exposureType]))
-  ) {
-    delete result[otherKey];
+  const hasOtherField = otherKey && otherKey in result;
+  if (hasOtherField) {
+    const isOtherFieldNull = result[otherKey] === null;
+    const hasNoneSelected = result[exposureType]?.none;
+    const hasNoSelections = !hasSelectedConditions(result[exposureType]);
+
+    const shouldRemoveOtherField =
+      isOtherFieldNull || hasNoneSelected || hasNoSelections;
+    if (shouldRemoveOtherField) {
+      delete result[otherKey];
+    }
   }
 
   return result;
