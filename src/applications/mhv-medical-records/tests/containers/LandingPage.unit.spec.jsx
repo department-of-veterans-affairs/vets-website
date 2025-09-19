@@ -211,6 +211,12 @@ describe('Landing Page', () => {
         }),
       ).to.exist;
       expect(
+        screen.getByText('What to do if you can’t find your medical records', {
+          selector: 'h2',
+          exact: true,
+        }),
+      ).to.exist;
+      expect(
         screen.getByText('Share personal health data with your care team', {
           selector: 'h2',
           exact: true,
