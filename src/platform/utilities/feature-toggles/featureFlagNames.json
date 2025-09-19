@@ -220,6 +220,7 @@
   "pensionFormEnabled": "pension_form_enabled",
   "pensionIncomeAndAssetsClarification": "pension_income_and_assets_clarification",
   "pensionMultiplePageResponse": "pension_multiple_page_response",
+  "pensionPdfFormAlignment": "pension_pdf_form_alignment",
   "pensionsBrowserMonitoringEnabled": "pension_browser_monitoring_enabled",
   "preEntryCovid19Screener": "pre_entry_covid19_screener",
   "profileDoNotRequireInternationalZipCode": "profile_do_not_require_international_zip_code",
