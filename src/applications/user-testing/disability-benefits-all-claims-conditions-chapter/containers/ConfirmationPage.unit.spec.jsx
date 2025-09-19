@@ -56,12 +56,6 @@ const mockData = ({
 });
 
 describe('ConfirmationPage', () => {
-  // suppress the warning for scrollToTop
-  before(() => {
-    // eslint-disable-next-line no-console
-    console.warn = () => {};
-  });
-
   it('should render', () => {
     const { props, mockStore } = mockData({ loggedIn: false });
     const { container } = render(
