@@ -20,7 +20,11 @@ describe('10275 Helpers', () => {
 
   describe('<ConfirmationPrintThisPage />', () => {
     it('should handle rendering summary box when no details are provided', () => {
-      const data = { authorizedOfficial: {} };
+      const data = {
+        authorizedOfficial: {
+          fullName: {},
+        },
+      };
       const submission = {};
       const { getByTestId } = render(
         <ConfirmationPrintThisPage data={data} submission={submission} />,
